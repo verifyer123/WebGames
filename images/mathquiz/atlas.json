@@ -1,0 +1,66 @@
+{"frames": [
+
+{
+	"filename": "numberoption",
+	"frame": {"x":1,"y":527,"w":245,"h":245},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":245,"h":245},
+	"sourceSize": {"w":245,"h":245},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "option",
+	"frame": {"x":360,"y":365,"w":250,"h":249},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":250,"h":249},
+	"sourceSize": {"w":250,"h":249},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "questioncounter",
+	"frame": {"x":1,"y":365,"w":357,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":357,"h":160},
+	"sourceSize": {"w":357,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "questionpanel",
+	"frame": {"x":1,"y":1,"w":1003,"h":362},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1003,"h":362},
+	"sourceSize": {"w":1003,"h":362},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "timer",
+	"frame": {"x":612,"y":612,"w":357,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":357,"h":160},
+	"sourceSize": {"w":357,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "unknown",
+	"frame": {"x":612,"y":365,"w":245,"h":245},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":245,"h":245},
+	"sourceSize": {"w":245,"h":245},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1005,"h":773},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:0f3823fde6401cd0dcc9abacc7960e05:ab9bc64cf8860fb329edfb978de5d375:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

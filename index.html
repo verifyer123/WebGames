@@ -1,0 +1,106 @@
+<html>
+<head>
+	<meta name="viewport"		content="width=device-width, initial-scale=1.0">
+	<meta property="og:url"		content="http://yogome.com/g/m5/" />
+	<meta property="og:type"	content="article" />
+	<meta property="og:title"	content="Yogome Minigame" />
+	<meta property="og:image"	content="http://yogome.com/g/images/fbpost.jpg" />
+	<title>Yogome Minigame</title>
+	<style>
+		@font-face{
+			font-family: 'vag';
+			src: url(fonts/VAGRoundedStd-Bold.otf);
+		}
+
+		body{
+			margin: 0 0 0 0;
+		}
+
+		#minigame{
+			display: block;
+			margin: 0 auto;
+		}
+
+		canvas{
+			
+		}
+
+		.somestyle{
+			font-family: 'vag';
+			opacity: 0;
+			width: 0px;
+			height: 0px;
+		}
+	</style>
+	<script src="scripts/phaser.min.js"></script>
+	<script src="scripts/scenes/creatpianotiles.js"></script>
+	<script src="scripts/scenes/mathquiz.js"></script>
+	<script src="scripts/scenes/yogome.js"></script>
+	<script src="scripts/helpers/sound.js"></script>
+	<script src="scripts/sceneloader.js"></script>
+
+	<script type="text/javascript">
+	window.onload = function() {
+
+		var fullWidth = 1080
+		var fullHeight = 1920
+
+		var gameWidth = window.innerWidth
+		var gameHeight = window.innerHeight
+		if(gameWidth > gameHeight){
+			gameWidth = fullWidth * (fullWidth / gameWidth) * 0.8
+			gameHeight = gameHeight * 0.8//(gameHeight / 1920) * gameHeight
+		}
+
+		var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, "minigame", { preload: preload, create: create });	    
+	    //var game = new Phaser.Game(1024, 768, Phaser.AUTO, '', { preload: preload, create: create });	    
+	    function create(){
+
+	    	game.stage.backgroundColor = "#FFFFFF"
+
+	    	game.time.advancedTiming = true
+	    	sceneloader.init(game)
+	    	sound.init(game)
+
+	    	var scenesToPreload = [
+	    		yogomeIntro,
+	    	]
+
+	    	function onCompletePreloading(){
+	    		sceneloader.show("yogomeIntro")
+
+		    	var scenesToPreload = [
+		    		mathQuiz,
+		    		//creatPianoTiles,
+		    	]
+
+				function onLoadFile(event){
+		    		var loaderScene = sceneloader.getScene("yogomeIntro")
+		    		loaderScene.updateLoadingBar(event.totalLoaded, event.totalFiles)
+		    	}
+
+		    	function onCompleteSceneLoading(){
+					sceneloader.show("mathQuiz")
+					//sceneloader.show("creatPianoTiles")
+		    	}
+
+		      	sceneloader.preload(scenesToPreload, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
+
+	    	}
+	    	sceneloader.preload(scenesToPreload, {onComplete: onCompletePreloading})	    	
+	    }
+
+	    function preload(){
+
+	    }
+	}
+
+	</script>
+</head>
+	
+	<body>
+	<div class="somestyle">Created at Yogome, inc.</div>
+	<div id="minigame"></div>
+	</body>
+
+</html>
