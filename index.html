@@ -47,10 +47,10 @@
 
 		var gameWidth = window.innerWidth
 		var gameHeight = window.innerHeight
-		if(gameWidth > gameHeight){
-			gameWidth = fullWidth * (fullWidth / gameWidth) * 0.8
-			gameHeight = gameHeight * 0.8//(gameHeight / 1920) * gameHeight
-		}
+		// if(gameWidth > gameHeight){
+		// 	gameWidth = fullWidth * (fullWidth / gameWidth) * 0.8
+		// 	gameHeight = gameHeight * 0.8//(gameHeight / 1920) * gameHeight
+		// }
 
 		var game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, "minigame", { preload: preload, create: create });	    
 	    //var game = new Phaser.Game(1024, 768, Phaser.AUTO, '', { preload: preload, create: create });	    
@@ -59,6 +59,7 @@
 	    	game.stage.backgroundColor = "#FFFFFF"
 
 	    	game.time.advancedTiming = true
+	    	game.stage.disableVisibilityChange = true;
 	    	sceneloader.init(game)
 	    	sound.init(game)
 

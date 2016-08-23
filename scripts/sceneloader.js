@@ -5,11 +5,8 @@ var sceneloader = function(){
 	var initialized = false
 	var currentLoader = null
 
-	function init(gameScene){
-		if(!initialized){
-			initialized = true
-			game = gameScene
-		}
+	function init(gameObject){
+		game = gameObject
 	}
 
 	function createNewLoader(callbacks){
@@ -92,14 +89,13 @@ var sceneloader = function(){
 	}
 
 	function saveScene(scene){
-		scene.group = game.add.group()
-		scene.group.visible = false
-		scene.created = false
+		scene.group = new Phaser.Group(game)
 		scene.name = scene.name || "unamedScene_"+sceneList.length
-		scene.create = scene.create || function(){console.warn("["+this.name+"]"+"Scene without create method")}
-		scene.show = scene.show || function(){console.warn("["+this.name+"]"+" Scene without show method")}
-		scene.hide = scene.hide || function(){console.warn("["+this.name+"]"+"Scene without hide method")}
+
+		game.state.add(scene.name, scene)
 		sceneList.push(scene)
+
+		console.log("Preloaded scene: "+scene.name)
 	}
 
 	function searchSceneByName(sceneName){
@@ -114,40 +110,17 @@ var sceneloader = function(){
 		return null
 	}
 
-	function hideScenes(){
-		for(var indexScene = 0; indexScene < sceneList.length; indexScene++){
-			var currentScene = sceneList[indexScene]
-			currentScene.group.visible = false
-		}
-	}
-
 	function getScene(sceneName){
 		return searchSceneByName(sceneName)
-	}
-
-	function create(scene, eventParams){
-		scene.created = true
-		scene.create(eventParams)
 	}
 
 	function show(sceneName){
 		var sceneToShow = searchSceneByName(sceneName)
 
 		if(sceneToShow != null){
-			var eventParams = {
-				group: sceneToShow.group,
-				game: game
-			}
-
-			if(!sceneToShow.created){
-				create(sceneToShow, eventParams)
-			}
-
-			hideScenes()
-			sceneToShow.group.visible = true
-			sceneToShow.active = true
-			sceneToShow.show(eventParams)
+			game.state.start(sceneToShow.name)
 		}
+
 		return sceneToShow
 	}
 

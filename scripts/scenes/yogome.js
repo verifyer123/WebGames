@@ -15,21 +15,21 @@ var yogomeIntro = function(){
 
 	var loadingBar = null
 
-	function initialize(){
-		loadingBar.topBar.width = 0
-	}
-
 	return {
 		assets: assets,
 		name: "yogomeIntro",
 		updateLoadingBar: function(loadedFiles, totalFiles){
-			var loadingStep = loadingBar.width / totalFiles
-			loadingBar.topBar.width = loadingStep * loadedFiles
+			if(loadingBar){
+				var loadingStep = loadingBar.width / totalFiles
+				loadingBar.topBar.width = loadingStep * (loadedFiles + 1)
+			}
 		},
+
 		create: function(event){
-			var game = event.game
-			var sceneGroup = event.group
+
+			var sceneGroup = game.add.group()
 			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
+			logo.scale.setTo(0.5, 0.5)
 			logo.anchor.setTo(0.5, 0.5)
 
 			var loadingGroup = new Phaser.Group(game)
@@ -45,14 +45,7 @@ var yogomeIntro = function(){
 			loadingGroup.y = (game.world.centerY + logo.height) - loadingGroup.height * 0.5
 
 			loadingBar = loadingGroup
+			loadingBar.topBar.width = 0
 		},
-		show: function(event){
-			var game = event.game
-			initialize()
-			//var teenA = game.add.tween(loadingBar.topBar).to({width: loadingBar.bottomBar.width}, 5000).start()
-		},
-		hide: function(event){
-
-		}
 	}
 }()

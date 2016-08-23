@@ -19,9 +19,23 @@ var mathQuiz = function(){
  	var optionsGroup = null
  	var containerMiddle = null
  	var answersContainer = null
+ 	var timerContainer = null
+ 	var questionGroup = null
+ 	var resultMark = null
+ 	var isGameOver = null
 
  	var TOTAL_ANSWERS = 3
 	var TOTAL_QUESTIONS = 3
+
+	function winGame(){
+		isGameOver = true
+	}
+
+	function mapToKeyboard(target){
+		var targetId = target.keyCode - Phaser.Keyboard.ONE
+		var childrenOption = optionsGroup.children[targetId].inputTouch
+		onReleasedAnswer(childrenOption)
+	}
 
  	function onReleasedAnswer(target){
 
@@ -32,10 +46,10 @@ var mathQuiz = function(){
  		newQuestion.alpha = 0
  		newQuestion.x = positionQuestions.x
 
- 		sceneGroup.add(newQuestion)
+ 		questionGroup.add(newQuestion)
  		bufferQuestions.push(newQuestion)
 
- 		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.data.result)
+ 		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.unknown)
 		optionsGroup.updateAnswers(answerArray)
 
  		for(var indexQuestion = bufferQuestions.length - (TOTAL_QUESTIONS + 1); indexQuestion < bufferQuestions.length; indexQuestion++){
@@ -62,11 +76,14 @@ var mathQuiz = function(){
  				if(isCorrect){
  					tweenParams.x = sceneGroup.game.world.width
  					answersContainer.updateAnswers(1)
+ 					resultMark.show("correct")
  				}else{
  					tweenParams.y = sceneGroup.game.world.height
  					answersContainer.updateAnswers(-1)
+ 					resultMark.show("wrong")
  				}
 
+ 				currentQuestion.visible = false
  				var tweenB = sceneGroup.game.add.tween(currentQuestion).to(tweenParams, 200)
  				tweenB.start()
  			} 			
@@ -77,19 +94,19 @@ var mathQuiz = function(){
  		var answerArray = []
  		var positionCorrect = Math.floor(Math.random() * numberAnswers)
  		for(var indexAnswer = 0; indexAnswer < numberAnswers; indexAnswer++){
- 			var randomSign = Math.round((Math.random() * 1))
- 			var sign = 1
- 			if(randomSign == 0){
- 				sign = -1
- 			}
- 			valueInterval = Math.round((Math.random() * 5) + 1) * sign
+ 			// var randomSign = Math.round((Math.random() * 1))
+ 			// var sign = 1
+ 			// if(randomSign == 0){
+ 			// 	sign = -1
+ 			// }
+ 			valueInterval = Math.floor((Math.random() * 5) + 1)
  			
  			var valueAnswer = {}
  			if(indexAnswer == positionCorrect){
  				valueAnswer.value = correctOption
  				valueAnswer.isCorrect = true
  			}else{
- 				valueAnswer.value = correctOption + valueInterval
+ 				valueAnswer.value = correctOption + valueInterval + indexAnswer
  			}
 
  			answerArray[indexAnswer] = valueAnswer
@@ -102,7 +119,7 @@ var mathQuiz = function(){
 		var answerGroup = new Phaser.Group(sceneGroup.game)
 
 		var game = sceneGroup.game
-
+		var keyIndex = Phaser.Keyboard.ONE
 		for(var indexAnswer = 0; indexAnswer < TOTAL_ANSWERS; indexAnswer++){
 			var groupContainer = new Phaser.Group(sceneGroup.game)
 			answerGroup.add(groupContainer)
@@ -119,6 +136,10 @@ var mathQuiz = function(){
 			answerContainer.inputEnabled = true
 			answerContainer.events.onInputUp.add(onReleasedAnswer, this)
 
+			var key = game.input.keyboard.addKey(keyIndex + indexAnswer)
+			key.onDown.add(mapToKeyboard, this)
+
+			groupContainer.inputTouch = answerContainer
 			groupContainer.x = (answerContainer.width + game.world.width * 0.02) * indexAnswer
 			groupContainer.isCorrect = false
 			groupContainer.label = answerLabel
@@ -146,8 +167,8 @@ var mathQuiz = function(){
 			addition: {
 				operator: "+",
 				result: {
-					max: 10,
-					min: 2
+					max: 20,
+					min: 10
 				},
 				operand: {
 					max: 20,
@@ -251,9 +272,13 @@ var mathQuiz = function(){
 	function createQuestion(totalNumbers){
 		var questionGroup = new Phaser.Group(sceneGroup.game)
 
-		var textStyle = {font: "90px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var textStyleNumber = {font: "150px vag", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var textStyleOperator = {font: "100px vag", fontWeight: "bold", fill: "#38b0f6", align: "center"}
 
 		var equationData = createMathEquation(2)
+
+		var randomUnknown = Math.round(Math.random() * equationData.operands.length)
+		var unknown = 0
 
 		var operands = equationData.operands
 		var elementOffsetX = 0
@@ -261,10 +286,19 @@ var mathQuiz = function(){
 		for(var indexOperand = 0; indexOperand < operands.length; indexOperand++){
 			var operandGroup = new Phaser.Group(sceneGroup.game)
 			questionGroup.add(operandGroup)
+			var operandBackground
 
-			var operandBackground = operandGroup.create(0, 0, 'atlas.mathQuiz', 'numberoption')
+			var operandValue
+			if(randomUnknown == indexOperand){
+				operandBackground = operandGroup.create(0, 0, 'atlas.mathQuiz', 'unknown')
+				operandValue = "?"
+				unknown = operands[indexOperand]
+			}else{
+				operandBackground = operandGroup.create(0, 0, 'atlas.mathQuiz', 'numberoption')
+				operandValue = operands[indexOperand] 
+			}
 
-			var operandElement = new Phaser.Text(sceneGroup.game, 0, 0, operands[indexOperand], textStyle)
+			var operandElement = new Phaser.Text(sceneGroup.game, 0, 0, operandValue, textStyleNumber)
 			operandElement.centerX = operandBackground.centerX
 			operandElement.centerY = operandBackground.centerY
 			operandGroup.add(operandElement)
@@ -274,7 +308,7 @@ var mathQuiz = function(){
 			elementOffsetY = operandGroup.centerY
 
 			if(indexOperand < operands.length - 1){
-				var operator = new Phaser.Text(sceneGroup.game, 0, 0, equationData.operator, textStyle)
+				var operator = new Phaser.Text(sceneGroup.game, 0, 0, equationData.operator, textStyleOperator)
 				operator.x = elementOffsetX
 				operator.centerY = operandGroup.centerY
 				questionGroup.add(operator)
@@ -283,7 +317,7 @@ var mathQuiz = function(){
 			}
 		}
 
-		var equalSign = new Phaser.Text(sceneGroup.game, 0, 0, "=", textStyle)
+		var equalSign = new Phaser.Text(sceneGroup.game, 0, 0, "=", textStyleOperator)
 		equalSign.x = elementOffsetX
 		equalSign.centerY = elementOffsetY
 		questionGroup.add(equalSign)
@@ -291,15 +325,26 @@ var mathQuiz = function(){
 		var resultGroup = new Phaser.Group(sceneGroup.game)
 		questionGroup.add(resultGroup)
 
-		var resultBackground = resultGroup.create(0, 0, 'atlas.mathQuiz','numberoption')
+		var resultBackground
+		var resultValue
+		if(randomUnknown == equationData.operands.length){
+			resultBackground = resultGroup.create(0, 0, 'atlas.mathQuiz','unknown')
+			resultValue = "?"
+			unknown = equationData.result
+		}else{
+			resultBackground = resultGroup.create(0, 0, 'atlas.mathQuiz','numberoption')
+			resultValue = equationData.result
+		}
+
 		resultBackground.x = equalSign.x + equalSign.width
 
-		var result = new Phaser.Text(sceneGroup.game, 0, 0, "?", textStyle)
+		var result = new Phaser.Text(sceneGroup.game, 0, 0, resultValue, textStyleNumber)
 		result.centerX = resultBackground.centerX
 		result.centerY = elementOffsetY
 		resultGroup.add(result)
 
 		questionGroup.data = equationData
+		questionGroup.unknown = unknown
 
 		return questionGroup
 	}
@@ -336,14 +381,18 @@ var mathQuiz = function(){
 		trackerText.y = background.height * 0.06
 		containerGroup.add(trackerText)
 
-		var goal = totalQuestions
+		var goal = 10
 		var answeredQuestions = 0
 
 		containerGroup.updateAnswers = function(incrementNumber){
 			answeredQuestions += incrementNumber
 			if(answeredQuestions >= 0){
+				if (answeredQuestions >= goal){
+					answeredQuestions = goal
+					winGame()
+				}
 				trackerText.text = answeredQuestions+"/"+goal
-			}else{
+			}else if(answeredQuestions < 0){
 				answeredQuestions = 0
 			}
 			
@@ -376,25 +425,78 @@ var mathQuiz = function(){
 		var timerContainer = timerGroup.create(0, 0, 'atlas.mathQuiz','timer')
 		timerContainer.anchor.setTo(0.5, 0.5)
 
-		var textStyle = {font: "60px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var textStyle = {font: "50px vag", fontWeight: "bold", fill: "#000000", align: "center"}
 
 		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, "0.000", textStyle)
-		timerLabel.anchor.setTo(0.5, 0.5)
-		timerLabel.x = timerContainer.x + (timerContainer.width) * 0.13
+		timerLabel.anchor.setTo(0, 0.5)
+		timerLabel.centerX = timerContainer.x + (timerContainer.width) * 0.135
 		timerLabel.y = timerContainer.y + (timerContainer.height) * 0.1
 		timerGroup.add(timerLabel)
 
-		var timerMilliseconds = 0
-		function somecallback(){
-			timerMilliseconds++
-			var seconds = Math.floor(timerMilliseconds * 0.01)
-			var milliseconds = Math.floor(timerMilliseconds % 100)
-			timerLabel.text = seconds+"."+zerofill(milliseconds, 2)
+		var timerSeconds = 0
+		function timerCallback(){
+			timerSeconds++
 		}
 
-		var timer = sceneGroup.game.time.events.loop(1, somecallback, this)
+		function update(){
+			if(!isGameOver){
+				timerLabel.text = timerSeconds+"."+zerofill(1000 - game.time.events.duration.toFixed(0), 3)	
+			}
+		}
+
+		var timer = sceneGroup.game.time.events.loop(Phaser.Timer.SECOND, timerCallback, this)
+
+		timerGroup.update = update
 
 		return timerGroup
+	}
+
+	function createResultMark(){
+		var markGroup = new Phaser.Group(game)
+
+		var correctMark = markGroup.create(0, 0, 'atlas.mathQuiz', 'win')
+		correctMark.anchor.setTo(0.5, 0.5)
+		correctMark.visible = false
+		var wrongMark = markGroup.create(0, 0, 'atlas.mathQuiz', 'lose')
+		wrongMark.anchor.setTo(0.5, 0.5)
+		wrongMark.centerX = sceneGroup.game.world.centerX
+		wrongMark.centerY = sceneGroup.game.world.centerY
+		wrongMark.visible = false
+
+		var tweens = []
+
+		function showMark(markType){
+
+			var selectedMark = correctMark
+			if(markType == "correct"){
+				correctMark.visible = true
+				wrongMark.visible = false
+
+				selectedMark = correctMark
+			}else{
+				correctMark.visible = false
+				wrongMark.visible = true
+
+				selectedMark = wrongMark
+			}
+
+			selectedMark.x = sceneGroup.game.world.centerX
+			selectedMark.y = sceneGroup.game.world.centerY
+			selectedMark.alpha = 0
+			selectedMark.scale.setTo(1, 1)
+
+			var tweenAlpha = sceneGroup.game.add.tween(selectedMark).to({alpha: 1}, 200)
+			var tweenAlphaB = sceneGroup.game.add.tween(selectedMark).to({alpha: 0, y: selectedMark.y - 20}, 200)
+			tweenAlpha.chain(tweenAlphaB)
+			tweenAlpha.start()
+
+			var tweenScale = sceneGroup.game.add.tween(selectedMark.scale).to({x: sceneGroup.spriteScale, y: sceneGroup.spriteScale}, 200, "Quart.easeOut")
+			tweenScale.start()
+		}
+
+		markGroup.show = showMark
+
+		return markGroup
 	}
 
 	function initialize(){
@@ -405,13 +507,14 @@ var mathQuiz = function(){
 			x: game.world.centerX,
 			y: game.world.height * 0.65
 		}
+
+		isGameOver = false
 	}
 
 	///////////////////////////////////////////////////////////////////
 	function create(event){
 
-		sceneGroup = event.group
-		var game = event.game
+		sceneGroup = game.add.group()
 
 		var spriteScale = (game.world.height / 1920)
 		sceneGroup.spriteScale = spriteScale
@@ -442,7 +545,7 @@ var mathQuiz = function(){
 		answersContainer.y = game.world.height * 0.08
 		sceneGroup.add(answersContainer)
 
-		var timerContainer = createTimer()
+		timerContainer = createTimer()
 		timerContainer.scale.setTo(spriteScale, spriteScale)
 		//timerContainer.anchor.setTo(0.5, 0.5)
 		timerContainer.x = game.world.width * 0.25
@@ -454,6 +557,14 @@ var mathQuiz = function(){
 		optionsGroup.centerX = containerbottom.centerX
 		optionsGroup.centerY = containerbottom.centerY
 		sceneGroup.add(optionsGroup)
+
+		questionGroup = new Phaser.Group(game)
+		sceneGroup.add(questionGroup)
+
+		resultMark = createResultMark()
+		sceneGroup.add(resultMark)
+
+		show()
 	}
 
 	function show(){
@@ -472,7 +583,7 @@ var mathQuiz = function(){
 			question.y = offsetQuestionY
 			question.alpha = offsetAlpha
 
-			sceneGroup.add(question)
+			questionGroup.add(question)
 			bufferQuestions.push(question)
 
 			positionCache[indexQuestion] = {
@@ -482,27 +593,18 @@ var mathQuiz = function(){
 				alpha: offsetAlpha,
 			}
 
-			//var debugSprite = sceneGroup.create(question.x, question.y, 'something')
-			//debugSprite.anchor.setTo(0.5, 0.5)
-
 			offsetQuestionY -= (game.world.height * 0.05) + (question.height * (1/offsetScale))
 			offsetScale *= 0.8
 			offsetAlpha *= 0.6
-
-			//console.log(question.height * 0.5, offsetQuestionY)
 		}
 
-		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.data.result)
+		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.unknown)
 		optionsGroup.updateAnswers(answerArray)
 	}
 
 	return {
 		name: "mathQuiz",
 		assets: assets,
-		show: show,
 		create: create,
-		render: function(){
-			console.log("rendering: "+this.name)
-		}
 	}
 }()
