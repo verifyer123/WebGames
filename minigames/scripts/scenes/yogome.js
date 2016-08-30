@@ -21,22 +21,30 @@ var yogomeIntro = function(){
 		updateLoadingBar: function(loadedFiles, totalFiles){
 			if(loadingBar){
 				var loadingStep = loadingBar.width / totalFiles
-				loadingBar.topBar.width = loadingStep * (loadedFiles + 1)
+				loadingBar.topBar.width = loadingStep * loadedFiles
 			}
 		},
 
 		create: function(event){
 
 			var sceneGroup = game.add.group()
+
+			var spriteScale = (game.world.height / 1920)
+			sceneGroup.spriteScale = spriteScale
+
 			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
-			logo.scale.setTo(0.5, 0.5)
+			logo.scale.setTo(spriteScale, spriteScale)
 			logo.anchor.setTo(0.5, 0.5)
 
 			var loadingGroup = new Phaser.Group(game)
 			sceneGroup.add(loadingGroup)
 
 			var loadingBottom = loadingGroup.create(0, 0, 'logoAtlas', 'loading_bottom')
+			loadingBottom.scale.setTo(spriteScale, spriteScale)
+			loadingBottom.anchor.y = 0.5
 			var loadingTop = loadingGroup.create(0, 0, 'logoAtlas', 'loading_top')
+			loadingTop.scale.setTo(spriteScale, spriteScale)
+			loadingTop.anchor.y = 0.5
 
 			loadingGroup.bottomBar = loadingBottom
 			loadingGroup.topBar = loadingTop

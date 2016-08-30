@@ -26,9 +26,14 @@ var mathQuiz = function(){
 
  	var TOTAL_ANSWERS = 3
 	var TOTAL_QUESTIONS = 3
+	var GOAL_QUESTIONS = 10
 
 	function winGame(){
 		isGameOver = true
+		var resultScreen = sceneloader.getScene("resultScreen")
+		resultScreen.setScore(answersContainer.answered, GOAL_QUESTIONS, timerContainer.label.text)
+
+		sceneloader.show("resultScreen")
 	}
 
 	function mapToKeyboard(target){
@@ -83,9 +88,12 @@ var mathQuiz = function(){
  					resultMark.show("wrong")
  				}
 
- 				currentQuestion.visible = false
- 				var tweenB = sceneGroup.game.add.tween(currentQuestion).to(tweenParams, 200)
- 				tweenB.start()
+ 				currentQuestion.destroy(true)	
+ 				//var tweenB = sceneGroup.game.add.tween(currentQuestion).to(tweenParams, 200)
+ 				//tweenB.onComplete.add(function(){
+ 					
+ 				//})
+ 				//tweenB.start()
  			} 			
  		}
  	}
@@ -265,8 +273,6 @@ var mathQuiz = function(){
 			default:
 				console.log("Not available Operation: "+chosenOperation)
 		}
-
-
 	}
 
 	function createQuestion(totalNumbers){
@@ -309,7 +315,7 @@ var mathQuiz = function(){
 
 			if(indexOperand < operands.length - 1){
 				var operator = new Phaser.Text(sceneGroup.game, 0, 0, equationData.operator, textStyleOperator)
-				operator.x = elementOffsetX
+				operator.x = elementOffsetX	
 				operator.centerY = operandGroup.centerY
 				questionGroup.add(operator)
 
@@ -381,11 +387,12 @@ var mathQuiz = function(){
 		trackerText.y = background.height * 0.06
 		containerGroup.add(trackerText)
 
-		var goal = 10
+		var goal = GOAL_QUESTIONS
 		var answeredQuestions = 0
 
 		containerGroup.updateAnswers = function(incrementNumber){
 			answeredQuestions += incrementNumber
+			containerGroup.answered = answeredQuestions
 			if(answeredQuestions >= 0){
 				if (answeredQuestions >= goal){
 					answeredQuestions = goal
@@ -395,7 +402,6 @@ var mathQuiz = function(){
 			}else if(answeredQuestions < 0){
 				answeredQuestions = 0
 			}
-			
 		}
 
 		containerGroup.updateAnswers(0)
@@ -447,6 +453,7 @@ var mathQuiz = function(){
 		var timer = sceneGroup.game.time.events.loop(Phaser.Timer.SECOND, timerCallback, this)
 
 		timerGroup.update = update
+		timerGroup.label = timerLabel
 
 		return timerGroup
 	}
@@ -521,22 +528,24 @@ var mathQuiz = function(){
 
 		game.stage.backgroundColor = "#38b0f6"
 
-		var containerbottom = new Phaser.Graphics(game, 0, 0)
-		containerbottom.beginFill(0xf2f2f2);
-		containerbottom.drawRect(0, 0, game.world.width, game.world.height * 0.25);
-		containerbottom.endFill();
+		var containerHeight = game.world.height * 0.20
+
+		var containerBottom = new Phaser.Graphics(game)
+		containerBottom.beginFill(0xf2f2f2);
+		containerBottom.drawRect(0, 0, game.world.width, containerHeight);
+		containerBottom.endFill();
 		//containerbottom.scale.setTo(spriteScale, spriteScale)
-		containerbottom.centerX = game.world.centerX
-		containerbottom.y = game.world.height - containerbottom.height
-		sceneGroup.add(containerbottom)
+		containerBottom.x = 0
+		containerBottom.y = game.world.height - containerHeight
+		sceneGroup.add(containerBottom)
 
 		var line = new Phaser.Graphics(game, 0, 0)
 		line.beginFill(0xe0e0e0);
-		line.drawRect(0, 0, game.world.width, containerbottom.height * 0.1);
+		line.drawRect(0, 0, game.world.width, containerBottom.height * 0.1);
 		line.endFill();
 		//line.scale.setTo(spriteScale, spriteScale)
-		line.centerX = game.world.centerX
-		line.y = containerbottom.y
+		line.x = 0
+		line.y = containerBottom.y
 		sceneGroup.add(line)
 
 		answersContainer = createAnswerCounter(10)
@@ -547,15 +556,15 @@ var mathQuiz = function(){
 
 		timerContainer = createTimer()
 		timerContainer.scale.setTo(spriteScale, spriteScale)
-		//timerContainer.anchor.setTo(0.5, 0.5)
 		timerContainer.x = game.world.width * 0.25
 		timerContainer.y = game.world.height * 0.08
+		sceneGroup.add(timerContainer)
 
 		optionsGroup = createAnswerGroup()
-		var optionsScale = (containerbottom.height * 0.65) / optionsGroup.height
+		var optionsScale = (containerHeight * 0.65) / optionsGroup.height
 		optionsGroup.scale.setTo(optionsScale, optionsScale)
-		optionsGroup.centerX = containerbottom.centerX
-		optionsGroup.centerY = containerbottom.centerY
+		optionsGroup.centerX = game.world.centerX
+		optionsGroup.centerY = game.world.height - (containerHeight * 0.5)
 		sceneGroup.add(optionsGroup)
 
 		questionGroup = new Phaser.Group(game)

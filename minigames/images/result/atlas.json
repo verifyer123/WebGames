@@ -1,0 +1,66 @@
+{"frames": [
+
+{
+	"filename": "again",
+	"frame": {"x":1577,"y":342,"w":438,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":438,"h":139},
+	"sourceSize": {"w":438,"h":139},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "arrow",
+	"frame": {"x":1755,"y":1,"w":45,"h":156},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":156},
+	"sourceSize": {"w":45,"h":156},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "epicpromo",
+	"frame": {"x":1,"y":1,"w":1080,"h":509},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1080,"h":509},
+	"sourceSize": {"w":1080,"h":509},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "shadow",
+	"frame": {"x":1,"y":512,"w":1080,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1080,"h":15},
+	"sourceSize": {"w":1080,"h":15},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "share",
+	"frame": {"x":1083,"y":342,"w":492,"h":156},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":492,"h":156},
+	"sourceSize": {"w":492,"h":156},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "speedometer",
+	"frame": {"x":1083,"y":1,"w":670,"h":339},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":670,"h":339},
+	"sourceSize": {"w":670,"h":339},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":2016,"h":528},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:8385c51c6ed0950533f7609d94e11035:388f457b35d197c179875f9d6c1895ca:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

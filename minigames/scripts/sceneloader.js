@@ -56,21 +56,21 @@ var sceneloader = function(){
 			var currentScene = scenes[indexScene]
 			if(currentScene.assets !== "undefined"){
 				var assets = currentScene.assets
-				if(typeof(assets.images) == "object"){
+				if(typeof assets.images == "object"){
 					for(var indexImage = 0; indexImage < assets.images.length; indexImage++){
 						var currentImage = assets.images[indexImage]
 						currentLoader.image(currentImage.name, currentImage.file)
 					}
 				}
 
-				if(typeof(assets.sounds) == "object"){
+				if(typeof assets.sounds == "object"){
 					for(var indexSound = 0; indexSound < assets.sounds.length; indexSound++){
 						var currentSound = assets.sounds[indexSound]
 						currentLoader.audio(currentSound.name, currentSound.file)
 					}
 				}
 
-				if(typeof(assets.atlases) == "object"){
+				if(typeof assets.atlases == "object"){
 					for(var indexAtlas = 0; indexAtlas < assets.atlases.length; indexAtlas++){
 						var currentAtlas = assets.atlases[indexAtlas]
 						currentLoader.atlas(currentAtlas.name, currentAtlas.image, currentAtlas.json, null, Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY)
@@ -89,9 +89,7 @@ var sceneloader = function(){
 	}
 
 	function saveScene(scene){
-		scene.group = new Phaser.Group(game)
 		scene.name = scene.name || "unamedScene_"+sceneList.length
-
 		game.state.add(scene.name, scene)
 		sceneList.push(scene)
 
@@ -119,6 +117,12 @@ var sceneloader = function(){
 
 		if(sceneToShow != null){
 			game.state.start(sceneToShow.name)
+
+			game.stage.alpha = 0.5
+			//console.log(game.state.states[sceneName])
+			//var tween = game.add.tween(game.stage).to({alpha: 1})
+			//console.log(game.stage)
+			//tween.start()
 		}
 
 		return sceneToShow
