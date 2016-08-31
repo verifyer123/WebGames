@@ -134,7 +134,7 @@ var mathQuiz = function(){
 
 			var answerContainer = groupContainer.create(0, 0, 'atlas.mathQuiz', 'numberoption')
 
-			var fontStyle = {font: "90px vag", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var fontStyle = {font: "90px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			var answerLabel = new Phaser.Text(sceneGroup.game, 0, 0, "N/A", fontStyle)
 			answerLabel.anchor.setTo(0.5, 0.5)
 			answerLabel.x = answerContainer.centerX
@@ -278,8 +278,8 @@ var mathQuiz = function(){
 	function createQuestion(totalNumbers){
 		var questionGroup = new Phaser.Group(sceneGroup.game)
 
-		var textStyleNumber = {font: "150px vag", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var textStyleOperator = {font: "100px vag", fontWeight: "bold", fill: "#38b0f6", align: "center"}
+		var textStyleNumber = {font: "150px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var textStyleOperator = {font: "100px VAGRounded", fontWeight: "bold", fill: "#38b0f6", align: "center"}
 
 		var equationData = createMathEquation(2)
 
@@ -380,7 +380,7 @@ var mathQuiz = function(){
 		//background.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		background.anchor.setTo(0.5, 0.5)
 
-		var fontStyle = {font: "70px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
 		trackerText.anchor.setTo(0.5, 0.5)
 		trackerText.x = background.width * 0.13
@@ -431,7 +431,7 @@ var mathQuiz = function(){
 		var timerContainer = timerGroup.create(0, 0, 'atlas.mathQuiz','timer')
 		timerContainer.anchor.setTo(0.5, 0.5)
 
-		var textStyle = {font: "50px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var textStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
 		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, "0.000", textStyle)
 		timerLabel.anchor.setTo(0, 0.5)

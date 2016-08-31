@@ -34,7 +34,7 @@ var resultScreen = function(){
 		var timerContainer = timerGroup.create(0, 0, 'atlas.mathQuiz','timer')
 		timerContainer.anchor.setTo(0.5, 0.5)
 
-		var textStyle = {font: "50px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var textStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
 		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, timeScore, textStyle)
 		timerLabel.anchor.setTo(0, 0.5)
@@ -52,7 +52,7 @@ var resultScreen = function(){
 		//background.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		background.anchor.setTo(0.5, 0.5)
 
-		var fontStyle = {font: "70px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
 		trackerText.anchor.setTo(0.5, 0.5)
 		trackerText.x = background.width * 0.13
@@ -109,7 +109,7 @@ var resultScreen = function(){
 		var startOffset = angleStep * 0.5
 		var startAngle = -Math.PI + startOffset
 
-		var fontStyle = {font: "60px vag", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
 		for(var indexLabel = 0; indexLabel < texts.length; indexLabel++){
 			var currentText = texts[indexLabel]
@@ -197,7 +197,7 @@ var resultScreen = function(){
 		tryAgainButton.inputEnabled = false
 		tryAgainButton.events.onInputUp.add(tryAgain, buttonGroup)
 
-		var textStyle = {font: "55px vag", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
+		var textStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
 
 		var labelText = new Phaser.Text(game, 0, 0, "Share Now", textStyle)
 		labelText.anchor.setTo(0.5, 0.5)
@@ -255,7 +255,7 @@ var resultScreen = function(){
 
 		topRect.y = shadowHeader.y - (shadowHeader.height * 0.5)
 
-		var headerText = new Phaser.Text(game, 0, 0, "Good Job!", {font: "90px vag", fontWeight: "bold", fill: "#0085c8", align: "center"})
+		var headerText = new Phaser.Text(game, 0, 0, "Good Job!", {font: "90px VAGRounded", fontWeight: "bold", fill: "#0085c8", align: "center"})
 		headerText.scale.setTo(spriteScale, spriteScale)
 		headerText.anchor.setTo(0.5, 0.5)
 		headerText.x = game.world.centerX
@@ -272,7 +272,7 @@ var resultScreen = function(){
 		scoreSprite.y = timerSprite.y 
 		scoreSprite.scale.setTo(spriteScale, spriteScale)
 
-		var scoreText = new Phaser.Text(game, 0, 0, "Your Score: ", {font: "55px vag", fontWeight: "bold", fill: "#000000", align: "center"})
+		var scoreText = new Phaser.Text(game, 0, 0, "Your Score: ", {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"})
 		scoreText.scale.setTo(spriteScale, spriteScale)
 		scoreText.anchor.setTo(1, 0.5)
 		scoreText.x = timerSprite.x - ((timerSprite.width / sceneGroup.spriteScale) * 0.5)
@@ -290,14 +290,14 @@ var resultScreen = function(){
 		shareButton.y = game.world.height * 0.635
 		sceneGroup.add(shareButton)
 
-		shareText = new Phaser.Text(game, 0, 0, "We know you can do better", {font: "55px vag", fill: "#3949ab", align: "center"})
+		shareText = new Phaser.Text(game, 0, 0, "We know you can do better", {font: "55px VAGRounded", fill: "#3949ab", align: "center"})
 		shareText.anchor.setTo(0.5, 0.5)
 		shareText.scale.setTo(spriteScale, spriteScale)
 		shareText.x = shareButton.x
 		shareText.y = shareButton.y - (shareButton.height * 0.7)
 		sceneGroup.add(shareText)
 
-		tryAgainText = new Phaser.Text(game, 0, 0, "to try again", {font: "55px vag", fill: "#3949ab", align: "center"})
+		tryAgainText = new Phaser.Text(game, 0, 0, "to try again", {font: "55px VAGRounded", fill: "#3949ab", align: "center"})
 		tryAgainText.anchor.setTo(0.5, 0.5)
 		tryAgainText.scale.setTo(spriteScale, spriteScale)
 		tryAgainText.x = shareButton.x

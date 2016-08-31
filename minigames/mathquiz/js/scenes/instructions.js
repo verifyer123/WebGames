@@ -19,20 +19,20 @@ var instructionsScreen = function(){
 		var circleSprite = circleGroup.create(0, 0, "atlas.instructionsScreen", "circle")
 		circleSprite.anchor.setTo(0.5, 0.5)
 
-		var fontStyle = {font: "300px vag", fill: "#ffffff", align: "center"}
+		var fontStyle = {font: "300px VAGRounded", fill: "#ffffff", align: "center"}
 
 		var label = new Phaser.Text(sceneGroup.game, 0, 0, "10", fontStyle)
 		label.anchor.setTo(0.5, 0.5)
 		circleGroup.add(label)
 
-		fontStyle.font = "150px vag"
+		fontStyle.font = "150px VAGRounded"
 		var topText = new Phaser.Text(sceneGroup.game, 0, 0, "Answer", fontStyle)
 		topText.anchor.setTo(0.5, 0.5)
 		topText.y = circleSprite.height * -0.8
 		circleGroup.add(topText)
 
 
-		fontStyle.font = "100px vag"
+		fontStyle.font = "100px VAGRounded"
 
 		var bottomText = new Phaser.Text(sceneGroup.game, 0, 0, "Operations correctly", fontStyle)
 		bottomText.anchor.setTo(0.5, 0.5)
@@ -55,7 +55,7 @@ var instructionsScreen = function(){
 		buttonSprite.inputEnabled = true
 		buttonSprite.events.onInputUp.add(startGame, this)
 
-		var fontStyle = {font: "100px vag", fill: "#ffffff", align: "center"}
+		var fontStyle = {font: "100px VAGRounded", fill: "#ffffff", align: "center"}
 
 		var label = new Phaser.Text(sceneGroup.game, 0, 0, "GO!", fontStyle)
 		label.anchor.setTo(0.5, 0.5)
