@@ -20,7 +20,7 @@ var resultScreen = function(){
 	var totalScore, totalTime, totalGoal
 	var shareButton, shareText, tryAgainText
 
-	var TIME_GOAL = 7
+	var TIME_GOAL = 9
 
 	function setScore(score, scoreGoal, timeScore){
 		totalScore = score
@@ -234,6 +234,7 @@ var resultScreen = function(){
 
 	function createScene(){
 		sceneGroup = game.add.group()
+		sceneGroup.alpha = 0
 
 		var spriteScale = (game.world.height / 1920)
 		sceneGroup.spriteScale = spriteScale
@@ -266,11 +267,13 @@ var resultScreen = function(){
 		timerSprite.x = game.world.width * 0.5
 		timerSprite.y = game.world.height * 0.15
 		timerSprite.scale.setTo(spriteScale, spriteScale)
+		sceneGroup.add(timerSprite)
 
 		var scoreSprite = createTimer(totalTime)
 		scoreSprite.x = timerSprite.x + (timerSprite.width / spriteScale)
 		scoreSprite.y = timerSprite.y 
 		scoreSprite.scale.setTo(spriteScale, spriteScale)
+		sceneGroup.add(scoreSprite)
 
 		var scoreText = new Phaser.Text(game, 0, 0, "Your Score: ", {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"})
 		scoreText.scale.setTo(spriteScale, spriteScale)
@@ -314,13 +317,15 @@ var resultScreen = function(){
 		yogomePromo.events.onInputUp.add(showPromo)
 
 		speedometer.setScore(TIME_GOAL / totalTime)
+
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500)
+		tweenScene.start()
 	}
 
 	function initialize(){
 		totalScore = totalScore || "x"
 		totalTime = totalTime || 99.99
 		totalGoal = totalGoal || "y"
-
 	}
 
 	return {

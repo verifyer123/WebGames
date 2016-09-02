@@ -22,18 +22,29 @@ var mathQuiz = function(){
  	var timerContainer = null
  	var questionGroup = null
  	var resultMark = null
- 	var isGameOver = null
+
+ 	var isGameActive = null
 
  	var TOTAL_ANSWERS = 3
 	var TOTAL_QUESTIONS = 3
 	var GOAL_QUESTIONS = 10
 
 	function winGame(){
-		isGameOver = true
-		var resultScreen = sceneloader.getScene("resultScreen")
-		resultScreen.setScore(answersContainer.answered, GOAL_QUESTIONS, timerContainer.label.text)
+		isGameActive = false
 
-		sceneloader.show("resultScreen")
+		var blocker = createFinishBlocker()
+		sceneGroup.add(blocker)
+
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, false, 1000)
+		tweenScene.onComplete.add(function(){
+			var resultScreen = sceneloader.getScene("resultScreen")
+			resultScreen.setScore(answersContainer.answered, GOAL_QUESTIONS, timerContainer.label.text)
+
+			sceneloader.show("resultScreen")
+		})
+		tweenScene.start()
+
+		
 	}
 
 	function mapToKeyboard(target){
@@ -44,58 +55,61 @@ var mathQuiz = function(){
 
  	function onReleasedAnswer(target){
 
- 		var isCorrect = target.parent.isCorrect
+ 		if(isGameActive){
 
- 		var newQuestion = createQuestionGroup()
- 		//newQuestion.scale.setTo(0.5)
- 		newQuestion.alpha = 0
- 		newQuestion.x = positionQuestions.x
+	 		var isCorrect = target.parent.isCorrect
 
- 		questionGroup.add(newQuestion)
- 		bufferQuestions.push(newQuestion)
+	 		var newQuestion = createQuestionGroup()
+	 		//newQuestion.scale.setTo(0.5)
+	 		newQuestion.alpha = 0
+	 		newQuestion.x = positionQuestions.x
 
- 		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.unknown)
-		optionsGroup.updateAnswers(answerArray)
+	 		questionGroup.add(newQuestion)
+	 		bufferQuestions.push(newQuestion)
 
- 		for(var indexQuestion = bufferQuestions.length - (TOTAL_QUESTIONS + 1); indexQuestion < bufferQuestions.length; indexQuestion++){
- 			var currentQuestion = bufferQuestions[indexQuestion]
- 			var localIndex = indexQuestion - (bufferQuestions.length - (TOTAL_QUESTIONS + 1))
+	 		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.unknown)
+			optionsGroup.updateAnswers(answerArray)
 
- 			var offsetQuestion = localIndex - (bufferQuestions.length - TOTAL_QUESTIONS)
- 			if(localIndex > 0){
- 				var currentCache = positionCache[localIndex - 1]
- 				var targetPositionY = currentCache.y
- 				var targetScale = currentCache.scale
- 				var targetAlpha = currentCache.alpha
+	 		for(var indexQuestion = bufferQuestions.length - (TOTAL_QUESTIONS + 1); indexQuestion < bufferQuestions.length; indexQuestion++){
+	 			var currentQuestion = bufferQuestions[indexQuestion]
+	 			var localIndex = indexQuestion - (bufferQuestions.length - (TOTAL_QUESTIONS + 1))
 
- 				var tweenA = sceneGroup.game.add.tween(currentQuestion).to({alpha: targetAlpha, centerY: targetPositionY}, 200)
- 				tweenA.start()
+	 			var offsetQuestion = localIndex - (bufferQuestions.length - TOTAL_QUESTIONS)
+	 			if(localIndex > 0){
+	 				var currentCache = positionCache[localIndex - 1]
+	 				var targetPositionY = currentCache.y
+	 				var targetScale = currentCache.scale
+	 				var targetAlpha = currentCache.alpha
 
- 				var tweenB = sceneGroup.game.add.tween(currentQuestion.scale).to({x: targetScale, y: targetScale}, 200)
- 				tweenB.start()
- 			}else{
-				var tweenA = sceneGroup.game.add.tween(currentQuestion).to({alpha: 0}, 200)
- 				tweenA.start()
+	 				var tweenA = sceneGroup.game.add.tween(currentQuestion).to({alpha: targetAlpha, centerY: targetPositionY}, 200)
+	 				tweenA.start()
 
- 				var tweenParams = {}
- 				if(isCorrect){
- 					tweenParams.x = sceneGroup.game.world.width
- 					answersContainer.updateAnswers(1)
- 					resultMark.show("correct")
- 				}else{
- 					tweenParams.y = sceneGroup.game.world.height
- 					answersContainer.updateAnswers(-1)
- 					resultMark.show("wrong")
- 				}
+	 				var tweenB = sceneGroup.game.add.tween(currentQuestion.scale).to({x: targetScale, y: targetScale}, 200)
+	 				tweenB.start()
+	 			}else{
+					var tweenA = sceneGroup.game.add.tween(currentQuestion).to({alpha: 0}, 200)
+	 				tweenA.start()
 
- 				currentQuestion.destroy(true)	
- 				//var tweenB = sceneGroup.game.add.tween(currentQuestion).to(tweenParams, 200)
- 				//tweenB.onComplete.add(function(){
- 					
- 				//})
- 				//tweenB.start()
- 			} 			
- 		}
+	 				var tweenParams = {}
+	 				if(isCorrect){
+	 					tweenParams.x = sceneGroup.game.world.width
+	 					answersContainer.updateAnswers(1)
+	 					resultMark.show("correct")
+	 				}else{
+	 					tweenParams.y = sceneGroup.game.world.height
+	 					answersContainer.updateAnswers(-1)
+	 					resultMark.show("wrong")
+	 				}
+
+	 				currentQuestion.destroy(true)	
+	 				//var tweenB = sceneGroup.game.add.tween(currentQuestion).to(tweenParams, 200)
+	 				//tweenB.onComplete.add(function(){
+	 					
+	 				//})
+	 				//tweenB.start()
+	 			} 			
+	 		}
+	 	}
  	}
 
  	function generateRandomAnswers(numberAnswers, correctOption){
@@ -445,13 +459,16 @@ var mathQuiz = function(){
 		}
 
 		function update(){
-			if(!isGameOver){
+			if(isGameActive){
 				timerLabel.text = timerSeconds+"."+zerofill(1000 - game.time.events.duration.toFixed(0), 3)	
 			}
 		}
 
-		var timer = sceneGroup.game.time.events.loop(Phaser.Timer.SECOND, timerCallback, this)
-
+		function start(){
+			var timer = sceneGroup.game.time.events.loop(Phaser.Timer.SECOND, timerCallback, this)	
+		}
+		
+		timerGroup.start = start
 		timerGroup.update = update
 		timerGroup.label = timerLabel
 
@@ -515,13 +532,14 @@ var mathQuiz = function(){
 			y: game.world.height * 0.65
 		}
 
-		isGameOver = false
+		isGameActive = false
 	}
 
 	///////////////////////////////////////////////////////////////////
 	function create(event){
 
 		sceneGroup = game.add.group()
+		//sceneGroup.alpha = 0	
 
 		var spriteScale = (game.world.height / 1920)
 		sceneGroup.spriteScale = spriteScale
@@ -541,7 +559,7 @@ var mathQuiz = function(){
 
 		var line = new Phaser.Graphics(game, 0, 0)
 		line.beginFill(0xe0e0e0);
-		line.drawRect(0, 0, game.world.width, containerBottom.height * 0.1);
+		line.drawRect(0, 0, containerBottom.world.width, containerBottom.height * 0.1);
 		line.endFill();
 		//line.scale.setTo(spriteScale, spriteScale)
 		line.x = 0
@@ -576,9 +594,96 @@ var mathQuiz = function(){
 		show()
 	}
 
+	function createCountDown(){
+		var countGroup = new Phaser.Group(game)
+
+		var blackScreen = new Phaser.Graphics(game)
+		blackScreen.alpha = 0.3
+		blackScreen.beginFill(0x0)
+		blackScreen.drawRect(0, 0, game.width, game.height)
+		blackScreen.endFill()
+
+		countGroup.add(blackScreen)
+
+		var readySign = countGroup.create(0, 0, "atlas.mathQuiz", "ready")
+		readySign.alpha = 0
+		readySign.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
+		readySign.anchor.setTo(0.5, 0.5)
+		readySign.x = game.world.centerX
+		readySign.y = game.world.centerY - 20
+		countGroup.add(readySign)
+
+		var goSign = countGroup.create(0, 0, "atlas.mathQuiz", "go")
+		goSign.alpha = 0
+		goSign.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
+		goSign.anchor.setTo(0.5, 0.5)
+		goSign.x = game.world.centerX
+		goSign.y = game.world.centerY - 20
+		countGroup.add(goSign)
+
+		function tweenMark(){
+
+			var tweenReady = game.add.tween(readySign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Sinusoidal.Out, false)
+			var tweenGo = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Sinusoidal.Out, false)
+
+			tweenReady.onComplete.add(function(){
+				tweenReady = game.add.tween(readySign).to({y: game.world.centerY + 20, alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, false, 300)
+				tweenReady.onComplete.add(function(){
+					tweenGo.onComplete.add(function(){
+						tweenGo = game.add.tween(goSign).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, false, 300)
+						tweenGoScale = game.add.tween(goSign.scale).to({y: goSign.scale.y * 1.2, x: goSign.scale.x * 1.2}, 300, Phaser.Easing.Sinusoidal.In, false, 300)
+						tweenScreen = game.add.tween(blackScreen).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, false, 300)
+						tweenGo.onComplete.add(function(){
+							timerContainer.start()
+							isGameActive = true
+						})
+						tweenScreen.start()
+						tweenGoScale.start()
+						tweenGo.start()
+					})
+					tweenGo.start()
+				})
+
+				tweenReady.start()
+			})
+
+			tweenReady.start()
+		}
+
+		tweenMark()
+
+		return countGroup
+	}
+
+	function createFinishBlocker(){
+		var finishGroup = new Phaser.Group(game)
+
+		var blackScreen = new Phaser.Graphics(game)
+		blackScreen.alpha = 0.3
+		blackScreen.beginFill(0x0)
+		blackScreen.drawRect(0, 0, game.width, game.height)
+		blackScreen.endFill()
+
+		finishGroup.add(blackScreen)
+
+		var excellentSign = finishGroup.create(0, 0, "atlas.mathQuiz", "excellent")
+		excellentSign.alpha = 0
+		excellentSign.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
+		excellentSign.anchor.setTo(0.5, 0.5)
+		excellentSign.x = game.world.centerX
+		excellentSign.y = game.world.centerY - 50
+		finishGroup.add(excellentSign)
+
+		var tweenSign = game.add.tween(excellentSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out)
+		tweenSign.start()
+
+		return finishGroup
+	}
+
 	function show(){
 
 		initialize()
+
 		var offsetScale = sceneGroup.spriteScale
 		var offsetAlpha = 1
 		var offsetQuestionY = positionQuestions.y
@@ -609,6 +714,12 @@ var mathQuiz = function(){
 
 		var answerArray = generateRandomAnswers(TOTAL_ANSWERS, bufferQuestions[bufferQuestions.length - (TOTAL_QUESTIONS)].question.unknown)
 		optionsGroup.updateAnswers(answerArray)
+
+		// var alphaTween = game.add.tween(sceneGroup).to({alpha: 1}, 500)
+		// alphaTween.start()
+
+		var countGroup = createCountDown()
+		sceneGroup.add(countGroup)
 	}
 
 	return {

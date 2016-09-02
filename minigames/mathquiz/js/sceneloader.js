@@ -90,7 +90,7 @@ var sceneloader = function(){
 
 	function saveScene(scene){
 		scene.name = scene.name || "unamedScene_"+sceneList.length
-		game.state.add(scene.name, scene)
+		var state = game.state.add(scene.name, scene)
 		sceneList.push(scene)
 
 		console.log("Preloaded scene: "+scene.name)
@@ -116,16 +116,19 @@ var sceneloader = function(){
 		var sceneToShow = searchSceneByName(sceneName)
 
 		if(sceneToShow != null){
+
+			//console.log(game.state.states[sceneName])
+
 			game.state.start(sceneToShow.name)
 
-			game.stage.alpha = 0.5
-			//console.log(game.state.states[sceneName])
-			//var tween = game.add.tween(game.stage).to({alpha: 1})
-			//console.log(game.stage)
-			//tween.start()
-		}
+			// var currentState = game.state.getCurrentState()
+			// var stage = currentState.stage
 
-		return sceneToShow
+			var texture = new Phaser.RenderTexture(game, game.world.width, game.world.height)
+			
+		}	
+
+		return sceneToShow	
 	}
 
 	return {
@@ -134,6 +137,4 @@ var sceneloader = function(){
 		init: init,
 		getScene: getScene,
 	}
-
-
 }()
