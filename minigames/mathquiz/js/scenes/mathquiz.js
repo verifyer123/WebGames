@@ -1,5 +1,19 @@
 var mathQuiz = function(){
 
+	var localizationData = {
+		"EN":{
+			"assetReady":"readyen",
+			"assetGo":"goen",
+			"assetExcellent":"excellenten"
+		},
+
+		"ES":{
+			"assetReady":"readyes",
+			"assetGo":"goes",
+			"assetExcellent":"excellentes"
+		}
+	}
+
 	var assets = {
 		atlases: [
 			{
@@ -162,7 +176,7 @@ var mathQuiz = function(){
 			key.onDown.add(mapToKeyboard, this)
 
 			groupContainer.inputTouch = answerContainer
-			groupContainer.x = (answerContainer.width + game.world.width * 0.02) * indexAnswer
+			groupContainer.x = (answerContainer.width + game.world.width * 0.07) * indexAnswer
 			groupContainer.isCorrect = false
 			groupContainer.label = answerLabel
 		}
@@ -292,7 +306,7 @@ var mathQuiz = function(){
 	function createQuestion(totalNumbers){
 		var questionGroup = new Phaser.Group(sceneGroup.game)
 
-		var textStyleNumber = {font: "150px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var textStyleNumber = {font: "80px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var textStyleOperator = {font: "100px VAGRounded", fontWeight: "bold", fill: "#38b0f6", align: "center"}
 
 		var equationData = createMathEquation(2)
@@ -314,7 +328,7 @@ var mathQuiz = function(){
 				operandValue = "?"
 				unknown = operands[indexOperand]
 			}else{
-				operandBackground = operandGroup.create(0, 0, 'atlas.mathQuiz', 'numberoption')
+				operandBackground = operandGroup.create(0, 0, 'atlas.mathQuiz', 'option')
 				operandValue = operands[indexOperand] 
 			}
 
@@ -352,7 +366,7 @@ var mathQuiz = function(){
 			resultValue = "?"
 			unknown = equationData.result
 		}else{
-			resultBackground = resultGroup.create(0, 0, 'atlas.mathQuiz','numberoption')
+			resultBackground = resultGroup.create(0, 0, 'atlas.mathQuiz','option')
 			resultValue = equationData.result
 		}
 
@@ -374,7 +388,7 @@ var mathQuiz = function(){
 
 		var questionBackground = quizGroup.create(0, 0, 'atlas.mathQuiz', 'questionpanel')
 		questionBackground.anchor.setTo(0.5, 0.5)
-		questionBackground.scale.setTo(0.9, 0.9)
+		questionBackground.scale.setTo(1.1, 1.1)
 		quizGroup.add(questionBackground)
 
 		var question = createQuestion()
@@ -391,14 +405,13 @@ var mathQuiz = function(){
 		var containerGroup = new Phaser.Group(sceneGroup.game)
 
 		var background = containerGroup.create(0, 0, 'atlas.mathQuiz', 'questioncounter')
-		//background.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		background.anchor.setTo(0.5, 0.5)
 
-		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#568f00", align: "center"}
 		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
 		trackerText.anchor.setTo(0.5, 0.5)
 		trackerText.x = background.width * 0.13
-		trackerText.y = background.height * 0.06
+		trackerText.y = background.height * 0.09
 		containerGroup.add(trackerText)
 
 		var goal = GOAL_QUESTIONS
@@ -445,7 +458,7 @@ var mathQuiz = function(){
 		var timerContainer = timerGroup.create(0, 0, 'atlas.mathQuiz','timer')
 		timerContainer.anchor.setTo(0.5, 0.5)
 
-		var textStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var textStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#c41d0f", align: "center"}
 
 		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, "0.000", textStyle)
 		timerLabel.anchor.setTo(0, 0.5)
@@ -514,7 +527,7 @@ var mathQuiz = function(){
 			tweenAlpha.chain(tweenAlphaB)
 			tweenAlpha.start()
 
-			var tweenScale = sceneGroup.game.add.tween(selectedMark.scale).to({x: sceneGroup.spriteScale, y: sceneGroup.spriteScale}, 200, "Quart.easeOut")
+			var tweenScale = sceneGroup.game.add.tween(selectedMark.scale).to({x: 1, y: 1}, 200, "Quart.easeOut")
 			tweenScale.start()
 		}
 
@@ -541,9 +554,6 @@ var mathQuiz = function(){
 		sceneGroup = game.add.group()
 		//sceneGroup.alpha = 0	
 
-		var spriteScale = (game.world.height / 1920)
-		sceneGroup.spriteScale = spriteScale
-
 		game.stage.backgroundColor = "#38b0f6"
 
 		var containerHeight = game.world.height * 0.20
@@ -552,7 +562,6 @@ var mathQuiz = function(){
 		containerBottom.beginFill(0xf2f2f2);
 		containerBottom.drawRect(0, 0, game.world.width, containerHeight);
 		containerBottom.endFill();
-		//containerbottom.scale.setTo(spriteScale, spriteScale)
 		containerBottom.x = 0
 		containerBottom.y = game.world.height - containerHeight
 		sceneGroup.add(containerBottom)
@@ -561,25 +570,22 @@ var mathQuiz = function(){
 		line.beginFill(0xe0e0e0);
 		line.drawRect(0, 0, containerBottom.world.width, containerBottom.height * 0.1);
 		line.endFill();
-		//line.scale.setTo(spriteScale, spriteScale)
 		line.x = 0
 		line.y = containerBottom.y
 		sceneGroup.add(line)
 
 		answersContainer = createAnswerCounter(10)
-		answersContainer.scale.setTo(spriteScale, spriteScale)
 		answersContainer.x = game.world.width * 0.75
 		answersContainer.y = game.world.height * 0.08
 		sceneGroup.add(answersContainer)
 
 		timerContainer = createTimer()
-		timerContainer.scale.setTo(spriteScale, spriteScale)
 		timerContainer.x = game.world.width * 0.25
 		timerContainer.y = game.world.height * 0.08
 		sceneGroup.add(timerContainer)
 
 		optionsGroup = createAnswerGroup()
-		var optionsScale = (containerHeight * 0.65) / optionsGroup.height
+		var optionsScale = (containerHeight * 0.7) / optionsGroup.height
 		optionsGroup.scale.setTo(optionsScale, optionsScale)
 		optionsGroup.centerX = game.world.centerX
 		optionsGroup.centerY = game.world.height - (containerHeight * 0.5)
@@ -605,17 +611,15 @@ var mathQuiz = function(){
 
 		countGroup.add(blackScreen)
 
-		var readySign = countGroup.create(0, 0, "atlas.mathQuiz", "ready")
+		var readySign = countGroup.create(0, 0, "atlas.mathQuiz", localization.getString(localizationData, "assetReady"))
 		readySign.alpha = 0
-		readySign.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		readySign.anchor.setTo(0.5, 0.5)
 		readySign.x = game.world.centerX
 		readySign.y = game.world.centerY - 20
 		countGroup.add(readySign)
 
-		var goSign = countGroup.create(0, 0, "atlas.mathQuiz", "go")
+		var goSign = countGroup.create(0, 0, "atlas.mathQuiz", localization.getString(localizationData, "assetGo"))
 		goSign.alpha = 0
-		goSign.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		goSign.anchor.setTo(0.5, 0.5)
 		goSign.x = game.world.centerX
 		goSign.y = game.world.centerY - 20
@@ -666,9 +670,8 @@ var mathQuiz = function(){
 
 		finishGroup.add(blackScreen)
 
-		var excellentSign = finishGroup.create(0, 0, "atlas.mathQuiz", "excellent")
+		var excellentSign = finishGroup.create(0, 0, "atlas.mathQuiz", localization.getString(localizationData, "assetExcellent"))
 		excellentSign.alpha = 0
-		excellentSign.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		excellentSign.anchor.setTo(0.5, 0.5)
 		excellentSign.x = game.world.centerX
 		excellentSign.y = game.world.centerY - 50
@@ -684,7 +687,7 @@ var mathQuiz = function(){
 
 		initialize()
 
-		var offsetScale = sceneGroup.spriteScale
+		var offsetScale = 1
 		var offsetAlpha = 1
 		var offsetQuestionY = positionQuestions.y
 		

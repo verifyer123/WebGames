@@ -1,5 +1,44 @@
 var resultScreen = function(){
 
+	localizationData = {
+		"EN":{
+			"goodJob":"Good Job!",
+			"yourScore":"Your score: ",
+			"sluggish":"Sluggish",
+			"average":"Average",
+			"speedy":"Speedy",
+			"yourSpeed":"Your average speed is: \n",
+			"secPerAnswer":" secs per answer.",
+			"weKnow":"We know you can do better",
+			"tryAgain":"to try again",
+			"shareNow":"Share now",
+			"retry":"retry",
+			"answeredTotal":"Answered ",
+			"questionsIn":" Questions in ",
+			"seconds":" Seconds",
+			"assetPromo": "fben"
+		},
+
+		"ES":{
+			"goodJob":"¡Buen trabajo!",
+			"yourScore":"Tu puntaje:",
+			"sluggish":"Lento",
+			"average":"Normal",
+			"speedy":"Rápido",
+			"yourSpeed":"Tu velocidad promedio es de: \n",
+			"secPerAnswer":" segundos por respuesta.",
+			"weKnow":"Sabemos que puedes mejorar",
+			"tryAgain":"para reintentar",
+			"shareNow":"Compartir",
+			"retry":"Jugar",
+			"answeredTotal":"Conteste",
+			"questionsIn":" Preguntas en ",
+			"seconds":" Segundos",
+			"assetPromo": "fbes"
+
+		}
+	}
+
 	var assets = {
 		atlases: [
 			{
@@ -8,10 +47,16 @@ var resultScreen = function(){
 				image: "images/result/atlas.png"},
 			{
 				name: 'atlas.mathQuiz',
-				json: "images/mathquiz/atlas.json",
-				image: "images/mathquiz/atlas.png"}
+				json: "images/mathquiz/altas.json",
+				image: "images/mathquiz/altas.png"},
+			{
+				name: 'atlas.ads',
+				json: "../shared/images/ads/atlas.json",
+				image: "../shared/images/ads/atlas.png"}
 		],
-		images: [],
+		images: [
+			
+		],
 		sounds: [],
 	}
 
@@ -34,7 +79,7 @@ var resultScreen = function(){
 		var timerContainer = timerGroup.create(0, 0, 'atlas.mathQuiz','timer')
 		timerContainer.anchor.setTo(0.5, 0.5)
 
-		var textStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var textStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#c41d0f", align : "center"}
 
 		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, timeScore, textStyle)
 		timerLabel.anchor.setTo(0, 0.5)
@@ -49,10 +94,10 @@ var resultScreen = function(){
 		var containerGroup = new Phaser.Group(sceneGroup.game)
 
 		var background = containerGroup.create(0, 0, 'atlas.mathQuiz', 'questioncounter')
-		//background.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
+		
 		background.anchor.setTo(0.5, 0.5)
 
-		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#568f00", align: "center"}
 		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
 		trackerText.anchor.setTo(0.5, 0.5)
 		trackerText.x = background.width * 0.13
@@ -82,23 +127,20 @@ var resultScreen = function(){
 
 		var texts = [
 			{
-				label: "Turtle",
+				label: localization.getString(localizationData, "sluggish"),
 				color: "#33ace0"},
-
 			{
-				label: "Average",
-				color: "#f8c93a"},
+				label: localization.getString(localizationData, "average"),
+				color: "#e97800"},
 			{
-				label: "Genius",
+				label: localization.getString(localizationData, "speedy"),
 				color: "#d70e6a"}
 		]
 
 		var background = speedometerGroup.create(0, 0, 'atlas.resultScreen', 'speedometer') 
 		background.anchor.setTo(0.5, 0.5)
-		background.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 
 		var arrow = speedometerGroup.create(0, 0, 'atlas.resultScreen', 'arrow')
-		arrow.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		arrow.anchor.setTo(0.5, 0.9)
 
 		arrow.y = background.height * 0.4
@@ -109,7 +151,7 @@ var resultScreen = function(){
 		var startOffset = angleStep * 0.5
 		var startAngle = -Math.PI + startOffset
 
-		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
 		for(var indexLabel = 0; indexLabel < texts.length; indexLabel++){
 			var currentText = texts[indexLabel]
@@ -121,7 +163,6 @@ var resultScreen = function(){
 
 			var text = new Phaser.Text(game, 0, 0, currentText.label, fontStyle)
 			text.anchor.setTo(0.5, 0.5)
-			text.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 			text.x = arrow.x + labelPosX
 			text.y = arrow.y + labelPosY + (background.height * 0.3)
 
@@ -129,9 +170,8 @@ var resultScreen = function(){
 		}
 
 		fontStyle.fill = "#929292"
-		var totalSpeed = new Phaser.Text(game, 0, 0, "You average speed is: \n"+(totalTime/totalScore).toFixed(2)+" sec per answer", fontStyle)
+		var totalSpeed = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourSpeed")+(totalTime/totalScore).toFixed(2)+localization.getString(localizationData, "secPerAnswer"), fontStyle)
 		totalSpeed.anchor.setTo(0.5, 0.5)
-		totalSpeed.scale.setTo(sceneGroup.spriteScale)
 		totalSpeed.x = background.x 
 		totalSpeed.y = background.y + (background.height * 0.78)
 
@@ -162,12 +202,16 @@ var resultScreen = function(){
 		button.retry.visible = true
 		button.retry.inputEnabled = true
 
-		button.label.text = "Retry"
+		button.label.text = localization.getString(localizationData, "retry")
 		FB.ui({
 		    method: 'share',
 		    href: 'http://yogome.com/g/m6',
 		    mobile_iframe: true,
-		    quote: "I answered "+totalScore+" questions in "+totalTime+" seconds"
+		    quote: localization.getString(localizationData, "answeredTotal")+
+		    		totalScore+
+		    		localization.getString(localizationData, "questionsIn")+
+		    		totalTime+
+		    		localization.getString(localizationData, "seconds")
 		}, function(response){
 			//console.log(button)
 		});
@@ -182,7 +226,6 @@ var resultScreen = function(){
 
 		var shareButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'share')
 		shareButton.anchor.setTo(0.5, 0.5)
-		shareButton.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		buttonGroup.add(shareButton)
 
 		shareButton.inputEnabled = true
@@ -191,17 +234,15 @@ var resultScreen = function(){
 		var tryAgainButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'again')
 		tryAgainButton.visible = false
 		tryAgainButton.anchor.setTo(0.5, 0.5)
-		tryAgainButton.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		buttonGroup.add(tryAgainButton)
 
 		tryAgainButton.inputEnabled = false
 		tryAgainButton.events.onInputUp.add(tryAgain, buttonGroup)
 
-		var textStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
+		var textStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
 
-		var labelText = new Phaser.Text(game, 0, 0, "Share Now", textStyle)
+		var labelText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "shareNow"), textStyle)
 		labelText.anchor.setTo(0.5, 0.5)
-		labelText.scale.setTo(sceneGroup.spriteScale, sceneGroup.spriteScale)
 		labelText.x = shareButton.width * -0.12
 		buttonGroup.add(labelText)
 
@@ -216,7 +257,7 @@ var resultScreen = function(){
 
 		var urls = {
 			android: "https://play.google.com/store/apps/details?id=com.yogome.EpicKnowledge&hl=en",
-			ios: "https://itunes.apple.com/us/app/epic-heroes-of-knowledge/id904827467?mt=8",
+			ios: "http://bit.ly/EpicYogome",
 		}
 
 		var userAgent = navigator.userAgent || "Mac"
@@ -236,13 +277,10 @@ var resultScreen = function(){
 		sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
 
-		var spriteScale = (game.world.height / 1920)
-		sceneGroup.spriteScale = spriteScale
-
 		game.stage.backgroundColor = "#FFFFFF"
 
 		var topRect = new Phaser.Graphics(game)
-		topRect.beginFill(0xdfdfdf);
+		topRect.beginFill(0xededed);
 		topRect.drawRect(0, 0, game.world.width, game.world.height * 0.45);
 		topRect.endFill();
 
@@ -256,8 +294,7 @@ var resultScreen = function(){
 
 		topRect.y = shadowHeader.y - (shadowHeader.height * 0.5)
 
-		var headerText = new Phaser.Text(game, 0, 0, "Good Job!", {font: "90px VAGRounded", fontWeight: "bold", fill: "#0085c8", align: "center"})
-		headerText.scale.setTo(spriteScale, spriteScale)
+		var headerText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "goodJob"), {font: "50px VAGRounded", fontWeight: "bold", fill: "#0085c8", align: "center"})
 		headerText.anchor.setTo(0.5, 0.5)
 		headerText.x = game.world.centerX
 		headerText.y = shadowHeader.y * 0.5
@@ -266,24 +303,20 @@ var resultScreen = function(){
 		var timerSprite = createAnswerCounter(totalScore, totalGoal)
 		timerSprite.x = game.world.width * 0.5
 		timerSprite.y = game.world.height * 0.15
-		timerSprite.scale.setTo(spriteScale, spriteScale)
 		sceneGroup.add(timerSprite)
 
 		var scoreSprite = createTimer(totalTime)
-		scoreSprite.x = timerSprite.x + (timerSprite.width / spriteScale)
+		scoreSprite.x = timerSprite.x + timerSprite.width
 		scoreSprite.y = timerSprite.y 
-		scoreSprite.scale.setTo(spriteScale, spriteScale)
 		sceneGroup.add(scoreSprite)
 
-		var scoreText = new Phaser.Text(game, 0, 0, "Your Score: ", {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"})
-		scoreText.scale.setTo(spriteScale, spriteScale)
+		var scoreText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourScore"), {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"})
 		scoreText.anchor.setTo(1, 0.5)
-		scoreText.x = timerSprite.x - ((timerSprite.width / sceneGroup.spriteScale) * 0.5)
-		scoreText.y = timerSprite.y + (timerSprite.height * 0.2)
+		scoreText.x = timerSprite.x - (timerSprite.width * 0.5)
+		scoreText.y = timerSprite.y + (timerSprite.height * 0.1)
 		sceneGroup.add(scoreText)
 
 		var speedometer = createSpeedometer()
-		//speedometer.anchor.setTo(0.5, 0.5)
 		speedometer.x = game.world.centerX
 		speedometer.y = game.world.height * 0.35
 		sceneGroup.add(speedometer)
@@ -293,22 +326,19 @@ var resultScreen = function(){
 		shareButton.y = game.world.height * 0.635
 		sceneGroup.add(shareButton)
 
-		shareText = new Phaser.Text(game, 0, 0, "We know you can do better", {font: "55px VAGRounded", fill: "#3949ab", align: "center"})
+		shareText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "weKnow"), {font: "35px VAGRounded", fill: "#3949ab", align: "center"})
 		shareText.anchor.setTo(0.5, 0.5)
-		shareText.scale.setTo(spriteScale, spriteScale)
 		shareText.x = shareButton.x
 		shareText.y = shareButton.y - (shareButton.height * 0.7)
 		sceneGroup.add(shareText)
 
-		tryAgainText = new Phaser.Text(game, 0, 0, "to try again", {font: "55px VAGRounded", fill: "#3949ab", align: "center"})
+		tryAgainText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "tryAgain"), {font: "35px VAGRounded", fill: "#3949ab", align: "center"})
 		tryAgainText.anchor.setTo(0.5, 0.5)
-		tryAgainText.scale.setTo(spriteScale, spriteScale)
 		tryAgainText.x = shareButton.x
 		tryAgainText.y = shareButton.y + (shareButton.height * 0.75)
 		sceneGroup.add(tryAgainText)
 
-		var yogomePromo = sceneGroup.create(0, 0, 'atlas.resultScreen', 'epicpromo')
-		yogomePromo.scale.setTo(spriteScale, spriteScale)
+		var yogomePromo = sceneGroup.create(0, 0, 'atlas.ads', localization.getString(localizationData, "assetPromo"))
 		yogomePromo.anchor.setTo(0.5, 1)
 		yogomePromo.x = game.world.centerX
 		yogomePromo.y = game.world.height
@@ -320,6 +350,8 @@ var resultScreen = function(){
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500)
 		tweenScene.start()
+
+		
 	}
 
 	function initialize(){

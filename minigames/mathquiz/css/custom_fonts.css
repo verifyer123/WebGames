@@ -1,6 +1,6 @@
 @font-face{
 	font-family: 'VAGRounded';
-	src: url('../fonts/VAGRoundedStd-Bold.otf');
+	src: url('../../shared/fonts/VAGRoundedStd-Bold.otf');
 }
 
 .custom-font{

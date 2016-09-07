@@ -1,5 +1,19 @@
 var instructionsScreen = function(){
 
+	var localizationData = {
+		"EN":{
+			"answer":"Answer",
+			"operationsCorrectly":"Operations Correctly",
+			"go":"OK"
+		},
+
+		"ES":{
+			"answer":"Contesta",
+			"operationsCorrectly":"Operaciones Correctamente",
+			"go":"OK",
+		}
+	}
+
 	var assets = {
 		atlases: [
 			{
@@ -19,22 +33,22 @@ var instructionsScreen = function(){
 		var circleSprite = circleGroup.create(0, 0, "atlas.instructionsScreen", "circle")
 		circleSprite.anchor.setTo(0.5, 0.5)
 
-		var fontStyle = {font: "300px VAGRounded", fill: "#ffffff", align: "center"}
+		var fontStyle = {font: "150px VAGRounded", fill: "#ffffff", align: "center"}
 
 		var label = new Phaser.Text(sceneGroup.game, 0, 0, "10", fontStyle)
 		label.anchor.setTo(0.5, 0.5)
 		circleGroup.add(label)
 
-		fontStyle.font = "150px VAGRounded"
-		var topText = new Phaser.Text(sceneGroup.game, 0, 0, "Answer", fontStyle)
+		fontStyle.font = "100px VAGRounded"
+		var topText = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData, "answer"), fontStyle)
 		topText.anchor.setTo(0.5, 0.5)
 		topText.y = circleSprite.height * -0.8
 		circleGroup.add(topText)
 
 
-		fontStyle.font = "100px VAGRounded"
+		fontStyle.font = "40px VAGRounded"
 
-		var bottomText = new Phaser.Text(sceneGroup.game, 0, 0, "Operations correctly", fontStyle)
+		var bottomText = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData, "operationsCorrectly"), fontStyle)
 		bottomText.anchor.setTo(0.5, 0.5)
 		bottomText.y = circleSprite.height * 0.8
 		circleGroup.add(bottomText)
@@ -55,9 +69,9 @@ var instructionsScreen = function(){
 		buttonSprite.inputEnabled = true
 		buttonSprite.events.onInputUp.add(startGame, this)
 
-		var fontStyle = {font: "100px VAGRounded", fill: "#ffffff", align: "center"}
+		var fontStyle = {font: "60px VAGRounded", fill: "#ffffff", align: "center"}
 
-		var label = new Phaser.Text(sceneGroup.game, 0, 0, "GO!", fontStyle)
+		var label = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData, "go"), fontStyle)
 		label.anchor.setTo(0.5, 0.5)
 		buttonGroup.add(label)
 
@@ -68,19 +82,14 @@ var instructionsScreen = function(){
 
 		sceneGroup = game.add.group()
 
-		var spriteScale = (game.world.height / 1920)
-		sceneGroup.spriteScale = spriteScale
-
 		var circleInstructions = createInstructions()
-		circleInstructions.scale.setTo(spriteScale, spriteScale)
 		circleInstructions.x = game.world.centerX
 		circleInstructions.y = game.world.height * 0.4
 		sceneGroup.add(circleInstructions)
 
 		var buttonGo = createButton()
-		buttonGo.scale.setTo(spriteScale, spriteScale)
 		buttonGo.x = game.world.centerX
-		buttonGo.y = circleInstructions.y + ((circleInstructions.height * 0.8)/ spriteScale)
+		buttonGo.y = game.world.height * 0.8
 		sceneGroup.add(buttonGo)
 	}
 

@@ -1,7 +1,7 @@
 var game = null
 
 function startGame(){
-	game = new Phaser.Game("100", "100", Phaser.AUTO, null, {init:init, create: create }, false, true);	    
+	game = new Phaser.Game(document.body.clientWidth, document.body.clientWidth, Phaser.AUTO, null, {init: init, create: create }, false, true);	    
 
 	function preloadScenes(sceneList){
 
@@ -28,11 +28,32 @@ function startGame(){
 	}
 
     function init(){
-    	game.stage.backgroundColor = "#FFFFFF"
-    	game.time.advancedTiming = true
-    	game.stage.disableVisibilityChange = true;
+        var fullWidth = 540
+        var fullHeight = 960
+
+        var ratio = document.body.clientWidth / document.body.clientHeight
+        var gameHeight = Math.round(fullHeight)
+        var gameWidth = Math.round(fullHeight * ratio)
+
+        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+        game.scale.setGameSize(gameWidth, gameHeight)
+
+        game.stage.backgroundColor = "#FFFFFF"
+        game.time.advancedTiming = true
+        game.stage.disableVisibilityChange = true;        
 
     	sceneloader.init(game)
+
+        var language
+        if(parent.window.location.search){
+            var params = parent.window.location.search.trim(1)
+            var regex = /language=(..)/i
+            var result = regex.exec(params)
+                
+            language = result[result.index].toUpperCase()
+        }
+
+        localization.setLanguage(language)
     	sound.init(game)
     }
 
@@ -42,7 +63,6 @@ function startGame(){
     		instructionsScreen,
     		mathQuiz,
     		resultScreen,
-    		//creatPianoTiles,
     	])
     		    	
     }
