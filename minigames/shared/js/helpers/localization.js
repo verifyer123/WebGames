@@ -7,7 +7,9 @@ var localization = function(){
 	}
 
 	function setLanguage(languageCode){
-		language = languageCode
+		if(languageCode){
+			language = languageCode	
+		}
 	}
 
 	function getString(localizationObject, key){

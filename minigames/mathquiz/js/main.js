@@ -49,8 +49,12 @@ function startGame(){
             var params = parent.window.location.search.trim(1)
             var regex = /language=(..)/i
             var result = regex.exec(params)
-                
-            language = result[result.index].toUpperCase()
+            if(result){
+                language = result[result.index].toUpperCase()    
+            }else{
+                language = "EN"
+            }
+            
         }
 
         localization.setLanguage(language)
