@@ -341,6 +341,8 @@ var creatPianoTiles = function(){
         
         if(currentNote >= randomSong.length){
             currentNote = 0
+            gameActive = false
+            timer.pause()
         }
         
         indexUse+=4
@@ -362,7 +364,7 @@ var creatPianoTiles = function(){
 
         var newRow = createTileRow()
         newRow.x = groupNotes.container.x
-        //newRow.alpha = 0
+        newRow.alpha = 0
         newRow.y = groupNotes.children[groupNotes.length - 1].y - newRow.height
         groupNotes.add(newRow)
 
@@ -370,8 +372,10 @@ var creatPianoTiles = function(){
         
         for(var i = 0; i < notesList.length; i++) {
             var target = notesList[i]
-            console.log(target.x + ' posX')
-            game.add.tween(target).to({x: -800}, 100, "Sine.easeOut")
+            game.add.tween(target).to({x: target.x - 50}, 100, "Sine.easeOut", true)
+            if (target.x < 75){
+                game.add.tween(target).to({alpha: 0}, 100, "Linear", true)
+            }
         }
 
         for(var indexRow = 0; indexRow < teethRows.length; indexRow++){
@@ -380,7 +384,7 @@ var creatPianoTiles = function(){
             //console.log(targetTween.height + ' altura fila')
             var tween = game.add.tween(targetTween).to({y: targetTween.y + 144.48}, 100, "Sine.easeOut", false)
             if(indexRow >= indexDelete) {
-                game.add.tween(targetTween).to({x: target.x - 50}, 100, Phaser.Easing.Linear.None);
+                game.add.tween(targetTween).to({alpha : 1}, 50, Phaser.Easing.Linear.None, true, 50);
             }
             tween.start()
 
