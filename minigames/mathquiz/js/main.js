@@ -14,10 +14,10 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-	    		sceneloader.show("instructionsScreen")
+	    		//sceneloader.show("instructionsScreen")
 				//sceneloader.show("mathQuiz")
 				//sceneloader.show("resultScreen")
-				//sceneloader.show("creatPianoTiles")
+				sceneloader.show("creatPianoTiles")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})

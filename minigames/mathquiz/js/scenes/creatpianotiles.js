@@ -43,7 +43,7 @@ var creatPianoTiles = function(){
             {	name: "gamebar",
 				file: "images/pianotiles/bottom.png"},
             {	name: "heartsBack",
-				file: "images/pianotiles/heartscontainer.png"},
+				file: "images/pianotiles/heartsback.png"},
             {	name: "heartsEmpty",
 				file: "images/pianotiles/heartsempty.png"},
             {	name: "heartsfull",
@@ -70,8 +70,6 @@ var creatPianoTiles = function(){
 				file: "images/pianotiles/toothsilent.png"},
 			{	name: "toothwrong",
 				file: "images/pianotiles/toothwrong.png"},
-			{	name: "fin",
-				file: "images/aleta.png"},
 			{	name: REACTION_ANIMATIONS.correct.eye,
 				file: 'images/pianoTiles/'+REACTION_ANIMATIONS.correct.eye+'.png'},
 			{	name: REACTION_ANIMATIONS.wrong.eye,
@@ -241,7 +239,7 @@ var creatPianoTiles = function(){
 
 	var NUMBER_TILES = 4
 	var NUMBER_ROWS = 3
-    var NOTE_SCALE = 0.84
+    var NOTE_SCALE = 0.837
 
 	var sceneGroup = null
 	var groupNotes = null
@@ -268,14 +266,58 @@ var creatPianoTiles = function(){
     var buttonsGroup = null
     var pentagramImage = null
     var notesGroup = null
+    
+    function winGame(win){
+        
+		gameActive = false
+        timer.pause()
+        
+		var blocker = createFinishBlocker(win)
+		buttonsGroup.add(blocker)
 
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, false, 1000)
+		tweenScene.onComplete.add(function(){
+			var resultScreen = sceneloader.getScene("resultpiano")
+			resultScreen.setScore(currentNote, currentNote, timerImage.textI.text)
+
+			sceneloader.show("resultpiano")
+		})
+		tweenScene.start()
+
+		
+	}
+    
+    function createFinishBlocker(){
+		var finishGroup = new Phaser.Group(game)
+
+		var blackScreen = new Phaser.Graphics(game)
+		blackScreen.alpha = 0.3
+		blackScreen.beginFill(0x0)
+		blackScreen.drawRect(0, 0, game.width, game.height)
+		blackScreen.endFill()
+
+		finishGroup.add(blackScreen)
+
+		var excellentSign = finishGroup.create(0, 0, "atlas.mathQuiz", "excellent")
+		excellentSign.alpha = 0
+		excellentSign.anchor.setTo(0.5, 0.5)
+		excellentSign.x = game.world.centerX
+		excellentSign.y = game.world.centerY - 50
+		finishGroup.add(excellentSign)
+
+		var tweenSign = game.add.tween(excellentSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out)
+		tweenSign.start()
+
+		return finishGroup
+	}
+    
 	function createBird(){
         
 		var birdGroup = sceneGroup.game.add.group()
         monsterGroup.add(birdGroup)
 
-		var x = creatureBody.x + (creatureBody.width * 0.323)
-		var y = creatureBody.y - creatureBody.height * 0.74
+		var x = creatureBody.x + (creatureBody.width * 0.82)
+		var y = creatureBody.y + creatureBody.height * 0.26
 
 		birdGroup.x = x
 		birdGroup.y = y
@@ -306,8 +348,8 @@ var creatPianoTiles = function(){
         var eyesGroup = sceneGroup.game.add.group()
         monsterGroup.add(eyesGroup)
 
-		var x = creatureBody.x
-		var y = creatureBody.y - (creatureBody.height * 0.82)
+		var x = creatureBody.x + creatureBody.width * 0.5
+		var y = creatureBody.y + (creatureBody.height * 0.15)
 
 		var eyesopen = eyesGroup.create(x, y,'atlas.pianotiles', REACTION_ANIMATIONS.neutral.eye)
 		eyesopen.renderable = false
@@ -345,9 +387,7 @@ var creatPianoTiles = function(){
     function showOk(target) {
         
         if(currentNote >= randomSong.length){
-            currentNote = 0
-            gameActive = false
-            timer.pause()
+            winGame(true)
         }
         
         indexUse+=4
@@ -387,7 +427,7 @@ var creatPianoTiles = function(){
             
             var targetTween = teethRows[indexRow]
             //console.log(targetTween.height + ' altura fila')
-            var tween = game.add.tween(targetTween).to({y: targetTween.y + 144.48}, 100, "Sine.easeOut", false)
+            var tween = game.add.tween(targetTween).to({y: targetTween.y + 144}, 100, "Sine.easeOut", false)
             if(indexRow >= indexDelete) {
                 game.add.tween(targetTween).to({alpha : 1}, 20, Phaser.Easing.Linear.None, true, 80);
             }
@@ -418,8 +458,7 @@ var creatPianoTiles = function(){
         sound.play("grunt")
         
         if (wrongIndex == 3) {
-            timer.pause()
-            gameActive = false
+            winGame(false)
         }
         
     }
@@ -577,7 +616,7 @@ var creatPianoTiles = function(){
         var game = sceneGroup.game
         
         timerImage = new Phaser.Group(sceneGroup.game)
-        timerImage.scale.setTo(0.75,0.75)
+        timerImage.scale.setTo(0.7,0.7)
         buttonsGroup.add(timerImage)
         
         var timerImg = timerImage.create(10,10,'timer')
@@ -598,14 +637,14 @@ var creatPianoTiles = function(){
         var game = sceneGroup.game
         
         heartsGroup = new Phaser.Group(sceneGroup.game)
-        heartsGroup.scale.setTo(0.65,0.65)
+        heartsGroup.scale.setTo(0.6,0.6)
         buttonsGroup.add(heartsGroup)
         
         var heartsList = []
         
         var backHearts = heartsGroup.create(0,0,'atlas.pianotiles','heartsback')
         //backHearts.anchor.setTo(1,1)
-        heartsGroup.x = game.world.width - backHearts.width * 0.68
+        heartsGroup.x = game.world.width - backHearts.width * heartsGroup.scale.x
         heartsGroup.y = 5
         
         var pivotX = 17
@@ -638,9 +677,9 @@ var creatPianoTiles = function(){
         
         
         var keyIndex = Phaser.Keyboard.ONE
-        var pivotX = -game.world.width * 0.35
+        var pivotX = -monsterGroup.width * 0.17
         var offsetX = Math.abs(pivotX) * 0.5
-        var scaleToUse = game.world.width / 640
+        var scaleToUse = NOTE_SCALE * creatureBody.scale.x * 0.8
         for (var i = 0; i < 4; i++){
             var button = game.add.group()
             button.x = pivotX
@@ -680,7 +719,7 @@ var creatPianoTiles = function(){
         for (var i = 0; i < randomSong.length; i++) {
             
             var randomImage = Math.floor(Math.random() * 4) + 1  
-            var note = notesGroup.create(pivotX,img.y - 10 + (Math.floor(Math.random() * 6) + 1) * 8,'atlas.pianotiles','note' + randomImage)
+            var note = notesGroup.create(pivotX,img.y - 15 + (Math.floor(Math.random() * 6) + 1) * 6,'atlas.pianotiles','note' + randomImage)
             note.scale.setTo(img.scale.x,img.scale.y)
             
             notesList[notesList.length] = note
@@ -716,7 +755,6 @@ var creatPianoTiles = function(){
 			sceneGroup = game.add.group()
 			//var game = sceneGroup.game
             
-            monsterGroup = new Phaser.Group(sceneGroup.game)
             //monsterGroup.anchor.set(0.5,0.5)
             
             
@@ -725,12 +763,15 @@ var creatPianoTiles = function(){
             
 			var background = sceneGroup.create(game.world.centerX, game.world.centerY, 'background');
 	        background.anchor.setTo(0.5, 0.5);
+            
+            monsterGroup = new Phaser.Group(sceneGroup.game)
+            sceneGroup.add(monsterGroup)
 
 	        creatureBody = monsterGroup.create(0, 0, 'atlas.pianotiles','body');
-	        creatureBody.anchor.setTo(0.5,1);
+	        creatureBody.anchor.setTo(0,0);
             //creatureBody.scale.setTo(0.9,0.9)
- 	        creatureBody.x = game.world.centerX;
-	        creatureBody.y = game.height - game.height * 0.1
+ 	        //creatureBody.x = game.world.centerX;
+	        //creatureBody.y = game.height - game.height * 0.1
 
 	        //createFins()
             
@@ -759,8 +800,8 @@ var creatPianoTiles = function(){
 
 	        var maskWidth = creatureBody.width * 0.60
 	        var maskHeight = creatureBody.height * 0.53
-	        var maskPositionX = creatureBody.x - creatureBody.width * 0.267 * creatureBody.scale.x
-	        var maskPositionY = creatureBody.y - (creatureBody.height * 0.67) * creatureBody.scale.y
+	        var maskPositionX = creatureBody.x + creatureBody.width * 0.234 * creatureBody.scale.x
+	        var maskPositionY = creatureBody.y + (creatureBody.height * 0.33) * creatureBody.scale.y
 	        groupNotes.container = {
 	        	width: maskWidth,
 	        	height: maskHeight,
@@ -788,19 +829,19 @@ var creatPianoTiles = function(){
             
             var gameBar = buttonsGroup.create(game.world.centerX, game.world.height,'atlas.pianotiles', 'bottom')
             gameBar.width = game.world.width
-            gameBar.scale.y = 1.1
+            gameBar.scale.y = 0.9
 	        gameBar.anchor.setTo(0.5, 1)
             
             optionsGroup = createAnswerGroup()
             //var optionsScale = (containerHeight * 0.65) / optionsGroup.height
             //optionsGroup.scale.setTo(optionsScale, optionsScale)
             optionsGroup.x = game.world.centerX
-            optionsGroup.y = game.world.height - 112
+            optionsGroup.y = game.world.height - gameBar.height * 0.7
             buttonsGroup.add(optionsGroup)
             
             var pentagramImg = buttonsGroup.create(0,0,'atlas.pianotiles','pentagrama')
-            pentagramImg.scale.setTo(0.4,0.4)
-            pentagramImg.y = 70
+            pentagramImg.scale.setTo(0.32,0.32)
+            pentagramImg.y = 60
             
             createPentagramBar(pentagramImg)
             
@@ -811,7 +852,7 @@ var creatPianoTiles = function(){
             
             createHearts()
             
-            mouthShade = game.add.sprite(creatureBody.x, creatureBody.y - (creatureBody.height * 0.415),'atlas.pianotiles','mouthshade')
+            mouthShade = game.add.sprite(creatureBody.width * 0.50, creatureBody.y + (creatureBody.height * 0.59),'atlas.pianotiles','mouthshade')
             mouthShade.anchor.setTo(0.5,0.5)
             mouthShade.scale.setTo(0.57,0.57)
             monsterGroup.add(mouthShade)
@@ -824,10 +865,16 @@ var creatPianoTiles = function(){
             timer.start()
             
             console.log(monsterGroup.width + ' width, ' + monsterGroup.height + ' height,' + game.world.width + ' width')
-            var scaleToUse = game.world.width / 966
+            var scaleToUse = game.world.width / 900
             //monsterGroup.pivot.x = monsterGroup.width * 0.5
             //monsterGroup.pivot.y = monsterGroup.height * 0.5
-            monsterGroup.scale.setTo(scaleToUse,scaleToUse)
+            //monsterGroup.scale.setTo(scaleToUse,scaleToUse)
+            monsterGroup.width = game.world.width * 1.2
+            monsterGroup.height = game.world.height * 0.7
+            monsterGroup.centerX = game.world.centerX
+            monsterGroup.centerY = game.world.centerY
+            
+            //monsterGroup.y += -monsterGroup.height * 1.1
             //monsterGroup.x = game.world.width * 0.5
             //monsterGroup.y = game.world.height - monsterGroup.height * 0.6
             
