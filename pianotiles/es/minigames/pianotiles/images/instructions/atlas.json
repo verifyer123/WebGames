@@ -1,0 +1,57 @@
+{"frames": [
+
+{
+	"filename": "button",
+	"frame": {"x":532,"y":231,"w":259,"h":86},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":259,"h":86},
+	"sourceSize": {"w":259,"h":86},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "circle",
+	"frame": {"x":532,"y":1,"w":229,"h":228},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":229,"h":228},
+	"sourceSize": {"w":229,"h":228},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "instruction",
+	"frame": {"x":524,"y":319,"w":440,"h":176},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":12,"w":440,"h":176},
+	"sourceSize": {"w":440,"h":188},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "instructionen",
+	"frame": {"x":1,"y":261,"w":521,"h":237},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":7,"w":521,"h":237},
+	"sourceSize": {"w":522,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "instructiones",
+	"frame": {"x":1,"y":1,"w":529,"h":258},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":529,"h":258},
+	"sourceSize": {"w":529,"h":258},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":965,"h":499},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9eb855c9c22fe84fdd08c24f9d1fdff2:b05ceede99c2bebdcdeb23d02d2625ee:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

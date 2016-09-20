@@ -1,0 +1,66 @@
+{"frames": [
+
+{
+	"filename": "again",
+	"frame": {"x":1,"y":1,"w":438,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":438,"h":139},
+	"sourceSize": {"w":438,"h":139},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "dejenmedormir",
+	"frame": {"x":469,"y":159,"w":233,"h":232},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":233,"h":232},
+	"sourceSize": {"w":233,"h":232},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "FitStar",
+	"frame": {"x":1,"y":142,"w":232,"h":232},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":232,"h":232},
+	"sourceSize": {"w":232,"h":232},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "novata",
+	"frame": {"x":704,"y":159,"w":233,"h":232},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":233,"h":232},
+	"sourceSize": {"w":233,"h":232},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "share",
+	"frame": {"x":441,"y":1,"w":492,"h":156},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":492,"h":156},
+	"sourceSize": {"w":492,"h":156},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Socialite",
+	"frame": {"x":235,"y":159,"w":232,"h":232},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":232,"h":232},
+	"sourceSize": {"w":232,"h":232},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":938,"h":392},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e4e7440ff2f1cf5ef4b12ca5a4fcf63a:de5e4a0745fb8be9f464c14992c0a8f3:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
