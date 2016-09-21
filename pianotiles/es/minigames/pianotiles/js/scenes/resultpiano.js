@@ -281,8 +281,8 @@ var resultpiano = function(){
 	function showPromo(){
 
 		var urls = {
-			android: "https://play.google.com/store/apps/details?id=com.yogome.EpicKnowledge&hl=en",
-			ios: "http://bit.ly/EpicYogome",
+			android: "http://yogo.me/epicPlay",
+			ios: "http://yogo.me/epicMxA",
 		}
 
 		var userAgent = navigator.userAgent || "Mac"

@@ -1,0 +1,188 @@
+
+mascotaAmazing.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/agarradera_a
+  rotate: false
+  xy: 794, 748
+  size: 183, 80
+  orig: 183, 80
+  offset: 0, 0
+  index: -1
+normal/agarradera_b
+  rotate: false
+  xy: 789, 506
+  size: 176, 79
+  orig: 176, 79
+  offset: 0, 0
+  index: -1
+normal/cabeza
+  rotate: false
+  xy: 2, 1573
+  size: 596, 452
+  orig: 596, 452
+  offset: 0, 0
+  index: -1
+normal/fleco
+  rotate: false
+  xy: 1647, 1754
+  size: 293, 271
+  orig: 293, 271
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: false
+  xy: 544, 292
+  size: 120, 168
+  orig: 120, 168
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: false
+  xy: 667, 462
+  size: 120, 168
+  orig: 120, 168
+  offset: 0, 0
+  index: -1
+normal/lentes
+  rotate: false
+  xy: 2, 2
+  size: 528, 280
+  orig: 528, 280
+  offset: 0, 0
+  index: -1
+normal/lentes_b
+  rotate: false
+  xy: 600, 1394
+  size: 527, 280
+  orig: 527, 280
+  offset: 0, 0
+  index: -1
+normal/lentes_c
+  rotate: false
+  xy: 600, 1112
+  size: 528, 280
+  orig: 528, 280
+  offset: 0, 0
+  index: -1
+normal/lentes_d
+  rotate: false
+  xy: 544, 830
+  size: 527, 280
+  orig: 527, 280
+  offset: 0, 0
+  index: -1
+normal/ojo1
+  rotate: false
+  xy: 1073, 1074
+  size: 36, 36
+  orig: 36, 36
+  offset: 0, 0
+  index: -1
+normal/ojo2
+  rotate: false
+  xy: 1942, 1994
+  size: 32, 31
+  orig: 32, 31
+  offset: 0, 0
+  index: -1
+normal/torzo
+  rotate: false
+  xy: 544, 731
+  size: 248, 97
+  orig: 248, 97
+  offset: 0, 0
+  index: -1
+normal_a/agarradera_a
+  rotate: false
+  xy: 794, 668
+  size: 178, 78
+  orig: 178, 78
+  offset: 0, 0
+  index: -1
+normal_a/agarradera_b
+  rotate: false
+  xy: 793, 587
+  size: 178, 79
+  orig: 178, 79
+  offset: 0, 0
+  index: -1
+normal_a/cabeza
+  rotate: false
+  xy: 2, 1119
+  size: 596, 452
+  orig: 596, 452
+  offset: 0, 0
+  index: -1
+normal_a/fleco
+  rotate: false
+  xy: 600, 1676
+  size: 503, 349
+  orig: 503, 349
+  offset: 0, 0
+  index: -1
+normal_a/leg1
+  rotate: false
+  xy: 666, 292
+  size: 120, 168
+  orig: 120, 168
+  offset: 0, 0
+  index: -1
+normal_a/leg2
+  rotate: false
+  xy: 544, 462
+  size: 121, 168
+  orig: 121, 168
+  offset: 0, 0
+  index: -1
+normal_a/lentes
+  rotate: false
+  xy: 2, 840
+  size: 540, 277
+  orig: 540, 277
+  offset: 0, 0
+  index: -1
+normal_a/lentes_b
+  rotate: false
+  xy: 1105, 1749
+  size: 540, 276
+  orig: 540, 276
+  offset: 0, 0
+  index: -1
+normal_a/lentes_c
+  rotate: false
+  xy: 2, 562
+  size: 540, 276
+  orig: 540, 276
+  offset: 0, 0
+  index: -1
+normal_a/lentes_d
+  rotate: false
+  xy: 2, 284
+  size: 540, 276
+  orig: 540, 276
+  offset: 0, 0
+  index: -1
+normal_a/ojo1
+  rotate: false
+  xy: 1105, 1711
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+normal_a/ojo2
+  rotate: false
+  xy: 979, 797
+  size: 32, 31
+  orig: 32, 31
+  offset: 0, 0
+  index: -1
+normal_a/torzo
+  rotate: false
+  xy: 544, 632
+  size: 247, 97
+  orig: 247, 97
+  offset: 0, 0
+  index: -1
