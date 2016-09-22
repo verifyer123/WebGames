@@ -38,7 +38,7 @@
 },
 {
 	"filename": "gomita1",
-	"frame": {"x":624,"y":699,"w":40,"h":66},
+	"frame": {"x":626,"y":649,"w":40,"h":66},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":66},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "gomita2",
-	"frame": {"x":630,"y":519,"w":40,"h":67},
+	"frame": {"x":632,"y":519,"w":40,"h":67},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":67},
@@ -55,8 +55,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "heartsempty",
+	"frame": {"x":344,"y":963,"w":49,"h":39},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":39},
+	"sourceSize": {"w":49,"h":39},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "heartsfull",
+	"frame": {"x":395,"y":963,"w":49,"h":39},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":39},
+	"sourceSize": {"w":49,"h":39},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "manzana",
-	"frame": {"x":543,"y":638,"w":79,"h":62},
+	"frame": {"x":545,"y":638,"w":79,"h":62},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":62},
@@ -65,7 +83,7 @@
 },
 {
 	"filename": "paleta",
-	"frame": {"x":606,"y":767,"w":40,"h":53},
+	"frame": {"x":598,"y":801,"w":40,"h":53},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":53},
@@ -74,7 +92,7 @@
 },
 {
 	"filename": "palomita1",
-	"frame": {"x":624,"y":649,"w":51,"h":48},
+	"frame": {"x":545,"y":760,"w":51,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":48},
@@ -83,7 +101,7 @@
 },
 {
 	"filename": "palomita2",
-	"frame": {"x":344,"y":963,"w":48,"h":39},
+	"frame": {"x":446,"y":963,"w":48,"h":39},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":39},
@@ -92,7 +110,7 @@
 },
 {
 	"filename": "papa",
-	"frame": {"x":543,"y":519,"w":85,"h":58},
+	"frame": {"x":545,"y":519,"w":85,"h":58},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":58},
@@ -101,7 +119,7 @@
 },
 {
 	"filename": "personaje",
-	"frame": {"x":543,"y":412,"w":109,"h":105},
+	"frame": {"x":545,"y":412,"w":109,"h":105},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":109,"h":105},
@@ -110,7 +128,7 @@
 },
 {
 	"filename": "sombrero",
-	"frame": {"x":543,"y":579,"w":81,"h":57},
+	"frame": {"x":545,"y":579,"w":81,"h":57},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":81,"h":57},
@@ -119,7 +137,7 @@
 },
 {
 	"filename": "tennis",
-	"frame": {"x":543,"y":702,"w":66,"h":56},
+	"frame": {"x":545,"y":702,"w":66,"h":56},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":56},
@@ -137,7 +155,7 @@
 },
 {
 	"filename": "tornillo",
-	"frame": {"x":626,"y":588,"w":47,"h":59},
+	"frame": {"x":628,"y":588,"w":47,"h":59},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":47,"h":59},
@@ -146,7 +164,7 @@
 },
 {
 	"filename": "tuerca",
-	"frame": {"x":394,"y":963,"w":47,"h":31},
+	"frame": {"x":496,"y":963,"w":47,"h":31},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":47,"h":31},
@@ -173,7 +191,7 @@
 },
 {
 	"filename": "zapato",
-	"frame": {"x":543,"y":760,"w":61,"h":82},
+	"frame": {"x":613,"y":717,"w":61,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":82},
@@ -187,6 +205,6 @@
 	"format": "RGBA8888",
 	"size": {"w":677,"h":1005},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:22e119d5d2306a2a85b625e52a12a77b:3d4f1c5e87b6709fe2015c4618920f8f:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:70b7bc0f83816b9fb6de80516a529f27:f7ae0f946936a5d2af64b4348f35d1f2:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

@@ -34,20 +34,13 @@ var chilimBalamInstructions = function(){
         
         var fontStyle = {font: "60px VAGRounded", fill: "#ffffff", align: "center"}
         
-        var titleText = new Phaser.Text(sceneGroup.game, 0, 0, 'Descubre qué \ntan fit eres', fontStyle)
+        var titleText = new Phaser.Text(sceneGroup.game, 0, 0, 'Agarra los dulces', fontStyle)
 		titleText.anchor.setTo(0.5, 0.5)
         titleText.y = -275
 		circleGroup.add(titleText)
         
-        var icon = circleGroup.create(0,-45,'atlas.instructions','icon')
-        icon.anchor.setTo(0.5,0.5)
         
 		var fontStyle = {font: "35px VAGRounded", fill: "#ffffff", align: "center"}
-        
-		var topText = new Phaser.Text(sceneGroup.game, 0, 0, 'Contesta el quiz con base en lo\n que harías en cada situación', fontStyle)
-		topText.anchor.setTo(0.5, 0.5)
-        topText.y = 155
-		circleGroup.add(topText)
 
 		return circleGroup
 	}
@@ -107,7 +100,7 @@ var chilimBalamInstructions = function(){
 
 		var buttonGo = createButton()
 		buttonGo.x = game.world.centerX
-		buttonGo.y = game.world.height * 0.82
+		buttonGo.y = game.world.height * 0.5
 		sceneGroup.add(buttonGo)
             
 	}

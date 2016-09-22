@@ -17,8 +17,7 @@ var resultChilimBalam = function(){
 			"answeredTotal":"Answered ",
 			"questionsIn":" Questions in ",
 			"seconds":" Seconds",
-			"assetPromo": "fben",
-            "language":"en",
+			"assetPromo": "fben"
 		},
 
 		"ES":{
@@ -37,8 +36,7 @@ var resultChilimBalam = function(){
 			"answeredTotal":"Conteste",
 			"questionsIn":" Preguntas en ",
 			"seconds":" Segundos",
-			"assetPromo": "fbes",
-            "language":"es",
+			"assetPromo": "fbes"
 
 		}
 	}
@@ -46,48 +44,174 @@ var resultChilimBalam = function(){
 	var assets = {
 		atlases: [
 			{
-				name: 'atlas.resultInstafit',
-				json: "images/resultInstafit/atlas.json",
-				image: "images/resultInstafit/atlas.png"},
-
+				name: 'atlas.resultScreen',
+				json: "images/result/atlas.json",
+				image: "images/result/atlas.png"},
+			{
+				name: 'atlas.ads',
+				json: "../shared/images/ads/atlas.json",
+				image: "../shared/images/ads/atlas.png"}
 		],
 		images: [
 			
 		],
 		sounds: [],
 	}
-    
-    var NAMES = [
-        'La novata motivada',
-        'La ´a mi dejenme dormir´',
-        'La socialité del gym',
-        'La Fit star',
-        
-    ]
-    var TIPS = [
-        'Voy lento pero seguro. Acabas de empezar a hacer \nejercicio pero estás convencida en que muy pronto verás\n resultados en tu cuerpo. Te encanta probar clases nuevas\n y te motiva saber que estar FIT te hace sentir bien.\n Eres determinada y te gusta sentir que tienes el control.',
-        '¿Qué es el ejercicio? Rara vez te paras a hacer ejercicio, \ncrees que es innecesario y prefieres pasar tus mañanas\n entre tus cobijas. Cuando haces ejercicio es porque de\n plano te obligaron. Consideras que ir de shopping es tu \nejercicio de alta intensidad y no necesitas más.',
-        'Te inscribes a todas las clases de moda. Haz probado \nSiclo, Bodybarre, InstaFit, pilates, crossfit, trx y demás.\n Te encanta hacer detox y todo el tiempo tus amigas te\n preguntan qué está de moda en el momento. Tienes la\n mejor ropa para hacer ejercicio y te sabes combinar.',
-        'Eres la campeona de todos los ejercicios, no hay nadie\n que se te compare. Eres decidida y súper activa. Tus\n horas de entrenamiento son la prioridad en tu día\n y son lo más valioso. Realmente disfrutas despertarte\n temprano para aprovechar el día y cuando no puedes\n hacer ejercicio te sientes mal. ',
-    ]
+
 	var sceneGroup
 
 	var totalScore, totalTime, totalGoal
 	var shareButton, shareText, tryAgainText
     var win
-    var indexUse
-    var answersList
 
 	var timeGoal = null
 
-	function setScore(indexToUse, valuesList){
-        
-       indexUse = indexToUse
-       answersList = []
-       answersList = valuesList
-       //indexUse = 2
+	function setScore(timeScore, didWin){
+		totalScore = 0
+		totalGoal = 0
+		totalTime = timeScore
+        win = didWin
+        timeGoal = 0.1
+        mixpanel.track(
+            "finishGame",
+            {"gameName": "pianoTiles", "win":didWin}
+        );
 	}
 
+	function createTimer(timeScore){
+		var timerGroup = new Phaser.Group(sceneGroup.game)
+
+		var timerContainer = timerGroup.create(0, 0, 'atlas.resultScreen','timer')
+        timerContainer.width
+		timerContainer.anchor.setTo(0.5, 0.5)
+
+		var textStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#c41d0f", align : "center"}
+
+		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, timeScore, textStyle)
+		timerLabel.anchor.setTo(0, 0.5)
+		timerLabel.centerX = timerContainer.x + (timerContainer.width) * 0.135
+		timerLabel.y = timerContainer.y + (timerContainer.height) * 0.1
+		timerGroup.add(timerLabel)
+        
+        if(win == false){
+            timerLabel.text = "--"
+        }
+
+		return timerGroup
+	}
+
+	function createAnswerCounter(totalAnswered, totalQuestions){
+		var containerGroup = new Phaser.Group(sceneGroup.game)
+
+		var background = containerGroup.create(0, 0, 'atlas.resultScreen', 'questioncounter')
+		
+		background.anchor.setTo(0.5, 0.5)
+
+		var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#568f00", align: "center"}
+		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
+		trackerText.anchor.setTo(0.5, 0.5)
+		trackerText.x = background.width * 0.15
+		trackerText.y = background.height * 0.12
+		containerGroup.add(trackerText)
+
+		var goal = totalQuestions
+		var answeredQuestions = totalAnswered
+        
+        trackerText.text = totalAnswered+"/"+totalQuestions
+		/*containerGroup.updateAnswers = function(incrementNumber){
+			answeredQuestions += incrementNumber
+			if(answeredQuestions >= 0){
+				trackerText.text = answeredQuestions+"/"+goal
+			}else if(answeredQuestions < 0){
+				answeredQuestions = 0
+			}
+
+		}
+
+		containerGroup.updateAnswers(0)*/4
+
+		return containerGroup
+	}
+
+	function createSpeedometer(){
+		var speedometerGroup = new Phaser.Group(game)
+
+		var texts = [
+			{
+				label: localization.getString(localizationData, "sluggish"),
+				color: "#33ace0"},
+			{
+				label: localization.getString(localizationData, "average"),
+				color: "#e97800"},
+			{
+				label: localization.getString(localizationData, "speedy"),
+				color: "#d70e6a"}
+		]
+
+		var background = speedometerGroup.create(0, 0, 'atlas.resultScreen', 'speedometer') 
+		background.anchor.setTo(0.5, 0.5)
+
+		var arrow = speedometerGroup.create(0, 0, 'atlas.resultScreen', 'arrow')
+		arrow.anchor.setTo(0.5, 0.9)
+
+		arrow.y = background.height * 0.4
+
+		var radius = background.width * 0.7
+		var angleStep = (Math.PI) / 3
+
+		var startOffset = angleStep * 0.5
+		var startAngle = -Math.PI + startOffset
+
+		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+
+		for(var indexLabel = 0; indexLabel < texts.length; indexLabel++){
+			var currentText = texts[indexLabel]
+
+			var labelPosX = Math.cos(startAngle + (angleStep * indexLabel)) * radius
+			var labelPosY = Math.sin(startAngle + (angleStep * indexLabel)) * radius
+
+			fontStyle.fill = currentText.color
+
+			var text = new Phaser.Text(game, 0, 0, currentText.label, fontStyle)
+			text.anchor.setTo(0.5, 0.5)
+			text.x = arrow.x + labelPosX
+			text.y = arrow.y + labelPosY + (background.height * 0.3)
+
+			speedometerGroup.add(text)
+		}
+
+		fontStyle.fill = "#929292"
+		var totalSpeed = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourSpeed")+(totalTime/totalScore).toFixed(2)+localization.getString(localizationData, "secPerAnswer"), fontStyle)
+		totalSpeed.anchor.setTo(0.5, 0.5)
+		totalSpeed.x = background.x 
+		totalSpeed.y = background.y + (background.height * 0.78)
+        
+        if (win == false) {
+            totalSpeed.text = ""
+        }
+
+		speedometerGroup.add(totalSpeed)
+
+		speedometerGroup.setScore = function(scoreRange){
+			scoreRange = scoreRange >= 1 ? 1 : scoreRange
+			var startAngle = -(Math.PI * 0.5)
+			var endAngle = startAngle + (Math.PI * scoreRange)
+			arrow.rotation = startAngle
+            
+            if(win == false){
+                endAngle = startAngle
+            }
+
+			var tween = game.add.tween(arrow).to({rotation: endAngle})
+			tween.onComplete.addOnce(function(){
+				tween = game.add.tween(arrow).to({rotation: arrow.rotation + Math.PI * 0.05}, 100, "Linear", true, 0, -1)
+				tween.yoyo(true, 0)	
+			}, this)
+			tween.start()
+		}
+
+		return speedometerGroup
+	}
 
 	function shareEvent(){
 		var button = this
@@ -97,34 +221,41 @@ var resultChilimBalam = function(){
 		button.retry.visible = true
 		button.retry.inputEnabled = true
         
-        var imagesList = ['novata','dormir','socialite','fit']
+        mixpanel.track(
+            "pressFacebook",
+            {"gameName": "pianoTiles"}
+        );
+        
 		button.label.text = localization.getString(localizationData, "retry")
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/instafit/',
-            picture: 'http://yogome.com/g/instafit/minigames/instafit/images/imagesTest/' +  imagesList[indexUse] + '.png',
+		    href: 'http://yogome.com/g/chilimBalam/',
 		    mobile_iframe: true,
-		    title: "Mi perfil es " + NAMES[indexUse] + ' y ¿tu quién eres?'
+		    quote: localization.getString(localizationData, "answeredTotal")+
+		    		totalScore+
+		    		localization.getString(localizationData, "questionsIn")+
+		    		totalTime+
+		    		localization.getString(localizationData, "seconds")
 		}, function(response){
 			//console.log(button)
 		});
 	}
 
 	function tryAgain(){
-		sceneloader.show("instafit")
+		sceneloader.show("creatPianoTiles")
 	}
 
 	function createShareButton(){
 		var buttonGroup = new Phaser.Group(game)
 
-		var shareButton = buttonGroup.create(0, 0, 'atlas.resultInstafit', 'share')
+		var shareButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'share')
 		shareButton.anchor.setTo(0.5, 0.5)
 		buttonGroup.add(shareButton)
 
 		shareButton.inputEnabled = true
 		shareButton.events.onInputUp.add(shareEvent, buttonGroup)
 
-		var tryAgainButton = buttonGroup.create(0, 0, 'atlas.resultInstafit', 'again')
+		var tryAgainButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'again')
 		tryAgainButton.visible = false
 		tryAgainButton.anchor.setTo(0.5, 0.5)
 		buttonGroup.add(tryAgainButton)
@@ -132,20 +263,16 @@ var resultChilimBalam = function(){
 		tryAgainButton.inputEnabled = false
 		tryAgainButton.events.onInputUp.add(tryAgain, buttonGroup)
 
-		var textStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
+		var textStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
 
-		var labelText = new Phaser.Text(game, 0, 0, 'Compartir', textStyle)
+		var labelText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "shareNow"), textStyle)
 		labelText.anchor.setTo(0.5, 0.5)
 		labelText.x = shareButton.width * -0.12
-        labelText.y = 0
 		buttonGroup.add(labelText)
 
 		buttonGroup.share = shareButton
 		buttonGroup.retry = tryAgainButton
 		buttonGroup.label = labelText
-        
-        buttonGroup.width*= 0.7
-        buttonGroup.height*= 0.7
 
 		return buttonGroup
 	}
@@ -153,8 +280,8 @@ var resultChilimBalam = function(){
 	function showPromo(){
 
 		var urls = {
-			android: "https://play.google.com/store/apps/details?id=com.yogome.EpicKnowledge&hl=en",
-			ios: "http://bit.ly/EpicYogome",
+			android: "http://yogo.me/epicPlay",
+			ios: "http://yogo.me/epicUsA",
 		}
 
 		var userAgent = navigator.userAgent || "Mac"
@@ -171,7 +298,6 @@ var resultChilimBalam = function(){
 	}
 
 	function createScene(){
-        
 		sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
 
@@ -179,63 +305,81 @@ var resultChilimBalam = function(){
 
 		var topRect = new Phaser.Graphics(game)
 		topRect.beginFill(0xededed);
-		topRect.drawRect(0, 0, game.world.width, game.world.height * 0.58);
+		topRect.drawRect(0, 0, game.world.width, game.world.height * 0.45);
 		topRect.endFill();
+
 		sceneGroup.add(topRect)
+
+		var shadowHeader = sceneGroup.create(0, 0, 'atlas.resultScreen', 'shadow')
+		shadowHeader.anchor.setTo(0.5, 0.5)
+		shadowHeader.width = game.world.width
+		shadowHeader.x = game.world.centerX
+		shadowHeader.y = game.world.height * 0.1
+
+		topRect.y = shadowHeader.y - (shadowHeader.height * 0.5)
+        
+        var textToUse = "goodJob"
+        
+        if (win == false){
+            textToUse = "dontGiveUp"
+        }
+		var headerText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, textToUse), {font: "50px VAGRounded", fontWeight: "bold", fill: "#0085c8", align: "center"})
+		headerText.anchor.setTo(0.5, 0.5)
+		headerText.x = game.world.centerX
+		headerText.y = shadowHeader.y * 0.5
+		sceneGroup.add(headerText)
+
+		var timerSprite = createAnswerCounter(totalScore, totalGoal)
+		timerSprite.x = game.world.width * 0.5
+		timerSprite.y = game.world.height * 0.15
+		sceneGroup.add(timerSprite)
+
+		var scoreSprite = createTimer(totalTime)
+		scoreSprite.x = timerSprite.x + timerSprite.width
+		scoreSprite.y = timerSprite.y 
+		sceneGroup.add(scoreSprite)
+
+		var scoreText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourScore"), {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"})
+		scoreText.anchor.setTo(1, 0.5)
+		scoreText.x = timerSprite.x - (timerSprite.width * 0.5)
+		scoreText.y = timerSprite.y + (timerSprite.height * 0.1)
+		sceneGroup.add(scoreText)
+
+		var speedometer = createSpeedometer()
+		speedometer.x = game.world.centerX
+		speedometer.y = game.world.height * 0.35
+		sceneGroup.add(speedometer)
 
 		shareButton = createShareButton()
 		shareButton.x = game.world.centerX
-		shareButton.y = game.world.height * 0.65
-        shareButton.width*=0.85
-        shareButton.height*=0.85
+		shareButton.y = game.world.height * 0.635
 		sceneGroup.add(shareButton)
 
-		tryAgainText = new Phaser.Text(game, 0, 0,'¡Comparte este quiz y averigua qué \nperfil tienen tus amigas!', {font: "25px VAGRounded", fill: "#3949ab", align: "center"})
+		shareText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "weKnow"), {font: "35px VAGRounded", fill: "#3949ab", align: "center"})
+		shareText.anchor.setTo(0.5, 0.5)
+		shareText.x = shareButton.x
+		shareText.y = shareButton.y - (shareButton.height * 0.7)
+		sceneGroup.add(shareText)
+
+		tryAgainText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "tryAgain"), {font: "35px VAGRounded", fill: "#3949ab", align: "center"})
 		tryAgainText.anchor.setTo(0.5, 0.5)
 		tryAgainText.x = shareButton.x
-		tryAgainText.y = shareButton.y + (shareButton.height * 1.5)
+		tryAgainText.y = shareButton.y + (shareButton.height * 0.75)
 		sceneGroup.add(tryAgainText)
 
-		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500)
-		tweenScene.start()
-        
-        var logoNames = ['novata','dejenmedormir','Socialite','FitStar']
-        
-        var logo = sceneGroup.create(game.world.centerX, 245, 'atlas.resultInstafit',logoNames[indexUse])
-        logo.anchor.setTo(0.5,0.5)
-          
-        var tipsText = new Phaser.Text(game, game.world.centerX, game.world.centerY - 45, TIPS[indexUse], {font: "20px Arial", fill: "#000000", align: "center"})
-		tipsText.anchor.setTo(0.5, 0.5)
-		sceneGroup.add(tipsText)
-        
-        var topRect = new Phaser.Graphics(game)
-		topRect.beginFill(0xffffff);
-		topRect.drawRect(0, 0, game.world.width, game.world.height * 0.125);
-		topRect.endFill();
-		sceneGroup.add(topRect)
-        
-        var colors = ['cd2f6d','6cc100','e19d22','3a9fea']
-        var nameText = new Phaser.Text(game, game.world.centerX, 65, 'Tu perfil es:\n ' + NAMES[indexUse], {font: "35px VAGRounded", fill: "#" + colors[indexUse], align: "center"})
-		nameText.anchor.setTo(0.5, 0.5)
-		sceneGroup.add(nameText)
-        
-        var yogomePromo = sceneGroup.create(0, 0, 'atlas.ads', localization.getString(localizationData, "assetPromo"))
+		var yogomePromo = sceneGroup.create(0, 0, 'atlas.ads', localization.getString(localizationData, "assetPromo"))
 		yogomePromo.anchor.setTo(0.5, 1)
 		yogomePromo.x = game.world.centerX
 		yogomePromo.y = game.world.height
-        yogomePromo.width*=0.8
-        yogomePromo.height*=0.8
 
 		yogomePromo.inputEnabled = true
 		yogomePromo.events.onInputUp.add(showPromo)
-        
-        var st = "instafitQuiz_"
-        mixpanel.track(
-            "finishGame",
-            {"gameName": "quizInstafit", "result":NAMES[indexUse], "instafitQuiz_question1":answersList[0], "instafitQuiz_question2":answersList[1],
-            "instafitQuiz_question3":answersList[2],"instafitQuiz_question4":answersList[3],"instafitQuiz_question5":answersList[4],"instafitQuiz_question6":answersList[5],
-             "instafitQuiz_question7":answersList[6]}
-        );
+
+		speedometer.setScore(timeGoal / totalTime)
+
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500)
+		tweenScene.start()
+
 		
 	}
 

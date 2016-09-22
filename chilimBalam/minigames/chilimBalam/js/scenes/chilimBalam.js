@@ -33,6 +33,8 @@ var chilimBalam = function(){
 				file: "sounds/pop.mp3"},
             {	name: "swipe",
 				file: "sounds/swipe.mp3"},
+            {	name: "wrong",
+				file: "sounds/wrong.mp3"},
 			
 		],
 	}
@@ -92,7 +94,9 @@ var chilimBalam = function(){
         ],
     ]
     
-    var SPEED = 2
+    var SPEED = 5
+    var TIME_OBJECTS = 1500
+    var GRAVITY_OBJECTS = 7
     
 	var sceneGroup = null
     var answersGroup = null
@@ -103,6 +107,15 @@ var chilimBalam = function(){
     var gameActive = true
     var valuesList = null
     var moveLeft, moveRight
+    var characterGroup = null
+    var timer
+    var timeGroup = null
+    var pointsBar = null
+    var throwTime = null
+    var lives = null
+    var heartsGroup = null
+    var leftKey = null
+    var rightKey = null
     
 
 	function loadSounds(){
@@ -116,6 +129,8 @@ var chilimBalam = function(){
         gameActive = true
         moveLeft = false
         moveRight = false
+        throwTime = 1000
+        lives = 3
         
 	}
     
@@ -168,19 +183,6 @@ var chilimBalam = function(){
         }
         //console.log(indexToUse + ' number To use')
         return indexToUse
-    }
-    
-    function endGame(){
-        gameActive = false
-        
-
-		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
-		tweenScene.onComplete.add(function(){
-			var resultScreen = sceneloader.getScene("resultInstafit")
-			resultScreen.setScore(checkNumbers(), valuesList)
-
-			sceneloader.show("resultInstafit")
-		})
     }
     
     function onTapButton(target){
@@ -276,7 +278,7 @@ var chilimBalam = function(){
         button1.events.onInputDown.add(function(){
             moveLeft = true
             moveRight = false
-            buddy.scale.x = -0.3
+            characterGroup.scale.x = -1
         })
         button1.events.onInputUp.add(function(){
             moveLeft = false
@@ -288,26 +290,224 @@ var chilimBalam = function(){
         button2.events.onInputDown.add(function(){
             moveLeft = false
             moveRight = true
-            buddy.scale.x = 0.3
+            characterGroup.scale.x = 1
         })
          button2.events.onInputUp.add(function(){
             moveRight = false
         })
         
     }
+    
+    function moveChRight(){
+        characterGroup.x+=SPEED;
+        if (characterGroup.x>=game.world.width - 50){
+            characterGroup.x = game.world.width - 50
+        }
+    }
+    
+    function moveChLeft(){
+        characterGroup.x-=SPEED;
+        if (characterGroup.x<=50){
+            characterGroup.x = 50
+        }
+    }
+    
+    function stopGame(win){
+        
+        game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
+        
+        objectsGroup.timer.pause()
+        gameActive = false
+        timer.pause()
+        
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+		tweenScene.onComplete.add(function(){
+            
+			var resultScreen = sceneloader.getScene("resultChilimBalam")
+			resultScreen.setScore(timeGroup.textI.text,win)
+
+			sceneloader.show("resultChilimBalam")
+		})
+    }
+    function addPoint(){
+        
+        sound.play("pop")
+        
+        pointsBar.number++
+        pointsBar.text.setText(pointsBar.number)
+        
+        if(pointsBar.number >= 10){
+            stopGame(true)
+        }
+    }
+    
+    function missPoint(){
+        
+        sound.play("wrong")
+        
+        lives--;
+        changeImage(0,heartsGroup.children[lives])
+        if(lives == 0){
+            stopGame(false)
+        }
+    }
+    
+    function checkPos(obj){
+        
+        var cup = characterGroup.cup
+        //console.log(cup.world.x + ' cupx')
+        if(obj.active == true){
+            if(Math.abs(cup.world.x - obj.x) < 75 && Math.abs(cup.world.y - obj.y) < 75){
+                obj.alpha = 0
+                obj.active = false
+                if(obj.tag == 'candy'){
+                    addPoint()
+                    var scaleTo = game.add.tween(cup.scale).to({x:0.8, y:0.8}, 100, Phaser.Easing.Cubic.Out, true)
+                    scaleTo.onComplete.add(function(){
+                        game.add.tween(cup.scale).to({x:1, y:1}, 100, Phaser.Easing.Cubic.Out, true)
+                    })
+                }else{
+                    missPoint()
+                    game.add.tween(cup).to({angle:'+360'}, 300, Phaser.Easing.Linear.None, true);
+                }
+            }
+        }
+    }
+    
     function update(){
         
-        if(moveRight == true){
-            buddy.x+=SPEED;
-        }else if(moveLeft == true){
-            buddy.x-=SPEED;
+        if(gameActive == false){
+            return
         }
+        if(moveRight == true){
+            moveChRight()
+            
+        }else if(moveLeft == true){
+            moveChLeft()
+        }
+        
+         if (leftKey.isDown)
+        {
+            moveChLeft()
+            characterGroup.scale.x = -1
+        } else if(rightKey.isDown){
+            moveChRight()
+            characterGroup.scale.x = 1
+        }
+        
+        for(var i = 0; i < objectsGroup.length;i++){
+            var obj = objectsGroup.children[i]
+            obj.y+= GRAVITY_OBJECTS
+            
+            checkPos(obj)
+        }
+        
+    }
+    
+    function createTime(){
+        
+        timeGroup = game.add.group()
+        timeGroup.x = game.world.right
+        timeGroup.y = 0
+        sceneGroup.add(timeGroup)
+        
+        var timeImg = timeGroup.create(0,0,'atlas.chilimBalam','time')
+        timeImg.width*=1.3
+        timeImg.height*=1.3
+        timeImg.anchor.setTo(1,0)
+        
+        var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var timerText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+        timerText.x = -timeImg.width * 0.55
+        timerText.y = timeImg.height * 0.18
+        timeGroup.add(timerText)
+        
+        timeGroup.textI = timerText
+        timeGroup.number = 0
+        
+        timer = game.time.create(false);
+        timer.loop(1, updateSeconds, this);
+        
+        timer.start()
+        
+    }
+    
+    function createPointsBar(){
+        
+        pointsBar = game.add.group()
+        sceneGroup.add(pointsBar)
+        
+        var pointsImg = pointsBar.create(0,0,'atlas.chilimBalam','xpcoins')
+        pointsImg.width *=1.1
+        pointsImg.height*=1.1
+    
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+        pointsText.x = pointsImg.width * 0.75
+        pointsText.y = pointsImg.height * 0.1
+        pointsBar.add(pointsText)
+        
+        pointsBar.text = pointsText
+        pointsBar.number = 0
+        
+    }
+    
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 60
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 15
+        for(var i = 0; i <3; i++){
+            var group = game.add.group()
+            group.x = pivotX
+            heartsGroup.add(group)
+            
+            group.create(0,0,'atlas.chilimBalam','heartsempty')
+            
+            group.create(0,0,'atlas.chilimBalam','heartsfull')
+            
+            pivotX+= 55
+        }
+    }
+    
+     function updateSeconds(){
+        
+        timeGroup.number += 1;
+        timeGroup.textI.setText(timeGroup.number / 100)
+        
+    }
+    
+    function dropObjects(){
+        
+        var objectsNames = ['cacahuate','gomita1','gomita2','manzana','paleta','palomita1','palomita2','papa']
+        
+        var obstaclesNames = ['sombrero','tennis','tornillo','tuerca','zapato']
+        
+        var posX = Math.random() * game.world.width - 75
+        if(posX < 75){ posX = 75}
+        if(Math.random() * 9 < 4){
+            var obj = objectsGroup.create(posX,-50,'atlas.chilimBalam',objectsNames[Math.round(Math.random()*(objectsNames.length - 1))])
+            obj.tag = 'candy'   
+            obj.active = true
+        }else{
+            var obj = objectsGroup.create(posX,-50,'atlas.chilimBalam',obstaclesNames[Math.round(Math.random()*(obstaclesNames.length - 1))])
+            obj.tag = 'obstacle'
+            obj.active = true
+        }
+        
+         
     }
     
 	return {
 		assets: assets,
 		name: "chilimBalam",
 		create: function(event){
+            
+            leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+	        rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
             
 			sceneGroup = game.add.group()
             
@@ -316,21 +516,31 @@ var chilimBalam = function(){
             loadSounds()
 			initialize()            
             
-            //createPoints()
+            objectsGroup = game.add.group()
+            sceneGroup.add(objectsGroup)
             
+            characterGroup = game.add.group()
+            characterGroup.x = game.world.centerX
+            characterGroup.y = game.world.height - 175
+            sceneGroup.add(characterGroup)
             
-            buddy = game.add.spine(game.world.centerX, game.world.height - 175, "mascot");
-            buddy.scale.setTo(0.3,0.3)
-            sceneGroup.add(buddy)
+            buddy = game.add.spine(0,0, "mascot");
+            buddy.scale.setTo(0.2,0.2)
+            characterGroup.add(buddy)
             
-            game.physics.enable(buddy, Phaser.Physics.ARCADE);
-
+            var cup = characterGroup.create(0,-175,'atlas.chilimBalam','vaso')
+            cup.anchor.setTo(0.5,0.5)
+            characterGroup.cup = cup
+            
             buddy.setAnimationByName(0, "IDLE", true);
             buddy.setSkinByName('normal');
             
+            createTime()
+            createPointsBar()
+            createHearts()
             animateScene()
             
-            var button1 = this.game.add.button(20, 20, 'button1', function () {
+            /*var button1 = this.game.add.button(20, 20, 'button1', function () {
                 button1.scale.setTo(0.5,0.5)
                 buddy.setSkinByName('normal');
                 buddy.setToSetupPose();
@@ -341,9 +551,16 @@ var chilimBalam = function(){
                 buddy.setSkinByName('normal_a');
                 buddy.setToSetupPose();
             });
-            button1.scale.setTo(0.5,0.5)
+            button1.scale.setTo(0.5,0.5)*/
             
             createControls()
+            
+            objectsGroup.timer = game.time.create(false);
+            objectsGroup.timer.loop(throwTime, dropObjects, this);
+            objectsGroup.timer.start()
+
+            timer.start()
+            
             
 		},
         preload:preload,
