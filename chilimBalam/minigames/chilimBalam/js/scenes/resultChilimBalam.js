@@ -66,15 +66,14 @@ var resultChilimBalam = function(){
 
 	var timeGoal = null
 
-	function setScore(timeScore, didWin){
-		totalScore = 0
-		totalGoal = 0
+	function setScore(timeScore, didWin, score){
+		totalScore = score
+		totalGoal = 50
 		totalTime = timeScore
         win = didWin
-        timeGoal = 0.1
         mixpanel.track(
             "finishGame",
-            {"gameName": "pianoTiles", "win":didWin}
+            {"gameName": "chilimBalam", "win":didWin}
         );
 	}
 
@@ -117,7 +116,7 @@ var resultChilimBalam = function(){
 		var goal = totalQuestions
 		var answeredQuestions = totalAnswered
         
-        trackerText.text = totalAnswered+"/"+totalQuestions
+        trackerText.text = totalScore
 		/*containerGroup.updateAnswers = function(incrementNumber){
 			answeredQuestions += incrementNumber
 			if(answeredQuestions >= 0){
@@ -181,7 +180,7 @@ var resultChilimBalam = function(){
 		}
 
 		fontStyle.fill = "#929292"
-		var totalSpeed = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourSpeed")+(totalTime/totalScore).toFixed(2)+localization.getString(localizationData, "secPerAnswer"), fontStyle)
+		var totalSpeed = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourSpeed")+(totalScore/totalScore).toFixed(2)+localization.getString(localizationData, "secPerAnswer"), fontStyle)
 		totalSpeed.anchor.setTo(0.5, 0.5)
 		totalSpeed.x = background.x 
 		totalSpeed.y = background.y + (background.height * 0.78)
@@ -195,7 +194,8 @@ var resultChilimBalam = function(){
 		speedometerGroup.setScore = function(scoreRange){
 			scoreRange = scoreRange >= 1 ? 1 : scoreRange
 			var startAngle = -(Math.PI * 0.5)
-			var endAngle = startAngle + (Math.PI * scoreRange)
+			var endAngle = startAngle + (totalScore * 180) / totalGoal
+            endAngle = startAngle + (totalScore * (Math.PI * 0.5)) / totalGoal
 			arrow.rotation = startAngle
             
             if(win == false){
@@ -223,7 +223,7 @@ var resultChilimBalam = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "pianoTiles"}
+            {"gameName": "chilimBalam"}
         );
         
 		button.label.text = localization.getString(localizationData, "retry")
@@ -386,7 +386,7 @@ var resultChilimBalam = function(){
 	function initialize(){
 		totalScore = totalScore 
 		totalTime = totalTime || 99.99
-		totalGoal = totalGoal || "y"
+		totalGoal = 50
 	}
 
 	return {

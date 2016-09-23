@@ -48,7 +48,7 @@ var chilimBalamInstructions = function(){
 	function startGame(){
         mixpanel.track(
             "enterGame",
-            {"gameName": "quizInstafit"}
+            {"gameName": "chilimBalam"}
         );
         //console.log(location.host + ' userIp')
 		sceneloader.show("chilimBalam")
@@ -108,7 +108,7 @@ var chilimBalamInstructions = function(){
 	function initialize(){
         mixpanel.track(
             "loadGame",
-            {"gameName": "quizInstafit"}
+            {"gameName": "chilimBalam"}
         );
         
 		game.stage.backgroundColor = "#38b0f6"
