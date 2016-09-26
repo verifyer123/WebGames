@@ -113,7 +113,9 @@ var chilimBalam = function(){
     
     var SPEED = 7
     var GRAVITY_OBJECTS = 4
-    var OBJ_TIME = 800
+    var GRAVITY_GUMS = 4
+    var OBJ_TIME = 1300
+    var ITEM_TIME = 800
     
 	var sceneGroup = null
     var answersGroup = null
@@ -137,6 +139,7 @@ var chilimBalam = function(){
     var buddy = null
     var buttonPressed = null
     var bombsList, itemList
+    var throwTimeItems
     
 
 	function loadSounds(){
@@ -151,6 +154,7 @@ var chilimBalam = function(){
         moveLeft = false
         moveRight = false
         throwTime = OBJ_TIME
+        throwTimeItems = ITEM_TIME
         lives = 3
         buttonPressed = false
         
@@ -203,7 +207,7 @@ var chilimBalam = function(){
                 game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
                 finalTween.onComplete.add(function(){
                     gameActive = true
-                    timer.start()
+                    //timer.start()
                     game.time.events.add(throwTime, dropObjects , this);
                     //objectsGroup.timer.start()
                 })
@@ -306,13 +310,13 @@ var chilimBalam = function(){
         bottomRect.anchor.setTo(0,1)
         sceneGroup.add(bottomRect)
         
-        var button1 = sceneGroup.create(game.world.centerX - 150, game.world.height - 150, 'atlas.chilimBalam','boton')
+        var button1 = sceneGroup.create(game.world.centerX - 215, game.world.height - 155, 'atlas.chilimBalam','boton')
         button1.inputEnabled = true
         button1.events.onInputDown.add(inputButton)
         button1.tag = 'left'
         button1.events.onInputUp.add(releaseButton)
         
-        var button2 = sceneGroup.create(game.world.centerX + 150, game.world.height - 150, 'atlas.chilimBalam','boton')
+        var button2 = sceneGroup.create(game.world.centerX + 215, game.world.height - 155, 'atlas.chilimBalam','boton')
         button2.scale.x = -1
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
@@ -342,13 +346,13 @@ var chilimBalam = function(){
         //objectsGroup.timer.pause()
         gameActive = false
         buddy.setAnimationByName(0,"SAD",0.6)
-        timer.pause()
+        //timer.pause()
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("resultChilimBalam")
-			resultScreen.setScore(timeGroup.textI.text,true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number)
 
 			sceneloader.show("resultChilimBalam")
 		})
@@ -363,7 +367,8 @@ var chilimBalam = function(){
         pointsBar.text.setText(pointsBar.number)
         
         GRAVITY_OBJECTS+=0.2
-        throwTime-=10
+        throwTime-=20
+        //throwTimeItems-=10
         
     }
     
@@ -384,12 +389,13 @@ var chilimBalam = function(){
         obj.x = -100
         objectsGroup.remove(obj)
     }
+    
     function checkPos(obj){
         
         var cup = characterGroup.cup
         //console.log(cup.world.x + ' cupx')
         if(obj.active == true){
-            if(Math.abs(cup.world.x - obj.x) < 75 && Math.abs(cup.world.y - obj.y) < 75){
+            if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y - obj.y) < cup.height*0.6){
                 deactivateObject(obj)
                 if(obj.tag == 'candy'){
                     addPoint()
@@ -405,7 +411,7 @@ var chilimBalam = function(){
             }else if(obj.y > game.world.height * 0.825){
                 deactivateObject(obj)
                 if(obj.tag == 'candy'){
-                    missPoint()
+                    //missPoint()
                     createPart('drop',obj)
                     sound.play("splash")
                 }else if(obj.tag == 'obstacle'){
@@ -450,7 +456,11 @@ var chilimBalam = function(){
         
         for(var i = 0; i < objectsGroup.length;i++){
             var obj = objectsGroup.children[i]
-            obj.y+= GRAVITY_OBJECTS
+            if(obj.tag == 'candy'){
+                obj.y+= GRAVITY_GUMS
+            }else if(obj.tag == 'obstacle'){
+                obj.y+= GRAVITY_OBJECTS
+            }
             obj.rotation+=0.1
             
             checkPos(obj)
@@ -489,14 +499,15 @@ var chilimBalam = function(){
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,0,'atlas.chilimBalam','xpcoins')
+        var pointsImg = pointsBar.create(0,10,'atlas.chilimBalam','xpcoins')
+        pointsImg.x = game.world.width - pointsImg.width * 1.2
         pointsImg.width *=1.1
         pointsImg.height*=1.1
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.width * 0.75
-        pointsText.y = pointsImg.height * 0.1
+        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -507,7 +518,7 @@ var chilimBalam = function(){
     function createHearts(){
         
         heartsGroup = game.add.group()
-        heartsGroup.y = 60
+        heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
         
@@ -532,16 +543,42 @@ var chilimBalam = function(){
         
     }
     
-    function activateObject(objToUse){
+    function checkPosObj(posX){
         
-        var posX = Math.random() * game.world.width - 75
-        if(posX < 75){ posX = 75}
+        var samePos = false
+        for(var i = 0;i<objectsGroup.length;i++){
+            var obj = objectsGroup.children[i]
+            if(Math.abs(obj.x - posX) < 75 && Math.abs(obj.y - -50) < 100){
+                samePos = true
+            }
+        }
+        return samePos
+        
+    }
+    
+    function activateObject(objToUse){
+                
+        var posX = game.rnd.integerInRange(50, game.world.width - 50)
+        
+        if(objectsGroup.length > 0){
+            
+            objToUse.x = objectsGroup.children[0].x
+            while (checkPosObj(posX)){
+                posX = game.rnd.integerInRange(75, game.world.width - 75)
+                //if(posX < 75){ posX = 75}
+                if(gameActive == false){ break}
+            }
+            
+        }
         
         objToUse.alpha = 1
         objToUse.x = posX
         objToUse.y = -50
         objToUse.active = true
         objectsGroup.add(objToUse)
+        
+        //console.log(objToUse.x + ' position X')
+        
     }
     
     function createBomb(){
@@ -554,9 +591,9 @@ var chilimBalam = function(){
     
     function createItem(){
         
-        var itemNames = ['cacahuate','gomita1','gomita2','manzana','paleta','palomita1','palomita2','papa']
+        var itemName
         
-        var item = sceneGroup.create(-100,0,'atlas.chilimBalam',itemNames[Math.random()*itemNames.length - 1])
+        var item = sceneGroup.create(-100,0,'atlas.chilimBalam',itemName + game.rnd.integerInRange(1,6))
         item.anchor.setTo(0.5,0.5)
         item.tag = 'candy'
         itemList[itemList.length] = item
@@ -564,43 +601,57 @@ var chilimBalam = function(){
         return item
     }
     
-    function dropObjects(){
-                
-        if(Math.random() * 9 < 4){
-            var objToUse = null
-            Phaser.ArrayUtils.shuffle(itemList)
-            for(var i = 0;i<itemList.length;i++){
-                var item = itemList[i]
-                if(item.x< -50){
-                    objToUse = item
-                    break
-                }
-            }
-            if(objToUse == null){
-                objToUse = createBomb()
-            }
-            activateObject(objToUse)
-        }else{
-            var objToUse = null
-            for(var i = 0;i<bombsList.length;i++){
-                var bomb = bombsList[i]
-                if(bomb.x< -50){
-                    objToUse = bomb
-                    break
-                }
-            }
-            if(objToUse == null){
-                objToUse = createItem()
-            }
-            activateObject(objToUse)
-        }
+    function addBomb(){
         
         sound.play("shootBall")
         
+        var objToUse = null
+        for(var i = 0;i<bombsList.length;i++){
+            var bomb = bombsList[i]
+            if(bomb.x< -50){
+                objToUse = bomb
+                break
+            }
+        }
+        if(objToUse == null){
+            objToUse = createBomb()
+        }
+        objToUse.tag = 'obstacle'
+        activateObject(objToUse)
         
         if (gameActive == true){
-            game.time.events.add(throwTime, dropObjects , this);
+            game.time.events.add(throwTime, addBomb , this);
         }
+        
+    }
+    
+    function addItem(){
+        
+        sound.play("shootBall")
+        
+        var objToUse = null
+        Phaser.ArrayUtils.shuffle(itemList)
+        for(var i = 0;i<itemList.length;i++){
+            var item = itemList[i]
+            if(item.x< -50){
+                objToUse = item
+                break
+            }
+        }
+        if(objToUse == null){
+            objToUse = createItem()
+        }
+        activateObject(objToUse)
+        
+        if (gameActive == true){
+            game.time.events.add(throwTimeItems, addItem , this);
+        }
+    }
+    
+    function dropObjects(){
+                
+        game.time.events.add(throwTimeItems, addItem , this);
+        game.time.events.add(throwTime, addBomb , this);        
     }
     
     function createPart(key,obj){
@@ -608,7 +659,7 @@ var chilimBalam = function(){
         var particlesNumber = 2
         if(game.device.desktop == true){ 
             
-            particlesNumber = 6
+            particlesNumber = 4
             
             var particlesGood = game.add.emitter(0, 0, 100);
 
@@ -654,10 +705,10 @@ var chilimBalam = function(){
         
         itemList = []
         
-        var itemNames = ['cacahuate','gomita1','gomita2','manzana','paleta','palomita1','palomita2','papa']
+        var itemName = 'gomita'
         
-        for(var i = 0; i < itemNames.length;i++){
-            var item = sceneGroup.create(-100,0,'atlas.chilimBalam',itemNames[i])
+        for(var i = 0; i < 5;i++){
+            var item = sceneGroup.create(-100,0,'atlas.chilimBalam',itemName + (i + 1))
             item.anchor.setTo(0.5,0.5)
             item.tag = 'candy'
             itemList[itemList.length] = item
@@ -676,7 +727,7 @@ var chilimBalam = function(){
             
             var background = sceneGroup.create(0,0,'fondo')
             background.width = game.world.width
-            background.height = game.world.height
+            background.height = game.world.height * 1.02
             
             loadSounds()
 			initialize()            
@@ -686,21 +737,22 @@ var chilimBalam = function(){
             
             characterGroup = game.add.group()
             characterGroup.x = game.world.centerX
-            characterGroup.y = game.world.height - 175
+            characterGroup.y = background.height * 0.768
             sceneGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");
-            buddy.scale.setTo(1.35,1.35)
+            buddy.scale.setTo(1,1)
             characterGroup.add(buddy)
             
-            var cup = characterGroup.create(0,-175,'atlas.chilimBalam','vaso')
+            var cup = characterGroup.create(0,-120,'atlas.chilimBalam','vaso')
             cup.anchor.setTo(0.5,0.5)
+            //cup.scale.setTo(0.7,0.7)
             characterGroup.cup = cup
             
             buddy.setAnimationByName(0, "IDLE", true);
             buddy.setSkinByName('normal');
             
-            createTime()
+            //createTime()
             createPointsBar()
             createHearts()
             

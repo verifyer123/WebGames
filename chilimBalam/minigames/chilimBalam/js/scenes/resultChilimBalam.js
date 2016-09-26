@@ -66,10 +66,10 @@ var resultChilimBalam = function(){
 
 	var timeGoal = null
 
-	function setScore(timeScore, didWin, score){
+	function setScore(didWin, score){
 		totalScore = score
 		totalGoal = 50
-		totalTime = timeScore
+		totalTime = 0
         win = didWin
         mixpanel.track(
             "finishGame",

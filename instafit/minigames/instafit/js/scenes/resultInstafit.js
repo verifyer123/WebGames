@@ -99,6 +99,12 @@ var resultInstafit = function(){
         
         var imagesList = ['novata','dormir','socialite','fit']
 		button.label.text = localization.getString(localizationData, "retry")
+        
+        mixpanel.track(
+            "pressFacebook",
+            {"gameName": "quizInstafit"}
+        );
+        
 		FB.ui({
 		    method: 'share',
 		    href: 'http://yogome.com/g/instafit/',
