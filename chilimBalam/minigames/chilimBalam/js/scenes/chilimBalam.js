@@ -605,24 +605,38 @@ var chilimBalam = function(){
     
     function createPart(key,obj){
         
-        var particlesGood = game.add.emitter(0, 0, 100);
+        var particlesNumber = 2
+        if(game.device.desktop == true){ 
+            
+            particlesNumber = 6
+            
+            var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.chilimBalam',key);
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.2;
-        particlesGood.maxParticleScale = 1;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
+            particlesGood.makeParticles('atlas.chilimBalam',key);
+            particlesGood.minParticleSpeed.setTo(-200, -50);
+            particlesGood.maxParticleSpeed.setTo(200, -100);
+            particlesGood.minParticleScale = 0.2;
+            particlesGood.maxParticleScale = 1;
+            particlesGood.gravity = 150;
+            particlesGood.angularDrag = 30;
+
+            particlesGood.x = obj.world.x;
+            particlesGood.y = obj.world.y - 50;
+            particlesGood.start(true, 1000, null, particlesNumber);
+
+            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+            sceneGroup.add(particlesGood)
+
+            return particlesGood
+        }else{
+            key+='Part'
+            var particle = sceneGroup.create(obj.world.x,obj.world.y - 60,'atlas.chilimBalam',key)
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1.2,1.2)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
+        }
         
-        particlesGood.x = obj.world.x;
-        particlesGood.y = obj.world.y - 50;
-        particlesGood.start(true, 1000, null, 6);
-        
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
-        
-        return particlesGood
     }
     
     function createParticles(){
@@ -634,7 +648,7 @@ var chilimBalam = function(){
         
         bombsList = []
         
-        for(var i = 0;i<10;i++){
+        for(var i = 0;i<5;i++){
             createBomb()
         }
         

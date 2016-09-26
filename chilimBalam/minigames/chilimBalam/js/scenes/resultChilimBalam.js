@@ -73,7 +73,7 @@ var resultChilimBalam = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "chilimBalam", "win":didWin}
+            {"gameName": "chilimBalam", "win":didWin, "numberOfObjects":score}
         );
 	}
 
@@ -295,6 +295,11 @@ var resultChilimBalam = function(){
 		else{
 			window.open(urls.ios)		
 		}
+        
+        mixpanel.track(
+            "pressEpicPromo",
+            {"gameName": "chilimBalam"}
+        );
 	}
 
 	function createScene(){
