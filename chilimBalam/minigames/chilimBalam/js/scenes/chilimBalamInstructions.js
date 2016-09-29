@@ -22,52 +22,70 @@ var chilimBalamInstructions = function(){
                 image: "images/instructions/atlas.png",
             },
         ],
+        images: [
+            {   name:"background",
+				file: "images/instructions/back.png"},
+		],
+        sounds: [
+            {	name: "click",
+				file: "sounds/pop.mp3"},
+        ],
 	}
 
 	var sceneGroup
 
-
+    
+    function loadSounds(){
+		sound.decode(assets.sounds)
+	}
+    
 	function createInstructions(){
         
         var game = sceneGroup.game
 		var circleGroup = new Phaser.Group(sceneGroup.game)
         
-        var fontStyle = {font: "60px VAGRounded", fill: "#ffffff", align: "center"}
+        var platform = 'desktop'
         
-        var titleText = new Phaser.Text(sceneGroup.game, 0, 0, 'Agarra los dulces', fontStyle)
-		titleText.anchor.setTo(0.5, 0.5)
-        titleText.y = -275
-		circleGroup.add(titleText)
+        if(game.device.desktop == false){
+            platform = 'android'
+        }
         
-        
-		var fontStyle = {font: "35px VAGRounded", fill: "#ffffff", align: "center"}
+        var instruction = circleGroup.create(0,0,'atlas.instructions',platform)
+        instruction.anchor.setTo(0.5,0.5)
 
 		return circleGroup
 	}
 
-	function startGame(){
+	function startGame(obj){
+        
+        sound.play("click")
+        
+        var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 100, Phaser.Easing.Cubic.In, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(obj.scale).to({x:1,y:1}, 300, Phaser.Easing.Cubic.Out, true)
+            
+            var alphaTween = game.add.tween(sceneGroup).to({alpha:0},500, Phaser.Easing.Cubic.Out, true,500)
+            alphaTween.onComplete.add(function(){
+                sceneloader.show("chilimBalam")
+            })
+            
+        })
+        
         mixpanel.track(
             "enterGame",
             {"gameName": "chilimBalam"}
         );
-        //console.log(location.host + ' userIp')
-		sceneloader.show("chilimBalam")
+		
 	}
 
 	function createButton(){
 		var buttonGroup = new Phaser.Group(sceneGroup.game)
 
-		var buttonSprite = buttonGroup.create(0, 0, 'atlas.instructions','button')
+		var buttonSprite = buttonGroup.create(0, 0, 'atlas.instructions','okbtn')
 		buttonSprite.anchor.setTo(0.5, 0.5)
 
 		buttonSprite.inputEnabled = true
 		buttonSprite.events.onInputUp.add(startGame, this)
-
-		var fontStyle = {font: "60px VAGRounded", fill: "#ffffff", align: "center"}
-
-		var label = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData, "go"), fontStyle)
-		label.anchor.setTo(0.5, 0.5)
-		buttonGroup.add(label)
 
 		return buttonGroup
 	}
@@ -92,20 +110,32 @@ var chilimBalamInstructions = function(){
 	function createScene(){
 
 		sceneGroup = game.add.group()
-
+        
+        var background = sceneGroup.create(0,0,'background')
+        background.width = game.world.width
+        background.height = game.world.height
+        
 		var circleInstructions = createInstructions()
 		circleInstructions.x = game.world.centerX
 		circleInstructions.y = game.world.centerY 
 		sceneGroup.add(circleInstructions)
-
+        
+        var bottomRect = new Phaser.Graphics(game)
+        bottomRect.beginFill(0xffffff);
+        bottomRect.drawRect(0, game.world.height, game.world.width, -game.world.height * 0.125);
+        bottomRect.endFill();
+        bottomRect.anchor.setTo(0,1)
+        sceneGroup.add(bottomRect)
+        
 		var buttonGo = createButton()
 		buttonGo.x = game.world.centerX
-		buttonGo.y = game.world.height * 0.5
+		buttonGo.y = game.world.height * 0.94
 		sceneGroup.add(buttonGo)
             
 	}
 
 	function initialize(){
+        loadSounds()
         mixpanel.track(
             "loadGame",
             {"gameName": "chilimBalam"}

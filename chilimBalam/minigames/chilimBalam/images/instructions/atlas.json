@@ -1,21 +1,30 @@
 {"frames": [
 
 {
-	"filename": "button",
-	"frame": {"x":1,"y":1,"w":278,"h":109},
+	"filename": "android",
+	"frame": {"x":1,"y":1,"w":471,"h":958},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":278,"h":109},
-	"sourceSize": {"w":278,"h":109},
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":3,"w":471,"h":958},
+	"sourceSize": {"w":541,"h":961},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "icon",
-	"frame": {"x":1,"y":112,"w":238,"h":238},
+	"filename": "desktop",
+	"frame": {"x":1,"y":961,"w":471,"h":958},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":3,"w":471,"h":958},
+	"sourceSize": {"w":541,"h":961},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "okbtn",
+	"frame": {"x":1,"y":1921,"w":133,"h":98},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":238,"h":238},
-	"sourceSize": {"w":238,"h":238},
+	"spriteSourceSize": {"x":0,"y":0,"w":133,"h":98},
+	"sourceSize": {"w":133,"h":98},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -23,8 +32,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":280,"h":351},
+	"size": {"w":473,"h":2020},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c3c0d2f2a59c170c3498727065c810a4:fd17cf3ceeb45548f35c124c97a6c57f:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:4622ae4a3141fdc1b16e304e96b54155:871766be74569464221b78c132a03d48:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

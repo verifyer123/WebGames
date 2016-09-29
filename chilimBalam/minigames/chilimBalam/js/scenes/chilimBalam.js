@@ -140,6 +140,7 @@ var chilimBalam = function(){
     var buttonPressed = null
     var bombsList, itemList
     var throwTimeItems
+    var tooMuch
     
 
 	function loadSounds(){
@@ -155,8 +156,9 @@ var chilimBalam = function(){
         moveRight = false
         throwTime = OBJ_TIME
         throwTimeItems = ITEM_TIME
-        lives = 3
+        lives = 1
         buttonPressed = false
+        tooMuch = false
         
 	}
     
@@ -208,7 +210,7 @@ var chilimBalam = function(){
                 finalTween.onComplete.add(function(){
                     gameActive = true
                     //timer.start()
-                    game.time.events.add(throwTime, dropObjects , this);
+                    game.time.events.add(throwTime *0.1, dropObjects , this);
                     //objectsGroup.timer.start()
                 })
             })
@@ -303,6 +305,8 @@ var chilimBalam = function(){
     
     function createControls(){
         
+        var spaceButtons = 220
+        
         var bottomRect = new Phaser.Graphics(game)
         bottomRect.beginFill(0xffffff);
         bottomRect.drawRect(0, game.world.height, game.world.width, -game.world.height * 0.175);
@@ -310,13 +314,13 @@ var chilimBalam = function(){
         bottomRect.anchor.setTo(0,1)
         sceneGroup.add(bottomRect)
         
-        var button1 = sceneGroup.create(game.world.centerX - 215, game.world.height - 155, 'atlas.chilimBalam','boton')
+        var button1 = sceneGroup.create(game.world.centerX - spaceButtons, game.world.height - 155, 'atlas.chilimBalam','boton')
         button1.inputEnabled = true
         button1.events.onInputDown.add(inputButton)
         button1.tag = 'left'
         button1.events.onInputUp.add(releaseButton)
         
-        var button2 = sceneGroup.create(game.world.centerX + 215, game.world.height - 155, 'atlas.chilimBalam','boton')
+        var button2 = sceneGroup.create(game.world.centerX + spaceButtons, game.world.height - 155, 'atlas.chilimBalam','boton')
         button2.scale.x = -1
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
@@ -367,7 +371,7 @@ var chilimBalam = function(){
         pointsBar.text.setText(pointsBar.number)
         
         GRAVITY_OBJECTS+=0.2
-        throwTime-=20
+        throwTime-=17
         //throwTimeItems-=10
         
     }
@@ -377,10 +381,14 @@ var chilimBalam = function(){
         sound.play("wrong")
         
         lives--;
-        changeImage(0,heartsGroup.children[lives])
+        //changeImage(0,heartsGroup.children[lives])
+        heartsGroup.text.setText('X ' + lives)
+        //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
+        
         if(lives == 0){
             stopGame(false)
         }
+        
     }
     
     function deactivateObject(obj){
@@ -413,7 +421,7 @@ var chilimBalam = function(){
                 if(obj.tag == 'candy'){
                     //missPoint()
                     createPart('drop',obj)
-                    sound.play("splash")
+                    //sound.play("splash")
                 }else if(obj.tag == 'obstacle'){
                     createPart('smoke',obj)
                     sound.play("explode")
@@ -437,7 +445,7 @@ var chilimBalam = function(){
             if(buttonPressed == false){
                 buddy.setAnimationByName(0, "RUN", 0.8);
             }
-            buttonPressed = true
+            buttonPressed = true 
             moveChLeft()
             characterGroup.scale.x = -1
         }else if(rightKey.isDown){
@@ -501,8 +509,8 @@ var chilimBalam = function(){
         
         var pointsImg = pointsBar.create(0,10,'atlas.chilimBalam','xpcoins')
         pointsImg.x = game.world.width - pointsImg.width * 1.2
-        pointsImg.width *=1.1
-        pointsImg.height*=1.1
+        pointsImg.width *=1
+        pointsImg.height*=1
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
@@ -523,17 +531,25 @@ var chilimBalam = function(){
         
         
         var pivotX = 15
-        for(var i = 0; i <3; i++){
-            var group = game.add.group()
-            group.x = pivotX
-            heartsGroup.add(group)
-            
-            group.create(0,0,'atlas.chilimBalam','heartsempty')
-            
-            group.create(0,0,'atlas.chilimBalam','heartsfull')
-            
-            pivotX+= 55
-        }
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        group.create(0,0,'atlas.chilimBalam','life_box')
+
+        pivotX+= 47
+        
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = 2
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
     }
     
      function updateSeconds(){
@@ -657,9 +673,15 @@ var chilimBalam = function(){
     function createPart(key,obj){
         
         var particlesNumber = 2
-        if(game.device.desktop == true){ 
+        
+        //console.log('fps ' + game.time.fps)
+        if (game.time.fps < 45 && tooMuch == false){
+            tooMuch = true
+        }
+        
+        if(game.device.desktop == true && tooMuch == false){ 
             
-            particlesNumber = 4
+            particlesNumber = 3
             
             var particlesGood = game.add.emitter(0, 0, 100);
 
@@ -745,6 +767,7 @@ var chilimBalam = function(){
             characterGroup.add(buddy)
             
             var cup = characterGroup.create(0,-120,'atlas.chilimBalam','vaso')
+            cup.alpha = 0
             cup.anchor.setTo(0.5,0.5)
             //cup.scale.setTo(0.7,0.7)
             characterGroup.cup = cup
@@ -753,9 +776,17 @@ var chilimBalam = function(){
             buddy.setSkinByName('normal');
             
             //createTime()
+            
+            var topRect = new Phaser.Graphics(game)
+            topRect.beginFill(0xffffff);
+            topRect.drawRect(0, 0, game.world.width, 60);
+            topRect.endFill();
+            topRect.anchor.setTo(0,0)
+            sceneGroup.add(topRect)
+            
             createPointsBar()
             createHearts()
-            
+                        
             /*var button1 = this.game.add.button(20, 20, 'button1', function () {
                 button1.scale.setTo(0.5,0.5)
                 buddy.setSkinByName('normal');
