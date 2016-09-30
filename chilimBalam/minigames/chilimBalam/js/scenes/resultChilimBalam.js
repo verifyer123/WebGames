@@ -55,7 +55,10 @@ var resultChilimBalam = function(){
 		images: [
 			
 		],
-		sounds: [],
+		sounds: [
+            {	name: "click",
+				file: "sounds/pop.mp3"},
+        ],
 	}
 
 	var sceneGroup
@@ -63,6 +66,8 @@ var resultChilimBalam = function(){
 	var totalScore, totalTime, totalGoal
 	var shareButton, shareText, tryAgainText
     var win
+    var iconsGroup
+    var buttonsActive
 
 	var timeGoal = null
 
@@ -76,27 +81,18 @@ var resultChilimBalam = function(){
             {"gameName": "chilimBalam", "win":didWin, "numberOfObjects":score}
         );
 	}
-
-	function createTimer(timeScore){
-		var timerGroup = new Phaser.Group(sceneGroup.game)
-
-		var timerContainer = timerGroup.create(0, 0, 'atlas.resultScreen','timer')
-        timerContainer.width
-		timerContainer.anchor.setTo(0.5, 0.5)
-
-		var textStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#c41d0f", align : "center"}
-
-		var timerLabel = new Phaser.Text(sceneGroup.game, 0, 0, timeScore, textStyle)
-		timerLabel.anchor.setTo(0, 0.5)
-		timerLabel.centerX = timerContainer.x + (timerContainer.width) * 0.135
-		timerLabel.y = timerContainer.y + (timerContainer.height) * 0.1
-		timerGroup.add(timerLabel)
-        
-        if(win == false){
-            timerLabel.text = "--"
+    
+    function changeImage(index,group){
+        for (var i = 0;i< group.length; i ++){
+            group.children[i].alpha = 0
+            if( i == index){
+                group.children[i].alpha = 1
+            }
         }
-
-		return timerGroup
+    }
+    
+    function loadSounds(){
+		sound.decode(assets.sounds)
 	}
 
 	function createAnswerCounter(totalAnswered, totalQuestions){
@@ -132,110 +128,19 @@ var resultChilimBalam = function(){
 		return containerGroup
 	}
 
-	function createSpeedometer(){
-		var speedometerGroup = new Phaser.Group(game)
-
-		var texts = [
-			{
-				label: localization.getString(localizationData, "sluggish"),
-				color: "#33ace0"},
-			{
-				label: localization.getString(localizationData, "average"),
-				color: "#e97800"},
-			{
-				label: localization.getString(localizationData, "speedy"),
-				color: "#d70e6a"}
-		]
-
-		var background = speedometerGroup.create(0, 0, 'atlas.resultScreen', 'speedometer') 
-		background.anchor.setTo(0.5, 0.5)
-
-		var arrow = speedometerGroup.create(0, 0, 'atlas.resultScreen', 'arrow')
-		arrow.anchor.setTo(0.5, 0.9)
-
-		arrow.y = background.height * 0.4
-
-		var radius = background.width * 0.7
-		var angleStep = (Math.PI) / 3
-
-		var startOffset = angleStep * 0.5
-		var startAngle = -Math.PI + startOffset
-
-		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-
-		for(var indexLabel = 0; indexLabel < texts.length; indexLabel++){
-			var currentText = texts[indexLabel]
-
-			var labelPosX = Math.cos(startAngle + (angleStep * indexLabel)) * radius
-			var labelPosY = Math.sin(startAngle + (angleStep * indexLabel)) * radius
-
-			fontStyle.fill = currentText.color
-
-			var text = new Phaser.Text(game, 0, 0, currentText.label, fontStyle)
-			text.anchor.setTo(0.5, 0.5)
-			text.x = arrow.x + labelPosX
-			text.y = arrow.y + labelPosY + (background.height * 0.3)
-
-			speedometerGroup.add(text)
-		}
-
-		fontStyle.fill = "#929292"
-		var totalSpeed = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourSpeed")+(totalScore/totalScore).toFixed(2)+localization.getString(localizationData, "secPerAnswer"), fontStyle)
-		totalSpeed.anchor.setTo(0.5, 0.5)
-		totalSpeed.x = background.x 
-		totalSpeed.y = background.y + (background.height * 0.78)
-        
-        if (win == false) {
-            totalSpeed.text = ""
-        }
-
-		speedometerGroup.add(totalSpeed)
-
-		speedometerGroup.setScore = function(scoreRange){
-			scoreRange = scoreRange >= 1 ? 1 : scoreRange
-			var startAngle = -(Math.PI * 0.5)
-			var endAngle = startAngle + (totalScore * 180) / totalGoal
-            endAngle = startAngle + (totalScore * (Math.PI * 0.5)) / totalGoal
-			arrow.rotation = startAngle
-            
-            if(win == false){
-                endAngle = startAngle
-            }
-
-			var tween = game.add.tween(arrow).to({rotation: endAngle})
-			tween.onComplete.addOnce(function(){
-				tween = game.add.tween(arrow).to({rotation: arrow.rotation + Math.PI * 0.05}, 100, "Linear", true, 0, -1)
-				tween.yoyo(true, 0)	
-			}, this)
-			tween.start()
-		}
-
-		return speedometerGroup
-	}
 
 	function shareEvent(){
-		var button = this
-		button.share.visible = false
-		button.share.inputEnabled = false
-
-		button.retry.visible = true
-		button.retry.inputEnabled = true
         
         mixpanel.track(
             "pressFacebook",
             {"gameName": "chilimBalam"}
         );
         
-		button.label.text = localization.getString(localizationData, "retry")
 		FB.ui({
 		    method: 'share',
 		    href: 'http://yogome.com/g/chilimBalam/',
 		    mobile_iframe: true,
-		    quote: localization.getString(localizationData, "answeredTotal")+
-		    		totalScore+
-		    		localization.getString(localizationData, "questionsIn")+
-		    		totalTime+
-		    		localization.getString(localizationData, "seconds")
+		    quote: "Mi score es: " + totalScore
 		}, function(response){
 			//console.log(button)
 		});
@@ -301,95 +206,187 @@ var resultChilimBalam = function(){
             {"gameName": "chilimBalam"}
         );
 	}
+    
+    function inputButton(obj){
+        
+        var parent = obj.parent
+        
+        changeImage(0,parent)
+        sound.play("click")
+        
+        var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 200, Phaser.Easing.Cubic.In, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(obj.scale).to({x:1,y:1}, 200, Phaser.Easing.Cubic.Out, true)
+            changeImage(1,parent)
+            
+            if(parent.tag == 'share'){
+                shareEvent()
+            }else if(parent.tag == 'reload'){
+                var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
+                    alphaTween.onComplete.add(function(){
+                        sceneloader.show("chilimBalam")
+                    })
+            }
+        })
+                                  
+    }
+    
+    function createButtons(){
+        
+        var buttonsGroup = game.add.group()
+        sceneGroup.add(buttonsGroup)
+        
+        var buttonNames = ['share','reload','send']
+        
+        var buttonTexts = ['Compartir','Reintentar','Mandar']
+        
+        var pivotX = game.world.centerX - 150
+        var pivotY = game.world.height * 0.85
+        for(var i = 0;i<buttonNames.length;i++){
+            
+            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#9d9d9c", align: "center"}
+        
+            var retryText = new Phaser.Text(sceneGroup.game, 0, 5, buttonTexts[i], fontStyle)
+            retryText.anchor.setTo(0.5,0.5)
+            retryText.x = pivotX
+            retryText.y = pivotY + 83   
+            buttonsGroup.add(retryText)
+        
+            var group = game.add.group()
+            group.x = pivotX
+            group.y = pivotY
+            buttonsGroup.add(group)
+            
+            group.tag = buttonNames[i]
+            
+            pivotX += 150
+        
+            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_purp')
+            button1.anchor.setTo(0.5,0.5)
+            
+            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_gray')
+            button2.anchor.setTo(0.5,0.5)
+            
+            button1.inputEnabled = true
+            button1.events.onInputDown.add(inputButton)
+            
+            changeImage(1,group)
+        }
 
+    }
+    
+    function inputGame(obj){
+        
+        sound.play("click")
+        
+        if(buttonsActive == false){
+            return
+        }
+        
+        buttonsActive = false
+        
+        game.time.events.add(350, function(){
+            if(obj.tag == 'mathquiz'){
+                window.open('http://yogome.com/g/m6/es/','_self')
+            }else if(obj.tag == 'pianotiles'){
+                window.open('http://yogome.com/g/pianotiles/es/','_self')
+            }else if(obj.tag == 'instafit'){
+                window.open('http://www.yogome.com/g/instafit/','_self')
+            }  
+        } , this);
+    
+    }
+    
+    function createIcons(){
+        
+        iconsGroup = game.add.group()
+        sceneGroup.add(iconsGroup)
+        
+        var pivotX = game.world.centerX - 174
+        var pivotY = game.world.centerY +65
+        
+        var iconNames = ['mathquiz','pianotiles','instafit']
+        var gameNames = ['Math Quiz', 'Piano Tiles', 'Instafit']
+        for(var i = 0;i<iconNames.length;i++){
+            
+            var group = game.add.group()
+            group.x = pivotX
+            group.y = pivotY
+            iconsGroup.add(group)
+            
+            var img = group.create(0,0,'atlas.resultScreen',iconNames[i] + '_icon')
+            img.anchor.setTo(0.5,0.5)
+            img.inputEnabled = true
+            img.events.onInputDown.add(inputGame)
+            img.tag = iconNames[i]
+            
+            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+            var nameText = new Phaser.Text(sceneGroup.game, 0, 95, gameNames[i], fontStyle)
+            nameText.anchor.setTo(0.5,0.5)
+            group.add(nameText)  
+            
+            pivotX+=172
+            
+            buttonsActive = true
+            
+        }
+    }
+    
 	function createScene(){
+        
+        loadSounds()
+        
 		sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
-
-		game.stage.backgroundColor = "#FFFFFF"
-
-		var topRect = new Phaser.Graphics(game)
-		topRect.beginFill(0xededed);
-		topRect.drawRect(0, 0, game.world.width, game.world.height * 0.45);
-		topRect.endFill();
-
-		sceneGroup.add(topRect)
-
-		var shadowHeader = sceneGroup.create(0, 0, 'atlas.resultScreen', 'shadow')
-		shadowHeader.anchor.setTo(0.5, 0.5)
-		shadowHeader.width = game.world.width
-		shadowHeader.x = game.world.centerX
-		shadowHeader.y = game.world.height * 0.1
-
-		topRect.y = shadowHeader.y - (shadowHeader.height * 0.5)
         
-        var textToUse = "goodJob"
+        var background = new Phaser.Graphics(game)
+        background.beginFill(0x645f5e);
+        background.drawRect(0, 0, game.world.width, game.world.height);
+        background.endFill();
+        background.anchor.setTo(0,0)
+        sceneGroup.add(background)
         
-        if (win == false){
-            textToUse = "dontGiveUp"
-        }
-		var headerText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, textToUse), {font: "50px VAGRounded", fontWeight: "bold", fill: "#0085c8", align: "center"})
-		headerText.anchor.setTo(0.5, 0.5)
-		headerText.x = game.world.centerX
-		headerText.y = shadowHeader.y * 0.5
-		sceneGroup.add(headerText)
-
-		var timerSprite = createAnswerCounter(totalScore, totalGoal)
-		timerSprite.x = game.world.width * 0.5
-		timerSprite.y = game.world.height * 0.15
-		sceneGroup.add(timerSprite)
-
-		var scoreSprite = createTimer(totalTime)
-		scoreSprite.x = timerSprite.x + timerSprite.width
-		scoreSprite.y = timerSprite.y 
-		sceneGroup.add(scoreSprite)
-
-		var scoreText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "yourScore"), {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"})
-		scoreText.anchor.setTo(1, 0.5)
-		scoreText.x = timerSprite.x - (timerSprite.width * 0.5)
-		scoreText.y = timerSprite.y + (timerSprite.height * 0.1)
-		sceneGroup.add(scoreText)
-
-		var speedometer = createSpeedometer()
-		speedometer.x = game.world.centerX
-		speedometer.y = game.world.height * 0.35
-		sceneGroup.add(speedometer)
-
-		shareButton = createShareButton()
-		shareButton.x = game.world.centerX
-		shareButton.y = game.world.height * 0.635
-		sceneGroup.add(shareButton)
-
-		shareText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "weKnow"), {font: "35px VAGRounded", fill: "#3949ab", align: "center"})
-		shareText.anchor.setTo(0.5, 0.5)
-		shareText.x = shareButton.x
-		shareText.y = shareButton.y - (shareButton.height * 0.7)
-		sceneGroup.add(shareText)
-
-		tryAgainText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "tryAgain"), {font: "35px VAGRounded", fill: "#3949ab", align: "center"})
-		tryAgainText.anchor.setTo(0.5, 0.5)
-		tryAgainText.x = shareButton.x
-		tryAgainText.y = shareButton.y + (shareButton.height * 0.75)
-		sceneGroup.add(tryAgainText)
-
-		var yogomePromo = sceneGroup.create(0, 0, 'atlas.ads', localization.getString(localizationData, "assetPromo"))
-		yogomePromo.anchor.setTo(0.5, 1)
-		yogomePromo.x = game.world.centerX
-		yogomePromo.y = game.world.height
-
-		yogomePromo.inputEnabled = true
-		yogomePromo.events.onInputUp.add(showPromo)
-
-		speedometer.setScore(timeGoal / totalTime)
-
-		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500)
-		tweenScene.start()
+        var fontStyle = {font: "37px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var retryText = new Phaser.Text(sceneGroup.game, 0, 5, "¡Sigue intentando!", fontStyle)
+        retryText.anchor.setTo(0.5,0.5)
+        retryText.x = game.world.centerX
+        retryText.y = game.world.centerY - 300
+        sceneGroup.add(retryText)
+        
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var retryText = new Phaser.Text(sceneGroup.game, 0, 5, "Tu score es:", fontStyle)
+        retryText.anchor.setTo(0.5,0.5)
+        retryText.x = game.world.centerX
+        retryText.y = game.world.centerY - 200
+        sceneGroup.add(retryText)
+        
+        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#79b6b9", align: "center"}
+        
+        var scoreText = new Phaser.Text(sceneGroup.game, 0, 5, totalScore + " pts", fontStyle)
+        scoreText.anchor.setTo(0.5,0.5)
+        scoreText.x = game.world.centerX
+        scoreText.y = game.world.centerY - 100
+        sceneGroup.add(scoreText)
+        
+        var bottomBar = new Phaser.Graphics(game)
+        background.beginFill(0xffffff);
+        background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.27);
+        background.endFill();
+        background.anchor.setTo(0,1)
+        sceneGroup.add(background)
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
+        
+        createButtons()
+        createIcons()
 
 		
 	}
 
 	function initialize(){
-		totalScore = totalScore 
+		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
 	}

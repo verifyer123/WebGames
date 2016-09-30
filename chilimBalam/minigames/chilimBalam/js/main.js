@@ -54,6 +54,7 @@ function startGame(){
             }else{
                 language = "EN"
             }
+            language = "ES"
             
         }
 

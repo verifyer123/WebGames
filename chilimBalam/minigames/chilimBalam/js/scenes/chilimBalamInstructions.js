@@ -60,11 +60,11 @@ var chilimBalamInstructions = function(){
         
         sound.play("click")
         
-        var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 100, Phaser.Easing.Cubic.In, true)
+        var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 100, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
-            game.add.tween(obj.scale).to({x:1,y:1}, 300, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(obj.scale).to({x:1,y:1}, 300, Phaser.Easing.linear, true)
             
-            var alphaTween = game.add.tween(sceneGroup).to({alpha:0},500, Phaser.Easing.Cubic.Out, true,500)
+            var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
                 sceneloader.show("chilimBalam")
             })
@@ -141,7 +141,7 @@ var chilimBalamInstructions = function(){
             {"gameName": "chilimBalam"}
         );
         
-		game.stage.backgroundColor = "#38b0f6"
+		//game.stage.backgroundColor = "#38b0f6"
         //game.stage.backgroundColor = "#aea1ff"
 	}
 
