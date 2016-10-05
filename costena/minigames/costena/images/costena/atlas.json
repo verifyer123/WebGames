@@ -1,0 +1,129 @@
+{"frames": [
+
+{
+	"filename": "atras",
+	"frame": {"x":384,"y":1,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "chiles",
+	"frame": {"x":168,"y":302,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "duraznos",
+	"frame": {"x":1,"y":345,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "frijoles",
+	"frame": {"x":294,"y":302,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "goEs",
+	"frame": {"x":1,"y":168,"w":400,"h":132},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":20,"w":400,"h":132},
+	"sourceSize": {"w":400,"h":173},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "life_box",
+	"frame": {"x":1,"y":475,"w":105,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
+	"sourceSize": {"w":105,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pinas",
+	"frame": {"x":127,"y":432,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "readyEs",
+	"frame": {"x":1,"y":1,"w":381,"h":165},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":0,"w":381,"h":165},
+	"sourceSize": {"w":400,"h":165},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "salsaRoja",
+	"frame": {"x":253,"y":432,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "salsaVerde",
+	"frame": {"x":379,"y":432,"w":124,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":128},
+	"sourceSize": {"w":124,"h":128},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":403,"y":131,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":403,"y":197,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":1,"y":302,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":509,"h":561},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:dc59833d67ad42d66a4f20c83787a612:de20f1f04e8037cf1431b2ef20089c07:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
