@@ -451,6 +451,8 @@ var openEnglish = function(){
                 
                 if(tagsToUse[randomNums[i]].length > 8){
                     fontSize = 27
+                }else if(tagsToUse[randomNums[i]].length > 11){
+                    fontSize = 24
                 }
                 
                 var fontStyle = {font: fontSize+"px VAGRounded", fontWeight: "bold", fill: "#00000", align: "center"}

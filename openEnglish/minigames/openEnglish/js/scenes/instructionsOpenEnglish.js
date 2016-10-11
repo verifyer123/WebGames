@@ -146,8 +146,11 @@ var instructionsOpenEnglish = function(){
         
 		var buttonGo = createButton()
 		buttonGo.x = game.world.centerX
-		buttonGo.y = game.world.height * 0.85
+		buttonGo.y = game.world.height * 0.8
 		sceneGroup.add(buttonGo)
+        
+        var botAd = sceneGroup.create(game.world.centerX, game.world.height,'atlas.instructions','LogoPie')
+        botAd.anchor.setTo(0.5,1)
             
 	}
 
@@ -158,7 +161,7 @@ var instructionsOpenEnglish = function(){
             {"gameName": "memoOpen"}
         );
         
-		game.stage.backgroundColor = "#67b2e7"
+		//game.stage.backgroundColor = "#67b2e7"
         //game.stage.backgroundColor = "#aea1ff"
 	}
 

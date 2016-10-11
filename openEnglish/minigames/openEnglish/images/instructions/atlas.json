@@ -1,8 +1,17 @@
 {"frames": [
 
 {
+	"filename": "atlas",
+	"frame": {"x":1,"y":1,"w":448,"h":562},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":448,"h":562},
+	"sourceSize": {"w":448,"h":562},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "cursor",
-	"frame": {"x":1,"y":72,"w":84,"h":70},
+	"frame": {"x":899,"y":292,"w":84,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":70},
@@ -11,16 +20,25 @@
 },
 {
 	"filename": "instruccionesCartas",
-	"frame": {"x":1,"y":166,"w":387,"h":395},
+	"frame": {"x":451,"y":106,"w":387,"h":419},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":387,"h":395},
-	"sourceSize": {"w":387,"h":395},
+	"spriteSourceSize": {"x":0,"y":0,"w":387,"h":419},
+	"sourceSize": {"w":387,"h":419},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "LogoPie",
+	"frame": {"x":451,"y":1,"w":539,"h":103},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":539,"h":103},
+	"sourceSize": {"w":539,"h":103},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "manita",
-	"frame": {"x":249,"y":72,"w":93,"h":92},
+	"frame": {"x":899,"y":198,"w":93,"h":92},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":92},
@@ -29,7 +47,7 @@
 },
 {
 	"filename": "okbtn",
-	"frame": {"x":87,"y":72,"w":160,"h":90},
+	"frame": {"x":840,"y":106,"w":160,"h":90},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
@@ -38,7 +56,7 @@
 },
 {
 	"filename": "tituloInstrucciones",
-	"frame": {"x":1,"y":1,"w":446,"h":69},
+	"frame": {"x":451,"y":527,"w":446,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":446,"h":69},
@@ -50,8 +68,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":448,"h":562},
+	"size": {"w":1001,"h":597},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:d9c08479dd2959b512aecfd6c29eee44:f306cbc8de6ba76b80e7a5fc8e02ac07:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:8abc5fe0bec5a90a42ad8ca4ffdc335e:51ce7a3a23bf230936d462f41b64450c:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
