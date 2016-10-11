@@ -78,7 +78,7 @@ var resultCostena = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "chilimBalam", "win":didWin, "numberOfObjects":score}
+            {"gameName": "memoCostena", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -133,12 +133,12 @@ var resultCostena = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "chilimBalam"}
+            {"gameName": "memoCostena"}
         );
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/chilimBalam/',
+		    href: 'http://yogome.com/g/costena/',
 		    mobile_iframe: true,
 		    quote: "Mi score es: " + totalScore
 		}, function(response){
@@ -203,7 +203,7 @@ var resultCostena = function(){
         
         mixpanel.track(
             "pressEpicPromo",
-            {"gameName": "chilimBalam"}
+            {"gameName": "memoCostena"}
         );
 	}
     
@@ -214,9 +214,9 @@ var resultCostena = function(){
         changeImage(0,parent)
         sound.play("click")
         
-        var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 200, Phaser.Easing.Cubic.In, true)
+        var scaleTween = game.add.tween(parent.scale).to({x:0.8,y:0.8}, 200, Phaser.Easing.Cubic.In, true)
         scaleTween.onComplete.add(function(){
-            game.add.tween(obj.scale).to({x:1,y:1}, 200, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(parent.scale).to({x:1,y:1}, 200, Phaser.Easing.Cubic.Out, true)
             changeImage(1,parent)
             
             if(parent.tag == 'share'){

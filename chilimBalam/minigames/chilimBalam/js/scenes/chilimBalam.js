@@ -190,35 +190,30 @@ var chilimBalam = function(){
 		readySign.y = game.world.centerY - 50
 		startGroup.add(readySign)
         
-        sound.play("ready_es")
         
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         
-		var tweenSign = game.add.tween(readySign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true,500)
+            
+            
+        var goSign = startGroup.create(0, 0, "atlas.chilimBalam", 'goEs')
+        goSign.alpha = 0
+        goSign.anchor.setTo(0.5, 0.5)
+        goSign.x = game.world.centerX
+        goSign.y = game.world.centerY - 50
+        startGroup.add(goSign)
+
+        var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
         tweenSign.onComplete.add(function(){
-            game.add.tween(readySign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-            
-            
-            var goSign = startGroup.create(0, 0, "atlas.chilimBalam", 'goEs')
-            goSign.alpha = 0
-            goSign.anchor.setTo(0.5, 0.5)
-            goSign.x = game.world.centerX
-            goSign.y = game.world.centerY - 50
-            startGroup.add(goSign)
-            
-            var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
-            tweenSign.onComplete.add(function(){
-                sound.play("go_es")
-                
-                var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-                game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-                finalTween.onComplete.add(function(){
-                    gameActive = true
-                    //timer.start()
-                    game.time.events.add(throwTime *0.1, dropObjects , this);
-                    //objectsGroup.timer.start()
-                })
+            sound.play("go_es")
+
+            var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
+            game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
+            finalTween.onComplete.add(function(){
+                gameActive = true
+                //timer.start()
+                game.time.events.add(throwTime *0.1, dropObjects , this);
+                //objectsGroup.timer.start()
             })
         })
     }

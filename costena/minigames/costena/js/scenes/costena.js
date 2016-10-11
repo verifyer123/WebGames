@@ -35,6 +35,8 @@ var costena = function(){
 		sounds: [
             {	name: "pop",
 				file: "sounds/magic.mp3"},
+            {	name: "combo",
+				file: "sounds/combo.mp3"},
             {	name: "flip",
 				file: "sounds/flipCard.mp3"},
             {	name: "swipe",
@@ -51,7 +53,7 @@ var costena = function(){
     }
     
     
-    var CARD_TIME = 400
+    var CARD_TIME = 300
     
     var lives = null
 	var sceneGroup = null
@@ -61,6 +63,7 @@ var costena = function(){
     var lastObj
     var timer
     var cardsNumber
+    var comboCount
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -74,6 +77,7 @@ var costena = function(){
         cardsNumber = 4
         lives = 10
         arrayComparison = []
+        comboCount = 0
         
         loadSounds()
         
@@ -81,25 +85,38 @@ var costena = function(){
     
     
     function createPart(key,obj){
+        
+        var particlesNumber = 2
+        
+        if(game.device.desktop == true){ 
             
-        var particlesNumber = 4
+            particlesNumber = 4
+            
+            var particlesGood = game.add.emitter(0, 0, 100);
 
-        var particlesGood = game.add.emitter(0, 0, 100);
+            particlesGood.makeParticles('atlas.costena',key);
+            particlesGood.minParticleSpeed.setTo(-200, -50);
+            particlesGood.maxParticleSpeed.setTo(200, -100);
+            particlesGood.minParticleScale = 0.2;
+            particlesGood.maxParticleScale = 1;
+            particlesGood.gravity = 150;
+            particlesGood.angularDrag = 30;
 
-        particlesGood.makeParticles('atlas.costena',key);
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.2;
-        particlesGood.maxParticleScale = 1;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
+            particlesGood.x = obj.x;
+            particlesGood.y = obj.y;
+            particlesGood.start(true, 1000, null, particlesNumber);
 
-        particlesGood.x = obj.x;
-        particlesGood.y = obj.y ;
-        particlesGood.start(true, 1000, null, particlesNumber);
+            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+            sceneGroup.add(particlesGood)
 
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
+        }else{
+            key+='Part'
+            var particle = sceneGroup.create(obj.x,obj.y,'atlas.costena',key)
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1.2,1.2)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
+        }
         
     }
     
@@ -128,34 +145,27 @@ var costena = function(){
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-        
-		var tweenSign = game.add.tween(readySign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true,500)
+
+            
+        var goSign = startGroup.create(0, 0, "atlas.costena", 'goEs')
+        goSign.alpha = 0
+        goSign.anchor.setTo(0.5, 0.5)
+        goSign.x = game.world.centerX
+        goSign.y = game.world.centerY - 50
+        startGroup.add(goSign)
+
+        var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
         tweenSign.onComplete.add(function(){
-            
-            game.add.tween(readySign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-            
-            sound.play("ready_es")
-            
-            var goSign = startGroup.create(0, 0, "atlas.costena", 'goEs')
-            goSign.alpha = 0
-            goSign.anchor.setTo(0.5, 0.5)
-            goSign.x = game.world.centerX
-            goSign.y = game.world.centerY - 50
-            startGroup.add(goSign)
-            
-            var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
-            tweenSign.onComplete.add(function(){
-                sound.play("go_es")
-                
-                var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-                game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-                finalTween.onComplete.add(function(){
-                    gameActive = true
-                    showCards()
-                    //timer.start()
-                    //game.time.events.add(throwTime *0.1, dropObjects , this);
-                    //objectsGroup.timer.start()
-                })
+            sound.play("go_es")
+
+            var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
+            game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
+            finalTween.onComplete.add(function(){
+                gameActive = true
+                showCards()
+                //timer.start()
+                //game.time.events.add(throwTime *0.1, dropObjects , this);
+                //objectsGroup.timer.start()
             })
         })
     }
@@ -177,8 +187,10 @@ var costena = function(){
             changeImage(0,card)
             scaleTween = game.add.tween(card.scale).to({x: 1},CARD_TIME, Phaser.Easing.Cubic.Out,true)
             scaleTween.onComplete.add(function(){
-                gameActive = true
-                card.children[0].pressed = false
+                if(lives > 0){
+                    gameActive = true
+                    card.children[0].pressed = false
+                }
             })
         })
     }
@@ -220,6 +232,23 @@ var costena = function(){
             game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
+        addNumberPart(heartsGroup.text,'+1')
+        
+    }
+    
+    function addNumberPart(obj,number){
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
     }
     
     function missPoint(){
@@ -238,11 +267,13 @@ var costena = function(){
             stopGame(false)
         }
         
+        addNumberPart(heartsGroup.text,'-1')
+        
     }
     
-    function addPoint(){
+    function addPoint(number){
         
-        pointsBar.number++;
+        pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
@@ -250,11 +281,33 @@ var costena = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
+        addNumberPart(pointsBar.text,'+' + number)
+        
+    }
+    
+    function setCombo(obj,comboNumber){
+        
+        var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, 'Combo ' + comboNumber + 'X', fontStyle)
+        pointsText.x = obj.x
+        pointsText.y = obj.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y - 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
     }
     
     function inputCard(obj){
 
-        if(gameActive == false || obj.pressed == true){
+        if(gameActive == false){ 
+            return
+        }
+        
+        if( obj.pressed == true){
             return
         }
         
@@ -270,14 +323,24 @@ var costena = function(){
                 arrayComparison[arrayComparison.length] = obj.tag
                 if(arrayComparison.length < 2){
                     lastObj = obj
-                    gameActive = true
+                    if(lives > 0){
+                        gameActive = true
+                    }
                 }else{
+                    var addNumber = 1
                     arrayComparison = []
                     if(lastObj.tag == obj.tag){
+                        comboCount++
+                        if(comboCount>1){
+                            sound.play("combo")
+                            setCombo(obj.parent,comboCount)
+                            addNumber = comboCount
+                        }
                         winCard(lastObj.parent)
                         winCard(obj.parent)
-                        addPoint()
+                        addPoint(addNumber)
                     }else{
+                        comboCount = 0
                         missPoint()
                         sound.play("wrong")
                         returnCard(lastObj.parent)
@@ -292,8 +355,8 @@ var costena = function(){
     
     function createCards(){
         
-        var pivot1 = game.world.centerX - 75
-        var pivot2 = game.world.centerX - 150
+        var pivot1 = game.world.centerX - 98
+        var pivot2 = game.world.centerX - 187
         
         var pivotX = pivot1
         if (cardsNumber > 4){
@@ -302,7 +365,7 @@ var costena = function(){
         
         var pivotY = game.world.centerY - 100
         if (cardsNumber > 6){
-            pivotY = game.world.centerY - 175
+            pivotY = game.world.centerY - 220
         }
         
         var itemsNames = ['chiles','duraznos','frijoles','pinas','salsaRoja','salsaVerde']
@@ -348,6 +411,10 @@ var costena = function(){
                 pivotY+= cardBack.height * 1.2
             }
             
+            if(i == 9 && cardsNumber == 10){
+                group.x = game.world.centerX
+            }
+            
         }
     }
     
@@ -368,18 +435,20 @@ var costena = function(){
     function createPointsBar(){
         
         pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,10,'atlas.costena','xpcoins')
-        pointsImg.x = game.world.width - pointsImg.width * 1.2
-        pointsImg.width *=1
-        pointsImg.height*=1
+        var pointsImg = pointsBar.create(-10,10,'atlas.costena','xpcoins')
+        pointsImg.anchor.setTo(1,0)
     
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = -pointsImg.width * 0.45
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         pointsBar.text = pointsText
         pointsBar.number = 0
@@ -393,19 +462,19 @@ var costena = function(){
         sceneGroup.add(heartsGroup)
         
         
-        var pivotX = 15
+        var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
         heartsGroup.add(group)
 
-        group.create(0,0,'atlas.costena','life_box')
+        var heartImg = group.create(0,0,'atlas.costena','life_box')
 
-        pivotX+= 47
+        pivotX+= heartImg.width * 0.45
         
-        var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 16, "0", fontStyle)
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
         pointsText.x = pivotX
-        pointsText.y = 4
+        pointsText.y = heartImg.height * 0.15
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
         
@@ -421,7 +490,7 @@ var costena = function(){
         gameActive = false
         //timer.pause()
         
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("resultCostena")

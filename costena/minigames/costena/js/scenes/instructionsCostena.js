@@ -73,7 +73,7 @@ var instructionsCostena = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "memoCostena"}
         );
 		
 	}
@@ -138,7 +138,7 @@ var instructionsCostena = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "memoCostena"}
         );
         
 		//game.stage.backgroundColor = "#38b0f6"
