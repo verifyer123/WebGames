@@ -213,11 +213,6 @@ var resultOpenEnglish = function(){
         
         window.open("http://www.openenglish.com/perseverancia/?utm_medium=Post&utm_source=instagram&utm_campaign=MX-20160823-INSTAGRAMSTREAM-24_65-RTG_ALL&utm_content=LATAM-05-01-16-Campaign-May-10072016-7am&utm_id=57f791ceb9449f9f3f8b4572")
 
-        
-        mixpanel.track(
-            "pressEpicPromo",
-            {"gameName": "openEnglish1"}
-        );
 	}
     
     function inputButton(obj){

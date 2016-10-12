@@ -58,6 +58,7 @@ var instructionsOpenEnglish = function(){
 
 	function startGame(obj){
         
+        obj.inputEnabled = false
         sound.play("click")
         
         var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 100, Phaser.Easing.linear, true)
