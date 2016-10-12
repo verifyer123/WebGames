@@ -1,6 +1,10 @@
 var game = null
 
 function startGame(){
+    
+    var screenBody = document.body
+    screenBody.style.opacity = 0;
+    
 	game = new Phaser.Game(document.body.clientWidth, document.body.clientWidth, Phaser.AUTO, null, {init: init, create: create }, false, true);	    
 
 	function preloadScenes(sceneList){
@@ -63,7 +67,10 @@ function startGame(){
     }
 
     function create(){
-
+        
+        var screenBody = document.body
+        screenBody.style.opacity = 1;
+        
     	preloadScenes([
             instructionsOpenEnglish,
             openEnglish,

@@ -161,7 +161,7 @@ var openEnglish = function(){
             var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
             game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
             finalTween.onComplete.add(function(){
-                gameActive = true
+                //gameActive = true
                 showCards()
                 //timer.start()
                 //game.time.events.add(throwTime *0.1, dropObjects , this);
@@ -287,7 +287,7 @@ var openEnglish = function(){
     
     function setCombo(obj,comboNumber){
         
-        var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#064289", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, 'Combo ' + comboNumber + 'X', fontStyle)
         pointsText.x = obj.x
         pointsText.y = obj.y
@@ -297,7 +297,7 @@ var openEnglish = function(){
         game.add.tween(pointsText).to({y:pointsText.y - 100},800,Phaser.Easing.linear,true)
         game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
         
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        pointsText.setShadow(3, 3, 'rgba(56,147,214,1)', 0);
         
     }
     
@@ -481,18 +481,41 @@ var openEnglish = function(){
         }
     }
     
+    function flipCard(card, delay){
+        game.time.events.add(200 + delay,function(){
+            sound.play("flip")
+            changeImage(0,card)
+            game.add.tween(card.scale).to({x: card.initScale}, 200, Phaser.Easing.linear, true,0)
+            gameActive = true
+        })
+    }
+    
     function showCards(){
         
+        gameActive = false
         var delay = 0
         for(var i = 0;i<cardsGroup.length;i++){
             
             delay+=200
+            changeImage(1,cardsGroup.children[i])
             game.add.tween(cardsGroup.children[i].scale).to({x: cardsGroup.children[i].initScale}, 500, Phaser.Easing.linear, true, delay)
             
             game.time.events.add(delay,function(){
                 sound.play("flip")
             } , this);
         }
+        
+        var delay = 0
+        game.time.events.add(delay + 1500,function(){
+            for(var i = 0;i<cardsGroup.length;i++){
+                
+                delay+=200
+                var scaleTween = game.add.tween(cardsGroup.children[i].scale).to({x: 0}, 200, Phaser.Easing.linear, true,delay)
+                flipCard(cardsGroup.children[i], delay)
+                
+            }
+        
+        } , this);
     }
     
     function createPointsBar(){
@@ -507,7 +530,7 @@ var openEnglish = function(){
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
+        pointsText.x = -pointsImg.width * 0.5
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
         

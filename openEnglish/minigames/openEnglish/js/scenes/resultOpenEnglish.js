@@ -68,6 +68,7 @@ var resultOpenEnglish = function(){
     var win
     var iconsGroup
     var buttonsActive
+    var emoName
 
 	var timeGoal = null
 
@@ -78,7 +79,7 @@ var resultOpenEnglish = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "memoOpen", "win":didWin, "numberOfObjects":score}
+            {"gameName": "openEnglish1", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -131,23 +132,34 @@ var resultOpenEnglish = function(){
 
 	function shareEvent(){
         
+        var button = this
+		button.share.visible = false
+		button.share.inputEnabled = false
+
+		button.retry.visible = true
+		button.retry.inputEnabled = true
+        
+        button.label.setText('Reintentar')
+        button.retryText.setText('')
+        
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "memoOpen"}
+            {"gameName": "openEnglish1"}
         );
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/openEnglish/',
+		    href: 'http://yogo.me/openenglish1',
 		    mobile_iframe: true,
-		    quote: "Mi score es: " + totalScore
+            picture:'http://yogome.com/g/openEnglish/images/profileImages/' + emoName + '.png',		    
+            title: "Soy nivel '" + emoName + "' en inglés. Descubre tu nivel con este divertido juego."
 		}, function(response){
 			//console.log(button)
 		});
 	}
 
 	function tryAgain(){
-		sceneloader.show("creatPianoTiles")
+		sceneloader.show("openEnglish")
 	}
 
 	function createShareButton(){
@@ -168,9 +180,9 @@ var resultOpenEnglish = function(){
 		tryAgainButton.inputEnabled = false
 		tryAgainButton.events.onInputUp.add(tryAgain, buttonGroup)
 
-		var textStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
+		var textStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
 
-		var labelText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "shareNow"), textStyle)
+		var labelText = new Phaser.Text(game, 0, 0, "Comparte", textStyle)
 		labelText.anchor.setTo(0.5, 0.5)
 		labelText.x = shareButton.width * -0.12
 		buttonGroup.add(labelText)
@@ -178,32 +190,33 @@ var resultOpenEnglish = function(){
 		buttonGroup.share = shareButton
 		buttonGroup.retry = tryAgainButton
 		buttonGroup.label = labelText
+        
+        var textStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#473bb5", align: "center"}
 
+		var labelText = new Phaser.Text(game, 0, 0, "para reintentar", textStyle)
+		labelText.anchor.setTo(0.5, 0.5)
+		labelText.x = shareButton.width * 0
+        labelText.y = 90
+		buttonGroup.add(labelText)
+        
+        buttonGroup.retryText = labelText
+        
 		return buttonGroup
 	}
 
 	function showPromo(){
+        
+        mixpanel.track(
+            "pressOpenEnglishLink",
+            {"gameName": "openEnglish1"}
+        );
+        
+        window.open("http://www.openenglish.com/perseverancia/?utm_medium=Post&utm_source=instagram&utm_campaign=MX-20160823-INSTAGRAMSTREAM-24_65-RTG_ALL&utm_content=LATAM-05-01-16-Campaign-May-10072016-7am&utm_id=57f791ceb9449f9f3f8b4572")
 
-		var urls = {
-			android: "http://yogo.me/epicPlay",
-			ios: "http://yogo.me/epicUsA",
-		}
-
-		var userAgent = navigator.userAgent || "Mac"
-		var agentRegex = /Android/g
-
-		var resultRegex = agentRegex.exec(userAgent)
-
-		if(resultRegex){
-			window.open(urls.android)
-		}
-		else{
-			window.open(urls.ios)		
-		}
         
         mixpanel.track(
             "pressEpicPromo",
-            {"gameName": "memoOpen"}
+            {"gameName": "openEnglish1"}
         );
 	}
     
@@ -341,36 +354,51 @@ var resultOpenEnglish = function(){
 		sceneGroup.alpha = 0
         
         var background = new Phaser.Graphics(game)
-        background.beginFill(0x645f5e);
+        background.beginFill(0xa00082);
         background.drawRect(0, 0, game.world.width, game.world.height);
         background.endFill();
         background.anchor.setTo(0,0)
         sceneGroup.add(background)
         
-        var fontStyle = {font: "37px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var topBar = new Phaser.Graphics(game)
+        topBar.beginFill(0x146cb2);
+        topBar.drawRect(0, 0, game.world.width, 120);
+        topBar.endFill();
+        topBar.anchor.setTo(0,0)
+        sceneGroup.add(topBar)
         
-        var retryText = new Phaser.Text(sceneGroup.game, 0, 5, "¡Sigue intentando!", fontStyle)
-        retryText.anchor.setTo(0.5,0.5)
-        retryText.x = game.world.centerX
-        retryText.y = game.world.centerY - 300
-        sceneGroup.add(retryText)
+        var pointsText = sceneGroup.create(game.world.centerX,57,'atlas.resultScreen','tupuntuacion')
+        pointsText.x-= pointsText.width * 0.65
+        pointsText.anchor.setTo(0,0.5)
         
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "47px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, 0, 5, "Tu score es:", fontStyle)
-        retryText.anchor.setTo(0.5,0.5)
-        retryText.x = game.world.centerX
-        retryText.y = game.world.centerY - 200
-        sceneGroup.add(retryText)
-        
-        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#79b6b9", align: "center"}
-        
-        var scoreText = new Phaser.Text(sceneGroup.game, 0, 5, totalScore + " pts", fontStyle)
-        scoreText.anchor.setTo(0.5,0.5)
-        scoreText.x = game.world.centerX
-        scoreText.y = game.world.centerY - 100
+        var scoreText = new Phaser.Text(sceneGroup.game, pointsText.x + pointsText.width * 1.05 , pointsText.y +7, totalScore + " pts", fontStyle)
+        scoreText.anchor.setTo(0,0.5)
         sceneGroup.add(scoreText)
         
+        var levelText = sceneGroup.create(game.world.centerX, game.world.centerY - 300,'atlas.resultScreen','tunivelde')
+        levelText.anchor.setTo(0.5,0.5)
+        
+        var iconName = 'wachu'
+        
+        if(totalScore >= 25){
+            iconName = 'extranjero'
+        }else if(totalScore >= 40){
+            iconName = 'nativo'
+        }
+        
+        emoName = iconName
+        
+        var icon = sceneGroup.create(levelText.x, levelText.y + 150,'atlas.resultScreen',iconName)
+        icon.anchor.setTo(0.5,0.5)
+        
+        var oeBanner = sceneGroup.create(levelText.x, icon.y + 220,'atlas.resultScreen','OEbanner')
+        oeBanner.anchor.setTo(0.5,0.5)
+        oeBanner.inputEnabled = true
+        oeBanner.events.onInputUp.add(showPromo)
+        
+
         var bottomBar = new Phaser.Graphics(game)
         background.beginFill(0xffffff);
         background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.27);
@@ -379,8 +407,11 @@ var resultOpenEnglish = function(){
         sceneGroup.add(background)
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
-        createButtons()
-        createIcons()
+        var shareBtn = createShareButton()
+        shareBtn.x = game.world.centerX
+        shareBtn.y = game.world.height - 150
+        //createButtons()
+        //createIcons()
 
 		
 	}

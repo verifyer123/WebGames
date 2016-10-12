@@ -8,13 +8,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:url"				content="http://yogome.com/g/openEnglish/" />
 <meta property="og:type"			content="article" />
-<meta property="og:description"		content="Memorama de Open English">
+<meta property="og:description"		content="Si crees que fábrica se dice “fabric” en inglés, este memorama es para ti.">
 <meta property="og:title"			content="Memorama Open English" />
 <meta property="og:image"			content="http://yogome.com/g/openEnglish/images/fbpost.png" />
 <head>
 	<title>Smart Games</title>
 	<link rel="stylesheet" type="text/css" href="css/main_portrait.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 
 </head>	
 <body>
@@ -31,8 +32,8 @@
 		</div>
 		<div class="middle-content">
 			<div class="game-content">
-				<div class="game-canvas">
-					<iframe id="game-frame" src="minigames/openEnglish/index.html" scrolling="no" width="100%" height="100%" style="border-style: none; width: 100%; height: 100%"></iframe>
+				<div id="myCanvas" class="game-canvas">
+					<!--<iframe id="game-frame" src="minigames/openEnglish/index.html" scrolling="no" width="100%" height="100%" style="border-style: none; width: 100%; height: 100%"></iframe>-->
 				</div>
 				<div class="description-content">
 					<div>
@@ -58,5 +59,6 @@
 		</div>
 	</div>
 </body>
+<script src="js/adapt.js"></script>
 <script src="js/main.js"></script>
 </html>

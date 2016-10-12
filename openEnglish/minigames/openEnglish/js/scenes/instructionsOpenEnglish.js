@@ -73,7 +73,7 @@ var instructionsOpenEnglish = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "memoOpen"}
+            {"gameName": "openEnglish1"}
         );
 		
 	}
@@ -158,7 +158,7 @@ var instructionsOpenEnglish = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "memoOpen"}
+            {"gameName": "openEnglish1"}
         );
         
 		//game.stage.backgroundColor = "#67b2e7"
