@@ -1,0 +1,66 @@
+{"frames": [
+
+{
+	"filename": "cursor",
+	"frame": {"x":449,"y":106,"w":84,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":70},
+	"sourceSize": {"w":84,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "instruccionesCartas",
+	"frame": {"x":542,"y":1,"w":383,"h":455},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":383,"h":455},
+	"sourceSize": {"w":383,"h":455},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "LogoPie",
+	"frame": {"x":1,"y":1,"w":539,"h":103},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":539,"h":103},
+	"sourceSize": {"w":539,"h":103},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "manita",
+	"frame": {"x":163,"y":177,"w":93,"h":92},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":92},
+	"sourceSize": {"w":93,"h":92},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "okbtn",
+	"frame": {"x":1,"y":177,"w":160,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
+	"sourceSize": {"w":160,"h":90},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tituloInstrucciones",
+	"frame": {"x":1,"y":106,"w":446,"h":69},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":446,"h":69},
+	"sourceSize": {"w":446,"h":69},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":926,"h":457},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c625ff4c64c01793dce52bc529443088:400beceef41787c904b0382cd0f29d6c:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
