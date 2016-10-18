@@ -223,6 +223,19 @@ var openEnglish = function(){
         })
     }
     
+    function addCorrect(correct){
+        
+        var obj = pointsGroup.children[gameIndex]
+        var correct
+        if(correct){
+            correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','correcto')
+            
+        }else{
+            correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','incorrecto')
+        }
+        correct.anchor.setTo(0.5,0.5)
+    }
+    
     function inputCard(obj){
         
         if(gameActive == false){
@@ -243,9 +256,11 @@ var openEnglish = function(){
             createPart('star',obj)
             sound.play("pop")
             questionPoints++
+            addCorrect(true)
         }else{
             createPart('wrong',obj)
             sound.play("wrong")
+            addCorrect(false)
         }
         
         restartCards()
@@ -394,7 +409,7 @@ var openEnglish = function(){
     
     function createPointsBar(){
         
-        var pointsBar = sceneGroup.create(game.world.centerX, 60, 'atlas.openEnglish','lineaGris')
+        var pointsBar = sceneGroup.create(game.world.centerX, 70, 'atlas.openEnglish','lineaGris')
         pointsBar.anchor.setTo(0.5,0.5)
         
         pointsGroup = game.add.group()
