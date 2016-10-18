@@ -677,8 +677,11 @@ var mathQuiz = function(){
         sound.play("ready_" + localization.getString(localizationData,"language"))
         
 		function tweenMark(){
-
-			var tweenReady = game.add.tween(readySign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Sinusoidal.Out, false)
+            
+            sceneGroup.alpha = 0
+            
+            game.add.tween(sceneGroup).to({ alpha: 1}, 500, Phaser.Easing.Sinusoidal.Out, true)
+			var tweenReady = game.add.tween(readySign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Sinusoidal.Out, false, 500)
 			var tweenGo = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Sinusoidal.Out, false)
 
 			tweenReady.onComplete.add(function(){
@@ -732,7 +735,7 @@ var mathQuiz = function(){
             nameSound = "lose"
         }
         
-        sound.play("win")
+        sound.play(nameSound)
         
 		var excellentSign = finishGroup.create(0, 0, "atlas.mathQuiz", localization.getString(localizationData, "asset" + imgName))
 		excellentSign.alpha = 0

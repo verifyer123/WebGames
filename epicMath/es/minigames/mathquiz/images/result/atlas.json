@@ -2,56 +2,56 @@
 
 {
 	"filename": "again",
-	"frame": {"x":791,"y":173,"w":219,"h":70},
+	"frame": {"x":1,"y":432,"w":354,"h":112},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":219,"h":70},
-	"sourceSize": {"w":219,"h":70},
+	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":112},
+	"sourceSize": {"w":354,"h":112},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "arrow",
-	"frame": {"x":880,"y":1,"w":23,"h":78},
+	"filename": "geniales",
+	"frame": {"x":243,"y":546,"w":258,"h":104},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":78},
-	"sourceSize": {"w":23,"h":78},
+	"spriteSourceSize": {"x":0,"y":0,"w":258,"h":104},
+	"sourceSize": {"w":258,"h":104},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "epicpromo",
-	"frame": {"x":1,"y":1,"w":540,"h":255},
+	"filename": "retro-nave",
+	"frame": {"x":357,"y":314,"w":109,"h":109},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":540,"h":255},
-	"sourceSize": {"w":540,"h":255},
+	"spriteSourceSize": {"x":0,"y":0,"w":109,"h":109},
+	"sourceSize": {"w":109,"h":109},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "shadow",
-	"frame": {"x":1,"y":258,"w":540,"h":8},
+	"filename": "retro-pattern",
+	"frame": {"x":1,"y":546,"w":240,"h":235},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":540,"h":8},
-	"sourceSize": {"w":540,"h":8},
+	"spriteSourceSize": {"x":0,"y":0,"w":240,"h":235},
+	"sourceSize": {"w":240,"h":235},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "retroes",
+	"frame": {"x":1,"y":1,"w":471,"h":311},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":471,"h":311},
+	"sourceSize": {"w":471,"h":311},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "share",
-	"frame": {"x":543,"y":173,"w":246,"h":78},
+	"frame": {"x":1,"y":314,"w":354,"h":116},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":246,"h":78},
-	"sourceSize": {"w":246,"h":78},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "speedometer",
-	"frame": {"x":543,"y":1,"w":335,"h":170},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":335,"h":170},
-	"sourceSize": {"w":335,"h":170},
+	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":116},
+	"sourceSize": {"w":354,"h":116},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -59,8 +59,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1011,"h":267},
-	"scale": "0.5",
-	"smartupdate": "$TexturePacker:SmartUpdate:89de503206840e810c642dec41362f49:388f457b35d197c179875f9d6c1895ca:cbce6b53f0f49e0bf15173c25c41f876$"
+	"size": {"w":502,"h":782},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6bdf8fdbbaddfe1d1ddaad2c7af3e192:9a9afc88a5cd069f46df53204ebf2fce:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

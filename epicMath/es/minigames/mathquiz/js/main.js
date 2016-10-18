@@ -1,7 +1,6 @@
 var game = null
 
 function startGame(){
-    
     var screenBody = document.body
     screenBody.style.opacity = 0;
     
@@ -62,7 +61,7 @@ function startGame(){
         }
         
         language = "ES"
-
+        
         localization.setLanguage(language)
     	sound.init(game)
     }
