@@ -49,7 +49,8 @@ var mathQuiz = function(){
 
 	var positionQuestions = null
 	var positionCache = null
-
+    
+    var pointsGroup = null
  	var sceneGroup = null
  	var bufferQuestions = null
  	var optionsGroup = null
@@ -58,6 +59,7 @@ var mathQuiz = function(){
  	var timerContainer = null
  	var questionGroup = null
  	var resultMark = null
+    var questionIndex = null
 
  	var isGameActive = null
     
@@ -75,7 +77,7 @@ var mathQuiz = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, false, 1000)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("resultScreen")
-			resultScreen.setScore(answersContainer.answered, GOAL_QUESTIONS, timerContainer.text.text)
+			resultScreen.setScore(answersContainer.answered, GOAL_QUESTIONS, numberOfLifes * 40)
 
 			sceneloader.show("resultScreen")
 		})
@@ -89,7 +91,87 @@ var mathQuiz = function(){
 		var childrenOption = optionsGroup.children[targetId].inputTouch
 		onReleasedAnswer(childrenOption)
 	}
-
+    
+     function setQuestionIndex(index){
+        
+        var obj = pointsGroup.children[index]
+        changeImage(1,obj)
+        
+        if(index > 0){
+            changeImage(2,pointsGroup.children[index - 1])
+        }
+        
+        var scaleTween = game.add.tween(obj.scale).to({x:1.3,y:1.3}, 200, Phaser.Easing.linear, true)
+        
+        scaleTween.onComplete.add(function(){
+            game.add.tween(obj.scale).to({x:1,y:1}, 200, Phaser.Easing.linear, true)
+                        
+        })
+        
+    }
+    
+    function changeImage(index,group){
+        for (var i = 0;i< group.length; i ++){
+            group.children[i].alpha = 0
+            if( i == index){
+                group.children[i].alpha = 1
+            }
+        }
+        group.children[3].alpha = 1
+    }
+    
+    function createPointsBar(){
+        
+        var pointsBar = sceneGroup.create(game.world.centerX, 60, 'atlas.mathQuiz','lineaGris')
+        pointsBar.anchor.setTo(0.5,0.5)
+        
+        pointsGroup = game.add.group()
+        sceneGroup.add(pointsBar)
+        
+        var pivotX = pointsBar.x - pointsBar.width * 0.45
+        for(var i = 0;i<10;i++){
+            
+            var group = game.add.group()
+            group.x = pivotX
+            group.y = pointsBar.y
+            pointsGroup.add(group)
+            
+            var circle1 = group.create(0,0,'atlas.mathQuiz','Cgris')
+            circle1.anchor.setTo(0.5,0.5)
+            
+            var circle2 = group.create(0,0,'atlas.mathQuiz','Cazul')
+            circle2.anchor.setTo(0.5,0.5)
+            
+            var circle3 = group.create(0,0,'atlas.mathQuiz','Cverde')
+            circle3.anchor.setTo(0.5,0.5)
+            
+            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+            
+            var trackerText = new Phaser.Text(sceneGroup.game, 0, 3, i + 1, fontStyle)
+            trackerText.anchor.setTo(0.5, 0.5)
+            group.add(trackerText)
+            
+            pivotX+= circle1.width * 1.315
+            
+            changeImage(0,group)
+            
+        }
+        
+    }
+    
+    function addCorrect(correct){
+        
+        var obj = pointsGroup.children[questionIndex]
+        var correct
+        if(correct){
+            correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.mathQuiz','correcto')
+            
+        }else{
+            correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.mathQuiz','incorrecto')
+        }
+        correct.anchor.setTo(0.5,0.5)
+    }
+    
  	function onReleasedAnswer(target){
 
  		if(isGameActive){
@@ -133,19 +215,28 @@ var mathQuiz = function(){
 	 					answersContainer.updateAnswers(1)
 	 					resultMark.show("correct")
                         sound.play("correct")
+                        addCorrect(true)
 	 				}else{
 	 					tweenParams.y = sceneGroup.game.world.height
 	 					answersContainer.updateAnswers(-1)
 	 					resultMark.show("wrong")
                         sound.play("lose")
                         numberOfLifes--
-                        timerContainer.text.setText(numberOfLifes)
+                        addCorrect(false)
+                        //timerContainer.text.setText(numberOfLifes)
                         
                         if(numberOfLifes <= 0){
                             winGame()
                         }
 	 				}
-
+                    questionIndex++
+                    
+                    if(questionIndex >= 10){
+                        winGame()
+                    }else{
+                        setQuestionIndex(questionIndex)
+                    }
+                    
 	 				currentQuestion.destroy(true)	
 	 				//var tweenB = sceneGroup.game.add.tween(currentQuestion).to(tweenParams, 200)
 	 				//tweenB.onComplete.add(function(){
@@ -575,6 +666,7 @@ var mathQuiz = function(){
 	}
 
 	function initialize(){
+        questionIndex = 0
 		bufferQuestions = []
 		positionCache = []
 
@@ -598,6 +690,8 @@ var mathQuiz = function(){
         var background = sceneGroup.create(0,0,'background')
         background.width = game.world.width
         background.height = game.world.height
+        
+        createPointsBar()
         
         var dinamita = sceneGroup.create(0,100,'atlas.mathQuiz','dinamita')
         
@@ -624,14 +718,15 @@ var mathQuiz = function(){
 		sceneGroup.add(line)
 
 		answersContainer = createAnswerCounter(10)
+        answersContainer.alpha = 0
 		answersContainer.x = game.world.width * 0.87
 		answersContainer.y = game.world.height * 0.04
 		sceneGroup.add(answersContainer)
 
-		timerContainer = createTimer()
+		/*timerContainer = createTimer()
 		timerContainer.x = 89
 		timerContainer.y = game.world.height * 0.04
-		sceneGroup.add(timerContainer)
+		sceneGroup.add(timerContainer)*/
 
 		optionsGroup = createAnswerGroup()
 		var optionsScale = (containerHeight * 0.7) / optionsGroup.height
@@ -696,7 +791,8 @@ var mathQuiz = function(){
                             
 							//timerContainer.start()
 							isGameActive = true
-                            timerContainer.text.setText(numberOfLifes)
+                            setQuestionIndex(questionIndex)
+                            //timerContainer.text.setText(numberOfLifes)
 						})
 						tweenScreen.start()
 						tweenGoScale.start()
