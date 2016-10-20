@@ -30,7 +30,7 @@ var yogomeIntro = function(){
 			var sceneGroup = game.add.group()
 
 			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
-			logo.scale.setTo(0.5, 0.5)
+			//logo.scale.setTo(0.5, 0.5)
 			logo.anchor.setTo(0.5, 0.5)
 
 			var loadingGroup = new Phaser.Group(game)

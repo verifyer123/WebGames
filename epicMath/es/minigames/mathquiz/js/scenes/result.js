@@ -163,13 +163,13 @@ var resultScreen = function(){
         var pivotX = 0
         var pivotY = game.world.height * 0.47
         
-        for(var i = 1; i < 12; i ++){
+        for(var i = 1; i < 7; i ++){
             var pattern = sceneGroup.create(pivotX, pivotY,'atlas.resultScreen','retro-pattern') 
             pattern.anchor.setTo(0,1)
             
             pivotX+= pattern.width * 0.99
             
-            if(i % 4 == 0){
+            if(i % 3 == 0){
                 pivotX = 0
                 pivotY-=pattern.height * 0.99
             }

@@ -1,0 +1,57 @@
+{"frames": [
+
+{
+	"filename": "eagle",
+	"frame": {"x":1,"y":1,"w":335,"h":368},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":335,"h":368},
+	"sourceSize": {"w":335,"h":368},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "howPes",
+	"frame": {"x":1,"y":371,"w":504,"h":209},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":504,"h":209},
+	"sourceSize": {"w":504,"h":209},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "insDesktopes",
+	"frame": {"x":338,"y":1,"w":437,"h":289},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":437,"h":289},
+	"sourceSize": {"w":437,"h":289},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "insMobilees",
+	"frame": {"x":507,"y":292,"w":413,"h":275},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":413,"h":275},
+	"sourceSize": {"w":413,"h":275},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "okBtn",
+	"frame": {"x":338,"y":292,"w":144,"h":71},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":144,"h":71},
+	"sourceSize": {"w":144,"h":71},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":921,"h":581},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:73a203da773a3d8c4cfe320d41a67b64:80340e5ce6fb0246e3e8e6e95352190d:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

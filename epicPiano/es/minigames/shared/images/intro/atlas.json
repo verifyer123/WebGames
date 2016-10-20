@@ -1,0 +1,48 @@
+{"frames": [
+
+{
+	"filename": "loading_bottom",
+	"frame": {"x":232,"y":314,"w":435,"h":27},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":435,"h":27},
+	"sourceSize": {"w":435,"h":27},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "loading_top",
+	"frame": {"x":232,"y":343,"w":435,"h":27},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":435,"h":27},
+	"sourceSize": {"w":435,"h":27},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "logo",
+	"frame": {"x":1,"y":1,"w":809,"h":311},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":809,"h":311},
+	"sourceSize": {"w":809,"h":311},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pattern",
+	"frame": {"x":1,"y":314,"w":229,"h":171},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":229,"h":171},
+	"sourceSize": {"w":229,"h":171},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":811,"h":486},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:275e815af9be50439521f8bb97d8a82c:022acb1d0936f24facd91e618269fc4e:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
