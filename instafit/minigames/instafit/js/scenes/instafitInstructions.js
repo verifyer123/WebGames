@@ -25,6 +25,7 @@ var instafitInstructions = function(){
 	}
 
 	var sceneGroup
+    var tweenLoop
 
 
 	function createInstructions(){
@@ -53,6 +54,9 @@ var instafitInstructions = function(){
 	}
 
 	function startGame(){
+        
+        tweenLoop.stop()
+        
         mixpanel.track(
             "enterGame",
             {"gameName": "quizInstafit"}
@@ -60,7 +64,20 @@ var instafitInstructions = function(){
         //console.log(location.host + ' userIp')
 		sceneloader.show("instafit")
 	}
-
+    
+    function bounceButton(obj){
+        if(obj.inputEnabled == false){
+            return
+        }
+        tweenLoop = game.add.tween(obj.scale).to({x:1.2,y:1.2}, 450, Phaser.Easing.linear, true)
+        tweenLoop.onComplete.add(function(){
+            tweenLoop = game.add.tween(obj.scale).to({x:1,y:1}, 450, Phaser.Easing.linear, true)
+            tweenLoop.onComplete.add(function(){
+                bounceButton(obj)
+            })
+        })
+    }
+    
 	function createButton(){
 		var buttonGroup = new Phaser.Group(sceneGroup.game)
 
@@ -75,6 +92,8 @@ var instafitInstructions = function(){
 		var label = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData, "go"), fontStyle)
 		label.anchor.setTo(0.5, 0.5)
 		buttonGroup.add(label)
+        
+        bounceButton(buttonGroup)
 
 		return buttonGroup
 	}

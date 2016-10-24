@@ -33,6 +33,7 @@ var instructionsCostena = function(){
 	}
 
 	var sceneGroup
+    var tweenLoop
 
     
     function loadSounds(){
@@ -60,6 +61,8 @@ var instructionsCostena = function(){
         
         sound.play("click")
         
+        tweenLoop.stop()
+        
         var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 100, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(obj.scale).to({x:1,y:1}, 300, Phaser.Easing.linear, true)
@@ -77,7 +80,20 @@ var instructionsCostena = function(){
         );
 		
 	}
-
+    
+    function bounceButton(obj){
+        if(obj.inputEnabled == false){
+            return
+        }
+        tweenLoop = game.add.tween(obj.scale).to({x:1.2,y:1.2}, 450, Phaser.Easing.linear, true)
+        tweenLoop.onComplete.add(function(){
+            tweenLoop = game.add.tween(obj.scale).to({x:1,y:1}, 450, Phaser.Easing.linear, true)
+            tweenLoop.onComplete.add(function(){
+                bounceButton(obj)
+            })
+        })
+    }
+    
 	function createButton(){
 		var buttonGroup = new Phaser.Group(sceneGroup.game)
 
@@ -86,6 +102,8 @@ var instructionsCostena = function(){
 
 		buttonSprite.inputEnabled = true
 		buttonSprite.events.onInputUp.add(startGame, this)
+        
+        bounceButton(buttonSprite)
 
 		return buttonGroup
 	}
