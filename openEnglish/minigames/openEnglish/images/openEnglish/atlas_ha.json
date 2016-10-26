@@ -1,8 +1,8 @@
 {"frames": [
 
 {
-	"filename": "arbol",
-	"frame": {"x":441,"y":496,"w":217,"h":246},
+	"filename": "arandano",
+	"frame": {"x":1,"y":1,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -10,17 +10,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "bebe",
-	"frame": {"x":1,"y":1,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "beso",
-	"frame": {"x":441,"y":744,"w":217,"h":246},
+	"filename": "berenjena",
+	"frame": {"x":1,"y":249,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -28,26 +19,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "camioneta",
-	"frame": {"x":1,"y":249,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "carro",
-	"frame": {"x":1,"y":497,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "casa",
-	"frame": {"x":660,"y":496,"w":217,"h":246},
+	"filename": "bombero",
+	"frame": {"x":220,"y":1,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -55,17 +28,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "cuchara",
-	"frame": {"x":1,"y":745,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "detener",
-	"frame": {"x":660,"y":744,"w":217,"h":246},
+	"filename": "casa-de-arbol",
+	"frame": {"x":220,"y":249,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -73,17 +37,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "galleta",
-	"frame": {"x":441,"y":249,"w":218,"h":245},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":245},
-	"sourceSize": {"w":218,"h":245},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "gato",
-	"frame": {"x":661,"y":1,"w":217,"h":246},
+	"filename": "cesto",
+	"frame": {"x":439,"y":1,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -91,35 +46,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "leche",
-	"frame": {"x":221,"y":1,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "manzana",
-	"frame": {"x":221,"y":249,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "naranja",
-	"frame": {"x":221,"y":497,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "pajaro",
-	"frame": {"x":879,"y":496,"w":217,"h":246},
+	"filename": "choque",
+	"frame": {"x":439,"y":249,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -127,17 +55,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "pelota",
-	"frame": {"x":661,"y":249,"w":217,"h":245},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":245},
-	"sourceSize": {"w":217,"h":245},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "perro",
-	"frame": {"x":879,"y":744,"w":217,"h":246},
+	"filename": "cierre",
+	"frame": {"x":658,"y":1,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -145,17 +64,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "pollo",
-	"frame": {"x":880,"y":249,"w":217,"h":245},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":245},
-	"sourceSize": {"w":217,"h":245},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "raton",
-	"frame": {"x":880,"y":1,"w":217,"h":246},
+	"filename": "fresa",
+	"frame": {"x":658,"y":249,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
@@ -163,30 +73,102 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "tenedor",
-	"frame": {"x":221,"y":745,"w":218,"h":246},
+	"filename": "ganso",
+	"frame": {"x":877,"y":1,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "uvas",
-	"frame": {"x":441,"y":1,"w":218,"h":246},
+	"filename": "globo-terraqueo",
+	"frame": {"x":877,"y":249,"w":217,"h":246},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "lluvia",
+	"frame": {"x":1096,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "lobo",
+	"frame": {"x":1096,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "munecodenieve",
+	"frame": {"x":1315,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "oveja",
+	"frame": {"x":1315,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "sandia",
+	"frame": {"x":1534,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tormentadenieve",
+	"frame": {"x":1534,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "trampa",
+	"frame": {"x":1753,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "triciclo",
+	"frame": {"x":1753,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "atlas_ea.png",
+	"image": "atlas_ha.png",
 	"format": "RGBA8888",
-	"size": {"w":1098,"h":992},
+	"size": {"w":1971,"h":496},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:525d7e4a019de4463beda0f5ee6a0781:30c5bd4855e7475016b1ce0946902325:8af7719f7e55d13c1af7b4195371154c$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c25762b47cafd70a6fe019f2b81a9ee6:f48658f2a722d151d996d8c273c326d9:2264526760d822d979a1a4d75eb31f68$"
 }
 }
