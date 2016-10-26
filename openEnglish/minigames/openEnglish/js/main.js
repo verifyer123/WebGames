@@ -47,6 +47,10 @@ function startGame(){
             
         }
         
+        if(difficulty != "ea" && difficulty!= "me" && difficulty!="ha"){
+            difficulty = "ea"
+        }
+        
         console.log('difficulty set To: ' + difficulty)
         
         difficultySection.setDifficulty(difficulty)

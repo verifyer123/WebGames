@@ -118,6 +118,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "sol",
+	"frame": {"x":661,"y":1,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "trabajo",
 	"frame": {"x":1537,"y":249,"w":217,"h":246},
 	"rotated": false,
@@ -134,15 +143,6 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
 	"sourceSize": {"w":217,"h":246},
 	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "vestido",
-	"frame": {"x":661,"y":1,"w":218,"h":246},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
-	"sourceSize": {"w":218,"h":246},
-	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
 	"app": "http://www.codeandweb.com/texturepacker",
@@ -151,6 +151,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1756,"h":496},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:aaee5bae801c3298e67427d315991e95:81d475396ace7b780a51b16e420a2065:076f5dcbe5d4925621d1d3dc22ed37fb$"
+	"smartupdate": "$TexturePacker:SmartUpdate:788218f8336f7050907fd88abd96bb0d:6fde7d7be7e4df2aea9b37183cd69412:076f5dcbe5d4925621d1d3dc22ed37fb$"
 }
 }
