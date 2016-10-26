@@ -166,6 +166,9 @@ var instructionsOpenEnglish = function(){
         
         var botAd = sceneGroup.create(game.world.centerX, game.world.height,'atlas.instructions','LogoPie')
         botAd.anchor.setTo(0.5,1)
+        
+        sceneGroup.alpha = 0
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
             
 	}
 

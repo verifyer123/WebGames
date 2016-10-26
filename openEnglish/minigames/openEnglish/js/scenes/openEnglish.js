@@ -1,5 +1,5 @@
 var openEnglish = function(){
-    
+        
     var localizationData = {
 		"EN":{
             "language":"en",
@@ -23,9 +23,24 @@ var openEnglish = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.openEnglish",
-                json: "images/openEnglish/atlas.json",
-                image: "images/openEnglish/atlas.png",
+                name: "atlas.openEnglish_common",
+                json: "images/openEnglish/atlas_common.json",
+                image: "images/openEnglish/atlas_common.png",
+            },
+            {   
+                name: "atlas.openEnglish_ea",
+                json: "images/openEnglish/atlas_ea.json",
+                image: "images/openEnglish/atlas_ea.png",
+            },
+            {   
+                name: "atlas.openEnglish_me",
+                json: "images/openEnglish/atlas_me.json",
+                image: "images/openEnglish/atlas_me.png",
+            },
+            {   
+                name: "atlas.openEnglish_ha",
+                json: "images/openEnglish/atlas_ha.json",
+                image: "images/openEnglish/atlas_ha.png",
             },
         ],
         images: [
@@ -64,6 +79,83 @@ var openEnglish = function(){
     var timer
     var cardsNumber
     var comboCount
+    
+    var cardsList = [
+         [
+            [
+                ['bebe','leche'],
+                ['uvas','gato'],
+                ['raton','camioneta'],
+                ['manzana','galleta'],
+                ['pelota','pollo'],
+                ['carro','naranja'],
+                ['arbol','casa'],
+                ['pajaro','cuchara'],
+                ['tenedor','beso'],
+                ['detener','perro'],
+            ],
+            [
+                ['Baby','Milk'],
+                ['Grapes','Cat'],
+                ['Mouse','Wagon'],
+                ['Apple','Cookie'],
+                ['Ball','Chicken'],
+                ['Car','Orange'],
+                ['Tree','House'],
+                ['Bird','Spoon'],
+                ['Fork','Kiss'],
+                ['Stop','Dog'],
+            ],
+        ],
+        [
+            [
+                ['brocha','caballo'],
+                ['caiman','caramelo'],
+                ['cereal','cobija'],
+                ['conejito','hermana'],
+                ['hijo','mariposa'],
+                ['mesa','planta'],
+                ['silla','sol'],
+                ['trabajo','venado'],
+            ],
+            [
+                ['Brush','Horse'],
+                ['Aligator','Candy'],
+                ['Cereal','Blanket'],
+                ['Rabbit','Sister'],
+                ['Son','Butterfly'],
+                ['Table','Plant'],
+                ['Chair','Sun'],
+                ['Work','Deer'],
+            ],
+        ],
+        [
+            [
+                ['bebe','leche'],
+                ['uvas','gato'],
+                ['raton','camioneta'],
+                ['manzana','galleta'],
+                ['pelota','pollo'],
+                ['carro','naranja'],
+                ['arbol','casa'],
+                ['pajaro','cuchara'],
+                ['tenedor','beso'],
+                ['detener','perro'],
+            ],
+            [
+                ['Baby','Milk'],
+                ['Grapes','Cat'],
+                ['Mouse','Wagon'],
+                ['Apple','Cookie'],
+                ['Ball','Chicken'],
+                ['Car','Orange'],
+                ['Tree','House'],
+                ['Bird','Spoon'],
+                ['Fork','Kiss'],
+                ['Stop','Dog'],
+            ],
+        ],
+    ]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -94,7 +186,7 @@ var openEnglish = function(){
             
             var particlesGood = game.add.emitter(0, 0, 100);
 
-            particlesGood.makeParticles('atlas.openEnglish',key);
+            particlesGood.makeParticles('atlas.openEnglish_common',key);
             particlesGood.minParticleSpeed.setTo(-200, -50);
             particlesGood.maxParticleSpeed.setTo(200, -100);
             particlesGood.minParticleScale = 0.2;
@@ -111,7 +203,7 @@ var openEnglish = function(){
 
         }else{
             key+='Part'
-            var particle = sceneGroup.create(obj.x,obj.y,'atlas.openEnglish',key)
+            var particle = sceneGroup.create(obj.x,obj.y,'atlas.openEnglish_common',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -136,7 +228,7 @@ var openEnglish = function(){
 		startGroup.add(blackScreen)
         
         
-		var readySign = startGroup.create(0, 0, "atlas.openEnglish", 'readyEs')
+		var readySign = startGroup.create(0, 0, "atlas.openEnglish_common", 'readyEs')
 		readySign.alpha = 0
 		readySign.anchor.setTo(0.5, 0.5)
 		readySign.x = game.world.centerX
@@ -147,7 +239,7 @@ var openEnglish = function(){
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
             
-        var goSign = startGroup.create(0, 0, "atlas.openEnglish", 'goEs')
+        var goSign = startGroup.create(0, 0, "atlas.openEnglish_common", 'goEs')
         goSign.alpha = 0
         goSign.anchor.setTo(0.5, 0.5)
         goSign.x = game.world.centerX
@@ -353,6 +445,19 @@ var openEnglish = function(){
         sound.play("flip")
     }
     
+    function getCardIndex(){
+        
+        var dif = difficultySection.getDifficulty()
+        var index = 0
+        
+        if (dif == 'me'){
+            index = 1
+        }else if(dif == 'ha'){
+            index = 2
+        }
+        return index
+    }
+    
     function createCards(){
         
         var pivot1 = game.world.centerX - 115
@@ -363,31 +468,12 @@ var openEnglish = function(){
             pivotY = game.world.centerY - 290
         }
         
-        var cardWords = [
-            ['1_advertir','1_anunciar'],
-            ['2_arma','2_brazo'],
-            ['3_caricatura','3_carton'],
-            ['4_pan','4_sarten'],
-            ['5_concurso','5_contestar'],
-            ['6_dato','6_fecha'],
-            ['7_cena','7_dinero'],
-            ['8_once','8_unavez'],
-            ['9_cuerno','9_horno'],
-            ['10_anuncio','10_noticia'],
-        ]
+        var cardIndex = getCardIndex()
         
-        var enWords = [
-            ['Warn','Announce'],
-            ['Weapon','Arm'],
-            ['Cartoon','Paperboard'],
-            ['Bread','Pan'],
-            ['Contest','Answer'],
-            ['Fact','Date'],
-            ['Dinner','Money'],
-            ['Eleven','Once'],
-            ['Horn','Oven'],
-            ['Advertisement','News'],
-        ]
+        
+        var cardWords = cardsList[cardIndex][0]
+        
+        var enWords = cardsList[cardIndex][1]
         
         var randomNums = []
         for(var i = 0;i<cardWords.length;i++){
@@ -434,7 +520,7 @@ var openEnglish = function(){
             group.scale.x = 0
             cardsGroup.add(group)
             
-            var cardBack = group.create(0,0,'atlas.openEnglish','carta')
+            var cardBack = group.create(0,0,'atlas.openEnglish_common','carta')
             cardBack.anchor.setTo(0.5,0.5)
             cardBack.pressed = false 
             cardBack.tag = tagsToUse[randomNums[i]]
@@ -442,9 +528,9 @@ var openEnglish = function(){
             var cardFront = game.add.group()
             group.add(cardFront)
             
-            if(cardsToUse[randomNums[i]].search("_") == -1){
+            if(cardsToUse[randomNums[i]][0] === cardsToUse[randomNums[i]][0].toUpperCase()){
                 
-                var img = cardFront.create(0,0,'atlas.openEnglish','blank')
+                var img = cardFront.create(0,0,'atlas.openEnglish_common','blank')
                 img.anchor.setTo(0.5,0.5)
                 
                 var fontSize = 35
@@ -462,7 +548,7 @@ var openEnglish = function(){
                 cardFront.add(pointsText)
                 
             }else{
-                var img = cardFront.create(0,0,'atlas.openEnglish',cardsToUse[randomNums[i]])
+                var img = cardFront.create(0,0,'atlas.openEnglish_' + difficultySection.getDifficulty(),cardsToUse[randomNums[i]])
                 img.anchor.setTo(0.5,0.5)
             }
             
@@ -506,7 +592,7 @@ var openEnglish = function(){
         }
         
         var delay = 0
-        game.time.events.add(delay + 1500,function(){
+        game.time.events.add(delay + (cardsGroup.length * 200) + 400,function(){
             for(var i = 0;i<cardsGroup.length;i++){
                 
                 delay+=200
@@ -525,7 +611,7 @@ var openEnglish = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.openEnglish','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.openEnglish_common','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -553,7 +639,7 @@ var openEnglish = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.openEnglish','life_box')
+        var heartImg = group.create(0,0,'atlas.openEnglish_common','life_box')
 
         pivotX+= heartImg.width * 0.45
         

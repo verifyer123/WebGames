@@ -21,6 +21,7 @@ function startGame(){
 	    		//sceneloader.show("instructionsScreen")
 				//sceneloader.show("mathQuiz")
 				//sceneloader.show("resultScreen")
+                
 				sceneloader.show("instructionsOpenEnglish")
 	    	}
 
@@ -30,8 +31,30 @@ function startGame(){
 
     	sceneloader.preload([yogomeIntro], {onComplete: onCompletePreloading})
 	}
+    
+    function getDifficulty(){
+        
+        var difficulty = "ea"
+        if(parent.window.location.search){
+            var params = parent.window.location.search.trim(1)
+            var regex = /difficulty=(..)/i
+            var result = regex.exec(params)
+            if(result){
+                difficulty = result[result.index] 
+            }else{
+                difficulty = "ea"
+            }
+            
+        }
+        
+        console.log('difficulty set To: ' + difficulty)
+        
+        difficultySection.setDifficulty(difficulty)
 
+    }
+    
     function init(){
+        
         var fullWidth = 540
         var fullHeight = 960
 
@@ -51,7 +74,7 @@ function startGame(){
         var language
         if(parent.window.location.search){
             var params = parent.window.location.search.trim(1)
-            var regex = /language=(..)/i
+            var regex = /difficulty=(..)/i
             var result = regex.exec(params)
             if(result){
                 language = result[result.index].toUpperCase()    
@@ -61,11 +84,13 @@ function startGame(){
             language = "ES"
             
         }
-
+        
+        
+        getDifficulty()
         localization.setLanguage(language)
     	sound.init(game)
     }
-
+    
     function create(){
         
         var screenBody = document.body

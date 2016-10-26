@@ -1,0 +1,156 @@
+{"frames": [
+
+{
+	"filename": "brocha",
+	"frame": {"x":661,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "caballo",
+	"frame": {"x":880,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "caiman",
+	"frame": {"x":1,"y":1,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "caramelo",
+	"frame": {"x":1,"y":249,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "cereal",
+	"frame": {"x":221,"y":1,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "cobija",
+	"frame": {"x":881,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "conejito",
+	"frame": {"x":221,"y":249,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hermana",
+	"frame": {"x":1099,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hijo",
+	"frame": {"x":441,"y":1,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "mariposa",
+	"frame": {"x":441,"y":249,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "mesa",
+	"frame": {"x":1100,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "planta",
+	"frame": {"x":1318,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "silla",
+	"frame": {"x":1319,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "trabajo",
+	"frame": {"x":1537,"y":249,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "venado",
+	"frame": {"x":1538,"y":1,"w":217,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":217,"h":246},
+	"sourceSize": {"w":217,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "vestido",
+	"frame": {"x":661,"y":1,"w":218,"h":246},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":218,"h":246},
+	"sourceSize": {"w":218,"h":246},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas_me.png",
+	"format": "RGBA8888",
+	"size": {"w":1756,"h":496},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:aaee5bae801c3298e67427d315991e95:81d475396ace7b780a51b16e420a2065:076f5dcbe5d4925621d1d3dc22ed37fb$"
+}
+}
