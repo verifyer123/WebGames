@@ -669,9 +669,15 @@ var openEnglish = function(){
 			sceneloader.show("resultOpenEnglish")
 		})
     }
-
+    
+    function preload(){
+        /*var diff = difficultySection.getDifficulty()
+        game.load.atlas('atlas.openEnglish_' + diff, 'images/openEnglish/atlas_' + diff + '.png', 'images/openEnglish/atlas_' + diff + '.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);*/
+    }
+    
 	return {
 		assets: assets,
+        preload,preload,
 		name: "openEnglish",
 		create: function(event){
 

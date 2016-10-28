@@ -155,7 +155,7 @@ var chilimBalamInstructions = function(){
             {"gameName": "chilimBalam"}
         );
         
-		//game.stage.backgroundColor = "#38b0f6"
+		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"
 	}
 

@@ -159,7 +159,7 @@ var instructionsCostena = function(){
             {"gameName": "memoCostena"}
         );
         
-		//game.stage.backgroundColor = "#38b0f6"
+		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"
 	}
 

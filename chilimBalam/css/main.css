@@ -11,6 +11,7 @@ body{
 	width: 100%;
 	height: auto;
 	text-align: center;
+    background-color: #d1196d;
 }
 
 .header-logo, .header-banner{
@@ -23,6 +24,10 @@ body{
 	background-image: url("../images/homepage/DSK-patron.png");
 	background-repeat: repeat;
 	height: 80%;
+}
+
+a{
+    text-decoration: none;
 }
 
 .game-content{

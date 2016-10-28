@@ -26,11 +26,13 @@ var yogomeIntro = function(){
 		},
 
 		create: function(event){
-
+            
+            game.stage.backgroundColor = "#522eaa"
+            
 			var sceneGroup = game.add.group()
 
-			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
-			logo.scale.setTo(0.5, 0.5)
+			var logo = sceneGroup.create(game.world.centerX, game.world.centerY - 100, 'logoAtlas', 'logo')
+			//logo.scale.setTo(0.5, 0.5)
 			logo.anchor.setTo(0.5, 0.5)
 
 			var loadingGroup = new Phaser.Group(game)
@@ -44,9 +46,10 @@ var yogomeIntro = function(){
 
 			loadingGroup.bottomBar = loadingBottom
 			loadingGroup.topBar = loadingTop
+            loadingGroup.scale.setTo(1,1.2)
 
 			loadingGroup.x = game.world.centerX - loadingGroup.width * 0.5
-			loadingGroup.y = (game.world.centerY + logo.height) - loadingGroup.height * 0.5
+			loadingGroup.y = game.world.centerY + 75
 
 			loadingBar = loadingGroup
 			loadingBar.topBar.width = 0
