@@ -30,17 +30,13 @@ var runner = function(){
         ],
         images: [
             {   name:"fondo",
-				file: "images/chilimBalam/fondo.png"},
-            {   name:"suelo",
-				file: "images/chilimBalam/suelo.png"},
-            {   name:"volador",
-				file: "images/chilimBalam/volador.png"},
+				file: "images/chilimBalam/background.png"},
 		],
 		sounds: [
             {	name: "pop",
 				file: "sounds/magic.mp3"},
             {	name: "splash",
-				file: "sounds/splashMud.mp3"},
+				file: "sounds/splash.mp3"},
             {	name: "swipe",
 				file: "sounds/swipe.mp3"},
             {	name: "wrong",
@@ -59,12 +55,26 @@ var runner = function(){
 				file: "sounds/shootBall.mp3"},
             {	name: "click",
 				file: "sounds/pop.mp3"},
+            {	name: "whoosh",
+				file: "sounds/whoosh.mp3"},
+            {	name: "gameLose",
+				file: "sounds/gameLose.mp3"},
 		],
 	}
     
-    var SPEED = 200 
-    var TIME_ADD = 1000
+    var SPEED = 225 
+    var TIME_ADD = 500
+    var JUMP_FORCE = 800
+    var DEBUG_PHYSICS = false
+    var WORLD_GRAVITY = 1600
+    var OFF_BRICK = 330
+    var BOT_OFFSET = 115
     
+    var enemyNames = null
+    var consecFloor, consecBricks
+    var gameStart = false
+    var jumping = false
+    var lastOne = null
     var yAxis = null
     var objToCheck
     var gameSpeed = null
@@ -75,34 +85,47 @@ var runner = function(){
     var groundGroup = null
     var answersGroup = null
     var pointsGroup = null
-    var gameActive = true
+    var gameActive = null
     var jumpTimer = 0
     var characterGroup = null
     var pointsBar = null
-    var throwTime = null
     var lives = null
     var heartsGroup = null 
-    var particlesGroup, particlesGood, particlesWrong
+    var groupButton = null
     
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
-
+    function changeImage(index,group){
+        for (var i = 0;i< group.length; i ++){
+            group.children[i].alpha = 0
+            if( i == index){
+                group.children[i].alpha = 1
+            }
+        }
+    }  
+    
 	function initialize(){
         
+        enemyNames = ['coin']
+        gameStart = false
         gameSpeed =  SPEED
+        lastOne = null
         game.stage.backgroundColor = "#ffffff"
         jumpTimer = 0
-        gameActive = true
+        gameActive = false
         lives = 1
         pivotObjects = 0
+        objToCheck = null
         buttonPressed = false
         tooMuch = false
         GRAVITY_OBJECTS = 4
         yAxis = p2.vec2.fromValues(0, 1);
         objectsList = []
+        consecFloor = 0
+        consecBricks = 0
         
 	}
     
@@ -121,16 +144,7 @@ var runner = function(){
 		blackScreen.drawRect(0, 0, game.width, game.height)
 		blackScreen.endFill()
 
-		startGroup.add(blackScreen)
-        
-        
-		var readySign = startGroup.create(0, 0, "atlas.chilimBalam", 'readyEs')
-		readySign.alpha = 0
-		readySign.anchor.setTo(0.5, 0.5)
-		readySign.x = game.world.centerX
-		readySign.y = game.world.centerY - 50
-		startGroup.add(readySign)
-        
+		startGroup.add(blackScreen)        
         
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -156,6 +170,7 @@ var runner = function(){
                 //game.time.events.add(throwTime *0.1, dropObjects , this);
                 //objectsGroup.timer.start()
                 game.time.events.add(TIME_ADD, addObjects , this);
+                gameStart = true
             })
         })
     } 
@@ -168,70 +183,81 @@ var runner = function(){
 
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
+        game.load.spritesheet('bMonster', 'images/chilimBalam/bMonster.png', 76, 89, 7);
+        game.load.spritesheet('pMonster', 'images/chilimBalam/pMonster.png', 78, 74, 7);
+        
+        
     }
     
     function inputButton(obj){
         
-        if(gameActive == true){
-            if(obj.tag == 'left'){
-                moveLeft = true
-                moveRight = false
-                characterGroup.scale.x = -1
-            }else{
-                moveLeft = false
-                moveRight = true
-                characterGroup.scale.x = 1
-            }
-            buddy.setAnimationByName(0, "RUN", 0.8);
+        if(gameActive == false){
+            return
         }
+        
+        if ( buddy.isRunning == true && checkIfCanJump())
+        {
+            groupButton.isPressed = true
+            jumping = true
+            doJump()
+        }
+        obj.parent.children[1].alpha = 0
     }
     
     function releaseButton(obj){
         
-        if(gameActive == true){
-            if(obj.tag =='left'){
-                moveLeft = false
-            }else{
-                moveRight = false
-            }
-            buddy.setAnimationByName(0, "IDLE", 0.8);
-        }
+        groupButton.isPressed = false
+        jumping = false
+        obj.parent.children[1].alpha = 1
     }
     
     function createControls(){
         
         var spaceButtons = 220
         
-        var bottomRect = new Phaser.Graphics(game)
-        bottomRect.beginFill(0xffffff);
-        bottomRect.drawRect(0, game.world.height, game.world.width, -game.world.height * 0.175);
-        bottomRect.endFill();
+        var bottomRect = sceneGroup.create(0,game.world.height,'atlas.chilimBalam','dashboard')
+        bottomRect.width = game.world.width
+        bottomRect.height *=0.85
         bottomRect.anchor.setTo(0,1)
-        sceneGroup.add(bottomRect)
         
-        var button1 = sceneGroup.create(game.world.centerX - spaceButtons, game.world.height - 155, 'atlas.chilimBalam','boton')
-        button1.inputEnabled = true
-        button1.events.onInputDown.add(inputButton)
-        button1.tag = 'left'
-        button1.events.onInputUp.add(releaseButton)
+        groupButton = game.add.group()
+        groupButton.x = game.world.centerX
+        groupButton.y = game.world.height -88
+        groupButton.isPressed = false
+        sceneGroup.add(groupButton)
         
-        var button2 = sceneGroup.create(game.world.centerX + spaceButtons, game.world.height - 155, 'atlas.chilimBalam','boton')
-        button2.scale.x = -1
+        var button1 = groupButton.create(0,0, 'atlas.chilimBalam','arcadebutton2')
+        button1.anchor.setTo(0.5,0.5)
+        
+        var button2 = groupButton.create(0,0, 'atlas.chilimBalam','arcadebutton1')
+        button2.anchor.setTo(0.5,0.5)
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
-        button2.tag = 'right'
         button2.events.onInputUp.add(releaseButton)
         
     }
     
+    function stopWorld(){
+        
+        for(var i = 0;i<groundGroup.length;i++){
+            var child = groundGroup.children[i]
+            child.body.velocity.x = 0
+        }
+        
+        buddy.setAnimationByName(0,"LOSE",false)
+        var tweenLose = game.add.tween(buddy).to({y:buddy.y - 100}, 1000, Phaser.Easing.Cubic.Out, true)
+        tweenLose.onComplete.add(function(){
+            game.add.tween(buddy).to({y:buddy.y + game.world.height + game.world.height * 0.2}, 500, Phaser.Easing.Cubic.In, true)
+        })
+    }
     function stopGame(win){
         
+        sound.play("gameLose")
+        stopWorld()
         game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
         
         //objectsGroup.timer.pause()
         gameActive = false
-        buddy.setAnimationByName(0,"SAD",0.6)
-        //timer.pause()
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
@@ -258,18 +284,26 @@ var runner = function(){
         
     }
     
-    function addPoint(){
+    function addPoint(obj,part){
         
+        var partName = part || 'star'
         sound.play("pop")
-        createPart('star', characterGroup.cup)
-        createTextPart('+1', characterGroup.cup)
+        createPart(partName, obj)
+        createTextPart('+1', obj)
+        
+        //gameSpeed +=10
         
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
         
-        GRAVITY_OBJECTS+=0.2
-        throwTime-=17
-        //throwTimeItems-=10
+        if(pointsBar.number == 10){
+            enemyNames[enemyNames.length] = 'enemy_squish'
+        }else if(pointsBar.number == 16){
+            enemyNames[enemyNames.length] = 'enemy_spike'
+        }else if(pointsBar.number == 25){
+            consecBricks = -100
+            consecFloor = -100
+        }
         
     }
     
@@ -288,48 +322,22 @@ var runner = function(){
         
     }
     
-    function deactivateObject(obj){
-        obj.alpha = 0
-        obj.active = false
-        obj.x = -100
-        objectsGroup.remove(obj)
-    }
-    
-    function checkPos(obj){
-        
-        var cup = characterGroup.cup
-        //console.log(cup.world.x + ' cupx')
-        if(obj.active == true){
-            if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y - obj.y) < cup.height*0.6){
-                deactivateObject(obj)
-                if(obj.tag == 'candy'){
-                    addPoint()
-                }else{
-                    createPart('wrong',characterGroup.cup)
-                    missPoint()
-                }
-            }else if(obj.y > game.world.height * 0.825){
-                deactivateObject(obj)
-                if(obj.tag == 'candy'){
-                    //missPoint()
-                    createPart('drop',obj)
-                    //sound.play("splash")
-                }else if(obj.tag == 'obstacle'){
-                    createPart('smoke',obj)
-                    //sound.play("explode")
-                }
-            }else if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y + 45 - obj.y) < cup.height*0.6 && obj.tag == 'candy'){
-                deactivateObject(obj)
-                addPoint()
-            }
-        }
-    }
-    
     function positionPlayer(){
+        
         player.body.x = 100 
         characterGroup.x = player.x
-        characterGroup.y = player.y +50 
+        characterGroup.y = player.y +40 
         
+        if(player.body.y > game.world.height - BOT_OFFSET * 1.6 ){
+            stopGame()
+        }
+        
+    }
+    
+    function deactivateObj(obj){
+        obj.body.velocity.x = 0
+        obj.used = false
+        obj.body.y = -500
     }
     
     function checkObjects(){
@@ -338,12 +346,33 @@ var runner = function(){
         for(var index = 0;index<objectsList.length;index++){
             var obj = objectsList[index]
             if(obj.body.x < -obj.width && obj.used == true){
-                obj.body.velocity.x = 0
-                obj.used = false
-                obj.body.y = -500
+                deactivateObj(obj)
                 //console.log('objeto removido')
             }
         }
+    }
+    
+    function doJump(value){
+        
+        var jumpValue = value
+        
+        if(jumpValue == null){ jumpValue = JUMP_FORCE}
+        sound.play("whoosh")
+        
+        buddy.isRunning = false
+        
+        buddy.setAnimationByName(0, "JUMP", false);
+        buddy.addAnimationByName(0, "LAND", false);
+        
+        player.body.moveUp(jumpValue )
+        jumpTimer = game.time.now + 750;
+        
+        game.time.events.add(750, function(){
+            if(gameActive == true){
+                //buddy.setAnimationByName(0, "RUN", true);
+            }
+        } , this);
+    
     }
     
     function update(){
@@ -354,16 +383,33 @@ var runner = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown && game.time.now > jumpTimer && checkIfCanJump())
+        if (jumpButton.isDown && checkIfCanJump() && jumping == false)
         {
-            player.body.moveUp(600);
-            jumpTimer = game.time.now + 750;
+            //doJump()
+            jumping = true
+            doJump()
+        }
+        
+        if(jumping == true){
+            player.body.velocity.y-=2
+            
+        }
+        
+        //console.log(player.body.velocity.y + ' velocity y')
+        if((jumpButton.isUp && groupButton.isPressed == false)){
+            if(player.body.velocity.y< 0){
+                player.body.velocity.y+=20
+            }
+            jumping = false
+            //buddy.setAnimationByName(0,"RUN",true)
+        }
+        
+        if(checkIfCanJump() == false && buddy.isRunning == true){
+            buddy.setAnimationByName(0,"JUMP", false)
+            buddy.isRunning = false
         }
         
         checkObjects()
-        
-        //console.log(objToCheck.x + ' position x')
-        //pivotObjects = objToCheck.body.x + objToCheck.width
     }
     
     function checkIfCanJump() {
@@ -477,31 +523,6 @@ var runner = function(){
         
     }
     
-    function activateObject(objToUse){
-                
-        var posX = game.rnd.integerInRange(50, game.world.width - 50)
-        
-        if(objectsGroup.length > 0){
-            
-            objToUse.x = objectsGroup.children[0].x
-            while (checkPosObj(posX)){
-                posX = game.rnd.integerInRange(75, game.world.width - 75)
-                //if(posX < 75){ posX = 75}
-                if(gameActive == false){ break}
-            }
-            
-        }
-        
-        objToUse.alpha = 1
-        objToUse.x = posX
-        objToUse.y = -50
-        objToUse.active = true
-        objectsGroup.add(objToUse)
-        
-        //console.log(objToUse.x + ' position X')
-        
-    }
-    
     function createPart(key,obj){
         
         var particlesNumber = 2
@@ -536,7 +557,7 @@ var runner = function(){
             return particlesGood
         }else{
             key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 60,'atlas.chilimBalam',key)
+            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20,'atlas.chilimBalam',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -547,8 +568,98 @@ var runner = function(){
     
     function collisionEvent(obj1,obj2){
         
-        console.log(obj2.sprite.tag)
-       //console.log('chocaste con ' + obj1.body.x)
+        //console.log(obj2.sprite.tag)
+        var tag = obj2.sprite.tag
+        
+        if(obj2.sprite.used == true && gameActive == true){
+            if(tag == 'coin'){
+                deactivateObj(obj2.sprite)
+                addPoint(obj2.sprite)
+
+            }else if(tag == "floor" || tag == "brick"){
+                if(gameActive == true && buddy.isRunning == false){
+                    buddy.isRunning = true
+                    if(player.body.y < obj2.sprite.body.y){
+                        //buddy.setAnimationByName(0, "LAND", false);
+                        buddy.addAnimationByName(0,"RUN",true)
+                    }
+                }
+            }else if(tag == 'enemy_spike'){
+                missPoint()
+                createPart('wrong', obj2.sprite)
+                stopGame()
+            }else if(tag == "enemy_squish"){
+                if(player.body.y < obj2.sprite.y - 8){
+                    doJump(JUMP_FORCE * 1.5)
+                    addPoint(obj2.sprite,'drop')
+                    sound.play("splash")
+                    deactivateObj(obj2.sprite)
+                    
+                }else{
+                    missPoint()
+                    createPart('wrong', obj2.sprite)
+                    stopGame()
+                }
+            }
+        }
+    }
+    
+    function addComplement(tag){
+        
+        var objToUse
+        for(var i = 0;i< groundGroup.length;i++){
+            var child = groundGroup.children[i]
+            if(child.tag == tag && child.used == false){
+                objToUse = child
+                break
+            }
+        }
+        return objToUse
+    }
+    
+     function activateObject(posX, posY, child){
+        if(child != null){
+            
+            child.body.x = posX
+            child.body.y = posY
+            child.used = true
+            child.body.velocity.x = -gameSpeed 
+            objectsList[objectsList.length] = child
+            
+            if(child.tag == 'coin'){
+                child.body.y-=75
+            }else if(child.tag == "enemy_squish"){
+                child.body.y+=5
+            }
+        }
+    
+     }
+    
+    function checkAdd(obj, tag){
+        
+        Phaser.ArrayUtils.shuffle(enemyNames)
+        
+        if(Math.random()*2 > 1 && gameActive == true){
+            
+            var nameItem = enemyNames[0]
+            if(objToCheck.tag == 'floor' && tag == 'brick'){
+                nameItem = 'coin'
+            }
+            
+            if(objToCheck.spike == true){
+                nameItem = 'coin'
+            }
+
+            var coin = addComplement(nameItem)
+            if(coin != null){
+                activateObject(pivotObjects,obj.body.y - obj.height * 0.5 - coin.height * 0.5,coin)
+            }
+            
+            obj.spike = false
+            if(nameItem == 'enemy_spike'){
+                obj.spike = true
+            }
+        }
     }
     
     function addObstacle(tag){
@@ -557,87 +668,137 @@ var runner = function(){
         if(objToCheck != null ){
             pivotObjects = objToCheck.body.x + objToCheck.width
         }
-        
-        //console.log(objectsList.length + '  numero objetos, ' + pivotObjects + ' pivote' )
+            
         
         for(var i = 0;i< groundGroup.length;i++){
             var child = groundGroup.children[i]
             if(child.tag == tag && child.used == false){
                 if (tag == "floor"){
-                    child.body.x = pivotObjects
-                    child.body.y = game.world.height
-                    child.used = true
-                    child.body.velocity.x = -gameSpeed 
-                    objectsList[objectsList.length] = child
+                    
+                    activateObject(pivotObjects,game.world.height - child.height * 0.5 - BOT_OFFSET,child)
+                    
+                    checkAdd(child,tag)
                     objToCheck = child
-                }else if(tag =="fly"){
-                    child.body.x = pivotObjects
-                    child.body.y = game.world.height - 350
-                    child.used = true
-                    child.body.velocity.x = -gameSpeed 
-                    objectsList[objectsList.length] = child
+                    
+                }else if(tag =="brick"){
+                    
+                    activateObject(pivotObjects,game.world.height - OFF_BRICK - BOT_OFFSET,child)
+                    
+                    if(objToCheck.tag == "brick" && Math.random() * 2 > 1 && pointsBar.number > 10){
+                        child.body.y-= OFF_BRICK * 0.45
+                        child.top = true
+                    }
+                    
+                    checkAdd(child,tag)
+                    
                     objToCheck = child
+                    
                 }
                 break
             }
         }
     }
     
-    function createFloor(){
+    function createObjs(tag,scale,times){
         
         var pivotX = 0
-        for(var i = 0;i<8;i++){
+        for(var i = 0;i<times;i++){
+            var object
+            if(tag == 'enemy_spike'){
+                
+                object = game.add.sprite(-300, 200, 'bMonster');
+                object.scale.setTo(0.9,0.9)
+                groundGroup.add(object)
+                object.animations.add('walk');
+                object.animations.play('walk',24,true);
+                
+            }else if(tag == 'enemy_squish'){
+                
+                object = game.add.sprite(-300, 200, 'pMonster');
+                groundGroup.add(object)
+                object.animations.add('walk');
+                object.animations.play('walk',20,true);
+                
+            }else{
+                object = groundGroup.create(-300,game.world.height - 350,'atlas.chilimBalam',tag)
+            }
             
-            var floor = groundGroup.create(-300,game.world.height,'suelo')
-            floor.scale.setTo(2.5,2.5 )
-            floor.anchor.setTo(0,1)
-            floor.tag = "floor"
-            game.physics.p2.enable(floor,true)
-            floor.body.kinematic = true
-            floor.used = false
+            object.scale.setTo(scale,scale)
+            object.anchor.setTo(0,1)
+            object.tag = tag
+            game.physics.p2.enable(object,DEBUG_PHYSICS)
+            object.body.kinematic = true
+            object.used = false
             
-            player.body.createBodyCallback(floor, collisionEvent, this);
-        }
-    }
-    
-    function createFlyFloor(){
-        
-        var pivotX = 0
-        for(var i = 0;i<8;i++){
+            if(tag == 'coin'){
+                // object.body.data.shapes[0].sensor = true;
+            }
             
-            var floor = groundGroup.create(-300,game.world.height - 300,'volador')
-            floor.scale.setTo(2.5,2.5)
-            floor.anchor.setTo(0,1)
-            floor.tag = "fly"
-            game.physics.p2.enable(floor,true)
-            floor.body.kinematic = true
-            floor.used = false
-            
-            player.body.createBodyCallback(floor, collisionEvent, this);
+            player.body.createBodyCallback(object, collisionEvent, this);
         }
     }
     
     function createObjects(){
         
-        createFloor()
-        createFlyFloor()
+        createObjs('floor',1.4,8)
+        createObjs('brick',1.1,8)
+        createObjs('coin',1,6)
+        createObjs('enemy_squish',1,4)
+        createObjs('enemy_spike',1,4)
         
-        for(var i = 0; i < 5; i++){
-            addObstacle("floor",true)
+        for(var i = 0; i < 10; i++){
+            addObstacle('floor')
         }
         
     }
     
+    function checkTag(){
+        
+        if(consecFloor == 1){
+            tag = 'floor'
+            consecFloor-=2
+        }else if(consecBricks == 1){
+            tag = 'brick'
+            consecBricks-=2
+        }else{
+            if(objToCheck.tag == 'floor'){
+                objToCheck.lastFloor = true
+            }
+            var tag = "floor"
+            if(Math.random()*2 > 1){
+                tag = "brick"
+            }
+
+            if(tag == 'brick' && objToCheck.spike == true){
+                tag = 'floor'
+            }
+        }
+        
+        if(tag == 'floor'){
+            consecFloor++
+        }else{
+            consecBricks++
+        }
+        
+        return tag
+    }
+    
     function addObjects(){
         
-        var tag = "floor"
-        if(Math.random()*2 > 1){
-            tag = "fly"
-        }
+        var tag = checkTag()
+        
         addObstacle(tag)
         
         game.time.events.add(TIME_ADD, addObjects , this);
         
+    }
+    
+    function positionFirst(){
+        positionPlayer()
+        
+        if(gameStart == false){
+            game.time.events.add(1, positionFirst , this);
+        }
     }
     
 	return {
@@ -646,9 +807,8 @@ var runner = function(){
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.P2JS);
-            game.physics.stopSystem(Phaser.Physics.P2JS)
 
-            game.physics.p2.gravity.y = 800;
+            game.physics.p2.gravity.y = WORLD_GRAVITY;
             game.physics.p2.world.defaultContactMaterial.friction = 0.3;
             game.physics.p2.world.setGlobalStiffness(1e5);
             
@@ -671,36 +831,32 @@ var runner = function(){
             
             characterGroup = game.add.group()
             characterGroup.x = 100
-            characterGroup.y = background.height * 0.72   
+            characterGroup.y = game.world.height - BOT_OFFSET * 3.2
             sceneGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");
-            buddy.scale.setTo(1,1)
+            buddy.isRunning = true
+            buddy.scale.setTo(0.8,0.8)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "RUN", true);
             buddy.setSkinByName('normal');
             
-            player = sceneGroup.create(characterGroup.x, characterGroup.y,'atlas.chilimBalam','gomita4')
+            player = sceneGroup.create(characterGroup.x, characterGroup.y,'atlas.chilimBalam','enemy_spike')
             player.anchor.setTo(0.5,1)
             player.alpha = 0
-            game.physics.p2.enable(player,true)
+            game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
-            //player.body.kinematic = true
-            player.body.mass=1000
+            player.body.mass=500
             
-            positionPlayer()
+            player.body.collideWorldBounds = true;
             
-            var topRect = new Phaser.Graphics(game)
-            topRect.beginFill(0xffffff);
-            topRect.drawRect(0, 0, game.world.width, 60);
-            topRect.endFill();
-            topRect.anchor.setTo(0,0)
-            sceneGroup.add(topRect)
+            positionFirst()
             
             createObjects()
             
             createPointsBar()
             createHearts()
+            createControls()
             
             
             //createControls()

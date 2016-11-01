@@ -2,7 +2,7 @@
 
 {
 	"filename": "cursor",
-	"frame": {"x":449,"y":106,"w":84,"h":70},
+	"frame": {"x":281,"y":95,"w":84,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":70},
@@ -11,25 +11,25 @@
 },
 {
 	"filename": "instruccionesCartas",
-	"frame": {"x":542,"y":1,"w":383,"h":455},
+	"frame": {"x":1,"y":1,"w":278,"h":395},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":383,"h":455},
-	"sourceSize": {"w":383,"h":455},
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":9,"w":278,"h":395},
+	"sourceSize": {"w":315,"h":440},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "LogoPie",
-	"frame": {"x":1,"y":1,"w":539,"h":103},
+	"frame": {"x":281,"y":167,"w":161,"h":62},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":539,"h":103},
-	"sourceSize": {"w":539,"h":103},
+	"spriteSourceSize": {"x":0,"y":0,"w":161,"h":62},
+	"sourceSize": {"w":161,"h":62},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "manita",
-	"frame": {"x":163,"y":177,"w":93,"h":92},
+	"frame": {"x":281,"y":1,"w":93,"h":92},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":92},
@@ -38,20 +38,20 @@
 },
 {
 	"filename": "okbtn",
-	"frame": {"x":1,"y":177,"w":160,"h":90},
+	"frame": {"x":1,"y":501,"w":342,"h":81},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
-	"sourceSize": {"w":160,"h":90},
+	"spriteSourceSize": {"x":0,"y":0,"w":342,"h":81},
+	"sourceSize": {"w":342,"h":81},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "tituloInstrucciones",
-	"frame": {"x":1,"y":106,"w":446,"h":69},
+	"frame": {"x":1,"y":398,"w":449,"h":101},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":446,"h":69},
-	"sourceSize": {"w":446,"h":69},
+	"spriteSourceSize": {"x":0,"y":0,"w":449,"h":101},
+	"sourceSize": {"w":449,"h":101},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -59,8 +59,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":926,"h":457},
+	"size": {"w":451,"h":583},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c625ff4c64c01793dce52bc529443088:400beceef41787c904b0382cd0f29d6c:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:9eb52b86ce39de0f15ef4a241b1dac21:92193d69c85a5e811ed2be474d8e338e:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

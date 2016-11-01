@@ -96,9 +96,7 @@ var openEnglish = function(){
         loadSounds()
         
 	}
-    
-
-    
+        
     function animateScene() {
                 
         gameActive = false
@@ -209,6 +207,7 @@ var openEnglish = function(){
             if(gameIndex> 9){
                 stopGame()
             }else{
+                createButtons()
                 setWords()
             }
             
@@ -218,6 +217,14 @@ var openEnglish = function(){
     function addCorrect(correct){
         
         var obj = pointsGroup.children[gameIndex]
+        
+        var color = 2
+        if(correct == false){
+            color = 3
+        }
+        
+        changeImage(color,pointsGroup.children[gameIndex])
+        
         var correct
         if(correct){
             correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','correcto')
@@ -265,7 +272,9 @@ var openEnglish = function(){
         sceneGroup.add(buttonsGroup)
         
         var pivotX = game.world.centerX
-        var pivotY = game.world.height - game.world.height * 0.3
+        var pivotY = game.world.height - game.world.height * 0.8
+        var colors = [1,2,3,4]
+        Phaser.ArrayUtils.shuffle(colors)
         
         for(var i = 0;i<2;i++){
             
@@ -275,13 +284,13 @@ var openEnglish = function(){
             group.alpha = 0
             buttonsGroup.add(group)
             
-            var img = group.create(0,0,'atlas.openEnglish','_opcion')
+            var img = group.create(0,0,'atlas.openEnglish','opcion' + colors[i])
             img.anchor.setTo(0.5,0.5)
             
             img.inputEnabled = true
             img.events.onInputDown.add(inputCard)
             
-            var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+            var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
             
             var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "button", fontStyle)
             trackerText.anchor.setTo(0.5, 0.5)
@@ -289,7 +298,7 @@ var openEnglish = function(){
             
             group.text = trackerText
             
-            pivotY+= img.height * 1.2
+            pivotY+= img.height * 1.4
             
         }
     }
@@ -308,8 +317,8 @@ var openEnglish = function(){
         
         Phaser.ArrayUtils.shuffle(randomList)
         
-        buttonsGroup.children[randomList[0]].y = game.world.height * 0.725
-        buttonsGroup.children[randomList[1]].y = buttonsGroup.children[randomList[0]].y + buttonsGroup.children[0].height * 1.2
+        buttonsGroup.children[randomList[0]].y = game.world.height * 0.63
+        buttonsGroup.children[randomList[1]].y = buttonsGroup.children[randomList[0]].y + buttonsGroup.children[0].height * 1.6
         
     }
     
@@ -338,9 +347,9 @@ var openEnglish = function(){
         var obj = pointsGroup.children[index]
         changeImage(1,obj)
         
-        if(index > 0){
+        /*if(index > 0){
             changeImage(2,pointsGroup.children[index - 1])
-        }
+        }*/
         
         var scaleTween = game.add.tween(obj.scale).to({x:1.3,y:1.3}, 200, Phaser.Easing.linear, true)
         
@@ -396,12 +405,13 @@ var openEnglish = function(){
                 group.children[i].alpha = 1
             }
         }
-        group.children[3].alpha = 1
+        //group.children[3].alpha = 1
     }
     
     function createPointsBar(){
         
         var pointsBar = sceneGroup.create(game.world.centerX, 70, 'atlas.openEnglish','lineaGris')
+        pointsBar.alpha = 0
         pointsBar.anchor.setTo(0.5,0.5)
         
         pointsGroup = game.add.group()
@@ -418,19 +428,23 @@ var openEnglish = function(){
             var circle1 = group.create(0,0,'atlas.openEnglish','Cgris')
             circle1.anchor.setTo(0.5,0.5)
             
-            var circle2 = group.create(0,0,'atlas.openEnglish','Cazul')
+            var circle2 = group.create(0,0,'atlas.openEnglish','Cblanco')
             circle2.anchor.setTo(0.5,0.5)
             
             var circle3 = group.create(0,0,'atlas.openEnglish','Cverde')
             circle3.anchor.setTo(0.5,0.5)
             
+            var circle4 = group.create(0,0,'atlas.openEnglish','Cnaranja')
+            circle4.anchor.setTo(0.5,0.5)
+            
             var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
             
             var trackerText = new Phaser.Text(sceneGroup.game, 0, 3, i + 1, fontStyle)
+            trackerText.alpha = 0
             trackerText.anchor.setTo(0.5, 0.5)
             group.add(trackerText)
             
-            pivotX+= circle1.width * 1.315
+            pivotX+= circle1.width * 1.44
             
             changeImage(0,group)
             
@@ -444,26 +458,15 @@ var openEnglish = function(){
 
 			sceneGroup = game.add.group()
             
-            var botBack = new Phaser.Graphics(game)
-            botBack.beginFill(0x93c100);
-            botBack.drawRect(0, game.world.height, game.world.width, -game.world.height * 0.5);
-            botBack.endFill();
-            botBack.anchor.setTo(0,1)
-            sceneGroup.add(botBack)
-            
             var topBack = new Phaser.Graphics(game)
-            topBack.beginFill(0x2868b6);
-            topBack.drawRect(0, 0, game.world.width, game.world.height * 0.55);
+            topBack.beginFill(0x058fff );
+            topBack.drawRect(0, 0, game.world.width, game.world.height);
             topBack.endFill();
             topBack.anchor.setTo(0,0)
             sceneGroup.add(topBack)
             
-            var midBack = new Phaser.Graphics(game)
-            midBack.beginFill(0xffffff);
-            midBack.drawRect(0, game.world.height * 0.55, game.world.width, 20);
-            midBack.endFill();
-            midBack.anchor.setTo(0,0.5)
-            sceneGroup.add(midBack)
+            var openLogo = sceneGroup.create(game.world.centerX,game.world.height - 25,'atlas.openEnglish','openEnglishLogo')
+            openLogo.anchor.setTo(0.5,1)
             
             createButtons()
             createPointsBar()

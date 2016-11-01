@@ -147,7 +147,7 @@ var resultRunner = function(){
 	}
 
 	function tryAgain(){
-		sceneloader.show("creatPianoTiles")
+		sceneloader.show("runner")
 	}
 
 	function createShareButton(){
@@ -224,7 +224,7 @@ var resultRunner = function(){
             }else if(parent.tag == 'reload'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show("chilimBalam")
+                        sceneloader.show("runner")
                     })
             }
         })

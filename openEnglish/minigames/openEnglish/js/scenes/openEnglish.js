@@ -28,19 +28,9 @@ var openEnglish = function(){
                 image: "images/openEnglish/atlas_common.png",
             },
             {   
-                name: "atlas.openEnglish_ea",
-                json: "images/openEnglish/atlas_ea.json",
-                image: "images/openEnglish/atlas_ea.png",
-            },
-            {   
-                name: "atlas.openEnglish_me",
-                json: "images/openEnglish/atlas_me.json",
-                image: "images/openEnglish/atlas_me.png",
-            },
-            {   
-                name: "atlas.openEnglish_ha",
-                json: "images/openEnglish/atlas_ha.json",
-                image: "images/openEnglish/atlas_ha.png",
+                name: "atlas.openEnglish_cards",
+                json: "images/openEnglish/atlas_cards.json",
+                image: "images/openEnglish/atlas_cards.png",
             },
         ],
         images: [
@@ -79,6 +69,7 @@ var openEnglish = function(){
     var timer
     var cardsNumber
     var comboCount
+    var turnCount = null
     
     var cardsList = [
          [
@@ -164,6 +155,7 @@ var openEnglish = function(){
 
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
+        turnCount = 1
         cardsNumber = 4
         lives = 10
         arrayComparison = []
@@ -300,8 +292,9 @@ var openEnglish = function(){
                     cardsGroup.remove(card)
                     if(cardsGroup.length == 0){
                         if(cardsNumber < 8){cardsNumber+=4}
+                        turnCount++
                         addLive()
-                        createCards(cardsNumber)
+                        createCards()
                         showCards()
                     }
                 })
@@ -465,13 +458,32 @@ var openEnglish = function(){
         if(cardsNumber == 8){
             pivotY = game.world.centerY - 290
         }
+                
+        var cardWords, enWords
         
-        var cardIndex = getCardIndex()
+        if(turnCount <=2){
+            cardWords = cardsList[0][0]
+            enWords = cardsList[0][1]
+        }else if(turnCount == 3){
+            cardWords = cardsList[0][0]
+            enWords = cardsList[0][1]
+            
+            cardWords = cardWords.concat = cardsList[1][0]
+            enWords = enWords.concat = cardsList[1][1]
+        }else if(turnCount>3 && turnCount<6){
+            cardWords = cardsList[1][0]
+            enWords = cardsList[1][1]
+        }else if(turnCount == 6){
+            cardWords = cardsList[1][0]
+            enWords = cardsList[1][1]
+            
+            cardWords = cardWords.concat = cardsList[2][0]
+            enWords = enWords.concat = cardsList[2][1]
+        }else{
+            cardWords = cardsList[2][0]
+            enWords = cardsList[2][1]
+        }
         
-        
-        var cardWords = cardsList[cardIndex][0]
-        
-        var enWords = cardsList[cardIndex][1]
         
         var randomNums = []
         for(var i = 0;i<cardWords.length;i++){
@@ -546,7 +558,7 @@ var openEnglish = function(){
                 cardFront.add(pointsText)
                 
             }else{
-                var img = cardFront.create(0,0,'atlas.openEnglish_' + difficultySection.getDifficulty(),cardsToUse[randomNums[i]])
+                var img = cardFront.create(0,0,'atlas.openEnglish_cards',cardsToUse[randomNums[i]])
                 img.anchor.setTo(0.5,0.5)
             }
             
