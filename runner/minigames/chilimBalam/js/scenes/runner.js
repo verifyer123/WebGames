@@ -41,35 +41,26 @@ var runner = function(){
 				file: "sounds/swipe.mp3"},
             {	name: "wrong",
 				file: "sounds/wrong.mp3"},
-            {	name: "ready_es",
-				file: "sounds/ready_es.mp3"},
-            {	name: "ready_en",
-				file: "sounds/ready_en.mp3"},
             {	name: "go_es",
 				file: "sounds/go_es.mp3"},
-            {	name: "go_en",
-				file: "sounds/go_en.mp3"},
-			{	name: "explode",
-				file: "sounds/explode.mp3"},
-            {	name: "shootBall",
-				file: "sounds/shootBall.mp3"},
-            {	name: "click",
-				file: "sounds/pop.mp3"},
             {	name: "whoosh",
 				file: "sounds/whoosh.mp3"},
             {	name: "gameLose",
 				file: "sounds/gameLose.mp3"},
+            {	name: "marioSong",
+				file: "sounds/marioSong.mp3"},
 		],
 	}
     
     var SPEED = 225 
     var TIME_ADD = 500
-    var JUMP_FORCE = 800
+    var JUMP_FORCE = 820
     var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 1600
     var OFF_BRICK = 330
-    var BOT_OFFSET = 115
+    var BOT_OFFSET = 105
     
+    var marioSong = null
     var enemyNames = null
     var consecFloor, consecBricks
     var gameStart = false
@@ -129,8 +120,6 @@ var runner = function(){
         
 	}
     
-
-    
     function animateScene() {
                 
         gameActive = false
@@ -185,6 +174,7 @@ var runner = function(){
         
         game.load.spritesheet('bMonster', 'images/chilimBalam/bMonster.png', 76, 89, 7);
         game.load.spritesheet('pMonster', 'images/chilimBalam/pMonster.png', 78, 74, 7);
+        game.load.audio('marioSong', 'sounds/marioSong.mp3');
         
         
     }
@@ -195,12 +185,17 @@ var runner = function(){
             return
         }
         
-        if ( buddy.isRunning == true && checkIfCanJump())
-        {
-            groupButton.isPressed = true
-            jumping = true
-            doJump()
+        //sound.play("click")
+        
+        if(buddy.isRunning == true){
+            if (checkIfCanJump())
+            {
+                groupButton.isPressed = true
+                jumping = true
+                doJump()
+            }
         }
+        
         obj.parent.children[1].alpha = 0
     }
     
@@ -245,12 +240,14 @@ var runner = function(){
         }
         
         buddy.setAnimationByName(0,"LOSE",false)
-        var tweenLose = game.add.tween(buddy).to({y:buddy.y - 100}, 1000, Phaser.Easing.Cubic.Out, true)
+        var tweenLose = game.add.tween(buddy).to({y:buddy.y - 150}, 1000, Phaser.Easing.Cubic.Out, true)
         tweenLose.onComplete.add(function(){
             game.add.tween(buddy).to({y:buddy.y + game.world.height + game.world.height * 0.2}, 500, Phaser.Easing.Cubic.In, true)
         })
     }
     function stopGame(win){
+        
+        marioSong.stop()
         
         sound.play("gameLose")
         stopWorld()
@@ -326,7 +323,7 @@ var runner = function(){
         
         player.body.x = 100 
         characterGroup.x = player.x
-        characterGroup.y = player.y +40 
+        characterGroup.y = player.y +44 
         
         if(player.body.y > game.world.height - BOT_OFFSET * 1.6 ){
             stopGame()
@@ -348,6 +345,9 @@ var runner = function(){
             if(obj.body.x < -obj.width && obj.used == true){
                 deactivateObj(obj)
                 //console.log('objeto removido')
+            }else if(obj.tag == 'coin' && Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
+                deactivateObj(obj)
+                addPoint(obj)
             }
         }
     }
@@ -439,42 +439,14 @@ var runner = function(){
         return result;
 
 }
-    
-    function createTime(){
-        
-        timeGroup = game.add.group()
-        timeGroup.x = game.world.right
-        timeGroup.y = 0
-        sceneGroup.add(timeGroup)
-        
-        var timeImg = timeGroup.create(0,0,'atlas.chilimBalam','time')
-        timeImg.width*=1.3
-        timeImg.height*=1.3
-        timeImg.anchor.setTo(1,0)
-        
-        var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var timerText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        timerText.x = -timeImg.width * 0.55
-        timerText.y = timeImg.height * 0.18
-        timeGroup.add(timerText)
-        
-        timeGroup.textI = timerText
-        timeGroup.number = 0
-        
-        timer = game.time.create(false);
-        timer.loop(1, updateSeconds, this);
-                
-    }
+
     
     function createPointsBar(){
         
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,10,'atlas.chilimBalam','xpcoins')
-        pointsImg.x = game.world.width - pointsImg.width * 1.2
-        pointsImg.width *=1
-        pointsImg.height*=1
+        var pointsImg = pointsBar.create(10,10,'atlas.chilimBalam','xpcoins')
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
@@ -490,6 +462,7 @@ var runner = function(){
     function createHearts(){
         
         heartsGroup = game.add.group()
+        heartsGroup.x = game.world.width - 20
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
@@ -499,13 +472,12 @@ var runner = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        group.create(0,0,'atlas.chilimBalam','life_box')
-
-        pivotX+= 47
+        var heartsImg = group.create(0,0,'atlas.chilimBalam','life_box')
+        heartsImg.anchor.setTo(1,0)
         
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
-        pointsText.x = pivotX
+        pointsText.x = -heartsImg.width * 0.38
         pointsText.y = 2
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
@@ -516,22 +488,11 @@ var runner = function(){
                 
     }
     
-     function updateSeconds(){
-        
-        timeGroup.number += 1;
-        timeGroup.textI.setText(timeGroup.number / 100)
-        
-    }
-    
     function createPart(key,obj){
         
         var particlesNumber = 2
         
         tooMuch = true
-        //console.log('fps ' + game.time.fps)
-        if (game.time.fps < 45 && tooMuch == false){
-            tooMuch = true
-        }
         
         if(game.device.desktop == true && tooMuch == false){ 
             
@@ -627,7 +588,10 @@ var runner = function(){
             objectsList[objectsList.length] = child
             
             if(child.tag == 'coin'){
-                child.body.y-=75
+                child.body.y-=25
+                if(Math.random()*2 > 1){
+                    child.body.y-=80
+                }
             }else if(child.tag == "enemy_squish"){
                 child.body.y+=5
             }
@@ -649,6 +613,11 @@ var runner = function(){
             if(objToCheck.spike == true){
                 nameItem = 'coin'
             }
+            
+            if((objToCheck.body.y > obj.body.y) && (nameItem == 'enemy_spike' || nameItem == 'enemy_squish')){
+                nameItem = 'coin'
+            }
+            
 
             var coin = addComplement(nameItem)
             if(coin != null){
@@ -707,7 +676,6 @@ var runner = function(){
             if(tag == 'enemy_spike'){
                 
                 object = game.add.sprite(-300, 200, 'bMonster');
-                object.scale.setTo(0.9,0.9)
                 groundGroup.add(object)
                 object.animations.add('walk');
                 object.animations.play('walk',24,true);
@@ -731,9 +699,10 @@ var runner = function(){
             object.used = false
             
             if(tag == 'coin'){
-                // object.body.data.shapes[0].sensor = true;
+                object.body.data.shapes[0].sensor = true
             }
             
+            object.body.allowSleep = true
             player.body.createBodyCallback(object, collisionEvent, this);
         }
     }
@@ -742,7 +711,7 @@ var runner = function(){
         
         createObjs('floor',1.4,8)
         createObjs('brick',1.1,8)
-        createObjs('coin',1,6)
+        createObjs('coin',1,8)
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
         
@@ -824,7 +793,13 @@ var runner = function(){
             sceneGroup.add(groundGroup)
             
             loadSounds()
-			initialize()            
+			initialize()       
+            
+            //sound.play("marioSong")
+            marioSong = game.add.audio('marioSong')
+            game.sound.setDecodedCallback(marioSong, function(){
+                marioSong.loopFull(0.6)
+            }, this);
             
             objectsGroup = game.add.group()
             sceneGroup.add(objectsGroup)
@@ -846,7 +821,7 @@ var runner = function(){
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
-            player.body.mass=500
+            player.body.mass=50
             
             player.body.collideWorldBounds = true;
             

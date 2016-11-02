@@ -11,6 +11,7 @@ body{
 	width: 100%;
 	height: auto;
 	text-align: center;
+    background-color: #d1196d;
 }
 
 .header-logo, .header-banner{
@@ -24,7 +25,11 @@ body{
 	background-repeat: repeat;
 	height: 80%;
 }
-a { text-decoration: none:}
+
+a{
+    text-decoration: none;
+}
+
 .game-content{
 	position: relative;
 	transform: translateY(-50%);
