@@ -47,10 +47,6 @@ var resultChilimBalam = function(){
 				name: 'atlas.resultScreen',
 				json: "images/result/atlas.json",
 				image: "images/result/atlas.png"},
-			{
-				name: 'atlas.ads',
-				json: "../shared/images/ads/atlas.json",
-				image: "../shared/images/ads/atlas.png"}
 		],
 		images: [
 			
@@ -68,6 +64,7 @@ var resultChilimBalam = function(){
     var win
     var iconsGroup
     var buttonsActive
+    var goalScore = 50
 
 	var timeGoal = null
 
@@ -140,7 +137,7 @@ var resultChilimBalam = function(){
 		    method: 'share',
 		    href: 'http://yogome.com/g/chilimBalam/',
 		    mobile_iframe: true,
-		    quote: "Mi score es: " + totalScore
+		    title: "Mi score es: " + totalScore
 		}, function(response){
 			//console.log(button)
 		});
@@ -244,7 +241,7 @@ var resultChilimBalam = function(){
         var pivotY = game.world.height * 0.85
         for(var i = 0;i<buttonNames.length;i++){
             
-            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#9d9d9c", align: "center"}
+            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
             var retryText = new Phaser.Text(sceneGroup.game, 0, 5, buttonTexts[i], fontStyle)
             retryText.anchor.setTo(0.5,0.5)
@@ -261,10 +258,10 @@ var resultChilimBalam = function(){
             
             pivotX += 150
         
-            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_purp')
+            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_on')
             button1.anchor.setTo(0.5,0.5)
             
-            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_gray')
+            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_off')
             button2.anchor.setTo(0.5,0.5)
             
             button1.inputEnabled = true
@@ -303,7 +300,7 @@ var resultChilimBalam = function(){
         sceneGroup.add(iconsGroup)
         
         var pivotX = game.world.centerX - 174
-        var pivotY = game.world.centerY +65
+        var pivotY = game.world.centerY +75
         
         var iconNames = ['mathquiz','pianotiles','instafit']
         var gameNames = ['Math Quiz', 'Piano Tiles', 'Instafit']
@@ -341,38 +338,62 @@ var resultChilimBalam = function(){
 		sceneGroup.alpha = 0
         
         var background = new Phaser.Graphics(game)
-        background.beginFill(0x645f5e);
+        background.beginFill(0x951384);
         background.drawRect(0, 0, game.world.width, game.world.height);
         background.endFill();
         background.anchor.setTo(0,0)
         sceneGroup.add(background)
         
-        var fontStyle = {font: "37px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var topRect = new Phaser.Graphics(game)
+        topRect.beginFill(0x2e77ce);
+        topRect.drawRect(0, 0, game.world.width, 100);
+        topRect.endFill();
+        topRect.anchor.setTo(0,0)
+        sceneGroup.add(topRect)
         
-        var retryText = new Phaser.Text(sceneGroup.game, 0, 5, "¡Sigue intentando!", fontStyle)
-        retryText.anchor.setTo(0.5,0.5)
-        retryText.x = game.world.centerX
-        retryText.y = game.world.centerY - 300
+        var text = game.add.bitmapText(game.world.centerX, 60, 'gotham', '¡Sigue intentando!', 43);
+        text.anchor.setTo(0.5,0.5)
+        sceneGroup.add(text)
+        
+        var retryCharacter = sceneGroup.create(game.world.centerX - 220, game.world.centerY - 200,'atlas.resultScreen','retro-personaje')
+        retryCharacter.anchor.setTo(0.5,0.5)
+        
+        var pivotText = retryCharacter.x + retryCharacter.width * 0.6
+        
+        var text = game.add.bitmapText(pivotText, game.world.centerY - 270, 'gotham', 'Tuviste', 43);
+        sceneGroup.add(text)
+        
+        var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, 5, totalScore + " puntos", fontStyle)
+        //retryText.x = pivotText
+        retryText.y = game.world.centerY - 278
         sceneGroup.add(retryText)
         
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var retryText = new Phaser.Text(sceneGroup.game, 0, 5, "Tu score es:", fontStyle)
-        retryText.anchor.setTo(0.5,0.5)
-        retryText.x = game.world.centerX
-        retryText.y = game.world.centerY - 200
         sceneGroup.add(retryText)
         
-        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#79b6b9", align: "center"}
+        var text = game.add.bitmapText(pivotText, game.world.centerY - 210, 'gotham', 'Obtén un nuevo', 43);
+        sceneGroup.add(text)
         
-        var scoreText = new Phaser.Text(sceneGroup.game, 0, 5, totalScore + " pts", fontStyle)
-        scoreText.anchor.setTo(0.5,0.5)
-        scoreText.x = game.world.centerX
-        scoreText.y = game.world.centerY - 100
+        var scoreText = game.add.bitmapText(pivotText, game.world.centerY - 150, 'gotham', 'cupón por', 43);
         sceneGroup.add(scoreText)
         
+        var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var retryText = new Phaser.Text(sceneGroup.game, scoreText.x + scoreText.width * 1.1, 5, goalScore + " puntos", fontStyle)
+        //retryText.x = pivotText
+        retryText.y = game.world.centerY - 158
+        sceneGroup.add(retryText)
+        
         var bottomBar = new Phaser.Graphics(game)
-        background.beginFill(0xffffff);
+        background.beginFill(0x770b6d);
+        background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.55);
+        background.endFill();
+        background.anchor.setTo(0,1)
+        sceneGroup.add(background)
+        
+        var bottomBar = new Phaser.Graphics(game)
+        background.beginFill(0x383838);
         background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.27);
         background.endFill();
         background.anchor.setTo(0,1)
@@ -389,12 +410,18 @@ var resultChilimBalam = function(){
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
+        game.stage.backgroundColor = "#ffffff"
 	}
-
+    
+    function preload(){
+        game.load.bitmapFont('gotham', 'images/bitFont/Gotham.png', 'images/bitFont/Gotham.fnt');
+    }
+    
 	return {
 		assets: assets,
 		name: "resultChilimBalam",
 		create: createScene,
+        preload: preload,
 		setScore: setScore,
 		init: initialize,
 	}

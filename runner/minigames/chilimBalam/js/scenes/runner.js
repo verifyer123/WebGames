@@ -122,46 +122,18 @@ var runner = function(){
     
     function animateScene() {
                 
-        gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
-
-		var blackScreen = new Phaser.Graphics(game)
-		blackScreen.alpha = 0.3
-		blackScreen.beginFill(0x0)
-		blackScreen.drawRect(0, 0, game.width, game.height)
-		blackScreen.endFill()
-
-		startGroup.add(blackScreen)        
+        gameActive = false    
         
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-        
-            
-            
-        var goSign = startGroup.create(0, 0, "atlas.chilimBalam", 'goEs')
-        goSign.alpha = 0
-        goSign.anchor.setTo(0.5, 0.5)
-        goSign.x = game.world.centerX
-        goSign.y = game.world.centerY - 50
-        startGroup.add(goSign)
 
-        var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
-        tweenSign.onComplete.add(function(){
-            sound.play("go_es")
+        gameActive = true
+        //timer.start()
+        //game.time.events.add(throwTime *0.1, dropObjects , this);
+        //objectsGroup.timer.start()
+        game.time.events.add(TIME_ADD, addObjects , this);
+        gameStart = true
 
-            var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-            game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-            finalTween.onComplete.add(function(){
-                gameActive = true
-                //timer.start()
-                //game.time.events.add(throwTime *0.1, dropObjects , this);
-                //objectsGroup.timer.start()
-                game.time.events.add(TIME_ADD, addObjects , this);
-                gameStart = true
-            })
-        })
     } 
     
     
@@ -174,6 +146,7 @@ var runner = function(){
         
         game.load.spritesheet('bMonster', 'images/chilimBalam/bMonster.png', 76, 89, 7);
         game.load.spritesheet('pMonster', 'images/chilimBalam/pMonster.png', 78, 74, 7);
+        game.load.spritesheet('coinS', 'images/chilimBalam/coinS.png', 68, 70, 12);
         game.load.audio('marioSong', 'sounds/marioSong.mp3');
         
         
@@ -249,6 +222,7 @@ var runner = function(){
         
         marioSong.stop()
         
+        missPoint()
         sound.play("gameLose")
         stopWorld()
         game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
@@ -302,6 +276,28 @@ var runner = function(){
             consecFloor = -100
         }
         
+        addNumberPart(pointsBar.text,'+1')
+        
+    }
+    
+    function addNumberPart(obj,number){
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+        tweenScale.onComplete.add(function(){
+            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+        })
     }
     
     function missPoint(){
@@ -313,9 +309,7 @@ var runner = function(){
         heartsGroup.text.setText('X ' + lives)
         //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
         
-        if(lives == 0){
-            stopGame(false)
-        }
+        addNumberPart(heartsGroup.text,'-1')
         
     }
     
@@ -687,6 +681,12 @@ var runner = function(){
                 object.animations.add('walk');
                 object.animations.play('walk',20,true);
                 
+            }else if(tag == 'coin'){
+                
+                object = game.add.sprite(-300, 200, 'coinS');
+                groundGroup.add(object)
+                object.animations.add('walk');
+                object.animations.play('walk',24,true);   
             }else{
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.chilimBalam',tag)
             }
@@ -806,7 +806,7 @@ var runner = function(){
             
             characterGroup = game.add.group()
             characterGroup.x = 100
-            characterGroup.y = game.world.height - BOT_OFFSET * 3.2
+            characterGroup.y = game.world.height - BOT_OFFSET * 4.5
             sceneGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");

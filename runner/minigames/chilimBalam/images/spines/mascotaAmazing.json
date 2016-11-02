@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "KmzKYPzaB9hEtNHTloMK1+4IAyw", "spine": "3.3.07", "width": 102.94, "height": 127.09, "images": "" },
+"skeleton": { "hash": "SqlRFU0CHNyK+sPbj40yEb7oetI", "spine": "3.3.07", "width": 102.94, "height": 127.09, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torzo", "parent": "root", "length": 11.9, "rotation": 90, "x": 0.17, "y": 18.8, "inheritScale": false },
@@ -1237,8 +1237,8 @@
 			},
 			"shadow": {
 				"attachment": [
-					{ "time": 0, "name": "shadow" },
-					{ "time": 0.5, "name": "shadow" }
+					{ "time": 0, "name": null },
+					{ "time": 0.5, "name": null }
 				]
 			},
 			"shin1": {

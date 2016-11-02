@@ -41,14 +41,6 @@ var chilimBalam = function(){
 				file: "sounds/swipe.mp3"},
             {	name: "wrong",
 				file: "sounds/wrong.mp3"},
-            {	name: "ready_es",
-				file: "sounds/ready_es.mp3"},
-            {	name: "ready_en",
-				file: "sounds/ready_en.mp3"},
-            {	name: "go_es",
-				file: "sounds/go_es.mp3"},
-            {	name: "go_en",
-				file: "sounds/go_en.mp3"},
 			{	name: "explode",
 				file: "sounds/explode.mp3"},
             {	name: "shootBall",
@@ -57,61 +49,6 @@ var chilimBalam = function(){
 				file: "sounds/pop.mp3"},
 		],
 	}
-    
-    var QUESTIONS = [
-        'Cuando vas al gym, \n¿cuál es tu actividad favorita?',
-        '¿Cuál es la canción que \ndescribe tu "workout"?',
-        '¿Cuando necesitas un "boost" \nde energía qué snack comes?',
-        'Tu "date" ideal sería:',
-        'Cuando lees una revista de \nsalud y fitness tú...',
-        'Tienes una cita a 2 km y tu \ncoche se descompone, tú...',
-        '¿Cuánto te tardas en correr 1 km?',        
-    ]
-    
-    var ANSWERS = [
-        [
-            '- 20 minutos en la elíptica \n(además quemas calorías extras mientras\n platicas con tus amigas)',
-            '- Sólo pago para ir al sauna',
-            '- Voy para ponerme al corriente de la \nplática de la semana',
-            '- Bootcamp, Pilates, reto del mes... \npruebas de todo lo que haya', 
-        ],
-        [
-            '- Work B**ch - Britney Spears',
-            '- Lazy song - Bruno Marz',
-            '- Wannabe - Spice Girls',
-            '- Stronger (What Doesn´t Kill You) \n- Kelly Clarkson',
-        ],
-        [
-            '- Un cupcake de chocolate para quemar \ncalorías con más ganas después',
-            '- ¿Snack? yo voy por la pizza completa',
-            '- Un batido de proteína \nque vi en facebook',
-            '- Un shot de té verde \ncon wheatgrass',
-        ],
-        [
-            '- Ir a un parque a caminar mientras \nplatican y ríen (la mejor forma \nde romper el hielo)',
-            '- Ver una película con palomitas \nen tu casa (mejor si es en pants y sudadera)',
-            '- Ir con tus amigas a una fiesta',
-            '- Inscribirse a una carrera de obstáculos \njuntos (no hay nada más romántico \nque verlo atravesar el lodo por ti)',
-        ],
-        [
-            '- Te robas los mejores tips de las celebridades \npara estar en forma (aunque luego se te olviden)',
-            '- La hojeas mientras comes helado \ny te burlas de las modas ridículas de los famosos',
-            '- No puedes creer que la gente piense \nque las Kardashian no están operadas',
-            '- Tú misma pudiste haber escrito eso, \ntodo te parece familiar',
-        ],
-        [
-            '- Me voy en bici, además es un buen paseo',
-            '- ¿Caminar dos km? Mejor la cancelo',
-            '- Me voy caminando... \nal sitio de taxis más cercano',
-            '- Perfecta oportunidad para quemar calorías \nextra, me voy corriendo y doy dos vueltas',
-        ],
-        [
-            '- No me fijo, solo voy a la color run con mis amigas',
-            '- Depende, si es para alcanzar a \nla bici que vende pan unos 2 minutos',
-            '- Según mi reloj de máxima \ntecnología, hago 5.37 minutos',
-            '- Rompo mi record cada vez que lo \nintento, (a veces juego carreritas contra los coches)',
-        ],
-    ]
     
     var SPEED = 7
     var GRAVITY_OBJECTS = 4
@@ -172,50 +109,16 @@ var chilimBalam = function(){
         gameActive = false
         
         var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
-
-		var blackScreen = new Phaser.Graphics(game)
-		blackScreen.alpha = 0.3
-		blackScreen.beginFill(0x0)
-		blackScreen.drawRect(0, 0, game.width, game.height)
-		blackScreen.endFill()
-
-		startGroup.add(blackScreen)
-        
-        
-		var readySign = startGroup.create(0, 0, "atlas.chilimBalam", 'readyEs')
-		readySign.alpha = 0
-		readySign.anchor.setTo(0.5, 0.5)
-		readySign.x = game.world.centerX
-		readySign.y = game.world.centerY - 50
-		startGroup.add(readySign)
-        
+        sceneGroup.add(startGroup)        
         
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-        
-            
-            
-        var goSign = startGroup.create(0, 0, "atlas.chilimBalam", 'goEs')
-        goSign.alpha = 0
-        goSign.anchor.setTo(0.5, 0.5)
-        goSign.x = game.world.centerX
-        goSign.y = game.world.centerY - 50
-        startGroup.add(goSign)
 
-        var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
-        tweenSign.onComplete.add(function(){
-            sound.play("go_es")
+        gameActive = true
+        //timer.start()
+        game.time.events.add(throwTime *0.5, dropObjects , this);
+        //objectsGroup.timer.start()
 
-            var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-            game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
-            finalTween.onComplete.add(function(){
-                gameActive = true
-                //timer.start()
-                game.time.events.add(throwTime *0.1, dropObjects , this);
-                //objectsGroup.timer.start()
-            })
-        })
     }
     
     function checkNumbers(){

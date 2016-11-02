@@ -22,6 +22,7 @@ function startGame(){
 				//sceneloader.show("mathQuiz")
 				//sceneloader.show("resultScreen")
 				sceneloader.show("chilimBalamInstructions")
+                //sceneloader.show("resultChilimBalam")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
