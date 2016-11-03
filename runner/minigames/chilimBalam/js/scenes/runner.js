@@ -49,6 +49,8 @@ var runner = function(){
 				file: "sounds/gameLose.mp3"},
             {	name: "marioSong",
 				file: "sounds/marioSong.mp3"},
+            {	name: "wrongItem",
+				file: "sounds/wrongItem.mp3"},
 		],
 	}
     
@@ -60,6 +62,7 @@ var runner = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var skullTrue = false
     var marioSong = null
     var enemyNames = null
     var consecFloor, consecBricks
@@ -102,6 +105,7 @@ var runner = function(){
         
         enemyNames = ['coin']
         gameStart = false
+        skullTrue = false
         gameSpeed =  SPEED
         lastOne = null
         game.stage.backgroundColor = "#ffffff"
@@ -144,8 +148,8 @@ var runner = function(){
 
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
-        game.load.spritesheet('bMonster', 'images/chilimBalam/bMonster.png', 76, 89, 7);
-        game.load.spritesheet('pMonster', 'images/chilimBalam/pMonster.png', 78, 74, 7);
+        game.load.spritesheet('bMonster', 'images/chilimBalam/bMonster.png', 83, 84, 16);
+        game.load.spritesheet('pMonster', 'images/chilimBalam/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/chilimBalam/coinS.png', 68, 70, 12);
         game.load.audio('marioSong', 'sounds/marioSong.mp3');
         
@@ -185,12 +189,12 @@ var runner = function(){
         
         var bottomRect = sceneGroup.create(0,game.world.height,'atlas.chilimBalam','dashboard')
         bottomRect.width = game.world.width
-        bottomRect.height *=0.85
+        bottomRect.height *= 1.02
         bottomRect.anchor.setTo(0,1)
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
-        groupButton.y = game.world.height -88
+        groupButton.y = game.world.height -95
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
@@ -274,6 +278,8 @@ var runner = function(){
         }else if(pointsBar.number == 25){
             consecBricks = -100
             consecFloor = -100
+        }else if(pointsBar.number == 30){
+            skullTrue = true
         }
         
         addNumberPart(pointsBar.text,'+1')
@@ -303,8 +309,9 @@ var runner = function(){
     function missPoint(){
         
         sound.play("wrong")
-        
-        lives--;
+        if (lives >0){
+            lives--;
+        }
         //changeImage(0,heartsGroup.children[lives])
         heartsGroup.text.setText('X ' + lives)
         //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
@@ -339,9 +346,18 @@ var runner = function(){
             if(obj.body.x < -obj.width && obj.used == true){
                 deactivateObj(obj)
                 //console.log('objeto removido')
-            }else if(obj.tag == 'coin' && Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
-                deactivateObj(obj)
-                addPoint(obj)
+            }else if(obj.tag == 'coin' || obj.tag == 'skull'){
+                if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
+                    if(obj.tag == 'coin'){
+                        addPoint(obj)
+                    }else if(obj.tag == 'skull'){
+                        sound.play("wrongItem")
+                        createPart('wrong',obj)
+                        addWrongTween()
+                    }
+                    deactivateObj(obj)
+                }
+                
             }
         }
     }
@@ -521,6 +537,56 @@ var runner = function(){
         
     }
     
+    function addWrongTween(){
+        
+        var number = 3
+        if(pointsBar.number >= number){
+            pointsBar.number-=number
+            addNumberPart(pointsBar.text,'-' + number)
+            pointsBar.text.setText( pointsBar.number)
+        }
+        
+        var timeDelay = 2000
+        var delay = 0
+        
+        //game.add.tween(sceneGroup.scale).to( { x:1.1 }, timeDelay, Phaser.Easing.Linear.None, true);
+        
+        if(sceneGroup.scale.y != 1){
+            return
+        }
+        
+        worldGroup.scale.y= - 1
+        worldGroup.y+=game.world.height * 0.8
+        
+        for(var counter = 0; counter < 1;counter++){
+            game.time.events.add(delay, function(){
+                
+                var color = Phaser.Color.getRandomColor(0,255,255)
+                game.stage.backgroundColor = color
+                
+                var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
+                tweenAlpha.onComplete.add(function(){
+                    game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
+                })
+                
+            } , this);
+            delay+=timeDelay
+        }
+        
+        game.time.events.add(delay,function(){
+            
+            var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
+            tweenAlpha.onComplete.add(function(){
+                game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
+            })
+                
+            game.stage.backgroundColor = '#ffffff'
+            worldGroup.scale.y = 1
+            worldGroup.y-=game.world.height * 0.8
+            //game.add.tween(sceneGroup.scale).to( { x:1 }, timeDelay, Phaser.Easing.Linear.None, true);
+        })
+    }
+    
     function collisionEvent(obj1,obj2){
         
         //console.log(obj2.sprite.tag)
@@ -588,6 +654,9 @@ var runner = function(){
                 }
             }else if(child.tag == "enemy_squish"){
                 child.body.y+=5
+            }else if(child.tag == "skull"){
+                child.body.velocity.x-=5
+                //child.body.dynamic = true
             }
         }
     
@@ -657,6 +726,17 @@ var runner = function(){
                     objToCheck = child
                     
                 }
+                if(skullTrue == true && Math.random()*8<1){
+                    var skull = addComplement('skull')
+                    if(skull != null){
+                        activateObject(pivotObjects,child.body.y - child.height * 0.5 - skull.height * 0.5,skull)
+                    }
+                    
+                    skullTrue = false
+                    game.time.events.add(1300, function(){
+                        skullTrue = true
+                    },this)
+                }
                 break
             }
         }
@@ -670,6 +750,7 @@ var runner = function(){
             if(tag == 'enemy_spike'){
                 
                 object = game.add.sprite(-300, 200, 'bMonster');
+                //object.scale.x = -1
                 groundGroup.add(object)
                 object.animations.add('walk');
                 object.animations.play('walk',24,true);
@@ -698,12 +779,14 @@ var runner = function(){
             object.body.kinematic = true
             object.used = false
             
-            if(tag == 'coin'){
+            if(tag == 'coin' || tag == 'skull'){
                 object.body.data.shapes[0].sensor = true
             }
             
-            object.body.allowSleep = true
-            player.body.createBodyCallback(object, collisionEvent, this);
+            if(tag != 'coin' && tag != 'skull'){
+                object.body.allowSleep = true
+                player.body.createBodyCallback(object, collisionEvent, this);
+            }
         }
     }
     
@@ -714,6 +797,7 @@ var runner = function(){
         createObjs('coin',1,8)
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
+        createObjs('skull',1,4)
         
         for(var i = 0; i < 10; i++){
             addObstacle('floor')
@@ -785,12 +869,15 @@ var runner = function(){
             
 			sceneGroup = game.add.group()
             
-            var background = sceneGroup.create(0,0,'fondo')
+            worldGroup = game.add.group()
+            sceneGroup.add(worldGroup)
+            
+            var background = worldGroup.create(0,0,'fondo')
             background.width = game.world.width
             background.height = game.world.height * 1.02
             
             groundGroup = game.add.group()
-            sceneGroup.add(groundGroup)
+            worldGroup.add(groundGroup)
             
             loadSounds()
 			initialize()       
@@ -802,12 +889,12 @@ var runner = function(){
             }, this);
             
             objectsGroup = game.add.group()
-            sceneGroup.add(objectsGroup)
+            worldGroup.add(objectsGroup)
             
             characterGroup = game.add.group()
             characterGroup.x = 100
             characterGroup.y = game.world.height - BOT_OFFSET * 4.5
-            sceneGroup.add(characterGroup)
+            worldGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");
             buddy.isRunning = true
@@ -816,7 +903,7 @@ var runner = function(){
             buddy.setAnimationByName(0, "RUN", true);
             buddy.setSkinByName('normal');
             
-            player = sceneGroup.create(characterGroup.x, characterGroup.y,'atlas.chilimBalam','enemy_spike')
+            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.chilimBalam','enemy_spike')
             player.anchor.setTo(0.5,1)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)

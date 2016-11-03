@@ -54,7 +54,7 @@ var runnerInstructions = function(){
         var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
         instruction.anchor.setTo(0.5,0.5)
         
-        var button = circleGroup.create(0,instruction.height * 0.34,'atlas.instructions','inst-'+ platform)
+        var button = circleGroup.create(0,instruction.height * 0.31,'atlas.instructions','inst-'+ platform)
         button.anchor.setTo(0.5,0.5)
 
 		return circleGroup
@@ -155,7 +155,7 @@ var runnerInstructions = function(){
             {"gameName": "chilimBalam"}
         );
         
-		//game.stage.backgroundColor = "#38b0f6"
+		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"
 	}
 
