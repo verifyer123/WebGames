@@ -20,7 +20,7 @@ function startGame(){
 	    	function onCompleteSceneLoading(){
 	    		//sceneloader.show("instructionsScreen")
 				//sceneloader.show("mathQuiz")
-				//sceneloader.show("resultScreen")
+				//sceneloader.show("resultRunner")
 				sceneloader.show("runnerInstructions")
 	    	}
 

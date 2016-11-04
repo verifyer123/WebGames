@@ -37,12 +37,8 @@ var runner = function(){
 				file: "sounds/magic.mp3"},
             {	name: "splash",
 				file: "sounds/splash.mp3"},
-            {	name: "swipe",
-				file: "sounds/swipe.mp3"},
             {	name: "wrong",
 				file: "sounds/wrong.mp3"},
-            {	name: "go_es",
-				file: "sounds/go_es.mp3"},
             {	name: "whoosh",
 				file: "sounds/whoosh.mp3"},
             {	name: "gameLose",
@@ -55,7 +51,7 @@ var runner = function(){
 	}
     
     var SPEED = 225 
-    var TIME_ADD = 500
+    var TIME_ADD = 600
     var JUMP_FORCE = 820
     var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 1600
@@ -125,9 +121,7 @@ var runner = function(){
 	}
     
     function animateScene() {
-                
-        gameActive = false    
-        
+                        
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
@@ -136,6 +130,7 @@ var runner = function(){
         //game.time.events.add(throwTime *0.1, dropObjects , this);
         //objectsGroup.timer.start()
         game.time.events.add(TIME_ADD, addObjects , this);
+        checkOnAir()
         gameStart = true
 
     } 
@@ -343,7 +338,7 @@ var runner = function(){
         //console.log( objectsList.length + 'cantidad objetos')
         for(var index = 0;index<objectsList.length;index++){
             var obj = objectsList[index]
-            if(obj.body.x < -obj.width && obj.used == true){
+            if(obj.body.x < -obj.width * 0.45 && obj.used == true){
                 deactivateObj(obj)
                 //console.log('objeto removido')
             }else if(obj.tag == 'coin' || obj.tag == 'skull'){
@@ -393,11 +388,13 @@ var runner = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown && checkIfCanJump() && jumping == false)
-        {
-            //doJump()
-            jumping = true
-            doJump()
+        if (jumpButton.isDown){
+            
+            if( checkIfCanJump() && jumping == false)
+            {
+                jumping = true
+                doJump()
+            }
         }
         
         if(jumping == true){
@@ -412,11 +409,6 @@ var runner = function(){
             }
             jumping = false
             //buddy.setAnimationByName(0,"RUN",true)
-        }
-        
-        if(checkIfCanJump() == false && buddy.isRunning == true){
-            buddy.setAnimationByName(0,"JUMP", false)
-            buddy.isRunning = false
         }
         
         checkObjects()
@@ -639,6 +631,7 @@ var runner = function(){
     }
     
      function activateObject(posX, posY, child){
+        //console.log(child.tag + ' tag,')
         if(child != null){
             
             child.body.x = posX
@@ -733,7 +726,7 @@ var runner = function(){
                     }
                     
                     skullTrue = false
-                    game.time.events.add(1300, function(){
+                    game.time.events.add(2000, function(){
                         skullTrue = true
                     },this)
                 }
@@ -783,6 +776,10 @@ var runner = function(){
                 object.body.data.shapes[0].sensor = true
             }
             
+            if(tag == 'enemy_spike'){
+                object.body.setRectangle(object.width * 0.68, object.height * 0.9);
+            }
+            
             if(tag != 'coin' && tag != 'skull'){
                 object.body.allowSleep = true
                 player.body.createBodyCallback(object, collisionEvent, this);
@@ -792,14 +789,14 @@ var runner = function(){
     
     function createObjects(){
         
-        createObjs('floor',1.4,8)
-        createObjs('brick',1.1,8)
+        createObjs('floor',1.4,6)
+        createObjs('brick',1.1,6)
         createObjs('coin',1,8)
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
-        createObjs('skull',1,4)
+        createObjs('skull',1,2)
         
-        for(var i = 0; i < 10; i++){
+        for(var i = 0; i < 6; i++){
             addObstacle('floor')
         }
         
@@ -854,6 +851,19 @@ var runner = function(){
         }
     }
     
+    function checkOnAir(){
+        
+        if( buddy.isRunning == true){
+            if(checkIfCanJump() == false){
+                buddy.setAnimationByName(0,"JUMP", false)
+                buddy.isRunning = false
+            }
+        }
+        if(gameActive == true){
+            game.time.events.add(50,checkOnAir,this)
+        }
+    }
+    
 	return {
 		assets: assets,
 		name: "runner",
@@ -870,6 +880,8 @@ var runner = function(){
 			sceneGroup = game.add.group()
             
             worldGroup = game.add.group()
+            //worldGroup.scale.setTo(0.5,0.5)
+            //worldGroup.x = 100
             sceneGroup.add(worldGroup)
             
             var background = worldGroup.create(0,0,'fondo')
@@ -918,8 +930,7 @@ var runner = function(){
             
             createPointsBar()
             createHearts()
-            createControls()
-            
+            createControls()            
             
             //createControls()
             

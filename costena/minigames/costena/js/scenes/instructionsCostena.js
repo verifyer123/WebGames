@@ -33,7 +33,7 @@ var instructionsCostena = function(){
 	}
 
 	var sceneGroup
-    var tweenLoop
+    var loopTween
 
     
     function loadSounds(){
@@ -45,14 +45,17 @@ var instructionsCostena = function(){
         var game = sceneGroup.game
 		var circleGroup = new Phaser.Group(sceneGroup.game)
         
-        var platform = 'desktop'
+        var platform = 'click'
         
         if(game.device.desktop == false){
-            platform = 'android'
+            platform = 'tap'
         }
         
-        var instruction = circleGroup.create(0,0,'atlas.instructions',platform)
+        var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
         instruction.anchor.setTo(0.5,0.5)
+        
+        var button = circleGroup.create(0,instruction.height * 0.31,'atlas.instructions','inst-'+ platform)
+        button.anchor.setTo(0.5,0.5)
 
 		return circleGroup
 	}
@@ -76,7 +79,7 @@ var instructionsCostena = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "memoCostena"}
+            {"gameName": "chilimBalam"}
         );
 		
 	}
@@ -104,7 +107,7 @@ var instructionsCostena = function(){
 		buttonSprite.events.onInputUp.add(startGame, this)
         
         bounceButton(buttonSprite)
-
+        
 		return buttonGroup
 	}
     
@@ -135,19 +138,12 @@ var instructionsCostena = function(){
         
 		var circleInstructions = createInstructions()
 		circleInstructions.x = game.world.centerX
-		circleInstructions.y = game.world.centerY 
+		circleInstructions.y = game.world.centerY - 60
 		sceneGroup.add(circleInstructions)
-        
-        var bottomRect = new Phaser.Graphics(game)
-        bottomRect.beginFill(0xffffff);
-        bottomRect.drawRect(0, game.world.height, game.world.width, -game.world.height * 0.125);
-        bottomRect.endFill();
-        bottomRect.anchor.setTo(0,1)
-        sceneGroup.add(bottomRect)
         
 		var buttonGo = createButton()
 		buttonGo.x = game.world.centerX
-		buttonGo.y = game.world.height * 0.94
+		buttonGo.y = game.world.height * 0.9
 		sceneGroup.add(buttonGo)
             
 	}
@@ -156,7 +152,7 @@ var instructionsCostena = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "memoCostena"}
+            {"gameName": "chilimBalam"}
         );
         
 		game.stage.backgroundColor = "#ffffff"

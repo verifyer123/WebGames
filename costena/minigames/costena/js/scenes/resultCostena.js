@@ -206,6 +206,12 @@ var resultCostena = function(){
     
     function inputButton(obj){
         
+        if(obj.active == false){
+            return
+        }
+        
+        obj.active = false
+        
         var parent = obj.parent
         
         changeImage(0,parent)
@@ -266,6 +272,7 @@ var resultCostena = function(){
             
             button1.inputEnabled = true
             button1.events.onInputDown.add(inputButton)
+            button1.active = true
             
             changeImage(1,group)
         }
@@ -283,12 +290,12 @@ var resultCostena = function(){
         buttonsActive = false
         
         game.time.events.add(350, function(){
-            if(obj.tag == 'mathquiz'){
-                window.open('http://yogome.com/g/m6/es/','_self')
-            }else if(obj.tag == 'pianotiles'){
-                window.open('http://yogome.com/g/pianotiles/es/','_self')
-            }else if(obj.tag == 'instafit'){
-                window.open('http://www.yogome.com/g/instafit/','_self')
+            if(obj.tag == 'bros'){
+                window.open('http://amazingapp.co/juegos/runner/','_self')
+            }else if(obj.tag == 'costena'){
+                window.open('http://amazingapp.co/juegos/costena/','_self')
+            }else if(obj.tag == 'lluvia'){
+                window.open('http://amazingapp.co/juegos/chilimBalam/','_self')
             }  
         } , this);
     
@@ -300,10 +307,10 @@ var resultCostena = function(){
         sceneGroup.add(iconsGroup)
         
         var pivotX = game.world.centerX - 174
-        var pivotY = game.world.centerY +75
+        var pivotY = game.world.centerY +70
         
-        var iconNames = ['mathquiz','pianotiles','instafit']
-        var gameNames = ['Math Quiz', 'Piano Tiles', 'Instafit']
+        var iconNames = ['bros','costena','lluvia']
+        var gameNames = ['Amazing Bros', 'Memorama \ndel Sabor', 'Lluvia de \nGomitas']
         for(var i = 0;i<iconNames.length;i++){
             
             var group = game.add.group()
@@ -311,7 +318,7 @@ var resultCostena = function(){
             group.y = pivotY
             iconsGroup.add(group)
             
-            var img = group.create(0,0,'atlas.resultScreen',iconNames[i] + '_icon')
+            var img = group.create(0,0,'atlas.resultScreen',iconNames[i])
             img.anchor.setTo(0.5,0.5)
             img.inputEnabled = true
             img.events.onInputDown.add(inputGame)
@@ -319,7 +326,8 @@ var resultCostena = function(){
             
             var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-            var nameText = new Phaser.Text(sceneGroup.game, 0, 95, gameNames[i], fontStyle)
+            var nameText = new Phaser.Text(sceneGroup.game, 0, 110, gameNames[i], fontStyle)
+            nameText.lineSpacing = -10;
             nameText.anchor.setTo(0.5,0.5)
             group.add(nameText)  
             

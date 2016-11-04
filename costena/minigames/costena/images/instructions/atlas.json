@@ -1,26 +1,35 @@
 {"frames": [
 
 {
-	"filename": "android",
-	"frame": {"x":1,"y":1,"w":417,"h":572},
+	"filename": "inst-click",
+	"frame": {"x":226,"y":742,"w":50,"h":50},
 	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":129,"y":35,"w":417,"h":572},
-	"sourceSize": {"w":674,"h":960},
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "desktop",
-	"frame": {"x":1,"y":575,"w":417,"h":570},
+	"filename": "inst-tap",
+	"frame": {"x":163,"y":742,"w":61,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":68},
+	"sourceSize": {"w":61,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "instruccion",
+	"frame": {"x":1,"y":1,"w":508,"h":739},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":129,"y":35,"w":417,"h":570},
-	"sourceSize": {"w":674,"h":960},
+	"spriteSourceSize": {"x":1,"y":0,"w":508,"h":739},
+	"sourceSize": {"w":510,"h":740},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "okbtn",
-	"frame": {"x":1,"y":1147,"w":160,"h":90},
+	"frame": {"x":1,"y":742,"w":160,"h":90},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
@@ -32,8 +41,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":419,"h":1238},
+	"size": {"w":510,"h":833},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:161dc13ec0b9cb47442b01aa146d4e2b:8a1cf878c892ed2ac2b088fbd5beeac4:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cfe73f6190c69c951577c2177e3ad1c9:009e5a9c86f3b205ba917e4d2bee55c1:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
