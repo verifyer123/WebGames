@@ -21,7 +21,7 @@ function startGame(){
 	    		//sceneloader.show("instructionsScreen")
 				//sceneloader.show("mathQuiz")
 				//sceneloader.show("resultScreen")
-				sceneloader.show("resultOpenEnglish")
+				sceneloader.show("instructionsOpenEnglish")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})

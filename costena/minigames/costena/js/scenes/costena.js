@@ -69,9 +69,9 @@ var costena = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        gameActive = true
+        //gameActive = true
         cardsNumber = 4
-        lives = 10
+        lives = 5
         arrayComparison = []
         comboCount = 0
         
@@ -126,7 +126,7 @@ var costena = function(){
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
-        gameActive = true
+        //gameActive = true
         game.time.events.add(500, showCards , this);
         //timer.start()
         //game.time.events.add(throwTime *0.1, dropObjects , this);
@@ -167,7 +167,7 @@ var costena = function(){
         scaleTween.onComplete.add(function(){
             scaleTween = game.add.tween(card.scale).to({x: 1, y:1},300, Phaser.Easing.Cubic.Out,true)
             scaleTween.onComplete.add(function(){
-                gameActive = true
+                //gameActive = true
                 var alphaTween = game.add.tween(card).to({alpha:0},500, Phaser.Easing.Cubic.Out,true)
                 game.add.tween(card.scale).to({x: 0, y:0}, 500, Phaser.Easing.Cubic.In, true)
                 alphaTween.onComplete.add(function(){
@@ -288,7 +288,7 @@ var costena = function(){
                 if(arrayComparison.length < 2){
                     lastObj = obj
                     if(lives > 0){
-                        gameActive = true
+                        //gameActive = true
                     }
                 }else{
                     var addNumber = 1
@@ -382,7 +382,51 @@ var costena = function(){
         }
     }
     
+    function flipCard(card, delay){
+        var timeFlip = 150
+        game.time.events.add(timeFlip + delay,function(){
+            sound.play("flip")
+            changeImage(0,card)
+            game.add.tween(card.scale).to({x: 1}, timeFlip, Phaser.Easing.linear, true,0)
+            //gameActive = true
+        })
+    }
+    
     function showCards(){
+        
+        var timeFlip = 100
+        gameActive = false
+        var delay = 0
+        for(var i = 0;i<cardsGroup.length;i++){
+            
+            delay+=timeFlip
+            changeImage(1,cardsGroup.children[i])
+            game.add.tween(cardsGroup.children[i].scale).to({x: 1}, 500, Phaser.Easing.linear, true, delay)
+            
+            game.time.events.add(delay,function(){
+                sound.play("flip")
+            } , this);
+        }
+        
+        var delay = 0
+        game.time.events.add(delay + (cardsGroup.length * timeFlip) + 600,function(){
+            for(var i = 0;i<cardsGroup.length;i++){
+                
+                delay+=timeFlip
+                var scaleTween = game.add.tween(cardsGroup.children[i].scale).to({x: 0}, timeFlip, Phaser.Easing.linear, true,delay)
+                flipCard(cardsGroup.children[i], delay)
+                
+            }
+        
+        } , this);
+        
+        game.time.events.add(delay + (cardsGroup.length * 200) * 2 + (timeFlip * 4),function(){
+            gameActive = true
+            console.log('activate game')
+        },this)
+    }
+    
+    /*function showCards(){
         
         var delay = 0
         for(var i = 0;i<cardsGroup.length;i++){
@@ -394,7 +438,7 @@ var costena = function(){
                 sound.play("flip")
             } , this);
         }
-    }
+    }*/
     
     function createPointsBar(){
         

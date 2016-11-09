@@ -2,11 +2,11 @@
 
 {
 	"filename": "atras",
-	"frame": {"x":163,"y":1,"w":158,"h":160},
+	"frame": {"x":163,"y":1,"w":158,"h":161},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":160},
-	"sourceSize": {"w":158,"h":160},
+	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":161},
+	"sourceSize": {"w":158,"h":161},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -29,33 +29,6 @@
 },
 {
 	"filename": "frijoles",
-	"frame": {"x":161,"y":163,"w":158,"h":160},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":160},
-	"sourceSize": {"w":158,"h":160},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "life_box",
-	"frame": {"x":323,"y":66,"w":140,"h":55},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
-	"sourceSize": {"w":140,"h":55},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "pinas",
-	"frame": {"x":321,"y":179,"w":158,"h":160},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":160},
-	"sourceSize": {"w":158,"h":160},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "salsaRoja",
 	"frame": {"x":1,"y":325,"w":158,"h":160},
 	"rotated": false,
 	"trimmed": false,
@@ -64,8 +37,35 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "life_box",
+	"frame": {"x":323,"y":57,"w":140,"h":55},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
+	"sourceSize": {"w":140,"h":55},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pinas",
+	"frame": {"x":161,"y":164,"w":158,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":160},
+	"sourceSize": {"w":158,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "salsaRoja",
+	"frame": {"x":321,"y":176,"w":158,"h":160},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":160},
+	"sourceSize": {"w":158,"h":160},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "salsaVerde",
-	"frame": {"x":161,"y":325,"w":158,"h":160},
+	"frame": {"x":161,"y":326,"w":158,"h":160},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":158,"h":160},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":323,"y":1,"w":124,"h":63},
+	"frame": {"x":321,"y":338,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "wrongPart",
-	"frame": {"x":321,"y":341,"w":125,"h":60},
+	"frame": {"x":323,"y":114,"w":125,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":323,"y":123,"w":141,"h":54},
+	"frame": {"x":323,"y":1,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -122,8 +122,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":480,"h":486},
+	"size": {"w":480,"h":487},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:24c6781a51df77ef6ef5d23ccb8b8289:e924ff5cee796d6872df93ecd207c470:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e766610fdf3103a8ac9554ab7c90096f:9857b59eedeb0815e6f2fb4f553c19c7:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

@@ -64,6 +64,7 @@ var instructionsCostena = function(){
         
         sound.play("click")
         
+        obj.inputEnabled = false
         tweenLoop.stop()
         
         var scaleTween = game.add.tween(obj.scale).to({x:0.8,y:0.8}, 100, Phaser.Easing.linear, true)

@@ -359,7 +359,7 @@ var resultCostena = function(){
         topRect.anchor.setTo(0,0)
         sceneGroup.add(topRect)
         
-        var text = game.add.bitmapText(game.world.centerX, 60, 'gotham', '¡Sigue intentando!', 43);
+        var text = game.add.bitmapText(game.world.centerX, 60, 'gotham', '¡Sigue intentando!', 35);
         text.anchor.setTo(0.5,0.5)
         sceneGroup.add(text)
         
@@ -368,7 +368,7 @@ var resultCostena = function(){
         
         var pivotText = retryCharacter.x + retryCharacter.width * 0.6
         
-        var text = game.add.bitmapText(pivotText, game.world.centerY - 270, 'gotham', 'Tuviste', 43);
+        var text = game.add.bitmapText(pivotText, game.world.centerY - 270, 'gotham', 'Tuviste', 35);
         sceneGroup.add(text)
         
         var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -380,10 +380,10 @@ var resultCostena = function(){
         
         sceneGroup.add(retryText)
         
-        var text = game.add.bitmapText(pivotText, game.world.centerY - 210, 'gotham', 'Obtén un nuevo', 43);
+        var text = game.add.bitmapText(pivotText, game.world.centerY - 210, 'gotham', 'Obtén un nuevo', 35);
         sceneGroup.add(text)
         
-        var scoreText = game.add.bitmapText(pivotText, game.world.centerY - 150, 'gotham', 'cupón por', 43);
+        var scoreText = game.add.bitmapText(pivotText, game.world.centerY - 150, 'gotham', 'cupón por', 35);
         sceneGroup.add(scoreText)
         
         var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}

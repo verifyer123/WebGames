@@ -60,7 +60,13 @@ var resultOpenEnglish = function(){
 				file: "sounds/pop.mp3"},
         ],
 	}
-
+    
+    var scoreTexts = [
+        ['Te vemos motivado como Wachu, pero\n te recomendamos que empieces a estudiar\n con Open English muy pronto.'],
+        ['Vemos un buen potencial en ti y\n creemos que pronto podrás hablar inglés con\n fluidez si sigues estudiando.'],
+        ['Tienes la capacidad de un nativo en\n el lenguaje. Ya estás listo para viajar\n y comunicarte en inglés cuando quieras.']
+    ]
+    
 	var sceneGroup
 
 	var totalScore, totalTime, totalGoal
@@ -311,15 +317,15 @@ var resultOpenEnglish = function(){
         
         var background = sceneGroup.create(0,0,'atlas.resultScreen','retro-fondo')
         background.width = game.world.width
-        background.height= game.world.height * 0.5
+        background.height= game.world.height * 0.47
         
         var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, 75, 'Tu puntuación es:', fontStyle)
+        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, 60, 'Tu puntuación es:', fontStyle)
         nameText.anchor.setTo(0.5,0.5)
         sceneGroup.add(nameText)  
         
-        var medal = sceneGroup.create(game.world.centerX, background.height * 0.6,'atlas.resultScreen','retro-medalla')
+        var medal = sceneGroup.create(game.world.centerX, background.height * 0.55,'atlas.resultScreen','retro-medalla')
         medal.anchor.setTo(0.5,0.5)
         
         var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
@@ -336,22 +342,26 @@ var resultOpenEnglish = function(){
         
         var bottomBar = new Phaser.Graphics(game)
         bottomBar.beginFill(0xf5f5f5);
-        bottomBar.drawRect(0, game.world.height, game.world.width, game.world.height * -0.5);
+        bottomBar.drawRect(0, game.world.height, game.world.width, -510);
         bottomBar.endFill();
         bottomBar.anchor.setTo(0,1)
         sceneGroup.add(bottomBar)
         
         var iconName = 'wachu'
+        var iconIndex = 0
         if(totalScore >= 7){
             iconName = 'extranjero'
+            iconIndex = 1
         }else if(totalScore >= 9){
             iconName = 'nativo'
+            iconIndex = 2
         }
         emoName = iconName
 
  
-        var globe = sceneGroup.create(game.world.centerX, game.world.height - 350,'atlas.resultScreen','retro-nivel')
+        var globe = sceneGroup.create(game.world.centerX, game.world.height - 425,'atlas.resultScreen','retro-nivel')
         globe.anchor.setTo(0.5,0.5)
+        globe.scale.setTo(0.85,0.85)
         
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#9f9f9f", align: "center"}
         
@@ -365,13 +375,27 @@ var resultOpenEnglish = function(){
         nameText.anchor.setTo(0.5,0.5)
         sceneGroup.add(nameText) 
         
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
+        
+        var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 0.7, '¡Felicitaciones!', fontStyle)
+        scoreText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(scoreText) 
+        
+        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#868585", align: "center"}
+        
+        var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 1.43, scoreTexts[iconIndex], fontStyle)
+        scoreText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(scoreText) 
+        
         var shareBtn = createShareButton()
         shareBtn.x = game.world.centerX
-        shareBtn.y = game.world.height - 200
+        shareBtn.y = game.world.height - 135
+        shareBtn.scale.setTo(0.8,0.8)
         sceneGroup.add(shareBtn)
         
-        var tryAgainButton = sceneGroup.create(game.world.centerX, game.world.height - 90, 'atlas.resultScreen', 'retro-reintentar')
+        var tryAgainButton = sceneGroup.create(game.world.centerX, shareBtn.y + shareBtn.height * 1.6, 'atlas.resultScreen', 'retro-reintentar')
 		tryAgainButton.anchor.setTo(0.5, 0.5)
+        tryAgainButton.scale.setTo(0.8,0.8)
 
 		tryAgainButton.inputEnabled = true
 		tryAgainButton.events.onInputUp.add(tryAgain)

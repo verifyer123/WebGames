@@ -61,7 +61,7 @@ var openEnglish = function(){
         ['Horn','Corn'],
         ['Date','Fetch'],   
         ['Gun','Arm'],
-        ['Cardboad','Cartoon'],
+        ['Cardboard','Cartoon'],
         ['Answer','Contest'],
         ['Bread','Pan'],
         ['Eleven','Once'],
@@ -125,7 +125,7 @@ var openEnglish = function(){
 
         var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
         tweenSign.onComplete.add(function(){
-            sound.play("go_es")
+            //sound.play("go_es")
 
             var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
             game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
@@ -207,7 +207,7 @@ var openEnglish = function(){
             if(gameIndex> 9){
                 stopGame()
             }else{
-                createButtons()
+                //createButtons()
                 setWords()
             }
             
@@ -224,7 +224,7 @@ var openEnglish = function(){
         }
         
         changeImage(color,pointsGroup.children[gameIndex])
-        
+                
         var correct
         if(correct){
             correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','correcto')
@@ -232,6 +232,7 @@ var openEnglish = function(){
         }else{
             correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','incorrecto')
         }
+        
         correct.anchor.setTo(0.5,0.5)
     }
     
@@ -251,6 +252,7 @@ var openEnglish = function(){
                         
         })
         
+        var indexCard = 2
         if(obj.correct == true){
             createPart('star',obj)
             sound.play("pop")
@@ -260,7 +262,11 @@ var openEnglish = function(){
             createPart('wrong',obj)
             sound.play("wrong")
             addCorrect(false)
+            indexCard = 1
+            
         }
+        
+        changeImage(indexCard,obj,true)
         
         restartCards()
         
@@ -273,8 +279,6 @@ var openEnglish = function(){
         
         var pivotX = game.world.centerX
         var pivotY = game.world.height - game.world.height * 0.8
-        var colors = [1,2,3,4]
-        Phaser.ArrayUtils.shuffle(colors)
         
         for(var i = 0;i<2;i++){
             
@@ -284,8 +288,12 @@ var openEnglish = function(){
             group.alpha = 0
             buttonsGroup.add(group)
             
-            var img = group.create(0,0,'atlas.openEnglish','opcion' + colors[i])
-            img.anchor.setTo(0.5,0.5)
+            for(var counter = 2;counter<5;counter++){
+                var img = group.create(0,0,'atlas.openEnglish','opcion' + counter)
+                img.anchor.setTo(0.5,0.5)
+            }
+            
+            changeImage(0,group)
             
             img.inputEnabled = true
             img.events.onInputDown.add(inputCard)
@@ -375,6 +383,9 @@ var openEnglish = function(){
             delay+= 175
             
             popObject(listObjects[i],delay)
+            if(i>0){
+                changeImage(0,listObjects[i],true)
+            }
 
         }
         
@@ -398,14 +409,17 @@ var openEnglish = function(){
         
     }
     
-    function changeImage(index,group){
+    function changeImage(index,group,isWord){
         for (var i = 0;i< group.length; i ++){
             group.children[i].alpha = 0
             if( i == index){
                 group.children[i].alpha = 1
             }
         }
-        //group.children[3].alpha = 1
+        
+        if(isWord){
+            group.children[3].alpha = 1
+        }
     }
     
     function createPointsBar(){

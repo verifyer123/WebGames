@@ -21,7 +21,7 @@ function startGame(){
 	    		//sceneloader.show("instructionsScreen")
 				//sceneloader.show("mathQuiz")
 				//sceneloader.show("resultScreen")
-				sceneloader.show("zombie")
+				sceneloader.show("mainGame")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -73,8 +73,8 @@ function startGame(){
         
     	preloadScenes([
             zombieInstructions,
-            zombie,
-            resultZombie,
+            mainGame,
+            result,
     	])
     		    	
     }

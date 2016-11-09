@@ -1,6 +1,6 @@
     var inicio = false;
     var ancho = $("body").css("width");
-    var ruta = "chilimBalam"
+    var ruta = "zombieCrush"
 
     $(".game-canvas").attr('id', 'myCanvas');   
     $( "iframe" ).remove();    
