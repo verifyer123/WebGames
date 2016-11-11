@@ -75,7 +75,7 @@ var result = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "chilimBalam", "win":didWin, "numberOfObjects":score}
+            {"gameName": "zombieCrush", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -130,7 +130,7 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "chilimBalam"}
+            {"gameName": "zombieCrush"}
         );
         
 		FB.ui({
@@ -200,7 +200,7 @@ var result = function(){
         
         mixpanel.track(
             "pressEpicPromo",
-            {"gameName": "chilimBalam"}
+            {"gameName": "zombieCrush"}
         );
 	}
     

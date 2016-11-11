@@ -39,12 +39,12 @@ var mainGame = function(){
 				file: "sounds/splashMud.mp3"},
             {	name: "swipe",
 				file: "sounds/swipe.mp3"},
-            {	name: "wrong",
-				file: "sounds/wrong.mp3"},
 			{	name: "explode",
 				file: "sounds/explode.mp3"},
             {	name: "shoot",
 				file: "sounds/shoot.mp3"},
+            {	name: "laser",
+				file: "sounds/laser2.mp3"},
             {	name: "explosion",
 				file: "sounds/explosion.mp3"},
             {	name: "grunt",
@@ -57,6 +57,8 @@ var mainGame = function(){
 				file: "sounds/gameLose.mp3"},
             {	name: "powerUp",
 				file: "sounds/powerup.mp3"},
+            {	name: "evilLaugh",
+				file: "sounds/evilLaugh.mp3"},
 		],
 	}
     
@@ -78,6 +80,7 @@ var mainGame = function(){
     var gameSpeed
     var pivotTiles
     var addPowerUp
+    var addSkull
 	var sceneGroup = null
     var gameActive = true
     var moveLeft, moveRight
@@ -101,6 +104,7 @@ var mainGame = function(){
 
 	function initialize(){
         
+        addSkull = true
         itemsList = ['escombros','trash']
         pivotTiles = game.world.height - sceneGroup.botBar.height
         objectsList = []
@@ -115,7 +119,7 @@ var mainGame = function(){
         GRAVITY_OBJECTS = 4
         gameSpeed = G_SPEED
         throwTime = 500
-        bulletSpeed = 750
+        bulletSpeed = 700
         
 	}
     
@@ -156,12 +160,17 @@ var mainGame = function(){
         game.load.spine('punisher', "images/spines/punisher/skeleton.json");
         game.load.spritesheet('zombie', 'images/zombie/zombie.png', 98, 110, 13);
         game.load.spritesheet('zombieS', 'images/zombie/zombiesoldier.png', 66, 118, 17);
+        game.load.spritesheet('fireSkull', 'images/zombie/skullFire.png', 179 / 2, 235/2, 9);
         
         game.load.audio('song', 'sounds/weLoveElectricCars.mp3');
         
     }
     
     function inputButton(obj){
+        
+        var parent = obj.parent
+        
+        changeImage(1,parent)
         
         if(gameActive == true){
             if(obj.tag == 'left'){
@@ -178,6 +187,10 @@ var mainGame = function(){
     }
     
     function releaseButton(obj){
+        
+        var parent = obj.parent
+        
+        changeImage(0,parent)
         
         if(gameActive == true){
             if(obj.tag =='left'){
@@ -199,18 +212,35 @@ var mainGame = function(){
         sceneGroup.add(bottomRect)
         sceneGroup.botBar = bottomRect
         
-        var button1 = sceneGroup.create(game.world.centerX - spaceButtons, game.world.height - 175, 'atlas.zombie','boton')
+        var buttons1 = game.add.group()
+        buttons1.x = game.world.centerX - spaceButtons
+        buttons1.y = game.world.height - 175
+        sceneGroup.add(buttons1)
+        
+        var button1 = buttons1.create(0,0, 'atlas.zombie','boton1')
         button1.inputEnabled = true
         button1.events.onInputDown.add(inputButton)
         button1.tag = 'left'
         button1.events.onInputUp.add(releaseButton)
         
-        var button2 = sceneGroup.create(game.world.centerX + spaceButtons, button1.y, 'atlas.zombie','boton')
-        button2.scale.x = -1
+        var button1 = buttons1.create(0,0, 'atlas.zombie','boton2')
+        
+        var buttons2 = game.add.group()
+        buttons2.x = game.world.centerX + spaceButtons
+        buttons2.y = buttons1.y
+        buttons2.scale.x = -1
+        sceneGroup.add(buttons2)
+        
+        var button2 = buttons2.create(0,0, 'atlas.zombie','boton1')
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
         button2.tag = 'right'
         button2.events.onInputUp.add(releaseButton)
+        
+        var button1 = buttons2.create(0,0, 'atlas.zombie','boton2')
+        
+        changeImage(0,buttons1)
+        changeImage(0,buttons2)
         
     }
     
@@ -270,41 +300,33 @@ var mainGame = function(){
     
     function addPoint(){
         
-        //gameSpeed+=0.2
         sound.play("pop")
-        //createPart('star', characterGroup.cup)
-        //createTextPart('+1', characterGroup.cup)
+        
+        addNumberPart(pointsBar.text,'+1')
         
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
-        
-        GRAVITY_OBJECTS+=0.2
-        //throwTime-=17
-        //throwTimeItems-=10
         
         if(pointsBar.number == 7){
             itemsList[itemsList.length] = 'hole1'
             itemsList[itemsList.length] = 'hole2'
         }else if(pointsBar.number == 12){
             itemsList[itemsList.length] = 'zombie'
-        }else if(pointsBar.number == 25){
+        }else if(pointsBar.number == 20){
             itemsList[itemsList.length] = 'zombieS'
-        }
-        
-        if(pointsBar.number > 25){
-            //gameSpeed+=0.1
         }
         
     }
     
     function missPoint(){
         
-        sound.play("wrong")
+        sound.play("flesh")
         
-        lives--;
-        //changeImage(0,heartsGroup.children[lives])
+        if(lives>0){
+            lives--;
+        }
+        
         heartsGroup.text.setText('X ' + lives)
-        //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
         
         if(lives == 0){
             stopGame(false)
@@ -321,23 +343,75 @@ var mainGame = function(){
     }
     
     
-    function checkPosPlayer(obj1,obj2){
+    function checkPosPlayer(obj1,obj2, distValue){
         
-        if(Math.abs(obj1.x - obj2.world.x) < obj2.width * 0.5 && Math.abs(obj1.y - obj2.world.y)< obj2.height * 0.5){
+        var distance = distValue || 0.5
+        
+        if(Math.abs(obj1.x - obj2.world.x) < obj2.width * distance && Math.abs(obj1.y - obj2.world.y)< obj2.height * distance){
             return true
         }else{
             return false
         }
     }
     
-    function powerUp(){
+    function setPowerTimer(timer){
+        
+        if(sceneGroup.timer.alpha ==0){
+            sceneGroup.timer.alpha = 1
+        } 
+        
+        sceneGroup.timer.setText(timer)
+        
+        if(timer<=0){
+            game.add.tween(sceneGroup.timer).to({alpha:0},400,Phaser.Easing.linear,true)
+            return
+        }
+        
+        timer--
+        
+        game.time.events.add(1000,function(){
+            setPowerTimer(timer)
+        },this)
+    }
+    
+    function activatePowerUp(obj){
         
         sound.play("powerUp")
         
-        bulletSpeed = 250
-        game.time.events.add(4000,function(){
-            bulletSpeed = 750
-        },this)
+        var tag = obj.tag
+        var timeAdd = 5000
+        if(obj.tag == 'shoot2_item'){
+            timeAdd = 6000
+        }
+        
+        setPowerTimer(timeAdd/1000)
+        
+        if(tag == 'shoot1_item'){
+            
+            changeImage(0,sceneGroup.icons)
+            
+            bulletSpeed = 250
+            game.time.events.add(timeAdd,function(){
+                bulletSpeed = 750
+                changeImage(-1,sceneGroup.icons)
+            },this)
+            
+        }else if(tag == 'shoot2_item'){
+            
+            changeImage(1,sceneGroup.icons)
+            
+            game.add.tween(characterGroup.bubble).to({alpha:1},200,Phaser.Easing.linear,true,0,5)
+            characterGroup.invincible = true
+            game.time.events.add(timeAdd - 1000,function(){
+                var tweenAlpha = game.add.tween(characterGroup.bubble).to({alpha:0},200,Phaser.Easing.linear,true,0,5)
+                tweenAlpha.onComplete.add(function(){
+                    characterGroup.invincible = false
+                    characterGroup.bubble.alpha = 0
+                    changeImage(-1,sceneGroup.icons)
+                })
+            },this)
+            
+        }
     }
     
     function checkObjs(){
@@ -352,16 +426,21 @@ var mainGame = function(){
             
             if(obj.enemy == true){
                 if(checkPosPlayer(characterGroup,obj)){
-                    missPoint()
-                    if(obj.tag == 'shoot2'){
-                        deactivateObject(obj)
+                    if(characterGroup.invincible == true){
+                        destroyAsset(obj,true)
+                    }else if (characterGroup.y > (obj.world.y + 15)){
+                        //console.log(characterGroup.y + ' pos Player, ' + (obj.world.y + 20) + ' pos obj')
+                        missPoint()
+                        if(obj.tag == 'shoot2'){
+                            deactivateObject(obj)
+                        }
                     }
                     
                 }
             }else if(obj.power == true){
-                if(checkPosPlayer(characterGroup,obj)){
-                    powerUp()
-                    createPart('star',obj)
+                if(checkPosPlayer(characterGroup,obj,0.7)){
+                    activatePowerUp(obj)
+                    createPart('star',obj,-50)
                     deactivateObject(obj)
                 }
             }
@@ -416,6 +495,26 @@ var mainGame = function(){
 
     }
     
+    function destroyAsset(obj,add){
+        
+        var ignore = add || false
+        createPart('smoke',obj)
+        deactivateObject(obj)
+        
+        if(ignore == false){
+            addPoint()
+            createTextPart('+1',obj)
+        }
+        
+        setExplosion(obj)
+        
+        if(obj.tag != 'zombie' && obj.tag != 'zombieS'){
+            sound.play("explosion")
+        }else{
+            sound.play("zombieUp")
+        }
+    }
+    
     function collideBullet(bullet){
         for(var counter = 0;counter< usedObjects.length;counter ++){
             var obj = usedObjects.children[counter]
@@ -430,16 +529,10 @@ var mainGame = function(){
                             createPart('drop',obj)  
                             sound.play("flesh")
                             sound.play("zombieUp")
-                        }else{
-                            sound.play("explosion")
                         }
                         
                         if(obj.lives<= 0){
-                            createPart('smoke',obj)
-                            deactivateObject(obj)
-                            addPoint()
-                            createTextPart('+1',obj)
-                            setExplosion(obj)
+                            destroyAsset(obj)
                         }else{
                             zombieLoseLife(obj)
                             //game.add.tween(obj).to({alpha: 1}, 100, Phaser.Easing.Cubic.In, true,100)
@@ -510,46 +603,18 @@ var mainGame = function(){
         checkBullets()
     }
     
-    function createTime(){
-        
-        timeGroup = game.add.group()
-        timeGroup.x = game.world.right
-        timeGroup.y = 0
-        sceneGroup.add(timeGroup)
-        
-        var timeImg = timeGroup.create(0,0,'atlas.zombie','time')
-        timeImg.width*=1.3
-        timeImg.height*=1.3
-        timeImg.anchor.setTo(1,0)
-        
-        var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var timerText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        timerText.x = -timeImg.width * 0.55
-        timerText.y = timeImg.height * 0.18
-        timeGroup.add(timerText)
-        
-        timeGroup.textI = timerText
-        timeGroup.number = 0
-        
-        timer = game.time.create(false);
-        timer.loop(1, updateSeconds, this);
-                
-    }
-    
     function createPointsBar(){
         
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,10,'atlas.zombie','xpcoins')
-        pointsImg.x = game.world.width - pointsImg.width * 1.2
-        pointsImg.width *=1
-        pointsImg.height*=1
+        var pointsImg = pointsBar.create(10,10,'atlas.zombie','xpcoins')
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.87
         pointsText.y = pointsImg.height * 0.3
+        pointsText.anchor.setTo(1,0)
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -560,6 +625,7 @@ var mainGame = function(){
     function createHearts(){
         
         heartsGroup = game.add.group()
+        heartsGroup.x = game.world.width - 20
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
@@ -569,13 +635,12 @@ var mainGame = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        group.create(0,0,'atlas.zombie','life_box')
-
-        pivotX+= 47
+        var heartsImg = group.create(0,0,'atlas.zombie','life_box')
+        heartsImg.anchor.setTo(1,0)
         
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
-        pointsText.x = pivotX
+        pointsText.x = -heartsImg.width * 0.38
         pointsText.y = 2
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
@@ -593,7 +658,7 @@ var mainGame = function(){
         
     }
     
-    function createPart(key,obj){
+    function createPart(key,obj,offY){
         
         var particlesNumber = 2
         
@@ -603,6 +668,7 @@ var mainGame = function(){
             tooMuch = true
         }
         
+        var offsetY = offY || 50
         var posX = obj.x
         var posY = obj.y - 35
 
@@ -639,15 +705,10 @@ var mainGame = function(){
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle).to({y:particle.y + 50},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle).to({y:particle.y + offsetY},300,Phaser.Easing.Cubic.In,true)
             game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
         }
         
-    }
-    
-    function createParticles(){
-        
-        particlesGroup = game.add.group()
     }
     
     function createAsset(tag,scale,number){
@@ -670,6 +731,12 @@ var mainGame = function(){
                 asset.animations.add('walk');
                 asset.animations.play('walk',24,true);
                 asset.lives = 3
+            }else if(tag == 'fireSkull'){
+                asset = game.add.sprite(-100, -200, 'fireSkull');
+                objectsGroup.add(asset)
+                asset.animations.add('walk');
+                asset.animations.play('walk',12,true);
+                asset.scale.setTo(2,2)
             }else{
                 asset = objectsGroup.create(-100,-300,'atlas.zombie',tag)
                 asset.lives = 1
@@ -716,7 +783,8 @@ var mainGame = function(){
     
     function checkPower(asset){
         
-        var tag = 'shoot1_item'
+        var tags = ['shoot1_item','shoot2_item']
+        Phaser.ArrayUtils.shuffle(tags)
                 
         var posX = getPos(asset.y)
         
@@ -724,7 +792,7 @@ var mainGame = function(){
         for(var i = 0; i<objectsGroup.length;i++){
             var item = objectsGroup.children[i]
             
-            if(!item.used && item.tag == tag){
+            if(!item.used && item.tag == tags[0]){
                 
                 usedObjects.add(item)
                 
@@ -745,7 +813,7 @@ var mainGame = function(){
             return
         }
         
-        sound.play("shoot")
+        sound.play("laser")
         
         for(var i = 0; i<objectsGroup.length;i++){
             var item = objectsGroup.children[i]
@@ -779,7 +847,6 @@ var mainGame = function(){
     
     function checkAdd(asset){
         
-        //var itemsList = ['escombros','hole1','hole2','zombie','trash']
         Phaser.ArrayUtils.shuffle(itemsList)
         
         var offsetX = 150
@@ -814,6 +881,30 @@ var mainGame = function(){
         
     }
     
+    function addFireSkull(asset){
+        
+        sound.play("evilLaugh")
+        for(var i = 0;i<objectsGroup.length;i++){
+            var item = objectsGroup.children[i]
+            if(item.used == false && item.tag == 'fireSkull'){
+                
+                item.used = true
+                
+                objectsGroup.remove(item)
+                usedObjects.add(item)
+                
+                item.x = characterGroup.x
+                item.y = asset.y
+                item.used = true
+                item.enemy = true
+                
+                item.isBullet = true
+                
+            }
+        }
+        
+    }
+    
     function addAsset(tag,add){
         
         var addItem = add || false
@@ -835,7 +926,19 @@ var mainGame = function(){
                 if(addItem == false){
                     checkAdd(asset)
                     if(pointsBar.number >=5){
+                        
                         checkAdd(asset)
+                        
+                        if(addSkull == true){
+                            
+                            addFireSkull(asset)
+                            addSkull = false
+                            
+                            game.time.events.add(10000,function(){
+                                addSkull = true
+                            },this)
+                        }
+                        
                     }
                     if(pointsBar.number >= 25){
                         checkAdd(asset)
@@ -843,15 +946,17 @@ var mainGame = function(){
                     if(pointsBar.number >= 35){
                         checkAdd(asset)
                     }
+                    
+                    if(addPowerUp && pointsBar.number>=10){
+                        checkPower(asset)
+                        addPowerUp = false
+                        game.time.events.add(15000,function(){
+                            addPowerUp = true
+                        },this)
+                    }
                 }
                 
-                if(addPowerUp){
-                    checkPower(asset)
-                    addPowerUp = false
-                    game.time.events.add(20000,function(){
-                        addPowerUp = true
-                    },this)
-                }
+                
                 
                 //console.log(pivotTiles + ' pivotObject,' +  asset.y + ' yPos')
                 
@@ -943,6 +1048,8 @@ var mainGame = function(){
         createAsset('hole2',1,6)
         createAsset('trash',1,6)
         createAsset('shoot1_item',1,2)
+        createAsset('shoot2_item',1,2)
+        createAsset('fireSkull',1,2)
                 
         createBullets(20)
         
@@ -953,6 +1060,54 @@ var mainGame = function(){
         addObstacle()
         shootBullets()
         
+    }
+    
+    function addNumberPart(obj,number){
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+        tweenScale.onComplete.add(function(){
+            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+        })
+    }
+    
+    function createIcons(){
+        
+        var iconNames = ['fastIcon','protectionIcon']
+        
+        var iconsGroup = game.add.group()
+        iconsGroup.x = 170
+        iconsGroup.y = 28
+        sceneGroup.add(iconsGroup)
+        
+        sceneGroup.icons = iconsGroup
+        
+        for(var i = 0; i<2;i++){
+            var icon = iconsGroup.create(0,0,'atlas.zombie',iconNames[i])
+            icon.anchor.setTo(0.5,0.5)
+            icon.alpha = 0
+        }
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, 0, fontStyle)
+        pointsText.y = -100
+        pointsText.anchor.setTo(0.5,0.5)
+        characterGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+        pointsText.alpha = 0
+        sceneGroup.timer = pointsText
     }
     
 	return {
@@ -971,7 +1126,7 @@ var mainGame = function(){
             sceneGroup.add(objectsGroup)
             
             usedObjects = game.add.group()
-            usedObjects.y = game.world.height * 0.5
+            usedObjects.y = game.world.height * 0.2
             sceneGroup.add(usedObjects)
             
             createExplosions(20)
@@ -987,11 +1142,15 @@ var mainGame = function(){
             var fire = characterGroup.create(13,-110,'atlas.zombie','fire')
             fire.anchor.setTo(0.5,0.5)
             fire.alpha = 0
-            characterGroup.fire = fire
-            
+            characterGroup.fire = fire        
             
             buddy = game.add.spine(0,0, "punisher");
             characterGroup.add(buddy)
+            
+            var bubble = characterGroup.create(0,-46,'atlas.zombie','bubble')
+            bubble.anchor.setTo(0.5,0.5)
+            bubble.alpha = 0
+            characterGroup.bubble = bubble
             
             buddy.setAnimationByName(0, "ACTION", true);
             buddy.setSkinByName('normal');
@@ -1002,6 +1161,12 @@ var mainGame = function(){
             createPointsBar()
             createHearts()
             createObjects()
+            
+            createIcons()
+            
+            
+            
+
             
             //createParticles()
             

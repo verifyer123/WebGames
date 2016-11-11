@@ -382,12 +382,18 @@ var costena = function(){
         }
     }
     
-    function flipCard(card, delay){
+    function flipCard(card, delay,lastOne){
+        
+        var last = lastOne || false
         var timeFlip = 150
         game.time.events.add(timeFlip + delay,function(){
             sound.play("flip")
             changeImage(0,card)
             game.add.tween(card.scale).to({x: 1}, timeFlip, Phaser.Easing.linear, true,0)
+            
+            if(last){
+                gameActive = true
+            }
             //gameActive = true
         })
     }
@@ -409,21 +415,21 @@ var costena = function(){
         }
         
         var delay = 0
+        var lastOne = false
         game.time.events.add(delay + (cardsGroup.length * timeFlip) + 600,function(){
             for(var i = 0;i<cardsGroup.length;i++){
                 
                 delay+=timeFlip
                 var scaleTween = game.add.tween(cardsGroup.children[i].scale).to({x: 0}, timeFlip, Phaser.Easing.linear, true,delay)
-                flipCard(cardsGroup.children[i], delay)
+                if(i==cardsGroup.length - 1){
+                    lastOne = true
+                }
+                flipCard(cardsGroup.children[i], delay,lastOne)
                 
             }
         
         } , this);
         
-        game.time.events.add(delay + (cardsGroup.length * 200) * 2 + (timeFlip * 4),function(){
-            gameActive = true
-            console.log('activate game')
-        },this)
     }
     
     /*function showCards(){

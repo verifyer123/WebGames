@@ -2,7 +2,7 @@
 
 {
 	"filename": "inst-click",
-	"frame": {"x":1,"y":741,"w":205,"h":79},
+	"frame": {"x":1,"y":742,"w":205,"h":79},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":205,"h":79},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "inst-tap",
-	"frame": {"x":208,"y":741,"w":202,"h":105},
+	"frame": {"x":208,"y":742,"w":202,"h":105},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":105},
@@ -20,16 +20,16 @@
 },
 {
 	"filename": "instruccion",
-	"frame": {"x":1,"y":1,"w":506,"h":738},
+	"frame": {"x":1,"y":1,"w":508,"h":739},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":506,"h":738},
-	"sourceSize": {"w":506,"h":738},
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":508,"h":739},
+	"sourceSize": {"w":511,"h":740},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "okbtn",
-	"frame": {"x":1,"y":822,"w":160,"h":90},
+	"frame": {"x":1,"y":823,"w":160,"h":90},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
@@ -41,8 +41,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":508,"h":913},
+	"size": {"w":510,"h":914},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:07ce66e098a4f0288e31b368ed023459:94f8256512c750f8c381de1ff47d3e9c:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0c9497e70179a3b7d011b13e3679a9f6:d3323021980e619918abe6f4a79d5f9a:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

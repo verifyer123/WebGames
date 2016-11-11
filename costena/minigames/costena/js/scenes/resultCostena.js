@@ -373,9 +373,9 @@ var resultCostena = function(){
         
         var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, 5, totalScore + " puntos", fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, -10, totalScore + " puntos", fontStyle)
         //retryText.x = pivotText
-        retryText.y = game.world.centerY - 278
+        retryText.y = game.world.centerY - 282
         sceneGroup.add(retryText)
         
         sceneGroup.add(retryText)
@@ -388,9 +388,9 @@ var resultCostena = function(){
         
         var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, scoreText.x + scoreText.width * 1.1, 5, goalScore + " puntos", fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, scoreText.x + scoreText.width * 1.1, -10, goalScore + " puntos", fontStyle)
         //retryText.x = pivotText
-        retryText.y = game.world.centerY - 158
+        retryText.y = game.world.centerY - 162
         sceneGroup.add(retryText)
         
         var bottomBar = new Phaser.Graphics(game)
