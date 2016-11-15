@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "yA2JlRMUcUWYvQnhdFw7GqbdQHU", "spine": "3.3.07", "width": 72, "height": 101.13, "images": "" },
+"skeleton": { "hash": "V38dZDsBxBb4UvqLe88HnZf5NIc", "spine": "3.3.07", "width": 72, "height": 101.13, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "length": 28.19, "rotation": 89.99, "x": -0.34, "y": 19.6, "inheritScale": false },
@@ -32,6 +32,7 @@
 		},
 		"torso": {
 			"dead": { "name": "normal/dead", "x": 30.02, "y": 1.25, "rotation": -89.99, "width": 86, "height": 102 },
+			"neardead": { "name": "normal/neardead", "x": 55.46, "y": 1.7, "rotation": -89.99, "width": 136, "height": 150 },
 			"torso": { "name": "normal/torso", "x": 23.39, "y": 0.03, "rotation": -89.99, "width": 72, "height": 51 }
 		}
 	}
@@ -268,36 +269,37 @@
 			"cabeza": {
 				"attachment": [
 					{ "time": 0, "name": "cabeza" },
-					{ "time": 0.5, "name": null },
+					{ "time": 0.1666, "name": null },
 					{ "time": 1, "name": null }
 				]
 			},
 			"gun": {
 				"attachment": [
 					{ "time": 0, "name": "gun" },
-					{ "time": 0.5, "name": null },
+					{ "time": 0.1666, "name": null },
 					{ "time": 1, "name": null }
 				]
 			},
 			"leg1": {
 				"attachment": [
 					{ "time": 0, "name": "leg1" },
-					{ "time": 0.5, "name": null },
+					{ "time": 0.1666, "name": null },
 					{ "time": 1, "name": null }
 				]
 			},
 			"leg2": {
 				"attachment": [
 					{ "time": 0, "name": "leg2" },
-					{ "time": 0.5, "name": null },
+					{ "time": 0.1666, "name": null },
 					{ "time": 1, "name": null }
 				]
 			},
 			"torso": {
 				"attachment": [
 					{ "time": 0, "name": "torso" },
-					{ "time": 0.5, "name": "dead" },
-					{ "time": 1, "name": "dead" }
+					{ "time": 0.1666, "name": "neardead" },
+					{ "time": 0.5666, "name": "dead" },
+					{ "time": 0.6666, "name": "dead" }
 				]
 			}
 		},
@@ -320,30 +322,37 @@
 						"curve": [ 0.25, 0, 0.75, 1 ]
 					},
 					{
-						"time": 0.0666,
-						"x": -0.17,
-						"y": 1.23,
-						"curve": [ 0.25, 0, 0.75, 1 ]
-					},
-					{
-						"time": 0.1333,
+						"time": 0.1,
 						"x": -1.4,
 						"y": 1.4,
 						"curve": [ 0.25, 0, 0.75, 1 ]
 					},
 					{
-						"time": 0.2,
+						"time": 0.1333,
 						"x": 1.93,
 						"y": 2.46,
 						"curve": [ 0.25, 0, 0.75, 1 ]
 					},
 					{
-						"time": 0.2666,
+						"time": 0.1666,
 						"x": 0.35,
 						"y": 2.28,
 						"curve": [ 0.25, 0, 0.75, 1 ]
 					},
-					{ "time": 0.4, "x": 0, "y": 0 }
+					{ "time": 0.2666, "x": 0, "y": 0, "curve": "stepped" },
+					{
+						"time": 0.3333,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"x": 0,
+						"y": -7.4,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 0.6666, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{
@@ -353,12 +362,18 @@
 						"curve": [ 0.374, -2.71, 0.386, 1 ]
 					},
 					{
-						"time": 0.4,
+						"time": 0.2666,
 						"x": 1.111,
 						"y": 1,
-						"curve": [ 0.64, -1.92, 0.346, 4.95 ]
+						"curve": [ 1, 0, 0.885, 1 ]
 					},
-					{ "time": 1, "x": 1, "y": 1 }
+					{
+						"time": 0.5,
+						"x": 0.904,
+						"y": 1,
+						"curve": [ 0.478, -0.88, 0.353, 5.12 ]
+					},
+					{ "time": 0.6666, "x": 1, "y": 1 }
 				]
 			},
 			"cabeza": {
@@ -408,8 +423,8 @@
 		},
 		"drawOrder": [
 			{ "time": 0 },
-			{ "time": 0.4 },
-			{ "time": 1 }
+			{ "time": 0.1666 },
+			{ "time": 0.6666 }
 		]
 	},
 	"IDLE": {

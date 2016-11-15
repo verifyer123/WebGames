@@ -2,7 +2,7 @@
 
 {
 	"filename": "inst-click",
-	"frame": {"x":1,"y":742,"w":205,"h":79},
+	"frame": {"x":271,"y":834,"w":205,"h":79},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":205,"h":79},
@@ -11,11 +11,11 @@
 },
 {
 	"filename": "inst-tap",
-	"frame": {"x":208,"y":742,"w":202,"h":105},
+	"frame": {"x":1,"y":742,"w":268,"h":123},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":105},
-	"sourceSize": {"w":202,"h":105},
+	"spriteSourceSize": {"x":0,"y":0,"w":268,"h":123},
+	"sourceSize": {"w":268,"h":123},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -23,13 +23,13 @@
 	"frame": {"x":1,"y":1,"w":508,"h":739},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1,"y":0,"w":508,"h":739},
+	"spriteSourceSize": {"x":2,"y":0,"w":508,"h":739},
 	"sourceSize": {"w":511,"h":740},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "okbtn",
-	"frame": {"x":1,"y":823,"w":160,"h":90},
+	"frame": {"x":271,"y":742,"w":160,"h":90},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
@@ -43,6 +43,6 @@
 	"format": "RGBA8888",
 	"size": {"w":510,"h":914},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:0c9497e70179a3b7d011b13e3679a9f6:d3323021980e619918abe6f4a79d5f9a:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:df6e1264d301abf83c1d2bb1ccfbdb37:350bbd7dbc5b67ccdcc20af9d96bc2fb:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

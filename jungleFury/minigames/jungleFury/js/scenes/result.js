@@ -68,7 +68,7 @@ var result = function(){
 
 	var timeGoal = null
 
-	function setScore(didWin, score){
+	function setScore(didWin,score){
 		totalScore = score
 		totalGoal = 50
 		totalTime = 0
@@ -135,7 +135,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/zombieCrush/',
+		    href: 'http://yogome.com/g/jungleFury/',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
 		}, function(response){

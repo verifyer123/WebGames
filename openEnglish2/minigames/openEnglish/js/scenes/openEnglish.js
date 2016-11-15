@@ -30,12 +30,6 @@ var openEnglish = function(){
 				file: "sounds/swipe.mp3"},
             {	name: "wrong",
 				file: "sounds/wrong.mp3"},
-            {	name: "ready_es",
-				file: "sounds/ready_es.mp3"},
-            {	name: "go_es",
-				file: "sounds/go_es.mp3"},
-            {	name: "click",
-				file: "sounds/pop.mp3"},
 		],
 	}
         
@@ -46,27 +40,69 @@ var openEnglish = function(){
     var ITEM_TIME = 800
     
     var buttonsGroup = null
+    var listIndex
 	var sceneGroup = null
     var gameIndex = 0
     var questionPoints = null
     var pointsGroup = null
     
     var orderList = null
-    var wordsList = ['brazo','cena','cuerno','fecha','arma','carton','contestar','pan','once','advertir','noticia']
+    var wordsList = [
+        
+        ['detener','noticia','gato','dinero','raton','horno','arbol','casa','pelota','camioneta'],
+        ['brazo','cena','cuerno','fecha','arma','carton','contestar','pan','once','advertir'],
+        ['leche','uvas','cuchara','choque','casadearbol','ganso','oveja','globoterraqueo','lluvia','sandia']
+
+    ]
+    
+    var wordTrans = [
+        
+        ['Detener','Noticia','Gato','Dinero','Ratón','Horno','Árbol','Casa','Pelota','Camioneta'],
+        ['Brazo','Cena','Cuerno','Fecha','Arma','Cartón','Contestar','Pan','Once','Advertir'],
+        ['Leche','Uvas','Cuchara','Choque','Casa de Árbol','Ganso','Oveja','Globo Terráqueo','Lluvia','Sandía']
+
+    ]
         
     var transList = [
-
-        ['Arm','Armory'],
-        ['Dinner','Diner'],
-        ['Horn','Corn'],
-        ['Date','Fetch'],   
-        ['Gun','Arm'],
-        ['Cardboard','Cartoon'],
-        ['Answer','Contest'],
-        ['Bread','Pan'],
-        ['Eleven','Once'],
-        ['To warn','Advertise'],
-        ['News','Notice'],
+        
+        [
+            ['Stop','Detention'],
+            ['News','Notice'],
+            ['Cat','Kit'],
+            ['Money','Diner'],   
+            ['Mouse','Ratchet'],
+            ['Oven','Horn'],
+            ['Tree','Three'],
+            ['House','Case'],
+            ['Ball','Bowl'],
+            ['Truck','Track'],
+        ],
+        
+        [
+            ['Arm','Armory'],
+            ['Dinner','Diner'],
+            ['Horn','Corn'],
+            ['Date','Fetch'],   
+            ['Gun','Arm'],
+            ['Cardboard','Cartoon'],
+            ['Answer','Contest'],
+            ['Bread','Pan'],
+            ['Eleven','Once'],
+            ['To warn','Advertise'],
+        ],
+        
+        [
+            ['Milk','Leech'],
+            ['Grapes','Grapefruits'],
+            ['Spoon','Spun'],
+            ['Crash','Shock'],   
+            ['Treehouse','Threehouse'],
+            ['Goose','Gang'],
+            ['Sheep','Ship'],
+            ['Globe','Global'],
+            ['Rain','Rein'],
+            ['Watermelon','Sandy'],
+        ],
 
     ]
     
@@ -77,7 +113,7 @@ var openEnglish = function(){
     function setOrderList(){
         
         orderList = []
-        for(var i = 0;i<wordsList.length;i++){
+        for(var i = 0;i<wordsList[listIndex].length;i++){
             orderList[orderList.length] = i
         }
         
@@ -88,6 +124,7 @@ var openEnglish = function(){
 
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
+        listIndex = 0
         gameIndex = 0
         questionPoints = 0
         
@@ -132,8 +169,7 @@ var openEnglish = function(){
             finalTween.onComplete.add(function(){
                 gameActive = true
                 setWords()
-                //timer.start()
-                //objectsGroup.timer.start()
+                //showCText()
             })
         })
     }
@@ -204,12 +240,43 @@ var openEnglish = function(){
         game.time.events.add(delay + 500,function(){
             gameIndex++
             
-            if(gameIndex> 9){
+            if(listIndex > 1 && gameIndex > 9){
                 stopGame()
             }else{
-                //createButtons()
-                setWords()
+                if(gameIndex> 9){
+                    gameIndex = 0
+                    listIndex++
+                    setOrderList()
+                    pointsGroup.alpha = 0
+                    createPointsBar()
+                    
+                    showCText()
+                    //setWords()
+                }else{
+                    //createButtons()
+                    setWords()
+                }
             }
+            
+        })
+    }
+    
+    function showCText(){
+        
+        var cText = sceneGroup.cText
+        cText.y = game.world.centerY - 200
+        
+        createPart('star',cText)
+        sound.play("pop")
+        
+        var tweenAlpha = game.add.tween(cText).to({alpha : 1,y:cText.y + 150},250,Phaser.Easing.linear,true)
+        tweenAlpha.onComplete.add(function(){
+            
+            createPart('star',cText)
+            var tween2 = game.add.tween(cText).to({alpha : 0, y:cText.y-100},250,Phaser.Easing.linear,true,1250)
+            tween2.onComplete.add(function(){
+                setWords()
+            })
             
         })
     }
@@ -227,10 +294,10 @@ var openEnglish = function(){
                 
         var correct
         if(correct){
-            correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','correcto')
+            correct = pointsGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','correcto')
             
         }else{
-            correct = sceneGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','incorrecto')
+            correct = pointsGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','incorrecto')
         }
         
         correct.anchor.setTo(0.5,0.5)
@@ -266,6 +333,7 @@ var openEnglish = function(){
             
         }
         
+        console.log(questionPoints + ' puntos')
         changeImage(indexCard,obj,true)
         
         restartCards()
@@ -330,11 +398,29 @@ var openEnglish = function(){
         
     }
     
-    function setCard(imageName){
+    function setCard(imageName,imageString){
         
-        cardToUse = sceneGroup.create(game.world.centerX,game.world.height * 0.3,'atlas.openEnglish',imageName)
-        cardToUse.anchor.setTo(0.5,0.5)
+        cardToUse = game.add.group()
+        cardToUse.x = game.world.centerX
+        cardToUse.y = game.world.height * 0.31
+        sceneGroup.add(cardToUse)
+        
+        
+        var circle = game.add.graphics(0, 0);
+        circle.beginFill(0xffffff, 1);
+        circle.drawCircle(0, 50, 300);
+        cardToUse.add(circle)
+        
+        var card = cardToUse.create(0,50,'atlas.openEnglish',imageName)
+        card.scale.setTo(1.4,1.4)
+        card.anchor.setTo(0.5,0.5)
+        
+        var text = game.add.bitmapText(0,-140, 'wFont', '= '+imageString.toUpperCase()+' =', 40);
+        text.anchor.setTo(0.5, 0.5)
+        cardToUse.add(text)
+        
         cardToUse.alpha = 0
+        
     }
     
     function popObject(obj, delay){
@@ -401,9 +487,9 @@ var openEnglish = function(){
         
         //console.log(orderList)
         
-        setCard(wordsList[orderList[gameIndex]])
+        setCard(wordsList[listIndex][orderList[gameIndex]],wordTrans[listIndex][orderList[gameIndex]])
         
-        setButtonsText(transList[orderList[gameIndex]])     
+        setButtonsText(transList[listIndex][orderList[gameIndex]])     
         
         animateCards()
         
@@ -465,8 +551,34 @@ var openEnglish = function(){
         }
         
     }
+    
+    function preload(){
+        game.load.bitmapFont('wFont', 'images/font/wFont.png', 'images/font/wFont.fnt');
+    }
+    
+    function createLevelText(){
+        
+        var textGroup = game.add.group()
+        textGroup.x = game.world.centerX
+        sceneGroup.add(textGroup)
+        
+        var image = textGroup.create(0,-50,'atlas.openEnglish','congrats')
+        image.anchor.setTo(0.5,0.5)
+        
+        var texty = game.add.bitmapText(0,75, 'wFont', '  Avanzaste al \nsiguiente nivel', 50);
+        texty.anchor.setTo(0.5, 0.5)
+        textGroup.add(texty)
+        
+        
+        textGroup.alpha = 0
+        
+        sceneGroup.cText = textGroup
+        
+    }
+    
 	return {
 		assets: assets,
+        preload: preload,
 		name: "openEnglish",
 		create: function(event){
 
@@ -484,6 +596,7 @@ var openEnglish = function(){
             
             createButtons()
             createPointsBar()
+            createLevelText()
             
             initialize()
             animateScene()

@@ -349,13 +349,17 @@ var resultOpenEnglish = function(){
         
         var iconName = 'wachu'
         var iconIndex = 0
-        if(totalScore >= 7){
+        
+        if(totalScore >= 12){
             iconName = 'extranjero'
             iconIndex = 1
-        }else if(totalScore >= 9){
+        }
+        
+        if(totalScore >= 24){
             iconName = 'nativo'
             iconIndex = 2
         }
+        
         emoName = iconName
 
  

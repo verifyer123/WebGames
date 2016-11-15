@@ -33,14 +33,14 @@ var mainGame = function(){
 				file: "images/jungle/fondo.png"},
 		],
 		sounds: [
-            {	name: "pop",
-				file: "sounds/magic.mp3"},
             {	name: "punch1",
 				file: "sounds/punch1.mp3"},
             {	name: "punch2",
 				file: "sounds/punch2.mp3"},
             {	name: "punch3",
 				file: "sounds/punch3.mp3"},
+            {	name: "explode",
+				file: "sounds/explode.mp3"},
 		],
 	}
         
@@ -52,6 +52,7 @@ var mainGame = function(){
     var ITEM_TIME = 800
     
     var gameSong = null
+    var levelNumber = 0
     var scaleSpeed = null
     var timeBar = null
     var buttonPressed
@@ -85,8 +86,9 @@ var mainGame = function(){
         pressed.right = 0
         pressed.left = 0
         pressed.middle = 0
-        scaleSpeed = 0.0005
+        scaleSpeed = 0.002
         loadSounds()
+        levelNumber = 1
         
 	}
     
@@ -101,6 +103,17 @@ var mainGame = function(){
 
 		
         gameActive = true
+        
+        sceneGroup.alpha = 0
+        
+        var sceneTween = game.add.tween(sceneGroup).to({alpha:1},500,Phaser.Easing.linear,true)
+        
+        sceneTween.onComplete.add(function(){
+            setLevel(levelNumber)
+        })
+        
+        
+        
         //timer.start()
         //game.time.events.add(throwTime *0.1, dropObjects , this);
         //objectsGroup.timer.start()
@@ -116,44 +129,30 @@ var mainGame = function(){
         }
     }  
     
-    function createPart(key,obj,offX, offY){
+    function createPart(key,obj,offX, offY,much){
         
         var offsetX = offX || 0
         var offsetY = offY || 0
         
         var particlesNumber = 2
         
-        tooMuch = true
+        tooMuch = much || true
         //console.log('fps ' + game.time.fps)
-        if (game.time.fps < 45 && tooMuch == false){
-            tooMuch = true
+        
+        var posX = obj.x
+        var posY = obj.y
+        
+        if(obj.world){
+            posX = obj.world.x
+            posY = obj.world.y
         }
         
-        if(game.device.desktop == true && tooMuch == false){ 
+        if( tooMuch == false){ 
             
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.zombie',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
+        
         }else{
             key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 60,'atlas.jungle',key)
+            var particle = sceneGroup.create(posX,posY - offsetY,'atlas.jungle',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -171,9 +170,29 @@ var mainGame = function(){
         exp.y = obj.y + offY
         exp.anchor.setTo(0.5,0.5)
 
-        exp.scale.setTo(2,2)
+        exp.scale.setTo(4,4)
         game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
         var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+        
+        particlesNumber = 8
+            
+        var particlesGood = game.add.emitter(0, 0, 100);
+
+        particlesGood.makeParticles('atlas.jungle','smoke');
+        particlesGood.minParticleSpeed.setTo(-200, -50);
+        particlesGood.maxParticleSpeed.setTo(200, -100);
+        particlesGood.minParticleScale = 0.6;
+        particlesGood.maxParticleScale = 1.5;
+        particlesGood.gravity = 150;
+        particlesGood.angularDrag = 30;
+
+        particlesGood.x = obj.x;
+        particlesGood.y = obj.y + offsetY;
+        particlesGood.start(true, 1000, null, particlesNumber);
+
+        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+        sceneGroup.add(particlesGood)
+        
     }
     
     function stopGame(){
@@ -183,15 +202,20 @@ var mainGame = function(){
         gameActive = false
         buddy.setAnimationByName(0,"HIT_COCONUT",false)
         
-        //createPart('smoke',characterGroup)
+        lives--
+        heartsGroup.text.setText(lives)
+        
         setExplosion(characterGroup,-100)
+        
+        sound.play("explode")
         
         
         var scale = 1
+        if(characterGroup.isLeft){scale = -1}
         
         
         game.add.tween(characterGroup).to({x:game.world.centerX},300,Phaser.Easing.linear,true)
-        game.add.tween(characterGroup.scale).to({x:3,y:3},300,Phaser.Easing.linear,true)
+        game.add.tween(characterGroup.scale).to({x:3 * scale,y:3},300,Phaser.Easing.linear,true)
         
         game.add.tween(characterGroup).to({y:characterGroup.y + 200},1000,Phaser.Easing.linear,true,500)
         //timer.pause()
@@ -200,7 +224,7 @@ var mainGame = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(pointsBar.number)
+			resultScreen.setScore(true,pointsBar.number)
 
 			sceneloader.show("result")
 		})
@@ -300,10 +324,10 @@ var mainGame = function(){
         checkTree()
         
         if(timeBar.scaleBar.scale.x<1){
-            timeBar.scaleBar.scale.x+=0.01
+            timeBar.scaleBar.scale.x+=0.03
         }
         
-        scaleSpeed += 0.000008
+        //scaleSpeed += 0.000009
         
         sound.play("punch" + game.rnd.integerInRange(1, 3))
         var isLeft = characterGroup.scale.x == -1
@@ -337,6 +361,18 @@ var mainGame = function(){
         game.add.tween(characterGroup.impact).from({alpha : 1},200,Phaser.Easing.linear,true)
         game.add.tween(characterGroup.impact.scale).from({x:1.5,y:1.5},200,Phaser.Easing.linear,true)
         
+        changeImage(1,timeBar.scaleBar)
+        game.time.events.add(50,function(){
+            changeImage(0,timeBar.scaleBar)
+        },this)
+        
+    }
+    
+    function addLevel(){
+        
+        levelNumber++
+        setLevel(levelNumber)
+        scaleSpeed+=0.00008
     }
     
     function addPoint(){
@@ -347,6 +383,10 @@ var mainGame = function(){
         
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
+        
+        if(pointsBar.number % 15 == 0){
+            addLevel()
+        }
         
     }
     
@@ -470,7 +510,7 @@ var mainGame = function(){
             }
         }
         
-        console.log(pressed.right + ' right,' + pressed.left + ' left,' + pressed.middle + ' middle, ' + tag)
+        //console.log(pressed.right + ' right,' + pressed.left + ' left,' + pressed.middle + ' middle, ' + tag)
         
         
         for(var i = 0;i<piecesGroup.length;i++){
@@ -591,9 +631,52 @@ var mainGame = function(){
         var container = timeBar.create(0,0,'atlas.jungle','timebar')
         container.anchor.setTo(0.5,0.5)
         
-        var fill = timeBar.create(-container.width * 0.485,0,'atlas.jungle','timebarFill')
-        fill.anchor.setTo(0,0.5)
-        timeBar.scaleBar = fill
+        var fillGroup = game.add.group()
+        fillGroup.x = -container.width * 0.485
+        timeBar.add(fillGroup)
+        
+        var fillImg1 = fillGroup.create(0,0,'atlas.jungle','timebarFill')
+        fillImg1.anchor.setTo(0,0.5)
+        
+        fillGroup.scale.x = 0.5
+        timeBar.scaleBar = fillGroup
+        
+        var fillImg2 = fillGroup.create(0,0,'atlas.jungle','whiteFill')
+        fillImg2.anchor.setTo(0,0.5)
+        
+        changeImage(0,timeBar.scaleBar)
+        
+    }
+    
+    function setLevel(number){
+    
+        var text = sceneGroup.levelText
+        
+        text.y = game.world.centerY - 200
+        
+        text.setText('Nivel ' + number)
+        
+        var addTween = game.add.tween(text).to({y:game.world.centerY - 150,alpha:1},500,Phaser.Easing.linear,true)
+        addTween.onComplete.add(function(){
+            game.add.tween(text).to({y:game.world.centerY - 200,alpha:0},250,Phaser.Easing.linear,true,500)
+        })
+    }
+    
+    function createLevelText(){
+        
+        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var levelText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+        levelText.x = game.world.centerX
+        levelText.y = game.world.centerY - 150
+        levelText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(levelText)
+        
+        levelText.alpha = 0
+        
+        sceneGroup.levelText = levelText
+        
+        levelText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
         
     }
     
@@ -619,6 +702,7 @@ var mainGame = function(){
             
             treeGroup = game.add.group()
             treeGroup.x = game.world.centerX
+            //treeGroup.scale.setTo(1.3,1.3)
             treeGroup.y = ground.y - 15
             treeGroup.startY = treeGroup.y
             treeGroup.pivotY = 0
@@ -655,6 +739,8 @@ var mainGame = function(){
             createTimeBar()
             
             createAssets()
+            
+            createLevelText()
             
             leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
 	        rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
