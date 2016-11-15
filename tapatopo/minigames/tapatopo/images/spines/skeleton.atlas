@@ -1,97 +1,139 @@
 
 skeleton.png
-size: 512,256
+size: 1024,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal/Capa_2
+normal/boca
   rotate: false
-  xy: 2, 10
-  size: 127, 108
-  orig: 127, 108
+  xy: 883, 85
+  size: 38, 41
+  orig: 38, 41
   offset: 0, 0
   index: -1
-normal/Capa_3
+normal/brazoD
   rotate: false
-  xy: 2, 120
-  size: 129, 113
-  orig: 129, 113
+  xy: 923, 99
+  size: 27, 27
+  orig: 27, 27
   offset: 0, 0
   index: -1
-normal/forearm1
+normal/brazoI
   rotate: false
-  xy: 449, 82
-  size: 52, 79
-  orig: 52, 79
+  xy: 220, 40
+  size: 33, 23
+  orig: 33, 23
   offset: 0, 0
   index: -1
-normal/forearm2
+normal/cabeza
   rotate: false
-  xy: 449, 2
-  size: 52, 78
-  orig: 52, 78
+  xy: 2, 24
+  size: 111, 102
+  orig: 111, 102
   offset: 0, 0
   index: -1
-normal/hand1
+normal/cachetes
   rotate: false
-  xy: 307, 164
-  size: 85, 69
-  orig: 85, 69
+  xy: 115, 65
+  size: 141, 61
+  orig: 141, 61
   offset: 0, 0
   index: -1
-normal/hand2
+normal/chipote
   rotate: false
-  xy: 394, 163
-  size: 84, 70
-  orig: 84, 70
+  xy: 842, 88
+  size: 39, 38
+  orig: 39, 38
   offset: 0, 0
   index: -1
-normal/head_a
+normal/ojoD_A
   rotate: false
-  xy: 236, 70
-  size: 69, 75
-  orig: 69, 75
+  xy: 115, 24
+  size: 50, 39
+  orig: 50, 39
   offset: 0, 0
   index: -1
-normal/head_b
+normal/ojoD_C
   rotate: false
-  xy: 236, 147
-  size: 69, 86
-  orig: 69, 86
+  xy: 684, 89
+  size: 51, 37
+  orig: 51, 37
   offset: 0, 0
   index: -1
-normal/head_c
+normal/ojoD_f1
   rotate: false
-  xy: 307, 87
-  size: 69, 75
-  orig: 69, 75
+  xy: 790, 89
+  size: 50, 37
+  orig: 50, 37
   offset: 0, 0
   index: -1
-normal/head_d
+normal/ojoD_f2
   rotate: false
-  xy: 378, 86
-  size: 69, 75
-  orig: 69, 75
+  xy: 167, 26
+  size: 51, 37
+  orig: 51, 37
   offset: 0, 0
   index: -1
-normal/leg1
+normal/ojoD_f3
   rotate: false
-  xy: 307, 21
-  size: 69, 64
-  orig: 69, 64
+  xy: 737, 89
+  size: 51, 37
+  orig: 51, 37
   offset: 0, 0
   index: -1
-normal/leg2
+normal/ojoI_A
   rotate: false
-  xy: 378, 19
-  size: 69, 65
-  orig: 69, 65
+  xy: 372, 75
+  size: 61, 51
+  orig: 61, 51
+  offset: 0, 0
+  index: -1
+normal/ojoI_C
+  rotate: false
+  xy: 498, 78
+  size: 60, 48
+  orig: 60, 48
+  offset: 0, 0
+  index: -1
+normal/ojoI_f1
+  rotate: false
+  xy: 435, 77
+  size: 61, 49
+  orig: 61, 49
+  offset: 0, 0
+  index: -1
+normal/ojoI_f2
+  rotate: false
+  xy: 560, 78
+  size: 60, 48
+  orig: 60, 48
+  offset: 0, 0
+  index: -1
+normal/ojoI_f3
+  rotate: false
+  xy: 622, 78
+  size: 60, 48
+  orig: 60, 48
+  offset: 0, 0
+  index: -1
+normal/pupilaD
+  rotate: false
+  xy: 2, 13
+  size: 11, 9
+  orig: 11, 9
+  offset: 0, 0
+  index: -1
+normal/pupilaI
+  rotate: false
+  xy: 2, 2
+  size: 10, 9
+  orig: 10, 9
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 133, 126
-  size: 101, 107
-  orig: 101, 107
+  xy: 258, 76
+  size: 112, 50
+  orig: 112, 50
   offset: 0, 0
   index: -1

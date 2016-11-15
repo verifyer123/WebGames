@@ -23,9 +23,9 @@ var mainGame = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.jungle",
-                json: "images/jungle/atlas.json",
-                image: "images/jungle/atlas.png",
+                name: "atlas.tapatopo",
+                json: "images/tapatopo/atlas.json",
+                image: "images/tapatopo/atlas.png",
             },
         ],
         images: [
@@ -65,9 +65,6 @@ var mainGame = function(){
     var throwTime = null
     var lives = null
     var heartsGroup = null
-    var treeGroup = null
-    var leftKey = null
-    var rightKey = null
     var buddy = null    
 
 	function loadSounds(){
@@ -81,19 +78,11 @@ var mainGame = function(){
         gameActive = true
         lives = 1
         buttonPressed = false
-        lastObj = null
-        pressed =[]
-        pressed.right = 0
-        pressed.left = 0
-        pressed.middle = 0
-        scaleSpeed = 0.002
         loadSounds()
         levelNumber = 1
         
 	}
-    
 
-    
     function animateScene() {
                 
         gameActive = false
@@ -299,82 +288,6 @@ var mainGame = function(){
         })
     }
     
-    function checkPieces(piece,isLeft){
-        if(!isLeft && piece.tag == 'obstacle'){
-            stopGame()
-        }else if(isLeft && piece.tag == 'obstacleLeft'){
-            stopGame()
-        }
-    }
-    
-    function checkTree(){
-        
-        var isLeft = characterGroup.isLeft
-        var piece = treeGroup.children[0]
-        var pieceTo = treeGroup.children[1]
-        
-        //console.log(piece.tag + ' tag,' +  isLeft + ' is Left')
-        
-        checkPieces(piece,isLeft)
-        checkPieces(pieceTo,isLeft)
-    }
-    
-    function punchTree(){
-        
-        checkTree()
-        
-        if(timeBar.scaleBar.scale.x<1){
-            timeBar.scaleBar.scale.x+=0.03
-        }
-        
-        //scaleSpeed += 0.000009
-        
-        sound.play("punch" + game.rnd.integerInRange(1, 3))
-        var isLeft = characterGroup.scale.x == -1
-        var piece = treeGroup.children[0]
-        
-        treeGroup.remove(piece)
-        piecesGroup.add(piece)
-        piece.used = false
-        
-        createPart('star',characterGroup.impact)
-        
-        addPoint()
-        
-        var lastPosY = piece.world.y
-        
-        piece.x = treeGroup.x
-        piece.y = lastPosY
-        
-        if(isLeft){
-            piece.tween = game.add.tween(piece).to({x : game.world.width + 200, alpha: 0, angle:180 * characterGroup.scale.x},400,Phaser.Easing.linear,true)
-            
-        }else{
-            piece.tween = game.add.tween(piece).to({x : -200, alpha:0,angle:180 * characterGroup.scale.x},400,Phaser.Easing.linear,true)
-        }
-        
-        game.add.tween(treeGroup).to({y:treeGroup.startY + OFFSET_PZ * pointsBar.number},100,Phaser.Easing.linear,true)
-        //treeGroup.y+=OFFSET_PZ
-        
-        characterGroup.impact.scale.setTo(1,1)
-        characterGroup.impact.alpha = 0
-        game.add.tween(characterGroup.impact).from({alpha : 1},200,Phaser.Easing.linear,true)
-        game.add.tween(characterGroup.impact.scale).from({x:1.5,y:1.5},200,Phaser.Easing.linear,true)
-        
-        changeImage(1,timeBar.scaleBar)
-        game.time.events.add(50,function(){
-            changeImage(0,timeBar.scaleBar)
-        },this)
-        
-    }
-    
-    function addLevel(){
-        
-        levelNumber++
-        setLevel(levelNumber)
-        scaleSpeed+=0.00008
-    }
-    
     function addPoint(){
         
         //sound.play("pop")
@@ -390,219 +303,10 @@ var mainGame = function(){
         
     }
     
-    function moveKong(tag){
-        
-        if(!gameActive){
-            return
-        }
-        
-        buddy.setAnimationByName(0,"FIST")
-        buddy.addAnimationByName(0,"IDLE",true)
-        
-        if(tag == 'right'){
-            characterGroup.isLeft = false
-            characterGroup.scale.x = 1
-            if(characterGroup.x<game.world.centerX){
-                game.add.tween(characterGroup).to({x:game.world.centerX + 170},100,Phaser.Easing.linear,true)
-            }
-        }else if(tag == 'left'){
-            characterGroup.isLeft = true
-            characterGroup.scale.x = -1
-            if(characterGroup.x>game.world.centerX){
-                game.add.tween(characterGroup).to({x:game.world.centerX - 170},100,Phaser.Easing.linear,true)
-            }
-        }
-        
-        addObstacle()
-        punchTree()
-    }
-    
-    function inputButton(obj){
-        
-        moveKong(obj.tag)
-        
-        changeImage(1,obj.parent)
-    }
-    
-    function releaseButton(obj){
-        changeImage(0,obj.parent)
-    }
-    
-    function createControls(){
-    
-        var spaceButtons = 200
-        
-        var bottomRect = sceneGroup.create(0,game.world.height,'atlas.jungle','dashboard')
-        bottomRect.anchor.setTo(0,1)
-        bottomRect.width = game.world.width
-        sceneGroup.add(bottomRect)
-        sceneGroup.botBar = bottomRect
-        
-        var buttons1 = game.add.group()
-        buttons1.x = game.world.centerX - spaceButtons
-        buttons1.y = game.world.height - 175
-        sceneGroup.add(buttons1)
-        
-        var button1 = buttons1.create(0,0, 'atlas.jungle','boton1')
-        button1.inputEnabled = true
-        button1.events.onInputDown.add(inputButton)
-        button1.tag = 'left'
-        button1.events.onInputUp.add(releaseButton)
-        
-        var button1 = buttons1.create(0,0, 'atlas.jungle','boton2')
-        
-        var buttons2 = game.add.group()
-        buttons2.x = game.world.centerX + spaceButtons
-        buttons2.y = buttons1.y
-        buttons2.scale.x = -1
-        sceneGroup.add(buttons2)
-        
-        var button2 = buttons2.create(0,0, 'atlas.jungle','boton1')
-        button2.inputEnabled = true
-        button2.events.onInputDown.add(inputButton)
-        button2.tag = 'right'
-        button2.events.onInputUp.add(releaseButton)
-        
-        var button1 = buttons2.create(0,0, 'atlas.jungle','boton2')
-        
-        changeImage(0,buttons1)
-        changeImage(0,buttons2)
-        
-    }
-    
-    function getTag(list){
-        
-        Phaser.ArrayUtils.shuffle(list)
-        return list[0]
-    }
-    
-    function addObstacle(tag){
-                
-        var piecesNames = ['log','obstacle','obstacleLeft']
-        if(!tag){
-            tag = getTag(['log','obstacle','obstacleLeft'])
-        }        
-        
-        if(tag == 'log'){
-            pressed.middle++
-        }else if(tag == 'obstacle'){
-            pressed.right++            
-        }else if(tag == 'obstacleLeft'){
-            pressed.left++
-        }
-        
-        if(pressed.right >= 3){
-            tag = 'log'
-            pressed.right = 0
-        }else if(pressed.left >= 3){
-            tag = 'log'
-            pressed.left = 0
-        }else if(pressed.middle >=4){
-            tag = getTag(['obstacle','obstacleLeft'])
-            pressed.middle = 0
-        }
-        
-        if(lastObj != null){
-            if(lastObj.tag == 'obstacle' && tag == 'obstacleLeft'){
-                tag = getTag(['log'])
-            }else if(lastObj.tag == 'obstacleLeft' && tag == 'obstacle'){
-                tag = getTag(['log'])
-            }
-        }
-        
-        //console.log(pressed.right + ' right,' + pressed.left + ' left,' + pressed.middle + ' middle, ' + tag)
-        
-        
-        for(var i = 0;i<piecesGroup.length;i++){
-            var piece = piecesGroup.children[i]
-            
-            if(!piece.used && piece.tag ==  tag){
-                
-                if(piece.tween){
-                    piece.tween.stop()
-                    piece.tween = null
-                }
-                
-                piece.angle = 0
-                piece.x = 0
-                piece.y = treeGroup.pivotY
-                piece.alpha = 1
-                treeGroup.pivotY-= OFFSET_PZ
-                piece.used = true
-                
-                if(piece.tag != 'log'){
-                    piece.x+= piece.width * 0.3   
-                    piece.y-=28
-                }
-                
-                piecesGroup.remove(piece)
-                treeGroup.add(piece)
-                
-                lastObj = piece
-                
-                break
-                
-            }
-        }
-    }
-    
-    function createPiece(tag,number,left){
-        
-        var isLeft = left || false
-        
-        for(var i = 0; i < number; i++){
-            
-            var asset = piecesGroup.create(-100,-200,'atlas.jungle',tag)
-            asset.anchor.setTo(0.5,0.5)
-            asset.alpha = 0
-            asset.tag = tag
-            asset.scale.setTo(1.5,1.5)
-            asset.used = false
-            
-            if(isLeft){
-                asset.scale.x = -1.5
-                asset.tag+= 'Left'
-            }
-        }
-
-    }
-    
-    function createAssets(){
-        
-        createPiece('log',10)
-        createPiece('obstacle',10,true)
-        createPiece('obstacle',10)
-        
-        for(var i = 0;i<7;i++){
-            addObstacle('log')
-        }
-        
-    }
-    
     function update(){
         
         if(!gameActive){
             return
-        }
-        
-        if(!buttonPressed){
-            if(leftKey.isDown){
-                buttonPressed = true
-                moveKong('left')
-            }else if(rightKey.isDown){
-                moveKong('right')
-                buttonPressed = true
-            }
-        }else{
-            if(leftKey.isUp && rightKey.isUp){
-                buttonPressed = false
-            }
-        }
-        
-        if(timeBar.scaleBar.scale.x > 0){
-            timeBar.scaleBar.scale.x-= scaleSpeed
-        }else{
-            stopGame()
         }
         
         
@@ -620,66 +324,6 @@ var mainGame = function(){
         
     }
     
-    function createTimeBar(){
-        
-        timeBar = game.add.group()
-        timeBar.x = game.world.centerX
-        timeBar.y = 100
-        sceneGroup.add(timeBar)
-        
-        
-        var container = timeBar.create(0,0,'atlas.jungle','timebar')
-        container.anchor.setTo(0.5,0.5)
-        
-        var fillGroup = game.add.group()
-        fillGroup.x = -container.width * 0.485
-        timeBar.add(fillGroup)
-        
-        var fillImg1 = fillGroup.create(0,0,'atlas.jungle','timebarFill')
-        fillImg1.anchor.setTo(0,0.5)
-        
-        fillGroup.scale.x = 0.5
-        timeBar.scaleBar = fillGroup
-        
-        var fillImg2 = fillGroup.create(0,0,'atlas.jungle','whiteFill')
-        fillImg2.anchor.setTo(0,0.5)
-        
-        changeImage(0,timeBar.scaleBar)
-        
-    }
-    
-    function setLevel(number){
-    
-        var text = sceneGroup.levelText
-        
-        text.y = game.world.centerY - 200
-        
-        text.setText('Nivel ' + number)
-        
-        var addTween = game.add.tween(text).to({y:game.world.centerY - 150,alpha:1},500,Phaser.Easing.linear,true)
-        addTween.onComplete.add(function(){
-            game.add.tween(text).to({y:game.world.centerY - 200,alpha:0},250,Phaser.Easing.linear,true,500)
-        })
-    }
-    
-    function createLevelText(){
-        
-        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var levelText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        levelText.x = game.world.centerX
-        levelText.y = game.world.centerY - 150
-        levelText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(levelText)
-        
-        levelText.alpha = 0
-        
-        sceneGroup.levelText = levelText
-        
-        levelText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-    }
-    
 	return {
 		assets: assets,
         preload: preload,
@@ -687,42 +331,25 @@ var mainGame = function(){
 		name: "mainGame",
 		create: function(event){
 
-            
 			sceneGroup = game.add.group()
             
             var background = sceneGroup.create(0,0,'fondo')
             background.width = game.world.width
             background.height = game.world.height
             
-            var ground = sceneGroup.create(0,game.world.height - 335,'atlas.jungle','floor')
-            ground.width = game.world.width
-            
             piecesGroup = game.add.group()
             sceneGroup.add(piecesGroup)
-            
-            treeGroup = game.add.group()
-            treeGroup.x = game.world.centerX
-            //treeGroup.scale.setTo(1.3,1.3)
-            treeGroup.y = ground.y - 15
-            treeGroup.startY = treeGroup.y
-            treeGroup.pivotY = 0
-            sceneGroup.add(treeGroup)
             
             characterGroup = game.add.group()
             characterGroup.x = game.world.centerX + 200
             characterGroup.y = background.height - 270
             sceneGroup.add(characterGroup)
             
-            buddy = game.add.spine(0,0, "kong");
+            /*buddy = game.add.spine(0,0, "kong");
             buddy.scale.setTo(1,1)
             buddy.setAnimationByName(0, "IDLE", true);
             buddy.setSkinByName('normal');
-            characterGroup.add(buddy)
-            
-            var impact = characterGroup.create(-125,-110,'atlas.jungle','impact')
-            impact.anchor.setTo(0.5,0.5)
-            characterGroup.impact = impact
-            impact.alpha = 0
+            characterGroup.add(buddy)*/
             
             initialize()
             animateScene()
@@ -735,15 +362,6 @@ var mainGame = function(){
             createHearts()
             createPointsBar()
             createControls()
-            
-            createTimeBar()
-            
-            createAssets()
-            
-            createLevelText()
-            
-            leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-	        rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
             
 		},
 		show: function(event){

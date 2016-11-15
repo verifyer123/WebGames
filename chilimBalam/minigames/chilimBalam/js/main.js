@@ -50,7 +50,7 @@ function startGame(){
     	sceneloader.init(game)
 
         var language
-        if(parent.window.location.search){
+        /*if(parent.window.location.search){
             var params = parent.window.location.search.trim(1)
             var regex = /language=(..)/i
             var result = regex.exec(params)
@@ -61,7 +61,7 @@ function startGame(){
             }
             language = "ES"
             
-        }
+        }*/
 
         localization.setLanguage(language)
     	sound.init(game)
