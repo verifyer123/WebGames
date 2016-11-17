@@ -317,16 +317,17 @@ var resultOpenEnglish = function(){
         
         var background = sceneGroup.create(0,0,'atlas.resultScreen','retro-fondo')
         background.width = game.world.width
-        background.height= game.world.height * 0.47
+        background.height= game.world.height * 0.38
         
         var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, 60, 'Tu puntuación es:', fontStyle)
+        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, 50, 'Tu puntuación es:', fontStyle)
         nameText.anchor.setTo(0.5,0.5)
         sceneGroup.add(nameText)  
         
-        var medal = sceneGroup.create(game.world.centerX, background.height * 0.55,'atlas.resultScreen','retro-medalla')
+        var medal = sceneGroup.create(game.world.centerX, background.height * 0.58,'atlas.resultScreen','retro-medalla')
         medal.anchor.setTo(0.5,0.5)
+        medal.scale.setTo(0.85,0.85)
         
         var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
         
@@ -342,7 +343,7 @@ var resultOpenEnglish = function(){
         
         var bottomBar = new Phaser.Graphics(game)
         bottomBar.beginFill(0xf5f5f5);
-        bottomBar.drawRect(0, game.world.height, game.world.width, -510);
+        bottomBar.drawRect(0, game.world.height, game.world.width, -game.world.height + background.height);
         bottomBar.endFill();
         bottomBar.anchor.setTo(0,1)
         sceneGroup.add(bottomBar)
@@ -363,7 +364,7 @@ var resultOpenEnglish = function(){
         emoName = iconName
 
  
-        var globe = sceneGroup.create(game.world.centerX, game.world.height - 425,'atlas.resultScreen','retro-nivel')
+        var globe = sceneGroup.create(game.world.centerX, game.world.height - 520,'atlas.resultScreen','retro-nivel')
         globe.anchor.setTo(0.5,0.5)
         globe.scale.setTo(0.85,0.85)
         
@@ -392,19 +393,25 @@ var resultOpenEnglish = function(){
         sceneGroup.add(scoreText) 
         
         var shareBtn = createShareButton()
-        shareBtn.x = game.world.centerX
-        shareBtn.y = game.world.height - 135
+        shareBtn.x = game.world.centerX - 150
+        shareBtn.y = game.world.height - 235
         shareBtn.scale.setTo(0.8,0.8)
         sceneGroup.add(shareBtn)
         
-        var tryAgainButton = sceneGroup.create(game.world.centerX, shareBtn.y + shareBtn.height * 1.6, 'atlas.resultScreen', 'retro-reintentar')
+        var tryAgainButton = sceneGroup.create(game.world.centerX + 150, shareBtn.y, 'atlas.resultScreen', 'retro-reintentar')
 		tryAgainButton.anchor.setTo(0.5, 0.5)
         tryAgainButton.scale.setTo(0.8,0.8)
 
 		tryAgainButton.inputEnabled = true
 		tryAgainButton.events.onInputUp.add(tryAgain)
 
-		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
+		var banner = sceneGroup.create(game.world.centerX, game.world.height,'atlas.resultScreen','baner')
+        banner.inputEnabled = true
+        banner.events.onInputDown.add(showPromo)
+        banner.anchor.setTo(0.5,1)
+        
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
+
 	}
 
 	function initialize(){

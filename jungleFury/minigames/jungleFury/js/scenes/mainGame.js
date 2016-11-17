@@ -2,19 +2,11 @@ var mainGame = function(){
     
     var localizationData = {
 		"EN":{
-            "language":"en",
-			"assetReady":"readyEn",
-			"assetGo":"goEn",
-			"assetExcellent":"excEn",
-            "assetGiveUp":"giveUpEn"
+
 		},
 
 		"ES":{
-            "languague":"es",
-			"assetReady":"readyEs",
-			"assetGo":"goEs",
-			"assetExcellent":"excEs",
-            "assetGiveUp":"giveUpEs",
+
             
 		}
 	}
@@ -47,7 +39,7 @@ var mainGame = function(){
     var SPEED = 7
     var GRAVITY_OBJECTS = 4
     var GRAVITY_GUMS = 4
-    var OFFSET_PZ = 73 * 1.5
+    var OFFSET_PZ = 72 * 1.5
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
@@ -86,7 +78,7 @@ var mainGame = function(){
         pressed.right = 0
         pressed.left = 0
         pressed.middle = 0
-        scaleSpeed = 0.0025
+        scaleSpeed = 0.0023
         loadSounds()
         levelNumber = 1
         
@@ -341,10 +333,12 @@ var mainGame = function(){
         
         addPoint()
         
-        var lastPosY = piece.world.y
+        var lastPosY = 610
         
         piece.x = treeGroup.x
         piece.y = lastPosY
+        
+        console.log(lastPosY + ' posy')
         
         if(isLeft){
             piece.tween = game.add.tween(piece).to({x : game.world.width + 200, alpha: 0, angle:180 * characterGroup.scale.x},400,Phaser.Easing.linear,true)
@@ -530,10 +524,16 @@ var mainGame = function(){
                 treeGroup.pivotY-= OFFSET_PZ
                 piece.used = true
                 
-                if(piece.tag != 'log'){
-                    piece.x+= piece.width * 0.3   
-                    piece.y-=28
-                }
+                /*var addOffset = 0.287
+                var offY = -29
+                
+                if(piece.tag == 'obstacle'){
+                    piece.x+= piece.width * addOffset
+                    piece.y+=offY
+                }else if(piece.tag == 'obstacleLeft'){
+                    piece.x-= piece.width * addOffset
+                    piece.y+=offY
+                }*/
                 
                 piecesGroup.remove(piece)
                 treeGroup.add(piece)
@@ -552,17 +552,33 @@ var mainGame = function(){
         
         for(var i = 0; i < number; i++){
             
-            var asset = piecesGroup.create(-100,-200,'atlas.jungle',tag)
-            asset.anchor.setTo(0.5,0.5)
+            var asset
+            if(tag == 'log'){
+                asset = piecesGroup.create(0,0,'atlas.jungle',tag)
+                asset.anchor.setTo(0.5,0.5)
+            }else{
+                asset = game.add.group()
+                piecesGroup.add(asset)
+                
+                var branch = asset.create(125,0,'atlas.jungle','branch')
+                branch.anchor.setTo(0.5,0.5)
+                
+                var log = asset.create(0,0,'atlas.jungle','log')
+                log.anchor.setTo(0.5,0.5)
+ 
+                if(tag == 'obstacleLeft'){
+                    branch.scale.x = -1
+                    branch.x-=250
+                }
+            }
+            
+            asset.x =-100
+            asset.y = -200
             asset.alpha = 0
             asset.tag = tag
             asset.scale.setTo(1.5,1.5)
             asset.used = false
             
-            if(isLeft){
-                asset.scale.x = -1.5
-                asset.tag+= 'Left'
-            }
         }
 
     }
@@ -570,7 +586,7 @@ var mainGame = function(){
     function createAssets(){
         
         createPiece('log',10)
-        createPiece('obstacle',10,true)
+        createPiece('obstacleLeft',10,true)
         createPiece('obstacle',10)
         
         for(var i = 0;i<7;i++){

@@ -1,8 +1,17 @@
 {"frames": [
 
 {
+	"filename": "baner",
+	"frame": {"x":543,"y":319,"w":540,"h":177},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":540,"h":177},
+	"sourceSize": {"w":540,"h":177},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "retro-face",
-	"frame": {"x":789,"y":1,"w":332,"h":80},
+	"frame": {"x":789,"y":149,"w":332,"h":80},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":332,"h":80},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "retro-nivel",
-	"frame": {"x":543,"y":319,"w":510,"h":146},
+	"frame": {"x":789,"y":1,"w":510,"h":146},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":146},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "retro-reintentar",
-	"frame": {"x":789,"y":83,"w":332,"h":80},
+	"frame": {"x":789,"y":231,"w":332,"h":80},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":332,"h":80},
@@ -50,8 +59,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1122,"h":482},
+	"size": {"w":1300,"h":497},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f4169ae27f179a90512512b071d30f4c:46f5b412358bf6c246dc6cdbd1de75b3:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e295a034eb30418f8e2fd1f805103616:8cc877a69bb03e093f62afbc8efca46b:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

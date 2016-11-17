@@ -32,6 +32,7 @@ function startGame(){
 	}
 
     function init(){
+        
         var fullWidth = 540
         var fullHeight = 960
 
