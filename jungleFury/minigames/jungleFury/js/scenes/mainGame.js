@@ -86,7 +86,7 @@ var mainGame = function(){
         pressed.right = 0
         pressed.left = 0
         pressed.middle = 0
-        scaleSpeed = 0.002
+        scaleSpeed = 0.0025
         loadSounds()
         levelNumber = 1
         
@@ -324,7 +324,7 @@ var mainGame = function(){
         checkTree()
         
         if(timeBar.scaleBar.scale.x<1){
-            timeBar.scaleBar.scale.x+=0.03
+            timeBar.scaleBar.scale.x+=0.033
         }
         
         //scaleSpeed += 0.000009
@@ -372,7 +372,7 @@ var mainGame = function(){
         
         levelNumber++
         setLevel(levelNumber)
-        scaleSpeed+=0.00008
+        scaleSpeed+=0.00005
     }
     
     function addPoint(){
@@ -638,7 +638,7 @@ var mainGame = function(){
         var fillImg1 = fillGroup.create(0,0,'atlas.jungle','timebarFill')
         fillImg1.anchor.setTo(0,0.5)
         
-        fillGroup.scale.x = 0.5
+        fillGroup.scale.x = 0.6
         timeBar.scaleBar = fillGroup
         
         var fillImg2 = fillGroup.create(0,0,'atlas.jungle','whiteFill')

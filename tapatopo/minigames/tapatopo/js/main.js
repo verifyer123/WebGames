@@ -30,6 +30,26 @@ function startGame(){
 
     	sceneloader.preload([yogomeIntro], {onComplete: onCompletePreloading})
 	}
+    
+    function addNumberPart(obj,number){
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+        tweenScale.onComplete.add(function(){
+            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+        })
+    }
 
     function init(){
         var fullWidth = 540
@@ -49,7 +69,7 @@ function startGame(){
     	sceneloader.init(game)
 
         var language
-        if(parent.window.location.search){
+        /*if(parent.window.location.search){
             var params = parent.window.location.search.trim(1)
             var regex = /language=(..)/i
             var result = regex.exec(params)
@@ -60,7 +80,7 @@ function startGame(){
             }
             language = "ES"
             
-        }
+        }*/
 
         localization.setLanguage(language)
     	sound.init(game)

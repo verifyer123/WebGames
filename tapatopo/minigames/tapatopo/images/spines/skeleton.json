@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "EISZgmt6PQuMVMRM99jyHd9GH0A", "spine": "3.3.07", "width": 141, "height": 164.01, "images": "" },
+"skeleton": { "hash": "ONM6jhkkQQYBXVBv0DNxD2mXr0g", "spine": "3.3.07", "width": 142, "height": 157.86, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "length": 40.31, "rotation": 90, "x": -0.15, "y": -0.17, "inheritScale": false },
@@ -70,6 +70,49 @@
 		},
 		"torso": {
 			"torso": { "name": "normal/torso", "x": 23.04, "y": -0.75, "rotation": -90, "width": 112, "height": 50 }
+		}
+	},
+	"normal2": {
+		"boca": {
+			"boca": { "name": "normal2/boca", "x": 16.34, "y": 6.06, "rotation": -90, "width": 38, "height": 41 }
+		},
+		"brazoD": {
+			"brazoD": { "name": "normal2/brazoD", "x": 10.16, "y": 0.44, "rotation": 153.43, "width": 26, "height": 28 }
+		},
+		"brazoI": {
+			"brazoI": { "name": "normal2/brazoI", "x": 11.33, "y": 1.53, "rotation": 45.67, "width": 32, "height": 23 }
+		},
+		"cabeza": {
+			"cabeza": { "name": "normal2/cabeza", "x": 44.06, "y": 0.29, "rotation": -90, "width": 111, "height": 115 }
+		},
+		"cachetes": {
+			"cachetes": { "name": "normal2/cachetes", "x": 21.12, "y": -8.86, "rotation": -90, "width": 142, "height": 62 }
+		},
+		"chipote": {
+			"chipote": { "name": "normal2/chipote", "x": 14.87, "y": 2.64, "rotation": -90, "width": 40, "height": 38 }
+		},
+		"ojoD": {
+			"ojoD_A": { "name": "normal2/ojoD_A", "x": 21.4, "y": 15.23, "rotation": -90, "width": 51, "height": 39 },
+			"ojoD_C": { "name": "normal2/ojoD_C", "x": 21.37, "y": 15.23, "rotation": -90, "width": 51, "height": 37 },
+			"ojoD_f1": { "name": "normal2/ojoD_f1", "x": 21.37, "y": 15.23, "rotation": -90, "width": 51, "height": 37 },
+			"ojoD_f2": { "name": "normal2/ojoD_f2", "x": 21.37, "y": 15.23, "rotation": -90, "width": 51, "height": 37 },
+			"ojoD_f3": { "name": "normal2/ojoD_f3", "x": 21.37, "y": 15.23, "rotation": -90, "width": 51, "height": 37 }
+		},
+		"ojoI": {
+			"ojoI": { "name": "normal2/ojoI_A", "x": 19.88, "y": -13.84, "rotation": -90, "width": 61, "height": 51 },
+			"ojoI_C": { "name": "normal2/ojoI_C", "x": 19.83, "y": -13.84, "rotation": -90, "width": 61, "height": 49 },
+			"ojoI_f1": { "name": "normal2/ojoI_f1", "x": 19.83, "y": -13.84, "rotation": -90, "width": 60, "height": 48 },
+			"ojoI_f2": { "name": "normal2/ojoI_f2", "x": 19.83, "y": -13.84, "rotation": -90, "width": 61, "height": 49 },
+			"ojoI_f3": { "name": "normal2/ojoI_f3", "x": 19.83, "y": -13.84, "rotation": -90, "width": 61, "height": 49 }
+		},
+		"pupilaD": {
+			"pupilaD": { "name": "normal2/pupilaD", "x": -4.05, "y": -22.39, "rotation": -90, "width": 7, "height": 8 }
+		},
+		"pupilaI": {
+			"pupilaI": { "name": "normal2/pupilaI", "x": -4.32, "y": 26.13, "rotation": -90, "width": 8, "height": 7 }
+		},
+		"torso": {
+			"torso": { "name": "normal2/torso", "x": 23.04, "y": -0.75, "rotation": -90, "width": 112, "height": 49 }
 		}
 	}
 },
