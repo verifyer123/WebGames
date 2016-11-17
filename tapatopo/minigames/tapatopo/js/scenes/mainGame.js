@@ -58,7 +58,8 @@ var mainGame = function(){
     var OFFSET_PZ = 73 * 1.5
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
-
+    
+    var randomBomb
     var gameLevel = null
     var timeToHide = null
     var diamondsGroup = null
@@ -95,6 +96,7 @@ var mainGame = function(){
 
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
+        randomBomb = 2
         timeAdd = 500
         timeToHide = 1400
         scaleSpeed = 0.0004
@@ -149,7 +151,7 @@ var mainGame = function(){
                 
                 sound.play("cut")
                 
-                activateObject(hole,randomize(2))
+                activateObject(hole,randomize(randomBomb))
                 hole.activated = true
                 
                 break
@@ -355,6 +357,10 @@ var mainGame = function(){
         
         if(pointsBar.number % 15 == 0){
             addLevel()
+        }
+        
+        if(pointsBar.number == 40){
+            randomBomb = 3
         }
         
     }
@@ -781,6 +787,10 @@ var mainGame = function(){
             createPointsBar()
             
             createTimeBar()
+            
+            var grassFront = sceneGroup.create(game.world.centerX + 50,game.world.height,'atlas.tapatopo','grassfront')
+            grassFront.width = game.world.width * 1.1
+            grassFront.anchor.setTo(0.5,1)
             
 		},
 		show: function(event){
