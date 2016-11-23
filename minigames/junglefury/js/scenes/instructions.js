@@ -54,8 +54,8 @@ var instructions = function(){
         var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
         instruction.anchor.setTo(0.5,0.5)
         
-        /*var button = circleGroup.create(0,instruction.height * 0.34,'atlas.instructions','inst-'+ platform)
-        button.anchor.setTo(0.5,0.5)*/
+        var button = circleGroup.create(0,instruction.height * 0.34,'atlas.instructions','inst-'+ platform)
+        button.anchor.setTo(0.5,0.5)
 
 		return circleGroup
 	}

@@ -143,6 +143,10 @@ var result = function(){
 		});
 	}
 
+	function tryAgain(){
+		sceneloader.show("creatPianoTiles")
+	}
+
 	function createShareButton(){
 		var buttonGroup = new Phaser.Group(game)
 

@@ -2,34 +2,34 @@
 
 {
 	"filename": "inst-click",
-	"frame": {"x":1,"y":741,"w":205,"h":79},
+	"frame": {"x":226,"y":742,"w":50,"h":50},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":205,"h":79},
-	"sourceSize": {"w":205,"h":79},
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "inst-tap",
-	"frame": {"x":208,"y":741,"w":202,"h":105},
+	"frame": {"x":163,"y":742,"w":61,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":105},
-	"sourceSize": {"w":202,"h":105},
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":68},
+	"sourceSize": {"w":61,"h":68},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "instruccion",
-	"frame": {"x":1,"y":1,"w":506,"h":738},
+	"frame": {"x":1,"y":1,"w":508,"h":739},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":506,"h":738},
-	"sourceSize": {"w":506,"h":738},
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":508,"h":739},
+	"sourceSize": {"w":510,"h":740},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "okbtn",
-	"frame": {"x":1,"y":822,"w":160,"h":90},
+	"frame": {"x":1,"y":742,"w":160,"h":90},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":90},
@@ -41,8 +41,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":508,"h":913},
+	"size": {"w":510,"h":833},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:07ce66e098a4f0288e31b368ed023459:94f8256512c750f8c381de1ff47d3e9c:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cfe73f6190c69c951577c2177e3ad1c9:009e5a9c86f3b205ba917e4d2bee55c1:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
