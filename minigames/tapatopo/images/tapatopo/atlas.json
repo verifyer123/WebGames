@@ -1,0 +1,147 @@
+{"frames": [
+
+{
+	"filename": "bomb",
+	"frame": {"x":951,"y":79,"w":121,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":140},
+	"sourceSize": {"w":121,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "diamond",
+	"frame": {"x":822,"y":131,"w":127,"h":113},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":113},
+	"sourceSize": {"w":127,"h":113},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "explosion",
+	"frame": {"x":730,"y":1,"w":123,"h":128},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":123,"h":128},
+	"sourceSize": {"w":129,"h":129},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "gopher",
+	"frame": {"x":587,"y":1,"w":141,"h":137},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":137},
+	"sourceSize": {"w":141,"h":137},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "grassfront",
+	"frame": {"x":1,"y":1,"w":584,"h":142},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":584,"h":142},
+	"sourceSize": {"w":591,"h":142},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hole",
+	"frame": {"x":855,"y":1,"w":173,"h":76},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":173,"h":76},
+	"sourceSize": {"w":173,"h":76},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "life_box",
+	"frame": {"x":715,"y":140,"w":105,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
+	"sourceSize": {"w":105,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "smoke",
+	"frame": {"x":1074,"y":1,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "smokePart",
+	"frame": {"x":467,"y":187,"w":127,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":63},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":722,"y":183,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "starPart",
+	"frame": {"x":596,"y":183,"w":124,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "timebar",
+	"frame": {"x":1,"y":145,"w":523,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":523,"h":40},
+	"sourceSize": {"w":523,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "timebarFill",
+	"frame": {"x":1,"y":187,"w":464,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":464,"h":29},
+	"sourceSize": {"w":464,"h":29},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "whiteFill",
+	"frame": {"x":1,"y":218,"w":464,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":464,"h":29},
+	"sourceSize": {"w":464,"h":29},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":587,"y":140,"w":126,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":126,"h":41},
+	"sourceSize": {"w":126,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1175,"h":251},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:817c8941e404f1444ee5cb60d4f3f8a0:5248800cc12eae5886e8fa39ad121f2b:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
