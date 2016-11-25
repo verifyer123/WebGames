@@ -631,7 +631,7 @@ var junglefury = function(){
 
         game.load.spine('kong', "images/spines/skeleton.json");
         
-        game.load.audio('timberMan', 'sounds/timberMan.mp3');
+        game.load.audio('timberman', 'sounds/timberman.mp3');
         
         
     }
@@ -743,7 +743,7 @@ var junglefury = function(){
             initialize()
             animateScene()
             
-            gameSong = game.add.audio('timberMan')
+            gameSong = game.add.audio('timberman')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.5)
             }, this);

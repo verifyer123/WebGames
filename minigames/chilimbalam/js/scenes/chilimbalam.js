@@ -256,17 +256,33 @@ var chilimbalam = function(){
         
     }
     
-    function addPoint(){
+    function addPoint(number){
         
         sound.play("pop")
         createPart('star', characterGroup.cup)
-        createTextPart('+1', characterGroup.cup)
+        createTextPart('+' + number, characterGroup.cup)
         
-        pointsBar.number++
+        pointsBar.number+= number
         pointsBar.text.setText(pointsBar.number)
         
         GRAVITY_OBJECTS+=0.2
         throwTime-=17
+        
+        if(pointsBar.number == 10){
+            createAssets('takis',1,5)
+        }else if(pointsBar.number == 15){
+            for(var i = 0;i<5;i++){
+                createAssets('gomita' + (i + 1),1,1)
+            }
+            
+        }else if(pointsBar.number == 20){
+            createAssets('peanut',1,3)
+        }else if(pointsBar.number == 25){
+            createAssets('pina',2,2)
+            createAssets('skwinkle',1,2)
+            createAssets('takis',2,2)
+        }
+        
         //throwTimeItems-=10
         
     }
@@ -301,7 +317,7 @@ var chilimbalam = function(){
             if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y - obj.y) < cup.height*0.6){
                 deactivateObject(obj)
                 if(obj.tag == 'candy'){
-                    addPoint()
+                    addPoint(obj.points)
                 }else{
                     createPart('wrong',characterGroup.cup)
                     missPoint()
@@ -318,7 +334,7 @@ var chilimbalam = function(){
                 }
             }else if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y + 45 - obj.y) < cup.height*0.6 && obj.tag == 'candy'){
                 deactivateObject(obj)
-                addPoint()
+                addPoint(obj.points)
             }
         }
     }
@@ -619,6 +635,18 @@ var chilimbalam = function(){
         particlesGroup = game.add.group()
     }
     
+    function createAssets(tag,points,number){
+        
+        for(var i = 0; i < number;i++){
+            var item = sceneGroup.create(-100,0,'atlas.chilimbalam',tag)
+            item.anchor.setTo(0.5,0.5)
+            item.tag = 'candy'
+            itemList[itemList.length] = item
+            item.points = points
+        }
+        
+    }
+    
     function createObjects(){
         
         bombsList = []
@@ -629,14 +657,29 @@ var chilimbalam = function(){
         
         itemList = []
         
-        var itemName = 'gomita'
+        createAssets('chip',1,5)
+        /*var itemName = 'gomita'
         
         for(var i = 0; i < 5;i++){
             var item = sceneGroup.create(-100,0,'atlas.chilimbalam',itemName + (i + 1))
             item.anchor.setTo(0.5,0.5)
             item.tag = 'candy'
             itemList[itemList.length] = item
+            item.points = 1
         }
+        
+        var itemNames = ['chip','peanut','takis','pina']
+        var points = [3,1,1,2]
+        
+        
+        for(var i = 0; i < itemNames.length;i++){
+            var item = sceneGroup.create(-100,0,'atlas.chilimbalam',itemNames[i])
+            item.anchor.setTo(0.5,0.5)
+            item.tag = 'candy'
+            itemList[itemList.length] = item
+            item.points = points[i]
+        }*/
+        
     }
 
     function create(){

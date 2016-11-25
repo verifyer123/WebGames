@@ -238,7 +238,7 @@ var openenglish = function(){
 
         var tweenSign = game.add.tween(goSign).to({y: game.world.centerY, alpha: 1}, 500, Phaser.Easing.Cubic.Out, true, 750)
         tweenSign.onComplete.add(function(){
-            sound.play("go_es")
+            //sound.play("go_es")
 
             var finalTween = game.add.tween(goSign).to({y: game.world.centerY - 100, alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
             game.add.tween(startGroup).to({ alpha: 0}, 500, Phaser.Easing.Cubic.Out, true, 500)
@@ -517,7 +517,7 @@ var openenglish = function(){
         
         var scaleToUse = 1
         if(cardsNumber>4){
-            scaleToUse = 0.9
+            scaleToUse = 0.8
         }
         
         for(var i = 0; i < cardsToUse.length; i++){
@@ -630,7 +630,7 @@ var openenglish = function(){
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
         
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        //pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         pointsBar.text = pointsText
         pointsBar.number = 0
@@ -660,7 +660,7 @@ var openenglish = function(){
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
         
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        //pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         heartsGroup.text = pointsText
                 
@@ -676,7 +676,7 @@ var openenglish = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(pointsBar.number,true)
 
 			sceneloader.show("result")
 		})
@@ -696,7 +696,7 @@ var openenglish = function(){
             
 			sceneGroup = game.add.group()
             
-            var background = sceneGroup.create(0,0,'fondo')
+            /*var background = sceneGroup.create(0,0,'fondo')
             background.width = game.world.width
             background.height = game.world.height
             
@@ -705,6 +705,15 @@ var openenglish = function(){
             background.drawRect(0, 0, game.width, game.height)
             background.endFill()
             sceneGroup.add(background)*/
+            
+            var background = new Phaser.Graphics(game)
+            background.beginFill(0x058fff)
+            background.drawRect(0, 0, game.width, game.height)
+            background.endFill()
+            sceneGroup.add(background)
+            
+            var logo = sceneGroup.create(game.world.centerX, game.world.height - 50,'atlas.openEnglish_common','LogoPie')
+            logo.anchor.setTo(0.5,0.5)
             
             initialize()
             

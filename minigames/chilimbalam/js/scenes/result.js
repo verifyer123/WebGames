@@ -377,7 +377,7 @@ var result = function(){
 	}
     
     function preload(){
-        game.load.bitmapFont('gotham', 'images/bitFont/Gotham.png', 'images/bitFont/Gotham.fnt');
+        game.load.bitmapFont('gotham', 'images/bitfont/gotham.png', 'images/bitfont/gotham.fnt');
     }
     
 	return {

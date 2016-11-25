@@ -1,75 +1,57 @@
 {"frames": [
 
 {
-	"filename": "again",
-	"frame": {"x":1429,"y":119,"w":354,"h":112},
+	"filename": "baner",
+	"frame": {"x":543,"y":319,"w":540,"h":177},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":112},
-	"sourceSize": {"w":354,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":540,"h":177},
+	"sourceSize": {"w":540,"h":177},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "extranjero",
-	"frame": {"x":481,"y":1,"w":370,"h":150},
+	"filename": "retro-face",
+	"frame": {"x":789,"y":149,"w":332,"h":80},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":370,"h":150},
-	"sourceSize": {"w":370,"h":150},
+	"spriteSourceSize": {"x":0,"y":0,"w":332,"h":80},
+	"sourceSize": {"w":332,"h":80},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "nativo",
-	"frame": {"x":1142,"y":1,"w":285,"h":150},
+	"filename": "retro-fondo",
+	"frame": {"x":1,"y":1,"w":540,"h":480},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":285,"h":150},
-	"sourceSize": {"w":285,"h":150},
+	"spriteSourceSize": {"x":0,"y":0,"w":540,"h":480},
+	"sourceSize": {"w":540,"h":480},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "OEbanner",
-	"frame": {"x":1,"y":1,"w":478,"h":234},
+	"filename": "retro-medalla",
+	"frame": {"x":543,"y":1,"w":244,"h":316},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":478,"h":234},
-	"sourceSize": {"w":478,"h":234},
+	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":316},
+	"sourceSize": {"w":244,"h":316},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "share",
-	"frame": {"x":1429,"y":1,"w":354,"h":116},
+	"filename": "retro-nivel",
+	"frame": {"x":789,"y":1,"w":510,"h":146},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":354,"h":116},
-	"sourceSize": {"w":354,"h":116},
+	"spriteSourceSize": {"x":0,"y":0,"w":510,"h":146},
+	"sourceSize": {"w":510,"h":146},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "tunivelde",
-	"frame": {"x":481,"y":206,"w":406,"h":29},
+	"filename": "retro-reintentar",
+	"frame": {"x":789,"y":231,"w":332,"h":80},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":406,"h":29},
-	"sourceSize": {"w":406,"h":29},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "tupuntuacion",
-	"frame": {"x":481,"y":153,"w":327,"h":51},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":327,"h":51},
-	"sourceSize": {"w":327,"h":51},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "wachu",
-	"frame": {"x":853,"y":1,"w":287,"h":150},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":287,"h":150},
-	"sourceSize": {"w":287,"h":150},
+	"spriteSourceSize": {"x":0,"y":0,"w":332,"h":80},
+	"sourceSize": {"w":332,"h":80},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -77,8 +59,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1784,"h":236},
+	"size": {"w":1300,"h":497},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2c0af4d07a078444db0881e601966bf6:76a3559953023e4278735d26641f4504:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e295a034eb30418f8e2fd1f805103616:8cc877a69bb03e093f62afbc8efca46b:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

@@ -174,7 +174,7 @@ var openenglish2 = function(){
         })
     }
     
-    function stopGame(){
+    function stopGame(win){
         
         
         //objectsGroup.timer.pause()
@@ -185,7 +185,7 @@ var openenglish2 = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(questionPoints)
+			resultScreen.setScore(questionPoints,win)
 
 			sceneloader.show("result")
 		})
@@ -250,7 +250,15 @@ var openenglish2 = function(){
                     pointsGroup.alpha = 0
                     createPointsBar()
                     
-                    showCText()
+                    console.log(listIndex + ' index , ' + questionPoints + ' points')
+                    if(listIndex == 1 && questionPoints < 5){
+                        stopGame(false)
+                    }else if(listIndex == 2 && questionPoints < 10){
+                        stopGame(false)
+                    }else{
+                        showCText()
+                    }
+                    
                     //setWords()
                 }else{
                     //createButtons()
