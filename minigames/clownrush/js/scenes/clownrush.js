@@ -198,7 +198,7 @@ var clownrush = function(){
         gameSong.stop()
         //objectsGroup.timer.pause()
         gameActive = false
-        //buddy.setAnimationByName(0,"HIT_COCONUT",false)
+        buddy.setAnimationByName(0,"LOSE",false)
         
         lives--
         heartsGroup.text.setText(lives)
@@ -211,14 +211,26 @@ var clownrush = function(){
         var scale = 1
         if(characterGroup.isLeft){scale = -1}
         
+        buddy.angle = 0
+        buddy.scale.y = 1
+        game.add.tween(characterGroup).to({x:game.world.centerX, y:game.world.centerY - 50},300,Phaser.Easing.linear,true)
+        var scaleTween = game.add.tween(characterGroup.scale).to({x:3 * scale,y:3},300,Phaser.Easing.linear,true)
         
-        game.add.tween(characterGroup).to({x:game.world.centerX},300,Phaser.Easing.linear,true)
-        game.add.tween(characterGroup.scale).to({x:3 * scale,y:3},300,Phaser.Easing.linear,true)
+        scaleTween.onComplete.add(function(){
+            var offsetX = 150
+            if(!characterGroup.isLeft){offsetX*=-1}
+            game.add.tween(characterGroup).to({y:game.world.centerY + 200},2000,Phaser.Easing.linear,true,200)
+            var glass = sceneGroup.create(game.world.centerX + offsetX, game.world.centerY - 150,'atlas.clown','brokenglass')
+            glass.scale.setTo(2.5,2.5)
+            glass.anchor.setTo(0.5,0.5)
+            sceneGroup.alpha = 0
+            game.add.tween(sceneGroup).to({alpha : 1},250,Phaser.Easing.linear,true,0)
+            
+        })
         
-        game.add.tween(characterGroup).to({y:characterGroup.y + 200},1000,Phaser.Easing.linear,true,500)
         //timer.pause()
         
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")

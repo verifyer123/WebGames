@@ -154,10 +154,10 @@ var openenglish = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        gameActive = true
+        gameActive = false
         turnCount = 1
         cardsNumber = 4
-        lives = 10
+        lives = 5
         arrayComparison = []
         comboCount = 0
         
@@ -285,13 +285,13 @@ var openenglish = function(){
         scaleTween.onComplete.add(function(){
             scaleTween = game.add.tween(card.scale).to({x: 1, y:1},300, Phaser.Easing.Cubic.Out,true)
             scaleTween.onComplete.add(function(){
-                gameActive = true
+                //gameActive = true
                 var alphaTween = game.add.tween(card).to({alpha:0},500, Phaser.Easing.Cubic.Out,true)
                 game.add.tween(card.scale).to({x: 0, y:0}, 500, Phaser.Easing.Cubic.In, true)
                 alphaTween.onComplete.add(function(){
                     cardsGroup.remove(card)
                     if(cardsGroup.length == 0){
-                        if(cardsNumber < 8){cardsNumber+=4}
+                        if(cardsNumber < 8 && turnCount % 2 == 0 ){cardsNumber+=2}
                         turnCount++
                         addLive()
                         createCards()
@@ -407,7 +407,7 @@ var openenglish = function(){
                 if(arrayComparison.length < 2){
                     lastObj = obj
                     if(lives > 0){
-                        gameActive = true
+                        //gameActive = true
                     }
                 }else{
                     var addNumber = 1
@@ -455,10 +455,15 @@ var openenglish = function(){
         var pivotX = pivot1
         
         var pivotY = game.world.centerY - 100
-        if(cardsNumber == 8){
+        if(cardsNumber > 4){
             pivotY = game.world.centerY - 290
         }
-                
+        
+        if(cardsNumber == 6){
+            pivotY += 70
+        }
+            
+        console.log(cardsNumber + ' number')
         var cardWords, enWords
         
         if(turnCount <=2){
@@ -509,18 +514,20 @@ var openenglish = function(){
         }
         
         randomNums = []
-        for(var i = 0;i<tagsToUse.length;i++){
+        for(var i = 0;i<cardsNumber;i++){
             randomNums[randomNums.length] = i
         }
         
         Phaser.ArrayUtils.shuffle(randomNums)
         
         var scaleToUse = 1
-        if(cardsNumber>4){
+        if(cardsNumber == 8){
             scaleToUse = 0.8
+        }else if(cardsNumber == 6){
+            scaleToUse = 0.9
         }
         
-        for(var i = 0; i < cardsToUse.length; i++){
+        for(var i = 0; i < cardsNumber; i++){
             
             var group = game.add.group()
             group.x = pivotX
@@ -577,12 +584,19 @@ var openenglish = function(){
         }
     }
     
-    function flipCard(card, delay){
+    function flipCard(card, delay,lastOne){
+        
+        var last = lastOne || false
+        
         game.time.events.add(200 + delay,function(){
             sound.play("flip")
             changeImage(0,card)
             game.add.tween(card.scale).to({x: card.initScale}, 200, Phaser.Easing.linear, true,0)
-            gameActive = true
+            //gameActive = true
+            
+            if(last){
+                gameActive = true
+            }
         })
     }
     
@@ -602,12 +616,18 @@ var openenglish = function(){
         }
         
         var delay = 0
+        var lastOne = false
         game.time.events.add(delay + (cardsGroup.length * 200) + 400,function(){
             for(var i = 0;i<cardsGroup.length;i++){
                 
                 delay+=200
+                
+                if(i==cardsGroup.length - 1){
+                    lastOne = true
+                }
+                
                 var scaleTween = game.add.tween(cardsGroup.children[i].scale).to({x: 0}, 200, Phaser.Easing.linear, true,delay)
-                flipCard(cardsGroup.children[i], delay)
+                flipCard(cardsGroup.children[i], delay,lastOne)
                 
             }
         
