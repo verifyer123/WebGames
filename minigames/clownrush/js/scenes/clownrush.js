@@ -37,6 +37,8 @@ var clownrush = function(){
 				file: "sounds/cut.mp3"},
             {	name: "magic",
 				file: "sounds/magic.mp3"},
+            {	name: "falling",
+				file: "sounds/falling.mp3"},
 		],
 	}
         
@@ -81,7 +83,7 @@ var clownrush = function(){
         pressed.right = 0
         pressed.left = 0
         pressed.middle = 0
-        gameSpeed = 5
+        gameSpeed = 6
         loadSounds()
         levelNumber = 1
         
@@ -344,13 +346,13 @@ var clownrush = function(){
             characterGroup.isLeft = false
             characterGroup.scale.x = 1
             if(characterGroup.x<game.world.centerX){
-                game.add.tween(characterGroup).to({x:game.world.centerX + 110},100,Phaser.Easing.linear,true)
+                game.add.tween(characterGroup).to({x:game.world.centerX + 110},75,Phaser.Easing.linear,true)
             }
         }else{
             characterGroup.isLeft = true
             characterGroup.scale.x = -1
             if(characterGroup.x>game.world.centerX){
-                game.add.tween(characterGroup).to({x:game.world.centerX - 110},100,Phaser.Easing.linear,true)
+                game.add.tween(characterGroup).to({x:game.world.centerX - 110},75,Phaser.Easing.linear,true)
             }
         }
         
@@ -425,16 +427,10 @@ var clownrush = function(){
             if(item != null ){
                 if(tag == item.tag && !item.used){
                     
-                    item.used = true
-                    
-                    piecesGroup.remove(item)
-                    obstaclesGroup.add(item)
+                    activateObject(item)
                     
                     item.x = 0
                     item.y = obstaclesGroup.pivotY
-                    
-                    //console.log(item.y + ' posy')
-                    item.alpha = 1
 
                     var angle = 90
                     var offsetX = item.height * 0.5 + piece.width * 0.5
@@ -450,13 +446,6 @@ var clownrush = function(){
                     if(item.tag == 'obstacle'){
                         piece.spike = true
                     }
-                    
-                    if(item.tag == 'anvil'){
-                        item.anvil = true
-                        item.angle = 0
-                    }else{
-                        item.anvil = false
-                    }
 
                     break
                 }
@@ -466,13 +455,47 @@ var clownrush = function(){
         checkAnvil(piece)
     }
     
+    function activateObject(item){
+        
+        item.used = true
+        item.alpha = 1         
+        piecesGroup.remove(item)
+        obstaclesGroup.add(item)
+        
+    }
+    
+    function addAnvil(piece){
+        
+        var tag = 'anvil'
+        
+        sound.play("falling")
+        console.log('adde anvil')
+        
+        for(var i = 0; i < piecesGroup.length;i++){
+            var obj = piecesGroup.children[i]
+            
+            if(obj.tag == tag && obj.used == false){
+                
+                activateObject(obj)
+                
+                var offsetX = 150
+                if(randomize(2)){offsetX*=-1}
+                
+                obj.anvil = true
+                obj.x = offsetX
+                obj.y = obstaclesGroup.pivotY
+                
+                break
+            }
+        }
+    }
     
     function checkAnvil(piece){
         
         if(canAnvil){
-            
             canAnvil = false
-            game.time.events.add(7000, function(){
+            addAnvil(piece)
+            game.time.events.add(8000, function(){
                 canAnvil = true
             } , this);
             
@@ -602,7 +625,7 @@ var clownrush = function(){
             var obs = obstaclesGroup.children[i]
             
             if(obs.anvil && obs.used){
-                obs.y+=5
+                obs.y+=(gameSpeed + 3)
             }
             
             if(obs){
@@ -617,9 +640,10 @@ var clownrush = function(){
 
                 }else if(checkPosPlayer(characterGroup.clown,obs)){
                     
-                    if(obs.tag == 'obstacle'){
+                    var tag = obs.tag
+                    if(tag == 'obstacle' || tag == 'anvil'){
                         stopGame()
-                    }else if(obs.tag == 'choco' || obs.tag == 'muffin'){
+                    }else if(tag == 'choco' || tag == 'muffin'){
                         addPoint()
                         createPart('star',obs)
                         deactivateObject(obs)
@@ -656,7 +680,7 @@ var clownrush = function(){
 
         game.load.spine('clown', "images/spines/Clown Rush.json");
         
-        game.load.audio('timberMan', 'sounds/timberMan.mp3');
+        game.load.audio('circus', 'sounds/circus_gentlejammers.mp3');
         
         
     }
@@ -742,9 +766,9 @@ var clownrush = function(){
             initialize()
             animateScene()
             
-            gameSong = game.add.audio('timberMan')
+            gameSong = game.add.audio('circus')
             game.sound.setDecodedCallback(gameSong, function(){
-                //gameSong.loopFull(0.5)
+                gameSong.loopFull(0.3)
             }, this);
             
             createHearts()
