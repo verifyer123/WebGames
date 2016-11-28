@@ -380,12 +380,12 @@ var result = function(){
             var iconName = 'wachu'
             var iconIndex = 0
 
-            if(totalScore >= 12){
+            if(totalScore >= 30){
                 iconName = 'extranjero'
                 iconIndex = 1
             }
 
-            if(totalScore >= 24){
+            if(totalScore >= 60){
                 iconName = 'nativo'
                 iconIndex = 2
             }

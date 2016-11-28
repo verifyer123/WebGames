@@ -104,7 +104,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/jungleFury/',
+		    href: 'http://amazingapp.co/juegos/clownrush/',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
 		}, function(response){

@@ -34,8 +34,8 @@ var openenglish = function(){
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/openEnglish/fondo.jpg"},
+            /*{   name:"fondo",
+				file: "images/openEnglish/fondo.jpg"},*/
 		],
 		sounds: [
             {	name: "pop",
@@ -111,7 +111,7 @@ var openenglish = function(){
             ],
             [
                 ['Brush','Horse'],
-                ['Aligator','Candy'],
+                ['Alligator','Candy'],
                 ['Cereal','Blanket'],
                 ['Rabbit','Sister'],
                 ['Son','Butterfly'],
@@ -165,7 +165,6 @@ var openenglish = function(){
         
 	}
     
-    
     function createPart(key,obj){
         
         var particlesNumber = 2
@@ -192,12 +191,14 @@ var openenglish = function(){
             sceneGroup.add(particlesGood)
 
         }else{
+            
             key+='Part'
             var particle = sceneGroup.create(obj.x,obj.y,'atlas.openEnglish_common',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
+        
         }
         
     }
@@ -245,11 +246,30 @@ var openenglish = function(){
             finalTween.onComplete.add(function(){
                 //gameActive = true
                 showCards()
+                setQuestionIndex(turnCount-1)
                 //timer.start()
                 //game.time.events.add(throwTime *0.1, dropObjects , this);
                 //objectsGroup.timer.start()
             })
         })
+    }
+    
+    function setQuestionIndex(index){
+        
+        var obj = pointsGroup.children[index]
+        changeImage(1,obj)
+        
+        /*if(index > 0){
+            changeImage(2,pointsGroup.children[index - 1])
+        }*/
+        
+        var scaleTween = game.add.tween(obj.scale).to({x:1.3,y:1.3}, 200, Phaser.Easing.linear, true)
+        
+        scaleTween.onComplete.add(function(){
+            game.add.tween(obj.scale).to({x:1,y:1}, 200, Phaser.Easing.linear, true)
+                        
+        })
+        
     }
     
     function changeImage(index,group){
@@ -279,11 +299,12 @@ var openenglish = function(){
     
     function winCard(card){
         
+        var origScale = card.scale.x
         sound.play("pop")
         createPart('star',card)
         var scaleTween = game.add.tween(card.scale).to({x: 1.1, y:1.1}, 300, Phaser.Easing.Cubic.In, true)
         scaleTween.onComplete.add(function(){
-            scaleTween = game.add.tween(card.scale).to({x: 1, y:1},300, Phaser.Easing.Cubic.Out,true)
+            scaleTween = game.add.tween(card.scale).to({x: origScale, y:origScale},300, Phaser.Easing.Cubic.Out,true)
             scaleTween.onComplete.add(function(){
                 //gameActive = true
                 var alphaTween = game.add.tween(card).to({alpha:0},500, Phaser.Easing.Cubic.Out,true)
@@ -292,10 +313,22 @@ var openenglish = function(){
                     cardsGroup.remove(card)
                     if(cardsGroup.length == 0){
                         if(cardsNumber < 8 && turnCount % 2 == 0 ){cardsNumber+=2}
-                        turnCount++
-                        addLive()
-                        createCards()
-                        showCards()
+                        
+                        
+                        if(turnCount == 10){
+                            stopGame()
+                        }else{
+                            
+                            addCorrect()
+                            setQuestionIndex(turnCount)
+                            turnCount++
+                            
+                            addLive()
+                            createCards()
+                            showCards()
+                            
+                        }
+                        
                     }
                 })
                 
@@ -456,7 +489,7 @@ var openenglish = function(){
         
         var pivotY = game.world.centerY - 100
         if(cardsNumber > 4){
-            pivotY = game.world.centerY - 290
+            pivotY = game.world.centerY - 268
         }
         
         if(cardsNumber == 6){
@@ -707,6 +740,72 @@ var openenglish = function(){
         game.load.atlas('atlas.openEnglish_' + diff, 'images/openEnglish/atlas_' + diff + '.png', 'images/openEnglish/atlas_' + diff + '.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);*/
     }
     
+    function addCorrect(correct){
+        
+        var obj = pointsGroup.children[turnCount]
+        
+        var color = 2
+        if(correct == false){
+            color = 3
+        }
+        
+        changeImage(color,pointsGroup.children[turnCount - 1])
+                
+        /*var correct
+        if(correct){
+            correct = pointsGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','correcto')
+            
+        }else{
+            correct = pointsGroup.create(obj.x, obj.y - 35,'atlas.openEnglish','incorrecto')
+        }
+        
+        correct.anchor.setTo(0.5,0.5)*/
+    }
+    
+    function createPointsBar2(){
+        
+        var pointsLine = sceneGroup.create(game.world.centerX, 85, 'atlas.openEnglish_common','lineaGris')
+        pointsLine.alpha = 0
+        pointsLine.anchor.setTo(0.5,0.5)
+        
+        pointsGroup = game.add.group()
+        sceneGroup.add(pointsLine)
+        
+        var pivotX = pointsLine.x - pointsLine.width * 0.45
+        for(var i = 0;i<10;i++){
+            
+            var group = game.add.group()
+            group.x = pivotX
+            group.y = pointsLine.y
+            pointsGroup.add(group)
+            
+            var circle1 = group.create(0,0,'atlas.openEnglish_common','Cgris')
+            circle1.anchor.setTo(0.5,0.5)
+            
+            var circle2 = group.create(0,0,'atlas.openEnglish_common','Cblanco')
+            circle2.anchor.setTo(0.5,0.5)
+            
+            var circle3 = group.create(0,0,'atlas.openEnglish_common','Cverde')
+            circle3.anchor.setTo(0.5,0.5)
+            
+            var circle4 = group.create(0,0,'atlas.openEnglish_common','Cnaranja')
+            circle4.anchor.setTo(0.5,0.5)
+            
+            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+            
+            var trackerText = new Phaser.Text(sceneGroup.game, 0, 3, i + 1, fontStyle)
+            trackerText.alpha = 0
+            trackerText.anchor.setTo(0.5, 0.5)
+            group.add(trackerText)
+            
+            pivotX+= circle1.width * 1.44
+            
+            changeImage(0,group)
+            
+        }
+        
+    }
+    
 	return {
 		assets: assets,
         preload,preload,
@@ -743,6 +842,8 @@ var openenglish = function(){
             createHearts()
             createPointsBar()
             createCards()
+            
+            createPointsBar2()
             
             animateScene()
             

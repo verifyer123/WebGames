@@ -19,6 +19,42 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "Cblanco",
+	"frame": {"x":971,"y":109,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Cgris",
+	"frame": {"x":1003,"y":109,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Cnaranja",
+	"frame": {"x":1035,"y":109,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Cverde",
+	"frame": {"x":987,"y":141,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "goEs",
 	"frame": {"x":439,"y":1,"w":530,"h":161},
 	"rotated": false,
@@ -34,6 +70,15 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":52},
 	"sourceSize": {"w":121,"h":52},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "lineaGris",
+	"frame": {"x":439,"y":230,"w":432,"h":5},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":432,"h":5},
+	"sourceSize": {"w":432,"h":5},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -97,6 +142,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1093,"h":248},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fdb917766220b40cfe4f7b5de965bbcd:7c370eaef0323defa1855f31dd8d05b9:c92a632d2b155bb595274af5bbb298a4$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0aac5a674a78143ac28d1ae36bbf054b:6930d458ffeda617e364b99ebc65cfce:c92a632d2b155bb595274af5bbb298a4$"
 }
 }

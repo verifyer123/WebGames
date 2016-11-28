@@ -25,12 +25,6 @@ var clownrush = function(){
 				file: "images/clown/fondo.png"},
 		],
 		sounds: [
-            {	name: "punch1",
-				file: "sounds/punch1.mp3"},
-            {	name: "punch2",
-				file: "sounds/punch2.mp3"},
-            {	name: "punch3",
-				file: "sounds/punch3.mp3"},
             {	name: "explode",
 				file: "sounds/explode.mp3"},
             {	name: "cut",
@@ -39,6 +33,14 @@ var clownrush = function(){
 				file: "sounds/magic.mp3"},
             {	name: "falling",
 				file: "sounds/falling.mp3"},
+            {	name: "powerup",
+				file: "sounds/powerup.mp3"},
+            {	name: "glassbreak",
+				file: "sounds/glassbreak.mp3"},
+            {	name: "scream",
+				file: "sounds/scream.mp3"},
+            {	name: "shoot",
+				file: "sounds/shoot.mp3"},
 		],
 	}
         
@@ -49,9 +51,12 @@ var clownrush = function(){
     
     var canAnvil = null
     var gameSong = null
+    var cakeReady = null;
     var levelNumber = 0
     var gameSpeed = null
     var timeBar = null
+    var spaceKey
+    var spaceDown
     var buttonPressed
     var spikesGroup
     var lastObj
@@ -79,6 +84,8 @@ var clownrush = function(){
         lives = 1
         buttonPressed = false
         lastObj = null
+        cakeReady = false
+        spaceDown = false
         pressed =[]
         pressed.right = 0
         pressed.left = 0
@@ -162,10 +169,18 @@ var clownrush = function(){
     function setExplosion(obj,offsetY){
         
         var offY = offsetY || 0
-
+        
+        var posX = obj.x
+        var posY = obj.y
+        
+        if(obj.world){
+            posX = obj.world.x
+            posY = obj.world.y
+        }
+        
         var exp = sceneGroup.create(0,0,'atlas.clown','explosion')
-        exp.x = obj.x
-        exp.y = obj.y + offY
+        exp.x = posX
+        exp.y = posY + offY
         exp.anchor.setTo(0.5,0.5)
 
         exp.scale.setTo(4,4)
@@ -184,8 +199,8 @@ var clownrush = function(){
         particlesGood.gravity = 150;
         particlesGood.angularDrag = 30;
 
-        particlesGood.x = obj.x;
-        particlesGood.y = obj.y + offsetY;
+        particlesGood.x = posX;
+        particlesGood.y = posY + offsetY;
         particlesGood.start(true, 1000, null, particlesNumber);
 
         game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
@@ -203,6 +218,8 @@ var clownrush = function(){
         lives--
         heartsGroup.text.setText(lives)
         
+        sound.play("scream")
+        
         setExplosion(characterGroup,-100)
         
         sound.play("explode")
@@ -217,12 +234,17 @@ var clownrush = function(){
         var scaleTween = game.add.tween(characterGroup.scale).to({x:3 * scale,y:3},300,Phaser.Easing.linear,true)
         
         scaleTween.onComplete.add(function(){
+            
+            sound.play("glassbreak")
+            
             var offsetX = 150
             if(!characterGroup.isLeft){offsetX*=-1}
+            
             game.add.tween(characterGroup).to({y:game.world.centerY + 200},2000,Phaser.Easing.linear,true,200)
             var glass = sceneGroup.create(game.world.centerX + offsetX, game.world.centerY - 150,'atlas.clown','brokenglass')
             glass.scale.setTo(2.5,2.5)
             glass.anchor.setTo(0.5,0.5)
+            
             sceneGroup.alpha = 0
             game.add.tween(sceneGroup).to({alpha : 1},250,Phaser.Easing.linear,true,0)
             
@@ -342,6 +364,10 @@ var clownrush = function(){
             canAnvil = true
         }
         
+        if(pointsBar.number == 20){
+            cakeReady = true
+        }
+        
     }
     
     function moveKong(tag){
@@ -391,7 +417,7 @@ var clownrush = function(){
         
         var buttons1 = game.add.group()
         buttons1.x = game.world.centerX 
-        buttons1.y = game.world.height - 85
+        buttons1.y = game.world.height - 117
         buttons1.scale.setTo(0.85,0.85)
         sceneGroup.add(buttons1)
         
@@ -430,6 +456,14 @@ var clownrush = function(){
         
         if(lastObj.spike == true){
             tag = getTag(['choco','muffin'])
+        }
+        
+        if(cakeReady){
+            tag = 'cake'
+            cakeReady = false
+            game.time.events.add(10000,function() {
+                cakeReady = true
+            },this)
         }
         
         for(var i = 0; i< piecesGroup.length; i ++){
@@ -597,6 +631,7 @@ var clownrush = function(){
         createPiece('choco',10)
         createPiece('muffin',10)
         createPiece('anvil',4)
+        createPiece('cake',4)
         //createPiece('obstacleHit',10,true)
         //createPiece('obstacle',10)
         
@@ -630,6 +665,42 @@ var clownrush = function(){
         }
     }
     
+    function changeColorBubble(){
+        var delay = 0
+        var timeDelay = 250
+        
+        for(var counter = 0; counter < 30;counter++){
+            game.time.events.add(delay, function(){
+                
+                var color = Phaser.Color.getRandomColor(0,255,255)
+                characterGroup.bubble.tint = color
+                
+            } , this);
+            delay+=timeDelay
+        }    
+    }
+    
+    function activatePowerUp(){
+        
+        sound.play("powerup")
+        
+        game.add.tween(characterGroup.bubble).to({alpha:1},250,Phaser.Easing.linear,true)
+        characterGroup.invincible = true
+        
+        changeColorBubble()
+        game.time.events.add(4000,function() {
+            
+            var tweenAdd = game.add.tween(characterGroup.bubble).to({alpha:0},250,Phaser.Easing.linear,true, 0,5)
+            tweenAdd.onComplete.add(function() {
+                
+                characterGroup.invincible = false
+            
+            })
+            
+        },this)
+        
+    }
+    
     function checkObstacles(){
         
         for(var i = 0;i<obstaclesGroup.length;i++){
@@ -654,12 +725,25 @@ var clownrush = function(){
                     
                     var tag = obs.tag
                     if(tag == 'obstacle' || tag == 'anvil'){
-                        stopGame()
+                        
+                        if(!characterGroup.invincible){
+                            stopGame()
+                        }else{
+                            setExplosion(obs,0)
+                            sound.play("shoot")
+                            deactivateObject(obs)
+                        }
+                        
                     }else if(tag == 'choco' || tag == 'muffin'){
                         addPoint()
                         createPart('star',obs)
                         deactivateObject(obs)
                         addNumberPart(obs,'+1',false)
+                    }else if(tag == 'cake'){
+                        addPoint()
+                        createPart('star',obs)
+                        deactivateObject(obs)
+                        activatePowerUp()
                     }
                     
                     
@@ -682,6 +766,14 @@ var clownrush = function(){
         
         checkObstacles()
         
+        if(spaceKey.isDown && !spaceDown){
+            spaceDown = true
+            moveKong()
+        }
+        
+        if(spaceKey.isUp){
+            spaceDown = false
+        }
         
     }
     
@@ -775,6 +867,13 @@ var clownrush = function(){
             clown.angle = -90
             characterGroup.clown = clown
             
+            var bubble = characterGroup.create(-15,-5,'atlas.clown','bubble')
+            bubble.tint = 0xff001e
+            bubble.anchor.setTo(0.5,0.5)
+            bubble.scale.setTo(1.5,1.5)
+            bubble.alpha = 0
+            characterGroup.bubble = bubble
+            
             initialize()
             animateScene()
             
@@ -790,6 +889,8 @@ var clownrush = function(){
             createAssets()
             
             createLevelText()
+            
+            spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             
 		},
 		show: function(event){
