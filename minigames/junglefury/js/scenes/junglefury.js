@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var junglefury = function(){
     
     var localizationData = {
@@ -26,13 +27,13 @@ var junglefury = function(){
 		],
 		sounds: [
             {	name: "punch1",
-				file: "sounds/punch1.mp3"},
+				file: soundsPath + "punch1.mp3"},
             {	name: "punch2",
-				file: "sounds/punch2.mp3"},
+				file: soundsPath + "punch2.mp3"},
             {	name: "punch3",
-				file: "sounds/punch3.mp3"},
+				file: soundsPath + "punch3.mp3"},
             {	name: "explode",
-				file: "sounds/explode.mp3"},
+				file: soundsPath + "explode.mp3"},
 		],
 	}
         
@@ -631,7 +632,7 @@ var junglefury = function(){
 
         game.load.spine('kong', "images/spines/skeleton.json");
         
-        game.load.audio('timberman', 'sounds/timberman.mp3');
+        game.load.audio('timberman', soundsPath + 'songs/timberman.mp3');
         
         
     }

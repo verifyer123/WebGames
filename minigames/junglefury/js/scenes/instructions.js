@@ -1,16 +1,13 @@
+var soundsPath = '/../minigames/gamesounds/'
 var instructions = function(){
 
 	var localizationData = {
 		"EN":{
-			"remove":"Remove",
-			"badTeeth":"the bad teeth \nto play the song",
-			"go":"OK"
+
 		},
 
 		"ES":{
-			"remove":"Quita",
-			"badTeeth":"los dientes malos \npara tocar la canción",
-			"go":"OK",
+
 		}
 	}
 
@@ -28,7 +25,7 @@ var instructions = function(){
 		],
         sounds: [
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
         ],
 	}
 

@@ -1,24 +1,5 @@
-var tapatopo = function(){
-    
-    var localizationData = {
-		"EN":{
-            "language":"en",
-			"assetReady":"readyEn",
-			"assetGo":"goEn",
-			"assetExcellent":"excEn",
-            "assetGiveUp":"giveUpEn"
-		},
-
-		"ES":{
-            "languague":"es",
-			"assetReady":"readyEs",
-			"assetGo":"goEs",
-			"assetExcellent":"excEs",
-            "assetGiveUp":"giveUpEs",
-            
-		}
-	}
-    
+var soundsPath = '/../minigames/gamesounds/'
+var tapatopo = function(){    
 
 	assets = {
         atlases: [
@@ -34,21 +15,21 @@ var tapatopo = function(){
 		],
 		sounds: [
             {	name: "punch1",
-				file: "sounds/punch1.mp3"},
+				file: soundsPath + "punch1.mp3"},
             {	name: "punch2",
-				file: "sounds/punch2.mp3"},
+				file: soundsPath + "punch2.mp3"},
             {	name: "punch3",
-				file: "sounds/punch3.mp3"},
+				file: soundsPath + "punch3.mp3"},
             {	name: "explode",
-				file: "sounds/explode.mp3"},
+				file: soundsPath + "explode.mp3"},
             {	name: "cut",
-				file: "sounds/cut.mp3"},
+				file: soundsPath + "cut.mp3"},
             {	name: "moleHit",
-				file: "sounds/moleHit.mp3"},
+				file: soundsPath + "moleHit.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
             {	name: "magic",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
 		],
 	}
         
@@ -388,7 +369,7 @@ var tapatopo = function(){
 
         game.load.spine('topo', "images/spines/skeleton.json");
         
-        game.load.audio('moleSong', 'sounds/sillyAdventureGameLoop.mp3');
+        game.load.audio('moleSong', soundsPath + 'songs/sillyAdventureGameLoop.mp3');
         
         
     }

@@ -1,16 +1,5 @@
-var clownrush = function(){
-    
-    var localizationData = {
-		"EN":{
-
-		},
-
-		"ES":{
-
-            
-		}
-	}
-    
+var soundsPath = '/../minigames/gamesounds/'
+var clownrush = function(){    
 
 	assets = {
         atlases: [
@@ -26,21 +15,21 @@ var clownrush = function(){
 		],
 		sounds: [
             {	name: "explode",
-				file: "sounds/explode.mp3"},
+				file: soundsPath + "explode.mp3"},
             {	name: "cut",
-				file: "sounds/cut.mp3"},
+				file: soundsPath + "cut.mp3"},
             {	name: "magic",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "falling",
-				file: "sounds/falling.mp3"},
+				file: soundsPath + "falling.mp3"},
             {	name: "powerup",
-				file: "sounds/powerup.mp3"},
+				file: soundsPath + "powerup.mp3"},
             {	name: "glassbreak",
-				file: "sounds/glassbreak.mp3"},
+				file: soundsPath + "glassbreak.mp3"},
             {	name: "scream",
-				file: "sounds/scream.mp3"},
+				file: soundsPath + "scream.mp3"},
             {	name: "shoot",
-				file: "sounds/shoot.mp3"},
+				file: soundsPath + "shoot.mp3"},
 		],
 	}
         
@@ -96,8 +85,6 @@ var clownrush = function(){
         
 	}
     
-
-    
     function animateScene() {
                 
         gameActive = false
@@ -115,12 +102,6 @@ var clownrush = function(){
         sceneTween.onComplete.add(function(){
             setLevel(levelNumber)
         })
-        
-        
-        
-        //timer.start()
-        //game.time.events.add(throwTime *0.1, dropObjects , this);
-        //objectsGroup.timer.start()
 
     }
     
@@ -784,7 +765,7 @@ var clownrush = function(){
 
         game.load.spine('clown', "images/spines/Clown Rush.json");
         
-        game.load.audio('circus', 'sounds/circus_gentlejammers.mp3');
+        game.load.audio('circus', soundsPath + 'songs/circus_gentlejammers.mp3');
         
         
     }

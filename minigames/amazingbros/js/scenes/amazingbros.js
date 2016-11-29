@@ -1,20 +1,13 @@
+var soundsPath = '/../minigames/gamesounds/'
 var amazingbros = function(){
     
     var localizationData = {
 		"EN":{
-            "language":"en",
-			"assetReady":"readyEn",
-			"assetGo":"goEn",
-			"assetExcellent":"excEn",
-            "assetGiveUp":"giveUpEn"
+
 		},
 
 		"ES":{
-            "languague":"es",
-			"assetReady":"readyEs",
-			"assetGo":"goEs",
-			"assetExcellent":"excEs",
-            "assetGiveUp":"giveUpEs",
+
             
 		}
 	}
@@ -34,19 +27,17 @@ var amazingbros = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "splash",
-				file: "sounds/splash.mp3"},
+				file: soundsPath + "splash.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
             {	name: "whoosh",
-				file: "sounds/whoosh.mp3"},
+				file: soundsPath + "whoosh.mp3"},
             {	name: "gameLose",
-				file: "sounds/gameLose.mp3"},
-            {	name: "marioSong",
-				file: "sounds/marioSong.mp3"},
+				file: soundsPath + "gameLose.mp3"},
             {	name: "wrongItem",
-				file: "sounds/wrongItem.mp3"},
+				file: soundsPath + "wrongItem.mp3"},
 		],
 	}
     
@@ -146,7 +137,7 @@ var amazingbros = function(){
         game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
         game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/amazingbros/coinS.png', 68, 70, 12);
-        game.load.audio('marioSong', 'sounds/marioSong.mp3');
+        game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
         
         
     }

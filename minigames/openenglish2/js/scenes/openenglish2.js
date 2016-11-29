@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var openenglish2 = function(){
     
     var localizationData = {
@@ -25,11 +26,11 @@ var openenglish2 = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "swipe",
-				file: "sounds/swipe.mp3"},
+				file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
 		],
 	}
         

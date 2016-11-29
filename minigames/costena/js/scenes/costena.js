@@ -1,3 +1,5 @@
+
+var soundsPath = '/../minigames/gamesounds/'
 var costena = function(){
     
     var localizationData = {
@@ -34,17 +36,17 @@ var costena = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "combo",
-				file: "sounds/combo.mp3"},
+				file: soundsPath + "combo.mp3"},
             {	name: "flip",
-				file: "sounds/flipCard.mp3"},
+				file: soundsPath + "flipCard.mp3"},
             {	name: "swipe",
-				file: "sounds/swipe.mp3"},
+				file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
             {	name: "right",
-				file: "sounds/rightChoice.mp3"},
+				file: soundsPath + "rightChoice.mp3"},
 		],
     }
     

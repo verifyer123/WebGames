@@ -1,45 +1,5 @@
+var soundsPath = '/../minigames/gamesounds/'
 var result = function(){
-
-	localizationData = {
-		"EN":{
-			"goodJob":"Good Job!",
-            "dontGiveUp":"Don´t give up!",
-			"yourScore":"Your score: ",
-			"sluggish":"Sluggish",
-			"average":"Average",
-			"speedy":"Speedy",
-			"yourSpeed":"Your average speed is: \n",
-			"secPerAnswer":" secs per answer.",
-			"weKnow":"We know you can do better",
-			"tryAgain":"to try again",
-			"shareNow":"Share now",
-			"retry":"retry",
-			"answeredTotal":"Answered ",
-			"questionsIn":" Questions in ",
-			"seconds":" Seconds",
-			"assetPromo": "fben"
-		},
-
-		"ES":{
-			"goodJob":"¡Buen trabajo!",
-            "dontGiveUp":"¡No te rindas!",
-			"yourScore":"Tu puntaje:",
-			"sluggish":"Lento",
-			"average":"Normal",
-			"speedy":"Rápido",
-			"yourSpeed":"Tu velocidad promedio es de: \n",
-			"secPerAnswer":" segundos por respuesta.",
-			"weKnow":"Sabemos que puedes mejorar",
-			"tryAgain":"para reintentar",
-			"shareNow":"Compartir",
-			"retry":"Jugar",
-			"answeredTotal":"Conteste",
-			"questionsIn":" Preguntas en ",
-			"seconds":" Segundos",
-			"assetPromo": "fbes"
-
-		}
-	}
 
 	var assets = {
 		atlases: [
@@ -57,7 +17,7 @@ var result = function(){
 		],
 		sounds: [
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
         ],
 	}
     

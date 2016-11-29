@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var chilimbalam = function(){
 	assets = {
         atlases: [
@@ -13,19 +14,19 @@ var chilimbalam = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "splash",
-				file: "sounds/splashMud.mp3"},
+				file: soundsPath + "splashMud.mp3"},
             {	name: "swipe",
-				file: "sounds/swipe.mp3"},
+				file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
 			{	name: "explode",
-				file: "sounds/explode.mp3"},
+				file: soundsPath + "explode.mp3"},
             {	name: "shootBall",
-				file: "sounds/shootBall.mp3"},
+				file: soundsPath + "shootBall.mp3"},
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
 		],
 	}
     
