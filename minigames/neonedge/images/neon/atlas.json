@@ -1,0 +1,165 @@
+{"frames": [
+
+{
+	"filename": "arcadebutton1",
+	"frame": {"x":469,"y":278,"w":156,"h":149},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":156,"h":149},
+	"sourceSize": {"w":156,"h":149},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "arcadebutton2",
+	"frame": {"x":627,"y":278,"w":156,"h":148},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":156,"h":148},
+	"sourceSize": {"w":156,"h":148},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "cakeSplat",
+	"frame": {"x":299,"y":278,"w":168,"h":151},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":168,"h":151},
+	"sourceSize": {"w":168,"h":151},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "coin",
+	"frame": {"x":103,"y":400,"w":68,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
+	"sourceSize": {"w":68,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "dashboard",
+	"frame": {"x":173,"y":1,"w":541,"h":275},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":275},
+	"sourceSize": {"w":541,"h":275},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "drop",
+	"frame": {"x":716,"y":133,"w":63,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "dropPart",
+	"frame": {"x":340,"y":431,"w":119,"h":61},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":119,"h":61},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "life_box",
+	"frame": {"x":588,"y":429,"w":105,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
+	"sourceSize": {"w":105,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "obstacle",
+	"frame": {"x":1,"y":1,"w":74,"h":397},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":397},
+	"sourceSize": {"w":74,"h":397},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "obstacleup",
+	"frame": {"x":77,"y":1,"w":74,"h":397},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":397},
+	"sourceSize": {"w":74,"h":397},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ship",
+	"frame": {"x":153,"y":278,"w":100,"h":99},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":99},
+	"sourceSize": {"w":100,"h":99},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "smoke",
+	"frame": {"x":1,"y":400,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":716,"y":1,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "starPart",
+	"frame": {"x":173,"y":379,"w":124,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":716,"y":67,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrongPart",
+	"frame": {"x":461,"y":431,"w":125,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":173,"y":444,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":784,"h":494},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:693b79defe743db755ee6f373049fde2:218abe98ef147a0bb079f61e22e7bda4:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

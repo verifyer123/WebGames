@@ -30,6 +30,10 @@ var clownrush = function(){
 				file: soundsPath + "scream.mp3"},
             {	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
+            {	name: "evilLaugh",
+				file: soundsPath + "evilLaugh.mp3"},
+            {	name: "turn",
+				file: soundsPath + "moleHit.mp3"},
 		],
 	}
         
@@ -38,7 +42,9 @@ var clownrush = function(){
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
+    var canRoll = null
     var canAnvil = null
+    var canClown = null
     var gameSong = null
     var cakeReady = null;
     var levelNumber = 0
@@ -46,6 +52,7 @@ var clownrush = function(){
     var timeBar = null
     var spaceKey
     var spaceDown
+    var downKey
     var buttonPressed
     var spikesGroup
     var lastObj
@@ -70,6 +77,8 @@ var clownrush = function(){
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         canAnvil = false
+        canClown = false
+        canRoll = true
         lives = 1
         buttonPressed = false
         lastObj = null
@@ -159,7 +168,7 @@ var clownrush = function(){
             posY = obj.world.y
         }
         
-        var exp = sceneGroup.create(0,0,'atlas.clown','explosion')
+        var exp = sceneGroup.create(0,0,'atlas.clown','cakeSplat')
         exp.x = posX
         exp.y = posY + offY
         exp.anchor.setTo(0.5,0.5)
@@ -345,9 +354,45 @@ var clownrush = function(){
             canAnvil = true
         }
         
+        if(pointsBar.number == 15){
+            canClown = true
+        }
+        
         if(pointsBar.number == 20){
             cakeReady = true
         }
+        
+    }
+    
+    function roll(){
+        
+        if(!canRoll || !gameActive){
+            return
+        }
+        
+        sceneGroup.rollBtn.alpha = 0.4
+        
+        canRoll = false
+        sound.play("turn")
+        characterGroup.roll = true
+        
+        var rotationVal = 360
+        
+        console.log(rotationVal + ' rotation')
+        
+        buddy.x+= 75
+        var rotationTween = game.add.tween(buddy).to({angle:buddy.angle - (rotationVal * 2)},700,Phaser.Easing.linear,true)
+        
+        rotationTween.onComplete.add(function(){
+            
+            characterGroup.roll = false
+            buddy.x-=75
+        })
+        
+        game.time.events.add(5000,function(){
+            canRoll = true
+            sceneGroup.rollBtn.alpha = 1
+        },this)
         
     }
     
@@ -358,8 +403,10 @@ var clownrush = function(){
         }
         
         sound.play("cut")
-        //buddy.setAnimationByName(0,"FIST")
-        //buddy.addAnimationByName(0,"IDLE",true)
+        /*buddy.setAnimationByName(0,"ROLL",false)
+        buddy.addAnimationByName(0,"RUN",true)*/
+        
+        //roll()
         
         if(characterGroup.isLeft){
             characterGroup.isLeft = false
@@ -377,9 +424,35 @@ var clownrush = function(){
         
     }
     
+    function moveClown(clown){
+        
+        game.time.events.add((6 * 1000)/gameSpeed,function(){
+            
+            sound.play("cut")
+        
+            if(clown.isLeft){
+                clown.scale.x = Math.abs(clown.scale.x) * -1
+                game.add.tween(clown).to({x:clown.offset},75,Phaser.Easing.linear,true)
+                game.add.tween(clown.scale).to({y:-1.2},75,Phaser.Easing.linear,true)
+        
+            }else{
+                clown.scale.x = Math.abs(clown.scale.x)
+                game.add.tween(clown).to({x:-clown.offset},75,Phaser.Easing.linear,true)
+                game.add.tween(clown.scale).to({y:-1.2},75,Phaser.Easing.linear,true)
+            }
+        })
+       
+    }
+    
     function inputButton(obj){
         
-        moveKong(obj.tag)
+        var tag = obj.tag
+        
+        if(tag == 'move'){
+            moveKong(obj.tag)
+        }else if(tag == 'roll'){
+            roll()
+        }
         
         changeImage(1,obj.parent)
     }
@@ -397,18 +470,39 @@ var clownrush = function(){
         sceneGroup.botBar = bottomRect
         
         var buttons1 = game.add.group()
-        buttons1.x = game.world.centerX 
-        buttons1.y = game.world.height - 117
-        buttons1.scale.setTo(0.85,0.85)
+        buttons1.x = game.world.centerX + 90
+        buttons1.y = game.world.height - 110
+        buttons1.scale.setTo(0.95,0.95)
         sceneGroup.add(buttons1)
         
         var button1 = buttons1.create(0,0, 'atlas.clown','buttonOff')
         button1.anchor.setTo(0.5,0.5)
         button1.inputEnabled = true
+        button1.tag = "move"
         button1.events.onInputDown.add(inputButton)
         button1.events.onInputUp.add(releaseButton)
         
         var button1 = buttons1.create(0,0, 'atlas.clown','buttonPush')
+        button1.anchor.setTo(0.5,0.5)
+        
+        changeImage(0,buttons1)
+        
+        var buttons1 = game.add.group()
+        buttons1.x = game.world.centerX -90
+        buttons1.y = game.world.height - 110
+        //buttons1.scale.setTo(0.6,0.6)
+        sceneGroup.add(buttons1)
+        
+        var button1 = buttons1.create(0,0, 'atlas.clown','giroOff')
+        button1.anchor.setTo(0.5,0.5)
+        button1.tag = "roll"
+        button1.inputEnabled = true
+        button1.events.onInputDown.add(inputButton)
+        button1.events.onInputUp.add(releaseButton)
+        
+        sceneGroup.rollBtn = buttons1
+        
+        var button1 = buttons1.create(0,0, 'atlas.clown','giroOn')
         button1.anchor.setTo(0.5,0.5)
         
         changeImage(0,buttons1)
@@ -433,7 +527,7 @@ var clownrush = function(){
     
     function addItem(piece,tagToUse){
         
-        var tag = tagToUse || getTag(['obstacle','choco','muffin','obstacle','obstacle'])
+        var tag = tagToUse || getTag(['obstacle','choco','muffin','obstacle','obstacle','badclown'])
         
         if(lastObj.spike == true){
             tag = getTag(['choco','muffin'])
@@ -442,10 +536,27 @@ var clownrush = function(){
         if(cakeReady){
             tag = 'cake'
             cakeReady = false
-            game.time.events.add(10000,function() {
+            game.time.events.add(12000,function() {
                 cakeReady = true
             },this)
         }
+        
+        //tag = 'badclown'
+        if(pointsBar.number < 20 && tag == 'badclown'){
+            
+            tag = getTag(['choco','muffin'])
+            
+        }
+        
+        if(tag == 'badclown'){
+            canClown = false
+            game.time.events.add(5000,function(){
+                canClown = true
+            },this)
+        }
+        
+        /*tag = 'badclown'
+        gameSpeed = 10*/
         
         for(var i = 0; i< piecesGroup.length; i ++){
             
@@ -454,6 +565,11 @@ var clownrush = function(){
             if(item != null ){
                 if(tag == item.tag && !item.used){
                     
+                    var left = randomize(2)
+                    //var left = true
+                    
+                    item.scale.setTo(1.2,1.2)
+                    
                     activateObject(item)
                     
                     item.x = 0
@@ -461,12 +577,36 @@ var clownrush = function(){
 
                     var angle = 90
                     var offsetX = item.height * 0.5 + piece.width * 0.5
+                    
+                     if(item.tag == 'badclown'){
+                        
+                        offsetX-=45
+                        item.clown = true
+                        
+                        if(left){
+                            item.scale.setTo(-1.2,1.2)
+                            item.isLeft = true
+                        }else{
+                            item.scale.setTo(1.2,1,2)
+                            item.isLeft = false
+                        }
+                        
+                        item.offset = offsetX
+                        sound.play('evilLaugh')
+                         
+                        if(randomize(4)){
+                            moveClown(item)
+                        }
+                         
+                    }
 
-                    if(randomize(2)){
+                    if(left){
                         offsetX*=-1
                         angle*=-1
                     }
-
+                    
+                    //console.log(item.width + 'width')
+                    
                     item.x+= offsetX
                     item.angle = angle
                     
@@ -496,7 +636,7 @@ var clownrush = function(){
         var tag = 'anvil'
         
         sound.play("falling")
-        console.log('adde anvil')
+        //console.log('adde anvil')
         
         for(var i = 0; i < piecesGroup.length;i++){
             var obj = piecesGroup.children[i]
@@ -585,15 +725,23 @@ var clownrush = function(){
             
             var asset
             if(tag == 'bar'){
+                
                 asset = piecesGroup.create(0,0,'atlas.clown',tag)
-                asset.anchor.setTo(0.5,0.5)
+                
+            }else if (tag == 'badclown'){
+                
+                asset = game.add.sprite(0,0, 'bMonster');
+                piecesGroup.add(asset)
+                asset.animations.add('walk');
+                asset.animations.play('walk',24,true);   
+            
             }else{
                 
                 asset = piecesGroup.create(0,0,'atlas.clown',tag)
-                asset.anchor.setTo(0.5,0.5)
                 
             }
             
+            asset.anchor.setTo(0.5,0.5)
             asset.x =-100
             asset.y = -200
             asset.alpha = 0
@@ -613,6 +761,7 @@ var clownrush = function(){
         createPiece('muffin',10)
         createPiece('anvil',4)
         createPiece('cake',4)
+        createPiece('badclown',1)
         //createPiece('obstacleHit',10,true)
         //createPiece('obstacle',10)
         
@@ -637,9 +786,10 @@ var clownrush = function(){
     
     function checkPosPlayer(obj1,obj2, distValue){
         
+        //console.log(obj1.world.x + ' posX, ' + obj1.world.y + ' posY,' + obj2.world.x + ' obj2X,' + obj2.world.y + ' obj2Y')
         var distance = distValue || 0.5
         
-        if(Math.abs(obj1.world.x - obj2.world.x) < obj2.width * 1 && Math.abs(obj1.world.y - obj2.world.y)< obj2.height * 0.5){
+        if(Math.abs(obj1.world.x - obj2.world.x) < Math.abs(obj2.width) * 1 && Math.abs(obj1.world.y - obj2.world.y)< Math.abs(obj2.height) * 0.5){
             return true
         }else{
             return false
@@ -690,6 +840,8 @@ var clownrush = function(){
             
             if(obs.anvil && obs.used){
                 obs.y+=(gameSpeed + 3)
+            }else if(obs.clown && obs.used){
+                obs.y+=(gameSpeed)
             }
             
             if(obs){
@@ -705,14 +857,18 @@ var clownrush = function(){
                 }else if(checkPosPlayer(characterGroup.clown,obs)){
                     
                     var tag = obs.tag
-                    if(tag == 'obstacle' || tag == 'anvil'){
+                    if(tag == 'obstacle' || tag == 'anvil' || tag == 'badclown'){
                         
-                        if(!characterGroup.invincible){
+                        if(!characterGroup.invincible && !characterGroup.roll){
                             stopGame()
                         }else{
-                            setExplosion(obs,0)
-                            sound.play("shoot")
-                            deactivateObject(obs)
+                            
+                            if(!characterGroup.roll){
+                                setExplosion(obs,0)
+                                sound.play("shoot")
+                                deactivateObject(obs)
+                            }
+                            
                         }
                         
                     }else if(tag == 'choco' || tag == 'muffin'){
@@ -756,6 +912,10 @@ var clownrush = function(){
             spaceDown = false
         }
         
+        if(downKey.isDown && !characterGroup.roll){
+            roll()
+        }
+        
     }
     
     function preload(){
@@ -764,6 +924,8 @@ var clownrush = function(){
         game.stage.disableVisibilityChange = true;
 
         game.load.spine('clown', "images/spines/Clown Rush.json");
+        
+        game.load.spritesheet('bMonster', 'images/clown/badclown.png', 173, 181, 16);
         
         game.load.audio('circus', soundsPath + 'songs/circus_gentlejammers.mp3');
         
@@ -855,6 +1017,8 @@ var clownrush = function(){
             bubble.alpha = 0
             characterGroup.bubble = bubble
             
+            characterGroup.roll = false
+            
             initialize()
             animateScene()
             
@@ -872,6 +1036,7 @@ var clownrush = function(){
             createLevelText()
             
             spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
             
 		},
 		show: function(event){

@@ -2,7 +2,7 @@
 
 {
 	"filename": "anvil",
-	"frame": {"x":1611,"y":132,"w":177,"h":120},
+	"frame": {"x":1568,"y":134,"w":177,"h":120},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":177,"h":120},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "bar",
-	"frame": {"x":977,"y":1,"w":83,"h":157},
+	"frame": {"x":1073,"y":1,"w":83,"h":157},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":157},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "brokenglass",
-	"frame": {"x":1232,"y":1,"w":160,"h":140},
+	"frame": {"x":1328,"y":1,"w":160,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":140},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "bubble",
-	"frame": {"x":1274,"y":143,"w":110,"h":110},
+	"frame": {"x":1435,"y":143,"w":110,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":110,"h":110},
@@ -38,25 +38,25 @@
 },
 {
 	"filename": "buttonOff",
-	"frame": {"x":761,"y":1,"w":214,"h":204},
+	"frame": {"x":678,"y":1,"w":196,"h":186},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":204},
-	"sourceSize": {"w":214,"h":204},
+	"spriteSourceSize": {"x":0,"y":0,"w":196,"h":186},
+	"sourceSize": {"w":196,"h":186},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "buttonPush",
-	"frame": {"x":544,"y":1,"w":215,"h":204},
+	"frame": {"x":876,"y":1,"w":195,"h":186},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":215,"h":204},
-	"sourceSize": {"w":215,"h":204},
+	"spriteSourceSize": {"x":0,"y":0,"w":195,"h":186},
+	"sourceSize": {"w":195,"h":186},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "cake",
-	"frame": {"x":1539,"y":1,"w":177,"h":129},
+	"frame": {"x":1635,"y":1,"w":177,"h":129},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":177,"h":129},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "cakeSplat",
-	"frame": {"x":1062,"y":1,"w":168,"h":151},
+	"frame": {"x":1158,"y":1,"w":168,"h":151},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":168,"h":151},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "choco",
-	"frame": {"x":779,"y":207,"w":90,"h":40},
+	"frame": {"x":1229,"y":197,"w":90,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":40},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "clown",
-	"frame": {"x":1790,"y":131,"w":130,"h":122},
+	"frame": {"x":1879,"y":127,"w":130,"h":122},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":122},
@@ -92,25 +92,34 @@
 },
 {
 	"filename": "dashboard",
-	"frame": {"x":1,"y":1,"w":541,"h":251},
+	"frame": {"x":1,"y":1,"w":675,"h":233},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":1,"w":541,"h":251},
-	"sourceSize": {"w":541,"h":252},
+	"spriteSourceSize": {"x":0,"y":8,"w":675,"h":233},
+	"sourceSize": {"w":675,"h":241},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "explosion",
-	"frame": {"x":1718,"y":1,"w":123,"h":128},
+	"filename": "giroOff",
+	"frame": {"x":1747,"y":132,"w":130,"h":123},
 	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":3,"y":0,"w":123,"h":128},
-	"sourceSize": {"w":129,"h":129},
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":123},
+	"sourceSize": {"w":130,"h":123},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "giroOn",
+	"frame": {"x":1814,"y":1,"w":130,"h":124},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":124},
+	"sourceSize": {"w":130,"h":124},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "icecream",
-	"frame": {"x":1472,"y":1,"w":65,"h":131},
+	"frame": {"x":1568,"y":1,"w":65,"h":131},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":131},
@@ -119,7 +128,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":672,"y":207,"w":105,"h":41},
+	"frame": {"x":1229,"y":154,"w":105,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
@@ -128,7 +137,7 @@
 },
 {
 	"filename": "muffin",
-	"frame": {"x":1512,"y":134,"w":97,"h":112},
+	"frame": {"x":1336,"y":143,"w":97,"h":112},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":97,"h":112},
@@ -137,7 +146,7 @@
 },
 {
 	"filename": "obstacle",
-	"frame": {"x":1394,"y":1,"w":76,"h":134},
+	"frame": {"x":1490,"y":1,"w":76,"h":134},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":134},
@@ -146,7 +155,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":977,"y":160,"w":100,"h":93},
+	"frame": {"x":1127,"y":160,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -155,7 +164,7 @@
 },
 {
 	"filename": "smokePart",
-	"frame": {"x":1145,"y":154,"w":127,"h":63},
+	"frame": {"x":744,"y":189,"w":127,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":63},
@@ -164,7 +173,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":1079,"y":154,"w":64,"h":64},
+	"frame": {"x":678,"y":189,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -173,7 +182,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":1386,"y":143,"w":124,"h":63},
+	"frame": {"x":873,"y":189,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -182,7 +191,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":544,"y":207,"w":126,"h":41},
+	"frame": {"x":999,"y":189,"w":126,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":126,"h":41},
@@ -194,8 +203,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1921,"h":254},
+	"size": {"w":2010,"h":256},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c3d9ea4d31562baa8cbc5c238a62d667:4e869db47aceef4388341c433645b2d5:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:33799e77888cc5c9608a0bb3749a9b1c:c9b54cf9857410f9eb53ff38cdb9ddbb:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

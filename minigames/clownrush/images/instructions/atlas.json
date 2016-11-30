@@ -2,11 +2,11 @@
 
 {
 	"filename": "instruccion",
-	"frame": {"x":1,"y":1,"w":509,"h":739},
+	"frame": {"x":1,"y":1,"w":508,"h":739},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":509,"h":739},
-	"sourceSize": {"w":510,"h":740},
+	"spriteSourceSize": {"x":1,"y":0,"w":508,"h":739},
+	"sourceSize": {"w":511,"h":740},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -23,8 +23,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":511,"h":833},
+	"size": {"w":510,"h":833},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2d7aa9fbaadd10f0c02bb8b33d1387e9:092e717d4187abe3ceb551e01932a67d:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:dcbc2eba2df5e0221bb90e61ff4fd737:9fe05ec1697b528efc8581f6695a162f:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
