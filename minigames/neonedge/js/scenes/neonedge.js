@@ -174,11 +174,7 @@ var neonedge = function(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = true;
-
-        game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
-        game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
-        game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/neon/coinS.png', 68, 70, 12);
         game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
         
@@ -396,7 +392,7 @@ var neonedge = function(){
                 deactivateObj(obj)
                 addObstacle('obstacle')
                 //console.log('objeto removido')
-            }else if(obj.tag == 'coin' || obj.tag == 'skull'){
+            }else if(obj.tag == 'coin'){
                 if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
                     if(obj.tag == 'coin'){
                         addPoint(obj)
@@ -404,6 +400,11 @@ var neonedge = function(){
                     deactivateObj(obj)
                 }
                 
+            }
+            
+            if(obj.body.x < player.body.x && obj.isPoint){
+                addPoint(player,'ring')
+                obj.isPoint = false
             }
         }
     }
@@ -420,7 +421,7 @@ var neonedge = function(){
         part.used = true
         var tweenAlpha = game.add.tween(part).to({x:part.x - 65,alpha:0},150,Phaser.Easing.linear,true)
         
-        game.add.tween(part.scale).to({x:0.01,y:0.01},150,Phaser.Easing.linear,true)
+        game.add.tween(part.scale).to({x:0.1,y:0.1},150,Phaser.Easing.linear,true)
         
         tweenAlpha.onComplete.add(function(){
             part.used = false
@@ -439,7 +440,7 @@ var neonedge = function(){
         }
                 
         if(gameActive){
-            game.time.events.add(300,startParticles,this)
+            game.time.events.add(100,startParticles,this)
         }
         
         
@@ -461,6 +462,7 @@ var neonedge = function(){
             game.physics.p2.gravity.y = WORLD_GRAVITY
             changeVelocityGame(-gameSpeed)
             startParticles()
+            marioSong.loopFull(0.5)
         }
         
         player.body.moveUp(jumpValue)
@@ -609,11 +611,11 @@ var neonedge = function(){
             return particlesGood
         }else{
             key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20,'atlas.neon',key)
+            var particle = sceneGroup.create(obj.world.x,obj.world.y,'atlas.neon',key)
             particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
+            particle.scale.setTo(1,1)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
         }
         
     }
@@ -709,15 +711,9 @@ var neonedge = function(){
             child.body.velocity.x = -gameSpeed 
             objectsList[objectsList.length] = child
             
-            if(child.tag == 'coin'){
-                child.body.y-=25
-                if(Math.random()*2 > 1){
-                    child.body.y-=80
-                }
-            }
-            
             if(child.tag == 'obstacle'){
-
+                
+                child.isPoint = true
                 activateObject(posX, posY - child.height - 185 - (Math.random() * 0.3) * child.height,child.topObject)
                 
             }
@@ -736,8 +732,8 @@ var neonedge = function(){
 
             var coin = addComplement(nameItem)
             if(coin != null){
-                console.log('adde coin')
-                activateObject(pivotObjects,obj.body.y - obj.height * 0.75,coin)
+                //console.log('adde coin')
+                activateObject(pivotObjects - obj.width * 2.1,(Math.random() * game.world.height -500) + 200,coin)
             }
 
         }
@@ -756,7 +752,7 @@ var neonedge = function(){
             if(child.tag == tag && child.used == false){
                 if (tag == "obstacle"){
                     
-                    activateObject(pivotObjects,game.world.height - (child.height * Math.random() * 0.9) - 125,child)
+                    activateObject(pivotObjects,game.world.height - (child.height * Math.random() * 0.9) - 160,child)
                     
                     checkAdd(child,tag)
                     objToCheck = child
@@ -781,6 +777,7 @@ var neonedge = function(){
             }else if(tag == 'obstacle'){
                 
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.neon',tag)
+                object.isPoint = true
                 
                 object2 = groundGroup.create(-300,0,'atlas.neon',tag + 'up')
                 
@@ -895,6 +892,24 @@ var neonedge = function(){
         
     }
     
+    function createBase(){
+        
+        var pivotX = 100
+        
+        for(var i = 0; i <1;i++){
+            
+            var object2 = groundGroup.create(pivotX,game.world.centerY + 115,'atlas.neon','obstacleup')
+                                
+            object2.scale.setTo(1.2,1.2)
+            object2.anchor.setTo(0,1)
+            game.physics.p2.enable(object2,DEBUG_PHYSICS)
+            object2.body.kinematic = true
+            
+            pivotX += object2.width
+            console.log(object2.x + 'posX')
+        }
+    }
+    
 	return {
 		assets: assets,
 		name: "neonedge",
@@ -928,7 +943,8 @@ var neonedge = function(){
             //sound.play("marioSong")
             marioSong = game.add.audio('neonSong')
             game.sound.setDecodedCallback(marioSong, function(){
-                marioSong.loopFull(0.6)
+                //marioSong.loopFull(0.6)
+                //marioSong.stop()
             }, this);
             
             objectsGroup = game.add.group()
@@ -942,14 +958,14 @@ var neonedge = function(){
             characterGroup.y = game.world.height - BOT_OFFSET * 6
             worldGroup.add(characterGroup)
             
-            buddy = characterGroup.create(0,-35,'atlas.neon','ship')
+            buddy = characterGroup.create(0,-45,'atlas.neon','ship')
             buddy.anchor.setTo(0.5,0.5)
             
             createTrail()
             
             player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.neon','ship')
             player.anchor.setTo(0.5,1)
-            player.scale.setTo(0.6,0.6)
+            player.scale.setTo(0.37,0.37)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
@@ -957,6 +973,8 @@ var neonedge = function(){
             player.lastpos = player.y
             
             player.body.collideWorldBounds = true;
+            
+            createBase()
                         
             createObjects()
             
