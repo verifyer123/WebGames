@@ -1,45 +1,5 @@
+var soundsPath = '/../minigames/gamesounds/'
 var result = function(){
-
-	localizationData = {
-		"EN":{
-			"goodJob":"Good Job!",
-            "dontGiveUp":"Don´t give up!",
-			"yourScore":"Your score: ",
-			"sluggish":"Sluggish",
-			"average":"Average",
-			"speedy":"Speedy",
-			"yourSpeed":"Your average speed is: \n",
-			"secPerAnswer":" secs per answer.",
-			"weKnow":"We know you can do better",
-			"tryAgain":"to try again",
-			"shareNow":"Share now",
-			"retry":"retry",
-			"answeredTotal":"Answered ",
-			"questionsIn":" Questions in ",
-			"seconds":" Seconds",
-			"assetPromo": "fben"
-		},
-
-		"ES":{
-			"goodJob":"¡Buen trabajo!",
-            "dontGiveUp":"¡No te rindas!",
-			"yourScore":"Tu puntaje:",
-			"sluggish":"Lento",
-			"average":"Normal",
-			"speedy":"Rápido",
-			"yourSpeed":"Tu velocidad promedio es de: \n",
-			"secPerAnswer":" segundos por respuesta.",
-			"weKnow":"Sabemos que puedes mejorar",
-			"tryAgain":"para reintentar",
-			"shareNow":"Compartir",
-			"retry":"Jugar",
-			"answeredTotal":"Conteste",
-			"questionsIn":" Preguntas en ",
-			"seconds":" Segundos",
-			"assetPromo": "fbes"
-
-		}
-	}
 
 	var assets = {
 		atlases: [
@@ -53,7 +13,7 @@ var result = function(){
 		],
 		sounds: [
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
         ],
 	}
 
@@ -145,38 +105,6 @@ var result = function(){
 
 	function tryAgain(){
 		sceneloader.show("creatPianoTiles")
-	}
-
-	function createShareButton(){
-		var buttonGroup = new Phaser.Group(game)
-
-		var shareButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'share')
-		shareButton.anchor.setTo(0.5, 0.5)
-		buttonGroup.add(shareButton)
-
-		shareButton.inputEnabled = true
-		shareButton.events.onInputUp.add(shareEvent, buttonGroup)
-
-		var tryAgainButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'again')
-		tryAgainButton.visible = false
-		tryAgainButton.anchor.setTo(0.5, 0.5)
-		buttonGroup.add(tryAgainButton)
-
-		tryAgainButton.inputEnabled = false
-		tryAgainButton.events.onInputUp.add(tryAgain, buttonGroup)
-
-		var textStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
-
-		var labelText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "shareNow"), textStyle)
-		labelText.anchor.setTo(0.5, 0.5)
-		labelText.x = shareButton.width * -0.12
-		buttonGroup.add(labelText)
-
-		buttonGroup.share = shareButton
-		buttonGroup.retry = tryAgainButton
-		buttonGroup.label = labelText
-
-		return buttonGroup
 	}
 
 	function showPromo(){

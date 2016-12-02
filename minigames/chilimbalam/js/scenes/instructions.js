@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var instructions = function(){
 	var assets = {
         atlases: [
@@ -13,7 +14,7 @@ var instructions = function(){
 		],
         sounds: [
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
         ],
 	}
 

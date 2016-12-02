@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var hexhop = function(){
     
     var localizationData = {
@@ -33,22 +34,14 @@ var hexhop = function(){
 				file: "images/hexhop/fondo.png"},
 		],
 		sounds: [
-            {	name: "punch1",
-				file: "sounds/punch1.mp3"},
-            {	name: "punch2",
-				file: "sounds/punch2.mp3"},
-            {	name: "punch3",
-				file: "sounds/punch3.mp3"},
             {	name: "explode",
-				file: "sounds/explode.mp3"},
+				file: soundsPath + "laserexplode.mp3"},
             {	name: "cut",
-				file: "sounds/cut.mp3"},
-            {	name: "moleHit",
-				file: "sounds/moleHit.mp3"},
+				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
             {	name: "magic",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
 		],
 	}
         
@@ -435,7 +428,7 @@ var hexhop = function(){
     function preload(){
         
         game.load.spritesheet('rosa', 'images/hexhop/rosa.png', 50, 50, 73);
-        game.load.audio('moleSong', 'sounds/electro_trance_minus.mp3');
+        game.load.audio('moleSong', soundsPath + 'songs/electro_trance_minus.mp3');
         
         
     }

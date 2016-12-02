@@ -19,35 +19,80 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "Cblanco",
+	"frame": {"x":971,"y":109,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Cgris",
+	"frame": {"x":1003,"y":109,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Cnaranja",
+	"frame": {"x":1035,"y":109,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Cverde",
+	"frame": {"x":987,"y":141,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "goEs",
-	"frame": {"x":822,"y":1,"w":400,"h":132},
+	"frame": {"x":439,"y":1,"w":530,"h":161},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":20,"w":400,"h":132},
-	"sourceSize": {"w":400,"h":173},
+	"spriteSourceSize": {"x":2,"y":1,"w":530,"h":161},
+	"sourceSize": {"w":534,"h":164},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "life_box",
-	"frame": {"x":824,"y":135,"w":140,"h":55},
+	"frame": {"x":971,"y":1,"w":121,"h":52},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
-	"sourceSize": {"w":140,"h":55},
+	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":52},
+	"sourceSize": {"w":121,"h":52},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "readyEs",
-	"frame": {"x":439,"y":1,"w":381,"h":165},
+	"filename": "lineaGris",
+	"frame": {"x":439,"y":230,"w":432,"h":5},
 	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":10,"y":0,"w":381,"h":165},
-	"sourceSize": {"w":400,"h":165},
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":432,"h":5},
+	"sourceSize": {"w":432,"h":5},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "LogoPie",
+	"frame": {"x":697,"y":164,"w":161,"h":62},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":161,"h":62},
+	"sourceSize": {"w":161,"h":62},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "star",
-	"frame": {"x":439,"y":168,"w":64,"h":64},
+	"frame": {"x":439,"y":164,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -56,7 +101,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":571,"y":168,"w":124,"h":63},
+	"frame": {"x":571,"y":164,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -65,7 +110,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":505,"y":168,"w":64,"h":64},
+	"frame": {"x":505,"y":164,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -74,7 +119,7 @@
 },
 {
 	"filename": "wrongPart",
-	"frame": {"x":697,"y":168,"w":125,"h":60},
+	"frame": {"x":860,"y":164,"w":125,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
@@ -83,11 +128,11 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":824,"y":192,"w":141,"h":54},
+	"frame": {"x":971,"y":55,"w":121,"h":52},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
-	"sourceSize": {"w":141,"h":54},
+	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":52},
+	"sourceSize": {"w":121,"h":52},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -95,8 +140,8 @@
 	"version": "1.0",
 	"image": "atlas_common.png",
 	"format": "RGBA8888",
-	"size": {"w":1223,"h":248},
+	"size": {"w":1093,"h":248},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:7111363d3a2e835baeb545bbfdf47e25:4bb87ce170b53ae24e285d074650b52e:c92a632d2b155bb595274af5bbb298a4$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0aac5a674a78143ac28d1ae36bbf054b:6930d458ffeda617e364b99ebc65cfce:c92a632d2b155bb595274af5bbb298a4$"
 }
 }

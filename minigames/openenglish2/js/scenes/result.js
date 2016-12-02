@@ -1,45 +1,5 @@
+var soundsPath = '/../minigames/gamesounds/'
 var result = function(){
-
-	localizationData = {
-		"EN":{
-			"goodJob":"Good Job!",
-            "dontGiveUp":"Don´t give up!",
-			"yourScore":"Your score: ",
-			"sluggish":"Sluggish",
-			"average":"Average",
-			"speedy":"Speedy",
-			"yourSpeed":"Your average speed is: \n",
-			"secPerAnswer":" secs per answer.",
-			"weKnow":"We know you can do better",
-			"tryAgain":"to try again",
-			"shareNow":"Share now",
-			"retry":"retry",
-			"answeredTotal":"Answered ",
-			"questionsIn":" Questions in ",
-			"seconds":" Seconds",
-			"assetPromo": "fben"
-		},
-
-		"ES":{
-			"goodJob":"¡Buen trabajo!",
-            "dontGiveUp":"¡No te rindas!",
-			"yourScore":"Tu puntaje:",
-			"sluggish":"Lento",
-			"average":"Normal",
-			"speedy":"Rápido",
-			"yourSpeed":"Tu velocidad promedio es de: \n",
-			"secPerAnswer":" segundos por respuesta.",
-			"weKnow":"Sabemos que puedes mejorar",
-			"tryAgain":"para reintentar",
-			"shareNow":"Compartir",
-			"retry":"Jugar",
-			"answeredTotal":"Conteste",
-			"questionsIn":" Preguntas en ",
-			"seconds":" Segundos",
-			"assetPromo": "fbes"
-
-		}
-	}
 
 	var assets = {
 		atlases: [
@@ -57,7 +17,7 @@ var result = function(){
 		],
 		sounds: [
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
         ],
 	}
     
@@ -78,11 +38,11 @@ var result = function(){
 
 	var timeGoal = null
 
-	function setScore(score){
+	function setScore(score,didWin){
 		totalScore = score
 		totalGoal = 50
 		totalTime = 0
-        win = true
+        win = didWin
         mixpanel.track(
             "finishGame",
             {"gameName": "openEnglish1", "numberOfObjects":score}
@@ -308,6 +268,18 @@ var result = function(){
         }
     }
     
+    function createText(text,size,posX, posY){
+        
+        var texty = game.add.bitmapText(posX,posY, 'wFont', text, size);
+        texty.anchor.setTo(0.5, 0.5)
+        sceneGroup.add(texty) 
+            
+    }
+    
+    function preload(){
+        game.load.bitmapFont('wFont', 'images/font/wFont.png', 'images/font/wFont.fnt');
+    }
+    
 	function createScene(){
         
         loadSounds()
@@ -319,91 +291,129 @@ var result = function(){
         background.width = game.world.width
         background.height= game.world.height * 0.38
         
-        var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, 50, 'Tu puntuación es:', fontStyle)
-        nameText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(nameText)  
-        
-        var medal = sceneGroup.create(game.world.centerX, background.height * 0.58,'atlas.resultScreen','retro-medalla')
-        medal.anchor.setTo(0.5,0.5)
-        medal.scale.setTo(0.85,0.85)
-        
-        var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
-        
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, medal.y - 45, totalScore, fontStyle)
-        nameText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(nameText) 
-        
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
-        
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, medal.y + 10, 'puntos', fontStyle)
-        nameText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(nameText) 
-        
-        var bottomBar = new Phaser.Graphics(game)
-        bottomBar.beginFill(0xf5f5f5);
-        bottomBar.drawRect(0, game.world.height, game.world.width, -game.world.height + background.height);
-        bottomBar.endFill();
-        bottomBar.anchor.setTo(0,1)
-        sceneGroup.add(bottomBar)
-        
-        var iconName = 'wachu'
-        var iconIndex = 0
-        
-        if(totalScore >= 12){
-            iconName = 'extranjero'
-            iconIndex = 1
-        }
-        
-        if(totalScore >= 24){
-            iconName = 'nativo'
-            iconIndex = 2
-        }
-        
-        emoName = iconName
-
- 
-        var globe = sceneGroup.create(game.world.centerX, game.world.height - 520,'atlas.resultScreen','retro-nivel')
-        globe.anchor.setTo(0.5,0.5)
-        globe.scale.setTo(0.85,0.85)
-        
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#9f9f9f", align: "center"}
-        
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y - 30, 'Tu nivel de inglés es:', fontStyle)
-        nameText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(nameText) 
-        
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        
-        var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y +15, iconName, fontStyle)
-        nameText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(nameText) 
-        
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
-        
-        var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 0.7, '¡Felicitaciones!', fontStyle)
-        scoreText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(scoreText) 
-        
-        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#868585", align: "center"}
-        
-        var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 1.43, scoreTexts[iconIndex], fontStyle)
-        scoreText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(scoreText) 
-        
         var shareBtn = createShareButton()
-        shareBtn.x = game.world.centerX - 150
+        shareBtn.x = game.world.centerX - 140
         shareBtn.y = game.world.height - 235
-        shareBtn.scale.setTo(0.8,0.8)
+        shareBtn.scale.setTo(0.75,0.75)
         sceneGroup.add(shareBtn)
         
-        var tryAgainButton = sceneGroup.create(game.world.centerX + 150, shareBtn.y, 'atlas.resultScreen', 'retro-reintentar')
+        var tryAgainButton = sceneGroup.create(game.world.centerX + 140, shareBtn.y, 'atlas.resultScreen', 'retro-reintentar')
 		tryAgainButton.anchor.setTo(0.5, 0.5)
-        tryAgainButton.scale.setTo(0.8,0.8)
+        tryAgainButton.scale.setTo(0.75,0.75)
 
 		tryAgainButton.inputEnabled = true
 		tryAgainButton.events.onInputUp.add(tryAgain)
+        
+        emoName = 'wachu'
+        
+        if(win){
+            
+            var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+            var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, 50, 'Tu puntuación es:', fontStyle)
+            nameText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(nameText)  
+
+            var medal = sceneGroup.create(game.world.centerX, background.height * 0.58,'atlas.resultScreen','retro-medalla')
+            medal.anchor.setTo(0.5,0.5)
+            medal.scale.setTo(0.85,0.85)
+
+            var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
+
+            var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, medal.y - 45, totalScore, fontStyle)
+            nameText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(nameText) 
+
+            var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
+
+            var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, medal.y + 10, 'puntos', fontStyle)
+            nameText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(nameText) 
+
+            var bottomBar = new Phaser.Graphics(game)
+            bottomBar.beginFill(0xf5f5f5);
+            bottomBar.drawRect(0, game.world.height, game.world.width, -game.world.height + background.height);
+            bottomBar.endFill();
+            bottomBar.anchor.setTo(0,1)
+            sceneGroup.add(bottomBar)
+
+            var iconName = 'wachu'
+            var iconIndex = 0
+
+            if(totalScore >= 12){
+                iconName = 'extranjero'
+                iconIndex = 1
+            }
+
+            if(totalScore >= 24){
+                iconName = 'nativo'
+                iconIndex = 2
+            }
+
+            emoName = iconName
+
+
+            var globe = sceneGroup.create(game.world.centerX, game.world.height - 520,'atlas.resultScreen','retro-nivel')
+            globe.anchor.setTo(0.5,0.5)
+            globe.scale.setTo(0.85,0.85)
+
+            var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#9f9f9f", align: "center"}
+
+            var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y - 30, 'Tu nivel de inglés es:', fontStyle)
+            nameText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(nameText) 
+
+            var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+
+            var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y +15, iconName, fontStyle)
+            nameText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(nameText) 
+
+            var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
+
+            var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 0.7, '¡Felicitaciones!', fontStyle)
+            scoreText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(scoreText) 
+
+            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#868585", align: "center"}
+
+            var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 1.43, scoreTexts[iconIndex], fontStyle)
+            scoreText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(scoreText) 
+        }else{
+            
+            background.height*=1.6
+            
+            shareBtn.y -= 37
+            tryAgainButton.y-=37
+            var bottomBar = new Phaser.Graphics(game)
+            bottomBar.beginFill(0x0013c6);
+            bottomBar.drawRoundedRect(game.world.centerX, background.height * 0.45, game.world.width * 0.8, background.height * 0.5,12);
+            bottomBar.x-= bottomBar.width * 0.5
+            bottomBar.y-= bottomBar.height * 0.5
+            bottomBar.endFill();
+            bottomBar.alpha = 0.4
+            sceneGroup.add(bottomBar)
+            
+            createText('¡Inténtalo de nuevo!',40,game.world.centerX,background.height * 0.85)
+            
+            createText('Necesitas',40,game.world.centerX, background.height * 0.3)
+            
+            createText('para continuar con\n el siguiente nivel',28,game.world.centerX, background.height * 0.55)
+            
+            var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#b0d43a", align: "center"}
+
+            var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX - 160, background.height * 0.42, '5', fontStyle)
+            scoreText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(scoreText) 
+            
+            var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#b0d43a", align: "center"}
+
+            var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX + 35, background.height * 0.42, 'respuestas correctas', fontStyle)
+            scoreText.anchor.setTo(0.5,0.5)
+            sceneGroup.add(scoreText) 
+            
+        }
 
 		var banner = sceneGroup.create(game.world.centerX, game.world.height,'atlas.resultScreen','baner')
         banner.inputEnabled = true
@@ -422,6 +432,7 @@ var result = function(){
 
 	return {
 		assets: assets,
+        preload:preload,
 		name: "result",
 		create: createScene,
 		setScore: setScore,

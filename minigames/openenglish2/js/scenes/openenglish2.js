@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var openenglish2 = function(){
     
     var localizationData = {
@@ -25,11 +26,11 @@ var openenglish2 = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "swipe",
-				file: "sounds/swipe.mp3"},
+				file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
-				file: "sounds/wrong.mp3"},
+				file: soundsPath + "wrong.mp3"},
 		],
 	}
         
@@ -174,7 +175,7 @@ var openenglish2 = function(){
         })
     }
     
-    function stopGame(){
+    function stopGame(win){
         
         
         //objectsGroup.timer.pause()
@@ -185,7 +186,7 @@ var openenglish2 = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(questionPoints)
+			resultScreen.setScore(questionPoints,win)
 
 			sceneloader.show("result")
 		})
@@ -250,7 +251,15 @@ var openenglish2 = function(){
                     pointsGroup.alpha = 0
                     createPointsBar()
                     
-                    showCText()
+                    console.log(listIndex + ' index , ' + questionPoints + ' points')
+                    if(listIndex == 1 && questionPoints < 5){
+                        stopGame(false)
+                    }else if(listIndex == 2 && questionPoints < 10){
+                        stopGame(false)
+                    }else{
+                        showCText()
+                    }
+                    
                     //setWords()
                 }else{
                     //createButtons()

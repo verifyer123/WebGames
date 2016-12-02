@@ -1,24 +1,5 @@
-var zombiecrush = function(){
-    
-    var localizationData = {
-		"EN":{
-            "language":"en",
-			"assetReady":"readyEn",
-			"assetGo":"goEn",
-			"assetExcellent":"excEn",
-            "assetGiveUp":"giveUpEn"
-		},
-
-		"ES":{
-            "languague":"es",
-			"assetReady":"readyEs",
-			"assetGo":"goEs",
-			"assetExcellent":"excEs",
-            "assetGiveUp":"giveUpEs",
-            
-		}
-	}
-    
+var soundsPath = '/../minigames/gamesounds/'
+var zombiecrush = function(){    
 
 	assets = {
         atlases: [
@@ -34,31 +15,31 @@ var zombiecrush = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: "sounds/magic.mp3"},
+				file: soundsPath + "magic.mp3"},
             {	name: "splash",
-				file: "sounds/splashMud.mp3"},
+				file: soundsPath + "splashMud.mp3"},
             {	name: "swipe",
-				file: "sounds/swipe.mp3"},
+				file: soundsPath + "swipe.mp3"},
 			{	name: "explode",
-				file: "sounds/explode.mp3"},
+				file: soundsPath + "explode.mp3"},
             {	name: "shoot",
-				file: "sounds/shoot.mp3"},
+				file: soundsPath + "shoot.mp3"},
             {	name: "laser",
-				file: "sounds/laser2.mp3"},
+				file: soundsPath + "laser2.mp3"},
             {	name: "explosion",
-				file: "sounds/explosion.mp3"},
+				file: soundsPath + "explosion.mp3"},
             {	name: "grunt",
-				file: "sounds/grunt.mp3"},
+				file: soundsPath + "grunt.mp3"},
             {	name: "flesh",
-				file: "sounds/flesh.mp3"},
+				file: soundsPath + "flesh.mp3"},
             {	name: "zombieUp",
-				file: "sounds/zombieUp.mp3"},
+				file: soundsPath + "zombieUp.mp3"},
             {	name: "gameLose",
-				file: "sounds/gameLose.mp3"},
+				file: soundsPath + "gameLose.mp3"},
             {	name: "powerUp",
-				file: "sounds/powerup.mp3"},
+				file: soundsPath + "powerup.mp3"},
             {	name: "evilLaugh",
-				file: "sounds/evilLaugh.mp3"},
+				file: soundsPath + "evilLaugh.mp3"},
 		],
 	}
     
@@ -162,7 +143,7 @@ var zombiecrush = function(){
         game.load.spritesheet('zombieS', 'images/zombie/zombiesoldier.png', 66, 118, 17);
         game.load.spritesheet('fireSkull', 'images/zombie/skullFire.png', 179 / 2, 235/2, 9);
         
-        game.load.audio('song', 'sounds/weLoveElectricCars.mp3');
+        game.load.audio('song', soundsPath + 'songs/weLoveElectricCars.mp3');
         
     }
     

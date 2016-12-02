@@ -1,3 +1,4 @@
+var soundsPath = '/../minigames/gamesounds/'
 var result = function(){
 
 	var assets = {
@@ -12,7 +13,7 @@ var result = function(){
 		],
 		sounds: [
             {	name: "click",
-				file: "sounds/pop.mp3"},
+				file: soundsPath + "pop.mp3"},
         ],
 	}
 
@@ -377,7 +378,7 @@ var result = function(){
 	}
     
     function preload(){
-        game.load.bitmapFont('gotham', 'images/bitFont/Gotham.png', 'images/bitFont/Gotham.fnt');
+        game.load.bitmapFont('gotham', 'images/bitfont/gotham.png', 'images/bitfont/gotham.fnt');
     }
     
 	return {
