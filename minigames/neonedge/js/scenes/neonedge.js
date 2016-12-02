@@ -752,7 +752,7 @@ var neonedge = function(){
             if(child.tag == tag && child.used == false){
                 if (tag == "obstacle"){
                     
-                    activateObject(pivotObjects,game.world.height - (child.height * Math.random() * 0.9) - 160,child)
+                    activateObject(pivotObjects,game.world.height - (child.height * Math.random() * 0.9) - 145,child)
                     
                     checkAdd(child,tag)
                     objToCheck = child
