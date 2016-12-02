@@ -1,4 +1,4 @@
-var soundsPath = '/../minigames/gamesounds/'
+var soundsPath = "../../shared/minigames/sounds/"
 var junglefury = function(){
     
     var localizationData = {
