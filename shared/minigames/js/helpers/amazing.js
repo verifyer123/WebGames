@@ -2,11 +2,18 @@ var amazing = {}
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
-	var messageData = JSON.stringify({score: score})
-	parent.postMessage(messageData, window.location.origin)
+	var params = {
+		type: "score",
+		data: {
+			score: score,
+		}
+	}
+	parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.savePlaycount = function(){
-	console.log("Saving Playcount")
-	parent.postMessage("increasePlaycount", window.location.origin)
+	var params = {
+		type: "playcount"
+	}
+	parent.postMessage(JSON.stringify(params), "*")
 }
