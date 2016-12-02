@@ -1,26 +1,5 @@
 var amazingbros = function(){
-    
-    var localizationData = {
-		"EN":{
-            "language":"en",
-			"assetReady":"readyEn",
-			"assetGo":"goEn",
-			"assetExcellent":"excEn",
-            "assetGiveUp":"giveUpEn"
-		},
-
-		"ES":{
-            "languague":"es",
-			"assetReady":"readyEs",
-			"assetGo":"goEs",
-			"assetExcellent":"excEs",
-            "assetGiveUp":"giveUpEs",
-            
-		}
-	}
-    
-
-	assets = {
+    assets = {
         atlases: [
             {   
                 name: "atlas.amazingbros",
@@ -98,7 +77,6 @@ var amazingbros = function(){
     }  
     
 	function initialize(){
-        
         enemyNames = ['coin']
         gameStart = false
         skullTrue = false
@@ -117,7 +95,6 @@ var amazingbros = function(){
         objectsList = []
         consecFloor = 0
         consecBricks = 0
-        
 	}
     
     function animateScene() {
@@ -137,8 +114,6 @@ var amazingbros = function(){
     
     
     function preload() {
-        
-        game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = true;
 
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
@@ -146,9 +121,7 @@ var amazingbros = function(){
         game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
         game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/amazingbros/coinS.png', 68, 70, 12);
-        game.load.audio('marioSong', 'sounds/marioSong.mp3');
-        
-        
+        game.load.audio('marioSong', 'sounds/marioSong.mp3');        
     }
     
     function inputButton(obj){
@@ -234,7 +207,7 @@ var amazingbros = function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
-
+            amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
 		})
     }
