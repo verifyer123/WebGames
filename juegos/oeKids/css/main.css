@@ -1,0 +1,60 @@
+body{
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.main-content{
+	width: 100%;
+}
+
+.header-content{
+	width: 100%;
+	height: auto;
+	text-align: center;
+}
+
+.header-logo, .header-banner{
+	display: inline-block;
+	margin: 20px;
+}
+
+.middle-content{
+	background-color: #ededed;
+	background-image: url("../images/homepage/DSK-patron.png");
+	background-repeat: repeat;
+	height: 80%;
+}
+
+.game-content{
+	position: relative;
+	transform: translateY(-50%);
+	top:50%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1%;
+	height: 90%;
+	max-width: 1024px;
+	max-height: 90%;
+	background-color: #ffffff;
+}
+
+.game-canvas{
+    float: left;
+    display: block;
+    margin-left: 1%;
+    width: 55%;
+}
+
+.description-content{
+    float: left;
+    display: block;
+    width: 42%;
+    height: 100%;
+}
+
+.description-content div{
+	margin: 20px;
+	width: 100%;
+	display: block;
+	text-align: center;
+}

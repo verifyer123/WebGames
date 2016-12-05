@@ -812,7 +812,7 @@ var openenglish = function(){
             
 			sceneGroup = game.add.group()
             
-            /*var background = sceneGroup.create(0,0,'fondo')
+            /*var background = sceneGroup.create(-2,-2,'fondo')
             background.width = game.world.width
             background.height = game.world.height
             

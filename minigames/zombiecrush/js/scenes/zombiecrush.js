@@ -260,7 +260,8 @@ var zombiecrush = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
 
-			sceneloader.show("result")
+			amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
 		})
     }
     

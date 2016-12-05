@@ -43,9 +43,9 @@ function startGame(){
 
         game.plugins.add(Fabrique.Plugins.Spine);
 
-        amazing.savePlaycount()
-
+        amazing.savePlaycount(); 
         window.minigame.game = window.game
+        
     	sceneloader.init(game)
     	sound.init(game)
     }

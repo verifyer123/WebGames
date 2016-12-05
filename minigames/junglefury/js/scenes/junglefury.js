@@ -219,7 +219,8 @@ var junglefury = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true,pointsBar.number)
 
-			sceneloader.show("result")
+			amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
 		})
         
     }
@@ -707,9 +708,9 @@ var junglefury = function(){
             
 			sceneGroup = game.add.group()
             
-            var background = sceneGroup.create(0,0,'fondo')
-            background.width = game.world.width
-            background.height = game.world.height
+            var background = sceneGroup.create(-2,-2,'fondo')
+            background.width = game.world.width+2
+            background.height = game.world.height+2
             
             var ground = sceneGroup.create(0,game.world.height - 335,'atlas.jungle','floor')
             ground.width = game.world.width

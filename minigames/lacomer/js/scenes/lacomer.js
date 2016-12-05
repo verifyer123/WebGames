@@ -1,4 +1,4 @@
-var soundsPath = '/../minigames/gamesounds/'
+var soundsPath = "../../shared/minigames/sounds/"
 var lacomer = function(){    
 
 	assets = {
@@ -223,7 +223,8 @@ var lacomer = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
 
-			sceneloader.show("result")
+			amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
 		})
     }
     
@@ -903,9 +904,9 @@ var lacomer = function(){
             //worldGroup.x = 100
             sceneGroup.add(worldGroup)
             
-            var background = worldGroup.create(0,0,'fondo')
-            background.width = game.world.width
-            background.height = game.world.height * 1.02
+            var background = worldGroup.create(-2,-2,'fondo')
+            background.width = game.world.width +2
+            background.height = game.world.height +2.
             
             groundGroup = game.add.group()
             worldGroup.add(groundGroup)

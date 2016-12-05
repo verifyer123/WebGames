@@ -238,7 +238,8 @@ var chilimbalam = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
 
-			sceneloader.show("result")
+			amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
 		})
     }
     
@@ -689,9 +690,9 @@ var chilimbalam = function(){
         
         sceneGroup = game.add.group()
         
-        var background = sceneGroup.create(0,0,'fondo')
-        background.width = game.world.width
-        background.height = game.world.height * 1.02
+        var background = sceneGroup.create(-2,-2,'fondo')
+        background.width = game.world.width+2
+        background.height = game.world.height+2
         
         loadSounds()
         initialize()            
