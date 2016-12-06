@@ -61,8 +61,10 @@ var openenglish = function(){
 	var sceneGroup = null
     var pointsGroup = null
     var gameActive = true
+    var randomList = null
     var arrayComparison = null
     var lastObj
+    var indexValue
     var timer
     var cardsNumber
     var comboCount
@@ -127,7 +129,7 @@ var openenglish = function(){
                 ['lluvia','lobo'],
                 ['munecodenieve','oveja'],
                 ['tormentadenieve','trampa'],
-                ['triciclo','sandia'],
+                ['carro','sandia'],
             ],
             [
                 ['Cranberry','Eggplant'],
@@ -138,7 +140,7 @@ var openenglish = function(){
                 ['Rain','Wolf'],
                 ['Snowman','Sheep'],
                 ['Snow storm','Trap'],
-                ['Tricycle','Watermelon'],
+                ['Car','Watermelon'],
             ],
         ],
     ]
@@ -157,6 +159,8 @@ var openenglish = function(){
         lives = 5
         arrayComparison = []
         comboCount = 0
+        randomList = []
+        indexValue = 0
         
         loadSounds()
         
@@ -479,6 +483,20 @@ var openenglish = function(){
         return index
     }
     
+    function getRandomList(turn,cardWords){
+        
+        if(turnCount == 1 || turnCount == 4 || turnCount == 7){
+            indexValue = 0
+            randomList = []
+            for(var i = 0;i<cardWords.length;i++){
+                randomList[randomList.length] = i
+            }
+            Phaser.ArrayUtils.shuffle(randomList)
+        }
+        
+        return randomList
+    }
+    
     function createCards(){
         
         var pivot1 = game.world.centerX - 115
@@ -493,7 +511,7 @@ var openenglish = function(){
             pivotY += 70
         }
             
-        console.log(cardsNumber + ' number')
+        //console.log(cardsNumber + ' number')
         var cardWords, enWords
         
         if(turnCount <=2){
@@ -503,8 +521,8 @@ var openenglish = function(){
             cardWords = cardsList[0][0]
             enWords = cardsList[0][1]
             
-            cardWords = cardWords.concat = cardsList[1][0]
-            enWords = enWords.concat = cardsList[1][1]
+            //cardWords = cardWords.concat = cardsList[1][0]
+            //enWords = enWords.concat = cardsList[1][1]
         }else if(turnCount>3 && turnCount<6){
             cardWords = cardsList[1][0]
             enWords = cardsList[1][1]
@@ -512,19 +530,14 @@ var openenglish = function(){
             cardWords = cardsList[1][0]
             enWords = cardsList[1][1]
             
-            cardWords = cardWords.concat = cardsList[2][0]
-            enWords = enWords.concat = cardsList[2][1]
+            //cardWords = cardWords.concat = cardsList[2][0]
+            //enWords = enWords.concat = cardsList[2][1]
         }else{
             cardWords = cardsList[2][0]
             enWords = cardsList[2][1]
         }
         
-        
-        var randomNums = []
-        for(var i = 0;i<cardWords.length;i++){
-            randomNums[randomNums.length] = i
-        }
-        Phaser.ArrayUtils.shuffle(randomNums)
+        randomNums = getRandomList(turnCount,cardWords)
         
         var cardsToUse = []
         var tagsToUse = []
@@ -533,13 +546,15 @@ var openenglish = function(){
             
             for(var u = 0;u<2;u++){
                 
-                cardsToUse[cardsToUse.length] = cardWords[randomNums[i]][u]
-                tagsToUse[tagsToUse.length] = enWords[randomNums[i]][u]
+                console.log(indexValue + 'indexValue')
+                cardsToUse[cardsToUse.length] = cardWords[randomNums[indexValue]][u]
+                tagsToUse[tagsToUse.length] = enWords[randomNums[indexValue]][u]
 
-                cardsToUse[cardsToUse.length] = enWords[randomNums[i]][u]
-                tagsToUse[tagsToUse.length] = enWords[randomNums[i]][u]
+                cardsToUse[cardsToUse.length] = enWords[randomNums[indexValue]][u]
+                tagsToUse[tagsToUse.length] = enWords[randomNums[indexValue]][u]
                 
             }
+            indexValue++
             
         }
         
@@ -674,10 +689,11 @@ var openenglish = function(){
         var pointsImg = pointsBar.create(-10,10,'atlas.openEnglish_common','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.5
+        pointsText.x = -pointsImg.width * 0.15
         pointsText.y = pointsImg.height * 0.3
+        pointsText.anchor.setTo(1,0)
         pointsBar.add(pointsText)
         
         //pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);

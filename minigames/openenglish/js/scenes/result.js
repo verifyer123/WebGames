@@ -22,9 +22,9 @@ var result = function(){
 	}
     
     var scoreTexts = [
-        ['Te vemos motivado como Wachu, pero\n te recomendamos que empieces a estudiar\n con Open English muy pronto.'],
+        ['Te vemos motivado como principiante, pero\n te recomendamos que empieces a estudiar\n con Open English muy pronto.'],
         ['Vemos un buen potencial en ti y\n creemos que pronto podrás hablar inglés con\n fluidez si sigues estudiando.'],
-        ['Tienes la capacidad de un nativo en\n el lenguaje. Ya estás listo para viajar\n y comunicarte en inglés cuando quieras.']
+        ['¡Éxito! Como nivel avanzado, tienes\n mucho conocimiento y agilidad en el lenguaje.\n Pensamos que estudiar inglés con nosotros te\n puede ayudar cumplir tus metas del 2017 más rápido']
     ]
     
 	var sceneGroup
@@ -105,9 +105,9 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/openEnglish2',
+		    href: 'http://yogome.com/games/web/openEnglish/',
 		    mobile_iframe: true,
-            picture:'http://yogome.com/g/openEnglish/images/profileImages/' + emoName + '.png',		    
+            picture:'http://yogome.com/games/web/openenglish/images/profileImages/' + emoName + '.png',		    
             title: "Soy nivel '" + emoName + "' en inglés. Descubre tu nivel con este divertido juego."
 		}, function(response){
 			//console.log(button)
@@ -318,7 +318,7 @@ var result = function(){
             medal.anchor.setTo(0.5,0.5)
             medal.scale.setTo(0.85,0.85)
 
-            var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
+            var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
 
             var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, medal.y - 45, totalScore, fontStyle)
             nameText.anchor.setTo(0.5,0.5)
@@ -337,19 +337,19 @@ var result = function(){
             bottomBar.anchor.setTo(0,1)
             sceneGroup.add(bottomBar)
 
-            var iconName = 'wachu'
+            var iconName = 'principiante'
             var iconIndex = 0
 
             if(totalScore >= 30){
-                iconName = 'extranjero'
+                iconName = 'intermedio'
                 iconIndex = 1
             }
 
             if(totalScore >= 60){
-                iconName = 'nativo'
+                iconName = 'avanzado'
                 iconIndex = 2
             }
-
+            
             emoName = iconName
 
 
@@ -374,8 +374,10 @@ var result = function(){
             var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 0.7, '¡Felicitaciones!', fontStyle)
             scoreText.anchor.setTo(0.5,0.5)
             sceneGroup.add(scoreText) 
-
-            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#868585", align: "center"}
+            
+            var textSize = 25
+            if(iconIndex == 2){textSize = 21}
+            var fontStyle = {font: textSize + "px VAGRounded", fontWeight: "bold", fill: "#868585", align: "center"}
 
             var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 1.43, scoreTexts[iconIndex], fontStyle)
             scoreText.anchor.setTo(0.5,0.5)
