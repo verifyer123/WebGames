@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "+DiCTkNyJBvW+nIAwUKYDNnT9jY", "spine": "3.3.07", "width": 186, "height": 110, "images": "" },
+"skeleton": { "hash": "P2IbDVL+gHht1LvW4BUm+i9rO80", "spine": "3.3.07", "width": 186, "height": 110, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "deltawing", "parent": "root", "length": 194.85, "rotation": -141.32, "x": 73.3, "y": 53.82 },
@@ -35,53 +35,53 @@
 ],
 "skins": {
 	"default": {},
-	"deltawing": {
+	"normal": {
 		"arm1": {
-			"arm1": { "name": "deltawing/arm1", "x": 6.05, "y": 0.57, "rotation": 168.68, "width": 14, "height": 11 }
+			"arm1": { "name": "normal/arm1", "x": 6.05, "y": 0.57, "rotation": 168.68, "width": 14, "height": 11 }
 		},
 		"arm2": {
-			"arm2": { "name": "deltawing/arm2", "x": 4.69, "y": -0.54, "rotation": 109.65, "width": 9, "height": 11 }
+			"arm2": { "name": "normal/arm2", "x": 4.69, "y": -0.54, "rotation": 109.65, "width": 9, "height": 11 }
 		},
 		"bar": {
-			"bar": { "name": "deltawing/bar", "x": 38.72, "y": -8.66, "rotation": 122.87, "width": 68, "height": 69 }
+			"bar": { "name": "normal/bar", "x": 38.72, "y": -8.66, "rotation": 122.87, "width": 68, "height": 69 }
 		},
 		"deltawing2": {
-			"deltawing": { "name": "deltawing/deltawing", "x": 100.79, "y": -16.25, "rotation": 141.32, "width": 186, "height": 110 }
+			"deltawing": { "name": "normal/deltawing", "x": 100.79, "y": -16.25, "rotation": 141.32, "width": 186, "height": 110 }
 		},
 		"face": {
-			"face_a": { "name": "deltawing/face_a", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
-			"face_b": { "name": "deltawing/face_b", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
-			"face_c": { "name": "deltawing/face_c", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
-			"face_d": { "name": "deltawing/face_d", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
-			"face_e": { "name": "deltawing/face_e", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
-			"face_f": { "name": "deltawing/face_f", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 }
+			"face_a": { "name": "normal/face_a", "x": 20.01, "y": 0.92, "rotation": -72.87, "width": 62, "height": 57 },
+			"face_b": { "name": "normal/face_b", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
+			"face_c": { "name": "normal/face_c", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
+			"face_d": { "name": "normal/face_d", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
+			"face_e": { "name": "normal/face_e", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 },
+			"face_f": { "name": "normal/face_f", "x": 20.01, "y": 0.92, "rotation": -73.06, "width": 62, "height": 57 }
 		},
 		"foot1": {
-			"foot1": { "name": "deltawing/foot1_e", "x": -0.51, "y": -1.19, "rotation": 142.76, "width": 10, "height": 13 }
+			"foot1": { "name": "normal/foot1_e", "x": -0.51, "y": -1.19, "rotation": 142.76, "width": 10, "height": 13 }
 		},
 		"foot2": {
-			"foot2": { "name": "deltawing/foot2_e", "x": -0.08, "y": 0.37, "rotation": 129.55, "width": 11, "height": 11 }
+			"foot2": { "name": "normal/foot2_e", "x": -0.08, "y": 0.37, "rotation": 129.55, "width": 11, "height": 11 }
 		},
 		"forearm1": {
-			"forearm1": { "name": "deltawing/forearm1", "x": 7.83, "y": 0.75, "rotation": 92.43, "width": 12, "height": 19 }
+			"forearm1": { "name": "normal/forearm1", "x": 7.83, "y": 0.75, "rotation": 92.43, "width": 12, "height": 19 }
 		},
 		"forearm2": {
-			"forearm2": { "name": "deltawing/forearm2", "x": 7.41, "y": 0.47, "rotation": 72.8, "width": 13, "height": 18 }
+			"forearm2": { "name": "normal/forearm2", "x": 7.41, "y": 0.47, "rotation": 72.8, "width": 13, "height": 18 }
 		},
 		"leg1": {
-			"leg1": { "name": "deltawing/leg1", "x": 4.87, "y": -0.43, "rotation": 147.65, "width": 18, "height": 18 }
+			"leg1": { "name": "normal/leg1", "x": 4.87, "y": -0.43, "rotation": 147.65, "width": 18, "height": 18 }
 		},
 		"leg2": {
-			"leg2": { "name": "deltawing/leg2", "x": 4.47, "y": -2.07, "rotation": 128.92, "width": 16, "height": 17 }
+			"leg2": { "name": "normal/leg2", "x": 4.47, "y": -2.07, "rotation": 128.92, "width": 16, "height": 17 }
 		},
 		"shin1": {
-			"shin1": { "name": "deltawing/shin1", "x": 2.9, "y": -1.39, "rotation": 143.61, "width": 14, "height": 15 }
+			"shin1": { "name": "normal/shin1", "x": 2.9, "y": -1.39, "rotation": 143.61, "width": 14, "height": 15 }
 		},
 		"shin2": {
-			"shin2": { "name": "deltawing/shin2", "x": 2.57, "y": -0.33, "rotation": 129.47, "width": 13, "height": 13 }
+			"shin2": { "name": "normal/shin2", "x": 2.57, "y": -0.33, "rotation": 129.47, "width": 13, "height": 13 }
 		},
 		"torso": {
-			"torso": { "name": "deltawing/torso", "x": 8.09, "y": -1.04, "rotation": 125.94, "width": 34, "height": 36 }
+			"torso": { "name": "normal/torso", "x": 8.09, "y": -1.04, "rotation": 125.94, "width": 34, "height": 36 }
 		}
 	}
 },

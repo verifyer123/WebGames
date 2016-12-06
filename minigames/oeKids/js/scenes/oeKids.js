@@ -23,37 +23,45 @@ var oeKids = function(){
 				file: soundsPath + "whoosh.mp3"},
             {	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {	name: "explode",
-				file: soundsPath + "laserexplode.mp3"},
             {	name: "wrongItem",
 				file: soundsPath + "wrongItem.mp3"},
+            {   name: "green"
+                file: "sounds/green"},
+            {   name: "blue"
+                file: "sounds/blue"},
+            {   name: "red"
+                file: "sounds/red"},
+            {   name: "yellow"
+                file: "sounds/yellow"},
+            {   name: "instructions"
+                file: "sounds/instructions"},
 		],
 	}
     
     var SPEED = 225 
     var TIME_ADD = 600
-    var JUMP_FORCE = 820
+    var JUMP_FORCE = 100
     var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 100
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
+    var NUMBER_OF_CANDIES = 40
     
-    var skullTrue = false
+    var candyIndex = 0
     var marioSong = null
     var enemyNames = null
     var consecFloor, consecBricks
     var gameStart = false
     var jumping = false
-    var lastOne = null
     var yAxis = null
     var objToCheck
     var gameSpeed = null
     var objectsList = null
+    var orderList
     var pivotObjects
     var player
 	var sceneGroup = null
     var groundGroup = null
-    var answersGroup = null
     var pointsGroup = null
     var gameActive = null
     var jumpTimer = 0
@@ -79,11 +87,13 @@ var oeKids = function(){
     
 	function initialize(){
         
+        game.stage.backgroundColor = "#ffffff"
+        
         enemyNames = ['coin']
         gameStart = false
         gameSpeed =  SPEED
-        lastOne = null
-        game.stage.backgroundColor = "#ffffff"
+        
+        candyIndex = game.rnd.integerInRange(1, 4)
         jumpTimer = 0
         gameActive = false
         lives = 1
@@ -91,10 +101,9 @@ var oeKids = function(){
         objToCheck = null
         buttonPressed = false
         tooMuch = false
-        GRAVITY_OBJECTS = 4
-        yAxis = p2.vec2.fromValues(0, 1);
+        orderList = []
+        
         objectsList = []
-        consecFloor = 0
         consecBricks = 0
         
 	}
@@ -163,6 +172,9 @@ var oeKids = function(){
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = true;
         
+        game.load.spine('delta', "images/spines/skeleton.json");
+        
+        
         game.load.spritesheet('coinS', 'images/neon/coinS.png', 68, 70, 12);
         game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
         
@@ -197,18 +209,27 @@ var oeKids = function(){
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
-        groupButton.y = game.world.height -155
+        groupButton.y = game.world.height -75
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
-        var button1 = groupButton.create(0,0, 'atlas.openEnglish','button_on')
+        var button1 = groupButton.create(0,0, 'atlas.openEnglish','button_off')
         button1.anchor.setTo(0.5,0.5)
         
-        var button2 = groupButton.create(0,0, 'atlas.openEnglish','button_off')
+        var button2 = groupButton.create(0,0, 'atlas.openEnglish','button_on')
         button2.anchor.setTo(0.5,0.5)
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
         button2.events.onInputUp.add(releaseButton)
+        
+        var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, 'Volar', fontStyle)
+        pointsText.x = groupButton.x
+        pointsText.y = groupButton.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        
         
     }
     
@@ -233,23 +254,18 @@ var oeKids = function(){
         
         marioSong.stop()
         
-        missPoint()
         sound.play("gameLose")
         stopWorld()
-        //setExplosion(player)
+        
         game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
         
-        worldGroup.alpha = 0
-        game.add.tween(worldGroup).to({alpha:1},250,Phaser.Easing.linear,true)
-        
-        //objectsGroup.timer.pause()
         gameActive = false
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(pointsBar.number,win)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -271,21 +287,46 @@ var oeKids = function(){
         
     }
     
-    function addPoint(obj,part){
+    function addPoint(obj){
         
-        var partName = part || 'star'
         sound.play("pop")
-        createPart(partName, obj)
+        
+        createPart('star', obj)
         createTextPart('+1', obj)
-        
-        //gameSpeed +=10
-        
+                
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
+        
+        var bar = sceneGroup.bar
+        
+        if(bar.scale.x < 1){
+            bar.scale.x+=0.1
+        }
         
         addNumberPart(pointsBar.text,'+1')
         
     }
+    
+    function removePoint(obj){
+        
+        sound.play("wrong")
+        
+        createPart('wrong', obj)
+        createTextPart('-1', obj)
+                
+        pointsBar.number--
+        pointsBar.text.setText(pointsBar.number)
+        
+        var bar = sceneGroup.bar
+        
+        if(bar.scale.x > 0.1){
+            bar.scale.x-=0.1
+        }
+        
+        addNumberPart(pointsBar.text,'-1')
+        
+    }
+    
     
     function addNumberPart(obj,number){
         
@@ -307,53 +348,45 @@ var oeKids = function(){
         })
     }
     
-    function missPoint(){
-        
-        sound.play("explode")
-        if (lives >0){
-            lives--;
-        }
-        //changeImage(0,heartsGroup.children[lives])
-        heartsGroup.text.setText('X ' + lives)
-        //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
-        
-        addNumberPart(heartsGroup.text,'-1')
-        
-    }
-    
     function positionPlayer(){
         
         if(game.physics.p2.gravity.y !=0){
             
             if(player.lastpos < player.y){
             
-            if(buddy.angle<90){
-                buddy.angle+=1
+            if(buddy.angle<45){
+                buddy.angle+=0.5
             }
             }else{
-                if(buddy.angle > -90){
-                    buddy.angle-=1.2
+                if(buddy.angle > -45){
+                    buddy.angle-=0.75
                 }
             }
             
         }
 
-        player.body.x = 100 
+        player.body.x = 150 
         characterGroup.x = player.x
         characterGroup.y = player.y +44 
         
         player.lastpos = player.body.y
         
-        if(player.body.y > game.world.height - BOT_OFFSET * 1.8 ){
-            //stopGame()
+        if(player.body.y > game.world.height - 50 ){
+            stopGame(false)
         }
         
     }
     
     function deactivateObj(obj){
+        
         obj.body.velocity.x = 0
         obj.used = false
         obj.body.y = -500
+        
+        if(obj.isPoint){
+            addObstacle('candy0' + orderList[sceneGroup.order])   
+        }
+        
     }
     
     function checkObjects(){
@@ -363,22 +396,22 @@ var oeKids = function(){
             var obj = objectsList[index]
             if(obj.body.x < -obj.width * 0.45 && obj.used == true){
                 deactivateObj(obj)
-                addObstacle('obstacle')
+                
                 //console.log('objeto removido')
-            }else if(obj.tag == 'coin'){
-                if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
-                    if(obj.tag == 'coin'){
+            }else if(obj.isPoint){
+                if(Math.abs(obj.body.x - player.body.x) < 100 && Math.abs(obj.body.y - player.body.y) < 100){
+                    
+                    if(obj.index == candyIndex){
                         addPoint(obj)
+                    }else{
+                        removePoint(obj)
                     }
+                    
                     deactivateObj(obj)
                 }
                 
             }
             
-            if(obj.body.x < player.body.x && obj.isPoint){
-                addPoint(player,'ring')
-                obj.isPoint = false
-            }
         }
     }
     
@@ -433,7 +466,7 @@ var oeKids = function(){
             game.physics.p2.gravity.y = WORLD_GRAVITY
             changeVelocityGame(-gameSpeed)
             startParticles()
-            marioSong.loopFull(0.5)
+            //marioSong.loopFull(0.5)
         }
         
         player.body.moveUp(jumpValue)
@@ -478,48 +511,25 @@ var oeKids = function(){
     function createPointsBar(){
         
         pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = game.world.height
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(10,10,'atlas.neon','xpcoins')
+        var pointsImg = pointsBar.create(-10,-10,'atlas.openEnglish','counter')
+        pointsImg.anchor.setTo(1,1)
     
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
-        pointsText.y = pointsImg.height * 0.3
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#0e5256", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, -50, -pointsImg.height * 0.6, " X 0", fontStyle)
+        pointsText.anchor.setTo(1,0.5)
         pointsBar.add(pointsText)
+        
+        var obj = pointsBar.create(-pointsImg.width * 0.7,-pointsImg.height * 0.6, 'atlas.openEnglish','candy0' + candyIndex)
+        obj.scale.setTo(0.6,0.6)
+        obj.anchor.setTo(0.6,0.6)
         
         pointsBar.text = pointsText
         pointsBar.number = 0
         
-    }
-    
-    function createHearts(){
-        
-        heartsGroup = game.add.group()
-        heartsGroup.x = game.world.width - 20
-        heartsGroup.y = 10
-        sceneGroup.add(heartsGroup)
-        
-        
-        var pivotX = 15
-        var group = game.add.group()
-        group.x = pivotX
-        heartsGroup.add(group)
-
-        var heartsImg = group.create(0,0,'atlas.neon','life_box')
-        heartsImg.anchor.setTo(1,0)
-        
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
-        pointsText.x = -heartsImg.width * 0.38
-        pointsText.y = 2
-        pointsText.setText('X ' + lives)
-        heartsGroup.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        heartsGroup.text = pointsText
-                
     }
     
     function createPart(key,obj){
@@ -534,7 +544,7 @@ var oeKids = function(){
             
             var particlesGood = game.add.emitter(0, 0, 100);
 
-            particlesGood.makeParticles('atlas.neon',key);
+            particlesGood.makeParticles('atlas.openEnglish',key);
             particlesGood.minParticleSpeed.setTo(-200, -50);
             particlesGood.maxParticleSpeed.setTo(200, -100);
             particlesGood.minParticleScale = 0.2;
@@ -552,7 +562,7 @@ var oeKids = function(){
             return particlesGood
         }else{
             key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y,'atlas.neon',key)
+            var particle = sceneGroup.create(obj.world.x,obj.world.y,'atlas.openEnglish',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -609,6 +619,7 @@ var oeKids = function(){
             worldGroup.y-=game.world.height * 0.8
             //game.add.tween(sceneGroup.scale).to( { x:1 }, timeDelay, Phaser.Easing.Linear.None, true);
         })
+        
     }
     
     function collisionEvent(obj1,obj2){
@@ -623,7 +634,7 @@ var oeKids = function(){
 
             }else if(tag == "obstacle" || tag == "obstacle2"){
                 
-                stopGame()
+                //stopGame()
                 
             }
         }
@@ -684,19 +695,20 @@ var oeKids = function(){
         
         pivotObjects = 450
         if(objToCheck != null ){
-            pivotObjects = objToCheck.body.x + objToCheck.width * 4
+            pivotObjects = objToCheck.body.x + objToCheck.width * 2
         }
             
         
         for(var i = 0;i< groundGroup.length;i++){
             var child = groundGroup.children[i]
             if(child.tag == tag && child.used == false){
-                if (tag == "obstacle"){
+                if (child.isPoint){
                     
-                    activateObject(pivotObjects,game.world.height - (child.height * Math.random() * 0.9) - 145,child)
+                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.3) - 300,child)
                     
-                    checkAdd(child,tag)
                     objToCheck = child
+                    
+                    sceneGroup.order++
                     
                 }
                 break
@@ -704,34 +716,17 @@ var oeKids = function(){
         }
     }
     
-    function createObjs(tag,scale,times){
+    function createObjs(tag,scale,times,number){
         
         var pivotX = 0
         for(var i = 0;i<times;i++){
             var object, object2
-            if(tag == 'coin'){
+ 
+            if(tag != 'monster'){
                 
-                object = game.add.sprite(-300, 200, 'coinS');
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',24,true);   
-            }else if(tag == 'obstacle'){
-                
-                object = groundGroup.create(-300,game.world.height - 350,'atlas.neon',tag)
+                object = groundGroup.create(-300,game.world.height - 350,'atlas.openEnglish',tag)
                 object.isPoint = true
-                
-                object2 = groundGroup.create(-300,0,'atlas.neon',tag + 'up')
-                
-                object.topObject = object2
-                
-                object2.scale.setTo(scale,scale)
-                object2.anchor.setTo(0,1)
-                object2.tag = tag + '2'
-                game.physics.p2.enable(object2,DEBUG_PHYSICS)
-                object2.body.kinematic = true
-                object2.used = false
-                
-                player.body.createBodyCallback(object2, collisionEvent, this);
+                object.index = number
 
             }
             
@@ -742,7 +737,7 @@ var oeKids = function(){
             object.body.kinematic = true
             object.used = false
             
-            if(object.tag != 'coin'){
+            if(!object.isPoint){
                 object.body.allowSleep = true
                 player.body.createBodyCallback(object, collisionEvent, this);
             }else{
@@ -752,13 +747,32 @@ var oeKids = function(){
         }
     }
     
+    
+    function positionFlag(){
+        
+    }
+    
     function createObjects(){
         
-        //createObjs('obstacle',1,10)
-        createObjs('coin',1,10)
+        for(var i = 1;i<5;i++){
+            createObjs('candy0' + i,1,10,i)
+        }
         
-        for(var i = 0; i < 8; i++){
-            addObstacle('obstacle')
+        for(var i = 0; i<NUMBER_OF_CANDIES;i++){
+            
+            if(game.rnd.integerInRange(1, 4) <2){
+                orderList[orderList.length] = game.rnd.integerInRange(1, 4)
+            }else{
+                orderList[orderList.length] = candyIndex
+                //addObstacle('candy0' + candyIndex)
+            }
+            
+        }
+        
+        sceneGroup.order = 0
+        
+        for(var i = 0;i<5;i++){
+            addObstacle('candy0' + orderList[sceneGroup.order])
         }
         
     }
@@ -821,6 +835,31 @@ var oeKids = function(){
         
     }
     
+    function createCandyBar(){
+        
+        var candyColors = [0xffce00,0xf83a4b,0x101fc7,0x159b3a]
+        
+        var mask = sceneGroup.create(20, game.world.height - 20,'atlas.openEnglish','power01')
+        mask.anchor.setTo(0,1)
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x058fff)
+        rect.drawRect(mask.x,mask.y - 80, mask.width, mask.height)
+        rect.anchor.setTo(0,1)
+        rect.endFill()
+        sceneGroup.add(rect)
+        
+        mask.mask = rect
+        mask.tint = candyColors[candyIndex - 1]
+        rect.scale.x = 0.1
+        
+        sceneGroup.bar = rect
+        
+        var meter = sceneGroup.create(mask.x,mask.y,'atlas.openEnglish','power02')
+        meter.anchor.setTo(0,1)
+        
+    }
+    
 	return {
 		assets: assets,
 		name: "oeKids",
@@ -865,16 +904,22 @@ var oeKids = function(){
             worldGroup.add(particlesGroup)
             
             characterGroup = game.add.group()
-            characterGroup.x = 100
-            characterGroup.y = game.world.height - BOT_OFFSET * 6
+            characterGroup.x = 400
+            characterGroup.y = game.world.height - BOT_OFFSET * 4
             worldGroup.add(characterGroup)
             
-            buddy = characterGroup.create(0,-45,'atlas.openEnglish','yogotar')
+            /*buddy = characterGroup.create(0,-45,'atlas.openEnglish','yogotar')
             buddy.anchor.setTo(0.5,0.5)
             
             createTrail()
+            */
+            buddy = game.add.spine(0,0, 'delta');
+            buddy.scale.setTo(1,1)
+            buddy.setAnimationByName(0, "FLY", true);
+            buddy.setSkinByName('normal');
+            characterGroup.add(buddy)
             
-            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.openEnglish','yogotar')
+            player = worldGroup.create(characterGroup.x + 75, characterGroup.y,'atlas.openEnglish','yogotar')
             player.anchor.setTo(0.5,1)
             player.scale.setTo(0.37,0.37)
             player.alpha = 0
@@ -888,7 +933,7 @@ var oeKids = function(){
             createObjects()
             
             createPointsBar()
-            createHearts()
+            createCandyBar()
             createControls()            
             
             //createControls()

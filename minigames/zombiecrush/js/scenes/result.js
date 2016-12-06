@@ -95,7 +95,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/zombieCrush/',
+		    href: 'http://amazingapp.co/juegos/zombiecrush',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
 		}, function(response){

@@ -115,7 +115,7 @@ var result = function(){
 	}
 
 	function tryAgain(){
-		sceneloader.show("openenglish2")
+		sceneloader.show("oeKids")
 	}
 
 	function createShareButton(){
@@ -293,7 +293,7 @@ var result = function(){
         
         var shareBtn = createShareButton()
         shareBtn.x = game.world.centerX - 140
-        shareBtn.y = game.world.height - 235
+        shareBtn.y = game.world.height - 200
         shareBtn.scale.setTo(0.75,0.75)
         sceneGroup.add(shareBtn)
         

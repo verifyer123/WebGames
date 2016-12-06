@@ -35,6 +35,7 @@
 		padding: 0px !important;
 		height: 100% !important;
 		max-height: 100% !important;
+        background: transparent !important;
 	}
 
 	.game-canvas{

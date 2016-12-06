@@ -1,17 +1,8 @@
 {"frames": [
 
 {
-	"filename": "bat",
-	"frame": {"x":254,"y":412,"w":138,"h":80},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":80},
-	"sourceSize": {"w":138,"h":80},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "bgdfront",
-	"frame": {"x":1,"y":1,"w":1024,"h":248},
+	"frame": {"x":119,"y":1,"w":1024,"h":248},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":8,"w":1024,"h":248},
@@ -20,7 +11,7 @@
 },
 {
 	"filename": "button_off",
-	"frame": {"x":1,"y":358,"w":251,"h":102},
+	"frame": {"x":372,"y":358,"w":251,"h":102},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":16,"w":251,"h":102},
@@ -29,7 +20,7 @@
 },
 {
 	"filename": "button_on",
-	"frame": {"x":258,"y":251,"w":251,"h":106},
+	"frame": {"x":119,"y":363,"w":251,"h":106},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":12,"w":251,"h":106},
@@ -37,8 +28,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "cady03",
-	"frame": {"x":757,"y":363,"w":128,"h":90},
+	"filename": "candy01",
+	"frame": {"x":563,"y":251,"w":128,"h":90},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":19,"w":128,"h":90},
@@ -46,8 +37,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "candy01",
-	"frame": {"x":625,"y":399,"w":128,"h":89},
+	"filename": "candy02",
+	"frame": {"x":755,"y":343,"w":128,"h":89},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":20,"w":128,"h":89},
@@ -55,8 +46,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "candy02",
-	"frame": {"x":887,"y":363,"w":128,"h":90},
+	"filename": "candy03",
+	"frame": {"x":625,"y":343,"w":128,"h":90},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":19,"w":128,"h":90},
@@ -65,7 +56,7 @@
 },
 {
 	"filename": "candy04",
-	"frame": {"x":495,"y":399,"w":128,"h":90},
+	"frame": {"x":693,"y":251,"w":128,"h":90},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":19,"w":128,"h":90},
@@ -74,7 +65,7 @@
 },
 {
 	"filename": "counter",
-	"frame": {"x":1,"y":251,"w":255,"h":105},
+	"frame": {"x":306,"y":251,"w":255,"h":105},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":105},
@@ -83,7 +74,7 @@
 },
 {
 	"filename": "flag",
-	"frame": {"x":1027,"y":1,"w":116,"h":512},
+	"frame": {"x":1,"y":1,"w":116,"h":512},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":116,"h":512},
@@ -92,7 +83,7 @@
 },
 {
 	"filename": "mask",
-	"frame": {"x":511,"y":251,"w":256,"h":80},
+	"frame": {"x":885,"y":251,"w":256,"h":80},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":80},
@@ -101,7 +92,7 @@
 },
 {
 	"filename": "power01",
-	"frame": {"x":254,"y":359,"w":239,"h":51},
+	"frame": {"x":372,"y":462,"w":239,"h":51},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":9,"y":11,"w":239,"h":51},
@@ -110,7 +101,7 @@
 },
 {
 	"filename": "power02",
-	"frame": {"x":511,"y":333,"w":244,"h":64},
+	"frame": {"x":625,"y":435,"w":244,"h":64},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":6,"y":8,"w":244,"h":64},
@@ -118,8 +109,44 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "star",
+	"frame": {"x":871,"y":434,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "starPart",
+	"frame": {"x":937,"y":399,"w":124,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":885,"y":333,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrongPart",
+	"frame": {"x":951,"y":333,"w":125,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "yogotar",
-	"frame": {"x":769,"y":251,"w":185,"h":110},
+	"frame": {"x":119,"y":251,"w":185,"h":110},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":185,"h":110},
@@ -133,6 +160,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1144,"h":514},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:ec9fbbc4dc17d3967555456ef855fb99:768c96fcced93926a7742492bc352d26:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d6041b552e676fdfad97327f00026659:05f771b719444e72d960284312090c66:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
