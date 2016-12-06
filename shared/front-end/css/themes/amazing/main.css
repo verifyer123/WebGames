@@ -50,7 +50,8 @@ body{
 
 .content-game{
     position: relative;
-    max-width: 1450px;
+    width: 80%;
+    max-width: 1000px;
     height: 80%;
     margin: 2% auto;
     background-color: #261949;
@@ -60,18 +61,18 @@ body{
 
 /*delete*/
 .content-game #game-container{
-background-color: #2F90CC;
-position: relative;
-width: 50%;
-height: 92%;
-margin:2%;
+    background-color: #2F90CC;
+    position: relative;
+    width: 50%;
+    height: auto;
+    margin:2%;
 }
 .content-game .game-instructions{
-position: relative;
-width: 50%;
-height: 92%;
-margin:2%; 
-background-color: #E5E5E5;    
+    position: relative;
+    width: 50%;
+    height: 94%;
+    margin:2%; 
+    background-color: #E5E5E5;    
 }
 /*delete*/
 
@@ -83,11 +84,17 @@ background-color: #E5E5E5;
 }
 
 .instructions-banner{
-    height: auto;
+    position: relative;
+    height:auto;
+}
+
+.instructions-banner img{
+    width: 100%;
+    
 }
 
 .instructions-howtoplay{
-    height: 35%;
+    height: 30%;
     box-shadow: 0px 5px 5px rgba(0,0,0,0.3);
 }
 
@@ -110,7 +117,7 @@ background-color: #E5E5E5;
 }
 
 .bar-control img{
-    height: 90%;
+    height: 80%;
 }
 
 .bar-control:nth-child(3){
@@ -119,25 +126,23 @@ background-color: #E5E5E5;
 
 .bar-text{
     position: relative;
-    width: 50%;
+    width: 100%;
     text-align: center;
     height: auto;
     color:#FFF;
     font-size: 2vh;
-    line-height: 4;
+    line-height: 3.5;
 }
 
 .howtoplay-img{
     position: relative;
     width: 100%;
-    height: auto;
+    height: 15%;
     text-align: center;
 }
 
 .howtoplay-img img{
-    position: relative;
     width: 90%;
-    height: auto;
     
 
 }
