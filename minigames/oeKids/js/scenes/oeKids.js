@@ -25,16 +25,16 @@ var oeKids = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "wrongItem",
 				file: soundsPath + "wrongItem.mp3"},
-            {   name: "green"
-                file: "sounds/green"},
-            {   name: "blue"
-                file: "sounds/blue"},
-            {   name: "red"
-                file: "sounds/red"},
-            {   name: "yellow"
-                file: "sounds/yellow"},
-            {   name: "instructions"
-                file: "sounds/instructions"},
+            {   name: "green",
+                file: "sounds/green.mp3"},
+            {   name: "blue",
+                file: "sounds/blue.mp3"},
+            {   name: "red",
+                file: "sounds/red.mp3"},
+            {   name: "yellow",
+                file: "sounds/yellow.mp3"},
+            {   name: "instructions",
+                file: "sounds/instructions.mp3"},
 		],
 	}
     
@@ -43,13 +43,15 @@ var oeKids = function(){
     var JUMP_FORCE = 100
     var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 100
-    var OFF_BRICK = 330
     var BOT_OFFSET = 105
     var NUMBER_OF_CANDIES = 40
+    var OFFSET_OBJ = 256
     
     var candyIndex = 0
+    var lastPivot
     var marioSong = null
     var enemyNames = null
+    var colorToUse = null
     var consecFloor, consecBricks
     var gameStart = false
     var jumping = false
@@ -97,11 +99,15 @@ var oeKids = function(){
         jumpTimer = 0
         gameActive = false
         lives = 1
+        lastPivot = 0
         pivotObjects = 0
         objToCheck = null
         buttonPressed = false
         tooMuch = false
         orderList = []
+        var colors = ['yellow','red','blue','green']
+        colorToUse = colors[candyIndex - 1]
+        
         
         objectsList = []
         consecBricks = 0
@@ -111,14 +117,15 @@ var oeKids = function(){
     function animateScene() {
                         
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        var tweenAlpha = game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        tweenAlpha.onComplete.add(function(){
+            sound.play("instructions")
+            game.time.events.add(1500,function(){
+                sound.play(colorToUse)
+            },this)
+        })
 
         gameActive = true
-        //timer.start()
-        //game.time.events.add(throwTime *0.1, dropObjects , this);
-        //objectsGroup.timer.start()
-        //game.time.events.add(TIME_ADD, addObjects , this);
-        //checkOnAir()
         gameStart = true
         
         changeVelocityGame(0)
@@ -175,9 +182,8 @@ var oeKids = function(){
         game.load.spine('delta', "images/spines/skeleton.json");
         
         
-        game.load.spritesheet('coinS', 'images/neon/coinS.png', 68, 70, 12);
+        game.load.spritesheet('monster', 'images/openEnglish/monster.png', 292, 237, 17);
         game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
-        
         
     }
     
@@ -238,7 +244,7 @@ var oeKids = function(){
         changeVelocityGame(0)
         
         //buddy.setAnimationByName(0,"LOSE",false)
-        buddy.alpha = 0
+        //buddy.alpha = 0
         
     }
     
@@ -254,7 +260,10 @@ var oeKids = function(){
         
         marioSong.stop()
         
-        sound.play("gameLose")
+        if(!win){
+            sound.play("gameLose")
+        }
+        
         stopWorld()
         
         game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
@@ -290,17 +299,18 @@ var oeKids = function(){
     function addPoint(obj){
         
         sound.play("pop")
+        sound.play(colorToUse)
         
         createPart('star', obj)
         createTextPart('+1', obj)
                 
         pointsBar.number++
-        pointsBar.text.setText(pointsBar.number)
+        pointsBar.text.setText('x ' + pointsBar.number)
         
         var bar = sceneGroup.bar
         
         if(bar.scale.x < 1){
-            bar.scale.x+=0.1
+            bar.scale.x+=0.05
         }
         
         addNumberPart(pointsBar.text,'+1')
@@ -313,8 +323,11 @@ var oeKids = function(){
         
         createPart('wrong', obj)
         createTextPart('-1', obj)
-                
-        pointsBar.number--
+            
+        if(pointsBar.number > 0){
+            pointsBar.number--
+        }
+        
         pointsBar.text.setText(pointsBar.number)
         
         var bar = sceneGroup.bar
@@ -354,7 +367,7 @@ var oeKids = function(){
             
             if(player.lastpos < player.y){
             
-            if(buddy.angle<45){
+            if(buddy.angle<30){
                 buddy.angle+=0.5
             }
             }else{
@@ -367,7 +380,7 @@ var oeKids = function(){
 
         player.body.x = 150 
         characterGroup.x = player.x
-        characterGroup.y = player.y +44 
+        characterGroup.y = player.y +20 
         
         player.lastpos = player.body.y
         
@@ -380,10 +393,12 @@ var oeKids = function(){
     function deactivateObj(obj){
         
         obj.body.velocity.x = 0
+        obj.body.velocity.y = 0
         obj.used = false
         obj.body.y = -500
         
         if(obj.isPoint){
+            
             addObstacle('candy0' + orderList[sceneGroup.order])   
         }
         
@@ -399,7 +414,7 @@ var oeKids = function(){
                 
                 //console.log('objeto removido')
             }else if(obj.isPoint){
-                if(Math.abs(obj.body.x - player.body.x) < 100 && Math.abs(obj.body.y - player.body.y) < 100){
+                if(Math.abs(obj.body.x - player.body.x) < 75 && Math.abs(obj.body.y - player.body.y) < 75){
                     
                     if(obj.index == candyIndex){
                         addPoint(obj)
@@ -628,14 +643,13 @@ var oeKids = function(){
         var tag = obj2.sprite.tag
         
         if(obj2.sprite.used == true && gameActive == true){
-            if(tag == 'coin'){
+            if(tag == 'monster'){
+                removePoint(player)
                 deactivateObj(obj2.sprite)
-                addPoint(obj2.sprite)
-
-            }else if(tag == "obstacle" || tag == "obstacle2"){
-                
-                //stopGame()
-                
+            }else if(tag == 'flag'){
+                buddy.setAnimationByName(0,"WIN",true)
+                sound.play("pop")
+                stopGame(true)
             }
         }
     }
@@ -663,12 +677,6 @@ var oeKids = function(){
             child.body.velocity.x = -gameSpeed 
             objectsList[objectsList.length] = child
             
-            if(child.tag == 'obstacle'){
-                
-                child.isPoint = true
-                activateObject(posX, posY - child.height - 185 - (Math.random() * 0.3) * child.height,child.topObject)
-                
-            }
         }
     
      }
@@ -691,26 +699,66 @@ var oeKids = function(){
         }
     }
     
+    function setMonsterSpeed(obj){
+        
+        if(!obj.used){
+            return
+        }
+        
+        //console.log('change speed monster')
+        obj.speed*=-1
+        obj.body.velocity.y = obj.speed
+        
+        game.time.events.add(2000,function(){
+            setMonsterSpeed(obj)
+        },this)
+        
+    }
+    
     function addObstacle(tag){
         
         pivotObjects = 450
-        if(objToCheck != null ){
-            pivotObjects = objToCheck.body.x + objToCheck.width * 2
+        if(objToCheck != null){
+            pivotObjects = objToCheck.body.x + OFFSET_OBJ
         }
-            
+        
+        /*if(Math.abs(lastPivot - pivotObjects) < 20){
+            pivotObjects+= OFFSET_OBJ
+        }*/
+        
+        //console.log(pivotObjects + ' pivot,' + tag + ' objTag')
+
+        lastPivot = pivotObjects
         
         for(var i = 0;i< groundGroup.length;i++){
             var child = groundGroup.children[i]
             if(child.tag == tag && child.used == false){
+                
+                objToCheck = child
                 if (child.isPoint){
                     
-                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.3) - 300,child)
-                    
-                    objToCheck = child
+                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.3) - 200,child)
+
+                    if(game.rnd.integerInRange(1, 4) <2){
+                        
+                        addObstacle('monster')
+                    }
                     
                     sceneGroup.order++
                     
+                    if(sceneGroup.order >= NUMBER_OF_CANDIES){
+                        addObstacle('flag')
+                    }
+                    
+                }else if(tag == 'monster'){
+                    
+                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.3) - 200,child)
+                    child.speed = 100
+                    setMonsterSpeed(child)
+                }else if(tag == 'flag'){
+                    activateObject(pivotObjects,game.world.height - 250,child)
                 }
+                
                 break
             }
         }
@@ -728,6 +776,13 @@ var oeKids = function(){
                 object.isPoint = true
                 object.index = number
 
+            }else if(tag == 'monster'){
+                
+                object = game.add.sprite(-300, 200, 'monster');
+                groundGroup.add(object)
+                object.animations.add('walk');
+                object.animations.play('walk',24,true);
+                
             }
             
             object.scale.setTo(scale,scale)
@@ -736,10 +791,22 @@ var oeKids = function(){
             game.physics.p2.enable(object,DEBUG_PHYSICS)
             object.body.kinematic = true
             object.used = false
+        
+            if(tag == 'flag'){
+                object.isPoint = false
+            }
             
             if(!object.isPoint){
+                
                 object.body.allowSleep = true
                 player.body.createBodyCallback(object, collisionEvent, this);
+                
+                if(tag == 'monster'){
+                    object.body.setRectangle(object.width * 0.4, object.height * 0.4);
+                }else if(tag == 'flag'){
+                    object.body.setRectangle(object.width * 1, object.height * 2);
+                }
+                
             }else{
                 object.body.data.shapes[0].sensor = true
             }
@@ -755,8 +822,11 @@ var oeKids = function(){
     function createObjects(){
         
         for(var i = 1;i<5;i++){
-            createObjs('candy0' + i,1,10,i)
+            createObjs('candy0' + i,0.8,10,i)
         }
+        
+        createObjs('monster',0.7,5)
+        createObjs('flag',1,1)
         
         for(var i = 0; i<NUMBER_OF_CANDIES;i++){
             
@@ -908,11 +978,6 @@ var oeKids = function(){
             characterGroup.y = game.world.height - BOT_OFFSET * 4
             worldGroup.add(characterGroup)
             
-            /*buddy = characterGroup.create(0,-45,'atlas.openEnglish','yogotar')
-            buddy.anchor.setTo(0.5,0.5)
-            
-            createTrail()
-            */
             buddy = game.add.spine(0,0, 'delta');
             buddy.scale.setTo(1,1)
             buddy.setAnimationByName(0, "FLY", true);
@@ -921,7 +986,7 @@ var oeKids = function(){
             
             player = worldGroup.create(characterGroup.x + 75, characterGroup.y,'atlas.openEnglish','yogotar')
             player.anchor.setTo(0.5,1)
-            player.scale.setTo(0.37,0.37)
+            player.scale.setTo(0.5,0.5)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true

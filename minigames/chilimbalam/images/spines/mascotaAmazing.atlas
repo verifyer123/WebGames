@@ -1,132 +1,132 @@
 
 mascotaAmazing.png
-size: 512,128
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/agarradera1
   rotate: false
-  xy: 136, 44
+  xy: 41, 8
   size: 27, 13
   orig: 27, 13
   offset: 0, 0
   index: -1
 normal/agarradera2
   rotate: false
-  xy: 2, 19
+  xy: 210, 198
   size: 28, 13
   orig: 28, 13
   offset: 0, 0
   index: -1
 normal/cabeza
   rotate: false
-  xy: 90, 59
+  xy: 2, 23
   size: 89, 67
   orig: 89, 67
   offset: 0, 0
   index: -1
 normal/foot1
   rotate: false
-  xy: 220, 70
+  xy: 70, 10
   size: 21, 11
   orig: 21, 11
   offset: 0, 0
   index: -1
 normal/foot2
   rotate: false
-  xy: 32, 21
+  xy: 210, 185
   size: 21, 11
   orig: 21, 11
   offset: 0, 0
   index: -1
 normal/fringe
   rotate: false
-  xy: 90, 16
+  xy: 210, 213
   size: 44, 41
   orig: 44, 41
   offset: 0, 0
   index: -1
 normal/glasses
   rotate: false
-  xy: 262, 84
+  xy: 93, 3
   size: 79, 42
   orig: 79, 42
   offset: 0, 0
   index: -1
 normal/glasses_a
   rotate: false
-  xy: 181, 83
+  xy: 93, 47
   size: 79, 43
   orig: 79, 43
   offset: 0, 0
   index: -1
 normal/glasses_b
   rotate: false
-  xy: 424, 84
+  xy: 174, 48
   size: 78, 42
   orig: 78, 42
   offset: 0, 0
   index: -1
 normal/glasses_c
   rotate: false
-  xy: 343, 84
+  xy: 174, 4
   size: 79, 42
   orig: 79, 42
   offset: 0, 0
   index: -1
 normal/leg1
   rotate: false
-  xy: 146, 26
+  xy: 210, 133
   size: 7, 16
   orig: 7, 16
   offset: 0, 0
   index: -1
 normal/leg2
   rotate: false
-  xy: 136, 26
+  xy: 222, 167
   size: 8, 16
   orig: 8, 16
   offset: 0, 0
   index: -1
 normal/ojo1
   rotate: false
-  xy: 504, 120
+  xy: 70, 2
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 normal/ojo2
   rotate: false
-  xy: 165, 51
+  xy: 78, 2
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
   index: -1
 normal/shin1
   rotate: false
-  xy: 2, 2
+  xy: 210, 168
   size: 10, 15
   orig: 10, 15
   offset: 0, 0
   index: -1
 normal/shin2
   rotate: false
-  xy: 14, 2
+  xy: 210, 151
   size: 10, 15
   orig: 10, 15
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 181, 66
+  xy: 2, 6
   size: 37, 15
   orig: 37, 15
   offset: 0, 0
   index: -1
 normal/vaso
   rotate: false
-  xy: 2, 34
-  size: 86, 92
-  orig: 86, 92
+  xy: 2, 92
+  size: 206, 162
+  orig: 206, 162
   offset: 0, 0
   index: -1

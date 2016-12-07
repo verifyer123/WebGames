@@ -289,7 +289,7 @@ var result = function(){
         
         var background = sceneGroup.create(0,0,'atlas.resultScreen','retro-fondo')
         background.width = game.world.width
-        background.height= game.world.height * 0.38
+        background.height= game.world.height * 0.5
         
         var shareBtn = createShareButton()
         shareBtn.x = game.world.centerX - 140
@@ -340,12 +340,12 @@ var result = function(){
             var iconName = 'wachu'
             var iconIndex = 0
 
-            if(totalScore >= 12){
+            if(totalScore >= 10){
                 iconName = 'extranjero'
                 iconIndex = 1
             }
 
-            if(totalScore >= 24){
+            if(totalScore >= 20){
                 iconName = 'nativo'
                 iconIndex = 2
             }
@@ -353,13 +353,14 @@ var result = function(){
             emoName = iconName
 
 
-            var globe = sceneGroup.create(game.world.centerX, game.world.height - 520,'atlas.resultScreen','retro-nivel')
+            var globe = sceneGroup.create(game.world.centerX, game.world.height - 430,'atlas.resultScreen','retro-nivel')
+            globe.alpha = 0
             globe.anchor.setTo(0.5,0.5)
             globe.scale.setTo(0.85,0.85)
 
             var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#9f9f9f", align: "center"}
 
-            var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y - 30, 'Tu nivel de inglés es:', fontStyle)
+            /*var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y - 30, 'Tu nivel de inglés es:', fontStyle)
             nameText.anchor.setTo(0.5,0.5)
             sceneGroup.add(nameText) 
 
@@ -367,7 +368,7 @@ var result = function(){
 
             var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y +15, iconName, fontStyle)
             nameText.anchor.setTo(0.5,0.5)
-            sceneGroup.add(nameText) 
+            sceneGroup.add(nameText) */
 
             var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#5083f8", align: "center"}
 
