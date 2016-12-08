@@ -2,25 +2,43 @@
 
 {
 	"filename": "bros",
-	"frame": {"x":164,"y":1,"w":153,"h":134},
+	"frame": {"x":537,"y":1,"w":153,"h":134},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":134},
 	"sourceSize": {"w":153,"h":134},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "compartir",
+	"frame": {"x":537,"y":137,"w":236,"h":63},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":63},
+	"sourceSize": {"w":236,"h":63},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "costena",
-	"frame": {"x":319,"y":1,"w":153,"h":134},
+	"frame": {"x":775,"y":66,"w":153,"h":134},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":134},
 	"sourceSize": {"w":153,"h":134},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "fondo_result",
+	"frame": {"x":1,"y":1,"w":534,"h":379},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":534,"h":379},
+	"sourceSize": {"w":534,"h":389},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "lluvia",
-	"frame": {"x":474,"y":1,"w":153,"h":134},
+	"frame": {"x":537,"y":202,"w":153,"h":134},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":134},
@@ -28,66 +46,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "reload_off",
-	"frame": {"x":164,"y":137,"w":112,"h":112},
+	"filename": "reintentar",
+	"frame": {"x":692,"y":1,"w":236,"h":63},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":112},
-	"sourceSize": {"w":112,"h":112},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "reload_on",
-	"frame": {"x":278,"y":137,"w":112,"h":112},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":112},
-	"sourceSize": {"w":112,"h":112},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "retro-personaje",
-	"frame": {"x":1,"y":1,"w":161,"h":213},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":161,"h":213},
-	"sourceSize": {"w":161,"h":213},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "send_off",
-	"frame": {"x":392,"y":137,"w":112,"h":112},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":112},
-	"sourceSize": {"w":112,"h":112},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "send_on",
-	"frame": {"x":506,"y":137,"w":112,"h":112},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":112},
-	"sourceSize": {"w":112,"h":112},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "share_off",
-	"frame": {"x":620,"y":137,"w":112,"h":112},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":112},
-	"sourceSize": {"w":112,"h":112},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "share_on",
-	"frame": {"x":629,"y":1,"w":112,"h":112},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":112,"h":112},
-	"sourceSize": {"w":112,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":63},
+	"sourceSize": {"w":236,"h":63},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -95,8 +59,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":742,"h":250},
+	"size": {"w":929,"h":381},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4cdf02d4c590622e04a77343149a9034:43606d2859b3081d0a357a39a8cf43c8:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ad04e10726a53249363377a9154debb9:f7f2e3554f7e8104731f88b0cdd7f00d:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

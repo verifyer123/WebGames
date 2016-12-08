@@ -283,6 +283,7 @@ var chilimbalam = function(){
             createAssets('pina',2,2)
             createAssets('skwinkle',1,2)
             createAssets('takis',2,2)
+            createAssets('mango',2,3)
         }
         
         //throwTimeItems-=10

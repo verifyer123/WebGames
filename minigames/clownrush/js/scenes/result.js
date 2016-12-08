@@ -277,7 +277,7 @@ var result = function(){
         sceneGroup.add(iconsGroup)
         
         var pivotX = game.world.centerX - 174
-        var pivotY = game.world.centerY +70
+        var pivotY = game.world.height - 150
         
         var iconNames = ['bros','costena','lluvia']
         var gameNames = ['Amazing Bros', 'Memorama \ndel Sabor', 'Lluvia de \nGomitas']
@@ -294,7 +294,7 @@ var result = function(){
             img.events.onInputDown.add(inputGame)
             img.tag = iconNames[i]
             
-            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
             var nameText = new Phaser.Text(sceneGroup.game, 0, 110, gameNames[i], fontStyle)
             nameText.lineSpacing = -10;
@@ -316,69 +316,41 @@ var result = function(){
 		sceneGroup.alpha = 0
         
         var background = new Phaser.Graphics(game)
-        background.beginFill(0x951384);
+        background.beginFill(0xffffff);
         background.drawRect(0, 0, game.world.width, game.world.height);
         background.endFill();
         background.anchor.setTo(0,0)
         sceneGroup.add(background)
         
-        var topRect = new Phaser.Graphics(game)
-        topRect.beginFill(0x2e77ce);
-        topRect.drawRect(0, 0, game.world.width, 100);
-        topRect.endFill();
-        topRect.anchor.setTo(0,0)
-        sceneGroup.add(topRect)
+        var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
+        topRect.width = game.world.width
+        topRect.tint = 0xff269d
         
-        var text = game.add.bitmapText(game.world.centerX, 60, 'gotham', '¡Sigue intentando!', 35);
+        var textToUse = '¡Sigue intentando!'
+        
+        var text = game.add.bitmapText(game.world.centerX, 50, 'gotham', textToUse, 45);
         text.anchor.setTo(0.5,0.5)
         sceneGroup.add(text)
         
-        var retryCharacter = sceneGroup.create(game.world.centerX - 220, game.world.centerY - 200,'atlas.resultScreen','retro-personaje')
-        retryCharacter.anchor.setTo(0.5,0.5)
+        var buddy = game.add.spine(game.world.centerX,275, "amazing");
+        buddy.scale.setTo(1.3,1.3)
+        buddy.setAnimationByName(0, "WIN", true);
+        buddy.setSkinByName('Amaizing');
+        sceneGroup.add(buddy)
         
-        var pivotText = retryCharacter.x + retryCharacter.width * 0.6
+        var pivotText = 200
         
-        var text = game.add.bitmapText(pivotText, game.world.centerY - 270, 'gotham', 'Tuviste', 35);
+        var text = game.add.bitmapText(pivotText, 310, 'gotham', 'Tuviste', 35);
         sceneGroup.add(text)
         
         var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, -10, totalScore + " puntos", fontStyle)
-        //retryText.x = pivotText
-        retryText.y = game.world.centerY - 282
+        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + " puntos", fontStyle)
         sceneGroup.add(retryText)
-        
-        sceneGroup.add(retryText)
-        
-        var text = game.add.bitmapText(pivotText, game.world.centerY - 210, 'gotham', 'Obtén un nuevo', 35);
-        sceneGroup.add(text)
-        
-        var scoreText = game.add.bitmapText(pivotText, game.world.centerY - 150, 'gotham', 'cupón por', 35);
-        sceneGroup.add(scoreText)
-        
-        var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var retryText = new Phaser.Text(sceneGroup.game, scoreText.x + scoreText.width * 1.1, -10, goalScore + " puntos", fontStyle)
-        //retryText.x = pivotText
-        retryText.y = game.world.centerY - 162
-        sceneGroup.add(retryText)
-        
-        var bottomBar = new Phaser.Graphics(game)
-        background.beginFill(0x770b6d);
-        background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.55);
-        background.endFill();
-        background.anchor.setTo(0,1)
-        sceneGroup.add(background)
-        
-        var bottomBar = new Phaser.Graphics(game)
-        background.beginFill(0x383838);
-        background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.27);
-        background.endFill();
-        background.anchor.setTo(0,1)
-        sceneGroup.add(background)
+
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
-        createButtons()
+        //createButtons()
         createIcons()
 
 		
@@ -393,6 +365,8 @@ var result = function(){
     
     function preload(){
         game.load.bitmapFont('gotham', 'images/bitFont/Gotham.png', 'images/bitFont/Gotham.fnt');
+        
+        game.load.spine('amazing', "images/spines/Amaizing.json");
     }
     
 	return {
