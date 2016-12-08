@@ -37,7 +37,7 @@ function startGame(){
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight)
 
-        game.stage.backgroundColor = "#ffffff"
+        game.stage.backgroundColor = "#3e2868"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
