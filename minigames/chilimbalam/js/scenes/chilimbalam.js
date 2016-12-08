@@ -291,7 +291,7 @@ var chilimbalam = function(){
     
     function missPoint(){
         
-        sound.play("wrong")
+        sound.play("explode")
         
         lives--;
         //changeImage(0,heartsGroup.children[lives])

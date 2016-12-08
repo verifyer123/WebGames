@@ -24,7 +24,7 @@ var result = function(){
     var scoreTexts = [
         ['Te vemos motivado como principiante, pero\n te recomendamos que empieces a estudiar\n con Open English muy pronto.'],
         ['Vemos un buen potencial en ti y\n creemos que pronto podrás hablar inglés con\n fluidez si sigues estudiando.'],
-        ['¡Éxito! Como nivel avanzado, tienes\n mucho conocimiento y agilidad en el lenguaje.\n Pensamos que estudiar inglés con nosotros te\n puede ayudar cumplir tus metas del 2017 más rápido']
+        ['¡Éxito! Como nivel avanzado, tienes\n mucho conocimiento y agilidad en el lenguaje.\n Pensamos que estudiar inglés con nosotros te\n puede ayudar cumplir tus metas del 2017 más rápido.']
     ]
     
 	var sceneGroup
