@@ -12,6 +12,7 @@ amazing.saveScore = function(score){
 }
 
 amazing.savePlaycount = function(){
+	console.log("Saving Score...")
 	var params = {
 		type: "playcount"
 	}
