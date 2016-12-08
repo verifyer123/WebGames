@@ -24,7 +24,7 @@ var result = function(){
     var win
     var iconsGroup
     var buttonsActive
-    var goalScore = 50
+    var goalScore = 70
 
 	var timeGoal = null
 

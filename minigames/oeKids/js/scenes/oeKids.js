@@ -35,14 +35,16 @@ var oeKids = function(){
                 file: "sounds/yellow.mp3"},
             {   name: "instructions",
                 file: "sounds/instructions.mp3"},
+            {	name: "click",
+				file: soundsPath + "pop.mp3"},
 		],
 	}
     
     var SPEED = 225 
     var TIME_ADD = 600
-    var JUMP_FORCE = 100
+    var JUMP_FORCE = 520
     var DEBUG_PHYSICS = false
-    var WORLD_GRAVITY = 100
+    var WORLD_GRAVITY = 800
     var BOT_OFFSET = 105
     var NUMBER_OF_CANDIES = 40
     var OFFSET_OBJ = 256
@@ -51,9 +53,9 @@ var oeKids = function(){
     var lastPivot
     var marioSong = null
     var enemyNames = null
+    var overlayGroup = null
     var colorToUse = null
     var consecFloor, consecBricks
-    var gameStart = false
     var jumping = false
     var yAxis = null
     var objToCheck
@@ -66,6 +68,7 @@ var oeKids = function(){
     var groundGroup = null
     var pointsGroup = null
     var gameActive = null
+    var resultScreen = null
     var jumpTimer = 0
     var characterGroup = null
     var pointsBar = null
@@ -92,7 +95,6 @@ var oeKids = function(){
         game.stage.backgroundColor = "#ffffff"
         
         enemyNames = ['coin']
-        gameStart = false
         gameSpeed =  SPEED
         
         candyIndex = game.rnd.integerInRange(1, 4)
@@ -114,71 +116,31 @@ var oeKids = function(){
         
 	}
     
+    function start(){
+        
+        sound.play("instructions")
+        game.time.events.add(1500,function(){
+            sound.play(colorToUse)
+        },this)
+        gameActive = true
+        
+    }
+    
     function animateScene() {
                         
         sceneGroup.alpha = 0
         var tweenAlpha = game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-        tweenAlpha.onComplete.add(function(){
-            sound.play("instructions")
-            game.time.events.add(1500,function(){
-                sound.play(colorToUse)
-            },this)
-        })
-
-        gameActive = true
-        gameStart = true
         
         changeVelocityGame(0)
 
     } 
-    
-    function setExplosion(obj){
-        
-        
-        var posX = obj.x
-        var posY = obj.y
-        
-        if(obj.world){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-        var exp = sceneGroup.create(0,0,'atlas.neon','cakeSplat')
-        exp.x = posX
-        exp.y = posY
-        exp.anchor.setTo(0.5,0.5)
-
-        exp.scale.setTo(4,4)
-        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
-        particlesNumber = 8
-            
-        var particlesGood = game.add.emitter(0, 0, 100);
-
-        particlesGood.makeParticles('atlas.neon','smoke');
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
-
-        particlesGood.x = posX;
-        particlesGood.y = posY;
-        particlesGood.start(true, 1000, null, particlesNumber);
-
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
-        
-    }
-    
     
     function preload() {
         
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = true;
         
+        game.load.spine('arthurius', "images/spines/Arturius.json");
         game.load.spine('delta', "images/spines/skeleton.json");
         
         
@@ -243,9 +205,6 @@ var oeKids = function(){
         
         changeVelocityGame(0)
         
-        //buddy.setAnimationByName(0,"LOSE",false)
-        //buddy.alpha = 0
-        
     }
     
     function changeVelocityGame(velocity){
@@ -262,6 +221,7 @@ var oeKids = function(){
         
         if(!win){
             sound.play("gameLose")
+            game.add.tween(buddy).to({y:buddy.y + 100,alpha:0},500,Phaser.Easing.linear,true)
         }
         
         stopWorld()
@@ -270,15 +230,29 @@ var oeKids = function(){
         
         gameActive = false
         
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+        
+        if(win){
+            changeImage(0,resultScreen.text)
+        }else{
+            changeImage(1,resultScreen.text)
+            resultScreen.yogo.setAnimationByName(0,"LOSE",true)
+        }
+        
+        game.add.tween(resultScreen).to({alpha :1},500,Phaser.Easing.linear,true).onComplete.add(function(){
+            resultScreen.button.inputEnabled = true
+        })
+        
+        /*tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
             
-			var resultScreen = sceneloader.getScene("result")
+			/*var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(pointsBar.number,win)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
-		})
+            
+            
+		})*/
     }
     
     function createTextPart(text,obj){
@@ -384,7 +358,7 @@ var oeKids = function(){
         
         player.lastpos = player.body.y
         
-        if(player.body.y > game.world.height - 50 ){
+        if(player.body.y > game.world.height - 25 ){
             stopGame(false)
         }
         
@@ -430,43 +404,6 @@ var oeKids = function(){
         }
     }
     
-    function activatePart(part){
-        
-        //console.log('addpart')
-        part.scale.setTo(part.firstScale,part.firstScale)
-        
-        part.alpha = 1
-        part.x = player.x
-        part.y = player.y + 35
-        
-        part.used = true
-        var tweenAlpha = game.add.tween(part).to({x:part.x - 65,alpha:0},150,Phaser.Easing.linear,true)
-        
-        game.add.tween(part.scale).to({x:0.1,y:0.1},150,Phaser.Easing.linear,true)
-        
-        tweenAlpha.onComplete.add(function(){
-            part.used = false
-        },this)
-        
-    }
-    
-    function startParticles(){
-        
-        for(var i = 0; i< particlesGroup.length;i++){
-            var part = particlesGroup.children[i]
-            
-            if(!part.used){
-                activatePart(part)
-            }
-        }
-                
-        if(gameActive){
-            game.time.events.add(100,startParticles,this)
-        }
-        
-        
-    }
-    
     function doJump(value){
         
         var jumpValue = value
@@ -480,7 +417,7 @@ var oeKids = function(){
         if(game.physics.p2.gravity.y == 0){
             game.physics.p2.gravity.y = WORLD_GRAVITY
             changeVelocityGame(-gameSpeed)
-            startParticles()
+            //startParticles()
             //marioSong.loopFull(0.5)
         }
         
@@ -586,57 +523,6 @@ var oeKids = function(){
         
     }
     
-    function addWrongTween(){
-        
-        var number = 3
-        if(pointsBar.number >= number){
-            pointsBar.number-=number
-            addNumberPart(pointsBar.text,'-' + number)
-            pointsBar.text.setText( pointsBar.number)
-        }
-        
-        var timeDelay = 2000
-        var delay = 0
-        
-        //game.add.tween(sceneGroup.scale).to( { x:1.1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        
-        if(sceneGroup.scale.y != 1){
-            return
-        }
-        
-        worldGroup.scale.y= - 1
-        worldGroup.y+=game.world.height * 0.8
-        
-        for(var counter = 0; counter < 1;counter++){
-            game.time.events.add(delay, function(){
-                
-                var color = Phaser.Color.getRandomColor(0,255,255)
-                game.stage.backgroundColor = color
-                
-                var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-                tweenAlpha.onComplete.add(function(){
-                    game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-                })
-                
-            } , this);
-            delay+=timeDelay
-        }
-        
-        game.time.events.add(delay,function(){
-            
-            var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-            tweenAlpha.onComplete.add(function(){
-                game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-            })
-                
-            game.stage.backgroundColor = '#ffffff'
-            worldGroup.scale.y = 1
-            worldGroup.y-=game.world.height * 0.8
-            //game.add.tween(sceneGroup.scale).to( { x:1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        })
-        
-    }
-    
     function collisionEvent(obj1,obj2){
         
         //console.log(obj2.sprite.tag)
@@ -654,19 +540,6 @@ var oeKids = function(){
         }
     }
     
-    function addComplement(tag){
-        
-        var objToUse
-        for(var i = 0;i< groundGroup.length;i++){
-            var child = groundGroup.children[i]
-            if(child.tag == tag && child.used == false){
-                objToUse = child
-                break
-            }
-        }
-        return objToUse
-    }
-    
      function activateObject(posX, posY, child){
         //console.log(child.tag + ' tag,')
         if(child != null){
@@ -680,24 +553,6 @@ var oeKids = function(){
         }
     
      }
-    
-    function checkAdd(obj, tag){
-        
-        //console.log('check')
-        Phaser.ArrayUtils.shuffle(enemyNames)
-        
-        if(Math.random()*2 > 1 && gameActive == true){
-            
-            var nameItem = 'coin'            
-
-            var coin = addComplement(nameItem)
-            if(coin != null){
-                //console.log('adde coin')
-                activateObject(pivotObjects - obj.width * 2.1,(Math.random() * game.world.height -500) + 200,coin)
-            }
-
-        }
-    }
     
     function setMonsterSpeed(obj){
         
@@ -737,7 +592,7 @@ var oeKids = function(){
                 objToCheck = child
                 if (child.isPoint){
                     
-                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.3) - 200,child)
+                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.7) - 150,child)
 
                     if(game.rnd.integerInRange(1, 4) <2){
                         
@@ -752,7 +607,7 @@ var oeKids = function(){
                     
                 }else if(tag == 'monster'){
                     
-                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.3) - 200,child)
+                    activateObject(pivotObjects,game.world.height - (Math.random() * game.world.height * 0.4) - 200,child)
                     child.speed = 100
                     setMonsterSpeed(child)
                 }else if(tag == 'flag'){
@@ -814,11 +669,6 @@ var oeKids = function(){
         }
     }
     
-    
-    function positionFlag(){
-        
-    }
-    
     function createObjects(){
         
         for(var i = 1;i<5;i++){
@@ -845,65 +695,7 @@ var oeKids = function(){
             addObstacle('candy0' + orderList[sceneGroup.order])
         }
         
-    }
-    
-    function checkTag(){
-        
-        if(consecFloor == 1){
-            tag = 'floor'
-            consecFloor-=2
-        }else if(consecBricks == 1){
-            tag = 'brick'
-            consecBricks-=2
-        }else{
-            if(objToCheck.tag == 'floor'){
-                objToCheck.lastFloor = true
-            }
-            var tag = "floor"
-            if(Math.random()*2 > 1){
-                tag = "brick"
-            }
-
-            if(tag == 'brick' && objToCheck.spike == true){
-                tag = 'floor'
-            }
-        }
-        
-        if(tag == 'floor'){
-            consecFloor++
-        }else{
-            consecBricks++
-        }
-        
-        return tag
-    }
-    
-    function addObjects(){
-        
-        var tag = checkTag()
-        
-        addObstacle(tag)
-        
-        //game.time.events.add(TIME_ADD, addObjects , this);
-        
-    }
-    
-    
-    function createTrail(){
-        
-        for(var i = 0;i<50;i++){
-            
-            var particle =  particlesGroup.create(0,0,'atlas.neon','ship')
-            particle.anchor.setTo(0.5,1)
-            particle.scale.setTo(0.5,0.5)
-            particle.firstScale = particle.scale.x
-            
-            particle.used = false
-            particle.alpha = 0
-            
-        }
-        
-    }
+    }    
     
     function createCandyBar(){
         
@@ -928,6 +720,131 @@ var oeKids = function(){
         var meter = sceneGroup.create(mask.x,mask.y,'atlas.openEnglish','power02')
         meter.anchor.setTo(0,1)
         
+    }
+    
+    function createOverlay(){
+        
+        overlayGroup = game.add.group()
+        worldGroup.add(groundGroup)
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.6
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(function(){
+            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                gameActive = true
+                overlayGroup.y = -game.world.height
+            })
+            
+        })
+        
+        overlayGroup.add(rect)
+        
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'atlas.openEnglish','introscreen')
+        plane.anchor.setTo(0.5,0.5)
+        
+        var button = overlayGroup.create(plane.x, plane.y + 125,'atlas.openEnglish','button')
+        button.anchor.setTo(0.5,0.5)
+        
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, '¡Volar!', fontStyle)
+        pointsText.x = button.x
+        pointsText.y = button.y
+        pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
+        
+        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, 'Haz click en el botón para esquivar\n los obstáculos y agarra los dulces del\n color correcto.', fontStyle)
+        pointsText.x = button.x
+        pointsText.y = button.y - 225
+        pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
+        
+    }
+    
+    function retryGame(obj){
+        
+        changeImage(0,obj.parent)
+        sound.play("click")
+        
+    }
+    
+    function releaseRetry(obj){
+        
+        changeImage(1,obj.parent)
+        obj.inputEnabled = false
+        sceneloader.show("oeKids")
+        
+    }
+    
+    function createResultScreen(){
+        
+        resultScreen = game.add.group()
+        sceneGroup.add(resultScreen)
+        
+        var fade = new Phaser.Graphics(game)
+        fade.beginFill(0x000000)
+        fade.drawRect(0,0,game.world.width, game.world.height)
+        fade.alpha = 0.6
+        fade.endFill()
+        resultScreen.add(fade)        
+        
+        var yogotar = game.add.spine(game.world.centerX,game.world.centerY + 125, 'arthurius');
+        yogotar.scale.setTo(0.7,0.7)
+        yogotar.setAnimationByName(0, "WIN", true);
+        yogotar.setSkinByName('Arturius');
+        resultScreen.add(yogotar)
+        
+        resultScreen.yogo = yogotar
+        
+        var groupText = game.add.group()
+        groupText.x = game.world.centerX
+        groupText.y = game.world.centerY - 250
+        resultScreen.add(groupText)
+        
+        var text1 = groupText.create(0,0,'atlas.openEnglish','buentrabajo')
+        text1.anchor.setTo(0.5,0.5)
+        
+        var text2 = groupText.create(0,0,'atlas.openEnglish','noterindas')
+        text2.anchor.setTo(0.5,0.5)
+        
+        resultScreen.text = groupText
+        
+        changeImage(0,groupText)
+        
+        var retryButton = game.add.group()
+        retryButton.x = game.world.centerX
+        retryButton.y = game.world.centerY + 250
+        retryButton.isPressed = false
+        resultScreen.add(retryButton)
+        
+        var button1 = retryButton.create(0,0, 'atlas.openEnglish','retry_off')
+        button1.anchor.setTo(0.5,0.5)
+        
+        var button2 = retryButton.create(0,0, 'atlas.openEnglish','retry_on')
+        button2.anchor.setTo(0.5,0.5)
+        button2.inputEnabled = false
+        button2.events.onInputDown.add(retryGame)
+        button2.events.onInputUp.add(releaseRetry)
+        
+        resultScreen.button = button2
+        resultScreen.alpha = 0
+        
+        
+    }
+    
+    function positionFirst(){
+        
+        positionPlayer()
+        
+        if(gameActive == false){
+            game.time.events.add(1, positionFirst , this);
+        }
     }
     
 	return {
@@ -974,8 +891,8 @@ var oeKids = function(){
             worldGroup.add(particlesGroup)
             
             characterGroup = game.add.group()
-            characterGroup.x = 400
-            characterGroup.y = game.world.height - BOT_OFFSET * 4
+            characterGroup.x = 150
+            characterGroup.y = game.world.height - BOT_OFFSET * 4 + 20
             worldGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, 'delta');
@@ -994,7 +911,9 @@ var oeKids = function(){
             player.lastpos = player.y
             
             player.body.collideWorldBounds = true;
-                                    
+            
+            positionFirst()
+            
             createObjects()
             
             createPointsBar()
@@ -1007,6 +926,8 @@ var oeKids = function(){
             
             animateScene()
             
+            createOverlay()
+            createResultScreen()
             
 		},
         preload:preload,
