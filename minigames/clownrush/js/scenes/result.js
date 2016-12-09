@@ -34,6 +34,7 @@ var result = function(){
     var win
     var iconsGroup
     var buttonsActive
+    var haveCoupon
     var goalScore = 50
 
 	var timeGoal = null
@@ -147,7 +148,7 @@ var result = function(){
                                   
     }
     
-    function createButtons(){
+    function createButtons(pivot){
         
         var buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
@@ -157,7 +158,7 @@ var result = function(){
         var buttonTexts = ['Compartir','Reintentar']
         
         var pivotX = game.world.centerX - 150
-        var pivotY = game.world.height * 0.7
+        var pivotY = pivot
         for(var i = 0;i<buttonNames.length;i++){
         
             var group = game.add.group()
@@ -208,7 +209,7 @@ var result = function(){
             }else if(obj.tag == 'costena'){
                 window.open('http://amazingapp.co/juegos/costena/','_self')
             }else if(obj.tag == 'lluvia'){
-                window.open('http://amazingapp.co/juegos/chilimBalam/','_self')
+                window.open('http://amazingapp.co/juegos/chilimbalam/','_self')
             }  
         } , this);
     
@@ -253,6 +254,11 @@ var result = function(){
     
 	function createScene(){
         
+        if(game.device.desktop){
+            haveCoupon = false
+        }
+        
+        haveCoupon = false
         loadSounds()
         
 		sceneGroup = game.add.group()
@@ -270,30 +276,48 @@ var result = function(){
         var textToUse = '¡Sigue intentando!'
         var animationToUse = "LOSE"
         var colorTint = 0x2d8dff
+        var topHeight = 1
+        var scaleSpine = 1.3
+        var pivotButtons = game.world.height * 0.7
         
         if(win){
+            
             textToUse = '¡Lo lograste!'
             animationToUse = "WIN"
             colorTint = 0xff269d
+            
         }
+        
+        if(!haveCoupon){
+            
+            textToUse = "¡Genial!"
+            colorTint = 0xc216ac
+            animationToUse = "WIN"
+            topHeight = 1.5
+            scaleSpine = 1.7
+            pivotButtons = game.world.height * 0.68
+            
+        }
+        
         
         var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
         topRect.width = game.world.width
+        topRect.height*= topHeight
         topRect.tint = colorTint
         
-        var text = game.add.bitmapText(game.world.centerX, 50, 'gotham', textToUse, 45);
+        var text = game.add.bitmapText(game.world.centerX, topRect.height * 0.1, 'gotham', textToUse, 45);
         text.anchor.setTo(0.5,0.5)
         sceneGroup.add(text)
         
-        var buddy = game.add.spine(game.world.centerX,275, "amazing");
-        buddy.scale.setTo(1.3,1.3)
+        var buddy = game.add.spine(game.world.centerX,topRect.height * 0.68, "amazing");
+        buddy.scale.setTo(scaleSpine,scaleSpine)
         buddy.setAnimationByName(0, animationToUse, true);
         buddy.setSkinByName('Amaizing');
         sceneGroup.add(buddy)
         
         var pivotText = game.world.centerX - 200
         
-        var text = game.add.bitmapText(pivotText, 310, 'gotham', 'Obtuviste', 40);
+        var text = game.add.bitmapText(pivotText, topRect.height * 0.8, 'gotham', 'Obtuviste', 40);
         sceneGroup.add(text)
         
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -301,25 +325,29 @@ var result = function(){
         var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + " puntos", fontStyle)
         sceneGroup.add(retryText)
         
-        var needText = game.add.bitmapText(game.world.centerX - 175, game.world.centerY , 'gotham', 'Necesitas', 40);
-        needText.anchor.setTo(0,0.5)
-        needText.tint = 0x9d1760
-        sceneGroup.add(needText)
-        
-        var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#9d1760", align: "center"}
-        
-        var pointsText = new Phaser.Text(sceneGroup.game, needText.x + needText.width * 1.1, needText.y,   goalScore + ' puntos', fontStyle)
-        pointsText.anchor.setTo(0,0.5)
-        sceneGroup.add(pointsText)
-        
-        var text = game.add.bitmapText(needText.x - 50, needText.y + 60, 'gotham', 'para obtener este cupón', 40);
-        text.anchor.setTo(0,0.5)
-        text.tint = 0x9d1760
-        sceneGroup.add(text)
+        if(haveCoupon && !win){
+            
+            var needText = game.add.bitmapText(game.world.centerX - 175, game.world.centerY , 'gotham', 'Necesitas', 40);
+            needText.anchor.setTo(0,0.5)
+            needText.tint = 0x9d1760
+            sceneGroup.add(needText)
+
+            var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#9d1760", align: "center"}
+
+            var pointsText = new Phaser.Text(sceneGroup.game, needText.x + needText.width * 1.1, needText.y,   goalScore + ' puntos', fontStyle)
+            pointsText.anchor.setTo(0,0.5)
+            sceneGroup.add(pointsText)
+
+            var text = game.add.bitmapText(needText.x - 50, needText.y + 60, 'gotham', 'para obtener este cupón', 40);
+            text.anchor.setTo(0,0.5)
+            text.tint = 0x9d1760
+            sceneGroup.add(text)
+            
+        }
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
-        createButtons()
+        createButtons(pivotButtons)
         createIcons()
 
 		
@@ -329,6 +357,7 @@ var result = function(){
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
+        haveCoupon = false
         game.stage.backgroundColor = "#ffffff"
 	}
     

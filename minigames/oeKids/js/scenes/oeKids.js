@@ -276,7 +276,7 @@ var oeKids = function(){
         sound.play(colorToUse)
         
         createPart('star', obj)
-        createTextPart('+1', obj)
+        createTextPart(colorToUse, obj)
                 
         pointsBar.number++
         pointsBar.text.setText('x ' + pointsBar.number)
@@ -464,7 +464,7 @@ var oeKids = function(){
         
         pointsBar = game.add.group()
         pointsBar.x = game.world.width
-        pointsBar.y = game.world.height
+        pointsBar.y = 150
         sceneGroup.add(pointsBar)
         
         var pointsImg = pointsBar.create(-10,-10,'atlas.openEnglish','counter')
@@ -701,7 +701,7 @@ var oeKids = function(){
         
         var candyColors = [0xffce00,0xf83a4b,0x101fc7,0x159b3a]
         
-        var mask = sceneGroup.create(20, game.world.height - 20,'atlas.openEnglish','power01')
+        var mask = sceneGroup.create(20,125,'atlas.openEnglish','power01')
         mask.anchor.setTo(0,1)
         
         var rect = new Phaser.Graphics(game)
@@ -737,6 +737,13 @@ var oeKids = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 gameActive = true
                 overlayGroup.y = -game.world.height
+                start()
+                
+                game.add.tween(sceneGroup.instructions).to({alpha:1},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                    game.add.tween(sceneGroup.instructions).to({alpha:0},500,Phaser.Easing.linear,true,2000)
+                })
+                
+                
             })
             
         })
@@ -845,6 +852,42 @@ var oeKids = function(){
         if(gameActive == false){
             game.time.events.add(1, positionFirst , this);
         }
+        
+    }
+    
+    function createInstructions(){
+        
+        var instructionsGroup = game.add.group()
+        sceneGroup.add(instructionsGroup)
+        
+        instructionsGroup.x = game.world.centerX
+        instructionsGroup.y = 250
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x951384)
+        rect.drawRoundedRect(0,0,620, 120,30)
+        rect.endFill()
+        rect.x-= rect.width * 0.5
+        rect.y-= rect.height * 0.5
+        instructionsGroup.add(rect)
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xffffff)
+        rect.drawRoundedRect(0,0,600, 100,30)
+        rect.endFill()
+        rect.x-= rect.width * 0.5
+        rect.y-= rect.height * 0.5
+        instructionsGroup.add(rect)    
+        
+        var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5 , 'Collect the candy that is ' +  colorToUse + '.', fontStyle)
+        pointsText.anchor.setTo(0.5,0.5)
+        instructionsGroup.add(pointsText)
+        
+        instructionsGroup.alpha = 0
+        sceneGroup.instructions = instructionsGroup
+        
     }
     
 	return {
@@ -926,6 +969,7 @@ var oeKids = function(){
             
             animateScene()
             
+            createInstructions()
             createOverlay()
             createResultScreen()
             
