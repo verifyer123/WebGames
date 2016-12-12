@@ -1,0 +1,153 @@
+
+Amaizing.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Amaizing/HAPPY
+  rotate: false
+  xy: 2, 19
+  size: 111, 104
+  orig: 111, 104
+  offset: 0, 0
+  index: -1
+Amaizing/SAD
+  rotate: false
+  xy: 115, 19
+  size: 111, 104
+  orig: 111, 104
+  offset: 0, 0
+  index: -1
+Amaizing/agarradera1
+  rotate: false
+  xy: 41, 4
+  size: 27, 13
+  orig: 27, 13
+  offset: 0, 0
+  index: -1
+Amaizing/agarradera2
+  rotate: false
+  xy: 481, 110
+  size: 28, 13
+  orig: 28, 13
+  offset: 0, 0
+  index: -1
+Amaizing/cabeza
+  rotate: false
+  xy: 228, 56
+  size: 89, 67
+  orig: 89, 67
+  offset: 0, 0
+  index: -1
+Amaizing/foot1
+  rotate: false
+  xy: 446, 68
+  size: 21, 11
+  orig: 21, 11
+  offset: 0, 0
+  index: -1
+Amaizing/foot2
+  rotate: false
+  xy: 481, 97
+  size: 21, 11
+  orig: 21, 11
+  offset: 0, 0
+  index: -1
+Amaizing/fringe
+  rotate: false
+  xy: 400, 38
+  size: 44, 41
+  orig: 44, 41
+  offset: 0, 0
+  index: -1
+Amaizing/glasses
+  rotate: false
+  xy: 400, 81
+  size: 79, 42
+  orig: 79, 42
+  offset: 0, 0
+  index: -1
+Amaizing/glasses_a
+  rotate: false
+  xy: 319, 80
+  size: 79, 43
+  orig: 79, 43
+  offset: 0, 0
+  index: -1
+Amaizing/glasses_b
+  rotate: false
+  xy: 319, 36
+  size: 78, 42
+  orig: 78, 42
+  offset: 0, 0
+  index: -1
+Amaizing/glasses_c
+  rotate: false
+  xy: 228, 12
+  size: 79, 42
+  orig: 79, 42
+  offset: 0, 0
+  index: -1
+Amaizing/leg1
+  rotate: false
+  xy: 309, 20
+  size: 7, 16
+  orig: 7, 16
+  offset: 0, 0
+  index: -1
+Amaizing/leg2
+  rotate: false
+  xy: 309, 38
+  size: 8, 16
+  orig: 8, 16
+  offset: 0, 0
+  index: -1
+Amaizing/ojo1
+  rotate: false
+  xy: 504, 102
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+Amaizing/ojo2
+  rotate: false
+  xy: 446, 43
+  size: 5, 6
+  orig: 5, 6
+  offset: 0, 0
+  index: -1
+Amaizing/shin1
+  rotate: false
+  xy: 446, 51
+  size: 10, 15
+  orig: 10, 15
+  offset: 0, 0
+  index: -1
+Amaizing/shin2
+  rotate: false
+  xy: 481, 80
+  size: 10, 15
+  orig: 10, 15
+  offset: 0, 0
+  index: -1
+Amaizing/torso
+  rotate: false
+  xy: 2, 2
+  size: 37, 15
+  orig: 37, 15
+  offset: 0, 0
+  index: -1
+Amaizing/wink1
+  rotate: false
+  xy: 70, 12
+  size: 8, 5
+  orig: 8, 5
+  offset: 0, 0
+  index: -1
+Amaizing/wink2
+  rotate: false
+  xy: 70, 5
+  size: 8, 5
+  orig: 8, 5
+  offset: 0, 0
+  index: -1

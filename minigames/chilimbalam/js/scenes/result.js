@@ -1,6 +1,16 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var result = function(){
 
+	localizationData = {
+		"EN":{
+
+		},
+
+		"ES":{
+
+		}
+	}
+
 	var assets = {
 		atlases: [
 			{
@@ -24,18 +34,19 @@ var result = function(){
     var win
     var iconsGroup
     var buttonsActive
-    var goalScore = 70
+    var haveCoupon
+    var goalScore = 50
 
 	var timeGoal = null
 
-	function setScore(didWin, score){
+	function setScore(didWin,score){
 		totalScore = score
 		totalGoal = 50
 		totalTime = 0
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "chilimBalam", "win":didWin, "numberOfObjects":score}
+            {"gameName": "chilimbalam", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -90,74 +101,17 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "chilimBalam"}
+            {"gameName": "chilimbalam"}
         );
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/g/chilimBalam/',
+		    href: 'http://amazingapp.co/juegos/chilimbalam/',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
 		}, function(response){
 			//console.log(button)
 		});
-	}
-
-	function createShareButton(){
-		var buttonGroup = new Phaser.Group(game)
-
-		var shareButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'share')
-		shareButton.anchor.setTo(0.5, 0.5)
-		buttonGroup.add(shareButton)
-
-		shareButton.inputEnabled = true
-		shareButton.events.onInputUp.add(shareEvent, buttonGroup)
-
-		var tryAgainButton = buttonGroup.create(0, 0, 'atlas.resultScreen', 'again')
-		tryAgainButton.visible = false
-		tryAgainButton.anchor.setTo(0.5, 0.5)
-		buttonGroup.add(tryAgainButton)
-
-		tryAgainButton.inputEnabled = false
-		tryAgainButton.events.onInputUp.add(tryAgain, buttonGroup)
-
-		var textStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#f0f0f0", align: "center"}
-
-		var labelText = new Phaser.Text(game, 0, 0, localization.getString(localizationData, "shareNow"), textStyle)
-		labelText.anchor.setTo(0.5, 0.5)
-		labelText.x = shareButton.width * -0.12
-		buttonGroup.add(labelText)
-
-		buttonGroup.share = shareButton
-		buttonGroup.retry = tryAgainButton
-		buttonGroup.label = labelText
-
-		return buttonGroup
-	}
-
-	function showPromo(){
-
-		var urls = {
-			android: "http://yogo.me/epicPlay",
-			ios: "http://yogo.me/epicUsA",
-		}
-
-		var userAgent = navigator.userAgent || "Mac"
-		var agentRegex = /Android/g
-
-		var resultRegex = agentRegex.exec(userAgent)
-
-		if(resultRegex){
-			window.open(urls.android)
-		}
-		else{
-			window.open(urls.ios)		
-		}
-        
-        mixpanel.track(
-            "pressEpicPromo",
-            {"gameName": "chilimBalam"}
-        );
 	}
     
     function inputButton(obj){
@@ -178,9 +132,9 @@ var result = function(){
             game.add.tween(parent.scale).to({x:1,y:1}, 200, Phaser.Easing.Cubic.Out, true)
             changeImage(1,parent)
             
-            if(parent.tag == 'share'){
+            if(parent.tag == 'compartir'){
                 shareEvent()
-            }else if(parent.tag == 'reload'){
+            }else if(parent.tag == 'reintentar'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
                         sceneloader.show("chilimbalam")
@@ -190,26 +144,18 @@ var result = function(){
                                   
     }
     
-    function createButtons(){
+    function createButtons(pivot){
         
         var buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
-        var buttonNames = ['share','reload','send']
+        var buttonNames = ['compartir','reintentar']
         
-        var buttonTexts = ['Compartir','Reintentar','Mandar']
+        var buttonTexts = ['Compartir','Reintentar']
         
         var pivotX = game.world.centerX - 150
-        var pivotY = game.world.height * 0.85
+        var pivotY = pivot
         for(var i = 0;i<buttonNames.length;i++){
-            
-            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-            var retryText = new Phaser.Text(sceneGroup.game, 0, 5, buttonTexts[i], fontStyle)
-            retryText.anchor.setTo(0.5,0.5)
-            retryText.x = pivotX
-            retryText.y = pivotY + 83   
-            buttonsGroup.add(retryText)
         
             var group = game.add.group()
             group.x = pivotX
@@ -217,13 +163,11 @@ var result = function(){
             buttonsGroup.add(group)
             
             group.tag = buttonNames[i]
-            
-            pivotX += 150
         
-            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_on')
+            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i])
             button1.anchor.setTo(0.5,0.5)
             
-            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + '_off')
+            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i])
             button2.anchor.setTo(0.5,0.5)
             
             button1.inputEnabled = true
@@ -231,6 +175,16 @@ var result = function(){
             button1.active = true
             
             changeImage(1,group)
+            
+            var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+            var retryText = new Phaser.Text(sceneGroup.game, 0, 5, buttonTexts[i], fontStyle)
+            retryText.anchor.setTo(0.5,0.5)
+            retryText.x = pivotX -25
+            retryText.y = pivotY + 5
+            buttonsGroup.add(retryText)
+            
+            pivotX += 300
         }
 
     }
@@ -247,11 +201,11 @@ var result = function(){
         
         game.time.events.add(350, function(){
             if(obj.tag == 'bros'){
-                window.open('http://amazingapp.co/juegos/runner/','_self')
+                window.open('http://amazingapp.co/juegos/amazingbros/','_self')
             }else if(obj.tag == 'costena'){
                 window.open('http://amazingapp.co/juegos/costena/','_self')
             }else if(obj.tag == 'lluvia'){
-                window.open('http://amazingapp.co/juegos/chilimBalam/','_self')
+                window.open('http://amazingapp.co/juegos/chilimbalam/','_self')
             }  
         } , this);
     
@@ -263,7 +217,7 @@ var result = function(){
         sceneGroup.add(iconsGroup)
         
         var pivotX = game.world.centerX - 174
-        var pivotY = game.world.centerY +70
+        var pivotY = game.world.height - 150
         
         var iconNames = ['bros','costena','lluvia']
         var gameNames = ['Amazing Bros', 'Memorama \ndel Sabor', 'Lluvia de \nGomitas']
@@ -280,7 +234,7 @@ var result = function(){
             img.events.onInputDown.add(inputGame)
             img.tag = iconNames[i]
             
-            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
             var nameText = new Phaser.Text(sceneGroup.game, 0, 110, gameNames[i], fontStyle)
             nameText.lineSpacing = -10;
@@ -296,75 +250,116 @@ var result = function(){
     
 	function createScene(){
         
+        if(game.device.desktop){
+            haveCoupon = false
+        }
+        
+        haveCoupon = false
         loadSounds()
         
 		sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
         
         var background = new Phaser.Graphics(game)
-        background.beginFill(0x951384);
+        background.beginFill(0xffffff);
         background.drawRect(0, 0, game.world.width, game.world.height);
         background.endFill();
         background.anchor.setTo(0,0)
         sceneGroup.add(background)
         
-        var topRect = new Phaser.Graphics(game)
-        topRect.beginFill(0x2e77ce);
-        topRect.drawRect(0, 0, game.world.width, 100);
-        topRect.endFill();
-        topRect.anchor.setTo(0,0)
-        sceneGroup.add(topRect)
+        var win = totalScore >= goalScore
         
-        var text = game.add.bitmapText(game.world.centerX, 60, 'gotham', '¡Sigue intentando!', 35);
+        var textToUse = '¡Sigue intentando!'
+        var animationToUse = "LOSE"
+        var colorTint = 0x2d8dff
+        var topHeight = 1
+        var scaleSpine = 1.3
+        var pivotButtons = game.world.height * 0.7
+        
+        if(win){
+            
+            textToUse = '¡Lo lograste!'
+            animationToUse = "WIN"
+            colorTint = 0xff269d
+            
+        }
+        
+        if(!haveCoupon){
+            
+            textToUse = "¡Genial!"
+            colorTint = 0xc216ac
+            animationToUse = "WIN"
+            topHeight = 1.5
+            scaleSpine = 1.7
+            pivotButtons = game.world.height * 0.68
+            
+        }
+        
+        
+        var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
+        topRect.width = game.world.width
+        topRect.height*= topHeight
+        topRect.tint = colorTint
+        
+        var text = game.add.bitmapText(game.world.centerX, topRect.height * 0.1, 'gotham', textToUse, 45);
         text.anchor.setTo(0.5,0.5)
         sceneGroup.add(text)
         
-        var retryCharacter = sceneGroup.create(game.world.centerX - 220, game.world.centerY - 200,'atlas.resultScreen','retro-personaje')
-        retryCharacter.anchor.setTo(0.5,0.5)
+        var buddy = game.add.spine(game.world.centerX,topRect.height * 0.68, "amazing");
+        buddy.scale.setTo(scaleSpine,scaleSpine)
+        buddy.setAnimationByName(0, animationToUse, true);
+        buddy.setSkinByName('Amaizing');
+        sceneGroup.add(buddy)
         
-        var pivotText = retryCharacter.x + retryCharacter.width * 0.6
+        var pivotText = game.world.centerX - 200
         
-        var text = game.add.bitmapText(pivotText, game.world.centerY - 270, 'gotham', 'Tuviste', 35);
+        var text = game.add.bitmapText(pivotText, topRect.height * 0.8, 'gotham', 'Obtuviste', 40);
         sceneGroup.add(text)
         
-        var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var addText = ''
+        if(totalScore != 1){ addText = 's'}
         
-        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, -10, totalScore + " puntos", fontStyle)
-        //retryText.x = pivotText
-        retryText.y = game.world.centerY - 282
+        var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + " punto" + addText, fontStyle)
         sceneGroup.add(retryText)
-        
-        sceneGroup.add(retryText)
-        
-        var text = game.add.bitmapText(pivotText, game.world.centerY - 210, 'gotham', 'Obtén un nuevo', 35);
-        sceneGroup.add(text)
-        
-        var scoreText = game.add.bitmapText(pivotText, game.world.centerY - 150, 'gotham', 'cupón por', 35);
-        sceneGroup.add(scoreText)
-        
-        var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var retryText = new Phaser.Text(sceneGroup.game, scoreText.x + scoreText.width * 1.1, -10, goalScore + " puntos", fontStyle)
-        //retryText.x = pivotText
-        retryText.y = game.world.centerY - 162
-        sceneGroup.add(retryText)
-        
-        var bottomBar = new Phaser.Graphics(game)
-        background.beginFill(0x770b6d);
-        background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.55);
-        background.endFill();
-        background.anchor.setTo(0,1)
-        sceneGroup.add(background)
-        
-        var bottomBar = new Phaser.Graphics(game)
-        background.beginFill(0x383838);
-        background.drawRect(0, game.world.height, game.world.width, game.world.height * -0.27);
-        background.endFill();
-        background.anchor.setTo(0,1)
-        sceneGroup.add(background)
+                
+        if(haveCoupon){
+            
+            if(!win){
+                var needText = game.add.bitmapText(game.world.centerX - 175, game.world.centerY , 'gotham', 'Necesitas', 40);
+                needText.anchor.setTo(0,0.5)
+                needText.tint = 0x9d1760
+                sceneGroup.add(needText)
+
+                var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#9d1760", align: "center"}
+
+                var pointsText = new Phaser.Text(sceneGroup.game, needText.x + needText.width * 1.1, needText.y,   goalScore + ' puntos', fontStyle)
+                pointsText.anchor.setTo(0,0.5)
+                sceneGroup.add(pointsText)
+
+                var text = game.add.bitmapText(needText.x - 50, needText.y + 60, 'gotham', 'para obtener este cupón', 40);
+                text.anchor.setTo(0,0.5)
+                text.tint = 0x9d1760
+                sceneGroup.add(text)
+            }else{
+                
+                var imageExist = game.cache.getFrameByName('atlas.resultScreen','coupon')
+                
+                if(imageExist){
+                    
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 50,'atlas.resultScreen','coupon')
+                    coupon.anchor.setTo(0.5,0.5)
+                    
+                }
+            }
+            
+            
+        }
+
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
-        createButtons()
+        createButtons(pivotButtons)
         createIcons()
 
 		
@@ -374,11 +369,14 @@ var result = function(){
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
+        haveCoupon = false
         game.stage.backgroundColor = "#ffffff"
 	}
     
     function preload(){
-        game.load.bitmapFont('gotham', 'images/bitfont/gotham.png', 'images/bitfont/gotham.fnt');
+        game.load.bitmapFont('gotham', 'images/bitFont/Gotham.png', 'images/bitFont/Gotham.fnt');
+        
+        game.load.spine('amazing', "images/spines/Amaizing.json");
     }
     
 	return {

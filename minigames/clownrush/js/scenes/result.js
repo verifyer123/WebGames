@@ -320,28 +320,44 @@ var result = function(){
         var text = game.add.bitmapText(pivotText, topRect.height * 0.8, 'gotham', 'Obtuviste', 40);
         sceneGroup.add(text)
         
+        var addText = ''
+        if(totalScore != 1){ addText = 's'}
+        
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + " puntos", fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + " punto" + addText, fontStyle)
         sceneGroup.add(retryText)
-        
-        if(haveCoupon && !win){
+                
+        if(haveCoupon){
             
-            var needText = game.add.bitmapText(game.world.centerX - 175, game.world.centerY , 'gotham', 'Necesitas', 40);
-            needText.anchor.setTo(0,0.5)
-            needText.tint = 0x9d1760
-            sceneGroup.add(needText)
+            if(!win){
+                var needText = game.add.bitmapText(game.world.centerX - 175, game.world.centerY , 'gotham', 'Necesitas', 40);
+                needText.anchor.setTo(0,0.5)
+                needText.tint = 0x9d1760
+                sceneGroup.add(needText)
 
-            var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#9d1760", align: "center"}
+                var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#9d1760", align: "center"}
 
-            var pointsText = new Phaser.Text(sceneGroup.game, needText.x + needText.width * 1.1, needText.y,   goalScore + ' puntos', fontStyle)
-            pointsText.anchor.setTo(0,0.5)
-            sceneGroup.add(pointsText)
+                var pointsText = new Phaser.Text(sceneGroup.game, needText.x + needText.width * 1.1, needText.y,   goalScore + ' puntos', fontStyle)
+                pointsText.anchor.setTo(0,0.5)
+                sceneGroup.add(pointsText)
 
-            var text = game.add.bitmapText(needText.x - 50, needText.y + 60, 'gotham', 'para obtener este cupón', 40);
-            text.anchor.setTo(0,0.5)
-            text.tint = 0x9d1760
-            sceneGroup.add(text)
+                var text = game.add.bitmapText(needText.x - 50, needText.y + 60, 'gotham', 'para obtener este cupón', 40);
+                text.anchor.setTo(0,0.5)
+                text.tint = 0x9d1760
+                sceneGroup.add(text)
+            }else{
+                
+                var imageExist = game.cache.getFrameByName('atlas.resultScreen','coupon')
+                
+                if(imageExist){
+                    
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 50,'atlas.resultScreen','coupon')
+                    coupon.anchor.setTo(0.5,0.5)
+                    
+                }
+            }
+            
             
         }
 

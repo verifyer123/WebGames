@@ -636,8 +636,9 @@ var hexhop = function(){
         dashboard.height *= 0.9
         dashboard.anchor.setTo(0,1)
         
-        var button = sceneGroup.create(game.world.centerX,dashboard.y - 140,'atlas.hexhop','button')
+        var button = sceneGroup.create(game.world.centerX,dashboard.y - 110,'atlas.hexhop','button')
         button.anchor.setTo(0.5,0.5)
+        button.scale.setTo(1.3,1.3)
         button.inputEnabled = true
         button.events.onInputDown.add(inputButton)
         
