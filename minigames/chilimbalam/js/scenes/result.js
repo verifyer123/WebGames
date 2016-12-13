@@ -105,14 +105,16 @@ var result = function(){
             {"gameName": "chilimbalam"}
         );
         
-		FB.ui({
-		    method: 'share',
-		    href: 'http://amazingapp.co/juegos/chilimbalam/',
-		    mobile_iframe: true,
-		    title: "Mi score es: " + totalScore
-		}, function(response){
-			//console.log(button)
-		});
+		// FB.ui({
+		//     method: 'share',
+		//     href: 'http://amazingapp.co/juegos/chilimbalam/',
+		//     mobile_iframe: true,
+		//     title: "Mi score es: " + totalScore
+		// }, function(response){
+		// 	//console.log(button)
+		// });
+
+        amazing.share(totalScore, "chilimbalam")
 	}
     
     function inputButton(obj){
