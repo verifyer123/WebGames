@@ -153,7 +153,7 @@ var result = function(){
         
         var buttonTexts = ['Compartir','Reintentar']
         
-        var pivotX = game.world.centerX - 150
+        var pivotX = game.world.centerX - 125
         var pivotY = pivot
         for(var i = 0;i<buttonNames.length;i++){
         
@@ -248,13 +248,64 @@ var result = function(){
         }
     }
     
+    function checkPosObj(obj){
+        
+        var posX = obj.x
+        var posY = obj.y
+        
+        var samePos = false
+        for(var i = 0;i<gameIconsGroup.length;i++){
+            var obj = gameIconsGroup.children[i]
+            if(Math.abs(obj.x - posX) < 70 && Math.abs(obj.y - posY) < 70){
+                samePos = true
+            }
+        }
+        return samePos
+        
+    }
+    
+    
+    function placeIcons(){
+        
+        gameIconsGroup = game.add.group()
+        sceneGroup.add(gameIconsGroup)
+        
+        for(var i = 0;i<8;i++){
+            
+            var offset = 1
+            if(i>3){offset = -1}
+            
+            var iconName = i+1
+
+            if(i>5){
+                iconName = 4
+            }
+            if(i > 6){
+                iconName = 1
+            }
+            
+            var icon = sceneGroup.create(game.world.centerX + game.rnd.integerInRange(100, game.world.width * 0.35) * offset, game.rnd.integerInRange(100, sceneGroup.topRect.height * 0.75),'atlas.resultScreen','' + iconName)
+            icon.anchor.setTo(0.5,0.5)
+            
+            //console.log(iconName + ' index')
+            
+            while (checkPosObj(icon)){
+                icon.x = game.world.centerX + game.rnd.integerInRange(75, game.world.width * 0.4) * offset
+                icon.y = game.rnd.integerInRange(100, sceneGroup.topRect.height * 0.75)
+            }
+            
+            sceneGroup.remove(icon)
+            gameIconsGroup.add(icon)
+        }
+        
+    }
+    
 	function createScene(){
         
         if(game.device.desktop){
             haveCoupon = false
         }
         
-        haveCoupon = false
         loadSounds()
         
 		sceneGroup = game.add.group()
@@ -300,6 +351,9 @@ var result = function(){
         topRect.width = game.world.width
         topRect.height*= topHeight
         topRect.tint = colorTint
+        sceneGroup.topRect = topRect
+        
+        placeIcons()
         
         var text = game.add.bitmapText(game.world.centerX, topRect.height * 0.1, 'gotham', textToUse, 45);
         text.anchor.setTo(0.5,0.5)
@@ -327,7 +381,7 @@ var result = function(){
         if(haveCoupon){
             
             if(!win){
-                var needText = game.add.bitmapText(game.world.centerX - 175, game.world.centerY , 'gotham', 'Necesitas', 40);
+                var needText = game.add.bitmapText(game.world.centerX - 190, game.world.centerY , 'gotham', 'Necesitas', 40);
                 needText.anchor.setTo(0,0.5)
                 needText.tint = 0x9d1760
                 sceneGroup.add(needText)
