@@ -922,7 +922,7 @@ var clownrush = function(){
     function preload(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = false;
 
         game.load.spine('clown', "images/spines/Clown Rush.json");
         
@@ -1026,6 +1026,14 @@ var clownrush = function(){
             gameSong = game.add.audio('circus')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.3)
+            }, this);
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
             }, this);
             
             createHearts()

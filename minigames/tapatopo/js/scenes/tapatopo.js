@@ -366,7 +366,7 @@ var tapatopo = function(){
     function preload(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = false;
 
         game.load.spine('topo', "images/spines/skeleton.json");
         
@@ -763,6 +763,14 @@ var tapatopo = function(){
             gameSong = game.add.audio('moleSong')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.5)
+            }, this);
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
             }, this);
             
             createHearts()

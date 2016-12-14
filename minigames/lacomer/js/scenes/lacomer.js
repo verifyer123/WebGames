@@ -120,8 +120,7 @@ var lacomer = function(){
     function preload() {
         
         game.plugins.add(Fabrique.Plugins.Spine);
-        game.stage.disableVisibilityChange = true;
-
+        game.stage.disableVisibilityChange = false
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
         game.load.spritesheet('bMonster', 'images/lacomer/bMonster.png', 101, 165, 17);
@@ -918,6 +917,14 @@ var lacomer = function(){
             marioSong = game.add.audio('marioSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 marioSong.loopFull(0.4)
+            }, this);
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
             }, this);
             
             objectsGroup = game.add.group()

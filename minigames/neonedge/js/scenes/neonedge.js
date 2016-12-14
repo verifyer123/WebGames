@@ -173,7 +173,7 @@ var neonedge = function(){
     function preload() {
         
         game.plugins.add(Fabrique.Plugins.Spine);
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = false;
         
         game.load.spritesheet('coinS', 'images/neon/coinS.png', 68, 70, 12);
         game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
@@ -980,7 +980,15 @@ var neonedge = function(){
             
             createPointsBar()
             createHearts()
-            createControls()            
+            createControls()   
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
+            }, this);
             
             //createControls()
             

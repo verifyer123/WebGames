@@ -136,7 +136,7 @@ var zombiecrush = function(){
     function preload() {
         
         game.plugins.add(Fabrique.Plugins.Spine);
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = false;
 
         game.load.spine('punisher', "images/spines/punisher/skeleton.json");
         game.load.spritesheet('zombie', 'images/zombie/zombie.png', 98, 110, 13);
@@ -1155,6 +1155,14 @@ var zombiecrush = function(){
             zombieSong = game.add.audio('song')
             game.sound.setDecodedCallback(zombieSong, function(){
                 zombieSong.loopFull(0.6)
+            }, this);
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
             }, this);
             
             animateScene()

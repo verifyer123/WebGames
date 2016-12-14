@@ -113,7 +113,7 @@ var amazingbros = function(){
     
     
     function preload() {
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = false;
 
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
@@ -870,6 +870,15 @@ var amazingbros = function(){
             marioSong = game.add.audio('marioSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 marioSong.loopFull(0.6)
+            }, this);
+            
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
             }, this);
             
             objectsGroup = game.add.group()
