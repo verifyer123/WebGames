@@ -52,7 +52,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            openenglish3,
+            openenglish4,
             result,
     	])
     }

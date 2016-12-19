@@ -267,7 +267,9 @@ var neonedge = function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
-
+            
+            amazing.saveScore(pointsBar.number) 
+            
 			sceneloader.show("result")
 		})
     }

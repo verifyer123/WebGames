@@ -53,7 +53,7 @@ var instructions = function(){
             
             var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
-                sceneloader.show("openenglish3")
+                sceneloader.show("openenglish4")
             })
             
         })
@@ -108,7 +108,75 @@ var instructions = function(){
 
     return false;
 }
+    
+    function createImageGroup(){
+        
+        var imageGroup = game.add.group()
+        imageGroup.x = game.world.centerX 
+        imageGroup.y = game.world.centerY - 150
+        imageGroup.scale.setTo(0.7,0.7)
+        sceneGroup.add(imageGroup)
+        
+        var topBack = new Phaser.Graphics(game)
+        topBack.beginFill(0xffffff);
+        topBack.drawRoundedRect(0, 0, 300,300,30);
+        topBack.endFill();
+        topBack.x-= topBack.width * 0.5
+        topBack.y-= topBack.height * 0.5
+        imageGroup.add(topBack)
+            
+        var word = 'manzana'
 
+        var group = game.add.group()
+        imageGroup.add(group)
+
+        var image = group.create(0,-25,'atlas.instructions',word)
+        image.anchor.setTo(0.5,0.5)
+
+        var imageText = game.add.bitmapText(0,115, 'wFont', word, 45);
+        imageText.anchor.setTo(0.5, 0.5)
+        imageText.tint = 0x000000
+        group.add(imageText)
+        
+        var pivotX = game.world.centerX - 170
+        
+        for(var i = 0; i<5;i++){
+            
+            var button = sceneGroup.create(pivotX,game.world.centerY + 35 ,'atlas.instructions','espacioAzul')
+            button.anchor.setTo(0.5,0.5)
+            button.scale.setTo(0.8,0.8)
+            pivotX+= 85
+            
+            var butText = game.add.bitmapText(button.x, button.y, 'wFont', '', 45);
+            butText.anchor.setTo(0.5, 0.5)
+            butText.tint = 0xffffff
+            sceneGroup.add(butText)
+            
+            if(i == 2){
+                butText.setText('P')
+            }
+            
+        }
+        
+        var pivotX = game.world.centerX - 145
+        
+        var wordList = ['P','A','E','L']
+        for(var i = 0; i<4;i++){
+            
+            var button = sceneGroup.create(pivotX,game.world.centerY + 190 ,'atlas.instructions','opcion1')
+            button.anchor.setTo(0.5,0.5)
+            button.scale.setTo(0.75,0.75)
+            pivotX+= 100
+            
+            var butText = game.add.bitmapText(button.x, button.y, 'wFont', wordList[i], 45);
+            butText.anchor.setTo(0.5, 0.5)
+            butText.tint = 0x000000
+            sceneGroup.add(butText)
+            
+        }
+
+    }
+    
 	function createScene(){
 
 		sceneGroup = game.add.group()
@@ -118,11 +186,6 @@ var instructions = function(){
         background.drawRect(0, 0, game.width, game.height)
         background.endFill()
         sceneGroup.add(background)
-        
-		/*var circleInstructions = createInstructions()
-		circleInstructions.x = game.world.centerX
-		circleInstructions.y = game.world.centerY 
-		sceneGroup.add(circleInstructions)*/
         
         var bottomRect = new Phaser.Graphics(game)
         bottomRect.beginFill(0xffffff);
@@ -134,42 +197,15 @@ var instructions = function(){
         var topText = sceneGroup.create(game.world.centerX, 78, 'atlas.instructions','tituloInstrucciones')
         topText.anchor.setTo(0.5,0.5)
         
-        var centerInstructions = sceneGroup.create(game.world.centerX, game.world.centerY -175,'atlas.instructions','instrucc')
-        centerInstructions.anchor.setTo(0.5,0.5)
+        createImageGroup()
         
-        /*var nameCursor = 'manita'
-        
-        if(game.device.desktop == true){
-            nameCursor = 'cursor'
-        }
-        
-        var cursor = sceneGroup.create(game.world.centerX + 100, game.world.centerY + 140, 'atlas.instructions',nameCursor)
-        cursor.anchor.setTo(0.5,0.5)*/
-        
-        var words = ['Where','Were','Coming']
-        
-        var pivotY = game.world.centerY
-        for(var i = 0; i<3;i++){
-            
-            var button = sceneGroup.create(game.world.centerX,pivotY,'atlas.instructions','opcion2')
-            button.anchor.setTo(0.5,0.5)
-            button.scale.setTo(0.8,0.8)
-            
-            var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-            
-            var trackerText = new Phaser.Text(sceneGroup.game, button.x, button.y,words[i], fontStyle)
-            trackerText.anchor.setTo(0.5, 0.5)
-            sceneGroup.add(trackerText)
-            
-            pivotY+= 80
-        }
-        
-        var cursor = sceneGroup.create(game.world.centerX - 125,game.world.centerY - 100,'atlas.instructions','mano')
+        var cursor = sceneGroup.create(game.world.centerX + 110,game.world.centerY +115,'atlas.instructions','mano')
         cursor.anchor.setTo(0.5,0.5)
+        cursor.scale.setTo(0.8,0.8)
         
 		var buttonGo = createButton()
 		buttonGo.x = game.world.centerX
-		buttonGo.y = game.world.height * 0.8
+		buttonGo.y = game.world.height * 0.83
 		sceneGroup.add(buttonGo)
         
         var botAd = sceneGroup.create(game.world.centerX, game.world.height - 25,'atlas.instructions','LogoPie')
@@ -190,10 +226,15 @@ var instructions = function(){
 		//game.stage.backgroundColor = "#67b2e7"
         //game.stage.backgroundColor = "#aea1ff"
 	}
-
+    
+    function preload(){
+        game.load.bitmapFont('wFont', 'images/font/wFont.png', 'images/font/wFont.fnt');
+    }
+    
 	return {
 		name: "instructions",
 		assets: assets,
+        preload:preload,
 		create: createScene,
 		init: initialize
 	}

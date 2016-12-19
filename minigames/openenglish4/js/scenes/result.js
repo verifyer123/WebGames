@@ -21,10 +21,12 @@ var result = function(){
         ],
 	}
     
+    var year =  //(new Date().getFullYear() + 1) 
+        2017
     var scoreTexts = [
         ['Aunque tienes algún conocimiento, todavía\n se te hace difícil diferenciar las palabras que\n se usan de manera diferente en inglés. Para ello\n puedes tomar algún curso o practicarlo más.¡Buena suerte!'],
-        ['No cabe duda que tienes algún conocimiento\n del inglés, ¡pero siempre es buena idea mejorar! \nPara el 2017 dedicate al estudio y practicar más,\n ya verás como mejoras. ¡Suerte!'],
-        ['¡Éxito! Como nivel avanzado, tienes mucho\n conocimiento y agilidad en el lenguaje. Pensamos\n que estudiar inglés con nosotros te puede ayudar a\n cumplir tus metas del 2017 más rápido.']
+        ['No cabe duda que tienes algún conocimiento\n del inglés, ¡pero siempre es buena idea mejorar! \nPara el ' + year + ' dedicate al estudio y practicar más,\n ya verás como mejoras. ¡Suerte!'],
+        ['¡Éxito! Como nivel avanzado, tienes mucho\n conocimiento y agilidad en el lenguaje. Pensamos\n que estudiar inglés con nosotros te puede ayudar a\n cumplir tus metas del ' + year +' más rápido.']
     ]
     
 	var sceneGroup
@@ -105,7 +107,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/games/web/openEnglish3/',
+		    href: 'http://yogome.com/games/web/openEnglish4/',
 		    mobile_iframe: true,
             picture:'http://yogome.com/games/web/openenglish/images/profileImages/' + emoName + '.png',		    
             title: "Soy nivel '" + emoName + "' en inglés. Descubre tu nivel con este divertido juego."
@@ -115,7 +117,7 @@ var result = function(){
 	}
 
 	function tryAgain(){
-		sceneloader.show("openenglish")
+		sceneloader.show("openenglish4")
 	}
 
 	function createShareButton(){
@@ -159,7 +161,7 @@ var result = function(){
             }else if(parent.tag == 'reload'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show("openenglish3")
+                        sceneloader.show("openenglish4")
                     })
             }
         })
@@ -292,12 +294,12 @@ var result = function(){
         var iconName = 'principiante'
         var iconIndex = 0
 
-        if(totalScore >= 5){
+        if(totalScore >= 2){
             iconName = 'intermedio'
             iconIndex = 1
         }
 
-        if(totalScore >= 8){
+        if(totalScore >= 4){
             iconName = 'avanzado'
             iconIndex = 2
         }
@@ -327,7 +329,7 @@ var result = function(){
         sceneGroup.add(scoreText) 
 
         var textSize = 23
-        if(iconIndex == 0){textSize = 21}
+        if(iconIndex == 0){textSize = 20}
         var fontStyle = {font: textSize + "px VAGRounded", fontWeight: "bold", fill: "#868585", align: "center"}
 
         var scoreText = new Phaser.Text(sceneGroup.game, game.world.centerX, globe.y + globe.height * 1.5, scoreTexts[iconIndex], fontStyle)
