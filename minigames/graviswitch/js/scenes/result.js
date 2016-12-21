@@ -106,7 +106,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://amazingapp.co/juegos/lacomer/',
+		    href: 'http://amazingapp.co/juegos/graviswitch/',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
 		}, function(response){

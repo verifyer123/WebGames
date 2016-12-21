@@ -1,0 +1,90 @@
+
+Eagle.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Eagle/arm1
+  rotate: false
+  xy: 354, 720
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Eagle/arm2
+  rotate: false
+  xy: 426, 802
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Eagle/foot1
+  rotate: false
+  xy: 126, 176
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Eagle/foot2
+  rotate: false
+  xy: 2, 2
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Eagle/hand1
+  rotate: false
+  xy: 2, 136
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Eagle/hand2
+  rotate: false
+  xy: 2, 54
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Eagle/head_a
+  rotate: false
+  xy: 2, 228
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Eagle/head_b
+  rotate: false
+  xy: 2, 753
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_h
+  rotate: false
+  xy: 2, 490
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/leg1
+  rotate: false
+  xy: 354, 782
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Eagle/leg2
+  rotate: false
+  xy: 64, 156
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Eagle/torso
+  rotate: false
+  xy: 354, 864
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1

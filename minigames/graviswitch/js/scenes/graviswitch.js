@@ -15,8 +15,6 @@ var graviswitch = function(){
 		sounds: [
             {	name: "pop",
 				file: soundsPath + "magic.mp3"},
-            {	name: "splash",
-				file: soundsPath + "splash.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
             {	name: "whoosh",
@@ -25,30 +23,37 @@ var graviswitch = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "wrongItem",
 				file: soundsPath + "wrongItem.mp3"},
+            {	name: "spaceship",
+				file: soundsPath + "spaceship.mp3"},
+            {	name: "laserexplode",
+				file: soundsPath + "laserexplode.mp3"},
+            {	name: "step",
+				file: soundsPath + "step.mp3"},
 		],
 	}
     
     var SPEED = 225 
     var TIME_ADD = 600
     var JUMP_FORCE = 820
-    var DEBUG_PHYSICS = true
-    var WORLD_GRAVITY = 1600
+    var DEBUG_PHYSICS = false
+    var WORLD_GRAVITY = 1800
     var OFF_BRICK = 200
-    var BOT_OFFSET = 250
+    var BOT_OFFSET = 200
     
     var indexCoin
-    var skullTrue = false
+    var canMisile = null
     var marioSong = null
+    var indexPiece = null
     var enemyNames = null
-    var consecFloor, consecBricks
     var gameStart = false
     var jumping = false
-    var lastOne = null
     var yAxis = null
     var objToCheck
     var gameSpeed = null
     var objectsList = null
     var pivotObjects
+    var pivotTop
+    var objTop
     var player
 	var sceneGroup = null
     var groundGroup = null
@@ -81,22 +86,22 @@ var graviswitch = function(){
         enemyNames = ['coin']
         indexCoin = 0
         gameStart = false
-        skullTrue = false
+        canMisile = false
         gameSpeed =  SPEED
-        lastOne = null
+        indexPiece = 0
         game.stage.backgroundColor = "#ffffff"
         jumpTimer = 0
         gameActive = false
         lives = 1
         pivotObjects = 0
         objToCheck = null
+        pivotTop = 0
+        objTop = null
         buttonPressed = false
         tooMuch = false
         GRAVITY_OBJECTS = 4
         yAxis = p2.vec2.fromValues(0, 1);
         objectsList = []
-        consecFloor = 0
-        consecBricks = 0
         
 	}
     
@@ -109,8 +114,8 @@ var graviswitch = function(){
         //timer.start()
         //game.time.events.add(throwTime *0.1, dropObjects , this);
         //objectsGroup.timer.start()
-        game.time.events.add(TIME_ADD, addObjects , this);
-        checkOnAir()
+        //game.time.events.add(TIME_ADD, addObjects , this);
+        //checkOnAir()
         gameStart = true
 
     } 
@@ -120,21 +125,24 @@ var graviswitch = function(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false
-        game.load.spine('mascot', "images/spines/mascotaAmazing.json");
+        game.load.spine('eagle', "images/spines/Eagle.json");
+        game.load.spritesheet('coinS', 'images/graviswitch/coinS.png', 68, 70, 12);
         
-        game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+        game.load.audio('marioSong', soundsPath + 'songs/funny_invaders.mp3');
         
         
     }
     
     function inputButton(obj){
         
-        if(gameActive == false){
+        if(gameActive == false || !buddy.isRunning){
             return
         }
         
         //sound.play("click")
         
+        //console.log(buddy.isRunning + ' running')
+         
         doJump()
         
         obj.parent.children[1].alpha = 0
@@ -192,6 +200,8 @@ var graviswitch = function(){
         
         missPoint()
         sound.play("gameLose")
+        buddy.setAnimationByName(0,"LOSE",false)
+        createPart('wrong',player)
         stopWorld()
         game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
         
@@ -236,15 +246,8 @@ var graviswitch = function(){
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
         
-        if(pointsBar.number == 10){
-            enemyNames[enemyNames.length] = 'enemy_squish'
-        }else if(pointsBar.number == 16){
-            enemyNames[enemyNames.length] = 'enemy_spike'
-        }else if(pointsBar.number == 25){
-            consecBricks = -100
-            consecFloor = -100
-        }else if(pointsBar.number == 30){
-            skullTrue = true
+        if(pointsBar.number == 15){
+            canMisile = true
         }
         
         addNumberPart(pointsBar.text,'+1')
@@ -289,7 +292,7 @@ var graviswitch = function(){
         
         player.body.x = 100 
         characterGroup.x = player.x
-        characterGroup.y = player.y +44 
+        characterGroup.y = player.y +48 
         
         if(player.body.y > game.world.height - BOT_OFFSET * 1.2 ){
             stopGame()
@@ -309,15 +312,14 @@ var graviswitch = function(){
         for(var index = 0;index<objectsList.length;index++){
             var obj = objectsList[index]
             
-            if(obj.tag == 'coin'){
-                obj.body.rotateLeft(Math.random()*80 + 40)
+            if(obj.tag == 'misil'){
+                obj.body.rotateLeft(Math.random()*80 + 40)   
             }
             
             if(obj.body.x < -obj.width * 0.45 && obj.used == true){
+                console.log(obj.body.y + ' posy')
                 deactivateObj(obj)
-                if(obj.tag == 'floor' || obj.tag == 'brick'){
-                    addObjects()
-                }
+                addObjects()
                 //console.log('objeto removido')
             }else if(obj.tag == 'coin' || obj.tag == 'skull'){
                 if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
@@ -337,13 +339,16 @@ var graviswitch = function(){
     
     function doJump(value){
         
-        
+        sound.play("spaceship")
+        sound.play("whoosh")
+        buddy.isRunning = false
         buddy.setAnimationByName(0, "JUMP", false);
-        buddy.addAnimationByName(0, "LAND", false);
+        
+        createPart('ring',player)
+        //buddy.addAnimationByName(0, "LAND", false);
         
         buddy.scale.y*=-1
         
-        console.log(buddy.scale.y + ' scale')
         if(buddy.scale.y < 0){
             buddy.y = -100
         }else{
@@ -380,44 +385,14 @@ var graviswitch = function(){
         
         if (jumpButton.isDown){
             
-            if( checkIfCanJump() && jumping == false)
+            if(buddy.isRunning)
             {
-                jumping = true
                 doJump()
             }
         }
         
         checkObjects()
     }
-    
-    function checkIfCanJump() {
-
-        var result = false;
-
-        for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-        {
-            var c = game.physics.p2.world.narrowphase.contactEquations[i];
-
-            if (c.bodyA === player.body.data || c.bodyB === player.body.data)
-            {
-                var d = p2.vec2.dot(c.normalA, yAxis);
-
-                if (c.bodyA === player.body.data)
-                {
-                    d *= -1;
-                }
-
-                if (d > 0.5)
-                {
-                    result = true;
-                }
-            }
-        }
-
-        return result;
-
-}
-
     
     function createPointsBar(){
         
@@ -565,15 +540,25 @@ var graviswitch = function(){
                 deactivateObj(obj2.sprite)
                 addPoint(obj2.sprite)
 
-            }else if(tag == "floor" || tag == "brick"){
-                if(gameActive == true && buddy.isRunning == false){
+            }else if(tag.substring(0,4) == 'plat'){
+                if(gameActive == true && !buddy.isRunning){
+                    
                     buddy.isRunning = true
-                    if(player.body.y < obj2.sprite.body.y){
-                        //buddy.setAnimationByName(0, "LAND", false);
-                        buddy.addAnimationByName(0,"RUN",true)
-                    }
+                    buddy.setAnimationByName(0, "LAND", false);
+                    buddy.addAnimationByName(0,"RUN",true)
                 }
-            }else if(tag == 'enemy_spike'){
+                var difY = Math.abs(obj1.sprite.body.y - obj2.sprite.body.y)  
+                var height = obj2.sprite.height * 0.5
+                
+                if(difY < height){
+                    stopGame(false)
+                }else{
+                    createPart('smoke',player)
+                    sound.play("step")
+                }
+                //console.log('dif ' + difY + ' height ' + obj2.sprite.height * 0.5)
+                
+            }else if(tag == 'misil'){
                 missPoint()
                 createPart('wrong', obj2.sprite)
                 stopGame()
@@ -581,7 +566,6 @@ var graviswitch = function(){
                 if(player.body.y < obj2.sprite.y - 8){
                     doJump(JUMP_FORCE * 1.5)
                     addPoint(obj2.sprite,'drop')
-                    sound.play("splash")
                     deactivateObj(obj2.sprite)
                     
                 }else{
@@ -617,94 +601,111 @@ var graviswitch = function(){
             objectsList[objectsList.length] = child
             
             if(child.tag == 'coin'){
-                child.body.y-=25
-                if(Math.random()*2 > 1){
-                    child.body.y-=80
-                }
+
             }else if(child.tag == "enemy_squish"){
                 child.body.y+=5
-            }else if(child.tag == "skull"){
-                child.body.velocity.x-=5
+            }else if(child.tag == "misil"){
+                child.body.velocity.x-=350
                 //child.body.dynamic = true
             }
         }
     
      }
     
-    function checkAdd(obj, tag){
+    
+    function setMisile(obj,isTop,pivotX){
+        
+        sound.play("laserexplode")
+        
+        canMisile = false            
+        var offsetY = 1
+
+        if(isTop){
+            offsetY = -1
+        }
+
+        var coin = addComplement('misil')
+        if(coin != null){
+
+            activateObject(pivotX,obj.body.y + ((obj.height * 0.5 + (coin.height)) * offsetY),coin)
+            //console.log( obj.body.y + ' pos ' + coin.body.y)
+            //coin.scale.setTo(3,3)
+        }    
+        
+        game.time.events.add(7500,function(){
+            canMisile = true
+        },this)
+        
+    }
+    
+    function checkAdd(obj, isTop,pivotX){
         
         Phaser.ArrayUtils.shuffle(enemyNames)
         
         if(Math.random()*2 > 1 && gameActive == true){
             
-            var nameItem = enemyNames[0]
-            if(objToCheck.tag == 'floor' && tag == 'brick'){
-                nameItem = 'coin'
+            var nameItem = 'coin'            
+            
+            var offsetY = 1
+            
+            if(isTop){
+                offsetY = -1
             }
             
-            if(objToCheck.spike == true){
-                nameItem = 'coin'
-            }
-            
-            if((objToCheck.body.y > obj.body.y) && (nameItem == 'enemy_spike' || nameItem == 'enemy_squish')){
-                nameItem = 'coin'
-            }
-            
-
             var coin = addComplement(nameItem)
             if(coin != null){
-                activateObject(pivotObjects,obj.body.y - obj.height * 0.5 - coin.height * 0.5,coin)
+                
+                activateObject(pivotX,obj.body.y + ((obj.height * 0.5 + (coin.height)) * offsetY),coin)
+                //console.log( obj.body.y + ' pos ' + coin.body.y)
+                //coin.scale.setTo(3,3)
             }
+        }
+        
+        if(canMisile){
             
-            obj.spike = false
-            if(nameItem == 'enemy_spike'){
-                obj.spike = true
-            }
+            setMisile(obj,isTop,pivotX)
+            
         }
     }
     
-    function addObstacle(tag){
-        
-        pivotObjects = 0
-        if(objToCheck != null ){
-            pivotObjects = objToCheck.body.x + objToCheck.width
-        }
+    function addObstacle(tag,isTop){
             
-        
+        var top = isTop
         for(var i = 0;i< groundGroup.length;i++){
             var child = groundGroup.children[i]
             if(child.tag == tag && child.used == false){
-                if (tag == "floor"){
+                var subTag = tag.substring(0,4)
+                if (subTag == 'plat'){
                     
-                    activateObject(pivotObjects,game.world.height - child.height * 0.5 - BOT_OFFSET,child)
-                    
-                    checkAdd(child,tag)
-                    objToCheck = child
-                    
-                }else if(tag =="brick"){
-                    
-                    activateObject(pivotObjects,game.world.height - OFF_BRICK - BOT_OFFSET,child)
-                    
-                    if(objToCheck.tag == "brick" && Math.random() * 2 > 1 && pointsBar.number > 10){
-                        child.body.y-= OFF_BRICK * 0.8
-                        child.top = true
+                    pivotObjects = -600
+                    if(objToCheck != null ){
+                        pivotObjects = objToCheck.body.x + objToCheck.width * 0.5 + child.width * 0.5
                     }
                     
-                    checkAdd(child,tag)
-                    
-                    objToCheck = child
-                    
-                }
-                if(skullTrue == true && Math.random()*8<1){
-                    var skull = addComplement('skull')
-                    if(skull != null){
-                        activateObject(pivotObjects,child.body.y - child.height * 0.5 - skull.height * 0.5,skull)
+                    pivotTop = -600
+                    if(objTop != null){
+                        pivotTop = objTop.body.x + objTop.width * 0.5 + child.width * 0.5
                     }
                     
-                    skullTrue = false
-                    game.time.events.add(2000, function(){
-                        skullTrue = true
-                    },this)
+                    var pivotToUse = pivotObjects
+                    
+                    var posY = game.world.height - child.height * 0.2 - BOT_OFFSET
+                    if(!top){
+                        posY = -25
+                        objToCheck = child
+                        addObstacle(checkTag('a'),true)
+                    }else{
+                        pivotToUse = pivotTop
+                        objTop = child
+                    }
+                    
+                    //console.log(pivotToUse + ' pivot')
+                    activateObject(pivotToUse, posY,child)
+                    checkAdd(child,top,pivotToUse)
+                    
+                    //checkAdd(child,tag)
+                    
+                    
                 }
                 break
             }
@@ -734,29 +735,12 @@ var graviswitch = function(){
                 object.animations.add('walk');
                 object.animations.play('walk',24,true);
                 
-            }else if(tag == 'enemy_squish'){
-                
-                object = game.add.sprite(-300, 200, 'pMonster');
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',20,true);
-                
             }else if(tag == 'coin'){
                 
-                /*if(randomize(10)){
-                    object = game.add.sprite(-300, 200, 'coinS');
-                    object.animations.add('walk');
-                    object.animations.play('walk',24,true); 
-                    groundGroup.add(object)
-                }else{*/
-                    
-                    var objectsList = ['carne1','carne2','fruta1','fruta2','plastico1','plastico2','enlatado1','enlatado2','verdura1','verdura2']
-                    object = groundGroup.create(-300,200,'atlas.amazingbros',objectsList[indexCoin])
-                    
-                    indexCoin++
-                //}
-                  
-                
+                object = game.add.sprite(-300, 200, 'coinS');
+                object.animations.add('walk');
+                object.animations.play('walk',24,true); 
+                groundGroup.add(object)
                 
             }else{
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.amazingbros',tag)
@@ -773,13 +757,7 @@ var graviswitch = function(){
                 object.body.data.shapes[0].sensor = true
             }
             
-            if(tag == 'enemy_spike'){
-                object.body.setRectangle(object.width * 0.68, object.height * 0.3);
-            }else if(tag == 'enemy_squish'){
-                object.body.setRectangle(object.width * 0.4, object.height * 0.8);
-            }
-            
-            if(tag != 'coin' && tag != 'skull'){
+            if(tag != 'coin'){
                 object.body.allowSleep = true
                 player.body.createBodyCallback(object, collisionEvent, this);
             }
@@ -788,52 +766,50 @@ var graviswitch = function(){
     
     function createObjects(){
         
-        createObjs('plataform4_a',1.4,6)
+        var scaleToUse = 1.8
+        for(var i = 0; i< 2;i++){
+            
+            if(i==1){
+                scaleToUse = 1.1
+            }
+            createObjs('plataform' + (i+1) + '_a',scaleToUse,6)
+            createObjs('plataform' + (i+1) + '_b',scaleToUse,6)
+        }
         
-        for(var i = 0; i < 6; i++){
-            addObstacle('plataform4_a')
+        createObjs('coin',1,10)
+        createObjs('misil',1.1,5)
+                
+        for(var i = 0; i < 2; i++){
+            addObstacle('plataform2_a',true)
         }
         
     }
     
-    function checkTag(){
+    function checkTag(letter){
         
-        if(consecFloor == 1){
-            tag = 'floor'
-            consecFloor-=2
-        }else if(consecBricks == 1){
-            tag = 'brick'
-            consecBricks-=2
-        }else{
-            if(objToCheck.tag == 'floor'){
-                objToCheck.lastFloor = true
-            }
-            var tag = "floor"
-            if(Math.random()*2 > 1){
-                tag = "brick"
-            }
-
-            if(tag == 'brick' && objToCheck.spike == true){
-                tag = 'floor'
-            }
+        var name = 'plataform'
+        
+        var number = game.rnd.integerInRange(1, 2)
+        var add = letter
+        
+        if(indexPiece < 20){
+            number = 2
         }
         
-        if(tag == 'floor'){
-            consecFloor++
-        }else{
-            consecBricks++
-        }
+        indexPiece++
         
-        return tag
+        return name + number + '_' + add
     }
     
     function addObjects(){
         
-        var tag = 'plataform4_b'
+        var tag = checkTag('b')
         
-        addObstacle(tag)
+        //console.log('added Object')
         
-        //game.time.events.add(TIME_ADD, addObjects , this);
+        addObstacle(tag,false)
+        
+        //game.time.events.add(TIME_ADD,  , this);
         
     }
     
@@ -842,19 +818,6 @@ var graviswitch = function(){
         
         if(gameStart == false){
             game.time.events.add(1, positionFirst , this);
-        }
-    }
-    
-    function checkOnAir(){
-        
-        if( buddy.isRunning == true){
-            if(checkIfCanJump() == false){
-                buddy.setAnimationByName(0,"JUMP", false)
-                buddy.isRunning = false
-            }
-        }
-        if(gameActive == true){
-            game.time.events.add(50,checkOnAir,this)
         }
     }
     
@@ -875,6 +838,9 @@ var graviswitch = function(){
             
         }
         
+        var planet = sceneGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.amazingbros','planet')
+        planet.anchor.setTo(0.5,0.5)
+        
     }
     
 	return {
@@ -892,12 +858,12 @@ var graviswitch = function(){
             
 			sceneGroup = game.add.group()
             
+            createBackground()
+            
             worldGroup = game.add.group()
             //worldGroup.scale.setTo(0.5,0.5)
             //worldGroup.x = 100
             sceneGroup.add(worldGroup)
-            
-            createBackground()
             
             groundGroup = game.add.group()
             worldGroup.add(groundGroup)
@@ -911,14 +877,6 @@ var graviswitch = function(){
                 marioSong.loopFull(0.4)
             }, this);
             
-            game.onPause.add(function(){
-                game.sound.mute = true
-            } , this);
-
-            game.onResume.add(function(){
-                game.sound.mute = false
-            }, this);
-            
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
             
@@ -927,12 +885,12 @@ var graviswitch = function(){
             characterGroup.y = game.world.height - BOT_OFFSET * 3
             worldGroup.add(characterGroup)
             
-            buddy = game.add.spine(0,0, "mascot");
+            buddy = game.add.spine(0,0, "eagle");
             buddy.isRunning = true
-            buddy.scale.setTo(0.8,0.8)
+            buddy.scale.setTo(0.6,0.6)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "RUN", true);
-            buddy.setSkinByName('normal');
+            buddy.setSkinByName('Eagle');
             
             player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.amazingbros','yogotar')
             player.anchor.setTo(0.5,1)
@@ -942,6 +900,16 @@ var graviswitch = function(){
             player.body.mass=50
             
             player.body.collideWorldBounds = true;
+            
+            game.onPause.add(function(){
+                game.sound.mute = true
+                buddy.setAnimationByName(0,"RUN",false)
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
+                buddy.setAnimationByName(0,"RUN",true)
+            }, this);
             
             positionFirst()
             
