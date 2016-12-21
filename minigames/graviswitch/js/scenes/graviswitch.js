@@ -36,7 +36,7 @@ var graviswitch = function(){
     var TIME_ADD = 600
     var JUMP_FORCE = 820
     var DEBUG_PHYSICS = false
-    var WORLD_GRAVITY = 1800
+    var WORLD_GRAVITY = 2500
     var OFF_BRICK = 200
     var BOT_OFFSET = 200
     
@@ -317,7 +317,8 @@ var graviswitch = function(){
             }
             
             if(obj.body.x < -obj.width * 0.45 && obj.used == true){
-                console.log(obj.body.y + ' posy')
+                
+                //console.log(obj.body.y + ' posy')
                 deactivateObj(obj)
                 addObjects()
                 //console.log('objeto removido')
@@ -441,8 +442,9 @@ var graviswitch = function(){
                 
     }
     
-    function createPart(key,obj){
+    function createPart(key,obj,offset){
         
+        var offsetY = offset || 0
         var particlesNumber = 2
         
         tooMuch = true
@@ -470,8 +472,9 @@ var graviswitch = function(){
 
             return particlesGood
         }else{
+            
             key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20,'atlas.amazingbros',key)
+            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20 + offsetY,'atlas.amazingbros',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -541,21 +544,31 @@ var graviswitch = function(){
                 addPoint(obj2.sprite)
 
             }else if(tag.substring(0,4) == 'plat'){
-                if(gameActive == true && !buddy.isRunning){
-                    
-                    buddy.isRunning = true
-                    buddy.setAnimationByName(0, "LAND", false);
-                    buddy.addAnimationByName(0,"RUN",true)
-                }
+                
                 var difY = Math.abs(obj1.sprite.body.y - obj2.sprite.body.y)  
                 var height = obj2.sprite.height * 0.5
                 
                 if(difY < height){
                     stopGame(false)
-                }else{
-                    createPart('smoke',player)
-                    sound.play("step")
                 }
+                
+                if(gameActive == true && !buddy.isRunning){
+                    
+                    buddy.isRunning = true
+                    buddy.setAnimationByName(0, "LAND", false);
+                    buddy.addAnimationByName(0,"RUN",true)
+                    
+                    if(difY > height){
+                        
+                        var offsetY = -25
+                        if(buddy.scale.y > 0){
+                            offsetY = 55
+                        }
+                        createPart('smoke',player,offsetY)
+                        sound.play("step")
+                    }
+                }
+                
                 //console.log('dif ' + difY + ' height ' + obj2.sprite.height * 0.5)
                 
             }else if(tag == 'misil'){
@@ -777,7 +790,7 @@ var graviswitch = function(){
         }
         
         createObjs('coin',1,10)
-        createObjs('misil',1.1,5)
+        createObjs('misil',1,5)
                 
         for(var i = 0; i < 2; i++){
             addObstacle('plataform2_a',true)

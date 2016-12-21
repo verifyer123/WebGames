@@ -2,7 +2,7 @@
 
 {
 	"filename": "arcadebutton1",
-	"frame": {"x":1280,"y":1,"w":168,"h":168},
+	"frame": {"x":891,"y":278,"w":168,"h":168},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":168,"h":168},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "arcadebutton2",
-	"frame": {"x":891,"y":278,"w":168,"h":168},
+	"frame": {"x":1158,"y":259,"w":168,"h":168},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":168,"h":168},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":121,"y":441,"w":105,"h":41},
+	"frame": {"x":247,"y":438,"w":105,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "misil",
-	"frame": {"x":1255,"y":392,"w":82,"h":77},
+	"frame": {"x":374,"y":376,"w":82,"h":77},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":77},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "plataform1_a",
-	"frame": {"x":1061,"y":259,"w":95,"h":222},
+	"frame": {"x":1280,"y":1,"w":95,"h":222},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":95,"h":222},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "plataform1_b",
-	"frame": {"x":1158,"y":259,"w":95,"h":222},
+	"frame": {"x":1061,"y":259,"w":95,"h":222},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":95,"h":222},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "ringPart",
-	"frame": {"x":1255,"y":276,"w":114,"h":114},
+	"frame": {"x":1328,"y":225,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -101,11 +101,11 @@
 },
 {
 	"filename": "smokePart",
-	"frame": {"x":121,"y":376,"w":127,"h":63},
+	"frame": {"x":1377,"y":133,"w":60,"h":31},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":63},
-	"sourceSize": {"w":128,"h":68},
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":31},
+	"sourceSize": {"w":60,"h":32},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":376,"y":376,"w":64,"h":64},
+	"frame": {"x":1377,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":250,"y":376,"w":124,"h":63},
+	"frame": {"x":121,"y":376,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1339,"y":392,"w":64,"h":64},
+	"frame": {"x":1377,"y":67,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "wrongPart",
-	"frame": {"x":1280,"y":214,"w":125,"h":60},
+	"frame": {"x":247,"y":376,"w":125,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":1280,"y":171,"w":165,"h":41},
+	"frame": {"x":1158,"y":429,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "yogotar",
-	"frame": {"x":1371,"y":276,"w":74,"h":108},
+	"frame": {"x":1328,"y":341,"w":74,"h":108},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":108},
@@ -185,8 +185,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1449,"h":483},
+	"size": {"w":1443,"h":482},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:248e24aae823dc3d26ed2090b17b986c:cd9deccc82849a989549923f044a753c:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:20be3a2c22c7afabf914fd60033b86d4:edada67ce054f55959d88833d6245759:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
