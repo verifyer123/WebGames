@@ -29,6 +29,10 @@ var graviswitch = function(){
 				file: soundsPath + "laserexplode.mp3"},
             {	name: "step",
 				file: soundsPath + "step.mp3"},
+            {	name: "roll",
+				file: soundsPath + "robotBeep.mp3"},
+            {	name: "splash",
+				file: soundsPath + "splash.mp3"},
 		],
 	}
     
@@ -51,6 +55,9 @@ var graviswitch = function(){
     var objToCheck
     var gameSpeed = null
     var objectsList = null
+    var jumpDown
+    var rollDown
+    var rollButton
     var pivotObjects
     var pivotTop
     var objTop
@@ -92,6 +99,8 @@ var graviswitch = function(){
         game.stage.backgroundColor = "#ffffff"
         jumpTimer = 0
         gameActive = false
+        jumpDown = false
+        rollDown = false
         lives = 1
         pivotObjects = 0
         objToCheck = null
@@ -126,6 +135,9 @@ var graviswitch = function(){
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false
         game.load.spine('eagle', "images/spines/Eagle.json");
+        
+        game.load.spritesheet('bMonster', 'images/graviswitch/bMonster.png', 83, 84, 16);
+        game.load.spritesheet('bMonster2', 'images/graviswitch/bMonster2.png', 83, 84, 16);
         game.load.spritesheet('coinS', 'images/graviswitch/coinS.png', 68, 70, 12);
         
         game.load.audio('marioSong', soundsPath + 'songs/funny_invaders.mp3');
@@ -133,17 +145,41 @@ var graviswitch = function(){
         
     }
     
+    function doRoll(){
+        
+        player.invincible = true
+        player.canRoll = false
+        
+        buddy.setAnimationByName(0,"JUMP_RUN",false)
+        buddy.addAnimationByName(0, "RUN", true);
+        
+        sound.play("roll")
+                
+        game.time.events.add(1000,function(){
+            player.invincible = false
+            game.time.events.add(750,function(){
+                player.canRoll = true
+            },this)
+        },this)
+    }
+    
     function inputButton(obj){
         
-        if(gameActive == false || !buddy.isRunning){
+        if(gameActive == false){
             return
+        }
+        
+        if(obj.tag == 'jump' && buddy.isRunning){
+            
+            doJump()
+        }else if(obj.tag == 'roll' && player.canRoll){
+            
+            doRoll()
         }
         
         //sound.play("click")
         
         //console.log(buddy.isRunning + ' running')
-         
-        doJump()
         
         obj.parent.children[1].alpha = 0
     }
@@ -165,7 +201,7 @@ var graviswitch = function(){
         bottomRect.anchor.setTo(0,1)
         
         groupButton = game.add.group()
-        groupButton.x = game.world.centerX
+        groupButton.x = game.world.centerX + 100
         groupButton.y = game.world.height -125
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
@@ -176,8 +212,25 @@ var graviswitch = function(){
         var button2 = groupButton.create(0,0, 'atlas.amazingbros','arcadebutton1')
         button2.anchor.setTo(0.5,0.5)
         button2.inputEnabled = true
+        button2.tag = 'jump'
         button2.events.onInputDown.add(inputButton)
-        button2.events.onInputUp.add(releaseButton)        
+        button2.events.onInputUp.add(releaseButton)  
+        
+        groupButton = game.add.group()
+        groupButton.x = game.world.centerX - 100
+        groupButton.y = game.world.height -125
+        groupButton.isPressed = false
+        sceneGroup.add(groupButton)
+        
+        var button1 = groupButton.create(0,0, 'atlas.amazingbros','arcadebutton02')
+        button1.anchor.setTo(0.5,0.5)
+        
+        var button2 = groupButton.create(0,0, 'atlas.amazingbros','arcadebutton01')
+        button2.anchor.setTo(0.5,0.5)
+        button2.inputEnabled = true
+        button2.events.onInputDown.add(inputButton)
+        button2.tag = 'roll'
+        button2.events.onInputUp.add(releaseButton) 
         
     }
     
@@ -248,6 +301,8 @@ var graviswitch = function(){
         
         if(pointsBar.number == 15){
             canMisile = true
+        }else if(pointsBar.number == 5){
+            enemyNames[enemyNames.length] = 'enemy_spike'
         }
         
         addNumberPart(pointsBar.text,'+1')
@@ -302,6 +357,7 @@ var graviswitch = function(){
     
     function deactivateObj(obj){
         obj.body.velocity.x = 0
+        obj.body.velocity.y = 0
         obj.used = false
         obj.body.y = -500
     }
@@ -343,7 +399,11 @@ var graviswitch = function(){
         sound.play("spaceship")
         sound.play("whoosh")
         buddy.isRunning = false
-        buddy.setAnimationByName(0, "JUMP", false);
+        
+        if(!player.invincible){
+            buddy.setAnimationByName(0, "JUMP", false);
+        }
+        
         
         createPart('ring',player)
         //buddy.addAnimationByName(0, "LAND", false);
@@ -384,12 +444,27 @@ var graviswitch = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown){
+        if (jumpButton.isDown && !jumpDown){
             
             if(buddy.isRunning)
             {
+                jumpDown = true
                 doJump()
             }
+        }
+        if(jumpButton.isUp){
+            jumpDown = false
+        }
+        
+        if(rollButton.isDown && !rollDown){
+            if(player.canRoll){
+                rollDown = true
+                doRoll()
+            }
+        }
+        
+        if(rollButton.isUp){
+            rollDown = false
         }
         
         checkObjects()
@@ -555,8 +630,10 @@ var graviswitch = function(){
                 if(gameActive == true && !buddy.isRunning){
                     
                     buddy.isRunning = true
-                    buddy.setAnimationByName(0, "LAND", false);
-                    buddy.addAnimationByName(0,"RUN",true)
+                    if(!player.invincible){
+                        buddy.setAnimationByName(0, "LAND", false);
+                        buddy.addAnimationByName(0,"RUN",true)
+                    }
                     
                     if(difY > height){
                         
@@ -575,17 +652,26 @@ var graviswitch = function(){
                 missPoint()
                 createPart('wrong', obj2.sprite)
                 stopGame()
-            }else if(tag == "enemy_squish"){
-                if(player.body.y < obj2.sprite.y - 8){
-                    doJump(JUMP_FORCE * 1.5)
-                    addPoint(obj2.sprite,'drop')
-                    deactivateObj(obj2.sprite)
+            }else if(tag == "enemy_spike" || tag == 'enemy_spike2'){
+                if(player.invincible){
+                    sound.play("splash")
+                    createPart('star',obj2.sprite)
+                    
+                    obj2.sprite.body.velocity.x = 800
+                    var offsetX = 1
+                    if(Math.random()*2> 1){offsetX = -1}
+                    obj2.sprite.body.velocity.y = game.rnd.integerInRange(600, 800) * offsetX
+                    game.time.events.add(350,function(){
+                        deactivateObj(obj2.sprite)
+                    })
                     
                 }else{
+                    
                     missPoint()
                     createPart('wrong', obj2.sprite)
                     stopGame()
                 }
+                
             }
         }
     }
@@ -653,11 +739,15 @@ var graviswitch = function(){
     
     function checkAdd(obj, isTop,pivotX){
         
+        if(indexPiece < 10){
+            return
+        }
+        
         Phaser.ArrayUtils.shuffle(enemyNames)
         
         if(Math.random()*2 > 1 && gameActive == true){
             
-            var nameItem = 'coin'            
+            var nameItem = enemyNames[0]           
             
             var offsetY = 1
             
@@ -665,10 +755,20 @@ var graviswitch = function(){
                 offsetY = -1
             }
             
+            if(offsetY == 1 && nameItem == 'enemy_spike'){
+                
+                nameItem = 'enemy_spike2'
+            }
+            
+            var offsetHeight = 0.5
+            
+            if(nameItem == 'coin'){
+                offsetHeight = 0.8
+            }
             var coin = addComplement(nameItem)
             if(coin != null){
                 
-                activateObject(pivotX,obj.body.y + ((obj.height * 0.5 + (coin.height)) * offsetY),coin)
+                activateObject(pivotX,obj.body.y + ((obj.height * 0.5 + (coin.height * offsetHeight)) * offsetY),coin)
                 //console.log( obj.body.y + ' pos ' + coin.body.y)
                 //coin.scale.setTo(3,3)
             }
@@ -748,6 +848,14 @@ var graviswitch = function(){
                 object.animations.add('walk');
                 object.animations.play('walk',24,true);
                 
+            }else if(tag == 'enemy_spike2'){
+                
+                object = game.add.sprite(-300, 200, 'bMonster2');
+                //object.scale.x = -1
+                groundGroup.add(object)
+                object.animations.add('walk');
+                object.animations.play('walk',24,true);
+                
             }else if(tag == 'coin'){
                 
                 object = game.add.sprite(-300, 200, 'coinS');
@@ -791,6 +899,8 @@ var graviswitch = function(){
         
         createObjs('coin',1,10)
         createObjs('misil',1,5)
+        createObjs('enemy_spike',1,5)
+        createObjs('enemy_spike2',1,5)
                 
         for(var i = 0; i < 2; i++){
             addObstacle('plataform2_a',true)
@@ -868,6 +978,7 @@ var graviswitch = function(){
             game.physics.p2.world.setGlobalStiffness(1e5);
             
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            rollButton = game.input.keyboard.addKey(Phaser.Keyboard.CONTROL)
             
 			sceneGroup = game.add.group()
             
@@ -911,6 +1022,7 @@ var graviswitch = function(){
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
             player.body.mass=50
+            player.canRoll = true
             
             player.body.collideWorldBounds = true;
             
