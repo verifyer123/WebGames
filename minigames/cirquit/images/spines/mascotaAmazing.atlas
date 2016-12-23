@@ -1,0 +1,146 @@
+
+mascotaAmazing.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/agarradera1
+  rotate: false
+  xy: 132, 21
+  size: 27, 13
+  orig: 27, 13
+  offset: 0, 0
+  index: -1
+normal/agarradera2
+  rotate: false
+  xy: 466, 113
+  size: 28, 13
+  orig: 28, 13
+  offset: 0, 0
+  index: -1
+normal/cabeza
+  rotate: false
+  xy: 2, 11
+  size: 89, 67
+  orig: 89, 67
+  offset: 0, 0
+  index: -1
+normal/foot1
+  rotate: false
+  xy: 466, 100
+  size: 21, 11
+  orig: 21, 11
+  offset: 0, 0
+  index: -1
+normal/foot2
+  rotate: false
+  xy: 466, 87
+  size: 21, 11
+  orig: 21, 11
+  offset: 0, 0
+  index: -1
+normal/fringe
+  rotate: false
+  xy: 420, 85
+  size: 44, 41
+  orig: 44, 41
+  offset: 0, 0
+  index: -1
+normal/glasses
+  rotate: false
+  xy: 93, 36
+  size: 79, 42
+  orig: 79, 42
+  offset: 0, 0
+  index: -1
+normal/glasses_a
+  rotate: false
+  xy: 178, 83
+  size: 79, 43
+  orig: 79, 43
+  offset: 0, 0
+  index: -1
+normal/glasses_b
+  rotate: false
+  xy: 340, 84
+  size: 78, 42
+  orig: 78, 42
+  offset: 0, 0
+  index: -1
+normal/glasses_c
+  rotate: false
+  xy: 259, 84
+  size: 79, 42
+  orig: 79, 42
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: false
+  xy: 489, 95
+  size: 7, 16
+  orig: 7, 16
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: false
+  xy: 161, 18
+  size: 8, 16
+  orig: 8, 16
+  offset: 0, 0
+  index: -1
+normal/ojo1
+  rotate: false
+  xy: 496, 113
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+normal/ojo2
+  rotate: false
+  xy: 489, 87
+  size: 5, 6
+  orig: 5, 6
+  offset: 0, 0
+  index: -1
+normal/shadow
+  rotate: false
+  xy: 2, 80
+  size: 174, 46
+  orig: 174, 46
+  offset: 0, 0
+  index: -1
+normal/shin1
+  rotate: false
+  xy: 93, 2
+  size: 10, 15
+  orig: 10, 15
+  offset: 0, 0
+  index: -1
+normal/shin2
+  rotate: false
+  xy: 105, 2
+  size: 10, 15
+  orig: 10, 15
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 93, 19
+  size: 37, 15
+  orig: 37, 15
+  offset: 0, 0
+  index: -1
+normal/wink1
+  rotate: false
+  xy: 2, 4
+  size: 8, 5
+  orig: 8, 5
+  offset: 0, 0
+  index: -1
+normal/wink2
+  rotate: false
+  xy: 496, 121
+  size: 8, 5
+  orig: 8, 5
+  offset: 0, 0
+  index: -1
