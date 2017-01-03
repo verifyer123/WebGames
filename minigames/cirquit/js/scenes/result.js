@@ -137,7 +137,7 @@ var result = function(){
             }else if(parent.tag == 'reintentar'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show("neonedge")
+                        sceneloader.show("cirquit")
                     })
             }
         })

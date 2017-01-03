@@ -1,5 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var neonedge = function(){
+var cirquit = function(){
     
     var localizationData = {
 		"EN":{
@@ -41,18 +41,23 @@ var neonedge = function(){
 		],
 	}
     
+    var COLORS = [0x22bbff,0x13ff84,0xffcf1f,0xe84612]
+    
     var SPEED = 225 
     var TIME_ADD = 600
-    var JUMP_FORCE = 820
+    var JUMP_FORCE = 500
     var DEBUG_PHYSICS = false
+    var ANGLE_VALUE = 3
     var WORLD_GRAVITY = 1600
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var colorIndex
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
     var consecFloor, consecBricks
+    var objectsGroup
     var gameStart = false
     var jumping = false
     var lastOne = null
@@ -67,7 +72,6 @@ var neonedge = function(){
     var answersGroup = null
     var pointsGroup = null
     var gameActive = null
-    var jumpTimer = 0
     var characterGroup = null
     var pointsBar = null
     var lives = null
@@ -94,20 +98,13 @@ var neonedge = function(){
         gameStart = false
         skullTrue = false
         gameSpeed =  SPEED
-        lastOne = null
         game.stage.backgroundColor = "#ffffff"
-        jumpTimer = 0
         gameActive = false
+        objectsGroup = null
         lives = 1
-        pivotObjects = 0
-        objToCheck = null
-        buttonPressed = false
+        pivotObjects = game.world.centerY - 100
         tooMuch = false
-        GRAVITY_OBJECTS = 4
-        yAxis = p2.vec2.fromValues(0, 1);
-        objectsList = []
-        consecFloor = 0
-        consecBricks = 0
+        colorIndex = game.rnd.integerInRange(1,4) - 1
         
 	}
     
@@ -124,8 +121,6 @@ var neonedge = function(){
         //checkOnAir()
         gameStart = true
         
-        changeVelocityGame(0)
-
     } 
     
     function setExplosion(obj){
@@ -139,14 +134,14 @@ var neonedge = function(){
             posY = obj.world.y
         }
         
-        var exp = sceneGroup.create(0,0,'atlas.neon','cakeSplat')
+        /*var exp = sceneGroup.create(0,0,'atlas.neon','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
 
         exp.scale.setTo(4,4)
         game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)*/
         
         particlesNumber = 8
             
@@ -156,7 +151,7 @@ var neonedge = function(){
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
+        particlesGood.maxParticleScale = 1;
         particlesGood.gravity = 150;
         particlesGood.angularDrag = 30;
 
@@ -175,7 +170,6 @@ var neonedge = function(){
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false;
         
-        game.load.spritesheet('coinS', 'images/neon/coinS.png', 68, 70, 12);
         game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
         
         
@@ -207,14 +201,35 @@ var neonedge = function(){
         
         var spaceButtons = 220
         
-        var bottomRect = sceneGroup.create(0,game.world.height,'atlas.neon','dashboard')
+        var bottomRect = sceneGroup.create(0,0,'atlas.neon','dashboard')
         bottomRect.width = game.world.width
         bottomRect.height *= 1.02
+        bottomRect.x = game.world.centerX
+        bottomRect.y = game.world.height - bottomRect.height * 0.5
         bottomRect.anchor.setTo(0,1)
+        
+        game.physics.p2.enable(bottomRect,DEBUG_PHYSICS)
+        bottomRect.body.kinematic = true
+        
+        var bottomRect = sceneGroup.create(0,0,'atlas.neon','dashboard')
+        bottomRect.width = game.world.width
+        bottomRect.alpha = 0
+        bottomRect.height *= 1.02
+        bottomRect.tag = 'dashboard'
+        bottomRect.x = game.world.centerX
+        bottomRect.y = game.world.centerY - bottomRect.height
+        bottomRect.anchor.setTo(0,1)
+        
+        game.physics.p2.enable(bottomRect,DEBUG_PHYSICS)
+        bottomRect.body.kinematic = true
+        
+        //player.body.createBodyCallback(bottomRect, collisionEvent, this);
+        
+        sceneGroup.limit = bottomRect
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
-        groupButton.y = game.world.height -155
+        groupButton.y = game.world.height -125
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
@@ -230,21 +245,12 @@ var neonedge = function(){
     }
     
     function stopWorld(){
-        
-        changeVelocityGame(0)
-        
+                
         //buddy.setAnimationByName(0,"LOSE",false)
         buddy.alpha = 0
         
     }
     
-    function changeVelocityGame(velocity){
-        
-        for(var i = 0;i<groundGroup.length;i++){
-            var child = groundGroup.children[i]
-            child.body.velocity.x = velocity
-        }
-    }
     
     function stopGame(win){
         
@@ -254,7 +260,7 @@ var neonedge = function(){
         sound.play("gameLose")
         stopWorld()
         setExplosion(player)
-        game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
+        //game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
         
         worldGroup.alpha = 0
         game.add.tween(worldGroup).to({alpha:1},250,Phaser.Easing.linear,true)
@@ -289,28 +295,31 @@ var neonedge = function(){
         
     }
     
+    function changeColor(){
+        
+        var lastColor = colorIndex
+        
+        while(lastColor ==  colorIndex){
+            colorIndex = game.rnd.integerInRange(1,4) - 1
+        }
+        
+        console.log(COLORS[colorIndex] + ' color')
+        buddy.tint = COLORS[colorIndex]
+    }
+    
     function addPoint(obj,part){
         
-        var partName = part || 'star'
+        var partName = part || 'ring'
         sound.play("pop")
-        createPart(partName, obj)
-        createTextPart('+1', obj)
         
         //gameSpeed +=10
         
+        changeColor()
+        createPart(partName, obj)
+        createTextPart('+1', obj)
+        
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
-        
-        if(pointsBar.number == 10){
-            enemyNames[enemyNames.length] = 'enemy_squish'
-        }else if(pointsBar.number == 16){
-            enemyNames[enemyNames.length] = 'enemy_spike'
-        }else if(pointsBar.number == 25){
-            consecBricks = -100
-            consecFloor = -100
-        }else if(pointsBar.number == 30){
-            skullTrue = true
-        }
         
         addNumberPart(pointsBar.text,'+1')
         
@@ -352,7 +361,7 @@ var neonedge = function(){
     
     function positionPlayer(){
         
-        if(game.physics.p2.gravity.y !=0){
+        /*if(game.physics.p2.gravity.y !=0){
             
             if(player.lastpos < player.y){
             
@@ -365,49 +374,125 @@ var neonedge = function(){
                 }
             }
             
+        }*/
+        
+        if(player.body.y < game.world.height * 0.5){
+            
+            var value =  Math.abs(player.body.y - game.world.height * 0.5)
+            
+            //console.log('value ' + value)
         }
 
-        player.body.x = 100 
+        player.body.x = game.world.centerX 
         characterGroup.x = player.x
         characterGroup.y = player.y +44 
         
         player.lastpos = player.body.y
-        
-        if(player.body.y > game.world.height - BOT_OFFSET * 1.8 ){
-            stopGame()
-        }
-        
+
     }
     
     function deactivateObj(obj){
-        obj.body.velocity.x = 0
-        obj.used = false
-        obj.body.y = -500
+        
+        obj.active = false
+        obj.alpha = 0
+        
+    }
+    
+    function checkPos(object,dist){
+        
+        var distance = dist || 0.5
+        if(Math.abs(player.x - object.world.x) < object.width * dist && Math.abs(player.y - object.world.y) < object.height * dist){
+            return true
+        }else{
+            return false
+        }
+    }
+    
+    function checkOverlap(spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA , boundsB );
+
     }
     
     function checkObjects(){
         
-        //console.log( objectsList.length + 'cantidad objetos')
-        for(var index = 0;index<objectsList.length;index++){
-            var obj = objectsList[index]
-            if(obj.body.x < -obj.width * 0.45 && obj.used == true){
-                deactivateObj(obj)
-                addObstacle('obstacle')
-                //console.log('objeto removido')
-            }else if(obj.tag == 'coin'){
-                if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
-                    if(obj.tag == 'coin'){
-                        addPoint(obj)
+        for(var i = 0; i<objectsGroup.length;i++){
+            
+            var object = objectsGroup.children[i]
+            
+            if(object.active){
+                
+                var tag = object.tag
+                if(tag == 'cirquit'){
+                    if(checkOverlap(buddy,object)){
+                        deactivateObj(object)
+                        addPoint(player)
+                        addObjects()
                     }
-                    deactivateObj(obj)
+                }else{
+                    var child = object.children[0]
+                    
+                    if(child.world.y > game.world.height - 25){
+                        deactivateObj(object)
+                        //console.log('deactivate obj')
+                    }
+                    
+                    for(var u = 0; u<object.length;u++){
+                        
+                        var child = object.children[u]
+                        var value = 0.5
+                        
+                        if(checkOverlap(child,buddy)){
+                            if(child.tint != buddy.tint){
+                                stopGame(false)
+                            }
+                        }
+
+                    }
                 }
                 
+                if(tag == 'cross' || tag == 'circle'){
+                    
+                    if(object.isLeft){
+                        object.angle-= ANGLE_VALUE * 0.5
+                    }else{
+                        object.angle+= ANGLE_VALUE * 0.5
+                    }
+                    
+                }else if(tag == 'bar'){
+                    
+                    object.x += ANGLE_VALUE
+                    for(var u = 0;u<object.length;u++){
+                        
+                        var obj = object.children[u]
+                        
+                        if(obj.world.x > game.world.width + 100){
+                            //console.log('last object')
+                            obj.x = object.lastObject.x - obj.width *1.5
+                            object.lastObject = obj
+                        }
+                        
+                    }
+                }else if(tag == 'barL'){
+                    
+                    object.x -= ANGLE_VALUE
+                    for(var u = 0;u<object.length;u++){
+                        
+                        var obj = object.children[u]
+                        
+                        if(obj.world.x < -100){
+                            //console.log('last object')
+                            obj.x = object.lastObject.x + obj.width *1.5
+                            object.lastObject = obj
+                        }
+                        
+                    }
+                }
             }
             
-            if(obj.body.x < player.body.x && obj.isPoint){
-                addPoint(player,'ring')
-                obj.isPoint = false
-            }
         }
     }
     
@@ -454,22 +539,19 @@ var neonedge = function(){
         
         if(jumpValue == null){ jumpValue = JUMP_FORCE}
         sound.play("whoosh")
-        
-        buddy.isRunning = false
-        
-        //buddy.setAnimationByName(0, "JUMP", false);
-        //buddy.addAnimationByName(0, "LAND", false);
-        
+
         if(game.physics.p2.gravity.y == 0){
             game.physics.p2.gravity.y = WORLD_GRAVITY
-            changeVelocityGame(-gameSpeed)
-            startParticles()
             marioSong.loopFull(0.5)
         }
         
-        player.body.moveUp(jumpValue)
-        jumpTimer = game.time.now + 750;
+        var bar = sceneGroup.limit
+        if(player.body.y <= bar.body.y + bar.height * 0.87){
+            //console.log('move')
+            game.add.tween(objectsGroup).to({y:objectsGroup.y + 75},200,Phaser.Easing.linear,true)
+        }
         
+        player.body.moveUp(jumpValue)        
     
     }
     
@@ -490,8 +572,8 @@ var neonedge = function(){
             }
         }
         
+        //console.log(player.body.y + ' posY')
         if(jumping == true){
-            player.body.velocity.y-=2
             
         }
         
@@ -506,34 +588,6 @@ var neonedge = function(){
         
         checkObjects()
     }
-    
-    function checkIfCanJump() {
-
-        var result = false;
-
-        for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-        {
-            var c = game.physics.p2.world.narrowphase.contactEquations[i];
-
-            if (c.bodyA === player.body.data || c.bodyB === player.body.data)
-            {
-                var d = p2.vec2.dot(c.normalA, yAxis);
-
-                if (c.bodyA === player.body.data)
-                {
-                    d *= -1;
-                }
-
-                if (d > 0.5)
-                {
-                    result = true;
-                }
-            }
-        }
-
-        return result;
-
-}
 
     
     function createPointsBar(){
@@ -614,6 +668,7 @@ var neonedge = function(){
         }else{
             key+='Part'
             var particle = sceneGroup.create(obj.world.x,obj.world.y,'atlas.neon',key)
+            particle.tint = COLORS[colorIndex]
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -622,235 +677,235 @@ var neonedge = function(){
         
     }
     
-    function addWrongTween(){
+    function setPositions(obj){
         
-        var number = 3
-        if(pointsBar.number >= number){
-            pointsBar.number-=number
-            addNumberPart(pointsBar.text,'-' + number)
-            pointsBar.text.setText( pointsBar.number)
-        }
-        
-        var timeDelay = 2000
-        var delay = 0
-        
-        //game.add.tween(sceneGroup.scale).to( { x:1.1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        
-        if(sceneGroup.scale.y != 1){
-            return
-        }
-        
-        worldGroup.scale.y= - 1
-        worldGroup.y+=game.world.height * 0.8
-        
-        for(var counter = 0; counter < 1;counter++){
-            game.time.events.add(delay, function(){
-                
-                var color = Phaser.Color.getRandomColor(0,255,255)
-                game.stage.backgroundColor = color
-                
-                var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-                tweenAlpha.onComplete.add(function(){
-                    game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-                })
-                
-            } , this);
-            delay+=timeDelay
-        }
-        
-        game.time.events.add(delay,function(){
+        for(var i = 0;i<obj.length;i++){
             
-            var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-            tweenAlpha.onComplete.add(function(){
-                game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-            })
-                
-            game.stage.backgroundColor = '#ffffff'
-            worldGroup.scale.y = 1
-            worldGroup.y-=game.world.height * 0.8
-            //game.add.tween(sceneGroup.scale).to( { x:1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        })
+            var piece = obj.children[i]
+            piece.x = piece.origPos
+            
+        }
     }
     
-    function collisionEvent(obj1,obj2){
+    function activateObject(child){
         
-        //console.log(obj2.sprite.tag)
-        var tag = obj2.sprite.tag
+         if(tag == 'bar' || tag == 'barL'){
+            setPositions(child)
+         }
         
-        if(obj2.sprite.used == true && gameActive == true){
-            if(tag == 'coin'){
-                deactivateObj(obj2.sprite)
-                addPoint(obj2.sprite)
+         var tag = child.tag
+         child.active = true
+         child.alpha = 1
+         child.y = pivotObjects
 
-            }else if(tag == "obstacle" || tag == "obstacle2"){
-                
-                stopGame()
-                
-            }
-        }
-    }
-    
-    function addComplement(tag){
-        
-        var objToUse
-        for(var i = 0;i< groundGroup.length;i++){
-            var child = groundGroup.children[i]
-            if(child.tag == tag && child.used == false){
-                objToUse = child
-                break
-            }
-        }
-        return objToUse
-    }
-    
-     function activateObject(posX, posY, child){
-        //console.log(child.tag + ' tag,')
-        if(child != null){
+         pivotObjects-= 200
+         if(tag == 'circle'){
+             child.y -= 150
+             pivotObjects-= 250
+         }
+
+         //console.log( pivotObjects + ' posY object, ' + tag + ' activated')
+         
+         if(tag == 'circle' || tag == 'cirquit'){
             
-            child.body.x = posX
-            child.body.y = posY
-            child.used = true
-            child.body.velocity.x = -gameSpeed 
-            objectsList[objectsList.length] = child
+             child.x = game.world.centerX
+             
+         }else if(tag == 'cross'){
+             
+             var offsetX = 100
+             
+             child.isLeft = false
+             if(Math.random()*2>1){
+                 child.isLeft = true
+                 offsetX*=-1
+             }
+             child.x = game.world.centerX + offsetX
+             
+         }
+         
+        if(tag == 'bar'){
+            pivotObjects+=140
+            addObstacle('barL')
+        }else{
             
-            if(child.tag == 'obstacle'){
-                
-                child.isPoint = true
-                activateObject(posX, posY - child.height - 185 - (Math.random() * 0.3) * child.height,child.topObject)
-                
-            }
-        }
+            if(tag != 'cirquit'){
+                addObstacle('cirquit')
+             }
+        }      
+         
     
      }
     
-    function checkAdd(obj, tag){
-        
-        //console.log('check')
-        Phaser.ArrayUtils.shuffle(enemyNames)
-        
-        if(Math.random()*2 > 1 && gameActive == true){
-            
-            var nameItem = 'coin'            
-
-            var coin = addComplement(nameItem)
-            if(coin != null){
-                //console.log('adde coin')
-                activateObject(pivotObjects - obj.width * 2.1,(Math.random() * game.world.height -500) + 200,coin)
-            }
-
-        }
-    }
-    
     function addObstacle(tag){
         
-        pivotObjects = 450
-        if(objToCheck != null ){
-            pivotObjects = objToCheck.body.x + objToCheck.width * 4
-        }
+        for(var i = 0; i < objectsGroup.length;i++){
             
-        
-        for(var i = 0;i< groundGroup.length;i++){
-            var child = groundGroup.children[i]
-            if(child.tag == tag && child.used == false){
-                if (tag == "obstacle"){
-                    
-                    activateObject(pivotObjects,game.world.height - (child.height * Math.random() * 0.9) - 145,child)
-                    
-                    checkAdd(child,tag)
-                    objToCheck = child
-                    
-                }
+            var object = objectsGroup.children[i]
+            if(!object.active && object.tag == tag){
+                
+                activateObject(object)
+                
                 break
             }
         }
     }
     
-    function createObjs(tag,scale,times){
+    function calcCircles(n) {
         
-        var pivotX = 0
-        for(var i = 0;i<times;i++){
-            var object, object2
-            if(tag == 'coin'){
+        group = game.add.group()
+        
+        var baseRadius = 125
+        var angle = Math.PI / n;
+        var s = Math.sin(angle);
+        var r = baseRadius * s / (1-s);
+
+
+        for(var i=0;i<n;++i) {
+            var phi = 15 + angle * i * 2;
+            var cx = 150+(baseRadius + r) * Math.cos(phi);
+            var cy = 150+(baseRadius + r) * Math.sin(phi);
+            
+            group.create(cx,cy,'atlas.neon','circle').scale.setTo(0.8,0.8)
+        }
+        
+        //group.create(0,0,'atlas.neon','circle').anchor.setTo(0.5,0.5)
+        
+        return group
+    }
+    
+    function createObstacle(type, number){
+        
+        for(var o = 0; o<number;o++){
+            
+            var group 
+            if(type == 'cross'){
+
+                group = game.add.group()
+                group.x = game.world.centerX
+                group.y = game.world.centerY
+
+                for(var i = 0; i<4;i++){
+
+                    var part = group.create(0,0,'atlas.neon','crossPart')
+                    part.anchor.setTo(1,0.5)
+                    part.tint = COLORS[i]
+                    part.angle = i*90
+                }
+
+            }else if(type == 'circle'){
+
+                group = calcCircles(16)
+
+                var value = -173
+                var valueY = -173
                 
-                object = game.add.sprite(-300, 200, 'coinS');
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',24,true);   
-            }else if(tag == 'obstacle'){
+                var index = 0
+                for(var i = 0; i<group.length ;i++){
+                    var obj = group.children[i]
+                    
+                    obj.x+=value
+                    obj.y+=valueY
+                    
+                    obj.tint = COLORS[index]
+                    
+                    if((i+1) % 4 == 0){
+                        index++
+                    }
+                                        
+                }
+
+                group.x = game.world.centerX 
+
+            }else if(type == 'bar'){
+
+                group = game.add.group()
+
+                var pivotX = game.world.width - 50
+                var indexColor = 0
+                var length = 24
+                for(var i = 0; i<length;i++){
+
+                    var part = group.create(pivotX,0,'atlas.neon','circle')
+                    part.scale.setTo(0.8,0.8)
+                    part.tint = COLORS[indexColor]
+                    part.origPos = part.x
+
+                    if((i+1) % 3 == 0){
+                        indexColor++
+                        if(indexColor>3){
+                            indexColor = 0
+                        }
+                    }
+
+                    if(i == length-1){
+                        group.lastObject = part
+                    }
+                    pivotX -= part.width * 1.5
+                }
+
+            }else if(type == 'barL'){
+
+                group = game.add.group()
+
+                var pivotX = 50
+                var indexColor = 0
+                var length = 24
+                for(var i = 0; i<length;i++){
+
+                    var part = group.create(pivotX,0,'atlas.neon','circle')
+                    part.scale.setTo(0.8,0.8)
+                    part.tint = COLORS[indexColor]
+                    part.origPos = part.x
+
+                    if((i+1) % 3 == 0){
+                        indexColor++
+                        if(indexColor>3){
+                            indexColor = 0
+                        }
+                    }
+
+                    if(i == length-1){
+                        group.lastObject = part
+                    }
+                    pivotX += part.width * 1.5
+                }
                 
-                object = groundGroup.create(-300,game.world.height - 350,'atlas.neon',tag)
-                object.isPoint = true
-                
-                object2 = groundGroup.create(-300,0,'atlas.neon',tag + 'up')
-                
-                object.topObject = object2
-                
-                object2.scale.setTo(scale,scale)
-                object2.anchor.setTo(0,1)
-                object2.tag = tag + '2'
-                game.physics.p2.enable(object2,DEBUG_PHYSICS)
-                object2.body.kinematic = true
-                object2.used = false
-                
-                player.body.createBodyCallback(object2, collisionEvent, this);
+            }else if(type == 'cirquit'){
+
+                group = objectsGroup.create(0,0,'atlas.neon','cirquit')
+                group.anchor.setTo(0.5,0.5)
 
             }
-            
-            object.scale.setTo(scale,scale)
-            object.anchor.setTo(0,1)
-            object.tag = tag
-            game.physics.p2.enable(object,DEBUG_PHYSICS)
-            object.body.kinematic = true
-            object.used = false
-            
-            if(object.tag != 'coin'){
-                object.body.allowSleep = true
-                player.body.createBodyCallback(object, collisionEvent, this);
-            }else{
-                object.body.data.shapes[0].sensor = true
-            }
-            
+
+            group.tag = type
+            group.alpha = 0
+            group.active = false
+            objectsGroup.add(group)
         }
+        
     }
     
     function createObjects(){
         
-        createObjs('obstacle',1,10)
-        createObjs('coin',1,10)
+        createObstacle('bar',3)
+        createObstacle('barL',3)
+        createObstacle('cross',3)
+        createObstacle('circle',3)
+        createObstacle('cirquit',4)
         
-        for(var i = 0; i < 8; i++){
-            addObstacle('obstacle')
+        addObstacle('bar')
+        for(var i = 0;i<2;i++){
+            addObjects()
         }
         
     }
     
     function checkTag(){
         
-        if(consecFloor == 1){
-            tag = 'floor'
-            consecFloor-=2
-        }else if(consecBricks == 1){
-            tag = 'brick'
-            consecBricks-=2
-        }else{
-            if(objToCheck.tag == 'floor'){
-                objToCheck.lastFloor = true
-            }
-            var tag = "floor"
-            if(Math.random()*2 > 1){
-                tag = "brick"
-            }
-
-            if(tag == 'brick' && objToCheck.spike == true){
-                tag = 'floor'
-            }
-        }
+        var tags = ['circle','cross','bar']
+        Phaser.ArrayUtils.shuffle(tags)
         
-        if(tag == 'floor'){
-            consecFloor++
-        }else{
-            consecBricks++
-        }
+        tag = tags[0]
         
         return tag
     }
@@ -860,61 +915,13 @@ var neonedge = function(){
         var tag = checkTag()
         
         addObstacle(tag)
-        
-        //game.time.events.add(TIME_ADD, addObjects , this);
-        
-    }
-    
-    function checkOnAir(){
-        
-        if( buddy.isRunning == true){
-            if(checkIfCanJump() == false){
-                buddy.setAnimationByName(0,"JUMP", false)
-                buddy.isRunning = false
-            }
-        }
-        if(gameActive == true){
-            game.time.events.add(50,checkOnAir,this)
-        }
-    }
-    
-    function createTrail(){
-        
-        for(var i = 0;i<50;i++){
-            
-            var particle =  particlesGroup.create(0,0,'atlas.neon','ship')
-            particle.anchor.setTo(0.5,1)
-            particle.scale.setTo(0.5,0.5)
-            particle.firstScale = particle.scale.x
-            
-            particle.used = false
-            particle.alpha = 0
-            
-        }
-        
-    }
-    
-    function createBase(){
-        
-        var pivotX = 100
-        
-        for(var i = 0; i <1;i++){
-            
-            var object2 = groundGroup.create(pivotX,game.world.centerY + 115,'atlas.neon','obstacleup')
-                                
-            object2.scale.setTo(1.2,1.2)
-            object2.anchor.setTo(0,1)
-            game.physics.p2.enable(object2,DEBUG_PHYSICS)
-            object2.body.kinematic = true
-            
-            pivotX += object2.width
-            console.log(object2.x + 'posX')
-        }
+                
     }
     
 	return {
+        
 		assets: assets,
-		name: "neonedge",
+		name: "cirquit",
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.P2JS);
@@ -927,14 +934,17 @@ var neonedge = function(){
             
 			sceneGroup = game.add.group()
             
+            var background = new Phaser.Graphics(game)
+            background.beginFill(0x2b0f68);
+            background.drawRect(0, 0, game.world.width, game.world.height);
+            background.endFill();
+            background.anchor.setTo(0,0)
+            sceneGroup.add(background)
+            
             worldGroup = game.add.group()
             //worldGroup.scale.setTo(0.5,0.5)
             //worldGroup.x = 100
             sceneGroup.add(worldGroup)
-            
-            var background = worldGroup.create(0,0,'fondo')
-            background.width = game.world.width
-            background.height = game.world.height * 1.02
             
             groundGroup = game.add.group()
             worldGroup.add(groundGroup)
@@ -956,18 +966,20 @@ var neonedge = function(){
             worldGroup.add(particlesGroup)
             
             characterGroup = game.add.group()
-            characterGroup.x = 100
-            characterGroup.y = game.world.height - BOT_OFFSET * 6
+            characterGroup.x = game.world.centerX
+            characterGroup.y = game.world.height - BOT_OFFSET * 3
             worldGroup.add(characterGroup)
             
-            buddy = characterGroup.create(0,-45,'atlas.neon','ship')
+            buddy = characterGroup.create(0,-45,'atlas.neon','circle')
+            buddy.scale.setTo(0.7,0.7)
             buddy.anchor.setTo(0.5,0.5)
+            buddy.tint = COLORS[colorIndex]
             
-            createTrail()
+            //createTrail()
             
-            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.neon','ship')
+            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.neon','coin')
             player.anchor.setTo(0.5,1)
-            player.scale.setTo(0.37,0.37)
+            player.scale.setTo(0.4,0.4)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
@@ -976,7 +988,7 @@ var neonedge = function(){
             
             player.body.collideWorldBounds = true;
             
-            createBase()
+            //createBase()
                         
             createObjects()
             

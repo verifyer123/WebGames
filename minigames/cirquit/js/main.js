@@ -53,7 +53,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            neonedge,
+            cirquit,
             result,
     	])
     }
