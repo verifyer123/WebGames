@@ -1,7 +1,7 @@
 window.amazing = {
 	config: {
 		name: "Neon Edge",
-		minigameUrl: "../../minigames/cirquit/index.html",
+		minigameUrl: "../../minigames/twindots/index.html",
 		desktopUrl: "./desktop.html",	
 	}
 }

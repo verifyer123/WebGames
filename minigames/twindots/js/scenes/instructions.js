@@ -75,14 +75,14 @@ var instructions = function(){
             
             var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
-                sceneloader.show("clownrush")
+                sceneloader.show("twindots")
             })
             
         })
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "zombieCrush"}
+            {"gameName": "twindots"}
         );
 		
 	}
@@ -155,7 +155,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "zombieCrush"}
+            {"gameName": "twindots"}
         );
         
 		game.stage.backgroundColor = "#ffffff"

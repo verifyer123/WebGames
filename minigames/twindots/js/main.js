@@ -54,7 +54,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            clownrush,
+            twindots,
             result,
     	])
     }

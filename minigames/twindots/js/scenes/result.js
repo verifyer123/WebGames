@@ -46,7 +46,7 @@ var result = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "zombieCrush", "win":didWin, "numberOfObjects":score}
+            {"gameName": "twindots", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -101,12 +101,12 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "clownrush"}
+            {"gameName": "twindots"}
         );
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://amazingapp.co/juegos/clownrush/',
+		    href: 'http://amazingapp.co/juegos/twindots/',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
 		}, function(response){
@@ -141,7 +141,7 @@ var result = function(){
             }else if(parent.tag == 'reintentar'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show("clownrush")
+                        sceneloader.show("twindots")
                     })
             }
         })
