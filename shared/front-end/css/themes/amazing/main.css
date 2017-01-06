@@ -30,10 +30,11 @@ body{
     text-align: center;
     font-size:2vh;
     margin-left: 15%;
+	margin-top: 0.6%;
 }
 
 .logo-amazing img{
-    width: 60%;
+    width: 55%;
 }
 
 .banner-game{
@@ -167,7 +168,7 @@ body{
     position: relative;
     width: 40%;
     height: 6%;
-    margin-top: 8%;
+    margin-top: 5%;
     margin-right: auto;
     margin-left: auto;
     text-align: center;
