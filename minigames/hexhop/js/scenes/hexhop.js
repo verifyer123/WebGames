@@ -682,7 +682,7 @@ var hexhop = function(){
             initialize()
             animateScene()
             
-            createLinesGroup(7)
+            createLinesGroup(9)
             
             createLevelText()
             
