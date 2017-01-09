@@ -281,9 +281,7 @@ var result = function(){
     }
     
 	function createScene(){
-        
-        win = false
-        
+                
         loadSounds()
         
 		sceneGroup = game.add.group()
