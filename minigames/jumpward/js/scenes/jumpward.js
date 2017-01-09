@@ -39,7 +39,7 @@ var jumpward = function(){
     var SPEED = 225 
     var TIME_ADD = 600
     var JUMP_FORCE = 1050
-    var DEBUG_PHYSICS = true
+    var DEBUG_PHYSICS = false
     var ANGLE_VALUE = 3
     var WORLD_GRAVITY = 1600
     var OFF_BRICK = 330
@@ -51,6 +51,7 @@ var jumpward = function(){
     var marioSong = null
     var platNames,itemNames
     var objectsGroup
+    var piecesGroup
     var lastOne = null
     var pivotObjects
     var player
@@ -78,7 +79,7 @@ var jumpward = function(){
 	function initialize(){
         
         platNames = ['blue_plat']
-        itemNames = ['coin','spring','coin','coin']
+        itemNames = ['coin','spring','coin','coin','coin']
         game.stage.backgroundColor = "#ffffff"
         gameActive = false
         moveUp = false
@@ -86,6 +87,7 @@ var jumpward = function(){
         lives = 1
         pivotObjects = game.world.centerY + 100
         tooMuch = false
+        lastOne = null
         
 	}
     
@@ -109,7 +111,7 @@ var jumpward = function(){
         game.load.spritesheet('coinS', 'images/jumpward/coinS.png', 68, 70, 12);
         game.load.spritesheet('monster', 'images/jumpward/monster.png', 292, 237, 17);
         
-        game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
+        game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
         
     }
     
@@ -172,8 +174,9 @@ var jumpward = function(){
         sceneGroup.limit = bottomRect
         
         var groupButton = game.add.group()
-        groupButton.x = game.world.centerX + 125
+        groupButton.x = game.world.centerX + 135
         groupButton.y = game.world.height -125
+        groupButton.scale.setTo(1.4,1.4)
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
@@ -188,8 +191,9 @@ var jumpward = function(){
         button2.events.onInputUp.add(releaseButton)
         
         var groupButton = game.add.group()
-        groupButton.x = game.world.centerX - 125
+        groupButton.x = game.world.centerX - 135
         groupButton.y = game.world.height -125
+        groupButton.scale.setTo(1.4,1.4)
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
@@ -272,7 +276,7 @@ var jumpward = function(){
         //console.log(obj.tag + ' tag')
         addNumberPart(pointsBar.text,'+1')
         
-        if(pointsBar.number == 8){
+        if(pointsBar.number == 15){
             
             platNames[platNames.length] = 'yellow_plat'
             platNames[platNames.length] = 'blue_plat'
@@ -280,12 +284,12 @@ var jumpward = function(){
             itemNames[itemNames.length] = 'balloons'
         }
         
-        if(pointsBar.number == 16){
+        if(pointsBar.number == 25){
             
             platNames[platNames.length] = 'orange_plat'
         }
         
-        if(pointsBar.number == 21){
+        if(pointsBar.number == 35){
             
             platNames[platNames.length] = 'monster'
         }
@@ -359,6 +363,9 @@ var jumpward = function(){
         obj.active = false
         obj.alpha = 0
         
+        objectsGroup.remove(obj)
+        piecesGroup.add(obj)
+        
     }
     
     function checkOverlap(spriteA, spriteB) {
@@ -374,6 +381,7 @@ var jumpward = function(){
         
         object.tween = game.add.tween(object).to({alpha:0},300,Phaser.Easing.liner,true).onComplete.add(function(){
             deactivateObj(object)
+            addObjects()
         },this)
     }
     
@@ -387,12 +395,10 @@ var jumpward = function(){
         
         player.active = false
         moveUp = true
-        buddy.setAnimationByName(0, "JUMP_BALLOONS", false)
+        buddy.setAnimationByName(0, "JUMP_BALLOONS", true)
         
         game.time.events.add(3000,function(){
-            
-            console.log('ballon off')
-            
+                        
             player.active = true
             moveUp = false
             
@@ -457,7 +463,11 @@ var jumpward = function(){
                 
                 if(object.world.y > game.world.height - 200){
                     deactivateObj(object)
-                    addObjects()
+                    
+                    if(tag.substring(tag.length - 4,tag.length) == 'plat'){
+                        addObjects()
+                    }
+                    
                 }
                 
                 if(object.tag == 'orange_plat'){
@@ -496,6 +506,10 @@ var jumpward = function(){
     
     function doJump(value){
         
+        if(!gameActive){
+            return
+        }
+        
         var jumpValue = value
         
         if(jumpValue == null){ jumpValue = JUMP_FORCE}
@@ -506,7 +520,7 @@ var jumpward = function(){
 
         if(game.physics.p2.gravity.y == 0){
             game.physics.p2.gravity.y = WORLD_GRAVITY
-            //marioSong.loopFull(0.5)
+            marioSong.loopFull(0.5)
         }
         
         /*var bar = sceneGroup.limit
@@ -653,15 +667,18 @@ var jumpward = function(){
              child.tween.stop()
          }
         
+         piecesGroup.remove(child)
+         objectsGroup.add(child)
+
          var tag = child.tag
          child.active = true
          child.alpha = 1
          child.y = posY
          child.x = posX
-         
+
          if(tag == 'orange_plat'){
              child.moveRight = true
-             
+
              if(Math.random()*2>1){
                  child.moveRight = false
              }
@@ -675,16 +692,22 @@ var jumpward = function(){
         
         var tag = itemNames[0]
         
-        for(var i = 0; i < objectsGroup.length;i++){
+        //console.log(tag + ' tag')
+        
+        for(var i = 0; i < piecesGroup.length;i++){
             
-            var item = objectsGroup.children[i]
+            var item = piecesGroup.children[i]
             
             if(!item.active && item.tag == tag){
                 
                 var posX = obj.x
                 
                 if(item.tag == 'monster'){
-                    posX = game.rnd.integerInRange(100,game.world.width - 100)
+                    posX = obj.x
+                    while(Math.abs(obj.x - posX) < 150){
+                        game.rnd.integerInRange(100,game.world.width - 100)
+                    }
+                    
                 }
                 
                 activateObject(item,posX,obj.y - obj.height * 0.5 - item.height * 0.6)
@@ -696,17 +719,19 @@ var jumpward = function(){
     
     function addObstacle(tag){
         
-        for(var i = 0; i < objectsGroup.length;i++){
+        for(var i = 0; i < piecesGroup.length;i++){
             
-            var object = objectsGroup.children[i]
+            var object = piecesGroup.children[i]
             if(!object.active && object.tag == tag){
                 
                 var posX = game.rnd.integerInRange(100,game.world.width - 100)
                 activateObject(object,posX,pivotObjects)
                 
-                if(Math.random()*3>1.5 && object.tag == 'blue_plat'){
+                if(Math.random()*3 >1.5 && object.tag == 'blue_plat' && lastOne){
                     addItem(object)
                 }
+                
+                //console.log('added ' + tag)
                 
                 lastOne = object
                 
@@ -724,7 +749,7 @@ var jumpward = function(){
             if(type == 'coin'){
                 
                 obj = game.add.sprite(0, 0, 'coinS');
-                objectsGroup.add(obj)
+                piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',24,true); 
                 
@@ -732,13 +757,13 @@ var jumpward = function(){
                 
                 obj = game.add.sprite(0, 0, 'monster');
                 obj.scale.setTo(0.55,0.55)
-                objectsGroup.add(obj)
+                piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',24,true); 
             
             }else{
                 
-                var obj = objectsGroup.create(0,0,'atlas.jump',type)
+                var obj = piecesGroup.create(0,0,'atlas.jump',type)
             }
             
             if(type == 'orange_plat'){
@@ -759,12 +784,12 @@ var jumpward = function(){
         createObstacle('blue_plat',15)
         createObstacle('yellow_plat',15)
         createObstacle('orange_plat',10)
-        createObstacle('coin',10)
+        createObstacle('coin',20)
         createObstacle('spring',10)
-        createObstacle('balloons',10)
-        createObstacle('monster',10)
+        createObstacle('balloons',5)
+        createObstacle('monster',5)
         
-        for(var i = 0;i<7;i++){
+        for(var i = 0;i<12;i++){
             addObjects()
         }
         
@@ -788,7 +813,8 @@ var jumpward = function(){
     function addObjects(){
         
         var tag = checkTag()
-                
+        
+        //console.log(piecesGroup.length + ' available')
         addObstacle(tag)
                 
     }
@@ -830,11 +856,13 @@ var jumpward = function(){
 			initialize()       
             
             //sound.play("marioSong")
-            marioSong = game.add.audio('neonSong')
+            marioSong = game.add.audio('runningSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 //marioSong.loopFull(0.6)
-                //marioSong.stop()
             }, this);
+            
+            piecesGroup = game.add.group()
+            worldGroup.add(piecesGroup)
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
