@@ -282,6 +282,8 @@ var result = function(){
     
 	function createScene(){
         
+        win = false
+        
         loadSounds()
         
 		sceneGroup = game.add.group()
@@ -290,6 +292,13 @@ var result = function(){
         var background = sceneGroup.create(0,0,'atlas.resultScreen','retro-fondo')
         background.width = game.world.width
         background.height= game.world.height * 0.38
+        
+        var bottomBar = new Phaser.Graphics(game)
+        bottomBar.beginFill(0xf5f5f5);
+        bottomBar.drawRect(0, game.world.height, game.world.width, -game.world.height + background.height);
+        bottomBar.endFill();
+        bottomBar.anchor.setTo(0,1)
+        sceneGroup.add(bottomBar)
         
         var shareBtn = createShareButton()
         shareBtn.x = game.world.centerX - 140
@@ -328,14 +337,7 @@ var result = function(){
 
             var nameText = new Phaser.Text(sceneGroup.game, game.world.centerX, medal.y + 10, 'puntos', fontStyle)
             nameText.anchor.setTo(0.5,0.5)
-            sceneGroup.add(nameText) 
-
-            var bottomBar = new Phaser.Graphics(game)
-            bottomBar.beginFill(0xf5f5f5);
-            bottomBar.drawRect(0, game.world.height, game.world.width, -game.world.height + background.height);
-            bottomBar.endFill();
-            bottomBar.anchor.setTo(0,1)
-            sceneGroup.add(bottomBar)
+            sceneGroup.add(nameText)
 
             var iconName = 'wachu'
             var iconIndex = 0
@@ -382,6 +384,7 @@ var result = function(){
             sceneGroup.add(scoreText) 
         }else{
             
+            bottomBar.alpha = 0
             background.height*=1.6
             
             shareBtn.y -= 37
@@ -419,6 +422,9 @@ var result = function(){
         banner.inputEnabled = true
         banner.events.onInputDown.add(showPromo)
         banner.anchor.setTo(0.5,1)
+        
+        sceneGroup.add(shareBtn)
+        sceneGroup.add(tryAgainButton)
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
 

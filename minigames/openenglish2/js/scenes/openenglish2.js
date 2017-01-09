@@ -242,7 +242,7 @@ var openenglish2 = function(){
             gameIndex++
             
             if(listIndex > 1 && gameIndex > 9){
-                stopGame()
+                stopGame(true)
             }else{
                 if(gameIndex> 9){
                     gameIndex = 0

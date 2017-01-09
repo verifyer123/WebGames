@@ -27,6 +27,10 @@ var chilimbalam = function(){
 				file: soundsPath + "shootBall.mp3"},
             {	name: "click",
 				file: soundsPath + "pop.mp3"},
+            {	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
+            {	name: "bomb",
+				file: soundsPath + "bomb.mp3"},
 		],
 	}
     
@@ -36,6 +40,7 @@ var chilimbalam = function(){
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
+    var marioSong = null
 	var sceneGroup = null
     var answersGroup = null
     var pointsGroup = null
@@ -151,8 +156,11 @@ var chilimbalam = function(){
     
     
     function preload() {
+        
         game.stage.disableVisibilityChange = true;
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
+        
+        game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
     }
     
     function inputButton(obj){
@@ -226,10 +234,13 @@ var chilimbalam = function(){
     function stopGame(win){
         
         game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
+        sound.play("gameLose")
         
         //objectsGroup.timer.pause()
         gameActive = false
         buddy.setAnimationByName(0,"SAD",0.6)
+        
+        marioSong.stop()
         //timer.pause()
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
@@ -333,7 +344,7 @@ var chilimbalam = function(){
                     //sound.play("splash")
                 }else if(obj.tag == 'obstacle'){
                     createPart('smoke',obj)
-                    //sound.play("explode")
+                    sound.play("bomb")
                 }
             }else if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y + 45 - obj.y) < cup.height*0.6 && obj.tag == 'candy'){
                 deactivateObject(obj)
@@ -720,6 +731,11 @@ var chilimbalam = function(){
         buddy.setSkinByName('normal');
         
         //createTime()
+        
+        marioSong = game.add.audio('arcadeSong')
+        game.sound.setDecodedCallback(marioSong, function(){
+            marioSong.loopFull(0.3)
+        }, this);
         
         var topRect = new Phaser.Graphics(game)
         topRect.beginFill(0xffffff);
