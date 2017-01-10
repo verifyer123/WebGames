@@ -1,4 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var iconsPath = "../../shared/minigames/images/icons/"
 var result = function(){
 
 	localizationData = {
@@ -36,17 +37,19 @@ var result = function(){
     var buttonsActive
     var haveCoupon
     var goalScore = 50
+    var gameNumbers = null
+    var icons
 
 	var timeGoal = null
 
-	function setScore(didWin,score){
+	function setScore(didWin,score) {
 		totalScore = score
 		totalGoal = 50
 		totalTime = 0
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "twindots", "win":didWin, "numberOfObjects":score}
+            {"gameName": "amazingbros", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -101,7 +104,7 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "twindots"}
+            {"gameName": "amazingbros"}
         );
         
 		FB.ui({
@@ -204,13 +207,7 @@ var result = function(){
         buttonsActive = false
         
         game.time.events.add(350, function(){
-            if(obj.tag == 'bros'){
-                window.open('http://amazingapp.co/juegos/amazingbros/','_self')
-            }else if(obj.tag == 'costena'){
-                window.open('http://amazingapp.co/juegos/costena/','_self')
-            }else if(obj.tag == 'lluvia'){
-                window.open('http://amazingapp.co/juegos/chilimbalam/','_self')
-            }  
+             window.open(icons[gameNumbers[obj.index]].url,'_self')  
         } , this);
     
     }
@@ -223,24 +220,22 @@ var result = function(){
         var pivotX = game.world.centerX - 174
         var pivotY = game.world.height - 150
         
-        var iconNames = ['bros','costena','lluvia']
-        var gameNames = ['Amazing Bros', 'Memorama \ndel Sabor', 'Lluvia de \nGomitas']
-        for(var i = 0;i<iconNames.length;i++){
+        for(var i = 0;i<3;i++){
             
             var group = game.add.group()
             group.x = pivotX
             group.y = pivotY
             iconsGroup.add(group)
             
-            var img = group.create(0,0,'atlas.resultScreen',iconNames[i])
+            var img = group.create(0,0,icons[gameNumbers[i]].iconName)
             img.anchor.setTo(0.5,0.5)
             img.inputEnabled = true
             img.events.onInputDown.add(inputGame)
-            img.tag = iconNames[i]
+            img.index = i
             
             var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
-            var nameText = new Phaser.Text(sceneGroup.game, 0, 110, gameNames[i], fontStyle)
+            var nameText = new Phaser.Text(sceneGroup.game, 0, 110, icons[gameNumbers[i]].name, fontStyle)
             nameText.lineSpacing = -10;
             nameText.anchor.setTo(0.5,0.5)
             group.add(nameText)  
@@ -251,7 +246,6 @@ var result = function(){
             
         }
     }
-    
     function checkPosObj(obj){
         
         var posX = obj.x
@@ -306,6 +300,7 @@ var result = function(){
     
 	function createScene(){
         
+        //console.log(icons[0].name + ' name')
         if(game.device.desktop){
             haveCoupon = false
         }
@@ -424,6 +419,7 @@ var result = function(){
 	}
 
 	function initialize(){
+        
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
@@ -431,10 +427,31 @@ var result = function(){
         game.stage.backgroundColor = "#ffffff"
 	}
     
+    function getNumbers(){
+        
+        icons = amazing.getGames()
+        gameNumbers = []
+        
+        for(var i = 0; i < icons.length; i++){
+            gameNumbers[i] = i
+        }
+        
+        Phaser.ArrayUtils.shuffle(gameNumbers)
+    }
+    
     function preload(){
         game.load.bitmapFont('gotham', 'images/bitfont/gotham.png', 'images/bitfont/gotham.fnt');
         
         game.load.spine('amazing', "images/spines/Amaizing.json");
+        
+        getNumbers()
+        
+        for(var i = 0; i<3;i++){
+            var iconName = icons[gameNumbers[i]].iconName
+            game.load.image(iconName, iconsPath + iconName+ '.png');
+        }
+        
+        
     }
     
 	return {

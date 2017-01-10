@@ -386,8 +386,8 @@ var openenglish4 = function(){
         pointsGroup = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pivotX = pointsBar.x - pointsBar.width * 0.2
-        for(var i = 0;i<5;i++){
+        var pivotX = pointsBar.x - pointsBar.width * 0.45
+        for(var i = 0;i<10;i++){
             
             var group = game.add.group()
             group.x = pivotX
@@ -603,7 +603,7 @@ var openenglish4 = function(){
         imageGroup.add(topBack)
         
         var imagelist = []
-        for(var i = 0; i<5;i++){
+        for(var i = 0; i<10;i++){
             
             var word = WORDS_LIST[orderList[i]]
             
@@ -719,9 +719,9 @@ var openenglish4 = function(){
             hideScene()
             
             game.time.events.add(1000,function(){
-                if(gameIndex >= 5){
+                if(gameIndex >= 10){
                     
-                    stopGame()
+                    stopGame(true)
                 }else{
                     setQuestionIndex(gameIndex)
                     setWords()

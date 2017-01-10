@@ -2,9 +2,10 @@
 <!DOCTYPE html> 
 <html>
     <head>
-        <title>Amazing!</title>
+        <title>Juegos Amazing!</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel='shortcut icon' type='image/x-icon' href='http://www.amazingapp.co/images/favicon.ico'/>
         <meta name="description" content="Juegos online">
         <!-- Facebook OG meta tags -->
         <meta property="og:url" content="http://amazingapp.co" /> 
@@ -22,65 +23,31 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
         <script src="../js/bootstrap.min.js"></script>
-    </head>
-    <body data-offset='-100' data-spy="scroll" data-target="#navbar">
-        <section id="title" class="topBottomPadding">
+        <script src="../js/catalogoJuegos.js"></script>
+        <style>
+
+        .hijo{                
+                background-size: cover;
+                background-repeat: no-repeat;
+                cursor: pointer;
+            }    
+        </style>
+
+    </head>   
+    <body>
+        <div id="title" class="topBottomPadding">
             <div class="text-center">
                 <img src="../images/amazing-logo.png" class="img" alt="Amazing logo"/>
             </div>   
-        </section>
-        <section id="container" class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
+        </div>
+        <div class="container">
+            <div class="col-lg-12 text-center">
                     <h1>Catálogo de Minijuegos</h1>
-                </div>    
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/amazingbros/">
-                        <img class="overlay img-responsive" src="../images/gamesCatalog/superAmazing.png" alt="Super Amazing Bros">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/hexhop/">
-                        <img class="img-responsive" src="../images/gamesCatalog/hexhop.png" alt="Hexhop">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/chilimbalam/">
-                        <img class="img-responsive" src="../images/gamesCatalog/lluviaSnacks.png" alt="Lluvia de Snacks">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/tapatopo/">
-                        <img class="img-responsive" src="../images/gamesCatalog/tapaTopo.png" alt="Tapa Topo">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/junglefury/">
-                        <img class="img-responsive" src="../images/gamesCatalog/jungleFury.png" alt="Jungle Fury">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/zombiecrush/">
-                        <img class="img-responsive" src="../images/gamesCatalog/zombieCrushing.png" alt="Zombie Crush">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/clownrush/">
-                        <img class="img-responsive" src="../images/gamesCatalog/clownRush.png" alt="Clown Rush">
-                    </a>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 colorFondo">
-                    <a href="http://amazingapp.co/juegos/neonedge/">
-                        <img class="img-responsive" src="../images/gamesCatalog/neonEdge.png" alt="Neon Edge">
-                    </a>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2>¡Espera pronto más juegos!</h2>
-                </div>
             </div>
-        </section> 
-        
+            <div id="padre" class="row">
+            </div>
+        </div>
     </body>
+    
+
 </html>
-
-

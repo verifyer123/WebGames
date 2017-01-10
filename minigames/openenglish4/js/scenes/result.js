@@ -294,12 +294,12 @@ var result = function(){
         var iconName = 'principiante'
         var iconIndex = 0
 
-        if(totalScore >= 2){
+        if(totalScore >= 6){
             iconName = 'intermedio'
             iconIndex = 1
         }
 
-        if(totalScore >= 4){
+        if(totalScore >= 8){
             iconName = 'avanzado'
             iconIndex = 2
         }
