@@ -161,14 +161,14 @@ var oeKids = function(){
         jumping = true
         doJump()
         
-        obj.parent.children[1].alpha = 0
+        //obj.parent.children[1].alpha = 0
     }
     
     function releaseButton(obj){
         
         groupButton.isPressed = false
         jumping = false
-        obj.parent.children[1].alpha = 1
+        //obj.parent.children[1].alpha = 1
     }
     
     function createControls(){
@@ -176,28 +176,18 @@ var oeKids = function(){
         var spaceButtons = 220
         
         groupButton = game.add.group()
-        groupButton.x = game.world.centerX
-        groupButton.y = game.world.height -75
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
-        var button1 = groupButton.create(0,0, 'atlas.openEnglish','button_off')
-        button1.anchor.setTo(0.5,0.5)
-        
-        var button2 = groupButton.create(0,0, 'atlas.openEnglish','button_on')
-        button2.anchor.setTo(0.5,0.5)
+        var button2 = new Phaser.Graphics(game)
+        button2.beginFill(0x000000)
+        button2.drawRect(0,0,game.world.width, game.world.height)
+        button2.alpha = 0
+        button2.endFill()
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
-        button2.events.onInputUp.add(releaseButton)
-        
-        var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, 'Volar', fontStyle)
-        pointsText.x = groupButton.x
-        pointsText.y = groupButton.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-        
-        
+        button2.events.onInputUp.add(releaseButton)  
+        groupButton.add(button2)
         
     }
     
@@ -743,7 +733,6 @@ var oeKids = function(){
                     game.add.tween(sceneGroup.instructions).to({alpha:0},500,Phaser.Easing.linear,true,2000)
                 })
                 
-                
             })
             
         })
@@ -753,22 +742,11 @@ var oeKids = function(){
         var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'atlas.openEnglish','introscreen')
         plane.anchor.setTo(0.5,0.5)
         
-        var button = overlayGroup.create(plane.x, plane.y + 125,'atlas.openEnglish','button')
-        button.anchor.setTo(0.5,0.5)
-        
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, '¡Volar!', fontStyle)
-        pointsText.x = button.x
-        pointsText.y = button.y
-        pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
-        
         var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, 'Haz click en el botón para esquivar\n los obstáculos y agarra los dulces del\n color correcto.', fontStyle)
-        pointsText.x = button.x
-        pointsText.y = button.y - 225
+        pointsText.x = game.world.centerX
+        pointsText.y = game.world.centerY - 75
         pointsText.anchor.setTo(0.5,0.5)
         overlayGroup.add(pointsText)
         

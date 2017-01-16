@@ -1,4 +1,5 @@
 var amazing = {}
+var couponData
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
@@ -41,13 +42,43 @@ amazing.getGames = function(){
         {name:'Memorama\n del Sabor',iconName:'memorama',url:'http://amazingapp.co/juegos/memorama/',coupon : false},
         {name:'Jump Ward',iconName:'jump',url:'http://amazingapp.co/juegos/jumpward/',coupon : false},
         {name:'Jungle Fury',iconName:'jungle',url:'http://amazingapp.co/juegos/junglefury/',coupon : false},
-        {name:'Lluvia de\n Gomitas',iconName:'lluvia',url:'http://amazingapp.co/juegos/chilimbalam/',coupon : false},
+        {name:'Lluvia de\n Snacks',iconName:'lluvia',url:'http://amazingapp.co/juegos/chilimbalam/',coupon : false},
         {name:'Store Panic',iconName:'panic',url:'http://amazingapp.co/juegos/storepanic/',coupon : false},
         {name:'Tapatopo',iconName:'tapa',url:'http://amazingapp.co/juegos/tapatopo/',coupon : false},
         {name:'Twin Dots',iconName:'twin',url:'http://amazingapp.co/juegos/twindots/',coupon : false},
         {name:'Neon Edge',iconName:'neon',url:'http://amazingapp.co/juegos/neonedge/',coupon : false},
+        {name:'Cube Jump',iconName:'cube',url:'http://amazingapp.co/juegos/cubejump/',coupon : false},
         
     ]
     
     return games
+}
+
+amazing.getInfo = function(){
+    
+    window.addEventListener("message", function(event){
+        //console.log(event)
+        
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "couponMinigame":
+                couponData = parsedData.coupon
+                
+            }
+            //console.log('entra case')
+        }
+    })
+    
+    
+    
+}
+
+amazing.getCoupon = function(){
+    return couponData
 }

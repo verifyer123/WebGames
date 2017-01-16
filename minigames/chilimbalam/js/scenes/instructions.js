@@ -48,6 +48,8 @@ var instructions = function(){
 
 	function startGame(obj){
         
+        obj.inputEnabled = false
+        
         sound.play("click")
         
         tweenLoop.stop()

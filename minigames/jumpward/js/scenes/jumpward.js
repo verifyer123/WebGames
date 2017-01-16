@@ -88,6 +88,8 @@ var jumpward = function(){
         pivotObjects = game.world.centerY + 100
         tooMuch = false
         lastOne = null
+        moveLeft = false
+        moveRight = false
         
 	}
     

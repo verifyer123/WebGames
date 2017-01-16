@@ -38,6 +38,7 @@ var result = function(){
     var haveCoupon
     var goalScore = 50
     var gameNumbers = null
+    var gameIndex = 5
     var icons
 
 	var timeGoal = null
@@ -427,14 +428,43 @@ var result = function(){
         game.stage.backgroundColor = "#ffffff"
 	}
     
+    function checkNumbers(number){
+        
+        var equal = false
+        for(var i = 0; i < gameNumbers.length; i++){
+            
+            //console.log(number + ' number, ' + gameIndex + ' index, ' + gameNumbers[i] + ' gameNumbers' )
+            if(number == gameNumbers[i]){
+                equal = true
+            }
+        }
+        
+        if(number == gameIndex){
+            equal = true
+        }
+        
+        return equal
+    }
+    
     function getNumbers(){
         
         icons = amazing.getGames()
         gameNumbers = []
         
-        for(var i = 0; i < icons.length; i++){
-            gameNumbers[i] = i
+        for(var o = 0; o < 3;o++){
+            
+            var number = gameIndex
+            gameNumbers[o] = number
+
+            while(checkNumbers(number)){
+                number = game.rnd.integerInRange(0, icons.length - 1)
+            }
+            
+            gameNumbers[o] = number
+            
         }
+        
+        //console.log(gameNumbers + ' numbers')
         
         Phaser.ArrayUtils.shuffle(gameNumbers)
     }

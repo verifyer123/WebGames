@@ -157,7 +157,7 @@ var chilimbalam = function(){
     
     function preload() {
         
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = false;
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
         game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
