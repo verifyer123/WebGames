@@ -77,7 +77,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "graviswitch"}
         );
 		
 	}
@@ -150,7 +150,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "graviswitch"}
         );
         
 		game.stage.backgroundColor = "#ffffff"

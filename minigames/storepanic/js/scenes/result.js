@@ -36,10 +36,11 @@ var result = function(){
     var iconsGroup
     var buttonsActive
     var haveCoupon
-    var goalScore = 50
+    var goalScore
     var gameNumbers = null
     var gameIndex = 10
     var icons
+    var couponData
 
 	var timeGoal = null
 
@@ -50,7 +51,7 @@ var result = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "amazingbros", "win":didWin, "numberOfObjects":score}
+            {"gameName": "storepanic", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -105,17 +106,22 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "amazingbros"}
+            {"gameName": "storepanic"}
         );
         
-		FB.ui({
+        if(!couponData){
+            FB.ui({
 		    method: 'share',
 		    href: 'http://amazingapp.co/juegos/storepanic/',
 		    mobile_iframe: true,
 		    title: "Mi score es: " + totalScore
-		}, function(response){
-			//console.log(button)
-		});
+            }, function(response){
+                //console.log(button)
+            });
+        }else{
+            amazing.share(totalScore,'storepanic')
+        }
+		        
 	}
 
 	function tryAgain(){
@@ -141,7 +147,13 @@ var result = function(){
             changeImage(1,parent)
             
             if(parent.tag == 'compartir'){
+                
                 shareEvent()
+                game.time.events.add(2000,function(){
+                    
+                    obj.active = true    
+                },this)
+                
             }else if(parent.tag == 'reintentar'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
@@ -263,7 +275,6 @@ var result = function(){
         
     }
     
-    
     function placeIcons(){
         
         gameIconsGroup = game.add.group()
@@ -301,11 +312,6 @@ var result = function(){
     
 	function createScene(){
         
-        //console.log(icons[0].name + ' name')
-        if(game.device.desktop){
-            haveCoupon = false
-        }
-        
         loadSounds()
         
 		sceneGroup = game.add.group()
@@ -325,7 +331,7 @@ var result = function(){
         var colorTint = 0x2d8dff
         var topHeight = 1
         var scaleSpine = 1.3
-        var pivotButtons = game.world.height * 0.7
+        var pivotButtons = game.world.height * 0.72
         
         if(win){
             
@@ -345,7 +351,6 @@ var result = function(){
             pivotButtons = game.world.height * 0.68
             
         }
-        
         
         var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
         topRect.width = game.world.width
@@ -381,6 +386,7 @@ var result = function(){
         if(haveCoupon){
             
             if(!win){
+                
                 var needText = game.add.bitmapText(game.world.centerX - 190, game.world.centerY , 'gotham', 'Necesitas', 40);
                 needText.anchor.setTo(0,0.5)
                 needText.tint = 0x9d1760
@@ -396,18 +402,35 @@ var result = function(){
                 text.anchor.setTo(0,0.5)
                 text.tint = 0x9d1760
                 sceneGroup.add(text)
+                
             }else{
                 
-                var imageExist = game.cache.getFrameByName('atlas.resultScreen','coupon')
+                var discount = couponData.discount * 100
                 
-                if(imageExist){
-                    
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 50,'atlas.resultScreen','coupon')
-                    coupon.anchor.setTo(0.5,0.5)
-                    
-                }
+                var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
+                coupon.anchor.setTo(0.5,0.5)
+                
+                var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+                var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, '20%', fontStyle)
+                pointsText.anchor.setTo(0,0)
+                pointsText.lineSpacing = -15
+                sceneGroup.add(pointsText)
+
+                var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+                var storeText = new Phaser.Text(sceneGroup.game, pointsText.x, pointsText.y + pointsText.height, couponData.product, fontStyle)
+                storeText.anchor.setTo(0,0)
+                sceneGroup.add(storeText)
+
+                var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+                var pText = new Phaser.Text(sceneGroup.game, coupon.x + coupon.width * 0.42, coupon.y + coupon.height * 0.34, discount + '%', fontStyle)
+                pText.anchor.setTo(0.5,0.5)
+                pText.angle = -15
+                sceneGroup.add(pText)
+                                         
             }
-            
             
         }
 
@@ -424,7 +447,6 @@ var result = function(){
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
-        haveCoupon = false
         game.stage.backgroundColor = "#ffffff"
 	}
     
@@ -470,6 +492,41 @@ var result = function(){
     }
     
     function preload(){
+        
+        couponData = amazing.getCoupon()
+        
+        if(!couponData){
+            haveCoupon = false
+        }else{
+            haveCoupon = true
+            //game.load.image('coupon','http://amazingyogome.appspot.com' + couponData.couponImage)
+            game.load.image('coupon','images/result/cupon.png')
+            goalScore = couponData.scoreGoal
+        }
+        
+        /*var file = {            
+            type: 'image',            
+            key: 'coupon',            
+            url: 'http://amazingyogome.appspot.com/img/coupons/bg_chilimbalam.png',            
+            data: null,            
+            error: false,            
+            loaded: false        
+        };     
+        
+        file.data = new Image();        
+        file.data.name = file.key;        
+        file.data.onload = function () {            
+            file.loaded = true;            
+            game.cache.addImage(file.key, file.url, file.data);        
+        };  
+        
+        file.data.onerror = function () {            
+            file.error = true;        
+        };        
+        
+        file.data.crossOrigin = '';        
+        file.data.src = file.url;*/
+                        
         game.load.bitmapFont('gotham', 'images/bitfont/gotham.png', 'images/bitfont/gotham.fnt');
         
         game.load.spine('amazing', "images/spines/Amaizing.json");
@@ -477,6 +534,7 @@ var result = function(){
         getNumbers()
         
         for(var i = 0; i<3;i++){
+            
             var iconName = icons[gameNumbers[i]].iconName
             game.load.image(iconName, iconsPath + iconName+ '.png');
         }

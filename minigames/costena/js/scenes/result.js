@@ -49,7 +49,7 @@ var result = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "amazingbros", "win":didWin, "numberOfObjects":score}
+            {"gameName": "costena", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -104,7 +104,7 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "amazingbros"}
+            {"gameName": "costena"}
         );
         
 		FB.ui({

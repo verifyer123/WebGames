@@ -82,7 +82,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "zombieCrush"}
+            {"gameName": "clownrush"}
         );
 		
 	}
@@ -155,7 +155,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "zombieCrush"}
+            {"gameName": "clownrush"}
         );
         
 		game.stage.backgroundColor = "#ffffff"

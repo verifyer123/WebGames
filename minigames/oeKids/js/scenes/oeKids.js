@@ -742,9 +742,14 @@ var oeKids = function(){
         var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'atlas.openEnglish','introscreen')
         plane.anchor.setTo(0.5,0.5)
         
+        var action = 'tap'
+        
+        if(game.device == 'desktop'){
+            action = 'click'
+        }
         var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, 'Haz click en el botón para esquivar\n los obstáculos y agarra los dulces del\n color correcto.', fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, 'Haz ' + action + ' en la pantalla para esquivar\n los obstáculos y agarra los dulces del\n color correcto.', fontStyle)
         pointsText.x = game.world.centerX
         pointsText.y = game.world.centerY - 75
         pointsText.anchor.setTo(0.5,0.5)
@@ -789,7 +794,7 @@ var oeKids = function(){
         
         var groupText = game.add.group()
         groupText.x = game.world.centerX
-        groupText.y = game.world.centerY - 250
+        groupText.y = yogotar.y - 300
         resultScreen.add(groupText)
         
         var text1 = groupText.create(0,0,'atlas.openEnglish','buentrabajo')
@@ -804,7 +809,7 @@ var oeKids = function(){
         
         var retryButton = game.add.group()
         retryButton.x = game.world.centerX
-        retryButton.y = game.world.centerY + 250
+        retryButton.y = yogotar.y + 100
         retryButton.isPressed = false
         resultScreen.add(retryButton)
         

@@ -51,7 +51,7 @@ var result = function(){
         win = didWin
         mixpanel.track(
             "finishGame",
-            {"gameName": "amazingbros", "win":didWin, "numberOfObjects":score}
+            {"gameName": "chilimbalam", "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -106,7 +106,7 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "amazingbros"}
+            {"gameName": "chilimbalam"}
         );
         
         if(!couponData){
@@ -147,7 +147,13 @@ var result = function(){
             changeImage(1,parent)
             
             if(parent.tag == 'compartir'){
+                
                 shareEvent()
+                game.time.events.add(2000,function(){
+                    
+                    obj.active = true    
+                },this)
+                
             }else if(parent.tag == 'reintentar'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){

@@ -43,7 +43,7 @@ function startGame(){
 
         game.plugins.add(Fabrique.Plugins.Spine);
 
-        amazing.savePlaycount(); 
+        amazing.savePlaycount();
         amazing.getInfo();
         window.minigame.game = window.game
         

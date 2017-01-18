@@ -80,7 +80,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "amazingbros"}
         );
 		
 	}
@@ -153,7 +153,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "amazingbros"}
         );
         
 		game.stage.backgroundColor = "#ffffff"
