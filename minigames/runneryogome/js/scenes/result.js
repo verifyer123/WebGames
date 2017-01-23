@@ -301,7 +301,7 @@ var result = function(){
     
 	function createScene(){
         
-        var coupon = amazing.getCoupon()
+        var coupon = null
         console.log(coupon + ' coupon')
         
         //console.log(icons[0].name + ' name')
@@ -417,7 +417,7 @@ var result = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
         createButtons(pivotButtons)
-        createIcons()
+        //createIcons()
 
 		
 	}
@@ -477,12 +477,12 @@ var result = function(){
         
         game.load.spine('amazing', "images/spines/Amaizing.json");
         
-        getNumbers()
+        //getNumbers()
         
-        for(var i = 0; i<3;i++){
+        /*for(var i = 0; i<3;i++){
             var iconName = icons[gameNumbers[i]].iconName
             game.load.image(iconName, iconsPath + iconName+ '.png');
-        }
+        }*/
         
         
     }

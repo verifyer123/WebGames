@@ -53,6 +53,7 @@ var cirquit = function(){
     var BOT_OFFSET = 105
     
     var colorIndex
+    var objectToActivate = null
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -303,7 +304,7 @@ var cirquit = function(){
             colorIndex = game.rnd.integerInRange(1,4) - 1
         }
         
-        console.log(COLORS[colorIndex] + ' color')
+        //console.log(COLORS[colorIndex] + ' color')
         buddy.tint = COLORS[colorIndex]
     }
     
@@ -396,6 +397,8 @@ var cirquit = function(){
         obj.active = false
         obj.alpha = 0
         
+        //console.log('deactivate')
+        
     }
     
     function checkPos(object,dist){
@@ -462,34 +465,38 @@ var cirquit = function(){
                         object.angle+= ANGLE_VALUE * 0.5
                     }
                     
-                }else if(tag == 'bar'){
+                }
+            }
+            
+            var tag = object.tag
+            if(tag == 'bar'){
                     
-                    object.x += ANGLE_VALUE
-                    for(var u = 0;u<object.length;u++){
-                        
+                object.x += ANGLE_VALUE
+                for(var u = 0;u<object.length;u++){
+
                         var obj = object.children[u]
-                        
+
                         if(obj.world.x > game.world.width + 100){
                             //console.log('last object')
                             obj.x = object.lastObject.x - obj.width *1.5
                             object.lastObject = obj
                         }
-                        
-                    }
-                }else if(tag == 'barL'){
-                    
-                    object.x -= ANGLE_VALUE
-                    for(var u = 0;u<object.length;u++){
-                        
+
+
+                }
+            }else if(tag == 'barL'){
+
+                object.x -= ANGLE_VALUE
+                for(var u = 0;u<object.length;u++){
+
                         var obj = object.children[u]
-                        
+
                         if(obj.world.x < -100){
                             //console.log('last object')
                             obj.x = object.lastObject.x + obj.width *1.5
                             object.lastObject = obj
                         }
-                        
-                    }
+
                 }
             }
             
@@ -684,19 +691,34 @@ var cirquit = function(){
             var piece = obj.children[i]
             piece.x = piece.origPos
             
+            //console.log(piece.origPos + ' pos')
+            
         }
+        
+        obj.lastObject = obj.children[obj.length -1]
+                                     
     }
     
     function activateObject(child){
-        
-         if(tag == 'bar' || tag == 'barL'){
-            setPositions(child)
+                
+         var tag = child.tag
+                  
+         if(tag == 'bar'){
+            //console.log('set orig pos ' + tag)
+            //setPositions(child)
+            
+            //console.log('set orig pos ' + tag)
+            //setPositions(child.barL)
+            
          }
         
-         var tag = child.tag
          child.active = true
          child.alpha = 1
          child.y = pivotObjects
+         
+         if(tag == 'barL'){
+            objectToActivate.active = true
+         }
 
          pivotObjects-= 200
          if(tag == 'circle'){
@@ -724,13 +746,18 @@ var cirquit = function(){
          }
          
         if(tag == 'bar'){
+            
             pivotObjects+=140
-            addObstacle('barL')
+            child.active = false
+            objectToActivate = child
+            activateObject(child.barL)
+            
         }else{
             
             if(tag != 'cirquit'){
                 addObstacle('cirquit')
              }
+            
         }      
          
     
@@ -820,13 +847,14 @@ var cirquit = function(){
 
                 group = game.add.group()
 
-                var pivotX = game.world.width - 50
+                var pivotX = game.world.width - 60
                 var indexColor = 0
                 var length = 24
                 for(var i = 0; i<length;i++){
 
                     var part = group.create(pivotX,0,'atlas.neon','circle')
                     part.scale.setTo(0.8,0.8)
+                    part.anchor.setTo(0.5,0.5)
                     part.tint = COLORS[indexColor]
                     part.origPos = part.x
 
@@ -842,18 +870,17 @@ var cirquit = function(){
                     }
                     pivotX -= part.width * 1.5
                 }
+                
+                var group2 = game.add.group()
 
-            }else if(type == 'barL'){
-
-                group = game.add.group()
-
-                var pivotX = 50
+                var pivotX = 60
                 var indexColor = 0
                 var length = 24
                 for(var i = 0; i<length;i++){
 
-                    var part = group.create(pivotX,0,'atlas.neon','circle')
+                    var part = group2.create(pivotX,0,'atlas.neon','circle')
                     part.scale.setTo(0.8,0.8)
+                    part.anchor.setTo(0.5,0.5)
                     part.tint = COLORS[indexColor]
                     part.origPos = part.x
 
@@ -865,10 +892,20 @@ var cirquit = function(){
                     }
 
                     if(i == length-1){
-                        group.lastObject = part
+                        group2.lastObject = part
                     }
                     pivotX += part.width * 1.5
                 }
+                
+                group.barL = group2
+                group2.tag = 'barL'
+                group2.alpha = 0
+                group2.active = false
+                objectsGroup.add(group2)
+
+            }else if(type == 'barL'){
+
+                
                 
             }else if(type == 'cirquit'){
 
@@ -888,7 +925,7 @@ var cirquit = function(){
     function createObjects(){
         
         createObstacle('bar',3)
-        createObstacle('barL',3)
+        //createObstacle('barL',3)
         createObstacle('cross',3)
         createObstacle('circle',3)
         createObstacle('cirquit',4)
@@ -903,6 +940,7 @@ var cirquit = function(){
     function checkTag(){
         
         var tags = ['circle','cross','bar']
+        //tags = ['bar']
         Phaser.ArrayUtils.shuffle(tags)
         
         tag = tags[0]

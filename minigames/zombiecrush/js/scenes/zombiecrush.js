@@ -444,7 +444,7 @@ var zombiecrush = function(){
     function setExplosion(obj,offsetY){
         
         var offY = offsetY || 0
-        console.log(explosionGroup.length + ' length')
+        //console.log(explosionGroup.length + ' length')
         for(var i = 0;i<explosionGroup.length;i++){
             var exp = explosionGroup.children[i]
             

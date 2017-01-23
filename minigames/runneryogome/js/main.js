@@ -37,15 +37,27 @@ function startGame(){
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight)
 
-        game.stage.backgroundColor = "#3e2868"
+        game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(Fabrique.Plugins.Spine);
 
-        amazing.savePlaycount();          
-        amazing.getInfo()
-        amazing.getInfo();
+        var language = "EN"
+        if(parent.window.location.search){
+            var params = parent.window.location.search.trim(1)
+            var regex = /language=(..)/i
+            var result = regex.exec(params)
+            if(result){
+                language = result[result.index].toUpperCase()    
+            }else{
+                language = "EN"
+            }
+            
+        }
+
+        localization.setLanguage(language)
+        
         window.minigame.game = window.game
         
     	sceneloader.init(game)

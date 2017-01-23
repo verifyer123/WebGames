@@ -1,5 +1,19 @@
 var soundsPath = '../../shared/minigames/sounds/'
 var runneryogome = function(){
+    
+    var localizationData = {
+		"EN":{
+            "howTo":"How to Play?",
+			"or":"or",
+		},
+
+		"ES":{
+            "howTo":"¿Cómo Jugar?",
+			"or":"ó",
+            
+		}
+	}
+    
     assets = {
         atlases: [
             {   
@@ -9,8 +23,7 @@ var runneryogome = function(){
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/runner/background.png"},
+
 		],
 		sounds: [
             {	name: "pop",
@@ -25,17 +38,21 @@ var runneryogome = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "wrongItem",
 				file: soundsPath + "wrongItem.mp3"},
+            {	name: "popObject",
+				file: soundsPath + "pop.mp3"},
 		],
 	}
     
     var SPEED = 225 
     var TIME_ADD = 600
-    var JUMP_FORCE = 900
+    var JUMP_FORCE = 950
     var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 1600
-    var OFF_BRICK = 400
-    var BOT_OFFSET = 0
+    var OFF_BRICK = 350
+    var BOT_OFFSET = -50
     
+    var board
+    var overlayGroup
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -46,7 +63,6 @@ var runneryogome = function(){
     var yAxis = null
     var objToCheck
     var gameSpeed = null
-    var objectsList = null
     var pivotObjects
     var player
 	var sceneGroup = null
@@ -76,6 +92,7 @@ var runneryogome = function(){
     }  
     
 	function initialize(){
+        
         enemyNames = ['coin']
         gameStart = false
         skullTrue = false
@@ -84,17 +101,66 @@ var runneryogome = function(){
         game.stage.backgroundColor = "#ffffff"
         jumpTimer = 0
         gameActive = false
-        lives = 1
+        lives = 5
         pivotObjects = 0
         objToCheck = null
         buttonPressed = false
         tooMuch = false
         GRAVITY_OBJECTS = 4
         yAxis = p2.vec2.fromValues(0, 1);
-        objectsList = []
         consecFloor = 0
         consecBricks = 0
+        
 	}
+    
+    function animateCoin(coin,delay,number){
+        
+        game.time.events.add(delay,function(){
+            coin.alpha = 1
+            number.alpha = 1
+            game.add.tween(coin.scale).from({x:0.01,y:0.01},300,Phaser.Easing.linear,true)
+            sound.play("popObject")
+        },this)
+    }
+    function getOperation(){
+        
+        var index = game.rnd.integerInRange(1,2)
+        
+        //console.log(index + ' indexNumber')
+        
+        if(index == 1){
+            
+            player.number1 = game.rnd.integerInRange(1,8)
+            player.number2 = game.rnd.integerInRange(1, 9 - player.number1)
+
+            player.result = player.number1 + player.number2
+            board.signText.setText('+')
+            
+        }else if(index == 2){
+            
+            player.number1 = game.rnd.integerInRange(2,9)
+            player.number2 = game.rnd.integerInRange(1,player.number1 - 1)
+            
+            player.result = player.number1 - player.number2
+            board.signText.setText('-')
+        }
+        
+        board.numbers[0].setText(player.number1)
+        board.numbers[1].setText(player.number2)
+        
+        
+        var delay = 500
+        
+        for(var i = 0; i<board.coins.length;i++){
+            
+            var coin = board.coins[i]
+            board.numbers[i].alpha = 0
+            coin.alpha = 0
+            animateCoin(coin,delay,board.numbers[i])
+            delay+=200
+            
+        }
+    }
     
     function animateScene() {
                         
@@ -107,20 +173,29 @@ var runneryogome = function(){
         //objectsGroup.timer.start()
         //game.time.events.add(TIME_ADD, addObjects , this);
         checkOnAir()
-        gameStart = true
+        getOperation()
+        //gameStart = true
 
     } 
     
     
     function preload() {
         game.stage.disableVisibilityChange = false;
-
+        
+        var addText = ""
+        if(game.world.width > game.world.height){
+            addText = "Land"
+        }
+        
         game.load.spine('arthurius', "images/spines/skeleton.json");
+        game.load.image('fondo',"images/runner/background" + addText + ".png")
+        game.load.image('introscreen',"images/runner/introscreen.png")
         
         game.load.spritesheet('bMonster', 'images/runner/bMonster.png', 83, 84, 16);
         game.load.spritesheet('pMonster', 'images/runner/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/runner/coinS.png', 68, 70, 12);
         game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+        
     }
     
     function inputButton(obj){
@@ -129,7 +204,8 @@ var runneryogome = function(){
             return
         }
         
-        //sound.play("click")
+        
+        //sound.play("click")ad
         
         if(buddy.isRunning == true){
             if (checkIfCanJump())
@@ -169,8 +245,8 @@ var runneryogome = function(){
     
     function stopWorld(){
         
-        for(var i = 0;i<groundGroup.length;i++){
-            var child = groundGroup.children[i]
+        for(var i = 0;i<objectsGroup.length;i++){
+            var child = objectsGroup.children[i]
             child.body.velocity.x = 0
         }
         
@@ -185,10 +261,10 @@ var runneryogome = function(){
         
         marioSong.stop()
         
-        missPoint()
+        //missPoint(5)
         sound.play("gameLose")
         stopWorld()
-        game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
+        //game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
         
         //objectsGroup.timer.pause()
         gameActive = false
@@ -198,7 +274,7 @@ var runneryogome = function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
-            amazing.saveScore(pointsBar.number)
+            //amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
 		})
     }
@@ -230,9 +306,9 @@ var runneryogome = function(){
         pointsBar.number++
         pointsBar.text.setText(pointsBar.number)
         
-        if(pointsBar.number == 10){
+        if(pointsBar.number == 5){
             enemyNames[enemyNames.length] = 'enemy_squish'
-        }else if(pointsBar.number == 16){
+        }else if(pointsBar.number == 10){
             enemyNames[enemyNames.length] = 'enemy_spike'
         }else if(pointsBar.number == 25){
             consecBricks = -100
@@ -265,12 +341,16 @@ var runneryogome = function(){
         })
     }
     
-    function missPoint(){
+    function missPoint(points){
         
         sound.play("wrong")
-        if (lives >0){
-            lives--;
+        
+        lives-=points
+        if(lives<=0){
+            lives = 0
+            stopGame()
         }
+        
         //changeImage(0,heartsGroup.children[lives])
         heartsGroup.text.setText('X ' + lives)
         //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
@@ -286,40 +366,79 @@ var runneryogome = function(){
         characterGroup.y = player.y +44 
         
         if(player.body.y > game.world.height - 50){
-            stopGame()
+            missPoint(5)
+            //stopGame()
         }
         
     }
     
     function deactivateObj(obj){
+        
         obj.body.velocity.x = 0
         obj.used = false
         obj.body.y = -500
+        
+        objectsGroup.remove(obj)
+        groundGroup.add(obj)
+    }
+    
+    function deactivateCoins(textPart){
+    
+        for(var i = 0;i<objectsGroup.length;i++){
+            
+            var obj = objectsGroup.children[i]
+            if(obj.tag == 'coin' && obj.used){
+                deactivateObj(obj)
+                deactivateObj(obj.text)
+                createPart(textPart,obj)
+            }
+        }
+        
     }
     
     function checkObjects(){
         
         //console.log( objectsList.length + 'cantidad objetos')
-        for(var index = 0;index<objectsList.length;index++){
-            var obj = objectsList[index]
-            if(obj.body.x < -obj.width * 0.45 && obj.used == true){
-                deactivateObj(obj)
-                if(obj.tag == 'floor' || obj.tag == 'brick'){
-                    addObjects()
-                }
-                //console.log('objeto removido')
-            }else if(obj.tag == 'coin' || obj.tag == 'skull'){
-                if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
-                    if(obj.tag == 'coin'){
-                        addPoint(obj)
-                    }else if(obj.tag == 'skull'){
-                        sound.play("wrongItem")
-                        createPart('wrong',obj)
-                        addWrongTween()
-                    }
+        for(var index = 0;index<objectsGroup.length;index++){
+            
+            var obj = objectsGroup.children[index]
+            
+            if(obj.used){
+                if(obj.body.x < -obj.width * 0.45){
                     deactivateObj(obj)
+                    if(obj.tag == 'floor' || obj.tag == 'brick'){
+                        addObjects()
+                    }
+                    //console.log('objeto removido')
+                }else if(obj.tag == 'coin' || obj.tag == 'skull'){
+                    
+                    if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
+                        if(obj.tag == 'coin'){
+                            
+                            if(player.result == obj.text.number){
+                                addPoint(obj)
+                                deactivateCoins('star')
+                            }else{
+                                sound.play("wrong")
+                                createPart('wrong',obj)
+                                deactivateCoins("wrong")
+                                missPoint(1)
+                            }
+                            
+                            getOperation()
+                        }else if(obj.tag == 'skull'){
+                            sound.play("wrongItem")
+                            createPart('wrong',obj)
+                            addWrongTween()
+                        }
+                        
+                        deactivateObj(obj)
+                        if(obj.text){
+                            deactivateObj(obj.text)
+                        }
+                    }
+
                 }
-                
             }
         }
     }
@@ -565,9 +684,8 @@ var runneryogome = function(){
                     }
                 }
             }else if(tag == 'enemy_spike'){
-                missPoint()
+                missPoint(5)
                 createPart('wrong', obj2.sprite)
-                stopGame()
             }else if(tag == "enemy_squish"){
                 if(player.body.y < obj2.sprite.y - 8){
                     doJump(JUMP_FORCE * 1.5)
@@ -576,9 +694,8 @@ var runneryogome = function(){
                     deactivateObj(obj2.sprite)
                     
                 }else{
-                    missPoint()
+                    missPoint(5)
                     createPart('wrong', obj2.sprite)
-                    stopGame()
                 }
             }
         }
@@ -597,21 +714,45 @@ var runneryogome = function(){
         return objToUse
     }
     
-     function activateObject(posX, posY, child){
+    function setCoinNumber(coinText){
+        
+        var number
+        
+        number = player.result
+        if(Math.random() * 2 > 1){
+            
+            while(number == player.result){
+                
+                number = game.rnd.integerInRange(1,9)
+            }
+        }
+        
+        coinText.setText(number)
+        coinText.number = number
+    }
+    
+    function activateObject(posX, posY, child){
         //console.log(child.tag + ' tag,')
         if(child != null){
-            
+
             child.body.x = posX
             child.body.y = posY
             child.used = true
             child.body.velocity.x = -gameSpeed 
-            objectsList[objectsList.length] = child
-            
+            //objectsList[objectsList.length] = child
+
+            groundGroup.remove(child)
+            objectsGroup.add(child)
+
             if(child.tag == 'coin'){
                 child.body.y-=25
                 if(Math.random()*2 > 1){
                     child.body.y-=80
                 }
+                
+                setCoinNumber(child.text)
+                activateObject(child.body.x -1, child.body.y +3,child.text)
+
             }else if(child.tag == "enemy_squish"){
                 child.body.y+=5
             }else if(child.tag == "skull"){
@@ -619,18 +760,27 @@ var runneryogome = function(){
                 //child.body.dynamic = true
             }
         }
-    
-     }
+
+    }
     
     function checkAdd(obj, tag){
         
         Phaser.ArrayUtils.shuffle(enemyNames)
         
-        if(Math.random()*2 > 1 && gameActive == true){
+        if(objToCheck && objToCheck.tag == 'floor' && obj.tag == 'brick' && objToCheck.coinUsed){
+            deactivateObj(objToCheck.coinUsed)
+            deactivateObj(objToCheck.coinUsed.text)
+        }
+        
+        if(objToCheck && objToCheck.coin){
+            return
+        }
+        
+        if(gameActive == true && gameStart){
             
             var nameItem = enemyNames[0]
             if(objToCheck.tag == 'floor' && tag == 'brick'){
-                nameItem = 'coin'
+                return
             }
             
             if(objToCheck.spike == true){
@@ -648,8 +798,13 @@ var runneryogome = function(){
             }
             
             obj.spike = false
+            obj.coin = false
+            obj.coinUsed = null
             if(nameItem == 'enemy_spike'){
                 obj.spike = true
+            }else if(nameItem == 'coin'){
+                obj.coin = true
+                obj.coinUsed = coin
             }
         }
     }
@@ -724,10 +879,24 @@ var runneryogome = function(){
                 
             }else if(tag == 'coin'){
                 
-                object = game.add.sprite(-300, 200, 'coinS');
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',24,true);   
+                object = groundGroup.create(-300,200,'atlas.runner','coin')
+                
+                var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+            
+                var pointsText = new Phaser.Text(sceneGroup.game, -300,200, '2', fontStyle)
+                pointsText.anchor.setTo(0.5,0.5)
+                groundGroup.add(pointsText)
+                
+                pointsText.anchor.setTo(0.5,0.5)
+                pointsText.tag = 'number'
+                pointsText.used = false
+                game.physics.p2.enable(pointsText,DEBUG_PHYSICS)
+                pointsText.body.kinematic = true
+                pointsText.used = false
+                pointsText.body.data.shapes[0].sensor = true
+                
+                object.text = pointsText
+                
             }else{
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.runner',tag)
             }
@@ -756,45 +925,55 @@ var runneryogome = function(){
     
     function createObjects(){
         
-        createObjs('floor',1.4,6)
-        createObjs('brick',1.1,6)
-        createObjs('coin',1,8)
-        createObjs('enemy_squish',1,4)
-        createObjs('enemy_spike',1,4)
-        createObjs('skull',1,2)
+        var width = game.cache.getImage("floor").width
         
-        for(var i = 0; i < 6; i++){
+        var number = (game.world.width / width) + 5
+        
+        createObjs('floor',1.4,number)
+        createObjs('brick',1.1,number)
+        createObjs('coin',0.5,number)
+        createObjs('enemy_squish',1,number * 0.6)
+        createObjs('enemy_spike',1,number * 0.6)
+        createObjs('skull',1,number * 0.3)
+        
+        while(pivotObjects < game.world.width * 1.2){
             addObstacle('floor')
+            //console.log(pivotObjects + ' pivot, ' + game.world.width + ' width')
         }
         
     }
     
     function checkTag(){
         
-        if(consecFloor == 1){
-            tag = 'floor'
-            consecFloor-=2
-        }else if(consecBricks == 1){
-            tag = 'brick'
-            consecBricks-=2
-        }else{
-            if(objToCheck.tag == 'floor'){
-                objToCheck.lastFloor = true
-            }
-            var tag = "floor"
-            if(Math.random()*2 > 1){
-                tag = "brick"
-            }
-
-            if(tag == 'brick' && objToCheck.spike == true){
+        if(gameStart){
+            if(consecFloor == 1){
                 tag = 'floor'
+                consecFloor-=2
+            }else if(consecBricks == 1){
+                tag = 'brick'
+                consecBricks-=2
+            }else{
+                if(objToCheck.tag == 'floor'){
+                    objToCheck.lastFloor = true
+                }
+                var tag = "floor"
+                if(Math.random()*2 > 1){
+                    tag = "brick"
+                }
+
+                if(tag == 'brick' && objToCheck.spike == true){
+                    tag = 'floor'
+                }
             }
-        }
         
-        if(tag == 'floor'){
-            consecFloor++
+        
+            if(tag == 'floor'){
+                consecFloor++
+            }else{
+                consecBricks++
+            }
         }else{
-            consecBricks++
+            tag = 'floor'
         }
         
         return tag
@@ -827,7 +1006,7 @@ var runneryogome = function(){
             }
         }
         if(gameActive == true){
-            game.time.events.add(50,checkOnAir,this)
+            game.time.events.add(100,checkOnAir,this)
         }
     }
     
@@ -855,7 +1034,7 @@ var runneryogome = function(){
             
             var group = game.add.group()
             group.x = pivotX
-            group.y = -7.5
+            group.y = 0
             group.scale.setTo(0.6,0.6)
             board.coins[board.coins.length] = group
             board.add(group)
@@ -884,13 +1063,73 @@ var runneryogome = function(){
         
         var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var signText = new Phaser.Text(sceneGroup.game,-75,-5,'+',fontStyle)
+        var signText = new Phaser.Text(sceneGroup.game,-75,0,'+',fontStyle)
+        signText.anchor.setTo(0.5,0.5)
+        board.add(signText)
+        board.signText = signText
+        
+        var signText = new Phaser.Text(sceneGroup.game,75,0,'=',fontStyle)
         signText.anchor.setTo(0.5,0.5)
         board.add(signText)
         
-        var signText = new Phaser.Text(sceneGroup.game,75,-5,'=',fontStyle)
-        signText.anchor.setTo(0.5,0.5)
-        board.add(signText)
+    }
+    
+    function createOverlay(){
+        
+        overlayGroup = game.add.group()
+        worldGroup.add(groundGroup)
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.6
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(function(){
+            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                gameActive = true
+                overlayGroup.y = -game.world.height
+                //start()
+                gameStart = true
+            })
+            
+        })
+        
+        overlayGroup.add(rect)
+        
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+        plane.anchor.setTo(0.5,0.5)
+        
+        var action = 'tap'
+        
+        if(game.device == 'desktop'){
+            action = 'click'
+        }
+        
+        var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "howTo"), fontStyle)
+        pointsText.x = game.world.centerX
+        pointsText.y = game.world.centerY - plane.height * 0.375
+        pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
+        
+        if(!game.device.desktop){
+            
+            var inputLogo = overlayGroup.create(game.world.centerX,game.world.centerY + 175,'atlas.runner','tablet')
+            inputLogo.anchor.setTo(0.5,0.5)
+            
+        }else{
+            
+            var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        
+            var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "or"), fontStyle)
+            pointsText.x = game.world.centerX
+            pointsText.y = game.world.centerY + 175
+            pointsText.anchor.setTo(0.5,0.5)
+            overlayGroup.add(pointsText)
+            
+        }
         
     }
     
@@ -949,7 +1188,7 @@ var runneryogome = function(){
             
             buddy = game.add.spine(0,0, "arthurius");
             buddy.isRunning = true
-            buddy.scale.setTo(0.75,0.75)
+            buddy.scale.setTo(0.7,0.7)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "RUN", true);
             buddy.setSkinByName('normal');
@@ -976,6 +1215,8 @@ var runneryogome = function(){
             //createControls()
             
             game.physics.p2.setImpactEvents(true);
+            
+            createOverlay()
             
             animateScene()
             

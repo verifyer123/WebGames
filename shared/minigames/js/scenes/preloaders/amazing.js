@@ -25,7 +25,7 @@ var preloaderIntro = function(){
 
 		create: function(event){
             
-            game.stage.backgroundColor = "#3e2868"
+            game.stage.backgroundColor = "#ffffff"
             
 			var sceneGroup = game.add.group()
 
