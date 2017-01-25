@@ -379,7 +379,7 @@ var clownrush = function(){
         
         var rotationVal = 360
         
-        console.log(rotationVal + ' rotation')
+        //console.log(rotationVal + ' rotation')
         
         buddy.x+= 75
         var rotationTween = game.add.tween(buddy).to({angle:buddy.angle - (rotationVal * 2)},700,Phaser.Easing.linear,true)

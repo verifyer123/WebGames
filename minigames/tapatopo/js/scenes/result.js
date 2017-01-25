@@ -406,29 +406,30 @@ var result = function(){
             }else{
                 
                 var discount = couponData.discount * 100
+                var colorToUse = couponData.color
                 
                 var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
                 coupon.anchor.setTo(0.5,0.5)
                 
-                var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
 
-                var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, '20%', fontStyle)
+                var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, discount + '%', fontStyle)
                 pointsText.anchor.setTo(0,0)
                 pointsText.lineSpacing = -15
                 sceneGroup.add(pointsText)
 
-                var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
 
                 var storeText = new Phaser.Text(sceneGroup.game, pointsText.x, pointsText.y + pointsText.height, couponData.product, fontStyle)
                 storeText.anchor.setTo(0,0)
                 sceneGroup.add(storeText)
 
-                var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                /*var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
                 var pText = new Phaser.Text(sceneGroup.game, coupon.x + coupon.width * 0.42, coupon.y + coupon.height * 0.34, discount + '%', fontStyle)
                 pText.anchor.setTo(0.5,0.5)
                 pText.angle = -15
-                sceneGroup.add(pText)
+                sceneGroup.add(pText)*/
                                          
             }
             

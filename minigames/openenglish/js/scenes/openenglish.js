@@ -546,7 +546,7 @@ var openenglish = function(){
             
             for(var u = 0;u<2;u++){
                 
-                console.log(indexValue + 'indexValue')
+                //console.log(indexValue + 'indexValue')
                 cardsToUse[cardsToUse.length] = cardWords[randomNums[indexValue]][u]
                 tagsToUse[tagsToUse.length] = enWords[randomNums[indexValue]][u]
 

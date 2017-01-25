@@ -948,7 +948,7 @@ var zombiecrush = function(){
             }
             
             /*if(i == objectsGroup.length - 1 ){
-                console.log('no objects')
+                //console.log('no objects')
             }*/
         }
         

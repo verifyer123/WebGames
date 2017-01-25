@@ -310,7 +310,7 @@ var tapatopo = function(){
         
         setLevel(gameLevel)
         
-        console.log('add Level' + gameLevel)
+        //console.log('add Level' + gameLevel)
         
     }
     

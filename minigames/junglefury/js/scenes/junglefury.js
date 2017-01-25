@@ -340,7 +340,7 @@ var junglefury = function(){
         piece.x = treeGroup.x
         piece.y = lastPosY
         
-        console.log(lastPosY + ' posy')
+        //console.log(lastPosY + ' posy')
         
         if(isLeft){
             piece.tween = game.add.tween(piece).to({x : game.world.width + 200, alpha: 0, angle:180 * characterGroup.scale.x},400,Phaser.Easing.linear,true)

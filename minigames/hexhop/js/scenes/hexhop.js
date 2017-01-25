@@ -268,7 +268,7 @@ var hexhop = function(){
         
         setLevel(gameLevel)
         
-        console.log('add Level' + gameLevel)
+        //console.log('add Level' + gameLevel)
         
         moveSpeed+=0.15
         gameSpeed+= 0.15
