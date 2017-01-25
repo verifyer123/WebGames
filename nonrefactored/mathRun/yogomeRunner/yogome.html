@@ -1,4 +1,33 @@
 <html>
+    <script>
+        
+    var language = "EN"
+    if(parent.window.location.search){
+        var params = parent.window.location.search.trim(1)
+        var regex = /language=(..)/i
+        var result = regex.exec(params)
+        if(result){
+            language = result[result.index].toUpperCase()    
+        }else{
+            language = "EN"
+        }
+
+    }    
+        
+    var meta = document.createElement('meta');
+    meta.setAttribute("property","og:description");
+    meta.content = "Prueba";        
+
+    if(language == "ES"){
+        meta.content = "¡Agarraga la moneda correcta!";    
+    }else{
+        meta.content = "Take the correct coins!";        
+    }
+        
+    document.getElementsByTagName('head')[0].appendChild(meta);    
+        
+    </script>
+    
     <meta charset="utf-8" />
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -8,7 +37,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta property="og:url"				content="http://yogome.com/epic/minigames/yogomeRunner" />
     <meta property="og:type"			content="article" />
-    <meta property="og:description"		content="Agarra la moneda correcta!">
     <meta property="og:title"			content="Math Run - powered by Yogome" />
     <meta property="og:image"			content="http://yogome.com/epic/minigames/yogomeRunner/images/fbpost.png" />
     <head>
