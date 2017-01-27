@@ -293,7 +293,8 @@ var jumpward = function(){
         
         if(pointsBar.number == 35){
             
-            platNames[platNames.length] = 'monster'
+            itemNames[platNames.length] = 'monster'
+            itemNames[platNames.length] = 'monster'
         }
         
     }
@@ -458,6 +459,7 @@ var jumpward = function(){
                         createPart('star',object)
                     }else if(tag == 'monster' && player.active){
                         
+                        if(Math.abs(player.body.x - object.world.x) < 50 && Math.abs(player.body.y - object.world.y) < 50)
                         stopGame()
                     }
                     
@@ -706,8 +708,8 @@ var jumpward = function(){
                 
                 if(item.tag == 'monster'){
                     posX = obj.x
-                    while(Math.abs(obj.x - posX) < 150){
-                        game.rnd.integerInRange(100,game.world.width - 100)
+                    while(Math.abs(obj.x - posX) < 100){
+                        posX = game.rnd.integerInRange(100,game.world.width - 100)
                     }
                     
                 }
@@ -758,7 +760,7 @@ var jumpward = function(){
             }else if(type == 'monster'){
                 
                 obj = game.add.sprite(0, 0, 'monster');
-                obj.scale.setTo(0.55,0.55)
+                obj.scale.setTo(0.5,0.5)
                 piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',24,true); 
@@ -783,8 +785,8 @@ var jumpward = function(){
     
     function createObjects(){
         
-        createObstacle('blue_plat',15)
-        createObstacle('yellow_plat',15)
+        createObstacle('blue_plat',18)
+        createObstacle('yellow_plat',18)
         createObstacle('orange_plat',10)
         createObstacle('coin',20)
         createObstacle('spring',10)

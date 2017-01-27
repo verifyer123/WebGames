@@ -4,19 +4,13 @@ var dojo = function(){
     
     var localizationData = {
 		"EN":{
-            "language":"en",
-			"assetReady":"readyEn",
-			"assetGo":"goEn",
-			"assetExcellent":"excEn",
-            "assetGiveUp":"giveUpEn"
+            "howTo":"How to Play",
+            "moves":"Moves left",
 		},
 
 		"ES":{
-            "languague":"es",
-			"assetReady":"readyEs",
-			"assetGo":"goEs",
-			"assetExcellent":"excEs",
-            "assetGiveUp":"giveUpEs",
+            "moves":"Movimientos extra",
+            "howTo":"¿Cómo jugar?",
             
 		}
 	}
@@ -37,6 +31,8 @@ var dojo = function(){
 		sounds: [
             {	name: "pop",
 				file: soundsPath + "magic.mp3"},
+            {	name: "cut",
+				file: soundsPath + "cut.mp3"},
             {	name: "combo",
 				file: soundsPath + "combo.mp3"},
             {	name: "flip",
@@ -58,10 +54,20 @@ var dojo = function(){
     var pointsGroup = null
     var gameActive = true
     var arrayComparison = null
+    var overlayGroup
+    var dojoSong
+    var master
+    var quantNumber
+    var numberIndex = 0
+    var numberToCheck
+    var addNumber
     var lastObj
+    var cardsGroup, boardGroup
     var timer
     var cardsNumber
+    var selectGroup
     var comboCount
+    var clock
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -74,8 +80,10 @@ var dojo = function(){
         //gameActive = true
         cardsNumber = 4
         lives = 5
+        quantNumber = 0
         arrayComparison = []
         comboCount = 0
+        numberIndex = 0
         
         loadSounds()
         
@@ -118,6 +126,114 @@ var dojo = function(){
         
     }
     
+    function setNumbers(){
+        
+        numberIndex = 0
+        addNumber = 0
+        
+        quantNumber = game.rnd.integerInRange(2,3)
+        
+        var numbers = []
+        numberToCheck = 0
+        
+        var numbersToAdd = []
+        
+        for(var i = 0; i< boardGroup.points.length;i++){
+            
+            var obj = boardGroup.points.children[i]
+            obj.alpha = 0
+        }
+        
+        for(var i = 0; i < quantNumber;i++){
+            
+            numbers[i] = game.rnd.integerInRange(1,9)
+            numberToCheck+= numbers[i]
+            numbersToAdd[numbersToAdd.length] = numbers[i]
+            
+            var obj = boardGroup.points.children[i]
+            obj.alpha = 1
+            changeImage(1,obj)
+        }
+        
+        for(var i = 0; i < (9 - quantNumber); i++){
+            
+            numbersToAdd[numbersToAdd.length] = game.rnd.integerInRange(1,9)
+        }
+        
+        Phaser.ArrayUtils.shuffle(numbersToAdd)
+        
+        for(var i = 0; i<cardsGroup.length;i++){
+            
+            var number = cardsGroup.children[i]
+            
+            number.number = numbersToAdd[i]
+            
+            number.text.setText(number.number)
+            
+        }
+        
+        boardGroup.number.setText(numberToCheck)
+        
+    }
+    
+    function hideO(){
+        
+        selectGroup.alpha = 1
+        cardsGroup.alpha = 1
+        boardGroup.alpha = 0
+        
+        for(var i = 0; i < selectGroup.length;i++){
+            
+           selectGroup.children[i].alpha = 0
+        }
+        
+        for(var i = 0; i < cardsGroup.length;i++){
+            
+            var card = cardsGroup.children[i]
+            card.alpha = 0
+            card.image.pressed = false
+        }
+    }
+    function animateNumbers(){
+        
+        hideO()
+        
+        var delay = 500
+        
+        game.time.events.add(delay,function(){
+            
+            boardGroup.alpha = 1
+            game.add.tween(boardGroup.scale).from({x:0.01},250, Phaser.Easing.linear,true)
+            sound.play("cut")
+            
+        },this)
+        
+        delay+= 300
+        
+        for(var i = 0; i<cardsGroup.length;i++){
+            
+            var card = cardsGroup.children[i]
+            popObject(card,delay)
+            
+            delay +=200
+        }
+        
+        game.time.events.add(delay,function(){
+            
+            gameActive = true
+        },this)
+    }
+
+    function popObject(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            sound.play("cut")
+            obj.alpha = 1
+            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+        },this)
+    }
+    
     function animateScene() {
                 
         gameActive = false
@@ -127,8 +243,9 @@ var dojo = function(){
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
-        //gameActive = true
+        
+        setNumbers()
+        hideO()
         //game.time.events.add(500, showCards , this);
 
     }
@@ -161,6 +278,7 @@ var dojo = function(){
     function addNumberPart(obj,number){
         
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
         pointsText.x = obj.world.x
         pointsText.y = obj.world.y
@@ -196,6 +314,7 @@ var dojo = function(){
     
     function addPoint(number){
         
+        sound.play("pop")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -208,6 +327,47 @@ var dojo = function(){
         
     }
     
+    function checkNumber(){
+    
+        if(addNumber == numberToCheck){
+            addPoint(1)
+            master.setAnimationByName(0,"WIN",false)
+        }else{
+            missPoint()
+            master.setAnimationByName(0,"LOSE",false)
+        }
+        
+        master.addAnimationByName(0, "IDLE", true);
+        
+        hideObjects()
+        
+    }
+    
+    function hideObjects(){
+        
+        var objectsToHide = [selectGroup,cardsGroup,boardGroup]
+        
+        var delay = 500
+        
+        for(var i = 0; i < objectsToHide.length;i++){
+            
+            game.add.tween(objectsToHide[i]).to({alpha:0},300,Phaser.Easing.linear,true,delay)
+            delay +=200
+        }
+        
+        delay+=300
+        if(lives == 0){
+            
+            stopGame()
+        }else{
+            
+            game.time.events.add(delay,function(){
+                setNumbers()
+                animateNumbers()
+            },this)
+        }
+    }
+    
     function inputCard(obj){
 
         if(gameActive == false){ 
@@ -218,17 +378,52 @@ var dojo = function(){
             return
         }
         
+        var selectObj = selectGroup.children[numberIndex]
+        selectObj.x = obj.world.x
+        selectObj.y = obj.world.y
+        
+        game.add.tween(selectObj).to({alpha:1},500,Phaser.Easing.linear,true)
+        
+        changeImage(0,boardGroup.points.children[numberIndex])
+        
+        numberIndex++
+        
+        addNumber+=obj.parent.number
+        
+        if(numberIndex == quantNumber){
+            
+            gameActive = false
+            checkNumber()
+        }
+        
+        sound.play("flip")
+        
+        var parent = obj.parent
+        game.add.tween(parent.scale).to({x:0.6,y:0.6},200,Phaser.Easing.linear,true).onComplete.add(function(){
+            game.add.tween(parent.scale).to({x:1,y:1},100,Phaser.Easing.linear,true)
+        })
+        
         //gameActive = false
         obj.pressed = true
         var parent = obj.parent
         
-        sound.play("flip")
     }
     
     function createCards(){
         
-        var pivotX = game.world.centerX - 200
-        var pivotY = game.world.centerY - 150
+        var background = new Phaser.Graphics(game)
+        background.beginFill(0x000000);
+        background.drawRoundedRect(game.world.centerX - 300, game.world.centerY - 125 , 600, 575);
+        background.endFill();
+        background.alpha = 0.6
+        sceneGroup.add(background)
+        
+        cardsGroup = game.add.group()
+        sceneGroup.add(cardsGroup)
+        
+        var initX = game.world.centerX - 190
+        var pivotX = initX
+        var pivotY = background.y + 150 + background.width * 0.5
         for(var i = 0; i<9;i++){
             
             var group = game.add.group()
@@ -236,25 +431,54 @@ var dojo = function(){
             group.y = pivotY
             cardsGroup.add(group)
             
-            var image = group.create(0,0,'atlas.dojo','panelClear')
+            var textColor = "#000000"
+            var textAdd = 'Clear'
+            
+            var multiple = i+1
+            
+            if(multiple % 2 == 0){
+                textAdd = 'Dark'
+                textColor = "#ffffff"
+            }
+            
+            var image = group.create(0,0,'atlas.dojo','panel' + textAdd)
+            image.inputEnabled = true
+            image.events.onInputDown.add(inputCard)
+            image.pressed = false
+            
             image.anchor.setTo(0.5,0.5)
             
-            var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var fontStyle = {font: "75px VAGRounded", fontWeight: "bold", fill: textColor, align: "center"}
             
             var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+            pointsText.anchor.setTo(0.5,0.5)
             group.add(pointsText)
             
-            pivotX+= 100
+            group.text = pointsText
+            group.image = image
+            group.number = 0
             
-            if((i+1) % 3 == 0){
-                pivotX = game.world.centerX - 200
-                pivotY+= 100
+            pivotX+= image.width * 1.2
+            
+            if(multiple % 3 == 0){
+                pivotX = initX
+                pivotY+= image.height * 1.2
             }
             
         }
         
+        selectGroup = game.add.group()
+        sceneGroup.add(selectGroup)
+        
+        for(var i = 0; i < 3; i++){
+            
+            var image = selectGroup.create(0,0,'atlas.dojo','marco')
+            image.alpha = 0
+            image.anchor.setTo(0.5,0.5)
+            
+        }
+        
     }
-    
     
     function createPointsBar(){
         
@@ -313,6 +537,7 @@ var dojo = function(){
         //objectsGroup.timer.pause()
         gameActive = false
         //timer.pause()
+        dojoSong.stop()
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
@@ -320,16 +545,165 @@ var dojo = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
 
-			amazing.saveScore(pointsBar.number) 			
+			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
     }
-
+    
+    function createBoard(){
+        
+        boardGroup = game.add.group()
+        boardGroup.x = game.world.centerX + 100
+        boardGroup.y = 200
+        sceneGroup.add(boardGroup)
+        
+        var boardImage = boardGroup.create(0,0,'atlas.dojo','board')
+        boardImage.anchor.setTo(0.5,0.5)
+        
+        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, -60, 0, fontStyle)
+        pointsText.anchor.setTo(0.5,0.5)
+        boardGroup.add(pointsText)
+        
+        boardGroup.number = pointsText
+        
+        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 25, localization.getString(localizationData,"moves"), fontStyle)
+        pointsText.anchor.setTo(0.5,0.5)
+        boardGroup.add(pointsText)
+        
+        var pointsGrp = game.add.group()
+        pointsGrp.y = 60
+        boardGroup.add(pointsGrp)
+        
+        var pivotX = -50
+        for(var i = 0; i<3;i++){
+            
+            var group = game.add.group()
+            group.alpha = 0
+            group.x = pivotX
+            pointsGrp.add(group)
+            
+            var image = group.create(0,0,'atlas.dojo','backpoint')
+            image.anchor.setTo(0.5,0.5)
+            
+            var image = group.create(0,0,'atlas.dojo','move')
+            image.anchor.setTo(0.5,0.5)
+            
+            pivotX += 50
+        }
+        
+        boardGroup.points = pointsGrp
+        
+        master = game.add.spine(game.world.centerX - 200,400, "master");
+        master.scale.setTo(1,1)
+        master.setAnimationByName(0, "IDLE", true);
+        master.setSkinByName('normal');
+        sceneGroup.add(master)
+                
+    }
+    
+    function preload(){
+        
+        game.stage.disableVisibilityChange = false;
+        
+        game.load.spine('master', "images/spines/skeleton.json")  
+        game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
+        
+        game.load.image('introscreen',"images/dojo/introscreen.png")
+        
+    }
+    
+    function createOverlay(){
+        
+        overlayGroup = game.add.group()
+        sceneGroup.add(overlayGroup)
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.6
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(function(){
+            rect.inputEnabled = false
+            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                overlayGroup.y = -game.world.height
+                //start()
+                gameStart = true
+                animateNumbers()
+            })
+            
+        })
+        
+        overlayGroup.add(rect)
+        
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+        plane.anchor.setTo(0.5,0.5)
+        
+        var action = 'tap'
+        
+        if(game.device == 'desktop'){
+            action = 'click'
+        }
+        
+        var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "howTo"), fontStyle)
+        pointsText.x = game.world.centerX
+        pointsText.y = game.world.centerY - plane.height * 0.375
+        pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
+        
+        if(!game.device.desktop){
+            
+            var inputLogo = overlayGroup.create(game.world.centerX,game.world.centerY + 175,'atlas.dojo','tablet')
+            inputLogo.anchor.setTo(0.5,0.5)
+            
+        }else{
+            
+            var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        
+            var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "or"), fontStyle)
+            pointsText.x = game.world.centerX - 20
+            pointsText.y = game.world.centerY + 175
+            pointsText.anchor.setTo(0.5,0.5)
+            overlayGroup.add(pointsText)
+            
+            var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 175,'atlas.dojo','pc')
+            inputLogo.anchor.setTo(0.5,0.5)
+            
+        }
+        
+    }
+    
+    function createClock(){
+        
+        clock = game.add.group()
+        clock.x = game.world.centerX
+        clock.y = boardGroup.y + 110
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.dojo','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = new Phaser.Graphics(game)
+        clockBar.beginFill(0x56ff35);
+        clockBar.drawRect(-clockImage.width * 0.85 , 100, clockImage.width*0.8,35);
+        clockBar.endFill();
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.offsetX = clockBar.width * 0.5
+        clock.add(clockBar)
+        
+    }
+    
 	return {
 		assets: assets,
 		name: "dojo",
+        preload:preload,
 		create: function(event){
-
             
 			sceneGroup = game.add.group()
             
@@ -337,14 +711,29 @@ var dojo = function(){
             background.width = game.world.width+2
             background.height = game.world.height+2
             
-            initialize()
+            dojoSong = game.add.audio('dojoSong')
+            game.sound.setDecodedCallback(dojoSong, function(){
+                dojoSong.loopFull(0.6)
+            }, this);
             
-            cardsGroup = game.add.group()
-            sceneGroup.add(cardsGroup)
+            game.onPause.add(function(){
+                game.sound.mute = true
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false
+            }, this);
+            
+            initialize()
+        
+            createBoard()
+            createCards()
+            createClock()
             
             createHearts()
             createPointsBar()
-            createCards()
+            
+            createOverlay()
             
             animateScene()
             

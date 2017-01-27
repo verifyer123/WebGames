@@ -20,7 +20,7 @@ var result = function(){
 				image: "images/result/atlas.png"},
 		],
 		images: [
-			
+
 		],
 		sounds: [
             {	name: "click",
@@ -312,6 +312,8 @@ var result = function(){
     
 	function createScene(){
         
+        console.log(localStorage.getItem('profile'))
+        
         loadSounds()
         
 		sceneGroup = game.add.group()
@@ -433,14 +435,13 @@ var result = function(){
                                          
             }
             
-        }
+        }    
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
         createButtons(pivotButtons)
         createIcons()
 
-		
 	}
 
 	function initialize(){

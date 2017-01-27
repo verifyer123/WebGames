@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("instructions")
+				sceneloader.show("dojo")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -42,9 +42,22 @@ function startGame(){
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(Fabrique.Plugins.Spine);
+        
+        var language = "EN"
+        if(window.location.search){
+            var params = window.location.search.trim(1)
+            var regex = /language=(..)/i
+            var result = regex.exec(params)
+            if(result){
+                language = result[result.index].toUpperCase()    
+            }else{
+                language = "EN"
+            }
+            
+        }
 
-        amazing.savePlaycount();          
-        amazing.getInfo()
+        localization.setLanguage(language)
+
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
