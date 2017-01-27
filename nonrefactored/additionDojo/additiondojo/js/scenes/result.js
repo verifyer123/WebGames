@@ -342,9 +342,6 @@ var result = function(){
     
 	function createScene(){
         
-        var coupon = null
-        console.log(coupon + ' coupon')
-        
         //console.log(icons[0].name + ' name')
         if(game.device.desktop){
             haveCoupon = false

@@ -4,7 +4,7 @@ var dojo = function(){
     
     var localizationData = {
 		"EN":{
-            "howTo":"How to Play",
+            "howTo":"How to Play?",
             "moves":"Moves left",
 		},
 
@@ -68,6 +68,7 @@ var dojo = function(){
     var selectGroup
     var comboCount
     var clock
+    var timeValue
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -84,6 +85,7 @@ var dojo = function(){
         arrayComparison = []
         comboCount = 0
         numberIndex = 0
+        timeValue = 5.5
         
         loadSounds()
         
@@ -193,6 +195,9 @@ var dojo = function(){
             card.alpha = 0
             card.image.pressed = false
         }
+        
+        game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,Phaser.Easing.linear,true)
+        
     }
     function animateNumbers(){
         
@@ -220,7 +225,14 @@ var dojo = function(){
         
         game.time.events.add(delay,function(){
             
+            //console.log(timeValue + ' time')
+            clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
+            clock.tween.onComplete.add(function(){
+                gameActive = false
+                checkNumber()
+            })
             gameActive = true
+            
         },this)
     }
 
@@ -325,10 +337,18 @@ var dojo = function(){
         
         addNumberPart(pointsBar.text,'+' + number)
         
+        if(pointsBar.number % 2 == 0){
+            timeValue-=0.3
+        }
+        
     }
     
     function checkNumber(){
-    
+        
+        if(clock.tween){
+            clock.tween.stop()
+        }
+        
         if(addNumber == numberToCheck){
             addPoint(1)
             master.setAnimationByName(0,"WIN",false)
@@ -358,7 +378,7 @@ var dojo = function(){
         delay+=300
         if(lives == 0){
             
-            stopGame()
+            game.time.events.add(1000,stopGame,this)
         }else{
             
             game.time.events.add(delay,function(){
@@ -413,7 +433,7 @@ var dojo = function(){
         
         var background = new Phaser.Graphics(game)
         background.beginFill(0x000000);
-        background.drawRoundedRect(game.world.centerX - 300, game.world.centerY - 125 , 600, 575);
+        background.drawRoundedRect(game.world.centerX - 300, game.world.centerY - 115 , 600, 575);
         background.endFill();
         background.alpha = 0.6
         sceneGroup.add(background)
@@ -423,7 +443,7 @@ var dojo = function(){
         
         var initX = game.world.centerX - 190
         var pivotX = initX
-        var pivotY = background.y + 150 + background.width * 0.5
+        var pivotY = background.y + 160 + background.width * 0.5
         for(var i = 0; i<9;i++){
             
             var group = game.add.group()
@@ -491,9 +511,9 @@ var dojo = function(){
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
         pointsText.x = -pointsImg.width * 0.45
-        pointsText.y = pointsImg.height * 0.3
+        pointsText.y = pointsImg.height * 0.25
         pointsBar.add(pointsText)
         
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
@@ -553,7 +573,7 @@ var dojo = function(){
     function createBoard(){
         
         boardGroup = game.add.group()
-        boardGroup.x = game.world.centerX + 100
+        boardGroup.x = game.world.centerX + 150
         boardGroup.y = 200
         sceneGroup.add(boardGroup)
         
@@ -683,19 +703,19 @@ var dojo = function(){
         
         clock = game.add.group()
         clock.x = game.world.centerX
-        clock.y = boardGroup.y + 110
+        clock.y = boardGroup.y + 120
         sceneGroup.add(clock)
         
         var clockImage = clock.create(0,0,'atlas.dojo','clock')
         clockImage.anchor.setTo(0.5,0.5)
         
-        var clockBar = new Phaser.Graphics(game)
-        clockBar.beginFill(0x56ff35);
-        clockBar.drawRect(-clockImage.width * 0.85 , 100, clockImage.width*0.8,35);
-        clockBar.endFill();
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.dojo','bar')
         clockBar.anchor.setTo(0,0.5)
-        clockBar.offsetX = clockBar.width * 0.5
-        clock.add(clockBar)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
         
     }
     

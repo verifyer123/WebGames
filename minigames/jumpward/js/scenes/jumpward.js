@@ -588,8 +588,9 @@ var jumpward = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.85
         pointsText.y = pointsImg.height * 0.3
+        pointsText.anchor.setTo(1,0)
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -626,42 +627,43 @@ var jumpward = function(){
                 
     }
     
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+        },this)
+    }
+    
     function createPart(key,obj){
         
-        var particlesNumber = 2
-        
-        tooMuch = true
-        
-        if(game.device.desktop == true && tooMuch == false){ 
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
             
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.jump',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y,'atlas.jump',key)
-            particle.anchor.setTo(0.5,0.5)
+            particle.x = obj.world.x
+            particle.y = obj.world.y
             particle.scale.setTo(1,1)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
         }
+        
         
     }
     
@@ -783,6 +785,18 @@ var jumpward = function(){
         
     }
     
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        var particle = particlesGroup.create(-200,0,'atlas.jump',tag)
+        particle.alpha = 0
+        particle.tag = tag
+        particle.used = false
+        particle.anchor.setTo(0.5,0.5)
+        particle.scale.setTo(1,1)
+        
+    }
+    
     function createObjects(){
         
         createObstacle('blue_plat',18)
@@ -792,6 +806,9 @@ var jumpward = function(){
         createObstacle('spring',10)
         createObstacle('balloons',5)
         createObstacle('monster',5)
+        
+        createParticles('star',10)
+        createParticles('wrong',10)
         
         for(var i = 0;i<12;i++){
             addObjects()
