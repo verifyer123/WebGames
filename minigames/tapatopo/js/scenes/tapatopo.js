@@ -40,6 +40,7 @@ var tapatopo = function(){
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
+    var gameIndex = 11
     var randomBomb
     var gameLevel = null
     var timeToHide = null
@@ -238,7 +239,7 @@ var tapatopo = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true,pointsBar.number)
+			resultScreen.setScore(true,pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

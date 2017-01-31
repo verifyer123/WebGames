@@ -52,6 +52,8 @@ var cirquit = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var gameIndex = 2
+    
     var colorIndex
     var objectToActivate = null
     var skullTrue = false
@@ -273,7 +275,7 @@ var cirquit = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
             
             amazing.saveScore(pointsBar.number) 
             

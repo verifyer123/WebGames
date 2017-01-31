@@ -45,6 +45,8 @@ var jumpward = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var gameIndex = 7
+    
     var gameCollisionGroup, playerCollisionGroup
     var cursors
     var moveLeft, moveRight, moveUp
@@ -241,7 +243,7 @@ var jumpward = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
             
             amazing.saveScore(pointsBar.number) 
             

@@ -43,6 +43,7 @@ var graviswitch = function(){
     var WORLD_GRAVITY = 2500
     var OFF_BRICK = 200
     var BOT_OFFSET = 200
+    var gameIndex = 4
     
     var indexCoin
     var canMisile = null
@@ -265,7 +266,7 @@ var graviswitch = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

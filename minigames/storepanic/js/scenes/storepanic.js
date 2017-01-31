@@ -1,16 +1,17 @@
-var soundsPath = '../../shared/minigames/sounds/'
-var amazingbros = function(){
-    assets = {
+var soundsPath = "../../shared/minigames/sounds/"
+var storepanic = function(){    
+
+	assets = {
         atlases: [
             {   
                 name: "atlas.amazingbros",
-                json: "images/amazingbros/atlas.json",
-                image: "images/amazingbros/atlas.png",
+                json: "images/lacomer/atlas.json",
+                image: "images/lacomer/atlas.png",
             },
         ],
         images: [
             {   name:"fondo",
-				file: "images/amazingbros/background.png"},
+				file: "images/lacomer/background.png"},
 		],
 		sounds: [
             {	name: "pop",
@@ -33,10 +34,11 @@ var amazingbros = function(){
     var JUMP_FORCE = 820
     var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 1600
-    var OFF_BRICK = 330
-    var BOT_OFFSET = 105
+    var OFF_BRICK = 200
+    var BOT_OFFSET = 250
     
-    var gameIndex = 0
+    var gameIndex = 10
+    var indexCoin
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -77,7 +79,9 @@ var amazingbros = function(){
     }  
     
 	function initialize(){
+        
         enemyNames = ['coin']
+        indexCoin = 0
         gameStart = false
         skullTrue = false
         gameSpeed =  SPEED
@@ -95,6 +99,7 @@ var amazingbros = function(){
         objectsList = []
         consecFloor = 0
         consecBricks = 0
+        
 	}
     
     function animateScene() {
@@ -114,14 +119,17 @@ var amazingbros = function(){
     
     
     function preload() {
-        game.stage.disableVisibilityChange = false;
-
+        
+        game.plugins.add(Fabrique.Plugins.Spine);
+        game.stage.disableVisibilityChange = false
         game.load.spine('mascot', "images/spines/mascotaAmazing.json");
         
-        game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
-        game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
-        game.load.spritesheet('coinS', 'images/amazingbros/coinS.png', 68, 70, 12);
+        game.load.spritesheet('bMonster', 'images/lacomer/bMonster.png', 101, 165, 17);
+        game.load.spritesheet('pMonster', 'images/lacomer/pMonster.png', 149, 124, 17);
+        //game.load.spritesheet('coinS', 'images/lacomer/coinS.png', 68, 70, 12);
         game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+        
+        
     }
     
     function inputButton(obj){
@@ -162,7 +170,7 @@ var amazingbros = function(){
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
-        groupButton.y = game.world.height -95
+        groupButton.y = game.world.height -125
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
@@ -174,6 +182,13 @@ var amazingbros = function(){
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
         button2.events.onInputUp.add(releaseButton)
+        
+        /*var logo = sceneGroup.create(game.world.centerX - 200,groupButton.y,'atlas.amazingbros','logoTablero')
+        logo.anchor.setTo(0.5,0.5)
+        
+        var logo = sceneGroup.create(game.world.centerX + 200,groupButton.y,'atlas.amazingbros','logoTablero')
+        logo.anchor.setTo(0.5,0.5)*/
+        
         
     }
     
@@ -207,8 +222,9 @@ var amazingbros = function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-            amazing.saveScore(pointsBar.number)
-			sceneloader.show("result")
+
+			amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
 		})
     }
     
@@ -294,7 +310,7 @@ var amazingbros = function(){
         characterGroup.x = player.x
         characterGroup.y = player.y +44 
         
-        if(player.body.y > game.world.height - BOT_OFFSET * 1.6 ){
+        if(player.body.y > game.world.height - BOT_OFFSET * 1.2 ){
             stopGame()
         }
         
@@ -311,6 +327,11 @@ var amazingbros = function(){
         //console.log( objectsList.length + 'cantidad objetos')
         for(var index = 0;index<objectsList.length;index++){
             var obj = objectsList[index]
+            
+            if(obj.tag == 'coin'){
+                obj.body.rotateLeft(Math.random()*80 + 40)
+            }
+            
             if(obj.body.x < -obj.width * 0.45 && obj.used == true){
                 deactivateObj(obj)
                 if(obj.tag == 'floor' || obj.tag == 'brick'){
@@ -686,7 +707,7 @@ var amazingbros = function(){
                     activateObject(pivotObjects,game.world.height - OFF_BRICK - BOT_OFFSET,child)
                     
                     if(objToCheck.tag == "brick" && Math.random() * 2 > 1 && pointsBar.number > 10){
-                        child.body.y-= OFF_BRICK * 0.45
+                        child.body.y-= OFF_BRICK * 0.8
                         child.top = true
                     }
                     
@@ -711,6 +732,16 @@ var amazingbros = function(){
         }
     }
     
+    function randomize(index){
+        var isTrue = false
+        
+        if(Math.random()*index < 1){
+            isTrue = true
+        }
+                
+        return isTrue
+    }
+    
     function createObjs(tag,scale,times){
         
         var pivotX = 0
@@ -733,10 +764,21 @@ var amazingbros = function(){
                 
             }else if(tag == 'coin'){
                 
-                object = game.add.sprite(-300, 200, 'coinS');
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',24,true);   
+                /*if(randomize(10)){
+                    object = game.add.sprite(-300, 200, 'coinS');
+                    object.animations.add('walk');
+                    object.animations.play('walk',24,true); 
+                    groundGroup.add(object)
+                }else{*/
+                    
+                    var objectsList = ['carne1','carne2','fruta1','fruta2','plastico1','plastico2','enlatado1','enlatado2','verdura1','verdura2']
+                    object = groundGroup.create(-300,200,'atlas.amazingbros',objectsList[indexCoin])
+                    
+                    indexCoin++
+                //}
+                  
+                
+                
             }else{
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.amazingbros',tag)
             }
@@ -753,7 +795,9 @@ var amazingbros = function(){
             }
             
             if(tag == 'enemy_spike'){
-                object.body.setRectangle(object.width * 0.68, object.height * 0.9);
+                object.body.setRectangle(object.width * 0.68, object.height * 0.3);
+            }else if(tag == 'enemy_squish'){
+                object.body.setRectangle(object.width * 0.4, object.height * 0.8);
             }
             
             if(tag != 'coin' && tag != 'skull'){
@@ -767,7 +811,7 @@ var amazingbros = function(){
         
         createObjs('floor',1.4,6)
         createObjs('brick',1.1,6)
-        createObjs('coin',1,8)
+        createObjs('coin',1,10)
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
         createObjs('skull',1,2)
@@ -842,7 +886,7 @@ var amazingbros = function(){
     
 	return {
 		assets: assets,
-		name: "amazingbros",
+		name: "storepanic",
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.P2JS);
@@ -873,9 +917,8 @@ var amazingbros = function(){
             //sound.play("marioSong")
             marioSong = game.add.audio('marioSong')
             game.sound.setDecodedCallback(marioSong, function(){
-                marioSong.loopFull(0.6)
+                marioSong.loopFull(0.4)
             }, this);
-            
             
             game.onPause.add(function(){
                 game.sound.mute = true
@@ -890,7 +933,7 @@ var amazingbros = function(){
             
             characterGroup = game.add.group()
             characterGroup.x = 100
-            characterGroup.y = game.world.height - BOT_OFFSET * 4.5
+            characterGroup.y = game.world.height - BOT_OFFSET * 3
             worldGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");

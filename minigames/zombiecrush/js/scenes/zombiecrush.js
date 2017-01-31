@@ -51,6 +51,7 @@ var zombiecrush = function(){
     var ITEM_TIME = 800
     var objectsList
     
+    var gameIndex = 1
     var zombieSong
     var itemsList
     var bulletSpeed
@@ -258,7 +259,7 @@ var zombiecrush = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

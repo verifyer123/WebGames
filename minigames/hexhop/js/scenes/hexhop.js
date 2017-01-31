@@ -47,6 +47,7 @@ var hexhop = function(){
         
     var SPEED = 7
     
+    var gameIndex = 5
     var gameLevel = null
     var gameSong = null
     var timeAdd = null
@@ -206,7 +207,7 @@ var hexhop = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true,pointsBar.number)
+			resultScreen.setScore(true,pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

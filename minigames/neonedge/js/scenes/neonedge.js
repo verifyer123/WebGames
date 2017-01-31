@@ -49,6 +49,7 @@ var neonedge = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var gameIndex = 13
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -268,7 +269,7 @@ var neonedge = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
             
-            amazing.saveScore(pointsBar.number) 
+            amazing.saveScore(pointsBar.number,gameIndex) 
             
 			sceneloader.show("result")
 		})

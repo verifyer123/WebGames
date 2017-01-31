@@ -44,6 +44,7 @@ var junglefury = function(){
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
+    var gameIndex = 8
     var gameSong = null
     var levelNumber = 0
     var scaleSpeed = null
@@ -217,7 +218,7 @@ var junglefury = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true,pointsBar.number)
+			resultScreen.setScore(true,pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

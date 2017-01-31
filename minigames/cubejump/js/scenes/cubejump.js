@@ -47,6 +47,7 @@ var cubejump = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var gameIndex = 14
     var acid
     var canPoint
     var gameCollisionGroup, playerCollisionGroup
@@ -218,7 +219,7 @@ var cubejump = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
             
             amazing.saveScore(pointsBar.number) 
             

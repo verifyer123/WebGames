@@ -54,7 +54,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            lacomer,
+            storepanic,
             result,
     	])
     }

@@ -40,6 +40,7 @@ var chilimbalam = function(){
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
+    var gameIndex = 9
     var marioSong = null
 	var sceneGroup = null
     var answersGroup = null
@@ -158,7 +159,7 @@ var chilimbalam = function(){
     function preload() {
         
         game.stage.disableVisibilityChange = false;
-        game.load.spine('mascot', "images/spines/mascotaAmazing.json");
+        game.load.spine('mascot', "images/spines/skeleton.json");
         
         game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
     }
@@ -238,7 +239,7 @@ var chilimbalam = function(){
         
         //objectsGroup.timer.pause()
         gameActive = false
-        buddy.setAnimationByName(0,"SAD",0.6)
+        buddy.setAnimationByName(0,"IDLE",0.6)
         
         marioSong.stop()
         //timer.pause()
@@ -247,7 +248,7 @@ var chilimbalam = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -718,7 +719,7 @@ var chilimbalam = function(){
         sceneGroup.add(characterGroup)
         
         buddy = game.add.spine(0,0, "mascot");
-        buddy.scale.setTo(1,1)
+        buddy.scale.setTo(0.7,0.7)
         characterGroup.add(buddy)
         
         var cup = characterGroup.create(0,-120,'atlas.chilimbalam','vaso')
@@ -729,9 +730,39 @@ var chilimbalam = function(){
         
         buddy.setAnimationByName(0, "IDLE", true);
         buddy.setSkinByName('normal');
+        //buddy.setSkin(newSkin)
         
-        //createTime()
+        buddy.setToSetupPose()
         
+        var skin = buddy.skeleton.data.findSkin('normal')
+        
+        for (var key in skin.attachments) {
+            
+            var slotKeyPair = key.split(':');
+            var slotIndex = slotKeyPair[0];
+            var attachmentName = slotKeyPair[1];
+            var attachment = skin.attachments[key];
+
+            /*if (undefined === slotIndex || undefined === attachmentName) {
+                console.warn('something went wrong with reading the attachments index and/or name');
+                return;
+            }
+            if (newSkin.getAttachment(slotIndex, attachmentName) !== undefined) {
+                console.warn('Found double attachment for: ' + skinName + '. Skipping');
+                //continue;
+            }
+            newSkin.addAttachment(slotIndex, attachmentName, attachment);*/
+            //buddy.skeleton.setAttachment("cabeza","vaso")
+        }
+        
+        //buddy.skeleton.setAttachment("cabeza")
+        
+        var mySlot = buddy.skeleton.findSlot("cabeza")
+        
+        mySlot.setAttachment("vaso")
+        
+        buddy.setToSetupPose()
+                
         marioSong = game.add.audio('arcadeSong')
         game.sound.setDecodedCallback(marioSong, function(){
             marioSong.loopFull(0.3)

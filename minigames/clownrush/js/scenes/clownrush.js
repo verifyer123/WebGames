@@ -42,6 +42,7 @@ var clownrush = function(){
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
     
+    var gameIndex = 3
     var canRoll = null
     var canAnvil = null
     var canClown = null
@@ -246,7 +247,7 @@ var clownrush = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true,pointsBar.number)
+			resultScreen.setScore(true,pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

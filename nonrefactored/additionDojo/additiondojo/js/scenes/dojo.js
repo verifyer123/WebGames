@@ -65,6 +65,7 @@ var dojo = function(){
     var cardsGroup, boardGroup
     var timer
     var cardsNumber
+    var maxNumber
     var selectGroup
     var comboCount
     var clock
@@ -80,12 +81,13 @@ var dojo = function(){
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         cardsNumber = 4
+        maxNumber = 3
         lives = 5
         quantNumber = 0
         arrayComparison = []
         comboCount = 0
         numberIndex = 0
-        timeValue = 5.5
+        timeValue = 7
         
         loadSounds()
         
@@ -148,7 +150,7 @@ var dojo = function(){
         
         for(var i = 0; i < quantNumber;i++){
             
-            numbers[i] = game.rnd.integerInRange(1,9)
+            numbers[i] = game.rnd.integerInRange(1,maxNumber)
             numberToCheck+= numbers[i]
             numbersToAdd[numbersToAdd.length] = numbers[i]
             
@@ -339,6 +341,14 @@ var dojo = function(){
         
         if(pointsBar.number % 2 == 0){
             timeValue-=0.3
+        }
+        
+        if(pointsBar.number % 3 == 0){
+            
+            if(maxNumber < 9){
+                maxNumber++
+            }
+            
         }
         
     }
@@ -580,7 +590,7 @@ var dojo = function(){
         var boardImage = boardGroup.create(0,0,'atlas.dojo','board')
         boardImage.anchor.setTo(0.5,0.5)
         
-        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
         var pointsText = new Phaser.Text(sceneGroup.game, 0, -60, 0, fontStyle)
         pointsText.anchor.setTo(0.5,0.5)

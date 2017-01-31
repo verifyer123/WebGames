@@ -29,6 +29,7 @@ var twindots = function(){
     var SPEED = 4
     var COLORS = [0xffff00,0x29abe2,0x4400ff,0xe229a4,0xff5d00,0x96e229]
     
+    var gameIndex = 12
     var cursors
     var pressLeft, pressRight
     var upLeft, upRight
@@ -199,7 +200,7 @@ var twindots = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true,pointsBar.number)
+			resultScreen.setScore(true,pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

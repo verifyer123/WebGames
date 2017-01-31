@@ -70,7 +70,7 @@ var instructions = function(){
             
             var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
-                sceneloader.show("lacomer")
+                sceneloader.show("storepanic")
             })
             
         })

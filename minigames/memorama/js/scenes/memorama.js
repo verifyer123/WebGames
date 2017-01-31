@@ -53,6 +53,7 @@ var memorama = function(){
     
     var CARD_TIME = 300
     
+    var gameIndex = 6
     var lives = null
 	var sceneGroup = null
     var pointsGroup = null
@@ -510,7 +511,7 @@ var memorama = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
