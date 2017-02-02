@@ -267,9 +267,9 @@ var neonedge = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
             
-            amazing.saveScore(pointsBar.number,gameIndex) 
+            //amazing.saveScore(pointsBar.number,gameIndex) 
             
 			sceneloader.show("result")
 		})

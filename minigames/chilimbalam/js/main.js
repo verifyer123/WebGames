@@ -46,6 +46,8 @@ function startGame(){
 
         amazing.savePlaycount();
         amazing.getInfo()
+        amazing.setMinigameId()
+        amazing.setProfile()
         window.minigame.game = window.game
         
     	sceneloader.init(game)

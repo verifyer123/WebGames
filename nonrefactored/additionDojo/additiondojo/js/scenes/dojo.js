@@ -135,28 +135,39 @@ var dojo = function(){
         numberIndex = 0
         addNumber = 0
         
+        for(var i = 0; i < boardGroup.numbersGroup.length; i++){
+            
+            var group = boardGroup.numbersGroup[i]
+            group.alpha = 0
+            
+            for(var u = 0; u<group.numbers.length;u++){
+                
+                var number = group.numbers[u]
+                number.setText('')
+            }
+        }
+        
         quantNumber = game.rnd.integerInRange(2,3)
+        
+        if(quantNumber == 2){
+            boardGroup.numbersGroup[0].alpha = 1
+            boardGroup.number.x = boardGroup.number.initialX
+        }else{
+            boardGroup.numbersGroup[1].alpha = 1
+            boardGroup.number.x = boardGroup.number.initialX + 10
+        }
         
         var numbers = []
         numberToCheck = 0
         
         var numbersToAdd = []
         
-        for(var i = 0; i< boardGroup.points.length;i++){
-            
-            var obj = boardGroup.points.children[i]
-            obj.alpha = 0
-        }
-        
         for(var i = 0; i < quantNumber;i++){
             
             numbers[i] = game.rnd.integerInRange(1,maxNumber)
             numberToCheck+= numbers[i]
             numbersToAdd[numbersToAdd.length] = numbers[i]
-            
-            var obj = boardGroup.points.children[i]
-            obj.alpha = 1
-            changeImage(1,obj)
+
         }
         
         for(var i = 0; i < (9 - quantNumber); i++){
@@ -414,8 +425,11 @@ var dojo = function(){
         
         game.add.tween(selectObj).to({alpha:1},500,Phaser.Easing.linear,true)
         
-        changeImage(0,boardGroup.points.children[numberIndex])
+        var number = boardGroup.numbersGroup[quantNumber-2].numbers[numberIndex]
+        number.setText(obj.parent.number)
         
+        game.add.tween(number.scale).from({x:0.01,y:0.01},200,Phaser.Easing.linear,true)
+                        
         numberIndex++
         
         addNumber+=obj.parent.number
@@ -435,7 +449,6 @@ var dojo = function(){
         
         //gameActive = false
         obj.pressed = true
-        var parent = obj.parent
         
     }
     
@@ -443,15 +456,18 @@ var dojo = function(){
         
         var background = new Phaser.Graphics(game)
         background.beginFill(0x000000);
-        background.drawRoundedRect(game.world.centerX - 300, game.world.centerY - 115 , 600, 575);
+        background.drawRoundedRect(game.world.centerX - 250, game.world.centerY - 35 , 500, 500);
         background.endFill();
         background.alpha = 0.6
         sceneGroup.add(background)
         
         cardsGroup = game.add.group()
+        cardsGroup.scale.setTo(0.8,0.8)
+        cardsGroup.x = game.world.centerX
+        cardsGroup.y = background.y + 210   
         sceneGroup.add(cardsGroup)
         
-        var initX = game.world.centerX - 190
+        var initX = -190
         var pivotX = initX
         var pivotY = background.y + 160 + background.width * 0.5
         for(var i = 0; i<9;i++){
@@ -478,7 +494,7 @@ var dojo = function(){
             
             image.anchor.setTo(0.5,0.5)
             
-            var fontStyle = {font: "75px VAGRounded", fontWeight: "bold", fill: textColor, align: "center"}
+            var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: textColor, align: "center"}
             
             var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
             pointsText.anchor.setTo(0.5,0.5)
@@ -504,6 +520,7 @@ var dojo = function(){
             
             var image = selectGroup.create(0,0,'atlas.dojo','marco')
             image.alpha = 0
+            image.scale.setTo(0.75,0.75)
             image.anchor.setTo(0.5,0.5)
             
         }
@@ -582,56 +599,90 @@ var dojo = function(){
     
     function createBoard(){
         
+        master = game.add.spine(game.world.centerX - 100,250, "master");
+        master.scale.setTo(0.6,0.6)
+        master.setAnimationByName(0, "IDLE", true);
+        master.setSkinByName('normal');
+        sceneGroup.add(master)
+        
         boardGroup = game.add.group()
-        boardGroup.x = game.world.centerX + 150
-        boardGroup.y = 200
+        boardGroup.x = game.world.centerX
+        boardGroup.y = game.world.centerY - 200
         sceneGroup.add(boardGroup)
         
-        var boardImage = boardGroup.create(0,0,'atlas.dojo','board')
+        var boardImage = boardGroup.create(0,0,'atlas.dojo','pergamino')
+        boardImage.width*=1.1
         boardImage.anchor.setTo(0.5,0.5)
         
-        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, -60, 0, fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, boardImage.width * 0.27, 20, 0, fontStyle)
+        pointsText.initialX = pointsText.x
         pointsText.anchor.setTo(0.5,0.5)
         boardGroup.add(pointsText)
         
         boardGroup.number = pointsText
         
-        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        boardGroup.numbersGroup = []
         
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 25, localization.getString(localizationData,"moves"), fontStyle)
-        pointsText.anchor.setTo(0.5,0.5)
-        boardGroup.add(pointsText)
-        
-        var pointsGrp = game.add.group()
-        pointsGrp.y = 60
-        boardGroup.add(pointsGrp)
-        
-        var pivotX = -50
-        for(var i = 0; i<3;i++){
+        for(var u = 0; u < 2; u++){
             
-            var group = game.add.group()
-            group.alpha = 0
-            group.x = pivotX
-            pointsGrp.add(group)
+            var firstGroup = game.add.group()
+            firstGroup.x-=25
+            firstGroup.y = 15
+            firstGroup.alpha = 0
+            boardGroup.add(firstGroup)
+
+            firstGroup.numbers = []
+            boardGroup.numbersGroup[boardGroup.numbersGroup.length] = firstGroup
+
+            var pivotX = -100
+            var itemText = ['','+','','=']
+            var offset = 70
             
-            var image = group.create(0,0,'atlas.dojo','backpoint')
-            image.anchor.setTo(0.5,0.5)
+            if(u==1){
+                itemText = ['','+','','+','','=']
+                firstGroup.scale.setTo(0.8,0.8)
+                firstGroup.x-=50
+                offset = 67
+            }
             
-            var image = group.create(0,0,'atlas.dojo','move')
-            image.anchor.setTo(0.5,0.5)
+            console.log(itemText + ' items')
+
+            for(var i = 0; i < itemText.length;i++){
+
+                if((i+1) % 2 == 0){
+
+                    var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+
+                    var pointsText = new Phaser.Text(sceneGroup.game, pivotX, 0 , itemText[i], fontStyle)
+                    pointsText.anchor.setTo(0.5,0.5)
+                    firstGroup.add(pointsText)
+
+                }else{
+
+                    var group = game.add.group()
+                    group.x = pivotX
+                    firstGroup.add(group)
+
+                    var image = group.create(0,0,'atlas.dojo','numFaltante')
+                    image.anchor.setTo(0.5,0.5)
+
+                    var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+                    var pointsText = new Phaser.Text(sceneGroup.game, pivotX, 3 , itemText[i], fontStyle)
+                    pointsText.anchor.setTo(0.5,0.5)
+                    firstGroup.add(pointsText)
+                    
+                    firstGroup.numbers[firstGroup.numbers.length] = pointsText
+
+                }
+
+                pivotX += offset
+
+            }
             
-            pivotX += 50
         }
-        
-        boardGroup.points = pointsGrp
-        
-        master = game.add.spine(game.world.centerX - 200,400, "master");
-        master.scale.setTo(1,1)
-        master.setAnimationByName(0, "IDLE", true);
-        master.setSkinByName('normal');
-        sceneGroup.add(master)
                 
     }
     
@@ -671,6 +722,7 @@ var dojo = function(){
         overlayGroup.add(rect)
         
         var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+        plane.scale.setTo(0.8,0.8)
         plane.anchor.setTo(0.5,0.5)
         
         var action = 'tap'
@@ -683,7 +735,7 @@ var dojo = function(){
         
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "howTo"), fontStyle)
         pointsText.x = game.world.centerX
-        pointsText.y = game.world.centerY - plane.height * 0.375
+        pointsText.y = game.world.centerY - plane.height * 0.4
         pointsText.anchor.setTo(0.5,0.5)
         overlayGroup.add(pointsText)
         
@@ -713,7 +765,7 @@ var dojo = function(){
         
         clock = game.add.group()
         clock.x = game.world.centerX
-        clock.y = boardGroup.y + 120
+        clock.y = cardsGroup.y + 190
         sceneGroup.add(clock)
         
         var clockImage = clock.create(0,0,'atlas.dojo','clock')

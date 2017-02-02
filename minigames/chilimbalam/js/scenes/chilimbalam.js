@@ -39,6 +39,7 @@ var chilimbalam = function(){
     var GRAVITY_GUMS = 4
     var OBJ_TIME = 1300
     var ITEM_TIME = 800
+    var skinTable
     
     var gameIndex = 9
     var marioSong = null
@@ -67,7 +68,59 @@ var chilimbalam = function(){
     var throwTimeItems
     var tooMuch
     
+    function getSkins(){
+        
+        /*var dataStore = [
+            
+            [
+                {"tableID":"idGlasses"},
+                {"id":"style1","name":"style 80´s","img":"lentes_defautl.png","price":"0","choice":false,"buy":true},
+                {"id":"style2","name":"style 90´s","img":"lentes_80s.png","price":"10","choice":true,"buy":false},{"id":"style3","name":"Sunglass","img":"black_glass.png","price":"10","choice":false,"buy":false},
+                {"id":"style4","name":"3D Glass","img":"lentes_3d.png","price":0,"choice":true,"buy":false}
+            ],
+            
+            [
+                {"tableID":"idHair"},
+                {"id":"hairStyle1","name":"Estilo Elvis","img":"hair_style1.png","price":"10","choice":true,"buy":false},
+                {"id":"hairStyle2","name":"Estilo punk","img":"hair_style2.png","price":0,"choice":false,"buy":true},
+                {"id":"hairStyle3","name":"Estilo emo","img":"hair_style3.png","price":"10","choice":false,"buy":false},
+                {"id":"hairStyle4","name":"Estilo smith","img":"hair_style4.png","price":"10","choice":false,"buy":false}
+            ],
+            
+            [
+                {"tableID":"idColorBody"},
+                {"name":"Morado","color":"0deg","img":"crayon_morado.png","price":"0","choice":true,"buy":false},
+                {"name":"Rojo","color":"75deg","img":"crayon_rojo.png","price":"10","choice":false,"buy":false},
+                {"name":"Azul","color":"300deg","img":"crayon_azul.png","price":0,"choice":false,"buy":true},
+                {"name":"Verde","color":"200deg","img":"crayon_verde.png","price":"10","choice":false,"buy":false}
+            ]
+            
+        ]*/
+        
+        var dataStore = amazing.getProfile()
+        
+        if(!dataStore){
+            skinTable = [4,4,4]
+        }else{
+         
+            for(var i = 0; i<dataStore.length;i++){
+            
+                var internalList = dataStore[i]
+                for(var u = 1; u<internalList.length;u++){
 
+                    if(internalList[u].choice){
+
+                        skinTable[skinTable.length] = u
+                        break
+                    }
+                }
+            }
+        }
+        
+        //console.log(skinTable + ' skins')
+        
+    }
+    
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -85,6 +138,7 @@ var chilimbalam = function(){
         buttonPressed = false
         tooMuch = false
         GRAVITY_OBJECTS = 4
+        skinTable = []
         
 	}
     
@@ -250,7 +304,7 @@ var chilimbalam = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
-			amazing.saveScore(pointsBar.number) 			
+			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
     }
@@ -729,12 +783,12 @@ var chilimbalam = function(){
         characterGroup.cup = cup
         
         buddy.setAnimationByName(0, "IDLE", true);
-        buddy.setSkinByName('normal');
+        buddy.setSkinByName('skin1');
         //buddy.setSkin(newSkin)
         
         buddy.setToSetupPose()
         
-        var skin = buddy.skeleton.data.findSkin('normal')
+        /*var skin = buddy.skeleton.data.findSkin('normal')
         
         for (var key in skin.attachments) {
             
@@ -751,7 +805,7 @@ var chilimbalam = function(){
                 console.warn('Found double attachment for: ' + skinName + '. Skipping');
                 //continue;
             }
-            newSkin.addAttachment(slotIndex, attachmentName, attachment);*/
+            newSkin.addAttachment(slotIndex, attachmentName, attachment);
             //buddy.skeleton.setAttachment("cabeza","vaso")
         }
         
@@ -761,7 +815,21 @@ var chilimbalam = function(){
         
         mySlot.setAttachment("vaso")
         
-        buddy.setToSetupPose()
+        buddy.setToSetupPose()*/
+        
+        getSkins()
+        var newSkin = buddy.createCombinedSkin(
+            'combined',     
+            'glasses' + skinTable[0],        
+            'hair' +  skinTable[1],
+            'skin' + skinTable[2],
+            'torso1',
+            'vaso'
+        );
+        
+        
+        
+        buddy.setSkinByName('combined')
                 
         marioSong = game.add.audio('arcadeSong')
         game.sound.setDecodedCallback(marioSong, function(){
@@ -781,6 +849,7 @@ var chilimbalam = function(){
         createParticles()
         createObjects()
         animateScene()
+        
     }
     
 	return {

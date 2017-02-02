@@ -42,6 +42,7 @@ var result = function(){
     var gameIndex
     var gameName
     var couponData
+    var minigameId
 
 	var timeGoal = null
 
@@ -201,13 +202,9 @@ var result = function(){
             
             changeImage(1,group)
             
-            var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-            var retryText = new Phaser.Text(sceneGroup.game, 0, 5, buttonTexts[i], fontStyle)
+            var retryText = game.add.bitmapText(pivotX -25, pivotY, 'gothamMedium', buttonTexts[i], 27);
             retryText.anchor.setTo(0.5,0.5)
-            retryText.x = pivotX -25
-            retryText.y = pivotY + 5
-            buttonsGroup.add(retryText)
+            sceneGroup.add(retryText)
             
             pivotX += 250
         }
@@ -251,12 +248,11 @@ var result = function(){
             img.events.onInputDown.add(inputGame)
             img.index = i
             
-            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        
-            var nameText = new Phaser.Text(sceneGroup.game, 0, 110, icons[gameNumbers[i]].name, fontStyle)
-            nameText.lineSpacing = -10;
+            var nameText = game.add.bitmapText(0, 100, 'gothamMedium', icons[gameNumbers[i]].name, 23);
+            nameText.tint = 0x000000    
             nameText.anchor.setTo(0.5,0.5)
-            group.add(nameText)  
+            nameText.lineSpacing = -10;
+            group.add(nameText)
             
             pivotX+=172
             
@@ -315,6 +311,39 @@ var result = function(){
         
     }
     
+    function setRank(){
+        
+        var games = []
+        
+        minigameId = null
+        minigameId = 5676073085829120
+        if(minigameId){
+            
+
+        }
+        
+        amazing.saveScore(totalScore)
+        
+        window.addEventListener("message", function(event){        
+           if(event.data && event.data != ""){
+               var parsedData = {}
+               try {
+                   var parsedData = JSON.parse(event.data)
+               }catch(e){
+                   console.warn("Data is not JSON in message listener")
+               }
+               switch(parsedData.type){
+               case "rankMinigame":
+                   rankMinigame = parsedData.rankMinigame
+                   console.log(rankMinigame + '# rank')
+
+               }
+           }
+       })
+        
+        
+    }
+    
 	function createScene(){
         
         loadSounds()
@@ -355,6 +384,10 @@ var result = function(){
             scaleSpine = 1.7
             pivotButtons = game.world.height * 0.68
             
+            if(minigameId){
+                topHeight = 1.1
+            }
+            
         }
         
         var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
@@ -377,16 +410,21 @@ var result = function(){
         
         var pivotText = game.world.centerX - 200
         
-        var text = game.add.bitmapText(pivotText, topRect.height * 0.8, 'gotham', 'Obtuviste', 40);
-        sceneGroup.add(text)
+        if(!minigameId){
+            
+            var text = game.add.bitmapText(pivotText, topRect.height * 0.8, 'gotham', 'Obtuviste', 40);
+            sceneGroup.add(text)
+
+            var addText = ''
+            if(totalScore != 1){ addText = 's'}
+
+            var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y - 10, 'gothamMedium', totalScore + " punto" + addText, 50);
+            sceneGroup.add(retryText)
+        }else{
+            
+            buddy.y+= 75
+        }
         
-        var addText = ''
-        if(totalScore != 1){ addText = 's'}
-        
-        var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + " punto" + addText, fontStyle)
-        sceneGroup.add(retryText)
                 
         if(haveCoupon){
             
@@ -500,6 +538,7 @@ var result = function(){
     function preload(){
         
         couponData = amazing.getCoupon()
+        setRank()
         
         if(!couponData){
             haveCoupon = false
@@ -530,10 +569,11 @@ var result = function(){
             file.error = true;        
         };        
         
-        file.data.crossOrigin = '';        
+        file.data.crossOrigin = '*';        
         file.data.src = file.url;*/
                         
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
+        game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
         
         game.load.spine('amazing', imagesUrl + "spines/Amaizing.json");
         

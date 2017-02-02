@@ -1,5 +1,7 @@
 var amazing = {}
 var couponData
+var dataStore
+var minigameId
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
@@ -74,11 +76,87 @@ amazing.getInfo = function(){
             //console.log('entra case')
         }
     })
+        
+}
+
+amazing.setProfile = function(){
     
+    window.addEventListener("message", function(event){
+        //console.log(event)
+        
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "dataStore":
+                dataStore = parsedData.dataStore
+                
+            }
+            //console.log('entra case')
+        }
+    })
+        
+}
+
+amazing.setMinigameId = function(){
     
+    window.addEventListener("message", function(event){
+        //console.log(event)
+        
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "minigameId":
+                minigameId = parsedData.minigameId
+                
+            }
+            //console.log('entra case')
+        }
+    })
+        
+}
+
+amazing.getScores = function(dataId, onSuccess, onError ){
     
+    var hasData = (data.score >= 0) && (data.minigameId) && (data.authentication) && (data.email)
+    if(hasData){
+        $.post({
+            url: amazing.DOMAIN+"/users/score", 
+            crossDomain: true,
+            data: JSON.stringify(data),
+            success: function(data) {
+                console.log(data)
+                if(onSuccess && typeof(onSuccess) == "function"){
+                    onSuccess(data)
+                }
+            },
+            error: function(e) {
+                console.log(e)
+                if(onSuccess && typeof(onSuccess) == "function"){
+                    onSuccess(data)
+                }
+            }
+        });
+    }
+}
+
+amazing.getProfile = function(){
+    return dataStore
 }
 
 amazing.getCoupon = function(){
     return couponData
+}
+
+amazing.getMinigameId = function(){
+    return minigameId
 }

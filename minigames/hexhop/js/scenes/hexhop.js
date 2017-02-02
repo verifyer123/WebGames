@@ -209,7 +209,7 @@ var hexhop = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true,pointsBar.number,gameIndex)
 
-			amazing.saveScore(pointsBar.number) 			
+			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
         
