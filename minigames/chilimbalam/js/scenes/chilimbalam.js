@@ -103,18 +103,7 @@ var chilimbalam = function(){
             skinTable = [1,1,1,1]
         }else{
          
-            for(var i = 0; i<dataStore.length;i++){
-            
-                var internalList = dataStore[i]
-                for(var u = 1; u<internalList.length;u++){
-
-                    if(internalList[u].choice){
-
-                        skinTable[skinTable.length] = u
-                        break
-                    }
-                }
-            }
+            skinTable = dataStore
         }
         
         //console.log(skinTable + ' skins')
@@ -787,7 +776,7 @@ var chilimbalam = function(){
         sceneGroup.add(characterGroup)
         
         buddy = game.add.spine(0,0, "mascot");
-        buddy.scale.setTo(0.7,0.7)
+        buddy.scale.setTo(0.6,0.6)
         characterGroup.add(buddy)
         
         var cup = characterGroup.create(0,-120,'atlas.chilimbalam','vaso')
@@ -837,7 +826,7 @@ var chilimbalam = function(){
             'glasses' + skinTable[0],        
             'hair' +  skinTable[1],
             'skin' + skinTable[2],
-            'torso1',
+            'torso' + skinTable[3],
             'vaso'
         );
         

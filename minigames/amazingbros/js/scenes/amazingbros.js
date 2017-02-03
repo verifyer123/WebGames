@@ -59,10 +59,24 @@ var amazingbros = function(){
     var characterGroup = null
     var pointsBar = null
     var lives = null
+    var skinTable
     var heartsGroup = null 
     var groupButton = null
     
-
+    
+    function getSkins(){
+        
+        var dataStore = amazing.getProfile()
+        
+        if(!dataStore){
+            skinTable = [1,1,1,1]
+        }else{
+         
+            skinTable = dataStore
+        }
+                
+    }
+    
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -95,6 +109,7 @@ var amazingbros = function(){
         objectsList = []
         consecFloor = 0
         consecBricks = 0
+        skinTable = []
 	}
     
     function animateScene() {
@@ -116,7 +131,7 @@ var amazingbros = function(){
     function preload() {
         game.stage.disableVisibilityChange = false;
 
-        game.load.spine('mascot', "images/spines/mascotaAmazing.json");
+        game.load.spine('mascot', "images/spines/skeleton.json");
         
         game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
         game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
@@ -343,7 +358,7 @@ var amazingbros = function(){
         buddy.isRunning = false
         
         buddy.setAnimationByName(0, "JUMP", false);
-        buddy.addAnimationByName(0, "LAND", false);
+        //buddy.addAnimationByName(0, "LAND", false);
         
         player.body.moveUp(jumpValue )
         jumpTimer = game.time.now + 750;
@@ -569,7 +584,8 @@ var amazingbros = function(){
                 if(gameActive == true && buddy.isRunning == false){
                     buddy.isRunning = true
                     if(player.body.y < obj2.sprite.body.y){
-                        //buddy.setAnimationByName(0, "LAND", false);
+                        console.log('land')
+                        buddy.setAnimationByName(0, "LAND", false);
                         buddy.addAnimationByName(0,"RUN",true)
                     }
                 }
@@ -895,10 +911,22 @@ var amazingbros = function(){
             
             buddy = game.add.spine(0,0, "mascot");
             buddy.isRunning = true
-            buddy.scale.setTo(0.8,0.8)
+            buddy.scale.setTo(0.5,0.5)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "RUN", true);
             buddy.setSkinByName('normal');
+            
+            getSkins()
+            
+            var newSkin = buddy.createCombinedSkin(
+                'combined',     
+                'glasses' + skinTable[0],        
+                'hair' +  skinTable[1],
+                'skin' + skinTable[2],
+                'torso' + skinTable[3]
+            );
+            
+            buddy.setSkinByName('combined')
             
             player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.amazingbros','enemy_spike')
             player.anchor.setTo(0.5,1)

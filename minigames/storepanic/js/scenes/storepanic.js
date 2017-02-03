@@ -32,7 +32,7 @@ var storepanic = function(){
     var SPEED = 225 
     var TIME_ADD = 600
     var JUMP_FORCE = 820
-    var DEBUG_PHYSICS = false
+    var DEBUG_PHYSICS = true
     var WORLD_GRAVITY = 1600
     var OFF_BRICK = 200
     var BOT_OFFSET = 250
@@ -47,6 +47,7 @@ var storepanic = function(){
     var jumping = false
     var lastOne = null
     var yAxis = null
+    var skinTable
     var objToCheck
     var gameSpeed = null
     var objectsList = null
@@ -122,7 +123,7 @@ var storepanic = function(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false
-        game.load.spine('mascot', "images/spines/mascotaAmazing.json");
+        game.load.spine('mascot', "images/spines/skeleton.json");
         
         game.load.spritesheet('bMonster', 'images/lacomer/bMonster.png', 101, 165, 17);
         game.load.spritesheet('pMonster', 'images/lacomer/pMonster.png', 149, 124, 17);
@@ -308,7 +309,7 @@ var storepanic = function(){
         
         player.body.x = 100 
         characterGroup.x = player.x
-        characterGroup.y = player.y +44 
+        characterGroup.y = player.y + 10
         
         if(player.body.y > game.world.height - BOT_OFFSET * 1.2 ){
             stopGame()
@@ -938,10 +939,23 @@ var storepanic = function(){
             
             buddy = game.add.spine(0,0, "mascot");
             buddy.isRunning = true
-            buddy.scale.setTo(0.8,0.8)
+            buddy.scale.setTo(0.4,0.4)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "RUN", true);
             buddy.setSkinByName('normal');
+            
+            skinTable = [1,1,1,1]
+            
+            var newSkin = buddy.createCombinedSkin(
+                'combined',     
+                'glasses' + skinTable[0],        
+                'hair' +  skinTable[1],
+                'skin' + skinTable[2],
+                'torso' + skinTable[3],
+                'carrito'
+            );
+            
+            buddy.setSkinByName('combined')
             
             player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.amazingbros','enemy_spike')
             player.anchor.setTo(0.5,1)

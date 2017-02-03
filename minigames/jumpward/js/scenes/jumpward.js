@@ -57,6 +57,7 @@ var jumpward = function(){
     var lastOne = null
     var pivotObjects
     var player
+    var skinTable
 	var sceneGroup = null
     var pointsGroup = null
     var gameActive = null
@@ -92,6 +93,7 @@ var jumpward = function(){
         lastOne = null
         moveLeft = false
         moveRight = false
+        skinTable = []
         
 	}
     
@@ -402,12 +404,28 @@ var jumpward = function(){
         moveUp = true
         buddy.setAnimationByName(0, "JUMP_BALLOONS", true)
         
+        var newSkin = buddy.createCombinedSkin(
+                'combined2',     
+                'glasses' + skinTable[0],        
+                'hair' +  skinTable[1],
+                'skin' + skinTable[2],
+                'torso' + skinTable[3],
+                'balloons'
+        );
+
+        buddy.setSkinByName('combined2')
+        
+        buddy.setToSetupPose()
+        
         game.time.events.add(3000,function(){
                         
             player.active = true
             moveUp = false
             
             game.physics.p2.gravity.y = WORLD_GRAVITY
+            
+            buddy.setSkinByName('combined')
+            buddy.setToSetupPose()
         },this)
     }
     
@@ -522,7 +540,7 @@ var jumpward = function(){
         sound.play("whoosh")
         
         buddy.setAnimationByName(0, "JUMP", false);
-        buddy.addAnimationByName(0, "LAND", false);
+        //buddy.addAnimationByName(0, "LAND", false);
 
         if(game.physics.p2.gravity.y == 0){
             game.physics.p2.gravity.y = WORLD_GRAVITY
@@ -842,6 +860,19 @@ var jumpward = function(){
                 
     }
     
+    function getSkins(){
+        
+        var dataStore = amazing.getProfile()
+        
+        if(!dataStore){
+            skinTable = [1,1,1,1]
+        }else{
+         
+            skinTable = dataStore
+        }
+                
+    }
+    
 	return {
         
 		assets: assets,
@@ -899,10 +930,22 @@ var jumpward = function(){
             worldGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");
-            buddy.scale.setTo(0.8,0.8)
+            buddy.scale.setTo(0.55,0.55)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "IDLE", true);
             buddy.setSkinByName('normal');
+            
+            getSkins()
+            
+            var newSkin = buddy.createCombinedSkin(
+                'combined',     
+                'glasses' + skinTable[0],        
+                'hair' +  skinTable[1],
+                'skin' + skinTable[2],
+                'torso' + skinTable[3]
+            );
+            
+            buddy.setSkinByName('combined')
             
             //createTrail()
             
