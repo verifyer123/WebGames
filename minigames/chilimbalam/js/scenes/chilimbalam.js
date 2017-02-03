@@ -100,7 +100,7 @@ var chilimbalam = function(){
         var dataStore = amazing.getProfile()
         
         if(!dataStore){
-            skinTable = [4,4,4]
+            skinTable = [1,1,1]
         }else{
          
             for(var i = 0; i<dataStore.length;i++){
@@ -293,7 +293,21 @@ var chilimbalam = function(){
         
         //objectsGroup.timer.pause()
         gameActive = false
-        buddy.setAnimationByName(0,"IDLE",0.6)
+        
+        var newSkin = buddy.createCombinedSkin(
+            'combined2',     
+            'glasses' + skinTable[0] + '_Sad',        
+            'hair' +  skinTable[1],
+            'skin' + skinTable[2],
+            'torso1',
+            'vaso'
+        );
+        
+        buddy.setSkinByName('combined2')
+        
+        buddy.setToSetupPose()
+        
+        buddy.setAnimationByName(0,"LOSE",0.6)
         
         marioSong.stop()
         //timer.pause()

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "HG46yEbR25US2LJ5/ymenRa2yos", "spine": "3.3.07", "width": 160.56, "height": 66.39, "images": "" },
+"skeleton": { "hash": "n7DWsXwPAj0dn13X+rkt2npL0WE", "spine": "3.3.07", "width": 181.8, "height": 76.15, "images": "" },
 "bones": [
 	{ "name": "root", "rotation": -0.5 },
 	{ "name": "torso", "parent": "root", "length": 11.9, "rotation": 90, "x": 0.17, "y": 30.36 },
@@ -124,20 +124,20 @@
 	},
 	"hair1": {
 		"copete": {
-			"copete": { "name": "normal/copete", "x": 40.84, "y": 11.27, "rotation": -88.48, "width": 67, "height": 63 }
+			"copete": { "name": "normal/copete", "x": 27.77, "y": 0.71, "rotation": -88.48, "width": 67, "height": 63 }
 		}
 	},
 	"hair2": {
 		"copete": {
-			"copete": { "name": "normal1/copete", "x": 35.14, "y": 11.78, "rotation": -89.99, "width": 96, "height": 69 }
+			"copete": { "name": "normal1/copete", "x": 25.67, "y": 5.34, "rotation": -89.99, "width": 96, "height": 69 }
 		}
 	},
 	"hair3": {
 		"copete": {
 			"copete": {
 				"name": "normal2/copete",
-				"x": 41.59,
-				"y": 11.28,
+				"x": 27.7,
+				"y": -10.17,
 				"scaleX": 1.221,
 				"scaleY": 1.221,
 				"rotation": -88.48,
@@ -150,8 +150,8 @@
 		"copete": {
 			"copete": {
 				"name": "normal3/copete",
-				"x": 42.26,
-				"y": 11.28,
+				"x": 23.63,
+				"y": 12.94,
 				"scaleX": 1.28,
 				"scaleY": 1.28,
 				"rotation": -88.48,
