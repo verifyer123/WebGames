@@ -100,7 +100,7 @@ var chilimbalam = function(){
         var dataStore = amazing.getProfile()
         
         if(!dataStore){
-            skinTable = [1,1,1]
+            skinTable = [1,1,1,1]
         }else{
          
             for(var i = 0; i<dataStore.length;i++){
@@ -299,7 +299,7 @@ var chilimbalam = function(){
             'glasses' + skinTable[0] + '_Sad',        
             'hair' +  skinTable[1],
             'skin' + skinTable[2],
-            'torso1',
+            'torso' + skinTable[3],
             'vaso'
         );
         
