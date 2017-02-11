@@ -505,19 +505,27 @@ var result = function(){
                                 
                 pivotButtons = game.world.height* 0.92
                 
-                var discount = couponData.discount * 100
+                var discount 
+                if(couponData.discount){
+                    
+                    discount = couponData.discount * 100
+                }
+                    
                 var colorToUse = couponData.color
                 
                 var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
                 coupon.anchor.setTo(0.5,0.5)
                 
                 var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
-
-                var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, discount + '%', fontStyle)
-                pointsText.anchor.setTo(0,0)
-                pointsText.lineSpacing = -15
-                sceneGroup.add(pointsText)
-
+                
+                if(discount){
+                    
+                    var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, discount + '%', fontStyle)
+                    pointsText.anchor.setTo(0,0)
+                    pointsText.lineSpacing = -15
+                    sceneGroup.add(pointsText)
+                }
+                
                 var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
 
                 var storeText = new Phaser.Text(sceneGroup.game, pointsText.x, pointsText.y + pointsText.height, couponData.title, fontStyle)

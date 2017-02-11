@@ -32,7 +32,7 @@ var storepanic = function(){
     var SPEED = 225 
     var TIME_ADD = 600
     var JUMP_FORCE = 820
-    var DEBUG_PHYSICS = true
+    var DEBUG_PHYSICS = false
     var WORLD_GRAVITY = 1600
     var OFF_BRICK = 200
     var BOT_OFFSET = 250
@@ -885,6 +885,19 @@ var storepanic = function(){
         }
     }
     
+    function getSkins(){
+        
+        var dataStore = amazing.getProfile()
+        
+        if(!dataStore){
+            skinTable = [1,1,1,1]
+        }else{
+         
+            skinTable = dataStore
+        }
+                
+    }
+    
 	return {
 		assets: assets,
 		name: "storepanic",
@@ -944,7 +957,7 @@ var storepanic = function(){
             buddy.setAnimationByName(0, "RUN", true);
             buddy.setSkinByName('normal');
             
-            skinTable = [1,1,1,1]
+            getSkins()
             
             var newSkin = buddy.createCombinedSkin(
                 'combined',     
