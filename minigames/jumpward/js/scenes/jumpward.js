@@ -253,21 +253,6 @@ var jumpward = function(){
 		})
     }
     
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
-    }
-    
     function addPoint(obj,part){
         
         var partName = part || 'ring'
@@ -461,8 +446,8 @@ var jumpward = function(){
                         
                     }else if(tag == 'coin'){
                         
-                        deactivateObj(object)
                         addPoint(object,'star')
+                        deactivateObj(object)
                         
                     }else if(tag == 'spring' && checkTop){
                         
@@ -647,6 +632,25 @@ var jumpward = function(){
                 
     }
     
+    function createTextPart(text,obj){
+        
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
     function lookParticle(key){
         
         for(var i = 0;i<particlesGroup.length;i++){
@@ -682,6 +686,35 @@ var jumpward = function(){
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
             deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.jump',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
         }
         
         
@@ -805,18 +838,6 @@ var jumpward = function(){
         
     }
     
-    function createParticles(tag,number){
-        
-        tag+='Part'
-        var particle = particlesGroup.create(-200,0,'atlas.jump',tag)
-        particle.alpha = 0
-        particle.tag = tag
-        particle.used = false
-        particle.anchor.setTo(0.5,0.5)
-        particle.scale.setTo(1,1)
-        
-    }
-    
     function createObjects(){
         
         createObstacle('blue_plat',18)
@@ -827,8 +848,9 @@ var jumpward = function(){
         createObstacle('balloons',5)
         createObstacle('monster',5)
         
-        createParticles('star',10)
-        createParticles('wrong',10)
+        createParticles('star',5)
+        createParticles('wrong',5)
+        createParticles('text',8)
         
         for(var i = 0;i<12;i++){
             addObjects()

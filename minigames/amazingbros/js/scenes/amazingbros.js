@@ -49,6 +49,8 @@ var amazingbros = function(){
     var gameSpeed = null
     var objectsList = null
     var pivotObjects
+    var particlesGroup
+    var particlesUsed
     var player
 	var sceneGroup = null
     var groundGroup = null
@@ -174,6 +176,7 @@ var amazingbros = function(){
         bottomRect.width = game.world.width
         bottomRect.height *= 1.02
         bottomRect.anchor.setTo(0,1)
+        sceneGroup.dashboard = bottomRect
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
@@ -227,21 +230,6 @@ var amazingbros = function(){
 		})
     }
     
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
-    }
-    
     function addPoint(obj,part){
         
         var partName = part || 'star'
@@ -265,28 +253,8 @@ var amazingbros = function(){
             skullTrue = true
         }
         
-        addNumberPart(pointsBar.text,'+1')
+        createTextPart('+1',pointsBar.text)
         
-    }
-    
-    function addNumberPart(obj,number){
-        
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-        
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-        tweenScale.onComplete.add(function(){
-            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-        })
     }
     
     function missPoint(){
@@ -299,7 +267,8 @@ var amazingbros = function(){
         heartsGroup.text.setText('X ' + lives)
         //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
         
-        addNumberPart(heartsGroup.text,'-1')
+        createTextPart('-1',heartsGroup.text)
+        createPart('wrong',player)
         
     }
     
@@ -309,13 +278,18 @@ var amazingbros = function(){
         characterGroup.x = player.x
         characterGroup.y = player.y +44 
         
-        if(player.body.y > game.world.height - BOT_OFFSET * 1.6 ){
-            stopGame()
+        if(sceneGroup.dashboard){
+            
+            if(player.body.y > game.world.height - sceneGroup.dashboard.height ){
+            
+                stopGame()
+            }
         }
         
     }
     
     function deactivateObj(obj){
+        
         obj.body.velocity.x = 0
         obj.used = false
         obj.body.y = -500
@@ -481,51 +455,12 @@ var amazingbros = function(){
                 
     }
     
-    function createPart(key,obj){
-        
-        var particlesNumber = 2
-        
-        tooMuch = true
-        
-        if(game.device.desktop == true && tooMuch == false){ 
-            
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.amazingbros',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20,'atlas.amazingbros',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
-    
     function addWrongTween(){
         
         var number = 3
         if(pointsBar.number >= number){
             pointsBar.number-=number
-            addNumberPart(pointsBar.text,'-' + number)
+            createTextPart('-' + number,pointsBar.text)
             pointsBar.text.setText( pointsBar.number)
         }
         
@@ -584,14 +519,12 @@ var amazingbros = function(){
                 if(gameActive == true && buddy.isRunning == false){
                     buddy.isRunning = true
                     if(player.body.y < obj2.sprite.body.y){
-                        console.log('land')
+                        //console.log('land')
                         buddy.setAnimationByName(0, "LAND", false);
                         buddy.addAnimationByName(0,"RUN",true)
                     }
                 }
             }else if(tag == 'enemy_spike'){
-                missPoint()
-                createPart('wrong', obj2.sprite)
                 stopGame()
             }else if(tag == "enemy_squish"){
                 if(player.body.y < obj2.sprite.y - 8){
@@ -601,8 +534,6 @@ var amazingbros = function(){
                     deactivateObj(obj2.sprite)
                     
                 }else{
-                    missPoint()
-                    createPart('wrong', obj2.sprite)
                     stopGame()
                 }
             }
@@ -779,6 +710,103 @@ var amazingbros = function(){
         }
     }
     
+    function createTextPart(text,obj){
+        
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.amazingbros',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+    
     function createObjects(){
         
         createObjs('floor',1.4,6)
@@ -787,6 +815,17 @@ var amazingbros = function(){
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
         createObjs('skull',1,2)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',5)
+        createParticles('drop',5)
+        createParticles('wrong',2)
+        createParticles('text',8)
         
         while(pivotObjects < game.world.width * 1.2){
             addObstacle('floor')
@@ -868,6 +907,10 @@ var amazingbros = function(){
             game.physics.p2.world.setGlobalStiffness(1e5);
             
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            
+            /*if(sceneGroup){
+                console.log(sceneGroup)
+            }*/
             
 			sceneGroup = game.add.group()
             

@@ -58,10 +58,11 @@ var chilimbalam = function(){
     var pointsBar = null
     var throwTime = null
     var lives = null
+    var particlesGroup
+    var particlesUsed
     var heartsGroup = null
     var leftKey = null
     var rightKey = null
-    var particlesGroup, particlesGood, particlesWrong
     var buddy = null
     var buttonPressed = null
     var bombsList, itemList
@@ -245,6 +246,7 @@ var chilimbalam = function(){
         bottomRect.endFill();
         bottomRect.anchor.setTo(0,1)
         sceneGroup.add(bottomRect)
+        sceneGroup.bottomRect = bottomRect
         
         var button1 = sceneGroup.create(game.world.centerX - spaceButtons, game.world.height - 155, 'atlas.chilimbalam','boton')
         button1.inputEnabled = true
@@ -310,21 +312,6 @@ var chilimbalam = function(){
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
-    }
-    
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
     }
     
     function addPoint(number){
@@ -394,7 +381,7 @@ var chilimbalam = function(){
                     createPart('wrong',characterGroup.cup)
                     missPoint()
                 }
-            }else if(obj.y > game.world.height * 0.825){
+            }else if(obj.y > game.world.height - sceneGroup.bottomRect.height * 1.1){
                 deactivateObject(obj)
                 if(obj.tag == 'candy'){
                     //missPoint()
@@ -659,54 +646,6 @@ var chilimbalam = function(){
         game.time.events.add(throwTime, addBomb , this);        
     }
     
-    function createPart(key,obj){
-        
-        var particlesNumber = 2
-        
-        tooMuch = true
-        //console.log('fps ' + game.time.fps)
-        if (game.time.fps < 45 && tooMuch == false){
-            tooMuch = true
-        }
-        
-        if(game.device.desktop == true && tooMuch == false){ 
-            
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.chilimbalam',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 60,'atlas.chilimbalam',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
-    
-    function createParticles(){
-        
-        particlesGroup = game.add.group()
-    }
-    
     function createAssets(tag,points,number){
         
         for(var i = 0; i < number;i++){
@@ -716,6 +655,102 @@ var chilimbalam = function(){
             itemList[itemList.length] = item
             item.points = points
         }
+        
+    }
+    
+    function createTextPart(text,obj){
+        
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.chilimbalam',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
         
     }
     
@@ -730,6 +765,19 @@ var chilimbalam = function(){
         itemList = []
         
         createAssets('chip',1,5)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',5)
+        createParticles('drop',5)
+        createParticles('smoke',8)
+        createParticles('wrong',1)
+        createParticles('text',8)
+        
         /*var itemName = 'gomita'
         
         for(var i = 0; i < 5;i++){
@@ -755,6 +803,7 @@ var chilimbalam = function(){
     }
 
     function create(){
+        
         leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
         
@@ -849,7 +898,6 @@ var chilimbalam = function(){
         createPointsBar()
         createHearts()
         createControls()
-        createParticles()
         createObjects()
         animateScene()
         

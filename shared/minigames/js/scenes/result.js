@@ -45,6 +45,7 @@ var result = function(){
     var couponData
     var rankMinigame
     var minigameId
+    var skinTable
 
 	var timeGoal = null
 
@@ -397,7 +398,22 @@ var result = function(){
         text.anchor.setTo(0,0.5)
         group.add(text)
         
+        sceneGroup.add(rankGroup)
+        
         game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
+        
+    }
+    
+    function getSkins(){
+        
+        var dataStore = amazing.getProfile()
+        
+        if(!dataStore){
+            skinTable = [1,1,1,1]
+        }else{
+         
+            skinTable = dataStore
+        }
         
     }
     
@@ -420,7 +436,7 @@ var result = function(){
         var animationToUse = "LOSE"
         var colorTint = 0x2d8dff
         var topHeight = 1
-        var scaleSpine = 1.3
+        var scaleSpine = 0.9
         var pivotButtons = game.world.height * 0.7
         
         if(win){
@@ -428,6 +444,7 @@ var result = function(){
             textToUse = '¡Lo lograste!'
             animationToUse = "WIN"
             colorTint = 0xff269d
+            scaleSpine = 1.1
             
         }
         
@@ -437,7 +454,7 @@ var result = function(){
             colorTint = 0xc216ac
             animationToUse = "WIN"
             topHeight = 1.5
-            scaleSpine = 1.7
+            scaleSpine = 1.3
             pivotButtons = game.world.height * 0.68
             
             if(minigameId){
@@ -462,20 +479,40 @@ var result = function(){
         var buddy = game.add.spine(game.world.centerX,topRect.height * 0.68, "amazing");
         buddy.scale.setTo(scaleSpine,scaleSpine)
         buddy.setAnimationByName(0, animationToUse, true);
-        buddy.setSkinByName('Amaizing');
         sceneGroup.add(buddy)
+                    
+        getSkins()
+        
+        var addText = '_Happy'
+        
+        if(animationToUse == "LOSE"){
+            addText = '_Sad'
+        }
+
+        var newSkin = buddy.createCombinedSkin(
+            'combined', 
+            animationToUse,
+            'glasses' + skinTable[0] + addText,        
+            'hair' +  skinTable[1], 
+            'skin' + skinTable[2], 
+            'torso' + skinTable[3]
+        );
+
+        buddy.setSkinByName('combined')
         
         var pivotText = game.world.centerX - 200
         
         if(!minigameId && !haveCoupon){
             
-            var text = game.add.bitmapText(pivotText, topRect.height * 0.8, 'gotham', 'Obtuviste', 40);
+            var text = game.add.bitmapText(pivotText, topRect.height * 0.87, 'gotham', 'Obtuviste', 40);
+            text.anchor.setTo(0,1)
             sceneGroup.add(text)
 
             var addText = ''
             if(totalScore != 1){ addText = 's'}
 
-            var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y - 10, 'gothamMedium', totalScore + " punto" + addText, 50);
+            var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y, 'gothamMedium', totalScore + " punto" + addText, 50);
+            retryText.anchor.setTo(0,1)
             sceneGroup.add(retryText)
             
         }else{
@@ -489,13 +526,16 @@ var result = function(){
             if(!win){
                 
                 buddy.y -= 75
-                var text = game.add.bitmapText(pivotText, topRect.height * 0.72, 'gotham', 'Necesitas', 35);
+                var text = game.add.bitmapText(pivotText, topRect.height * 0.79, 'gotham', 'Necesitas', 35);
+                text.anchor.setTo(0,1)
                 sceneGroup.add(text)
 
-                var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y - 10, 'gothamMedium', goalScore + " puntos", 40);
+                var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y, 'gothamMedium', goalScore + " puntos", 40);
+                retryText.anchor.setTo(0,1)
                 sceneGroup.add(retryText)
                 
-                var text = game.add.bitmapText(pivotText - 15, topRect.height * 0.82, 'gotham', 'para obtener este cupón', 35);
+                var text = game.add.bitmapText(pivotText - 15, topRect.height * 0.89, 'gotham', 'para obtener este cupón', 35);
+                text.anchor.setTo(0,1)
                 sceneGroup.add(text)
                 
             }else{
@@ -528,7 +568,7 @@ var result = function(){
                 
                 var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
 
-                var storeText = new Phaser.Text(sceneGroup.game, pointsText.x, pointsText.y + pointsText.height, couponData.title, fontStyle)
+                var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
                 storeText.anchor.setTo(0,0)
                 sceneGroup.add(storeText)
 
@@ -649,7 +689,7 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
         
-        game.load.spine('amazing', imagesUrl + "spines/Amaizing.json");
+        game.load.spine('amazing', imagesUrl + "spines/skeleton.json");
         
         for(var i = 0; i<3;i++){
             
