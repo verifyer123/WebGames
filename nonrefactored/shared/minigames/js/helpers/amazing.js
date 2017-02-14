@@ -1,6 +1,17 @@
 var amazing = {}
 var couponData
 
+amazing.sendGameId = function(gameId){
+    console.log("Sending GameId...")
+    var params = {
+        type: "gameId",
+        data: {
+            gameId: gameId,
+        }
+    }
+    parent.postMessage(JSON.stringify(params), "*")
+}
+
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
 	var params = {
