@@ -70,6 +70,7 @@ var zombiecrush = function(){
     var pointsBar = null
     var throwTime = null
     var lives = null
+    var particlesGroup, particlesUsed
     var heartsGroup = null
     var leftKey = null
     var rightKey = null
@@ -249,7 +250,7 @@ var zombiecrush = function(){
         zombieSong.stop()
         
         sound.play("gameLose")
-        createPart('drop',characterGroup)
+        createPart('drop',characterGroup.bubble)
         
         sound.play("grunt")
         buddy.setAnimationByName(0,"DEAD",false)
@@ -264,21 +265,6 @@ var zombiecrush = function(){
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
-    }
-    
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
     }
     
     function addPoint(){
@@ -641,59 +627,6 @@ var zombiecrush = function(){
         
     }
     
-    function createPart(key,obj,offY){
-        
-        var particlesNumber = 2
-        
-        tooMuch = true
-        //console.log('fps ' + game.time.fps)
-        if (game.time.fps < 45 && tooMuch == false){
-            tooMuch = true
-        }
-        
-        var offsetY = offY || 50
-        var posX = obj.x
-        var posY = obj.y - 35
-
-        if(obj.world != null){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-        if(game.device.desktop == true && tooMuch == false){ 
-            
-            particlesNumber = 4
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.zombie',key);
-            particlesGood.minParticleSpeed.setTo(-400, -50);
-            particlesGood.maxParticleSpeed.setTo(400, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 0.4;
-            particlesGood.gravity = 300;
-            particlesGood.angularDrag = 30;
-            
-            particlesGood.x = posX;
-            particlesGood.y = posY;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(posX,posY,'atlas.zombie',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle).to({y:particle.y + offsetY},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
-    
     function createAsset(tag,scale,number){
         
         for (var i = 0;i<number;i++){
@@ -1020,6 +953,102 @@ var zombiecrush = function(){
         }
     }
     
+    function createTextPart(text,obj){
+        
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0, y:particle.y+50},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.zombie',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
     function createObjects(){
         
         createAsset('tile',1,8)
@@ -1036,6 +1065,17 @@ var zombiecrush = function(){
                 
         createBullets(20)
         
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('drop',5)
+        createParticles('star',3)
+        createParticles('text',10)
+        createParticles('smoke',6)
+        
         for(var i = 0;i<8;i++){
             addAsset('tile',true)
         }
@@ -1047,18 +1087,21 @@ var zombiecrush = function(){
     
     function addNumberPart(obj,number){
         
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
+        var pointsText = lookParticle('textPart')
         
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
+        if(pointsText){
+            
+            pointsText.setText(number)
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.scale.setTo(0.7,0.7)
+
+            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+            
+            deactivateParticle(pointsText,800)
+        }
+                
         var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
         tweenScale.onComplete.add(function(){
             game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)

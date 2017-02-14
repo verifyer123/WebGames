@@ -52,6 +52,7 @@ var chilimbalam = function(){
     var gameActive = true
     var valuesList = null
     var moveLeft, moveRight
+    var objectsGroup, usedObjects
     var characterGroup = null
     var timer
     var timeGroup = null
@@ -129,6 +130,7 @@ var chilimbalam = function(){
         tooMuch = false
         GRAVITY_OBJECTS = 4
         skinTable = []
+        itemList = ['chip']
         
 	}
     
@@ -232,7 +234,11 @@ var chilimbalam = function(){
             }else{
                 moveRight = false
             }
-            buddy.setAnimationByName(0, "IDLE", 0.8);
+            
+            if(!moveLeft && !moveRight){
+                buddy.setAnimationByName(0, "IDLE", 0.8);
+            }
+            
         }
     }
     
@@ -330,16 +336,15 @@ var chilimbalam = function(){
             createAssets('takis',1,5)
         }else if(pointsBar.number == 15){
             for(var i = 0;i<5;i++){
-                createAssets('gomita' + (i + 1),1,1)
+                createAssets('gomita' + (i + 1),1,3)
             }
             
         }else if(pointsBar.number == 20){
-            createAssets('peanut',1,3)
+            createAssets('peanut',1,5)
         }else if(pointsBar.number == 25){
-            createAssets('pina',2,2)
-            createAssets('skwinkle',1,2)
-            createAssets('takis',2,2)
-            createAssets('mango',2,3)
+            createAssets('pina',2,5)
+            createAssets('skwinkle',1,3)
+            createAssets('mango',2,5)
         }
         
         //throwTimeItems-=10
@@ -362,10 +367,16 @@ var chilimbalam = function(){
     }
     
     function deactivateObject(obj){
+        
         obj.alpha = 0
         obj.active = false
         obj.x = -100
-        objectsGroup.remove(obj)
+        
+        if(obj.tag != 'obstacle'){
+            usedObjects.remove(obj)
+            objectsGroup.add(obj)
+        }
+        
     }
     
     function checkPos(obj){
@@ -381,7 +392,7 @@ var chilimbalam = function(){
                     createPart('wrong',characterGroup.cup)
                     missPoint()
                 }
-            }else if(obj.y > game.world.height - sceneGroup.bottomRect.height * 1.1){
+            }else if(obj.y > game.world.height - sceneGroup.bottomRect.height * 1.2){
                 deactivateObject(obj)
                 if(obj.tag == 'candy'){
                     //missPoint()
@@ -430,8 +441,8 @@ var chilimbalam = function(){
             buttonPressed = false
         }
         
-        for(var i = 0; i < objectsGroup.length;i++){
-            var obj = objectsGroup.children[i]
+        for(var i = 0; i < usedObjects.length;i++){
+            var obj = usedObjects.children[i]
             if(obj.tag == 'candy'){
                 obj.y+= GRAVITY_GUMS
             }else if(obj.tag == 'obstacle'){
@@ -530,8 +541,8 @@ var chilimbalam = function(){
     function checkPosObj(posX){
         
         var samePos = false
-        for(var i = 0;i<objectsGroup.length;i++){
-            var obj = objectsGroup.children[i]
+        for(var i = 0;i<usedObjects.length;i++){
+            var obj = usedObjects.children[i]
             if(Math.abs(obj.x - posX) < 75 && Math.abs(obj.y - -50) < 100){
                 samePos = true
             }
@@ -544,9 +555,9 @@ var chilimbalam = function(){
                 
         var posX = game.rnd.integerInRange(50, game.world.width - 50)
         
-        if(objectsGroup.length > 0){
+        if(usedObjects.length > 0){
             
-            objToUse.x = objectsGroup.children[0].x
+            //objToUse.x = usedObjects.children[0].x
             while (checkPosObj(posX)){
                 posX = game.rnd.integerInRange(75, game.world.width - 75)
                 //if(posX < 75){ posX = 75}
@@ -559,7 +570,11 @@ var chilimbalam = function(){
         objToUse.x = posX
         objToUse.y = -50
         objToUse.active = true
-        objectsGroup.add(objToUse)
+        
+        objectsGroup.remove(objToUse)
+        usedObjects.add(objToUse)
+        
+        
         
         //console.log(objToUse.x + ' position X')
         
@@ -571,18 +586,6 @@ var chilimbalam = function(){
         bomb.tag = 'obstacle'
         bombsList[bombsList.length] = bomb
         return bomb
-    }
-    
-    function createItem(){
-        
-        var itemName
-        
-        var item = sceneGroup.create(-100,0,'atlas.chilimbalam',itemName + game.rnd.integerInRange(1,6))
-        item.anchor.setTo(0.5,0.5)
-        item.tag = 'candy'
-        itemList[itemList.length] = item
-        
-        return item
     }
     
     function addBomb(){
@@ -622,18 +625,22 @@ var chilimbalam = function(){
         sound.play("shootBall")
         
         var objToUse = null
+        
         Phaser.ArrayUtils.shuffle(itemList)
-        for(var i = 0;i<itemList.length;i++){
-            var item = itemList[i]
-            if(item.x< -50){
+        var tag = itemList[0]
+        
+        for(var i = 0;i<objectsGroup.length;i++){
+            var item = objectsGroup.children[i]
+            if(item.x< -50 && tag == item.id){
                 objToUse = item
                 break
             }
         }
-        if(objToUse == null){
-            objToUse = createItem()
+        if(objToUse){
+            //objToUse = createItem()
+            activateObject(objToUse)
         }
-        activateObject(objToUse)
+        
         
         if (gameActive == true){
             game.time.events.add(throwTimeItems, addItem , this);
@@ -648,12 +655,13 @@ var chilimbalam = function(){
     
     function createAssets(tag,points,number){
         
+        itemList[itemList.length] = tag
         for(var i = 0; i < number;i++){
-            var item = sceneGroup.create(-100,0,'atlas.chilimbalam',tag)
+            var item = objectsGroup.create(-100,0,'atlas.chilimbalam',tag)
             item.anchor.setTo(0.5,0.5)
             item.tag = 'candy'
-            itemList[itemList.length] = item
             item.points = points
+            item.id = tag
         }
         
     }
@@ -758,13 +766,11 @@ var chilimbalam = function(){
         
         bombsList = []
         
-        for(var i = 0;i<5;i++){
+        for(var i = 0;i<7;i++){
             createBomb()
         }
         
-        itemList = []
-        
-        createAssets('chip',1,5)
+        createAssets('chip',1,7)
         
         particlesGroup = game.add.group()
         sceneGroup.add(particlesGroup)
@@ -777,29 +783,7 @@ var chilimbalam = function(){
         createParticles('smoke',8)
         createParticles('wrong',1)
         createParticles('text',8)
-        
-        /*var itemName = 'gomita'
-        
-        for(var i = 0; i < 5;i++){
-            var item = sceneGroup.create(-100,0,'atlas.chilimbalam',itemName + (i + 1))
-            item.anchor.setTo(0.5,0.5)
-            item.tag = 'candy'
-            itemList[itemList.length] = item
-            item.points = 1
-        }
-        
-        var itemNames = ['chip','peanut','takis','pina']
-        var points = [3,1,1,2]
-        
-        
-        for(var i = 0; i < itemNames.length;i++){
-            var item = sceneGroup.create(-100,0,'atlas.chilimbalam',itemNames[i])
-            item.anchor.setTo(0.5,0.5)
-            item.tag = 'candy'
-            itemList[itemList.length] = item
-            item.points = points[i]
-        }*/
-        
+                
     }
 
     function create(){
@@ -814,10 +798,13 @@ var chilimbalam = function(){
         background.height = game.world.height+2
         
         loadSounds()
-        initialize()            
+        initialize()  
         
         objectsGroup = game.add.group()
         sceneGroup.add(objectsGroup)
+        
+        usedObjects = game.add.group()
+        sceneGroup.add(usedObjects)
         
         characterGroup = game.add.group()
         characterGroup.x = game.world.centerX
