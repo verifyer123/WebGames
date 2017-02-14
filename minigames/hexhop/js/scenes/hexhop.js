@@ -64,6 +64,7 @@ var hexhop = function(){
     var lives
     var gameActive = true
     var pointsBar = null
+    var particlesGroup, particlesUsed
     var jumpTimes = 0
     var lives = null
     var heartsGroup = null
@@ -484,23 +485,26 @@ var hexhop = function(){
         if(scaleIt){
             offsetY = 100
         }
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-        
-        game.add.tween(pointsText).to({y:pointsText.y + offsetY},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
+        var pointsText = lookParticle('textPart')
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.anchor.setTo(0.5,0.5)
+            pointsText.setText(number)
+            
+            deactivateParticle(pointsText,800)
+
+            game.add.tween(pointsText).to({y:pointsText.y + offsetY},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        }
+                
         if(scaleIt){
             
-            var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+            var parent = obj.parent
+            var tweenScale = game.add.tween(parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
             tweenScale.onComplete.add(function(){
-                game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+                game.add.tween(parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
             })
             
         }
@@ -646,6 +650,67 @@ var hexhop = function(){
         
     }
     
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.hexhop',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+    
 	return {
 		assets: assets,
         preload: preload,
@@ -706,6 +771,15 @@ var hexhop = function(){
             createHearts()
             createPointsBar()
             createDashboard()
+            
+            particlesGroup = game.add.group()
+            sceneGroup.add(particlesGroup)
+            
+            particlesUsed = game.add.group()
+            sceneGroup.add(particlesUsed)
+            
+            createParticles('star',5)
+            createParticles('text',6)
                         
 		},
 		show: function(event){
