@@ -46,6 +46,7 @@ var graviswitch = function(){
     var gameIndex = 4
     
     var indexCoin
+    var missileTime
     var canMisile = null
     var marioSong = null
     var indexPiece = null
@@ -60,6 +61,7 @@ var graviswitch = function(){
     var rollDown
     var rollButton
     var pivotObjects
+    var particlesGroup, particlesUsed
     var pivotTop
     var objTop
     var player
@@ -112,6 +114,7 @@ var graviswitch = function(){
         GRAVITY_OBJECTS = 4
         yAxis = p2.vec2.fromValues(0, 1);
         objectsList = []
+        missileTime = 7500
         
 	}
     
@@ -273,21 +276,6 @@ var graviswitch = function(){
 		})
     }
     
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
-    }
-    
     function addPoint(obj,part){
         
         var partName = part || 'star'
@@ -307,23 +295,35 @@ var graviswitch = function(){
             enemyNames[enemyNames.length] = 'coin'
         }
         
+        if(pointsBar.number == 30){
+            missileTime-= 2000
+        }
+        
+        if(pointsBar.number == 45){
+            missileTime-=2000
+        }
+        
         addNumberPart(pointsBar.text,'+1')
         
     }
     
     function addNumberPart(obj,number){
         
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
+        var pointsText = lookParticle('textPart')
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.anchor.setTo(0.5,0.5)
+            pointsText.scale.setTo(0.7,0.7)
+            pointsText.setText(number)
+
+            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+            
+            deactivateParticle(pointsText,800)
+        }
         
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
         tweenScale.onComplete.add(function(){
@@ -381,15 +381,43 @@ var graviswitch = function(){
                 deactivateObj(obj)
                 addObjects()
                 //console.log('objeto removido')
-            }else if(tag == 'coin' || tag.substring(0,4) == 'plat'){
+            }else if(tag == 'coin' || tag.substring(0,4) == 'plat' || tag == 'enemy_spike' || tag == 'enemy_spike2'){
                 if(Math.abs(obj.body.x - player.body.x) < obj.width * 0.5 && Math.abs(obj.body.y - player.body.y) < obj.height * 0.5){
                     if(tag == 'coin'){
                         addPoint(obj)
                         deactivateObj(obj)
                     }else if(tag.substring(0,4) == 'plat'){
+                        
                         missPoint()
                         createPart('wrong', player)
                         stopGame()
+                    }else if(tag == "enemy_spike" || tag == 'enemy_spike2'){
+                        
+                        if(player.invincible){
+                            
+                            if(obj.body.velocity.y != 0 ){
+                                return
+                            }
+                            
+                            sound.play("splash")
+                            createPart('drop',obj)
+
+                            obj.body.velocity.x = 800
+                            var offsetX = 1
+                            if(Math.random()*2> 1){offsetX = -1}
+                            obj.body.velocity.y = game.rnd.integerInRange(600, 800) * offsetX
+                            game.time.events.add(500,function(){
+                                deactivateObj(obj)
+                            })
+
+                        }else{
+
+                            missPoint()
+                            createPart('wrong', obj)
+                            
+                            stopGame()
+                        }
+
                     }
                 }
                 
@@ -520,47 +548,6 @@ var graviswitch = function(){
                 
     }
     
-    function createPart(key,obj,offset){
-        
-        var offsetY = offset || 0
-        var particlesNumber = 2
-        
-        tooMuch = true
-        
-        if(game.device.desktop == true && tooMuch == false){ 
-            
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.amazingbros',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            
-            key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20 + offsetY,'atlas.amazingbros',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
-    
     function addWrongTween(){
         
         var number = 3
@@ -655,26 +642,6 @@ var graviswitch = function(){
                 missPoint()
                 createPart('wrong', obj2.sprite)
                 stopGame()
-            }else if(tag == "enemy_spike" || tag == 'enemy_spike2'){
-                if(player.invincible){
-                    sound.play("splash")
-                    createPart('star',obj2.sprite)
-                    
-                    obj2.sprite.body.velocity.x = 800
-                    var offsetX = 1
-                    if(Math.random()*2> 1){offsetX = -1}
-                    obj2.sprite.body.velocity.y = game.rnd.integerInRange(600, 800) * offsetX
-                    game.time.events.add(500,function(){
-                        deactivateObj(obj2.sprite)
-                    })
-                    
-                }else{
-                    
-                    missPoint()
-                    createPart('wrong', obj2.sprite)
-                    stopGame()
-                }
-                
             }
         }
     }
@@ -734,7 +701,7 @@ var graviswitch = function(){
             //coin.scale.setTo(3,3)
         }    
         
-        game.time.events.add(7500,function(){
+        game.time.events.add(missileTime,function(){
             canMisile = true
         },this)
         
@@ -877,7 +844,7 @@ var graviswitch = function(){
             object.body.kinematic = true
             object.used = false
             
-            if(tag == 'coin' || tag == 'skull'){
+            if(tag == 'coin' || tag == 'skull' || tag == 'enemy_spike' || tag == 'enemy_spike2'){
                 object.body.data.shapes[0].sensor = true
             }
             
@@ -886,6 +853,104 @@ var graviswitch = function(){
                 player.body.createBodyCallback(object, collisionEvent, this);
             }
         }
+    }
+    
+    function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj,offsetY){
+        
+        var offY = offsetY || 0
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y + offY
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.amazingbros',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
     }
     
     function createObjects(){
@@ -904,6 +969,18 @@ var graviswitch = function(){
         createObjs('misil',1,5)
         createObjs('enemy_spike',1,5)
         createObjs('enemy_spike2',1,5)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',3)
+        createParticles('wrong',2)
+        createParticles('smoke',4)
+        createParticles('drop',3)
+        createParticles('text',5)
                 
         for(var i = 0; i < 6; i++){
             addObstacle('plataform2_a',true)

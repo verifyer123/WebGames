@@ -62,7 +62,9 @@ var junglefury = function(){
     var treeGroup = null
     var leftKey = null
     var rightKey = null
-    var buddy = null    
+    var buddy = null  
+    var particlesGroup = null
+    var particlesUsed = null
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -122,38 +124,6 @@ var junglefury = function(){
             }
         }
     }  
-    
-    function createPart(key,obj,offX, offY,much){
-        
-        var offsetX = offX || 0
-        var offsetY = offY || 0
-        
-        var particlesNumber = 2
-        
-        tooMuch = much || true
-        //console.log('fps ' + game.time.fps)
-        
-        var posX = obj.x
-        var posY = obj.y
-        
-        if(obj.world){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-        if( tooMuch == false){ 
-            
-        
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(posX,posY - offsetY,'atlas.jungle',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
     
     function setExplosion(obj,offsetY){
         
@@ -276,17 +246,21 @@ var junglefury = function(){
     
     function addNumberPart(obj,number){
         
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
+        var pointsText = lookParticle('textPart')
         
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.anchor.setTo(0.5,0.5)
+            pointsText.scale.setTo(0.7,0.7)
+            pointsText.setText(number)
+
+            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+
+            deactivateParticle(pointsText,800)   
+        }
         
         var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
         tweenScale.onComplete.add(function(){
@@ -586,11 +560,116 @@ var junglefury = function(){
 
     }
     
+    function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0, y:particle.y+50},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.jungle',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+    
     function createAssets(){
         
         createPiece('log',10)
         createPiece('obstacleLeft',10,true)
         createPiece('obstacle',10)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',10)
+        createParticles('text',10)
         
         for(var i = 0;i<7;i++){
             addObstacle('log')

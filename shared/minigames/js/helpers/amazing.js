@@ -125,6 +125,17 @@ amazing.setMinigameId = function(){
         
 }
 
+amazing.sendGameId = function(gameId){
+   console.log("Sending GameId...")
+   var params = {
+       type: "gameId",
+       data: {
+           gameId: gameId,
+       }
+   }
+   parent.postMessage(JSON.stringify(params), "*")
+}
+
 amazing.getScores = function(dataId, onSuccess, onError ){
     
     var hasData = (data.score >= 0) && (data.minigameId) && (data.authentication) && (data.email)

@@ -67,6 +67,7 @@ var clownrush = function(){
     var heartsGroup = null
     var obstaclesGroup = null
     var buddy = null    
+    var particlesGroup, particlesUsed
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -305,25 +306,30 @@ var clownrush = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-        
-        var offsetY = -100
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        if(isScore){
+        var pointsText = lookParticle('textPart')
+        if(pointsText){
             
-            var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-            tweenScale.onComplete.add(function(){
-                game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-            })
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.anchor.setTo(0.5,0.5)
+            pointsText.setText(number)
+            pointsText.scale.setTo(1,1)
+
+            var offsetY = -100
+
+            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
             
-            offsetY = 100
+            deactivateParticle(pointsText,800)
+            if(isScore){
+                
+                pointsText.scale.setTo(0.7,0.7)
+                var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+                tweenScale.onComplete.add(function(){
+                    game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+                })
+
+                offsetY = 100
+            }
         }
         
         game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
@@ -755,6 +761,105 @@ var clownrush = function(){
 
     }
     
+    function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            
+            var scaleToUse = 2
+            if(key == 'smokePart'){scaleToUse = 2.5}
+            game.add.tween(particle).to({alpha:0, y:particle.y+50},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.clown',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+    
     function createAssets(){
         
         createPiece('bar',20)
@@ -766,6 +871,16 @@ var clownrush = function(){
         createPiece('badclown',1)
         //createPiece('obstacleHit',10,true)
         //createPiece('obstacle',10)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',8)
+        createParticles('text',8)
+        createParticles('smoke',8)
         
         for(var i = 0;i<8;i++){
             addObstacle('bar',false)
@@ -866,7 +981,7 @@ var clownrush = function(){
                         }else{
                             
                             if(!characterGroup.roll){
-                                setExplosion(obs,0)
+                                createPart('smoke',obs)
                                 sound.play("shoot")
                                 deactivateObject(obs)
                             }

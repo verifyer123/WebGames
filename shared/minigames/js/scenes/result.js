@@ -225,7 +225,8 @@ var result = function(){
         buttonsActive = false
         
         game.time.events.add(350, function(){
-             window.open(icons[gameNumbers[obj.index]].url,'_self')  
+            amazing.sendGameId(icons[gameNumbers[obj.index]].id)
+            window.open(icons[gameNumbers[obj.index]].url,'_self')  
         } , this);
     
     }
