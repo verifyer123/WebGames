@@ -481,12 +481,16 @@ var hexhop = function(){
     
     function addNumberPart(obj,number,scaleIt){
         
-        var offsetY = -100
-        if(scaleIt){
-            offsetY = 100
-        }
         var pointsText = lookParticle('textPart')
+        
         if(pointsText){
+            
+            pointsText.scale.setTo(1,1)
+            var offsetY = -100
+            if(scaleIt){
+                offsetY = 100
+                pointsText.scale.setTo(0.7,0.7)
+            }
             
             pointsText.x = obj.world.x
             pointsText.y = obj.world.y

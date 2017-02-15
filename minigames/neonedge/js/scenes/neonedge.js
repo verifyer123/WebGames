@@ -63,6 +63,8 @@ var neonedge = function(){
     var objectsList = null
     var pivotObjects
     var player
+    var particlesGroup, particlesUsed
+    var particlesFollow
 	var sceneGroup = null
     var groundGroup = null
     var answersGroup = null
@@ -275,21 +277,6 @@ var neonedge = function(){
 		})
     }
     
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
-    }
-    
     function addPoint(obj,part){
         
         var partName = part || 'star'
@@ -313,28 +300,41 @@ var neonedge = function(){
             skullTrue = true
         }
         
-        addNumberPart(pointsBar.text,'+1')
+        addNumberPart(pointsBar.text,'+1',true)
         
     }
     
-    function addNumberPart(obj,number){
+    function addNumberPart(obj,number,isScore){
         
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
+        var pointsText = lookParticle('textPart')
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.anchor.setTo(0.5,0.5)
+            pointsText.setText(number)
+            pointsText.scale.setTo(1,1)
+
+            var offsetY = -100
+
+            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+            
+            deactivateParticle(pointsText,800)
+            if(isScore){
+                
+                pointsText.scale.setTo(0.7,0.7)
+                var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+                tweenScale.onComplete.add(function(){
+                    game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+                })
+
+                offsetY = 100
+            }
+            
+            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        }
         
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-        tweenScale.onComplete.add(function(){
-            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-        })
     }
     
     function missPoint(){
@@ -347,7 +347,7 @@ var neonedge = function(){
         heartsGroup.text.setText('X ' + lives)
         //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
         
-        addNumberPart(heartsGroup.text,'-1')
+        addNumberPart(heartsGroup.text,'-1',true)
         
     }
     
@@ -434,8 +434,8 @@ var neonedge = function(){
     
     function startParticles(){
         
-        for(var i = 0; i< particlesGroup.length;i++){
-            var part = particlesGroup.children[i]
+        for(var i = 0; i< particlesFollow.length;i++){
+            var part = particlesFollow.children[i]
             
             if(!part.used){
                 activatePart(part)
@@ -584,95 +584,6 @@ var neonedge = function(){
                 
     }
     
-    function createPart(key,obj){
-        
-        var particlesNumber = 2
-        
-        tooMuch = true
-        
-        if(game.device.desktop == true && tooMuch == false){ 
-            
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.neon',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y,'atlas.neon',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
-    
-    function addWrongTween(){
-        
-        var number = 3
-        if(pointsBar.number >= number){
-            pointsBar.number-=number
-            addNumberPart(pointsBar.text,'-' + number)
-            pointsBar.text.setText( pointsBar.number)
-        }
-        
-        var timeDelay = 2000
-        var delay = 0
-        
-        //game.add.tween(sceneGroup.scale).to( { x:1.1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        
-        if(sceneGroup.scale.y != 1){
-            return
-        }
-        
-        worldGroup.scale.y= - 1
-        worldGroup.y+=game.world.height * 0.8
-        
-        for(var counter = 0; counter < 1;counter++){
-            game.time.events.add(delay, function(){
-                
-                var color = Phaser.Color.getRandomColor(0,255,255)
-                game.stage.backgroundColor = color
-                
-                var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-                tweenAlpha.onComplete.add(function(){
-                    game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-                })
-                
-            } , this);
-            delay+=timeDelay
-        }
-        
-        game.time.events.add(delay,function(){
-            
-            var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-            tweenAlpha.onComplete.add(function(){
-                game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-            })
-                
-            game.stage.backgroundColor = '#ffffff'
-            worldGroup.scale.y = 1
-            worldGroup.y-=game.world.height * 0.8
-            //game.add.tween(sceneGroup.scale).to( { x:1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        })
-    }
-    
     function collisionEvent(obj1,obj2){
         
         //console.log(obj2.sprite.tag)
@@ -814,10 +725,118 @@ var neonedge = function(){
         }
     }
     
+    function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            
+            var scaleToUse = 2
+            if(key == 'smokePart'){scaleToUse = 2.5}
+            game.add.tween(particle).to({alpha:0, y:particle.y+50},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.neon',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+    
     function createObjects(){
         
         createObjs('obstacle',1,10)
         createObjs('coin',1,10)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('ring',3)
+        createParticles('text',6)
         
         for(var i = 0; i < 8; i++){
             addObstacle('obstacle')
@@ -883,7 +902,7 @@ var neonedge = function(){
         
         for(var i = 0;i<50;i++){
             
-            var particle =  particlesGroup.create(0,0,'atlas.neon','ship')
+            var particle =  particlesFollow.create(0,0,'atlas.neon','ship')
             particle.anchor.setTo(0.5,1)
             particle.scale.setTo(0.5,0.5)
             particle.firstScale = particle.scale.x
@@ -909,7 +928,7 @@ var neonedge = function(){
             object2.body.kinematic = true
             
             pivotX += object2.width
-            console.log(object2.x + 'posX')
+            //console.log(object2.x + 'posX')
         }
     }
     
@@ -953,8 +972,8 @@ var neonedge = function(){
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
             
-            particlesGroup = game.add.group()
-            worldGroup.add(particlesGroup)
+            particlesFollow = game.add.group()
+            worldGroup.add(particlesFollow)
             
             characterGroup = game.add.group()
             characterGroup.x = 100
@@ -978,12 +997,12 @@ var neonedge = function(){
             player.body.collideWorldBounds = true;
             
             createBase()
-                        
-            createObjects()
             
             createPointsBar()
             createHearts()
             createControls()   
+            
+            createObjects()
             
             game.onPause.add(function(){
                 game.sound.mute = true
