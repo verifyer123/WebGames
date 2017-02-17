@@ -31,26 +31,25 @@ var space = function(){
 		sounds: [
             {	name: "pop",
 				file: soundsPath + "magic.mp3"},
+            {	name: "powerup",
+				file: soundsPath + "powerup.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
-            {	name: "combo",
-				file: soundsPath + "combo.mp3"},
-            {	name: "flip",
-				file: soundsPath + "flipCard.mp3"},
-            {	name: "swipe",
-				file: soundsPath + "swipe.mp3"},
+            {	name: "fall",
+				file: soundsPath + "falling.mp3"},
+            {	name: "splash",
+				file: soundsPath + "splash.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "right",
-				file: soundsPath + "rightChoice.mp3"},
+            {	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
 		],
     }
-    
     
     var CARD_TIME = 300
     
     var WORDS = [
-        ['alberca',['pool','watermelon']]
+        ['alberca',['pool','watermelon']],
         ['detenerse',['stop','detention']],
         ['noticias',['news','notice']],
         ['gato',['cat','kit']],
@@ -65,18 +64,28 @@ var space = function(){
         ['cena',['dinner','diner']],
         ['horno',['horn','corn']],
         ['fecha',['date','fetch']],   
-        ['brazo',['gun','arm']],
+        ['arma',['gun','arm']],
         ['cartón',['cardboard','cartoon']],
         ['respuesta',['answer','contest']],
         ['pan',['bread','pan']],
         ['once',['eleven','once']],
         ['advertir',['to warn','advertise']],
+        ['leche',['milk','leech']],
+        ['uvas',['grapes','grapefruits']],
+        ['cuchara',['spoon','spun']],
+        ['choque',['crash','shock']],
+        ['casa árbol',['treehouse','threehouse']],
+        ['ganso',['goose','gang']],
+        ['borrego',['sheep','ship']],
+        ['lluvia',['rain','rein']],
+        ['leche',['milk','leech']],
+        ['sandía',['watermelon','sandy']],
     ]
     
     var lives = null
 	var sceneGroup = null
     var pointsGroup = null
-    var gameActive = true
+    var gameActive
     var arrayComparison = null
     var overlayGroup
     var dojoSong
@@ -85,11 +94,13 @@ var space = function(){
     var numberIndex = 0
     var numberToCheck
     var addNumber
+    var barTime
     var lastObj
     var cardsGroup, barGroup, waterGroup
     var timer
     var cardsNumber
     var maxNumber
+    var answerIndex
     var selectGroup
     var comboCount
     var wordGroup
@@ -113,11 +124,19 @@ var space = function(){
         comboCount = 0
         numberIndex = 0
         timeValue = 7
+        barTime = 15000
+        answerIndex = 0
         
+    
+        shuffleList()    
         loadSounds()
         
 	}
     
+    function shuffleList(){
+        
+        Phaser.ArrayUtils.shuffle(WORDS)
+    }
     
     function createPart(key,obj){
         
@@ -132,8 +151,9 @@ var space = function(){
     
     function setWords(){
         
-        var gameIndex = game.rnd.integerInRange(0,WORDS.length - 1)
+        var gameIndex = answerIndex
         
+        //console.log(gameIndex + ' index')
         wordGroup.text.setText(WORDS[gameIndex][0])
         
         var list = []
@@ -167,6 +187,15 @@ var space = function(){
         },this)
     }
     
+    function animateShip(){
+        
+        game.add.tween(master).to({y:game.world.centerY - 200},1000,"Linear",true).onComplete.add(function(){
+            master.tween = game.add.tween(master).to({y:game.world.height - 250},barTime,Phaser.Easing.linear,true,1000)
+        })
+        
+        
+    }
+    
     function animateScene() {
                 
         gameActive = false
@@ -177,10 +206,7 @@ var space = function(){
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         
-        master.tween = game.add.tween(master).to({y:master.y-100},500,Phaser.Easing.linear,true,0,-1)
-        master.tween.yoyo(true, 0);
-        
-        
+        game.time.events.add(500,animateShip,this)
 
     }
     
@@ -189,7 +215,7 @@ var space = function(){
         if(show){
             
             setWords()
-            barGroup.bar.scale.y = 1
+            //barGroup.bar.scale.y = 1
         }
                 
         var delay = 400
@@ -198,7 +224,7 @@ var space = function(){
             delay = 1000
         }
         
-        var items = [cardsGroup,wordGroup,barGroup]
+        var items = [cardsGroup,wordGroup]
         
         for( var i = 0; i < items.length; i ++){
             
@@ -225,10 +251,11 @@ var space = function(){
         }
         
         game.time.events.add(delay + 100, function(){
-            gameActive = true
             
             if(show){
-                barGroup.tween = game.add.tween(barGroup.bar.scale).to({y:0},5000,Phaser.Easing.linear,true)
+                
+                gameActive = true
+                barGroup.tween = game.add.tween(barGroup.bar.scale).to({y:0},barTime,Phaser.Easing.linear,true)
                 barGroup.tween.onComplete.add(function(){
                     
                     fallWater()
@@ -241,12 +268,20 @@ var space = function(){
     
     function fallWater(){
         
+        sound.play('fall')
+                
         missPoint()
         
-        game.add.tween(master).to({y:game.world.height - 100, angle:master.angle + 45},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                        
+        master.tween.stop()
+        
+        game.add.tween(master).to({y:game.world.height - 100, angle:master.angle + 15},500,Phaser.Easing.linear,true).onComplete.add(function(){
+            
+            sound.play("splash")
+            
             createSplash(master)
-            game.add.tween(master).to({alpha:0},200,Phaser.Easing.linear,true)
+            master.setAnimationByName(0,"LOSE",true)
+            
+            game.add.tween(master).to({y:master.y +35},2000,Phaser.Easing.linear,true)
             
             showAssets(false)
 
@@ -326,9 +361,7 @@ var space = function(){
         })
         
         if(lives == 0){
-            game.time.events.add(1500,function(){
-                stopGame(false)
-            })
+            stopGame()
         }
         
         addNumberPart(heartsGroup.text,'-1')
@@ -338,6 +371,31 @@ var space = function(){
     function addPoint(number){
         
         sound.play("pop")
+        
+        master.tween.stop()
+        master.tween = null
+        
+        answerIndex++
+        
+        if(answerIndex >= WORDS.length){
+            answerIndex = 0
+            shuffleList()
+        }
+        
+        master.setAnimationByName(0, "WINSTILL", true);
+        master.addAnimationByName(0,"IDLE",true)
+        
+        var tween = game.add.tween(master).to({y:master.y-100},200,Phaser.Easing.linear,true,0,3)
+        tween.yoyo(true, 0);
+        
+        game.time.events.add(1200,function(){
+            
+            tween.stop()
+            sound.play("powerup")
+            game.add.tween(barGroup.bar.scale).to({y:1},1000,"Linear",true,200)
+            game.add.tween(master).to({y:master.initY},200,"Linear",true).onComplete.add(animateShip)
+        },this)
+        
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -348,17 +406,27 @@ var space = function(){
         
         addNumberPart(pointsBar.text,'+' + number)
         
+        if(pointsBar.number % 2 == 0){
+            
+            if(barTime > 1000){
+                barTime-= 500
+            }
+            
+        }
+        
     }
     
     function inputCard(obj){
 
-        if(gameActive == false){ 
+        if(!gameActive){ 
             return
         }
         
         if( obj.pressed == true){
             return
         }
+        
+        //obj.pressed = false
         
         if(barGroup.tween){
             barGroup.tween.stop()
@@ -392,7 +460,7 @@ var space = function(){
         cardsGroup = game.add.group()
         sceneGroup.add(cardsGroup)
         
-        var pivotX = game.world.centerX 
+        var pivotX = game.world.centerX - 50 
         var pivotY = game.world.centerY - 50
         for(var i = 0; i< 2; i++){
             
@@ -491,8 +559,9 @@ var space = function(){
         gameActive = false
         //timer.pause()
         dojoSong.stop()
+        sound.play("gameLose")
         
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -508,7 +577,7 @@ var space = function(){
         barGroup = game.add.group()
         barGroup.x = game.world.centerX - 250
         barGroup.y = game.world.centerY
-        barGroup.alpha = 0
+        barGroup.alpha = 1
         barGroup.tween = null
         sceneGroup.add(barGroup)
         
@@ -521,7 +590,7 @@ var space = function(){
         
         wordGroup = game.add.group()
         wordGroup.alpha = 0
-        wordGroup.x = game.world.centerX + 50
+        wordGroup.x = game.world.centerX -50
         wordGroup.y = game.world.centerY - 250
         sceneGroup.add(wordGroup)
         
@@ -544,7 +613,7 @@ var space = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('master', "images/spines/skeleton1.json")  
-        game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/space_music.mp3');
         
         game.load.spritesheet('splash', 'images/space/splash.png', 240, 190, 13);
         
@@ -629,9 +698,7 @@ var space = function(){
             water.anchor.setTo(0,1)
             pivotX+=water.width
         }
-        
-        console.log(waterGroup.scale.y)
-        
+                
         var tween = game.add.tween(waterGroup.scale).to( { y:1.2 }, 800, Phaser.Easing.linear, true, 0,-1);
 
         tween.yoyo(true, 0);
@@ -650,9 +717,9 @@ var space = function(){
             background.width = game.world.width+2
             background.height = game.world.height+2
             
-            dojoSong = game.add.audio('dojoSong')
+            dojoSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(dojoSong, function(){
-                //dojoSong.loopFull(0.6)
+                dojoSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -670,7 +737,8 @@ var space = function(){
             createWater()
             
             master = game.add.spine(game.world.centerX + 250,game.world.centerY + 50, "master");
-            master.scale.setTo(1.8,1.8)
+            master.initY = master.y
+            master.scale.setTo(2.5,2.5)
             master.setAnimationByName(0, "IDLE", true);
             master.setSkinByName('normal');
             sceneGroup.add(master)

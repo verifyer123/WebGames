@@ -121,7 +121,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/epic/minigames/yogomeRunner/yogome.html',
+		    href: 'http://yogome.com/epic/minigames/spaceSite/yogome.html',
 		    mobile_iframe: true,
 		    title: localization.getString(localizationData,"myScore") + totalScore
 		}, function(response){

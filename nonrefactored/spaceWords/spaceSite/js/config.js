@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Candy Catch",
         language: "es",
-        minigameUrl: "../additiondojo/index.html?language=" + language,
+        minigameUrl: "../spaceWords/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "euZdjPkNZOeBvnYpmf9rVmWY6I4", "spine": "2.1.27", "width": 81.59, "height": 82.48, "images": "" },
+"skeleton": { "hash": "I7acJgsPqbcNpWktTENwS5+rc60", "spine": "2.1.27", "width": 81.59, "height": 82.48, "images": "" },
 "bones": [
 	{ "name": "root", "scaleX": 0.448, "scaleY": 0.448 },
 	{ "name": "ship", "parent": "root", "length": 67.63, "x": -77.88, "y": -14.29, "rotation": 43.61 },
@@ -105,32 +105,38 @@
 		"slots": {
 			"arm1": {
 				"attachment": [
-					{ "time": 0, "name": "arm1" }
+					{ "time": 0, "name": "arm1" },
+					{ "time": 1.3333, "name": "arm1" }
 				]
 			},
 			"arm2": {
 				"attachment": [
-					{ "time": 0, "name": "arm2" }
+					{ "time": 0, "name": "arm2" },
+					{ "time": 1.3333, "name": "arm2" }
 				]
 			},
 			"foot1": {
 				"attachment": [
-					{ "time": 0, "name": "foot1" }
+					{ "time": 0, "name": "foot1" },
+					{ "time": 1.3333, "name": "foot1" }
 				]
 			},
 			"foot2": {
 				"attachment": [
-					{ "time": 0, "name": "foot_2" }
+					{ "time": 0, "name": "foot_2" },
+					{ "time": 1.3333, "name": "foot_2" }
 				]
 			},
 			"hand1": {
 				"attachment": [
-					{ "time": 0, "name": "hand1" }
+					{ "time": 0, "name": "hand1" },
+					{ "time": 1.3333, "name": "hand1" }
 				]
 			},
 			"hand2": {
 				"attachment": [
-					{ "time": 0, "name": "hand_2" }
+					{ "time": 0, "name": "hand_2" },
+					{ "time": 1.3333, "name": "hand_2" }
 				]
 			},
 			"head": {
@@ -142,21 +148,25 @@
 			},
 			"leg1": {
 				"attachment": [
-					{ "time": 0, "name": "leg1" }
+					{ "time": 0, "name": "leg1" },
+					{ "time": 1.3333, "name": "leg1" }
 				]
 			},
 			"leg2": {
 				"attachment": [
-					{ "time": 0, "name": "leg_2" }
+					{ "time": 0, "name": "leg_2" },
+					{ "time": 1.3333, "name": "leg_2" }
 				]
 			},
 			"propeller1": {
 				"attachment": [
+					{ "time": 0, "name": "propeller1" },
 					{ "time": 1.3333, "name": "propeller1" }
 				]
 			},
 			"propeller2": {
 				"attachment": [
+					{ "time": 0, "name": "propeller2" },
 					{ "time": 1.3333, "name": "propeller2" }
 				]
 			},
@@ -168,7 +178,8 @@
 			},
 			"torso": {
 				"attachment": [
-					{ "time": 0, "name": "torso" }
+					{ "time": 0, "name": "torso" },
+					{ "time": 1.3333, "name": "torso" }
 				]
 			}
 		},
@@ -527,12 +538,14 @@
 			},
 			"propeller1": {
 				"attachment": [
-					{ "time": 0, "name": null }
+					{ "time": 0, "name": null },
+					{ "time": 0.6666, "name": null }
 				]
 			},
 			"propeller2": {
 				"attachment": [
-					{ "time": 0, "name": null }
+					{ "time": 0, "name": null },
+					{ "time": 0.6666, "name": null }
 				]
 			},
 			"ship": {
@@ -670,7 +683,7 @@
 			{ "time": 0.6666 }
 		]
 	},
-	"WIN": {
+	"WINSTILL": {
 		"slots": {
 			"arm1": {
 				"attachment": [
@@ -729,11 +742,13 @@
 			},
 			"propeller1": {
 				"attachment": [
+					{ "time": 0, "name": "propeller1" },
 					{ "time": 1.3333, "name": "propeller1" }
 				]
 			},
 			"propeller2": {
 				"attachment": [
+					{ "time": 0, "name": "propeller2" },
 					{ "time": 1.3333, "name": "propeller2" }
 				]
 			},
@@ -1087,13 +1102,13 @@
 						"time": 0,
 						"x": 1,
 						"y": 1,
-						"curve": [ 0.25, 0, 0.75, 1 ]
+						"curve": [ 0.25, 0, 0.652, 1.98 ]
 					},
 					{
 						"time": 0.6666,
-						"x": 1.009,
-						"y": 1.009,
-						"curve": [ 0.25, 0, 0.75, 1 ]
+						"x": 0.949,
+						"y": 0.949,
+						"curve": [ 0.25, 0, 0.652, 1.98 ]
 					},
 					{ "time": 1.3333, "x": 1, "y": 1 }
 				]
