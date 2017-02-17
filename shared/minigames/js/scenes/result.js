@@ -375,6 +375,10 @@ var result = function(){
             numberTrophy = 3
         }
         
+        if(!rankMinigame){
+            rankMinigame = '--'
+        }
+        
         var pivotY = 90
         
         var trophy = group.create(-150,pivotY,'atlas.resultScreen','r' + numberTrophy)

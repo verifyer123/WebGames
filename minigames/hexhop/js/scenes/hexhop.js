@@ -64,7 +64,6 @@ var hexhop = function(){
     var lives
     var gameActive = true
     var pointsBar = null
-    var particlesGroup, particlesUsed
     var jumpTimes = 0
     var lives = null
     var heartsGroup = null
@@ -81,7 +80,7 @@ var hexhop = function(){
         gameActive = true
         lives = 1
         jumpTimes = 0
-        jumpDistance = 150
+        jumpDistance = 170
         gameSpeed = 2
         moveSpeed = 2.5
         gameLevel = 1
@@ -317,32 +316,45 @@ var hexhop = function(){
         }
     }
     
+    function activateLine(line){
+        
+        line.alpha = 1
+        line.y = linesGroup.pivotY 
+        linesGroup.pivotY+= jumpDistance
+
+        var pivotPoint = game.world.width
+        var offset = -1
+        for(var i = 0;i<line.obstacles.length;i++){
+
+            var obstacle = line.obstacles.children[i]
+
+            if(i == 0 && obstacle.isLeft){
+                pivotPoint = 0
+                offset = 1
+            }
+
+            obstacle.x = pivotPoint
+            obstacle.active = true
+            obstacle.alpha = 1
+
+            pivotPoint+= obstacle.width * (Math.random()*2.5 + 1) * offset
+            //console.log(obstacle.startPosition + ' start')
+
+        }
+    }
+    
+    function activateLineTime(line,delay){
+        
+        game.time.events.add(delay, function(){
+            activateLine(line)
+        })
+    }
+    
     function checkLine(line){
         
-        if(line.children[0].world.y <= -50 && line.active){
+        if(line.children[0].world.y < playerGroup.gem.world.y - jumpDistance * 0.5 && line.active){
             
-            line.y = linesGroup.pivotY 
-            linesGroup.pivotY+= jumpDistance
-            
-            var pivotPoint = game.world.width
-            var offset = -1
-            for(var i = 0;i<line.obstacles.length;i++){
-                
-                var obstacle = line.obstacles.children[i]
-                
-                if(i == 0 && obstacle.isLeft){
-                    pivotPoint = 0
-                    offset = 1
-                }
-                
-                obstacle.x = pivotPoint
-                obstacle.active = true
-                obstacle.alpha = 1
-                
-                pivotPoint+= obstacle.width * (Math.random()*2.5 + 1) * offset
-                //console.log(obstacle.startPosition + ' start')
-                
-            }
+            activateLine(line)
         }    
         
     }
@@ -426,6 +438,10 @@ var hexhop = function(){
             doJump()
         }
         
+        if(playerGroup.gem.world.y > game.world.height - 200){
+            stopGame()
+        }
+        
     }
     
     function preload(){
@@ -481,34 +497,27 @@ var hexhop = function(){
     
     function addNumberPart(obj,number,scaleIt){
         
-        var pointsText = lookParticle('textPart')
-        
-        if(pointsText){
-            
-            pointsText.scale.setTo(1,1)
-            var offsetY = -100
-            if(scaleIt){
-                offsetY = 100
-                pointsText.scale.setTo(0.7,0.7)
-            }
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y
-            pointsText.anchor.setTo(0.5,0.5)
-            pointsText.setText(number)
-            
-            deactivateParticle(pointsText,800)
-
-            game.add.tween(pointsText).to({y:pointsText.y + offsetY},800,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        var offsetY = -100
+        if(scaleIt){
+            offsetY = 100
         }
-                
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y + offsetY},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
         if(scaleIt){
             
-            var parent = obj.parent
-            var tweenScale = game.add.tween(parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+            var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
             tweenScale.onComplete.add(function(){
-                game.add.tween(parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+                game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
             })
             
         }
@@ -654,67 +663,6 @@ var hexhop = function(){
         
     }
     
-    function lookParticle(key){
-        
-        for(var i = 0;i<particlesGroup.length;i++){
-            
-            var particle = particlesGroup.children[i]
-            if(!particle.used && particle.tag == key){
-                
-                particle.used = true
-                particle.alpha = 1
-                
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-                
-                return particle
-                break
-            }
-        }
-        
-    }
-    
-    function deactivateParticle(obj,delay){
-        
-        game.time.events.add(delay,function(){
-            
-            obj.used = false
-            
-            particlesUsed.remove(obj)
-            particlesGroup.add(obj)
-            
-        },this)
-    }
-    
-    function createParticles(tag,number){
-        
-        tag+='Part'
-        
-        for(var i = 0; i < number;i++){
-            
-            var particle
-            if(tag == 'textPart'){
-                
-                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-                
-                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
-                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-                particlesGroup.add(particle)
-                
-            }else{
-                particle = particlesGroup.create(-200,0,'atlas.hexhop',tag)
-            }
-            
-            particle.alpha = 0
-            particle.tag = tag
-            particle.used = false
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1,1)
-        }
-        
-        
-    }
-    
 	return {
 		assets: assets,
         preload: preload,
@@ -752,7 +700,7 @@ var hexhop = function(){
             initialize()
             animateScene()
             
-            createLinesGroup(9)
+            createLinesGroup(5)
             
             createLevelText()
             
@@ -775,15 +723,6 @@ var hexhop = function(){
             createHearts()
             createPointsBar()
             createDashboard()
-            
-            particlesGroup = game.add.group()
-            sceneGroup.add(particlesGroup)
-            
-            particlesUsed = game.add.group()
-            sceneGroup.add(particlesUsed)
-            
-            createParticles('star',5)
-            createParticles('text',6)
                         
 		},
 		show: function(event){
