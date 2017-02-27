@@ -54,6 +54,7 @@ var dojo = function(){
     var pointsGroup = null
     var gameActive = true
     var arrayComparison = null
+    var gameIndex = 0
     var overlayGroup
     var dojoSong
     var master
@@ -82,7 +83,7 @@ var dojo = function(){
         //gameActive = true
         cardsNumber = 4
         maxNumber = 3
-        lives = 5
+        lives = 1
         quantNumber = 0
         arrayComparison = []
         comboCount = 0
@@ -590,7 +591,7 @@ var dojo = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

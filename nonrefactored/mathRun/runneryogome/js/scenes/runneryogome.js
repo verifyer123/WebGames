@@ -53,6 +53,7 @@ var runneryogome = function(){
     
     var board
     var overlayGroup
+    var gameIndex = 2
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -273,7 +274,7 @@ var runneryogome = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,1.4)
             //amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
 		})

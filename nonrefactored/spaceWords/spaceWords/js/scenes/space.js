@@ -106,6 +106,7 @@ var space = function(){
     var selectGroup
     var comboCount
     var wordGroup
+    var gameIndex = 1
     var clock
     var timeValue
 
@@ -578,7 +579,7 @@ var space = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number)
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

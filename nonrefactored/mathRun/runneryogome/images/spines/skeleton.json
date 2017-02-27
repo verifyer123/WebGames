@@ -1825,7 +1825,7 @@
 			}
 		]
 	},
-	"WIN_SUPER": {
+	"WIN": {
 		"slots": {
 			"arm1": {
 				"attachment": [

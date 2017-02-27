@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var iconsPath = "../../shared/minigames/images/icons/"
+var imagesPath = "../../shared/minigames/images/"
 var result = function(){
 
 	localizationData = {
@@ -30,8 +31,8 @@ var result = function(){
 		atlases: [
 			{
 				name: 'atlas.resultScreen',
-				json: "images/result/atlas.json",
-				image: "images/result/atlas.png"},
+				json: imagesPath + "result/atlas.json",
+				image: imagesPath + "result/atlas.png"},
 		],
 		images: [
 			
@@ -50,21 +51,29 @@ var result = function(){
     var iconsGroup
     var buttonsActive
     var haveCoupon
+    var gamesList
     var goalScore = 50
     var gameNumbers = null
+    var scaleToUse
     var gameIndex = 0
     var icons
 
 	var timeGoal = null
 
-	function setScore(didWin,score) {
+	function setScore(didWin,score,index,scale) {
+        
+        gamesList = yogomeGames.getGames()
+        
+        gameIndex = index
 		totalScore = score
 		totalGoal = 50
 		totalTime = 0
         win = didWin
+        
+        scaleToUse = scale || 0.9
         mixpanel.track(
             "finishGame",
-            {"gameName": "additionDojo", "win":didWin, "numberOfObjects":score}
+            {"gameName": gamesList[gameIndex].name, "win":didWin, "numberOfObjects":score}
         );
 	}
     
@@ -119,12 +128,12 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": "additionDojo"}
+            {"gameName": gamesList[gameIndex].name}
         );
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/epic/minigames/yogomeRunner/yogome.html',
+		    href: gamesList[gameIndex].url,
 		    mobile_iframe: true,
 		    title: localization.getString(localizationData,"myScore") + totalScore
 		}, function(response){
@@ -156,7 +165,7 @@ var result = function(){
             }else if(parent.tag == 'retry'){
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show("space")
+                        sceneloader.show(gamesList[gameIndex].sceneName)
                     })
             }
         })
@@ -310,7 +319,7 @@ var result = function(){
         
         var win = totalScore >= goalScore
         
-        var scaleSpine = 0.9
+        var scaleSpine = scaleToUse
         var pivotButtons = game.world.height * 0.725
         
         
@@ -398,10 +407,14 @@ var result = function(){
     
     function inputBanner(obj){
         
-        obj.inputEnabled = false
+        if(!obj.active){
+            return
+        }
         
-        game.time.events.add(500,function(){
-            obj.inputEnabled = true
+        obj.active = false
+        
+        game.time.events.add(1000,function(){
+            obj.active = true
         },this)
         
         var url = "https://play.google.com/store/apps/details?id=com.yogome.EpicKnowledge"
@@ -424,6 +437,7 @@ var result = function(){
         var bannerImage = banner.create(0,0,'atlas.resultScreen','banner')
         bannerImage.anchor.setTo(0.5,1)
         bannerImage.inputEnabled = true
+        bannerImage.active = true
         bannerImage.events.onInputDown.add(inputBanner)
         
         var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -485,7 +499,8 @@ var result = function(){
     }
     
     function preload(){
-        game.load.bitmapFont('gotham', 'images/bitfont/gotham.png', 'images/bitfont/gotham.fnt');
+        
+        game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
         
         //game.load.spine('amazing', "images/spines/Amaizing.json");
         game.load.spine('master', "images/spines/skeleton.json");

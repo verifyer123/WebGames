@@ -535,7 +535,6 @@ var result = function(){
             
             buddy.y+= 75
         }
-        
                 
         if(haveCoupon){
             
@@ -585,6 +584,12 @@ var result = function(){
                 var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
 
                 var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
+                storeText.anchor.setTo(0,0)
+                sceneGroup.add(storeText)
+                
+                var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
+
+                var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
                 storeText.anchor.setTo(0,0)
                 sceneGroup.add(storeText)
 
@@ -669,7 +674,7 @@ var result = function(){
         rankGroup = game.add.group()
         
         setRank()
-        
+                
         if(!couponData){
             haveCoupon = false
         }else{
