@@ -42,6 +42,7 @@ var result = function(){
     var icons
     var gameIndex
     var gameName
+    var gameIcon
     var couponData
     var rankMinigame
     var minigameId
@@ -325,6 +326,7 @@ var result = function(){
         
         minigameId = null
         minigameId = amazing.getMinigameId()
+        
         if(minigameId){
             
             window.addEventListener("message", function(event){        
@@ -380,17 +382,21 @@ var result = function(){
         }
         
         var pivotY = 90
+        var pivotX = -200
         
-        var trophy = group.create(-150,pivotY,'atlas.resultScreen','r' + numberTrophy)
+        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
         trophy.scale.setTo(0.9,0.9)
         trophy.anchor.setTo(0.5,0.5)
         
-        var text = game.add.bitmapText(-40  ,pivotY, 'gothamMedium', '#' + rankMinigame, 50);
+        pivotX += 80
+        
+        var text = game.add.bitmapText(pivotX  ,pivotY, 'gothamMedium', '#' + rankMinigame, 50);
         text.tint = 0x000000
         text.anchor.setTo(0.5,0.5)
         group.add(text)
         
-        var coin = group.create(100,pivotY,'atlas.resultScreen','coin')
+        pivotX+= 120
+        var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
         coin.anchor.setTo(0.5,0.5)
         
         var textAdd = totalScore
@@ -404,6 +410,11 @@ var result = function(){
         group.add(text)
         
         sceneGroup.add(rankGroup)
+        
+        pivotX+=170
+        var gameImage = group.create(pivotX, pivotY,gameIcon)
+        gameImage.scale.setTo(0.75,0.75)
+        gameImage.anchor.setTo(0.5,0.5)
         
         game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
         
@@ -701,6 +712,10 @@ var result = function(){
             var iconName = icons[gameNumbers[i]].iconName
             game.load.image(iconName, iconsPath + iconName+ '.png');
         }
+        
+        gameIcon = icons[gameIndex].iconName
+        console.log(gameIcon + ' name')
+        game.load.image(gameIcon, iconsPath + gameIcon + '.png')
         
         
     }

@@ -66,7 +66,6 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            instructions,
             dojo,
             result,
     	])

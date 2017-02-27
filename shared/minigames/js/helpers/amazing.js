@@ -50,6 +50,7 @@ amazing.getGames = function(){
         {name:'Twin Dots',iconName:'twin',url:'http://amazingapp.co/juegos/twindots/',coupon : false,mixName:'twindots',id:5750790484393984},
         {name:'Neon Edge',iconName:'neon',url:'http://amazingapp.co/juegos/neonedge/',coupon : false,mixName:'neonedge',id:5742796208078848},
         {name:'Cube Jump',iconName:'cube',url:'http://amazingapp.co/juegos/cubejump/',coupon : false,mixName:'cubejump',id:5674368789118976},
+        {name:'Nutribaby',iconName:'nutribaby',url:'http://amazingapp.co/juegos/nutribaby/',coupon : false,mixName:'nutribaby',id:5674368789118976},
         
     ]
     

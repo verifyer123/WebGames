@@ -43,6 +43,8 @@ var space = function(){
 				file: soundsPath + "wrong.mp3"},
             {	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {	name: "shootBall",
+				file: soundsPath + "shootBall.mp3"},
 		],
     }
     
@@ -189,8 +191,27 @@ var space = function(){
     
     function animateShip(){
         
-        game.add.tween(master).to({y:game.world.centerY - 200},1000,"Linear",true).onComplete.add(function(){
-            master.tween = game.add.tween(master).to({y:game.world.height - 250},barTime,Phaser.Easing.linear,true,1000)
+        var timeToUse = 200
+        var soundToPlay = 'shootBall'
+        if(barGroup.bar.scale.y < 0.83){
+            soundToPlay = 'powerup'
+            timeToUse = 700
+        }
+        
+        sound.play(soundToPlay)
+        game.add.tween(barGroup.bar.scale).to({y:1},timeToUse,"Linear",true)
+        
+        game.add.tween(master).to({y:game.world.centerY - 225},timeToUse,"Linear",true).onComplete.add(function(){
+            
+            gameActive = true
+            barGroup.tween = game.add.tween(barGroup.bar.scale).to({y:0},barTime,Phaser.Easing.linear,true)
+            barGroup.tween.onComplete.add(function(){
+
+                fallWater()
+
+            })
+                
+            master.tween = game.add.tween(master).to({y:game.world.height - 200},barTime,Phaser.Easing.linear,true)
         })
         
         
@@ -205,8 +226,6 @@ var space = function(){
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-        
-        game.time.events.add(500,animateShip,this)
 
     }
     
@@ -225,6 +244,8 @@ var space = function(){
         }
         
         var items = [cardsGroup,wordGroup]
+        
+        if(answerIndex == 0){ items[items.length] = barGroup}
         
         for( var i = 0; i < items.length; i ++){
             
@@ -250,17 +271,11 @@ var space = function(){
                 
         }
         
-        game.time.events.add(delay + 100, function(){
+        game.time.events.add(delay - 100, function(){
             
             if(show){
                 
-                gameActive = true
-                barGroup.tween = game.add.tween(barGroup.bar.scale).to({y:0},barTime,Phaser.Easing.linear,true)
-                barGroup.tween.onComplete.add(function(){
-                    
-                    fallWater()
-                    
-                })
+                animateShip()
             }
         })
         
@@ -274,7 +289,8 @@ var space = function(){
         
         master.tween.stop()
         
-        game.add.tween(master).to({y:game.world.height - 100, angle:master.angle + 15},500,Phaser.Easing.linear,true).onComplete.add(function(){
+        game.add.tween(barGroup.bar.scale).to({y:0},250,"Linear",true)
+        game.add.tween(master).to({y:game.world.height - 100, angle:master.angle + 15},250,Phaser.Easing.linear,true).onComplete.add(function(){
             
             sound.play("splash")
             
@@ -391,9 +407,6 @@ var space = function(){
         game.time.events.add(1200,function(){
             
             tween.stop()
-            sound.play("powerup")
-            game.add.tween(barGroup.bar.scale).to({y:1},1000,"Linear",true,200)
-            game.add.tween(master).to({y:master.initY},200,"Linear",true).onComplete.add(animateShip)
         },this)
         
         pointsBar.number+=number;
@@ -577,7 +590,7 @@ var space = function(){
         barGroup = game.add.group()
         barGroup.x = game.world.centerX - 250
         barGroup.y = game.world.centerY
-        barGroup.alpha = 1
+        barGroup.alpha = 0
         barGroup.tween = null
         sceneGroup.add(barGroup)
         
@@ -586,6 +599,7 @@ var space = function(){
         
         var barImage = barGroup.create(0,barContainer.height * 0.45,'atlas.space','timebar')
         barImage.anchor.setTo(0.5,1)
+        barImage.scale.y = 0.5
         barGroup.bar = barImage
         
         wordGroup = game.add.group()
@@ -669,13 +683,13 @@ var space = function(){
             
         }else{
             
-            var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+            /*var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
             var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "or"), fontStyle)
             pointsText.x = game.world.centerX - 20
             pointsText.y = game.world.centerY + 175
             pointsText.anchor.setTo(0.5,0.5)
-            overlayGroup.add(pointsText)
+            overlayGroup.add(pointsText)*/
             
             var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 175,'atlas.space','pc')
             inputLogo.anchor.setTo(0.5,0.5)

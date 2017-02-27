@@ -1,8 +1,17 @@
 {"frames": [
 
 {
+	"filename": "banner",
+	"frame": {"x":1,"y":1,"w":600,"h":200},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":600,"h":200},
+	"sourceSize": {"w":600,"h":200},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "coin",
-	"frame": {"x":243,"y":1,"w":128,"h":98},
+	"frame": {"x":601,"y":238,"w":128,"h":98},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":128,"h":98},
@@ -11,7 +20,7 @@
 },
 {
 	"filename": "retro-pattern",
-	"frame": {"x":1,"y":1,"w":240,"h":235},
+	"frame": {"x":603,"y":1,"w":240,"h":235},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":240,"h":235},
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "retryoff",
-	"frame": {"x":673,"y":1,"w":298,"h":85},
+	"frame": {"x":1,"y":291,"w":298,"h":85},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":3,"w":298,"h":85},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "retryon",
-	"frame": {"x":673,"y":88,"w":298,"h":85},
+	"frame": {"x":301,"y":291,"w":298,"h":85},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":3,"w":298,"h":85},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "shareoff",
-	"frame": {"x":243,"y":101,"w":298,"h":86},
+	"frame": {"x":1,"y":203,"w":298,"h":86},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":298,"h":86},
@@ -47,7 +56,7 @@
 },
 {
 	"filename": "shareon",
-	"frame": {"x":373,"y":1,"w":298,"h":86},
+	"frame": {"x":301,"y":203,"w":298,"h":86},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":2,"w":298,"h":86},
@@ -59,8 +68,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":972,"h":237},
+	"size": {"w":844,"h":377},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c7260c9623a5a92953697b2a9c46823c:35a7144de4173b7da4d6956053a6707f:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7e27945b76338f8072166fe866eb8be0:350d80cc7347ec355b833990c31c4ed8:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

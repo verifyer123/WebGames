@@ -9,7 +9,8 @@ var result = function(){
             "Great":"Great",
             "share":"Share",
             "retry":"Retry",
-            "myScore":"My score is: "
+            "myScore":"My score is: ",
+            "download":"Download"
             
 		},
 
@@ -19,7 +20,9 @@ var result = function(){
             "Great":"Genial",
             "share":"Compartir",
             "retry":"Reintentar",
-            "myScore":"Mi score es: "
+            "myScore":"Mi score es: ",
+            "download":"Descargar"
+            
 		}
 	}
 
@@ -121,16 +124,12 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: 'http://yogome.com/epic/minigames/spaceSite/yogome.html',
+		    href: 'http://yogome.com/epic/minigames/yogomeRunner/yogome.html',
 		    mobile_iframe: true,
 		    title: localization.getString(localizationData,"myScore") + totalScore
 		}, function(response){
 			//console.log(button)
 		});
-	}
-
-	function tryAgain(){
-		sceneloader.show("creatPianoTiles")
 	}
     
     function inputButton(obj){
@@ -210,56 +209,6 @@ var result = function(){
 
     }
     
-    function inputGame(obj){
-        
-        sound.play("click")
-        
-        if(buttonsActive == false){
-            return
-        }
-        
-        buttonsActive = false
-        
-        game.time.events.add(350, function(){
-             window.open(icons[gameNumbers[obj.index]].url,'_self')  
-        } , this);
-    
-    }
-    
-    function createIcons(){
-        
-        iconsGroup = game.add.group()
-        sceneGroup.add(iconsGroup)
-        
-        var pivotX = game.world.centerX - 174
-        var pivotY = game.world.height - 150
-        
-        for(var i = 0;i<3;i++){
-            
-            var group = game.add.group()
-            group.x = pivotX
-            group.y = pivotY
-            iconsGroup.add(group)
-            
-            var img = group.create(0,0,icons[gameNumbers[i]].iconName)
-            img.anchor.setTo(0.5,0.5)
-            img.inputEnabled = true
-            img.events.onInputDown.add(inputGame)
-            img.index = i
-            
-            var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        
-            var nameText = new Phaser.Text(sceneGroup.game, 0, 110, icons[gameNumbers[i]].name, fontStyle)
-            nameText.lineSpacing = -10;
-            nameText.anchor.setTo(0.5,0.5)
-            group.add(nameText)  
-            
-            pivotX+=172
-            
-            buttonsActive = true
-            
-        }
-    }
     function checkPosObj(obj){
         
         var posX = obj.x
@@ -362,7 +311,7 @@ var result = function(){
         var win = totalScore >= goalScore
         
         var scaleSpine = 0.9
-        var pivotButtons = game.world.height * 0.8
+        var pivotButtons = game.world.height * 0.725
         
         
         createBackground()
@@ -396,7 +345,7 @@ var result = function(){
                 
         var pivotText = game.world.centerX - 200
         
-        var text = game.add.bitmapText(pivotText, topHeight * 0.8, 'gotham', localization.getString(localizationData, "youGot") + ':', 40);
+        var text = game.add.bitmapText(pivotText, topHeight * 0.77, 'gotham', localization.getString(localizationData, "youGot") + ':', 40);
         sceneGroup.add(text)
         
         var addText = ''
@@ -443,10 +392,47 @@ var result = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
         createButtons(pivotButtons)
-        //createIcons()
-
+        createBanner()
 		
 	}
+    
+    function inputBanner(obj){
+        
+        obj.inputEnabled = false
+        
+        game.time.events.add(500,function(){
+            obj.inputEnabled = true
+        },this)
+        
+        var url = "https://play.google.com/store/apps/details?id=com.yogome.EpicKnowledge"
+        
+        if(!game.device.android){
+            url = "https://itunes.apple.com/mx/app/epic-heroes-of-knowledge/id904827467?mt=8"
+        }
+        
+        window.open(url,'_blank')  
+        
+    }
+    
+    function createBanner(){
+        
+        var banner = game.add.group()
+        banner.x = game.world.centerX
+        banner.y = game.world.height
+        sceneGroup.add(banner)
+        
+        var bannerImage = banner.create(0,0,'atlas.resultScreen','banner')
+        bannerImage.anchor.setTo(0.5,1)
+        bannerImage.inputEnabled = true
+        bannerImage.events.onInputDown.add(inputBanner)
+        
+        var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+		var trackerText = new Phaser.Text(sceneGroup.game, -100,-40, localization.getString(localizationData,"download"), fontStyle)
+		trackerText.anchor.setTo(0.5, 0.5)
+        banner.add(trackerText)
+        
+    }
 
 	function initialize(){
         
