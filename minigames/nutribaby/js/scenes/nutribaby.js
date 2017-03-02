@@ -189,11 +189,20 @@ var nutribaby = function(){
     function releaseButton(obj){
         
         if(gameActive == true){
-            if(obj.tag =='left'){
-                moveLeft = false
+            if(player.backwards){
+                if(obj.tag =='left'){
+                    moveRight = false
+                }else{
+                    moveLeft = false
+                }
             }else{
-                moveRight = false
+                if(obj.tag =='left'){
+                    moveLeft = false
+                }else{
+                    moveRight = false
+                }
             }
+            
         }
         
         obj.parent.children[1].alpha = 1
