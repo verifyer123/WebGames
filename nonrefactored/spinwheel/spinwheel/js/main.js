@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("dojo")
+				sceneloader.show("spinwheel")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -67,7 +67,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            dojo,
+            spinwheel,
             result,
     	])
     }
