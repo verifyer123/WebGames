@@ -51,6 +51,8 @@ var water = function(){
 				file: soundsPath + "glassbreak.mp3"},
 			{	name: "steam",
 				file: soundsPath + "steam.mp3"},
+			{	name: "rockSound",
+				file: soundsPath + "towercollapse.mp3"},
 		],
     }
     
@@ -59,29 +61,28 @@ var water = function(){
     var lives = null
 	var sceneGroup = null
     var pointsGroup = null
+	var firstMove
     var gameActive
-    var arrayComparison = null
 	var continueGame
     var overlayGroup
+	var arrowGroup
 	var background
     var dojoSong
     var dragCard
-    var quantNumber
-    var numberIndex = 3
+	var lastCard
     var numberToCheck
     var addNumber
-    var lastObj
     var cardsGroup, baseCards, usedCards
     var timer
-    var cardsNumber
-    var maxNumber
     var answerIndex
     var selectGroup
-    var comboCount
+	var particlesGroup, particlesUsed
     var wordGroup
     var gameIndex = 3
     var boardGroup
     var clock
+	var rockPlaces
+	var rockIndex
     var cardsType
     var timeValue
     var cardsList
@@ -96,34 +97,22 @@ var water = function(){
 
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
-        cardsNumber = 4
-        maxNumber = 3
         lives = 1
-        quantNumber = 0
-        arrayComparison = []
-        comboCount = 0
-        numberIndex = 0
         timeValue = 7
 		continueGame = true
         answerIndex = 0
         cardsType = ['hielo','liquido','vapor']
 		specialCards = ['sun','ice']
+		firstMove = true
         cardsList = []
+		rockIndex = 0
+		
+		rockPlaces = [0,3,12,15]
+		Phaser.ArrayUtils.shuffle(rockPlaces)
         
         loadSounds()
         
 	}
-    
-    function createPart(key,obj){
-        
-            key+='Part'
-            var particle = sceneGroup.create(obj.x,obj.y,'atlas.water',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        
-    }
 
     function popObject(obj,delay){
         
@@ -138,9 +127,6 @@ var water = function(){
     function animateScene() {
                 
         gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -151,15 +137,21 @@ var water = function(){
 		
         Phaser.ArrayUtils.shuffle(cardsType)
         
+		if(firstMove){
+			dragCard.double = false
+		}
+		
         if(!dragCard.double){
             
 			groupButton.alpha = 0
 			
             var tag = cardsType[0]
 			
-			var specialItem = Math.random()*2 > 1 && usedCards.length >= 1
-			
-			if(specialItem){
+			if(firstMove){
+				tag = 'hielo'
+			}
+						
+			if(dragCard.specialItem){
 				Phaser.ArrayUtils.shuffle(specialCards)
 				tag = specialCards[0]
 			}
@@ -173,8 +165,9 @@ var water = function(){
             sound.play("pop")
             dragCard.card = card
 			
-			if(specialItem){
+			if(dragCard.specialItem){
 				card.special = true
+				dragCard.specialItem = false
 			}
 
             game.add.tween(card.scale).from({x:0.01,y:0.01},500,"Linear",true).onComplete.add(function(){
@@ -225,8 +218,60 @@ var water = function(){
 			sound.play("pop")
         }     
         
+		if(checkPoints(50) && pointsBar.number < 220){
+			
+			game.time.events.add(250,function(){
+				
+				var container = boardGroup.children[rockPlaces[rockIndex]]
+				var cardToUse = null
+				for(var i = 0; i < usedCards.length; i++){
+					
+					var card = usedCards.children[i]
+					if(checkOverlap(container,card)){
+						cardToUse = card
+						break
+					}
+				}
+				
+				if(cardToUse){
+					deactivateCard(cardToUse)
+				}
+				
+				var newCard = getCard('rock')
+				newCard.alpha = 1
+				newCard.x = container.x
+				newCard.y = container.y
+				newCard.cont = container
+				newCard.used = true
+
+				cardsGroup.remove(newCard)
+				usedCards.add(newCard)
+				
+				sound.play("rockSound")
+				game.add.tween(newCard.scale).from({x:0.01, y:0.01},500,"Linear",true)
+
+				newCard.cont.used = true
+				rockIndex++
+				
+			},this)
+		}
        
     }
+	
+	function addBlock(tag, container){
+		
+		var newCard = getCard(tag)
+		newCard.alpha = 1
+		newCard.x = container.x
+		newCard.y = container.y
+		newCard.cont = container
+		newCard.used = true
+
+		cardsGroup.remove(newCard)
+		usedCards.add(newCard)
+
+		newCard.cont.used = true
+	}
     
     function update(){
         
@@ -455,10 +500,11 @@ var water = function(){
     function onDragStop(obj){
         
         obj.inputEnabled = false
-        
+		lastScore = pointsBar.number
+
 		if(!dragCard.double){
 			var card = obj.card
-			
+						
 			if(card.special){
 				
 				for(var i = 0; i < usedCards.length;i++){
@@ -488,7 +534,7 @@ var water = function(){
 								}
 							}
 							
-							if(tagToUse){
+							if(tagToUse && tagToUse != 'rock'){
 								
 								if(tag == 'ice'){
 									sound.play("frozen")
@@ -541,23 +587,35 @@ var water = function(){
 					if(checkOverlap(card,cont) && !cont.used){
 
 						if(Math.abs(cont.x - card.x) < cont.width*0.4 && Math.abs(cont.y - card.y) < cont.height * 0.4){
-
-							cont.used = true
-							card.cont = cont
-							sound.play("cut")
-							card.x = cont.x
-							card.y = cont.y
-
-							card.tween = game.add.tween(card).to({angle:card.angle + 360},500,"Linear",true)
 							
-							card.used = true
-							dragCard.card = null
+							if(firstMove && Math.abs(card.x - arrowGroup.x) < 50 && Math.abs(card.y - arrowGroup.y) < 50){
+								firstMove = false	
+								game.add.tween(arrowGroup).to({alpha:0},500,"Linear",true).onComplete.add(function(){
+									arrowGroup.tween.stop()
+									arrowGroup.tween = null
+								})
+							}
+							
+							if(!firstMove){
+								
+								cont.used = true
+								card.cont = cont
+								sound.play("cut")
+								card.x = cont.x
+								card.y = cont.y
 
-							cardsGroup.remove(card)
-							usedCards.add(card)
+								card.tween = game.add.tween(card).to({angle:card.angle + 360},500,"Linear",true)
 
-							checkCards(card)
-							break
+								card.used = true
+								dragCard.card = null
+
+								cardsGroup.remove(card)
+								usedCards.add(card)
+
+								checkCards(card)
+								break
+							}
+							
 						}
 					}
 				}
@@ -657,13 +715,42 @@ var water = function(){
 				
 			}
 		}
-        
-        
+		
     }
+	
+	function checkPoints(value){
+		
+		var pointsValue = pointsBar.number
+		var timesValue = 0
+		
+		if(pointsValue > 5){
+
+			while(pointsValue >= value){
+				pointsValue-=value
+				timesValue++
+			}
+			
+			if(pointsValue < 8){
+				//console.log(lastScore + ' ' + (value * timesValue))
+				if(lastScore < value * timesValue){
+					return true
+				}
+			}else{
+				return false
+			}
+		}else{
+			return false
+		}
+	}
 	
 	function checkSpaces(){
 		
 		dragCard.double = Math.random()*1.7 > 1
+		
+		if(checkPoints(25)){
+			dragCard.specialItem = true
+			dragCard.double = false
+		}
 		
 		var spacesList = []
 		
@@ -745,6 +832,16 @@ var water = function(){
         createCard(12,'vapor')
 		createCard(6,'sun')
 		createCard(6,'ice')
+		createCard(6,'rock')
+		
+		particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',10)
+		createParticles('wrong',2)
         
         var cont = baseCards.container
         
@@ -755,10 +852,39 @@ var water = function(){
 		dragCard.scale.setTo(1.5,1.5)
         dragCard.alpha = 0
 
+		dragCard.specialItem = false
         dragCard.inputEnabled = true
         dragCard.input.enableDrag(true)
         dragCard.events.onDragStart.add(onDragStart, this);
         dragCard.events.onDragStop.add(onDragStop, this);
+		
+		addBlock('hielo',boardGroup.children[5])
+		addBlock('hielo',boardGroup.children[6])
+		addBlock('hielo',boardGroup.children[9])
+		
+		arrowGroup = game.add.group()
+		arrowGroup.x = boardGroup.children[10].x
+		arrowGroup.y = boardGroup.children[10].y
+		sceneGroup.add(arrowGroup)
+		
+		var arrow = arrowGroup.create(75,0,'atlas.water','arrow')
+		arrow.anchor.setTo(0,0.5)
+		
+		var arrow = arrowGroup.create(-75,0,'atlas.water','arrow')
+		arrow.scale.x = -1
+		arrow.anchor.setTo(0,0.5)
+		
+		var arrow = arrowGroup.create(30,92,'atlas.water','arrow')
+		arrow.angle = 90
+		arrow.anchor.setTo(0.5,0)
+		
+		var arrow = arrowGroup.create(30,-92,'atlas.water','arrow')
+		arrow.angle = 90
+		arrow.scale.x = -1
+		arrow.anchor.setTo(0.5,0)
+		
+		arrowGroup.tween = game.add.tween(arrowGroup.scale).to( { x: 0.7, y:0.7 }, 500, Phaser.Easing.linear, true, 0,-1);
+        arrowGroup.tween.yoyo(true, 0);
     }
         
     function checkOverlap(spriteA, spriteB) {
@@ -844,9 +970,6 @@ var water = function(){
     
     function createBoard(){
         
-        boardGroup = game.add.group()
-        sceneGroup.add(boardGroup)
-        
         var container = new Phaser.Graphics(game)
         container.beginFill(0x000000)
         container.drawRoundedRect(game.world.centerX,game.world.centerY - 150, 550,550,12)
@@ -857,6 +980,9 @@ var water = function(){
         container.anchor.setTo(0.5,0.5)
         container.used = false
         sceneGroup.add(container)
+		
+		boardGroup = game.add.group()
+        sceneGroup.add(boardGroup)
         
         var pivotX = game.world.centerX - 192
         var pivotY = container.y + container.height * 0.75
@@ -883,6 +1009,8 @@ var water = function(){
             return
         }
         
+		//addPoint(1)
+		
 		if(dragCard.double){
 			
 			var c1 = dragCard.card1
@@ -934,13 +1062,16 @@ var water = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/space_music.mp3');
                 
         game.load.image('introscreen',"images/water/introscreen.png")
+		
+		game.load.image('howTo',"images/water/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/water/play" + localization.getLanguage() + ".png")
         
     }
     
     function createOverlay(){
         
         overlayGroup = game.add.group()
-		overlayGroup.scale.setTo(0.8,0.8)
+		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
         var rect = new Phaser.Graphics(game)
@@ -962,9 +1093,13 @@ var water = function(){
         
         overlayGroup.add(rect)
         
-        var plane = overlayGroup.create(game.world.centerX + 75, game.world.centerY,'introscreen')
-        plane.scale.setTo(0.6,0.6)
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
+		
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.water','gametuto')
+		tuto.anchor.setTo(0.5,0.5)
+		
         
         var action = 'tap'
         
@@ -972,34 +1107,24 @@ var water = function(){
             action = 'click'
         }
         
-        var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 200,'howTo')
+		howTo.anchor.setTo(0.5,0.5)
+		howTo.scale.setTo(0.7,0.7)
         
-        var pointsText = new Phaser.Text(sceneGroup.game, +100, 10, localization.getString(localizationData, "howTo"), fontStyle)
-        pointsText.x = plane.x + 105
-        pointsText.y = game.world.centerY - plane.height * 0.35
-        pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
-        
+		var deviceName = 'pc'
         if(!game.device.desktop){
             
-            var inputLogo = overlayGroup.create(game.world.centerX,game.world.centerY + 175,'atlas.water','tablet')
-            inputLogo.anchor.setTo(0.5,0.5)
-            
-        }else{
-            
-            /*var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        
-            var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, localization.getString(localizationData, "or"), fontStyle)
-            pointsText.x = game.world.centerX - 20
-            pointsText.y = game.world.centerY + 175
-            pointsText.anchor.setTo(0.5,0.5)
-            overlayGroup.add(pointsText)*/
-            
-            var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 175,'atlas.water','pc')
-            inputLogo.anchor.setTo(0.5,0.5)
-            
+            deviceName = 'tablet'
         }
-        
+		
+		var inputLogo = overlayGroup.create(game.world.centerX + 35 ,game.world.centerY + 125,'atlas.water','pc')
+        inputLogo.anchor.setTo(0.5,0.5)
+		
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.water','button')
+		button.anchor.setTo(0.5,0.5)
+		
+		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+		playText.anchor.setTo(0.5,0.5)
     }
     
 	function tweenTint(obj, startColor, endColor, time) {
@@ -1022,7 +1147,7 @@ var water = function(){
 		baseCards.scale.y = 0.95
         baseCards.width = game.world.width
 		
-		var tween = game.add.tween(baseCards.scale).to( { y:1.05 }, 2000, Phaser.Easing.linear, true, 0,-1);
+		var tween = game.add.tween(baseCards.scale).to( { y:1.02 }, 2000, Phaser.Easing.linear, true, 0,-1);
         tween.yoyo(true, 0);
         
         var container = new Phaser.Graphics(game)
@@ -1066,7 +1191,7 @@ var water = function(){
 		
 		var timeToUse = 4000
 		
-		tweenTint(background, startColor, endColor, timeToUse)
+		//tweenTint(background, startColor, endColor, timeToUse)
 		
 		background.colored = !background.colored
 		
@@ -1074,6 +1199,84 @@ var water = function(){
 		
 		game.time.events.add(timeToUse,tweenBackground,this)
 	}
+	
+	function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.water',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
 	
 	return {
 		assets: assets,
@@ -1091,7 +1294,7 @@ var water = function(){
             
             dojoSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(dojoSong, function(){
-                dojoSong.loopFull(0.6)
+                //dojoSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

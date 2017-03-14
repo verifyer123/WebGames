@@ -7,6 +7,7 @@ yogomeGames.getGames = function(){
         {name:'spaceWords',url:'http://yogome.com/epic/minigames/spaceSite/',sceneName:'space'},
         {name:'yogomeRunner',url:'http://yogome.com/epic/minigames/yogomeRunner/',sceneName:'runneryogome'},
         {name:'waterMorphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water'},
+		{name:'numberIceCream',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice'},
         
         
     ]
