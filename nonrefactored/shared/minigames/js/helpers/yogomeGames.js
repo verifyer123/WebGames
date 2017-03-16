@@ -8,6 +8,7 @@ yogomeGames.getGames = function(){
         {name:'yogomeRunner',url:'http://yogome.com/epic/minigames/yogomeRunner/',sceneName:'runneryogome'},
         {name:'waterMorphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water'},
 		{name:'numberIceCream',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice'},
+		{name:'magnetRide',url:'http://yogome.com/epic/minigames/magnetSite/',sceneName:'magnet'},
         
         
     ]

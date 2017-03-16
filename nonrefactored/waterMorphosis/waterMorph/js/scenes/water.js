@@ -218,7 +218,7 @@ var water = function(){
 			sound.play("pop")
         }     
         
-		if(checkPoints(50) && pointsBar.number < 220){
+		if(checkPoints(35) && pointsBar.number < 220){
 			
 			game.time.events.add(250,function(){
 				
@@ -275,6 +275,8 @@ var water = function(){
     
     function update(){
         
+		background.tilePosition.x += 0.5
+		
         if(dragCard.double){
 			
 			if(dragCard.card1){
@@ -819,6 +821,13 @@ var water = function(){
         
     }
     
+	function getTag(){
+		
+		Phaser.ArrayUtils.shuffle(cardsType)
+
+        return cardsType[0]
+	}
+	
     function createCards(){
         
         usedCards = game.add.group()
@@ -861,6 +870,15 @@ var water = function(){
 		addBlock('hielo',boardGroup.children[5])
 		addBlock('hielo',boardGroup.children[6])
 		addBlock('hielo',boardGroup.children[9])
+		
+		var places = [0,1,2,3,4,7,8,11,12,13,14,15]
+		
+		Phaser.ArrayUtils.shuffle(places)
+		
+		for(var i = 0; i<3;i++){
+			
+			addBlock(getTag(),boardGroup.children[places[i]])
+		}
 		
 		arrowGroup = game.add.group()
 		arrowGroup.x = boardGroup.children[10].x
@@ -1085,7 +1103,7 @@ var water = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
                 game.time.events.add(500,addCard)
-				tweenBackground()
+				//tweenBackground()
                 //start()
             })
             
@@ -1142,10 +1160,10 @@ var water = function(){
 	
     function createBase(){
         
-        baseCards = sceneGroup.create(0,game.world.height,'atlas.water','base_fichas')
+        baseCards = game.add.tileSprite(0,game.world.height,game.world.width, 364, 'atlas.water','base_fichas')
         baseCards.anchor.setTo(0,1)
 		baseCards.scale.y = 0.95
-        baseCards.width = game.world.width
+		sceneGroup.add(baseCards)
 		
 		var tween = game.add.tween(baseCards.scale).to( { y:1.02 }, 2000, Phaser.Easing.linear, true, 0,-1);
         tween.yoyo(true, 0);
@@ -1178,27 +1196,6 @@ var water = function(){
         button2.events.onInputUp.add(releaseButton)
         
     }
-    
-	function tweenBackground(){
-		
-		var startColor = 0xffffff
-		var endColor = Phaser.Color.getRandomColor(0,255,255)
-		
-		if(background.colored){
-			startColor = background.tint
-			endColor = 0xffffff
-		}
-		
-		var timeToUse = 4000
-		
-		//tweenTint(background, startColor, endColor, timeToUse)
-		
-		background.colored = !background.colored
-		
-		//console.log(background.colored + ' colored')
-		
-		game.time.events.add(timeToUse,tweenBackground,this)
-	}
 	
 	function lookParticle(key){
         
@@ -1287,10 +1284,8 @@ var water = function(){
             
 			sceneGroup = game.add.group()
             
-            background = sceneGroup.create(-2,-2,'fondo')
-            background.width = game.world.width+2
-            background.height = game.world.height+2
-			background.colored = false
+            background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'fondo');
+			sceneGroup.add(background)
             
             dojoSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(dojoSong, function(){

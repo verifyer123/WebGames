@@ -103,14 +103,14 @@ body{
 @media (min-width: 1430px) {
   .content-game{
     opacity: 1;
-    width: 70%;  
+    width: 40%;  
   }
 }
 
 @media (max-width: 1430px) {
   .content-game{
     opacity: 1;
-    width: 70%;  
+    width: 40%;  
   }
 }
 
@@ -121,15 +121,15 @@ body{
 	}
 
 	.main-content{
-		width: 100% !important;
-		height: 100% !important;
+		width: 70% !important;
+		height: 70% !important;
 	}
 
 
 	.content-game{
         min-width: none;
-		max-width: 100% !important;
-		width: 100% !important;
+		max-width: 70% !important;
+		width: 70% !important;
 		position: fixed !important;
 		transform: translateY(0) !important;
 		top: 0px !important;
