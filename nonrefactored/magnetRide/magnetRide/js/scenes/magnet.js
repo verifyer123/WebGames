@@ -642,9 +642,8 @@ var magnet = function(){
         sound.play("spaceship")
         sound.play("whoosh")
 		
-        if(!player.invincible){
-            yogotar.setAnimationByName(0, "JUMP", false);
-        }
+		yogotar.setAnimationByName(0, "CHANGE", false);
+		yogotar.addAnimationByName(0,"IDLE",true)
 		
 		if(!player.up){
 			yogotar.setSkinByName('mas')
@@ -852,7 +851,7 @@ var magnet = function(){
 			return
 		}
 		
-		console.log(ship.world.x + ' posX')
+		//console.log(ship.world.x + ' posX')
 		for(var i = 0; i<groundGroup.length;i++){
 			
 			var obj = groundGroup.children[i]
