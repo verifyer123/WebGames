@@ -47,6 +47,7 @@ var spinwheel = function(){
 		game.load.physics('fisica', 'images/spinwheel/fisica2.json');
 		game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
    		game.load.spritesheet('coins', 'images/spinwheel/coinS.png', 68, 70, 12);
+		game.load.image('joystick', 'images/spinwheel/joystick.png');
 
 	}
 	
@@ -63,6 +64,8 @@ var spinwheel = function(){
 	var buddy;
 	var bgSpine;
 	var bgSpine2;
+	var joystick;
+	var pointJoystick;
 	var blockCollisionGroup;
 	var activeBar;
 	var gameStart = false;
@@ -140,8 +143,7 @@ var spinwheel = function(){
     buddy.scale.setTo(0.22,0.22);
     buddy.setAnimationByName(0, "RUN", true);
     buddy.setSkinByName('normal');	
-		
-				
+			
 	blockCollisionGroup = game.physics.p2.createCollisionGroup();
 		
 	game.physics.p2.updateBoundsCollisionGroup();
@@ -157,9 +159,54 @@ var spinwheel = function(){
 	yogotar.body.collideWorldBounds = true;
 	yogotar.body.mass = 1000;	
 	
-
-		 
-	
+		
+	/*Joystick*/
+	pointJoystick = game.add.sprite(game.world.width *0.5 ,game.world.height * 0.85 , "joystick");	
+	pointJoystick.anchor.setTo(0.5, 0.5);
+	pointJoystick.scale.setTo(0.5, 0.5);		
+	joystick = game.add.sprite(game.world.width *0.5 ,game.world.height * 0.85  , "joystick");	
+	joystick.anchor.setTo(0.5, 0.5);		
+    joystick.inputEnabled = true;
+    joystick.input.enableDrag(true);
+	joystick.events.onDragStart.add(onDragStart,this);
+	joystick.events.onDragUpdate.add(onDragUpdate, this);	
+	joystick.events.onDragUpdate.add(onDragUpdate, this);		
+	joystick.events.onDragStop.add(onDragStop, this);	
+	var moveJoystick = null;
+		
+	function onDragStart(){
+	//pointJoystick.rotation = 0;
+		//activeBar.rotation = 0;
+	}	
+		
+	function onDragUpdate(){
+		
+		pointJoystick.rotation = game.physics.arcade.angleBetween(pointJoystick, joystick);
+		activeBar.rotation = pointJoystick.rotation;
+		
+		moveJoystick = true;
+		if(joystick.x > game.world.width * 0.5 + 50){
+			joystick.x = game.world.width * 0.5 + 50;
+		}else if(joystick.x < game.world.width * 0.5 - 50){
+			joystick.x = game.world.width * 0.5 - 50;
+		}
+		
+		if(joystick.y > game.world.height * 0.85 + 50){
+			joystick.y = game.world.height * 0.85 + 50;
+		}else if(joystick.y < game.world.height * 0.85 - 50){
+			joystick.y = game.world.height * 0.85 - 50;
+		}
+		
+	}	
+		
+	function onDragStop(){
+		if(moveJoystick){
+			game.add.tween(joystick).to({x:pointJoystick.x}, 200, Phaser.Easing.Linear.Out, true);
+			game.add.tween(joystick).to({y:pointJoystick.y}, 200, Phaser.Easing.Linear.Out, true);	
+			game.add.tween(pointJoystick).to({rotation:0}, 200, Phaser.Easing.Linear.Out, true);	
+		}
+	}	
+		
 	function createBars(times){
 		for(var i = 0;i<times;i++){
 			bars[i] = game.add.sprite(0, 0,"barra2");
@@ -207,7 +254,7 @@ var spinwheel = function(){
 			bars[i].body.clearShapes();
 			bars[i].body.setRectangle(bars[i].width, bars[i].height);
     		bars[i].body.setCollisionGroup(blockCollisionGroup);
-    		bars[i].body.collides([blockCollisionGroup]);
+    		bars[i].body.collides([blockCollisionGroup],hitBar,this);
 			bars[i].body.static = true;
 			//bars[i].body.data.gravityScale = 0;
 			bars[i].body.mass = 0;
@@ -224,8 +271,13 @@ var spinwheel = function(){
 	createBars(times)	
 	
 	lastBar = bars.length-1;
-		console.log(lastBar);
 
+		
+	function hitBar(object){
+		activeBar = object;
+		pointJoystick.rotation = 0;
+	}	
+		
 	function hitYogotar(body1 , body2){
 		coins++;
 		xpcoinsText.setText(coins);
@@ -248,6 +300,7 @@ var spinwheel = function(){
 	function dragStart(object){
 	activeBar = object
 	gameStart = true;
+	
 	}
 		
 	
@@ -277,32 +330,20 @@ var spinwheel = function(){
 
 	function moveBars(times){
 		for(var i = 0; i<=times -1 ; i++){
-			
-			/*var posx1 = coinsArray[i].body.x
-			var posy1 = coinsArray[i].body.y
-			
-			var posx2 = yogotar.body.x
-			var posy2 = yogotar.body.y	
-			
-			var actualpositionx = posx1 - posx2;
-			var actualpositiony = posy1 - posy2;
-			
-			
-			if(actualpositionx <= 10 && actualpositiony <= 10){
-			console.log("choco la combi")
-			};*/
-			
+
 			bars[i].body.x = bars[i].body.x - yogotar.body.x/100;
 			coinsArray[i].body.x = coinsArray[i].body.x - yogotar.body.x/100;
 			if(bars[i].body.x <= 0){
 				bars[i].body.x = bars[lastBar].body.x + bars[lastBar].width + 20;
 				bars[i].body.y = bars[0].body.y + getRandomArbitrary(-100, 100); 
+				bars[i].body.rotation = 0;
 				lastBar = i;
 			}
 			
 			if((coinsArray[i].body.x)*2 <= 0){
 				coinsArray[i].body.sprite.alpha = 1;
 				coinsArray[i].body.x = (bars[lastBar].body.x + bars[lastBar].width + 20) * 2;
+				
 				coinsArray[i].y =  bars[i].y - getRandomArbitrary(150, 200);
 				coinsArray[i].body.data.shapes[0].sensor = false;
 			}
@@ -340,9 +381,11 @@ var spinwheel = function(){
 		}
 	}
 	
+	
+	
 function update() {
 	
-	
+		
 	
 	
 		buddy.x = yogotar.x;
