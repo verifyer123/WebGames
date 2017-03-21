@@ -54,6 +54,10 @@ var magnet = function(){
 				file: soundsPath + "alienLaugh.mp3"},
 			{	name: "powerup",
 				file: soundsPath + "powerup.mp3"},
+			{	name: "glassBreak",
+				file: soundsPath + "glassbreak.mp3"},
+			{	name: "laserexplode",
+				file: soundsPath + "laserexplode.mp3"},
 		],
     }
     
@@ -334,11 +338,28 @@ var magnet = function(){
     
 	function stopWorld(){
         
-        yogotar.setAnimationByName(0,"LOSE",false)
-        var tweenLose = game.add.tween(yogotar).to({y:yogotar.y - 150}, 1000, Phaser.Easing.Cubic.Out, true)
+		sceneGroup.remove(yogotar)
+		sceneGroup.add(yogotar)
+		
+		sound.play('laserexplode')
+		
+		game.add.tween(yogotar).to({angle:yogotar.angle + 360},500,"Linear",true)
+		game.add.tween(yogotar.scale).to({x:5,y:5},500,"Linear",true)
+        var tweenLose = game.add.tween(yogotar).to({x:game.world.centerX, y:game.world.centerY + 50}, 500, Phaser.Easing.Cubic.Out, true)
         tweenLose.onComplete.add(function(){
-            game.add.tween(yogotar).to({y:yogotar.y + game.world.height + game.world.height * 0.2}, 500, Phaser.Easing.Cubic.In, true)
+			
+			sound.play("glassBreak")
+            game.add.tween(yogotar).to({y:yogotar.y + 200}, 3000, Phaser.Easing.Cubic.In, true)
         })
+		
+		var whiteRect = new Phaser.Graphics(game)
+        whiteRect.beginFill(0xffffff)
+        whiteRect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        whiteRect.alpha = 0
+        whiteRect.endFill()
+		sceneGroup.add(whiteRect)
+		
+		game.add.tween(whiteRect).from({alpha:1},500,"Linear",true)
     }
 	
     function stopGame(win){
@@ -350,9 +371,12 @@ var magnet = function(){
 		stopWorld()
         magnetSong.stop()
         
+		yogotar.setSkinByName('mas')
+		yogotar.setToSetupPose()
+		
 		yogotar.setAnimationByName(0,"LOSE",false)
 		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1000)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -643,7 +667,9 @@ var magnet = function(){
         sound.play("whoosh")
 		
 		yogotar.setAnimationByName(0, "CHANGE", false);
-		yogotar.addAnimationByName(0,"IDLE",true)
+		if(gameActive){
+			yogotar.addAnimationByName(0,"IDLE",true)
+		}
 		
 		if(!player.up){
 			yogotar.setSkinByName('mas')
