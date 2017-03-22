@@ -68,7 +68,7 @@ function startGame(){
     	preloadScenes([
             instructions,
             tapcards,
-            result,
+            result
     	])
     }
 }

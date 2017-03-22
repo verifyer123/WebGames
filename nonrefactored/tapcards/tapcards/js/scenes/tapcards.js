@@ -4,13 +4,15 @@ var tapcards = function(){
 	assets = {
         atlases: [                
 			{
-				//name: "atlas.jump",
-                //json: "images/spinwheel/atlas.json",
-                //image: "images/spinwheel/atlas.png"
+                name: "atlas.cards",
+                json: "images/tapcards/atlas.json",
+                image: "images/tapcards/atlas.png",
 			}],
         images: [],
 		sounds: [
             {	name: "pop",
+				file: soundsPath + "pop.mp3"},
+            {	name: "magic",
 				file: soundsPath + "magic.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
@@ -29,7 +31,9 @@ var tapcards = function(){
 			{	name: "explode",
 				file: soundsPath + "explode.mp3"},
 			{	name: "shootBall",
-				file: soundsPath + "shootBall.mp3"}
+				file: soundsPath + "shootBall.mp3"},
+			{	name: "combo",
+				file: soundsPath + "combo.mp3"}
 		],
 	}
     
@@ -40,9 +44,12 @@ var tapcards = function(){
 	var paper;
 	var heartsIcon;
 	var heartsText;
+	var xpIcon;
+	var xpText;	
 	var readyButton;
 	var starPart;
-	var lives = 1;
+	var wrongPart;
+	var lives = 3;
 	var frutas = new Array;
 	var randomFruits;
 	var blueBg  = new Array;
@@ -52,33 +59,35 @@ var tapcards = function(){
 	var greenBg  = new Array;
 	var imagesCardsGreen = new Array;
 	var imagesCards = new Array;
+	var positionsRedsX = new Array;
+	var positionsRedsY = new Array;
 	var styleCards;
 	var NumColumnas = 2;
 	var leveldifficulty = 0;
 	var count = 0;
+	var enterFunctionbad = 0;
+	var coins = 0;
+	var sceneGroup = null;
 	
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 
 	function fontsSize(){
 			if(game.world.width < 721){
-				styleCards = {font: "2rem VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+				styleCards = {font: "4vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}else{
-				styleCards = {font: "3rem VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+				styleCards = {font: "10vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}
 	}
 	
     function preload() {
-        //game.load.spine('animations', "images/spines/skeleton.json");		
-		//game.load.image("fondo", "images/spinwheel/fondo-01.png");
 		game.load.image("background", "images/tapcards/background.png");
 		game.load.image("book", "images/tapcards/libro.png");
 		game.load.image("paperPencil", "images/tapcards/paperPencil.png");
 		game.load.image("pencilEraser", "images/tapcards/pencilEraser.png");
 		game.load.image("paper", "images/tapcards/paper.png");
 		game.load.image("heartsIcon", "images/tapcards/hearts.png");
-		
-		
-		game.load.image("avocade", "images/tapcards/items/aguacate.png");
+		game.load.image("xpIcon", "images/tapcards/xpcoins.png");
+		game.load.image("avocado", "images/tapcards/items/aguacate.png");
 		game.load.image("broccoli", "images/tapcards/items/brocoli.png");
 		game.load.image("cherry", "images/tapcards/items/cereza.png");
 		game.load.image("coconut", "images/tapcards/items/coco.png");
@@ -91,18 +100,19 @@ var tapcards = function(){
 		game.load.image("watermelon", "images/tapcards/items/sandia.png");
 		game.load.image("tomato", "images/tapcards/items/tomate.png");
 		game.load.image("grapes", "images/tapcards/items/uvas.png");
-		game.load.image("carrot", "images/tapcards/items/zanahoria.png");
-		
+		game.load.image("carrot", "images/tapcards/items/zanahoria.png");	
 		game.load.image("readyButton", "images/tapcards/ready_button.png");
 		game.load.image("starPart", "images/tapcards/starPart.png");
-				
-		game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
-   		//game.load.spritesheet('coins', 'images/spinwheel/coinS.png', 68, 70, 12);
-
+		game.load.image("wrongPart", "images/tapcards/wrongPart.png");	
+		game.load.image('gametuto',"images/tapcards/gametuto.png");
+		game.load.image('introscreen',"images/tapcards/introscreen.png");
+		game.load.image('howTo',"images/tapcards/how" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',"images/tapcards/play" + localization.getLanguage() + ".png");		
+		//game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
 	}
 	
 	frutas = [
-		"avocade",	
+		"avocado",	
 		"broccoli",
 		"cherry",
 		"coconut",
@@ -117,12 +127,6 @@ var tapcards = function(){
 		"grapes",
 		"carrot"
 	];
-	
-	
-		var selectFruits = [];
-	
-	
-
 		function shuffle(array) {
 			var i = array.length,
 				j = 0,
@@ -137,18 +141,85 @@ var tapcards = function(){
 
 			return array;
 		}
-	
-		
-	
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
-	
 	function initialize(){
 	}	
 	
+	function createOverlay(){
+        sceneGroup = game.add.group()
+        overlayGroup = game.add.group()
+		if(game.device != 'desktop'){
+		overlayGroup.scale.setTo(0.9,0.9);
+		}else{
+			overlayGroup.scale.setTo(1.2,1.2);
+		}
+		
+        sceneGroup.add(overlayGroup)
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(function(){
+            rect.inputEnabled = false
+			sound.play("pop")
+            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                overlayGroup.y = -game.world.height
+		createCardsGreen();
+		createCardsBlue();
+		createCardsRed();
+		positionCardsBlue();
+		TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
+            })
+            
+        })
+        
+        overlayGroup.add(rect)
+        
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+		plane.scale.setTo(1,1)
+        plane.anchor.setTo(0.45,0.5);
+		//plane.x = game.world.width * 0.55;
+		
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'gametuto')
+		tuto.anchor.setTo(0.2,0.5)
+		
+        
+        var action = 'tap'
+        
+        if(game.device == 'desktop'){
+            action = 'click'
+        }
+        
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 225,'howTo')
+		howTo.anchor.setTo(0.4,0.5)
+		howTo.scale.setTo(0.7,0.7)
+        
+		var deviceName = 'pc'
+		var offsetX = 0
+        if(!game.device.desktop){
+           deviceName = 'tablet'
+			offsetX = 100
+
+        }
+		
+		var inputLogo = overlayGroup.create(game.world.centerX + 35 + offsetX ,game.world.centerY + 125,'atlas.cards','pc')
+        inputLogo.anchor.setTo(0.4,0.5)
+		
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.cards','button')
+		button.anchor.setTo(0.2,0.5)
+		
+		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+		playText.anchor.setTo(0,0.5)
+    }	
+	
+	
 	function createCardsGreen(){
 				for(var i = 0;i<=frutas.length-1;i++){	
+					imagesCardsGreen[i] = null;
 					greenBg[i] = game.add.graphics(0, 0);
 					greenBg[i].id = i;
 					greenBg[i].beginFill(0x71C64E);
@@ -159,53 +230,48 @@ var tapcards = function(){
 					}else{
 						greenBg[i].drawRoundedRect(0, 0, game.world.width * 0.2, game.world.width * 0.2, 25);
 					}
-
 					imagesCardsGreen[i] = game.add.sprite(0,0,randomFruits[i]);
 					imagesCardsGreen[i].anchor.setTo(0, 0);
 					imagesCardsGreen[i].width = greenBg[i].width/2;
-					imagesCardsGreen[i].height = greenBg[i].height/2;
-					
+					imagesCardsGreen[i].height = greenBg[i].height/2;	
 					greenBg[i].x = game.world.width * 2;
 					imagesCardsGreen[i].x = game.world.width * 2;
 					this.game.physics.arcade.enable(greenBg[i]);
 				}	
 	}
-	
-	
 	function createCardsBlue(){
+		
 				for(var i = 0;i<=frutas.length-1;i++){	
+					imagesCards[i] = null;
+					blueText[i] = null;
 					blueBg[i] = game.add.graphics(0, 0);
 					blueBg[i].id = i;
 					blueBg[i].beginFill(0x379FED);
 					blueBg[i].lineStyle(10, 0xFFFFFF, 1);
 					blueBg[i].anchor.setTo(0.5, 0.5);
-					
 					if(game.world.width < 721){
 						blueBg[i].drawRoundedRect(0, 0, game.world.width * 0.35, game.world.width * 0.35, 25);
 					}else{
 						blueBg[i].drawRoundedRect(0, 0, game.world.width * 0.2, game.world.width * 0.2, 25);
 					}
-
 					blueText[i] =  game.add.text(0, 0, randomFruits[i], styleCards);
 					blueText[i].anchor.setTo(0.5, 0.5);
-					
 					imagesCards[i] = game.add.sprite(0,0,randomFruits[i]);
 					imagesCards[i].anchor.setTo(0, 0);
 					imagesCards[i].width = blueBg[i].width/2;
 					imagesCards[i].height = blueBg[i].height/2;
-					
 					blueBg[i].alpha = 0;
 					blueText[i].alpha = 0;
 					imagesCards[i].alpha = 0;
-					
 					blueBg[i].x = game.world.width * 2;
 					blueText[i].x = game.world.width * 2;
 					imagesCards[i].x = game.world.width * 2;
+					
 				}    
 		}
-	
 	function createCardsRed(){
 				for(var i = 0;i<=frutas.length-1;i++){	
+					redText[i] = null;
 					redBg[i] = game.add.graphics(0, 0);
 					redBg[i].id = i;
 					redBg[i].beginFill(0xE23434);
@@ -216,33 +282,27 @@ var tapcards = function(){
 					}else{
 						redBg[i].drawRoundedRect(0, 0, game.world.width * 0.2, game.world.width * 0.2, 25);
 					}
-
 					redText[i] =  game.add.text(0, 0, randomFruits[i], styleCards);
 					redText[i].anchor.setTo(0.5, 0.5);
-					
 					redBg[i].x = game.world.width * 2;
 					redText[i].x = game.world.width * 2;
 				}    
 		}	
-
 	function positionCardsBlue(){
 		for(var p = 0;p<=leveldifficulty;p++){
 			blueBg[p].x = game.world.width * 2;
 			blueBg[p].alpha = 0; 
+			console.log("Este es el random: " +  randomFruits[shuffle(p)]);
 		}
-		
-		
 		for(var i = 0;i<=leveldifficulty;i++){
 			if(leveldifficulty == 0){
 					if(game.world.width < 721){
 							blueBg[i].x = (game.world.width * 0.13) + blueBg[i].width/2; 	
 							blueBg[i].y = game.world.height * 0.4; 
-
 					}else{
-						blueBg[i].x = game.world.width * 0.28 + blueBg[i].width/2; 
+						blueBg[i].x = game.world.width * 0.3 + blueBg[i].width/2; 
 						blueBg[i].y = game.world.height * 0.3; 
 					}
-					
 			}else if(leveldifficulty == 1){
 					if(game.world.width < 721){
 						if(i < NumColumnas){
@@ -252,25 +312,21 @@ var tapcards = function(){
 							blueBg[i].x = blueBg[i-NumColumnas].x 	
 							blueBg[i].y = blueBg[i-NumColumnas].y  + blueBg[i].height + 10; 	
 						}
-
 					}else{
 						blueBg[i].x = (game.world.width * 0.28) + game.world.width * 0.22 * i ;
 						blueBg[i].y = game.world.height * 0.3; 
-					}
-					
+					}	
 			}else if(leveldifficulty == 2){
 				if(i <= 1){
 					if(game.world.width < 721){
 						if(i < NumColumnas){
 							blueBg[i].x = (game.world.width * 0.13) + game.world.width * 0.3 * i + blueBg[i].width/4 * i; blueBg[i].y = game.world.height * 0.4; 
 							}
-
 						}else{
 							blueBg[i].x = (game.world.width * 0.28) + game.world.width * 0.22 * i ;
 							blueBg[i].y = game.world.height * 0.3; 
 						}
 					}
-					
 			}else if(leveldifficulty >= 3){
 				if(i <= 2){
 					if(game.world.width < 721){
@@ -281,16 +337,13 @@ var tapcards = function(){
 							blueBg[i].x = blueBg[i-NumColumnas].x  + blueBg[i].width/4 * i	
 							blueBg[i].y = blueBg[i-NumColumnas].y  + blueBg[i].height + 10; 	
 						}
-
 					}else{
 						blueBg[i].x = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
 						blueBg[i].y = game.world.height * 0.3; 
 					}
 				}
 				
-			}
-			
-					
+			}	
 					blueBg[i].originalPositionX = blueBg[i].x;
 					blueBg[i].originalPositionY = blueBg[i].y;
 					blueText[i].x = blueBg[i].x + blueBg[i].width/2.1;
@@ -301,76 +354,75 @@ var tapcards = function(){
 					imagesCards[i].y = blueBg[i].y + imagesCards[i].height * 0.2;	
 					imagesCards[i].originalPositionX = imagesCards[i].x;
 					imagesCards[i].originalPositionY = imagesCards[i].y;
-			
 					TweenMax.to(blueBg[i],0.5,{alpha:1,delay:i * 0.2,ease:Linear.easeOut});
 					TweenMax.fromTo(blueBg[i],0.5,{x:blueBg[i].x},{x:blueBg[i].originalPositionX,delay:i * 0.2,ease:Elastic.easeOut});
-			
 					TweenMax.to(blueText[i],0.5,{alpha:1,delay:i * 0.2,ease:Linear.easeOut});
 					TweenMax.fromTo(blueText[i],0.5,{x:blueText[i].x-blueText[i].width},{x:blueText[i].originalPositionX,delay:i * 0.2,ease:Elastic.easeOut});
-			
 					TweenMax.to(imagesCards[i],0.5,{alpha:1,delay:i * 0.2,ease:Linear.easeOut});
 					TweenMax.fromTo(imagesCards[i],0.5,{x:imagesCards[i].x-imagesCards[i].width},{x:imagesCards[i].originalPositionX,delay:i * 0.2,ease:Elastic.easeOut});
-			
 		}
-	
 	}
-	
 function positionCardsRed(){
-		for(var i = 0;i<=leveldifficulty;i++){
+	
+	
+	
+		for(var i = 0;i<=frutas.length-1;i++){
 			redBg[i].alpha = 1;
 			redText[i].alpha = 1;
 			if(leveldifficulty == 0){
 					if(game.world.width < 721){
-						redBg[i].x = (game.world.width * 0.13) + redBg[i].width/2;	
-						redBg[i].y = game.world.height * 0.2; 
+						positionsRedsX[i] = (game.world.width * 0.13) + redBg[i].width/2;	
+						positionsRedsY[i] = game.world.height * 0.2; 
 					}else{
-						redBg[i].x = game.world.width * 0.28 + redBg[i].width/2; 
-						redBg[i].y = game.world.height * 0.1; 
+						positionsRedsX[i] = game.world.width * 0.28 + redBg[i].width/2; 
+						positionsRedsY[i] = game.world.height * 0.1; 
 					}
 					
 			}else if(leveldifficulty == 1){
 					if(game.world.width < 721){
 						if(i < NumColumnas){
-							redBg[i].x = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i; 	
-							redBg[i].y = game.world.height * 0.2; 
+							positionsRedsX[i] = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i; 	
+							positionsRedsY[i] = game.world.height * 0.2; 
 						}else{
-							redBg[i].x = redBg[i-NumColumnas].x 	
-							redBg[i].y = redBg[i-NumColumnas].y  + redBg[i].height + 10; 	
+							positionsRedsX[i] = redBg[i-NumColumnas].x 	
+							positionsRedsY[i] = redBg[i-NumColumnas].y  + redBg[i].height + 10; 	
 						}
 
 					}else{
-						redBg[i].x = (game.world.width * 0.28) + game.world.width * 0.22 * i ;
-						redBg[i].y = game.world.height * 0.1; 
+						positionsRedsX[i] = (game.world.width * 0.28) + game.world.width * 0.22 * i ;
+						positionsRedsY[i] = game.world.height * 0.1; 
 					}
 					
 			}else if(leveldifficulty == 2){
 				if(i <= 1){
 					if(game.world.width < 721){
 						if(i < NumColumnas){
-							redBg[i].x = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i;
-							redBg[i].y = game.world.height * 0.2; 
+							positionsRedsX[i] = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i;
+							positionsRedsY[i] = game.world.height * 0.2; 
 						}
 
 					}else{
-						redBg[i].x = (game.world.width * 0.28) + game.world.width * 0.22 * i ;
-						redBg[i].y = game.world.height * 0.1; 
+						positionsRedsX[i] = (game.world.width * 0.28) + game.world.width * 0.22 * i ;
+						positionsRedsY[i] = game.world.height * 0.1; 
 					}
+				}else{
+					positionsRedsX[i] = 2000;
 				}
 				
 			}else if(leveldifficulty == 3){
 				if(i <= 2){
 					if(game.world.width < 721){
 						if(i < NumColumnas){
-							redBg[i].x = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i; 	
-							redBg[i].y = game.world.height * 0.1; 
+							positionsRedsX[i] = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i; 	
+							positionsRedsY[i] = game.world.height * 0.1; 
 						}else{
-							redBg[i].x = redBg[i-NumColumnas].x + redBg[i].width/4 * i;	
-							redBg[i].y = redBg[i-NumColumnas].y  + redBg[i].height + 10; 	
+							positionsRedsX[i] = redBg[i-NumColumnas].x + redBg[i].width/4 * i;	
+							positionsRedsY[i] = redBg[i-NumColumnas].y  + redBg[i].height + 10; 	
 						}
 
 					}else{
-						redBg[i].x = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
-						redBg[i].y = game.world.height * 0.1; 
+						positionsRedsX[i] = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
+						positionsRedsY[i] = game.world.height * 0.1; 
 					}
 			
 				}
@@ -378,58 +430,82 @@ function positionCardsRed(){
 				if(i <= 2){
 					if(game.world.width < 721){
 						if(i < NumColumnas){
-							redBg[i].x = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i; 	
-							redBg[i].y = game.world.height * 0.1; 
+							positionsRedsX[i] = (game.world.width * 0.13) + game.world.width * 0.3 * i + redBg[i].width/4 * i; 	
+							positionsRedsY[i] = game.world.height * 0.1; 
 						}else{
-							redBg[i].x = redBg[i-NumColumnas].x + redBg[i].width/4 * i;	
-							redBg[i].y = redBg[i-NumColumnas].y  + redBg[i].height + 10; 	
+							positionsRedsX[i] = redBg[i-NumColumnas].x + redBg[i].width/4 * i;	
+							positionsRedsY[i] = redBg[i-NumColumnas].y  + redBg[i].height + 10; 	
 						}
 
 					}else{
-						redBg[i].x = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
-						redBg[i].y = game.world.height * 0.1; 
+						positionsRedsX[i] = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
+						positionsRedsY[i] = game.world.height * 0.1; 
 					}
 			
 				}
 			}else if(leveldifficulty == 5){
 				if(i <= 2){
 					if(game.world.width < 721){
-							redBg[i].x = (game.world.width * 0.13); 	
-							redBg[i].y = (game.world.height * 0.1 + redBg[i].height * i) + redBg[i].height/10 * i; 	
+							positionsRedsX[i] = (game.world.width * 0.13); 	
+							positionsRedsY[i] = (game.world.height * 0.1 + redBg[i].height * i) + redBg[i].height/10 * i; 	
 						
 
 					}else{
-						redBg[i].x = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
-						redBg[i].y = game.world.height * 0.1; 
+						positionsRedsX[i] = (game.world.width * 0.18) + game.world.width * 0.22 * i ;
+						positionsRedsY[i] = game.world.height * 0.1; 
 					}
 			
 				}
 			}
-					redBg[i].originalPositionX = redBg[i].x;
-					redBg[i].originalPositionY = redBg[i].y;
-					redText[i].x = redBg[i].x + redBg[i].width/2.1;
-					redText[i].y = redBg[i].y + redBg[i].height/2;
-					redText[i].originalPositionX = redText[i].x;
-					redText[i].originalPositionY = redText[i].y;
 			
-					this.game.physics.arcade.enable(redBg[i]);
-					
-					console.log(greenBg[i].id);
-					redBg[i].inputEnabled = true;
-					redBg[i].input.enableDrag();
-					redBg[i].originalPosition = redBg[i].position.clone();
-					redBg[i].events.onDragUpdate.add(onDragUpdate, this);
-					var numero = greenBg[i].id;
-					
-					redBg[i].events.onDragStop.add(function(currentSprite){
-					  stopDrag(currentSprite, greenBg[i]);
-					}, this);
-			
-			
-
 		}
+
+		for(var r = 0;r<=leveldifficulty;r++){
+					console.log("Array X: " + positionsRedsX[r])
+					redBg[r].x = positionsRedsX[r];
+					redBg[r].y = positionsRedsY[r];
+					redBg[r].originalPositionX = redBg[r].x;
+					redBg[r].originalPositionY = redBg[r].y;
+					redText[r].x = redBg[r].x + redBg[r].width/2.1;
+					redText[r].y = redBg[r].y + redBg[r].height/2;
+					redText[r].originalPositionX = redText[r].x;
+					redText[r].originalPositionY = redText[r].y;
+					this.game.physics.arcade.enable(redBg[r]);
+					redBg[r].inputEnabled = true;
+					redBg[r].input.enableDrag();
+					redBg[r].originalPosition = redBg[r].position.clone();
+					redBg[r].events.onDragUpdate.add(onDragUpdate, this);
+					redBg[r].events.onDragStop.add(function(currentSprite){
+					  stopDrag(currentSprite, greenBg[r]);
+					}, this);
+		}
+
+	function wrongCard(target){
+		if(enterFunctionbad == 0){
+		console.log("bad");
+		lives--
+		heartsText.setText("x " + lives);
+		TweenMax.fromTo(wrongPart,0.3,{alpha:0},{alpha:1});
+		TweenMax.fromTo(wrongPart.scale,0.3,{x:0.9},{x:1.1,onComplete:continuewrong});	
+		wrongPart.x = target.x;
+		wrongPart.y = target.y;	
+		enterFunctionbad++;
+		}
+		
+		function continuewrong(){
+			console.log("Bad2");
+			TweenMax.to(wrongPart,0.3,{alpha:0});
+			if(lives == 0){
+				var resultScreen = sceneloader.getScene("result")
+				resultScreen.setScore(true, coins,6)
+				sceneloader.show("result")
+			}
+		}
+	}
+
 	
 	function onDragUpdate(object){
+					enterFunctionbad = 0;
 					redText[object.id].x = redBg[object.id].x + redBg[object.id].width/2.1;
 					redText[object.id].y = redBg[object.id].y + redBg[object.id].height/2;
 			}
@@ -444,10 +520,20 @@ function positionCardsRed(){
 				TweenMax.fromTo(starPart.scale,0.3,{x:0.9},{x:1.1,onComplete:continueStar});	
 				starPart.x = targetBg.originalPositionX;
 				starPart.y = targetBg.originalPositionY;
-					
+				sound.play("magic");	
+				coins++
+				xpText.setText(coins);	
 			  })) { 
+					for(var r = 0;r<=frutas.length-1;r++){
+					if (!this.game.physics.arcade.overlap(currentSprite,greenBg[r], function() {	
+						wrongCard(currentSprite);
+						sound.play("wrong");
+					 })) {}
+					}
+						
 					TweenMax.to(currentSprite,0.4,{x:currentSprite.originalPositionX,y:currentSprite.originalPositionY});
-					TweenMax.to(redText[currentSprite.id],0.4,{x:blueText[currentSprite.id].originalPositionX,y:redText[currentSprite.id].originalPositionY});
+					TweenMax.to(redText[currentSprite.id],0.4,{x:redText[currentSprite.id].originalPositionX,y:redText[currentSprite.id].originalPositionY});
+			
 			  }
 			 
 			}
@@ -465,35 +551,53 @@ function clearCards(){
 			imagesCardsGreen[p].alpha = 0;
 		}	
 	
-	TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});
+	//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});
 }
 	
 	
 	
 function continueStar(){
 	TweenMax.to(starPart,0.3,{alpha:0,onComplete:nextLevel});
-	
 }	
 	
 function nextLevel(){
+	
 	if(leveldifficulty != 0){
 		count++;
 	}
+	if(lives <= 4){
+	lives++;
+	heartsText.setText("x " + lives);
+		
+		TweenMax.fromTo(heartsText.scale,1,{x:1.2,y:1.2},{x:1,y:1})
+	}
 	console.log("dificultad " + leveldifficulty);
 	randomFruits = shuffle(frutas);
+	
+	createCardsBlue();
+	
 	switch(leveldifficulty){
 		case 0:
 			leveldifficulty++;
 			count = 0;
-			positionCardsBlue();
-			clearCards();	
+			clearCards();
+			createCardsGreen();
+			createCardsRed();
+			positionCardsRed();
+			positionCardsGreen();	
+			sound.play("combo");
 		break;
 		
 		case 1:
 			leveldifficulty++;
 			count = 0;
-			positionCardsBlue();
-			clearCards();	
+			//positionCardsBlue();
+			clearCards();
+			createCardsGreen();
+			createCardsRed();
+			positionCardsRed();
+			positionCardsGreen();
+			sound.play("combo");
 		break;
 			
 		case 2:
@@ -502,16 +606,24 @@ function nextLevel(){
 			
 				leveldifficulty++;
 				count = 0;
-				positionCardsBlue();
-				clearCards();
+			clearCards();
+			createCardsGreen();
+			createCardsRed();
+			positionCardsRed();
+			positionCardsGreen();
+				sound.play("combo");
 			}
 		break;
 			
 		case 3:
 				leveldifficulty++;
 				count = 0;
-				positionCardsBlue();
-				clearCards();
+			clearCards();
+			createCardsGreen();
+			createCardsRed();
+			positionCardsRed();
+			positionCardsGreen();
+			sound.play("combo");
 			
 		break;	
 			
@@ -519,16 +631,24 @@ function nextLevel(){
 			if(count == 2){
 				leveldifficulty++;
 				count = 0;
-				positionCardsBlue();
-				clearCards();
+			clearCards();
+			createCardsGreen();
+			createCardsRed();
+			positionCardsRed();
+			positionCardsGreen();
+				sound.play("combo");
 			}
 		break;		
 			
 		case 5:
 			if(count == 3){
 				count = 0;
-				positionCardsBlue();
-				clearCards();
+			clearCards();
+			createCardsGreen();
+			createCardsRed();
+			positionCardsRed();
+			positionCardsGreen();
+				sound.play("combo");
 			}
 		break;
 			
@@ -627,20 +747,12 @@ function positionCardsGreen(){
 		}
 	
 	}		
-	
-	
-
+	/*CREATE SCENE*/
     function createScene(){
-		
 		randomFruits = shuffle(frutas);
-		console.log("Array: " + randomFruits);
-		console.log("ok " + randomFruits[0]);
-		
-		
+
 		this.game.physics.startSystem(Phaser.Physics.ARCADE);
-		
 		fontsSize();
-		
 		loadSounds();		
 		
 		background = game.add.tileSprite(0,0,game.world.width, game.world.height, "background");
@@ -648,39 +760,38 @@ function positionCardsGreen(){
 		book.anchor.setTo(0.5, 0.5);	
 		book.x = game.world.width * 0.98;
 		book.y = game.world.height * 0.9;
-		
 		paperPencil = game.add.sprite(0,0,"paperPencil");
 		paperPencil.anchor.setTo(0.5, 0.5);	
 		paperPencil.x = 0;
 		paperPencil.y = game.world.height * 0.9;	
-		
 		pencilEraser = game.add.sprite(0,0,"pencilEraser");
 		pencilEraser.anchor.setTo(0.5, 0.5);	
 		pencilEraser.x = 0;
 		pencilEraser.y = game.world.height * 0.05;
-		
 		paper = game.add.sprite(0,0,"paper");
 		paper.anchor.setTo(0.5, 0.5);	
 		paper.x = game.world.width * 0.98;
 		paper.y = 0;
-		
 		heartsIcon = game.add.sprite(0,0,"heartsIcon");
 		heartsIcon.anchor.setTo(0, 0);	
 		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 0 + 10;
-		
+		heartsIcon.y = 0 + 10;	
 		heartsText = game.add.text(50, 10, "x " + lives, style);	
 		heartsText.anchor.setTo(0, 0);	
 		heartsText.x = game.world.width - 75;
-		heartsText.y = 0 + 10;
+		heartsText.y = 10;
 		
-		
-		createCardsGreen();
-		createCardsBlue();
-		createCardsRed();
-		positionCardsBlue();
-		
-		
+		xpIcon = game.add.sprite(0,0,"xpIcon");
+		xpIcon.anchor.setTo(0, 0);	
+		xpIcon.x = 10;
+		xpIcon.y = 15;	
+		xpText = game.add.text(50, 10, "0", style);	
+		xpText.anchor.setTo(0, 0);	
+		xpText.x = 75;
+		xpText.y = 12;		
+		createOverlay();
+
+	
 		function createLevel(){
 			
 			for(var i = 0;i<=frutas.length-1;i++){
@@ -694,7 +805,7 @@ function positionCardsGreen(){
 		readyButton = game.add.sprite(0,0,"readyButton");
 		readyButton.anchor.setTo(0.5, 0.5);	
 		readyButton.x = game.world.width * 0.5;
-		readyButton.y = game.world.height - readyButton.height;
+		readyButton.y = game.world.height + readyButton.height;
 		readyButton.inputEnabled = true;
 		readyButton.events.onInputDown.add(readyFunction, this);
 		
@@ -704,23 +815,23 @@ function positionCardsGreen(){
 		starPart.x = game.world.width * 0.5;
 		starPart.y = game.world.height - starPart.height;
 		
+		wrongPart = game.add.sprite(0,0,"wrongPart");
+		wrongPart.anchor.setTo(0.5, 0.5);	
+		wrongPart.alpha = 0;
+		wrongPart.x = game.world.width * 0.5;
+		wrongPart.y = game.world.height - starPart.height;
+		
 		function readyFunction(object){
+			sound.play("pop");
 			TweenMax.to(object,1,{y:game.height + object.height,ease:Back.easeOut});
 			createLevel();
+			createCardsGreen();
 			positionCardsGreen();
+			createCardsRed();
 			positionCardsRed();
 			
 		}
-		
-		/*createCardsRed();
-		positionCardsRed();
-		
-		createCardsGreen();
-		positionCardsGreen();*/
-		
 	}
-	
-	
 	
 	function update() {
 		background.tilePosition.x += 1;
@@ -733,12 +844,7 @@ function positionCardsGreen(){
         preload: preload,
 		update:update,
 		show: function(event){
-			//loadSounds()
 			initialize()
-		}
-		
-		
+		}		
 	}
-
 }()
-
