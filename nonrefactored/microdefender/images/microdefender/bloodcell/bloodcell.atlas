@@ -1,0 +1,34 @@
+
+bloodcell.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bloodcell/bloodcell_eyelid1
+  rotate: false
+  xy: 435, 346
+  size: 30, 43
+  orig: 30, 43
+  offset: 0, 0
+  index: -1
+bloodcell/bloodcell_eyelid2
+  rotate: true
+  xy: 467, 359
+  size: 30, 43
+  orig: 30, 43
+  offset: 0, 0
+  index: -1
+bloodcell/bloodcell_eyes
+  rotate: false
+  xy: 2, 2
+  size: 179, 114
+  orig: 179, 114
+  offset: 0, 0
+  index: -1
+bloodcell/bloodcell_torso
+  rotate: false
+  xy: 2, 118
+  size: 431, 271
+  orig: 431, 271
+  offset: 0, 0
+  index: -1
