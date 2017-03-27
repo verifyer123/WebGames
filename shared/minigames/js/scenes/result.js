@@ -123,7 +123,7 @@ var result = function(){
             {"gameName": gameName}
         );
         
-        if(!couponData){
+        if(!minigameId){
             FB.ui({
 		    method: 'share',
 		    href: icons[gameIndex].url,
@@ -133,7 +133,7 @@ var result = function(){
                 //console.log(button)
             });
         }else{
-            amazing.share(totalScore,'chilimBalam')
+            amazing.share(totalScore,gameName)
         }
 		        
 	}

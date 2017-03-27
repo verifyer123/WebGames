@@ -188,7 +188,6 @@ var result = function(){
             var group = game.add.group()
             group.x = pivotX
             group.y = pivotY
-            group.scale.setTo(0.8,0.8)
             buttonsGroup.add(group)
             
             group.tag = buttonNames[i]
@@ -204,14 +203,9 @@ var result = function(){
             button1.active = true
             
             changeImage(1,group)
-            
-            var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-            var retryText = new Phaser.Text(sceneGroup.game, -button1.width * 0.15, 5, localization.getString(localizationData,buttonTexts[i]), fontStyle)
-            retryText.anchor.setTo(0.5,0.5)
-            retryText.x = pivotX - 15
-            retryText.y = pivotY + 5
-            buttonsGroup.add(retryText)
+  			
+			var buttonText = sceneGroup.create(pivotX - 25, pivotY , buttonNames[i] + 'Text')
+			buttonText.anchor.setTo(0.5,0.5)
             
             pivotX += 250
         }
@@ -234,68 +228,10 @@ var result = function(){
         
     }
     
-    
-    function placeIcons(){
-        
-        gameIconsGroup = game.add.group()
-        sceneGroup.add(gameIconsGroup)
-        
-        for(var i = 0;i<4;i++){
-            
-            var offset = 1
-            if(i>1){offset = -1}
-            
-            var iconName = i+1
-
-            if(i>5){
-                iconName = 4
-            }
-            if(i > 6){
-                iconName = 1
-            }
-            
-            var icon = sceneGroup.create(game.world.centerX + game.rnd.integerInRange(100, game.world.width * 0.35) * offset, game.rnd.integerInRange(135, game.world.height * 0.5),'atlas.resultScreen','coin')
-            icon.anchor.setTo(0.5,0.5)
-            
-            //console.log(iconName + ' index')
-            
-            while (checkPosObj(icon)){
-                icon.x = game.world.centerX + game.rnd.integerInRange(75, game.world.width * 0.4) * offset
-                icon.y = game.rnd.integerInRange(100, sceneGroup.topHeight * 0.75)
-            }
-            
-            sceneGroup.remove(icon)
-            gameIconsGroup.add(icon)
-            
-            game.add.tween(icon).to( { x:icon.x + game.rnd.integerInRange(10,50),y:icon.y + game.rnd.integerInRange(10,50) }, 500, "Linear", true, 0, -1).yoyo(true, 0);
-        }
-        
-    }
-    
     function createBackground(){
         
-        var pivotX = 0
-        var pivotY = 0
-        var image
-        
-        while(pivotX < game.world.width){
-            
-            pivotY = 0
-            while(pivotY < game.world.height){
-                
-                image = sceneGroup.create(pivotX, pivotY,'atlas.resultScreen','retro-pattern')
-                pivotY+=image.height * 0.99
-
-            }
-            pivotX+= image.width * 0.99
-            
-        }
-    }
-    
-    function addCoins(){
-        
-        
-        
+        var tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'atlas.resultScreen','retro-pattern');
+		sceneGroup.add(tile)
     }
     
 	function createScene(){
@@ -304,12 +240,12 @@ var result = function(){
         if(game.device.desktop){
             haveCoupon = false
         }
-        
+		
         loadSounds()
         
 		sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
-        
+		
         var background = new Phaser.Graphics(game)
         background.beginFill(0xffffff);
         background.drawRect(0, 0, game.world.width, game.world.height);
@@ -319,50 +255,32 @@ var result = function(){
         
         var win = totalScore >= goalScore
         
-        var scaleSpine = scaleToUse
-        var pivotButtons = game.world.height * 0.725
-        
+        var scaleSpine = 0.55
+        var pivotButtons = game.world.centerY + 115
         
         createBackground()
+		
+		var background = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreen','base')
+		background.anchor.setTo(0.5,0.5)
+		background.scale.setTo(1.2,1.2)
         
-        var topHeight = game.world.height * 0.8
+        var topHeight = game.world.height * 0.8  
+		
+		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,'great')
+		greatText.anchor.setTo(0.5,0.5)
+		greatText.scale.setTo(0.7,0.7)
         
-        placeIcons()
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, topHeight * 0.1, localization.getString(localizationData, "Great"), fontStyle)
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)     
-        
-        var fontStyle = {font: "75px VAGRounded", fontWeight: "bold", fill: "#ffff00", align: "center"}
-        
-        var pointsText2 = new Phaser.Text(sceneGroup.game, game.world.centerX + pointsText.width * 0.7, topHeight * 0.1, "!", fontStyle)
-        pointsText2.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText2)  
-        
-        if(localization.getLanguage() == "ES"){
-            var pointsText2 = new Phaser.Text(sceneGroup.game, game.world.centerX - pointsText.width * 0.7, topHeight * 0.1, "¡", fontStyle)
-            pointsText2.anchor.setTo(0.5,0.5)
-            sceneGroup.add(pointsText2) 
-        }
-        
-        var buddy = game.add.spine(game.world.centerX,topHeight * 0.68, "master");
+        var buddy = game.add.spine(game.world.centerX,topHeight * 0.5, "master");
         buddy.scale.setTo(scaleSpine,scaleSpine)
         buddy.setAnimationByName(0, "WIN", true);
         buddy.setSkinByName('normal');
         sceneGroup.add(buddy)
                 
-        var pivotText = game.world.centerX - 200
-        
-        var text = game.add.bitmapText(pivotText, topHeight * 0.77, 'gotham', localization.getString(localizationData, "youGot") + ':', 40);
-        sceneGroup.add(text)
-        
-        var addText = ''
-        if(totalScore != 1){ addText = 's'}
+        var pivotText = game.world.centerX - 160
         
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y - 15, totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY - 60, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
         sceneGroup.add(retryText)
                 
         if(haveCoupon){
@@ -431,7 +349,8 @@ var result = function(){
         
         var banner = game.add.group()
         banner.x = game.world.centerX
-        banner.y = game.world.height
+        banner.y = game.world.centerY + 375
+		banner.scale.setTo(0.9,0.9)
         sceneGroup.add(banner)
         
         var bannerImage = banner.create(0,0,'atlas.resultScreen','banner')
@@ -503,15 +422,10 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
         
         //game.load.spine('amazing', "images/spines/Amaizing.json");
-        game.load.spine('master', "images/spines/skeleton.json");
-        
-        //getNumbers()
-        
-        /*for(var i = 0; i<3;i++){
-            var iconName = icons[gameNumbers[i]].iconName
-            game.load.image(iconName, iconsPath + iconName+ '.png');
-        }*/
-        
+        game.load.spine('master', imagesPath + "spines/skeleton.json");
+		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png')       
+		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
+		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
         
     }
     

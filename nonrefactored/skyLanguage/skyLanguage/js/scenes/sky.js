@@ -34,50 +34,53 @@ var sky = function(){
 				file: soundsPath + "magic.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
-            {	name: "combo",
-				file: soundsPath + "combo.mp3"},
-            {	name: "flip",
-				file: soundsPath + "flipCard.mp3"},
-            {	name: "swipe",
-				file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "right",
-				file: soundsPath + "rightChoice.mp3"},
+            {	name: "explosion",
+				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
-			{	name: "splash",
-				file: soundsPath + "splash.mp3"},
+			{	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
+			
+
 		],
     }
     
-    
-    var CARD_TIME = 300
-    
+        
     var lives = null
 	var sceneGroup = null
     var pointsGroup = null
+	var background,topBack,botBack
+	var shipGroup, barGroup, animalsGroup
     var gameActive = true
+	var shoot
     var arrayComparison = null
-    var gameIndex = 5
+	var indexCard,wrongIndex
+	var particlesGroup, particlesUsed
+    var gameIndex = 7
+	var indexGame
     var overlayGroup
-	var yogotar
-    var dojoSong
-    var timeValue
+	var timeValue
+    var spaceSong
+	
+	var animalNames = ['cat','chicken','cow','dog','elephant','giraffe','hamster','horse','lion','parrot','pig','sheep','monkey','turtle','zebra']
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
-
 
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
         arrayComparison = []
-        timeValue = 2000
+        timeValue = 10000
+		
+		Phaser.ArrayUtils.shuffle(animalNames)
+		indexCard = 0
         
         loadSounds()
         
@@ -141,7 +144,100 @@ var sky = function(){
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
     }
-    
+	
+	function setCard(){
+		
+		wrongIndex = indexCard
+		
+		while(wrongIndex == indexCard){
+			
+			wrongIndex = game.rnd.integerInRange(0,animalNames.length - 1)
+		}
+	}
+	
+	function resetButtons(){
+		
+		shoot.alpha = 0
+		
+		for(var i = 0; i<animalsGroup.length;i++){
+			
+			var animal = animalsGroup.children[i]
+			animal.x = -200
+			animal.alpha = 0
+		}
+	}
+	
+	function positionBar(){
+				
+		game.add.tween(shipGroup).to({x:shipGroup.initialX, y:shipGroup.initialY, angle:0},500,"Linear",true)
+		
+		game.add.tween(shipGroup.text).to({alpha:0},300,"Linear",true).onComplete.add(function(){
+			shipGroup.text.setText('')
+		})
+		
+		barGroup.alpha = 1
+		barGroup.angle = 0
+		barGroup.x = barGroup.initialX
+		
+		gameActive = true
+		gameActive = true
+		
+		game.add.tween(barGroup).from({x:game.world.width * 1.5},1000,"Linear",true).onComplete.add(function(){
+			
+			setCard()
+			
+			var indexs = [indexCard,wrongIndex]
+			Phaser.ArrayUtils.shuffle(indexs)
+			
+			for(var i = 0; i < indexs.length; i++){
+				
+				var tap = barGroup.taps[i]
+				
+				console.log(animalNames[indexs[i]])
+				
+				var card = getCard(animalNames[indexs[i]])
+				card.x = barGroup.x
+				card.y = tap.world.y
+				
+				tap.correct = false
+				if(indexs[i] == indexCard){
+					tap.correct = true
+				}
+				
+				game.add.tween(card.scale).from({x:0,y:0},500,"Linear",true)
+			}
+			
+			shipGroup.text.alpha = 1
+			shipGroup.text.setText(animalNames[indexCard])
+			
+			game.add.tween(shipGroup.text.scale).from({x:0,y:0},500,"Linear",true)
+			
+			shipGroup.tween = game.add.tween(shipGroup).to({x:barGroup.x},timeValue,"Linear",true,500)
+			shipGroup.tween.onComplete.add(function(){
+				
+				crashShip(1)
+				
+			},this)
+			
+			
+			sound.play("pop")
+			
+		},this)
+	}
+	
+	function getCard(tag){
+	
+		for(var i = 0; i < animalsGroup.length;i++){
+			
+			var card = animalsGroup.children[i]
+			if(card.tag == tag){
+				card.alpha = 1
+				return card
+				break
+			}
+		}
+	}
+	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].alpha = 0
@@ -151,20 +247,36 @@ var sky = function(){
         }
     } 
     
-    function addNumberPart(obj,number){
+    function addNumberPart(obj,number,isScore){
         
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-        
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        var pointsText = lookParticle('textPart')
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            pointsText.anchor.setTo(0.5,0.5)
+            pointsText.setText(number)
+            pointsText.scale.setTo(1,1)
+
+            var offsetY = -100
+
+            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+            
+            deactivateParticle(pointsText,800)
+            if(isScore){
+                
+                pointsText.scale.setTo(0.7,0.7)
+                var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+                tweenScale.onComplete.add(function(){
+                    game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+                })
+
+                offsetY = 100
+            }
+            
+            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        }
         
     }
     
@@ -184,7 +296,7 @@ var sky = function(){
             stopGame(false)
         }
         
-        addNumberPart(heartsGroup.text,'-1')
+        addNumberPart(heartsGroup.text,'-1',true)
         
     }
     
@@ -199,7 +311,12 @@ var sky = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number)
+        addNumberPart(pointsBar.text,'+' + number,true)
+		
+		if(timeValue>1000){
+			timeValue-=400
+		}
+		
         
     }
     
@@ -258,12 +375,12 @@ var sky = function(){
     function stopGame(win){
         
 		sound.play("wrong")
-        gameActive = false
-        dojoSong.stop()
-        
-		yogotar.setAnimationByName(0,"LOSE",true)
+		sound.play("gameLose")
 		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
+        gameActive = false
+        spaceSong.stop()
+        		
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -279,66 +396,69 @@ var sky = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        //game.load.spine('oof', "images/spines/Oof.json")  
-        game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
+        game.load.spine('ship', "images/spines/skeleton1.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-        game.load.image('introscreen',"images/ice/introscreen.png")
+		game.load.image('howTo',"images/sky/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/sky/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/sky/introscreen.png")
+		
+		console.log(localization.getLanguage() + ' language')
         
     }
     
     function createOverlay(){
         
-		createHearts()
-           createPointsBar()
-		
         overlayGroup = game.add.group()
-		overlayGroup.scale.setTo(0.8,0.8)
+		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
         var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-        rect.alpha = 0.6
+        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.alpha = 0.7
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
+			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                overlayGroup.y = -game.world.height
-                //start()
-                gameActive = true
+                
+				overlayGroup.y = -game.world.height
+				positionBar()
             })
             
         })
         
         overlayGroup.add(rect)
         
-        var plane = overlayGroup.create(game.world.centerX + 75, game.world.centerY,'introscreen')
-        plane.scale.setTo(0.6,0.6)
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
-        
-        var action = 'tap'
-        
-        if(game.device == 'desktop'){
-            action = 'click'
-        }
-        
-        var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var pointsText = new Phaser.Text(sceneGroup.game, +100, 10, localization.getString(localizationData, "howTo"), fontStyle)
-        pointsText.x = plane.x + 105
-        pointsText.y = game.world.centerY - plane.height * 0.35
-        pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
 		
-		var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.sky','gametuto')
+		tuto.anchor.setTo(0.5,0.5)
         
-        var pointsText = new Phaser.Text(sceneGroup.game, -100, 150, localization.getString(localizationData, "stop"), fontStyle)
-        pointsText.x = plane.x - 25
-        pointsText.y = game.world.centerY - plane.height * 0.08
-        pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
-        
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
+		howTo.anchor.setTo(0.5,0.5)
+		howTo.scale.setTo(0.8,0.8)
+		
+		var inputName = 'movil'
+		
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+		
+		console.log(inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.sky',inputName)
+        inputLogo.anchor.setTo(0.5,0.5)
+		inputLogo.scale.setTo(0.7,0.7)
+		
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.sky','button')
+		button.anchor.setTo(0.5,0.5)
+		
+		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+		playText.anchor.setTo(0.5,0.5)
     }
     
     function releaseButton(obj){
@@ -348,17 +468,370 @@ var sky = function(){
 
 	function createBackground(){
 		
-		var background = sceneGroup.create(0,0,'background')
-		background.width = game.world.width
-		background.height = game.world.height
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'background');
+		sceneGroup.add(background)
 		
-		sceneGroup.background = background
+		createBar()
+		
+		topBack = game.add.tileSprite(0,0,game.world.width, 141, 'atlas.sky' ,'up');
+		sceneGroup.add(topBack)
+		
+		botBack = game.add.tileSprite(0,game.world.height,game.world.width,141,'atlas.sky','up')
+		botBack.scale.setTo(1,-1)
+		sceneGroup.add(botBack)
+		
 	}
 	
 	
 	function update(){
 		
-		sceneGroup.background.tilePosition.x--
+		background.tilePosition.x-=3
+		
+		topBack.tilePosition.x-=5
+		botBack.tilePosition.x-=5
+	}
+	
+	function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj,offsetX){
+        
+        var offX = offsetX || 0
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x + offX
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.sky',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+	
+	function createSpaceship(){
+		
+		shoot = sceneGroup.create(0,0,'atlas.sky','shoot')
+		shoot.anchor.setTo(0.5,0.5)
+		shoot.alpha = 0
+		
+		shipGroup = game.add.group()
+		shipGroup.x = game.world.centerX - 200
+		shipGroup.y = game.world.centerY
+		shipGroup.initialX = shipGroup.x
+		shipGroup.initialY = shipGroup.y
+		sceneGroup.add(shipGroup)
+		
+		var ship = game.add.spine(0,80, "ship");
+		ship.setSkinByName("nave")
+		ship.setAnimationByName(0,"IDLE",true)
+		shipGroup.add(ship)
+		shipGroup.ship = ship
+		
+		var textCont = game.add.group()
+		shipGroup.add(textCont)
+		
+		var cont = textCont.create(0,0,'atlas.sky','textcont')
+		cont.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, -5, 0, '', fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        textCont.add(pointsText)
+		
+		shipGroup.text = pointsText
+		shipGroup.textCont = textCont
+		shipGroup.tween = null
+	}
+	
+	function createBar(){
+		
+		barGroup = game.add.group()
+		barGroup.alpha = 0
+		barGroup.x = game.world.centerX + 200
+		barGroup.initialX = barGroup.x
+		sceneGroup.add(barGroup)
+		
+		var bar = barGroup.create(0,0,'atlas.sky','block')
+		bar.anchor.setTo(0.5,0)
+		
+		barGroup.taps = []
+		
+		var pivotY = 300
+		for( var i = 0; i< 2;i++){
+			
+			var tap1 = barGroup.create(0,pivotY,'atlas.sky','tap')
+			tap1.anchor.setTo(0.5,0.5)
+			tap1.inputEnabled = true
+			tap1.events.onInputDown.add(inputButton)
+			tap1.correct = false
+			
+			barGroup.taps[i] = tap1
+		
+			pivotY+=300
+		}
+		
+	}
+	
+	function setExplosion(obj){
+        
+        var posX = obj.x
+        var posY = obj.y
+        
+        if(obj.world){
+            posX = obj.world.x
+            posY = obj.world.y
+        }
+        
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xffffff)
+        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+        rect.alpha = 0
+        rect.endFill()
+		sceneGroup.add(rect)
+		
+		game.add.tween(rect).from({alpha:1},500,"Linear",true)
+		
+        var exp = sceneGroup.create(0,0,'atlas.sky','cakeSplat')
+        exp.x = posX
+        exp.y = posY
+        exp.anchor.setTo(0.5,0.5)
+
+        exp.scale.setTo(6,6)
+        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
+        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+        
+        particlesNumber = 8
+            
+        var particlesGood = game.add.emitter(0, 0, 100);
+
+        particlesGood.makeParticles('atlas.sky','smoke');
+        particlesGood.minParticleSpeed.setTo(-200, -50);
+        particlesGood.maxParticleSpeed.setTo(200, -100);
+        particlesGood.minParticleScale = 0.6;
+        particlesGood.maxParticleScale = 1.5;
+        particlesGood.gravity = 150;
+        particlesGood.angularDrag = 30;
+
+        particlesGood.x = posX;
+        particlesGood.y = posY;
+        particlesGood.start(true, 1000, null, particlesNumber);
+
+        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+        sceneGroup.add(particlesGood)
+        
+    }
+	
+	function inputButton(obj){
+		
+		if(!gameActive){
+			return
+		}
+		
+		gameActive = false
+		
+		if(shipGroup.tween){
+			shipGroup.tween.stop()
+		}
+		
+		if(obj.correct){
+			
+			sound.play("magic")
+			createPart('star',obj)
+			
+			shootShip()
+			
+		}else{
+			
+			sound.play('wrong')
+			createPart('wrong',obj)
+			crashShip(500)
+			
+		}
+		sound.play("pop")
+	}
+	
+	function crashShip(time){
+		
+		gameActive = false
+		
+		game.add.tween(shipGroup).to({x:barGroup.x},time,"Linear",true).onComplete.add(function(){
+			
+			shipGroup.ship.setAnimationByName(0,"LOSE",false)
+			shipGroup.textCont.alpha = 0
+			
+			sound.play("explosion")
+			setExplosion(shipGroup)
+			
+			game.add.tween(shipGroup).to({y:game.world.height*0.9, angle:180,alpha: 0},500,"Linear",true)
+			
+			missPoint()
+		},this)
+	}
+	
+	function shootShip(win){
+		
+		var angleUsed = -25
+		
+		var correctButton = null
+		
+		for(var i = 0; i < barGroup.taps.length; i++){
+			
+			if(barGroup.taps[i].correct){
+				correctButton = barGroup.taps[i]
+				break
+			}
+		}
+		
+		if(correctButton.world.y > shipGroup.y){
+			angleUsed = Math.abs(angleUsed)
+		}
+		
+		game.add.tween(shipGroup).to({angle:angleUsed},500,"Linear",true).onComplete.add(function(){
+			
+			shoot.x = shipGroup.x
+			shoot.y = shipGroup.y
+			shoot.angle = angleUsed
+			shoot.alpha = 1
+			
+			shipGroup.ship.setAnimationByName(0,"FIRE",false)
+			shipGroup.ship.addAnimationByName(0,"IDLE",true)
+			
+			sound.play("shoot")
+			
+			game.add.tween(shoot).to({x:correctButton.world.x,y:correctButton.world.y},500,"Linear",true).onComplete.add(function(){
+				
+				setExplosion(correctButton)
+				
+				sound.play("explosion")
+				resetButtons()
+				
+				game.add.tween(barGroup).to({x:game.world.width * 1.5, angle:barGroup.angle - 180,alpha:0},500,"Linear",true)
+				
+				game.time.events.add(1000,positionBar)
+				addPoint(1)
+				
+				if(indexCard < animalNames.length - 1){
+					indexCard++
+				}else{
+					Phaser.ArrayUtils.shuffle(animalNames)
+					indexCard = 0
+				}
+				
+			},this)
+				
+		},this)
+	}
+	
+	function createAnimals(){
+		
+		animalsGroup = game.add.group()
+		sceneGroup.add(animalsGroup)
+		
+		for(var i = 0; i < animalNames.length;i++){
+			
+			var card = animalsGroup.create(-200,0,'atlas.sky',animalNames[i])
+			card.anchor.setTo(0.5,0.5)
+			card.alpha = 0
+			card.tag = animalNames[i]
+			card.used = false
+		}
+		
+	}
+	
+	function createObjects(){
+		
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+		
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+		
+		createParticles('star',5)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		
 	}
 	
 	return {
@@ -372,10 +845,13 @@ var sky = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createSpaceship()
+			createAnimals()
+			createObjects()
                         			
-            dojoSong = game.add.audio('dojoSong')
-            game.sound.setDecodedCallback(dojoSong, function(){
-                //dojoSong.loopFull(0.6)
+            spaceSong = game.add.audio('spaceSong')
+            game.sound.setDecodedCallback(spaceSong, function(){
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -388,6 +864,8 @@ var sky = function(){
             
             initialize()
 			            
+			createPointsBar()
+			createHearts()
             createOverlay()
             
             animateScene()
