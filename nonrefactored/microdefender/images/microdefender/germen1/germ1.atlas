@@ -1,0 +1,55 @@
+
+germ1.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+germ1/MicroDefender_bags1
+  rotate: false
+  xy: 588, 359
+  size: 140, 118
+  orig: 140, 118
+  offset: 0, 0
+  index: -1
+germ1/MicroDefender_bags2
+  rotate: false
+  xy: 588, 263
+  size: 101, 94
+  orig: 101, 94
+  offset: 0, 0
+  index: -1
+germ1/MicroDefender_eye1
+  rotate: false
+  xy: 2, 2
+  size: 117, 146
+  orig: 117, 146
+  offset: 0, 0
+  index: -1
+germ1/MicroDefender_eye2
+  rotate: false
+  xy: 121, 6
+  size: 113, 142
+  orig: 113, 142
+  offset: 0, 0
+  index: -1
+germ1/MicroDefender_eyelid1
+  rotate: false
+  xy: 730, 423
+  size: 37, 54
+  orig: 37, 54
+  offset: 0, 0
+  index: -1
+germ1/MicroDefender_eyelid2
+  rotate: false
+  xy: 236, 94
+  size: 37, 54
+  orig: 37, 54
+  offset: 0, 0
+  index: -1
+germ1/MicroDefender_torso
+  rotate: false
+  xy: 2, 150
+  size: 584, 327
+  orig: 584, 327
+  offset: 0, 0
+  index: -1
