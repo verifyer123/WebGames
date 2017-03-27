@@ -4,7 +4,7 @@ var microdefender = function(){
 	assets = {
         atlases: [                
 			{
-                name: "atlas.cards",
+                name: "atlas.microdefender",
                 json: "images/microdefender/atlas.json",
                 image: "images/microdefender/atlas.png",
 			}],
@@ -54,6 +54,8 @@ var microdefender = function(){
 	var xpIcon;
 	var xpText;
 	var cursors;
+	var leftMove = false;
+	var rightMove = false;
 	var lives = 3;
 	var coins = 0;
 	var bgm = null;
@@ -245,10 +247,82 @@ var microdefender = function(){
 
 		cursors = game.input.keyboard.createCursorKeys();
 		console.log(globuloBlanco.y);
+
+     var groupButton = game.add.group()
+        groupButton.x = game.world.centerX + 135
+        groupButton.y = game.world.height -125
+        groupButton.scale.setTo(1.4,1.4)
+        groupButton.isPressed = false
+        
+        var button1 = groupButton.create(0,0, 'atlas.microdefender','right_press')
+        button1.anchor.setTo(0.5,0.5)
+        
+        var button2 = groupButton.create(0,0, 'atlas.microdefender','right_idle')
+        button2.anchor.setTo(0.5,0.5)
+        button2.inputEnabled = true
+        button2.tag = 'right'
+        button2.events.onInputDown.add(inputButton1)
+        button2.events.onInputUp.add(releaseButton1)
+        
+        var groupButton = game.add.group()
+        groupButton.x = game.world.centerX - 135
+        groupButton.y = game.world.height -125
+        groupButton.scale.setTo(1.4,1.4)
+        groupButton.isPressed = false
+        
+        var button1 = groupButton.create(0,0, 'atlas.microdefender','left_press')
+        button1.anchor.setTo(0.5,0.5)
+        
+        var button2 = groupButton.create(0,0, 'atlas.microdefender','left_idle')
+        button2.anchor.setTo(0.5,0.5)
+        button2.inputEnabled = true
+        button2.tag = 'left'
+        button2.events.onInputDown.add(inputButton2)
+        button2.events.onInputUp.add(releaseButton2)		
+		
+		
 		createOverlay();
+		
+		
+		
 
 	}
 
+	function inputButton1(){
+		leftMove = true;
+	}
+	
+	function inputButton2(){
+		rightMove = true;	
+	}	
+	
+	function releaseButton1(){
+		leftMove = false;
+	}
+	
+	function releaseButton2(){
+		rightMove = false;	
+	}	
+	
+	function moveLeft(){
+		if(leftMove){
+			if(globuloBlanco.x < wallRigth){
+					globuloBlanco.x += 4;
+				}
+		}
+	}	
+	
+	function moveRight(){
+		if(rightMove){
+			if(globuloBlanco.x >= wallLeft){
+				globuloBlanco.x -= 4;
+			}
+			
+		}
+	}
+	
+	
+	
 	function newPosition(object){
 		object.y = game.height;
 		object.x = getRandomArbitrary(wallLeft, wallRigth);
@@ -261,6 +335,12 @@ var microdefender = function(){
 			globuloBlanco.setAnimationByName(0, "IDLE", true);
 			globuloBlanco.setSkinByName("whitecell");		
 				
+	}
+	
+	function gameOver(){
+		var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, coins,6)
+			sceneloader.show("result");
 	}
 
 	
@@ -295,9 +375,9 @@ var microdefender = function(){
 								globuloBlanco.setSkinByName("LOSE");	
 								bgm.stop();
 								sound.play("gameLose");
-								var resultScreen = sceneloader.getScene("result")
-								resultScreen.setScore(true, coins,6)
-								sceneloader.show("result");							
+								TweenMax.to(this,1,{alpha:0,delay:2,onComplete:gameOver});
+									
+							}
 						}
 					object.impact = true;
 					}
@@ -316,14 +396,15 @@ var microdefender = function(){
 	function update() {
 	if(starGame){	
 		if(lives != 0){
-			
+				moveLeft();
+				moveRight();
 				moveObject(germenes[0])
 				moveObject(germenes[1])
 				moveObject(germenes[2]);
 			
 				moveObject(globuloRojo[0]);
-			moveObject(globuloRojo[1]);
-			moveObject(globuloRojo[2]);
+				moveObject(globuloRojo[1]);
+				moveObject(globuloRojo[2]);
 	
 		
 		
@@ -331,6 +412,9 @@ var microdefender = function(){
 			lado_der.tilePosition.y -= speedGame;
 			lado_izq.tilePosition.y -= speedGame;
 
+			
+			
+			
 			if (cursors.left.isDown){
 
 			if(globuloBlanco.x >= wallLeft){
