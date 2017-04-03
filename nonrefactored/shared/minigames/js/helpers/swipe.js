@@ -23,13 +23,13 @@ function Swipe(game, model) {
 
   self.game = game;
   self.model = model !== undefined ? model : null;
-  self.dragLength = 100;
-  self.diagonalDelta = 50;
+  self.dragLength = 25;
+  self.diagonalDelta = 12.5;
   self.swiping = false;
   self.direction = null;
   self.tmpDirection = null;
   self.tmpCallback = null;
-  self.diagonalDisabled = false;
+  self.diagonalDisabled = true;
 
   this.game.input.onDown.add(function () {
     self.swiping = true;

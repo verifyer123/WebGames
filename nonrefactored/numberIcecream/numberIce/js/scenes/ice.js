@@ -430,6 +430,8 @@ var ice = function(){
         game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
         
         game.load.image('introscreen',"images/ice/introscreen.png")
+		game.load.image('howTo',"images/ice/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/ice/play" + localization.getLanguage() + ".png")
         
     }
     
@@ -445,10 +447,9 @@ var ice = function(){
 		
 		createClock()
 		createHearts()
-           createPointsBar()
+        createPointsBar()
 		
         overlayGroup = game.add.group()
-		overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
         var rect = new Phaser.Graphics(game)
@@ -459,9 +460,10 @@ var ice = function(){
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
+			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+				
                 overlayGroup.y = -game.world.height
-                //start()
                 gameActive = true
 				game.time.events.add(500, showGlobe , this);
             })
@@ -470,31 +472,33 @@ var ice = function(){
         
         overlayGroup.add(rect)
         
-        var plane = overlayGroup.create(game.world.centerX + 75, game.world.centerY,'introscreen')
-        plane.scale.setTo(0.6,0.6)
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
-        
-        var action = 'tap'
-        
-        if(game.device == 'desktop'){
-            action = 'click'
-        }
-        
-        var fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var pointsText = new Phaser.Text(sceneGroup.game, +100, 10, localization.getString(localizationData, "howTo"), fontStyle)
-        pointsText.x = plane.x + 105
-        pointsText.y = game.world.centerY - plane.height * 0.35
-        pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
 		
-		var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.ice','gametuto')
+		tuto.anchor.setTo(0.5,0.5)
         
-        var pointsText = new Phaser.Text(sceneGroup.game, -100, 150, localization.getString(localizationData, "stop"), fontStyle)
-        pointsText.x = plane.x - 25
-        pointsText.y = game.world.centerY - plane.height * 0.08
-        pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
+		howTo.anchor.setTo(0.5,0.5)
+		howTo.scale.setTo(0.8,0.8)
+		
+		var inputName = 'movil'
+		
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+		
+		//console.log(inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.ice',inputName)
+        inputLogo.anchor.setTo(0.5,0.5)
+		inputLogo.scale.setTo(0.7,0.7)
+		
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.ice','button')
+		button.anchor.setTo(0.5,0.5)
+		
+		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+		playText.anchor.setTo(0.5,0.5)
         
     }
     

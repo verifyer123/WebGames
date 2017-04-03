@@ -67,7 +67,7 @@ var water = function(){
     var overlayGroup
 	var arrowGroup
 	var background
-    var dojoSong
+    var seaSong
     var dragCard
 	var lastCard
     var numberToCheck
@@ -972,7 +972,7 @@ var water = function(){
 		dragCard.inputEnabled = false
         gameActive = false
         //timer.pause()
-        dojoSong.stop()
+        seaSong.stop()
         sound.play("gameLose")
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
@@ -1077,7 +1077,7 @@ var water = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/space_music.mp3');
+        game.load.audio('seaSong', soundsPath + 'songs/happy_game_memories.mp3');
                 
         game.load.image('introscreen',"images/water/introscreen.png")
 		
@@ -1100,11 +1100,11 @@ var water = function(){
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
+			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
                 game.time.events.add(500,addCard)
-				//tweenBackground()
-                //start()
+
             })
             
         })
@@ -1112,11 +1112,12 @@ var water = function(){
         overlayGroup.add(rect)
         
         var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
+		plane.scale.setTo(1.1,1.1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.water','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.water','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
+		tuto.scale.setTo(0.8,0.8)
 		
         
         var action = 'tap'
@@ -1125,7 +1126,7 @@ var water = function(){
             action = 'click'
         }
         
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 200,'howTo')
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 250,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.7,0.7)
         
@@ -1135,7 +1136,7 @@ var water = function(){
             deviceName = 'tablet'
         }
 		
-		var inputLogo = overlayGroup.create(game.world.centerX + 35 ,game.world.centerY + 125,'atlas.water','pc')
+		var inputLogo = overlayGroup.create(game.world.centerX + 15,game.world.centerY + 145,'atlas.water',deviceName)
         inputLogo.anchor.setTo(0.5,0.5)
 		
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.water','button')
@@ -1287,9 +1288,9 @@ var water = function(){
             background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'fondo');
 			sceneGroup.add(background)
             
-            dojoSong = game.add.audio('spaceSong')
-            game.sound.setDecodedCallback(dojoSong, function(){
-                //dojoSong.loopFull(0.6)
+            seaSong = game.add.audio('seaSong')
+            game.sound.setDecodedCallback(seaSong, function(){
+                seaSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

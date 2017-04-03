@@ -76,10 +76,11 @@ var flag = function(){
 	var sceneGroup = null
 	var background
 	var laneSpeed
-    var gameActive = true
+    var gameActive
 	var robot
 	var particlesGroup, particlesUsed
     var gameIndex = 8
+	var cursors
 	var tagsToUse
 	var correctIndex
 	var offsetObjs
@@ -100,7 +101,7 @@ var flag = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		laneSpeed = 2
 		tagsToUse = ['enemy']
 		offsetObjs = 300
@@ -174,11 +175,46 @@ var flag = function(){
         
     }
     
+	function restartPlayer(){
+		
+		gameActive = false
+		robot.alpha = 0
+		
+		game.time.events.add(1000,function(){
+			
+			for(var i = 0; i < boxesGroup.length;i++){
+			
+				var box = boxesGroup.children[i]
+				box.anim.setAnimationByName(0,"IDLE",true)
+			}
+			
+			robot.x = robot.initX
+			robot.y = robot.initY
+			robot.alpha = 1
+			robot.index = 0
+			robot.anim.setAnimationByName(0,"IDLEBOX",true)
+			
+			sound.play("cut")
+			game.add.tween(robot).from({y: -50},500,"Linear",true).onComplete.add(function(){
+				gameActive = true
+			})
+		})
+	}
+	
     function missPoint(){
         
+		gameActive = false
+		if(game.device.desktop){
+			robot.ready = false
+		}
+		
+		
+		setExplosion(robot)
         sound.play("wrong")
 		createPart('wrong',robot)
-		game.add.tween(robot).to({angle:robot.angle+360},500,"Linear",true)
+		sound.play("explosion")
+		
+		game.add.tween(robot).to({angle:robot.angle+720},500,"Linear",true)
 		robot.anim.setAnimationByName(0,"LOSEBOX",false)
 		        
         lives--;
@@ -191,7 +227,10 @@ var flag = function(){
         
         if(lives == 0){
             stopGame(false)
-        }
+        }else{
+			
+			restartPlayer()
+		}
         
         addNumberPart(heartsGroup.text,'-1',true)
         
@@ -292,7 +331,7 @@ var flag = function(){
         
         game.load.spine('robot', "images/spines/robot.json")  
 		game.load.spine('helicopter', "images/spines/helicopter.json") 
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/musicVideogame9.mp3');
         
 		game.load.image('howTo',"images/flag/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/flag/play" + localization.getLanguage() + ".png")
@@ -384,6 +423,7 @@ var flag = function(){
 			
 			box.alpha = 1
 			game.add.tween(box).from({y:game.world.height*1.1},500,"Linear",true)
+			box.anim.setAnimationByName(0,"IDLE",true)
 		}
 		
 		game.time.events.add(500,function(){
@@ -418,8 +458,9 @@ var flag = function(){
 		}
 		
 		var skinToUse = localization.getString(localizationData,flagList[correctIndex])
-		console.log(skinToUse + ' skin')
+		//console.log(skinToUse + ' skin')
 		
+		robot.index = 0
 		robot.anim.setAnimationByName(0,"IDLEBOX",true)
 		robot.anim.setSkinByName(flagList[correctIndex])
 		robot.flagIndex = correctIndex
@@ -550,7 +591,7 @@ var flag = function(){
 		
 		var direction = this.swipe.check();
 		
-		if (direction!==null) {
+		if (direction!==null && gameActive) {
 		// direction= { x: x, y: y, direction: direction }
 			switch(direction.direction) {
 				case this.swipe.DIRECTION_UP:
@@ -597,7 +638,7 @@ var flag = function(){
 				obj.x-=laneSpeed
 			}
 			
-			if(checkOverlap(robot,obj) && obj.used){
+			if(checkOverlap(robot,obj) && obj.used && robot.active){
 				missPoint()
 				break
 			}
@@ -624,18 +665,21 @@ var flag = function(){
 				if(robot.flagIndex == box.index){
 					
 					addPoint(1)
-					laneSpeed+=0.5
+					laneSpeed+=0.35
 					box.anim.setAnimationByName(0,"WIN",true)
-					gameActive = false
+					
+					robot.anim.setAnimationByName(0,"WIN",true)
 					addObject()
 					
 					hideScene()
+					gameActive = false
 					
 				}else{
 					
 					missPoint()
 					box.anim.setAnimationByName(0,"LOSE",true)
 				}
+				break
 			}
 		}
 	}
@@ -652,7 +696,7 @@ var flag = function(){
 		game.time.events.add(1000,function(){
 			
 			sound.play("spaceShip")
-			game.add.tween(robot).to({alpha : 0, angle:robot.angle + 360},500,"Linear",true).onComplete(function(){
+			game.add.tween(robot).to({alpha : 0, angle:robot.angle + 360},500,"Linear",true).onComplete.add(function(){
 				robot.x = robot.initX
 				robot.y = robot.initY
 			})
@@ -679,7 +723,12 @@ var flag = function(){
 	
 	function moveRobot(direction){
 		
-		if(!robot.active){
+		if(!robot.active || !gameActive){
+			return
+		}
+		
+		if(!robot.ready){
+			robot.ready = true
 			return
 		}
 		
@@ -722,6 +771,7 @@ var flag = function(){
 				if(lane.left == 1){
 					jumpX = 90
 				}
+				robot.anim.setAnimationByName(0,"RIGHTBOX",false)
 			break;
 				
 			case 'left':
@@ -729,6 +779,7 @@ var flag = function(){
 				if(lane.left == 0){
 					jumpX = -90
 				}
+				robot.anim.setAnimationByName(0,"LEFTBOX",false)
 			break;
 			
 		}
@@ -737,6 +788,10 @@ var flag = function(){
 				
 		game.add.tween(robot).to({x:robot.x + jumpX,y:robot.y + jumpY},100,"Linear",true).onComplete.add(function(){
 			robot.active = true
+			if(gameActive){
+				robot.anim.setAnimationByName(0,"IDLEBOX",true)
+			}
+			
 		})
 		sound.play("whoosh")
 		
@@ -906,6 +961,7 @@ var flag = function(){
 		robot.initY = robot.y
 		robot.index = 0
 		robot.flagIndex = null
+		robot.ready = true
 		robot.alpha = 0
 		robot.active = true
 		sceneGroup.add(robot)
@@ -972,7 +1028,7 @@ var flag = function(){
 			
 			var boxGroup = game.add.group()
 			boxGroup.x = pivotX
-			boxGroup.y = game.world.height * 0.93
+			boxGroup.y = game.world.height * 0.94
 			boxGroup.initY = boxGroup.y
 			boxGroup.scale.setTo(0.7,0.7)
 			boxGroup.country = ''
@@ -1007,6 +1063,7 @@ var flag = function(){
         preload:preload,
 		create: function(event){
             
+			cursors = game.input.keyboard.createCursorKeys();
 			this.swipe = new Swipe(this.game);
 			
 			sceneGroup = game.add.group()
@@ -1018,7 +1075,7 @@ var flag = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
