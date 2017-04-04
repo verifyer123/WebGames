@@ -587,7 +587,7 @@ var result = function(){
                 storeText.anchor.setTo(0,0)
                 sceneGroup.add(storeText)
                 
-                var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
+                var fontStyle = {font: “15px VAGRounded”, fontWeight: “bold”, fill: colorToUse, align: “left”, wordWrap: true, wordWrapWidth: 220}
 
                 var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
                 storeText.anchor.setTo(0,0)
