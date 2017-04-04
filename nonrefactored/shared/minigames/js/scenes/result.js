@@ -276,7 +276,7 @@ var result = function(){
         buddy.setSkinByName('normal');
         sceneGroup.add(buddy)
                 
-        var pivotText = game.world.centerX - 160
+        var pivotText = game.world.centerX - 170
         
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         

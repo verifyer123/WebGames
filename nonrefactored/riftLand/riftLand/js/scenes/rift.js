@@ -106,7 +106,7 @@ var rift = function(){
 		pivotButtons = game.world.height - 75
 		pivotObjects = 0
 		pivotInit = pivotButtons
-		directionList = ['up','down','left','right']
+		directionList = ['down','left','right']
 		moveSpace = 129.6
 		gameSpeed = 0.25
 		lastTile = []
@@ -316,7 +316,7 @@ var rift = function(){
 			sound.play("flesh")
 			
 			game.add.tween(yogotarGroup.anim.scale).to({x:3,y:3},250,"Linear",true)
-			game.add.tween(yogotarGroup).to({x:0,y:game.world.centerY - fieldGroup.y, angle:35},250,"Linear",true).onComplete.add(function(){
+			game.add.tween(yogotarGroup).to({x:0,y:game.world.centerY - fieldGroup.y, angle:25},250,"Linear",true).onComplete.add(function(){
 				
 				var rect = new Phaser.Graphics(game)
 				rect.beginFill(0xffffff)
@@ -388,7 +388,7 @@ var rift = function(){
 		
 		var direction = directionList[indexToUse]
 		
-		if(buttonsGroup.index <= 3){
+		if(buttonsGroup.index <= 2){
 			obj.index = buttonsGroup.index
 		}
 		buttonsGroup.index++
@@ -461,7 +461,7 @@ var rift = function(){
 				gameActive = true
 				
 				var delay = 100
-				for(var i = 0; i < 4; i++){
+				for(var i = 0; i < 3; i++){
 					game.time.events.add(delay,addButton)
 					delay+=100	
 				}				
