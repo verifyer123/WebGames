@@ -395,7 +395,7 @@ var result = function(){
         text.anchor.setTo(0.5,0.5)
         group.add(text)
         
-        pivotX+= 120
+        pivotX+= 110
         var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
         coin.anchor.setTo(0.5,0.5)
         
@@ -404,7 +404,7 @@ var result = function(){
         if(totalScore == 0){
             textAdd = '' + totalScore
         }
-        var text = game.add.bitmapText(coin.x + coin.width * 0.75,pivotY, 'gothamMedium', textAdd, 50);
+        var text = game.add.bitmapText(coin.x + coin.width * 0.75,pivotY, 'gothamMedium', textAdd, 45);
         text.tint = 0xf82a8d
         text.anchor.setTo(0,0.5)
         group.add(text)
@@ -587,7 +587,7 @@ var result = function(){
                 storeText.anchor.setTo(0,0)
                 sceneGroup.add(storeText)
                 
-                var fontStyle = {font: “15px VAGRounded”, fontWeight: “bold”, fill: colorToUse, align: “left”, wordWrap: true, wordWrapWidth: 220}
+                var fontStyle = {font: "15px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "left", wordWrap: true, wordWrapWidth: 220}
 
                 var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
                 storeText.anchor.setTo(0,0)

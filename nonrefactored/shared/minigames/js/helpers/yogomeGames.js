@@ -12,7 +12,9 @@ yogomeGames.getGames = function(){
 		{name:'saladCards',url:'http://yogome.com/epic/minigames/tapcards/',sceneName:'tapcards'},
 		{name:'skyLanguage',url:'http://yogome.com/epic/minigames/skySite/',sceneName:'sky'},
 		{name:'flagRunner',url:'http://yogome.com/epic/minigames/flagSite/',sceneName:'flag'},
-		{name:'riftLand',url:'http://yogome.com/epic/minigames/riftSite/',sceneName:'rift'}
+		{name:'riftLand',url:'http://yogome.com/epic/minigames/riftSite/',sceneName:'rift'},
+		{name:'puzzleRoad',url:'http://yogome.com/epic/minigames/puzzleSite/',sceneName:'puzzle'},
+		{name:'geoJourney',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney'},
         
         
     ]
