@@ -1,7 +1,32 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var geoJourney = function(){
     
+	var localizationData = {
+		"EN":{
+            "howTo":"How to Play?",
+            "moves":"Moves left",
+			"stop":"Stop!",
+			"inner":"Inner Core",
+			"outer":"Outer Core",
+			"convection":"Convection Currents",
+			"lower":"Lower Mantle",
+			"upper":"Upper Mantle",
+			"crust":"The Crust",
+		},
 
+		"ES":{
+            "moves":"Movimientos extra",
+            "howTo":"¿Cómo jugar?",
+            "stop":"¡Detener!",
+			"inner":"Núcleo Central",
+			"outer":"Núcleo Externo",
+			"convection":"Corriente de Convección",
+			"lower":"Manto Inferior",
+			"upper":"Manto Superior",
+			"crust":"La Corteza",
+		}
+	}
+	
 	assets = {
         atlases: [
             {   
@@ -16,6 +41,8 @@ var geoJourney = function(){
 		],
 		sounds: [
             {	name: "pop",
+				file: soundsPath + "pop.mp3"},
+			{	name: "magic",
 				file: soundsPath + "magic.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
@@ -31,10 +58,13 @@ var geoJourney = function(){
 				file: soundsPath + "powerup.mp3"},
             {	name: "balloon",
 				file: soundsPath + "inflateballoon.mp3"},
+			{	name: "combo",
+				file: soundsPath + "combo.mp3"},
 		],
 	}
     
     var COLORS = [0x22bbff,0x13ff84,0xffcf1f,0xe84612]
+	var levels = ['inner','outer','convection','lower','upper','crust']
     
     var SPEED = 225 
     var TIME_ADD = 600
@@ -49,8 +79,11 @@ var geoJourney = function(){
     
     var gameCollisionGroup, playerCollisionGroup
     var cursors
+	var levelContainer
+	var levelIndex
+	var backgroundGroup
     var moveLeft, moveRight, moveUp
-    var marioSong = null
+    var jungleSong = null
     var platNames,itemNames
     var objectsGroup
     var piecesGroup
@@ -58,6 +91,7 @@ var geoJourney = function(){
     var pivotObjects
     var player
     var skinTable
+	var pivotBackground
 	var sceneGroup = null
     var pointsGroup = null
     var gameActive = null
@@ -65,6 +99,7 @@ var geoJourney = function(){
     var pointsBar = null
     var lives = null
     var heartsGroup = null 
+	var backHeight
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -81,14 +116,16 @@ var geoJourney = function(){
     
 	function initialize(){
         
-        platNames = ['blue_plat']
+        platNames = ['normal_plat']
         itemNames = ['coin','spring','coin','coin','coin']
         game.stage.backgroundColor = "#ffffff"
         gameActive = false
         moveUp = false
         objectsGroup = null
+		levelIndex = 0
+		pivotBackground = game.world.height
         lives = 1
-        pivotObjects = game.world.centerY + 100
+        pivotObjects = game.world.height - 125
         tooMuch = false
         lastOne = null
         moveLeft = false
@@ -107,13 +144,17 @@ var geoJourney = function(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         
-        game.load.spine('mascot', "images/spines/skeleton.json");
+        game.load.spine('mascot', "images/spines/dinamita.json");
         game.stage.disableVisibilityChange = false;
         
-        game.load.spritesheet('coinS', 'images/geoJourney/coinS.png', 68, 70, 12);
-        game.load.spritesheet('monster', 'images/geoJourney/monster.png', 292, 237, 17);
+        game.load.spritesheet('coinS', 'images/geoJourney/sprites/coinS.png', 68, 70, 12);
+        game.load.spritesheet('monster', 'images/geoJourney/sprites/monster.png', 292, 237, 17);
         
-        game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
+        game.load.audio('runningSong', soundsPath + 'songs/jungle_fun.mp3');
+		
+		game.load.image('howTo',"images/geoJourney/tutorial/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/geoJourney/tutorial/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/geoJourney/tutorial/introscreen.png")
         
     }
     
@@ -131,7 +172,6 @@ var geoJourney = function(){
             }
         }
         
-        obj.parent.children[1].alpha = 0
     }
     
     function releaseButton(obj){
@@ -144,70 +184,40 @@ var geoJourney = function(){
             }
         }
         
-        obj.parent.children[1].alpha = 1
     }
     
     function createControls(){
         
-        var spaceButtons = 220
-        
-        var bottomRect = sceneGroup.create(0,0,'atlas.geo','dashboard')
-        bottomRect.width = game.world.width
-        bottomRect.height *= 1.02
-        bottomRect.x = game.world.centerX
-        bottomRect.y = game.world.height - bottomRect.height * 0.5
-        bottomRect.anchor.setTo(0,1)
-        bottomRect.anchor.setTo(0.5,0.5)
-        sceneGroup.dashboard = bottomRect
-        
-        var bottomRect = sceneGroup.create(0,0,'atlas.geo','dashboard')
-        bottomRect.width = game.world.width
-        bottomRect.alpha = 0
-        bottomRect.height *= 1.02
-        bottomRect.tag = 'dashboard'
-        bottomRect.x = game.world.centerX
-        bottomRect.y = game.world.centerY - bottomRect.height
-        bottomRect.anchor.setTo(0,1)
-        
-        //bottomRect.body.collides([playerCollisionGroup])
-        
-        //player.body.createBodyCallback(bottomRect, collisionEvent, this);
-        
-        sceneGroup.limit = bottomRect
-        
         var groupButton = game.add.group()
-        groupButton.x = game.world.centerX + 135
-        groupButton.y = game.world.height -125
-        groupButton.scale.setTo(1.4,1.4)
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
-        var button1 = groupButton.create(0,0, 'atlas.geo','right_press')
-        button1.anchor.setTo(0.5,0.5)
-        
-        var button2 = groupButton.create(0,0, 'atlas.geo','right_idle')
-        button2.anchor.setTo(0.5,0.5)
-        button2.inputEnabled = true
-        button2.tag = 'right'
-        button2.events.onInputDown.add(inputButton)
-        button2.events.onInputUp.add(releaseButton)
+        var rButton = new Phaser.Graphics(game)
+        rButton.beginFill(0x000000)
+        rButton.drawRect(game.world.width,0,game.world.width * 0.5, game.world.height)
+		rButton.x-= rButton.width
+        rButton.alpha = 0
+        rButton.endFill()
+        rButton.inputEnabled = true
+        rButton.tag = 'right'
+        rButton.events.onInputDown.add(inputButton)
+        rButton.events.onInputUp.add(releaseButton)
+		groupButton.add(rButton)
         
         var groupButton = game.add.group()
-        groupButton.x = game.world.centerX - 135
-        groupButton.y = game.world.height -125
-        groupButton.scale.setTo(1.4,1.4)
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
-        var button1 = groupButton.create(0,0, 'atlas.geo','left_press')
-        button1.anchor.setTo(0.5,0.5)
-        
-        var button2 = groupButton.create(0,0, 'atlas.geo','left_idle')
-        button2.anchor.setTo(0.5,0.5)
-        button2.inputEnabled = true
-        button2.tag = 'left'
-        button2.events.onInputDown.add(inputButton)
-        button2.events.onInputUp.add(releaseButton)
+        var lButton = new Phaser.Graphics(game)
+        lButton.beginFill(0x000000)
+        lButton.drawRect(0,0,game.world.width * 0.5, game.world.height)
+        lButton.alpha = 0
+        lButton.endFill()
+        lButton.inputEnabled = true
+        lButton.tag = 'left'
+        lButton.events.onInputDown.add(inputButton)
+        lButton.events.onInputUp.add(releaseButton)
+		groupButton.add(lButton)
         
     }
     
@@ -224,7 +234,7 @@ var geoJourney = function(){
     
     function stopGame(win){
         
-        marioSong.stop()
+        jungleSong.stop()
         
         missPoint()
         sound.play("gameLose")
@@ -252,7 +262,7 @@ var geoJourney = function(){
     function addPoint(obj,part){
         
         var partName = part || 'ring'
-        sound.play("pop")
+        sound.play("magic")
                 
         createPart(partName, obj)
         createTextPart('+1', obj)
@@ -265,15 +275,15 @@ var geoJourney = function(){
         
         if(pointsBar.number == 15){
             
-            platNames[platNames.length] = 'yellow_plat'
-            platNames[platNames.length] = 'blue_plat'
+            platNames[platNames.length] = 'broke_plat'
+            platNames[platNames.length] = 'normal_plat'
             
             itemNames[itemNames.length] = 'balloons'
         }
         
         if(pointsBar.number == 25){
             
-            platNames[platNames.length] = 'orange_plat'
+            platNames[platNames.length] = 'move_plat'
         }
         
         if(pointsBar.number == 35){
@@ -337,7 +347,7 @@ var geoJourney = function(){
         characterGroup.x = player.x
         characterGroup.y = player.y +44 
         
-        if(player.body.y > game.world.height - sceneGroup.dashboard.height  - player.height * 0.25 && player.falling){
+        if(player.body.y > game.world.height - player.height * 0.25 && player.falling){
             
             stopGame()
         }
@@ -378,40 +388,71 @@ var geoJourney = function(){
         game.physics.p2.gravity.y = 0
         player.body.velocity.y = 0
         
-        sound.play("pop")
+        sound.play("magic")
         sound.play("balloon")
         
         player.active = false
         moveUp = true
-        buddy.setAnimationByName(0, "JUMP_BALLOONS", true)
-        
-        var newSkin = buddy.createCombinedSkin(
-                'combined2',     
-                'glasses' + skinTable[0],        
-                'hair' +  skinTable[1],
-                'skin' + skinTable[2],
-                'torso' + skinTable[3],
-                'balloons'
-        );
-
-        buddy.setSkinByName('combined2')
-        
-        buddy.setToSetupPose()
+        buddy.setAnimationByName(0, "JUMP_HELICOPTER", true)
         
         game.time.events.add(3000,function(){
                         
             player.active = true
             moveUp = false
             
+			buddy.setAnimationByName(0,"JUMP",false)
             game.physics.p2.gravity.y = WORLD_GRAVITY
-            
-            buddy.setSkinByName('combined')
-            buddy.setToSetupPose()
+
         },this)
     }
     
+	function changeLevel(){
+		
+		sound.play("combo")
+		levelContainer.text.setText(localization.getString(localizationData,levels[levelIndex + 1]))
+		levelIndex++
+
+		game.add.tween(levelContainer.scale).to({x:1.2,y:1.2},250,"Linear",true).onComplete.add(function(){
+			game.add.tween(levelContainer.scale).to({x:1,y:1},250,"Linear",true)
+		})
+	}
+	
     function checkObjects(){
         
+		for(var i = 0; i < backgroundGroup.length;i++){
+			
+			var back = backgroundGroup.children[i]
+			
+			if(!back.isSep){
+				back.tilePosition.x--
+			}
+			
+			if(back.world.y > game.world.height + back.height && back.isSky){
+				
+				back.y = pivotBackground
+				pivotBackground-= back.height
+				//console.log('added back')
+			}
+			
+			if(levelIndex < 6){
+				
+				if(checkOverlap(player,back) && levelIndex == back.index && back.isSep){
+					
+					console.log(back.index + ' index')
+					if(levelIndex > 4){
+						
+						if(levelContainer.alpha == 1){
+							game.add.tween(levelContainer).to({alpha:0},500,"Linear",true)
+						}
+					}else{
+						
+						changeLevel()
+					}
+					
+				}
+			}
+		}
+		
         for(var i = 0; i<objectsGroup.length;i++){
             
             var object = objectsGroup.children[i]
@@ -424,13 +465,13 @@ var geoJourney = function(){
                     
                     var checkTop = player.world.y < object.world.y - object.height * 0.5 && player.falling && player.active
                     
-                    if(tag == 'blue_plat' || tag == 'orange_plat'){
+                    if(tag.substring(1,tag.length) == 'normal_plat' || tag.substring(1,tag.length) == 'move_plat'){
                         
                         if(checkTop){
                     
                             doJump()
                         }
-                    }else if(tag == 'yellow_plat' && object.alpha == 1){
+                    }else if(tag.substring(1,tag.length) == 'broke_plat' && object.alpha == 1){
                         if(checkTop){
                             
                             doJump(100)
@@ -466,7 +507,7 @@ var geoJourney = function(){
                     
                 }
                 
-                if(object.world.y > game.world.height - 200){
+                if(object.world.y > game.world.height + 50){
                     deactivateObj(object)
                     
                     if(tag.substring(tag.length - 4,tag.length) == 'plat'){
@@ -475,7 +516,7 @@ var geoJourney = function(){
                     
                 }
                 
-                if(object.tag == 'orange_plat'){
+                if(object.tag.substring(1,object.tag.length) == 'move_plat'){
                     
                     if(object.moveRight){
                         
@@ -495,11 +536,11 @@ var geoJourney = function(){
             }
             
         }
-        
-        var bar = sceneGroup.limit
-        if(player.body.y <= bar.y + bar.height * 0.5){
+        		
+		var posY = game.world.centerY
+        if(player.body.y <= posY){
 
-            var value = (bar.y + bar.height * 0.5) - player.body.y
+            var value = (posY) - player.body.y
             
             value*=0.8
             
@@ -525,7 +566,7 @@ var geoJourney = function(){
 
         if(game.physics.p2.gravity.y == 0){
             game.physics.p2.gravity.y = WORLD_GRAVITY
-            marioSong.loopFull(0.5)
+            //jungleSong.loopFull(0.5)
         }
         
         /*var bar = sceneGroup.limit
@@ -718,7 +759,7 @@ var geoJourney = function(){
     
     function activateObject(child,posX,posY){
         
-         if(child.tag == 'orange_plat' && child.tween){
+         if(child.tag == 'move_plat' && child.tween){
              child.tween.stop()
          }
         
@@ -731,7 +772,7 @@ var geoJourney = function(){
          child.y = posY
          child.x = posX
 
-         if(tag == 'orange_plat'){
+         if(tag == 'move_plat'){
              child.moveRight = true
 
              if(Math.random()*2>1){
@@ -780,9 +821,12 @@ var geoJourney = function(){
             if(!object.active && object.tag == tag){
                 
                 var posX = game.rnd.integerInRange(100,game.world.width - 100)
+				if(objectsGroup.length == 1){
+					posX = game.world.centerX
+				}
                 activateObject(object,posX,pivotObjects)
                 
-                if(Math.random()*3 >1.5 && object.tag == 'blue_plat' && lastOne){
+                if(Math.random()*3 >1.5 && object.tag.substring(1,object.tag.length) == 'normal_plat' && lastOne){
                     addItem(object)
                 }
                 
@@ -804,6 +848,7 @@ var geoJourney = function(){
             if(type == 'coin'){
                 
                 obj = game.add.sprite(0, 0, 'coinS');
+				obj.scale.setTo(0.8,0.8)
                 piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',24,true); 
@@ -821,7 +866,7 @@ var geoJourney = function(){
                 var obj = piecesGroup.create(0,0,'atlas.geo',type)
             }
             
-            if(type == 'orange_plat'){
+            if(type == 'move_plat'){
                 
                 obj.moveRight = true
             }
@@ -836,9 +881,12 @@ var geoJourney = function(){
     
     function createObjects(){
         
-        createObstacle('blue_plat',18)
-        createObstacle('yellow_plat',18)
-        createObstacle('orange_plat',10)
+		for(var i = 0; i < 3;i++){
+			createObstacle(i +'normal_plat',18)
+			createObstacle(i + 'broke_plat',18)
+			createObstacle(i + 'move_plat',10)
+		}
+   		
         createObstacle('coin',20)
         createObstacle('spring',10)
         createObstacle('balloons',5)
@@ -862,8 +910,8 @@ var geoJourney = function(){
         
         tag = platNames[0]
         
-        if(lastOne && lastOne.tag == 'yellow_plat'){
-            tag = 'blue_plat'
+        if(lastOne && lastOne.tag.substring(1,lastOne.tag.length) == 'broke_plat'){
+            tag = 'normal_plat'
         }
         
         return tag
@@ -871,9 +919,17 @@ var geoJourney = function(){
     
     function addObjects(){
         
-        var tag = checkTag()
-        
-        //console.log(piecesGroup.length + ' available')
+		var indexAdd = 1
+		
+		if(pivotObjects < -backHeight * 1.755){
+			indexAdd = 2
+		}
+		
+		if(pivotObjects < -backHeight * 3.8	){
+			indexAdd = 0
+		}
+		
+        var tag = indexAdd + checkTag()		
         addObstacle(tag)
                 
     }
@@ -902,7 +958,9 @@ var geoJourney = function(){
 				
 				overlayGroup.y = -game.world.height
 				gameActive = true
-        		game.time.events.add(500,doJump,this)
+        		doJump()
+				
+				//game.time.events.add(4000,changeLevel)
             })
             
         })
@@ -913,7 +971,7 @@ var geoJourney = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.puzzle','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.geo','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -927,16 +985,74 @@ var geoJourney = function(){
 		}
 		
 		//console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.puzzle',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.geo',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.puzzle','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.geo','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)
     }
+	
+	function createBackgrounds(){
+		
+		pivotBackground = game.world.height * 2
+		
+		var indexSep = 0
+		for(var i = -1; i < 8;i++){
+			
+			var imgName = 'back' + (i+1)
+			var sep
+			var isSky = false
+			
+			if(i>-1 && i < 6){
+				
+				var numberImage = i
+				
+				if(numberImage<1){numberImage = 1}
+				sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 113, 'atlas.geo','sep'+ numberImage)
+				sep.anchor.setTo(0.5,1)
+				sep.index = indexSep
+				sep.isSep = true
+				indexSep++
+				
+				
+				if(i == 0){
+					sep.y = -500
+					sep.alpha = 0
+				}
+			}
+			
+			if(i>5){
+				imgName = 'back6'
+				isSky = true
+			}
+			
+			if(i==-1){
+				imgName = 'back1'
+			}
+			
+			if( i == 0){
+				pivotBackground = game.world.height
+			}
+			
+			var back = game.add.tileSprite(0,pivotBackground,game.world.width, 0, 'atlas.geo',imgName);
+			back.height*=16
+			back.isSky = isSky
+			back.anchor.setTo(0.5,1)
+			backgroundGroup.add(back)
+			
+			backHeight = back.height
+			
+			pivotBackground-= back.height
+			
+			if(sep){
+				backgroundGroup.add(sep)
+			}			
+		}
+	}
 	
 	return {
         
@@ -959,12 +1075,7 @@ var geoJourney = function(){
             
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             
-			sceneGroup = game.add.group()
-            
-            var background = sceneGroup.create(0,0,'fondo')
-            background.width = game.world.width
-            background.height = game.world.height
-            sceneGroup.add(background)
+			sceneGroup = game.add.group()        
             
             worldGroup = game.add.group()
             //worldGroup.scale.setTo(0.5,0.5)
@@ -974,10 +1085,10 @@ var geoJourney = function(){
             loadSounds()
 			initialize()       
             
-            //sound.play("marioSong")
-            marioSong = game.add.audio('runningSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                //marioSong.loopFull(0.6)
+            //sound.play("jungleSong")
+            jungleSong = game.add.audio('runningSong')
+            game.sound.setDecodedCallback(jungleSong, function(){
+                jungleSong.loopFull(0.6)
             }, this);
             
             piecesGroup = game.add.group()
@@ -985,17 +1096,22 @@ var geoJourney = function(){
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
+			
+			backgroundGroup = game.add.group()
+			objectsGroup.add(backgroundGroup)    
+			
+			createBackgrounds()
             
             particlesGroup = game.add.group()
             worldGroup.add(particlesGroup)
             
             characterGroup = game.add.group()
             characterGroup.x = game.world.centerX
-            characterGroup.y = game.world.height - BOT_OFFSET * 3
+            characterGroup.y = game.world.height
             worldGroup.add(characterGroup)
             
             buddy = game.add.spine(0,0, "mascot");
-            buddy.scale.setTo(0.55,0.55)
+            //buddy.scale.setTo(0.55,0.55)
             characterGroup.add(buddy)            
             buddy.setAnimationByName(0, "IDLE", true);
             buddy.setSkinByName('normal');
@@ -1014,8 +1130,9 @@ var geoJourney = function(){
             
             //createTrail()
             
-            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.geo','meizy')
+            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.geo','dinamita')
             player.active = true
+			player.scale.setTo(0.6,0.6)
             player.anchor.setTo(0.5,1)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
@@ -1044,6 +1161,22 @@ var geoJourney = function(){
                 game.sound.mute = false
             }, this);
             
+			levelContainer = game.add.group()
+			levelContainer.x = game.world.centerX
+			levelContainer.y = game.world.height - 50
+			sceneGroup.add(levelContainer)
+			
+			var container = levelContainer.create(0,0,'atlas.geo','container')
+			container.anchor.setTo(0.5,0.5)
+			
+			var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData,levels[levelIndex]), fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			levelContainer.add(pointsText)
+			
+			levelContainer.text = pointsText
+			
             createOverlay()
             
             game.physics.p2.setImpactEvents(true);

@@ -60,7 +60,9 @@ var rift = function(){
 			{	name: "glassbreak",
 				file: soundsPath + "glassbreak.mp3"},
 			{	name: "flesh",
-				file: soundsPath + "flesh.mp3"}
+				file: soundsPath + "flesh.mp3"},
+			{	name: "combo",
+				file: soundsPath + "combo.mp3"},
 			
 		],
     }
@@ -74,7 +76,7 @@ var rift = function(){
 	var pivotDrag
 	var timeToAdd
 	var pivotButtons, pivotObjects
-	var directionList
+	var directionList, arrowsList
 	var buttonCont
 	var lastButton
 	var particlesGroup, particlesUsed
@@ -90,6 +92,7 @@ var rift = function(){
     var overlayGroup
     var medievalSong
 	var itemChance
+	var diamondColors = [0xFF3F8F,0x7D92FF,0x57E271]
 	
 
 	function loadSounds(){
@@ -106,6 +109,7 @@ var rift = function(){
 		pivotButtons = game.world.height - 75
 		pivotObjects = 0
 		pivotInit = pivotButtons
+		arrowsList = ['🡳','🡰','🡲']
 		directionList = ['down','left','right']
 		moveSpace = 129.6
 		gameSpeed = 0.25
@@ -155,6 +159,7 @@ var rift = function(){
     function addNumberPart(obj,number,isScore){
         
         var pointsText = lookParticle('textPart')
+		var pos = -100
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -177,9 +182,10 @@ var rift = function(){
                 })
 
                 offsetY = 100
+				pos = 100
             }
             
-            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({y:pointsText.y + pos},800,Phaser.Easing.linear,true)
             game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
         }
         
@@ -225,6 +231,7 @@ var rift = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
+		addNumberPart(yogotarGroup.yogoPos,'+' + number)
 		
 		var valueAdd = 0.05
 		
@@ -358,6 +365,7 @@ var rift = function(){
 		
 		game.load.spritesheet('monster', 'images/rift/monster.png', 88, 114, 11);
 		game.load.spritesheet('coin', 'images/rift/coin.png', 68, 70, 12);
+		game.load.spritesheet('diamond', 'images/rift/diamond.png', 42, 81, 11);
 		        
     }
 	
@@ -386,14 +394,14 @@ var rift = function(){
 			obj.index = lastButton.index
 		}
 		
-		var direction = directionList[indexToUse]
+		var direction = arrowsList[indexToUse]
 		
 		if(buttonsGroup.index <= 2){
 			obj.index = buttonsGroup.index
 		}
 		buttonsGroup.index++
 		
-		var textToUse = localization.getString(localizationData,direction)
+		var textToUse = direction
 		
 		obj.text.setText('')
 		obj.text2.setText('')
@@ -405,7 +413,7 @@ var rift = function(){
 		}
 											   
 		
-		obj.tag = direction
+		obj.tag = directionList[indexToUse]
 		
 		obj.drag.inputEnabled = true
 		obj.active = false
@@ -578,7 +586,24 @@ var rift = function(){
 						checkShield()
 						obj = getObject('shield')
 					}else{
-						obj = getObject('coin')
+						
+						if(pointsBar.number > 10 && game.rnd.integerInRange(0,2) > 1){
+							obj = getObject('diamond')
+							
+							if(pointsBar.number < 15){
+								obj.tint = diamondColors[0]
+								obj.value = 3
+							}else if(pointsBar.number < 20){
+								obj.tint = diamondColors[1]
+								obj.value = 5
+							}else{
+								obj.tint = diamondColors[2]
+								obj.value = 10
+							}
+							
+						}else{
+							obj = getObject('coin')
+						}
 					}
 					
 					activateObject(obj,field.x,field.y,true)
@@ -942,9 +967,9 @@ var rift = function(){
 			var buttonImage = group.create(0,0,'atlas.rift','dragobject')
 			buttonImage.anchor.setTo(0.5,0.5)
 			
-			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 			
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 3, "", fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
 			group.add(pointsText)
 			
@@ -1091,6 +1116,9 @@ var rift = function(){
 					activateShield()
 					deactivateObject(object)
 					break
+				}else if(tag == 'diamond'){
+					addPoint(obj.value)
+					deactivateObject(object)
 				}
 				
 			}
@@ -1184,6 +1212,7 @@ var rift = function(){
 		createObjects('monster',0.8,12)
 		createObjects('coin',1,12)
 		createObjects('shield',1,12)
+		createObjects('diamond',1,12)
 		
 		yogotarGroup = game.add.group()
 		yogotarGroup.fall = false
@@ -1213,10 +1242,10 @@ var rift = function(){
 		sceneGroup.add(particlesGroup)
 		
 		particlesUsed = game.add.group()	
-		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',5)
 		createParticles('wrong',5)
+		createParticles('text',6)
 	}
 	
 	function changeColorBubble(){
@@ -1239,12 +1268,13 @@ var rift = function(){
 		for(var i = 0; i< number;i++){
 			
 			var obj 
-			if(tag == 'monster' || tag == 'coin'){
+			if(tag == 'monster' || tag == 'coin' || tag == 'diamond'){
 				
 				obj = game.add.sprite(-200, 0, tag);
                 piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',12,true);
+				
 			}else{
 				
 				obj = piecesGroup.create(-200,0,'atlas.rift',tag)
@@ -1277,13 +1307,15 @@ var rift = function(){
 			
 			createInterface()
 			createButtons()
+			            
+			createPointsBar()
+			createHearts()
+			
+			sceneGroup.add(particlesUsed)
 			
 			for(var i = 0; i < 4;i++){
 				addTiles()
 			}
-			            
-			createPointsBar()
-			createHearts()
 			
             createOverlay()
             
