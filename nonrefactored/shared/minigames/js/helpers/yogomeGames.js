@@ -15,6 +15,7 @@ yogomeGames.getGames = function(){
 		{name:'riftLand',url:'http://yogome.com/epic/minigames/riftSite/',sceneName:'rift'},
 		{name:'puzzleRoad',url:'http://yogome.com/epic/minigames/puzzleSite/',sceneName:'puzzle'},
 		{name:'geoJourney',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney'},
+		{name:'memoNumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo'},
         
         
     ]

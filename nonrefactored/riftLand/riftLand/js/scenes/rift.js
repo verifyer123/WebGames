@@ -63,6 +63,8 @@ var rift = function(){
 				file: soundsPath + "flesh.mp3"},
 			{	name: "combo",
 				file: soundsPath + "combo.mp3"},
+			{	name: "flipCard",
+				file: soundsPath + "flipCard.mp3"},
 			
 		],
     }
@@ -93,6 +95,8 @@ var rift = function(){
     var medievalSong
 	var itemChance
 	var diamondColors = [0xFF3F8F,0x7D92FF,0x57E271]
+	var tutorialHand
+	var machineGroup
 	
 
 	function loadSounds(){
@@ -109,10 +113,10 @@ var rift = function(){
 		pivotButtons = game.world.height - 75
 		pivotObjects = 0
 		pivotInit = pivotButtons
-		arrowsList = ['🡳','🡰','🡲']
+		arrowsList = ['↓','←','→']
 		directionList = ['down','left','right']
 		moveSpace = 129.6
-		gameSpeed = 0.25
+		gameSpeed = 0.1
 		lastTile = []
 		lastNumber = 0
 		lastButton = null
@@ -240,7 +244,7 @@ var rift = function(){
 		}
 		
 		if(pointsBar.number % 5){
-			gameSpeed+=0.05
+			gameSpeed+=0.04
 		}
 		
 		if(pointsBar.number == 10){
@@ -366,6 +370,7 @@ var rift = function(){
 		game.load.spritesheet('monster', 'images/rift/monster.png', 88, 114, 11);
 		game.load.spritesheet('coin', 'images/rift/coin.png', 68, 70, 12);
 		game.load.spritesheet('diamond', 'images/rift/diamond.png', 42, 81, 11);
+		game.load.spritesheet('machine', 'images/rift/triturador.png', 39, 63, 8);
 		        
     }
 	
@@ -406,7 +411,7 @@ var rift = function(){
 		obj.text.setText('')
 		obj.text2.setText('')
 				
-		if(textToUse.length < 7){
+		if(directionList[indexToUse] != 'down'){
 			obj.text.setText(textToUse)
 		}else{
 			obj.text2.setText(textToUse)
@@ -448,9 +453,40 @@ var rift = function(){
 		//game.time.events.add(timeToAdd,addButton)
 	}
 	
+	function startTutorial(){
+		
+		if(!tutorialHand.active){
+			return
+		}
+		
+		tutorialHand.alpha = 1
+		tutorialHand.x = 100
+		tutorialHand.y = game.world.height - 100
+		
+		game.add.tween(tutorialHand).to({x:buttonCont.x + 50,y:buttonCont.y},1000,"Linear",true).onComplete.add(function(){
+			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,250).onComplete.add(startTutorial)
+		})
+	}
+	
+	function stopTutorial(){
+		
+		tutorialHand.active = false
+		gameSpeed = 0.25
+	}
+	
+	function createTutorial(){
+		
+		tutorialHand = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.rift','tutorialHand')
+		tutorialHand.scale.setTo(0.7,0.7)
+		tutorialHand.anchor.setTo(0.5,0.5)
+		tutorialHand.alpha = 0
+		tutorialHand.active = true
+	}
 	
     function createOverlay(){
         
+		createTutorial()
+		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -467,6 +503,8 @@ var rift = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 				gameActive = true
+				
+				game.time.events.add(1000,startTutorial)
 				
 				var delay = 100
 				for(var i = 0; i < 3; i++){
@@ -587,7 +625,7 @@ var rift = function(){
 						obj = getObject('shield')
 					}else{
 						
-						if(pointsBar.number > 10 && game.rnd.integerInRange(0,2) > 1){
+						if(pointsBar.number > 10 && Math.random()*2 > 1){
 							obj = getObject('diamond')
 							
 							if(pointsBar.number < 15){
@@ -788,7 +826,8 @@ var rift = function(){
 			
 		}
 		
-		if(yogotarGroup.yogoPos.world.y < -50){
+		if(checkOverlap(yogotarGroup.yogoPos,machineGroup)){
+			yogotarGroup.fall = false
 			missPoint()
 		}
 	}
@@ -967,17 +1006,18 @@ var rift = function(){
 			var buttonImage = group.create(0,0,'atlas.rift','dragobject')
 			buttonImage.anchor.setTo(0.5,0.5)
 			
-			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 			
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 3, "", fontStyle)
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
 			group.add(pointsText)
 			
 			group.text = pointsText
 			
-			var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+			var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 			
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
+			pointsText.scale.y = 0.7
 			pointsText.anchor.setTo(0.5,0.5)
 			group.add(pointsText)
 			
@@ -1028,6 +1068,10 @@ var rift = function(){
         if(!gameActive){
             return
         }
+		
+		if(tutorialHand.active){
+			stopTutorial()
+		}
 		
 		lastButton = obj.button
 		
@@ -1166,7 +1210,7 @@ var rift = function(){
 			
 		}else{
 			
-			sound.play('wrong')
+			sound.play('flipCard')
 			game.add.tween(obj.button).to({alpha:0,angle:obj.button.angle + 720},300,"Linear",true).onComplete.add(function(){
 				deactivateButton(obj.button)
 			})
@@ -1202,7 +1246,7 @@ var rift = function(){
 		
 		fieldGroup = game.add.group()
 		fieldGroup.x = game.world.centerX + 80
-		fieldGroup.y = game.world.centerY - 150
+		fieldGroup.y = game.world.centerY
 		sceneGroup.add(fieldGroup)
 		
 		piecesGroup = game.add.group()
@@ -1238,6 +1282,8 @@ var rift = function(){
 		bubble.alpha = 0
 		yogotarGroup.bubble = bubble
 		
+		createMachine()
+		
 		particlesGroup = game.add.group()
 		sceneGroup.add(particlesGroup)
 		
@@ -1246,6 +1292,27 @@ var rift = function(){
 		createParticles('star',5)
 		createParticles('wrong',5)
 		createParticles('text',6)
+		
+	}
+	
+	function createMachine(){
+		
+		machineGroup = game.add.group()
+		machineGroup.x = game.world.centerX - 50
+		machineGroup.y = 150
+		sceneGroup.add(machineGroup)
+		
+		var pivotX = 0
+		
+		for(var i = 0; i< 8;i++){
+			
+			var obj = game.add.sprite(pivotX, 0, 'machine');
+			obj.animations.add('walk');
+			obj.animations.play('walk',12,true);
+			machineGroup.add(obj)
+			
+			pivotX+= obj.width
+		}
 	}
 	
 	function changeColorBubble(){

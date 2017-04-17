@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Puzzle Road",
+        name: "Memo Numbers",
         language: "es",
-        minigameUrl: "../puzzleRoad/index.html?language=" + language,
+        minigameUrl: "../memoNumbers/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

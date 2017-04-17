@@ -56,6 +56,7 @@ var result = function(){
     var gameNumbers = null
     var scaleToUse
     var gameIndex = 0
+	var tile
     var icons
 
 	var timeGoal = null
@@ -230,7 +231,7 @@ var result = function(){
     
     function createBackground(){
         
-        var tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'atlas.resultScreen','retro-pattern');
+        tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'atlas.resultScreen','retro-pattern');
 		sceneGroup.add(tile)
     }
     
@@ -429,6 +430,11 @@ var result = function(){
         
     }
     
+	function update(){
+		
+		tile.tilePosition.x++
+	}
+	
 	return {
 		assets: assets,
 		name: "result",
@@ -436,5 +442,6 @@ var result = function(){
         preload: preload,
 		setScore: setScore,
 		init: initialize,
+		update:update,
 	}
 }()
