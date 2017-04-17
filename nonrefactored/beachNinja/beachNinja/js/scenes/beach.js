@@ -16,9 +16,9 @@ var beach = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.memo",
-                json: "images/memo/atlas.json",
-                image: "images/memo/atlas.png",
+                name: "atlas.beach",
+                json: "images/beach/atlas.json",
+                image: "images/beach/atlas.png",
             },
         ],
         images: [
@@ -55,12 +55,13 @@ var beach = function(){
     var gameActive
 	var particlesGroup, particlesUsed
 	var offWorld = -15
-    var gameIndex = 12
-	var buttonsGroup
+    var gameIndex = 13
 	var numberPanel,bar
+	var sky
     var overlayGroup
     var puzzleSong
-	var objectsGroup,usedObjects
+	var objectsGroup,usedObjects, containerGroup
+	var treeGroup
 	var multiple
 	var gameSpeed
 		
@@ -176,7 +177,7 @@ var beach = function(){
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
 		
-		createTextPart('+' + number,numberPanel.number)
+		//createTextPart('+' + number,numberPanel.number)
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -194,7 +195,7 @@ var beach = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.memo','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.beach','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -222,7 +223,7 @@ var beach = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.memo','life_box')
+        var heartImg = group.create(0,0,'atlas.beach','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -266,10 +267,9 @@ var beach = function(){
         game.load.spine('figures', "images/spines/skeleton.json")  
         game.load.audio('puzzleSong', soundsPath + 'songs/upbeat_casual_8.mp3');
         
-		game.load.image('howTo',"images/memo/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/memo/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/memo/introscreen.png")
-		game.load.image('gradient',"images/memo/gradient.png")
+		game.load.image('howTo',"images/beach/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/beach/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/beach/introscreen.png")
 		
 		//console.log(localization.getLanguage() + ' language')
         
@@ -327,10 +327,7 @@ var beach = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 				
 				overlayGroup.y = -game.world.height
-				showButtons()
-				
-				game.time.events.add(1500,setNumber)
-				
+								
             })
             
         })
@@ -341,7 +338,7 @@ var beach = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.memo','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.beach','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -355,11 +352,11 @@ var beach = function(){
 		}
 		
 		//console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.memo',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.beach',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.memo','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.beach','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -369,10 +366,18 @@ var beach = function(){
 
 	function createBackground(){
 		
+		var bottom = game.add.tileSprite(0,game.world.height,game.world.width,321,'atlas.beach','bottom')
+		bottom.anchor.setTo(0,1)
+		sceneGroup.add(bottom)
+		
+		sky = game.add.tileSprite(0,0,game.world.width,game.world.height - bottom.height,'atlas.beach','sky')
+		sceneGroup.add(sky)
+		
 	}
 	
 	function update(){
-
+		
+		sky.tilePosition.x+=0.5
 	}
 		
 	function checkOverlap(spriteA, spriteB) {
@@ -469,7 +474,7 @@ var beach = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.memo',tag)
+                particle = particlesGroup.create(-200,0,'atlas.beach',tag)
             }
             
             particle.alpha = 0
@@ -497,7 +502,7 @@ var beach = function(){
 		
 		if(!tag){
 			
-			var exp = sceneGroup.create(0,0,'atlas.memo','cakeSplat')
+			var exp = sceneGroup.create(0,0,'atlas.beach','cakeSplat')
 			exp.x = posX
 			exp.y = posY
 			exp.anchor.setTo(0.5,0.5)
@@ -521,7 +526,7 @@ var beach = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.memo',tagToUse);
+        particlesGood.makeParticles('atlas.beach',tagToUse);
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -542,7 +547,7 @@ var beach = function(){
 		
 		for( var i = 0; i < number;i++){
 			
-			var obj = objectsGroup.create(0,0,'atlas.memo',tag + 'Base')
+			var obj = objectsGroup.create(0,0,'atlas.beach',tag + 'Base')
 			obj.anchor.setTo(0.5,0.5)
 			obj.tag = tag
 			obj.angle= -angleToUse
@@ -565,6 +570,31 @@ var beach = function(){
 		createParticles('text',5)
 	}
 	
+	function createTrees(){
+		
+		treeGroup = game.add.group()
+		sceneGroup.add(treeGroup)
+		
+		var pivotX = game.world.centerX - 210
+		
+		for(var i = 0; i < 3; i++){
+			
+			var tree = treeGroup.create(pivotX,0,'atlas.beach','tree')
+			tree.anchor.setTo(0.5,0)
+			tree.height = game.world.height - 175
+			
+			pivotX+= 225
+			
+		}
+	}
+	
+	function createContainer(){
+		
+		containerGroup = game.add.group()
+		containerGroup.x = game.world.centerX
+		containerGroup.y = game.world.height - 200
+	}
+	
 	return {
 		
 		assets: assets,
@@ -578,6 +608,8 @@ var beach = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createTrees()
+			createContainer()
 			addParticles()
                         			
             puzzleSong = game.add.audio('puzzleSong')
