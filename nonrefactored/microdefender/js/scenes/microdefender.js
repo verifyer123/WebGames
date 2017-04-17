@@ -88,6 +88,7 @@ var microdefender = function(){
 		game.load.image('introscreen',"images/microdefender/introscreen.png");
 		game.load.image('bgclock',"images/microdefender/bgclock.png");
 		game.load.image('buttonPlay',"images/microdefender/button.png");		game.load.image('pc',"images/microdefender/pc.png");
+		game.load.image('movil',"images/microdefender/movil.png");
 		game.load.image('howTo',"images/microdefender/how"  + localization.getLanguage()  + ".png");
 		game.load.image('buttonText',"images/microdefender/play" + localization.getLanguage() + ".png");		
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
@@ -97,6 +98,12 @@ var microdefender = function(){
 		sound.decode(assets.sounds)
 	}
 	function initialize(){
+		lives = 3;
+		coins = 0;
+		heartsText.setText("x " + lives);
+		xpText.setText(coins);
+		speedGame = 3.5;
+		starGame = false;
 
 	}	
 
@@ -105,6 +112,13 @@ var microdefender = function(){
 	}
 	
 	function createOverlay(){
+		lives = 3;
+		coins = 0;
+		heartsText.setText("x " + lives);
+		xpText.setText(coins);
+		speedGame = 3.5;
+		starGame = false;
+		
         sceneGroup = game.add.group()
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
@@ -131,10 +145,9 @@ var microdefender = function(){
             }, this);
 		
 		bgm.loopFull(0.5);
-				
-				
-				starGame = true;
-		//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
+		starGame = true;
+
+				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
             })
             
         })
@@ -164,18 +177,19 @@ var microdefender = function(){
 		var offsetX = 0
         if(!game.device.desktop){
            deviceName = 'tablet'
-			offsetX = 60
-
-        }
-		
-		var inputLogo = overlayGroup.create(game.world.centerX + offsetX,game.world.centerY + 125,'pc')
-        inputLogo.anchor.setTo(0.5,0.5)
+			offsetX = 50
+		  	var inputLogo = overlayGroup.create(game.world.centerX + offsetX,game.world.centerY + 145,'movil');
+        	inputLogo.anchor.setTo(0.5,0.5);	 
+        }else{
+			var inputLogo = overlayGroup.create(game.world.centerX - 50,game.world.centerY + 145,'pc');
+        	inputLogo.anchor.setTo(0.2,0.5);	
+		}
 		
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'buttonPlay')
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0,0.5)
+		playText.anchor.setTo(0.1,0.5)
     }	
 	
 	
@@ -238,7 +252,7 @@ var microdefender = function(){
 				globuloRojo[c].setAnimationByName(0, "IDLE", true);
 				globuloRojo[c].setSkinByName("bloodcell");
 				globuloRojo[c].x = getRandomArbitrary(wallLeft, wallRigth) + globuloRojo[c].width;
-				globuloRojo[c].y = 450 * [c + 1] + globuloRojo[c].height;
+				globuloRojo[c].y = 350 * [c + 1] + game.height + globuloRojo[c].height;
 				globuloRojo[c].impact = false;
 								
 			}
@@ -256,6 +270,8 @@ var microdefender = function(){
         
         var button1 = groupButton.create(0,0, 'atlas.microdefender','right_press')
         button1.anchor.setTo(0.5,0.5)
+		
+		//var rect1 = groupButton.createsetRectangle
         
         var button2 = groupButton.create(0,0, 'atlas.microdefender','right_idle')
         button2.anchor.setTo(0.5,0.5)
@@ -307,7 +323,7 @@ var microdefender = function(){
 	function moveLeft(){
 		if(leftMove){
 			if(globuloBlanco.x < wallRigth){
-					globuloBlanco.x += 4;
+					globuloBlanco.x += 4 + speedGame/2;
 				}
 		}
 	}	
@@ -315,7 +331,7 @@ var microdefender = function(){
 	function moveRight(){
 		if(rightMove){
 			if(globuloBlanco.x >= wallLeft){
-				globuloBlanco.x -= 4;
+				globuloBlanco.x -= 4 + speedGame/2;
 			}
 			
 		}
@@ -339,7 +355,7 @@ var microdefender = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,6)
+			resultScreen.setScore(true, coins,9)
 			sceneloader.show("result");
 	}
 
@@ -416,13 +432,17 @@ var microdefender = function(){
 			
 			
 			if (cursors.left.isDown){
+				rightMove = false;
+				leftMove = false;
 
 			if(globuloBlanco.x >= wallLeft){
-				globuloBlanco.x -= 4;
+				globuloBlanco.x -= 4 + speedGame/2;
 			}
 			}else if (cursors.right.isDown){
+				rightMove = false;
+				leftMove = false;
 				if(globuloBlanco.x < wallRigth){
-					globuloBlanco.x += 4;
+					globuloBlanco.x += 4 + speedGame/2;
 				}
 			}
 		}

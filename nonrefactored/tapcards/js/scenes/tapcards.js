@@ -77,10 +77,10 @@ var tapcards = function(){
 	var styleClock = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
 
 	function fontsSize(){
-			if(game.world.width < 721){
-				styleCards = {font: "2.5vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+			if(game.world.width < 781){
+				styleCards = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}else{
-				styleCards = {font: "11vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+				styleCards = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}
 	}
 	
@@ -115,6 +115,8 @@ var tapcards = function(){
 		game.load.image('gametuto',"images/tapcards/gametuto.png");
 		game.load.image('introscreen',"images/tapcards/introscreen.png");
 		game.load.image('bgclock',"images/tapcards/bgclock.png");
+		game.load.image('pc',"images/tapcards/pc.png");
+		game.load.image('movil',"images/tapcards/movil.png");
 		game.load.image('howTo',"images/tapcards/how"  + localization.getLanguage()  + ".png");
 		game.load.image('buttonText',"images/tapcards/play" + localization.getLanguage() + ".png");		
 		//game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
@@ -208,6 +210,8 @@ var tapcards = function(){
             action = 'click'
         }
         
+		
+		
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 225,'howTo')
 		howTo.anchor.setTo(0.4,0.5)
 		howTo.scale.setTo(0.7,0.7)
@@ -216,12 +220,13 @@ var tapcards = function(){
 		var offsetX = 0
         if(!game.device.desktop){
            deviceName = 'tablet'
-			offsetX = 100
-
-        }
-		
-		var inputLogo = overlayGroup.create(game.world.centerX + 35 + offsetX ,game.world.centerY + 125,'atlas.cards','pc')
-        inputLogo.anchor.setTo(0.4,0.5)
+			offsetX = 50
+		  	var inputLogo = overlayGroup.create(game.world.centerX + offsetX,game.world.centerY + 145,'movil');
+        	inputLogo.anchor.setTo(0.5,0.5);	 
+        }else{
+			var inputLogo = overlayGroup.create(game.world.centerX,game.world.centerY + 145,'pc');
+        	inputLogo.anchor.setTo(0.2,0.5);	
+		}
 		
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.cards','button')
 		button.anchor.setTo(0.2,0.5)
@@ -514,8 +519,6 @@ function positionCardsRed(){
 		
 		shuffle(newPositionsx);
 		shuffle(newPositionsy);
-		console.log("positions original y: " + positionsRedsY);
-		console.log("new positions Y: " + newPositionsy);	
 	
 		for(var r = 0;r<=leveldifficulty;r++){
 					
@@ -567,7 +570,6 @@ function positionCardsRed(){
 
 	function wrongCard(target){
 		if(enterFunctionbad == 0){
-		console.log("bad");
 		lives--
 		heartsText.setText("x " + lives);
 		TweenMax.fromTo(wrongPart,0.3,{alpha:0},{alpha:1});
@@ -578,9 +580,9 @@ function positionCardsRed(){
 		}
 		
 		function continuewrong(){
-			console.log("Bad2");
 			TweenMax.to(wrongPart,0.3,{alpha:0});
 			if(lives == 0){
+				clearInterval(timerCount);
 				var resultScreen = sceneloader.getScene("result")
 				resultScreen.setScore(true, coins,6)
 				sceneloader.show("result");
@@ -662,9 +664,9 @@ function clearCards(){
 			lives--;	
 			heartsText.setText("x " + lives);	
 			TweenMax.fromTo(heartsText.scale,1,{x:1.2,y:1.2},{x:1,y:1});
-			
 			sound.play("wrong");
 			clearInterval(timerCount);
+			console.log("clear interval")
 			if(lives == 0){
 				clearInterval(timerCount);
 				clearCards();
