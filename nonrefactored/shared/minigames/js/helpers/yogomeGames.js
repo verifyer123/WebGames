@@ -16,6 +16,7 @@ yogomeGames.getGames = function(){
 		{name:'puzzleRoad',url:'http://yogome.com/epic/minigames/puzzleSite/',sceneName:'puzzle'},
 		{name:'geoJourney',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney'},
 		{name:'memoNumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo'},
+		{name:'beachNinja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach'},
         
         
     ]

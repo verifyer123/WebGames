@@ -43,6 +43,10 @@ var beach = function(){
 				file: soundsPath + "spaceShip.mp3"},
 			{	name: "combo",
 				file: soundsPath + "combo.mp3"},
+			{	name: "splash",
+				file: soundsPath + "splash.mp3"},
+			{	name: "splashMud",
+				file: soundsPath + "splashMud.mp3"},
 			
 		],
     }
@@ -51,19 +55,22 @@ var beach = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background
     var gameActive
 	var particlesGroup, particlesUsed
-	var offWorld = -15
     var gameIndex = 13
-	var numberPanel,bar
+	var seaTile
+	var result
+	var bar,slash
 	var sky
     var overlayGroup
+	var hitSquare
+	var whiteFade
     var puzzleSong
 	var objectsGroup,usedObjects, containerGroup
 	var treeGroup
 	var multiple
 	var gameSpeed
+	var yogotar
 		
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -149,7 +156,6 @@ var beach = function(){
 		gameActive = false		
 		
         sound.play("wrong")
-		sound.play("explosion")
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -177,7 +183,7 @@ var beach = function(){
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
 		
-		//createTextPart('+' + number,numberPanel.number)
+		createTextPart('+' + number,containerGroup.text)
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -185,6 +191,8 @@ var beach = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)	
+		
+		gameSpeed+= 0.25
         
     }
     
@@ -245,10 +253,13 @@ var beach = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
+		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.addAnimationByName(0,"LOSESTILL",true)
+		
         gameActive = false
         puzzleSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -264,8 +275,8 @@ var beach = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('figures', "images/spines/skeleton.json")  
-        game.load.audio('puzzleSong', soundsPath + 'songs/upbeat_casual_8.mp3');
+        game.load.spine('nao', "images/spines/skeleton.json")  
+        game.load.audio('puzzleSong', soundsPath + 'songs/chinese_new_year.mp3');
         
 		game.load.image('howTo',"images/beach/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/beach/play" + localization.getLanguage() + ".png")
@@ -309,8 +320,88 @@ var beach = function(){
 		}
 	}
 	
+	function setNumber(){
+		
+		var sign = '+'
+		
+		var number1 = game.rnd.integerInRange(1,10)
+		var number2 = game.rnd.integerInRange(1,10)
+		var textToUse
+		
+		if(Math.random()*2 < 1){
+			
+			sign = '-'
+			while(number1 < number2){
+				number1 = game.rnd.integerInRange(1,10)
+			}
+		}
+		
+		if(sign == '+'){
+			result = number1 + number2
+		}else{
+			result = number1 - number2
+		}
+		
+		textToUse = number1 + ' ' + sign + ' ' + number2
+		
+		var text = containerGroup.text
+		text.setText(textToUse)
+		text.alpha = 0
+		
+		popObject(text,500)
+		game.time.events.add(1500,sendCocos)
+	}
+	
+	function sendCocos(){
+		
+		gameActive = true
+			
+		var pivotX = game.world.centerX - 215
+		var indexCorrect = game.rnd.integerInRange(0,2)
+		
+		for(var i = 0; i < 3; i++){
+			
+			var coco = getObject('coconut')
+			activateObject(coco,pivotX,game.rnd.integerInRange(1,4) * -20)
+			
+			var numberToUse = result
+			
+			if(i == indexCorrect){
+				
+				coco.text.setText(numberToUse)
+			}else{
+				
+				while(numberToUse == result){
+					numberToUse = game.rnd.integerInRange(1,20)
+				}
+				
+				coco.text.setText(numberToUse)
+			}
+			
+			coco.value = numberToUse
+			
+			pivotX+= 225
+			
+		}
+		
+		console.log(usedObjects.length + ' length')
+	}
+	
     function createOverlay(){
         
+		hitSquare = sceneGroup.create(0,game.world.height,'atlas.beach','cocoBreak')
+		hitSquare.anchor.setTo(0.5,0.5)
+		hitSquare.scale.setTo(0.6,0.6)
+		hitSquare.alpha = 0
+		sceneGroup.add(hitSquare)
+		
+		whiteFade = new Phaser.Graphics(game)
+        whiteFade.beginFill(0xffffff)
+        whiteFade.drawRect(0,0,game.world.width *2, game.world.height *2)
+        whiteFade.alpha = 0
+        whiteFade.endFill()
+		sceneGroup.add(whiteFade)
+		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -327,6 +418,8 @@ var beach = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 				
 				overlayGroup.y = -game.world.height
+				
+				setNumber()
 								
             })
             
@@ -366,18 +459,120 @@ var beach = function(){
 
 	function createBackground(){
 		
-		var bottom = game.add.tileSprite(0,game.world.height,game.world.width,321,'atlas.beach','bottom')
+		var bottom = game.add.tileSprite(0,game.world.height,game.world.width,176,'atlas.beach','bottom')
 		bottom.anchor.setTo(0,1)
 		sceneGroup.add(bottom)
 		
 		sky = game.add.tileSprite(0,0,game.world.width,game.world.height - bottom.height,'atlas.beach','sky')
 		sceneGroup.add(sky)
 		
+		seaTile = game.add.tileSprite(0,game.world.height - 176,game.world.width,146,'atlas.beach','sea')
+		seaTile.anchor.setTo(0,1)
+		sceneGroup.add(seaTile)
+		
 	}
 	
 	function update(){
 		
 		sky.tilePosition.x+=0.5
+		seaTile.tilePosition.x--
+		
+		if(!gameActive){
+			return
+		}
+		
+		checkObjects()
+	}
+	
+	function checkObjects(){
+		
+		//hitSquare.x = -200
+		for(var i = 0; i < usedObjects.length;i++){
+			
+			var obj = usedObjects.children[i].coconut
+			var parent = obj.parent
+			
+			if(parent.active){
+				parent.y+=gameSpeed
+			}
+			
+			if(parent.y >= game.world.height - 250){
+				missPoint()
+				breakCocos(false)
+			}
+			
+			if(checkOverlap(hitSquare,obj)){
+				
+				slash.x = obj.world.x
+				slash.y = obj.world.y
+				game.add.tween(slash).from({alpha:1},500,"Linear",true)
+
+				game.add.tween(whiteFade).from({alpha:1},500,"Linear",true)
+
+				sound.play("cut")
+				//console.log(parent.value + ' value')
+				yogotar.setAnimationByName(0,"ATTACK",false)
+				yogotar.addAnimationByName(0,"IDLE",true)
+
+				if(parent.value == result){
+					addPoint(1)
+					sound.play("splashMud")
+				}else{
+					missPoint()
+					createPart('wrong',obj)
+					sound.play("splash")
+				}
+				breakCocos(true)
+			}
+			
+		}
+	}
+	
+	function disappearCoco(bCoco){
+		
+		game.add.tween(bCoco).to({y:bCoco.y+game.rnd.integerInRange(3,6) * 30,alpha:0},500,"Linear",true).onComplete.add(function(){
+			bCoco.active = false
+		})
+		
+	}
+	
+	function breakCocos(cocoBreak){
+		
+		while(usedObjects.length > 0){
+			
+			var coco = usedObjects.children[0]	
+			if(coco){
+				
+				createPart('splash',coco.coconut)
+				deactivateObject(coco)
+				
+				if(cocoBreak){
+					
+					var pivotX = -50
+					var angle = 30
+
+					for(var i = 0; i < 2;i++){
+
+						var bCoco = getObject('cocoBreak')
+						bCoco.active = true
+						bCoco.alpha = 1
+						bCoco.angle = angle
+						bCoco.x = coco.x + pivotX
+						bCoco.y = coco.y
+
+						disappearCoco(bCoco)
+						pivotX+= 100
+						angle-=60
+					}
+				}
+				
+			}
+			
+		}
+		
+		if(gameActive){
+			game.time.events.add(1500,setNumber)
+		}
 	}
 		
 	function checkOverlap(spriteA, spriteB) {
@@ -445,10 +640,18 @@ var beach = function(){
         var offX = offsetX || 0
         key+='Part'
         var particle = lookParticle(key)
+		
+		var posX = obj.x
+		var posY = obj.y
+		
+		if(obj.world){
+			posX = obj.world.x
+			posY = obj.world.y
+		}
         if(particle){
             
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
+            particle.x = posX + offX
+            particle.y = posY
             particle.scale.setTo(1,1)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
@@ -547,13 +750,31 @@ var beach = function(){
 		
 		for( var i = 0; i < number;i++){
 			
-			var obj = objectsGroup.create(0,0,'atlas.beach',tag + 'Base')
+			var group = game.add.group()
+			group.tag = tag
+			group.scale.setTo(scale,scale)
+			group.alpha = 0
+			group.active = false
+			objectsGroup.add(group)
+			
+			var obj = group.create(0,0,'atlas.beach',tag)
 			obj.anchor.setTo(0.5,0.5)
-			obj.tag = tag
-			obj.angle= -angleToUse
-			obj.scale.setTo(scale,scale)
-			obj.alpha = 0
-			obj.active = false
+			
+			if(tag == 'coconut'){
+				
+				obj.inputEnabled = true
+				group.coconut = obj
+				
+				var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		
+				var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
+				pointsText.anchor.setTo(0.5,0.5)
+				group.add(pointsText)
+				
+				group.text = pointsText
+				group.value = 0
+			}
+			
 		}
 	}
 	
@@ -567,7 +788,9 @@ var beach = function(){
 		
 		createParticles('star',5)
 		createParticles('wrong',5)
+		createParticles('splash',5)
 		createParticles('text',5)
+		
 	}
 	
 	function createTrees(){
@@ -592,9 +815,69 @@ var beach = function(){
 		
 		containerGroup = game.add.group()
 		containerGroup.x = game.world.centerX
-		containerGroup.y = game.world.height - 200
+		containerGroup.y = game.world.height - 50
+		sceneGroup.add(containerGroup)
+		
+		var container = containerGroup.create(0,0,'atlas.beach','container')
+		container.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        containerGroup.add(pointsText)
+		
+		containerGroup.text = pointsText
+		
+		yogotar = game.add.spine(containerGroup.x, containerGroup.y - 40,"nao")
+		yogotar.setSkinByName("normal")
+		yogotar.setAnimationByName(0,"IDLE",true)
+		sceneGroup.add(yogotar)
+		
 	}
 	
+	function createCoconuts(){
+		
+		objectsGroup = game.add.group()
+		sceneGroup.add(objectsGroup)
+		
+		usedObjects = game.add.group()
+		sceneGroup.add(usedObjects)
+		
+		createAssets('coconut',1,6)
+		createAssets('cocoBreak',1,6)
+		//createAssets('slash',1,5)
+		
+		slash = sceneGroup.create(0,0,'atlas.beach','slash')
+		slash.scale.setTo(2.5,2.5)
+		slash.anchor.setTo(0.5,0.5)
+		slash.alpha = 0
+	}
+	
+	function movePointer(pointer){
+		
+		if(!gameActive){
+			return
+		}
+		
+		hitSquare.x = pointer.x 
+		hitSquare.y = pointer.y
+	}
+	
+	function deactivatePart(part){
+		
+		game.add.tween(part.scale).to({x:0,y:0},50,"Linear",true).onComplete.add(function(){
+			part.scale.setTo(1,1)
+			part.active = false
+		})
+	}
+	
+	function restartPointer(){
+		
+		hitSquare.x = -200
+		
+		game.time.events.add(100,restartPointer)
+	}
 	return {
 		
 		assets: assets,
@@ -604,12 +887,14 @@ var beach = function(){
 		create: function(event){
             
 			this.swipe = new Swipe(this.game);
+			game.input.addMoveCallback(movePointer, this);
 			
 			sceneGroup = game.add.group()
 			
 			createBackground()
 			createTrees()
 			createContainer()
+			createCoconuts()
 			addParticles()
                         			
             puzzleSong = game.add.audio('puzzleSong')
@@ -632,6 +917,8 @@ var beach = function(){
             createOverlay()
             
             animateScene()
+			
+			restartPointer()
             
 		},
 		show: function(event){

@@ -1161,7 +1161,7 @@ var rift = function(){
 					deactivateObject(object)
 					break
 				}else if(tag == 'diamond'){
-					addPoint(obj.value)
+					addPoint(object.value)
 					deactivateObject(object)
 				}
 				
