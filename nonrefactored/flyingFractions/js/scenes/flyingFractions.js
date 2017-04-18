@@ -482,7 +482,7 @@ var flyingFractions = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,12)
+			resultScreen.setScore(true, coins,14)
 			sceneloader.show("result");
 	}	
 	

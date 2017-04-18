@@ -17,7 +17,7 @@ yogomeGames.getGames = function(){
 		{name:'geoJourney',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney'},
 		{name:'memoNumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo'},
 		{name:'beachNinja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach'},
-        
+        {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions'},
         
     ]
     
