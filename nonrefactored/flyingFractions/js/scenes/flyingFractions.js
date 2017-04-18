@@ -310,7 +310,7 @@ var flyingFractions = function(){
 		game.physics.startSystem(Phaser.Physics.ARCADE);	
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		background = game.add.tileSprite(0,0,1280, game.world.height, "background");
-		background.x = -background.width/4;
+		background.x = -background.width/6;
 		heartsIcon = game.add.sprite(0,0,"heartsIcon");
 		heartsIcon.anchor.setTo(0, 0);	
 		heartsIcon.x = game.world.width - heartsIcon.width;
