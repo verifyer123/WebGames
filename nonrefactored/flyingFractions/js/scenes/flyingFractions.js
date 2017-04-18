@@ -48,15 +48,20 @@ var flyingFractions = function(){
 	var ship;
 	var baseFracciones;
 	var bgFracciones;
+	var bgFracciones2;
 	var fraccionesText;
 	var malo;
 	var malo_shoot;
 	var marcoFracciones;
 	var maloShoot;
-	
+	var goodShoot;
+	var finish = false;
 	var result1;
 	var result2;		
 	var good;
+	var explosion;
+	var fraction1;
+	var fraction2;
 
 	
 	var fractionsInfo =[{
@@ -70,7 +75,7 @@ var flyingFractions = function(){
 			fraction: "2_2"	
 		},
 		{
-			name:"3/2",
+			name:"2/3",
 			base:"f3",
 			fraction: "3_2"	
 		},
@@ -80,12 +85,12 @@ var flyingFractions = function(){
 			fraction: "3_3"	
 		},
 		{
-			name:"3/1",
+			name:"3/4",
 			base:"f4",
 			fraction: "4_2"	
 		},
 		{
-			name:"4/2",
+			name:"2/4",
 			base:"f4",
 			fraction: "4_3"	
 		},
@@ -95,47 +100,47 @@ var flyingFractions = function(){
 			fraction: "4_4"	
 		},
 		{
-			name:"5/2",
+			name:"4/5",
 			base:"f5",
 			fraction: "5_2"	
 		},
 		{
-			name:"5/3",
+			name:"3/5",
 			base:"f5",
 			fraction: "5_3"	
 		},
 		{
-			name:"5/4",
+			name:"2/5",
 			base:"f5",
 			fraction: "5_4"	
 		},
 		{
-			name:"5/5",
+			name:"1/5",
 			base:"f5",
 			fraction: "5_5"	
 		},
 		{
-			name:"6/2",
+			name:"5/6",
 			base:"f6",
 			fraction: "6_2"	
 		},
 		{
-			name:"6/3",
+			name:"4/6",
 			base:"f6",
 			fraction: "6_3"	
 		},
 		{
-			name:"6/4",
+			name:"3/6",
 			base:"f6",
 			fraction: "6_4"	
 		},
 		{
-			name:"6/5",
+			name:"2/6",
 			base:"f6",
 			fraction: "6_5"	
 		},
 		{
-			name:"6/6",
+			name:"1/6",
 			base:"f6",
 			fraction: "6_6"	
 		}]
@@ -155,6 +160,9 @@ var flyingFractions = function(){
 			}
 	}
     function preload() {
+		//bgm
+		game.load.audio('bgm8bits',  soundsPath + 'songs/8-bit-Video-Game.mp3');
+		
 		/*Default*/
 		game.load.image("background", imagePath +"background.png");
 		game.load.image("heartsIcon", imagePath +"hearts.png");
@@ -175,21 +183,15 @@ var flyingFractions = function(){
 		game.load.image("f3", imagePath + "f3.png");
 		game.load.image("f4", imagePath + "f4.png");
 		game.load.image("f5", imagePath + "f5.png");
-		game.load.image("f6", imagePath + "f6.png");
-		
-		
-		
-
-		
-		
-		
+		game.load.image("f6", imagePath + "f6.png");	
+		game.load.spritesheet('explosion', imagePath +  'explosion.png', 118, 118, 6);
 	}
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 	function initialize(){
-		lives = 3;
+		lives = 1;
 		coins = 0;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
@@ -214,9 +216,13 @@ var flyingFractions = function(){
 		}
 	}
 	
+
+	
 	function createOverlay(){
-		lives = 3;
+		lives = 1;
 		coins = 0;
+		baseFracciones.alpha= 1;
+		fraccionesText.alpha = 1;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
 		speedGame = 3.5;
@@ -243,7 +249,7 @@ var flyingFractions = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 		
-		bgm = game.add.audio('wormwood')
+		bgm = game.add.audio('bgm8bits')
             game.sound.setDecodedCallback(bgm, function(){
             }, this);
 		
@@ -298,6 +304,8 @@ var flyingFractions = function(){
 	
 	/*CREATE SCENE*/
     function createScene(){
+		coins = 0;
+		lives = 1;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.ARCADE);	
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -315,39 +323,42 @@ var flyingFractions = function(){
 		xpIcon.anchor.setTo(0, 0);	
 		xpIcon.x = 0;
 		xpIcon.y = 30;	
-		xpText = game.add.text(50, 10, coins, style);	
+		xpText = game.add.text(50, 10,coins, style);	
 		xpText.anchor.setTo(0, 0);	
 		xpText.x = 75;
 		xpText.y = 28;	
-		
 
-		
-		console.log("good: " + good);
-		
 		malo = game.add.sprite(game.world.centerX, 50 , "malo");
 		malo.anchor.setTo(0.5,0);
 		TweenMax.fromTo(malo,0.5,{y:malo.y},{y:malo.y+10,yoyo:true,repeat:-1});
+		
+		ship = game.add.spine(game.world.centerX,game.world.centerY + (game.world.centerY/1.5) ,"ship");
+		
+		ship.setAnimationByName(0, "IDLE", true);
+		ship.setSkinByName("normal");
 		
 		maloShoot = game.add.sprite(malo.x, malo.y + malo.height , "maloShoot");
 		maloShoot.anchor.setTo(0.5,0);
 		maloShoot.alpha = 0;
 		
 		
-		ship = game.add.spine(game.world.centerX,game.world.centerY + (game.world.centerY/1.3) ,"ship");
-		ship.setAnimationByName(0, "IDLE", true);
-		ship.setSkinByName("normal");
+		goodShoot = game.add.sprite(ship.x, ship.y - ship.height , "maloShoot");
+		goodShoot.anchor.setTo(0.5,1);
+		goodShoot.scale.setTo(-1);
+		goodShoot.alpha = 0;
 		
-		game.world.swap(xpText, xpIcon);
-		game.world.swap(heartsText, heartsIcon);
+		
 		choiceFraction();
 		
 		
 		baseFracciones = game.add.sprite(game.world.centerX , game.world.centerY - (game.world.centerY/2),"baseFracciones");
 		baseFracciones.anchor.setTo(0.5,0);
 		baseFracciones.scale.setTo(0.7);
+		
 		fraccionesText = game.add.text(baseFracciones.x, baseFracciones.y + baseFracciones.height/4, fractionsInfo[good].name, style);	
 		fraccionesText.anchor.setTo(0.5,0);
-		
+		baseFracciones.alpha= 0;
+		fraccionesText.alpha = 0;
 		var groupMarco1 = game.add.group();
 		groupMarco1.x = game.world.centerX - game.width/4;
 		marcoFracciones = groupMarco1.create(0 , game.world.centerY,"marcoFracciones");
@@ -357,7 +368,7 @@ var flyingFractions = function(){
 		groupMarco1.swap(marcoFracciones,bgFracciones);
 
 		
-		var fraction1 = groupMarco1.create(bgFracciones.x,bgFracciones.y,'atlas.flyingFractions',fractionsInfo[result1].fraction);
+		fraction1 = groupMarco1.create(bgFracciones.x,bgFracciones.y,'atlas.flyingFractions',fractionsInfo[result1].fraction);
 		fraction1.anchor.setTo(0.5,0.5);
 		fraction1.alpha = 0.7;
 		fraction1.id = result1;
@@ -369,40 +380,130 @@ var flyingFractions = function(){
 		groupMarco2.x = game.world.centerX + game.width/4;
 		marcoFracciones = groupMarco2.create(0 , game.world.centerY,"marcoFracciones");
 		marcoFracciones.anchor.setTo(0.5,0.5);
-		bgFracciones = groupMarco2.create(marcoFracciones.x ,marcoFracciones.y,fractionsInfo[result2].base);
-		bgFracciones.anchor.setTo(0.5,0.5);
-		groupMarco2.swap(marcoFracciones,bgFracciones);		
+		bgFracciones2 = groupMarco2.create(marcoFracciones.x ,marcoFracciones.y,fractionsInfo[result2].base);
+		bgFracciones2.anchor.setTo(0.5,0.5);
+		groupMarco2.swap(marcoFracciones,bgFracciones2);		
 		
-		var fraction2 = groupMarco2.create(bgFracciones.x,bgFracciones.y,'atlas.flyingFractions',fractionsInfo[result2].fraction);
+		fraction2 = groupMarco2.create(bgFracciones.x,bgFracciones.y,'atlas.flyingFractions',fractionsInfo[result2].fraction);
 		fraction2.anchor.setTo(0.5,0.5);
 		fraction2.alpha = 0.7;
-		//createOverlay();
+		fraction2.id = result2;
+		fraction2.inputEnabled = true
+		fraction2.events.onInputDown.add(buttonSelect,this);		
+		createOverlay();
+		
+		function createLevel(){
+			
+			choiceFraction();
+			fraccionesText.setText(fractionsInfo[good].name);
+			TweenMax.to(fraccionesText,1,{alpha:1});
+			TweenMax.to(groupMarco1.scale,0.5,{x:1 , y:1});
+			TweenMax.to(groupMarco1,0.5,{alpha:1});
+			TweenMax.to(groupMarco2.scale,0.5,{x:1, y:1});
+			TweenMax.to(groupMarco2,0.5,{alpha:1});
+			bgFracciones = groupMarco1.create(marcoFracciones.x ,marcoFracciones.y,fractionsInfo[result1].base);
+			bgFracciones.anchor.setTo(0.5,0.5);
+			bgFracciones2 = groupMarco2.create(marcoFracciones.x ,marcoFracciones.y,fractionsInfo[result2].base);
+			bgFracciones2.anchor.setTo(0.5,0.5);
+			fraction1 = groupMarco1.create(bgFracciones.x,bgFracciones.y,'atlas.flyingFractions',fractionsInfo[result1].fraction);
+			fraction1.anchor.setTo(0.5,0.5);
+			fraction1.alpha = 0.7;
+			fraction1.id = result1;
+			fraction1.inputEnabled = true
+			fraction1.events.onInputDown.add(buttonSelect,this);
+			
+			fraction2 = groupMarco2.create(bgFracciones.x,bgFracciones.y,'atlas.flyingFractions',fractionsInfo[result2].fraction);
+			fraction2.anchor.setTo(0.5,0.5);
+			fraction2.alpha = 0.7;
+			fraction2.id = result2;
+			fraction2.inputEnabled = true
+			fraction2.events.onInputDown.add(buttonSelect,this);	
+			TweenMax.fromTo(malo,0.5,{y:-100},{y:50});
+			malo.scale.setTo(1);
+			malo.alpha= 1;
+		}
 		
 		function buttonSelect (object){
+			
+			TweenMax.to(groupMarco1.scale,3,{x:1.2 , y:1.2});
+			TweenMax.to(groupMarco1,0.5,{alpha:0});
+			TweenMax.to(groupMarco2.scale,3,{x:1.2 , y:1.2});
+			TweenMax.to(groupMarco2,0.5,{alpha:0});
+			fraccionesText.alpha = 0;
+			fraction1.destroy();
+			fraction2.destroy();
+			bgFracciones.destroy();
+			bgFracciones2.destroy();
+			sound.play("shootBall");
 			if(good == object.id){
-				console.log("ok");
+				goodShoot.alpha = 1;	
+				TweenMax.fromTo(goodShoot.scale,1,{x:2},{x:1});
+				TweenMax.fromTo(goodShoot,1,{y:ship.y - ship.height},{y: malo.y});
+				TweenMax.fromTo(goodShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:goodFun});
+				function goodFun(){
+					sound.play("explode");
+					sound.play("magic");
+					coins++;
+					xpText.setText(coins);
+					TweenMax.fromTo(malo,0.5,{alpha:1},{alpha:0});
+					TweenMax.to(malo.scale,0.7,{x:2,y:2});
+					explosion = game.add.sprite(malo.x, malo.y, 'explosion');
+					var objectexplosion = explosion.animations.add('objectexplosion');
+					explosion.animations.play('objectexplosion', 5, false);
+					explosion.anchor.setTo(0.5,0);
+					TweenMax.fromTo(baseFracciones,1,{alpha:1},{alpha:0,yoyo:true,repeat:1,onComplete:createLevel});
+				}
+			}else{
+				lives--
+				heartsText.setText("x " + lives);
+				maloShoot.alpha = 1;
+				TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
+				TweenMax.fromTo(maloShoot,1,{y:malo.y + malo.height},{y: ship.y-ship.height/2});
+				TweenMax.fromTo(maloShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:badFun});
+				function badFun(){
+					sound.play("explode");
+					sound.play("gameLose");
+					bgm.stop();
+					explosion = game.add.sprite(ship.x, ship.y, 'explosion');
+					var objectexplosion = explosion.animations.add('objectexplosion');
+					explosion.animations.play('objectexplosion', 5, false);
+					explosion.anchor.setTo(0.5,1);
+				}
 			}
 			
-			maloShoot.alpha = 1;
-			TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
-			TweenMax.fromTo(maloShoot,2,{y:malo.y + malo.height},{y: game.height});
+		
+			
+		}
+		
+
+		
+	}
+	
+	
+	function gameOver(){
+		var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, coins,12)
+			sceneloader.show("result");
+	}	
+	
+	
+	function update() {
+
+		if(maloShoot.y >= ship.y-ship.height/2){
+				if(!finish){
+				ship.setAnimationByName(0, "LOSE", false);
+				ship.setSkinByName("normal");
+				finish = true;
+				TweenMax.to(ship,0.5,{alpha:0,delay:1,onComplete:gameOver});	
+					
+			}
 			
 		}
 		
 		
-	}
-	
-	function update() {
-
-		
-		
-		
 		if(starGame){	
 			if(lives != 0){
-
-
 				background.tilePosition.y += speedGame;
-
 			}
 		}
 	}
