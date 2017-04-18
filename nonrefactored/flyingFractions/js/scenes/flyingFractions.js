@@ -55,7 +55,7 @@ var flyingFractions = function(){
 	var marcoFracciones;
 	var maloShoot;
 	var goodShoot;
-	var gameOver = false;
+	var finish = false;
 	var result1;
 	var result2;		
 	var good;
@@ -160,6 +160,9 @@ var flyingFractions = function(){
 			}
 	}
     function preload() {
+		//bgm
+		game.load.audio('bgm8bits',  soundsPath + 'songs/8-bit-Video-Game.mp3');
+		
 		/*Default*/
 		game.load.image("background", imagePath +"background.png");
 		game.load.image("heartsIcon", imagePath +"hearts.png");
@@ -218,6 +221,8 @@ var flyingFractions = function(){
 	function createOverlay(){
 		lives = 1;
 		coins = 0;
+		baseFracciones.alpha= 1;
+		fraccionesText.alpha = 1;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
 		speedGame = 3.5;
@@ -244,7 +249,7 @@ var flyingFractions = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 		
-		bgm = game.add.audio('wormwood')
+		bgm = game.add.audio('bgm8bits')
             game.sound.setDecodedCallback(bgm, function(){
             }, this);
 		
@@ -349,9 +354,11 @@ var flyingFractions = function(){
 		baseFracciones = game.add.sprite(game.world.centerX , game.world.centerY - (game.world.centerY/2),"baseFracciones");
 		baseFracciones.anchor.setTo(0.5,0);
 		baseFracciones.scale.setTo(0.7);
+		
 		fraccionesText = game.add.text(baseFracciones.x, baseFracciones.y + baseFracciones.height/4, fractionsInfo[good].name, style);	
 		fraccionesText.anchor.setTo(0.5,0);
-		
+		baseFracciones.alpha= 0;
+		fraccionesText.alpha = 0;
 		var groupMarco1 = game.add.group();
 		groupMarco1.x = game.world.centerX - game.width/4;
 		marcoFracciones = groupMarco1.create(0 , game.world.centerY,"marcoFracciones");
@@ -385,18 +392,15 @@ var flyingFractions = function(){
 		fraction2.events.onInputDown.add(buttonSelect,this);		
 		createOverlay();
 		
-		
 		function createLevel(){
-			choiceFraction();;
+			
+			choiceFraction();
 			fraccionesText.setText(fractionsInfo[good].name);
 			TweenMax.to(fraccionesText,1,{alpha:1});
-			
 			TweenMax.to(groupMarco1.scale,0.5,{x:1 , y:1});
 			TweenMax.to(groupMarco1,0.5,{alpha:1});
-			
 			TweenMax.to(groupMarco2.scale,0.5,{x:1, y:1});
 			TweenMax.to(groupMarco2,0.5,{alpha:1});
-			
 			bgFracciones = groupMarco1.create(marcoFracciones.x ,marcoFracciones.y,fractionsInfo[result1].base);
 			bgFracciones.anchor.setTo(0.5,0.5);
 			bgFracciones2 = groupMarco2.create(marcoFracciones.x ,marcoFracciones.y,fractionsInfo[result2].base);
@@ -413,8 +417,10 @@ var flyingFractions = function(){
 			fraction2.alpha = 0.7;
 			fraction2.id = result2;
 			fraction2.inputEnabled = true
-			fraction2.events.onInputDown.add(buttonSelect,this);			
-			
+			fraction2.events.onInputDown.add(buttonSelect,this);	
+			TweenMax.fromTo(malo,0.5,{y:-100},{y:50});
+			malo.scale.setTo(1);
+			malo.alpha= 1;
 		}
 		
 		function buttonSelect (object){
@@ -428,12 +434,19 @@ var flyingFractions = function(){
 			fraction2.destroy();
 			bgFracciones.destroy();
 			bgFracciones2.destroy();
+			sound.play("shootBall");
 			if(good == object.id){
 				goodShoot.alpha = 1;	
 				TweenMax.fromTo(goodShoot.scale,1,{x:2},{x:1});
 				TweenMax.fromTo(goodShoot,1,{y:ship.y - ship.height},{y: malo.y});
 				TweenMax.fromTo(goodShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:goodFun});
 				function goodFun(){
+					sound.play("explode");
+					sound.play("magic");
+					coins++;
+					xpText.setText(coins);
+					TweenMax.fromTo(malo,0.5,{alpha:1},{alpha:0});
+					TweenMax.to(malo.scale,0.7,{x:2,y:2});
 					explosion = game.add.sprite(malo.x, malo.y, 'explosion');
 					var objectexplosion = explosion.animations.add('objectexplosion');
 					explosion.animations.play('objectexplosion', 5, false);
@@ -441,12 +454,16 @@ var flyingFractions = function(){
 					TweenMax.fromTo(baseFracciones,1,{alpha:1},{alpha:0,yoyo:true,repeat:1,onComplete:createLevel});
 				}
 			}else{
+				lives--
+				heartsText.setText("x " + lives);
 				maloShoot.alpha = 1;
 				TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
 				TweenMax.fromTo(maloShoot,1,{y:malo.y + malo.height},{y: ship.y-ship.height/2});
 				TweenMax.fromTo(maloShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:badFun});
 				function badFun(){
-					
+					sound.play("explode");
+					sound.play("gameLose");
+					bgm.stop();
 					explosion = game.add.sprite(ship.x, ship.y, 'explosion');
 					var objectexplosion = explosion.animations.add('objectexplosion');
 					explosion.animations.play('objectexplosion', 5, false);
@@ -462,14 +479,22 @@ var flyingFractions = function(){
 		
 	}
 	
+	
+	function gameOver(){
+		var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, coins,12)
+			sceneloader.show("result");
+	}	
+	
+	
 	function update() {
 
 		if(maloShoot.y >= ship.y-ship.height/2){
-				if(!gameOver){
+				if(!finish){
 				ship.setAnimationByName(0, "LOSE", false);
 				ship.setSkinByName("normal");
-				gameOver = true;
-				TweenMax.to(ship,0.5,{alpha:0,delay:1});	
+				finish = true;
+				TweenMax.to(ship,0.5,{alpha:0,delay:1,onComplete:gameOver});	
 					
 			}
 			
