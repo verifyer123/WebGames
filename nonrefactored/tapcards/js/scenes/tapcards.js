@@ -633,7 +633,7 @@ function positionCardsRed(){
 	
 		if(leveldifficulty == 5){
 			console.log("Empieza timer");
-		timerCount = setInterval(timerFunction, 1000);
+			timerCount = setInterval(timerFunction, 1000);
 			TweenMax.to(bgclock.scale,0.5,{x:1,ease:Back.easeOut});
 			TweenMax.to(clockText.scale,0.5,{x:1,ease:Back.easeOut});			
 	}

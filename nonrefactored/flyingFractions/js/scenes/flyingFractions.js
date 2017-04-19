@@ -62,6 +62,8 @@ var flyingFractions = function(){
 	var explosion;
 	var fraction1;
 	var fraction2;
+	var timerCount;
+	var timer = 10;
 
 	
 	var fractionsInfo =[{
@@ -174,6 +176,7 @@ var flyingFractions = function(){
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
 		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	
 		/*Default*/
+		game.load.image('bgclock',imagePath + "bgclock.png");
 		game.load.spine("ship", imagePath + "ship/skeleton.json");
 		game.load.image("malo", imagePath + "malo.png");
 		game.load.image("maloShoot", imagePath + "maloShoot.png");
@@ -221,6 +224,7 @@ var flyingFractions = function(){
 	function createOverlay(){
 		lives = 1;
 		coins = 0;
+		finish = false;
 		baseFracciones.alpha= 1;
 		fraccionesText.alpha = 1;
 		heartsText.setText("x " + lives);
@@ -328,7 +332,7 @@ var flyingFractions = function(){
 		xpText.x = 75;
 		xpText.y = 28;	
 
-		malo = game.add.sprite(game.world.centerX, 50 , "malo");
+		malo = game.add.sprite(game.world.centerX, 100 , "malo");
 		malo.anchor.setTo(0.5,0);
 		TweenMax.fromTo(malo,0.5,{y:malo.y},{y:malo.y+10,yoyo:true,repeat:-1});
 		
@@ -389,7 +393,16 @@ var flyingFractions = function(){
 		fraction2.alpha = 0.7;
 		fraction2.id = result2;
 		fraction2.inputEnabled = true
-		fraction2.events.onInputDown.add(buttonSelect,this);		
+		fraction2.events.onInputDown.add(buttonSelect,this);	
+		
+		bgclock = game.add.sprite(0,1,"bgclock");
+		bgclock.x = game.width * 0.5;
+		bgclock.anchor.setTo(0.5, 0);
+		//bgclock.scale.x = 0;
+		clockText = game.add.text(50, 46, timer, styleClock);	
+		clockText.x = game.width * 0.5;
+		clockText.anchor.setTo(0.5, 0);
+		//clockText.scale.x = 0;
 		createOverlay();
 		
 		function createLevel(){
@@ -418,7 +431,7 @@ var flyingFractions = function(){
 			fraction2.id = result2;
 			fraction2.inputEnabled = true
 			fraction2.events.onInputDown.add(buttonSelect,this);	
-			TweenMax.fromTo(malo,0.5,{y:-100},{y:50});
+			TweenMax.fromTo(malo,0.5,{y:-100},{y:100});
 			malo.scale.setTo(1);
 			malo.alpha= 1;
 		}
@@ -436,6 +449,7 @@ var flyingFractions = function(){
 			bgFracciones2.destroy();
 			sound.play("shootBall");
 			if(good == object.id){
+				timer = 11;
 				goodShoot.alpha = 1;	
 				TweenMax.fromTo(goodShoot.scale,1,{x:2},{x:1});
 				TweenMax.fromTo(goodShoot,1,{y:ship.y - ship.height},{y: malo.y});
@@ -445,6 +459,12 @@ var flyingFractions = function(){
 					sound.play("magic");
 					coins++;
 					xpText.setText(coins);
+					if(coins == 3){
+						console.log("Empieza timer");
+						timerCount = setInterval(timerFunction, 1000);
+						TweenMax.to(bgclock.scale,0.5,{x:1,ease:Back.easeOut});
+						TweenMax.to(clockText.scale,0.5,{x:1,ease:Back.easeOut});			
+					}
 					TweenMax.fromTo(malo,0.5,{alpha:1},{alpha:0});
 					TweenMax.to(malo.scale,0.7,{x:2,y:2});
 					explosion = game.add.sprite(malo.x, malo.y, 'explosion');
@@ -476,6 +496,44 @@ var flyingFractions = function(){
 		}
 		
 
+	function timerFunction(){
+		if(timer != 0){
+			timer-- 
+		}else if(timer == 0){
+				lives--
+			
+						TweenMax.to(groupMarco1.scale,3,{x:1.2 , y:1.2});
+			TweenMax.to(groupMarco1,0.5,{alpha:0});
+			TweenMax.to(groupMarco2.scale,3,{x:1.2 , y:1.2});
+			TweenMax.to(groupMarco2,0.5,{alpha:0});
+			fraccionesText.alpha = 0;
+			fraction1.destroy();
+			fraction2.destroy();
+			bgFracciones.destroy();
+			bgFracciones2.destroy();
+			sound.play("shootBall");
+			
+			
+				heartsText.setText("x " + lives);
+				maloShoot.alpha = 1;
+				TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
+				TweenMax.fromTo(maloShoot,1,{y:malo.y + malo.height},{y: ship.y-ship.height/2});
+				TweenMax.fromTo(maloShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:badFun});
+				function badFun(){
+					sound.play("explode");
+					sound.play("gameLose");
+					bgm.stop();
+					explosion = game.add.sprite(ship.x, ship.y, 'explosion');
+					var objectexplosion = explosion.animations.add('objectexplosion');
+					explosion.animations.play('objectexplosion', 5, false);
+					explosion.anchor.setTo(0.5,1);
+				}
+			clearInterval(timerCount);
+			
+		}
+		clockText.setText(timer);
+	}		
+		
 		
 	}
 	
