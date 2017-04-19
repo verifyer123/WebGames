@@ -339,8 +339,19 @@ var memo = function(){
 		}
 	}
 	
-	function setNumber(){
+	function setButtonsAlpha(alpha){
+		
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var btn = buttonsGroup.children[i]
+			btn.alpha = alpha
+		}
+	}
 	
+	function setNumber(){
+		
+		setButtonsAlpha(0.5)
+		
 		tableNumber = []
 		tableUsed = []
 		textUse = ''
@@ -367,6 +378,8 @@ var memo = function(){
 				number.setText('')
 				textUse = ''
 				gameActive = true
+				
+				setButtonsAlpha(1)
 			})
 			
 		})
@@ -498,6 +511,7 @@ var memo = function(){
 			
 			if((index + 1) == tableNumber.length){
 				
+				setButtonsAlpha(0.5)
 				addPoint(1)
 				
 				sound.play('combo')
@@ -558,7 +572,6 @@ var memo = function(){
 			buttonImage.inputEnabled = true
 			buttonImage.active = true
 			buttonImage.events.onInputDown.add(inputButton)
-			
 			
 			var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
                 
