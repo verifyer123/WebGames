@@ -860,8 +860,23 @@ var beach = function(){
 			return
 		}
 		
-		hitSquare.x = pointer.x 
-		hitSquare.y = pointer.y
+		var follow = false
+		
+		if(game.device.desktop){
+			
+			if(game.input.activePointer.isDown){
+				follow = true	
+			}
+		}else{
+			follow = true
+		}
+		
+		if(follow){
+			
+			hitSquare.x = pointer.x 
+			hitSquare.y = pointer.y
+		}
+		
 	}
 	
 	function deactivatePart(part){

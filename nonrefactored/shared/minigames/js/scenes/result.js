@@ -5,7 +5,7 @@ var result = function(){
 
 	localizationData = {
 		"EN":{
-            "youGot":"You got ",
+            "youGot":"You earned ",
             "points":"coins",
             "Great":"Great",
             "share":"Share",
