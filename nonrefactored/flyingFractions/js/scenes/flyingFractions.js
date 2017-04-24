@@ -398,11 +398,11 @@ var flyingFractions = function(){
 		bgclock = game.add.sprite(0,1,"bgclock");
 		bgclock.x = game.width * 0.5;
 		bgclock.anchor.setTo(0.5, 0);
-		//bgclock.scale.x = 0;
 		clockText = game.add.text(50, 46, timer, styleClock);	
 		clockText.x = game.width * 0.5;
 		clockText.anchor.setTo(0.5, 0);
-		//clockText.scale.x = 0;
+		bgclock.alpha = 0;
+		clockText.alpha = 0;
 		createOverlay();
 		
 		function createLevel(){
@@ -454,12 +454,15 @@ var flyingFractions = function(){
 				TweenMax.fromTo(goodShoot.scale,1,{x:2},{x:1});
 				TweenMax.fromTo(goodShoot,1,{y:ship.y - ship.height},{y: malo.y});
 				TweenMax.fromTo(goodShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:goodFun});
+				baseFracciones.alpha = 0;
 				function goodFun(){
 					sound.play("explode");
 					sound.play("magic");
 					coins++;
 					xpText.setText(coins);
 					if(coins == 3){
+						bgclock.alpha = 1;
+						clockText.alpha = 1;
 						console.log("Empieza timer");
 						timerCount = setInterval(timerFunction, 1000);
 						TweenMax.to(bgclock.scale,0.5,{x:1,ease:Back.easeOut});
@@ -470,13 +473,15 @@ var flyingFractions = function(){
 					explosion = game.add.sprite(malo.x, malo.y, 'explosion');
 					var objectexplosion = explosion.animations.add('objectexplosion');
 					explosion.animations.play('objectexplosion', 5, false);
-					explosion.anchor.setTo(0.5,0);
-					TweenMax.fromTo(baseFracciones,1,{alpha:1},{alpha:0,yoyo:true,repeat:1,onComplete:createLevel});
+					explosion.anchor.setTo(0.5,0);	
+					TweenMax.to(baseFracciones,0.3,{alpha:1,delay:1,onComplete:createLevel});
 				}
 			}else{
+				clearInterval(timerCount);
 				lives--
 				heartsText.setText("x " + lives);
 				maloShoot.alpha = 1;
+				baseFracciones.alpha = 0;
 				TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
 				TweenMax.fromTo(maloShoot,1,{y:malo.y + malo.height},{y: ship.y-ship.height/2});
 				TweenMax.fromTo(maloShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:badFun});
