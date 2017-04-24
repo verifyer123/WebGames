@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var color = function(){
+var nutri = function(){
     
     var localizationData = {
 		"EN":{
@@ -16,9 +16,9 @@ var color = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.color",
-                json: "images/color/atlas.json",
-                image: "images/color/atlas.png",
+                name: "atlas.nutri",
+                json: "images/nutri/atlas.json",
+                image: "images/nutri/atlas.png",
             },
         ],
         images: [
@@ -39,38 +39,38 @@ var color = function(){
 				file: soundsPath + "robotWhoosh.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "gear",
-				file: soundsPath + "gear.mp3"},
+			{	name: "punch",
+				file: soundsPath + "punch1.mp3"},
+			{	name: "punch2",
+				file: soundsPath + "punch2.mp3"},
+			{	name: "shoot",
+				file: soundsPath + "explode.mp3"},
+			
 			
 		],
     }
     
-	var angleToUse = -15
-        
+	var OFF_OBJECTS = 400
+	
+	var fruits = ['apple','orange','lettuce','carrot']
     var lives = null
+	var rotateAngle
 	var sceneGroup = null
-	var background
+	var background,mountains,water
     var gameActive
 	var particlesGroup, particlesUsed
-	var baseCenter, circleCenter
-	var offWorld = -15
-    var gameIndex = 15
-	var moveDir
-	var cursors
-	var colorsGroup
-	var buttonsGroup
+	var pivotObjects
+	var whiteFade
+    var gameIndex = 16
+	var angleLimit,angleStart
 	var numberPanel,bar
+	var buttonActive
     var overlayGroup
-    var puzzleSong
+    var canonSong
 	var objectsGroup,usedObjects
 	var gameSpeed
-	var tableNumber, tableUsed, textUse
-	
-	var COLORS_TO_USE = [0xffff00,0x1cc4ff,0xff0000,0x1ddd38,0xff7f00,0x662d91]
-	var COLORS_SEC = [0x1ddd38,0xff7f00,0x662d91]
-	
-	var colorCombinations = [[0,1],[0,2],[1,2]]
-		
+	var isTop,isMoving
+			
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -79,10 +79,13 @@ var color = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		gameSpeed = 3
+		gameSpeed = 1
 		gameActive = false
-        moveDir = false
-		moveRight = false
+		rotateAngle = 1.5
+		isTop = true
+		isMoving = false
+		angleLimit = 120
+		angleStart = -10
 		
         loadSounds()
         
@@ -109,38 +112,6 @@ var color = function(){
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 		
     }
-	
-	function animSides(){
-		
-		var timeToUse = 500
-		var left = background.leftB
-		var right = background.rightB
-		
-		var tween = game.add.tween(left.scale).to({x:left.scale.x * 0.85,y:0.85},timeToUse,"Linear",true,0,-1)
-		tween.yoyo(true,0)
-		
-		var tween = game.add.tween(right.scale).to({x:right.scale.x * 0.85,y:0.85},timeToUse,"Linear",true,300,-1)
-		tween.yoyo(true,0)
-	}
-	
-	function showObjects(){
-		
-		var animList = [background.leftB, background.rightB,background.bot,baseCenter,buttonsGroup.children[0],buttonsGroup.children[1],circleCenter,colorsGroup]
-		var delay = 500
-		
-		for(var i = 0; i < animList.length;i++){
-			
-			popObject(animList[i],delay)
-			delay+=100
-		}
-		
-		game.time.events.add(delay, function(){
-			
-			animSides()
-			gameActive = true
-			sendBall()
-		})
-	}
 	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
@@ -186,10 +157,15 @@ var color = function(){
 	
     function missPoint(){
         
-		gameActive = false		
+		if(!gameActive){
+			return
+		}
+		
+		gameActive = false
 		
         sound.play("wrong")
-		sound.play("explosion")
+		sound.play("punch")
+		sound.play("punch2")
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -214,7 +190,7 @@ var color = function(){
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
 		
-		//createTextPart('+' + number,numberPanel.number)
+		createTextPart('+' + number,yogotarGroup.col)
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -224,6 +200,13 @@ var color = function(){
         addNumberPart(pointsBar.text,'+' + number,true)		
 		
 		gameSpeed+= 0.15
+		
+		if(pointsBar.number % 4 == 0 ){
+			gameSpeed+=0.5
+			
+		}else if(pointsBar.number & 6 == 0){
+			OFF_OBJECTS+=75
+		}
         
     }
     
@@ -234,7 +217,7 @@ var color = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.color','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.nutri','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -262,7 +245,7 @@ var color = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.color','life_box')
+        var heartImg = group.create(0,0,'atlas.nutri','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -279,13 +262,37 @@ var color = function(){
                 
     }
     
+	function flyYogotar(){
+		
+		yogotarGroup.direction.alpha = 0
+		yogotarGroup.angle = 180
+		
+		var col = yogotarGroup.col
+		var posX = 200
+		var posY = 600
+		
+		if(col.world.y < game.world.centerY){
+			posY*= -1
+		}
+		
+		if(col.world.x > game.world.centerX){
+			posX = -200
+		}
+		
+		game.add.tween(yogotarGroup).to({x:posX,y:yogotarGroup.y + posY},500,"Linear",true)
+		
+	}
+	
     function stopGame(win){
         
 		sound.play("wrong")
 		sound.play("gameLose")
 		
+		yogotarGroup.yogotar.setAnimationByName(0,"FALLING",true)
+		flyYogotar()
+		
         gameActive = false
-        puzzleSong.stop()
+        canonSong.stop()
 		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -303,16 +310,16 @@ var color = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('figures', "images/spines/skeleton.json")  
-        game.load.audio('puzzleSong', soundsPath + 'songs/chemical_electro.mp3');
+        game.load.spine('dinamita', "images/spines/skeleton.json")  
+        game.load.audio('canonSong', soundsPath + 'songs/dancing_baby.mp3');
         
-		game.load.image('howTo',"images/color/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/color/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/color/introscreen.png")
-		game.load.image('background',"images/color/background.png")
+		game.load.image('howTo',"images/nutri/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/nutri/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/nutri/introscreen.png")
+		game.load.image('background',"images/nutri/background.png")
 		
-		//console.log(localization.getLanguage() + ' language')
-        
+		game.load.spritesheet('coinS', 'images/nutri/sprites/coinS.png', 68, 70, 12);
+		        
     }
 	
 	function activateObject(obj,posX, posY){
@@ -329,11 +336,10 @@ var color = function(){
 	
 	function deactivateObject(obj){
 		
-		//console.log('deactivate')
+		//('deactivate ' + obj.tag + ' tag')
 		
 		obj.alpha = 0
 		obj.active = false
-		obj.x = -200
 		
 		usedObjects.remove(obj)
 		objectsGroup.add(obj)
@@ -350,62 +356,15 @@ var color = function(){
 		}
 	}
 	
-	function sendBall(){
-		
-		if(!gameActive){
-			return
-		}
-		
-		console.log('sendBall')
-		if(pointsBar.number > 5 && Math.random()*2 > 1.2){
-			
-			sound.play("cut")
-			
-			var index = game.rnd.integerInRange(0,2)
-			var ballList = []
-			var pivotX = game.world.centerX - 150
-			
-			for(var i = 0; i < colorCombinations[index].length;i++){
-				
-				var ball = getObject("ball")
-				ball.tint = COLORS_TO_USE[colorCombinations[index][i]]
-				activateObject(ball,pivotX,-100)
-				ballList[i] = ball
-				
-				pivotX+= 300
-				
-				game.add.tween(ball).to({x:game.world.centerX,y:ball.y + 200},500,"Linear",true)
-				
-			}
-			
-			game.time.events.add(510,function(){
-				
-				sound.play("whoosh")
-								
-				var ball = getObject("ball")
-				ball.tint = COLORS_SEC[index]
-				activateObject(ball,game.world.centerX, ballList[1].y)
-				
-				createPart('ring',ballList[1])
-				
-				deactivateObject(ballList[1])
-				deactivateObject(ballList[0])
-			})
-			
-		}else{
-			
-			var ball = getObject('ball')
-			activateObject(ball,game.world.centerX,-100)
-			ball.tint = COLORS_TO_USE[game.rnd.integerInRange(0,COLORS_TO_USE.length - 1)]
-
-			sound.play("cut")
-		}
-		
-		
-	}
-	
     function createOverlay(){
         
+		whiteFade = new Phaser.Graphics(game)
+		whiteFade.beginFill(0xffffff)
+		whiteFade.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+		whiteFade.alpha = 0
+		whiteFade.endFill()
+		sceneGroup.add(whiteFade)
+			
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -422,7 +381,9 @@ var color = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 				
 				overlayGroup.y = -game.world.height
-				showObjects()
+				gameActive = true
+				buttonActive = true
+				//showObjects()
 				
             })
             
@@ -434,7 +395,7 @@ var color = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.color','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.nutri','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -450,11 +411,11 @@ var color = function(){
 		}
 		
 		//console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX + offX,game.world.centerY + 125,'atlas.color',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX + offX,game.world.centerY + 125,'atlas.nutri',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.color','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.nutri','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -471,153 +432,62 @@ var color = function(){
 		background = game.add.tileSprite(0,0,game.world.width,game.world.height,'background')
 		sceneGroup.add(background)
 		
-		var leftBack = sceneGroup.create(-200,game.world.height,'atlas.color','lados')
-		leftBack.alpha = 0
-		leftBack.anchor.setTo(0,1)
+		mountains = game.add.tileSprite(0,game.world.height,game.world.width,333,'atlas.nutri','mountains')
+		mountains.anchor.setTo(0,1)
+		sceneGroup.add(mountains)
 		
-		var rightBack = sceneGroup.create(game.world.width + 200,game.world.height,'atlas.color','lados')
-		rightBack.alpha = 0
-		rightBack.anchor.setTo(0,1)
-		rightBack.scale.setTo(-1,1)
+		water = game.add.tileSprite(0,game.world.height,game.world.width,67,'atlas.nutri','water')
+		water.anchor.setTo(0,1)
+		sceneGroup.add(water)
 		
-		background.leftB = leftBack
-		background.rightB = rightBack
-	}
-	
-	function createBase(){
-		
-		var base = sceneGroup.create(game.world.centerX, game.world.height,'atlas.color','bottom')
-		base.anchor.setTo(0.5,1)
-		base.alpha = 0
-		base.width = game.world.width
-		background.bot = base
-		
-		circleCenter = sceneGroup.create(game.world.centerX,game.world.height - 185,'atlas.color','centerCircle')
-		circleCenter.anchor.setTo(0.5,0.5)
-		circleCenter.alpha = 0
-		
-		baseCenter = sceneGroup.create(game.world.centerX, game.world.height - 300,'atlas.color','centro')
-		baseCenter.anchor.setTo(0.5,0.5)
-		baseCenter.alpha = 0
-		
-		colorsGroup = game.add.group()
-		colorsGroup.x = baseCenter.x
-		colorsGroup.y = baseCenter.y
-		colorsGroup.alpha = 0
-		colorsGroup.scale.setTo(1.2,1.2)
-		sceneGroup.add(colorsGroup)
-		
-		var angleUsed = 0
-		for(var i = 0;i < 6;i++){
-			var triangle = colorsGroup.create(0,0,'atlas.color','triangle')
-			triangle.anchor.setTo(0.5,1)
-			triangle.angle = angleUsed
-			triangle.isCircle = false
-			
-			triangle.tint = COLORS_TO_USE[i]
-			
-			
-			var ball = colorsGroup.create()
-			angleUsed+=60
-		}
-		
-		sceneGroup.remove(baseCenter)
-		sceneGroup.add(baseCenter)
-		
-		var group = calcCircles(6)
-		group.x-=50
-		group.y-=50
-		colorsGroup.add(group)
-		
-		colorsGroup.circles = group
-		
-	}
-	
-	function calcCircles(n) {
-        
-        group = game.add.group()
-        
-        var baseRadius = 40
-        var angle = Math.PI / n;
-        var s = Math.sin(angle);
-        var r = baseRadius * s / (1-s);
-		
-		var orderList = [4,5,0,1,2,3]
-
-        for(var i=0;i<n;++i) {
-            var phi = 15 + angle * i * 2;
-            var cx = 35+(baseRadius + r) * Math.cos(phi);
-            var cy = 35+(baseRadius + r) * Math.sin(phi);
-            
-            var ball = group.create(cx,cy,'atlas.color','ball')
-			ball.isCircle = true
-			ball.scale.setTo(0.6,0.6)
-			ball.tint = COLORS_TO_USE[orderList[i]]
-        }
-                
-        return group
-    }
-	
-	function inputButton(button){
-		
-		if(!gameActive || !button.active || moveDir){
-			return
-		}
-		
-		moveDir = true
-		button.active = false
-		
-		sound.play('gear')
-		var scaleToUse = button.scale.x
-		
-		var angleToUse = 60
-		if(button.isleft){
-			angleToUse*=-1
-		}
-		
-		game.add.tween(colorsGroup).to({angle:colorsGroup.angle + angleToUse},100,"Linear",true)
-		
-		game.add.tween(button.scale).to({x:scaleToUse * 0.7,y:0.7},50,"Linear",true).onComplete.add(function(){
-			game.add.tween(button.scale).to({x:scaleToUse,y:1},50,"Linear",true).onComplete.add(function(){
-				button.active = true
-				moveDir = false
-			})
-		})
-	}
-	
-	function rotateColors(isLeft){
-		
-		sound.play('gear')
-		
-		var angleToUse = 60
-		if(isLeft){
-			angleToUse*=-1
-		}
-		
-		moveDir = true
-		game.add.tween(colorsGroup).to({angle:colorsGroup.angle + angleToUse},100,"Linear",true).onComplete.add(function(){
-			moveDir = false
-		})
-
 	}
 	
 	function update(){
 		
-		background.tilePosition.y--
+		background.tilePosition.x-=0.5
+		water.tilePosition.x-=1	
 		
 		if(!gameActive){
 			return
 		}
 		
-		if(cursors.left.isDown && !moveDir){
-			rotateColors(true)
+		if(isMoving){
+			usedObjects.x-= gameSpeed
+			mountains.tilePosition.x-= gameSpeed*0.4
+			yogotarGroup.x-=gameSpeed
 		}
 		
-		if(cursors.right.isDown && !moveDir){
-			rotateColors(false)
-		}
-		
+		rotateYogotar()
 		checkObjects()
+	}
+	
+	function rotateYogotar(){
+		
+		if(!yogotarGroup.rotate){
+			return
+		}
+		
+		yogotarGroup.angle+= rotateAngle
+		
+		//console.log(yogotarGroup.angle + ' angle')
+		if(yogotarGroup.angle <= angleStart || yogotarGroup.angle >= angleLimit){
+			
+			rotateAngle*=-1
+		}
+	}
+	
+	function checkCol(){
+		
+		//console.log('checkCol ' +  yogotarGroup.checkFruit + ' fruit')
+		if(yogotarGroup.checkFruit || !gameActive){
+			return
+		}
+				
+		yogotarGroup.col.active = false
+		missPoint()
+		createPart('wrong',yogotarGroup.col)
+		setExplosion(yogotarGroup.col)
+		
 	}
 	
 	function checkObjects(){
@@ -625,32 +495,79 @@ var color = function(){
 		for(var i = 0; i < usedObjects.length;i++){
 			
 			var obj = usedObjects.children[i]
+			var col = yogotarGroup.col
 			
-			obj.y+= gameSpeed
+			if(obj.world.x <= -obj.width){
+				deactivateObject(obj)
+				addObjects()
+				break
+			}
 			
-			for(var u = 0; u < colorsGroup.circles.length;u++){
+			if(checkOverlap(col,obj) && col.active && obj.active){
 				
-				var triangle = colorsGroup.circles.children[u]
-				if(checkOverlap(obj,triangle)){
+				var tag = obj.tag
+				if(tag == 'bloque'){
 					
-					console.log(triangle.tint + ' color ' + obj.tint + ' ballColor')
-					if(obj.tint == triangle.tint){
-						console.log('point')
-						addPoint(1)
-						createPart('ring',obj,-50)
-						createTextPart('+1',obj)
-						sendBall()
-					}else{
-						missPoint()
-						createPart('wrong',triangle)
-						setExplosion(triangle)
+					if(yogotarGroup.tween){
+						yogotarGroup.tween.stop()
+					}
+					game.time.events.add(25,checkCol,this)
+					
+				}else if(obj.isFruit){
+					
+					yogotarGroup.checkFruit = true
+					col.active = false
+					addPoint(1)
+					createPart('star',col)
+					if(yogotarGroup.tween){
+						yogotarGroup.tween.stop()
 					}
 					
+					checkFruit(obj)
 					deactivateObject(obj)
-					break
 				}
 			}
 		}
+		
+		if(yogotarGroup.x <= -100){
+			missPoint()
+		}
+	}
+	
+	function checkFruit(obj){
+		
+		obj.block.active = false
+		
+		yogotarGroup.isTop = !yogotarGroup.isTop
+		yogotarGroup.scale.y = Math.abs(yogotarGroup.scale.y)
+		yogotarGroup.scale.x = Math.abs(yogotarGroup.scale.x)
+		yogotarGroup.angle = 0
+		
+		angleStart = -10
+		angleLimit = 130
+		
+		if(yogotarGroup.isTop){
+			
+			yogotarGroup.angle = 50
+			angleStart = 40
+			angleLimit = 140
+			
+		}
+		
+		yogotarGroup.yogotar.setAnimationByName(0,"IDLE",true)
+		yogotarGroup.x = obj.world.x
+		yogotarGroup.y = obj.world.y
+				
+		game.time.events.add(50,function(){
+			
+			yogotarGroup.rotate = true
+			yogotarGroup.checkFruit = false
+			yogotarGroup.direction.alpha = 1
+			
+			buttonActive = true
+		})
+		
+		
 	}
 		
 	function checkOverlap(spriteA, spriteB) {
@@ -751,7 +668,7 @@ var color = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.color',tag)
+                particle = particlesGroup.create(-200,0,'atlas.nutri',tag)
             }
             
             particle.alpha = 0
@@ -779,7 +696,7 @@ var color = function(){
 		
 		if(!tag){
 			
-			var exp = sceneGroup.create(0,0,'atlas.color','cakeSplat')
+			var exp = sceneGroup.create(0,0,'atlas.nutri','cakeSplat')
 			exp.x = posX
 			exp.y = posY
 			exp.anchor.setTo(0.5,0.5)
@@ -803,7 +720,7 @@ var color = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.color',tagToUse);
+        particlesGood.makeParticles('atlas.nutri',tagToUse);
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -824,12 +741,17 @@ var color = function(){
 		
 		for( var i = 0; i < number;i++){
 			
-			var obj = objectsGroup.create(0,0,'atlas.color',tag)
+			var obj = objectsGroup.create(0,0,'atlas.nutri',tag)
 			obj.anchor.setTo(0.5,0.5)
 			obj.tag = tag
 			obj.scale.setTo(scale,scale)
 			obj.alpha = 0
 			obj.active = false
+			obj.isFruit = false
+			
+			if(tag != 'bloque'){
+				obj.isFruit = true
+			}
 		}
 	}
 	
@@ -843,39 +765,13 @@ var color = function(){
 		
 		createParticles('star',5)
 		createParticles('wrong',5)
-		createParticles('ring',5)
 		createParticles('text',5)
-	}
-	
-	function createButtons(){
-		
-		buttonsGroup = game.add.group()
-		sceneGroup.add(buttonsGroup)
-		
-		var pivotX = game.world.centerX - 200
-		
-		for(var i = 0; i < 2 ; i++){
-			
-			var arrow = buttonsGroup.create(pivotX, game.world.height - 80,'atlas.color','flecha')
-			arrow.alpha = 0
-			arrow.anchor.setTo(0.5,0.5)
-			arrow.inputEnabled = true
-			arrow.events.onInputDown.add(inputButton)
-			arrow.active = true
-			arrow.isleft = true
-						
-			if(i==1){
-				
-				arrow.scale.x = -1
-				arrow.isleft = false
-			}
-			
-			pivotX+=400
-			
-		}
+		createParticles('smoke',5)
 	}
 	
 	function createObjects(){
+		
+		pivotObjects = 500
 		
 		objectsGroup = game.add.group()
 		sceneGroup.add(objectsGroup)
@@ -883,30 +779,161 @@ var color = function(){
 		usedObjects = game.add.group()
 		sceneGroup.add(usedObjects)
 		
-		createAssets('ball',1,5)
+		createAssets('bloque',1,5)
+		createAssets('apple',1,5)
+		createAssets('carrot',1,5)
+		createAssets('lettuce',1,5)
+		createAssets('orange',1,5)
+		
+		for(var i = 0; i < 3;i++){
+			
+			addObjects()
+		}
+		
+	}
+	
+	function addObjects(){
+		
+		isTop = !isTop
+		
+		var percent = game.rnd.integerInRange(1,5) * 0.1
+		var obj = getObject('bloque')
+		
+		var posY = obj.height * percent
+		obj.scale.y = Math.abs(obj.scale.y) *-1
+		
+		if(isTop){
+			obj.scale.y = Math.abs(obj.scale.y)
+			posY = game.world.height - obj.height * percent
+		}
+		
+		activateObject(obj,pivotObjects,posY)
+		
+		var offY = -1
+		if(!isTop){
+			offY = -1
+		}
+		
+		Phaser.ArrayUtils.shuffle(fruits)
+		var fruit = getObject(fruits[0])
+		activateObject(fruit,obj.x,obj.y + obj.height * 0.5 * offY)
+		fruit.block = obj
+		
+		pivotObjects+= OFF_OBJECTS
+		
+	}
+	
+	function createBase(){
+		
+		var pivotBase = 0
+		
+		yogotarGroup = game.add.group()
+		yogotarGroup.x = 100
+		yogotarGroup.y = game.world.height - 215
+		sceneGroup.add(yogotarGroup)
+		
+		yogotarGroup.tween = null
+		yogotarGroup.checkFruit = false
+		yogotarGroup.isTop = true
+		
+		var yogotar = game.add.spine(0,25,'dinamita')
+		yogotar.setSkinByName('normal')
+		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotarGroup.add(yogotar)
+		yogotarGroup.yogotar = yogotar
+		
+		var base = usedObjects.create(pivotBase,game.world.height,'atlas.nutri','inicio')
+		base.anchor.setTo(0,1)
+		
+		var direction = yogotarGroup.create(0,-120,'atlas.nutri','direccion')
+		direction.anchor.setTo(0.5,1)
+		yogotarGroup.direction = direction
+		
+		var target = yogotarGroup.create(0,-800,'atlas.nutri','orange')
+		target.alpha = 0
+		target.anchor.setTo(0.5,0.5)
+		yogotarGroup.target = target
+		
+		var col = yogotar.create(0,-50,'atlas.nutri','orange')
+		col.alpha = 0
+		col.anchor.setTo(0.5,0.5)
+		yogotarGroup.col = col
+		col.active = true
+		
+		yogotarGroup.rotate = true
+	}
+	
+	function shootYogotar(){
+		
+		if(!gameActive || !buttonActive){
+			return
+		}
+		
+		game.add.tween(whiteFade).from({alpha:1},250,"Linear",true)
+		buttonActive = false
+		
+		sound.play("shoot")
+		createPart('smoke',yogotarGroup.col)
+		
+		yogotarGroup.direction.alpha = 0
+		yogotarGroup.col.active = true
+		
+		if(!isMoving){ 
+			isMoving = true
+			angleLimit = 120
+		}
+		
+		yogotarGroup.rotate = false
+		
+		var target = yogotarGroup.target
+		
+		yogotarGroup.yogotar.setAnimationByName(0,"SHOOTOUT",true)
+		yogotarGroup.tween = null
+		
+		//console.log(usedObjects.x + target.world.x + ' posX')
+		yogotarGroup.tween = game.add.tween(yogotarGroup).to({x:target.world.x,y:target.world.y},500,"Linear",true)
+		
+		yogotarGroup.tween.onComplete.add(function(){
+			
+			if(yogotarGroup.col.active){
+				missPoint()
+				createPart('wrong',yogotarGroup.col)
+			}	
+		})
+	}
+	
+	function createButton(){
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.alpha = 0
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(shootYogotar)
+		sceneGroup.add(rect)
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "color",
+		name: "nutri",
 		update: update,
         preload:preload,
 		create: function(event){
             
 			this.swipe = new Swipe(this.game);
-			cursors = game.input.keyboard.createCursorKeys()
 			
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createBase()
 			createObjects()
-			createButtons()
+			createBase()
+			createButton()
                         			
-            puzzleSong = game.add.audio('puzzleSong')
-            game.sound.setDecodedCallback(puzzleSong, function(){
-                puzzleSong.loopFull(0.6)
+            canonSong = game.add.audio('canonSong')
+            game.sound.setDecodedCallback(canonSong, function(){
+                canonSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

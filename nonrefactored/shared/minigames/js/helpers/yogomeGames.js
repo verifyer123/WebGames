@@ -18,6 +18,8 @@ yogomeGames.getGames = function(){
 		{name:'memoNumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo'},
 		{name:'beachNinja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach'},
         {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions'},
+		{name:'colorAttack',url:'http://yogome.com/epic/minigames/colorSite/',sceneName:'color'},
+		{name:'nutriCanon',url:'http://yogome.com/epic/minigames/nutriSite/',sceneName:'nutri'},
         
     ]
     
