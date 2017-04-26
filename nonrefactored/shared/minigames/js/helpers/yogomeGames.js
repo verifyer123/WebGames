@@ -17,13 +17,10 @@ yogomeGames.getGames = function(){
 		{name:'geoJourney',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney'},
 		{name:'memoNumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo'},
 		{name:'beachNinja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach'},
-<<<<<<< HEAD
-        {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions'}
-=======
         {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions'},
 		{name:'colorAttack',url:'http://yogome.com/epic/minigames/colorSite/',sceneName:'color'},
 		{name:'nutriCanon',url:'http://yogome.com/epic/minigames/nutriSite/',sceneName:'nutri'},
->>>>>>> origin/master
+		{name:'tiltSprout',url:'http://yogome.com/epic/minigames/tiltSite/',sceneName:'tilt'},
         
     ]
     

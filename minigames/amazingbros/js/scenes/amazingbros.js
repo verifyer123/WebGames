@@ -907,11 +907,7 @@ var amazingbros = function(){
             game.physics.p2.world.setGlobalStiffness(1e5);
             
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            
-            /*if(sceneGroup){
-                console.log(sceneGroup)
-            }*/
-            
+
 			sceneGroup = game.add.group()
             
             worldGroup = game.add.group()

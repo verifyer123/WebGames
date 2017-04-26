@@ -20,7 +20,7 @@ var sky = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.sky",
+                name: "atlas.skyL",
                 json: "images/sky/atlas.json",
                 image: "images/sky/atlas.png",
             },
@@ -97,7 +97,7 @@ var sky = function(){
             
             var particlesGood = game.add.emitter(0, 0, 100);
 
-            particlesGood.makeParticles('atlas.sky',key);
+            particlesGood.makeParticles('atlas.skyL',key);
             particlesGood.minParticleSpeed.setTo(-200, -50);
             particlesGood.maxParticleSpeed.setTo(200, -100);
             particlesGood.minParticleScale = 0.2;
@@ -114,7 +114,7 @@ var sky = function(){
 
         }else{*/
             key+='Part'
-            var particle = sceneGroup.create(obj.x,obj.y,'atlas.sky',key)
+            var particle = sceneGroup.create(obj.x,obj.y,'atlas.skyL',key)
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
@@ -327,7 +327,7 @@ var sky = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.sky','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.skyL','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -355,7 +355,7 @@ var sky = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.sky','life_box')
+        var heartImg = group.create(0,0,'atlas.skyL','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -436,7 +436,7 @@ var sky = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.sky','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.skyL','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -450,11 +450,11 @@ var sky = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.sky',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.skyL',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.sky','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.skyL','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -472,11 +472,11 @@ var sky = function(){
 		sceneGroup.add(background)
 		
 		createBar()
-		
-		topBack = game.add.tileSprite(0,0,game.world.width, 141, 'atlas.sky' ,'up');
+	
+		topBack = game.add.tileSprite(0,0,game.world.width, 141, 'atlas.skyL' ,'up');
 		sceneGroup.add(topBack)
 		
-		botBack = game.add.tileSprite(0,game.world.height,game.world.width,141,'atlas.sky','up')
+		botBack = game.add.tileSprite(0,game.world.height,game.world.width,141,'atlas.skyL','up')
 		botBack.scale.setTo(1,-1)
 		sceneGroup.add(botBack)
 		
@@ -576,7 +576,7 @@ var sky = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.sky',tag)
+                particle = particlesGroup.create(-200,0,'atlas.skyL',tag)
             }
             
             particle.alpha = 0
@@ -591,7 +591,7 @@ var sky = function(){
 	
 	function createSpaceship(){
 		
-		shoot = sceneGroup.create(0,0,'atlas.sky','shoot')
+		shoot = sceneGroup.create(0,0,'atlas.skyL','shoot')
 		shoot.anchor.setTo(0.5,0.5)
 		shoot.alpha = 0
 		
@@ -611,7 +611,7 @@ var sky = function(){
 		var textCont = game.add.group()
 		shipGroup.add(textCont)
 		
-		var cont = textCont.create(0,0,'atlas.sky','textcont')
+		var cont = textCont.create(0,0,'atlas.skyL','textcont')
 		cont.anchor.setTo(0.5,0.5)
 		
 		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -633,7 +633,7 @@ var sky = function(){
 		barGroup.initialX = barGroup.x
 		sceneGroup.add(barGroup)
 		
-		var bar = barGroup.create(0,0,'atlas.sky','block')
+		var bar = barGroup.create(0,0,'atlas.skyL','block')
 		bar.anchor.setTo(0.5,0)
 		
 		barGroup.taps = []
@@ -641,7 +641,7 @@ var sky = function(){
 		var pivotY = 300
 		for( var i = 0; i< 2;i++){
 			
-			var tap1 = barGroup.create(0,pivotY,'atlas.sky','tap')
+			var tap1 = barGroup.create(0,pivotY,'atlas.skyL','tap')
 			tap1.anchor.setTo(0.5,0.5)
 			tap1.inputEnabled = true
 			tap1.events.onInputDown.add(inputButton)
@@ -673,7 +673,7 @@ var sky = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.sky','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.skyL','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -686,7 +686,7 @@ var sky = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.sky','smoke');
+        particlesGood.makeParticles('atlas.skyL','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -811,7 +811,7 @@ var sky = function(){
 		
 		for(var i = 0; i < animalNames.length;i++){
 			
-			var card = animalsGroup.create(-200,0,'atlas.sky',animalNames[i])
+			var card = animalsGroup.create(-200,0,'atlas.skyL',animalNames[i])
 			card.anchor.setTo(0.5,0.5)
 			card.alpha = 0
 			card.tag = animalNames[i]
