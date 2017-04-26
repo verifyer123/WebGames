@@ -5,9 +5,9 @@ var CroakSong = function(){
 	assets = {
         atlases: [                
 			{
-                name: "atlas.frogs",
-                json: imagePath + "ranas/atlas.json",
-                image: imagePath + "ranas/atlas.png",
+                //name: "atlas.frogs",
+                //json: imagePath + "ranas/atlas.json",
+                //image: imagePath + "ranas/atlas.png",
 			}],
         images: [],
 		sounds: [
@@ -149,6 +149,9 @@ var CroakSong = function(){
 			},
 			{	name: "gb6",
 				file: "frogsNotes/gb6.mp3"
+			},
+			{	name: "badcroak",
+				file: "frogsNotes/badcroak.mp3"
 			}
 		],
 	}
@@ -162,12 +165,12 @@ var CroakSong = function(){
 	var lives;
 	var coins;	
 	var finish = false;
-	var speedGame = 1;
+	var speedGame = 2;
 	var lives = 3;
 	var coins = 0;
 	var timerCount;
 	var timer = 10;
-	
+	var cursors;
 	var carril = new Array;
 	var bicho;
 	var tronco;
@@ -178,6 +181,13 @@ var CroakSong = function(){
 	var ranas = new Array;
 	var bichos = new Array;
 	var troncos = new Array;
+	var readySound = 0;
+	var activeBug = false;
+	var spaceItems = 200;
+	var star;
+	var wrong;
+	var level = 1;
+	var levelText;
 
 	function getRandomArbitrary(min, max) {
   			return Math.floor(Math.random() * (max - min) + min);
@@ -194,14 +204,7 @@ var CroakSong = function(){
 	
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	var styleClock = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
-
-	function fontsSize(){
-			if(game.world.width < 721){
-				styleCards = {font: "2.5vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
-			}else{
-				styleCards = {font: "11vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
-			}
-	}
+	var styleLevel = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
     function preload() {
 		//bgm
 		game.load.audio('bgm8bits',  soundsPath + 'songs/8-bit-Video-Game.mp3');
@@ -216,13 +219,15 @@ var CroakSong = function(){
 		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
 		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	
-		game.load.image('bgclock',imagePath + "bgclock.png");
+		//game.load.image('bgclock',imagePath + "bgclock.png");
 		/*Default*/
 		game.load.image("background2", imagePath +"background2.png");
 		game.load.image("carril",imagePath + "carril.png");
 		game.load.image("vapor",imagePath + "vapor.png");
 		game.load.image("planta",imagePath + "planta.png");
 		game.load.image('tronco',imagePath + "tronco.png");
+		game.load.image('star',imagePath + "star.png");
+		game.load.image('wrong',imagePath + "wrong.png");
 		game.load.spritesheet('bicho', imagePath +  'bicho.png', 74, 79, 12);
 		game.load.spine("frogs", imagePath + "ranas/skeleton.json");
 	}
@@ -244,8 +249,22 @@ var CroakSong = function(){
   			return Math.floor(Math.random() * (max - min) + min);
 	}
 	
+		function TextLevelfunction(){
+			levelText = game.add.text(game.world.centerX, game.world.centerY,"Nivel " + level, styleLevel);	
+			levelText.anchor.setTo(0.5, 0.5);	
+			levelText.stroke = '#67ca5f';
+			levelText.strokeThickness = 15;
+			levelText.alpha = 0;
+		
+			TweenMax.fromTo(levelText,0.5,{alpha:0,y:game.world.centerY - 100},{alpha:1,y:game.world.centerY,onComplete:sigueLevel});
+			
+			function sigueLevel(){
+				TweenMax.fromTo(levelText,0.5,{alpha:1,y:game.world.centerY},{alpha:0,y:game.world.centerY + 100,delay:1})
+			}
+		}	
+	
 	function createOverlay(){
-		lives = 1;
+		lives = 3;
 		coins = 0;
 		finish = false;
 
@@ -271,15 +290,13 @@ var CroakSong = function(){
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
 			sound.play("pop")
+			sound.play("combo");
+						TextLevelfunction();
+
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
-		
-		bgm = game.add.audio('bgm8bits')
-            game.sound.setDecodedCallback(bgm, function(){
-            }, this);
-		
-		bgm.loopFull(0.5);
-		starGame = true;
+
+			starGame = true;
 
 				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
             })
@@ -343,64 +360,7 @@ var CroakSong = function(){
 		carril[2] = game.add.tileSprite(carril[1].x + 152,225,101, game.height, "carril");
 		carril[2].anchor.setTo(0.5,0);
 		
-		/*
-		bicho = game.add.sprite(carril[0].x, carril[0].y, 'bicho');
-		var bichoSprite = bicho.animations.add('bichoSprite');
-		bicho.animations.play('bichoSprite', 12, true);
-		bicho.anchor.setTo(0.5,0);		
-		
-		tronco = game.add.sprite(carril[1].x, carril[1].y, 'tronco');
-		tronco.anchor.setTo(0.5,0);
-		*/
-		
-		for(var p = 0;p<=5;p++){
-			
-			var num = getRandomArbitrary(0,3);
-			var varP = p;
-			
-			bichos[p] = game.add.sprite(0, 0, 'bicho');
-			bichos[p].x = carril[num].x + bichos[p].width/8;
-			var bichoSprite = bichos[p].animations.add('bichoSprite');
-			bichos[p].animations.play('bichoSprite', 12, true);
-			bichos[p].anchor.setTo(0.5,0);	
 				
-			
-			if(p == 0){
-				bichos[p].y = 300;
-			}else{
-				bichos[p].y = bichos[p-1].y - 100;
-			}
-			
-			console.log(num);
-			
-			switch(num){
-				case 0:			
-				troncos[varP] = game.add.sprite(carril[1].x, bichos[varP].y, 'tronco');
-				troncos[varP].anchor.setTo(0.5,0);	
-				
-				troncos[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
-				troncos[varP].anchor.setTo(0.5,0);		
-					
-				break;	
-				
-				case 1:			
-				troncos[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
-				troncos[varP].anchor.setTo(0.5,0);		
-				break;
-					
-				case 2:			
-				troncos[varP] = game.add.sprite(carril[0].x, bichos[varP].y, 'tronco');
-				troncos[varP].anchor.setTo(0.5,0);		
-				break;	
-					
-					
-			}
-			
-			//game.world.swap(background, bichos[p]);
-			//game.world.swap(background, troncos[p]);
-			
-		}
-		
 		vapor = game.add.sprite(-1,0, 'vapor');
 		vapor.y = game.height - vapor.height * 1.2;
 		vapor.scale.setTo(0.7);
@@ -408,8 +368,63 @@ var CroakSong = function(){
 		vapor2 = game.add.sprite(game.width,0, 'vapor');
 		vapor2.y = game.height - vapor2.height * 1.2;
 		vapor2.scale.setTo(-0.7,0.7);	
-				/*background clouds*/
+
+		function createBugs(){
+			for(var p = 0;p<=songs.length-1;p++){
+
+				var num = getRandomArbitrary(0,3);
+				var varP = p;
+
+				bichos[p] = game.add.sprite(0, 0, 'bicho');
+				bichos[p].x = carril[num].x + bichos[p].width/8;
+				var bichoSprite = bichos[p].animations.add('bichoSprite');
+				bichos[p].animations.play('bichoSprite', 12, true);
+				bichos[p].anchor.setTo(0.5,0);	
+				bichos[p].id = p;
+				bichos[p].carril = num;
+
+
+				if(p == 0){
+					bichos[p].y = -600;
+				}else{
+					bichos[p].y = bichos[p-1].y - spaceItems;
+				}
+
+				switch(num){
+					case 0:			
+
+					troncos[varP] = game.add.sprite(carril[1].x, bichos[varP].y, 'tronco');
+					troncos[varP].anchor.setTo(0.5,0);		
+					troncos[varP].scale.setTo(0.7);	
+					break;	
+
+					case 1:			
+					troncos[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
+					troncos[varP].anchor.setTo(0.5,0);
+					troncos[varP].scale.setTo(0.7);	
+					break;
+
+					case 2:			
+					troncos[varP] = game.add.sprite(carril[0].x, bichos[varP].y, 'tronco');
+					troncos[varP].anchor.setTo(0.5,0);	
+					troncos[varP].scale.setTo(0.7);		
+					break;	
+				}
+				
+				TweenMax.to(bichos[p],1,{y:bichos[p].y+1200});
+				TweenMax.to(troncos[p],1,{y:troncos[p].y+1200});
+				
+				
+			}
+			
+					/*background clouds*/
 		background = game.add.tileSprite(0,0,game.width, 225, "background");
+			
+		}	
+		
+		
+
+
 		var agua = game.add.graphics(0, 0);
         agua.beginFill(0x5f8dca);
         agua.drawRect(0,game.world.height-132,game.world.width *2, game.world.height /6)
@@ -426,6 +441,7 @@ var CroakSong = function(){
 			ButtonsFrogs[i].beginFill(0x5f8dca);
 			ButtonsFrogs[i].drawRect(ranas[i].x-50,ranas[i].y-100,100,130);
 			ButtonsFrogs[i].id = i;
+			ButtonsFrogs[i].carril = i;
 			ButtonsFrogs[i].alpha = 0;
 			ButtonsFrogs[i].endFill();
 			
@@ -439,13 +455,81 @@ var CroakSong = function(){
 		ranas[1].setSkinByName("cherry");
 		ranas[2].setSkinByName("green");
 		
+		star =  game.add.sprite(ranas[0].x, ranas[0].y, 'star');
+		star.anchor.setTo(0.5,1);
+		star.alpha= 0;
+		wrong =  game.add.sprite(ranas[0].x, ranas[0].y, 'wrong');
+		wrong.anchor.setTo(0.5,1);
+		wrong.alpha= 0;
+		createBugs();
+		
 		function downFrog(object){
-			ranas[object.id].setAnimationByName(0, "SING2", true);
-			sound.play(songs[object.id]);
-			console.log("bichos[0].y: " + bichos[0].y);
-			if(bichos[0].y <= 844.35){
-				console.log("OK");
+			
+
+			for(var i = 0;i<=songs.length-1;i++){
+				TweenMax.to(bichos[i],0.1,{y:bichos[i].y+spaceItems});
+				TweenMax.to(troncos[i],0.1,{y:troncos[i].y+spaceItems});
+
 			}
+					
+				if(bichos[readySound].y >=  600){
+					console.log("ok");
+					TweenMax.to(troncos[readySound],0.2,{alpha:0});
+	
+					if(object.carril == bichos[readySound].carril){
+						sound.play(songs[readySound]);
+						ranas[object.id].setAnimationByName(0, "SING2", false);
+						TweenMax.to(bichos[readySound].scale,0.2,{x:0,y:0});
+						star.x = ranas[object.id].x;
+						star.y = ranas[object.id].y;
+						TweenMax.fromTo(star.scale,0.5,{x:1,y:1},{x:2,y:2});
+						TweenMax.fromTo(star,0.5,{alpha:1},{alpha:0});
+						coins++;
+						xpText.setText(coins);
+					}else{
+						sound.play("badcroak");
+						lives--;
+						heartsText.setText("x " + lives );
+		
+						ranas[object.id].setAnimationByName(0, "LOSE", false);
+						TweenMax.to(bichos[readySound],0.2,{alpha:0});
+						wrong.x = ranas[object.id].x;
+						wrong.y = ranas[object.id].y;
+						TweenMax.fromTo(wrong.scale,0.5,{x:1,y:1},{x:2,y:2});
+						TweenMax.fromTo(wrong,0.5,{alpha:1},{alpha:0});
+										if(lives == 0){
+							ranas[0].setAnimationByName(0, "LOSE", true);
+							ranas[1].setAnimationByName(0, "LOSE", true);
+							ranas[2].setAnimationByName(0, "LOSE", true);
+							ButtonsFrogs[0].inputEnabled = false;
+							ButtonsFrogs[1].inputEnabled = false;
+							ButtonsFrogs[2].inputEnabled = false;
+							sound.play("gameLose");
+							TweenMax.to(bichos[readySound],1,{alpha:1,onComplete:gameOver});
+						   }
+
+					}
+				}				
+			
+			if(readySound <= 31){
+				readySound++;
+
+			}else{
+				readySound = 0;
+				for(var p = 0;p<=songs.length-1;p++){
+					bichos[p].destroy();
+					troncos[p].destroy();
+				}
+				level++;
+				if(spaceItems >= 50){
+					spaceItems = spaceItems - 10;
+				}
+				sound.play("combo");
+				createBugs();
+				createItemsGame();
+				TextLevelfunction();
+			}
+
 		}
 		
 		function upFrog(object){
@@ -465,31 +549,36 @@ var CroakSong = function(){
 		
 		/*GAME*/
 		/*assets defautl*/
-		heartsIcon = game.add.sprite(0,0,"heartsIcon");
-		heartsIcon.anchor.setTo(0, 0);	
-		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 25;	
-		heartsText = game.add.text(50, 10, "x " + lives, style);	
-		heartsText.anchor.setTo(0, 0);	
-		heartsText.x = game.world.width - 75;
-		heartsText.y = 25;
-		xpIcon = game.add.sprite(0,0,"xpIcon");
-		xpIcon.anchor.setTo(0, 0);	
-		xpIcon.x = 0;
-		xpIcon.y = 30;	
-		xpText = game.add.text(50, 10,coins, style);	
-		xpText.anchor.setTo(0, 0);	
-		xpText.x = 75;
-		xpText.y = 28;	
-		bgclock = game.add.sprite(0,1,"bgclock");
-		bgclock.x = game.width * 0.5;
-		bgclock.anchor.setTo(0.5, 0);
-		clockText = game.add.text(50, 46, timer, styleClock);	
-		clockText.x = game.width * 0.5;
-		clockText.anchor.setTo(0.5, 0);
-		bgclock.alpha = 0;
-		clockText.alpha = 0;
-		//createOverlay();
+		function createItemsGame(){		
+			heartsIcon = game.add.sprite(0,0,"heartsIcon");
+			heartsIcon.anchor.setTo(0, 0);	
+			heartsIcon.x = game.world.width - heartsIcon.width;
+			heartsIcon.y = 25;	
+			heartsText = game.add.text(50, 10, "x " + lives, style);	
+			heartsText.anchor.setTo(0, 0);	
+			heartsText.x = game.world.width - 75;
+			heartsText.y = 25;
+			xpIcon = game.add.sprite(0,0,"xpIcon");
+			xpIcon.anchor.setTo(0, 0);	
+			xpIcon.x = 0;
+			xpIcon.y = 30;	
+			xpText = game.add.text(50, 10,coins, style);	
+			xpText.anchor.setTo(0, 0);	
+			xpText.x = 75;
+			xpText.y = 28;	
+			bgclock = game.add.sprite(0,1,"bgclock");
+			bgclock.x = game.width * 0.5;
+			bgclock.anchor.setTo(0.5, 0);
+			clockText = game.add.text(50, 46, timer, styleClock);	
+			clockText.x = game.width * 0.5;
+			clockText.anchor.setTo(0.5, 0);
+			bgclock.alpha = 0;
+			clockText.alpha = 0;
+		}
+		
+			createItemsGame();
+																				
+		createOverlay();
 		function timerFunction(){
 			if(timer != 0){
 				timer-- 
@@ -502,29 +591,20 @@ var CroakSong = function(){
 			clockText.setText(timer);
 		}		
 		
-		
+		cursors = game.input.keyboard.createCursorKeys();
 	}
 	
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,14)
+			resultScreen.setScore(true, coins,19)
 			sceneloader.show("result");
 	}	
 	
 	
 	function update() {
-		
 		background2.tilePosition.y += speedGame;
-		for(var r = 0;r<=5;r++){
-		//bichos[r].y += speedGame;
-		//troncos[r].y += speedGame;
-		}
-		if(starGame){	
-			if(lives != 0){
-				background.tilePosition.y += speedGame;
-			}
-		}
+
 	}
 	
 	return {

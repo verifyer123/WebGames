@@ -362,7 +362,7 @@ var healthyCollector = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,12)
+			resultScreen.setScore(true, coins,18)
 			sceneloader.show("result");
 	}
 
