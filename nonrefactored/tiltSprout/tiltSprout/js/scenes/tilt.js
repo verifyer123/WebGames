@@ -58,11 +58,12 @@ var tilt = function(){
     var lives = null
 	var rotateAngle, rotateLeft, rotateRight
 	var sceneGroup = null
+	var spidersDelay = 9000
 	var background,background2
     var gameActive
 	var particlesGroup, particlesUsed
 	var whiteFade
-    var gameIndex = 17
+    var gameIndex = 20
 	var numberPanel,bar
 	var player, rotationBar
 	var redSpider
@@ -406,14 +407,25 @@ var tilt = function(){
 				gameActive = true
 				buttonActive = true
 				
-				var delay = 1000
+				var delay = 500
 		
 				for(var i = 0; i < 4; i++){
 					game.time.events.add(delay,addDrop,this)
 					delay+= 3000
 				}
 				
-				game.time.events.add(10000,sendSpiderBoss,this)
+				game.time.events.add(spidersDelay,function(){
+					
+					pivotObjects = -200 -usedObjects.y
+					for(var i = 0; i < 5;i++){
+
+						addObjects()
+					}
+					
+					game.time.events.add(10000,sendSpiderBoss,this)
+				})
+				
+				
 				//showObjects()
 				
             })
@@ -782,11 +794,6 @@ var tilt = function(){
 		createAssets('planta',1,1)
 		createAssets('spiderBoss',1.5,1)
 		
-		for(var i = 0; i < 5;i++){
-			
-			addObjects()
-		}
-		
 	}
 	
 	function addDrop(){
@@ -861,7 +868,7 @@ var tilt = function(){
 		player.active = true
 		player.scale.setTo(1.2,1.2)
 		game.physics.p2.enable(player,DEBUG_PHYSICS)
-		player.body.mass=1	
+		player.body.mass=5
 		player.body.setCircle(player.width * 0.5)
 
 		player.body.collideWorldBounds = true;

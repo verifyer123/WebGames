@@ -355,7 +355,7 @@ var microdefender = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,9)
+			resultScreen.setScore(true, coins,17)
 			sceneloader.show("result");
 	}
 
