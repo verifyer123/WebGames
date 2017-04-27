@@ -55,13 +55,13 @@ var CroakSong = function(){
 				file: "frogsNotes/ab6.mp3"
 			},
 			{	name: "b4",
-				file: "frogsNotes/a4.mp3"
+				file: "frogsNotes/b4.mp3"
 			},
 			{	name: "a5",
 				file: "frogsNotes/a5.mp3"
 			},
 			{	name: "a4",
-				file: "frogsNotes/b4.mp3"
+				file: "frogsNotes/a4.mp3"
 			},
 			{	name: "b5",
 				file: "frogsNotes/b5.mp3"
@@ -152,7 +152,82 @@ var CroakSong = function(){
 			},
 			{	name: "badcroak",
 				file: "frogsNotes/badcroak.mp3"
-			}
+			},/*PIANO*/	
+			{	name: "C3",
+				file: "pianoNotes/Piano.ff.C3.mp3"},
+			{	name: "Db3",
+				file: "pianoNotes/Piano.ff.Db3.mp3",},
+			{	name: "D3",
+				file: "pianoNotes/Piano.ff.D3.mp3",},
+			{	name: "Eb3",
+				file: "pianoNotes/Piano.ff.Eb3.mp3",},
+			{	name: "E3",
+				file: "pianoNotes/Piano.ff.E3.mp3",},
+			{	name: "F3",
+				file: "pianoNotes/Piano.ff.F3.mp3"},
+			{	name: "Gb3",
+				file: "pianoNotes/Piano.ff.Gb3.mp3"},
+			{	name: "G3",
+				file: "pianoNotes/Piano.ff.G3.mp3"},
+			{	name: "Ab3",
+				file: "pianoNotes/Piano.ff.Ab3.mp3"},
+			{	name: "A3",
+				file: "pianoNotes/Piano.ff.A3.mp3"},
+			{	name: "Bb3",
+				file: "pianoNotes/Piano.ff.Bb3.mp3"},
+			{	name: "B3",
+				file: "pianoNotes/Piano.ff.B3.mp3"},
+			{	name: "C4",
+				file: "pianoNotes/Piano.ff.C4.mp3"},
+			{	name: "Db4",
+				file: "pianoNotes/Piano.ff.Db4.mp3"},
+			{	name: "D4",
+				file: "pianoNotes/Piano.ff.D4.mp3"},
+			{	name: "Eb4",
+				file: "pianoNotes/Piano.ff.Eb4.mp3"},
+			{	name: "E4",
+				file: "pianoNotes/Piano.ff.E4.mp3"},
+			{	name: "F4",
+				file: "pianoNotes/Piano.ff.F4.mp3"},
+			{	name: "Gb4",
+				file: "pianoNotes/Piano.ff.Gb4.mp3"},
+			{	name: "G4",
+				file: "pianoNotes/Piano.ff.G4.mp3"},
+			{	name: "Ab4",
+				file: "pianoNotes/Piano.ff.Ab4.mp3"},
+			{	name: "A4",
+				file: "pianoNotes/Piano.ff.A4.mp3"},
+			{	name: "Bb4",
+				file: "pianoNotes/Piano.ff.Bb4.mp3"},
+			{	name: "B4",
+				file: "pianoNotes/Piano.ff.B4.mp3"},
+			{	name: "C5",
+				file: "pianoNotes/Piano.ff.C5.mp3"},
+			{	name: "Db5",
+				file: "pianoNotes/Piano.ff.Db5.mp3"},
+			{	name: "D5",
+				file: "pianoNotes/Piano.ff.D5.mp3"},
+			{	name: "Eb5",
+				file: "pianoNotes/Piano.ff.Eb5.mp3"},
+			{	name: "E5",
+				file: "pianoNotes/Piano.ff.E5.mp3"},
+			{	name: "F5",
+				file: "pianoNotes/Piano.ff.F5.mp3"},
+			{	name: "Gb5",
+				file: "pianoNotes/Piano.ff.Gb5.mp3"},
+			{	name: "G5",
+				file: "pianoNotes/Piano.ff.G5.mp3"},
+			{	name: "Ab5",
+				file: "pianoNotes/Piano.ff.Ab5.mp3"},
+			{	name: "A5",
+				file: "pianoNotes/Piano.ff.A5.mp3"},
+			{	name: "Bb5",
+				file: "pianoNotes/Piano.ff.Bb5.mp3"},
+			{	name: "B5",
+				file: "pianoNotes/Piano.ff.B5.mp3"},
+			{	name: "C6",
+				file: "pianoNotes/Piano.ff.C6.mp3"}
+			/*PIANO*/
 		],
 	}
     var starGame = false;
@@ -164,7 +239,7 @@ var CroakSong = function(){
 	var xpText;
 	var lives;
 	var coins;	
-	var finish = false;
+	var finishGame = false;
 	var speedGame = 2;
 	var lives = 3;
 	var coins = 0;
@@ -186,20 +261,188 @@ var CroakSong = function(){
 	var spaceItems = 200;
 	var star;
 	var wrong;
+	var selectMusic;
 	var level = 1;
 	var levelText;
+	var ButtonsFrogs = new Array;
+	var pressLeft = false;
+	var pressDown = false;
+	var pressRight = false;
+	var minSpaceItems = 20;
 
 	function getRandomArbitrary(min, max) {
   			return Math.floor(Math.random() * (max - min) + min);
 	}
 
-	var songs =
+/*
+	[
+			"c4","cb4","d4","db4","e4","f4","fb4","g4","gb4","a4","ab4","b4","c5",
+			"cb5","d5","db5","e5","f5","fb5","g5","gb5","a5","ab5","b5","c6","cb6",
+			"d6","db6","e6","f6","fb6","g6","gb6","a6","ab6","b6"
+		]*/
+	
+	var pianoSong =[
+		[
+			"D5","G4","A4","B4","C5","D5","G4",
+			"G4","E5","C5","D5","E5","Gb5","G5","G4",
+			"G4","C5","D5","C5","B4","A4","B4","C5",
+			"B4","A4","G4","Gb4","G4","A4","B4","G4","B4","A4"
+		],
+		[
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"Ab3", "E3", "Ab3", "G3", "Eb3", "G3",
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"D4", "C4", "A3", "F3", "A3", "C4",
+			
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"Ab3", "E3", "Ab3", "G3", "Eb3", "G3",
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"D4", "C4", "A3", "F3", "A3", "C4",
+		],
+		[
+			"E5", "Eb5", "E5", "Eb5", "E5", "B4", "D5",
+			"C5", "A4", "C4", "E4", "A4", "B4", "E4",
+			"G4", "B4", "C5", "E5", "Eb5", "E5", "Eb5",
+			"E5", "B4", "D5", "C5", "A4", "C4", "E4",
+			"A4", "B4", "E4", "C5", "B4", "A4",
+			"E5", "Eb5", "E5", "Eb5", "E5", "B4", "D5",
+			"C5", "A4", "C4", "E4", "A4", "B4", "E4",
+			"G4", "B4", "C5", "E5", "Eb5", "E5", "Eb5",
+			"E5", "B4", "D5", "C5", "A4", "C4", "E4",
+			"A4", "B4", "E4", "C5", "B4", "A4",
+		],
+		[
+			"B4", "A4", "Ab4", "A4", "C5",
+			"D5", "C5", "B4", "C5", "E5",
+			"F5", "E5", "Eb5", "E5",
+			"B5", "A5", "Ab5", "A5", "B5", 
+			"A5", "Ab5", "A5", "C6",
+			"A5", "C6", "B5", "A5", "G5",
+			"A5" , "B5", "A5", "G5", "A5", 
+			"B5", "A5", "G5", "Gb5", "E5",
+			"B4", "A4", "Ab4", "A4", "C5",
+			"D5", "C5", "B4", "C5", "E5",
+			"F5", "E5", "Eb5", "E5",
+			"B5", "A5", "Ab5", "A5", "B5", 
+			"A5", "Ab5", "A5", "C6",
+			"A5", "C6", "B5", "A5", "G5",
+			"A5" , "B5", "A5", "G5", "A5", 
+			"B5", "A5", "G5", "Gb5", "E5",
+		]
+	]
+	
+		
+    var songs = [
+		
+	
+		
 		[
 			"d5","g4","a4","b4","c5","d5","g4",
 			"g4","e5","c5","d5","e5","gb5","g5","g4",
 			"g4","c5","d5","c5","b4","a4","b4","c5",
 			"b4","a4","g4","gb4","g4","a4","b4","g4","b4","a4"
+		],
+		[
+			"d4", "e4", "f4", "g4", "a4", "f4", "a4",
+			"ab4", "d4", "ab4","g4", "fb4", "g4",
+			"d4", "e4", "f4", "g4", "a4", "f4", "a4",
+			"d5", "c5", "a4", "f4", "a4", "c5",
+			"d4", "e4", "f4", "g4", "a4", "f4", "a4",
+			"ab4", "e4", "ab4", "g4", "fb4", "g4",
+			"d4", "e4", "f4", "g4", "a4", "f4", "a4",
+			"d5", "c5", "a4", "f4", "a4", "c5",
+		],
+		[
+			"e5", "cb5", "e5", "cb5", "e5", "b4", "d5",
+			"c5", "a4", "c4", "e4", "a4", "b4", "e4",
+			"g4", "b4", "c5", "e5", "cb5", "e5", "cb5",
+			"e5", "b4", "d5", "c5", "a4", "c4", "e4",
+			"a4", "b4", "e4", "c5", "b4", "a4",
+			"e5", "cb5", "e5", "cb5", "e5", "b4", "d5",
+			"c5", "a4", "c4", "e4", "a4", "b4", "e4",
+			"g4", "b4", "c5", "e5", "cb5", "e5", "cb5",
+			"e5", "b4", "d5", "c5", "a4", "c4", "e4",
+			"a4", "b4", "e4", "c5", "b4", "a4",
+		],
+		[
+			"b4", "a4", "ab4", "a4", "c5",
+			"d5", "c5", "b4", "c5", "e5",
+			"f5", "e5", "cb5", "e5",
+			"b5", "a5", "ab5", "a5", "b5", 
+			"a5", "ab5", "a5", "c6",
+			"a5", "c6", "b5", "a5", "g5",
+			"a5" , "b5", "a5", "g5", "a5", 
+			"b5", "a5", "g5", "gb5", "e5",
+			"b4", "a4", "ab4", "a4", "c5",
+			"d5", "c5", "b4", "c5", "e5",
+			"f5", "e5", "cb5", "e5",
+			"b5", "a5", "ab5", "a5", "b5", 
+			"a5", "ab5", "a5", "c6",
+			"a5", "c6", "b5", "a5", "g5",
+			"a5" , "b5", "a5", "g5", "a5", 
+			"b5", "a5", "g5", "gb5", "e5",
 		]
+		/*PIANO
+		[
+	        "Db5", "D5", "Eb5", "E5","A5","E5","D5","Db5","B4","D5","Gb5","D5","B4",
+			"Bb4","B4","C5","Db5","E5","D5","Db5","B4","A4","Ab4","A4","Db5","B4"
+		],
+		[
+			"D5","G4","A4","B4","C5","D5","G4",
+			"G4","E5","C5","D5","E5","Gb5","G5","G4",
+			"G4","C5","D5","C5","B4","A4","B4","C5",
+			"B4","A4","G4","Gb4","G4","A4","B4","G4","B4","A4"
+		],
+		[
+			"E4", "E4", "B4", "B4", "Db5", "Db5", "B4", 
+			"A4", "A4", "Ab4", "Ab4", "Gb4", "Gb4", "E4", 
+			"B4", "B4", "A4", "A4", "Ab4", "Ab4", "Gb4",
+			"B4", "B4", "A4", "A4", "Ab4", "Ab4", "Gb4",
+			"E4", "E4", "B4", "B4", "Db5", "Db5", "B4",
+			"A4", "A4", "Ab4", "Ab4", "Gb4", "Gb4", "E4"
+		],
+		[
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"Ab3", "E3", "Ab3", "G3", "Eb3", "G3",
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"D4", "C4", "A3", "F3", "A3", "C4",
+			
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"Ab3", "E3", "Ab3", "G3", "Eb3", "G3",
+			"D3", "E3", "F3", "G3", "A3", "F3", "A3",
+			"D4", "C4", "A3", "F3", "A3", "C4",
+		],
+		[
+			"E5", "Eb5", "E5", "Eb5", "E5", "B4", "D5",
+			"C5", "A4", "C4", "E4", "A4", "B4", "E4",
+			"G4", "B4", "C5", "E5", "Eb5", "E5", "Eb5",
+			"E5", "B4", "D5", "C5", "A4", "C4", "E4",
+			"A4", "B4", "E4", "C5", "B4", "A4",
+			"E5", "Eb5", "E5", "Eb5", "E5", "B4", "D5",
+			"C5", "A4", "C4", "E4", "A4", "B4", "E4",
+			"G4", "B4", "C5", "E5", "Eb5", "E5", "Eb5",
+			"E5", "B4", "D5", "C5", "A4", "C4", "E4",
+			"A4", "B4", "E4", "C5", "B4", "A4",
+		],
+		[
+			"B4", "A4", "Ab4", "A4", "C5",
+			"D5", "C5", "B4", "C5", "E5",
+			"F5", "E5", "Eb5", "E5",
+			"B5", "A5", "Ab5", "A5", "B5", 
+			"A5", "Ab5", "A5", "C6",
+			"A5", "C6", "B5", "A5", "G5",
+			"A5" , "B5", "A5", "G5", "A5", 
+			"B5", "A5", "G5", "Gb5", "E5",
+			"B4", "A4", "Ab4", "A4", "C5",
+			"D5", "C5", "B4", "C5", "E5",
+			"F5", "E5", "Eb5", "E5",
+			"B5", "A5", "Ab5", "A5", "B5", 
+			"A5", "Ab5", "A5", "C6",
+			"A5", "C6", "B5", "A5", "G5",
+			"A5" , "B5", "A5", "G5", "A5", 
+			"B5", "A5", "G5", "Gb5", "E5",
+		]*/
+	]
 	
 	
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
@@ -224,6 +467,9 @@ var CroakSong = function(){
 		game.load.image("background2", imagePath +"background2.png");
 		game.load.image("carril",imagePath + "carril.png");
 		game.load.image("vapor",imagePath + "vapor.png");
+		
+		game.load.spritesheet("olas",imagePath + "olas.png",374,300,13);
+		
 		game.load.image("planta",imagePath + "planta.png");
 		game.load.image('tronco',imagePath + "tronco.png");
 		game.load.image('star',imagePath + "star.png");
@@ -249,6 +495,8 @@ var CroakSong = function(){
   			return Math.floor(Math.random() * (max - min) + min);
 	}
 	
+	
+	
 		function TextLevelfunction(){
 			levelText = game.add.text(game.world.centerX, game.world.centerY,"Nivel " + level, styleLevel);	
 			levelText.anchor.setTo(0.5, 0.5);	
@@ -263,10 +511,100 @@ var CroakSong = function(){
 			}
 		}	
 	
+
+		function createBugs(){
+			selectMusic = getRandomArbitrary(0, songs.length);
+			
+			for(var p = 0;p<=songs[selectMusic].length-1;p++){
+
+				var num = getRandomArbitrary(0,3);
+				var varP = p;
+				
+
+				bichos[p] = game.add.sprite(0, 0, 'bicho');
+				bichos[p].x = carril[num].x + bichos[p].width/8;
+				var bichoSprite = bichos[p].animations.add('bichoSprite');
+				bichos[p].animations.play('bichoSprite', 12, true);
+				bichos[p].anchor.setTo(0.5,0);	
+				bichos[p].id = p;
+				bichos[p].carril = num;
+
+
+				if(p == 0){
+					bichos[p].y = -600;
+				}else{
+					bichos[p].y = bichos[p-1].y - spaceItems;
+				}
+
+				switch(num){
+					case 0:			
+					troncos[varP] = game.add.sprite(carril[1].x, bichos[varP].y, 'tronco');
+					troncos[varP].anchor.setTo(0.5,0);		
+					troncos[varP].scale.setTo(0.7);	
+					break;	
+
+					case 1:			
+					troncos[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
+					troncos[varP].anchor.setTo(0.5,0);
+					troncos[varP].scale.setTo(0.7);	
+					break;
+
+					case 2:			
+					troncos[varP] = game.add.sprite(carril[0].x, bichos[varP].y, 'tronco');
+					troncos[varP].anchor.setTo(0.5,0);	
+					troncos[varP].scale.setTo(0.7);		
+					break;	
+				}
+				
+				TweenMax.to(bichos[p],1,{y:bichos[p].y+1200});
+				TweenMax.to(troncos[p],1,{y:troncos[p].y+1200});
+				
+			}
+		/*background clouds*/
+			ranas[0].setAnimationByName(0, "IDLE", true);
+			ranas[1].setAnimationByName(0, "IDLE", true);
+			ranas[2].setAnimationByName(0, "IDLE", true);
+		background = game.add.tileSprite(0,0,game.width, 225, "background");	
+		}	
+	
+		/*assets defautl*/
+		function createItemsGame(){		
+			heartsIcon = game.add.sprite(0,0,"heartsIcon");
+			heartsIcon.anchor.setTo(0, 0);	
+			heartsIcon.x = game.world.width - heartsIcon.width;
+			heartsIcon.y = 25;	
+			heartsText = game.add.text(50, 10, "x " + lives, style);	
+			heartsText.anchor.setTo(0, 0);	
+			heartsText.x = game.world.width - 75;
+			heartsText.y = 25;
+			xpIcon = game.add.sprite(0,0,"xpIcon");
+			xpIcon.anchor.setTo(0, 0);	
+			xpIcon.x = 0;
+			xpIcon.y = 30;	
+			xpText = game.add.text(50, 10,coins, style);	
+			xpText.anchor.setTo(0, 0);	
+			xpText.x = 75;
+			xpText.y = 28;	
+			bgclock = game.add.sprite(0,1,"bgclock");
+			bgclock.x = game.width * 0.5;
+			bgclock.anchor.setTo(0.5, 0);
+			clockText = game.add.text(50, 46, timer, styleClock);	
+			clockText.x = game.width * 0.5;
+			clockText.anchor.setTo(0.5, 0);
+			bgclock.alpha = 0;
+			clockText.alpha = 0;
+		}	
+	
+	
 	function createOverlay(){
 		lives = 3;
 		coins = 0;
-		finish = false;
+		readySound = 0;
+		activeBug = false;
+		spaceItems = 200;
+		level = 1;
+		finishGame = false;
+		minSpaceItems = 20;
 
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
@@ -359,84 +697,28 @@ var CroakSong = function(){
 		carril[0].anchor.setTo(0.5,0);
 		carril[2] = game.add.tileSprite(carril[1].x + 152,225,101, game.height, "carril");
 		carril[2].anchor.setTo(0.5,0);
-		
-				
-		vapor = game.add.sprite(-1,0, 'vapor');
-		vapor.y = game.height - vapor.height * 1.2;
+
+		vapor = game.add.sprite(-1, 0, 'olas');
+		vapor.y = game.height - vapor.height * 1.14;
+		var vaporSprite = vapor.animations.add('vaporSprite');
+		vapor.animations.play('vaporSprite', 13, true);
 		vapor.scale.setTo(0.7);
 		
-		vapor2 = game.add.sprite(game.width,0, 'vapor');
-		vapor2.y = game.height - vapor2.height * 1.2;
-		vapor2.scale.setTo(-0.7,0.7);	
-
-		function createBugs(){
-			for(var p = 0;p<=songs.length-1;p++){
-
-				var num = getRandomArbitrary(0,3);
-				var varP = p;
-
-				bichos[p] = game.add.sprite(0, 0, 'bicho');
-				bichos[p].x = carril[num].x + bichos[p].width/8;
-				var bichoSprite = bichos[p].animations.add('bichoSprite');
-				bichos[p].animations.play('bichoSprite', 12, true);
-				bichos[p].anchor.setTo(0.5,0);	
-				bichos[p].id = p;
-				bichos[p].carril = num;
-
-
-				if(p == 0){
-					bichos[p].y = -600;
-				}else{
-					bichos[p].y = bichos[p-1].y - spaceItems;
-				}
-
-				switch(num){
-					case 0:			
-
-					troncos[varP] = game.add.sprite(carril[1].x, bichos[varP].y, 'tronco');
-					troncos[varP].anchor.setTo(0.5,0);		
-					troncos[varP].scale.setTo(0.7);	
-					break;	
-
-					case 1:			
-					troncos[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
-					troncos[varP].anchor.setTo(0.5,0);
-					troncos[varP].scale.setTo(0.7);	
-					break;
-
-					case 2:			
-					troncos[varP] = game.add.sprite(carril[0].x, bichos[varP].y, 'tronco');
-					troncos[varP].anchor.setTo(0.5,0);	
-					troncos[varP].scale.setTo(0.7);		
-					break;	
-				}
-				
-				TweenMax.to(bichos[p],1,{y:bichos[p].y+1200});
-				TweenMax.to(troncos[p],1,{y:troncos[p].y+1200});
-				
-				
-			}
-			
-					/*background clouds*/
-		background = game.add.tileSprite(0,0,game.width, 225, "background");
-			
-		}	
+		vapor2 = game.add.sprite(game.width, 0, 'olas');
+		vapor2.y = game.height - vapor.height * 1.62;
+		var vaporSprite = vapor2.animations.add('vaporSprite');
+		vapor2.animations.play('vaporSprite', 13, true);
+		vapor2.scale.setTo(-0.7,0.7);
 		
-		
-
 
 		var agua = game.add.graphics(0, 0);
         agua.beginFill(0x5f8dca);
         agua.drawRect(0,game.world.height-132,game.world.width *2, game.world.height /6)
         agua.endFill();
-		
-		
-		var ButtonsFrogs = new Array;
-		
+
 		for(var i = 0;i<=2;i++){
 			ranas[i] = game.add.spine(carril[i].x,carril[i].y+carril[i].height/1.55,"frogs");
 			ranas[i].setAnimationByName(0, "IDLE", true);
-			
 			ButtonsFrogs[i] = game.add.graphics(0, 0);
 			ButtonsFrogs[i].beginFill(0x5f8dca);
 			ButtonsFrogs[i].drawRect(ranas[i].x-50,ranas[i].y-100,100,130);
@@ -444,11 +726,9 @@ var CroakSong = function(){
 			ButtonsFrogs[i].carril = i;
 			ButtonsFrogs[i].alpha = 0;
 			ButtonsFrogs[i].endFill();
-			
 			ButtonsFrogs[i].inputEnabled = true
 			ButtonsFrogs[i].events.onInputDown.add(downFrog);
-			ButtonsFrogs[i].events.onInputUp.add(upFrog);
-			
+			ButtonsFrogs[i].events.onInputUp.add(upFrog);	
 		}
 		
 		ranas[0].setSkinByName("blue");
@@ -464,20 +744,19 @@ var CroakSong = function(){
 		createBugs();
 		
 		function downFrog(object){
-			
+			if(finishGame == false){
 
-			for(var i = 0;i<=songs.length-1;i++){
-				TweenMax.to(bichos[i],0.1,{y:bichos[i].y+spaceItems});
-				TweenMax.to(troncos[i],0.1,{y:troncos[i].y+spaceItems});
-
-			}
-					
+			for(var i = 0;i<=songs[selectMusic].length-1;i++){
+				TweenMax.to(bichos[i],0.05,{y: bichos[i].y+spaceItems});
+				TweenMax.to(troncos[i],0.05,{y: troncos[i].y+spaceItems});
+			}		
 				if(bichos[readySound].y >=  600){
 					console.log("ok");
 					TweenMax.to(troncos[readySound],0.2,{alpha:0});
 	
 					if(object.carril == bichos[readySound].carril){
-						sound.play(songs[readySound]);
+						sound.play(songs[selectMusic][readySound]);
+						sound.play(pianoSong[selectMusic][readySound]);
 						ranas[object.id].setAnimationByName(0, "SING2", false);
 						TweenMax.to(bichos[readySound].scale,0.2,{x:0,y:0});
 						star.x = ranas[object.id].x;
@@ -497,31 +776,34 @@ var CroakSong = function(){
 						wrong.y = ranas[object.id].y;
 						TweenMax.fromTo(wrong.scale,0.5,{x:1,y:1},{x:2,y:2});
 						TweenMax.fromTo(wrong,0.5,{alpha:1},{alpha:0});
-										if(lives == 0){
+										
+						if(lives == 0){
 							ranas[0].setAnimationByName(0, "LOSE", true);
 							ranas[1].setAnimationByName(0, "LOSE", true);
 							ranas[2].setAnimationByName(0, "LOSE", true);
 							ButtonsFrogs[0].inputEnabled = false;
 							ButtonsFrogs[1].inputEnabled = false;
 							ButtonsFrogs[2].inputEnabled = false;
+							
 							sound.play("gameLose");
 							TweenMax.to(bichos[readySound],1,{alpha:1,onComplete:gameOver});
-						   }
+							finishGame = true;
+						  }
 
 					}
 				}				
 			
-			if(readySound <= 31){
+			if(readySound <= songs[selectMusic].length-2){
 				readySound++;
 
 			}else{
 				readySound = 0;
-				for(var p = 0;p<=songs.length-1;p++){
+				for(var p = 0;p<=songs[selectMusic].length-1;p++){
 					bichos[p].destroy();
 					troncos[p].destroy();
 				}
 				level++;
-				if(spaceItems >= 50){
+				if(spaceItems >= minSpaceItems){
 					spaceItems = spaceItems - 10;
 				}
 				sound.play("combo");
@@ -529,8 +811,8 @@ var CroakSong = function(){
 				createItemsGame();
 				TextLevelfunction();
 			}
-
 		}
+	}
 		
 		function upFrog(object){
 			ranas[object.id].setAnimationByName(0, "IDLE", true);
@@ -548,36 +830,7 @@ var CroakSong = function(){
 		
 		
 		/*GAME*/
-		/*assets defautl*/
-		function createItemsGame(){		
-			heartsIcon = game.add.sprite(0,0,"heartsIcon");
-			heartsIcon.anchor.setTo(0, 0);	
-			heartsIcon.x = game.world.width - heartsIcon.width;
-			heartsIcon.y = 25;	
-			heartsText = game.add.text(50, 10, "x " + lives, style);	
-			heartsText.anchor.setTo(0, 0);	
-			heartsText.x = game.world.width - 75;
-			heartsText.y = 25;
-			xpIcon = game.add.sprite(0,0,"xpIcon");
-			xpIcon.anchor.setTo(0, 0);	
-			xpIcon.x = 0;
-			xpIcon.y = 30;	
-			xpText = game.add.text(50, 10,coins, style);	
-			xpText.anchor.setTo(0, 0);	
-			xpText.x = 75;
-			xpText.y = 28;	
-			bgclock = game.add.sprite(0,1,"bgclock");
-			bgclock.x = game.width * 0.5;
-			bgclock.anchor.setTo(0.5, 0);
-			clockText = game.add.text(50, 46, timer, styleClock);	
-			clockText.x = game.width * 0.5;
-			clockText.anchor.setTo(0.5, 0);
-			bgclock.alpha = 0;
-			clockText.alpha = 0;
-		}
-		
-			createItemsGame();
-																				
+		createItemsGame();																		
 		createOverlay();
 		function timerFunction(){
 			if(timer != 0){
@@ -592,19 +845,150 @@ var CroakSong = function(){
 		}		
 		
 		cursors = game.input.keyboard.createCursorKeys();
+		
 	}
+
+function keyDownFrog(object){
+			
+
+			for(var i = 0;i<=songs[selectMusic].length-1;i++){
+				//bichos[i].y = bichos[i].y+spaceItems;
+				//troncos[i].y= troncos[i].y+spaceItems;
+				TweenMax.to(bichos[i],0.05,{y: bichos[i].y+spaceItems});
+				TweenMax.to(troncos[i],0.05,{y: troncos[i].y+spaceItems});
+			}
+					
+				if(bichos[readySound].y >=  600){
+					TweenMax.to(troncos[readySound],0.2,{alpha:0});
+	
+					
+					
+					if(object == bichos[readySound].carril){
+						ranas[object].setAnimationByName(0, "SING2", false);
+						sound.play(songs[selectMusic][readySound]);
+						sound.play(pianoSong[selectMusic][readySound]);
+						console.log("note: " + songs[selectMusic][readySound]);
+						TweenMax.to(bichos[readySound].scale,0.2,{x:0,y:0});
+						star.x = ranas[object].x;
+						star.y = ranas[object].y;
+						TweenMax.fromTo(star.scale,0.5,{x:1,y:1},{x:2,y:2});
+						TweenMax.fromTo(star,0.5,{alpha:1},{alpha:0});
+						coins++;
+						xpText.setText(coins);
+					}else{
+						sound.play("badcroak");
+						lives--;
+						heartsText.setText("x " + lives );
+						ranas[object].setAnimationByName(0, "LOSE", false);
+						TweenMax.to(bichos[readySound],0.2,{alpha:0});
+						wrong.x = ranas[object].x;
+						wrong.y = ranas[object].y;
+						TweenMax.fromTo(wrong.scale,0.5,{x:1,y:1},{x:2,y:2});
+						TweenMax.fromTo(wrong,0.5,{alpha:1},{alpha:0});
+										
+						if(lives == 0){
+							ranas[0].setAnimationByName(0, "LOSE", true);
+							ranas[1].setAnimationByName(0, "LOSE", true);
+							ranas[2].setAnimationByName(0, "LOSE", true);
+							ButtonsFrogs[0].inputEnabled = false;
+							ButtonsFrogs[1].inputEnabled = false;
+							ButtonsFrogs[2].inputEnabled = false;
+							finishGame = true;
+							sound.play("gameLose");
+							TweenMax.to(bichos[readySound],1,{alpha:1,onComplete:gameOver});
+						  }
+
+					}
+				}				
+			
+			if(readySound <= songs[selectMusic].length-2){
+				readySound++;
+
+			}else{
+				readySound = 0;
+				for(var p = 0;p<=songs[selectMusic].length-1;p++){
+					bichos[p].destroy();
+					troncos[p].destroy();
+				}
+				level++;
+				if(spaceItems >= minSpaceItems){
+					spaceItems = spaceItems - 10;
+				}
+				sound.play("combo");
+				createBugs();
+				createItemsGame();
+				TextLevelfunction();
+			}
+
+		}	
 	
 	
 	function gameOver(){
+		spaceItems = 200;
+				for(var p = 0;p<=songs[selectMusic].length-1;p++){
+					bichos[p].destroy();
+					troncos[p].destroy();
+				}
 		var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, coins,19)
 			sceneloader.show("result");
 	}	
 	
+	var key1;
+		key1 = 0;
+		key1 = 0;		
+	var key2;
+		key2 = 1;
+		key2 = 1;		
+	var key3;
+		key3 = 2;
+		key3 = 2;	
 	
 	function update() {
 		background2.tilePosition.y += speedGame;
-
+		
+		if(finishGame == false){
+			if (cursors.left.isUp){
+				pressLeft = false;
+				//ranas[key1].setAnimationByName(0, "IDLE", true);
+			}
+				
+			if (cursors.right.isUp){
+				pressRight = false;
+				//ranas[key2].setAnimationByName(0, "IDLE", true);
+				
+			}
+				
+			if (cursors.down.isUp){
+				pressDown = false;
+				//ranas[key3].setAnimationByName(0, "IDLE", true);
+				
+			}
+		
+			if (cursors.left.isDown){
+				
+					if(!pressLeft){
+						keyDownFrog(key1);
+						pressLeft = true;
+						
+					}
+				
+				}else if (cursors.down.isDown){
+					if(!pressDown){
+						keyDownFrog(key2);
+						pressDown = true;
+						
+					}
+					
+				}else if (cursors.right.isDown){
+					if(!pressRight){
+						keyDownFrog(key3);
+						pressRight = true;
+						
+					}
+				}
+		}
+		
 	}
 	
 	return {

@@ -68,7 +68,7 @@ function startGame(){
     	preloadScenes([
             instructions,
             CroakSong,
-            //result
+            result
     	])
     }
 }
