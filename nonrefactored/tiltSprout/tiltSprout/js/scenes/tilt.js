@@ -82,7 +82,7 @@ var tilt = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		gameSpeed = 0.75
 		gameActive = false
 		rotateAngle = 25
@@ -163,8 +163,6 @@ var tilt = function(){
 			return
 		}
 		
-		gameActive = false
-		
         sound.play("wrong")
 		        
         lives--;
@@ -177,7 +175,13 @@ var tilt = function(){
         
         if(lives == 0){
             stopGame(false)
-        }
+        }else{
+			player.active = false
+			player.alpha = 0
+			game.add.tween(player).to({alpha:1},200,"Linear",true,0,8).onComplete.add(function(){
+				player.active = true
+			})
+		}
         
         addNumberPart(heartsGroup.text,'-1',true)
         
@@ -309,6 +313,7 @@ var tilt = function(){
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
             
+			console.log(gameIndex + ' index')
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
@@ -541,9 +546,9 @@ var tilt = function(){
 			var obj = usedObjects.children[i]
 			var tag = obj.tag
 			
-			if(checkOverlap(player,obj)){
+			if(checkOverlap(player,obj) && player.active){
 								
-				if((tag =='spider' || tag == 'spiderBoss') && player.active){
+				if((tag =='spider' || tag == 'spiderBoss')){
 					missPoint()
 					createPart('wrong',player)
 				}else if(tag == 'gota'){

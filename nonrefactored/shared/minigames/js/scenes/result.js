@@ -64,7 +64,7 @@ var result = function(){
 	function setScore(didWin,score,index,scale) {
         
         gamesList = yogomeGames.getGames()
-        
+		        
         gameIndex = index
 		totalScore = score
 		totalGoal = 50

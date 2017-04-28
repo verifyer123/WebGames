@@ -20,7 +20,12 @@ yogomeGames.getGames = function(){
         {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions'},
 		{name:'colorAttack',url:'http://yogome.com/epic/minigames/colorSite/',sceneName:'color'},
 		{name:'nutriCanon',url:'http://yogome.com/epic/minigames/nutriSite/',sceneName:'nutri'},
+		{name:'microdefender',url:'http://yogome.com/epic/minigames/microdefendersite/',sceneName:'microdefender'},
+		{name:'healthyCollector',url:'http://yogome.com/epic/minigames/healthySite/',sceneName:'healthyCollector'},
+        {name:'CroakSong',url:'http://yogome.com/epic/minigames/CroakSongSite/',sceneName:'CroakSong'},
 		{name:'tiltSprout',url:'http://yogome.com/epic/minigames/tiltSite/',sceneName:'tilt'},
+		{name:'cultureIcons',url:'http://yogome.com/epic/minigames/cultureSite/',sceneName:'culture'},
+		{name:'dizzyBoat',url:'http://yogome.com/epic/minigames/dizzySite/',sceneName:'dizzy'},
         
     ]
     
