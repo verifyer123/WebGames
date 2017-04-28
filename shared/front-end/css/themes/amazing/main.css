@@ -1,13 +1,14 @@
 
 body{
-    margin: 0;    
+    margin: 0;
     background-color: #bababa;
 }
 
 .main-content{
     position: absolute;
-    background-color: #4B2E75; 
-    background-image: url("../../../../front-end/images/themes/amazing/body_pattern_amazing.png");    
+    background-color: #4B2E75;
+    background-image: url("../../../../front-end/images/themes/amazing/body_pattern_amazing.png");
+    background-size: 300px;
     width: 100%;
     height: 100%;
     font-family: "Gotham Book";
@@ -18,11 +19,11 @@ body{
 .banner-content{
     position: relative;
     width: 100%;
-    background: linear-gradient(to bottom, rgba(149,19,132,1) 0%, rgba(185,27,114,1) 50%, rgba(212,36,94,1) 100%); 
+    background: linear-gradient(to bottom, rgba(149,19,132,1) 0%, rgba(185,27,114,1) 50%, rgba(212,36,94,1) 100%);
     box-shadow: 0px 5px 5px rgba(0,0,0,0.3);
     display: flex;
 }
-    
+
 .logo-amazing{
     position: relative;
     width: 35%;
@@ -34,7 +35,7 @@ body{
 }
 
 .logo-amazing img{
-    width: 55%;
+    width: 65%;
 }
 
 .banner-game{
@@ -43,7 +44,7 @@ body{
     color:#FFF;
     text-align: center;
     top: 5%;
-    
+
 }
 
 .banner-game img{
@@ -58,7 +59,68 @@ body{
     display: flex;
 }
 
-/*delete*/
+/* Nuevo css */
+.img{
+  width: 100%;
+}
+.section_width{
+  width: 100%;
+  background-color:#FFF;
+  text-align: center;
+}
+
+.section35{
+  max-height: 35%;
+  overflow-y: hidden;
+}
+.section20{
+  max-height: 20%;
+  margin-bottom: 7px;
+  -webkit-box-shadow: 0px 6px 15px -8px rgba(0,0,0,0.85);
+  -moz-box-shadow: 0px 6px 15px -8px rgba(0,0,0,0.85);
+  box-shadow: 0px 6px 15px -8px rgba(0,0,0,0.85);
+}
+.section10{
+  max-height: 10%;
+}
+
+.instructions_img{
+  max-width: 66%;
+}
+
+.download_logo{
+  max-width: 85%;
+  margin-top:3%;
+}
+
+.download_btns{
+  max-width: 40%;
+  padding: 6px 0 0 0;
+  margin-top:7%;
+}
+
+.socialmedia-blank{
+  width: 29%;
+  height: 1px;
+}
+
+.socialmedia-icons{
+    text-align: center;
+    width: 15%;
+}
+
+.socialmedia-icons img{
+    width: 75%;
+}
+
+.socialmedia-content{
+    display: flex;
+    background-color:#e5e5e5;
+    position:absolute;
+    bottom:0px;
+    padding: 6px 0 4px 0;
+}
+/* Nuevo css */
 .content-game #game-container{
     background-color: #2F90CC;
     position: relative;
@@ -68,12 +130,11 @@ body{
 }
 .content-game .game-instructions{
     position: relative;
-    width: 50%;
+    width: 40%;
     height: 94%;
-    margin:2%; 
-    background-color: #E5E5E5;    
+    margin:2%;
+    background-color: #fff;
 }
-/*delete*/
 
 .game-instructions .section-screen{
     position: relative;
@@ -88,7 +149,7 @@ body{
 
 .instructions-banner img{
     width: 100%;
-    
+
 }
 
 .instructions-howtoplay{
@@ -104,15 +165,12 @@ body{
 .howtoplay-bar{
     position: relative;
     width: 100%;
-    height: 28%;
     display: inline-flex;
-    background: linear-gradient(to bottom, rgba(149,19,132,1) 0%, rgba(185,27,114,1) 50%, rgba(212,36,94,1) 100%);    
+    background: linear-gradient(to bottom, rgba(149,19,132,1) 0%, rgba(185,27,114,1) 50%, rgba(212,36,94,1) 100%);
 }
 
 .bar-control{
-    position: relative;
-    height: 100%;
-    margin: 0 5%;
+    
 }
 
 .bar-control img{
@@ -149,10 +207,10 @@ body{
     height: auto;
 }
 
-.socialmedia-content{
-    display: flex;
-}
 
+
+
+/*
 .socialmedia-bar{
     position: relative;
     width: 100%;
@@ -161,7 +219,7 @@ body{
     color:#FFF;
     text-align: center;
     line-height: 2.5;
-}
+}  */
 
 .socialmedia-logo{
     position: relative;
@@ -188,17 +246,6 @@ body{
     margin-left: auto;
     width: 1%;
     background-color: #108E8E;
-}
-
-.socialmedia-icons{
-    text-align: center;
-    width: 15%;
-
-}
-
-.socialmedia-icons img{
-    width: 80%;
-    margin-top: 50%;
 }
 
 #img-orientation{
