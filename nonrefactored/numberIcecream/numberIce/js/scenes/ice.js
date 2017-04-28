@@ -586,8 +586,9 @@ var ice = function(){
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
-        groupButton.y = game.world.height -125
+        groupButton.y = game.world.height -110
         groupButton.isPressed = false
+		groupButton.scale.setTo(1.4,1.4)
         sceneGroup.add(groupButton)
         
         var button1 = groupButton.create(0,0, 'atlas.ice','button2')
@@ -598,6 +599,13 @@ var ice = function(){
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
         button2.events.onInputUp.add(releaseButton)
+		
+		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, groupButton.x, groupButton.y - 15, "Stop!", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        pointsText.setShadow(4, 3, 'rgba(0,0,0,0.5)', 0);
         
     }
 	

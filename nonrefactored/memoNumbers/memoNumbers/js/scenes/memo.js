@@ -43,6 +43,8 @@ var memo = function(){
 				file: soundsPath + "spaceShip.mp3"},
 			{	name: "combo",
 				file: soundsPath + "combo.mp3"},
+			{	name: "bomb",
+				file: soundsPath + "bomb.mp3"},
 			
 		],
     }
@@ -166,7 +168,7 @@ var memo = function(){
 		gameActive = false		
 		
         sound.play("wrong")
-		sound.play("explosion")
+		sound.play("bomb")
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)

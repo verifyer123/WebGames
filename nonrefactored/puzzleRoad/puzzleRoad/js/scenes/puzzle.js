@@ -355,7 +355,7 @@ var puzzle = function(){
 			}
 		}
 		
-		pivotObjects+=game.world.width * 1.2
+		pivotObjects+=game.world.width * 1.4
 	}
 	
     function createOverlay(){
@@ -497,14 +497,17 @@ var puzzle = function(){
 					
 					//console.log(obj.tag + ' objTag ' + playerGroup.tag + ' playerTag')
 					if(obj.tag == playerGroup.tag){
+						
 						addPoint(1)
-						deactivateObject(obj)
+						obj.active = false
+						//deactivateObject(obj)
+						game.time.events.add(500,function(){deactivateObject(obj)})
 						for(var i = 0; i < usedObjects.length ; i++){
 							var obj = usedObjects.children[i]
 							obj.active = false
-							game.add.tween(obj).to({alpha:0},250,"Linear",true)
+							game.add.tween(obj).to({alpha:0},250,"Linear",true,250)
 						}
-						addObject()
+						game.time.events.add(500,addObject)
 					}else{
 						playerGroup.alpha = 0
 						deactivateObject(obj)

@@ -285,13 +285,12 @@ var culture = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
-			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
     }
@@ -744,6 +743,7 @@ var culture = function(){
 				}else{
 					missPoint()
 					createPart('wrong',obj)
+					setExplosion(obj)
 				}
 			})
 		}else{

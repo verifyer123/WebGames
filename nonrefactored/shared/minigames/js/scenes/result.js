@@ -267,13 +267,23 @@ var result = function(){
         
         var topHeight = game.world.height * 0.8  
 		
-		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,'great')
+		var titleText = 'great'
+		if(totalScore < 3){
+			titleText = 'tryText'
+		}
+		
+		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,titleText)
 		greatText.anchor.setTo(0.5,0.5)
 		greatText.scale.setTo(0.7,0.7)
         
+		var animationName = "WIN"
+		
+		if(totalScore < 3){
+			animationName = "LOSE"
+		}
         var buddy = game.add.spine(game.world.centerX,topHeight * 0.5, "master");
         buddy.scale.setTo(scaleSpine,scaleSpine)
-        buddy.setAnimationByName(0, "WIN", true);
+        buddy.setAnimationByName(0, animationName, true);
         buddy.setSkinByName('normal');
         sceneGroup.add(buddy)
                 
@@ -427,6 +437,7 @@ var result = function(){
 		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png')       
 		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
 		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
+		game.load.image('tryText', imagesPath + '/result/try' + localization.getLanguage() + '.png')
         
     }
     

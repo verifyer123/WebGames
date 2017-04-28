@@ -65,6 +65,8 @@ var rift = function(){
 				file: soundsPath + "combo.mp3"},
 			{	name: "flipCard",
 				file: soundsPath + "flipCard.mp3"},
+			{	name: "explode",
+				file: soundsPath + "explode.mp3"},
 			
 		],
     }
@@ -113,8 +115,8 @@ var rift = function(){
 		pivotButtons = game.world.height - 75
 		pivotObjects = 0
 		pivotInit = pivotButtons
-		arrowsList = ['↓','←','→']
-		directionList = ['down','left','right']
+		arrowsList = ['↑','↓','←','→']
+		directionList = ['up','down','left','right']
 		moveSpace = 129.6
 		gameSpeed = 0.1
 		lastTile = []
@@ -401,7 +403,7 @@ var rift = function(){
 		
 		var direction = arrowsList[indexToUse]
 		
-		if(buttonsGroup.index <= 2){
+		if(buttonsGroup.index <= 3){
 			obj.index = buttonsGroup.index
 		}
 		buttonsGroup.index++
@@ -411,7 +413,7 @@ var rift = function(){
 		obj.text.setText('')
 		obj.text2.setText('')
 				
-		if(directionList[indexToUse] != 'down'){
+		if(directionList[indexToUse] != 'down' && directionList[indexToUse]!='up'){
 			obj.text.setText(textToUse)
 		}else{
 			obj.text2.setText(textToUse)
@@ -448,7 +450,7 @@ var rift = function(){
 		activateButton(button)
 		
 		button.drag.tween = game.add.tween(button.drag).to({y:pivotButtons},750,"Linear",true)		
-		pivotButtons-= button.height
+		pivotButtons-= button.height * 0.87
 		
 		//game.time.events.add(timeToAdd,addButton)
 	}
@@ -507,7 +509,7 @@ var rift = function(){
 				game.time.events.add(1000,startTutorial)
 				
 				var delay = 100
-				for(var i = 0; i < 3; i++){
+				for(var i = 0; i < 4; i++){
 					game.time.events.add(delay,addButton)
 					delay+=100	
 				}				
@@ -818,7 +820,13 @@ var rift = function(){
 			
 			if(object.active){
 				
-				if(object.y < yogotarGroup.y - 100){
+				if(checkOverlap(object,machineGroup)){
+					
+					if(object.tag == 'piece'){
+						sound.play("explode")
+						createPart('rock',object)
+					}
+					
 					deactivateObject(object)
 					break
 				}
@@ -828,6 +836,10 @@ var rift = function(){
 		
 		if(checkOverlap(yogotarGroup.yogoPos,machineGroup)){
 			yogotarGroup.fall = false
+			missPoint()
+		}
+		
+		if(yogotarGroup.yogoPos.world.y > game.world.height){
 			missPoint()
 		}
 	}
@@ -1058,7 +1070,7 @@ var rift = function(){
 				}
 				
 				button.drag.tween = game.add.tween(button.drag).to({y:pivotButtons},300,"Linear",true)
-				pivotButtons-=button.height
+				pivotButtons-=button.height * 0.87
 			}
 		}
 	}
@@ -1292,6 +1304,7 @@ var rift = function(){
 		createParticles('star',5)
 		createParticles('wrong',5)
 		createParticles('text',6)
+		createParticles('rock',5)
 		
 	}
 	

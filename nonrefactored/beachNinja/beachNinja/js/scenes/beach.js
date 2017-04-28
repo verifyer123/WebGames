@@ -362,6 +362,7 @@ var beach = function(){
 		for(var i = 0; i < 3; i++){
 			
 			var coco = getObject('coconut')
+			coco.cut = false
 			activateObject(coco,pivotX,game.rnd.integerInRange(1,4) * -20)
 			
 			var numberToUse = result
@@ -384,7 +385,7 @@ var beach = function(){
 			
 		}
 		
-		console.log(usedObjects.length + ' length')
+		//console.log(usedObjects.length + ' length')
 	}
 	
     function createOverlay(){
@@ -499,6 +500,7 @@ var beach = function(){
 			if(parent.y >= game.world.height - 250){
 				missPoint()
 				breakCocos(false)
+				sound.play("splash")
 			}
 			
 			if(checkOverlap(hitSquare,obj)){
@@ -506,6 +508,8 @@ var beach = function(){
 				slash.x = obj.world.x
 				slash.y = obj.world.y
 				game.add.tween(slash).from({alpha:1},500,"Linear",true)
+				
+				parent.cut = true
 
 				game.add.tween(whiteFade).from({alpha:1},500,"Linear",true)
 
@@ -536,6 +540,13 @@ var beach = function(){
 		
 	}
 	
+	function fadeCoco(coco){
+		
+		game.add.tween(coco).to({alpha:0, y:coco.y + 100},500,"Linear",true).onComplete.add(function(){
+			deactivateObject(coco)
+		})
+	}
+	
 	function breakCocos(cocoBreak){
 		
 		while(usedObjects.length > 0){
@@ -543,10 +554,20 @@ var beach = function(){
 			var coco = usedObjects.children[0]	
 			if(coco){
 				
-				createPart('splash',coco.coconut)
-				deactivateObject(coco)
+				if(coco.cut){
+					createPart('splash',coco.coconut)
+					deactivateObject(coco)
+				}else{
+					usedObjects.remove(coco)
+					objectsGroup.add(coco)
+					fadeCoco(coco)
+				}
 				
-				if(cocoBreak){
+				if(!cocoBreak){
+					createPart('splash',coco.coconut)
+				}
+								
+				if(cocoBreak && coco.cut){
 					
 					var pivotX = -50
 					var angle = 30
@@ -764,6 +785,7 @@ var beach = function(){
 				
 				obj.inputEnabled = true
 				group.coconut = obj
+				obj.cut = false
 				
 				var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		

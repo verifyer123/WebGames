@@ -447,10 +447,47 @@ var dizzy = function(){
 		cross.x = cross.initX + 100 * listNumbers[0]
 		cross.y = cross.initY + 100 * listNumbers[1]
 		
+		var angle = getAngle(cross)	
+		
+		map.arrow.angle = angle
+		
 		game.time.events.add(1000,function(){
 			gameActive = true
 		})
 		
+	}
+	
+	function getAngle(cross){
+		
+		var angle = 0
+		
+		if(cross.y == cross.initY && cross.x < cross.initX){
+			angle = 180
+		}
+		if(cross.y < cross.initY && cross.x < cross.initX){
+			angle = 135
+		}
+		if(cross.y < cross.initY && cross.x == cross.initX){
+			angle = 90
+		}
+		if(cross.x > cross.initX && cross.y < cross.initX){
+			angle = 45
+		}
+		if(cross.x == cross.initX && cross.y > cross.initY){
+			angle = 270
+		}
+		if(cross.x < cross.initX && cross.y > cross.initY){
+			angle = 225
+		}
+		if(cross.x > cross.initX && cross.y > cross.initY){
+			angle = 315
+		}
+		
+		if(cross.x > cross.initX && cross.y == cross.initY){
+			angle = 0
+		}
+		
+		return -angle
 	}
 	
 	function checkOverlap(spriteA, spriteB) {
@@ -594,8 +631,13 @@ var dizzy = function(){
 		
 		map.cross = mapCross
 		
-		var tween = game.add.tween(mapCross.scale).to({x:0.8,y:0.8},250,"Linear",true,0,-1)
+		var tween = game.add.tween(mapCross.scale).to({x:1.2,y:1.2},250,"Linear",true,0,-1)
 		tween.yoyo(true,0)
+		
+		var mapArrow = map.create(mapBoat.x,mapBoat.y,'atlas.dizzy','mapArrow')
+		mapArrow.anchor.setTo(0,0.5)
+		mapArrow.scale.setTo(0.9,0.9)
+		map.arrow = mapArrow
 		
 	}
 	
@@ -776,7 +818,6 @@ var dizzy = function(){
 		createParticles('wrong',5)
 		createParticles('text',5)
 		createParticles('drop',5)
-		createParticles('ring',5)
 	}
 
 	function setExplosion(obj){

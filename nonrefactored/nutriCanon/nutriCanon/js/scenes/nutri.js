@@ -70,6 +70,7 @@ var nutri = function(){
 	var objectsGroup,usedObjects
 	var gameSpeed
 	var isTop,isMoving
+	var jumpButton,jumping
 			
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -383,6 +384,7 @@ var nutri = function(){
 				overlayGroup.y = -game.world.height
 				gameActive = true
 				buttonActive = true
+				jumping = false
 				//showObjects()
 				
             })
@@ -450,6 +452,20 @@ var nutri = function(){
 		if(!gameActive){
 			return
 		}
+		
+		if (jumpButton.isDown){
+            
+            if(!jumping){
+				
+                jumping = true
+                shootYogotar()
+            }
+        }
+		
+		if(jumpButton.isUp){
+			jumping = false
+		}
+		
 		
 		if(isMoving){
 			usedObjects.x-= gameSpeed
@@ -565,6 +581,7 @@ var nutri = function(){
 			yogotarGroup.direction.alpha = 1
 			
 			buttonActive = true
+			//jumping = false
 		})
 		
 		
@@ -796,7 +813,7 @@ var nutri = function(){
 		
 		isTop = !isTop
 		
-		var percent = game.rnd.integerInRange(1,5) * 0.1
+		var percent = game.rnd.integerInRange(2,5) * 0.1
 		var obj = getObject('bloque')
 		
 		var posY = obj.height * percent
@@ -922,7 +939,7 @@ var nutri = function(){
         preload:preload,
 		create: function(event){
             
-			this.swipe = new Swipe(this.game);
+			jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			
 			sceneGroup = game.add.group()
 			
