@@ -616,8 +616,8 @@ var beach = function(){
             pointsText.setText(text)
             pointsText.scale.setTo(1,1)
 
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+            game.add.tween(pointsText).to({y:pointsText.y - 75},1250,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 750)
 
             deactivateParticle(pointsText,750)
         }

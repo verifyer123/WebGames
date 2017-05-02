@@ -6,13 +6,30 @@ var dizzy = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"north":"North",
+			"south":"South",
+			"east":"East",
+			"west":"West",
+			"northeast":"Northeast",
+			"northwest":"Northwest",
+			"southeast":"Southeast",
+			"southwest":"Southwest"
+
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"north":"Norte",
+			"south":"Sur",
+			"east":"Este",
+			"west":"Oeste",
+			"northeast":"Noreste",
+			"northwest":"Noroeste",
+			"southeast":"Sureste",
+			"southwest":"Suroeste"
 		}
 	}
     
@@ -62,6 +79,7 @@ var dizzy = function(){
 	var background
     var gameActive = true
 	var sea
+	var textGroup
 	var shoot
 	var particlesGroup, particlesUsed
 	var obstacleList
@@ -84,7 +102,7 @@ var dizzy = function(){
         lives = 1
 		boatSpeed = 100
 		boatRotation = 30
-		obstacleList = ['rock','rock']
+		obstacleList = ['rock','rock','rock','rock','rock','rock']
 		canShoot = false
         
         loadSounds()
@@ -195,7 +213,7 @@ var dizzy = function(){
 			obstacleList[obstacleList.length] = 'monster'
 		}
 		
-		if(pointsBar.number % 3 == 0){
+		if(pointsBar.number % 2 == 0){
 			boatRotation += 15
 			boatSpeed+=10
 			
@@ -206,7 +224,7 @@ var dizzy = function(){
 			sendCloud()
 		}
         
-		if(pointsBar.number == 6){
+		if(pointsBar.number == 2){
 			game.time.events.add(4000,shootCanon)
 		}
     }
@@ -221,6 +239,9 @@ var dizzy = function(){
 			endX = -game.world.width * 0.5
 		}
 		var canon = getObject('canonBall')
+		canon.alpha = 1
+		canon.x = initX
+		canon.y = player.body.y
 		activateObject(canon,initX, player.body.y)
 		
 		sound.play("explode")
@@ -388,6 +409,9 @@ var dizzy = function(){
     
 	function setScene(){
 		
+		usedObjects.x = 0
+		usedObjects.y = 0
+		
 		var objectList = []
 		
 		player.body.x = game.world.centerX
@@ -403,7 +427,7 @@ var dizzy = function(){
 		var posY = listNumbers[1]
 				
 		var island = getObject('island')
-		activateObject(island,game.world.centerX + (game.world.width * 0.32 * posX), player.body.y + (game.world.height * 0.22 * posY))
+		activateObject(island,game.world.centerX + (game.world.width * 0.6 * posX), player.body.y + (game.world.height * 0.45 * posY))
 		objectList[objectList.length] = island
 		
 		//console.log(island.x + ' posX,' + island.y + ' posY')
@@ -416,12 +440,12 @@ var dizzy = function(){
 				break
 			}
 			
-			obj.x = game.rnd.integerInRange(obj.width,game.world.width - obj.width)
-			obj.y = game.rnd.integerInRange(obj.height,game.world.height - 400)
+			obj.x = game.rnd.integerInRange(-game.world.width * 0.3,game.world.width * 1.5 - obj.width)
+			obj.y = game.rnd.integerInRange(-game.world.height * 0.3,game.world.height * 1.1)
 			
 			while(checkPosObj(obj)){
-				obj.x = game.rnd.integerInRange(obj.width,game.world.width - obj.width)
-				obj.y = game.rnd.integerInRange(obj.height,game.world.height - 400)
+				obj.x = game.rnd.integerInRange(-game.world.width * 0.3,game.world.width * 1.5 - obj.width)
+				obj.y = game.rnd.integerInRange(-game.world.height * 0.3,game.world.height * 1.1)
 			}
 			
 			activateObject(obj,obj.x, obj.y)
@@ -447,9 +471,18 @@ var dizzy = function(){
 		cross.x = cross.initX + 100 * listNumbers[0]
 		cross.y = cross.initY + 100 * listNumbers[1]
 		
+		map.boat.x = cross.initX
+		map.boat.y = cross.initY
+		
+		ship.alpha = 0
+		game.add.tween(ship).to({alpha:1},250,"Linear",true,0,4)
+		
 		var angle = getAngle(cross)	
 		
 		map.arrow.angle = angle
+		map.arrow.alpha = 1
+		
+		game.add.tween(map.arrow).to({alpha:0},300,"Linear",true,0,10)
 		
 		game.time.events.add(1000,function(){
 			gameActive = true
@@ -460,33 +493,46 @@ var dizzy = function(){
 	function getAngle(cross){
 		
 		var angle = 0
+		var textToUse
 		
 		if(cross.y == cross.initY && cross.x < cross.initX){
 			angle = 180
+			textToUse = 'west'
 		}
 		if(cross.y < cross.initY && cross.x < cross.initX){
 			angle = 135
+			textToUse = 'northwest'
 		}
 		if(cross.y < cross.initY && cross.x == cross.initX){
 			angle = 90
+			textToUse = 'north'
 		}
 		if(cross.x > cross.initX && cross.y < cross.initX){
 			angle = 45
+			textToUse = 'northeast'
 		}
 		if(cross.x == cross.initX && cross.y > cross.initY){
 			angle = 270
+			textToUse = 'south'
 		}
 		if(cross.x < cross.initX && cross.y > cross.initY){
 			angle = 225
+			textToUse = 'southwest'
 		}
 		if(cross.x > cross.initX && cross.y > cross.initY){
 			angle = 315
+			textToUse = 'southeast'
 		}
 		
 		if(cross.x > cross.initX && cross.y == cross.initY){
 			angle = 0
+			textToUse = 'east'
 		}
 		
+		textGroup.alpha = 1
+		game.add.tween(textGroup).from({alpha:0},500,"Linear",true)
+		
+		textGroup.text.setText(localization.getString(localizationData,textToUse))
 		return -angle
 	}
 	
@@ -523,6 +569,9 @@ var dizzy = function(){
 	
     function createOverlay(){
         
+		sceneGroup.remove(textGroup)
+		sceneGroup.add(textGroup)
+		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -587,58 +636,28 @@ var dizzy = function(){
 		fade.height = game.world.height - 275
 		fade.alpha = 0.5
 		
-		map = game.add.group()
-		map.y = game.world.height
-		sceneGroup.add(map)
-		
-		var tileMap = game.add.tileSprite(0,0,game.world.width,300,'atlas.dizzy','map')
-		tileMap.anchor.setTo(0,1)
-		map.add(tileMap)
-		map.tile = tileMap
-		
-		var cross = map.create(0,0,'atlas.dizzy','cross')
-		cross.anchor.setTo(0,1)
+		textGroup = game.add.group()
+		textGroup.x = game.world.centerX
+		textGroup.y = 75
+		textGroup.alpha = 0
+		sceneGroup.add(textGroup)
 		
 		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xff7606)
-        rect.drawRect(0,-tileMap.height,game.world.width, 25)
+        rect.beginFill(0x000000)
+        rect.drawRoundedRect(0,0,300, 50)
+		rect.alpha = 0.5
+		rect.x-= rect.width * 0.5
+		rect.y-= rect.height * 0.5
         rect.endFill()
-		map.add(rect)
+		textGroup.add(rect)
 		
-		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.32, -cross.height * 0.73, "N", fontStyle)
-        map.add(pointsText)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0,5, "", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        textGroup.add(pointsText)
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.32, -cross.height * 0.23, "S", fontStyle)
-        map.add(pointsText)
-		
-		var letter = "W"
-		if(localization.getLanguage() == "ES"){letter = "O"}
-		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.08, -cross.height * 0.465, letter, fontStyle)
-        map.add(pointsText)
-		
-		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.54, -cross.height * 0.465, "E", fontStyle)
-        map.add(pointsText)
-		
-		var mapBoat = map.create(game.world.width * 0.7, - tileMap.height * 0.43,'atlas.dizzy','boat')
-		mapBoat.anchor.setTo(0.5,0.5)
-		
-		var mapCross = map.create(mapBoat.x, mapBoat.y,'atlas.dizzy','cros')
-		mapCross.anchor.setTo(0.5,0.5)
-		mapCross.initX = mapCross.x
-		mapCross.initY = mapCross.y 
-		
-		map.cross = mapCross
-		
-		var tween = game.add.tween(mapCross.scale).to({x:1.2,y:1.2},250,"Linear",true,0,-1)
-		tween.yoyo(true,0)
-		
-		var mapArrow = map.create(mapBoat.x,mapBoat.y,'atlas.dizzy','mapArrow')
-		mapArrow.anchor.setTo(0,0.5)
-		mapArrow.scale.setTo(0.9,0.9)
-		map.arrow = mapArrow
-		
+		textGroup.text = pointsText
 	}
 	
 	function update(){
@@ -667,6 +686,8 @@ var dizzy = function(){
 				
 				if(tag == 'island'){
 					addPoint(1)
+					
+					game.add.tween(textGroup).to({alpha:0},500,"Linear",true)
 					createPart('star',player)
 					obj.active = false
 					
@@ -924,7 +945,7 @@ var dizzy = function(){
 		player.alpha = 0
 		game.physics.p2.enable(player,DEBUG_PHYSICS)
 		player.body.setCircle(45)
-		player.body.mass = 1
+		player.body.mass = 0.1
 		player.body.collideWorldBounds = true;
 		player.initX = player.x
 		player.initY = player.y
@@ -946,6 +967,43 @@ var dizzy = function(){
 		ship.y = player.y
 		
 		ship.angle = player.angle
+		
+		if(player.body.x != player.initX){
+			
+			var difference = player.body.x - player.initX
+			
+			if(usedObjects.x > game.world.width * 0.7){
+				usedObjects.x = game.world.width * 0.69
+			}
+			
+			if(usedObjects.x < -game.world.height * 0.7){
+				usedObjects.x = -game.world.height * 0.69
+			}
+			
+			map.boat.x+= difference * 0.3
+			
+			usedObjects.x-=difference
+			player.body.x = player.initX
+		}
+		
+		if(player.body.y != player.initY){
+			
+			//console.log(usedObjects.y + ' posY,' +  (game.world.height) + ' posWorld')
+			var diff = player.body.y - player.initY
+			
+			if(usedObjects.y > game.world.height * 0.85){
+				usedObjects.y = game.world.height * 0.84
+			}
+			
+			if(usedObjects.y < -game.world.height * 0.5){
+				usedObjects.y = -game.world.height * 0.49
+			}
+			
+			usedObjects.y-=diff
+			map.boat.y+= diff * 0.3
+			
+			player.body.y = player.initY
+		}
 		
 	}
 	
@@ -997,10 +1055,72 @@ var dizzy = function(){
 		sceneGroup.add(usedObjects)
 		
 		createAssets('island',0.8,1)
-		createAssets('rock',1,5)
-		createAssets('cloud',1,2)
-		createAssets('monster',1,5)
-		createAssets('canonBall',1,5)
+		createAssets('rock',1,15)
+		createAssets('cloud',1,5)
+		createAssets('monster',1,15)
+		createAssets('canonBall',1,15)
+		
+	}
+	
+	function createMap(){
+		
+		map = game.add.group()
+		map.y = game.world.height
+		sceneGroup.add(map)
+		
+		var tileMap = game.add.tileSprite(0,0,game.world.width,300,'atlas.dizzy','map')
+		tileMap.anchor.setTo(0,1)
+		map.add(tileMap)
+		map.tile = tileMap
+		
+		var cross = map.create(0,0,'atlas.dizzy','cross')
+		cross.anchor.setTo(0,1)
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xff7606)
+        rect.drawRect(0,-tileMap.height,game.world.width, 25)
+        rect.endFill()
+		map.add(rect)
+		
+		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		
+		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.32, -cross.height * 0.73, "N", fontStyle)
+        map.add(pointsText)
+		
+		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.32, -cross.height * 0.23, "S", fontStyle)
+        map.add(pointsText)
+		
+		var letter = "W"
+		if(localization.getLanguage() == "ES"){letter = "O"}
+		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.08, -cross.height * 0.465, letter, fontStyle)
+        map.add(pointsText)
+		
+		var pointsText = new Phaser.Text(sceneGroup.game, cross.width * 0.54, -cross.height * 0.465, "E", fontStyle)
+        map.add(pointsText)
+		
+		var mapBoat = map.create(game.world.width * 0.7, - tileMap.height * 0.43,'atlas.dizzy','boat')
+		mapBoat.anchor.setTo(0.5,0.5)
+		map.boat = mapBoat
+		
+		var mapCross = map.create(mapBoat.x, mapBoat.y,'atlas.dizzy','cros')
+		mapCross.anchor.setTo(0.5,0.5)
+		mapCross.initX = mapCross.x
+		mapCross.initY = mapCross.y 
+		
+		map.cross = mapCross
+		
+		var tween = game.add.tween(mapCross.scale).to({x:1.2,y:1.2},250,"Linear",true,0,-1)
+		tween.yoyo(true,0)
+		
+		var mapArrow = map.create(mapBoat.x,mapBoat.y,'atlas.dizzy','mapArrow')
+		mapArrow.anchor.setTo(0,0.5)
+		mapArrow.scale.setTo(0.9,0.9)
+		map.arrow = mapArrow
+		
+		var rectangle = map.create(mapBoat.x, mapBoat.y - 10, 'atlas.dizzy','rectangle')
+		rectangle.anchor.setTo(0.5,0.5)
+		rectangle.width = 350
+		rectangle.height = 300
 		
 	}
 	
@@ -1024,6 +1144,7 @@ var dizzy = function(){
 			createObjects()
 			createShip()
 			createButton()
+			createMap()
 			addParticles()
                         			
             piratesSong = game.add.audio('piratesSong')
