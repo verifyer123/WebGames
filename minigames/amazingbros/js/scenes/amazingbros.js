@@ -76,7 +76,7 @@ var amazingbros = function(){
          
             skinTable = dataStore
         }
-                
+        
     }
     
 	function loadSounds(){
@@ -956,6 +956,8 @@ var amazingbros = function(){
             buddy.setSkinByName('normal');
             
             getSkins()
+			
+			//console.log(skinTable + ' skin')
             
             var newSkin = buddy.createCombinedSkin(
                 'combined',     

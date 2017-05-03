@@ -1,377 +1,608 @@
 
 skeleton.png
-size: 1024,256
+size: 1024,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/cabeza
   rotate: false
-  xy: 141, 44
+  xy: 354, 191
   size: 136, 103
   orig: 136, 103
   offset: 0, 0
   index: -1
 normal/carrito
   rotate: false
-  xy: 698, 65
-  size: 89, 67
-  orig: 89, 67
+  xy: 874, 336
+  size: 90, 68
+  orig: 90, 68
   offset: 0, 0
   index: -1
 normal/copete
-  rotate: false
-  xy: 789, 69
+  rotate: true
+  xy: 799, 198
   size: 67, 63
   orig: 67, 63
   offset: 0, 0
   index: -1
 normal/lentes
   rotate: false
-  xy: 279, 121
+  xy: 549, 338
   size: 160, 65
   orig: 160, 65
   offset: 0, 0
   index: -1
 normal/lentes_Sad
   rotate: false
-  xy: 279, 188
+  xy: 711, 339
   size: 161, 65
   orig: 161, 65
   offset: 0, 0
   index: -1
 normal/llanta1
   rotate: false
-  xy: 121, 23
+  xy: 376, 2
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 normal/llanta2
-  rotate: true
-  xy: 401, 35
+  rotate: false
+  xy: 396, 2
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
 normal/ojo1
   rotate: false
-  xy: 102, 7
+  xy: 782, 120
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 normal/ojo2
   rotate: false
-  xy: 981, 146
+  xy: 701, 328
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 normal/pie1
-  rotate: false
-  xy: 923, 156
+  rotate: true
+  xy: 744, 97
   size: 32, 17
   orig: 32, 17
   offset: 0, 0
   index: -1
 normal/pie2
-  rotate: false
-  xy: 958, 175
+  rotate: true
+  xy: 763, 97
   size: 32, 17
   orig: 32, 17
   offset: 0, 0
   index: -1
 normal/pierna1
   rotate: true
-  xy: 189, 31
+  xy: 354, 298
   size: 11, 24
   orig: 11, 24
   offset: 0, 0
   index: -1
 normal/pierna2
-  rotate: true
-  xy: 50, 5
+  rotate: false
+  xy: 283, 181
   size: 11, 24
   orig: 11, 24
   offset: 0, 0
   index: -1
 normal/rodilla1
   rotate: true
-  xy: 355, 38
+  xy: 553, 34
   size: 14, 21
   orig: 14, 21
   offset: 0, 0
   index: -1
 normal/rodilla2
   rotate: true
-  xy: 378, 39
+  xy: 185, 166
   size: 13, 21
   orig: 13, 21
   offset: 0, 0
   index: -1
 normal/torso
-  rotate: true
-  xy: 858, 75
+  rotate: false
+  xy: 367, 22
   size: 57, 23
   orig: 57, 23
   offset: 0, 0
   index: -1
 normal1/cabeza
   rotate: false
-  xy: 2, 149
+  xy: 688, 406
   size: 137, 104
   orig: 137, 104
   offset: 0, 0
   index: -1
 normal1/copete
-  rotate: false
-  xy: 600, 65
+  rotate: true
+  xy: 793, 100
   size: 96, 69
   orig: 96, 69
   offset: 0, 0
   index: -1
 normal1/lentes
-  rotate: false
-  xy: 602, 197
+  rotate: true
+  xy: 966, 354
   size: 156, 56
   orig: 156, 56
   offset: 0, 0
   index: -1
 normal1/lentes_Sad
-  rotate: false
-  xy: 441, 122
+  rotate: true
+  xy: 177, 7
   size: 157, 64
   orig: 157, 64
   offset: 0, 0
   index: -1
 normal1/ojo1
   rotate: false
-  xy: 267, 33
+  xy: 782, 109
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 normal1/ojo2
   rotate: false
-  xy: 113, 8
+  xy: 344, 197
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 normal1/pie1
-  rotate: false
-  xy: 883, 115
+  rotate: true
+  xy: 354, 311
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
   index: -1
 normal1/pie2
   rotate: false
-  xy: 883, 96
+  xy: 492, 277
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
   index: -1
 normal1/pierna1
   rotate: true
-  xy: 215, 31
+  xy: 208, 168
   size: 11, 24
   orig: 11, 24
   offset: 0, 0
   index: -1
 normal1/pierna2
-  rotate: true
-  xy: 76, 5
+  rotate: false
+  xy: 1003, 312
   size: 11, 24
   orig: 11, 24
   offset: 0, 0
   index: -1
 normal1/rodilla1
   rotate: true
-  xy: 141, 28
+  xy: 352, 2
   size: 14, 22
   orig: 14, 22
   offset: 0, 0
   index: -1
 normal1/rodilla2
   rotate: true
-  xy: 2, 2
+  xy: 296, 191
   size: 14, 22
   orig: 14, 22
   offset: 0, 0
   index: -1
 normal1/torso
-  rotate: false
-  xy: 2, 18
+  rotate: true
+  xy: 446, 131
   size: 58, 23
   orig: 58, 23
   offset: 0, 0
   index: -1
 normal2/cabeza
   rotate: false
-  xy: 141, 149
+  xy: 865, 230
   size: 136, 104
   orig: 136, 104
   offset: 0, 0
   index: -1
 normal2/copete
   rotate: false
-  xy: 913, 194
+  xy: 576, 70
   size: 102, 59
   orig: 102, 59
   offset: 0, 0
   index: -1
 normal2/lentes
   rotate: false
-  xy: 760, 193
+  xy: 646, 205
   size: 151, 60
   orig: 151, 60
   offset: 0, 0
   index: -1
 normal2/lentes_Sad
-  rotate: false
-  xy: 602, 136
+  rotate: true
+  xy: 243, 28
   size: 151, 59
   orig: 151, 59
   offset: 0, 0
   index: -1
 normal2/ojo1
   rotate: false
-  xy: 421, 43
+  xy: 415, 11
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 normal2/ojo2
   rotate: false
-  xy: 421, 33
+  xy: 1014, 344
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 normal2/pie1
   rotate: false
-  xy: 883, 77
+  xy: 248, 188
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
   index: -1
 normal2/pie2
   rotate: false
-  xy: 923, 137
+  xy: 747, 59
   size: 32, 17
   orig: 32, 17
   offset: 0, 0
   index: -1
 normal2/pierna1
-  rotate: true
-  xy: 241, 31
+  rotate: false
+  xy: 1003, 286
   size: 11, 24
   orig: 11, 24
   offset: 0, 0
   index: -1
 normal2/pierna2
-  rotate: true
-  xy: 279, 41
+  rotate: false
+  xy: 1003, 260
   size: 11, 24
   orig: 11, 24
   offset: 0, 0
   index: -1
 normal2/rodilla1
   rotate: true
-  xy: 992, 178
+  xy: 320, 191
   size: 14, 22
   orig: 14, 22
   offset: 0, 0
   index: -1
 normal2/rodilla2
   rotate: true
-  xy: 957, 140
+  xy: 966, 338
   size: 14, 22
   orig: 14, 22
   offset: 0, 0
   index: -1
 normal2/torso
   rotate: false
-  xy: 62, 18
+  xy: 243, 3
   size: 57, 23
   orig: 57, 23
   offset: 0, 0
   index: -1
 normal3/cabeza
   rotate: false
-  xy: 2, 43
+  xy: 827, 406
   size: 137, 104
   orig: 137, 104
   offset: 0, 0
   index: -1
 normal3/copete
   rotate: false
-  xy: 755, 134
+  xy: 864, 171
   size: 141, 57
   orig: 141, 57
   offset: 0, 0
   index: -1
 normal3/lentes
   rotate: false
-  xy: 279, 54
+  xy: 492, 131
   size: 157, 65
   orig: 157, 65
   offset: 0, 0
   index: -1
 normal3/lentes_Sad
   rotate: false
-  xy: 442, 188
+  xy: 541, 271
   size: 158, 65
   orig: 158, 65
   offset: 0, 0
   index: -1
 normal3/pie1
   rotate: false
-  xy: 957, 156
+  xy: 782, 81
   size: 32, 17
   orig: 32, 17
   offset: 0, 0
   index: -1
 normal3/pie2
-  rotate: false
-  xy: 923, 175
+  rotate: true
+  xy: 471, 156
   size: 33, 17
   orig: 33, 17
   offset: 0, 0
   index: -1
 normal3/pierna1
-  rotate: true
-  xy: 305, 41
+  rotate: false
+  xy: 471, 131
   size: 11, 23
   orig: 11, 23
   offset: 0, 0
   index: -1
 normal3/pierna2
-  rotate: true
-  xy: 330, 41
+  rotate: false
+  xy: 527, 271
   size: 11, 23
   orig: 11, 23
   offset: 0, 0
   index: -1
 normal3/rodilla1
-  rotate: true
-  xy: 165, 28
+  rotate: false
+  xy: 426, 23
   size: 14, 22
   orig: 14, 22
   offset: 0, 0
   index: -1
 normal3/rodilla2
   rotate: true
-  xy: 26, 2
+  xy: 990, 338
   size: 14, 22
   orig: 14, 22
   offset: 0, 0
   index: -1
 normal3/torso
-  rotate: true
-  xy: 898, 134
+  rotate: false
+  xy: 443, 44
   size: 57, 23
   orig: 57, 23
+  offset: 0, 0
+  index: -1
+normal4/copete
+  rotate: true
+  xy: 380, 358
+  size: 152, 167
+  orig: 152, 167
+  offset: 0, 0
+  index: -1
+normal4/lentes
+  rotate: false
+  xy: 864, 40
+  size: 128, 60
+  orig: 128, 60
+  offset: 0, 0
+  index: -1
+normal4/lentes_Sad
+  rotate: false
+  xy: 446, 69
+  size: 128, 60
+  orig: 128, 60
+  offset: 0, 0
+  index: -1
+normal4/torso
+  rotate: false
+  xy: 680, 97
+  size: 62, 32
+  orig: 62, 32
+  offset: 0, 0
+  index: -1
+normal5/cabeza
+  rotate: false
+  xy: 549, 405
+  size: 137, 105
+  orig: 137, 105
+  offset: 0, 0
+  index: -1
+normal5/copete
+  rotate: false
+  xy: 2, 166
+  size: 181, 175
+  orig: 181, 175
+  offset: 0, 0
+  index: -1
+normal5/lentes
+  rotate: false
+  xy: 864, 102
+  size: 137, 67
+  orig: 137, 67
+  offset: 0, 0
+  index: -1
+normal5/lentes_Sad
+  rotate: false
+  xy: 304, 47
+  size: 137, 68
+  orig: 137, 68
+  offset: 0, 0
+  index: -1
+normal5/pie1
+  rotate: false
+  xy: 502, 50
+  size: 33, 17
+  orig: 33, 17
+  offset: 0, 0
+  index: -1
+normal5/pie2
+  rotate: false
+  xy: 537, 50
+  size: 33, 17
+  orig: 33, 17
+  offset: 0, 0
+  index: -1
+normal5/pierna1
+  rotate: false
+  xy: 850, 75
+  size: 11, 23
+  orig: 11, 23
+  offset: 0, 0
+  index: -1
+normal5/pierna2
+  rotate: true
+  xy: 528, 37
+  size: 11, 23
+  orig: 11, 23
+  offset: 0, 0
+  index: -1
+normal5/rodilla1
+  rotate: true
+  xy: 302, 2
+  size: 14, 23
+  orig: 14, 23
+  offset: 0, 0
+  index: -1
+normal5/rodilla2
+  rotate: true
+  xy: 327, 2
+  size: 14, 23
+  orig: 14, 23
+  offset: 0, 0
+  index: -1
+normal5/torso
+  rotate: true
+  xy: 994, 39
+  size: 61, 28
+  orig: 61, 28
+  offset: 0, 0
+  index: -1
+normal6/copete
+  rotate: true
+  xy: 207, 346
+  size: 164, 171
+  orig: 164, 171
+  offset: 0, 0
+  index: -1
+normal6/lentes
+  rotate: false
+  xy: 711, 267
+  size: 152, 70
+  orig: 152, 70
+  offset: 0, 0
+  index: -1
+normal6/lentes_Sad
+  rotate: false
+  xy: 492, 198
+  size: 152, 71
+  orig: 152, 71
+  offset: 0, 0
+  index: -1
+normal6/torso
+  rotate: false
+  xy: 304, 18
+  size: 61, 27
+  orig: 61, 27
+  offset: 0, 0
+  index: -1
+normal7/cabeza
+  rotate: true
+  xy: 248, 207
+  size: 137, 104
+  orig: 137, 104
+  offset: 0, 0
+  index: -1
+normal7/copete
+  rotate: false
+  xy: 2, 3
+  size: 173, 161
+  orig: 173, 161
+  offset: 0, 0
+  index: -1
+normal7/lentes
+  rotate: false
+  xy: 651, 131
+  size: 140, 72
+  orig: 140, 72
+  offset: 0, 0
+  index: -1
+normal7/lentes_Sad
+  rotate: false
+  xy: 304, 117
+  size: 140, 72
+  orig: 140, 72
+  offset: 0, 0
+  index: -1
+normal7/pie1
+  rotate: false
+  xy: 816, 81
+  size: 32, 17
+  orig: 32, 17
+  offset: 0, 0
+  index: -1
+normal7/pie2
+  rotate: false
+  xy: 747, 78
+  size: 33, 17
+  orig: 33, 17
+  offset: 0, 0
+  index: -1
+normal7/pierna1
+  rotate: false
+  xy: 1003, 234
+  size: 11, 24
+  orig: 11, 24
+  offset: 0, 0
+  index: -1
+normal7/pierna2
+  rotate: true
+  xy: 502, 37
+  size: 11, 24
+  orig: 11, 24
+  offset: 0, 0
+  index: -1
+normal7/rodilla1
+  rotate: true
+  xy: 442, 28
+  size: 14, 22
+  orig: 14, 22
+  offset: 0, 0
+  index: -1
+normal7/rodilla2
+  rotate: true
+  xy: 466, 28
+  size: 14, 22
+  orig: 14, 22
+  offset: 0, 0
+  index: -1
+normal7/torso
+  rotate: false
+  xy: 680, 66
+  size: 65, 29
+  orig: 65, 29
+  offset: 0, 0
+  index: -1
+normal8/copete
+  rotate: false
+  xy: 2, 343
+  size: 203, 167
+  orig: 203, 167
+  offset: 0, 0
+  index: -1
+normal8/lentes
+  rotate: false
+  xy: 380, 296
+  size: 159, 60
+  orig: 159, 60
+  offset: 0, 0
+  index: -1
+normal8/lentes_Sad
+  rotate: true
+  xy: 185, 181
+  size: 160, 61
+  orig: 160, 61
   offset: 0, 0
   index: -1
