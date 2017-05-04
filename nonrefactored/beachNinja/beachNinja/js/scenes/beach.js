@@ -273,7 +273,8 @@ var beach = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('nao', "images/spines/skeleton.json")  
         game.load.audio('puzzleSong', soundsPath + 'songs/chinese_new_year.mp3');
@@ -951,6 +952,8 @@ var beach = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(puzzleSong,sceneGroup)
             createOverlay()
             
             animateScene()

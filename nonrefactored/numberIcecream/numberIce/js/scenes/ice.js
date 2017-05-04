@@ -424,7 +424,8 @@ var ice = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('oona', "images/spines/Oona.json")  
         game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
@@ -720,6 +721,7 @@ var ice = function(){
 			createGlobe()
 			createControls()
             
+			buttons.getButton(dojoSong,sceneGroup)
             createOverlay()
             
             animateScene()

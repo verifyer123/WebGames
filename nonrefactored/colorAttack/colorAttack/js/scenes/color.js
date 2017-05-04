@@ -301,7 +301,8 @@ var color = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false; 
+		buttons.getImages(game)
         
         game.load.spine('figures', "images/spines/skeleton.json")  
         game.load.audio('puzzleSong', soundsPath + 'songs/chemical_electro.mp3');
@@ -921,6 +922,8 @@ var color = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(puzzleSong,sceneGroup)
             createOverlay()
 			
 			addParticles()

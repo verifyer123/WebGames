@@ -360,7 +360,8 @@ var rift = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('yogotar', "images/spines/Arthurius.json")  
         game.load.audio('medievalSong', soundsPath + 'songs/fantasy_ballad.mp3');
@@ -1396,6 +1397,8 @@ var rift = function(){
 			for(var i = 0; i < 4;i++){
 				addTiles()
 			}
+			
+			buttons.getButton(medievalSong,sceneGroup)
 			
             createOverlay()
             

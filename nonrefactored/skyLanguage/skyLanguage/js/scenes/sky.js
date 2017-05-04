@@ -394,7 +394,8 @@ var sky = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('ship', "images/spines/skeleton1.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
@@ -866,6 +867,8 @@ var sky = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
