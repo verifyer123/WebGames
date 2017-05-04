@@ -390,7 +390,7 @@ var result = function(){
         
         pivotX += 80
         
-        var text = game.add.bitmapText(pivotX  ,pivotY, 'gothamMedium', '#' + rankMinigame, 50);
+        var text = game.add.bitmapText(pivotX  ,pivotY, 'gothamMedium', '#' + rankMinigame, 35);
         text.tint = 0x000000
         text.anchor.setTo(0.5,0.5)
         group.add(text)
@@ -404,7 +404,7 @@ var result = function(){
         if(totalScore == 0){
             textAdd = '' + totalScore
         }
-        var text = game.add.bitmapText(coin.x + coin.width * 0.75,pivotY, 'gothamMedium', textAdd, 45);
+        var text = game.add.bitmapText(coin.x + coin.width * 0.75,pivotY, 'gothamMedium', textAdd, 30);
         text.tint = 0xf82a8d
         text.anchor.setTo(0,0.5)
         group.add(text)

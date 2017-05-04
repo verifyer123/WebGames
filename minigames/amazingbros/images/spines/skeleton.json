@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "RDkqdvmN6gDCspHHwWvVxO0ArVc", "spine": "3.3.07", "width": 137.07, "height": 147.68, "images": "" },
+"skeleton": { "hash": "AONbnP1sZlVDx3uN6vDFTWqVtcM", "spine": "3.3.07", "width": 138.09, "height": 148.69, "images": "" },
 "bones": [
 	{ "name": "root", "rotation": -0.5 },
 	{ "name": "torso", "parent": "root", "length": 11.9, "rotation": 90, "x": 0.17, "y": 30.36 },
@@ -14,7 +14,7 @@
 	{ "name": "pierna2", "parent": "root", "length": 16.86, "rotation": 270, "x": 13.31, "y": 45.49, "inheritScale": false },
 	{ "name": "rodilla2", "parent": "pierna2", "length": 19.04, "rotation": 360, "x": 15.5, "y": 0.27, "inheritScale": false },
 	{ "name": "pie2", "parent": "rodilla2", "length": 17.28, "rotation": 450, "x": 21.35, "y": -1.22, "inheritScale": false },
-	{ "name": "vaso", "parent": "root", "length": 51.62, "rotation": 90, "x": -0.28, "y": 137.84, "scaleX": 1.012, "scaleY": 1.012 }
+	{ "name": "vaso", "parent": "root", "length": 51.62, "rotation": 90, "x": -0.28, "y": 137.84 }
 ],
 "slots": [
 	{ "name": "pie2", "bone": "pie2", "attachment": "pie2" },
@@ -27,10 +27,10 @@
 	{ "name": "torso", "bone": "torso", "attachment": "torso" },
 	{ "name": "cabeza", "bone": "cabeza", "attachment": "cabeza" },
 	{ "name": "vaso", "bone": "vaso", "attachment": "vaso" },
+	{ "name": "copete", "bone": "copete", "attachment": "copete" },
 	{ "name": "lentes", "bone": "lentes", "attachment": "lentes" },
 	{ "name": "ojo2", "bone": "ojo2", "attachment": "ojo2" },
-	{ "name": "ojo1", "bone": "ojo1", "attachment": "ojo1" },
-	{ "name": "copete", "bone": "copete", "attachment": "copete" }
+	{ "name": "ojo1", "bone": "ojo1", "attachment": "ojo1" }
 ],
 "skins": {
 	"default": {},
@@ -78,6 +78,61 @@
 			"ojo2": { "name": "normal2/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
 		}
 	},
+	"glasses5": {
+		"lentes": {
+			"lentes": { "name": "normal4/lentes", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 128, "height": 60 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal2/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal2/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses6": {
+		"lentes": {
+			"lentes": { "name": "normal5/lentes", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 137, "height": 67 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal5/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal5/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses7": {
+		"lentes": {
+			"lentes": { "name": "normal6/lentes", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 152, "height": 70 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal6/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal6/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses8": {
+		"lentes": {
+			"lentes": { "name": "normal7/lentes", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 140, "height": 72 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal7/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal7/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses9": {
+		"lentes": {
+			"lentes": { "name": "normal8/lentes", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 159, "height": 60 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal8/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal8/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
 	"glasses1_Sad": {
 		"lentes": {
 			"lentes": { "name": "normal/lentes_Sad", "x": 11.78, "y": 25.91, "rotation": -89.99, "width": 161, "height": 65 }
@@ -122,6 +177,61 @@
 			"ojo2": { "name": "normal2/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
 		}
 	},
+	"glasses5_Sad": {
+		"lentes": {
+			"lentes": { "name": "normal4/lentes_Sad", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 128, "height": 60 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal2/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal2/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses6_Sad": {
+		"lentes": {
+			"lentes": { "name": "normal5/lentes_Sad", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 137, "height": 68 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal2/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal2/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses7_Sad": {
+		"lentes": {
+			"lentes": { "name": "normal6/lentes_Sad", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 152, "height": 71 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal6/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal6/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses8_Sad": {
+		"lentes": {
+			"lentes": { "name": "normal7/lentes_Sad", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 140, "height": 72 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal6/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal6/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
+	"glasses9_Sad": {
+		"lentes": {
+			"lentes": { "name": "normal8/lentes_Sad", "x": 11.84, "y": 19.09, "rotation": -89.99, "width": 160, "height": 61 }
+		},
+		"ojo1": {
+			"ojo1": { "name": "normal8/ojo1", "x": 3.47, "y": 0.21, "rotation": -89.99, "width": 9, "height": 9 }
+		},
+		"ojo2": {
+			"ojo2": { "name": "normal8/ojo2", "x": 3.48, "y": 0.02, "rotation": -89.99, "width": 8, "height": 8 }
+		}
+	},
 	"hair1": {
 		"copete": {
 			"copete": { "name": "normal/copete", "x": 26.82, "y": 2.05, "rotation": -88.48, "width": 67, "height": 63 }
@@ -134,21 +244,37 @@
 	},
 	"hair3": {
 		"copete": {
-			"copete": {
-				"name": "normal2/copete",
-				"x": 33.24,
-				"y": -23.37,
-				"scaleX": 1.221,
-				"scaleY": 1.221,
-				"rotation": -88.48,
-				"width": 102,
-				"height": 59
-			}
+			"copete": { "name": "normal2/copete", "x": 33.68, "y": -11.35, "rotation": -88.48, "width": 102, "height": 59 }
 		}
 	},
 	"hair4": {
 		"copete": {
-			"copete": { "name": "normal3/copete", "x": 21.79, "y": 11.1, "scaleX": 1.28, "scaleY": 1.28, "rotation": -88.48, "width": 141, "height": 57 }
+			"copete": { "name": "normal3/copete", "x": 25.56, "y": 16.6, "rotation": -88.48, "width": 141, "height": 57 }
+		}
+	},
+	"hair5": {
+		"copete": {
+			"copete": { "name": "normal4/copete", "x": -2.23, "y": 10.89, "rotation": -88.48, "width": 152, "height": 167 }
+		}
+	},
+	"hair6": {
+		"copete": {
+			"copete": { "name": "normal5/copete", "x": -25.99, "y": 10.69, "rotation": -88.48, "width": 181, "height": 175 }
+		}
+	},
+	"hair7": {
+		"copete": {
+			"copete": { "name": "normal6/copete", "x": -0.93, "y": 10.91, "rotation": -88.48, "width": 164, "height": 171 }
+		}
+	},
+	"hair8": {
+		"copete": {
+			"copete": { "name": "normal7/copete", "x": -0.93, "y": 10.91, "rotation": -88.48, "width": 173, "height": 161 }
+		}
+	},
+	"hair9": {
+		"copete": {
+			"copete": { "name": "normal8/copete", "x": -0.93, "y": 10.91, "rotation": 270, "width": 203, "height": 167 }
 		}
 	},
 	"skin1": {
@@ -255,6 +381,58 @@
 			"rodilla2": { "name": "normal3/rodilla2", "x": 9.15, "y": 0.3, "rotation": 90, "width": 14, "height": 22 }
 		}
 	},
+	"skin5": {
+		"cabeza": {
+			"cabeza": { "name": "normal5/cabeza", "x": 50.56, "y": 1.7, "rotation": -90.09, "width": 137, "height": 105 }
+		},
+		"normal/pie1": {
+			"pie2": { "name": "normal5/pie1", "x": -5.33, "y": 0.89, "scaleX": -1, "rotation": -180, "width": 33, "height": 17 }
+		},
+		"pie1": {
+			"pie1": { "name": "normal5/pie1", "x": 8.82, "y": 0.66, "rotation": -179.99, "width": 33, "height": 17 }
+		},
+		"pie2": {
+			"pie2": { "name": "normal5/pie2", "x": 6.47, "y": -1.21, "width": 33, "height": 17 }
+		},
+		"pierna1": {
+			"pierna1": { "name": "normal5/pierna1", "x": 9.95, "y": 0.24, "rotation": 87.37, "width": 11, "height": 23 }
+		},
+		"pierna2": {
+			"pierna2": { "name": "normal5/pierna2", "x": 9.22, "y": 0.38, "rotation": 93.22, "width": 11, "height": 23 }
+		},
+		"rodilla1": {
+			"rodilla1": { "name": "normal5/rodilla1", "x": 10.36, "y": -0.75, "rotation": 90, "width": 14, "height": 23 }
+		},
+		"rodilla2": {
+			"rodilla2": { "name": "normal5/rodilla2", "x": 9.15, "y": 0.3, "rotation": 90, "width": 14, "height": 23 }
+		}
+	},
+	"skin6": {
+		"cabeza": {
+			"cabeza": { "name": "normal7/cabeza", "x": 50.56, "y": 1.7, "rotation": -90.09, "width": 137, "height": 104 }
+		},
+		"normal/pie1": {
+			"pie2": { "name": "normal7/pie1", "x": -5.33, "y": 0.89, "scaleX": -1, "rotation": -180, "width": 32, "height": 17 }
+		},
+		"pie1": {
+			"pie1": { "name": "normal7/pie1", "x": 8.82, "y": 0.66, "rotation": -179.99, "width": 32, "height": 17 }
+		},
+		"pie2": {
+			"pie2": { "name": "normal7/pie2", "x": 6.47, "y": -1.21, "width": 33, "height": 17 }
+		},
+		"pierna1": {
+			"pierna1": { "name": "normal7/pierna1", "x": 9.95, "y": 0.24, "rotation": 87.37, "width": 11, "height": 24 }
+		},
+		"pierna2": {
+			"pierna2": { "name": "normal7/pierna2", "x": 9.22, "y": 0.38, "rotation": 93.22, "width": 11, "height": 24 }
+		},
+		"rodilla1": {
+			"rodilla1": { "name": "normal7/rodilla1", "x": 10.36, "y": -0.75, "rotation": 90, "width": 14, "height": 22 }
+		},
+		"rodilla2": {
+			"rodilla2": { "name": "normal7/rodilla2", "x": 9.15, "y": 0.3, "rotation": 90, "width": 14, "height": 22 }
+		}
+	},
 	"torso1": {
 		"torso": {
 			"torso": { "name": "normal/torso", "x": 10.44, "y": 3.04, "rotation": -90, "width": 57, "height": 23 }
@@ -273,6 +451,31 @@
 	"torso4": {
 		"torso": {
 			"torso": { "name": "normal3/torso", "x": 10.44, "y": 3.04, "rotation": -90, "width": 57, "height": 23 }
+		}
+	},
+	"torso5": {
+		"torso": {
+			"torso": { "name": "normal4/torso", "x": 10.44, "y": 3.04, "rotation": -90, "width": 62, "height": 32 }
+		}
+	},
+	"torso6": {
+		"torso": {
+			"torso": { "name": "normal5/torso", "x": 10.44, "y": 3.04, "rotation": -90, "width": 61, "height": 28 }
+		}
+	},
+	"torso7": {
+		"torso": {
+			"torso": { "name": "normal6/torso", "x": 10.44, "y": 3.04, "rotation": -90, "width": 61, "height": 27 }
+		}
+	},
+	"torso8": {
+		"torso": {
+			"torso": { "name": "normal7/torso", "x": 10.44, "y": 3.04, "rotation": -90, "width": 65, "height": 29 }
+		}
+	},
+	"torso9": {
+		"torso": {
+			"torso": { "name": "normal8/torso", "x": 12.28, "y": -0.1, "rotation": -90, "width": 61, "height": 32 }
 		}
 	}
 },
