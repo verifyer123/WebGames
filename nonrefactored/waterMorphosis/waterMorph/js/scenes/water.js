@@ -1075,7 +1075,8 @@ var water = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.audio('seaSong', soundsPath + 'songs/happy_game_memories.mp3');
                 
@@ -1310,6 +1311,7 @@ var water = function(){
             createHearts()
             createPointsBar()
             
+			buttons.getButton(seaSong,sceneGroup)
             createOverlay()
             
             animateScene()

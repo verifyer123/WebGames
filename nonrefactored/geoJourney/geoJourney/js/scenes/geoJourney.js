@@ -145,7 +145,8 @@ var geoJourney = function(){
         game.plugins.add(Fabrique.Plugins.Spine);
         
         game.load.spine('mascot', "images/spines/dinamita.json");
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spritesheet('coinS', 'images/geoJourney/sprites/coinS.png', 68, 70, 12);
         game.load.spritesheet('monster', 'images/geoJourney/sprites/monster.png', 292, 237, 17);
@@ -1177,6 +1178,7 @@ var geoJourney = function(){
 			
 			levelContainer.text = pointsText
 			
+			buttons.getButton(jungleSong,sceneGroup)
             createOverlay()
             
             game.physics.p2.setImpactEvents(true);

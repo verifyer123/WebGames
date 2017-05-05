@@ -183,7 +183,8 @@ var runneryogome = function(){
     
     
     function preload() {
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         var addText = ""
         if(game.world.width > game.world.height){
@@ -1219,6 +1220,7 @@ var runneryogome = function(){
             
             game.physics.p2.setImpactEvents(true);
             
+			buttons.getButton(marioSong,sceneGroup)
             createOverlay()
             
             animateScene()

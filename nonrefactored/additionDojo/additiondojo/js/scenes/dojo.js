@@ -691,7 +691,8 @@ var dojo = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('master', "images/spines/skeleton.json")  
         game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
@@ -699,7 +700,7 @@ var dojo = function(){
         game.load.image('introscreen',"images/dojo/introscreen.png")
 		game.load.image('howTo',"images/dojo/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/dojo/play" + localization.getLanguage() + ".png")
-        
+		        
     }
     
     function createOverlay(){
@@ -812,6 +813,8 @@ var dojo = function(){
             
             createHearts()
             createPointsBar()
+			
+			buttons.getButton(dojoSong,sceneGroup)
             
             createOverlay()
             

@@ -270,7 +270,8 @@ var puzzle = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('figures', "images/spines/skeleton.json")  
         game.load.audio('puzzleSong', soundsPath + 'songs/upbeat_casual_8.mp3');
@@ -812,6 +813,8 @@ var puzzle = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(puzzleSong,sceneGroup)
             createOverlay()
             
             animateScene()

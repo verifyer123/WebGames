@@ -309,7 +309,8 @@ var nutri = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('dinamita', "images/spines/skeleton.json")  
         game.load.audio('canonSong', soundsPath + 'songs/dancing_baby.mp3');
@@ -965,6 +966,8 @@ var nutri = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(canonSong,sceneGroup)
             createOverlay()
 			
 			addParticles()

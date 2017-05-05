@@ -354,7 +354,8 @@ var dizzy = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
+		buttons.getImages(game)
         
         game.load.spine('ship', "images/spines/skeleton.json")  
         game.load.audio('piratesSong', soundsPath + 'songs/pirates_song.mp3');
@@ -1164,6 +1165,8 @@ var dizzy = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(piratesSong,sceneGroup)
             createOverlay()
             
             animateScene()
