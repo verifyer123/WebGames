@@ -21,7 +21,12 @@ var flag = function(){
             "nauru":"Nauru",
             "benin":"Benin",
             "burkina":"Burkina Faso",
-            "cameroon":"Cameroon"
+            "cameroon":"Cameroon",
+            "america":"America",
+            "asia":"Asia",
+            "oceania":"Oceania",
+            "africa":"Africa",
+            "europa":"Europe"
 		},
 
 		"ES":{
@@ -42,7 +47,12 @@ var flag = function(){
             "nauru":"Nauru",
             "benin":"Benín",
             "burkina":"Burkina Faso",
-            "cameroon":"Camerún"
+            "cameroon":"Camerún",
+            "america":"América",
+            "asia":"Asia",
+            "oceania":"Oceanía",
+            "africa":"África",
+            "europa":"Europa"
 		}
 	}
     
@@ -80,7 +90,25 @@ var flag = function(){
     }
 
     var NUM_LIFES = 3
-    var FLAGS = ["mexico", "usa", "benin", "ireland", "canada", "uruguay", "burkina", "japan", "china", "korea", "italy", "hungary", "palau", "micronesia", "nauru", "cameroon"]
+    var GAME_DATA = {
+        continents: [
+            {   name:"america",
+                countries:["mexico", "usa", "canada", "uruguay"]
+            },
+            {   name:"asia",
+                countries:["japan", "china", "korea"]
+            },
+            {
+                name:"africa",
+                countries:["benin", "burkina", "cameroon"]
+            },
+            {   name:"oceania",
+                countries:["palau", "micronesia", "nauru"]
+            },
+            {   name:"europa",
+                countries:["ireland", "italy", "hungary"]
+            }]
+    }
     
     var lives
 	var sceneGroup = null
@@ -89,11 +117,14 @@ var flag = function(){
     var dojoSong
     var heartsGroup = null
     var pullGroup = null
+    var continentsGroup
     var clock
     var timeValue
     var quantNumber
     var numPoints
     var flagObjects
+    var continentObjects
+    var flagsGroup
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -108,6 +139,8 @@ var flag = function(){
         timeValue = 7
         quantNumber = 0.5
         numPoints = 0
+        flagObjects = []
+        continentObjects = []
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -116,27 +149,112 @@ var flag = function(){
         
 	}
 
+	function generateCont(){
+        var numRandom = Math.floor(Math.random() * continentObjects.length)
+        var continent = continentObjects[numRandom]
+        pullGroup.remove(continent)
+        continentsGroup.add(continent)
+        var localizationText = localizationData[localization.getLanguage()][continent.name]
+        continentsGroup.text.setText(localizationText)
+    }
+
+	function createContinent(name){
+        var continentGroup = game.add.group()
+        var continent = continentGroup.create(0, 0, 'atlas.flag', name)
+        continent.anchor.setTo(0.5, 0.5)
+        pullGroup.add(continentGroup)
+        continentObjects.push(continent)
+        continent.name = name
+        continent.y = 40
+    }
+
+    function addFlags(selectedFlags){
+        var height = 350
+        var width = game.world.width * 0.5
+	    var maxNumX = 2
+        var maxNumY = 2
+        var xCount = 0
+        var yCount = 0
+        var startX = -width * 0.5
+        var startY = -height * 0.5
+        for (var flagIndex = 0; flagIndex < 4; flagIndex++){
+	        var flag = flagObjects[flagIndex]
+            pullGroup.remove(flag)
+            flagsGroup.add(flag)
+            xCount = flagIndex % maxNumX
+            if ((flagIndex + 1) % (maxNumY + 1) === 0)
+                yCount++
+
+            flag.x = xCount * width/(maxNumX - 1) + startX
+            flag.y = yCount * height/(maxNumY - 1) + startY
+        }
+    }
+
+    function createFlagsUI(){
+        var flagBg = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.flag", "baseBanderas")
+        flagBg.anchor.setTo(0.5, 0.5)
+
+        flagsGroup = game.add.group()
+        flagsGroup.x = game.world.centerX
+        flagsGroup.y = game.world.centerY
+        sceneGroup.add(flagsGroup)
+    }
+
+	function createContinentUI() {
+        continentsGroup = game.add.group()
+        continentsGroup.x = game.world.centerX
+        continentsGroup.y = game.world.bounds.top + 300
+        sceneGroup.add(continentsGroup)
+	    var bgContinent = continentsGroup.create(0, 0, 'atlas.flag', "rotafolio")
+        bgContinent.anchor.setTo(0.5, 0.5)
+        // var nameLocalized = localizationData[localization.getLanguage()][CONTINENTS[index]]
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var nameText = new Phaser.Text(game, 0, 0, "America", fontStyle)
+        nameText.x = 0
+        nameText.y = -165
+        nameText.anchor.setTo(0.5,0.5)
+        continentsGroup.add(nameText)
+        continentsGroup.text = nameText
+    }
+
 	function createFlag(name) {
         var flagGroup = game.add.group()
         var baseFlag = flagGroup.create(0, 0, 'atlas.flag', "basebotonesBanderas")
         baseFlag.anchor.setTo(0.5, 0.5)
         var flag = flagGroup.create(0, 0, 'atlas.flag', "b_" + name)
         flag.anchor.setTo(0.5, 0.5)
+        var baseName = flagGroup.create(0,-70, "atlas.flag", "baseNombreBanderas")
+        baseName.anchor.setTo(0.5, 0.5)
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var nameLocalized = localizationData[localization.getLanguage()][name]
+        var nameText = new Phaser.Text(game, 0, 0, nameLocalized, fontStyle)
+        nameText.x = baseName.world.x
+        nameText.y = baseName.world.y
+        nameText.anchor.setTo(0.5,0.5)
+        flagGroup.add(nameText)
 
         return flagGroup
     }
 
-    function createFlags(){
+    function createGameObjects(){
         pullGroup = game.add.group()
         pullGroup.x = game.world.centerX
         pullGroup.y = game.world.centerY
         sceneGroup.add(pullGroup)
-        // pullGroup.alpha = 0
+        pullGroup.alpha = 0
 
-        for (var i = 0; i < 1; i++)
+        for (var i = 0; i < GAME_DATA.continents.length; i++)
         {
-            var flag = createFlag(FLAGS[i])
-            pullGroup.add(flag)
+            var continent = GAME_DATA.continents[i]
+            createContinent(continent.name)
+
+            for (var j = 0; j < continent.countries.length; j++) {
+                var flag = createFlag(continent.countries[j])
+                flag.name = continent.countries[j]
+                flag.continent = continent.name
+                pullGroup.add(flag)
+                flagObjects.push(flag)
+            }
         }
     }
     
@@ -291,8 +409,7 @@ var flag = function(){
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
             tutoGroup.y = -game.world.height
-            createFlags()
-            startTimer(missPoint)
+            //startTimer(missPoint)
         })
     }
 
@@ -392,7 +509,13 @@ var flag = function(){
             initialize()
             
             createHearts()
-            createClock()
+            // createClock()
+            createGameObjects()
+            createContinentUI()
+            // createContinents()
+            generateCont()
+            createFlagsUI()
+            addFlags()
             createTutorial()
             
 		}
