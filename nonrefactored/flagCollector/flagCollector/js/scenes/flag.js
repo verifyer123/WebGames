@@ -109,6 +109,12 @@ var flag = function(){
                 countries:["ireland", "italy", "hungary"]
             }]
     }
+
+    var ROUNDS = [
+        {continent: "america", flags: ["mexico", "usa"]},
+        {continent: "america", numFlags: 2},
+        {continent: "america", numFlags: 4},
+        {continent: "random", numFlags: 4}]
     
     var lives
 	var sceneGroup = null
@@ -125,6 +131,8 @@ var flag = function(){
     var flagObjects
     var continentObjects
     var flagsGroup
+    var inputsEnabled
+    var selectedFlags
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -141,22 +149,30 @@ var flag = function(){
         numPoints = 0
         flagObjects = []
         continentObjects = []
+        selectedFlags = []
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        inputsEnabled = false
         
         loadSounds()
         
 	}
 
 	function generateCont(){
-        var numRandom = Math.floor(Math.random() * continentObjects.length)
+        if (continentsGroup.continent){
+            continentsGroup.remove(continentsGroup.continent)
+            pullGroup.add(continentsGroup.continent)
+        }
+	    
+	    var numRandom = Math.floor(Math.random() * continentObjects.length)
         var continent = continentObjects[numRandom]
         pullGroup.remove(continent)
         continentsGroup.add(continent)
         var localizationText = localizationData[localization.getLanguage()][continent.name]
         continentsGroup.text.setText(localizationText)
-    }
+        continentsGroup.continent = continent
+	}
 
 	function createContinent(name){
         var continentGroup = game.add.group()
@@ -167,18 +183,38 @@ var flag = function(){
         continent.name = name
         continent.y = 40
     }
+    
+    function removeFlags() {
+        flagsGroup.alpha = 0
+        var tweenScene = game.add.tween(flag).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
+        tweenScene.onComplete.add(function() {
+            for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++)
+            {
+                var flag = selectedFlags[flagIndex]
+
+                flagsGroup.remove(flag)
+                pullGroup.add(flag)
+
+                if (flag.particle) {
+                    flag.particle.destroy()
+                    flag.particle = null
+                }
+            }
+        })
+    }
 
     function addFlags(selectedFlags){
-        var height = 350
-        var width = game.world.width * 0.5
+        var height = 350 * 0.5
+        var width = game.world.width * 0.5 - 30
 	    var maxNumX = 2
         var maxNumY = 2
         var xCount = 0
         var yCount = 0
         var startX = -width * 0.5
         var startY = -height * 0.5
-        for (var flagIndex = 0; flagIndex < 4; flagIndex++){
-	        var flag = flagObjects[flagIndex]
+        for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++){
+	        var flag = selectedFlags[flagIndex]
+
             pullGroup.remove(flag)
             flagsGroup.add(flag)
             xCount = flagIndex % maxNumX
@@ -190,13 +226,39 @@ var flag = function(){
         }
     }
 
+    function generateFlags(numFlags, flags) {
+
+        selectedFlags = []
+        var continentName = continentsGroup.continent.name
+        if (!flags){
+            flagObjects = Phaser.ArrayUtils.shuffle(flagObjects)
+            var correctCounter = 1
+            for (var flagIndex = 1; flagIndex < flagObjects.length; flagIndex++) {
+                var flag = flagObjects[flagIndex]
+                if ((flag.continent === continentName) && (correctCounter > 0)) {
+                    correctCounter--
+                    selectedFlags.push(flag)
+                } else if ((selectedFlags.length < numFlags - correctCounter) && (flag.continent != continentName))  {
+                    selectedFlags.push(flag)
+                }
+                if (selectedFlags.length >= numFlags)
+                    break
+            }
+        }
+        selectedFlags = Phaser.ArrayUtils.shuffle(selectedFlags)
+        addFlags(selectedFlags)
+
+        if (lives > 0)
+            inputsEnabled = true
+    }
+
     function createFlagsUI(){
         var flagBg = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.flag", "baseBanderas")
         flagBg.anchor.setTo(0.5, 0.5)
 
         flagsGroup = game.add.group()
         flagsGroup.x = game.world.centerX
-        flagsGroup.y = game.world.centerY
+        flagsGroup.y = game.world.bounds.bottom - 160
         sceneGroup.add(flagsGroup)
     }
 
@@ -217,6 +279,21 @@ var flag = function(){
         continentsGroup.text = nameText
     }
 
+    function onClickFlag(flag) {
+        console.log("click")
+        if (flag.continent === continentsGroup.continent.name) {
+            sound.play("right")
+            numPoints++
+            createPart("star", flag)
+            startRound()
+        }
+        else {
+            sound.play("wrong")
+            missPoint()
+            createPart("wrong", flag)
+        }
+    }
+
 	function createFlag(name) {
         var flagGroup = game.add.group()
         var baseFlag = flagGroup.create(0, 0, 'atlas.flag', "basebotonesBanderas")
@@ -232,14 +309,22 @@ var flag = function(){
         nameText.y = baseName.world.y
         nameText.anchor.setTo(0.5,0.5)
         flagGroup.add(nameText)
+        baseFlag.inputEnabled = true
+
+        baseFlag.events.onInputDown.add(function(){
+            if (inputsEnabled){
+                inputsEnabled = false
+                onClickFlag(flagGroup)
+            }
+        })
 
         return flagGroup
     }
 
     function createGameObjects(){
         pullGroup = game.add.group()
-        pullGroup.x = game.world.centerX
-        pullGroup.y = game.world.centerY
+        pullGroup.x = -game.world.centerX * 2
+        pullGroup.y = -game.world.centerY * 2
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
@@ -259,38 +344,23 @@ var flag = function(){
     }
     
     function createPart(key,obj){
-        
-        var particlesNumber = 2
-        
-        if(game.device.desktop){
-            
-            particlesNumber = 4
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
 
-            particlesGood.makeParticles('atlas.flag',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
+        var particlesGood = game.add.emitter(0, 0, 100);
 
-            particlesGood.x = obj.x;
-            particlesGood.y = obj.y;
-            particlesGood.start(true, 1000, null, particlesNumber);
+        particlesGood.makeParticles('atlas.flag',key);
+        particlesGood.minParticleSpeed.setTo(-200, -50);
+        particlesGood.maxParticleSpeed.setTo(200, -100);
+        particlesGood.minParticleScale = 0.2;
+        particlesGood.maxParticleScale = 1;
+        particlesGood.gravity = 150;
+        particlesGood.angularDrag = 30;
 
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
+        // particlesGood.x = obj.x;
+        // particlesGood.y = obj.y;
+        particlesGood.start(true, 1000, null, 2);
 
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(obj.x,obj.y,'atlas.flag',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
+        obj.add(particlesGood)
+        obj.particle = particlesGood
         
     }
 
@@ -299,6 +369,8 @@ var flag = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         dojoSong.stop()
+        clock.tween.stop()
+        inputsEnabled = false
         
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
@@ -341,9 +413,23 @@ var flag = function(){
 
     }
 
+    function startRound() {
+        var delay = 600
+
+        removeFlags()
+        flagsGroup.alpha = 0
+        var tweenScene = game.add.tween(flag).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
+        game.time.events.add(delay,function(){
+            startTimer(missPoint)
+            generateCont()
+            generateFlags(4)
+        },this)
+    }
+
     function missPoint(){
         
         sound.play("wrong")
+        inputsEnabled = false
         
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -356,8 +442,9 @@ var flag = function(){
         if(lives === 0){
             stopGame(false)
         }
-        else
-            startTimer(missPoint)
+        else{
+            startRound()
+        }
         
         addNumberPart(heartsGroup.text,'-1')
     }
@@ -393,14 +480,14 @@ var flag = function(){
     function startTimer(onComplete) {
         var delay = 500
         clock.bar.scale.x = clock.bar.origScale
+        if (clock.tween)
+            clock.tween.stop()
 
-        game.time.events.add(delay,function(){
-            clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
-            clock.tween.onComplete.add(function(){
-                onComplete()
-            })
 
-        },this)
+        clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
+        clock.tween.onComplete.add(function(){
+            onComplete()
+        })
     }
 
     function onClickPlay(rect) {
@@ -409,7 +496,7 @@ var flag = function(){
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
             tutoGroup.y = -game.world.height
-            //startTimer(missPoint)
+            startTimer(missPoint)
         })
     }
 
@@ -465,7 +552,7 @@ var flag = function(){
         
         clock = game.add.group()
         clock.x = game.world.centerX
-        clock.y = game.world.centerY
+        clock.y = game.world.centerY + 80
         sceneGroup.add(clock)
         
         var clockImage = clock.create(0,0,'atlas.flag','clock')
@@ -509,13 +596,12 @@ var flag = function(){
             initialize()
             
             createHearts()
-            // createClock()
             createGameObjects()
             createContinentUI()
-            // createContinents()
             generateCont()
             createFlagsUI()
-            addFlags()
+            generateFlags(4)
+            createClock()
             createTutorial()
             
 		}
