@@ -185,12 +185,11 @@ var flag = function(){
     }
     
     function removeFlags() {
-        flagsGroup.alpha = 0
-        var tweenScene = game.add.tween(flag).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
-        tweenScene.onComplete.add(function() {
-            for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++)
-            {
-                var flag = selectedFlags[flagIndex]
+	    for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++)
+        {
+            var flag = selectedFlags[flagIndex]
+            var tweenScene = game.add.tween(flag).to({alpha: 0}, 300, Phaser.Easing.Cubic.In, true)
+            tweenScene.onComplete.add(function(){
 
                 flagsGroup.remove(flag)
                 pullGroup.add(flag)
@@ -199,8 +198,9 @@ var flag = function(){
                     flag.particle.destroy()
                     flag.particle = null
                 }
-            }
-        })
+            })
+
+        }
     }
 
     function addFlags(selectedFlags){
@@ -214,7 +214,7 @@ var flag = function(){
         var startY = -height * 0.5
         for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++){
 	        var flag = selectedFlags[flagIndex]
-
+            flag.alpha = 1
             pullGroup.remove(flag)
             flagsGroup.add(flag)
             xCount = flagIndex % maxNumX
@@ -417,8 +417,6 @@ var flag = function(){
         var delay = 600
 
         removeFlags()
-        flagsGroup.alpha = 0
-        var tweenScene = game.add.tween(flag).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
         game.time.events.add(delay,function(){
             startTimer(missPoint)
             generateCont()
