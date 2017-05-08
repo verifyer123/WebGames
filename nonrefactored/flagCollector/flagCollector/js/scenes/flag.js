@@ -133,6 +133,8 @@ var flag = function(){
     var flagsGroup
     var inputsEnabled
     var selectedFlags
+    var pointsBar
+    var roundCounter
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -145,11 +147,12 @@ var flag = function(){
         //gameActive = true
         lives = NUM_LIFES
         timeValue = 7
-        quantNumber = 0.5
+        quantNumber = 2
         numPoints = 0
         flagObjects = []
         continentObjects = []
         selectedFlags = []
+        roundCounter = 0
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -159,19 +162,73 @@ var flag = function(){
         
 	}
 
-	function generateCont(){
+    function addPoint(number){
+
+        sound.play("magic")
+        pointsBar.number+=number;
+        pointsBar.text.setText(pointsBar.number)
+
+        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+
+        addNumberPart(pointsBar.text,'+' + number)
+
+        // if(pointsBar.number % 2 == 0){
+        timeValue-=timeValue * 0.10
+        // }
+
+    }
+
+    function createPointsBar(){
+
+        pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = 0
+        sceneGroup.add(pointsBar)
+
+        var pointsImg = pointsBar.create(-10,10,'atlas.flag','xpcoins')
+        pointsImg.anchor.setTo(1,0)
+
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsText.x = -pointsImg.width * 0.45
+        pointsText.y = pointsImg.height * 0.25
+        pointsBar.add(pointsText)
+
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+        pointsBar.text = pointsText
+        pointsBar.number = 0
+
+    }
+
+	function generateCont(continentID){
         if (continentsGroup.continent){
             continentsGroup.remove(continentsGroup.continent)
             pullGroup.add(continentsGroup.continent)
         }
-	    
-	    var numRandom = Math.floor(Math.random() * continentObjects.length)
-        var continent = continentObjects[numRandom]
+        var continent
+
+        if (continentID === "random") {
+            var numRandom = game.rnd.integerInRange(0,continentObjects.length - 1)
+            continent = continentObjects[numRandom]
+        } else {
+            for(var continentIndex = 0; continentObjects.length; continentIndex++){
+                continent = continentObjects[continentIndex]
+                if(continentID === continent.name)
+                    break
+
+            }
+        }
+
         pullGroup.remove(continent)
         continentsGroup.add(continent)
         var localizationText = localizationData[localization.getLanguage()][continent.name]
         continentsGroup.text.setText(localizationText)
         continentsGroup.continent = continent
+        continent.alpha = 0
 	}
 
 	function createContinent(name){
@@ -188,8 +245,6 @@ var flag = function(){
 	    for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++)
         {
             var flag = selectedFlags[flagIndex]
-            var tweenScene = game.add.tween(flag).to({alpha: 0}, 300, Phaser.Easing.Cubic.In, true)
-            tweenScene.onComplete.add(function(){
 
                 flagsGroup.remove(flag)
                 pullGroup.add(flag)
@@ -198,9 +253,7 @@ var flag = function(){
                     flag.particle.destroy()
                     flag.particle = null
                 }
-            })
-
-        }
+            }
     }
 
     function addFlags(selectedFlags){
@@ -226,6 +279,17 @@ var flag = function(){
         }
     }
 
+    function getFlags(flagID) {
+        var flagSelected
+        for (var flagIndex = 0; flagIndex < flagObjects.length; flagIndex++){
+            var flag = flagObjects[flagIndex]
+            if (flag.name === flagID){
+                flagSelected = flag
+            }
+        }
+        return flagSelected
+    }
+
     function generateFlags(numFlags, flags) {
 
         selectedFlags = []
@@ -233,7 +297,7 @@ var flag = function(){
         if (!flags){
             flagObjects = Phaser.ArrayUtils.shuffle(flagObjects)
             var correctCounter = 1
-            for (var flagIndex = 1; flagIndex < flagObjects.length; flagIndex++) {
+            for (var flagIndex = 0; flagIndex < flagObjects.length; flagIndex++) {
                 var flag = flagObjects[flagIndex]
                 if ((flag.continent === continentName) && (correctCounter > 0)) {
                     correctCounter--
@@ -244,6 +308,11 @@ var flag = function(){
                 if (selectedFlags.length >= numFlags)
                     break
             }
+        } else{
+            for (var flagIndex = 0; flagIndex < flags.length; flagIndex++){
+                var flag = getFlags(flags[flagIndex])
+                selectedFlags.push(flag)
+            }
         }
         selectedFlags = Phaser.ArrayUtils.shuffle(selectedFlags)
         addFlags(selectedFlags)
@@ -253,7 +322,10 @@ var flag = function(){
     }
 
     function createFlagsUI(){
+        // var flagBg = game.add.tileSprite(game.world.centerX, game.world.centerY, game.world.width, game.world.height, "atlas.flag", "baseBanderas")
+        // sceneGroup.add(flagBg)
         var flagBg = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.flag", "baseBanderas")
+        flagBg.width = game.world.width+2
         flagBg.anchor.setTo(0.5, 0.5)
 
         flagsGroup = game.add.group()
@@ -285,6 +357,7 @@ var flag = function(){
             sound.play("right")
             numPoints++
             createPart("star", flag)
+            addPoint(1)
             startRound()
         }
         else {
@@ -413,15 +486,27 @@ var flag = function(){
 
     }
 
-    function startRound() {
-        var delay = 600
+    function startRound(notStarted) {
 
-        removeFlags()
-        game.time.events.add(delay,function(){
-            startTimer(missPoint)
-            generateCont()
-            generateFlags(4)
-        },this)
+        var currentRound = ROUNDS[roundCounter]
+        roundCounter = roundCounter < ROUNDS.length - 1 ? roundCounter + 1 : ROUNDS.length - 1
+        if (clock.tween)
+            clock.tween.stop()
+        if(continentsGroup.continent)
+            game.add.tween(continentsGroup.continent).to({alpha: 0}, 300, Phaser.Easing.Cubic.In, true)
+        var tweenScene = game.add.tween(flagsGroup).to({alpha: 0}, 300, Phaser.Easing.Cubic.In, true)
+        tweenScene.onComplete.add(function() {
+            removeFlags()
+            generateCont(currentRound.continent)
+            generateFlags (currentRound.numFlags, currentRound.flags)
+            game.add.tween(clock.bar.scale).to({x: clock.bar.origScale}, 300, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(continentsGroup.continent).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
+            var tweenScene2 = game.add.tween(flagsGroup).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
+            tweenScene2.onComplete.add(function() {
+                if(!notStarted)
+                    startTimer(missPoint)
+            })
+        })
     }
 
     function missPoint(){
@@ -477,7 +562,7 @@ var flag = function(){
 
     function startTimer(onComplete) {
         var delay = 500
-        clock.bar.scale.x = clock.bar.origScale
+        // clock.bar.scale.x = clock.bar.origScale
         if (clock.tween)
             clock.tween.stop()
 
@@ -594,12 +679,14 @@ var flag = function(){
             initialize()
             
             createHearts()
+            createPointsBar()
             createGameObjects()
             createContinentUI()
-            generateCont()
+            // generateCont()
             createFlagsUI()
-            generateFlags(4)
+            // generateFlags(4)
             createClock()
+            startRound(true)
             createTutorial()
             
 		}

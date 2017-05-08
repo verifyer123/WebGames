@@ -2,7 +2,7 @@
 
 {
 	"filename": "africa",
-	"frame": {"x":459,"y":689,"w":183,"h":226},
+	"frame": {"x":1,"y":605,"w":183,"h":226},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":183,"h":226},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "b_argentina",
-	"frame": {"x":353,"y":917,"w":174,"h":97},
+	"frame": {"x":177,"y":905,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "b_benin",
-	"frame": {"x":177,"y":1005,"w":174,"h":97},
+	"frame": {"x":1,"y":933,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "b_burkina",
-	"frame": {"x":843,"y":857,"w":174,"h":98},
+	"frame": {"x":186,"y":605,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "b_cameroon",
-	"frame": {"x":1,"y":1021,"w":174,"h":97},
+	"frame": {"x":727,"y":857,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "b_canada",
-	"frame": {"x":529,"y":982,"w":174,"h":97},
+	"frame": {"x":538,"y":930,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "b_china",
-	"frame": {"x":843,"y":957,"w":174,"h":98},
+	"frame": {"x":362,"y":656,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "b_hungary",
-	"frame": {"x":353,"y":1016,"w":174,"h":97},
+	"frame": {"x":353,"y":956,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "b_ireland",
-	"frame": {"x":177,"y":1104,"w":174,"h":97},
+	"frame": {"x":177,"y":1004,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "b_italy",
-	"frame": {"x":190,"y":705,"w":174,"h":98},
+	"frame": {"x":186,"y":705,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "b_japan",
-	"frame": {"x":190,"y":805,"w":174,"h":98},
+	"frame": {"x":362,"y":756,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "b_korea",
-	"frame": {"x":1,"y":1120,"w":174,"h":97},
+	"frame": {"x":1,"y":1032,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "b_mexico",
-	"frame": {"x":705,"y":1057,"w":174,"h":97},
+	"frame": {"x":353,"y":1055,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "b_micronesia",
-	"frame": {"x":1,"y":821,"w":174,"h":98},
+	"frame": {"x":186,"y":805,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "b_nauru",
-	"frame": {"x":177,"y":905,"w":174,"h":98},
+	"frame": {"x":1,"y":833,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "b_palau",
-	"frame": {"x":529,"y":1081,"w":174,"h":97},
+	"frame": {"x":177,"y":1103,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "b_uruguay",
-	"frame": {"x":353,"y":1115,"w":174,"h":97},
+	"frame": {"x":529,"y":1129,"w":174,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":97},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "b_usa",
-	"frame": {"x":1,"y":921,"w":174,"h":98},
+	"frame": {"x":362,"y":856,"w":174,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":98},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "bar",
-	"frame": {"x":872,"y":340,"w":30,"h":34},
+	"frame": {"x":872,"y":283,"w":30,"h":34},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":34},
@@ -200,7 +200,7 @@
 },
 {
 	"filename": "basebotonesBanderas",
-	"frame": {"x":1,"y":705,"w":187,"h":114},
+	"frame": {"x":538,"y":814,"w":187,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":187,"h":114},
@@ -209,7 +209,7 @@
 },
 {
 	"filename": "baseNombreBanderas",
-	"frame": {"x":705,"y":1156,"w":195,"h":46},
+	"frame": {"x":714,"y":956,"w":195,"h":46},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":195,"h":46},
@@ -227,7 +227,7 @@
 },
 {
 	"filename": "clock",
-	"frame": {"x":1,"y":605,"w":456,"h":98},
+	"frame": {"x":529,"y":1029,"w":456,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":456,"h":98},
@@ -245,7 +245,7 @@
 },
 {
 	"filename": "europa",
-	"frame": {"x":644,"y":715,"w":240,"h":140},
+	"frame": {"x":737,"y":715,"w":240,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":240,"h":140},
@@ -263,7 +263,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":872,"y":217,"w":140,"h":55},
+	"frame": {"x":369,"y":599,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -272,7 +272,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":644,"y":857,"w":197,"h":123},
+	"frame": {"x":538,"y":689,"w":197,"h":123},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":123},
@@ -299,7 +299,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":872,"y":274,"w":64,"h":64},
+	"frame": {"x":872,"y":217,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -308,11 +308,20 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":938,"y":274,"w":64,"h":64},
+	"frame": {"x":938,"y":217,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
 	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":1,"y":1131,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -320,8 +329,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1018,"h":1218},
+	"size": {"w":1007,"h":1227},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e61855ef263fa1aa0a10e8bb9699ac06:d521676ac1a2a9bc436961fd335f1ba4:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:58e89439b1056fd48acb089193aae361:4f835c494f1adaecbfe8aa69a4102982:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
