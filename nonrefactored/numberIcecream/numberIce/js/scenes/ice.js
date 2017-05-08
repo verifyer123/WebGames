@@ -48,7 +48,7 @@ var ice = function(){
 			{	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
 			{	name: "splash",
-				file: soundsPath + "splash.mp3"},
+				file: soundsPath + "splashMud.mp3"},
 		],
     }
     
@@ -727,9 +727,5 @@ var ice = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

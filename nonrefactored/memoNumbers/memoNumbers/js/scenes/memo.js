@@ -830,9 +830,5 @@ var memo = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

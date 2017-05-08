@@ -1317,9 +1317,5 @@ var water = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

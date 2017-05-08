@@ -871,9 +871,5 @@ var culture = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

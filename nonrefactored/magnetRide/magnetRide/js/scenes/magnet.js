@@ -1038,9 +1038,5 @@ var magnet = function(){
 			firstPosition()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

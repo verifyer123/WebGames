@@ -27,6 +27,7 @@ yogomeGames.getGames = function(){
 		{name:'cultureIcons',url:'http://yogome.com/epic/minigames/cultureSite/',sceneName:'culture'},
 		{name:'dizzyBoat',url:'http://yogome.com/epic/minigames/dizzySite/',sceneName:'dizzy'},
 		{name:'flagCollector',url:'http://yogome.com/epic/minigames/flagCollectorSite/',sceneName:'flag'},
+		{name:'mediCatcher',url:'http://yogome.com/epic/minigames/mediSite/',sceneName:'medi'},
         
     ]
     

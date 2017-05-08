@@ -975,9 +975,5 @@ var nutri = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()
