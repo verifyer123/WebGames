@@ -152,7 +152,8 @@ var CroakSong = function(){
 			},
 			{	name: "badcroak",
 				file: "frogsNotes/badcroak.mp3"
-			},/*PIANO*/	
+			},
+			/*PIANO
 			{	name: "C3",
 				file: "pianoNotes/Piano.ff.C3.mp3"},
 			{	name: "Db3",
@@ -227,7 +228,7 @@ var CroakSong = function(){
 				file: "pianoNotes/Piano.ff.B5.mp3"},
 			{	name: "C6",
 				file: "pianoNotes/Piano.ff.C6.mp3"}
-			/*PIANO*/
+			PIANO*/
 		],
 	}
     var starGame = false;
@@ -256,6 +257,7 @@ var CroakSong = function(){
 	var ranas = new Array;
 	var bichos = new Array;
 	var troncos = new Array;
+	var troncos2 = new Array;
 	var readySound = 0;
 	var activeBug = false;
 	var spaceItems = 200;
@@ -268,7 +270,7 @@ var CroakSong = function(){
 	var pressLeft = false;
 	var pressDown = false;
 	var pressRight = false;
-	var minSpaceItems = 20;
+	var minSpaceItems = 70;
 
 	function getRandomArbitrary(min, max) {
   			return Math.floor(Math.random() * (max - min) + min);
@@ -540,24 +542,34 @@ var CroakSong = function(){
 					case 0:			
 					troncos[varP] = game.add.sprite(carril[1].x, bichos[varP].y, 'tronco');
 					troncos[varP].anchor.setTo(0.5,0);		
-					troncos[varP].scale.setTo(0.7);	
+					troncos[varP].scale.setTo(0.7);			
+					troncos2[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
+					troncos2[varP].anchor.setTo(0.5,0);		
+					troncos2[varP].scale.setTo(0.7);	
 					break;	
 
 					case 1:			
-					troncos[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
+					troncos[varP] = game.add.sprite(carril[0].x, bichos[varP].y, 'tronco');
 					troncos[varP].anchor.setTo(0.5,0);
-					troncos[varP].scale.setTo(0.7);	
+					troncos[varP].scale.setTo(0.7);				
+					troncos2[varP] = game.add.sprite(carril[2].x, bichos[varP].y, 'tronco');
+					troncos2[varP].anchor.setTo(0.5,0);
+					troncos2[varP].scale.setTo(0.7);	
 					break;
 
 					case 2:			
 					troncos[varP] = game.add.sprite(carril[0].x, bichos[varP].y, 'tronco');
 					troncos[varP].anchor.setTo(0.5,0);	
-					troncos[varP].scale.setTo(0.7);		
+					troncos[varP].scale.setTo(0.7);			
+					troncos2[varP] = game.add.sprite(carril[1].x, bichos[varP].y, 'tronco');
+					troncos2[varP].anchor.setTo(0.5,0);	
+					troncos2[varP].scale.setTo(0.7);		
 					break;	
 				}
 				
 				TweenMax.to(bichos[p],1,{y:bichos[p].y+1200});
 				TweenMax.to(troncos[p],1,{y:troncos[p].y+1200});
+				TweenMax.to(troncos2[p],1,{y:troncos2[p].y+1200});
 				
 			}
 		/*background clouds*/
@@ -671,7 +683,7 @@ var CroakSong = function(){
         	inputLogo.anchor.setTo(0.5,0.5);	 
         }else{
 			var inputLogo = overlayGroup.create(game.world.centerX-20,game.world.centerY + 145,'pc');
-        	inputLogo.anchor.setTo(0.2,0.5);	
+        	inputLogo.anchor.setTo(0.35,0.6);	
 		}
 		
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'buttonPlay')
@@ -749,14 +761,15 @@ var CroakSong = function(){
 			for(var i = 0;i<=songs[selectMusic].length-1;i++){
 				TweenMax.to(bichos[i],0.05,{y: bichos[i].y+spaceItems});
 				TweenMax.to(troncos[i],0.05,{y: troncos[i].y+spaceItems});
+				TweenMax.to(troncos2[i],0.05,{y: troncos2[i].y+spaceItems});
 			}		
 				if(bichos[readySound].y >=  600){
 					console.log("ok");
 					TweenMax.to(troncos[readySound],0.2,{alpha:0});
-	
+					TweenMax.to(troncos2[readySound],0.2,{alpha:0});
 					if(object.carril == bichos[readySound].carril){
 						sound.play(songs[selectMusic][readySound]);
-						sound.play(pianoSong[selectMusic][readySound]);
+						//sound.play(pianoSong[selectMusic][readySound]);
 						ranas[object.id].setAnimationByName(0, "SING2", false);
 						TweenMax.to(bichos[readySound].scale,0.2,{x:0,y:0});
 						star.x = ranas[object.id].x;
@@ -784,9 +797,13 @@ var CroakSong = function(){
 							ButtonsFrogs[0].inputEnabled = false;
 							ButtonsFrogs[1].inputEnabled = false;
 							ButtonsFrogs[2].inputEnabled = false;
-							
 							sound.play("gameLose");
-							TweenMax.to(bichos[readySound],1,{alpha:1,onComplete:gameOver});
+								for(var p = 0;p<=songs[selectMusic].length-1;p++){
+									bichos[p].destroy();
+									troncos[p].destroy();
+									troncos2[p].destroy();
+								}
+							TweenMax.to(troncos[readySound],1,{alpha:1,onComplete:gameOver});
 							finishGame = true;
 						  }
 
@@ -801,6 +818,7 @@ var CroakSong = function(){
 				for(var p = 0;p<=songs[selectMusic].length-1;p++){
 					bichos[p].destroy();
 					troncos[p].destroy();
+					troncos2[p].destroy();
 				}
 				level++;
 				if(spaceItems >= minSpaceItems){
@@ -852,21 +870,20 @@ function keyDownFrog(object){
 			
 
 			for(var i = 0;i<=songs[selectMusic].length-1;i++){
-				//bichos[i].y = bichos[i].y+spaceItems;
-				//troncos[i].y= troncos[i].y+spaceItems;
 				TweenMax.to(bichos[i],0.05,{y: bichos[i].y+spaceItems});
 				TweenMax.to(troncos[i],0.05,{y: troncos[i].y+spaceItems});
+				TweenMax.to(troncos2[i],0.05,{y: troncos[i].y+spaceItems});
 			}
 					
 				if(bichos[readySound].y >=  600){
 					TweenMax.to(troncos[readySound],0.2,{alpha:0});
-	
+					TweenMax.to(troncos2[readySound],0.2,{alpha:0});
 					
 					
 					if(object == bichos[readySound].carril){
 						ranas[object].setAnimationByName(0, "SING2", false);
 						sound.play(songs[selectMusic][readySound]);
-						sound.play(pianoSong[selectMusic][readySound]);
+						//sound.play(pianoSong[selectMusic][readySound]);
 						console.log("note: " + songs[selectMusic][readySound]);
 						TweenMax.to(bichos[readySound].scale,0.2,{x:0,y:0});
 						star.x = ranas[object].x;
@@ -895,6 +912,11 @@ function keyDownFrog(object){
 							ButtonsFrogs[2].inputEnabled = false;
 							finishGame = true;
 							sound.play("gameLose");
+								for(var p = 0;p<=songs[selectMusic].length-1;p++){
+									bichos[p].destroy();
+									troncos[p].destroy();
+									troncos2[p].destroy();
+								}
 							TweenMax.to(bichos[readySound],1,{alpha:1,onComplete:gameOver});
 						  }
 
@@ -909,6 +931,7 @@ function keyDownFrog(object){
 				for(var p = 0;p<=songs[selectMusic].length-1;p++){
 					bichos[p].destroy();
 					troncos[p].destroy();
+					troncos2[p].destroy();
 				}
 				level++;
 				if(spaceItems >= minSpaceItems){
@@ -925,10 +948,7 @@ function keyDownFrog(object){
 	
 	function gameOver(){
 		spaceItems = 200;
-				for(var p = 0;p<=songs[selectMusic].length-1;p++){
-					bichos[p].destroy();
-					troncos[p].destroy();
-				}
+
 		var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, coins,19)
 			sceneloader.show("result");
@@ -949,20 +969,24 @@ function keyDownFrog(object){
 		
 		if(finishGame == false){
 			if (cursors.left.isUp){
+				if(pressLeft){
 				pressLeft = false;
-				//ranas[key1].setAnimationByName(0, "IDLE", true);
+				ranas[key1].setAnimationByName(0, "IDLE", true);
+				}
 			}
 				
 			if (cursors.right.isUp){
+				if(pressRight){
 				pressRight = false;
-				//ranas[key2].setAnimationByName(0, "IDLE", true);
-				
+				ranas[key2].setAnimationByName(0, "IDLE", true);
+				}
 			}
 				
 			if (cursors.down.isUp){
+				if(pressDown){
 				pressDown = false;
-				//ranas[key3].setAnimationByName(0, "IDLE", true);
-				
+				ranas[key3].setAnimationByName(0, "IDLE", true);
+				}
 			}
 		
 			if (cursors.left.isDown){

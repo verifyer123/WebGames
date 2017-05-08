@@ -36,13 +36,13 @@ var microdefender = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
-    
+    var sceneGroup = null;
+	var heartsGroup = null;
 	var background;
 	var lado_izq;
 	var lado_der;
 	var germenes = new Array;
 	var globuloRojo = new Array;
-	var sceneGroup;
 	var blockCollisionGroup;
 	var globuloBlanco;
 	var speedGame = 3.5;
@@ -111,6 +111,7 @@ var microdefender = function(){
   				return Math.random() * (max - min) + min;
 	}
 	
+	
 	function createOverlay(){
 		lives = 3;
 		coins = 0;
@@ -119,7 +120,7 @@ var microdefender = function(){
 		speedGame = 3.5;
 		starGame = false;
 		
-        sceneGroup = game.add.group()
+        sceneGroup = game.add.group();
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -192,25 +193,8 @@ var microdefender = function(){
 		playText.anchor.setTo(0.1,0.5)
     }	
 	
-	
-	/*CREATE SCENE*/
-    function createScene(){
-		loadSounds();
-		
-
-		
-		game.physics.startSystem(Phaser.Physics.ARCADE);	
-		game.physics.startSystem(Phaser.Physics.P2JS);
-		background = game.add.tileSprite(0,0,game.world.width, game.world.height, "background");
-		lado_izq = game.add.tileSprite(0,0,460,game.world.height, "lado_izq");
-		lado_der = game.add.tileSprite(0,0,459,game.world.height, "lado_der");
-		lado_der.alignIn(game.world.bounds, Phaser.RIGHT);
-
-		if(!game.device.desktop){
-				lado_der.x = lado_der.x + lado_der.width/1.3;
-				lado_izq.x = lado_izq.x - lado_izq.width/1.2;
-			}
-		
+	function createHearts(){
+		 heartsGroup = game.add.group()
 		heartsIcon = game.add.sprite(0,0,"heartsIcon");
 		heartsIcon.anchor.setTo(0, 0);	
 		heartsIcon.x = game.world.width - heartsIcon.width;
@@ -219,6 +203,33 @@ var microdefender = function(){
 		heartsText.anchor.setTo(0, 0);	
 		heartsText.x = game.world.width - 75;
 		heartsText.y = 25;
+	}
+	
+	
+	/*CREATE SCENE*/
+    function createScene(){
+		 sceneGroup = game.add.group();
+		loadSounds();	
+		game.physics.startSystem(Phaser.Physics.ARCADE);	
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height, "background");
+		sceneGroup.add(background);
+		
+		lado_izq = game.add.tileSprite(0,0,460,game.world.height, "lado_izq");
+		lado_der = game.add.tileSprite(0,0,459,game.world.height, "lado_der");
+		lado_der.alignIn(game.world.bounds, Phaser.RIGHT);
+		sceneGroup.add(lado_izq);
+		sceneGroup.add(lado_der);
+		
+		
+		
+		if(!game.device.desktop){
+				lado_der.x = lado_der.x + lado_der.width/1.3;
+				lado_izq.x = lado_izq.x - lado_izq.width/1.2;
+			}
+		
+		
+		createHearts();
 		
 		xpIcon = game.add.sprite(0,0,"xpIcon");
 		xpIcon.anchor.setTo(0, 0);	
