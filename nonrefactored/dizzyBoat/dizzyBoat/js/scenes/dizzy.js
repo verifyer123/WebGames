@@ -469,12 +469,8 @@ var dizzy = function(){
 		}
 		
 		var cross = map.cross
-		cross.x = cross.initX + 125 * listNumbers[0]
+		cross.x = cross.initX + 120 * listNumbers[0]
 		cross.y = cross.initY + 100 * listNumbers[1]
-		
-		if(cross.x < cross.initX){
-			cross.x-=20
-		}
 		
 		map.boat.x = cross.initX
 		map.boat.y = cross.initY
@@ -1010,7 +1006,7 @@ var dizzy = function(){
 			//console.log(usedObjects.y + ' posY,' +  (game.world.height) + ' posWorld ' + map.boat.x + ' mapY')
 			var diff = player.body.y - player.initY
 			
-			map.boat.y+= diff * 0.3
+			map.boat.y+= diff * 0.25
 			
 			if(usedObjects.y > game.world.height * 0.75){
 				usedObjects.y = game.world.height * 0.75

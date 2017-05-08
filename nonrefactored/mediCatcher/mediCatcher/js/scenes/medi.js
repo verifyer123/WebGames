@@ -181,8 +181,8 @@ var medi = function(){
 		
 		gameSpeed+=0.35
 		
-		if(timeToSpawn > 0.5){
-			timeToSpawn-=7
+		if(timeToSpawn > 500){
+			timeToSpawn-=70
 		}
         
         addNumberPart(pointsBar.text,'+' + number,true)		
