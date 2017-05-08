@@ -961,9 +961,5 @@ var beach = function(){
 			restartPointer()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

@@ -1189,10 +1189,6 @@ var geoJourney = function(){
 		},
         preload:preload,
         update:update,
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 
 }()

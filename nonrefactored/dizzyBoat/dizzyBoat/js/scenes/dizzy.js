@@ -469,8 +469,12 @@ var dizzy = function(){
 		}
 		
 		var cross = map.cross
-		cross.x = cross.initX + 100 * listNumbers[0]
+		cross.x = cross.initX + 125 * listNumbers[0]
 		cross.y = cross.initY + 100 * listNumbers[1]
+		
+		if(cross.x < cross.initX){
+			cross.x-=20
+		}
 		
 		map.boat.x = cross.initX
 		map.boat.y = cross.initY
@@ -687,6 +691,9 @@ var dizzy = function(){
 				
 				if(tag == 'island'){
 					addPoint(1)
+					
+					map.boat.x = map.cross.x
+					map.boat.y = map.cross.y - 15
 					
 					game.add.tween(textGroup).to({alpha:0},500,"Linear",true)
 					createPart('star',player)
@@ -973,15 +980,26 @@ var dizzy = function(){
 			
 			var difference = player.body.x - player.initX
 			
-			if(usedObjects.x > game.world.width * 0.7){
-				usedObjects.x = game.world.width * 0.69
-			}
-			
-			if(usedObjects.x < -game.world.height * 0.7){
-				usedObjects.x = -game.world.height * 0.69
-			}
-			
 			map.boat.x+= difference * 0.3
+			
+			if(usedObjects.x > game.world.width * 0.75){
+				usedObjects.x = game.world.width * 0.75
+			}
+			
+			if(usedObjects.x < -game.world.height * 0.65){
+				usedObjects.x = -game.world.height * 0.65
+				
+			}
+			
+			var initX = map.cross.initX
+			var mapWidth = map.rect.width * 0.4
+			
+			console.log(initX + ' initX ' + map.boat.x + ' mapX,' + mapWidth + ' width')
+			if(map.boat.x < initX - mapWidth){
+				map.boat.x = initX - mapWidth
+			}else if(map.boat.x > initX + mapWidth){
+				map.boat.x = initX + mapWidth
+			}
 			
 			usedObjects.x-=difference
 			player.body.x = player.initX
@@ -989,19 +1007,30 @@ var dizzy = function(){
 		
 		if(player.body.y != player.initY){
 			
-			//console.log(usedObjects.y + ' posY,' +  (game.world.height) + ' posWorld')
+			//console.log(usedObjects.y + ' posY,' +  (game.world.height) + ' posWorld ' + map.boat.x + ' mapY')
 			var diff = player.body.y - player.initY
 			
-			if(usedObjects.y > game.world.height * 0.85){
-				usedObjects.y = game.world.height * 0.84
+			map.boat.y+= diff * 0.3
+			
+			if(usedObjects.y > game.world.height * 0.75){
+				usedObjects.y = game.world.height * 0.75
 			}
 			
 			if(usedObjects.y < -game.world.height * 0.5){
-				usedObjects.y = -game.world.height * 0.49
+				usedObjects.y = -game.world.height * 0.5
+			}
+			
+			var initY = map.cross.initY
+			var mapHeight = map.rect.height * 0.35
+			
+			if(map.boat.y < initY - mapHeight){
+				map.boat.y = initY - mapHeight
+			}else if(map.boat.y > initY + mapHeight){
+				map.boat.y = initY + mapHeight
 			}
 			
 			usedObjects.y-=diff
-			map.boat.y+= diff * 0.3
+			
 			
 			player.body.y = player.initY
 		}
@@ -1120,8 +1149,9 @@ var dizzy = function(){
 		
 		var rectangle = map.create(mapBoat.x, mapBoat.y - 10, 'atlas.dizzy','rectangle')
 		rectangle.anchor.setTo(0.5,0.5)
-		rectangle.width = 350
+		rectangle.width = 425
 		rectangle.height = 300
+		map.rect = rectangle
 		
 	}
 	
@@ -1172,9 +1202,5 @@ var dizzy = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()
