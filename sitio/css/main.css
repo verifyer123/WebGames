@@ -1,0 +1,27 @@
+body{
+	margin: 0;
+	background-image: url("../images/body_background.jpg");
+	background-position: center;
+	background-size:cover;
+	color:#FFF !important;
+}
+
+#generalContainer{
+
+}
+
+.banner{
+	position: absolute;
+	padding: 2%;
+	background-color: #FFF;;
+	box-shadow: 1px 5px 10px #000;
+}
+
+
+.banner .col-md-1{
+	margin-top: 2%;
+}
+
+#gamesContainer img{
+	width: 100%;
+}
