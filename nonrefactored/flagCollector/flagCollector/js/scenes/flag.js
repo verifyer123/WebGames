@@ -135,6 +135,8 @@ var flag = function(){
     var selectedFlags
     var pointsBar
     var roundCounter
+    var correctTotal
+    var correctFlags
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -153,6 +155,8 @@ var flag = function(){
         continentObjects = []
         selectedFlags = []
         roundCounter = 0
+        correctTotal = 0
+        correctFlags = []
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -267,7 +271,9 @@ var flag = function(){
         var startY = -height * 0.5
         for (var flagIndex = 0; flagIndex < selectedFlags.length; flagIndex++){
 	        var flag = selectedFlags[flagIndex]
-            flag.alpha = 1
+            flag.correct.alpha = 0
+            flag.correct.scale.x = 0.7; flag.correct.scale.y = 0.7
+            flag.inputEnabled = true
             pullGroup.remove(flag)
             flagsGroup.add(flag)
             xCount = flagIndex % maxNumX
@@ -295,14 +301,15 @@ var flag = function(){
         selectedFlags = []
         var continentName = continentsGroup.continent.name
         if (!flags){
+            correctTotal = game.rnd.integerInRange(1, numFlags - 1)
             flagObjects = Phaser.ArrayUtils.shuffle(flagObjects)
-            var correctCounter = 1
+            var correctflags = correctTotal
             for (var flagIndex = 0; flagIndex < flagObjects.length; flagIndex++) {
                 var flag = flagObjects[flagIndex]
-                if ((flag.continent === continentName) && (correctCounter > 0)) {
-                    correctCounter--
+                if ((flag.continent === continentName) && (correctflags > 0)) {
+                    correctflags--
                     selectedFlags.push(flag)
-                } else if ((selectedFlags.length < numFlags - correctCounter) && (flag.continent != continentName))  {
+                } else if ((selectedFlags.length < numFlags - correctflags) && (flag.continent != continentName))  {
                     selectedFlags.push(flag)
                 }
                 if (selectedFlags.length >= numFlags)
@@ -312,6 +319,8 @@ var flag = function(){
             for (var flagIndex = 0; flagIndex < flags.length; flagIndex++){
                 var flag = getFlags(flags[flagIndex])
                 selectedFlags.push(flag)
+                if (flag.continent === continentsGroup.continent.name)
+                    correctTotal++
             }
         }
         selectedFlags = Phaser.ArrayUtils.shuffle(selectedFlags)
@@ -356,14 +365,26 @@ var flag = function(){
         if (flag.continent === continentsGroup.continent.name) {
             sound.play("right")
             numPoints++
-            createPart("star", flag)
-            addPoint(1)
-            startRound()
+            correctFlags.push(flag)
+            correctTotal--
+            flag.inputEnabled = false
+            game.add.tween(flag.correct).to({alpha: 1}, 300, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(flag.correct.scale).to({x: 1, y:1}, 300, Phaser.Easing.Cubic.Out, true)
+            if (correctTotal <= 0) {
+                startRound()
+                inputsEnabled = false
+                addPoint(1)
+                for(var flagIndex = 0; flagIndex < correctFlags.length; flagIndex++){
+                    createPart("star", correctFlags[flagIndex])
+                }
+                correctFlags = []
+            }
         }
         else {
             sound.play("wrong")
             missPoint()
             createPart("wrong", flag)
+            correctFlags = []
         }
     }
 
@@ -383,10 +404,14 @@ var flag = function(){
         nameText.anchor.setTo(0.5,0.5)
         flagGroup.add(nameText)
         baseFlag.inputEnabled = true
+        var correct = flagGroup.create(-60,-40, "atlas.flag", "correcto")
+        // right.alpha = 0
+        correct.anchor.setTo(0.5, 0.5)
+        flagGroup.correct = correct
 
         baseFlag.events.onInputDown.add(function(){
-            if (inputsEnabled){
-                inputsEnabled = false
+            if ((inputsEnabled)&&(flagGroup.inputEnabled)){
+                // inputsEnabled = false
                 onClickFlag(flagGroup)
             }
         })

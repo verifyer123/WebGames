@@ -235,6 +235,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "correcto",
+	"frame": {"x":904,"y":283,"w":31,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":31,"h":24},
+	"sourceSize": {"w":31,"h":24},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "desktop",
 	"frame": {"x":872,"y":117,"w":134,"h":98},
 	"rotated": false,
@@ -331,6 +340,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1007,"h":1227},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:58e89439b1056fd48acb089193aae361:4f835c494f1adaecbfe8aa69a4102982:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c054d829bf1de5ab953f38c458f51e0e:1cacb1c3561c706b648053240b51d877:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
