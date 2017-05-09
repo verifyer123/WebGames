@@ -24,13 +24,13 @@
 	<div id="generalContainer">
 		<div class="banner col-md-12">
 			<div class="row">
-				<img class="col-md-6 col-xs-12" src="images/yogome_logo.png" >
-				<div class="col-md-1 col-xs-1" ></div>
-				<img class="col-md-1 col-xs-2" src="images/epic_logo.png" >
-				<img class="col-md-1 col-xs-2" src="images/ka_logo.png" >
-				<img class="col-md-1 col-xs-2" src="images/kb_logo.png" >
-				<img class="col-md-1 col-xs-2" src="images/tt_logo.png" >
-				<img class="col-md-1 col-xs-2" src="images/km_logo.png" >
+				<img class="col-md-5 col-sm-5 col-xs-12" src="images/yogome_logo.png" >
+				<div class="col-md-1 col-sm-1 col-xs-1" ></div>
+				<img class="col-md-1 col-sm-1 col-xs-2" src="images/epic_logo.png" >
+				<img class="col-md-1 col-sm-1 col-xs-2" src="images/ka_logo.png" >
+				<img class="col-md-1 col-sm-1 col-xs-2" src="images/kb_logo.png" >
+				<img class="col-md-1 col-sm-1 col-xs-2" src="images/tt_logo.png" >
+				<img class="col-md-1 col-sm-1 col-xs-2" src="images/km_logo.png" >
 			</div>
 		</div>
 		<div id="gamesContainer" class="row">
@@ -43,9 +43,22 @@
 		var games = yogomeGames.getGames();
 		for(var i = 0 ; i<= games.length-1;i++){
 			console.log(games[i].url);
-			$("#gamesContainer").append("<div class='col-md-3'><img src='" +games[i].url +"/images/fbpost.png" + "'/> </div>")
+			$("#gamesContainer").append("<div class='col-md-3 col-sm-4 col-xs-12'><img id='gameimg" + i+"' src='" +games[i].url +"/images/fbpost.png" + "'/> </div>");
+			$("#gameimg" + i).attr("value",i)
+			$("#gameimg" + i).mouseover(function(){
+				TweenMax.to(this,0.5,{css:{border:"2vh solid #FFF"}});
+			});
+			$("#gameimg" + i).mouseout(function(){
+				TweenMax.to(this,0.5,{css:{border:"0vh solid #FFF"}});
+			});	
+			
+			$("#gameimg" + i).click(function(){
+				console.log(games[$(this).attr("value")].url);
+				window.open(games[$(this).attr("value")].url,'_blank');
+			});			
+			
 		}
-	//http://yogome.com/epic/minigames/dojoSite/images/fbpost.png
+		
 	</script>
 	
 </html>
