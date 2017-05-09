@@ -112,7 +112,6 @@ var flag = function(){
 
     var ROUNDS = [
         {continent: "america", flags: ["mexico", "usa"]},
-        {continent: "america", numFlags: 2},
         {continent: "america", numFlags: 4},
         {continent: "random", numFlags: 4}]
     
@@ -301,7 +300,7 @@ var flag = function(){
         selectedFlags = []
         var continentName = continentsGroup.continent.name
         if (!flags){
-            correctTotal = game.rnd.integerInRange(1, numFlags - 1)
+            correctTotal = game.rnd.integerInRange(2, numFlags - 1)
             flagObjects = Phaser.ArrayUtils.shuffle(flagObjects)
             var correctflags = correctTotal
             for (var flagIndex = 0; flagIndex < flagObjects.length; flagIndex++) {
@@ -404,7 +403,7 @@ var flag = function(){
         nameText.anchor.setTo(0.5,0.5)
         flagGroup.add(nameText)
         baseFlag.inputEnabled = true
-        var correct = flagGroup.create(-60,-40, "atlas.flag", "correcto")
+        var correct = flagGroup.create(-60,-40, "atlas.flag", "correct")
         // right.alpha = 0
         correct.anchor.setTo(0.5, 0.5)
         flagGroup.correct = correct
@@ -484,9 +483,7 @@ var flag = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-        
-        game.load.spine('master', "images/spines/skeleton.json")  
-        game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
+        game.load.audio('dojoSong', soundsPath + 'songs/wormwood.mp3');
         
         game.load.image('introscreen',"images/flag/introscreen.png")
 		game.load.image('howTo',"images/flag/how" + localization.getLanguage() + ".png")
