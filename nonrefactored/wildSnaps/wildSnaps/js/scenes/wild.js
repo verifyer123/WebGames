@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var flag = function(){
+var wild = function(){
     
     var localizationData = {
 		"EN":{
@@ -61,13 +61,13 @@ var flag = function(){
         atlases: [
             {   
                 name: "atlas.flag",
-                json: "images/flag/atlas.json",
-                image: "images/flag/atlas.png"
+                json: "images/wild/atlas.json",
+                image: "images/wild/atlas.png"
             }
         ],
         images: [
             {   name:"fondo",
-				file: "images/flag/fondo.png"}
+				file: "images/wild/fondo.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -119,7 +119,7 @@ var flag = function(){
     
     var lives
 	var sceneGroup = null
-    var gameIndex = 23
+    var gameIndex = 25
     var tutoGroup
     var dojoSong
     var heartsGroup = null
@@ -488,9 +488,9 @@ var flag = function(){
         game.stage.disableVisibilityChange = false;
         game.load.audio('dojoSong', soundsPath + 'songs/wormwood.mp3');
         
-        game.load.image('introscreen',"images/flag/introscreen.png")
-		game.load.image('howTo',"images/flag/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/flag/play" + localization.getLanguage() + ".png")
+        game.load.image('introscreen',"images/wild/introscreen.png")
+		game.load.image('howTo',"images/wild/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/wild/play" + localization.getLanguage() + ".png")
         
     }
 
@@ -678,7 +678,7 @@ var flag = function(){
     
 	return {
 		assets: assets,
-		name: "flag",
+		name: "wild",
         preload:preload,
 		create: function(event){
             
