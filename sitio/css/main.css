@@ -33,7 +33,7 @@ body{
 
 #gamesContainer img{
 	width: 100%;
-	height: 18%;
+	height: auto;
 	border-radius: 2vh;
 	padding: 1vh;
 }

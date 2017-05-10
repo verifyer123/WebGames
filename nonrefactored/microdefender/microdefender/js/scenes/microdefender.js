@@ -38,6 +38,7 @@ var microdefender = function(){
 	}
     var sceneGroup = null;
 	var heartsGroup = null;
+	var coinsGroup = null;
 	var background;
 	var lado_izq;
 	var lado_der;
@@ -70,8 +71,11 @@ var microdefender = function(){
 				styleCards = {font: "11vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}
 	}
-    function preload() {
+	
 
+	
+    function preload() {
+		
         game.load.spine("ger1", "images/microdefender/germen1/germ1.json");
 		game.load.spine("ger2", "images/microdefender/germen2/germ2.json");
 		game.load.spine("ger3", "images/microdefender/germen3/germ3.json");
@@ -92,6 +96,7 @@ var microdefender = function(){
 		game.load.image('howTo',"images/microdefender/how"  + localization.getLanguage()  + ".png");
 		game.load.image('buttonText',"images/microdefender/play" + localization.getLanguage() + ".png");		
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
+		buttons.getImages(game);
 	}
 
 	function loadSounds(){
@@ -137,7 +142,7 @@ var microdefender = function(){
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
-			sound.play("pop")
+			sound.play("pop");
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 		
@@ -147,7 +152,7 @@ var microdefender = function(){
 		
 		bgm.loopFull(0.5);
 		starGame = true;
-
+				buttons.getButton(bgm,sceneGroup)
 				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
             })
             
@@ -158,18 +163,12 @@ var microdefender = function(){
         var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.45,0.5);
-		//plane.x = game.world.width * 0.55;
-		
 		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'gametuto')
-		tuto.anchor.setTo(0.4,0.5)
-		
-        
-        var action = 'tap'
-        
+		tuto.anchor.setTo(0.4,0.5)  
+        var action = 'tap'  
         if(game.device == 'desktop'){
             action = 'click'
         }
-        
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 225,'howTo')
 		howTo.anchor.setTo(0.4,0.5)
 		howTo.scale.setTo(0.7,0.7)
@@ -194,26 +193,46 @@ var microdefender = function(){
     }	
 	
 	function createHearts(){
-		 heartsGroup = game.add.group()
-		heartsIcon = game.add.sprite(0,0,"heartsIcon");
+		heartsGroup = game.add.group();
+		heartsIcon = heartsGroup.create(0,0,"heartsIcon");
 		heartsIcon.anchor.setTo(0, 0);	
 		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 25;	
-		heartsText = game.add.text(50, 10, "x " + lives, style);	
+		heartsIcon.y = 5;	
+		heartsText = game.add.text(50, 10, "x " + lives, style,heartsGroup);	
 		heartsText.anchor.setTo(0, 0);	
 		heartsText.x = game.world.width - 75;
-		heartsText.y = 25;
+		heartsText.y = 5;
+		sceneGroup.add(heartsGroup);
+		
+	}
+	
+	function createCoins(){
+		coinsGroup = game.add.group();
+		xpIcon = coinsGroup.create(0,0,"xpIcon");
+		xpIcon.anchor.setTo(0, 0);	
+		xpIcon.x = 0;
+		xpIcon.y = 5;	
+		xpText = game.add.text(50, 10, coins, style,coinsGroup);	
+		xpText.anchor.setTo(0, 0);	
+		xpText.x = 75;
+		xpText.y = 2;	
+		sceneGroup.add(coinsGroup);
 	}
 	
 	
 	/*CREATE SCENE*/
     function createScene(){
-		 sceneGroup = game.add.group();
+		sceneGroup = game.add.group();
 		loadSounds();	
 		game.physics.startSystem(Phaser.Physics.ARCADE);	
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		background = game.add.tileSprite(0,0,game.world.width, game.world.height, "background");
 		sceneGroup.add(background);
+		
+		/*var buttonBase = game.add.tileSprite(0,game.world.height + 250,460, game.world.width, "lado_izq");
+		buttonBase.angle = -90;
+		buttonBase.anchor.setTo(0,0);
+		sceneGroup.add(buttonBase);*/
 		
 		lado_izq = game.add.tileSprite(0,0,460,game.world.height, "lado_izq");
 		lado_der = game.add.tileSprite(0,0,459,game.world.height, "lado_der");
@@ -227,18 +246,10 @@ var microdefender = function(){
 				lado_der.x = lado_der.x + lado_der.width/1.3;
 				lado_izq.x = lado_izq.x - lado_izq.width/1.2;
 			}
-		
-		
+			
 		createHearts();
+		createCoins();
 		
-		xpIcon = game.add.sprite(0,0,"xpIcon");
-		xpIcon.anchor.setTo(0, 0);	
-		xpIcon.x = 0;
-		xpIcon.y = 30;	
-		xpText = game.add.text(50, 10, coins, style);	
-		xpText.anchor.setTo(0, 0);	
-		xpText.x = 75;
-		xpText.y = 28;	
 		globuloBlanco = game.add.spine(game.world.centerX,250,"globuloBlanco");
 		globuloBlanco.scale.setTo(0.25,0.25);
 		globuloBlanco.setAnimationByName(0, "IDLE", true);
@@ -266,17 +277,30 @@ var microdefender = function(){
 				globuloRojo[c].y = 350 * [c + 1] + game.height + globuloRojo[c].height;
 				globuloRojo[c].impact = false;
 								
+				sceneGroup.add(germenes[c])
+				sceneGroup.add(globuloRojo[c])
 			}
 		
 		
 
 		cursors = game.input.keyboard.createCursorKeys();
-		console.log(globuloBlanco.y);
+		
+		
+		
+		var buttonBase = new Phaser.Graphics(game)
+		buttonBase.beginFill(0x630744)
+        buttonBase.drawRect(0,0,game.world.width *2, game.world.height /6)
+		buttonBase.y = game.world.height/1.2;
+        buttonBase.endFill();
+		
+		sceneGroup.add(buttonBase);
+		
 
-     var groupButton = game.add.group()
+
+		var groupButton = game.add.group()
         groupButton.x = game.world.centerX + 135
-        groupButton.y = game.world.height -125
-        groupButton.scale.setTo(1.4,1.4)
+        groupButton.y = game.world.height -80
+        groupButton.scale.setTo(1,1)
         groupButton.isPressed = false
         
         var button1 = groupButton.create(0,0, 'atlas.microdefender','right_press')
@@ -286,27 +310,29 @@ var microdefender = function(){
         
         var button2 = groupButton.create(0,0, 'atlas.microdefender','right_idle')
         button2.anchor.setTo(0.5,0.5)
-        button2.inputEnabled = true
+        button2.inputEnabled = true;
         button2.tag = 'right'
         button2.events.onInputDown.add(inputButton1)
         button2.events.onInputUp.add(releaseButton1)
         
-        var groupButton = game.add.group()
-        groupButton.x = game.world.centerX - 135
-        groupButton.y = game.world.height -125
-        groupButton.scale.setTo(1.4,1.4)
-        groupButton.isPressed = false
+        var groupButton2 = game.add.group()
+        groupButton2.x = game.world.centerX - 135
+        groupButton2.y = game.world.height -80
+        groupButton2.scale.setTo(1,1)
+        groupButton2.isPressed = false
         
-        var button1 = groupButton.create(0,0, 'atlas.microdefender','left_press')
+        var button1 = groupButton2.create(0,0, 'atlas.microdefender','left_press')
         button1.anchor.setTo(0.5,0.5)
         
-        var button2 = groupButton.create(0,0, 'atlas.microdefender','left_idle')
+        var button2 = groupButton2.create(0,0, 'atlas.microdefender','left_idle')
         button2.anchor.setTo(0.5,0.5)
         button2.inputEnabled = true
         button2.tag = 'left'
         button2.events.onInputDown.add(inputButton2)
         button2.events.onInputUp.add(releaseButton2)		
 		
+		sceneGroup.add(groupButton);
+		sceneGroup.add(groupButton2);
 		
 		createOverlay();
 		
