@@ -43,7 +43,8 @@ var healthyCollector = function(){
 	var baseBotones;
 	var items = new Array;
 	var NumGlow = new Array;	
-	var sceneGroup;
+	var sceneGroup = null;
+	var heartsGroup = null;
 	var blockCollisionGroup;
 	var dinamita;
 	var speedGame = 5;
@@ -102,6 +103,7 @@ var healthyCollector = function(){
 		game.load.image('buttonText',"images/healthyCollector/play" + localization.getLanguage() + ".png");		
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
 		game.load.spritesheet('glow', 'images/healthyCollector/glow.png', 170, 141, 11);
+		buttons.getImages(game);
 	}
 
 	function loadSounds(){
@@ -129,7 +131,7 @@ var healthyCollector = function(){
 		speedGame = 5;
 		starGame = false;
 		
-        sceneGroup = game.add.group()
+        sceneGroup = game.add.group();
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -156,7 +158,7 @@ var healthyCollector = function(){
 		
 		bgm.loopFull(0.5);
 		starGame = true;
-
+		buttons.getButton(bgm,sceneGroup)
 				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
             })
             
@@ -202,40 +204,53 @@ var healthyCollector = function(){
 		playText.anchor.setTo(0.1,0.5)
     }	
 	
+	function createHearts(){
+		heartsGroup = game.add.group();
+		heartsIcon = heartsGroup.create(0,0,"heartsIcon");
+		heartsIcon.anchor.setTo(0, 0);	
+		heartsIcon.x = game.world.width - heartsIcon.width;
+		heartsIcon.y = 5;	
+		heartsText = game.add.text(50, 10, "x " + lives, style,heartsGroup);	
+		heartsText.anchor.setTo(0, 0);	
+		heartsText.x = game.world.width - 75;
+		heartsText.y = 5;
+		sceneGroup.add(heartsGroup);
+		
+	}
+	
+	function createCoins(){
+		coinsGroup = game.add.group();
+		xpIcon = coinsGroup.create(0,0,"xpIcon");
+		xpIcon.anchor.setTo(0, 0);	
+		xpIcon.x = 0;
+		xpIcon.y = 5;	
+		xpText = game.add.text(50, 10, coins, style,coinsGroup);	
+		xpText.anchor.setTo(0, 0);	
+		xpText.x = 75;
+		xpText.y = 2;	
+		sceneGroup.add(coinsGroup);
+	}	
+	
 	
 	/*CREATE SCENE*/
     function createScene(){
+		sceneGroup = game.add.group();
 		loadSounds();
-		
-
-		
+	
 		game.physics.startSystem(Phaser.Physics.ARCADE);	
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		background = game.add.tileSprite(0,0,game.world.width, game.world.height, "background");
-		heartsIcon = game.add.sprite(0,0,"heartsIcon");
-		heartsIcon.anchor.setTo(0, 0);	
-		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 25;	
-		heartsText = game.add.text(50, 10, "x " + lives, style);	
-		heartsText.anchor.setTo(0, 0);	
-		heartsText.x = game.world.width - 75;
-		heartsText.y = 25;
-		
-		xpIcon = game.add.sprite(0,0,"xpIcon");
-		xpIcon.anchor.setTo(0, 0);	
-		xpIcon.x = 0;
-		xpIcon.y = 30;	
-		xpText = game.add.text(50, 10, coins, style);	
-		xpText.anchor.setTo(0, 0);	
-		xpText.x = 75;
-		xpText.y = 28;	
-		
-		
+		sceneGroup.add(background);
+
 		carril[1] = game.add.tileSprite(game.world.centerX - 85,0,169, 839, "carril");
 		carril[0] = game.add.tileSprite(carril[1].x - 169,0,169, 839, "carril");
 		carril[2] = game.add.tileSprite(carril[1].x + 169,0,169, 839, "carril");
-
+		sceneGroup.add(carril[0]);
+		sceneGroup.add(carril[1]);
+		sceneGroup.add(carril[2]);
+		
 			for(var c = 0;c<=7;c++){
+				
 				NumGlow[c] = game.add.sprite(0, -500, 'glow');
 				var glowObject = NumGlow[c].animations.add('glowObject');
 				NumGlow[c].animations.play('glowObject', 11, true);
@@ -257,20 +272,27 @@ var healthyCollector = function(){
 					items[c].numero = "impar";
 					 NumGlow[c].visible = false;
 				 }
+				
+				sceneGroup.add(NumGlow[c]);
+				sceneGroup.add(items[c]);			
+				
 			}
 		dinamita = game.add.spine(game.world.centerX,game.world.centerY + (game.world.centerY/2) ,"dinamita");
 		dinamita.setAnimationByName(0, "RUN", true);
 		dinamita.setSkinByName("normal");
 		dinamita.x = carril[1].x + dinamita.width/1.3;
-
+		
+		sceneGroup.add(dinamita);
 		
 		lastItem = items[2].y; 
-		
 		cursors = game.input.keyboard.createCursorKeys();
-
-	baseBotones = game.add.sprite(0,game.world.centerY + 250,"baseBotones");
-		baseBotones.width = game.width; 	
-     var groupButton1 = game.add.group()
+		
+		baseBotones = game.add.sprite(0,game.world.centerY + 250,"baseBotones");
+		baseBotones.width = game.width; 
+		sceneGroup.add(baseBotones);
+		
+		
+     	var groupButton1 = game.add.group()
         groupButton1.x = game.world.centerX - carril[1].width;
         groupButton1.y = game.world.height -125;
         groupButton1.isPressed = false;
@@ -286,9 +308,8 @@ var healthyCollector = function(){
         button2.events.onInputUp.add(releaseButton1)	
 		
 		//var graphics = game.add.graphics(100, 100);
-		
-		
-     var groupButton2 = game.add.group()
+	
+     	var groupButton2 = game.add.group()
         groupButton2.x = game.world.centerX + 10;
         groupButton2.y = game.world.height -125
         groupButton2.isPressed = false
@@ -302,28 +323,20 @@ var healthyCollector = function(){
         button2.tag = 'right'
         button2.events.onInputDown.add(inputButton2);
         button2.events.onInputUp.add(releaseButton2);
+	
+		sceneGroup.add(groupButton1);
+		sceneGroup.add(groupButton2);
 		
-
-        
-		
-		game.world.swap(xpIcon, carril[0]);
-		game.world.swap(xpText, xpIcon);
-		game.world.swap(heartsIcon, carril[2]);
-		game.world.swap(heartsText, heartsIcon);
+		createHearts();
+		createCoins();
 		createOverlay();
-		
-		
-		
-
 	}
 
 	function inputButton1(){
 		leftMove = true;
 		if(dinamita.x > carril[0].x + dinamita.width/1.3){
 		dinamita.x = dinamita.x - carril[0].width;
-		}
-		
-		
+		}	
 	}
 	
 	function inputButton2(){
@@ -334,8 +347,6 @@ var healthyCollector = function(){
 	}	
 	
 
-	
-	
 	function releaseButton1(){
 		leftMove = false;
 	}
@@ -429,8 +440,8 @@ var healthyCollector = function(){
 		if(starGame){	
 			if(lives != 0){
 					carril[0].tilePosition.y += speedGame;
-		carril[1].tilePosition.y += speedGame/2;
-		carril[2].tilePosition.y += speedGame;	
+					carril[1].tilePosition.y += speedGame/2;
+					carril[2].tilePosition.y += speedGame;	
 					moveObject(items[0])
 					moveObject(items[1])
 					moveObject(items[2]);
