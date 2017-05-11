@@ -49,6 +49,11 @@ var wild = function(){
 		]
     }
 
+    var ANIMALS = [
+        {cervidos: {skins:["alce", "ciervo", "corzuela", "venado"], animations:["RUN", "WALK"]}},
+        {birds: {skins:["aguila", "alcon", "buho", "carpintero"], animations:["RUN", "WALK"]}}
+    ]
+
     var NUM_LIFES = 3
     
     var lives
@@ -56,7 +61,7 @@ var wild = function(){
     var gameIndex = 25
     var tutoGroup
     var wildSong
-    var heartsGroup = null
+    var batteryGroup = null
     var pullGroup = null
     var clock
     var timeValue
@@ -132,20 +137,32 @@ var wild = function(){
 
     }
 
-    function createSpine(){
-        spineObj = game.add.spine(0,0, "bird");
+    function createSpine(params){
+        var name = params.name
+        var skin = params.skin
+        var animation = params.animation
+        var delay = params.delay || 500
+        var duration = params.duration || 3000
+
+        var directions = params.directions || {fromX: -400, fromY: 0, toX: 400, toY: 0}
+
+        spineObj = game.add.spine(0,0, name);
         spineObj.scale.setTo(0.6,0.6)
-        spineObj.setAnimationByName(0, "FLY", true);
-        spineObj.setSkinByName('alcon');
-        spineObj.x = -500
+        spineObj.setAnimationByName(0, animation, true);
+        spineObj.setSkinByName(skin);
+        spineObj.x = directions.fromX
+        spineObj.y = directions.fromY
         gameGroup.add(spineObj)
+
+        var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY}, duration, Phaser.Easing.linear, false, delay)
+        tween.onComplete.add(function () {
+            missPoint()
+            spineObj.alpha = 0
+        })
+        spineObj.tween = tween
     }
     
     function createSnapsUI() {
-        gameGroup = game.add.group()
-        gameGroup.x = game.world.centerX
-        gameGroup.y = game.world.centerY
-        sceneGroup.add(gameGroup)
 
         var rectTop = new Phaser.Graphics(game)
         rectTop.beginFill(0x000000)
@@ -163,7 +180,45 @@ var wild = function(){
 
         var camara = gameGroup.create(0,0,'atlas.wild','camaraBox')
         camara.anchor.setTo(0.5, 0.5)
+        gameGroup.camara = camara
         
+    }
+    
+    function checkCorrect() {
+        var width = gameGroup.camara.width - spineObj.width
+        var height = gameGroup.camara.height - spineObj.height
+        var rectX = gameGroup.camara.x - width * 0.5
+        var rectY = gameGroup.camara.y - height * 0.5
+        var rectangle = new Phaser.Rectangle(rectX, rectY, width, height)
+        var contains = rectangle.contains(spineObj.x, spineObj.y - spineObj.height * 0.5)
+
+        if(contains){
+            createPart("star", spineObj)
+            numPoints++
+            var tweenSpine = game.add.tween(spineObj).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400)
+            tweenSpine.onComplete.add(function () {
+                startRound()
+            })
+            //addPoint(1)
+        } else {
+            createPart("wrong", spineObj)
+            missPoint()
+        }
+
+    }
+    
+    function snap(inputRect) {
+        inputsEnabled = false
+        spineObj.tween.stop()
+        // spineObj.endTime = 0
+        spineObj.autoUpdate = false
+        var snap = game.add.tween(inputRect).to({alpha: 1}, 200, Phaser.Easing.Cubic.Out, true)
+        snap.onComplete.add(function () {
+            var fadeIn = game.add.tween(inputRect).to({alpha: 0}, 1000, Phaser.Easing.Cubic.In, true)
+            fadeIn.onComplete.add(function () {
+                checkCorrect()
+            })
+        })
     }
     
     function createGameObjects(){
@@ -172,8 +227,6 @@ var wild = function(){
         pullGroup.y = -game.world.centerY * 2
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
-
-        createSpine()
 
     }
     
@@ -191,7 +244,7 @@ var wild = function(){
 
         // particlesGood.x = obj.x;
         // particlesGood.y = obj.y;
-        particlesGood.start(true, 1000, null, 2);
+        particlesGood.start(true, 1000, null, 4);
 
         obj.add(particlesGood)
         obj.particle = particlesGood
@@ -203,7 +256,6 @@ var wild = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         wildSong.stop()
-        clock.tween.stop()
         inputsEnabled = false
         
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
@@ -227,7 +279,8 @@ var wild = function(){
 		game.load.image('howTo',"images/wild/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/wild/play" + localization.getLanguage() + ".png")
 
-        game.load.spine('bird', "images/spines/aves/skeleton.json")
+        game.load.spine('birds', "images/spines/aves/skeleton.json")
+        game.load.spine('cervidos', "images/spines/aves/skeleton.json")
     }
 
     function addNumberPart(obj,number){
@@ -247,9 +300,12 @@ var wild = function(){
 
     }
 
-    function startRound(notStarted) {
+    function startRound() {
+        var params = {name:"birds", skin: "alcon", animation: "FLY"}
+        createSpine(params)
+        inputsEnabled = true
 
-
+        spineObj.tween.start()
     }
 
     function missPoint(){
@@ -257,36 +313,44 @@ var wild = function(){
         sound.play("wrong")
         inputsEnabled = false
         
+        var currentBatteryBar = batteryGroup.lifes.length - lives
+        var batteryBar = batteryGroup.lifes[currentBatteryBar]
         lives--;
-        heartsGroup.text.setText('X ' + lives)
-        
-        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+
+        var scaleTween = game.add.tween(batteryGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.Cubic.In, true)
         scaleTween.onComplete.add(function(){
-            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+            game.add.tween(batteryGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
+                game.add.tween(batteryBar).to({alpha: 0}, 400, Phaser.Easing.Cubic.In, true)
+            })
         })
         
         if(lives === 0){
             stopGame(false)
         }
         else{
-            startRound()
+            var tweenSpine = game.add.tween(spineObj).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true)
+            tweenSpine.onComplete.add(function () {
+                startRound()
+            })
         }
         
-        addNumberPart(heartsGroup.text,'-1')
+        // addNumberPart(batteryGroup,'-1')
     }
 
-    function createHearts(){
+    function createBattery(localX){
         
-        heartsGroup = game.add.group()
-        heartsGroup.x = game.world.width
-        heartsGroup.y = 10
-        sceneGroup.add(heartsGroup)
+        batteryGroup = game.add.group()
+        batteryGroup.x = localX
+        batteryGroup.y = 10
+        sceneGroup.add(batteryGroup)
 
-        var heartImg = heartsGroup.create(0,0,'atlas.wild','battery')
+        var heartImg = batteryGroup.create(0,0,'atlas.wild','battery')
         heartImg.anchor.setTo(1,0)
         heartImg.scale.setTo(0.72, 0.72)
+        // heartsGroup.x = heartsGroup.x - heartImg.width
 
         var pivotX = -heartImg.width + 62
+        batteryGroup.lifes = []
 
         for (var lifeIndex = 0; lifeIndex < NUM_LIFES; lifeIndex++){
             var bar = new Phaser.Graphics(game)
@@ -295,7 +359,8 @@ var wild = function(){
             bar.endFill()
             bar.x = pivotX - (lifeIndex * 24)
             bar.y = 13
-            heartsGroup.add(bar)
+            batteryGroup.add(bar)
+            batteryGroup.lifes.push(bar)
         }
         
         // var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -318,7 +383,7 @@ var wild = function(){
 
             tutoGroup.y = -game.world.height
             inputsEnabled = true
-            var move = game.add.tween(spineObj).to({x: 500}, 1500, function(k){spineObj.y = Math.sin(k * 25) * 20; return k}, true)
+            startRound()
             // startTimer(missPoint)
         })
     }
@@ -386,13 +451,38 @@ var wild = function(){
             
 			sceneGroup = game.add.group()
 
-            var blackBg = new Phaser.Graphics(game)
-            blackBg.beginFill(0x000000)
-            blackBg.drawRect(0,0,game.world.width *2, game.world.height *2)
-            blackBg.endFill()
-            sceneGroup.add(blackBg)
             var background = sceneGroup.create(game.world.centerX,game.world.centerY,'fondo')
             background.anchor.setTo(0.5,0.5)
+
+            gameGroup = game.add.group()
+            gameGroup.x = game.world.centerX
+            gameGroup.y = game.world.centerY
+            sceneGroup.add(gameGroup)
+
+            var inputRect = new Phaser.Graphics(game)
+            inputRect.beginFill(0xffffff)
+            inputRect.drawRect(0,0,game.world.width * 2,game.world.height * 2)
+            inputRect.endFill()
+            inputRect.alpha = 0
+            sceneGroup.add(inputRect)
+            inputRect.inputEnabled = true
+            inputRect.events.onInputDown.add(function(){
+                if(inputsEnabled) {
+                    snap(inputRect)
+                }
+            })
+
+            var blackLeft = new Phaser.Graphics(game)
+            blackLeft.beginFill(0x000000)
+            blackLeft.drawRect(0,0,game.world.width *0.5 - background.width * 0.5, game.world.height *2)
+            blackLeft.endFill()
+            sceneGroup.add(blackLeft)
+
+            var blackRight = new Phaser.Graphics(game)
+            blackRight.beginFill(0x000000)
+            blackRight.drawRect(game.world.width *0.5 + background.width * 0.5,0,game.world.width *0.5 - background.width * 0.5, game.world.height *2)
+            blackRight.endFill()
+            sceneGroup.add(blackRight)
             
             wildSong = game.add.audio('wildSong')
             game.sound.setDecodedCallback(wildSong, function(){
@@ -410,10 +500,9 @@ var wild = function(){
             initialize()
 
             createSnapsUI()
-            createHearts()
+            createBattery(game.world.centerX + background.width * 0.5)
             // createPointsBar()
             createGameObjects()
-            startRound(true)
             createTutorial()
             
 		}
