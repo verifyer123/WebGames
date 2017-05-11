@@ -601,7 +601,7 @@ var dojo = function(){
     }
     
     function createBoard(){
-        
+
         master = game.add.spine(game.world.centerX - 100,250, "master");
         master.scale.setTo(0.6,0.6)
         master.setAnimationByName(0, "IDLE", true);
