@@ -261,6 +261,8 @@ var wild = function(){
 		game.load.image('howTo',"images/wild/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/wild/play" + localization.getLanguage() + ".png")
 
+        buttons.getImages(game)
+
         game.load.spine('birds', "images/spines/aves/aves.json")
         game.load.spine('cervidos', "images/spines/cervidos/cervidos.json")
     }
@@ -481,7 +483,7 @@ var wild = function(){
 		name: "wild",
         preload:preload,
 		create: function(event){
-            
+
 			sceneGroup = game.add.group()
 
             var background = sceneGroup.create(game.world.centerX,game.world.centerY,'fondo')
@@ -537,7 +539,8 @@ var wild = function(){
             // createPointsBar()
             // createGameObjects()
             createTutorial()
-            
+
+            buttons.getButton(wildSong,sceneGroup)
 		}
 	}
 }()
