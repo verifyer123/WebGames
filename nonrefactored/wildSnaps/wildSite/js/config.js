@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Wild Snaps",
         language: "es",
-        minigameUrl: "../flagCollector/index.html?language=" + language,
+        minigameUrl: "../wildSnaps/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

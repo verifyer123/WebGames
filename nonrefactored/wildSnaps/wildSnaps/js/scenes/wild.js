@@ -41,8 +41,10 @@ var wild = function(){
 		]
     }
 
+    var SKELETONS = ["cervidos", "birds"]
+
     var ANIMALS = {
-        cervidos: {skins: ["alce", "ciervo", "corzuela", "venado"], animations: ["RUN", "WALK"], height: 200},
+        cervidos: {skins: ["alce", "ciervo", "corzuela", "venado"], animations: ["WALK", "RUN"], height: 200},
         birds: {skins: ["aguila", "alcon", "buho", "carpintero"], animations: ["FLY", "FLYFAST"], height: 100}
     }
 
@@ -54,10 +56,11 @@ var wild = function(){
     var ROUNDS = [
         {animal: "cervidos", skin:"alce", animation:"WALK", stop:true, duration: 10000},
         {animal: "cervidos", skin:"ciervo", animation:"RUN", duration: 5000},
-        {animal: "cervidos", skin:"corzuela", animation:"RUN", duration: 1000, delay: 1000},
-        {animal: "cervidos", skin:"venado", animation:"RUN", duration: 1000, delay: 500, directions:DATA_DIRECTIONS[0]},
+        {animal: "cervidos", skin:"corzuela", animation:"RUN", duration: "timeValue", delay: 1000},
+        {animal: "cervidos", skin:"venado", animation:"RUN", duration: "timeValue", delay: "random", directions:"random"},
         {animal: "birds", skin:"aguila", animation:"FLYFAST", duration: 2000, delay: 500},
-        {animal: "birds", skin:"random", animation:"FLYFAST", duration: "timeValue", delay: "random", directions: "random"}
+        {animal: "birds", skin:"random", animation:"FLYFAST", duration: "timeValue", delay: "random", directions: "random"},
+        {animal: "random", skin:"random", animation:"fast", duration: "timeValue", delay: "random", directions: "random"}
     ]
 
     var NUM_LIFES = 3
@@ -68,12 +71,10 @@ var wild = function(){
     var tutoGroup
     var wildSong
     var batteryGroup = null
-    var pullGroup = null
     var timeValue
     var quantNumber
     var numPoints
     var inputsEnabled
-    var pointsBar
     var gameGroup
     var spineObj
     var roundCounter
@@ -110,7 +111,6 @@ var wild = function(){
         theta *= 180 / Math.PI // rads to degs, range (-180, 180]
         //if (theta < 0) theta = 360 + theta; // range [0, 360)
         return theta
-        console.log(theta)
     }
 	
     function createSpine(params){
@@ -136,7 +136,7 @@ var wild = function(){
             spineObj.angle = spineObj.angle - 180
         }
 
-        var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY + spineObj.rHeight * 0.5}, duration, Phaser.Easing.linear, false, delay)
+        var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY + spineObj.rHeight * 0.5}, duration, Phaser.Easing.Linear.none, false, delay)
         tween.onComplete.add(function () {
             missPoint()
             spineObj.alpha = 0
@@ -235,10 +235,8 @@ var wild = function(){
         
     }
 
-    function stopGame(win){
-                
-        //objectsGroup.timer.pause()
-        //timer.pause()
+    function stopGame(){
+
         wildSong.stop()
         inputsEnabled = false
         
@@ -277,16 +275,18 @@ var wild = function(){
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.Linear.none,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.Linear.none,true,500)
 
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
     }
     
-    function getRandomDirections() {
+    function getRandomDirections(skeleton) {
         var direction = game.rnd.integerInRange(0, 1) * 2 - 1
-        var fromY = game.rnd.integerInRange(-800, 800)
+        var fromY = 0
+        if (skeleton === "birds")
+            fromY = game.rnd.integerInRange(-800, 800)
 
         var directions = {
             fromX : 400 * direction,
@@ -302,14 +302,21 @@ var wild = function(){
         roundCounter = roundCounter < ROUNDS.length ? roundCounter : ROUNDS.length - 1
 
         var round = ROUNDS[roundCounter]
-        var animal = ANIMALS[round.animal]
+        var skeleton = round.animal
+        var animal = ANIMALS[skeleton]
+        if(skeleton === "random") {
+            var rndNum = game.rnd.integerInRange(0, SKELETONS.length + 1) //probabilty is higher for birds
+            rndNum = rndNum > SKELETONS.length - 1 ? SKELETONS.length - 1 : rndNum //truncate to birds if rndNum is higher
+            skeleton = SKELETONS[rndNum]
+            animal = ANIMALS[skeleton]
+        }
+
         var directions = round.directions
         var delay = round.delay
         var duration = round.duration
         var skin = round.skin
+        var animation = round.animation
 
-        if (directions === "random")
-            directions = getRandomDirections()
         if (duration === "timeValue")
             duration = timeValue
         if (delay === "random")
@@ -317,9 +324,14 @@ var wild = function(){
         if (skin === "random"){
             skin = animal.skins[game.rnd.integerInRange(0, animal.skins.length - 1)]
         }
+        if (directions === "random")
+            directions = getRandomDirections(skeleton)
+        if (animation === "fast")
+            animation = animal.animations[animal.animations.length - 1]
+
         var params = {
-            name: round.animal, skin: skin,
-            animation: round.animation,
+            name: skeleton, skin: skin,
+            animation: animation,
             directions: directions, delay: delay, duration: duration,
             height: animal.height
         }
@@ -400,7 +412,7 @@ var wild = function(){
     function onClickPlay(rect) {
         rect.inputEnabled = false
         sound.play("pop")
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.Linear.none,true).onComplete.add(function(){
 
             tutoGroup.y = -game.world.height
             inputsEnabled = true
