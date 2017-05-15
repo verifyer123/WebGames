@@ -29,17 +29,9 @@ var wild = function(){
 		],
 		sounds: [
             {	name: "pop",
-				file: soundsPath + "pop.mp3"},
-			{	name: "magic",
-				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
-            {	name: "combo",
-				file: soundsPath + "combo.mp3"},
-            {	name: "flip",
-				file: soundsPath + "flipCard.mp3"},
-            {	name: "swipe",
-				file: soundsPath + "swipe.mp3"},
+                file: soundsPath + "pop.mp3"},
+		    {	name: "snapshot",
+				file: soundsPath + "snapshot.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
             {	name: "right",
@@ -49,9 +41,23 @@ var wild = function(){
 		]
     }
 
-    var ANIMALS = [
-        {cervidos: {skins:["alce", "ciervo", "corzuela", "venado"], animations:["RUN", "WALK"]}},
-        {birds: {skins:["aguila", "alcon", "buho", "carpintero"], animations:["RUN", "WALK"]}}
+    var ANIMALS = {
+        cervidos: {skins: ["alce", "ciervo", "corzuela", "venado"], animations: ["RUN", "WALK"], height: 200},
+        birds: {skins: ["aguila", "alcon", "buho", "carpintero"], animations: ["FLY", "FLYFAST"], height: 100}
+    }
+
+    var DATA_DIRECTIONS = [
+        {fromX: 500, toX: -500, fromY: 0, toY: 0}
+    ]
+
+
+    var ROUNDS = [
+        {animal: "cervidos", skin:"alce", animation:"WALK", stop:true, duration: 10000},
+        {animal: "cervidos", skin:"ciervo", animation:"RUN", duration: 5000},
+        {animal: "cervidos", skin:"corzuela", animation:"RUN", duration: 1000, delay: 1000},
+        {animal: "cervidos", skin:"venado", animation:"RUN", duration: 1000, delay: 500, directions:DATA_DIRECTIONS[0]},
+        {animal: "birds", skin:"aguila", animation:"FLYFAST", duration: 2000, delay: 500},
+        {animal: "birds", skin:"random", animation:"FLYFAST", duration: "timeValue", delay: "random", directions: "random"}
     ]
 
     var NUM_LIFES = 3
@@ -63,7 +69,6 @@ var wild = function(){
     var wildSong
     var batteryGroup = null
     var pullGroup = null
-    var clock
     var timeValue
     var quantNumber
     var numPoints
@@ -71,6 +76,8 @@ var wild = function(){
     var pointsBar
     var gameGroup
     var spineObj
+    var roundCounter
+    var camara
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -82,9 +89,10 @@ var wild = function(){
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         lives = NUM_LIFES
-        timeValue = 7
+        timeValue = 4000
         quantNumber = 2
         numPoints = 0
+        roundCounter = 0
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -95,48 +103,16 @@ var wild = function(){
         
 	}
 
-    function addPoint(number){
-
-        sound.play("magic")
-        pointsBar.number+=number;
-        pointsBar.text.setText(pointsBar.number)
-
-        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
-
-        addNumberPart(pointsBar.text,'+' + number)
-
-        // if(pointsBar.number % 2 == 0){
-        timeValue-=timeValue * 0.10
-        // }
-
+    function angle(directions) {
+        var dy = directions.toY
+        var dx = directions.toX
+        var theta = Math.atan2(dy, dx) // range (-PI, PI]
+        theta *= 180 / Math.PI // rads to degs, range (-180, 180]
+        //if (theta < 0) theta = 360 + theta; // range [0, 360)
+        return theta
+        console.log(theta)
     }
-
-    function createPointsBar(){
-
-        pointsBar = game.add.group()
-        pointsBar.x = game.world.width
-        pointsBar.y = 0
-        sceneGroup.add(pointsBar)
-
-        var pointsImg = pointsBar.create(-10,10,'atlas.wild','xpcoins')
-        pointsImg.anchor.setTo(1,0)
-
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
-        pointsText.y = pointsImg.height * 0.25
-        pointsBar.add(pointsText)
-
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-        pointsBar.text = pointsText
-        pointsBar.number = 0
-
-    }
-
+	
     function createSpine(params){
         var name = params.name
         var skin = params.skin
@@ -148,13 +124,19 @@ var wild = function(){
 
         spineObj = game.add.spine(0,0, name);
         spineObj.scale.setTo(0.6,0.6)
+        spineObj.rHeight = params.height
         spineObj.setAnimationByName(0, animation, true);
         spineObj.setSkinByName(skin);
         spineObj.x = directions.fromX
-        spineObj.y = directions.fromY
+        spineObj.y = directions.fromY + spineObj.rHeight * 0.5
+        spineObj.angle = angle(directions)
         gameGroup.add(spineObj)
+        if (directions.fromX > directions.toX) {
+            spineObj.scale.x = spineObj.scale.x * -1
+            spineObj.angle = spineObj.angle - 180
+        }
 
-        var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY}, duration, Phaser.Easing.linear, false, delay)
+        var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY + spineObj.rHeight * 0.5}, duration, Phaser.Easing.linear, false, delay)
         tween.onComplete.add(function () {
             missPoint()
             spineObj.alpha = 0
@@ -178,28 +160,29 @@ var wild = function(){
         rectBot.endFill()
         sceneGroup.add(rectBot)
 
-        var camara = gameGroup.create(0,0,'atlas.wild','camaraBox')
+        camara = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.wild','camaraBox')
         camara.anchor.setTo(0.5, 0.5)
-        gameGroup.camara = camara
         
     }
     
     function checkCorrect() {
-        var width = gameGroup.camara.width - spineObj.width
-        var height = gameGroup.camara.height - spineObj.height
-        var rectX = gameGroup.camara.x - width * 0.5
-        var rectY = gameGroup.camara.y - height * 0.5
-        var rectangle = new Phaser.Rectangle(rectX, rectY, width, height)
-        var contains = rectangle.contains(spineObj.x, spineObj.y - spineObj.height * 0.5)
+
+        var rectangle = camara.getBounds()
+        rectangle.inflate(20, 20)
+        var rectangle2 = spineObj.getBounds()
+        var contains = rectangle.containsRect(rectangle2)
 
         if(contains){
+            sound.play("right")
             createPart("star", spineObj)
             numPoints++
             var tweenSpine = game.add.tween(spineObj).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400)
             tweenSpine.onComplete.add(function () {
                 startRound()
             })
-            //addPoint(1)
+            timeValue-=timeValue * 0.08
+            roundCounter++
+            // addPoint(1)
         } else {
             createPart("wrong", spineObj)
             missPoint()
@@ -212,6 +195,7 @@ var wild = function(){
         spineObj.tween.stop()
         // spineObj.endTime = 0
         spineObj.autoUpdate = false
+        sound.play("snapshot")
         var snap = game.add.tween(inputRect).to({alpha: 1}, 200, Phaser.Easing.Cubic.Out, true)
         snap.onComplete.add(function () {
             var fadeIn = game.add.tween(inputRect).to({alpha: 0}, 1000, Phaser.Easing.Cubic.In, true)
@@ -221,14 +205,14 @@ var wild = function(){
         })
     }
     
-    function createGameObjects(){
-        pullGroup = game.add.group()
-        pullGroup.x = -game.world.centerX * 2
-        pullGroup.y = -game.world.centerY * 2
-        sceneGroup.add(pullGroup)
-        pullGroup.alpha = 0
-
-    }
+    // function createGameObjects(){
+    //     pullGroup = game.add.group()
+    //     pullGroup.x = -game.world.centerX * 2
+    //     pullGroup.y = -game.world.centerY * 2
+    //     sceneGroup.add(pullGroup)
+    //     pullGroup.alpha = 0
+    //
+    // }
     
     function createPart(key,obj){
 
@@ -243,7 +227,7 @@ var wild = function(){
         particlesGood.angularDrag = 30;
 
         // particlesGood.x = obj.x;
-        // particlesGood.y = obj.y;
+        particlesGood.y = -obj.height * 2;
         particlesGood.start(true, 1000, null, 4);
 
         obj.add(particlesGood)
@@ -273,14 +257,14 @@ var wild = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-        game.load.audio('wildSong', soundsPath + 'songs/wormwood.mp3');
+        game.load.audio('wildSong', soundsPath + 'songs/forestAmbience.mp3');
         
         game.load.image('introscreen',"images/wild/introscreen.png")
 		game.load.image('howTo',"images/wild/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/wild/play" + localization.getLanguage() + ".png")
 
-        game.load.spine('birds', "images/spines/aves/skeleton.json")
-        game.load.spine('cervidos', "images/spines/aves/skeleton.json")
+        game.load.spine('birds', "images/spines/aves/aves.json")
+        game.load.spine('cervidos', "images/spines/cervidos/cervidos.json")
     }
 
     function addNumberPart(obj,number){
@@ -299,9 +283,46 @@ var wild = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
     }
+    
+    function getRandomDirections() {
+        var direction = game.rnd.integerInRange(0, 1) * 2 - 1
+        var fromY = game.rnd.integerInRange(-800, 800)
 
+        var directions = {
+            fromX : 400 * direction,
+            toX : 400 * direction * -1,
+            fromY : fromY,
+            toY : fromY * -1
+        }
+
+        return directions
+    }
+    
     function startRound() {
-        var params = {name:"birds", skin: "alcon", animation: "FLY"}
+        roundCounter = roundCounter < ROUNDS.length ? roundCounter : ROUNDS.length - 1
+
+        var round = ROUNDS[roundCounter]
+        var animal = ANIMALS[round.animal]
+        var directions = round.directions
+        var delay = round.delay
+        var duration = round.duration
+        var skin = round.skin
+
+        if (directions === "random")
+            directions = getRandomDirections()
+        if (duration === "timeValue")
+            duration = timeValue
+        if (delay === "random")
+            delay = game.rnd.integerInRange(0, 2000)
+        if (skin === "random"){
+            skin = animal.skins[game.rnd.integerInRange(0, animal.skins.length - 1)]
+        }
+        var params = {
+            name: round.animal, skin: skin,
+            animation: round.animation,
+            directions: directions, delay: delay, duration: duration,
+            height: animal.height
+        }
         createSpine(params)
         inputsEnabled = true
 
@@ -502,7 +523,7 @@ var wild = function(){
             createSnapsUI()
             createBattery(game.world.centerX + background.width * 0.5)
             // createPointsBar()
-            createGameObjects()
+            // createGameObjects()
             createTutorial()
             
 		}
