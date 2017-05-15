@@ -38,6 +38,9 @@ var flyingFractions = function(){
 		],
 	}
     var starGame = false;
+	var sceneGroup = null;
+	var coinsGroup = null;
+	var heartsGroup = null;
 	var background;
 	var heartsIcon;
 	var heartsText;
@@ -304,10 +307,37 @@ var flyingFractions = function(){
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.1,0.5)
     }	
+
+	function createHearts(){
+		heartsGroup = game.add.group();
+		heartsIcon = heartsGroup.create(0,0,"heartsIcon");
+		heartsIcon.anchor.setTo(0, 0);	
+		heartsIcon.x = game.world.width - heartsIcon.width;
+		heartsIcon.y = 5;	
+		heartsText = game.add.text(50, 10, "x " + lives, style,heartsGroup);	
+		heartsText.anchor.setTo(0, 0);	
+		heartsText.x = game.world.width - 75;
+		heartsText.y = 5;
+		sceneGroup.add(heartsGroup);
+		
+	}
 	
+	function createCoins(){
+		coinsGroup = game.add.group();
+		xpIcon = coinsGroup.create(0,0,"xpIcon");
+		xpIcon.anchor.setTo(0, 0);	
+		xpIcon.x = 0;
+		xpIcon.y = 5;	
+		xpText = game.add.text(50, 10, coins, style,coinsGroup);	
+		xpText.anchor.setTo(0, 0);	
+		xpText.x = 75;
+		xpText.y = 2;	
+		sceneGroup.add(coinsGroup);
+	}	
 	
 	/*CREATE SCENE*/
     function createScene(){
+		sceneGroup = game.add.group()
 		coins = 0;
 		lives = 1;
 		loadSounds();
@@ -315,42 +345,32 @@ var flyingFractions = function(){
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		background = game.add.tileSprite(0,0,1280, game.world.height, "background");
 		background.x = -background.width/6;
-		heartsIcon = game.add.sprite(0,0,"heartsIcon");
-		heartsIcon.anchor.setTo(0, 0);	
-		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 25;	
-		heartsText = game.add.text(50, 10, "x " + lives, style);	
-		heartsText.anchor.setTo(0, 0);	
-		heartsText.x = game.world.width - 75;
-		heartsText.y = 25;
-		xpIcon = game.add.sprite(0,0,"xpIcon");
-		xpIcon.anchor.setTo(0, 0);	
-		xpIcon.x = 0;
-		xpIcon.y = 30;	
-		xpText = game.add.text(50, 10,coins, style);	
-		xpText.anchor.setTo(0, 0);	
-		xpText.x = 75;
-		xpText.y = 28;	
+		sceneGroup.add(background);
+		
+		createHearts();
+		createCoins();
 
 		malo = game.add.sprite(game.world.centerX, 100 , "malo");
 		malo.anchor.setTo(0.5,0);
 		TweenMax.fromTo(malo,0.5,{y:malo.y},{y:malo.y+10,yoyo:true,repeat:-1});
+		sceneGroup.add(malo);
 		
 		ship = game.add.spine(game.world.centerX,game.world.centerY + (game.world.centerY/1.5) ,"ship");
 		
 		ship.setAnimationByName(0, "IDLE", true);
 		ship.setSkinByName("normal");
+		sceneGroup.add(ship);
 		
 		maloShoot = game.add.sprite(malo.x, malo.y + malo.height , "maloShoot");
 		maloShoot.anchor.setTo(0.5,0);
 		maloShoot.alpha = 0;
-		
+		sceneGroup.add(maloShoot);
 		
 		goodShoot = game.add.sprite(ship.x, ship.y - ship.height , "maloShoot");
 		goodShoot.anchor.setTo(0.5,1);
 		goodShoot.scale.setTo(-1);
 		goodShoot.alpha = 0;
-		
+		sceneGroup.add(goodShoot);
 		
 		choiceFraction();
 		
@@ -358,11 +378,14 @@ var flyingFractions = function(){
 		baseFracciones = game.add.sprite(game.world.centerX , game.world.centerY - (game.world.centerY/2),"baseFracciones");
 		baseFracciones.anchor.setTo(0.5,0);
 		baseFracciones.scale.setTo(0.7);
+		sceneGroup.add(baseFracciones);
 		
 		fraccionesText = game.add.text(baseFracciones.x, baseFracciones.y + baseFracciones.height/4, fractionsInfo[good].name, style);	
 		fraccionesText.anchor.setTo(0.5,0);
 		baseFracciones.alpha= 0;
 		fraccionesText.alpha = 0;
+		sceneGroup.add(fraccionesText);
+		
 		var groupMarco1 = game.add.group();
 		groupMarco1.x = game.world.centerX - game.width/4;
 		marcoFracciones = groupMarco1.create(0 , game.world.centerY,"marcoFracciones");
@@ -394,15 +417,18 @@ var flyingFractions = function(){
 		fraction2.id = result2;
 		fraction2.inputEnabled = true
 		fraction2.events.onInputDown.add(buttonSelect,this);	
+		sceneGroup.add(groupMarco1);
+		sceneGroup.add(groupMarco2);
 		
-		bgclock = game.add.sprite(0,1,"bgclock");
+		bgclock = sceneGroup.create(0,1,"bgclock");
 		bgclock.x = game.width * 0.5;
 		bgclock.anchor.setTo(0.5, 0);
-		clockText = game.add.text(50, 46, timer, styleClock);	
+		clockText = game.add.text(50, 46, timer, styleClock,sceneGroup);	
 		clockText.x = game.width * 0.5;
 		clockText.anchor.setTo(0.5, 0);
 		bgclock.alpha = 0;
 		clockText.alpha = 0;
+		
 		createOverlay();
 		
 		function createLevel(){

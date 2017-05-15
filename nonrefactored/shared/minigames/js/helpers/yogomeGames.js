@@ -28,7 +28,8 @@ yogomeGames.getGames = function(){
 		{name:'dizzyBoat',url:'http://yogome.com/epic/minigames/dizzySite/',sceneName:'dizzy'},
 		{name:'flagCollector',url:'http://yogome.com/epic/minigames/flagCollectorSite/',sceneName:'flag'},
 		{name:'mediCatcher',url:'http://yogome.com/epic/minigames/mediSite/',sceneName:'medi'},
-        {name:'mediCatcher',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild'}
+        {name:'mediCatcher',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild'},
+		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart'}//26
     ]
     
     return games
