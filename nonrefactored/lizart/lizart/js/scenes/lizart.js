@@ -72,6 +72,8 @@ var lizart = function(){
 	var wrongEyes;
 	var shadowLizar;
 	var good;
+	var wrong;
+	var stars;
 	var fruits = new Array;
 	
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
@@ -86,6 +88,7 @@ var lizart = function(){
 	}
     function preload() {
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
+
 		/*Default*/
 		game.load.image("heartsIcon", imagePath +"hearts.png");
 		game.load.image("xpIcon", imagePath +"xpcoins.png");	
@@ -169,6 +172,8 @@ var lizart = function(){
 			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
+		TweenMax.to(idleEyes,0.5,{alpha:1});
+		TweenMax.to(idleBody,1,{alpha:1,tint:0xb7b7b7,delay:1,onComplete:keepBallon});
 		
 		bgm = game.add.audio('wormwood')
             game.sound.setDecodedCallback(bgm, function(){
@@ -209,10 +214,12 @@ var lizart = function(){
            deviceName = 'tablet'
 			offsetX = 50
 		  	var inputLogo = overlayGroup.create(game.world.centerX + offsetX,game.world.centerY + 145,'movil');
-        	inputLogo.anchor.setTo(0.5,0.5);	 
+        	inputLogo.anchor.setTo(0.5,0.5);	
+			inputLogo.alpha =0;
         }else{
 			var inputLogo = overlayGroup.create(game.world.centerX-20,game.world.centerY + 145,'pc');
         	inputLogo.anchor.setTo(0.2,0.5);	
+			inputLogo.alpha =0;
 		}
 		
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'buttonPlay')
@@ -261,6 +268,9 @@ var lizart = function(){
 		
 	}
 	
+		function keepBallon(){
+			createBallon(colorSelect);
+		}	
 	
 	/*CREATE SCENE*/
     function createScene(){
@@ -327,12 +337,10 @@ var lizart = function(){
 		
 		
 		shadowLizar = sceneGroup.create(game.world.centerX/1.8,game.height-50,"shadowLizar");
-		TweenMax.to(idleEyes,0.5,{alpha:1});
-		TweenMax.to(idleBody,1,{alpha:1,tint:0xb7b7b7,delay:1,onComplete:keepBallon});
+		//TweenMax.to(idleEyes,0.5,{alpha:1});
+		//TweenMax.to(idleBody,1,{alpha:1,tint:0xb7b7b7,delay:1,onComplete:keepBallon});
 		
-		function keepBallon(){
-			createBallon(colorSelect);
-		}
+
 		
 
 		var colors = [
@@ -387,13 +395,14 @@ var lizart = function(){
 			
 		}
 
-		createFruits();
+		
 		
 		function downFruit(fruitItem){
 			if(indexNumber[good] == fruitItem.id){
 				rightBody.tint=fruitItem.color;
 				TweenMax.to(fruitItem,1,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
 				TweenMax.to(idleBody,0.5,{tint:fruitItem.color,onComplete:winLizar});	
+				sound.play("magic");
 			}else{
 				wrongBody.animations.play('wrongBodyAnimation', 24, false);
 				wrongEyes.animations.play('wrongEyesAnimation', 24, false);
@@ -402,6 +411,8 @@ var lizart = function(){
 				lives--;
 				heartsText.setText("x " + lives);
 				TweenMax.to(wrongBody,1,{alpha:0,onComplete:gameOver});	
+				sound.play("gameLose");
+				bgm.stop();
 			}
 
 		}
@@ -417,6 +428,7 @@ var lizart = function(){
 		}
 		
 		function newLizar(){
+			sound.play("combo");
 			rightGroup.alpha = 0;
 			idleGroup.alpha = 1;
 			createFruits();
@@ -427,10 +439,10 @@ var lizart = function(){
 		cursors = game.input.keyboard.createCursorKeys();
 		
 
-			
+		createFruits();	
 		createHearts();
 		createCoins();
-		//createOverlay();
+		createOverlay();
 	}
 
 
@@ -445,7 +457,7 @@ var lizart = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,18)
+			resultScreen.setScore(true, coins,26)
 			sceneloader.show("result");
 	}
 
