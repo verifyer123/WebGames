@@ -550,7 +550,7 @@ var wild = function(){
             // createGameObjects()
             createTutorial()
 
-            buttons.getButton(wildSong,sceneGroup)
+            buttons.getButton(wildSong,sceneGroup, game.world.centerX - background.width * 0.5 + 30, 30)
 		}
 	}
 }()
