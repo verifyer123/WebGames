@@ -626,10 +626,10 @@ var hack = function(){
 		containerBar.width = game.world.width
 		containerBar.scale.y = 1.1
 		sceneGroup.add(containerBar)
-		sceneGroup.cont = containerBar
 		
 		var backContainer = sceneGroup.create(game.world.centerX, game.world.height,'atlas.hack','baseContainer')
 		backContainer.anchor.setTo(0.5,1)
+		sceneGroup.cont = backContainer
 		
 		var gameName = sceneGroup.create(backContainer.x, game.world.height - 150,'atlas.hack','gameName')
 		gameName.anchor.setTo(0.5,0.5)
@@ -964,9 +964,13 @@ var hack = function(){
 		
 		minusNumber()
 		
+		game.add.tween(yogotarGroup.scale).to({x:0.01,y:0.01},50,"Linear",true)
+		
 		yogotarGroup.anim.setAnimationByName(0,animationName,false)
 		sound.play("whoosh")
 		game.add.tween(yogotarGroup).to({x:yogotarGroup.x + moveX, y: yogotarGroup.y + moveY},200,"Linear",true).onComplete.add(function(){
+			
+			game.add.tween(yogotarGroup.scale).to({x:1,y:1},50,"Linear",true)
 			
 			if(gameActive){
 				yogotarGroup.anim.setAnimationByName(0,'IDLE',true)

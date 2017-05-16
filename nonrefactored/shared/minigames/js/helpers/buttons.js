@@ -12,15 +12,15 @@ buttons.getImages = function(game){
 	
 }
 
-buttons.getButton = function(song,group){
+buttons.getButton = function(song,group,posX, posY){
 	
 	gameSong = song
 	
 	console.log(song + ' song')
 
 	var button = game.add.group()
-	button.x = game.world.width - 215
-	button.y = 30
+	button.x = posX || game.world.width - 215
+	button.y = posY || 30
 	button.scale.setTo(0.45,0.45)
 	group.add(button)
 
