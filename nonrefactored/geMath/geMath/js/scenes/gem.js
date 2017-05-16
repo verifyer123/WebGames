@@ -6,13 +6,15 @@ var gem = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"objective":"Objective",
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"objective":"Objetivo",
 		}
 	}
     
@@ -26,10 +28,10 @@ var gem = function(){
             },
         ],
         images: [
-			{   name:"background",
-				file: "images/gem/fondo.png"},
+
 		],
 		sounds: [
+			
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
             {	name: "cut",
@@ -47,19 +49,28 @@ var gem = function(){
 			
 		],
     }
-    
         
     var lives = null
+	var numLimit
+	var result
+	var listUsed
+	var gameTime
 	var sceneGroup = null
 	var background
     var gameActive = true
+	var pointerActive
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
-	var container, objectsGroup, usedObjects
+    var gameIndex = 26
+	var container, objectsGroup, usedObjects, glowGroup
+	var answerCont
+	var linesGroup
+	var pointer
+	var rowList
 	var indexGame
     var overlayGroup
     var spaceSong
+	var indexTap
 	
 
 	function loadSounds(){
@@ -70,7 +81,9 @@ var gem = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-
+		pointerActive = false
+		numLimit = 3
+		gameTime = 20000
         
         loadSounds()
         
@@ -162,7 +175,7 @@ var gem = function(){
     
     function addPoint(number){
         
-        sound.play("pop")
+        sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -172,6 +185,18 @@ var gem = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
+		
+		if(pointsBar.number % 4 == 0){
+			
+			if(numLimit<10){
+				numLimit++
+			}
+			
+			if(gameTime > 4000){
+				gameTime-= 750
+			}
+			
+		}
         
     }
     
@@ -232,6 +257,10 @@ var gem = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
+		if(clock.tween){
+			clock.tween.stop()
+		}
+		
         gameActive = false
         spaceSong.stop()
         		
@@ -249,10 +278,10 @@ var gem = function(){
     
     function preload(){
         
+		buttons.getImages(game)
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/retrowave.mp3');
         
 		game.load.image('howTo',"images/gem/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/gem/play" + localization.getLanguage() + ".png")
@@ -262,10 +291,198 @@ var gem = function(){
         
     }
     
+	function sendObject(obj,delay,posY){
+		
+		game.time.events.add(delay,function(){
+			
+			sound.play("cut")
+			game.add.tween(obj).to({y:posY},500,"Linear",true)
+		})
+	}
+	
+	function placeButtons(number){
+		
+		indexTap = 0
+		
+		result = game.rnd.integerInRange(2,numLimit + 1)
+		answerCont.text.setText(result)
+		
+		popObject(answerCont,0)
+		
+		var delay = 500
+		
+		for(var i = 0; i < number;i++){
+			
+			var tagToUse = 'number'
+			if((i+1) % 3 == 0){
+				tagToUse = 'sign'	
+			}
+			
+			var button = getObject(tagToUse)			
+			var rowNumber = game.rnd.integerInRange(0,rowList.length -1)
+			
+			while(rowList[rowNumber].number > 4){
+				rowNumber = game.rnd.integerInRange(0,rowList.length -1)
+			}
+			
+			button.row = rowNumber
+			
+			activateObject(button,rowList[rowNumber].pivotX,-100)
+			
+			sendObject(button,delay,rowList[rowNumber].pivotY)			
+			rowList[rowNumber].pivotY-= button.height * 1.4
+			
+			rowList[rowNumber].number++
+			
+			delay+= 100
+		}
+		
+		game.time.events.add(delay + 500, function(){
+			
+			popObject(clock,0)
+			clock.bar.scale.x = clock.bar.origScale
+			
+			clock.tween = game.add.tween(clock.bar.scale).to({x:0},gameTime,"Linear",true)
+			clock.tween.onComplete.add(function(){
+				missPoint()	
+			})
+			
+			setSignResult()
+			
+			for(var i = 0; i < usedObjects.length;i++){
+				var obj = usedObjects.children[i]
+				game.add.tween(obj.text.scale).from({x:0,y:0},200,"Linear",true)	
+			}
+			
+			gameActive = true
+			listUsed = []
+		})
+	}
+	
+	
+	function setSignResult(){
+		
+		var signsList = []
+		
+		for(var i = 0; i < usedObjects.length;i++){
+			
+			var obj = usedObjects.children[i]
+			if(obj.tag == 'sign'){
+				signsList[signsList.length] = obj
+			}
+		}
+		
+		var index = game.rnd.integerInRange(0,signsList.length - 1)
+		var signToUse = signsList[index]
+		signToUse.initX = signToUse.x
+		signToUse.initY = signToUse.y
+		
+		var numList = [-1,0,1]
+		var numsToUse = []
+		
+		
+		for(var i = 0 ; i < numList.length;i++){
+			
+			for(var u = 0; u < numList.length;u++){
+				signToUse.x+= 115 * numList[i]
+				signToUse.y+= 115 * numList[u]
+				
+				for(var o = 0; o < usedObjects.length;o++){
+					var obj = usedObjects.children[o]
+					if(checkOverlap(obj,signToUse) && obj.tag == 'number'){
+						numsToUse[numsToUse.length] = obj
+					}
+				}
+				signToUse.x = signToUse.initX
+				signToUse.y = signToUse.initY
+			}
+			
+			signToUse.x = signToUse.initX
+			signToUse.y = signToUse.initY
+		}
+		
+		var sign = '+'
+		if(Math.random() * 2 > 1){
+			sign = '-'
+		}
+		
+		Phaser.ArrayUtils.shuffle(numsToUse)
+		
+		if(numsToUse.length < 2){
+			setSignResult()
+			return
+		}
+		
+		signToUse.number = sign
+		signToUse.text.setText(sign)
+		
+		var number1 
+		var number2
+		
+		if(sign == '+'){
+			
+			number1 = game.rnd.integerInRange(1,result - 1)
+			number2 = result - number1
+		}else{
+			
+			number1 = result + (game.rnd.integerInRange(1,result))
+			number2 = number1 - result
+		}
+		
+		numsToUse[0].number = number1
+		numsToUse[0].text.setText(number1)
+		
+		numsToUse[1].number = number2
+		numsToUse[1].text.setText(number2)
+		
+		//signToUse.scale.setTo(0.4,0.4)
+		
+	}
+	
+	function activateObject(child,posX,posY){
+        
+         objectsGroup.remove(child)
+         usedObjects.add(child)
+
+         child.active = true
+         child.alpha = 1
+         child.y = posY
+         child.x = posX
+		 //child.scale.setTo(1,1)
+		 
+		 if(child.tag == 'number'){
+			 
+			 child.number = game.rnd.integerInRange(1,numLimit)
+			 child.text.setText(child.number)
+ 			
+		 }else{
+			 
+			 var signToUse = '+'
+			 if(game.rnd.integerInRange(0,2) > 1){
+				 signToUse = '-'
+			 }
+			 
+			 child.number = signToUse
+			 child.text.setText(child.number)
+			 child.text.tint = 0xffffff
+		 }
+         
+    }
+    
+	function deactivateObj(obj){
+        
+        obj.active = false
+        obj.alpha = 0
+		obj.y = -200
+        
+        usedObjects.remove(obj)
+        objectsGroup.add(obj)
+        
+    }
+	
     function createOverlay(){
         
         overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
         var rect = new Phaser.Graphics(game)
@@ -280,6 +497,7 @@ var gem = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+				placeButtons(20)
             })
             
         })
@@ -322,14 +540,59 @@ var gem = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'background')
+		var sky = sceneGroup.create(0,0,'atlas.gem','sky')
+		sky.width = game.world.width
+		sky.height = game.world.height
+		
+		var moon = sceneGroup.create(game.world.centerX, 100,'atlas.gem','moon')
+		moon.anchor.setTo(0.5,0.5)
+		moon.scale.setTo(0.6,0.6)
+		
+		background = game.add.tileSprite(0,game.world.height + 100,game.world.width, 926,'atlas.gem','cueva')
+		background.anchor.setTo(0,1)
 		sceneGroup.add(background)
 		
 	}
 	
+	function checkOverlap(spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
 	
 	function update(){
-
+		
+		background.tilePosition.x++
+		
+		checkObjects()
+	}
+	
+	function checkObjects(){
+		
+		if(pointerActive){
+			
+			pointer.x = game.input.x
+			pointer.y = game.input.y
+			
+			for(var i = 0; i < usedObjects.length; i++){
+				
+				var obj = usedObjects.children[i].image
+				
+				if(checkOverlap(pointer,obj)){
+					
+					if(Math.abs(pointer.x - obj.world.x) < 40 && Math.abs(pointer.y - obj.world.y) < 40){
+						
+						inputButton(obj)
+						
+					}
+					
+				}
+				
+			}
+		}
 	}
 	
 	function createTextPart(text,obj){
@@ -496,10 +759,50 @@ var gem = function(){
 	
 	function inputButton(obj){
 		
-		if(!gameActive){
+		//console.log(gameActive + ' gameActive,' +  indexTap +  ' index,' + obj.parent.active)
+		if(!gameActive || !obj.parent.active || indexTap > 4){
 			return
 		}
 		
+		var parent = obj.parent
+		
+		var index = indexTap + 1
+		if(index % 2 == 0 && parent.tag == 'number'){
+			return
+		}else if(index % 2 != 0 && parent.tag == 'sign'){
+			return
+		}
+		
+		listUsed[listUsed.length] = parent
+
+		gameActive = false
+		game.time.events.add(250,function(){
+			gameActive = true
+		})
+		   
+		parent.active = false
+		
+		var glow = glowGroup.children[indexTap]
+		glow.x = parent.x
+		glow.y = parent.y
+		glow.alpha = 1
+		
+		if(listUsed.length > 1){
+			
+			var lastObj = listUsed[indexTap - 1]
+			
+			var line = linesGroup.children[indexTap]
+			line.moveTo(lastObj.x,lastObj.y)
+			line.lineTo(parent.x, parent.y)
+			line.alpha = 1
+		}
+		
+		sound.play("pop")
+		
+		var tween = game.add.tween(parent.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0)
+		tween.yoyo(true,0)
+		
+		indexTap++
 	}
 	
 	function getObject(tag){
@@ -507,6 +810,7 @@ var gem = function(){
 		for(var i = 0; i < objectsGroup.length;i++){
 			var object = objectsGroup.children[i]
 			
+			//console.log( tag + ' tag, ' + object.tag + ' object')
 			if(object.tag == tag && !object.active){
 				return object
 			}
@@ -517,12 +821,31 @@ var gem = function(){
 		
 		for( var i = 0; i < number;i++){
 			
-			var obj = objectsGroup.create(0,0,'atlas.gem',tag)
-			obj.anchor.setTo(0.5,0.5)
-			obj.tag = tag
-			obj.scale.setTo(scale,scale)
+			var obj = game.add.group()
+			obj.x = 0
+			obj.y = 0
 			obj.alpha = 0
 			obj.active = false
+			obj.tag = tag
+			obj.scale.setTo(scale,scale)
+			objectsGroup.add(obj)
+			obj.number = 0
+
+			var image = obj.create(0,0,'atlas.gem',tag + 'Gem')
+			image.anchor.setTo(0.5,0.5)
+			obj.image = image
+			
+			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+			
+			if(tag == 'sign'){
+				fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			}
+
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 3, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			obj.add(pointsText)
+
+			obj.text = pointsText
 			
 		}
 	}
@@ -535,23 +858,217 @@ var gem = function(){
 		usedObjects = game.add.group()
 		sceneGroup.add(usedObjects)
 		
-		for(var i = 0; i < 3;i++){
-			
-			createAssets('malo' + (i+1),1,7)
-			
-			if(i>0)
-			createAssets('medicina' + i,1,5)
+		createAssets('number',0.9,20)
+		createAssets('sign',0.9,20)
+		
+		glowGroup = game.add.group()
+		sceneGroup.add(glowGroup)
+		
+		for(var i = 0; i < 6;i++){
+			var glow = glowGroup.create(0,0,'atlas.gem','glow')
+			glow.anchor.setTo(0.5,0.5)
+			glow.alpha = 0
 		}
 		
-		createAssets('apple',1,5)
-		createAssets('lettuce',1,5)
+		linesGroup = game.add.group()
+		sceneGroup.add(linesGroup)
+		
+		for(var i = 0; i < 6;i++){
+			
+			var g = game.add.graphics(0,0);
+			g.lineStyle(10,0x0088FF,1);
+			g.beginFill();
+			g.moveTo(0,0);
+			g.lineTo(-100,-100);
+			g.endFill();
+			g.alpha = 0
+			linesGroup.add(g)
+			
+		}
+		
+		rowList = []
+		
+		var pivotX = game.world.centerX - 170
+		for(var i = 0; i < 4; i++){
+			
+			rowList[i] = []
+			rowList[i].pivotY = game.world.height - 120
+			rowList[i].pivotX = pivotX
+			rowList[i].number = 0
+			
+			pivotX+= 115
+		}
+		
+		game.input.onDown.add(activatePointer,this)
+		game.input.onUp.add(deactivatePointer,this)
+		
+		pointer = sceneGroup.create(0,0,'atlas.gem','star')
+		pointer.scale.setTo(0.4,0.4)
+		pointer.anchor.setTo(0.5,0.5)
+	}
+	
+	function activatePointer(){
+		
+		pointerActive = true
+	}
+	
+	function deactivatePointer(){
+		
+		pointerActive = false
+		pointer.y = -100
+		
+		var lastNum = listUsed[listUsed.length - 1]
+		var numberItems
+		
+		if(listUsed && listUsed.length >2 && (lastNum.number != '+' && lastNum.number != '-')){
+			
+			var partName = 'wrong'
+			
+			numberItems = listUsed.length
+			
+			var stringToUse = ''
+			for(var i = 0; i < listUsed.length;i++){
+				stringToUse+= listUsed[i].number
+			}
+			
+			var buttonsResult = eval(stringToUse)
+			
+			console.log(buttonsResult + ' result,' + result + ' result')
+			
+			if(buttonsResult == result){
+				partName = 'star'
+				addPoint(1)
+				
+				if(clock.tween){
+					clock.tween.stop()
+					game.add.tween(clock).to({alpha:0},500,"Linear",true)
+				}
+				
+			}else{
+				missPoint()
+			}
+			
+			for(var i = 0; i < listUsed.length;i++){
+			
+				var obj = listUsed[i]
+				createPart(partName,obj.image)
+				deactivateObj(obj)
+
+			}
+					
+			for(var i = 0; i < rowList.length; i++){
+
+				rowList[i].pivotY = game.world.height - 120
+				rowList[i].number = 0
+			}
+			
+			sound.play("cut")
+			for(var i = 0; i < usedObjects.length;i++){
+				var obj = usedObjects.children[i]
+				
+				game.add.tween(obj).to({y:rowList[obj.row].pivotY},250,"Linear",true)
+				rowList[obj.row].pivotY-= obj.height * 1.4
+				
+				rowList[obj.row].number++
+			}
+			
+			if(partName == 'star'){
+				placeButtons(numberItems)
+			}
+			
+		}
+		
+		for(var i = 0; i < glowGroup.length;i++){
+			
+			var glow = glowGroup.children[i]
+			glow.alpha = 0
+		}
+		
+		for(var i = 0; i < linesGroup.length; i++){
+
+			var line = linesGroup.children[i]
+			line.clear()
+			line.lineStyle(10,0x0088FF,1);
+			line.moveTo(0,0)
+			line.lineTo(0,0)
+			line.alpha = 0
+		}
+		
+		for(var i = 0; i < usedObjects.length;i++){
+			
+			var obj = usedObjects.children[i]
+			obj.active = true
+			
+		}
+		
+		indexTap = 0
+		listUsed = []
 		
 	}
 	
 	function createContainer(){
 		
+		container = sceneGroup.create(game.world.centerX, game.world.height,'atlas.gem','container')
+		container.anchor.setTo(0.5,0.5)
+		container.y-= container.height * 0.53
 		
 	}
+	
+	function createAnswerCont(){
+		
+		answerCont = game.add.group()
+		answerCont.x = game.world.centerX
+		answerCont.y = 75
+		sceneGroup.add(answerCont)
+		
+		var image = answerCont.create(0,0,'atlas.gem','objGem')
+		image.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        answerCont.add(pointsText)
+		
+		answerCont.text = pointsText
+		answerCont.alpha = 0
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRoundedRect(0,80,150, 35,12)
+        rect.alpha = 0.7
+        rect.endFill()
+		rect.x-= rect.width * 0.5
+		rect.y-= rect.height * 0.5
+		answerCont.add(rect)
+		
+		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 85, localization.getString(localizationData,"objective"), fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        answerCont.add(pointsText)
+		
+	}
+	
+	function createClock(){
+        
+        clock = game.add.group()
+        clock.x = game.world.centerX
+        clock.y = 235
+		clock.alpha = 0
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.gem','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.gem','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
+    }
 	
 	return {
 		
@@ -564,8 +1081,10 @@ var gem = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createAnswerCont()
 			createContainer()
-			addParticles()
+			createClock()
+			createObjects()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
@@ -581,17 +1100,16 @@ var gem = function(){
             }, this);
             
             initialize()
-			            
+			
 			createPointsBar()
 			createHearts()
+			addParticles()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
             
-		},
-		show: function(event){
-			loadSounds()
-			initialize()
 		}
 	}
 }()
