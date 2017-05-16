@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Wild Snaps",
+        name: "Lizart",
         language: "es",
-        minigameUrl: "../wildSnaps/index.html?language=" + language,
+        minigameUrl: "../lizart/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

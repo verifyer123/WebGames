@@ -272,15 +272,16 @@ var healthyCollector = function(){
 					items[c].numero = "impar";
 					 NumGlow[c].visible = false;
 				 }
-				
 				sceneGroup.add(NumGlow[c]);
 				sceneGroup.add(items[c]);			
-				
 			}
 		dinamita = game.add.spine(game.world.centerX,game.world.centerY + (game.world.centerY/2) ,"dinamita");
 		dinamita.setAnimationByName(0, "RUN", true);
 		dinamita.setSkinByName("normal");
 		dinamita.x = carril[1].x + dinamita.width/1.3;
+		//var childrens = dinamita.slotContainers[4].children[0]
+		//var childrens = dinamita.slotContainers[4].children[0].scale.x = 1.5;
+		//console.log(childrens);
 		
 		sceneGroup.add(dinamita);
 		

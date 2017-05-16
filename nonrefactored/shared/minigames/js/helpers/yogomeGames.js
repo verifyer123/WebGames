@@ -31,6 +31,8 @@ yogomeGames.getGames = function(){
         {name:'wildSnaps',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild'},
 		{name:'geMath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem'},
 		{name:'hackaMole',url:'http://yogome.com/epic/minigames/hackSite/',sceneName:'hack'},
+		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart'}//26
+
     ]
     
     return games
