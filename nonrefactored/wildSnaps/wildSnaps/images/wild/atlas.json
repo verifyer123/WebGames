@@ -2,11 +2,20 @@
 
 {
 	"filename": "battery",
-	"frame": {"x":134,"y":64,"w":266,"h":98},
+	"frame": {"x":0,"y":64,"w":266,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":266,"h":98},
 	"sourceSize": {"w":266,"h":98},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "bush",
+	"frame": {"x":0,"y":471,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "camaraBox",
-	"frame": {"x":0,"y":471,"w":384,"h":313},
+	"frame": {"x":0,"y":727,"w":384,"h":313},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":384,"h":313},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":0,"y":64,"w":134,"h":98},
+	"frame": {"x":266,"y":64,"w":134,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":98},
@@ -65,7 +74,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":369,"y":0,"w":64,"h":64},
+	"frame": {"x":305,"y":0,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":305,"y":0,"w":64,"h":64},
+	"frame": {"x":369,"y":0,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -95,8 +104,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":433,"h":784},
+	"size": {"w":433,"h":1040},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4147509d091da8c15febe574ca7cf74d:10d38927fdcd6802abc81b2f5259e4eb:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0757acfaee7c5f81775c1559dd39024c:96781d0d63a06ddf2b9cd922ec9f9b22:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

@@ -146,20 +146,6 @@ var wild = function(){
     
     function createSnapsUI() {
 
-        var rectTop = new Phaser.Graphics(game)
-        rectTop.beginFill(0x000000)
-        rectTop.drawRect(game.world.centerX - game.world.width * 0.5,game.world.bounds.top, game.world.width, 100)
-        // rectTop.anchor.setTo(0.5, 0.5)
-        rectTop.endFill()
-        sceneGroup.add(rectTop)
-
-        var rectBot = new Phaser.Graphics(game)
-        rectBot.beginFill(0x000000)
-        rectBot.drawRect(game.world.centerX - game.world.width * 0.5,game.world.bounds.bottom - 100, game.world.width, 100)
-        // rectTop.anchor.setTo(0.5, 0.5)
-        rectBot.endFill()
-        sceneGroup.add(rectBot)
-
         camara = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.wild','camaraBox')
         camara.anchor.setTo(0.5, 0.5)
         
@@ -494,6 +480,20 @@ var wild = function(){
             gameGroup.y = game.world.centerY
             sceneGroup.add(gameGroup)
 
+            var rectTop = new Phaser.Graphics(game)
+            rectTop.beginFill(0x000000)
+            rectTop.drawRect(game.world.centerX - game.world.width * 0.5,game.world.bounds.top, game.world.width, 100)
+            // rectTop.anchor.setTo(0.5, 0.5)
+            rectTop.endFill()
+            sceneGroup.add(rectTop)
+
+            var rectBot = new Phaser.Graphics(game)
+            rectBot.beginFill(0x000000)
+            rectBot.drawRect(game.world.centerX - game.world.width * 0.5,game.world.bounds.bottom - 100, game.world.width, 100)
+            // rectTop.anchor.setTo(0.5, 0.5)
+            rectBot.endFill()
+            sceneGroup.add(rectBot)
+
             var inputRect = new Phaser.Graphics(game)
             inputRect.beginFill(0xffffff)
             inputRect.drawRect(0,0,game.world.width * 2,game.world.height * 2)
@@ -507,17 +507,27 @@ var wild = function(){
                 }
             })
 
-            var blackLeft = new Phaser.Graphics(game)
-            blackLeft.beginFill(0x000000)
-            blackLeft.drawRect(0,0,game.world.width *0.5 - background.width * 0.5, game.world.height *2)
-            blackLeft.endFill()
-            sceneGroup.add(blackLeft)
+            var tileWidth = game.world.width - game.world.centerX - background.width * 0.5 + 1
+            var tileLeftBg = game.add.tileSprite(0 , 0, tileWidth, background.height, "atlas.wild", "bush")
+            sceneGroup.add(tileLeftBg)
+            tileLeftBg.tilePosition.x = tileWidth % 256
 
-            var blackRight = new Phaser.Graphics(game)
-            blackRight.beginFill(0x000000)
-            blackRight.drawRect(game.world.width *0.5 + background.width * 0.5,0,game.world.width *0.5 - background.width * 0.5, game.world.height *2)
-            blackRight.endFill()
-            sceneGroup.add(blackRight)
+            var tileRightBg = game.add.tileSprite(background.x + background.width * 0.5 , 0, tileWidth, background.height, "atlas.wild", "bush")
+            sceneGroup.add(tileRightBg)
+            var offset = 256 - tileWidth % 256
+            tileRightBg.tilePosition.x = tileWidth % 256 + offset
+
+            // var blackLeft = new Phaser.Graphics(game)
+            // blackLeft.beginFill(0x000000)
+            // blackLeft.drawRect(0,0,game.world.width *0.5 - background.width * 0.5, game.world.height *2)
+            // blackLeft.endFill()
+            // sceneGroup.add(blackLeft)
+            //
+            // var blackRight = new Phaser.Graphics(game)
+            // blackRight.beginFill(0x000000)
+            // blackRight.drawRect(game.world.width *0.5 + background.width * 0.5,0,game.world.width *0.5 - background.width * 0.5, game.world.height *2)
+            // blackRight.endFill()
+            // sceneGroup.add(blackRight)
             
             wildSong = game.add.audio('wildSong')
             game.sound.setDecodedCallback(wildSong, function(){
