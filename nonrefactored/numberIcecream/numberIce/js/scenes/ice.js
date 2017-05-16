@@ -49,6 +49,8 @@ var ice = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "splash",
 				file: soundsPath + "splashMud.mp3"},
+			{	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
 		],
     }
     
@@ -134,7 +136,7 @@ var ice = function(){
             particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1.2,1.2)
             game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
 			particle.tint = colorValues[ballIndex]
         //}
         
@@ -164,6 +166,8 @@ var ice = function(){
 	
 	function showGlobe(){
 		
+		cone.pivotY = -50
+		
 		ballsNumber = game.rnd.integerInRange(1,9)
 		
 		globeGroup.text.setText(TEXT_VALUES[ballsNumber - 1])
@@ -192,10 +196,11 @@ var ice = function(){
 		sound.play("shoot")
 		
 		var ball = getBall('ball' + ballsOrder[ballIndex])
-		activateBall(ball,machine.x,machine.y - 50)
+		activateBall(ball,machine.x,machine.y - 25)
 		
-		game.add.tween(ball).to({y:cone.y - 50},1000,"Linear",true).onComplete.add(function(){
+		game.add.tween(ball).to({y:cone.y + cone.pivotY},1000,"Linear",true).onComplete.add(function(){
 			
+			cone.pivotY-=40
 			if(!gameActive){
 
 				deactivateBall(ball)
@@ -407,6 +412,8 @@ var ice = function(){
 		sound.play("wrong")
         gameActive = false
         dojoSong.stop()
+		
+		sound.play("gameLose")
         
 		yogotar.setAnimationByName(0,"LOSE",true)
 		
@@ -428,7 +435,7 @@ var ice = function(){
 		buttons.getImages(game)
         
         game.load.spine('oona', "images/spines/Oona.json")  
-        game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');
+        game.load.audio('dojoSong', soundsPath + 'songs/childrenbit.mp3');
         
         game.load.image('introscreen',"images/ice/introscreen.png")
 		game.load.image('howTo',"images/ice/how" + localization.getLanguage() + ".png")
@@ -449,6 +456,7 @@ var ice = function(){
 		createClock()
 		createHearts()
         createPointsBar()
+		buttons.getButton(dojoSong,sceneGroup)
 		
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
@@ -637,6 +645,7 @@ var ice = function(){
 		cone = sceneGroup.create(game.world.centerX, game.world.height - 300,'atlas.ice','cone')
 		cone.alpha = 0
 		cone.anchor.setTo(0.5,0.5)
+		cone.pivotY = -50
 		
 	}
 	
@@ -702,7 +711,7 @@ var ice = function(){
 			
             dojoSong = game.add.audio('dojoSong')
             game.sound.setDecodedCallback(dojoSong, function(){
-                //dojoSong.loopFull(0.6)
+                dojoSong.loopFull(0.45)
             }, this);
             
             game.onPause.add(function(){
@@ -721,7 +730,6 @@ var ice = function(){
 			createGlobe()
 			createControls()
             
-			buttons.getButton(dojoSong,sceneGroup)
             createOverlay()
             
             animateScene()

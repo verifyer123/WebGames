@@ -1,0 +1,41 @@
+
+front.png
+size: 512,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/head1_f
+  rotate: false
+  xy: 88, 2
+  size: 65, 58
+  orig: 65, 58
+  offset: 0, 0
+  index: -1
+normal/head2_f
+  rotate: false
+  xy: 155, 2
+  size: 64, 58
+  orig: 64, 58
+  offset: 0, 0
+  index: -1
+normal/luz
+  rotate: false
+  xy: 279, 33
+  size: 24, 27
+  orig: 24, 27
+  offset: 0, 0
+  index: -1
+normal/nose_f
+  rotate: false
+  xy: 221, 27
+  size: 56, 33
+  orig: 56, 33
+  offset: 0, 0
+  index: -1
+normal/torso_f
+  rotate: false
+  xy: 2, 5
+  size: 84, 55
+  orig: 84, 55
+  offset: 0, 0
+  index: -1
