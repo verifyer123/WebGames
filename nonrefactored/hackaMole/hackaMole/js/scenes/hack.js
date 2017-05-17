@@ -98,6 +98,7 @@ var hack = function(){
 	var tutorialHand
 	var machineGroup
 	var background
+	var badTopo
 	
 
 	function loadSounds(){
@@ -239,8 +240,29 @@ var hack = function(){
 		if(pointsBar.number % 2 == 0){
 			addObject('hit')
 		}
+		
+		if(pointsBar.number == 10){
+			addBadTopo()
+		}
         
     }
+	
+	function addBadTopo(){
+		
+		var holeIndex = 0
+		
+		badTopo.ready = true
+		
+		badTopo.x = holesGroup.children[holeIndex].x
+		badTopo.y = holesGroup.children[holeIndex].y - 35
+		
+		while(checkOverlap(badTopo,yogotarGroup)){
+			holeIndex++
+			badTopo.x = holesGroup.children[holeIndex].x
+			badTopo.y = holesGroup.children[holeIndex].y
+		}
+		sound.play("flesh")
+	}
     
     function createPointsBar(){
         
@@ -303,6 +325,7 @@ var hack = function(){
         medievalSong.stop()
 		
 		yogotarGroup.anim.setAnimationByName(0,"HIT",true)
+		badTopo.anim.setAnimationByName(0,"HIT",true)
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
@@ -964,6 +987,27 @@ var hack = function(){
 		
 		minusNumber()
 		
+		if(badTopo.ready){
+			
+			var moveTopoX = -moveX
+			var moveTopoY = -moveY
+			
+			if(badTopo.x < game.world.centerX - 100 && moveTopoX < 0){
+				moveTopoX = 0
+			}else if(badTopo.x > game.world.centerX + 100 && moveTopoX > 0){
+				moveTopoX = 0
+			}
+			
+			if(badTopo.y < game.world.centerY - 250 && moveTopoY < 0){
+				moveTopoY = 0
+			}else if(badTopo.y > game.world.centerY -100 && moveTopoY > 0){
+				moveTopoY = 0
+			}
+						
+			game.add.tween(badTopo).to({x:badTopo.x + moveTopoX,y:badTopo.y + moveTopoY},200,"Linear",true)
+			badTopo.anim.setAnimationByName(0,animationName,true)
+		}
+		
 		game.add.tween(yogotarGroup.scale).to({x:0.01,y:0.01},50,"Linear",true)
 		
 		yogotarGroup.anim.setAnimationByName(0,animationName,false)
@@ -973,8 +1017,13 @@ var hack = function(){
 			game.add.tween(yogotarGroup.scale).to({x:1,y:1},50,"Linear",true)
 			
 			if(gameActive){
+				
 				yogotarGroup.anim.setAnimationByName(0,'IDLE',true)
 				yogotarGroup.anim.scale.x = Math.abs(yogotarGroup.anim.scale.x)
+				
+				if(badTopo.ready){
+					badTopo.anim.setAnimationByName(0,"IDLE",true)
+				}
 
 				checkHoles()
 			}
@@ -1040,6 +1089,10 @@ var hack = function(){
 				hole.carrot.alpha = 0
 				hole.carrot.active = false
 			}
+		}
+		
+		if(checkOverlap(yogotarGroup,badTopo)){
+			missPoint()
 		}
 	}
 	
@@ -1162,6 +1215,25 @@ var hack = function(){
 		yogoPos.scale.setTo(0.7,0.7)
 		yogoPos.anchor.setTo(0.5,0.5)
 		yogotarGroup.yogoPos = yogoPos
+		
+		badTopo = game.add.group()
+		badTopo.x = -200
+		badTopo.y = game.world.centerY - 190
+		badTopo.ready = false
+		sceneGroup.add(badTopo)
+		
+		var yogotar = game.add.spine(0,40, "topo");
+		yogotar.scale.setTo(0.8,0.8)
+		yogotar.setSkinByName("normal2")
+		yogotar.setAnimationByName(0,"IDLE",true)
+		badTopo.add(yogotar)
+		
+		badTopo.anim = yogotar
+		
+		var yogoPos = badTopo.create(33,-5,'atlas.hack','yogotar')
+		yogoPos.alpha = 0
+		yogoPos.scale.setTo(0.7,0.7)
+		yogoPos.anchor.setTo(0.5,0.5)
 	}
 	
 	function createHoles(){
