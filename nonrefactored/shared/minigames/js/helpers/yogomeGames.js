@@ -2,7 +2,7 @@ var yogomeGames = {}
 
 yogomeGames.getGames = function(){
 	var games = [
-        
+	
         {name:'additionDojo',url:'http://yogome.com/epic/minigames/dojoSite/',sceneName:'dojo',review:true},
         {name:'spaceWords',url:'http://yogome.com/epic/minigames/spaceSite/',sceneName:'space',review:true},
         {name:'yogomeRunner',url:'http://yogome.com/epic/minigames/runnerSite/',sceneName:'runneryogome',review:true},
@@ -31,7 +31,8 @@ yogomeGames.getGames = function(){
         {name:'wildSnaps',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild',review:true},
 		{name:'geMath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem',review:true},
 		{name:'hackaMole',url:'http://yogome.com/epic/minigames/hackSite/',sceneName:'hack',review:false},
-		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart',review:false}//28
+		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart',review:false},
+		{name:'snoozeCrater',url:'http://yogome.com/epic/minigames/snoozeSite/',sceneName:'snooze', review:false}//29
 
 		
     ]
