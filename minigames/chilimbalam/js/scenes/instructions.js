@@ -20,6 +20,7 @@ var instructions = function(){
 
 	var sceneGroup
     var loopTween
+	var popAudio
 
     
     function loadSounds(){
@@ -50,7 +51,10 @@ var instructions = function(){
         
         obj.inputEnabled = false
         
+		//popAudio.play()
         sound.play("click")
+		
+		console.log('startGame')
         
         tweenLoop.stop()
         
@@ -137,7 +141,7 @@ var instructions = function(){
 	}
 
 	function initialize(){
-        loadSounds()
+      
         mixpanel.track(
             "loadGame",
             {"gameName": "chilimbalam"}
@@ -145,11 +149,19 @@ var instructions = function(){
         
 		game.stage.backgroundColor = "#ffffff"
 	}
-
+	
+	function preload(){
+		
+		loadSounds()
+		popAudio = new Audio(soundsPath + "pop.mp3")
+    
+	}
+	
 	return {
 		name: "instructions",
 		assets: assets,
 		create: createScene,
-		init: initialize
+		init: initialize,
+		preload:preload,
 	}
 }()

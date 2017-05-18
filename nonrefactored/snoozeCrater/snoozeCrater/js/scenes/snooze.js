@@ -61,7 +61,7 @@ var snooze = function(){
     
     var lives
 	var sceneGroup = null
-    var gameIndex = 27
+    var gameIndex = 29
     var tutoGroup
     var snoozeSong
     var heartsGroup = null

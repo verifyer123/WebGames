@@ -258,9 +258,10 @@ var lizart = function(){
 	function createBallon(ColorSelect){
 		
 		globo = sceneGroup.create(game.width-50,game.height-200,"globo");
-		globo.anchor.setTo(1,1);
+		globo.x = game.world.centerX
+		globo.anchor.setTo(0,1);
 		textGlobo = game.add.text(0, 0, ColorSelect, styleClock,sceneGroup);
-		textGlobo.x = globo.x - globo.width/2;
+		textGlobo.x = globo.x + globo.width/2;
 		textGlobo.y = globo.y-globo.height/2;
 		textGlobo.anchor.setTo(0.5,0.8);
 		TweenMax.fromTo(globo.scale,0.5,{x:0,y:0},{x:1,y:1});
@@ -288,8 +289,8 @@ var lizart = function(){
 		
 		piso = game.add.tileSprite(0,game.height-150,game.width,150,"piso");
 		sceneGroup.add(piso);
-		tree = sceneGroup.create(0,0,"tree");
-		tree.anchor.setTo(0.2,0.2);
+		tree = sceneGroup.create(game.world.centerX,0,"tree");
+		tree.anchor.setTo(0.5,0.2);
 		
 		var idleGroup = game.add.group();
 		idleBody = idleGroup.create(0, 0, 'idleBody');
@@ -457,7 +458,7 @@ var lizart = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,26)
+			resultScreen.setScore(true, coins,28)
 			sceneloader.show("result");
 	}
 

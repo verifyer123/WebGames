@@ -204,10 +204,16 @@ var chilimbalam = function(){
     
     function preload() {
         
+		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
         game.load.spine('mascot', "images/spines/skeleton.json");
         
-        game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+        //game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+		
+		marioSong = new Audio(soundsPath + 'songs/classic_arcade.mp3')
+		marioSong.loop = true
+		marioSong.volume = 0.3
+		marioSong.play()
     }
     
     function inputButton(obj){
@@ -306,7 +312,7 @@ var chilimbalam = function(){
         
         buddy.setAnimationByName(0,"LOSE",0.6)
         
-        marioSong.stop()
+        marioSong.pause()
         //timer.pause()
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
@@ -866,14 +872,22 @@ var chilimbalam = function(){
             'vaso'
         );
         
-        
+        game.onPause.add(function(){
+			game.sound.mute = true
+			marioSong.pause()
+		} , this);
+
+		game.onResume.add(function(){
+			game.sound.mute = false
+			marioSong.play()
+		}, this);
         
         buddy.setSkinByName('combined')
                 
-        marioSong = game.add.audio('arcadeSong')
+        /*marioSong = game.add.audio('arcadeSong')
         game.sound.setDecodedCallback(marioSong, function(){
-            marioSong.loopFull(0.3)
-        }, this);
+            //marioSong.loopFull(0.3)
+        }, this);*/
         
         var topRect = new Phaser.Graphics(game)
         topRect.beginFill(0xffffff);
