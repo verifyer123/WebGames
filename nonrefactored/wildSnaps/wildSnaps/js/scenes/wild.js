@@ -239,7 +239,7 @@ var wild = function(){
     }
     
     function preload(){
-        
+        game.load.spine('birds', "images/spines/aves/aves.json")
         game.stage.disableVisibilityChange = false;
         game.load.audio('wildSong', soundsPath + 'songs/forestAmbience.mp3');
         
@@ -249,7 +249,7 @@ var wild = function(){
 
         buttons.getImages(game)
 
-        game.load.spine('birds', "images/spines/aves/aves.json")
+
         game.load.spine('cervidos', "images/spines/cervidos/cervidos.json")
     }
 
