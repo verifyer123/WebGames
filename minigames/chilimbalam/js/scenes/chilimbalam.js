@@ -210,10 +210,7 @@ var chilimbalam = function(){
         
         //game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
 		
-		marioSong = new Audio(soundsPath + 'songs/classic_arcade.mp3')
-		marioSong.loop = true
-		marioSong.volume = 0.3
-		marioSong.play()
+		marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
     }
     
     function inputButton(obj){

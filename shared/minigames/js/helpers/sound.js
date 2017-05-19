@@ -40,8 +40,18 @@ var sound = function(){
 			console.warn("[Sound]"+"Not found Sound: "+soundId)
 		}
 	}
-
+	
+	function setSong(path,volume){
+		
+		var song = new Audio(path)
+		song.loop = true
+		song.volume = volume
+		song.play()
+		return song
+	}
+	
 	return {
+		setSong: setSong,
 		decode: decode,
 		init: init,
 		play: play,

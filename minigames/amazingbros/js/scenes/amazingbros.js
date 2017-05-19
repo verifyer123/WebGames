@@ -138,7 +138,9 @@ var amazingbros = function(){
         game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
         game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/amazingbros/coinS.png', 68, 70, 12);
-        game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+        //game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+		
+		marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.6)
     }
     
     function inputButton(obj){
@@ -210,7 +212,7 @@ var amazingbros = function(){
     }
     function stopGame(win){
         
-        marioSong.stop()
+        marioSong.pause()
         
         missPoint()
         sound.play("gameLose")
@@ -925,19 +927,21 @@ var amazingbros = function(){
             loadSounds()
 			initialize()       
             
-            //sound.play("marioSong")
+            /*//sound.play("marioSong")
             marioSong = game.add.audio('marioSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 marioSong.loopFull(0.6)
-            }, this);
+            }, this);*/
             
             
             game.onPause.add(function(){
                 game.sound.mute = true
+				marioSong.pause()
             } , this);
 
             game.onResume.add(function(){
                 game.sound.mute = false
+				marioSong.play()
             }, this);
             
             objectsGroup = game.add.group()
