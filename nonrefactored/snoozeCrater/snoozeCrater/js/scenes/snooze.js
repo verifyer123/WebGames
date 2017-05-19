@@ -53,11 +53,6 @@ var snooze = function(){
     var NUM_LIFES = 3
     var MAX_OBJS = 20
     var OBJECTS = ["watch", "bell"]
-
-    var ROUNDS = [
-        {continent: "america", flags: ["mexico", "usa"]},
-        {continent: "america", numFlags: 4},
-        {continent: "random", numFlags: 4}]
     
     var lives
 	var sceneGroup = null
@@ -80,6 +75,11 @@ var snooze = function(){
     var spineGroup
     var timeElapsed
     var currentTime
+    var fallingObj
+    var randomTimes
+    var randomCounter
+    var objectCounterTap
+    var roundInfo
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -96,12 +96,17 @@ var snooze = function(){
         numPoints = 0
         roundCounter = 0
         objectList = []
+        fallingObj = []
+        randomTimes = []
+        objectCounterTap = 0
+        roundInfo = {maxTime:3000, numItem:1, airplaneSpeed:5, objSpeed:2}
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
         timeElapsed = 0
         currentTime = 0
+        randomCounter = 0
         
         loadSounds()
         
@@ -119,10 +124,6 @@ var snooze = function(){
         })
 
         addNumberPart(pointsBar.text,'+' + number)
-
-        // if(pointsBar.number % 2 == 0){
-        timeValue-=timeValue * 0.10
-        // }
 
     }
 
@@ -149,8 +150,31 @@ var snooze = function(){
 
     }
 
+    function vibrateObj(obj) {
+        obj.toAngle = (obj.toAngle) ? obj.toAngle * -1 : 20
+        var angle1 = game.add.tween(obj).to({angle:obj.toAngle}, 100, Phaser.Easing.Cubic.Out, true)
+        angle1.onComplete.add(function () {
+            returnVibrate(obj)
+        })
+    }
+
+    function returnVibrate(obj) {
+        vibrateObj(obj)
+    }
+
+    function checkLost(obj){
+        if (obj.y >= game.world.bounds.bottom - 100) {
+            var tween1 = game.add.tween(obj.scale).to({x: 1.5, y: 1.5}, 1000, Phaser.Easing.Cubic.Out, true)
+            tween1.onComplete.add(function(){
+                vibrateObj(obj)
+                spineGroup.spine.erupte()
+            })
+            missPoint()
+        }
+    }
+
     function erupte(){
-        var eruption = spineGroup.spine.addAnimationByName(0, "ERUPTION", false)
+        var eruption = spineGroup.spine.setAnimationByName(0, "ERUPTION", false)
         spineGroup.spine.addAnimationByName(0, "ERUPTIONSTILL", true)
         game.add.tween(spineGroup.smoke).to({alpha: 0}, 500, Phaser.Easing.Quadratic.Out, true)
 
@@ -192,6 +216,20 @@ var snooze = function(){
         spineGroup.spine = spineObj
 
     }
+
+    function onClickObj(obj) {
+        obj.inputEnabled = false
+        obj.falling = false
+        // obj.alpha = 0
+        console.log("tap")
+        game.add.tween(obj.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(obj.scale).to({x:0.2, y:0.2}, 200, Phaser.Easing.Cubic.In, true, 200)
+        game.add.tween(obj).to({alpha:0, angle:360}, 400, Phaser.Easing.Cubic.In, true)
+        sound.play("right")
+        addPoint(1)
+        createPart("star", obj)
+        objectCounterTap++
+    }
     
     function createGameObjects(){
         pullGroup = game.add.group()
@@ -211,6 +249,8 @@ var snooze = function(){
             var obj = pullGroup.create(0,0,'atlas.snooze', objImg)
             obj.anchor.setTo(0.5, 0.5)
             objectList.push(obj)
+            // obj.inputEnabled = true
+            obj.events.onInputDown.add(onClickObj, this)
         }
 
         airplane = sceneGroup.create(-400, 100, "atlas.snooze", "plane")
@@ -237,11 +277,11 @@ var snooze = function(){
         particlesGood.gravity = 150;
         particlesGood.angularDrag = 30;
 
-        // particlesGood.x = obj.x;
-        // particlesGood.y = obj.y;
+        particlesGood.x = obj.x;
+        particlesGood.y = obj.y;
         particlesGood.start(true, 1000, null, 2);
 
-        obj.add(particlesGood)
+        sceneGroup.add(particlesGood)
         obj.particle = particlesGood
         
     }
@@ -250,10 +290,12 @@ var snooze = function(){
                 
         //objectsGroup.timer.pause()
         //timer.pause()
+        gameUpdate = false
+        fallingObj = []
         snoozeSong.stop()
         inputsEnabled = false
         
-        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 4000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -280,7 +322,7 @@ var snooze = function(){
         
     }
 
-    function addNumberPart(obj,number){
+    function addNumberPart(obj,number, toY){
 
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
@@ -290,26 +332,47 @@ var snooze = function(){
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        var toY = toY || 100
+
+        game.add.tween(pointsText).to({y:pointsText.y + toY},800,Phaser.Easing.linear,true)
         game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
 
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
     }
 
+    function createRandomTime(totalTime, numItems) {
+        var timeInterval = totalTime / numItems
+        for (var timeIndex = 0; timeIndex < numItems; timeIndex++){
+            var randTime = game.rnd.integerInRange(0, timeInterval) + (timeInterval * timeIndex)
+            randomTimes.push(randTime)
+        }
+    }
+
     function startRound(notStarted) {
 
         // var currentRound = ROUNDS[roundCounter]
-        // roundCounter = roundCounter < ROUNDS.length - 1 ? roundCounter + 1 : ROUNDS.length - 1
         var toX = game.world.centerX - 100 * airplane.direction
-        var duration = Math.abs(toX - game.world.width)
+        var duration = 3000 * (toX / game.world.width)
+        roundInfo.objSpeed = roundInfo.objSpeed + (roundCounter - 1) * 0.2
+        roundInfo.numItem++
+        if (roundInfo.numItem > 20)
+            roundInfo.numItem = 20
+
+        roundInfo.maxTime += 1000
 
         airplane.tween = game.add.tween(airplane).to({x: toX}, duration, Phaser.Easing.Sinusoidal.InOut, true, 600)
         airplane.tween.onComplete.add(function () {
             gameUpdate = true
             timeElapsed = 0
+            randomCounter = 0
+            fallingObj = []
             spineGroup.spine.addAnimationByName(0, "NERVOUS", true, 0.5)
+            randomTimes = []
+            objectCounterTap = 0
+            createRandomTime(roundInfo.maxTime, roundInfo.numItem)
         })
+
     }
 
     function missPoint(){
@@ -373,6 +436,56 @@ var snooze = function(){
         })
     }
     
+    function addObject() {
+        var obj = objectList[randomCounter]
+        obj.x = airplane.x
+        obj.y = airplane.y + 100
+        obj.alpha = 0
+        obj.scale.x = 0.2
+        obj.scale.y = 0.2
+        obj.falling = false
+        sceneGroup.add(objectList[randomCounter])
+        fallingObj.push(objectList[randomCounter])
+        obj.inputEnabled = true
+        game.add.tween(obj.scale).to({x:1, y:1}, 400, Phaser.Easing.Cubic.In, true)
+        game.add.tween(obj).to({alpha:1}, 400, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
+            obj.falling = true
+        })
+    }
+    
+    function addRandomObj() {
+        var randomTime = randomTimes[randomCounter]
+        if((randomTime)&&(timeElapsed >= randomTimes[randomCounter])){
+            addObject()
+            randomCounter++
+        }
+    }
+
+    function updateObjects() {
+        for(var objIndex = 0; objIndex < fallingObj.length; objIndex++){
+            var obj = fallingObj[objIndex]
+            if(obj.falling){
+                obj.y += roundInfo.objSpeed
+            } else if(obj.inputEnabled)
+                obj.x = airplane.x
+
+            checkLost(obj)
+        }
+    }
+    
+    function planeAway() {
+        gameUpdate = false
+        var toX = airplane.direction > 0 ? game.world.width + 400 : -400
+        var duration = Math.abs(airplane.x - toX)
+        var tween = game.add.tween(airplane).to({x: toX}, duration, Phaser.Easing.Quadratic.In, true)
+        tween.onComplete.add(function () {
+            spineGroup.spine.addAnimationByName(0, "IDLE", true)
+            airplane.direction = airplane.direction * -1
+            airplane.scale.x = airplane.scale.x * -1
+            startRound()
+        })
+    }
+    
     function update() {
         if (gameUpdate){
             var airplaneWidth = Math.abs(airplane.width * 0.5)
@@ -381,23 +494,17 @@ var snooze = function(){
                 airplane.direction = airplane.direction * -1
                 airplane.scale.x *= -1
             }
-            airplane.x += 5 * airplane.direction
+            airplane.x += roundInfo.airplaneSpeed * airplane.direction
+
+            addRandomObj()
 
             timeElapsed += game.time.elapsedMS
-            console.log(timeElapsed)
-            if (timeElapsed >= 12000){
-                gameUpdate = false
-                var toX = airplane.direction > 0 ? game.world.width + 400 : -400
-                var duration = Math.abs(airplane.x - toX)
-                var tween = game.add.tween(airplane).to({x: toX}, duration, Phaser.Easing.Quadratic.In, true)
-                tween.onComplete.add(function () {
-                    spineGroup.spine.addAnimationByName(0, "IDLE", true)
-                    airplane.direction = airplane.direction * -1
-                    airplane.scale.x = airplane.scale.x * -1
-                    startRound()
-                })
+            if (objectCounterTap === randomTimes.length){
+                roundCounter++
+                planeAway()
             }
         }
+        updateObjects()
     }
 
     function createTutorial(){
