@@ -29,7 +29,17 @@ var snooze = function(){
 				file: "images/snooze/fondo.png"}
 		],
 		sounds: [
-            {	name: "pop",
+            {	name: "alarm",
+                file: soundsPath + "alarmBell.mp3"},
+		    {	name: "explosion",
+                file: soundsPath + "fireExplosion.mp3"},
+		    {	name: "growl",
+                file: soundsPath + "growlDeep.mp3"},
+            {	name: "grunt",
+                file: soundsPath + "gruntDeep.mp3"},
+		    {	name: "airplane",
+                file: soundsPath + "airplaneOut.mp3"},
+		    {	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "magic",
 				file: soundsPath + "magic.mp3"},
@@ -115,6 +125,7 @@ var snooze = function(){
     function addPoint(number){
 
         sound.play("magic")
+        numPoints++
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
 
@@ -152,8 +163,8 @@ var snooze = function(){
 
     function vibrateObj(obj) {
         obj.toAngle = (obj.toAngle) ? obj.toAngle * -1 : 20
-        var angle1 = game.add.tween(obj).to({angle:obj.toAngle}, 100, Phaser.Easing.Cubic.Out, true)
-        angle1.onComplete.add(function () {
+        obj.tween = game.add.tween(obj).to({angle:obj.toAngle}, 100, Phaser.Easing.Cubic.Out, true)
+        obj.tween.onComplete.add(function () {
             returnVibrate(obj)
         })
     }
@@ -164,16 +175,36 @@ var snooze = function(){
 
     function checkLost(obj){
         if (obj.y >= game.world.bounds.bottom - 100) {
+            obj.inputEnabled = false
+            obj.falling = false
+            objectCounterTap++
             var tween1 = game.add.tween(obj.scale).to({x: 1.5, y: 1.5}, 1000, Phaser.Easing.Cubic.Out, true)
             tween1.onComplete.add(function(){
+                sound.play("alarm")
                 vibrateObj(obj)
-                spineGroup.spine.erupte()
+                if (spineGroup.timer)
+                    spineGroup.eventTime.timer.stop()
+
+                if (lives === 0)
+                    spineGroup.spine.erupte()
+                else{
+                    game.add.tween(obj).to({alpha: 0}, 1800, Phaser.Easing.Cubic.Out, true)
+                    spineGroup.spine.setAnimationByName(0, "NERVOUS", true)
+                    sound.play("growl")
+                    spineGroup.eventTime = game.time.events.add(1000, function () {
+
+                        spineGroup.spine.setAnimationByName(0, "IDLE", true)
+
+                    }, this)
+                }
             })
-            missPoint()
+            missPoint(obj)
+            createPart("wrong", obj)
         }
     }
 
     function erupte(){
+        sound.play("grunt")
         var eruption = spineGroup.spine.setAnimationByName(0, "ERUPTION", false)
         spineGroup.spine.addAnimationByName(0, "ERUPTIONSTILL", true)
         game.add.tween(spineGroup.smoke).to({alpha: 0}, 500, Phaser.Easing.Quadratic.Out, true)
@@ -181,8 +212,8 @@ var snooze = function(){
         eruption.onComplete = function () {
             if (!spineGroup.isErupted) {
                 spineGroup.isErupted = true
-                console.log("complete")
-                eruptionSheet.animations.play('explode', 20, true)
+                eruptionSheet.animations.play('explode', 20, false)
+                sound.play("explosion")
                 spineGroup.add(eruptionSheet)
                 eruptionSheet.x = 0
                 eruptionSheet.y = -spineGroup.spine.height - 50
@@ -218,17 +249,18 @@ var snooze = function(){
     }
 
     function onClickObj(obj) {
-        obj.inputEnabled = false
-        obj.falling = false
-        // obj.alpha = 0
-        console.log("tap")
-        game.add.tween(obj.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(obj.scale).to({x:0.2, y:0.2}, 200, Phaser.Easing.Cubic.In, true, 200)
-        game.add.tween(obj).to({alpha:0, angle:360}, 400, Phaser.Easing.Cubic.In, true)
-        sound.play("right")
-        addPoint(1)
-        createPart("star", obj)
-        objectCounterTap++
+        if(lives > 0){
+            obj.inputEnabled = false
+            obj.falling = false
+            // obj.alpha = 0
+            game.add.tween(obj.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(obj.scale).to({x:0.2, y:0.2}, 200, Phaser.Easing.Cubic.In, true, 200)
+            game.add.tween(obj).to({alpha:0, angle:360}, 400, Phaser.Easing.Cubic.In, true)
+            sound.play("right")
+            addPoint(1)
+            createPart("star", obj)
+            objectCounterTap++
+        }
     }
     
     function createGameObjects(){
@@ -362,12 +394,13 @@ var snooze = function(){
         roundInfo.maxTime += 1000
 
         airplane.tween = game.add.tween(airplane).to({x: toX}, duration, Phaser.Easing.Sinusoidal.InOut, true, 600)
+        sound.play("airplane")
         airplane.tween.onComplete.add(function () {
             gameUpdate = true
             timeElapsed = 0
             randomCounter = 0
             fallingObj = []
-            spineGroup.spine.addAnimationByName(0, "NERVOUS", true, 0.5)
+            // spineGroup.spine.addAnimationByName(0, "NERVOUS", true, 0.5)
             randomTimes = []
             objectCounterTap = 0
             createRandomTime(roundInfo.maxTime, roundInfo.numItem)
@@ -375,7 +408,7 @@ var snooze = function(){
 
     }
 
-    function missPoint(){
+    function missPoint(obj){
         
         sound.play("wrong")
         inputsEnabled = false
@@ -390,9 +423,6 @@ var snooze = function(){
         
         if(lives === 0){
             stopGame(false)
-        }
-        else{
-            startRound()
         }
         
         addNumberPart(heartsGroup.text,'-1')
@@ -444,6 +474,8 @@ var snooze = function(){
         obj.scale.x = 0.2
         obj.scale.y = 0.2
         obj.falling = false
+        if (obj.tween)
+            obj.tween.stop()
         sceneGroup.add(objectList[randomCounter])
         fallingObj.push(objectList[randomCounter])
         obj.inputEnabled = true
@@ -466,10 +498,9 @@ var snooze = function(){
             var obj = fallingObj[objIndex]
             if(obj.falling){
                 obj.y += roundInfo.objSpeed
+                checkLost(obj)
             } else if(obj.inputEnabled)
                 obj.x = airplane.x
-
-            checkLost(obj)
         }
     }
     
@@ -521,7 +552,6 @@ var snooze = function(){
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
             onClickPlay(rect)
-            
         })
         
         tutoGroup.add(rect)
@@ -542,8 +572,7 @@ var snooze = function(){
 		if(game.device.desktop){
 			inputName = 'desktop'
 		}
-		
-		//console.log(inputName)
+
 		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.snooze',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
