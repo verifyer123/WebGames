@@ -58,13 +58,11 @@ var feed = function(){
     
     var lives
 	var sceneGroup = null
-    var gameIndex = 23
+    var gameIndex = 30
     var tutoGroup
     var dojoSong
     var heartsGroup = null
     var pullGroup = null
-    var clock
-    var timeValue
     var numPoints
     var inputsEnabled
     var pointsBar
@@ -166,7 +164,6 @@ var feed = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         dojoSong.stop()
-        clock.tween.stop()
         inputsEnabled = false
         
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
