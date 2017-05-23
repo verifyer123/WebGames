@@ -29,7 +29,11 @@ var snooze = function(){
 				file: "images/snooze/fondo.png"}
 		],
 		sounds: [
-            {	name: "alarm",
+            {	name: "pop",
+                file: soundsPath + "pop.mp3"},
+            {	name: "magic",
+                file: soundsPath + "magic.mp3"},
+		    {	name: "alarm",
                 file: soundsPath + "alarmBell.mp3"},
 		    {	name: "explosion",
                 file: soundsPath + "fireExplosion.mp3"},
@@ -39,18 +43,8 @@ var snooze = function(){
                 file: soundsPath + "gruntDeep.mp3"},
 		    {	name: "airplane",
                 file: soundsPath + "airplaneOut.mp3"},
-		    {	name: "pop",
-				file: soundsPath + "pop.mp3"},
-			{	name: "magic",
-				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
-            {	name: "combo",
-				file: soundsPath + "combo.mp3"},
-            {	name: "flip",
-				file: soundsPath + "flipCard.mp3"},
-            {	name: "swipe",
-				file: soundsPath + "swipe.mp3"},
+            {   name: "throw",
+                file: soundsPath + "throw.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
             {	name: "right",
@@ -63,6 +57,7 @@ var snooze = function(){
     var NUM_LIFES = 3
     var MAX_OBJS = 20
     var OBJECTS = ["watch", "bell"]
+    var ANIMATIONS_BY_LIFE = ["ANGRY", "NERVOUS"]
     
     var lives
 	var sceneGroup = null
@@ -188,14 +183,15 @@ var snooze = function(){
                 if (lives === 0)
                     spineGroup.spine.erupte()
                 else{
+                    var animationName = ANIMATIONS_BY_LIFE[lives - 1]
                     game.add.tween(obj).to({alpha: 0}, 1800, Phaser.Easing.Cubic.Out, true)
-                    spineGroup.spine.setAnimationByName(0, "NERVOUS", true)
+                    spineGroup.spine.setAnimationByName(0, animationName, true)
                     sound.play("growl")
-                    spineGroup.eventTime = game.time.events.add(1000, function () {
-
-                        spineGroup.spine.setAnimationByName(0, "IDLE", true)
-
-                    }, this)
+                    // spineGroup.eventTime = game.time.events.add(1000, function () {
+                    //
+                    //     spineGroup.spine.setAnimationByName(0, "IDLE", true)
+                    //
+                    // }, this)
                 }
             })
             missPoint(obj)
@@ -342,7 +338,7 @@ var snooze = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-        game.load.audio('dojoSong', soundsPath + 'songs/wormwood.mp3');
+        game.load.audio('snoozeSong', soundsPath + 'songs/wormwood.mp3');
         
         game.load.image('introscreen',"images/snooze/introscreen.png")
 		game.load.image('howTo',"images/snooze/how" + localization.getLanguage() + ".png")
@@ -351,7 +347,8 @@ var snooze = function(){
         game.load.spine('volcan', "images/spines/volcan/skeleton.json")
         game.load.spritesheet('eruption', 'images/snooze/volcanoExplosion.png', 256, 256, 14)
         game.load.spritesheet('smoke', 'images/snooze/volcanoBubbles.png', 128, 128, 15)
-        
+
+        buttons.getImages(game)
     }
 
     function addNumberPart(obj,number, toY){
@@ -394,7 +391,7 @@ var snooze = function(){
         roundInfo.maxTime += 1000
 
         airplane.tween = game.add.tween(airplane).to({x: toX}, duration, Phaser.Easing.Sinusoidal.InOut, true, 600)
-        sound.play("airplane")
+        sound.play("airplane", 0, 0.6)
         airplane.tween.onComplete.add(function () {
             gameUpdate = true
             timeElapsed = 0
@@ -474,6 +471,7 @@ var snooze = function(){
         obj.scale.x = 0.2
         obj.scale.y = 0.2
         obj.falling = false
+        sound.play("throw")
         if (obj.tween)
             obj.tween.stop()
         sceneGroup.add(objectList[randomCounter])
@@ -496,11 +494,13 @@ var snooze = function(){
     function updateObjects() {
         for(var objIndex = 0; objIndex < fallingObj.length; objIndex++){
             var obj = fallingObj[objIndex]
-            if(obj.falling){
+            if((obj.falling)&&(obj.inputEnabled)){
                 obj.y += roundInfo.objSpeed
                 checkLost(obj)
             } else if(obj.inputEnabled)
                 obj.x = airplane.x
+            else
+                obj.falling = false
         }
     }
     
@@ -509,8 +509,9 @@ var snooze = function(){
         var toX = airplane.direction > 0 ? game.world.width + 400 : -400
         var duration = Math.abs(airplane.x - toX)
         var tween = game.add.tween(airplane).to({x: toX}, duration, Phaser.Easing.Quadratic.In, true)
+        sound.play("airplane")
         tween.onComplete.add(function () {
-            spineGroup.spine.addAnimationByName(0, "IDLE", true)
+            // spineGroup.spine.addAnimationByName(0, "IDLE", true)
             airplane.direction = airplane.direction * -1
             airplane.scale.x = airplane.scale.x * -1
             startRound()
@@ -530,7 +531,7 @@ var snooze = function(){
             addRandomObj()
 
             timeElapsed += game.time.elapsedMS
-            if (objectCounterTap === randomTimes.length){
+            if (objectCounterTap >= randomTimes.length){
                 roundCounter++
                 planeAway()
             }
@@ -602,7 +603,7 @@ var snooze = function(){
             ocean.anchor.setTo(0.5, 1)
             sceneGroup.add(ocean)
             
-            snoozeSong = game.add.audio('dojoSong')
+            snoozeSong = game.add.audio('snoozeSong')
             game.sound.setDecodedCallback(snoozeSong, function(){
                 snoozeSong.loopFull(0.6)
             }, this);
@@ -622,6 +623,8 @@ var snooze = function(){
             createPointsBar()
             createGameObjects()
             createTutorial()
+
+            buttons.getButton(snoozeSong,sceneGroup)
             
 		}
 	}
