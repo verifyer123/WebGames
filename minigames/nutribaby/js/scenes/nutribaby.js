@@ -126,7 +126,8 @@ var nutribaby = function(){
         game.load.spritesheet('hand', 'images/nutribaby/hand.png',151,67,5)
         game.load.spritesheet('monster', 'images/nutribaby/monster.png', 292, 237, 17);
         
-        game.load.audio('runningSong', soundsPath + 'songs/bubble_fishgame.mp3');
+        //game.load.audio('runningSong', soundsPath + 'songs/bubble_fishgame.mp3');
+		marioSong = sound.setSong(soundsPath + 'songs/bubble_fishgame.mp3',0.6)
         
     }
     
@@ -291,7 +292,7 @@ var nutribaby = function(){
         
         game.stage.backgroundColor = "#ffffff"
         
-        marioSong.stop()
+        marioSong.pause()
         
         characterGroup.ice.alpha = 0
         characterGroup.hand.alpha = 0
@@ -1161,11 +1162,11 @@ var nutribaby = function(){
             loadSounds()
 			initialize()       
             
-            //sound.play("marioSong")
+            /*//sound.play("marioSong")
             marioSong = game.add.audio('runningSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 marioSong.loopFull(0.6)
-            }, this);
+            }, this);*/
             
             piecesGroup = game.add.group()
             worldGroup.add(piecesGroup)
@@ -1237,10 +1238,14 @@ var nutribaby = function(){
             createObjects() 
             
             game.onPause.add(function(){
+				marioSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					marioSong.play()
+				}
                 game.sound.mute = false
             }, this);
             

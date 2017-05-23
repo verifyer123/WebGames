@@ -179,8 +179,9 @@ var neonedge = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spritesheet('coinS', 'images/neon/coinS.png', 68, 70, 12);
-        game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
+        //game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
         
+		marioSong = sound.setSong(soundsPath + 'songs/melodic_basss.mp3',0.5)
         
     }
     
@@ -251,7 +252,7 @@ var neonedge = function(){
     
     function stopGame(win){
         
-        marioSong.stop()
+        marioSong.pause()
         
         missPoint()
         sound.play("gameLose")
@@ -465,7 +466,7 @@ var neonedge = function(){
             game.physics.p2.gravity.y = WORLD_GRAVITY
             changeVelocityGame(-gameSpeed)
             startParticles()
-            marioSong.loopFull(0.5)
+            //marioSong.loopFull(0.5)
         }
         
         player.body.moveUp(jumpValue)
@@ -963,11 +964,11 @@ var neonedge = function(){
 			initialize()       
             
             //sound.play("marioSong")
-            marioSong = game.add.audio('neonSong')
+            /*marioSong = game.add.audio('neonSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 //marioSong.loopFull(0.6)
                 //marioSong.stop()
-            }, this);
+            }, this);*/
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
@@ -1005,10 +1006,14 @@ var neonedge = function(){
             createObjects()
             
             game.onPause.add(function(){
+				marioSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					marioSong.play()
+				}
                 game.sound.mute = false
             }, this);
             

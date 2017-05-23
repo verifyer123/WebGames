@@ -202,7 +202,7 @@ var clownrush = function(){
     
     function stopGame(){
         
-        gameSong.stop()
+        gameSong.pause()
         //objectsGroup.timer.pause()
         gameActive = false
         buddy.setAnimationByName(0,"LOSE",false)
@@ -1044,8 +1044,8 @@ var clownrush = function(){
         
         game.load.spritesheet('bMonster', 'images/clown/badclown.png', 173, 181, 16);
         
-        game.load.audio('circus', soundsPath + 'songs/circus_gentlejammers.mp3');
-        
+        //game.load.audio('circus', soundsPath + 'songs/circus_gentlejammers.mp3');
+		gameSong = sound.setSong(soundsPath + 'songs/circus_gentlejammers.mp3',0.3)
         
     }
     
@@ -1139,16 +1139,21 @@ var clownrush = function(){
             initialize()
             animateScene()
             
-            gameSong = game.add.audio('circus')
+            /*gameSong = game.add.audio('circus')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.3)
-            }, this);
+            }, this);*/
             
             game.onPause.add(function(){
+				gameSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					gameSong.play()
+				}
+				
                 game.sound.mute = false
             }, this);
             

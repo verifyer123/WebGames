@@ -129,9 +129,9 @@ var storepanic = function(){
         game.load.spritesheet('bMonster', 'images/lacomer/bMonster.png', 101, 165, 17);
         game.load.spritesheet('pMonster', 'images/lacomer/pMonster.png', 149, 124, 17);
         //game.load.spritesheet('coinS', 'images/lacomer/coinS.png', 68, 70, 12);
-        game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+        //game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
         
-        
+        marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.4)
     }
     
     function inputButton(obj){
@@ -209,7 +209,7 @@ var storepanic = function(){
     }
     function stopGame(win){
         
-        marioSong.stop()
+        marioSong.pause()
         
         missPoint()
         sound.play("gameLose")
@@ -998,17 +998,21 @@ var storepanic = function(){
             loadSounds()
 			initialize()       
             
-            //sound.play("marioSong")
+            /*//sound.play("marioSong")
             marioSong = game.add.audio('marioSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 marioSong.loopFull(0.4)
-            }, this);
+            }, this);*/
             
             game.onPause.add(function(){
+				marioSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					marioSong.play()
+				}
                 game.sound.mute = false
             }, this);
             

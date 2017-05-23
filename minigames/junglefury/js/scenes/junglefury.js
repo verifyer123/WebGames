@@ -161,7 +161,7 @@ var junglefury = function(){
     
     function stopGame(){
         
-        gameSong.stop()
+        gameSong.pause()
         //objectsGroup.timer.pause()
         gameActive = false
         buddy.setAnimationByName(0,"HIT_COCONUT",false)
@@ -713,7 +713,8 @@ var junglefury = function(){
 
         game.load.spine('kong', "images/spines/skeleton.json");
         
-        game.load.audio('timberman', soundsPath + 'songs/timberman.mp3');
+        //game.load.audio('timberman', soundsPath + 'songs/timberman.mp3');
+		gameSong = sound.setSong(soundsPath + 'songs/timberman.mp3',0.5)
         
         
     }
@@ -825,16 +826,20 @@ var junglefury = function(){
             initialize()
             animateScene()
             
-            gameSong = game.add.audio('timberman')
+            /*gameSong = game.add.audio('timberman')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.5)
-            }, this);
+            }, this);*/
             
             game.onPause.add(function(){
                 game.sound.mute = true
+				gameSong.pause()
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					gameSong.play()
+				}
                 game.sound.mute = false
             }, this);
             
