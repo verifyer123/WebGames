@@ -45,6 +45,8 @@ var galaxy = function(){
 				file: soundsPath + "gameLose.mp3"},
 			{	name: "spaceship",
 				file: soundsPath + "spaceship.mp3"},
+			{	name: "combo",
+				file: soundsPath + "combo.mp3"},
 			
 			
 		],
@@ -57,12 +59,13 @@ var galaxy = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 31
 	var whiteFade
 	var indexGame
     var overlayGroup
 	var worldGroup
 	var yogotarShip
+	var lastTag
     var spaceSong,endSong
 	var stars,clouds
 	var monsterNumber
@@ -251,7 +254,7 @@ var galaxy = function(){
 		
 		yogotarShip.setAnimationByName(0,"LOSE",true)
 		
-		game.add.tween(yogotarShip).to({y:collider.y},500,"Linear",true).onComplete.add(function(){
+		game.add.tween(yogotarShip).to({y:collider.y},400,"Linear",true).onComplete.add(function(){
 			
 			setExplosion(collider)
 			sound.play("explosion")
@@ -259,14 +262,14 @@ var galaxy = function(){
 			yogotarShip.setAnimationByName(0,"LOSESTILL",true)
 			
 			game.add.tween(yogotarShip.scale).to({x:0.5,y:0.5},400,"Linear",true)
-			game.add.tween(yogotarShip).to({x: game.world.width + 100, y:game.world.centerY + 200},500,"Linear",true)
+			game.add.tween(yogotarShip).to({x: game.world.width + 200, y:game.world.centerY + 200},500,"Linear",true)
 			game.add.tween(worldGroup).to({alpha:0},500,"Linear",true)
 			
 			game.time.events.add(500,function(){
 				
 				yogotarShip.scale.setTo(0.7,0.7)
-				yogotarShip.x = -150
-				game.add.tween(yogotarShip).to({x: game.world.width + 100,y:yogotarShip.y + 200},10000,"Linear",true)
+				yogotarShip.x = -100
+				game.add.tween(yogotarShip).to({x: game.world.width + 100,y:yogotarShip.y + 200},8000,"Linear",true)
 			})
 			
 			changeColors()
@@ -305,7 +308,7 @@ var galaxy = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 10000)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 8000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -356,16 +359,21 @@ var galaxy = function(){
 		worldGroup.angle = 0
 		
 		yogotarShip.monsters = 0
+		yogotarShip.badMonsters = 0
 		
 		var planetIndex = game.rnd.integerInRange(0,planets.length - 1)
 		
 		var tag = planets[planetIndex].name
-				
+		
+		while(lastTag == tag){
+			planetIndex = game.rnd.integerInRange(0,planets.length - 1)
+			tag = planets[planetIndex].name
+		}
+		
+		lastTag = tag
 		var planet = getObject(tag,planetGroup)
 		planet.alpha = 1
-		
-		console.log(tag + ' tag,')
-		
+				
 		planetGroup.remove(planet)
 		worldGroup.add(planet)
 		
@@ -375,7 +383,17 @@ var galaxy = function(){
 		var angleToUse = 232
 		for(var i = 0; i < monsterNumber; i++){
 			
-			var monster = getObject('alien' + game.rnd.integerInRange(1,2),monstersGroup)
+			var index =  game.rnd.integerInRange(1,2)
+			
+			if(index == 1 && yogotarShip.badMonsters == 0 && i == monsterNumber - 1){
+				index = 2
+			}
+			
+			if(index == 2){
+				yogotarShip.badMonsters++
+			}
+			
+			var monster = getObject('alien' + index,monstersGroup)
 			monster.alpha = 1
 			
 			monstersGroup.remove(monster)
@@ -405,9 +423,7 @@ var galaxy = function(){
 			sound.play("cut")
 			worldGroup.alpha = 1
 			worldGroup.scale.setTo(1,1)
-			
-			console.log(worldGroup.scale.x + ' scale')
-		
+					
 			game.add.tween(worldGroup.scale).from({x:0,y:0},500,"Linear",true)
 		})
 		
@@ -679,7 +695,7 @@ var galaxy = function(){
         particlesGood.y = posY;
         particlesGood.start(true, 1000, null, particlesNumber);
 
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+        game.add.tween(particlesGood).to({alpha:0},500,Phaser.Easing.Cubic.In,true)
         sceneGroup.add(particlesGood)
         
     }
@@ -705,7 +721,7 @@ var galaxy = function(){
 			}
 		}
 		
-		if(objToUse){
+		if(objToUse && objToUse.tag == 'alien2'){
 			
 			yogotarShip.setAnimationByName(0,"ABDUCTION",false)
 			yogotarShip.addAnimationByName(0,"WIN",false)
@@ -726,8 +742,9 @@ var galaxy = function(){
 			
 			yogotarShip.monsters++
 			
-			if(yogotarShip.monsters == monsterNumber){
+			if(yogotarShip.monsters == yogotarShip.badMonsters){
 				
+				sound.play("combo")
 				gameActive = false
 				game.time.events.add(500,hideObjects)
 			}
@@ -748,7 +765,12 @@ var galaxy = function(){
 				var obj = worldGroup.children[i]
 				
 				worldGroup.remove(obj)
-				planetGroup.add(obj)
+				
+				if(obj.monster){
+					monstersGroup.add(obj)
+				}else{
+					planetGroup.add(obj)
+				}
 				
 				obj.alpha = 0
 			}
@@ -769,14 +791,13 @@ var galaxy = function(){
 	
 	function inputButton(obj){
 		
-		console.log('button')
 		if(!gameActive || yogotarShip.abducts){
 			return
 		}
 		
 		game.add.tween(whiteFade).from({alpha:1},250,"Linear",true)
 		
-		yogotarShip.abducts = true
+		//yogotarShip.abducts = true
 		
 		sound.play("spaceship")
 		
@@ -812,8 +833,8 @@ var galaxy = function(){
 		monstersGroup = game.add.group()
 		sceneGroup.add(monstersGroup)
 		
-		createMonsters('alien1',5)
-		createMonsters('alien2',5)
+		createMonsters('alien1',10)
+		createMonsters('alien2',10)
 	}
 	
 	function createMonsters(tag,number){
@@ -859,7 +880,7 @@ var galaxy = function(){
 			sceneGroup.add(yogotarShip)
 			
 			collider = sceneGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.galaxy','button')
-			collider.scale.setTo(0.2,0.2)
+			collider.scale.setTo(0.1,0.2)
 			collider.alpha = 0
 			collider.anchor.setTo(0.5,0.5)
 			

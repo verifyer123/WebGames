@@ -34,7 +34,7 @@ yogomeGames.getGames = function(){
 		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart',review:false},
 		{name:'snoozeCrater',url:'http://yogome.com/epic/minigames/snoozeSite/',sceneName:'snooze', review:false},//29
 		{name:'mathFeed',url:'http://yogome.com/epic/minigames/feedSite/',sceneName:'feed', review:false},//30
-		{name:'galaxyHeroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'feed', review:false},//31
+		{name:'galaxyHeroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'galaxy', review:false},//31
 
 		
     ]
