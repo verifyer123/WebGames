@@ -50,6 +50,9 @@ var feed = function(){
     }
 
     var NUM_LIFES = 3
+    var MAX_NUM_BRICKS = 20
+    var CONTAINERS = ["container_a", "container_b"]
+    var BRICK_HEIGHT = 82
 
     var ROUNDS = [
         {continent: "america", flags: ["mexico", "usa"]},
@@ -60,12 +63,17 @@ var feed = function(){
 	var sceneGroup = null
     var gameIndex = 30
     var tutoGroup
-    var dojoSong
+    var feedSong
     var heartsGroup = null
     var pullGroup = null
     var numPoints
     var inputsEnabled
     var pointsBar
+    var brickList
+    var bricksInGame
+    var numSpaces
+    var gameGroup
+    var maxHeight
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -78,10 +86,14 @@ var feed = function(){
         //gameActive = true
         lives = NUM_LIFES
         numPoints = 0
+        brickList = []
+        bricksInGame = []
+        numSpaces = Math.floor(game.world.height / BRICK_HEIGHT)
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
+        maxHeight = game.world.height - 178
         
         loadSounds()
         
@@ -105,7 +117,33 @@ var feed = function(){
         // }
 
     }
+    
+    function createBrick(index) {
+        var containerGroup = game.add.group()
+        containerGroup.x = 0
+        containerGroup.y = 0
 
+        var brickName = CONTAINERS[index % 2]
+        // console.log(brickName)
+        var container = containerGroup.create(0, 0, "atlas.feed", brickName)
+        container.anchor.setTo(0.5, 0.5)
+        var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var numberText = new Phaser.Text(game, 0, 0, "0", fontStyle)
+        numberText.anchor.setTo(0.5, 0.5)
+        numberText.x = 0
+        numberText.y = 2
+        containerGroup.add(numberText)
+        containerGroup.text = numberText
+        containerGroup.container = container
+        containerGroup.color = index % 2
+        brickList.push(containerGroup)
+
+        pullGroup.add(containerGroup)
+
+        container.events.onInputDown.add(onClickBrick)
+
+    }
+    
     function createPointsBar(){
 
         pointsBar = game.add.group()
@@ -136,6 +174,15 @@ var feed = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
+        gameGroup = game.add.group()
+        gameGroup.x = game.world.centerX
+        gameGroup.y = 0
+        sceneGroup.add(gameGroup)
+
+        for(var brickIndex = 0; brickIndex < MAX_NUM_BRICKS; brickIndex++){
+            createBrick(brickIndex)
+        }
+
     }
     
     function createPart(key,obj){
@@ -163,7 +210,7 @@ var feed = function(){
                 
         //objectsGroup.timer.pause()
         //timer.pause()
-        dojoSong.stop()
+        feedSong.stop()
         inputsEnabled = false
         
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
@@ -206,8 +253,44 @@ var feed = function(){
 
     }
 
-    function startRound(notStarted) {
+    function trimBrick(brick) {
+        // for(var brickIndex = brick.index + 1; brickIndex < bricksInGame.length; brickIndex++){
+        //     var actualBrick = bricksInGame[brickIndex]
+        //     actualBrick.index = actualBrick.index - 1
+        // }
+        game.add.tween(brick).to({alpha:0}, 400, null, true)
+        brick.container.inputEnabled = false
+        bricksInGame.splice(brick.index, 1)
+        brickList.push(brick)
+    }
 
+    function onClickBrick(obj) {
+        var container = obj.parent
+
+        trimBrick(container)
+    }
+
+    function addBrick() {
+        var brick = brickList[0]
+        brickList.splice(0,1)
+        pullGroup.remove(brick)
+        gameGroup.add(brick)
+        bricksInGame.push(brick)
+
+        brick.container.inputEnabled = true
+
+    }
+    
+    function startRound() {
+        addBrick()
+
+        for(var delayIndex = 0; delayIndex < 9; delayIndex++){
+            game.time.events.add(800 * (delayIndex + 1),function(){
+
+                addBrick()
+
+            },this)
+        }
 
     }
 
@@ -268,10 +351,41 @@ var feed = function(){
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
             tutoGroup.y = -game.world.height
-            // startTimer(missPoint)
+            startRound()
         })
     }
+    
+    function update() {
+        var colorCounter = []
+        var colorsCounters = []
+        for(var brickIndex = 0; brickIndex < bricksInGame.length; brickIndex++){
+            var brick = bricksInGame[brickIndex]
+            brick.index = brickIndex
+            brick.toY = (maxHeight - (brick.index) * 80)
+            if (brick.y <= brick.toY)
+                brick.y += 5
+            else {
+                if ((colorCounter.length)&&(colorCounter[colorCounter.length - 1].color !== brick.color)){
+                    colorsCounters.push(colorCounter)
+                    colorCounter = []
+                }
+                colorCounter.push(brick)
+            }
+        }
 
+        for(var colorsIndex = 0; colorsIndex < colorsCounters.length; colorsIndex++)
+        {
+            var colorsSelected = colorsCounters[colorsIndex]
+            console.log(colorsSelected.length)
+            if (colorsSelected.length >= 3) {
+                for (var colorIndex = colorsSelected.length - 1; colorIndex >= 0; colorIndex--) {
+                    var colorSelected = colorsSelected[colorIndex]
+                    trimBrick(colorSelected)
+                }
+            }
+        }
+    }
+    
     function createTutorial(){
         
         tutoGroup = game.add.group()
@@ -324,17 +438,28 @@ var feed = function(){
 		assets: assets,
 		name: "feed",
         preload:preload,
+        update:update,
 		create: function(event){
             
 			sceneGroup = game.add.group()
+
+            var background = sceneGroup.create(game.world.centerX,game.world.centerY,'fondo')
+            background.anchor.setTo(0.5, 0.5)
+            // background.width = game.world.width+2
+            // background.height = game.world.height+2
+            var backgroundLeft = sceneGroup.create(game.world.centerX - background.width,game.world.centerY,'fondo')
+            backgroundLeft.anchor.setTo(0.5, 0.5)
+            backgroundLeft.scale.x = -1
+            var backgroundRight = sceneGroup.create(game.world.centerX + background.width,game.world.centerY,'fondo')
+            backgroundRight.anchor.setTo(0.5, 0.5)
+            backgroundRight.scale.x = -1
+            var floor = game.add.tileSprite(game.world.centerX , game.world.height + 20, game.world.width, 158, "atlas.feed", "floor")
+            floor.anchor.setTo(0.5, 1)
+            sceneGroup.add(floor)
             
-            var background = sceneGroup.create(-2,-2,'fondo')
-            background.width = game.world.width+2
-            background.height = game.world.height+2
-            
-            dojoSong = game.add.audio('dojoSong')
-            game.sound.setDecodedCallback(dojoSong, function(){
-                dojoSong.loopFull(0.6)
+            feedSong = game.add.audio('dojoSong')
+            game.sound.setDecodedCallback(feedSong, function(){
+                feedSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -351,7 +476,6 @@ var feed = function(){
             createPointsBar()
             createGameObjects()
 
-            startRound(true)
             createTutorial()
             
 		}
