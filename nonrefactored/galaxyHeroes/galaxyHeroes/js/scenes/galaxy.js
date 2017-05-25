@@ -6,13 +6,29 @@ var galaxy = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"jupiter":"Jupiter",
+			"saturn":"Saturn",
+			"mercury":"Mercury",
+			"uranus":"Uranus",
+			"earth":"Earth",
+			"mars":"Mars",
+			"venus":"Venus",
+			"neptune":"Neptune"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"jupiter":"Júpiter",
+			"saturn":"Saturno",
+			"mercury":"Mercurio",
+			"uranus":"Urano",
+			"earth":"Tierra",
+			"mars":"Marte",
+			"venus":"Venus",
+			"neptune":"Neptuno"
 		}
 	}
     
@@ -72,15 +88,17 @@ var galaxy = function(){
 	var planetSpeed
 	var planetGroup, monstersGroup
 	var collider
+	var indexPlanet
 	var planets = [
-		{name:'jupiter',color:0xba8525},
+		{name:'mercury',color:0xBA7A25},
+		{name:'venus',color:0x9BBA25},
 		{name:'earth',color:0x25ABBA},
 		{name:'mars',color:0xba2e25},
-		{name:'mercury',color:0xBA7A25},
-		{name:'neptune',color:0x25A0BA},
-		//{name:'saturn',color:0x97491E},
+		{name:'jupiter',color:0xba8525},
+		{name:'saturn',color:0x97491E},
 		{name:'uranus',color:0x257BBA},
-		{name:'venus',color:0x9BBA25},
+		{name:'neptune',color:0x25A0BA},
+		
 	]
 	
 
@@ -94,6 +112,7 @@ var galaxy = function(){
         lives = 1
 		planetSpeed = 0.5
 		monsterNumber = 5
+		indexPlanet = 0
         
         loadSounds()
         
@@ -274,9 +293,9 @@ var galaxy = function(){
 			
 			changeColors()
 			
-			endSong = game.add.audio('endSong')
-            game.sound.setDecodedCallback(endSong, function(){
-                endSong.loopFull(0.6)
+			spaceSong = game.add.audio('endSong')
+            game.sound.setDecodedCallback(spaceSong, function(){
+                spaceSong.loopFull(0.6)
             }, this);
 		})
 		
@@ -300,6 +319,8 @@ var galaxy = function(){
 	
     function stopGame(win){
         
+		game.add.tween(whiteFade).to({alpha:0},200,"Linear",true)
+		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
@@ -315,7 +336,7 @@ var galaxy = function(){
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
 			//amazing.saveScore(pointsBar.number) 	
-			endSong.stop()
+			spaceSong.stop()
             sceneloader.show("result")
 		})
     }
@@ -324,6 +345,7 @@ var galaxy = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
+		buttons.getImages(game)
         
         game.load.spine('ship', "images/spines/skeleton.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/musicVideogame9.mp3');
@@ -338,6 +360,8 @@ var galaxy = function(){
 		game.load.spritesheet('alien2', 'images/galaxy/sprites/alien2.png', 128, 128, 12);
 		
 		console.log(localization.getLanguage() + ' language')
+		
+		
         
     }
     
@@ -361,14 +385,8 @@ var galaxy = function(){
 		yogotarShip.monsters = 0
 		yogotarShip.badMonsters = 0
 		
-		var planetIndex = game.rnd.integerInRange(0,planets.length - 1)
 		
-		var tag = planets[planetIndex].name
-		
-		while(lastTag == tag){
-			planetIndex = game.rnd.integerInRange(0,planets.length - 1)
-			tag = planets[planetIndex].name
-		}
+		var tag = planets[indexPlanet].name
 		
 		lastTag = tag
 		var planet = getObject(tag,planetGroup)
@@ -376,6 +394,8 @@ var galaxy = function(){
 				
 		planetGroup.remove(planet)
 		worldGroup.add(planet)
+		
+		worldGroup.text = planet.text
 		
 		planet.x = 0
 		planet.y = 0
@@ -537,6 +557,11 @@ var galaxy = function(){
 		}
 		
 		worldGroup.angle-= planetSpeed
+		
+		if(worldGroup.text){
+			worldGroup.text.angle = -worldGroup.angle
+			
+		}
 	}
 	
 	function createTextPart(text,obj){
@@ -760,9 +785,9 @@ var galaxy = function(){
 		sound.play("cut")
 		game.add.tween(worldGroup.scale).to({x:0,y:0},500,"Linear",true).onComplete.add(function(){
 			
-			for(var i = 0; i < worldGroup.length;i++){
+			while(worldGroup.length > 0){
 				
-				var obj = worldGroup.children[i]
+				var obj = worldGroup.children[0]
 				
 				worldGroup.remove(obj)
 				
@@ -783,6 +808,11 @@ var galaxy = function(){
 		}
 		
 		game.time.events.add(1000,function(){
+			indexPlanet++
+			
+			if(indexPlanet > planets.length - 1){
+				indexPlanet = 0
+			}
 			
 			addPlanet()
 		})
@@ -828,6 +858,25 @@ var galaxy = function(){
 			planet.anchor.setTo(0.5,0.5)
 			
 			group.tag = planets[i].name
+			
+			var groupText = game.add.group()
+			group.add(groupText)
+			
+			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData,planets[i].name), fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x000000)
+			rect.drawRoundedRect(0,0,pointsText.width * 1.5, 75)
+			rect.x-= rect.width * 0.5
+			rect.y-= rect.height * 0.5
+			rect.endFill()
+			groupText.add(rect)
+			
+			groupText.add(pointsText)
+			group.text = groupText
+			
 		}
 		
 		monstersGroup = game.add.group()
@@ -886,6 +935,7 @@ var galaxy = function(){
 			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
+				
                 spaceSong.loopFull(0.6)
             }, this);
             
@@ -899,6 +949,8 @@ var galaxy = function(){
             
 			addButton()
             initialize()
+			
+			buttons.getButton(spaceSong,sceneGroup)
 			            
 			createPointsBar()
 			createHearts()
