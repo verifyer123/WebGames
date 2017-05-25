@@ -876,7 +876,9 @@ var chilimbalam = function(){
 
 		game.onResume.add(function(){
 			game.sound.mute = false
-			marioSong.play()
+			if(lives>0){
+				marioSong.play()
+			}
 		}, this);
         
         buddy.setSkinByName('combined')

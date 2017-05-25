@@ -193,7 +193,7 @@ var hexhop = function(){
     
     function stopGame(){
         
-        gameSong.stop()
+        gameSong.pause()
         //objectsGroup.timer.pause()
         gameActive = false
         
@@ -449,7 +449,9 @@ var hexhop = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spritesheet('rosa', 'images/hexhop/rosa.png', 50, 50, 73);
-        game.load.audio('hexSong', soundsPath + 'songs/electro_trance_minus.mp3');
+        //game.load.audio('hexSong', soundsPath + 'songs/electro_trance_minus.mp3');
+		
+		gameSong = sound.setSong(soundsPath + 'songs/electro_trance_minus.mp3',0.8)
         
     }
     
@@ -706,17 +708,21 @@ var hexhop = function(){
             
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             
-            gameSong = game.add.audio('hexSong')
+            /*gameSong = game.add.audio('hexSong')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.8)
-            }, this);
+            }, this);*/
             
             game.onPause.add(function(){
-                console.log('gamePaused')
+                gameSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					gameSong.play()
+				}
+				
                 game.sound.mute = false
             }, this);
             

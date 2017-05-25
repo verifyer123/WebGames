@@ -122,7 +122,8 @@ var cubejump = function(){
         game.load.spritesheet('cube', 'images/cubejump/cube.png', 136, 98, 26);
         //game.load.spritesheet('monster', 'images/jumpward/monster.png', 292, 237, 17);
         
-        game.load.audio('runningSong', soundsPath + 'songs/chemical_electro.mp3');
+        //game.load.audio('runningSong', soundsPath + 'songs/chemical_electro.mp3');
+		marioSong = sound.setSong(soundsPath + 'songs/chemical_electro.mp3',0.6)
         
     }
     
@@ -203,7 +204,7 @@ var cubejump = function(){
     
     function stopGame(win){
         
-        marioSong.stop()
+        marioSong.pause()
         
         missPoint()
         sound.play("gameLose")
@@ -963,10 +964,10 @@ var cubejump = function(){
 			initialize()       
             
             //sound.play("marioSong")
-            marioSong = game.add.audio('runningSong')
+            /*marioSong = game.add.audio('runningSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 marioSong.loopFull(0.6)
-            }, this);
+            }, this);*/
             
             piecesGroup = game.add.group()
             worldGroup.add(piecesGroup)
@@ -1018,10 +1019,15 @@ var cubejump = function(){
             createControls()   
             
             game.onPause.add(function(){
+				marioSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					marioSong.play()
+				}
+				
                 game.sound.mute = false
             }, this);
             

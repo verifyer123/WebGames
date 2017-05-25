@@ -22,6 +22,8 @@ var twindots = function(){
 				file: soundsPath + "magic.mp3"},
             {	name: "flipCard",
 				file: soundsPath + "gear.mp3"},
+			{	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
             
 		],
 	}
@@ -145,9 +147,11 @@ var twindots = function(){
     
     function stopGame(){
         
-        gameSong.stop()
+        gameSong.pause()
         //objectsGroup.timer.pause()
         gameActive = false
+		
+		sound.play("gameLose")
         
         lives--
         heartsGroup.text.setText('X ' +lives)
@@ -570,7 +574,8 @@ var twindots = function(){
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('gears', soundsPath + 'songs/the_buildup.mp3');
+        //game.load.audio('gears', soundsPath + 'songs/the_buildup.mp3');
+		gameSong = sound.setSong(soundsPath + 'songs/the_buildup.mp3',0.8)
         
         
     }
@@ -794,16 +799,20 @@ var twindots = function(){
             
             colorContainers()
             
-            gameSong = game.add.audio('gears')
+            /*gameSong = game.add.audio('gears')
             game.sound.setDecodedCallback(gameSong, function(){
                 gameSong.loopFull(0.8)
-            }, this);
+            }, this);*/
             
             game.onPause.add(function(){
+				gameSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					gameSong.play()
+				}
                 game.sound.mute = false
             }, this);
             

@@ -173,7 +173,8 @@ var cirquit = function(){
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
+        //game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
+		marioSong = sound.setSong(soundsPath + 'songs/melodic_basss.mp3',0.5) 
         
         
     }
@@ -257,7 +258,7 @@ var cirquit = function(){
     
     function stopGame(win){
         
-        marioSong.stop()
+        marioSong.pause()
         
         missPoint()
         sound.play("gameLose")
@@ -551,7 +552,7 @@ var cirquit = function(){
 
         if(game.physics.p2.gravity.y == 0){
             game.physics.p2.gravity.y = WORLD_GRAVITY
-            marioSong.loopFull(0.5)
+            //marioSong.loopFull(0.5)
         }
         
         var bar = sceneGroup.limit
@@ -993,11 +994,11 @@ var cirquit = function(){
 			initialize()       
             
             //sound.play("marioSong")
-            marioSong = game.add.audio('neonSong')
+            /*marioSong = game.add.audio('neonSong')
             game.sound.setDecodedCallback(marioSong, function(){
                 //marioSong.loopFull(0.6)
                 //marioSong.stop()
-            }, this);
+            }, this);*/
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
@@ -1038,10 +1039,15 @@ var cirquit = function(){
             
             game.onPause.add(function(){
                 game.sound.mute = true
+				marioSong.pause()
             } , this);
 
             game.onResume.add(function(){
                 game.sound.mute = false
+				if(lives>0){
+					marioSong.play()
+				}
+				
             }, this);
             
             //createControls()

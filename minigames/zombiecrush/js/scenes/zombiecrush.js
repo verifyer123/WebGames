@@ -145,7 +145,8 @@ var zombiecrush = function(){
         game.load.spritesheet('zombieS', 'images/zombie/zombiesoldier.png', 66, 118, 17);
         game.load.spritesheet('fireSkull', 'images/zombie/skullFire.png', 179 / 2, 235/2, 9);
         
-        game.load.audio('song', soundsPath + 'songs/weLoveElectricCars.mp3');
+        //game.load.audio('song', soundsPath + 'songs/weLoveElectricCars.mp3');
+		zombieSong = sound.setSong(soundsPath + 'songs/weLoveElectricCars.mp3',0.6)
         
     }
     
@@ -247,7 +248,7 @@ var zombiecrush = function(){
         
         gameActive = false
         
-        zombieSong.stop()
+        zombieSong.pause()
         
         sound.play("gameLose")
         createPart('drop',characterGroup.bubble)
@@ -1190,22 +1191,22 @@ var zombiecrush = function(){
             
             createIcons()
             
-            
-            
-
-            
             //createParticles()
             
-            zombieSong = game.add.audio('song')
+            /*zombieSong = game.add.audio('song')
             game.sound.setDecodedCallback(zombieSong, function(){
                 zombieSong.loopFull(0.6)
-            }, this);
+            }, this);*/
             
             game.onPause.add(function(){
+				zombieSong.pause()
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+				if(lives>0){
+					zombieSong.play()
+				}
                 game.sound.mute = false
             }, this);
             
