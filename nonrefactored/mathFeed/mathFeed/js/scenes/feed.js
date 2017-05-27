@@ -55,9 +55,10 @@ var feed = function(){
     var BRICK_HEIGHT = 82
 
     var ROUNDS = [
-        {continent: "america", flags: ["mexico", "usa"]},
-        {continent: "america", numFlags: 4},
-        {continent: "random", numFlags: 4}]
+        {numbers:[2,2,2,3,3,3], pointsForNextRound:5},
+        {numbers:[2,3,4,6,8,9,9], pointsForNextRound:30},
+        {numbers:[12,15,16,18,21,21,5], pointsForNextRound:60},
+        {numbers:[21,24,33,27,26,23], pointsForNextRound:100}]
     
     var lives
 	var sceneGroup = null
@@ -74,6 +75,17 @@ var feed = function(){
     var numSpaces
     var gameGroup
     var maxHeight
+    var brickSelected
+    var spineObj1
+    var spineObj2
+    var roundCounter
+    var timeNextBrick
+    var timeBetween
+    var gameActive
+    var swipe
+    var pointsNextRound
+    var addBrickCounter
+    var speed
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -83,17 +95,24 @@ var feed = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        //gameActive = true
+        gameActive = false
         lives = NUM_LIFES
         numPoints = 0
+        roundCounter = 0
+        addBrickCounter = 0
+        pointsNextRound = 0
+        speed = 5
+        timeBetween = 3000
         brickList = []
         bricksInGame = []
+        brickSelected = null
         numSpaces = Math.floor(game.world.height / BRICK_HEIGHT)
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
         maxHeight = game.world.height - 178
+        timeNextBrick = 0
         
         loadSounds()
         
@@ -113,7 +132,10 @@ var feed = function(){
         addNumberPart(pointsBar.text,'+' + number)
 
         // if(pointsBar.number % 2 == 0){
-        // timeValue-=timeValue * 0.10
+        timeBetween-=timeBetween * 0.02
+        speed += speed * 0.02
+        if (pointsBar.number >= pointsNextRound)
+            roundCounter = roundCounter + 1 > ROUNDS.length - 1 ? ROUNDS.length - 1 : roundCounter + 1
         // }
 
     }
@@ -136,7 +158,13 @@ var feed = function(){
         containerGroup.text = numberText
         containerGroup.container = container
         containerGroup.color = index % 2
+        // containerGroup.originalIndex = index
         brickList.push(containerGroup)
+
+        var glow = containerGroup.create(0, 0, "atlas.feed", "glow")
+        glow.anchor.setTo(0.5, 0.5)
+        glow.alpha = 0
+        containerGroup.glow = glow
 
         pullGroup.add(containerGroup)
 
@@ -192,14 +220,14 @@ var feed = function(){
         particlesGood.makeParticles('atlas.feed',key);
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.2;
+        particlesGood.minParticleScale = 0.6;
         particlesGood.maxParticleScale = 1;
         particlesGood.gravity = 150;
         particlesGood.angularDrag = 30;
 
         // particlesGood.x = obj.x;
-        // particlesGood.y = obj.y;
-        particlesGood.start(true, 1000, null, 2);
+        particlesGood.y = -110
+        particlesGood.start(true, 1000, null, 3);
 
         obj.add(particlesGood)
         obj.particle = particlesGood
@@ -217,7 +245,7 @@ var feed = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -233,59 +261,96 @@ var feed = function(){
         game.load.image('introscreen',"images/feed/introscreen.png")
 		game.load.image('howTo',"images/feed/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/feed/play" + localization.getLanguage() + ".png")
-        
+
+        game.load.spine('yogotar', "images/spine/skeleton.json")
     }
 
-    function addNumberPart(obj,number){
+    function addNumberPart(obj,number,fontStyle,direction,offset){
 
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var direction = direction || 100
+        var fontStyle = fontStyle || {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var offset = offset || {x:0, y:0}
 
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
+        var pointsText = new Phaser.Text(sceneGroup.game, offset.x, offset.y, number, fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
+        if (obj.world) {
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y
+            sceneGroup.add(pointsText)
+        }else{
+            if (obj.scale.x < 0)
+                pointsText.scale.x = -1
+            obj.add(pointsText)
+        }
 
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({y:pointsText.y + direction},800,Phaser.Easing.linear,true)
         game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
 
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
     }
 
-    function trimBrick(brick) {
-        // for(var brickIndex = brick.index + 1; brickIndex < bricksInGame.length; brickIndex++){
-        //     var actualBrick = bricksInGame[brickIndex]
-        //     actualBrick.index = actualBrick.index - 1
-        // }
-        game.add.tween(brick).to({alpha:0}, 400, null, true)
+    function trimBrick(brick, easing) {
+        if (brickSelected === brick)
+            brickSelected = null
+
+        game.add.tween(brick).to({alpha:0}, 800, easing, true).onComplete.add(function () {
+            gameGroup.remove(brick)
+            pullGroup.add(brick)
+        })
         brick.container.inputEnabled = false
         bricksInGame.splice(brick.index, 1)
-        brickList.push(brick)
+        brickList.unshift(brick)
     }
 
     function onClickBrick(obj) {
-        var container = obj.parent
+        if (brickSelected)
+            game.add.tween(brickSelected.glow).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 
-        trimBrick(container)
+        var container = obj.parent
+        brickSelected = container
+        game.add.tween(container.glow).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true)
+        obj.inputEnabled = false
+
+        // trimBrick(container)
     }
 
     function addBrick() {
-        var brick = brickList[0]
-        brickList.splice(0,1)
+        var round = ROUNDS[roundCounter]
+        var roundNumbers = round.numbers
+        timeNextBrick = 0
+        pointsNextRound = round.pointsForNextRound
+
+        var brick = brickList[brickList.length - 1]
+        brickList.pop()
+        // addBrickCounter = addBrickCounter + 1 > brickList.length - 1 ? 0 : addBrickCounter + 1
         pullGroup.remove(brick)
         gameGroup.add(brick)
         bricksInGame.push(brick)
+        brick.alpha = 1
+        brick.scale.x = 1
+        brick.scale.y = 1
+        brick.glow.alpha = 0
+        brick.x = 0
+        brick.y = -50
+        brick.timeElapsed = 0
+
+        var rndNumber = game.rnd.integerInRange(0, roundNumbers.length - 1)
+        var number = roundNumbers[rndNumber]
+        brick.text.setText(number)
+        brick.number = number
 
         brick.container.inputEnabled = true
 
     }
     
     function startRound() {
-        addBrick()
 
-        for(var delayIndex = 0; delayIndex < 9; delayIndex++){
-            game.time.events.add(800 * (delayIndex + 1),function(){
+        addBrick()
+        gameActive = true
+
+        for(var delayIndex = 0; delayIndex < 5; delayIndex++){
+            game.time.events.add(500 * (delayIndex + 1),function(){
 
                 addBrick()
 
@@ -311,7 +376,7 @@ var feed = function(){
             stopGame(false)
         }
         else{
-            startRound()
+            // startRound()
         }
         
         addNumberPart(heartsGroup.text,'-1')
@@ -355,35 +420,150 @@ var feed = function(){
         })
     }
     
+    function checkAnswer(brickNumber, yogotar) {
+
+        if(brickNumber % yogotar.number === 0){
+            sound.play("right")
+            createPart("star", yogotar)
+            yogotar.setAnimationByName(0, "WIN", false)
+
+            var result = brickNumber / yogotar.number
+            addPoint(result)
+            var fontStyle = {font: "68px VAGRounded", fontWeight: "bold", fill: "#080788", align: "center"}
+            addNumberPart(yogotar, result, fontStyle, -200, {x:0, y:-80})
+        }else {
+            sound.play("wrong")
+            createPart("wrong", yogotar)
+            yogotar.setAnimationByName(0, "SICK", false)
+
+            missPoint()
+        }
+        yogotar.addAnimationByName(0, "IDLE", true)
+    }
+    
+    function moveBrick(direction) {
+        var toX, yogotar
+        if(direction === "right"){
+            toX = 180
+            yogotar = spineObj2
+        }else if(direction === "left"){
+            toX = - 180
+            yogotar = spineObj1
+        }
+        yogotar.setAnimationByName(0, "EAT", false)
+        game.add.tween(brickSelected.scale).to({x:0.4, y:0.4}, 600, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(brickSelected).to({x:toX}, 600, Phaser.Easing.Cubic.Out, true).onComplete.add(function(brickTween){
+            checkAnswer(brickTween.number, yogotar)
+            timeNextBrick = timeBetween - 500
+        })
+        game.add.tween(brickSelected).to({y:maxHeight - 70}, 600, Phaser.Easing.Quadratic.InOut, true)
+        // game.add.tween(brickSelected.glow).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
+        trimBrick(brickSelected, Phaser.Easing.Cubic.In)
+        brickSelected = null
+    }
+
+    function createSpines() {
+        var fontStyle = {font: "58px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+        var yogotarsGroup = game.add.group()
+        yogotarsGroup.x = game.world.centerX
+        yogotarsGroup.y = game.world.centerY
+        sceneGroup.add(yogotarsGroup)
+
+        spineObj1 = game.add.spine(-200, maxHeight * 0.5 - 40, "yogotar")
+        spineObj1.scale.setTo(0.8,0.8)
+        spineObj1.setSkinByName("Eagle")
+        spineObj1.setAnimationByName(0, "IDLE", true)
+        yogotarsGroup.add(spineObj1)
+        spineObj1.number = 2
+
+        var globe1 = yogotarsGroup.create(0,0, 'atlas.feed', 'sign_a')
+        globe1.anchor.setTo(0.5, 0.5)
+        globe1.x = spineObj1.x; globe1.y = -10
+        var numberText1 = new Phaser.Text(game, globe1.x, globe1.y - 12, "2", fontStyle)
+        numberText1.anchor.setTo(0.5, 0.5)
+        yogotarsGroup.add(numberText1)
+        spineObj1.text = numberText1
+
+        spineObj2 = game.add.spine(200, maxHeight * 0.5 - 40, "yogotar")
+        spineObj2.scale.setTo(-0.8,0.8)
+        spineObj2.setSkinByName("Luna")
+        spineObj2.setAnimationByName(0, "IDLE", true)
+        yogotarsGroup.add(spineObj2)
+        spineObj2.number = 3
+
+        var globe2 = yogotarsGroup.create(0,0, 'atlas.feed', 'sign_b')
+        globe2.anchor.setTo(0.5, 0.5)
+        globe2.x = spineObj2.x; globe2.y = -10
+        var numberText2 = new Phaser.Text(game, globe2.x, globe2.y - 12, "3", fontStyle)
+        numberText2.anchor.setTo(0.5, 0.5)
+        yogotarsGroup.add(numberText2)
+        spineObj2.text = numberText2
+
+    }
+    
     function update() {
+
         var colorCounter = []
         var colorsCounters = []
+        colorsCounters.push(colorCounter)
+
         for(var brickIndex = 0; brickIndex < bricksInGame.length; brickIndex++){
             var brick = bricksInGame[brickIndex]
             brick.index = brickIndex
             brick.toY = (maxHeight - (brick.index) * 80)
-            if (brick.y <= brick.toY)
-                brick.y += 5
+            if (brick.y < brick.toY){
+                // brick.timeElapsed += game.time.elapsedMS
+                // console.log(brick.timeElapsed)
+                // var vel = 8 * brick.timeElapsed / 1000
+                brick.y += speed
+            }
             else {
-                if ((colorCounter.length)&&(colorCounter[colorCounter.length - 1].color !== brick.color)){
-                    colorsCounters.push(colorCounter)
+                brick.y = (maxHeight - (brick.index) * 80)
+                brick.timeElapsed = 0
+                if ((colorCounter.length > 0)&&(colorCounter[colorCounter.length - 1].color !== brick.color)){
+                    console.log(colorCounter.length)
                     colorCounter = []
+                    colorsCounters.push(colorCounter)
                 }
                 colorCounter.push(brick)
             }
         }
 
-        for(var colorsIndex = 0; colorsIndex < colorsCounters.length; colorsIndex++)
-        {
+        for(var colorsIndex = 0; colorsIndex < colorsCounters.length; colorsIndex++) {
             var colorsSelected = colorsCounters[colorsIndex]
-            console.log(colorsSelected.length)
             if (colorsSelected.length >= 3) {
                 for (var colorIndex = colorsSelected.length - 1; colorIndex >= 0; colorIndex--) {
                     var colorSelected = colorsSelected[colorIndex]
-                    trimBrick(colorSelected)
+                    // createPart("star", colorSelected)
+                    trimBrick(colorSelected, Phaser.Easing.Cubic.Out)
                 }
+                addPoint(1)
             }
         }
+
+        var direction = swipe.check()
+
+        if (direction!==null && brickSelected) {
+            // direction= { x: x, y: y, direction: direction }
+            switch(direction.direction) {
+                case swipe.DIRECTION_LEFT:
+                    moveBrick("left")
+                    break;
+                case swipe.DIRECTION_RIGHT:
+                    moveBrick("right")
+                    break;
+            }
+        }
+
+
+        // timeElapsed += game.time.elapsedMS
+        timeNextBrick += game.time.elapsedMS
+
+        if(timeNextBrick >= timeBetween){
+            addBrick()
+        }
+
     }
     
     function createTutorial(){
@@ -438,9 +618,13 @@ var feed = function(){
 		assets: assets,
 		name: "feed",
         preload:preload,
-        update:update,
-		create: function(event){
-            
+        update:function(event) {
+            if(gameActive)
+                update()
+        },
+        create: function(event){
+
+            swipe = new Swipe(game)
 			sceneGroup = game.add.group()
 
             var background = sceneGroup.create(game.world.centerX,game.world.centerY,'fondo')
@@ -474,6 +658,7 @@ var feed = function(){
             
             createHearts()
             createPointsBar()
+            createSpines()
             createGameObjects()
 
             createTutorial()
