@@ -139,6 +139,7 @@ var spinwheel = function(){
 	stars = game.add.sprite(0,0,"stars");	
 	stars.anchor.setTo(0.5, 0.5);		
 	stars.alpha = 0;	
+		
 	buddy = game.add.spine(140,200, "animations");
     buddy.scale.setTo(0.22,0.22);
     buddy.setAnimationByName(0, "RUN", true);
