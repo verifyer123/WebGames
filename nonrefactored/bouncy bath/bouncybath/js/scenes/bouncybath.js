@@ -454,7 +454,7 @@ var bouncybath = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,28)
+			resultScreen.setScore(true, coins,33)
 			sceneloader.show("result");
 		
 	}
