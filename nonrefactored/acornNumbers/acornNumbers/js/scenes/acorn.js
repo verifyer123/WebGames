@@ -64,7 +64,7 @@ var acorn = function(){
 
     var lives
 	var sceneGroup = null
-    var gameIndex = 33
+    var gameIndex = 34
     var tutoGroup
     var acornSong
     var heartsGroup = null
