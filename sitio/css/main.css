@@ -28,12 +28,12 @@ body{
 	text-align: center !important;
 	width: 100%;
 	text-align: center;
-	padding: 10%;
+	padding: 0%;
 }
 
 #gamesContainer img{
-	width: 100%;
-	height: auto;
+	width: 256px;
+	height: 128px;
 	border-radius: 2vh;
 	padding: 1vh;
 }
@@ -42,3 +42,17 @@ body{
 	/*padding: 15%;*/
 }
 	
+@media (max-width: 760px) {
+#gamesContainer{
+	margin: 0px;
+	width: 100%;
+	padding: 5%;
+}	
+	
+#gamesContainer img{
+	width: 100%;
+	height: auto;
+	border-radius:2vh;
+	padding: 1vh;
+}
+}

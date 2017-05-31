@@ -4,7 +4,7 @@ yogomeGames.getGames = function(){
 	var games = [
 	
         {name:'additionDojo',url:'http://yogome.com/epic/minigames/dojoSite/',sceneName:'dojo',review:true},
-        {name:'spaceWords',url:'http://yogome.com/epic/minigames/spaceSite/',sceneName:'space',review:true},
+        {name:'spaceWords',url:'http://yogome.com/epic/minigames/spaceSite/',sceneName:'space',review:false},
         {name:'yogomeRunner',url:'http://yogome.com/epic/minigames/runnerSite/',sceneName:'runneryogome',review:true},
         {name:'waterMorphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water',review:true},
 		{name:'numberIceCream',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice',review:true},
@@ -17,7 +17,7 @@ yogomeGames.getGames = function(){
 		{name:'geoJourney',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney',review:true},
 		{name:'memoNumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo',review:true},
 		{name:'beachNinja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach',review:true},
-        {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions',review:true},
+        {name:'flyingFractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions',review:false},
 		{name:'colorAttack',url:'http://yogome.com/epic/minigames/colorSite/',sceneName:'color',review:true},
 		{name:'nutriCanon',url:'http://yogome.com/epic/minigames/nutriSite/',sceneName:'nutri',review:true},
 		{name:'microdefender',url:'http://yogome.com/epic/minigames/microdefendersite/',sceneName:'microdefender',review:true},
@@ -28,7 +28,7 @@ yogomeGames.getGames = function(){
 		{name:'dizzyBoat',url:'http://yogome.com/epic/minigames/dizzySite/',sceneName:'dizzy',review:true},
 		{name:'flagCollector',url:'http://yogome.com/epic/minigames/flagCollectorSite/',sceneName:'flag',review:true},
 		{name:'mediCatcher',url:'http://yogome.com/epic/minigames/mediSite/',sceneName:'medi',review:true},
-        {name:'wildSnaps',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild',review:true},
+        {name:'wildSnaps',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild',review:false},
 		{name:'geMath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem',review:true},
 		{name:'hackaMole',url:'http://yogome.com/epic/minigames/hackSite/',sceneName:'hack',review:false},
 		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart',review:false},
@@ -36,7 +36,8 @@ yogomeGames.getGames = function(){
 		{name:'mathFeed',url:'http://yogome.com/epic/minigames/feedSite/',sceneName:'feed', review:false},//30
 		{name:'galaxyHeroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'galaxy', review:true},//31
 		{name:'popFish',url:'http://yogome.com/epic/minigames/popSite/',sceneName:'fish', review:false},//32
-		{name:'acornNumbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn', review:false},//33
+		{name:'bouncybath',url:'http://yogome.com/epic/minigames/bouncybathsite/',sceneName:'bouncybath', review:false},//33
+        {name:'acornNumbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn', review:false}//34
 
     ]
     

@@ -34,7 +34,9 @@ var flyingFractions = function(){
 			{	name: "shootBall",
 				file: soundsPath + "shootBall.mp3"},
 			{	name: "combo",
-				file: soundsPath + "combo.mp3"}
+				file: soundsPath + "combo.mp3"},
+			{	name: "laser",
+				file: soundsPath + "laser2.mp3"}
 		],
 	}
     var starGame = false;
@@ -473,7 +475,7 @@ var flyingFractions = function(){
 			fraction2.destroy();
 			bgFracciones.destroy();
 			bgFracciones2.destroy();
-			sound.play("shootBall");
+			sound.play("laser2");
 			if(good == object.id){
 				timer = 11;
 				goodShoot.alpha = 1;	
