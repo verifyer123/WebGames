@@ -36,7 +36,8 @@ yogomeGames.getGames = function(){
 		{name:'mathFeed',url:'http://yogome.com/epic/minigames/feedSite/',sceneName:'feed', review:false},//30
 		{name:'galaxyHeroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'galaxy', review:true},//31
 		{name:'popFish',url:'http://yogome.com/epic/minigames/popSite/',sceneName:'fish', review:false},//32
-		
+		{name:'acornNumbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn', review:false},//33
+
     ]
     
     return games
