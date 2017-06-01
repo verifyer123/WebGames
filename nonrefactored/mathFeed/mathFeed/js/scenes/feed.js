@@ -63,6 +63,7 @@ var feed = function(){
     var BRICK_HEIGHT = 82
 
     var ROUNDS = [
+        {numbers:[5,3,7,5,2,2], colors:[0,1,0,0,2,1], pointsForNextRound:1},
         {numbers:[2,2,2,3,3,3], pointsForNextRound:5},
         {numbers:[2,3,4,6,8,9,9,7], pointsForNextRound:15},
         {numbers:[12,14,15,16,18,21,21,5], pointsForNextRound:30},
@@ -341,15 +342,16 @@ var feed = function(){
         var roundNumbers = round.numbers
         timeNextBrick = 0
         pointsNextRound = round.pointsForNextRound
+        var roundColors = round.colors
 
         var brick = brickList[brickList.length - 1]
         brickList.pop()
         pullGroup.remove(brick)
         gameGroup.add(brick)
         bricksInGame.push(brick)
-        brick.color = indexCounter % CONTAINERS.length
+        brick.color = roundColors ? roundColors[addBrickCounter] : game.rnd.integerInRange(0, CONTAINERS.length - 1)
         indexCounter++
-        // brick.color = game.rnd.integerInRange(0, CONTAINERS.length - 1)
+        // brick.color = indexCounter % CONTAINERS.length
         brick.container.tint = CONTAINERS[brick.color]
         brick.alpha = 1
         brick.scale.x = 1
@@ -359,7 +361,7 @@ var feed = function(){
         brick.y = toY || -50
         brick.timeElapsed = 0
 
-        if (addBrickCounter == 0)
+        if ((addBrickCounter == 0)&&(roundCounter > 0))
             Phaser.ArrayUtils.shuffle(roundNumbers)
         var number = roundNumbers[addBrickCounter]
         addBrickCounter = addBrickCounter + 1 < roundNumbers.length ? addBrickCounter + 1 : 0
@@ -629,7 +631,7 @@ var feed = function(){
         // timeElapsed += game.time.elapsedMS
         timeNextBrick += game.time.elapsedMS
 
-        if(timeNextBrick >= timeBetween){
+        if((timeNextBrick >= timeBetween)&&(pointsBar.number > 0)){
             addBrick()
         }
 
