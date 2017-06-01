@@ -56,11 +56,14 @@ var acorn = function(){
     var NUM_LANES = 3
     var TOP_LANE_Y = 545
     var LANE_HEIGHT = 150
+    var NUM_OBJECTS = 50
 
-    // var ROUNDS = [
-    //     {continent: "america", flags: ["mexico", "usa"]},
-    //     {continent: "america", numFlags: 4},
-    //     {continent: "random", numFlags: 4}]
+    var ROUNDS = [
+        {numobjects: 10},
+        {numobjects: 30},
+        {numobjects: 30}]
+
+    var OBJECTS = [{image:"stone", event:"hit"}, {image:"acorm", event:"addPoint"}]
 
     var lives
 	var sceneGroup = null
@@ -82,6 +85,14 @@ var acorn = function(){
     var mountains
     var boardGroup
     var blocksGroup
+    var gameGroup
+    var distance
+    var currentDistance
+    var objectList
+    var timeElapsed
+    var particleCorrect
+    var particleWrong
+    var grabGroup
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -97,10 +108,15 @@ var acorn = function(){
         quantNumber = 2
         roundCounter = 0
         runnerMode = false
+        objectList = []
+        objectsInGame = []
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
+        distance = 0
+        currentDistance = 0
+        timeElapsed = 0
 
         loadSounds()
 
@@ -155,6 +171,17 @@ var acorn = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
+        gameGroup = game.add.group()
+        sceneGroup.add(gameGroup)
+
+        for(var objectIndex = 0; objectIndex < NUM_OBJECTS; objectIndex++){
+            var objectData = OBJECTS[objectIndex % OBJECTS.length]
+            var object = pullGroup.create(0,0,'atlas.acorn',objectData.image)
+            object.anchor.setTo(0.5, 0.5)
+            object.event = objectData.event
+            objectList.push(object)
+        }
+
     }
 
     function createPart(key){
@@ -177,7 +204,7 @@ var acorn = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         acornSong.stop()
-        clock.tween.stop()
+        // clock.tween.stop()
         inputsEnabled = false
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
@@ -223,6 +250,11 @@ var acorn = function(){
 
     function startRound() {
         inputsEnabled = true
+        distance = 4000
+        Phaser.ArrayUtils.shuffle(objectList)
+
+        var round = ROUNDS[roundCounter]
+        addObjects(round.numobjects)
     }
 
     function missPoint(){
@@ -242,7 +274,7 @@ var acorn = function(){
             stopGame(false)
         }
         else{
-            startRound()
+            // startRound()
         }
 
         addNumberPart(heartsGroup.text,'-1')
@@ -342,22 +374,32 @@ var acorn = function(){
     function checkAnswer(block) {
         if(inputsEnabled){
             inputsEnabled = false
+            var tween = game.add.tween(blocksGroup).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, false, 750)
 
             if (block.number === boardGroup.answer) {
-                blocksGroup.particleCorrect.x = block.x
-                blocksGroup.particleCorrect.y = block.y
+                particleCorrect.x = block.x + blocksGroup.x
+                particleCorrect.y = block.y
 
-                blocksGroup.particleCorrect.start(true, 1000, null, 3);
+                particleCorrect.start(true, 1000, null, 3);
 
-                ardilla.setAnimation("LOSESTILL")
+                ardilla.setAnimation(["LOSESTILL"])
 
                 // runnerMode = true
+                tween.onComplete.add(function () {
+                    ardilla.setAnimation(["RUN"], true)
+                    runnerMode = true
+                })
             }else{
-                blocksGroup.particleWrong.x = block.x
-                blocksGroup.particleWrong.y = block.y
+                particleWrong.x = block.x + blocksGroup.x
+                particleWrong.y = block.y
 
-                blocksGroup.particleWrong.start(true, 1000, null, 3);
+                particleWrong.start(true, 1000, null, 3);
+                tween.onComplete.add(function () {
+                    // runnerMode = true
+                })
             }
+
+            tween.start()
         }
     }
     
@@ -385,14 +427,6 @@ var acorn = function(){
             block.events.onInputDown.add(checkAnswer)
         }
 
-        var particleCorrect = createPart('star')
-        blocksGroup.add(particleCorrect)
-        blocksGroup.particleCorrect = particleCorrect
-
-        var particleWrong = createPart('wrong')
-        blocksGroup.add(particleWrong)
-        blocksGroup.particleWrong = particleWrong
-
     }
 
     function createBoard(){
@@ -416,6 +450,33 @@ var acorn = function(){
         boardGroup.add(number2)
 
         boardGroup.answer = 0
+    }
+    
+    function removeObjects() {
+        for(var objectIndex = 0; objectIndex < gameGroup.objects.length; objectIndex++){
+            var object = gameGroup.objects[objectIndex]
+            gameGroup.remove(object)
+            pullGroup.add(object)
+        }
+    }
+    
+    function addObjects(objectsNumber) {
+        gameGroup.objects = []
+        var distanceBetween = (distance - game.width - 100) / objectsNumber
+        for(var objectIndex = 0; objectIndex < objectsNumber; objectIndex++){
+            var object = objectList[objectIndex]
+            object.x = game.width + distanceBetween * objectIndex + 100
+            var randomLane = game.rnd.integerInRange(1, NUM_LANES)
+            object.y = TOP_LANE_Y + LANE_HEIGHT * (randomLane - 1)
+            pullGroup.remove(object)
+            gameGroup.add(object)
+            gameGroup.objects.push(object)
+            object.collided = false
+            object.alpha = 1
+            object.scale.x = 1
+            object.scale.y = 1
+        }
+
     }
     
     function createSpine() {
@@ -443,16 +504,79 @@ var acorn = function(){
         ardilla.add(hitBox)
         ardilla.hitBox = hitBox
         
-        ardilla.setAnimation = function (animation) {
-            ardillaSpine.setAnimationByName(0, animation, false)
-            ardillaSpine.addAnimationByName(0, "IDLE", true)
+        ardilla.setAnimation = function (animations, loop) {
+            ardillaSpine.setAnimationByName(0, animation, loop)
+            if(!loop){
+                ardillaSpine.addAnimationByName(0, "IDLE", true)
+            }
+            for(var index = 0; index < animations.length; index++) {
+                var animation = animations[index]
+                var loop = index == animations.length - 1
+                if (index === 0)
+                    ardillaSpine.setAnimationByName(0, animation, loop)
+                else
+                    ardillaSpine.addAnimationByName(0, animation, loop)
+            }
         }
+    }
+
+    function checkOverlap(spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
+    
+    function rotateObject(object) {
+        game.add.tween(object).to({angle: 360}, 600, Phaser.Easing.Cubic.Out, true)
+    }
+    
+    function hitObject(object) {
+        runnerMode = false
+
+        ardilla.setAnimation(["HIT", "RUN"])
+        currentDistance -= 180
+        game.add.tween(background.tilePosition).to({x: background.tilePosition.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(boardGroup).to({x: boardGroup.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(blocksGroup).to({x: blocksGroup.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
+        var tween = game.add.tween(gameGroup).to({x: gameGroup.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
+        tween.onComplete.add(function () {
+            runnerMode = true
+            object.collided = false
+            // ardilla.setAnimation(["RUN"])
+        })
+    }
+    
+    function grabObject(object) {
+
+        object.x = object.world.x - ardilla.x
+        object.y = object.world.y - ardilla.y
+        ardilla.add(object)
+
+        rotateObject(object)
+        game.add.tween(object).to({x: 0}, 200, Phaser.Easing.Cubic.Out, true)
+        var tween = game.add.tween(object).to({y: - 140}, 400, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(object.scale).to({x: 1.4, y:1.4}, 400, Phaser.Easing.Cubic.Out, true)
+        tween.onComplete.add(function () {
+            particleCorrect.x = object.world.x
+            particleCorrect.y = object.world.y
+
+            particleCorrect.start(true, 1000, null, 1)
+            game.add.tween(object).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true)
+        })
     }
     
     function update() {
         if(runnerMode) {
+
             background.tilePosition.x -= 5
             mountains.tilePosition.x -= 0.5
+            boardGroup.x -= 5
+            blocksGroup.x -= 5
+            gameGroup.x -= 5
+            currentDistance += 5
 
             var direction = swipe.check()
 
@@ -467,6 +591,43 @@ var acorn = function(){
                         changeLane()
                         break;
                 }
+            }
+
+            if (boardGroup.x < 0 - boardGroup.width){
+                var diffDistance = distance - currentDistance
+                boardGroup.x = diffDistance + 180
+                blocksGroup.x = diffDistance + game.width - 100
+                blocksGroup.alpha = 1
+            }
+
+            timeElapsed += game.time.elapsedMS
+
+            for(var objectIndex = 0; objectIndex < gameGroup.objects.length; objectIndex++){
+                var object = gameGroup.objects[objectIndex]
+                var isCollision = checkOverlap(object, ardilla.hitBox)
+                if ((isCollision)&&(!object.collided)){
+                    object.collided = true
+                    switch (object.event){
+                        case "hit":
+                            missPoint()
+                            hitObject(object)
+                            break
+                        case "addPoint":
+                            grabObject(object)
+                            addPoint(1)
+                            break
+                    }
+                }
+            }
+
+            if (distance <= currentDistance){
+                runnerMode = false
+                inputsEnabled = true
+                currentDistance = 0
+                gameGroup.x = 0
+                ardilla.setAnimation(["IDLE"], true)
+                removeObjects()
+                startRound()
             }
         }
     }
@@ -504,11 +665,20 @@ var acorn = function(){
 
             createHearts()
             createPointsBar()
-            createGameObjects()
             createBoard()
             createBlocks()
             createSpine()
+            createGameObjects()
             createTutorial()
+
+            grabGroup = game.add.group()
+            sceneGroup.add(grabGroup)
+
+            particleCorrect = createPart('star')
+            sceneGroup.add(particleCorrect)
+
+            particleWrong = createPart('wrong')
+            sceneGroup.add(particleWrong)
 
 		}
 	}
