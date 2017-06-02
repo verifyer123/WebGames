@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Popsteroids",
+        name: "Candy Shapes",
         language: "es",
-        minigameUrl: "../popSteroids/index.html?language=" + language,
+        minigameUrl: "../candyShapes/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

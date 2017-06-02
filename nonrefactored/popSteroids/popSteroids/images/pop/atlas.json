@@ -2,7 +2,7 @@
 
 {
 	"filename": "arrow",
-	"frame": {"x":512,"y":873,"w":79,"h":89},
+	"frame": {"x":687,"y":827,"w":79,"h":89},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":89},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "arrowLine",
-	"frame": {"x":803,"y":1,"w":40,"h":334},
+	"frame": {"x":774,"y":182,"w":40,"h":334},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":334},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "asteroid",
-	"frame": {"x":593,"y":873,"w":75,"h":74},
+	"frame": {"x":739,"y":630,"w":75,"h":74},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":74},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "button",
-	"frame": {"x":391,"y":757,"w":129,"h":114},
+	"frame": {"x":457,"y":813,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -56,11 +56,11 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":680,"y":647,"w":137,"h":100},
+	"frame": {"x":259,"y":757,"w":336,"h":54},
 	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":9,"y":13,"w":137,"h":100},
-	"sourceSize": {"w":151,"h":126},
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":336,"h":54},
+	"sourceSize": {"w":336,"h":54},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":638,"y":798,"w":140,"h":55},
+	"frame": {"x":597,"y":770,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "machine",
-	"frame": {"x":599,"y":647,"w":79,"h":106},
+	"frame": {"x":731,"y":522,"w":79,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":106},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":599,"y":522,"w":196,"h":123},
+	"frame": {"x":259,"y":813,"w":196,"h":123},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":196,"h":123},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "orb",
-	"frame": {"x":670,"y":855,"w":97,"h":97},
+	"frame": {"x":588,"y":827,"w":97,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":97,"h":97},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "ringPart",
-	"frame": {"x":522,"y":757,"w":114,"h":114},
+	"frame": {"x":599,"y":654,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":259,"y":889,"w":124,"h":63},
+	"frame": {"x":588,"y":926,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "stars",
-	"frame": {"x":259,"y":757,"w":130,"h":130},
+	"frame": {"x":599,"y":522,"w":130,"h":130},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":130},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":774,"y":337,"w":64,"h":64},
+	"frame": {"x":714,"y":918,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "wrongPart",
-	"frame": {"x":385,"y":889,"w":125,"h":60},
+	"frame": {"x":457,"y":929,"w":125,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":670,"y":755,"w":165,"h":41},
+	"frame": {"x":259,"y":938,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -185,8 +185,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":844,"h":963},
+	"size": {"w":815,"h":990},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b53d05bcb454c88c9338c747b4f4834c:4713757668a86b7abea2ea3f8ce67512:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0e8de65916819f439d90615d8acf6688:bf9c8954eaaf7cf86ccb523db6b9d37f:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

@@ -78,6 +78,7 @@ var popScene = function(){
 	var leftPresed, rightPressed
 	var yogotarsGroup
 	var cursors, jumpButton
+	var asteroidLimit
 	
 	var colorsToUse = [0x03FF3E,0xF703FF,0xFFDD03,0xFF4603]
 
@@ -95,6 +96,7 @@ var popScene = function(){
 		shootNumber = 0
 		leftPresed = false
 		rightPressed = false
+		asteroidLimit = 3
         
         loadSounds()
 		
@@ -198,11 +200,16 @@ var popScene = function(){
         })
         
 		if((shootNumber + 1) % 3 == 0){
-			addAsteroids(game.rnd.integerInRange(1,3))
+			addAsteroids(game.rnd.integerInRange(1,asteroidLimit))
 		}
 		
         addNumberPart(pointsBar.text,'+' + number,true)		
         
+		if(pointsBar.number % 12 == 0){
+			if(asteroidLimit < 8){
+				asteroidLimit++
+			}
+		}
     }
     
     function createPointsBar(){
@@ -346,7 +353,7 @@ var popScene = function(){
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.pop','button')
+		var button = overlayGroup.create(game.world.centerX, plane.y + plane.height * 0.5,'atlas.pop','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
