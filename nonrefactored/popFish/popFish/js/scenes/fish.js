@@ -64,7 +64,7 @@ var fish = function(){
     var gameActive
 	var particlesGroup, particlesUsed
 	var whiteFade
-    var gameIndex = 31
+    var gameIndex = 32
 	var numberPanel,bar
 	var player, rotationBar
 	var redSpider

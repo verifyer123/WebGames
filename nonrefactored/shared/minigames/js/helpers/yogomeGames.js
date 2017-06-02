@@ -35,9 +35,10 @@ yogomeGames.getGames = function(){
 		{name:'snoozeCrater',url:'http://yogome.com/epic/minigames/snoozeSite/',sceneName:'snooze', review:false},//29
 		{name:'mathFeed',url:'http://yogome.com/epic/minigames/feedSite/',sceneName:'feed', review:false},//30
 		{name:'galaxyHeroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'galaxy', review:true},//31
-		{name:'popFish',url:'http://yogome.com/epic/minigames/popSite/',sceneName:'fish', review:false},//32
+		{name:'popFish',url:'http://yogome.com/epic/minigames/fishSite/',sceneName:'fish', review:false},//32
 		{name:'bouncybath',url:'http://yogome.com/epic/minigames/bouncybathsite/',sceneName:'bouncybath', review:false},//33
-        {name:'acornNumbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn', review:false}//34
+        {name:'acornNumbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn', review:false},//34
+		{name:'popSteroids',url:'http://yogome.com/epic/minigames/popSite/',sceneName:'popScene', review:false}//35
 
     ]
     
