@@ -61,6 +61,7 @@ var flightoclock = function(){
 	
 	var minute;
 	var hour;
+	var watch;
 	var style1 = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	var styleClock = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
@@ -95,6 +96,7 @@ var flightoclock = function(){
 		game.load.image("clock",imagePath + "clock.png");
 		game.load.image("hour",imagePath + "hour.png");
 		game.load.image("minute",imagePath + "minutes.png");
+		game.load.image("watch",imagePath + "watch.png");
 		/*SPINE*/
 		game.load.spine("helicoptero", imagePath + "spine/helicoptero.json");
 		
@@ -294,7 +296,7 @@ var flightoclock = function(){
 		sceneGroup.add(helicoptero);*/
 		var heligroup = game.add.group();
 		var helicoptero = heligroup.create(0,0,"helicopter");
-		helicoptero.x = game.world.centerX - game.width/2;
+		helicoptero.x = game.world.centerX - helicoptero.width/2;
 		helicoptero.y = game.world.centerY;
 		
 		var clock = heligroup.create(0,0,"clock");
@@ -304,7 +306,7 @@ var flightoclock = function(){
 		hour = heligroup.create(0,0,"hour");
 		hour.x = clock.x + clock.width/2 - 2;
 		hour.y = clock.y + clock.height/2;
-		hour.angle = 90;
+		hour.angle = 0;
 		hour.anchor.setTo(0.5,1);
 		
 		minute = heligroup.create(0,0,"minute");
@@ -313,10 +315,17 @@ var flightoclock = function(){
 		minute.angle = 0;
 		minute.anchor.setTo(0.5,1);
 		
+		watch = heligroup.create(0,0,"watch");
+		watch.x = clock.x + clock.width + 20;
+		watch.y = clock.y + clock.height/2.8;
+		
+		TweenMax.fromTo(hour,0.8,{angle:0},{angle:90,ease:Back.esaeOut});
+		
 		TweenMax.fromTo(heligroup.scale,0.8,{y:1},{y:0.9,repeat:-1,yoyo:true,ease:Bounce.esaeOut});
 		TweenMax.fromTo(heligroup,0.8,{y:heligroup.y},{y:heligroup.y + 80,repeat:-1,yoyo:true,ease:Bounce.esaeOut});
 		//heligroup.width = game.width;
 		//heligroup.height = game.height/3;
+		
 		sceneGroup.add(heligroup);
 		
 		
