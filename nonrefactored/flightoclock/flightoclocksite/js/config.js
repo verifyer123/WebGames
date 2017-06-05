@@ -21,7 +21,7 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Lizart",
+        name: "flightoclock",
         language: "es",
         minigameUrl: "../flightoclock/index.html?language=" + language,
         desktopUrl: "./desktop.html",
