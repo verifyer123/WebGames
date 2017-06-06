@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var candy = function(){
+var feather = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,13 +20,14 @@ var candy = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.candy",
-                json: "images/candy/atlas.json",
-                image: "images/candy/atlas.png",
+                name: "atlas.feather",
+                json: "images/feather/atlas.json",
+                image: "images/feather/atlas.png",
             },
         ],
         images: [
-
+			{   name:"background",
+				file: "images/feather/fondo.png"},
 		],
 		sounds: [
             {	name: "magic",
@@ -43,10 +44,6 @@ var candy = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "flipCard",
-				file: soundsPath + "flipCard.mp3"},
-			{	name: "powerup",
-				file: soundsPath + "powerup.mp3"},
 			
 		],
     }
@@ -58,15 +55,10 @@ var candy = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-	var figuresGroup, usedFigures
-	var figuresMap, figToUse, clock
-    var gameIndex = 36
-	var indexGame, timeToUse
+    var gameIndex = 7
+	var indexGame
     var overlayGroup
-	var tapTimes
     var spaceSong
-	
-	var figureNames = ['cube','rectangle','circle','triangle']
 	
 
 	function loadSounds(){
@@ -77,7 +69,6 @@ var candy = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 20000
 
         
         loadSounds()
@@ -180,71 +171,8 @@ var candy = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
-		
-		tapTimes++
-		
-		if(tapTimes >= 5){
-			
-			if(timeToUse >= 3000){
-				timeToUse-=1000
-			}
-			
-			gameActive = false
-			game.time.events.add(750,hideObjects)
-			
-			if(clock.tween){
-				clock.tween.stop()
-				game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},250,"Linear",true)
-				sound.play("powerup")
-			}
-		}
         
     }
-	
-	function hideAlpha(obj,delay){
-		
-		game.time.events.add(delay,function(){
-			
-			sound.play('flipCard')
-			
-			game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
-				obj.scale.setTo(1,1)
-				obj.alpha = 0
-			})
-		})
-		
-		
-	}
-	
-	function hideObjects(){
-		
-		var delay = 0
-		while(usedFigures.length > 0){
-			
-			var figure = usedFigures.children[0]
-			
-			usedFigures.remove(figure)
-			figuresGroup.add(figure)
-			
-			figure.figure.pressed = false
-			
-			if(figure.alpha == 1){
-				hideAlpha(figure,delay)
-				delay+=50
-			}
-			
-		}
-		
-		for(var i = 0; i < figuresMap.length;i++){
-			
-			figuresMap.children[i].alpha = 0
-		}
-		
-		game.time.events.add(1000,function(){
-			positionFigures()
-			showFigures()
-		})
-	}
     
     function createPointsBar(){
         
@@ -253,7 +181,7 @@ var candy = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.candy','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.feather','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -281,7 +209,7 @@ var candy = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.candy','life_box')
+        var heartImg = group.create(0,0,'atlas.feather','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -322,49 +250,16 @@ var candy = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('figures', "images/spines/skeleton.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/upbeat_casual_8.mp3');
+        game.load.spine('ship', "images/spines/skeleton1.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/candy/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/candy/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/candy/introscreen.png")
+		game.load.image('howTo',"images/feather/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/feather/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/feather/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
-	
-	function showFigures(){
-		
-		var delay = 0
-		for(var i = 0; i < usedFigures.length;i++){
-			
-			var figure = usedFigures.children[i]
-			popObject(figure,delay)
-			
-			delay+=75
-		}
-		
-		game.time.events.add(delay,function(){
-			
-			figToUse = figureNames[game.rnd.integerInRange(0,figureNames.length - 1)]
-			
-			var figMap = getFigure(figToUse,figuresMap)
-			popObject(figMap,0)
-			
-			tapTimes = 0
-			
-			gameActive = true
-			
-			var bar = clock.bar
-			bar.scale.x = bar.origScale
-			
-			clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
-			clock.tween.onComplete.add(function(){
-				missPoint()
-			})
-		})
-	}
-	
     
     function createOverlay(){
         
@@ -384,7 +279,7 @@ var candy = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				showFigures()
+				
             })
             
         })
@@ -395,7 +290,7 @@ var candy = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.candy','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.feather','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -409,16 +304,15 @@ var candy = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.candy',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.feather',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.candy','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.feather','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)
-		
     }
     
     function releaseButton(obj){
@@ -428,21 +322,12 @@ var candy = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.candy','fondo')
-		sceneGroup.add(background)
-		
-		var panel = sceneGroup.create(game.world.centerX, -65,'atlas.candy','panel')
-		panel.anchor.setTo(0.5,0)
-		
-		var board = sceneGroup.create(game.world.centerX, panel.y + panel.height * 0.65,'atlas.candy','tablero')
-		board.anchor.setTo(0.5,0.5)
 		
 	}
 	
 	
 	function update(){
-		
-		background.tilePosition.x++
+
 	}
 	
 	function createTextPart(text,obj){
@@ -530,7 +415,7 @@ var candy = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.candy',tag)
+                particle = particlesGroup.create(-200,0,'atlas.feather',tag)
             }
             
             particle.alpha = 0
@@ -577,7 +462,7 @@ var candy = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.candy','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.feather','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -590,7 +475,7 @@ var candy = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.candy','smoke');
+        particlesGood.makeParticles('atlas.feather','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -609,175 +494,16 @@ var candy = function(){
 	
 	function inputButton(obj){
 		
-		if(!gameActive || obj.pressed){
+		if(!gameActive){
 			return
 		}
 		
-		obj.pressed = true
-		
-		sound.play("pop")
-		
-		var tween = game.add.tween(obj.parent.scale).to({x:0.6,y:0.6},200,"Linear",true,0,0)
-		tween.yoyo(true,0)
-		
-		if(obj.parent.tag == figToUse){
-			addPoint(1)
-			sound.play("magic")
-			createPart('star',obj)
-			game.add.tween(obj.parent).to({alpha:0,angle:obj.parent.angle + 360},500,"Linear",true)
-		}else{
-			
-			clock.tween.stop()
-			
-			missPoint()
-			createPart('wrong',obj)
-		}
 	}
-	
-	function createFigure(tag,scale,number){
-		
-		for(var i = 0; i < number; i++){
-			
-			var group = game.add.group()
-			group.alpha = 0
-			group.tag = tag
-			group.used = false
-			figuresGroup.add(group)
-			
-			var figure = group.create(0,0,'atlas.candy',tag)
-			figure.alpha = 0
-			figure.anchor.setTo(0.5,0.5)
-			figure.inputEnabled = true
-			figure.pressed = false
-			figure.events.onInputDown.add(inputButton)
-			group.figure = figure
-			
-			var anim = game.add.spine(0,45,"figures")
-			anim.setSkinByName(tag)
-			delayAnim(anim,game.rnd.integerInRange(0,1000))
-			group.add(anim)
-			
-		}	
-	}
-	
-	function delayAnim(anim,delay){
-		
-		game.time.events.add(delay,function(){
-			anim.setAnimationByName(0,"IDLE",true)
-		})
-		
-	}
-	
-	function createObjects(){
-		
-		figuresGroup = game.add.group()
-		sceneGroup.add(figuresGroup)
-		
-		usedFigures = game.add.group()
-		sceneGroup.add(usedFigures)
-		
-		createFigure("cube",1,5)
-		createFigure("circle",1,5)
-		createFigure("triangle",1,5)
-		createFigure("rectangle",1,5)
-		
-		positionFigures()
-		
-		figuresMap = game.add.group()
-		figuresMap.x = game.world.centerX + 127
-		figuresMap.y = 150
-		sceneGroup.add(figuresMap)
-		
-		var tween = game.add.tween(figuresMap.scale).to({x:0.8,y:0.8},500,"Linear",true,0,-1)
-		tween.yoyo(true,0)
-		
-		for(var i = 0; i < figureNames.length;i++){
-			
-			var figure = figuresMap.create(0,0,'atlas.candy','shape_' + figureNames[i])
-			figure.anchor.setTo(0.5,0.5)
-			figure.tag = figureNames[i]
-			figure.alpha = 0
-			
-		}
-		
-	}
-	
-	
-	function getFigure(tag,group){
-		
-		for(var i = 0; i < group.length;i++){
-			
-			var figure = group.children[i]
-			if(figure.tag == tag && !figure.used){
-				return figure
-			}
-		}
-	}
-	
-	
-	function activateObject(obj,posX, posY){
-		
-		figuresGroup.remove(obj)
-		usedFigures.add(obj)
-		
-		obj.alpha = 1
-		obj.x = posX
-		obj.y = posY
-	}
-	
-	function positionFigures(){
-		
-		var finalList = []
-		
-		for(var i = 0; i < 5;i++){
-			finalList.push.apply(finalList,figureNames)
-		}
-		
-		Phaser.ArrayUtils.shuffle(finalList)
-		
-		var pivotX = game.world.centerX - 160
-		var pivotY = 345
-		for(var i = 0; i < finalList.length;i++){
-			
-			//console.log('figure')
-			var figure = getFigure(finalList[i], figuresGroup)
-			activateObject(figure, pivotX, pivotY)
-			figure.alpha = 0
-			
-			pivotY+= 107
-			
-			if((i+1) % 5 == 0){
-				pivotX+= 107
-				pivotY = 345
-			}
-		}
-		
-	}
-	
-	function createClock(){
-        
-        clock = game.add.group()
-        clock.x = game.world.centerX
-        clock.y = game.world.height - 60
-        sceneGroup.add(clock)
-        
-        var clockImage = clock.create(0,0,'atlas.candy','clock')
-        clockImage.anchor.setTo(0.5,0.5)
-        
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.candy','bar')
-        clockBar.anchor.setTo(0,0.5)
-        clockBar.width = clockImage.width*0.76
-        clockBar.height = 22
-        clockBar.origScale = clockBar.scale.x
-        
-        clock.bar = clockBar
-        
-    }
 	
 	return {
 		
 		assets: assets,
-		name: "candy",
+		name: "feather",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -785,8 +511,6 @@ var candy = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createObjects()
-			createClock()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
