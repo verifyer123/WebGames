@@ -206,7 +206,7 @@ var popScene = function(){
         addNumberPart(pointsBar.text,'+' + number,true)		
         
 		if(pointsBar.number % 12 == 0){
-			if(asteroidLimit < 8){
+			if(asteroidLimit < 12){
 				asteroidLimit++
 			}
 		}
