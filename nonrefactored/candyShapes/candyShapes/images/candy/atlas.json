@@ -47,11 +47,11 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":1063,"y":846,"w":197,"h":123},
+	"frame": {"x":1293,"y":772,"w":132,"h":97},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":123},
-	"sourceSize": {"w":197,"h":123},
+	"spriteSourceSize": {"x":0,"y":0,"w":132,"h":97},
+	"sourceSize": {"w":132,"h":97},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -83,11 +83,11 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":1293,"y":772,"w":132,"h":97},
+	"frame": {"x":1063,"y":846,"w":197,"h":123},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":132,"h":97},
-	"sourceSize": {"w":132,"h":97},
+	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":123},
+	"sourceSize": {"w":197,"h":123},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -205,6 +205,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1624,"h":970},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:9c25c69a9e91c52a460d2e139ae3332b:c7009f4a4429fed70ad067deb59fd7c3:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:dee22c13f1592afe48cd444d7b13a63c:d7bbf9ef3e2bf3670c84aad90c971bc0:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

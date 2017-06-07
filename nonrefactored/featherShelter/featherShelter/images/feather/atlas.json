@@ -1,8 +1,17 @@
 {"frames": [
 
 {
+	"filename": "base",
+	"frame": {"x":1,"y":1,"w":541,"h":400},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":541,"h":400},
+	"sourceSize": {"w":541,"h":402},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "button",
-	"frame": {"x":199,"y":1,"w":129,"h":114},
+	"frame": {"x":843,"y":205,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -10,17 +19,53 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "clouds",
+	"frame": {"x":1,"y":403,"w":513,"h":189},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":513,"h":189},
+	"sourceSize": {"w":513,"h":191},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "desktop",
-	"frame": {"x":330,"y":67,"w":336,"h":54},
+	"frame": {"x":794,"y":446,"w":137,"h":100},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":13,"w":137,"h":100},
+	"sourceSize": {"w":151,"h":126},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "gametuto",
+	"frame": {"x":843,"y":1,"w":180,"h":202},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":5,"w":180,"h":202},
+	"sourceSize": {"w":183,"h":207},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "grange",
+	"frame": {"x":544,"y":1,"w":297,"h":299},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":336,"h":54},
-	"sourceSize": {"w":336,"h":54},
+	"spriteSourceSize": {"x":0,"y":0,"w":297,"h":299},
+	"sourceSize": {"w":297,"h":299},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "life_box",
+	"frame": {"x":643,"y":526,"w":140,"h":55},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
+	"sourceSize": {"w":140,"h":55},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "movil",
-	"frame": {"x":1,"y":1,"w":196,"h":123},
+	"frame": {"x":821,"y":321,"w":196,"h":123},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":196,"h":123},
@@ -28,8 +73,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "numberbutton",
+	"frame": {"x":728,"y":302,"w":91,"h":91},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":91},
+	"sourceSize": {"w":91,"h":91},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "smokePart",
+	"frame": {"x":516,"y":454,"w":127,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":127,"h":63},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "starPart",
-	"frame": {"x":668,"y":63,"w":124,"h":63},
+	"frame": {"x":645,"y":461,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -37,8 +100,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "wind",
+	"frame": {"x":544,"y":302,"w":182,"h":150},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":182,"h":150},
+	"sourceSize": {"w":182,"h":159},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "wrong",
-	"frame": {"x":330,"y":1,"w":64,"h":64},
+	"frame": {"x":728,"y":395,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -47,7 +119,7 @@
 },
 {
 	"filename": "wrongPart",
-	"frame": {"x":668,"y":1,"w":125,"h":60},
+	"frame": {"x":516,"y":519,"w":125,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
@@ -56,7 +128,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":396,"y":1,"w":165,"h":41},
+	"frame": {"x":785,"y":548,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -68,8 +140,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":794,"h":127},
+	"size": {"w":1024,"h":593},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:d2b4d28f6e523f1edd11de47a0e0a08b:8ded55bf57b564c152c4f6ee49f589f6:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ab63ea983ce31dff8fde56261a309741:4ebbb9a8d8d1d45553f6ee0786a680b3:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

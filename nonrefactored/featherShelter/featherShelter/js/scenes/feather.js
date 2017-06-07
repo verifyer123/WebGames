@@ -40,10 +40,16 @@ var feather = function(){
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "chicken",
+				file: soundsPath + "chicken.mp3"},
+			{	name: "wolf",
+				file: soundsPath + "wolf.mp3"},
+			{	name: "wolfSound",
+				file: soundsPath + "wolfSound.mp3"},
+			{	name: "inflateballoon",
+				file: soundsPath + "inflateballoon.mp3"},
 			
 		],
     }
@@ -55,8 +61,9 @@ var feather = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 37
 	var indexGame
+	var clouds, house
     var overlayGroup
     var spaceSong
 	
@@ -75,13 +82,21 @@ var feather = function(){
         
 	}
 
-    function popObject(obj,delay){
+    function popObject(obj,delay,appear){
         
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+			if(appear){
+				obj.alpha = 1
+            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+			}else{
+				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
+					obj.scale.setTo(1,1)
+					obj.alpha = 0
+				})
+			}
+            
         },this)
     }
     
@@ -161,7 +176,7 @@ var feather = function(){
     
     function addPoint(number){
         
-        sound.play("pop")
+        sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -234,7 +249,7 @@ var feather = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3750)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -249,9 +264,11 @@ var feather = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
+		buttons.getImages(game)
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.spine('chick', "images/spines/Chick.json")  
+		game.load.spine('wolf', "images/spines/wolf.json")
+        game.load.audio('spaceSong', soundsPath + 'songs/farming_time.mp3');
         
 		game.load.image('howTo',"images/feather/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/feather/play" + localization.getLanguage() + ".png")
@@ -261,6 +278,113 @@ var feather = function(){
         
     }
     
+	function getChick(){
+		
+		for(var i = 0; i < chicksGroup.length;i++){
+			
+			var chick = chicksGroup.children[i]
+			if(!chick.used){
+				chick.used = true
+				return chick
+			}
+		}
+	}
+	
+	function sendChicks(number, isAdding){
+		
+		var delay = 0
+		for(var i = 0; i < number; i++){
+			
+			var chick = getChick()
+			chick.setAnimationByName(0,"RUN",true)
+			
+			goChick(chick,isAdding,delay)
+			
+			delay+= 500
+		}
+		
+		delay+= 1500
+		game.time.events.add(delay,function(){
+			
+			wolf.x = -200
+			wolf.alpha = 1
+			wolf.scale.x = 1
+			
+			wolf.setAnimationByName(0,"WALK",true)
+			sound.play("wolf")
+			game.add.tween(wolf).to({x:game.world.centerX - 150},1500,"Linear",true).onComplete.add(function(){
+				wolf.setAnimationByName(0,"SIT",false)
+				showButtons(true)
+				gameActive = true
+			})
+			
+		})
+	}
+	
+	function showButtons(appear){
+		
+		var delay = 0
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var button = buttonsGroup.children[i]
+			popObject(button,delay,appear)
+			delay+= 100
+			
+		}
+	}
+	
+	function goChick(chick, isAdding, delay){
+		
+		var initialPosX = -100
+		var posY = house.y + 35
+		var toPosX = house.x 
+		var numToUse = '+1'
+		chick.scale.x = 1
+		
+		if(!isAdding){
+			initialPosX = toPosX
+			toPosX = -100
+			numToUse = '-1'
+			chick.scale.x = -1
+		}
+		
+		game.time.events.add(delay, function(){
+			
+			sound.play("cut")
+			
+			chick.x = initialPosX
+			chick.y = posY
+		
+			chick.alpha = 1
+			
+			if(!isAdding){
+				throwChicken(numToUse)
+			}
+			
+			game.add.tween(chick).to({alpha:1},250,"Linear",true)
+			game.add.tween(chick).to({x:toPosX},2000,"Linear",true).onComplete.add(function(){
+				game.add.tween(chick).to({alpha:0,y:chick.y - 50},250,"Linear",true)
+					
+				chick.used = false
+				
+				
+				if(isAdding){
+					throwChicken(numToUse)
+				}
+			})
+		})
+		
+	}
+	
+	function throwChicken(numToUse){
+		
+		createTextPart(numToUse,house)
+		sound.play("chicken")
+
+		var houseTween = game.add.tween(house.scale).to({x:1.25,y:1.25},100,"Linear",true,0,0)
+		houseTween.yoyo(true,0)
+	}
+	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -279,6 +403,9 @@ var feather = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+				
+				numberChicks = game.rnd.integerInRange(2,5)
+				sendChicks(numberChicks,true)
 				
             })
             
@@ -322,12 +449,25 @@ var feather = function(){
 
 	function createBackground(){
 		
+		background = sceneGroup.create(0,0,'background')
+		background.width = game.world.width
+		background.height = game.world.height
+		
+		var base = sceneGroup.create(0,game.world.height,'atlas.feather','base')
+		base.anchor.setTo(0,1)
+		base.width = game.world.width
+		
+		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.feather','clouds')
+		sceneGroup.add(clouds)
+		
+		house = sceneGroup.create(game.world.centerX + 125, game.world.height - base.height * 0.75,'atlas.feather','grange')
+		house.anchor.setTo(0.5,1)
 		
 	}
 	
-	
 	function update(){
-
+		
+		clouds.tilePosition.x+= 0.4
 	}
 	
 	function createTextPart(text,obj){
@@ -439,8 +579,7 @@ var feather = function(){
 		createParticles('star',5)
 		createParticles('wrong',5)
 		createParticles('text',5)
-		createParticles('drop',5)
-		createParticles('ring',5)
+		createParticles('smoke',1)
 	}
 
 	function setExplosion(obj){
@@ -461,15 +600,6 @@ var feather = function(){
 		sceneGroup.add(rect)
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
-		
-        var exp = sceneGroup.create(0,0,'atlas.feather','cakeSplat')
-        exp.x = posX
-        exp.y = posY
-        exp.anchor.setTo(0.5,0.5)
-
-        exp.scale.setTo(6,6)
-        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
         
         particlesNumber = 8
             
@@ -498,6 +628,171 @@ var feather = function(){
 			return
 		}
 		
+		sound.play("pop")
+		var parent = obj.parent
+		
+		var tween = game.add.tween(parent.scale).to({x:0.7,y:0.7},200,"Linear",true,0,0)
+		tween.yoyo(true,0)
+		
+		gameActive = false
+		
+		if(obj.number == numberChicks){
+		   
+			addPoint(1)
+		   	createPart('star',obj)
+			
+			wolf.setAnimationByName(0,"LOSE",false)
+			sound.play("wolfSound")
+			
+			game.time.events.add(2000,hideObjects)
+		   
+		}else{
+		   missPoint()
+		   createPart('wrong',obj)
+		   
+		   game.time.events.add(1000,blowHouse)
+		}
+		
+		changeButtons(0.6)
+	}
+	
+	function changeButtons(alphaValue){
+		
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var button = buttonsGroup.children[i]
+			button.alpha = alphaValue
+		}
+	}
+	
+	function hideObjects(){
+		
+		wolf.scale.x = -1
+		wolf.setAnimationByName(0,"WALK",true)
+		
+		game.add.tween(wolf).to({x:-125},1000,"Linear",true).onComplete.add(function(){
+			
+			showButtons(false)
+			var number = numberChicks
+			
+			game.time.events.add(1000,function(){
+				if((Math.random()*2 > 1 && (numberChicks > 2)) || numberChicks == 9){
+
+					numberChicks = numberChicks - game.rnd.integerInRange(1,numberChicks - 1)
+					sendChicks(number - numberChicks,false)
+				}else{
+					
+					numberChicks = numberChicks + game.rnd.integerInRange(1,9-numberChicks)
+					sendChicks(numberChicks - number,true)
+				}
+				
+				console.log(numberChicks + ' number ' + number)
+			})
+						
+		})
+		
+		
+	}
+	
+	function blowHouse(){
+		
+		wolf.setAnimationByName(0,"BLOW",false)
+		sound.play("inflateballoon")
+		
+		game.time.events.add(500,function(){
+			
+			var wind = sceneGroup.create(wolf.x + 100,wolf.y - 50,'atlas.feather','wind')
+			wind.anchor.setTo(0,0.5)
+
+			game.add.tween(wind.scale).to({x:1.5,y:1.5},1000,"Linear",true)
+			game.add.tween(wind).to({alpha:0},500,"Linear",true,500)
+		
+			game.add.tween(house).to({x:game.world.width + 200,y:house.y - 400,angle : 450},1500,"Linear",true)
+			
+			createPart('smoke',house)
+		
+			sound.play("chicken")
+			
+			for(var i = 0; i < numberChicks;i++){
+				var chick = getChick()
+				
+				chick.x = house.x + 200 - (game.rnd.integerInRange(0,400))
+				chick.y = house.y - 50 - game.rnd.integerInRange(0,-200)
+				chick.alpha = 1
+				
+				game.add.tween(chick).to({x: game.world.width + 200, y: chick.y - game.rnd.integerInRange(0,400), angle: 360},1000,"Linear",true)
+			}
+		})
+		
+		
+	}
+	
+	function createButtons(){
+		
+		buttonsGroup = game.add.group()
+		sceneGroup.add(buttonsGroup)
+		
+		var pivotX = game.world.centerX - 220
+		var pivotY = game.world.height - 155
+		for(var i = 0; i < 10;i++){
+			
+			var group = game.add.group()
+			group.x = pivotX
+			group.y = pivotY
+			group.alpha = 0
+			buttonsGroup.add(group)
+			
+			var image = group.create(0,0,'atlas.feather','numberbutton')
+			image.anchor.setTo(0.5,0.5)
+			image.inputEnabled = true
+			image.events.onInputDown.add(inputButton)
+			image.number = (i+1)
+			
+			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, i+1, fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			group.add(pointsText)
+			
+			if(i == 9){
+				pointsText.setText(0)
+			}
+			
+			pivotX+= group.width * 1.2
+			
+			if((i+1) % 5 == 0){
+				pivotY+= group.height * 1.1
+				pivotX = game.world.centerX - 227
+			}
+			
+		}
+	}
+	
+	function createObjs(tag){
+		
+		var anim = game.add.spine(0,0,tag)
+		anim.setSkinByName("normal")
+		anim.setAnimationByName(0,"IDLE",true)
+		return anim
+	}
+	
+	function createChicks(){
+		
+		chicksGroup = game.add.group()
+		sceneGroup.add(chicksGroup)
+		
+		for(var i = 0; i < 10; i++){
+			var chick = createObjs("chick")
+			chick.alpha = 0
+			chick.used = false
+			chicksGroup.add(chick)
+		}
+		
+		wolf = createObjs("wolf")
+		wolf.x = game.world.centerX - 200
+		wolf.y = game.world.height - 250
+		wolf.alpha = 0
+		sceneGroup.add(wolf)
+		
 	}
 	
 	return {
@@ -511,11 +806,13 @@ var feather = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createButtons()
+			createChicks()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.7)
             }, this);
             
             game.onPause.add(function(){
@@ -530,6 +827,8 @@ var feather = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()

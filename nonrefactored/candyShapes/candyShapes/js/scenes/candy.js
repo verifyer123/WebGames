@@ -321,6 +321,7 @@ var candy = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
+		buttons.getImages(game)
         
         game.load.spine('figures', "images/spines/skeleton.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/upbeat_casual_8.mp3');
@@ -806,6 +807,8 @@ var candy = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
