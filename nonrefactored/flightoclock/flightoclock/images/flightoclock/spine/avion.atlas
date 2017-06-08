@@ -1,0 +1,27 @@
+
+avion.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_11
+  rotate: false
+  xy: 2, 2
+  size: 68, 74
+  orig: 68, 74
+  offset: 0, 0
+  index: -1
+normal/Capa_12
+  rotate: false
+  xy: 2, 154
+  size: 441, 271
+  orig: 441, 271
+  offset: 0, 0
+  index: -1
+normal/Capa_13
+  rotate: false
+  xy: 2, 78
+  size: 69, 74
+  orig: 69, 74
+  offset: 0, 0
+  index: -1

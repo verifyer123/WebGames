@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("bouncybath")
+				sceneloader.show("flightoclock")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -67,7 +67,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            bouncybath,
+            flightoclock,
             result
     	])
     }

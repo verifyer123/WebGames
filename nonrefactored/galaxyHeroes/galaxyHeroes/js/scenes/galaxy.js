@@ -863,16 +863,12 @@ var galaxy = function(){
 			group.add(groupText)
 			
 			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, localization.getString(localizationData,planets[i].name), fontStyle)
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, -7, localization.getString(localizationData,planets[i].name), fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
 			
-			var rect = new Phaser.Graphics(game)
-			rect.beginFill(0x000000)
-			rect.drawRoundedRect(0,0,pointsText.width * 1.5, 75)
-			rect.x-= rect.width * 0.5
-			rect.y-= rect.height * 0.5
-			rect.endFill()
-			groupText.add(rect)
+			var rect = groupText.create(0,0,'atlas.galaxy','ribbon')
+			rect.anchor.setTo(0.5,0.5)
+			rect.tint = planets[i].color
 			
 			groupText.add(pointsText)
 			group.text = groupText

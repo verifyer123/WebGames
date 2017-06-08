@@ -1,0 +1,160 @@
+
+skeleton.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Eagle/arm1
+  rotate: false
+  xy: 110, 21
+  size: 76, 87
+  orig: 76, 87
+  offset: 0, 0
+  index: -1
+Eagle/arm2
+  rotate: true
+  xy: 917, 633
+  size: 51, 83
+  orig: 51, 83
+  offset: 0, 0
+  index: -1
+Eagle/head1
+  rotate: true
+  xy: 219, 345
+  size: 226, 212
+  orig: 226, 212
+  offset: 0, 0
+  index: -1
+Eagle/head2
+  rotate: true
+  xy: 433, 350
+  size: 226, 213
+  orig: 226, 213
+  offset: 0, 0
+  index: -1
+Eagle/head3
+  rotate: false
+  xy: 2, 792
+  size: 230, 217
+  orig: 230, 217
+  offset: 0, 0
+  index: -1
+Eagle/head4
+  rotate: false
+  xy: 234, 793
+  size: 230, 216
+  orig: 230, 216
+  offset: 0, 0
+  index: -1
+Eagle/head5
+  rotate: false
+  xy: 2, 573
+  size: 230, 217
+  orig: 230, 217
+  offset: 0, 0
+  index: -1
+Eagle/leg1
+  rotate: true
+  xy: 433, 291
+  size: 57, 81
+  orig: 57, 81
+  offset: 0, 0
+  index: -1
+Eagle/leg2
+  rotate: false
+  xy: 599, 273
+  size: 59, 75
+  orig: 59, 75
+  offset: 0, 0
+  index: -1
+Eagle/tail
+  rotate: false
+  xy: 699, 650
+  size: 216, 144
+  orig: 216, 144
+  offset: 0, 0
+  index: -1
+Eagle/torso
+  rotate: false
+  xy: 917, 686
+  size: 105, 108
+  orig: 105, 108
+  offset: 0, 0
+  index: -1
+luna/arm1
+  rotate: false
+  xy: 930, 802
+  size: 57, 98
+  orig: 57, 98
+  offset: 0, 0
+  index: -1
+luna/arm2
+  rotate: false
+  xy: 188, 25
+  size: 52, 83
+  orig: 52, 83
+  offset: 0, 0
+  index: -1
+luna/head1
+  rotate: true
+  xy: 2, 340
+  size: 231, 215
+  orig: 231, 215
+  offset: 0, 0
+  index: -1
+luna/head2
+  rotate: false
+  xy: 466, 794
+  size: 231, 215
+  orig: 231, 215
+  offset: 0, 0
+  index: -1
+luna/head3
+  rotate: false
+  xy: 234, 578
+  size: 229, 213
+  orig: 229, 213
+  offset: 0, 0
+  index: -1
+luna/head4
+  rotate: true
+  xy: 2, 110
+  size: 228, 214
+  orig: 228, 214
+  offset: 0, 0
+  index: -1
+luna/head5
+  rotate: false
+  xy: 699, 796
+  size: 229, 213
+  orig: 229, 213
+  offset: 0, 0
+  index: -1
+luna/leg1
+  rotate: true
+  xy: 516, 290
+  size: 58, 81
+  orig: 58, 81
+  offset: 0, 0
+  index: -1
+luna/leg2
+  rotate: true
+  xy: 219, 284
+  size: 59, 76
+  orig: 59, 76
+  offset: 0, 0
+  index: -1
+luna/tail
+  rotate: false
+  xy: 930, 902
+  size: 88, 107
+  orig: 88, 107
+  offset: 0, 0
+  index: -1
+luna/torso
+  rotate: false
+  xy: 2, 2
+  size: 106, 106
+  orig: 106, 106
+  offset: 0, 0
+  index: -1

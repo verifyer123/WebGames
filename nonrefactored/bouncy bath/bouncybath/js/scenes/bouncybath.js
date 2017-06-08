@@ -542,14 +542,13 @@ var bouncybath = function(){
 			pigBullets[lastPig].x = game.width + pigBullets[lastPig].width*1.5;
 			pigBullets[lastPig].anchor.setTo(0.5,1);
 			pigBullets[lastPig].scale.setTo(2.3);
-			pigBullets[lastPig].alpha = 1;
+			pigBullets[lastPig].alpha = 0;
 			game.physics.enable(pigBullets[lastPig] , Phaser.Physics.ARCADE);
 			pigBullets[lastPig].body.collideWorldBounds = false;
 			pigBullets[lastPig].body.bounce.set(0.7);
 			morePigs[lastPig] = pigBullets[lastPig];
 	}			
-				
-	
+
 		var velocityPig = -200;
 		
 		function goPigs(){

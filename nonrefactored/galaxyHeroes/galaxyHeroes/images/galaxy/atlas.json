@@ -127,6 +127,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "ribbon",
+	"frame": {"x":366,"y":880,"w":289,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":289,"h":70},
+	"sourceSize": {"w":289,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "saturn",
 	"frame": {"x":516,"y":1,"w":551,"h":461},
 	"rotated": false,
@@ -146,7 +155,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":366,"y":880,"w":124,"h":63},
+	"frame": {"x":1818,"y":423,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -182,7 +191,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1818,"y":423,"w":64,"h":64},
+	"frame": {"x":657,"y":880,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -212,8 +221,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1935,"h":970},
+	"size": {"w":1943,"h":970},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4ec0c53fcdebdac6b6f8822bbb769254:a65eaf1d82f89b0c86315d66431068db:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:b44685fcb1cc041df9bb229813c463ff:14eed3c11cdfd3880026ae33d9514dde:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
