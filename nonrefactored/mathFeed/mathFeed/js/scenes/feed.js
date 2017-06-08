@@ -362,7 +362,7 @@ var feed = function(){
         brick.timeElapsed = 0
 
         if ((addBrickCounter == 0)&&(roundCounter > 0))
-            Phaser.ArrayUtils.shuffle(roundNumbers)
+            roundNumbers = Phaser.ArrayUtils.shuffle(roundNumbers)
         var number = roundNumbers[addBrickCounter]
         addBrickCounter = addBrickCounter + 1 < roundNumbers.length ? addBrickCounter + 1 : 0
         // console.log(rndNumber)
