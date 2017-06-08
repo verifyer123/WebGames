@@ -40,7 +40,8 @@ yogomeGames.getGames = function(){
         {name:'acornNumbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn', review:true},//34
 		{name:'popSteroids',url:'http://yogome.com/epic/minigames/popSite/',sceneName:'popScene', review:true},//35
 		{name:'candyShapes',url:'http://yogome.com/epic/minigames/candySite/',sceneName:'candy', review:true},//36
-		{name:'featherShelter',url:'http://yogome.com/epic/minigames/featherSite/',sceneName:'feather', review:true}//37
+		{name:'featherShelter',url:'http://yogome.com/epic/minigames/featherSite/',sceneName:'feather', review:true},//37
+		{name:'mathCircus',url:'http://yogome.com/epic/minigames/circusSite/',sceneName:'circus', review:true}//38
 
     ]
     

@@ -44,6 +44,10 @@ var circus = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "flesh",
+				file: soundsPath + "flesh.mp3"},
+			{	name: "punch",
+				file: soundsPath + "punch.mp3"},
 			
 		],
     }
@@ -51,16 +55,21 @@ var circus = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background
+	var background,floor
+	var base, buttonsGroup, yogotar
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 38
 	var indexGame
+	var result
     var overlayGroup
     var spaceSong
+	var timerGroup
+	var numLimit, timeToUse
 	
-
+	var numberOptions = [3,4,6]
+	
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -69,19 +78,29 @@ var circus = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-
+		numLimit = 5
+		timeToUse = 1000
         
         loadSounds()
         
 	}
 
-    function popObject(obj,delay){
+    function popObject(obj,delay,appear){
         
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+			if(appear){
+				console.log('appear')
+				obj.alpha = 1
+            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+			}else{
+				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
+					obj.scale.setTo(1,1)
+					obj.alpha = 0
+				})
+			}
+            
         },this)
     }
     
@@ -161,7 +180,7 @@ var circus = function(){
     
     function addPoint(number){
         
-        sound.play("pop")
+        sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -171,6 +190,13 @@ var circus = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
+		
+		if(pointsBar.number % 3 == 0){
+			if(numLimit < 9){
+				numLimit++
+				timeToUse-=100
+			}
+		}
         
     }
     
@@ -231,10 +257,19 @@ var circus = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
+		yogotar.setAnimationByName(0,"LOSE",false)
+		game.time.events.add(500,function(){
+			sound.play("flesh")
+		})
+		
+		game.time.events.add(750,function(){
+			sound.play("punch")
+		})
+		
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2200)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -249,9 +284,10 @@ var circus = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
+		buttons.getImages(game)
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.spine('yogotar', "images/spines/skeleton.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/circus_gentlejammers.mp3');
         
 		game.load.image('howTo',"images/circus/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/circus/play" + localization.getLanguage() + ".png")
@@ -261,6 +297,92 @@ var circus = function(){
         
     }
     
+	function showButtons(appear){
+		
+		var delay = 0
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var button = buttonsGroup.children[i]
+			if(appear){
+				popObject(button,delay,appear)
+			}else{
+				popObject(button,delay,appear)
+			}
+			
+			delay+= 100
+			
+		}
+		
+		if(appear){
+			
+			setOperation()
+			
+			game.time.events.add(delay,function(){
+				gameActive = true
+				
+				timerGroup.number = 10
+				timerGroup.text.setText(timerGroup.number)
+				
+				popObject(timerGroup,0,true)
+				popObject(base.text,200,true)
+				
+				game.time.events.add(1000,setTimer)
+			})
+		}
+	}
+	
+	function setTimer(){
+		
+		if(!gameActive){
+			return
+		}
+		
+		createTextPart('-1',timerGroup.text)
+		
+		timerGroup.number--
+		timerGroup.text.setText(timerGroup.number)
+		
+		popObject(timerGroup,0,true)
+		
+		if(timerGroup.number < 1){
+			missPoint()
+		}else{
+			if(gameActive){
+				game.time.events.add(timeToUse,setTimer)
+			}
+		}
+		
+	}
+	
+	function setOperation(){
+		
+		var number1 = numberOptions[game.rnd.integerInRange(0,numberOptions.length - 1)]
+		var number2 = game.rnd.integerInRange(2,numLimit)
+		
+		base.text.setText(number1 + ' X ' + number2)
+		result = number1 * number2
+		
+		var index =  game.rnd.integerInRange(0,2)
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var button = buttonsGroup.children[i]
+			if(index == i){
+				button.number = result
+			}else{
+				var number3 = number2
+				while(number3 == number2){
+					number3 = game.rnd.integerInRange(2,numLimit)
+				}
+				button.number = number1 * number3
+				
+			}
+			
+			button.text.setText(button.number)
+		}
+		
+		popObject(button.text,0,true)
+	}
+	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -279,7 +401,7 @@ var circus = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				//positionBar()
+				showButtons(true)
             })
             
         })
@@ -322,12 +444,18 @@ var circus = function(){
 
 	function createBackground(){
 		
+		background = game.add.tileSprite(0,0,game.world.width, 501,'background')
+		sceneGroup.add(background)
 		
+		floor = game.add.tileSprite(0,background.height,game.world.width,497,'atlas.circus','fondo2')
+		sceneGroup.add(floor)
 	}
 	
 	
 	function update(){
-
+		
+		background.tilePosition.x--
+		floor.tilePosition.x+= 0.6
 	}
 	
 	function createTextPart(text,obj){
@@ -439,8 +567,7 @@ var circus = function(){
 		createParticles('star',5)
 		createParticles('wrong',5)
 		createParticles('text',5)
-		createParticles('drop',5)
-		createParticles('ring',5)
+
 	}
 
 	function setExplosion(obj){
@@ -498,6 +625,118 @@ var circus = function(){
 			return
 		}
 		
+		var parent = obj.parent
+		
+		sound.play("pop")
+		
+		var tween = game.add.tween(parent.scale).to({x:0.6,y:0.6},200,"Linear",true)
+		tween.yoyo(true,0)
+		
+		gameActive = false
+		
+		if(parent.number == result){
+			addPoint(1)
+			createPart('star',obj)
+			
+			yogotar.setAnimationByName(0,"WIN",false)
+			yogotar.addAnimationByName(0,"IDLE",true)
+			game.time.events.add(1100,restartScene)
+		}else{
+			missPoint()
+			createPart('wrong',obj)
+		}
+		
+	}
+	
+	function restartScene(){
+		
+		showButtons(false)
+		game.add.tween(timerGroup).to({alpha:0},300,"Linear",true)
+		game.add.tween(base.text).to({alpha:0},300,"Linear",true,200)
+		
+		game.time.events.add(1000,function(){
+			showButtons(true)
+		})
+		
+	}
+	
+	function createBase(){
+		
+		base = game.add.group()
+		base.x = game.world.centerX
+		base.y = game.world.height - 25
+		sceneGroup.add(base)
+		
+		var baseImg = base.create(0,0,'atlas.circus','base')
+		baseImg.anchor.setTo(0.5,1)
+		
+		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, -baseImg.height * 0.82, "3 X 5", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		pointsText.alpha = 0
+        base.add(pointsText)
+		
+		base.text = pointsText
+		
+		yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar")
+		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotar.setSkinByName("normal")
+		sceneGroup.add(yogotar)
+	}
+	
+	function createButtons(){
+		
+		buttonsGroup = game.add.group()
+		sceneGroup.add(buttonsGroup)
+		
+		var pivotX = base.x - 150
+		var pivotY = base.y - 100
+		for(var i = 0;i < 3; i++){
+			
+			var button = game.add.group()
+			button.alpha = 0
+			button.pressed = false
+			button.x = pivotX
+			button.y = pivotY
+			buttonsGroup.add(button)
+			
+			var buttonImage = button.create(0,0,'atlas.circus','btn')
+			buttonImage.anchor.setTo(0.5,0.5)
+			buttonImage.inputEnabled = true
+			buttonImage.events.onInputDown.add(inputButton)
+			
+			var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0,0, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			button.add(pointsText)
+			
+			button.text = pointsText
+			
+			pivotX+= button.width * 1.12
+		}
+		
+	}
+	
+	function createTimer(){
+		
+		timerGroup = game.add.group()
+		timerGroup.x = game.world.centerX - 200
+		timerGroup.y = game.world.height - 335
+		timerGroup.alpha = 0
+		sceneGroup.add(timerGroup)
+		
+		var timerImg = timerGroup.create(0,0,'atlas.circus','time')
+		timerImg.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, 35,-5, 10, fontStyle)
+		pointsText.angle = -15
+		pointsText.anchor.setTo(0.5,0.5)
+		timerGroup.add(pointsText)
+		
+		timerGroup.number = 10
+		timerGroup.text = pointsText
+		
 	}
 	
 	return {
@@ -511,6 +750,9 @@ var circus = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createBase()
+			createButtons()
+			createTimer()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
@@ -530,14 +772,12 @@ var circus = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()
