@@ -36,8 +36,8 @@ var acorn = function(){
 				file: soundsPath + "magic.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
-            {	name: "combo",
-				file: soundsPath + "combo.mp3"},
+            {	name: "hit",
+				file: soundsPath + "squeeze.mp3"},
             {	name: "flip",
 				file: soundsPath + "flipCard.mp3"},
             {	name: "swipe",
@@ -47,7 +47,11 @@ var acorn = function(){
             {	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
             {   name: "gameLose",
-                file: soundsPath + "gameLose.mp3"}
+                file: soundsPath + "gameLose.mp3"},
+            {   name: "win",
+                file: soundsPath + "moleHit.mp3"},
+            {   name: "knockout",
+                file: soundsPath + "knockOut1.mp3"}
 		]
     }
 
@@ -57,13 +61,14 @@ var acorn = function(){
     var TOP_LANE_Y = 545
     var LANE_HEIGHT = 150
     var NUM_OBJECTS = 50
+    var DISTANCE_BETWEEN = 420
 
     var ROUNDS = [
-        {numobjects: 10},
-        {numobjects: 30},
-        {numobjects: 30}]
-
-    var OBJECTS = [{image:"stone", event:"hit"}, {image:"acorm", event:"addPoint"}]
+        {acorn: 7, stone:3, operator:"+", maxNumber:5},
+        {acorn: 6, stone:4, operator:"+", maxNumber:5},
+        {acorn: 7, stone:7, operator:"+", maxNumber:5}]
+    var OBJECTS = [{image:"stone", event:"hit"}, {image:"acorn", event:"addPoint"}]
+    var OPERATIONS = ["+", "-"]
 
     var lives
 	var sceneGroup = null
@@ -89,12 +94,38 @@ var acorn = function(){
     var distance
     var currentDistance
     var objectList
-    var timeElapsed
     var particleCorrect
     var particleWrong
     var grabGroup
+    var speed
+    var canSwipe
 
-	function loadSounds(){
+    function tweenTint(obj, startColor, endColor, time, delay, callback) {
+        // check if is valid object
+        time = time || 250
+        delay = delay || 0
+
+        if (obj) {
+            // create a step object
+            var colorBlend = { step: 0 };
+            // create a tween to increment that step from 0 to 100.
+            var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
+            // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
+            colorTween.onUpdateCallback(function () {
+                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);
+            })
+            // set object to the starting colour
+            obj.tint = startColor;
+            // if you passed a callback, add it to the tween on complete
+            if (callback) {
+                colorTween.onComplete.add(callback, this);
+            }
+            // finally, start the tween
+            colorTween.start();
+        }
+    }
+
+    function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
@@ -109,14 +140,14 @@ var acorn = function(){
         roundCounter = 0
         runnerMode = false
         objectList = []
-        objectsInGame = []
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
         distance = 0
         currentDistance = 0
-        timeElapsed = 0
+        speed = 4
+        canSwipe = false
 
         loadSounds()
 
@@ -180,6 +211,7 @@ var acorn = function(){
             object.anchor.setTo(0.5, 0.5)
             object.event = objectData.event
             objectList.push(object)
+            object.name = objectData.image
         }
 
     }
@@ -205,9 +237,12 @@ var acorn = function(){
         //timer.pause()
         acornSong.stop()
         // clock.tween.stop()
+        // runnerMode = false
         inputsEnabled = false
+        canSwipe = false
+        // ardilla.setAnimation(["LOSE"])
 
-        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
@@ -222,13 +257,15 @@ var acorn = function(){
     function preload(){
 
         game.stage.disableVisibilityChange = false;
-        game.load.audio('acornSong', soundsPath + 'songs/wormwood.mp3');
+        game.load.audio('acornSong', soundsPath + 'songs/childrenbit.mp3');
 
         game.load.image('introscreen',"images/acorn/introscreen.png")
 		game.load.image('howTo',"images/acorn/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/acorn/play" + localization.getLanguage() + ".png")
 
         game.load.spine('ardilla', "images/spine/skeleton.json")
+
+        buttons.getImages(game)
     }
 
     function addNumberPart(obj,number){
@@ -247,20 +284,74 @@ var acorn = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
     }
+    
+    function generateQuestion() {
+        var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
+
+        var number1 = game.rnd.integerInRange(0, round.maxNumber)
+        var number2 = game.rnd.integerInRange(0, round.maxNumber)
+        var answer
+
+        var operation = round.operator
+        if(round.operator === "random")
+            operation = OPERATIONS[game.rnd.integerInRange(0, OPERATIONS.length - 1)]
+
+        if (operation === "+"){
+            answer = number1 + number2
+        }else if(operation === "-"){
+            if (number2 > number1){
+                var prev = number2
+                number2 = number1
+                number1 = prev
+            }
+            answer = number1 - number2
+        }
+
+        boardGroup.answer = answer
+        boardGroup.number1.setText(number1)
+        boardGroup.operator.setText(operation)
+        boardGroup.number2.setText(number2)
+
+        var fakeAnswers = []
+        for(var answerIndex = 0; answerIndex < round.maxNumber + round.maxNumber + 1; answerIndex++){
+            if (answerIndex !== answer)
+                fakeAnswers.push(answerIndex)
+        }
+
+        fakeAnswers = Phaser.ArrayUtils.shuffle(fakeAnswers)
+
+        var correctBox = game.rnd.integerInRange(0, NUM_LANES - 1)
+        for (var blockIndex = 0; blockIndex < NUM_LANES; blockIndex++){
+            var block = blocksGroup.blocks[blockIndex]
+            block.inputEnabled = true
+            block.tint = "0xffffff"
+            if (correctBox === blockIndex) {
+                block.text.setText(answer)
+                block.number = answer
+            }
+            else {
+                block.text.setText(fakeAnswers[blockIndex])
+                block.number = fakeAnswers[blockIndex]
+            }
+        }
+
+    }
 
     function startRound() {
-        inputsEnabled = true
-        distance = 4000
-        Phaser.ArrayUtils.shuffle(objectList)
+        var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
+        speed = speed + roundCounter
 
-        var round = ROUNDS[roundCounter]
-        addObjects(round.numobjects)
+        inputsEnabled = true
+        objectList = Phaser.ArrayUtils.shuffle(objectList)
+
+        addObjects(round)
+        roundCounter++
     }
 
     function missPoint(){
 
         sound.play("wrong")
-        inputsEnabled = false
+        // inputsEnabled = false
 
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -314,7 +405,6 @@ var acorn = function(){
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
             tutoGroup.y = -game.world.height
-            startRound()
         })
     }
 
@@ -354,7 +444,6 @@ var acorn = function(){
 			inputName = 'desktop'
 		}
 
-		//console.log(inputName)
 		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.acorn',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
@@ -367,39 +456,54 @@ var acorn = function(){
     }
     
     function changeLane() {
+        sound.play("cut")
         var toY = TOP_LANE_Y + LANE_HEIGHT * (ardilla.currentLane - 1) + 50
         game.add.tween(ardilla).to({y:toY}, 500, Phaser.Easing.Cubic.Out, true)
     }
     
     function checkAnswer(block) {
         if(inputsEnabled){
-            inputsEnabled = false
+            block.inputEnabled = false
             var tween = game.add.tween(blocksGroup).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, false, 750)
+            var buttonEffect = game.add.tween(block.scale).to({x: 1.2, y: 1.2}, 300, Phaser.Easing.Cubic.Out, true)
+            buttonEffect.onComplete.add(function () {
+                game.add.tween(block.scale).to({x: 1, y: 1}, 300, Phaser.Easing.Cubic.In, true)
+            })
 
             if (block.number === boardGroup.answer) {
                 particleCorrect.x = block.x + blocksGroup.x
                 particleCorrect.y = block.y
 
                 particleCorrect.start(true, 1000, null, 3);
-
-                ardilla.setAnimation(["LOSESTILL"])
+                tweenTint(block, 0xffffff, 0x46FF46, 500)
+                ardilla.setAnimation(["WIN"])
+                sound.play("win")
 
                 // runnerMode = true
+
+                tween.start()
+                addPoint(1)
                 tween.onComplete.add(function () {
-                    ardilla.setAnimation(["RUN"], true)
+                    ardilla.setAnimation(["RUN"])
                     runnerMode = true
+                    canSwipe = true
+                    inputsEnabled = false
                 })
             }else{
                 particleWrong.x = block.x + blocksGroup.x
                 particleWrong.y = block.y
 
                 particleWrong.start(true, 1000, null, 3);
-                tween.onComplete.add(function () {
-                    // runnerMode = true
-                })
+                tweenTint(block, 0xffffff, 0xff5151, 500)
+                missPoint()
+                if (lives === 0)
+                    ardilla.setAnimation(["SAD"])
+                else
+                    ardilla.setAnimation(["SAD","IDLE"])
+                // tween.onComplete.add(function () {
+                //     // runnerMode = true
+                // })
             }
-
-            tween.start()
         }
     }
     
@@ -415,7 +519,6 @@ var acorn = function(){
             block.y = TOP_LANE_Y + (LANE_HEIGHT * blockIndex)
             block.anchor.setTo(0.5, 0.5)
             blocksGroup.add(block)
-            blocksGroup.blocks[blockIndex] = block
 
             var text = new Phaser.Text(game, 0, block.y + 5, "0", fontStyle)
             text.anchor.setTo(0.5, 0.5)
@@ -425,6 +528,7 @@ var acorn = function(){
             block.inputEnabled = true
 
             block.events.onInputDown.add(checkAnswer)
+            blocksGroup.blocks.push(block)
         }
 
     }
@@ -440,14 +544,17 @@ var acorn = function(){
         var number1 = new Phaser.Text(game, -86, -28, "0", fontStyle)
         number1.anchor.setTo(0.5, 0.5)
         boardGroup.add(number1)
+        boardGroup.number1 = number1
 
         var operator = new Phaser.Text(game, 0, -32, "+", fontStyle)
         operator.anchor.setTo(0.5, 0.5)
         boardGroup.add(operator)
+        boardGroup.operator = operator
 
         var number2 = new Phaser.Text(game, 86, -28, "0", fontStyle)
         number2.anchor.setTo(0.5, 0.5)
         boardGroup.add(number2)
+        boardGroup.number2 = number2
 
         boardGroup.answer = 0
     }
@@ -460,21 +567,29 @@ var acorn = function(){
         }
     }
     
-    function addObjects(objectsNumber) {
+    function addObjects(round) {
+        var objectsNumber = round.acorn + round.stone
+        var counters = {acorn:0, stone:0}
         gameGroup.objects = []
-        var distanceBetween = (distance - game.width - 100) / objectsNumber
-        for(var objectIndex = 0; objectIndex < objectsNumber; objectIndex++){
+        distance = game.width + 100 + (DISTANCE_BETWEEN * objectsNumber)
+        // var DISTANCE_BETWEEN = (distance - game.width - 100) / objectsNumber
+        for(var objectIndex = 0; objectIndex < objectList.length; objectIndex++){
             var object = objectList[objectIndex]
-            object.x = game.width + distanceBetween * objectIndex + 100
-            var randomLane = game.rnd.integerInRange(1, NUM_LANES)
-            object.y = TOP_LANE_Y + LANE_HEIGHT * (randomLane - 1)
-            pullGroup.remove(object)
-            gameGroup.add(object)
-            gameGroup.objects.push(object)
-            object.collided = false
-            object.alpha = 1
-            object.scale.x = 1
-            object.scale.y = 1
+
+            if(counters[object.name] < round[object.name] ) {
+                object.x = game.width + DISTANCE_BETWEEN * gameGroup.objects.length + 100
+                var randomLane = game.rnd.integerInRange(1, NUM_LANES)
+                object.y = TOP_LANE_Y + LANE_HEIGHT * (randomLane - 1)
+                pullGroup.remove(object)
+                gameGroup.add(object)
+                gameGroup.objects.push(object)
+                object.collided = false
+                object.alpha = 1
+                object.scale.x = 1
+                object.scale.y = 1
+
+                counters[object.name]++
+            }
         }
 
     }
@@ -497,7 +612,7 @@ var acorn = function(){
         var hitBox = new Phaser.Graphics(game)
         hitBox.beginFill(0xFFFFFF)
         hitBox.drawRect(0,0,100, 100)
-        hitBox.alpha = 0.4
+        hitBox.alpha = 0
         hitBox.endFill()
         hitBox.x = -hitBox.width * 0.5
         hitBox.y = -hitBox.height
@@ -536,16 +651,21 @@ var acorn = function(){
     function hitObject(object) {
         runnerMode = false
 
-        ardilla.setAnimation(["HIT", "RUN"])
-        currentDistance -= 180
-        game.add.tween(background.tilePosition).to({x: background.tilePosition.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(boardGroup).to({x: boardGroup.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(blocksGroup).to({x: blocksGroup.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
-        var tween = game.add.tween(gameGroup).to({x: gameGroup.x + 180}, 800, Phaser.Easing.Cubic.Out, true)
+        sound.play("hit")
+        var secondAnimation = lives > 0 ? "RUN" : "LOSESTILL"
+        ardilla.setAnimation(["HIT", secondAnimation])
+        var toX = (-object.world.x + ardilla.x) + 300
+        currentDistance -= toX
+        game.add.tween(background.tilePosition).to({x: background.tilePosition.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(boardGroup).to({x: boardGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(blocksGroup).to({x: blocksGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
+        var tween = game.add.tween(gameGroup).to({x: gameGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
         tween.onComplete.add(function () {
-            runnerMode = true
-            object.collided = false
-            // ardilla.setAnimation(["RUN"])
+            if (lives > 0) {
+                runnerMode = true
+                object.collided = false
+            }else
+                sound.play("knockout")
         })
     }
     
@@ -569,17 +689,9 @@ var acorn = function(){
     }
     
     function update() {
-        if(runnerMode) {
 
-            background.tilePosition.x -= 5
-            mountains.tilePosition.x -= 0.5
-            boardGroup.x -= 5
-            blocksGroup.x -= 5
-            gameGroup.x -= 5
-            currentDistance += 5
-
+        if (canSwipe) {
             var direction = swipe.check()
-
             if (direction !== null) {
                 switch (direction.direction) {
                     case swipe.DIRECTION_UP:
@@ -592,15 +704,26 @@ var acorn = function(){
                         break;
                 }
             }
+        }
+
+        if(runnerMode) {
+
+            background.tilePosition.x -= speed
+            mountains.tilePosition.x -= speed * 0.1
+            boardGroup.x -= speed
+            blocksGroup.x -= speed
+            gameGroup.x -= speed
+            currentDistance += speed
 
             if (boardGroup.x < 0 - boardGroup.width){
                 var diffDistance = distance - currentDistance
                 boardGroup.x = diffDistance + 180
                 blocksGroup.x = diffDistance + game.width - 100
                 blocksGroup.alpha = 1
+                generateQuestion()
             }
 
-            timeElapsed += game.time.elapsedMS
+            // timeElapsed += game.time.elapsedMS
 
             for(var objectIndex = 0; objectIndex < gameGroup.objects.length; objectIndex++){
                 var object = gameGroup.objects[objectIndex]
@@ -622,6 +745,7 @@ var acorn = function(){
 
             if (distance <= currentDistance){
                 runnerMode = false
+                canSwipe = true
                 inputsEnabled = true
                 currentDistance = 0
                 gameGroup.x = 0
@@ -669,6 +793,8 @@ var acorn = function(){
             createBlocks()
             createSpine()
             createGameObjects()
+            generateQuestion()
+            startRound()
             createTutorial()
 
             grabGroup = game.add.group()
@@ -680,6 +806,7 @@ var acorn = function(){
             particleWrong = createPart('wrong')
             sceneGroup.add(particleWrong)
 
+            buttons.getButton(acornSong,sceneGroup)
 		}
 	}
 }()
