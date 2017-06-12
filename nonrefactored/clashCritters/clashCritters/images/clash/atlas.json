@@ -2,7 +2,7 @@
 
 {
 	"filename": "button",
-	"frame": {"x":861,"y":380,"w":129,"h":114},
+	"frame": {"x":200,"y":371,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":477,"y":407,"w":134,"h":98},
+	"frame": {"x":652,"y":393,"w":134,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":98},
@@ -29,16 +29,16 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":515,"y":1,"w":423,"h":225},
+	"frame": {"x":515,"y":1,"w":368,"h":174},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":423,"h":225},
-	"sourceSize": {"w":423,"h":225},
+	"spriteSourceSize": {"x":0,"y":0,"w":368,"h":174},
+	"sourceSize": {"w":368,"h":174},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "grass",
-	"frame": {"x":515,"y":228,"w":344,"h":177},
+	"frame": {"x":515,"y":177,"w":344,"h":177},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":344,"h":177},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "hp_bar",
-	"frame": {"x":1,"y":371,"w":209,"h":35},
+	"frame": {"x":652,"y":356,"w":209,"h":35},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":209,"h":35},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":212,"y":371,"w":197,"h":123},
+	"frame": {"x":1,"y":371,"w":197,"h":123},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":123},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "option",
-	"frame": {"x":861,"y":228,"w":135,"h":150},
+	"frame": {"x":515,"y":356,"w":135,"h":150},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":135,"h":150},
@@ -73,8 +73,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "proyectile",
+	"frame": {"x":788,"y":393,"w":79,"h":71},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":71},
+	"sourceSize": {"w":79,"h":71},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
-	"frame": {"x":411,"y":371,"w":64,"h":64},
+	"frame": {"x":331,"y":371,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -83,7 +92,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1,"y":408,"w":64,"h":64},
+	"frame": {"x":331,"y":437,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -95,8 +104,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":997,"h":506},
+	"size": {"w":884,"h":507},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f7a6b014e04bda58ec0ffef961e435b7:2af72e60173a5e19956d52130614a985:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:852ce76bbe3f7c1fefe514d9a3464d39:6cd5222e841c8ff60301eb9ada136a89:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
