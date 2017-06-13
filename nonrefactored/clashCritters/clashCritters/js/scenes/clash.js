@@ -81,7 +81,7 @@ var clash = function(){
 
     var lives
     var sceneGroup = null
-    var gameIndex = 33
+    var gameIndex = 40
     var tutoGroup
     var clashSong
     var heartsGroup = null
@@ -131,7 +131,7 @@ var clash = function(){
             var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
             // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
             colorTween.onUpdateCallback(function () {
-                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);
+                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step)
             })
             // set object to the starting colour
             obj.tint = startColor;
@@ -142,48 +142,6 @@ var clash = function(){
             // finally, start the tween
             colorTween.start();
         }
-    }
-
-    function addPoint(number){
-
-        sound.play("magic")
-        pointsBar.number+=number;
-        pointsBar.text.setText(pointsBar.number)
-
-        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
-
-        addNumberPart(pointsBar.text,'+' + number)
-
-        // if(pointsBar.number % 2 == 0){
-        timeValue-=timeValue * 0.10
-        // }
-
-    }
-
-    function createPointsBar(){
-
-        pointsBar = game.add.group()
-        pointsBar.x = game.world.width
-        pointsBar.y = 0
-        sceneGroup.add(pointsBar)
-
-        var pointsImg = pointsBar.create(-10,10,'atlas.clash','xpcoins')
-        pointsImg.anchor.setTo(1,0)
-
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
-        pointsText.y = pointsImg.height * 0.25
-        pointsBar.add(pointsText)
-
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-        pointsBar.text = pointsText
-        pointsBar.number = 0
-
     }
     
     function receiveAttack() {
@@ -519,7 +477,7 @@ var clash = function(){
 
     }
 
-    function stopGame(win){
+    function stopGame(){
 
         //objectsGroup.timer.pause()
         //timer.pause()
@@ -546,7 +504,7 @@ var clash = function(){
     function preload(){
 
         game.stage.disableVisibilityChange = false;
-        game.load.audio('clashSong', soundsPath + 'songs/wormwood.mp3');
+        game.load.audio('clashSong', soundsPath + 'songs/technology_action.mp3');
 
         game.load.image('introscreen',"images/clash/introscreen.png")
         game.load.image('howTo',"images/clash/how" + localization.getLanguage() + ".png")
@@ -557,24 +515,7 @@ var clash = function(){
 
     }
 
-    function addNumberPart(obj,number){
-
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-    }
-
-    function startRound(notStarted) {
+    function startRound() {
         hideQuestion()
         indicator.tweenRestart.start()
         game.time.events.add(1000, generateQuestion)
@@ -624,8 +565,8 @@ var clash = function(){
         var answer
 
         var operation = round.operator
-        if(round.operator === "random")
-            operation = OPERATIONS[game.rnd.integerInRange(0, OPERATIONS.length - 1)]
+        // if(round.operator === "random")
+        //     operation = OPERATIONS[game.rnd.integerInRange(0, OPERATIONS.length - 1)]
 
         if (operation === "+"){
             answer = number1 + number2
@@ -669,7 +610,6 @@ var clash = function(){
                 option.number = fakeAnswers[optionIndex]
             }
 
-            var option = clashGroup.options[optionIndex]
             var delayOption = delayBetween * optionIndex + initialDelay
 
             game.add.tween(option.scale).to({x:1, y:1}, 800, Phaser.Easing.Cubic.Out, true, delayOption)
@@ -733,7 +673,7 @@ var clash = function(){
         }
         clashGroup.options = options
 
-        var fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
+        fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
 
         var questionGroup = game.add.group()
         questionGroup.y = -50
@@ -809,7 +749,7 @@ var clash = function(){
             var entry
             for(var index = 0; index < animations.length; index++) {
                 var animation = animations[index]
-                var loop = index == animations.length - 1
+                var loop = index === animations.length - 1
                 if (index === 0)
                     entry = spineSkeleton.setAnimationByName(0, animation, loop)
                 else
@@ -830,71 +770,6 @@ var clash = function(){
         }
 
         return spineGroup
-    }
-
-
-    function missPoint(){
-
-        sound.play("wrong")
-        inputsEnabled = false
-
-        lives--;
-        heartsGroup.text.setText('X ' + lives)
-
-        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
-
-        if(lives === 0){
-            stopGame(false)
-        }
-        else{
-            startRound()
-        }
-
-        addNumberPart(heartsGroup.text,'-1')
-    }
-
-    function createHearts(){
-
-        heartsGroup = game.add.group()
-        heartsGroup.y = 10
-        sceneGroup.add(heartsGroup)
-
-        var pivotX = 10
-        var group = game.add.group()
-        group.x = pivotX
-        heartsGroup.add(group)
-
-        var heartImg = group.create(0,0,'atlas.clash','life_box')
-
-        pivotX+= heartImg.width * 0.45
-
-        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-        pointsText.x = pivotX
-        pointsText.y = heartImg.height * 0.15
-        pointsText.setText('X ' + lives)
-        heartsGroup.add(pointsText)
-
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-        heartsGroup.text = pointsText
-
-    }
-
-    function startTimer(onComplete) {
-        var delay = 500
-        // clock.bar.scale.x = clock.bar.origScale
-        if (clock.tween)
-            clock.tween.stop()
-
-
-        clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
-        clock.tween.onComplete.add(function(){
-            onComplete()
-        })
     }
 
     function onClickPlay(rect) {
@@ -953,26 +828,6 @@ var clash = function(){
 
         var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
         playText.anchor.setTo(0.5,0.5)
-    }
-
-    function createClock(){
-
-        clock = game.add.group()
-        clock.x = game.world.centerX
-        clock.y = game.world.centerY + 80
-        sceneGroup.add(clock)
-
-        var clockImage = clock.create(0,0,'atlas.clash','clock')
-        clockImage.anchor.setTo(0.5,0.5)
-
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.clash','bar')
-        clockBar.anchor.setTo(0,0.5)
-        clockBar.width = clockImage.width*0.76
-        clockBar.height = 22
-        clockBar.origScale = clockBar.scale.x
-
-        clock.bar = clockBar
-
     }
 
     return {
