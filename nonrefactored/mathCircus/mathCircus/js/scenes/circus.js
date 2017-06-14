@@ -47,7 +47,7 @@ var circus = function(){
 			{	name: "flesh",
 				file: soundsPath + "flesh.mp3"},
 			{	name: "punch",
-				file: soundsPath + "punch.mp3"},
+				file: soundsPath + "punch1.mp3"},
 			
 		],
     }
@@ -79,7 +79,7 @@ var circus = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 1
 		numLimit = 5
-		timeToUse = 1000
+		timeToUse = 1250
         
         loadSounds()
         
@@ -91,7 +91,7 @@ var circus = function(){
             
             sound.play("cut")
 			if(appear){
-				console.log('appear')
+
 				obj.alpha = 1
             	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
 			}else{
@@ -127,7 +127,7 @@ var circus = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -258,8 +258,16 @@ var circus = function(){
 		sound.play("gameLose")
 		
 		yogotar.setAnimationByName(0,"LOSE",false)
+		
+		var obj = sceneGroup.create(yogotar.x, yogotar.y- 50,'atlas.circus','star')
+		obj.anchor.setTo(0.5,0.5)
+		obj.alpha = 0
+
+		createPart('smoke',obj)
+		
 		game.time.events.add(500,function(){
 			sound.play("flesh")
+			
 		})
 		
 		game.time.events.add(750,function(){
@@ -460,7 +468,7 @@ var circus = function(){
 	
 	function createTextPart(text,obj){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         
         if(pointsText){
             
@@ -482,13 +490,16 @@ var circus = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
+			//console.log(particle.tag + ' tag,' + particle.used)
             if(!particle.used && particle.tag == key){
                 
-                particle.used = true
+				particle.used = true
                 particle.alpha = 1
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
+				
+				console.log(particle)
                 
                 return particle
                 break
@@ -512,29 +523,32 @@ var circus = function(){
     function createPart(key,obj,offsetX){
         
         var offX = offsetX || 0
-        key+='Part'
         var particle = lookParticle(key)
+		
         if(particle){
             
             particle.x = obj.world.x + offX
             particle.y = obj.world.y
             particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
+            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            particle.start(true, 1500, null, 6);
+			
+			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})
+			
         }
         
         
     }
     
     function createParticles(tag,number){
-        
-        tag+='Part'
-        
+                
         for(var i = 0; i < number;i++){
             
             var particle
-            if(tag == 'textPart'){
+            if(tag == 'text'){
                 
                 var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
@@ -543,13 +557,24 @@ var circus = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.circus',tag)
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.circus',tag);
+				particle.minParticleSpeed.setTo(-200, -50);
+				particle.maxParticleSpeed.setTo(200, -100);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
             }
             
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            particle.anchor.setTo(0.5,0.5)
+            //particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
@@ -564,9 +589,10 @@ var circus = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 		
-		createParticles('star',5)
-		createParticles('wrong',5)
+		createParticles('star',3)
+		createParticles('wrong',1)
 		createParticles('text',5)
+		createParticles('smoke',1)
 
 	}
 

@@ -6,13 +6,33 @@ var ice = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
+			"stop":"Stop!",
+			"one":"one",
+			"two":"two",
+			"three":"three",
+			"four":"four",
+			"five":"five",
+			"six":"six",
+			"seven":"seven",
+			"eight":"eight",
+			"nine":"nine",
 			"stop":"Stop!"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"one":"uno",
+			"two":"dos",
+			"three":"tres",
+			"four":"cuatro",
+			"five":"cinco",
+			"six":"seis",
+			"seven":"siete",
+			"eight":"ocho",
+			"nine":"nueve",
+			"stop":"¡Detener!"
 		}
 	}
     
@@ -170,7 +190,7 @@ var ice = function(){
 		
 		ballsNumber = game.rnd.integerInRange(1,9)
 		
-		globeGroup.text.setText(TEXT_VALUES[ballsNumber - 1])
+		globeGroup.text.setText(localization.getString(localizationData,TEXT_VALUES[ballsNumber - 1]))
 		
 		popObject(globeGroup,0)
 		
@@ -610,9 +630,13 @@ var ice = function(){
         button2.events.onInputUp.add(releaseButton)
 		
 		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, groupButton.x, groupButton.y - 15, "Stop!", fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, groupButton.x, groupButton.y - 15, localization.getString(localizationData,"stop"), fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
+		
+		if(localization.getLanguage() == 'ES'){
+			pointsText.scale.setTo(0.7,0.7)
+		}
         
         pointsText.setShadow(4, 3, 'rgba(0,0,0,0.5)', 0);
         

@@ -6,13 +6,21 @@ var candy = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"cube":"Cube",
+			"rectangle":"Rectangle",
+			"circle":"Circle",
+			"triangle":"Triangle"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"cube":"Cubo",
+			"rectangle":"Rectángulo",
+			"circle":"Círculo",
+			"triangle":"Triángulo"
 		}
 	}
     
@@ -351,6 +359,9 @@ var candy = function(){
 			
 			var figMap = getFigure(figToUse,figuresMap)
 			popObject(figMap,0)
+			
+			console.log(figMap.tag + ' tag')
+			figMap.text.setText(localization.getString(localizationData,figMap.tag))
 			
 			tapTimes = 0
 			
@@ -694,10 +705,29 @@ var candy = function(){
 		
 		for(var i = 0; i < figureNames.length;i++){
 			
-			var figure = figuresMap.create(0,0,'atlas.candy','shape_' + figureNames[i])
+			var group = game.add.group()
+			group.tag = figureNames[i]
+			group.alpha = 0
+			figuresMap.add(group)
+			
+			var figure = group.create(0,-25,'atlas.candy','shape_' + figureNames[i])
 			figure.anchor.setTo(0.5,0.5)
-			figure.tag = figureNames[i]
-			figure.alpha = 0
+			
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x000000)
+			rect.drawRoundedRect(0,65,200, 50,16)
+			rect.alpha = 0.7
+			rect.x-= rect.width * 0.5
+			rect.y-= rect.height * 0.5
+			rect.endFill()
+			group.add(rect)
+			
+			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 65, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			group.add(pointsText)
+			
+			group.text = pointsText
 			
 		}
 		

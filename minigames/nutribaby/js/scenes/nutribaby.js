@@ -238,7 +238,7 @@ var nutribaby = function(){
         sceneGroup.limit = bottomRect
         
         var logo = sceneGroup.create(game.world.centerX - 10, game.world.height - 250,'atlas.nutribaby','logo_dashboard')
-        logo.scale.setTo(0.7,0.7)
+        logo.scale.setTo(0.95,0.95)
         logo.anchor.setTo(0.5,0.5)
         
         var groupButton = game.add.group()
