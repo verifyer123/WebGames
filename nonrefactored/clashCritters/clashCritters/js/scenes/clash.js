@@ -84,7 +84,6 @@ var clash = function(){
     var gameIndex = 40
     var tutoGroup
     var clashSong
-    var heartsGroup = null
     var pullGroup = null
     var clock
     var timeValue
@@ -512,6 +511,7 @@ var clash = function(){
 
         game.load.spine('monsters', "images/spines/monster/monster.json")
         game.load.spine('dino', "images/spines/dino/dino.json")
+        buttons.getImages(game)
 
     }
 
@@ -856,12 +856,11 @@ var clash = function(){
             }, this);
 
             initialize()
-            // createHearts()
-            // createPointsBar()
             createGameObjects()
             createClashUI()
-            // createClock()
             createTutorial()
+
+            buttons.getButton(clashSong,sceneGroup,game.world.width - 50)
 
         }
     }
