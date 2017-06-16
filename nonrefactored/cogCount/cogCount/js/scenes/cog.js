@@ -53,7 +53,7 @@ var cog = function(){
     var MAX_OPTIONS = 7
 
     var ROUNDS = [
-        {numOptions: 3, maxValue: 2, numPlays: 2, options:[1,2,1], directions:[1, -1, 1]},
+        {numOptions: 3, maxValue: 2, numPlays: 2, options:[1,2,1], directions:[1, -1]},
         {numOptions: 3, maxValue: 2, numPlays: 2},
         {numOptions: 3, maxValue: 3, numPlays: 2},
         {numOptions: 3, maxValue: 3, numPlays: 2},
@@ -282,11 +282,12 @@ var cog = function(){
     }
     
     function removeOptions() {
-        for(var optionIndex = 0; optionIndex < optionsInGame; optionIndex++){
+        for(var optionIndex = 0; optionIndex < optionsInGame.length; optionIndex++){
             var option = optionsInGame[optionIndex]
             clockGroup.remove(option)
             pullGroup.add(option)
         }
+        optionsInGame = []
     }
 
     function startRound() {
