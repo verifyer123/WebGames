@@ -46,7 +46,8 @@ yogomeGames.getGames = function(){
 		{name:'flightoclock',url:'http://yogome.com/epic/minigames/flightoclocksite/',sceneName:'flightoclock', review:true},//39
 		{name:'clashCritters',url:'http://yogome.com/epic/minigames/clashSite/',sceneName:'clash', review:true},//40
 		{name:'mathPort',url:'http://yogome.com/epic/minigames/portSite/',sceneName:'port', review:true},//41
-		{name:'pizzafraction',url:'http://yogome.com/epic/minigames/pizzafractionsite/',sceneName:'pizzafraction', review:false}//42   
+		{name:'pizzafraction',url:'http://yogome.com/epic/minigames/pizzafractionsite/',sceneName:'pizzafraction', review:false},//42   
+		{name:'hungryToads',url:'http://yogome.com/epic/minigames/hungrySite/',sceneName:'hungry', review:false}//43
 	]
 
 	
