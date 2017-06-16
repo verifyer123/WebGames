@@ -261,7 +261,7 @@ var port = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-		yogotar.setAnimationByName(0,"LOSESTILL",true)
+		//yogotar.setAnimationByName(0,"LOSESTILL",true)
 				
         gameActive = false
         spaceSong.stop()
@@ -631,9 +631,17 @@ var port = function(){
 		
 		game.add.tween(clock).to({alpha:0},500,"Linear",true)
 		
+		var animName = "IDLE_L"
+		
+		if(obj.world.x > yogotar.x){
+			animName = "IDLE_R"
+		}
+		
+		yogotar.setAnimationByName(0,animName,true)
+		
 		if(parent.number == result){
 			
-			yogotar.setAnimationByName(0,"WIN",true)
+			//yogotar.setAnimationByName(0,"WIN",true)
 			
 			addPoint(1)
 			createPart('star',obj)
@@ -672,6 +680,8 @@ var port = function(){
 				game.add.tween(airPlane.scale).to({x:1.3,y:1.3},1000,"Linear",true)
 				game.add.tween(airPlane).to({x:obj.x,y:obj.y - 175},1000,"Linear",true).onComplete.add(function(){
 					
+					yogotar.setAnimationByName(0,"WIN",true)
+					
 					airPlane.setAnimationByName(0,"TO_LAND",true)
 					
 					game.time.events.add(500,function(){
@@ -695,11 +705,13 @@ var port = function(){
 				
 			}else{
 				
+				
 				airPlane.setAnimationByName(0,"LOSE",true)
 				
 				game.add.tween(airPlane.scale).to({x:1.3,y:1.3},1000,"Linear",true)
 				game.add.tween(airPlane).to({x:obj.x,y:obj.y - 175},1000,"Linear",true).onComplete.add(function(){
 					
+					yogotar.setAnimationByName(0,"LOSESTILL",true)
 					sound.play("wrongItem")
 					createPart('smoke',obj.children[0],-120)
 					game.add.tween(airPlane).to({y:game.world.height + 200},2000,"Linear",true)

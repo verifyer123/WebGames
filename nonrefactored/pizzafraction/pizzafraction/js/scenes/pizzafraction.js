@@ -46,13 +46,13 @@ var pizzafraction = function(){
 	var background;
 	var heartsGroup = null;
 	var heartsIcon;
-	
+	timer = 10;
 	var xpIcon;
 	
-	var lives = 1;
+	lives = 1;
 	var count = 0;
 	var cursors;
-	var coins = 0;
+	coins = 0;
 	heartsText = null;	
 	xpText = null;
 	bgm = null;
@@ -67,6 +67,7 @@ var pizzafraction = function(){
 		game.load.audio('sillyAdventureGameLoop',  soundsPath + 'songs/sillyAdventureGameLoop.mp3');
 		/*Default*/
 		buttons.getImages(game);
+		game.load.image('bgclock',imagePath + "bgclock.png");
 		game.load.image("heartsIcon", imagePath +"hearts.png");
 		game.load.image("xpIcon", imagePath +"xpcoins.png");	
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
@@ -105,6 +106,29 @@ var pizzafraction = function(){
 		starGame = false;
 
 	}	
+	
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
+
 
 	/*CREATE SCENE*/
     function createScene(){
@@ -158,7 +182,7 @@ var pizzafraction = function(){
 			{fraction:"1/4",id:2},
 			{fraction:"1/2",id:4}
 		];
-		shuffle(fractions)
+		//shuffle(fractions)
 		
 		var globe = sceneGroup.create(0,0,"globe");
 			globe.x = base.x + globe.width*1.15;
@@ -180,7 +204,12 @@ var pizzafraction = function(){
 			fractionPizza[i].angle = i * 45;
 			fractionPizza[i].inputEnabled = true;
 			fractionPizza[i].over = false;
-        	fractionPizza[i].events.onInputOver.add(onPress,this);
+			if(isMobile.any()){
+			   fractionPizza[i].events.onInputOver.add(onPress,this);
+			   }else{
+				fractionPizza[i].events.onInputDown.add(onPress,this);	   
+			   }
+        	
 		}
 		
 		var star = sceneGroup.create(0,0,"star");
@@ -268,10 +297,11 @@ var pizzafraction = function(){
 		
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,39)
+			resultScreen.setScore(true, coins,42)
 			sceneloader.show("result");
 	}		
 		
+		setTimer();
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();

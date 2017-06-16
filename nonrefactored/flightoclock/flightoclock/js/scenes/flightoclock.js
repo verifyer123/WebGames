@@ -339,12 +339,31 @@ var flightoclock = function(){
 			var watch = heligroup.create(0,0,"watch");
 			watch.x = clock.x + clock.width + 20;
 			watch.y = clock.y + clock.height/2.8;
+			
+			if(coins == 0){
+			heligroup.glow = game.add.text(0, 0, "?");
+			heligroup.glow.anchor.setTo(0.5,0.5); 
+			heligroup.glow.align = 'center';
+			heligroup.glow.font = 'Arial Black';
+			heligroup.glow.fontSize = 50;
+			heligroup.glow.fontWeight = 'bold';
+			heligroup.glow.fill = '#ff0000';
+			heligroup.glow.x = watch.x + heligroup.glow.width/1.2;
+			heligroup.glow.y = watch.y + heligroup.glow.height/1.8;
+			heligroup.add(heligroup.glow);
+			
+				TweenMax.fromTo(heligroup.glow.scale,1,{x:1,y:1},{x:2,y:2,repeat:-1});
+				TweenMax.fromTo(heligroup.glow,1,{alpha:1},{alpha:0,repeat:-1})				
+			}
 
+			
+			
 			heligroup.textWatch = game.add.text(0, 0, "?", styleWhite,heligroup);
 			heligroup.textWatch.anchor.setTo(0.2,0.3); 
 			heligroup.textWatch.x = watch.x + heligroup.textWatch.width;
 			heligroup.textWatch.y = watch.y + heligroup.textWatch.height/2;
 			heligroup.textWatch.id = heligroup.textWatch.x;
+			
 			
 			var textWatch1 = game.add.text(0, 0, "0", styleWhite,heligroup);
 			textWatch1.anchor.setTo(0.2,0.3);

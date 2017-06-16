@@ -4,11 +4,11 @@ var fish = function(){
     
     var localizationData = {
 		"EN":{
-		
+			"multiple":"multiple"
 		},
 
 		"ES":{
-
+			"multiple":"múltiplo"
 		}
 	}
     
@@ -424,6 +424,11 @@ var fish = function(){
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX + 150, game.world.centerY - 75, localization.getString(localizationData,"multiple"), fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		overlayGroup.add(pointsText)
 		
 	}
 

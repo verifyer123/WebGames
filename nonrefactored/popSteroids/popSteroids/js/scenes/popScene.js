@@ -395,15 +395,16 @@ var popScene = function(){
 			
 			baseGroup.orb.angle+=3
 			
-			if(cursors.left.isDown){
-				moveLeft = true
-				leftPresed = true
-			}else if(cursors.right.isDown){
-				moveRight = true
-				rightPressed = true
-			}
-			
 			if(game.device.desktop){
+				
+				if(cursors.left.isDown){
+					moveLeft = true
+					leftPresed = true
+				}else if(cursors.right.isDown){
+					moveRight = true
+					rightPressed = true
+				}
+				
 				if(cursors.left.isUp && leftPresed){
 					moveLeft = false
 					leftPresed = false
@@ -416,7 +417,7 @@ var popScene = function(){
 			} 
 			
 			if(jumpButton.isDown){
-				shootOrb(baseGroup.machine)
+				shootOrb(baseGroup.machine.cont)
 			}
 			
 			if(moveLeft){
@@ -918,7 +919,7 @@ var popScene = function(){
 		baseGroup.angleNumber = 90
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#FFB25F", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 5, -65, baseGroup.angleNumber + '°', fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, 5, -63, baseGroup.angleNumber + '°', fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
         baseGroup.add(pointsText)
 		
@@ -932,9 +933,11 @@ var popScene = function(){
 		cont.anchor.setTo(0.5,0.7)
 		cont.inputEnabled = true
 		cont.events.onInputDown.add(shootOrb)
+		machine.cont = cont
 		
 		var arrow = machine.create(0,-150,'atlas.pop','arrowLine')
 		arrow.anchor.setTo(0.5,1)
+		baseGroup.upLine = arrow
 		
 		baseGroup.machine = machine
 		
@@ -946,6 +949,22 @@ var popScene = function(){
 		point.anchor.setTo(0.5,0.5)
 		point.alpha = 0
 		baseGroup.point = point
+		
+		var angleLine = sceneGroup.create(0,0,'atlas.pop','arrowLine')
+		angleLine.anchor.setTo(0.5,1)
+		angleLine.scale.y = 0.7
+		angleLine.angle = 90
+		angleLine.alpha = 0
+		
+		baseGroup.angleLine = angleLine
+		
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var angleText = new Phaser.Text(sceneGroup.game, 0,0,"", fontStyle)
+		angleText.anchor.setTo(0.5,0.5)
+		angleText.alpha = 0
+        sceneGroup.add(angleText)
+		
+		baseGroup.angleText = angleText
 		
 	}
 	
@@ -1009,7 +1028,11 @@ var popScene = function(){
 		orb.tint = colorsToUse[0]
 		
 		game.add.tween(orb).to({alpha:1},250,"Linear",true).onComplete.add(function(){
-			gameActive = true
+			
+			if(lives>0){
+				gameActive = true
+			}
+			
 		})
 	}
 	
@@ -1019,7 +1042,33 @@ var popScene = function(){
 			return
 		}
 		
+		var tween = game.add.tween(baseGroup.text.scale).to({x:1.4,y:1.4},200,"Linear",true)
+		tween.yoyo(true,0)
+		
 		changeYogotarsAnim("SHOOT",false,"IDLE")
+		
+		var angLine = baseGroup.angleLine
+		angLine.x = baseGroup.upLine.world.x
+		angLine.y = baseGroup.upLine.world.y
+		
+		var angText = baseGroup.angleText
+		angText.x = angLine.x + 100
+		angText.y = angLine.y - 45
+		angText.setText(baseGroup.text.text)
+		
+		if(angLine.tween){
+			angLine.tween.stop()
+		}
+		
+		if(angText.tween){
+			angText.tween.stop()
+		}
+		
+		angLine.alpha = 1
+		angText.alpha = 1
+		
+		angLine.tween = game.add.tween(angLine).to({alpha:0},500,"Linear",true,500)
+		angText.tween = game.add.tween(angText).to({alpha:0},500,"Linear",true,500)
 		
 		shootNumber++
 		orbToUse = null
