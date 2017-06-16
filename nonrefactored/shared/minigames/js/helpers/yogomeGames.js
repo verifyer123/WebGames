@@ -44,7 +44,8 @@ yogomeGames.getGames = function(){
 		{name:'mathCircus',url:'http://yogome.com/epic/minigames/circusSite/',sceneName:'circus', review:true},//38
 		{name:'flightoclock',url:'http://yogome.com/epic/minigames/flightoclocksite/',sceneName:'flightoclock', review:false},//39
 		{name:'clashCritters',url:'http://yogome.com/epic/minigames/clashSite/',sceneName:'clash', review:false},//40
-		{name:'mathPort',url:'http://yogome.com/epic/minigames/portSite/',sceneName:'port', review:false}
+		{name:'mathPort',url:'http://yogome.com/epic/minigames/portSite/',sceneName:'port', review:false},
+		{name:'cogCount',url:'http://yogome.com/epic/minigames/cogSite/',sceneName:'cog', review:false}//42
     ]
     
     return games
