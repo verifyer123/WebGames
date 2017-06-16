@@ -109,35 +109,6 @@ function createCoins(coins){
 }	
 
 
-function setTimer(){
-		bgclock = sceneGroup.create(0,1,"bgclock");
-		bgclock.x = game.width * 0.5;
-		bgclock.anchor.setTo(0.5, 0);
-		clockText = game.add.text(50, 46, timer, styleClock,sceneGroup);	
-		clockText.x = game.width * 0.5;
-		clockText.anchor.setTo(0.5, 0);
-		bgclock.alpha = 0;
-		clockText.alpha = 0;
-	
-	timerFunction = function(){
-		if(timer != 0){
-			timer-- 
-		}else if(timer == 0){
-				lives--
-			clearInterval(timerCount);
-					TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:1,onComplete:gameOver});
-					sound.play("wrong");
-					sound.play("gameLose");
-					bgm.stop();	
-		}
-		clockText.setText(timer);
-	}	
-	
-	
-	
-}
-
-
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	

@@ -47,6 +47,7 @@ var pizzafraction = function(){
 	var heartsGroup = null;
 	var heartsIcon;
 	timer = 10;
+	timerCount = null;
 	var xpIcon;
 	
 	lives = 1;
@@ -241,6 +242,10 @@ var isMobile = {
 			timbre_iddle.events.onInputDown.add(onPressBell,this);
 		
 		function onPressBell(bell){
+			
+				
+			
+
 			timbre_iddle.inputEnabled = false;
 			if(fractions[0].id == count){
 				sound.play("magic");
@@ -268,12 +273,31 @@ var isMobile = {
 			function completeBell(){
 					bell.alpha= 1;
 			}
+			
+			if(coins == 3){
+						bgclock.alpha = 1;
+						clockText.alpha = 1;
+						TweenMax.to(bgclock.scale,0.5,{x:1,ease:Back.easeOut});
+						TweenMax.to(clockText.scale,0.5,{x:1,ease:Back.easeOut});
+						
+			}
+			
+			if(coins > 3){
+				clearInterval(timerCount);
+			}
+			
 		}		
 		
 		
 		function newPizza(){
 			
 			TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width,onComplete:newYogotar});
+			if(coins >= 3){
+				timer = 10;
+				clearInterval(timerCount);
+				timerCount = setInterval(timerFunction, 1000);
+			}
+			
 			
 			function newYogotar(){
 				timbre_iddle.inputEnabled = true;
@@ -301,7 +325,31 @@ var isMobile = {
 			sceneloader.show("result");
 	}		
 		
-		setTimer();
+		
+	timerFunction = function(){
+		if(timer != 0){
+			timer-- 
+		}else if(timer == 0){
+				lives--
+			clearInterval(timerCount);
+					TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:1,onComplete:gameOver});
+					sound.play("wrong");
+					sound.play("gameLose");
+					bgm.stop();	
+		}
+		clockText.setText(timer);
+	}		
+		
+	
+		bgclock = sceneGroup.create(0,1,"bgclock");
+		bgclock.x = game.width * 0.5;
+		bgclock.anchor.setTo(0.5, 0);
+		clockText = game.add.text(50, 46, timer, styleClock,sceneGroup);	
+		clockText.x = game.width * 0.5;
+		clockText.anchor.setTo(0.5, 0);
+		bgclock.alpha = 0;
+		clockText.alpha = 0;
+		
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();
