@@ -32,12 +32,12 @@ var cog = function(){
                 file: soundsPath + "pop.mp3"},
             {	name: "magic",
                 file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-                file: soundsPath + "cut.mp3"},
-            {	name: "combo",
-                file: soundsPath + "combo.mp3"},
-            {	name: "flip",
-                file: soundsPath + "flipCard.mp3"},
+            {	name: "gear",
+                file: soundsPath + "gear.mp3"},
+            {	name: "explosion",
+                file: soundsPath + "explosion.mp3"},
+            {	name: "cog",
+                file: soundsPath + "cog.mp3"},
             {	name: "swipe",
                 file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
@@ -52,10 +52,26 @@ var cog = function(){
     var NUM_LIFES = 3
     var MAX_OPTIONS = 7
 
-    // var ROUNDS = [
-    //     {continent: "america", flags: ["mexico", "usa"]},
-    //     {continent: "america", numFlags: 4},
-    //     {continent: "random", numFlags: 4}]
+    var ROUNDS = [
+        {numOptions: 3, maxValue: 2, numPlays: 2, options:[1,2,1], directions:[1, -1, 1]},
+        {numOptions: 3, maxValue: 2, numPlays: 2},
+        {numOptions: 3, maxValue: 3, numPlays: 2},
+        {numOptions: 3, maxValue: 3, numPlays: 2},
+        {numOptions: 3, maxValue: 4, numPlays: 2},
+        {numOptions: 3, maxValue: 4, numPlays: 2},
+        {numOptions: 3, maxValue: 5, numPlays: 2},
+        {numOptions: 4, maxValue: 5, numPlays: 3},
+        {numOptions: 4, maxValue: 5, numPlays: 3},
+        {numOptions: 4, maxValue: 6, numPlays: 2},
+        {numOptions: 5, maxValue: 6, numPlays: 4},
+        {numOptions: 5, maxValue: 6, numPlays: 3},
+        {numOptions: 6, maxValue: 5, numPlays: 5},
+        {numOptions: 6, maxValue: 6, numPlays: 4},
+        {numOptions: 7, maxValue: 6, numPlays: 6},
+        {numOptions: 7, maxValue: 6, numPlays: 5, sumSpeed: 0.1}
+        ]
+
+    var TINTS = ["0x2BE500", "0xE59100", "0x0071E5", "0xA000B9", "0xE5C900"]
 
     var lives
     var sceneGroup = null
@@ -76,9 +92,36 @@ var cog = function(){
     var masterClock
     var speed
     var direction
+    var answer
+    var background
 
     function loadSounds(){
         sound.decode(assets.sounds)
+    }
+
+    function tweenTint(obj, startColor, endColor, time, delay, callback) {
+        // check if is valid object
+        time = time || 250
+        delay = delay || 0
+
+        if (obj) {
+            // create a step object
+            var colorBlend = { step: 0 };
+            // create a tween to increment that step from 0 to 100.
+            var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
+            // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
+            colorTween.onUpdateCallback(function () {
+                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step)
+            })
+            // set object to the starting colour
+            obj.tint = startColor;
+            // if you passed a callback, add it to the tween on complete
+            if (callback) {
+                colorTween.onComplete.add(callback, this);
+            }
+            // finally, start the tween
+            colorTween.start();
+        }
     }
 
 
@@ -97,12 +140,25 @@ var cog = function(){
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
         isRotating = false
+        answer = 0
 
         loadSounds()
 
     }
 
     function addPoint(number){
+
+        masterClock.setAnimation(["WIN", "IDLE"])
+        cloky.setAnimation(["WIN", "IDLE"])
+
+        cloky.correctPart.x = cloky.cog.world.x
+        cloky.correctPart.y = cloky.cog.world.y
+        cloky.correctPart.start(true, 1000, null, 5)
+
+        var scaleTween = game.add.tween(cloky.scale).to({x: 1.2,y:1.2}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(cloky.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
 
         sound.play("magic")
         pointsBar.number+=number;
@@ -147,11 +203,11 @@ var cog = function(){
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
 
-        particle.makeParticles('atlas.feed',key);
+        particle.makeParticles('atlas.cog',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.6;
-        particle.maxParticleScale = 1;
+        particle.minParticleScale = 0.2;
+        particle.maxParticleScale = 0.6;
         particle.gravity = 150;
         particle.angularDrag = 30;
 
@@ -163,15 +219,26 @@ var cog = function(){
 
         //objectsGroup.timer.pause()
         //timer.pause()
+        sound.play("wrong")
         cogSong.stop()
         // clock.tween.stop()
-        inputsEnabled = false
+        isRotating = false
+        cloky.setAnimation(["LOSE"])
+        masterClock.setAnimation(["LOSE"])
+        cloky.wrongPart.x = cloky.cog.world.x
+        cloky.wrongPart.y = cloky.cog.world.y
+        cloky.wrongPart.start(true, 1000, null, 5)
 
-        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+        var scaleTween = game.add.tween(cloky.scale).to({x: 1.2,y:1.2}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(cloky.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
         tweenScene.onComplete.add(function(){
 
             var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, numPoints, gameIndex)
+            resultScreen.setScore(true, pointsBar.number, gameIndex)
 
             //amazing.saveScore(pointsBar.number)
             sceneloader.show("result")
@@ -182,10 +249,11 @@ var cog = function(){
     function preload(){
 
         game.stage.disableVisibilityChange = false;
-        game.load.audio('cogSong', soundsPath + 'songs/wormwood.mp3');
+        game.load.audio('cogSong', soundsPath + 'songs/funky_monkey.mp3');
 
         game.load.image('introscreen',"images/cog/introscreen.png")
         game.load.image('marco',"images/cog/marco.png")
+        game.load.image('mask',"images/cog/mask.png")
         game.load.image('howTo',"images/cog/how" + localization.getLanguage() + ".png")
         game.load.image('buttonText',"images/cog/play" + localization.getLanguage() + ".png")
 
@@ -212,21 +280,47 @@ var cog = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
     }
+    
+    function removeOptions() {
+        for(var optionIndex = 0; optionIndex < optionsInGame; optionIndex++){
+            var option = optionsInGame[optionIndex]
+            clockGroup.remove(option)
+            pullGroup.add(option)
+        }
+    }
 
     function startRound() {
+        var round = ROUNDS[roundCounter]
+        if (roundCounter > 0) {
+            // var tintCounter = roundCounter - 1 < randTint.length ? roundCounter - 1 : 0
+            var randTint = TINTS[game.rnd.integerInRange(0, TINTS.length - 1)]
+            console.log(randTint)
+            tweenTint(background, background.tint,randTint, 600)
+        }
+        roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
 
-        addOptions(7)
+        rotateGroup.angle = 0
+        cloky.angle = 0
+        removeOptions()
+        cloky.number = 1
+        cloky.addNumber(0)
+        addOptions(round.numOptions, round.maxValue, round.options)
+        generateQuestion(round.numPlays, round.directions)
+        clockGroup.openDoors()
+
         game.time.events.add(1000, function () {
             isRotating = true
-            rotateGroup.angle = 0
         })
+
+        if (round.sumSpeed)
+            speed += round.sumSpeed
 
     }
 
     function missPoint(){
 
         sound.play("wrong")
-        inputsEnabled = false
+        isRotating = false
 
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -281,12 +375,12 @@ var cog = function(){
 
             tutoGroup.y = -game.world.height
             clockGroup.input.inputEnabled = true
-            startRound()
+            game.time.events.add(500, startRound)
             // startTimer(missPoint)
         })
     }
     
-    function addOptions(numOptions) {
+    function addOptions(numOptions, maxValue, values) {
         var angle = (Math.PI * 2) / (numOptions + 1)
         var radio = 200
 
@@ -302,8 +396,14 @@ var cog = function(){
             clockGroup.add(option)
             option.x = x
             option.y = y
-            option.anchor.setTo(0.5, 0.5)
             optionsInGame.push(option)
+
+            if(values)
+                option.value = values[optionIndex]
+            else
+                option.value = game.rnd.integerInRange(1, maxValue)
+
+            option.numberText.setText(option.value)
         }
     }
     
@@ -315,10 +415,55 @@ var cog = function(){
         pullGroup.alpha = 0
 
         for(var optionIndex = 0; optionIndex < MAX_OPTIONS; optionIndex++){
-            var option = pullGroup.create(0, 0, "atlas.cog", "option")
-            option.anchor.setTo(0.5, 0.5)
+            var option = game.add.group()
+            pullGroup.add(option)
+
+            var optionBG = option.create(0, 0, "atlas.cog", "option")
+            optionBG.anchor.setTo(0.5, 0.5)
+
+            var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var numberText = new Phaser.Text(game, 0, 4, "0", fontStyle)
+            numberText.anchor.setTo(0.5,0.5)
+            numberText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
+            option.numberText = numberText
+            option.add(numberText)
+
             optionsCreated.push(option)
         }
+    }
+
+    function generateQuestion(numPlays, directions){
+        // var playsDirection = []
+        var counterRight = -1
+        var counterLeft = -1
+        answer = 1
+
+        for(var playIndex = 0; playIndex < numPlays; playIndex++){
+            var playDirection = directions ? directions[playIndex] : game.rnd.integerInRange(0, 1) * 2 - 1
+            if(playDirection > 0){
+                counterRight++
+                answer += optionsInGame[counterRight].value
+
+                var numOptions = optionsInGame.length - 1
+                var otherValue = optionsInGame[numOptions - counterLeft + 1]
+                if((otherValue)&&(otherValue.value === optionsInGame[counterRight].value)){
+                    otherValue.value++
+                    otherValue.numberText.setText(otherValue.value)
+                }
+            }else {
+                counterLeft++
+                var numOptions = optionsInGame.length - 1
+                answer += optionsInGame[numOptions - counterLeft].value
+
+                var otherValue = optionsInGame[counterRight + 1]
+                if((otherValue)&&(otherValue.value === optionsInGame[numOptions - counterLeft].value)){
+                    otherValue.value++
+                    otherValue.numberText.setText(otherValue.value)
+                }
+            }
+        }
+
+        clockGroup.answerText.setText(answer)
     }
     
     function checkCollision(spriteA, spriteB) {
@@ -329,6 +474,7 @@ var cog = function(){
     }
     
     function createCogUI() {
+
         var marco = sceneGroup.create(0,0, "marco")
         marco.x = game.world.centerX
         marco.y = game.world.centerY
@@ -342,17 +488,34 @@ var cog = function(){
         var cog = rotateGroup.create(0,0, "atlas.cog", "cog")
         cog.anchor.setTo(0.5,0.5)
 
-        cloky = createSpine("cloky", "normal")
-        cloky.y = -150
+        cloky = createSpine("cloky", "normal", null, 0, 37)
+        cloky.y = -155 -cloky.height * 0.5
+        cloky.cog = cloky.create(0,0, "atlas.cog", "minicog")
+        cloky.cog.anchor.setTo(0.5, 0.5)
+        cloky.sendToBack(cloky.cog)
+        cloky.number = 1
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var numberText = new Phaser.Text(game, 0, 14, "1", fontStyle)
+        numberText.anchor.setTo(0.5,0.5)
+        cloky.add(numberText)
         rotateGroup.add(cloky)
+
+        cloky.addNumber = function (number) {
+            cloky.number += number
+            var scaleTween = game.add.tween(numberText.scale).to({x: 1.2,y:1.2}, 200, Phaser.Easing.linear, true)
+            scaleTween.onComplete.add(function(){
+                game.add.tween(numberText.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+            })
+            numberText.setText(cloky.number)
+        }
 
         var hitBox = new Phaser.Graphics(game)
         hitBox.beginFill(0xFFFFFF)
         hitBox.drawRect(0,0,12, 12)
-        hitBox.alpha = 0.4
+        hitBox.alpha = 0
         hitBox.endFill()
         hitBox.x = -hitBox.width * 0.5
-        hitBox.y = -hitBox.height * 4
+        hitBox.y = 0
         cloky.add(hitBox)
         cloky.hitBox = hitBox
 
@@ -361,8 +524,22 @@ var cog = function(){
         clockGroup.y = game.world.centerY
         sceneGroup.add(clockGroup)
 
+        fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var answerText = new Phaser.Text(game, 0, -385, "0", fontStyle)
+        answerText.anchor.setTo(0.5, 0.5)
+        clockGroup.add(answerText)
+        clockGroup.answerText = answerText
+
         masterClock = createSpine("master", "normal")
         clockGroup.add(masterClock)
+
+        var correctPart = createPart("star")
+        sceneGroup.add(correctPart)
+        cloky.correctPart = correctPart
+
+        var wrongPart = createPart("wrong")
+        sceneGroup.add(wrongPart)
+        cloky.wrongPart = wrongPart
 
         var input = new Phaser.Graphics(game)
         input.beginFill(0x000000)
@@ -372,21 +549,73 @@ var cog = function(){
         input.events.onInputDown.add(function(){
             direction = direction * -1
             masterClock.setAnimation(["IDLE"])
+            sound.play("gear")
         })
         sceneGroup.add(input)
         clockGroup.input = input
 
         createOptions()
+
+        var puertasGroup = game.add.group()
+        puertasGroup.x = game.world.centerX
+        puertasGroup.y = game.world.centerY
+        sceneGroup.add(puertasGroup)
+
+        var cortinaLeft = puertasGroup.create(0 , 0, "atlas.cog", "cortina")
+        cortinaLeft.x = -cortinaLeft.width + 1
+        cortinaLeft.anchor.setTo(0, 0.5)
+        puertasGroup.add(cortinaLeft)
+
+        var cortinaRight = puertasGroup.create(0 , 0, "atlas.cog", "cortina")
+        cortinaRight.anchor.setTo(0, 0.5)
+        cortinaRight.scale.x = -1
+        cortinaRight.x = cortinaLeft.width - 1
+        puertasGroup.add(cortinaRight)
+
+        var mask = game.add.graphics(0,0)
+        mask.beginFill(0xFFFFFF)
+        mask.drawRoundedRect(0,0, 492, 607, 80)
+        mask.endFill()
+        mask.x = game.world.centerX - 492 * 0.5
+        mask.y = game.world.centerY - 607 * 0.5
+
+        puertasGroup.mask = mask
+        // mask.destroy()
+
+        var width = cortinaRight.width - 1
+        
+        clockGroup.openDoors = function () {
+            // game.add.tween(cortinaLeft).to({width: 0}, 2000, Phaser.Easing.Cubic.Out, true)
+            // game.add.tween(cortinaLeft.tilePosition).to({x: -292}, 2000, Phaser.Easing.Cubic.Out, true)
+            // game.add.tween(cortinaRight).to({width: 0}, 2000, Phaser.Easing.Cubic.Out, true)
+            // game.add.tween(cortinaRight.tilePosition).to({x: -292}, 2000, Phaser.Easing.Cubic.Out, true)
+
+            game.add.tween(cortinaLeft).to({x: cortinaRight.width * 2}, 1200, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(cortinaRight).to({x: -cortinaRight.width * 2}, 1200, Phaser.Easing.Cubic.Out, true)
+            sound.play("swipe")
+        }
+
+        clockGroup.closeDoors = function () {
+            // game.add.tween(cortinaLeft).to({width: 292}, 800, Phaser.Easing.Cubic.Out, true)
+            // game.add.tween(cortinaLeft.tilePosition).to({x: 292}, 800, Phaser.Easing.Cubic.Out, true)
+            // game.add.tween(cortinaRight).to({width: 292}, 800, Phaser.Easing.Cubic.Out, true)
+            // game.add.tween(cortinaRight.tilePosition).to({x: 292}, 800, Phaser.Easing.Cubic.Out, true)
+
+            game.add.tween(cortinaLeft).to({x: -cortinaLeft.width + 1}, 800, Phaser.Easing.Cubic.Out, true)
+            game.add.tween(cortinaRight).to({x: -cortinaRight.width - 1}, 800, Phaser.Easing.Cubic.Out, true)
+            sound.play("swipe")
+            // doorClose.onComplete.add(startRound)
+        }
     }
 
     function createSpine(skeleton, skin, idleAnimation, x, y) {
         idleAnimation = idleAnimation || "IDLE"
         var spineGroup = game.add.group()
-        spineGroup.x = x || 0
-        spineGroup.y = y || 0
+        x = x || 0
+        y = y || 0
 
         var spineSkeleton = game.add.spine(0, 0, skeleton)
-        spineSkeleton.x = 0; spineSkeleton.y = 0
+        spineSkeleton.x = x; spineSkeleton.y = y
         // spineSkeleton.scale.setTo(0.8,0.8)
         spineSkeleton.setSkinByName(skin)
         spineSkeleton.setAnimationByName(0, idleAnimation, true)
@@ -469,16 +698,35 @@ var cog = function(){
     }
     
     function update() {
+        // clockGroup.doorLeft.updateCrop()
+        // clockGroup.doorRight.updateCrop()
+
         if(isRotating){
             rotateGroup.angle += speed * direction
+            cloky.cog.angle += speed * direction * 2
+            cloky.angle -= speed * direction
+
             for(var optionIndex = 0; optionIndex < optionsInGame.length; optionIndex++){
                 var option = optionsInGame[optionIndex]
                 var collide = checkCollision(option, cloky.hitBox)
                 if ((collide)&&(!option.collided)){
                     option.collided = true
+                    sound.play("cog")
                     game.add.tween(option).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true)
                     game.add.tween(option.scale).to({x:0.2, y:0.2}, 600, Phaser.Easing.Cubic.Out, true)
+                    cloky.addNumber(option.value)
                 }
+            }
+
+            if (cloky.number == answer) {
+                addPoint(5)
+                isRotating = false
+                game.time.events.add(1000, clockGroup.closeDoors)
+                game.time.events.add(2000, startRound)
+            }else if(cloky.number > answer){
+                // missPoint()
+                // sound.play("explosion")
+                stopGame()
             }
         }
     }
@@ -492,7 +740,7 @@ var cog = function(){
 
             sceneGroup = game.add.group()
 
-            var background = game.add.tileSprite(0 , 0, game.world.width + 2, game.world.height + 2, "atlas.cog", "fondo")
+            background = game.add.tileSprite(0 , 0, game.world.width + 2, game.world.height + 2, "atlas.cog", "fondo")
             sceneGroup.add(background)
             background.tint = "0xA000B9"
 
@@ -513,6 +761,7 @@ var cog = function(){
 
             // createHearts()
             createCogUI()
+
             createPointsBar()
             createTutorial()
 
