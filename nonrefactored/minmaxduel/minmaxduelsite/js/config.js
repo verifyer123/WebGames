@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "flightoclock",
         language: "es",
-        minigameUrl: "../pizzafraction/index.html?language=" + language,
+        minigameUrl: "../minmaxduel/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
