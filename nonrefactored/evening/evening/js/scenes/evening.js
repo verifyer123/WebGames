@@ -43,6 +43,10 @@ var evening = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "robotBeep",
+				file: soundsPath + "robotBeep.mp3"},
+			{	name: "flipCard",
+				file: soundsPath + "flipCard.mp3"},
 			
 		],
     }
@@ -50,15 +54,22 @@ var evening = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background
+	var background,clouds
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 45
 	var indexGame
     var overlayGroup
     var spaceSong
+	var starCont, mainCont
+	var objectsGroup, usedObjects, animObjects
+	var indexColor
+	var pieceList
+	var isOdd
+	var timeUsed
 	
+	var colorsToUse = [0x62F68F,0xF6F462,0xF662E6,0xA462F6,0xF68562]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -68,7 +79,9 @@ var evening = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-
+		indexColor = 0
+		timeUsed = 13000
+		
         
         loadSounds()
         
@@ -78,9 +91,9 @@ var evening = function(){
         
         game.time.events.add(delay,function(){
             
-            sound.play("cut")
+            sound.play("pop")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({x:0.01, y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -170,6 +183,12 @@ var evening = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
+		
+		if(pointsBar.number % 12){
+			if(timeUsed > 5000){
+				timeUsed-= 500
+			}
+		}
         
     }
     
@@ -195,6 +214,23 @@ var evening = function(){
         pointsBar.number = 0
         
     }
+	
+	function checkOdd(number){
+		
+		if(isOdd){
+			if(number % 2 == 0){
+				return true
+			}else{
+				return false
+			}
+		}else{
+			if(number % 2 != 0){
+				return true
+			}else{
+				return false
+			}
+		}
+	}
     
     function createHearts(){
         
@@ -248,10 +284,11 @@ var evening = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
+		buttons.getImages(game)
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         
+		game.load.spritesheet('sleepStar', 'images/evening/starSprite.png', 99, 97, 23);
 		game.load.image('howTo',"images/evening/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/evening/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/evening/introscreen.png")
@@ -259,9 +296,38 @@ var evening = function(){
 		console.log(localization.getLanguage() + ' language')
         
     }
+	
+	function setColorCont(){
+		
+		mainCont.star.tint = colorsToUse[indexColor]
+		mainCont.number = game.rnd.integerInRange(1,9)
+		mainCont.text.setText(mainCont.number)
+		indexColor++
+		
+		if(indexColor > colorsToUse.length - 1){
+			indexColor = 0
+		}
+		
+		var star = mainCont.star
+		star.alpha = 1
+		mainCont.text.alpha = 1
+		
+		game.add.tween(star).from({alpha:0,angle:star.angle - 360},500,"Linear",true)
+		game.add.tween(mainCont.text).from({alpha:0},500,"Linear",true)
+		
+	}
     
+	function delayAdd(row, delay){
+		
+		game.time.events.add(delay, function(){
+			addStar(row)		
+		})
+	}
+	
     function createOverlay(){
         
+		setColorCont()
+		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -278,6 +344,13 @@ var evening = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+				gameActive = true
+				
+				var delay = 200
+				for(var i = 0; i < 3; i++){
+					delayAdd(usedObjects.rows[i*2],delay)
+					delay+=300
+				}
             })
             
         })
@@ -320,11 +393,27 @@ var evening = function(){
 
 	function createBackground(){
 		
+		var base = sceneGroup.create(0,game.world.height,'atlas.evening','base')
+		base.anchor.setTo(0,1)
+		base.width = game.world.width
+		
+		background = game.add.tileSprite(0,0,game.world.width,game.world.height - base.height,'atlas.evening','sky')
+		sceneGroup.add(background)
+		
+		clouds = game.add.tileSprite(0,background.height,game.world.width,148,'atlas.evening','clouds')
+		clouds.anchor.setTo(0,1)
+		sceneGroup.add(clouds)
+		
+		starCont = sceneGroup.create(game.world.centerX,game.world.height - 15,'atlas.evening','cont')
+		starCont.width*= 1.1
+		starCont.anchor.setTo(0.5,1)
 		
 	}
 	
 	function update(){
-
+		
+		background.tilePosition.x+= 0.3
+		clouds.tilePosition.x-= 0.2
 	}
 	
 	function createTextPart(text,obj){
@@ -359,9 +448,7 @@ var evening = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				console.log(particle)
-                
+				                
                 return particle
                 break
             }
@@ -450,10 +537,10 @@ var evening = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 		
-		createParticles('star',3)
+		createParticles('star',4)
 		createParticles('wrong',1)
 		createParticles('text',5)
-		createParticles('smoke',1)
+		createParticles('smoke',3)
 
 	}
 
@@ -506,10 +593,324 @@ var evening = function(){
         
     }
 	
+	
 	function inputButton(obj){
 		
 		if(!gameActive){
 			return
+		}
+		
+		gameActive = false
+		
+		var row = obj.row
+		addStar(row)
+		
+	}
+	
+	function deactivateObject(obj){
+		
+		usedObjects.remove(obj)
+		objectsGroup.add(obj)
+		
+		obj.alpha = 0
+		obj.y = -200
+		obj.row = null
+		
+		if(obj.tween){
+			obj.tween.stop()
+			obj.tween = null
+			obj.scale.setTo(1,1)
+		}
+	}
+	
+	function activateObject(obj,posX, posY){
+		
+		objectsGroup.remove(obj)
+		usedObjects.add(obj)
+		
+		if(!obj.anim){
+			
+			obj.star.tint = mainCont.star.tint
+			obj.number = mainCont.number
+			obj.text.setText(obj.number)
+			
+			if(Math.random()*2 > 1){
+				
+				//console.log('dissappear')
+				obj.tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},timeUsed + game.rnd.integerInRange(1,timeUsed/1000) * 1000,"Linear",true)
+				obj.tween.onComplete.add(function(){
+
+					var anim = getAnim()
+					animObjects.remove(anim)
+					anim.alpha = 1
+					obj.add(anim)
+					anim.x = 0
+					anim.y = 0
+					obj.anim = true
+
+					//addStar(anim.row,anim)
+					popObject(obj,0)
+					sound.play("robotBeep")
+					createPart("smoke",obj.star)
+					//game.add.tween(anim).from({alpha:0,angle:anim.angle-360},500,"Linear",true)
+				})
+			}
+			
+		}
+		
+		obj.x = posX
+		obj.y = posY
+		obj.alpha = 1
+				
+	}
+	
+	function getAnim(){
+		
+		for(var i = 0; i < animObjects.length;i++){
+			var anim = animObjects.children[i]
+			if(anim.alpha == 0){
+				return anim
+			}
+		}
+		
+	}
+	
+	function addStar(row, piece){
+		
+		var star = piece || getStar()
+		var startY = -100
+		var timeToUse = 500
+		var angleToUse = star.angle + 720
+		
+		if(piece){
+			timeToUse = 150
+			startY = piece.y
+			angleToUse = piece.angle
+			
+			if(piece.anim){
+				timeToUse = 500
+			}
+			
+		}else{
+			
+			star.row = row
+			activateObject(star,row.pivotX,startY)
+			setColorCont()
+		}
+		
+		
+		game.add.tween(star).to({y:row.pivotY,angle:angleToUse},timeToUse,"Linear",true).onComplete.add(function(){
+			
+			if(!piece){
+				sound.play("flipCard")
+			}
+			
+			if(star.y < 200){
+				createPart("wrong",star.star)
+				missPoint()
+			}else{
+				checkPieces(star)
+				gameActive = true
+			}
+			
+		})
+		
+		sound.play("cut")
+		
+		row.pivotY-= 95
+		
+	}
+	
+	function checkPieces(piece){
+		
+		isOdd = false
+		if(piece.number % 2 == 0){
+			isOdd = true
+		}
+		
+		pieceList = []
+                
+        for(var i = 0; i < usedObjects.length; i ++){
+            usedObjects.children[i].check = false
+        }
+        
+        checkAllPieces(piece)
+        
+		//console.log(pieceList.length + ' length')
+        if(pieceList.length >= 4){
+
+            sound.play("magic")
+			
+            for(var i = 0; i < pieceList.length;i++){
+				
+                var piece = pieceList[i]
+                createPart('star',piece.star)
+				createTextPart('+1',piece.star)
+                deactivateObject(piece)
+				addPoint(1)
+            }
+						
+			restartRows()
+						
+        }
+		
+	}
+	
+	function restartRows(){
+		
+		for(var i = 0; i < usedObjects.rows.length;i++){
+				
+			var row = usedObjects.rows[i]
+			row.pivotY = row.startPivot	
+		}
+
+		for(var i = 0; i < usedObjects.length;i++){
+
+			var obj = usedObjects.children[i]
+			addStar(obj.row,obj)
+		}
+	}
+	
+	function checkAllPieces(piece){
+		
+		if(checkOdd(piece.number) && !piece.anim){
+			
+			piece.check = true
+        	pieceList[pieceList.length] = piece
+		}else{
+			return
+		}
+        
+        for(var i = 0; i < usedObjects.length;i++){
+            
+            var checkPiece = usedObjects.children[i]
+            
+            if(!checkPiece.check && checkOdd(checkPiece.number)){
+                				
+                if(Math.abs(piece.x - checkPiece.x) < piece.width * 0.3){
+                    if(Math.abs(piece.y - checkPiece.y) < piece.width * 1.5){
+                        checkAllPieces(checkPiece)
+                    }
+                }else if(Math.abs(piece.y - checkPiece.y) < piece.height * 0.3){
+                    if(Math.abs(piece.x - checkPiece.x) < piece.width * 1.5){
+                        checkAllPieces(checkPiece)
+                    }
+                }
+            }
+            
+            
+            
+        }
+		
+	}
+	
+	function getStar(){
+		
+		for(var i = 0; i < objectsGroup.length;i++){
+			
+			var star = objectsGroup.children[i]
+			return star
+		}
+	}
+	
+	function createStars(){
+		
+		objectsGroup = game.add.group()
+		sceneGroup.add(objectsGroup)
+		
+		usedObjects = game.add.group()
+		sceneGroup.add(usedObjects)
+		
+		for(var i = 0; i < 40;i++){
+			
+			var starGroup = game.add.group()
+			starGroup.x = 0
+			starGroup.y = -200
+			starGroup.alpha = 0
+			objectsGroup.add(starGroup)
+			
+			var star = starGroup.create(0,0,'atlas.evening','gameStar')
+			star.anchor.setTo(0.5,0.5)
+			starGroup.star = star
+			
+			var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 7, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			starGroup.add(pointsText)
+			starGroup.text = pointsText
+			
+		}
+		
+		usedObjects.rows = []
+		
+		var pivotX = starCont.x - 187
+		for(var i = 0; i < 5;i++){
+						
+			//var row = usedObjects.rows[i]
+			var row = []
+			
+			row.pivotX = pivotX
+			row.pivotY = starCont.y - 100
+			row.startPivot = row.pivotY
+						
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x000000)
+			rect.drawRect(row.pivotX,row.pivotY,91,starCont.height)
+			rect.alpha = 0
+			rect.endFill()
+			rect.inputEnabled = true
+			rect.x-= rect.width * 0.5
+			rect.y-= rect.height * 0.85
+			rect.events.onInputDown.add(inputButton)
+			sceneGroup.add(rect)
+			
+			rect.row = row
+			
+			pivotX += 95
+			
+			usedObjects.rows[i] = row
+		}
+		
+	}
+	
+	function createContainer(){
+		
+		mainCont = game.add.group()
+		mainCont.x = game.world.centerX
+		mainCont.y = 70
+		mainCont.scale.setTo(0.85,0.85)
+		sceneGroup.add(mainCont)
+		
+		var contImage = mainCont.create(0,0,'atlas.evening','container')
+		contImage.anchor.setTo(0.5,0.5)
+		
+		var star = mainCont.create(0,-3,'atlas.evening','gameStar')
+		star.anchor.setTo(0.5,0.5)
+		mainCont.star = star
+		
+		var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        mainCont.add(pointsText)
+		mainCont.text = pointsText
+		
+	}
+	
+	function createAnim(){
+		
+		animObjects = game.add.group()
+		sceneGroup.add(animObjects)
+		
+		for(var i = 0; i < 40; i++){
+			
+			var object = game.add.sprite(-300, 200, 'sleepStar')
+			object.scale.setTo(0.95,0.95)
+			object.animations.add('walk');
+			object.animations.play('walk',24,true);
+			object.anchor.setTo(0.5,0.5)
+			object.alpha = 0
+			object.anim = true
+			animObjects.add(object)
 		}
 		
 	}
@@ -525,6 +926,9 @@ var evening = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createStars()
+			createContainer()
+			createAnim()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
@@ -544,6 +948,8 @@ var evening = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
