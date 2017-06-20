@@ -50,15 +50,18 @@ var sky = function(){
     }
 
     var NUM_LIFES = 3
+    var MAX_BALOONS = 3
 
     // var ROUNDS = [
     //     {continent: "america", flags: ["mexico", "usa"]},
     //     {continent: "america", numFlags: 4},
     //     {continent: "random", numFlags: 4}]
 
+    var COLORS = ["0x06EA06", "0xFF00D2", "0x00AEFF", "0xFFBF00"]
+
     var lives
     var sceneGroup = null
-    var gameIndex = 33
+    var gameIndex = 44
     var tutoGroup
     var skySong
     var heartsGroup = null
@@ -69,6 +72,8 @@ var sky = function(){
     var inputsEnabled
     var pointsBar
     var roundCounter
+    var clouds
+    var baloonList
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -141,6 +146,12 @@ var sky = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
+        for(var baloonIndex = 0; baloonIndex < MAX_BALOONS; baloonIndex++){
+            var baloon = pullGroup.create(0, 0, "baloon")
+            baloon.anchor.setTo(0.5, 0.5)
+            baloonList.push(baloon)
+        }
+
     }
 
     function createPart(key){
@@ -163,14 +174,14 @@ var sky = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         skySong.stop()
-        clock.tween.stop()
+        // clock.tween.stop()
         inputsEnabled = false
 
-        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
         tweenScene.onComplete.add(function(){
 
             var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, numPoints, gameIndex)
+            resultScreen.setScore(true, pointsBar.number, gameIndex)
 
             //amazing.saveScore(pointsBar.number)
             sceneloader.show("result")
@@ -186,6 +197,8 @@ var sky = function(){
         game.load.image('introscreen',"images/sky/introscreen.png")
         game.load.image('howTo',"images/sky/how" + localization.getLanguage() + ".png")
         game.load.image('buttonText',"images/sky/play" + localization.getLanguage() + ".png")
+
+        game.load.image('clouds',"images/sky/cloud.png")
 
         buttons.getImages(game)
 
@@ -218,8 +231,7 @@ var sky = function(){
         sound.play("wrong")
         inputsEnabled = false
 
-        lives--;
-        heartsGroup.text.setText('X ' + lives)
+        heartsGroup.removeHealth()
 
         var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -233,57 +245,36 @@ var sky = function(){
             startRound()
         }
 
-        addNumberPart(heartsGroup.text,'-1')
+        // addNumberPart(heartsGroup.text,'-1')
     }
 
     function createHearts(){
 
         heartsGroup = game.add.group()
-        heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
 
-        var pivotX = 10
-        var group = game.add.group()
-        group.x = pivotX
-        heartsGroup.add(group)
+        var spaceBetween = 60
+        var hearts = []
+        for(var heartIndex = 0; heartIndex < NUM_LIFES; heartIndex++){
+            var heart = heartsGroup.create(0, 0, "atlas.sky", "health")
+            heart.x = spaceBetween * heartIndex + 15
+            heart.y = 20
+            hearts.push(heart)
+        }
 
-        var heartImg = group.create(0,0,'atlas.sky','life_box')
+        heartsGroup.removeHealth = function () {
+            lives--
+            var heart = hearts[lives]
+            game.add.tween(heart).to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true, 400)
+        }
 
-        pivotX+= heartImg.width * 0.45
-
-        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-        pointsText.x = pivotX
-        pointsText.y = heartImg.height * 0.15
-        pointsText.setText('X ' + lives)
-        heartsGroup.add(pointsText)
-
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-        heartsGroup.text = pointsText
-
-    }
-
-    function startTimer(onComplete) {
-        var delay = 500
-        // clock.bar.scale.x = clock.bar.origScale
-        if (clock.tween)
-            clock.tween.stop()
-
-
-        clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
-        clock.tween.onComplete.add(function(){
-            onComplete()
-        })
     }
 
     function onClickPlay(rect) {
         rect.inputEnabled = false
         sound.play("pop")
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-
             tutoGroup.y = -game.world.height
-            startTimer(missPoint)
         })
     }
 
@@ -334,38 +325,81 @@ var sky = function(){
         var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
         playText.anchor.setTo(0.5,0.5)
     }
+    
+    function createSkyUI() {
 
-    function createClock(){
+        clouds = game.add.tileSprite(0 , 0, game.world.width + 2, 317, "clouds")
+        clouds.x = game.world.centerX
+        clouds.y = game.world.height - 200
+        clouds.anchor.setTo(0.5, 1)
+        sceneGroup.add(clouds)
 
-        clock = game.add.group()
-        clock.x = game.world.centerX
-        clock.y = game.world.centerY + 80
-        sceneGroup.add(clock)
+        var numScenaries = Math.ceil(game.world.width / 300)
+        var sobrante = game.world.width % 300
+        for(var scenaryIndex = 0; scenaryIndex < numScenaries; scenaryIndex++){
+            var x = scenaryIndex * 300 - 20
+            var y = game.world.height
+            var scenary = sceneGroup.create(x, y, "atlas.sky", "scenary")
+            scenary.anchor.setTo(0, 1)
+        }
 
-        var clockImage = clock.create(0,0,'atlas.sky','clock')
-        clockImage.anchor.setTo(0.5,0.5)
+        // var scenary = game.add.tileSprite(0 , 0, game.world.width + 2, 175, "atlas.sky", "scenary")
+        // scenary.x = game.world.centerX
+        // scenary.y = game.world.height
+        // scenary.anchor.setTo(0.5, 1)
+        // // scenary.offsetX = 10
+        // sceneGroup.add(scenary)
 
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.sky','bar')
-        clockBar.anchor.setTo(0,0.5)
-        clockBar.width = clockImage.width*0.76
-        clockBar.height = 22
-        clockBar.origScale = clockBar.scale.x
+        var board = sceneGroup.create(game.world.centerX, game.world.height, "atlas.sky", "board")
+        board.anchor.setTo(0.5, 1)
 
-        clock.bar = clockBar
+        var boardGroup = game.add.group()
+        boardGroup.x = game.world.centerX
+        boardGroup.y = game.world.height - board.height * 0.6
+        sceneGroup.add(boardGroup)
 
+        var sign = boardGroup.create(0, 0, "atlas.sky", "sign")
+        sign.anchor.setTo(0.5, 0.5)
+
+        var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var dividend = new Phaser.Text(game, 5, 12, "?", fontStyle)
+        dividend.anchor.setTo(0.5,0.5)
+        boardGroup.add(dividend)
+        boardGroup.dividentText = dividend
+
+        var divisor = new Phaser.Text(game, -50, 5, "?", fontStyle)
+        divisor.anchor.setTo(0.5,0.5)
+        boardGroup.add(divisor)
+        boardGroup.divisorText = divisor
+
+        var quotient = new Phaser.Text(game, 5, -50, "?", fontStyle)
+        quotient.anchor.setTo(0.5,0.5)
+        boardGroup.add(quotient)
+        boardGroup.quotientText = quotient
+
+        var barHud = game.add.graphics()
+        barHud.beginFill(0x3C2789)
+        barHud.drawRect(0,0,game.world.width + 2, 76)
+        barHud.endFill()
+        sceneGroup.add(barHud)
+
+    }
+    
+    function update() {
+        clouds.tilePosition.x -= 0.5
     }
 
     return {
         assets: assets,
         name: "sky",
         preload:preload,
+        update:update,
         create: function(event){
 
             sceneGroup = game.add.group()
 
-            var background = sceneGroup.create(-2,-2,'fondo')
-            background.width = game.world.width+2
-            background.height = game.world.height+2
+            var background = game.add.tileSprite(0 , 0, game.world.width + 2, game.world.height + 2, "fondo")
+            sceneGroup.add(background)
 
             skySong = game.add.audio('skySong')
             game.sound.setDecodedCallback(skySong, function(){
@@ -382,14 +416,14 @@ var sky = function(){
 
             initialize()
 
+            createSkyUI()
             createHearts()
             createPointsBar()
             createGameObjects()
-            createClock()
             startRound(true)
             createTutorial()
 
-            buttons.getButton(skySong,sceneGroup,game.world.width - 50)
+            buttons.getButton(skySong,sceneGroup)
         }
     }
 }()
