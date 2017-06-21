@@ -75,7 +75,7 @@ var hungry = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 15000
+		timeToUse = 4000
         
         loadSounds()
         
@@ -278,17 +278,38 @@ var hungry = function(){
                 
     }
     
+	function angleToad(toad,multAngle,startAngle){
+		
+		if(toad.tween){
+			toad.tween.stop()
+		}
+		
+		game.add.tween(toad).to({angle:startAngle},100,"Linear",true)
+		
+		game.time.events.add(game.rnd.integerInRange(1,4) * 100,function(){
+			toad.tween = game.add.tween(toad).to({angle:toad.angle + multAngle},500,"Linear",true,0,-1)
+			toad.tween.yoyo(true,0)
+		})
+		
+	}
+	
     function stopGame(win){
         
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-		var toad = toadsGroup.list[1]
-		toad.tween.stop()
+		var numUsed = 5
+		var angle1 = -25
+		var angle2 = 40
+		if(toadsGroup.number < numToUse){
+			numUsed = -5
+			angle1 = -40
+			angle2 = 25
+		}
 		
-		var tween = game.add.tween(toad).to({angle:toad.angle * 1.6},500,"Linear",true,0,-1)
-		tween.yoyo(true,0)
-		
+		angleToad(toadsGroup.list[0],numUsed,angle1)
+		angleToad(toadsGroup.list[1],numUsed,angle2)
+			
 		game.time.events.add(700,function(){
 			setToadsAnim("LOSE")
 		})
@@ -368,6 +389,9 @@ var hungry = function(){
 
 				game.add.tween(toadsGroup.list[i].text).to({alpha:1},500,"Linear",true,500)
 			}
+			
+			angleToad(toadsGroup.list[0],-5,-40)
+			angleToad(toadsGroup.list[1],-5,25)
 			
 			game.time.events.add(delay,function(){
 				
@@ -694,6 +718,9 @@ var hungry = function(){
 			addPoint(1)
 			createPart('star',text)
 			
+			angleToad(toadsGroup.list[0],-10,-25)
+			angleToad(toadsGroup.list[1],10,25)
+			
 			for(var i = 0; i < toadsGroup.list.length;i++){
 				var text = toadsGroup.list[i].text
 				game.add.tween(text).to({alpha:0},500,"Linear",true)
@@ -731,6 +758,7 @@ var hungry = function(){
 		
 		var groupLeft = game.add.group()
 		groupLeft.angle = -25
+		groupLeft.startAngle = groupLeft.angle
 		toadsGroup.add(groupLeft)
 		
 		var armLeft = groupLeft.create(0,0,'atlas.hungry','arm')
@@ -758,6 +786,7 @@ var hungry = function(){
 		
 		var groupRight = game.add.group()
 		groupRight.angle = 25
+		groupRight.startAngle = groupRight.angle
 		toadsGroup.add(groupRight)
 		
 		var armRight = groupRight.create(0,0,'atlas.hungry','arm')
@@ -795,8 +824,8 @@ var hungry = function(){
 			
 			var group = toadsGroup.list[i]
 			
-			group.tween = game.add.tween(group).to({angle:group.angle * 1.2},500,"Linear",true,0,-1)
-			group.tween.yoyo(true,0)
+			//group.tween = game.add.tween(group).to({angle:group.angle * 1.2},500,"Linear",true,0,-1)
+			//group.tween.yoyo(true,0)
 		}
 		
 		lineToUse = game.add.graphics(0,0);

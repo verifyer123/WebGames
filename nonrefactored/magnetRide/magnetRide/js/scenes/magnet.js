@@ -83,6 +83,7 @@ var magnet = function(){
 	var canRed
 	var yogotar
     var magnetSong
+	var isNoun
 		
 	function loadSounds(){
 		sound.decode(assets.sounds)
