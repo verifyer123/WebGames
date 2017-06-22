@@ -47,12 +47,10 @@ yogomeGames.getGames = function(){
 		{name:'mathPort',url:'http://yogome.com/epic/minigames/portSite/',sceneName:'port',subject:'math',review:true},//41
 		{name:'pizzafraction',url:'http://yogome.com/epic/minigames/pizzafractionsite/',sceneName:'pizzafraction',subject:'math',review:false},//42
 		{name:'hungryToads',url:'http://yogome.com/epic/minigames/hungrySite/',sceneName:'hungry',subject:'math',review:false},//43
-		
 		{name:'skyTap',url:'http://yogome.com/epic/minigames/skyTapSite/',sceneName:'sky',subject:'math' ,review:false},//44
-		
 		{name:'evening',url:'http://yogome.com/epic/minigames/eveningSite/',sceneName:'evening',subject:'math', review:true},//45
-		
-		{name:'minmaxduel',url:'http://yogome.com/epic/minigames/minmaxduelsite/',sceneName:'minmaxduel',subject:'math', review:false}//46		
+		{name:'minmaxduel',url:'http://yogome.com/epic/minigames/minmaxduelsite/',sceneName:'minmaxduel',subject:'math', review:false},//46		
+		{name:'mathInvader',url:'http://yogome.com/epic/minigames/invaderSite/',sceneName:'invader',subject:'math', review:false}//47
 	]
 
 	
