@@ -53,7 +53,7 @@ var minmaxduel = function(){
 	var cursors;
 	var coins = 0;
 	var bgm = null;
-	var NumwebGame = 42;
+	var NumwebGame = 46;
 	var bgtimer;
 	var activeGame = true;
 	var cardsArray;
@@ -94,9 +94,6 @@ var minmaxduel = function(){
 		/*SPINE*/
 		//game.load.spine("helicoptero", imagePath + "spine/helicoptero.json");
 
-		
-		
-		
 	}
 
 	function loadSounds(){
