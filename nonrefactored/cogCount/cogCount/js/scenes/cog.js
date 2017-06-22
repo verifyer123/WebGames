@@ -111,7 +111,7 @@ var cog = function(){
             var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
             // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
             colorTween.onUpdateCallback(function () {
-                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step)
+                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step, 1)
             })
             // set object to the starting colour
             obj.tint = startColor;
@@ -257,7 +257,7 @@ var cog = function(){
         game.load.image('howTo',"images/cog/how" + localization.getLanguage() + ".png")
         game.load.image('buttonText',"images/cog/play" + localization.getLanguage() + ".png")
 
-        game.load.spine('master', "images/spines/master/master_clock.json")
+        game.load.spine('masterClock', "images/spines/master/master_clock.json")
         game.load.spine('cloky', "images/spines/cloky/cloky.json")
 
         buttons.getImages(game)
@@ -531,7 +531,7 @@ var cog = function(){
         clockGroup.add(answerText)
         clockGroup.answerText = answerText
 
-        masterClock = createSpine("master", "normal")
+        masterClock = createSpine("masterClock", "normal")
         clockGroup.add(masterClock)
 
         var correctPart = createPart("star")
