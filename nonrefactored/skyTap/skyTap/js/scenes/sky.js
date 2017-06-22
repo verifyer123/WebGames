@@ -47,7 +47,9 @@ var sky = function(){
             {	name: "right",
                 file: soundsPath + "rightChoice.mp3"},
             {   name: "gameLose",
-                file: soundsPath + "gameLose.mp3"}
+                file: soundsPath + "gameLose.mp3"},
+            {   name: "owl",
+                file: soundsPath + "owl.mp3"}
         ]
     }
 
@@ -96,6 +98,7 @@ var sky = function(){
     var speed
     var delay
     var owl
+    var missBaloon
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -288,7 +291,7 @@ var sky = function(){
             var endTween = game.add.tween(baloon.toText.scale).to({x:1, y:1}, 400, Phaser.Easing.Cubic.Out, true)
             endTween.onComplete.add(function () {
                 baloonsPicked.push(baloon.number)
-                if(totalBaloons === baloonsPicked.length)
+                if((totalBaloons === baloonsPicked.length)&&(!missBaloon))
                     checkAnswer()
             })
         })
@@ -353,10 +356,11 @@ var sky = function(){
                 boardGroup.wrongParticle.x = this.x
                 boardGroup.wrongParticle.y = 20
                 boardGroup.wrongParticle.start(true, 1000, null, 5)
-                this.isUpdate = false
+                // this.isUpdate = false
+                missBaloon = true
                 removeBaloons()
                 missPoint()
-                game.time.events.add(1200, newRound)
+                game.time.events.add(2500, newRound)
 
             }
         }
@@ -507,6 +511,7 @@ var sky = function(){
         // clock.tween.stop()
         inputsEnabled = false
         owl.setAnimation(["WAKEUP","WAKEUP_STILL"])
+        sound.play("owl")
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
         tweenScene.onComplete.add(function(){
@@ -583,6 +588,7 @@ var sky = function(){
         baloonsPicked = []
         baloonsInGame = []
         setCurrentDivision(divisionPart)
+        missBaloon = false
 
         sound.play("whoosh")
         game.add.tween(boardGroup.equation.scale).to({x:1, y:1}, 800, Phaser.Easing.Bounce.Out, true)
