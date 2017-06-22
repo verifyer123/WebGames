@@ -839,6 +839,8 @@ var evening = function(){
 			starGroup.add(pointsText)
 			starGroup.text = pointsText
 			
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			
 		}
 		
 		usedObjects.rows = []
@@ -893,6 +895,8 @@ var evening = function(){
 		pointsText.anchor.setTo(0.5,0.5)
         mainCont.add(pointsText)
 		mainCont.text = pointsText
+		
+		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 		
 	}
 	
