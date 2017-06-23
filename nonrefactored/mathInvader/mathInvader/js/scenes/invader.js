@@ -52,6 +52,8 @@ var invader = function(){
 				file: soundsPath + "powerup.mp3"},
 			{	name: "robotWhoosh",
 				file: soundsPath + "robotWhoosh.mp3"},
+			{	name: "shootBall",
+				file: soundsPath + "shootBall.mp3"},
 			
 		],
     }
@@ -77,6 +79,7 @@ var invader = function(){
 	var movingLeft
 	var cursors
 	var buttonPressed
+	var rotatePlayer
 	
 
 	function loadSounds(){
@@ -93,6 +96,7 @@ var invader = function(){
 		timeToSpawn = 2500
 		gameSpeed = SPEED
 		canClock = false
+		rotatePlayer = true
         
         loadSounds()
         
@@ -197,14 +201,15 @@ var invader = function(){
         addNumberPart(pointsBar.text,'+' + number,true)		
 		
 		if(timeToSpawn > 750){
-			timeToSpawn-= 50
+			timeToSpawn-= 100
 		}
+		
+		if(gameSpeed > 1){
+			 gameSpeed+= 0.4
+		 }
 		
 		if(pointsBar.number % 4 == 0){
 			
-			 if(gameSpeed > 1){
-				 gameSpeed+= 1
-			 }
 			
 			setNumber()
 			sound.play("robotWhoosh")
@@ -550,10 +555,10 @@ var invader = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 		
-		createParticles('star',3)
+		createParticles('star',2)
 		createParticles('wrong',1)
 		createParticles('text',5)
-		createParticles('smoke',1)
+		createParticles('smoke',2)
 
 	}
 	
@@ -798,7 +803,7 @@ var invader = function(){
 			activateObject(obj,game.rnd.integerInRange(obj.width,game.world.width - obj.width),-200)
 		}
 		
-		sound.play("cut")
+		sound.play("shootBall")
 		
 		game.time.events.add(timeToSpawn,addObjects)
 		
@@ -862,22 +867,30 @@ var invader = function(){
 	
 	function inputButton(obj){
         
-        if(gameActive){
+        if(gameActive && rotatePlayer){
 			
 			sound.play("cut")
 			obj.moveLeft = !obj.moveLeft
 			
             if(obj.moveLeft){
+				
                 moveLeft = true
                 moveRight = false
                 characterGroup.scale.x = -1
             }else{
+				
                 moveLeft = false
                 moveRight = true
                 characterGroup.scale.x = 1
             }
 			
 			characterGroup.anim.setAnimationByName(0, "RUN",true);
+			
+			rotatePlayer = false
+			game.time.events.add(200,function(){
+				rotatePlayer = true
+			})
+			
         }
         
     }
