@@ -49,7 +49,8 @@ yogomeGames.getGames = function(){
 		{name:'pizzafraction',url:'http://yogome.com/epic/minigames/pizzafractionsite/',sceneName:'pizzafraction', review:false},//42   
 		{name:'hungryToads',url:'http://yogome.com/epic/minigames/hungrySite/',sceneName:'hungry', review:false},//43
 		{name:'skyTap',url:'http://yogome.com/epic/minigames/skyTapSite/',sceneName:'sky', review:false},//44
-		{name:'evening',url:'http://yogome.com/epic/minigames/eveningSite/',sceneName:'evening', review:false}//45
+		{name:'evening',url:'http://yogome.com/epic/minigames/eveningSite/',sceneName:'evening', review:false},//45
+		{name:'locksmath',url:'http://yogome.com/epic/minigames/lockSite/',sceneName:'lock', review:false}//46
 	]
 
 	
