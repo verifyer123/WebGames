@@ -49,4 +49,4 @@
 })(document, window.mixpanel || []);
 
 console.log("Mixpanel Initialization...")
-mixpanel.init("054cef9c3379051e0821a9b8ce3211bf")
+mixpanel.init("1e7e3783b001fc56d1604ca73204d887")

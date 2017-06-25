@@ -1,4 +1,5 @@
 
+
 	function createOverlay(){
 		lives = 1;
 		coins = 0;
@@ -108,7 +109,6 @@ function createCoins(coins){
 		sceneGroup.add(coinsGroup);
 }	
 
-
 function shuffle(array) {
 	var currentIndex = array.length, temporaryValue, randomIndex;
 	
@@ -122,3 +122,30 @@ function shuffle(array) {
 	
 	return array;
 }
+
+
+		function ActiveDrag(object,target){
+			this.game.physics.arcade.enable(target);
+			this.game.physics.arcade.enable(object);
+			object.inputEnabled = true;
+			object.originalPosition = object.position.clone();
+			object.input.enableDrag();
+			object.positionX = object.x;
+			object.positionY = object.y;
+		}
+
+
+function finishGame(NumwebGame,coins){
+	TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
+	sound.play("wrong");
+	sound.play("gameLose");
+	bgm.stop();	
+		function gameOver(){
+			var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, coins,NumwebGame)
+			sceneloader.show("result");
+		}
+}
+
+
+

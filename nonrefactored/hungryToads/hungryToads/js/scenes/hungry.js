@@ -75,7 +75,7 @@ var hungry = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 4000
+		timeToUse = 15000
         
         loadSounds()
         

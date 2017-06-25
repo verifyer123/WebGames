@@ -60,7 +60,7 @@ var lock = function(){
 
     var lives
     var sceneGroup = null
-    var gameIndex = 46
+    var gameIndex = 48
     var tutoGroup
     var lockSong
     var heartsGroup = null

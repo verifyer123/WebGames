@@ -1,0 +1,62 @@
+
+eagle.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm1
+  rotate: false
+  xy: 230, 77
+  size: 20, 32
+  orig: 20, 32
+  offset: 0, 0
+  index: -1
+normal/arm2
+  rotate: false
+  xy: 230, 47
+  size: 18, 28
+  orig: 18, 28
+  offset: 0, 0
+  index: -1
+normal/head1
+  rotate: false
+  xy: 2, 39
+  size: 74, 70
+  orig: 74, 70
+  offset: 0, 0
+  index: -1
+normal/head2
+  rotate: false
+  xy: 78, 39
+  size: 74, 70
+  orig: 74, 70
+  offset: 0, 0
+  index: -1
+normal/head3
+  rotate: false
+  xy: 154, 39
+  size: 74, 70
+  orig: 74, 70
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: false
+  xy: 38, 10
+  size: 20, 27
+  orig: 20, 27
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: false
+  xy: 60, 12
+  size: 20, 25
+  orig: 20, 25
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 2, 2
+  size: 34, 35
+  orig: 34, 35
+  offset: 0, 0
+  index: -1
