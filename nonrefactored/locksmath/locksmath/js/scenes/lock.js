@@ -576,7 +576,7 @@ var lock = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('lockSong', soundsPath + 'songs/wormwood.mp3');
+		game.load.audio('lockSong', soundsPath + 'songs/jungle_fun.mp3');
 
 		game.load.image('introscreen',"images/lock/introscreen.png")
 		game.load.image('howTo',"images/lock/how" + localization.getLanguage() + ".png")
