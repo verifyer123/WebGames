@@ -34,10 +34,12 @@ var lock = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "magic",
 				file: soundsPath + "magic.mp3"},
+			{	name: "drag",
+				file: soundsPath + "drag.mp3"},
 			{	name: "cut",
 				file: soundsPath + "cut.mp3"},
-			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
+			{	name: "lock",
+				file: soundsPath + "lock.mp3"},
 			{	name: "flip",
 				file: soundsPath + "flipCard.mp3"},
 			{	name: "swipe",
@@ -47,7 +49,25 @@ var lock = function(){
 			{	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
 			{   name: "gameLose",
-				file: soundsPath + "gameLose.mp3"}
+				file: soundsPath + "gameLose.mp3"},
+			{   name: "slot",
+				file: soundsPath + "stop.mp3"},
+			{   name: "laugh",
+				file: soundsPath + "laugh.mp3"},
+			{   name: "anger",
+				file: soundsPath + "anger.mp3"},
+			{   name: "stoneDoor",
+				file: soundsPath + "stoneDoor.mp3"},
+			{   name: "goldShine",
+				file: soundsPath + "goldShine.mp3"},
+			{   name: "secret",
+				file: soundsPath + "secret.mp3"},
+			{   name: "rolling",
+				file: soundsPath + "rolling.mp3"},
+			{   name: "towercollapse",
+				file: soundsPath + "towercollapse.mp3"},
+			{   name: "brightTransition",
+				file: soundsPath + "brightTransition.mp3"}
 		]
 	}
 
@@ -174,6 +194,9 @@ var lock = function(){
 
 			var blockTween = game.add.tween(block).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true, 200 * (blockIndex + 1))
 			game.add.tween(block.scale).to({x:1, y:1}, 200, Phaser.Easing.Back.Out, true, 200 * (blockIndex + 1))
+			blockTween.onStart.add(function () {
+				sound.play("pop")
+			})
 			blockTween.onComplete.add(function (obj) {
 				obj.bg.inputEnabled = true
 			})
@@ -185,6 +208,7 @@ var lock = function(){
 	function onDragStart(obj, pointer) {
 
 		// lock.spine.slotContainers[6].add(blockList[0])
+		sound.play("drag")
 		var block = obj.parent
 		block.deltaX = pointer.x - obj.world.x
 		block.deltaY = pointer.y - obj.world.y
@@ -217,6 +241,7 @@ var lock = function(){
 	
 	function closeDoors(obj) {
 		var callback = obj.callback
+		sound.play("stoneDoor")
 
 		game.add.tween(doorLeft).to({x:0}, 800, Phaser.Easing.Cubic.Out, true)
 		var closeDoor = game.add.tween(doorRight).to({x:game.world.width}, 800, Phaser.Easing.Cubic.Out, true)
@@ -225,8 +250,13 @@ var lock = function(){
 	
 	function startWin() {
 
+		sound.play("secret")
+
 		var forwardEffect = game.add.tween(winGroup.scale).to({x:1.2, y:1.2}, 2000, Phaser.Easing.Cubic.Out, false, 1000)
 		var hideAll = game.add.tween(sceneGroup).to({alpha:0}, 2000, Phaser.Easing.Cubic.Out, false, 1000)
+		hideAll.onStart.add(function () {
+			sound.play("brightTransition")
+		})
 		hideAll.onComplete.add(function () {
 			winGroup.scale.x = 1
 			winGroup.scale.y = 1
@@ -251,7 +281,7 @@ var lock = function(){
 		sceneGroup.add(winGroup.jewel)
 
 
-		var moveJewel = game.add.tween(winGroup.jewel).to({x: pointsBar.centerX, y: pointsBar.centerY}, 1200, Phaser.Easing.Cubic.In, true, 1000)
+		var moveJewel = game.add.tween(winGroup.jewel).to({x: pointsBar.centerX, y: pointsBar.centerY}, 1200, Phaser.Easing.Cubic.In, false, 200)
 		var scaleJewel = game.add.tween(winGroup.jewel.scale).to({x: 0.5, y: 0.5}, 600, Phaser.Easing.Cubic.Out, false)
 		var dissapearJewel =game.add.tween(winGroup.jewel).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, false)
 		moveJewel.onStart.add(function(){
@@ -265,14 +295,21 @@ var lock = function(){
 			hideAll.start()
 		})
 		
-		var scaleTween = game.add.tween(winGroup.jewel.scale).to({x: 1.2,y:1.2}, 200, Phaser.Easing.linear, true, 600)
+		var scaleTween = game.add.tween(winGroup.jewel.scale).to({x: 1.2,y:1.2}, 200, Phaser.Easing.linear, true, 1000)
+		scaleTween.onStart.add(function () {
+			sound.play("goldShine")
+		})
 		scaleTween.onComplete.add(function(){
 			game.add.tween(winGroup.jewel.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+			moveJewel.start()
 		})
 	}
 	
-	function shockingEffect() {
+	function shockingEffect(rock) {
+		rock.setAlive(false)
+
 		sceneGroup.toX = 20
+		sound.play("towercollapse")
 
 		var shockRight = game.add.tween(sceneGroup).to({x:sceneGroup.toX}, 200, Phaser.Easing.Sinusoidal.InOut, false)
 		var shockLeft = game.add.tween(sceneGroup).to({x:-sceneGroup.toX}, 200, Phaser.Easing.Sinusoidal.InOut, false)
@@ -287,8 +324,10 @@ var lock = function(){
 	}
 	
 	function startLose() {
+		var stoneSound = sound.play("rolling")
+
 		game.add.tween(loseGroup.rock.scale).to({x:1, y:1}, 1200, Phaser.Easing.Cubic.In, true)
-		var rockFalling = game.add.tween(loseGroup.rock).to({y:140}, 1200, Phaser.Easing.Cubic.In, true)
+		var rockFalling = game.add.tween(loseGroup.rock).to({y:220}, 1200, Phaser.Easing.Cubic.In, true)
 		rockFalling.onComplete.add(shockingEffect)
 	}
 	
@@ -297,12 +336,14 @@ var lock = function(){
 		var isCorrect = obj ? obj.isCorrect : false
 
 		if(isCorrect){
+			sound.play("laugh")
 			lock.setAnimation(["WIN"])
 			winGroup.alpha = 1
 			callback = function(){
 				startWin()
 			}
 		}else {
+			sound.play("anger")
 			lock.setAnimation(["LOSE"])
 			loseGroup.alpha = 1
 			callback = function(){
@@ -330,17 +371,19 @@ var lock = function(){
 				if(prevSlot){
 					isCorrect = (prevSlot.block.value <= slot.block.value) && isCorrect
 				}
+				prevSlot = slot
 			}else
 				isCorrect = false
 
-			prevSlot = slot
 		}
 
 		var bargroupTween = game.add.tween(barGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.In, true)
 		if(isCorrect){
 			lock.correctParticle.start(true, 1000, null, 5)
+			sound.play("right")
 		}else {
 			lock.wrongParticle.start(true, 1000, null, 5)
+			sound.play("wrong")
 		}
 		barGroup.isCorrect = isCorrect
 
@@ -373,6 +416,7 @@ var lock = function(){
 
 		var slot = checkCollision(block)
 		if (slot){
+			sound.play("slot")
 
 			block.x = (block.centerX - slot.centerX) * (1 - lock.scale.x + 1)//scale dif
 			block.y = (block.centerY - slot.centerY) * (1 - lock.scale.x + 1)//scale dif
@@ -390,6 +434,7 @@ var lock = function(){
 			block.slot = slot
 
 		}else{
+			sound.play("cut")
 			block.tween = game.add.tween(block).to({x: block.originalX, y: block.originalY}, 600, Phaser.Easing.Cubic.Out, true)
 			block.tween.onComplete.add(function () {
 				obj.inputEnabled = true
@@ -516,6 +561,7 @@ var lock = function(){
 
 		game.load.image('door',"images/lock/door.png")
 		game.load.spine('lock', "images/spine/lock.json")
+		game.load.spine('rock', "images/spine/roca.json")
 		game.load.spritesheet('jewel', 'images/lock/diamond.png', 84, 76, 23)
 
 		buttons.getImages(game)
@@ -557,11 +603,17 @@ var lock = function(){
 		// lock.y = game.world.centerY + 20
 		lock.y = -200
 		lock.alpha = 1
-		game.add.tween(lock).to({y:game.world.centerY + 20 }, 1000, Phaser.Easing.Back.Out, true)
+		sound.play("swipe")
+		var lockTween = game.add.tween(lock).to({y:game.world.centerY + 20 }, 800, Phaser.Easing.Back.Out, true)
+		lockTween.onComplete.add(function () {
+			sound.play("lock")
+		})
 
 		barGroup.scale.x = 0.4, barGroup.scale.y = 0.4
-		game.add.tween(barGroup).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true, 1000)
-		game.add.tween(barGroup.scale).to({x:1, y:1}, 600, Phaser.Easing.Cubic.Out, true, 1000).onComplete.add(addBlocks)
+		game.add.tween(barGroup).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true, 1200).onStart.add(function () {
+			sound.play("cut")
+		})
+		game.add.tween(barGroup.scale).to({x:1, y:1}, 600, Phaser.Easing.Cubic.Out, true, 1200).onComplete.add(addBlocks)
 	}
 
 	function missPoint(){
@@ -634,8 +686,8 @@ var lock = function(){
 		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
 			tutoGroup.y = -game.world.height
-			// sceneGroup.callback = startWin
-			// winGroup.alpha = 1
+			// sceneGroup.callback = startLose
+			// loseGroup.alpha = 1
 			// openDoors(sceneGroup)
 			startRound()
 		})
@@ -770,6 +822,7 @@ var lock = function(){
 	
 	function openDoors(obj) {
 		var callback = obj.callback
+		sound.play("stoneDoor")
 		
 		var openDoor = game.add.tween(doorLeft).to({x: -270}, 600, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(doorRight).to({x: game.world.width + 270}, 600, Phaser.Easing.Cubic.Out, true)
@@ -880,10 +933,10 @@ var lock = function(){
 		var background = loseGroup.create(0,0,'fondolose')
 		background.anchor.setTo(0.5, 0.5)
 
-		var rock = loseGroup.create(0,0,"atlas.lock", "rock")
-		rock.y = -120
-		rock.anchor.setTo(0.5, 0.5)
-		rock.scale.setTo(0.3, 0.3)
+		var rock = createSpine("rock", "normal", "IDLE", 0, 112)
+		rock.y = -350 + rock.height * 0.5
+		rock.scale.setTo(0.4, 0.4)
+		loseGroup.add(rock)
 		loseGroup.rock = rock
 	}
 

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "CjRSh8J15GPc05PXDwZGzVWm9FU", "spine": "2.1.27", "width": 635.75, "height": 459.99, "images": "" },
+"skeleton": { "hash": "Zra9X49CC5+UhX++eN3+fElCwpI", "spine": "2.1.27", "width": 635.75, "height": 459.99, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "y": -49.89 },
@@ -31,7 +31,7 @@
 	{ "name": "teet", "bone": "mouth", "attachment": "teet2" },
 	{ "name": "lips", "bone": "mouth", "attachment": "lips2" },
 	{ "name": "eye_I", "bone": "eyeI", "attachment": "eye3" },
-	{ "name": "eye_D", "bone": "eyeD", "attachment": "eye3" },
+	{ "name": "eye_D", "bone": "eyeD", "attachment": "eye1" },
 	{ "name": "eye_brown2", "bone": "eye_brown", "attachment": "eye_brown" },
 	{ "name": "eye_brown1", "bone": "bone7", "attachment": "eye_brown" },
 	{ "name": "normal/surprice", "bone": "bone2", "attachment": "surprice" },
@@ -446,6 +446,50 @@
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1 }
 				]
+			},
+			"grande": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"chico": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"mediano": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
 			}
 		},
 		"drawOrder": [
@@ -455,20 +499,31 @@
 	},
 	"LOSE": {
 		"slots": {
+			"MISSING1": {
+				"attachment": [
+					{ "time": 0, "name": "normal/MISSING-37" }
+				]
+			},
+			"MISSING2": {
+				"attachment": [
+					{ "time": 0, "name": "normal/MISSING-37" }
+				]
+			},
 			"MISSING3": {
 				"attachment": [
+					{ "time": 0, "name": "normal/MISSING-37" },
 					{ "time": 1.3333, "name": "normal/MISSING-37" }
 				]
 			},
 			"eye_D": {
 				"attachment": [
-					{ "time": 0, "name": "eye3" },
+					{ "time": 0, "name": "eye1" },
 					{ "time": 1.3333, "name": "eye3" }
 				]
 			},
 			"eye_I": {
 				"attachment": [
-					{ "time": 0, "name": "eye3" },
+					{ "time": 0, "name": "eye1" },
 					{ "time": 1.3333, "name": "eye3" }
 				]
 			},
@@ -845,6 +900,17 @@
 				"scale": [
 					{ "time": 0, "x": 0.53, "y": 1 }
 				]
+			},
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
 			}
 		},
 		"drawOrder": [
@@ -855,6 +921,18 @@
 	},
 	"WIN": {
 		"slots": {
+			"MISSING1": {
+				"attachment": [
+					{ "time": 0, "name": "normal/MISSING-37" },
+					{ "time": 0.6666, "name": "normal/MISSING-37" }
+				]
+			},
+			"MISSING2": {
+				"attachment": [
+					{ "time": 0, "name": "normal/MISSING-37" },
+					{ "time": 0.6666, "name": "normal/MISSING-37" }
+				]
+			},
 			"MISSING3": {
 				"attachment": [
 					{ "time": 0, "name": "normal/MISSING-37" },
@@ -863,13 +941,13 @@
 			},
 			"eye_D": {
 				"attachment": [
-					{ "time": 0, "name": "eye2" },
+					{ "time": 0, "name": "eye1" },
 					{ "time": 0.6666, "name": "eye2" }
 				]
 			},
 			"eye_I": {
 				"attachment": [
-					{ "time": 0, "name": "eye2" },
+					{ "time": 0, "name": "eye1" },
 					{ "time": 0.6666, "name": "eye2" }
 				]
 			},
@@ -1352,8 +1430,18 @@
 			}
 		},
 		"drawOrder": [
-			{ "time": 0 },
-			{ "time": 0.6666 }
+			{
+				"time": 0,
+				"offsets": [
+					{ "slot": "lips", "offset": 2 }
+				]
+			},
+			{
+				"time": 0.6666,
+				"offsets": [
+					{ "slot": "lips", "offset": 2 }
+				]
+			}
 		]
 	}
 }
