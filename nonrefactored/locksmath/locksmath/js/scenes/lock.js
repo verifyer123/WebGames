@@ -24,8 +24,10 @@ var lock = function(){
 			}
 		],
 		images: [
-			{   name:"fondo",
-				file: "images/lock/fondo.png"}
+			{   name:"fondowin",
+				file: "images/lock/fondowin.png"},
+			{   name:"fondolose",
+				file: "images/lock/fondolose.png"}
 		],
 		sounds: [
 			{	name: "pop",
@@ -74,6 +76,9 @@ var lock = function(){
 	var blockList
 	var barGroup
 	var lock
+	var doorLeft, doorRight
+	var winGroup, loseGroup
+	var alphaBright
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -158,10 +163,23 @@ var lock = function(){
 			barGroup.add(block)
 			block.x = startX + (spaceWidth * blockIndex)
 			block.y = -5
+			block.alpha = 0
+			block.scale.x = 0.4, block.scale.y = 0.4
 
 			block.originalX = block.x
 			block.originalY = block.y
+
+			block.numberText.text = "1/2"
+			block.value = 1/2
+
+			var blockTween = game.add.tween(block).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true, 200 * (blockIndex + 1))
+			game.add.tween(block.scale).to({x:1, y:1}, 200, Phaser.Easing.Back.Out, true, 200 * (blockIndex + 1))
+			blockTween.onComplete.add(function (obj) {
+				obj.bg.inputEnabled = true
+			})
 		}
+
+		startTimer(checkCorrect, 200 * NUM_OPTIONS)
 	}
 
 	function onDragStart(obj, pointer) {
@@ -171,8 +189,8 @@ var lock = function(){
 		block.deltaX = pointer.x - obj.world.x
 		block.deltaY = pointer.y - obj.world.y
 
-		block.x, block.startX = (obj.world.x - barGroup.x) * lock.scale.x
-		block.y, block.startY = (obj.world.y - barGroup.y) * lock.scale.y
+		block.startX = (obj.world.x - barGroup.x) * lock.scale.x
+		block.startY = (obj.world.y - barGroup.y) * lock.scale.y
 
 		if(block.slot) {
 			block.slot.block = null
@@ -180,7 +198,6 @@ var lock = function(){
 		}
 
 		barGroup.add(block)
-		console.log(block.startX, block.startY)
 
 		if(block.tween)
 			block.tween.stop()
@@ -196,6 +213,153 @@ var lock = function(){
 		block.x = block.startX + x - block.deltaX
 		block.y = block.startY + y - block.deltaY
 
+	}
+	
+	function closeDoors(obj) {
+		var callback = obj.callback
+
+		game.add.tween(doorLeft).to({x:0}, 800, Phaser.Easing.Cubic.Out, true)
+		var closeDoor = game.add.tween(doorRight).to({x:game.world.width}, 800, Phaser.Easing.Cubic.Out, true)
+		closeDoor.onComplete.add(callback)
+	}
+	
+	function startWin() {
+
+		var forwardEffect = game.add.tween(winGroup.scale).to({x:1.2, y:1.2}, 2000, Phaser.Easing.Cubic.Out, false, 1000)
+		var hideAll = game.add.tween(sceneGroup).to({alpha:0}, 2000, Phaser.Easing.Cubic.Out, false, 1000)
+		hideAll.onComplete.add(function () {
+			winGroup.scale.x = 1
+			winGroup.scale.y = 1
+			winGroup.alpha = 0
+			winGroup.alpha = 0
+			doorRight.x = game.world.width * 1.5
+			doorLeft.x = -game.world.width * 0.5
+			winGroup.jewel.x = 0
+			winGroup.jewel.y = winGroup.jewel.originalY
+			winGroup.jewel.scale.x = 1, winGroup.jewel.scale.y = 1
+			winGroup.add(winGroup.jewel)
+			winGroup.jewel.animations.play('spin', 10, true)
+			winGroup.jewel.alpha = 1
+			clock.bar.scale.x = clock.bar.origScale
+
+			sceneGroup.callback = startRound
+			game.add.tween(sceneGroup).to({alpha:1}, 1200, Phaser.Easing.Cubic.In, true).onComplete.add(closeDoors)
+		})
+
+		winGroup.jewel.x = winGroup.jewel.world.x
+		winGroup.jewel.y = winGroup.jewel.world.y
+		sceneGroup.add(winGroup.jewel)
+
+
+		var moveJewel = game.add.tween(winGroup.jewel).to({x: pointsBar.centerX, y: pointsBar.centerY}, 1200, Phaser.Easing.Cubic.In, true, 1000)
+		var scaleJewel = game.add.tween(winGroup.jewel.scale).to({x: 0.5, y: 0.5}, 600, Phaser.Easing.Cubic.Out, false)
+		var dissapearJewel =game.add.tween(winGroup.jewel).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, false)
+		moveJewel.onStart.add(function(){
+			winGroup.jewel.animations.stop()
+			scaleJewel.start()
+		})
+		moveJewel.onComplete.add(function () {
+			dissapearJewel.start()
+			addPoint(1)
+			forwardEffect.start()
+			hideAll.start()
+		})
+		
+		var scaleTween = game.add.tween(winGroup.jewel.scale).to({x: 1.2,y:1.2}, 200, Phaser.Easing.linear, true, 600)
+		scaleTween.onComplete.add(function(){
+			game.add.tween(winGroup.jewel.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+		})
+	}
+	
+	function shockingEffect() {
+		sceneGroup.toX = 20
+
+		var shockRight = game.add.tween(sceneGroup).to({x:sceneGroup.toX}, 200, Phaser.Easing.Sinusoidal.InOut, false)
+		var shockLeft = game.add.tween(sceneGroup).to({x:-sceneGroup.toX}, 200, Phaser.Easing.Sinusoidal.InOut, false)
+		shockRight.onComplete.add(function () {
+			shockLeft.start()
+		})
+		shockLeft.onComplete.add(function () {
+			shockRight.start()
+		})
+		shockRight.start()
+		stopGame()
+	}
+	
+	function startLose() {
+		game.add.tween(loseGroup.rock.scale).to({x:1, y:1}, 1200, Phaser.Easing.Cubic.In, true)
+		var rockFalling = game.add.tween(loseGroup.rock).to({y:140}, 1200, Phaser.Easing.Cubic.In, true)
+		rockFalling.onComplete.add(shockingEffect)
+	}
+	
+	function createReaction(obj) {
+		var callback
+		var isCorrect = obj ? obj.isCorrect : false
+
+		if(isCorrect){
+			lock.setAnimation(["WIN"])
+			winGroup.alpha = 1
+			callback = function(){
+				startWin()
+			}
+		}else {
+			lock.setAnimation(["LOSE"])
+			loseGroup.alpha = 1
+			callback = function(){
+				startLose()
+			}
+		}
+		var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
+		lock.callback = callback
+		dissapear.onComplete.add(openDoors)
+		
+	}
+	
+	function checkCorrect() {
+		if (clock.tween)
+			clock.tween.stop()
+
+		var prevSlot
+		var isCorrect = true
+		for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
+			var slot = lock.slotContainers[slotIndex]
+			if(slot.block) {
+				slot.block.bg.inputEnabled = false
+				slot.block.bg.input.enableDrag(true)
+
+				if(prevSlot){
+					isCorrect = (prevSlot.block.value <= slot.block.value) && isCorrect
+				}
+			}else
+				isCorrect = false
+
+			prevSlot = slot
+		}
+
+		var bargroupTween = game.add.tween(barGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.In, true)
+		if(isCorrect){
+			lock.correctParticle.start(true, 1000, null, 5)
+		}else {
+			lock.wrongParticle.start(true, 1000, null, 5)
+		}
+		barGroup.isCorrect = isCorrect
+
+		bargroupTween.onComplete.add(createReaction)
+	}
+	
+	function checkSlots() {
+		var slotCounter = 0
+		for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
+			var slot = lock.slotContainers[slotIndex]
+			if(slot.block)
+				slotCounter++
+		}
+
+		if (slotCounter === lock.slotContainers.length){
+
+			checkCorrect()
+
+		}
 	}
 
 	function onDragStop(obj) {
@@ -220,6 +384,7 @@ var lock = function(){
 			game.add.tween(block.scale).to({x: slot.toScale, y: slot.toScale}, 400, Phaser.Easing.Cubic.Out, true)
 			block.tween.onComplete.add(function () {
 				obj.inputEnabled = true
+				checkSlots()
 			})
 			slot.block = block
 			block.slot = slot
@@ -297,6 +462,8 @@ var lock = function(){
 			blockBg.events.onDragStart.add(onDragStart, this)
 			blockBg.events.onDragUpdate.add(onDragUpdate, this)
 			blockBg.events.onDragStop.add(onDragStop, this)
+			block.bg = blockBg
+			blockBg.inputEnabled = false
 
 			blockList.push(block)
 		}
@@ -323,14 +490,14 @@ var lock = function(){
 		//objectsGroup.timer.pause()
 		//timer.pause()
 		lockSong.stop()
-		clock.tween.stop()
-		inputsEnabled = false
+		if(clock.tween)
+			clock.tween.stop()
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1800)
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.numPoints, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
@@ -349,6 +516,7 @@ var lock = function(){
 
 		game.load.image('door',"images/lock/door.png")
 		game.load.spine('lock', "images/spine/lock.json")
+		game.load.spritesheet('jewel', 'images/lock/diamond.png', 84, 76, 23)
 
 		buttons.getImages(game)
 
@@ -372,7 +540,28 @@ var lock = function(){
 	}
 
 	function startRound(notStarted) {
-		addBlocks()
+
+		for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
+			var slot = lock.slotContainers[slotIndex]
+			if(slot.block){
+				slot.remove(slot.block)
+				pullGroup.add(slot.block)
+
+				slot.block.slot = null
+				slot.block = null
+			}
+		}
+
+		lock.setAnimation(["IDLE"])
+		// lock.x = game.world.centerX
+		// lock.y = game.world.centerY + 20
+		lock.y = -200
+		lock.alpha = 1
+		game.add.tween(lock).to({y:game.world.centerY + 20 }, 1000, Phaser.Easing.Back.Out, true)
+
+		barGroup.scale.x = 0.4, barGroup.scale.y = 0.4
+		game.add.tween(barGroup).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true, 1000)
+		game.add.tween(barGroup.scale).to({x:1, y:1}, 600, Phaser.Easing.Cubic.Out, true, 1000).onComplete.add(addBlocks)
 	}
 
 	function missPoint(){
@@ -426,14 +615,14 @@ var lock = function(){
 	//
 	// }
 
-	function startTimer(onComplete) {
+	function startTimer(onComplete, delay) {
 		var delay = 500
 		// clock.bar.scale.x = clock.bar.origScale
 		if (clock.tween)
 			clock.tween.stop()
 
 
-		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
+		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true,delay )
 		clock.tween.onComplete.add(function(){
 			onComplete()
 		})
@@ -445,7 +634,10 @@ var lock = function(){
 		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
 			tutoGroup.y = -game.world.height
-			// startTimer(missPoint)
+			// sceneGroup.callback = startWin
+			// winGroup.alpha = 1
+			// openDoors(sceneGroup)
+			startRound()
 		})
 	}
 
@@ -575,9 +767,18 @@ var lock = function(){
 
 		return spineGroup
 	}
+	
+	function openDoors(obj) {
+		var callback = obj.callback
+		
+		var openDoor = game.add.tween(doorLeft).to({x: -270}, 600, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(doorRight).to({x: game.world.width + 270}, 600, Phaser.Easing.Cubic.Out, true)
+
+		openDoor.onComplete.add(callback)
+	}
 
 	function createDoors() {
-		var doorLeft = game.add.group()
+		doorLeft = game.add.group()
 		sceneGroup.add(doorLeft)
 
 		var doorLeftTile = game.add.tileSprite(0 , 0, game.world.width * 0.5, game.world.height, "door")
@@ -590,7 +791,7 @@ var lock = function(){
 		barLeft.endFill()
 		doorLeft.add(barLeft)
 
-		var doorRight = game.add.group()
+		doorRight = game.add.group()
 		doorRight.x = game.world.width
 		sceneGroup.add(doorRight)
 
@@ -605,16 +806,25 @@ var lock = function(){
 		barRight.endFill()
 		doorRight.add(barRight)
 
-		var swatch = game.add.tileSprite(0 , 0, game.world.width, 196, "atlas.lock", "swatch")
-		sceneGroup.add(swatch)
-
 		lock = createSpine("lock", "normal")
 		// var lockData = lock.slotContainers
 		lock.x = game.world.centerX
-		lock.y = game.world.centerY + 20
+		lock.y = -200
 		lock.setAnimation(["IDLE"])
 		lock.slotContainers = []
+		// lock.alpha = 0
 		sceneGroup.add(lock)
+
+		var swatch = game.add.tileSprite(0 , 0, game.world.width, 196, "atlas.lock", "swatch")
+		sceneGroup.add(swatch)
+
+		var correctParticle = createPart("star")
+		lock.add(correctParticle)
+		lock.correctParticle = correctParticle
+
+		var wrongParticle = createPart("wrong")
+		lock.add(wrongParticle)
+		lock.wrongParticle = wrongParticle
 
 		for(var slotIndex = 0, n = SLOTS.length; slotIndex < n; slotIndex++){
 			var slotName = SLOTS[slotIndex].name
@@ -628,10 +838,53 @@ var lock = function(){
 		barGroup = game.add.group()
 		barGroup.x = game.world.centerX
 		barGroup.y = game.world.height - 100
+		barGroup.alpha = 0
 		sceneGroup.add(barGroup)
 
 		var bar = barGroup.create(0,0,"atlas.lock", "base")
 		bar.anchor.setTo(0.5, 0.5)
+	}
+	
+	function createWinScreen() {
+		winGroup = game.add.group()
+		winGroup.x = game.world.centerX
+		winGroup.y = game.world.centerY
+		sceneGroup.add(winGroup)
+		winGroup.alpha = 0
+
+		var background = winGroup.create(0,0,'fondowin')
+		background.anchor.setTo(0.5, 0.5)
+
+		var base = winGroup.create(0,0,"atlas.lock","base2")
+		base.y = 350
+		base.anchor.setTo(0.5, 0.5)
+
+		var jewelSprite = game.add.sprite(0, 0, 'jewel')
+		jewelSprite.anchor.setTo(0.5, 0.5)
+		jewelSprite.animations.add('spin')
+		jewelSprite.y = base.y - 80
+		jewelSprite.originalY = jewelSprite.y
+		winGroup.add(jewelSprite)
+		winGroup.jewel = jewelSprite
+
+		jewelSprite.animations.play('spin', 10, true)
+	}
+	
+	function createLoseScreen() {
+		loseGroup = game.add.group()
+		loseGroup.x = game.world.centerX
+		loseGroup.y = game.world.centerY
+		sceneGroup.add(loseGroup)
+		loseGroup.alpha = 0
+
+		var background = loseGroup.create(0,0,'fondolose')
+		background.anchor.setTo(0.5, 0.5)
+
+		var rock = loseGroup.create(0,0,"atlas.lock", "rock")
+		rock.y = -120
+		rock.anchor.setTo(0.5, 0.5)
+		rock.scale.setTo(0.3, 0.3)
+		loseGroup.rock = rock
 	}
 
 	return {
@@ -642,9 +895,15 @@ var lock = function(){
 
 			sceneGroup = game.add.group()
 
-			var background = sceneGroup.create(-2,-2,'fondo')
-			background.width = game.world.width+2
-			background.height = game.world.height+2
+			createWinScreen()
+			createLoseScreen()
+
+			alphaBright = new Phaser.Graphics(game)
+			alphaBright.beginFill(0x000000)
+			alphaBright.drawRect(0,0,game.world.width *2, game.world.height *2)
+			alphaBright.alpha = 0
+			alphaBright.endFill()
+			sceneGroup.add(alphaBright)
 
 			lockSong = game.add.audio('lockSong')
 			game.sound.setDecodedCallback(lockSong, function(){
@@ -667,7 +926,6 @@ var lock = function(){
 			// createHearts()
 			createPointsBar()
 			createClock()
-			startRound(true)
 			createTutorial()
 
 			buttons.getButton(lockSong,sceneGroup)
