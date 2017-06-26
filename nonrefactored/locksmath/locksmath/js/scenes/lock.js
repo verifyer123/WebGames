@@ -74,6 +74,16 @@ var lock = function(){
 	var NUM_LIFES = 3
 	var NUM_OPTIONS = 3
 	var SLOTS = [{name:"MISSING1", scale:0.5}, {name:"MISSING2", scale:0.75}, {name:"MISSING3", scale:1}]
+	var ROUNDS = [
+		{den:{min: 3, max:3}, numMax:3},
+		{den:{min: 4, max:4}, numMax:4},
+		{den:{min: 5, max:5}, numMax:5},
+		{den:{min: 6, max:6}, numMax:6},
+		{den:{min: 8, max:8}, numMax:8},
+		{den:{min: 3, max:6}, numMax:6},
+		{den:{min: 4, max:8}, numMax:8},
+		{den:{min: 2, max:9}, numMax:9}
+	]
 
 	// var ROUNDS = [
 	//     {continent: "america", flags: ["mexico", "usa"]},
@@ -118,8 +128,8 @@ var lock = function(){
 		game.stage.backgroundColor = "#ffffff"
 		//gameActive = true
 		lives = NUM_LIFES
-		timeValue = 7
-		quantNumber = 2
+		timeValue = 10
+		quantNumber = 3
 		roundCounter = 0
 
 		sceneGroup.alpha = 0
@@ -145,7 +155,8 @@ var lock = function(){
 		addNumberPart(pointsBar.text,'+' + number)
 
 		// if(pointsBar.number % 2 == 0){
-		timeValue-=timeValue * 0.10
+		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
+		timeValue-=timeValue * 0.05
 		// }
 
 	}
@@ -173,7 +184,7 @@ var lock = function(){
 
 	}
 
-	function addBlocks() {
+	function addBlocks(options) {
 		var startX = -barGroup.width * 0.5 + 90
 		var spaceWidth = barGroup.width / (NUM_OPTIONS + 1) + 30
 
@@ -189,8 +200,12 @@ var lock = function(){
 			block.originalX = block.x
 			block.originalY = block.y
 
-			block.numberText.text = "1/2"
-			block.value = 1/2
+			var numerador = options[blockIndex].num
+			var denominador = options[blockIndex].den
+			var value = numerador / denominador
+
+			block.numberText.text = numerador + "/" + denominador
+			block.value = value
 
 			var blockTween = game.add.tween(block).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true, 200 * (blockIndex + 1))
 			game.add.tween(block.scale).to({x:1, y:1}, 200, Phaser.Easing.Back.Out, true, 200 * (blockIndex + 1))
@@ -319,7 +334,15 @@ var lock = function(){
 		shockLeft.onComplete.add(function () {
 			shockRight.start()
 		})
-		shockRight.start()
+
+		var zoomEffect = game.add.tween(loseGroup.scale).to({x:1.1, y:1.1}, 200, Phaser.Easing.Cubic.Out, true)
+		zoomEffect.onComplete.add(function () {
+			var endZoom = game.add.tween(loseGroup.scale).to({x:1, y:1}, 200, Phaser.Easing.Cubic.Out, true)
+			endZoom.onComplete.add(function () {
+				shockRight.start()
+			})
+		})
+		
 		stopGame()
 	}
 	
@@ -584,7 +607,40 @@ var lock = function(){
 		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
 	}
+	
+	function generateQuestion(round) {
+		var num = round.numMax
+		var den = round.den
+		var options = []
+		var nums = []
+		var dens = []
 
+		for(var numIndex = 1; numIndex <= num; numIndex++){
+			nums.push(numIndex)
+		}
+
+		for(var denIndex = den.min; denIndex <= den.max; denIndex++){
+			dens.push(denIndex)
+		}
+		nums = Phaser.ArrayUtils.shuffle(nums)
+		dens = Phaser.ArrayUtils.shuffle(dens)
+
+		var lastValue
+		for(var optionIndex = 0; optionIndex < NUM_OPTIONS; optionIndex++){
+			var denominador = dens[optionIndex]
+			if (denominador)
+				lastValue = denominador
+			else
+				denominador = lastValue
+
+			var numerador = nums[optionIndex]
+			var option = {num: numerador, den: denominador}
+			options.push(option)
+		}
+
+		return options
+	}
+	
 	function startRound(notStarted) {
 
 		for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
@@ -613,7 +669,12 @@ var lock = function(){
 		game.add.tween(barGroup).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true, 1200).onStart.add(function () {
 			sound.play("cut")
 		})
-		game.add.tween(barGroup.scale).to({x:1, y:1}, 600, Phaser.Easing.Cubic.Out, true, 1200).onComplete.add(addBlocks)
+
+		var round = ROUNDS[roundCounter]
+		var options = generateQuestion(round)
+		game.add.tween(barGroup.scale).to({x:1, y:1}, 600, Phaser.Easing.Cubic.Out, true, 1200).onComplete.add(function(){
+			addBlocks(options)
+		})
 	}
 
 	function missPoint(){
