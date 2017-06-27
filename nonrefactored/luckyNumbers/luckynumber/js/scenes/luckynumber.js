@@ -424,7 +424,7 @@ var isMobile = {
 		
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,42)
+			resultScreen.setScore(true, coins,50)
 			sceneloader.show("result");
 	}		
 		
