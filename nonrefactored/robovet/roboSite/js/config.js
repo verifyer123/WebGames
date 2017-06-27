@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Robo Vet",
         language: "es",
-        minigameUrl: "../roboSite/index.html?language=" + language,
+        minigameUrl: "../robovet/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

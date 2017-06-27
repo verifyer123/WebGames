@@ -65,7 +65,7 @@ var robo = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 51
 	var tutoGroup
 	var roboSong
 	var heartsGroup = null
