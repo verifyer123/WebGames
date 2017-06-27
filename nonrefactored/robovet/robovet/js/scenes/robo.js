@@ -34,8 +34,8 @@ var robo = function(){
 				file: soundsPath + "magic.mp3"},
 			{	name: "cut",
 				file: soundsPath + "cut.mp3"},
-			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
+			{	name: "drag",
+				file: soundsPath + "drag.mp3"},
 			{	name: "flip",
 				file: soundsPath + "flipCard.mp3"},
 			{	name: "swipe",
@@ -45,17 +45,23 @@ var robo = function(){
 			{	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
 			{   name: "gameLose",
-				file: soundsPath + "gameLose.mp3"}
+				file: soundsPath + "gameLose.mp3"},
+			{   name: "stop",
+				file: soundsPath + "stop.mp3"},
+			{   name: "robotWin",
+				file: soundsPath + "robotWin.mp3"},
+			{   name: "robotLose",
+				file: soundsPath + "robotLose.mp3"}
 		]
 	}
 
 	var NUM_LIFES = 3
 	var NUM_OPTIONS = 3
 
-	// var ROUNDS = [
-	//     {continent: "america", flags: ["mexico", "usa"]},
-	//     {continent: "america", numFlags: 4},
-	//     {continent: "random", numFlags: 4}]
+	var ROUNDS = [
+	    {continent: "america", flags: ["mexico", "usa"]},
+	    {continent: "america", numFlags: 4},
+	    {continent: "random", numFlags: 4}]
 
 	var lives
 	var sceneGroup = null
@@ -70,11 +76,28 @@ var robo = function(){
 	var inputsEnabled
 	var pointsBar
 	var roundCounter
+	var optionList
+	var margins
+	var barGroup
+	var leftRieles
+	var rightRieles
+	var dog
+	var engine
+	var answerCompleted
+	var electricBand
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+	}
 
 	function initialize(){
 
@@ -84,6 +107,7 @@ var robo = function(){
 		timeValue = 7
 		quantNumber = 2
 		roundCounter = 0
+		optionList = []
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -134,6 +158,220 @@ var robo = function(){
 		pointsBar.number = 0
 
 	}
+	
+	function addOptions(values) {
+		values = values || [0,0,0]
+
+		for(var optionIndex = 0; optionIndex < values.length; optionIndex++){
+			var option = optionList[optionIndex]
+			option.x = margins[optionIndex].x
+			option.y = margins[optionIndex].y
+			option.originalX = option.x, option.originalY = option.y
+			barGroup.add(option)
+
+			option.numberText.text = values[optionIndex]
+			option.value = values[optionIndex]
+			option.alpha = 0
+			option.scale.x = 0.4, option.scale.y = 0.4
+
+			var delay = 300 * (optionIndex) + 500
+			game.add.tween(option.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true, delay)
+			var buttonAppear = game.add.tween(option).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true, delay)
+			buttonAppear.onStart.add(function () {
+				sound.play("pop")
+			})
+			buttonAppear.onComplete.add(function (obj) {
+				obj.bg.inputEnabled = true
+			})
+		}
+
+		game.time.events.add(300 * values.length, function () {
+			startTimer()
+		})
+	}
+
+	function onDragStart(obj, pointer) {
+
+		sound.play("drag")
+		var option = obj.parent
+		option.deltaX = pointer.x - obj.world.x
+		option.deltaY = pointer.y - obj.world.y
+
+		option.startX = (obj.world.x - barGroup.x)
+		option.startY = (obj.world.y - barGroup.y)
+
+		if(option.answer) {
+			option.answer.option = null
+			option.answer = null
+		}
+
+		barGroup.add(option)
+
+		if(option.tween)
+			option.tween.stop()
+
+		option.tween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 200, Phaser.Easing.Cubic.Out, true)
+
+	}
+
+	function onDragUpdate(obj, pointer, x, y) {
+		var option = obj.parent
+		obj.x = 0
+		obj.y = 0
+		option.x = option.startX + x - option.deltaX
+		option.y = option.startY + y - option.deltaY
+
+	}
+
+	function checkCollision(option) {
+		var answer
+
+		for(var slotIndex = 0, n = engine.answers.length; slotIndex<n; slotIndex++){
+			var slotToCheck = engine.answers[slotIndex]
+			var collide = checkOverlap(slotToCheck, option.hitBox)
+			if((collide)&&(!slotToCheck.option))
+				answer = slotToCheck
+		}
+
+		return answer
+	}
+	
+	function dissapearNumbers() {
+		for(var optionIndex = 0; optionIndex < NUM_OPTIONS; optionIndex++){
+			var option = optionList[optionIndex]
+			game.add.tween(option).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+			game.add.tween(option.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.InOut, true)
+		}
+
+		for(var answerIndex = 0; answerIndex < engine.answers.length; answerIndex++){
+			var answer = engine.answers[answerIndex]
+			game.add.tween(answer).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+			game.add.tween(answer.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.InOut, true)
+		}
+	}
+	
+	function moveDogAway(){
+		var moveDog = game.add.tween(dog).to({x:game.world.width + 220}, 1200, null, true, 1000)
+		var engineLoopEffect = game.add.tween(engine.scale).to({x:1.1, y:0.9}, 300, Phaser.Easing.Sinusoidal.Out, false).yoyo(true)
+		engine.engineLoopEffect = engineLoopEffect
+		engineLoopEffect.loop(true)
+
+		moveDog.onStart.add(function () {
+			leftRieles.callAll("playAnimation")
+			rightRieles.callAll("playAnimation")
+			electricBand.loopFull(1)
+			engine.engineLoopEffect.start()
+			dissapearNumbers()
+		})
+		moveDog.onComplete.add(function () {
+			dog.x = -220
+			startRound()
+			dog.setAnimation(["SLEEP"])
+		})
+	}
+
+	function wrongReaction() {
+		dog.setAnimation(["LOSE", "LOSESTILL"])
+		sound.play("robotLose")
+		missPoint()
+
+		if(lives === 0){
+			stopGame(false)
+		}
+		else{
+			moveDogAway()
+		}
+	}
+	
+	function rightReaction() {
+		sound.play("robotWin")
+		dog.setAnimation(["WAKE_UP", "WIN"])
+		addPoint(1)
+
+		moveDogAway()
+	}
+	
+	function checkCorrect(x, y) {
+		answerCompleted = true
+
+		var answers = []
+		for(var answerIndex = 0, n = engine.answers.length; answerIndex < n; answerIndex++){
+			var answer = engine.answers[answerIndex]
+			if(answer.option) {
+				answer.option.bg.inputEnabled = false
+				answers.push(answer.option.value)
+			}
+		}
+
+		var callback
+		clock.tween.stop()
+
+		if((answers[0] * answers[1]) === dog.answer){
+			engine.correctParticle.start(true, 1000, null, 5)
+			callback = rightReaction
+			sound.play("right")
+		}else{
+			engine.wrongParticle.x = x || engine.x
+			engine.wrongParticle.y = y || engine.y - 150
+			engine.wrongParticle.start(true, 1000, null, 5)
+			callback = wrongReaction
+			sound.play("wrong")
+		}
+
+		var engineOnEffect = game.add.tween(engine.scale).to({x:0.9, y:1.1}, 300, Phaser.Easing.Sinusoidal.Out, true, 800).yoyo(true)
+		engineOnEffect.onStart.add(callback)
+
+	}
+	
+	function checkAnswers() {
+		var answerCounter = 0
+		for(var answerIndex = 0, n = engine.answers.length; answerIndex < n; answerIndex++){
+			var answer = engine.answers[answerIndex]
+			if(answer.option)
+				answerCounter++
+		}
+
+		if (answerCounter === engine.answers.length){
+			checkCorrect()
+		}
+	}
+
+	function onDragStop(obj) {
+		var option = obj.parent
+		obj.x = 0
+		obj.y = 0
+		obj.inputEnabled = false
+
+		if(option.tween)
+			option.tween.stop()
+
+		game.add.tween(option.scale).to({x: 1, y: 1}, 400, Phaser.Easing.Cubic.Out, true)
+
+		var answer = checkCollision(option)
+		if (answer){
+			sound.play("stop")
+			option.x = (option.centerX - engine.x)
+			option.y = (option.centerY - engine.y)
+			engine.add(option)
+
+			option.tween = game.add.tween(option).to({x: answer.x, y: answer.y}, 400, Phaser.Easing.Cubic.Out, true)
+			option.tween.onComplete.add(function () {
+				obj.inputEnabled = true
+				checkAnswers()
+			})
+			answer.option = option
+			option.answer = answer
+
+		}else{
+			sound.play("cut")
+			option.tween = game.add.tween(option).to({x: option.originalX, y: option.originalY}, 600, Phaser.Easing.Cubic.Out, true)
+			option.tween.onComplete.add(function () {
+				obj.inputEnabled = true
+			})
+		}
+
+
+	}
 
 	function createGameObjects(){
 		pullGroup = game.add.group()
@@ -141,6 +379,43 @@ var robo = function(){
 		pullGroup.y = -game.world.centerY * 2
 		sceneGroup.add(pullGroup)
 		pullGroup.alpha = 0
+
+		for(var optionIndex = 0; optionIndex < NUM_OPTIONS; optionIndex++){
+			var option = game.add.group()
+			option.alpha = 0
+			option.scale.x = 0.4, option.scale.y = 0.4
+			pullGroup.add(option)
+
+			var optionBG = option.create(0, 0, "atlas.robo", "option")
+			optionBG.anchor.setTo(0.5, 0.5)
+
+			var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var numberText = new Phaser.Text(game, 0, 0, "0", fontStyle)
+			numberText.anchor.setTo(0.5, 0.5)
+			option.numberText = numberText
+			option.add(numberText)
+
+			var hitBox = new Phaser.Graphics(game)
+			hitBox.beginFill(0xFFFFFF)
+			hitBox.drawRect(0,0,50, 50)
+			hitBox.alpha = 0.4
+			hitBox.endFill()
+			hitBox.x = -hitBox.width * 0.5
+			hitBox.y = -hitBox.height * 0.5
+			option.add(hitBox)
+			option.hitBox = hitBox
+
+			optionBG.inputEnabled = true
+			optionBG.input.enableDrag(true)
+			optionBG.events.onDragStart.add(onDragStart, this)
+			optionBG.events.onDragUpdate.add(onDragUpdate, this)
+			optionBG.events.onDragStop.add(onDragStop, this)
+			option.bg = optionBG
+			optionBG.inputEnabled = false
+
+			optionList.push(option)
+
+		}
 
 	}
 
@@ -167,11 +442,11 @@ var robo = function(){
 		clock.tween.stop()
 		inputsEnabled = false
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
@@ -182,12 +457,15 @@ var robo = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('roboSong', soundsPath + 'songs/wormwood.mp3');
+		game.load.audio('roboSong', soundsPath + 'songs/wormwood.mp3')
+		game.load.audio('electricBand', soundsPath + 'electricBand.mp3');
 
 		game.load.image('introscreen',"images/robo/introscreen.png")
 		game.load.image('howTo',"images/robo/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/robo/play" + localization.getLanguage() + ".png")
 		game.load.spine('dogs', "images/spine/dogs.json")
+
+		game.load.spritesheet('riel', 'images/robo/riel.png', 308, 102, 23)
 
 		buttons.getImages(game)
 
@@ -209,16 +487,80 @@ var robo = function(){
 		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
 	}
+	
+	function generateQuestion(round) {
+		round = round || {maxNumber:9}
+
+		var number1 = game.rnd.integerInRange(2, round.maxNumber)
+		var number2 = game.rnd.integerInRange(1, round.maxNumber)
+		var fakeOption = game.rnd.integerInRange(1, round.maxNumber)
+		var answer = number1 * number2
+		var values = [number1, number2, fakeOption]
+		values = Phaser.ArrayUtils.shuffle(values)
+
+		dog.numberText.text = answer
+		dog.answer = answer
+		return values
+
+	}
+	
+	function engineEffect(obj) {
+		var engineLoopEffect = game.add.tween(obj.scale).to({x:1.1, y:0.9}, 300, Phaser.Easing.Sinusoidal.Out, false).yoyo(true)
+		engineLoopEffect.loop(true)
+		obj.engineLoopEffect = engineLoopEffect
+
+		var engineOnEffect = game.add.tween(obj.scale).to({x:0.9, y:1.1}, 300, Phaser.Easing.Sinusoidal.Out, false, 800).yoyo(true)
+		obj.engineOnEffect = engineOnEffect
+
+	}
 
 	function startRound(notStarted) {
+		leftRieles.callAll("playAnimation")
+		rightRieles.callAll("playAnimation")
+		answerCompleted = false
 
+		for(var answerIndex = 0, n = engine.answers.length; answerIndex < n; answerIndex++){
+			var answer = engine.answers[answerIndex]
+			if(answer.option){
+				engine.remove(answer.option)
+				pullGroup.add(answer.option)
+
+				answer.option.answer = null
+				answer.option = null
+			}
+		}
+
+		game.add.tween(clock.bar.scale).to({x:clock.bar.origScale}, 600, Phaser.Easing.Cubic.Out, true)
+
+		var values = generateQuestion()
+		var dogMove = game.add.tween(dog).to({x:game.world.centerX}, 1200, null, true)
+
+		if(notStarted){
+			var engineLoopEffect = game.add.tween(engine.scale).to({x:1.1, y:0.9}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true)
+			engine.engineLoopEffect = engineLoopEffect
+			engineLoopEffect.loop(true)
+			electricBand.loopFull(1)
+		}
+
+		dogMove.onComplete.add(function () {
+			leftRieles.callAll("stopAnimation")
+			rightRieles.callAll("stopAnimation")
+			electricBand.stop()
+			sound.play("swipe")
+			for(var answerIndex = 0; answerIndex < engine.answers.length; answerIndex++){
+				var answer = engine.answers[answerIndex]
+				game.add.tween(answer).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+				game.add.tween(answer.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.InOut, true)
+			}
+			addOptions(values)
+			engine.engineLoopEffect.stop()
+			game.add.tween(engine.scale).to({x:1, y:1}, 300, Phaser.Easing.Sinusoidal.Out, true)
+		})
 
 	}
 
 	function missPoint(){
 
-		sound.play("wrong")
-		inputsEnabled = false
 
 		lives--;
 		heartsGroup.text.setText('X ' + lives)
@@ -228,12 +570,6 @@ var robo = function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
 
-		if(lives === 0){
-			stopGame(false)
-		}
-		else{
-			startRound()
-		}
 
 		addNumberPart(heartsGroup.text,'-1')
 	}
@@ -266,26 +602,29 @@ var robo = function(){
 
 	}
 
-	function startTimer(onComplete) {
-		var delay = 500
-		// clock.bar.scale.x = clock.bar.origScale
+	function startTimer() {
 		if (clock.tween)
 			clock.tween.stop()
 
 
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
 		clock.tween.onComplete.add(function(){
-			onComplete()
+			if(!answerCompleted) {
+				checkCorrect(clock.centerX, clock.centerY)
+				game.add.tween(clock.scale).to({x:1.1, y:1.1}, 300, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			}
 		})
 	}
 
 	function onClickPlay(rect) {
 		rect.inputEnabled = false
 		sound.play("pop")
+
 		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
 			tutoGroup.y = -game.world.height
-			startTimer(missPoint)
+			startRound(true)
+			// startTimer(missPoint)
 		})
 	}
 
@@ -422,49 +761,101 @@ var robo = function(){
 		base.anchor.setTo(0, 1)
 		sceneGroup.add(base)
 
-		var operacion = sceneGroup.create(0,0, "atlas.robo", "operacion")
-		operacion.x = game.world.centerX
-		operacion.y = base.y - base.height + 10
-		operacion.anchor.setTo(0.5, 1)
+		engine = game.add.group()
+		engine.x = game.world.centerX
+		engine.y = base.y - base.height + 10
+		sceneGroup.add(engine)
+		engineEffect(engine)
+
+		var engineBG = engine.create(0,0, "atlas.robo", "operacion")
+		engineBG.anchor.setTo(0.5, 1)
+
+		var answer1 = engine.create(0, 0, "atlas.robo", "answer")
+		answer1.x = -82
+		answer1.y = -124
+		answer1.anchor.setTo(0.5, 0.5)
+		answer1.alpha = 0
+		answer1.scale.x = 0.4, answer1.scale.y = 0.4
+
+		var answer2 = engine.create(0, 0, "atlas.robo", "answer")
+		answer2.x = 82
+		answer2.y = -124
+		answer2.anchor.setTo(0.5, 0.5)
+		answer2.alpha = 0
+		answer2.scale.x = 0.4, answer2.scale.y = 0.4
+
+		engine.answers = [answer1, answer2]
 
 		var n = Math.ceil(game.world.width * 0.5 / 308)
-		var leftRieles = game.add.group()
+		leftRieles = game.add.group()
 		leftRieles.x = game.world.width * 0.5 - 295 * 0.5
 		sceneGroup.add(leftRieles)
 
-		var rightRieles = game.add.group()
+		rightRieles = game.add.group()
 		rightRieles.x = game.world.width * 0.5 + 295 * 0.5
 		sceneGroup.add(rightRieles)
 
 		for(var rielIndex = 0; rielIndex < n; rielIndex++){
 			var x = -rielIndex * 308
-			var riel = leftRieles.create(x,game.world.centerY - 65, "atlas.robo", "riel")
+
+			var riel = game.add.sprite(x, game.world.centerY - 65, 'riel')
 			riel.anchor.setTo(1, 0)
+			riel.animations.add('run')
+			leftRieles.add(riel)
+
+			riel.playAnimation = function () {
+				this.animations.play('run', 24, true)
+			}
+
+			riel.stopAnimation = function () {
+				this.animations.stop()
+			}
 		}
 
 		for(var rielIndex = 0; rielIndex < n; rielIndex++){
 			var x = rielIndex * 308
-			var riel = rightRieles.create(x,game.world.centerY - 65, "atlas.robo", "riel")
+
+			var riel = game.add.sprite(x, game.world.centerY - 65, 'riel')
 			riel.anchor.setTo(0, 0)
+			riel.animations.add('run')
+			rightRieles.add(riel)
+
+			riel.playAnimation = function () {
+				this.animations.play('run', 24, true)
+			}
+
+			riel.stopAnimation = function () {
+				this.animations.stop()
+			}
 		}
 
-		var barGroup = game.add.group()
+		barGroup = game.add.group()
 		barGroup.x = game.world.centerX
-		barGroup.y = game.world.height
+		barGroup.y = game.world.height - 100
 		sceneGroup.add(barGroup)
 
 		var startX = -172
+		margins = []
 		for(var baseIndex = 0; baseIndex < NUM_OPTIONS; baseIndex++){
 			var x = 172 * baseIndex + startX
-			var margin = barGroup.create(x,-20, "atlas.robo", "margin")
-			margin.anchor.setTo(0.5, 1)
+			var margin = barGroup.create(x,0, "atlas.robo", "margin")
+			margin.anchor.setTo(0.5, 0.5)
+			margins.push(margin)
 		}
 
-		var dog = createSpine("dogs","dog1")
-		dog.x = game.world.centerX
+		dog = createSpine("dogs","dog1")
+		dog.x = -220
 		dog.y = game.world.centerY - 60
 		sceneGroup.add(dog)
-		dog.setAnimation(["LOSE"])
+		dog.setAnimation(["SLEEP"])
+		var slot = dog.getSlotContainer("empty")
+
+		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var numberText = new Phaser.Text(game, 0, 5, "0", fontStyle)
+		numberText.anchor.setTo(0.5, 0.5)
+		dog.numberText = numberText
+		slot.add(numberText)
+
 	}
 
 	return {
@@ -479,6 +870,7 @@ var robo = function(){
 			sceneGroup.add(background)
 
 			roboSong = game.add.audio('roboSong')
+			electricBand = game.add.audio('electricBand')
 			game.sound.setDecodedCallback(roboSong, function(){
 				roboSong.loopFull(0.6)
 			}, this);
@@ -499,8 +891,19 @@ var robo = function(){
 			createPointsBar()
 			createGameObjects()
 			createClock()
-			startRound(true)
 			createTutorial()
+
+			var correctParticle = createPart("star")
+			correctParticle.x = engine.x
+			correctParticle.y = engine.y - 150
+			sceneGroup.add(correctParticle)
+			engine.correctParticle = correctParticle
+
+			var wrongParticle = createPart("wrong")
+			wrongParticle.x = engine.x
+			wrongParticle.y = engine.y - 150
+			sceneGroup.add(wrongParticle)
+			engine.wrongParticle = wrongParticle
 
 			buttons.getButton(roboSong,sceneGroup)
 		}
