@@ -109,6 +109,7 @@ var lock = function(){
 	var doorLeft, doorRight
 	var winGroup, loseGroup
 	var alphaBright
+	var answersChecked
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -131,6 +132,7 @@ var lock = function(){
 		timeValue = 10
 		quantNumber = 3
 		roundCounter = 0
+		answersChecked = false
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -156,7 +158,7 @@ var lock = function(){
 
 		// if(pointsBar.number % 2 == 0){
 		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
-		timeValue-=timeValue * 0.05
+		timeValue-=timeValue * 0.10
 		// }
 
 	}
@@ -305,7 +307,7 @@ var lock = function(){
 		})
 		moveJewel.onComplete.add(function () {
 			dissapearJewel.start()
-			addPoint(1)
+			addPoint(5)
 			forwardEffect.start()
 			hideAll.start()
 		})
@@ -380,6 +382,8 @@ var lock = function(){
 	}
 	
 	function checkCorrect() {
+		answersChecked = true
+
 		if (clock.tween)
 			clock.tween.stop()
 
@@ -518,7 +522,7 @@ var lock = function(){
 			var hitBox = new Phaser.Graphics(game)
 			hitBox.beginFill(0xFFFFFF)
 			hitBox.drawRect(0,0,50, 50)
-			hitBox.alpha = 0.5
+			hitBox.alpha = 0
 			hitBox.endFill()
 			hitBox.x = -hitBox.width * 0.5
 			hitBox.y = -hitBox.height * 0.5
@@ -565,7 +569,7 @@ var lock = function(){
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
@@ -659,6 +663,7 @@ var lock = function(){
 		// lock.y = game.world.centerY + 20
 		lock.y = -200
 		lock.alpha = 1
+		answersChecked = true
 		sound.play("swipe")
 		var lockTween = game.add.tween(lock).to({y:game.world.centerY + 20 }, 800, Phaser.Easing.Back.Out, true)
 		lockTween.onComplete.add(function () {
@@ -737,7 +742,8 @@ var lock = function(){
 
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true,delay )
 		clock.tween.onComplete.add(function(){
-			onComplete()
+			if(!answersChecked)
+				onComplete()
 		})
 	}
 

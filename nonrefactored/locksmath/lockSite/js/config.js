@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Locksmath",
         language: "es",
-        minigameUrl: "../lockSite/index.html?language=" + language,
+        minigameUrl: "../locksmath/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

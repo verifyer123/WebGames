@@ -50,6 +50,7 @@ var robo = function(){
 	}
 
 	var NUM_LIFES = 3
+	var NUM_OPTIONS = 3
 
 	// var ROUNDS = [
 	//     {continent: "america", flags: ["mexico", "usa"]},
@@ -186,6 +187,7 @@ var robo = function(){
 		game.load.image('introscreen',"images/robo/introscreen.png")
 		game.load.image('howTo',"images/robo/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/robo/play" + localization.getLanguage() + ".png")
+		game.load.spine('dogs', "images/spine/dogs.json")
 
 		buttons.getImages(game)
 
@@ -355,6 +357,116 @@ var robo = function(){
 
 	}
 
+	function createSpine(skeleton, skin, idleAnimation, x, y) {
+		idleAnimation = idleAnimation || "IDLE"
+		var spineGroup = game.add.group()
+		x = x || 0
+		y = y || 0
+
+		var spineSkeleton = game.add.spine(0, 0, skeleton)
+		spineSkeleton.x = x; spineSkeleton.y = y
+		// spineSkeleton.scale.setTo(0.8,0.8)
+		spineSkeleton.setSkinByName(skin)
+		spineSkeleton.setAnimationByName(0, idleAnimation, true)
+		spineSkeleton.autoUpdateTransform ()
+		spineGroup.add(spineSkeleton)
+
+
+		spineGroup.setAnimation = function (animations, onComplete) {
+
+			var entry
+			for(var index = 0; index < animations.length; index++) {
+				var animation = animations[index]
+				var loop = index === animations.length - 1
+				if (index === 0)
+					entry = spineSkeleton.setAnimationByName(0, animation, loop)
+				else
+					spineSkeleton.addAnimationByName(0, animation, loop)
+
+			}
+			if(onComplete){
+				entry.onComplete = onComplete
+			}
+		}
+
+		spineGroup.setSkinByName = function (skin) {
+			spineSkeleton.setSkinByName(skin)
+		}
+
+		spineGroup.setAlive = function (alive) {
+			spineSkeleton.autoUpdate = alive
+		}
+
+		spineGroup.getSlotContainer = function (slotName) {
+			var slotIndex
+			for(var index = 0, n = spineSkeleton.skeletonData.slots.length; index < n; index++){
+				var slotData = spineSkeleton.skeletonData.slots[index]
+				if(slotData.name === slotName){
+					slotIndex = index
+				}
+			}
+
+			if (slotIndex){
+				return spineSkeleton.slotContainers[slotIndex]
+			}
+		}
+
+		spineGroup.spine = spineSkeleton
+
+		return spineGroup
+	}
+	
+	function createRoboUI() {
+		var base = game.add.tileSprite(0, 0, game.world.width, 242, "atlas.robo", "base")
+		base.y = game.world.height
+		base.anchor.setTo(0, 1)
+		sceneGroup.add(base)
+
+		var operacion = sceneGroup.create(0,0, "atlas.robo", "operacion")
+		operacion.x = game.world.centerX
+		operacion.y = base.y - base.height + 10
+		operacion.anchor.setTo(0.5, 1)
+
+		var n = Math.ceil(game.world.width * 0.5 / 308)
+		var leftRieles = game.add.group()
+		leftRieles.x = game.world.width * 0.5 - 295 * 0.5
+		sceneGroup.add(leftRieles)
+
+		var rightRieles = game.add.group()
+		rightRieles.x = game.world.width * 0.5 + 295 * 0.5
+		sceneGroup.add(rightRieles)
+
+		for(var rielIndex = 0; rielIndex < n; rielIndex++){
+			var x = -rielIndex * 308
+			var riel = leftRieles.create(x,game.world.centerY - 65, "atlas.robo", "riel")
+			riel.anchor.setTo(1, 0)
+		}
+
+		for(var rielIndex = 0; rielIndex < n; rielIndex++){
+			var x = rielIndex * 308
+			var riel = rightRieles.create(x,game.world.centerY - 65, "atlas.robo", "riel")
+			riel.anchor.setTo(0, 0)
+		}
+
+		var barGroup = game.add.group()
+		barGroup.x = game.world.centerX
+		barGroup.y = game.world.height
+		sceneGroup.add(barGroup)
+
+		var startX = -172
+		for(var baseIndex = 0; baseIndex < NUM_OPTIONS; baseIndex++){
+			var x = 172 * baseIndex + startX
+			var margin = barGroup.create(x,-20, "atlas.robo", "margin")
+			margin.anchor.setTo(0.5, 1)
+		}
+
+		var dog = createSpine("dogs","dog1")
+		dog.x = game.world.centerX
+		dog.y = game.world.centerY - 60
+		sceneGroup.add(dog)
+		dog.setAnimation(["LOSE"])
+	}
+
 	return {
 		assets: assets,
 		name: "robo",
@@ -381,6 +493,8 @@ var robo = function(){
 
 			initialize()
 
+			createRoboUI()
+
 			createHearts()
 			createPointsBar()
 			createGameObjects()
@@ -388,7 +502,7 @@ var robo = function(){
 			startRound(true)
 			createTutorial()
 
-			buttons.getButton(roboSong,sceneGroup,game.world.width - 50)
+			buttons.getButton(roboSong,sceneGroup)
 		}
 	}
 }()
