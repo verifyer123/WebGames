@@ -6,7 +6,7 @@
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
 		speedGame = 5;
-		starGame = false;
+        starGame = false;
 		
         sceneGroup = game.add.group();
         overlayGroup = game.add.group()
@@ -135,17 +135,7 @@ function shuffle(array) {
 		}
 
 
-function finishGame(NumwebGame,coins){
-	TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
-	sound.play("wrong");
-	sound.play("gameLose");
-	bgm.stop();	
-		function gameOver(){
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,NumwebGame)
-			sceneloader.show("result");
-		}
-}
+
 
 
 

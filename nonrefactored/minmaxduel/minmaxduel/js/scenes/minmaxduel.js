@@ -41,21 +41,19 @@ var minmaxduel = function(){
     
 	
 	sceneGroup = null;
-	
+	barTimer = 30;
+	coins = 0;	
+	starGame = false;
 	var speedGame = 5;
 	var background;
 	var heartsGroup = null;
 	var heartsIcon;
 	var heartsText;	
 	var xpIcon;
-	var barTimer = 30;
 	var lives = 1;
 	var cursors;
-	var coins = 0;
-	var bgm = null;
 	var NumwebGame = 46;
 	var bgtimer;
-	var activeGame = true;
 	var cardsArray;
 	var dashedcard;
 	
@@ -78,6 +76,7 @@ var minmaxduel = function(){
 		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
 		
 		/*GAME*/
+		game.load.image("bgclock",imagePath + "bgclock.png");
 		game.load.image("background",imagePath + "background.png");
 		game.load.image("background2",imagePath + "background2.png");
 		game.load.image("background3",imagePath + "background3.png");
@@ -167,37 +166,33 @@ var minmaxduel = function(){
 		background2.width = game.width;
 		
 		//card 1
-		var backcard1 = sceneGroup.create(0,0,"backcard");
+		backcard1 = sceneGroup.create(0,0,"backcard");
 		backcard1.x = game.world.centerX/2;
 		backcard1.y = game.world.centerY + backcard1.height/1.8;
 		backcard1.anchor.setTo(0.5,0.5);
-		var bluecard1 = sceneGroup.create(0,0,"bluecard");
+		bluecard1 = sceneGroup.create(0,0,"bluecard");
 		bluecard1.x = backcard1.x;
 		bluecard1.y = backcard1.y;
 		bluecard1.anchor.setTo(0.5,0.5);
 		bluecard1.scale.setTo(0,1);
-		var textCard1 = game.add.text(bluecard1.x, bluecard1.y, optionsNumbers[0], styleCards,sceneGroup);
+		textCard1 = game.add.text(bluecard1.x, bluecard1.y, optionsNumbers[0], styleCards,sceneGroup);
 		textCard1.anchor.setTo(0.5,0.5);
 		textCard1.scale.setTo(0,1);
-		TweenMax.to(backcard1.scale,1,{x:0,ease:Back.easeIn});
-		TweenMax.to(bluecard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
-		TweenMax.to(textCard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
+
 		//card 2
-		var backcard2 = sceneGroup.create(0,0,"backcard");
+		backcard2 = sceneGroup.create(0,0,"backcard");
 		backcard2.x = game.world.centerX;
 		backcard2.y = game.world.centerY + backcard2.height/1.8;
 		backcard2.anchor.setTo(0.5,0.5);
-		var rosecard1 = sceneGroup.create(0,0,"rosecard");
+		rosecard1 = sceneGroup.create(0,0,"rosecard");
 		rosecard1.x = backcard2.x;
 		rosecard1.y = backcard2.y;
 		rosecard1.anchor.setTo(0.5,0.5);
 		rosecard1.scale.setTo(0,1);
-		var textCard2 = game.add.text(rosecard1.x, rosecard1.y, symbol, styleCards,sceneGroup);
+		textCard2 = game.add.text(rosecard1.x, rosecard1.y, symbol, styleCards,sceneGroup);
 		textCard2.anchor.setTo(0.5,0.5);
 		textCard2.scale.setTo(0,1);
-		TweenMax.to(backcard2.scale,1,{x:0,ease:Back.easeIn});
-		TweenMax.to(rosecard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
-		TweenMax.to(textCard2.scale,1,{x:1,ease:Back.easeOut,delay:1});
+
 		//card 3
 		dashedcard = sceneGroup.create(0,0,"dashedcard");
 		dashedcard.x = game.world.centerX/2 * 3;
@@ -210,17 +205,13 @@ var minmaxduel = function(){
 		bgbar.y +=  bgbar.height*2; 
 		bgbar.anchor.setTo(0,0.5);
 		
-		var bar = sceneGroup.create(bgbar.x + 17,bgbar.y,"bar");
+		bar = sceneGroup.create(bgbar.x + 17,bgbar.y,"bar");
 		bar.anchor.setTo(0,0.5);
 		bar.scale.setTo(0,1);
 		
-		bgtimer = TweenMax.to(bar.scale,barTimer,{x:1,onComplete:finishTime});
+		bgclock = sceneGroup.create(game.world.centerX,0,"bgclock")
+		bgclock.anchor.setTo(0.5,0);
 		
-		function finishTime(){
-			
-			finishGame(NumwebGame,coins);
-			ActiveDisableCards(false);
-		}
 		
 		shuffle(optionsNumbers);
 		
@@ -254,18 +245,16 @@ var minmaxduel = function(){
 		
 		var select;
 		
+
 		
 		
-
-
-			function stopDrag(currentSprite, endSprite){
-			bgtimer.pause();
-				
+		function stopDrag(currentSprite, endSprite){	
 			if (!this.game.physics.arcade.overlap(currentSprite, endSprite, function() {
 			currentSprite.input.draggable = false;
 			ActiveDisableCards(false);		
 			TweenMax.to(currentSprite,0.4,{x:endSprite.x,y:endSprite.y});
 				console.log(symbol);
+				bgtimer.pause();
 				if(symbol == "<"){
 					if(endSprite.answer < currentSprite.answer){
 						star.x = endSprite.x
@@ -282,7 +271,7 @@ var minmaxduel = function(){
 						wrong.y = endSprite.y
 						TweenMax.fromTo(wrong.scale,1,{x:1,y:1},{x:4,y:4});
 						TweenMax.fromTo(wrong,1,{alpha:1},{alpha:0});	
-						finishGame(NumwebGame,coins);
+						finishGame()
 					}	
 				}else{
 					if(endSprite.answer > currentSprite.answer){
@@ -300,7 +289,7 @@ var minmaxduel = function(){
 						wrong.y = endSprite.y
 						TweenMax.fromTo(wrong.scale,1,{x:1,y:1},{x:4,y:4});
 						TweenMax.fromTo(wrong,1,{alpha:1},{alpha:0});
-						finishGame(NumwebGame,coins);
+						finishGame()
 						
 					}	
 				}
@@ -313,11 +302,7 @@ var minmaxduel = function(){
 		  }	
 
 		
-		function ActiveDisableCards(activar){
-			for(var s=0;s<=3;s++){
-				cardsArray[s].input.draggable = activar;
-			}
-		}
+
 		
 		
 		function newGame(){
@@ -353,7 +338,9 @@ var minmaxduel = function(){
 				TweenMax.to(textCard2.scale,1,{x:1,ease:Back.easeOut,delay:1});
 				shuffle(optionsNumbers);
 				bar.scale.setTo(0,1);
-				barTimer = 10;
+				if(barTimer <= 5){
+					barTimer = barTimer - 1;
+				}
 				bgtimer = TweenMax.to(bar.scale,barTimer,{x:1,onComplete:finishTime});
 				for(var r=0;r<=3;r++){
 					cardsArray[r].text.setText(optionsNumbers[r]);
@@ -366,6 +353,9 @@ var minmaxduel = function(){
 		}
 		
 		
+		
+		
+		
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();
@@ -374,17 +364,55 @@ var minmaxduel = function(){
 	}
 
 
+	function finishGame(){
+		TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
+		sound.play("wrong");
+		sound.play("gameLose");
+		bgm.stop();	
+	}	
+	
+		
+		function gameOver(){
+			var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, coins,NumwebGame)
+			sceneloader.show("result");
+		}	
+	
+		function finishTime(){
+			
+			finishGame();
+			ActiveDisableCards(false);
+		}	
+	
+		function ActiveDisableCards(activar){
+			for(var s=0;s<=3;s++){
+				cardsArray[s].input.draggable = activar;
+			}
+		}	
+	
 	
 	function update() {
 		for(var p = 0;p<=3;p++){
 			cardsArray[p].text.x = cardsArray[p].x;
 			cardsArray[p].text.y = cardsArray[p].y;			
 		}
-
+		
+		
+		if(starGame){
+			bgtimer = TweenMax.to(bar.scale,barTimer,{x:1,onComplete:finishTime});
+			TweenMax.to(backcard1.scale,1,{x:0,ease:Back.easeIn});
+			TweenMax.to(bluecard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
+			TweenMax.to(textCard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
+			TweenMax.to(backcard2.scale,1,{x:0,ease:Back.easeIn});
+			TweenMax.to(rosecard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
+			TweenMax.to(textCard2.scale,1,{x:1,ease:Back.easeOut,delay:1});
+			starGame = false;
+		}
 
 		
 	}
-		
+	
+	
 
 	
 	
