@@ -35,9 +35,10 @@
             }, this);
 		
 		bgm.loopFull(0.5);
+			  //startGameFunction();
 		starGame = true;
 		buttons.getButton(bgm,sceneGroup)
-				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
+						
             })
             
         })
@@ -135,17 +136,7 @@ function shuffle(array) {
 		}
 
 
-function finishGame(NumwebGame,coins){
-	TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
-	sound.play("wrong");
-	sound.play("gameLose");
-	bgm.stop();	
-		function gameOver(){
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,NumwebGame)
-			sceneloader.show("result");
-		}
-}
+
 
 
 

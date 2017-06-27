@@ -781,6 +781,8 @@ var port = function(){
 			pointsText.anchor.setTo(0.5,0.5)
 			button.add(pointsText)
 			
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			
 			button.text = pointsText
 			pivotX+=400
 			
