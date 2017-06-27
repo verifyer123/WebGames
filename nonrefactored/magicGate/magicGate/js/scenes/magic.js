@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var port = function(){
+var magic = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,9 +20,9 @@ var port = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.port",
-                json: "images/port/atlas.json",
-                image: "images/port/atlas.png",
+                name: "atlas.magic",
+                json: "images/magic/atlas.json",
+                image: "images/magic/atlas.png",
             },
         ],
         images: [
@@ -35,39 +35,39 @@ var port = function(){
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "inflate",
-				file: soundsPath + "inflateballoon.mp3"},
-			{	name: "brake",
-				file: soundsPath + "bird.mp3"},
-			{	name: "wrongItem",
-				file: soundsPath + "wrongItem.mp3"},
+			{	name: "zombieUp",
+				file: soundsPath + "zombieUp.mp3"},
+			{	name: "evilLaugh",
+				file: soundsPath + "evilLaugh.mp3"},
+			{	name: "explosion",
+				file: soundsPath + "explosion.mp3"},
 			
 		],
     }
-   
-        
+    
     var lives = null
 	var sceneGroup = null
-	var background, road
+	var background
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-	var airPlane
-    var gameIndex = 41
-	var timeToUse
-	var numLimit
-	var result
+	var clouds
+	var towersGroup, doorsGroup
+	var monster
+    var gameIndex = 49
 	var indexGame
     var overlayGroup
+	var timeToUse
+	var isAddition
+	var clock
     var spaceSong
+	var buttonsGroup,operationGroup
 	
 
 	function loadSounds(){
@@ -78,8 +78,7 @@ var port = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 10000
-		numLimit = 4
+		timeToUse = 15000
         
         loadSounds()
         
@@ -191,15 +190,8 @@ var port = function(){
         
         addNumberPart(pointsBar.text,'+' + number,true)		
 		
-		if(pointsBar.number % 2 == 0){
-			
-			if(timeToUse > 2000){
-				timeToUse-= 750
-			}
-			
-			if(numLimit < 10){
-				numLimit++
-			}
+		if(timeToUse > 2000){
+			timeToUse-= 1000
 		}
         
     }
@@ -211,7 +203,7 @@ var port = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.port','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.magic','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -239,7 +231,7 @@ var port = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.port','life_box')
+        var heartImg = group.create(0,0,'atlas.magic','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -258,15 +250,17 @@ var port = function(){
     
     function stopGame(win){
         
+		for(var i = 0; i < 2;i++){
+			towersGroup.children[i].yogotar.setAnimationByName(0,"LOSESTILL",true)
+		}
+		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-		//yogotar.setAnimationByName(0,"LOSESTILL",true)
-				
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 4000)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -281,77 +275,21 @@ var port = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-        
-        game.load.spine('Oof', "images/spines/Oof.json")  
-		game.load.spine('plane', "images/spines/avion.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/funky_monkey.mp3');
-		
 		buttons.getImages(game)
         
-		game.load.image('howTo',"images/port/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/port/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/port/introscreen.png")
+        game.load.spine('yogotar', "images/spines/yogotar.json")  
+		game.load.spine('monster',"images/spines/monster.json")
+		game.load.spine('sign',"images/spines/power.json")
+        game.load.audio('spaceSong', soundsPath + 'songs/fantasy_ballad.mp3');
+        
+		game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/magic/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/magic/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
     
-	function showButtons(appear){
-		
-		var delay = 200
-		
-		popObject(operationGroup,delay,appear)
-		
-		for(var i = 0; i < buttonsGroup.length; i++){
-			
-			delay+= 200
-			
-			var button = buttonsGroup.children[i]
-			popObject(button,delay,appear)
-		}
-		
-		if(appear){
-			game.time.events.add(delay,function(){
-				gameActive = true
-				
-				var bar = clock.bar
-				bar.scale.x = bar.origScale
-				
-				popObject(clock,0,true)
-				
-				bar.tween = game.add.tween(bar.scale).to({x:0},timeToUse,"Linear",true)
-				bar.tween.onComplete.add(function(){
-					missPoint()
-				})
-			})
-		}
-		
-	}
-	
-	function setOperation(){
-		
-		var number1 = game.rnd.integerInRange(2,numLimit)
-		var number2 = game.rnd.integerInRange(2,numLimit)
-		
-		operationGroup.text.setText(number1 + ' X ' + number2)
-		result = number1 * number2
-		
-		var fResult = result
-		while(fResult == result){
-			fResult = number1 + game.rnd.integerInRange(2,numLimit)
-		}
-		
-		var numList = [result,fResult]
-		Phaser.ArrayUtils.shuffle(numList)
-		
-		for(var i = 0; i < buttonsGroup.length; i++){
-			
-			var button = buttonsGroup.children[i]
-			button.text.setText(numList[i])
-			button.number = numList[i]
-		}
-	}
-	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -370,7 +308,6 @@ var port = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				setOperation()
 				showButtons(true)
             })
             
@@ -382,8 +319,7 @@ var port = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.port','gametuto')
-		tuto.scale.setTo(0.75,0.75)
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.magic','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -397,11 +333,11 @@ var port = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.port',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.magic',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.port','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.magic','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -415,27 +351,22 @@ var port = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width,622,'atlas.port','cielo')
-		sceneGroup.add(background)
+		var grass = sceneGroup.create(0,game.world.height,'atlas.magic','grass')
+		grass.anchor.setTo(0,1)
+		grass.width = game.world.width
 		
-		var mountains = sceneGroup.create(game.world.centerX, game.world.height - 615,'atlas.port','background')
-		mountains.anchor.setTo(0.5,1)
-		mountains.width = game.world.width
+		var sky = sceneGroup.create(0,0,'atlas.magic','sky')
+		sky.width = game.world.width
+		sky.height = game.world.height - grass.height
 		
-		road = game.add.tileSprite(0,game.world.height,game.world.width,643,'atlas.port','carretera')
-		road.anchor.setTo(0,1)
-		sceneGroup.add(road)
-		
-		road.tilePosition.x+= game.world.width * 0.15
-		
-		var line = sceneGroup.create(game.world.centerX,game.world.height,'atlas.port','linea')
-		line.anchor.setTo(0.5,1)
+		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.magic','clouds')
+		sceneGroup.add(clouds)
 		
 	}
 	
 	function update(){
 		
-		background.tilePosition.x-= 0.4
+		clouds.tilePosition.x-= 0.4
 	}
 	
 	function createTextPart(text,obj){
@@ -470,9 +401,7 @@ var port = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				//console.log(particle)
-                
+				                
                 return particle
                 break
             }
@@ -498,9 +427,9 @@ var port = function(){
         var particle = lookParticle(key)
 		
         if(particle){
-           
-            particle.x = obj.world.x 
-            particle.y = obj.world.y + offX
+            
+            particle.x = obj.world.x + offX
+            particle.y = obj.world.y
             particle.scale.setTo(1,1)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
@@ -531,7 +460,7 @@ var port = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.port',tag);
+				particle.makeParticles('atlas.magic',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -587,7 +516,7 @@ var port = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.port','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.magic','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -600,7 +529,7 @@ var port = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.port','smoke');
+        particlesGood.makeParticles('atlas.magic','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -624,115 +553,219 @@ var port = function(){
 		}
 		
 		gameActive = false
-		var parent = obj.parent
+		sound.play("pop")
 		
-		var tween = game.add.tween(parent.scale).to({x:0.7,y:0.7},250,"Linear",true,0,0)
+		var tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0)
 		tween.yoyo(true,0)
 		
-		game.add.tween(clock).to({alpha:0},500,"Linear",true)
-		
-		var animName = "IDLE_L"
-		
-		if(obj.world.x > yogotar.x){
-			animName = "IDLE_R"
+		if(clock.tween){
+			
+			clock.tween.stop()
 		}
 		
-		yogotar.setAnimationByName(0,animName,true)
-		
-		if(parent.number == result){
-			
-			//yogotar.setAnimationByName(0,"WIN",true)
+		var resultImage = operationGroup.result.children[0]
+		if(obj.addition == isAddition){
 			
 			addPoint(1)
-			createPart('star',obj)
+			createPart('star',resultImage)
 			
-			if(clock.bar.tween){
-				clock.bar.tween.stop()
+			sound.play("zombieUp")
+			
+			for(var i = 0; i < 2;i++){
+				towersGroup.children[i].yogotar.setAnimationByName(0,"WIN",false)
+				towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
 			}
 			
-			getPlane(parent, true)
+			game.time.events.add(1000,function(){
+
+				showButtons(false)
+				game.time.events.add(1000,function(){
+					showButtons(true)
+				})
+				
+			})
+			
+			monster.setAnimationByName(0,"LOSE",false)
+			monster.addAnimationByName(0,"IDLE",true)
+			
+			
+			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+			
 		}else{
 			
 			missPoint()
-			createPart('wrong',obj)
+			createPart('wrong',resultImage)
 			
-			getPlane(parent, false)
+			enterMonster()
+		}
+		
+	}
+	
+	function enterMonster(){
+		
+		var whiteFade = new Phaser.Graphics(game)
+        whiteFade.beginFill(0xffffff)
+        whiteFade.drawRect(0,0,game.world.width *2, game.world.height *2)
+  		whiteFade.alpha = 0
+        whiteFade.endFill()
+		sceneGroup.add(whiteFade)
+		
+		game.add.tween(whiteFade).from({alpha:1},350,"Linear",true)
+		
+		sound.play("explosion")
+		
+		game.add.tween(operationGroup).to({alpha:0},500,"Linear",true)
+		
+		sound.play("evilLaugh")
+		
+		game.add.tween(monster).to({y:monster.y + 100},500,"Linear",true)
+		monster.setAnimationByName(0,"WIN",false)
+		monster.addAnimationByName(0,"WINSTILL",true)
+		
+		createPart('smoke',doorsGroup.children[0])
+		createPart('smoke',operationGroup.result.text)
+		
+		game.add.tween(doorsGroup.children[0]).to({x:game.world.width * 1.5,angle:360,alpha : 0},500,"Linear",true)
+		game.add.tween(doorsGroup.children[1]).to({x:-game.world.width * 0.5,angle:-360,alpha :0},500,"Linear",true)
+		
+		var tower1 = towersGroup.children[0]
+		game.add.tween(tower1).to({angle:-90},500,"Linear",true)
+		
+		var tower1 = towersGroup.children[1]
+		game.add.tween(tower1).to({angle:90},500,"Linear",true)
+	}
+	
+	function createCastle(){
+		
+		var backTower = game.add.tileSprite(0,game.world.height - 300,game.world.width,162,'atlas.magic','wall')
+		backTower.anchor.setTo(0,1)
+		sceneGroup.add(backTower)
+		
+		monster = game.add.spine(game.world.centerX, backTower.y - 25,'monster')
+		monster.setSkinByName('normal')
+		monster.setAnimationByName(0,"IDLE",true)
+		sceneGroup.add(monster)
+		
+		towersGroup = game.add.group()
+		sceneGroup.add(towersGroup)
+		
+		var yogoSkins = ['Arthurius','theffanie']
+		var pivotX = game.world.centerX - 200
+		for(var i = 0; i < 2;i++){
+			
+			var tower = game.add.group()
+			tower.x = pivotX
+			tower.y = game.world.height - 300
+			towersGroup.add(tower)
+			
+			var yogotar = game.add.spine(0,-315,'yogotar')
+			yogotar.setSkinByName(yogoSkins[i])
+			yogotar.setAnimationByName(0,"IDLE",true)
+			tower.add(yogotar)
+			tower.yogotar = yogotar
+			
+			if(i == 1){
+				yogotar.scale.x*=-1
+			}
+			
+			var towerImage = tower.create(0,0,'atlas.magic','tower')
+			towerImage.anchor.setTo(0.5,1)
+			
+			pivotX+= 400
+			
+		}
+		
+		doorsGroup = game.add.group()
+		doorsGroup.x = game.world.centerX
+		doorsGroup.y = backTower.y
+		sceneGroup.add(doorsGroup)
+		
+		
+		var door = doorsGroup.create(0,0,'atlas.magic','gate')
+		door.anchor.setTo(0,1)
+		
+		var door = doorsGroup.create(0,0,'atlas.magic','gate')
+		door.anchor.setTo(0,1)
+		door.scale.x*=-1
+	}
+	
+	function createButtons(){
+		
+		buttonsGroup = game.add.group()
+		sceneGroup.add(buttonsGroup)
+		
+		var addition = true
+		for(var i = 0; i < 2; i++){
+			
+			var image = buttonsGroup.create(game.world.centerX,game.world.height,'atlas.magic','button' + (i+1))
+			image.alpha = 0
+			image.anchor.setTo(i,1)
+			image.inputEnabled = true
+			image.events.onInputDown.add(inputButton)
+			image.addition = addition
+			
+			addition = !addition
+			
 		}
 	}
 	
-	function getPlane(obj, win){
+	function createOperations(){
 		
-		airPlane.setAnimationByName(0,"WIN",true)
+		operationGroup = game.add.group()
+		sceneGroup.add(operationGroup)
 		
-		airPlane.x = game.world.centerX
-		airPlane.y = 150
-		airPlane.scale.setTo(1,1)
-		
-		sound.play("inflate")
-		
-		game.add.tween(airPlane).to({alpha:1},1000,"Linear",true)
-		game.add.tween(airPlane.scale).from({x:0,y:0},1000,"Linear",true).onComplete.add(function(){
+		operationGroup.buttons = []
+		var pivotX = towersGroup.children[0].x
+		for(var i = 0; i < 2; i++){
 			
-			if(win){
-				
-				airPlane.setAnimationByName(0,"WIN",true)
-				
-				game.add.tween(airPlane.scale).to({x:1.3,y:1.3},1000,"Linear",true)
-				game.add.tween(airPlane).to({x:obj.x,y:obj.y - 175},1000,"Linear",true).onComplete.add(function(){
-					
-					yogotar.setAnimationByName(0,"WIN",true)
-					
-					airPlane.setAnimationByName(0,"TO_LAND",true)
-					
-					game.time.events.add(500,function(){
-						airPlane.setAnimationByName(0,"WIN",true)
-					})
-					
-					sound.play("brake")
-					createPart('smoke',obj.children[0],-120)
-					game.add.tween(airPlane).to({y:game.world.height + 200},2000,"Linear",true).onComplete.add(function(){
-						
-						yogotar.setAnimationByName(0,"IDLE",true)
-						showButtons(false)
-						
-						game.time.events.add(1000,function(){
-							setOperation()
-							showButtons(true)
-						})
-						
-					})
-				})
-				
-			}else{
-				
-				
-				airPlane.setAnimationByName(0,"LOSE",true)
-				
-				game.add.tween(airPlane.scale).to({x:1.3,y:1.3},1000,"Linear",true)
-				game.add.tween(airPlane).to({x:obj.x,y:obj.y - 175},1000,"Linear",true).onComplete.add(function(){
-					
-					yogotar.setAnimationByName(0,"LOSESTILL",true)
-					sound.play("wrongItem")
-					createPart('smoke',obj.children[0],-120)
-					game.add.tween(airPlane).to({y:game.world.height + 200},2000,"Linear",true)
-				})
-			}
-		})
-	}
-	
-	function createYogotar(){
+			var cont = game.add.group()
+			cont.x = pivotX
+			cont.y = game.world.centerY
+			cont.alpha = 0
+			operationGroup.add(cont)
+			
+			operationGroup.buttons[i] = cont
+			
+			var imageCont = cont.create(0,0,'atlas.magic','container')
+			imageCont.anchor.setTo(0.5,0.5)
+			
+			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			cont.add(pointsText)
+			
+			cont.text = pointsText
+			cont.number = 0
+			
+			pivotX+= 400
+			
+		}
 		
-		yogotar = game.add.spine(game.world.centerX, game.world.height - 450,"Oof")
-		yogotar.setAnimationByName(0,"IDLE",true)
-		yogotar.setSkinByName("normal")
-		yogotar.scale.setTo(1.2,1.2)
-		sceneGroup.add(yogotar)
+		var sign = game.add.spine(game.world.centerX,game.world.centerY,"sign")
+		sign.setSkinByName('normal')
+		sign.setAnimationByName(0,"IDLE",true)
+		operationGroup.add(sign)
+		operationGroup.sign = sign
 		
-		airPlane = game.add.spine(game.world.centerX,100,"plane")
-		airPlane.setAnimationByName(0,"WIN",true)
-		airPlane.setSkinByName("normal")
-		airPlane.alpha = 0
-		sceneGroup.add(airPlane)
+		sign.alpha = 0
+		
+		var resultGroup = game.add.group()
+		resultGroup.x = game.world.centerX
+		resultGroup.y = game.world.centerY + 150
+		operationGroup.add(resultGroup)
+		
+		var resultImage = resultGroup.create(0,0,'atlas.magic','result_container')
+		resultImage.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, " = 0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		resultGroup.add(pointsText)
+		
+		resultGroup.text = pointsText
+		operationGroup.result = resultGroup
+		
+		resultGroup.alpha = 0
 		
 	}
 	
@@ -740,14 +773,14 @@ var port = function(){
         
         clock = game.add.group()
         clock.x = game.world.centerX
-        clock.y = 100
+        clock.y = 80
 		clock.alpha = 0
-        sceneGroup.add(clock)
+		sceneGroup.add(clock)
         
-        var clockImage = clock.create(0,0,'atlas.port','clock')
+        var clockImage = clock.create(0,0,'atlas.magic','clock')
         clockImage.anchor.setTo(0.5,0.5)
         
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.port','bar')
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.magic','bar')
         clockBar.anchor.setTo(0,0.5)
         clockBar.width = clockImage.width*0.76
         clockBar.height = 22
@@ -757,71 +790,86 @@ var port = function(){
         
     }
 	
-	function createButtons(){
+	function showButtons(appear){
 		
-		buttonsGroup = game.add.group()
-		sceneGroup.add(buttonsGroup)
+		var delay = 0
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var button = buttonsGroup.children[i]
+			if(appear){
+				popObject(button,delay,appear)
+			}else{
+				popObject(button,delay,appear)
+			}
+			
+			delay+= 100
+			
+		}
 		
-		var pivotX = game.world.centerX - 200
-		for(var i = 0; i < 2 ; i++){
+		for(var i = 0; i < operationGroup.length;i++){
 			
-			var button = game.add.group()
-			button.alpha = 0
-			button.x = pivotX
-			button.y = game.world.height - 150
-			buttonsGroup.add(button)
+			var button = operationGroup.children[i]
+			if(appear){
+				popObject(button,delay,appear)
+			}else{
+				popObject(button,delay,appear)
+			}
 			
-			var imgButton = button.create(0,0,'atlas.port','boton_verde')
-			imgButton.inputEnabled = true
-			imgButton.anchor.setTo(0.5,0.5)
-			imgButton.events.onInputDown.add(inputButton)
+			delay+= 100
 			
-			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "0", fontStyle)
-			pointsText.anchor.setTo(0.5,0.5)
-			button.add(pointsText)
+		}
+		
+		if(appear){
 			
-			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			setOperation()
 			
-			button.text = pointsText
-			pivotX+=400
+			game.time.events.add(delay,function(){
+				gameActive = true
+				
+				popObject(clock,0,true)
+				var tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+				tween.onComplete.add(function(){
+					
+					missPoint()
+					createPart('wrong',operationGroup.result.children[0])
+					enterMonster()
+				})
+				
+				clock.tween = tween
+			})
+		}else{
 			
+			game.add.tween(clock).to({alpha:0},500,"Linear",true)
 		}
 	}
 	
-	function createOperation(){
+	function setOperation(){
 		
+		var number1 = game.rnd.integerInRange(2,9)
+		var number2 = game.rnd.integerInRange(1,9)
+		var result = number1 + number2
 		
-		sceneGroup.remove(airPlane)
-		sceneGroup.add(airPlane)
+		isAddition = true
+		
+		if(Math.random()*2 > 1){
 			
-		operationGroup = game.add.group()
-		operationGroup.x = game.world.centerX
-		operationGroup.y = 230
-		operationGroup.alpha = 0
-		sceneGroup.add(operationGroup)
+			isAddition = false
+			number2 = game.rnd.integerInRange(1,number1 - 1)
+			
+			result = number1 - number2
+		}
 		
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRoundedRect(0,0,250, 125,30)
-        rect.alpha = 0.8
-        rect.endFill()
-		rect.x-= rect.width * 0.5
-		rect.y-= rect.height * 0.5
-		operationGroup.add(rect)
+		operationGroup.buttons[0].text.setText(number1)
+		operationGroup.buttons[1].text.setText(number2)
 		
-		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "6 + 3", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		operationGroup.add(pointsText)
+		operationGroup.result.text.setText('= ' + result)
 		
-		operationGroup.text = pointsText
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "port",
+		name: "magic",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -829,10 +877,10 @@ var port = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createYogotar()
-			createClock()
+			createCastle()
+			createOperations()
 			createButtons()
-			createOperation()
+			createClock()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

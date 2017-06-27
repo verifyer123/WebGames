@@ -51,7 +51,8 @@ yogomeGames.getGames = function(){
 		{name:'evening',url:'http://yogome.com/epic/minigames/eveningSite/',sceneName:'evening',subject:'math', review:true},//45
 		{name:'minmaxduel',url:'http://yogome.com/epic/minigames/minmaxduelsite/',sceneName:'minmaxduel',subject:'math', review:false},//46		
 		{name:'mathInvader',url:'http://yogome.com/epic/minigames/invaderSite/',sceneName:'invader',subject:'math', review:false},//47
-        {name:'locksmath',url:'http://yogome.com/epic/minigames/lockSite/',sceneName:'lock',subject:'math', review:false}//48
+        {name:'locksmath',url:'http://yogome.com/epic/minigames/lockSite/',sceneName:'lock',subject:'math', review:false},//48
+		{name:'magicGate',url:'http://yogome.com/epic/minigames/magicSite/',sceneName:'magic',subject:'math', review:false}//49
 	]
 
 	
