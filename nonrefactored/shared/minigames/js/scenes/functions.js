@@ -6,7 +6,7 @@
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
 		speedGame = 5;
-		starGame = false;
+        starGame = false;
 		
         sceneGroup = game.add.group();
         overlayGroup = game.add.group()
@@ -35,10 +35,9 @@
             }, this);
 		
 		bgm.loopFull(0.5);
-			  //startGameFunction();
 		starGame = true;
 		buttons.getButton(bgm,sceneGroup)
-						
+				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
             })
             
         })

@@ -57,7 +57,7 @@ var luckynumber = function(){
     var flechaRuleta;
 	timer = 10;
 	timerCount = null;
-	starGame = false;
+	starGame = true;
 	lives = 1;
 	coins = 0;
 	heartsText = null;	
@@ -355,8 +355,8 @@ var isMobile = {
 				coins++;
 				xpText.setText(coins);
 				timbre_iddle.inputEnabled = false;
-                TweenMax.fromTo(star.scale,3,{x:4,y:4},{x:8,y:8})
-				TweenMax.fromTo(star,3,{alpha:1},{alpha:0,onComplete:newroulette});
+                TweenMax.fromTo(star.scale,1,{x:4,y:4},{x:8,y:8})
+				TweenMax.fromTo(star,1,{alpha:1},{alpha:0,onComplete:newroulette});
                 
             }
             
@@ -404,15 +404,14 @@ var isMobile = {
 					sound.play("gameLose");
 					bgm.stop();	
             starGame = false;
-            giro = 0;
         }
         
 		
 
 		
 		function newroulette(){
-                if(giro <= 8){
-                   giro = giro + 0.2; 
+                if(giro <= 13){
+                   giro = giro + 0.5; 
                 }
                 
                 timbre_iddle.inputEnabled = true;
