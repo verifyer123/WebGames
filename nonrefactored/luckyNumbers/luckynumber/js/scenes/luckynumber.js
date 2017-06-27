@@ -94,6 +94,7 @@ var luckynumber = function(){
 		game.load.image("wrong",imagePath + "wrong.png");
         game.load.image("fracciones",imagePath + "fracciones.png");
         game.load.image("ruleta",imagePath + "ruleta.png");
+        game.load.image("ruleta2",imagePath + "ruleta2.png");
         game.load.image("ruletaBase",imagePath + "ruletaBase.png");
         game.load.image("shadow",imagePath + "shadow.png");
         game.load.image("flecharuleta",imagePath + "flecharuleta.png");
@@ -183,16 +184,6 @@ var isMobile = {
 		plato.x = game.world.centerX - plato.width/2;
         plato.alpha =0;
 		
-        timbre_iddle = new Phaser.Graphics(game)
-        timbre_iddle.beginFill(0x000000)
-        timbre_iddle.drawRect(0,0,game.world.width *2, game.world.height *2)
-        timbre_iddle.alpha = 0;
-        timbre_iddle.endFill();
-        timbre_iddle.inputEnabled = true;
-         game.physics.enable(timbre_iddle , Phaser.Physics.ARCADE);
-        timbre_iddle.events.onInputDown.add(onPressBell,this);
-		sceneGroup.add(timbre_iddle);
-		
 		var fractions = [
 			{fraction:"1/8",id:1},
 			{fraction:"2/8",id:2},
@@ -240,6 +231,12 @@ var isMobile = {
         ruletaGroup.scale.setTo(0.95,0.95);
         
         sceneGroup.add(ruletaGroup);
+        
+        var ruleta2 = sceneGroup.create(0,0,"ruleta2");
+        ruleta2.anchor.setTo(0.5,0.3);
+        ruleta2.x = game.world.centerX;
+        ruleta2.y = game.height - ruleta.height;
+        
 		
 		var star = sceneGroup.create(0,0,"star");
 			star.scale.setTo(2);
@@ -252,24 +249,31 @@ var isMobile = {
         flechaRuleta = sceneGroup.create(0,0,"flecharuleta");
         flechaRuleta.anchor.setTo(0,0);
         flechaRuleta.x = ruleta.x + ruleta.width/2 - flechaRuleta.width;
+        flechaRuleta.posx = flechaRuleta.x;
         flechaRuleta.y = ruleta.y + flechaRuleta.height/2;
 
         
-	    function collisionHandler (fraction) {
-            console.log(fraction);
-            fraction.alpha = 1;
-        }
-		
-
-
+        timbre_iddle = new Phaser.Graphics(game)
+        timbre_iddle.beginFill(0x000000)
+        timbre_iddle.drawRect(0,0,game.world.width *2, game.world.height *2)
+        timbre_iddle.alpha = 0;
+        timbre_iddle.endFill();
+        timbre_iddle.inputEnabled = true;
+         game.physics.enable(timbre_iddle , Phaser.Physics.ARCADE);
+        timbre_iddle.events.onInputDown.add(onPressBell,this);
+		sceneGroup.add(timbre_iddle);
+        
 		function onPressBell(currentSprite,endSprite){
            
+            TweenMax.fromTo(flechaRuleta,0.5,{x:flechaRuleta.posx - flechaRuleta.width/6},{x:flechaRuleta.posx});
+            
             if(ruletaGroup.angle >= 10 && ruletaGroup.angle <= 45){
                 if(!fractionPizza[1].press){
                     fractionPizza[1].alpha = 1;
                     fractionPizza[1].press = true;
                      count++;
                 }else{
+                    fractionPizza[1].tint = 0x000000;
                     stopGame(); 
                 }
                     
@@ -281,6 +285,7 @@ var isMobile = {
                     fractionPizza[8].press = true;
                      count++;
                 }else{
+                    fractionPizza[8].tint = 0x000000;
                     stopGame(); 
                 }
             }            
@@ -290,6 +295,7 @@ var isMobile = {
                     fractionPizza[7].press = true;
                      count++;
                 }else{
+                    fractionPizza[7].tint = 0x000000;
                     stopGame(); 
                 }
             }            
@@ -299,6 +305,7 @@ var isMobile = {
                     fractionPizza[6].press = true;
                      count++;
                 }else{
+                    fractionPizza[6].tint = 0x000000;
                     stopGame(); 
                 }
             }            
@@ -308,6 +315,7 @@ var isMobile = {
                     fractionPizza[5].press = true;
                      count++;
                 }else{
+                    fractionPizza[5].tint = 0x000000;
                     stopGame(); 
                 }
             }            
@@ -317,6 +325,7 @@ var isMobile = {
                     fractionPizza[4].press = true;
                      count++;
                 }else{
+                    fractionPizza[4].tint = 0x000000;
                     stopGame(); 
                 }
             }            
@@ -326,6 +335,7 @@ var isMobile = {
                     fractionPizza[3].press = true;
                      count++;
                 }else{
+                    fractionPizza[3].tint = 0x000000;
                     stopGame(); 
                 }
             }            
@@ -335,6 +345,7 @@ var isMobile = {
                     fractionPizza[2].press = true;
                      count++;
                 }else{
+                    fractionPizza[2].tint = 0x000000;
                     stopGame(); 
                 }
             }
