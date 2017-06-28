@@ -852,7 +852,7 @@ var evening = function(){
 			starGroup.add(pointsText)
 			starGroup.text = pointsText
 			
-			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.8)', 0);
 			
 		}
 		
