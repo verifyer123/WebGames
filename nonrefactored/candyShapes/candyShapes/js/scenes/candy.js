@@ -7,7 +7,7 @@ var candy = function(){
             "howTo":"How to Play?",
             "moves":"Moves left",
 			"stop":"Stop!",
-			"cube":"Cube",
+			"cube":"Square",
 			"rectangle":"Rectangle",
 			"circle":"Circle",
 			"triangle":"Triangle"
@@ -17,7 +17,7 @@ var candy = function(){
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
             "stop":"¡Detener!",
-			"cube":"Cubo",
+			"cube":"Cuadrado",
 			"rectangle":"Rectángulo",
 			"circle":"Círculo",
 			"triangle":"Triángulo"

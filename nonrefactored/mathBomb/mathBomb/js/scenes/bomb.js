@@ -1,22 +1,28 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var evening = function(){
+var bomb = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
 			"stop":"Stop!",
-			"even":"Evens",
-			"odd":"Odds"
+			"square":"Square",
+			"triangle":"Triangle",
+			"diamond":"Rhombus",
+			"rectangle":"Rectangle",
+			"circle":"Circle",
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
             "stop":"¡Detener!",
-			"even":"Pares",
-			"odd":"Nones"
+			"square":"Cuadrado",
+			"triangle":"Triángulo",
+			"diamond":"Rombo",
+			"rectangle":"Rectángulo",
+			"circle":"Círculo",
 		}
 	}
     
@@ -24,13 +30,14 @@ var evening = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.evening",
-                json: "images/evening/atlas.json",
-                image: "images/evening/atlas.png",
+                name: "atlas.bomb",
+                json: "images/bomb/atlas.json",
+                image: "images/bomb/atlas.png",
             },
         ],
         images: [
-
+			{   name:"background",
+				file: "images/bomb/fondo.png"},
 		],
 		sounds: [
             {	name: "magic",
@@ -47,33 +54,38 @@ var evening = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "robotBeep",
-				file: soundsPath + "robotBeep.mp3"},
-			{	name: "flipCard",
-				file: soundsPath + "flipCard.mp3"},
+			{	name: "drag",
+				file: soundsPath + "drag.mp3"},
+			{	name: "secret",
+				file: soundsPath + "secret.mp3"},
+			{	name: "brightTransition",
+				file: soundsPath + "brightTransition.mp3"},
 			
 		],
     }
     
+	var figureNames = ['square','triangle','diamond','rectangle','circle']
         
     var lives = null
 	var sceneGroup = null
-	var background,clouds
+	var whiteFade
+	var background
     var gameActive = true
 	var shoot
+	var numbersToAdd
+	var addFigures
+	var timeToUse
 	var particlesGroup, particlesUsed
-    var gameIndex = 45
+    var gameIndex = 52
+	var dragObj
+	var figToUse
 	var indexGame
     var overlayGroup
     var spaceSong
-	var starCont, mainCont
-	var objectsGroup, usedObjects, animObjects
-	var indexColor
-	var pieceList
-	var isOdd
-	var timeUsed
+	var board, base, buttonsGroup
+	var figuresGroup, containersGroup
+	var usedContainers, usedFigures
 	
-	var colorsToUse = [0x62F68F,0xF6F462,0xF662E6,0xA462F6,0xF68562]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -83,9 +95,9 @@ var evening = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		indexColor = 0
-		timeUsed = 13000
-		
+		numbersToAdd = 6
+		figToUse = null
+		timeToUse = 35000
         
         loadSounds()
         
@@ -95,9 +107,9 @@ var evening = function(){
         
         game.time.events.add(delay,function(){
             
-            sound.play("pop")
+            sound.play("cut")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({x:0.01, y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({x:0, y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -177,7 +189,7 @@ var evening = function(){
     
     function addPoint(number){
         
-        sound.play("pop")
+        sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -187,12 +199,6 @@ var evening = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
-		
-		if(pointsBar.number % 12){
-			if(timeUsed > 5000){
-				timeUsed-= 500
-			}
-		}
         
     }
     
@@ -203,7 +209,7 @@ var evening = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.evening','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.bomb','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -218,28 +224,12 @@ var evening = function(){
         pointsBar.number = 0
         
     }
-	
-	function checkOdd(number){
-		
-		if(isOdd){
-			if(number % 2 == 0){
-				return true
-			}else{
-				return false
-			}
-		}else{
-			if(number % 2 != 0){
-				return true
-			}else{
-				return false
-			}
-		}
-	}
     
     function createHearts(){
         
         heartsGroup = game.add.group()
         heartsGroup.y = 10
+		heartsGroup.scale.setTo(0.85,0.85)
         sceneGroup.add(heartsGroup)
         
         
@@ -248,7 +238,7 @@ var evening = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.evening','life_box')
+        var heartImg = group.create(0,0,'atlas.bomb','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -265,15 +255,33 @@ var evening = function(){
                 
     }
     
+	function figuresLose(){
+		
+		createPart('wrong',dragObj)
+		
+		dragObj.inputEnabled = false
+		
+		for(var i = 0; i < usedFigures.length;i++){
+			
+			var fig = usedFigures.children[i]
+			setAnimDelay(game.rnd.integerInRange(0,500),"LOSE",fig.anim)
+			
+			game.add.tween(fig).to({angle:fig.angle + 360},400,"Linear",true,game.rnd.integerInRange(0,500))
+			
+		}
+	}
+	
     function stopGame(win){
         
 		sound.play("wrong")
 		sound.play("gameLose")
 		
+		figuresLose()
+		
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -288,54 +296,140 @@ var evening = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
         
+        game.load.spine('figure', "images/spines/figure.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         
-		game.load.spritesheet('sleepStar', 'images/evening/starSprite.png', 99, 97, 23);
-		game.load.image('howTo',"images/evening/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/evening/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/evening/introscreen.png")
+		game.load.image('howTo',"images/bomb/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/bomb/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/bomb/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
-	
-	function setColorCont(){
+    
+	function getFigure(group,tag){
 		
-		mainCont.star.tint = colorsToUse[indexColor]
-		mainCont.number = game.rnd.integerInRange(1,9)
-		mainCont.text.setText(mainCont.number)
-		indexColor++
-		
-		if(indexColor > colorsToUse.length - 1){
-			indexColor = 0
+		for(var i = 0; i < group.length;i++){
+			
+			var obj = group.children[i]
+			if(!obj.used && obj.tag == tag){
+				return obj
+			}
 		}
+	}
+	
+	function activateFigure(obj, posX, posY,groupR,groupA){
 		
-		var star = mainCont.star
-		star.alpha = 1
-		mainCont.text.alpha = 1
+		obj.used = true
+		obj.alpha = 1
+		obj.x = posX
+		obj.y = posY
 		
-		game.add.tween(star).from({alpha:0,angle:star.angle - 360},500,"Linear",true)
-		game.add.tween(mainCont.text).from({alpha:0},500,"Linear",true)
+		groupR.remove(obj)
+		groupA.add(obj)
 		
 	}
-    
-	function delayAdd(row, delay){
+	
+	function deactivateFigure(obj,groupR,groupA){
 		
-		game.time.events.add(delay, function(){
-			addStar(row)		
-		})
+		obj.used = false
+		obj.alpha = 0
+		obj.x = -200
+		
+		groupR.remove(obj)
+		groupA.add(obj)
+		
+	}
+	
+	function checkList(number,list){
+		
+		var hasNumber = false
+		
+		for(var i = 0; i < list.length;i++){
+			if(number == list[i]){
+				return true
+			}
+		}
+		
+		return false
+	}
+	
+	function setContainers(){
+		
+		var offset = 111
+		
+		addFigures = 0
+		
+		var pivotX, pivotY
+		pivotY = board.y - board.height * 0.265
+		
+		var count = 0
+		var addedFigures = 0
+		
+		var listToUse = []
+		for(var i = 0; i < 20;i++){
+			listToUse[i] = i
+		}
+		
+		Phaser.ArrayUtils.shuffle(listToUse)
+		
+		var listUsed = []
+		for(var i = 0; i < numbersToAdd;i++){
+			listUsed[i] = listToUse[i]
+		}
+		
+		for(var i = 0 ; i < 5; i++){
+			
+			Phaser.ArrayUtils.shuffle(figureNames)
+			pivotX = board.x - board.width * 0.31
+			
+			for(var u = 0; u < 4; u++){
+				
+				var obj = getFigure(containersGroup,figureNames[u])
+				activateFigure(obj,pivotX, pivotY,containersGroup,usedContainers)
+				
+				if(addedFigures <= numbersToAdd && checkList(count,listUsed)){
+					
+					obj.active = true
+					addedFigures++
+				}else{
+					
+					obj.active = false
+					
+					var fig = getFigure(figuresGroup,figureNames[u])
+					activateFigure(fig,obj.x, obj.y,figuresGroup,usedFigures)
+				}
+				
+				pivotX += offset
+				count++
+			}
+			
+			pivotY += offset        
+		}
+		
+	}
+	
+	function getDragFigure(tag){
+		
+		Phaser.ArrayUtils.shuffle(figureNames)
+		var tagToUse = tag || figureNames[0]
+		
+		figToUse = getFigure(figuresGroup,tagToUse)
+		activateFigure(figToUse,dragObj.x, dragObj.y,figuresGroup,usedFigures)
+		figToUse.alpha = 0
+		popObject(figToUse,0)
+		
+		
 	}
 	
     function createOverlay(){
         
-		setColorCont()
-		
         overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
+		setContainers()
+		
         var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
@@ -350,11 +444,8 @@ var evening = function(){
 				overlayGroup.y = -game.world.height
 				gameActive = true
 				
-				var delay = 200
-				for(var i = 0; i < 3; i++){
-					delayAdd(usedObjects.rows[i*2],delay)
-					delay+=300
-				}
+				getDragFigure()
+				setClock()
             })
             
         })
@@ -365,17 +456,13 @@ var evening = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.evening','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.bomb','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
 		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX - 125, game.world.centerY + 50, localization.getString(localizationData,"even"), fontStyle)
+		var fontStyle = {font: "18px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX - 115, game.world.centerY + 15, localization.getString(localizationData,"triangle"), fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
-		
-		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX + 115, game.world.centerY + 50, localization.getString(localizationData,"odd"), fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
+		overlayGroup.add(pointsText)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
@@ -388,11 +475,11 @@ var evening = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.evening',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.bomb',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.evening','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.bomb','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -406,27 +493,24 @@ var evening = function(){
 
 	function createBackground(){
 		
-		var base = sceneGroup.create(0,game.world.height,'atlas.evening','base')
-		base.anchor.setTo(0,1)
-		base.width = game.world.width
-		
-		background = game.add.tileSprite(0,0,game.world.width,game.world.height - base.height,'atlas.evening','sky')
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.bomb','fondo')
 		sceneGroup.add(background)
-		
-		clouds = game.add.tileSprite(0,background.height,game.world.width,148,'atlas.evening','clouds')
-		clouds.anchor.setTo(0,1)
-		sceneGroup.add(clouds)
-		
-		starCont = sceneGroup.create(game.world.centerX,game.world.height - 15,'atlas.evening','cont')
-		starCont.width*= 1.1
-		starCont.anchor.setTo(0.5,1)
 		
 	}
 	
 	function update(){
 		
-		background.tilePosition.x+= 0.3
-		clouds.tilePosition.x-= 0.2
+		background.tilePosition.x-= 1
+		if(!gameActive){
+			return
+		}
+		
+		if(figToUse){
+			
+			figToUse.x = dragObj.x
+			figToUse.y = dragObj.y
+		}
+		
 	}
 	
 	function createTextPart(text,obj){
@@ -461,7 +545,9 @@ var evening = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				                
+				
+				//console.log(particle)
+                
                 return particle
                 break
             }
@@ -520,7 +606,7 @@ var evening = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.evening',tag);
+				particle.makeParticles('atlas.bomb',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -550,10 +636,10 @@ var evening = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 		
-		createParticles('star',4)
+		createParticles('star',3)
 		createParticles('wrong',1)
 		createParticles('text',5)
-		createParticles('smoke',3)
+		//createParticles('smoke',1)
 
 	}
 
@@ -563,6 +649,7 @@ var evening = function(){
         var posY = obj.y
         
         if(obj.world){
+			
             posX = obj.world.x
             posY = obj.world.y
         }
@@ -576,7 +663,7 @@ var evening = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.evening','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.bomb','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -589,7 +676,7 @@ var evening = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.evening','smoke');
+        particlesGood.makeParticles('atlas.bomb','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -606,336 +693,346 @@ var evening = function(){
         
     }
 	
-	
 	function inputButton(obj){
 		
 		if(!gameActive){
 			return
 		}
 		
-		gameActive = false
+		sound.play("pop")
 		
-		var row = obj.row
-		addStar(row)
+		var parent = obj.parent
 		
-	}
-	
-	function deactivateObject(obj){
+		if(parent.tween){
+			parent.tween.stop()
+		}
 		
-		usedObjects.remove(obj)
-		objectsGroup.add(obj)
+		parent.scale.setTo(1,1)
 		
-		obj.alpha = 0
-		obj.y = -200
-		obj.row = null
+		parent.tween = game.add.tween(parent.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0)
+		parent.tween.yoyo(true,0)
 		
-		if(obj.tween){
-			obj.tween.stop()
-			obj.tween = null
-			obj.scale.setTo(1,1)
+		if(figToUse){
+			
+			deactivateFigure(figToUse,usedFigures,figuresGroup)
+			getDragFigure(obj.tag)
 		}
 	}
 	
-	function activateObject(obj,posX, posY){
+	function createBoard(){
 		
-		objectsGroup.remove(obj)
-		usedObjects.add(obj)
+		board = sceneGroup.create(game.world.centerX, game.world.centerY - 110,'atlas.bomb','tablero1')
+		board.anchor.setTo(0.5,0.5)
 		
-		if(!obj.anim){
+	}
+	
+	function createClock(){
+        
+		var topBar = sceneGroup.create(-10,-3,'atlas.bomb','franja')
+		topBar.width = game.world.width * 1.2
+		topBar.height*= 1.2
+		
+        clock = game.add.group()
+		clock.alpha = 0
+        clock.x = game.world.centerX
+		clock.scale.setTo(0.85,0.85)
+        clock.y = 65
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.bomb','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.bomb','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
+    }
+	
+	function createFigures(){
+		
+		containersGroup = game.add.group()
+		sceneGroup.add(containersGroup)
+		
+		usedContainers = game.add.group()
+		sceneGroup.add(usedContainers)
+		
+		figuresGroup = game.add.group()
+		sceneGroup.add(figuresGroup)
+		
+		usedFigures = game.add.group()
+		sceneGroup.add(usedFigures)
+		
+		for(var i = 0; i < figureNames.length;i++){
 			
-			obj.star.tint = mainCont.star.tint
-			obj.number = mainCont.number
-			obj.text.setText(obj.number)
-			
-			if(Math.random()*2 > 1){
+			for(var u = 0; u < 10; u++){
 				
-				//console.log('dissappear')
-				obj.tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},timeUsed + game.rnd.integerInRange(1,timeUsed/1000) * 1000,"Linear",true)
-				obj.tween.onComplete.add(function(){
-
-					var anim = getAnim()
-					animObjects.remove(anim)
-					anim.alpha = 1
-					obj.add(anim)
-					anim.x = 0
-					anim.y = 0
-					obj.anim = true
-
-					//addStar(anim.row,anim)
-					popObject(obj,0)
-					sound.play("robotBeep")
-					createPart("smoke",obj.star)
-					//game.add.tween(anim).from({alpha:0,angle:anim.angle-360},500,"Linear",true)
-				})
-			}
-			
-		}
-		
-		obj.x = posX
-		obj.y = posY
-		obj.alpha = 1
+				var container = containersGroup.create(-200,0,'atlas.bomb',figureNames[i] + '_cont')
+				container.tag = figureNames[i]
+				container.used = false
+				container.anchor.setTo(0.5,0.5)
 				
-	}
-	
-	function getAnim(){
-		
-		for(var i = 0; i < animObjects.length;i++){
-			var anim = animObjects.children[i]
-			if(anim.alpha == 0){
-				return anim
+				var figGroup = game.add.group()
+				figGroup.x = -200
+				figGroup.y = 0
+				figGroup.used = false
+				figGroup.tag = figureNames[i]
+				figuresGroup.add(figGroup)
+				
+				var figSpine = game.add.spine(0,43,'figure')
+				figSpine.setSkinByName(figureNames[i])
+				setAnimDelay(game.rnd.integerInRange(0,500),"IDLE",figSpine)
+				figGroup.add(figSpine)
+				
+				figGroup.anim = figSpine
+				
 			}
 		}
-		
 	}
 	
-	function addStar(row, piece){
+	function setAnimDelay(delay,animName, anim){
 		
-		var star = piece || getStar()
-		var startY = -100
-		var timeToUse = 500
-		var angleToUse = star.angle + 720
-		
-		if(piece){
-			timeToUse = 150
-			startY = piece.y
-			angleToUse = piece.angle
-			
-			if(piece.anim){
-				timeToUse = 500
-			}
-			
-		}else{
-			
-			star.row = row
-			activateObject(star,row.pivotX,startY)
-			setColorCont()
-		}
-		
-		
-		game.add.tween(star).to({y:row.pivotY,angle:angleToUse},timeToUse,"Linear",true).onComplete.add(function(){
-			
-			if(!piece){
-				sound.play("flipCard")
-			}
-			
-			if(star.y < 200){
-				createPart("wrong",star.star)
-				missPoint()
-			}else{
-				checkPieces(star)
-				gameActive = true
-			}
-			
+		game.time.events.add(delay, function(){
+			anim.setAnimationByName(0,animName,true)
 		})
-		
-		sound.play("cut")
-		
-		row.pivotY-= 95
-		
 	}
 	
-	function checkPieces(piece){
+	function createButtons(){
 		
-		isOdd = false
-		if(piece.number % 2 == 0){
-			isOdd = true
-		}
+		var baseButtons = sceneGroup.create(game.world.centerX, game.world.height, 'atlas.bomb', 'baseBotones')
+		baseButtons.height*= 0.85
+		baseButtons.anchor.setTo(0.5,1)
 		
-		pieceList = []
-                
-        for(var i = 0; i < usedObjects.length; i ++){
-            usedObjects.children[i].check = false
-        }
-        
-        checkAllPieces(piece)
-        
-		//console.log(pieceList.length + ' length')
-        if(pieceList.length >= 4){
-
-            sound.play("magic")
+		buttonsGroup = game.add.group()
+		sceneGroup.add(buttonsGroup)
+		
+		var pivotX = game.world.centerX - 200
+		var pivotY = game.world.height - 200
+		
+		for(var i = 0; i < 5; i++){
 			
-            for(var i = 0; i < pieceList.length;i++){
-				
-                var piece = pieceList[i]
-                createPart('star',piece.star)
-				createTextPart('+1',piece.star)
-                deactivateObject(piece)
-				addPoint(1)
-            }
-						
-			restartRows()
-						
-        }
-		
-	}
-	
-	function restartRows(){
-		
-		for(var i = 0; i < usedObjects.rows.length;i++){
-				
-			var row = usedObjects.rows[i]
-			row.pivotY = row.startPivot	
-		}
-
-		for(var i = 0; i < usedObjects.length;i++){
-
-			var obj = usedObjects.children[i]
-			addStar(obj.row,obj)
-		}
-	}
-	
-	function checkAllPieces(piece){
-		
-		if(checkOdd(piece.number) && !piece.anim){
+			var button = game.add.group()
+			button.x = pivotX
+			button.y = pivotY
+			buttonsGroup.add(button)
 			
-			piece.check = true
-        	pieceList[pieceList.length] = piece
-		}else{
-			return
-		}
-        
-        for(var i = 0; i < usedObjects.length;i++){
-            
-            var checkPiece = usedObjects.children[i]
-            
-            if(!checkPiece.check && checkOdd(checkPiece.number)){
-                				
-                if(Math.abs(piece.x - checkPiece.x) < piece.width * 0.3){
-                    if(Math.abs(piece.y - checkPiece.y) < piece.width * 1.5){
-                        checkAllPieces(checkPiece)
-                    }
-                }else if(Math.abs(piece.y - checkPiece.y) < piece.height * 0.3){
-                    if(Math.abs(piece.x - checkPiece.x) < piece.width * 1.5){
-                        checkAllPieces(checkPiece)
-                    }
-                }
-            }
-            
-            
-            
-        }
-		
-	}
-	
-	function getStar(){
-		
-		for(var i = 0; i < objectsGroup.length;i++){
+			var buttonImg = button.create(0,0,'atlas.bomb','boton')
+			buttonImg.inputEnabled = true
+			buttonImg.events.onInputDown.add(inputButton)
+			buttonImg.tag = figureNames[i]
+			buttonImg.anchor.setTo(0.5,0.5)
 			
-			var star = objectsGroup.children[i]
-			return star
-		}
-	}
-	
-	function createStars(){
-		
-		objectsGroup = game.add.group()
-		sceneGroup.add(objectsGroup)
-		
-		usedObjects = game.add.group()
-		sceneGroup.add(usedObjects)
-		
-		for(var i = 0; i < 40;i++){
-			
-			var starGroup = game.add.group()
-			starGroup.x = 0
-			starGroup.y = -200
-			starGroup.alpha = 0
-			objectsGroup.add(starGroup)
-			
-			var star = starGroup.create(0,0,'atlas.evening','gameStar')
-			star.anchor.setTo(0.5,0.5)
-			starGroup.star = star
-			
-			var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 7, "0", fontStyle)
+			var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, localization.getString(localizationData,figureNames[i]), fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
-			starGroup.add(pointsText)
-			starGroup.text = pointsText
+			button.add(pointsText)
 			
 			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 			
+			pivotX += 400
+			
+			if((i+1) % 2 == 0){
+				pivotX = game.world.centerX - 200
+				pivotY += 85
+			}
+			
+			if(i == 4){
+				button.x = game.world.centerX
+				button.y = game.world.height - 45
+			}
+			
 		}
 		
-		usedObjects.rows = []
+		base = game.add.group()
+		base.x = game.world.centerX
+		base.y = game.world.height - 160
+		base.scale.setTo(0.8,0.8)
+		sceneGroup.add(base)
 		
-		var pivotX = starCont.x - 187
-		for(var i = 0; i < 5;i++){
-						
-			//var row = usedObjects.rows[i]
-			var row = []
+		var baseImg = base.create(0,0,'atlas.bomb','BaseFiguras')
+		baseImg.anchor.setTo(0.5,0.5)
+		
+		dragObj = sceneGroup.create(game.world.centerX, game.world.height - 160,'atlas.bomb','button')
+		dragObj.anchor.setTo(0.5,0.5)
+		dragObj.inputEnabled = true
+		dragObj.initX = dragObj.x
+		dragObj.initY = dragObj.y
+		dragObj.input.enableDrag(true)
+		dragObj.events.onDragStart.add(onDragStart, this);
+		dragObj.events.onDragStop.add(onDragStop, this);
+		dragObj.alpha = 0
+		
+	}
+	
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
+	
+	function onDragStart(obj){
+		
+		if(!gameActive){
+			return
+		}
+		
+		obj.dragEnabled = false
+		sound.play("drag")
+		
+	}
+	
+	function hideFigure(fig, delay, groupR, groupA){
+		
+		game.time.events.add(delay, function(){
 			
-			row.pivotX = pivotX
-			row.pivotY = starCont.y - 100
-			row.startPivot = row.pivotY
-						
-			var rect = new Phaser.Graphics(game)
-			rect.beginFill(0x000000)
-			rect.drawRect(row.pivotX,row.pivotY,91,starCont.height)
-			rect.alpha = 0
-			rect.endFill()
-			rect.inputEnabled = true
-			rect.x-= rect.width * 0.5
-			rect.y-= rect.height * 0.85
-			rect.events.onInputDown.add(inputButton)
-			sceneGroup.add(rect)
+			game.add.tween(fig).to({alpha:0},200,"Linear",true).onComplete.add(function(){
+				deactivateFigure(fig,groupR,groupA)
+			})
+		})
+	}
+	
+	function restartBoard(){
+		
+		sound.play("secret")
+		
+		var delay = 50
+		
+		for(var i = 0; i < usedFigures.length;i++){
 			
-			rect.row = row
+			var cont = usedFigures.children[i]
+			hideFigure(cont,delay,usedFigures,figuresGroup)
+			delay += 50
 			
-			pivotX += 95
+		}
+		
+		for(var i = 0; i < usedContainers.length;i++){
 			
-			usedObjects.rows[i] = row
+			var cont = usedContainers.children[i]
+			hideFigure(cont,delay,usedContainers,containersGroup)
+			delay += 50
+			
+		}
+		
+		delay+= 500
+		game.time.events.add(delay,function(){
+			
+			gameActive = true
+			
+			setContainers()
+			
+			setClock()
+			game.add.tween(usedContainers).from({alpha:0},500,"Linear",true)
+			game.add.tween(usedFigures).from({alpha:0},500,"Linear",true,200).onComplete.add(function(){
+				
+				restartDrag()
+				getDragFigure()
+			})
+			
+			sound.play("brightTransition")
+			
+		})
+		
+	}
+	
+	function setClock(){
+		
+		popObject(clock,0)
+		var bar = clock.bar
+		bar.scale.x = bar.origScale
+		
+		clock.tween = game.add.tween(bar.scale).to({x:0},timeToUse,"Linear",true,500)
+		
+		clock.tween.onComplete.add(function(){
+			missPoint()
+		})
+		
+	}
+	
+	function restartDrag(){
+		
+		if(lives > 0){
+			dragObj.x = dragObj.initX
+			dragObj.y = dragObj.initY
+			dragObj.inputEnabled = true
 		}
 		
 	}
 	
-	function createContainer(){
+	function onDragStop(obj){
 		
-		mainCont = game.add.group()
-		mainCont.x = game.world.centerX
-		mainCont.y = 70
-		mainCont.scale.setTo(0.85,0.85)
-		sceneGroup.add(mainCont)
-		
-		var contImage = mainCont.create(0,0,'atlas.evening','container')
-		contImage.anchor.setTo(0.5,0.5)
-		
-		var star = mainCont.create(0,-3,'atlas.evening','gameStar')
-		star.anchor.setTo(0.5,0.5)
-		mainCont.star = star
-		
-		var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "0", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-        mainCont.add(pointsText)
-		mainCont.text = pointsText
-		
-		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-		
-	}
-	
-	function createAnim(){
-		
-		animObjects = game.add.group()
-		sceneGroup.add(animObjects)
-		
-		for(var i = 0; i < 40; i++){
-			
-			var object = game.add.sprite(-300, 200, 'sleepStar')
-			object.scale.setTo(0.95,0.95)
-			object.animations.add('walk');
-			object.animations.play('walk',24,true);
-			object.anchor.setTo(0.5,0.5)
-			object.alpha = 0
-			object.anim = true
-			animObjects.add(object)
+		if(!gameActive){
+			return
 		}
+		
+		sound.play("cut")
+		obj.inputEnabled = false
+		
+		for(var i = 0; i < usedContainers.length;i++){
+			
+			var cont = usedContainers.children[i]
+			
+			if(cont.active){
+			
+				//console.log(cont.active + ' active, ' + addFigures + ' figures,' + numbersToAdd + ' numbersToAdd')
+				if(checkOverlap(figToUse,cont) && figToUse.tag == cont.tag && addFigures < numbersToAdd){
+
+					addFigures++
+					
+					addPoint(1)
+					createPart('star',cont)
+					gameActive = false
+
+					game.add.tween(figToUse).to({x:cont.x,y:cont.y,angle:figToUse.angle + 360},500,"Linear",true).onComplete.add(function(){
+						
+						figToUse = null
+
+						if(addFigures < numbersToAdd){
+							
+							gameActive = true
+							restartDrag()
+							getDragFigure()
+							
+						}else{
+
+							if(numbersToAdd < 19){
+								numbersToAdd++
+							}
+							
+							timeToUse-= 1000
+							
+							if(clock.tween){
+								
+								clock.tween.stop()
+								game.add.tween(clock).to({alpha:0},500,"Linear",true,500)
+							}
+							
+							restartBoard()
+						}
+					})
+
+					return
+				}
+			}
+			
+		}
+		game.add.tween(obj).to({x:obj.initX, y: obj.initY},250,"Linear",true).onComplete.add(function(){
+			
+			gameActive = true
+			obj.inputEnabled = true
+		})
 		
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "evening",
+		name: "bomb",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -943,9 +1040,10 @@ var evening = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createStars()
-			createContainer()
-			createAnim()
+			createBoard()
+			createClock()
+			createButtons()
+			createFigures()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
@@ -965,8 +1063,6 @@ var evening = function(){
 			            
 			createPointsBar()
 			createHearts()
-			
-			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
