@@ -48,7 +48,7 @@ var luckynumber = function(){
 	var heartsIcon;
     var ruletaGroup = null;
     var numberBlendMode = 5;
-    var giro = 1;
+    var giro;
     var count = 0;
 	var cursors;
     var xpIcon;
@@ -143,7 +143,8 @@ var isMobile = {
 
 	/*CREATE SCENE*/
     function createScene(){
-		
+		count = 0;
+        giro = 2;
 		sceneGroup = game.add.group();
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -274,7 +275,9 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[1].tint = 0x000000;
+                    count = 0;
                     stopGame(); 
+                    
                 }
                     
             }
