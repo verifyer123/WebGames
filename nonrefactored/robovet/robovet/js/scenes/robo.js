@@ -58,10 +58,12 @@ var robo = function(){
 	var NUM_LIFES = 3
 	var NUM_OPTIONS = 3
 
-	var ROUNDS = [
-	    {continent: "america", flags: ["mexico", "usa"]},
-	    {continent: "america", numFlags: 4},
-	    {continent: "random", numFlags: 4}]
+	// var ROUNDS = [
+	//     {continent: "america", flags: ["mexico", "usa"]},
+	//     {continent: "america", numFlags: 4},
+	//     {continent: "random", numFlags: 4}]
+
+	var ROBOTS = ["dog1", "dog2"]
 
 	var lives
 	var sceneGroup = null
@@ -457,7 +459,7 @@ var robo = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('roboSong', soundsPath + 'songs/wormwood.mp3')
+		game.load.audio('roboSong', soundsPath + 'songs/chemical_electro.mp3')
 		game.load.audio('electricBand', soundsPath + 'electricBand.mp3');
 
 		game.load.image('introscreen',"images/robo/introscreen.png")
@@ -769,6 +771,10 @@ var robo = function(){
 
 		var engineBG = engine.create(0,0, "atlas.robo", "operacion")
 		engineBG.anchor.setTo(0.5, 1)
+
+		var xImage = engine.create(0,0, "atlas.robo", "x")
+		xImage.y = -125
+		xImage.anchor.setTo(0.5, 0.5)
 
 		var answer1 = engine.create(0, 0, "atlas.robo", "answer")
 		answer1.x = -82
