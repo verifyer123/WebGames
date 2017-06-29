@@ -11,7 +11,7 @@
 },
 {
 	"filename": "arm",
-	"frame": {"x":1480,"y":371,"w":86,"h":135},
+	"frame": {"x":1593,"y":181,"w":86,"h":135},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":135},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "balanza",
-	"frame": {"x":1327,"y":181,"w":226,"h":86},
+	"frame": {"x":1002,"y":414,"w":226,"h":86},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":86},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "bar",
-	"frame": {"x":837,"y":514,"w":30,"h":34},
+	"frame": {"x":979,"y":514,"w":30,"h":34},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":34},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "baseBalanza",
-	"frame": {"x":1002,"y":414,"w":277,"h":116},
+	"frame": {"x":1230,"y":407,"w":277,"h":116},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":277,"h":116},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "button",
-	"frame": {"x":1327,"y":269,"w":129,"h":114},
+	"frame": {"x":1509,"y":318,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "centroBalanza",
-	"frame": {"x":1597,"y":313,"w":60,"h":60},
+	"frame": {"x":1143,"y":502,"w":60,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":60},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":1458,"y":269,"w":137,"h":100},
+	"frame": {"x":1509,"y":434,"w":137,"h":100},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":9,"y":13,"w":137,"h":100},
@@ -92,16 +92,16 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":1087,"y":181,"w":238,"h":225},
+	"frame": {"x":1087,"y":181,"w":305,"h":224},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":7,"y":4,"w":238,"h":225},
-	"sourceSize": {"w":254,"h":238},
+	"spriteSourceSize": {"x":0,"y":0,"w":305,"h":224},
+	"sourceSize": {"w":305,"h":232},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "life_box",
-	"frame": {"x":1480,"y":508,"w":140,"h":55},
+	"frame": {"x":544,"y":514,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":1281,"y":408,"w":197,"h":123},
+	"frame": {"x":1394,"y":181,"w":197,"h":123},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":123},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":1568,"y":375,"w":100,"h":93},
+	"frame": {"x":1394,"y":306,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "sombraBalanza",
-	"frame": {"x":711,"y":514,"w":124,"h":38},
+	"frame": {"x":853,"y":514,"w":124,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":38},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":1555,"y":181,"w":64,"h":64},
+	"frame": {"x":1011,"y":502,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1597,"y":247,"w":64,"h":64},
+	"frame": {"x":1077,"y":502,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":544,"y":514,"w":165,"h":41},
+	"frame": {"x":686,"y":514,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -176,8 +176,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1669,"h":566},
+	"size": {"w":1680,"h":570},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:969fae6e0f198b1175407787d4694717:f18e79c795f466b7b79259271b5cd650:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2b86b009933b0ca7298719c00f642076:a9d00c6bc32b5bcd8caa7340b21849c4:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

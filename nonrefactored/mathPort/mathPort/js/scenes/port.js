@@ -322,6 +322,7 @@ var port = function(){
 				bar.tween = game.add.tween(bar.scale).to({x:0},timeToUse,"Linear",true)
 				bar.tween.onComplete.add(function(){
 					missPoint()
+					yogotar.setAnimationByName(0,"LOSESTILL",true)
 				})
 			})
 		}
@@ -772,6 +773,7 @@ var port = function(){
 			buttonsGroup.add(button)
 			
 			var imgButton = button.create(0,0,'atlas.port','boton_verde')
+			imgButton.tint = 0x48c5ff
 			imgButton.inputEnabled = true
 			imgButton.anchor.setTo(0.5,0.5)
 			imgButton.events.onInputDown.add(inputButton)
@@ -781,7 +783,7 @@ var port = function(){
 			pointsText.anchor.setTo(0.5,0.5)
 			button.add(pointsText)
 			
-			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.8)', 0);
 			
 			button.text = pointsText
 			pivotX+=400

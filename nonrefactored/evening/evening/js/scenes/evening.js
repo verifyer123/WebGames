@@ -6,13 +6,17 @@ var evening = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"even":"Evens",
+			"odd":"Odds"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"even":"Pares",
+			"odd":"Nones"
 		}
 	}
     
@@ -363,6 +367,15 @@ var evening = function(){
 		
 		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.evening','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX - 125, game.world.centerY + 50, localization.getString(localizationData,"even"), fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
+		
+		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX + 115, game.world.centerY + 50, localization.getString(localizationData,"odd"), fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
@@ -839,7 +852,7 @@ var evening = function(){
 			starGroup.add(pointsText)
 			starGroup.text = pointsText
 			
-			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.8)', 0);
 			
 		}
 		

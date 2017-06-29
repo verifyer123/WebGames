@@ -6,13 +6,16 @@ var hungry = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"addition":"Fraction \n Addition",
+			
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"addition":"Suma de \n fracciones",
 		}
 	}
     
@@ -335,7 +338,7 @@ var hungry = function(){
 		buttons.getImages(game)
         
         game.load.spine('toad', "images/spines/frog.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/kids_and_videogame.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/adventure.mp3');
         
 		game.load.spritesheet('bee', 'images/hungry/bee.png', 138, 169, 20);
 		game.load.image('howTo',"images/hungry/how" + localization.getLanguage() + ".png")
@@ -443,6 +446,12 @@ var hungry = function(){
 		
 		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.hungry','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "18px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX - 60, game.world.centerY - 127, localization.getString(localizationData, "addition"), fontStyle)
+		pointsText.lineSpacing = -10
+		pointsText.anchor.setTo(0.5,0.5)
+        overlayGroup.add(pointsText)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
