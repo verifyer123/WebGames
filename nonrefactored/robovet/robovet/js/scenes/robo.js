@@ -392,7 +392,7 @@ var robo = function(){
 			optionBG.anchor.setTo(0.5, 0.5)
 
 			var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var numberText = new Phaser.Text(game, 0, 0, "0", fontStyle)
+			var numberText = new Phaser.Text(game, 0, 5, "0", fontStyle)
 			numberText.anchor.setTo(0.5, 0.5)
 			option.numberText = numberText
 			option.add(numberText)
@@ -400,7 +400,7 @@ var robo = function(){
 			var hitBox = new Phaser.Graphics(game)
 			hitBox.beginFill(0xFFFFFF)
 			hitBox.drawRect(0,0,50, 50)
-			hitBox.alpha = 0.4
+			hitBox.alpha = 0
 			hitBox.endFill()
 			hitBox.x = -hitBox.width * 0.5
 			hitBox.y = -hitBox.height * 0.5

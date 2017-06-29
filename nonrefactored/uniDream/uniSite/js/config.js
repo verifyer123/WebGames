@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Robo Vet",
+        name: "Uni Dream",
         language: "es",
-        minigameUrl: "../robovet/index.html?language=" + language,
+        minigameUrl: "../uniDream/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
