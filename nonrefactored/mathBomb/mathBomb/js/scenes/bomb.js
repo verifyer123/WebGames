@@ -60,6 +60,8 @@ var bomb = function(){
 				file: soundsPath + "secret.mp3"},
 			{	name: "brightTransition",
 				file: soundsPath + "brightTransition.mp3"},
+			{	name: "buzzer",
+				file: soundsPath + "buzzer.mp3"},
 			
 		],
     }
@@ -77,6 +79,7 @@ var bomb = function(){
 	var timeToUse
 	var particlesGroup, particlesUsed
     var gameIndex = 52
+	var explosion
 	var dragObj
 	var figToUse
 	var indexGame
@@ -255,26 +258,68 @@ var bomb = function(){
                 
     }
     
+	function moveObject(group,timeX,times){
+		
+		var tween = game.add.tween(group).to({x:group.x + 5},timeX,"Linear",true,0,times)
+		tween.yoyo(true,0)
+		
+	}
+	
 	function figuresLose(){
 		
-		createPart('wrong',dragObj)
+		//createPart('wrong',dragObj)
 		
 		dragObj.inputEnabled = false
+		game.add.tween(figuresGroup).to({alpha:0},200,"Liner",true)
 		
 		for(var i = 0; i < usedFigures.length;i++){
-			
 			var fig = usedFigures.children[i]
 			setAnimDelay(game.rnd.integerInRange(0,500),"LOSE",fig.anim)
-			
-			game.add.tween(fig).to({angle:fig.angle + 360},400,"Linear",true,game.rnd.integerInRange(0,500))
-			
 		}
+		
+		moveObject(board,100,11)
+		moveObject(usedFigures,100,11)
+		moveObject(usedContainers,100,11)
+		
+		game.time.events.add(1200,function(){
+			
+			for(var i = 0; i < usedFigures.length;i++){
+			
+				var posX = game.world.width * 1.5
+				var off = 1
+
+				if(Math.random() * 2 < 1){
+					posX = -game.world.width * 0.5
+					off = -1
+				}
+				var posY = game.world.centerY + (game.rnd.integerInRange(0,300) * off)
+
+				var fig = usedFigures.children[i]
+
+
+				game.add.tween(fig).to({angle:fig.angle + 360, x: posX},400,"Linear",true)
+
+			}
+
+
+			sound.play("explosion")
+			explosion.alpha = 1
+
+			explosion.setAnimationByName(0,"EXPLOTION",false)
+
+			game.add.tween(usedContainers).to({alpha:0},200,"Linear",true)
+			game.add.tween(board).to({angle:360,alpha:0},500,"Linear",true)
+
+			game.add.tween(explosion).to({alpha:0},500,"Linear",true,500)
+			})
+		
 	}
 	
     function stopGame(win){
         
 		sound.play("wrong")
 		sound.play("gameLose")
+		sound.play("buzzer")
 		
 		figuresLose()
 		
@@ -298,6 +343,7 @@ var bomb = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('figure', "images/spines/figure.json")  
+		game.load.spine('explosion',"images/spines/explotion.json")
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         
 		game.load.image('howTo',"images/bomb/how" + localization.getLanguage() + ".png")
@@ -411,6 +457,10 @@ var bomb = function(){
 	}
 	
 	function getDragFigure(tag){
+		
+		if(!gameActive){
+			return
+		}
 		
 		Phaser.ArrayUtils.shuffle(figureNames)
 		var tagToUse = tag || figureNames[0]
@@ -639,6 +689,11 @@ var bomb = function(){
 		createParticles('star',3)
 		createParticles('wrong',1)
 		createParticles('text',5)
+		
+		explosion = game.add.spine(game.world.centerX,game.world.centerY,'explosion')
+		explosion.setSkinByName('normal')
+		explosion.alpha = 0
+		sceneGroup.add(explosion)
 		//createParticles('smoke',1)
 
 	}
