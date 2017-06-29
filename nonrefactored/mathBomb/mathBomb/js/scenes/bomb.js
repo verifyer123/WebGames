@@ -270,7 +270,6 @@ var bomb = function(){
 		//createPart('wrong',dragObj)
 		
 		dragObj.inputEnabled = false
-		game.add.tween(figuresGroup).to({alpha:0},200,"Liner",true)
 		
 		for(var i = 0; i < usedFigures.length;i++){
 			var fig = usedFigures.children[i]
@@ -309,6 +308,7 @@ var bomb = function(){
 
 			game.add.tween(usedContainers).to({alpha:0},200,"Linear",true)
 			game.add.tween(board).to({angle:360,alpha:0},500,"Linear",true)
+			game.add.tween(figuresGroup).to({alpha:0},200,"Linear",true)
 
 			game.add.tween(explosion).to({alpha:0},500,"Linear",true,500)
 			})
