@@ -72,7 +72,7 @@ var uni = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 53
 	var tutoGroup
 	var uniSong
 	var heartsGroup = null
@@ -641,12 +641,14 @@ var uni = function(){
 			game.add.tween(clockCounter).to({x: clockCounter.x - 20}, 200, null, true).yoyo(true).loop(true)
 		})
 
-		game.add.tween(gameGroup).to({alpha: 0},1000,Phaser.Easing.Cubic.Out,true, 600)
-		game.add.tween(dreamGroup.bright).to({alpha: 1},1000,Phaser.Easing.Cubic.Out,true, 600).yoyo(true)
-		var bgDissapear = game.add.tween(dreamGroup.bg).to({alpha:0}, 1000, Phaser.Easing.Cubic.In, true, 600)
+		game.add.tween(gameGroup).to({alpha: 0},600,Phaser.Easing.Cubic.Out,true, 600)
+		game.add.tween(dreamGroup.bright).to({alpha: 1},600,Phaser.Easing.Cubic.Out,true, 600).yoyo(true)
+		var bgDissapear = game.add.tween(dreamGroup.bg).to({alpha:0}, 600, Phaser.Easing.Cubic.In, true, 600)
 		bgDissapear.onComplete.add(function () {
-			sound.play("swipe")
-			var showDream = game.add.tween(dreamGroup).to({y: game.world.height},1200,Phaser.Easing.Cubic.In,true, 400)
+			var showDream = game.add.tween(dreamGroup).to({y: game.world.height},800,Phaser.Easing.Cubic.In,true, 400)
+			showDream.onStart.add(function () {
+				sound.play("swipe")
+			})
 		})
 
 		stopGame()

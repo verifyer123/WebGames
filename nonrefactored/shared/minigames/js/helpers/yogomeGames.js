@@ -56,7 +56,8 @@ yogomeGames.getGames = function(){
 		{name:'magicGate',url:'http://yogome.com/epic/minigames/magicSite/',sceneName:'magic',subject:'math', review:true},//49	
         {name:'luckynumber',url:'http://yogome.com/epic/minigames/luckynumbersite/',sceneName:'luckynumber',subject:'math', review:false},//50
         {name:'robovet',url:'http://yogome.com/epic/minigames/roboSite/',sceneName:'robo',subject:'math', review:false},//51
-		{name:'mathBomb',url:'http://yogome.com/epic/minigames/bombSite/',sceneName:'bomb',subject:'math', review:false}//52
+		{name:'mathBomb',url:'http://yogome.com/epic/minigames/bombSite/',sceneName:'bomb',subject:'math', review:false},//52
+		{name:'uniDream',url:'http://yogome.com/epic/minigames/uniSite/',sceneName:'uni',subject:'math', review:false}//53
 	]
 
 	
