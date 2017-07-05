@@ -1,0 +1,55 @@
+
+centipede.png
+size: 512,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/anten
+  rotate: true
+  xy: 2, 2
+  size: 12, 19
+  orig: 12, 19
+  offset: 0, 0
+  index: -1
+normal/head1
+  rotate: false
+  xy: 66, 17
+  size: 62, 45
+  orig: 62, 45
+  offset: 0, 0
+  index: -1
+normal/head1L
+  rotate: false
+  xy: 2, 16
+  size: 62, 46
+  orig: 62, 46
+  offset: 0, 0
+  index: -1
+normal/head2
+  rotate: true
+  xy: 130, 14
+  size: 48, 50
+  orig: 48, 50
+  offset: 0, 0
+  index: -1
+normal/head2L
+  rotate: false
+  xy: 182, 14
+  size: 47, 48
+  orig: 47, 48
+  offset: 0, 0
+  index: -1
+normal/head3
+  rotate: false
+  xy: 231, 16
+  size: 46, 46
+  orig: 46, 46
+  offset: 0, 0
+  index: -1
+normal/nose
+  rotate: true
+  xy: 23, 2
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
