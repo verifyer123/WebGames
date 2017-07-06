@@ -8,37 +8,64 @@ var sound = function(){
 	}
 
 	function decode(soundStringArray){
+		
 		console.log("Decoding Sounds...")
-		for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
+		
+		if(amazing.getMinigameId()){
 			
-			var currentSoundData = soundStringArray[indexSound]
-			//game.load.audio(currentSoundData.name, currentSoundData.file,true)
-			
-			//var currentLoadedAudio = game.add.audio(currentSoundData.name)
-			var currentLoadedAudio = new Audio(currentSoundData.file)
-			decodedSounds[currentSoundData.name] = currentLoadedAudio
-		}
+			for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
 
-		game.sound.setDecodedCallback(decodedSounds, function(){
-			//console.log("audio ready")
-		}, this)
+				var currentSoundData = soundStringArray[indexSound]
+				
+				var currentLoadedAudio = new Audio(currentSoundData.file)
+				decodedSounds[currentSoundData.name] = currentLoadedAudio
+			}
+
+			game.sound.setDecodedCallback(decodedSounds, function(){
+				//console.log("audio ready")
+			}, this)
+			
+		}else{
+			
+			for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
+				var currentSoundData = soundStringArray[indexSound]
+				var currentLoadedAudio = game.add.audio(currentSoundData.name)
+				decodedSounds[currentSoundData.name] = currentLoadedAudio
+			}
+
+			game.sound.setDecodedCallback(decodedSounds, function(){}, this)
+		}
+		
 	}
 
 	function play(soundId, isLoop){
-		if(decodedSounds[soundId] !== "undefined"){
+		
+		if(amazing.getMinigameId()){
 			
-			var sound = decodedSounds[soundId]
+			if(decodedSounds[soundId] !== "undefined"){
 			
-			sound.loop = isLoop
-			if(!sound.paused){
-				sound.currentTime = 0
+				var sound = decodedSounds[soundId]
+
+				sound.loop = isLoop
+				if(!sound.paused){
+					sound.currentTime = 0
+				}
+
+				sound.play()
+
+			}else{
+				console.warn("[Sound]"+"Not found Sound: "+soundId)
 			}
 			
-			sound.play()
-			
 		}else{
-			console.warn("[Sound]"+"Not found Sound: "+soundId)
+			
+			if(decodedSounds[soundId] !== "undefined"){
+				decodedSounds[soundId].play()
+			}else{
+				console.warn("[Sound]"+"Not found Sound: "+soundId)
+			}
 		}
+		
 	}
 	
 	function setSong(path,volume){

@@ -161,8 +161,12 @@ var junglefury = function(){
     
     function stopGame(){
         
-        gameSong.pause()
-        //objectsGroup.timer.pause()
+		if(amazing.getMinigameId()){
+			gameSong.pause()
+		}else{
+			gameSong.stop()
+		}
+        
         gameActive = false
         buddy.setAnimationByName(0,"HIT_COCONUT",false)
         
@@ -712,9 +716,13 @@ var junglefury = function(){
         game.stage.disableVisibilityChange = false;
 
         game.load.spine('kong', "images/spines/skeleton.json");
-        
-        //game.load.audio('timberman', soundsPath + 'songs/timberman.mp3');
-		gameSong = sound.setSong(soundsPath + 'songs/timberman.mp3',0.5)
+        		
+		if(amazing.getMinigameId()){
+			gameSong = sound.setSong(soundsPath + 'songs/timberman.mp3',0.5)
+		}else{
+			game.load.audio('timberman', soundsPath + 'songs/timberman.mp3');
+		}
+		
         
         
     }
@@ -826,20 +834,31 @@ var junglefury = function(){
             initialize()
             animateScene()
             
-            /*gameSong = game.add.audio('timberman')
-            game.sound.setDecodedCallback(gameSong, function(){
-                gameSong.loopFull(0.5)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				
+				gameSong = game.add.audio('timberman')
+				game.sound.setDecodedCallback(gameSong, function(){
+					gameSong.loopFull(0.5)
+				}, this);
+			}
             
             game.onPause.add(function(){
                 game.sound.mute = true
-				gameSong.pause()
+				
+				if(amazing.getMinigameId()){
+					gameSong.pause()
+				}
+				
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					gameSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						gameSong.play()
+					}
 				}
+				
                 game.sound.mute = false
             }, this);
             

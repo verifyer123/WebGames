@@ -193,8 +193,12 @@ var hexhop = function(){
     
     function stopGame(){
         
-        gameSong.pause()
-        //objectsGroup.timer.pause()
+		if(amazing.getMinigameId()){
+			gameSong.pause()
+		}else{
+			gameSong.stop()
+		}
+        
         gameActive = false
         
         setExplosion(playerGroup.gem)
@@ -449,9 +453,13 @@ var hexhop = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spritesheet('rosa', 'images/hexhop/rosa.png', 50, 50, 73);
-        //game.load.audio('hexSong', soundsPath + 'songs/electro_trance_minus.mp3');
 		
-		gameSong = sound.setSong(soundsPath + 'songs/electro_trance_minus.mp3',0.8)
+		if(amazing.getMinigameId()){
+			gameSong = sound.setSong(soundsPath + 'songs/electro_trance_minus.mp3',0.8)
+		}else{
+			game.load.audio('hexSong', soundsPath + 'songs/electro_trance_minus.mp3');
+		}
+		
         
     }
     
@@ -708,19 +716,28 @@ var hexhop = function(){
             
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             
-            /*gameSong = game.add.audio('hexSong')
-            game.sound.setDecodedCallback(gameSong, function(){
-                gameSong.loopFull(0.8)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				gameSong = game.add.audio('hexSong')
+				game.sound.setDecodedCallback(gameSong, function(){
+					gameSong.loopFull(0.8)
+				}, this);
+			}
             
             game.onPause.add(function(){
-                gameSong.pause()
+				
+				if(amazing.getMinigameId()){
+					gameSong.pause()
+				}
+                
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					gameSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						gameSong.play()
+					}
 				}
 				
                 game.sound.mute = false

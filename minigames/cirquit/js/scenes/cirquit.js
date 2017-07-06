@@ -172,10 +172,12 @@ var cirquit = function(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false;
-        
-        //game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
-		marioSong = sound.setSong(soundsPath + 'songs/melodic_basss.mp3',0.5) 
-        
+        		
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/melodic_basss.mp3',0.5) 
+		}else{
+			game.load.audio('neonSong', soundsPath + 'songs/melodic_basss.mp3');
+		}
         
     }
     
@@ -258,7 +260,11 @@ var cirquit = function(){
     
     function stopGame(win){
         
-        marioSong.pause()
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
         
         missPoint()
         sound.play("gameLose")
@@ -993,12 +999,12 @@ var cirquit = function(){
             loadSounds()
 			initialize()       
             
-            //sound.play("marioSong")
-            /*marioSong = game.add.audio('neonSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                //marioSong.loopFull(0.6)
-                //marioSong.stop()
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				marioSong = game.add.audio('neonSong')
+				game.sound.setDecodedCallback(marioSong, function(){
+					marioSong.loopFull(0.6)
+				}, this);
+			}
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
@@ -1039,13 +1045,20 @@ var cirquit = function(){
             
             game.onPause.add(function(){
                 game.sound.mute = true
-				marioSong.pause()
+				
+				if(amazing.getMinigameId()){
+					marioSong.pause()
+				}
+				
             } , this);
 
             game.onResume.add(function(){
+				
                 game.sound.mute = false
-				if(lives>0){
-					marioSong.play()
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						marioSong.play()
+					}
 				}
 				
             }, this);

@@ -147,8 +147,12 @@ var twindots = function(){
     
     function stopGame(){
         
-        gameSong.pause()
-        //objectsGroup.timer.pause()
+		if(amazing.getMinigameId()){
+			gameSong.pause()
+		}else{
+			gameSong.stop()
+		}
+        
         gameActive = false
 		
 		sound.play("gameLose")
@@ -573,10 +577,12 @@ var twindots = function(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false;
-        
-        //game.load.audio('gears', soundsPath + 'songs/the_buildup.mp3');
-		gameSong = sound.setSong(soundsPath + 'songs/the_buildup.mp3',0.8)
-        
+        		
+		if(amazing.getMinigameId()){
+			gameSong = sound.setSong(soundsPath + 'songs/the_buildup.mp3',0.8)
+		}else{
+			game.load.audio('gears', soundsPath + 'songs/the_buildup.mp3');
+		}
         
     }
     
@@ -799,20 +805,30 @@ var twindots = function(){
             
             colorContainers()
             
-            /*gameSong = game.add.audio('gears')
-            game.sound.setDecodedCallback(gameSong, function(){
-                gameSong.loopFull(0.8)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				gameSong = game.add.audio('gears')
+				game.sound.setDecodedCallback(gameSong, function(){
+					gameSong.loopFull(0.8)
+				}, this);
+			}
             
             game.onPause.add(function(){
-				gameSong.pause()
+				
+				if(amazing.getMinigameId()){
+					gameSong.pause()
+				}
+				
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					gameSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						gameSong.play()
+					}
 				}
+				
                 game.sound.mute = false
             }, this);
             

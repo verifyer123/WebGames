@@ -144,10 +144,13 @@ var zombiecrush = function(){
         game.load.spritesheet('zombie', 'images/zombie/zombie.png', 98, 110, 13);
         game.load.spritesheet('zombieS', 'images/zombie/zombiesoldier.png', 66, 118, 17);
         game.load.spritesheet('fireSkull', 'images/zombie/skullFire.png', 179 / 2, 235/2, 9);
-        
-        //game.load.audio('song', soundsPath + 'songs/weLoveElectricCars.mp3');
-		zombieSong = sound.setSong(soundsPath + 'songs/weLoveElectricCars.mp3',0.6)
-        
+		
+		if(amazing.getMinigameId()){
+			zombieSong = sound.setSong(soundsPath + 'songs/weLoveElectricCars.mp3',0.6)
+		}else{
+			game.load.audio('song', soundsPath + 'songs/weLoveElectricCars.mp3');
+		}
+		
     }
     
     function inputButton(obj){
@@ -248,7 +251,11 @@ var zombiecrush = function(){
         
         gameActive = false
         
-        zombieSong.pause()
+		if(amazing.getMinigameId()){
+			zombieSong.pause()
+		}else{
+			zombieSong.stop()
+		}
         
         sound.play("gameLose")
         createPart('drop',characterGroup.bubble)
@@ -1193,20 +1200,32 @@ var zombiecrush = function(){
             
             //createParticles()
             
-            /*zombieSong = game.add.audio('song')
-            game.sound.setDecodedCallback(zombieSong, function(){
-                zombieSong.loopFull(0.6)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				
+				zombieSong = game.add.audio('song')
+				game.sound.setDecodedCallback(zombieSong, function(){
+					zombieSong.loopFull(0.6)
+				}, this);
+				
+			}
             
             game.onPause.add(function(){
-				zombieSong.pause()
+				
+				if(amazing.getMinigameId()){
+					zombieSong.pause()
+				}
+				
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					zombieSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						zombieSong.play()
+					}
 				}
+				
                 game.sound.mute = false
             }, this);
             
