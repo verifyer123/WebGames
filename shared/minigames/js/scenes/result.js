@@ -63,7 +63,7 @@ var result = function(){
         
         mixpanel.track(
             "finishGame",
-            {"gameName": gameName, "win":didWin, "numberOfObjects":score}
+            {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail()}
         );
         
 	}
@@ -120,7 +120,7 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": gameName}
+            {"gameName": gameName,"email":amazing.getEmail()}
         );
         
         if(!minigameId){

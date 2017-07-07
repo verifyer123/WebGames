@@ -71,7 +71,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "chilimBalam"}
+            {"gameName": "chilimBalam","email":amazing.getEmail()}
         );
 		
 	}
@@ -144,7 +144,7 @@ var instructions = function(){
       
         mixpanel.track(
             "loadGame",
-            {"gameName": "chilimbalam"}
+            {"gameName": "chilimbalam","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

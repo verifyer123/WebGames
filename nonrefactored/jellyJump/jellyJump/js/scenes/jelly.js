@@ -344,6 +344,11 @@ var jelly = function(){
 	function positionPlayer(){
 		
 		characterGroup.y = player.body.y
+		
+		if(player.body.y <= game.world.centerY){
+            //console.log('move')
+            //game.add.tween(objectsGroup).to({y:objectsGroup.y + 75},200,Phaser.Easing.linear,true)
+        }
 	}
 	
 	function createTextPart(text,obj){
@@ -536,12 +541,6 @@ var jelly = function(){
             //marioSong.loopFull(0.5)
         }
         
-        var bar = sceneGroup.limit
-        if(player.body.y <= game.world.centerY){
-            //console.log('move')
-            //game.add.tween(objectsGroup).to({y:objectsGroup.y + 75},200,Phaser.Easing.linear,true)
-        }
-        
         player.body.moveUp(jumpValue)        
     
     }
@@ -603,6 +602,44 @@ var jelly = function(){
 		
 	}
 	
+	function createObjects(){
+		
+		objectsGroup = game.add.group()
+		sceneGroup.add(objectsGroup)
+		
+		createObstacle('bar',3)
+	}
+	
+	function createObstacle(type,number){
+		
+		for(var i = 0; i < number; i++){
+			
+			var group 
+			if(type == 'bar'){
+
+                group = game.add.group()
+				group.type = type
+
+                var pivotX = game.world.width - 60
+                var indexColor = 0
+                var length = 12
+                for(var i = 0; i<length;i++){
+
+                    var group1 = game.add.group()
+					group1.x = pivotX
+					group1.y = 0
+					group.add(group1)
+					
+					
+
+                    if(i == length-1){
+                        group.lastObject = part
+                    }
+                    pivotX -= part.width * 1.5
+                }
+		}
+	}
+	
 	return {
 		
 		assets: assets,
@@ -622,6 +659,7 @@ var jelly = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createObjects()
 			createPlayer()	
 			createButtons()
 			addParticles()
