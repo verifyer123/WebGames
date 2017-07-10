@@ -1,0 +1,69 @@
+
+front.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/head1_f
+  rotate: false
+  xy: 325, 57
+  size: 65, 58
+  orig: 65, 58
+  offset: 0, 0
+  index: -1
+normal/head2_f
+  rotate: false
+  xy: 392, 57
+  size: 64, 58
+  orig: 64, 58
+  offset: 0, 0
+  index: -1
+normal/luz
+  rotate: true
+  xy: 458, 57
+  size: 24, 27
+  orig: 24, 27
+  offset: 0, 0
+  index: -1
+normal/nose_f
+  rotate: false
+  xy: 2, 2
+  size: 56, 33
+  orig: 56, 33
+  offset: 0, 0
+  index: -1
+normal/torso_f
+  rotate: false
+  xy: 239, 60
+  size: 84, 55
+  orig: 84, 55
+  offset: 0, 0
+  index: -1
+normal2/head1_f
+  rotate: false
+  xy: 2, 37
+  size: 73, 78
+  orig: 73, 78
+  offset: 0, 0
+  index: -1
+normal2/head2_f
+  rotate: false
+  xy: 77, 38
+  size: 74, 77
+  orig: 74, 77
+  offset: 0, 0
+  index: -1
+normal2/nose_f
+  rotate: false
+  xy: 458, 83
+  size: 33, 32
+  orig: 33, 32
+  offset: 0, 0
+  index: -1
+normal2/torso_f
+  rotate: false
+  xy: 153, 52
+  size: 84, 63
+  orig: 84, 63
+  offset: 0, 0
+  index: -1
