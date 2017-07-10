@@ -100,7 +100,7 @@ var bomb = function(){
         lives = 1
 		numbersToAdd = 6
 		figToUse = null
-		timeToUse = 35000
+		timeToUse = 32000
         
         loadSounds()
         
@@ -275,6 +275,8 @@ var bomb = function(){
 			var fig = usedFigures.children[i]
 			setAnimDelay(game.rnd.integerInRange(0,500),"LOSE",fig.anim)
 		}
+		
+		game.add.tween(figuresGroup).to({alpha:0},200,"Linear",true)
 		
 		moveObject(board,100,11)
 		moveObject(usedFigures,100,11)
@@ -458,7 +460,7 @@ var bomb = function(){
 	
 	function getDragFigure(tag){
 		
-		if(!gameActive){
+		if(lives < 1){
 			return
 		}
 		
@@ -1042,6 +1044,7 @@ var bomb = function(){
 					addPoint(1)
 					createPart('star',cont)
 					gameActive = false
+					cont.active = false
 
 					game.add.tween(figToUse).to({x:cont.x,y:cont.y,angle:figToUse.angle + 360},500,"Linear",true).onComplete.add(function(){
 						

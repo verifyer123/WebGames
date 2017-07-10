@@ -116,9 +116,13 @@ var jumpward = function(){
         
         game.load.spritesheet('coinS', 'images/jumpward/coinS.png', 68, 70, 12);
         game.load.spritesheet('monster', 'images/jumpward/monster.png', 292, 237, 17);
-        
-        //game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
-		marioSong = sound.setSong(soundsPath + 'songs/running_game.mp3',0.5)
+        		
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/running_game.mp3',0.5)
+		}else{
+			game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
+		}
+		
         
     }
     
@@ -229,7 +233,11 @@ var jumpward = function(){
     
     function stopGame(win){
         
-        marioSong.pause()
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
         
         missPoint()
         sound.play("gameLose")
@@ -932,11 +940,12 @@ var jumpward = function(){
             loadSounds()
 			initialize()       
             
-            /*//sound.play("marioSong")
-            marioSong = game.add.audio('runningSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                //marioSong.loopFull(0.6)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				marioSong = game.add.audio('runningSong')
+				game.sound.setDecodedCallback(marioSong, function(){
+					marioSong.loopFull(0.6)
+				}, this);	
+			}
             
             piecesGroup = game.add.group()
             worldGroup.add(piecesGroup)
@@ -995,13 +1004,20 @@ var jumpward = function(){
             createControls()   
             
             game.onPause.add(function(){
-				marioSong.pause()
+				
+				if(amazing.getMinigameId()){
+					marioSong.pause()
+				}
+				
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives > 0){
-					marioSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives > 0){
+						marioSong.play()
+					}
 				}
 				
                 game.sound.mute = false

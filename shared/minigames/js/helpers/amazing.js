@@ -2,6 +2,7 @@ var amazing = {}
 var couponData
 var dataStore
 var minigameId
+var userMail
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
@@ -118,7 +119,7 @@ amazing.setMinigameId = function(){
             switch(parsedData.type){
             case "minigameId":
                 minigameId = parsedData.minigameId
-                
+                userMail = parsedData.email
             }
             //console.log('entra case')
         }
@@ -171,4 +172,8 @@ amazing.getCoupon = function(){
 
 amazing.getMinigameId = function(){
     return minigameId
+}
+
+amazing.getEmail = function(){
+	return userMail
 }

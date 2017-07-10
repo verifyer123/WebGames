@@ -129,9 +129,13 @@ var storepanic = function(){
         game.load.spritesheet('bMonster', 'images/lacomer/bMonster.png', 101, 165, 17);
         game.load.spritesheet('pMonster', 'images/lacomer/pMonster.png', 149, 124, 17);
         //game.load.spritesheet('coinS', 'images/lacomer/coinS.png', 68, 70, 12);
-        //game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
         
-        marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.4)
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.4)
+		}else{
+			game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+		}
+        
     }
     
     function inputButton(obj){
@@ -209,7 +213,11 @@ var storepanic = function(){
     }
     function stopGame(win){
         
-        marioSong.pause()
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
         
         missPoint()
         sound.play("gameLose")
@@ -998,21 +1006,31 @@ var storepanic = function(){
             loadSounds()
 			initialize()       
             
-            /*//sound.play("marioSong")
-            marioSong = game.add.audio('marioSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                marioSong.loopFull(0.4)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				
+				marioSong = game.add.audio('marioSong')
+				game.sound.setDecodedCallback(marioSong, function(){
+					marioSong.loopFull(0.4)
+				}, this);
+			}
             
             game.onPause.add(function(){
-				marioSong.pause()
+				
+				if(amazing.getMinigameId()){
+					marioSong.pause()
+				}
+				
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					marioSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						marioSong.play()
+					}
 				}
+				
                 game.sound.mute = false
             }, this);
             

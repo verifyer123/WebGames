@@ -138,9 +138,15 @@ var amazingbros = function(){
         game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
         game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
         game.load.spritesheet('coinS', 'images/amazingbros/coinS.png', 68, 70, 12);
-        //game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
 		
-		marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.6)
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.6)
+		}else{
+			
+			console.log('not App')
+			game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
+		}		
+		
     }
     
     function inputButton(obj){
@@ -209,10 +215,16 @@ var amazingbros = function(){
         tweenLose.onComplete.add(function(){
             game.add.tween(buddy).to({y:buddy.y + game.world.height + game.world.height * 0.2}, 500, Phaser.Easing.Cubic.In, true)
         })
+		
     }
+	
     function stopGame(win){
         
-        marioSong.pause()
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
         
         missPoint()
         sound.play("gameLose")
@@ -926,24 +938,32 @@ var amazingbros = function(){
             
             loadSounds()
 			initialize()       
-            
-            /*//sound.play("marioSong")
-            marioSong = game.add.audio('marioSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                marioSong.loopFull(0.6)
-            }, this);*/
-            
-            
+            			
+			if(!amazing.getMinigameId()){
+				marioSong = game.add.audio('marioSong')
+				game.sound.setDecodedCallback(marioSong, function(){
+					marioSong.loopFull(0.6)
+				}, this);
+			}
+                  
             game.onPause.add(function(){
                 game.sound.mute = true
-				marioSong.pause()
+				
+				if(amazing.getMinigameId()){
+					marioSong.pause()
+				}
+				
             } , this);
 
             game.onResume.add(function(){
                 game.sound.mute = false
-				if(lives>0){
-					marioSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						marioSong.play()
+					}
 				}
+				
             }, this);
             
             objectsGroup = game.add.group()

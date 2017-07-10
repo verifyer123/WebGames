@@ -199,7 +199,12 @@ var tapatopo = function(){
     
     function stopGame(){
         
-        gameSong.pause()
+		if(amazing.getMinigameId()){
+			gameSong.pause()
+		}else{
+			gameSong.stop()
+		}
+        
         //objectsGroup.timer.pause()
         gameActive = false
 		sound.play("gameLose")
@@ -343,9 +348,12 @@ var tapatopo = function(){
 
         game.load.spine('topo', "images/spines/skeleton.json");
         
-        //game.load.audio('moleSong', soundsPath + 'songs/sillyAdventureGameLoop.mp3');
-		gameSong = sound.setSong(soundsPath + 'songs/sillyAdventureGameLoop.mp3',0.5)
-        
+		if(amazing.getMinigameId()){
+			gameSong = sound.setSong(soundsPath + 'songs/sillyAdventureGameLoop.mp3',0.5)
+		}else{
+			game.load.audio('moleSong', soundsPath + 'songs/sillyAdventureGameLoop.mp3');
+		}
+     
         
     }
     
@@ -818,20 +826,31 @@ var tapatopo = function(){
             
             createLevelText()
             
-            /*gameSong = game.add.audio('moleSong')
-            game.sound.setDecodedCallback(gameSong, function(){
-                gameSong.loopFull(0.5)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				
+				gameSong = game.add.audio('moleSong')
+				game.sound.setDecodedCallback(gameSong, function(){
+					gameSong.loopFull(0.5)
+				}, this);
+			}
             
             game.onPause.add(function(){
-				gameSong.pause()
+				
+				if(amazing.getMinigameId()){
+					gameSong.pause()
+				}
+				
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					gameSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						gameSong.play()
+					}
 				}
+				
                 game.sound.mute = false
             }, this);
             

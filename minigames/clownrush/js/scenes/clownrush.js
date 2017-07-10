@@ -202,7 +202,12 @@ var clownrush = function(){
     
     function stopGame(){
         
-        gameSong.pause()
+		if(amazing.getMinigameId()){
+			gameSong.pause()
+		}else{
+			gameSong.stop()
+		}
+        
         //objectsGroup.timer.pause()
         gameActive = false
         buddy.setAnimationByName(0,"LOSE",false)
@@ -1043,9 +1048,13 @@ var clownrush = function(){
         game.load.spine('clown', "images/spines/Clown Rush.json");
         
         game.load.spritesheet('bMonster', 'images/clown/badclown.png', 173, 181, 16);
-        
-        //game.load.audio('circus', soundsPath + 'songs/circus_gentlejammers.mp3');
-		gameSong = sound.setSong(soundsPath + 'songs/circus_gentlejammers.mp3',0.3)
+        		
+		if(amazing.getMinigameId()){
+			gameSong = sound.setSong(soundsPath + 'songs/circus_gentlejammers.mp3',0.3)
+		}else{
+			game.load.audio('circus', soundsPath + 'songs/circus_gentlejammers.mp3');
+		}
+		
         
     }
     
@@ -1139,19 +1148,28 @@ var clownrush = function(){
             initialize()
             animateScene()
             
-            /*gameSong = game.add.audio('circus')
-            game.sound.setDecodedCallback(gameSong, function(){
-                gameSong.loopFull(0.3)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				gameSong = game.add.audio('circus')
+				game.sound.setDecodedCallback(gameSong, function(){
+					gameSong.loopFull(0.3)
+				}, this);
+			}
             
             game.onPause.add(function(){
-				gameSong.pause()
+				
+				if(amazing.getMinigameId()){
+					gameSong.pause()
+				}
+				
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
-				if(lives>0){
-					gameSong.play()
+				
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						gameSong.play()
+					}
 				}
 				
                 game.sound.mute = false

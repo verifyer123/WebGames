@@ -207,10 +207,13 @@ var chilimbalam = function(){
 		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
         game.load.spine('mascot', "images/spines/skeleton.json");
-        
-        //game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+        		
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
+		}else{
+			game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+		}
 		
-		marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
     }
     
     function inputButton(obj){
@@ -309,9 +312,12 @@ var chilimbalam = function(){
         
         buddy.setAnimationByName(0,"LOSE",0.6)
         
-        marioSong.pause()
-        //timer.pause()
-        
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
+                
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
             
@@ -870,23 +876,34 @@ var chilimbalam = function(){
         );
         
         game.onPause.add(function(){
+			
 			game.sound.mute = true
-			marioSong.pause()
+			if(amazing.getMinigameId()){
+				marioSong.pause()
+			}
+			
 		} , this);
 
 		game.onResume.add(function(){
 			game.sound.mute = false
-			if(lives>0){
-				marioSong.play()
+			
+			if(amazing.getMinigameId()){
+				if(lives>0){
+					marioSong.play()
+				}
 			}
+			
 		}, this);
         
         buddy.setSkinByName('combined')
-                
-        /*marioSong = game.add.audio('arcadeSong')
-        game.sound.setDecodedCallback(marioSong, function(){
-            //marioSong.loopFull(0.3)
-        }, this);*/
+            
+		if(!amazing.getMinigameId()){
+			
+			marioSong = game.add.audio('arcadeSong')
+			game.sound.setDecodedCallback(marioSong, function(){
+				marioSong.loopFull(0.3)
+			}, this);	
+		}
         
         var topRect = new Phaser.Graphics(game)
         topRect.beginFill(0xffffff);

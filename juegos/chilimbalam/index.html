@@ -22,7 +22,24 @@
 		if(window.mobilecheck()){
 			window.location.href = amazing.config.minigameUrl
 		}else{
-			window.location.href = amazing.config.desktopUrl
+			
+			var standalone = window.navigator.standalone,
+			userAgent = window.navigator.userAgent.toLowerCase(),
+			safari = /safari/.test( userAgent ),
+			ios = /iphone|ipod|ipad/.test( userAgent );
+
+			if( ios ) {
+				if ( !standalone && safari ) {
+					window.location.href = amazing.config.desktopUrl
+				} else if ( standalone && !safari ) {
+					window.location.href = amazing.config.desktopUrl
+				} else if ( !standalone && !safari ) {
+					window.location.href = amazing.config.minigameUrl
+			   };
+			} else {
+				window.location.href = amazing.config.desktopUrl
+			};
+			
 		}
 		
 	</script>

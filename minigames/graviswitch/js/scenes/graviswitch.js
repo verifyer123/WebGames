@@ -143,10 +143,12 @@ var graviswitch = function(){
         game.load.spritesheet('bMonster', 'images/graviswitch/bMonster.png', 83, 84, 16);
         game.load.spritesheet('bMonster2', 'images/graviswitch/bMonster2.png', 83, 84, 16);
         game.load.spritesheet('coinS', 'images/graviswitch/coinS.png', 68, 70, 12);
-        
-        //game.load.audio('marioSong', soundsPath + 'songs/funny_invaders.mp3');
-		marioSong = sound.setSong(soundsPath + 'songs/funny_invaders.mp3',0.4)
-        
+        		
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/funny_invaders.mp3',0.4)
+		}else{
+			game.load.audio('marioSong', soundsPath + 'songs/funny_invaders.mp3');
+		}       
         
     }
     
@@ -254,7 +256,11 @@ var graviswitch = function(){
     }
     function stopGame(win){
         
-        marioSong.pause()
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
         
         missPoint()
         sound.play("gameLose")
@@ -1076,11 +1082,12 @@ var graviswitch = function(){
             loadSounds()
 			initialize()       
             
-            /*//sound.play("marioSong")
-            marioSong = game.add.audio('marioSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                marioSong.loopFull(0.4)
-            }, this);*/
+			if(!amazing.getMinigameId()){
+				marioSong = game.add.audio('marioSong')
+				game.sound.setDecodedCallback(marioSong, function(){
+					marioSong.loopFull(0.4)
+				}, this);
+			}
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
@@ -1109,16 +1116,20 @@ var graviswitch = function(){
             
             game.onPause.add(function(){
                 game.sound.mute = true
-                buddy.setAnimationByName(0,"RUN",false)
-				marioSong.pause()
+                
+				if(amazing.getMinigameId()){
+					marioSong.pause()
+				}
+				
             } , this);
 
             game.onResume.add(function(){
                 game.sound.mute = false
-                buddy.setAnimationByName(0,"RUN",true)
 				
-				if(lives>0){
-					marioSong.play()
+				if(amazing.getMinigameId()){
+					if(lives>0){
+						marioSong.play()
+					}
 				}
 				
             }, this);
