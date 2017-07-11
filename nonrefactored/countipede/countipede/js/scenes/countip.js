@@ -53,10 +53,17 @@ var countip = function(){
 	var GRID_SIZE = 60
 	var MAX_SPACE = 54
 
-	// var ROUNDS = [
-	//     {continent: "america", flags: ["mexico", "usa"]},
-	//     {continent: "america", numFlags: 4},
-	//     {continent: "random", numFlags: 4}]
+	var ROUNDS = [
+	    {minNum:3, maxNum:3},
+	    {minNum:4, maxNum:4},
+	    {minNum:5, maxNum:9},
+	    {minNum:5, maxNum:9},
+	    {minNum:9, maxNum:15},
+	    {minNum:20, maxNum:20},
+	    {minNum:10, maxNum:20},
+	]
+
+	var COLORS = ["0xFF0A76", "0x750033"]
 
 	var lives
 	var sceneGroup = null
@@ -83,6 +90,7 @@ var countip = function(){
 	var apple
 	var grid
 	var newDirection
+	var answer
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -130,7 +138,8 @@ var countip = function(){
 		addNumberPart(pointsBar.text,'+' + number)
 
 		// if(pointsBar.number % 2 == 0){
-		timeValue-=timeValue * 0.10
+		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : roundCounter
+		speed+=speed * 0.10
 		// }
 
 	}
@@ -172,8 +181,8 @@ var countip = function(){
 		particle.makeParticles('atlas.countip',key);
 		particle.minParticleSpeed.setTo(-200, -50);
 		particle.maxParticleSpeed.setTo(200, -100);
-		particle.minParticleScale = 0.6;
-		particle.maxParticleScale = 1;
+		particle.minParticleScale = 0.2;
+		particle.maxParticleScale = 0.6;
 		particle.gravity = 150;
 		particle.angularDrag = 30;
 
@@ -186,14 +195,14 @@ var countip = function(){
 		//objectsGroup.timer.pause()
 		//timer.pause()
 		countipSong.stop()
-		clock.tween.stop()
+		// clock.tween.stop()
 		inputsEnabled = false
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
@@ -266,9 +275,14 @@ var countip = function(){
 	// }
 
 	function startRound(notStarted) {
-		isActive = true
-		// startSnake()
-		addRandomApple()
+		var round = ROUNDS[roundCounter]
+		answer = game.rnd.integerInRange(round.minNum, round.maxNum)
+		wormGroup.numberText.text = answer
+		game.add.tween(wormGroup.numberText.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true)
+		game.add.tween(wormGroup.numberText).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+
+		removeTail()
+		showWorm()
 
 	}
 
@@ -478,10 +492,11 @@ var countip = function(){
 		var circleGroup = game.add.group()
 		wormGroup.add(circleGroup)
 
+		var color = COLORS[worm.circles.length % COLORS.length]
 		var circle = game.add.graphics()
-		circle.beginFill(0xffffff)
+		circle.beginFill(color)
 		circle.drawCircle(0,0, 55)
-		circle.alpha = 0.5
+		// circle.alpha = 0.5
 		circle.endFill()
 
 		var circleSprite = game.add.sprite(0,0)
@@ -498,9 +513,9 @@ var countip = function(){
 
 		var hitbox = game.add.graphics()
 		hitbox.beginFill(0xffffff)
-		hitbox.drawRect(0,0,GRID_SIZE * 0.5, GRID_SIZE * 0.5)
+		hitbox.drawRect(0,0,GRID_SIZE * 0.45, GRID_SIZE * 0.45)
 		hitbox.endFill()
-		hitbox.alpha = 0.4
+		hitbox.alpha = 0
 		hitbox.x = -hitbox.width * 0.5
 		hitbox.y = -hitbox.height * 0.5
 		circleGroup.hitbox = hitbox
@@ -510,6 +525,9 @@ var countip = function(){
 		circleGroup.traceIndex = 0
 		circleGroup.trace = []
 		worm.circles.push(circleGroup)
+
+		var moveTween = game.add.tween(circleSprite.scale).to({x:0.8, y:0.8}, 500, Phaser.Easing.Sinusoidal.In, true)
+		moveTween.yoyo(true).loop(true)
 
 		wormGroup.sendToBack(circleGroup)
 
@@ -547,6 +565,7 @@ var countip = function(){
 		worm.circles = []
 		worm.trace = []
 		worm.circles.push(worm)
+		worm.alpha = 0
 		worm.oldX = 0
 		worm.oldY = 0
 
@@ -569,6 +588,25 @@ var countip = function(){
 		boxGroup.add(exit)
 		wormGroup.exit = exit
 
+		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var numberText = new Phaser.Text(game, 0, -boxGroup.height * 0.5 + 78, "0", fontStyle)
+		numberText.anchor.setTo(0.5, 0.5)
+		boxGroup.add(numberText)
+		wormGroup.numberText = numberText
+		numberText.alpha = 0
+		numberText.scale.setTo(0.4, 0.4)
+
+		var correctParticle = createPart("star")
+		worm.correctParticle = correctParticle
+		sceneGroup.add(correctParticle)
+		// correctParticle.x = game.world.centerX - box.width * 0.5 + 80
+		// correctParticle.y = game.world.centerY - box.height * 0.5 + 100
+
+		var wrongParticle = createPart("wrong")
+		worm.wrongParticle = wrongParticle
+		sceneGroup.add(wrongParticle)
+		// wrongParticle.x = game.world.centerX - box.width * 0.5 + 80
+		// wrongParticle.y = game.world.centerY - box.height * 0.5 + 100
 
 		// addCircleWorm()
 		// addCircleWorm()
@@ -607,6 +645,52 @@ var countip = function(){
 		}
 
 	}
+
+	function showWorm(){
+		var fromX = wormGroup.exit.x + 95
+		var fromY = wormGroup.exit.y + 50
+		var toY = fromY + 80
+		worm.direction = "down"
+		worm.setSkinByName("front")
+
+		worm.x = fromX
+		worm.y = fromY
+		for(var circleIndex = 0; circleIndex < worm.circles.length; circleIndex++){
+			var circle = worm.circles[circleIndex]
+			var delay = (circleIndex + 1) * 100
+			var time = circleIndex * 100 + 400
+			game.add.tween(circle).to({y:toY}, time, null, true, delay)
+			game.add.tween(circle).to({alpha:1}, time, Phaser.Easing.Cubic.Out, true)
+		}
+
+		var totalDelay = worm.circles.length * 100
+		var totalTime = worm.circles.length * 100 + 400
+		var sumDelay = totalDelay + totalTime
+		game.time.events.add(sumDelay, function () {
+			isActive = true
+			addRandomApple()
+		})
+	}
+	
+	function checkAnswer() {
+		game.add.tween(wormGroup.numberText.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(wormGroup.numberText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+
+		console.log(worm.number)
+		if(worm.number === answer){
+			worm.correctParticle.x = game.world.centerX - 175
+			worm.correctParticle.y = game.world.centerY - 300
+			worm.correctParticle.start(true, 1000, null, 5)
+			game.time.events.add(1200, startRound)
+			addPoint(1)
+		}else {
+			worm.wrongParticle.x = game.world.centerX - 175
+			worm.wrongParticle.y = game.world.centerY - 300
+			worm.wrongParticle.start(true, 1000, null, 5)
+			stopGame()
+		}
+
+	}
 	
 	function hideWorm() {
 		var toX = wormGroup.exit.x + 95
@@ -615,10 +699,17 @@ var countip = function(){
 		for(var circleIndex = 0; circleIndex < worm.circles.length; circleIndex++){
 			var circle = worm.circles[circleIndex]
 			var delay = (circleIndex + 1) * 100
-			var time = circleIndex * 100 + 400
+			var time = circleIndex * 100 + 300
 			game.add.tween(circle).to({x:toX, y:toY}, time, null, true, delay)
 			game.add.tween(circle).to({alpha:0}, time, Phaser.Easing.Cubic.In, true, delay * 2)
+			circle.trace = []
+			circle.traceIndex = 0
 		}
+
+		var totalDelay = worm.circles.length * 100
+		var totalTime = worm.circles.length * 100 + 400
+		var sumDelay = totalDelay + totalTime + 400
+		game.time.events.add(sumDelay, checkAnswer)
 	}
 	
 	function checkExit() {
@@ -626,6 +717,11 @@ var countip = function(){
 		var collide = checkOverlap2(worm.hitbox, wormGroup.exit)
 		if(collide){
 			isActive = false
+			if(apple.tween)
+				apple.tween.stop()
+			game.add.tween(apple).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+			game.add.tween(apple.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.Out, true)
+			worm.number = worm.circles.length - 1
 			hideWorm()
 		}
 	}
@@ -637,6 +733,14 @@ var countip = function(){
 
 		return Phaser.Rectangle.intersects(spriteA , boundsB );
 
+	}
+	
+	function removeTail() {
+		for(var circleIndex = worm.circles.length - 1, num = 1; circleIndex >= num; circleIndex--){
+			var circle = worm.circles[circleIndex]
+			worm.circles.pop()
+			circle.destroy()
+		}
 	}
 
 	function checkOverlap2(spriteA, spriteB) {
@@ -663,7 +767,8 @@ var countip = function(){
 	function addRandomApple() {
 
 		isActive = false
-		apple.alpha = 0
+		if(apple.tween)
+			apple.tween.stop()
 
 		grid = Phaser.ArrayUtils.shuffle(grid)
 		var randomElement = grid[0]
@@ -688,6 +793,14 @@ var countip = function(){
 			apple.alpha = 1
 			apple.x = x, apple.y = y
 			apple.revive()
+
+			// apple.alpha = 0
+			game.add.tween(apple.scale).to({x:1, y:1}, 400, Phaser.Easing.Cubic.Out, true)
+			var appleAppear = game.add.tween(apple).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true)
+			appleAppear.onComplete.add(function () {
+				apple.collided = false
+				apple.tween = game.add.tween(apple.scale).to({x:1.1, y:0.9}, 300, Phaser.Easing.Cubic.Out, true, 300).yoyo(true).loop(true)
+			})
 		}
 
 	}
@@ -701,6 +814,10 @@ var countip = function(){
 			if ((collide)&&(circle.trace.length > 0)){
 				isActive = false
 				worm.setAnimation(["LOSE"])
+				worm.wrongParticle.x = worm.centerX
+				worm.wrongParticle.y = worm.centerY
+				worm.wrongParticle.start(true, 1000, null, 5)
+				stopGame()
 				break;
 			}
 
@@ -717,6 +834,10 @@ var countip = function(){
 		if(!contains){
 			isActive = false
 			worm.setAnimation(["LOSE"])
+			worm.wrongParticle.x = worm.centerX
+			worm.wrongParticle.y = worm.centerY
+			worm.wrongParticle.start(true, 1000, null, 5)
+			stopGame()
 		}
 	}
 	
@@ -807,11 +928,16 @@ var countip = function(){
 		var checkRect = new Phaser.Rectangle(x, y, apple.width, apple.height)
 
 		var collision = checkCollision(checkRect)
-		if(apple.alive) {
+		if(!apple.collided) {
 			if (collision) {
-				apple.kill()
 				addCircleWorm()
-				addRandomApple()
+				apple.collided = true
+				game.add.tween(apple).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+				var appleDissapear = game.add.tween(apple.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.Out, true)
+				appleDissapear.onComplete.add(function(){
+					apple.kill()
+					addRandomApple()
+				})
 			}
 		}
 
