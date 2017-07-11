@@ -32,8 +32,6 @@ var countip = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "magic",
 				file: soundsPath + "magic.mp3"},
-			{	name: "dragUnit",
-				file: soundsPath + "dragUnit.mp3"},
 			{	name: "cut",
 				file: soundsPath + "cut.mp3"},
 			{	name: "bite",
@@ -67,7 +65,7 @@ var countip = function(){
 	var COLORS = ["0xFF0A76", "0x750033"]
 
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 54
 	var tutoGroup
 	var countipSong
 	var heartsGroup = null
@@ -629,6 +627,7 @@ var countip = function(){
 		var toY = wormGroup.exit.y + 50
 
 		var tweenCounter
+		wormGroup.wormCounter.text = 0
 		game.add.tween(wormGroup.wormCounter).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
 		for(var circleIndex = 0; circleIndex < worm.circles.length; circleIndex++){
 			var circle = worm.circles[circleIndex]
