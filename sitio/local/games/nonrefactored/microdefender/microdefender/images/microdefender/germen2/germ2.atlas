@@ -1,0 +1,48 @@
+
+germ2.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+germ2/germ2_anthena1
+  rotate: false
+  xy: 2, 2
+  size: 111, 91
+  orig: 111, 91
+  offset: 0, 0
+  index: -1
+germ2/germ2_anthena2
+  rotate: false
+  xy: 632, 397
+  size: 111, 91
+  orig: 111, 91
+  offset: 0, 0
+  index: -1
+germ2/germ2_bags
+  rotate: false
+  xy: 434, 370
+  size: 196, 118
+  orig: 196, 118
+  offset: 0, 0
+  index: -1
+germ2/germ2_eye
+  rotate: false
+  xy: 434, 194
+  size: 139, 174
+  orig: 139, 174
+  offset: 0, 0
+  index: -1
+germ2/germ2_eyelid
+  rotate: false
+  xy: 434, 142
+  size: 34, 50
+  orig: 34, 50
+  offset: 0, 0
+  index: -1
+germ2/germ2_torso
+  rotate: false
+  xy: 2, 95
+  size: 430, 393
+  orig: 430, 393
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,97 @@
+
+aves.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+aguila/ala
+  rotate: true
+  xy: 776, 292
+  size: 105, 173
+  orig: 105, 173
+  offset: 0, 0
+  index: -1
+aguila/ala1
+  rotate: true
+  xy: 177, 32
+  size: 105, 173
+  orig: 105, 173
+  offset: 0, 0
+  index: -1
+aguila/patas
+  rotate: false
+  xy: 2, 2
+  size: 25, 27
+  orig: 25, 27
+  offset: 0, 0
+  index: -1
+aguila/torso
+  rotate: false
+  xy: 2, 260
+  size: 294, 121
+  orig: 294, 121
+  offset: 0, 0
+  index: -1
+alcon/ala
+  rotate: true
+  xy: 2, 31
+  size: 106, 173
+  orig: 106, 173
+  offset: 0, 0
+  index: -1
+alcon/ala1
+  rotate: true
+  xy: 600, 398
+  size: 106, 174
+  orig: 106, 174
+  offset: 0, 0
+  index: -1
+alcon/torso
+  rotate: false
+  xy: 318, 384
+  size: 280, 120
+  orig: 280, 120
+  offset: 0, 0
+  index: -1
+buho/ala
+  rotate: true
+  xy: 776, 185
+  size: 105, 173
+  orig: 105, 173
+  offset: 0, 0
+  index: -1
+buho/ala1
+  rotate: true
+  xy: 318, 277
+  size: 105, 173
+  orig: 105, 173
+  offset: 0, 0
+  index: -1
+buho/torso
+  rotate: false
+  xy: 2, 139
+  size: 249, 119
+  orig: 249, 119
+  offset: 0, 0
+  index: -1
+carpintero/ala
+  rotate: true
+  xy: 776, 399
+  size: 105, 174
+  orig: 105, 174
+  offset: 0, 0
+  index: -1
+carpintero/ala1
+  rotate: true
+  xy: 600, 291
+  size: 105, 174
+  orig: 105, 174
+  offset: 0, 0
+  index: -1
+carpintero/torso
+  rotate: false
+  xy: 2, 383
+  size: 314, 121
+  orig: 314, 121
+  offset: 0, 0
+  index: -1

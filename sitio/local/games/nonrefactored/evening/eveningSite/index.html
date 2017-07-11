@@ -1,0 +1,113 @@
+<html>
+    <script>
+        
+    var language = "EN"
+    if(parent.window.location.search){
+        var params = parent.window.location.search.trim(1)
+        var regex = /language=(..)/i
+        var result = regex.exec(params)
+        if(result){
+            language = result[result.index].toUpperCase()    
+        }else{
+            language = "EN"
+        }
+
+    }    
+        
+    var meta = document.createElement('meta');
+    meta.setAttribute("property","og:description");
+    meta.content = "Prueba";        
+
+    if(language == "ES"){
+        meta.content = "¡Agarraga la moneda correcta!";    
+    }else{
+        meta.content = "Take the correct coins!";        
+    }
+        
+    document.getElementsByTagName('head')[0].appendChild(meta);    
+        
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta property="og:url"				content="http://yogome.com/epic/minigames/eveningSite/" />
+    <meta property="og:type"			content="article" />
+    <meta property="og:title"			content="Evening" />
+    <meta property="og:image"			content="http://yogome.com/epic/minigames/eveningSite/images/fbpost.png" />
+    <head>
+        <title>Smart Games</title>
+        <link rel="stylesheet" type="text/css" href="../../yogomeSkin/css/fonts.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    </head>	
+    <body>
+        <div class="main-content">
+            <section class="banner-content header-content">
+                <img class="logo-brand" src="images/yogome_logo.png"/> 
+                <div class="banner-game">
+                    <div class="games-img">
+                        <a href="http://yogo.me/WebGames_Epic" target="_blank">
+                        <img src="../../yogomeSkin/images/epic_logo.png"/>
+                        </a>
+                    </div>
+                    <div class="games-img">
+                        <a href="http://yogo.me/WebGames_KA" target="_blank">
+                        <img src="../../yogomeSkin/images/ka_logo.png" />
+                        </a>
+                    </div>
+                    <div class="games-img">
+                        <a href="http://yogo.me/WebGames_KB" target="_blank">
+                        <img src="../../yogomeSkin/images/kb_logo.png" />
+                        </a>
+                    </div>
+                    <div class="games-img">
+                        <a href="http://yogo.me/WebGames_TT" target="_blank">
+                            <img  src="../../yogomeSkin/images/tt_logo.png"/></a>
+                    </div>
+                    <div class="games-img">
+                        <a href="http://yogo.me/WebGames_KM" target="_blank">
+                            <img src="../../yogomeSkin/images/km_logo.png"/></a>
+                    </div>
+                </div>
+            </section>
+            <div id="yogotars">
+                <img class="eagle" src="../../yogomeSkin/images/eagle.png">
+                <img class="luna" src="../../yogomeSkin/images/luna.png">
+            </div>
+            <div class="logo_sm">
+                <div class="banner-games">
+                    
+                    <div class="games-container">
+                        <img class="logo-brand" src="images/oejr_logo_sm.png"/>
+                        <div class="games-img">
+                            <a href="http://yogo.me/WebGames_Epic" target="_blank">
+                            <img src="../../yogomeSkin/images/epic_logo.png"/>
+                            </a>
+                        </div>
+                        <div class="games-img">
+                            <a href="http://yogo.me/WebGames_KB" target="_blank">
+                            <img src="../../yogomeSkin/images/kb_logo.png" />
+                            </a>
+                        </div>
+                        <div class="games-img">
+                            <a href="http://yogo.me/WebGames_TT" target="_blank">
+                            <img  src="../../yogomeSkin/images/tt_logo.png" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="content-game middle-content">
+                <div id="game-container" class="game-canvas">
+                    <!-- This is there the game iframe is inserted -->
+                </div>
+            </section>
+        </div>
+    </body>    
+    <script src="js/config.js"></script>
+    <script src="../../yogomeSkin/js/desktop.js"></script>    
+</html>

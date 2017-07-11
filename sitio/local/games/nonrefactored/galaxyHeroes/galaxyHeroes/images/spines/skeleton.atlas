@@ -1,0 +1,132 @@
+
+skeleton.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Luna/arm1
+  rotate: false
+  xy: 1733, 433
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Luna/arm2
+  rotate: false
+  xy: 1966, 803
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Luna/foot1
+  rotate: false
+  xy: 1875, 595
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Luna/foot2
+  rotate: false
+  xy: 840, 161
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Luna/hair
+  rotate: false
+  xy: 1540, 361
+  size: 191, 257
+  orig: 191, 257
+  offset: 0, 0
+  index: -1
+Luna/hand1
+  rotate: false
+  xy: 840, 213
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Luna/hand2
+  rotate: true
+  xy: 1966, 865
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Luna/head_a
+  rotate: false
+  xy: 1188, 358
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Luna/head_d
+  rotate: false
+  xy: 488, 42
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_f
+  rotate: true
+  xy: 1703, 647
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_h
+  rotate: true
+  xy: 925, 368
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/leg1
+  rotate: true
+  xy: 1966, 927
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Luna/leg2
+  rotate: true
+  xy: 925, 306
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Luna/ship1
+  rotate: false
+  xy: 1217, 620
+  size: 484, 377
+  orig: 484, 377
+  offset: 0, 0
+  index: -1
+Luna/ship2
+  rotate: false
+  xy: 2, 2
+  size: 484, 301
+  orig: 484, 301
+  offset: 0, 0
+  index: -1
+Luna/ship3
+  rotate: false
+  xy: 2, 305
+  size: 921, 413
+  orig: 921, 413
+  offset: 0, 0
+  index: -1
+Luna/ship4
+  rotate: true
+  xy: 2, 720
+  size: 277, 1213
+  orig: 277, 1213
+  offset: 0, 0
+  index: -1
+Luna/torso
+  rotate: false
+  xy: 1733, 495
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1

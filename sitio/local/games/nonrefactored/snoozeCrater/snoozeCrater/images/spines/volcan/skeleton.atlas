@@ -1,0 +1,118 @@
+
+skeleton.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+crater/cheek1
+  rotate: false
+  xy: 1774, 447
+  size: 54, 51
+  orig: 54, 51
+  offset: 0, 0
+  index: -1
+crater/cheek2
+  rotate: false
+  xy: 1044, 239
+  size: 49, 46
+  orig: 49, 46
+  offset: 0, 0
+  index: -1
+crater/eye1a
+  rotate: false
+  xy: 1830, 447
+  size: 34, 14
+  orig: 34, 14
+  offset: 0, 0
+  index: -1
+crater/eye1b
+  rotate: false
+  xy: 1830, 463
+  size: 39, 35
+  orig: 39, 35
+  offset: 0, 0
+  index: -1
+crater/eye1c
+  rotate: false
+  xy: 1095, 259
+  size: 32, 26
+  orig: 32, 26
+  offset: 0, 0
+  index: -1
+crater/eye2a
+  rotate: false
+  xy: 1871, 484
+  size: 34, 14
+  orig: 34, 14
+  offset: 0, 0
+  index: -1
+crater/eye2b
+  rotate: false
+  xy: 1044, 202
+  size: 39, 35
+  orig: 39, 35
+  offset: 0, 0
+  index: -1
+crater/eye2c
+  rotate: false
+  xy: 1774, 393
+  size: 27, 27
+  orig: 27, 27
+  offset: 0, 0
+  index: -1
+crater/land
+  rotate: false
+  xy: 1174, 305
+  size: 598, 193
+  orig: 598, 193
+  offset: 0, 0
+  index: -1
+crater/mouth1a
+  rotate: false
+  xy: 1774, 422
+  size: 54, 23
+  orig: 54, 23
+  offset: 0, 0
+  index: -1
+crater/mouth1b
+  rotate: false
+  xy: 1174, 290
+  size: 64, 13
+  orig: 64, 13
+  offset: 0, 0
+  index: -1
+crater/mouth1c
+  rotate: false
+  xy: 1044, 186
+  size: 34, 14
+  orig: 34, 14
+  offset: 0, 0
+  index: -1
+crater/trees1
+  rotate: false
+  xy: 513, 143
+  size: 529, 142
+  orig: 529, 142
+  offset: 0, 0
+  index: -1
+crater/trees2
+  rotate: false
+  xy: 2, 2
+  size: 531, 131
+  orig: 531, 131
+  offset: 0, 0
+  index: -1
+crater/volcano
+  rotate: false
+  xy: 2, 135
+  size: 509, 363
+  orig: 509, 363
+  offset: 0, 0
+  index: -1
+crater/waves
+  rotate: false
+  xy: 513, 287
+  size: 659, 211
+  orig: 659, 211
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,48 @@
+
+owl.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_15
+  rotate: false
+  xy: 2, 32
+  size: 64, 85
+  orig: 64, 85
+  offset: 0, 0
+  index: -1
+normal/eyes1
+  rotate: true
+  xy: 68, 38
+  size: 54, 9
+  orig: 54, 9
+  offset: 0, 0
+  index: -1
+normal/eyes2
+  rotate: false
+  xy: 68, 94
+  size: 51, 23
+  orig: 51, 23
+  offset: 0, 0
+  index: -1
+normal/face
+  rotate: false
+  xy: 2, 2
+  size: 56, 28
+  orig: 56, 28
+  offset: 0, 0
+  index: -1
+normal/mouth
+  rotate: true
+  xy: 79, 65
+  size: 11, 8
+  orig: 11, 8
+  offset: 0, 0
+  index: -1
+normal/sorpraice
+  rotate: false
+  xy: 79, 78
+  size: 9, 14
+  orig: 9, 14
+  offset: 0, 0
+  index: -1
