@@ -2,17 +2,17 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var countip = function(){
 
-	var localizationData = {
-		"EN":{
-			"howTo":"How to Play?",
-			"moves":"Moves left"
-		},
-
-		"ES":{
-			"moves":"Movimientos extra",
-			"howTo":"¿Cómo jugar?"
-		}
-	}
+	// var localizationData = {
+	// 	"EN":{
+	// 		"howTo":"How to Play?",
+	// 		"moves":"Moves left"
+	// 	},
+	//
+	// 	"ES":{
+	// 		"moves":"Movimientos extra",
+	// 		"howTo":"¿Cómo jugar?"
+	// 	}
+	// }
 
 
 	var assets = {
@@ -32,10 +32,12 @@ var countip = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "magic",
 				file: soundsPath + "magic.mp3"},
+			{	name: "dragUnit",
+				file: soundsPath + "dragUnit.mp3"},
 			{	name: "cut",
 				file: soundsPath + "cut.mp3"},
-			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
+			{	name: "bite",
+				file: soundsPath + "bite.mp3"},
 			{	name: "flip",
 				file: soundsPath + "flipCard.mp3"},
 			{	name: "swipe",
@@ -49,7 +51,6 @@ var countip = function(){
 		]
 	}
 
-	var NUM_LIFES = 3
 	var GRID_SIZE = 60
 	var MAX_SPACE = 54
 
@@ -60,19 +61,16 @@ var countip = function(){
 	    {minNum:5, maxNum:9},
 	    {minNum:9, maxNum:15},
 	    {minNum:20, maxNum:20},
-	    {minNum:10, maxNum:20},
+	    {minNum:10, maxNum:20}
 	]
 
 	var COLORS = ["0xFF0A76", "0x750033"]
 
-	var lives
 	var sceneGroup = null
 	var gameIndex = 33
 	var tutoGroup
 	var countipSong
 	var heartsGroup = null
-	var pullGroup = null
-	var clock
 	var timeValue
 	var quantNumber
 	var inputsEnabled
@@ -101,7 +99,6 @@ var countip = function(){
 
 		game.stage.backgroundColor = "#ffffff"
 		//gameActive = true
-		lives = NUM_LIFES
 		timeValue = 7
 		quantNumber = 2
 		roundCounter = 0
@@ -190,10 +187,11 @@ var countip = function(){
 
 	}
 
-	function stopGame(win){
+	function stopGame(){
 
 		//objectsGroup.timer.pause()
 		//timer.pause()
+		sound.play("wrong")
 		countipSong.stop()
 		// clock.tween.stop()
 		inputsEnabled = false
@@ -213,7 +211,7 @@ var countip = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('countipSong', soundsPath + 'songs/wormwood.mp3');
+		game.load.audio('countipSong', soundsPath + 'songs/classic_arcade.mp3');
 
 		game.load.image('introscreen',"images/countip/introscreen.png")
 		game.load.image('howTo',"images/countip/how" + localization.getLanguage() + ".png")
@@ -274,80 +272,16 @@ var countip = function(){
 	// 	}
 	// }
 
-	function startRound(notStarted) {
+	function startRound() {
 		var round = ROUNDS[roundCounter]
 		answer = game.rnd.integerInRange(round.minNum, round.maxNum)
-		wormGroup.numberText.text = answer
-		game.add.tween(wormGroup.numberText.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true)
-		game.add.tween(wormGroup.numberText).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+		wormGroup.answerText.text = answer
+		game.add.tween(wormGroup.answerText.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true)
+		game.add.tween(wormGroup.answerText).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
 
 		removeTail()
 		showWorm()
 
-	}
-
-	function missPoint(){
-
-		sound.play("wrong")
-		inputsEnabled = false
-
-		lives--;
-		heartsGroup.text.setText('X ' + lives)
-
-		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-		scaleTween.onComplete.add(function(){
-			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-		})
-
-		if(lives === 0){
-			stopGame(false)
-		}
-		else{
-			startRound()
-		}
-
-		addNumberPart(heartsGroup.text,'-1')
-	}
-
-	function createHearts(){
-
-		heartsGroup = game.add.group()
-		heartsGroup.y = 10
-		sceneGroup.add(heartsGroup)
-
-		var pivotX = 10
-		var group = game.add.group()
-		group.x = pivotX
-		heartsGroup.add(group)
-
-		var heartImg = group.create(0,0,'atlas.countip','life_box')
-
-		pivotX+= heartImg.width * 0.45
-
-		var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-		pointsText.x = pivotX
-		pointsText.y = heartImg.height * 0.15
-		pointsText.setText('X ' + lives)
-		heartsGroup.add(pointsText)
-
-		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-		heartsGroup.text = pointsText
-
-	}
-
-	function startTimer(onComplete) {
-		var delay = 500
-		// clock.bar.scale.x = clock.bar.origScale
-		if (clock.tween)
-			clock.tween.stop()
-
-
-		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
-		clock.tween.onComplete.add(function(){
-			onComplete()
-		})
 	}
 
 	function onClickPlay(rect) {
@@ -386,6 +320,7 @@ var countip = function(){
 
 		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.countip','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
+		tuto.scale.setTo(0.9, 0.9)
 
 		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
@@ -400,33 +335,13 @@ var countip = function(){
 		//console.log(inputName)
 		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.countip',inputName)
 		inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
+		// inputLogo.scale.setTo(0.7,0.7)
 
 		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.countip','button')
 		button.anchor.setTo(0.5,0.5)
 
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)
-	}
-
-	function createClock(){
-
-		clock = game.add.group()
-		clock.x = game.world.centerX
-		clock.y = game.world.centerY + 80
-		sceneGroup.add(clock)
-
-		var clockImage = clock.create(0,0,'atlas.countip','clock')
-		clockImage.anchor.setTo(0.5,0.5)
-
-		var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.countip','bar')
-		clockBar.anchor.setTo(0,0.5)
-		clockBar.width = clockImage.width*0.76
-		clockBar.height = 22
-		clockBar.origScale = clockBar.scale.x
-
-		clock.bar = clockBar
-
 	}
 
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
@@ -547,7 +462,7 @@ var countip = function(){
 		hitBox.beginFill(0xffffff)
 		hitBox.drawRect(0,0,440, 575)
 		hitBox.endFill()
-		hitBox.alpha = 0.4
+		hitBox.alpha = 0
 		hitBox.x = -hitBox.width * 0.5
 		hitBox.y = -hitBox.height * 0.5 + 25
 		boxGroup.add(hitBox)
@@ -573,7 +488,7 @@ var countip = function(){
 		worm.hitbox.beginFill(0xffffff)
 		worm.hitbox.drawRect(0,0,25, 25)
 		worm.hitbox.endFill()
-		worm.hitbox.alpha = 0.4
+		worm.hitbox.alpha = 0
 		worm.hitbox.x = -worm.hitbox.width * 0.5
 		worm.hitbox.y = -worm.hitbox.height * 0.5
 		worm.add(worm.hitbox)
@@ -582,19 +497,27 @@ var countip = function(){
 		exit.beginFill(0x000000)
 		exit.drawRect(0,0,150, 100)
 		exit.endFill()
-		exit.alpha = 0.4
+		exit.alpha = 0
 		exit.x = -boxGroup.width * 0.5
 		exit.y = -boxGroup.height * 0.5 + 75
 		boxGroup.add(exit)
 		wormGroup.exit = exit
 
 		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var numberText = new Phaser.Text(game, 0, -boxGroup.height * 0.5 + 78, "0", fontStyle)
-		numberText.anchor.setTo(0.5, 0.5)
-		boxGroup.add(numberText)
-		wormGroup.numberText = numberText
-		numberText.alpha = 0
-		numberText.scale.setTo(0.4, 0.4)
+		var answerText = new Phaser.Text(game, boxGroup.width * 0.5 - 82, -boxGroup.height * 0.5 + 78, "0", fontStyle)
+		answerText.anchor.setTo(0.5, 0.5)
+		boxGroup.add(answerText)
+		wormGroup.answerText = answerText
+		answerText.alpha = 0
+		answerText.scale.setTo(0.4, 0.4)
+
+		var fontStyle2 = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var wormCounter = new Phaser.Text(game, -20, -boxGroup.height * 0.5 + 68, "0", fontStyle2)
+		wormCounter.anchor.setTo(0.5, 0.5)
+		boxGroup.add(wormCounter)
+		wormGroup.wormCounter = wormCounter
+		wormCounter.alpha = 0
+		wormCounter.scale.setTo(0.8, 0.8)
 
 		var correctParticle = createPart("star")
 		worm.correctParticle = correctParticle
@@ -655,6 +578,7 @@ var countip = function(){
 
 		worm.x = fromX
 		worm.y = fromY
+		sound.play("cut")
 		for(var circleIndex = 0; circleIndex < worm.circles.length; circleIndex++){
 			var circle = worm.circles[circleIndex]
 			var delay = (circleIndex + 1) * 100
@@ -671,18 +595,26 @@ var countip = function(){
 			addRandomApple()
 		})
 	}
+
+	function hideTexts(){
+		game.add.tween(wormGroup.answerText.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Cubic.Out, true, 600)
+		game.add.tween(wormGroup.answerText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 600)
+
+		game.add.tween(wormGroup.wormCounter.scale).to({x:0.8, y:0.8}, 300, Phaser.Easing.Cubic.Out, true, 600)
+		game.add.tween(wormGroup.wormCounter).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 600)
+
+	}
 	
 	function checkAnswer() {
-		game.add.tween(wormGroup.numberText.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Cubic.Out, true)
-		game.add.tween(wormGroup.numberText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 
 		console.log(worm.number)
 		if(worm.number === answer){
 			worm.correctParticle.x = game.world.centerX - 175
 			worm.correctParticle.y = game.world.centerY - 300
 			worm.correctParticle.start(true, 1000, null, 5)
+			hideTexts()
 			game.time.events.add(1200, startRound)
-			addPoint(1)
+			addPoint(5)
 		}else {
 			worm.wrongParticle.x = game.world.centerX - 175
 			worm.wrongParticle.y = game.world.centerY - 300
@@ -696,12 +628,29 @@ var countip = function(){
 		var toX = wormGroup.exit.x + 95
 		var toY = wormGroup.exit.y + 50
 
+		var tweenCounter
+		game.add.tween(wormGroup.wormCounter).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
 		for(var circleIndex = 0; circleIndex < worm.circles.length; circleIndex++){
 			var circle = worm.circles[circleIndex]
 			var delay = (circleIndex + 1) * 100
 			var time = circleIndex * 100 + 300
+			circle.circleIndex = circleIndex
+			
 			game.add.tween(circle).to({x:toX, y:toY}, time, null, true, delay)
-			game.add.tween(circle).to({alpha:0}, time, Phaser.Easing.Cubic.In, true, delay * 2)
+			var dissapear = game.add.tween(circle).to({alpha:0}, time, Phaser.Easing.Cubic.In, true, delay * 2)
+			dissapear.onStart.add(function (obj) {
+				sound.play("cut")
+				if(obj.circleIndex > 0){
+					wormGroup.wormCounter.text = obj.circleIndex
+					var wormCounter = wormGroup.wormCounter
+					if(tweenCounter)
+						tweenCounter.stop()
+					wormCounter.scale.x = 0.8
+					wormCounter.scale.y = 0.8
+					game.add.tween(wormCounter.scale).to({x:1, y:1}, 300, Phaser.Easing.Cubic.Out, true)
+				}
+			})
+			
 			circle.trace = []
 			circle.traceIndex = 0
 		}
@@ -713,7 +662,7 @@ var countip = function(){
 	}
 	
 	function checkExit() {
-		var head = worm.circles[0]
+		// var head = worm.circles[0]
 		var collide = checkOverlap2(worm.hitbox, wormGroup.exit)
 		if(collide){
 			isActive = false
@@ -791,7 +740,7 @@ var countip = function(){
 		}else {
 			isActive = true
 			apple.alpha = 1
-			apple.x = x, apple.y = y
+			apple.x = x; apple.y = y
 			apple.revive()
 
 			// apple.alpha = 0
@@ -853,11 +802,11 @@ var countip = function(){
 			var spaceTrace = Math.round(MAX_SPACE / speed)
 			if(pastCircle.trace[spaceTrace]){
 				var trace = pastCircle.trace[circle.traceIndex]
-				circle.x = trace.x, circle.y = trace.y
+				circle.x = trace.x; circle.y = trace.y
 				circle.traceIndex++
 
-				var trace = {x:circle.x, y:circle.y}
-				circle.trace.push(trace)
+				var newtrace = {x:circle.x, y:circle.y}
+				circle.trace.push(newtrace)
 			}
 		}
 	}
@@ -931,6 +880,7 @@ var countip = function(){
 		if(!apple.collided) {
 			if (collision) {
 				addCircleWorm()
+				sound.play("bite")
 				apple.collided = true
 				game.add.tween(apple).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 				var appleDissapear = game.add.tween(apple.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.Out, true)
@@ -984,7 +934,6 @@ var countip = function(){
 			generateGrid()
 			initialize()
 
-			createHearts()
 			createPointsBar()
 			createGameObjects()
 			// createClock()
@@ -992,7 +941,7 @@ var countip = function(){
 
 			// addRandomApple()
 
-			buttons.getButton(countipSong,sceneGroup,game.world.width - 50)
+			buttons.getButton(countipSong,sceneGroup)
 		}
 	}
 }()

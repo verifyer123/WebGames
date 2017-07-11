@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Uni Dream",
+        name: "Countipede",
         language: "es",
-        minigameUrl: "../uniDream/index.html?language=" + language,
+        minigameUrl: "../countipede/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
