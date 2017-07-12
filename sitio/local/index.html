@@ -103,7 +103,7 @@
 
 			var num = i;
 			if(games[i].review){
-				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' href='" + pathGames + games[num].name + '/' + games[i].name + 'Site/index.html'  + "' target='_blank'><img class='growMouse img-responsive' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
+				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' href='" + pathGames + games[num].name + '/' + games[i].name + 'Site/index.html'  + "' target='_blank'><img class='growMouse img-responsive' src='" + pathGames + games[num].name + '/' + games[i].name + "Site/images/fbpost.png" + "'/></a> </div>");
 				$("#gameimg" + num).attr("value",i)
 			}
 
