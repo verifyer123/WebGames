@@ -54,10 +54,31 @@ var toyfigure = function(){
 	var activeGame = true;
     var repizasArray = new Array;
     var goodAnswer = 0;
-    var time = 61;
+    var time = 120;
     var timerBar = null;
     var NumwebGame = 55;
 
+    var isMobile = {
+        Android: function() {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+            return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+        },
+        any: function() {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+        }
+    };    
+    
     
     function getRandomArbitrary(min, max) {
   		return Math.floor(Math.random() * (max - min) + min);
@@ -165,7 +186,14 @@ var toyfigure = function(){
         var position0x = 0 + repizasArray[0].width/1.5;
         var position0y = game.world.centerY - repizasArray[0].height*2.2;
         
-        var position1x = 0 + repizasArray[0].width*1.9;
+        if(isMobile.any()){
+            var position1x = 0 + repizasArray[0].width*1.9;
+           
+           }else{
+               var position1x = game.world.centerX - repizasArray[0].width/2;
+           }
+        
+        
         var position1y = game.world.centerY - repizasArray[0].height*2.2; 
         
         var position2x = game.world.centerX + repizasArray[0].width*1.2;
@@ -296,7 +324,6 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
 			sceneloader.show("result");
 		}
         
-        timerClock();
         
         function choiceToy(){
             

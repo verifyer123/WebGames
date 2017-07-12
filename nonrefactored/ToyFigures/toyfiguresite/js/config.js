@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "toyfigure",
         language: "es",
-        minigameUrl: "../pizzafraction/index.html?language=" + language,
+        minigameUrl: "../toyfigure/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
