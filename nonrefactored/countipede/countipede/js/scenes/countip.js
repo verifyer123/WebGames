@@ -68,7 +68,7 @@ var countip = function(){
 	var gameIndex = 54
 	var tutoGroup
 	var countipSong
-	var heartsGroup = null
+	var exitArrow
 	var timeValue
 	var quantNumber
 	var inputsEnabled
@@ -168,6 +168,14 @@ var countip = function(){
 		apple.anchor.setTo(0.5, 0.5)
 		apple.kill()
 
+		exitArrow = wormGroup.create(0,0, "atlas.countip", "arrow")
+		exitArrow.anchor.setTo(0.5, 0.5)
+		exitArrow.x = - hitBox.width * 0.5 + 60
+		exitArrow.y = - hitBox.height * 0.5 + 100
+		exitArrow.alpha = 0
+		game.add.tween(exitArrow).to({y: exitArrow.y - 20}, 400, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
+		wormGroup.sendToBack(exitArrow)
+
 	}
 
 	function createPart(key){
@@ -221,17 +229,17 @@ var countip = function(){
 
 	}
 
-	function addNumberPart(obj,number){
-
+	function addNumberPart(obj,number, offsetY){
+		offsetY = offsetY || 100
 		var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-		pointsText.x = obj.world.x
-		pointsText.y = obj.world.y
+		pointsText.x = obj.world ? obj.world.x : obj.centerX
+		pointsText.y = obj.world ? obj.world.y : obj.centerY
 		pointsText.anchor.setTo(0.5,0.5)
 		sceneGroup.add(pointsText)
 
-		game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+		game.add.tween(pointsText).to({y:pointsText.y + offsetY},800,Phaser.Easing.linear,true)
 		game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
 
 		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
@@ -607,15 +615,15 @@ var countip = function(){
 
 		console.log(worm.number)
 		if(worm.number === answer){
-			worm.correctParticle.x = game.world.centerX - 175
-			worm.correctParticle.y = game.world.centerY - 300
+			worm.correctParticle.x = wormGroup.wormCounter.world.x
+			worm.correctParticle.y = wormGroup.wormCounter.world.y
 			worm.correctParticle.start(true, 1000, null, 5)
 			hideTexts()
 			game.time.events.add(1200, startRound)
 			addPoint(5)
 		}else {
-			worm.wrongParticle.x = game.world.centerX - 175
-			worm.wrongParticle.y = game.world.centerY - 300
+			worm.wrongParticle.x = wormGroup.wormCounter.world.x
+			worm.wrongParticle.y = wormGroup.wormCounter.world.y
 			worm.wrongParticle.start(true, 1000, null, 5)
 			stopGame()
 		}
@@ -670,6 +678,11 @@ var countip = function(){
 			game.add.tween(apple).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 			game.add.tween(apple.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.Out, true)
 			worm.number = worm.circles.length - 1
+
+			if(exitArrow.alpha > 0){
+				game.add.tween(exitArrow).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
+			}
+
 			hideWorm()
 		}
 	}
@@ -809,6 +822,12 @@ var countip = function(){
 			}
 		}
 	}
+
+	function guideToExit(){
+		if((worm.circles.length - 1 === answer)&&(roundCounter === 0)){
+			game.add.tween(exitArrow).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true)
+		}
+	}
 	
 	function update() {
 
@@ -878,15 +897,38 @@ var countip = function(){
 		var collision = checkCollision(checkRect)
 		if(!apple.collided) {
 			if (collision) {
-				addCircleWorm()
-				sound.play("bite")
-				apple.collided = true
-				game.add.tween(apple).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
-				var appleDissapear = game.add.tween(apple.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.Out, true)
-				appleDissapear.onComplete.add(function(){
-					apple.kill()
-					addRandomApple()
-				})
+				if(worm.circles.length <= answer){
+					addCircleWorm()
+					sound.play("bite")
+					apple.collided = true
+					addNumberPart(worm,'+' + 1, -20)
+					game.add.tween(apple).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+					var appleDissapear = game.add.tween(apple.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Back.Out, true)
+					appleDissapear.onComplete.add(function(){
+						apple.kill()
+						var numCircles = worm.circles.length - 1
+						if((roundCounter > 0)||(numCircles < answer))
+							addRandomApple()
+					})
+					guideToExit()
+				}
+				else{
+					var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ff231a", align: "center"}
+					var numberText = new Phaser.Text(game, apple.world.x, apple.world.y + 10, worm.circles.length, fontStyle)
+					numberText.anchor.setTo(0.5, 0.5)
+					numberText.setShadow(3, 3, 'rgba(1,1,1,0.5)', 0);
+					sceneGroup.add(numberText)
+
+					worm.setAnimation(["LOSE"])
+
+					isActive = false
+					worm.wrongParticle.x = apple.world.x
+					worm.wrongParticle.y = apple.world.y
+					worm.wrongParticle.start(true, 1000, null, 5)
+					stopGame()
+
+				}
+
 			}
 		}
 

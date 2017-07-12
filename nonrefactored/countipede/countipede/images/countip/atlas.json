@@ -10,6 +10,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "arrow",
+	"frame": {"x":904,"y":114,"w":58,"h":94},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":94},
+	"sourceSize": {"w":58,"h":94},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "button",
 	"frame": {"x":773,"y":114,"w":129,"h":114},
 	"rotated": false,
@@ -86,8 +95,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":908,"h":255},
+	"size": {"w":963,"h":255},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:87910c6f8835d55bffbc43ff0eff4706:c4f081803013bf77bb580c97982ad65d:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:454be540b5053d8ca23a8f5863fee1ac:75a7a56daf524660709ede0f3c4565ea:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
