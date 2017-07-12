@@ -48,13 +48,15 @@ var toyfigure = function(){
 	var heartsIcon;
 	var heartsText;	
 	var xpIcon;
-	var xpText;
 	var lives = 1;
 	var cursors;
 	var coins = 0;
-	var bgm = null;
 	var activeGame = true;
     var repizasArray = new Array;
+    var goodAnswer = 0;
+    var time = 61;
+    var timerBar = null;
+    var NumwebGame = 2;
 
     
     function getRandomArbitrary(min, max) {
@@ -83,6 +85,7 @@ var toyfigure = function(){
         game.load.image("floor",imagePath + "floor.png");
         game.load.image("clock",imagePath + "clock.png");
         game.load.image("star",imagePath + "star.png");
+        game.load.image("barra",imagePath + "barra.png");
 
 		/*SPINE*/
 		game.load.spine("dinamita", imagePath + "spine/dinamita.json");
@@ -124,8 +127,12 @@ var toyfigure = function(){
         bed.x = game.width - bed.width;
         bed.y = floor.y - bed.height/1.9;
         
+        var santo = sceneGroup.create(0,0,"atlas.toy","elsanto.png");
+        santo.x = game.width - santo.width* 1.2;
+        santo.y = bed.y - santo.height*1.1;        
+        
         var dinamita = game.add.spine(0,0,"dinamita");
-        dinamita.setAnimationByName(0, "LOSE", true);
+        dinamita.setAnimationByName(0, "IDLE", true);
 		dinamita.setSkinByName("normal");
         dinamita.scale.setTo(-1,1);
         dinamita.x =   bed.x - dinamita.width;
@@ -137,9 +144,12 @@ var toyfigure = function(){
         clock.x = game.world.centerX;
         clock.y = game.height - clock.height/1.5;
         
-        var santo = sceneGroup.create(0,0,"atlas.toy","elsanto.png");
-        santo.x = game.width - santo.width* 1.2;
-        santo.y = bed.y - santo.height*1.1;
+        var barra = sceneGroup.create(0,0,"barra");
+        barra.anchor.setTo(0,0.5);
+        barra.x = game.world.centerX - barra.width/2;
+        barra.y = game.height - clock.height/2.2; 
+        barra.scale.setTo(0,1);
+ 
         
         var newPositionRepiza = new Array;
         
@@ -178,14 +188,11 @@ var toyfigure = function(){
         for(var p = 0; p<= 17;p++){
             toysArray[p] = sceneGroup.create(-150,-150,"atlas.toy","toy" + p + ".png");
             toysArray[p].anchor.setTo(0.5,0.5);
-            toysArray[p].x = getRandomArbitrary(0 + toysArray[p].width/2, game.world.centerX - toysArray[p].width/2);
-            toysArray[p].y = getRandomArbitrary(floor.y , clock.y - toysArray[p].width/2);
+
 			this.game.physics.arcade.enable(toysArray[p]);
 			toysArray[p].inputEnabled = true;
 			toysArray[p].originalPosition = toysArray[p].position.clone();
-			toysArray[p].input.enableDrag();
-			toysArray[p].positionX = toysArray[p].x;
-			toysArray[p].positionY = toysArray[p].y;  
+			toysArray[p].input.enableDrag(); 
         }
         
        
@@ -243,41 +250,160 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
             if (!this.game.physics.arcade.overlap(currentSprite, endSprite, function() {
             currentSprite.input.draggable = false;
                 TweenMax.to(currentSprite,0.4,{x:endSprite.x,y:endSprite.y});
-                console.log("ok");
                 star.x = endSprite.x;
                 star.y = endSprite.y;
                 TweenMax.fromTo(star.scale,0.5,{x:1,y:1},{x:2,y:2});
                 TweenMax.fromTo(star,0.5,{alpha:1},{alpha:0});
                 TweenMax.to(currentSprite.scale,0.5,{x:0,y:0,delay:0.5});
-                
+                coins++;
+                xpText.setText(coins);
+                goodAnswer++;
+                moreToys();
+                sound.play("magic");
                 
           })) { 
                 if(currentSprite.y <= floor.y){
                     TweenMax.to(currentSprite,1,{x:currentSprite.positionX,y:currentSprite.positionY});
                 }
+                
+                if(currentSprite.x <= 0){
+                    TweenMax.to(currentSprite,1,{x:currentSprite.positionX,y:currentSprite.positionY});     
+                }
           }
           }        
         
        
+        function timerClock(){
+            timerBar = TweenMax.fromTo(barra.scale,time,{x:0},{x:1,onComplete:finishGame});
+        }
+        
+        function finishGame(){
+            for(var p = 0; p<= 17;p++){
+                toysArray[p].input.draggable = true;
+            }    
+            
+            TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
+            sound.play("wrong");
+            sound.play("gameLose");
+            dinamita.setAnimationByName(0, "LOSE", true); 
+            bgm.stop();	
+        }	
+	
+		
+		function gameOver(){
+			var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, coins,NumwebGame)
+			sceneloader.show("result");
+		}
+        
+        timerClock();
         
         function choiceToy(){
             
+            if(coins >= 18){
+                if(time <= 60){
+                   time = time - 20; 
+                }
+                timerClock();
+            }
+            
+            goodAnswer = 0;
+             for(var i = 0; i<=8;i++){
+                newPositionRepiza[i].x = -450;
+                newPositionRepiza[i].y = -450;
+             }
+            
+            
             shuffle(newPositionRepiza);
 
-             for(var i = 0; i<=5;i++){
+             for(var i = 0; i<=2;i++){
                  console.log(newPositionRepiza[i].id);
                 newPositionRepiza[i].x = eval("position" +[i] + "x");
                 newPositionRepiza[i].y = eval("position" +[i] + "y");  
+                TweenMax.fromTo(newPositionRepiza[i].scale,0.5,{x:0,y:0},{x:1,y:1,delay:i*0.2}); 
              }
  
+            
+            for(var p = 0; p<= 17;p++){
+                toysArray[p].scale.setTo(1,1);
+                toysArray[p].x = getRandomArbitrary(0 + toysArray[p].width/2, game.world.centerX - toysArray[p].width/2);
+                toysArray[p].y = getRandomArbitrary(floor.y , clock.y - toysArray[p].width/2);
+                toysArray[p].positionX = toysArray[p].x;
+                toysArray[p].positionY = toysArray[p].y;
+                toysArray[p].input.draggable = true;
+                TweenMax.fromTo(toysArray[p],1,{y:-150},{y:toysArray[p].positionY,delay:p*0.05,ease:Bounce.easeOut});
+            }
+            
         }
         
         choiceToy();
         
+        function moreToys(){
+            if(goodAnswer == 3){
+                
+                newPositionRepiza[3].x = eval("position" +[3] + "x");
+                newPositionRepiza[3].y = eval("position" +[3] + "y"); 
+                TweenMax.fromTo(newPositionRepiza[3].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+            }
+            if(goodAnswer == 6){
+                
+                newPositionRepiza[4].x = eval("position" +[4] + "x");
+                newPositionRepiza[4].y = eval("position" +[4] + "y"); 
+                TweenMax.fromTo(newPositionRepiza[4].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+            }   
+            if(goodAnswer == 9){
+                
+                newPositionRepiza[5].x = eval("position" +[5] + "x");
+                newPositionRepiza[5].y = eval("position" +[5] + "y"); 
+                TweenMax.fromTo(newPositionRepiza[5].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+            }   
+            if(goodAnswer == 12){
+                var changeToy = getRandomArbitrary(0,6)
+                newPositionRepiza[6].x = eval("position" +[changeToy] + "x");
+                newPositionRepiza[6].y = eval("position" +[changeToy] + "y"); 
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.3,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[6].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+            }     
+            if(goodAnswer == 14){
+                var changeToy = getRandomArbitrary(0,6)
+                newPositionRepiza[7].x = eval("position" +[changeToy] + "x");
+                newPositionRepiza[7].y = eval("position" +[changeToy] + "y"); 
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.3,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[7].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+            }       
+            if(goodAnswer == 16){
+                var changeToy = getRandomArbitrary(0,6)
+                newPositionRepiza[8].x = eval("position" +[changeToy] + "x");
+                newPositionRepiza[8].y = eval("position" +[changeToy] + "y"); 
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.3,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[8].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+                
+            }   
+            
+            if(goodAnswer == 18){
+                TweenMax.fromTo(star.scale,3,{x:2,y:2},{x:4,y:4});
+                star.x = game.world.centerX;
+                star.y = game.world.centerY;
+                TweenMax.fromTo(star,3,{alpha:1},{alpha:0,onComplete:nextToys});
+                dinamita.setAnimationByName(0, "WIN", true);
+                if(timerBar != null){
+                   timerBar.kill(); 
+                }
+                
+                function nextToys(){
+                    sound.play("combo");
+                 choiceToy();   
+                dinamita.setAnimationByName(0, "IDLE", true);    
+                }
+                
+            }
+            
+        }
+        
         
 		createCoins(coins);
 		createHearts(lives);
-		//createOverlay();
+		createOverlay();
 		
 	}
 
