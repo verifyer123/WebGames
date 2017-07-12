@@ -56,7 +56,7 @@ var toyfigure = function(){
     var goodAnswer = 0;
     var time = 61;
     var timerBar = null;
-    var NumwebGame = 2;
+    var NumwebGame = 55;
 
     
     function getRandomArbitrary(min, max) {
