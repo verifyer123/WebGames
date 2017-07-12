@@ -89,7 +89,7 @@ body{
     -webkit-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.74);
     -moz-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.74);
     box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.74)top left;
-    width: 40%;  /*  Cambia este para ajustar ancho en pantallas grandes */
+    width: 35%;  /*  Cambia este para ajustar ancho en pantallas grandes */
 }
 
 #game-container{

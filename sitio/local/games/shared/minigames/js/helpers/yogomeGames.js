@@ -5,11 +5,11 @@ yogomeGames.getGames = function(){
 	
 		{name:'additionDojo',url:'http://yogome.com/epic/minigames/dojoSite/',sceneName:'dojo',subject:'math',review:true},
         {name:'spaceWords',url:'http://yogome.com/epic/minigames/spaceSite/',sceneName:'space',subject:'language',review:true},
-        {name:'yogomeRunner',url:'http://yogome.com/epic/minigames/runnerSite/',sceneName:'runneryogome',subject:'math',review:true},
+        /*{name:'yogomeRunner',url:'http://yogome.com/epic/minigames/runnerSite/',sceneName:'runneryogome',subject:'math',review:true},*/
         {name:'waterMorphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water',subject:'science',review:true},
 		{name:'numberIceCream',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice',subject:'math',review:true},
 		{name:'magnetRide',url:'http://yogome.com/epic/minigames/magnetSite/',sceneName:'magnet',subject:'science',review:true},
-		{name:'saladCards',url:'http://yogome.com/epic/minigames/tapsite/',sceneName:'tapcards',subject:'language',review:true},
+		{name:'tapcards',url:'http://yogome.com/epic/minigames/tapsite/',sceneName:'tapcards',subject:'language',review:true},
 		{name:'skyLanguage',url:'http://yogome.com/epic/minigames/skySite/',sceneName:'sky',subject:'language',review:true},
 		{name:'flagRunner',url:'http://yogome.com/epic/minigames/flagSite/',sceneName:'flag',subject:'geography',review:true},
 		{name:'riftLand',url:'http://yogome.com/epic/minigames/riftSite/',sceneName:'rift',subject:'coding',review:true},
@@ -54,12 +54,11 @@ yogomeGames.getGames = function(){
 		{name:'mathInvader',url:'http://yogome.com/epic/minigames/invaderSite/',sceneName:'invader',subject:'math', review:true},//47
         {name:'locksmath',url:'http://yogome.com/epic/minigames/lockSite/',sceneName:'lock',subject:'math', review:true},//48
 		{name:'magicGate',url:'http://yogome.com/epic/minigames/magicSite/',sceneName:'magic',subject:'math', review:true},//49	
-        {name:'luckynumber',url:'http://yogome.com/epic/minigames/luckynumbersite/',sceneName:'luckynumber',subject:'math', review:true},//50
-        {name:'robovet',url:'http://yogome.com/epic/minigames/roboSite/',sceneName:'robo',subject:'math', review:true},//51
-		{name:'mathBomb',url:'http://yogome.com/epic/minigames/bombSite/',sceneName:'bomb',subject:'math', review:true},//52
-		{name:'uniDream',url:'http://yogome.com/epic/minigames/uniSite/',sceneName:'uni',subject:'math', review:true},//53
-		{name:'countipede',url:'http://yogome.com/epic/minigames/countipSite/',sceneName:'countip',subject:'math', review:true},//54
-        {name:'toyfigure',url:'http://yogome.com/epic/minigames/toyfigureSite/',sceneName:'toyfigure',subject:'math', review:false}//55
+        {name:'luckynumber',url:'http://yogome.com/epic/minigames/luckynumbersite/',sceneName:'luckynumber',subject:'math', review:false},//50
+        {name:'robovet',url:'http://yogome.com/epic/minigames/roboSite/',sceneName:'robo',subject:'math', review:false},//51
+		{name:'mathBomb',url:'http://yogome.com/epic/minigames/bombSite/',sceneName:'bomb',subject:'math', review:false},//52
+		{name:'uniDream',url:'http://yogome.com/epic/minigames/uniSite/',sceneName:'uni',subject:'math', review:false}//53
+
 	]
 
 	
