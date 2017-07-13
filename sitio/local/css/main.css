@@ -10,6 +10,11 @@ body{
 
 }
 
+.img-catalogo {
+    width: 540px;
+    height: 100%;
+}
+
 .hidden{
 	display: none;
 }
