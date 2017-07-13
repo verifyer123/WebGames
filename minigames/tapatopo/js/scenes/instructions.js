@@ -68,7 +68,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "tapatopo"}
+            {"gameName": "tapatopo","email":amazing.getEmail()}
         );
 		
 	}
@@ -141,7 +141,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "tapatopo"}
+            {"gameName": "tapatopo","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

@@ -120,6 +120,12 @@ amazing.setMinigameId = function(){
             case "minigameId":
                 minigameId = parsedData.minigameId
                 userMail = parsedData.email
+
+				if(userMail){
+
+					console.log('email sent')
+					mixpanel.identify(userMail)	
+				}
             }
             //console.log('entra case')
         }

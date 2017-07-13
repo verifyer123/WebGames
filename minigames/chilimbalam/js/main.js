@@ -48,13 +48,6 @@ function startGame(){
         amazing.getInfo()
         amazing.setMinigameId()
         amazing.setProfile()
-			
-		var email = amazing.getEmail()
-		email = 'erick@yogome.com'
-		
-		if(email){
-			mixpanel.identify(email)	
-		}
         
         window.minigame.game = window.game
         

@@ -77,7 +77,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "cirquit"}
+            {"gameName": "cirquit","email":amazing.getEmail()}
         );
 		
 	}
@@ -150,7 +150,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "cirquit"}
+            {"gameName": "cirquit","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

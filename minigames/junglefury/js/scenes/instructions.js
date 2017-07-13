@@ -78,7 +78,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "junglefury"}
+            {"gameName": "junglefury","email":amazing.getEmail()}
         );
 		
 	}
@@ -151,7 +151,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "junglefury"}
+            {"gameName": "junglefury","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

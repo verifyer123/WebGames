@@ -82,7 +82,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "clownrush"}
+            {"gameName": "clownrush","email":amazing.getEmail()}
         );
 		
 	}
@@ -155,7 +155,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "clownrush"}
+            {"gameName": "clownrush","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

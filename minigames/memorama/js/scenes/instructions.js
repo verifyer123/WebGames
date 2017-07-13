@@ -81,7 +81,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "memorama"}
+            {"gameName": "memorama","email":amazing.getEmail()}
         );
 		
 	}
@@ -154,7 +154,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "memorama"}
+            {"gameName": "memorama","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

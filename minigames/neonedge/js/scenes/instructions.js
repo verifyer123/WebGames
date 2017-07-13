@@ -77,7 +77,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "neonedge"}
+            {"gameName": "neonedge","email":amazing.getEmail()}
         );
 		
 	}
@@ -150,7 +150,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "neonedge"}
+            {"gameName": "neonedge","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

@@ -77,7 +77,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "jumpward"}
+            {"gameName": "jumpward","email":amazing.getEmail()}
         );
 		
 	}
@@ -150,7 +150,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "jumpward"}
+            {"gameName": "jumpward","email":amazing.getEmail()}
         );
         
 		game.stage.backgroundColor = "#ffffff"
