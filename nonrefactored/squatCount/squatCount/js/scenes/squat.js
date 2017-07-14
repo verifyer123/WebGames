@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var jelly = function(){
+var squat = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,9 +20,9 @@ var jelly = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.jelly",
-                json: "images/jelly/atlas.json",
-                image: "images/jelly/atlas.png",
+                name: "atlas.squat",
+                json: "images/squat/atlas.json",
+                image: "images/squat/atlas.png",
             },
         ],
         images: [
@@ -43,40 +43,24 @@ var jelly = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "whoosh",
-				file: soundsPath + "whoosh.mp3"},
-			{	name: "powerup",
-				file: soundsPath + "powerup.mp3"},
 			
 		],
     }
     
-	var DEBUG_PHYSICS = false
-	var JUMP_FORCE = 500
-	var WORLD_GRAVITY = 1400
-	var ANGLE_VALUE = 2
-	var OFFSET_OBJS = 650
-	
-	var colorsToUse = [0xFA2038, 0x3B55D3,0x41E07B,0xFFF129]
-	var listObstacles = ['bar', 'circle']
-	var numbersToUse = ['1/16','1/8','1/4','1/2']
         
-	var pivotObjects
     var lives = null
 	var sceneGroup = null
-	var background, background2
+	var background, base, board
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 56
+    var gameIndex = 57
 	var indexGame
     var overlayGroup
     var spaceSong
-	var player, fishGroup
-	var objectsGroup, usedObjects
-	var jumpButton
-	var playersNumber, playerIndex
-	var lastObject
+	var yogotar
+	var squatsNumber, tutorialHand
+	var timeToUse, multTime
 	
 
 	function loadSounds(){
@@ -87,8 +71,10 @@ var jelly = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-        playerIndex = 0
-		lastObject = null
+		squatsNumber = 0
+		timeToUse = 10000
+		multTime = 2
+        gameActive = false
 		
         loadSounds()
         
@@ -100,7 +86,7 @@ var jelly = function(){
             
             sound.play("cut")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({x:0, y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -179,7 +165,11 @@ var jelly = function(){
     }
     
     function addPoint(number){
-        		
+        
+		if(multTime > 1){
+			multTime-= 0.25
+		}
+		
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
@@ -200,7 +190,7 @@ var jelly = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.jelly','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.squat','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -228,7 +218,7 @@ var jelly = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.jelly','life_box')
+        var heartImg = group.create(0,0,'atlas.squat','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -245,26 +235,18 @@ var jelly = function(){
                 
     }
     
-	function fallPlayer(){
-		
-		game.add.tween(characterGroup).to({y:characterGroup.y-100, angle: characterGroup.angle + 360},500,"Linear",true).onComplete.add(function(){
-			game.add.tween(characterGroup).to({y:game.world.height * 1.4},400,"Linear",true,500)
-		})
-		
-	}
-	
     function stopGame(win){
         
-		characterGroup.anim.setAnimationByName(0,"LOSE",true)
+		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.addAnimationByName(0,"LOSESTILL",true)
 		
-		fallPlayer()
 		sound.play("wrong")
 		sound.play("gameLose")
 		
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -280,99 +262,23 @@ var jelly = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('player', "images/spines/jellyfish.json")  
-		game.load.spine('fish',"images/spines/fish.json")
-        game.load.audio('spaceSong', soundsPath + 'songs/bubble_fishgame.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/melodic_basss.mp3');
+		game.load.spine('yogotar',"images/spines/dinamita.json")
         
-		game.load.image('howTo',"images/jelly/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/jelly/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/jelly/introscreen.png")
+		game.load.image('howTo',"images/squat/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/squat/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/squat/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
     
-	function getObstacle(tag){
-		
-		for(var i = 0; i < objectsGroup.length;i++){
-			
-			var obj = objectsGroup.children[i]
-			if(obj.type == tag && !obj.used){
-				return obj
-			}
-		}
-	}
-	
-	function addObjects(){
-		
-		Phaser.ArrayUtils.shuffle(listObstacles)
-		var tag = listObstacles[0]
-		
-		var obstacle = getObstacle(tag)
-		
-		var pivotX = 0
-		var offset = 1
-		if(tag == 'circle'){
-			pivotX = game.world.centerX
-			offset = 1.2
-		}
-		
-		if(lastObject){
-			pivotObjects = lastObject.y - (OFFSET_OBJS * offset)
-		}else{
-			pivotObjects = game.world.centerY - 200
-		}
-		
-		if(lastObject && lastObject.type == 'circle'){
-			pivotObjects*= 1.05
-		}
-		
-		activateObstacle(obstacle,pivotX,pivotObjects)
-		
-		lastObject = obstacle
-		
-	}
-	
-	function activateObstacle(obstacle, posX, posY){
-		
-		obstacle.alpha = 1
-		obstacle.x = posX
-		obstacle.y = posY
-		obstacle.used = true
-		
-		for(var i = 0; i < obstacle.length;i++){
-			
-			var obj = obstacle.children[i]
-			obj.alpha = 1
-			if(obstacle.type == 'bar'){
-				obj.x = obj.initX
-			}
-		}
-		
-		obstacle.lastObject = obstacle.origLast
-		
-		objectsGroup.remove(obstacle)
-		usedObjects.add(obstacle)
-		
-	}
-	
-	function deactivateObstacle(obstacle){
-		
-		obstacle.alpha = 0
-		obstacle.used = false
-		
-		usedObjects.remove(obstacle)
-		objectsGroup.add(obstacle)
-		
-	}
-	
     function createOverlay(){
         
-		for(var i = 0; i < 3;i++){
-			addObjects()
-		}
+		createTutorial()
 		
         overlayGroup = game.add.group()
+		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
         var rect = new Phaser.Graphics(game)
@@ -382,12 +288,15 @@ var jelly = function(){
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
+			
+			startTutorial()
+			setNumber()
             rect.inputEnabled = false
 			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
-				gameActive = true
 				overlayGroup.y = -game.world.height
+				
             })
             
         })
@@ -398,7 +307,7 @@ var jelly = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.jelly','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.squat','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -412,11 +321,11 @@ var jelly = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.jelly',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.squat',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.jelly','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.squat','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -430,147 +339,73 @@ var jelly = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0, game.world.width,game.world.height,'atlas.jelly','swatch')
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.squat','fondo')
 		sceneGroup.add(background)
 		
-		background2 = game.add.tileSprite(0,0, game.world.width,game.world.height,'atlas.jelly','swatch2')
-		sceneGroup.add(background2)
+		base = sceneGroup.create(game.world.centerX, game.world.height,'atlas.squat','base')
+		base.anchor.setTo(0.5,1)
+		base.width = game.world.width
 		
-		
+		var pivotX =  game.world.centerX - 200
+		for(var i = 0; i < 3;i++){
+			
+			var light = sceneGroup.create(pivotX, 0, 'atlas.squat','luz')
+			light.anchor.setTo(0.5,0)
+			
+			var tween = game.add.tween(light.scale).to({x:1.2,y:1},500,"Linear",true,game.rnd.integerInRange(50,300),-1)
+			tween.yoyo(true,0)
+			pivotX += 200
+		}
+	
 	}
 	
 	function update(){
-	
-		background.tilePosition.x--
-		background2.tilePosition.x+= 0.5
+		
+		background.tilePosition.x-= 0.3
 		
 		if(!gameActive){
 			return
 		}
 		
-		positionPlayer()
-		checkObjects()
+		var direction = this.swipe.check();
 		
-	}
-	
-	function checkOverlap(spriteA, spriteB) {
-
-        var boundsA = spriteA.getBounds();
-        var boundsB = spriteB.getBounds();
-
-        return Phaser.Rectangle.intersects(boundsA , boundsB );
-
-    }
-	
-	function scoreUp(){
-		
-		addPoint(1)
-		createPart('star',player)
-	
-		playerIndex++
-		
-		if(playerIndex == 4){
-			playerIndex = 0
-			
-			characterGroup.number = numbersToUse[playerIndex]
-			characterGroup.numberText.setText(1)
-			
-			game.time.events.add(750,function(){
-				
-				sound.play("powerup")
-				
-				game.add.tween(characterGroup).to({angle:characterGroup.angle + 360},500,"Linear",true)
-				characterGroup.numberText.setText(characterGroup.number)
-			})
-			
-		}else{
-			characterGroup.number = numbersToUse[playerIndex]
-			characterGroup.numberText.setText(characterGroup.number)
-		}
-		
-		
-		
-	}
-	
-	function checkObjects(){
-		
-		for(var i = 0; i < usedObjects.length;i++){
-			
-			var object = usedObjects.children[i]
-			var tag = object.type
-			if(tag == 'bar'){
-
-				object.x += ANGLE_VALUE
-				for(var u = 0;u<object.length;u++){
-
-					var obj = object.children[u]
-
-					if(obj.numberText.world.x > game.world.width + 50){
-						//console.log('last object')
-						obj.x = object.lastObject.x - obj.width *1.5
-						object.lastObject = obj
-					}
-					
-					if(checkOverlap(obj.numberText,player) && obj.alpha == 1){
-						if(obj.number == characterGroup.number){
-							scoreUp()
-							obj.alpha = 0
-						}else{
-							missPoint()
-							createPart('wrong',player)
-						}
-					}
-				}
-				
-			}else if(tag == 'circle'){
-				
-				object.angle-= ANGLE_VALUE * 0.7
-				
-				for(var u = 0; u < object.length;u++){
-					
-					var obj = object.children[u]
-					if(checkOverlap(obj.numberText,player) && obj.alpha == 1){
-						if(obj.number == characterGroup.number){
-							scoreUp()
-							obj.alpha = 0
-						}else{
-							characterGroup.anim.setAnimationByName(0,"LOSE",true)
-							missPoint()
-							createPart('wrong',player)
-						}
-					}
-				}
-			}
-			
-			if(object.y + usedObjects.y > game.world.height * 1.2){
-				addObjects()
-				deactivateObstacle(object)
-				console.log('deactivate object')
+		if (direction!==null && gameActive) {
+		// direction= { x: x, y: y, direction: direction }
+			switch(direction.direction) {
+				case this.swipe.DIRECTION_UP:
+					doSquat('up')
+					break;
+				case this.swipe.DIRECTION_DOWN:
+					doSquat('down')
+					break;
 			}
 		}
 		
-		var posY = game.world.centerY
-        if(player.body.y <= posY){
-
-            var value = (posY) - player.body.y
-            
-            value*=0.8
-            
-            usedObjects.y+=value
-            player.body.y+=value
-			
-			background.tilePosition.y+= value * 0.5
-        }
-		
 	}
 	
-	function positionPlayer(){
+	function doSquat(direction){
 		
-		characterGroup.y = player.body.y + 35
+		if(!gameActive){
+			return
+		}
 		
-		if(player.body.y > game.world.height * 0.95 && usedObjects.y > 5){
-			createPart('wrong',player)
-			missPoint()
+		if(tutorialHand.active){
+			stopTutorial()
+		}
+		
+		if(direction == 'down' && !yogotar.isDown){
+			
+			yogotar.isDown = true
+			sound.play("cut")
+			yogotar.setAnimationByName(0,"DOWN",false)
+		}else if(direction == 'up' && yogotar.isDown){
+			
+			yogotar.squats++
+			yogotar.isDown = false
+			sound.play("pop")
+			yogotar.setAnimationByName(0,"UP",false)
+			yogotar.addAnimationByName(0,"IDLE",true)
+			
 		}
 	}
 	
@@ -606,9 +441,7 @@ var jelly = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				//console.log(particle)
-                
+				                
                 return particle
                 break
             }
@@ -626,6 +459,28 @@ var jelly = function(){
             particlesGroup.add(obj)
             
         },this)
+    }
+	
+	function createClock(){
+        
+        clock = game.add.group()
+		clock.alpha = 0
+        clock.x = game.world.centerX
+        clock.y = 100
+		clock.alpha = 0
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.squat','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.squat','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
     }
     
     function createPart(key,obj,offsetX){
@@ -667,7 +522,7 @@ var jelly = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.jelly',tag);
+				particle.makeParticles('atlas.squat',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -689,6 +544,60 @@ var jelly = function(){
         
     }
 	
+	function setNumber(){
+		
+		yogotar.squats = 0
+		squatsNumber = game.rnd.integerInRange(2,10)
+		
+		board.text.setText(squatsNumber)
+		popObject(board,500)
+		
+		timeToUse = squatsNumber * (multTime * 1000)
+		
+		game.time.events.add(2000,function(){
+			game.add.tween(board.scale).to({x:0,y:0},500,"Linear",true).onComplete.add(function(){
+				
+				gameActive = true
+				board.scale.setTo(1,1)
+				board.alpha = 0
+				
+				popObject(clock,0)
+				
+				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+				clock.tween.onComplete.add(function(){
+					checkClock()
+				})
+			})
+		})
+	}
+	
+	function checkClock(){
+		
+		gameActive = false
+		
+		if(yogotar.squats == squatsNumber){
+			
+			addPoint(1)
+			createPart('star',board.text)
+			
+			if(clock.tween){
+				clock.tween.stop()
+				clock.bar.scale.x = clock.bar.origScale
+			}
+			
+			yogotar.setAnimationByName(0,"WIN",false)
+			yogotar.addAnimationByName(0,"IDLE",true)
+			
+			game.add.tween(clock).to({alpha:0},500,"Linear",true).onComplete.add(function(){
+				setNumber()
+			})
+
+		}else{
+			missPoint()
+			createPart('wrong',board.text)
+		}
+	}
+	
 	function addParticles(){
 		
 		particlesGroup = game.add.group()
@@ -697,7 +606,7 @@ var jelly = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 		
-		createParticles('star',4)
+		createParticles('star',3)
 		createParticles('wrong',1)
 		createParticles('text',5)
 
@@ -722,7 +631,7 @@ var jelly = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.jelly','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.squat','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -735,7 +644,7 @@ var jelly = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.jelly','smoke');
+        particlesGood.makeParticles('atlas.squat','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -752,289 +661,90 @@ var jelly = function(){
         
     }
 	
-	function doJump(value){
-        
-        var jumpValue = value
-        
-		characterGroup.anim.setAnimationByName(0,"JUMP",false)
-		characterGroup.anim.addAnimationByName(0,"IDLE",true)
+	function createBoard(){
 		
-        if(jumpValue == null){ jumpValue = JUMP_FORCE}
-        sound.play("whoosh")
-
-        if(game.physics.p2.gravity.y == 0){
-            game.physics.p2.gravity.y = WORLD_GRAVITY
-            //marioSong.loopFull(0.5)
-        }
-        
-        player.body.moveUp(jumpValue)        
-    
-    }
+		board = game.add.group()
+		board.x = game.world.centerX
+		board.y = 150
+		board.alpha = 0
+		sceneGroup.add(board)
+		
+		var boardImg = board.create(0,0,'atlas.squat','board')
+		boardImg.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "90px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        board.add(pointsText)
+		
+		board.text = pointsText
+	}
+	
+	function createYogotar(){
+		
+		yogotar = game.add.spine(game.world.centerX, game.world.height - 200,'yogotar')
+		yogotar.setSkinByName('normal')
+		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotar.isDown = false
+		yogotar.squats = 0
+		sceneGroup.add(yogotar)
+		
+	}
 	
 	function inputButton(obj){
-        
-        if(gameActive == false){
-            return
-        }
-        
-        //sound.play("click")
-        
-        jumping = true
-        doJump()
-        
-    }
-    
-    function releaseButton(obj){
-        
-        jumping = false
-    }
-	
-	function createPlayer(){
 		
-		playerIndex = 0
-		
-		characterGroup = game.add.group()
-		characterGroup.x = game.world.centerX
-		characterGroup.y = game.world.height * 0.85
-		sceneGroup.add(characterGroup)
-
-		var anim = game.add.spine(0,0,"player")
-		anim.setSkinByName('normal')
-		anim.setAnimationByName(0,"IDLE",true)
-		characterGroup.add(anim)
-		characterGroup.anim = anim
-		
-		characterGroup.number = numbersToUse[playerIndex]
-		
-		var slot = getSpineSlot(anim,"empty")
-		
-		var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var numberText = new Phaser.Text(game, 0, 0, characterGroup.number, fontStyle)
-		numberText.anchor.setTo(0.5, 0.5)
-		characterGroup.numberText = numberText
-		slot.add(numberText)
-		
-		player = sceneGroup.create(characterGroup.x, characterGroup.y,'atlas.jelly','button')
-		player.anchor.setTo(0.5,1)
-		player.scale.setTo(0.8,0.8)
-		player.alpha = 0
-		game.physics.p2.enable(player,DEBUG_PHYSICS)
-		player.body.fixedRotation = true
-		player.body.mass=50
-		player.lastpos = player.y
-
-		player.body.collideWorldBounds = true;
-		
-	}
-	
-	function createButtons(){
-		
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(inputButton)
-		rect.events.onInputUp.add(releaseButton)
-		sceneGroup.add(rect)
-		
-	}
-	
-	function createObjects(){
-		
-		objectsGroup = game.add.group()
-		sceneGroup.add(objectsGroup)
-		
-		usedObjects = game.add.group()
-		sceneGroup.add(usedObjects)
-		
-		createObstacle('bar',5)
-		createObstacle('circle',5)
-		
-	}
-	
-	function getSpineSlot(spine, slotName){
-		
-		var slotIndex
-		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
-			var slotData = spine.skeletonData.slots[index]
-			if(slotData.name === slotName){
-				slotIndex = index
-			}
+		if(!gameActive){
+			return
 		}
-
-		if (slotIndex){
-			return spine.slotContainers[slotIndex]
-		}
+		
 	}
 	
-	function colorSpine(spine,tint){
+	function startTutorial(){
 		
-		spine.globalTint = tint;
-		var slots = spine.skeleton.slots;
-		for (var i = 0; i < slots.length; i++) {
-			var slot = slots[i];
-			//slot.currentSprite.tint = tint;
+		if(!tutorialHand.active){
+			return
 		}
+		
+		tutorialHand.alpha = 1
+		tutorialHand.x = game.world.centerX + 150
+		tutorialHand.y = game.world.centerY 
+		
+		game.add.tween(tutorialHand).to({y:tutorialHand.y + 200},500,"Linear",true).onComplete.add(function(){
+			game.add.tween(tutorialHand).to({y:tutorialHand.y - 200},500,"Linear",true)
+			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,500).onComplete.add(startTutorial)
+		})
 	}
 	
-	function calcCircles(n) {
-        
-        group = game.add.group()
-        
-        var baseRadius = 80
-        var angle = Math.PI / n;
-        var s = Math.sin(angle);
-        var r = baseRadius * s / (1-s);
-
-		var index = 0
-		var angles = [60,120, 220, 340]
-        for(var i=0;i<n;++i) {
-			
-            var phi = 15 + angle * i * 2;
-            var cx = baseRadius + (baseRadius) + (baseRadius + r) * Math.cos(phi);
-            var cy = baseRadius + (baseRadius) + (baseRadius + r) * Math.sin(phi);
-            
-            var group1 = game.add.group()
-			group1.x = cx
-			group1.y = cy
-			group.add(group1)
-			group1.angle = angles[i]
-
-			var spine = game.add.spine(0,0,"fish")
-			spine.setSkinByName("normal")
-			spine.setAnimationByName(0,"IDLE",true)
-			group1.add(spine)
-			
-			//group1.angle = angle
-
-			spine.autoUpdateTransform()
-			spine.setTint(colorsToUse[index])
-			
-			group1.number = numbersToUse[index]
-			
-			var slot = getSpineSlot(spine,"empty")
-
-			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var numberText = new Phaser.Text(game, 0, 5, group1.number, fontStyle)
-			numberText.anchor.setTo(0.5, 0.5)
-			group1.numberText = numberText
-			slot.add(numberText)
-			
-			index++
-			if(index>3){
-				index = 0
-			}
-        }
-                
-        return group
-    }
-	
-	function createObstacle(type,number){
+	function stopTutorial(){
 		
-		var index = 0
-		for(var u = 0; u < number; u++){
-			
-			var group 
-			if(type == 'bar'){
-								
-                group = game.add.group()
-				group.y = - 100
-				group.alpha = 0
-				group.used = false
-				group.type = type
-				objectsGroup.add(group)
-
-                var pivotX = game.world.width - 60
-                var indexColor = 0
-                var length = 8
-                for(var i = 0; i<length;i++){
-
-                    var group1 = game.add.group()
-					group1.x = pivotX
-					group1.initX = pivotX
-					group1.y = 0
-					group.add(group1)
-					
-					var spine = game.add.spine(0,0,"fish")
-					spine.setSkinByName("normal")
-					spine.setAnimationByName(0,"IDLE",true)
-					group1.add(spine)
-					
-					spine.autoUpdateTransform()
-					spine.setTint(colorsToUse[index])
-					
-					var slot = getSpineSlot(spine,"empty")
-					
-					group1.number = numbersToUse[index]
-					
-					var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-					var numberText = new Phaser.Text(game, 0, 5, group1.number, fontStyle)
-					numberText.anchor.setTo(0.5, 0.5)
-					group1.numberText = numberText
-					slot.add(numberText)
-					
-                    if(i == length-1){
-                        group.lastObject = group1
-						group.origLast = group1
-                    }
-                    pivotX -= group1.width * 1.5
-					
-					index++
-					if(index>3){
-						index = 0
-					}
-                }
-			}else if(type == 'circle'){
-				
-				group = calcCircles(4)
-				group.type = type
-				group.y = -200
-				group.alpha = 0
-				group.used = false
-
-                var value = -173
-                var valueY = -173
-                
-                var index = 0
-                for(var i = 0; i<group.length ;i++){
-                    var obj = group.children[i]
-                    
-                    obj.x+=value
-                    obj.y+=valueY
-                                  
-                }
-
-                group.x = game.world.centerX 
-				
-				objectsGroup.add(group)
-			}	
-		}
+		tutorialHand.active = false
+		gameSpeed = 0.25
+	}
+	
+	function createTutorial(){
+		
+		tutorialHand = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.squat','tutorialHand')
+		tutorialHand.scale.setTo(0.7,0.7)
+		tutorialHand.anchor.setTo(0.5,0.5)
+		tutorialHand.alpha = 0
+		tutorialHand.active = true
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "jelly",
+		name: "squat",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			game.physics.startSystem(Phaser.Physics.P2JS);
-
-            game.physics.p2.gravity.y = 0;
-            game.physics.p2.world.defaultContactMaterial.friction = 0.3;
-            game.physics.p2.world.setGlobalStiffness(1e5);
-            
-            jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-			
+			this.swipe = new Swipe(this.game);
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createObjects()
-			createPlayer()	
-			createButtons()
+			createBoard()
+			createYogotar()
+			createClock()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

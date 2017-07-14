@@ -60,7 +60,8 @@ yogomeGames.getGames = function(){
 		{name:'uniDream',url:'http://yogome.com/epic/minigames/uniSite/',sceneName:'uni',subject:'math', review:true},//53
 		{name:'countipede',url:'http://yogome.com/epic/minigames/countipSite/',sceneName:'countip',subject:'math', review:true},//54
         {name:'toyfigure',url:'http://yogome.com/epic/minigames/toyfigureSite/',sceneName:'toyfigure',subject:'math', review:false},//55
-		{name:'jellyJump',url:'http://yogome.com/epic/minigames/jellySite/',sceneName:'jelly',subject:'math', review:false}//56
+		{name:'jellyJump',url:'http://yogome.com/epic/minigames/jellySite/',sceneName:'jelly',subject:'math', review:false},//56
+		{name:'squatCount',url:'http://yogome.com/epic/minigames/squatSite/',sceneName:'squat',subject:'math', review:false}//57
 	]
 
 	
