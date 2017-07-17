@@ -1,0 +1,48 @@
+
+monster4.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+monster4/arm
+  rotate: false
+  xy: 163, 139
+  size: 108, 106
+  orig: 108, 106
+  offset: 0, 0
+  index: -1
+monster4/head1
+  rotate: false
+  xy: 394, 192
+  size: 68, 53
+  orig: 68, 53
+  offset: 0, 0
+  index: -1
+monster4/head2
+  rotate: false
+  xy: 163, 83
+  size: 68, 54
+  orig: 68, 54
+  offset: 0, 0
+  index: -1
+monster4/leg
+  rotate: true
+  xy: 2, 2
+  size: 71, 123
+  orig: 71, 123
+  offset: 0, 0
+  index: -1
+monster4/leg2
+  rotate: true
+  xy: 273, 171
+  size: 74, 119
+  orig: 74, 119
+  offset: 0, 0
+  index: -1
+monster4/torso
+  rotate: false
+  xy: 2, 75
+  size: 159, 170
+  orig: 159, 170
+  offset: 0, 0
+  index: -1
