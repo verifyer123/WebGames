@@ -91,7 +91,7 @@ var bax = function(){
 
     var lives
     var sceneGroup = null
-    var gameIndex = 40
+    var gameIndex = 58
     var tutoGroup
     var baxSong
     var pullGroup = null
