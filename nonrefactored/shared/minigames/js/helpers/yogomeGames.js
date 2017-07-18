@@ -62,7 +62,8 @@ yogomeGames.getGames = function(){
         {name:'toyfigure',url:'http://yogome.com/epic/minigames/toyfigureSite/',sceneName:'toyfigure',subject:'math', review:false},//55
 		{name:'jellyJump',url:'http://yogome.com/epic/minigames/jellySite/',sceneName:'jelly',subject:'math', review:false},//56
 		{name:'squatCount',url:'http://yogome.com/epic/minigames/squatSite/',sceneName:'squat',subject:'math', review:false},//57
-		{name:'baxtion',url:'http://yogome.com/epic/minigames/baxSite/',sceneName:'bax',subject:'math', review:false}//58
+		{name:'baxtion',url:'http://yogome.com/epic/minigames/baxSite/',sceneName:'bax',subject:'math', review:false},//58
+		{name:'mathgicHat',url:'http://yogome.com/epic/minigames/hatSite/',sceneName:'magic',subject:'math', review:false}//59
 	]
 
 	

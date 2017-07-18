@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var squat = function(){
+var magic = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,9 +20,9 @@ var squat = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.squat",
-                json: "images/squat/atlas.json",
-                image: "images/squat/atlas.png",
+                name: "atlas.magic",
+                json: "images/magic/atlas.json",
+                image: "images/magic/atlas.png",
             },
         ],
         images: [
@@ -43,6 +43,8 @@ var squat = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "secret",
+				file: soundsPath + "secret.mp3"},
 			
 		],
     }
@@ -50,17 +52,18 @@ var squat = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background, base, board
+	var background, table, magician
+	var cardsGroup
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 57
+    var gameIndex = 59
 	var indexGame
     var overlayGroup
     var spaceSong
-	var yogotar
-	var squatsNumber, tutorialHand
-	var timeToUse, multTime
+	var timeToUse
+	var rabbit
+	var result
 	
 
 	function loadSounds(){
@@ -71,22 +74,28 @@ var squat = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		squatsNumber = 0
-		timeToUse = 10000
-		multTime = 1.5
-        gameActive = false
-		
+		timeToUse = 15000
+        
         loadSounds()
         
 	}
 
-    function popObject(obj,delay){
+    function popObject(obj,delay,appear){
         
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({x:0, y:0.01},250,Phaser.Easing.linear,true)
+			if(appear){
+
+				obj.alpha = 1
+            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+			}else{
+				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
+					obj.scale.setTo(1,1)
+					obj.alpha = 0
+				})
+			}
+            
         },this)
     }
     
@@ -166,10 +175,6 @@ var squat = function(){
     
     function addPoint(number){
         
-		if(multTime > 1){
-			multTime-= 0.1
-		}
-		
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
@@ -180,6 +185,10 @@ var squat = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
+		
+		if(timeToUse> 2000){
+			timeToUse-= 1000
+		}
         
     }
     
@@ -190,7 +199,7 @@ var squat = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.squat','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.magic','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -212,13 +221,12 @@ var squat = function(){
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
-        
         var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.squat','life_box')
+        var heartImg = group.create(0,0,'atlas.magic','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -237,9 +245,6 @@ var squat = function(){
     
     function stopGame(win){
         
-		yogotar.setAnimationByName(0,"LOSE",false)
-		yogotar.addAnimationByName(0,"LOSESTILL",true)
-		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
@@ -262,12 +267,13 @@ var squat = function(){
         
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/melodic_basss.mp3');
-		game.load.spine('yogotar',"images/spines/dinamita.json")
+        game.load.spine('magician', "images/spines/basi.json")  
+		game.load.spine('rabbit', "images/spines/conejo.json")
+        game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
         
-		game.load.image('howTo',"images/squat/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/squat/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/squat/introscreen.png")
+		game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/magic/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/magic/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -275,8 +281,6 @@ var squat = function(){
     
     function createOverlay(){
         
-		createTutorial()
-		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -288,14 +292,12 @@ var squat = function(){
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
-			
-			//startTutorial()
-			setNumber()
             rect.inputEnabled = false
 			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+				showButtons(true)				
 				
             })
             
@@ -307,7 +309,7 @@ var squat = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.squat','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.magic','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -321,11 +323,11 @@ var squat = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.squat',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.magic',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.squat','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.magic','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -339,91 +341,20 @@ var squat = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.squat','fondo')
-		sceneGroup.add(background)
+		background = sceneGroup.create(0,0,'atlas.magic','fondo')
+		background.width = game.world.width
+		background.height = game.world.height
 		
-		base = sceneGroup.create(game.world.centerX, game.world.height,'atlas.squat','base')
-		base.anchor.setTo(0.5,1)
-		base.width = game.world.width
+		var top = game.add.tileSprite(0,-25,game.world.width,150, 'atlas.magic','swatch')
+		sceneGroup.add(top)
 		
-		var pivotX =  game.world.centerX - 200
-		for(var i = 0; i < 3;i++){
-			
-			var light = sceneGroup.create(pivotX, 0, 'atlas.squat','luz')
-			light.anchor.setTo(0.5,0)
-			
-			var tween = game.add.tween(light.scale).to({x:1.2,y:1},500,"Linear",true,game.rnd.integerInRange(50,300),-1)
-			tween.yoyo(true,0)
-			pivotX += 200
-		}
-	
+		table = sceneGroup.create(game.world.centerX, game.world.height,'atlas.magic','mesa')
+		table.anchor.setTo(0.5,1)
+		
 	}
 	
 	function update(){
-		
-		background.tilePosition.x-= 0.3
-		
-		if(!gameActive){
-			return
-		}
-		
-		/*var direction = this.swipe.check();
-		
-		if (direction!==null && gameActive) {
-		// direction= { x: x, y: y, direction: direction }
-			switch(direction.direction) {
-				case this.swipe.DIRECTION_UP:
-					doSquat('up')
-					break;
-				case this.swipe.DIRECTION_DOWN:
-					doSquat('down')
-					break;
-			}
-		}*/
-		
-	}
-	
-	function doSquat(direction){
-		
-		if(!gameActive){
-			return
-		}
-		
-		/*if(tutorialHand.active){
-			stopTutorial()
-		}
-		
-		if(direction == 'down' && !yogotar.isDown){
-			
-			yogotar.isDown = true
-			sound.play("cut")
-			yogotar.setAnimationByName(0,"DOWN",false)
-		}else if(direction == 'up' && yogotar.isDown){
-			
-			yogotar.squats++
-			yogotar.isDown = false
-			sound.play("pop")
-			yogotar.setAnimationByName(0,"UP",false)
-			yogotar.addAnimationByName(0,"IDLE",true)
-			
-		}*/
-		
-		gameActive = false
-		yogotar.squats++
-		
-		yogotar.setAnimationByName(0,"DOWN",false)
-		yogotar.addAnimationByName(0,"UP",false)
-		yogotar.addAnimationByName(0,"IDLE",true)
-		
-		sound.play("cut")
-		
-		game.time.events.add(750,function(){
-			if(lives>0 && board.alpha == 0){
-				gameActive = true
-			}
-			
-		})
-	
+
 	}
 	
 	function createTextPart(text,obj){
@@ -458,7 +389,9 @@ var squat = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				                
+				
+				console.log(particle)
+                
                 return particle
                 break
             }
@@ -476,28 +409,6 @@ var squat = function(){
             particlesGroup.add(obj)
             
         },this)
-    }
-	
-	function createClock(){
-        
-        clock = game.add.group()
-		clock.alpha = 0
-        clock.x = game.world.centerX
-        clock.y = 100
-		clock.alpha = 0
-        sceneGroup.add(clock)
-        
-        var clockImage = clock.create(0,0,'atlas.squat','clock')
-        clockImage.anchor.setTo(0.5,0.5)
-        
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.squat','bar')
-        clockBar.anchor.setTo(0,0.5)
-        clockBar.width = clockImage.width*0.76
-        clockBar.height = 22
-        clockBar.origScale = clockBar.scale.x
-        
-        clock.bar = clockBar
-        
     }
     
     function createPart(key,obj,offsetX){
@@ -539,7 +450,7 @@ var squat = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.squat',tag);
+				particle.makeParticles('atlas.magic',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -561,60 +472,6 @@ var squat = function(){
         
     }
 	
-	function setNumber(){
-		
-		yogotar.squats = 0
-		squatsNumber = game.rnd.integerInRange(2,10)
-		
-		board.text.setText(squatsNumber)
-		popObject(board,500)
-		
-		timeToUse = squatsNumber * (multTime * 1000)
-		
-		game.time.events.add(2000,function(){
-			game.add.tween(board.scale).to({x:0,y:0},500,"Linear",true).onComplete.add(function(){
-				
-				gameActive = true
-				board.scale.setTo(1,1)
-				board.alpha = 0
-				
-				popObject(clock,0)
-				
-				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
-				clock.tween.onComplete.add(function(){
-					checkClock()
-				})
-			})
-		})
-	}
-	
-	function checkClock(){
-		
-		gameActive = false
-		
-		if(yogotar.squats == squatsNumber){
-			
-			addPoint(1)
-			createPart('star',board.text)
-			
-			if(clock.tween){
-				clock.tween.stop()
-				clock.bar.scale.x = clock.bar.origScale
-			}
-			
-			yogotar.setAnimationByName(0,"WIN",false)
-			yogotar.addAnimationByName(0,"IDLE",true)
-			
-			game.add.tween(clock).to({alpha:0},500,"Linear",true).onComplete.add(function(){
-				setNumber()
-			})
-
-		}else{
-			missPoint()
-			createPart('wrong',board.text)
-		}
-	}
-	
 	function addParticles(){
 		
 		particlesGroup = game.add.group()
@@ -626,6 +483,7 @@ var squat = function(){
 		createParticles('star',3)
 		createParticles('wrong',1)
 		createParticles('text',5)
+		createParticles('smoke',1)
 
 	}
 
@@ -648,7 +506,7 @@ var squat = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.squat','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.magic','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -661,7 +519,7 @@ var squat = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.squat','smoke');
+        particlesGood.makeParticles('atlas.magic','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -678,103 +536,275 @@ var squat = function(){
         
     }
 	
-	function createBoard(){
-		
-		board = game.add.group()
-		board.x = game.world.centerX
-		board.y = 150
-		board.alpha = 0
-		sceneGroup.add(board)
-		
-		var boardImg = board.create(0,0,'atlas.squat','board')
-		boardImg.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "90px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-        board.add(pointsText)
-		
-		board.text = pointsText
-	}
-	
-	function createYogotar(){
-		
-		yogotar = game.add.spine(game.world.centerX, game.world.height - 200,'yogotar')
-		yogotar.setSkinByName('normal')
-		yogotar.setAnimationByName(0,"IDLE",true)
-		yogotar.isDown = false
-		yogotar.squats = 0
-		sceneGroup.add(yogotar)
-		
-	}
-	
 	function inputButton(obj){
 		
 		if(!gameActive){
 			return
 		}
 		
-	}
-	
-	function startTutorial(){
-		
-		if(!tutorialHand.active){
-			return
+		if(clock.tween){
+			clock.tween.stop()
 		}
 		
-		tutorialHand.alpha = 1
-		tutorialHand.x = game.world.centerX + 150
-		tutorialHand.y = game.world.centerY 
+		gameActive = false
 		
-		game.add.tween(tutorialHand).to({y:tutorialHand.y + 200},500,"Linear",true).onComplete.add(function(){
-			game.add.tween(tutorialHand).to({y:tutorialHand.y - 200},500,"Linear",true)
-			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,500).onComplete.add(startTutorial)
-		})
+		sound.play("pop")
+		
+		var parent = obj.parent
+		
+		var tween = game.add.tween(parent.scale).to({x:0.7,y:0.7},100,"Linear",true,0,0)
+		tween.yoyo(true,0)
+		
+		if(obj.parent.number == result){
+			
+			magician.setAnimationByName(0,"PUT",false)
+			magician.addAnimationByName(0,"TAKE_OUT_WIN",false)
+			magician.addAnimationByName(0,"IDLE_WIN",true)
+			
+			game.time.events.add(1000,function(){
+				magician.addAnimationByName(0,"PUT_WIN",false)
+				magician.addAnimationByName(0,"TAKE_OUT",false)
+				magician.addAnimationByName(0,"IDLE",true)
+			})
+			
+			
+			addPoint(1)
+			createPart('star',obj)
+			sound.play('secret')
+			
+			magician.text.setText(result)
+			
+			game.time.events.add(3500,function(){
+				showButtons(false)
+			})
+			
+			game.time.events.add(4500,function(){
+				showButtons(true)
+			})
+			
+		}else{
+			
+			magician.setAnimationByName(0,"PUT",false)
+			magician.addAnimationByName(0,"TAKE_OUT_LOSE",false)
+			magician.addAnimationByName(0,"IDLE_LOSE",true)
+			
+			missPoint()
+			createPart('wrong',obj)
+			
+		}
 	}
 	
-	function stopTutorial(){
+	function createCards(){
 		
-		tutorialHand.active = false
-		gameSpeed = 0.25
+		cardsGroup = game.add.group()
+		sceneGroup.add(cardsGroup)
+		
+		var pivotX = game.world.centerX - 150
+		for(var i = 0; i < 3; i++){
+			
+			var cardG = game.add.group()
+			cardG.alpha = 0
+			cardG.x = pivotX
+			cardG.y = game.world.height - 90
+			cardsGroup.add(cardG)
+			
+			var cardImage = cardG.create(0,0,'atlas.magic','carta')
+			cardImage.inputEnabled = true
+			cardImage.events.onInputDown.add(inputButton)
+			
+			cardImage.anchor.setTo(0.5,0.5)
+			
+			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 5, 2, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			cardG.add(pointsText)
+			
+			cardG.number = 0
+			cardG.text = pointsText
+			
+			pivotX += 150
+			
+		}
 	}
 	
-	function createTutorial(){
+	function showButtons(appear){
 		
-		tutorialHand = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.squat','tutorialHand')
-		tutorialHand.scale.setTo(0.7,0.7)
-		tutorialHand.anchor.setTo(0.5,0.5)
-		tutorialHand.alpha = 0
-		tutorialHand.active = true
+		var delay = 3500
+		
+		if(!appear){
+			delay = 0
+			game.add.tween(clock).to({alpha:0},500,"Linear",true)
+		}
+		
+		for(var i = 0; i < cardsGroup.length;i++){
+			
+			var button = cardsGroup.children[i]
+			if(appear){
+				popObject(button,delay,appear)
+			}else{
+				popObject(button,delay,appear)
+			}
+			
+			delay+= 100
+			
+		}
+		
+		if(appear){
+			
+			magician.setAnimationByName(0,"PUT",false)
+			magician.addAnimationByName(0,"TAKE_OUT_WIN",false)
+			magician.addAnimationByName(0,"IDLE_WIN",false)
+			magician.addAnimationByName(0,"PUT_WIN",false)
+			magician.addAnimationByName(0,"TAKE_OUT",false)
+			magician.addAnimationByName(0,"IDLE",true)
+			
+			var tween = game.add.tween(rabbit.scale).to({x:0.7,y:0.7},200,"Linear",true,0,0)
+			tween.yoyo(true,0)
+			
+			game.time.events.add(500,function(){
+				sound.play("cut")	
+			})
+				
+			setNumbers()
+			
+			game.time.events.add(delay,function(){
+				gameActive = true
+				
+				popObject(clock,0,true)
+				
+				clock.bar.scale.x = clock.bar.origScale
+				
+				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+				clock.tween.onComplete.add(function(){
+					missPoint()
+				})
+				
+			})
+		}
 	}
 	
-	function createButton(){
+	function createClock(){
 		
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(doSquat)
-		sceneGroup.add(rect)
+        clock = game.add.group()
+		clock.alpha = 0
+        clock.x = game.world.centerX
+		clock.scale.setTo(0.85,0.85)
+        clock.y = 65
+		clock.alpha = 0
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.magic','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.magic','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
+    }
+	
+	function createMagician(){
+		
+		magician = game.add.spine(game.world.centerX, game.world.height - table.height * 0.95,'magician')
+		magician.setSkinByName("normal")
+		magician.setAnimationByName(0,"IDLE",true)
+		sceneGroup.add(magician)
+		
+		var cont = getSpineSlot(magician,"emty")
+		game.world.bringToTop(cont)
+		
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		cont.add(pointsText)
+		
+		magician.text = pointsText
+		magician.autoUpdateTransform()
+		
+		rabbit = game.add.spine(game.world.centerX + 100,magician.y + 50,'rabbit')
+		rabbit.setSkinByName('normal')
+		rabbit.setAnimationByName(0,"IDLE",true)
+		sceneGroup.add(rabbit)
+		
+		var cont = getSpineSlot(rabbit,"empty")
+		
+		rabbit.autoUpdateTransform()
+		
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		pointsText.alpha = 1
+		cont.add(pointsText)
+		
+		rabbit.text = pointsText
+	}
+	
+	function setNumbers(){
+		
+		var number1 = game.rnd.integerInRange(2,10)
+		var number2 = game.rnd.integerInRange(2,10)
+		
+		magician.text.setText(number1)
+		rabbit.text.setText(number2)
+		
+		magician.number = number1
+		rabbit.number = number2
+		
+		result = number1 * number2
+		
+		var correctIndex = game.rnd.integerInRange(0,cardsGroup.length - 1)
+		
+		for(var i = 0; i < cardsGroup.length;i++){
+			
+			var card = cardsGroup.children[i]
+			
+			card.number = result
+			while(card.number == result){
+				card.number = game.rnd.integerInRange(2,result + 5)
+			}
+			
+			if(correctIndex == i){
+				card.number = result
+			}
+			
+			card.text.setText(card.number)
+			
+		}
+		
+	}
+	
+	function getSpineSlot(spine, slotName){
+		
+		var slotIndex
+		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
+			var slotData = spine.skeletonData.slots[index]
+			if(slotData.name === slotName){
+				slotIndex = index
+			}
+		}
+
+		if (slotIndex){
+			return spine.slotContainers[slotIndex]
+		}
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "squat",
+		name: "magic",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			//this.swipe = new Swipe(this.game);
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createBoard()
-			createYogotar()
+			createCards()
 			createClock()
-			createButton()
+			createMagician()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

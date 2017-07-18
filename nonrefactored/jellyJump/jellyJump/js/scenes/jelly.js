@@ -806,7 +806,7 @@ var jelly = function(){
 		
 		characterGroup.number = numbersToUse[playerIndex]
 		
-		var slot = getSpineSlot(anim,"empty")
+		var slot = getSpineSlot(anim,"empty2")
 		
 		var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var numberText = new Phaser.Text(game, 0, 0, characterGroup.number, fontStyle)
