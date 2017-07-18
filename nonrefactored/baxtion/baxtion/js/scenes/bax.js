@@ -68,7 +68,7 @@ var bax = function(){
     var MAX_HP = 7
 
     var ROUNDS = [
-        {minNumber: 10, maxNumber: 50, operator:"x"}
+        {minNumber: 2, maxNumber: 10, operator:"x"}
         ]
 
     var MONSTERS = [
@@ -119,7 +119,7 @@ var bax = function(){
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         lives = NUM_LIFES
-        timeValue = 120
+        timeValue = 60
         monsterCounter = 0
         killedMonsters = 0
         monsters = []
@@ -656,8 +656,8 @@ var bax = function(){
     }
     
     function generateFakeAnswer(answer, round) {
-		var number1 = game.rnd.integerInRange(round.minNumber, round.maxNumber)
-		var number2 = game.rnd.integerInRange(round.minNumber, round.maxNumber)
+		var number1 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
+		var number2 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
         var fakeAnswer = number1 * number2
         if (answer === fakeAnswer)
             return generateFakeAnswer(answer, round)
@@ -669,8 +669,8 @@ var bax = function(){
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
         var round = ROUNDS[0]
 
-        var number1 = game.rnd.integerInRange(round.minNumber, round.maxNumber)
-        var number2 = game.rnd.integerInRange(round.minNumber, round.maxNumber)
+        var number1 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
+        var number2 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
         var answer
 
         var operation = round.operator
