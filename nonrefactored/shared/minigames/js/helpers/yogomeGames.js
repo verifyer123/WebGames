@@ -72,4 +72,3 @@ yogomeGames.getGames = function(){
     
     return games
 }
-
