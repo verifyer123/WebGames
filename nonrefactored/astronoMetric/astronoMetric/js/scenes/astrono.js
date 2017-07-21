@@ -5,12 +5,26 @@ var astrono = function(){
 	var localizationData = {
 		"EN":{
 			"howTo":"How to Play?",
-			"moves":"Moves left"
+			"moves":"Moves left",
+			"triangle":"Triangle",
+			"square":"Square",
+			"rectangle":"Rectangle",
+			"rhomboid":"Rhombus",
+			"trapezoid":"Trapezoid",
+			"pentagon":"Pentagon",
+			"hexagon":"Hexagon"
 		},
 
 		"ES":{
 			"moves":"Movimientos extra",
-			"howTo":"¿Cómo jugar?"
+			"howTo":"¿Cómo jugar?",
+			"triangle":"Triángulo",
+			"square":"Cuadrado",
+			"rectangle":"Rectángulo",
+			"rhomboid":"Rombo",
+			"trapezoid":"Trapecio",
+			"pentagon":"Pentágono",
+			"hexagon":"Hexágono"
 		}
 	}
 
@@ -103,7 +117,7 @@ var astrono = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 62
 	var tutoGroup
 	var astronoSong
 	var heartsGroup = null
@@ -341,7 +355,7 @@ var astrono = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('astronoSong', soundsPath + 'songs/wormwood.mp3');
+		game.load.audio('astronoSong', soundsPath + 'songs/the_buildup.mp3');
 
 		game.load.image('introscreen',"images/astrono/introscreen.png")
 		game.load.image('howTo',"images/astrono/how" + localization.getLanguage() + ".png")
@@ -505,7 +519,6 @@ var astrono = function(){
 			inputName = 'desktop'
 		}
 
-		//console.log(inputName)
 		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.astrono',inputName)
 		inputLogo.anchor.setTo(0.5,0.5)
 		// inputLogo.scale.setTo(0.7,0.7)
@@ -610,7 +623,6 @@ var astrono = function(){
 					line.star = star
 					// lines.push(line)
 					currentLine = line
-					console.log(lines.length)
 					break
 				}
 			}
@@ -723,7 +735,6 @@ var astrono = function(){
 
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
-			console.log(star)
 			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
 			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 600)
 			star.setAnimation(["IDLE"])
