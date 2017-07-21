@@ -3,8 +3,8 @@
 	function createOverlay(){
 		lives = 1;
 		coins = 0;
-		heartsText.setText("x " + lives);
-		xpText.setText(coins);
+		heartsText.setText(" ");
+		xpText.setText(" ");
 		speedGame = 5;
         starGame = false;
 		
@@ -24,6 +24,8 @@
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
+             heartsText.setText("x " + lives);
+            xpText.setText(coins);
             rect.inputEnabled = false
 			sound.play("pop")
           game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
