@@ -116,7 +116,7 @@ var astrono = function(){
 	var signGroup
 	var figuresList
 	var starsList
-	var canvasGroup
+	var starsGroup
 	var pointerGame
 	var starsInGame
 	var line1
@@ -127,6 +127,7 @@ var astrono = function(){
 	var isActive
 	var correctParticle
 	var wrongParticle
+	var canvasGroup
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -208,13 +209,17 @@ var astrono = function(){
 		}
 
 		canvasGroup = game.add.group()
-		canvasGroup.x = game.world.centerX
-		canvasGroup.y = game.world.centerY - 80
 		sceneGroup.add(canvasGroup)
+
+		starsGroup = game.add.group()
+		starsGroup.x = game.world.centerX
+		starsGroup.y = game.world.centerY - 80
+		sceneGroup.add(starsGroup)
 
 		for(var starIndex = 0; starIndex < MAX_STARTS; starIndex++){
 			var star = createSpine("stars", "normal")
-			canvasGroup.add(star)
+			star.setAnimation(["IDLE_1"])
+			starsGroup.add(star)
 			starsList.push(star)
 			star.sprite = game.add.sprite(0,0)
 			star.add(star.sprite)
@@ -306,13 +311,22 @@ var astrono = function(){
 
 		//objectsGroup.timer.pause()
 		//timer.pause()
-		wrongParticle.start(true, 1000, null, 5)
+		// wrongParticle.start(true, 1000, null, 5)
 		astronoSong.stop()
 		// clock.tween.stop()
 		inputsEnabled = false
 		isActive = false
+		sound.play("wrong")
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
+		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
+			var star = starsInGame[starIndex]
+			star.setAnimation(["WRONG"])
+			wrongParticle.x = star.centerX
+			wrongParticle.y = star.centerY
+			wrongParticle.start(true, 1000, null, 5)
+		}
+
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
@@ -356,6 +370,7 @@ var astrono = function(){
 	}
 	
 	function generateFigure(round) {
+		sound.play("swipe")
 		if(round.figure === "random"){
 			var rndFigure = FIGURES[game.rnd.integerInRange(0, FIGURES.length - 1)]
 			currentFigure = figuresList[rndFigure.name]
@@ -390,6 +405,7 @@ var astrono = function(){
 		game.add.tween(clock.bar.scale).to({x: clock.bar.origScale}, 300, Phaser.Easing.Cubic.Out, true)
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
+			star.setAnimation(["IDLE_1"])
 			star.line = null
 			star.lineIndex = null
 		}
@@ -492,7 +508,7 @@ var astrono = function(){
 		//console.log(inputName)
 		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.astrono',inputName)
 		inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
+		// inputLogo.scale.setTo(0.7,0.7)
 
 		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.astrono','button')
 		button.anchor.setTo(0.5,0.5)
@@ -539,8 +555,10 @@ var astrono = function(){
 		if(exists){
 			currentLine.clear()
 			currentLine = null
-		}else
+		}else{
+			sound.play("cut")
 			lines.push(currentLine)
+		}
 	}
 	
 	function checkCorrectFigure() {
@@ -577,7 +595,7 @@ var astrono = function(){
 						var from = currentLine.star.sprite
 						var to = star.sprite
 						currentLine.clear()
-						currentLine.lineStyle(10, 0x0088FF, 1)
+						currentLine.lineStyle(10, 0xFFFFFF, 1)
 						currentLine.alpha = 1
 						currentLine.moveTo(from.world.x,from.world.y)
 						currentLine.lineTo(to.world.x,to.world.y)
@@ -588,7 +606,7 @@ var astrono = function(){
 						checkExistedLine()
 					}
 					var line = game.add.graphics(0,0)
-					sceneGroup.add(line)
+					canvasGroup.add(line)
 					line.star = star
 					// lines.push(line)
 					currentLine = line
@@ -604,15 +622,7 @@ var astrono = function(){
 		pointerGame.y = pointer.y
 
 		startDrag = true
-		// var starSelected = checkCollision()
-		// if(starSelected){
-		// 	pointerGame.starSelected = starSelected
-		// 	line1 = game.add.graphics(0,0)
-		// 	line1.lineStyle(1, 0x0088FF, 1)
-		// 	sceneGroup.add(line1)
-		// 	line1.moveTo(starSelected.world.x,starSelected.world.y)
-		// 	line1.lineTo(pointer.x,pointer.y)
-		// }
+		sound.play("flip")
 	}
 
 	function onDragUpdate(obj, pointer) {
@@ -679,6 +689,7 @@ var astrono = function(){
 
 		pointerGame = game.add.sprite(0,0, graphic.generateTexture())
 		pointerGame.anchor.setTo(0.5, 0.5)
+		pointerGame.alpha = 0
 		sceneGroup.add(pointerGame)
 		graphic.destroy()
 
@@ -698,7 +709,7 @@ var astrono = function(){
 		if(currentLine){
 			var from = currentLine.star.sprite
 			currentLine.clear()
-			currentLine.lineStyle(10, 0x0088FF, 1)
+			currentLine.lineStyle(10, 0xFFFFFF, 1)
 			currentLine.alpha = 1
 			currentLine.moveTo(from.world.x,from.world.y)
 			currentLine.lineTo(pointerGame.x,pointerGame.y)
@@ -707,7 +718,7 @@ var astrono = function(){
 
 	function correctReaction() {
 		addPoint(1)
-		correctParticle.start(true, 1000, null, 5)
+		// correctParticle.start(true, 1000, null, 5)
 		game.add.tween(currentFigure.sprite.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
 
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
@@ -715,6 +726,9 @@ var astrono = function(){
 			console.log(star)
 			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
 			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 600)
+			star.setAnimation(["IDLE"])
+			correctParticle.x = star.centerX; correctParticle.y = star.centerY
+			correctParticle.start(true, 600, null, 3)
 		}
 
 		for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
@@ -724,7 +738,7 @@ var astrono = function(){
 
 		game.add.tween(currentFigure.sprite).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, true, 600)
 		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 600)
-		game.time.events.add(1000, startRound)
+		game.time.events.add(1200, startRound)
 	}
 
 	return {

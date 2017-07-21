@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Countipede",
+        name: "Astrono Metric",
         language: "es",
-        minigameUrl: "../countipede/index.html?language=" + language,
+        minigameUrl: "../astronoMetric/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
