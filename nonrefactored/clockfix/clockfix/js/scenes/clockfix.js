@@ -308,23 +308,13 @@ var clockfix = function(){
             }else{
                 object.inputEnabled = false;
                 TweenMax.to(manecilla1,0.5,{angle:180,ease:Back.easeOut});
-                TweenMax.to(manecilla2,0.5,{angle:180,ease:Back.easeOut,onComplete:nextLose});
+                TweenMax.to(manecilla2,0.5,{angle:180,ease:Back.easeOut,onComplete:finishGame});
                 aclock.setAnimationByName(0, "LOSE", true);
                 lives--;
                 heartsText.setText("x " + lives);
                                  if(coins >= 1){
                       timerBar.kill();
                     }
-                function nextLose(){
-                    sound.play("explosion");
-                    manecilla1.alpha = 0;
-                    manecilla2.alpha = 0;    
-                    boton_manecillas.alpha = 0;
-                    aclock.setAnimationByName(0, "LOSESTILL", true);
-                    finishGame();
-   
-                }
-                
             }
             
             answer = 0;
@@ -374,6 +364,7 @@ var clockfix = function(){
     	manecilla1.input.enableDrag(false);
 		manecilla1.events.onDragStart.add(dragStart,this);
 		manecilla1.events.onDragUpdate.add(dragUpdate,this);
+        manecilla1.events.onDragStop.add(dragStop,this);
         manecilla1.input.setDragLock(false, false);	
         
         manecilla2 = sceneGroup.create(0,0,"manecilla2");
@@ -381,10 +372,12 @@ var clockfix = function(){
         manecilla2.x = game.world.centerX;
         manecilla2.y = aclock.y + manecilla2.height/3.5;
         manecilla2.clock = 1;
+        manecilla2.angle = 180;
 		manecilla2.inputEnabled = true;
     	manecilla2.input.enableDrag(false);
 		manecilla2.events.onDragStart.add(dragStart,this);
 		manecilla2.events.onDragUpdate.add(dragUpdate,this);
+        manecilla2.events.onDragStop.add(dragStop,this);
         manecilla2.input.setDragLock(false, false);	          
         var boton_manecillas = sceneGroup.create(0,0,"boton_manecillas");
         boton_manecillas.anchor.setTo(0.5,0.5);
@@ -408,6 +401,13 @@ var clockfix = function(){
              
         }        
         
+        function dragStop(object){
+            TweenMax.to(aclock.scale,0.5,{x:1,y:1});
+            object.scale.setTo(1,1);
+            object.tint = 0xffffff;
+             aclock.y = 673;
+        }
+        
         function dragUpdate(object){
             sound.play("windingClock");
             targetAngle = (360 / (2 * Math.PI)) * game.math.angleBetween(
@@ -426,11 +426,16 @@ var clockfix = function(){
                 if(!game.input.activePointer.isDown && dragging)
                 {
                     dragging = false;  
+                     aclock.scale.setTo(1,1);
                 }
 
                 if(dragging)
                 {
-                    
+                    object.tint = 0xff0000;
+                    console.log(aclock.y);
+                    aclock.y = 663;
+                    TweenMax.to(aclock.scale,0.5,{x:1.5,y:1.5});
+                    object.scale.setTo(1.5,1.5);
                     object.angle = targetAngle;
                     if(object.clock == 1){
                         angleHour = Math.round(targetAngle);
@@ -516,7 +521,7 @@ var clockfix = function(){
                 textDigital.setText(textHour + ":" + textMinute);
                 aclock.setAnimationByName(0, "IDLE", true);
                 TweenMax.to(manecilla1,0.5,{angle:0,ease:Back.easeOut});
-                TweenMax.to(manecilla2,0.5,{angle:0,ease:Back.easeOut});
+                TweenMax.to(manecilla2,0.5,{angle:180,ease:Back.easeOut});
                 console.log("Nueva: hora:" + hour + " minuto:" + minute);
         }
         
@@ -526,6 +531,11 @@ var clockfix = function(){
         }
         
         function finishGame(){
+            sound.play("explosion");
+            manecilla1.alpha = 0;
+            manecilla2.alpha = 0;    
+            boton_manecillas.alpha = 0;
+            aclock.setAnimationByName(0, "LOSESTILL", true);
             okButtonOn.inputEnabled = false;
             TweenMax.to(game,2,{alpha:0,onComplete:gameOver});
             sound.play("wrong");
@@ -544,9 +554,7 @@ var clockfix = function(){
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();
-		
-       
-        
+ 
 	}
 	
 	function update() {
