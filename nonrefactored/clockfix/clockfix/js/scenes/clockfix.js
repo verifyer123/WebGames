@@ -75,7 +75,9 @@ var clockfix = function(){
     var answer = 0;
     var dclock;
     var targetAngle = 0;
-    var NumwebGame = 55;
+    var NumwebGame = 61;
+    var timebar = null;
+    var time = 50;
 	
 	styleWhite = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	styleBlack = {font: "80px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center",boundsAlignH: "center", boundsAlignV: "middle" };
@@ -114,6 +116,8 @@ var clockfix = function(){
         game.load.image("amOn",imagePath + "amOn.png");
         game.load.image("pmOn",imagePath + "pmOn.png");
         game.load.image("okOn",imagePath + "okOn.png");
+        game.load.image("barra",imagePath + "barra.png");
+        game.load.image("clockTime",imagePath + "clockTime.png");        
 		/*SPINE*/
 		game.load.spine("aclock", imagePath + "spine/a_clock/a_clock.json");
         game.load.spine("dclock", imagePath + "spine/d_clock/d_clock.json");	
@@ -193,7 +197,7 @@ var clockfix = function(){
         var pmButtonOff = sceneGroup.create(0,0,"pm");
         pmButtonOff.anchor.setTo(0.5,0.5);
         pmButtonOff.y = dclock.y + pmButtonOff.height;
-        pmButtonOff.x = game.width - pmButtonOff.width;
+        pmButtonOff.x = (game.width - game.width/3)  + pmButtonOff.width;
         
         var pmButtonOn = sceneGroup.create(pmButtonOff.x,pmButtonOff.y,"pmOn");
         pmButtonOn.anchor.setTo(0.5,0.5);
@@ -288,6 +292,7 @@ var clockfix = function(){
                 buttonOkGroup.alpha = 0;
                 coins++;
                 xpText.setText(coins);
+                
                 object.inputEnabled = false;
                 okButtonOn.alpha = 0;
                 sound.play("magic");
@@ -307,6 +312,9 @@ var clockfix = function(){
                 aclock.setAnimationByName(0, "LOSE", true);
                 lives--;
                 heartsText.setText("x " + lives);
+                                 if(coins >= 1){
+                      timerBar.kill();
+                    }
                 function nextLose(){
                     sound.play("explosion");
                     manecilla1.alpha = 0;
@@ -314,11 +322,15 @@ var clockfix = function(){
                     boton_manecillas.alpha = 0;
                     aclock.setAnimationByName(0, "LOSESTILL", true);
                     finishGame();
+   
                 }
                 
             }
             
             answer = 0;
+            if(coins > 1){
+                timerBar.kill();
+            }
         }
         
 
@@ -373,14 +385,24 @@ var clockfix = function(){
     	manecilla2.input.enableDrag(false);
 		manecilla2.events.onDragStart.add(dragStart,this);
 		manecilla2.events.onDragUpdate.add(dragUpdate,this);
-        manecilla2.input.setDragLock(false, false);	        
-        
-    
-        
+        manecilla2.input.setDragLock(false, false);	          
         var boton_manecillas = sceneGroup.create(0,0,"boton_manecillas");
         boton_manecillas.anchor.setTo(0.5,0.5);
         boton_manecillas.x = game.world.centerX;
-        boton_manecillas.y = aclock.y + boton_manecillas.height;        
+        boton_manecillas.y = aclock.y + boton_manecillas.height;     
+        
+        var clockTime = sceneGroup.create(0,0,"clockTime");
+        clockTime.anchor.setTo(0.5,0.5);
+        clockTime.x = game.world.centerX;
+        clockTime.y = game.height - clockTime.height/1.8;
+        clockTime.alpha = 0;
+        var barra = sceneGroup.create(0,0,"barra");
+        barra.anchor.setTo(0,0.5);
+        barra.x = game.world.centerX - barra.width/2;
+        barra.y = game.height - clockTime.height/2.9; 
+        barra.scale.setTo(0,1);        
+        barra.alpha = 0;
+        
         
         function dragStart(){
              
@@ -403,11 +425,7 @@ var clockfix = function(){
                 }
                 if(!game.input.activePointer.isDown && dragging)
                 {
-                    
-                    dragging = false;
-                    
-                    
-                    
+                    dragging = false;  
                 }
 
                 if(dragging)
@@ -467,6 +485,12 @@ var clockfix = function(){
         
         
         function newHour(){
+            if(time >= 5){
+                time= time - 5;
+            }
+            barra.alpha = 1;
+            clockTime.alpha = 1;
+            timerClock();
             sound.play("magic");
             console.log("Antes: hora:" + hour + " minuto:" + minute);
             targetAngle = 0;
@@ -497,8 +521,12 @@ var clockfix = function(){
         }
         
         
+        function timerClock(){
+            timerBar = TweenMax.fromTo(barra.scale,time,{x:0},{x:1,onComplete:finishGame});
+        }
+        
         function finishGame(){
-
+            okButtonOn.inputEnabled = false;
             TweenMax.to(game,2,{alpha:0,onComplete:gameOver});
             sound.play("wrong");
             sound.play("gameLose");
