@@ -142,6 +142,7 @@ var astrono = function(){
 	var correctParticle
 	var wrongParticle
 	var canvasGroup
+	var nameGroup
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -153,7 +154,7 @@ var astrono = function(){
 		game.stage.backgroundColor = "#ffffff"
 		//gameActive = true
 		lives = NUM_LIFES
-		timeValue = 7
+		timeValue = 10
 		quantNumber = 2
 		roundCounter = 0
 		figuresList = []
@@ -184,7 +185,7 @@ var astrono = function(){
 		addNumberPart(pointsBar.text,'+' + number)
 
 		// if(pointsBar.number % 2 == 0){
-		timeValue-=timeValue * 0.10
+		timeValue-=timeValue * 0.08
 		// }
 
 	}
@@ -413,6 +414,8 @@ var astrono = function(){
 	}
 
 	function startRound(notStarted) {
+		game.add.tween(nameGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(nameGroup.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Cubic.Out, true)
 		var round = ROUNDS[roundCounter]
 		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : roundCounter
 
@@ -714,6 +717,22 @@ var astrono = function(){
 		wrongParticle.x = signGroup.x
 		wrongParticle.y = signGroup.y
 		sceneGroup.add(wrongParticle)
+
+		nameGroup = game.add.group()
+		nameGroup.x = game.world.centerX
+		nameGroup.y = game.world.centerY - 80
+		sceneGroup.add(nameGroup)
+		nameGroup.alpha = 0
+		nameGroup.scale.setTo(0.4, 0.4)
+
+		var containerName = nameGroup.create(0, 0, "atlas.astrono", "container_name")
+		containerName.anchor.setTo(0.5, 0.5)
+
+		var fontStyle = {font: "42px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var figureName = new Phaser.Text(game, 0, 2, "Pentagono", fontStyle)
+		figureName.anchor.setTo(0.5, 0.5)
+		nameGroup.add(figureName)
+		nameGroup.name = figureName
 	}
 	
 	function update() {
@@ -729,6 +748,23 @@ var astrono = function(){
 	}
 
 	function correctReaction() {
+
+		var localizedName = localizationData[localization.getLanguage()][currentFigure.figureData.name]
+		var toScale = {}
+		if(currentFigure.figureData.name === "triangle"){
+			toScale.x = 0.8
+			toScale.y = 0.8
+			nameGroup.y = game.world.centerY - 55
+		}else{
+			toScale.x = 0.9
+			toScale.y = 0.9
+			nameGroup.y = game.world.centerY - 80
+		}
+
+		nameGroup.name.text = localizedName
+		game.add.tween(nameGroup).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(nameGroup.scale).to({x:toScale.x, y:toScale.y}, 500, Phaser.Easing.Back.Out, true)
+
 		addPoint(1)
 		// correctParticle.start(true, 1000, null, 5)
 		game.add.tween(currentFigure.sprite.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
@@ -736,20 +772,20 @@ var astrono = function(){
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
 			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
-			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 600)
+			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 1000)
 			star.setAnimation(["IDLE"])
 			correctParticle.x = star.centerX; correctParticle.y = star.centerY
-			correctParticle.start(true, 600, null, 3)
+			correctParticle.start(true, 1000, null, 3)
 		}
 
 		for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
 			var line = lines[lineIndex]
-			game.add.tween(line).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true, 600)
+			game.add.tween(line).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true, 1000)
 		}
 
-		game.add.tween(currentFigure.sprite).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, true, 600)
-		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 600)
-		game.time.events.add(1200, startRound)
+		game.add.tween(currentFigure.sprite).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
+		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
+		game.time.events.add(1600, startRound)
 	}
 
 	return {
