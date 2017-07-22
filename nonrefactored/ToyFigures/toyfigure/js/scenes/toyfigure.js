@@ -54,7 +54,7 @@ var toyfigure = function(){
 	var activeGame = true;
     var repizasArray = new Array;
     var goodAnswer = 0;
-    var time = 120;
+    var time = 60;
     var timerBar = null;
     var NumwebGame = 55;
 
@@ -164,12 +164,14 @@ var toyfigure = function(){
         clock.anchor.setTo(0.5,0.5);
         clock.x = game.world.centerX;
         clock.y = game.height - clock.height/1.5;
+        clock.alpha = 0;
         
         var barra = sceneGroup.create(0,0,"barra");
         barra.anchor.setTo(0,0.5);
         barra.x = game.world.centerX - barra.width/2;
         barra.y = game.height - clock.height/2.2; 
         barra.scale.setTo(0,1);
+        barra.alpha = 0;
  
         
         var newPositionRepiza = new Array;
@@ -302,12 +304,14 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         
        
         function timerClock(){
+            clock.alpha = 1;
+            barra.alpha = 1;
             timerBar = TweenMax.fromTo(barra.scale,time,{x:0},{x:1,onComplete:finishGame});
         }
         
         function finishGame(){
             for(var p = 0; p<= 17;p++){
-                toysArray[p].input.draggable = true;
+                toysArray[p].input.draggable = false;
             }    
             
             TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
@@ -328,8 +332,8 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         function choiceToy(){
             
             if(coins >= 18){
-                if(time <= 60){
-                   time = time - 20; 
+                if(time >= 20){
+                   time = time - 5; 
                 }
                 timerClock();
             }
@@ -385,24 +389,24 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
                 TweenMax.fromTo(newPositionRepiza[5].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
             }   
             if(goodAnswer == 12){
-                var changeToy = getRandomArbitrary(0,6)
+                var changeToy = 3
                 newPositionRepiza[6].x = eval("position" +[changeToy] + "x");
                 newPositionRepiza[6].y = eval("position" +[changeToy] + "y"); 
-                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.3,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.5,{x:1,y:1},{x:0,y:0});
                 TweenMax.fromTo(newPositionRepiza[6].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
             }     
             if(goodAnswer == 14){
-                var changeToy = getRandomArbitrary(0,6)
+                var changeToy = 4
                 newPositionRepiza[7].x = eval("position" +[changeToy] + "x");
                 newPositionRepiza[7].y = eval("position" +[changeToy] + "y"); 
-                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.3,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.5,{x:1,y:1},{x:0,y:0});
                 TweenMax.fromTo(newPositionRepiza[7].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
             }       
             if(goodAnswer == 16){
-                var changeToy = getRandomArbitrary(0,6)
+                var changeToy = 5
                 newPositionRepiza[8].x = eval("position" +[changeToy] + "x");
                 newPositionRepiza[8].y = eval("position" +[changeToy] + "y"); 
-                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.3,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.5,{x:1,y:1},{x:0,y:0});
                 TweenMax.fromTo(newPositionRepiza[8].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
                 
             }   

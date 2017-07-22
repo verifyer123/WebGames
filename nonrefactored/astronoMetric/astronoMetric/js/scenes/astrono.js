@@ -117,7 +117,7 @@ var astrono = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 62
+	var gameIndex = 63
 	var tutoGroup
 	var astronoSong
 	var heartsGroup = null

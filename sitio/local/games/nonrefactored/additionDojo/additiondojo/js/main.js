@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, false, false);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -34,14 +34,15 @@ function startGame(){
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
 
-        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
         game.scale.setGameSize(gameWidth, gameHeight)
 
         game.stage.backgroundColor = "#ffffff"
-        game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;        
+        game.time.advancedTiming = false
+        game.stage.disableVisibilityChange = true;
+		game.clearBeforeRender = false
 
-        game.plugins.add(Fabrique.Plugins.Spine);
+		game.plugins.add(Fabrique.Plugins.Spine);
         
         var language = "EN"
         if(window.location.search){

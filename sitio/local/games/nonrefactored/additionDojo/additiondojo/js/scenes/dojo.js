@@ -785,7 +785,9 @@ var dojo = function(){
 		name: "dojo",
         preload:preload,
 		create: function(event){
-            
+			// game.camera.y = -120
+			game.camera.x = -500
+
 			sceneGroup = game.add.group()
             
             var background = sceneGroup.create(-2,-2,'fondo')
