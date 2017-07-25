@@ -133,7 +133,6 @@ var astrono = function(){
 	var starsGroup
 	var pointerGame
 	var starsInGame
-	var line1
 	var lines
 	var currentLine
 	var startDrag
@@ -242,9 +241,6 @@ var astrono = function(){
 			star.alpha = 0
 			star.index = starIndex
 		}
-
-		line1 = game.add.graphics(0,0)
-		sceneGroup.add(line1)
 
 	}
 
