@@ -260,6 +260,7 @@ var squat = function(){
     
     function preload(){
         
+		buttons.getImages(game)
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/melodic_basss.mp3');
@@ -794,6 +795,8 @@ var squat = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()

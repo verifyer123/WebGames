@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "SZAow5Zsz5NDCrN+UFlgrLwkmSU", "spine": "2.1.27", "width": 226.95, "height": 266.12, "images": "" },
+"skeleton": { "hash": "7ckdnZXMs8bm0e4bv1ptJYi1jjY", "spine": "2.1.27", "width": 226.95, "height": 266.12, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "leg", "parent": "root", "length": 27.98, "x": -8.54, "y": 61.15, "rotation": -77.43 },
@@ -42,6 +42,9 @@
 		},
 		"cachete": {
 			"normal/cachete": { "x": 44.79, "y": 18.49, "rotation": -145.26, "width": 23, "height": 19 }
+		},
+		"empty": {
+			"normal/empty": { "x": -5.52, "y": -0.31, "rotation": -90, "width": 69, "height": 68 }
 		},
 		"eye": {
 			"eye": { "name": "normal/eye", "x": 6.06, "y": 2.42, "rotation": -90, "width": 72, "height": 23 },

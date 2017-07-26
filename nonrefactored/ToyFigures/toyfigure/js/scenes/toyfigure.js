@@ -357,7 +357,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
             
             for(var p = 0; p<= 17;p++){
                 toysArray[p].scale.setTo(1,1);
-                toysArray[p].x = getRandomArbitrary(0 + toysArray[p].width/2, game.world.centerX - toysArray[p].width/2);
+                toysArray[p].x = getRandomArbitrary(0 + toysArray[p].width/2, game.world.centerX*1.5 - toysArray[p].width/2);
                 toysArray[p].y = getRandomArbitrary(floor.y , clock.y - toysArray[p].width/2);
                 toysArray[p].positionX = toysArray[p].x;
                 toysArray[p].positionY = toysArray[p].y;
