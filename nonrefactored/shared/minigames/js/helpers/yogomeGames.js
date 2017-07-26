@@ -68,7 +68,8 @@ yogomeGames.getGames = function(){
 		{name:'clockfix',url:'http://yogome.com/epic/minigames/clockfixSite/',sceneName:'clockfix',subject:'math', review:false},//61
 		{name:'mathEngine',url:'http://yogome.com/epic/minigames/engineSite/',sceneName:'engine',subject:'math', review:false},//62
 		{name:'astronoMetric',url:'http://yogome.com/epic/minigames/astronoSite/',sceneName:'astrono',subject:'math', review:true},//63
-		{name:'jumptiply',url:'http://yogome.com/epic/minigames/jumpSite/',sceneName:'jump',subject:'math', review:true}//64
+		{name:'jumptiply',url:'http://yogome.com/epic/minigames/jumpSite/',sceneName:'jump',subject:'math', review:true},//64
+		{name:'swampShapes',url:'http://yogome.com/epic/minigames/swampShapeSite/',sceneName:'swampShape',subject:'math', review:false}//65
 	]
 
 	

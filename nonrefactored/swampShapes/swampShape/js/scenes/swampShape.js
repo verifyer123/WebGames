@@ -123,7 +123,7 @@ var swampShape = function(){
 	var clock
 	var timeValue
 
-	var gameIndex = 64
+	var gameIndex = 65
 
 	function preload() {
 		game.load.audio('astronoSong',  soundsPath + 'songs/sillyAdventureGameLoop.mp3');
@@ -298,7 +298,7 @@ var swampShape = function(){
 		var finalResults = []
 		var copyArray = lines.slice()
 		recursiveSumResult(copyArray, finalResults)
-		console.log(finalResults)
+		// console.log(finalResults)
 
 		var isRight = true
 		for(var resultIndex = 0; resultIndex < finalResults.length; resultIndex++){
@@ -339,7 +339,7 @@ var swampShape = function(){
 
 		// console.log(result)
 		if((lines.length > 0)&&(resultX === 0)&&(resultY === 0)){
-			console.log("complete")
+			// console.log("complete")
 			checkFigure()
 			isActive = false
 			if (clock.tween)
@@ -589,7 +589,7 @@ var swampShape = function(){
 		}else{
 			sound.play("cut")
 			lines.push(currentLine)
-			console.log(lines.length)
+			// console.log(lines.length)
 		}
 	}
 
