@@ -70,7 +70,7 @@ var clockfix = function(){
     var hour = getRandomArbitrary(0, 24);
     var minute = getRandomArbitrary(0, 12)*5;
     var morningBackground = true;
-    var angleHour = 0 ;
+    var angleHour = 180 ;
     var angleMinute = 0;
     var answer = 0;
     var dclock;
