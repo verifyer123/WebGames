@@ -71,7 +71,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "chilimBalam","email":amazing.getEmail()}
+            {"gameName": "chilimBalam","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
 		
 	}
@@ -144,7 +144,7 @@ var instructions = function(){
       
         mixpanel.track(
             "loadGame",
-            {"gameName": "chilimbalam","email":amazing.getEmail()}
+            {"gameName": "chilimbalam","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

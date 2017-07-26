@@ -63,7 +63,7 @@ var result = function(){
         
         mixpanel.track(
             "finishGame",
-            {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail()}
+            {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 	}
@@ -120,7 +120,7 @@ var result = function(){
         
         mixpanel.track(
             "pressFacebook",
-            {"gameName": gameName,"email":amazing.getEmail()}
+            {"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
         if(!minigameId){

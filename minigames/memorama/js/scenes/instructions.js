@@ -81,7 +81,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "memorama","email":amazing.getEmail()}
+            {"gameName": "memorama","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
 		
 	}
@@ -154,7 +154,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "memorama","email":amazing.getEmail()}
+            {"gameName": "memorama","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

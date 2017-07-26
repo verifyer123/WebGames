@@ -82,7 +82,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "clownrush","email":amazing.getEmail()}
+            {"gameName": "clownrush","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
 		
 	}
@@ -155,7 +155,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "clownrush","email":amazing.getEmail()}
+            {"gameName": "clownrush","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

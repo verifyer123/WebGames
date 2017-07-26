@@ -68,7 +68,7 @@ var instructions = function(){
         
         mixpanel.track(
             "enterGame",
-            {"gameName": "tapatopo","email":amazing.getEmail()}
+            {"gameName": "tapatopo","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
 		
 	}
@@ -141,7 +141,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "tapatopo","email":amazing.getEmail()}
+            {"gameName": "tapatopo","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 		game.stage.backgroundColor = "#ffffff"
