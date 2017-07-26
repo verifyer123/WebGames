@@ -6,13 +6,15 @@ var duck = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"multiple":"Multiple of 10",
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"multiple":"Múltiplo de 10",
 		}
 	}
     
@@ -43,6 +45,8 @@ var duck = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "shoot",
+				file: soundsPath + "laser2.mp3"},
 			
 		],
     }
@@ -50,7 +54,7 @@ var duck = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background
+	var background, topBack,stars
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
@@ -58,6 +62,8 @@ var duck = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
+	var ducksGroup
+	var timeToUse
 	
 
 	function loadSounds(){
@@ -68,7 +74,7 @@ var duck = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-
+		timeToUse = 6000
         
         loadSounds()
         
@@ -169,7 +175,11 @@ var duck = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)		
+        addNumberPart(pointsBar.text,'+' + number,true)
+		
+		if(timeToUse > 1500){
+			timeToUse-= 500
+		}
         
     }
     
@@ -251,8 +261,8 @@ var duck = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/dancing_baby.mp3');
+		game.load.spine('duck', "images/spines/duck.json")  
         
 		game.load.image('howTo',"images/duck/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/duck/play" + localization.getLanguage() + ".png")
@@ -262,6 +272,58 @@ var duck = function(){
         
     }
     
+	function setNumbers(){
+		
+		var index = game.rnd.integerInRange(0,2)
+		
+		for(var i = 0; i < ducksGroup.length;i++){
+			
+			var duck = ducksGroup.children[i]
+			duck.number = (game.rnd.integerInRange(1,9) * 10) + game.rnd.integerInRange(1,9)
+			
+			if(index == i){
+				duck.number = game.rnd.integerInRange(1,9) * 10
+			}
+			
+			console.log(duck.number + ' number')
+			duck.text.setText(duck.number)
+		}
+		
+		
+	}
+	
+	function sendDucks(){
+		
+		setNumbers()
+		
+		gameActive = true
+		var delay = 0
+		for(var i = 0; i < ducksGroup.length;i++){
+			
+			var duck = ducksGroup.children[i]
+			
+			if(duck.tween){
+				duck.tween.stop()
+			}
+			
+			duck.x = game.world.width + 300
+			duck.y = game.world.height - 350
+			duck.pressed = false
+			duck.alpha = 1
+			
+			duck.anim.setAnimationByName(0,"WALK",true)
+			duck.tween = game.add.tween(duck).to({x:-300},timeToUse,"Linear",true,delay)
+			delay+= timeToUse / 6
+			
+			if(duck.number % 10 == 0){
+				duck.tween.onComplete.add(function(){
+					missPoint()
+				})
+			}
+		}
+		
+	}
+	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -280,6 +342,7 @@ var duck = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+				sendDucks()
             })
             
         })
@@ -290,10 +353,16 @@ var duck = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.duck','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.duck','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
+		tuto.scale.setTo(0.85,0.85)
+		
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var numberText = new Phaser.Text(game, game.world.centerX, game.world.centerY + 60, localization.getString(localizationData,"multiple"), fontStyle)
+		numberText.anchor.setTo(0.5, 0.5)
+		overlayGroup.add(numberText)
         
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 245,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
@@ -322,11 +391,28 @@ var duck = function(){
 
 	function createBackground(){
 		
+		background = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.duck','bg')
+		background.anchor.setTo(0.5,0.5)
+		background.width = game.world.width
+		
+		stars = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.duck','swatch_star')
+		sceneGroup.add(stars)
+		
+		var botBack = sceneGroup.create(0,game.world.height,'atlas.duck','suelo')
+		botBack.anchor.setTo(0,1)
+		botBack.width = game.world.width
+		
+		topBack = game.add.tileSprite(0,0,game.world.width,222,'atlas.duck','techo')
+		sceneGroup.add(topBack)
+		
 		
 	}
 	
 	function update(){
-
+		
+		topBack.tilePosition.x+= 1
+		
+		stars.tilePosition.y-= 3
 	}
 	
 	function createTextPart(text,obj){
@@ -361,9 +447,7 @@ var duck = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				console.log(particle)
-                
+				                
                 return particle
                 break
             }
@@ -508,12 +592,129 @@ var duck = function(){
         
     }
 	
+	function setDucks(animName){
+		
+		for(var i = 0; i < ducksGroup.length;i++){
+			
+			var duck = ducksGroup.children[i]
+			
+			if(!duck.pressed){
+				if(duck.tween){
+					duck.tween.stop()
+				}
+
+				duck.anim.setAnimationByName(0,animName,true)
+				
+				hideDuck(duck,animName)
+				
+			}
+			
+		}
+	}
+	
+	function hideDuck(duck,animName){
+		
+		game.time.events.add(1000,function(){
+					
+			if(animName == "WIN"){
+				duck.anim.setAnimationByName(0,"WALK",true)
+				duck.tween = game.add.tween(duck).to({x:duck.x - game.world.width * 1.2},2000,"Linear",true,0)
+			}
+
+		})
+	}
+	
 	function inputButton(obj){
 		
 		if(!gameActive){
 			return
 		}
 		
+		sound.play("shoot")
+		
+		var parent = obj.parent
+		
+		if(parent.tween){
+			parent.tween.stop()
+		}
+		parent.pressed = true
+		
+		game.add.tween(parent).to({angle:parent.angle + 360},500,"Linear",true)
+		
+		game.add.tween(parent).to({y:parent.y - 100},300,"Linear",true).onComplete.add(function(){
+			game.add.tween(parent).to({y:game.world.height + 200},700,"Linear",true)
+		})
+		
+		if(parent.number % 10 == 0){
+			addPoint(1)
+			createPart('star',obj)
+			parent.anim.setAnimationByName(0,"JUMP",false)
+						
+			setDucks("WIN")
+			game.time.events.add(3000,sendDucks)
+		}else{
+			
+			missPoint()
+			createPart('wrong',obj)
+			setDucks("LOSE")
+		}
+		
+	}
+	
+	function createDucks(){
+		
+		ducksGroup = game.add.group()
+		sceneGroup.add(ducksGroup)
+		
+		for(var i = 0; i < 3;i++){
+			
+			var duck = game.add.group()
+			duck.x = game.world.width + 300
+			duck.y = game.world.height - 350
+			ducksGroup.add(duck)
+			
+			var anim = game.add.spine(0,100,'duck')
+			anim.setAnimationByName(0,"WALK",true)
+			anim.setSkinByName('normal')
+			duck.add(anim)
+			
+			var slot = getSpineSlot(anim,"empty")
+
+			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+			var numberText = new Phaser.Text(game, 0, 0, '1', fontStyle)
+			numberText.anchor.setTo(0.5, 0.5)
+			duck.numberText = numberText
+			slot.add(numberText)
+			
+			duck.anim = anim
+			duck.text = numberText
+			anim.autoUpdateTransform()
+			
+			var duckImage = duck.create(0,0,'atlas.duck','star')
+			duckImage.scale.setTo(1.5,1.5)
+			duckImage.alpha = 0
+			duckImage.inputEnabled = true
+			duckImage.events.onInputDown.add(inputButton)
+			duckImage.anchor.setTo(0.5,0.5)
+			
+			duck.number = 0
+			
+		}
+	}
+	
+	function getSpineSlot(spine, slotName){
+		
+		var slotIndex
+		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
+			var slotData = spine.skeletonData.slots[index]
+			if(slotData.name === slotName){
+				slotIndex = index
+			}
+		}
+
+		if (slotIndex){
+			return spine.slotContainers[slotIndex]
+		}
 	}
 	
 	return {
@@ -527,6 +728,7 @@ var duck = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createDucks()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

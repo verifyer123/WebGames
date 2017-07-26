@@ -352,6 +352,11 @@ var result = function(){
             url = "https://itunes.apple.com/mx/app/epic-heroes-of-knowledge/id904827467?mt=8"
         }
         
+		mixpanel.track(
+            "epicLinkPressed",
+            {"gameName": gamesList[gameIndex].name}
+        );
+		
         window.open(url,'_blank')  
         
     }
