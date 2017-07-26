@@ -126,7 +126,7 @@ var swampShape = function(){
 	var gameIndex = 65
 
 	function preload() {
-		game.load.audio('astronoSong',  soundsPath + 'songs/sillyAdventureGameLoop.mp3');
+		game.load.audio('astronoSong',  soundsPath + 'songs/space_bridge.mp3');
 		/*Default*/
 		buttons.getImages(game);
 		game.load.image('introscreen',"images/swampShape/introscreen.png")
