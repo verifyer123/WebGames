@@ -308,6 +308,7 @@ var seaquence = function(){
 		answerCont.text.setText(result)
 		
 		popObject(answerCont,0)
+		createPart('star',answerCont.text)
 		
 		var delay = 500
 		
@@ -412,7 +413,7 @@ var seaquence = function(){
 		signToUse.number = result * 2
 		signToUse.text.setText(signToUse.number)
 		
-		console.log(signToUse.x + ' posX,' + signToUse.y + ' posY')
+		//console.log(signToUse.x + ' posX,' + signToUse.y + ' posY')
 				
 		number1 = signToUse.number - result
 		number2 = signToUse.number + result
@@ -426,7 +427,7 @@ var seaquence = function(){
 			num.number = numsUsing[i]
 			num.text.setText(numsUsing[i])
 			
-			console.log(num.x + ' posX, ' + num.y + ' posY')
+			//console.log(num.x + ' posX, ' + num.y + ' posY')
 		}
 		
 	}

@@ -2,7 +2,7 @@ var amazing = {}
 var couponData
 var dataStore
 var minigameId
-var userMail
+var userMail, gender, birthday
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
@@ -120,6 +120,8 @@ amazing.setMinigameId = function(){
             case "minigameId":
                 minigameId = parsedData.minigameId
                 userMail = parsedData.email
+				gender = parsedData.userProfile.gender
+				birthday = parsedData.userProfile.birthday
 
 				if(userMail){
 
@@ -182,4 +184,12 @@ amazing.getMinigameId = function(){
 
 amazing.getEmail = function(){
 	return userMail
+}
+
+amazing.getBirthday = function(){
+	return birthday
+}
+
+amazing.getGender = function(){
+	return 
 }

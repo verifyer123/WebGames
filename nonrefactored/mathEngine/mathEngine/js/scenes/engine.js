@@ -155,6 +155,15 @@ var engine = function(){
 		sound.play("explosion")
 		createPart('damaged',car.text)
 		        
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xffffff)
+        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.alpha = 0
+        rect.endFill()
+		sceneGroup.add(rect)
+		
+		game.add.tween(rect).from({alpha:1},500,"Linear",true)
+		
         lives--;
         heartsGroup.text.setText('X ' + lives)
         
@@ -299,13 +308,31 @@ var engine = function(){
 	
 	function setNumbers(){
 		
-		var number1 = game.rnd.integerInRange(20,160)
-		var number2 = game.rnd.integerInRange(10,number1 - 10)
+		var isAddition = game.rnd.integerInRange(1,2) > 1
 		
-		result = number1 - number2
+		console.log(isAddition + ' addition')
+		
+		var number1, number2
+		
+		result = 90
+		var signAdd = ' - '
+		
+		while(result > 80){
+			
+			number1 = game.rnd.integerInRange(20,160)
+			number2 = game.rnd.integerInRange(10,number1 - 10)
+			
+			if(isAddition){
+				result = number1 - number2
+			}else{
+				result = number1 + number2
+				signAdd = ' + '
+			}
+			
+		}
+		
 		var index = game.rnd.integerInRange(0,2)
-		
-		car.text.setText(number1 + ' - ' + number2)
+		car.text.setText(number1 + signAdd + number2)
 		
 		for(var i = 0; i< motorGroup.length; i++){
 			
@@ -497,9 +524,7 @@ var engine = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				console.log(particle)
-                
+				                
                 return particle
                 break
             }
