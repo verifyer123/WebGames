@@ -800,7 +800,7 @@ var memo = function(){
             
 			this.swipe = new Swipe(this.game);
 			
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
 			createButtons()

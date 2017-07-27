@@ -622,7 +622,7 @@ var CroakSong = function(){
 		xpText.setText(coins);
 		starGame = false;
 		
-        sceneGroup = game.add.group()
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);

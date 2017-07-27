@@ -153,7 +153,7 @@ var flightoclock = function(){
 		speedGame = 5;
 		starGame = false;
 		
-        sceneGroup = game.add.group();
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -299,7 +299,7 @@ var flightoclock = function(){
 			}
 		whatTime();		
 		
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
 		loadSounds();
 		
 		game.physics.startSystem(Phaser.Physics.P2JS);

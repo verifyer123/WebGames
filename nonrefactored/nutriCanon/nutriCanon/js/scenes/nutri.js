@@ -942,7 +942,7 @@ var nutri = function(){
             
 			jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
 			createObjects()

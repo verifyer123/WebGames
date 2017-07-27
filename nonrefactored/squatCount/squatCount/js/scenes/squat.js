@@ -769,7 +769,7 @@ var squat = function(){
 		create: function(event){
             
 			//this.swipe = new Swipe(this.game);
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
 			createBoard()

@@ -948,7 +948,7 @@ var countip = function(){
 		create: function(event){
 
 			swipe = new Swipe(game)
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 
 			var background = sceneGroup.create(-2,-2,'fondo')
 			background.width = game.world.width+2

@@ -960,7 +960,7 @@ var bax = function(){
         preload:preload,
         create: function(event){
 
-            sceneGroup = game.add.group()
+            sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 
 			var rectBg = game.add.graphics()
 			rectBg.beginFill(0x181433)

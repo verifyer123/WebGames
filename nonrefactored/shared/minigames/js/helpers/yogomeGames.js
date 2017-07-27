@@ -72,10 +72,20 @@ yogomeGames.getGames = function(){
 		{name:'swampShapes',url:'http://yogome.com/epic/minigames/swampShapeSite/',sceneName:'swampShape',subject:'math', review:false},//65
 		{name:'duckCount',url:'http://yogome.com/epic/minigames/duckSite/',sceneName:'duck',subject:'math', review:false}//66
 	]
-
-	
-	
-	
     
     return games
+}
+
+yogomeGames.mixpanelCall = function(callName,gameIndex){
+	
+	var gamesList = yogomeGames.getGames()
+		
+	console.log('gameIndex sent ' + gameIndex )
+
+	mixpanel.track(
+		callName,
+		{"gameName": gamesList[gameIndex].name}
+	);
+	
+		
 }

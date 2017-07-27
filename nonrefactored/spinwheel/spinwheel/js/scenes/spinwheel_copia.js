@@ -157,7 +157,7 @@ var spinwheel = function(){
 	barra2.body.static = true;		
 
 		
-	sceneGroup = game.add.group();
+	sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
 	createControls();		
 		
 	cursors = game.input.keyboard.createCursorKeys();

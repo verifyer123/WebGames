@@ -145,7 +145,7 @@ var isMobile = {
     function createScene(){
 		count = 0;
         giro = 2;
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
