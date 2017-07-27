@@ -39,6 +39,7 @@ var flyingFractions = function(){
 				file: soundsPath + "laserexplode.mp3"}
 		],
 	}
+    var gameIndex = 14;
     var starGame = false;
 	var sceneGroup = null;
 	var coinsGroup = null;
@@ -573,7 +574,7 @@ var flyingFractions = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,14)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}	
 	

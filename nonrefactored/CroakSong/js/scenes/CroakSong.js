@@ -231,6 +231,7 @@ var CroakSong = function(){
 			PIANO*/
 		],
 	}
+    var gameIndex = 19;
     var starGame = false;
 	var background;
 	var background2;
@@ -950,7 +951,7 @@ function keyDownFrog(object){
 		spaceItems = 200;
 
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,19)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}	
 	

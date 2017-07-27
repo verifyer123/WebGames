@@ -36,7 +36,7 @@ var tapcards = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
-    
+    var gameIndex = 6;
 	var background;
 	var book;
 	var pencilEraser;
@@ -584,7 +584,7 @@ function positionCardsRed(){
 			if(lives == 0){
 				clearInterval(timerCount);
 				var resultScreen = sceneloader.getScene("result")
-				resultScreen.setScore(true, coins,6)
+				resultScreen.setScore(true, coins,gameIndex)
 				sceneloader.show("result");
 				lives = 5;
 				leveldifficulty = 0;

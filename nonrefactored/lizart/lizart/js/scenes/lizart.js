@@ -37,7 +37,7 @@ var lizart = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
-    
+    var gameIndex = 28;
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
@@ -458,7 +458,7 @@ var lizart = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,28)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}
 

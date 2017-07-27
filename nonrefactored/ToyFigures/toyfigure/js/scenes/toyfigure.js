@@ -56,7 +56,7 @@ var toyfigure = function(){
     var goodAnswer = 0;
     var time = 60;
     var timerBar = null;
-    var NumwebGame = 55;
+    var gameIndex = 55;
 
     var isMobile = {
         Android: function() {
@@ -130,7 +130,7 @@ var toyfigure = function(){
 
 	/*CREATE SCENE*/
     function createScene(){
-		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -324,7 +324,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
 		
 		function gameOver(){
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,NumwebGame)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 		}
         

@@ -42,6 +42,7 @@ var microdefender = function(){
 	var background;
 	var lado_izq;
 	var lado_der;
+    var gameIndex = 17;
 	var germenes = new Array;
 	var globuloRojo = new Array;
 	var blockCollisionGroup;
@@ -392,7 +393,7 @@ var microdefender = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,17)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}
 

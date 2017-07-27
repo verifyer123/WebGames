@@ -43,7 +43,7 @@ var monsterDungeon = function(){
     
 	
 	sceneGroup = null;
-	
+	var gameIndex = 67;
 	var speedGame = 5;
 	var background;
 	var heartsGroup = null;
@@ -380,7 +380,7 @@ var monsterDungeon = function(){
         
         function gameOver(){
 		  var resultScreen = sceneloader.getScene("result")
-			 resultScreen.setScore(true, coins,50)
+			 resultScreen.setScore(true, coins,gameIndex)
 			 sceneloader.show("result");
 	   }	
         

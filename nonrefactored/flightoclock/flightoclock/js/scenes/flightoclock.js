@@ -37,7 +37,7 @@ var flightoclock = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
-    
+    var gameIndex = 39;
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
@@ -766,7 +766,7 @@ var flightoclock = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,39)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}
 

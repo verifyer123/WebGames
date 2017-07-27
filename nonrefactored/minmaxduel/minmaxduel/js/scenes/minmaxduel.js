@@ -52,7 +52,7 @@ var minmaxduel = function(){
 	var xpIcon;
 	var lives = 1;
 	var cursors;
-	var NumwebGame = 46;
+	var gameIndex = 46;
 	var bgtimer;
 	var cardsArray;
 	var dashedcard;
@@ -374,7 +374,7 @@ var minmaxduel = function(){
 		
 		function gameOver(){
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,NumwebGame)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 		}	
 	
