@@ -66,10 +66,10 @@ yogomeGames.getGames = function(){
 		{name:'mathgicHat',url:'http://yogome.com/epic/minigames/hatSite/',sceneName:'magic',subject:'math', review:true},//59
 		{name:'seaquence',url:'http://yogome.com/epic/minigames/seaSite/',sceneName:'seaquence',subject:'math', review:true},//60
 		{name:'clockfix',url:'http://yogome.com/epic/minigames/clockfixSite/',sceneName:'clockfix',subject:'math', review:true},//61
-		{name:'mathEngine',url:'http://yogome.com/epic/minigames/engineSite/',sceneName:'engine',subject:'math', review:false},//62
+		{name:'mathEngine',url:'http://yogome.com/epic/minigames/engineSite/',sceneName:'engine',subject:'math', review:true},//62
 		{name:'astronoMetric',url:'http://yogome.com/epic/minigames/astronoSite/',sceneName:'astrono',subject:'math', review:true},//63
 		{name:'jumptiply',url:'http://yogome.com/epic/minigames/jumpSite/',sceneName:'jump',subject:'math', review:true},//64
-		{name:'swampShapes',url:'http://yogome.com/epic/minigames/swampShapeSite/',sceneName:'swampShape',subject:'math', review:false},//65
+		{name:'swampShapes',url:'http://yogome.com/epic/minigames/swampShapeSite/',sceneName:'swampShape',subject:'math', review:true},//65
 		{name:'duckCount',url:'http://yogome.com/epic/minigames/duckSite/',sceneName:'duck',subject:'math', review:false},//66
         {name:'monsterDungeon',url:'http://yogome.com/epic/minigames/monsterDungeonsite/',sceneName:'monsterDungeon',subject:'math', review:true}//67
 	]
