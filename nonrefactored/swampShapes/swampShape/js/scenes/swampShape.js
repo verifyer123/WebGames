@@ -100,7 +100,8 @@ var swampShape = function(){
 		{figure:"random"}
 	]
 
-	var COORDINATES = [{x:-180, y:-180}, {x:0, y:-180}, {x: 180, y:-180}, {x: 180, y:0}, {x:180, y:180}, {x:0, y:180}, {x:-180, y:180}, {x:-180, y:0}]
+	var COORDINATES = [{x:-1, y:-1}, {x:0, y:-1}, {x: 1, y:-1}, {x: 1, y:0}, {x:1, y:1}, {x:0, y:1}, {x:-1, y:1}, {x:-1, y:0}]
+	var DISTANCE = 180
 	
 	var sceneGroup = null
     var bottle;
@@ -192,7 +193,7 @@ var swampShape = function(){
 				copyLines.splice(lineIndex, 1)
 			}
 		}
-		// console.log(sumResult)
+		console.log(sumResult)
 		finalResults.push(sumResult)
 		if(copyLines.length>0)
 			recursiveSumResult(copyLines, finalResults)
@@ -562,7 +563,7 @@ var swampShape = function(){
 						var toIndex = star.index
 						var lineIndex = fromIndex < toIndex ? fromIndex.toString() + toIndex.toString() : toIndex.toString() + fromIndex.toString()
 						currentLine.lineIndex = lineIndex
-						var result = {x :(from.world.x / 180) - (to.world.x / 180), y :(from.world.y / 180) - (to.world.y / 180)}
+						var result = {x :(from.coordinate.x ) - (to.coordinate.x ), y :(from.coordinate.y ) - (to.coordinate.y )}
 						currentLine.result = result
 						checkExistedLine()
 					}
@@ -690,7 +691,8 @@ var swampShape = function(){
 
 			firefly.x = 0; firefly.y = 0; firefly.alpha = 0
 			firefly.scale.x = 1; firefly.scale.y = 1
-			var appear = game.add.tween(firefly).to({alpha:1, x:coordinate.x, y:coordinate.y}, 500, Phaser.Easing.Cubic.Out, true)
+			firefly.coordinate = coordinate
+			var appear = game.add.tween(firefly).to({alpha:1, x:coordinate.x * 180, y:coordinate.y * 180}, 500, Phaser.Easing.Cubic.Out, true)
 			appear.onComplete.add(function (obj) {
 				var delay = game.rnd.integerInRange(100, 600)
 				obj.tween = game.add.tween(obj).to({alpha:0.6}, 300, Phaser.Easing.Sinusoidal.InOut, true, delay).yoyo(true).loop(true)
