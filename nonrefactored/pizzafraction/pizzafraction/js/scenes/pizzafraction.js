@@ -41,7 +41,7 @@ var pizzafraction = function(){
     
 	
 	sceneGroup = null;
-	
+	var gameIndex = 42;
 	var speedGame = 5;
 	var background;
 	var heartsGroup = null;
@@ -134,7 +134,7 @@ var isMobile = {
 	/*CREATE SCENE*/
     function createScene(){
 		
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -321,7 +321,7 @@ var isMobile = {
 		
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,42)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}		
 		

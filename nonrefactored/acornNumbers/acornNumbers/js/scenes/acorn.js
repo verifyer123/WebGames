@@ -764,7 +764,7 @@ var acorn = function(){
 		create: function(event){
 
             swipe = new Swipe(game)
-		    sceneGroup = game.add.group()
+		    sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 
             mountains = game.add.tileSprite(0,0,game.world.width,961,'montains')
             sceneGroup.add(mountains)

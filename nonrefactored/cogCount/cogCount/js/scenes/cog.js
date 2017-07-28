@@ -739,7 +739,7 @@ var cog = function(){
         update:update,
         create: function(event){
 
-            sceneGroup = game.add.group()
+            sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 
             background = game.add.tileSprite(0 , 0, game.world.width + 2, game.world.height + 2, "atlas.cog", "fondo")
             sceneGroup.add(background)

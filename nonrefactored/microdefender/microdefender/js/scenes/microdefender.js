@@ -42,6 +42,7 @@ var microdefender = function(){
 	var background;
 	var lado_izq;
 	var lado_der;
+    var gameIndex = 17;
 	var germenes = new Array;
 	var globuloRojo = new Array;
 	var blockCollisionGroup;
@@ -125,7 +126,7 @@ var microdefender = function(){
 		speedGame = 3.5;
 		starGame = false;
 		
-        sceneGroup = game.add.group();
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -392,7 +393,7 @@ var microdefender = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,17)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}
 

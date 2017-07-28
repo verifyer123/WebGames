@@ -1378,7 +1378,7 @@ var rift = function(){
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			addMusic()
 			createBackground()

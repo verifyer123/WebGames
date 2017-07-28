@@ -37,7 +37,7 @@ var lizart = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
-    
+    var gameIndex = 28;
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
@@ -152,7 +152,7 @@ var lizart = function(){
 		speedGame = 5;
 		starGame = false;
 		
-        sceneGroup = game.add.group();
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -458,7 +458,7 @@ var lizart = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,28)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}
 

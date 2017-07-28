@@ -861,7 +861,7 @@ var medi = function(){
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
 			createObjects()

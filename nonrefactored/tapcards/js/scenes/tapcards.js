@@ -36,7 +36,7 @@ var tapcards = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
-    
+    var gameIndex = 6;
 	var background;
 	var book;
 	var pencilEraser;
@@ -164,7 +164,7 @@ var tapcards = function(){
 	}	
 	
 	function createOverlay(){
-        sceneGroup = game.add.group()
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -584,7 +584,7 @@ function positionCardsRed(){
 			if(lives == 0){
 				clearInterval(timerCount);
 				var resultScreen = sceneloader.getScene("result")
-				resultScreen.setScore(true, coins,6)
+				resultScreen.setScore(true, coins,gameIndex)
 				sceneloader.show("result");
 				lives = 5;
 				leveldifficulty = 0;

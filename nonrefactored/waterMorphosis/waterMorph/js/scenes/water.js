@@ -1284,7 +1284,7 @@ var water = function(){
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
             
             background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'fondo');
 			sceneGroup.add(background)

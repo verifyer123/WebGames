@@ -41,7 +41,7 @@ var luckynumber = function(){
     
 	
 	sceneGroup = null;
-	
+	var gameIndex = 50;
 	var speedGame = 5;
 	var background;
 	var heartsGroup = null;
@@ -145,7 +145,7 @@ var isMobile = {
     function createScene(){
 		count = 0;
         giro = 2;
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -437,7 +437,7 @@ var isMobile = {
 		
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,50)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 	}		
 		

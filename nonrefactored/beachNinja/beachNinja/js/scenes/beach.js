@@ -927,7 +927,7 @@ var beach = function(){
 			this.swipe = new Swipe(this.game);
 			game.input.addMoveCallback(movePointer, this);
 			
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
 			createTrees()

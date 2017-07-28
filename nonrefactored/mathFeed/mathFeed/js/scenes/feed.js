@@ -696,7 +696,7 @@ var feed = function(){
         create: function(event){
 
             swipe = new Swipe(game)
-			sceneGroup = game.add.group()
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
 
             var background = sceneGroup.create(game.world.centerX,game.world.centerY,'fondo')
             background.anchor.setTo(0.5, 0.5)

@@ -75,7 +75,7 @@ var clockfix = function(){
     var answer = 0;
     var dclock;
     var targetAngle = 0;
-    var NumwebGame = 61;
+    var gameIndex = 61;
     var timebar = null;
     var time = 50;
 	
@@ -138,7 +138,7 @@ var clockfix = function(){
 
 	/*CREATE SCENE*/
     function createScene(){
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -546,7 +546,7 @@ var clockfix = function(){
 		
 		function gameOver(){
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,NumwebGame)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 		}        
         
