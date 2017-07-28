@@ -1,0 +1,34 @@
+
+ship.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/flama
+  rotate: false
+  xy: 276, 37
+  size: 41, 56
+  orig: 41, 56
+  offset: 0, 0
+  index: -1
+normal/nave1
+  rotate: false
+  xy: 2, 5
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+normal/nave2
+  rotate: false
+  xy: 199, 18
+  size: 75, 75
+  orig: 75, 75
+  offset: 0, 0
+  index: -1
+normal/nave3
+  rotate: false
+  xy: 103, 2
+  size: 94, 91
+  orig: 94, 91
+  offset: 0, 0
+  index: -1
