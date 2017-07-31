@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var nacho = function(){
+var mathrioska = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,9 +20,9 @@ var nacho = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.nacho",
-                json: "images/nacho/atlas.json",
-                image: "images/nacho/atlas.png",
+                name: "atlas.mathrioska",
+                json: "images/mathrioska/atlas.json",
+                image: "images/mathrioska/atlas.png",
             },
         ],
         images: [
@@ -43,16 +43,8 @@ var nacho = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "bite",
-				file: soundsPath + "bite.mp3"},
-			{	name: "explode",
-				file: soundsPath + "explode.mp3"},
-			{	name: "brightTransition",
-				file: soundsPath + "brightTransition.mp3"},
-			{	name: "moleHit",
-				file: soundsPath + "moleHit.mp3"},
-			{	name: "bomb",
-				file: soundsPath + "bomb.mp3"},
+			{	name: "drag",
+				file: soundsPath + "drag.mp3"},
 			
 		],
     }
@@ -64,18 +56,15 @@ var nacho = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 68
+    var gameIndex = 7
 	var indexGame
     var overlayGroup
     var spaceSong
-	var yogotar
-	var door
-	var nachos,sign
-	var numberToAsk
-	var moveFloor
-	var nachoUse
-	var table
-	var pixMove = 0
+	var numbersGroup, dragButton
+	var dollsGroup
+	var resultToUse
+	var dollToUse
+	var indexDoll
 	
 
 	function loadSounds(){
@@ -86,9 +75,8 @@ var nacho = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 10000
-		moveFloor = false
-		pixMove = 0
+		dollToUse = null
+		indexDoll = 2
         
         loadSounds()
         
@@ -100,7 +88,7 @@ var nacho = function(){
             
             sound.play("cut")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({s:0, y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -190,10 +178,6 @@ var nacho = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
-		
-		if(timeToUse > 3000){
-			timeToUse-= 1000
-		}
         
     }
     
@@ -204,7 +188,7 @@ var nacho = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.nacho','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.mathrioska','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -232,7 +216,7 @@ var nacho = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.nacho','life_box')
+        var heartImg = group.create(0,0,'atlas.mathrioska','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -257,7 +241,7 @@ var nacho = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 4000)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -275,28 +259,67 @@ var nacho = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('door', "images/spines/door.json")  
-		game.load.spine('yogotar', "images/spines/dinamita.json") 
-        game.load.audio('spaceSong', soundsPath + 'songs/la_fiesta.mp3');
+        game.load.spine('doll', "images/spines/matrioska.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/nacho/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/nacho/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/nacho/introscreen.png")
+		game.load.image('howTo',"images/mathrioska/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/mathrioska/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/mathrioska/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
+	
+	function showScene(){
+		
+		dollToUse = dollsGroup.children[indexDoll]
+		activateDoll(dollToUse)
+				
+		game.time.events.add(250,function(){
+			
+			gameActive = true
+			dragButton.inputEnabled = true
+			popObject(dragButton,0)
+		})
+	}
+	
+	function activateDoll(doll){
+		
+		var isAddition = game.rnd.integerInRange(0,3) > 1
+		
+		if(resultToUse && resultToUse > 5){
+			isAddition = false
+		}
+		
+		var number1, number2
+		if(isAddition){
+					
+			number1 = resultToUse || game.rnd.integerInRange(2,7 - 1)
+			number2 = game.rnd.integerInRange(1,number1 - 1)
+
+			doll.text.setText(doll.sign1 + number1 + ' + ' + number2 + doll.sign2)
+			popObject(doll,0)
+			
+			resultToUse = number1 + number2
+			doll.result = resultToUse
+			
+		}else{
+			
+			number1 = resultToUse || game.rnd.integerInRange(4,8)
+			number2 = game.rnd.integerInRange(1,number1 - 1)
+			
+			resultToUse = number1 - number2
+			
+			doll.text.setText(doll.sign1 + number1 + ' - ' + number2 + doll.sign2)
+			doll.result = resultToUse
+			
+		}
+		
+	}
+	
     
     function createOverlay(){
         
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xffffff)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0
-        rect.endFill()
-		sceneGroup.add(rect)
-		sceneGroup.whiteFade = rect
-		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
@@ -324,7 +347,7 @@ var nacho = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.nacho','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.mathrioska','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -338,11 +361,11 @@ var nacho = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.nacho',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.mathrioska',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.nacho','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.mathrioska','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -356,48 +379,14 @@ var nacho = function(){
 
 	function createBackground(){
 		
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xCDFF61)
-        rect.drawRect(0,0,game.world.width, game.world.height)
-        rect.endFill()
-		sceneGroup.add(rect)
-		
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x5F308F)
-        rect.drawRect(0,game.world.height * 0.47,game.world.width, game.world.height * 0.6)
-        rect.endFill()
-		sceneGroup.add(rect)
-		
-		var bar = sceneGroup.create(-50,75,'atlas.nacho','columna')
-		bar.angle = 75
-		bar.anchor.setTo(0.5,1)
-		
-		background = game.add.tileSprite(-200,game.world.centerY + 35,game.world.width * 1.5,298,'atlas.nacho','tilefloor')
-		background.origX = background.tilePosition.x
-		background.tilePosition.x-= 150
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.mathrioska','pattern')
 		sceneGroup.add(background)
-		
-		background.angle = -17
-		
-		table = game.add.group()
-		table.x = game.world.centerX
-		table.y = game.world.height - 10
-		table.posX = table.x
-		table.posY = table.y
-		sceneGroup.add(table)
-		
-		var tableImg = table.create(0,0,'atlas.nacho','mesa')
-		tableImg.anchor.setTo(0.5,1)
-		
-		
 	}
 	
 	function update(){
 		
-		if(moveFloor){
-			background.tilePosition.x++
-			pixMove++
-		}
+		background.tilePosition.x++
+		dragButton.y = dragButton.initY
 	}
 	
 	function createTextPart(text,obj){
@@ -432,7 +421,9 @@ var nacho = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				                
+				
+				console.log(particle)
+                
                 return particle
                 break
             }
@@ -491,7 +482,7 @@ var nacho = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.nacho',tag);
+				particle.makeParticles('atlas.mathrioska',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -547,7 +538,7 @@ var nacho = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.nacho','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.mathrioska','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -560,7 +551,7 @@ var nacho = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.nacho','smoke');
+        particlesGood.makeParticles('atlas.mathrioska','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -583,278 +574,165 @@ var nacho = function(){
 			return
 		}
 		
-		sound.play("cut")
-		gameActive = false
+	}
+	
+	function createContainer(){
 		
-		var tween = game.add.tween(obj.scale).to({x:0.7,y:0.7},200,"Linear",true)
-		tween.yoyo(true,0)
+		var bar = sceneGroup.create(game.world.centerX, game.world.height - 100,'atlas.mathrioska','numberbar')
+		bar.width = game.world.width
+		bar.anchor.setTo(0.5,0.5)
 		
-		yogotar.number+= 5
+		numbersGroup = game.add.group()
+		sceneGroup.add(numbersGroup)
 		
-		if(nachoUse.tween){
-			nachoUse.tween.stop()
+		var pivotX = game.world.centerX - 250
+		for(var i = 0; i < 6;i++){
+			
+			var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#030300", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, pivotX, bar.y, i + 2, fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			pointsText.number = i + 2
+			numbersGroup.add(pointsText)
+			
+			pivotX+= 100
+			
 		}
 		
-		nachoUse.alpha = 1
-		nachoUse.x = nachos.world.x
-		nachoUse.y = nachos.world.y
-		
-		nachoUse.tween = game.add.tween(nachoUse).to({x:yogotar.x,y:yogotar.y,alpha:0},350,"Linear",true)
-		nachoUse.tween.onComplete.add(function(){
-			
-			createPart('star',yogotar.pos)
-			createTextPart('+5',yogotar.pos)
-			gameActive = true
-			
-			sound.play("bite")
-		})
+		dragButton = sceneGroup.create(game.world.centerX - 50, game.world.height - 125,'atlas.mathrioska','selector')
+		dragButton.anchor.setTo(0.5,0.5)
+		dragButton.inputEnabled = true
+		dragButton.alpha = 0
+		dragButton.initY = dragButton.y
+		dragButton.input.enableDrag(true)
+		dragButton.events.onDragStart.add(onDragStart, this);
+		dragButton.events.onDragStop.add(onDragStop, this);
 		
 	}
 	
-	function createYogotar(){
+	function onDragStart(obj){
 		
-		yogotar = game.add.group()
-		yogotar.x = game.world.centerX + 200
-		yogotar.y = game.world.centerY
-		yogotar.posX = yogotar.x
-		yogotar.posY = yogotar.y
-		yogotar.number = 0
-		yogotar.alpha = 0
-		sceneGroup.add(yogotar)
+		if(!gameActive){
+			return
+		}
 		
-		var pos = yogotar.create(0,-50,'atlas.nacho','button')
-		pos.anchor.setTo(0.5,0.5)
-		pos.alpha = 0
-		yogotar.pos = pos
-		
-		var anim = game.add.spine(0,0,'yogotar')
-		anim.setSkinByName("normal")
-		anim.setAnimationByName(0,"IDLE",true)
-		yogotar.add(anim)
-		
-		yogotar.anim = anim
-		
-		var globeGroup = game.add.group()
-		globeGroup.y = -325
-		globeGroup.alpha = 0
-		globeGroup.scale.setTo(0.8,0.8)
-		yogotar.add(globeGroup)
-		
-		var globe = globeGroup.create(0,0,'atlas.nacho','globe')
-		globe.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, -25, "0", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-        globeGroup.add(pointsText)
-		
-		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-		
-		yogotar.globe = globeGroup
-		yogotar.text = pointsText
-
-		door = game.add.spine(game.world.centerX - 100,game.world.centerY,'door')
-		door.setSkinByName("normal")
-		door.posX = door.x
-		door.posY = door.y 
-		door.alpha = 0
-		sceneGroup.add(door)
-	}
-	
-	function createNachos(){
-		
-		nachos = table.create(-85,-240,'atlas.nacho','bowl')
-		nachos.anchor.setTo(0.5,0.5)
-		nachos.alpha = 0
-		nachos.inputEnabled = true
-		nachos.events.onInputDown.add(inputButton)
-		
-		nachoUse = sceneGroup.create(0,0,'atlas.nacho','bowl')
-		nachoUse.anchor.setTo(0.5,0.5)
-		nachoUse.alpha = 0
-		
-		sign = game.add.group()
-		sign.x = nachos.x + 150
-		sign.y = nachos.y
-		sign.alpha = 0
-		table.add(sign)
-		
-		var signImage = sign.create(0,0,'atlas.nacho','show')
-		signImage.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "$5", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-        sign.add(pointsText)
+		obj.dragEnabled = false
+		sound.play("drag")
 		
 	}
 	
-	function setNumbers(){
+	function onDragStop(obj){
 		
-		yogotar.number = 0
-		numberToAsk = game.rnd.integerInRange(2,10) * 5
+		if(!gameActive){
+			return
+		}
 		
-		yogotar.text.setText('$' + numberToAsk)
+		sound.play("cut")
 		
-	}
-	
-	function showScene(){
-		
-		yogotar.x = yogotar.posX
-		yogotar.y = yogotar.posY
-		yogotar.alpha = 1
-		yogotar.anim.setAnimationByName(0,"WALK",true)
-		
-		setNumbers()
-		
-		game.add.tween(yogotar).from({x:game.world.width + 100,y:yogotar.y - 150},1000,"Linear",true).onComplete.add(function(){
+		for(var i = 0; i < numbersGroup.length;i++){
 			
-			yogotar.anim.setAnimationByName(0,"IDLE",true)
-			
-			var delay = 500
-			var animList = [yogotar.globe,nachos,sign]
-			for(var i = 0; i < animList.length;i++){
-				var obj = animList[i]
-				popObject(obj,delay)
-				delay += 250
-			}
-			
-			game.time.events.add(delay, function(){
+			var number = numbersGroup.children[i]
+			if(checkOverlap(obj,number) && Math.abs(obj.x - number.x) < 50){
 				
-				gameActive = true
-				yogotar.anim.setAnimationByName(0,"WALK",true)
-				yogotar.tween = game.add.tween(yogotar).to({x:game.world.centerX - 200,y:game.world.centerY+100},timeToUse,"Linear",true)
-				yogotar.tween.onComplete.add(function(){
-					
-					yogotar.anim.setAnimationByName(0,"IDLE",true)
-					if(yogotar.number == numberToAsk){
-						
-						addPoint(5)
-						createPart('star',yogotar.pos)
-						
-						showGood(true)
-					}else{
-						
-						missPoint()
-						showGood(false)
-
-					}
+				obj.inputEnabled = false 
+				game.add.tween(obj).to({x:number.x},250,"Linear",true).onComplete.add(function(){
+					//obj.inputEnabled = true
 				})
-			})
-			
-		})
-		
-	}
-	
-	function whiteFade(){
-		
-		sceneGroup.whiteFade.alpha = 1
-		game.add.tween(sceneGroup.whiteFade).to({alpha:0},500,"Linear",true)
-		
-		background.tilePosition.x-=pixMove
-		pixMove = 0
-	}
-	
-	function showGood(win){
-		
-		gameActive = false
-		yogotar.anim.setAnimationByName(0,"WALK",true)
-		moveFloor = true
-		
-		game.add.tween(yogotar).to({x:game.world.centerX + 100,y:game.world.centerY + 25},1000,"Linear",true)
-		game.add.tween(table).to({x:game.world.width + 400,y:table.y - 200},1000,"Linear",true)
-		
-		game.add.tween(nachos).to({alpha:0},500,"Linear",true)
-		game.add.tween(sign).to({alpha:0},500,"Linear",true)
-		
-		door.alpha = 1
-		door.x = door.posX
-		door.y = door.posY
-		door.setAnimationByName(0,"LOSE",false)
-		
-		game.add.tween(door).from({x:-200,y:door.y + 125},1000,"Linear",true).onComplete.add(function(){
-			
-			moveFloor = false
-			yogotar.anim.setAnimationByName(0,"IDLE",true)
-		})
-		
-		var delay = 1500
-		
-		game.time.events.add(delay,function(){
-			
-			if(win){
 				
-				whiteFade()
-				game.add.tween(yogotar.globe).to({alpha:0},500,"Linear",true)
-				sound.play("brightTransition")
-				yogotar.anim.setAnimationByName(0,"WIN",false)
-				yogotar.anim.addAnimationByName(0,"IDLE",true)
-				
-				game.time.events.add(1000,function(){
+				if(dollToUse.result == number.number){
 					
-					sound.play("explode")
-					door.setAnimationByName(0,"WIN",false)
+					addPoint(1)
+					createPart('star',number)
 					
-					createPart('smoke',yogotar.pos, - 150)
-					
-					game.add.tween(door).to({alpha:0,x:door.x + 300,y:door.y - 100},600,"Linear",true,1000)
-					
-					game.time.events.add(1000,function(){
+					game.time.events.add(500,function(){
 						
-						yogotar.anim.setAnimationByName(0,"WALK",true)
-						moveFloor = true
-						
-						game.add.tween(yogotar).to({x:game.world.width +100,y:yogotar.posY - 150},1000,"Linear",true)
-						
-						table.x = table.posX
-						table.y = table.posY
-						game.add.tween(table).from({x:-400,y:table.y + 250},1000,"Linear",true).onComplete.add(function(){
+						sound.play("cut")
+						game.add.tween(dollToUse.scale).to({x:0,y:0},200,"Linear",true).onComplete.add(function(){
 							
-							moveFloor = false
+							dollToUse.scale.setTo(1,1)
+							dollToUse.alpha = 0
+							
+							indexDoll--
+							if(indexDoll < 0){
+								indexDoll = 2
+							}
+							
 							showScene()
+							
 						})
+						
 					})
 					
-				})
-			}else{
-				
-				whiteFade()
-				sound.play("brightTransition")
-				yogotar.anim.setAnimationByName(0,"LOSE",false)
-				yogotar.anim.addAnimationByName(0,"LOSESTILL",true)
-				
-				game.time.events.add(1000,function(){
+				}else{
 					
-					createPart('wrong',yogotar.pos,-100)
-					sound.play("bomb")
-					sound.play("moleHit")
-					door.setAnimationByName(0,"LOSE",false)
-					game.add.tween(door).to({x:door.x - 50,y:door.y+25},500,"Linear",true)
-				})
+					missPoint()
+					createPart('wrong',number)
+				}
 			}
-		})
+		}
+	}
+		
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
+	
+	function createDolls(){
+		
+		dollsGroup = game.add.group()
+		sceneGroup.add(dollsGroup)
+		
+		var signToUse = ['[','{','(']
+		var signToUse2 = [']','}',')']
+		
+		var pivotY = 175
+		for(var i = 0; i < 3; i ++){
+			
+			var doll = game.add.group()
+			doll.alpha = 0
+			doll.x = game.world.centerX
+			doll.y = game.world.height - 300 - pivotY
+			dollsGroup.add(doll)
+			doll.sign1 = signToUse[i]
+			doll.sign2 = signToUse2[i]
+			
+			var anim = game.add.spine(0,0,'doll')
+			anim.setSkinByName("matrioska" + (i+1))
+			anim.setAnimationByName(0,"IDLE",true)
+			doll.add(anim)
+			
+			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, pivotY - 5, i + 2, fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			doll.add(pointsText)
+			
+			pivotY -= 75
+			doll.text = pointsText
+		}
 		
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "nacho",
+		name: "mathrioska",
 		update: update,
         preload:preload,
 		create: function(event){
             
 			sceneGroup = game.add.group()
-			yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
-			createYogotar()
-			createNachos()
+			createDolls()
+			createContainer()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                //spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

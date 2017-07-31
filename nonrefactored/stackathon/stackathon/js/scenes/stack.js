@@ -242,8 +242,9 @@ var stack = function(){
 		
         gameActive = false
         spaceSong.stop()
+		figuresLose()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -254,15 +255,57 @@ var stack = function(){
 		})
     }
     
-    
+    function moveObject(group,timeX,times){
+		
+		var tween = game.add.tween(group).to({x:group.x + 5},timeX,"Linear",true,0,times)
+		tween.yoyo(true,0)
+		
+	}
+	
+	function figuresLose(){
+				
+		moveObject(buttonsGroup,100,11)
+		moveObject(barsGroup,100,11)
+		
+		game.time.events.add(1200,function(){
+			
+			for(var i = 0; i < barsGroup.length;i++){
+			
+				var posX = game.world.width * 1.5
+				var off = 1
+
+				if(Math.random() * 2 < 1){
+					posX = -game.world.width * 0.5
+					off = -1
+				}
+				var posY = game.world.centerY + (game.rnd.integerInRange(0,300) * off)
+
+				var fig = barsGroup.children[i]
+
+
+				game.add.tween(fig).to({angle:fig.angle + 360, x: posX},400,"Linear",true)
+
+			}
+
+
+			sound.play("explosion")
+			explosion.alpha = 1
+
+			explosion.setAnimationByName(0,"EXPLOTION",false)
+
+			game.add.tween(explosion).to({alpha:0},500,"Linear",true,500)
+			})
+		
+	}
+	
     function preload(){
         
 		buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.spine('explosion', "images/spines/explotion.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/game_on.mp3');
         
 		game.load.image('howTo',"images/stack/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/stack/play" + localization.getLanguage() + ".png")
@@ -564,6 +607,10 @@ var stack = function(){
 		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
+		
+		explosion = game.add.spine(game.world.centerX, game.world.centerY,'explosion')
+		explosion.setSkinByName("normal")
+		explosion.alpha = 0
 
 	}
 
@@ -758,7 +805,6 @@ var stack = function(){
 			
 			var barImg = bar.create(0,0,'atlas.stack','block_gray')
 			barImg.tint = colorsToUse[indexColor]
-			console.log(indexColor + ' index')
 			barImg.anchor.setTo(0.5,0.5)
 			
 			indexColor++
@@ -826,7 +872,7 @@ var stack = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
