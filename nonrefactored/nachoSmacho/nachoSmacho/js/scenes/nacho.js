@@ -1,20 +1,18 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var duck = function(){
+var nacho = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!",
-			"multiple":"Multiple of 10",
+			"stop":"Stop!"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!",
-			"multiple":"Múltiplo de 10",
+            "stop":"¡Detener!"
 		}
 	}
     
@@ -22,9 +20,9 @@ var duck = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.duck",
-                json: "images/duck/atlas.json",
-                image: "images/duck/atlas.png",
+                name: "atlas.nacho",
+                json: "images/nacho/atlas.json",
+                image: "images/nacho/atlas.png",
             },
         ],
         images: [
@@ -45,8 +43,16 @@ var duck = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "laser2.mp3"},
+			{	name: "bite",
+				file: soundsPath + "bite.mp3"},
+			{	name: "explode",
+				file: soundsPath + "explode.mp3"},
+			{	name: "brightTransition",
+				file: soundsPath + "brightTransition.mp3"},
+			{	name: "moleHit",
+				file: soundsPath + "moleHit.mp3"},
+			{	name: "bomb",
+				file: soundsPath + "bomb.mp3"},
 			
 		],
     }
@@ -54,16 +60,21 @@ var duck = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background, topBack,stars
+	var background
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 68
+	var indexGame
     var overlayGroup
     var spaceSong
-	var ducksGroup
-	var timeToUse
-	var indexGame
+	var yogotar
+	var door
+	var nachos,sign
+	var numberToAsk
+	var moveFloor
+	var nachoUse
+	var table
 	
 
 	function loadSounds(){
@@ -74,8 +85,8 @@ var duck = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		indexGame = 1
-		timeToUse = 6000
+		timeToUse = 10000
+		moveFloor = false
         
         loadSounds()
         
@@ -176,10 +187,10 @@ var duck = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)
+        addNumberPart(pointsBar.text,'+' + number,true)		
 		
-		if(timeToUse > 1500){
-			timeToUse-= 500
+		if(timeToUse > 3000){
+			timeToUse-= 1000
 		}
         
     }
@@ -191,7 +202,7 @@ var duck = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.duck','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.nacho','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -219,7 +230,7 @@ var duck = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.duck','life_box')
+        var heartImg = group.create(0,0,'atlas.nacho','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -244,7 +255,7 @@ var duck = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 4000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -262,73 +273,18 @@ var duck = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/dancing_baby.mp3');
-		game.load.spine('duck', "images/spines/duck.json")  
+        game.load.spine('door', "images/spines/door.json")  
+		game.load.spine('yogotar', "images/spines/dinamita.json") 
+        game.load.audio('spaceSong', soundsPath + 'songs/la_fiesta.mp3');
         
-		game.load.image('howTo',"images/duck/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/duck/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/duck/introscreen.png")
+		game.load.image('howTo',"images/nacho/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/nacho/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/nacho/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
     
-	function setNumbers(){
-		
-		var index = game.rnd.integerInRange(0,2)
-		
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			duck.number = (game.rnd.integerInRange(1,9) * 10) + game.rnd.integerInRange(1,9)
-			
-			if(index == i){
-				duck.number = indexGame * 10
-			}
-			
-			console.log(duck.number + ' number')
-			duck.text.setText(duck.number)
-		}
-		
-		indexGame++
-		if(indexGame > 10){
-			indexGame = 1
-		}
-	
-	}
-	
-	function sendDucks(){
-		
-		setNumbers()
-		
-		gameActive = true
-		var delay = 0
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			
-			if(duck.tween){
-				duck.tween.stop()
-			}
-			
-			duck.x = game.world.width + 300
-			duck.y = game.world.height - 350
-			duck.pressed = false
-			duck.alpha = 1
-			
-			duck.anim.setAnimationByName(0,"WALK",true)
-			duck.tween = game.add.tween(duck).to({x:-300},timeToUse,"Linear",true,delay)
-			delay+= timeToUse / 6
-			
-			if(duck.number % 10 == 0){
-				duck.tween.onComplete.add(function(){
-					missPoint()
-				})
-			}
-		}
-		
-	}
-	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -347,7 +303,7 @@ var duck = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				sendDucks()
+				showScene()
             })
             
         })
@@ -358,16 +314,10 @@ var duck = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.duck','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.nacho','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.85,0.85)
-		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var numberText = new Phaser.Text(game, game.world.centerX, game.world.centerY + 60, localization.getString(localizationData,"multiple"), fontStyle)
-		numberText.anchor.setTo(0.5, 0.5)
-		overlayGroup.add(numberText)
         
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 245,'howTo')
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
@@ -378,11 +328,11 @@ var duck = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.duck',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.nacho',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.duck','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.nacho','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -396,28 +346,45 @@ var duck = function(){
 
 	function createBackground(){
 		
-		background = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.duck','bg')
-		background.anchor.setTo(0.5,0.5)
-		background.width = game.world.width
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xCDFF61)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.endFill()
+		sceneGroup.add(rect)
 		
-		stars = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.duck','swatch_star')
-		sceneGroup.add(stars)
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x5F308F)
+        rect.drawRect(0,game.world.height * 0.5,game.world.width, game.world.height * 0.5)
+        rect.endFill()
+		sceneGroup.add(rect)
 		
-		var botBack = sceneGroup.create(0,game.world.height,'atlas.duck','suelo')
-		botBack.anchor.setTo(0,1)
-		botBack.width = game.world.width
+		var bar = sceneGroup.create(-50,75,'atlas.nacho','columna')
+		bar.angle = 75
+		bar.anchor.setTo(0.5,1)
 		
-		topBack = game.add.tileSprite(0,0,game.world.width,222,'atlas.duck','techo')
-		sceneGroup.add(topBack)
+		background = game.add.tileSprite(-200,game.world.centerY + 35,game.world.width * 1.5,320,'atlas.nacho','tilefloor')
+		sceneGroup.add(background)
+		
+		background.angle = -17
+		
+		table = game.add.group()
+		table.x = game.world.centerX
+		table.y = game.world.height - 10
+		table.posX = table.x
+		table.posY = table.y
+		sceneGroup.add(table)
+		
+		var tableImg = table.create(0,0,'atlas.nacho','mesa')
+		tableImg.anchor.setTo(0.5,1)
 		
 		
 	}
 	
 	function update(){
 		
-		topBack.tilePosition.x+= 1
-		
-		stars.tilePosition.y-= 3
+		if(moveFloor){
+			background.tilePosition.x++
+		}
 	}
 	
 	function createTextPart(text,obj){
@@ -511,7 +478,7 @@ var duck = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.duck',tag);
+				particle.makeParticles('atlas.nacho',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -567,7 +534,7 @@ var duck = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.duck','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.nacho','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -580,7 +547,7 @@ var duck = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.duck','smoke');
+        particlesGood.makeParticles('atlas.nacho','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -597,143 +564,267 @@ var duck = function(){
         
     }
 	
-	function setDucks(animName){
-		
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			
-			if(!duck.pressed){
-				if(duck.tween){
-					duck.tween.stop()
-				}
-
-				duck.anim.setAnimationByName(0,animName,true)
-				
-				hideDuck(duck,animName)
-				
-			}
-			
-		}
-	}
-	
-	function hideDuck(duck,animName){
-		
-		game.time.events.add(1000,function(){
-					
-			if(animName == "WIN"){
-				duck.anim.setAnimationByName(0,"WALK",true)
-				duck.tween = game.add.tween(duck).to({x:duck.x - game.world.width * 1.2},2000,"Linear",true,0)
-			}
-
-		})
-	}
-	
 	function inputButton(obj){
 		
 		if(!gameActive){
 			return
 		}
 		
-		sound.play("shoot")
+		sound.play("cut")
+		gameActive = false
 		
-		var parent = obj.parent
+		var tween = game.add.tween(obj.scale).to({x:0.7,y:0.7},200,"Linear",true)
+		tween.yoyo(true,0)
 		
-		if(parent.tween){
-			parent.tween.stop()
+		yogotar.number+= 5
+		
+		if(nachoUse.tween){
+			nachoUse.tween.stop()
 		}
-		parent.pressed = true
 		
-		game.add.tween(parent).to({angle:parent.angle + 360},500,"Linear",true)
+		nachoUse.alpha = 1
+		nachoUse.x = nachos.world.x
+		nachoUse.y = nachos.world.y
 		
-		game.add.tween(parent).to({y:parent.y - 100},300,"Linear",true).onComplete.add(function(){
-			game.add.tween(parent).to({y:game.world.height + 200},700,"Linear",true)
+		nachoUse.tween = game.add.tween(nachoUse).to({x:yogotar.x,y:yogotar.y,alpha:0},350,"Linear",true)
+		nachoUse.tween.onComplete.add(function(){
+			
+			createPart('star',yogotar.pos)
+			createTextPart('+5',yogotar.pos)
+			gameActive = true
+			
+			sound.play("bite")
 		})
 		
-		if(parent.number % 10 == 0){
-			addPoint(1)
-			createPart('star',obj)
-			parent.anim.setAnimationByName(0,"JUMP",false)
-						
-			setDucks("WIN")
-			game.time.events.add(3000,sendDucks)
-		}else{
-			
-			missPoint()
-			createPart('wrong',obj)
-			setDucks("LOSE")
-		}
-		
 	}
 	
-	function createDucks(){
+	function createYogotar(){
 		
-		ducksGroup = game.add.group()
-		sceneGroup.add(ducksGroup)
+		yogotar = game.add.group()
+		yogotar.x = game.world.centerX + 200
+		yogotar.y = game.world.centerY
+		yogotar.posX = yogotar.x
+		yogotar.posY = yogotar.y
+		yogotar.number = 0
+		yogotar.alpha = 0
+		sceneGroup.add(yogotar)
 		
-		for(var i = 0; i < 3;i++){
-			
-			var duck = game.add.group()
-			duck.x = game.world.width + 300
-			duck.y = game.world.height - 350
-			ducksGroup.add(duck)
-			
-			var anim = game.add.spine(0,100,'duck')
-			anim.setAnimationByName(0,"WALK",true)
-			anim.setSkinByName('normal')
-			duck.add(anim)
-			
-			var slot = getSpineSlot(anim,"empty")
+		var pos = yogotar.create(0,-50,'atlas.nacho','button')
+		pos.anchor.setTo(0.5,0.5)
+		pos.alpha = 0
+		yogotar.pos = pos
+		
+		var anim = game.add.spine(0,0,'yogotar')
+		anim.setSkinByName("normal")
+		anim.setAnimationByName(0,"IDLE",true)
+		yogotar.add(anim)
+		
+		yogotar.anim = anim
+		
+		var globeGroup = game.add.group()
+		globeGroup.y = -325
+		globeGroup.alpha = 0
+		globeGroup.scale.setTo(0.8,0.8)
+		yogotar.add(globeGroup)
+		
+		var globe = globeGroup.create(0,0,'atlas.nacho','globe')
+		globe.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, -25, "0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        globeGroup.add(pointsText)
+		
+		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+		
+		yogotar.globe = globeGroup
+		yogotar.text = pointsText
 
-			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var numberText = new Phaser.Text(game, 0, 0, '1', fontStyle)
-			numberText.anchor.setTo(0.5, 0.5)
-			duck.numberText = numberText
-			slot.add(numberText)
-			
-			duck.anim = anim
-			duck.text = numberText
-			anim.autoUpdateTransform()
-			
-			var duckImage = duck.create(0,0,'atlas.duck','star')
-			duckImage.scale.setTo(1.5,1.5)
-			duckImage.alpha = 0
-			duckImage.inputEnabled = true
-			duckImage.events.onInputDown.add(inputButton)
-			duckImage.anchor.setTo(0.5,0.5)
-			
-			duck.number = 0
-			
-		}
+		door = game.add.spine(game.world.centerX - 100,game.world.centerY,'door')
+		door.setSkinByName("normal")
+		door.posX = door.x
+		door.posY = door.y 
+		door.alpha = 0
+		sceneGroup.add(door)
 	}
 	
-	function getSpineSlot(spine, slotName){
+	function createNachos(){
 		
-		var slotIndex
-		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
-			var slotData = spine.skeletonData.slots[index]
-			if(slotData.name === slotName){
-				slotIndex = index
+		nachos = table.create(-85,-240,'atlas.nacho','bowl')
+		nachos.anchor.setTo(0.5,0.5)
+		nachos.alpha = 0
+		nachos.inputEnabled = true
+		nachos.events.onInputDown.add(inputButton)
+		
+		nachoUse = sceneGroup.create(0,0,'atlas.nacho','bowl')
+		nachoUse.anchor.setTo(0.5,0.5)
+		nachoUse.alpha = 0
+		
+		sign = game.add.group()
+		sign.x = nachos.x + 150
+		sign.y = nachos.y
+		sign.alpha = 0
+		table.add(sign)
+		
+		var signImage = sign.create(0,0,'atlas.nacho','show')
+		signImage.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "$5", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        sign.add(pointsText)
+		
+	}
+	
+	function setNumbers(){
+		
+		yogotar.number = 0
+		numberToAsk = game.rnd.integerInRange(2,10) * 5
+		
+		yogotar.text.setText('$' + numberToAsk)
+		
+	}
+	
+	function showScene(){
+		
+		yogotar.x = yogotar.posX
+		yogotar.y = yogotar.posY
+		yogotar.alpha = 1
+		yogotar.anim.setAnimationByName(0,"WALK",true)
+		
+		setNumbers()
+		
+		game.add.tween(yogotar).from({x:game.world.width + 100,y:yogotar.y - 100},1000,"Linear",true).onComplete.add(function(){
+			
+			yogotar.anim.setAnimationByName(0,"IDLE",true)
+			
+			var delay = 500
+			var animList = [yogotar.globe,nachos,sign]
+			for(var i = 0; i < animList.length;i++){
+				var obj = animList[i]
+				popObject(obj,delay)
+				delay += 250
 			}
-		}
+			
+			game.time.events.add(delay, function(){
+				
+				gameActive = true
+				yogotar.anim.setAnimationByName(0,"WALK",true)
+				yogotar.tween = game.add.tween(yogotar).to({x:game.world.centerX - 200,y:game.world.centerY+100},timeToUse,"Linear",true)
+				yogotar.tween.onComplete.add(function(){
+					
+					yogotar.anim.setAnimationByName(0,"IDLE",true)
+					if(yogotar.number == numberToAsk){
+						
+						addPoint(1)
+						createPart('star',yogotar.pos)
+						
+						showGood(true)
+					}else{
+						
+						missPoint()
+						showGood(false)
 
-		if (slotIndex){
-			return spine.slotContainers[slotIndex]
-		}
+					}
+				})
+			})
+			
+		})
+		
+	}
+	
+	function showGood(win){
+		
+		gameActive = false
+		yogotar.anim.setAnimationByName(0,"WALK",true)
+		moveFloor = true
+		
+		game.add.tween(yogotar).to({x:game.world.centerX + 100,y:game.world.centerY + 25},1000,"Linear",true)
+		game.add.tween(table).to({x:game.world.width + 400,y:table.y - 75},1000,"Linear",true)
+		
+		game.add.tween(nachos).to({alpha:0},500,"Linear",true)
+		game.add.tween(sign).to({alpha:0},500,"Linear",true)
+		
+		door.alpha = 1
+		door.x = door.posX
+		door.y = door.posY
+		door.setAnimationByName(0,"LOSE",false)
+		
+		game.add.tween(door).from({x:-200,y:door.y + 125},1000,"Linear",true).onComplete.add(function(){
+			
+			moveFloor = false
+			yogotar.anim.setAnimationByName(0,"IDLE",true)
+		})
+		
+		var delay = 1500
+		
+		game.time.events.add(delay,function(){
+			
+			if(win){
+				
+				game.add.tween(yogotar.globe).to({alpha:0},500,"Linear",true)
+				sound.play("brightTransition")
+				yogotar.anim.setAnimationByName(0,"WIN",false)
+				yogotar.anim.addAnimationByName(0,"IDLE",true)
+				
+				game.time.events.add(1000,function(){
+					
+					sound.play("explode")
+					door.setAnimationByName(0,"WIN",false)
+					
+					createPart('smoke',yogotar.pos, - 150)
+					
+					game.add.tween(door).to({alpha:0,x:door.x + 300,y:door.y - 100},600,"Linear",true,1000)
+					
+					game.time.events.add(1000,function(){
+						
+						yogotar.anim.setAnimationByName(0,"WALK",true)
+						moveFloor = true
+						
+						game.add.tween(yogotar).to({x:game.world.width +100,y:yogotar.posY - 150},1000,"Linear",true)
+						
+						table.x = table.posX
+						table.y = table.posY
+						game.add.tween(table).from({x:-400,y:table.y + 100},1000,"Linear",true).onComplete.add(function(){
+							
+							moveFloor = false
+							showScene()
+						})
+					})
+					
+				})
+			}else{
+				sound.play("brightTransition")
+				yogotar.anim.setAnimationByName(0,"LOSE",false)
+				yogotar.anim.addAnimationByName(0,"LOSESTILL",true)
+				
+				game.time.events.add(1000,function(){
+					
+					createPart('wrong',yogotar.pos,-100)
+					sound.play("bomb")
+					sound.play("moleHit")
+					door.setAnimationByName(0,"LOSE",false)
+					game.add.tween(door).to({x:door.x - 50,y:door.y+25},500,"Linear",true)
+				})
+			}
+		})
+		
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "duck",
+		name: "nacho",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group()
+			yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
-			createDucks()
+			createYogotar()
+			createNachos()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

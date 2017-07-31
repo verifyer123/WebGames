@@ -1,0 +1,69 @@
+
+dinamita.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm
+  rotate: true
+  xy: 2, 2
+  size: 36, 62
+  orig: 36, 62
+  offset: 0, 0
+  index: -1
+normal/head1
+  rotate: false
+  xy: 155, 111
+  size: 153, 143
+  orig: 153, 143
+  offset: 0, 0
+  index: -1
+normal/head2
+  rotate: false
+  xy: 2, 108
+  size: 151, 146
+  orig: 151, 146
+  offset: 0, 0
+  index: -1
+normal/head3
+  rotate: false
+  xy: 310, 112
+  size: 153, 142
+  orig: 153, 142
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: false
+  xy: 465, 153
+  size: 37, 48
+  orig: 37, 48
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: false
+  xy: 465, 203
+  size: 37, 51
+  orig: 37, 51
+  offset: 0, 0
+  index: -1
+normal/power1
+  rotate: true
+  xy: 294, 45
+  size: 64, 61
+  orig: 64, 61
+  offset: 0, 0
+  index: -1
+normal/power2
+  rotate: false
+  xy: 2, 40
+  size: 221, 66
+  orig: 221, 66
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 225, 42
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: -1
