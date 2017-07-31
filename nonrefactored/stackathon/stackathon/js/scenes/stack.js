@@ -1,20 +1,18 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var duck = function(){
+var stack = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!",
-			"multiple":"Multiple of 10",
+			"stop":"Stop!"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!",
-			"multiple":"Múltiplo de 10",
+            "stop":"¡Detener!"
 		}
 	}
     
@@ -22,9 +20,9 @@ var duck = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.duck",
-                json: "images/duck/atlas.json",
-                image: "images/duck/atlas.png",
+                name: "atlas.stack",
+                json: "images/stack/atlas.json",
+                image: "images/stack/atlas.png",
             },
         ],
         images: [
@@ -45,8 +43,6 @@ var duck = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "laser2.mp3"},
 			
 		],
     }
@@ -54,16 +50,18 @@ var duck = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background, topBack,stars
+	var background
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
-    var overlayGroup
-    var spaceSong
-	var ducksGroup
-	var timeToUse
+    var gameIndex = 69
 	var indexGame
+    var overlayGroup
+	var buttonsGroup, barsGroup
+    var spaceSong
+	var indexBar,indexButton
+	
+	var colorsToUse = [0xFF4242,0x437DFF,0x1FFF34,0xfffd3d,0xff983d]
 	
 
 	function loadSounds(){
@@ -74,9 +72,10 @@ var duck = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		indexGame = 1
-		timeToUse = 6000
-        
+		indexBar = 0
+		indexButton = 0
+		timeToUse = 10000
+
         loadSounds()
         
 	}
@@ -87,7 +86,7 @@ var duck = function(){
             
             sound.play("cut")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({x:0, y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -176,9 +175,9 @@ var duck = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)
+        addNumberPart(pointsBar.text,'+' + number,true)		
 		
-		if(timeToUse > 1500){
+		if(timeToUse > 1000){
 			timeToUse-= 500
 		}
         
@@ -191,7 +190,7 @@ var duck = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.duck','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.stack','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -219,7 +218,7 @@ var duck = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.duck','life_box')
+        var heartImg = group.create(0,0,'atlas.stack','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -244,7 +243,7 @@ var duck = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -262,70 +261,105 @@ var duck = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/dancing_baby.mp3');
-		game.load.spine('duck', "images/spines/duck.json")  
+        game.load.spine('ship', "images/spines/skeleton1.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/duck/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/duck/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/duck/introscreen.png")
+		game.load.image('howTo',"images/stack/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/stack/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/stack/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
     
-	function setNumbers(){
+	function setNumber(bar){
 		
-		var index = game.rnd.integerInRange(0,2)
+		bar.alpha = 1
+		bar.scale.setTo(1,1)
 		
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			duck.number = (game.rnd.integerInRange(1,9) * 10) + game.rnd.integerInRange(1,9)
-			
-			if(index == i){
-				duck.number = indexGame * 10
-			}
-			
-			console.log(duck.number + ' number')
-			duck.text.setText(duck.number)
+		var signToUse = 'x'
+		if(game.rnd.integerInRange(0,3) > 1){
+			signToUse = '÷'
 		}
 		
-		indexGame++
-		if(indexGame > 10){
-			indexGame = 1
+		game.add.tween(bar.question).to({alpha:1},500,"Linear",true)
+		
+		var number1, number2, result
+		 
+		if(signToUse == 'x'){
+			
+			number1 = game.rnd.integerInRange(2,9)
+			number2 = game.rnd.integerInRange(2,9)
+			
+			result = number1 * number2
+		}else{
+			
+			number1 = game.rnd.integerInRange(2,9)
+			number2 = game.rnd.integerInRange(2,9)
+			
+			number1*= number2
+			
+			result = number1 / number2
+			
 		}
-	
+		
+		bar.text.setText(number1 + ' ' +  signToUse + '  ' + number2 + ' = ' + result)
+		bar.sign = signToUse
+		
+		var question = bar.question
+		question.x = question.posX
+		
+		if(number1 > 9){
+			question.x += 30
+		}
+		
+		bar.indexBar = indexBar
+		indexBar++
+		
 	}
 	
-	function sendDucks(){
+	function sendBar(bar, posY,delay,time){
 		
-		setNumbers()
+		barsGroup.pivotY-= bar.height * 0.8
+		setNumber(bar)
+		game.time.events.add(delay, function(){
+			
+			sound.play("cut")
+			
+			bar.scale.setTo(1,1)
+			game.add.tween(bar).to({y:posY},time,"Linear",true).onComplete.add(function(){
+				bar.scale.setTo(1,1)
+			})
+		})
+	}
+	
+	function showButtons(){
 		
-		gameActive = true
 		var delay = 0
-		for(var i = 0; i < ducksGroup.length;i++){
+		
+		for(var i = 0; i < barsGroup.length; i++){
 			
-			var duck = ducksGroup.children[i]
+			var bar = barsGroup.children[i]
+			sendBar(bar,barsGroup.pivotY,delay,500)
 			
-			if(duck.tween){
-				duck.tween.stop()
-			}
-			
-			duck.x = game.world.width + 300
-			duck.y = game.world.height - 350
-			duck.pressed = false
-			duck.alpha = 1
-			
-			duck.anim.setAnimationByName(0,"WALK",true)
-			duck.tween = game.add.tween(duck).to({x:-300},timeToUse,"Linear",true,delay)
-			delay+= timeToUse / 6
-			
-			if(duck.number % 10 == 0){
-				duck.tween.onComplete.add(function(){
-					missPoint()
-				})
-			}
+			delay += 100
 		}
+		
+		for(var i = 0; i < buttonsGroup.length;i++){
+			
+			var button = buttonsGroup.children[i]
+			popObject(button,delay)
+			
+			delay+= 200
+		}	
+		
+		game.time.events.add(delay,function(){
+			
+			popObject(clock,0)
+			setClock()
+			
+			gameActive = true
+		})
 		
 	}
 	
@@ -346,8 +380,8 @@ var duck = function(){
 			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
+				showButtons()
 				overlayGroup.y = -game.world.height
-				sendDucks()
             })
             
         })
@@ -358,16 +392,10 @@ var duck = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.duck','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.stack','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.85,0.85)
-		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var numberText = new Phaser.Text(game, game.world.centerX, game.world.centerY + 60, localization.getString(localizationData,"multiple"), fontStyle)
-		numberText.anchor.setTo(0.5, 0.5)
-		overlayGroup.add(numberText)
         
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 245,'howTo')
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
@@ -378,11 +406,11 @@ var duck = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.duck',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.stack',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.duck','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.stack','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -396,28 +424,19 @@ var duck = function(){
 
 	function createBackground(){
 		
-		background = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.duck','bg')
-		background.anchor.setTo(0.5,0.5)
-		background.width = game.world.width
+		var sky = sceneGroup.create(0,-5,'atlas.stack','skytransition')
+		sky.width = game.world.width * 1.1
+		sky.height = game.world.height -510
 		
-		stars = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.duck','swatch_star')
-		sceneGroup.add(stars)
-		
-		var botBack = sceneGroup.create(0,game.world.height,'atlas.duck','suelo')
-		botBack.anchor.setTo(0,1)
-		botBack.width = game.world.width
-		
-		topBack = game.add.tileSprite(0,0,game.world.width,222,'atlas.duck','techo')
-		sceneGroup.add(topBack)
-		
+		background = game.add.tileSprite(0,game.world.height + 5,game.world.width, 524, 'atlas.stack','floor')
+		background.anchor.setTo(0,1)
+		sceneGroup.add(background)
 		
 	}
 	
 	function update(){
 		
-		topBack.tilePosition.x+= 1
-		
-		stars.tilePosition.y-= 3
+		background.tilePosition.x++
 	}
 	
 	function createTextPart(text,obj){
@@ -511,9 +530,9 @@ var duck = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.duck',tag);
-				particle.minParticleSpeed.setTo(-200, -50);
-				particle.maxParticleSpeed.setTo(200, -100);
+				particle.makeParticles('atlas.stack',tag);
+				particle.minParticleSpeed.setTo(-400, -50);
+				particle.maxParticleSpeed.setTo(400, -200);
 				particle.minParticleScale = 0.6;
 				particle.maxParticleScale = 1.5;
 				particle.gravity = 150;
@@ -567,7 +586,7 @@ var duck = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.duck','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.stack','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -580,7 +599,7 @@ var duck = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.duck','smoke');
+        particlesGood.makeParticles('atlas.stack','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -597,36 +616,30 @@ var duck = function(){
         
     }
 	
-	function setDucks(animName){
+	function moveBars(){
 		
-		for(var i = 0; i < ducksGroup.length;i++){
+		var delay = 0
+		for(var i = 0; i < barsGroup.length;i++){
 			
-			var duck = ducksGroup.children[i]
-			
-			if(!duck.pressed){
-				if(duck.tween){
-					duck.tween.stop()
-				}
-
-				duck.anim.setAnimationByName(0,animName,true)
-				
-				hideDuck(duck,animName)
-				
-			}
-			
+			var bar = barsGroup.children[i]
+			game.add.tween(bar).to({y:bar.y + bar.height * 0.8},100,"Linear",true,delay)
+			delay+= 50
 		}
+		
+		game.time.events.add(delay,function(){
+			gameActive = true
+			
+			setClock()
+		})
 	}
 	
-	function hideDuck(duck,animName){
+	function setClock(){
 		
-		game.time.events.add(1000,function(){
-					
-			if(animName == "WIN"){
-				duck.anim.setAnimationByName(0,"WALK",true)
-				duck.tween = game.add.tween(duck).to({x:duck.x - game.world.width * 1.2},2000,"Linear",true,0)
-			}
-
+		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+		clock.tween.onComplete.add(function(){
+			missPoint()
 		})
+		
 	}
 	
 	function inputButton(obj){
@@ -635,110 +648,185 @@ var duck = function(){
 			return
 		}
 		
-		sound.play("shoot")
+		gameActive = false
 		
+		sound.play("pop")
 		var parent = obj.parent
 		
-		if(parent.tween){
-			parent.tween.stop()
+		var tween = game.add.tween(obj.scale).to({x:0.7,y:0.7},200,"Linear",true)
+		tween.yoyo(true,0)
+		
+		var bar = getBar(indexButton)
+		var question = bar.question
+		game.add.tween(question).to({alpha:0},500,"Linear",true)
+		
+		if(clock.tween){
+			clock.tween.stop()
 		}
-		parent.pressed = true
 		
-		game.add.tween(parent).to({angle:parent.angle + 360},500,"Linear",true)
-		
-		game.add.tween(parent).to({y:parent.y - 100},300,"Linear",true).onComplete.add(function(){
-			game.add.tween(parent).to({y:game.world.height + 200},700,"Linear",true)
-		})
-		
-		if(parent.number % 10 == 0){
+		indexButton++
+		if(parent.sign == bar.sign){
+			
+			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+			
 			addPoint(1)
-			createPart('star',obj)
-			parent.anim.setAnimationByName(0,"JUMP",false)
-						
-			setDucks("WIN")
-			game.time.events.add(3000,sendDucks)
+			createPart('star',question)
+			
+			game.time.events.add(750,function(){
+				
+				sound.play("cut")
+				bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
+				
+				barsGroup.remove(bar)
+				barsGroup.add(bar)
+			
+				barsGroup.pivotY+= bar.height * 0.8
+				sendBar(bar,barsGroup.pivotY,0,0)
+				moveBars()
+				
+			})
+			
 		}else{
 			
 			missPoint()
-			createPart('wrong',obj)
-			setDucks("LOSE")
+			createPart('wrong',question)
 		}
+		
 		
 	}
 	
-	function createDucks(){
+	function getBar(index){
 		
-		ducksGroup = game.add.group()
-		sceneGroup.add(ducksGroup)
-		
-		for(var i = 0; i < 3;i++){
+		for(var i = 0; i < barsGroup.length;i++){
 			
-			var duck = game.add.group()
-			duck.x = game.world.width + 300
-			duck.y = game.world.height - 350
-			ducksGroup.add(duck)
-			
-			var anim = game.add.spine(0,100,'duck')
-			anim.setAnimationByName(0,"WALK",true)
-			anim.setSkinByName('normal')
-			duck.add(anim)
-			
-			var slot = getSpineSlot(anim,"empty")
-
-			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var numberText = new Phaser.Text(game, 0, 0, '1', fontStyle)
-			numberText.anchor.setTo(0.5, 0.5)
-			duck.numberText = numberText
-			slot.add(numberText)
-			
-			duck.anim = anim
-			duck.text = numberText
-			anim.autoUpdateTransform()
-			
-			var duckImage = duck.create(0,0,'atlas.duck','star')
-			duckImage.scale.setTo(1.5,1.5)
-			duckImage.alpha = 0
-			duckImage.inputEnabled = true
-			duckImage.events.onInputDown.add(inputButton)
-			duckImage.anchor.setTo(0.5,0.5)
-			
-			duck.number = 0
-			
-		}
-	}
-	
-	function getSpineSlot(spine, slotName){
-		
-		var slotIndex
-		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
-			var slotData = spine.skeletonData.slots[index]
-			if(slotData.name === slotName){
-				slotIndex = index
+			var bar = barsGroup.children[i]
+			if(bar.indexBar == index){
+				return bar
 			}
 		}
-
-		if (slotIndex){
-			return spine.slotContainers[slotIndex]
+	}
+	
+	function createButtons(){
+		
+		buttonsGroup = game.add.group()
+		sceneGroup.add(buttonsGroup)
+		
+		var buttonNames = ['multi','division']
+		var buttonSigns = ['x','÷']
+		var pivotX = game.world.centerX - 150
+		
+		for(var i = 0; i < buttonNames.length;i++){
+			
+			var button = game.add.group()
+			button.alpha = 0
+			button.x = pivotX
+			button.y = game.world.height - 100
+			buttonsGroup.add(button)
+				
+			var buttonImg = button.create(0,0,'atlas.stack',buttonNames[i] + '_container')
+			buttonImg.anchor.setTo(0.5,0.5)
+			buttonImg.inputEnabled = true
+			buttonImg.events.onInputDown.add(inputButton)
+			
+			var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, buttonSigns[i], fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			button.add(pointsText)
+			
+			button.sign = buttonSigns[i]
+			
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			
+			pivotX+=300
 		}
 	}
+	
+	function createBars(){
+	
+		barsGroup = game.add.group()
+		barsGroup.pivotY = game.world.height - 275
+		sceneGroup.add(barsGroup)
+		
+		var indexColor = 0
+		
+		for(var i = 0; i < 10; i++){
+			
+			var bar = game.add.group()
+			bar.x = game.world.centerX
+			bar.y = -100
+			barsGroup.add(bar)
+			
+			var barImg = bar.create(0,0,'atlas.stack','block_gray')
+			barImg.tint = colorsToUse[indexColor]
+			console.log(indexColor + ' index')
+			barImg.anchor.setTo(0.5,0.5)
+			
+			indexColor++
+			if(indexColor >= colorsToUse.length){
+				indexColor = 0
+			}
+			
+			var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, -barImg.width * 0.3, 20, "3 X 6 = 2", fontStyle)
+			pointsText.anchor.setTo(0,0.5)
+			bar.add(pointsText)
+			
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+			
+			var question = bar.create(-45,pointsText.y - 5,'atlas.stack','question')
+			question.posX = question.x
+			question.posY = question.y 
+			question.anchor.setTo(0.5,0.5)
+			
+			bar.question = question
+			
+			bar.text = pointsText
+			
+		}
+	}
+	
+	function createClock(){
+		
+        clock = game.add.group()
+		clock.alpha = 0
+        clock.x = game.world.centerX
+		clock.scale.setTo(0.85,0.85)
+        clock.y = 65
+		clock.alpha = 0
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.stack','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.stack','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
+    }
 	
 	return {
 		
 		assets: assets,
-		name: "duck",
+		name: "stack",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group()
 			
 			createBackground()
-			createDucks()
+			createButtons()
+			createBars()
+			createClock()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                //spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
