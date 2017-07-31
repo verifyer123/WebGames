@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Astrono Metric",
+        name: "Geometry Warp",
         language: "es",
-        minigameUrl: "../astronoMetric/index.html?language=" + language,
+        minigameUrl: "../geometryWarp/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

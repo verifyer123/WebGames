@@ -33,10 +33,12 @@ var geometry = function(){
 				file: soundsPath + "magic.mp3"},
 			{	name: "cut",
 				file: soundsPath + "cut.mp3"},
-			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
-			{	name: "flip",
-				file: soundsPath + "flipCard.mp3"},
+			{	name: "laser",
+				file: soundsPath + "laser2.mp3"},
+			{	name: "laserExplode",
+				file: soundsPath + "laserexplode.mp3"},
+			{	name: "explosion",
+				file: soundsPath + "explosion.mp3"},
 			{	name: "swipe",
 				file: soundsPath + "swipe.mp3"},
 			{	name: "wrong",
@@ -44,7 +46,9 @@ var geometry = function(){
 			{	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
 			{   name: "gameLose",
-				file: soundsPath + "gameLose.mp3"}
+				file: soundsPath + "gameLose.mp3"},
+			{   name: "error",
+				file: soundsPath + "error.mp3"}
 		]
 	}
 
@@ -71,7 +75,7 @@ var geometry = function(){
 		{name:"rectangulo" ,angles: 4},
 		{name:"rombo" ,angles: 4},
 		{name:"scaleno" ,angles: 3},
-		{name:"trapezio" ,angles: 4},
+		{name:"trapezio" ,angles: 4}
 	]
 
 	// var ROUNDS = [
@@ -86,7 +90,6 @@ var geometry = function(){
 	var geometrySong
 	var heartsGroup = null
 	var pullGroup = null
-	var clock
 	var timeValue
 	var quantNumber
 	var inputsEnabled
@@ -99,6 +102,10 @@ var geometry = function(){
 	var asteroidsList
 	var asteroidsInGame
 	var speed
+	var gameGroup
+	var correctParticle
+	var wrongParticle
+	var isActive
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -125,13 +132,14 @@ var geometry = function(){
 		game.stage.backgroundColor = "#ffffff"
 		//gameActive = true
 		lives = NUM_LIFES
-		timeValue = 2000
+		timeValue = 4000
 		quantNumber = 2
 		roundCounter = 0
-		timeElapsed = 0
+		timeElapsed = timeValue
 		asteroidsList = []
 		asteroidsInGame = []
-		speed = 2
+		speed = 1.5
+		isActive = false
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -154,9 +162,10 @@ var geometry = function(){
 
 		addNumberPart(pointsBar.text,'+' + number)
 
-		// if(pointsBar.number % 2 == 0){
-		timeValue-=timeValue * 0.10
-		// }
+		if(pointsBar.number % 5 === 0){
+			timeValue-=timeValue * 0.20
+			speed += 0.5
+		}
 
 	}
 
@@ -198,7 +207,7 @@ var geometry = function(){
 		spineGroup.add(spineSkeleton)
 
 
-		spineGroup.setAnimation = function (animations, onComplete) {
+		spineGroup.setAnimation = function (animations, onComplete, args) {
 			var entry
 			for(var index = 0; index < animations.length; index++) {
 				var animation = animations[index]
@@ -209,6 +218,10 @@ var geometry = function(){
 					spineSkeleton.addAnimationByName(0, animation, loop)
 
 			}
+
+			if (args)
+				entry.args = args
+
 			if(onComplete){
 				entry.onComplete = onComplete
 			}
@@ -241,6 +254,62 @@ var geometry = function(){
 
 		return spineGroup
 	}
+
+	function tweenTint(obj, startColor, endColor, time, delay, callback, yoyo) {
+		// check if is valid object
+		time = time || 250
+		delay = delay || 0
+
+		if (obj) {
+			// create a step object
+			var colorBlend = { step: 0 };
+			// create a tween to increment that step from 0 to 100.
+			var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
+			// add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
+			colorTween.onUpdateCallback(function () {
+				obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step, 1);
+			})
+			// set object to the starting colour
+			obj.tint = startColor;
+			// if you passed a callback, add it to the tween on complete
+			if (callback) {
+				colorTween.onComplete.add(callback, this);
+			}
+
+			if(yoyo) {
+				colorTween.yoyo(true)
+			}
+			// finally, start the tween
+			colorTween.start();
+		}
+	}
+	
+	function shotAction(input) {
+		if((asteroidsInGame[0])&&(!ship.shooting)&&(ship.active)){
+			ship.shooting = true
+			ship.shot.alpha = 1
+			ship.shot.y = -25
+			sound.play("laser")
+
+			btnOn.index = input.index - 1
+			btnOn.x = btnOn.index * 150
+			if(btnOn.tween1)
+				btnOn.tween1.stop()
+			if(btnOn.tween2)
+				btnOn.tween2.stop()
+
+			btnOn.tween1 = game.add.tween(btnOn.scale).to({x:1, y:1}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			btnOn.tween2 = game.add.tween(btnOn).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			ship.angles = LADOS_INDEX[btnOn.index + 1].angles
+			ship.setSkinByName(SHIPS_SKINS[btnOn.index + 1])
+
+			tweenTint(input.btnOff, 0xffffff, 0xff0000, 200, 0, null, true)
+
+			// if(asteroidsInGame[0].angles === ship.angles){
+			//
+			// }
+		}
+	}
 	
 	function createGeometryUI() {
 		var lineGroup = game.add.group()
@@ -251,18 +320,77 @@ var geometry = function(){
 		var line = lineGroup.create(0, 0, "atlas.geometry", "line")
 		line.anchor.setTo(0.5, 0.5)
 
+		btnOn = lineGroup.create(-150, 0, "atlas.geometry", "on")
+		btnOn.index = -1
+		btnOn.anchor.setTo(0.5, 0.5)
+		btnOn.scale.setTo(0.6, 0.6)
+		btnOn.alpha = 0
+		btnOn.tint = 0xff0000
+
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 		var starX = -150
 		for(var btnIndex = 0; btnIndex < 3; btnIndex++){
 			var x = starX + btnIndex * 150
 			var btnOff = lineGroup.create(x, 0, "atlas.geometry", "off")
 			btnOff.anchor.setTo(0.5, 0.5)
+
+			var textAngle = LADOS_INDEX[btnIndex].angles
+			var angleText = new Phaser.Text(game, 0, 5, textAngle, fontStyle)
+			angleText.anchor.setTo(0.5, 0.5)
+			angleText.x = x
+			lineGroup.add(angleText)
+
+			var input = game.add.graphics()
+			input.beginFill(0xffffff)
+			input.drawRect(0,0,100,100)
+			input.endFill()
+			input.alpha = 0
+			lineGroup.add(input)
+			input.x = x - 50
+			input.y = -50
+			input.btnOff = btnOff
+
+			input.inputEnabled = true
+			input.index = btnIndex
+			input.events.onInputDown.add(shotAction)
 		}
 
-		btnOn = lineGroup.create(-150, 0, "atlas.geometry", "on")
-		btnOn.index = -1
-		btnOn.anchor.setTo(0.5, 0.5)
+		correctParticle = createPart("star")
+		sceneGroup.add(correctParticle)
+
+		wrongParticle = createPart("wrong")
+		sceneGroup.add(wrongParticle)
 		// btnOn.alpha = 0
 
+	}
+
+	function updateShot(){
+		if(ship.shooting){
+			ship.shot.y -= 10
+			var collide = checkOverlap(ship.shot, asteroidsInGame[0].hitBox)
+			if (collide) {
+				ship.shooting = false
+				if(asteroidsInGame[0].angles === ship.angles){
+					correctParticle.x = asteroidsInGame[0].centerX
+					correctParticle.y = asteroidsInGame[0].centerY
+					sceneGroup.bringToTop(correctParticle)
+					correctParticle.start(true, 1000, null, 5)
+					destroyAsteroid(0)
+					sound.play("laserExplode")
+					addPoint(1)
+				}else{
+					sound.play("error")
+					wrongParticle.x = asteroidsInGame[0].centerX
+					wrongParticle.y = asteroidsInGame[0].centerY
+					sceneGroup.bringToTop(wrongParticle)
+					wrongParticle.start(true, 1000, null, 5)
+					asteroidsInGame[0].speed = 10
+					ship.active = false
+				}
+				ship.shot.y = 20
+				ship.shot.alpha = 0
+			}
+		}
 	}
 	
 	function createGameObjects(){
@@ -272,19 +400,48 @@ var geometry = function(){
 		sceneGroup.add(pullGroup)
 		pullGroup.alpha = 0
 
-		ship = createSpine("ship", "ship1")
-		ship.setAnimation(["IDLE"])
-		sceneGroup.add(ship)
-		ship.x = game.world.centerX
-		ship.y = game.world.centerY + 200
-		ship.index = 1
+		gameGroup = game.add.group()
+		gameGroup.x = game.world.centerX
+		sceneGroup.add(gameGroup)
 
 		for(var figureIndex = 0; figureIndex < 6; figureIndex++){
 			var asteroid = createSpine("figures", "ship1")
 			asteroid.setAnimation(["IDLE"])
 			pullGroup.add(asteroid)
 			asteroidsList.push(asteroid)
+			asteroid.speed = 0
+
+			var hitBox2 = new Phaser.Graphics(game)
+			hitBox2.beginFill(0xFFFFFF)
+			hitBox2.drawRect(0,0,100, 100)
+			hitBox2.alpha = 0
+			hitBox2.endFill()
+			hitBox2.x = -hitBox2.width * 0.5
+			hitBox2.y = -hitBox2.height + 50
+			asteroid.add(hitBox2)
+			asteroid.hitBox = hitBox2
 		}
+
+		ship = createSpine("ship", "ship1")
+		ship.setAnimation(["IDLE"])
+		sceneGroup.add(ship)
+		ship.x = game.world.centerX
+		ship.y = game.world.centerY + 200
+		ship.index = 1
+		var shot = ship.create(0,20,"atlas.geometry", "shot")
+		shot.anchor.setTo(0.5, 0.5)
+		shot.alpha = 0
+		ship.shot = shot
+
+		var hitBox = new Phaser.Graphics(game)
+		hitBox.beginFill(0xFFFFFF)
+		hitBox.drawRect(0,0,100, 100)
+		hitBox.alpha = 0
+		hitBox.endFill()
+		hitBox.x = -hitBox.width * 0.5
+		hitBox.y = -hitBox.height + 55
+		ship.add(hitBox)
+		ship.hitBox = hitBox
 
 	}
 
@@ -292,12 +449,12 @@ var geometry = function(){
 		var particle = game.add.emitter(0, 0, 100);
 
 		particle.makeParticles('atlas.geometry',key);
-		particle.minParticleSpeed.setTo(-200, -50);
-		particle.maxParticleSpeed.setTo(200, -100);
+		particle.minParticleSpeed.setTo(-200, -200);
+		particle.maxParticleSpeed.setTo(200, 200);
 		particle.minParticleScale = 0.6;
 		particle.maxParticleScale = 1;
-		particle.gravity = 150;
-		particle.angularDrag = 30;
+		// particle.gravity = 100;
+		// particle.angularDrag = 30;
 
 		return particle
 
@@ -307,15 +464,16 @@ var geometry = function(){
 
 		//objectsGroup.timer.pause()
 		//timer.pause()
+		isActive = false
 		geometrySong.stop()
-		clock.tween.stop()
+		// clock.tween.stop()
 		inputsEnabled = false
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2200)
 		tweenScene.onComplete.add(function(){
 
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
@@ -340,9 +498,9 @@ var geometry = function(){
 
 	}
 
-	function startRound(notStarted) {
-
-
+	function startRound() {
+		ship.active = true
+		isActive = true
 	}
 
 	function missPoint(){
@@ -360,9 +518,11 @@ var geometry = function(){
 
 		if(lives === 0){
 			stopGame(false)
+			ship.spine.setAnimationByName(0, "LOSE", false)
 		}
 		else{
-			startRound()
+			// startRound()
+			ship.setAnimation(["DAMAGED", "DAMAGED", "IDLE"])
 		}
 
 		addNumberPart(heartsGroup.text,'-1')
@@ -396,25 +556,13 @@ var geometry = function(){
 
 	}
 
-	function startTimer(onComplete) {
-		var delay = 500
-		// clock.bar.scale.x = clock.bar.origScale
-		if (clock.tween)
-			clock.tween.stop()
-
-
-		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
-		clock.tween.onComplete.add(function(){
-			onComplete()
-		})
-	}
-
 	function onClickPlay(rect) {
 		rect.inputEnabled = false
 		sound.play("pop")
 		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
 			tutoGroup.y = -game.world.height
+			startRound()
 			// startTimer(missPoint)
 		})
 	}
@@ -466,31 +614,10 @@ var geometry = function(){
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)
 	}
-
-	function createClock(){
-
-		clock = game.add.group()
-		clock.x = game.world.centerX
-		clock.y = game.world.centerY + 80
-		sceneGroup.add(clock)
-
-		var clockImage = clock.create(0,0,'atlas.geometry','clock')
-		clockImage.anchor.setTo(0.5,0.5)
-
-		var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.geometry','bar')
-		clockBar.anchor.setTo(0,0.5)
-		clockBar.width = clockImage.width*0.76
-		clockBar.height = 22
-		clockBar.origScale = clockBar.scale.x
-
-		clock.bar = clockBar
-
-	}
 	
 	function spawnAsteroid() {
-		var asteroid = asteroidsList[asteroidsInGame.length]
-		sceneGroup.add(asteroid)
-		asteroid.x = game.world.centerX
+		var asteroid = asteroidsList.pop()
+		gameGroup.add(asteroid)
 		asteroid.y = -100
 		var rndIndex = game.rnd.integerInRange(0, FIGURES.length - 1)
 		asteroid.setSkinByName(FIGURES[rndIndex].name)
@@ -498,6 +625,27 @@ var geometry = function(){
 		asteroidsInGame.push(asteroid)
 	}
 	
+	function resetAsteroid(){
+		var asteroid = this.args
+		console.log(asteroid)
+		pullGroup.add(asteroid)
+		asteroidsList.push(asteroid)
+	}
+
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+	}
+
+	function destroyAsteroid(asteroidIndex){
+		var removedAsteroid = asteroidsInGame.splice(asteroidIndex, 1)
+		removedAsteroid[0].setAnimation(["LOSE", "IDLE"], resetAsteroid, removedAsteroid[0])
+	}
+
 	function update() {
 		timeElapsed += game.time.elapsedMS
 		if(timeElapsed >= timeValue){
@@ -505,39 +653,60 @@ var geometry = function(){
 			spawnAsteroid()
 		}
 
+		// if((asteroidsInGame[0])&&(!ship.shooting)){
+		// 	if(asteroidsInGame[0].angles === ship.angles){
+		// 		ship.shooting = true
+		// 		ship.shot.alpha = 1
+		// 		ship.shot.y = -25
+		// 	}
+		// }
+
+		updateShot()
+
 		for(var asteroidIndex = asteroidsInGame.length - 1; asteroidIndex >= 0; asteroidIndex--){
 			var asteroid = asteroidsInGame[asteroidIndex]
-			asteroid.y += speed
-			if(asteroid.y >= ship.y - 100){
-				asteroid.setAnimation(["LOSE"])
-				asteroidsInGame.splice(asteroidIndex, 1)
+			asteroid.y += asteroid.speed > 0 ? asteroid.speed : speed
+			asteroid.angle += speed
+			var collide = checkOverlap(ship.hitBox, asteroid.hitBox)
+			if(collide){
+				missPoint()
+				sound.play("explosion")
+				destroyAsteroid(asteroidIndex)
+				ship.shot.y = -25
+				ship.shot.alpha = 0
+				ship.shooting = false
+				ship.active = true
+				asteroid.speed = 0
 			}
 		}
 
-		var direction = swipe.check()
-		if (direction !== null) {
-			switch (direction.direction) {
-				case swipe.DIRECTION_LEFT:
-					btnOn.index = btnOn.index - 1 < -1 ? -1 : btnOn.index - 1
-					game.add.tween(btnOn).to({x:btnOn.index * 150}, 500, Phaser.Easing.Cubic.Out, true)
-					ship.index = btnOn.index + 1
-					ship.setSkinByName(SHIPS_SKINS[btnOn.index + 1])
-					break;
-				case swipe.DIRECTION_RIGHT:
-					btnOn.index = btnOn.index + 1 > 1 ? 1 : btnOn.index + 1
-					game.add.tween(btnOn).to({x:btnOn.index * 150}, 500, Phaser.Easing.Cubic.Out, true)
-					ship.index = btnOn.index + 1
-					ship.setSkinByName(SHIPS_SKINS[btnOn.index + 1])
-					break;
-			}
-		}
+		// var direction = swipe.check()
+		// if (direction !== null) {
+		// 	switch (direction.direction) {
+		// 		case swipe.DIRECTION_LEFT:
+		// 			btnOn.index = btnOn.index - 1 < -1 ? -1 : btnOn.index - 1
+		// 			game.add.tween(btnOn).to({x:btnOn.index * 150}, 500, Phaser.Easing.Cubic.Out, true)
+		// 			ship.angles = LADOS_INDEX[btnOn.index + 1].angles
+		// 			ship.setSkinByName(SHIPS_SKINS[btnOn.index + 1])
+		// 			break;
+		// 		case swipe.DIRECTION_RIGHT:
+		// 			btnOn.index = btnOn.index + 1 > 1 ? 1 : btnOn.index + 1
+		// 			game.add.tween(btnOn).to({x:btnOn.index * 150}, 500, Phaser.Easing.Cubic.Out, true)
+		// 			ship.angles = LADOS_INDEX[btnOn.index + 1].angles
+		// 			ship.setSkinByName(SHIPS_SKINS[btnOn.index + 1])
+		// 			break;
+		// 	}
+		// }
 	}
 
 	return {
 		assets: assets,
 		name: "geometry",
 		preload:preload,
-		update:update,
+		update:function() {
+			if(isActive)
+				update()
+		},
 		create: function(event){
 
 			swipe = new Swipe(game)
@@ -570,7 +739,6 @@ var geometry = function(){
 			createGeometryUI()
 			createGameObjects()
 			// createClock()
-			startRound(true)
 			createTutorial()
 
 			buttons.getButton(geometrySong,sceneGroup)
