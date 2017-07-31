@@ -85,7 +85,7 @@ var geometry = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 70
 	var tutoGroup
 	var geometrySong
 	var heartsGroup = null
@@ -711,6 +711,7 @@ var geometry = function(){
 
 			swipe = new Swipe(game)
 			sceneGroup = game.add.group()
+			yogomeGames.mixpanelCall("enterGame",gameIndex)
 
 			var background = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.geometry', "tile")
 			sceneGroup.add(background)
