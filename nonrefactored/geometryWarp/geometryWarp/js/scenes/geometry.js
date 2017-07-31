@@ -114,7 +114,7 @@ var geometry = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('geometrySong', soundsPath + 'songs/wormwood.mp3');
+		game.load.audio('geometrySong', soundsPath + 'songs/game_on.mp3');
 
 		game.load.image('introscreen',"images/geometry/introscreen.png")
 		game.load.image('howTo',"images/geometry/how" + localization.getLanguage() + ".png")
@@ -164,6 +164,7 @@ var geometry = function(){
 
 		if(pointsBar.number % 5 === 0){
 			timeValue-=timeValue * 0.20
+			timeValue = timeValue < 500 ? 500 : timeValue
 			speed += 0.5
 		}
 
@@ -297,13 +298,18 @@ var geometry = function(){
 				btnOn.tween1.stop()
 			if(btnOn.tween2)
 				btnOn.tween2.stop()
+			if(ship.tween)
+				ship.tween.stop()
 
 			btnOn.tween1 = game.add.tween(btnOn.scale).to({x:1, y:1}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 			btnOn.tween2 = game.add.tween(btnOn).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			ship.tween = game.add.tween(ship.scale).to({x:1.25, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 			ship.angles = LADOS_INDEX[btnOn.index + 1].angles
 			ship.setSkinByName(SHIPS_SKINS[btnOn.index + 1])
 
-			tweenTint(input.btnOff, 0xffffff, 0xff0000, 200, 0, null, true)
+			tweenTint(input.btnOff, 0xffffff, 0xff0000, 200, 0, function () {
+				input.btnOff.tint = 0xffffff
+			}, true)
 
 			// if(asteroidsInGame[0].angles === ship.angles){
 			//

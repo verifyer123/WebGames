@@ -2,7 +2,7 @@
 
 {
 	"filename": "button",
-	"frame": {"x":544,"y":210,"w":129,"h":114},
+	"frame": {"x":544,"y":209,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":486,"y":326,"w":134,"h":98},
+	"frame": {"x":486,"y":325,"w":134,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":98},
@@ -20,11 +20,11 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":544,"y":1,"w":267,"h":207},
+	"frame": {"x":544,"y":1,"w":267,"h":206},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":267,"h":207},
-	"sourceSize": {"w":267,"h":207},
+	"spriteSourceSize": {"x":0,"y":0,"w":267,"h":206},
+	"sourceSize": {"w":267,"h":206},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":675,"y":210,"w":123,"h":114},
+	"frame": {"x":675,"y":209,"w":123,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":123,"h":114},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "off",
-	"frame": {"x":622,"y":326,"w":70,"h":70},
+	"frame": {"x":622,"y":325,"w":70,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":70},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "shot",
-	"frame": {"x":760,"y":326,"w":24,"h":50},
+	"frame": {"x":760,"y":325,"w":24,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":50},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":694,"y":326,"w":64,"h":64},
+	"frame": {"x":694,"y":325,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -124,6 +124,6 @@
 	"format": "RGBA8888",
 	"size": {"w":812,"h":432},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:49c78df8c4ce505e8575b9ce6c7459f7:8e157c27d0e4d3ead55b1d51c8768f60:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:83bc30c4010288f9af1d494afdea63a8:d6b170c42672408f234006f83cc174c1:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
