@@ -284,7 +284,7 @@ var jelly = function(){
         
         game.load.spine('player', "images/spines/jellyfish.json")  
 		game.load.spine('fish',"images/spines/fish.json")
-        game.load.audio('spaceSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/bubble_fishgame.mp3');
         
 		game.load.image('howTo',"images/jelly/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/jelly/play" + localization.getLanguage() + ".png")
