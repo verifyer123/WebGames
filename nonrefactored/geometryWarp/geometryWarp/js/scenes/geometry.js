@@ -416,6 +416,7 @@ var geometry = function(){
 			pullGroup.add(asteroid)
 			asteroidsList.push(asteroid)
 			asteroid.speed = 0
+			asteroid.scale.setTo(0.8, 0.8)
 
 			var hitBox2 = new Phaser.Graphics(game)
 			hitBox2.beginFill(0xFFFFFF)
@@ -633,7 +634,7 @@ var geometry = function(){
 	
 	function resetAsteroid(){
 		var asteroid = this.args
-		console.log(asteroid)
+		// console.log(asteroid)
 		pullGroup.add(asteroid)
 		asteroidsList.push(asteroid)
 	}
@@ -723,7 +724,7 @@ var geometry = function(){
 			sceneGroup.add(background)
 			
 			background.update = function () {
-				this.tilePosition.y += 5
+				this.tilePosition.y += speed * 3
 			}
 
 			geometrySong = game.add.audio('geometrySong')
