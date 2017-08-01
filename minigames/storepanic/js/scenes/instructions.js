@@ -150,7 +150,7 @@ var instructions = function(){
         loadSounds()
         mixpanel.track(
             "loadGame",
-            {"gameName": "storepanic",,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+            {"gameName": "storepanic","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

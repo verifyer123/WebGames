@@ -278,11 +278,13 @@ var jelly = function(){
     
     function preload(){
         
+		buttons.getImages(game)
+		
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('player', "images/spines/jellyfish.json")  
 		game.load.spine('fish',"images/spines/fish.json")
-        game.load.audio('spaceSong', soundsPath + 'songs/bubble_fishgame.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
         
 		game.load.image('howTo',"images/jelly/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/jelly/play" + localization.getLanguage() + ".png")
@@ -806,7 +808,7 @@ var jelly = function(){
 		
 		characterGroup.number = numbersToUse[playerIndex]
 		
-		var slot = getSpineSlot(anim,"empty2")
+		var slot = getSpineSlot(anim,"empty")
 		
 		var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var numberText = new Phaser.Text(game, 0, 0, characterGroup.number, fontStyle)
@@ -1054,6 +1056,8 @@ var jelly = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()

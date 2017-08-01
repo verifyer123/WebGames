@@ -56,15 +56,19 @@ var mathrioska = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 71
 	var indexGame
     var overlayGroup
     var spaceSong
 	var numbersGroup, dragButton
 	var dollsGroup
 	var resultToUse
-	var dollToUse
+	var dollToUse, lastDoll
 	var indexDoll
+	var lastIndex
+	var timeToUse
+	
+	var indexList = [2,1,2,0,1,2]
 	
 
 	function loadSounds(){
@@ -76,7 +80,9 @@ var mathrioska = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 1
 		dollToUse = null
-		indexDoll = 2
+		indexDoll = 0
+		timeToUse = 20000
+		lastDoll = null
         
         loadSounds()
         
@@ -88,7 +94,7 @@ var mathrioska = function(){
             
             sound.play("cut")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({s:0, y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({x:0, y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -179,6 +185,9 @@ var mathrioska = function(){
         
         addNumberPart(pointsBar.text,'+' + number,true)		
         
+		if(timeToUse > 2000){
+			timeToUse-=750
+		}
     }
     
     function createPointsBar(){
@@ -235,6 +244,8 @@ var mathrioska = function(){
     
     function stopGame(win){
         
+		dragButton.inputEnabled = false
+		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
@@ -260,19 +271,19 @@ var mathrioska = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('doll', "images/spines/matrioska.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
         
 		game.load.image('howTo',"images/mathrioska/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/mathrioska/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/mathrioska/introscreen.png")
 		
-		console.log(localization.getLanguage() + ' language')
+		//console.log(localization.getLanguage() + ' language')
         
     }
 	
 	function showScene(){
 		
-		dollToUse = dollsGroup.children[indexDoll]
+		dollToUse = dollsGroup.children[indexList[indexDoll]]
 		activateDoll(dollToUse)
 				
 		game.time.events.add(250,function(){
@@ -280,6 +291,18 @@ var mathrioska = function(){
 			gameActive = true
 			dragButton.inputEnabled = true
 			popObject(dragButton,0)
+			dragButton.x = game.world.centerX
+			
+			popObject(clock,0)
+			
+			clock.bar.scale.x = clock.bar.origScale
+			
+			clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+			clock.tween.onComplete.add(function(){
+				missPoint()
+				createPart('wrong',dragButton)
+			})
+			
 		})
 	}
 	
@@ -291,17 +314,16 @@ var mathrioska = function(){
 			isAddition = false
 		}
 		
+		doll.scale.setTo(1,1)
+		doll.alpha = 0
 		var number1, number2
+		var signToUse = ' + '
 		if(isAddition){
 					
-			number1 = resultToUse || game.rnd.integerInRange(2,7 - 1)
+			number1 = resultToUse || game.rnd.integerInRange(2,10 - 1)
 			number2 = game.rnd.integerInRange(1,number1 - 1)
-
-			doll.text.setText(doll.sign1 + number1 + ' + ' + number2 + doll.sign2)
-			popObject(doll,0)
 			
-			resultToUse = number1 + number2
-			doll.result = resultToUse
+			resultToUse = number1 + number2			
 			
 		}else{
 			
@@ -310,18 +332,62 @@ var mathrioska = function(){
 			
 			resultToUse = number1 - number2
 			
-			doll.text.setText(doll.sign1 + number1 + ' - ' + number2 + doll.sign2)
-			doll.result = resultToUse
-			
+			signToUse = ' - '
 		}
+		
+		doll.text.setText(doll.sign1 + number1 + signToUse + number2 + doll.sign2)
+		
+		if(doll.sign1 == '[' || doll.sign1 == '{'){
+			
+			var number3 = game.rnd.integerInRange(1,9)
+			resultToUse+= number3
+			
+			doll.text.setText(doll.sign1 + number1 + signToUse + number2 + ' + ' + number3 + doll.sign2)
+			
+			if(doll.sign1 == '['){
+				
+				var number4 = game.rnd.integerInRange(1,9)
+				resultToUse+= number4
+				
+				doll.text.setText(doll.sign1 + number1 + signToUse + number2 + ' + ' + number3 + ' + ' + number4 + doll.sign2)
+			}
+		}
+		
+		doll.result = resultToUse
+		
+		popObject(doll,0)
+		
+		changeNumbers()
 		
 	}
 	
+	function changeNumbers(){
+		
+		var numStart = 2
+		if(resultToUse >= 8){
+			numStart = resultToUse - game.rnd.integerInRange(1,5)	
+		}else if(resultToUse <=2){
+			numStart = 0
+		}
+		
+		var delay = 0
+		for(var i = 0; i < numbersGroup.length;i++){
+			
+			var number = numbersGroup.children[i]
+			number.number = numStart
+			number.setText(numStart)
+			
+			numStart++
+			popObject(number,delay)
+			
+			delay+= 50
+		}
+		
+	}
     
     function createOverlay(){
         
         overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
         var rect = new Phaser.Graphics(game)
@@ -360,7 +426,7 @@ var mathrioska = function(){
 			inputName = 'desktop'
 		}
 		
-		console.log(inputName)
+		//console.log(inputName)
 		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.mathrioska',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
@@ -413,7 +479,7 @@ var mathrioska = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
+			////console.log(particle.tag + ' tag,' + particle.used)
             if(!particle.used && particle.tag == key){
                 
 				particle.used = true
@@ -422,8 +488,6 @@ var mathrioska = function(){
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
 				
-				console.log(particle)
-                
                 return particle
                 break
             }
@@ -588,18 +652,21 @@ var mathrioska = function(){
 		var pivotX = game.world.centerX - 250
 		for(var i = 0; i < 6;i++){
 			
-			var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#030300", align: "center"}
+			var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			var pointsText = new Phaser.Text(sceneGroup.game, pivotX, bar.y, i + 2, fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
 			pointsText.number = i + 2
 			numbersGroup.add(pointsText)
 			
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+			
 			pivotX+= 100
 			
 		}
 		
-		dragButton = sceneGroup.create(game.world.centerX - 50, game.world.height - 125,'atlas.mathrioska','selector')
+		dragButton = sceneGroup.create(game.world.centerX - 50, game.world.height - 120,'atlas.mathrioska','selector')
 		dragButton.anchor.setTo(0.5,0.5)
+		dragButton.scale.setTo(1.1,1.1)
 		dragButton.inputEnabled = true
 		dragButton.alpha = 0
 		dragButton.initY = dragButton.y
@@ -633,6 +700,10 @@ var mathrioska = function(){
 			var number = numbersGroup.children[i]
 			if(checkOverlap(obj,number) && Math.abs(obj.x - number.x) < 50){
 				
+				if(clock.tween){
+					clock.tween.stop()
+				}
+				
 				obj.inputEnabled = false 
 				game.add.tween(obj).to({x:number.x},250,"Linear",true).onComplete.add(function(){
 					//obj.inputEnabled = true
@@ -646,14 +717,41 @@ var mathrioska = function(){
 					game.time.events.add(500,function(){
 						
 						sound.play("cut")
-						game.add.tween(dollToUse.scale).to({x:0,y:0},200,"Linear",true).onComplete.add(function(){
+						
+						var scaleToUse = 0
+						var alphaUsed = 0
+						
+						if(lastDoll){
+							//console.log(lastDoll.sign1 + ' doll1 ' + dollToUse.sign1 + ' sign')
+						}
+						
+						if(lastDoll && ((lastDoll.sign1 == '(' && dollToUse.sign1 == '{') || (lastDoll.sign1 == '(' && dollToUse.sign1 == '[') || (lastDoll.sign1 == '[' && dollToUse.sign1 == '{'))){
 							
-							dollToUse.scale.setTo(1,1)
-							dollToUse.alpha = 0
+							scaleToUse = 1
+							alphaUsed = 1
 							
-							indexDoll--
-							if(indexDoll < 0){
-								indexDoll = 2
+							dollToUse.text.setText('')
+							dollToUse.anim.setAnimationByName(0,"OPEN&CLOSE",false)
+							dollToUse.anim.addAnimationByName(0,"IDLE",true)
+							//console.log('plus')
+							
+						}else{
+							for(var i = 0; i < dollsGroup.length;i++){
+								
+								var doll = dollsGroup.children[i]
+								game.add.tween(doll.scale).to({x:0,y:0},200,"Linear",true)
+								
+							}
+						}
+						
+						game.add.tween(dollToUse.scale).to({x:scaleToUse,y:scaleToUse},200,"Linear",true).onComplete.add(function(){
+							
+							dollToUse.alpha = alphaUsed
+							lastDoll = dollToUse
+														
+							indexDoll++
+							if(indexDoll == indexList.length ){
+								indexDoll = 0
 							}
 							
 							showScene()
@@ -664,6 +762,7 @@ var mathrioska = function(){
 					
 				}else{
 					
+					//console.log(dollToUse.result + ' result ' + number.number + ' number')
 					missPoint()
 					createPart('wrong',number)
 				}
@@ -703,17 +802,45 @@ var mathrioska = function(){
 			anim.setSkinByName("matrioska" + (i+1))
 			anim.setAnimationByName(0,"IDLE",true)
 			doll.add(anim)
+		
+			doll.anim = anim
 			
 			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			var pointsText = new Phaser.Text(sceneGroup.game, 0, pivotY - 5, i + 2, fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
 			doll.add(pointsText)
 			
-			pivotY -= 75
+			if(signToUse[i] == '('){
+				pointsText.scale.setTo(0.9,0.9)
+			}
+			
+			pivotY -= 70
 			doll.text = pointsText
 		}
 		
 	}
+	
+	function createClock(){
+		
+        clock = game.add.group()
+		clock.alpha = 0
+        clock.x = game.world.centerX
+		clock.scale.setTo(0.85,0.85)
+        clock.y = 65
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.mathrioska','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.mathrioska','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
+    }
 	
 	return {
 		
@@ -728,11 +855,12 @@ var mathrioska = function(){
 			createBackground()
 			createDolls()
 			createContainer()
+			createClock()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
