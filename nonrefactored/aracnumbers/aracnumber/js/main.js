@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("pizzafraction")
+				sceneloader.show("aracnumber")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,8 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            instructions,
-            pizzafraction,
+            aracnumber,
             result
     	])
     }
