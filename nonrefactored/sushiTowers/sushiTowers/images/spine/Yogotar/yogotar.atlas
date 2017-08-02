@@ -1,0 +1,132 @@
+
+yogotar.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nao/arm1
+  rotate: true
+  xy: 963, 431
+  size: 73, 51
+  orig: 73, 51
+  offset: 0, 0
+  index: -1
+nao/arm2
+  rotate: true
+  xy: 963, 367
+  size: 62, 43
+  orig: 62, 43
+  offset: 0, 0
+  index: -1
+nao/head1
+  rotate: false
+  xy: 2, 323
+  size: 183, 181
+  orig: 183, 181
+  offset: 0, 0
+  index: -1
+nao/head2
+  rotate: false
+  xy: 2, 140
+  size: 183, 181
+  orig: 183, 181
+  offset: 0, 0
+  index: -1
+nao/head3
+  rotate: false
+  xy: 187, 324
+  size: 183, 180
+  orig: 183, 180
+  offset: 0, 0
+  index: -1
+nao/leg1
+  rotate: true
+  xy: 96, 4
+  size: 45, 63
+  orig: 45, 63
+  offset: 0, 0
+  index: -1
+nao/leg2
+  rotate: false
+  xy: 373, 165
+  size: 46, 58
+  orig: 46, 58
+  offset: 0, 0
+  index: -1
+nao/tail
+  rotate: false
+  xy: 372, 360
+  size: 216, 144
+  orig: 216, 144
+  offset: 0, 0
+  index: -1
+nao/torso
+  rotate: false
+  xy: 373, 276
+  size: 81, 82
+  orig: 81, 82
+  offset: 0, 0
+  index: -1
+tomiko/arm1
+  rotate: false
+  xy: 373, 225
+  size: 73, 49
+  orig: 73, 49
+  offset: 0, 0
+  index: -1
+tomiko/arm2
+  rotate: true
+  xy: 421, 162
+  size: 61, 41
+  orig: 61, 41
+  offset: 0, 0
+  index: -1
+tomiko/head1
+  rotate: false
+  xy: 187, 155
+  size: 184, 167
+  orig: 184, 167
+  offset: 0, 0
+  index: -1
+tomiko/head2
+  rotate: false
+  xy: 777, 337
+  size: 184, 167
+  orig: 184, 167
+  offset: 0, 0
+  index: -1
+tomiko/head3
+  rotate: false
+  xy: 590, 337
+  size: 185, 167
+  orig: 185, 167
+  offset: 0, 0
+  index: -1
+tomiko/leg1
+  rotate: false
+  xy: 456, 295
+  size: 44, 63
+  orig: 44, 63
+  offset: 0, 0
+  index: -1
+tomiko/leg2
+  rotate: false
+  xy: 502, 300
+  size: 46, 58
+  orig: 46, 58
+  offset: 0, 0
+  index: -1
+tomiko/tail
+  rotate: false
+  xy: 2, 2
+  size: 92, 136
+  orig: 92, 136
+  offset: 0, 0
+  index: -1
+tomiko/torso
+  rotate: false
+  xy: 96, 51
+  size: 82, 87
+  orig: 82, 87
+  offset: 0, 0
+  index: -1
