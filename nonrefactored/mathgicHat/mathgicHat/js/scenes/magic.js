@@ -265,6 +265,7 @@ var magic = function(){
     
     function preload(){
         
+		buttons.getImages(game)
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('magician', "images/spines/basi.json")  
@@ -824,6 +825,8 @@ var magic = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()

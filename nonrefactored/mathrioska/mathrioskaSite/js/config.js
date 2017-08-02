@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Mathrioska",
         language: "es",
-        minigameUrl: "../mathrioskaSite/index.html?language=" + language,
+        minigameUrl: "../mathrioska/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

@@ -273,6 +273,8 @@ var engine = function(){
     
     function preload(){
         
+		buttons.getImages(game)
+		
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('car', "images/spines/car.json")  
@@ -880,6 +882,8 @@ var engine = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()

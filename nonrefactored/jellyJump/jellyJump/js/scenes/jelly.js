@@ -278,6 +278,8 @@ var jelly = function(){
     
     function preload(){
         
+		buttons.getImages(game)
+		
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('player', "images/spines/jellyfish.json")  
@@ -806,7 +808,7 @@ var jelly = function(){
 		
 		characterGroup.number = numbersToUse[playerIndex]
 		
-		var slot = getSpineSlot(anim,"empty2")
+		var slot = getSpineSlot(anim,"empty")
 		
 		var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var numberText = new Phaser.Text(game, 0, 0, characterGroup.number, fontStyle)
@@ -1054,6 +1056,8 @@ var jelly = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()

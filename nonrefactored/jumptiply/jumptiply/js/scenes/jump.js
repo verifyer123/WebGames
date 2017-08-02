@@ -267,6 +267,7 @@ var jump = function(){
     
     function preload(){
         
+		buttons.getImages(game)
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('yogotar', "images/spines/nao.json")  
@@ -873,6 +874,8 @@ var jump = function(){
 			            
 			createPointsBar()
 			createHearts()
+			
+			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
             animateScene()
