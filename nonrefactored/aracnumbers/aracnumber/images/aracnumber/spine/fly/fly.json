@@ -55,6 +55,13 @@
 "animations": {
 	"IDLE": {
 		"slots": {
+            
+			"empty": {
+				"attachment": [
+					{ "time": 0, "name": "empty" },
+					{ "time": 1, "name": "empty" }
+				]
+			},
 			"alas1": {
 				"attachment": [
 					{ "time": 0, "name": "alas" },
@@ -71,12 +78,6 @@
 				"attachment": [
 					{ "time": 0, "name": "boca" },
 					{ "time": 1, "name": "boca" }
-				]
-			},
-			"empty": {
-				"attachment": [
-					{ "time": 0, "name": "empty" },
-					{ "time": 1, "name": "empty" }
 				]
 			},
 			"ojo_M": {
