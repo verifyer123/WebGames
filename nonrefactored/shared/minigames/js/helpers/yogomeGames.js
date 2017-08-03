@@ -74,8 +74,9 @@ yogomeGames.getGames = function(){
         {name:'monsterDungeon',url:'http://yogome.com/epic/minigames/monsterDungeonsite/',sceneName:'monsterDungeon',subject:'math', review:true},//67
 		{name:'nachoSmacho',url:'http://yogome.com/epic/minigames/nachoSite/',sceneName:'nacho',subject:'math', review:true},//68
 		{name:'stackathon',url:'http://yogome.com/epic/minigames/stackSite/',sceneName:'stack',subject:'math', review:true},//69
-		{name:'geometryWarp',url:'http://yogome.com/epic/minigames/geometrySite/',sceneName:'geometry',subject:'math', review:false},//70
-		{name:'mathrioska',url:'http://yogome.com/epic/minigames/mathrioskaSite/',sceneName:'mathrioska',subject:'math', review:false}//71
+		{name:'geometryWarp',url:'http://yogome.com/epic/minigames/geometrySite/',sceneName:'geometry',subject:'math', review:true},//70
+		{name:'mathrioska',url:'http://yogome.com/epic/minigames/mathrioskaSite/',sceneName:'mathrioska',subject:'math', review:true},//71
+        {name:'aracnumber',url:'http://yogome.com/epic/minigames/aracnumberSite/',sceneName:'aracnumber',subject:'math', review:false}//72
 	]
     
     return games

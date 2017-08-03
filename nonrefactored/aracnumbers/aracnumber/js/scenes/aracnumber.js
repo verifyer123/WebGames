@@ -54,7 +54,7 @@ var aracnumber = function(){
 	var coins = 0;
 	//var bgm = null;
 	var activeGame = true;
-    var gameIndex = 60;
+    var gameIndex = 72;
     var fly1;
     var fly2;
     var textFly1;
@@ -453,6 +453,9 @@ var aracnumber = function(){
             sound.play("wrong");
             sound.play("gameLose");
             bgm.stop();	
+            NumberSelect = 0;
+            activeMultiple = 100;
+            counter = 0;
         }	
 	
 		
