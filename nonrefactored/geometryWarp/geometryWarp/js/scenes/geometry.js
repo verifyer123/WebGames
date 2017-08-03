@@ -460,6 +460,7 @@ var geometry = function(){
 		particle.maxParticleSpeed.setTo(200, 200);
 		particle.minParticleScale = 0.6;
 		particle.maxParticleScale = 1;
+		particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
 		// particle.gravity = 100;
 		// particle.angularDrag = 30;
 
