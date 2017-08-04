@@ -76,7 +76,8 @@ yogomeGames.getGames = function(){
 		{name:'stackathon',url:'http://yogome.com/epic/minigames/stackSite/',sceneName:'stack',subject:'math', review:true},//69
 		{name:'geometryWarp',url:'http://yogome.com/epic/minigames/geometrySite/',sceneName:'geometry',subject:'math', review:true},//70
 		{name:'mathrioska',url:'http://yogome.com/epic/minigames/mathrioskaSite/',sceneName:'mathrioska',subject:'math', review:true},//71
-        {name:'aracnumber',url:'http://yogome.com/epic/minigames/aracnumberSite/',sceneName:'aracnumber',subject:'math', review:false}//72
+        {name:'aracnumber',url:'http://yogome.com/epic/minigames/aracnumberSite/',sceneName:'aracnumber',subject:'math', review:false},//72
+		{name:'duskdefense',url:'http://yogome.com/epic/minigames/duskSite/',sceneName:'dusk',subject:'math', review:false}//73
 	]
     
     return games

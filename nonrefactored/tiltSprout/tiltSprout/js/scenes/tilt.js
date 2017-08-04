@@ -906,7 +906,8 @@ var tilt = function(){
             game.physics.p2.world.defaultContactMaterial.friction = 0.3;
             game.physics.p2.world.setGlobalStiffness(1e5);
 			
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); 
+			yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
 			createSeed()
