@@ -58,7 +58,7 @@ var duck = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 66
     var overlayGroup
     var spaceSong
 	var ducksGroup
