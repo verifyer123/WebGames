@@ -49,7 +49,7 @@ var aracnumber = function(){
 	//var heartsText;	
 	var xpIcon;
 	//var xpText;
-	var lives = 1;
+	//var lives = 1;
 	var cursors;
 	var coins = 0;
 	//var bgm = null;
@@ -66,6 +66,7 @@ var aracnumber = function(){
     var NumberSelect = 0;
     var activeMultiple = 100;
     var counter = 0;
+    var spider;
 
 	
 	styleWhite = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
@@ -214,7 +215,7 @@ var aracnumber = function(){
         cuerda.anchor.setTo(0.5,0);
         cuerda.x = game.world.centerX;
         cuerda.posx = cuerda.x;
-        var spider = game.add.spine(0,0,"spider");
+        spider = game.add.spine(0,0,"spider");
         spider.setAnimationByName(0, "IDLE", true);
 		spider.setSkinByName("normal");
         spider.x = game.world.centerX;
@@ -301,9 +302,14 @@ var aracnumber = function(){
                         TweenMax.fromTo(star.scale,0.5,{x:2,y:2},{x:4,y:4});
                         
                     }else{
-                       spider.setAnimationByName(0, "LOSE", true); 
-                        TweenMax.to(fly1,0.5,{x:-100,onComplete:finishGame});
+                       
+                        TweenMax.to(fly1,0.5,{x:-100,onComplete});
                         TweenMax.to(fly2,0.5,{x:game.width+100});
+                        lives--;
+                        heartsText.setText("x " + lives);
+                        if(lives == 0){
+                            finishGame();
+                        }
                     }
 
                     
@@ -380,9 +386,14 @@ var aracnumber = function(){
                         TweenMax.fromTo(star.scale,0.5,{x:2,y:2},{x:4,y:4});
                         
                     }else{
-                       spider.setAnimationByName(0, "LOSE", true); 
-                        TweenMax.to(fly1,0.5,{x:-100,onComplete:finishGame});
+                       
+                        TweenMax.to(fly1,0.5,{x:-100,onComplete});
                         TweenMax.to(fly2,0.5,{x:game.width+100});
+                        lives--;
+                        heartsText.setText("x " + lives);
+                        if(lives == 0){
+                            finishGame();
+                        }
                     }
 
                     
@@ -440,15 +451,31 @@ var aracnumber = function(){
             console.log("NumberSelect: " + NumberSelect);
             console.log("fly1: " + fly1.value);
             console.log("fly2: " + fly2.value);
-            if(speedGame < 50){
-                speedGame = speedGame + 1;
+            if(speedGame < 30){
+                speedGame = speedGame + 0.5;
             }
     }
 
     choiceFly();
         
         
+        
+        
+        lives = 3;
+		createCoins(coins);
+		createHearts(lives);
+		createOverlay();
+        
+        speedGame = 4;
+        
+        heartsText.setText("x " + lives);
+      
+		
+	}
+    
+    
         function finishGame(){
+            spider.setAnimationByName(0, "LOSE", true); 
             TweenMax.to(game,2,{alpha:0,onComplete:gameOver});
             sound.play("wrong");
             sound.play("gameLose");
@@ -463,30 +490,47 @@ var aracnumber = function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
-		}         
-        
-        
-		createCoins(coins);
-		createHearts(lives);
-		createOverlay();
-		
-	}
+		}     
     
+        function tryAgainFly(){
+            if(!starGame){
+            fly1.y = -200;
+            fly2.y = -200;    
+            lives--;
+            heartsText.setText("x " + lives);
+            
+                if(lives == 0){
+                            finishGame();
+                        }else{
+                            starGame = true;
+                        }
+            }
+        }
 
 	
 	function update() {
+        
+        
+        
             if(starGame){
             if(fly1.y < game.height + fly1.height && fly1.active){
                fly1.y += speedGame; 
             }else if(fly1.y > game.height + fly1.height && fly1.active){
-               fly1.y = -200; 
-
+                starGame = false;
+                tryAgainFly()
+ 
+                
+                
+                
             }
         
             if(fly2.y < game.height + fly2.height && fly2.active){
                fly2.y += speedGame; 
             }else if(fly2.y > game.height + fly2.height && fly2.active){
-               fly2.y = -200; 
+                
+                //starGame = false;
+                //tryAgainFly()
+                
 
             }
             }

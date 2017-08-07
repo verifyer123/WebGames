@@ -10,6 +10,9 @@ body{
 
 }
 
+.hidden{
+	display: none;
+}
 .banner{
 	position: absolute;
 	padding: 1%;
@@ -21,7 +24,7 @@ body{
 
 .banner .col-md-1{
 	margin-top: 2%;
-	
+
 }
 
 #gamesContainer{
@@ -35,24 +38,34 @@ body{
 	width: 256px;
 	height: 128px;
 	border-radius: 2vh;
-	padding: 1vh;
+	padding:0.8vh;
 }
 
 #gamesContainer{
 	/*padding: 15%;*/
 }
-	
+
+.subjectSelectionMenu{
+	display: inline-flex;
+}
+
+.subjectSelectionBtn{
+	text-align: center;
+	color:black;
+	cursor: pointer;
+}
+
 @media (max-width: 760px) {
 #gamesContainer{
 	margin: 0px;
 	width: 100%;
 	padding: 5%;
-}	
-	
+}
+
 #gamesContainer img{
 	width: 100%;
 	height: auto;
 	border-radius:2vh;
-	padding: 1vh;
+	padding: 0.5vh;
 }
 }
