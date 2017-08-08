@@ -59,6 +59,7 @@ var sushi = function(){
     var MAX_NUM_BRICKS = 14
     var SUSHIS = [{name:"sushi1", denom:3}]
     var BRICK_HEIGHT = 82
+	var BAR_POSITIONS = [-203, -7, 189]
 
     var ROUNDS = [
         {numbers:[5,3,7,5,2,2], colors:[0,1,0,0,2,1], pointsForNextRound:1},
@@ -117,7 +118,7 @@ var sushi = function(){
         timeBetween = 3000
         sushiList = []
         bricksInGame = []
-		cueLine = []
+		cueLine = [[],[],[]]
         brickSelected = null
         numSpaces = Math.floor(game.world.height / BRICK_HEIGHT)
 
@@ -365,7 +366,7 @@ var sushi = function(){
 		return operationGroup
 	}
 
-    function addBrick(name, toY) {
+    function addSushi(name, line, toY) {
         var round = ROUNDS[roundCounter]
         var roundNumbers = round.numbers
         timeNextBrick = 0
@@ -394,17 +395,15 @@ var sushi = function(){
         pullGroup.remove(sushiSprite)
 		sushi.add(sushiSprite)
 		gameGroup.add(sushi)
-        bricksInGame.push(sushi)
         // brick.color = roundColors ? roundColors[addBrickCounter] : game.rnd.integerInRange(0, CONTAINERS.length - 1)
         indexCounter++
         // brick.color = indexCounter % CONTAINERS.length
         // brick.container.tint = CONTAINERS[brick.color]
         // brick.alpha = 1
-		game.add.tween(sushi).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
 		sushi.scale.x = 1
 		sushi.scale.y = 1
         // brick.glow.alpha = 0
-		sushi.x = -7
+		sushi.x = BAR_POSITIONS[line]
 		sushi.y = toY || 340
 		sushi.timeElapsed = 0
 		sushi.sushiList = [sushiSprite]
@@ -425,13 +424,20 @@ var sushi = function(){
 		sushi.add(operationText)
 		sushi.operationText = operationText
 
+		cueLine[line].unshift(sushi)
+		// bricksInGame.push(sushi)
+
     }
     
     function startRound() {
 
         for(var brickIndex = 0; brickIndex < 3; brickIndex++){
             var toY = (maxHeight - (brickIndex) * 80)
-            addBrick("sushi1", toY)
+            addSushi("sushi1", 1, toY)
+			var sushi = cueLine[1].pop()
+			console.log(sushi)
+			sushi.alpha = 1
+			bricksInGame.push(sushi)
         }
 
     }
@@ -618,6 +624,10 @@ var sushi = function(){
 		correctParticle.y = sushi.centerY
 		correctParticle.start(true, 1000, null, 5)
 		sushi.completed = true
+		for(var containerIndex = 0; containerIndex < sushi.sushiList.length; containerIndex++){
+			var container = sushi.sushiList[containerIndex]
+			container.inputEnabled = false
+		}
 
 		var args = {sushi:sushi, position:{x:nao.centerX - 50, y:nao.centerY}}
 
@@ -641,13 +651,17 @@ var sushi = function(){
 		// 	option.answer = null
 		// }
 
-		// sceneGroup.add(option)
+		gameGroup.bringToTop(option)
 
 		if(option.scaleTween)
 			option.scaleTween.stop()
 
 		option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 200, Phaser.Easing.Cubic.Out, true)
-		bricksInGame.splice(option.index, 1)
+		console.log(option.index)
+		if(option.index != null){
+			bricksInGame.splice(option.index, 1)
+			option.index = null
+		}
 
 	}
 
@@ -664,37 +678,25 @@ var sushi = function(){
 		var option = obj.parent
 		obj.x = 0
 		obj.y = obj.originalY
-		obj.inputEnabled = false
-		//
-		// if(option.scaleTween)
-		// 	option.scaleTween.stop()
-		//
-		game.add.tween(option.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Cubic.Out, true)
-		//
-		// // var answer = checkCollision(option)
-		// // if (answer){
-		// // 	sound.play("stop")
-		// // 	option.x = (option.centerX - engine.x)
-		// // 	option.y = (option.centerY - engine.y)
-		// // 	engine.add(option)
-		// //
-		// // 	option.tween = game.add.tween(option).to({x: answer.x, y: answer.y}, 400, Phaser.Easing.Cubic.Out, true)
-		// // 	option.tween.onComplete.add(function () {
-		// // 		obj.inputEnabled = true
-		// // 		checkAnswers()
-		// // 	})
-		// // 	answer.option = option
-		// // 	option.answer = answer
-		// //
-		// // }else{
-		// 	sound.play("cut")
-			option.tween = game.add.tween(option).to({x: -7, y: 340}, 600, Phaser.Easing.Cubic.Out, true)
-			option.tween.onComplete.add(function () {
-				obj.inputEnabled = true
-				bricksInGame.push(option)
-			})
-		// // }
+		for(var containerIndex = 0; containerIndex < option.sushiList.length; containerIndex++){
+			var container = option.sushiList[containerIndex]
+			container.inputEnabled = false
+		}
 
+		game.add.tween(option.scale).to({x: 1, y: 1}, 200, Phaser.Easing.Cubic.Out, true)
+
+		option.tween = game.add.tween(option).to({x: -7, y: 290}, 600, Phaser.Easing.Cubic.Out, true)
+		option.tween.onComplete.add(function (thisOption) {
+			for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
+				var container = thisOption.sushiList[containerIndex]
+				container.inputEnabled = true
+			}
+			// console.log(cueLine[1].length)
+			cueLine[1].push(option)
+			// console.log(cueLine[1].length)
+			timeNextBrick = timeBetween
+			// bricksInGame.push(option)
+		})
 
 	}
 	
@@ -849,7 +851,13 @@ var sushi = function(){
 
         //TODO: CHANGE pointsBar.number
 		if((timeNextBrick >= timeBetween)&&(pointsBar.number > -1)){
-            addBrick("sushi1")
+        	if(cueLine[1].length < 2) {
+				addSushi("sushi1", 1)
+			}
+			var sushiLine = cueLine[1].pop()
+			bricksInGame.push(sushiLine)
+			game.add.tween(sushiLine).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
+			timeNextBrick = 0
         }
 
     }
@@ -1018,7 +1026,6 @@ var sushi = function(){
 			// lamp.anchor.setTo(0, 1)
 			sceneGroup.add(lamp)
 
-			var barPositions = [-203, -7, 189]
 			var barsGroup = game.add.group()
 			barsGroup.x = game.world.centerX
 			barsGroup.y = game.world.height
@@ -1026,7 +1033,7 @@ var sushi = function(){
 			for(var barIndex = 0; barIndex < 3; barIndex++){
 
 				var singleBar = game.add.group()
-				singleBar.x = barPositions[barIndex]
+				singleBar.x = BAR_POSITIONS[barIndex]
 				barsGroup.add(singleBar)
 
 				var bar = game.add.graphics()
