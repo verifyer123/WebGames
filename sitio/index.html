@@ -1,68 +1,315 @@
 <html>
+<script>
+  var language = "EN"
+  if(parent.window.location.search){
+      var params = parent.window.location.search.trim(1)
+      var regex = /language=(..)/i
+      var result = regex.exec(params)
+      if(result){
+          language = result[result.index].toUpperCase()
+      }else{
+          language = "EN"
+      }
+  }
+  var meta = document.createElement('title');
+  //meta.setAttribute("property","og:description");
+  //meta.content = "Prueba";
+
+  if(language == "ES"){
+      meta.innerHTML  = "Juegos web";
+  }else{
+     meta.innerHTML =  "Webgames";
+  }
+
+  document.getElementsByTagName('head')[0].appendChild(meta);
+</script>
 <meta charset="utf-8" />
 <meta http-equiv="cache-control" content="max-age=0" />
-<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache"/>
 <meta http-equiv="expires" content="-1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-<meta http-equiv="pragma" content="no-cache" />
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
-	<script src="js/jquery.gsap.min.js" type="text/javascript"></script>
-	<script src="js/TweenMax.min.js" type="text/javascript"></script>
-	<script src="js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="http://yogome.com/epic/shared/minigames/js/helpers/yogomeGames.js" type="text/javascript"></script>
-	
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="js/TweenMax.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="http://yogome.com/epic/shared/minigames/js/helpers/yogomeGames.js" type="text/javascript"></script>
 <head>
-	
-	<title>Catálogo de juegos</title>
+  <!-- start Mixpanel--><script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("b329207bd00cd4a261ff50528e0f7a5a");</script><!-- end Mixpanel -->
+
+  <script type="text/javascript"> //Mixpanel Register page load
+  $( document ).ready(function() {
+    mixpanel.track("PageLoaded", {
+        "Url": window.location.href,
+    });
+  });
+  </script>
 </head>
-	
-<body>	
+
+<body>
 	<div id="generalContainer">
+    <!-- Title -->
 		<div class="banner col-md-12">
 			<div class="row">
-				<img class="col-md-5 col-sm-5 col-xs-12" src="images/yogome_logo.png" >
-				<div class="col-md-1 col-sm-1 col-xs-1" ></div>
-				<img class="col-md-1 col-sm-1 col-xs-2" src="images/epic_logo.png" >
-				<img class="col-md-1 col-sm-1 col-xs-2" src="images/ka_logo.png" >
-				<img class="col-md-1 col-sm-1 col-xs-2" src="images/kb_logo.png" >
-				<img class="col-md-1 col-sm-1 col-xs-2" src="images/tt_logo.png" >
-				<img class="col-md-1 col-sm-1 col-xs-2" src="images/km_logo.png" >
+				<div class="col-xs-12 col-sm-4 col-sm-push-4">
+          <a href="http://www.yogome.com/es.html" class="center-block">
+            <img class="img-responsive center-block" style="max-width:250px; padding: 0 0 20px 0;" src="images/logo.png">
+          </a>
+        </div>
+			</div>
+      <!-- Subject Selection -->
+      <div class="row subjectSelectionRow">
+
+      </div>
+		</div>
+    <!-- Games Container -->
+		<div class="col-sm-10 col-sm-push-1 col-xs-12 col-xs-push">
+			<div id="gamesContainer" class="row"> <!-- Games get embedded here -->
+				<div class='games sustainability col-xs-12 sinJuegos hidden'>
+				   Estamos trabajando en juegos de esta materia
+				</div>
 			</div>
 		</div>
-		<div id="gamesContainer" class="row">
-		</div>
 	</div>
-	
-	
-</body>	
-	<script>
+
+
+</body>
+	<script> //Insert HTML5 games from yogomeGames.js list
 		var games = yogomeGames.getGames();
 		for(var i = 0 ; i<= games.length-1;i++){
-			
+
 			var num = i;
 			if(games[i].review){
-				console.log(games[i].url);
-				$("#gamesContainer").append("<div class='col-md-3 col-sm-4 col-xs-12'><img id='gameimg" + num+"' src='" +games[num].url +"/images/fbpost.png" + "'/> </div>");
+				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' href='"+games[num].url+"' target='_blank'><img class='growMouse img-responsive' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
 				$("#gameimg" + num).attr("value",i)
-				$("#gameimg" + num).mouseover(function(){
-					TweenMax.to(this,0.5,{css:{border:"2vh solid #FFF"}});
-				});
-				$("#gameimg" + num).mouseout(function(){
-					TweenMax.to(this,0.5,{css:{border:"0vh solid #FFF"}});
-				});	
-
-				$("#gameimg" + num).click(function(){
-					console.log(games[$(this).attr("value")].url);
-					window.open(games[$(this).attr("value")].url,'_blank');
-				});	
 			}
-			
+
 		}
-		
+
 	</script>
-	
+  <script type="text/javascript">
+    $(document).ready(function (){
+      //** Get query to determine menu language **//
+      var userLang;// Get browser language
+      var videoLanguage;
+      if (window.location.href.indexOf('lan=es') > -1) { // etc
+            $(".subjectSelectionRow").append( //Append Spanish menu
+              '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
+            );
+            var userLang = 'lan=es';
+          } else {
+            $(".subjectSelectionRow").append( //Append English menu
+                '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
+            );
+            var userLang = 'lan=en';
+      }
+
+      $(".gameCatalog").click(function(event){
+        event.preventDefault();
+        mixpanel.track('GameSelected', {'Game': $(this).attr("rev")}); //Mixpanel Register Game Clicked
+        var windowName = $(this).attr('rev');
+        var url = $(this).attr('href');
+        if (userLang.toLowerCase().indexOf("lan=en") >= 0 ){ //If language contains "en" for English
+          var englishLang = "?language=en";
+          var urlEn = url.concat(englishLang); //Force link to get the game in English
+          window.open(urlEn, windowName, '_blank');
+        }else if (userLang.toLowerCase().indexOf("lan=es") >= 0 ){ //If language contains anything but  "en"
+          var espanolLang = "?language=es";
+          var urlEs = url.concat(espanolLang);
+          window.open(urlEs, windowName, '_blank');//Force link to get the game in Spanish
+        } else { //If language contains is anything else force en
+          var englishLang = "?language=en";
+          var urlEs = url.concat(englishLang);
+          window.open(urlEs, windowName, '_blank');//Force link to get the game in Spanish
+        }
+      });
+    //Grow element on mouseover
+    $(".growMouse").mouseover(function(){
+      TweenMax.to(this,0.5,{scale:1.2});
+    });
+    //Return element to original size on mouseout
+    $(".growMouse").mouseout(function(){
+      TweenMax.to(this,0.5,{scale:1});
+    });
+
+		//Animation triggered the first time a Subject button is clicked
+		function appearAnimation(){
+			TweenMax.staggerFrom(".games:not(.hidden)", 0.5, {scale:-0.3, opacity:0, delay:0.2, ease:Elastic.easeOut, force3D:true}, 0.1);
+		};
+
+		//Corrects an issue after animation is complete
+		function returnToDefault(){
+			$('#gamesContainer').css('transform','none');
+		}
+
+		//Animation triggered after the first time a Subject button is clicked
+		function appearSecondClick(){
+			TweenMax.staggerFrom("#gamesContainer", 0.3, {scale:-0.3, opacity:0, delay:0.2, ease:Elastic.easeOut, onComplete: returnToDefault}, 0.1);
+		};
+
+    //Menu buttons
+
+		//Math button
+		var mathCount = 0; //Counts each time the button is clicked
+    $('#mathBtn').on('click', function() {
+		    mathCount += 1;
+		    if (mathCount === 1) { //on first click, animate all minigames individually
+		      // come code
+					$('.games:not(.math)').addClass('hidden');
+					$('.math').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{ //on all other clicks, animate all minigames as group
+					$('.games:not(.math)').addClass('hidden');
+					$('.math').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+
+		//Science button
+		var scienceCount = 0;
+    $('#scienceBtn').on('click', function() {
+		    scienceCount += 1;
+		    if (scienceCount === 1) {
+		      // come code
+					$('.games:not(.science)').addClass('hidden');
+					$('.science').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{
+					$('.games:not(.science)').addClass('hidden');
+					$('.science').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+
+		//Geography button
+		var geographyCount = 0;
+    $('#geographyBtn').on('click', function() {
+		    geographyCount += 1;
+		    if (geographyCount === 1) {
+		      // come code
+					$('.games:not(.geography)').addClass('hidden');
+					$('.geography').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{
+					$('.games:not(.geography)').addClass('hidden');
+					$('.geography').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+
+		//Creativity button
+		var creativityCount = 0;
+    $('#creativityBtn').on('click', function() {
+		    creativityCount += 1;
+		    if (creativityCount === 1) {
+		      // come code
+					$('.games:not(.creativity)').addClass('hidden');
+					$('.creativity').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{
+					$('.games:not(.creativity)').addClass('hidden');
+					$('.creativity').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+
+		//Helath button
+		var healthCount = 0;
+    $('#healthBtn').on('click', function() {
+		    healthCount += 1;
+		    if (healthCount === 1) {
+		      // come code
+					$('.games:not(.health)').addClass('hidden');
+					$('.health').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{
+					$('.games:not(.health)').addClass('hidden');
+					$('.health').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+		/*
+		var sustainabilityCount = 0;
+		//Sustainability button
+
+		$('#sustainabilityBtn').on('click', function() {
+		    if (sustainabilityCount === 1) {
+		      // come code
+					$('.games:not(.sustainability)').addClass('hidden');
+					$('.sustainability').removeClass('hidden');
+					appearAnimation();
+
+		    }
+				else{
+					$('.games:not(.sustainability)').addClass('hidden');
+					$('.sustainability').removeClass('hidden');
+					appearSecondClick();
+				}
+		});
+		*/
+
+		//Coding button
+		var codingCount = 0;
+    $('#codingBtn').on('click', function() {
+		    codingCount += 1;
+		    if (codingCount === 1) {
+		      // come code
+					$('.games:not(.coding)').addClass('hidden');
+					$('.coding').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{
+					$('.games:not(.coding)').addClass('hidden');
+					$('.coding').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+
+		//Language button
+		var languageCount = 0;
+    $('#languageBtn').on('click', function() {
+		    languageCount += 1;
+		    if (languageCount === 1) {
+		      // come code
+					$('.games:not(.language)').addClass('hidden');
+					$('.language').removeClass('hidden');
+					appearAnimation();
+		    }
+				else{
+					$('.games:not(.language)').addClass('hidden');
+					$('.language').removeClass('hidden');
+					//appearSecondClick();
+				}
+		});
+
+		//Show All Button
+    $('#showAllBtn').on('click', function() {
+				$('.games:not(.sinJuegos)').removeClass('hidden');
+				$('.sinJuegos').addClass('hidden');
+				//appearSecondClick();
+		});
+
+  });
+
+
+  </script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-64907347-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 </html>
