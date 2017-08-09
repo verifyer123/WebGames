@@ -700,6 +700,9 @@ var jump = function(){
 				cont.events.onInputDown.add(inputButton)
 				cont.anchor.setTo(0.5,0.5)
 				
+				var tween = game.add.tween(cont.scale).to({x:0.9,y:0.9},game.rnd.integerInRange(4,7) * 100,"Linear",true,0,-1)
+				tween.yoyo(true,0)
+				
 				var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
                 var textUse = new Phaser.Text(sceneGroup.game, 0, 3, '0', fontStyle)
@@ -733,14 +736,35 @@ var jump = function(){
 		var boardImage = board.create(0,0,'atlas.jump','boardNumber')
 		boardImage.anchor.setTo(0.5,0.5)
 		
+		var tween = game.add.tween(boardImage.scale).to({x:1.1,y:1.1},500,"Linear",true,0,-1)
+		tween.yoyo(true,0)
+		
 		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
 		var textUse = new Phaser.Text(sceneGroup.game, 0, 3, '0', fontStyle)
 		textUse.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
 		textUse.anchor.setTo(0.5,0.5)
 		board.add(textUse)
+		textUse.lineSpacing = -35
 		
-		board.text = textUse
+		board.text2 = textUse
+		textUse.scale.setTo(1.2,1.2)
+		
+		var textUse = new Phaser.Text(sceneGroup.game, -85, 3, '0', fontStyle)
+		textUse.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+		textUse.anchor.setTo(0.5,0.5)
+		board.add(textUse)
+		textUse.lineSpacing = -35
+		
+		board.text1 = textUse
+		
+		var textUse = new Phaser.Text(sceneGroup.game, 85, 3, '0', fontStyle)
+		textUse.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+		textUse.anchor.setTo(0.5,0.5)
+		board.add(textUse)
+		textUse.lineSpacing = -35
+		
+		board.text3 = textUse
 	}
 	
 	function setNumbers(){
@@ -756,7 +780,10 @@ var jump = function(){
 		result[0] = numbers[0] * numbers[1]
 		result[1] = numbers[2] * numbers[3]
 		
-		board.text.setText(numbers[0] + '/' + numbers[2] + ' x ' + numbers[1] + '/' + numbers[3])
+		board.text2.setText(' X ')
+		
+		board.text1.setText(numbers[0] + '\n---\n' + numbers[2])
+		board.text3.setText(numbers[1] + '\n---\n' + numbers[3])
 		
 		var index = game.rnd.integerInRange(2,4)
 		for(var i = 2; i < floorGroup.length;i++){
@@ -771,7 +798,8 @@ var jump = function(){
 				group.number2 = result[1]
 			}
 			
-			group.text.setText(group.number1 + '/' + group.number2)
+			group.text.setText(group.number1 + '\n---\n' + group.number2)
+			group.text.lineSpacing = -23
 		}
 	}
 	
