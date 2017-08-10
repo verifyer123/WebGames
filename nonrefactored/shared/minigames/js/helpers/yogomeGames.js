@@ -80,6 +80,7 @@ yogomeGames.getGames = function(){
 		{name:'duskdefense',url:'http://yogome.com/epic/minigames/duskSite/',sceneName:'dusk',subject:'math', review:false},//73
 		{name:'zucaritas',url:'http://yogome.com/epic/minigames/zucaritasSite/',sceneName:'zucaritas',subject:'geography', review:false},//74
 		{name:'Divisubmarine',url:'http://yogome.com/epic/minigames/diviSite/',sceneName:'divisubmarine',subject:'math', review:false}//75
+		{name:'sushiTowers',url:'http://yogome.com/epic/minigames/sushiSite/',sceneName:'sushi',subject:'math', review:false}//76
 	]
     
     return games

@@ -71,7 +71,7 @@ var sushi = function(){
     
     var lives
 	var sceneGroup = null
-    var gameIndex = 30
+    var gameIndex = 76
     var tutoGroup
     var sushiSong
     var pullGroup = null
