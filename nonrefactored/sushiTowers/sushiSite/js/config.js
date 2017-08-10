@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Math Feed",
+        name: "Sushi Towers",
         language: "es",
-        minigameUrl: "../mathFeed/index.html?language=" + language,
+        minigameUrl: "../sushiTowers/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
