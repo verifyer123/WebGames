@@ -114,6 +114,9 @@ var sushi = function(){
 		sushisInGame[0].delaySushi = 0
 		sushisInGame[1].delaySushi = 0
 		sushisInGame[2].delaySushi = 0
+		sushisInGame[0].merging = false
+		sushisInGame[1].merging = false
+		sushisInGame[2].merging = false
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -673,7 +676,10 @@ var sushi = function(){
 						sushi.inBottom = true
 						if((sushi.y < 340) && (!sushiLane.merging)){
 							sushiAnimation(lineIndex)
-							sound.play("collapse")
+							sound.play("wrong")
+							wrongParticle.x = sushi.centerX
+							wrongParticle.y = sushi.centerY
+							wrongParticle.start(true, 1000, null, 5)
 							stopGame()
 						}
 					}
