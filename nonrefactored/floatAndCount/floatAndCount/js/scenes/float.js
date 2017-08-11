@@ -454,7 +454,7 @@ var float = function(){
             obstacle.active = true
             obstacle.alpha = 1
 
-            pivotPoint+= obstacle.width * 2 * offset
+            pivotPoint+= obstacle.width * 1.5 * offset
             //console.log(obstacle.startPosition + ' start')
 
         }
@@ -749,9 +749,9 @@ var float = function(){
                     obstacle.active = true
                     
                     obs.anchor.setTo(0.5,0.5)
-                    //obstacle.scale.setTo(0.8,0.8)
+                    obstacle.scale.setTo(1.2,1.2)
 
-                    pivotPoint+= obstacle.width * 2 * offset
+                    pivotPoint+= obstacle.width * 1.5 * offset
                     obstacle.isLeft = isLeft
                     obstacle.startPosition = obstacle.x
                 }
@@ -805,6 +805,8 @@ var float = function(){
             return
         }
         
+		playerGroup.anim.setAnimationByName(0,"WIN",false)
+		playerGroup.anim.addAnimationByName(0,"IDLE",true)
         doJump()
     }
     
