@@ -81,7 +81,8 @@ yogomeGames.getGames = function(){
 		{name:'zucaritas',url:'http://yogome.com/epic/minigames/zucaritasSite/',sceneName:'zucaritas',subject:'geography', review:false},//74
 		{name:'Divisubmarine',url:'http://yogome.com/epic/minigames/diviSite/',sceneName:'divisubmarine',subject:'math', review:false},//75
 		{name:'sushiTowers',url:'http://yogome.com/epic/minigames/sushiSite/',sceneName:'sushi',subject:'math', review:false},//76
-		{name:'Float and Count',url:'http://yogome.com/epic/minigames/floatSite/',sceneName:'float',subject:'math', review:false}//77
+		{name:'Float and Count',url:'http://yogome.com/epic/minigames/floatSite/',sceneName:'float',subject:'math', review:false},//77
+		{name:'Space Count',url:'http://yogome.com/epic/minigames/spaceCountSite/',sceneName:'spaceCount',subject:'math', review:false}//78
 	]
     
     return games

@@ -53,7 +53,7 @@ var spaceCount = function(){
 	var lives = 1;
 	var cursors;
 	var activeGame = true;
-    var gameIndex = 0;
+    var gameIndex = 78;
     var activeMultiple = 4;
     var NumTaps = 0;
     var numberTime = 3;
