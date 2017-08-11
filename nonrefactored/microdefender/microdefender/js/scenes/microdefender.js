@@ -241,12 +241,10 @@ var microdefender = function(){
 		sceneGroup.add(lado_izq);
 		sceneGroup.add(lado_der);
 		
-		
-		
-		if(!game.device.desktop){
+    
 				lado_der.x = lado_der.x + lado_der.width/1.3;
 				lado_izq.x = lado_izq.x - lado_izq.width/1.2;
-			}
+		
 			
 		createHearts();
 		createCoins();

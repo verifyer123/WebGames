@@ -85,10 +85,12 @@ body{
     background-size: auto;
     background-position: top center;
     height: 80%;
+    width: 40%;
     display: flex;
     -webkit-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.74);
     -moz-box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.74);
     box-shadow: 0px 0px 29px 0px rgba(0,0,0,0.74);top left
+    
 }
 
 /*delete*/
@@ -103,11 +105,11 @@ body{
 @media (min-width: 1430px) {
   .content-game{
     opacity: 1;
-    width: 70%;  
+    width: 40%;  
   }
 }
 
-@media (max-width: 1430px) {
+@media (max-width: 1200px) {
   .content-game{
     opacity: 1;
     width: 70%;  

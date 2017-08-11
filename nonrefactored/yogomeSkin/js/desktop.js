@@ -20,3 +20,9 @@ var gameContainer = document.getElementById("game-container")
 
 
 window.addEventListener("resize", loadGame);
+
+    var link = document.createElement('link');
+    link.id = 'id2';
+    link.rel = 'stylesheet';
+    link.href = '../yogomeSkin/css/main.css';
+    document.head.appendChild(link);

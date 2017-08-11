@@ -57,9 +57,9 @@
 				});	
 
 				$("#gameimg" + num).click(function(){
-					console.log(pathGames + games[$(this).attr("value")].name  + "/" + games[$(this).attr("value")].name + "Site/index.html");
+					console.log(games[$(this).attr("value")].url);
                     
-					window.open(pathGames + games[$(this).attr("value")].name  + "/" + games[$(this).attr("value")].name + "Site/index.html",'_blank');
+					window.open(games[$(this).attr("value")].url,'_self');
 				});	
 			}
 			
