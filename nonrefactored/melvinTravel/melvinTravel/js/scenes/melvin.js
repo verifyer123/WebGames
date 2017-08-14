@@ -1,18 +1,40 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var loop = function(){
+var melvin = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"australia":"Sydney Opera House",
+			"brasil":"Christ the Redeemer",
+			"chile":"Moai",
+			"china":"Great Wall of China",
+			"eeuu":"Statue of Liberty",
+			"france":"Eiffel Tower",
+			"italy":"The Roman Colosseum",
+			"mexico":"Chichen Itza",
+			"peru":"Machu Picchu",
+			"india":"Taj Mahal",
+			"uk":"Stonehenge",
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"australia":"Ópera de Sídney",
+			"brasil":"Cristo Redentor",
+			"chile":"Moai",
+			"china":"Gran Muralla China",
+			"eeuu":"Estatua de la Libertad",
+			"france":"Torre Eiffel",
+			"italy":"Coliseo Romano",
+			"mexico":"Chichén Itzá",
+			"peru":"Machu Picchu",
+			"india":"Taj Mahal",
+			"uk":"Stonehenge",
 		}
 	}
     
@@ -20,17 +42,20 @@ var loop = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.loop",
-                json: "images/loop/atlas.json",
-                image: "images/loop/atlas.png",
+                name: "atlas.melvin",
+                json: "images/melvin/atlas.json",
+                image: "images/melvin/atlas.png",
             },
         ],
         images: [
-
+			{   name:"background",
+				file: "images/melvin/fondo.png"},
 		],
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
+			{	name: "laugh",
+				file: soundsPath + "laugh.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
@@ -43,10 +68,10 @@ var loop = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "flesh",
-				file: soundsPath + "flesh.mp3"},
-			{	name: "punch",
-				file: soundsPath + "punch1.mp3"},
+			{	name: "flipCard",
+				file: soundsPath + "flipCard.mp3"},
+			{	name: "boo",
+				file: soundsPath + "CrowdBoo.mp3"},
 			
 		],
     }
@@ -54,22 +79,22 @@ var loop = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background,floor
-	var base, buttonsGroup, yogotar, frootLoop
+	var background
+	var textContainer
     var gameActive = true
-	var shoot
+	var indexToUse
+	var backBubbles, botBar
 	var particlesGroup, particlesUsed
-    var gameIndex = 79
+    var gameIndex = 80
+	var melvin
+	var iconBase, container
+	var containersGroup, flagsGroup, iconsGroup
+	var iconToUse, flagList
 	var indexGame
-	var result
     var overlayGroup
     var spaceSong
-	var timerGroup
-	var numLimit, timeToUse
-	var indexColor
 	
-	var numberOptions = [3,4,6]
-	var colorsToUse = [0xFF3674, 0xFFD815,0xFF7F29,0x2ADCF4,0x803DEA]
+	var countryList = ['australia','brasil','chile','china','eeuu','france','italy','mexico','peru','india','uk']
 	
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -79,29 +104,38 @@ var loop = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		numLimit = 5
-		timeToUse = 1250
+
         
         loadSounds()
+		
+		setOrderList()
         
 	}
+	
+	function setOrderList(){
+		
+		Phaser.ArrayUtils.shuffle(countryList)
+		indexToUse = 0
+		
+		//console.log(countryList)
+	}
 
-    function popObject(obj,delay,appear){
+    function popObject(obj,delay){
         
         game.time.events.add(delay,function(){
             
-            sound.play("cut")
-			if(appear){
-
-				obj.alpha = 1
-            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+			var scaleX = 0.01
+			var scaleY = 0.01
+			
+			if(Math.random()*2 > 1){
+				scaleX = 1
 			}else{
-				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
-					obj.scale.setTo(1,1)
-					obj.alpha = 0
-				})
+				scaleY = 1
 			}
-            
+			
+            sound.play("cut")
+            obj.alpha = 1
+            game.add.tween(obj.scale).from({x:scaleX, y:scaleY},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -128,7 +162,7 @@ var loop = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var pointsText = lookParticle('text')
+        var pointsText = lookParticle('textPart')
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -181,9 +215,16 @@ var loop = function(){
     
     function addPoint(number){
         
+		sound.play("laugh")
+		
+		melvin.setAnimationByName(0,"WIN",false)
+		melvin.addAnimationByName(0,"IDLE",true)
+		
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
+		
+		createTextPart('+' + number,container)
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -191,13 +232,6 @@ var loop = function(){
         })
         
         addNumberPart(pointsBar.text,'+' + number,true)		
-		
-		if(pointsBar.number % 3 == 0){
-			if(numLimit < 9){
-				numLimit++
-				timeToUse-=100
-			}
-		}
         
     }
     
@@ -208,7 +242,7 @@ var loop = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.loop','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.melvin','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -236,7 +270,7 @@ var loop = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.loop','life_box')
+        var heartImg = group.create(0,0,'atlas.melvin','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -255,40 +289,21 @@ var loop = function(){
     
     function stopGame(win){
         
+		sound.play("boo")
+		melvin.setAnimationByName(0,"LOSE",true)
+		
 		sound.play("wrong")
 		sound.play("gameLose")
-		
-		yogotar.setAnimationByName(0,"LOSE",false)
-		yogotar.addAnimationByName(0,"LOSESTILL",true)
-		
-		frootLoop.setAnimationByName(0,"LOSE",false)
-		frootLoop.addAnimationByName(0,"LOSESTILL",true)
-		
-		var obj = sceneGroup.create(yogotar.x, yogotar.y- 50,'atlas.loop','star')
-		obj.anchor.setTo(0.5,0.5)
-		obj.alpha = 0
-
-		createPart('smoke',obj)
-		
-		game.time.events.add(500,function(){
-			sound.play("flesh")
-			
-		})
-		
-		game.time.events.add(750,function(){
-			sound.play("punch")
-		})
 		
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2200)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
-			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
     }
@@ -296,105 +311,100 @@ var loop = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = false;  
 		buttons.getImages(game)
         
-        game.load.spine('yogotar', "images/spines/sam.json")  
-		game.load.spine('frootLoop', "images/spines/frootloop.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/circus_gentlejammers.mp3');
+		game.load.spine('melvin', "images/spines/skeleton.json") 
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/loop/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/loop/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/loop/introscreen.png")
+		game.load.image('howTo',"images/melvin/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/melvin/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/melvin/introscreen.png")
 		
-		console.log(localization.getLanguage() + ' language')
+		//console.log(localization.getLanguage() + ' language')
         
     }
     
-	function showButtons(appear){
+	function showObjects(show){
 		
-		var delay = 0
-		for(var i = 0; i < buttonsGroup.length;i++){
+		var animList = [iconBase,iconToUse,container,botBar,textContainer,containersGroup.children[0],containersGroup.children[1],flagList[0],flagList[1]]
+		
+		if(!tutorialHand.active){
+			animList = [iconToUse,container,textContainer,containersGroup.children[0],containersGroup.children[1],flagList[0],flagList[1]]
+		}
+		
+		if(!show){
+			Phaser.ArrayUtils.shuffle(animList)
+		}
+		
+		var delay = 500
+		
+		for(var i = 0; i < animList.length;i++){
 			
-			var button = buttonsGroup.children[i]
-			if(appear){
-				popObject(button,delay,appear)
+			if(show){
+				popObject(animList[i],delay)
 			}else{
-				popObject(button,delay,appear)
+				game.add.tween(animList[i]).to({alpha:0},200,"Linear",true,delay)
+				delay-=50
 			}
 			
 			delay+= 100
-			
 		}
 		
-		if(appear){
-			
-			setOperation()
-			
+		if(show){
 			game.time.events.add(delay,function(){
 				gameActive = true
-				
-				timerGroup.number = 10
-				timerGroup.text.setText(timerGroup.number)
-				
-				popObject(timerGroup,0,true)
-				popObject(base.text,200,true)
-				
-				game.time.events.add(1000,setTimer)
 			})
 		}
 	}
 	
-	function setTimer(){
+	function setFlag(){
 		
-		if(!gameActive){
-			return
+		iconToUse = getObject(countryList[indexToUse],iconsGroup)
+		iconToUse.x = iconBase.x
+		iconToUse.y = iconBase.y
+	
+		textContainer.text.setText(localization.getString(localizationData,countryList[indexToUse]))
+		textContainer.rect.width = textContainer.text.width * 1.2
+		textContainer.rect.x = textContainer.text.x - textContainer.rect.width * 0.5
+		
+		flagList = []
+		
+		var wrongIndex = indexToUse
+		
+		while(wrongIndex == indexToUse){
+			wrongIndex = game.rnd.integerInRange(0,countryList.length - 1)
 		}
 		
-		createTextPart('-1',timerGroup.text)
+		var numbersList = [indexToUse,wrongIndex]
+		Phaser.ArrayUtils.shuffle(numbersList)
 		
-		timerGroup.number--
-		timerGroup.text.setText(timerGroup.number)
-		
-		popObject(timerGroup,0,true)
-		
-		if(timerGroup.number < 1){
-			missPoint()
-		}else{
-			if(gameActive){
-				game.time.events.add(timeToUse,setTimer)
-			}
+		for(var i = 0; i < numbersList.length;i++){
+			
+			var obj = getObject(countryList[numbersList[i]],flagsGroup)
+			flagList[i] = obj
+			
+			obj.x = containersGroup.children[i].x
+			obj.y = containersGroup.children[i].y
+			
+			obj.inputEnabled = true
+			
+			obj.initX = obj.x
+			obj.initY = obj.y
+			
 		}
 		
 	}
 	
-	function setOperation(){
+	function getObject(tag,group){
 		
-		var number1 = numberOptions[game.rnd.integerInRange(0,numberOptions.length - 1)]
-		var number2 = game.rnd.integerInRange(2,numLimit)
-		
-		base.text.setText(number1 + ' X ' + number2)
-		result = number1 * number2
-		
-		var index =  game.rnd.integerInRange(0,2)
-		for(var i = 0; i < buttonsGroup.length;i++){
+		for(var i = 0; i < iconsGroup.length;i++){
 			
-			var button = buttonsGroup.children[i]
-			if(index == i){
-				button.number = result
-			}else{
-				var number3 = number2
-				while(number3 == number2){
-					number3 = game.rnd.integerInRange(2,numLimit)
-				}
-				button.number = number1 * number3
-				
+			var obj = group.children[i]
+			if(obj.tag == tag){
+				return obj
 			}
-			
-			button.text.setText(button.number)
 		}
-		
-		popObject(button.text,0,true)
 	}
 	
     function createOverlay(){
@@ -415,7 +425,9 @@ var loop = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				showButtons(true)
+				setFlag()
+				showObjects(true)
+				game.time.events.add(1500,startTutorial)
             })
             
         })
@@ -426,7 +438,7 @@ var loop = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.loop','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.melvin','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -439,12 +451,12 @@ var loop = function(){
 			inputName = 'desktop'
 		}
 		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.loop',inputName)
+		//console.log(inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.melvin',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.loop','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.melvin','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -458,21 +470,70 @@ var loop = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width, 501,'atlas.loop','fondo')
-		sceneGroup.add(background)
+		background = sceneGroup.create(0,0,'background')
+		background.width = game.world.width
+		background.height = game.world.height
 		
-		floor = game.add.tileSprite(0,background.height,game.world.width,497,'atlas.loop','fondo2')
-		sceneGroup.add(floor)
+		backBubbles = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.melvin','bubbles')
+		sceneGroup.add(backBubbles)
+		
+		botBar = game.add.tileSprite(game.world.centerX,game.world.height,game.world.width,238,'atlas.melvin','base')
+		botBar.anchor.setTo(0.5,1)
+		botBar.alpha = 0
+		sceneGroup.add(botBar)
+		
+		iconBase = sceneGroup.create(game.world.centerX, game.world.centerY - 200,'atlas.melvin','baseIcono')
+		iconBase.alpha = 0
+		iconBase.anchor.setTo(0.5,0.5)
+		
+		container = sceneGroup.create(game.world.centerX,game.world.centerY + 150,'atlas.melvin','respuesta')
+		container.alpha = 0
+		container.anchor.setTo(0.5,0.5)
+		
+		containersGroup = game.add.group()
+		sceneGroup.add(containersGroup)
+		
+		var pivotX = game.world.centerX - 150
+		for(var i = 0; i < 2;i++){
+			
+			var cont = containersGroup.create(pivotX,game.world.height - 115,'atlas.melvin','baseBanderas')
+			cont.anchor.setTo(0.5,0.5)
+			cont.alpha = 0
+			
+			pivotX+= 300
+			
+		}
+		
+		textContainer = game.add.group()
+		textContainer.x = game.world.centerX
+		textContainer.y = game.world.centerY + 25
+		textContainer.alpha = 0
+		sceneGroup.add(textContainer)
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xffffff)
+        rect.drawRoundedRect(0,0,300, 75)
+		rect.x-= rect.width * 0.5
+		rect.y-= rect.height * 0.5
+        rect.endFill()
+		textContainer.add(rect)
+		textContainer.rect = rect
+		
+		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#0077ed ", align: "center"}
+		
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 3, "0", fontStyle)
+        pointsText.anchor.setTo(0.5,0.5)
+        textContainer.add(pointsText)
+		
+		textContainer.text = pointsText
+		
 	}
 	
 	
 	function update(){
 		
-		background.tilePosition.x--
-		floor.tilePosition.x+= 0.6
-		
-		frootLoop.autoUpdateTransform()
-		tintSpine(frootLoop,colorsToUse[indexColor])
+		backBubbles.tilePosition.y--
+		botBar.tilePosition.x++
 	}
 	
 	function createTextPart(text,obj){
@@ -507,9 +568,7 @@ var loop = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				console.log(particle)
-                
+				                
                 return particle
                 break
             }
@@ -568,7 +627,7 @@ var loop = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.loop',tag);
+				particle.makeParticles('atlas.melvin',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -624,7 +683,7 @@ var loop = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.loop','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.melvin','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -637,7 +696,7 @@ var loop = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.loop','smoke');
+        particlesGood.makeParticles('atlas.melvin','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -660,166 +719,169 @@ var loop = function(){
 			return
 		}
 		
-		var parent = obj.parent
+	}
+	
+	function onDragStart(obj){
 		
-		sound.play("pop")
+		if(!gameActive || !obj.active){
+			return
+		}
 		
-		var tween = game.add.tween(parent.scale).to({x:0.6,y:0.6},200,"Linear",true)
-		tween.yoyo(true,0)
+		if(tutorialHand.active){
+			stopTutorial()
+		}
 		
-		gameActive = false
+		obj.active = false
 		
-		if(parent.number == result){
-			addPoint(1)
-			createPart('star',obj)
+		sound.play('flipCard')
+		//console.log(obj.active + ' active')
+	}
+	
+	function activateButtons(activate){
+		
+		for(var i = 0; i < flagsGroup.length;i++){
 			
-			var lastIndex = indexColor
+			var flag = flagsGroup.children[i]
+			flag.inputEnabled = activate
+		}
+	}
+	
+	function onDragStop(obj){
+		
+		obj.inputEnabled = false
+		
+		if(checkOverlap(obj,container)){
 			
-			while(lastIndex == indexColor){
-				indexColor = game.rnd.integerInRange(0,colorsToUse.length - 1)	
-			}
-			
-			yogotar.setAnimationByName(0,"WIN",false)
-			yogotar.addAnimationByName(0,"IDLE",true)
-			
-			frootLoop.setAnimationByName(0,"WIN",false)
-			frootLoop.addAnimationByName(0,"IDLE",true)
-			game.time.events.add(1100,restartScene)
+			activateButtons(false)
+			game.add.tween(obj).to({x:container.x,y:container.y,angle:obj.angle+360},250,"Linear",true).onComplete.add(function(){
+				if(obj.tag == iconToUse.tag){
+					addPoint(1)
+					createPart('star',obj)
+					
+					var tween = game.add.tween(obj.scale).to({x:1.2,y:1.2},200,"Linear",true,0,0)
+					tween.yoyo(true,0)
+					
+					game.time.events.add(1000,showObjects)
+					game.time.events.add(2200,function(){
+						
+						indexToUse++
+						if(indexToUse == countryList.length){
+							setOrderList()
+						}
+						setFlag()
+						showObjects(true)
+					})
+				}else{
+					missPoint()
+					createPart('wrong',obj)
+					setExplosion(obj)
+				}
+			})
 		}else{
-			missPoint()
-			createPart('wrong',obj)
+			
+			game.add.tween(obj).to({x:obj.initX,y:obj.initY},500,"Linear",true).onComplete.add(function(){
+				obj.active = true
+				obj.inputEnabled = true
+			})
 		}
 		
 	}
 	
-	function restartScene(){
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
+	
+	function createFlags(){
 		
-		showButtons(false)
-		game.add.tween(timerGroup).to({alpha:0},300,"Linear",true)
-		game.add.tween(base.text).to({alpha:0},300,"Linear",true,200)
+		iconsGroup = game.add.group()
+		sceneGroup.add(iconsGroup)
 		
-		game.time.events.add(1000,function(){
-			showButtons(true)
+		flagsGroup = game.add.group()
+		sceneGroup.add(flagsGroup)
+		
+		for(var i = 0; i < countryList.length; i++){
+			
+			var flag = flagsGroup.create(0,0,'atlas.melvin',countryList[i])
+			flag.anchor.setTo(0.5,0.5)
+			flag.alpha = 0
+			flag.tag = countryList[i]
+			flag.active = true
+			flag.inputEnabled = true
+			flag.input.enableDrag(true)
+			flag.events.onDragStart.add(onDragStart, this);
+			flag.events.onDragStop.add(onDragStop, this);
+			flag.inputEnabled = false
+			
+			var icon = iconsGroup.create(0,0,'atlas.melvin',countryList[i] + '_icon')
+			icon.anchor.setTo(0.5,0.5)
+			icon.alpha = 0
+			icon.tag = countryList[i]
+			
+		}
+		
+	}
+	
+	function startTutorial(){
+		
+		if(!tutorialHand.active){
+			return
+		}
+		
+		var correctFlag = flagList[0]
+		
+		if(correctFlag.tag != iconToUse.tag){
+			correctFlag = flagList[1]
+		}
+		
+		tutorialHand.alpha = 1
+		tutorialHand.x = correctFlag.x
+		tutorialHand.y = correctFlag.y
+		
+		game.add.tween(tutorialHand).to({x:container.x,y:container.y},1000,"Linear",true).onComplete.add(function(){
+			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,250).onComplete.add(startTutorial)
 		})
-		
 	}
 	
-	function createBase(){
+	function stopTutorial(){
 		
-		base = game.add.group()
-		base.x = game.world.centerX
-		base.y = game.world.height - 25
-		sceneGroup.add(base)
-		
-		var baseImg = base.create(0,0,'atlas.loop','base')
-		baseImg.anchor.setTo(0.5,1)
-		
-		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, -baseImg.height * 0.82, "3 X 5", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		pointsText.alpha = 0
-        base.add(pointsText)
-		
-		base.text = pointsText
-		
-		yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar")
-		yogotar.setAnimationByName(0,"IDLE",true)
-		yogotar.setSkinByName("normal")
-		
-		
-		frootLoop = game.add.spine(yogotar.x, yogotar.y,"frootLoop")
-		frootLoop.setAnimationByName(0,"IDLE",true)
-		frootLoop.setSkinByName("normal")
-		sceneGroup.add(frootLoop)
-		
-		indexColor = game.rnd.integerInRange(0,colorsToUse.length - 1)		
-		//frootLoop.autoUpdateTransform()
-		
-		sceneGroup.add(yogotar)
-		
+		tutorialHand.active = false
+		gameSpeed = 0.25
 	}
 	
-	function tintSpine(spineUsed,tint) {
-		spineUsed.globalTint = tint;
-		var slots = spineUsed.skeleton.slots;
-		for (var i = 0; i < slots.length; i++) {
-			var slot = slots[i];
-			if(slot.currentSprite){
-				slot.currentSprite.tint = tint;
-			}
-		}
-	}
-	
-	function createButtons(){
+	function createTutorial(){
 		
-		buttonsGroup = game.add.group()
-		sceneGroup.add(buttonsGroup)
-		
-		var pivotX = base.x - 150
-		var pivotY = base.y - 100
-		for(var i = 0;i < 3; i++){
-			
-			var button = game.add.group()
-			button.alpha = 0
-			button.pressed = false
-			button.x = pivotX
-			button.y = pivotY
-			buttonsGroup.add(button)
-			
-			var buttonImage = button.create(0,0,'atlas.loop','btn')
-			buttonImage.anchor.setTo(0.5,0.5)
-			buttonImage.inputEnabled = true
-			buttonImage.events.onInputDown.add(inputButton)
-			
-			var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 0,0, "0", fontStyle)
-			pointsText.anchor.setTo(0.5,0.5)
-			button.add(pointsText)
-			
-			button.text = pointsText
-			
-			pivotX+= button.width * 1.12
-		}
-		
-	}
-	
-	function createTimer(){
-		
-		timerGroup = game.add.group()
-		timerGroup.x = game.world.centerX - 200
-		timerGroup.y = game.world.height - 335
-		timerGroup.alpha = 0
-		sceneGroup.add(timerGroup)
-		
-		var timerImg = timerGroup.create(0,0,'atlas.loop','time')
-		timerImg.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 35,-5, 10, fontStyle)
-		pointsText.angle = -15
-		pointsText.anchor.setTo(0.5,0.5)
-		timerGroup.add(pointsText)
-		
-		timerGroup.number = 10
-		timerGroup.text = pointsText
-		
+		tutorialHand = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.melvin','tutorialHand')
+		tutorialHand.scale.setTo(0.7,0.7)
+		tutorialHand.anchor.setTo(0.5,0.5)
+		tutorialHand.alpha = 0
+		tutorialHand.active = true
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "loop",
+		name: "melvin",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); 
+			yogomeGames.mixpanelCall("enterGame",gameIndex);
 			
 			createBackground()
-			createBase()
-			createButtons()
-			createTimer()
+			createFlags()
+			createTutorial()
 			addParticles()
+			
+			melvin = game.add.spine(game.world.centerX + 270,270,'melvin')
+			melvin.setSkinByName("Melvin")
+			melvin.setAnimationByName(0,"IDLE",true)
+			sceneGroup.add(melvin)
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
