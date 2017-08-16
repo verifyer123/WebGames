@@ -1,0 +1,76 @@
+
+oof.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm
+  rotate: false
+  xy: 627, 99
+  size: 24, 27
+  orig: 24, 27
+  offset: 0, 0
+  index: -1
+normal/head1
+  rotate: false
+  xy: 170, 56
+  size: 71, 70
+  orig: 71, 70
+  offset: 0, 0
+  index: -1
+normal/head2
+  rotate: false
+  xy: 316, 56
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+normal/head3
+  rotate: false
+  xy: 243, 56
+  size: 71, 70
+  orig: 71, 70
+  offset: 0, 0
+  index: -1
+normal/headM
+  rotate: false
+  xy: 388, 69
+  size: 78, 57
+  orig: 78, 57
+  offset: 0, 0
+  index: -1
+normal/headM_1
+  rotate: false
+  xy: 548, 68
+  size: 77, 58
+  orig: 77, 58
+  offset: 0, 0
+  index: -1
+normal/headM_2
+  rotate: false
+  xy: 468, 69
+  size: 78, 57
+  orig: 78, 57
+  offset: 0, 0
+  index: -1
+normal/shadow
+  rotate: false
+  xy: 89, 34
+  size: 79, 92
+  orig: 79, 92
+  offset: 0, 0
+  index: -1
+normal/torsoM
+  rotate: true
+  xy: 388, 2
+  size: 65, 59
+  orig: 65, 59
+  offset: 0, 0
+  index: -1
+normal/water
+  rotate: false
+  xy: 2, 33
+  size: 85, 93
+  orig: 85, 93
+  offset: 0, 0
+  index: -1

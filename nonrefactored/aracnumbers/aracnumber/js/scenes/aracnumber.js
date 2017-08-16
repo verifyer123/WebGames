@@ -303,12 +303,19 @@ var aracnumber = function(){
                         
                     }else{
                        
-                        TweenMax.to(fly1,0.5,{x:-100,onComplete});
+                        TweenMax.to(fly1,0.5,{x:-100});
                         TweenMax.to(fly2,0.5,{x:game.width+100});
                         lives--;
                         heartsText.setText("x " + lives);
+                        spider.setAnimationByName(0, "LOSE", true); 
                         if(lives == 0){
+                            TweenMax.to(fly1,0.5,{x:-100});
+                            TweenMax.to(fly2,0.5,{x:game.width+100});
                             finishGame();
+                        }else{
+                            sound.play("wrong");
+                            TweenMax.to(fly1,0.5,{x:-100});
+                            TweenMax.to(fly2,0.5,{x:game.width+100,onComplete:newFly1});
                         }
                     }
 
@@ -387,12 +394,18 @@ var aracnumber = function(){
                         
                     }else{
                        
-                        TweenMax.to(fly1,0.5,{x:-100,onComplete});
-                        TweenMax.to(fly2,0.5,{x:game.width+100});
+
                         lives--;
                         heartsText.setText("x " + lives);
+                        spider.setAnimationByName(0, "LOSE", true); 
                         if(lives == 0){
+                            TweenMax.to(fly1,0.5,{x:-100});
+                            TweenMax.to(fly2,0.5,{x:game.width+100});
                             finishGame();
+                        }else{
+                            sound.play("wrong");
+                            TweenMax.to(fly1,0.5,{x:-100});
+                            TweenMax.to(fly2,0.5,{x:game.width+100,onComplete:newfly2});
                         }
                     }
 
@@ -409,7 +422,6 @@ var aracnumber = function(){
                         fly2.scale.setTo(1,1);
                         fly2.x = fly2.posx;
                         fly2.active = true;
-                        
                         coins++;
                         xpText.setText(coins);
                         if(NumberSelect != eval("multiples_" + activeMultiple).length-1){
@@ -462,6 +474,7 @@ var aracnumber = function(){
         
         
         lives = 3;
+        coins = 0;
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();
@@ -494,6 +507,10 @@ var aracnumber = function(){
     
         function tryAgainFly(){
             if(!starGame){
+            sound.play("wrong");
+            spider.setAnimationByName(0, "LOSE", true);     
+            TweenMax.to(fly1,1,{alpha:1,onComplete:nextAnimation});
+            function nextAnimation(){spider.setAnimationByName(0, "IDLE", true);  };
             fly1.y = -200;
             fly2.y = -200;    
             lives--;

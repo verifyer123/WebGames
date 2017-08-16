@@ -1,0 +1,146 @@
+
+skeleton.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Melvin/background1
+  rotate: false
+  xy: 2, 77
+  size: 175, 174
+  orig: 175, 174
+  offset: 0, 0
+  index: -1
+Melvin/background2
+  rotate: false
+  xy: 179, 77
+  size: 175, 174
+  orig: 175, 174
+  offset: 0, 0
+  index: -1
+Melvin/background3
+  rotate: false
+  xy: 356, 77
+  size: 175, 174
+  orig: 175, 174
+  offset: 0, 0
+  index: -1
+Melvin/ear1
+  rotate: false
+  xy: 711, 160
+  size: 79, 91
+  orig: 79, 91
+  offset: 0, 0
+  index: -1
+Melvin/ear2
+  rotate: true
+  xy: 2, 15
+  size: 60, 82
+  orig: 60, 82
+  offset: 0, 0
+  index: -1
+Melvin/eye1_a
+  rotate: false
+  xy: 792, 177
+  size: 23, 18
+  orig: 23, 18
+  offset: 0, 0
+  index: -1
+Melvin/eye1_b
+  rotate: false
+  xy: 533, 77
+  size: 23, 10
+  orig: 23, 10
+  offset: 0, 0
+  index: -1
+Melvin/eye2_a
+  rotate: false
+  xy: 964, 235
+  size: 11, 16
+  orig: 11, 16
+  offset: 0, 0
+  index: -1
+Melvin/eye2_b
+  rotate: false
+  xy: 86, 15
+  size: 11, 4
+  orig: 11, 4
+  offset: 0, 0
+  index: -1
+Melvin/eyebrow1_a
+  rotate: false
+  xy: 711, 96
+  size: 19, 8
+  orig: 19, 8
+  offset: 0, 0
+  index: -1
+Melvin/eyebrow1_b
+  rotate: false
+  xy: 2, 2
+  size: 17, 11
+  orig: 17, 11
+  offset: 0, 0
+  index: -1
+Melvin/eyebrow2_a
+  rotate: false
+  xy: 298, 67
+  size: 11, 8
+  orig: 11, 8
+  offset: 0, 0
+  index: -1
+Melvin/eyebrow2_b
+  rotate: false
+  xy: 774, 145
+  size: 9, 13
+  orig: 9, 13
+  offset: 0, 0
+  index: -1
+Melvin/head
+  rotate: false
+  xy: 711, 106
+  size: 61, 52
+  orig: 61, 52
+  offset: 0, 0
+  index: -1
+Melvin/mouth_a
+  rotate: false
+  xy: 236, 26
+  size: 60, 49
+  orig: 60, 49
+  offset: 0, 0
+  index: -1
+Melvin/mouth_b
+  rotate: false
+  xy: 173, 23
+  size: 61, 52
+  orig: 61, 52
+  offset: 0, 0
+  index: -1
+Melvin/nose_a
+  rotate: false
+  xy: 86, 21
+  size: 85, 54
+  orig: 85, 54
+  offset: 0, 0
+  index: -1
+Melvin/nose_b
+  rotate: false
+  xy: 880, 197
+  size: 82, 54
+  orig: 82, 54
+  offset: 0, 0
+  index: -1
+Melvin/nose_c
+  rotate: false
+  xy: 792, 197
+  size: 86, 54
+  orig: 86, 54
+  offset: 0, 0
+  index: -1
+Melvin/torso
+  rotate: true
+  xy: 533, 89
+  size: 162, 176
+  orig: 162, 176
+  offset: 0, 0
+  index: -1
