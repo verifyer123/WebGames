@@ -375,7 +375,7 @@ var sushi = function(){
     function startRound() {
 
         for(var brickIndex = 0; brickIndex < 3; brickIndex++){
-            var toY = (maxHeight - (brickIndex) * 80)
+            var toY = (maxHeight - (brickIndex) * 300)
             addSushi("sushi1", 1, toY)
         }
 
@@ -674,7 +674,7 @@ var sushi = function(){
 
 					if((sushi.y >= maxHeight)||((prevSushi)&&(prevSushi.inBottom))){
 						sushi.inBottom = true
-						if((sushi.y < 340) && (!sushiLane.merging)){
+						if((sushi.y <= 340) && (!sushiLane.merging)){
 							sushiAnimation(lineIndex)
 							sound.play("wrong")
 							wrongParticle.x = sushi.centerX
@@ -823,7 +823,7 @@ var sushi = function(){
 
             // swipe = new Swipe(game)
 			sceneGroup = game.add.group();
-			// yogomeGames.mixpanelCall("enterGame",gameIndex);
+			yogomeGames.mixpanelCall("enterGame",gameIndex);
 
 			var bgRect = game.add.graphics()
 			bgRect.beginFill(0x150426)
