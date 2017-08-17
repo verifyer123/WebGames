@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Geometry Warp",
+        name: "Paper Ships",
         language: "es",
-        minigameUrl: "../geometryWarp/index.html?language=" + language,
+        minigameUrl: "../paperShips/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
