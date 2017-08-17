@@ -84,7 +84,8 @@ yogomeGames.getGames = function(){
 		{name:'Float and Count',url:'http://yogome.com/epic/minigames/floatSite/',sceneName:'float',subject:'math', review:false},//77
 		{name:'Space Count',url:'http://yogome.com/epic/minigames/spaceCountSite/',sceneName:'spaceCount',subject:'math', review:false},//78
 		{name:'Loop Roll',url:'http://yogome.com/epic/minigames/loopSite/',sceneName:'loop',subject:'math', review:false},//79
-		{name:'Melvin Travel',url:'http://yogome.com/epic/minigames/melvinSite/',sceneName:'melvin',subject:'geography', review:false}//80
+		{name:'Melvin Travel',url:'http://yogome.com/epic/minigames/melvinSite/',sceneName:'melvin',subject:'geography', review:false},//80
+		{name:'Paper Ships',url:'http://yogome.com/epic/minigames/paperSite/',sceneName:'paper',subject:'math', review:false},//81
 	]
     
     return games

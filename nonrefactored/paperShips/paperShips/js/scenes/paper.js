@@ -98,7 +98,7 @@ var paper = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 81
 	var tutoGroup
 	var paperSong
 	var heartsGroup = null
@@ -315,7 +315,7 @@ var paper = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('paperSong', soundsPath + 'songs/upbeat_casual_8.mp3');
+		game.load.audio('paperSong', soundsPath + 'songs/marioSong.mp3');
 
 		game.load.image('introscreen',"images/paper/introscreen.png")
 		game.load.image('howTo',"images/paper/how" + localization.getLanguage() + ".png")
