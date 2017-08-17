@@ -315,7 +315,7 @@ var paper = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('paperSong', soundsPath + 'songs/marioSong.mp3');
+		game.load.audio('paperSong', soundsPath + 'songs/battleLoop.mp3');
 
 		game.load.image('introscreen',"images/paper/introscreen.png")
 		game.load.image('howTo',"images/paper/how" + localization.getLanguage() + ".png")
@@ -969,7 +969,7 @@ var paper = function(){
 		create: function(event){
 
 			sceneGroup = game.add.group()
-			// yogomeGames.mixpanelCall("enterGame",gameIndex)
+			yogomeGames.mixpanelCall("enterGame",gameIndex)
 
 			var background = game.add.graphics()
 			background.beginFill(0x7df431)
