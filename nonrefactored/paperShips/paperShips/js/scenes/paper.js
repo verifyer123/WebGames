@@ -663,6 +663,7 @@ var paper = function(){
 		var hide = game.add.tween(boardGroup).to({y:-game.world.height * 0.5}, 1200, Phaser.Easing.Cubic.Out, true, 300)
 		game.add.tween(boardGroup.alphaRect).to({alpha:0}, 1200, Phaser.Easing.Cubic.Out, true, 600)
 		hide.onComplete.add(startShoots)
+		boardGroup.text.alpha = 0
 	}
 	
 	function resetObject(object) {
@@ -684,6 +685,24 @@ var paper = function(){
 		game.add.tween(buttonGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 	}
 	
+	function showNumber(x, y) {
+		var cordText = boardGroup.text
+
+		var cordString = "(" + x + " , " + y + ")"
+		cordText.text = cordString
+
+		if(cordText.tween1){
+			cordText.tween1.stop()
+		}
+		if(cordText.tween2){
+			cordText.tween2.stop()
+		}
+		cordText.alpha = 0
+		cordText.scale.x = 1; cordText.scale.y = 1
+		cordText.tween1 = game.add.tween(cordText.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Cubic.Out, true).yoyo(true)
+		cordText.tween2 = game.add.tween(cordText).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
+	}
+	
 	function pinchOnMap(circle) {
 		if(inputsEnabled){
 			if(!circle.token){
@@ -700,17 +719,32 @@ var paper = function(){
 					tokensInGame.push(token)
 					circle.token = token
 					token.circle = circle
-					game.add.tween(token.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true)
-					game.add.tween(token).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true)
+					if(token.tween1)
+						token.tween1.stop()
+					if(token.tween2)
+						token.tween2.stop()
+
+					token.tween1 = game.add.tween(token.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true)
+					token.tween2 = game.add.tween(token).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true)
+					var xIndex = circle.xIndex + 2
+					var yIndex = 7 - circle.yIndex
+					showNumber(xIndex, yIndex)
 				}
-			}else{
-				game.add.tween(circle.token.scale).to({x:0.4, y:0.4}, 200, Phaser.Easing.Back.Out, true)
+			}else if(circle.token){
+				var token = circle.token
+				if(token.tween1)
+					token.tween1.stop()
+				if(token.tween2)
+					token.tween2.stop()
+
+				token.tween1 = game.add.tween(circle.token.scale).to({x:0.4, y:0.4}, 200, Phaser.Easing.Back.Out, true)
 				var dissapear = game.add.tween(circle.token).to({alpha:0}, 200, Phaser.Easing.Cubic.Out, true)
 				dissapear.onComplete.add(resetObject)
+				token.tween2 = dissapear
 				removeToken(circle.token)
-				//tokensInGame.splice(circle.token.index, 1)
-				// tokenList.push(circle.token)
 				circle.token = null
+				var cordText = boardGroup.text
+				cordText.tween1 = game.add.tween(cordText).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 			}
 			console.log(tokensInGame.length)
 			if((tokensInGame.length === numShips - boardGroup.correctCounter)&&(!boardGroup.button.inputEnabled))
@@ -739,6 +773,17 @@ var paper = function(){
 		board.y = -64
 		board.anchor.setTo(0.5, 0.5)
 		boardGroup.alphaRect = alphaRect
+
+		var x = 0, y = 0
+		var cordString = "(" + x + " , " + y + ")"
+		var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var cordText = new Phaser.Text(sceneGroup.game, 0, 0, cordString, fontStyle)
+		cordText.anchor.setTo(0.5, 0.5)
+		boardGroup.text = cordText
+		boardGroup.add(cordText)
+		cordText.x = 20
+		cordText.y = -392
+		cordText.alpha = 0
 
 		var buttonGroup = game.add.group()
 		buttonGroup.y = 400
@@ -774,6 +819,8 @@ var paper = function(){
 			circle.alpha = 0
 			circle.x = x
 			circle.y = y
+			circle.xIndex = xIndex
+			circle.yIndex = yIndex
 			boardGroup.add(circle)
 			circle.index = circleIndex
 
