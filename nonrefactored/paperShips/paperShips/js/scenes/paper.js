@@ -663,7 +663,8 @@ var paper = function(){
 		var hide = game.add.tween(boardGroup).to({y:-game.world.height * 0.5}, 1200, Phaser.Easing.Cubic.Out, true, 300)
 		game.add.tween(boardGroup.alphaRect).to({alpha:0}, 1200, Phaser.Easing.Cubic.Out, true, 600)
 		hide.onComplete.add(startShoots)
-		boardGroup.text.alpha = 0
+		var cordText = boardGroup.text
+		game.add.tween(cordText).to({alpha:0}, 1200, Phaser.Easing.Cubic.Out, true)
 	}
 	
 	function resetObject(object) {
