@@ -63,7 +63,8 @@
         </div>
 			</div>
       <!-- Subject Selection -->
-      <div class="row subjectSelectionRow">
+      <div class="row containerSubjectsMenu">
+          <div id="menuSubjectButtons"></div>
 
       </div>
 		</div>
@@ -102,6 +103,25 @@
       //** Get query to determine menu language **//
       var userLang;// Get browser language
       var videoLanguage;
+        
+    var subjectsButtons = [
+        {name:"allSubjects",en:"AllSubjects",es:"Todas las Materias"},
+        {name:"coding",en:"Coding",es:"Código"},
+        {name:"creativity",en:"Creativity",es:"Creatividad"},
+        {name:"geography",en:"Geography",es:"Geografía"},
+        {name:"health",en:"Health",es:"Salud"},
+        {name:"language",en:"Language",es:"Lenguaje"},
+        {name:"math",en:"Math",es:"Matemáticas"},
+        {name:"science",en:"Science",es:"Ciencia"},
+        {name:"sustainability",en:"Sustainability",es:"Sustentabilidad"}
+    ];
+        
+        for(var i = 0; i<= subjectsButtons.length-1;i++ ){
+            $("#menuSubjectButtons").append('<div id="'+subjectsButtons[i].name+'Btn" class="subjectSelectionBtn growMouse button-Subject"><img class="btnSubjects" src="images/subjectsbuttons/btn-'+subjectsButtons[i].name+'.png" /><div class="text-btnsubject">'+subjectsButtons[i].en+'</div></div>');
+        }
+    
+       /* 
+        
       if (window.location.href.indexOf('lan=es') > -1) { // etc
             $(".subjectSelectionRow").append( //Append Spanish menu
               '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
@@ -112,7 +132,7 @@
                 '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
             );
             var userLang = 'lan=en';
-      }
+      }*/
 
       $(".gameCatalog").click(function(event){
         event.preventDefault();
@@ -298,7 +318,7 @@
 		});
 
 		//Show All Button
-    $('#showAllBtn').on('click', function() {
+    $('#allSubjectsBtn').on('click', function() {
 				$('.games:not(.sinJuegos)').removeClass('hidden');
 				$('.sinJuegos').addClass('hidden');
 				//appearSecondClick();

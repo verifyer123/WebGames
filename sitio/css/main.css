@@ -45,14 +45,34 @@ body{
 	/*padding: 15%;*/
 }
 
-.subjectSelectionMenu{
-	display: inline-flex;
+.containerSubjectsMenu{
+
+}
+#menuSubjectButtons{
+    display: flex;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    
 }
 
 .subjectSelectionBtn{
 	text-align: center;
 	color:black;
 	cursor: pointer;
+    padding: 0.5vh;
+    
+}
+
+.btnSubjects{
+    width: 100%;
+}
+
+.text-btnsubject{
+    position: relative;
+    top:-20%;
+    color:#FFF;
+    font-size: 1.4vh;
 }
 
 @media (max-width: 760px) {
