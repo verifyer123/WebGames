@@ -62,7 +62,7 @@ var frootemple = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 35
+    var gameIndex = 82
 	var indexPiece = 0
 	var indexGame
     var overlayGroup
@@ -291,7 +291,7 @@ var frootemple = function(){
         game.stage.disableVisibilityChange = false;
         
 		buttons.getImages(game)
-        game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/jungle_fun.mp3');
 		game.load.spine('sam', "images/spines/sam.json")
         
 		game.load.image('howTo',"images/frootemple/how" + localization.getLanguage() + ".png")
@@ -438,9 +438,13 @@ var frootemple = function(){
 			if(game.device.desktop){
 				
 				if(cursors.left.isDown){
+					if(!moveLeft)
+						changeSamAnim("MOVE_WEEL", false, "IDLE")
 					moveLeft = true
 					leftPresed = true
 				}else if(cursors.right.isDown){
+					if(!moveRight)
+						changeSamAnim("MOVE_WEEL", false, "IDLE")
 					moveRight = true
 					rightPressed = true
 				}
@@ -462,17 +466,17 @@ var frootemple = function(){
 			
 			if(moveLeft){
 				
-				if(baseGroup.machine.angle >-40){
-					baseGroup.machine.angle-= angleSpeed
+				if(baseGroup.upLine.angle >-40){
+					baseGroup.lineGroup.angle-= angleSpeed
 					baseGroup.angleNumber+=angleSpeed
 					
 					// baseGroup.text.setText(Math.round(baseGroup.angleNumber) + '°')
 				}
 				
 			}else if(moveRight){
-				if(baseGroup.machine.angle < 40){
-					baseGroup.machine.angle+= angleSpeed
-					baseGroup.angleNumber-= angleSpeed 
+				if(baseGroup.upLine.angle < 40){
+					baseGroup.lineGroup.angle+= angleSpeed
+					baseGroup.angleNumber-= angleSpeed
 					
 					// baseGroup.text.setText(Math.round(baseGroup.angleNumber) + '°')
 				}
@@ -932,7 +936,12 @@ var frootemple = function(){
 		cont.events.onInputDown.add(shootOrb)
 		machine.cont = cont
 
-		var arrow = machine.create(0,-210,'atlas.frootemple','arrowLine')
+		var lineGroup = game.add.group()
+		machine.add(lineGroup)
+		lineGroup.y = -230
+		baseGroup.lineGroup = lineGroup
+
+		var arrow = lineGroup.create(0,0,'atlas.frootemple','arrowLine')
 		arrow.anchor.setTo(0.5,1)
 		baseGroup.upLine = arrow
 
@@ -942,7 +951,7 @@ var frootemple = function(){
 		orb.anchor.setTo(0.5,0.5)
 		baseGroup.orb = orb
 
-		var point = machine.create(0,-game.world.height * 0.9,'atlas.frootemple','frootpop')
+		var point = lineGroup.create(0,-game.world.height * 0.9,'atlas.frootemple','frootpop')
 		point.anchor.setTo(0.5,0.5)
 		point.alpha = 0
 		baseGroup.point = point
