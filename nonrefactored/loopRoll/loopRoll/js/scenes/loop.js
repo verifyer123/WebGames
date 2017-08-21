@@ -370,12 +370,53 @@ var loop = function(){
 	
 	function setOperation(){
 		
-		var number1 = numberOptions[game.rnd.integerInRange(0,numberOptions.length - 1)]
-		var number2 = game.rnd.integerInRange(2,numLimit)
+		var signsToUse = ['+','-','x','÷']
 		
-		base.text.setText(number1 + ' X ' + number2)
-		result = number1 * number2
+		var index1 = 0
+		var index2 = 1
 		
+		if(pointsBar.number >= 5){
+			index1 = 2
+			index2 = 2
+		}
+		
+		if(pointsBar.number >=9){
+			index1 = 2
+			index2 = 3
+		}
+		
+		if(pointsBar.number >= 13){
+			index1 = 0
+			index2 = 3
+		}
+		
+		var signToUse = signsToUse[game.rnd.integerInRange(index1,index2)]
+		
+		var number1 = game.rnd.integerInRange(2,9)
+		var number2 = game.rnd.integerInRange(2,9)
+		
+		base.text.scale.setTo(1,1)
+		if(signToUse == '+'){
+			result = number1 + number2 
+		}else if(signToUse == '-'){
+			number2 = game.rnd.integerInRange(1,number1 - 1)
+			result = number1 - number2
+		}else if(signToUse == 'x'){
+			result = number1 * number2
+		}else if(signToUse == '÷'){
+			
+			base.text.scale.setTo(0.9,0.9)
+			var num1 = game.rnd.integerInRange(2,9)
+			var num2 = game.rnd.integerInRange(2,9)
+			
+			number1 = num1 * num2
+			number2 = num1
+			result = number1 / number2
+		}
+		
+		base.text.setText(number1 + ' ' + signToUse + ' '  + number2)
+		
+		console.log(signToUse)
 		var index =  game.rnd.integerInRange(0,2)
 		for(var i = 0; i < buttonsGroup.length;i++){
 			
@@ -383,11 +424,28 @@ var loop = function(){
 			if(index == i){
 				button.number = result
 			}else{
+				
 				var number3 = number2
 				while(number3 == number2){
 					number3 = game.rnd.integerInRange(2,numLimit)
 				}
+				
 				button.number = number1 * number3
+				if(signToUse == '+'){
+					button.number = number1 + number3
+				}else if(signToUse == '-'){
+					number3 = game.rnd.integerInRange(1,number1 - 1)
+					button.number = number1 - number3
+				}else if(signToUse == '*'){
+					result = number1 * number2
+				}else if(signToUse == '÷'){
+					var num1 = game.rnd.integerInRange(2,9)
+					var num2 = game.rnd.integerInRange(2,9)
+
+					number1 = num1 * num2
+					number3 = num1
+					button.number = number1 / number3
+				}
 				
 			}
 			
@@ -507,9 +565,7 @@ var loop = function(){
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				console.log(particle)
-                
+				                
                 return particle
                 break
             }
