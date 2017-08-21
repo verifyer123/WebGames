@@ -1,8 +1,8 @@
 body{
 	margin: 0;
-	background-image: url("../images/body_background.jpg");
+	background-image: url("../images/pattern-bg.png");
 	background-position: center;
-	background-size:cover;
+	background-size:contain;
 	color:#FFF !important;
 }
 
@@ -14,10 +14,8 @@ body{
 	display: none;
 }
 .banner{
-	position: absolute;
+	position: relative;
 	padding: 1%;
-	background-color: #FFF;;
-	box-shadow: 1px 5px 10px #000;
 	margin-bottom: 2%;
 }
 
@@ -28,6 +26,7 @@ body{
 }
 
 #gamesContainer{
+    position: relative;
 	text-align: center !important;
 	width: 100%;
 	text-align: center;
@@ -37,13 +36,9 @@ body{
 #gamesContainer img{
 	width: 256px;
 	height: 128px;
-	border-radius: 2vh;
 	padding:0.8vh;
 }
 
-#gamesContainer{
-	/*padding: 15%;*/
-}
 
 .containerSubjectsMenu{
 
@@ -53,6 +48,7 @@ body{
     width: 90%;
     text-align: center;
     margin: 0 auto;
+    height: 20%;
     
 }
 
@@ -61,10 +57,12 @@ body{
 	color:black;
 	cursor: pointer;
     padding: 0.5vh;
+    width: 90%;
     
 }
 
 .btnSubjects{
+    position: relative;
     width: 100%;
 }
 
@@ -72,7 +70,22 @@ body{
     position: relative;
     top:-20%;
     color:#FFF;
-    font-size: 1.4vh;
+    font-size: 1vh;
+}
+
+footer{
+    position: relative;
+    clear: both;
+    background-color: #5F13AF;
+    padding: 3vh;
+}
+
+.menu-footer{
+    text-align: center;
+}
+
+.copyright{
+    text-align: center;
 }
 
 @media (max-width: 760px) {
