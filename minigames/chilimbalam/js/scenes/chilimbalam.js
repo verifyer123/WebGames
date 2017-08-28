@@ -349,6 +349,7 @@ var chilimbalam = function(){
             }
             
         }else if(pointsBar.number == 20){
+			createAssets('chiligum',1,5)
             createAssets('peanut',1,5)
         }else if(pointsBar.number == 25){
             createAssets('pina',2,5)

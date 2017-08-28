@@ -91,7 +91,7 @@ var float = function(){
         lives = 1
         jumpTimes = 0
         jumpDistance = 170
-        gameSpeed = 2
+        gameSpeed = 1.3
         moveSpeed = 2.5
         gameLevel = 1
         loadSounds()

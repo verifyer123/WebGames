@@ -359,7 +359,7 @@ var frac = function(){
 			delay+= 200
 		}
 		
-		delay+= 300
+		delay+= numberOfCards * 250
 		
 		
 		for(var i = 0; i < cardsToUse.length;i++){
