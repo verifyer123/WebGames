@@ -63,7 +63,7 @@ var geotunnel = function(){
 	}
 
 	var NUM_LIFES = 1
-	var INIT_SPEED = 2
+	var INIT_SPEED = 2.2
 	var INIT_SPAWN_TIME = 3000
 	var FORMS = ["form1", "form2", "form3", "form4", "form5", "form6"]
 
@@ -84,7 +84,7 @@ var geotunnel = function(){
 
 	var lives
 	var sceneGroup = null
-	var gameIndex = 33
+	var gameIndex = 85
 	var tutoGroup
 	var geotunnelSong
 	var heartsGroup = null
@@ -373,11 +373,9 @@ var geotunnel = function(){
 		if(round.figure === "random"){
 			var rndNumber = game.rnd.integerInRange(0, FIGURES.length - 1)
 			figure = FIGURES[rndNumber]
-			console.log(FIGURES, rndNumber)
 		}else
 			figure = round.figure
 		figureResult = FIGURE_DATA[figure]
-		console.log(figure)
 
 		ship.number = Math.PI / 2
 		ship.direction = 1
@@ -624,7 +622,6 @@ var geotunnel = function(){
 		ship.setSkinByName(FORMS[ship.triangles])
 
 		game.add.tween(ship.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
-		console.log(figureResult.numTriangles)
 		if(ship.triangles >= figureResult.numTriangles){
 			completeRound()
 		}

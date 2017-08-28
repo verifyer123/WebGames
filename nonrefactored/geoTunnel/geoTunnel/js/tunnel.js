@@ -26,7 +26,7 @@ Phaser.Filter.Tunnel = function (game) {
 		"{",
 		"vec2 p = (origin * gl_FragCoord.xy / resolution.xy - 1.0) * vec2(resolution.x / resolution.y, 1.0);",
 		"vec2 t = vec2(S * atan(p.x, p.y), 1.0 / max(length(p), E));",
-		"vec3 c = texture2D(iChannel0, t + vec2(0.0, time)).xyz;",
+		"vec3 c = texture2D(iChannel0, t + vec2(0.0, time * 1.2)).xyz;",
 		"gl_FragColor = vec4(c / (t.y + 0.5), alpha);",
 		"}"
 
