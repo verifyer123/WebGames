@@ -5,15 +5,20 @@ var geotunnel = function(){
 	var localizationData = {
 		"EN":{
 			"howTo":"How to Play?",
-			"moves":"Moves left"
+			"moves":"Moves left",
+			"rhomboid":"Rhombus",
+			"trapezoid":"Trapezoid",
+			"hexagon":"Hexagon"
 		},
 
 		"ES":{
 			"moves":"Movimientos extra",
-			"howTo":"¿Cómo jugar?"
+			"howTo":"¿Cómo jugar?",
+			"rhomboid":"Rombo",
+			"trapezoid":"Trapecio",
+			"hexagon":"Hexágono"
 		}
 	}
-
 
 	var assets = {
 		atlases: [
@@ -44,17 +49,38 @@ var geotunnel = function(){
 				file: soundsPath + "wrong.mp3"},
 			{	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
+			{   name: "explode",
+				file: soundsPath + "laserexplode.mp3"},
+			{   name: "beep",
+				file: soundsPath + "robotBeep.mp3"},
 			{   name: "gameLose",
-				file: soundsPath + "gameLose.mp3"}
+				file: soundsPath + "gameLose.mp3"},
+			{   name: "spaceship",
+				file: soundsPath + "spaceship.mp3"},
+			{   name: "whoosh",
+				file: soundsPath + "whoosh.mp3"}
 		]
 	}
 
-	var NUM_LIFES = 3
+	var NUM_LIFES = 1
+	var INIT_SPEED = 2
+	var INIT_SPAWN_TIME = 3000
+	var FORMS = ["form1", "form2", "form3", "form4", "form5", "form6"]
 
-	// var ROUNDS = [
-	//     {continent: "america", flags: ["mexico", "usa"]},
-	//     {continent: "america", numFlags: 4},
-	//     {continent: "random", numFlags: 4}]
+	var ROUNDS = [
+		{order:["triangle"], figure:"rhomboid"},
+		{order:["circle", "circle", "triangle", "circle", "triangle"], figure:"trapezoid"},
+		{circles:12, triangles:5, order:"random", figure:"hexagon"},
+		{circles:12, triangles:5, order:"random", figure:"random"}
+	    ]
+
+	var FIGURE_DATA = {
+		"rhomboid":{numTriangles: 1},
+		"trapezoid":{numTriangles: 2},
+		"hexagon":{numTriangles: 5}
+	}
+
+	var FIGURES = ["rhomboid", "trapezoid", "hexagon"]
 
 	var lives
 	var sceneGroup = null
@@ -69,6 +95,26 @@ var geotunnel = function(){
 	var inputsEnabled
 	var pointsBar
 	var roundCounter
+	var filter
+	var ship
+	var cursors
+	var figuresInGame
+	var triangleList
+	var circleList
+	var figureList
+	var timeElapsed
+	var gameGroup
+	var maxDistance
+	var isActive
+	var figureCounter
+	var figureResult
+	var correctParticle
+	var wrongParticle
+	var container
+	var speed
+	var timeSpawn
+	var numSpawn
+	var spaceButton
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -83,6 +129,14 @@ var geotunnel = function(){
 		timeValue = 7
 		quantNumber = 2
 		roundCounter = 0
+		figuresInGame = []
+		triangleList = []
+		circleList = []
+		figureList = []
+		timeElapsed = 0
+		speed = INIT_SPEED
+		timeSpawn = INIT_SPAWN_TIME
+		numSpawn = 1
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -90,6 +144,69 @@ var geotunnel = function(){
 
 		loadSounds()
 
+	}
+
+	function createSpine(skeleton, skin, idleAnimation, x, y) {
+		idleAnimation = idleAnimation || "IDLE"
+		var spineGroup = game.add.group()
+		x = x || 0
+		y = y || 0
+
+		var spineSkeleton = game.add.spine(0, 0, skeleton)
+		spineSkeleton.x = x; spineSkeleton.y = y
+		// spineSkeleton.scale.setTo(0.8,0.8)
+		spineSkeleton.setSkinByName(skin)
+		spineSkeleton.setAnimationByName(0, idleAnimation, true)
+		spineSkeleton.autoUpdateTransform ()
+		spineGroup.add(spineSkeleton)
+
+
+		spineGroup.setAnimation = function (animations, onComplete, args) {
+			var entry
+			for(var index = 0; index < animations.length; index++) {
+				var animation = animations[index]
+				var loop = index === animations.length - 1
+				if (index === 0)
+					entry = spineSkeleton.setAnimationByName(0, animation, loop)
+				else
+					spineSkeleton.addAnimationByName(0, animation, loop)
+
+			}
+
+			if (args)
+				entry.args = args
+
+			if(onComplete){
+				entry.onComplete = onComplete
+			}
+		}
+
+		spineGroup.setSkinByName = function (skin) {
+			spineSkeleton.setSkinByName(skin)
+			spineSkeleton.setToSetupPose()
+		}
+
+		spineGroup.setAlive = function (alive) {
+			spineSkeleton.autoUpdate = alive
+		}
+
+		spineGroup.getSlotContainer = function (slotName) {
+			var slotIndex
+			for(var index = 0, n = spineSkeleton.skeletonData.slots.length; index < n; index++){
+				var slotData = spineSkeleton.skeletonData.slots[index]
+				if(slotData.name === slotName){
+					slotIndex = index
+				}
+			}
+
+			if (slotIndex){
+				return spineSkeleton.slotContainers[slotIndex]
+			}
+		}
+
+		spineGroup.spine = spineSkeleton
+
+		return spineGroup
 	}
 
 	function addPoint(number){
@@ -106,7 +223,11 @@ var geotunnel = function(){
 		addNumberPart(pointsBar.text,'+' + number)
 
 		// if(pointsBar.number % 2 == 0){
-		timeValue-=timeValue * 0.10
+		timeSpawn = timeSpawn - timeSpawn * 0.2 < 500 ? 500 : timeSpawn - timeSpawn * 0.2
+		speed += 1 * 0.2
+		roundCounter = roundCounter + 1
+		if(roundCounter % 6 === 0)
+			numSpawn++
 		// }
 
 	}
@@ -141,12 +262,26 @@ var geotunnel = function(){
 		sceneGroup.add(pullGroup)
 		pullGroup.alpha = 0
 
+		for(var triangleIndex = 0; triangleIndex < 20; triangleIndex++){
+			var triangle = pullGroup.create(0,0, "atlas.geotunnel", "triangle")
+			triangle.anchor.setTo(0.5, 0.5)
+			triangle.type = "triangle"
+			triangleList.push(triangle)
+		}
+
+		for(var circleIndex = 0; circleIndex < 20; circleIndex++){
+			var circle = pullGroup.create(0,0, "atlas.geotunnel", "foe")
+			circle.anchor.setTo(0.5, 0.5)
+			circle.type = "circle"
+			circleList.push(circle)
+		}
+
 	}
 
 	function createPart(key){
 		var particle = game.add.emitter(0, 0, 100);
 
-		particle.makeParticles('atlas.sushi',key);
+		particle.makeParticles('atlas.geotunnel',key);
 		particle.minParticleSpeed.setTo(-200, -50);
 		particle.maxParticleSpeed.setTo(200, -100);
 		particle.minParticleScale = 0.6;
@@ -163,15 +298,17 @@ var geotunnel = function(){
 
 		//objectsGroup.timer.pause()
 		//timer.pause()
+		sound.play("explode")
 		geotunnelSong.stop()
-		clock.tween.stop()
 		inputsEnabled = false
+		isActive = false
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
+		game.add.tween(filter).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
-
+			filter.destroy()
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
@@ -182,11 +319,14 @@ var geotunnel = function(){
 	function preload(){
 
 		game.stage.disableVisibilityChange = false;
-		game.load.audio('geotunnelSong', soundsPath + 'songs/wormwood.mp3');
+		game.load.audio('geotunnelSong', soundsPath + 'songs/game_on.mp3');
 
 		game.load.image('introscreen',"images/geotunnel/introscreen.png")
+		game.load.image('hex',"images/geotunnel/hex.png")
 		game.load.image('howTo',"images/geotunnel/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/geotunnel/play" + localization.getLanguage() + ".png")
+		game.load.script('filter', 'js/tunnel.js');
+		game.load.spine('figures', "images/spine/figures/figures.json")
 
 		buttons.getImages(game)
 
@@ -208,9 +348,60 @@ var geotunnel = function(){
 		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
 	}
+	
+	function addFiguresList(round) {
+		figureList = []
+		if(round.order === "random"){
+			for(var circleIndex = 0; circleIndex < round.circles; circleIndex++){
+				figureList.push("circle")
+			}
 
-	function startRound(notStarted) {
+			for(var triangleIndex = 0; triangleIndex < round.triangles; triangleIndex++){
+				figureList.push("triangle")
+			}
+			Phaser.ArrayUtils.shuffle(figureList)
+		}else{
+			figureList = round.order
+		}
+	}
 
+	function startRound() {
+		var round = roundCounter < ROUNDS.length ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
+		figureCounter = 0
+		addFiguresList(round)
+		var figure
+		if(round.figure === "random"){
+			var rndNumber = game.rnd.integerInRange(0, FIGURES.length - 1)
+			figure = FIGURES[rndNumber]
+			console.log(FIGURES, rndNumber)
+		}else
+			figure = round.figure
+		figureResult = FIGURE_DATA[figure]
+		console.log(figure)
+
+		ship.number = Math.PI / 2
+		ship.direction = 1
+		ship.triangles = 0
+		ship.alpha = 1
+		ship.y = game.world.height * 0.5 + 100
+		ship.rotation = Math.PI
+		ship.setSkinByName(FORMS[ship.triangles])
+
+		var containerText = container.containerText
+		containerText.scale.x = 0.4
+		containerText.scale.y = 0.4
+		containerText.alpha = 0
+		containerText.text = localizationData[localization.getLanguage()][figure]
+		game.add.tween(containerText.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true, 500)
+		game.add.tween(containerText).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true, 500)
+
+		sound.play("spaceship")
+		var moveShip = game.add.tween(ship).to({y:250}, 800, Phaser.Easing.Cubic.Out, true)
+		moveShip.onComplete.add(function () {
+			isActive = true
+			ship.active = true
+		})
+		timeElapsed = 3000
 
 	}
 
@@ -220,21 +411,21 @@ var geotunnel = function(){
 		inputsEnabled = false
 
 		lives--;
-		heartsGroup.text.setText('X ' + lives)
+		wrongParticle.x = ship.centerX
+		wrongParticle.y = ship.centerY
+		wrongParticle.start(true, 1000, null, 5)
+		// heartsGroup.text.setText('X ' + lives)
 
-		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-		scaleTween.onComplete.add(function(){
-			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-		})
+		// var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+		// scaleTween.onComplete.add(function(){
+		// 	game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+		// })
 
 		if(lives === 0){
 			stopGame(false)
 		}
-		else{
-			startRound()
-		}
 
-		addNumberPart(heartsGroup.text,'-1')
+		// addNumberPart(heartsGroup.text,'-1')
 	}
 
 	function createHearts(){
@@ -283,8 +474,10 @@ var geotunnel = function(){
 		sound.play("pop")
 		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
+			sceneGroup.rectInput.inputEnabled = true
 			tutoGroup.y = -game.world.height
-			startTimer(missPoint)
+			startRound()
+			// startTimer(missPoint)
 		})
 	}
 
@@ -356,17 +549,287 @@ var geotunnel = function(){
 
 	}
 
+	function spawnFigure() {
+		var type = figureList[figureCounter]
+		figureCounter = figureCounter + 1 < figureList.length ? figureCounter + 1 : ROUNDS.length - 1
+		var figure
+		if(type === "triangle")
+			figure = triangleList.pop()
+		else
+			figure = circleList.pop()
+
+		gameGroup.add(figure)
+		gameGroup.sendToBack(figure)
+		figure.scale.x = 0.2
+		figure.scale.y = 0.2
+		figure.distance = 2
+		figure.alpha = 1
+		var rndAngle = game.rnd.integerInRange(0, 359)
+		var toRadians = rndAngle * (180/Math.PI)
+		figure.radians = toRadians
+		figure.x = Math.cos(toRadians) * figure.distance
+		figure.y = Math.sin(toRadians) * figure.distance
+		figuresInGame.push(figure)
+	}
+
+	function clearFigures() {
+		for(var figureIndex = 0; figureIndex < figuresInGame.length; figureIndex++){
+			var figure = figuresInGame[figureIndex]
+			game.add.tween(figure.scale).to({x:0.1, y:0.1}, 400, Phaser.Easing.Cubic.Out, true)
+			var dissapear = game.add.tween(figure).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
+			dissapear.onComplete.add(toPullGroup)
+			
+			if(figure.type === "triangle"){
+				triangleList.push(figure)
+			}else{
+				circleList.push(figure)
+			}
+		}
+		figuresInGame = []
+	}
+
+	function showCorrectParticle(){
+		correctParticle.start(true, 1000, null, 5)
+		addPoint(figureResult.numTriangles + 1)
+	}
+	
+	function moveShipResult() {
+		var tween1 = game.add.tween(ship).to({x:0, y:0}, 800, Phaser.Easing.Cubic.Out, null, 800)
+		game.add.tween(ship).to({rotation: Math.PI * 2}, 800, Phaser.Easing.Cubic.Out, true, 800)
+		// game.add.tween(ship).to({angle:360}, 800, Phaser.Easing.Cubic.Out, true, 1600)
+		var tween2 = game.add.tween(ship.scale).to({x:1.2, y:1.2}, 400, Phaser.Easing.Cubic.Out).yoyo(true)
+		var tween3 = game.add.tween(ship).to({alpha:0}, 800, Phaser.Easing.Cubic.Out)
+
+		tween1.chain(tween2)
+		tween2.chain(tween3)
+		tween2.onStart.add(showCorrectParticle)
+		tween1.onStart.add(function () {
+			sound.play("swipe")
+		})
+		tween1.start()
+		tween3.onComplete.add(startRound)
+	}
+
+	function completeRound() {
+		isActive = false
+		clearFigures()
+		moveShipResult()
+		game.add.tween(container.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Cubic.Out, true, 1600).yoyo(true)
+		game.add.tween(container.containerText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 2400)
+	}
+
+	function addTriangle(){
+		sound.play("beep")
+		ship.triangles = ship.triangles + 1 > 5 ? 0 : ship.triangles + 1
+		ship.setSkinByName(FORMS[ship.triangles])
+
+		game.add.tween(ship.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
+		console.log(figureResult.numTriangles)
+		if(ship.triangles >= figureResult.numTriangles){
+			completeRound()
+		}
+		// pullGroup.add(triangle)
+	}
+
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+	}
+
+	function toPullGroup(obj){
+		pullGroup.add(obj)
+	}
+
+	function update() {
+		// ship.number += 0.05
+		if(ship.active) {
+			ship.x = Math.cos(ship.number) * 250
+			ship.y = Math.sin(ship.number) * 250
+			ship.number += 0.05 * ship.direction
+			ship.rotation = Math.atan2(ship.y, ship.x) + Math.PI / 2
+			// console.log(ship.angle)
+		}
+		// ship.angle += 5
+		if(game.device.desktop){
+			if((spaceButton.isDown)&&(!spaceButton.isPressed)){
+				spaceButton.isPressed = true
+				changeDirection()
+			}
+
+			if(spaceButton.isUp){
+				spaceButton.isPressed = false
+			}
+
+			//
+		// 	if(cursors.left.isDown){
+		// 		ship.number += 0.05
+		// 	}else if(cursors.right.isDown){
+		// 		ship.number -= 0.05
+		// 	}
+		}
+
+		timeElapsed += game.time.elapsedMS
+		if(timeElapsed >= timeSpawn){
+			timeElapsed = 0
+			for(var i=0; i<numSpawn; i++)
+				spawnFigure()
+		}
+
+		for(var figureIndex = figuresInGame.length - 1; figureIndex >= 0; figureIndex--){
+			var figure = figuresInGame[figureIndex]
+			if(figure){
+				figure.distance += figure.distance * speed * 0.01 //Math.tan(triangle.distance / game.world.centerX) * 2 + 2
+				figure.x = Math.cos(figure.radians) * figure.distance
+				figure.y = Math.sin(figure.radians) * figure.distance
+				var scale = figure.distance * 0.5 / 140
+				figure.scale.x = scale
+				figure.scale.y = scale
+				figure.angle += 2
+
+				if(figure.distance >= maxDistance + 500){
+					figuresInGame.splice(figureIndex, 1)
+					pullGroup.add(figure)
+					if(figure.type === "triangle")
+						triangleList.unshift(figure)
+					else if(figure.type === "circle")
+						circleList.unshift(figure)
+				}
+
+				var collide = checkOverlap(figure, ship.hitBox)
+				if(collide){
+					figuresInGame.splice(figureIndex, 1)
+					figure.x = 0
+					figure.y = 0
+					figure.scale.x = 1
+					figure.scale.y = 1
+					ship.add(figure)
+					var dissapear = game.add.tween(figure).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+					dissapear.onComplete.add(toPullGroup)
+					if(figure.type === "triangle"){
+						triangleList.unshift(figure)
+						addTriangle()
+					}else{
+						circleList.unshift(figure)
+						missPoint()
+					}
+				}
+			}
+		}
+
+	}
+	
+	function createShip() {
+		gameGroup = game.add.group()
+		gameGroup.x = game.world.centerX
+		gameGroup.y = game.world.centerY
+		sceneGroup.add(gameGroup)
+
+		// ship = gameGroup.create(0,0,"atlas.geotunnel", "token")
+		// ship.anchor.setTo(0.5, 0.5)
+		ship = createSpine("figures", "form1", "IDLE", 0, 0)
+		ship.number = Math.PI / 2
+		ship.direction = 1
+		ship.triangles = 0
+		ship.active = false
+		ship.y = game.world.height * 0.5 + 100
+		ship.rotation = Math.PI
+
+		var hitBox = game.add.graphics()
+		hitBox.beginFill(0xffffff)
+		hitBox.drawRect(0,0, 30, 30)
+		hitBox.x = -hitBox.width * 0.5
+		hitBox.y = -hitBox.height * 0.5
+		hitBox.alpha = 0
+		hitBox.endFill()
+		ship.add(hitBox)
+		ship.hitBox = hitBox
+
+		gameGroup.add(ship)
+	}
+	
+	function changeDirection() {
+		sound.play("cut")
+		ship.direction*= -1
+	}
+	
+	function createTextContainer() {
+		container = game.add.group()
+		container.x = game.world.centerX
+		container.y = 100
+		sceneGroup.add(container)
+
+		var containerBg = game.add.graphics()
+		containerBg.beginFill(0x000000)
+		containerBg.drawRoundedRect(0,0, 250, 70, 30)
+		containerBg.alpha = 0.4
+		containerBg.endFill()
+		containerBg.x = -250 * 0.5
+		containerBg.y = -70 * 0.5
+		container.add(containerBg)
+
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var containerText = new Phaser.Text(game, 0, 5, "Trapezoid", fontStyle)
+		containerText.anchor.setTo(0.5, 0.5)
+		containerText.alpha = 0
+		container.add(containerText)
+		container.containerText = containerText
+	}
+	
 	return {
 		assets: assets,
 		name: "geotunnel",
 		preload:preload,
+		update:function () {
+			if(isActive)
+				update()
+			if(filter)
+				filter.update()
+		},
 		create: function(event){
 
 			sceneGroup = game.add.group()
+			// cursors = game.input.keyboard.createCursorKeys()
+			spaceButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-			var background = sceneGroup.create(-2,-2,'fondo')
-			background.width = game.world.width+2
-			background.height = game.world.height+2
+			var background = game.add.sprite(0, 0, 'fondo')
+			background.width = game.world.width
+			background.height = game.world.height
+			sceneGroup.add(background)
+
+			filter = game.add.filter('Tunnel', game.world.width, game.world.height, background.texture)
+
+			//	You have the following value to play with (default value is 2.0):
+			filter.origin = 2.0;
+
+			background.filters = [filter];
+
+			var hexagonGroup = game.add.group()
+			hexagonGroup.x = game.world.centerX
+			hexagonGroup.y = game.world.centerY
+			sceneGroup.add(hexagonGroup)
+			maxDistance = game.world.centerX > game.world.centerY ? game.world.centerX : game.world.centerY
+
+			// for(var lineIndex = 0; lineIndex < 6; lineIndex++){
+			// 	var currentLine = game.add.graphics()
+			// 	currentLine.lineStyle(5, 0x7F6E0D, 1)
+			// 	currentLine.alpha = 0.5
+			// 	currentLine.moveTo(game.world.centerX, game.world.centerY)
+			// 	var radians = 60 * lineIndex * (Math.PI / 180)
+			// 	var toX = game.world.centerX + Math.sin(radians) * width
+			// 	var toY = game.world.centerY + Math.cos(radians) * width
+			// 	currentLine.lineTo(toX, toY)
+			// 	sceneGroup.add(currentLine)
+			// }
+
+			var hex = sceneGroup.create(0,0, "hex")
+			hex.anchor.setTo(0.5, 0.5)
+			hex.x = game.world.centerX
+			hex.y = game.world.centerY
+			hex.tint = 0x7F6E0D
 
 			geotunnelSong = game.add.audio('geotunnelSong')
 			game.sound.setDecodedCallback(geotunnelSong, function(){
@@ -383,14 +846,32 @@ var geotunnel = function(){
 
 			initialize()
 
-			createHearts()
+			// createHearts()
 			createPointsBar()
 			createGameObjects()
-			createClock()
-			startRound(true)
+			createShip()
+			createTextContainer()
+			// createClock()
+
+			var rectInput = game.add.graphics()
+			rectInput.beginFill(0x000000)
+			rectInput.drawRect(-2,-2, game.world.width + 2, game.world.height + 2)
+			rectInput.alpha = 0
+			rectInput.endFill()
+			rectInput.events.onInputDown.add(changeDirection)
+			sceneGroup.rectInput = rectInput
+
 			createTutorial()
 
-			buttons.getButton(geotunnelSong,sceneGroup,game.world.width - 50)
+			correctParticle = createPart("star")
+			correctParticle.x = game.world.centerX
+			correctParticle.y = game.world.centerY
+			sceneGroup.add(correctParticle)
+
+			wrongParticle = createPart("wrong")
+			sceneGroup.add(wrongParticle)
+
+			buttons.getButton(geotunnelSong,sceneGroup)
 		}
 	}
 }()

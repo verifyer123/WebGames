@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Paper Ships",
+        name: "Geo Tunnel",
         language: "es",
-        minigameUrl: "../paperShips/index.html?language=" + language,
+        minigameUrl: "../geoTunnel/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
