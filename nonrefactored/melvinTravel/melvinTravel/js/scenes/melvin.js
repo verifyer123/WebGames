@@ -18,6 +18,16 @@ var melvin = function(){
 			"peru":"Machu Picchu",
 			"india":"Taj Mahal",
 			"uk":"Stonehenge",
+			"russia":"Saint Basil´s Cathedral",
+			"cuba":"Havana´s Capitol",
+			"cambodia":"Angkor Wat",
+			"UAE":"Burj Khalifa",
+			"japan":"Himeji Castle",
+			"greece":"The Parthenon",
+			"germany":"Victory Column",
+			"guatemala":"Tikal",
+			"argentina":"Floralis Generica",
+			"egypt":"Great Sphinx of Giza",
 		},
 
 		"ES":{
@@ -35,6 +45,16 @@ var melvin = function(){
 			"peru":"Machu Picchu",
 			"india":"Taj Mahal",
 			"uk":"Stonehenge",
+			"russia":"Catedral de San Basilio",
+			"cuba":"Capitolio de la Habana",
+			"cambodia":"Angkor Wat",
+			"UAE":"Burj Khalifa",
+			"japan":"Castillo Himeji",
+			"greece":"El Partenón",
+			"germany":"Columna de la Victoria",
+			"guatemala":"Tikal",
+			"argentina":"Floralis Genérica",
+			"egypt":"Gran Esfinge de Guiza",
 		}
 	}
     
@@ -94,7 +114,8 @@ var melvin = function(){
     var overlayGroup
     var spaceSong
 	
-	var countryList = ['australia','brasil','chile','china','eeuu','france','italy','mexico','peru','india','uk']
+	var countryList = ['australia','brasil','chile','china','eeuu','france','italy','mexico','peru','india','uk','argentina','cambodia','cuba','guatemala','egypt','germany','UAE','russia',
+					   'japan','greece']
 	
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -162,7 +183,7 @@ var melvin = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -876,7 +897,6 @@ var melvin = function(){
 			createBackground()
 			createFlags()
 			createTutorial()
-			addParticles()
 			
 			melvin = game.add.spine(game.world.centerX + 270,270,'melvin')
 			melvin.setSkinByName("Melvin")
@@ -900,6 +920,7 @@ var melvin = function(){
 			            
 			createPointsBar()
 			createHearts()
+			addParticles()
 			
 			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()

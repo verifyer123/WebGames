@@ -52,8 +52,15 @@
 </head>
 
 <body>
+    <div id="promoGame-banner">
+        <div id="closepromo"><img src="images/closepromo.png"/></div>
+        <div id="newpromo"></div>
+        <div id="bannerPromo"></div>
+        <div id="playbtnPromo"><img src="images/btnplay.png"><span></span></div>
+    </div>
 	<div id="generalContainer">
     <!-- Title -->
+        <div id="sectionMenu"><img src="images/menubtn.png" /></div>  
 		<div class="banner col-md-12">
 			<div class="row">
 				<div class="col-xs-12 col-sm-4 col-sm-push-4">
@@ -63,7 +70,9 @@
         </div>
 			</div>
       <!-- Subject Selection -->
+              
       <div class="row containerSubjectsMenu">
+          
           <div id="menuSubjectButtons"></div>
 
       </div>
@@ -77,7 +86,11 @@
 			</div>
 		</div>
 	</div>
-
+<footer>
+    <img class="img-responsive center-block" style="max-width:250px; padding: 0 0 20px 0;" src="images/logo.png">
+    <div class="menu-footer">About Us |  Apps |  Contact Us  |  Terms & Conditions | Kids & Online Safety </div>
+    <div class="copyright">© 2017, Yogome, Inc. All rights reserved</div>
+</footer>
 
 </body>
 	<script> //Insert HTML5 games from yogomeGames.js list
@@ -119,20 +132,7 @@
         for(var i = 0; i<= subjectsButtons.length-1;i++ ){
             $("#menuSubjectButtons").append('<div id="'+subjectsButtons[i].name+'Btn" class="subjectSelectionBtn growMouse button-Subject"><img class="btnSubjects" src="images/subjectsbuttons/btn-'+subjectsButtons[i].name+'.png" /><div class="text-btnsubject">'+subjectsButtons[i].en+'</div></div>');
         }
-    
-       /* 
-        
-      if (window.location.href.indexOf('lan=es') > -1) { // etc
-            $(".subjectSelectionRow").append( //Append Spanish menu
-              '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
-            );
-            var userLang = 'lan=es';
-          } else {
-            $(".subjectSelectionRow").append( //Append English menu
-                '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
-            );
-            var userLang = 'lan=en';
-      }*/
+
 
       $(".gameCatalog").click(function(event){
         event.preventDefault();
@@ -182,6 +182,7 @@
 		//Math button
 		var mathCount = 0; //Counts each time the button is clicked
     $('#mathBtn').on('click', function() {
+        visibleMenu();
 		    mathCount += 1;
 		    if (mathCount === 1) { //on first click, animate all minigames individually
 		      // come code
@@ -199,6 +200,7 @@
 		//Science button
 		var scienceCount = 0;
     $('#scienceBtn').on('click', function() {
+        visibleMenu();
 		    scienceCount += 1;
 		    if (scienceCount === 1) {
 		      // come code
@@ -216,6 +218,7 @@
 		//Geography button
 		var geographyCount = 0;
     $('#geographyBtn').on('click', function() {
+        visibleMenu();
 		    geographyCount += 1;
 		    if (geographyCount === 1) {
 		      // come code
@@ -233,6 +236,7 @@
 		//Creativity button
 		var creativityCount = 0;
     $('#creativityBtn').on('click', function() {
+        visibleMenu();
 		    creativityCount += 1;
 		    if (creativityCount === 1) {
 		      // come code
@@ -250,6 +254,7 @@
 		//Helath button
 		var healthCount = 0;
     $('#healthBtn').on('click', function() {
+        visibleMenu();
 		    healthCount += 1;
 		    if (healthCount === 1) {
 		      // come code
@@ -268,6 +273,7 @@
 		//Sustainability button
 
 		$('#sustainabilityBtn').on('click', function() {
+        visibleMenu();
 		    if (sustainabilityCount === 1) {
 		      // come code
 					$('.games:not(.sustainability)').addClass('hidden');
@@ -286,6 +292,7 @@
 		//Coding button
 		var codingCount = 0;
     $('#codingBtn').on('click', function() {
+        visibleMenu();
 		    codingCount += 1;
 		    if (codingCount === 1) {
 		      // come code
@@ -303,6 +310,7 @@
 		//Language button
 		var languageCount = 0;
     $('#languageBtn').on('click', function() {
+        visibleMenu();
 		    languageCount += 1;
 		    if (languageCount === 1) {
 		      // come code
@@ -313,6 +321,7 @@
 				else{
 					$('.games:not(.language)').addClass('hidden');
 					$('.language').removeClass('hidden');
+                    
 					//appearSecondClick();
 				}
 		});
@@ -321,11 +330,78 @@
     $('#allSubjectsBtn').on('click', function() {
 				$('.games:not(.sinJuegos)').removeClass('hidden');
 				$('.sinJuegos').addClass('hidden');
+                visibleMenu();
 				//appearSecondClick();
 		});
 
   });
+      
+      function visibleMenu(){
+          
+        var mediaquery = window.matchMedia("(max-width: 760px)");
+            if (mediaquery.matches) {
+                $( ".containerSubjectsMenu" ).toggle( function(){
+                  $(".containerSubjectsMenu").css("visibility","visible");
+                  });
+            } else {
+              $(".containerSubjectsMenu").css("visibility","visible");
+            }
+          
+      }
+      
+      
+      $("#sectionMenu").click(function(){
+          visibleMenu();
+      });
 
+      
+    var mediaquery = window.matchMedia("(max-width: 760px)");
+
+      
+      $( window ).resize(function() {
+            
+          if (mediaquery.matches) {
+              $(".containerSubjectsMenu").hide();
+            } else {
+                  $(".containerSubjectsMenu").show(); 
+            }
+        });
+      
+      
+      if (mediaquery.matches) {
+              $(".containerSubjectsMenu").hide();
+            } else {
+                  $(".containerSubjectsMenu").show(); 
+            }
+      
+      //Banner promo
+       var pathGames = "games/nonrefactored/"
+		var games = yogomeGames.getGames();
+      $("#bannerPromo").append('<img src="'+games[2].url +'/images/fbpost.png" />');
+      $("#bannerPromo").css("opacity",0);
+      TweenMax.to($("#bannerPromo"),1,{alpha:1,delay:1});
+      
+      $("#playbtnPromo").css("opacity",0);
+      TweenMax.to($("#playbtnPromo"),1,{alpha:1,delay:1.2});
+      
+      
+       $("#playbtnPromo").click(function(){
+           window.open(games[2].url,'_blank');
+             TweenMax.to($("#promoGame-banner"),1,{alpha:0,onComplete:deletePromo});
+           $("body").css("overflow-y","scroll");
+      });
+      
+      
+      $("body").css("overflow","hidden");
+      
+      $("#promoGame-banner").click(function(){
+          $("body").css("overflow-y","scroll");
+             TweenMax.to($("#promoGame-banner"),1,{alpha:0,onComplete:deletePromo});
+      });
+      
+      function deletePromo(){
+          $("#promoGame-banner").hide();
+      }
 
   </script>
   <script>
