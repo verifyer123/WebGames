@@ -428,7 +428,6 @@ var frootemple = function(){
 	
 	
 	function update(){
-
 		ruinWall.tilePosition.x+=0.5
 		
 		if(gameActive){
@@ -438,23 +437,27 @@ var frootemple = function(){
 			if(game.device.desktop){
 				
 				if(cursors.left.isDown){
-					if(!moveLeft)
-						changeSamAnim("MOVE_WEEL", false, "IDLE")
 					moveLeft = true
+					if(!leftPresed)
+						moveWheel()
 					leftPresed = true
 				}else if(cursors.right.isDown){
-					if(!moveRight)
-						changeSamAnim("MOVE_WEEL", false, "IDLE")
 					moveRight = true
+					if(!rightPressed)
+						moveWheel()
 					rightPressed = true
 				}
 				
 				if(cursors.left.isUp && leftPresed){
+					if(moveLeft)
+						changeSamAnim("IDLE", true)
 					moveLeft = false
 					leftPresed = false
 				}
 				
 				if(cursors.right.isUp && rightPressed){
+					if(moveRight)
+						changeSamAnim("IDLE", true)
 					moveRight = false
 					rightPressed = false
 				}
@@ -466,7 +469,7 @@ var frootemple = function(){
 			
 			if(moveLeft){
 				
-				if(baseGroup.upLine.angle >-40){
+				if(baseGroup.lineGroup.angle >-40){
 					baseGroup.lineGroup.angle-= angleSpeed
 					baseGroup.angleNumber+=angleSpeed
 					
@@ -474,7 +477,7 @@ var frootemple = function(){
 				}
 				
 			}else if(moveRight){
-				if(baseGroup.upLine.angle < 40){
+				if(baseGroup.lineGroup.angle < 40){
 					baseGroup.lineGroup.angle+= angleSpeed
 					baseGroup.angleNumber-= angleSpeed
 					
@@ -554,6 +557,7 @@ var frootemple = function(){
 			addPoint(asteroidList.length)
 			
 			changeSamAnim("WIN",false,"IDLE")
+			spineGroup.moving = false
 			
 			game.time.events.add(250,checkSimple)
 		}
@@ -874,8 +878,6 @@ var frootemple = function(){
 	
 	function inputButton(obj){
 
-		changeSamAnim("MOVE_WEEL", false, "IDLE")
-
 		if(!gameActive){
 			return
 		}
@@ -885,6 +887,8 @@ var frootemple = function(){
 		}else{
 			moveRight = true
 		}
+
+		moveWheel()
 		
 		sound.play("flipCard")
 		
@@ -909,6 +913,26 @@ var frootemple = function(){
 			if(name2){
 				sam.addAnimationByName(0,name2,true)
 			}
+		}
+	}
+
+	function moveWheel(){
+		for(var i = 0; i < spineGroup.length;i++){
+			var sam = spineGroup.children[i]
+			console.log(moveLeft, moveRight)
+			// if(!spineGroup.moving){
+				if((moveLeft)||(moveRight)){
+					spineGroup.moving = true
+					var entry = sam.setAnimationByName(0,"MOVE_WEEL",false)
+					entry.onComplete = function(){
+						spineGroup.moving = false
+						moveWheel()
+					}
+				}else{
+					spineGroup.moving = false
+					sam.setAnimationByName(0,"IDLE",false)
+				}
+			// }
 		}
 	}
 	
