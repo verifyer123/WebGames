@@ -224,31 +224,30 @@ var piratePieces = function(){
             arrayChest[i].events.onDragStop.add(function(currentSprite){
 					  stopDrag(currentSprite)});
         this.game.physics.arcade.enable(arrayChest[i]);
-        }
-        
-           
+        } 
         function onDragUpdate(object){
-        }
-            
-        var slotHitsArray = [ship1Hits[0].object,ship1Hits[1].object,ship2Hits[0].object,ship2Hits[1].object,ship2Hits[2].object]
+        }         
+        var slotHitsArray = [ship1Hits[0].object,ship1Hits[1].object,ship2Hits[0].object,ship2Hits[1].object,ship2Hits[2].object];
         
-
         function stopDrag(currentSprite){  
-             for(i=0;i<=1;i++){
-            if (this.game.physics.arcade.overlap(currentSprite, ship1Hits[i].object, function() {
-            currentSprite.input.draggable = false;
-                
-          })) {
-                break;
-              }
+            var hitShip = false;
+             for(i=0;i<=slotHitsArray.length;i++){
+                 var objeto  = slotHitsArray[i].object;
+                 console.log(objeto);
+                if (!this.game.physics.arcade.overlap(currentSprite,eval(slotHitsArray[i]), function() {
+                        hitShip = true;
+                        }
+                    )){
+                }
              }
-            
-        //TweenMax.to(currentSprite,0.4,{x:currentSprite.originalPositionX,y:currentSprite.originalPositionY});
-
-            
+            if(hitShip){
+              //currentSprite.input.draggable = false; 
+                console.log(slotHitsArray[0]);
+            }else{
+               TweenMax.to(currentSprite,0.4,{x:currentSprite.originalPositionX,y:currentSprite.originalPositionY}); 
+            }  
           }
-        
-                                                        
+                                            
 		createCoins(coins);
 		createHearts(lives);
 		//createOverlay();
