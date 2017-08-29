@@ -1,0 +1,70 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script src="mathTournament.js"></script>
+    <script>
+        function callbackOnInit(){
+            let div_resultado = document.getElementById("resultado");
+            let btn_start = document.getElementById("start");
+            
+            div_resultado.innerText = "init completo, jugador: "+cliente.numPlayer;
+            btn_start.style.visibility = 'hidden';
+        }
+        
+        function getCode(boton){
+            let codeAction= "00";
+            switch(boton.id){
+                case "left":
+                    codeAction = cliente.numPlayer +"01";
+                    break;
+                case "right":
+                    codeAction = cliente.numPlayer +"02";
+                    break;
+                case "up":
+                    codeAction = cliente.numPlayer +"03";
+                    break;
+                case "down":
+                    codeAction = cliente.numPlayer +"04";
+                    break;
+            }
+            return codeAction;
+        }
+        
+        let cliente = new Client();
+        function startButton(){
+            //let idGame = "PTZp4";
+            let idGame = document.getElementById("id_game").value;
+            cliente.start(idGame, callbackOnInit);
+        }
+        
+        
+
+    </script>
+</head>
+<body>
+    <input type="text" id="id_game" /> 
+    <input type="button" id="start" onclick="startButton()" value="Start game" /><br/><br/>
+
+    <input type="button" id="left" onclick="cliente.buttonOnClick(this, getCode)" value="Izquierda" /><br/>
+    <input type="button" id="right" onclick="cliente.buttonOnClick(this, getCode)" value="Derecha" /><br/>
+    <input type="button" id="up" onclick="cliente.buttonOnClick(this, getCode)" value="Arriba" /><br/>
+    <input type="button" id="down" onclick="cliente.buttonOnClick(this, getCode)" value="Abajo" /><br/>
+    <div id="resultado" ></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

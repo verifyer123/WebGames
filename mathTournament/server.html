@@ -1,0 +1,22 @@
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script src="mathTournament.js"></script>
+    <script>
+        window.onload =  function(){
+            let functionToAtendQueue = function(item, index){
+                let resultado2 =  document.getElementById("resultado");
+                resultado2.innerHTML += item +"<br/>";
+            }
+            let server = new Server(functionToAtendQueue);
+            server.start();
+            document.getElementById("header").innerText = server.getIdGame();
+        }
+    </script>
+</head>
+<body>
+    <div id="header" ></div>
+    <div id="resultado" ></div>
+</body>
+</html>
+
