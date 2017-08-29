@@ -77,7 +77,7 @@ var hover = function(){
 	var player
 	var jumpButton
 	var jumpDown
-    var gameIndex = 5
+    var gameIndex = 86
     var overlayGroup
 	var tagsToUse
 	var canRed
@@ -373,7 +373,7 @@ var hover = function(){
 		
 		yogotar.setAnimationByName(0,"LOSE",false)
 		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -439,7 +439,7 @@ var hover = function(){
 		
 		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.hover','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
-		
+		tuto.scale.setTo(1.8,1.8)
         
         var action = 'tap'
         
@@ -537,8 +537,8 @@ var hover = function(){
         yogotar.x = player.x
         yogotar.y = player.y +48 
 		
-		player.bubble.x = yogotar.x
-		player.bubble.y = yogotar.y - 50
+		player.bubble.x = yogotar.x - 5
+		player.bubble.y = yogotar.y - 33
 		
 		if(yogotar.scale.y < 0){
             yogotar.y = player.y -20
@@ -558,7 +558,7 @@ var hover = function(){
     
     function checkObjects(){
         
-		//background.tilePosition.x -= 1
+		background.tilePosition.x -= 0.5
 		background2.tilePosition.x -= 2
 		
 		//console.log(objectsGroup.length + ' length')
@@ -683,7 +683,7 @@ var hover = function(){
         createPart('ring',player)
         //yogotar.addAnimationByName(0, "LAND", false);
         
-        yogotar.scale.y*=-1
+        //yogotar.scale.y*=-1
   
 		player.body.velocity.y*=0.5
         game.physics.p2.gravity.y*=-1;
@@ -918,7 +918,7 @@ var hover = function(){
 				
 				lastObject = obj
 				obj.item = false
-				activateObject(pivotObjects,game.rnd.integerInRange(225, game.world.height * 0.75),obj)
+				activateObject(pivotObjects,game.rnd.integerInRange(70, game.world.height  - 70),obj)
 				
 				if(obj.tag == 'nave'){
 					
@@ -981,7 +981,7 @@ var hover = function(){
 			sceneGroup.scale.setTo(0.5,0.5)*/
 			
 			createBackground()
-			createBars()
+			//createBars()
        
 			
 			yogotar = game.add.spine(game.world.centerX - 200,game.world.centerY, "melvin");
@@ -998,7 +998,7 @@ var hover = function(){
 			player.up = false
 			player.invincible = false
 			
-			var bubble = sceneGroup.create(player.x, player.y,'atlas.hover','bubble')
+			var bubble = sceneGroup.create(player.x, player.y + 50,'atlas.hover','bubble')
 			bubble.alpha = 0
 			bubble.anchor.setTo(0.5,0.5)
 			player.bubble = bubble
