@@ -1,28 +1,89 @@
 body{
 	margin: 0;
-	background-image: url("../images/body_background.jpg");
+	background-image: url("../images/pattern-bg.png");
 	background-position: center;
-	background-size:cover;
+	background-size:contain;
 	color:#FFF !important;
+    overflow-x: hidden;
 }
+
+#promoGame-banner{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.8);
+    text-align: center;
+}
+
+#bannerPromo{
+    position: relative;
+    margin: 0 auto;
+    transform: translate(0%,50%);
+    width: 60%;
+}
+
+#bannerPromo img{
+    position: relative;
+    width: 90%;
+    border-radius: 2vh;
+}
+
+#newpromo{
+    position: absolute;
+    font-family: sans-serif;
+    font-size: 4vh;
+    z-index: 2;
+    width: 100%;
+    margin-top:5%;
+    text-align: center;
+}
+
+#newpromo img{
+    width: 100%;
+}
+
+#closepromo{
+    position: absolute;
+    left:95%;
+    transform: translate(-50%,0%);
+    padding:1vh;
+    width: 5%
+}
+
+#closepromo img{
+    width: 100%;
+}
+
+#playbtnPromo{
+    position: relative;
+    margin: 0% auto;
+    width: 100%; 
+    height: 10%;
+    margin-top: 15%;   
+}
+
+#playbtnPromo span{
+    position: absolute;
+    width: 100%;
+    left:0;
+    top:30%;
+    font-size: 5vh;
+    font-family:"arial";
+}
+
+
 
 #generalContainer{
 
-}
-
-.img-catalogo {
-    width: 540px;
-    height: 100%;
 }
 
 .hidden{
 	display: none;
 }
 .banner{
-	position: absolute;
+	position: relative;
 	padding: 1%;
-	background-color: #FFF;;
-	box-shadow: 1px 5px 10px #000;
 	margin-bottom: 2%;
 }
 
@@ -33,6 +94,7 @@ body{
 }
 
 #gamesContainer{
+    position: relative;
 	text-align: center !important;
 	width: 100%;
 	text-align: center;
@@ -42,25 +104,78 @@ body{
 #gamesContainer img{
 	width: 256px;
 	height: 128px;
-	border-radius: 2vh;
 	padding:0.8vh;
+    border-radius: 2vh;
 }
 
-#gamesContainer{
-	/*padding: 15%;*/
+
+.containerSubjectsMenu{
 }
 
-.subjectSelectionMenu{
-	display: inline-flex;
+#menuSubjectButtons{
+    display: flex;
+    width: 90%;
+    text-align: center;
+    margin: 0 auto;
+    height: 20%;
+    
 }
 
 .subjectSelectionBtn{
 	text-align: center;
 	color:black;
 	cursor: pointer;
+    padding: 0.5vh;
+    width: 90%;
+    
+}
+
+.btnSubjects{
+    position: relative;
+    width: 100%;
+}
+
+.text-btnsubject{
+    position: relative;
+    top:-20%;
+    color:#FFF;
+    font-size: 2vh;
+    margin-top:0;
+}
+
+footer{
+    position: relative;
+    clear: both;
+    background-color: #5F13AF;
+    padding: 3vh;
+}
+
+.menu-footer{
+    text-align: center;
+}
+
+.copyright{
+    text-align: center;
+}
+
+#sectionMenu{
+    visibility: hidden;
 }
 
 @media (max-width: 760px) {
+    
+#bannerPromo{
+    width: 100%;
+}
+    
+#playbtnPromo{
+    margin-top:25%;
+}
+    
+footer img{
+    width: 40%;
+}
+    
 #gamesContainer{
 	margin: 0px;
 	width: 100%;
@@ -72,5 +187,98 @@ body{
 	height: auto;
 	border-radius:2vh;
 	padding: 0.5vh;
+    z-index: 0;
 }
+    
+#sectionMenu{
+    visibility: visible;
+    position: absolute;
+    width: 100%;
+    z-index: 122;
+    height: 5%;
+    padding: 1vh;
+    }
+    
+.containerSubjectsMenu{
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+    top: 0;
+}    
+    
+#menuSubjectButtons{
+    position: absolute;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 1;
+    top:10%;
+    height: 100%;
+    
 }
+
+.subjectSelectionBtn{
+    display: inline-block;
+	text-align: center;
+	color:black;
+	cursor: pointer;
+    padding: 0.5vh;
+    width: 30%;
+    z-index: 12;
+    
+}
+
+.btnSubjects{
+    position: relative;
+    width: 100%;
+}
+
+.text-btnsubject{
+    position: relative;
+    top:75%;
+    margin-top:0;
+    width: 95%;
+    color:#FFF;
+    font-size: 2.5vh;
+}    
+    
+#closepromo{
+    position: absolute;
+    left:90%;
+    transform: translate(-50%,0%);
+    padding:1vh;
+    width: 10%
+}
+
+#closepromo img{
+    width: 100%;
+}    
+    
+    
+}
+
+@media (max-width: 1024px) {
+.text-btnsubject {
+    position: relative;
+    margin-top:0%;
+    color: #FFF;
+    font-size: x-small;
+}
+#closepromo{
+    position: absolute;
+    left:95%;
+    transform: translate(-50%,0%);
+    padding:2vh;
+    width: 13%
+}
+
+#closepromo img{
+    width: 100%;
+}    
+
+}
+
+

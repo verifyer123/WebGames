@@ -37,6 +37,21 @@
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script src="games/shared/minigames/js/helpers/yogomeGames.js" type="text/javascript"></script>
 <head>
+  <script type="text/javascript"> //Embed Subjects menu based on Browser Language
+  $( document ).ready(function() {
+    var userLang = navigator.language || navigator.userLanguage;// Get browser language
+    console.log(userLang);
+    if (userLang.toLowerCase().indexOf("en") >= 0 ){ //If languague contains "en" for english
+      $(".subjectSelectionRow").append( //Append English menu
+          '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-english/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
+      );
+    }else{
+      $(".subjectSelectionRow").append( //Append Spanish menu
+        '<div class="col-sm-8 col-sm-push-2 subjectSelectionMenu"><div id="mathBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-math.png" alt="Subjects Buttons Math"></div><div id="scienceBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-science.png" alt="Subjects Buttons Science"></div><div id="geographyBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-geography.png" alt="Subjects Buttons Geography"></div><div id="languageBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-language.png" alt="Subjects Buttons Language"></div><div id="healthBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-health.png" alt="Subjects Buttons Health"></div><div id="creativityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-creativity.png" alt="Subjects Buttons Creativity"></div><div id="codingBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-coding.png" alt="Subjects Buttons Coding"></div><!-- <div id="sustainabilityBtn" class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-sustainability-locked.png" alt="Subjects Buttons Sustainability"></div> --><div id="showAllBtn"class="subjectSelectionBtn growMouse"><img class="img-responsive btnSubjects" src="images/btn-espanol/btn-allSubjects.png" alt="Subjects Buttons All subjects"></div></div>'
+      );
+    }
+  });
+  </script>
   <!-- start Mixpanel--><script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
   0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
   for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
@@ -52,28 +67,18 @@
 </head>
 
 <body>
-    <div id="promoGame-banner">
-        <div id="closepromo"><img src="images/closepromo.png"/></div>
-        <div id="newpromo"></div>
-        <div id="bannerPromo"></div>
-        <div id="playbtnPromo"><img src="images/btnplay.png"><span></span></div>
-    </div>
 	<div id="generalContainer">
     <!-- Title -->
-        <div id="sectionMenu"><img src="images/menubtn.png" /></div>  
 		<div class="banner col-md-12">
 			<div class="row">
-				<div class="col-xs-12 col-sm-4 col-sm-push-4">
+				<div class="col-xs-12 col-sm-6 col-sm-push-3">
           <a href="http://www.yogome.com/es.html" class="center-block">
-            <img class="img-responsive center-block" style="max-width:250px; padding: 0 0 20px 0;" src="images/logo.png">
+            <img class="img-responsive center-block" src="images/yogome_logo.png">
           </a>
         </div>
 			</div>
       <!-- Subject Selection -->
-              
-      <div class="row containerSubjectsMenu">
-          
-          <div id="menuSubjectButtons"></div>
+      <div class="row subjectSelectionRow">
 
       </div>
 		</div>
@@ -86,26 +91,20 @@
 			</div>
 		</div>
 	</div>
-<footer>
-    <img class="img-responsive center-block" style="max-width:250px; padding: 0 0 20px 0;" src="images/logo.png">
-    <div class="menu-footer">About Us |  Apps |  Contact Us  |  Terms & Conditions | Kids & Online Safety </div>
-    <div class="copyright">© 2017, Yogome, Inc. All rights reserved</div>
-</footer>
+
 
 </body>
 	<script> //Insert HTML5 games from yogomeGames.js list
-         var pathGames = "games/nonrefactored/"
+        var pathGames = "games/nonrefactored/"
+
+        
 		var games = yogomeGames.getGames();
 		for(var i = 0 ; i<= games.length-1;i++){
 
 			var num = i;
 			if(games[i].review){
-				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
-				$("#gameimg" + num).attr("value",i);
-                
-				$("#gameimg" + num).click(function(){
-					window.open(games[$(this).attr("value")].url,'_blank');
-				});                
+				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-6 "+games[i].subject+"'><a rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' href='" + pathGames + games[num].name + '/' + games[i].name + 'Site/index.html'  + "' target='_self'><img class='growMouse img-responsive img-catalogo' src='" + pathGames + games[num].name + '/' + games[i].name + "Site/images/fbpost.png" + "'/></a> </div>");
+				$("#gameimg" + num).attr("value",i)
 			}
 
 		}
@@ -113,46 +112,26 @@
 	</script>
   <script type="text/javascript">
     $(document).ready(function (){
-      //** Get query to determine menu language **//
-      var userLang;// Get browser language
-      var videoLanguage;
-        
-    var subjectsButtons = [
-        {name:"allSubjects",en:"AllSubjects",es:"Todas las Materias"},
-        {name:"coding",en:"Coding",es:"Código"},
-        {name:"creativity",en:"Creativity",es:"Creatividad"},
-        {name:"geography",en:"Geography",es:"Geografía"},
-        {name:"health",en:"Health",es:"Salud"},
-        {name:"language",en:"Language",es:"Lenguaje"},
-        {name:"math",en:"Math",es:"Matemáticas"},
-        {name:"science",en:"Science",es:"Ciencia"},
-        {name:"sustainability",en:"Sustainability",es:"Sustentabilidad"}
-    ];
-        
-        for(var i = 0; i<= subjectsButtons.length-1;i++ ){
-            $("#menuSubjectButtons").append('<div id="'+subjectsButtons[i].name+'Btn" class="subjectSelectionBtn growMouse button-Subject"><img class="btnSubjects" src="images/subjectsbuttons/btn-'+subjectsButtons[i].name+'.png" /><div class="text-btnsubject">'+subjectsButtons[i].en+'</div></div>');
-        }
-
-
       $(".gameCatalog").click(function(event){
         event.preventDefault();
+        var userLang = navigator.language || navigator.userLanguage; // Get browser language
         mixpanel.track('GameSelected', {'Game': $(this).attr("rev")}); //Mixpanel Register Game Clicked
         var windowName = $(this).attr('rev');
         var url = $(this).attr('href');
-        if (userLang.toLowerCase().indexOf("lan=en") >= 0 ){ //If language contains "en" for English
+        if (userLang.toLowerCase().indexOf("en") >= 0 ){ //If language contains "en" for English
           var englishLang = "?language=en";
           var urlEn = url.concat(englishLang); //Force link to get the game in English
           window.open(urlEn, windowName, '_self');
-        }else if (userLang.toLowerCase().indexOf("lan=es") >= 0 ){ //If language contains anything but  "en"
+        }else{ //If language contains anything but  "en"
           var espanolLang = "?language=es";
           var urlEs = url.concat(espanolLang);
           window.open(urlEs, windowName, '_self');//Force link to get the game in Spanish
-        } else { //If language contains is anything else force en
-          var englishLang = "?language=en";
-          var urlEs = url.concat(englishLang);
-          window.open(urlEs, windowName, '_self');//Force link to get the game in Spanish
         }
       });
+    });
+  </script>
+  <script type="text/javascript">
+  $(document).ready(function () {
     //Grow element on mouseover
     $(".growMouse").mouseover(function(){
       TweenMax.to(this,0.5,{scale:1.2});
@@ -182,7 +161,6 @@
 		//Math button
 		var mathCount = 0; //Counts each time the button is clicked
     $('#mathBtn').on('click', function() {
-        visibleMenu();
 		    mathCount += 1;
 		    if (mathCount === 1) { //on first click, animate all minigames individually
 		      // come code
@@ -200,7 +178,6 @@
 		//Science button
 		var scienceCount = 0;
     $('#scienceBtn').on('click', function() {
-        visibleMenu();
 		    scienceCount += 1;
 		    if (scienceCount === 1) {
 		      // come code
@@ -218,7 +195,6 @@
 		//Geography button
 		var geographyCount = 0;
     $('#geographyBtn').on('click', function() {
-        visibleMenu();
 		    geographyCount += 1;
 		    if (geographyCount === 1) {
 		      // come code
@@ -236,7 +212,6 @@
 		//Creativity button
 		var creativityCount = 0;
     $('#creativityBtn').on('click', function() {
-        visibleMenu();
 		    creativityCount += 1;
 		    if (creativityCount === 1) {
 		      // come code
@@ -254,7 +229,6 @@
 		//Helath button
 		var healthCount = 0;
     $('#healthBtn').on('click', function() {
-        visibleMenu();
 		    healthCount += 1;
 		    if (healthCount === 1) {
 		      // come code
@@ -273,7 +247,6 @@
 		//Sustainability button
 
 		$('#sustainabilityBtn').on('click', function() {
-        visibleMenu();
 		    if (sustainabilityCount === 1) {
 		      // come code
 					$('.games:not(.sustainability)').addClass('hidden');
@@ -292,7 +265,6 @@
 		//Coding button
 		var codingCount = 0;
     $('#codingBtn').on('click', function() {
-        visibleMenu();
 		    codingCount += 1;
 		    if (codingCount === 1) {
 		      // come code
@@ -310,7 +282,6 @@
 		//Language button
 		var languageCount = 0;
     $('#languageBtn').on('click', function() {
-        visibleMenu();
 		    languageCount += 1;
 		    if (languageCount === 1) {
 		      // come code
@@ -321,87 +292,19 @@
 				else{
 					$('.games:not(.language)').addClass('hidden');
 					$('.language').removeClass('hidden');
-                    
 					//appearSecondClick();
 				}
 		});
 
 		//Show All Button
-    $('#allSubjectsBtn').on('click', function() {
+    $('#showAllBtn').on('click', function() {
 				$('.games:not(.sinJuegos)').removeClass('hidden');
 				$('.sinJuegos').addClass('hidden');
-                visibleMenu();
 				//appearSecondClick();
 		});
 
   });
-      
-      function visibleMenu(){
-          
-        var mediaquery = window.matchMedia("(max-width: 760px)");
-            if (mediaquery.matches) {
-                $( ".containerSubjectsMenu" ).toggle( function(){
-                  $(".containerSubjectsMenu").css("visibility","visible");
-                  });
-            } else {
-              $(".containerSubjectsMenu").css("visibility","visible");
-            }
-          
-      }
-      
-      
-      $("#sectionMenu").click(function(){
-          visibleMenu();
-      });
 
-      
-    var mediaquery = window.matchMedia("(max-width: 760px)");
-
-      
-      $( window ).resize(function() {
-            
-          if (mediaquery.matches) {
-              $(".containerSubjectsMenu").hide();
-            } else {
-                  $(".containerSubjectsMenu").show(); 
-            }
-        });
-      
-      
-      if (mediaquery.matches) {
-              $(".containerSubjectsMenu").hide();
-            } else {
-                  $(".containerSubjectsMenu").show(); 
-            }
-      
-      //Banner promo
-       var pathGames = "games/nonrefactored/"
-		var games = yogomeGames.getGames();
-      $("#bannerPromo").append('<img src="'+games[2].url +'/images/fbpost.png" />');
-      $("#bannerPromo").css("opacity",0);
-      TweenMax.to($("#bannerPromo"),1,{alpha:1,delay:1});
-      
-      $("#playbtnPromo").css("opacity",0);
-      TweenMax.to($("#playbtnPromo"),1,{alpha:1,delay:1.2});
-      
-      
-       $("#playbtnPromo").click(function(){
-           window.open(games[2].url,'_blank');
-             TweenMax.to($("#promoGame-banner"),1,{alpha:0,onComplete:deletePromo});
-           $("body").css("overflow-y","scroll");
-      });
-      
-      
-      $("body").css("overflow","hidden");
-      
-      $("#promoGame-banner").click(function(){
-          $("body").css("overflow-y","scroll");
-             TweenMax.to($("#promoGame-banner"),1,{alpha:0,onComplete:deletePromo});
-      });
-      
-      function deletePromo(){
-          $("#promoGame-banner").hide();
-      }
 
   </script>
   <script>
