@@ -4,18 +4,19 @@
     <script src="mathTournament.js"></script>
     <script>
         window.onload =  function(){
-            let functionToAtendQueue = function(item, index){
-                let resultado2 =  document.getElementById("resultado");
-                resultado2.innerHTML += item +"<br/>";
+            let functionInitPlayer = function(numPlayer, player){
+                let header =  document.getElementById("header");
+                header.innerHTML += player.nickname +"("+numPlayer+") Listo<br/>";
             }
-            let server = new Server(functionToAtendQueue);
+            let server = new Server(functionInitPlayer, 1);
             server.start();
-            document.getElementById("header").innerText = server.getIdGame();
+            document.getElementById("header").innerHTML = server.getIdGame()+"<br/>";
         }
     </script>
 </head>
 <body>
-    <div id="header" ></div>
+    <div id="header" ></div><br/>
+    <div id="operation" ></div>
     <div id="resultado" ></div>
 </body>
 </html>
