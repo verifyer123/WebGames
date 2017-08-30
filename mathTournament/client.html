@@ -9,6 +9,10 @@
             
             div_resultado.innerText = "init completo, jugador: "+cliente.numPlayer;
             btn_start.style.visibility = 'hidden';
+            
+            if(cliente.numPlayer!= null){
+                document.getElementById("start").disabled =true;
+            }
         }
         
         function getCode(boton){
@@ -32,9 +36,17 @@
         
         let cliente = new Client();
         function startButton(){
-            //let idGame = "PTZp4";
+            //let idGame = "00000";
             let idGame = document.getElementById("id_game").value;
-            cliente.start(idGame, callbackOnInit);
+            let av = document.getElementById("avatar");
+            av = av.options[av.selectedIndex].value;
+            let player = {
+                nickname: document.getElementById("nickname").value,
+                avatar: av,
+                life: 100
+            }
+            cliente.start(player, idGame, callbackOnInit);
+            
         }
         
         
@@ -44,11 +56,19 @@
 <body>
     <input type="text" id="id_game" /> 
     <input type="button" id="start" onclick="startButton()" value="Start game" /><br/><br/>
+    <input type="text" id="nickname" placeholder="Nickname" value="aaron" /><br/><br/>
+    <select id="avatar">
+        <option value="1" selected >Eagle</option>
+        <option value="2">Luna</option>
+        <option value="3">Arthurius</option>
+        <option value="4">Theffanie</option>
+    </select><br/><br/>
 
-    <input type="button" id="left" onclick="cliente.buttonOnClick(this, getCode)" value="Izquierda" /><br/>
+    <div id="answers"></div>
+    <!-- <input type="button" id="left" onclick="cliente.buttonOnClick(this, getCode)" value="Izquierda" /><br/>
     <input type="button" id="right" onclick="cliente.buttonOnClick(this, getCode)" value="Derecha" /><br/>
     <input type="button" id="up" onclick="cliente.buttonOnClick(this, getCode)" value="Arriba" /><br/>
-    <input type="button" id="down" onclick="cliente.buttonOnClick(this, getCode)" value="Abajo" /><br/>
+    <input type="button" id="down" onclick="cliente.buttonOnClick(this, getCode)" value="Abajo" /><br/> -->
     <div id="resultado" ></div>
 </body>
 </html>
