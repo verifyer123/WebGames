@@ -1,0 +1,188 @@
+
+monster12356.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+monster1/arm
+  rotate: true
+  xy: 941, 418
+  size: 89, 81
+  orig: 89, 81
+  offset: 0, 0
+  index: -1
+monster1/head1
+  rotate: true
+  xy: 525, 201
+  size: 140, 143
+  orig: 140, 143
+  offset: 0, 0
+  index: -1
+monster1/head2
+  rotate: false
+  xy: 670, 198
+  size: 140, 143
+  orig: 140, 143
+  offset: 0, 0
+  index: -1
+monster1/leg
+  rotate: false
+  xy: 269, 168
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+monster1/torso
+  rotate: true
+  xy: 925, 171
+  size: 70, 74
+  orig: 70, 74
+  offset: 0, 0
+  index: -1
+monster2/arm
+  rotate: false
+  xy: 449, 145
+  size: 66, 63
+  orig: 66, 63
+  offset: 0, 0
+  index: -1
+monster2/head1
+  rotate: false
+  xy: 379, 343
+  size: 192, 164
+  orig: 192, 164
+  offset: 0, 0
+  index: -1
+monster2/head2
+  rotate: false
+  xy: 573, 343
+  size: 192, 164
+  orig: 192, 164
+  offset: 0, 0
+  index: -1
+monster2/leg
+  rotate: true
+  xy: 517, 165
+  size: 34, 61
+  orig: 34, 61
+  offset: 0, 0
+  index: -1
+monster2/torso
+  rotate: true
+  xy: 941, 356
+  size: 60, 79
+  orig: 60, 79
+  offset: 0, 0
+  index: -1
+monster3/arm
+  rotate: true
+  xy: 379, 144
+  size: 64, 68
+  orig: 64, 68
+  offset: 0, 0
+  index: -1
+monster3/head1
+  rotate: true
+  xy: 812, 213
+  size: 143, 111
+  orig: 143, 111
+  offset: 0, 0
+  index: -1
+monster3/head2
+  rotate: false
+  xy: 379, 210
+  size: 144, 131
+  orig: 144, 131
+  offset: 0, 0
+  index: -1
+monster3/leg
+  rotate: true
+  xy: 303, 164
+  size: 52, 74
+  orig: 52, 74
+  offset: 0, 0
+  index: -1
+monster3/torso
+  rotate: true
+  xy: 767, 358
+  size: 149, 172
+  orig: 149, 172
+  offset: 0, 0
+  index: -1
+monster5/arm
+  rotate: true
+  xy: 189, 2
+  size: 113, 55
+  orig: 113, 55
+  offset: 0, 0
+  index: -1
+monster5/head1
+  rotate: true
+  xy: 2, 91
+  size: 189, 178
+  orig: 189, 178
+  offset: 0, 0
+  index: -1
+monster5/head2
+  rotate: false
+  xy: 188, 311
+  size: 189, 196
+  orig: 189, 196
+  offset: 0, 0
+  index: -1
+monster5/leg
+  rotate: false
+  xy: 130, 5
+  size: 57, 84
+  orig: 57, 84
+  offset: 0, 0
+  index: -1
+monster5/leg2
+  rotate: false
+  xy: 315, 218
+  size: 62, 91
+  orig: 62, 91
+  offset: 0, 0
+  index: -1
+monster5/torso
+  rotate: true
+  xy: 925, 243
+  size: 111, 82
+  orig: 111, 82
+  offset: 0, 0
+  index: -1
+monster6/arm
+  rotate: false
+  xy: 188, 234
+  size: 125, 75
+  orig: 125, 75
+  offset: 0, 0
+  index: -1
+monster6/head1
+  rotate: false
+  xy: 182, 117
+  size: 85, 115
+  orig: 85, 115
+  offset: 0, 0
+  index: -1
+monster6/head2
+  rotate: true
+  xy: 2, 10
+  size: 79, 126
+  orig: 79, 126
+  offset: 0, 0
+  index: -1
+monster6/leg
+  rotate: false
+  xy: 246, 17
+  size: 53, 98
+  orig: 53, 98
+  offset: 0, 0
+  index: -1
+monster6/torso
+  rotate: false
+  xy: 2, 282
+  size: 184, 225
+  orig: 184, 225
+  offset: 0, 0
+  index: -1
