@@ -3,7 +3,7 @@
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script src="mathTournament.js"></script>
     <script>
-        function callbackOnInit(){
+        let onClientInit = function(e){
             let div_resultado = document.getElementById("resultado");
             let btn_start = document.getElementById("start");
             
@@ -14,26 +14,27 @@
                 document.getElementById("start").disabled =true;
             }
         }
-        
-        function getCode(boton){
-            let codeAction= "00";
-            switch(boton.id){
-                case "left":
-                    codeAction = cliente.numPlayer +"01";
-                    break;
-                case "right":
-                    codeAction = cliente.numPlayer +"02";
-                    break;
-                case "up":
-                    codeAction = cliente.numPlayer +"03";
-                    break;
-                case "down":
-                    codeAction = cliente.numPlayer +"04";
-                    break;
-            }
-            return codeAction;
+
+        let onGameFull = function(){
+            alert("La partida ya se encuentra ocupada");
         }
-        
+
+        let showPossibleAnswers = function(possibleAnswers){
+            let divAnswers = document.getElementById("answers");
+            divAnswers.innerHTML ="";
+            for(let i =0; i< possibleAnswers.length; i++){
+                divAnswers.innerHTML+= "<input type='button' id='"+possibleAnswers[i]+"' onclick='cliente.buttonOnClick(this)' value='"+possibleAnswers[i]+"' />";
+            }
+        }
+
+        let onTurnEnds = function(e){
+            if(e.winner == e.myNumber){
+                document.body.style.backgroundColor = "green";
+            }else{
+                document.body.style.backgroundColor = "red";
+            }
+        }
+                
         let cliente = new Client();
         function startButton(){
             //let idGame = "00000";
@@ -45,7 +46,11 @@
                 avatar: av,
                 life: 100
             }
-            cliente.start(player, idGame, callbackOnInit);
+            cliente.addEventListener('onClientInit', onClientInit);
+            cliente.addEventListener('onGameFull', onGameFull);
+            cliente.addEventListener('showPossibleAnswers', showPossibleAnswers);
+            cliente.addEventListener('onTurnEnds', onTurnEnds);
+            cliente.start(player, idGame);
             
         }
         
@@ -65,10 +70,6 @@
     </select><br/><br/>
 
     <div id="answers"></div>
-    <!-- <input type="button" id="left" onclick="cliente.buttonOnClick(this, getCode)" value="Izquierda" /><br/>
-    <input type="button" id="right" onclick="cliente.buttonOnClick(this, getCode)" value="Derecha" /><br/>
-    <input type="button" id="up" onclick="cliente.buttonOnClick(this, getCode)" value="Arriba" /><br/>
-    <input type="button" id="down" onclick="cliente.buttonOnClick(this, getCode)" value="Abajo" /><br/> -->
     <div id="resultado" ></div>
 </body>
 </html>
