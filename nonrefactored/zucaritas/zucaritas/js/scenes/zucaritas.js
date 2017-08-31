@@ -461,8 +461,13 @@ var zucaritas = function(){
             
             if(object.active){
                 
+				
                 var tag = object.tag
                 
+				if(tag == 'coin'){
+					object.angle+= 2
+				}
+					
                 if(checkOverlap(player,object)){
                     
                     var checkTop = player.world.y < object.world.y - object.height * 0.5 && player.falling && player.active
@@ -892,11 +897,12 @@ var zucaritas = function(){
             
             if(type == 'coin'){
                 
-                obj = game.add.sprite(0, 0, 'coinS');
-				obj.scale.setTo(0.8,0.8)
+                //obj = game.add.sprite(0, 0, 'coinS');
+				obj = piecesGroup.create(0,0,'atlas.zucaritas','bowl')
+				//obj.scale.setTo(0.8,0.8)
                 piecesGroup.add(obj)
-                obj.animations.add('walk');
-                obj.animations.play('walk',24,true); 
+                //obj.animations.add('walk');
+                //obj.animations.play('walk',24,true); 
                 
             }else if(type == 'monster'){
                 
