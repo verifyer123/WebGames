@@ -87,7 +87,7 @@ var cereal = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 10000
+		timeToUse = 9000
 		moveFloor = false
 		pixMove = 0
         
