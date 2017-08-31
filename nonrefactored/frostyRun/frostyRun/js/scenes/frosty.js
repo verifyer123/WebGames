@@ -24,7 +24,7 @@ var frosty = function(){
         ],
         images: [
 			{   name:"fondo",
-			file: "images/amazingbros/background.png"},
+			file: "images/frosty/background.png"},
 		],
 		sounds: [
             {	name: "pop",
