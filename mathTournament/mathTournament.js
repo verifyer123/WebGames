@@ -33,7 +33,41 @@ let cleanArray = function(arr){
  * @public
  * @param {string} functionInitPlayer Function to be executed afeter a player is inited
  */
-function Server(functionInitPlayer, inLevel){
+function Server(inLevel){
+    
+    let self = this;
+    /** Events 
+     */
+    self.events = {};
+
+    this.addEventListener = function(name, handler) {
+        if (self.events.hasOwnProperty(name))
+            self.events[name].push(handler);
+        else
+            self.events[name] = [handler];
+    };
+
+    /* This is a bit tricky, because how would you identify functions?
+        This simple solution should work if you pass THE SAME handler. */
+    this.removeEventListener = function(name, handler) {
+        if (!self.events.hasOwnProperty(name))
+            return;
+        var index = _this.events[name].indexOf(handler);
+        if (index != -1)
+            self.events[name].splice(index, 1);
+    };
+
+    this.fireEvent = function(name, args) {
+        if (!self.events.hasOwnProperty(name))
+            return;
+        if (!args || !args.length)
+            args = [];
+        var evs = self.events[name], l = evs.length;
+        for (var i = 0; i < l; i++) {
+            evs[i].apply(null, args);
+        }
+    };
+    /**End Events*/
     
     let id_game;
     let level=inLevel;
@@ -44,6 +78,7 @@ function Server(functionInitPlayer, inLevel){
     this.getIdGame= function(){
         return id_game;
     };
+
 
     /**
      * @summary Generates a code for the current game.
@@ -79,67 +114,68 @@ function Server(functionInitPlayer, inLevel){
         return array;
         }
 
-    let evalAnwer = function(numPlayer, value){
-        let other = (numPlayer===1)?2:1;
-        if(value == correctAnswer){
-            alert(numPlayer);
-        }else{
-            evalAnwer();
-        }
-    }
-
     let checkWinner = function(){
         if(valores.p1.life<=0){
-            alert("ganador Player 2:"+valores.p2.nickname);
+            //onGameEnds(valores.p1, 1);
+            self.fireEvent('onGameEnds',[{ numPlayer: 1, playerWinner: valores.p1 }]);
             return true;
         }
         if(valores.p2.life<=0){
-            alert("ganador Player 1:"+valores.p1.nickname);
+            //onGameEnds(valores.p2, 2);
+            self.fireEvent('onGameEnds',[{ numPlayer: 2, playerWinner: valores.p2 }]);
             return true;
         }
         return false;
     }
 
     let checkResults= function(){
+        if(valores.p1answer== null){
+            return;
+        }
         let p1Time = valores.p1answer.time;
         let p1Value =valores.p1answer.value;
 
         let p2Time = valores.p2answer.time;
         let p2Value = valores.p2answer.value;
 
-        if(p1Time < p2Time){
-            if(p1Value == correctAnswer){
-                //alert(1);
+        let playerWinner =  null;
+
+        
+        if(p1Value == p2Value && p1Value == correctAnswer){
+            if(p1Time < p2Time){
                 valores.winner = 1;
                 valores.p2.life-=DAMAGE_BY_HIT;
+                playerWinner = valores.p1;
                 refIdGame.child("p2/life").set(valores.p2.life);
             }else{
-                if(p2Value == correctAnswer){                    
-                    valores.winner = 2;
-                    valores.p1.life-=DAMAGE_BY_HIT;
-                    refIdGame.child("p1/life").set(valores.p1.life);
-                }else{
-                    //alert("noone");
-                    valores.winner = -1;
-                }
-            }
-        }else{
-            if(p2Value == correctAnswer){
                 valores.winner = 2;
                 valores.p1.life-=DAMAGE_BY_HIT;
-                refIdGame.child("p1/life").set(valores.p2.life);
-            }else{
-                if(p1Value == correctAnswer){
+                playerWinner = valores.p2;
+                refIdGame.child("p1/life").set(valores.p1.life);
+            }
+        }else{
+            switch(correctAnswer){
+                case p1Value:
                     valores.winner = 1;
                     valores.p2.life-=DAMAGE_BY_HIT;
+                    playerWinner = valores.p1;
                     refIdGame.child("p2/life").set(valores.p2.life);
-                }else{
+                    break;
+                case p2Value:
+                    valores.winner = 2;
+                    valores.p1.life-=DAMAGE_BY_HIT;
+                    playerWinner = valores.p2;
+                    refIdGame.child("p1/life").set(valores.p1.life);
+                    break;
+                default:
                     valores.winner = -1;
-                }
             }
         }
-        alert(valores.winner);
+        
         refIdGame.child("winner").set(valores.winner);
+        //onTurnEnds(playerWinner, valores.winner);
+        self.fireEvent('onTurnEnds',[{ numPlayer: valores.winner, playerWinner: playerWinner }]);
+
         if(!checkWinner())
             generateQuestion();
         else{
@@ -151,7 +187,6 @@ function Server(functionInitPlayer, inLevel){
     }
 
     let generateQuestion = function(){
-        refIdGame = database.ref(id_game);
         let operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
         let operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
 
@@ -171,8 +206,16 @@ function Server(functionInitPlayer, inLevel){
 
         refIdGame.set(valores);
 
-        document.getElementById("operation").innerText = operand1+ " + "+ operand2 +"="+correctAnswer;
+        let data = {
+            operand1 : operand1,
+            operand2 : operand2,
+            opedator : "+",
+            correctAnswer : correctAnswer
+        }
+        //afterGenerateQuestion(data);
+        self.fireEvent('afterGenerateQuestion',[data]);
     }
+    this.generateQuestion = generateQuestion;
 
     /**
      * @summary Starts the server
@@ -191,20 +234,22 @@ function Server(functionInitPlayer, inLevel){
             p2answer : false,
             possibleAnswers: []
         };
-        let refIdGame= database.ref(id_game);
+        refIdGame= database.ref(id_game);
         refIdGame.set(valores);
 
         let refP1= database.ref(id_game+"/p1");
         refP1.on('value', function(snapshot){
             if(serverReady){
                 if(!snapshot.val()){
-                    alert("El jugador 1 se ha desconectado");
+                    //onPlayerDisconnect(valores.p1,1);
+                    self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
                 }else if(!valores.p1){
                     let p1 = snapshot.toJSON();
                     valores.p1 = p1;
-                    functionInitPlayer(1,p1);
+                    self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
                     if(valores.p2){
-                        generateQuestion(refIdGame);
+                        //onPlayersReady();
+                        self.fireEvent('onPlayersReady',[]);
                     }
                 }
             }
@@ -215,13 +260,16 @@ function Server(functionInitPlayer, inLevel){
         refP2.on('value', function(snapshot){
             if(serverReady){
                 if(!snapshot.val()){
-                    alert("El jugador 2 se ha desconectado");
+                    //onPlayerDisconnect(valores.p1,1);
+                    self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
                 }else if(!valores.p2){
                     let p2 = snapshot.toJSON();
                     valores.p2 = p2;
-                    functionInitPlayer(2,p2);
+                    //onInitPlayer(2,p2);
+                    self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
                     if(valores.p1){
-                        generateQuestion(refIdGame);
+                        //onPlayersReady();
+                        self.fireEvent('onPlayersReady',[]);
                     }
                 }
             }
