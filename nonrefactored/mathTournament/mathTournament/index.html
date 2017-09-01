@@ -24,8 +24,38 @@
 	<script src="../../shared/minigames/js/phaser.min.js"></script>
     <script src="../../shared/minigames/js/phaser-spine.min.js"></script>
 
+	<!--Server-->
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+	<script src="../../../mathTournament/mathTournament.js"></script>
+	<script>
+		var server
+		window.onload =  function(){
+			var level = 1;
+
+//			let onInitPlayer = function(e){
+//				let header =  document.getElementById("header");
+//				header.innerHTML += e.player.nickname +"("+e.numPlayer+") Listo<br/>";
+//			}
+//
+//			let onPlayerDisconnect= function(e){
+//				alert("El jugador "+e.numPlayer+" se ha desconectado");
+//			}
+//
+//			let onPlayersReady= function(e){
+//				minigame.orientation.init(startGame)
+////				server.generateQuestion();
+//			}
+
+			//let server = new Server(functions, level);
+			server = new Server(level);
+			server.start();
+//			document.getElementById("header").innerHTML = server.getIdGame()+"<br/>";
+		}
+	</script>
+
 	<!--Scenes-->
 	<script src="js/scenes/battle.js"></script>
+	<script src="js/scenes/room.js"></script>
     <script src="../../shared/minigames/js/scenes/result.js"></script>
 	<script src="../../shared/minigames/js/scenes/preloaders/epic.js"></script>
 

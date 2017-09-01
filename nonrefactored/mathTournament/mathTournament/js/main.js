@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("battle")
+				sceneloader.show("room")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,7 +66,8 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            battle,
+            room,
+    		battle,
             result,
     	])
     }

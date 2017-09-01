@@ -100,13 +100,12 @@ var battle = function(){
     var inputsEnabled
     var pointsBar
     var monsterCounter
-    var monster
-    var arthurius
+    var player2
+    var player1
     var battleGroup
     var indicator
     var killedMonsters
     var monsters
-    var monsterHpBar
     var hitParticle
 
     function loadSounds(){
@@ -157,151 +156,84 @@ var battle = function(){
         }
     }
     
-    function receiveAttack() {
-        arthurius.hpBar.removeHealth(2)
+    function receiveAttack(target) {
+		target.hpBar.removeHealth(2)
         sound.play("hit")
 
-        arthurius.statusAnimation = arthurius.hpBar.health < 3 ? "TIRED" : "IDLE"
-        arthurius.setAnimation(["HIT", arthurius.statusAnimation])
-        arthurius.hit.start(true, 1000, null, 5)
+		target.statusAnimation = target.hpBar.health < 3 ? "TIRED" : "IDLE"
+		target.setAnimation(["HIT", target.statusAnimation])
+		target.hit.start(true, 1000, null, 5)
 
-        if(arthurius.hpBar.health > 0)
+        if(target.hpBar.health > 0)
             game.time.events.add(1000, startRound)
         else{
             // dino.setAnimation(["HIT", "IDLE"])
-            game.time.events.add(400, stopGame)
+            game.time.events.add(1000, defeatPlayer, null, target)
         }
     }
 
-    function monsterAttack(){
-        inputsEnabled = false
+	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
+		inputsEnabled = false
 
-        if (monsterHpBar.health > 0){
-            monster.setAnimation(["ATTACK", monster.statusAnimation])
-
-            var from = {}
-            from.x = monster.x - 40
-            from.y = monster.y - monster.height * 0.5 - 50
-
-            var target = {}
-            target.x = arthurius.x + 80
-            target.y = arthurius.y - arthurius.height * 0.5 + 50
-
-            var scale = {from:{x: 0.4, y: 0.4}, to:{x: 1, y: 1}}
-
-			game.time.events.add(500, function () {
-				createProyectile("proyectile", from, target, scale, monster.proyectile, receiveAttack)
-			})
-        }
-    }
-    
-    function killMonster() {
-        monster.setAnimation(["HIT", monster.statusAnimation])
-        killedMonsters++
-        addPoint(5)
-		timeValue-=timeValue * 0.10
-
-        game.time.events.add(400, function () {
-            monster.setAlive(false)
-            sound.play("fart")
-            var dissapear = game.add.tween(monster).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-            dissapear.onComplete.add(function () {
-                sound.play("cut")
-
-                monster.x = game.world.width + 120
-                monster.alpha = 0
-                monster.setAlive(true)
-                monster.statusAnimation = "IDLE"
-                monster.setAnimation([monster.statusAnimation])
-
-                monsterCounter = monsterCounter + 1 < MONSTERS.length ? monsterCounter + 1 : 0
-                monster = monsters[MONSTERS[monsterCounter].spineIndex]
-                monster.alpha = 1
-                monster.setSkinByName(MONSTERS[monsterCounter].skin)
-                monsterHpBar.resetHealth()
-                var newMonster = game.add.tween(monster).to({x:game.world.width - 140}, 800, Phaser.Easing.Cubic.Out, true)
-                newMonster.onComplete.add(startRound)
-				monsterHpBar.name.setText(MONSTERS[monsterCounter].name)
-
-                monster.proyectile = MONSTERS[monsterCounter].colorProyectile
-                arthurius.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
-            })
-        })
-
-    }
-    
-    function monsterHit() {
-        sound.play("hit")
-
-        var healthToRemove
-        if (indicator.x > 118)
-            healthToRemove = 9
-        else if(indicator.x > 55)
-            healthToRemove = 4
-        else if(indicator.x > 0)
-            healthToRemove = 3
-        else if(indicator.x > -122)
-            healthToRemove = 2
-        else
-            healthToRemove = 1
-
-        monsterHpBar.removeHealth(healthToRemove)
-        monster.statusAnimation = monsterHpBar.health < 3 ? "TIRED" : "IDLE"
-        monster.setAnimation(["HIT", monster.statusAnimation])
-        hitParticle.start(true, 1000, null, 5)
-
-        // game.time.events.add(1200, monsterAttack)
-        if(monsterHpBar.health > 0)
-            game.time.events.add(1000, startRound)
-        else
-            // killMonster()
-            game.time.events.add(1500, killMonster)
-    }
-
-	function blowAttack(asset, from, target, scale, color, onComplete){
-		sound.play("swordSmash")
+		// if (fromPlayer.hpBar.health > 0){
+		fromPlayer.setAnimation(["ATTACK", fromPlayer.statusAnimation])
 
 		var proyectile = sceneGroup.create(0, 0, 'atlas.battle', asset)
-		proyectile.x = from.x
-		proyectile.y = from.y
-		proyectile.scale.x = scale.from.x
-		proyectile.scale.y = scale.from.y
+		proyectile.x = fromPlayer.from.x
+		proyectile.y = fromPlayer.from.y
+		proyectile.scale.x = fromPlayer.scaleShoot.from.x
+		proyectile.scale.y = fromPlayer.scaleShoot.from.y
 		proyectile.anchor.setTo(0.5, 0.5)
-		proyectile.tint = color
-		game.add.tween(proyectile.scale).to({x: scale.to.x, y: scale.to.y}, 1200, null, true)
+		proyectile.tint = fromPlayer.proyectile
 
-		game.add.tween(proyectile).to({x: target.x, y: target.y}, 1200, null, true).onComplete.add(function () {
+		game.time.events.add(500, function () {
+			typeAttack(proyectile, fromPlayer, targetPlayer)
+		})
+		// }
+	}
+    
+    function defeatPlayer(player) {
+		player.setAnimation(["HIT", player.statusAnimation])
+
+        game.time.events.add(400, function () {
+			player.setAlive(false)
+			sound.play("fart")
+			var dissapear = game.add.tween(player).to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true)
+		})
+
+    }
+
+	function blowAttack(proyectile, from, target){
+		sound.play("swordSmash")
+
+		var toScale = target.scaleShoot
+		game.add.tween(proyectile.scale).to({x: toScale.to.x, y: toScale.to.y}, 1200, null, true)
+
+		var toHit = target.hitDestination
+		game.add.tween(proyectile).to({x: toHit.x, y: toHit.y}, 1200, null, true).onComplete.add(function () {
 			game.add.tween(proyectile).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
 				proyectile.destroy()
 			})
-			if (onComplete)
-				onComplete()
+			receiveAttack(target)
 		})
 
 	}
 
-    function createProyectile(asset, from, target, scale, color, onComplete){
+    function createProyectile(proyectile, from, target){
         sound.play("throw")
 
-        var proyectile = sceneGroup.create(0, 0, 'atlas.battle', asset)
-        proyectile.x = from.x
-        proyectile.y = from.y
-        proyectile.scale.x = scale.from.x
-        proyectile.scale.y = scale.from.y
-        proyectile.anchor.setTo(0.5, 0.5)
-        proyectile.tint = color
-
-        game.add.tween(proyectile).to({x: target.x}, 1600, null, true)
-        game.add.tween(proyectile.scale).to({x: scale.to.x, y: scale.to.y}, 1600, null, true)
+		var toScale = target.scaleShoot
+		var toHit = target.hitDestination
+		game.add.tween(proyectile).to({x: toHit.x}, 1600, null, true)
+        game.add.tween(proyectile.scale).to({x: toScale.to.x, y: toScale.to.y}, 1600, null, true)
 
         var first = game.add.tween(proyectile).to({y: 46}, 800, Phaser.Easing.Cubic.Out, true)
         first.onComplete.add(function () {
-            game.add.tween(proyectile).to({y: target.y}, 800, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
+            game.add.tween(proyectile).to({y: toHit.y}, 800, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
                 game.add.tween(proyectile).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
                     proyectile.destroy()
                 })
-                if (onComplete)
-                    onComplete()
+                receiveAttack(target)
             })
         })
 
@@ -349,24 +281,24 @@ var battle = function(){
                 sound.play("right")
                 if(indicator.x > 118){
                     soundName = "explosion"
-                    arthurius.setAnimation(["CRITICAL", arthurius.statusAnimation])
+                    player1.setAnimation(["CRITICAL", player1.statusAnimation])
                 }else{
-                    arthurius.setAnimation(["ATTACK", arthurius.statusAnimation])
+                    player1.setAnimation(["ATTACK", player1.statusAnimation])
                 }
 
                 game.time.events.add(500,function() {
                     var from = {}
-                    from.x = arthurius.x + 140
-                    from.y = arthurius.y - arthurius.height * 0.5 + 200
+                    from.x = player1.x + 140
+                    from.y = player1.y - player1.height * 0.5 + 200
 
                     var target = {}
-                    target.x = monster.x
-                    target.y = monster.y - monster.height * 0.5
+                    target.x = player2.x
+                    target.y = player2.y - player2.height * 0.5
 
                     var scale = {from:{x: 1, y: 1}, to:{x: 0.4, y: 0.4}}
                     if(soundName)
                         sound.play(soundName)
-					blowAttack("alecbuu", from, target, scale, arthurius.proyectile, monsterHit)
+					blowAttack("alecbuu", from, target, scale, player1.proyectile)
                 })
 
             }else{
@@ -467,52 +399,105 @@ var battle = function(){
         floor.anchor.setTo(0.5, 0.5)
         floor.scale.setTo(0.65, 0.65)
 
-        createMonsters()
+        // createMonsters()
 
-        monster = monsters[MONSTERS[monsterCounter].spineIndex]
-        monster.x = game.world.width - 140
-        monster.alpha = 1
-		floor.x = monster.x
-		floor.y = monster.y
-		monster.proyectile = MONSTERS[monsterCounter].colorProyectile
+		var spineData = SPINES[MONSTERS[0].spineIndex]
+		var player2 = createSpine(spineData.skeleton, spineData.defaultSkin)
+		player2.scale.setTo(0.8, 0.8)
+		sceneGroup.add(player2)
+		player2.statusAnimation = "IDLE"
+        player2.x = game.world.width - 140
+		player2.y = 360
+        player2.alpha = 1
+		floor.x = player2.x
+		floor.y = player2.y
+		player2.proyectile = MONSTERS[monsterCounter].colorProyectile
+
+		var from2 = {}
+		from2.x = player2.x - 40
+		from2.y = player2.y - player2.height * 0.5 - 50
+		player2.from = from2
+
+		var hitDestination2 = {}
+		hitDestination2.x = player2.x + 80
+		hitDestination2.y = player2.y - player2.height * 0.5 + 50
+		player2.hitDestination = hitDestination2
+
+		var scale2 = {from:{x: 0.4, y: 0.4}, to:{x: 1, y: 1}}
+		player2.scaleShoot = scale2
+
+		var input2 = game.add.graphics()
+		input2.beginFill(0xffffff)
+		input2.drawCircle(0,0, 200)
+		input2.endFill()
+		player2.add(input2)
+		input2.inputEnabled = true
+		input2.events.onInputDown.add(function () {
+			playerAttack(player2, player1, createProyectile, "proyectile")
+		})
 		//
         var explode = createPart("alecbuu")
-        explode.y = monster.y - monster.height * 0.5
-        explode.x = monster.x
+        explode.y = player2.y - player2.height * 0.5
+        explode.x = player2.x
         sceneGroup.add(explode)
         hitParticle = explode
         hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
+		player2.hit = hitParticle
 
-        monsterHpBar = createHpbar()
-		monsterHpBar.x = monster.x - 250
-		monsterHpBar.y = monster.y - monster.height + 30
+        var monsterHpBar = createHpbar()
+		monsterHpBar.x = player2.x - 250
+		monsterHpBar.y = player2.y - player2.height + 30
         sceneGroup.add(monsterHpBar)
-		monsterHpBar.name.text = MONSTERS[monsterCounter].name
+		monsterHpBar.name.text = MONSTERS[0].name
+		player2.hpBar = monsterHpBar
         // monsterHpBar = hpBar1
 
         var floor2 = sceneGroup.create(0, 0, 'atlas.battle', 'floor')
         floor2.anchor.setTo(0.5, 0.5)
 
-        arthurius = createSpine("arthurius", "normal")
-		arthurius.x = 105
-		arthurius.y = arthurius.height + 280
-		arthurius.proyectile = "0xFFFFFF"
-		sceneGroup.add(arthurius)
-		floor2.x = arthurius.x - 8
-		floor2.y = arthurius.y - 40
-		arthurius.statusAnimation = "IDLE"
+        player1 = createSpine("arthurius", "normal")
+		player1.x = 105
+		player1.y = player1.height + 280
+		player1.proyectile = "0xFFFFFF"
+		sceneGroup.add(player1)
+		floor2.x = player1.x - 8
+		floor2.y = player1.y - 40
+		player1.statusAnimation = "IDLE"
+
+		var from1 = {}
+		from1.x = player1.x - 40
+		from1.y = player1.y - player1.height * 0.5 - 50
+		player1.from = from1
+
+		var hitDestination1 = {}
+		hitDestination1.x = player1.x + 80
+		hitDestination1.y = player1.y - player1.height * 0.5 + 50
+		player1.hitDestination = hitDestination1
+
+		var scale1 = {from:{x: 0.4, y: 0.4}, to:{x: 1, y: 1}}
+		player1.scaleShoot = scale1
+
+		var input1 = game.add.graphics()
+		input1.beginFill(0xffffff)
+		input1.drawCircle(0,0, 200)
+		input1.endFill()
+		player1.add(input1)
+		input1.inputEnabled = true
+		input1.events.onInputDown.add(function () {
+			playerAttack(player1, player2, createProyectile, "proyectile")
+		})
 
         var explodeArthurius = createPart("proyectile")
-        arthurius.add(explodeArthurius)
-		explodeArthurius.y = -arthurius.height * 0.5 + 40
-        arthurius.hit = explodeArthurius
-        arthurius.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
+        player1.add(explodeArthurius)
+		explodeArthurius.y = -player1.height * 0.5 + 40
+        player1.hit = explodeArthurius
+        player1.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
 		var hpBar2 = createHpbar()
-		hpBar2.x = arthurius.x + 310
-		hpBar2.y = arthurius.y - 50
+		hpBar2.x = player1.x + 310
+		hpBar2.y = player1.y - 50
 		sceneGroup.add(hpBar2)
-		arthurius.hpBar = hpBar2
+		player1.hpBar = hpBar2
         hpBar2.name.text = "Arthurius"
 
     }
@@ -538,8 +523,8 @@ var battle = function(){
         //timer.pause()
         sound.play("uuh")
         battleSong.stop()
-        arthurius.setAlive(false)
-        var dissapear = game.add.tween(arthurius).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
+        player1.setAlive(false)
+        var dissapear = game.add.tween(player1).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
         dissapear.onStart.add(function () {
 			sound.play("evilLaugh")
 		})
@@ -618,6 +603,7 @@ var battle = function(){
     function startRound() {
         hideQuestion()
         indicator.tweenRestart.start()
+
 		// game.time.events.add(1000, generateQuestion)
     }
     
@@ -1007,7 +993,8 @@ var battle = function(){
             createGameObjects()
             createbattleUI()
             createPointsBar()
-            createTutorial()
+			startRound()
+            // createTutorial()
 
             buttons.getButton(battleSong,sceneGroup)
 
