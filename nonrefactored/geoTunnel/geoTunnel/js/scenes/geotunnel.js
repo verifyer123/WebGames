@@ -505,6 +505,9 @@ var geotunnel = function(){
 		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.geotunnel','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
 
+		var tutoCompl = tutoGroup.create(game.world.centerX - 120, game.world.centerY + 125,'atlas.geotunnel','tcomplement')
+		tutoCompl.anchor.setTo(0.5,0.5)
+
 		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
@@ -516,7 +519,7 @@ var geotunnel = function(){
 		}
 
 		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.geotunnel',inputName)
+		var inputLogo = tutoGroup.create(game.world.centerX + 120 ,game.world.centerY + 125,'atlas.geotunnel',inputName)
 		inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 
@@ -527,29 +530,10 @@ var geotunnel = function(){
 		playText.anchor.setTo(0.5,0.5)
 	}
 
-	function createClock(){
-
-		clock = game.add.group()
-		clock.x = game.world.centerX
-		clock.y = game.world.centerY + 80
-		sceneGroup.add(clock)
-
-		var clockImage = clock.create(0,0,'atlas.geotunnel','clock')
-		clockImage.anchor.setTo(0.5,0.5)
-
-		var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.geotunnel','bar')
-		clockBar.anchor.setTo(0,0.5)
-		clockBar.width = clockImage.width*0.76
-		clockBar.height = 22
-		clockBar.origScale = clockBar.scale.x
-
-		clock.bar = clockBar
-
-	}
-
 	function spawnFigure() {
 		var type = figureList[figureCounter]
-		figureCounter = figureCounter + 1 < figureList.length ? figureCounter + 1 : ROUNDS.length - 1
+		console.log(type, figureCounter)
+		figureCounter = figureCounter + 1 < figureList.length ? figureCounter + 1 : 0
 		var figure
 		if(type === "triangle")
 			figure = triangleList.pop()
