@@ -107,6 +107,7 @@ var battle = function(){
     var killedMonsters
     var monsters
     var hitParticle
+	var env
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -256,6 +257,11 @@ var battle = function(){
 			playerAttack(player1, player2, createProyectile, "proyectile")
 		else if(event.numPlayer === 2)
 			playerAttack(player2, player1, createProyectile, "proyectile")
+		else{
+    		player1.setAnimation(["HIT", "IDLE"])
+			player2.setAnimation(["HIT", "IDLE"])
+			game.time.events.add(1000, startRound)
+		}
     }
 
 	function createHpbar(){
@@ -357,6 +363,7 @@ var battle = function(){
 		var input2 = game.add.graphics()
 		input2.beginFill(0xffffff)
 		input2.drawCircle(0,0, 200)
+		input2.alpha = 0
 		input2.endFill()
 		player2.add(input2)
 		input2.inputEnabled = true
@@ -376,7 +383,7 @@ var battle = function(){
 		monsterHpBar.x = player2.x - 250
 		monsterHpBar.y = player2.y - player2.height + 30
         sceneGroup.add(monsterHpBar)
-		monsterHpBar.name.text = MONSTERS[0].name
+		monsterHpBar.name.text = env.p2.nickname
 		player2.hpBar = monsterHpBar
         // monsterHpBar = hpBar1
 
@@ -409,6 +416,7 @@ var battle = function(){
 		input1.beginFill(0xffffff)
 		input1.drawCircle(0,0, 200)
 		input1.endFill()
+		input1.alpha = 0
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
@@ -426,7 +434,7 @@ var battle = function(){
 		hpBar2.y = player1.y - 50
 		sceneGroup.add(hpBar2)
 		player1.hpBar = hpBar2
-        hpBar2.name.text = "Arthurius"
+        hpBar2.name.text = env.p1.nickname
 
     }
 
@@ -802,6 +810,9 @@ var battle = function(){
         assets: assets,
         name: "battle",
         preload:preload,
+		setEnv:function (params) {
+        	env = params
+		},
         create: function(event){
 
             sceneGroup = game.add.group();
