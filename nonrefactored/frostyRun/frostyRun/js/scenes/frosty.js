@@ -189,20 +189,20 @@ var frosty = function(){
         game.stage.disableVisibilityChange = false;  
 		buttons.getImages(game)
         
-        var addText = ""
+        /*var addText = ""
         if(game.world.width > game.world.height){
             addText = "Land"
-        }
+        }*/
         
         game.load.spine('tigre', "images/spines/Tono.json");
-        game.load.image('fondo',"images/frosty/background" + addText + ".png")
+        //game.load.image('fondo',"images/frosty/background" + addText + ".png")
         game.load.image('introscreen',"images/frosty/introscreen.png")
 		game.load.image('howTo',"images/frosty/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/frosty/play" + localization.getLanguage() + ".png")
         
         game.load.spritesheet('bMonster', 'images/frosty/bMonster.png', 112, 113, 23);
         game.load.spritesheet('pMonster', 'images/frosty/pMonster.png', 112, 105, 23);
-        //game.load.spritesheet('coinS', 'images/frosty/coinS.png', 68, 70, 12);
+        game.load.spritesheet('coinS', 'images/frosty/coinS.png', 125, 125, 24);
         game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
         
     }
@@ -411,10 +411,6 @@ var frosty = function(){
         for(var index = 0;index<objectsGroup.length;index++){
 			
             var obj = objectsGroup.children[index]
-			
-			if(obj.tag == 'coin'){
-                obj.body.rotateLeft(Math.random()*20 + 20)
-            }
             
             if(obj.used){
                 if(obj.body.x < -obj.width * 0.45){
@@ -429,7 +425,6 @@ var frosty = function(){
                         if(obj.tag == 'coin'){
                             
 							addPoint(obj)
-                        
                         	deactivateObj(obj)
 
                     }
@@ -465,7 +460,7 @@ var frosty = function(){
     
     function update(){
         
-		cloud.tilePosition.x-=0.2
+		//cloud.tilePosition.x-=0.2
 		stars.tilePosition.y+= 1
 		stars.tilePosition.x-= 1
 		
@@ -969,7 +964,11 @@ var frosty = function(){
                 
             }else if(tag == 'coin'){
                 
-                object = groundGroup.create(-300,-200,'atlas.frosty','bowl')
+                //object = groundGroup.create(-300,-200,'atlas.frosty','bowl')
+				object = game.add.sprite(-300, 200, 'coinS');
+                groundGroup.add(object)
+                object.animations.add('walk');
+                object.animations.play('walk',24,true);
                 
             }else{
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.frosty',tag)
@@ -1005,7 +1004,7 @@ var frosty = function(){
         
         createObjs('floor',1.1,number)
         createObjs('brick',1.1,number)
-        createObjs('coin',1,number)
+        createObjs('coin',0.7,number)
         createObjs('enemy_squish',0.8,number * 0.6)
         createObjs('enemy_spike',0.8,number * 0.6)
         createObjs('skull',1,number * 0.3)

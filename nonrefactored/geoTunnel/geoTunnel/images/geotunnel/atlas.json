@@ -2,7 +2,7 @@
 
 {
 	"filename": "button",
-	"frame": {"x":615,"y":207,"w":129,"h":114},
+	"frame": {"x":375,"y":1,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":375,"y":207,"w":238,"h":121},
+	"frame": {"x":1,"y":432,"w":238,"h":121},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":238,"h":121},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "foe",
-	"frame": {"x":375,"y":373,"w":62,"h":62},
+	"frame": {"x":375,"y":370,"w":62,"h":62},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":62},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":375,"y":1,"w":443,"h":204},
+	"frame": {"x":1,"y":559,"w":443,"h":204},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":443,"h":204},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":615,"y":323,"w":123,"h":114},
+	"frame": {"x":375,"y":117,"w":123,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":123,"h":114},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":746,"y":207,"w":64,"h":64},
+	"frame": {"x":375,"y":304,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -64,8 +64,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "tcomplement",
+	"frame": {"x":241,"y":434,"w":212,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":212,"h":80},
+	"sourceSize": {"w":212,"h":80},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "triangle",
-	"frame": {"x":740,"y":323,"w":76,"h":69},
+	"frame": {"x":375,"y":233,"w":76,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":69},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":542,"y":330,"w":64,"h":64},
+	"frame": {"x":441,"y":304,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -83,7 +92,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":375,"y":330,"w":165,"h":41},
+	"frame": {"x":241,"y":516,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -95,8 +104,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":819,"h":438},
+	"size": {"w":506,"h":764},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:692251fce10ee23b087f5ecfef7229ff:76dc2dce1a08404e45badf9cb6b60d69:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:494885bab97846a2947dc808b4e52ff3:136202724667d63d0464721d67033d85:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

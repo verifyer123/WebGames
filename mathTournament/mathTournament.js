@@ -11,16 +11,16 @@ firebase.initializeApp(config);
 var database = firebase.database();
 const MAX_OPERAND_VALUE = 500;
 const NUMBER_OF_FAKE_ANSWERS = 5;
-let INITIAL_LIFE = 100;
-let DAMAGE_BY_HIT = 50;
+var INITIAL_LIFE = 100;
+var DAMAGE_BY_HIT = 25;
 
 /**
  * @summary As default, an empty array has one element (an empty String). This function removes that element
  * @param {type} arr Array to be cleaned
  * @returns {unresolved} Array cleaned
  */
-let cleanArray = function(arr){
-    let i = arr.indexOf("");
+var cleanArray = function(arr){
+    var i = arr.indexOf("");
     if(i>-1){
         arr.splice(i,1);
     }
@@ -35,7 +35,7 @@ let cleanArray = function(arr){
  */
 function Server(inLevel){
     
-    let self = this;
+    var self = this;
     /** Events 
      */
     self.events = {};
@@ -69,11 +69,11 @@ function Server(inLevel){
     };
     /**End Events*/
     
-    let id_game;
-    let level=inLevel;
-    let valores = null;
-    let correctAnswer= false;
-    let refIdGame = null;
+    var id_game;
+    var level=inLevel;
+    var valores = null;
+    var correctAnswer= false;
+    var refIdGame = null;
 
     this.getIdGame= function(){
         return id_game;
@@ -84,18 +84,18 @@ function Server(inLevel){
      * @summary Generates a code for the current game.
      * @returns {String} The code of the current game
      */
-    let makeid = function() {
-        let text = "";
-        //let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        let possible = "0123456789";
-        for (let i = 0; i < 5; i++)
+    var makeid = function() {
+        var text = "";
+        //var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var possible = "0123456789";
+        for (var i = 0; i < 5; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
         return text;
     };
 
     
 
-    let shuffleArray = function(array) {
+    var shuffleArray = function(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
 
         // While there remain elements to shuffle...
@@ -114,7 +114,7 @@ function Server(inLevel){
         return array;
         }
 
-    let checkWinner = function(){
+    var checkWinner = function(){
         if(valores.p1.life<=0){
             self.fireEvent('onGameEnds',[{ numPlayer: 2, playerWinner: valores.p2 }]);
             return true;
@@ -126,17 +126,17 @@ function Server(inLevel){
         return false;
     }
 
-    let checkResults= function(){
+    var checkResults= function(){
         if(valores.p1answer== null){
             return;
         }
-        let p1Time = valores.p1answer.time;
-        let p1Value =valores.p1answer.value;
+        var p1Time = valores.p1answer.time;
+        var p1Value =valores.p1answer.value;
 
-        let p2Time = valores.p2answer.time;
-        let p2Value = valores.p2answer.value;
+        var p2Time = valores.p2answer.time;
+        var p2Value = valores.p2answer.value;
 
-        let playerWinner =  null;
+        var playerWinner =  null;
 
         
         if(p1Value == p2Value && p1Value == correctAnswer){
@@ -181,14 +181,14 @@ function Server(inLevel){
         }
     }
 
-    let generateQuestion = function(){
-        let operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
-        let operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
+    var generateQuestion = function(){
+        var operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
+        var operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
 
         correctAnswer = operand1 +operand2;
-        let possibleAnswers = [correctAnswer];
-        for(let i = 0; i< NUMBER_OF_FAKE_ANSWERS; i++){
-            let n = correctAnswer;
+        var possibleAnswers = [correctAnswer];
+        for(var i = 0; i< NUMBER_OF_FAKE_ANSWERS; i++){
+            var n = correctAnswer;
             while(n==correctAnswer){
                 n = Math.floor((Math.random() * MAX_OPERAND_VALUE*2) + 1)
             }
@@ -201,7 +201,7 @@ function Server(inLevel){
 
         refIdGame.set(valores);
 
-        let data = {
+        var data = {
             operand1 : operand1,
             operand2 : operand2,
             opedator : "+",
@@ -217,7 +217,7 @@ function Server(inLevel){
     this.start = function(){
         //id_game = "00000"; 
         id_game = makeid();
-        let serverReady = false;
+        var serverReady = false;
         valores = {
             p1: false,
             p2: false,
@@ -230,13 +230,13 @@ function Server(inLevel){
         refIdGame= database.ref(id_game);
         refIdGame.set(valores);
 
-        let refP1= database.ref(id_game+"/p1");
+        var refP1= database.ref(id_game+"/p1");
         refP1.on('value', function(snapshot){
             if(serverReady){
                 if(!snapshot.val()){
                     self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
                 }else if(!valores.p1){
-                    let p1 = snapshot.toJSON();
+                    var p1 = snapshot.toJSON();
                     valores.p1 = p1;
                     self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
                     if(valores.p2){
@@ -247,13 +247,13 @@ function Server(inLevel){
             
         });
 
-        let refP2= database.ref(id_game+"/p2");
+        var refP2= database.ref(id_game+"/p2");
         refP2.on('value', function(snapshot){
             if(serverReady){
                 if(!snapshot.val()){
                     self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
                 }else if(!valores.p2){
-                    let p2 = snapshot.toJSON();
+                    var p2 = snapshot.toJSON();
                     valores.p2 = p2;
                     self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
                     if(valores.p1){
@@ -263,18 +263,18 @@ function Server(inLevel){
             }
         });
 
-        let p1answer= database.ref(id_game+"/p1answer");
+        var p1answer= database.ref(id_game+"/p1answer");
         p1answer.on('value', function(snapshot){
-            let p1answer = snapshot.toJSON();
+            var p1answer = snapshot.toJSON();
             valores.p1answer = p1answer;
             if(valores.p2answer){
                 checkResults();
             }
         });
 
-        let p2answer= database.ref(id_game+"/p2answer");
+        var p2answer= database.ref(id_game+"/p2answer");
         p2answer.on('value', function(snapshot){
-            let p2answer = snapshot.toJSON();
+            var p2answer = snapshot.toJSON();
             valores.p2answer = p2answer;
             if(valores.p1answer ){
                 checkResults();
@@ -296,7 +296,7 @@ function Server(inLevel){
  * @public
  */
 function Client(){
-    let self = this;
+    var self = this;
     /** Events 
      */
     self.events = {};
@@ -334,6 +334,7 @@ function Client(){
     this.numPlayer =null;
     this.queueToInsert = -1;
     this.refIdGame= null;
+    var self = this;
     this.time = null; 
     /**
      * @summary Starts the client
@@ -343,7 +344,7 @@ function Client(){
         self.id_game = idGame; 
         self.refIdGame= database.ref(self.id_game);
         self.refIdGame.once('value').then(function(snapshot) {
-            let p1,p2;
+            var p1,p2;
             p1 = snapshot.val().p1;
             p2 = snapshot.val().p2;
             if(!p1){
@@ -359,14 +360,15 @@ function Client(){
             }
             if(self.id_game!=null){
                 self.refIdGame.child('possibleAnswers').on('value', function(snapshot) {
-                    let possibleAnswers = snapshot.val();
+                    var possibleAnswers = snapshot.val();
                     if(possibleAnswers != null){
                         self.fireEvent('showPossibleAnswers',[possibleAnswers]);
                     }
                 });
 
                 self.refIdGame.child('winner').on('value', function(snapshot) {
-                    let winner = snapshot.val();
+
+                    var winner = snapshot.val();
                     if(winner){
                         self.fireEvent('onTurnEnds',[{winner:winner, myNumber: self.numPlayer}]);
                     }
@@ -391,10 +393,17 @@ function Client(){
      */
     this.buttonOnClick = function(boton,getCode){
         if(self.numPlayer != null){
-            let t = (new Date()).getTime() - self.time;
-            let answer = {
+            var buttons = document.getElementsByClassName("example");
+            for(var i=0; i< buttons.length; i++){
+                buttons[i].disabled =true;
+                if(boton.value != buttons[i].value){
+                    buttons.value = "-";
+                }
+            }
+            var t = (new Date()).getTime() - self.time;
+            var answer = {
                 time: t,
-                value: boton.value
+                value: parseInt(boton.value)
             }
             self.refIdGame.child("p"+self.numPlayer+"answer").set(answer);
         }

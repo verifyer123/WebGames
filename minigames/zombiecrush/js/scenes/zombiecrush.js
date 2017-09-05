@@ -684,7 +684,7 @@ var zombiecrush = function(){
         var samePos = false
         for(var i = 0;i<usedObjects.length;i++){
             var obj = usedObjects.children[i]
-            if(Math.abs(obj.x - posX) < 75 && Math.abs(obj.y - posY) < 50){
+            if(Math.abs(obj.x - posX) < 70 && Math.abs(obj.y - posY) < 50){
                 samePos = true
             }
         }
@@ -692,7 +692,7 @@ var zombiecrush = function(){
         
     }
     
-    function getPos(posY){
+    function getPos(posY,asset){
         
         var posX = game.rnd.integerInRange(150, game.world.width - 150)
         
@@ -710,7 +710,7 @@ var zombiecrush = function(){
         var tags = ['shoot1_item','shoot2_item']
         Phaser.ArrayUtils.shuffle(tags)
                 
-        var posX = getPos(asset.y)
+        var posX = getPos(asset.y,asset)
         
         
         for(var i = 0; i<objectsGroup.length;i++){
@@ -868,7 +868,7 @@ var zombiecrush = function(){
                         checkAdd(asset)
                     }
                     if(pointsBar.number >= 35){
-                        checkAdd(asset)
+                        //checkAdd(asset)
                     }
                     
                     if(addPowerUp && pointsBar.number>=10){
