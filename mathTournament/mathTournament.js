@@ -52,7 +52,7 @@ function Server(inLevel){
     this.removeEventListener = function(name, handler) {
         if (!self.events.hasOwnProperty(name))
             return;
-        var index = _this.events[name].indexOf(handler);
+        var index = self.events[name].indexOf(handler);
         if (index != -1)
             self.events[name].splice(index, 1);
     };
@@ -290,13 +290,13 @@ function Server(inLevel){
     };
 
     this.retry = function(){
-        this.valores.p1answer =false;
-        this.valores.p2answer =false;
-        this.valores.p1.life =INITIAL_LIFE;
-        this.valores.p2.life =INITIAL_LIFE;
-        this.valores.winner =false;
-        this.valores.possibleAnswers = [];
-        this.refIdGame.set(valores);
+        valores.p1answer =false;
+        valores.p2answer =false;
+        valores.p1.life =INITIAL_LIFE;
+        valores.p2.life =INITIAL_LIFE;
+        valores.winner =false;
+        valores.possibleAnswers = [];
+        refIdGame.set(valores);
     }
 }
 

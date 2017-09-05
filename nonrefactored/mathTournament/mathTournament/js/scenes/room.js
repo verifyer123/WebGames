@@ -357,6 +357,7 @@ var room = function(){
 	}
 	
 	function onPlayersReady() {
+		server.removeEventListener('onPlayersReady', onPlayersReady);
 		sceneloader.show("battle")
 	}
 

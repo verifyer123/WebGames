@@ -199,9 +199,8 @@ var battle = function(){
 			player.setAlive(false)
 			sound.play("fart")
 			var dissapear = game.add.tween(player).to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true)
+			dissapear.onComplete.add(stopGame)
 		})
-
-		//showWinScreen
     }
 
 	function blowAttack(proyectile, from, target){
@@ -316,22 +315,6 @@ var battle = function(){
 
 		return hpGroup
 	}
-
-	function createMonsters(){
-        for(var monsterIndex = 0; monsterIndex < SPINES.length; monsterIndex++){
-			var spineData = SPINES[monsterIndex]
-
-            var monsterSpine = createSpine(spineData.skeleton, spineData.defaultSkin)
-			monsterSpine.x = game.world.width + 110
-			monsterSpine.y = monsterSpine.height + 120
-			monsterSpine.scale.setTo(0.8, 0.8)
-			sceneGroup.add(monsterSpine)
-			monsterSpine.statusAnimation = "IDLE"
-            monsterSpine.alpha = 0
-
-            monsters.push(monsterSpine)
-        }
-    }
 
     function createGameObjects(){
         pullGroup = game.add.group()
@@ -466,15 +449,8 @@ var battle = function(){
 
         //objectsGroup.timer.pause()
         //timer.pause()
-        sound.play("uuh")
+		// sound.play("uuh")
         battleSong.stop()
-        player1.setAlive(false)
-        var dissapear = game.add.tween(player1).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
-        dissapear.onStart.add(function () {
-			sound.play("evilLaugh")
-		})
-        // clock.tween.stop()
-        inputsEnabled = false
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1800)
         tweenScene.onComplete.add(function(){
@@ -484,6 +460,8 @@ var battle = function(){
             resultScreen.setScore(true, pointsBar.number, gameIndex)
 
             //amazing.saveScore(pointsBar.number)
+			server.removeEventListener('afterGenerateQuestion', generateQuestion);
+			server.removeEventListener('onTurnEnds', checkAnswer);
             sceneloader.show("result")
             sound.play("gameLose")
         })
