@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "bQwchh4IDJ4PsgLW6RZYUrllgcs", "spine": "2.1.27", "width": 180, "height": 86, "images": "" },
+"skeleton": { "hash": "ys3Loqnu3rLQ0dnhGGOPiv6LCBQ", "spine": "2.1.27", "width": 180, "height": 86, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "ball", "parent": "root", "y": 99.84 },
@@ -64,7 +64,7 @@
 			"normal/dm2": { "x": 0.92, "y": 0.51, "width": 201, "height": 201 },
 			"normal/dm3": { "x": -2.11, "y": 1.61, "width": 199, "height": 211 },
 			"normal/dm4": { "x": -0.43, "y": -3.04, "width": 197, "height": 201 },
-			"normal/dm5": { "x": -2.41, "y": -3.04, "width": 186, "height": 161 },
+			"normal/dm5": { "x": -2.41, "y": -3.04, "width": 197, "height": 201 },
 			"normal/dm6": { "x": -0.04, "y": -5.02, "width": 180, "height": 86 }
 		}
 	}

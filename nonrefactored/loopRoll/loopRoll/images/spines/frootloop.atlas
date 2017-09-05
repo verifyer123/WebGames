@@ -41,9 +41,9 @@ normal/dm4
   index: -1
 normal/dm5
   rotate: false
-  xy: 812, 343
-  size: 186, 161
-  orig: 186, 161
+  xy: 812, 303
+  size: 197, 201
+  orig: 197, 201
   offset: 0, 0
   index: -1
 normal/dm6

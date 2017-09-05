@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var gem = function(){
+var frootMath = function(){
     
     var localizationData = {
 		"EN":{
@@ -22,9 +22,9 @@ var gem = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.gem",
-                json: "images/gem/atlas.json",
-                image: "images/gem/atlas.png",
+                name: "atlas.froot",
+                json: "images/froot/atlas.json",
+                image: "images/froot/atlas.png",
             },
         ],
         images: [
@@ -84,6 +84,7 @@ var gem = function(){
 		pointerActive = false
 		numLimit = 3
 		gameTime = 20000
+		listUsed = []
         
         loadSounds()
         
@@ -207,7 +208,7 @@ var gem = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.gem','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.froot','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -235,7 +236,7 @@ var gem = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.gem','life_box')
+        var heartImg = group.create(0,0,'atlas.froot','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -283,9 +284,9 @@ var gem = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/retrowave.mp3');
         
-		game.load.image('howTo',"images/gem/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/gem/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/gem/introscreen.png")
+		game.load.image('howTo',"images/froot/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/froot/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/froot/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -508,7 +509,7 @@ var gem = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.gem','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.froot','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -522,11 +523,11 @@ var gem = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.gem',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.froot',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.gem','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.froot','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -540,15 +541,15 @@ var gem = function(){
 
 	function createBackground(){
 		
-		var sky = sceneGroup.create(0,0,'atlas.gem','sky')
+		var sky = sceneGroup.create(0,0,'atlas.froot','sky')
 		sky.width = game.world.width
 		sky.height = game.world.height
 		
-		var moon = sceneGroup.create(game.world.centerX, 100,'atlas.gem','moon')
+		var moon = sceneGroup.create(game.world.centerX, 100,'atlas.froot','moon')
 		moon.anchor.setTo(0.5,0.5)
 		moon.scale.setTo(0.6,0.6)
 		
-		background = game.add.tileSprite(0,game.world.height + 100,game.world.width, 926,'atlas.gem','cueva')
+		background = game.add.tileSprite(0,game.world.height + 100,game.world.width, 926,'atlas.froot','cueva')
 		background.anchor.setTo(0,1)
 		sceneGroup.add(background)
 		
@@ -680,7 +681,7 @@ var gem = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.gem',tag)
+                particle = particlesGroup.create(-200,0,'atlas.froot',tag)
             }
             
             particle.alpha = 0
@@ -727,7 +728,7 @@ var gem = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.gem','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.froot','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -740,7 +741,7 @@ var gem = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.gem','smoke');
+        particlesGood.makeParticles('atlas.froot','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -831,7 +832,7 @@ var gem = function(){
 			objectsGroup.add(obj)
 			obj.number = 0
 
-			var image = obj.create(0,0,'atlas.gem',tag + 'Gem')
+			var image = obj.create(0,0,'atlas.froot',tag + 'Gem')
 			image.anchor.setTo(0.5,0.5)
 			obj.image = image
 			
@@ -865,7 +866,7 @@ var gem = function(){
 		sceneGroup.add(glowGroup)
 		
 		for(var i = 0; i < 6;i++){
-			var glow = glowGroup.create(0,0,'atlas.gem','glow')
+			var glow = glowGroup.create(0,0,'atlas.froot','glow')
 			glow.anchor.setTo(0.5,0.5)
 			glow.alpha = 0
 		}
@@ -902,7 +903,7 @@ var gem = function(){
 		game.input.onDown.add(activatePointer,this)
 		game.input.onUp.add(deactivatePointer,this)
 		
-		pointer = sceneGroup.create(0,0,'atlas.gem','star')
+		pointer = sceneGroup.create(0,0,'atlas.froot','star')
 		pointer.scale.setTo(0.4,0.4)
 		pointer.anchor.setTo(0.5,0.5)
 	}
@@ -917,7 +918,11 @@ var gem = function(){
 		pointerActive = false
 		pointer.y = -100
 		
-		var lastNum = listUsed[listUsed.length - 1]
+		var lastNum 
+		if(listUsed.length > 0){
+			lastNum = listUsed[listUsed.length - 1]
+		}
+		
 		var numberItems
 		
 		if(listUsed && listUsed.length >2 && (lastNum.number != '+' && lastNum.number != '-')){
@@ -1008,7 +1013,7 @@ var gem = function(){
 	
 	function createContainer(){
 		
-		container = sceneGroup.create(game.world.centerX, game.world.height,'atlas.gem','container')
+		container = sceneGroup.create(game.world.centerX, game.world.height,'atlas.froot','container')
 		container.anchor.setTo(0.5,0.5)
 		container.y-= container.height * 0.53
 		
@@ -1021,7 +1026,7 @@ var gem = function(){
 		answerCont.y = 75
 		sceneGroup.add(answerCont)
 		
-		var image = answerCont.create(0,0,'atlas.gem','objGem')
+		var image = answerCont.create(0,0,'atlas.froot','objGem')
 		image.anchor.setTo(0.5,0.5)
 		
 		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -1057,10 +1062,10 @@ var gem = function(){
 		clock.alpha = 0
         sceneGroup.add(clock)
         
-        var clockImage = clock.create(0,0,'atlas.gem','clock')
+        var clockImage = clock.create(0,0,'atlas.froot','clock')
         clockImage.anchor.setTo(0.5,0.5)
         
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.gem','bar')
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.froot','bar')
         clockBar.anchor.setTo(0,0.5)
         clockBar.width = clockImage.width*0.76
         clockBar.height = 22
@@ -1073,7 +1078,7 @@ var gem = function(){
 	return {
 		
 		assets: assets,
-		name: "gem",
+		name: "frootMath",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -1088,7 +1093,7 @@ var gem = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                //spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

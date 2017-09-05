@@ -171,6 +171,7 @@ var hover = function(){
         })
         
         createTextPart('+' +  number, pointsBar.text)
+		createTextPart('+' + number, player)
 		
 		var score = pointsBar.number
 		
@@ -340,7 +341,7 @@ var hover = function(){
 		
 		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.hover','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(1.8,1.8)
+		tuto.scale.setTo(1.6,1.6)
         
         var action = 'tap'
         
