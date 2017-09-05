@@ -288,6 +288,14 @@ function Server(inLevel){
         serverReady = true;
         
     };
+
+    this.retry = function(){
+        this.valores.p1answer =false;
+        this.valores.p2answer =false;
+        this.valores.winner =false;
+        this.valores.possibleAnswers = [];
+        this.refIdGame.set(valores);
+    }
 }
 
 /**
