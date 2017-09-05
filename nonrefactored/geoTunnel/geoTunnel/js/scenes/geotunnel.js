@@ -773,6 +773,7 @@ var geotunnel = function(){
 		create: function(event){
 
 			sceneGroup = game.add.group()
+			yogomeGames.mixpanelCall("enterGame",gameIndex);
 			// cursors = game.input.keyboard.createCursorKeys()
 			spaceButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 

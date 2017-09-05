@@ -201,6 +201,7 @@ var battle = function(){
 			var dissapear = game.add.tween(player).to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true)
 		})
 
+		//showWinScreen
     }
 
 	function blowAttack(proyectile, from, target){
@@ -251,67 +252,12 @@ var battle = function(){
         }
     }
 
-    function checkAnswer(circle) {
-        var option = circle.parent
-
-        if(inputsEnabled){
-            circle.inputEnabled = false
-            inputsEnabled = false
-            indicator.timer.stop()
-
-            var buttonEffect = game.add.tween(option.scale).to({x: 1.2, y: 1.2}, 300, Phaser.Easing.Cubic.Out, true)
-            buttonEffect.onComplete.add(function () {
-                game.add.tween(option.scale).to({x: 1, y: 1}, 150, Phaser.Easing.Cubic.In, true)
-            })
-            tweenTint(circle, 0xffffff, 0x9B9B9B, 300)
-
-            var indicatorEffect = game.add.tween(indicator.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Cubic.Out, true)
-            indicatorEffect.onComplete.add(function () {
-                game.add.tween(indicator.scale).to({x: 0.6, y: 0.6}, 500, null, true, 1000)
-            })
-
-            if (option.number === battleGroup.answer) {
-                var particleCorrect = battleGroup.correctParticle
-                particleCorrect.x = option.x
-                particleCorrect.y = option.y
-
-                particleCorrect.start(true, 1000, null, 3)
-
-                var soundName
-                sound.play("right")
-                if(indicator.x > 118){
-                    soundName = "explosion"
-                    player1.setAnimation(["CRITICAL", player1.statusAnimation])
-                }else{
-                    player1.setAnimation(["ATTACK", player1.statusAnimation])
-                }
-
-                game.time.events.add(500,function() {
-                    var from = {}
-                    from.x = player1.x + 140
-                    from.y = player1.y - player1.height * 0.5 + 200
-
-                    var target = {}
-                    target.x = player2.x
-                    target.y = player2.y - player2.height * 0.5
-
-                    var scale = {from:{x: 1, y: 1}, to:{x: 0.4, y: 0.4}}
-                    if(soundName)
-                        sound.play(soundName)
-					blowAttack("alecbuu", from, target, scale, player1.proyectile)
-                })
-
-            }else{
-                var particleWrong = battleGroup.wrongParticle
-                particleWrong.x = option.x
-                particleWrong.y = option.y
-                sound.play("wrong")
-
-                particleWrong.start(true, 1000, null, 3)
-
-                game.time.events.add(500, monsterAttack)
-            }
-        }
+    function checkAnswer(event) {
+		console.log(event)
+    	if(event.numPlayer === 1)
+			playerAttack(player1, player2, createProyectile, "proyectile")
+		else if(event.numPlayer === 2)
+			playerAttack(player2, player1, createProyectile, "proyectile")
     }
 
 	function createHpbar(){
@@ -402,7 +348,7 @@ var battle = function(){
         // createMonsters()
 
 		var spineData = SPINES[MONSTERS[0].spineIndex]
-		var player2 = createSpine(spineData.skeleton, spineData.defaultSkin)
+		player2 = createSpine(spineData.skeleton, spineData.defaultSkin)
 		player2.scale.setTo(0.8, 0.8)
 		sceneGroup.add(player2)
 		player2.statusAnimation = "IDLE"
@@ -584,7 +530,7 @@ var battle = function(){
 
     function preload(){
 
-        game.stage.disableVisibilityChange = false;
+        game.stage.disableVisibilityChange = true;
         game.load.audio('battleSong', soundsPath + 'songs/mysterious_garden.mp3');
 
         game.load.image('introscreen',"images/battle/introscreen.png")
@@ -603,6 +549,7 @@ var battle = function(){
     function startRound() {
         hideQuestion()
         indicator.tweenRestart.start()
+		server.generateQuestion()
 
 		// game.time.events.add(1000, generateQuestion)
     }
@@ -640,81 +587,16 @@ var battle = function(){
 
         // inputsEnabled = true
     }
-    
-    function generateFakeAnswer(answer, round) {
-		var number1 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
-		var number2 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
-        var fakeAnswer = number1 * number2
-        if (answer === fakeAnswer)
-            return generateFakeAnswer(answer, round)
-        else
-            return fakeAnswer
-	}
 
-    function generateQuestion() {
+    function generateQuestion(data) {
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
-        var round = ROUNDS[0]
+		console.log(data)
 
-        var number1 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
-        var number2 = game.rnd.integerInRange(round.minNumber, round.maxNumber) * 5
-        var answer
-
-        var operation = round.operator
-        // if(round.operator === "random")
-        //     operation = OPERATIONS[game.rnd.integerInRange(0, OPERATIONS.length - 1)]
-
-        if (operation === "+"){
-            answer = number1 + number2
-        }else if(operation === "-"){
-            if (number2 > number1){
-                var prev = number2
-                number2 = number1
-                number1 = prev
-            }
-            answer = number1 - number2
-        }else if(operation === "x"){
-            answer = number1 * number2
-        }
-
-        battleGroup.answer = answer
-        battleGroup.number1.setText(number1)
-        battleGroup.operator.setText(operation)
-        battleGroup.number2.setText(number2)
+        battleGroup.answer = data.correctAnswer
+        battleGroup.number1.setText(data.operand1)
+        battleGroup.operator.setText(data.opedator)
+        battleGroup.number2.setText(data.operand2)
         numbersEffect()
-
-        var fakeAnswers = []
-        for(var answerIndex = 0; answerIndex < NUM_OPTIONS - 1; answerIndex++){
-			var fakeAnswer = generateFakeAnswer(answer, round)
-            fakeAnswers.push(fakeAnswer)
-        }
-        fakeAnswers.push(answer)
-        fakeAnswers = Phaser.ArrayUtils.shuffle(fakeAnswers)
-
-        var delayBetween = 300
-        var initialDelay = 800
-
-        // var correctBox = game.rnd.integerInRange(0, NUM_OPTIONS - 1)
-        for (var optionIndex = 0; optionIndex < NUM_OPTIONS; optionIndex++){
-
-            var option = battleGroup.options[optionIndex]
-            option.circle.tint = "0xffffff"
-
-            option.text.setText(fakeAnswers[optionIndex])
-            option.number = fakeAnswers[optionIndex]
-
-            var delayOption = delayBetween * optionIndex + initialDelay
-
-            game.add.tween(option.scale).to({x:1, y:1}, 800, Phaser.Easing.Cubic.Out, true, delayOption)
-            var optionTween = game.add.tween(option).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true, delayOption)
-            optionTween.onStart.add(function () {
-                sound.play("pop")
-            })
-            optionTween.onComplete.add(enableCircle)
-        }
-
-        startIndicator(initialDelay + delayBetween * (NUM_OPTIONS + 1))
-
-        inputsEnabled = true
 
     }
     
@@ -946,7 +828,8 @@ var battle = function(){
         preload:preload,
         create: function(event){
 
-            sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+            sceneGroup = game.add.group();
+            //yogomeGames.mixpanelCall("enterGame",gameIndex);
 
 			var rectBg = game.add.graphics()
 			rectBg.beginFill(0x181433)
@@ -962,13 +845,13 @@ var battle = function(){
                 battleSong.loopFull(0.6)
             }, this);
 
-            game.onPause.add(function(){
-                game.sound.mute = true
-            } , this);
-
-            game.onResume.add(function(){
-                game.sound.mute = false
-            }, this);
+            // game.onPause.add(function(){
+            //     game.sound.mute = true
+            // } , this);
+			//
+            // game.onResume.add(function(){
+            //     game.sound.mute = false
+            // }, this);
 
             initialize()
 			var window = sceneGroup.create(game.world.centerX,game.world.centerY - 320, "atlas.battle", "window")
@@ -993,6 +876,8 @@ var battle = function(){
             createGameObjects()
             createbattleUI()
             createPointsBar()
+			server.addEventListener('afterGenerateQuestion', generateQuestion);
+			server.addEventListener('onTurnEnds', checkAnswer);
 			startRound()
             // createTutorial()
 

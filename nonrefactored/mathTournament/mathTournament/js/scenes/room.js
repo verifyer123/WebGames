@@ -387,11 +387,6 @@ var room = function(){
 
 			server.addEventListener('onPlayersReady', onPlayersReady);
 
-			roomSong = game.add.audio('roomSong')
-			game.sound.setDecodedCallback(roomSong, function(){
-				roomSong.loopFull(0.6)
-			}, this);
-
 			game.onPause.add(function(){
 				game.sound.mute = true
 			} , this);
