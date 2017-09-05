@@ -107,105 +107,6 @@ var hover = function(){
         loadSounds()
         
 	}
-    
-    
-    function createTextPart(text,obj){
-        
-        var pointsText = lookParticle('textPart')
-        
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
-            pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
-
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-
-            deactivateParticle(pointsText,750)
-        }
-        
-    }
-    
-    function lookParticle(key){
-        
-        for(var i = 0;i<particlesGroup.length;i++){
-            
-            var particle = particlesGroup.children[i]
-            if(!particle.used && particle.tag == key){
-                
-                particle.used = true
-                particle.alpha = 1
-                
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-                
-                return particle
-                break
-            }
-        }
-        
-    }
-    
-    function deactivateParticle(obj,delay){
-        
-        game.time.events.add(delay,function(){
-            
-            obj.used = false
-            
-            particlesUsed.remove(obj)
-            particlesGroup.add(obj)
-            
-        },this)
-    }
-    
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        key+='Part'
-        var particle = lookParticle(key)
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
-        }
-        
-        
-    }
-    
-    function createParticles(tag,number){
-        
-        tag+='Part'
-        
-        for(var i = 0; i < number;i++){
-            
-            var particle
-            if(tag == 'textPart'){
-                
-                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-                
-                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
-                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-                particlesGroup.add(particle)
-                
-            }else{
-                particle = particlesGroup.create(-200,0,'atlas.hover',tag)
-            }
-            
-            particle.alpha = 0
-            particle.tag = tag
-            particle.used = false
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1,1)
-        }
-        
-        
-    }
 
     function popObject(obj,delay){
         
@@ -394,10 +295,10 @@ var hover = function(){
         game.load.audio('magnetSong', soundsPath + 'songs/adventure.mp3');
         
         game.load.image('introscreen',"images/hover/introscreen.png")
-		game.load.spritesheet('verde', 'images/hover/verde.png', 147, 102, 23);
-		game.load.spritesheet('rojo', 'images/hover/rojo.png', 148, 102, 23);
-		game.load.spritesheet('nave', 'images/hover/nave.png', 147, 118, 12);
-		game.load.spritesheet('coin', 'images/hover/coin.png', 68, 70, 12);
+		game.load.spritesheet('verde', 'images/hover/sprites/verde.png', 147, 102, 23);
+		game.load.spritesheet('rojo', 'images/hover/sprites/rojo.png', 148, 102, 23);
+		game.load.spritesheet('nave', 'images/hover/sprites/nave.png', 147, 118, 12);
+		game.load.spritesheet('coin', 'images/hover/sprites/coin.png', 125, 125, 24);
 		
 		game.load.image('howTo',"images/hover/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/hover/play" + localization.getLanguage() + ".png")
@@ -779,6 +680,137 @@ var hover = function(){
 		}
 	}
 	
+	function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('text')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+			//console.log(particle.tag + ' tag,' + particle.used)
+            if(particle.tag == key){
+                
+				particle.used = true
+                particle.alpha = 1
+                
+				if(key == 'text'){
+					particlesGroup.remove(particle)
+                	particlesUsed.add(particle)
+				}
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj,offsetX){
+        
+        var offX = offsetX || 0
+        var particle = lookParticle(key)
+		
+        if(particle){
+            
+            particle.x = obj.world.x + offX
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            particle.start(true, 1500, null, 6);+
+			particle.setAlpha(1,0,2000,Phaser.Easing.Cubic.In)
+			
+			/*game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})*/
+			
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+                
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'text'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.hover',tag);
+				particle.minParticleSpeed.setTo(-400, -100);
+				particle.maxParticleSpeed.setTo(400, -200);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            //particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+	
+	function addParticles(){
+		
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+		
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+		
+		createParticles('star',1)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		//createParticles('smoke',1)
+
+	}
+	
 	function createObjects(){
 		
 		groundGroup = game.add.group()
@@ -789,21 +821,10 @@ var hover = function(){
 		
 		createObjs('verde',1,8)
 		createObjs('rojo',1,5)
-		createObjs('coin',1,15)
+		createObjs('coin',0.75,15)
 		createObjs('nave',1,5)
 		createObjs('bullet',1,12)
 		createObjs('battery',1.2,5)
-		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
-		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
-		
-		createParticles('ring',5)
-		createParticles('wrong',2)
-		createParticles('star',5)
-		createParticles('text',5)
 		
 	}
 	
@@ -1026,6 +1047,7 @@ var hover = function(){
 			
 			createPointsBar()
 			createHearts()
+			addParticles()
 			
 			buttons.getButton(magnetSong,sceneGroup)
 			            

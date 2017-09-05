@@ -253,7 +253,6 @@ var battle = function(){
     }
 
     function checkAnswer(event) {
-		console.log(event)
     	if(event.numPlayer === 1)
 			playerAttack(player1, player2, createProyectile, "proyectile")
 		else if(event.numPlayer === 2)
@@ -590,7 +589,6 @@ var battle = function(){
 
     function generateQuestion(data) {
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
-		console.log(data)
 
         battleGroup.answer = data.correctAnswer
         battleGroup.number1.setText(data.operand1)

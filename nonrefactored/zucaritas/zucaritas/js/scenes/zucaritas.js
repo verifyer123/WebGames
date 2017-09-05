@@ -36,8 +36,7 @@ var zucaritas = function(){
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/zucaritas/background.png"},
+
 		],
 		sounds: [
             {	name: "pop",
@@ -148,7 +147,7 @@ var zucaritas = function(){
         game.stage.disableVisibilityChange = false;  
 		buttons.getImages(game)
         
-        game.load.spritesheet('coinS', 'images/zucaritas/sprites/coinS.png', 68, 70, 12);
+        game.load.spritesheet('coinS', 'images/zucaritas/sprites/coinS.png', 125, 125, 24);
         game.load.spritesheet('monster', 'images/zucaritas/sprites/monster.png', 292, 237, 17);
         
         game.load.audio('runningSong', soundsPath + 'songs/jungle_fun.mp3');
@@ -461,8 +460,9 @@ var zucaritas = function(){
             
             if(object.active){
                 
+				
                 var tag = object.tag
-                
+					
                 if(checkOverlap(player,object)){
                     
                     var checkTop = player.world.y < object.world.y - object.height * 0.5 && player.falling && player.active
@@ -893,7 +893,7 @@ var zucaritas = function(){
             if(type == 'coin'){
                 
                 obj = game.add.sprite(0, 0, 'coinS');
-				obj.scale.setTo(0.8,0.8)
+				obj.scale.setTo(0.65,0.65)
                 piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',24,true); 
