@@ -12,7 +12,9 @@ var database = firebase.database();
 const MAX_OPERAND_VALUE = 500;
 const NUMBER_OF_FAKE_ANSWERS = 5;
 var INITIAL_LIFE = 100;
-var DAMAGE_BY_HIT = 25;
+var DAMAGE_BY_HIT = 10;
+var HEALTH_BY_HIT = 10;
+var DAMAGE_BY_CRITICAL_HIT = 20;
 
 /**
  * @summary As default, an empty array has one element (an empty String). This function removes that element
@@ -74,6 +76,7 @@ function Server(inLevel){
     var valores = null;
     var correctAnswer= false;
     var refIdGame = null;
+    var typeQuestion = 0;
 
     this.getIdGame= function(){
         return id_game;
@@ -126,6 +129,20 @@ function Server(inLevel){
         return false;
     }
 
+    var checkDamage = function() {
+        switch(typeQuestion){
+            case 1://green
+                return -1*DAMAGE_BY_HIT;
+                break;
+            case 2://red
+                return -1*DAMAGE_BY_CRITICAL_HIT;
+                break;
+            case 3://blue
+                return HEALTH_BY_HIT;
+                break;
+        }
+    }
+
     var checkResults= function(){
         if(valores.p1answer== null){
             return;
@@ -138,36 +155,47 @@ function Server(inLevel){
 
         var playerWinner =  null;
 
-        
+        var damage =checkDamage();
         if(p1Value == p2Value && p1Value == correctAnswer){
             if(p1Time < p2Time){
                 valores.winner = 1;
-                valores.p2.life-=DAMAGE_BY_HIT;
+                //valores.p2.life+=damage;
                 playerWinner = valores.p1;
-                refIdGame.child("p2/life").set(valores.p2.life);
+                //refIdGame.child("p2/life").set(valores.p2.life);
             }else{
                 valores.winner = 2;
-                valores.p1.life-=DAMAGE_BY_HIT;
+                //valores.p1.life+=damage;
                 playerWinner = valores.p2;
-                refIdGame.child("p1/life").set(valores.p1.life);
+                //refIdGame.child("p1/life").set(valores.p1.life);
             }
         }else{
             switch(correctAnswer){
                 case p1Value:
                     valores.winner = 1;
-                    valores.p2.life-=DAMAGE_BY_HIT;
+                    //valores.p2.life+=damage;
                     playerWinner = valores.p1;
-                    refIdGame.child("p2/life").set(valores.p2.life);
+                    //refIdGame.child("p2/life").set(valores.p2.life);
                     break;
                 case p2Value:
                     valores.winner = 2;
-                    valores.p1.life-=DAMAGE_BY_HIT;
+                    //valores.p1.life+=damage;
                     playerWinner = valores.p2;
-                    refIdGame.child("p1/life").set(valores.p1.life);
+                    //refIdGame.child("p1/life").set(valores.p1.life);
                     break;
                 default:
                     valores.winner = -1;
             }
+        }
+
+        if(valores.winner== 1 && (typeQuestion == 1 || typeQuestion == 2) ){
+            valores.p2.life+=damage;
+            refIdGame.child("p2/life").set(valores.p2.life);
+        }else if(valores.winner== 2 && typeQuestion == 3 ){
+            valores.p2.life+=damage;
+            refIdGame.child("p2/life").set(valores.p2.life);
+        }else {
+            valores.p1.life+=damage;
+            refIdGame.child("p1/life").set(valores.p1.life);
         }
 
         refIdGame.child("winner").set(valores.winner);
@@ -200,12 +228,30 @@ function Server(inLevel){
         valores.p2answer = false;
 
         refIdGame.set(valores);
+        typeQuestion= Math.floor((Math.random() * 100) + 1);
+        if(valores.p1.life < INITIAL_LIFE && valores.p2.life < INITIAL_LIFE){
+            typeQuestion= Math.floor((Math.random() * 100) + 1);
+            if(typeQuestion<= 20){
+                typeQuestion= 2; //red
+            }else if(typeQuestion <= 40){
+                typeQuestion=3; //blue
+            }else{
+                typeQuestion= 1; //green
+            }
+        }else{
+            if(typeQuestion<= 20){
+                typeQuestion= 2; //red
+            }else {
+                typeQuestion=1; //green
+            }
+        }
 
         var data = {
             operand1 : operand1,
             operand2 : operand2,
             opedator : "+",
-            correctAnswer : correctAnswer
+            correctAnswer : correctAnswer,
+            type :typeQuestion
         }
         self.fireEvent('afterGenerateQuestion',[data]);
     }
@@ -290,13 +336,13 @@ function Server(inLevel){
     };
 
     this.retry = function(){
-        this.valores.p1answer =false;
-        this.valores.p2answer =false;
-        this.valores.p1.life =INITIAL_LIFE;
-        this.valores.p2.life =INITIAL_LIFE;
-        this.valores.winner =false;
-        this.valores.possibleAnswers = [];
-        this.refIdGame.set(valores);
+        valores.p1answer =false;
+        valores.p2answer =false;
+        valores.p1.life =INITIAL_LIFE;
+        valores.p2.life =INITIAL_LIFE;
+        valores.winner =false;
+        valores.possibleAnswers = [];
+        refIdGame.set(valores);
     }
 }
 
