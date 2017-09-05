@@ -173,9 +173,7 @@ function Server(inLevel){
         refIdGame.child("winner").set(valores.winner);
         self.fireEvent('onTurnEnds',[{ numPlayer: valores.winner, playerWinner: playerWinner }]);
 
-        if(!checkWinner())
-            generateQuestion();
-        else{
+        if(checkWinner()){
             valores.p1answer=false;
             valores.p2answer=false;
             valores.winner=false;
@@ -221,7 +219,6 @@ function Server(inLevel){
         id_game = makeid();
         let serverReady = false;
         valores = {
-            flags: false,
             p1: false,
             p2: false,
             winner :false,
