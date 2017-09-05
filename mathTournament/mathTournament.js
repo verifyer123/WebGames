@@ -292,6 +292,8 @@ function Server(inLevel){
     this.retry = function(){
         this.valores.p1answer =false;
         this.valores.p2answer =false;
+        this.valores.p1.life =INITIAL_LIFE;
+        this.valores.p2.life =INITIAL_LIFE;
         this.valores.winner =false;
         this.valores.possibleAnswers = [];
         this.refIdGame.set(valores);
