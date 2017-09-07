@@ -61,10 +61,11 @@ var frootMath = function(){
 	var pointerActive
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 26
+    var gameIndex = 88
 	var container, objectsGroup, usedObjects, glowGroup
 	var answerCont
 	var linesGroup
+	var samSpine
 	var pointer
 	var rowList
 	var indexGame
@@ -176,6 +177,9 @@ var frootMath = function(){
     
     function addPoint(number){
         
+		samSpine.setAnimationByName(0,"WIN",false)
+		samSpine.addAnimationByName(0,"IDLE",true)
+		
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
@@ -255,6 +259,8 @@ var frootMath = function(){
     
     function stopGame(win){
         
+		samSpine.setAnimationByName(0,"LOSE",true)
+		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
@@ -282,7 +288,8 @@ var frootMath = function(){
 		buttons.getImages(game)
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/retrowave.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
+		game.load.spine('sam', "images/spines/sam.json") 
         
 		game.load.image('howTo',"images/froot/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/froot/play" + localization.getLanguage() + ".png")
@@ -545,9 +552,10 @@ var frootMath = function(){
 		sky.width = game.world.width
 		sky.height = game.world.height
 		
-		var moon = sceneGroup.create(game.world.centerX, 100,'atlas.froot','moon')
+		var moon = sceneGroup.create(game.world.centerX, 200,'atlas.froot','moon')
 		moon.anchor.setTo(0.5,0.5)
-		moon.scale.setTo(0.6,0.6)
+		moon.scale.setTo(2,2)
+		moon.alpha = 0.4
 		
 		background = game.add.tileSprite(0,game.world.height + 100,game.world.width, 926,'atlas.froot','cueva')
 		background.anchor.setTo(0,1)
@@ -598,7 +606,7 @@ var frootMath = function(){
 	
 	function createTextPart(text,obj){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         
         if(pointsText){
             
@@ -620,13 +628,16 @@ var frootMath = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
-            if(!particle.used && particle.tag == key){
+			//console.log(particle.tag + ' tag,' + particle.used)
+            if(particle.tag == key){
                 
-                particle.used = true
+				particle.used = true
                 particle.alpha = 1
                 
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
+				if(key == 'text'){
+					particlesGroup.remove(particle)
+                	particlesUsed.add(particle)
+				}
                 
                 return particle
                 break
@@ -650,29 +661,33 @@ var frootMath = function(){
     function createPart(key,obj,offsetX){
         
         var offX = offsetX || 0
-        key+='Part'
         var particle = lookParticle(key)
+		
         if(particle){
             
             particle.x = obj.world.x + offX
             particle.y = obj.world.y
             particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
+            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            particle.start(true, 1500, null, 6);+
+			particle.setAlpha(1,0,2000,Phaser.Easing.Cubic.In)
+			
+			/*game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})*/
+			
         }
         
         
     }
     
     function createParticles(tag,number){
-        
-        tag+='Part'
-        
+                
         for(var i = 0; i < number;i++){
             
             var particle
-            if(tag == 'textPart'){
+            if(tag == 'text'){
                 
                 var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
@@ -681,13 +696,24 @@ var frootMath = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.froot',tag)
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.froot',tag);
+				particle.minParticleSpeed.setTo(-400, -100);
+				particle.maxParticleSpeed.setTo(400, -200);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
             }
             
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            particle.anchor.setTo(0.5,0.5)
+            //particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
@@ -702,11 +728,10 @@ var frootMath = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 		
-		createParticles('star',5)
-		createParticles('wrong',5)
+		createParticles('star',1)
+		createParticles('wrong',1)
 		createParticles('text',5)
-		createParticles('drop',5)
-		createParticles('ring',5)
+
 	}
 
 	function setExplosion(obj){
@@ -833,6 +858,7 @@ var frootMath = function(){
 			obj.number = 0
 
 			var image = obj.create(0,0,'atlas.froot',tag + 'Gem')
+			image.scale.setTo(0.9,0.9)
 			image.anchor.setTo(0.5,0.5)
 			obj.image = image
 			
@@ -868,6 +894,7 @@ var frootMath = function(){
 		for(var i = 0; i < 6;i++){
 			var glow = glowGroup.create(0,0,'atlas.froot','glow')
 			glow.anchor.setTo(0.5,0.5)
+			glow.scale.setTo(0.9,0.9)
 			glow.alpha = 0
 		}
 		
@@ -893,7 +920,7 @@ var frootMath = function(){
 		for(var i = 0; i < 4; i++){
 			
 			rowList[i] = []
-			rowList[i].pivotY = game.world.height - 120
+			rowList[i].pivotY = game.world.height - 160
 			rowList[i].pivotX = pivotX
 			rowList[i].number = 0
 			
@@ -963,7 +990,7 @@ var frootMath = function(){
 					
 			for(var i = 0; i < rowList.length; i++){
 
-				rowList[i].pivotY = game.world.height - 120
+				rowList[i].pivotY = game.world.height - 160
 				rowList[i].number = 0
 			}
 			
@@ -1022,7 +1049,7 @@ var frootMath = function(){
 	function createAnswerCont(){
 		
 		answerCont = game.add.group()
-		answerCont.x = game.world.centerX
+		answerCont.x = game.world.centerX - 100
 		answerCont.y = 75
 		sceneGroup.add(answerCont)
 		
@@ -1075,6 +1102,16 @@ var frootMath = function(){
         
     }
 	
+	function createTucan(){
+	
+		samSpine = game.add.spine(game.world.centerX + 50,215,'sam')
+		samSpine.setSkinByName('normal')
+		samSpine.scale.setTo(0.7,0.7)
+		samSpine.setAnimationByName(0,"IDLE",true)
+		sceneGroup.add(samSpine)
+		
+	}
+	
 	return {
 		
 		assets: assets,
@@ -1087,13 +1124,14 @@ var frootMath = function(){
 			
 			createBackground()
 			createAnswerCont()
+			createTucan()
 			createContainer()
 			createClock()
 			createObjects()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
