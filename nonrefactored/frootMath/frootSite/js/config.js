@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Gemath",
+        name: "Froot Math",
         language: "es",
-        minigameUrl: "../geMath/index.html?language=" + language,
+        minigameUrl: "../frootMath/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

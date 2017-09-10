@@ -370,27 +370,12 @@ var loop = function(){
 	
 	function setOperation(){
 		
-		var signsToUse = ['+','-','x','÷']
+		var signsToUse = ['+','-']
 		
 		var index1 = 0
 		var index2 = 1
 		
-		if(pointsBar.number >= 5){
-			index1 = 2
-			index2 = 2
-		}
-		
-		if(pointsBar.number >=9){
-			index1 = 2
-			index2 = 3
-		}
-		
-		if(pointsBar.number >= 13){
-			index1 = 0
-			index2 = 3
-		}
-		
-		var signToUse = signsToUse[game.rnd.integerInRange(index1,index2)]
+		var signToUse = signsToUse[game.rnd.integerInRange(0,signsToUse.length - 1)]
 		
 		var number1 = game.rnd.integerInRange(2,9)
 		var number2 = game.rnd.integerInRange(2,9)
