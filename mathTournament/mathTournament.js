@@ -403,6 +403,7 @@ function Client(){
             var p1,p2;
             p1 = snapshot.val().p1;
             p2 = snapshot.val().p2;
+			console.log(p1, p2)
             if(!p1){
                 self.refIdGame.child("p1").set(player);
                 self.numPlayer = 1;
@@ -414,11 +415,11 @@ function Client(){
                 self.refIdGame= null;
                 self.fireEvent('onGameFull',[]);
             }
-            if(self.id_game!=null){
+            if(self.id_game!==null){
                 self.refIdGame.child('possibleAnswers').on('value', function(snapshot) {
                     var possibleAnswers = snapshot.val();
-                    if(possibleAnswers != null){
-                        self.fireEvent('showPossibleAnswers',[possibleAnswers]);
+                    if(possibleAnswers !== null){
+                    	self.fireEvent('showPossibleAnswers',[possibleAnswers]);
                     }
                 });
 
@@ -431,6 +432,7 @@ function Client(){
                 });
                 self.time= (new Date()).getTime();
                 self.fireEvent('onClientInit',[]);
+
             }
             
         });

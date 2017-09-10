@@ -6,10 +6,10 @@
         let onClientInit = function(e){
             let div_resultado = document.getElementById("resultado");
             let btn_start = document.getElementById("start");
-            
+
             div_resultado.innerText = "init completo, jugador: "+cliente.numPlayer;
             btn_start.style.visibility = 'hidden';
-            
+
             if(cliente.numPlayer!= null){
                 document.getElementById("start").disabled =true;
             }
@@ -34,7 +34,7 @@
                 document.body.style.backgroundColor = "red";
             }
         }
-                
+
         let cliente = new Client();
         function startButton(){
             //let idGame = "00000";
@@ -51,15 +51,15 @@
             cliente.addEventListener('showPossibleAnswers', showPossibleAnswers);
             cliente.addEventListener('onTurnEnds', onTurnEnds);
             cliente.start(player, idGame);
-            
+
         }
-        
-        
+
+
 
     </script>
 </head>
 <body>
-    <input type="text" id="id_game" /> 
+    <input type="text" id="id_game" />
     <input type="button" id="start" onclick="startButton()" value="Start game" /><br/><br/>
     <input type="text" id="nickname" placeholder="Nickname" value="aaron" /><br/><br/>
     <select id="avatar">
