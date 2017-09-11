@@ -289,7 +289,16 @@ var frac = function(){
 		game.load.image('introscreen',"images/frac/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
+		
+		var games = yogomeGames.getGames()
+		var stringUsed = ''
+		for(var i = 0; i < games.length;i++){
+			
+			var gameShow = games[i]
+			stringUsed+= gameShow.url + '\n'
+		}
         
+		console.log(stringUsed)
     }
 	
 	function placeCards(){
@@ -359,7 +368,7 @@ var frac = function(){
 			delay+= 200
 		}
 		
-		delay+= numberOfCards * 250
+		delay+= numberOfCards * 800
 		
 		
 		for(var i = 0; i < cardsToUse.length;i++){
