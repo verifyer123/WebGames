@@ -166,10 +166,10 @@ var battle = function(){
 		target.hit.start(true, 1000, null, 5)
 
         if(target.hpBar.health > 0)
-            game.time.events.add(1000, startRound)
+            game.time.events.add(2000, startRound)
         else{
             // dino.setAnimation(["HIT", "IDLE"])
-            game.time.events.add(1000, defeatPlayer, null, target)
+            game.time.events.add(2000, defeatPlayer, null, target)
         }
     }
 
@@ -187,7 +187,7 @@ var battle = function(){
 		proyectile.anchor.setTo(0.5, 0.5)
 		proyectile.tint = fromPlayer.proyectile
 
-		game.time.events.add(500, function () {
+		game.time.events.add(1000, function () {
 			typeAttack(proyectile, fromPlayer, targetPlayer)
 		})
 		// }

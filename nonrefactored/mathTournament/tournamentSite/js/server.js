@@ -148,7 +148,8 @@ function Server(inLevel){
 	}
 
 	var checkResults= function(){
-		if(valores.p1answer== null){
+		console.log("checkResultsTriggered")
+		if(valores.p1answer === null){
 			return;
 		}
 		var p1Time = valores.p1answer.time;
@@ -158,32 +159,32 @@ function Server(inLevel){
 		var p2Value = valores.p2answer.value;
 
 		var playerWinner =  null;
+		var timeDifference = null;
 
 		var damage =checkDamage();
-		if(p1Value == p2Value && p1Value == correctAnswer){
+
+		if(p1Value === p2Value && p1Value === correctAnswer){
+			timeDifference = Math.abs(p1Time - p2Time)
+			console.log(timeDifference)
 			if(p1Time < p2Time){
-				valores.winner = 1;
+				valores.winner = 1
 				//valores.p2.life+=damage;
-				playerWinner = valores.p1;
 				//refIdGame.child("p2/life").set(valores.p2.life);
 			}else{
-				valores.winner = 2;
+				valores.winner = 2
 				//valores.p1.life+=damage;
-				playerWinner = valores.p2;
 				//refIdGame.child("p1/life").set(valores.p1.life);
 			}
 		}else{
 			switch(correctAnswer){
 				case p1Value:
-					valores.winner = 1;
 					//valores.p2.life+=damage;
-					playerWinner = valores.p1;
+					valores.winner = 1
 					//refIdGame.child("p2/life").set(valores.p2.life);
 					break;
 				case p2Value:
-					valores.winner = 2;
 					//valores.p1.life+=damage;
-					playerWinner = valores.p2;
+					valores.winner = 2
 					//refIdGame.child("p1/life").set(valores.p1.life);
 					break;
 				default:
@@ -191,19 +192,26 @@ function Server(inLevel){
 			}
 		}
 
-		if(valores.winner== 1 && (typeQuestion == 1 || typeQuestion == 2) ){
+		if(valores.winner === 1 && (typeQuestion === 1 || typeQuestion === 2) ){
 			valores.p2.life+=damage;
 			refIdGame.child("p2/life").set(valores.p2.life);
-		}else if(valores.winner== 2 && typeQuestion == 3 ){
+		}else if(valores.winner === 2 && typeQuestion === 3 ){
 			valores.p2.life+=damage;
 			refIdGame.child("p2/life").set(valores.p2.life);
 		}else {
 			valores.p1.life+=damage;
 			refIdGame.child("p1/life").set(valores.p1.life);
 		}
+		var date = new Date()
+		var actualDate = date.getMilliseconds()
+		console.log(actualDate)
+		var data = { numPlayer: valores.winner, timeDifference: timeDifference, date:actualDate }
+		refIdGame.child("winner").set(data);
+		self.fireEvent('onTurnEnds',[data]);
 
-		refIdGame.child("winner").set(valores.winner);
-		self.fireEvent('onTurnEnds',[{ numPlayer: valores.winner, playerWinner: playerWinner }]);
+		// valores.p1answer=false;
+		// valores.p2answer=false;
+		// refIdGame.set(valores);
 
 		if(checkWinner()){
 			valores.p1answer=false;
@@ -213,7 +221,7 @@ function Server(inLevel){
 		}
 	}
 
-	var generateQuestion = function(){
+	function generateQuestion(){
 		var operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
 		var operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
 
@@ -221,7 +229,7 @@ function Server(inLevel){
 		var possibleAnswers = [correctAnswer];
 		for(var i = 0; i< NUMBER_OF_FAKE_ANSWERS; i++){
 			var n = correctAnswer;
-			while(n==correctAnswer){
+			while(n === correctAnswer){
 				n = Math.floor((Math.random() * MAX_OPERAND_VALUE*2) + 1)
 			}
 			possibleAnswers.push(n);
@@ -257,7 +265,8 @@ function Server(inLevel){
 			type :typeQuestion
 		}
 		valores.data = data;
-		refIdGame.set(valores);
+		refIdGame.child("data").set(valores.data);
+		refIdGame.child("possibleAnswers").set(valores.possibleAnswers);
 		self.fireEvent('afterGenerateQuestion',[data]);
 	}
 	this.generateQuestion = generateQuestion;

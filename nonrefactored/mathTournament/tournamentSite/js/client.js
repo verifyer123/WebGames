@@ -100,9 +100,10 @@ function Client(){
 
 				self.refIdGame.child('winner').on('value', function(snapshot) {
 
-					var winner = snapshot.val();
-					if(winner){
-						self.fireEvent('onTurnEnds',[{winner:winner, myNumber: self.numPlayer}]);
+					var values = snapshot.val();
+					if(values){
+						console.log("on Turn End triggered")
+						self.fireEvent('onTurnEnds',[values]);
 					}
 				});
 
