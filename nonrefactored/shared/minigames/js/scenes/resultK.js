@@ -6,7 +6,7 @@ var result = function(){
 	localizationData = {
 		"EN":{
             "youGot":"You earned ",
-            "points":"coins",
+            "points":"Kellobytes",
             "Great":"Great",
             "share":"Share",
             "retry":"Retry",
@@ -17,7 +17,7 @@ var result = function(){
 
 		"ES":{
             "youGot":"Obtuviste ",
-            "points":"monedas",
+            "points":"Kellobytes",
             "Great":"Genial",
             "share":"Compartir",
             "retry":"Reintentar",
@@ -289,9 +289,9 @@ var result = function(){
                 
         var pivotText = game.world.centerX - 170
         
-        var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY - 60, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY- 50, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
         sceneGroup.add(retryText)
                 
         if(haveCoupon){

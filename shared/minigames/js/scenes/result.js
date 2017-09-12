@@ -47,6 +47,7 @@ var result = function(){
     var rankMinigame
     var minigameId
     var skinTable
+	var overlayGroup
 
 	var timeGoal = null
 
@@ -608,10 +609,112 @@ var result = function(){
         
         createButtons(pivotButtons)
         createIcons(showIcons)
+		createOverlay()
         
         //addRank()
 	}
-
+	
+	function createOverlay(){
+		
+		overlayGroup = game.add.group()
+		overlayGroup.alpha = 0
+		sceneGroup.add(overlayGroup)
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+		rect.events.onInputDown.add(inputOverlay)
+		rect.tag = 'quitOverlay'
+		overlayGroup.add(rect)
+		
+		var back = overlayGroup.create(game.world.centerX,game.world.centerY,'atlas.resultScreen','fondo')
+		back.anchor.setTo(0.5,0.5)
+		back.inputEnabled = true
+		
+		var icon = overlayGroup.create(back.x,back.y - 100,'atlas.resultScreen','iphoneIcon')
+		icon.anchor.setTo(0.5,0.5)
+		
+		var closeBtn = overlayGroup.create(back.x + back.width * 0.35,back.y - back.height * 0.4,'atlas.resultScreen','cerrar')
+		closeBtn.anchor.setTo(0.5,0.5)
+		closeBtn.inputEnabled = true
+		closeBtn.events.onInputDown.add(inputOverlay)
+		closeBtn.tag = 'quitOverlay'
+		
+		var downloadButton = game.add.group()
+		downloadButton.x = back.x
+		downloadButton.y = back.y + back.height * 0.37
+		overlayGroup.add(downloadButton)
+			
+		var imgBtn = downloadButton.create(-5,0,'atlas.resultScreen','boton')
+		imgBtn.inputEnabled = true
+		imgBtn.events.onInputDown.add(inputOverlay)
+		imgBtn.tag = 'download'
+		imgBtn.anchor.setTo(0.5,0.5)
+		
+		var nameText = game.add.bitmapText(0, 4, 'gothamMedium', 'Descargar', 25);
+		nameText.tint = 0xffffff   
+		nameText.anchor.setTo(0.5,0.5)
+		downloadButton.add(nameText)
+		
+		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', '¿ Te gusta ?', 40);
+		nameText.tint = 0xffffff   
+		nameText.anchor.setTo(0.5,0.5)
+		overlayGroup.add(nameText)
+		
+		var nameText = game.add.bitmapText(back.x - 112, back.y + 50, 'gothamMedium', '?', 40);
+		nameText.tint = 0xffffff   
+		nameText.anchor.setTo(0.5,0.5)
+		nameText.angle = 180
+		overlayGroup.add(nameText)
+		
+		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', '¡Descarga nuestra app!', 28);
+		nameText.anchor.setTo(0.5,0.5)
+		overlayGroup.add(nameText)
+		
+		
+		if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
+			
+			overlayGroup.alpha = 1
+			game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
+		}
+	}
+	
+	function inputOverlay(obj){
+		
+		var tag = obj.tag
+		
+		if(tag == 'quitOverlay'){
+			
+			obj.inputEnabled = false
+			game.add.tween(overlayGroup).to({alpha : 0, y: overlayGroup.y - game.world.height},500,"Linear",true)
+			
+		}else if(tag == 'download'){
+			
+			sound.play("click")
+			var parent = obj.parent
+			
+			obj.inputEnabled = false
+			var tween = game.add.tween(parent.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0)
+			tween.yoyo(true,0)
+			
+			var url = "https://play.google.com/store/apps/details?id=com.getin.amazing&hl=es"
+        
+			if(!game.device.android){
+				url = "https://itunes.apple.com/mx/app/amazing-by-getin/id1176752172?l=en&mt=8#descargar"
+			}
+			
+			tween.onComplete.add(function(){
+				window.open(url,'_blank')  
+				obj.inputEnabled = true
+			})
+			
+		}
+		
+	}
+	
 	function initialize(){
         
 		totalScore = totalScore || 0
