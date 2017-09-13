@@ -45,6 +45,7 @@ function Server(inLevel){
 	/** Events
 	 */
 	self.events = {};
+	self.currentData = null
 
 	this.addEventListener = function(name, handler) {
 		if (self.events.hasOwnProperty(name))
@@ -301,6 +302,7 @@ function Server(inLevel){
 					valores.p1 = p1;
 					self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
 					if(valores.p2){
+						self.currentData = valores
 						self.fireEvent('onPlayersReady',[valores]);
 					}
 				}
@@ -318,6 +320,7 @@ function Server(inLevel){
 					valores.p2 = p2;
 					self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
 					if(valores.p1){
+						self.currentData = valores
 						self.fireEvent('onPlayersReady',[valores]);
 					}
 				}

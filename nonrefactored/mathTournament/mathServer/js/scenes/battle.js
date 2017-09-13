@@ -24,8 +24,8 @@ var battle = function(){
             }
         ],
         images: [
-            // {   name:"fondo",
-            //     file: "images/battle/fondo.png"}
+            {   name:"fondo",
+                file: "images/battle/fondo1.jpg"}
         ],
         sounds: [
             {	name: "pop",
@@ -66,6 +66,7 @@ var battle = function(){
     var NUM_LIFES = 3
     var NUM_OPTIONS = 3
     var MAX_HP = 7
+	var WIDTH_DISTANCE = 220
 
     var ROUNDS = [
         {minNumber: 2, maxNumber: 10, operator:"x"}
@@ -98,7 +99,6 @@ var battle = function(){
     var clock
     var timeValue
     var inputsEnabled
-    var pointsBar
     var monsterCounter
     var player2
     var player1
@@ -107,7 +107,7 @@ var battle = function(){
     var killedMonsters
     var monsters
     var hitParticle
-	var env
+	var serverData
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -179,15 +179,15 @@ var battle = function(){
 		// if (fromPlayer.hpBar.health > 0){
 		fromPlayer.setAnimation(["ATTACK", fromPlayer.statusAnimation])
 
-		var proyectile = sceneGroup.create(0, 0, 'atlas.battle', asset)
-		proyectile.x = fromPlayer.from.x
-		proyectile.y = fromPlayer.from.y
-		proyectile.scale.x = fromPlayer.scaleShoot.from.x
-		proyectile.scale.y = fromPlayer.scaleShoot.from.y
-		proyectile.anchor.setTo(0.5, 0.5)
-		proyectile.tint = fromPlayer.proyectile
-
 		game.time.events.add(1000, function () {
+			var proyectile = sceneGroup.create(0, 0, 'atlas.battle', asset)
+			proyectile.x = fromPlayer.from.x
+			proyectile.y = fromPlayer.from.y
+			proyectile.scale.x = fromPlayer.scaleShoot.from.x
+			proyectile.scale.y = fromPlayer.scaleShoot.from.y
+			proyectile.anchor.setTo(0.5, 0.5)
+			proyectile.tint = fromPlayer.proyectile
+
 			typeAttack(proyectile, fromPlayer, targetPlayer)
 		})
 		// }
@@ -223,12 +223,12 @@ var battle = function(){
     function createProyectile(proyectile, from, target){
         sound.play("throw")
 
-		var toScale = target.scaleShoot
+		// var toScale = target.scaleShoot
 		var toHit = target.hitDestination
 		game.add.tween(proyectile).to({x: toHit.x}, 1600, null, true)
-        game.add.tween(proyectile.scale).to({x: toScale.to.x, y: toScale.to.y}, 1600, null, true)
+        // game.add.tween(proyectile.scale).to({x: toScale.to.x, y: toScale.to.y}, 1600, null, true)
 
-        var first = game.add.tween(proyectile).to({y: 46}, 800, Phaser.Easing.Cubic.Out, true)
+        var first = game.add.tween(proyectile).to({y: toHit.y - 350}, 800, Phaser.Easing.Cubic.Out, true)
         first.onComplete.add(function () {
             game.add.tween(proyectile).to({y: toHit.y}, 800, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
                 game.add.tween(proyectile).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
@@ -244,12 +244,6 @@ var battle = function(){
         game.add.tween(battleGroup.number1).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
         game.add.tween(battleGroup.operator).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
         game.add.tween(battleGroup.number2).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-
-        for(var optionIndex = 0; optionIndex < battleGroup.options.length; optionIndex++) {
-            var option = battleGroup.options[optionIndex]
-            game.add.tween(option.scale).to({x:0.2, y:0.2}, 800, Phaser.Easing.Cubic.Out, true)
-            game.add.tween(option).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-        }
     }
 
     function checkAnswer(event) {
@@ -331,33 +325,31 @@ var battle = function(){
 
         var floor = sceneGroup.create(0, 0, 'atlas.battle', 'floor')
         floor.anchor.setTo(0.5, 0.5)
-        floor.scale.setTo(0.65, 0.65)
+        // floor.scale.setTo(0.65, 0.65)
 
-        // createMonsters()
-
-		var spineData = SPINES[MONSTERS[0].spineIndex]
-		player2 = createSpine(spineData.skeleton, spineData.defaultSkin)
-		player2.scale.setTo(0.8, 0.8)
+		player2 = createSpine(serverData.p2.avatar, "normal")
+		player2.scale.setTo(-1, 1)
 		sceneGroup.add(player2)
 		player2.statusAnimation = "IDLE"
-        player2.x = game.world.width - 140
-		player2.y = 360
+		console.log("width", player2.width)
+        player2.x = game.world.width - WIDTH_DISTANCE
+		player2.y = game.world.height - 150
         player2.alpha = 1
 		floor.x = player2.x
 		floor.y = player2.y
 		player2.proyectile = MONSTERS[monsterCounter].colorProyectile
 
 		var from2 = {}
-		from2.x = player2.x - 40
-		from2.y = player2.y - player2.height * 0.5 - 50
+		from2.x = player2.x - 100
+		from2.y = player2.y - 100
 		player2.from = from2
 
 		var hitDestination2 = {}
-		hitDestination2.x = player2.x + 80
+		hitDestination2.x = player2.x
 		hitDestination2.y = player2.y - player2.height * 0.5 + 50
 		player2.hitDestination = hitDestination2
 
-		var scale2 = {from:{x: 0.4, y: 0.4}, to:{x: 1, y: 1}}
+		var scale2 = {from:{x: 1, y: 1}, to:{x: 1, y: 1}}
 		player2.scaleShoot = scale2
 
 		var input2 = game.add.graphics()
@@ -371,45 +363,46 @@ var battle = function(){
 			playerAttack(player2, player1, createProyectile, "proyectile")
 		})
 		//
-        var explode = createPart("alecbuu")
-        explode.y = player2.y - player2.height * 0.5
-        explode.x = player2.x
-        sceneGroup.add(explode)
+        var explode = createPart("proyectile")
+        explode.y = -100
+        // explode.x = hitDestination2.x
+        player2.add(explode)
         hitParticle = explode
         hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
 		player2.hit = hitParticle
 
         var monsterHpBar = createHpbar()
-		monsterHpBar.x = player2.x - 250
-		monsterHpBar.y = player2.y - player2.height + 30
+		monsterHpBar.x = game.world.width - 200
+		monsterHpBar.y = 180
         sceneGroup.add(monsterHpBar)
-		monsterHpBar.name.text = env.p2.nickname
+		monsterHpBar.name.text = serverData.p2.nickname
 		player2.hpBar = monsterHpBar
         // monsterHpBar = hpBar1
 
         var floor2 = sceneGroup.create(0, 0, 'atlas.battle', 'floor')
         floor2.anchor.setTo(0.5, 0.5)
 
-        player1 = createSpine("arthurius", "normal")
-		player1.x = 105
-		player1.y = player1.height + 280
+        player1 = createSpine(serverData.p1.avatar, "normal")
+		// player1.scale.setTo(0.8, 0.8)
+		player1.x = WIDTH_DISTANCE
+		player1.y = game.world.height - 150
 		player1.proyectile = "0xFFFFFF"
 		sceneGroup.add(player1)
-		floor2.x = player1.x - 8
-		floor2.y = player1.y - 40
+		floor2.x = player1.x
+		floor2.y = player1.y
 		player1.statusAnimation = "IDLE"
 
 		var from1 = {}
-		from1.x = player1.x - 40
-		from1.y = player1.y - player1.height * 0.5 - 50
+		from1.x = player1.x + 100
+		from1.y = player1.y - player1.height * 0.5 - 40
 		player1.from = from1
 
 		var hitDestination1 = {}
-		hitDestination1.x = player1.x + 80
+		hitDestination1.x = player1.x
 		hitDestination1.y = player1.y - player1.height * 0.5 + 50
 		player1.hitDestination = hitDestination1
 
-		var scale1 = {from:{x: 0.4, y: 0.4}, to:{x: 1, y: 1}}
+		var scale1 = {from:{x: 1, y: 1}, to:{x: 1, y: 1}}
 		player1.scaleShoot = scale1
 
 		var input1 = game.add.graphics()
@@ -425,16 +418,16 @@ var battle = function(){
 
         var explodeArthurius = createPart("proyectile")
         player1.add(explodeArthurius)
-		explodeArthurius.y = -player1.height * 0.5 + 40
+		explodeArthurius.y = -100
         player1.hit = explodeArthurius
         player1.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
 		var hpBar2 = createHpbar()
-		hpBar2.x = player1.x + 310
-		hpBar2.y = player1.y - 50
+		hpBar2.x = 200
+		hpBar2.y = 180
 		sceneGroup.add(hpBar2)
 		player1.hpBar = hpBar2
-        hpBar2.name.text = env.p1.nickname
+        hpBar2.name.text = serverData.p1.nickname
 
     }
 
@@ -477,29 +470,6 @@ var battle = function(){
         })
     }
 
-	function createPointsBar(){
-
-		pointsBar = game.add.group()
-		pointsBar.x = game.world.width
-		pointsBar.y = 0
-		sceneGroup.add(pointsBar)
-
-		var pointsImg = pointsBar.create(-10,10,'atlas.battle','xpcoins')
-		pointsImg.anchor.setTo(1,0)
-
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-		pointsText.x = -pointsImg.width * 0.45
-		pointsText.y = pointsImg.height * 0.25
-		pointsBar.add(pointsText)
-
-		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-
-		pointsBar.text = pointsText
-		pointsBar.number = 0
-
-	}
-
 	function addPoint(number){
 
 		sound.play("magic")
@@ -524,18 +494,14 @@ var battle = function(){
         game.load.image('howTo',"images/battle/how" + localization.getLanguage() + ".png")
         game.load.image('buttonText',"images/battle/play" + localization.getLanguage() + ".png")
 
-        game.load.spine('monster12356', "images/spines/monster12356/monster12356.json")
-        game.load.spine('monster4', "images/spines/monster4/monster4.json")
-        game.load.spine('monster789', "images/spines/monster789/monster789.json")
-        game.load.spine('arthurius', "images/spines/arthurius/arthurius.json")
-        game.load.spine('flama', "images/spines/flama/flama.json")
+        game.load.spine('luna', "images/spines/Luna/luna.json")
+        game.load.spine('eagle', "images/spines/Eagle/eagle.json")
         buttons.getImages(game)
 
     }
 
     function startRound() {
         hideQuestion()
-        indicator.tweenRestart.start()
 		if(server)
 			server.generateQuestion()
 
@@ -568,14 +534,6 @@ var battle = function(){
         option.circle.inputEnabled = true
     }
 
-    function startIndicator(delay) {
-        var timeTween = timeValue * 1000
-        indicator.timer = game.add.tween(indicator).to({x:-190}, timeTween, null, true, delay)
-        indicator.timer.onComplete.add(monsterAttack)
-
-        // inputsEnabled = true
-    }
-
     function generateQuestion(data) {
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
 
@@ -594,47 +552,7 @@ var battle = function(){
         battleGroup.y = game.height - 200
         sceneGroup.add(battleGroup)
 
-        var colorBox = new Phaser.Graphics(game)
-        colorBox.beginFill(0x054954)
-        colorBox.drawRect(0,0,game.width, 400)
-        colorBox.endFill()
-        colorBox.x = -game.width * 0.5
-        colorBox.y = -200
-        battleGroup.add(colorBox)
-
-        var dashboad = battleGroup.create(0, 0, 'atlas.battle', 'UIcontainer')
-        dashboad.anchor.setTo(0.5, 0.5)
-
-        var fontStyle = {font: "54px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var options = []
-
-        var spaceWidth = dashboad.width / 3
-        var startX = -dashboad.width * 0.5 + 84
-        
-        for(var optionIndex = 0; optionIndex < NUM_OPTIONS; optionIndex++){
-            var option = game.add.group()
-            option.x = startX + spaceWidth * optionIndex
-            option.y = 84
-            option.alpha = 0
-            battleGroup.add(option)
-
-            var optionCircle = option.create(0, 0, 'atlas.battle', 'option')
-            optionCircle.anchor.setTo(0.5, 0.5)
-            optionCircle.inputEnabled = true
-            optionCircle.events.onInputDown.add(checkAnswer)
-            option.circle = optionCircle
-
-            var numberText = new Phaser.Text(game, 0, 0, "0", fontStyle)
-            // numberText.x = optionCircle.x
-            // numberText.y = optionCircle.y - 3
-            numberText.anchor.setTo(0.5,0.5)
-            option.add(numberText)
-            option.text = numberText
-            options.push(option)
-        }
-        battleGroup.options = options
-
-        fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
+        var fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
 
         var questionGroup = game.add.group()
         questionGroup.y = -50
@@ -671,24 +589,6 @@ var battle = function(){
         var wrongParticle = createPart("wrong")
         battleGroup.add(wrongParticle)
         battleGroup.wrongParticle = wrongParticle
-
-        var barGraphics = game.add.graphics(0, 0)
-        barGraphics.lineStyle(8, 0x000000, 1)
-        barGraphics.beginFill(0xFFFFFF, 1)
-        barGraphics.drawCircle(0, 0, 44)
-        // battleGroup.add(barGraphics)
-        //190
-        indicator = game.add.sprite(-190, -120, barGraphics.generateTexture())
-        indicator.anchor.setTo(0.5, 0.5)
-        indicator.scale.x = 0.6
-        indicator.scale.y = 0.6
-        battleGroup.add(indicator)
-        barGraphics.destroy()
-
-        indicator.tweenRestart = game.add.tween(indicator).to({x:190}, 900, Phaser.Easing.Cubic.Out)
-        indicator.tweenRestart.onStart.add(function () {
-            sound.play("whoosh")
-        })
 
     }
     
@@ -813,22 +713,22 @@ var battle = function(){
         assets: assets,
         name: "battle",
         preload:preload,
-		setEnv:function (params) {
-        	env = params
-		},
         create: function(event){
 
             sceneGroup = game.add.group();
+            serverData = server ? server.currentData : {
+            	p1:{nickname:"Player1", avatar:"eagle"},
+				p2:{nickname:"Player2", avatar:"luna"}
+            }
             //yogomeGames.mixpanelCall("enterGame",gameIndex);
 
-			var rectBg = game.add.graphics()
-			rectBg.beginFill(0x181433)
-			rectBg.drawRect(0, 0, game.world.width, game.world.height)
-			rectBg.endFill()
-			sceneGroup.add(rectBg)
-
-			var wall = game.add.tileSprite(0,0,game.world.width, 320, 'atlas.battle','wall')
-			sceneGroup.add(wall)
+			var fondo = sceneGroup.create(0,0,'fondo')
+			fondo.anchor.setTo(0.5, 1)
+			fondo.scale.setTo(1.3, 1.3)
+			fondo.x = game.world.centerX
+			fondo.y = game.world.height
+			// fondo.width = game.world.width
+			// fondo.height = game.world.height
 
             battleSong = game.add.audio('battleSong')
             game.sound.setDecodedCallback(battleSong, function(){
@@ -844,28 +744,9 @@ var battle = function(){
             // }, this);
 
             initialize()
-			var window = sceneGroup.create(game.world.centerX,game.world.centerY - 320, "atlas.battle", "window")
-			window.anchor.setTo(0.5, 0.5)
-
-			var pillar = sceneGroup.create(game.world.centerX - 150,game.world.centerY - 320, "atlas.battle", "pillar")
-			pillar.anchor.setTo(0.5, 0.5)
-
-			var pillar2 = sceneGroup.create(game.world.centerX + 150,game.world.centerY - 320, "atlas.battle", "pillar")
-			pillar2.anchor.setTo(0.5, 0.5)
-
-			var torch = createSpine("flama", "normal")
-			torch.x = game.world.centerX - 230
-			torch.y = game.world.centerY - 320
-			sceneGroup.add(torch)
-
-			var torch2 = createSpine("flama", "normal")
-			torch2.x = game.world.centerX + 230
-			torch2.y = game.world.centerY - 320
-			sceneGroup.add(torch2)
 
             createGameObjects()
             createbattleUI()
-            createPointsBar()
 			if(server){
 				server.addEventListener('afterGenerateQuestion', generateQuestion);
 				server.addEventListener('onTurnEnds', checkAnswer);
