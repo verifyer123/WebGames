@@ -4,6 +4,8 @@ body{
     color: #FFF;
     margin: 0;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 #logoMath{
@@ -32,6 +34,7 @@ body{
     font-family: "VAGRounded";
     background-color: #FFF;
     color:#1B3473;
+    padding: 1vh;
 }
 
 #MenuYogotar{
@@ -50,6 +53,7 @@ body{
 
 #MenuYogotar .arrow-menu img{
     width: 20%;
+    max-width: 50px;
 }
 
 #arrowLeft{
@@ -69,7 +73,7 @@ body{
 }
 
 .yogotarBlock{
-    position: relative;
+    position: absolute;
     height: 100%;
     width: auto;
     left: 50%;
