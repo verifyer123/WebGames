@@ -1,0 +1,86 @@
+body{
+    background-color:#FF4560;
+    font-family: "VAGRounded";
+    color: #FFF;
+    margin: 0;
+    overflow: hidden;
+}
+
+#logoMath{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    height: 20%;
+}
+
+
+#logoMath img{
+    height: 100%;
+}
+
+#settings{
+    padding: 2vh;
+    text-align: center;
+    font-size: 6vh;
+}
+
+#settings input{
+    height: auto;
+    font-size: 4vh;
+    border-radius: 1vh;
+    text-align: center;
+    font-family: "VAGRounded";
+    background-color: #FFF;
+    color:#1B3473;
+}
+
+#MenuYogotar{
+    display: table;
+    position: absolute;
+    width: 100%;
+    height: 30%;
+    z-index: 1;
+}
+
+#MenuYogotar .arrow-menu{
+    width: 50%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#MenuYogotar .arrow-menu img{
+    width: 20%;
+}
+
+#arrowLeft{
+    padding-left: 1vh;
+}
+
+#arrowRight{
+    padding-right: 1vh;
+    text-align: right;
+}
+
+#avatar{
+    position: relative;
+    height: 30%;
+    display: flex;
+    width: auto;
+}
+
+.yogotarBlock{
+    position: relative;
+    height: 100%;
+    width: auto;
+    left: 50%;
+    transform: translate(-50%,0%);
+    
+}
+
+.yogotarBlock img{
+    height: 100%;
+}
+
+hr{
+    margin:2%;
+}
