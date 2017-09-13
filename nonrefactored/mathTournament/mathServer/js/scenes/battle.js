@@ -468,8 +468,10 @@ var battle = function(){
             resultScreen.setScore(true, pointsBar.number, gameIndex)
 
             //amazing.saveScore(pointsBar.number)
-			server.removeEventListener('afterGenerateQuestion', generateQuestion);
-			server.removeEventListener('onTurnEnds', checkAnswer);
+			if(server){
+				server.removeEventListener('afterGenerateQuestion', generateQuestion);
+				server.removeEventListener('onTurnEnds', checkAnswer);
+			}
             sceneloader.show("result")
             sound.play("gameLose")
         })
@@ -534,7 +536,8 @@ var battle = function(){
     function startRound() {
         hideQuestion()
         indicator.tweenRestart.start()
-		server.generateQuestion()
+		if(server)
+			server.generateQuestion()
 
 		// game.time.events.add(1000, generateQuestion)
     }
@@ -863,8 +866,10 @@ var battle = function(){
             createGameObjects()
             createbattleUI()
             createPointsBar()
-			server.addEventListener('afterGenerateQuestion', generateQuestion);
-			server.addEventListener('onTurnEnds', checkAnswer);
+			if(server){
+				server.addEventListener('afterGenerateQuestion', generateQuestion);
+				server.addEventListener('onTurnEnds', checkAnswer);
+			}
 			startRound()
             // createTutorial()
 
