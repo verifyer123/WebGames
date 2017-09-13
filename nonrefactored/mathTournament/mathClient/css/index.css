@@ -4,6 +4,8 @@ body{
     color: #FFF;
     margin: 0;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 #logoMath{
@@ -69,7 +71,7 @@ body{
 }
 
 .yogotarBlock{
-    position: relative;
+    position: absolute;
     height: 100%;
     width: auto;
     left: 50%;

@@ -107,43 +107,35 @@
         ];
             for(var i = 0;i<=yogotarCharacters.length-1;i++){
                 $("#avatar").append('<div id="SelectYogotar'+yogotarCharacters[i].index+'" class="yogotarBlock"><img src="'+yogotarCharacters[i].img+'" /></div>');
-                $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*0.5));
-                $("#SelectYogotar" + +yogotarCharacters[i].index).find("img").css({"transform":'scale('+ eval(1-(i*0.5))+')'});
+                $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*1));
             }
                 
            selectYogotarName = yogotarCharacters[0].name;
-            var avatarposX = parseInt($("#avatar").css("left"));
             var lengthAvatar = $("#avatar").find("div").length;
-            var widthAvatar = $("#avatar").width();
-            //var widthYogotar = $("#SelectYogotar1").width();
+            var YogoPosx = parseInt($("#SelectYogotar1").css("left"));
             var counter = 0;
-           
+            console.log(YogoPosx);
         
             $("#arrowRight").click(function(){ 
-                if(avatarposX > -(Math.round(widthAvatar/lengthAvatar))){   
+                if(counter != lengthAvatar-1){   
                     counter++;
-                $("#avatar").css("left",avatarposX - Math.round((widthAvatar/lengthAvatar)) );
-                 avatarposX = parseInt($("#avatar").css("left"))
-                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0.5);
-                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).find("img").css({"transform":'scale('+0.5+')'}); 
-                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);
-                $("#SelectYogotar" + +yogotarCharacters[counter].index).find("img").css({"transform":'scale('+1+')'});
+                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0);
+                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("left",0);  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);                    
                 }
                 selectYogotarName = yogotarCharacters[counter].name;
         });
-        
+      
         $("#arrowLeft").click(function(){
-            if(avatarposX != 0){  
-            counter--;    
-            $("#avatar").css("left",avatarposX + (widthAvatar/lengthAvatar));
-            avatarposX = parseInt($("#avatar").css("left"))
-            $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0.5);
-            $("#SelectYogotar" + +yogotarCharacters[counter+1].index).find("img").css({"transform":'scale('+0.5+')'});   
-            $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);
-            $("#SelectYogotar" + +yogotarCharacters[counter].index).find("img").css({"transform":'scale('+1+')'});  
-                
-            } 
-            selectYogotarName = yogotarCharacters[counter].name;
+             if(counter != 0){   
+                    counter--;
+                $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0);
+                $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("left",0);  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);                    
+                }
+                selectYogotarName = yogotarCharacters[counter].name;
         });
         
         
