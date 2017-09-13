@@ -457,8 +457,8 @@ var battle = function(){
         tweenScene.onComplete.add(function(){
 
             // var numPoints = killedMonsters * 5
-            var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, pointsBar.number, gameIndex)
+            // var resultScreen = sceneloader.getScene("result")
+            // resultScreen.setScore(true, pointsBar.number, gameIndex)
 
             //amazing.saveScore(pointsBar.number)
 			if(server){

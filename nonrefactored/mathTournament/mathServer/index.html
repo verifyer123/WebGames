@@ -94,14 +94,29 @@
     <div id="backgroundBody"><div id="cortainBlack"></div></div>
     
 </body>
-<script>    
+<script>
+	server.addEventListener('onPlayersReady', onPlayersReady);
     $("#selectLevel").hide();
     $("#waitingPlayers").hide();
     var blurElement = {a:0};
+    var gameReady = false;
 //TweenMax.to(blurElement, 1, {a:10, onUpdate:applyBlur});
+
+    function onPlayersReady(){
+        gameReady = true;
+		$("#beginGame").css("opacity", 1)
+    }
+
     function applyBlur(){
-    TweenMax.set(['#backgroundBody'], {webkitFilter:"blur(" + blurElement.a + "px)",filter:"blur(" + blurElement.a + "px)"});  };    
-    
+    TweenMax.set(['#backgroundBody'], {webkitFilter:"blur(" + blurElement.a + "px)",filter:"blur(" + blurElement.a + "px)"});  };
+
+	$("#beginGame").mousedown(function(){
+		//lanzar el juego
+        if(gameReady)
+        	window.open("battle.html", "_self")
+
+	});
+
     $("#startGameButton").mousedown(function(){
         $("#startGameButton").toggleClass("onBgButton");
         $("#startGameButton").prop( "disabled", false );
