@@ -95,6 +95,17 @@
     
 </body>
 <script>
+    
+    var Yogotars = [
+        "img/yogotars/yogotar1.png",
+        "img/yogotars/yogotar2.png"
+    ]
+    
+    /*server.addEventListener("onInitPlayer", showPlayer)
+    function showPlayer(event){
+        var avatar = event.player.avatar
+    }*/
+    
 	server.addEventListener('onPlayersReady', onPlayersReady);
     $("#selectLevel").hide();
     $("#waitingPlayers").hide();
@@ -104,7 +115,8 @@
 
     function onPlayersReady(){
         gameReady = true;
-		$("#beginGame").css("opacity", 1)
+		$("#beginGame").css("opacity", 1);
+        
     }
 
     function applyBlur(){

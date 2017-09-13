@@ -30,8 +30,12 @@
 		var div_resultado = document.getElementById("resultado");
 		var btn_start = document.getElementById("start");
 
-		div_resultado.innerText = "init compvaro, jugador: "+cliente.numPlayer;
+		div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
 		btn_start.style.visibility = 'hidden';
+        $("#start").hide();
+        $("#arrowRight").hide();
+        $("#arrowLeft").hide();
+        $("input").prop("disabled",true);
 
 		if(cliente.numPlayer!= null){
 			document.getElementById("start").disabled =true;
@@ -91,6 +95,7 @@
 </div>
 </body>
     <script>
+
         var yogotarCharacters = [
             {
                 index:0,
