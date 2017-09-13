@@ -25,6 +25,7 @@
 </div>
 
 <script>
+    var selectYogotarName;
 	var onClientInit = function(e){
 		var div_resultado = document.getElementById("resultado");
 		var btn_start = document.getElementById("start");
@@ -50,13 +51,15 @@
 
 	var cliente = parent.cliente;
 	function startButton(){
+        console.log(selectYogotarName);
 		//var idGame = "00000";
 		var idGame = document.getElementById("id_game").value;
 		var av = document.getElementById("avatar");
-		av = av.options[av.selectedIndex].value;
+		//av = av.search($("div").attr("select").name);
+        
 		var player = {
 			nickname: document.getElementById("nickname").value,
-			avatar: av,
+			avatar: selectYogotarName,
 			life: 100
 		}
 		cliente.addEventListener('onClientInit', onClientInit);
@@ -107,10 +110,42 @@
                 $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*0.5));
                 $("#SelectYogotar" + +yogotarCharacters[i].index).find("img").css({"transform":'scale('+ eval(1-(i*0.5))+')'});
             }
+                
+           selectYogotarName = yogotarCharacters[0].name;
+            var avatarposX = parseInt($("#avatar").css("left"));
+            var lengthAvatar = $("#avatar").find("div").length;
+            var widthAvatar = $("#avatar").width();
+            //var widthYogotar = $("#SelectYogotar1").width();
+            var counter = 0;
+           
+        
+            $("#arrowRight").click(function(){ 
+                if(avatarposX > -(Math.round(widthAvatar/lengthAvatar))){   
+                    counter++;
+                $("#avatar").css("left",avatarposX - Math.round((widthAvatar/lengthAvatar)) );
+                 avatarposX = parseInt($("#avatar").css("left"))
+                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0.5);
+                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).find("img").css({"transform":'scale('+0.5+')'}); 
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).find("img").css({"transform":'scale('+1+')'});
+                }
+                selectYogotarName = yogotarCharacters[counter].name;
+        });
         
         $("#arrowLeft").click(function(){
-            
+            if(avatarposX != 0){  
+            counter--;    
+            $("#avatar").css("left",avatarposX + (widthAvatar/lengthAvatar));
+            avatarposX = parseInt($("#avatar").css("left"))
+            $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0.5);
+            $("#SelectYogotar" + +yogotarCharacters[counter+1].index).find("img").css({"transform":'scale('+0.5+')'});   
+            $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);
+            $("#SelectYogotar" + +yogotarCharacters[counter].index).find("img").css({"transform":'scale('+1+')'});  
+                
+            } 
+            selectYogotarName = yogotarCharacters[counter].name;
         });
+        
         
     </script>
     
