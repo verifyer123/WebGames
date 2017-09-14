@@ -146,8 +146,8 @@ function loadGame(){
 	gameFrame.src= src
 	gameFrame.style.borderStyle = "none"
 	gameFrame.scrolling = "no"
-	gameFrame.width = "100%"
-	gameFrame.height = "100%"
+	gameFrame.width = window.innerWidth
+	gameFrame.height = window.innerHeight
 	gameContainer.appendChild(gameFrame);
 }
 

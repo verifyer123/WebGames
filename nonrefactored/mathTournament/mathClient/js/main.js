@@ -72,4 +72,4 @@ function startGame(){
     }
 }
 
-minigame.orientation.init(startGame)
+startGame()
