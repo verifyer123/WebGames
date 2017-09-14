@@ -141,6 +141,8 @@ var result = function(){
     
     function inputButton(obj){
         
+		console.log('pressed')
+		
         if(obj.active == false){
             return
         }
@@ -467,7 +469,7 @@ var result = function(){
         
         if(!haveCoupon){
             
-            textToUse = "¡Genial!"
+            textToUse = "¡Amazing!"
             colorTint = 0xc216ac
             animationToUse = "WIN"
             topHeight = 1.5
@@ -618,11 +620,12 @@ var result = function(){
 		
 		overlayGroup = game.add.group()
 		overlayGroup.alpha = 0
+		overlayGroup.y-= game.world.height
 		sceneGroup.add(overlayGroup)
 		
 		var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.drawRect(0,0,game.world.width, game.world.height)
         rect.alpha = 0.7
         rect.endFill()
         rect.inputEnabled = true
@@ -677,6 +680,7 @@ var result = function(){
 		
 		if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
 			
+			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
 			game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
 		}

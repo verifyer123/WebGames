@@ -14,7 +14,9 @@
     <link rel="stylesheet" type="text/css" href="../../shared/minigames/css/minigame.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/custom_fonts.css">
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script  src="js/jquery-3.1.1.min.js"></script>
+    <script  src="js/client.js"></script>
 </head>
 <body>
     <div id="logoMath"><img src="images/logoMath.png"/></div>
@@ -30,8 +32,12 @@
 		var div_resultado = document.getElementById("resultado");
 		var btn_start = document.getElementById("start");
 
-		div_resultado.innerText = "init compvaro, jugador: "+cliente.numPlayer;
+		div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
 		btn_start.style.visibility = 'hidden';
+        $("#start").hide();
+        $("#arrowRight").hide();
+        $("#arrowLeft").hide();
+        $("input").prop("disabled",true);
 
 		if(cliente.numPlayer!= null){
 			document.getElementById("start").disabled =true;
@@ -49,12 +55,12 @@
 		alert("La partida ya se encuentra ocupada");
 	}
 
-	var cliente = parent.cliente;
+	cliente = parent.cliente
+	window.sessionStorage.setItem("cliente", cliente)
 	function startButton(){
         console.log(selectYogotarName);
 		//var idGame = "00000";
-		var idGame = document.getElementById("id_game").value;
-		var av = document.getElementById("avatar");
+		var idGame = document.getElementById("idGame").value;
 		//av = av.search($("div").attr("select").name);
         
 		var player = {
@@ -83,7 +89,7 @@
         </section>
     
         <p>Write PIN</p>
-    <input id="idGame" type="text" id="id_game" />
+    <input id="idGame" type="text" />
     <p>Nickname</p>
     <input type="text" id="nickname" placeholder="Player" value="player" />
     <hr>
@@ -92,15 +98,16 @@
 </div>
 </body>
     <script>
+
         var yogotarCharacters = [
             {
                 index:0,
-                name:"Eagle",
+                name:"eagle",
                 img:"images/eagle.png"
             },
             {   
                 index:1,
-                name:"Luna",
+                name:"luna",
                 img:"images/luna.png"
             }
         ];

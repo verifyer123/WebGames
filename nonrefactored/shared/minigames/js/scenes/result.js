@@ -357,7 +357,7 @@ var result = function(){
             {"gameName": gamesList[gameIndex].name}
         );
 		
-        window.open(url,'_blank')  
+        window.location.href = url;
         
     }
     

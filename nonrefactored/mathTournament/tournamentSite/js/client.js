@@ -157,4 +157,4 @@ window.onload =  function(){
 	cliente = new Client();
 }
 
-window.addEventListener("resize", loadGame);
+// window.addEventListener("resize", loadGame);
