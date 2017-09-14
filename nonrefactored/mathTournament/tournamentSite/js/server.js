@@ -37,7 +37,7 @@ var cleanArray = function(arr){
  * @class
  * @summary The class server is use to start a new game and init the reading of firebase
  * @public
- * @param {string} functionInitPlayer Function to be executed afeter a player is inited
+ * @param {int} inLevel Level of the game. It could be {1|2|3} 1-Basic, 2- Medium, 3-Advanced 
  */
 function Server(inLevel){
 
@@ -222,10 +222,121 @@ function Server(inLevel){
 	}
 
 	function generateQuestion(){
-		var operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
-		var operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
+		var operand1;
+		var operand2;
+		var result = "?";
+		var opedator = Math.floor((Math.random() * 4) + 1);
+		
+		switch(level){
+			case 2://Medium
+				MAX_OPERAND_VALUE = 500;
+				switch(opedator){
+					case 2: // -
+						opedator = "-";
+						operand1= Math.floor((Math.random() * 500 ) )+101;
+						operand2= Math.floor((Math.random() * 500 ) )+101;
+						correctAnswer = (operand1< operand2)? 
+							operand2 -operand1:
+							operand1 -operand2;
+						break;
+					case 3: // x
+						opedator = "x";
+						operand1= Math.floor((Math.random() * 22 ) + 1 );
+						operand2= Math.floor((Math.random() * 22 ) + 1 );
+						correctAnswer = operand1 * operand2;
+					case 4: // /
+						// operand1 = dividendo, operand2 = divisor
+						opedator = "/";
+						operand1= Math.floor((Math.random() * 22 ) + 1 );
+						operand2= Math.floor((Math.random() * 22 ) + 1);
+						let aux =  operand1 * operand2;
+						correctAnswer = operand1;
+						operand1 = aux;
+						break;
+					case 1: // +
+					default:
+						opedator = "+";
+						operand1= Math.floor((Math.random() * 250) + 1);
+						operand2= Math.floor((Math.random() * 250) + 1);
+						correctAnswer = operand1 +operand2;
+				}
+				break;
+			case 3://Advance
+				MAX_OPERAND_VALUE = 999;
+				switch(opedator){
+					case 2: // -
+						opedator = "-";
+						operand1= Math.floor((Math.random() * 999 ) ) + 501;
+						operand2= Math.floor((Math.random() * 999 ) ) + 501;
+						correctAnswer = (operand1< operand2)? 
+							operand2 -operand1:
+							operand1 -operand2;
+						break;
+					case 3: // x
+						opedator = "x";
+						operand1= Math.floor((Math.random() * 32 ) + 1 );
+						operand2= Math.floor((Math.random() * 31 ) + 1 );
+						correctAnswer = operand1 * operand2;
+					case 4: // /
+						// operand1 = dividendo, operand2 = divisor
+						opedator = "/";
+						operand1= Math.floor((Math.random() * 32 ) + 1);
+						operand2= Math.floor((Math.random() * 31 ) + 1);
+						let aux =  operand1 * operand2;
+						correctAnswer = operand1;
+						operand1 = aux;
+						break;
+					case 1: // +
+					default:
+						opedator = "+";
+						operand1= Math.floor((Math.random() * 500) + 1);
+						operand2= Math.floor((Math.random() * 499) + 1);
+						correctAnswer = operand1 +operand2;
+				}
+				break;
+			case 1://Basic
+			default:
+				MAX_OPERAND_VALUE = 100;
+				switch(opedator){
+					case 2: // -
+						opedator = "-";
+						operand1= Math.floor((Math.random() * 99 ) + 1 );
+						operand2= Math.floor((Math.random() * 99 ) + 1);
+						correctAnswer = (operand1< operand2)? 
+							operand2 -operand1:
+							operand1 -operand2;
+						break;
+					case 3: // x
+						opedator = "x";
+						operand1= Math.floor((Math.random() * 9 ) + 1 );
+						operand2= Math.floor((Math.random() * 11 ) + 1);
+						correctAnswer = operand1 * operand2;
+					case 4: // /
+						// operand1 = dividendo, operand2 = divisor
+						opedator = "/";
+						operand1= Math.floor((Math.random() * 11 ) + 1 );
+						operand2= Math.floor((Math.random() * 9 ) + 1);
+						let aux =  operand1 * operand2;
+						correctAnswer = operand1;
+						operand1 = aux;
+						break;
+					case 1: // +
+					default:
+						opedator = "+";
+						operand1= Math.floor((Math.random() * 100) + 1);
+						operand2= Math.floor((Math.random() * 100) + 1);
+						correctAnswer = operand1 +operand2;
+				}
+				let isEcuation = Math.floor((Math.random() * 2) + 1);	
+				if(isEcuation==1){
+					result =operand2;
+					operand2 = "?";
+				}
+		}
+		// operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
+		// operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
+		// correctAnswer = operand1 +operand2;
 
-		correctAnswer = operand1 +operand2;
 		var possibleAnswers = [correctAnswer];
 		for(var i = 0; i< NUMBER_OF_FAKE_ANSWERS; i++){
 			var n = correctAnswer;
@@ -260,7 +371,8 @@ function Server(inLevel){
 		var data = {
 			operand1 : operand1,
 			operand2 : operand2,
-			opedator : "+",
+			opedator : opedator,
+			result : result,
 			correctAnswer : correctAnswer,
 			type :typeQuestion
 		}
