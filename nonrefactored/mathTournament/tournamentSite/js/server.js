@@ -96,8 +96,13 @@ function Server(inLevel){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
-		for (var i = 0; i < 5; i++)
-			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		let refAux = 1;
+		while(refAux!=null){
+			text = "";
+			for (var i = 0; i < 5; i++)
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			refAux=database.ref(text);
+		}
 		return text;
 	};
 
