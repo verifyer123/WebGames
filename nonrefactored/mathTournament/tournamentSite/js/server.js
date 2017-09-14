@@ -330,7 +330,8 @@ function Server(inLevel){
 				}
 				let isEcuation = Math.floor((Math.random() * 2) + 1);	
 				if(isEcuation==1){
-					result =operand2;
+					result =correctAnswer;
+					correctAnswer = operand2;
 					operand2 = "?";
 				}
 		}
