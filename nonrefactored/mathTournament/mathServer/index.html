@@ -184,7 +184,11 @@ function SelectLevel(){
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseover(function(){TweenMax.to($(this),0.5,{scale:1.1});});
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
         $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").click(function(){
-            $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
+			var level = 1;
+			server = new Server(level);
+			server.start();
+
+        	$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
             $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseout");
             TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.5,{scale:0,onComplete:hideLevels});
             //$(this).css("position","absolute");

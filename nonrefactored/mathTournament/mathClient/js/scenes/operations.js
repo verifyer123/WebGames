@@ -78,6 +78,7 @@ var operations = function(){
 	var differenceTimeText
 	var correctParticle
 	var wrongParticle
+	var missingOperand
 
 	function tweenTint(obj, startColor, endColor, time, delay, callback) {
 		// check if is valid object
@@ -279,7 +280,7 @@ var operations = function(){
 		}
 
 		addButtons()
-		equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=?"
+		equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
 		equationText.alpha = 0
 		equationText.scale.x = 0.4; equationText.scale.y = 0.4
 		game.add.tween(equationText.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true)
@@ -315,8 +316,20 @@ var operations = function(){
 	}
 	
 	function checkAnswer(event) {
+		switch ("?"){
+			case clientData.operand1:
+				clientData.operand1 = clientData.correctAnswer
+				break
+			case clientData.operand2:
+				clientData.operand2 = clientData.correctAnswer
+				break
+			case clientData.result:
+				clientData.result = clientData.correctAnswer
+				break
 
-		equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.correctAnswer
+		}
+		console.log(missingOperand)
+		equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
 		game.add.tween(equationText.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 
 		if(correctButton.value !== buttonSelected.value){
