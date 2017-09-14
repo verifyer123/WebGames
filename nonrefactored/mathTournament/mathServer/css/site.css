@@ -100,7 +100,6 @@ footer{
 #selectLevel{
     position: absolute;
     width: 100%;
-    height: 100%;
     display: flex;
     top:32%;
      z-index: 1;
@@ -142,7 +141,7 @@ footer{
 }
 
 #selectLevel .imageLevel{
-    height: 70%;
+   /* height: 70%;*/
 }
 
 #selectLevel .imageLevel img{
@@ -151,16 +150,31 @@ footer{
 }
 
 #selectLevel div{
-    width: 33.3%;
     text-align: center;
     margin: 0 auto;
-    width: auto;
-    height: 45%;  
 }
 
-#selectLevel .buttonLevel {
-    display:inline-grid;
+#basicLevel{
+    background-color: #EAC85D;
+    width: 80%;
+    border-radius: 2vh;
+    box-shadow: 0 2vh 0 #AD8811;
 }
+
+#mediumLevel{
+    background-color: #70B931;
+    width: 80%;
+    border-radius: 2vh;
+    box-shadow: 0 2vh 0 #4B6E22;   
+}
+
+#advanceLevel{
+    background-color: #AF2496;
+    width: 80%;
+    border-radius: 2vh;
+    box-shadow: 0 2vh 0 #72005E;    
+}
+
 
 #selectLevel .buttonLevel img{
     position: relative;
@@ -177,7 +191,7 @@ footer{
     position: relative;
     text-align: center;
     margin: 0 auto;
-    line-height: 3;
+    line-height: 2;
     font-size: 4vh;  
     z-index: 2;
 }
