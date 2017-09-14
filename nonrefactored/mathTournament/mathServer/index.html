@@ -186,15 +186,15 @@ function SelectLevel(){
         $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").click(function(){
             $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
             $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseout");
-            TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.2,{scale:0,onComplete:hideLevels});
-            $(this).css("position","absolute");
-            TweenMax.to($(this),0.2,{scale:1,left:'50%'}); 
-            TweenMax.to($(this),0.2,{css:{transform:"matrix(1, 0, 0, 1, -150, 0)"}}); 
+            TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.5,{scale:0,onComplete:hideLevels});
+            //$(this).css("position","absolute");
+            TweenMax.to($(this),0.2,{scale:1}); 
+            //TweenMax.to($(this),0.2,{css:{transform:"matrix(1, 0, 0, 1, -300, 0)"}}); 
             var object = this;
             function hideLevels(){
-                $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").hide();
-                $(object).show();
-                TweenMax.to(object,0.5,{scaleX:3,scaleY:0,alpha:0,delay:1,onComplete:NextScene2});
+                //$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").hide();
+                //$(object).show();
+                TweenMax.to(object,0.5,{scale:3,alpha:0,delay:1,onComplete:NextScene2});
             }
         });   
     }

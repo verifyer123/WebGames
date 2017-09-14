@@ -16,10 +16,12 @@ body{
     background-position: center top;
     overflow: hidden;  
     z-index: 0;
+    position: absolute;
+    top: 0%;
 }
 
 #logoMath{
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 30%;
     text-align: center; 
@@ -33,8 +35,7 @@ body{
 }
 
 #monsters-section{
-    position: absolute;
-    margin-top:13%;
+    position: relative;
     display: table;
     width: 100%;
     z-index: 1;
@@ -109,7 +110,7 @@ footer{
 #selectLevel .titleSection{
     position: absolute;
     width: 100%;
-    top:-8%;
+    top:-12%;
     font-size: 6vh;
     -webkit-text-stroke: 20px #34449E;
     
@@ -118,7 +119,7 @@ footer{
 #selectLevel .textWhiteTitle{
     position: absolute;
     width: 100%;
-    top:-8%;
+    top:-12%;
     font-size: 6vh;
 }
 
@@ -141,36 +142,36 @@ footer{
 }
 
 #selectLevel .imageLevel{
-   /* height: 70%;*/
+       width: 90%;
 }
 
 #selectLevel .imageLevel img{
-    height:100%;
-    max-height: 200px;
+    width: 70%;
 }
 
 #selectLevel div{
     text-align: center;
     margin: 0 auto;
+    width: 30%;
 }
 
 #basicLevel{
     background-color: #EAC85D;
-    width: 80%;
+    width: 70% !important;
     border-radius: 2vh;
     box-shadow: 0 2vh 0 #AD8811;
 }
 
 #mediumLevel{
     background-color: #70B931;
-    width: 80%;
+    width: 70% !important;
     border-radius: 2vh;
     box-shadow: 0 2vh 0 #4B6E22;   
 }
 
 #advanceLevel{
     background-color: #AF2496;
-    width: 80%;
+    width: 70% !important;
     border-radius: 2vh;
     box-shadow: 0 2vh 0 #72005E;    
 }
@@ -228,7 +229,6 @@ footer{
     background-size: contain;
     background-repeat: no-repeat;
     height: 90%;
-    max-height: 360px;
     width: 35%;
 }
 
@@ -238,7 +238,6 @@ footer{
     background-size: contain;
     background-repeat: no-repeat;
     height: 90%;
-    max-height: 360px;
     width: 35%;
 }
 
@@ -267,6 +266,7 @@ footer{
 
 .nickNamePlayer{
     font-size: 5vh;
+    margin-top: -10%;
 }
 
 #beginGame{
@@ -280,7 +280,6 @@ footer{
 
 @media only screen and (max-width: 768px) {
     #logoMath{
-        top:5%;
     }
     
    #logoMath img{
