@@ -181,7 +181,7 @@ var room = function(){
 
 	function preload(){
 
-		game.stage.disableVisibilityChange = false;
+		game.stage.disableVisibilityChange = true;
 		game.load.audio('roomSong', soundsPath + 'songs/wormwood.mp3');
 
 		// game.load.image('introscreen',"images/room/introscreen.png")
