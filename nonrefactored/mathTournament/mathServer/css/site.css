@@ -30,8 +30,8 @@ body{
 }
 
 #logoMath img{
-    padding: 2vh;
     height: 100%;
+    margin-top: 2%;
 }
 
 #monsters-section{
@@ -247,7 +247,7 @@ footer{
 
 .characterSelection img{
     height: 60%;
-    transform: translate(0,33%);
+    margin-top:20%;
 }
 
 
@@ -279,17 +279,19 @@ footer{
 }
 
 @media only screen and (max-width: 768px) {
-    #logoMath{
+          #logoMath{
+        top:5%;
     }
     
    #logoMath img{
+       width: 50%;
        height: auto;
-       max-width: 90%;
-    }
+    } 
+    
+    
     #monsters-section{
         width: 100%;
-        display: flex;
-        top:25%;
+        top:10%;
 
     }
       
@@ -299,33 +301,41 @@ footer{
     }
     
 }
-/*
-@media only screen and (orientation: landscape) {
-    #logoMath{
+
+/*portrait
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+          #logoMath{
         top:5%;
     }
     
    #logoMath img{
-       width: 50%;
+       width: 90%;
        height: auto;
-    }    
+    } 
+      
       #monsters-section{
         width: 100%;
-        display: flex;
-        top:-25%;
+        top:20%;
     }  
     .monster-sec-img{
-        width: 50%;
+        width: 10% !important;
     }
 
     .monster-sec-img .left-monster{
-        width: 80%;
-        
+        width: 200%;
+        transform: translate(-10%,0%);
     }  
     
     .monster-sec-img .right-monster{
-        width: 100%;
-    }   
+        width: 200%;
+        transform: translate(-35%,0%);        
+    }       
+      
+      
 }*/
 
 /*ipad Pro portrait*/
@@ -348,8 +358,7 @@ footer{
     }
 
     .monster-sec-img .left-monster{
-        width: 80%;
-        margin-top:25%;
+        width: 100%;
         
     }  
     
