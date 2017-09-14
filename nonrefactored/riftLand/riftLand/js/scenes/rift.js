@@ -1051,6 +1051,7 @@ var rift = function(){
 			
 			group.active = false
 			group.tag = null
+			
 		}
 	}
 	
