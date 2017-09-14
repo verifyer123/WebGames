@@ -14,7 +14,9 @@
     <link rel="stylesheet" type="text/css" href="../../shared/minigames/css/minigame.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/custom_fonts.css">
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script  src="js/jquery-3.1.1.min.js"></script>
+    <script  src="js/client.js"></script>
 </head>
 <body>
     <div id="logoMath"><img src="images/logoMath.png"/></div>
@@ -53,7 +55,8 @@
 		alert("La partida ya se encuentra ocupada");
 	}
 
-	var cliente = parent.cliente;
+	cliente = parent.cliente
+	window.sessionStorage.setItem("cliente", cliente)
 	function startButton(){
         console.log(selectYogotarName);
 		//var idGame = "00000";

@@ -386,4 +386,4 @@ window.onload =  function(){
 	server.start();
 }
 
-window.addEventListener("resize", loadGame);
+// window.addEventListener("resize", loadGame);

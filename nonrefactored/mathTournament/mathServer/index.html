@@ -14,7 +14,7 @@
 <head>
 	<title>Math Tournament</title>
 	<link rel="stylesheet" type="text/css" href="css/site.css"> 
-    <link rel="stylesheet" type="text/css" href="css/custom_fonts.css"> 
+    <link rel="stylesheet" type="text/css" href="css/custom_fonts.css">
     <script  src="js/lib/jquery-3.1.1.min.js"></script>
     <script  src="js/lib/jquery.gsap.min.js"></script>
     <script  src="js/lib/TimelineMax.min.js"></script>
@@ -95,18 +95,35 @@
     
 </body>
 <script>
+
+//	var level = 1;
+//	server = new Server(level);
+//	server.start();
+
+	var Yogotars = {
+		"eagle":"img/yogotars/yogotar1.png",
+		"luna":"img/yogotars/yogotar2.png"
+	}
     
-    var Yogotars = [
-        "img/yogotars/yogotar1.png",
-        "img/yogotars/yogotar2.png"
-    ]
-    
-    /*server.addEventListener("onInitPlayer", showPlayer)
-    function showPlayer(event){
-        var avatar = event.player.avatar
-    }*/
+    server.addEventListener("onInitPlayer", showYogotar)
+
+    function showYogotar(event){
+    	console.log(event)
+    	var numPlayer = event.numPlayer, player = event.player
+    	var img = Yogotars[player.avatar];
+    	if(numPlayer === 1){
+			$("#selectP1").find("img").attr("src", img);
+			$("#nickNameP1").text(player.nickname)
+        }else{
+            $("#selectP2").find("img").attr("src", img);
+//            $("#selectP2").find("img").css("width", "-100%");
+            $("#nickNameP2").text(player.nickname)
+
+        }
+    }
     
 	server.addEventListener('onPlayersReady', onPlayersReady);
+
     $("#selectLevel").hide();
     $("#waitingPlayers").hide();
     var blurElement = {a:0};
@@ -124,8 +141,11 @@
 
 	$("#beginGame").mousedown(function(){
 		//lanzar el juego
-        if(gameReady)
+        if(gameReady) {
+			server.removeEventListener('onPlayersReady', onPlayersReady);
+			server.removeEventListener('onInitPlayer', showYogotar);
         	window.open("battle.html", "_self")
+		}
 
 	});
 
