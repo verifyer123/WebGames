@@ -93,16 +93,10 @@
 </body>
 <script>
 
-//	var level = 1;
-//	server = new Server(level);
-//	server.start();
-
 	var Yogotars = {
 		"eagle":"img/yogotars/yogotar1.png",
 		"luna":"img/yogotars/yogotar2.png"
 	}
-    
-    server.addEventListener("onInitPlayer", showYogotar)
 
     function showYogotar(event){
     	console.log(event)
@@ -118,8 +112,6 @@
 
         }
     }
-    
-	server.addEventListener('onPlayersReady', onPlayersReady);
 
     $("#selectLevel").hide();
     $("#waitingPlayers").hide();
@@ -184,9 +176,11 @@ function SelectLevel(){
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseover(function(){TweenMax.to($(this),0.5,{scale:1.1});});
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
         $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").click(function(){
+
 			var level = 1;
-			server = new Server(level);
-			server.start();
+			server.start(level);
+			server.addEventListener("onInitPlayer", showYogotar);
+			server.addEventListener('onPlayersReady', onPlayersReady);
 
         	$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
             $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseout");

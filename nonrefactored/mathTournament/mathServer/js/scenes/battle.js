@@ -323,8 +323,9 @@ var battle = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
-        var floor = sceneGroup.create(0, 0, 'atlas.battle', 'floor')
-        floor.anchor.setTo(0.5, 0.5)
+        var shadow = sceneGroup.create(0, 0, 'atlas.battle', 'shadow')
+        shadow.anchor.setTo(0.5, 0.5)
+		shadow.scale.setTo(0.5, 0.5)
         // floor.scale.setTo(0.65, 0.65)
 
 		player2 = createSpine(serverData.p2.avatar, "normal")
@@ -335,8 +336,8 @@ var battle = function(){
         player2.x = game.world.width - WIDTH_DISTANCE
 		player2.y = game.world.height - 150
         player2.alpha = 1
-		floor.x = player2.x
-		floor.y = player2.y
+		shadow.x = player2.x
+		shadow.y = player2.y
 		player2.proyectile = MONSTERS[monsterCounter].colorProyectile
 
 		var from2 = {}
@@ -379,8 +380,9 @@ var battle = function(){
 		player2.hpBar = monsterHpBar
         // monsterHpBar = hpBar1
 
-        var floor2 = sceneGroup.create(0, 0, 'atlas.battle', 'floor')
-        floor2.anchor.setTo(0.5, 0.5)
+        var shadow1 = sceneGroup.create(0, 0, 'atlas.battle', 'shadow')
+        shadow1.anchor.setTo(0.5, 0.5)
+		shadow1.scale.setTo(0.5, 0.5)
 
         player1 = createSpine(serverData.p1.avatar, "normal")
 		// player1.scale.setTo(0.8, 0.8)
@@ -388,8 +390,8 @@ var battle = function(){
 		player1.y = game.world.height - 150
 		player1.proyectile = "0xFFFFFF"
 		sceneGroup.add(player1)
-		floor2.x = player1.x
-		floor2.y = player1.y
+		shadow1.x = player1.x
+		shadow1.y = player1.y
 		player1.statusAnimation = "IDLE"
 
 		var from1 = {}
@@ -488,7 +490,7 @@ var battle = function(){
     function preload(){
 
         game.stage.disableVisibilityChange = true;
-        game.load.audio('battleSong', soundsPath + 'songs/mysterious_garden.mp3');
+        game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
 
         game.load.image('introscreen',"images/battle/introscreen.png")
         game.load.image('howTo',"images/battle/how" + localization.getLanguage() + ".png")

@@ -1,6 +1,7 @@
 var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
+var server
 
 // Initialize Firebase
 var config = {
@@ -39,7 +40,7 @@ var cleanArray = function(arr){
  * @public
  * @param {int} inLevel Level of the game. It could be {1|2|3} 1-Basic, 2- Medium, 3-Advanced 
  */
-function Server(inLevel){
+function Server(){
 
 	var self = this;
 	/** Events
@@ -77,7 +78,7 @@ function Server(inLevel){
 	/**End Events*/
 
 	var id_game;
-	var level=inLevel;
+	var level=null;
 	var valores = null;
 	var correctAnswer= false;
 	var refIdGame = null;
@@ -96,13 +97,12 @@ function Server(inLevel){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
-		let refAux = 1;
-		while(refAux!=null){
+		//var refAux = 1;
+		//while(refAux!=null){
 			text = "";
 			for (var i = 0; i < 5; i++)
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
-			refAux=database.ref(text);
-		}
+		//}
 		return text;
 	};
 
@@ -393,9 +393,10 @@ function Server(inLevel){
 	/**
 	 * @summary Starts the server
 	 */
-	this.start = function(){
+	this.start = function(inLevel){
 		//id_game = "00000";
 		id_game = makeid();
+		level = inLevel
 		var serverReady = false;
 		valores = {
 			p1: false,
@@ -499,6 +500,7 @@ function loadGame(){
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
+	server = new Server();
 }
 
 // window.addEventListener("resize", loadGame);
