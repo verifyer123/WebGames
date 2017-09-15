@@ -284,15 +284,26 @@ footer{
     }
     
    #logoMath img{
-       width: 50%;
+       width: 70%;
        height: auto;
     } 
+    
+
+    
+    #selectLevel .textWhiteTitle{
+        font-size: 4vh;
+            top: -17%;
+    }
+    
+    #selectLevel .titleSection{
+        font-size: 4vh;
+        top: -17%;
+    }    
     
     
     #monsters-section{
         width: 100%;
         top:10%;
-
     }
       
     
@@ -302,14 +313,15 @@ footer{
     
 }
 
-/*portrait
+
 @media only screen 
   and (min-device-width: 320px) 
   and (max-device-width: 568px)
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) {
-          #logoMath{
-        top:5%;
+    
+      #logoMath{
+        top:0%;
     }
     
    #logoMath img{
@@ -317,26 +329,68 @@ footer{
        height: auto;
     } 
       
-      #monsters-section{
-        width: 100%;
-        top:20%;
-    }  
-    .monster-sec-img{
-        width: 10% !important;
+    #selectLevel {
+        display: block;
     }
-
-    .monster-sec-img .left-monster{
-        width: 200%;
-        transform: translate(-10%,0%);
-    }  
     
-    .monster-sec-img .right-monster{
-        width: 200%;
-        transform: translate(-35%,0%);        
-    }       
+    #selectLevel div {
+        margin: 0;
+    }      
+      
+    .optionLevel{
+        width: 100% !important;
+        height: 20%;
+        display: flex;        
+    }   
+      
+    #selectLevel .imageLevel {
+        width: 30%;
+    }      
+      
+    #selectLevel .imageLevel img {
+        width: 100%;
+    }      
+      
+    #basicLevel {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+    }      
+      
+        
+    #mediumLevel {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+    }      
+      
+        
+    #advanceLevel {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+    }      
+      
+#selectLevel p {
+    font-size: 2.3vh;
+    position: absolute;
+    width: 100%;
+    top: 40%;
+    text-align: left;
+    left: 35%;
+}      
+      
+#selectLevel .buttonLevel span {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1;
+    font-size: 3vh;
+    z-index: 2;
+}      
       
       
-}*/
+}
 
 /*ipad Pro portrait*/
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2)  and (orientation: portrait)  {
@@ -355,6 +409,10 @@ footer{
     }  
     .monster-sec-img{
         width: 50%;
+    }
+    
+    #selectLevel p {
+        font-size: 1.5vh;
     }
 
     .monster-sec-img .left-monster{
