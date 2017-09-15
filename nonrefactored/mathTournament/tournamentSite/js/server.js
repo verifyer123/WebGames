@@ -1,6 +1,7 @@
 var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
+var server
 
 // Initialize Firebase
 var config = {
@@ -15,6 +16,8 @@ firebase.initializeApp(config);
 var database = firebase.database();
 const MAX_OPERAND_VALUE = 500;
 const NUMBER_OF_FAKE_ANSWERS = 2;
+var MAX_OPERAND_VALUE = 500;
+var NUMBER_OF_FAKE_ANSWERS = 2;
 var INITIAL_LIFE = 100;
 var DAMAGE_BY_HIT = 10;
 var HEALTH_BY_HIT = 10;
@@ -40,6 +43,7 @@ var cleanArray = function(arr){
  * @param {int} inLevel Level of the game. It could be {1|2|3} 1-Basic, 2- Medium, 3-Advanced 
  */
 function Server(inLevel){
+function Server(){
 
 	var self = this;
 	/** Events
@@ -78,6 +82,7 @@ function Server(inLevel){
 
 	var id_game;
 	var level=inLevel;
+	var level=null;
 	var valores = null;
 	var correctAnswer= false;
 	var refIdGame = null;
@@ -96,12 +101,19 @@ function Server(inLevel){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
+<<<<<<< HEAD
 		//let refAux = 1;
+=======
+		//var refAux = 1;
+>>>>>>> 3e3955fc23107074f28cda5d01c424f689bf9003
 		//while(refAux!=null){
 			text = "";
 			for (var i = 0; i < 5; i++)
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
+<<<<<<< HEAD
 			//refAux=database.ref(text);
+=======
+>>>>>>> 3e3955fc23107074f28cda5d01c424f689bf9003
 		//}
 		return text;
 	};
@@ -253,6 +265,7 @@ function Server(inLevel){
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
+<<<<<<< HEAD
 						operand1= Math.floor((Math.random() * 10 ) + 12 );
 						operand2= Math.floor((Math.random() * 10 ) + 12);
 						let aux =  operand1 * operand2;
@@ -286,6 +299,7 @@ function Server(inLevel){
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
+<<<<<<< HEAD
 						operand1= Math.floor((Math.random() * 10 ) + 22);
 						operand2= Math.floor((Math.random() * 10 ) + 21);
 						let aux =  operand1 * operand2;
@@ -323,6 +337,7 @@ function Server(inLevel){
 						operand1= Math.floor((Math.random() * 11 ) + 1 );
 						operand2= Math.floor((Math.random() * 9 ) + 1);
 						let aux =  operand1 * operand2;
+						var aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
 						break;
@@ -334,6 +349,7 @@ function Server(inLevel){
 						correctAnswer = operand1 +operand2;
 				}
 				let isEcuation = Math.floor((Math.random() * 2) + 1);	
+				var isEcuation = Math.floor((Math.random() * 2) + 1);
 				if(isEcuation==1){
 					result =correctAnswer;
 					correctAnswer = operand2;
@@ -394,8 +410,10 @@ function Server(inLevel){
 	 * @summary Starts the server
 	 */
 	this.start = function(){
+	this.start = function(inLevel){
 		//id_game = "00000";
 		id_game = makeid();
+		level = inLevel
 		var serverReady = false;
 		valores = {
 			p1: false,
@@ -502,6 +520,7 @@ window.onload =  function(){
 	var level = 1;
 	server = new Server(level);
 	server.start();
+	server = new Server();
 }
 
 // window.addEventListener("resize", loadGame);
