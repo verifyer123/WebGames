@@ -96,13 +96,13 @@ function Server(inLevel){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
-		let refAux = 1;
-		while(refAux!=null){
+		//let refAux = 1;
+		//while(refAux!=null){
 			text = "";
 			for (var i = 0; i < 5; i++)
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
-			refAux=database.ref(text);
-		}
+			//refAux=database.ref(text);
+		//}
 		return text;
 	};
 
@@ -239,22 +239,22 @@ function Server(inLevel){
 				switch(opedator){
 					case 2: // -
 						opedator = "-";
-						operand1= Math.floor((Math.random() * 500 ) )+101;
-						operand2= Math.floor((Math.random() * 500 ) )+101;
+						operand1= Math.floor((Math.random() * 399 ) )+101;
+						operand2= Math.floor((Math.random() * 399 ) )+101;
 						correctAnswer = (operand1< operand2)? 
 							operand2 -operand1:
 							operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
-						operand1= Math.floor((Math.random() * 22 ) + 1 );
-						operand2= Math.floor((Math.random() * 22 ) + 1 );
+						operand1= Math.floor((Math.random() * 10 ) + 12 );
+						operand2= Math.floor((Math.random() * 10 ) + 12 );
 						correctAnswer = operand1 * operand2;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
-						operand1= Math.floor((Math.random() * 22 ) + 1 );
-						operand2= Math.floor((Math.random() * 22 ) + 1);
+						operand1= Math.floor((Math.random() * 10 ) + 12 );
+						operand2= Math.floor((Math.random() * 10 ) + 12);
 						let aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
@@ -272,22 +272,22 @@ function Server(inLevel){
 				switch(opedator){
 					case 2: // -
 						opedator = "-";
-						operand1= Math.floor((Math.random() * 999 ) ) + 501;
-						operand2= Math.floor((Math.random() * 999 ) ) + 501;
+						operand1= Math.floor((Math.random() * 498 ) ) + 501;
+						operand2= Math.floor((Math.random() * 498 ) ) + 501;
 						correctAnswer = (operand1< operand2)? 
 							operand2 -operand1:
 							operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
-						operand1= Math.floor((Math.random() * 32 ) + 1 );
-						operand2= Math.floor((Math.random() * 31 ) + 1 );
+						operand1= Math.floor((Math.random() * 10 ) + 22 );
+						operand2= Math.floor((Math.random() * 10 ) + 21 );
 						correctAnswer = operand1 * operand2;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
-						operand1= Math.floor((Math.random() * 32 ) + 1);
-						operand2= Math.floor((Math.random() * 31 ) + 1);
+						operand1= Math.floor((Math.random() * 10 ) + 22);
+						operand2= Math.floor((Math.random() * 10 ) + 21);
 						let aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
