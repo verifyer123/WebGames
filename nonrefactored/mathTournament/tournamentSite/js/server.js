@@ -14,6 +14,8 @@ var config = {
 };
 firebase.initializeApp(config);
 var database = firebase.database();
+const MAX_OPERAND_VALUE = 500;
+const NUMBER_OF_FAKE_ANSWERS = 2;
 var MAX_OPERAND_VALUE = 500;
 var NUMBER_OF_FAKE_ANSWERS = 2;
 var INITIAL_LIFE = 100;
@@ -40,6 +42,7 @@ var cleanArray = function(arr){
  * @public
  * @param {int} inLevel Level of the game. It could be {1|2|3} 1-Basic, 2- Medium, 3-Advanced 
  */
+function Server(inLevel){
 function Server(){
 
 	var self = this;
@@ -78,6 +81,7 @@ function Server(){
 	/**End Events*/
 
 	var id_game;
+	var level=inLevel;
 	var level=null;
 	var valores = null;
 	var correctAnswer= false;
@@ -102,6 +106,7 @@ function Server(){
 			text = "";
 			for (var i = 0; i < 5; i++)
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			//refAux=database.ref(text);
 		//}
 		return text;
 	};
@@ -239,23 +244,23 @@ function Server(){
 				switch(opedator){
 					case 2: // -
 						opedator = "-";
-						operand1= Math.floor((Math.random() * 500 ) )+101;
-						operand2= Math.floor((Math.random() * 500 ) )+101;
+						operand1= Math.floor((Math.random() * 399 ) )+101;
+						operand2= Math.floor((Math.random() * 399 ) )+101;
 						correctAnswer = (operand1< operand2)? 
 							operand2 -operand1:
 							operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
-						operand1= Math.floor((Math.random() * 22 ) + 1 );
-						operand2= Math.floor((Math.random() * 22 ) + 1 );
+						operand1= Math.floor((Math.random() * 10 ) + 12 );
+						operand2= Math.floor((Math.random() * 10 ) + 12 );
 						correctAnswer = operand1 * operand2;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
-						operand1= Math.floor((Math.random() * 22 ) + 1 );
-						operand2= Math.floor((Math.random() * 22 ) + 1);
-						var aux =  operand1 * operand2;
+						operand1= Math.floor((Math.random() * 10 ) + 12 );
+						operand2= Math.floor((Math.random() * 10 ) + 12);
+						let aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
 						break;
@@ -272,23 +277,23 @@ function Server(){
 				switch(opedator){
 					case 2: // -
 						opedator = "-";
-						operand1= Math.floor((Math.random() * 999 ) ) + 501;
-						operand2= Math.floor((Math.random() * 999 ) ) + 501;
+						operand1= Math.floor((Math.random() * 498 ) ) + 501;
+						operand2= Math.floor((Math.random() * 498 ) ) + 501;
 						correctAnswer = (operand1< operand2)? 
 							operand2 -operand1:
 							operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
-						operand1= Math.floor((Math.random() * 32 ) + 1 );
-						operand2= Math.floor((Math.random() * 31 ) + 1 );
+						operand1= Math.floor((Math.random() * 10 ) + 22 );
+						operand2= Math.floor((Math.random() * 10 ) + 21 );
 						correctAnswer = operand1 * operand2;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
-						operand1= Math.floor((Math.random() * 32 ) + 1);
-						operand2= Math.floor((Math.random() * 31 ) + 1);
-						var aux =  operand1 * operand2;
+						operand1= Math.floor((Math.random() * 10 ) + 22);
+						operand2= Math.floor((Math.random() * 10 ) + 21);
+						let aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
 						break;
@@ -322,6 +327,7 @@ function Server(){
 						opedator = "/";
 						operand1= Math.floor((Math.random() * 11 ) + 1 );
 						operand2= Math.floor((Math.random() * 9 ) + 1);
+						let aux =  operand1 * operand2;
 						var aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
@@ -333,6 +339,7 @@ function Server(){
 						operand2= Math.floor((Math.random() * 100) + 1);
 						correctAnswer = operand1 +operand2;
 				}
+				let isEcuation = Math.floor((Math.random() * 2) + 1);	
 				var isEcuation = Math.floor((Math.random() * 2) + 1);
 				if(isEcuation==1){
 					result =correctAnswer;
@@ -393,6 +400,7 @@ function Server(){
 	/**
 	 * @summary Starts the server
 	 */
+	this.start = function(){
 	this.start = function(inLevel){
 		//id_game = "00000";
 		id_game = makeid();
@@ -500,6 +508,9 @@ function loadGame(){
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
+	var level = 1;
+	server = new Server(level);
+	server.start();
 	server = new Server();
 }
 
