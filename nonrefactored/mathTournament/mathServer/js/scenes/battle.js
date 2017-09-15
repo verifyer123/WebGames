@@ -65,8 +65,9 @@ var battle = function(){
 
     var NUM_LIFES = 3
     var NUM_OPTIONS = 3
-    var MAX_HP = 7
+    var MAX_HP = 100
 	var WIDTH_DISTANCE = 220
+	var HP_BAR_WIDTH = 350
 
     var ROUNDS = [
         {minNumber: 2, maxNumber: 10, operator:"x"}
@@ -159,10 +160,10 @@ var battle = function(){
     }
     
     function receiveAttack(target) {
-		target.hpBar.removeHealth(2)
+		target.hpBar.removeHealth(20)
         sound.play("hit")
 
-		target.statusAnimation = target.hpBar.health < 3 ? "TIRED" : "IDLE"
+		target.statusAnimation = target.hpBar.health < 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation])
 		target.hit.start(true, 1000, null, 5)
 
@@ -246,6 +247,22 @@ var battle = function(){
     }
 
     function checkAnswer(event) {
+		var data = server ? server.currentData.data : {operand1:100, opedator:"+", operand2:100, result:200, correctAnswer:200}
+    	data.operand1 + data.opedator + data.operand2 + "=" + data.result
+		switch ("?"){
+			case data.operand1:
+				data.operand1 = data.correctAnswer
+				break
+			case data.operand2:
+				data.operand2 = data.correctAnswer
+				break
+			case data.result:
+				data.result = data.correctAnswer
+				break
+
+		}
+
+    	game.add.tween(equation.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
     	if(event.numPlayer === 1)
 			playerAttack(player1, player2, createProyectile, "proyectile")
 		else if(event.numPlayer === 2)
@@ -257,58 +274,65 @@ var battle = function(){
 		}
     }
 
-	function createHpbar(){
-		var hpGroup = game.add.group()
-		hpGroup.health = 7
+	function createHpbar(scale){
+		scale = scale || 1
+		var anchorX = scale < 1 ? 0 : 1
 
-		var container = hpGroup.create(0, -22, 'atlas.battle', 'healthcontainer')
-		container.anchor.setTo(0.5, 0.5)
+    	var hpGroup = game.add.group()
+		hpGroup.scale.x = scale
+		hpGroup.health = MAX_HP
 
-		var hpBg = sceneGroup.create(0, 0, 'atlas.battle', 'hp_bar')
-		hpBg.anchor.setTo(0.5, 0.5)
+		var rectBg = game.add.graphics()
+		rectBg.beginFill(0x000000)
+		rectBg.alpha = 0.4
+		rectBg.drawRect(0,0, 390, 50)
+		rectBg.endFill()
+		rectBg.x = -195
+		rectBg.y = -25 - 5
+		hpGroup.add(rectBg)
+
+		var hpBg = sceneGroup.create(-150, -6, 'atlas.battle', 'energy')
+		hpBg.anchor.setTo(0, 0.5)
+		hpBg.scale.setTo(0.9, 0.9)
+		hpBg.width = HP_BAR_WIDTH
+
 		hpGroup.add(hpBg)
 
-		var startX = -hpBg.width * 0.5 + 20
-		var spaceWidth = hpBg.width / MAX_HP - 2
-		hpGroup.circles = []
-		for(var circleIndex = 0; circleIndex < MAX_HP; circleIndex++){
-			var x = startX + spaceWidth * circleIndex
-			var graphics = game.add.graphics(0, 0);
-			graphics.beginFill(0xFF0000, 1);
-			graphics.drawCircle(x, 0, 22);
-			hpGroup.add(graphics)
-			hpGroup.circles.push(graphics)
-		}
+		var container = hpGroup.create(0, -22, 'atlas.battle', 'lifebar')
+		container.anchor.setTo(0.5, 0.5)
+		container.scale.setTo(0.8, 0.8)
+
+
+		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var healthText = new Phaser.Text(game, 0, 5, "100/100", fontStyle)
+		healthText.x = -80
+		healthText.y = -50
+		healthText.anchor.setTo(0.5,0.5)
+		healthText.scale.x = scale
+		hpGroup.add(healthText)
+		hpGroup.healthText = healthText
 
 		hpGroup.removeHealth = function (number) {
-			for(var hpIndex = 0; hpIndex < number; hpIndex++){
-				var circle = this.circles[this.health - 1 - hpIndex]
-				if(circle){
-					game.add.tween(circle).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true)
-					game.add.tween(circle).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true, 300)
-					game.add.tween(circle).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true, 600)
-					game.add.tween(circle).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true, 900)
-					game.add.tween(circle).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true, 1200)
-				}
-			}
 			this.health -= number
+			var newWidth = this.health * HP_BAR_WIDTH * 0.01
+			game.add.tween(hpBg).to({width:newWidth}, 1000, Phaser.Easing.Cubic.Out, true)
+
+			this.healthText.text = this.health + "/100"
+			game.add.tween(this.healthText.scale).to({x:1.2 * scale, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 		}
 
 		hpGroup.resetHealth = function () {
 			this.health = MAX_HP
-			for(var hpIndex = 0; hpIndex < this.circles.length; hpIndex++){
-				var circle = this.circles[hpIndex]
-				if(circle){
-					game.add.tween(circle).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
-				}
-			}
 		}
 
-		var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
-		var name = new Phaser.Text(game, 0, 5, "", fontStyle)
-		name.x = 80
-		name.y = -50
-		name.anchor.setTo(1,0.5)
+		var fontStyle2 = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var name = new Phaser.Text(game, 0, 5, "", fontStyle2)
+		name.stroke = '#2a2a2a';
+		name.strokeThickness = 6;
+		name.x = 0
+		name.y = -3
+		name.anchor.setTo(anchorX,0.5)
+		name.scale.x = scale
 		hpGroup.add(name)
         hpGroup.name = name
 
@@ -324,11 +348,11 @@ var battle = function(){
 
         var shadow = sceneGroup.create(0, 0, 'atlas.battle', 'shadow')
         shadow.anchor.setTo(0.5, 0.5)
-		shadow.scale.setTo(0.5, 0.5)
+		// shadow.scale.setTo(0.5, 0.5)
         // floor.scale.setTo(0.65, 0.65)
 
 		player2 = createSpine(serverData.p2.avatar, "normal")
-		player2.scale.setTo(-1, 1)
+		player2.scale.setTo(-0.8, 0.8)
 		sceneGroup.add(player2)
 		player2.statusAnimation = "IDLE"
 		console.log("width", player2.width)
@@ -371,8 +395,8 @@ var battle = function(){
         hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
 		player2.hit = hitParticle
 
-        var monsterHpBar = createHpbar()
-		monsterHpBar.x = game.world.width - 200
+        var monsterHpBar = createHpbar(-1)
+		monsterHpBar.x = game.world.width - 280
 		monsterHpBar.y = 180
         sceneGroup.add(monsterHpBar)
 		monsterHpBar.name.text = serverData.p2.nickname
@@ -381,10 +405,10 @@ var battle = function(){
 
         var shadow1 = sceneGroup.create(0, 0, 'atlas.battle', 'shadow')
         shadow1.anchor.setTo(0.5, 0.5)
-		shadow1.scale.setTo(0.5, 0.5)
+		// shadow1.scale.setTo(0.5, 0.5)
 
         player1 = createSpine(serverData.p1.avatar, "normal")
-		// player1.scale.setTo(0.8, 0.8)
+		player1.scale.setTo(0.8, 0.8)
 		player1.x = WIDTH_DISTANCE
 		player1.y = game.world.height - 150
 		player1.proyectile = "0xFFFFFF"
@@ -424,7 +448,7 @@ var battle = function(){
         player1.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
 		var hpBar2 = createHpbar()
-		hpBar2.x = 200
+		hpBar2.x = 280
 		hpBar2.y = 180
 		sceneGroup.add(hpBar2)
 		player1.hpBar = hpBar2
@@ -490,11 +514,6 @@ var battle = function(){
 
         game.stage.disableVisibilityChange = true;
         game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
-
-        game.load.image('introscreen',"images/battle/introscreen.png")
-        game.load.image('howTo',"images/battle/how" + localization.getLanguage() + ".png")
-        game.load.image('buttonText',"images/battle/play" + localization.getLanguage() + ".png")
-
         game.load.spine('luna', "images/spines/Luna/luna.json")
         game.load.spine('eagle', "images/spines/Eagle/eagle.json")
         buttons.getImages(game)
@@ -527,7 +546,7 @@ var battle = function(){
 
     function generateQuestion(data) {
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
-
+		console.log(data)
         equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
         numbersEffect()
 
@@ -535,7 +554,7 @@ var battle = function(){
     
     function createbattleUI() {
 
-        var fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
+        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
 
         var questionGroup = game.add.group()
 		questionGroup.x = game.world.centerX
@@ -544,8 +563,9 @@ var battle = function(){
 
 		var container = questionGroup.create(0,0, "atlas.battle", "container")
 		container.anchor.setTo(0.5, 0.5)
+		container.scale.setTo(1, 0.7)
 
-        equation = new Phaser.Text(game, 0, 5, "0+0=?", fontStyle)
+        equation = new Phaser.Text(game, 0, -5, "0+0=?", fontStyle)
 		equation.alpha = 0
 		equation.anchor.setTo(0.5,0.5)
 		questionGroup.add(equation)
@@ -715,13 +735,13 @@ var battle = function(){
 
             createGameObjects()
             createbattleUI()
+			startRound()
 			if(server){
 				server.addEventListener('afterGenerateQuestion', generateQuestion);
 				server.addEventListener('onTurnEnds', checkAnswer);
 			}else{
-				generateQuestion({operand1:0, opedator:"+", operand2:0, result:0})
+				generateQuestion({operand1:100, opedator:"+", operand2:100, result:200})
 			}
-			startRound()
             // createTutorial()
 
             buttons.getButton(battleSong,sceneGroup)
