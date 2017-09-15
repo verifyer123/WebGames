@@ -166,6 +166,9 @@ function NextScene1(){
 function SelectLevel(){
     $("#selectLevel").show();
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").show();
+    $("#levelBasicButton").attr("level",1);
+    $("#levelMediumButton").attr("level",2);
+    $("#leveladvanceButton").attr("level",3);    
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").css("position","relative");
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").css("opacity",1);
     TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.2,{css:{transform:"matrix(1, 0, 0, 1, 0, 0)"}});
@@ -176,12 +179,10 @@ function SelectLevel(){
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseover(function(){TweenMax.to($(this),0.5,{scale:1.1});});
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
         $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").click(function(){
-
-			var level = 1;
+			var level = parseInt($(this).attr("level"));
 			server.start(level);
 			server.addEventListener("onInitPlayer", showYogotar);
 			server.addEventListener('onPlayersReady', onPlayersReady);
-
         	$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
             $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseout");
             TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.5,{scale:0,onComplete:hideLevels});
