@@ -351,6 +351,11 @@ var battle = function(){
 		// shadow.scale.setTo(0.5, 0.5)
         // floor.scale.setTo(0.65, 0.65)
 
+		var cloud = createSpine("cloud", "normal")
+		cloud.x = game.world.centerX
+		cloud.y = game.world.centerY
+		sceneGroup.add(cloud)
+
 		player2 = createSpine(serverData.p2.avatar, "normal")
 		player2.scale.setTo(-0.8, 0.8)
 		sceneGroup.add(player2)
@@ -516,6 +521,9 @@ var battle = function(){
         game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
         game.load.spine('luna', "images/spines/Luna/luna.json")
         game.load.spine('eagle', "images/spines/Eagle/eagle.json")
+        game.load.spine('cloud', "images/spines/nube/cloud.json")
+		game.load.spritesheet('start', 'images/battle/START.png', 200, 200, 11)
+		game.load.spritesheet('idle', 'images/battle/IDLE.png', 200, 200, 11)
         buttons.getImages(game)
 
     }
@@ -579,48 +587,69 @@ var battle = function(){
 		sceneGroup.wrongParticle = wrongParticle
 
     }
-    
-    function createSpine(skeleton, skin, idleAnimation, x, y) {
-        idleAnimation = idleAnimation || "IDLE"
-        var spineGroup = game.add.group()
-        spineGroup.x = x || 0
-        spineGroup.y = y || 0
 
-        var spineSkeleton = game.add.spine(0, 0, skeleton)
-        spineSkeleton.x = 0; spineSkeleton.y = 0
-        // spineSkeleton.scale.setTo(0.8,0.8)
-        spineSkeleton.setSkinByName(skin)
-        spineSkeleton.setAnimationByName(0, idleAnimation, true)
-        spineGroup.add(spineSkeleton)
+	function createSpine(skeleton, skin, idleAnimation, x, y) {
+		idleAnimation = idleAnimation || "IDLE"
+		var spineGroup = game.add.group()
+		x = x || 0
+		y = y || 0
 
-        spineGroup.setAnimation = function (animations, onComplete) {
+		var spineSkeleton = game.add.spine(0, 0, skeleton)
+		spineSkeleton.x = x; spineSkeleton.y = y
+		// spineSkeleton.scale.setTo(0.8,0.8)
+		spineSkeleton.setSkinByName(skin)
+		spineSkeleton.setAnimationByName(0, idleAnimation, true)
+		spineSkeleton.autoUpdateTransform ()
+		spineGroup.add(spineSkeleton)
 
-            var entry
-            for(var index = 0; index < animations.length; index++) {
-                var animation = animations[index]
-                var loop = index === animations.length - 1
-                if (index === 0)
-                    entry = spineSkeleton.setAnimationByName(0, animation, loop)
-                else
-                    spineSkeleton.addAnimationByName(0, animation, loop)
 
-            }
-            if(onComplete){
-                entry.onComplete = onComplete
-            }
-        }
-        
-        spineGroup.setSkinByName = function (skin) {
-            spineSkeleton.setSkinByName(skin)
-            spineSkeleton.setToSetupPose()
-        }
-        
-        spineGroup.setAlive = function (alive) {
-            spineSkeleton.autoUpdate = alive
-        }
+		spineGroup.setAnimation = function (animations, onComplete, args) {
+			var entry
+			for(var index = 0; index < animations.length; index++) {
+				var animation = animations[index]
+				var loop = index === animations.length - 1
+				if (index === 0)
+					entry = spineSkeleton.setAnimationByName(0, animation, loop)
+				else
+					spineSkeleton.addAnimationByName(0, animation, loop)
 
-        return spineGroup
-    }
+			}
+
+			if (args)
+				entry.args = args
+
+			if(onComplete){
+				entry.onComplete = onComplete
+			}
+		}
+
+		spineGroup.setSkinByName = function (skin) {
+			spineSkeleton.setSkinByName(skin)
+			spineSkeleton.setToSetupPose()
+		}
+
+		spineGroup.setAlive = function (alive) {
+			spineSkeleton.autoUpdate = alive
+		}
+
+		spineGroup.getSlotContainer = function (slotName) {
+			var slotIndex
+			for(var index = 0, n = spineSkeleton.skeletonData.slots.length; index < n; index++){
+				var slotData = spineSkeleton.skeletonData.slots[index]
+				if(slotData.name === slotName){
+					slotIndex = index
+				}
+			}
+
+			if (slotIndex){
+				return spineSkeleton.slotContainers[slotIndex]
+			}
+		}
+
+		spineGroup.spine = spineSkeleton
+
+		return spineGroup
+	}
 
     function onClickPlay(rect) {
         rect.inputEnabled = false
