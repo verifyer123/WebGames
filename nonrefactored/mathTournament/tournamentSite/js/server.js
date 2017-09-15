@@ -98,14 +98,16 @@ function Server(){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
-		//var refAux = 1;
-		//while(refAux!=null){
-			text = "";
-			for (var i = 0; i < 5; i++)
-				text += possible.charAt(Math.floor(Math.random() * possible.length));
-			//refAux=database.ref(text);
-		//}
-		return text;
+		for (var i = 0; i < 5; i++)
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		ref2 = database.ref(text);
+		return ref2.once('value').then(function (snapshot) {
+			if(!snapshot.exists()){
+				return text;
+			}else{
+                return makeid();
+			}
+		});
 	};
 
 
@@ -396,82 +398,84 @@ function Server(){
 	 * @summary Starts the server
 	 */
 	this.start = function(inLevel){
-		//id_game = "00000";
-		id_game = makeid();
-		level = inLevel
-		var serverReady = false;
-		valores = {
-			p1: false,
-			p2: false,
-			winner :false,
-			level: level,
-			p1answer : false,
-			p2answer : false,
-			possibleAnswers: [],
-			data:false
-		};
-		refIdGame= database.ref(id_game);
-		refIdGame.set(valores);
+        var promise = makeid();
+        promise.then(function(id){
+        	id_game = id;
+			level = inLevel
+			var serverReady = false;
+			valores = {
+				p1: false,
+				p2: false,
+				winner :false,
+				level: level,
+				p1answer : false,
+				p2answer : false,
+				possibleAnswers: [],
+				data:false
+			};
+			refIdGame= database.ref(id_game);
+			refIdGame.set(valores);
 
-		var refP1= database.ref(id_game+"/p1");
-		refP1.on('value', function(snapshot){
-			if(serverReady){
-				if(!snapshot.val()){
-					self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
-				}else if(!valores.p1){
-					var p1 = snapshot.toJSON();
-					valores.p1 = p1;
-					self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
-					if(valores.p2){
-						self.currentData = valores
-						self.fireEvent('onPlayersReady',[valores]);
+
+			var refP1= database.ref(id_game+"/p1");
+			refP1.on('value', function(snapshot){
+				if(serverReady){
+					if(!snapshot.val()){
+						self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
+					}else if(!valores.p1){
+						var p1 = snapshot.toJSON();
+						valores.p1 = p1;
+						self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
+						if(valores.p2){
+							self.currentData = valores
+							self.fireEvent('onPlayersReady',[valores]);
+						}
 					}
 				}
-			}
 
-		});
+			});
 
-		var refP2= database.ref(id_game+"/p2");
-		refP2.on('value', function(snapshot){
-			if(serverReady){
-				if(!snapshot.val()){
-					self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
-				}else if(!valores.p2){
-					var p2 = snapshot.toJSON();
-					valores.p2 = p2;
-					self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
-					if(valores.p1){
-						self.currentData = valores
-						self.fireEvent('onPlayersReady',[valores]);
+			var refP2= database.ref(id_game+"/p2");
+			refP2.on('value', function(snapshot){
+				if(serverReady){
+					if(!snapshot.val()){
+						self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
+					}else if(!valores.p2){
+						var p2 = snapshot.toJSON();
+						valores.p2 = p2;
+						self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
+						if(valores.p1){
+							self.currentData = valores
+							self.fireEvent('onPlayersReady',[valores]);
+						}
 					}
 				}
-			}
-		});
+			});
 
-		var p1answer= database.ref(id_game+"/p1answer");
-		p1answer.on('value', function(snapshot){
-			var p1answer = snapshot.toJSON();
-			valores.p1answer = p1answer;
-			if(valores.p2answer){
-				checkResults();
-			}
-		});
+			var p1answer= database.ref(id_game+"/p1answer");
+			p1answer.on('value', function(snapshot){
+				var p1answer = snapshot.toJSON();
+				valores.p1answer = p1answer;
+				if(valores.p2answer){
+					checkResults();
+				}
+			});
 
-		var p2answer= database.ref(id_game+"/p2answer");
-		p2answer.on('value', function(snapshot){
-			var p2answer = snapshot.toJSON();
-			valores.p2answer = p2answer;
-			if(valores.p1answer ){
-				checkResults();
-			}
-		});
+			var p2answer= database.ref(id_game+"/p2answer");
+			p2answer.on('value', function(snapshot){
+				var p2answer = snapshot.toJSON();
+				valores.p2answer = p2answer;
+				if(valores.p1answer ){
+					checkResults();
+				}
+			});
 
-		//Borrando los datos al abandonar la partida
-		window.onbeforeunload = function(){
-			refIdGame.remove();
-		};
-		serverReady = true;
-
+			//Borrando los datos al abandonar la partida
+			window.onbeforeunload = function(){
+				refIdGame.remove();
+			};
+			serverReady = true;
+        });
 	};
 
 	this.retry = function(){
