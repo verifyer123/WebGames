@@ -14,8 +14,6 @@ var config = {
 };
 firebase.initializeApp(config);
 var database = firebase.database();
-const MAX_OPERAND_VALUE = 500;
-const NUMBER_OF_FAKE_ANSWERS = 2;
 var MAX_OPERAND_VALUE = 500;
 var NUMBER_OF_FAKE_ANSWERS = 2;
 var INITIAL_LIFE = 100;
@@ -42,7 +40,7 @@ var cleanArray = function(arr){
  * @public
  * @param {int} inLevel Level of the game. It could be {1|2|3} 1-Basic, 2- Medium, 3-Advanced 
  */
-function Server(inLevel){
+// function Server(inLevel){
 function Server(){
 
 	var self = this;
@@ -81,7 +79,6 @@ function Server(){
 	/**End Events*/
 
 	var id_game;
-	var level=inLevel;
 	var level=null;
 	var valores = null;
 	var correctAnswer= false;
@@ -260,7 +257,7 @@ function Server(){
 						opedator = "/";
 						operand1= Math.floor((Math.random() * 10 ) + 12 );
 						operand2= Math.floor((Math.random() * 10 ) + 12);
-						let aux =  operand1 * operand2;
+						var aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
 						break;
@@ -293,7 +290,7 @@ function Server(){
 						opedator = "/";
 						operand1= Math.floor((Math.random() * 10 ) + 22);
 						operand2= Math.floor((Math.random() * 10 ) + 21);
-						let aux =  operand1 * operand2;
+						var aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
 						break;
@@ -327,7 +324,6 @@ function Server(){
 						opedator = "/";
 						operand1= Math.floor((Math.random() * 11 ) + 1 );
 						operand2= Math.floor((Math.random() * 9 ) + 1);
-						let aux =  operand1 * operand2;
 						var aux =  operand1 * operand2;
 						correctAnswer = operand1;
 						operand1 = aux;
@@ -339,7 +335,6 @@ function Server(){
 						operand2= Math.floor((Math.random() * 100) + 1);
 						correctAnswer = operand1 +operand2;
 				}
-				let isEcuation = Math.floor((Math.random() * 2) + 1);	
 				var isEcuation = Math.floor((Math.random() * 2) + 1);
 				if(isEcuation==1){
 					result =correctAnswer;
@@ -400,7 +395,6 @@ function Server(){
 	/**
 	 * @summary Starts the server
 	 */
-	this.start = function(){
 	this.start = function(inLevel){
 		//id_game = "00000";
 		id_game = makeid();
@@ -508,9 +502,6 @@ function loadGame(){
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
-	var level = 1;
-	server = new Server(level);
-	server.start();
 	server = new Server();
 }
 

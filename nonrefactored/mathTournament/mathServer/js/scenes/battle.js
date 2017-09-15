@@ -718,6 +718,8 @@ var battle = function(){
 			if(server){
 				server.addEventListener('afterGenerateQuestion', generateQuestion);
 				server.addEventListener('onTurnEnds', checkAnswer);
+			}else{
+				generateQuestion({operand1:0, opedator:"+", operand2:0, result:0})
 			}
 			startRound()
             // createTutorial()
