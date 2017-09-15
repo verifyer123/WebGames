@@ -108,6 +108,7 @@ var battle = function(){
     var monsters
     var hitParticle
 	var serverData
+	var equation
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -241,9 +242,7 @@ var battle = function(){
     }
 
     function hideQuestion(){
-        game.add.tween(battleGroup.number1).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(battleGroup.operator).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(battleGroup.number2).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(equation).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
     }
 
     function checkAnswer(event) {
@@ -513,23 +512,13 @@ var battle = function(){
     function numbersEffect() {
         sound.play("cut")
 
-        battleGroup.number1.alpha = 0
-        battleGroup.operator.alpha = 0
-        battleGroup.number2.alpha = 0
+        equation.alpha = 0
 
-        battleGroup.number1.scale.x = 0.2
-        battleGroup.number1.scale.y = 0.2
-        battleGroup.operator.scale.x = 0.2
-        battleGroup.operator.scale.y = 0.2
-        battleGroup.number2.scale.x = 0.2
-        battleGroup.number2.scale.y = 0.2
+		equation.scale.x = 0.2
+		equation.scale.y = 0.2
 
-        game.add.tween(battleGroup.number1.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
-        game.add.tween(battleGroup.operator.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
-        game.add.tween(battleGroup.number2.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
-        game.add.tween(battleGroup.number1).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(battleGroup.operator).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(battleGroup.number2).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(equation.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
+        game.add.tween(equation).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
     
     function enableCircle(option) {
@@ -539,58 +528,37 @@ var battle = function(){
     function generateQuestion(data) {
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
 
-        battleGroup.answer = data.correctAnswer
-        battleGroup.number1.setText(data.operand1)
-        battleGroup.operator.setText(data.opedator)
-        battleGroup.number2.setText(data.operand2)
+        equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
         numbersEffect()
 
     }
     
     function createbattleUI() {
 
-        battleGroup = game.add.group()
-        battleGroup.x = game.world.centerX
-        battleGroup.y = game.height - 200
-        sceneGroup.add(battleGroup)
-
         var fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
 
         var questionGroup = game.add.group()
-        questionGroup.y = -50
-        battleGroup.add(questionGroup)
+		questionGroup.x = game.world.centerX
+        questionGroup.y = game.world.height - 200
+        sceneGroup.add(questionGroup)
 
-        var number1 = new Phaser.Text(game, 0, 5, "00", fontStyle)
-        number1.x = -40
-        number1.y = 10
-        number1.alpha = 0
-        number1.anchor.setTo(1,0.5)
-        questionGroup.add(number1)
-        battleGroup.number1 = number1
+		var container = questionGroup.create(0,0, "atlas.battle", "container")
+		container.anchor.setTo(0.5, 0.5)
 
-        var operator = new Phaser.Text(game, 0, 5, "+", fontStyle)
-        operator.x = 0
-        operator.y = 5
-        operator.alpha = 0
-        operator.anchor.setTo(0.5,0.5)
-        questionGroup.add(operator)
-        battleGroup.operator = operator
-
-        var number2 = new Phaser.Text(game, 0, 5, "00", fontStyle)
-        number2.x = 40
-        number2.y = 10
-        number2.alpha = 0
-        number2.anchor.setTo(0,0.5)
-        questionGroup.add(number2)
-        battleGroup.number2 = number2
+        equation = new Phaser.Text(game, 0, 5, "0+0=?", fontStyle)
+		equation.x = -40
+		equation.y = 10
+		equation.alpha = 0
+		equation.anchor.setTo(0.5,0.5)
+		questionGroup.add(equation)
 
         var correctParticle = createPart("star")
-        battleGroup.add(correctParticle)
-        battleGroup.correctParticle = correctParticle
+        sceneGroup.add(correctParticle)
+		sceneGroup.correctParticle = correctParticle
 
         var wrongParticle = createPart("wrong")
-        battleGroup.add(wrongParticle)
-        battleGroup.wrongParticle = wrongParticle
+		sceneGroup.add(wrongParticle)
+		sceneGroup.wrongParticle = wrongParticle
 
     }
     
