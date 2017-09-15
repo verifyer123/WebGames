@@ -292,12 +292,12 @@ footer{
     
     #selectLevel .textWhiteTitle{
         font-size: 4vh;
-            top: -17%;
+            top: -12%;
     }
     
     #selectLevel .titleSection{
         font-size: 4vh;
-        top: -17%;
+        top: -12%;
     }    
     
     
@@ -331,8 +331,10 @@ footer{
       
     #selectLevel {
         display: block;
+         top:25%;
     }
     
+      
     #selectLevel div {
         margin: 0;
     }      
@@ -351,10 +353,24 @@ footer{
         width: 100%;
     }      
       
+    #selectLevel #levelBasicButton{      
+      background: none;
+    }     
+      
+    #selectLevel #levelMediumButton{      
+      background: none;
+    }     
+      
+    #selectLevel #levelAdvanceButton{      
+      background: none;
+    }
+        
     #basicLevel {
         width: auto !important;
         height: 50%;
         padding: 2vh;
+        margin-top: -3% !important;
+        
     }      
       
         
@@ -362,6 +378,7 @@ footer{
         width: auto !important;
         height: 50%;
         padding: 2vh;
+        margin-top: -3% !important;
     }      
       
         
@@ -369,6 +386,7 @@ footer{
         width: auto !important;
         height: 50%;
         padding: 2vh;
+        margin-top: -3% !important;
     }      
       
 #selectLevel p {
