@@ -101,19 +101,12 @@ function Server(){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
-<<<<<<< HEAD
-		//let refAux = 1;
-=======
 		//var refAux = 1;
->>>>>>> 3e3955fc23107074f28cda5d01c424f689bf9003
 		//while(refAux!=null){
 			text = "";
 			for (var i = 0; i < 5; i++)
 				text += possible.charAt(Math.floor(Math.random() * possible.length));
-<<<<<<< HEAD
 			//refAux=database.ref(text);
-=======
->>>>>>> 3e3955fc23107074f28cda5d01c424f689bf9003
 		//}
 		return text;
 	};
@@ -265,7 +258,6 @@ function Server(){
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
-<<<<<<< HEAD
 						operand1= Math.floor((Math.random() * 10 ) + 12 );
 						operand2= Math.floor((Math.random() * 10 ) + 12);
 						let aux =  operand1 * operand2;
@@ -299,7 +291,6 @@ function Server(){
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
-<<<<<<< HEAD
 						operand1= Math.floor((Math.random() * 10 ) + 22);
 						operand2= Math.floor((Math.random() * 10 ) + 21);
 						let aux =  operand1 * operand2;
