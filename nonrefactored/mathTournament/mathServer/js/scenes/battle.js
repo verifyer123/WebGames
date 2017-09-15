@@ -546,8 +546,6 @@ var battle = function(){
 		container.anchor.setTo(0.5, 0.5)
 
         equation = new Phaser.Text(game, 0, 5, "0+0=?", fontStyle)
-		equation.x = -40
-		equation.y = 10
 		equation.alpha = 0
 		equation.anchor.setTo(0.5,0.5)
 		questionGroup.add(equation)
