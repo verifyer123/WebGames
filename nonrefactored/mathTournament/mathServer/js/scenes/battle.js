@@ -163,7 +163,7 @@ var battle = function(){
 		target.hpBar.removeHealth(20)
         sound.play("hit")
 
-		target.statusAnimation = target.hpBar.health < 20 ? "TIRED" : "IDLE"
+		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation])
 		target.hit.start(true, 1000, null, 5)
 
@@ -248,7 +248,6 @@ var battle = function(){
 
     function checkAnswer(event) {
 		var data = server ? server.currentData.data : {operand1:100, opedator:"+", operand2:100, result:200, correctAnswer:200}
-    	data.operand1 + data.opedator + data.operand2 + "=" + data.result
 		switch ("?"){
 			case data.operand1:
 				data.operand1 = data.correctAnswer
@@ -261,6 +260,7 @@ var battle = function(){
 				break
 
 		}
+		equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
 
     	game.add.tween(equation.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
     	if(event.numPlayer === 1)
@@ -351,10 +351,10 @@ var battle = function(){
 		// shadow.scale.setTo(0.5, 0.5)
         // floor.scale.setTo(0.65, 0.65)
 
-		var cloud = createSpine("cloud", "normal")
-		cloud.x = game.world.centerX
-		cloud.y = game.world.centerY
-		sceneGroup.add(cloud)
+		// var cloud = createSpine("cloud", "normal")
+		// cloud.x = game.world.centerX
+		// cloud.y = game.world.centerY
+		// sceneGroup.add(cloud)
 
 		player2 = createSpine(serverData.p2.avatar, "normal")
 		player2.scale.setTo(-0.8, 0.8)
@@ -566,7 +566,7 @@ var battle = function(){
 
         var questionGroup = game.add.group()
 		questionGroup.x = game.world.centerX
-        questionGroup.y = game.world.height - 200
+        questionGroup.y = 100
         sceneGroup.add(questionGroup)
 
 		var container = questionGroup.create(0,0, "atlas.battle", "container")
@@ -764,12 +764,14 @@ var battle = function(){
 
             createGameObjects()
             createbattleUI()
-			startRound()
+			game.time.events.add(1000, startRound)
 			if(server){
 				server.addEventListener('afterGenerateQuestion', generateQuestion);
 				server.addEventListener('onTurnEnds', checkAnswer);
 			}else{
-				generateQuestion({operand1:100, opedator:"+", operand2:100, result:200})
+				game.time.events.add(function () {
+					generateQuestion({operand1:100, opedator:"+", operand2:100, result:200})
+				})
 			}
             // createTutorial()
 
