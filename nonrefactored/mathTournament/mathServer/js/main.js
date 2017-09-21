@@ -27,12 +27,12 @@ function startGame(){
 
     function init(){
 
-        var fullWidth = 960
-        var fullHeight = 540
+        var fullWidth = 1024
+        var fullHeight = 768
 
         var ratio = document.body.clientWidth / document.body.clientHeight
-        var gameHeight = Math.round(fullWidth)
-        var gameWidth = Math.round(fullWidth * ratio)
+        var gameHeight = Math.round(fullHeight)
+        var gameWidth = Math.round(fullHeight * ratio)
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight)
