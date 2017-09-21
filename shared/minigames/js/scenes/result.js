@@ -168,6 +168,17 @@ var result = function(){
                 },this)
                 
             }else if(parent.tag == 'reintentar'){
+				
+				mixpanel.track(
+					"retryGame",
+					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+				);
+				
+				mixpanel.track(
+					"enterGame",
+					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+				);
+				
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
                         sceneloader.show(gameName)
@@ -705,13 +716,21 @@ var result = function(){
 			tween.yoyo(true,0)
 			
 			var url = "https://play.google.com/store/apps/details?id=com.getin.amazing&hl=es"
-        
+			
 			if(!game.device.android){
-				url = "https://itunes.apple.com/mx/app/amazing-by-getin/id1176752172?l=en&mt=8#descargar"
+				url = "https://itunes.apple.com/mx/app/amazing-by-getin/id1176752172?l=en&amp;mt=8"
 			}
 			
 			tween.onComplete.add(function(){
-				window.open(url,'_blank')  
+				
+				if(!game.device.mobileSafari){
+					window.open(url,'_blank')  
+				}else{
+					
+					window.location = 'itms-apps://itunes.apple.com/mx/app/amazing-by-getin/id1176752172?l=en&amp;mt=8';
+					//window.location.replace("https://itunes.apple.com/mx/app/amazing-by-getin/id1176752172?l=en&amp;mt=8");
+				}
+				
 				obj.inputEnabled = true
 			})
 			
