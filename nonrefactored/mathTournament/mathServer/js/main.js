@@ -41,8 +41,9 @@ function startGame(){
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;
 
-        game.plugins.add(Fabrique.Plugins.Spine);
-        
+        // game.plugins.add(Fabrique.Plugins.Spine);
+        game.plugins.add(PhaserSpine.SpinePlugin);
+
         var language = "EN"
         if(window.location.search){
             var params = window.location.search.trim(1)

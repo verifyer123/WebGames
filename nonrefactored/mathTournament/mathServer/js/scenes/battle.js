@@ -112,6 +112,7 @@ var battle = function(){
 	var equation
 	var alphaMask
 	var ready, go
+	var hudGroup
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -167,7 +168,9 @@ var battle = function(){
 		sound.play("winBattle")
 
 		var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
-		game.add.tween(game.camera.scale).to({x:1.6, y:1.6}, 2000, Phaser.Easing.Cubic.Out, true)
+		zoomCamera(1.6, 2000)
+		// var scaleData = zoomCamera.generateData(60)
+1
 		game.add.tween(game.camera).to({x:toCamaraX, y:player.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
 		game.time.events.add(6000, stopGame)
 	}
@@ -191,27 +194,59 @@ var battle = function(){
         }
     }
 
+    function returnCamera() {
+		game.camera.follow(null)
+    	game.add.tween(game.camera).to({x:0, y:0}, 1000, Phaser.Easing.Cubic.Out, true)
+		zoomCamera(1, 1000)
+		// game.add.tween(player1.hpBar.scale).to({x:0.8, y:0.8}, 2000, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(alphaMask).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+	}
+
+	function zoomCamera(zoom, delay) {
+		var scaleTween = game.add.tween(game.camera.scale).to({x:zoom, y:zoom}, delay, Phaser.Easing.Cubic.Out, true)
+		var toScale1 = 1/zoom
+		// game.add.tween(player1.hpBar.scale).to({x:toScale1, y:toScale1}, delay, Phaser.Easing.Cubic.Out, true)
+		// game.add.tween(player2.hpBar.scale).to({x:toScale2, y:toScale1}, delay, Phaser.Easing.Cubic.Out, true)
+		var actualScale = hudGroup.scale.x
+		scaleTween.onUpdateCallback(function () {
+			if(toScale1 < actualScale) {
+				hudGroup.scale.x = Phaser.Math.clamp(1 / game.camera.scale.x, toScale1, actualScale)
+				hudGroup.scale.y = Phaser.Math.clamp(1 / game.camera.scale.y, toScale1, actualScale)
+
+			}else{
+				hudGroup.scale.x = Phaser.Math.clamp(1/ game.camera.scale.x, actualScale, toScale1)
+				hudGroup.scale.y = Phaser.Math.clamp(1/ game.camera.scale.y, actualScale, toScale1)
+			}
+		})
+	}
+
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
 		inputsEnabled = false
 		var toCamaraX = fromPlayer.x < game.world.centerX ? 0 : game.world.width
-		game.add.tween(game.camera.scale).to({x:1.6, y:1.6}, 2000, Phaser.Easing.Cubic.Out, true)
-		game.add.tween(game.camera).to({x:toCamaraX, y:fromPlayer.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
-		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
 
 		// if (fromPlayer.hpBar.health > 0){
 		fromPlayer.setAnimation(["ATTACK", fromPlayer.statusAnimation])
 		fromPlayer.spine.speed = 0.5
 		fromPlayer.startPower.alpha = 1
 		fromPlayer.startPower.animations.play('start', 12, false)
+		game.camera.follow(fromPlayer.startPower)
+
+		zoomCamera(1.6, 2000)
+		// game.add.tween(player1.hpBar.scale).to({x:0.2, y:0.2}, 2000, Phaser.Easing.Cubic.Out, true)
+		// game.add.tween(game.camera).to({x:toCamaraX, y:fromPlayer.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
 
 		game.time.events.add(2000, function () {
 			fromPlayer.spine.speed = 1
-			game.add.tween(game.camera.scale).to({x:1, y:1}, 1000, Phaser.Easing.Cubic.Out, true)
-			game.add.tween(game.camera).to({x:0, y:0}, 1000, Phaser.Easing.Cubic.Out, true)
-			game.add.tween(alphaMask).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+			var targetX = targetPlayer.x < game.world.centerX ? 0 : game.world.width
+			// game.add.tween(game.camera.scale).to({x:1.7, y:1.7}, 300, Phaser.Easing.Cubic.Out, true)
+			// moveCamera.onComplete.add(returnCamera)
 
 			var proyectile = fromPlayer.idlePower
 			sceneGroup.bringToTop(proyectile)
+			game.camera.follow(proyectile)
+			game.camera.x = 0
+			game.camera.y = 0
 			// var proyectile = sceneGroup.create(0, 0, 'atlas.battle', asset)
 			// proyectile.x = fromPlayer.from.x
 			// proyectile.y = fromPlayer.from.y
@@ -245,7 +280,9 @@ var battle = function(){
 		var toHit = target.hitDestination
 		game.add.tween(proyectile).to({x: toHit.x, y: toHit.y}, 1200, null, true).onComplete.add(function () {
 			game.add.tween(proyectile).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
-				proyectile.destroy()
+				proyectile.alpha = 0
+				proyectile.x = from.from.x
+				proyectile.y = from.from.y
 			})
 			receiveAttack(target, from)
 		})
@@ -260,11 +297,12 @@ var battle = function(){
 		game.add.tween(proyectile).to({x: toHit.x}, 1600, null, true)
         // game.add.tween(proyectile.scale).to({x: toScale.to.x, y: toScale.to.y}, 1600, null, true)
 
-        var first = game.add.tween(proyectile).to({y: toHit.y - 350}, 800, Phaser.Easing.Cubic.Out, true)
+        var first = game.add.tween(proyectile).to({y: toHit.y - 150}, 800, Phaser.Easing.Cubic.Out, true)
         first.onComplete.add(function () {
             game.add.tween(proyectile).to({y: toHit.y}, 800, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
                 game.add.tween(proyectile).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
                     // proyectile.destroy()
+					returnCamera()
 					proyectile.alpha = 0
 					proyectile.x = from.from.x
 					proyectile.y = from.from.y
@@ -335,7 +373,6 @@ var battle = function(){
 		container.anchor.setTo(0.5, 0.5)
 		container.scale.setTo(0.8, 0.8)
 
-
 		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var healthText = new Phaser.Text(game, 0, 5, "100/100", fontStyle)
 		healthText.x = -80
@@ -373,8 +410,6 @@ var battle = function(){
 	}
 
     function createPlayer(data, position, scale) {
-		var shadow = sceneGroup.create(0, 0, 'atlas.battle', 'shadow')
-		shadow.anchor.setTo(0.5, 0.5)
 
 		var player = createSpine(data.avatar, "normal")
 		player.scale.setTo(0.6 * scale, 0.6)
@@ -384,9 +419,14 @@ var battle = function(){
 		player.x = position.x
 		player.y = position.y
 		player.alpha = 1
-		shadow.x = player.x
-		shadow.y = player.y
 		player.proyectile = MONSTERS[monsterCounter].colorProyectile
+
+		var shadow = player.create(0, 0, 'atlas.battle', 'shadow')
+		shadow.anchor.setTo(0.5, 0.5)
+		shadow.scale.setTo(1.2, 1.2)
+		player.sendToBack(shadow)
+		// shadow.x = player.x
+		// shadow.y = player.y
 
 		var from = {}
 		from.x = player.x + 100 * scale
@@ -413,9 +453,12 @@ var battle = function(){
 		var hpBar = createHpbar(scale)
 		hpBar.x = player.x
 		hpBar.y = 120
-		sceneGroup.add(hpBar)
+		hudGroup.add(hpBar)
 		hpBar.name.text = serverData.p2.nickname
 		player.hpBar = hpBar
+		// hpBar.fixedToCamera = true
+		// hpBar.setScaleMinMax(-1, 0.8);
+		// hpBar.cameraOffset.setTo(player.x, 120);
 		// monsterHpBar = hpBar1
 
 		var idleSheet = game.add.sprite(1024, 600, 'idlePower')
@@ -478,8 +521,8 @@ var battle = function(){
 			playerAttack(player2, player1, createProyectile, "proyectile")
 		})
 
-		// var cloud = createSpine("cloud", "normal")
-		// cloud.setAnimation(["RUN"])
+		// var cloud = createSpine("cloud", "normal", "BITE")
+		// // cloud.setAnimation(["BITE"])
 		// cloud.x = game.world.centerX
 		// cloud.y = game.world.height - 200
 		// sceneGroup.add(cloud)
@@ -513,6 +556,8 @@ var battle = function(){
 			game.camera.y = 0
 			game.camera.scale.x = 1
 			game.camera.scale.y = 1
+			player1.hpBar.scale.setTo(0.8, 0.8)
+			player2.hpBar.scale.setTo(-0.8, 0,8)
             // var numPoints = killedMonsters * 5
             // var resultScreen = sceneloader.getScene("result")
             // resultScreen.setScore(true, pointsBar.number, gameIndex)
@@ -548,7 +593,7 @@ var battle = function(){
         game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
         game.load.spine('luna', "images/spines/Luna/luna.json")
         game.load.spine('eagle', "images/spines/Eagle/eagle.json")
-        game.load.spine('cloud', "images/spines/nube/normal.json")
+        game.load.spine('cloud', "images/spines/nube/wild_dentist.json")
 		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
 		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
 
@@ -637,7 +682,7 @@ var battle = function(){
         var questionGroup = game.add.group()
 		questionGroup.x = game.world.centerX
         questionGroup.y = 100
-        sceneGroup.add(questionGroup)
+        hudGroup.add(questionGroup)
 
 		var container = questionGroup.create(0,0, "atlas.battle", "container")
 		container.anchor.setTo(0.5, 0.5)
@@ -813,6 +858,7 @@ var battle = function(){
         create: function(event){
 
         	sceneGroup = game.add.group();
+
             serverData = server ? server.currentData : {
             	p1:{nickname:"Player1", avatar:"eagle"},
 				p2:{nickname:"Player2", avatar:"luna"}
@@ -848,7 +894,13 @@ var battle = function(){
 
             initialize()
 
-            createGameObjects()
+			hudGroup = game.add.group();
+			sceneGroup.add(hudGroup)
+			hudGroup.fixedToCamera = true
+			hudGroup.cameraOffset.setTo(0, 0);
+
+
+			createGameObjects()
             createbattleUI()
 			// game.time.events.add(500, startRound)
 			enterGame()
@@ -862,7 +914,7 @@ var battle = function(){
 			}
             // createTutorial()
 
-            buttons.getButton(battleSong,sceneGroup)
+            buttons.getButton(battleSong,hudGroup)
 
         }
     }
