@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Nacho Smacho",
+        name: "Triangrid",
         language: "es",
-        minigameUrl: "../nachoSmacho/index.html?language=" + language,
+        minigameUrl: "../triangrid/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
