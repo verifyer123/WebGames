@@ -219,6 +219,13 @@ var battle = function(){
 			}
 		})
 	}
+	
+	function proyectileUpdate() {
+		var proyectile = sceneGroup.proyectile
+    	var angle = Phaser.Math.angleBetweenPoints(proyectile.world, proyectile.previousPosition)
+		proyectile.rotation = -4.71239 + angle
+		console.log(angle)
+	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
 		inputsEnabled = false
@@ -235,6 +242,16 @@ var battle = function(){
 		// game.add.tween(player1.hpBar.scale).to({x:0.2, y:0.2}, 2000, Phaser.Easing.Cubic.Out, true)
 		// game.add.tween(game.camera).to({x:toCamaraX, y:fromPlayer.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
+		var toAngle
+		if(fromPlayer.scaleReference > 0)
+			toAngle = Phaser.Math.angleBetweenPoints(fromPlayer.startPower.world, new Phaser.Point(targetPlayer.hitDestination.x, targetPlayer.hitDestination.y - 150))
+		else
+			toAngle = Phaser.Math.angleBetweenPoints(new Phaser.Point(targetPlayer.hitDestination.x, targetPlayer.hitDestination.y - 150), fromPlayer.startPower.world)
+		console.log(toAngle)
+		toAngle = -1.5708 * fromPlayer.scaleReference + toAngle
+		// console.log(toAngle)
+		game.add.tween(fromPlayer.startPower).to({rotation:toAngle}, 1000, Phaser.Easing.Cubic.Out, true, 1000)
+		game.add.tween(fromPlayer.idlePower).to({rotation:toAngle}, 1000, Phaser.Easing.Cubic.Out, true, 1000)
 
 		game.time.events.add(2000, function () {
 			fromPlayer.spine.speed = 1
@@ -254,7 +271,9 @@ var battle = function(){
 			// proyectile.scale.y = fromPlayer.scaleShoot.from.y
 			// proyectile.anchor.setTo(0.5, 0.5)
 			// proyectile.tint = fromPlayer.proyectile
-
+			sceneGroup.proyectile = proyectile
+			// proyectile.originalRotation = Phaser.Math.angleBetweenPoints(proyectile.previousPosition, proyectile.world)
+			
 			typeAttack(proyectile, fromPlayer, targetPlayer)
 		})
 		// }
@@ -294,7 +313,10 @@ var battle = function(){
 
 		// var toScale = target.scaleShoot
 		var toHit = target.hitDestination
-		game.add.tween(proyectile).to({x: toHit.x}, 1600, null, true)
+		var moveProyectile = game.add.tween(proyectile).to({x: toHit.x}, 1600, null, true)
+		moveProyectile.onUpdateCallback(function(){
+			proyectileUpdate()
+		})
         // game.add.tween(proyectile.scale).to({x: toScale.to.x, y: toScale.to.y}, 1600, null, true)
 
         var first = game.add.tween(proyectile).to({y: toHit.y - 150}, 800, Phaser.Easing.Cubic.Out, true)
@@ -306,6 +328,9 @@ var battle = function(){
 					proyectile.alpha = 0
 					proyectile.x = from.from.x
 					proyectile.y = from.from.y
+					sceneGroup.proyectile = null
+					from.startPower.rotation = 0
+					from.idlePower.rotation = 0
                 })
                 receiveAttack(target, from)
             })
@@ -420,6 +445,7 @@ var battle = function(){
 		player.y = position.y
 		player.alpha = 1
 		player.proyectile = MONSTERS[monsterCounter].colorProyectile
+		player.scaleReference = scale
 
 		var shadow = player.create(0, 0, 'atlas.battle', 'shadow')
 		shadow.anchor.setTo(0.5, 0.5)
@@ -529,6 +555,22 @@ var battle = function(){
 
     }
 
+	function createConfeti(){
+		var emitter = game.add.emitter(game.world.centerX, -32, 400);
+		emitter.makeParticles('confeti', [0, 1, 2, 3, 4, 5]);
+		emitter.maxParticleScale = 0.7;
+		emitter.minParticleScale = 0.5;
+		emitter.setYSpeed(100, 200);
+		emitter.gravity = 0;
+		emitter.width = game.world.width;
+		emitter.minRotation = 0;
+		emitter.maxRotation = 40;
+
+		emitter.start(false, 10000, 200, 0);
+		sceneGroup.add(emitter)
+
+	}
+
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
 
@@ -596,6 +638,7 @@ var battle = function(){
         game.load.spine('cloud', "images/spines/nube/wild_dentist.json")
 		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
 		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
+		game.load.spritesheet('confeti', 'images/battle/confeti.png', 68, 80, 6)
 
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
@@ -700,6 +743,16 @@ var battle = function(){
         var wrongParticle = createPart("wrong")
 		sceneGroup.add(wrongParticle)
 		sceneGroup.wrongParticle = wrongParticle
+
+		createConfeti()
+
+		var explode = createPart("proyectile")
+		explode.y = -100
+		// explode.x = hitDestination2.x
+		sceneGroup.add(explode)
+		hitParticle = explode
+		hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
+		sceneGroup.hit = hitParticle
 
 		ready = sceneGroup.create(game.world.centerX, game.world.centerY, "ready")
 		ready.anchor.setTo(0.5, 0.5)
