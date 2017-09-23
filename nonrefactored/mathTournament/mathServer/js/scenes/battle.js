@@ -69,10 +69,6 @@ var battle = function(){
 	var WIDTH_DISTANCE = 220
 	var HP_BAR_WIDTH = 350
 
-    var ROUNDS = [
-        {minNumber: 2, maxNumber: 10, operator:"x"}
-        ]
-
     var MONSTERS = [
         {skin:"monster1", spineIndex:0, colorProyectile:"0xFFFE00", name:"Breeze"},
         {skin:"monster2", spineIndex:0, colorProyectile:"0x84FF00", name:"Bloom"},
@@ -113,6 +109,7 @@ var battle = function(){
 	var alphaMask
 	var ready, go
 	var hudGroup
+	var frontGroup
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -163,6 +160,13 @@ var battle = function(){
     }
     
     function winPlayer(player) {
+		hudGroup.winGroup.playerName.text = player.name
+    	game.add.tween(hudGroup.uiGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+    	game.add.tween(hudGroup.winGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
+    	game.add.tween(alphaMask).to({alpha:0.7}, 800, Phaser.Easing.Cubic.Out, true)
+		createConfeti()
+		inputsEnabled = true
+
     	player.setAnimation(["WIN", "WINSTILL"])
 		battleSong.stop()
 		sound.play("winBattle")
@@ -172,7 +176,7 @@ var battle = function(){
 		// var scaleData = zoomCamera.generateData(60)
 1
 		game.add.tween(game.camera).to({x:toCamaraX, y:player.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
-		game.time.events.add(6000, stopGame)
+		// game.time.events.add(6000, stopGame)
 	}
 
     function receiveAttack(target, from) {
@@ -212,10 +216,14 @@ var battle = function(){
 			if(toScale1 < actualScale) {
 				hudGroup.scale.x = Phaser.Math.clamp(1 / game.camera.scale.x, toScale1, actualScale)
 				hudGroup.scale.y = Phaser.Math.clamp(1 / game.camera.scale.y, toScale1, actualScale)
+				frontGroup.scale.x = Phaser.Math.clamp(1 / game.camera.scale.x, toScale1, actualScale)
+				frontGroup.scale.y = Phaser.Math.clamp(1 / game.camera.scale.y, toScale1, actualScale)
 
 			}else{
 				hudGroup.scale.x = Phaser.Math.clamp(1/ game.camera.scale.x, actualScale, toScale1)
 				hudGroup.scale.y = Phaser.Math.clamp(1/ game.camera.scale.y, actualScale, toScale1)
+				frontGroup.scale.x = Phaser.Math.clamp(1/ game.camera.scale.x, actualScale, toScale1)
+				frontGroup.scale.y = Phaser.Math.clamp(1/ game.camera.scale.y, actualScale, toScale1)
 			}
 		})
 	}
@@ -228,7 +236,6 @@ var battle = function(){
 	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
-		inputsEnabled = false
 		var toCamaraX = fromPlayer.x < game.world.centerX ? 0 : game.world.width
 
 		// if (fromPlayer.hpBar.health > 0){
@@ -479,9 +486,10 @@ var battle = function(){
 		var hpBar = createHpbar(scale)
 		hpBar.x = player.x
 		hpBar.y = 120
-		hudGroup.add(hpBar)
-		hpBar.name.text = serverData.p2.nickname
+		hudGroup.uiGroup.add(hpBar)
+		hpBar.name.text = data.nickname
 		player.hpBar = hpBar
+		player.name = data.nickname
 		// hpBar.fixedToCamera = true
 		// hpBar.setScaleMinMax(-1, 0.8);
 		// hpBar.cameraOffset.setTo(player.x, 120);
@@ -558,16 +566,17 @@ var battle = function(){
 	function createConfeti(){
 		var emitter = game.add.emitter(game.world.centerX, -32, 400);
 		emitter.makeParticles('confeti', [0, 1, 2, 3, 4, 5]);
-		emitter.maxParticleScale = 0.7;
-		emitter.minParticleScale = 0.5;
-		emitter.setYSpeed(100, 200);
-		emitter.gravity = 0;
+		emitter.maxParticleScale = 0.6;
+		emitter.minParticleScale = 0.3;
+		emitter.setYSpeed(200, 300);
+		// emitter.gravity = 0;
 		emitter.width = game.world.width;
 		emitter.minRotation = 0;
-		emitter.maxRotation = 40;
+		emitter.maxRotation = 360;
 
-		emitter.start(false, 10000, 200, 0);
-		sceneGroup.add(emitter)
+		emitter.start(false, 10000, 100, 0);
+		frontGroup.add(emitter)
+		// hudGroup.sendToBack(emitter)
 
 	}
 
@@ -591,26 +600,20 @@ var battle = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
 		// sound.play("uuh")
+		sound.stopAll()
+		sound.play("pop")
 
-        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1800)
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 200)
         tweenScene.onComplete.add(function(){
 			game.camera.x = 0
 			game.camera.y = 0
 			game.camera.scale.x = 1
 			game.camera.scale.y = 1
-			player1.hpBar.scale.setTo(0.8, 0.8)
-			player2.hpBar.scale.setTo(-0.8, 0,8)
-            // var numPoints = killedMonsters * 5
-            // var resultScreen = sceneloader.getScene("result")
-            // resultScreen.setScore(true, pointsBar.number, gameIndex)
-
-            //amazing.saveScore(pointsBar.number)
 			if(server){
 				server.removeEventListener('afterGenerateQuestion', generateQuestion);
 				server.removeEventListener('onTurnEnds', checkAnswer);
 			}
-            sceneloader.show("result")
-            sound.play("gameLose")
+            sceneloader.show("battle")
         })
     }
 
@@ -642,6 +645,8 @@ var battle = function(){
 
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
+		game.load.image('retry',"images/battle/retry" + localization.getLanguage() + ".png")
+		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
         buttons.getImages(game)
 
     }
@@ -682,6 +687,7 @@ var battle = function(){
 		player2.hpBar.alpha = 0
 		game.add.tween(player2.hpBar).to({alpha:1}, 1200, Phaser.Easing.Cubic.Out, true, 600)
 
+		// game.time.events.add(1200, winPlayer, null, player1)
 		game.time.events.add(1200, showReadyGo)
 
 	}
@@ -717,6 +723,69 @@ var battle = function(){
         numbersEffect()
 
     }
+    
+    function onClickBtn(btnImg) {
+		if(inputsEnabled){
+			inputsEnabled = false
+			var buttonGroup = btnImg.parent
+			game.add.tween(buttonGroup.scale).to({x:0.8, y:0.8}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
+
+			if(buttonGroup.tag === "retry")
+				stopGame()
+		}
+	}
+    
+    function createWinOverlay() {
+		hudGroup.winGroup.alpha = 0
+
+    	var winBar = hudGroup.winGroup.create(0, 0, "atlas.battle", "win")
+		winBar.anchor.setTo(0.5, 0)
+		winBar.x = game.world.centerX
+
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var winText = game.add.text(0, -5, "VICTORY", fontStyle)
+		winText.anchor.setTo(0.5, 0)
+		hudGroup.winGroup.add(winText)
+		winText.x = game.world.centerX
+		winText.y = 135
+
+		var playerName = game.add.text(0, -5, "Player1", fontStyle)
+		playerName.anchor.setTo(0.5, 0.5)
+		hudGroup.winGroup.add(playerName)
+		playerName.x = game.world.centerX
+		playerName.y = game.world.centerY - 50
+		hudGroup.winGroup.playerName = playerName
+
+		var buttonGroup = game.add.group()
+		buttonGroup.x = game.world.centerX
+		buttonGroup.y = game.world.centerY + 140
+		hudGroup.winGroup.add(buttonGroup)
+
+		var shareGroup = game.add.group()
+		shareGroup.x = 0; shareGroup.y = -70
+		buttonGroup.add(shareGroup)
+		shareGroup.tag = "share"
+
+		var shareBtn = shareGroup.create(0, 0, "atlas.battle", "share")
+		shareBtn.anchor.setTo(0.5, 0.5)
+
+		var shareImg = shareGroup.create(-20, 0, "share")
+		shareImg.anchor.setTo(0.5, 0.5)
+
+		var retryGroup = game.add.group()
+		retryGroup.x = 0; retryGroup.y = 70
+		buttonGroup.add(retryGroup)
+		retryGroup.tag = "retry"
+
+		var retryBtn = retryGroup.create(0, 0, "atlas.battle", "retry")
+		retryBtn.anchor.setTo(0.5, 0.5)
+
+		var retryImg = retryGroup.create(-20, 0, "retry")
+		retryImg.anchor.setTo(0.5, 0.5)
+
+		retryBtn.inputEnabled = true
+		retryBtn.events.onInputDown.add(onClickBtn)
+	}
 
     function createbattleUI() {
 
@@ -725,7 +794,7 @@ var battle = function(){
         var questionGroup = game.add.group()
 		questionGroup.x = game.world.centerX
         questionGroup.y = 100
-        hudGroup.add(questionGroup)
+		hudGroup.uiGroup.add(questionGroup)
 
 		var container = questionGroup.create(0,0, "atlas.battle", "container")
 		container.anchor.setTo(0.5, 0.5)
@@ -744,7 +813,7 @@ var battle = function(){
 		sceneGroup.add(wrongParticle)
 		sceneGroup.wrongParticle = wrongParticle
 
-		createConfeti()
+		// createConfeti()
 
 		var explode = createPart("proyectile")
 		explode.y = -100
@@ -761,6 +830,8 @@ var battle = function(){
 		go = sceneGroup.create(game.world.centerX, game.world.centerY, "go")
 		go.anchor.setTo(0.5, 0.5)
 		go.alpha = 0
+
+		createWinOverlay()
 
     }
 
@@ -952,6 +1023,13 @@ var battle = function(){
 			hudGroup.fixedToCamera = true
 			hudGroup.cameraOffset.setTo(0, 0);
 
+			var uiGroup = game.add.group()
+			hudGroup.add(uiGroup)
+			hudGroup.uiGroup = uiGroup
+
+			var winGroup = game.add.group()
+			hudGroup.add(winGroup)
+			hudGroup.winGroup = winGroup
 
 			createGameObjects()
             createbattleUI()
@@ -968,6 +1046,11 @@ var battle = function(){
             // createTutorial()
 
             buttons.getButton(battleSong,hudGroup)
+
+			frontGroup = game.add.group()
+			sceneGroup.add(frontGroup)
+			frontGroup.fixedToCamera = true
+			frontGroup.cameraOffset.setTo(0, 0);
 
         }
     }
