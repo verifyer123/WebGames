@@ -47,7 +47,10 @@ function Server(){
 	/** Events
 	 */
 	self.events = {};
-	self.currentData = null
+	self.currentData = null;
+	self.p1Ready = false;
+	self.p2Ready = false;
+	self.startGame = false
 
 	this.addEventListener = function(name, handler) {
 		if (self.events.hasOwnProperty(name))
@@ -158,7 +161,7 @@ function Server(){
 	}
 
 	var checkResults= function(){
-		console.log("checkResultsTriggered")
+		// console.log("checkResultsTriggered")
 		if(valores.p1answer === null){
 			return;
 		}
@@ -175,7 +178,7 @@ function Server(){
 
 		if(p1Value === p2Value && p1Value === correctAnswer){
 			timeDifference = Math.abs(p1Time - p2Time)
-			console.log(timeDifference)
+			// console.log(timeDifference)
 			if(p1Time < p2Time){
 				valores.winner = 1
 				//valores.p2.life+=damage;
@@ -214,7 +217,7 @@ function Server(){
 		}
 		var date = new Date()
 		var actualDate = date.getMilliseconds()
-		console.log(actualDate)
+		// console.log(actualDate)
 		var data = { numPlayer: valores.winner, timeDifference: timeDifference, date:actualDate }
 		refIdGame.child("winner").set(data);
 		self.fireEvent('onTurnEnds',[data]);
@@ -411,7 +414,8 @@ function Server(){
 				p1answer : false,
 				p2answer : false,
 				possibleAnswers: [],
-				data:false
+				data:false,
+				gameReady:false
 			};
 			refIdGame= database.ref(id_game);
 			refIdGame.set(valores);
@@ -452,6 +456,34 @@ function Server(){
 				}
 			});
 
+			var readyP1= database.ref(id_game+"/p1/ready");
+			readyP1.on('value', function(snapshot){
+				if(serverReady){
+					var ready = snapshot.val()
+					// console.log(ready)
+					if(ready){
+						self.p1Ready = true;
+						if(self.p2Ready){
+							self.startGame()
+						}
+					}
+				}
+			});
+
+			var readyP2= database.ref(id_game+"/p2/ready");
+			readyP2.on('value', function(snapshot){
+				if(serverReady){
+					var ready = snapshot.val()
+					// console.log(ready)
+					if(ready){
+						self.p2Ready = true;
+						if(self.p1Ready){
+							self.startGame()
+						}
+					}
+				}
+			});
+
 			var p1answer= database.ref(id_game+"/p1answer");
 			p1answer.on('value', function(snapshot){
 				var p1answer = snapshot.toJSON();
@@ -477,6 +509,10 @@ function Server(){
 			serverReady = true;
         });
 	};
+
+	this.setGameReady = function (value) {
+		refIdGame.child("gameReady").set(value);
+	}
 
 	this.retry = function(){
 		valores.p1answer =false;

@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -14,6 +14,8 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
+				if(cliente)
+					cliente.setReady(true)
 				sceneloader.show("operations")
 	    	}
 

@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.WEBGL, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -14,7 +14,11 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("battle")
+				server.setGameReady(true)
+				server.startGame = function () {
+					sceneloader.show("battle")
+				}
+				// sceneloader.show("battle")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})

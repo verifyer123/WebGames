@@ -59,7 +59,17 @@ var battle = function(){
             {   name: "winBattle",
                 file: soundsPath + "winBattle1.mp3"},
             {   name: "swordSmash",
-                file: soundsPath + "swordSmash.mp3"}
+                file: soundsPath + "swordSmash.mp3"},
+			{   name: "comboSound",
+                file: soundsPath + "mathTournament/comboSound.mp3"},
+			{   name: "fireCharge",
+                file: soundsPath + "mathTournament/fireCharge2.mp3"},
+			{   name: "fireExplosion",
+				file: soundsPath + "mathTournament/fireExplosion2.mp3"},
+			{   name: "fireProjectile",
+				file: soundsPath + "mathTournament/fireProjectile1.mp3"},
+			{   name: "fireReveal",
+				file: soundsPath + "mathTournament/fireReveal1.mp3"}
         ]
     }
 
@@ -129,6 +139,10 @@ var battle = function(){
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
+		if(server){
+			server.addEventListener('afterGenerateQuestion', generateQuestion);
+			server.addEventListener('onTurnEnds', checkAnswer);
+		}
 
         loadSounds()
 
@@ -181,11 +195,11 @@ var battle = function(){
 
     function receiveAttack(target, from) {
 		target.hpBar.removeHealth(20)
-        sound.play("hit")
+        sound.play("fireExplosion")
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation])
-		console.log(target.spine.state)
+		// console.log(target.spine.state)
 		target.hit.start(true, 1000, null, 5)
 
         if(target.hpBar.health > 0)
@@ -232,13 +246,11 @@ var battle = function(){
 		var proyectile = sceneGroup.proyectile
     	var angle = Phaser.Math.angleBetweenPoints(proyectile.world, proyectile.previousPosition)
 		proyectile.rotation = -4.71239 + angle
-		console.log(angle)
+		// console.log(angle)
 	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
-		var toCamaraX = fromPlayer.x < game.world.centerX ? 0 : game.world.width
 
-		// if (fromPlayer.hpBar.health > 0){
 		fromPlayer.setAnimation(["ATTACK", fromPlayer.statusAnimation])
 		fromPlayer.spine.speed = 0.5
 		fromPlayer.startPower.alpha = 1
@@ -246,19 +258,18 @@ var battle = function(){
 		game.camera.follow(fromPlayer.startPower)
 
 		zoomCamera(1.6, 2000)
-		// game.add.tween(player1.hpBar.scale).to({x:0.2, y:0.2}, 2000, Phaser.Easing.Cubic.Out, true)
-		// game.add.tween(game.camera).to({x:toCamaraX, y:fromPlayer.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
 		var toAngle
 		if(fromPlayer.scaleReference > 0)
 			toAngle = Phaser.Math.angleBetweenPoints(fromPlayer.startPower.world, new Phaser.Point(targetPlayer.hitDestination.x, targetPlayer.hitDestination.y - 150))
 		else
 			toAngle = Phaser.Math.angleBetweenPoints(new Phaser.Point(targetPlayer.hitDestination.x, targetPlayer.hitDestination.y - 150), fromPlayer.startPower.world)
-		console.log(toAngle)
+		// console.log(toAngle)
 		toAngle = -1.5708 * fromPlayer.scaleReference + toAngle
 		// console.log(toAngle)
 		game.add.tween(fromPlayer.startPower).to({rotation:toAngle}, 1000, Phaser.Easing.Cubic.Out, true, 1000)
 		game.add.tween(fromPlayer.idlePower).to({rotation:toAngle}, 1000, Phaser.Easing.Cubic.Out, true, 1000)
+		sound.play("fireReveal")
 
 		game.time.events.add(2000, function () {
 			fromPlayer.spine.speed = 1
@@ -316,7 +327,7 @@ var battle = function(){
 	}
 
     function createProyectile(proyectile, from, target){
-        sound.play("throw")
+        sound.play("fireProjectile")
 
 		// var toScale = target.scaleShoot
 		var toHit = target.hitDestination
@@ -366,10 +377,18 @@ var battle = function(){
 		equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
 
     	game.add.tween(equation.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
-    	if(event.numPlayer === 1)
-			playerAttack(player1, player2, createProyectile, "proyectile")
-		else if(event.numPlayer === 2)
-			playerAttack(player2, player1, createProyectile, "proyectile")
+    	if(event.numPlayer === 1){
+			player1.setAnimation(["WIN"])
+			game.time.events.add(1000, function () {
+				playerAttack(player1, player2, createProyectile, "proyectile")
+			})
+		}
+		else if(event.numPlayer === 2) {
+			player2.setAnimation(["WIN"])
+    		game.time.events.add(1000, function () {
+				playerAttack(player2, player1, createProyectile, "proyectile")
+			})
+		}
 		else{
     		player1.setAnimation(["HIT", "IDLE"])
 			player2.setAnimation(["HIT", "IDLE"])
@@ -447,7 +466,7 @@ var battle = function(){
 		player.scale.setTo(0.6 * scale, 0.6)
 		sceneGroup.add(player)
 		player.statusAnimation = "IDLE"
-		console.log("width", player.width)
+		// console.log("width", player.width)
 		player.x = position.x
 		player.y = position.y
 		player.alpha = 1
@@ -520,6 +539,7 @@ var battle = function(){
 		}, this);
 
 		player.spine.setMixByName("RUN", "IDLE", 0.3)
+		player.spine.setMixByName("WIN", "IDLE", 0.3)
 
 		return player
 	}
@@ -541,7 +561,14 @@ var battle = function(){
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
-			playerAttack(player1, player2, createProyectile, "proyectile")
+			sound.play("magic")
+			sceneGroup.correctParticle.x = player1.x
+			sceneGroup.correctParticle.y = player1.y - 150
+			sceneGroup.correctParticle.start(true, 1000, null, 5)
+			player1.setAnimation(["WIN", "IDLE"])
+			game.time.events.add(1000, function () {
+				playerAttack(player1, player2, createProyectile, "proyectile")
+			})
 		})
 
 		var input2 = game.add.graphics()
@@ -552,7 +579,14 @@ var battle = function(){
 		player2.add(input2)
 		input2.inputEnabled = true
 		input2.events.onInputDown.add(function () {
-			playerAttack(player2, player1, createProyectile, "proyectile")
+			sound.play("magic")
+			sceneGroup.correctParticle.x = player2.x
+			sceneGroup.correctParticle.y = player2.y - 150
+			sceneGroup.correctParticle.start(true, 1000, null, 5)
+			player2.setAnimation(["WIN", "IDLE"])
+			game.time.events.add(1000, function () {
+				playerAttack(player2, player1, createProyectile, "proyectile")
+			})
 		})
 
 		// var cloud = createSpine("cloud", "normal", "BITE")
@@ -600,6 +634,8 @@ var battle = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
 		// sound.play("uuh")
+		player1.hpBar.resetHealth()
+		player2.hpBar.resetHealth()
 		sound.stopAll()
 		sound.play("pop")
 
@@ -641,7 +677,7 @@ var battle = function(){
         game.load.spine('cloud', "images/spines/nube/wild_dentist.json")
 		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
 		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
-		game.load.spritesheet('confeti', 'images/battle/confeti.png', 68, 80, 6)
+		game.load.spritesheet('confeti', 'images/battle/confeti.png', 64, 64, 6)
 
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
@@ -652,7 +688,8 @@ var battle = function(){
     }
 
     function showReadyGo() {
-		var tweenReady1 = game.add.tween(ready).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
+		sound.play("swipe")
+    	var tweenReady1 = game.add.tween(ready).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(ready.scale).to({x:0.5, y:0.5}, 600, Phaser.Easing.Back.Out, true)
 		var tweenReady2 = game.add.tween(ready).to({alpha:0}, 200, Phaser.Easing.Cubic.Out, null, 1000)
 
@@ -665,7 +702,9 @@ var battle = function(){
 		tweenReady3.chain(tweenReady4)
 		tweenReady3.onStart.add(function(){
 			tweenScale.start()
+			sound.play("comboSound")
 		})
+		tweenReady4.onComplete.add(startRound)
 	}
     
     function enterGame() {
@@ -694,8 +733,15 @@ var battle = function(){
 
     function startRound() {
         hideQuestion()
-		if(server)
+		if(server){
 			server.generateQuestion()
+		}else{
+			game.time.events.add(1000, function () {
+				generateQuestion({operand1:100, opedator:"+", operand2:100, result:200})
+			})
+		}
+		// if(server)
+		// 	server.generateQuestion()
 
 		// game.time.events.add(1000, generateQuestion)
     }
@@ -1035,14 +1081,6 @@ var battle = function(){
             createbattleUI()
 			// game.time.events.add(500, startRound)
 			enterGame()
-			if(server){
-				server.addEventListener('afterGenerateQuestion', generateQuestion);
-				server.addEventListener('onTurnEnds', checkAnswer);
-			}else{
-				game.time.events.add(1000, function () {
-					generateQuestion({operand1:100, opedator:"+", operand2:100, result:200})
-				})
-			}
             // createTutorial()
 
             buttons.getButton(battleSong,hudGroup)

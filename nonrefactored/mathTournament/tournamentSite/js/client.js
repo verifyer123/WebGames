@@ -107,6 +107,13 @@ function Client(){
 					}
 				});
 
+				self.refIdGame.child('gameReady').on('value', function(snapshot) {
+					var gameReady = snapshot.val();
+					if(gameReady){
+						self.startGame()
+					}
+				});
+
 				self.time= (new Date()).getTime();
 				self.fireEvent('onClientInit',[]);
 
@@ -136,6 +143,11 @@ function Client(){
 			self.refIdGame.child("p"+self.numPlayer+"answer").set(answer);
 		}
 	};
+	
+	this.setReady = function (value) {
+		self.player.ready = value
+		self.refIdGame.child("p"+self.numPlayer+"/ready").set(value);
+	}
 }
 
 function loadGame(){
