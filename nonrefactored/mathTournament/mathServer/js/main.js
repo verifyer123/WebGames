@@ -14,7 +14,11 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("battle")
+				server.setGameReady(true)
+				server.startGame = function () {
+					sceneloader.show("battle")
+				}
+				// sceneloader.show("battle")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -27,8 +31,8 @@ function startGame(){
 
     function init(){
 
-        var fullWidth = 540
-        var fullHeight = 960
+        var fullWidth = 1024
+        var fullHeight = 768
 
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
@@ -39,10 +43,11 @@ function startGame(){
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;        
+        game.stage.disableVisibilityChange = true;
 
-        game.plugins.add(Fabrique.Plugins.Spine);
-        
+        // game.plugins.add(Fabrique.Plugins.Spine);
+        game.plugins.add(PhaserSpine.SpinePlugin);
+
         var language = "EN"
         if(window.location.search){
             var params = window.location.search.trim(1)

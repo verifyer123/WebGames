@@ -119,7 +119,7 @@ amazing.setMinigameId = function(){
             switch(parsedData.type){
             case "minigameId":
                 minigameId = parsedData.minigameId
-                userMail = parsedData.email
+                userMail = parsedData.userProfile.email
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
 
@@ -191,5 +191,5 @@ amazing.getBirthday = function(){
 }
 
 amazing.getGender = function(){
-	return 
+	return gender
 }

@@ -69,6 +69,7 @@ var instructions = function(){
             
         })
         
+		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
         mixpanel.track(
             "enterGame",
             {"gameName": "chilimBalam","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}

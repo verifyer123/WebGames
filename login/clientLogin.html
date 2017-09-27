@@ -1,0 +1,80 @@
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript" >
+	
+		/*************** Registro ***************/
+			function register(newUser){
+				$.ajax({
+					url: 'http://heroesofknowledge.appspot.com/users/parent/register',
+					dataType: 'json',
+					type: 'POST',
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify(newUser),
+					success: function(data) {
+						alert("Success: "+data.status);
+					},
+					error: function(data) {
+						alert("Error: "+data);
+					}
+				});
+			}
+			
+			let newUser = {
+				language:	"en",
+				game:		"Onboarding",
+				name:		"erick",
+				email:		"erick+kun121@yogome.com"
+			}
+			
+			register(newUser);
+		/*************** Fin Registro***************/
+		
+		
+		
+		/*************** Login *********************/
+			function login(user){
+				$.ajax({
+					url: 'http://heroesofknowledge.appspot.com/users/parent/get',
+					dataType: 'json',
+					type: 'POST',
+					contentType: "application/json; charset=utf-8",
+					data: JSON.stringify(user),
+					success: function(data) {
+						alert("Success: "+data.status);
+					},
+					error: function(data) {
+						alert("Error: "+data);
+					}
+				});
+			}
+			
+			let userLogin = {
+				password: "alohas",
+				game: "Onboarding",
+				language: "en",
+				email: "erick@yogome.com"
+			}
+			
+			//login(userLogin);
+		
+		/*************** Fin Login ***************/
+		
+	</script>
+</head>	
+<body>
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -26,10 +26,19 @@ var sound = function(){
 		}
 	}
 
+	function stopAll() {
+		for(var key in decodedSounds){
+			var sound = decodedSounds[key]
+			if(sound)
+				sound.stop()
+		}
+	}
+
 	return {
 		decode: decode,
 		init: init,
 		play: play,
+		stopAll:stopAll
 	}
 
 }()

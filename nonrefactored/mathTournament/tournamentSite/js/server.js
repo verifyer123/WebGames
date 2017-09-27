@@ -47,7 +47,10 @@ function Server(){
 	/** Events
 	 */
 	self.events = {};
-	self.currentData = null
+	self.currentData = null;
+	self.p1Ready = false;
+	self.p2Ready = false;
+	self.startGame = false
 
 	this.addEventListener = function(name, handler) {
 		if (self.events.hasOwnProperty(name))
@@ -98,14 +101,16 @@ function Server(){
 		var text = "";
 		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		var possible = "0123456789";
-		//var refAux = 1;
-		//while(refAux!=null){
-			text = "";
-			for (var i = 0; i < 5; i++)
-				text += possible.charAt(Math.floor(Math.random() * possible.length));
-			//refAux=database.ref(text);
-		//}
-		return text;
+		for (var i = 0; i < 5; i++)
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		ref2 = database.ref(text);
+		return ref2.once('value').then(function (snapshot) {
+			if(!snapshot.exists()){
+				return text;
+			}else{
+                return makeid();
+			}
+		});
 	};
 
 
@@ -156,7 +161,7 @@ function Server(){
 	}
 
 	var checkResults= function(){
-		console.log("checkResultsTriggered")
+		// console.log("checkResultsTriggered")
 		if(valores.p1answer === null){
 			return;
 		}
@@ -173,7 +178,7 @@ function Server(){
 
 		if(p1Value === p2Value && p1Value === correctAnswer){
 			timeDifference = Math.abs(p1Time - p2Time)
-			console.log(timeDifference)
+			// console.log(timeDifference)
 			if(p1Time < p2Time){
 				valores.winner = 1
 				//valores.p2.life+=damage;
@@ -212,7 +217,7 @@ function Server(){
 		}
 		var date = new Date()
 		var actualDate = date.getMilliseconds()
-		console.log(actualDate)
+		// console.log(actualDate)
 		var data = { numPlayer: valores.winner, timeDifference: timeDifference, date:actualDate }
 		refIdGame.child("winner").set(data);
 		self.fireEvent('onTurnEnds',[data]);
@@ -396,83 +401,118 @@ function Server(){
 	 * @summary Starts the server
 	 */
 	this.start = function(inLevel){
-		//id_game = "00000";
-		id_game = makeid();
-		level = inLevel
-		var serverReady = false;
-		valores = {
-			p1: false,
-			p2: false,
-			winner :false,
-			level: level,
-			p1answer : false,
-			p2answer : false,
-			possibleAnswers: [],
-			data:false
-		};
-		refIdGame= database.ref(id_game);
-		refIdGame.set(valores);
+        var promise = makeid();
+        promise.then(function(id){
+        	id_game = id;
+			level = inLevel
+			var serverReady = false;
+			valores = {
+				p1: false,
+				p2: false,
+				winner :false,
+				level: level,
+				p1answer : false,
+				p2answer : false,
+				possibleAnswers: [],
+				data:false,
+				gameReady:false
+			};
+			refIdGame= database.ref(id_game);
+			refIdGame.set(valores);
 
-		var refP1= database.ref(id_game+"/p1");
-		refP1.on('value', function(snapshot){
-			if(serverReady){
-				if(!snapshot.val()){
-					self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
-				}else if(!valores.p1){
-					var p1 = snapshot.toJSON();
-					valores.p1 = p1;
-					self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
-					if(valores.p2){
-						self.currentData = valores
-						self.fireEvent('onPlayersReady',[valores]);
+
+			var refP1= database.ref(id_game+"/p1");
+			refP1.on('value', function(snapshot){
+				if(serverReady){
+					if(!snapshot.val()){
+						self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
+					}else if(!valores.p1){
+						var p1 = snapshot.toJSON();
+						valores.p1 = p1;
+						self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
+						if(valores.p2){
+							self.currentData = valores
+							self.fireEvent('onPlayersReady',[valores]);
+						}
 					}
 				}
-			}
 
-		});
+			});
 
-		var refP2= database.ref(id_game+"/p2");
-		refP2.on('value', function(snapshot){
-			if(serverReady){
-				if(!snapshot.val()){
-					self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
-				}else if(!valores.p2){
-					var p2 = snapshot.toJSON();
-					valores.p2 = p2;
-					self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
-					if(valores.p1){
-						self.currentData = valores
-						self.fireEvent('onPlayersReady',[valores]);
+			var refP2= database.ref(id_game+"/p2");
+			refP2.on('value', function(snapshot){
+				if(serverReady){
+					if(!snapshot.val()){
+						self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
+					}else if(!valores.p2){
+						var p2 = snapshot.toJSON();
+						valores.p2 = p2;
+						self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
+						if(valores.p1){
+							self.currentData = valores
+							self.fireEvent('onPlayersReady',[valores]);
+						}
 					}
 				}
-			}
-		});
+			});
 
-		var p1answer= database.ref(id_game+"/p1answer");
-		p1answer.on('value', function(snapshot){
-			var p1answer = snapshot.toJSON();
-			valores.p1answer = p1answer;
-			if(valores.p2answer){
-				checkResults();
-			}
-		});
+			var readyP1= database.ref(id_game+"/p1/ready");
+			readyP1.on('value', function(snapshot){
+				if(serverReady){
+					var ready = snapshot.val()
+					// console.log(ready)
+					if(ready){
+						self.p1Ready = true;
+						if(self.p2Ready){
+							self.startGame()
+						}
+					}
+				}
+			});
 
-		var p2answer= database.ref(id_game+"/p2answer");
-		p2answer.on('value', function(snapshot){
-			var p2answer = snapshot.toJSON();
-			valores.p2answer = p2answer;
-			if(valores.p1answer ){
-				checkResults();
-			}
-		});
+			var readyP2= database.ref(id_game+"/p2/ready");
+			readyP2.on('value', function(snapshot){
+				if(serverReady){
+					var ready = snapshot.val()
+					// console.log(ready)
+					if(ready){
+						self.p2Ready = true;
+						if(self.p1Ready){
+							self.startGame()
+						}
+					}
+				}
+			});
 
-		//Borrando los datos al abandonar la partida
-		window.onbeforeunload = function(){
-			refIdGame.remove();
-		};
-		serverReady = true;
+			var p1answer= database.ref(id_game+"/p1answer");
+			p1answer.on('value', function(snapshot){
+				var p1answer = snapshot.toJSON();
+				valores.p1answer = p1answer;
+				if(valores.p2answer){
+					checkResults();
+				}
+			});
 
+			var p2answer= database.ref(id_game+"/p2answer");
+			p2answer.on('value', function(snapshot){
+				var p2answer = snapshot.toJSON();
+				valores.p2answer = p2answer;
+				if(valores.p1answer ){
+					checkResults();
+				}
+			});
+
+			//Borrando los datos al abandonar la partida
+			window.onbeforeunload = function(){
+				refIdGame.remove();
+			};
+			serverReady = true;
+        });
 	};
+
+	this.setGameReady = function (value) {
+		refIdGame.child("gameReady").set(value);
+	}
 
 	this.retry = function(){
 		valores.p1answer =false;

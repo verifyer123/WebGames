@@ -79,6 +79,9 @@ var operations = function(){
 	var correctParticle
 	var wrongParticle
 	var missingOperand
+	var isReady = null
+	var waitingGroup
+	var optionsGroup
 
 	function tweenTint(obj, startColor, endColor, time, delay, callback) {
 		// check if is valid object
@@ -135,7 +138,7 @@ var operations = function(){
 			var value = options[optionIndex]
 			button.value = value
 			button.text.text = value
-			sceneGroup.add(button)
+			optionsGroup.add(button)
 			button.y = startY - optionIndex * 180
 			button.x = game.world.centerX
 			button.img.inputEnabled = true
@@ -169,11 +172,15 @@ var operations = function(){
 
 		if(cliente)
 			cliente.buttonOnClick(button.value, timeElapsed)
+		waitingGroup.tween = game.add.tween(waitingGroup).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true)
 
 		timeElapsed = 0
 	}
 	
 	function createGameObjects(){
+		optionsGroup = game.add.group()
+		sceneGroup.add(optionsGroup)
+
 		pullGroup = game.add.group()
 		pullGroup.x = -game.world.centerX * 2
 		pullGroup.y = -game.world.centerY * 2
@@ -246,6 +253,7 @@ var operations = function(){
 		// game.load.image('introscreen',"images/operations/introscreen.png")
 		// game.load.image('howTo',"images/operations/how" + localization.getLanguage() + ".png")
 		// game.load.image('buttonText',"images/operations/play" + localization.getLanguage() + ".png")
+		game.load.spine("loading", "images/spine/loading/skeleton.json")
 
 		buttons.getImages(game)
 
@@ -269,6 +277,9 @@ var operations = function(){
 	}
 
 	function startRound() {
+		isReady = true;
+
+		timeElapsed = 0
 		options = cliente ? cliente.currentOptions : [120, 200, 0]
 
 		clientData = (cliente)&&(cliente.currentData) ? cliente.currentData : {
@@ -316,6 +327,10 @@ var operations = function(){
 	}
 	
 	function checkAnswer(event) {
+		if(waitingGroup.tween)
+			waitingGroup.tween.stop()
+		game.add.tween(waitingGroup).to({alpha:0}, 200, Phaser.Easing.Cubic.Out, true)
+
 		switch ("?"){
 			case clientData.operand1:
 				clientData.operand1 = clientData.correctAnswer
@@ -382,13 +397,78 @@ var operations = function(){
 
 	}
 
+	function createSpine(skeleton, skin, idleAnimation, x, y) {
+		idleAnimation = idleAnimation || "IDLE"
+		var spineGroup = game.add.group()
+		x = x || 0
+		y = y || 0
+
+		var spineSkeleton = game.add.spine(0, 0, skeleton)
+		spineSkeleton.x = x; spineSkeleton.y = y
+		// spineSkeleton.scale.setTo(0.8,0.8)
+		spineSkeleton.setSkinByName(skin)
+		spineSkeleton.setAnimationByName(0, idleAnimation, true)
+		spineSkeleton.autoUpdateTransform ()
+		spineGroup.add(spineSkeleton)
+
+
+		spineGroup.setAnimation = function (animations, onComplete, args) {
+			var entry
+			for(var index = 0; index < animations.length; index++) {
+				var animation = animations[index]
+				var loop = index === animations.length - 1
+				if (index === 0)
+					entry = spineSkeleton.setAnimationByName(0, animation, loop)
+				else
+					spineSkeleton.addAnimationByName(0, animation, loop)
+
+			}
+
+			if (args)
+				entry.args = args
+
+			if(onComplete){
+				entry.onComplete = onComplete
+			}
+
+			return entry
+		}
+
+		spineGroup.setSkinByName = function (skin) {
+			spineSkeleton.setSkinByName(skin)
+			spineSkeleton.setToSetupPose()
+		}
+
+		spineGroup.setAlive = function (alive) {
+			spineSkeleton.autoUpdate = alive
+		}
+
+		spineGroup.getSlotContainer = function (slotName) {
+			var slotIndex
+			for(var index = 0, n = spineSkeleton.skeletonData.slots.length; index < n; index++){
+				var slotData = spineSkeleton.skeletonData.slots[index]
+				if(slotData.name === slotName){
+					slotIndex = index
+				}
+			}
+
+			if (slotIndex){
+				return spineSkeleton.slotContainers[slotIndex]
+			}
+		}
+
+		spineGroup.spine = spineSkeleton
+
+		return spineGroup
+	}
+
 	return {
 		assets: assets,
 		name: "operations",
 		preload:preload,
 		update:function () {
+			timeElapsed += game.time.elapsedMS
 			if(startTimer){
-				timeElapsed += game.time.elapsedMS
 				var seconds = Math.floor(timeElapsed * 0.001)
 				var decimals = Math.floor(timeElapsed * 0.01) % 10
 				var centimals = (Math.floor(timeElapsed / 10) % 10)
@@ -396,6 +476,24 @@ var operations = function(){
 				var result = (seconds < 10) ? "0" + seconds : seconds;
 				result += ":" + decimals + centimals
 				timerText.text = result
+			}else if(!isReady){
+				if(timeElapsed > 500){
+					timeElapsed = 0
+					switch (equationText.text){
+						case "Ready":
+							equationText.text = "Ready."
+							break
+						case "Ready.":
+							equationText.text = "Ready.."
+							break
+						case "Ready..":
+							equationText.text = "Ready..."
+							break
+						case "Ready...":
+							equationText.text = "Ready"
+							break
+					}
+				}
 			}
 		},
 		create: function(event){
@@ -432,7 +530,7 @@ var operations = function(){
 			sceneGroup.add(playerInfo)
 
 			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			equationText = game.add.text(game.world.centerX,150,"0+0=?", fontStyle2)
+			equationText = game.add.text(game.world.centerX,150,"Ready", fontStyle2)
 			equationText.anchor.setTo(0.5, 0.5)
 			sceneGroup.add(equationText)
 
@@ -457,15 +555,44 @@ var operations = function(){
 			if(cliente){
 				cliente.addEventListener("onTurnEnds", checkAnswer)
 				cliente.addEventListener("showPossibleAnswers", startRound)
+				// clientData.setReady(true)
+			}else{
+				game.time.events.add(1000, startRound)
 			}
 
 			createGameObjects()
-			startRound(true)
+			// startRound(true)
 
 			correctParticle = createPart("star")
 			sceneGroup.add(correctParticle)
 			wrongParticle = createPart("wrong")
 			sceneGroup.add(wrongParticle)
+
+			waitingGroup = game.add.group()
+			sceneGroup.add(waitingGroup)
+
+			var alphaRect = game.add.graphics()
+			alphaRect.beginFill(0x000000)
+			alphaRect.drawRect(-2, -2, game.world.width + 2, game.world.height + 2)
+			alphaRect.endFill()
+			alphaRect.alpha = 0.7
+			waitingGroup.add(alphaRect)
+
+			var playerToWait = numPlayer % 2 + 1
+			var stringWait = "Waiting for player " + playerToWait
+			// var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var waitText = game.add.text(game.world.centerX, game.world.centerY, stringWait, fontStyle2)
+			waitText.anchor.setTo(0.5, 0.5)
+			waitingGroup.add(waitText)
+			waitingGroup.alpha = 0
+
+			var loading = createSpine("loading", "Loading", "LOADING")
+			console.log(loading.spine)
+			// player.scale.setTo(0.6 * scale, 0.6)
+			waitingGroup.add(loading)
+			// console.log("width", player.width)
+			loading.x = game.world.centerX
+			loading.y = game.world.centerY
 
 			// buttons.getButton(operationsSong,sceneGroup)
 		}
