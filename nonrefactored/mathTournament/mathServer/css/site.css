@@ -329,7 +329,7 @@ footer{
        height: auto;
     } 
       
-    #selectLevel {
+   /* #selectLevel {
         display: block;
          top:25%;
     }
@@ -405,7 +405,7 @@ footer{
     line-height: 1;
     font-size: 3vh;
     z-index: 2;
-}      
+}      */
       
       
 }
@@ -465,4 +465,62 @@ footer{
     }      
 }
 
+
+/*Include class when portrait*/
+
+    .selectLevel-portrait{
+         display:block;
+         top:25% !important;
+        
+    }
+
+   #selectLevel .selectLevel-portrait{
+        display: block;
+         top:25%;
+    }
+    
+
+    .optionLevel-portrait{
+        width: 100% !important;
+        height: 20%;
+        display: flex;     
+        background: none !important;
+    }   
+      
+    #selectLevel .imageLevel-portrait{
+        width: 30%;
+    }      
+
+    .imageLevel-portrait img {
+        width: 100%;
+    }  
+
+      
+    .basicLevel-portrait {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+        margin-top: -3% !important;
+        
+    }      
+      
+             
+      
+.parrafo-portrait {
+    font-size: 2.3vh;
+    position: absolute;
+    width: 100%;
+    top: 40%;
+    text-align: left;
+    left: 35%;
+}      
+      
+.span-portrait {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1;
+    font-size: 3vh;
+    z-index: 2;
+}      
 

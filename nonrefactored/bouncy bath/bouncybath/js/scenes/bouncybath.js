@@ -43,7 +43,7 @@ var bouncybath = function(){
 				file: "sounds/watersplash.mp3"}
 		],
 	}
-    
+    var gameIndex = 33;
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
@@ -454,7 +454,7 @@ var bouncybath = function(){
 	
 	function gameOver(){
 		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,33)
+			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
 		
 	}
