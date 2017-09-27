@@ -11,7 +11,7 @@ body{
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 200;
     background-color: rgba(0,0,0,0.8);
     text-align: center;
 }
@@ -33,7 +33,7 @@ body{
     position: absolute;
     font-family: sans-serif;
     font-size: 4vh;
-    z-index: 2;
+    z-index: 130;
     width: 100%;
     margin-top:5%;
     text-align: center;
@@ -58,9 +58,9 @@ body{
 #playbtnPromo{
     position: relative;
     margin: 0% auto;
-    width: 100%; 
+    width: 100%;
     height: 10%;
-    margin-top: 15%;   
+    margin-top: 15%;
 }
 
 #playbtnPromo span{
@@ -105,7 +105,7 @@ body{
 	width: 256px;
 	height: 128px;
 	padding:0.8vh;
-    border-radius: 2vh;
+  border-radius: 2vh;
 }
 
 
@@ -118,7 +118,7 @@ body{
     text-align: center;
     margin: 0 auto;
     height: 20%;
-    
+
 }
 
 .subjectSelectionBtn{
@@ -127,7 +127,7 @@ body{
 	cursor: pointer;
     padding: 0.5vh;
     width: 90%;
-    
+
 }
 
 .btnSubjects{
@@ -162,20 +162,141 @@ footer{
     visibility: hidden;
 }
 
+#login-btn-sm{
+	position: absolute;
+  right: 20;
+  top: 10;
+	z-index: 1;
+}
+
+
+
+#logout-btn{
+	position: absolute;
+  right: 20;
+  top: 10;
+	z-index: 120;
+}
+
+.btn-login{
+	-webkit-border-radius: 50px !important;
+	-moz-border-radius: 50px !important;
+	border-radius: 50px !important;
+  background-color: #5F13AF;
+	color: #fff;
+}
+
+.btn-login:hover, .btn-login:active, .btn-login:focus, .btn-login:visited{
+  background-color: #5F13AF;
+	color: #fff !important;
+}
+
+#login-btn-xs{
+	bottom: 0%;
+	position: absolute;
+	width: 100%;
+	border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	-moz-border-radius: 0px !important;
+	z-index: 150;
+}
+
+#logout-btn-xs{
+	bottom: 0%;
+	position: absolute;
+	width: 100%;
+	border-radius: 0px !important;
+	-webkit-border-radius: 0px !important;
+	-moz-border-radius: 0px !important;
+	z-index: 150;
+	background-color: grey;
+	color: white;
+}
+
+.loadingGif{
+  max-width: 40px !important;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#login-form{
+  text-align: center;
+}
+
+.login-text{
+	text-align: left;
+	color: #b71598;
+	font-size: 1em;
+	padding-top: 20px;
+}
+
+.empty-space{
+  padding-top: 15px;
+}
+#loginBtnContainer{
+	margin: 0px;
+	width: 100%;
+	padding: 0%;
+}
+
+#btn-login-img img{
+	width: 256px;
+	padding:0.8vh;
+  border-radius: 2vh;
+}
+
+.modal-title{
+	color:#5F13AF;
+}
+
+.modal-text{
+	color: grey;
+	text-align: center;
+}
+
+#successModal .modal-content{
+	background-image: url('../images/pattern-stars.png'), #9d13ad; /* Old browsers */
+	background-image: url('../images/pattern-stars.png'), linear-gradient(to bottom, #08011E 0%,#5f13af 100%); /* Old browsers */
+	background-image: url('../images/pattern-stars.png'), -moz-linear-gradient(to bottom, #08011E 0%,#5f13af 100%); /* Old browsers */
+	background-image: url('../images/pattern-stars.png'), -webkit-linear-gradient(to bottom, #08011E 0%,#5f13af 100%); /* Old browsers */
+	background-size: cover;
+	text-align: center;
+}
+
+#successModal .modal-header{
+	border-bottom: 0;
+	text-align: center;
+}
+
+#successModal .modal-footer{
+	border-top: 0;
+	text-align: center;
+}
+
+.success-modal-btn-close{
+	-webkit-border-radius: 50px !important;
+	-moz-border-radius: 50px !important;
+	border-radius: 50px !important;
+  background-color: #08011E;
+	padding-right: 20px;
+	padding-left: 20px;
+	color: #fff;
+}
+
 @media (max-width: 760px) {
-    
+
 #bannerPromo{
     width: 100%;
 }
-    
+
 #playbtnPromo{
     margin-top:25%;
 }
-    
+
 footer img{
     width: 40%;
 }
-    
+
 #gamesContainer{
 	margin: 0px;
 	width: 100%;
@@ -189,16 +310,24 @@ footer img{
 	padding: 0.5vh;
     z-index: 0;
 }
-    
+
+#btn-login-img img {
+    width: 100%;
+		height: auto;
+		border-radius:2vh;
+		padding: 0.5vh;
+	  z-index: 0;
+}
+
 #sectionMenu{
     visibility: visible;
     position: absolute;
     width: 100%;
-    z-index: 122;
+    z-index: 100;
     height: 5%;
     padding: 1vh;
     }
-    
+
 .containerSubjectsMenu{
     height: 100%;
     position: fixed;
@@ -206,8 +335,8 @@ footer img{
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.7);
     top: 0;
-}    
-    
+}
+
 #menuSubjectButtons{
     position: absolute;
     display: block;
@@ -217,7 +346,7 @@ footer img{
     z-index: 1;
     top:10%;
     height: 100%;
-    
+
 }
 
 .subjectSelectionBtn{
@@ -228,7 +357,7 @@ footer img{
     padding: 0.5vh;
     width: 30%;
     z-index: 12;
-    
+
 }
 
 .btnSubjects{
@@ -243,8 +372,8 @@ footer img{
     width: 95%;
     color:#FFF;
     font-size: 2.5vh;
-}    
-    
+}
+
 #closepromo{
     position: absolute;
     left:90%;
@@ -255,9 +384,9 @@ footer img{
 
 #closepromo img{
     width: 100%;
-}    
-    
-    
+}
+
+
 }
 
 @media (max-width: 1024px) {
@@ -277,8 +406,6 @@ footer img{
 
 #closepromo img{
     width: 100%;
-}    
-
 }
 
-
+}
