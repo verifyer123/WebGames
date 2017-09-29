@@ -5,12 +5,20 @@ var operations = function(){
 	var localizationData = {
 		"EN":{
 			"howTo":"How to Play?",
-			"moves":"Moves left"
+			"moves":"Moves left",
+			"ready":"Ready",
+			"reviewingAnswers": "Reviewing Answers",
+			"youWin":"You Win!",
+			"giveUp":"Don't give up!"
 		},
 
 		"ES":{
 			"moves":"Movimientos extra",
-			"howTo":"¿Cómo jugar?"
+			"howTo":"¿Cómo jugar?",
+			"ready":"Listos",
+			"reviewingAnswers": "Reviewing Answers",
+			"youWin":"Ganaste!",
+			"giveUp":"No te rindas!"
 		}
 	}
 
@@ -82,6 +90,7 @@ var operations = function(){
 	var isReady = null
 	var waitingGroup
 	var optionsGroup
+	var readyString
 
 	function tweenTint(obj, startColor, endColor, time, delay, callback) {
 		// check if is valid object
@@ -126,6 +135,7 @@ var operations = function(){
 		inputsEnabled = false
 		buttonList = []
 		timeElapsed = 0
+		isReady = false
 
 		loadSounds()
 
@@ -232,6 +242,8 @@ var operations = function(){
 		clock.tween.stop()
 		inputsEnabled = false
 		cliente.removeEventListener("onTurnEnds", checkAnswer)
+		cliente.removeEventListener("onGameEnds", showWinner)
+		cliente.removeEventListener("showPossibleAnswers", startRound)
 
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
@@ -461,6 +473,20 @@ var operations = function(){
 
 		return spineGroup
 	}
+	
+	function showWinner(event) {
+		clearStage()
+		var winnerNum = event.winner
+
+		if(winnerNum === cliente.numPlayer){
+			waitingGroup.waitText.text = "You Win!"
+			waitingGroup.waitText.tint = 0x00A413
+		}else{
+			waitingGroup.waitText.text = "Better luck next time!"
+			waitingGroup.waitText.tint = 0xA40101
+		}
+		game.add.tween(waitingGroup).to({alpha:1},300, Phaser.Easing.Cubic.Out,true)
+	}
 
 	return {
 		assets: assets,
@@ -480,17 +506,17 @@ var operations = function(){
 				if(timeElapsed > 500){
 					timeElapsed = 0
 					switch (equationText.text){
-						case "Ready":
-							equationText.text = "Ready."
+						case readyString:
+							equationText.text = readyString+"."
 							break
-						case "Ready.":
-							equationText.text = "Ready.."
+						case readyString+".":
+							equationText.text = readyString+".."
 							break
-						case "Ready..":
-							equationText.text = "Ready..."
+						case readyString+"..":
+							equationText.text = readyString+"..."
 							break
-						case "Ready...":
-							equationText.text = "Ready"
+						case readyString+"...":
+							equationText.text = readyString
 							break
 					}
 				}
@@ -506,19 +532,6 @@ var operations = function(){
 			background.endFill()
 			sceneGroup.add(background)
 
-			// operationsSong = game.add.audio('operationsSong')
-			// game.sound.setDecodedCallback(operationsSong, function(){
-			// 	operationsSong.loopFull(0.6)
-			// }, this);
-
-			// game.onPause.add(function(){
-			// 	game.sound.mute = true
-			// } , this);
-			//
-			// game.onResume.add(function(){
-			// 	game.sound.mute = false
-			// }, this);
-
 			initialize()
 
 			var playerData = cliente ? cliente.player : {nickname:"Nickname"}
@@ -529,8 +542,9 @@ var operations = function(){
 			playerInfo.anchor.setTo(0.5, 0.5)
 			sceneGroup.add(playerInfo)
 
+			readyString = localization.getString(localizationData, "ready")
 			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			equationText = game.add.text(game.world.centerX,150,"Ready", fontStyle2)
+			equationText = game.add.text(game.world.centerX,150,readyString, fontStyle2)
 			equationText.anchor.setTo(0.5, 0.5)
 			sceneGroup.add(equationText)
 
@@ -555,6 +569,7 @@ var operations = function(){
 			if(cliente){
 				cliente.addEventListener("onTurnEnds", checkAnswer)
 				cliente.addEventListener("showPossibleAnswers", startRound)
+				cliente.addEventListener("onGameEnds", showWinner)
 				// clientData.setReady(true)
 			}else{
 				game.time.events.add(1000, startRound)
@@ -569,30 +584,33 @@ var operations = function(){
 			sceneGroup.add(wrongParticle)
 
 			waitingGroup = game.add.group()
+			waitingGroup.x = game.world.centerX
+			waitingGroup.y = game.world.centerY
 			sceneGroup.add(waitingGroup)
 
 			var alphaRect = game.add.graphics()
 			alphaRect.beginFill(0x000000)
 			alphaRect.drawRect(-2, -2, game.world.width + 2, game.world.height + 2)
 			alphaRect.endFill()
+			alphaRect.x = -game.world.centerX - 1
+			alphaRect.y = -game.world.centerY - 1
 			alphaRect.alpha = 0.7
 			waitingGroup.add(alphaRect)
 
-			var playerToWait = numPlayer % 2 + 1
-			var stringWait = "Waiting for player " + playerToWait
+			var stringWait = localization.getString(localizationData, "reviewingAnswers")
 			// var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var waitText = game.add.text(game.world.centerX, game.world.centerY, stringWait, fontStyle2)
+			var waitText = game.add.text(0, -100, stringWait, fontStyle2)
 			waitText.anchor.setTo(0.5, 0.5)
 			waitingGroup.add(waitText)
 			waitingGroup.alpha = 0
+			waitingGroup.waitText = waitText
 
-			var loading = createSpine("loading", "Loading", "LOADING")
+			var loading = createSpine("loading", "normal")
 			console.log(loading.spine)
-			// player.scale.setTo(0.6 * scale, 0.6)
+			loading.scale.setTo(0.6, 0.6)
 			waitingGroup.add(loading)
 			// console.log("width", player.width)
-			loading.x = game.world.centerX
-			loading.y = game.world.centerY
+			loading.y = 100
 
 			// buttons.getButton(operationsSong,sceneGroup)
 		}

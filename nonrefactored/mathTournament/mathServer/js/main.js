@@ -14,11 +14,13 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				server.setGameReady(true)
-				server.startGame = function () {
+				if(server){
+					server.setGameReady(true)
+					server.startGame = function () {
+						sceneloader.show("battle")
+					}
+				}else
 					sceneloader.show("battle")
-				}
-				// sceneloader.show("battle")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})

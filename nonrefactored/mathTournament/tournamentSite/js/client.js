@@ -55,10 +55,12 @@ function Client(){
 
 	this.id_game = null;
 	this.numPlayer =null;
+	this.gameEnded = false
 	this.queueToInsert = -1;
 	this.refIdGame= null;
 	var self = this;
 	this.time = null;
+	this.restartGame = null
 	/**
 	 * @summary Starts the client
 	 * @param {type} idGame Code of the game
@@ -105,12 +107,30 @@ function Client(){
 						console.log("on Turn End triggered")
 						self.fireEvent('onTurnEnds',[values]);
 					}
+
 				});
 
 				self.refIdGame.child('gameReady').on('value', function(snapshot) {
 					var gameReady = snapshot.val();
 					if(gameReady){
 						self.startGame()
+					}
+				});
+
+				self.refIdGame.child('gameEnded').on('value', function(snapshot) {
+					var gameEnded = snapshot.toJSON();
+					if(gameEnded.winner){
+						self.fireEvent('onGameEnds',[gameEnded]);
+						self.gameEnded = true
+					}
+				});
+
+				self.refIdGame.child('retry').on('value', function(snapshot) {
+					var values = snapshot.toJSON();
+					console.log("retryPressed", values)
+					if(values.retry){
+						self.restartGame()
+						self.gameEnded = false
 					}
 				});
 

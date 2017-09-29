@@ -14,9 +14,13 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				if(cliente)
+				if(cliente) {
 					cliente.setReady(true)
-				sceneloader.show("operations")
+					cliente.restartGame = function () {
+						sceneloader.show("operations")
+					}
+				}
+					sceneloader.show("operations")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -44,7 +48,8 @@ function startGame(){
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(Fabrique.Plugins.Spine);
-        
+        // game.plugins.add(PhaserSpine.SpinePlugin);
+
         var language = "EN"
         if(window.location.search){
             var params = window.location.search.trim(1)

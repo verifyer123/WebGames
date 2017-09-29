@@ -17,9 +17,9 @@ var database = firebase.database();
 var MAX_OPERAND_VALUE = 500;
 var NUMBER_OF_FAKE_ANSWERS = 2;
 var INITIAL_LIFE = 100;
-var DAMAGE_BY_HIT = 10;
-var HEALTH_BY_HIT = 10;
-var DAMAGE_BY_CRITICAL_HIT = 20;
+var DAMAGE_BY_HIT = 20;
+var HEALTH_BY_HIT = 20;
+var DAMAGE_BY_CRITICAL_HIT = 30;
 
 /**
  * @summary As default, an empty array has one element (an empty String). This function removes that element
@@ -415,7 +415,9 @@ function Server(){
 				p2answer : false,
 				possibleAnswers: [],
 				data:false,
-				gameReady:false
+				gameReady:false,
+				gameEnded:false,
+				retry:false
 			};
 			refIdGame= database.ref(id_game);
 			refIdGame.set(valores);
@@ -515,6 +517,9 @@ function Server(){
 	}
 
 	this.retry = function(){
+		var date = new Date()
+		var actualDate = date.getMilliseconds()
+
 		valores.p1answer =false;
 		valores.p2answer =false;
 		valores.p1.life =INITIAL_LIFE;
@@ -522,7 +527,15 @@ function Server(){
 		valores.winner =false;
 		valores.possibleAnswers = [];
 		valores.data = false;
+		valores.gameEnded = false;
+		valores.retry = {retry:true, date:actualDate};
 		refIdGame.set(valores);
+
+	}
+	
+	this.setGameEnded = function (numPlayerWinner) {
+		var data = {winner:numPlayerWinner}
+		refIdGame.child("gameEnded").set(data);
 	}
 }
 

@@ -191,6 +191,9 @@ var battle = function(){
 1
 		game.add.tween(game.camera).to({x:toCamaraX, y:player.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
 		// game.time.events.add(6000, stopGame)
+		if(server){
+			server.setGameEnded(player.numPlayer)
+		}
 	}
 
     function receiveAttack(target, from) {
@@ -378,14 +381,22 @@ var battle = function(){
 
     	game.add.tween(equation.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
     	if(event.numPlayer === 1){
-			player1.setAnimation(["WIN"])
+			sound.play("magic")
+			sceneGroup.correctParticle.x = player1.x
+			sceneGroup.correctParticle.y = player1.y - 150
+			sceneGroup.correctParticle.start(true, 1000, null, 5)
+			player1.setAnimation(["WIN", "IDLE"])
 			game.time.events.add(1000, function () {
 				playerAttack(player1, player2, createProyectile, "proyectile")
 			})
 		}
 		else if(event.numPlayer === 2) {
-			player2.setAnimation(["WIN"])
-    		game.time.events.add(1000, function () {
+			sound.play("magic")
+			sceneGroup.correctParticle.x = player2.x
+			sceneGroup.correctParticle.y = player2.y - 150
+			sceneGroup.correctParticle.start(true, 1000, null, 5)
+			player2.setAnimation(["WIN", "IDLE"])
+			game.time.events.add(1000, function () {
 				playerAttack(player2, player1, createProyectile, "proyectile")
 			})
 		}
@@ -552,7 +563,10 @@ var battle = function(){
         pullGroup.alpha = 0
 
 		player1 = createPlayer(serverData.p1, {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
+		player1.numPlayer = 1
 		player2 = createPlayer(serverData.p2, {x:game.world.width - WIDTH_DISTANCE, y: game.world.height - 150}, -1)
+		player2.numPlayer = 2
+
 		var input1 = game.add.graphics()
 		input1.beginFill(0xffffff)
 		input1.drawCircle(0,0, 200)
@@ -648,6 +662,7 @@ var battle = function(){
 			if(server){
 				server.removeEventListener('afterGenerateQuestion', generateQuestion);
 				server.removeEventListener('onTurnEnds', checkAnswer);
+				server.retry()
 			}
             sceneloader.show("battle")
         })

@@ -9216,7 +9216,7 @@ var PhaserSpine;
 		SpinePlugin.prototype.init = function (config) {
 			if (config === void 0) { config = {}; }
 			SpinePlugin.DEBUG = config.debugRendering || false;
-			SpinePlugin.TRIANGLE = config.triangleRendering || false;
+			SpinePlugin.TRIANGLE = config.triangleRendering || true;
 			this.addSpineCache();
 			this.addSpineFactory();
 			this.addSpineLoader();
