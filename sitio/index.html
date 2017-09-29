@@ -14,7 +14,7 @@
   var meta = document.createElement('title');
   //meta.setAttribute("property","og:description");
   //meta.content = "Prueba";
-
+  //Change language
   if(language == "ES"){
       meta.innerHTML  = "Juegos web";
   }else{
@@ -58,23 +58,86 @@
         <div id="bannerPromo"></div>
         <div id="playbtnPromo"><img src="images/btnplay.png"><span></span></div>
     </div>
+    <!-- Log In -->
+    <a id="login-btn-sm" href="#" class="btn btn-lg btn-login hidden-xs" data-toggle="modal" data-target="#basicModal">Log In</a>
+    <a id="logout-btn" href="#" class="hidden hidden-xs">Log Out</a>
+    <!-- Login Modal -->
+    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header change-lan">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel">Log In</h4>
+            </div>
+            <div class="modal-body">
+                <div class="change-lan">
+                  <div class="empty-space"></div>
+                  <p class="modal-text"></p>
+                  <form id="login-form" action="#" class="">
+                    <div class="form-group form-inline">
+                      <input id="form-email" class="form-inline form-control form-input-style" type="email" name="email" value="" placeholder="Email" required>
+                      <div class="empty-space"></div>
+                      <input id="form-password" class="form-inline form-control form-input-style" type="password" name="password" value="" placeholder="Password" required>
+                    </div>
+                    <div class="change-lan form-group">
+                      <button class="btn btn-login" type="submit" name="button">
+
+                      </button>
+                      <div class="empty-space"></div>
+                      <img class="img-responsive loadingGif hidden" src="images/loading.gif" />
+                      <div class="error-response hidden" style="color:red;">
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Success Modal -->
+      <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header change-lan">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="success-modal-title"></h4>
+
+              </div>
+              <div class="modal-body">
+                  <div class="change-lan">
+                    <div class="empty-space"></div>
+                    <p class="success-modal-text"></p>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default success-modal-btn-close" data-dismiss="modal">OK</button>
+                <img src="images/img-success.png" class="img img-responsive" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
 	<div id="generalContainer">
+
     <!-- Title -->
-        <div id="sectionMenu"><img src="images/menubtn.png" /></div>  
+    <div id="sectionMenu"><img src="images/menubtn.png" /></div>
 		<div class="banner col-md-12">
 			<div class="row">
 				<div class="col-xs-12 col-sm-4 col-sm-push-4">
           <a href="http://www.yogome.com/es.html" class="center-block">
-            <img class="img-responsive center-block" style="max-width:250px; padding: 0 0 20px 0;" src="images/logo.png">
+            <img class="img-responsive center-block" style="max-width:200px; padding: 0 0 20px 0;" src="images/logo.png">
           </a>
         </div>
 			</div>
       <!-- Subject Selection -->
-              
-      <div class="row containerSubjectsMenu">
-          
-          <div id="menuSubjectButtons"></div>
 
+      <div class="row containerSubjectsMenu">
+
+          <div id="menuSubjectButtons"></div>
+          <a id="login-btn-xs" href="#" class="btn btn-lg btn-login hidden-sm hidden-md hidden-lg btn-login-open-modal">Log In</a>
+          <a id="logout-btn-xs" href="#" class="btn btn-lg hidden hidden-sm hidden-md hidden-lg">Log Out</a>
       </div>
 		</div>
     <!-- Games Container -->
@@ -84,6 +147,9 @@
 				   Estamos trabajando en juegos de esta materia
 				</div>
 			</div>
+      <div id="loginBtnContainer" class="row hidden">
+        <div class='games col-sm-4 col-sm-offset-4 col-xs-12 col-xs-offset-0'><a class='' id='btn-login-img'><img class='growMouse img-responsive btn-login-open-modal' src='images/btn-login.png'/></a> </div>
+      </div>
 		</div>
 	</div>
 <footer>
@@ -94,29 +160,165 @@
 
 </body>
 	<script> //Insert HTML5 games from yogomeGames.js list
-         var pathGames = "games/nonrefactored/"
-		var games = yogomeGames.getGames();
-		for(var i = 0 ; i<= games.length-1;i++){
 
-			var num = i;
-			if(games[i].review){
-				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
-				$("#gameimg" + num).attr("value",i);
-                
-				$("#gameimg" + num).click(function(){
-					window.open(games[$(this).attr("value")].url,'_blank');
-				});                
-			}
+  //checks if logged in on page load
+  $( document ).ready(function() {
+    var userLangSign = navigator.language || navigator.userLanguage;
+    //console.log(userLang);
+    if (userLangSign.toLowerCase().indexOf("es") >= 0 ) {
+      meta.innerHTML  = "Juegos web";
+      $('.change-lan .btn-login').text('Entrar');
+      $('.change-lan .modal-text').text('¡Inicia sesión con tu cuenta Yogome para jugar el catálogo completo!');
+      $('.change-lan .login-text').text('¡Inicia sesión con tu cuenta Yogome para jugar el catálogo completo!');
+      $('.error-response').text('Utiliza tu cuenta Yogome para iniciar sesión.');
+      $('.success-modal-title').text('¡Bienvenido!');
+      $('.success-modal-text').text('Ahora puedes jugar todos nuestros juegos en línea');
+    } else{
+      meta.innerHTML =  "Webgames";
+      $('.change-lan .btn-login').text('Enter');
+      $('.change-lan .modal-text').text('Log in using your Yogome Account for the complete game catalog!');
+      $('.change-lan .login-text').text('Log in using your Yogome Account for the complete game catalog!');
+      $('.error-response').text('Make sure you are using your Yogome Account credentials.');
+      $('.success-modal-title').text('Welcome!');
+      $('.success-modal-text').text('You can now play all the games!');
+    }
 
-		}
+    checkLog();
+    // Toggle Log in modal
+    $('.btn-login-open-modal').on('click', function() {
+      $('#basicModal').modal('toggle');
+    });
+    $('#logout-btn').on('click', function() {
+      logOut();
+    });
+    $('#logout-btn-xs').on('click', function() {
+      logOut();
+    });
+  });
+  /*************** Login *********************/
+  //submit the login form
+  $("#login-form").submit(function(event){
+    event.preventDefault();
+    $(".loadingGif").removeClass("hidden");
+    var user = {
+      password: $('#form-password').val(),
+      email : $('#form-email').val()
+    };
+    login(user);
+  });
 
-	</script>
+    function login(user){
+      $.ajax({
+        url: 'http://heroesofknowledge.appspot.com/users/parent/get',
+        dataType: 'json',
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(user),
+        success: function(data) {
+          //alert("Success: "+data.status);
+          if (data.status == 'success'){
+            loginSuccess();
+            checkLog();
+          } else{
+            loginError();
+            checkLog();
+          }
+        },
+        error: function(data) {
+          alert("Something went wrong. Please try again later.");
+        }
+      });
+    }
+
+    function loginSuccess(){
+      $(".loadingGif").addClass("hidden");
+      $(".error-response").addClass("hidden");
+      $('#successModal').modal('toggle');
+      sessionStorage.setItem("loggedIn", "true");
+    }
+
+    function loginError(){
+      $(".loadingGif").addClass("hidden");
+      $(".error-response").removeClass("hidden");
+      sessionStorage.setItem("loggedIn", "false");
+
+    }
+
+    //checks if user is Logged In
+    function checkLog(){
+      //  if it's logged, fire function to charge webgames
+      if (sessionStorage.getItem("loggedIn") == "true"){
+          console.log('logged');
+          //makes sure there's not duplicate games
+          $("#gamesContainer").empty();
+          $("#login-btn-sm").addClass("hidden");
+          $("#logout-btn").removeClass("hidden");
+          $("#loginBtnContainer").addClass("hidden");
+          $('#logout-btn-xs').removeClass('hidden');
+          loggedInMode();
+      } else {
+    //else, do nothing
+          console.log('not logged');
+          //makes sure there's not duplicate games
+          $("#login-btn-sm").removeClass("hidden");
+          $("#logout-btn").addClass("hidden");
+          $("#loginBtnContainer").removeClass("hidden");
+          $("#gamesContainer").empty();
+          $('#logout-btn-xs').addClass('hidden');
+          $('#login-btn-xs').removeClass('hidden');
+          guestMode();
+      }
+    }
+
+    function guestMode(){
+      var pathGames = "games/nonrefactored/"
+  		var games = yogomeGames.getGames();
+  		for(var i = 0 ; i < 8 ;i++){
+
+  			var num = i;
+  			if(games[i].review){
+  				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a href='"+games[i].url+"' rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
+  				$("#gameimg" + num).attr("value",i);
+  			}
+
+  		}
+    }
+
+    function loggedInMode(){
+      var pathGames = "games/nonrefactored/"
+  		var games = yogomeGames.getGames();
+  		for(var i = 0 ; i<= games.length-1 ;i++){
+
+  			var num = i;
+  			if(games[i].review){
+  				$("#gamesContainer").append("<div class='games col-md-3 col-sm-4 col-xs-12 "+games[i].subject+"'><a href='"+games[i].url+"' rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
+  				$("#gameimg" + num).attr("value",i);
+  			}
+
+  		}
+      $('#basicModal').modal('hide');
+      $('#loginBtnContainer').addClass('hidden');
+      $('#login-btn-xs').addClass('hidden');
+      var mediaquery = window.matchMedia("(max-width: 760px)");
+      if (mediaquery.matches) {
+        $(".containerSubjectsMenu").css("visibility","hidden");
+      }
+    }
+
+    function logOut (){
+      sessionStorage.setItem("loggedIn", "false");
+      checkLog();
+    }
+
+  </script>
+
+
   <script type="text/javascript">
     $(document).ready(function (){
       //** Get query to determine menu language **//
-      var userLang;// Get browser language
+      var userLang = navigator.language || navigator.userLanguage;
       var videoLanguage;
-        
+
     var subjectsButtons = [
         {name:"allSubjects",en:"AllSubjects",es:"Todas las Materias"},
         {name:"coding",en:"Coding",es:"Código"},
@@ -128,7 +330,7 @@
         {name:"science",en:"Science",es:"Ciencia"},
         {name:"sustainability",en:"Sustainability",es:"Sustentabilidad"}
     ];
-        
+
         for(var i = 0; i<= subjectsButtons.length-1;i++ ){
             $("#menuSubjectButtons").append('<div id="'+subjectsButtons[i].name+'Btn" class="subjectSelectionBtn growMouse button-Subject"><img class="btnSubjects" src="images/subjectsbuttons/btn-'+subjectsButtons[i].name+'.png" /><div class="text-btnsubject">'+subjectsButtons[i].en+'</div></div>');
         }
@@ -136,14 +338,16 @@
 
       $(".gameCatalog").click(function(event){
         event.preventDefault();
+        //console.log(userLang);
         mixpanel.track('GameSelected', {'Game': $(this).attr("rev")}); //Mixpanel Register Game Clicked
         var windowName = $(this).attr('rev');
         var url = $(this).attr('href');
-        if (userLang.toLowerCase().indexOf("lan=en") >= 0 ){ //If language contains "en" for English
+        console.log(url);
+        if (userLang.toLowerCase().indexOf("en") >= 0 ){ //If language contains "en" for English
           var englishLang = "?language=en";
           var urlEn = url.concat(englishLang); //Force link to get the game in English
           window.open(urlEn, windowName, '_self');
-        }else if (userLang.toLowerCase().indexOf("lan=es") >= 0 ){ //If language contains anything but  "en"
+        }else if (userLang.toLowerCase().indexOf("es") >= 0 ){ //If language contains anything but  "en"
           var espanolLang = "?language=es";
           var urlEs = url.concat(espanolLang);
           window.open(urlEs, windowName, '_self');//Force link to get the game in Spanish
@@ -153,6 +357,8 @@
           window.open(urlEs, windowName, '_self');//Force link to get the game in Spanish
         }
       });
+
+
     //Grow element on mouseover
     $(".growMouse").mouseover(function(){
       TweenMax.to(this,0.5,{scale:1.2});
@@ -178,6 +384,8 @@
 		};
 
     //Menu buttons
+
+
 
 		//Math button
 		var mathCount = 0; //Counts each time the button is clicked
@@ -321,7 +529,7 @@
 				else{
 					$('.games:not(.language)').addClass('hidden');
 					$('.language').removeClass('hidden');
-                    
+
 					//appearSecondClick();
 				}
 		});
@@ -335,9 +543,9 @@
 		});
 
   });
-      
+
       function visibleMenu(){
-          
+
         var mediaquery = window.matchMedia("(max-width: 760px)");
             if (mediaquery.matches) {
                 $( ".containerSubjectsMenu" ).toggle( function(){
@@ -346,59 +554,59 @@
             } else {
               $(".containerSubjectsMenu").css("visibility","visible");
             }
-          
+
       }
-      
-      
+
+
       $("#sectionMenu").click(function(){
           visibleMenu();
       });
 
-      
+
     var mediaquery = window.matchMedia("(max-width: 760px)");
 
-      
+
       $( window ).resize(function() {
-            
+
           if (mediaquery.matches) {
               $(".containerSubjectsMenu").hide();
             } else {
-                  $(".containerSubjectsMenu").show(); 
+                  $(".containerSubjectsMenu").show();
             }
         });
-      
-      
+
+
       if (mediaquery.matches) {
               $(".containerSubjectsMenu").hide();
             } else {
-                  $(".containerSubjectsMenu").show(); 
+                  $(".containerSubjectsMenu").show();
             }
-      
+
       //Banner promo
        var pathGames = "games/nonrefactored/"
 		var games = yogomeGames.getGames();
       $("#bannerPromo").append('<img src="'+games[2].url +'/images/fbpost.png" />');
       $("#bannerPromo").css("opacity",0);
-      TweenMax.to($("#bannerPromo"),1,{alpha:1,delay:1});
-      
+      TweenMax.to($("#bannerPromo"),1,{alpha:1,delay:0.6});
+
       $("#playbtnPromo").css("opacity",0);
-      TweenMax.to($("#playbtnPromo"),1,{alpha:1,delay:1.2});
-      
-      
+      TweenMax.to($("#playbtnPromo"),1,{alpha:1,delay:0.8});
+
+
        $("#playbtnPromo").click(function(){
            window.open(games[2].url,'_blank');
              TweenMax.to($("#promoGame-banner"),1,{alpha:0,onComplete:deletePromo});
            $("body").css("overflow-y","scroll");
       });
-      
-      
+
+
       $("body").css("overflow","hidden");
-      
+
       $("#promoGame-banner").click(function(){
           $("body").css("overflow-y","scroll");
              TweenMax.to($("#promoGame-banner"),1,{alpha:0,onComplete:deletePromo});
       });
-      
+
       function deletePromo(){
           $("#promoGame-banner").hide();
       }

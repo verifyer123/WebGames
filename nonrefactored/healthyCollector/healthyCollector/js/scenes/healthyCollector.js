@@ -153,7 +153,7 @@ var healthyCollector = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 		
-		bgm = game.add.audio('wormwood')
+		bgm = game.add.audio('wormwood');
             game.sound.setDecodedCallback(bgm, function(){
             }, this);
 		
@@ -197,11 +197,9 @@ var healthyCollector = function(){
 			var inputLogo = overlayGroup.create(game.world.centerX-20,game.world.centerY + 145,'pc');
         	inputLogo.anchor.setTo(0.2,0.5);	
 		}
-		
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'buttonPlay')
 		button.anchor.setTo(0.2,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText');
 		playText.anchor.setTo(0.1,0.5)
     }	
 	
