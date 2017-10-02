@@ -22,6 +22,71 @@
 </head>
 <script>
 	var server = parent.server;
+	localizationData = {
+		"EN":{
+            "play":"PLAY",
+            "selectLevel":"Select Level",
+            "basic":"Basic",
+            "medium":"Medium",
+            "advance":"Advance",            
+            "basicInfo":"The basiclevel is designed for players in a begining stage of mathematical operations",
+            "mediumInfo":"The mediumlevel is designed for players with experience on mathematical operations",
+            "advanceInfo":"The advancedlevel is designed for players who are experts on mathematical operations",
+            "waitinPlayers" : "Waiting for players",
+            "joinPIN":"Join with Game PIN:",
+            "START":"START",
+            "menu":"Contact Us | About Us | Terms & Conditions | Kids & Online Safety",
+            "allRigths" :"All rights reserved"
+		},
+
+		"ES":{
+            "play":"JUGAR",
+            "selectLevel":"Selecciona un nivel",
+            "basic":"Básico",
+            "medium":"Medio",
+            "advance":"Avanzado",
+            "basicInfo":"El nivel básico es para jugadores principiantes en operaciones matemáticas",
+            "mediumInfo":"El nivel medio es para jugadores con experiencia en operaciones matemáticas",
+            "advanceInfo":"El nivel avanzado es para jugadores expertos en operaciones matemáticas",
+            "waitinPlayers" : "Esperando jugadores",
+            "joinPIN":"Unirse con un PIN de juego",
+            "START":"EMPEZAR",
+            "menu":"Contáctanos | Nosotros | Términos y condiciones | Niños y seguridad en línea",
+            "allRigths" :"Todos los derechos reservados"
+		},
+
+		"PT":{
+            "play":"JOGAR",
+            "selectLevel":"Selecione o nível",
+            "basic":"Básico",
+            "medium":"Médio",
+            "advance":"Avançado",
+            "basicInfo":"O nível básico foi criado para jogadores que estão começando a aprender operações matemáticas",
+            "mediumInfo":"O nível médio foi criado para jogadores com experiência em operações matemáticas",
+            "advanceInfo":"O nível avançado foi criado para jogadores que são especialistas em operações matemáticas",
+            "waitinPlayers" : "Aguardando jogadores",
+            "joinPIN":"Entrar com Código de Jogo",
+            "START":"Comece",
+            "menu":"Fale conosco | Quem somos | Termos e condições | Crianças e segurança on-line",
+            "allRigths" :"Todos os direitos reservados"
+		},
+
+		"CN":{
+            "play":"开始游戏",
+            "selectLevel":"选择级别",
+            "basic":"初级",
+            "medium":"中级",
+            "advance":"高级",
+            "basicInfo":"初级适合刚开始学习数学运算的孩子",
+            "mediumInfo":"中级适合拥有一定数学运算知识的孩子",
+            "advanceInfo":"高级适合能够熟练完成数学运算的孩子",
+            "waitinPlayers" : "等待对手加入",
+            "joinPIN":"通过游戏PIN加入",
+            "START":"START",
+            "menu":"联系我们 | 关于我们 | 条款和条件 | 儿童和网络安全",
+            "allRigths" :"保留所有权利"
+		}
+	}
 </script>
 <body>
     
@@ -34,34 +99,34 @@
         <div class="monster-sec-img"><img class="right-monster" src="img/luna-bg.png"/></div>
     </section>
     <section id="selectLevel">
-        <div class="titleSection">Select Level</div>
-        <div class="textWhiteTitle">Select Level</div>
+        <div class="titleSection"><div class="text1"></div></div>
+        <div class="textWhiteTitle"><div class="text1"></div></div>
         <div id="levelBasicButton" class="optionLevel">
             <div class="imageLevel"><img src="img/levelBasic.png"></div>
-            <p>A difficult level is for <br>novice players</p>
+            <span class="text5"></span>
             <div id="basicLevel" class="buttonLevel">
-                <span>BASIC</span>
+                <span><div class="text2"></div></span>
                 
             </div>
         </div>
         <div id="levelMediumButton" class="optionLevel">
             <div class="imageLevel"><img src="img/levelMedium.png"></div>
-            <p>Mild play for experienced <br>players</p>
+            <span class="text6"></span>
             <div id="mediumLevel" class="buttonLevel">
-                <span>MEDIUM</span>
+                <span><div class="text3"></div></span>
             </div>
         </div>
         <div id="leveladvanceButton" class="optionLevel">
             <div class="imageLevel"><img src="img/levelAdvance.png"></div>
-            <p>Advanced play for adept <br>players</p>
+            <span class="text7"></span>
             <div id="advanceLevel"  class="buttonLevel">
-                <span>ADVANCE</span>
+                <span><div class="text4"></div></span>
             </div>
         </div>
     </section>
     <section id="waitingPlayers">
-            <div class="titleSection">Waiting players</div>
-        <div class="textWhiteTitle">Waiting players</div>
+            <div class="titleSection"><div class="text8"></div></div>
+        <div class="textWhiteTitle"><div class="text8"></div></div>
         <div id="selectP1">
             <div class="characterSelection">
                 <img src="img/character_p1.png">
@@ -69,10 +134,10 @@
             <div id="nickNameP1" class="nickNamePlayer">Player 1</div>
         </div>
         <div id="joinPin">
-            Join with Game PIN:<br><br>
+            <div class="text9"></div><br><br>
             <div id="pinNumber"></div><br>
             <div id="beginGame">
-                START
+                <div class="text10"></div>
             </div>
         </div>
         <div id="selectP2">
@@ -83,18 +148,45 @@
         </div>
     </section>
     <footer>
-        <div id="startGameButton" class="offBgButton">PLAY</div>
-        <div>About Us |  Apps |  Contact Us  |  Terms & Conditions | Kids & Online Safety </div>
-        <p>v© 2017, Yogome, Inc. All rights reserved</p>
+        <div id="startGameButton" class="offBgButton"><div class="text0"></div></div>
+        <div class="text11"></div>
+        <p>v© 2017, Yogome, Inc. <span class="text12"></span> </p>
     </footer>
     
     <div id="backgroundBody"><div id="cortainBlack"></div></div>
     
 </body>
-<<<<<<< HEAD
-<script src="js/site.js"></script>
-=======
+<!--<script src="js/site.js"></script>-->
 <script>
+        
+        var language = "EN"
+        if(parent.window.location.search){
+            var params = parent.window.location.search.trim(1)
+            var regex = /language=(..)/i
+            var result = regex.exec(params)
+            
+            if(result){
+                language = result[result.index].toUpperCase()    
+            }else{
+                language = "EN"
+            }
+            
+        }    
+    
+    $(".text0").text(localizationData[language].play);
+    $(".text1").text(localizationData[language].selectLevel);
+    $(".text2").text(localizationData[language].basic);
+    $(".text3").text(localizationData[language].medium);
+    $(".text4").text(localizationData[language].advance);
+    $(".text5").text(localizationData[language].basicInfo);
+    $(".text6").text(localizationData[language].mediumInfo);
+    $(".text7").text(localizationData[language].advanceInfo);
+    $(".text8").text(localizationData[language].waitinPlayers);
+    $(".text9").text(localizationData[language].joinPIN);
+    $(".text10").text(localizationData[language].START);
+    $(".text11").text(localizationData[language].menu);
+    $(".text12").text(localizationData[language].allRigths);
+    
 
 	var Yogotars = {
 		"eagle":"img/yogotars/yogotar1.png",
@@ -207,5 +299,4 @@ function NextScene2(){
     $("#pinNumber").text(server.getIdGame())
 }
 </script>
->>>>>>> origin/master
 </html>

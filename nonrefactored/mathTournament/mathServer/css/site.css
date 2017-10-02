@@ -152,7 +152,6 @@ footer{
 #selectLevel div{
     text-align: center;
     margin: 0 auto;
-    width: 30%;
 }
 
 #basicLevel{
@@ -183,7 +182,7 @@ footer{
     z-index: 1;
 }
 
-#selectLevel p{
+#selectLevel span{
     font-size: 2.3vh;
 }
 
