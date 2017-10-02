@@ -50,20 +50,20 @@ function startGame(){
         // game.plugins.add(Fabrique.Plugins.Spine);
         game.plugins.add(PhaserSpine.SpinePlugin);
 
-        var language = "EN"
-        if(window.location.search){
-            var params = window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }
+        // var language = "EN"
+        // if(window.location.search){
+        //     var params = window.location.search.trim(1)
+        //     var regex = /language=(..)/i
+        //     var result = regex.exec(params)
+        //     if(result){
+        //         language = result[result.index].toUpperCase()
+        //     }else{
+        //         language = "EN"
+        //     }
+        //
+        // }
 
-        localization.setLanguage(language)
+		localization.setLanguage(parent.language)
 
         window.minigame.game = window.game
     	sceneloader.init(game)
