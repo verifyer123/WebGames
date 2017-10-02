@@ -477,6 +477,7 @@ var operations = function(){
 	function showWinner(event) {
 		clearStage()
 		var winnerNum = event.winner
+		waitingGroup.loading.alpha = 0
 
 		if(winnerNum === cliente.numPlayer){
 			waitingGroup.waitText.text = "You Win!"
@@ -611,6 +612,7 @@ var operations = function(){
 			waitingGroup.add(loading)
 			// console.log("width", player.width)
 			loading.y = 100
+			waitingGroup.loading = loading
 
 			// buttons.getButton(operationsSong,sceneGroup)
 		}
