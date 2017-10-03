@@ -6,7 +6,12 @@ var preloaderIntro = function(){
 				json: "images/preload/atlas.json",
 				image: "images/preload/atlas.png"
 			}],
-		images: [],
+		images: [
+           { 
+                name:'logo',
+                file: "images/preload/logo.png"}
+            
+        ],
 		sounds: [
 
 		],
@@ -24,13 +29,16 @@ var preloaderIntro = function(){
 			}
 		},
 
+        
+        
 		create: function(event){
 
 			var sceneGroup = game.add.group()
 
-			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
-			logo.scale.setTo(0.5, 0.5)
+			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logo')
 			logo.anchor.setTo(0.5, 0.5)
+            logo.scale.setTo(0);
+             game.add.tween(logo.scale).to({x:0.5,y:0.5},400, Phaser.Easing.Back.Out,true)
 
 			var loadingGroup = new Phaser.Group(game)
 			sceneGroup.add(loadingGroup)
@@ -45,7 +53,7 @@ var preloaderIntro = function(){
 			loadingGroup.topBar = loadingTop
 
 			loadingGroup.x = game.world.centerX - loadingGroup.width * 0.5
-			loadingGroup.y = (game.world.centerY + logo.height) - loadingGroup.height * 0.5
+			loadingGroup.y = (game.world.centerY + 100) - loadingGroup.height * 0.5
 
 			loadingBar = loadingGroup
 			loadingBar.topBar.width = 0
