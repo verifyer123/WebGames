@@ -275,7 +275,8 @@ function SelectLevel(){
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
         $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").click(function(){
 			var level = parseInt($(this).attr("level"));
-			server.start(level);
+			var currentID = server.getIdGame()
+			server.start(level, currentID);
 			server.addEventListener("onInitPlayer", showYogotar);
 			server.addEventListener('onPlayersReady', onPlayersReady);
         	$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");

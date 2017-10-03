@@ -656,7 +656,8 @@ var battle = function(){
 				server.removeEventListener('onTurnEnds', checkAnswer);
 				server.retry()
 			}
-            sceneloader.show("battle")
+			window.open("index.html", "_self")
+            // sceneloader.show("battle")
         })
     }
 

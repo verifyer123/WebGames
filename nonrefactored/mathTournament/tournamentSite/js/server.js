@@ -405,8 +405,8 @@ function Server(){
 	/**
 	 * @summary Starts the server
 	 */
-	this.start = function(inLevel){
-        var promise = makeid();
+	this.start = function(inLevel, currentId){
+        var promise = currentId || makeid();
         promise.then(function(id){
         	id_game = id;
 			level = inLevel
@@ -511,9 +511,9 @@ function Server(){
 
 			//Borrando los datos al abandonar la partida
 			window.onbeforeunload = function(){
-                if(!id_game.includes("egs"))
-					refIdGame.remove();
-                else
+                // if(!id_game.includes("egs"))
+					// refIdGame.remove();
+                // else
                 	self.retry();
 			};
 			serverReady = true;
