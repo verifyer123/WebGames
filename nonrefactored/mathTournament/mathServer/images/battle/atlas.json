@@ -2,11 +2,20 @@
 
 {
 	"filename": "alecbuu",
-	"frame": {"x":957,"y":247,"w":148,"h":114},
+	"frame": {"x":593,"y":461,"w":148,"h":114},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":10,"y":0,"w":148,"h":114},
 	"sourceSize": {"w":158,"h":124},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "bar",
+	"frame": {"x":1,"y":461,"w":590,"h":141},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":590,"h":141},
+	"sourceSize": {"w":590,"h":145},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "energy",
-	"frame": {"x":1060,"y":1,"w":40,"h":40},
+	"frame": {"x":743,"y":460,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "proyectile",
-	"frame": {"x":979,"y":1,"w":79,"h":71},
+	"frame": {"x":901,"y":375,"w":79,"h":71},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":71},
@@ -56,7 +65,7 @@
 },
 {
 	"filename": "shadow",
-	"frame": {"x":901,"y":375,"w":170,"h":70},
+	"frame": {"x":743,"y":514,"w":170,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":70},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":979,"y":74,"w":64,"h":64},
+	"frame": {"x":901,"y":448,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":979,"y":140,"w":64,"h":64},
+	"frame": {"x":915,"y":514,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -104,8 +113,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1106,"h":460},
+	"size": {"w":981,"h":603},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:696ec8caf993e0830e47cd53814a4acb:0a73217bcbabe78933119e75f9b02833:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:aa312f59714a8e76b44f115142f68315:ec1d447869cbdd2e16a689b5e8fb6c85:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

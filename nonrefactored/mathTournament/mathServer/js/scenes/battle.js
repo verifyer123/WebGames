@@ -553,11 +553,6 @@ var battle = function(){
 		player.spine.setMixByName("RUN", "IDLE", 0.3)
 		player.spine.setMixByName("WIN", "IDLE", 0.3)
 
-		var answerGroup = game.add.group()
-		player.add(answerGroup)
-
-
-
 		return player
 	}
 	
@@ -862,6 +857,14 @@ var battle = function(){
 		equation.alpha = 0
 		equation.anchor.setTo(0.5,0.5)
 		questionGroup.add(equation)
+
+		var answersGroup = game.add.group()
+		answersGroup.x = game.world.centerX
+		answersGroup.y = game.world.height
+		hudGroup.uiGroup.add(answersGroup)
+
+		var bar = answersGroup.create(0,0, "atlas.battle", "bar")
+		bar.anchor.setTo(0.5, 1)
 
         var correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
