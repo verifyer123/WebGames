@@ -1,7 +1,15 @@
 
+html{
+   animation: colorchange 10s infinite; 
+    -webkit-animation: colorchange 10s infinite;
+}
+
     body {
-      animation: colorchange 10s infinite; 
-      -webkit-animation: colorchange 10s infinite; 
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../images/preload/spine.gif");
+        
+        
     }
 
     @keyframes colorchange
@@ -22,26 +30,3 @@
       100% {background: red;}
     }
 
-#preload{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    z-index: 1;
-}
-
-#preload img{
-    position: absolute;
-    vertical-align: middle;
-    top:50%;
-    transform: translate(-50%,-50%);
-}
-
-
-
-.preload-alpha {
-    opacity: 0;
-    -webkit-transition: opacity 0.5s ease-in-out;
-    -moz-transition: opacity 0.5s ease-in-out;
-    transition: opacity 0.5s ease-in-out;
-}

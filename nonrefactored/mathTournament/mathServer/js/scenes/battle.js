@@ -127,7 +127,6 @@ var battle = function(){
 
 
     function initialize(){
-         document.getElementById("preload").classList.add("preload-alpha");
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         lives = NUM_LIFES
@@ -691,9 +690,7 @@ var battle = function(){
 
     }
 
-    function showReadyGo() {
-        var preloadHTML =  document.getElementById("preload");
-        preloadHTML.style.display = "none";        
+    function showReadyGo() {      
 		sound.play("swipe")
     	var tweenReady1 = game.add.tween(ready).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(ready.scale).to({x:0.5, y:0.5}, 600, Phaser.Easing.Back.Out, true)
