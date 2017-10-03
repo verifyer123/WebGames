@@ -656,6 +656,7 @@ var battle = function(){
 				server.removeEventListener('onTurnEnds', checkAnswer);
 				server.retry()
 			}
+			console.log("retryPressed")
 			window.open("index.html", "_self")
             // sceneloader.show("battle")
         })
@@ -780,6 +781,7 @@ var battle = function(){
     
     function onClickBtn(btnImg) {
 		if(inputsEnabled){
+			console.log("retryPressed")
 			inputsEnabled = false
 			var buttonGroup = btnImg.parent
 			game.add.tween(buttonGroup.scale).to({x:0.8, y:0.8}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)

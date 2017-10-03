@@ -98,20 +98,27 @@ function Server(){
 	 * @summary Generates a code for the current game.
 	 * @returns {String} The code of the current game
 	 */
-	var makeid = function() {
-		var text = "";
-		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		var possible = "0123456789";
-		for (var i = 0; i < 5; i++)
-			text += possible.charAt(Math.floor(Math.random() * possible.length));
-		ref2 = database.ref(text);
-		return ref2.once('value').then(function (snapshot) {
-			if(!snapshot.exists()){
-				return text;
-			}else{
-                return makeid();
-			}
-		});
+	var makeid = function(id) {
+		if(id){
+			ref2 = database.ref(id);
+			return ref2.once('value').then(function (snapshot) {
+				return id;
+			});
+		}else{
+			var text = "";
+			//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			var possible = "0123456789";
+			for (var i = 0; i < 5; i++)
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			ref2 = database.ref(text);
+			return ref2.once('value').then(function (snapshot) {
+				if(!snapshot.exists()){
+					return text;
+				}else{
+					return makeid();
+				}
+			});
+		}
 	};
 
 
@@ -415,7 +422,7 @@ function Server(){
 	 * @summary Starts the server
 	 */
 	this.start = function(inLevel, currentId){
-        var promise = currentId || makeid();
+        var promise = makeid(currentId);
         promise.then(function(id){
         	id_game = id;
 			level = inLevel

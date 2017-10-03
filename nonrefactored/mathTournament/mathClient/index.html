@@ -54,12 +54,11 @@
 		alert("La partida ya se encuentra ocupada");
 	}
 
-	cliente = parent.cliente
-	window.sessionStorage.setItem("cliente", cliente)
+	cliente = parent.cliente;
 	function startButton(){
 //        console.log(selectYogotarName);
 		//var idGame = "00000";
-		var idGame = document.getElementById("idGame").value;
+		var idGame = cliente.id_game || document.getElementById("idGame").value;
 		//av = av.search($("div").attr("select").name);
         
 		var player = {
@@ -87,9 +86,11 @@
         <section id="avatar">
             
         </section>
-    
-        <p>Write PIN</p>
-    <input id="idGame" type="text" />
+
+    <div id="pin">
+		<p>Write PIN</p>
+		<input id="idGame" type="text" />
+	</div>
     <p>Nickname</p>
     <input type="text" id="nickname" placeholder="Player" value="player" />
     <hr>
@@ -98,8 +99,12 @@
 </div>
 </body>
     <script>
+		if((cliente)&&(cliente.id_game)){
+			var pinSection = document.getElementById("pin");
+			pinSection.style.display = 'none';
+		}
 
-        var yogotarCharacters = [
+		var yogotarCharacters = [
             {
                 index:0,
                 name:"eagle",

@@ -17,7 +17,7 @@ function startGame(){
 				if(cliente) {
 					cliente.setReady(true)
 					cliente.restartGame = function () {
-						sceneloader.show("operations")
+						window.open("../mathClient/index.html", "_self")
 					}
 				}
 					sceneloader.show("operations")
