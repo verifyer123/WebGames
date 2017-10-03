@@ -507,7 +507,10 @@ function Server(){
 
 			//Borrando los datos al abandonar la partida
 			window.onbeforeunload = function(){
-				refIdGame.remove();
+                if(!id_game.includes("egs"))
+					refIdGame.remove();
+                else
+                	self.retry();
 			};
 			serverReady = true;
         });
