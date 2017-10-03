@@ -74,8 +74,8 @@ function startGame(){
 
     	preloadScenes([
             room,
-    		//battle,
-            //result,
+    		battle,
+            result,
     	])
     }
 }
