@@ -1,4 +1,5 @@
-var src = "http://yogome.com/epic/minigames/mathServer/index.html"
+// var src = "http://yogome.com/epic/minigames/mathServer/index.html"
+var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
 var server
