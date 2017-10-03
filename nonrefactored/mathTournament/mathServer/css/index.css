@@ -1,0 +1,14 @@
+#preload{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+
+#preload img{
+    position: absolute;
+    vertical-align: middle;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
