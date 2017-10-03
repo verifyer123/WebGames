@@ -253,9 +253,12 @@ function Server(){
 						opedator = "-";
 						operand1= Math.floor((Math.random() * 399 ) )+101;
 						operand2= Math.floor((Math.random() * 399 ) )+101;
-						correctAnswer = (operand1< operand2)? 
-							operand2 -operand1:
-							operand1 -operand2;
+                        if(operand1< operand2){
+                            var aux = operand1;
+                            operand1 = operand2;
+                            operand2 = aux;
+                        }
+                        correctAnswer = operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
@@ -286,9 +289,12 @@ function Server(){
 						opedator = "-";
 						operand1= Math.floor((Math.random() * 498 ) ) + 501;
 						operand2= Math.floor((Math.random() * 498 ) ) + 501;
-						correctAnswer = (operand1< operand2)? 
-							operand2 -operand1:
-							operand1 -operand2;
+                        if(operand1< operand2){
+                            var aux = operand1;
+                            operand1 = operand2;
+                            operand2 = aux;
+                        }
+                        correctAnswer = operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
@@ -320,9 +326,12 @@ function Server(){
 						opedator = "-";
 						operand1= Math.floor((Math.random() * 99 ) + 1 );
 						operand2= Math.floor((Math.random() * 99 ) + 1);
-						correctAnswer = (operand1< operand2)? 
-							operand2 -operand1:
-							operand1 -operand2;
+						if(operand1< operand2){
+							var aux = operand1;
+							operand1 = operand2;
+							operand2 = aux;
+						}
+						correctAnswer = operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";

@@ -8,8 +8,9 @@ body{
 }
 
 #backgroundBody{
-    width: 100%;
-    height: 100%;
+    width: 110%;
+    height: 110%;
+    left:-5%;
     background-image: url("../img/bgGame.png");
     background-repeat: no-repeat;
     background-size:cover;
@@ -93,6 +94,7 @@ footer{
     position: absolute;
     width: 100%;
     height: 100%;
+    top:0%;
     background-color: rgba(250,250,250,0.5);
     opacity: 0;
     z-index:1;
