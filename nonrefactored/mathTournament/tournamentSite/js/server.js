@@ -219,7 +219,11 @@ function Server(){
 		var date = new Date()
 		var actualDate = date.getMilliseconds()
 		// console.log(actualDate)
-		var data = { numPlayer: valores.winner, timeDifference: timeDifference, date:actualDate }
+		var answers = {
+			p1:valores.p1answer,
+			p2:valores.p2answer
+		}
+		var data = { numPlayer: valores.winner, timeDifference: timeDifference, answers:answers, date:actualDate }
 		refIdGame.child("winner").set(data);
 		self.fireEvent('onTurnEnds',[data]);
 

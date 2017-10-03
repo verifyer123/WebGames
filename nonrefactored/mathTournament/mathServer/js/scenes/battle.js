@@ -380,31 +380,32 @@ var battle = function(){
 		equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
 
     	game.add.tween(equation.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+		var playerWin = null, playerLose = null
     	if(event.numPlayer === 1){
-			sound.play("magic")
-			sceneGroup.correctParticle.x = player1.x
-			sceneGroup.correctParticle.y = player1.y - 150
-			sceneGroup.correctParticle.start(true, 1000, null, 5)
-			player1.setAnimation(["WIN", "IDLE"])
-			game.time.events.add(1000, function () {
-				playerAttack(player1, player2, createProyectile, "proyectile")
-			})
+			playerWin = player1
+			playerLose = player2
 		}
 		else if(event.numPlayer === 2) {
-			sound.play("magic")
-			sceneGroup.correctParticle.x = player2.x
-			sceneGroup.correctParticle.y = player2.y - 150
-			sceneGroup.correctParticle.start(true, 1000, null, 5)
-			player2.setAnimation(["WIN", "IDLE"])
-			game.time.events.add(1000, function () {
-				playerAttack(player2, player1, createProyectile, "proyectile")
-			})
+			playerWin = player2
+			playerLose = player1
 		}
-		else{
-    		player1.setAnimation(["HIT", "IDLE"])
+
+		if(playerWin){
+			sound.play("magic")
+			sceneGroup.correctParticle.x = playerWin.x
+			sceneGroup.correctParticle.y = playerWin.y - 150
+			sceneGroup.correctParticle.start(true, 1000, null, 5)
+			playerWin.setAnimation(["WIN", "IDLE"])
+			game.time.events.add(1000, function () {
+				playerAttack(playerWin, playerLose, createProyectile, "proyectile")
+			})
+		}else{
+			player1.setAnimation(["HIT", "IDLE"])
 			player2.setAnimation(["HIT", "IDLE"])
 			game.time.events.add(1000, startRound)
 		}
+
+
     }
 
 	function createHpbar(scale){
@@ -552,6 +553,11 @@ var battle = function(){
 		player.spine.setMixByName("RUN", "IDLE", 0.3)
 		player.spine.setMixByName("WIN", "IDLE", 0.3)
 
+		var answerGroup = game.add.group()
+		player.add(answerGroup)
+
+
+
 		return player
 	}
 	
@@ -575,14 +581,7 @@ var battle = function(){
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
-			sound.play("magic")
-			sceneGroup.correctParticle.x = player1.x
-			sceneGroup.correctParticle.y = player1.y - 150
-			sceneGroup.correctParticle.start(true, 1000, null, 5)
-			player1.setAnimation(["WIN", "IDLE"])
-			game.time.events.add(1000, function () {
-				playerAttack(player1, player2, createProyectile, "proyectile")
-			})
+			checkAnswer({numPlayer:1})
 		})
 
 		var input2 = game.add.graphics()
@@ -593,14 +592,7 @@ var battle = function(){
 		player2.add(input2)
 		input2.inputEnabled = true
 		input2.events.onInputDown.add(function () {
-			sound.play("magic")
-			sceneGroup.correctParticle.x = player2.x
-			sceneGroup.correctParticle.y = player2.y - 150
-			sceneGroup.correctParticle.start(true, 1000, null, 5)
-			player2.setAnimation(["WIN", "IDLE"])
-			game.time.events.add(1000, function () {
-				playerAttack(player2, player1, createProyectile, "proyectile")
-			})
+			checkAnswer({numPlayer:2})
 		})
 
 		// var cloud = createSpine("cloud", "normal", "BITE")
