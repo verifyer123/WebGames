@@ -12,7 +12,7 @@ body{
     width: 100%;
     margin: 0 auto;
     text-align: center;
-    height: 20%;
+    height: 15%;
 }
 
 
@@ -37,6 +37,10 @@ body{
     padding: 1vh;
 }
 
+#start{
+    visibility: hidden;
+}
+
 #MenuYogotar{
     display: table;
     position: absolute;
@@ -48,7 +52,7 @@ body{
 #MenuYogotar .arrow-menu{
     width: 50%;
     display: table-cell;
-    vertical-align: middle;
+    vertical-align: bottom;
 }
 
 #MenuYogotar .arrow-menu img{
@@ -57,11 +61,11 @@ body{
 }
 
 #arrowLeft{
-    padding-left: 1vh;
+    padding-left: 30%;
 }
 
 #arrowRight{
-    padding-right: 1vh;
+    padding-right: 30%;
     text-align: right;
 }
 
@@ -85,6 +89,12 @@ body{
     height: 100%;
 }
 
+#nameYogotar{
+        width: 100%;
+    top: -10%;
+    position: relative;
+}
+
 hr{
-    margin:2%;
+    margin:1%;
 }

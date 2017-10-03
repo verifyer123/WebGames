@@ -25,6 +25,8 @@
 </div>
 
 <script>
+
+    
     var selectYogotarName;
 	var onClientInit = function(e){
 		var div_resultado = document.getElementById("resultado");
@@ -83,22 +85,54 @@
         <option value="1" selected >Eagle</option>
         <option value="2">Luna</option>
     </select> -->   
+    <section id="nameYogo"></section>
         <section id="avatar">
             
         </section>
 
     <div id="pin">
-		<p>Write PIN</p>
-		<input id="idGame" type="text" />
+		<p class="text0">Write PIN</p>
+		<input id="idGame" type="text" placeholder="PIN" />
 	</div>
-    <p>Nickname</p>
-    <input type="text" id="nickname" placeholder="Player" value="player" />
+    <p class="text1">Nickname</p>
+    <input type="text" id="nickname" placeholder="Player"/>
     <hr>
-    <input type="button" id="start" onclick="startButton()" value="Start game" style="box-shadow: 0px 1vh 0px #1b3473;"/>
+    <input type="button" id="start" onclick="startButton()" style="box-shadow: 0px 1vh 0px #1b3473;"/>
     <div id="resultado"></div>
 </div>
 </body>
     <script>
+localizationData = {
+		"EN":{
+            "pin":"Write PIN",
+            "Nickname": "Nickname",
+            "start":"Start Game"
+		},
+
+		"ES":{
+            "pin":"Escribe el PIN",
+            "Nickname": "Apodo",
+            "start":"Empezar"
+        }
+        };
+        var language = "EN"
+        if(parent.window.location.search){
+            var params = parent.window.location.search.trim(1)
+            var regex = /language=(..)/i
+            var result = regex.exec(params)
+            
+            if(result){
+                language = result[result.index].toUpperCase()    
+            }else{
+                language = "EN"
+            }
+            
+        }    
+    
+    $(".text0").text(localizationData[language].pin);  
+    $(".text1").text(localizationData[language].Nickname);  
+    $("#start").attr("value",localizationData[language].start);          
+        
 		if((cliente)&&(cliente.id_game)){
 			var pinSection = document.getElementById("pin");
 			pinSection.style.display = 'none';
@@ -116,6 +150,8 @@
                 img:"images/luna.png"
             }
         ];
+        
+                $("#nameYogo").append('<div id="nameYogotar">'+yogotarCharacters[0].name +'</div>');
             for(var i = 0;i<=yogotarCharacters.length-1;i++){
                 $("#avatar").append('<div id="SelectYogotar'+yogotarCharacters[i].index+'" class="yogotarBlock"><img src="'+yogotarCharacters[i].img+'" /></div>');
                 $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*1));
@@ -128,26 +164,49 @@
 //            console.log(YogoPosx);
         
             $("#arrowRight").click(function(){ 
+                $(this).css("padding-right","28%");  
+                $(this).animate({'padding-right':"30%"}, 50, 'linear');  
                 if(counter != lengthAvatar-1){   
+                    
+       
                     counter++;
+                    
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("left",0);  
+                $("#nameYogotar").text(yogotarCharacters[counter].name);
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
-                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);                    
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);     
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","150%");  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');    
                 }
                 selectYogotarName = yogotarCharacters[counter].name;
         });
       
         $("#arrowLeft").click(function(){
+                $(this).css("padding-left","28%");  
+                $(this).animate({'padding-left':"30%"}, 50, 'linear'); 
              if(counter != 0){   
                     counter--;
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("left",0);  
+                $("#nameYogotar").text(yogotarCharacters[counter].name); 
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
-                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);                    
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1); 
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","150%");  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');                    
                 }
                 selectYogotarName = yogotarCharacters[counter].name;
         });
+        var inputCount1 = 0;
+
+        
+                $("input[type='text']").on('input',function(e){
+                          if($("#idGame").val() != "" && $("#nickname").val() != ""){
+                         $("#start").css("visibility","visible");
+                     }else{
+                         $("#start").css("visibility","hidden");
+                     }
+                });
         
         
     </script>
