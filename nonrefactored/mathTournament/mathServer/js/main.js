@@ -3,12 +3,13 @@ window.minigame = window.minigame || {}
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
-
+   
 	function preloadScenes(sceneList){
 
     	function onCompletePreloading(){
 
 			function onLoadFile(event){
+                
 	    		var loaderScene = sceneloader.getScene("preloaderIntro")
 	    		loaderScene.updateLoadingBar(event.totalLoaded, event.totalFiles)
 	    	}
@@ -17,7 +18,7 @@ function startGame(){
 				if(server){
 					server.setGameReady(true)
 					server.startGame = function () {
-						sceneloader.show("battle")
+				    sceneloader.show("battle")
 					}
 				}else
 					sceneloader.show("battle")
@@ -46,6 +47,9 @@ function startGame(){
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;
+        
+        
+
 
         // game.plugins.add(Fabrique.Plugins.Spine);
         game.plugins.add(PhaserSpine.SpinePlugin);
@@ -73,8 +77,8 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            battle,
-    		//battle,
+            preloaderIntro,
+    		battle,
             //result,
     	])
     }
