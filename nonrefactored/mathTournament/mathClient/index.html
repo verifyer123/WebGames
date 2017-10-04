@@ -135,6 +135,7 @@ localizationData = {
 		if((cliente)&&(cliente.id_game)){
 			var pinSection = document.getElementById("pin");
 			pinSection.style.display = 'none';
+			$("#idGame").val(cliente.id_game)
 		}
 
 		var yogotarCharacters = [
@@ -150,12 +151,6 @@ localizationData = {
                 nameText:"Luna",
                 img:"images/luna.png"
             },
-            {   
-                index:2,
-                name:"luna2",
-                nameText:"Luna2",
-                img:"images/luna.png"
-            }
         ];
         
                 $("#nameYogo").append('<div id="nameYogotarStroke">'+yogotarCharacters[0].nameText +'</div><div id="nameYogotar">'+yogotarCharacters[0].nameText +'</div>');

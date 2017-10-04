@@ -120,6 +120,7 @@ var battle = function(){
 	var ready, go
 	var hudGroup
 	var frontGroup
+	var answersGroup
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -139,7 +140,9 @@ var battle = function(){
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         inputsEnabled = false
 		if(server){
-			server.addEventListener('afterGenerateQuestion', generateQuestion);
+			server.removeEventListener('afterGenerateQuestion', generateQuestion);
+			server.removeEventListener('onTurnEnds', checkAnswer);
+        	server.addEventListener('afterGenerateQuestion', generateQuestion);
 			server.addEventListener('onTurnEnds', checkAnswer);
 		}
 
@@ -363,7 +366,9 @@ var battle = function(){
     }
 
     function checkAnswer(event) {
-		var data = server ? server.currentData.data : {operand1:100, opedator:"+", operand2:100, result:200, correctAnswer:200}
+		// game.add.tween(answersGroup).to({y:game.world.height}, 500, Phaser.Easing.Cubic.Out, true)
+
+    	var data = server ? server.currentData.data : {operand1:100, opedator:"+", operand2:100, result:200, correctAnswer:200}
 		switch ("?"){
 			case data.operand1:
 				data.operand1 = data.correctAnswer
@@ -575,7 +580,8 @@ var battle = function(){
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
-			checkAnswer({numPlayer:1})
+			// checkAnswer({numPlayer:1})
+			stopGame()
 		})
 
 		var input2 = game.add.graphics()
@@ -651,8 +657,8 @@ var battle = function(){
 				server.retry()
 			}
 			console.log("retryPressed")
-			window.open("index.html", "_self")
-            // sceneloader.show("battle")
+			// window.open("index.html", "_self")
+            sceneloader.show("battle")
         })
     }
 
@@ -836,7 +842,41 @@ var battle = function(){
 		retryBtn.inputEnabled = true
 		retryBtn.events.onInputDown.add(onClickBtn)
 	}
+	
+	function createPlayerStats(direction) {
+		var statsGroup = game.add.group()
+		answersGroup.add(statsGroup)
 
+    	var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		// var answerLabel = game.add.text(140 * direction, -110, "Answer", fontStyle)
+		// answerLabel.anchor.setTo(0.5, 0.5)
+		// statsGroup.add(answerLabel)
+
+		var answerBg = game.add.graphics()
+		answerBg.beginFill(0x000000)
+		answerBg.drawRoundedRect(0,0, 80, 50, 10)
+		answerBg.endFill()
+		statsGroup.add(answerBg)
+		answerBg.x = 160 * direction - answerBg.width * 0.5
+		answerBg.y = -90 - answerBg.height * 0.5
+		answerBg.alpha = 0.6
+
+		var timeImg = statsGroup.create(220 * direction, -30, "atlas.battle", "stopwatch")
+		timeImg.scale.setTo(0.7, 0.7)
+		timeImg.anchor.setTo(0.5, 0.5)
+
+		var timeBg = game.add.graphics()
+		timeBg.beginFill(0x000000)
+		timeBg.drawRoundedRect(0,0, 100, 40, 10)
+		timeBg.endFill()
+		statsGroup.add(timeBg)
+		timeBg.x = 140 * direction - timeBg.width * 0.5
+		timeBg.y = -30 -timeBg.height * 0.5
+		timeBg.alpha = 0.6
+
+		return statsGroup
+	}
+	
     function createbattleUI() {
 
         var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
@@ -855,15 +895,19 @@ var battle = function(){
 		equation.anchor.setTo(0.5,0.5)
 		questionGroup.add(equation)
 
-		var answersGroup = game.add.group()
+		answersGroup = game.add.group()
 		answersGroup.x = game.world.centerX
 		answersGroup.y = game.world.height
 		hudGroup.uiGroup.add(answersGroup)
 
 		var bar = answersGroup.create(0,0, "atlas.battle", "bar")
 		bar.anchor.setTo(0.5, 1)
+		answersGroup.y = answersGroup.y + bar.height
 
-        var correctParticle = createPart("star")
+		createPlayerStats(-1)
+		createPlayerStats(1)
+
+		var correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
 		sceneGroup.correctParticle = correctParticle
 

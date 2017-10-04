@@ -136,7 +136,7 @@
             <div id="nickNameP1" class="nickNamePlayer">Player 1</div>
         </div>
         <div id="joinPin">
-            <div class="text9"></div><br><br>
+            <div id="joinText" class="text9"></div><br><br>
             <div id="pinNumber"></div><br>
             <div id="beginGame">
                 <div class="text10"></div>
@@ -161,7 +161,14 @@
 </body>
 <!--<script src="js/site.js"></script>-->
 <script>
-        
+
+	if((server)&&(server.getIdGame())){
+		var pinSection = document.getElementById("pinNumber");
+		pinSection.style.visibility  = 'hidden';
+		var pinText = document.getElementById("joinText");
+		pinText.style.visibility  = 'hidden';
+	}
+
         var language = "EN"
         if(parent.window.location.search){
             var params = parent.window.location.search.trim(1)

@@ -58,6 +58,7 @@ function Server(){
 			self.events[name].push(handler);
 		else
 			self.events[name] = [handler];
+		console.log(self.events[name])
 	};
 
 	/* This is a bit tricky, because how would you identify functions?
@@ -422,7 +423,10 @@ function Server(){
 	 * @summary Starts the server
 	 */
 	this.start = function(inLevel, currentId){
-        var promise = makeid(currentId);
+		self.events = {};
+		console.log(self.events)
+
+		var promise = makeid(currentId);
         promise.then(function(id){
         	id_game = id;
 			level = inLevel
@@ -528,9 +532,9 @@ function Server(){
 			//Borrando los datos al abandonar la partida
 			window.onbeforeunload = function(){
                 // if(!id_game.includes("egs"))
-					// refIdGame.remove();
+					refIdGame.remove();
                 // else
-                	self.retry();
+                // 	self.retry();
 			};
 			serverReady = true;
         });
@@ -554,6 +558,7 @@ function Server(){
 		valores.gameEnded = false;
 		valores.retry = {retry:true, date:actualDate};
 		refIdGame.set(valores);
+		// refIdGame.remove();
 
 	}
 	

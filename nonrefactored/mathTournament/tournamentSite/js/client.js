@@ -31,6 +31,7 @@ function Client(){
 			self.events[name].push(handler);
 		else
 			self.events[name] = [handler];
+		console.log(self.events[name])
 	};
 
 	/* This is a bit tricky, because how would you identify functions?
@@ -68,6 +69,8 @@ function Client(){
 	 * @param {type} idGame Code of the game
 	 */
 	this.start =function(player, idGame){
+		self.events = {};
+		console.log(self.events)
 		self.id_game = idGame;
 		self.player = player
 		self.refIdGame= database.ref(self.id_game);
