@@ -69,7 +69,7 @@ function Client(){
 	 * @param {type} idGame Code of the game
 	 */
 	this.start =function(player, idGame){
-		self.events = {};
+		// self.events = {};
 		console.log(self.events)
 		self.id_game = idGame;
 		self.player = player

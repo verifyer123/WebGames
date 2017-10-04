@@ -657,8 +657,8 @@ var battle = function(){
 				server.retry()
 			}
 			console.log("retryPressed")
-			// window.open("index.html", "_self")
-            sceneloader.show("battle")
+			window.open("index.html", "_self")
+			// sceneloader.show("battle")
         })
     }
 

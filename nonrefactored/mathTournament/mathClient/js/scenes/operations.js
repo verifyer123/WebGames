@@ -252,12 +252,12 @@ var operations = function(){
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
 
-			// window.open("../mathClient/index.html", "_self")
+			window.open("../mathClient/index.html", "_self")
 			// var resultScreen = sceneloader.getScene("result")
 			// resultScreen.setScore(true, numPoints, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
-			sceneloader.show("operations")
+			// sceneloader.show("operations")
 			// sound.play("gameLose")
 		})
 	}

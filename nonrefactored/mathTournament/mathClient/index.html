@@ -94,17 +94,17 @@ var localizationData = {
 	cliente = parent.cliente;
 	function startButton(){
         if($("#idGame").val() != "" && $("#nickname").val() != ""){
-		var idGame = cliente.id_game || document.getElementById("idGame").value;
-		var player = {
-			nickname: document.getElementById("nickname").value,
-			avatar: selectYogotarName,
-			life: 100,
-			ready:false
-		}
-		cliente.addEventListener('onClientInit', onClientInit);
-		cliente.addEventListener('onGameFull', onGameFull);
-		cliente.startGame = onPlayersReady
-		cliente.start(player, idGame);
+            var idGame = cliente.id_game || document.getElementById("idGame").value;
+            var player = {
+                nickname: document.getElementById("nickname").value,
+                avatar: selectYogotarName,
+                life: 100,
+                ready:false
+            }
+            cliente.addEventListener('onClientInit', onClientInit);
+            cliente.addEventListener('onGameFull', onGameFull);
+            cliente.startGame = onPlayersReady
+            cliente.start(player, idGame);
         }
 
 	}
