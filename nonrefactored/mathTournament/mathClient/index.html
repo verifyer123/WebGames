@@ -25,15 +25,50 @@
 </div>
 
 <script>
+var localizationData = {
+		"EN":{
+            "pin":"Write PIN",
+            "Nickname": "Nickname",
+            "start":"Start Game",
+            "player":"Player",
+            "ready":"Ready!",
+            "waiting":"Waiting your Oponent"
+		},
 
+		"ES":{
+            "pin":"Escribe el PIN",
+            "Nickname": "Apodo",
+            "start":"Empezar",            
+            "player":"Jugador",
+            "ready":"¡Listo!",
+            "waiting":"Esperando a tu oponente"
+        }
+        };
+        var language = "EN"
+        if(parent.window.location.search){
+            var params = parent.window.location.search.trim(1)
+            var regex = /language=(..)/i
+            var result = regex.exec(params)
+            
+            if(result){
+                language = result[result.index].toUpperCase()    
+            }else{
+                language = "EN"
+            }
+            
+        } 
     
     var selectYogotarName;
 	var onClientInit = function(e){
 		var div_resultado = document.getElementById("resultado");
 		var btn_start = document.getElementById("start");
-
-		div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
-		btn_start.style.visibility = 'hidden';
+        var dataInfo =  document.getElementById("dataInfo");
+        $("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+		//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+        $("#infoContainer").css("height",'0');
+        $("#infoContainer").css("visibility",'hidden');
+        //dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
         $("#start").hide();
         $("#arrowRight").hide();
         $("#arrowLeft").hide();
@@ -88,12 +123,14 @@
             
         </section>
     <section id="infoContainer">
+        <section id="dataInfo">
         <div id="pin">
             <p class="text0">Write PIN</p>
             <input id="idGame" type="text" placeholder="PIN" />
         </div>
         <p class="text1">Nickname</p>
         <input type="text" id="nickname" placeholder="Player"/>
+        </section>    
         <hr>
         <input type="button" id="start" onclick="startButton()" style="box-shadow: 0px 1vh 0px #1b3473;"/>
         <div id="resultado"></div>
@@ -101,32 +138,7 @@
 </div>
 </body>
     <script>
-localizationData = {
-		"EN":{
-            "pin":"Write PIN",
-            "Nickname": "Nickname",
-            "start":"Start Game"
-		},
-
-		"ES":{
-            "pin":"Escribe el PIN",
-            "Nickname": "Apodo",
-            "start":"Empezar"
-        }
-        };
-        var language = "EN"
-        if(parent.window.location.search){
-            var params = parent.window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }    
+   
     
     $(".text0").text(localizationData[language].pin);  
     $(".text1").text(localizationData[language].Nickname);  
