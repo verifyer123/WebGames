@@ -121,7 +121,7 @@ hr{
 @media only screen and (max-width: 768px) {
         #infoContainer{
         position: relative;
-        margin-top: 15%;
+        margin-top: 4%;
     }    
 
     #avatar {
