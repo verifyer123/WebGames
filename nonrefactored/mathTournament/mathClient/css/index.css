@@ -23,7 +23,7 @@ body{
 #settings{
     padding: 2vh;
     text-align: center;
-    font-size: 6vh;
+    font-size: 4vh;
 }
 
 #settings input{
@@ -38,7 +38,7 @@ body{
 }
 
 #start{
-    visibility: hidden;
+    opacity:0.5;
 }
 
 #MenuYogotar{
@@ -74,6 +74,7 @@ body{
     height: 30%;
     display: flex;
     width: auto;
+        margin-top: 5%;
 }
 
 .yogotarBlock{
@@ -81,7 +82,7 @@ body{
     height: 100%;
     width: auto;
     left: 50%;
-    transform: translate(-50%,0%);
+    transform: translate(-50%,20%);
     
 }
 
@@ -89,12 +90,56 @@ body{
     height: 100%;
 }
 
-#nameYogotar{
-        width: 100%;
-    top: -10%;
+#nameYogo{
     position: relative;
+}
+
+#nameYogotar{
+    width: 100%;
+    top: 17%;
+    position: absolute;
+    text-align: center;
+}
+
+#nameYogotarStroke{
+    width: 100%;
+    top: 17%;
+    position: absolute;
+    text-align: center;
+    -webkit-text-stroke: 20px #34449E;
 }
 
 hr{
     margin:1%;
+}
+
+#infoContainer{
+    position: relative;
+    margin-top: 4%;
+}
+
+@media only screen and (max-width: 768px) {
+        #infoContainer{
+        position: relative;
+        margin-top: 15%;
+    }    
+
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    #infoContainer{
+        position: relative;
+        margin-top: 14%;
+    }    
+
+    #MenuYogotar #arrowLeft img {
+        width: 20%;
+        padding-right: 10vh;
+        max-width: 100px;
+      }   
+      
 }

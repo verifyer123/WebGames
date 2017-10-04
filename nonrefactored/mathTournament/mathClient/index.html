@@ -58,11 +58,8 @@
 
 	cliente = parent.cliente;
 	function startButton(){
-//        console.log(selectYogotarName);
-		//var idGame = "00000";
+        if($("#idGame").val() != "" && $("#nickname").val() != ""){
 		var idGame = cliente.id_game || document.getElementById("idGame").value;
-		//av = av.search($("div").attr("select").name);
-        
 		var player = {
 			nickname: document.getElementById("nickname").value,
 			avatar: selectYogotarName,
@@ -73,6 +70,7 @@
 		cliente.addEventListener('onGameFull', onGameFull);
 		cliente.startGame = onPlayersReady
 		cliente.start(player, idGame);
+        }
 
 	}
 </script>
@@ -89,16 +87,17 @@
         <section id="avatar">
             
         </section>
-
-    <div id="pin">
-		<p class="text0">Write PIN</p>
-		<input id="idGame" type="text" placeholder="PIN" />
-	</div>
-    <p class="text1">Nickname</p>
-    <input type="text" id="nickname" placeholder="Player"/>
-    <hr>
-    <input type="button" id="start" onclick="startButton()" style="box-shadow: 0px 1vh 0px #1b3473;"/>
-    <div id="resultado"></div>
+    <section id="infoContainer">
+        <div id="pin">
+            <p class="text0">Write PIN</p>
+            <input id="idGame" type="text" placeholder="PIN" />
+        </div>
+        <p class="text1">Nickname</p>
+        <input type="text" id="nickname" placeholder="Player"/>
+        <hr>
+        <input type="button" id="start" onclick="startButton()" style="box-shadow: 0px 1vh 0px #1b3473;"/>
+        <div id="resultado"></div>
+    </section>
 </div>
 </body>
     <script>
@@ -142,16 +141,24 @@ localizationData = {
             {
                 index:0,
                 name:"eagle",
+                nameText:"Eagle",
                 img:"images/eagle.png"
             },
             {   
                 index:1,
                 name:"luna",
+                nameText:"Luna",
+                img:"images/luna.png"
+            },
+            {   
+                index:2,
+                name:"luna2",
+                nameText:"Luna2",
                 img:"images/luna.png"
             }
         ];
         
-                $("#nameYogo").append('<div id="nameYogotar">'+yogotarCharacters[0].name +'</div>');
+                $("#nameYogo").append('<div id="nameYogotarStroke">'+yogotarCharacters[0].nameText +'</div><div id="nameYogotar">'+yogotarCharacters[0].nameText +'</div>');
             for(var i = 0;i<=yogotarCharacters.length-1;i++){
                 $("#avatar").append('<div id="SelectYogotar'+yogotarCharacters[i].index+'" class="yogotarBlock"><img src="'+yogotarCharacters[i].img+'" /></div>');
                 $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*1));
@@ -173,10 +180,11 @@ localizationData = {
                     
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("left",0);  
-                $("#nameYogotar").text(yogotarCharacters[counter].name);
+                $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
+                $("#nameYogotarStroke").text(yogotarCharacters[counter].nameText);
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);     
-                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","150%");  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
                 $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');    
                 }
                 selectYogotarName = yogotarCharacters[counter].name;
@@ -189,22 +197,22 @@ localizationData = {
                     counter--;
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("left",0);  
-                $("#nameYogotar").text(yogotarCharacters[counter].name); 
+                $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
+                $("#nameYogotarStroke").text(yogotarCharacters[counter].nameText); 
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1); 
-                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","150%");  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
                 $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');                    
                 }
                 selectYogotarName = yogotarCharacters[counter].name;
         });
-        var inputCount1 = 0;
-
+                
         
-                $("input[type='text']").on('input',function(e){
+        $("input[type='text']").on('input',function(e){
                           if($("#idGame").val() != "" && $("#nickname").val() != ""){
-                         $("#start").css("visibility","visible");
+                         $("#start").css("opacity",1);
                      }else{
-                         $("#start").css("visibility","hidden");
+                         $("#start").css("opacity",0.5);
                      }
                 });
         
