@@ -180,64 +180,76 @@ var localizationData = {
                 unlock: true
             },
             {   
-                index:1,
+                index:0,
                 name:"luna",
                 nameText:"Luna",
                 img:"images/yogotars/luna.png",
                 unlock: true
             },
             {   
-                index:2,
-                name:"tomiko",
-                nameText:"Tomiko",
-                img:"images/yogotars/tomiko.png",
-                unlock: false
+                index:0,
+                name:"dinamita",
+                nameText:"Dinamita",
+                img:"images/yogotars/dinamita.png",
+                unlock: true
             },
             {   
-                index:3,
-                name:"arthurius",
-                nameText:"Arthurius",
-                img:"images/yogotars/arthurius.png",
-                unlock: false
-            },
-            {   
-                index:4,
+                index:0,
                 name:"estrella",
                 nameText:"Estrella",
                 img:"images/yogotars/estrella.png",
-                unlock: false
+                unlock: true
             },
             {   
-                index:5,
+                index:0,
+                name:"arthurius",
+                nameText:"Arthurius",
+                img:"images/yogotars/arthurius.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"tomiko",
+                nameText:"Tomiko",
+                img:"images/yogotars/tomiko.png",
+                unlock: true
+            },
+            {   
+                index:0,
                 name:"justice",
                 nameText:"Justice",
                 img:"images/yogotars/justice.png",
-                unlock: false
+                unlock: true
             },
             {   
-                index:6,
+                index:0,
                 name:"oona",
                 nameText:"Oona",
                 img:"images/yogotars/oona.png",
-                unlock: false
+                unlock: true
             },
             {   
-                index:7,
+                index:0,
                 name:"razzle",
                 nameText:"Razzle",
                 img:"images/yogotars/razzle.png",
-                unlock: false
-            },
+                unlock: true
+            }
         ];
         
                 $("#nameYogo").append('<div id="nameYogotarStroke">'+yogotarCharacters[0].nameText +'</div><div id="nameYogotar">'+yogotarCharacters[0].nameText +'</div>');
             for(var i = 0;i<=yogotarCharacters.length-1;i++){
+                yogotarCharacters[i].index = i;
                 $("#avatar").append('<div id="SelectYogotar'+yogotarCharacters[i].index+'" class="yogotarBlock"><img src="'+yogotarCharacters[i].img+'" /></div>');
+                if(!yogotarCharacters[i].unlock){
+                    $("#SelectYogotar"+yogotarCharacters[i].index).find("img").addClass("lockYogotar");
+                    $("#SelectYogotar"+yogotarCharacters[i].index).append("<div id='locked'><img src='images/lock.png'/></div>");
+                }
                 $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*1));
             }
                 
            selectYogotarName = yogotarCharacters[0].name;
-            var lengthAvatar = $("#avatar").find("div").length;
+            var lengthAvatar = yogotarCharacters.length;
             var YogoPosx = parseInt($("#SelectYogotar1").css("left"));
             var counter = 0;
 //            console.log(YogoPosx);
@@ -255,12 +267,18 @@ var localizationData = {
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
-                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');    
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear'); 
+                   
                 }
                 if(counter == lengthAvatar-1){
                     $(this).css("opacity",0.5);
                 }
-                selectYogotarName = yogotarCharacters[counter].name;
+                if(yogotarCharacters[counter].unlock){
+                   selectYogotarName = yogotarCharacters[counter].name; 
+                }else{
+                    selectYogotarName = null
+                }
+                
         });
       $("#arrowLeft").css("opacity",0.5);
         $("#arrowLeft").click(function(){
@@ -281,12 +299,17 @@ var localizationData = {
                 if(counter == 0){
                     $(this).css("opacity",0.5);
                 }
-                selectYogotarName = yogotarCharacters[counter].name;
+                
+                if(yogotarCharacters[counter].unlock){
+                   selectYogotarName = yogotarCharacters[counter].name; 
+                }else{
+                    selectYogotarName = null
+                }
         });
                 
         
         $("input[type='text']").on('input',function(e){
-                          if($("#idGame").val() != "" && $("#nickname").val() != ""){
+                          if($("#idGame").val() != "" && $("#nickname").val() != "" && selectYogotarName != null){
                          $("#start").css("opacity",1);
                      }else{
                          $("#start").css("opacity",0.5);

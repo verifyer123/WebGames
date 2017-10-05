@@ -200,3 +200,14 @@ hr{
     opacity: 1;
   }
 }
+
+#locked{
+    position: absolute;
+    top: 0%;
+    transform: scale(0.5);
+}
+
+
+.lockYogotar{
+    filter: brightness(20%);
+}
