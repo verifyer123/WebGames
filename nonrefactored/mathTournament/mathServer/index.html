@@ -191,22 +191,16 @@
     $(".text11").text(localizationData[language].menu);
     $(".text12").text(localizationData[language].allRigths);
     
-
-	var Yogotars = {
-		"eagle":"img/yogotars/yogotar1.png",
-		"luna":"img/yogotars/yogotar2.png"
-	}
-
     function showYogotar(event){
 //    	console.log(event)
     	var numPlayer = event.numPlayer, player = event.player
-    	var img = Yogotars[player.avatar];
+    	var img = "img/yogotars/" + player.avatar + ".png";
     	if(numPlayer === 1){
 			$("#selectP1").find("img").attr("src", img);
 			$("#nickNameP1").text(player.nickname)
         }else{
             $("#selectP2").find("img").attr("src", img);
-//            $("#selectP2").find("img").css("width", "-100%");
+            $("#selectP2").find("img").css("transform", "rotateY(180deg)");
             $("#nickNameP2").text(player.nickname)
 
         }
