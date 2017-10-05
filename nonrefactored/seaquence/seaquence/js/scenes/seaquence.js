@@ -122,7 +122,7 @@ var seaquence = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -595,116 +595,122 @@ var seaquence = function(){
 	
 	function createTextPart(text,obj){
         
-        var pointsText = lookParticle('textPart')
+       var pointsText = lookParticle('text')
         
-        if(pointsText){
+       if(pointsText){
             
-            pointsText.x = obj.world.x
+           pointsText.x = obj.world.x
             pointsText.y = obj.world.y - 60
             pointsText.setText(text)
             pointsText.scale.setTo(1,1)
 
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+           game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
             game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
 
-            deactivateParticle(pointsText,750)
+           deactivateParticle(pointsText,750)
         }
         
-    }
+   }
     
-    function lookParticle(key){
+   function lookParticle(key){
         
-        for(var i = 0;i<particlesGroup.length;i++){
+       for(var i = 0;i<particlesGroup.length;i++){
             
-            var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
-            if(!particle.used && particle.tag == key){
+           var particle = particlesGroup.children[i]
+            //console.log(particle.tag + ' tag,' + particle.used)
+            if(particle.tag == key){
                 
-				particle.used = true
+                particle.used = true
                 particle.alpha = 1
                 
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-				                
-                return particle
+                if(key == 'text'){
+                    particlesGroup.remove(particle)
+                    particlesUsed.add(particle)
+                }
+                
+                
+                console.log(particle)
+                
+               return particle
                 break
             }
         }
         
-    }
+   }
     
-    function deactivateParticle(obj,delay){
+   function deactivateParticle(obj,delay){
         
-        game.time.events.add(delay,function(){
+       game.time.events.add(delay,function(){
             
-            obj.used = false
+           obj.used = false
             
-            particlesUsed.remove(obj)
+           particlesUsed.remove(obj)
             particlesGroup.add(obj)
             
-        },this)
+       },this)
     }
     
-    function createPart(key,obj,offsetX){
+   function createPart(key,obj,offsetX){
         
-        var offX = offsetX || 0
+       var offX = offsetX || 0
         var particle = lookParticle(key)
-		
-        if(particle){
+        
+       if(particle){
             
-            particle.x = obj.world.x + offX
+           particle.x = obj.world.x + offX
             particle.y = obj.world.y
             particle.scale.setTo(1,1)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
-    }
-    
-    function createParticles(tag,number){
-                
-        for(var i = 0; i < number;i++){
+            particle.start(true, 1500, null, 6);+
+            particle.setAlpha(1,0,2000,Phaser.Easing.Cubic.In)
             
-            var particle
+            /*game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+                deactivateParticle(particle,0)
+            })*/
+            
+       }
+        
+       
+   }
+    
+   function createParticles(tag,number){
+                
+       for(var i = 0; i < number;i++){
+            
+           var particle
             if(tag == 'text'){
                 
-                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+               var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff ", align: "center"}
                 
-                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+               var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
                 particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
                 particlesGroup.add(particle)
                 
-            }else{
+           }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.seaquence',tag);
-				particle.minParticleSpeed.setTo(-200, -50);
-				particle.maxParticleSpeed.setTo(200, -100);
-				particle.minParticleScale = 0.6;
-				particle.maxParticleScale = 1.5;
-				particle.gravity = 150;
-				particle.angularDrag = 30;
-				
-				particlesGroup.add(particle)
-				
-            }
+                particle.makeParticles('atlas.dusk',tag);
+                particle.minParticleSpeed.setTo(-200, -50);
+                particle.maxParticleSpeed.setTo(200, -100);
+                particle.minParticleScale = 0.6;
+                particle.maxParticleScale = 1.5;
+                particle.gravity = 150;
+                particle.angularDrag = 30;
+                
+                particlesGroup.add(particle)
+                
+           }
             
-            particle.alpha = 0
+           particle.alpha = 0
             particle.tag = tag
             particle.used = false
             //particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
-        
-    }
+       
+   }
 	
 	function addParticles(){
 		

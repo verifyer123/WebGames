@@ -329,8 +329,12 @@ var result = function(){
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
+		if(gameIndex == 93){
+			pivotButtons += 75
+		}else{
+			createBanner()
+		}
         createButtons(pivotButtons)
-        createBanner()
 		
 	}
     
@@ -357,7 +361,7 @@ var result = function(){
             {"gameName": gamesList[gameIndex].name}
         );
 		
-        window.location.href = url;
+        window.open(url,'_blank')
         
     }
     
@@ -372,6 +376,7 @@ var result = function(){
         var bannerImage = banner.create(0,0,'atlas.resultScreen','banner')
         bannerImage.anchor.setTo(0.5,1)
         bannerImage.inputEnabled = true
+		bannerImage.input.useHandCursor = true
         bannerImage.active = true
         bannerImage.events.onInputDown.add(inputBanner)
         

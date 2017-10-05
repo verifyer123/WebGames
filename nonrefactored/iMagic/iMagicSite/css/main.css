@@ -1,7 +1,7 @@
 body{
     margin: 0;
     background-color: #43BAD6;
-    background-image: url("../images/body_background.jpg");
+    background-image: url(../images/body_background.jpg) !important;
     background-size: cover;
     background-position: center bottom;
     background-repeat: repeat-x;
@@ -65,10 +65,12 @@ body{
 
 .luna{
         float: right;
+		margin-top: 10%;
     }
 
     .eagle{
         float: left;
+		margin-top: 10%;
     }
 
 .logo_sm{
