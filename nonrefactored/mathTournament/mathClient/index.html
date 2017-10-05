@@ -44,19 +44,7 @@ var localizationData = {
             "waiting":"Esperando a tu oponente"
         }
         };
-        var language = "EN"
-        if(parent.window.location.search){
-            var params = parent.window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        } 
+        var language = parent.language
     var selectYogotarName;
 	var onClientInit = function(e){
 		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
@@ -83,8 +71,8 @@ var localizationData = {
 		cliente.removeEventListener('onClientInit', onClientInit);
 		cliente.removeEventListener('onGameFull', onGameFull);
 		cliente.removeEventListener('showPossibleAnswers', onPlayersReady);
-//		window.open("http://yogome.com/epic/minigames/mathClient/operations.html", "_self")
-		window.open("../mathClient/operations.html", "_self")
+		window.open("http://yogome.com/epic/minigames/mathClient/operations.html", "_self")
+//		window.open("../mathClient/operations.html", "_self")
 	}
 
 	function onError() {

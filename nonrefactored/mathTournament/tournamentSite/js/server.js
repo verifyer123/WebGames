@@ -584,16 +584,10 @@ function loadGame(){
 	gameContainer.appendChild(gameFrame);
 }
 
-function getURLParameter(name) {
-	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
 	server = new Server();
-	language = language || getURLParameter("language")
-	language = language ? language.toUpperCase() : "EN";
 }
 
 // window.addEventListener("resize", loadGame);

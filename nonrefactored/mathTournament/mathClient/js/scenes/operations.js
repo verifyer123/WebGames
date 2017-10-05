@@ -16,7 +16,7 @@ var operations = function(){
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
 			"ready":"Listos",
-			"reviewingAnswers": "Reviewing Answers",
+			"reviewingAnswers": "Rvisando Respuestas",
 			"youWin":"Ganaste!",
 			"giveUp":"No te rindas!"
 		}

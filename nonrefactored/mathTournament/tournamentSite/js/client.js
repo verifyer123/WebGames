@@ -2,7 +2,7 @@ var src = "http://yogome.com/epic/minigames/mathClient/index.html"
 // var src = "../mathClient/index.html"
 var gameFrame
 var gameContainer
-var language = null
+// var language = null
 
 var config = {
 	apiKey: "AIzaSyBELTimQUqywzRlJTpIA2HZ8RTp9r_QF2E",
@@ -197,16 +197,10 @@ function loadGame(){
 	gameContainer.appendChild(gameFrame);
 }
 
-function getURLParameter(name) {
-	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
 	cliente = new Client();
-	language = getURLParameter("language")
-	language = language ? language.toUpperCase() : "EN";
 }
 
 // window.addEventListener("resize", loadGame);

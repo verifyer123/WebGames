@@ -35,6 +35,10 @@
     </body>    
     <script src="http://yogome.com/epic/minigames/tournamentSite/js/server.js"></script>
     <script>
-		language = "en"
+		function getURLParameter(name) {
+			return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+		}
+		language = getURLParameter("language")
+		language = language ? language.toUpperCase() : "ES";
     </script>
 </html>

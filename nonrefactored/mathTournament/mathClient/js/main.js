@@ -61,6 +61,7 @@ function startGame(){
         // }
 
         localization.setLanguage(parent.language)
+		console.log(parent.language)
 
         window.minigame.game = window.game
     	sceneloader.init(game)

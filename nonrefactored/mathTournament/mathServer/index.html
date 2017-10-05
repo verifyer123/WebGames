@@ -176,19 +176,7 @@
 		pinText.style.visibility  = 'hidden';
 	}
 
-        var language = "EN"
-        if(parent.window.location.search){
-            var params = parent.window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }    
+        var language = parent.language;
     
     $(".text0").text(localizationData[language].play);
     $(".text1").text(localizationData[language].selectLevel);
