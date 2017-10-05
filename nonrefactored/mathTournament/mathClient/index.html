@@ -164,7 +164,7 @@ var localizationData = {
         <section id="dataInfo">
         <div id="pin">
             <p class="text0">Write PIN</p>
-            <input id="idGame" type="text" placeholder="PIN" />
+            <input id="idGame" type="number" min="0" inputmode="numeric" placeholder="PIN" />
         </div>
         <p class="text1">Nickname</p>
         <input type="text" id="nickname" placeholder="Player"/>
@@ -177,7 +177,6 @@ var localizationData = {
 </body>
     <script>
    
-    
     $(".text0").text(localizationData[language].pin);  
     $(".text1").text(localizationData[language].Nickname);  
     $("#start").attr("value",localizationData[language].start);          
