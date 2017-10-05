@@ -241,11 +241,10 @@ var result = function(){
         
         var topHeight = game.world.height * 0.8  
 		
-        var yogotar = game.add.spine(game.world.centerX - 150,topHeight * 0.74, "yogotar");
-        yogotar.scale.setTo(scaleSpine,scaleSpine)
-        yogotar.setAnimationByName(0, "IDLE", true);
-        yogotar.setSkinByName('nao');
-        sceneGroup.add(yogotar);        
+        var nao = game.add.sprite(game.world.centerX - 180,topHeight * 0.5, "nao");
+        var naoPlay = nao.animations.add('naoPlay');
+		nao.animations.play('naoPlay', 23, true);
+        sceneGroup.add(nao);          
             
         var globo = sceneGroup.create(0,0,"globo");
         globo.anchor.setTo(0.5,0.5);
@@ -263,11 +262,11 @@ var result = function(){
         var bannerCoin = sceneGroup.create(0,0,"monedas");
         bannerCoin.anchor.setTo(0.5,0.5);
         bannerCoin.x = game.world.centerX;
-        bannerCoin.y = game.world.centerY + 150;        
-        var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY + 120, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle);
+        bannerCoin.y = game.world.centerY + 145;        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY + 120, "Obtuviste" + ': ' + totalScore + ' ' + "monedas", fontStyle);
         sceneGroup.add(retryText);
-
+        
         var bannerCoin = sceneGroup.create(0,0,"emergencias");
         bannerCoin.anchor.setTo(0.5,0.5);
         bannerCoin.x = game.world.centerX;
@@ -359,7 +358,7 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
         
         game.load.spine('chispa', "images/result/chispa/chispa.json");
-        game.load.spine('yogotar', "images/result/yogotars/yogotar.json");
+        game.load.spritesheet('nao', 'images/result/nao.png', 175, 210, 23);
 		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png');       
 		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png'); 
 		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png');
@@ -367,7 +366,6 @@ var result = function(){
         game.load.image("cuidado", "images/result/cuidado.png");
         game.load.image("monedas", "images/result/monedas.png");
         game.load.image("emergencias", "images/result/emergencias.png");
-        game.load.image("dinamita", "images/result/dinamita.png");
         game.load.image("globo", "images/result/globo.png");
     }
     

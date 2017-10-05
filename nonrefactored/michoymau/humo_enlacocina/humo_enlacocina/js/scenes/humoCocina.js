@@ -77,6 +77,7 @@ var humoCocina = function(){
     var downButton;
     var activeButtonDown = false;
     var activeButtonUp = false;
+    var reviewComic = false;
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	var styleClock = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
 
@@ -176,6 +177,7 @@ var humoCocina = function(){
                                 comicGroup.y = -game.world.height
                                 createOverlay();
                                 comicGroup.visible = false;
+                                reviewComic = true;
                         });
                         }
                 }  
@@ -410,8 +412,11 @@ var humoCocina = function(){
 		createHearts();
 		createCoins();
         //starGame = true;
-        createComic(4);
-		//createOverlay();
+        if(!reviewComic){
+            createComic(4);
+        }else{
+          createOverlay();  
+        }
 	}
     function leaveNao(){
             if(pressDown && !collisionNao){
@@ -466,7 +471,7 @@ var humoCocina = function(){
 	function update() {
 
 		if(starGame){	
-            tile3.tilePosition.x -= 6;
+            tile3.tilePosition.x -= 4;
 			if(lives != 0){
                 
                 if(enemyActive == 0){
@@ -477,7 +482,7 @@ var humoCocina = function(){
                         complete = false;
                         collisionNao = false;
                         nao.setAnimationByName(0, "IDLE", true);
-                        enemyActive = 1;
+                        enemyActive = getRandomArbitrary(0, 2);
                     }
                 }else{
                     if(panGroup.x > -(panGroup.width*2)){
@@ -487,7 +492,7 @@ var humoCocina = function(){
                         complete = false;
                         collisionNao = false;
                         nao.setAnimationByName(0, "IDLE", true);
-                        enemyActive = 1;
+                        enemyActive = getRandomArbitrary(0, 2);
                     }
                 }
                 
@@ -509,7 +514,7 @@ var humoCocina = function(){
                             nao.setAnimationByName(0, "LOSESTILL", true);
                         }
                     }
-                    if( panGroup.x < limitMin/1.3 && panGroup.x > limitMax-velocity){
+                    if( panGroup.x < limitMin - panGroup.width/2 && panGroup.x > limitMax-15){
                         if(pressUp){
                             if(panGroup.x < limitMax + velocity){
                                 if(!complete){
@@ -527,8 +532,8 @@ var humoCocina = function(){
                         }
                     }
 
-                tile1.tilePosition.x -= 4;
-                tile2.tilePosition.x -= 4;   
+                tile1.tilePosition.x -= 2;
+                tile2.tilePosition.x -= 2;   
 				if (cursors.down.isUp){
                     if(!activeButtonDown){
                         if(pressDown && !collisionNao){

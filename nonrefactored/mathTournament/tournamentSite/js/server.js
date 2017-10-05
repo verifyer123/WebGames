@@ -1,7 +1,9 @@
-var src = "../mathServer/index.html"
+var src = "http://yogome.com/epic/minigames/mathServer/index.html"
+// var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
 var server
+var language = null
 
 // Initialize Firebase
 var config = {
@@ -57,6 +59,7 @@ function Server(){
 			self.events[name].push(handler);
 		else
 			self.events[name] = [handler];
+		console.log(self.events[name])
 	};
 
 	/* This is a bit tricky, because how would you identify functions?
@@ -97,20 +100,27 @@ function Server(){
 	 * @summary Generates a code for the current game.
 	 * @returns {String} The code of the current game
 	 */
-	var makeid = function() {
-		var text = "";
-		//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-		var possible = "0123456789";
-		for (var i = 0; i < 5; i++)
-			text += possible.charAt(Math.floor(Math.random() * possible.length));
-		ref2 = database.ref(text);
-		return ref2.once('value').then(function (snapshot) {
-			if(!snapshot.exists()){
-				return text;
-			}else{
-                return makeid();
-			}
-		});
+	var makeid = function(id) {
+		if(id){
+			ref2 = database.ref(id);
+			return ref2.once('value').then(function (snapshot) {
+				return id;
+			});
+		}else{
+			var text = "";
+			//var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			var possible = "0123456789";
+			for (var i = 0; i < 5; i++)
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+			ref2 = database.ref(text);
+			return ref2.once('value').then(function (snapshot) {
+				if(!snapshot.exists()){
+					return text;
+				}else{
+					return makeid();
+				}
+			});
+		}
 	};
 
 
@@ -218,7 +228,11 @@ function Server(){
 		var date = new Date()
 		var actualDate = date.getMilliseconds()
 		// console.log(actualDate)
-		var data = { numPlayer: valores.winner, timeDifference: timeDifference, date:actualDate }
+		var answers = {
+			p1:valores.p1answer,
+			p2:valores.p2answer
+		}
+		var data = { numPlayer: valores.winner, timeDifference: timeDifference, answers:answers, date:actualDate }
 		refIdGame.child("winner").set(data);
 		self.fireEvent('onTurnEnds',[data]);
 
@@ -248,9 +262,12 @@ function Server(){
 						opedator = "-";
 						operand1= Math.floor((Math.random() * 399 ) )+101;
 						operand2= Math.floor((Math.random() * 399 ) )+101;
-						correctAnswer = (operand1< operand2)? 
-							operand2 -operand1:
-							operand1 -operand2;
+                        if(operand1< operand2){
+                            var aux = operand1;
+                            operand1 = operand2;
+                            operand2 = aux;
+                        }
+                        correctAnswer = operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
@@ -281,9 +298,12 @@ function Server(){
 						opedator = "-";
 						operand1= Math.floor((Math.random() * 498 ) ) + 501;
 						operand2= Math.floor((Math.random() * 498 ) ) + 501;
-						correctAnswer = (operand1< operand2)? 
-							operand2 -operand1:
-							operand1 -operand2;
+                        if(operand1< operand2){
+                            var aux = operand1;
+                            operand1 = operand2;
+                            operand2 = aux;
+                        }
+                        correctAnswer = operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
@@ -315,9 +335,12 @@ function Server(){
 						opedator = "-";
 						operand1= Math.floor((Math.random() * 99 ) + 1 );
 						operand2= Math.floor((Math.random() * 99 ) + 1);
-						correctAnswer = (operand1< operand2)? 
-							operand2 -operand1:
-							operand1 -operand2;
+						if(operand1< operand2){
+							var aux = operand1;
+							operand1 = operand2;
+							operand2 = aux;
+						}
+						correctAnswer = operand1 -operand2;
 						break;
 					case 3: // x
 						opedator = "x";
@@ -400,8 +423,11 @@ function Server(){
 	/**
 	 * @summary Starts the server
 	 */
-	this.start = function(inLevel){
-        var promise = makeid();
+	this.start = function(inLevel, currentId){
+		self.events = {};
+		console.log(self.events)
+
+		var promise = makeid(currentId);
         promise.then(function(id){
         	id_game = id;
 			level = inLevel
@@ -422,93 +448,97 @@ function Server(){
 			refIdGame= database.ref(id_game);
 			refIdGame.set(valores);
 
+            if(!currentId) {
+                var refP1 = database.ref(id_game + "/p1");
+                refP1.on('value', function (snapshot) {
+                    if (serverReady) {
+                        if (!snapshot.val()) {
+                            self.fireEvent('onPlayerDisconnect', [{numPlayer: 1, playerWinner: valores.p1}]);
+                        } else if (!valores.p1) {
+                            var p1 = snapshot.toJSON();
+                            valores.p1 = p1;
+                            self.fireEvent('onInitPlayer', [{numPlayer: 1, player: valores.p1}]);
+                            if (valores.p2) {
+                                self.currentData = valores
+                                self.fireEvent('onPlayersReady', [valores]);
+                            }
+                        }
+                    }
 
-			var refP1= database.ref(id_game+"/p1");
-			refP1.on('value', function(snapshot){
-				if(serverReady){
-					if(!snapshot.val()){
-						self.fireEvent('onPlayerDisconnect',[{ numPlayer: 1, playerWinner: valores.p1 }]);
-					}else if(!valores.p1){
-						var p1 = snapshot.toJSON();
-						valores.p1 = p1;
-						self.fireEvent('onInitPlayer',[{ numPlayer: 1, player: valores.p1 }]);
-						if(valores.p2){
-							self.currentData = valores
-							self.fireEvent('onPlayersReady',[valores]);
-						}
-					}
-				}
+                });
 
-			});
+                var refP2 = database.ref(id_game + "/p2");
+                refP2.on('value', function (snapshot) {
+                    if (serverReady) {
+                        if (!snapshot.val()) {
+                            self.fireEvent('onPlayerDisconnect', [{numPlayer: 2, playerWinner: valores.p2}]);
+                        } else if (!valores.p2) {
+                            var p2 = snapshot.toJSON();
+                            valores.p2 = p2;
+                            self.fireEvent('onInitPlayer', [{numPlayer: 2, player: valores.p2}]);
+                            if (valores.p1) {
+                                self.currentData = valores
+                                self.fireEvent('onPlayersReady', [valores]);
+                            }
+                        }
+                    }
+                });
 
-			var refP2= database.ref(id_game+"/p2");
-			refP2.on('value', function(snapshot){
-				if(serverReady){
-					if(!snapshot.val()){
-						self.fireEvent('onPlayerDisconnect',[{ numPlayer: 2, playerWinner: valores.p2 }]);
-					}else if(!valores.p2){
-						var p2 = snapshot.toJSON();
-						valores.p2 = p2;
-						self.fireEvent('onInitPlayer',[{ numPlayer: 2, player: valores.p2 }]);
-						if(valores.p1){
-							self.currentData = valores
-							self.fireEvent('onPlayersReady',[valores]);
-						}
-					}
-				}
-			});
+                var readyP1 = database.ref(id_game + "/p1/ready");
+                readyP1.on('value', function (snapshot) {
+                    if (serverReady) {
+                        var ready = snapshot.val()
+                        // console.log(ready)
+                        if (ready) {
+                            self.p1Ready = true;
+                            if (self.p2Ready) {
+                                self.startGame()
+                            }
+                        }
+                    }
+                });
 
-			var readyP1= database.ref(id_game+"/p1/ready");
-			readyP1.on('value', function(snapshot){
-				if(serverReady){
-					var ready = snapshot.val()
-					// console.log(ready)
-					if(ready){
-						self.p1Ready = true;
-						if(self.p2Ready){
-							self.startGame()
-						}
-					}
-				}
-			});
+                var readyP2 = database.ref(id_game + "/p2/ready");
+                readyP2.on('value', function (snapshot) {
+                    if (serverReady) {
+                        var ready = snapshot.val()
+                        // console.log(ready)
+                        if (ready) {
+                            self.p2Ready = true;
+                            if (self.p1Ready) {
+                                self.startGame()
+                            }
+                        }
+                    }
+                });
 
-			var readyP2= database.ref(id_game+"/p2/ready");
-			readyP2.on('value', function(snapshot){
-				if(serverReady){
-					var ready = snapshot.val()
-					// console.log(ready)
-					if(ready){
-						self.p2Ready = true;
-						if(self.p1Ready){
-							self.startGame()
-						}
-					}
-				}
-			});
+                var p1answer = database.ref(id_game + "/p1answer");
+                p1answer.on('value', function (snapshot) {
+                    var p1answer = snapshot.toJSON();
+                    valores.p1answer = p1answer;
+                    if (valores.p2answer) {
+                        checkResults();
+                    }
+                });
 
-			var p1answer= database.ref(id_game+"/p1answer");
-			p1answer.on('value', function(snapshot){
-				var p1answer = snapshot.toJSON();
-				valores.p1answer = p1answer;
-				if(valores.p2answer){
-					checkResults();
-				}
-			});
+                var p2answer = database.ref(id_game + "/p2answer");
+                p2answer.on('value', function (snapshot) {
+                    var p2answer = snapshot.toJSON();
+                    valores.p2answer = p2answer;
+                    if (valores.p1answer) {
+                        checkResults();
+                    }
+                });
 
-			var p2answer= database.ref(id_game+"/p2answer");
-			p2answer.on('value', function(snapshot){
-				var p2answer = snapshot.toJSON();
-				valores.p2answer = p2answer;
-				if(valores.p1answer ){
-					checkResults();
-				}
-			});
-
-			//Borrando los datos al abandonar la partida
-			window.onbeforeunload = function(){
-				refIdGame.remove();
-			};
-			serverReady = true;
+                //Borrando los datos al abandonar la partida
+                window.onbeforeunload = function () {
+                    // if(!id_game.includes("egs"))
+                    refIdGame.remove();
+                    // else
+                    // 	self.retry();
+                };
+                serverReady = true;
+            }
         });
 	};
 
@@ -530,6 +560,8 @@ function Server(){
 		valores.gameEnded = false;
 		valores.retry = {retry:true, date:actualDate};
 		refIdGame.set(valores);
+		// refIdGame.off()
+		// refIdGame.remove();
 
 	}
 	

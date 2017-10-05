@@ -16,7 +16,7 @@ var operations = function(){
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
 			"ready":"Listos",
-			"reviewingAnswers": "Reviewing Answers",
+			"reviewingAnswers": "Rvisando Respuestas",
 			"youWin":"Ganaste!",
 			"giveUp":"No te rindas!"
 		}
@@ -139,6 +139,10 @@ var operations = function(){
 
 		loadSounds()
 
+		if(cliente){
+			cliente.restartGame = stopGame
+		}
+
 	}
 	
 	function addButtons() {
@@ -239,7 +243,7 @@ var operations = function(){
 		//objectsGroup.timer.pause()
 		//timer.pause()
 		// operationsSong.stop()
-		clock.tween.stop()
+		// clock.tween.stop()
 		inputsEnabled = false
 		cliente.removeEventListener("onTurnEnds", checkAnswer)
 		cliente.removeEventListener("onGameEnds", showWinner)
@@ -248,12 +252,13 @@ var operations = function(){
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
 
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
+			window.open("../mathClient/index.html", "_self")
+			// var resultScreen = sceneloader.getScene("result")
+			// resultScreen.setScore(true, numPoints, gameIndex)
 
 			//amazing.saveScore(pointsBar.number)
-			sceneloader.show("result")
-			sound.play("gameLose")
+			// sceneloader.show("operations")
+			// sound.play("gameLose")
 		})
 	}
 
@@ -477,6 +482,7 @@ var operations = function(){
 	function showWinner(event) {
 		clearStage()
 		var winnerNum = event.winner
+		waitingGroup.loading.alpha = 0
 
 		if(winnerNum === cliente.numPlayer){
 			waitingGroup.waitText.text = "You Win!"
@@ -567,6 +573,9 @@ var operations = function(){
 			sceneGroup.add(differenceTimeText)
 
 			if(cliente){
+				cliente.removeEventListener("onTurnEnds", checkAnswer)
+				cliente.removeEventListener("onGameEnds", showWinner)
+				cliente.removeEventListener("showPossibleAnswers", startRound)
 				cliente.addEventListener("onTurnEnds", checkAnswer)
 				cliente.addEventListener("showPossibleAnswers", startRound)
 				cliente.addEventListener("onGameEnds", showWinner)
@@ -611,6 +620,7 @@ var operations = function(){
 			waitingGroup.add(loading)
 			// console.log("width", player.width)
 			loading.y = 100
+			waitingGroup.loading = loading
 
 			// buttons.getButton(operationsSong,sceneGroup)
 		}

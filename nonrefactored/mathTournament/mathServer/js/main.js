@@ -1,14 +1,15 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
     document.body.style.visibility = "hidden"
-
+   
 	function preloadScenes(sceneList){
 
     	function onCompletePreloading(){
 
 			function onLoadFile(event){
+                
 	    		var loaderScene = sceneloader.getScene("preloaderIntro")
 	    		loaderScene.updateLoadingBar(event.totalLoaded, event.totalFiles)
 	    	}
@@ -17,7 +18,7 @@ function startGame(){
 				if(server){
 					server.setGameReady(true)
 					server.startGame = function () {
-						sceneloader.show("battle")
+				    sceneloader.show("battle")
 					}
 				}else
 					sceneloader.show("battle")
@@ -46,24 +47,27 @@ function startGame(){
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;
+        
+        
+
 
         // game.plugins.add(Fabrique.Plugins.Spine);
         game.plugins.add(PhaserSpine.SpinePlugin);
 
-        var language = "EN"
-        if(window.location.search){
-            var params = window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }
+        // var language = "EN"
+        // if(window.location.search){
+        //     var params = window.location.search.trim(1)
+        //     var regex = /language=(..)/i
+        //     var result = regex.exec(params)
+        //     if(result){
+        //         language = result[result.index].toUpperCase()
+        //     }else{
+        //         language = "EN"
+        //     }
+        //
+        // }
 
-        localization.setLanguage(language)
+		localization.setLanguage(parent.language)
 
         window.minigame.game = window.game
     	sceneloader.init(game)
@@ -73,9 +77,9 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            room,
+            preloaderIntro,
     		battle,
-            result,
+            //result,
     	])
     }
 }
