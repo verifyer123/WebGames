@@ -59,23 +59,24 @@ var localizationData = {
         } 
     var selectYogotarName;
 	var onClientInit = function(e){
-		var div_resultado = document.getElementById("resultado");
-		var btn_start = document.getElementById("start");
-        var dataInfo =  document.getElementById("dataInfo");
-        $("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
-		//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
-        $("#infoContainer").css("height",'0');
-        $("#infoContainer").css("visibility",'hidden');
-        //dataInfo.style.visibility = 'hidden';
-		//btn_start.style.visibility = 'hidden';
-        $("#start").hide();
-        $("#arrowRight").hide();
-        $("#arrowLeft").hide();
-        $("input").prop("disabled",true);
-
-		if(cliente.numPlayer!= null){
-			document.getElementById("start").disabled =true;
-		}
+		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+//		var div_resultado = document.getElementById("resultado");
+//		var btn_start = document.getElementById("start");
+//        var dataInfo =  document.getElementById("dataInfo");
+//        $("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+//		//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+//        $("#infoContainer").css("height",'0');
+//        $("#infoContainer").css("visibility",'hidden');
+//        //dataInfo.style.visibility = 'hidden';
+//		//btn_start.style.visibility = 'hidden';
+//        $("#start").hide();
+//        $("#arrowRight").hide();
+//        $("#arrowLeft").hide();
+//        $("input").prop("disabled",true);
+//
+//		if(cliente.numPlayer!= null){
+//			document.getElementById("start").disabled =true;
+//		}
 	}
 
 	function onPlayersReady(event) {
@@ -104,6 +105,22 @@ var localizationData = {
             cliente.addEventListener('onGameFull', onGameFull);
             cliente.startGame = onPlayersReady
             cliente.start(player, idGame);
+			var div_resultado = document.getElementById("resultado");
+			var btn_start = document.getElementById("start");
+			var dataInfo =  document.getElementById("dataInfo");
+			//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+			$("#infoContainer").css("height",'0');
+			$("#infoContainer").css("visibility",'hidden');
+			//dataInfo.style.visibility = 'hidden';
+			//btn_start.style.visibility = 'hidden';
+			$("#start").hide();
+			$("#arrowRight").hide();
+			$("#arrowLeft").hide();
+			$("input").prop("disabled",true);
+
+			if(cliente.numPlayer!= null){
+				document.getElementById("start").disabled =true;
+			}
         }
 
 	}
