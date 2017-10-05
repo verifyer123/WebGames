@@ -71,9 +71,9 @@ function Client(){
 	this.start =function(player, idGame){
 		// self.events = {};
 		console.log(self.events)
-		self.id_game = idGame;
 		self.player = player
-		self.refIdGame= database.ref(self.id_game);
+		self.refIdGame= database.ref(idGame);
+
 		self.refIdGame.once('value').then(function(snapshot) {
 			var p1,p2;
 			p1 = snapshot.val().p1;
@@ -90,7 +90,8 @@ function Client(){
 				self.refIdGame= null;
 				self.fireEvent('onGameFull',[]);
 			}
-			if(self.id_game!==null){
+			if((idGame!==null)&&(!self.id_game)){
+				self.id_game = idGame;
 				self.refIdGame.child("data").on('value', function(snapshot) {
 					var data = snapshot.val();
 					self.currentData = data
@@ -139,10 +140,9 @@ function Client(){
 					}
 				});
 
-				self.time= (new Date()).getTime();
-				self.fireEvent('onClientInit',[]);
-
 			}
+			self.time= (new Date()).getTime();
+			self.fireEvent('onClientInit',[]);
 
 		});
 
