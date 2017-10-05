@@ -1,8 +1,8 @@
-// var src = "http://yogome.com/epic/minigames/mathClient/index.html"
-var src = "../mathClient/index.html"
+var src = "http://yogome.com/epic/minigames/mathClient/index.html"
+// var src = "../mathClient/index.html"
 var gameFrame
 var gameContainer
-var language
+var language = null
 
 var config = {
 	apiKey: "AIzaSyBELTimQUqywzRlJTpIA2HZ8RTp9r_QF2E",
@@ -79,7 +79,6 @@ function Client(){
 			self.refIdGame= null;
 			self.fireEvent('onGameFull',[]);
 		}
-		console.log("numPlayer", self.numPlayer)
 		if((idGame!==null)&&(!self.id_game)){
 			self.id_game = idGame;
 			self.refIdGame.child("data").on('value', function(snapshot) {
