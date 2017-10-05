@@ -528,6 +528,10 @@ footer{
 }      
 
 /*LOADER*/
+.loader{
+    margin-top: 5%;
+}
+
 .loader span {
   display: inline-block;
   vertical-align: middle;
