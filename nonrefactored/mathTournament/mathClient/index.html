@@ -59,7 +59,7 @@ var localizationData = {
         } 
     var selectYogotarName;
 	var onClientInit = function(e){
-		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
 //		var div_resultado = document.getElementById("resultado");
 //		var btn_start = document.getElementById("start");
 //        var dataInfo =  document.getElementById("dataInfo");
@@ -87,8 +87,31 @@ var localizationData = {
 		window.open("../mathClient/operations.html", "_self")
 	}
 
+	function onError() {
+		alert("No se encuentra la partida");
+		$("#infoContainer").css("height",'100%');
+		$("#infoContainer").css("visibility",'visible');
+		//dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
+		$("#start").show();
+		$("#arrowRight").show();
+		$("#arrowLeft").show();
+		$("input").prop("disabled",false);
+		$(".loading").remove();
+
+	}
+
 	var onGameFull = function(){
 		alert("La partida ya se encuentra ocupada");
+		$("#infoContainer").css("height",'100%');
+		$("#infoContainer").css("visibility",'visible');
+		//dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
+		$("#start").show();
+		$("#arrowRight").show();
+		$("#arrowLeft").show();
+		$("input").prop("disabled",false);
+		$(".loading").remove();
 	}
 
 	cliente = parent.cliente;
@@ -104,10 +127,7 @@ var localizationData = {
             cliente.addEventListener('onClientInit', onClientInit);
             cliente.addEventListener('onGameFull', onGameFull);
             cliente.startGame = onPlayersReady
-            cliente.start(player, idGame);
-			var div_resultado = document.getElementById("resultado");
-			var btn_start = document.getElementById("start");
-			var dataInfo =  document.getElementById("dataInfo");
+            cliente.start(player, idGame, onError);
 			//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
 			$("#infoContainer").css("height",'0');
 			$("#infoContainer").css("visibility",'hidden');
@@ -117,10 +137,12 @@ var localizationData = {
 			$("#arrowRight").hide();
 			$("#arrowLeft").hide();
 			$("input").prop("disabled",true);
+			$("#settings").append('<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
 
-			if(cliente.numPlayer!= null){
-				document.getElementById("start").disabled =true;
-			}
+//			if(cliente.numPlayer!= null){
+//				document.getElementById("start").disabled =true;
+//			}
+
         }
 
 	}
