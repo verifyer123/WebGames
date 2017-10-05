@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var battle = function(){
-	var server = server || null
+	var server = parent.server || null
 	var serverData = server ? server.currentData : {
 		p1:{nickname:"Player1", avatar:"tomiko"},
 		p2:{nickname:"Player2", avatar:"razzle"}
