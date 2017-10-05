@@ -44,7 +44,8 @@ var localizationData = {
             "waiting":"Esperando a tu rival"
         }
         };
-        var language = parent.language
+        //var language = parent.language
+        var language = "EN"
     var selectYogotarName;
 	var onClientInit = function(e){
 		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
