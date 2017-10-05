@@ -137,7 +137,9 @@ var battle = function(){
         monsters = []
 
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
+        var preloadAlpha = document.getElementById("preloadBattle");
+        preloadAlpha.style.visibility = "hidden";
         inputsEnabled = false
 		if(server){
 			server.removeEventListener('afterGenerateQuestion', generateQuestion);
