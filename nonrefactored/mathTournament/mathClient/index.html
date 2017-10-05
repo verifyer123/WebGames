@@ -32,7 +32,7 @@ var localizationData = {
             "start":"Start Game",
             "player":"Player",
             "ready":"Ready!",
-            "waiting":"Waiting your Oponent"
+            "waiting":"Waiting for your Oponent"
 		},
 
 		"ES":{
@@ -41,7 +41,7 @@ var localizationData = {
             "start":"Empezar",            
             "player":"Jugador",
             "ready":"¡Listo!",
-            "waiting":"Esperando a tu oponente"
+            "waiting":"Esperando a tu rival"
         }
         };
         var language = "EN"
@@ -59,7 +59,7 @@ var localizationData = {
         } 
     var selectYogotarName;
 	var onClientInit = function(e){
-		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
+		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
 //		var div_resultado = document.getElementById("resultado");
 //		var btn_start = document.getElementById("start");
 //        var dataInfo =  document.getElementById("dataInfo");
@@ -152,10 +152,6 @@ var localizationData = {
         <div id="arrowRight" class="arrow-menu"><img src="images/arrow_right.png"/></div>
     </div>
 <div id="settings">
-    <!--<select id="avatar">
-        <option value="1" selected >Eagle</option>
-        <option value="2">Luna</option>
-    </select> -->   
     <section id="nameYogo"></section>
         <section id="avatar">
             
@@ -192,13 +188,57 @@ var localizationData = {
                 index:0,
                 name:"eagle",
                 nameText:"Eagle",
-                img:"images/eagle.png"
+                img:"images/yogotars/eagle.png",
+                unlock: true
             },
             {   
                 index:1,
                 name:"luna",
                 nameText:"Luna",
-                img:"images/luna.png"
+                img:"images/yogotars/luna.png",
+                unlock: true
+            },
+            {   
+                index:2,
+                name:"tomiko",
+                nameText:"Tomiko",
+                img:"images/yogotars/tomiko.png",
+                unlock: false
+            },
+            {   
+                index:3,
+                name:"arthurius",
+                nameText:"Arthurius",
+                img:"images/yogotars/arthurius.png",
+                unlock: false
+            },
+            {   
+                index:4,
+                name:"estrella",
+                nameText:"Estrella",
+                img:"images/yogotars/estrella.png",
+                unlock: false
+            },
+            {   
+                index:5,
+                name:"justice",
+                nameText:"Justice",
+                img:"images/yogotars/justice.png",
+                unlock: false
+            },
+            {   
+                index:6,
+                name:"oona",
+                nameText:"Oona",
+                img:"images/yogotars/oona.png",
+                unlock: false
+            },
+            {   
+                index:7,
+                name:"razzle",
+                nameText:"Razzle",
+                img:"images/yogotars/razzle.png",
+                unlock: false
             },
         ];
         
@@ -218,10 +258,8 @@ var localizationData = {
                 $(this).css("padding-right","28%");  
                 $(this).animate({'padding-right':"30%"}, 50, 'linear');  
                 if(counter != lengthAvatar-1){   
-                    
-       
-                    counter++;
-                    
+                    $("#arrowLeft").css("opacity",1);
+                    counter++;          
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("left",0);  
                 $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
@@ -231,14 +269,18 @@ var localizationData = {
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
                 $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');    
                 }
+                if(counter == lengthAvatar-1){
+                    $(this).css("opacity",0.5);
+                }
                 selectYogotarName = yogotarCharacters[counter].name;
         });
-      
+      $("#arrowLeft").css("opacity",0.5);
         $("#arrowLeft").click(function(){
                 $(this).css("padding-left","28%");  
                 $(this).animate({'padding-left':"30%"}, 50, 'linear'); 
              if(counter != 0){   
-                    counter--;
+                $("#arrowRight").css("opacity",1);
+                counter--;
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("left",0);  
                 $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
@@ -246,7 +288,10 @@ var localizationData = {
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1); 
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
-                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');                    
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');       
+                }
+                if(counter == 0){
+                    $(this).css("opacity",0.5);
                 }
                 selectYogotarName = yogotarCharacters[counter].name;
         });
