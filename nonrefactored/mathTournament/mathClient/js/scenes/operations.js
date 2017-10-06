@@ -301,10 +301,10 @@ var operations = function(){
 		options = cliente ? cliente.currentOptions : [120, 200, 0]
 
 		clientData = (cliente)&&(cliente.currentData) ? cliente.currentData : {
-			operand1 : 20,
-			operand2 : 2,
+			operand1 : 88,
+			operand2 : 8,
 			opedator : "/",
-			result:"?",
+			result:10,
 			correctAnswer : 10,
 			type :"yei"
 		}
@@ -347,8 +347,9 @@ var operations = function(){
 
 	function generateEquation(){
 		if(clientData.opedator === "/"){
-			equationGroup.division.alpha = 1
-			equationGroup.equationText.text = clientData.operand2 + "  " + clientData.operand1 + "=" + clientData.result
+			// equationGroup.division.alpha = 1
+			equationGroup.equationText.text = clientData.operand2 + "⟌" + clientData.operand1 + "=" + clientData.result
+			// equationGroup.equationText.text
 		}else{
 			equationGroup.equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
 		}
@@ -567,7 +568,7 @@ var operations = function(){
 			sceneGroup.add(equationGroup)
 
 			readyString = localization.getString(localizationData, "ready")
-			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 300}
+			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 480}
 			var equationText = game.add.text(0,0,readyString, fontStyle2)
 			equationText.anchor.setTo(0.5, 0.5)
 			equationGroup.add(equationText)

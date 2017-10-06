@@ -375,8 +375,8 @@ var battle = function(){
 
 	function generateEquation(data){
 		if(data.opedator === "/"){
-			equationGroup.division.alpha = 1
-			equationGroup.equation.text = data.operand2 + "  " + data.operand1 + "=" + data.result
+			// equationGroup.division.alpha = 1
+			equationGroup.equation.text = data.operand2 + "⟌" + data.operand1 + "=" + data.result
 		}else{
 			equationGroup.equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
 		}
@@ -767,7 +767,7 @@ var battle = function(){
 			server.generateQuestion()
 		}else{
 			game.time.events.add(1000, function () {
-				generateQuestion({operand1:100, opedator:"/", operand2:20, result:10})
+				generateQuestion({operand1:100, opedator:"/", operand2:10, result:"?"})
 			})
 		}
 		// if(server)
@@ -920,7 +920,7 @@ var battle = function(){
 		equationGroup.add(equation)
 		equationGroup.equation = equation
 
-		var division = equationGroup.create(-20,-15, "atlas.battle", "sign")
+		var division = equationGroup.create(10,-15, "atlas.battle", "sign")
 		division.anchor.setTo(0.5, 0.5)
 		division.scale.setTo(1.2, 1.2)
 		division.alpha = 0

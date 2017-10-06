@@ -375,16 +375,21 @@ function Server(){
 		// correctAnswer = operand1 +operand2;
 
 		var possibleAnswers = [correctAnswer];
-		var percentage = Math.floor(correctAnswer * 0.25);
+		var inicialPercentage = 0.25;
+		var percentage = 0;
+		while(percentage == 0) {
+			percentage = Math.floor(correctAnswer * inicialPercentage);
+			inicialPercentage*2;
+		}
 		for(var i = 0; i< NUMBER_OF_FAKE_ANSWERS; i++){
 			var n = correctAnswer;
-			while(n === correctAnswer){
+			// while(n === correctAnswer){
                 var isSuma = Math.floor((Math.random() * 2) + 1);
                 if(isSuma ==1 )
 					n = correctAnswer + Math.floor(Math.random() * percentage);
 				else
                     n = correctAnswer - Math.floor(Math.random() * percentage);
-			}
+			// }
 			possibleAnswers.push(n);
 		}
 
