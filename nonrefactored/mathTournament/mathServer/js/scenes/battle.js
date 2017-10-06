@@ -370,6 +370,7 @@ var battle = function(){
 
     function hideQuestion(){
         game.add.tween(equationGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+		equationGroup.division.alpha = 0;
     }
 
 	function generateEquation(data){
