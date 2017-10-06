@@ -447,7 +447,7 @@ function Server(){
 			refIdGame= database.ref(id_game);
 			refIdGame.set(valores);
 
-            if(id) {
+            if(!currentId) {
                 var refP1 = database.ref(id_game + "/p1");
                 refP1.on('value', function (snapshot) {
                     if (serverReady) {
