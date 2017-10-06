@@ -125,6 +125,7 @@ var battle = function(){
 	var hudGroup
 	var frontGroup
 	var answersGroup
+	var equationGroup
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -368,8 +369,19 @@ var battle = function(){
     }
 
     function hideQuestion(){
-        game.add.tween(equation).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(equationGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+		equationGroup.division.alpha = 0;
     }
+
+	function generateEquation(data){
+		if(data.opedator === "/"){
+			equationGroup.division.alpha = 1
+			equationGroup.equation.text = data.operand2 + "  " + data.operand1 + "=" + data.result
+		}else{
+			equationGroup.equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
+		}
+
+	}
 
     function checkAnswer(event) {
 		// game.add.tween(answersGroup).to({y:game.world.height}, 500, Phaser.Easing.Cubic.Out, true)
@@ -387,9 +399,9 @@ var battle = function(){
 				break
 
 		}
-		equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
+		generateEquation(data)
 
-    	game.add.tween(equation.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+    	game.add.tween(equationGroup.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 		var playerWin = null, playerLose = null
     	if(event.numPlayer === 1){
 			playerWin = player1
@@ -755,7 +767,7 @@ var battle = function(){
 			server.generateQuestion()
 		}else{
 			game.time.events.add(1000, function () {
-				generateQuestion({operand1:100, opedator:"+", operand2:100, result:200})
+				generateQuestion({operand1:100, opedator:"/", operand2:20, result:10})
 			})
 		}
 		// if(server)
@@ -767,13 +779,13 @@ var battle = function(){
     function numbersEffect() {
         sound.play("cut")
 
-        equation.alpha = 0
+		equationGroup.alpha = 0
 
-		equation.scale.x = 0.2
-		equation.scale.y = 0.2
+		equationGroup.scale.x = 0.2
+		equationGroup.scale.y = 0.2
 
-        game.add.tween(equation.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
-        game.add.tween(equation).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(equationGroup.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
+        game.add.tween(equationGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
 
     function enableCircle(option) {
@@ -783,7 +795,7 @@ var battle = function(){
     function generateQuestion(data) {
         // var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1]
 		// console.log(data)
-        equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
+		generateEquation(data)
         numbersEffect()
 
     }
@@ -899,10 +911,20 @@ var battle = function(){
 		container.anchor.setTo(0.5, 0.5)
 		container.scale.setTo(0.9, 0.6)
 
-        equation = new Phaser.Text(game, 0, -5, "0+0=?", fontStyle)
-		equation.alpha = 0
+        equationGroup = game.add.group()
+		questionGroup.add(equationGroup)
+		equationGroup.alpha = 0
+
+		var equation = new Phaser.Text(game, 0, 0, "0+0=?", fontStyle)
 		equation.anchor.setTo(0.5,0.5)
-		questionGroup.add(equation)
+		equationGroup.add(equation)
+		equationGroup.equation = equation
+
+		var division = equationGroup.create(-20,-15, "atlas.battle", "sign")
+		division.anchor.setTo(0.5, 0.5)
+		division.scale.setTo(1.2, 1.2)
+		division.alpha = 0
+		equationGroup.division = division
 
 		answersGroup = game.add.group()
 		answersGroup.x = game.world.centerX

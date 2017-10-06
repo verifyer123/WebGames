@@ -29,7 +29,7 @@
 },
 {
 	"filename": "energy",
-	"frame": {"x":733,"y":546,"w":40,"h":40},
+	"frame": {"x":803,"y":563,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -82,6 +82,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "sign",
+	"frame": {"x":674,"y":546,"w":68,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":54},
+	"sourceSize": {"w":68,"h":54},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
 	"frame": {"x":844,"y":375,"w":64,"h":64},
 	"rotated": false,
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "stopwatch",
-	"frame": {"x":674,"y":546,"w":57,"h":64},
+	"frame": {"x":744,"y":546,"w":57,"h":64},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":0,"w":57,"h":64},
@@ -124,6 +133,6 @@
 	"format": "RGBA8888",
 	"size": {"w":978,"h":618},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:aa84dcf60133dd77c0c02777c117054b:7000851dba6f302be3567c241d5e5c57:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:099e39bbd0d217ff916c17eaff076cc6:be1b967ab5f303dcfd05fb4e0357d4b9:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

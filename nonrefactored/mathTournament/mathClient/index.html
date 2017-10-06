@@ -25,7 +25,10 @@
 </div>
 
 <script>
-var localizationData = {
+    var popSound = new Audio('sounds/pop.mp3');
+    var magicSound = new Audio('sounds/magic.mp3');
+    var lockSound = new Audio('sounds/lock.mp3');    
+    var localizationData = {
 		"EN":{
             "pin":"Write PIN",
             "Nickname": "Nickname",
@@ -44,8 +47,7 @@ var localizationData = {
             "waiting":"Esperando a tu rival"
         }
         };
-        //var language = parent.language
-        var language = "EN"
+        var language = parent.language
     var selectYogotarName;
 	var onClientInit = function(e){
 		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
@@ -105,6 +107,7 @@ var localizationData = {
 
 	cliente = parent.cliente;
 	function startButton(){
+        magicSound.play();
         if($("#idGame").val() != "" && $("#nickname").val() != ""){
             var idGame = cliente.id_game || document.getElementById("idGame").value;
             var player = {
@@ -256,6 +259,7 @@ var localizationData = {
 //            console.log(YogoPosx);
         
             $("#arrowRight").click(function(){ 
+                lockSound.play();
                 $(this).css("padding-right","28%");  
                 $(this).animate({'padding-right':"30%"}, 50, 'linear');  
                 if(counter != lengthAvatar-1){   
@@ -283,6 +287,7 @@ var localizationData = {
         });
       $("#arrowLeft").css("opacity",0.5);
         $("#arrowLeft").click(function(){
+            lockSound.play();
                 $(this).css("padding-left","28%");  
                 $(this).animate({'padding-left':"30%"}, 50, 'linear'); 
              if(counter != 0){   

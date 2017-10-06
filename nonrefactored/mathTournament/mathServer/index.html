@@ -167,7 +167,9 @@
 </body>
 <!--<script src="js/site.js"></script>-->
 <script>
-
+    var popSound = new Audio('sounds/pop.mp3');
+    var magicSound = new Audio('sounds/magic.mp3');
+    var comboSound = new Audio('sounds/comboSound.mp3');
 	if((server)&&(server.getIdGame())){
 		var pinSection = document.getElementById("pinNumber");
 		pinSection.style.visibility  = 'hidden';
@@ -234,6 +236,8 @@
 	});
 
     $("#startGameButton").mousedown(function(){
+        popSound.play();
+        comboSound.play();
         $("#startGameButton").toggleClass("onBgButton");
         $("#startGameButton").prop( "disabled", false );
         createGame();
@@ -275,6 +279,7 @@ function SelectLevel(){
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseover(function(){TweenMax.to($(this),0.5,{scale:1.1});});
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
         $("#choiceBasicButton,#choiceMediumButton,#choiceadvanceButton").click(function(){
+            magicSound.play();
 			var level = parseInt($(this).attr("level"));
 			var currentID = server.getIdGame()
 			server.start(level, currentID);
