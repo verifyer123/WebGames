@@ -274,6 +274,7 @@ function Server(){
 						operand1= Math.floor((Math.random() * 10 ) + 12 );
 						operand2= Math.floor((Math.random() * 10 ) + 12 );
 						correctAnswer = operand1 * operand2;
+						break;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
@@ -289,6 +290,7 @@ function Server(){
 						operand1= Math.floor((Math.random() * 250) + 1);
 						operand2= Math.floor((Math.random() * 250) + 1);
 						correctAnswer = operand1 +operand2;
+						break;
 				}
 				break;
 			case 3://Advance
@@ -310,6 +312,7 @@ function Server(){
 						operand1= Math.floor((Math.random() * 10 ) + 22 );
 						operand2= Math.floor((Math.random() * 10 ) + 21 );
 						correctAnswer = operand1 * operand2;
+						break;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
@@ -325,6 +328,7 @@ function Server(){
 						operand1= Math.floor((Math.random() * 500) + 1);
 						operand2= Math.floor((Math.random() * 499) + 1);
 						correctAnswer = operand1 +operand2;
+						break;
 				}
 				break;
 			case 1://Basic
@@ -347,6 +351,7 @@ function Server(){
 						operand1= Math.floor((Math.random() * 9 ) + 1 );
 						operand2= Math.floor((Math.random() * 11 ) + 1);
 						correctAnswer = operand1 * operand2;
+						break;
 					case 4: // /
 						// operand1 = dividendo, operand2 = divisor
 						opedator = "/";
@@ -362,9 +367,10 @@ function Server(){
 						operand1= Math.floor((Math.random() * 100) + 1);
 						operand2= Math.floor((Math.random() * 100) + 1);
 						correctAnswer = operand1 +operand2;
+						break;
 				}
 				var isEcuation = Math.floor((Math.random() * 2) + 1);
-				if(isEcuation==1){
+				if(isEcuation===1){
 					result =correctAnswer;
 					correctAnswer = operand2;
 					operand2 = "?";
@@ -381,7 +387,7 @@ function Server(){
 			var n = correctAnswer;
 			while(possibleAnswers.includes(n)){
                 var isSuma = Math.floor((Math.random() * 2) + 1);
-                if(isSuma ==1 )
+                if(isSuma ===1 )
 					n = correctAnswer + Math.floor(Math.random() * percentage)+Math.floor(Math.random() * 2);
 				else
                     n = correctAnswer - Math.floor(Math.random() * percentage)-Math.floor(Math.random() * 2);

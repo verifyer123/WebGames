@@ -295,7 +295,6 @@ var operations = function(){
 
 	function startRound() {
 		isReady = true;
-		equationGroup.division.alpha = 0
 
 		timeElapsed = 0
 		options = cliente ? cliente.currentOptions : [120, 200, 0]
@@ -347,9 +346,7 @@ var operations = function(){
 
 	function generateEquation(){
 		if(clientData.opedator === "/"){
-			// equationGroup.division.alpha = 1
-			equationGroup.equationText.text = clientData.operand2 + "⟌" + clientData.operand1 + "=" + clientData.result
-			// equationGroup.equationText.text
+			equationGroup.equationText.text = clientData.operand2 + "ƒ" + clientData.operand1 + " =" + clientData.result
 		}else{
 			equationGroup.equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
 		}
@@ -568,17 +565,11 @@ var operations = function(){
 			sceneGroup.add(equationGroup)
 
 			readyString = localization.getString(localizationData, "ready")
-			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 480}
+			var fontStyle2 = {font: "72px WAG", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 480}
 			var equationText = game.add.text(0,0,readyString, fontStyle2)
 			equationText.anchor.setTo(0.5, 0.5)
 			equationGroup.add(equationText)
 			equationGroup.equationText = equationText
-
-			var division = equationGroup.create(-20,-15, "atlas.operations", "sign")
-			division.anchor.setTo(0.5, 0.5)
-			division.scale.setTo(1.5, 1.5)
-			division.alpha = 0
-			equationGroup.division = division
 
 			var fontStyle3 = {font: "52px Arial", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			timerText = game.add.text(game.world.centerX - 30,250,"0:00", fontStyle3)

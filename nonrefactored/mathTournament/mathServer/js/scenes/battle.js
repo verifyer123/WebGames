@@ -10,12 +10,14 @@ var battle = function(){
     var localizationData = {
         "EN":{
             "howTo":"How to Play?",
-            "moves":"Moves left"
+            "moves":"Moves left",
+			"question":"Question "
         },
 
         "ES":{
             "moves":"Movimientos extra",
-            "howTo":"�C�mo jugar?"
+            "howTo":"�C�mo jugar?",
+			"question":"Pregunta "
         }
     }
 
@@ -81,7 +83,7 @@ var battle = function(){
     var NUM_LIFES = 3
     var NUM_OPTIONS = 3
     var MAX_HP = 100
-	var WIDTH_DISTANCE = 220
+	var WIDTH_DISTANCE = 160
 	var HP_BAR_WIDTH = 350
 
     var MONSTERS = [
@@ -104,28 +106,26 @@ var battle = function(){
 
     var lives
     var sceneGroup = null
-    var gameIndex = 58
+    // var gameIndex = 58
     var tutoGroup
     var battleSong
     var pullGroup = null
-    var clock
     var timeValue
     var inputsEnabled
     var monsterCounter
     var player2
     var player1
-    var battleGroup
-    var indicator
     var killedMonsters
     var monsters
     var hitParticle
-	var equation
 	var alphaMask
 	var ready, go
 	var hudGroup
 	var frontGroup
 	var answersGroup
 	var equationGroup
+	var questionGroup
+	var questionCounter
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -140,6 +140,7 @@ var battle = function(){
         monsterCounter = 0
         killedMonsters = 0
         monsters = []
+		questionCounter = 1
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -368,15 +369,17 @@ var battle = function(){
 
     }
 
-    function hideQuestion(){
-        game.add.tween(equationGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-		equationGroup.division.alpha = 0;
+
+    function initQuestion(){
+		questionGroup.questionText.text = localization.getString(localizationData, "question") + questionCounter
+		questionCounter++
+    	equationGroup.alpha = 0
+        game.add.tween(questionGroup).to({y: 0}, 1000, Phaser.Easing.Cubic.Out, true)
     }
 
 	function generateEquation(data){
 		if(data.opedator === "/"){
-			// equationGroup.division.alpha = 1
-			equationGroup.equation.text = data.operand2 + "⟌" + data.operand1 + "=" + data.result
+			equationGroup.equation.text = data.operand2 + "ƒ" + data.operand1 + " =" + data.result
 		}else{
 			equationGroup.equation.text = data.operand1 + data.opedator + data.operand2 + "=" + data.result
 		}
@@ -384,7 +387,7 @@ var battle = function(){
 	}
 
     function checkAnswer(event) {
-		// game.add.tween(answersGroup).to({y:game.world.height}, 500, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(answersGroup).to({y:game.world.height}, 500, Phaser.Easing.Cubic.Out, true)
 
     	var data = server ? server.currentData.data : {operand1:100, opedator:"+", operand2:100, result:200, correctAnswer:200}
 		switch ("?"){
@@ -419,6 +422,8 @@ var battle = function(){
 			sceneGroup.correctParticle.start(true, 1000, null, 5)
 			playerWin.setAnimation(["WIN", "IDLE"])
 			game.time.events.add(1000, function () {
+				game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
+				game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
 				playerAttack(playerWin, playerLose, createProyectile, "proyectile")
 			})
 		}else{
@@ -537,7 +542,7 @@ var battle = function(){
 		player.hit = hitParticle
 
 		var hpBar = createHpbar(scale)
-		hpBar.x = player.x
+		hpBar.x = player.x + 10 * scale
 		hpBar.y = 120
 		hudGroup.uiGroup.add(hpBar)
 		hpBar.name.text = data.nickname
@@ -757,17 +762,18 @@ var battle = function(){
 		game.add.tween(player2.hpBar).to({alpha:1}, 1200, Phaser.Easing.Cubic.Out, true, 600)
 
 		// game.time.events.add(1200, winPlayer, null, player1)
+		game.add.tween(questionGroup).to({y:0}, 1200, Phaser.Easing.Cubic.Out, true)
 		game.time.events.add(1200, showReadyGo)
 
 	}
 
     function startRound() {
-        hideQuestion()
+        initQuestion()
 		if(server){
 			server.generateQuestion()
 		}else{
 			game.time.events.add(1000, function () {
-				generateQuestion({operand1:100, opedator:"/", operand2:10, result:"?"})
+				generateQuestion({operand1:200, opedator:"+", operand2:200, result:400})
 			})
 		}
 		// if(server)
@@ -868,71 +874,118 @@ var battle = function(){
 		var statsGroup = game.add.group()
 		answersGroup.add(statsGroup)
 
-    	var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		// var answerLabel = game.add.text(140 * direction, -110, "Answer", fontStyle)
-		// answerLabel.anchor.setTo(0.5, 0.5)
-		// statsGroup.add(answerLabel)
+    	var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
-		var answerBg = game.add.graphics()
-		answerBg.beginFill(0x000000)
-		answerBg.drawRoundedRect(0,0, 80, 50, 10)
-		answerBg.endFill()
-		statsGroup.add(answerBg)
-		answerBg.x = 160 * direction - answerBg.width * 0.5
-		answerBg.y = -90 - answerBg.height * 0.5
-		answerBg.alpha = 0.6
+		var answerBg = statsGroup.create(200 * direction, -120, "atlas.battle", "answer")
+		answerBg.anchor.setTo(0.5, 0.5)
 
-		var timeImg = statsGroup.create(220 * direction, -30, "atlas.battle", "stopwatch")
+		var answerText = game.add.text(answerBg.x, answerBg.y + 4, "999", fontStyle)
+		answerText.anchor.setTo(0.5, 0.5)
+		statsGroup.add(answerText)
+
+		var ledOff = statsGroup.create(80 * direction, -120, "atlas.battle", "led_off")
+		ledOff.anchor.setTo(0.5, 0.5)
+		var ledRed = statsGroup.create(80 * direction, -120, "atlas.battle", "led_red")
+		ledRed.anchor.setTo(0.5, 0.5)
+		ledRed.alpha = 0
+		var ledGreen = statsGroup.create(80 * direction, -120, "atlas.battle", "led_green")
+		ledGreen.anchor.setTo(0.5, 0.5)
+		ledGreen.alpha = 0
+
+		var timeBgOff = statsGroup.create(150 * direction, -44, "atlas.battle", "time_off")
+		timeBgOff.anchor.setTo(0.5, 0.5)
+		var timeBgWin = statsGroup.create(150 * direction, -44, "atlas.battle", "time")
+		timeBgWin.anchor.setTo(0.5, 0.5)
+		timeBgWin.alpha = 0
+		var timeBgLose = statsGroup.create(150 * direction, -44, "atlas.battle", "time_lose")
+		timeBgLose.anchor.setTo(0.5, 0.5)
+		timeBgLose.alpha = 0
+
+		var timeText = game.add.text(timeBgOff.x, timeBgOff.y + 4, "00:00", fontStyle)
+		timeText.anchor.setTo(0.5, 0.5)
+		statsGroup.add(timeText)
+
+		var timeImg = statsGroup.create(285 * direction, -44, "atlas.battle", "stopwatch")
 		timeImg.scale.setTo(0.7, 0.7)
 		timeImg.anchor.setTo(0.5, 0.5)
 
-		var timeBg = game.add.graphics()
-		timeBg.beginFill(0x000000)
-		timeBg.drawRoundedRect(0,0, 100, 40, 10)
-		timeBg.endFill()
-		statsGroup.add(timeBg)
-		timeBg.x = 140 * direction - timeBg.width * 0.5
-		timeBg.y = -30 -timeBg.height * 0.5
-		timeBg.alpha = 0.6
+		var winnerGroup = game.add.group()
+		winnerGroup.x = 200 * direction; //winnerGroup.y = -246
+		answersGroup.add(winnerGroup)
+		answersGroup.sendToBack(winnerGroup)
+		
+		statsGroup.showWinner = function () {
+			game.add.tween(winnerGroup).to({y:-246}, 1000, Phaser.Easing.Cubic.Out, true)
+		}
+
+		var winnerBan = winnerGroup.create(0, 0, "atlas.battle", "comparison")
+		winnerBan.anchor.setTo(0.5, 0.5)
+		winnerBan.scale.x = 1.4
+
+		var fontStyle2 = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var winnerText = game.add.text(0, -44, "WINNER", fontStyle2)
+		winnerText.anchor.setTo(0.5, 0.5)
+		winnerGroup.add(winnerText)
+
+		var difTimeText = game.add.text(-28, 12, "-0:00", fontStyle)
+		difTimeText.anchor.setTo(0.5, 0.5)
+		winnerGroup.add(difTimeText)
+
+		var fontStyle3 = {font: "32px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var diffLabel = game.add.text(75, 30, "sec", fontStyle3)
+		diffLabel.anchor.setTo(0.5, 0.5)
+		winnerGroup.add(diffLabel)
+
 
 		return statsGroup
 	}
 	
     function createbattleUI() {
 
-        var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
+        var fontStyle = {font: "72px WAG", fontWeight: "bold", fill: "#350A00", align: "center"}
+        var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
-        var questionGroup = game.add.group()
+        questionGroup = game.add.group()
 		questionGroup.x = game.world.centerX
-        questionGroup.y = 100
+        questionGroup.y = -180
 		hudGroup.uiGroup.add(questionGroup)
+		questionGroup.scale.setTo(0.6, 0.6)
 
-		var container = questionGroup.create(0,0, "atlas.battle", "container")
+		var topBar = questionGroup.create(0, 0, "atlas.battle", "top")
+		topBar.anchor.setTo(0.5, 0)
+
+		var container = questionGroup.create(0,0, "atlas.battle", "question")
+		container.y = 170
 		container.anchor.setTo(0.5, 0.5)
-		container.scale.setTo(0.9, 0.6)
+
+		var questionString = localization.getString(localizationData, "question") + questionCounter
+		var questionText = new Phaser.Text(game, 0, 60, questionString, fontStyle2)
+		questionText.anchor.setTo(0.5,0.5)
+		questionGroup.add(questionText)
+		questionGroup.questionText = questionText
 
         equationGroup = game.add.group()
 		questionGroup.add(equationGroup)
+		equationGroup.y = container.y
 		equationGroup.alpha = 0
+		equationGroup.question = questionText
 
-		var equation = new Phaser.Text(game, 0, 0, "0+0=?", fontStyle)
+		var equation = new Phaser.Text(game, 0, 6, "0+0=?", fontStyle)
 		equation.anchor.setTo(0.5,0.5)
 		equationGroup.add(equation)
 		equationGroup.equation = equation
-
-		var division = equationGroup.create(10,-15, "atlas.battle", "sign")
-		division.anchor.setTo(0.5, 0.5)
-		division.scale.setTo(1.2, 1.2)
-		division.alpha = 0
-		equationGroup.division = division
 
 		answersGroup = game.add.group()
 		answersGroup.x = game.world.centerX
 		answersGroup.y = game.world.height
 		hudGroup.uiGroup.add(answersGroup)
+		answersGroup.scale.setTo(0.9, 0.9)
 
 		var bar = answersGroup.create(0,0, "atlas.battle", "bar")
 		bar.anchor.setTo(0.5, 1)
+
+		var vs = answersGroup.create(0,0, "atlas.battle", "versus")
+		vs.anchor.setTo(0.5, 1)
 		answersGroup.y = answersGroup.y + bar.height
 
 		createPlayerStats(-1)
@@ -1165,6 +1218,7 @@ var battle = function(){
 			enterGame()
             // createTutorial()
 
+			sceneGroup.bringToTop(hudGroup)
             buttons.getButton(battleSong,hudGroup)
 
 			frontGroup = game.add.group()

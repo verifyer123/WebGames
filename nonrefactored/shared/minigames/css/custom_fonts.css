@@ -3,6 +3,21 @@
 	src: url('../fonts/VAGRoundedStd-Bold.otf');
 }
 
+@font-face {
+	font-family: 'WAG';
+	src: url('../fonts/WAG.otf');
+}
+
+
+/*@font-face {*/
+	/*font-family: 'WAG';*/
+	/*src: url('../fonts/wag-webfont.woff2') format('woff2'),*/
+	/*url('../fonts/wag-webfont.woff') format('woff');*/
+	/*font-weight: normal;*/
+	/*font-style: normal;*/
+
+/*}*/
+
 .custom-font{
 	font-family: "VAGRounded";
 	opacity: 0;
