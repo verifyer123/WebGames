@@ -36,7 +36,9 @@
             "joinPIN":"Join with Game PIN:",
             "START":"START",
             "menu":"Contact Us | About Us | Terms & Conditions | Kids & Online Safety",
-            "allRigths" :"All rights reserved"
+            "allRigths" :"All rights reserved",
+            "nickNameP1" : "Player 1",
+            "nickNameP2" :"Player 2"
 		},
 
 		"ES":{
@@ -52,7 +54,9 @@
             "joinPIN":"Unirse con un PIN de juego",
             "START":"EMPEZAR",
             "menu":"Contáctanos | Nosotros | Términos y condiciones | Niños y seguridad en línea",
-            "allRigths" :"Todos los derechos reservados"
+            "allRigths" :"Todos los derechos reservados",
+            "nickNameP1" : "Jugador 1",
+            "nickNameP2" :"Jugador 2"
 		},
 
 		"PT":{
@@ -133,7 +137,7 @@
             <div class="characterSelection">
                 <img src="img/character_p1.png">
             </div>
-            <div id="nickNameP1" class="nickNamePlayer">Player 1</div>
+            <div id="nickNameP1" class="nickNamePlayer"></div>
         </div>
         <div id="joinPin">
             <div id="joinText" class="text9"></div><br><br>
@@ -149,7 +153,7 @@
             <div class="characterSelection">
                 <img src="img/character_p2.png">
             </div>
-            <div id="nickNameP2" class="nickNamePlayer">Player 2</div>
+            <div id="nickNameP2" class="nickNamePlayer"></div>
         </div>
         <div>
             
@@ -192,6 +196,8 @@
     $(".text10").text(localizationData[language].START);
     $(".text11").text(localizationData[language].menu);
     $(".text12").text(localizationData[language].allRigths);
+    $("#nickNameP1").text(localizationData[language].nickNameP1);
+    $("#nickNameP2").text(localizationData[language].nickNameP2);
     
     function showYogotar(event){
 //    	console.log(event)
