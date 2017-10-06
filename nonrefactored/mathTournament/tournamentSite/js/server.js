@@ -1,5 +1,5 @@
-var src = "http://yogome.com/epic/minigames/mathServer/index.html"
-// var src = "../mathServer/index.html"
+//var src = "http://yogome.com/epic/minigames/mathServer/index.html"
+ var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
 var server
@@ -375,10 +375,15 @@ function Server(){
 		// correctAnswer = operand1 +operand2;
 
 		var possibleAnswers = [correctAnswer];
+		var percentage = Math.floor(correctAnswer * 0.25);
 		for(var i = 0; i< NUMBER_OF_FAKE_ANSWERS; i++){
 			var n = correctAnswer;
 			while(n === correctAnswer){
-				n = Math.floor((Math.random() * MAX_OPERAND_VALUE*2) + 1)
+                var isSuma = Math.floor((Math.random() * 2) + 1);
+                if(isSuma ==1 )
+					n = correctAnswer + Math.floor(Math.random() * percentage);
+				else
+                    n = correctAnswer - Math.floor(Math.random() * percentage);
 			}
 			possibleAnswers.push(n);
 		}
