@@ -8,9 +8,8 @@ body{
 }
 
 #backgroundBody{
-    width: 110%;
-    height: 110%;
-    left:-5%;
+    width: 100%;
+    height: 100%;
     background-image: url("../img/bgGame.png");
     background-repeat: no-repeat;
     background-size:cover;
@@ -185,7 +184,7 @@ footer{
 }
 
 #selectLevel span{
-    font-size: 2.3vh;
+    font-size: 2vh;
 }
 
 
