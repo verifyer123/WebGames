@@ -16,7 +16,7 @@ var operations = function(){
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
 			"ready":"Listos",
-			"reviewingAnswers": "Rvisando Respuestas",
+			"reviewingAnswers": "Revisando Respuestas",
 			"youWin":"Ganaste!",
 			"giveUp":"No te rindas!"
 		}
@@ -75,7 +75,7 @@ var operations = function(){
 	var inputsEnabled
 	var roundCounter
 	var buttonList
-	var equationText
+	var equationGroup
 	var startTimer
 	var timeElapsed
 	var correctButton
@@ -295,24 +295,26 @@ var operations = function(){
 
 	function startRound() {
 		isReady = true;
+		equationGroup.division.alpha = 0
 
 		timeElapsed = 0
 		options = cliente ? cliente.currentOptions : [120, 200, 0]
 
 		clientData = (cliente)&&(cliente.currentData) ? cliente.currentData : {
-			operand1 : 0,
-			operand2 : 0,
-			opedator : "+",
-			correctAnswer : 0,
+			operand1 : 20,
+			operand2 : 2,
+			opedator : "/",
+			result:"?",
+			correctAnswer : 10,
 			type :"yei"
 		}
 
 		addButtons()
-		equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
-		equationText.alpha = 0
-		equationText.scale.x = 0.4; equationText.scale.y = 0.4
-		game.add.tween(equationText.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true)
-		game.add.tween(equationText).to({alpha: 1}, 500, Phaser.Easing.Cubic.Out, true)
+		generateEquation()
+		equationGroup.alpha = 0
+		equationGroup.scale.x = 0.4; equationGroup.scale.y = 0.4
+		game.add.tween(equationGroup.scale).to({x:1, y:1}, 500, Phaser.Easing.Back.Out, true)
+		game.add.tween(equationGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.Out, true)
 
 		game.add.tween(differenceTimeText).to({alpha:0}, 200, Phaser.Easing.Cubic.Out, true)
 		startTimer = true
@@ -330,8 +332,8 @@ var operations = function(){
 			game.add.tween(button.scale).to({x:0.4, y:0.4}, 300, Phaser.Easing.Cubic.Out, true)
 		}
 
-		game.add.tween(equationText).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
-		game.add.tween(equationText.scale).to({x:0.4, y:0.4}, 300, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(equationGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(equationGroup.scale).to({x:0.4, y:0.4}, 300, Phaser.Easing.Cubic.Out, true)
 
 		game.add.tween(differenceTimeText).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(differenceTimeText.scale).to({x:0.4, y:0.4}, 300, Phaser.Easing.Cubic.Out, true)
@@ -341,6 +343,16 @@ var operations = function(){
 			game.add.tween(timerText).to({alpha:1}, 200, Phaser.Easing.Cubic.In, true)
 			game.add.tween(differenceTimeText.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Cubic.Out, true).yoyo(true)
 		})
+	}
+
+	function generateEquation(){
+		if(clientData.opedator === "/"){
+			equationGroup.division.alpha = 1
+			equationGroup.equationText.text = clientData.operand2 + "  " + clientData.operand1 + "=" + clientData.result
+		}else{
+			equationGroup.equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
+		}
+
 	}
 	
 	function checkAnswer(event) {
@@ -361,15 +373,15 @@ var operations = function(){
 
 		}
 		console.log(missingOperand)
-		equationText.text = clientData.operand1 + clientData.opedator + clientData.operand2 + "=" + clientData.result
-		game.add.tween(equationText.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+		generateEquation()
+		game.add.tween(equationGroup.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 
 		if(correctButton.value !== buttonSelected.value){
-			// tweenTint(buttonSelected.img, 0xffffff, 0x00f414, 400)
-			tweenTint(buttonSelected.img, 0xffffff, 0xbc0a00, 200)
+			// tweenTint(buttonSelected.img, 0xffffff, 0xbc0a00, 200)
+			buttonSelected.img.tint = 0xbc0a00
 		}
-		// tweenTint(correctButton.img, 0xffffff, 0x64FF57, 400)
-		tweenTint(correctButton.img, 0xffffff, 0x00f414, 200)
+		correctButton.img.tint = 0x00f414
+		// tweenTint(correctButton.img, 0xffffff, 0x00f414, 200)
 
 		console.log(event.timeDifference)
 		if(event.timeDifference){
@@ -511,6 +523,7 @@ var operations = function(){
 			}else if(!isReady){
 				if(timeElapsed > 500){
 					timeElapsed = 0
+					var equationText = equationGroup.equationText
 					switch (equationText.text){
 						case readyString:
 							equationText.text = readyString+"."
@@ -548,11 +561,23 @@ var operations = function(){
 			playerInfo.anchor.setTo(0.5, 0.5)
 			sceneGroup.add(playerInfo)
 
+			equationGroup = game.add.group()
+			equationGroup.x = game.world.centerX
+			equationGroup.y = 150
+			sceneGroup.add(equationGroup)
+
 			readyString = localization.getString(localizationData, "ready")
-			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			equationText = game.add.text(game.world.centerX,150,readyString, fontStyle2)
+			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 300}
+			var equationText = game.add.text(0,0,readyString, fontStyle2)
 			equationText.anchor.setTo(0.5, 0.5)
-			sceneGroup.add(equationText)
+			equationGroup.add(equationText)
+			equationGroup.equationText = equationText
+
+			var division = equationGroup.create(-20,-15, "atlas.operations", "sign")
+			division.anchor.setTo(0.5, 0.5)
+			division.scale.setTo(1.5, 1.5)
+			division.alpha = 0
+			equationGroup.division = division
 
 			var fontStyle3 = {font: "52px Arial", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			timerText = game.add.text(game.world.centerX - 30,250,"0:00", fontStyle3)
@@ -608,7 +633,7 @@ var operations = function(){
 
 			var stringWait = localization.getString(localizationData, "reviewingAnswers")
 			// var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var waitText = game.add.text(0, -100, stringWait, fontStyle2)
+			var waitText = game.add.text(0, -140, stringWait, fontStyle2)
 			waitText.anchor.setTo(0.5, 0.5)
 			waitingGroup.add(waitText)
 			waitingGroup.alpha = 0
