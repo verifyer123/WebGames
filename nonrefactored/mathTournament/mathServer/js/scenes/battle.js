@@ -1,6 +1,11 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var battle = function(){
+	var server = parent.server || null
+	var serverData = server ? server.currentData : {
+		p1:{nickname:"Player1", avatar:"tomiko"},
+		p2:{nickname:"Player2", avatar:"razzle"}
+	}
 
     var localizationData = {
         "EN":{
@@ -114,7 +119,6 @@ var battle = function(){
     var killedMonsters
     var monsters
     var hitParticle
-	var serverData
 	var equation
 	var alphaMask
 	var ready, go
@@ -137,7 +141,9 @@ var battle = function(){
         monsters = []
 
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
+        var preloadAlpha = document.getElementById("preloadBattle");
+        preloadAlpha.style.visibility = "hidden";
         inputsEnabled = false
 		if(server){
 			server.removeEventListener('afterGenerateQuestion', generateQuestion);
@@ -580,8 +586,8 @@ var battle = function(){
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
-			// checkAnswer({numPlayer:1})
-			stopGame()
+			checkAnswer({numPlayer:1})
+			// stopGame()
 		})
 
 		var input2 = game.add.graphics()
@@ -657,8 +663,8 @@ var battle = function(){
 				server.retry()
 			}
 			console.log("retryPressed")
-			// window.open("index.html", "_self")
-            sceneloader.show("battle")
+			window.open("index.html", "_self")
+			// sceneloader.show("battle")
         })
     }
 
@@ -677,13 +683,16 @@ var battle = function(){
 
 	}
 
-    function preload(){
+	function preload(){
+		var avatar1 = serverData.p1.avatar
+		var directory1 = avatar1.charAt(0).toUpperCase() + avatar1.slice(1);
+		var avatar2 = serverData.p2.avatar
+		var directory2 = avatar2.charAt(0).toUpperCase() + avatar2.slice(1);
 
-        game.stage.disableVisibilityChange = true;
-        game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
-        game.load.spine('luna', "images/spines/Luna/luna.json")
-        game.load.spine('eagle', "images/spines/Eagle/eagle.json")
-        game.load.spine('cloud', "images/spines/nube/wild_dentist.json")
+		game.stage.disableVisibilityChange = true;
+		game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
+		game.load.spine(avatar1, "images/spines/"+directory1+"/"+avatar1+".json")
+		game.load.spine(avatar2, "images/spines/"+directory2+"/"+avatar2+".json")
 		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
 		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
 		game.load.spritesheet('confeti', 'images/battle/confeti.png', 64, 64, 6)
@@ -692,9 +701,9 @@ var battle = function(){
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
 		game.load.image('retry',"images/battle/retry" + localization.getLanguage() + ".png")
 		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
-        buttons.getImages(game)
+		buttons.getImages(game)
 
-    }
+	}
 
     function showReadyGo() {      
 		sound.play("swipe")
@@ -1084,11 +1093,6 @@ var battle = function(){
         create: function(event){
 
         	sceneGroup = game.add.group();
-
-            serverData = server ? server.currentData : {
-            	p1:{nickname:"Player1", avatar:"eagle"},
-				p2:{nickname:"Player2", avatar:"luna"}
-            }
             //yogomeGames.mixpanelCall("enterGame",gameIndex);
 
 			var fondo = sceneGroup.create(0,0,'fondo')

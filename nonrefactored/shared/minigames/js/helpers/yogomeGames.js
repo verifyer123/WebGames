@@ -96,7 +96,8 @@ yogomeGames.getGames = function(){
 		{name:'Pirate Pieces',url:'http://yogome.com/epic/minigames/piratePiecesSite/',sceneName:'piratePieces',subject:'math', review:false},// 89
 		{name:'Triangrid',url:'http://yogome.com/epic/minigames/triangridSite/',sceneName:'triangrid',subject:'math', review:false},// 90
 		{name:'iMagic',url:'http://yogome.com/epic/minigames/iMagicSite/',sceneName:'imagic',subject:'math', review:false},//91
-		{name:'msNomNom',url:'http://yogome.com/epic/minigames/msSite/',sceneName:'ms',subject:'math', review:false}//92
+		{name:'msNomNom',url:'http://yogome.com/epic/minigames/msSite/',sceneName:'ms',subject:'math', review:false},//92
+		{name:'frutiLluvia',url:'http://yogome.com/epic/minigames/frutiSite/',sceneName:'fruti',subject:'math', review:false}//93
 	]
     
     return games

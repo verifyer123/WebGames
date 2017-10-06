@@ -107,7 +107,7 @@
             <div class="imageLevel"><img src="img/levelBasic.png"></div>
             <span class="text5"></span>
             <div id="basicLevel" class="buttonLevel">
-                <span><div class="text2"></div></span>
+                <span id="choiceBasicButton"><div class="text2"></div></span>
                 
             </div>
         </div>
@@ -115,14 +115,14 @@
             <div class="imageLevel"><img src="img/levelMedium.png"></div>
             <span class="text6"></span>
             <div id="mediumLevel" class="buttonLevel">
-                <span><div class="text3"></div></span>
+                <span id="choiceMediumButton"><div class="text3"></div></span>
             </div>
         </div>
         <div id="leveladvanceButton" class="optionLevel">
             <div class="imageLevel"><img src="img/levelAdvance.png"></div>
             <span class="text7"></span>
             <div id="advanceLevel"  class="buttonLevel">
-                <span><div class="text4"></div></span>
+                <span id="choiceadvanceButton"><div class="text4"></div></span>
             </div>
         </div>
     </section>
@@ -141,12 +141,18 @@
             <div id="beginGame">
                 <div class="text10"></div>
             </div>
+            <div class="loader">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
         </div>
         <div id="selectP2">
             <div class="characterSelection">
                 <img src="img/character_p2.png">
             </div>
             <div id="nickNameP2" class="nickNamePlayer">Player 2</div>
+        </div>
+        <div>
+            
         </div>
     </section>
     
@@ -169,19 +175,7 @@
 		pinText.style.visibility  = 'hidden';
 	}
 
-        var language = "EN"
-        if(parent.window.location.search){
-            var params = parent.window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }    
+        var language = parent.language;
     
     $(".text0").text(localizationData[language].play);
     $(".text1").text(localizationData[language].selectLevel);
@@ -197,22 +191,16 @@
     $(".text11").text(localizationData[language].menu);
     $(".text12").text(localizationData[language].allRigths);
     
-
-	var Yogotars = {
-		"eagle":"img/yogotars/yogotar1.png",
-		"luna":"img/yogotars/yogotar2.png"
-	}
-
     function showYogotar(event){
 //    	console.log(event)
     	var numPlayer = event.numPlayer, player = event.player
-    	var img = Yogotars[player.avatar];
+    	var img = "img/yogotars/" + player.avatar + ".png";
     	if(numPlayer === 1){
 			$("#selectP1").find("img").attr("src", img);
 			$("#nickNameP1").text(player.nickname)
         }else{
             $("#selectP2").find("img").attr("src", img);
-//            $("#selectP2").find("img").css("width", "-100%");
+            $("#selectP2").find("img").css("transform", "rotateY(180deg)");
             $("#nickNameP2").text(player.nickname)
 
         }
@@ -227,7 +215,9 @@
     function onPlayersReady(){
         gameReady = true;
 		$("#beginGame").css("opacity", 1);
-        
+        $("#beginGame").css("visibility","visible");
+        $("#beginGame").css("margin-top","0");
+        $(".loader").css("visibility","hidden");
     }
 
     function applyBlur(){
@@ -272,9 +262,9 @@ function NextScene1(){
 function SelectLevel(){
     $("#selectLevel").show();
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").show();
-    $("#levelBasicButton").attr("level",1);
-    $("#levelMediumButton").attr("level",2);
-    $("#leveladvanceButton").attr("level",3);    
+    $("#choiceBasicButton").attr("level",1);
+    $("#choiceMediumButton").attr("level",2);
+    $("#choiceadvanceButton").attr("level",3);    
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").css("position","relative");
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").css("opacity",1);
     TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.2,{css:{transform:"matrix(1, 0, 0, 1, 0, 0)"}});
@@ -284,7 +274,7 @@ function SelectLevel(){
     TweenMax.fromTo($("#leveladvanceButton"),0.5,{scale:0,alpha:0},{scale:1,alpha:1,ease:Back.easeOut,delay:0.4});
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseover(function(){TweenMax.to($(this),0.5,{scale:1.1});});
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
-        $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").click(function(){
+        $("#choiceBasicButton,#choiceMediumButton,#choiceadvanceButton").click(function(){
 			var level = parseInt($(this).attr("level"));
 			var currentID = server.getIdGame()
 			server.start(level, currentID);
@@ -300,7 +290,7 @@ function SelectLevel(){
             function hideLevels(){
                 //$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").hide();
                 //$(object).show();
-                TweenMax.to(object,0.5,{scale:3,alpha:0,delay:1,onComplete:NextScene2});
+                TweenMax.to(object,0.5,{scale:3,alpha:0,onComplete:NextScene2});
             }
         });   
     }

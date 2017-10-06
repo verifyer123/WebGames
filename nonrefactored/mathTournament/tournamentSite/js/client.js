@@ -1,8 +1,8 @@
-// var src = "http://yogome.com/epic/minigames/mathClient/index.html"
-var src = "../mathClient/index.html"
+var src = "http://yogome.com/epic/minigames/mathClient/index.html"
+// var src = "../mathClient/index.html"
 var gameFrame
 var gameContainer
-var language
+// var language = null
 
 var config = {
 	apiKey: "AIzaSyBELTimQUqywzRlJTpIA2HZ8RTp9r_QF2E",
@@ -64,85 +64,94 @@ function Client(){
 	var self = this;
 	this.time = null;
 	this.restartGame = null
+
+	function initialize(idGame, player, val){
+		var p1 = val.p1;
+		var p2 = val.p2;
+		if(!p1){
+			self.refIdGame.child("p1").set(player);
+			self.numPlayer = 1;
+		}else if(!p2){
+			self.refIdGame.child("p2").set(player);
+			self.numPlayer = 2;
+		}else{
+			self.id_game = null;
+			self.refIdGame= null;
+			self.fireEvent('onGameFull',[]);
+		}
+		if((idGame!==null)&&(!self.id_game)){
+			self.id_game = idGame;
+			self.refIdGame.child("data").on('value', function(snapshot) {
+				var data = snapshot.val();
+				self.currentData = data
+				self.fireEvent('showEquation',[data]);
+			});
+
+			self.refIdGame.child('possibleAnswers').on('value', function(snapshot) {
+				var possibleAnswers = snapshot.val();
+				if(possibleAnswers !== null){
+					self.currentOptions = possibleAnswers
+					self.fireEvent('showPossibleAnswers',[possibleAnswers]);
+				}
+			});
+
+			self.refIdGame.child('winner').on('value', function(snapshot) {
+
+				var values = snapshot.val();
+				if(values){
+					console.log("on Turn End triggered")
+					self.fireEvent('onTurnEnds',[values]);
+				}
+
+			});
+
+			self.refIdGame.child('gameReady').on('value', function(snapshot) {
+				var gameReady = snapshot.val();
+				if(gameReady){
+					self.startGame()
+				}
+			});
+
+			self.refIdGame.child('gameEnded').on('value', function(snapshot) {
+				var gameEnded = snapshot.toJSON();
+				if(gameEnded.winner){
+					self.fireEvent('onGameEnds',[gameEnded]);
+					self.gameEnded = true
+				}
+			});
+
+			self.refIdGame.child('retry').on('value', function(snapshot) {
+				var values = snapshot.toJSON();
+				console.log("retryPressed", values)
+				if(values.retry){
+					self.restartGame()
+					self.gameEnded = false
+				}
+			});
+
+		}
+		self.time= (new Date()).getTime();
+		self.fireEvent('onClientInit',[]);
+	}
+
 	/**
 	 * @summary Starts the client
 	 * @param {type} idGame Code of the game
 	 */
-	this.start =function(player, idGame){
-		self.events = {};
+	this.start =function(player, idGame, onError){
+		// self.events = {};
 		console.log(self.events)
-		self.id_game = idGame;
 		self.player = player
-		self.refIdGame= database.ref(self.id_game);
+		self.refIdGame= database.ref(idGame);
+
 		self.refIdGame.once('value').then(function(snapshot) {
-			var p1,p2;
-			p1 = snapshot.val().p1;
-			p2 = snapshot.val().p2;
-			console.log(p1, p2)
-			if(!p1){
-				self.refIdGame.child("p1").set(player);
-				self.numPlayer = 1;
-			}else if(!p2){
-				self.refIdGame.child("p2").set(player);
-				self.numPlayer = 2;
+			var val = snapshot.val()
+			if(val){
+				initialize(idGame, player, val)
 			}else{
-				self.id_game = null;
-				self.refIdGame= null;
-				self.fireEvent('onGameFull',[]);
+				onError()
 			}
-			if(self.id_game!==null){
-				self.refIdGame.child("data").on('value', function(snapshot) {
-					var data = snapshot.val();
-					self.currentData = data
-					self.fireEvent('showEquation',[data]);
-				});
 
-				self.refIdGame.child('possibleAnswers').on('value', function(snapshot) {
-					var possibleAnswers = snapshot.val();
-					if(possibleAnswers !== null){
-						self.currentOptions = possibleAnswers
-						self.fireEvent('showPossibleAnswers',[possibleAnswers]);
-					}
-				});
-
-				self.refIdGame.child('winner').on('value', function(snapshot) {
-
-					var values = snapshot.val();
-					if(values){
-						console.log("on Turn End triggered")
-						self.fireEvent('onTurnEnds',[values]);
-					}
-
-				});
-
-				self.refIdGame.child('gameReady').on('value', function(snapshot) {
-					var gameReady = snapshot.val();
-					if(gameReady){
-						self.startGame()
-					}
-				});
-
-				self.refIdGame.child('gameEnded').on('value', function(snapshot) {
-					var gameEnded = snapshot.toJSON();
-					if(gameEnded.winner){
-						self.fireEvent('onGameEnds',[gameEnded]);
-						self.gameEnded = true
-					}
-				});
-
-				self.refIdGame.child('retry').on('value', function(snapshot) {
-					var values = snapshot.toJSON();
-					console.log("retryPressed", values)
-					if(values.retry){
-						self.restartGame()
-						self.gameEnded = false
-					}
-				});
-
-				self.time= (new Date()).getTime();
-				self.fireEvent('onClientInit',[]);
-
-			}
 
 		});
 
@@ -188,16 +197,10 @@ function loadGame(){
 	gameContainer.appendChild(gameFrame);
 }
 
-function getURLParameter(name) {
-	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
 	cliente = new Client();
-	language = getURLParameter("language")
-	language = language ? language.toUpperCase() : "EN";
 }
 
 // window.addEventListener("resize", loadGame);

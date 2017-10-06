@@ -1,8 +1,9 @@
-// var src = "http://yogome.com/epic/minigames/mathServer/index.html"
-var src = "../mathServer/index.html"
+var src = "http://yogome.com/epic/minigames/mathServer/index.html"
+// var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
 var server
+var language = null
 
 // Initialize Firebase
 var config = {
@@ -559,6 +560,7 @@ function Server(){
 		valores.gameEnded = false;
 		valores.retry = {retry:true, date:actualDate};
 		refIdGame.set(valores);
+		// refIdGame.off()
 		// refIdGame.remove();
 
 	}
@@ -582,16 +584,10 @@ function loadGame(){
 	gameContainer.appendChild(gameFrame);
 }
 
-function getURLParameter(name) {
-	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-}
-
 window.onload =  function(){
 	gameContainer = document.getElementById("game-container")
 	loadGame()
 	server = new Server();
-	language = getURLParameter("language")
-	language = language ? language.toUpperCase() : "EN";
 }
 
 // window.addEventListener("resize", loadGame);

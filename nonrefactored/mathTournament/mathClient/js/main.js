@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -61,6 +61,7 @@ function startGame(){
         // }
 
         localization.setLanguage(parent.language)
+		console.log(parent.language)
 
         window.minigame.game = window.game
     	sceneloader.init(game)

@@ -25,51 +25,113 @@
 </div>
 
 <script>
+var localizationData = {
+		"EN":{
+            "pin":"Write PIN",
+            "Nickname": "Nickname",
+            "start":"Start Game",
+            "player":"Player",
+            "ready":"Ready!",
+            "waiting":"Waiting for your Oponent"
+		},
 
-    
+		"ES":{
+            "pin":"Escribe el PIN",
+            "Nickname": "Apodo",
+            "start":"Empezar",            
+            "player":"Jugador",
+            "ready":"¡Listo!",
+            "waiting":"Esperando a tu rival"
+        }
+        };
+        //var language = parent.language
+        var language = "EN"
     var selectYogotarName;
 	var onClientInit = function(e){
-		var div_resultado = document.getElementById("resultado");
-		var btn_start = document.getElementById("start");
-
-		div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
-		btn_start.style.visibility = 'hidden';
-        $("#start").hide();
-        $("#arrowRight").hide();
-        $("#arrowLeft").hide();
-        $("input").prop("disabled",true);
-
-		if(cliente.numPlayer!= null){
-			document.getElementById("start").disabled =true;
-		}
+		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
+//		var div_resultado = document.getElementById("resultado");
+//		var btn_start = document.getElementById("start");
+//        var dataInfo =  document.getElementById("dataInfo");
+//        $("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+//		//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+//        $("#infoContainer").css("height",'0');
+//        $("#infoContainer").css("visibility",'hidden');
+//        //dataInfo.style.visibility = 'hidden';
+//		//btn_start.style.visibility = 'hidden';
+//        $("#start").hide();
+//        $("#arrowRight").hide();
+//        $("#arrowLeft").hide();
+//        $("input").prop("disabled",true);
+//
+//		if(cliente.numPlayer!= null){
+//			document.getElementById("start").disabled =true;
+//		}
 	}
 
 	function onPlayersReady(event) {
 		cliente.removeEventListener('onClientInit', onClientInit);
 		cliente.removeEventListener('onGameFull', onGameFull);
 		cliente.removeEventListener('showPossibleAnswers', onPlayersReady);
-//		window.open("http://yogome.com/epic/minigames/mathClient/operations.html", "_self")
-		window.open("../mathClient/operations.html", "_self")
+		window.open("http://yogome.com/epic/minigames/mathClient/operations.html", "_self")
+//		window.open("../mathClient/operations.html", "_self")
+	}
+
+	function onError() {
+		alert("No se encuentra la partida");
+		$("#infoContainer").css("height",'100%');
+		$("#infoContainer").css("visibility",'visible');
+		//dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
+		$("#start").show();
+		$("#arrowRight").show();
+		$("#arrowLeft").show();
+		$("input").prop("disabled",false);
+		$(".loading").remove();
+
 	}
 
 	var onGameFull = function(){
 		alert("La partida ya se encuentra ocupada");
+		$("#infoContainer").css("height",'100%');
+		$("#infoContainer").css("visibility",'visible');
+		//dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
+		$("#start").show();
+		$("#arrowRight").show();
+		$("#arrowLeft").show();
+		$("input").prop("disabled",false);
+		$(".loading").remove();
 	}
 
 	cliente = parent.cliente;
 	function startButton(){
         if($("#idGame").val() != "" && $("#nickname").val() != ""){
-		var idGame = cliente.id_game || document.getElementById("idGame").value;
-		var player = {
-			nickname: document.getElementById("nickname").value,
-			avatar: selectYogotarName,
-			life: 100,
-			ready:false
-		}
-		cliente.addEventListener('onClientInit', onClientInit);
-		cliente.addEventListener('onGameFull', onGameFull);
-		cliente.startGame = onPlayersReady
-		cliente.start(player, idGame);
+            var idGame = cliente.id_game || document.getElementById("idGame").value;
+            var player = {
+                nickname: document.getElementById("nickname").value,
+                avatar: selectYogotarName,
+                life: 100,
+                ready:false
+            }
+            cliente.addEventListener('onClientInit', onClientInit);
+            cliente.addEventListener('onGameFull', onGameFull);
+            cliente.startGame = onPlayersReady
+            cliente.start(player, idGame, onError);
+			//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+			$("#infoContainer").css("height",'0');
+			$("#infoContainer").css("visibility",'hidden');
+			//dataInfo.style.visibility = 'hidden';
+			//btn_start.style.visibility = 'hidden';
+			$("#start").hide();
+			$("#arrowRight").hide();
+			$("#arrowLeft").hide();
+			$("input").prop("disabled",true);
+			$("#settings").append('<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+
+//			if(cliente.numPlayer!= null){
+//				document.getElementById("start").disabled =true;
+//			}
+
         }
 
 	}
@@ -79,21 +141,19 @@
         <div id="arrowRight" class="arrow-menu"><img src="images/arrow_right.png"/></div>
     </div>
 <div id="settings">
-    <!--<select id="avatar">
-        <option value="1" selected >Eagle</option>
-        <option value="2">Luna</option>
-    </select> -->   
     <section id="nameYogo"></section>
         <section id="avatar">
             
         </section>
     <section id="infoContainer">
+        <section id="dataInfo">
         <div id="pin">
             <p class="text0">Write PIN</p>
-            <input id="idGame" type="text" placeholder="PIN" />
+            <input id="idGame" type="number" min="0" inputmode="numeric" placeholder="PIN" />
         </div>
         <p class="text1">Nickname</p>
         <input type="text" id="nickname" placeholder="Player"/>
+        </section>    
         <hr>
         <input type="button" id="start" onclick="startButton()" style="box-shadow: 0px 1vh 0px #1b3473;"/>
         <div id="resultado"></div>
@@ -101,33 +161,7 @@
 </div>
 </body>
     <script>
-localizationData = {
-		"EN":{
-            "pin":"Write PIN",
-            "Nickname": "Nickname",
-            "start":"Start Game"
-		},
-
-		"ES":{
-            "pin":"Escribe el PIN",
-            "Nickname": "Apodo",
-            "start":"Empezar"
-        }
-        };
-        var language = "EN"
-        if(parent.window.location.search){
-            var params = parent.window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }    
-    
+   
     $(".text0").text(localizationData[language].pin);  
     $(".text1").text(localizationData[language].Nickname);  
     $("#start").attr("value",localizationData[language].start);          
@@ -143,24 +177,80 @@ localizationData = {
                 index:0,
                 name:"eagle",
                 nameText:"Eagle",
-                img:"images/eagle.png"
+                img:"images/yogotars/eagle.png",
+                unlock: true
             },
             {   
-                index:1,
+                index:0,
                 name:"luna",
                 nameText:"Luna",
-                img:"images/luna.png"
+                img:"images/yogotars/luna.png",
+                unlock: true
             },
+            {   
+                index:0,
+                name:"dinamita",
+                nameText:"Dinamita",
+                img:"images/yogotars/dinamita.png",
+                unlock: false
+            },
+            {   
+                index:0,
+                name:"estrella",
+                nameText:"Estrella",
+                img:"images/yogotars/estrella.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"arthurius",
+                nameText:"Arthurius",
+                img:"images/yogotars/arthurius.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"tomiko",
+                nameText:"Tomiko",
+                img:"images/yogotars/tomiko.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"justice",
+                nameText:"Justice",
+                img:"images/yogotars/justice.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"oona",
+                nameText:"Oona",
+                img:"images/yogotars/oona.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"razzle",
+                nameText:"Razzle",
+                img:"images/yogotars/razzle.png",
+                unlock: true
+            }
         ];
         
                 $("#nameYogo").append('<div id="nameYogotarStroke">'+yogotarCharacters[0].nameText +'</div><div id="nameYogotar">'+yogotarCharacters[0].nameText +'</div>');
             for(var i = 0;i<=yogotarCharacters.length-1;i++){
+                yogotarCharacters[i].index = i;
                 $("#avatar").append('<div id="SelectYogotar'+yogotarCharacters[i].index+'" class="yogotarBlock"><img src="'+yogotarCharacters[i].img+'" /></div>');
+                if(!yogotarCharacters[i].unlock){
+                    $("#SelectYogotar"+yogotarCharacters[i].index).find("img").addClass("lockYogotar");
+                    $("#SelectYogotar"+yogotarCharacters[i].index).append("<div id='locked'><img src='images/lock.png'/></div>");
+                }
                 $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*1));
             }
                 
            selectYogotarName = yogotarCharacters[0].name;
-            var lengthAvatar = $("#avatar").find("div").length;
+            var lengthAvatar = yogotarCharacters.length;
             var YogoPosx = parseInt($("#SelectYogotar1").css("left"));
             var counter = 0;
 //            console.log(YogoPosx);
@@ -169,10 +259,8 @@ localizationData = {
                 $(this).css("padding-right","28%");  
                 $(this).animate({'padding-right':"30%"}, 50, 'linear');  
                 if(counter != lengthAvatar-1){   
-                    
-       
-                    counter++;
-                    
+                    $("#arrowLeft").css("opacity",1);
+                    counter++;          
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("left",0);  
                 $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
@@ -180,16 +268,26 @@ localizationData = {
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
-                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');    
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear'); 
+                   
                 }
-                selectYogotarName = yogotarCharacters[counter].name;
+                if(counter == lengthAvatar-1){
+                    $(this).css("opacity",0.5);
+                }
+                if(yogotarCharacters[counter].unlock){
+                   selectYogotarName = yogotarCharacters[counter].name; 
+                }else{
+                    selectYogotarName = null
+                }
+                
         });
-      
+      $("#arrowLeft").css("opacity",0.5);
         $("#arrowLeft").click(function(){
                 $(this).css("padding-left","28%");  
                 $(this).animate({'padding-left':"30%"}, 50, 'linear'); 
              if(counter != 0){   
-                    counter--;
+                $("#arrowRight").css("opacity",1);
+                counter--;
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0);
                 $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("left",0);  
                 $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
@@ -197,14 +295,22 @@ localizationData = {
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1); 
                 $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
-                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');                    
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');       
                 }
-                selectYogotarName = yogotarCharacters[counter].name;
+                if(counter == 0){
+                    $(this).css("opacity",0.5);
+                }
+                
+                if(yogotarCharacters[counter].unlock){
+                   selectYogotarName = yogotarCharacters[counter].name; 
+                }else{
+                    selectYogotarName = null
+                }
         });
                 
         
         $("input[type='text']").on('input',function(e){
-                          if($("#idGame").val() != "" && $("#nickname").val() != ""){
+                          if($("#idGame").val() != "" && $("#nickname").val() != "" && selectYogotarName != null){
                          $("#start").css("opacity",1);
                      }else{
                          $("#start").css("opacity",0.5);

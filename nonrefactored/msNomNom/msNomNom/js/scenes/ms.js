@@ -211,6 +211,7 @@ var ms = function(){
             sound.play("cut")
             obj.alpha = 1
             game.add.tween(obj.scale).from({x:0.01, y:0.01},250,Phaser.Easing.linear,true)
+			
         },this)
     }
     
@@ -443,6 +444,8 @@ var ms = function(){
 		itemsNumber = game.rnd.integerInRange(2,10)
 		numToUse = game.rnd.integerInRange(2,itemsNumber)
 		
+		console.log(itemsNumber + ' items,' + numToUse + ' number')
+		
 		var delay = 0
 		player.items = 0
 		
@@ -621,7 +624,7 @@ var ms = function(){
 				pivotX = initX
 				pivotY+= part.height
 				
-				if(pivotY > game.world.height){
+				if(pivotY > game.world.height - part.height){
 					building = false
 				}
 			}
@@ -792,10 +795,10 @@ var ms = function(){
 				player.active = false
 				if(pattern.tag == 'left'){
 					
-					player.body.x = game.world.centerX + 300
+					player.body.x = game.world.centerX + 275
 				}else if(pattern.tag == 'right'){
 					
-					player.body.x = game.world.centerX - 300
+					player.body.x = game.world.centerX - 275
 				}
 				game.time.events.add(500,function(){
 					player.active = true
@@ -983,7 +986,8 @@ var ms = function(){
 		for(var i = 0; i < itemsGroup.length;i++){
 			
 			var item = itemsGroup.children[i]
-			game.add.tween(item).to({alpha:0},500,"Linear",true)
+			item.x = -100
+			game.add.tween(item).to({alpha:0},100,"Linear",true)
 			item.active = false
 		}
 	}
@@ -1264,7 +1268,7 @@ var ms = function(){
 		itemsGroup = game.add.group()
 		sceneGroup.add(itemsGroup)
 		
-		for(var i = 0; i < 10;i++){
+		for(var i = 0; i < 12;i++){
 			
 			var item = itemsGroup.create(-100,-100,'atlas.ms','manzana')
 			item.anchor.setTo(0.5,0.5)
@@ -1389,11 +1393,11 @@ var ms = function(){
 			enemiesCol = game.physics.p2.createCollisionGroup()
 
 			createBackground()
-			createPatterns()
-			createItems()
 			createContainer()
 			createEnemies()
 			createCharacter()
+			createPatterns()
+			createItems()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
