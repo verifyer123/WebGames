@@ -271,6 +271,7 @@ var operations = function(){
 		// game.load.image('howTo',"images/operations/how" + localization.getLanguage() + ".png")
 		// game.load.image('buttonText',"images/operations/play" + localization.getLanguage() + ".png")
 		game.load.spine("loading", "images/spine/loading/skeleton.json")
+		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 
 		buttons.getImages(game)
 
@@ -565,8 +566,8 @@ var operations = function(){
 			sceneGroup.add(equationGroup)
 
 			readyString = localization.getString(localizationData, "ready")
-			var fontStyle2 = {font: "72px WAG", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 480}
-			var equationText = game.add.text(0,0,readyString, fontStyle2)
+			var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 480}
+			var equationText = game.add.bitmapText(0,0,"WAG", readyString, 72)
 			equationText.anchor.setTo(0.5, 0.5)
 			equationGroup.add(equationText)
 			equationGroup.equationText = equationText

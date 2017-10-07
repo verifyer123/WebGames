@@ -3,18 +3,24 @@
 	src: url('../fonts/VAGRoundedStd-Bold.otf');
 }
 
-@font-face {
-	font-family: 'WAG';
-	src: url('../fonts/WAG.otf');
-}
+/*@font-face {*/
+	/*font-family: 'WAG';*/
+	/*src: url('../fonts/WAG.otf') format('opentype'),*/
+	/*url('../fonts/WAG.ttf') format('truetype')*/
+/*}*/
 
 
 /*@font-face {*/
 	/*font-family: 'WAG';*/
-	/*src: url('../fonts/wag-webfont.woff2') format('woff2'),*/
-	/*url('../fonts/wag-webfont.woff') format('woff');*/
-	/*font-weight: normal;*/
-	/*font-style: normal;*/
+	/*src: url('../fonts/WAG.eot'),*/
+
+	/*url('../fonts/WAG-Bold.woff') format('woff'),*/
+	/*url('../fonts/WAG.woff2') format('woff2'),*/
+	/*url('../fonts/WAG.ttf') format('truetype'),*/
+	/*url('../fonts/WAG-Bold.svg') format('svg');*/
+	/*url('../fonts/WAG.otf') format('opentype');*/
+	/*!*font-weight: normal;*!*/
+	/*!*font-style: normal;*!*/
 
 /*}*/
 

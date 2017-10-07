@@ -11,13 +11,15 @@ var battle = function(){
         "EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"question":"Question "
+			"question":"Question ",
+			"winner":"WINNER"
         },
 
         "ES":{
             "moves":"Movimientos extra",
             "howTo":"�C�mo jugar?",
-			"question":"Pregunta "
+			"question":"Pregunta ",
+			"winner":"GANADOR"
         }
     }
 
@@ -285,6 +287,7 @@ var battle = function(){
 		sound.play("fireReveal")
 
 		game.time.events.add(2000, function () {
+			fromPlayer.stats.hideBan()
 			fromPlayer.spine.speed = 1
 			var targetX = targetPlayer.x < game.world.centerX ? 0 : game.world.width
 			// game.add.tween(game.camera.scale).to({x:1.7, y:1.7}, 300, Phaser.Easing.Cubic.Out, true)
@@ -386,8 +389,53 @@ var battle = function(){
 
 	}
 
+	function convertTimeFormat(timeValue){
+		var seconds = Math.floor(timeValue * 0.001)
+		var decimals = Math.floor(timeValue * 0.01) % 10
+		var centimals = (Math.floor(timeValue / 10) % 10)
+		// elapsedSeconds = Math.round(elapsedSeconds * 100) / 100
+		var result = (seconds < 10) ? "0" + seconds : seconds;
+		result += ":" + decimals + centimals
+		return result
+	}
+
+	function compareResult(data, playerWin, playerLose){
+		if(playerWin){
+			playerWin.stats.showWinner(data.timeDifference)
+			playerLose.stats.showLose(data.timeDifference)
+		}else{
+			player1.stats.showLose()
+			player2.stats.showLose()
+		}
+		game.time.events.add(1500, roundWinReaction, null, playerWin, playerLose)
+	}
+
+	function roundWinReaction(playerWin, playerLose){
+		if(playerWin){
+			sound.play("magic")
+			sceneGroup.correctParticle.x = playerWin.x
+			sceneGroup.correctParticle.y = playerWin.y - 150
+			sceneGroup.correctParticle.start(true, 1000, null, 5)
+			playerWin.setAnimation(["WIN", "IDLE"])
+			game.time.events.add(1000, function () {
+				game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
+				game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
+				playerAttack(playerWin, playerLose, createProyectile, "proyectile")
+			})
+		}else{
+			player1.setAnimation(["HIT", "IDLE"])
+			player2.setAnimation(["HIT", "IDLE"])
+			game.time.events.add(1000, function(){
+				game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
+				game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
+				startRound()
+			})
+		}
+	}
+
     function checkAnswer(event) {
 		game.add.tween(answersGroup).to({y:game.world.height}, 500, Phaser.Easing.Cubic.Out, true)
+		sound.play("swipe")
 
     	var data = server ? server.currentData.data : {operand1:100, opedator:"+", operand2:100, result:200, correctAnswer:200}
 		switch ("?"){
@@ -415,22 +463,64 @@ var battle = function(){
 			playerLose = player1
 		}
 
-		if(playerWin){
-			sound.play("magic")
-			sceneGroup.correctParticle.x = playerWin.x
-			sceneGroup.correctParticle.y = playerWin.y - 150
-			sceneGroup.correctParticle.start(true, 1000, null, 5)
-			playerWin.setAnimation(["WIN", "IDLE"])
-			game.time.events.add(1000, function () {
-				game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
-				game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
-				playerAttack(playerWin, playerLose, createProyectile, "proyectile")
-			})
-		}else{
-			player1.setAnimation(["HIT", "IDLE"])
-			player2.setAnimation(["HIT", "IDLE"])
-			game.time.events.add(1000, startRound)
-		}
+		var p1answer = player1.stats.answerText
+		p1answer.text = event.answers.p1.value
+		var p2answer = player2.stats.answerText
+		p2answer.text = event.answers.p2.value
+		p1answer.alpha = 0
+		p2answer.alpha = 0
+		p1answer.scale.x = 0.4; p1answer.scale.y = 0.4;
+		p2answer.scale.x = 0.4; p2answer.scale.y = 0.4;
+
+		var p1Time = player1.stats.timeText
+		p1Time.text = convertTimeFormat(event.answers.p1.time)
+		var p2Time = player2.stats.timeText
+		p2Time.text = convertTimeFormat(event.answers.p2.time)
+		p1Time.alpha = 0
+		p2Time.alpha = 0
+		p1Time.scale.x = 0.4; p1Time.scale.y = 0.4;
+		p2Time.scale.x = 0.4; p2Time.scale.y = 0.4;
+
+		var answerShow = game.add.tween(p1answer).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true, 800)
+		game.add.tween(p1answer.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true, 800)
+		game.add.tween(p2answer).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true, 800)
+		game.add.tween(p2answer.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true, 800)
+		answerShow.onStart.add(function () {
+			sound.play("flip")
+		})
+
+		var timeTween = game.add.tween(p1Time).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true, 1200)
+		game.add.tween(p1Time.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true, 1200)
+		game.add.tween(p2Time).to({alpha:1}, 400, Phaser.Easing.Cubic.Out, true, 1200)
+		game.add.tween(p2Time.scale).to({x:1, y:1}, 400, Phaser.Easing.Back.Out, true, 1200)
+
+		timeTween.onStart.add(function () {
+			sound.play("flip")
+		})
+		timeTween.onComplete.add(function () {
+			compareResult(event, playerWin, playerLose)
+		})
+
+		// if(playerWin){
+		// 	sound.play("magic")
+		// 	sceneGroup.correctParticle.x = playerWin.x
+		// 	sceneGroup.correctParticle.y = playerWin.y - 150
+		// 	sceneGroup.correctParticle.start(true, 1000, null, 5)
+		// 	playerWin.setAnimation(["WIN", "IDLE"])
+		// 	game.time.events.add(1000, function () {
+		// 		game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
+		// 		game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
+		// 		playerAttack(playerWin, playerLose, createProyectile, "proyectile")
+		// 	})
+		// }else{
+		// 	player1.setAnimation(["HIT", "IDLE"])
+		// 	player2.setAnimation(["HIT", "IDLE"])
+		// 	game.time.events.add(1000, function(){
+		// 		game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
+		// 		game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
+		// 		startRound()
+		// 	})
+		// }
 
 
     }
@@ -603,7 +693,9 @@ var battle = function(){
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
-			checkAnswer({numPlayer:1})
+			var answer1 = {value:100, time:3450}
+			var answer2 = {value:100, time:3450}
+			checkAnswer({numPlayer:1, timeDifference:200, answers:{p1:answer1, p2:answer2}})
 			// stopGame()
 		})
 
@@ -718,6 +810,7 @@ var battle = function(){
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
 		game.load.image('retry',"images/battle/retry" + localization.getLanguage() + ".png")
 		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
+		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 		buttons.getImages(game)
 
 	}
@@ -768,12 +861,15 @@ var battle = function(){
 	}
 
     function startRound() {
-        initQuestion()
+		player1.stats.clear()
+		player2.stats.clear()
+
+		initQuestion()
 		if(server){
 			server.generateQuestion()
 		}else{
 			game.time.events.add(1000, function () {
-				generateQuestion({operand1:200, opedator:"+", operand2:200, result:400})
+				generateQuestion({operand1:200, opedator:"/", operand2:200, result:400})
 			})
 		}
 		// if(server)
@@ -882,6 +978,7 @@ var battle = function(){
 		var answerText = game.add.text(answerBg.x, answerBg.y + 4, "999", fontStyle)
 		answerText.anchor.setTo(0.5, 0.5)
 		statsGroup.add(answerText)
+		statsGroup.answerText = answerText
 
 		var ledOff = statsGroup.create(80 * direction, -120, "atlas.battle", "led_off")
 		ledOff.anchor.setTo(0.5, 0.5)
@@ -904,6 +1001,7 @@ var battle = function(){
 		var timeText = game.add.text(timeBgOff.x, timeBgOff.y + 4, "00:00", fontStyle)
 		timeText.anchor.setTo(0.5, 0.5)
 		statsGroup.add(timeText)
+		statsGroup.timeText = timeText
 
 		var timeImg = statsGroup.create(285 * direction, -44, "atlas.battle", "stopwatch")
 		timeImg.scale.setTo(0.7, 0.7)
@@ -913,17 +1011,14 @@ var battle = function(){
 		winnerGroup.x = 200 * direction; //winnerGroup.y = -246
 		answersGroup.add(winnerGroup)
 		answersGroup.sendToBack(winnerGroup)
-		
-		statsGroup.showWinner = function () {
-			game.add.tween(winnerGroup).to({y:-246}, 1000, Phaser.Easing.Cubic.Out, true)
-		}
 
 		var winnerBan = winnerGroup.create(0, 0, "atlas.battle", "comparison")
 		winnerBan.anchor.setTo(0.5, 0.5)
 		winnerBan.scale.x = 1.4
 
 		var fontStyle2 = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var winnerText = game.add.text(0, -44, "WINNER", fontStyle2)
+		var winString = localization.getString(localizationData, "winner")
+		var winnerText = game.add.text(0, -44, winString, fontStyle2)
 		winnerText.anchor.setTo(0.5, 0.5)
 		winnerGroup.add(winnerText)
 
@@ -936,13 +1031,54 @@ var battle = function(){
 		diffLabel.anchor.setTo(0.5, 0.5)
 		winnerGroup.add(diffLabel)
 
+		statsGroup.showWinner = function (timeDifference) {
+			var toMove = timeDifference ? -246 : -152
+			var moveWinner = game.add.tween(winnerGroup).to({y:toMove}, 500, Phaser.Easing.Cubic.Out, true, 500)
+			moveWinner.onStart.add(function () {
+				sound.play("swipe")
+			})
+
+			game.add.tween(ledGreen).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true, 1500)
+			game.add.tween(ledGreen.scale).to({x:1.5, y:1.5}, 300, Phaser.Easing.Cubic.Out, true, 1500).yoyo(true)
+
+			if(timeDifference){
+				sound.play("pop")
+				game.add.tween(timeBgWin).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true)
+				game.add.tween(timeBgWin.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+				difTimeText.text = "-" + convertTimeFormat(timeDifference)
+			}
+		}
+
+		statsGroup.showLose = function (timeDifference) {
+			game.add.tween(ledRed).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true, 1500)
+			game.add.tween(ledRed.scale).to({x:1.5, y:1.5}, 300, Phaser.Easing.Cubic.Out, true, 1500).yoyo(true)
+
+			if(timeDifference){
+				sound.play("pop")
+				game.add.tween(timeBgLose).to({alpha:1}, 200, Phaser.Easing.Cubic.Out, true)
+				game.add.tween(timeBgLose.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			}
+		}
+
+		statsGroup.hideBan = function(){
+			game.add.tween(winnerGroup).to({y:0}, 500, Phaser.Easing.Cubic.Out, true)
+		}
+		
+		statsGroup.clear = function () {
+			timeBgLose.alpha = 0
+			timeBgWin.alpha = 0
+			ledRed.alpha = 0
+			ledGreen.alpha = 0
+			timeText.alpha = 0
+			answerText.alpha = 0
+		}
 
 		return statsGroup
 	}
 	
     function createbattleUI() {
 
-        var fontStyle = {font: "72px WAG", fontWeight: "bold", fill: "#350A00", align: "center"}
+        var fontStyle = {font: "72px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
         var fontStyle2 = {font: "72px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
         questionGroup = game.add.group()
@@ -970,7 +1106,9 @@ var battle = function(){
 		equationGroup.alpha = 0
 		equationGroup.question = questionText
 
-		var equation = new Phaser.Text(game, 0, 6, "0+0=?", fontStyle)
+		var equation = game.add.bitmapText(0,6,"WAG", "0+0=?", 72)
+		equation.scale.setTo(1.4, 1.4)
+		equation.tint = 0x350A00
 		equation.anchor.setTo(0.5,0.5)
 		equationGroup.add(equation)
 		equationGroup.equation = equation
@@ -988,8 +1126,8 @@ var battle = function(){
 		vs.anchor.setTo(0.5, 1)
 		answersGroup.y = answersGroup.y + bar.height
 
-		createPlayerStats(-1)
-		createPlayerStats(1)
+		player1.stats = createPlayerStats(-1)
+		player2.stats = createPlayerStats(1)
 
 		var correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
