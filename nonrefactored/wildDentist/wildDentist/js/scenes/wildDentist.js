@@ -390,14 +390,14 @@ function createTextPart(text,obj){
         
         var arrayTrunks = new Array;
         var groupTrunks = game.add.group();
-        arrayTrunks[0].attributes[0] = "tronco1";
-        arrayTrunks[0].attributes[1] = "tronco2";        
-        arrayTrunks[0].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
+        //arrayTrunks[0].setAttribute("attribute","tronco1");
+        arrayTrunks[0].setAttribute("tronco1");
+        /*arrayTrunks[0].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
         arrayTrunks[0].tronco1.x = castores[0].x + arrayTrunks[0].tronco1.width;
         arrayTrunks[0].tronco1.y = castores[0].y + arrayTrunks[0].height;        
         arrayTrunks[0].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
         arrayTrunks[0].tronco2.x = castores[0].x + arrayTrunks[0].tronco2.width;
-        arrayTrunks[0].tronco2.y = castores[0].y + arrayTrunks[0].tronco2.height;
+        arrayTrunks[0].tronco2.y = castores[0].y + arrayTrunks[0].tronco2.height;*/
         
         
         sceneGroup.add(groupTrunks);

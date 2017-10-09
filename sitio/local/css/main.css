@@ -101,10 +101,13 @@ body{
 	padding: 0%;
 }
 
-#gamesContainer img{
-	width: 256px;
-	height: 128px;
+#gamesContainer div{
+	height: 138px;
 	padding:0.8vh;
+}
+
+#gamesContainer img{
+	height: 100%;
     border-radius: 2vh;
 }
 
@@ -177,18 +180,20 @@ footer img{
 }
     
 #gamesContainer{
-	margin: 0px;
+	margin: auto;
 	width: 100%;
-	padding: 5%;
 }
 
-#gamesContainer img{
-	width: 100%;
-	height: auto;
-	border-radius:2vh;
-	padding: 0.5vh;
-    z-index: 0;
+#gamesContainer div{
+    height: 138px;
 }
+    
+#gamesContainer img{
+    height: 100%;
+    margin-left:50%;
+    transform: translate(-50%,0%);
+}
+    
     
 #sectionMenu{
     visibility: visible;
