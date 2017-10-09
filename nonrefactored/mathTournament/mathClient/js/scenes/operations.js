@@ -9,7 +9,7 @@ var operations = function(){
 			"ready":"Ready",
 			"reviewingAnswers": "Reviewing Answers",
 			"youWin":"You Win!",
-			"giveUp":"Don't give up!"
+			"bestLuck":"Better luck next time!"
 		},
 
 		"ES":{
@@ -17,8 +17,8 @@ var operations = function(){
 			"howTo":"¿Cómo jugar?",
 			"ready":"Listos",
 			"reviewingAnswers": "Revisando Respuestas",
-			"youWin":"Ganaste!",
-			"giveUp":"No te rindas!"
+			"youWin":"¡Ganaste!",
+			"bestLuck":"¡Mejor suerte la próxima!"
 		}
 	}
 
@@ -496,10 +496,10 @@ var operations = function(){
 		waitingGroup.loading.alpha = 0
 
 		if(winnerNum === cliente.numPlayer){
-			waitingGroup.waitText.text = "You Win!"
+			waitingGroup.waitText.text = localization.getString(localizationData, "youWin")
 			waitingGroup.waitText.tint = 0x00A413
 		}else{
-			waitingGroup.waitText.text = "Better luck next time!"
+			waitingGroup.waitText.text = localization.getString(localizationData, "bestLuckRe")
 			waitingGroup.waitText.tint = 0xA40101
 		}
 		game.add.tween(waitingGroup).to({alpha:1},300, Phaser.Easing.Cubic.Out,true)

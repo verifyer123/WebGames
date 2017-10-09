@@ -252,7 +252,7 @@ function Server(){
 		var operand1;
 		var operand2;
 		var result = "?";
-		var opedator = Math.floor((Math.random() * 4) + 1);
+		var opedator = Math.floor((Math.random() * 3) + 1);
 		
 		switch(level){
 			case 2://Medium
@@ -437,6 +437,8 @@ function Server(){
 	 */
 	this.start = function(inLevel, currentId){
 		self.events = {};
+		self.p1Ready = false;
+		self.p2Ready = false;
 		console.log(self.events)
 
 		var promise = makeid(currentId);
@@ -504,6 +506,7 @@ function Server(){
                         if (ready) {
                             self.p1Ready = true;
                             if (self.p2Ready) {
+                            	console.log("START GAME INIT")
                                 self.startGame()
                             }
                         }
