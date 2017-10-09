@@ -371,6 +371,7 @@ function createTextPart(text,obj){
         sceneGroup.add(seaBg);
         
         var castores = new Array;
+        var ondasCastores = new Array;
         for(var i=0;i<=2;i++){
                 castores[i] = game.add.sprite(50, 0, 'idle');
                 var castorAnima = castores[i].animations.add('castorAnima');
@@ -378,14 +379,29 @@ function createTextPart(text,obj){
                 castores[i].anchor.setTo(0.1,0); 
                 castores[i].y = 100 + castores[i].height * i;
                 sceneGroup.add(castores[i]);
+                ondasCastores[i] = sceneGroup.create(0,castores[i].y,"ondasAgua");
+                ondasCastores[i].x = ondasCastores[i].x + ondasCastores[i].width/2 - 20;
+                ondasCastores[i].y = ondasCastores[i].y + castores[i].height/1.5;
+                ondasCastores[i].scale.setTo(0.7);
+                ondasCastores[i].anchor.setTo(0.5,0);
+                TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true})
+                
         }
         
-
+        var arrayTrunks = new Array;
+        var groupTrunks = game.add.group();
+        arrayTrunks[0].attributes[0] = "tronco1";
+        arrayTrunks[0].attributes[1] = "tronco2";        
+        arrayTrunks[0].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
+        arrayTrunks[0].tronco1.x = castores[0].x + arrayTrunks[0].tronco1.width;
+        arrayTrunks[0].tronco1.y = castores[0].y + arrayTrunks[0].height;        
+        arrayTrunks[0].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
+        arrayTrunks[0].tronco2.x = castores[0].x + arrayTrunks[0].tronco2.width;
+        arrayTrunks[0].tronco2.y = castores[0].y + arrayTrunks[0].tronco2.height;
         
-        /*var ondasAgua = sceneGroup.create(0,castor.y,"ondasAgua");
-        ondasAgua.x = castor.x -10;
-        ondasAgua.y = castor.y + ondasAgua.height*1.3;
-        ondasAgua.scale.setTo(0.7);*/
+        
+        sceneGroup.add(groupTrunks);
+        
         
 		createHearts();
 		createCoins();
