@@ -10,48 +10,23 @@ var sound = function(){
 	function decode(soundStringArray){
 		console.log("Decoding Sounds...")
 		for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
-			
 			var currentSoundData = soundStringArray[indexSound]
-			//game.load.audio(currentSoundData.name, currentSoundData.file,true)
-			
-			//var currentLoadedAudio = game.add.audio(currentSoundData.name)
-			var currentLoadedAudio = new Audio(currentSoundData.file)
+			var currentLoadedAudio = game.add.audio(currentSoundData.name)
 			decodedSounds[currentSoundData.name] = currentLoadedAudio
 		}
 
-		game.sound.setDecodedCallback(decodedSounds, function(){
-			//console.log("audio ready")
-		}, this)
+		game.sound.setDecodedCallback(decodedSounds, function(){}, this)
 	}
 
-	function play(soundId, isLoop){
+	function play(soundId){
 		if(decodedSounds[soundId] !== "undefined"){
-			
-			var sound = decodedSounds[soundId]
-			
-			sound.loop = isLoop
-			if(!sound.paused){
-				sound.currentTime = 0
-			}
-			
-			sound.play()
-			
+			decodedSounds[soundId].play()
 		}else{
 			console.warn("[Sound]"+"Not found Sound: "+soundId)
 		}
 	}
-	
-	function setSong(path,volume){
-		
-		var song = new Audio(path)
-		song.loop = true
-		song.volume = volume
-		song.play()
-		return song
-	}
-	
+
 	return {
-		setSong: setSong,
 		decode: decode,
 		init: init,
 		play: play,
