@@ -74,6 +74,7 @@ function Client(){
 		}else if(!p2){
 			self.refIdGame.child("p2").set(player);
 			self.numPlayer = 2;
+			console.log("SET PLAYER 2")
 		}else{
 			self.id_game = null;
 			self.refIdGame= null;

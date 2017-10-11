@@ -772,6 +772,7 @@ var battle = function(){
 				server.retry()
 			}
 			console.log("retryPressed")
+			// game.destroy()
 			window.open("index.html", "_self")
 			// sceneloader.show("battle")
         })

@@ -6,13 +6,32 @@ var drzombie = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"cerebro":"Brain",
+			"corazon":"Heart",
+			"estomago":"Stomach",
+			"higado":"liver",
+			"intestino_del":"Small \nIntestine",
+			"intestino_grueso":"Large \nIntestine",
+			"pulmon":"Lungs",
+			"rinones":"Kidneys",
+			
+			
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"cerebro":"Cerebro",
+			"corazon":"Corazón",
+			"estomago":"Estómago",
+			"higado":"Hígado",
+			"intestino_del":"Intestino \nDelgado",
+			"intestino_grueso":"Intestino \nGrueso",
+			"pulmon":"Pulmones",
+			"rinones":"Riñones",
+			
 		}
 	}
     
@@ -43,8 +62,14 @@ var drzombie = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "flipCard",
-				file: soundsPath + "flipCard.mp3"},
+			{	name: "steam",
+				file: soundsPath + "steam.mp3"},
+			{	name: "zombieUp",
+				file: soundsPath + "zombieUp.mp3"},
+			{	name: "drag",
+				file: soundsPath + "drag.mp3"},
+			{	name: "gear",
+				file: soundsPath + "gear.mp3"},
 			
 		],
     }
@@ -56,16 +81,32 @@ var drzombie = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 94
 	var indexGame
     var overlayGroup
     var spaceSong
 	var background, floor
 	var spriteZombie, zombieSpine
-	var organsGroup
+	var organsGroup, organsContainers
+	var numberOrgans,numberOk
+	var oContainer, xContainer
+	var clock
+	var nameOrgan
+	var timeToUse
+	var objToUse
 	
-	var organsList = ['cerebro','corazon','estomago','intestino_del','intestino_grueso','higado']
-	
+	var organsPosition = [
+		
+		{name: "cerebro" ,x:-5.274336283185846, y:196.86363636363637},
+		{name: "pulmon" ,x:-2.774336283185846, y:-10},
+		{name: "corazon" ,x:-41.98672566371681, y:12.834224598930462},
+		{name: "estomago" ,x:-3.491150442477874, y:-30.802139037433165},
+		{name: "intestino_del" ,x:-4.774336283185846, y:-93.18983957219257},
+		{name: "intestino_grueso" ,x:-5.274336283185846, y:-97.04010695187162},
+		{name: "higado" ,x:17.039823008849567, y:-47.48663101604279},
+		{name: "rinones" ,x:-4.774336283185846, y:-35.435828877005406},
+		
+	]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -75,19 +116,22 @@ var drzombie = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-
+		numberOrgans = 2
+		timeToUse = 14000
+		objToUse = null
         
         loadSounds()
         
 	}
 
-    function popObject(obj,delay){
+    function popObject(obj,delay,alphaValue){
         
+		var alpha = alphaValue || 1
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            obj.alpha = alpha
+            game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -232,15 +276,31 @@ var drzombie = function(){
                 
     }
     
+	function zombieLose(){
+		
+		game.add.tween(xContainer).to({alpha:0,y:xContainer.y - 200},500,"Linear",true)
+		zombieSpine.setAnimationByName(0,"LOSE",false)
+		
+		game.add.tween(organsContainers).to({alpha:0},500,"Linear",true)
+		game.add.tween(organsGroup).to({alpha:0},500,"Linear",true)
+		game.add.tween(zombieSpine.anim).to({alpha:0},500,"Linear",true)
+		
+		sound.play("steam")
+		sound.play("zombieUp")
+		
+	}
+	
     function stopGame(win){
         
+		zombieLose()
+		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3500)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -259,7 +319,7 @@ var drzombie = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('zombie', "images/spines/zombies.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/space_bridge.mp3');
         
 		game.load.image('howTo',"images/zombie/tutorial/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/zombie/tutorial/play" + localization.getLanguage() + ".png")
@@ -271,6 +331,114 @@ var drzombie = function(){
         
     }
     
+	function setOrgans(){
+		
+		zombieSpine.alpha = 1
+		
+		var stringToUse = ['',1,2]
+		Phaser.ArrayUtils.shuffle(stringToUse)
+		
+		zombieSpine.setSkinByName("normal" + stringToUse[0])
+		sound.play("zombieUp")
+		game.add.tween(zombieSpine).from({x: - 200},3000,"Linear",true).onComplete.add(function(){
+			
+			zombieSpine.setAnimationByName(0,"IDLE",true)
+			xContainer.y = 0
+			sound.play("steam")
+			
+			game.add.tween(xContainer).to({y:game.world.centerY - 10, alpha:1},750,"Linear",true).onComplete.add(function(){
+				
+				game.add.tween(zombieSpine.anim).to({alpha:1},100,"Linear",true,0,5).onComplete.add(chooseOrgans)
+				sound.play("gear")
+
+			})
+			
+			
+		})
+		
+		zombieSpine.setAnimationByName(0,"WALK",true)
+	}
+	
+	function chooseOrgans(){
+		
+		var tagsToUse = []
+		Phaser.ArrayUtils.shuffle(organsPosition)
+		
+		for(var i = 0; i < numberOrgans;i++){
+			
+			var tag = organsPosition[i].name
+			tagsToUse[tagsToUse.length] = tag
+		}
+		
+		var delay = 250
+		for(var i = 0; i < organsContainers.length;i++){
+			
+			var organ = organsContainers.children[i]
+			for(var  u = 0; u < tagsToUse.length;u++){
+				
+				var tag = tagsToUse[u]
+				if(tag == organ.tag){
+					popObject(organ,delay)
+					organ.active = true
+					delay+= 250
+				}
+			}
+		}
+		
+		popObject(oContainer,delay,0.6)
+		delay+= 200
+		
+		var pivotX = game.world.centerX - 200
+		var pivotY = game.world.height - 165
+		var initX = pivotX
+		
+		var orgNumber = 0
+		for(var i = 0; i < organsGroup.length;i++){
+			
+			var organ = organsGroup.children[i]
+			for(var u = 0; u < tagsToUse.length;u++){
+				var tag = tagsToUse[u]
+				if(tag == organ.tag){
+					
+					organ.alpha = 0
+					organ.x = pivotX
+					organ.y = pivotY
+					organ.origX = organ.x
+					organ.origY = organ.y
+					organ.inputEnabled = true
+					
+					popObject(organ,delay)
+					delay+= 250
+					
+					pivotX+= 125
+					
+					orgNumber++
+					if(orgNumber == 4){
+						pivotX = initX
+						pivotY+= 100
+					}
+				}
+			}
+		}
+		
+		game.time.events.add(delay,function(){
+			
+			numberOk = 0
+			gameActive = true
+			popObject(clock,0)
+			
+			var bar = clock.bar
+			bar.scale.x = bar.origScale
+			
+			clock.tween = game.add.tween(bar.scale).to({x:0},timeToUse,"Linear",true)
+			clock.tween.onComplete.add(function(){
+				missPoint()
+				
+			})
+			
+		})
+	}
+	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -289,6 +457,9 @@ var drzombie = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+				gameActive = true
+				
+				setOrgans()
             })
             
         })
@@ -340,14 +511,21 @@ var drzombie = function(){
 		
 		var eyesSign = sceneGroup.create(game.world.centerX + 200,game.world.centerY - 100,'atlas.zombie','ojos')
 		eyesSign.anchor.setTo(0.5,0.5)
+		//eyesSign.inputEnabled = true
+		//eyesSign.events.onInputDown.add(inputButton)
 		
-		var weight = sceneGroup.create(game.world.centerX -200,game.world.height - floor.height * 0.75,'atlas.zombie','basculita')
+		var weight = sceneGroup.create(game.world.centerX -200,game.world.height - floor.height * 0.9,'atlas.zombie','basculita')
 		weight.anchor.setTo(0.5,1)
 		
 	}
 	
 	function update(){
-
+		
+		if(objToUse){
+			nameOrgan.x = objToUse.x
+			nameOrgan.y = objToUse.y - 100
+		}
+		
 	}
 	
 	function createTextPart(text,obj){
@@ -442,8 +620,8 @@ var drzombie = function(){
                 var particle = game.add.emitter(0, 0, 100);
 
 				particle.makeParticles('atlas.zombie',tag);
-				particle.minParticleSpeed.setTo(-200, -50);
-				particle.maxParticleSpeed.setTo(200, -100);
+				particle.minParticleSpeed.setTo(-300, -100);
+				particle.maxParticleSpeed.setTo(400, -200);
 				particle.minParticleScale = 0.6;
 				particle.maxParticleScale = 1.5;
 				particle.gravity = 150;
@@ -533,40 +711,89 @@ var drzombie = function(){
 			return
 		}
 		
+		var positions = ''
+		for(var i = 0; i < organsGroup.length;i++){
+			
+			var organ = organsGroup.children[i]
+			positions+= '{name: "' + organ.tag + '" ,x:' + (game.world.centerX - organ.x) + ', y:' + (game.world.centerY - organ.y) + '},\n'
+		}
+		
+		console.log(positions)
 	}
 	
 	function createZombie(){
 		
-		zombieSpine = game.add.spine(game.world.centerX, game.world.height - 175,'zombie')
+		zombieSpine = game.add.spine(game.world.centerX, game.world.height - 250,'zombie')
+		zombieSpine.alpha = 0
 		zombieSpine.setSkinByName('normal')
 		zombieSpine.setAnimationByName(0,"IDLE",true)
 		sceneGroup.add(zombieSpine)
+		
+		xContainer = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.zombie','container')
+		xContainer.anchor.setTo(0.5,0.5)
+		xContainer.scale.x = 1.2
+		xContainer.alpha = 0
 		
 		var xZombie = game.add.sprite(zombieSpine.x,zombieSpine.y + 35, 'zombie');
 		sceneGroup.add(xZombie)
 		xZombie.animations.add('walk');
 		xZombie.animations.play('walk',12,true);
+		xZombie.alpha = 0
 		xZombie.anchor.setTo(0.5,1)
 		
 		zombieSpine.anim = xZombie
-		
 	}
 	
 	function createOrgans(){
 		
+		oContainer = new Phaser.Graphics(game)
+		oContainer.alpha = 0
+        oContainer.beginFill(0x000000)
+        oContainer.drawRoundedRect(game.world.centerX,game.world.height - 125,600, 220,12)
+		oContainer.x-= oContainer.width * 0.5
+		oContainer.y-= oContainer.height * 0.5
+        oContainer.endFill()
+		sceneGroup.add(oContainer)
+		
+		organsContainers = game.add.group()
+		sceneGroup.add(organsContainers)
+		
+		for(var i = 0; i < organsPosition.length;i++){
+			
+			var orgGroup = game.add.group()
+			orgGroup.x = -organsPosition[i].x + game.world.centerX
+			orgGroup.y = -organsPosition[i].y + game.world.centerY
+			orgGroup.tag = organsPosition[i].name
+			orgGroup.alpha = 0
+			orgGroup.active = false
+			organsContainers.add(orgGroup)
+			
+			var organ = orgGroup.create(0,0,'atlas.zombie',organsPosition[i].name)
+			organ.anchor.setTo(0.5,0.5)
+			organ.scale.setTo(1.1,1.1)
+			organ.tint = 0xff0000
+			
+			var organ = orgGroup.create(0,0,'atlas.zombie',organsPosition[i].name)
+			organ.anchor.setTo(0.5,0.5)
+			orgGroup.organ = organ
+			organ.tint = 0x000000
+			
+						
+		}
+		
 		organsGroup = game.add.group()
 		sceneGroup.add(organsGroup)
 		
-		var pivotX = game.world.centerX - 200
-		for(var i = 0; i < organsList.length;i++){
+		for(var i = 0; i < organsPosition.length;i++){
 			
-			var organ = organsGroup.create(pivotX,game.world.height - 100,'atlas.zombie',organsList[i])
-			organ.anchor.setTo(0.5,0.5)
+			var organ = organsGroup.create(-200,-100,'atlas.zombie',organsPosition[i].name)
 			organ.inputEnabled = true
+			organ.tag = organsPosition[i].name
 			organ.input.enableDrag(true)
+			organ.anchor.setTo(0.5,0.5)
 			organ.events.onDragStart.add(onDragStart, this);
 			organ.events.onDragStop.add(onDragStop, this);
-			
+
 		}
 		
 	}
@@ -576,13 +803,156 @@ var drzombie = function(){
         if(!gameActive){
             return
         }
+		
+		objToUse = obj
+		
+		if(nameOrgan.tween){
+			nameOrgan.tween.stop()
+			nameOrgan.alpha = 0
+		}
+		
+		nameOrgan.alpha = 1
+		game.add.tween(nameOrgan.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+		nameOrgan.x = obj.x
+		nameOrgan.y = obj.y - 75
+		
+		nameOrgan.tween = game.add.tween(nameOrgan).to({alpha:0},500,"Linear",true,1000)
+		
+		nameOrgan.text.setText(localization.getString(localizationData,obj.tag))
         
-        sound.play("flipCard")
+        sound.play("drag")
         
     }
 	
 	function onDragStop(obj){
 		
+		if(nameOrgan.tween){
+			nameOrgan.tween.stop()
+			nameOrgan.tween = game.add.tween(nameOrgan).to({alpha:0},500,"Linear",true)
+		}
+		
+		objToUse = null
+		sound.play("pop")
+		obj.inputEnabled = false
+		
+		for(var i = 0; i < organsContainers.length;i++){
+			
+			var organ = organsContainers.children[i]
+			if(checkOverlap(obj,organ) && obj.tag == organ.tag && gameActive){
+				
+				game.add.tween(obj).to({x:organ.x, y:organ.y, angle:obj.angle + 360},500,"Linear",true)
+				game.add.tween(obj).to({angle:obj.angle+360},500,"Linear",true)
+				
+				addPoint(1)
+				createPart('star',obj)
+				
+				numberOk++
+				if(numberOk == numberOrgans){
+					
+					clock.tween.stop()
+					
+					game.add.tween(clock).to({alpha:0},500,"Linear",true)
+					
+					game.time.events.add(1500,function(){
+						
+						for(var i = 0; i < organsGroup.length;i++){
+
+							var organ = organsGroup.children[i]
+							var organ2 = organsContainers.children[i]
+
+							game.add.tween(organ2).to({alpha:0},500,"Linear",true)
+							organ.x = -100
+							organ.y = -200
+						}
+						
+						game.add.tween(oContainer).to({alpha:0},500,"Linear",true)
+						
+						sound.play("steam")
+						game.add.tween(zombieSpine.anim).to({alpha:0},100,"Linear",true,0,5)
+						game.add.tween(xContainer).to({alpha:0,y:xContainer.y - 200},500,"Linear",true,1000).onComplete.add(function(){
+							
+							sound.play("zombieUp")
+							zombieSpine.setAnimationByName(0,"WALK",true)
+							game.add.tween(zombieSpine).to({x:game.world.width + 300},2000,"Linear",true).onComplete.add(function(){
+								
+								zombieSpine.x = game.world.centerX
+								zombieSpine.alpha = 0
+								
+								if(timeToUse > 3000){
+									timeToUse-= 1000
+								}
+								
+								if(numberOrgans < 7){
+									numberOrgans++								}
+								
+								game.time.events.add(1000,setOrgans)
+							})
+						})
+					})
+					
+				}
+				
+				return
+			}
+		}
+				
+				
+		game.add.tween(obj).to({x:obj.origX, y:obj.origY},500,"Linear",true).onComplete.add(function(){
+
+			console.log('enable Input')
+			obj.inputEnabled = true
+		})
+	}
+		
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
+	
+	function createClock(){
+        
+        clock = game.add.group()
+        clock.x = game.world.centerX
+        clock.y = 100
+		clock.alpha = 0
+        sceneGroup.add(clock)
+        
+        var clockImage = clock.create(0,0,'atlas.zombie','clock')
+        clockImage.anchor.setTo(0.5,0.5)
+        
+        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.zombie','bar')
+        clockBar.anchor.setTo(0,0.5)
+        clockBar.width = clockImage.width*0.76
+        clockBar.height = 22
+        clockBar.origScale = clockBar.scale.x
+        
+        clock.bar = clockBar
+        
+    }
+	
+	function createNameOrgans(){
+		
+		nameOrgan = game.add.group()
+		nameOrgan.x = game.world.centerX
+		nameOrgan.y = game.world.centerY
+		nameOrgan.alpha = 0
+		sceneGroup.add(nameOrgan)
+		
+		var image = nameOrgan.create(0,0,'atlas.zombie','contenedor_nombres')
+		image.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, -15, "0", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		pointsText.lineSpacing = -10;
+        nameOrgan.add(pointsText)
+		
+		nameOrgan.text = pointsText
 		
 	}
 	
@@ -599,11 +969,13 @@ var drzombie = function(){
 			createBackground()
 			createZombie()
 			createOrgans()
+			createClock()
+			createNameOrgans()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

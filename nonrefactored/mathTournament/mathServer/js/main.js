@@ -17,8 +17,10 @@ function startGame(){
 	    	function onCompleteSceneLoading(){
 				if(server){
 					server.setGameReady(true)
+					console.log("GAME READY BATTLE")
 					server.startGame = function () {
-				    sceneloader.show("battle")
+				    	console.log("BATTLE SHOW")
+						sceneloader.show("battle")
 					}
 				}else
 					sceneloader.show("battle")

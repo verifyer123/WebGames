@@ -32,7 +32,7 @@ yogomeGames.getGames = function(){
 		{name:'geMath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem',subject:'math',review:true},
 		{name:'hackaMole',url:'http://yogome.com/epic/minigames/hackSite/',sceneName:'hack',subject:'coding',review:true},		
 		{name:'lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart',subject:'language',review:true},
-		{name:'snoozeCrater',url:'http://yogome.com/epic/minigames/snoozeSite/',sceneName:'snooze',subject:'health',review:true},//29
+		{name:'snoozeCrater',url:'http://yogome.com/epic/minigames/snoozeSite/',sceneName:'snooze',subject:'Sustainability',review:true},//29
 		{name:'mathFeed',url:'http://yogome.com/epic/minigames/feedSite/',sceneName:'feed',subject:'math',review:true},//30
 		{name:'galaxyHeroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'galaxy',subject:'geography',review:true},//31
 		{name:'popFish',url:'http://yogome.com/epic/minigames/fishSite/',sceneName:'fish',subject:'math',review:true},//32
@@ -60,7 +60,7 @@ yogomeGames.getGames = function(){
 		{name:'uniDream',url:'http://yogome.com/epic/minigames/uniSite/',sceneName:'uni',subject:'math', review:true},//53
 		{name:'countipede',url:'http://yogome.com/epic/minigames/countipSite/',sceneName:'countip',subject:'math', review:true},//54
         {name:'toyfigure',url:'http://yogome.com/epic/minigames/toyfigureSite/',sceneName:'toyfigure',subject:'math', review:true},//55
-		{name:'jellyJump',url:'http://yogome.com/epic/minigames/jellySite/',sceneName:'jelly',subject:'math', review:true},//56
+		{name:'jellyJump',url:'http://yogome.com/epic/minigames/jellySite/',sceneName:'jelly',subject:'math', review:false},//56
 		{name:'squatCount',url:'http://yogome.com/epic/minigames/squatSite/',sceneName:'squat',subject:'math', review:true},//57
 		{name:'baxtion',url:'http://yogome.com/epic/minigames/baxSite/',sceneName:'bax',subject:'math', review:true},//58
 		{name:'mathgicHat',url:'http://yogome.com/epic/minigames/hatSite/',sceneName:'magic',subject:'math', review:true},//59
@@ -70,7 +70,7 @@ yogomeGames.getGames = function(){
 		{name:'astronoMetric',url:'http://yogome.com/epic/minigames/astronoSite/',sceneName:'astrono',subject:'math', review:true},//63
 		{name:'jumptiply',url:'http://yogome.com/epic/minigames/jumpSite/',sceneName:'jump',subject:'math', review:true},//64
 		{name:'swampShapes',url:'http://yogome.com/epic/minigames/swampShapeSite/',sceneName:'swampShape',subject:'math', review:true},//65
-		{name:'duckCount',url:'http://yogome.com/epic/minigames/duckSite/',sceneName:'duck',subject:'math', review:false},//66
+		{name:'duckCount',url:'http://yogome.com/epic/minigames/duckSite/',sceneName:'duck',subject:'math', review:true},//66
         {name:'monsterDungeon',url:'http://yogome.com/epic/minigames/monsterDungeonsite/',sceneName:'monsterDungeon',subject:'math', review:true},//67
 		{name:'nachoSmacho',url:'http://yogome.com/epic/minigames/nachoSite/',sceneName:'nacho',subject:'math', review:true},//68
 		{name:'stackathon',url:'http://yogome.com/epic/minigames/stackSite/',sceneName:'stack',subject:'math', review:true},//69
@@ -89,15 +89,16 @@ yogomeGames.getGames = function(){
 		{name:'FrooTemple',url:'http://yogome.com/epic/minigames/frooTempleSite/',sceneName:'frootemple',subject:'math', review:false},//82 K
 		{name:'Fractiorama',url:'http://yogome.com/epic/minigames/fracSite/',sceneName:'frac',subject:'math', review:true},//83
 		{name:'Frosty Run',url:'http://yogome.com/epic/minigames/frostySite/',sceneName:'frosty',subject:'math', review:false},//84 K
-		{name:'Geo Tunnel',url:'http://yogome.com/epic/minigames/geotunnelSite/',sceneName:'geotunnel',subject:'math', review:false},//85
+		{name:'Geo Tunnel',url:'http://yogome.com/epic/minigames/geotunnelSite/',sceneName:'geotunnel',subject:'math', review:true},//85
 		{name:'Hover Ride',url:'http://yogome.com/epic/minigames/hoverSite/',sceneName:'hover',subject:'math', review:false},//86 K
 		{name:'Cereal Buffet',url:'http://yogome.com/epic/minigames/cerealSite/',sceneName:'cereal',subject:'math', review:false},//87 K
 		{name:'Froot Math',url:'http://yogome.com/epic/minigames/frootSite/',sceneName:'frootMath',subject:'math', review:false},//88 K
-		{name:'Pirate Pieces',url:'http://yogome.com/epic/minigames/piratePiecesSite/',sceneName:'piratePieces',subject:'math', review:false},// 89
+		{name:'Pirate Pieces',url:'http://yogome.com/epic/minigames/piratePiecesSite/',sceneName:'piratePieces',subject:'math', review:true},// 89
 		{name:'Triangrid',url:'http://yogome.com/epic/minigames/triangridSite/',sceneName:'triangrid',subject:'math', review:false},// 90
 		{name:'iMagic',url:'http://yogome.com/epic/minigames/iMagicSite/',sceneName:'imagic',subject:'math', review:false},//91
-		{name:'msNomNom',url:'http://yogome.com/epic/minigames/msSite/',sceneName:'ms',subject:'math', review:false},//92
-		{name:'frutiLluvia',url:'http://yogome.com/epic/minigames/frutiSite/',sceneName:'fruti',subject:'math', review:false}//93
+		{name:'msNomNom',url:'http://yogome.com/epic/minigames/msSite/',sceneName:'ms',subject:'math', review:true},//92
+		{name:'frutiLluvia',url:'http://yogome.com/epic/minigames/frutiSite/',sceneName:'fruti',subject:'math', review:false},//93
+		{name:'drZombie',url:'http://yogome.com/epic/minigames/drZombieSite/',sceneName:'drzombie',subject:'health', review:false}//94
 	]
     
     return games

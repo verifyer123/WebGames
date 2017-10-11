@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("water")
+				sceneloader.show("tapcards")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,8 +66,9 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            water,
-            result,
+            instructions,
+            tapcards,
+            result
     	])
     }
 }

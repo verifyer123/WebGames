@@ -51,6 +51,8 @@ window.minigame.orientation = function(){
 	}
 
 	return{
-		init: init,
+		init: function(start){
+			start()
+		},
 	}
 }()
