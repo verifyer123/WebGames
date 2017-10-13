@@ -1,16 +1,15 @@
 var soundsPath = '../../shared/minigames/sounds/'
-var amazingbros = function(){
+var netshoes = function(){
     assets = {
         atlases: [
             {   
-                name: "atlas.amazingbros",
-                json: "images/amazingbros/atlas.json",
-                image: "images/amazingbros/atlas.png",
+                name: "atlas.netshoes",
+                json: "images/netshoes/atlas.json",
+                image: "images/netshoes/atlas.png",
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/amazingbros/background.png"},
+
 		],
 		sounds: [
             {	name: "pop",
@@ -36,7 +35,7 @@ var amazingbros = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
-    var gameIndex = 0
+    var gameIndex = 16
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -64,6 +63,7 @@ var amazingbros = function(){
     var skinTable
     var heartsGroup = null 
     var groupButton = null
+	var back1,back2
     
     
     function getSkins(){
@@ -135,9 +135,9 @@ var amazingbros = function(){
 
         game.load.spine('mascot', "images/spines/skeleton.json");
         
-        game.load.spritesheet('bMonster', 'images/amazingbros/bMonster.png', 83, 84, 16);
-        game.load.spritesheet('pMonster', 'images/amazingbros/pMonster.png', 88, 78, 17);
-        game.load.spritesheet('coinS', 'images/amazingbros/coinS.png', 68, 70, 12);
+        game.load.spritesheet('bMonster', 'images/netshoes/sprites/bMonster.png', 83, 84, 16);
+        game.load.spritesheet('pMonster', 'images/netshoes/sprites/pMonster.png', 88, 78, 17);
+        game.load.spritesheet('coinS', 'images/netshoes/sprites/coinS.png', 122, 130, 12);
 		
 		if(amazing.getMinigameId()){
 			marioSong = sound.setSong(soundsPath + 'songs/marioSong.mp3',0.6)
@@ -180,7 +180,7 @@ var amazingbros = function(){
         
         var spaceButtons = 220
         
-        var bottomRect = sceneGroup.create(0,game.world.height,'atlas.amazingbros','dashboard')
+        var bottomRect = sceneGroup.create(0,game.world.height,'atlas.netshoes','dashboard')
         bottomRect.width = game.world.width
         bottomRect.height *= 1.02
         bottomRect.anchor.setTo(0,1)
@@ -192,10 +192,10 @@ var amazingbros = function(){
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
-        var button1 = groupButton.create(0,0, 'atlas.amazingbros','arcadebutton2')
+        var button1 = groupButton.create(0,0, 'atlas.netshoes','arcadebutton2')
         button1.anchor.setTo(0.5,0.5)
         
-        var button2 = groupButton.create(0,0, 'atlas.amazingbros','arcadebutton1')
+        var button2 = groupButton.create(0,0, 'atlas.netshoes','arcadebutton1')
         button2.anchor.setTo(0.5,0.5)
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
@@ -267,7 +267,7 @@ var amazingbros = function(){
             skullTrue = true
         }
         
-        createTextPart('+1',pointsBar.text)
+        addNumberPart(pointsBar.text,'+1')
         
     }
     
@@ -364,6 +364,9 @@ var amazingbros = function(){
         if(gameActive == false){
             return
         }
+		
+		back1.tilePosition.x-= 1
+		back2.tilePosition.x-=2
         
         positionPlayer()
         
@@ -427,7 +430,7 @@ var amazingbros = function(){
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(10,10,'atlas.amazingbros','xpcoins')
+        var pointsImg = pointsBar.create(10,10,'atlas.netshoes','xpcoins')
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
@@ -453,7 +456,7 @@ var amazingbros = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartsImg = group.create(0,0,'atlas.amazingbros','life_box')
+        var heartsImg = group.create(0,0,'atlas.netshoes','life_box')
         heartsImg.anchor.setTo(1,0)
         
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -699,7 +702,7 @@ var amazingbros = function(){
                 object.animations.add('walk');
                 object.animations.play('walk',24,true);   
             }else{
-                object = groundGroup.create(-300,game.world.height - 350,'atlas.amazingbros',tag)
+                object = groundGroup.create(-300,game.world.height - 350,'atlas.netshoes',tag)
             }
             
             object.scale.setTo(scale,scale)
@@ -723,17 +726,37 @@ var amazingbros = function(){
             }
         }
     }
-    
+        
+	function addNumberPart(obj,number){
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+        
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+        tweenScale.onComplete.add(function(){
+            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+        })
+    }
+	
     function createTextPart(text,obj){
         
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         
         if(pointsText){
             
             pointsText.x = obj.world.x
             pointsText.y = obj.world.y - 60
             pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
 
             game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
             game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
@@ -748,13 +771,16 @@ var amazingbros = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
-            if(!particle.used && particle.tag == key){
+			//console.log(particle.tag + ' tag,' + particle.used)
+            if(particle.tag == key){
                 
-                particle.used = true
+				particle.used = true
                 particle.alpha = 1
                 
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
+				if(key == 'text'){
+					particlesGroup.remove(particle)
+                	particlesUsed.add(particle)
+				}
                 
                 return particle
                 break
@@ -775,31 +801,36 @@ var amazingbros = function(){
         },this)
     }
     
-    function createPart(key,obj){
+    function createPart(key,obj,offsetX){
         
-        key+='Part'
+        var offX = offsetX || 0
         var particle = lookParticle(key)
+		
         if(particle){
             
-            particle.x = obj.world.x
+            particle.x = obj.world.x + offX
             particle.y = obj.world.y
             particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
+            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            particle.start(true, 1500, null, 6);+
+			particle.setAlpha(1,0,2000,Phaser.Easing.Cubic.In)
+			
+			/*game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})*/
+			
         }
         
         
     }
     
     function createParticles(tag,number){
-        
-        tag+='Part'
-        
+                
         for(var i = 0; i < number;i++){
             
             var particle
-            if(tag == 'textPart'){
+            if(tag == 'text'){
                 
                 var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
@@ -808,40 +839,56 @@ var amazingbros = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.amazingbros',tag)
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.netshoes',tag);
+				particle.minParticleSpeed.setTo(-400, -150);
+				particle.maxParticleSpeed.setTo(400, -300);
+				particle.minParticleScale = 0.4;
+				particle.maxParticleScale = 1.2;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
             }
             
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            particle.anchor.setTo(0.5,0.5)
+            //particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
         
     }
-    
+	
+	function addParticles(){
+		
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+		
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+		
+		createParticles('star',1)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		createParticles('drop',1)
+
+	}
+	
     function createObjects(){
         
         createObjs('floor',1.4,9)
-        createObjs('brick',1.1,7)
-        createObjs('coin',1,8)
+        createObjs('brick',1.1,6)
+        createObjs('coin',0.7,8)
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
         createObjs('skull',1,2)
         
-        particlesGroup = game.add.group()
-        sceneGroup.add(particlesGroup)
-        
-        particlesUsed = game.add.group()
-        sceneGroup.add(particlesUsed)
-        
-        createParticles('star',5)
-        createParticles('drop',5)
-        createParticles('wrong',2)
-        createParticles('text',8)
-        
-        while(pivotObjects < game.world.width * 1.2){
+        while(pivotObjects < game.world.width * 1.3){
+			//console.log('adding Block ' + pivotObjects + ' gameWidth ' + (game.world.width * 1.2))
             addObstacle('floor')
         }
         
@@ -909,9 +956,31 @@ var amazingbros = function(){
         }
     }
     
+	function createBackground(){
+		
+		var sky = worldGroup.create(0,0,'atlas.netshoes','sky')
+		sky.width = game.world.width * 1.2
+		sky.height = game.world.height
+		
+		var cloud = worldGroup.create(game.world.centerX - 250,game.world.centerY - 300,'atlas.netshoes','cloud')
+		var cloud = worldGroup.create(game.world.centerX + 100,game.world.centerY - 200,'atlas.netshoes','cloud')
+		cloud.alpha = 0.7
+		cloud.scale.setTo(0.8,0.8)
+		
+		
+		back1 = game.add.tileSprite(0,game.world.height - 300,game.world.width,327,'atlas.netshoes','city')
+		back1.anchor.setTo(0,1)
+		worldGroup.add(back1)
+		
+		back2 = game.add.tileSprite(0,game.world.height - 50,game.world.width,327,'atlas.netshoes','hill')
+		back2.anchor.setTo(0,1)
+		worldGroup.add(back2)
+		
+	}
+	
 	return {
 		assets: assets,
-		name: "amazingbros",
+		name: "netshoes",
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.P2JS);
@@ -923,16 +992,12 @@ var amazingbros = function(){
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 			sceneGroup = game.add.group()
-            
+			
             worldGroup = game.add.group()
-            //worldGroup.scale.setTo(0.5,0.5)
-            //worldGroup.x = 100
             sceneGroup.add(worldGroup)
-            
-            var background = worldGroup.create(-2,-2,'fondo')
-            background.width = game.world.width +2
-            background.height = game.world.height +2.
-            
+			
+			createBackground()
+                        
             groundGroup = game.add.group()
             worldGroup.add(groundGroup)
             
@@ -995,7 +1060,7 @@ var amazingbros = function(){
             
             buddy.setSkinByName('combined')
             
-            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.amazingbros','enemy_spike')
+            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.netshoes','enemy_spike')
             player.anchor.setTo(0.5,1)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
@@ -1012,6 +1077,7 @@ var amazingbros = function(){
             createHearts()
             createControls()            
             
+			addParticles()
             //createControls()
             
             game.physics.p2.setImpactEvents(true);
