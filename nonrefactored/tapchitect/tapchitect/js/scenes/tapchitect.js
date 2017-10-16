@@ -20,7 +20,7 @@ var tapchitect = function(){
 	assets = {
         atlases: [
             {   
-                name: "altas.tapchitect",
+                name: "atlas.tapchitect",
                 json: "images/tapchitect/atlas.json",
                 image: "images/tapchitect/atlas.png",
             },
@@ -48,7 +48,7 @@ var tapchitect = function(){
 		],
     }
     
-        
+    var yogotar
     var lives = null
 	var sceneGroup = null
 	var background
@@ -59,6 +59,8 @@ var tapchitect = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
+	var fog, cloud
+	var cliffsGroup
 	
 
 	function loadSounds(){
@@ -181,7 +183,7 @@ var tapchitect = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'altas.tapchitect','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.tapchitect','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -209,7 +211,7 @@ var tapchitect = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'altas.tapchitect','life_box')
+        var heartImg = group.create(0,0,'atlas.tapchitect','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -252,7 +254,7 @@ var tapchitect = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        //game.load.spine('ship', "images/spines/skeleton1.json")  
+        game.load.spine('arthurius', "images/spines/normal.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
 		game.load.image('howTo',"images/tapchitect/tutorial/how" + localization.getLanguage() + ".png")
@@ -291,7 +293,7 @@ var tapchitect = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'altas.tapchitect','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.tapchitect','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -305,11 +307,11 @@ var tapchitect = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'altas.tapchitect',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.tapchitect',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'altas.tapchitect','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.tapchitect','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -323,11 +325,41 @@ var tapchitect = function(){
 
 	function createBackground(){
 		
+		var sky = sceneGroup.create(0,0,'atlas.tapchitect','sky')
+		sky.width = game.world.width
+		sky.height = game.world.height
+		
+		cloud = game.add.tileSprite(0,200,game.world.width,214,'atlas.tapchitect','cloud')
+		cloud.anchor.setTo(0,0.5)
+		sceneGroup.add(cloud)
+		
+		var mountain3 = game.add.tileSprite(0,game.world.height - 475,game.world.width,285,'atlas.tapchitect','bot_mountain')
+		mountain3.anchor.setTo(0,1)
+		sceneGroup.add(mountain3)
+		
+		var mountain2 = game.add.tileSprite(0,game.world.height - 200,game.world.width, 436,'atlas.tapchitect','mountain2')
+		mountain2.anchor.setTo(0,1)
+		mountain2.alpha = 0.7
+		mountain2.tilePosition.x-= 200
+		sceneGroup.add(mountain2)
+		
+		var mountain = game.add.tileSprite(0,game.world.height,game.world.width,361,'atlas.tapchitect','mountain1')
+		mountain.anchor.setTo(0,1)
+		sceneGroup.add(mountain)
+		
+		fog = game.add.tileSprite(0,game.world.height,game.world.width, 349,'atlas.tapchitect','fog')
+		fog.anchor.setTo(0,1)
+		sceneGroup.add(fog)
+		
+		var tween = game.add.tween(fog).to({alpha: 0.3},1500,"Linear",true,0,-1)
+		tween.yoyo(true,0)
 		
 	}
 	
 	function update(){
-
+		
+		fog.tilePosition.x+= 0.5
+		cloud.tilePosition.x-= 0.2
 	}
 	
 	function createTextPart(text,obj){
@@ -421,7 +453,7 @@ var tapchitect = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('altas.tapchitect',tag);
+				particle.makeParticles('atlas.tapchitect',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -477,7 +509,7 @@ var tapchitect = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'altas.tapchitect','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.tapchitect','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -490,7 +522,7 @@ var tapchitect = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('altas.tapchitect','smoke');
+        particlesGood.makeParticles('atlas.tapchitect','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -515,6 +547,20 @@ var tapchitect = function(){
 		
 	}
 	
+	function createCliffs(){
+		
+		cliffsGroup = game.add.group()
+		sceneGroup.add(cliffsGroup)
+		
+		for(var i = 0; i < 2;i++){
+			
+			var cliff = cliffsGroup.create(0,0,'atlas.tapchitect','cliff' + i)
+			cliff.anchor.setTo(0.5,1)
+			
+			
+		}
+	}
+	
 	return {
 		
 		assets: assets,
@@ -526,6 +572,7 @@ var tapchitect = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createCliffs()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
