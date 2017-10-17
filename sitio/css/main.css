@@ -106,6 +106,7 @@ body{
 	height: 128px;
 	padding:0.8vh;
   border-radius: 2vh;
+    margin: 0 auto;
 }
 
 
@@ -137,10 +138,10 @@ body{
 
 .text-btnsubject{
     position: relative;
-    top:-20%;
+    top:-2em;
     color:#FFF;
-    font-size: 2vh;
-    margin-top:0;
+    font-size: 2oem;
+    
 }
 
 footer{
@@ -408,4 +409,10 @@ footer img{
     width: 100%;
 }
 
+}
+
+#gamesContainer .row
+{
+    margin-left:0% !important;
+    margin-right:0% !important;    
 }

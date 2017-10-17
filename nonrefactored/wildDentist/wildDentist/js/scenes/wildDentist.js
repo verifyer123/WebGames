@@ -47,7 +47,8 @@ var wildDentist = function(){
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
-	var speedGame = 5;
+	var speedGame = 2;
+    var speed = 2;
 	var heartsIcon;
 	var heartsText;	
 	var xpIcon;
@@ -55,9 +56,25 @@ var wildDentist = function(){
 	var lives = 3;
 	var coins = 0;
 	var bgm = null; 
-    /*vars defautl*/
+    var particlesGroup;
+    var usedParticles;
     var reviewComic = true;
-	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+    var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+    /*vars defautl*/
+        var castores = [
+            {id:0,idle:"",bite:"",bad_breath:"",broken:"",caries:"",biteBeaver:false},{id:1,idle:"",bite:"",bad_breath:"",broken:"",caries:"",biteBeaver:false},{id:2,idle:"",bite:"",bad_breath:"",broken:"",caries:"",biteBeaver:false}
+        ];
+        var arrayTrunks = [
+            {tronco1:"",tronco2:"",tronco3:""},
+            {tronco1:"",tronco2:"",tronco3:""},
+            {tronco1:"",tronco2:"",tronco3:""}
+        ];
+        var buttonsOptions = [];
+        var hitZones = [];
+        var ondasCastores = new Array;
+        var tileRocks = new Array;
+          
+	
 
     function preload() {
 		buttons.getImages(game);
@@ -66,6 +83,9 @@ var wildDentist = function(){
         game.load.image("xpIcon", imagePath + "xpcoins.png");
         game.load.image("gametuto", imagePath + "tutorial/tuto.png");
         game.load.image("ondasAgua", imagePath + "ondas_agua.png");
+        game.load.image("rocks", imagePath + "tile_rocks.png");
+        game.load.image("star", imagePath + "star.png");
+        game.load.image("wrong", imagePath + "wrong.png");
         game.load.spritesheet('bad_breath', imagePath + 'sprites/bad_breath/sprite.png', 415, 271, 24);
         game.load.spritesheet('bite', imagePath + 'sprites/bite/sprite.png', 292, 268, 19);
         game.load.spritesheet('broken', imagePath + 'sprites/broken/sprite.png', 249, 238, 23);
@@ -74,7 +94,7 @@ var wildDentist = function(){
     }
 
 	function loadSounds(){
-		sound.decode(assets.sounds)
+		sound.decode(assets.sounds);
 	}
     
 	function initialize(){
@@ -134,8 +154,8 @@ function createTextPart(text,obj){
        var offX = offsetX || 0
         var particle = lookParticle(key)
        if(particle){
-           particle.x = obj.world.x + offX
-            particle.y = obj.world.y
+           particle.x = obj.world.x + offX + obj.width/2;
+            particle.y = obj.world.y + obj.height/2;
             particle.scale.setTo(1,1)
             particle.start(true, 1500, null, 6);
             game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
@@ -256,7 +276,7 @@ function createTextPart(text,obj){
 		coins = 0;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
-		speedGame = 5;
+		speedGame = 2;
 		starGame = false;
         sceneGroup = game.add.group(); 
         yogomeGames.mixpanelCall("enterGame",gameIndex);
@@ -363,63 +383,271 @@ function createTextPart(text,obj){
 		loadSounds();
 		background = game.add.tileSprite(0,0,game.world.width, 216,"atlas.game", "tile_sky");
 		sceneGroup.add(background);
+        var groupTrunks = game.add.group();   
         
         var seaBg = new Phaser.Graphics(game)
         seaBg.beginFill(0x45B4AF)
-        seaBg.drawRect(0,216,game.world.width, game.world.height);
+        seaBg.drawRect(0,160,game.world.width, game.world.height);
         seaBg.endFill();
-        sceneGroup.add(seaBg);
-        
-        var castores = new Array;
-        var ondasCastores = new Array;
+        sceneGroup.add(seaBg); 
+        sceneGroup.add(groupTrunks);
         for(var i=0;i<=2;i++){
-                castores[i] = game.add.sprite(50, 0, 'idle');
-                var castorAnima = castores[i].animations.add('castorAnima');
-                castores[i].animations.play('castorAnima', 24, true);
-                castores[i].anchor.setTo(0.1,0); 
-                castores[i].y = 100 + castores[i].height * i;
-                sceneGroup.add(castores[i]);
-                ondasCastores[i] = sceneGroup.create(0,castores[i].y,"ondasAgua");
+                
+                castores[i].idle = game.add.sprite(50, 0, 'idle');
+                var castorAnima = castores[i].idle.animations.add('castorAnima');
+                castores[i].idle.animations.play('castorAnima', 24, true);
+                castores[i].idle.anchor.setTo(0.1,0); 
+                castores[i].idle.y = 20 + castores[i].idle.height * i;
+                //castores[i].idle.alpha = 0;
+                sceneGroup.add(castores[i].idle);            
+                
+                castores[i].bite = game.add.sprite(30, 0, 'bite');
+                var castorAnima2 = castores[i].bite.animations.add('castorAnima2');
+                castores[i].bite.animations.play('castorAnima2', 24, true);
+                castores[i].bite.anchor.setTo(0.1,0); 
+                castores[i].bite.y = -10 + castores[i].idle.height * i;
+                castores[i].bite.alpha = 0;
+                sceneGroup.add(castores[i].bite);
+            
+                castores[i].bad_breath = game.add.sprite(55, 0, 'bad_breath');
+                var castorAnima3 = castores[i].bad_breath.animations.add('castorAnima3');
+                castores[i].bad_breath.animations.play('castorAnima3', 24, true);
+                castores[i].bad_breath.anchor.setTo(0.1,0); 
+                castores[i].bad_breath.y = 0 + castores[i].idle.height * i;
+                castores[i].bad_breath.alpha = 0;
+                sceneGroup.add(castores[i].bad_breath);
+
+                castores[i].broken = game.add.sprite(55, 0, 'broken');
+                var castorAnima4 = castores[i].broken.animations.add('castorAnima4');
+                castores[i].broken.animations.play('castorAnima4', 24, true);
+                castores[i].broken.anchor.setTo(0.1,0); 
+                castores[i].broken.y = 30 + castores[i].idle.height * i;
+                castores[i].broken.alpha = 0;
+                sceneGroup.add(castores[i].broken);  
+
+                castores[i].caries = game.add.sprite(55, 0, 'caries');
+                var castorAnima5 = castores[i].caries.animations.add('castorAnima5');
+                castores[i].caries.animations.play('castorAnima5', 24, true);
+                castores[i].caries.anchor.setTo(0.1,0); 
+                castores[i].caries.y = 30 + castores[i].caries.height * i;
+                castores[i].caries.alpha = 0;
+                sceneGroup.add(castores[i].caries);            
+            
+                ondasCastores[i] = sceneGroup.create(0,castores[i].idle.y,"ondasAgua");
                 ondasCastores[i].x = ondasCastores[i].x + ondasCastores[i].width/2 - 20;
-                ondasCastores[i].y = ondasCastores[i].y + castores[i].height/1.5;
+                ondasCastores[i].y = ondasCastores[i].y + castores[i].idle.height/1.5;
                 ondasCastores[i].scale.setTo(0.7);
                 ondasCastores[i].anchor.setTo(0.5,0);
-                TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true})
-                
+                TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
+                arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
+                arrayTrunks[i].tronco1.x = game.width + 300;
+                arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 20;        
+                arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
+                arrayTrunks[i].tronco2.x = arrayTrunks[i].tronco1.x;
+                arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 35; 
+                arrayTrunks[i].tronco2.alpha = 0;
+                arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
+                arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
+                arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 40;
+                arrayTrunks[i].tronco3.alpha = 0;             
+                tileRocks[i] = game.add.tileSprite(0,0,game.width,155,"rocks");
+                tileRocks[i].height = 155;
+                tileRocks[i].y = arrayTrunks[i].tronco1.y + tileRocks[i].height/2;
+                sceneGroup.add(tileRocks[i]);
+            
+                hitZones[i] = new Phaser.Graphics(game)
+                hitZones[i].beginFill(0x0aff55)
+                hitZones[i].drawRect(castores[i].idle.x,castores[i].idle.y + 30,castores[i].idle.width, castores[i].idle.height- 40);
+                hitZones[i].alpha = 0;
+                hitZones[i].id = 4;
+                hitZones[i].endFill(); 
+                sceneGroup.add(hitZones[i]);            
+            
         }
         
-        var arrayTrunks = new Array;
-        var groupTrunks = game.add.group();
-        //arrayTrunks[0].setAttribute("attribute","tronco1");
-        arrayTrunks[0].setAttribute("tronco1");
-        /*arrayTrunks[0].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
-        arrayTrunks[0].tronco1.x = castores[0].x + arrayTrunks[0].tronco1.width;
-        arrayTrunks[0].tronco1.y = castores[0].y + arrayTrunks[0].height;        
-        arrayTrunks[0].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
-        arrayTrunks[0].tronco2.x = castores[0].x + arrayTrunks[0].tronco2.width;
-        arrayTrunks[0].tronco2.y = castores[0].y + arrayTrunks[0].tronco2.height;*/
+        var container = sceneGroup.create(0,0,"atlas.game","contenedor");
+        container.y = game.height - container.height + 10;
+        container.width = game.width;
         
+        buttonsOptions[0] = sceneGroup.create(0,0,"atlas.game","brush");
+        buttonsOptions[0].id = 0;
+        buttonsOptions[0].y = game.height - buttonsOptions[0].height/2 - 10;    
+        buttonsOptions[0].x = buttonsOptions[0].width;
+        buttonsOptions[0].posx = buttonsOptions[0].x;
+        buttonsOptions[0].posy = buttonsOptions[0].y;
+        buttonsOptions[0].inputEnabled = true;
+        buttonsOptions[0].anchor.setTo(0.5,0.5);
+        buttonsOptions[0].input.enableDrag();
+        buttonsOptions[0].events.onDragStart.add(onDragStart, this);
+        buttonsOptions[0].events.onDragStop.add(onDragStop, this);
         
-        sceneGroup.add(groupTrunks);
+        buttonsOptions[1] = sceneGroup.create(0,0,"atlas.game","floss");
+        buttonsOptions[1].id = 1;
+        buttonsOptions[1].y = game.height - buttonsOptions[1].height/2 - 10;    
+        buttonsOptions[1].x = game.world.centerX + 20;
+        buttonsOptions[1].anchor.setTo(0.5,0.5);
+        buttonsOptions[1].posx = buttonsOptions[1].x;
+        buttonsOptions[1].posy = buttonsOptions[1].y;
+        buttonsOptions[1].inputEnabled = true;
+        buttonsOptions[1].anchor.setTo(0.5,0.5);  
+        buttonsOptions[1].input.enableDrag();
+        buttonsOptions[1].events.onDragStart.add(onDragStart, this);
+        buttonsOptions[1].events.onDragStop.add(onDragStop, this);      
         
-        
-		createHearts();
+        buttonsOptions[2] = sceneGroup.create(0,0,"atlas.game","enjuague");
+        buttonsOptions[2].id = 2;
+        buttonsOptions[2].y = game.height - buttonsOptions[2].height/2 - 10;   
+        buttonsOptions[2].x = game.width - buttonsOptions[2].width;
+        buttonsOptions[2].anchor.setTo(0.5,0.5);
+        buttonsOptions[2].anchor.setTo(0.5,0.5);
+        buttonsOptions[2].posx = buttonsOptions[2].x;
+        buttonsOptions[2].posy = buttonsOptions[2].y;
+        buttonsOptions[2].inputEnabled = true;
+        buttonsOptions[2].anchor.setTo(0.5,0.5);  
+        buttonsOptions[2].input.enableDrag();
+        buttonsOptions[2].events.onDragStart.add(onDragStart, this);
+        buttonsOptions[2].events.onDragStop.add(onDragStop, this);          
+ 		createHearts();
 		createCoins();
-        //addParticles();
-        if(!reviewComic){
+        addParticles();
+        createOverlay();
+       /* if(!reviewComic){
             createComic(4);
         }else{
           //createOverlay(); 
             starGame = true;
-        }
+        }*/
         
 	}
+    
+       function onDragStart(sprite, pointer) {
+            console.log("sprite: " + sprite.id);
+            console.log("hit zone: " + hitZones[0].id);  
+           console.log("hit zone: " + hitZones[1].id);  
+           console.log("hit zone: " + hitZones[2].id);  
+        }
+        
+        function onDragStop(sprite, pointer) {
+            
+            for(var d = 0;d<=2;d++){
+                if(hitZones[d].id == sprite.id){
+                    if (checkOverlap(hitZones[d], sprite) ){
+                                castores[d].broken.alpha = 0;
+                                castores[d].bad_breath.alpha = 0; 
+                                castores[d].caries.alpha = 0;
+                                castores[d].idle.alpha = 1;
+                                castores[d].biteBeaver = false;
+                                arrayTrunks[d].tronco1.alpha = 1;
+                                arrayTrunks[d].tronco1.x = game.width + 300;
+                                speed = speed + 0.2;
+                                createPart('star',castores[d].idle);
+                                hitZones[d].id = 4;
+                                coins++;
+                                xpText.setText(coins);       
+                    }
+                }else{
+                    if (checkOverlap(hitZones[d], sprite) ){
+                        createPart('wrong',sprite);
+                        lives--;
+                        heartsText.setText(lives);
+                    }
+                }
+            }
+            sprite.scale.setTo(0);
+            sprite.x = sprite.posx;
+            sprite.y = sprite.posy;
+            game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
+   
+        }
+        
+        function checkOverlap(spriteA, spriteB) {
 
+            var boundsA = spriteA.getBounds();
+            var boundsB = spriteB.getBounds();
+
+            return Phaser.Rectangle.intersects(boundsA, boundsB);
+
+        }       
+    
+    
+        function moveTrunk(trunk,speed,target){
+            if(!target.biteBeaver){
+                if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.5)){
+                    trunk.tronco1.x -= speed;
+                    trunk.tronco2.x = trunk.tronco1.x;
+                    trunk.tronco3.x = trunk.tronco1.x
+                    trunk.tronco1.alpha = 1;
+                }else{
+                    target.idle.alpha = 0;
+                    target.bite.alpha = 1;
+                    target.biteBeaver = true;
+                    updateBeaver(trunk,speed,target);
+                }
+            }
+        }    
+    
+    
+    
+    
+    function updateBeaver(trunk,speed,target){
+        var counter = 1;
+        var anim = target.bite.animations.add('castorAnima2');
+        anim.onLoop.add(eatTrunk, this);
+        anim.play(speed * 12, true);
+        
+        function eatTrunk(){
+            if(counter == 1){
+                trunk.tronco1.alpha = 0;
+                trunk.tronco2.alpha = 1; 
+                 counter++;
+            }else if(counter == 2){
+               trunk.tronco2.alpha = 0;
+               trunk.tronco3.alpha = 1; 
+                 counter++;
+            }else if(counter == 3){ 
+                trunk.tronco3.alpha = 0;
+                counter = 0;
+                target.bite.alpha = 0;
+                
+                switch(getRandomArbitrary(0,3)){
+                    case 0:
+                        console.log(target.id);
+                        target.caries.alpha = 1;
+                        hitZones[target.id].id = 0; 
+                    break;
+                    case 1:
+                        console.log(target.id);
+                        target.broken.alpha = 1;  
+                        hitZones[target.id].id = 1;   
+                                 
+                    break;
+                    case 2:
+                        console.log(target.id);
+                        target.bad_breath.alpha = 1;
+                        hitZones[target.id].id = 2; 
+                    break;
+                       }
+            }
+           
+        }
+        
+    }
+    
+    
 	function update() {
+        
+
+       
+        
 		if(starGame){	
 			if(lives != 0){	
-				//if (cursors.left.isUp){};
-			}
+				for(var p = 0; p<=2;p++){
+                    moveTrunk(arrayTrunks[p],speed,castores[p])
+                }
+			}else{
+                starGame = false;
+                gameOver();
+            }
 		}
 	}
     
