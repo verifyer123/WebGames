@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Wild Dentist",
         language: "es",
-        minigameUrl: "../esquivaCuetes/index.html?language=" + language,
+        minigameUrl: "../wildDentist/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

@@ -510,12 +510,13 @@ function createTextPart(text,obj){
  		createHearts();
 		createCoins();
         addParticles();
-        if(!reviewComic){
+        createOverlay();
+       /* if(!reviewComic){
             createComic(4);
         }else{
           //createOverlay(); 
             starGame = true;
-        }
+        }*/
         
 	}
     
@@ -635,14 +636,14 @@ function createTextPart(text,obj){
     
 	function update() {
         
-        for(var p = 0; p<=2;p++){
-             moveTrunk(arrayTrunks[p],speed,castores[p])
-        }
+
        
         
 		if(starGame){	
 			if(lives != 0){	
-				
+				for(var p = 0; p<=2;p++){
+                    moveTrunk(arrayTrunks[p],speed,castores[p])
+                }
 			}else{
                 starGame = false;
                 gameOver();
