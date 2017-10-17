@@ -440,7 +440,7 @@ function createTextPart(text,obj){
                 ondasCastores[i].anchor.setTo(0.5,0);
                 TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
                 arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
-                arrayTrunks[i].tronco1.x = game.width + 300;
+                arrayTrunks[i].tronco1.x = game.width - 300;
                 arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 20;        
                 arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
                 arrayTrunks[i].tronco2.x = arrayTrunks[i].tronco1.x;
