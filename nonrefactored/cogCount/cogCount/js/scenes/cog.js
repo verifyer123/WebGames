@@ -75,7 +75,7 @@ var cog = function(){
 
     var lives
     var sceneGroup = null
-    var gameIndex = 95
+    var gameIndex = 96
     var tutoGroup
     var cogSong
     var heartsGroup = null
