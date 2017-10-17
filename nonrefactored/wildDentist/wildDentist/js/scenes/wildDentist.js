@@ -39,16 +39,20 @@ var wildDentist = function(){
 			{	name: "shootBall",
 				file: soundsPath + "shootBall.mp3"},
 			{	name: "combo",
-				file: soundsPath + "combo.mp3"}
+				file: soundsPath + "combo.mp3"},
+			{	name: "combo",
+				file: soundsPath + "combo.mp3"},
+			{	name: "bite",
+				file: soundsPath + "bite.mp3"}
 		],
 	}
     /*vars defautl*/
-    var gameIndex = 0;
+    var gameIndex = 95;
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
 	var speedGame = 2;
-    var speed = 2;
+    var speed = 3;
 	var heartsIcon;
 	var heartsText;	
 	var xpIcon;
@@ -62,7 +66,7 @@ var wildDentist = function(){
     var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
     /*vars defautl*/
         var castores = [
-            {id:0,idle:"",bite:"",bad_breath:"",broken:"",caries:"",biteBeaver:false},{id:1,idle:"",bite:"",bad_breath:"",broken:"",caries:"",biteBeaver:false},{id:2,idle:"",bite:"",bad_breath:"",broken:"",caries:"",biteBeaver:false}
+            {id:0,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},{id:1,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},{id:2,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false}
         ];
         var arrayTrunks = [
             {tronco1:"",tronco2:"",tronco3:""},
@@ -78,10 +82,12 @@ var wildDentist = function(){
 
     function preload() {
 		buttons.getImages(game);
+        game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
         game.load.image("background", imagePath + "background.png");
         game.load.image("heartsIcon", imagePath + "hearts.png");
         game.load.image("xpIcon", imagePath + "xpcoins.png");
         game.load.image("gametuto", imagePath + "tutorial/tuto.png");
+        game.load.image("click", imagePath + "tutorial/click.png");
         game.load.image("ondasAgua", imagePath + "ondas_agua.png");
         game.load.image("rocks", imagePath + "tile_rocks.png");
         game.load.image("star", imagePath + "star.png");
@@ -91,6 +97,7 @@ var wildDentist = function(){
         game.load.spritesheet('broken', imagePath + 'sprites/broken/sprite.png', 249, 238, 23);
         game.load.spritesheet('caries', imagePath + 'sprites/caries/sprite.png', 249, 238, 23);
         game.load.spritesheet('idle', imagePath + 'sprites/idle/sprite.png', 249, 238, 24);
+        game.load.spritesheet('hit', imagePath + 'sprites/hit/sprite.png', 338, 268, 14);
     }
 
 	function loadSounds(){
@@ -276,8 +283,13 @@ function createTextPart(text,obj){
 		coins = 0;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
-		speedGame = 2;
+		speed = 2;
 		starGame = false;
+                for(var p = 0; p<=2;p++){
+                    castores[p].biteBeaver = false;
+                    castores[p].clean = true;
+                    castores[p].state = "";
+                }        
         sceneGroup = game.add.group(); 
         yogomeGames.mixpanelCall("enterGame",gameIndex);
         overlayGroup = game.add.group();
@@ -299,7 +311,7 @@ function createTextPart(text,obj){
          game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 		
-		bgm = game.add.audio('wormwood')
+		bgm = game.add.audio('wormwood');
             game.sound.setDecodedCallback(bgm, function(){
             }, this);
 		
@@ -327,13 +339,13 @@ function createTextPart(text,obj){
             if(!game.device.desktop){
                deviceName = 'tablet'
                 offsetX = 50
-                var inputLogo = overlayGroup.create(game.world.centerX + offsetX,game.world.centerY + 145,'atlas.tutorial','movil');
+                var inputLogo = overlayGroup.create(game.world.centerX + offsetX/2,game.world.centerY + 145,'click');
                 inputLogo.anchor.setTo(0.5,0.5);	 
             }else{
-                var inputLogo = overlayGroup.create(game.world.centerX,game.world.centerY + 145,"atlas.tutorial",'pc');
+                var inputLogo = overlayGroup.create(game.world.centerX + 10,game.world.centerY + 130,'click');
                 inputLogo.anchor.setTo(0.4,0.5);	
             };
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,"atlas.tutorial",'button')
+		var button = overlayGroup.create(game.world.centerX, plane.y + plane.height/2,"atlas.tutorial",'button')
 		button.anchor.setTo(0.4,0.5)
 		var playText = overlayGroup.create(game.world.centerX, button.y,"atlas.tutorial",'play' + localization.getLanguage())
 		playText.anchor.setTo(0.4,0.5)
@@ -375,6 +387,8 @@ function createTextPart(text,obj){
 		var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, coins,gameIndex)
 			sceneloader.show("result");
+            bgm.stop();
+            sound.play("gameLose");
 	}    
     
 	/*CREATE SCENE*/
@@ -399,7 +413,15 @@ function createTextPart(text,obj){
                 castores[i].idle.anchor.setTo(0.1,0); 
                 castores[i].idle.y = 20 + castores[i].idle.height * i;
                 //castores[i].idle.alpha = 0;
-                sceneGroup.add(castores[i].idle);            
+                sceneGroup.add(castores[i].idle);  
+            
+                castores[i].hit = game.add.sprite(-30, 0, 'hit');
+                var castorAnimahit = castores[i].hit.animations.add('castorAnimahit');
+                castores[i].hit.animations.play('castorAnimahit', 24, true);
+                castores[i].hit.anchor.setTo(0.1,0); 
+                castores[i].hit.y = castores[i].idle.height * i - 10;
+                castores[i].hit.alpha = 0;
+                sceneGroup.add(castores[i].hit);            
                 
                 castores[i].bite = game.add.sprite(30, 0, 'bite');
                 var castorAnima2 = castores[i].bite.animations.add('castorAnima2');
@@ -457,7 +479,7 @@ function createTextPart(text,obj){
             
                 hitZones[i] = new Phaser.Graphics(game)
                 hitZones[i].beginFill(0x0aff55)
-                hitZones[i].drawRect(castores[i].idle.x,castores[i].idle.y + 30,castores[i].idle.width, castores[i].idle.height- 40);
+                hitZones[i].drawRect(castores[i].idle.x + 50,castores[i].idle.y + 100,castores[i].idle.width/2, castores[i].idle.height/4);
                 hitZones[i].alpha = 0;
                 hitZones[i].id = 4;
                 hitZones[i].endFill(); 
@@ -530,28 +552,33 @@ function createTextPart(text,obj){
         function onDragStop(sprite, pointer) {
             
             for(var d = 0;d<=2;d++){
+                
                 if(hitZones[d].id == sprite.id){
+                    if(castores[d].clean == false){
                     if (checkOverlap(hitZones[d], sprite) ){
                                 castores[d].broken.alpha = 0;
                                 castores[d].bad_breath.alpha = 0; 
                                 castores[d].caries.alpha = 0;
                                 castores[d].idle.alpha = 1;
                                 castores[d].biteBeaver = false;
-                                arrayTrunks[d].tronco1.alpha = 1;
-                                arrayTrunks[d].tronco1.x = game.width + 300;
-                                speed = speed + 0.2;
+                                castores[d].clean = true;
+                                speed = speed + 0.05;
+                                sound.play("magic");
                                 createPart('star',castores[d].idle);
                                 hitZones[d].id = 4;
                                 coins++;
-                                xpText.setText(coins);       
+                                xpText.setText(coins);   
+                        }
                     }
                 }else{
                     if (checkOverlap(hitZones[d], sprite) ){
                         createPart('wrong',sprite);
+                        sound.play("wrong");
                         lives--;
                         heartsText.setText(lives);
                     }
                 }
+            
             }
             sprite.scale.setTo(0);
             sprite.x = sprite.posx;
@@ -573,20 +600,52 @@ function createTextPart(text,obj){
         function moveTrunk(trunk,speed,target){
             if(!target.biteBeaver){
                 if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.5)){
-                    trunk.tronco1.x -= speed;
-                    trunk.tronco2.x = trunk.tronco1.x;
-                    trunk.tronco3.x = trunk.tronco1.x
-                    trunk.tronco1.alpha = 1;
+                        trunk.tronco1.x -= speed;
+                        trunk.tronco2.x = trunk.tronco1.x;
+                        trunk.tronco3.x = trunk.tronco1.x
+                        trunk.tronco1.alpha = 1;   
+                    
                 }else{
-                    target.idle.alpha = 0;
-                    target.bite.alpha = 1;
-                    target.biteBeaver = true;
-                    updateBeaver(trunk,speed,target);
+                    
+                     if(target.clean){
+                        target.idle.alpha = 0;
+                        target.bite.alpha = 1;
+                        target.biteBeaver = true;
+                        updateBeaver(trunk,speed,target);
+                     }else{
+                        target.clean = true;
+                        target.state.alpha = 0;
+                        target.hit.alpha = 1;
+                        target.biteBeaver = true;
+                        hitBeaver(trunk,target);
+                    }
+
                 }
             }
         }    
     
-    
+    function hitBeaver(trunk,target){
+        game.add.tween(trunk.tronco1).to({alpha:0},500,"Linear",true,0).onComplete.add(function(){
+                            console.log("mal");
+                            target.clean = false;
+                            target.state.alpha = 1; 
+                            trunk.tronco1.x = game.width + 100;
+                            trunk.tronco1.alpha = 1;
+                            target.hit.alpha = 0;
+                            target.biteBeaver = false;
+                            createPart('wrong',target.hit);
+                            sound.play("wrong");
+                            
+                            if(lives != 0){	
+                               lives--; 
+                            }else{
+                                starGame = false;
+                                gameOver();
+                            }
+                            heartsText.setText(lives);
+                         });
+    }
+      
     
     
     function updateBeaver(trunk,speed,target){
@@ -599,32 +658,41 @@ function createTextPart(text,obj){
             if(counter == 1){
                 trunk.tronco1.alpha = 0;
                 trunk.tronco2.alpha = 1; 
+                sound.play("bite");
                  counter++;
             }else if(counter == 2){
                trunk.tronco2.alpha = 0;
                trunk.tronco3.alpha = 1; 
+                sound.play("bite");
                  counter++;
             }else if(counter == 3){ 
                 trunk.tronco3.alpha = 0;
                 counter = 0;
                 target.bite.alpha = 0;
+                sound.play("bite");
+                trunk.tronco1.alpha = 1;
+                trunk.tronco1.x = game.width + 100;
+                target.biteBeaver = false;
                 
                 switch(getRandomArbitrary(0,3)){
                     case 0:
-                        console.log(target.id);
+                        target.clean = false;
                         target.caries.alpha = 1;
                         hitZones[target.id].id = 0; 
+                        target.state = target.caries;
                     break;
                     case 1:
-                        console.log(target.id);
+                        target.clean = false;
                         target.broken.alpha = 1;  
-                        hitZones[target.id].id = 1;   
-                                 
+                        hitZones[target.id].id = 1;  
+                        target.state = target.broken;  
                     break;
                     case 2:
-                        console.log(target.id);
+                        target.clean = false;
                         target.bad_breath.alpha = 1;
                         hitZones[target.id].id = 2; 
+                        target.state = target.bad_breath;
+                         
                     break;
                        }
             }
@@ -647,6 +715,11 @@ function createTextPart(text,obj){
 			}else{
                 starGame = false;
                 gameOver();
+                for(var p = 0; p<=2;p++){
+                    castores[p].biteBeaver = false;
+                    castores[p].clean = true;
+                    castores[p].state = "";
+                }
             }
 		}
 	}

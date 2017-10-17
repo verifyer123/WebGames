@@ -101,8 +101,9 @@ yogomeGames.getGames = function(){
 		{name:'drZombie',url:'http://yogome.com/epic/minigames/drZombieSite/',sceneName:'drzombie',subject:'health', review:true},//94
 		{name:'wildDentist',url:'http://yogome.com/epic/minigames/wildDentistSite/',sceneName:'wildDentist',subject:'health', review:false},//95
 		{name:'Cog Count',url:'http://yogome.com/epic/minigames/cogSite/',sceneName:'cog',subject:'math', review:true}//96
-
+        ]
     return games
+        
 }
 
 yogomeGames.mixpanelCall = function(callName,gameIndex){
