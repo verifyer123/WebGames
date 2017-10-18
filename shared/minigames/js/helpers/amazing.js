@@ -33,6 +33,18 @@ amazing.share = function(score, game){
 	parent.postMessage(JSON.stringify(params), "*")
 }
 
+amazing.checkBrowser = function(game){
+	
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    if ((ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) && game.device.iPhone){
+		
+		game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE		
+		game.scale.setUserScale(document.body.clientWidth/game.scale.width,document.body.clientHeight/game.scale.height * 0.9)
+		//console.log((document.body.clientWidth/game.scale.width) + 'width'(document.body.clientHeight/game.scale.height) + ' height')
+	}
+
+}
+
 amazing.getGames = function(){
 	var games = [
         

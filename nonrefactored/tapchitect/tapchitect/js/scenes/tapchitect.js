@@ -60,7 +60,7 @@ var tapchitect = function(){
     var overlayGroup
     var spaceSong
 	var fog, cloud
-	var cliffsGroup
+	var cliffsGroup, trianglesGroup
 	
 
 	function loadSounds(){
@@ -573,6 +573,7 @@ var tapchitect = function(){
 			
 			createBackground()
 			createCliffs()
+			createTriangles()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

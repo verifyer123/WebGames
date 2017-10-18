@@ -589,10 +589,10 @@ var result = function(){
                 
                 if(discount){
                     
-                    var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, discount + '%', fontStyle)
+                    /*var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, discount + '%', fontStyle)
                     pointsText.anchor.setTo(0,0)
                     pointsText.lineSpacing = -15
-                    sceneGroup.add(pointsText)
+                    sceneGroup.add(pointsText)*/
                 }
                 
                 var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}

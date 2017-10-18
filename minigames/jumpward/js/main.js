@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -36,6 +36,7 @@ function startGame(){
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight)
+		amazing.checkBrowser(game)
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
@@ -47,6 +48,7 @@ function startGame(){
         amazing.getInfo()
         amazing.setMinigameId()
         amazing.setProfile()
+		
         
         window.minigame.game = window.game
     	sceneloader.init(game)

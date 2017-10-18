@@ -36,6 +36,7 @@ function startGame(){
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight)
+		amazing.checkBrowser(game)
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
