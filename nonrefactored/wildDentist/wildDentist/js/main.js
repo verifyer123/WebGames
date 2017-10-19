@@ -1,8 +1,10 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
+    
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
+    
 
 	function preloadScenes(sceneList){
 
@@ -61,6 +63,7 @@ function startGame(){
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
+        //console.log(document.body.childNodes[55].height = 1060);
     }
 
     function create(){
