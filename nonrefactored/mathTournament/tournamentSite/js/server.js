@@ -1,3 +1,4 @@
+var isKinder = isKinder != undefined ? isKinder : false
 var src = isKinder ? "http://yogome.com/epic/minigames/mathServer/indexSLP.html":"http://yogome.com/epic/minigames/mathServer/index.html"
 // var src = "../mathServer/index.html"
 var gameFrame
