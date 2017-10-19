@@ -1,4 +1,4 @@
-var src = "http://yogome.com/epic/minigames/mathServer/index.html"
+var src = parent.isKinder ? "http://yogome.com/epic/minigames/mathServer/indexSLP.html":"http://yogome.com/epic/minigames/mathServer/index.html"
 // var src = "../mathServer/index.html"
 var gameFrame
 var gameContainer
