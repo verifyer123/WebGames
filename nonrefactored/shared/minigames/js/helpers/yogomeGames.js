@@ -9,7 +9,7 @@ yogomeGames.getGames = function(){
         {name:'waterMorphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water',subject:'science',review:true},
 		{name:'numberIceCream',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice',subject:'math',review:true},
 		{name:'magnetRide',url:'http://yogome.com/epic/minigames/magnetSite/',sceneName:'magnet',subject:'science',review:true},
-		{name:'saladCards',url:'http://yogome.com/epic/minigames/tapsite/',sceneName:'tapcards',subject:'language',review:true},
+		{name:'saladCards',url:'http://yogome.com/epic/minigames/tapsite/',sceneName:'tapcards',subject:'language',review:false},
 		{name:'skyLanguage',url:'http://yogome.com/epic/minigames/skySite/',sceneName:'sky',subject:'language',review:true},
 		{name:'flagRunner',url:'http://yogome.com/epic/minigames/flagSite/',sceneName:'flag',subject:'geography',review:true},
 		{name:'riftLand',url:'http://yogome.com/epic/minigames/riftSite/',sceneName:'rift',subject:'coding',review:true},
