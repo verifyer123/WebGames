@@ -295,13 +295,13 @@ function SelectLevel(){
     $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").mouseout(function(){TweenMax.to($(this),0.5,{scale:1});});
         $("#choiceBasicButton,#choiceMediumButton,#choiceadvanceButton").click(function(){
             magicSound.play();
-			var level = parseInt($(this).attr("level"));
+			/*var level = parseInt($(this).attr("level"));
 			var currentID = server.getIdGame()
 			server.start(4, currentID);
 			server.addEventListener("onInitPlayer", showYogotar);
 			server.addEventListener('onPlayersReady', onPlayersReady);
         	$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
-            $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseout");
+            $("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseout");*/
             TweenMax.to($("#levelBasicButton,#levelMediumButton,#leveladvanceButton"),0.5,{scale:0,onComplete:hideLevels});
             //$(this).css("position","absolute");
             TweenMax.to($(this),0.2,{scale:1}); 
@@ -318,6 +318,7 @@ function SelectLevel(){
 function NextScene2(){
     $("#selectLevel").hide();
     $("#waitingPlayers").show();
+    console.log("getIdGame: " + server.getIdGame());
     $("#pinNumber").text(server.getIdGame())
 }
 </script>
