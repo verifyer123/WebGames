@@ -271,6 +271,10 @@ function NextScene1(){
         TweenMax.fromTo($("#logoMath"),0.5,{scale:1,y:0},{scale:0.6,y:-20});
         TweenMax.to(blurElement, 1, {a:3, onUpdate:applyBlur});
         TweenMax.to($("#backgroundBody"),1,{css:{backgroundPosition:"center bottom"}});
+			var currentID = server.getIdGame()
+			server.start(4, currentID);
+			server.addEventListener("onInitPlayer", showYogotar);
+			server.addEventListener('onPlayersReady', onPlayersReady);    
         NextScene2();
 }
     
