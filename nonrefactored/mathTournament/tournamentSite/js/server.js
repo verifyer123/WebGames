@@ -332,7 +332,6 @@ function Server(){
 				}
 				break;
 			case 1://Basic
-			default:
 				MAX_OPERAND_VALUE = 100;
 				switch(opedator){
 					case 2: // -
@@ -375,6 +374,32 @@ function Server(){
 					correctAnswer = operand2;
 					operand2 = "?";
 				}
+				break;
+			case 4://kinder
+            default:
+                MAX_OPERAND_VALUE = 10;
+                switch(opedator){
+                    case 2: // -
+					case 3:
+                        opedator = "-";
+                        operand1= Math.floor((Math.random() * 9 ) + 1 );
+                        operand2= Math.floor((Math.random() * 9 ) + 1);
+                        if(operand1< operand2){
+                            var aux = operand1;
+                            operand1 = operand2;
+                            operand2 = aux;
+                        }
+                        correctAnswer = operand1 -operand2;
+                        break;
+                    case 1: // +
+					case 4:
+                    default:
+                        opedator = "+";
+                        operand1= Math.floor((Math.random() * 10) + 1);
+                        operand2= Math.floor((Math.random() * 10) + 1);
+                        correctAnswer = operand1 +operand2;
+                        break;
+                }
 		}
 		// operand1= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
 		// operand2= Math.floor((Math.random() * MAX_OPERAND_VALUE) + 1);
