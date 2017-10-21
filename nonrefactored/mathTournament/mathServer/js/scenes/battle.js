@@ -773,7 +773,11 @@ var battle = function(){
 			}
 			console.log("retryPressed")
 			// game.destroy()
-			window.open("index.html", "_self")
+			console.log(parent.isKinder)
+			if(parent.isKinder)
+				window.open("indexSLP.html", "_self")
+			else
+				window.open("index.html", "_self")
 			// sceneloader.show("battle")
         })
     }
@@ -813,6 +817,7 @@ var battle = function(){
 		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 		buttons.getImages(game)
+		console.log(parent.isKinder)
 
 	}
 
