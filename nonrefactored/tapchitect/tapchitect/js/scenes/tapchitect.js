@@ -6,7 +6,9 @@ var tapchitect = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"equil":"equilateral",
+			"isos":""
 		},
 
 		"ES":{
@@ -61,6 +63,7 @@ var tapchitect = function(){
     var spaceSong
 	var fog, cloud
 	var cliffsGroup, trianglesGroup
+	var objToUse
 	
 
 	function loadSounds(){
@@ -360,6 +363,18 @@ var tapchitect = function(){
 		
 		fog.tilePosition.x+= 0.5
 		cloud.tilePosition.x-= 0.2
+		
+		checkObjects()
+	}
+	
+	function checkObjects(){
+		
+		for(var i = 0; i < trianglesGroup.dragList.length;i++){
+			
+			var drag = trianglesGroup.dragList[i]
+			drag.posObj.x = drag.x
+			drag.posObj.y = drag.y
+		}
 	}
 	
 	function createTextPart(text,obj){
@@ -552,13 +567,104 @@ var tapchitect = function(){
 		cliffsGroup = game.add.group()
 		sceneGroup.add(cliffsGroup)
 		
+		var pivotX = game.world.centerX - 250
 		for(var i = 0; i < 2;i++){
 			
-			var cliff = cliffsGroup.create(0,0,'atlas.tapchitect','cliff' + i)
+			var cliff = cliffsGroup.create(pivotX,game.world.height,'atlas.tapchitect','cliff' + (i + 1))
 			cliff.anchor.setTo(0.5,1)
 			
-			
 		}
+	}
+	
+	function createTriangles(){
+		
+		trianglesGroup = game.add.group()
+		sceneGroup.add(trianglesGroup)
+		
+		trianglesGroup.dragList = []
+		
+		var lastRect
+		var pivotX = game.world.centerX - 200
+		for(var i = 0; i < 3; i++){
+			
+			var group = game.add.group()
+			group.x = pivotX
+			group.y = game.world.height - 100
+			trianglesGroup.add(group)
+			
+			var triangleImg = group.create(0,0,'atlas.tapchitect','triangle' + i)
+			triangleImg.anchor.setTo(0.5,0.5)
+			
+			var groupText = game.add.group()
+			groupText.x = 0
+			groupText.y = 25
+			group.add(groupText)
+			
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x000000)
+			rect.drawRoundedRect(0,0,100, 50)
+			rect.alpha = 0.7
+			rect.endFill()
+			rect.x-= rect.width * 0.5
+			rect.y-= rect.height * 0.5
+			groupText.add(rect)
+			
+			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+			pointsText.anchor.setTo(0.5,0.5)
+			groupText.add(pointsText)
+			
+			group.text = pointsText
+			pivotX+= 250
+			
+			if(i == 1){
+				pivotX-= 50
+			}
+			
+			var triangle = sceneGroup.create(group.x,group.y,'atlas.tapchitect','triangle' + i)
+			triangle.anchor.setTo(0.5,0.5)
+			triangle.inputEnabled = true
+			triangle.input.enableDrag(true)
+			triangle.anchor.setTo(0.5,0.5)
+			triangle.events.onDragStart.add(onDragStart, this);
+			triangle.events.onDragStop.add(onDragStop, this);
+			triangle.initX = triangle.x
+			triangle.initY = triangle.y
+			
+			trianglesGroup.dragList[i] = triangle
+			triangle.alpha = 0
+			triangle.posObj = group
+			
+			console.log(triangle.width + ' medida triangle')
+			
+			
+		}		
+		
+	}
+	
+	function onDragStart(obj){
+        
+        if(!gameActive){
+            return
+        }
+		
+		objToUse = obj
+        
+        sound.play("drag")
+        
+    }
+	
+	function onDragStop(obj){
+		
+		objToUse = null
+		sound.play("pop")
+		obj.inputEnabled = false	
+				
+		game.add.tween(obj).to({x:obj.initX, y:obj.initY},500,"Linear",true).onComplete.add(function(){
+
+			console.log('enable Input')
+			obj.inputEnabled = true
+		})
 	}
 	
 	return {

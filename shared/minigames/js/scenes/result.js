@@ -529,6 +529,7 @@ var result = function(){
         );
 
         buddy.setSkinByName('combined')
+		buddy.setToSetupPose()
         
         var pivotText = game.world.centerX - 200
         
