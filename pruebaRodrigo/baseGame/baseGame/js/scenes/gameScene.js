@@ -67,6 +67,7 @@ var gameScene = function(){
     }
     
     var lives = null
+    var coins = null
 	var sceneGroup = null
 	var background
     var gameActive = false
@@ -99,17 +100,18 @@ var gameScene = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 5
+        coins = 0
         correctAnswer = 0
         gameActive = false;
         aux = 0
         operators = [" ", "+", " ", "+", " ", "="];
-        inputText = 1
+       // inputText = 1
         questionType = game.rnd.integerInRange(2, 3)
         
         if(questionType == 2)
         {
             operators = [" ", "+", " ", "="];
-            inputText = 2
+           // inputText = 2
         }
         answers = [questionType]
         loadSounds()
@@ -204,6 +206,7 @@ var gameScene = function(){
     function addPoint(number){
         
         sound.play("magic")
+        coins += number
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -213,7 +216,7 @@ var gameScene = function(){
         })
         
         //addNumberPart(pointsBar.text,'+' + number,true)		
-        pointsBar.text.setText( + number)
+        pointsBar.text.setText( + coins)
     }
     
     function createPointsBar(){
@@ -369,7 +372,7 @@ var gameScene = function(){
         frameGroup = game.add.group();
         sceneGroup.add(frameGroup);
         
-        for (i = 0; i < questionType; i++)
+        for (i = 0; i < questionType + 1; i++)
         {
             frameImg = frameGroup.create(0, 0, "atlas.game", "marco"),
             frameImg.alpha = 0,
@@ -519,7 +522,19 @@ var gameScene = function(){
     function generateNumbers(){   
         correctAnswer = 0
         inputAnswer = 0
+        aux = 0
         inputText = 2
+        questionType = game.rnd.integerInRange(2, 3)
+        answers = [questionType]
+        
+        operators = [" ", "+", " ", "+", " ", "="];
+        
+        if(questionType == 2)
+        {
+            operators = [" ", "+", " ", "="];
+        }
+        createScroll()
+        game.world.bringToTop(timeGroup)
         
         for(var z = 0; z < questionType; z++)
         {
@@ -544,7 +559,7 @@ var gameScene = function(){
         var p = 2
         while(p < scrollGroup.length)
         {
-            if(scrollGroup.children[p].text != "+")
+            if(scrollGroup.children[p].text != "+" && scrollGroup.children[p].text != "=")
                 scrollGroup.children[p].text = " "
             p++
         }
@@ -621,7 +636,6 @@ var gameScene = function(){
     function reloadElements(){
         frameGroup.alpha = 1
         panelsGroup.alpha = 1
-        aux = 0
         
         for (var b = 0; b < frameGroup.length; b++)
             frameGroup.children[b].alpha = 0
