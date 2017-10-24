@@ -1,0 +1,83 @@
+
+nebula.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/fondo
+  rotate: false
+  xy: 2, 116
+  size: 133, 134
+  orig: 133, 134
+  offset: 0, 0
+  index: -1
+normal/nebula1
+  rotate: false
+  xy: 137, 198
+  size: 54, 52
+  orig: 54, 52
+  offset: 0, 0
+  index: -1
+normal/nebula2
+  rotate: false
+  xy: 137, 146
+  size: 45, 50
+  orig: 45, 50
+  offset: 0, 0
+  index: -1
+normal/nebula3
+  rotate: false
+  xy: 193, 215
+  size: 34, 35
+  orig: 34, 35
+  offset: 0, 0
+  index: -1
+normal/nebulaM
+  rotate: false
+  xy: 2, 2
+  size: 113, 112
+  orig: 113, 112
+  offset: 0, 0
+  index: -1
+normal/star1
+  rotate: true
+  xy: 117, 94
+  size: 20, 17
+  orig: 20, 17
+  offset: 0, 0
+  index: -1
+normal/star2
+  rotate: false
+  xy: 193, 201
+  size: 11, 12
+  orig: 11, 12
+  offset: 0, 0
+  index: -1
+normal/star3
+  rotate: false
+  xy: 184, 191
+  size: 6, 5
+  orig: 6, 5
+  offset: 0, 0
+  index: -1
+normal/star4
+  rotate: false
+  xy: 117, 88
+  size: 5, 4
+  orig: 5, 4
+  offset: 0, 0
+  index: -1
+normal/star5
+  rotate: false
+  xy: 229, 244
+  size: 5, 6
+  orig: 5, 6
+  offset: 0, 0
+  index: -1
+normal/star6
+  rotate: false
+  xy: 137, 131
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
