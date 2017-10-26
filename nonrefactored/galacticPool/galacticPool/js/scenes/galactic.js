@@ -60,7 +60,7 @@ var galactic = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 97
 	var indexGame
     var overlayGroup, planetsGroup, backgroundGroup, nebulas, correctedPos
     var spaceSong
@@ -72,6 +72,7 @@ var galactic = function(){
     var nebul=new Array(8)
     var planetNames=['sun',"mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
     var correctedNames=['dsun','dmercury','dvenus','dearth','dmars','djupiter','dsaturn','duranus','dneptune']
+    var fontStyle2 = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
     var stick
     var scaleSpine = 0.55
     var heightBetweenPlanets
@@ -80,8 +81,9 @@ var galactic = function(){
     var corrects
     var hitthePlanets
     var movementInX
-    var lastTween1, lastTween2, tweentiempo
+    var lastTween1, lastTween2, tweentiempo, tweenText
     var timeBar, clock
+    var textsPlanets=new Array(8)
     var startTime, finalizeTime, dificulty, levels, dificultyInLevel
     var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 	
@@ -182,8 +184,7 @@ var galactic = function(){
     }
     
     function missPoint(){
-        
-        sound.play("wrong")
+          
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -271,7 +272,6 @@ var galactic = function(){
     
     function stopGame(win){
         
-		sound.play("wrong")
 		sound.play("gameLose")
 		
         gameActive = false
@@ -375,28 +375,33 @@ var galactic = function(){
                         correctPositions[loadPlanets].anchor.setTo(0.5,0.5)
                         
                         
+                        //Aqui coloco los textos que solo se manejaran con alpha
+                        textsPlanets[loadPlanets]= new Phaser.Text(planetsGroup.game, 0, 0, "0", fontStyle2)
+                        textsPlanets[loadPlanets].x = spinePlanets[loadPlanets].x+50
+                        textsPlanets[loadPlanets].y = spinePlanets[loadPlanets].y-50
+                        textsPlanets[loadPlanets].setText(planetNames[loadPlanets])
+                        planetsGroup.add(textsPlanets[loadPlanets])
+                        
+                        
                         nebul[loadPlanets]=nebulas.create(0,0,'atlas.time','nebula')
                         nebul[loadPlanets].anchor.setTo(0.5,0.5)
                         nebul[loadPlanets].alpha=0
                         
                         
                         
-                        movementInX+=30
-                        if(movementInX==60)
+                        movementInX+=60
+                        if(movementInX>=120)
                             {
                                 movementInX=-30
                             }
                         
                         dragablePlanets[loadPlanets]= planetsGroup.create(spinePlanets[loadPlanets].position.x,game.world.height-heightBetweenPlanets-185,"mrc");
-                        dragablePlanets[loadPlanets].anchor.setTo(.5,.5)
-                        dragablePlanets[loadPlanets].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                        dragablePlanets[loadPlanets].scale.setTo(scaleSpine*1,scaleSpine*1)
                         heightBetweenPlanets+=80
                         game.physics.enable(dragablePlanets[loadPlanets], Phaser.Physics.ARCADE)
                         
                         
                         
-                       
-                        //game.physics.enable(dragablePlanets[0], Phaser.Physics.ARCADE)
                         dragablePlanets[loadPlanets].body.collideWorldBounds = true;
                         dragablePlanets[loadPlanets].body.bounce.set(.9);
                         dragablePlanets[loadPlanets].tag=planetNames[loadPlanets]
@@ -404,6 +409,7 @@ var galactic = function(){
                         dragablePlanets[loadPlanets].anchor.setTo(.5,.5)
                         dragablePlanets[loadPlanets].events.onDragStop.add(onDragStop,dragablePlanets[loadPlanets]);
                         dragablePlanets[loadPlanets].events.onDragStart.add(onDragStart,dragablePlanets[loadPlanets]);
+                        dragablePlanets[loadPlanets].events.onDragUpdate.add(onDragUpdate,dragablePlanets[loadPlanets]);
                     }
                     
                     
@@ -425,7 +431,25 @@ var galactic = function(){
                     dragablePlanets[0].body.collideWorldBounds = true;
                     dragablePlanets[0].body.bounce.set(.9);
                     
-                    
+                    //Tamaños a escala
+            
+                    spinePlanets[1].scale.setTo(scaleSpine,scaleSpine)
+                    spinePlanets[2].scale.setTo(scaleSpine*1.2,scaleSpine*1.2)
+                    spinePlanets[3].scale.setTo(scaleSpine*1.3,scaleSpine*1.3)
+                    spinePlanets[4].scale.setTo(scaleSpine*1,scaleSpine*1)
+                    spinePlanets[5].scale.setTo(scaleSpine*1.9,scaleSpine*1.9)
+                    spinePlanets[6].scale.setTo(scaleSpine*1.75,scaleSpine*1.75)
+                    spinePlanets[7].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                    spinePlanets[8].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+            
+                    correctPositions[1].scale.setTo(scaleSpine,scaleSpine)
+                    correctPositions[2].scale.setTo(scaleSpine*1.2,scaleSpine*1.2)
+                    correctPositions[3].scale.setTo(scaleSpine*1.3,scaleSpine*1.3)
+                    correctPositions[4].scale.setTo(scaleSpine*1,scaleSpine*1)
+                    correctPositions[5].scale.setTo(scaleSpine*1.9,scaleSpine*1.9)
+                    correctPositions[6].scale.setTo(scaleSpine*1.75,scaleSpine*1.75)
+                    correctPositions[7].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                    correctPositions[8].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
                      
         
         //Hacemos las fisicas
@@ -440,13 +464,18 @@ var galactic = function(){
                 
 				overlayGroup.y = -game.world.height
                     
-                   stick.body.velocity.setTo(0,80);
-                   hitthePlanets=true
                    
-                
-                
                 })
-                
+            
+            //Pequeño delay
+               game.add.tween(this).to({alpha:1},3000,Phaser.Easing.linear,true).onComplete.add(function(){
+                        stick.body.velocity.setTo(0,80);    
+                        hitthePlanets=true
+                   for(var setTexts=1;setTexts<9;setTexts++)
+                    {
+                        textsPlanets[setTexts].alpha=0
+                    }
+                })
             })
             
             
@@ -534,45 +563,81 @@ var galactic = function(){
         if(obj.tag=="mercury")
             {
                 releasedPlanet[0]=true;
-
+                textsPlanets[1].alpha=0
             }
         
         if(obj.tag=="venus")
             {
                 releasedPlanet[1]=true;
-                
+                textsPlanets[2].alpha=0
             }
         if(obj.tag=="earth")
             {
                 releasedPlanet[2]=true;
-                
+                textsPlanets[3].alpha=0
             }
         if(obj.tag=="mars")
             {
                 releasedPlanet[3]=true;
-                
+                textsPlanets[4].alpha=0
             }
         if(obj.tag=="jupiter")
             {
                 releasedPlanet[4]=true;
-               
+                textsPlanets[5].alpha=0
             }
         if(obj.tag=="saturn")
             {
                 releasedPlanet[5]=true;
-                
+                textsPlanets[6].alpha=0
             }
         if(obj.tag=="uranus")
             {
                 releasedPlanet[6]=true;
-                
+                textsPlanets[7].alpha=0
             }
         if(obj.tag=="neptune")
             {
                 releasedPlanet[7]=true;
-                
+                textsPlanets[8].alpha=0
             }
         
+    }
+    
+    function onDragUpdate(obj)
+    {
+        if(obj.tag=="mercury" && hitthePlanets==true)
+            {
+                textsPlanets[1].alpha=1
+            }
+        if(obj.tag=="venus" && hitthePlanets==true)
+            {
+                textsPlanets[2].alpha=1
+            }
+        if(obj.tag=="earth" && hitthePlanets==true)
+            {
+                textsPlanets[3].alpha=1
+            }
+        if(obj.tag=="mars" && hitthePlanets==true)
+            {
+                textsPlanets[4].alpha=1
+            }
+        if(obj.tag=="jupiter" && hitthePlanets==true)
+            {
+                textsPlanets[5].alpha=1
+            }
+        if(obj.tag=="saturn" && hitthePlanets==true)
+            {
+                textsPlanets[6].alpha=1
+            }
+        if(obj.tag=="uranus" && hitthePlanets==true)
+            {
+                textsPlanets[7].alpha=1
+            }
+        if(obj.tag=="neptune" && hitthePlanets==true)
+            {
+                textsPlanets[8].alpha=1
+            }
     }
     
     function onDragStart(obj)
@@ -651,10 +716,13 @@ var galactic = function(){
         spinePlanets[0].position.x=dragablePlanets[0].position.x
         spinePlanets[0].position.y=dragablePlanets[0].position.y
         
+        
+        
         for(var dissapearObjects=1;dissapearObjects<9;dissapearObjects++)
         {
             
             game.add.tween(spinePlanets[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
+            game.add.tween(textsPlanets[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
             game.add.tween(correctPositions[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
             dragablePlanets[dissapearObjects].reset(correctPositions[dissapearObjects].x,correctPositions[dissapearObjects].position.y)
             spinePlanets[dissapearObjects].position.x=dragablePlanets[dissapearObjects].position.x
@@ -684,12 +752,21 @@ var galactic = function(){
                         {
             
                                 game.add.tween(spinePlanets[appearObjects]).to({alpha:1},1200,Phaser.Easing.linear,true)
+                                game.add.tween(textsPlanets[appearObjects]).to({alpha:1},500,Phaser.Easing.linear,true)
                                 lastTween2.onComplete.add(function(){
-                                stick.body.velocity.setTo(0,80);
-                                hitthePlanets=true
-                            })
+                                    
+                                //Pequeño delay
+                                    game.add.tween(this).to({alpha:1},3000,Phaser.Easing.linear,true).onComplete.add(function(){
+                                    stick.body.velocity.setTo(0,80);    
+                                    hitthePlanets=true
+                                        //Desaparecen los textos
+                                        for(var disappearTexts=1;disappearTexts<9;disappearTexts++)
+                                        {
+                                             textsPlanets[disappearTexts].alpha=0
+                                        } 
+                                    })
+                                })
                         }
-            
                 })
              
          })   
@@ -702,6 +779,7 @@ var galactic = function(){
         game.physics.arcade.collide(stick,dragablePlanets[0])  
         
         sceneGroup.bringToTop(nebulas);
+        
         
         
         //Aqui corre el tiempo y se acomodan las nebulas
@@ -730,6 +808,7 @@ var galactic = function(){
                             }
                         else
                             {
+                                sound.play("wrong")
                                 missPoint()
                             }
                     
@@ -745,6 +824,7 @@ var galactic = function(){
         if(timetoHit>20 && hitthePlanets==true)
         {
             stick.body.velocity.setTo(0,-100);
+            
             
             if(checkOverlap(stick,dragablePlanets[0]))
             {
@@ -763,6 +843,9 @@ var galactic = function(){
                     dragablePlanets[checkCorrect].kill();
                     spinePlanets[checkCorrect].position.x=correctPositions[checkCorrect].position.x
                     spinePlanets[checkCorrect].position.y=correctPositions[checkCorrect].position.y
+                    textsPlanets[checkCorrect].position.x=spinePlanets[checkCorrect].position.x+50
+                    textsPlanets[checkCorrect].position.y=spinePlanets[checkCorrect].position.y-50
+                    textsPlanets[checkCorrect].alpha=1
                     cantMovePlanet[checkCorrect-1]=true
                     corrects++
                 }
@@ -772,12 +855,29 @@ var galactic = function(){
                 for(var checkWrong1=1; checkWrong1<9 ; checkWrong1++){
                     if(checkOverlap(correctPositions[checkWrong1],dragablePlanets[checkWrong2]) && releasedPlanet[checkWrong2-1]==true && cantMovePlanet[checkWrong2-1]==false && checkWrong1!=checkWrong2)
                     {
-                        missPoint(1)
-                        dragablePlanets[checkWrong2].kill();
-                        cantMovePlanet[checkWrong2-1]=true
-                    }
+                        hitthePlanets=false
+                        sound.play("wrong")
+                        spinePlanets[checkWrong2].alpha=0
+                        dragablePlanets[checkWrong1].position.x=correctPositions[checkWrong1].position.x
+                        dragablePlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y
+                        textsPlanets[checkWrong1].position.x=correctPositions[checkWrong1].position.x+50
+                        textsPlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y-50
+                        for(var quickBlock=1;quickBlock<9;quickBlock++){
+                            dragablePlanets[quickBlock].inputEnabled = false;
+                            dragablePlanets[quickBlock].input.enableDrag(false);
+                        }
+                        textsPlanets[checkWrong1].alpha=1
+                        tweenText=game.add.tween(textsPlanets[checkWrong1]).to({alpha:1},1200,Phaser.Easing.linear,true)
+                        tweenText.onComplete.add(function(){ 
+                        //Pequeño delay
+                        game.add.tween(this).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
+                        missPoint()
+                        })
+                    })
+                    break;
                 }
             }
+        }
             
             
             
@@ -799,6 +899,8 @@ var galactic = function(){
                 if(cantMovePlanet[samePositions-1]==false){
             spinePlanets[samePositions].position.x=dragablePlanets[samePositions].position.x
             spinePlanets[samePositions].position.y=dragablePlanets[samePositions].position.y
+            textsPlanets[samePositions].position.x=spinePlanets[samePositions].position.x+50
+            textsPlanets[samePositions].position.y=spinePlanets[samePositions].position.y-50
                 }
             }
             //unicamente sol
@@ -849,6 +951,7 @@ var galactic = function(){
                             }
                         else
                             {
+                                sound.play("wrong")
                                 missPoint()
                             }
                     
