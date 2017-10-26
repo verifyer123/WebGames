@@ -480,7 +480,7 @@ var result = function(){
         
         if(!haveCoupon){
             
-            textToUse = "¡Amazing!"
+            textToUse = "¡Genial!"
             colorTint = 0xc216ac
             animationToUse = "WIN"
             topHeight = 1.5
@@ -510,6 +510,10 @@ var result = function(){
         buddy.scale.setTo(scaleSpine,scaleSpine)
         buddy.setAnimationByName(0, animationToUse, true);
         sceneGroup.add(buddy)
+		
+		var image = sceneGroup.create(buddy.x + 175,buddy.y - 20,'atlas.resultScreen','amazing')
+		image.anchor.setTo(0.5,0.5)
+		image.scale.setTo(1.3,1.3)
                     
         getSkins()
         
@@ -596,7 +600,7 @@ var result = function(){
                     sceneGroup.add(pointsText)*/
                 }
                 
-                var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
+                var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
 
                 var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
                 storeText.anchor.setTo(0,0)
@@ -685,7 +689,11 @@ var result = function(){
 		nameText.angle = 180
 		overlayGroup.add(nameText)
 		
-		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', '¡Descarga nuestra app!', 28);
+		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', '¡Juega la app!', 28);
+		nameText.anchor.setTo(0.5,0.5)
+		overlayGroup.add(nameText)
+		
+		var nameText = game.add.bitmapText(back.x, back.y + 142, 'gotham', 'Y obtén grandes recompensas', 23);
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
 		

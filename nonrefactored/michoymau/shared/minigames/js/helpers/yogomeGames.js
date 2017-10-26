@@ -3,8 +3,9 @@ var yogomeGames = {}
 yogomeGames.getGames = function(){
 	var games = [
 	
-		{name:'esquivaCuetes',url:'http://yogome.com',sceneName:'esquivaCuetes',subject:'math',review:true},
-		{name:'humoCocina',url:'http://yogome.com',sceneName:'humoCocina',subject:'math',review:true}        
+		{name:'esquivaCuetes',url:'http://yogome.com',sceneName:'esquivaCuetes',subject:'math',review:true,"advice":"Recuerda que los cohetes pueden\n ser muy peligrosos, mejor obsérvalos\n desde lejos.",yogotar:"dinamita"},
+		{name:'humoCocina',url:'http://yogome.com',sceneName:'humoCocina',subject:'math',review:true,advice:"Recuerda que la cocina no\n es un lugar para jugar.",yogotar:'nao'},
+		{name:'cortoCircuito',url:'http://yogome.com',sceneName:'cortoCircuito',subject:'math',review:true,advice:"Recuerda tener cuidado con los \n cables y enchufes eléctricos, y en caso\n de accidente siempre pedir ayuda\n a un adulto.",yogotar:"oof"}
 	]
     
     return games

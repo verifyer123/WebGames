@@ -1,7 +1,5 @@
-console.log("ok");
-var soundsPath = "../sounds/"
-var imagesPath = "../images/"
-
+var soundsPath = "../../shared/minigames/sounds/"
+var imagesPath = "../../shared/minigames/images/"
 var result = function(){
 
 	localizationData = {
@@ -160,7 +158,7 @@ var result = function(){
         
         var buttonNames = ['share','retry']
         
-        var buttonTexts = ['shareES','retryES']
+        var buttonTexts = ['shareText','retryText']
         
         var pivotX = game.world.centerX - 125
         var pivotY = pivot
@@ -185,7 +183,7 @@ var result = function(){
             
             changeImage(1,group)
   			
-			var buttonText = sceneGroup.create(pivotX - 25, pivotY ,"atlas.resultScreen", buttonTexts[i])
+			var buttonText = sceneGroup.create(pivotX - 25, pivotY, buttonTexts[i])
 			buttonText.anchor.setTo(0.5,0.5)
             
             pivotX += 250
@@ -235,45 +233,66 @@ var result = function(){
         var scaleSpine = 1
         var pivotButtons = game.world.centerY + 250;
         
-        var tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'bgResult');
+        tile = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.resultScreen', 'retro-pattern');
 		sceneGroup.add(tile)
 		
-		var base = sceneGroup.create(game.world.centerX, game.world.centerY,"cuidado")
+		var base = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreen',"cuidado")
 		base.anchor.setTo(0.5,0.5)
         
         var topHeight = game.world.height * 0.8  
 		
-        var yogotar = sceneGroup.create(0,0,"dinamita");
-        yogotar.x = game.world.centerX - 180;
-        yogotar.y = topHeight * 0.5;
-        
-        var globo = sceneGroup.create(0,0,"globo");
+        var yogotarAnim = game.add.spine(game.world.centerX - 130,topHeight * 0.75, "yogotar")
+		yogotarAnim.setSkinByName(gamesList[gameIndex].yogotar)
+		//yogotarAnim.setSkinByName("oon")
+		yogotarAnim.scale.setTo(1.1,1.1)
+		yogotarAnim.setAnimationByName(0,"IDLE",true)
+		sceneGroup.add(yogotarAnim)
+            
+        var globo = sceneGroup.create(0,0,'atlas.resultScreen',"globo");
         globo.anchor.setTo(0.5,0.5);
         globo.x = game.world.centerX;
-        globo.y = topHeight * 0.32;        
+        globo.y = topHeight * 0.32;    
+		
+		var textUsing = gamesList[gameIndex].advice
+		
+		var fontStyle = {font: "17px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var retryText = new Phaser.Text(sceneGroup.game, globo.x - 11, globo.y - 11, textUsing, fontStyle);
+		//var retryText = new Phaser.Text(sceneGroup.game, globo.x - 11, globo.y - 11, , fontStyle);
+		retryText.lineSpacing= -5
+		retryText.anchor.setTo(0.5,0.5)
+		
+		if(textUsing.length < 65){
+			retryText.scale.setTo(1.2,1.2)
+		}
+		
+        sceneGroup.add(retryText);
         
         var buddy = game.add.spine(game.world.centerX + 150,topHeight * 0.75, "chispa");
         buddy.scale.setTo(scaleSpine,scaleSpine)
-        buddy.setAnimationByName(0, "WIN", true);
+        buddy.setAnimationByName(0, "IDLE", true);
         buddy.setSkinByName('normal');
-        sceneGroup.add(buddy)
+        sceneGroup.add(buddy);
                 
         var pivotText = game.world.centerX - 120
         
-        var bannerCoin = sceneGroup.create(0,0,"monedas");
+        var bannerCoin = sceneGroup.create(0,0,'atlas.resultScreen',"monedas");
         bannerCoin.anchor.setTo(0.5,0.5);
         bannerCoin.x = game.world.centerX;
-        bannerCoin.y = game.world.centerY + 150;        
-        var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY + 120, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle);
+        bannerCoin.y = game.world.centerY + 145;  
+		
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY + 120, "Obtuviste" + ': ' + totalScore + ' ' + "monedas", fontStyle);
         sceneGroup.add(retryText);
-
-        var bannerCoin = sceneGroup.create(0,0,"emergencias");
+        
+        var bannerCoin = sceneGroup.create(0,0,'atlas.resultScreen',"emergencias");
         bannerCoin.anchor.setTo(0.5,0.5);
         bannerCoin.x = game.world.centerX;
-        bannerCoin.y = game.world.centerY + 350;          
-
-                
+        bannerCoin.y = game.world.centerY + 350;         
+		
+		var fontStyle = {font: "23px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var retryText = new Phaser.Text(sceneGroup.game, bannerCoin.x, bannerCoin.y + 7.5, "En caso de emergencia llama sin costo al:\nQUEMATEL: 01-800-080-81-82", fontStyle);
+		retryText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(retryText);
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
@@ -356,21 +375,22 @@ var result = function(){
     
     function preload(){
         
-        game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
+        //game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
         
-        //game.load.spine('amazing', "images/spines/Amaizing.json");
-        game.load.spine('chispa', imagesPath + "result/chispa/chispa.json");
-		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png');       
-		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png'); 
-		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png');
-        game.load.image("bgResult", imagesPath + "result/retro-pattern.png");
-        game.load.image("cuidado", imagesPath + "result/cuidado.png");
-        game.load.image("monedas", imagesPath + "result/monedas.png");
-        game.load.image("emergencias", imagesPath + "result/emergencias.png");
-        game.load.image("dinamita", imagesPath + "result/dinamita.png");
-        game.load.image("globo", imagesPath + "result/globo.png");
+        game.load.spine('chispa', imagesPath + "result/spines/chispa.json");
+		game.load.spine('yogotar', imagesPath + "result/spines/yogotar.json");
+				
+		game.load.image('shareText', imagesPath + 'result/shareES.png'); 
+		game.load.image('retryText', imagesPath + 'result/retryES.png');
+
     }
     
+	function update(){
+		
+		tile.tilePosition.x-= 1
+		tile.tilePosition.y-= 1
+	}
+	
 	return {
 		assets: assets,
 		name: "result",
@@ -378,5 +398,6 @@ var result = function(){
 		create: createScene,
 		setScore: setScore,
 		init: initialize,
+		update:update,
 	}
 }()
