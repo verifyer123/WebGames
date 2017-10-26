@@ -100,6 +100,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "line",
+	"frame": {"x":1244,"y":952,"w":100,"h":25},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":14,"w":100,"h":25},
+	"sourceSize": {"w":100,"h":51},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "mountain1",
 	"frame": {"x":744,"y":1,"w":596,"h":361},
 	"rotated": false,
@@ -205,6 +214,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1598,"h":1009},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b5a001e9baca254e76acf555c69d41b9:afb2c25c5d1ee2d0cf2d72df926fe744:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:85f5b94fd16a2808bb17da3439f1dc91:11c9bd033af72c8a566cd7ce2d768869:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

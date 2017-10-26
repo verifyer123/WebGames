@@ -64,6 +64,8 @@ var tapchitect = function(){
 	var fog, cloud
 	var cliffsGroup, trianglesGroup
 	var objToUse
+	var medLine
+	var medList
 	
 
 	function loadSounds(){
@@ -74,7 +76,7 @@ var tapchitect = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-
+		medList = []
         
         loadSounds()
         
@@ -594,6 +596,7 @@ var tapchitect = function(){
 			
 			var triangleImg = group.create(0,0,'atlas.tapchitect','triangle' + i)
 			triangleImg.anchor.setTo(0.5,0.5)
+			medList[i] = 
 			
 			var groupText = game.add.group()
 			groupText.x = 0
@@ -667,6 +670,34 @@ var tapchitect = function(){
 		})
 	}
 	
+	function createMedLine(){
+		
+		medLine = game.add.group()
+		sceneGroup.add(medLine)
+		
+		var line = game.add.tileSprite(100,100,200,51,'atlas.tapchitect','line')
+		line.anchor.setTo(0,0.5)
+		medLine.add(line)
+		
+		medLine.line = line
+		
+		var textGroup = game.add.group()
+		medLine.add(textGroup)
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRoundedRect(0,0,200, 75)
+		rect.x-= rect.width * 0.5
+		rect.y-= rect.height * 0.5
+        rect.endFill()
+		textGroup.add(rect)
+		
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsBar.add(pointsText)
+		
+	}
+	
 	return {
 		
 		assets: assets,
@@ -679,6 +710,7 @@ var tapchitect = function(){
 			
 			createBackground()
 			createCliffs()
+			createMedLine()
 			createTriangles()
 			addParticles()
                         			

@@ -55,6 +55,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "amazing",
+	"frame": {"x":1097,"y":408,"w":120,"h":33},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":120,"h":33},
+	"sourceSize": {"w":120,"h":34},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "boton",
 	"frame": {"x":947,"y":454,"w":196,"h":54},
 	"rotated": false,
@@ -169,6 +178,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1244,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fef35f73b3ed75501ddfc12f64d1193d:c16320d6c2c0e7eaa6adca85e693e379:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:dd78e7a9159ebe8730e78a2064963c6b:fbfa8019feca136b014f9c03d8a5dedc:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
