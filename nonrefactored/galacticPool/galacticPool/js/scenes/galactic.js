@@ -570,132 +570,44 @@ var galactic = function(){
     
     function onDragStop(obj)
     {
-       
-        if(obj.tag=="mercury")
-            {
-                releasedPlanet[0]=true;
-                textsPlanets[1].alpha=0
-            }
+       for(var checkDragStart=1;checkDragStart<9;checkDragStart++)
+        {
         
-        if(obj.tag=="venus")
+        if(obj.tag==planetNames[checkDragStart])
             {
-                releasedPlanet[1]=true;
-                textsPlanets[2].alpha=0
+                releasedPlanet[checkDragStart-1]=true;
+                textsPlanets[checkDragStart].alpha=0
             }
-        if(obj.tag=="earth")
-            {
-                releasedPlanet[2]=true;
-                textsPlanets[3].alpha=0
-            }
-        if(obj.tag=="mars")
-            {
-                releasedPlanet[3]=true;
-                textsPlanets[4].alpha=0
-            }
-        if(obj.tag=="jupiter")
-            {
-                releasedPlanet[4]=true;
-                textsPlanets[5].alpha=0
-            }
-        if(obj.tag=="saturn")
-            {
-                releasedPlanet[5]=true;
-                textsPlanets[6].alpha=0
-            }
-        if(obj.tag=="uranus")
-            {
-                releasedPlanet[6]=true;
-                textsPlanets[7].alpha=0
-            }
-        if(obj.tag=="neptune")
-            {
-                releasedPlanet[7]=true;
-                textsPlanets[8].alpha=0
-            }
+        }
         
     }
     
     function onDragUpdate(obj)
     {
-        if(obj.tag=="mercury" && hitthePlanets==true)
+        
+        for(var checkDragStart=1;checkDragStart<9;checkDragStart++)
+        {
+        
+        if(obj.tag==planetNames[checkDragStart] && hitthePlanets==true)
             {
-                textsPlanets[1].alpha=1
+                textsPlanets[checkDragStart].alpha=1
             }
-        if(obj.tag=="venus" && hitthePlanets==true)
-            {
-                textsPlanets[2].alpha=1
-            }
-        if(obj.tag=="earth" && hitthePlanets==true)
-            {
-                textsPlanets[3].alpha=1
-            }
-        if(obj.tag=="mars" && hitthePlanets==true)
-            {
-                textsPlanets[4].alpha=1
-            }
-        if(obj.tag=="jupiter" && hitthePlanets==true)
-            {
-                textsPlanets[5].alpha=1
-            }
-        if(obj.tag=="saturn" && hitthePlanets==true)
-            {
-                textsPlanets[6].alpha=1
-            }
-        if(obj.tag=="uranus" && hitthePlanets==true)
-            {
-                textsPlanets[7].alpha=1
-            }
-        if(obj.tag=="neptune" && hitthePlanets==true)
-            {
-                textsPlanets[8].alpha=1
-            }
+        }
     }
     
     function onDragStart(obj)
     {
        
         
-        if(obj.tag=="mercury")
+        for(var checkDragStart=1;checkDragStart<9;checkDragStart++)
+        {
+        
+        if(obj.tag==planetNames[checkDragStart])
             {
-                releasedPlanet[0]=false;
+                releasedPlanet[checkDragStart-1]=false;
 
             }
-        
-        if(obj.tag=="venus")
-            {
-                releasedPlanet[1]=false;
-                
-            }
-        if(obj.tag=="earth")
-            {
-                releasedPlanet[2]=false;
-                
-            }
-        if(obj.tag=="mars")
-            {
-                releasedPlanet[3]=false;
-                
-            }
-        if(obj.tag=="jupiter")
-            {
-                releasedPlanet[4]=false;
-               
-            }
-        if(obj.tag=="saturn")
-            {
-                releasedPlanet[5]=false;
-                
-            }
-        if(obj.tag=="uranus")
-            {
-                releasedPlanet[6]=false;
-                
-            }
-        if(obj.tag=="neptune")
-            {
-                releasedPlanet[7]=false;
-                
-            }
+        }
         
     }
     
