@@ -354,8 +354,14 @@ var galactic = function(){
         
         rect.events.onInputDown.add(function(){
             
+            
+            //Entra el reloj con animacion
+            
+            game.add.tween(clock).to({alpha:1},500,Phaser.Easing.linear,true)
+            game.add.tween(timeBar).to({alpha:1},500,Phaser.Easing.linear,true)
+            
             //Cargar los planetas en una posicion inicial pero con animacion de entrada
-
+                
                     for(var loadPlanets=1;loadPlanets<9;loadPlanets++)
                     {
                         
@@ -442,23 +448,23 @@ var galactic = function(){
                     
                     //Tamaños a escala
             
-                    spinePlanets[1].scale.setTo(scaleSpine,scaleSpine)
-                    spinePlanets[2].scale.setTo(scaleSpine*1.2,scaleSpine*1.2)
-                    spinePlanets[3].scale.setTo(scaleSpine*1.3,scaleSpine*1.3)
-                    spinePlanets[4].scale.setTo(scaleSpine*1,scaleSpine*1)
-                    spinePlanets[5].scale.setTo(scaleSpine*1.9,scaleSpine*1.9)
-                    spinePlanets[6].scale.setTo(scaleSpine*1.75,scaleSpine*1.75)
-                    spinePlanets[7].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
-                    spinePlanets[8].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                    spinePlanets[1].scale.setTo(scaleSpine*1.4,scaleSpine*1.4)
+                    spinePlanets[2].scale.setTo(scaleSpine*1.6,scaleSpine*1.6)
+                    spinePlanets[3].scale.setTo(scaleSpine*1.7,scaleSpine*1.7)
+                    spinePlanets[4].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                    spinePlanets[5].scale.setTo(scaleSpine*2.3,scaleSpine*2.3)
+                    spinePlanets[6].scale.setTo(scaleSpine*2.25,scaleSpine*2.25)
+                    spinePlanets[7].scale.setTo(scaleSpine*2,scaleSpine*2)
+                    spinePlanets[8].scale.setTo(scaleSpine*2,scaleSpine*2)
             
-                    correctPositions[1].scale.setTo(scaleSpine,scaleSpine)
-                    correctPositions[2].scale.setTo(scaleSpine*1.2,scaleSpine*1.2)
-                    correctPositions[3].scale.setTo(scaleSpine*1.3,scaleSpine*1.3)
-                    correctPositions[4].scale.setTo(scaleSpine*1,scaleSpine*1)
-                    correctPositions[5].scale.setTo(scaleSpine*1.9,scaleSpine*1.9)
-                    correctPositions[6].scale.setTo(scaleSpine*1.75,scaleSpine*1.75)
-                    correctPositions[7].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
-                    correctPositions[8].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                    correctPositions[1].scale.setTo(scaleSpine*1.4,scaleSpine*1.4)
+                    correctPositions[2].scale.setTo(scaleSpine*1.6,scaleSpine*1.6)
+                    correctPositions[3].scale.setTo(scaleSpine*1.7,scaleSpine*1.7)
+                    correctPositions[4].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                    correctPositions[5].scale.setTo(scaleSpine*2.3,scaleSpine*2.3)
+                    correctPositions[6].scale.setTo(scaleSpine*2.25,scaleSpine*2.25)
+                    correctPositions[7].scale.setTo(scaleSpine*2,scaleSpine*2)
+                    correctPositions[8].scale.setTo(scaleSpine*2,scaleSpine*2)
             
                     rect2 = new Phaser.Graphics(game)
                     rect2.beginFill(0x000000)
@@ -518,10 +524,12 @@ var galactic = function(){
         clock= planetsGroup.create(game.world.centerX,50,'atlas.time','clock')
 		clock.anchor.setTo(0.5,0.5)
 		clock.scale.setTo(1,1)
+        clock.alpha=0
         
         timeBar= planetsGroup.create(clock.centerX-171,clock.centerY+31,'atlas.time','bar')
 		timeBar.anchor.setTo(1,1)
         timeBar.scale.setTo(-11.5,.7)
+        timeBar.alpha=0
 		
         game.physics.enable(clock, Phaser.Physics.ARCADE)
        
@@ -563,6 +571,10 @@ var galactic = function(){
         sceneGroup.add(planetsGroup)
         sceneGroup.add(nebulas)
         
+        correctParticle = createPart("star")
+        sceneGroup.add(correctParticle)
+        wrongParticle = createPart("wrong")
+        sceneGroup.add(wrongParticle)
         
         
         //Cargo el fondo que sea resizeble 
@@ -777,6 +789,9 @@ var galactic = function(){
                 if(checkOverlap(correctPositions[checkCorrect],dragablePlanets[checkCorrect]) && releasedPlanet[checkCorrect-1]==true && cantMovePlanet[checkCorrect-1]==false)
                 {
                     addPoint(1)
+                    correctParticle.x = spinePlanets[checkCorrect].position.x
+                    correctParticle.y = spinePlanets[checkCorrect].position.y
+                    correctParticle.start(true, 1000, null, 5)
                     dragablePlanets[checkCorrect].kill();
                     spinePlanets[checkCorrect].position.x=correctPositions[checkCorrect].position.x
                     spinePlanets[checkCorrect].position.y=correctPositions[checkCorrect].position.y
@@ -804,6 +819,9 @@ var galactic = function(){
                             dragablePlanets[quickBlock].input.enableDrag(false);
                         }
                         textsPlanets[checkWrong1].alpha=1
+                        wrongParticle.x = spinePlanets[checkWrong2].position.x
+                        wrongParticle.y = spinePlanets[checkWrong2].position.y
+                        wrongParticle.start(true, 1000, null, 5)
                         tweenText=game.add.tween(textsPlanets[checkWrong1]).to({alpha:1},1200,Phaser.Easing.linear,true)
                         tweenText.onComplete.add(function(){ 
                         //Pequeño delay
@@ -964,27 +982,17 @@ var galactic = function(){
     }
     
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.galactic',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.2;
+        particle.maxParticleScale = 0.5;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
     }
     
     function createParticles(tag,number){
