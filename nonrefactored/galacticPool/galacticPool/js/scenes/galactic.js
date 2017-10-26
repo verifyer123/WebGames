@@ -82,7 +82,7 @@ var galactic = function(){
     var hitthePlanets
     var movementInX
     var lastTween1, lastTween2, tweentiempo, tweenText
-    var timeBar, clock
+    var timeBar, clock, rect2
     var textsPlanets=new Array(8)
     var startTime, finalizeTime, dificulty, levels, dificultyInLevel
     var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -450,21 +450,32 @@ var galactic = function(){
                     correctPositions[6].scale.setTo(scaleSpine*1.75,scaleSpine*1.75)
                     correctPositions[7].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
                     correctPositions[8].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
-                     
+            
+                    rect2 = new Phaser.Graphics(game)
+                    rect2.beginFill(0x000000)
+                    rect2.drawRect(0,0,160, 80)
+                    rect2.endFill()
+                    planetsGroup.add(rect2)
+            
+                    rect2.alpha=0
+                    
+                    
+                    game.physics.enable(rect2, Phaser.Physics.ARCADE)
         
         //Hacemos las fisicas
         
             game.physics.enable(stick, Phaser.Physics.ARCADE)
+            
             stick.body.immovable=true
             clock.body.immovable=true
+            rect2.body.immovable=true
             
             rect.inputEnabled = false
 			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                    
-                   
+
                 })
             
             //Pequeño delay
@@ -892,6 +903,7 @@ var galactic = function(){
                 }
                 
                 game.physics.arcade.collide(clock,dragablePlanets[planetsCrashing1])
+                game.physics.arcade.collide(rect2,dragablePlanets[planetsCrashing1])
             }
             
             for(var samePositions=1;samePositions<9;samePositions++)
