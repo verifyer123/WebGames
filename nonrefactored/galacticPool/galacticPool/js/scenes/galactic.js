@@ -7,13 +7,13 @@ var galactic = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
 		}
 	}
     
@@ -71,6 +71,8 @@ var galactic = function(){
     var cantMovePlanet=new Array(8)
     var nebul=new Array(8)
     var planetNames=['sun',"mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
+    var planetNamesES=['Sun',"Mercurio","Venus","Tierra","Marte","Júpiter","Saturno","Urano","Neptuno"]
+    var planetNamesEN=['Sun',"Mercury","Venus","Earth","Mars","Jupiter","Saturn","Uranus","Neptune"]
     var correctedNames=['dsun','dmercury','dvenus','dearth','dmars','djupiter','dsaturn','duranus','dneptune']
     var fontStyle2 = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
     var stick
@@ -379,7 +381,14 @@ var galactic = function(){
                         textsPlanets[loadPlanets]= new Phaser.Text(planetsGroup.game, 0, 0, "0", fontStyle2)
                         textsPlanets[loadPlanets].x = spinePlanets[loadPlanets].x+50
                         textsPlanets[loadPlanets].y = spinePlanets[loadPlanets].y-50
-                        textsPlanets[loadPlanets].setText(planetNames[loadPlanets])
+                        
+                        if(localization.getLanguage()=="ES"){
+                        textsPlanets[loadPlanets].setText(planetNamesES[loadPlanets])
+                        }
+                        if(localization.getLanguage()=="EN"){
+                        textsPlanets[loadPlanets].setText(planetNamesEN[loadPlanets])
+                        }
+                        
                         planetsGroup.add(textsPlanets[loadPlanets])
                         
                         
