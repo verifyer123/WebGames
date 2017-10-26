@@ -979,12 +979,12 @@ var cortoCircuito = function(){
 	
     function createObjects(){
         
-        createObjs('floor',1.4,25)
-        createObjs('brick',1.1,25)
-        createObjs('coin',1,25)
-        createObjs('enchufe',0.75,12)
-        createObjs('enemy_spike',0.7,12)
-        createObjs('skull',1,4)
+        createObjs('floor',1.4,12)
+        createObjs('brick',1.1,12)
+        createObjs('coin',1,6)
+        createObjs('enchufe',0.75,5)
+        createObjs('enemy_spike',0.7,5)
+        createObjs('skull',1,2)
         
         while(pivotObjects < game.world.width * 1.3){
 			//console.log('adding Block ' + pivotObjects + ' gameWidth ' + (game.world.width * 1.2))
