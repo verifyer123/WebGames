@@ -25,6 +25,11 @@ var galactic = function(){
                 json: "images/galactic/atlas.json",
                 image: "images/galactic/atlas.png",
             },
+            {   
+                name: "atlas.time",
+                json: "images/galactic/atlastime.json",
+                image: "images/galactic/atlastime.png",
+            },
         ],
         images: [
 
@@ -57,18 +62,28 @@ var galactic = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 7
 	var indexGame
-    var overlayGroup, planetsGroup, backgroundGroup
+    var overlayGroup, planetsGroup, backgroundGroup, nebulas, correctedPos
     var spaceSong
-    var dragablePlanets=new Array(7)
-    var spinePlanets=new Array(7)
-    var planetNames=['sun','mercury','venus','earth','mars','jupiter','saturn','uranus','neptune']
+    var dragablePlanets=new Array(8)
+    var spinePlanets=new Array(8)
+    var correctPositions=new Array(8)
+    var releasedPlanet=new Array(8)
+    var cantMovePlanet=new Array(8)
+    var nebul=new Array(8)
+    var planetNames=['sun',"mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
+    var correctedNames=['dsun','dmercury','dvenus','dearth','dmars','djupiter','dsaturn','duranus','dneptune']
     var stick
     var scaleSpine = 0.55
     var heightBetweenPlanets
     var activateMovement
-    var prueba
     var timetoHit
+    var corrects
     var hitthePlanets
+    var movementInX
+    var lastTween1, lastTween2, tweentiempo
+    var timeBar, clock
+    var startTime, finalizeTime, dificulty, levels, dificultyInLevel
+    var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 	
 
 	function loadSounds(){
@@ -79,10 +94,24 @@ var galactic = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-        heightBetweenPlanets=50
+        heightBetweenPlanets=70
         activateMovement=false
         timetoHit=0
         hitthePlanets=false
+        movementInX=-60
+        corrects=0
+        startTime=false
+        finalizeTime=false
+        levels=1
+        dificulty=100
+        
+        for (var initializedReleased=0; initializedReleased<9; initializedReleased++)
+            {
+            
+                releasedPlanet[initializedReleased]=false
+                cantMovePlanet[initializedReleased]=false
+            
+            }
         
         loadSounds()
         
@@ -185,6 +214,7 @@ var galactic = function(){
         
         addNumberPart(pointsBar.text,'+' + number,true)		
         
+        
     }
     
     function createPointsBar(){
@@ -233,7 +263,7 @@ var galactic = function(){
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
         
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        //pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         heartsGroup.text = pointsText
                 
@@ -279,7 +309,7 @@ var galactic = function(){
         
         game.load.image('backGround',"images/galactic/fondo.png")
         
-        //cargo imagen prueba
+        //cargo imagenes de draggable
         
         game.load.image('mrc',"images/galactic/mercury.png")
         
@@ -288,9 +318,14 @@ var galactic = function(){
         
         game.load.spine('planets',"images/Spine/planetas/planets.json")
         
+        // Aqui cargo el objeto de destino
+        
+        game.load.image('destiny',"images/galactic/destino.png")
+        
         //Aqui cargo el taco
         
         game.load.image('stick',"images/galactic/cue.png")
+        
         
 		
 		    console.log(localization.getLanguage() + ' language')
@@ -301,9 +336,6 @@ var galactic = function(){
     function createOverlay(){
         
         overlayGroup = game.add.group()
-        planetsGroup =game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(planetsGroup)
         sceneGroup.add(overlayGroup)
         
         
@@ -315,28 +347,92 @@ var galactic = function(){
         rect.alpha = 0.7
         rect.endFill()
         rect.inputEnabled = true
+        
+        
+        
         rect.events.onInputDown.add(function(){
             
             //Cargar los planetas en una posicion inicial pero con animacion de entrada
 
-                    for(var loadPlanets=1;loadPlanets<planetNames.length;loadPlanets++)
+                    for(var loadPlanets=1;loadPlanets<9;loadPlanets++)
                     {
-                        //spinePlanets[loadPlanets] = planetsGroup.game.add.spine(game.world.centerX,game.world.height-heightBetweenPlanets-220, "planets");
-                        //spinePlanets[loadPlanets].scale.setTo(scaleSpine*1.9,scaleSpine*1.9)
-                        //spinePlanets[loadPlanets].setAnimationByName(0,"IDLE",true);
-                        //spinePlanets[loadPlanets].setSkinByName(planetNames[loadPlanets]);
-                        //spinePlanets[loadPlanets].tag=planetNames[loadPlanets]
-                        //heightBetweenPlanets+=90
+                        
+                        //Aqui coloco los destinos
+                        
+                       
+                        
+                        spinePlanets[loadPlanets] = game.add.spine(game.world.centerX+movementInX,game.world.height-heightBetweenPlanets-185, "planets");
+                        spinePlanets[loadPlanets].scale.setTo(scaleSpine*1.9,scaleSpine*1.9)
+                        spinePlanets[loadPlanets].setAnimationByName(0,"IDLE",true);
+                        spinePlanets[loadPlanets].setSkinByName(planetNames[loadPlanets]);
+                        spinePlanets[loadPlanets].tag=planetNames[loadPlanets]
+                        planetsGroup.add(spinePlanets[loadPlanets])
+                        
+                        correctPositions[loadPlanets] = correctedPos.create(game.world.centerX+movementInX,game.world.height-heightBetweenPlanets-185, "destiny");
+                        correctPositions[loadPlanets].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
+                        correctPositions[loadPlanets].tag=correctedNames[loadPlanets]
+                        correctPositions[loadPlanets].alpha=0
+                        correctPositions[loadPlanets].anchor.setTo(0.5,0.5)
+                        
+                        
+                        nebul[loadPlanets]=nebulas.create(0,0,'atlas.time','nebula')
+                        nebul[loadPlanets].anchor.setTo(0.5,0.5)
+                        nebul[loadPlanets].alpha=0
+                        
+                        
+                        
+                        movementInX+=30
+                        if(movementInX==60)
+                            {
+                                movementInX=-30
+                            }
+                        
+                        dragablePlanets[loadPlanets]= planetsGroup.create(spinePlanets[loadPlanets].position.x,game.world.height-heightBetweenPlanets-185,"mrc");
+                        dragablePlanets[loadPlanets].anchor.setTo(.5,.5)
+                        dragablePlanets[loadPlanets].scale.setTo(scaleSpine*1.5,scaleSpine*1.5)
+                        heightBetweenPlanets+=80
+                        game.physics.enable(dragablePlanets[loadPlanets], Phaser.Physics.ARCADE)
+                        
+                        
+                        
+                       
+                        //game.physics.enable(dragablePlanets[0], Phaser.Physics.ARCADE)
+                        dragablePlanets[loadPlanets].body.collideWorldBounds = true;
+                        dragablePlanets[loadPlanets].body.bounce.set(.9);
+                        dragablePlanets[loadPlanets].tag=planetNames[loadPlanets]
+                        dragablePlanets[loadPlanets].alpha=0
+                        dragablePlanets[loadPlanets].anchor.setTo(.5,.5)
+                        dragablePlanets[loadPlanets].events.onDragStop.add(onDragStop,dragablePlanets[loadPlanets]);
+                        dragablePlanets[loadPlanets].events.onDragStart.add(onDragStart,dragablePlanets[loadPlanets]);
                     }
                     
                     
-                    //spinePlanets[0] = planetsGroup.game.add.spine(game.world.centerX,game.world.height-150, "planets");
-                    //spinePlanets[0].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
-                    //spinePlanets[0].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
-                    //spinePlanets[0].setAnimationByName(0,"IDLE",true);
-                    //spinePlanets[0].setSkinByName(planetNames[0]);
-                    //spinePlanets[0].tag=planetNames[0]
+                    spinePlanets[0] = game.add.spine(game.world.centerX,game.world.height-150, "planets");
+                    spinePlanets[0].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
+                    spinePlanets[0].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
+                    spinePlanets[0].setAnimationByName(0,"IDLE",true);
+                    spinePlanets[0].setSkinByName(planetNames[0]);
+                    spinePlanets[0].tag=planetNames[0]
+                    planetsGroup.add(spinePlanets[0])
+                    dragablePlanets[0]= planetsGroup.create(spinePlanets[0].position.x,spinePlanets[0].position.y,"mrc");
+                    dragablePlanets[0].anchor.setTo(.5,.5)
+                    dragablePlanets[0].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
+                    game.physics.enable(dragablePlanets[0], Phaser.Physics.ARCADE)
+                    dragablePlanets[0].alpha=0
             
+            
+                    //game.physics.enable(dragablePlanets[0], Phaser.Physics.ARCADE)
+                    dragablePlanets[0].body.collideWorldBounds = true;
+                    dragablePlanets[0].body.bounce.set(.9);
+                    
+                    
+                     
+        
+        //Hacemos las fisicas
+        
+            game.physics.enable(stick, Phaser.Physics.ARCADE)
+            stick.body.immovable=true
+            clock.body.immovable=true
             
             rect.inputEnabled = false
 			sound.play("pop")
@@ -346,7 +442,9 @@ var galactic = function(){
                     
                    stick.body.velocity.setTo(0,80);
                    hitthePlanets=true
-                    
+                   
+                
+                
                 })
                 
             })
@@ -367,9 +465,22 @@ var galactic = function(){
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
+        
+        clock= planetsGroup.create(game.world.centerX,50,'atlas.time','clock')
+		clock.anchor.setTo(0.5,0.5)
+		clock.scale.setTo(1,1)
+        
+        timeBar= planetsGroup.create(clock.centerX-171,clock.centerY+31,'atlas.time','bar')
+		timeBar.anchor.setTo(1,1)
+        timeBar.scale.setTo(-11.5,.7)
 		
+        game.physics.enable(clock, Phaser.Physics.ARCADE)
+       
+        
 		var inputName = 'movil'
 		
+        
+        
 		if(game.device.desktop){
 			inputName = 'desktop'
 		}
@@ -393,10 +504,15 @@ var galactic = function(){
 
 	function createBackground(){
 		
-        backgroundGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(backgroundGroup)
         
+        correctedPos = game.add.group()
+        backgroundGroup = game.add.group()
+        nebulas = game.add.group()
+        sceneGroup.add(backgroundGroup)
+        planetsGroup =game.add.group()
+        sceneGroup.add(correctedPos)
+        sceneGroup.add(planetsGroup)
+        sceneGroup.add(nebulas)
         
         
         
@@ -408,36 +524,220 @@ var galactic = function(){
         
         //Cargo el palo como si fuera del fondo
         
-        stick = backgroundGroup.create(game.world.centerX-20,game.world.height-70,'stick')
-                    
-        
-        
-        
-            prueba= backgroundGroup.create(game.world.centerX-30,game.world.height-200, "mrc");
-            prueba.scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
-            
-        
-        //Hacemos las fisicas
-        
-            game.physics.enable(stick, Phaser.Physics.ARCADE)
-            game.physics.enable(prueba, Phaser.Physics.ARCADE)
-        
-            stick.body.immovable=true
-            
-            
-        
-            prueba.body.collideWorldBounds = true;
-            prueba.body.bounce.set(.1);
-            
-           
-
-		
+        stick = planetsGroup.create(game.world.centerX-20,game.world.height-70,'stick')
 	}
+    
+    
+    function onDragStop(obj)
+    {
+       
+        if(obj.tag=="mercury")
+            {
+                releasedPlanet[0]=true;
+
+            }
+        
+        if(obj.tag=="venus")
+            {
+                releasedPlanet[1]=true;
+                
+            }
+        if(obj.tag=="earth")
+            {
+                releasedPlanet[2]=true;
+                
+            }
+        if(obj.tag=="mars")
+            {
+                releasedPlanet[3]=true;
+                
+            }
+        if(obj.tag=="jupiter")
+            {
+                releasedPlanet[4]=true;
+               
+            }
+        if(obj.tag=="saturn")
+            {
+                releasedPlanet[5]=true;
+                
+            }
+        if(obj.tag=="uranus")
+            {
+                releasedPlanet[6]=true;
+                
+            }
+        if(obj.tag=="neptune")
+            {
+                releasedPlanet[7]=true;
+                
+            }
+        
+    }
+    
+    function onDragStart(obj)
+    {
+       
+        
+        if(obj.tag=="mercury")
+            {
+                releasedPlanet[0]=false;
+
+            }
+        
+        if(obj.tag=="venus")
+            {
+                releasedPlanet[1]=false;
+                
+            }
+        if(obj.tag=="earth")
+            {
+                releasedPlanet[2]=false;
+                
+            }
+        if(obj.tag=="mars")
+            {
+                releasedPlanet[3]=false;
+                
+            }
+        if(obj.tag=="jupiter")
+            {
+                releasedPlanet[4]=false;
+               
+            }
+        if(obj.tag=="saturn")
+            {
+                releasedPlanet[5]=false;
+                
+            }
+        if(obj.tag=="uranus")
+            {
+                releasedPlanet[6]=false;
+                
+            }
+        if(obj.tag=="neptune")
+            {
+                releasedPlanet[7]=false;
+                
+            }
+        
+    }
+    
+    function reset()
+    {
+        
+        // Primero ponemos todo en su lugar con un tweenque haga invisibles todas las cosas y luego las acomodo para luego hacerlas visibles, aqui tambien manejo la dificultad
+        levels++
+        if(levels%2==0 && dificulty>9)
+            {
+            dificulty--
+            }
+        corrects=0
+        startTime=false
+        finalizeTime=false
+        for(var renew=0;renew<9;renew++)
+            {
+                releasedPlanet[renew]=false
+                cantMovePlanet[renew]=false
+            }
+        activateMovement=false
+        timetoHit=0
+        hitthePlanets=false
+        movementInX=-60
+        heightBetweenPlanets=70
+        stick.reset(game.world.centerX-20,game.world.height-70)
+        dragablePlanets[0].reset(game.world.centerX,game.world.height-150)
+        dragablePlanets[0].body.gravity.set(0, 0);
+        spinePlanets[0].position.x=dragablePlanets[0].position.x
+        spinePlanets[0].position.y=dragablePlanets[0].position.y
+        
+        for(var dissapearObjects=1;dissapearObjects<9;dissapearObjects++)
+        {
+            
+            game.add.tween(spinePlanets[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
+            game.add.tween(correctPositions[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
+            dragablePlanets[dissapearObjects].reset(correctPositions[dissapearObjects].x,correctPositions[dissapearObjects].position.y)
+            spinePlanets[dissapearObjects].position.x=dragablePlanets[dissapearObjects].position.x
+            spinePlanets[dissapearObjects].position.y=dragablePlanets[dissapearObjects].position.y
+            nebul[dissapearObjects].alpha=0
+            
+            dragablePlanets[dissapearObjects].inputEnabled = false;
+            dragablePlanets[dissapearObjects].input.enableDrag(false);
+            dragablePlanets[dissapearObjects].body.gravity.set(0, 0);
+
+        }
+        
+                        tweentiempo=game.add.tween(timeBar.scale).to({x:-11.5,y:.7}, 1000, Phaser.Easing.Linear.Out, true, 100);
+        
+                        tweentiempo.onComplete.add(function(){
+        
+                        lastTween1=game.add.tween(spinePlanets[0]).to({alpha:0},500,Phaser.Easing.linear,true)
+            
+        
+        
+                        lastTween1.onComplete.add(function(){
+            
+                        lastTween2=game.add.tween(spinePlanets[0]).to({alpha:1},1200,Phaser.Easing.linear,true)
+            
+            
+                        for(var appearObjects=1;appearObjects<9;appearObjects++)
+                        {
+            
+                                game.add.tween(spinePlanets[appearObjects]).to({alpha:1},1200,Phaser.Easing.linear,true)
+                                lastTween2.onComplete.add(function(){
+                                stick.body.velocity.setTo(0,80);
+                                hitthePlanets=true
+                            })
+                        }
+            
+                })
+             
+         })   
+    }
+                                 
 	
 	function update(){
         
+       
+        game.physics.arcade.collide(stick,dragablePlanets[0])  
         
-        game.physics.arcade.collide(stick,prueba)
+        sceneGroup.bringToTop(nebulas);
+        
+        
+        //Aqui corre el tiempo y se acomodan las nebulas
+        
+        if(startTime==false && timetoHit>1000)
+            {
+                for(var positionNebul=1; positionNebul<9; positionNebul++)
+                    {
+                        dificultyInLevel=game.rnd.integerInRange(1,dificulty)
+                        if(dificultyInLevel<9)
+                            {
+                                nebul[dificultyInLevel].position.x=spinePlanets[dificultyInLevel].position.x
+                                nebul[dificultyInLevel].position.y=spinePlanets[dificultyInLevel].position.y
+                                nebul[dificultyInLevel].alpha=1
+                            }
+                    }
+                
+                
+                tweentiempo=game.add.tween(timeBar.scale).to({x:0,y:.7}, 30000, Phaser.Easing.Linear.Out, true, 100);
+                startTime=true
+                tweentiempo.onComplete.add(function(){
+                        
+                        if(corrects==8)
+                            {
+                                reset();
+                            }
+                        else
+                            {
+                                missPoint()
+                            }
+                    
+                    })
+                
+            }
+        
+       
         if(hitthePlanets==true)
         {
             timetoHit++
@@ -445,24 +745,121 @@ var galactic = function(){
         if(timetoHit>20 && hitthePlanets==true)
         {
             stick.body.velocity.setTo(0,-100);
+            
+            if(checkOverlap(stick,dragablePlanets[0]))
+            {
+                dragablePlanets[0].body.velocity.setTo(game.rnd.integerInRange(400, -400),game.rnd.integerInRange(-1000, -1000));
+                stick.position.x=0
+                stick.position.y=-10
+                stick.kill()
+            }
+
+            /////////////////////////////////////////
+            //Aqui checo si esta encima de un destino
+            for(var checkCorrect=1;checkCorrect<9;checkCorrect++){
+                if(checkOverlap(correctPositions[checkCorrect],dragablePlanets[checkCorrect]) && releasedPlanet[checkCorrect-1]==true && cantMovePlanet[checkCorrect-1]==false)
+                {
+                    addPoint(1)
+                    dragablePlanets[checkCorrect].kill();
+                    spinePlanets[checkCorrect].position.x=correctPositions[checkCorrect].position.x
+                    spinePlanets[checkCorrect].position.y=correctPositions[checkCorrect].position.y
+                    cantMovePlanet[checkCorrect-1]=true
+                    corrects++
+                }
+            }
+            
+            for(var checkWrong2=1; checkWrong2<9 ; checkWrong2++){
+                for(var checkWrong1=1; checkWrong1<9 ; checkWrong1++){
+                    if(checkOverlap(correctPositions[checkWrong1],dragablePlanets[checkWrong2]) && releasedPlanet[checkWrong2-1]==true && cantMovePlanet[checkWrong2-1]==false && checkWrong1!=checkWrong2)
+                    {
+                        missPoint(1)
+                        dragablePlanets[checkWrong2].kill();
+                        cantMovePlanet[checkWrong2-1]=true
+                    }
+                }
+            }
+            
+            
+            
+            for(var planetsCrashing1=0;planetsCrashing1<9;planetsCrashing1++){
+                for(var planetsCrashing2=0;planetsCrashing2<9;planetsCrashing2++){
+                    
+                    dragablePlanets[planetsCrashing1].body.gravity.set(game.rnd.integerInRange(400, -400), 0);
+                    if(planetsCrashing1!=planetsCrashing2){
+                        game.physics.arcade.collide(dragablePlanets[planetsCrashing1],dragablePlanets[planetsCrashing2])
+                    }
+                    
+                }
+                
+                game.physics.arcade.collide(clock,dragablePlanets[planetsCrashing1])
+            }
+            
+            for(var samePositions=1;samePositions<9;samePositions++)
+            {
+                if(cantMovePlanet[samePositions-1]==false){
+            spinePlanets[samePositions].position.x=dragablePlanets[samePositions].position.x
+            spinePlanets[samePositions].position.y=dragablePlanets[samePositions].position.y
+                }
+            }
+            //unicamente sol
+            spinePlanets[0].position.x=dragablePlanets[0].position.x
+            spinePlanets[0].position.y=dragablePlanets[0].position.y
+                
         }
         if(timetoHit>120)
         {
             stick.body.velocity.setTo(0,0);
         }
         
-        if(checkOverlap(stick,prueba))
+        
+        if(timetoHit>1000)
         {
-            prueba.body.velocity.setTo(game.rnd.integerInRange(400, -400),game.rnd.integerInRange(-800, -800));
-            stick.kill()
-        }
-        if(timetoHit>400)
-        {
-                
-            prueba.body.velocity.setTo(0,0);
+            for(var deactivePlanets=0; deactivePlanets<9;deactivePlanets++)
+            {
+                dragablePlanets[deactivePlanets].body.velocity.setTo(0,0);
+            }
             activateMovement=true
+            spinePlanets[0].alpha=0
+            
+            for(var appearPlanets=1;appearPlanets<9;appearPlanets++)
+            {
+                correctPositions[appearPlanets].alpha=1
+                //Aqui los textos
+            }
+            for(var canDrag=1; canDrag<9;canDrag++)
+            {
+                dragablePlanets[canDrag].inputEnabled = true;
+                //Esto hace que se puedan dragear
+                dragablePlanets[canDrag].input.enableDrag(true);
+            }
+            
+        
         }
-
+        
+        if(corrects==8 && finalizeTime==false)
+            {
+                finalizeTime=true
+                tweentiempo.stop()
+                tweentiempo=game.add.tween(timeBar.scale).to({x:0,y:.7}, 1000, Phaser.Easing.Linear.Out, true, 100);
+                tweentiempo.onComplete.add(function(){
+                        
+                        if(corrects==8)
+                            {
+                                reset();
+                            }
+                        else
+                            {
+                                missPoint()
+                            }
+                    
+                    })
+                
+                
+            }
+        
+        
+        
+        
 	}
 	
     
@@ -482,17 +879,20 @@ var galactic = function(){
         if(pointsText){
             
             pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
+            pointsText.y = obj.world.y
             pointsText.setText(text)
             pointsText.scale.setTo(1,1)
 
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+            //game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            //game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
 
-            deactivateParticle(pointsText,750)
+            //deactivateParticle(pointsText,750)
         }
         
+       
+        
     }
+    
     
     function lookParticle(key){
         
