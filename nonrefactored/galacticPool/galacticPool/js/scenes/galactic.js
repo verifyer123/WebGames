@@ -84,7 +84,7 @@ var galactic = function(){
     var hitthePlanets
     var movementInX
     var lastTween1, lastTween2, tweentiempo, tweenText
-    var timeBar, clock, rect2
+    var timeBar, clock, rect2, blocker
     var textsPlanets=new Array(8)
     var startTime, finalizeTime, dificulty, levels, dificultyInLevel
     var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -354,6 +354,12 @@ var galactic = function(){
         
         rect.events.onInputDown.add(function(){
             
+            //bloqueo en el boton de audio
+            
+            blocker=planetsGroup.create(game.world.width-250,0, "mrc");
+            blocker.alpha=0;
+            
+            
             
             //Entra el reloj con animacion
             
@@ -480,10 +486,12 @@ var galactic = function(){
         //Hacemos las fisicas
         
             game.physics.enable(stick, Phaser.Physics.ARCADE)
+            game.physics.enable(blocker, Phaser.Physics.ARCADE)
             
             stick.body.immovable=true
             clock.body.immovable=true
             rect2.body.immovable=true
+            blocker.body.immovable=true
             
             rect.inputEnabled = false
 			sound.play("pop")
@@ -848,6 +856,7 @@ var galactic = function(){
                 
                 game.physics.arcade.collide(clock,dragablePlanets[planetsCrashing1])
                 game.physics.arcade.collide(rect2,dragablePlanets[planetsCrashing1])
+                game.physics.arcade.collide(blocker,dragablePlanets[planetsCrashing1])
             }
             
             for(var samePositions=1;samePositions<9;samePositions++)
