@@ -732,6 +732,11 @@ var galactic = function(){
                         else
                             {
                                 sound.play("wrong")
+                                hitthePlanets=false
+                                for(var quickBlock2=1;quickBlock2<9;quickBlock2++)
+                                {
+                                dragablePlanets[quickBlock2].kill();
+                                }
                                 missPoint()
                             }
                     
@@ -872,11 +877,6 @@ var galactic = function(){
                         if(corrects==8)
                             {
                                 reset();
-                            }
-                        else
-                            {
-                                sound.play("wrong")
-                                missPoint()
                             }
                     
                     })
