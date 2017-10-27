@@ -25,10 +25,6 @@ var oona = function(){
             },
         ],
         images: [
-            {	
-                name: "fondo",
-                file: "images/oona/fondo.png"
-            },
             {
                 name: "bricks",
                 file: "images/oona/bricks.png"
@@ -68,6 +64,7 @@ var oona = function(){
     var onnaSong
     var oonaAvatar
     var cap
+    var gameTime
     var board
     var recipeGroup
     var toolsGroup
@@ -91,6 +88,7 @@ var oona = function(){
         aux = 0
         storePos = 0
         cap = 3
+        gameTime = 10000
         
         inputAnswer = [cap]
         
@@ -350,15 +348,21 @@ var oona = function(){
     }
 
 	function createBackground(){
-		var fondo = sceneGroup.create(game.world.centerX, game.world.centerY, "fondo");
+		var fondo = sceneGroup.create(game.world.centerX, game.world.centerY, 'atlas.oona', "fondo");
         fondo.anchor.setTo(0.5, 0.5)
         fondo.width = game.world.width
         fondo.height = game.world.height	
         
         var bricks = sceneGroup.create(game.world.centerX, game.world.centerY, "bricks");
         bricks.anchor.setTo(0.5, 0.5)
-        bricks.width = game.world.width
-        bricks.height = game.world.height * 0.75
+        bricks.width = game.world.width 
+        bricks.height = game.world.height * 0.5
+        
+        board = sceneGroup.create(0,0,'atlas.oona','board')
+        board.scale.setTo(0.9, 0.9)
+        board.anchor.setTo(0.5, 0.5)
+        board.x = game.world.centerX
+        board.y = board.height * 0.6
 	}
 	
 	function update(){
@@ -624,7 +628,7 @@ var oona = function(){
             game.add.tween(recipeGroup).to({alpha: 1}, 200, Phaser.Easing.linear, true)
             gameActive = true;
             cookBtn.inputEnabled = true
-            timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, 10000, Phaser.Easing.linear, true)
+            timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, gameTime, Phaser.Easing.linear, true)
             
             timeGroup.tween.onComplete.add(function() 
             {
@@ -671,6 +675,9 @@ var oona = function(){
         aux = 0
         storePos = 0
         
+        if(cap >= 6)
+            gameTime -= 1000
+        
         toolsGroup.destroy()
         tools()
         recipeGroup.destroy()
@@ -689,7 +696,7 @@ var oona = function(){
         oonaAvatar.setSkinByName("normal");
         sceneGroup.add(oonaAvatar);
         
-        cookBtn = sceneGroup.create(game.world.centerX, game.world.centerY - 80, 'atlas.oona', 'cookBtn')
+        cookBtn = sceneGroup.create(game.world.centerX, game.world.centerY - 56, 'atlas.oona', 'cookBtn')
         cookBtn.anchor.setTo(0.5, 0.5)
         cookBtn.inputEnabled = true
         cookBtn.pressed = false
@@ -812,11 +819,6 @@ var oona = function(){
     }
      
     function tools(){
-        board = sceneGroup.create(0,0,'atlas.oona','board')
-        board.scale.setTo(0.9, 0.9)
-        board.anchor.setTo(0.5, 0.5)
-        board.x = game.world.centerX
-        board.y = board.height * 0.5
         
         toolsGroup = game.add.group()
         toolsGroup.x =  game.world.centerX - board.width * 0.37
@@ -900,8 +902,8 @@ var oona = function(){
 			createHearts()
 			buttons.getButton(onnaSong,sceneGroup)
             createOona()
-            createOverlay()
             createTimeBar()
+            createOverlay()
             animateScene()
             
 		},
