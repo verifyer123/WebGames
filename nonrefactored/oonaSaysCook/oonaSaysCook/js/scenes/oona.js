@@ -577,9 +577,9 @@ var oona = function(){
         else if(item.y >= 40)
         {
             item.y = 120
-            item.x = item.parent.number * -72 + storePos        
+            item.x = item.parent.number * -73 + storePos        
             item.input.draggable = false
-            storePos += 72  
+            storePos += 73  
             aux++
         }
     }
