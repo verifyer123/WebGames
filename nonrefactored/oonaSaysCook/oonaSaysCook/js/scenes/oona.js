@@ -69,7 +69,7 @@ var oona = function(){
     var recipeGroup
     var toolsGroup
     var cookBtn
-	var toolsTkn = ['mixTkn','pourTkn','roastTkn','friedTkn','cutTkn','ovenTkn']
+	var toolsTkn = ['mixTkn','pourTkn','cutTkn','ovenTkn','roastTkn','friedTkn']
     var orders = ['mix','pour','cut','oven','roast','fried']
     var aux
     var storePos
