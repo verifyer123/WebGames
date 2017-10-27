@@ -565,16 +565,16 @@ var oona = function(){
         if (item.x >= 90 || item.x <= 90) {
             item.x = 0
         }
-        if(item.y <= -45)
+        if(item.y <= -40)
         {
             item.y = 0  
         }          
-        else if(item.y >= 45)
+        else if(item.y >= 40)
         {
-            item.y = 135
-            item.x = item.parent.number * -80 + storePos        
+            item.y = 120
+            item.x = item.parent.number * -72 + storePos        
             item.input.draggable = false
-            storePos += 80   
+            storePos += 72   
             aux++
         }
     }
@@ -834,7 +834,7 @@ var oona = function(){
             toolImg.scale.setTo(0.9, 0.9)
             toolImg.inputEnabled = true
             toolImg.input.enableDrag()
-            toolImg.input.enableSnap(45, 45, false, true);
+            toolImg.input.enableSnap(40, 40, false, true);
             toolImg.events.onDragStop.add(fixLocation);
             //toolImg.events.onDragStart.add(onDragStart, this)
             //toolImg.events.onDragUpdate.add(onDragUpdate, this)
