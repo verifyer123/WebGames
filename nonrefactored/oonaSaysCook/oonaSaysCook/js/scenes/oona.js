@@ -793,7 +793,7 @@ var oona = function(){
     
     function recipe(){
         recipeGroup = game.add.group()
-        recipeGroup.x = game.world.centerX - board.width * 0.37
+        recipeGroup.x = game.world.centerX - board.width * 0.35
         recipeGroup.y = board.y - board.height * 0.3
         sceneGroup.add(recipeGroup)
     }
@@ -813,7 +813,7 @@ var oona = function(){
             stepsImg.scale.setTo(0.9, 0.9)
             stepsImg.anchor.setTo(0.5, 0.5)
             
-            steps.x = r * stepsImg.height * 1.3
+            steps.x = r * 70
         }
     }
      
