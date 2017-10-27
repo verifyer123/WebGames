@@ -313,6 +313,7 @@ var galactic = function(){
 		game.load.image('introscreen',"images/galactic/introscreen.png")
         
 
+       
         
         //cargo imagenes de draggable
         
@@ -326,6 +327,8 @@ var galactic = function(){
         // Aqui cargo el objeto de destino
         
         game.load.image('destiny',"images/galactic/destino.png")
+        
+        game.load.image('background',"images/galactic/fondo.png")
         
         //Aqui cargo el taco
         
@@ -596,7 +599,11 @@ var galactic = function(){
         
         //Cargo el fondo que sea resizeble 
         
-                
+        var backGr=backgroundGroup.create(0,0,"atlas.galactic",'fondo')
+        backGr.width=game.world.width
+        backGr.height=game.world.height
+        backgroundGroup.add(backGr)
+        
         //backgroundStains()
         //backgroundStars()
         
