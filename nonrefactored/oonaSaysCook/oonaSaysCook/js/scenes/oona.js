@@ -69,15 +69,15 @@ var oona = function(){
     var recipeGroup
     var toolsGroup
     var cookBtn
-	var toolsTkn = ['mixTkn','pourTkn','cutTkn','ovenTkn','roastTkn','friedTkn']
+	var toolsTkn = ['mixTkn','pourTkn','roastTkn','friedTkn','cutTkn','ovenTkn']
     var orders = ['mix','pour','cut','oven','roast','fried']
     var aux
     var storePos
     var correctAnswer = [0,1,2,3,4,5]
     var inputAnswer = []
     var animations = ['MIX', 'PERCOLATE', 'CUT', 'BAKE', 'STEW', 'FRY', 'LOSE']
-
-	function loadSounds(){
+	
+    function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
@@ -186,8 +186,10 @@ var oona = function(){
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
-        if(pointsBar.number % 5 == 0)
+        if(pointsBar.number % 4 == 0)
             cap++
+        if(cap >= 6)
+            gameTime -= 1000
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -550,7 +552,6 @@ var oona = function(){
 		if(gameActive && obj.pressed == false)
         {
             inputAnswer[aux] = obj.parent.number
-            
             //aux++
             
            if(aux == cap)
@@ -578,7 +579,7 @@ var oona = function(){
             item.y = 120
             item.x = item.parent.number * -72 + storePos        
             item.input.draggable = false
-            storePos += 72   
+            storePos += 72  
             aux++
         }
     }
@@ -675,9 +676,6 @@ var oona = function(){
         aux = 0
         storePos = 0
         
-        if(cap >= 6)
-            gameTime -= 1000
-        
         toolsGroup.destroy()
         tools()
         recipeGroup.destroy()
@@ -750,6 +748,7 @@ var oona = function(){
          game.time.events.add(timer,function(){
              endGame(fin)
          },this)
+        
     }
     
     function animateOona(action, delay){
@@ -821,7 +820,7 @@ var oona = function(){
     function tools(){
         
         toolsGroup = game.add.group()
-        toolsGroup.x =  game.world.centerX - board.width * 0.37
+        toolsGroup.x =  game.world.centerX - board.width * 0.38
         toolsGroup.y = board.y - 6
         sceneGroup.add(toolsGroup)
         
@@ -843,7 +842,7 @@ var oona = function(){
             toolImg.pressed = false
             toolImg.events.onInputUp.add(inputButton)
             
-            tool.x = t * toolImg.width 
+            tool.x = t * toolImg.width * 1.03
             tool.number = t
             tool.image = toolImg
             tool.originPosX = tool.x
