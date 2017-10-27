@@ -58,7 +58,7 @@ var oona = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 98
 	var indexGame
     var overlayGroup
     var onnaSong
