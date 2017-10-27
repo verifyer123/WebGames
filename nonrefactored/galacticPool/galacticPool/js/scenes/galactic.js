@@ -62,13 +62,15 @@ var galactic = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 97
 	var indexGame
-    var overlayGroup, planetsGroup, backgroundGroup, nebulas, correctedPos
+    var overlayGroup, planetsGroup, backgroundGroup, nebulas, correctedPos, textsGroup
     var spaceSong
     var dragablePlanets=new Array(8)
     var spinePlanets=new Array(8)
     var correctPositions=new Array(8)
     var releasedPlanet=new Array(8)
     var cantMovePlanet=new Array(8)
+    var back
+    var textsBackground=new Array(8)
     var nebul=new Array(8)
     var planetNames=['sun',"mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"]
     var planetNamesES=['Sun',"Mercurio","Venus","Tierra","Marte","Júpiter","Saturno","Urano","Neptuno"]
@@ -83,6 +85,8 @@ var galactic = function(){
     var corrects
     var hitthePlanets
     var movementInX
+    var starsInGame
+    var stainsInGame
     var lastTween1, lastTween2, tweentiempo, tweenText
     var timeBar, clock, rect2, blocker
     var textsPlanets=new Array(8)
@@ -96,7 +100,7 @@ var galactic = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#ffffff"
+        game.stage.backgroundColor = "#1B1464"
         lives = 1
         heightBetweenPlanets=70
         activateMovement=false
@@ -108,6 +112,7 @@ var galactic = function(){
         finalizeTime=false
         levels=1
         dificulty=100
+
         
         for (var initializedReleased=0; initializedReleased<9; initializedReleased++)
             {
@@ -307,9 +312,8 @@ var galactic = function(){
 		game.load.image('buttonText',"images/galactic/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/galactic/introscreen.png")
         
-        //Aqui cargo el fondo
-        
-        game.load.image('backGround',"images/galactic/fondo.png")
+
+       
         
         //cargo imagenes de draggable
         
@@ -323,6 +327,8 @@ var galactic = function(){
         // Aqui cargo el objeto de destino
         
         game.load.image('destiny',"images/galactic/destino.png")
+        
+        game.load.image('background',"images/galactic/fondo.png")
         
         //Aqui cargo el taco
         
@@ -361,10 +367,11 @@ var galactic = function(){
             
             
             
-            //Entra el reloj con animacion
+            //Entra el reloj y las letras con animacion
             
             game.add.tween(clock).to({alpha:1},500,Phaser.Easing.linear,true)
             game.add.tween(timeBar).to({alpha:1},500,Phaser.Easing.linear,true)
+            
             
             //Cargar los planetas en una posicion inicial pero con animacion de entrada
                 
@@ -390,9 +397,11 @@ var galactic = function(){
                         
                         
                         //Aqui coloco los textos que solo se manejaran con alpha
-                        textsPlanets[loadPlanets]= new Phaser.Text(planetsGroup.game, 0, 0, "0", fontStyle2)
+                        textsPlanets[loadPlanets]= new Phaser.Text(textsGroup.game, 0, 0, "0", fontStyle2)
                         textsPlanets[loadPlanets].x = spinePlanets[loadPlanets].x+50
-                        textsPlanets[loadPlanets].y = spinePlanets[loadPlanets].y-50
+                        textsPlanets[loadPlanets].y = spinePlanets[loadPlanets].y-35
+                        textsPlanets[loadPlanets].alpha=0
+                        game.add.tween(textsPlanets[loadPlanets]).to({alpha:1},500,Phaser.Easing.linear,true)
                         
                         if(localization.getLanguage()=="ES"){
                         textsPlanets[loadPlanets].setText(planetNamesES[loadPlanets])
@@ -401,13 +410,13 @@ var galactic = function(){
                         textsPlanets[loadPlanets].setText(planetNamesEN[loadPlanets])
                         }
                         
-                        planetsGroup.add(textsPlanets[loadPlanets])
+                        textsGroup.add(textsPlanets[loadPlanets])
                         
                         
                         nebul[loadPlanets]=nebulas.create(0,0,'atlas.time','nebula')
                         nebul[loadPlanets].anchor.setTo(0.5,0.5)
                         nebul[loadPlanets].alpha=0
-                        
+                        nebulas.add(nebul[loadPlanets])
                         
                         
                         movementInX+=60
@@ -488,6 +497,7 @@ var galactic = function(){
             game.physics.enable(stick, Phaser.Physics.ARCADE)
             game.physics.enable(blocker, Phaser.Physics.ARCADE)
             
+            
             stick.body.immovable=true
             clock.body.immovable=true
             rect2.body.immovable=true
@@ -507,7 +517,7 @@ var galactic = function(){
                         hitthePlanets=true
                    for(var setTexts=1;setTexts<9;setTexts++)
                     {
-                        textsPlanets[setTexts].alpha=0
+                        game.add.tween(textsPlanets[setTexts]).to({alpha:0},500,Phaser.Easing.linear,true)
                     }
                 })
             })
@@ -573,11 +583,13 @@ var galactic = function(){
         correctedPos = game.add.group()
         backgroundGroup = game.add.group()
         nebulas = game.add.group()
+        textsGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
         planetsGroup =game.add.group()
         sceneGroup.add(correctedPos)
         sceneGroup.add(planetsGroup)
         sceneGroup.add(nebulas)
+        sceneGroup.add(textsGroup)
         
         correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
@@ -585,11 +597,12 @@ var galactic = function(){
         sceneGroup.add(wrongParticle)
         
         
-        //Cargo el fondo que sea resizeble 
+        //Cargo el fondo que sea resizeble
         
-        var backG=backgroundGroup.create(0,0,'backGround')
-        backG.width=game.world.width
-        backG.height=game.world.height
+        var backGr=game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.galactic",'stars')
+        backgroundGroup.add(backGr)
+        
+        backgroundStains()
         
         //Cargo el palo como si fuera del fondo
         
@@ -640,6 +653,20 @@ var galactic = function(){
         
     }
     
+    
+    //Division de luces
+    function backgroundStains()
+    {
+        
+        for(var randomStains=0; randomStains<5;randomStains++)
+            {
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient1")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient2")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient3")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient4")
+            }
+        
+    }
     function reset()
     {
         
@@ -730,7 +757,7 @@ var galactic = function(){
        
         game.physics.arcade.collide(stick,dragablePlanets[0])  
         
-        sceneGroup.bringToTop(nebulas);
+        sceneGroup.bringToTop(textsGroup);
         
         
         
@@ -777,6 +804,7 @@ var galactic = function(){
         if(hitthePlanets==true)
         {
             timetoHit++
+        
         }
         if(timetoHit>20 && hitthePlanets==true)
         {
@@ -804,7 +832,7 @@ var galactic = function(){
                     spinePlanets[checkCorrect].position.x=correctPositions[checkCorrect].position.x
                     spinePlanets[checkCorrect].position.y=correctPositions[checkCorrect].position.y
                     textsPlanets[checkCorrect].position.x=spinePlanets[checkCorrect].position.x+50
-                    textsPlanets[checkCorrect].position.y=spinePlanets[checkCorrect].position.y-50
+                    textsPlanets[checkCorrect].position.y=spinePlanets[checkCorrect].position.y-35
                     textsPlanets[checkCorrect].alpha=1
                     cantMovePlanet[checkCorrect-1]=true
                     corrects++
@@ -821,7 +849,7 @@ var galactic = function(){
                         dragablePlanets[checkWrong1].position.x=correctPositions[checkWrong1].position.x
                         dragablePlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y
                         textsPlanets[checkWrong1].position.x=correctPositions[checkWrong1].position.x+50
-                        textsPlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y-50
+                        textsPlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y-35
                         for(var quickBlock=1;quickBlock<9;quickBlock++){
                             dragablePlanets[quickBlock].inputEnabled = false;
                             dragablePlanets[quickBlock].input.enableDrag(false);
@@ -842,6 +870,7 @@ var galactic = function(){
             }
         }
             
+             
             
             
             for(var planetsCrashing1=0;planetsCrashing1<9;planetsCrashing1++){
@@ -865,7 +894,7 @@ var galactic = function(){
             spinePlanets[samePositions].position.x=dragablePlanets[samePositions].position.x
             spinePlanets[samePositions].position.y=dragablePlanets[samePositions].position.y
             textsPlanets[samePositions].position.x=spinePlanets[samePositions].position.x+50
-            textsPlanets[samePositions].position.y=spinePlanets[samePositions].position.y-50
+            textsPlanets[samePositions].position.y=spinePlanets[samePositions].position.y-35
                 }
             }
             //unicamente sol
@@ -881,6 +910,21 @@ var galactic = function(){
         
         if(timetoHit>1000)
         {
+            
+            for(var checkOverlapping1=1; checkOverlapping1<9 ; checkOverlapping1++){
+                    
+                    if(checkOverlap(correctPositions[checkOverlapping1],nebul[checkOverlapping1]))
+                        {
+                            nebul[checkOverlapping1].alpha=0
+                            
+                        }
+                    if(checkOverlap(spinePlanets[checkOverlapping1],blocker))
+                        {
+                            dragablePlanets[checkOverlapping1].position.y+=100
+                        }
+             }
+            
+            
             for(var deactivePlanets=0; deactivePlanets<9;deactivePlanets++)
             {
                 dragablePlanets[deactivePlanets].body.velocity.setTo(0,0);
