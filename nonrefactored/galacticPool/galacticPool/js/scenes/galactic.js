@@ -39,6 +39,8 @@ var galactic = function(){
 				file: soundsPath + "magic.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
+            {	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
             {	name: "explosion",
@@ -47,8 +49,14 @@ var galactic = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
-			{	name: "gameLose",
-				file: soundsPath + "gameLose.mp3"},
+			{	name: "dragg",
+				file: soundsPath + "powerup.mp3"},
+            {	name: "release",
+				file: soundsPath + "swipe.mp3"},
+            {	name: "caught",
+				file: soundsPath + "whoosh.mp3"},
+            {	name: "crash",
+				file: soundsPath + "punch2.mp3"}
 			
 		],
     }
@@ -440,6 +448,8 @@ var galactic = function(){
                         dragablePlanets[loadPlanets].events.onDragStop.add(onDragStop,dragablePlanets[loadPlanets]);
                         dragablePlanets[loadPlanets].events.onDragStart.add(onDragStart,dragablePlanets[loadPlanets]);
                         dragablePlanets[loadPlanets].events.onDragUpdate.add(onDragUpdate,dragablePlanets[loadPlanets]);
+                        dragablePlanets[loadPlanets].body.onCollide = new Phaser.Signal();
+                        dragablePlanets[loadPlanets].body.onCollide.add(hitSprite, this);
                     }
                     
                     
@@ -612,6 +622,7 @@ var galactic = function(){
     
     function onDragStop(obj)
     {
+        sound.play("release")
        for(var checkDragStart=1;checkDragStart<9;checkDragStart++)
         {
         
@@ -619,6 +630,7 @@ var galactic = function(){
             {
                 releasedPlanet[checkDragStart-1]=true;
                 textsPlanets[checkDragStart].alpha=0
+                
             }
         }
         
@@ -633,6 +645,7 @@ var galactic = function(){
         if(obj.tag==planetNames[checkDragStart] && hitthePlanets==true)
             {
                 textsPlanets[checkDragStart].alpha=1
+                
             }
         }
     }
@@ -640,13 +653,14 @@ var galactic = function(){
     function onDragStart(obj)
     {
        
-        
+        sound.play("caught")
         for(var checkDragStart=1;checkDragStart<9;checkDragStart++)
         {
         
         if(obj.tag==planetNames[checkDragStart])
             {
                 releasedPlanet[checkDragStart-1]=false;
+                
 
             }
         }
@@ -667,6 +681,14 @@ var galactic = function(){
             }
         
     }
+    
+    
+    function hitSprite (sprite1, sprite2) {
+
+    sound.play("crash")
+    
+    }   
+    
     function reset()
     {
         
@@ -804,11 +826,12 @@ var galactic = function(){
         if(hitthePlanets==true)
         {
             timetoHit++
-        
+            
         }
         if(timetoHit>20 && hitthePlanets==true)
         {
             stick.body.velocity.setTo(0,-100);
+            
             
             
             if(checkOverlap(stick,dragablePlanets[0]))
@@ -816,9 +839,12 @@ var galactic = function(){
                 dragablePlanets[0].body.velocity.setTo(game.rnd.integerInRange(400, -400),game.rnd.integerInRange(-1000, -1000));
                 stick.position.x=0
                 stick.position.y=-10
+                sound.play("shoot")
                 stick.kill()
             }
-
+            
+            
+           
             /////////////////////////////////////////
             //Aqui checo si esta encima de un destino
             for(var checkCorrect=1;checkCorrect<9;checkCorrect++){
