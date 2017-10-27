@@ -100,7 +100,7 @@ var galactic = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#000000"
+        game.stage.backgroundColor = "#1B1464"
         lives = 1
         heightBetweenPlanets=70
         activateMovement=false
@@ -597,15 +597,12 @@ var galactic = function(){
         sceneGroup.add(wrongParticle)
         
         
-        //Cargo el fondo que sea resizeble 
+        //Cargo el fondo que sea resizeble
         
-        var backGr=backgroundGroup.create(0,0,"atlas.galactic",'fondo')
-        backGr.width=game.world.width
-        backGr.height=game.world.height
+        var backGr=game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.galactic",'stars')
         backgroundGroup.add(backGr)
         
-        //backgroundStains()
-        //backgroundStars()
+        backgroundStains()
         
         //Cargo el palo como si fuera del fondo
         
@@ -657,22 +654,16 @@ var galactic = function(){
     }
     
     
-    //Division de estrellas
-    
-    function backgroundStars()
-    {
-        for(var randomStars=0; randomStars<game.rnd.integerInRange(300,400);randomStars++)
-            {
-                backgroundGroup.create(game.rnd.integerInrange(0,1500) ,game.rnd.integerInrange(0,1500),game.rnd.integerInrange(.1,1),game.rnd.integerInrange(.1,1),'atlas.galactic',"stars")
-            }
-        
-    }
+    //Division de luces
     function backgroundStains()
     {
         
         for(var randomStains=0; randomStains<5;randomStains++)
             {
-                backgroundGroup.create(game.rnd.integerInrange(0,1500) ,game.rnd.integerInrange(0,1500),'atlas.galactic',"stains")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient1")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient2")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient3")
+                backgroundGroup.create(game.rnd.integerInRange(0,game.world.width) ,game.rnd.integerInRange(0,game.world.height),'atlas.galactic',"gradient4")
             }
         
     }
