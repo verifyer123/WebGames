@@ -624,7 +624,7 @@ var oona = function(){
             game.add.tween(recipeGroup).to({alpha: 1}, 200, Phaser.Easing.linear, true)
             gameActive = true;
             cookBtn.inputEnabled = true
-            timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, 5000, Phaser.Easing.linear, true)
+            timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, 10000, Phaser.Easing.linear, true)
             
             timeGroup.tween.onComplete.add(function() 
             {
@@ -689,7 +689,7 @@ var oona = function(){
         oonaAvatar.setSkinByName("normal");
         sceneGroup.add(oonaAvatar);
         
-        cookBtn = sceneGroup.create(game.world.centerX, game.world.centerY - 50, 'atlas.oona', 'cookBtn')
+        cookBtn = sceneGroup.create(game.world.centerX, game.world.centerY - 80, 'atlas.oona', 'cookBtn')
         cookBtn.anchor.setTo(0.5, 0.5)
         cookBtn.inputEnabled = true
         cookBtn.pressed = false
@@ -804,6 +804,7 @@ var oona = function(){
             recipeGroup.add(steps)
                         
             var stepsImg = steps.create(0, 0, 'atlas.oona', orders[correctAnswer[r]])
+            stepsImg.scale.setTo(0.9, 0.9)
             stepsImg.anchor.setTo(0.5, 0.5)
             
             steps.x = r * stepsImg.height * 1.3
@@ -812,6 +813,7 @@ var oona = function(){
      
     function tools(){
         board = sceneGroup.create(0,0,'atlas.oona','board')
+        board.scale.setTo(0.9, 0.9)
         board.anchor.setTo(0.5, 0.5)
         board.x = game.world.centerX
         board.y = board.height * 0.5
@@ -829,6 +831,7 @@ var oona = function(){
             
             var toolImg = tool.create(0, 0, 'atlas.oona', toolsTkn[t])
             toolImg.anchor.setTo(0.5, 0.5)
+            toolImg.scale.setTo(0.9, 0.9)
             toolImg.inputEnabled = true
             toolImg.input.enableDrag()
             toolImg.input.enableSnap(45, 45, false, true);
@@ -891,10 +894,10 @@ var oona = function(){
             
             initialize()
 			            
-			createPointsBar()
-			createHearts()
             tools()
             recipe()
+            createPointsBar()
+			createHearts()
 			buttons.getButton(onnaSong,sceneGroup)
             createOona()
             createOverlay()

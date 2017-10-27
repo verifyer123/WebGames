@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Base",
+        name: "oonaSaysCook",
         language: "es",
-        minigameUrl: "../proyectoBase/index.html?language=" + language,
+        minigameUrl: "../oonaSaysCook/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
