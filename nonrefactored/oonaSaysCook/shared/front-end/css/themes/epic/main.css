@@ -1,0 +1,148 @@
+body{
+	margin: 0 !important;
+	background-color:#3960A6;
+	}
+
+.main-content{
+	width: 100%;
+}
+
+.header-content{
+	width: 100%;
+	height: auto;
+	text-align: center;
+	background-image: url("../../../images/themes/epic/pinkPattern.jpg");
+	background-repeat: repeat;
+	background-size:auto;
+}
+
+.header-logo {
+	width:25%;
+	text-align:left !important;
+	}
+	
+.header-banner{
+	width:60%;
+	text-align:right !important;
+	margin:30px !important;
+	}
+
+.img-responsive{
+	max-width: 100%;
+	height: auto;
+	display:block;
+	}
+
+.header-logo, .header-banner{
+	display: inline-block;
+	margin: 20px;
+}
+
+.middle-content{
+	background-color: #ededed;
+	background-image: url("../../../images/themes/epic/bg.jpg");
+	background-size: cover;
+	background-position:center center;
+	height: 80%;
+}
+
+.game-content{
+	position: relative;
+	transform: translateY(-50%);
+	top:50%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1%;
+	height: 94%;
+	max-width: 1024px;
+	max-height: 94%;
+	background-image: url("../../../images/themes/epic/chalkboardPattern.jpg");
+}
+
+.game-canvas{
+	float: left;
+	display: block;
+	margin-left: 1%;
+	width: 48%;
+}
+
+.description-content{
+	float: left;
+	display: block;
+	width: 50%;
+	height: 100%;
+}
+
+.description-content div{
+	margin: 20px;
+	width: 100%;
+	display: block;
+	text-align: center;
+}
+
+.social-btns{
+	width:10%;
+	vertical-align:middle;
+}
+
+a {
+	text-decoration:none;
+	}
+
+.border{
+	background-color:#fff;
+	border-radius: 10px;
+	padding:5px;
+	}
+
+@media (orientation: portrait){
+	body{
+		margin: 0px !important;
+		padding: 0px !important;
+		background-image: none !important;
+	}
+
+	.main-content{
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	.header-content{
+		display: none !important;
+	}
+
+	.header-logo, .header-banner{
+		display: none !important;
+	}
+
+	.middle-content{
+		margin: 0px !important;
+		background-color: none !important;
+		background-image: none !important;
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	.game-content{
+		max-width: 100% !important;
+		width: 100% !important;
+		position: fixed !important;
+		transform: translateY(0) !important;
+		top: 0px !important;
+		margin: 0px !important;
+		padding: 0px !important;
+		height: 100% !important;
+		max-height: 100% !important;
+		background-image: none !important;
+	}
+
+	.game-canvas{
+		width: 100% !important;
+		margin: 0px !important;
+		padding: 0px !important;
+	}
+
+	.description-content{
+		display: none !important;
+	}
+}
