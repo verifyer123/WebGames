@@ -562,7 +562,7 @@ var galactic = function(){
         game.physics.enable(clock, Phaser.Physics.ARCADE)
        
         
-		var inputName = 'movil'
+		var inputName = 'Movil'
 		
         
         
