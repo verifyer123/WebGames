@@ -565,7 +565,7 @@ var galactic = function(){
 		var inputName = 'Movil'
 		
         
-        
+            
 		if(game.device.desktop){
 			inputName = 'desktop'
 		}
@@ -836,7 +836,7 @@ var galactic = function(){
             
             if(checkOverlap(stick,dragablePlanets[0]))
             {
-                dragablePlanets[0].body.velocity.setTo(game.rnd.integerInRange(400, -400),game.rnd.integerInRange(-1000, -1000));
+                dragablePlanets[0].body.velocity.setTo(game.rnd.integerInRange(800, -800),game.rnd.integerInRange(-2000, -2000));
                 stick.position.x=0
                 stick.position.y=-10
                 sound.play("shoot")
@@ -934,7 +934,7 @@ var galactic = function(){
         }
         
         
-        if(timetoHit>1000)
+        if(timetoHit>300)
         {
             
             for(var checkOverlapping1=1; checkOverlapping1<9 ; checkOverlapping1++){
