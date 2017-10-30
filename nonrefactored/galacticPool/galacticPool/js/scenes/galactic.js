@@ -100,6 +100,8 @@ var galactic = function(){
     var textsPlanets=new Array(8)
     var startTime, finalizeTime, dificulty, levels, dificultyInLevel
     var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+    var fontStyle3 = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+    var tutotexts1, tutotexts2, tutotexts3
 	
 
 	function loadSounds(){
@@ -366,6 +368,8 @@ var galactic = function(){
         
         
         
+        
+        
         rect.events.onInputDown.add(function(){
             
             //bloqueo en el boton de audio
@@ -548,6 +552,34 @@ var galactic = function(){
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
+        
+        tutotexts1= new Phaser.Text(overlayGroup.game, 0, 0, "0", fontStyle3)
+        tutotexts1.x = game.world.centerX-100
+        tutotexts1.y = game.world.centerY-140
+        tutotexts2= new Phaser.Text(overlayGroup.game, 0, 0, "0", fontStyle3)
+        tutotexts2.x = game.world.centerX-200
+        tutotexts2.y = game.world.centerY-70
+        tutotexts3= new Phaser.Text(overlayGroup.game, 0, 0, "0", fontStyle3)
+        tutotexts3.x = game.world.centerX-150
+        tutotexts3.y = game.world.centerY-10
+        
+        overlayGroup.add(tutotexts1)
+        overlayGroup.add(tutotexts2)
+        overlayGroup.add(tutotexts3)
+        
+        if(localization.getLanguage()=="ES")
+            {
+                tutotexts1.setText("Tierra")
+                tutotexts2.setText("Venus")
+                tutotexts3.setText("Mercurio")
+            }
+        if(localization.getLanguage()=="EN")
+            {
+                tutotexts1.setText("Earth")
+                tutotexts2.setText("Venus")
+                tutotexts3.setText("Mercury")
+            }
+        
         
         clock= planetsGroup.create(game.world.centerX,50,'atlas.time','clock')
 		clock.anchor.setTo(0.5,0.5)

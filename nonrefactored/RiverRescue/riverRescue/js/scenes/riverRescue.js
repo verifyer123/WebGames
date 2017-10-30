@@ -56,10 +56,23 @@ var riverRescue = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 7
 	var indexGame
-    var overlayGroup
+    var overlayGroup, backgroundGroup, trashGroup
     var spaceSong
-	
-
+    var garbage= new Array(33)
+    var garbage2= new Array(33)
+    var garbageScreen1 = new Array(10)
+    var garbageScreen2 = new Array(10)
+    var garbageScreen3 = new Array(10)
+    var carriles = new Array(2)
+    var speed
+    var scaleSpine=.55
+    var randomCreation
+    var delayer=0
+	var floor
+    var startGame
+    var trash1, trash2, trash3
+    
+    
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -67,8 +80,14 @@ var riverRescue = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
-
+        lives = 3
+        speed = 50
+        startGame=false
+        for (var iniGarbage=0;iniGarbage<34;iniGarbage++)
+            {
+                garbage2[iniGarbage]=false
+            }
+        
         
         loadSounds()
         
@@ -256,10 +275,17 @@ var riverRescue = function(){
 		game.load.image('howTo',"images/river/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/river/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/river/introscreen.png")
+        
+        
+        //Cargamos la animacion del personajes y de la vegetacion
+        
+        game.load.spine('axolotl',"images/spine/skeleton.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
+    
+    
     
     function createOverlay(){
         
@@ -275,7 +301,20 @@ var riverRescue = function(){
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
-			sound.play("pop")
+            sound.play("pop")
+            
+            
+            
+            character = backgroundGroup.game.add.spine(game.world.centerX,game.world.height, "axolotl");
+            character.scale.setTo(scaleSpine*2,scaleSpine*2)
+            character.scale.setTo(scaleSpine*2,scaleSpine*2)
+            character.setAnimationByName(0,"IDLE",true);
+            character.setSkinByName("normal");
+            
+            
+            startGame=true
+            
+            
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
@@ -289,17 +328,17 @@ var riverRescue = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.river','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.river','tutorialillustration')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
-		var inputName = 'movil'
+		var inputName = 'Movil'
 		
 		if(game.device.desktop){
-			inputName = 'desktop'
+			inputName = 'Desktop'
 		}
 		
 		console.log(inputName)
@@ -321,13 +360,249 @@ var riverRescue = function(){
 
 	function createBackground(){
 		
-		
+        
+        backgroundGroup=game.add.group()
+        sceneGroup.add(backgroundGroup)
+        gameGroup=game.add.group()
+        sceneGroup.add(gameGroup)
+        
+        correctParticle = createPart("star")
+        sceneGroup.add(correctParticle)
+        wrongParticle = createPart("wrong")
+        sceneGroup.add(wrongParticle)
+        
+        //Creamos el fondo
+        
+        var backG=game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.river',"background")
+        backgroundGroup.add(backG)
+        floor=backgroundGroup.create(0,game.world.height-180,'atlas.river',"floor")
+        floor.width=game.world.width
+        floor.height=game.world.height-600
+        floor2=gameGroup.create(0,game.world.height-80,'atlas.river',"floor")
+        floor2.width=game.world.width
+        floor2.height=game.world.height-600
+        floor2.alpha=1
+        game.physics.enable(floor2, Phaser.Physics.ARCADE)
+        floor2.body.immovable=true
+        
+        var plants = game.add.tileSprite(0,game.world.centerY+100,game.world.width,200,"atlas.river","vegetation")
+        backgroundGroup.add(backG)
+        backgroundGroup.add(plants)
+        var stone1=backgroundGroup.create(game.world.width-400,game.world.height-400,'atlas.river',"river-34")
+        stone1.width=400
+        stone1.height=400
+        var stone2=backgroundGroup.create(400,game.world.height-400,'atlas.river',"river-34")
+        stone2.width=-400
+        stone2.height=400
+        
+        //Aqui metemos las basuras al arreglo
+        
+        for(var trashinside=0;trashinside<14;trashinside++)
+        {      
+        garbage[trashinside]=gameGroup.create(0,0,"atlas.river","trash"+(trashinside+1))
+        garbage[trashinside].alpha=0
+        }
+        var proxyTrash=21
+        for(var trashinside2=14;trashinside2<27;trashinside2++)
+        {      
+        garbage[trashinside2]=gameGroup.create(0,0,"atlas.river","river-"+proxyTrash)
+        garbage[trashinside2].alpha=0
+        proxyTrash++
+        }
+        
 	}
 	
-	function update(){
+	function update()
+    {
+        
+        
+           
+        
 
+        if(startGame)
+        {
+        delayer++
+            
+        }
+        
+        if(delayer==(10)){
+            
+            
+            
+            randomCreation=game.rnd.integerInRange(0,10)
+            var randomtrail=game.rnd.integerInRange(0,2)
+            var trashObject=game.rnd.integerInRange(0,26)
+            
+            
+         
+            if(garbageScreen1[randomCreation]==null && garbage2[trashObject]==false && randomtrail==0)
+            {
+                
+                garbageScreen1[randomCreation]=garbage[trashObject]
+                garbageScreen1[randomCreation].tag=trashObject
+                garbageScreen1[randomCreation].alpha=1
+                garbageScreen1[randomCreation].position.x=450
+                garbageScreen1[randomCreation].position.y=0
+                delayer=0
+                garbage2[trashObject]=true
+                gameGroup.add(garbageScreen1[randomCreation])
+                game.physics.enable(garbageScreen1[randomCreation], Phaser.Physics.ARCADE)
+                garbageScreen1[randomCreation].body.gravity.y = speed;
+                garbageScreen1[randomCreation].body.onCollide = new Phaser.Signal();
+                garbageScreen1[randomCreation].body.onCollide.add(hitTheFloor, this);
+                garbageScreen1[randomCreation].inputEnabled=true
+                garbageScreen1[randomCreation].body.moves=true
+                garbageScreen1[randomCreation].events.onInputDown.add(onClick,this)
+            }
+            if(garbageScreen2[randomCreation]==null && garbage2[trashObject]==false && randomtrail==1)
+            {
+                garbageScreen2[randomCreation]=garbage[trashObject]
+                garbageScreen2[randomCreation].tag=trashObject
+                garbageScreen2[randomCreation].alpha=1
+                garbageScreen2[randomCreation].position.x=game.world.centerX-50
+                garbageScreen2[randomCreation].position.y=0
+                delayer=0
+                gameGroup.add(garbageScreen2[randomCreation])
+                garbage2[trashObject]=true
+                game.physics.enable(garbageScreen2[randomCreation], Phaser.Physics.ARCADE)
+                garbageScreen2[randomCreation].body.gravity.y = speed;
+                garbageScreen2[randomCreation].body.onCollide = new Phaser.Signal();
+                garbageScreen2[randomCreation].body.onCollide.add(hitTheFloor, this);
+                garbageScreen2[randomCreation].inputEnabled=true
+                garbageScreen2[randomCreation].body.moves=true
+                garbageScreen2[randomCreation].events.onInputDown.add(onClick,this)
+            }
+            if(garbageScreen3[randomCreation]==null && garbage2[trashObject]==false && randomtrail==2)
+            {
+                garbageScreen3[randomCreation]=garbage[trashObject]
+                garbageScreen3[randomCreation].tag=trashObject
+                garbageScreen3[randomCreation].alpha=1
+                garbageScreen3[randomCreation].position.x=1150
+                garbageScreen3[randomCreation].position.y=0
+                delayer=0
+                gameGroup.add(garbageScreen3[randomCreation])
+                garbage2[trashObject]=true
+                game.physics.enable(garbageScreen3[randomCreation], Phaser.Physics.ARCADE)
+                garbageScreen3[randomCreation].body.gravity.y = speed;
+                garbageScreen3[randomCreation].body.onCollide = new Phaser.Signal();
+                garbageScreen3[randomCreation].body.onCollide.add(hitTheFloor,this);
+                garbageScreen3[randomCreation].inputEnabled=true
+                garbageScreen3[randomCreation].body.moves=true
+                garbageScreen3[randomCreation].events.onInputDown.add(onClick,this)
+            }
+            
+            
+            
+            delayer=0
+        }
+        
+        
+        
+        for(var colliding=0; colliding<12; colliding++)
+            {
+                if(garbageScreen1[colliding]!=null){
+                    game.physics.arcade.collide(floor2,garbageScreen1[colliding])
+                }
+                    if(garbageScreen2[colliding]!=null){
+                    game.physics.arcade.collide(floor2,garbageScreen2[colliding])
+                }
+                   if(garbageScreen3[colliding]!=null){
+                    game.physics.arcade.collide(floor2,garbageScreen3[colliding])
+                }
+            }
+        
+        
+        
+   
 	}
 	
+    // funcion para dar click sobre la basura
+    function onClick(obj) {
+        
+        correctParticle.position.x=obj.position.x+50
+        correctParticle.position.y=obj.position.y
+        correctParticle.start(true, 1000, null, 5)
+        garbage2[obj.tag]=false
+        if(garbageScreen3[obj.tag]==garbage[obj.tag]){
+            console.log("si entra")
+            garbageScreen3[obj.tag]=null
+        }
+        if(garbageScreen2[obj.tag]==garbage[obj.tag]){
+            console.log("si entra")
+            garbageScreen2[obj.tag]=null
+        }
+        if(garbageScreen1[obj.tag]==garbage[obj.tag]){
+            console.log("si entra")
+            garbageScreen1[obj.tag]=null
+        }
+        obj.inputEnabled=false
+        obj.body.moves=false
+        obj.alpha=0
+        addPoint(1)
+        if(pointsBar.number%2==0){
+            speed+=2
+        }
+        
+            
+            
+        
+    }
+    
+    // funcion para cuando la basura choca con el piso
+    
+    function hitTheFloor(obj,numb)
+    {
+        
+            wrongParticle.position.x=obj.position.x+50
+            wrongParticle.position.y=obj.position.y
+            wrongParticle.start(true, 1000, null, 5)
+        obj.inputEnabled=false
+        if(trash1!=null && trash2!=null && trash3==null){
+            trash3=garbage[obj.tag]
+            trash3.position.x=obj.position.x
+            trash3.position.y=obj.position.y
+            trash3.body.moves=false
+            trash3.body.onCollide = new Phaser.Signal();
+            if(garbageScreen3[obj.tag]==obj){
+            garbageScreen3[obj.tag]=null
+            }
+            if(garbageScreen2[obj.tag]==obj){
+            garbageScreen2[obj.tag]=null
+            }
+            if(garbageScreen1[obj.tag]==obj){
+            garbageScreen1[obj.tag]=null
+            }
+            garbage2[obj.tag]=false
+            missPoint()
+        }
+        if(trash1!=null && trash2==null){
+            trash2=garbage[obj.tag]
+            trash2.position.x=obj.position.x
+            trash2.position.y=obj.position.y
+            trash2.body.moves=false
+            trash2.body.onCollide = new Phaser.Signal();
+            garbageScreen3[obj.tag]=null
+            garbageScreen2[obj.tag]=null
+            garbageScreen1[obj.tag]=null
+            garbage2[obj.tag]=false
+            missPoint()
+            character.setAnimationByName(0,"HIT",true);
+        }
+        if(trash1==null){
+            trash1=garbage[obj.tag]
+            trash1.position.x=obj.position.x
+            trash1.position.y=obj.position.y
+            trash1.body.moves=false
+            trash1.body.onCollide = new Phaser.Signal();
+            garbage2[obj.tag]=false
+            garbageScreen3[obj.tag]=null
+            garbageScreen2[obj.tag]=null
+            garbageScreen1[obj.tag]=null
+            missPoint()
+            character.setAnimationByName(0,"LOSE",true);
+        }
+    }
+    
 	function createTextPart(text,obj){
         
         var pointsText = lookParticle('text')
@@ -380,27 +655,17 @@ var riverRescue = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.river',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.2;
+        particle.maxParticleScale = 0.5;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
     }
     
     function createParticles(tag,number){
