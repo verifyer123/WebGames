@@ -364,7 +364,7 @@ var oona = function(){
         board.scale.setTo(0.9, 0.9)
         board.anchor.setTo(0.5, 0.5)
         board.x = game.world.centerX
-        board.y = board.height * 0.6
+        board.y = game.world.centerY - board.height * 0.45
 	}
 	
 	function update(){
@@ -591,11 +591,11 @@ var oona = function(){
     function createTimeBar(){        
         timeGroup = game.add.group()
         timeGroup.x = game.world.centerX
-        timeGroup.y = game.world.height
+        timeGroup.y = 97
         sceneGroup.add(timeGroup)
         
         var clock = timeGroup.create(0, 0, 'atlas.oona','clock')
-        clock.y = - clock.height * 0.5
+        clock.y = - clock.height * 0.3
         clock.anchor.setTo(0.5,0.5)
         
         var timeBar = timeGroup.create(0, 0, 'atlas.oona','bar')
@@ -688,24 +688,29 @@ var oona = function(){
     }
         
     function createOona(){
-        oonaAvatar = game.add.spine(game.world.centerX, game.world.height - 50, "oonaAvatar");
+        oonaAvatar = game.add.spine(game.world.centerX, game.world.height, "oonaAvatar");
         oonaAvatar.scale.setTo(0.9, 0.9);
         oonaAvatar.setAnimationByName(0, "IDLE", true);
         oonaAvatar.setSkinByName("normal");
         sceneGroup.add(oonaAvatar);
-        
-        cookBtn = sceneGroup.create(game.world.centerX, game.world.centerY - 56, 'atlas.oona', 'cookBtn')
+ 
+        if(localization.getLanguage() == 'ES')
+            cookBtn = sceneGroup.create(0, 0, 'atlas.oona', 'cocinarBtn')
+        else 
+            cookBtn = sceneGroup.create(0, 0, 'atlas.oona', 'cookBtn')
+        cookBtn.x = game.world.centerX * 1.7
+        cookBtn.y = game.world.centerY * 1.4
         cookBtn.anchor.setTo(0.5, 0.5)
         cookBtn.inputEnabled = true
         cookBtn.pressed = false
         cookBtn.events.onInputDown.add(function(){
         
-            game.add.tween(cookBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(cookBtn.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
-            });
-            gameActive = false
-            sound.play("pop")
+        game.add.tween(cookBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
+        {
+            game.add.tween(cookBtn.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
+        });
+        gameActive = false
+        sound.play("pop")
         })
     
         cookBtn.events.onInputUp.add(cook)
@@ -727,11 +732,13 @@ var oona = function(){
             {
                 if(inputAnswer[i] == correctAnswer[i]){
                     animateOona(animations[inputAnswer[i]], timer)
+                    colorTools(timer, i, 0x00ff00)
                     timer += 1000
                     fin = false
                 }
                 else {
                     animateOona(animations[6], timer)
+                    colorTools(timer, i, 0xF63A3A)
                     timer += 1000
                     fin = true
                     break;
@@ -789,6 +796,19 @@ var oona = function(){
                     break;
             }
         },this)
+    }
+    
+    function colorTools(delay, pos, color){
+        
+        game.time.events.add(delay,function(){
+            toolsGroup.children[inputAnswer[pos]].image.tint = color
+            
+            game.add.tween(toolsGroup.children[inputAnswer[pos]].image.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
+            {
+                game.add.tween(toolsGroup.children[inputAnswer[pos]].image.scale).to({x: 0.9, y: 0.9}, 200, Phaser.Easing.linear, true)
+            });
+        },this)
+        
     }
     
     function recipe(){
