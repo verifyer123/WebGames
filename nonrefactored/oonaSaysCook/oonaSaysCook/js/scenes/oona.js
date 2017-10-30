@@ -694,12 +694,9 @@ var oona = function(){
         oonaAvatar.setSkinByName("normal");
         sceneGroup.add(oonaAvatar);
  
-        if(localization.getLanguage() == 'ES')
-            cookBtn = sceneGroup.create(0, 0, 'atlas.oona', 'cocinarBtn')
-        else 
-            cookBtn = sceneGroup.create(0, 0, 'atlas.oona', 'cookBtn')
-        cookBtn.x = game.world.centerX * 1.7
-        cookBtn.y = game.world.centerY * 1.4
+        cookBtn = sceneGroup.create(0, 0, 'atlas.oona', 'cookBtn')
+        cookBtn.x = game.world.centerX * 1.5
+        cookBtn.y = game.world.centerY * 1.2
         cookBtn.anchor.setTo(0.5, 0.5)
         cookBtn.inputEnabled = true
         cookBtn.pressed = false
