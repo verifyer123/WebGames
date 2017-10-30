@@ -43,7 +43,8 @@ var riverRescue = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			
+			{	name: "clean",
+				file: soundsPath + "flesh.mp3"},
 		],
     }
     
@@ -71,6 +72,8 @@ var riverRescue = function(){
 	var floor
     var startGame
     var trash1, trash2, trash3
+    var clean1, clean2, clean3
+    var count1, count2, count3
     
     
 	function loadSounds(){
@@ -87,7 +90,15 @@ var riverRescue = function(){
             {
                 garbage2[iniGarbage]=false
             }
-        
+        for (var iniGarbageLine=0;iniGarbageLine<11;iniGarbageLine++)
+            {
+                garbageScreen1[iniGarbageLine]=null
+                garbageScreen2[iniGarbageLine]=null
+                garbageScreen3[iniGarbageLine]=null
+            }
+        count1=0
+        count2=0
+        count3=0
         
         loadSounds()
         
@@ -270,7 +281,7 @@ var riverRescue = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('riverSong', soundsPath + 'songs/bubble_fishgame.mp3');
         
 		game.load.image('howTo',"images/river/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/river/play" + localization.getLanguage() + ".png")
@@ -381,7 +392,7 @@ var riverRescue = function(){
         floor2=gameGroup.create(0,game.world.height-80,'atlas.river',"floor")
         floor2.width=game.world.width
         floor2.height=game.world.height-600
-        floor2.alpha=1
+        floor2.alpha=0
         game.physics.enable(floor2, Phaser.Physics.ARCADE)
         floor2.body.immovable=true
         
@@ -415,17 +426,62 @@ var riverRescue = function(){
 	function update()
     {
         
-        
+        if(count1==10){
+           for(var emptyingArray=0;emptyingArray<10;emptyingArray++)
+            {
+                
+                garbageScreen1[emptyingArray]==null
+                
+            }
+            count1=0;
+        }
            
+        if(count2==10){
+           for(var emptyingArray2=0;emptyingArray2<10;emptyingArray2++)
+            {
+                
+                garbageScreen2[emptyingArray2]==null
+                
+            }
+            count2=0;
+        }
+        if(count3==10){
+           for(var emptyingArray3=0;emptyingArray3<10;emptyingArray3++)
+            {
+                
+                garbageScreen3[emptyingArray3]==null
+                
+            }
+            count3=0;
+        }
+        for(var emptyArray=0;emptyArray<10;emptyArray++)
+            {
+                if(garbageScreen1[randomCreation]!=null){
+                    count1++
+                }
+            }
         
-
+        for(var emptyArray2=0;emptyArray2<10;emptyArray2++)
+            {
+                if(garbageScreen2[emptyArray2]!=null){
+                    count2++
+                }
+            }
+        
+        for(var emptyArray3=0;emptyArray3<10;emptyArray3++)
+            {
+                if(garbageScreen3[emptyArray3]!=null){
+                    count3++
+                }
+            }
+        
         if(startGame)
         {
         delayer++
             
         }
         
-        if(delayer==(10)){
+        if(delayer==30){
             
             
             
@@ -441,7 +497,7 @@ var riverRescue = function(){
                 garbageScreen1[randomCreation]=garbage[trashObject]
                 garbageScreen1[randomCreation].tag=trashObject
                 garbageScreen1[randomCreation].alpha=1
-                garbageScreen1[randomCreation].position.x=450
+                garbageScreen1[randomCreation].position.x=game.world.centerX-300
                 garbageScreen1[randomCreation].position.y=0
                 delayer=0
                 garbage2[trashObject]=true
@@ -477,7 +533,7 @@ var riverRescue = function(){
                 garbageScreen3[randomCreation]=garbage[trashObject]
                 garbageScreen3[randomCreation].tag=trashObject
                 garbageScreen3[randomCreation].alpha=1
-                garbageScreen3[randomCreation].position.x=1150
+                garbageScreen3[randomCreation].position.x=game.world.centerX+200
                 garbageScreen3[randomCreation].position.y=0
                 delayer=0
                 gameGroup.add(garbageScreen3[randomCreation])
@@ -498,7 +554,7 @@ var riverRescue = function(){
         
         
         
-        for(var colliding=0; colliding<12; colliding++)
+        for(var colliding=0; colliding<10; colliding++)
             {
                 if(garbageScreen1[colliding]!=null){
                     game.physics.arcade.collide(floor2,garbageScreen1[colliding])
@@ -513,6 +569,8 @@ var riverRescue = function(){
         
         
         
+        
+        
    
 	}
 	
@@ -523,18 +581,22 @@ var riverRescue = function(){
         correctParticle.position.y=obj.position.y
         correctParticle.start(true, 1000, null, 5)
         garbage2[obj.tag]=false
-        if(garbageScreen3[obj.tag]==garbage[obj.tag]){
-            console.log("si entra")
-            garbageScreen3[obj.tag]=null
+        sound.play("clean")
+        
+        for(var searchingNull=0; searchingNull<10;searchingNull++){
+        if(garbageScreen3[searchingNull]==obj){
+            garbageScreen3[searchingNull]=null
+            break
         }
-        if(garbageScreen2[obj.tag]==garbage[obj.tag]){
-            console.log("si entra")
-            garbageScreen2[obj.tag]=null
+        if(garbageScreen2[searchingNull]==obj){
+            garbageScreen2[searchingNull]=null
+            break
         }
-        if(garbageScreen1[obj.tag]==garbage[obj.tag]){
-            console.log("si entra")
-            garbageScreen1[obj.tag]=null
+        if(garbageScreen1[searchingNull]==obj){
+            garbageScreen1[searchingNull]=null
+            break
         }
+        } 
         obj.inputEnabled=false
         obj.body.moves=false
         obj.alpha=0
@@ -791,7 +853,7 @@ var riverRescue = function(){
 			createBackground()
 			addParticles()
                         			
-            spaceSong = game.add.audio('spaceSong')
+            spaceSong = game.add.audio('riverSong')
             game.sound.setDecodedCallback(spaceSong, function(){
                 spaceSong.loopFull(0.6)
             }, this);
