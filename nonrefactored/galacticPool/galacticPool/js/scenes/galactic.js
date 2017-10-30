@@ -817,7 +817,7 @@ var galactic = function(){
         
         //Aqui corre el tiempo y se acomodan las nebulas
         
-        if(startTime==false && timetoHit>1000)
+        if(startTime==false && timetoHit>300)
             {
                 for(var positionNebul=1; positionNebul<9; positionNebul++)
                     {
