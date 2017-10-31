@@ -24,6 +24,11 @@ var riverRescue = function(){
                 json: "images/river/atlas.json",
                 image: "images/river/atlas.png",
             },
+            {   
+                name: "atlas.time",
+                json: "images/river/timeAtlas.json",
+                image: "images/river/timeAtlas.png",
+            },
         ],
         images: [
 
@@ -65,14 +70,15 @@ var riverRescue = function(){
     var garbageScreen2 = new Array(10)
     var garbageScreen3 = new Array(10)
     var carriles = new Array(2)
-    var speed
+    var speed, appear, nextLevel
     var scaleSpine=.55
     var randomCreation
     var delayer
 	var floor
     var startGame
     var trash1, trash2, trash3
-    
+    var timeBar
+    var timeTween
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -82,10 +88,12 @@ var riverRescue = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 3
-        speed = 50
+        speed = 20
+        appear=100
         trash1=null
         trash2=null
         trash3=null
+        nextLevel=20
         startGame=false
         delayer=0
         for (var iniGarbage=0;iniGarbage<34;iniGarbage++)
@@ -182,6 +190,12 @@ var riverRescue = function(){
         if(lives == 0){
             stopGame(false)
         }
+        if(lives==2){
+            character.setAnimationByName(0,"LOSE",true);
+        }
+        if(lives==1){
+            character.setAnimationByName(0,"HIT",true);
+        }
         
         addNumberPart(heartsGroup.text,'-1',true)
         
@@ -258,7 +272,28 @@ var riverRescue = function(){
         
 		sound.play("wrong")
 		sound.play("gameLose")
-		
+        
+        for (var iniGarbageLine=0;iniGarbageLine<11;iniGarbageLine++)
+            {
+                if(garbageScreen1[iniGarbageLine]!=null && (garbageScreen1[iniGarbageLine]!=trash1 && garbageScreen1[iniGarbageLine]!=trash2 && garbageScreen1[iniGarbageLine]!=trash3)){
+                garbageScreen1[iniGarbageLine].alpha=0
+                garbageScreen1[iniGarbageLine].body.moves=false  
+                }
+                if(garbageScreen2[iniGarbageLine]!=null && (garbageScreen2[iniGarbageLine]!=trash1 && garbageScreen2[iniGarbageLine]!=trash2 && garbageScreen2[iniGarbageLine]!=trash3)){
+                garbageScreen2[iniGarbageLine].alpha=0
+                garbageScreen2[iniGarbageLine].body.moves=false
+                }
+                if(garbageScreen3[iniGarbageLine]!=null && (garbageScreen3[iniGarbageLine]!=trash1 && garbageScreen3[iniGarbageLine]!=trash2 && garbageScreen3[iniGarbageLine]!=trash3)){
+                garbageScreen3[iniGarbageLine].alpha=0
+                garbageScreen3[iniGarbageLine].body.moves=false
+                }
+                garbageScreen1[iniGarbageLine]=null
+                garbageScreen2[iniGarbageLine]=null
+                garbageScreen3[iniGarbageLine]=null
+                
+            }
+        timeTween.stop()
+		startGame=false
         gameActive = false
         spaceSong.stop()
         		
@@ -325,6 +360,13 @@ var riverRescue = function(){
 				overlayGroup.y = -game.world.height
             })
             
+            timeTween=game.add.tween(timeBar.scale).to({x:0,y:.7}, 50000, Phaser.Easing.Linear.Out, true, 100)
+            timeTween.onComplete.add(function(){
+                
+                missPoint()
+                reset()
+            })
+            
         })
         
         overlayGroup.add(rect)
@@ -340,7 +382,7 @@ var riverRescue = function(){
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
-		var inputName = 'Movil'
+		var inputName = 'movil'
 		
 		if(game.device.desktop){
 			inputName = 'Desktop'
@@ -426,23 +468,83 @@ var riverRescue = function(){
         proxyTrash++
         }
         
+        //Aqui metemos el timer
+        var clock =game.add.image(game.world.centerX-200,0,"atlas.time","clock")
+        timeBar=game.add.image(clock.position.x+55,clock.position.y+57,"atlas.time","bar")
+        timeBar.scale.setTo(11.5,.7)
+        backgroundGroup.add(clock)
+        backgroundGroup.add(timeBar)
+        
 	}
 	
+    function reset(){
+        
+            startGame=false
+            delayer=0
+            timeTween=game.add.tween(timeBar.scale).to({x:11.5,y:.7}, 300, Phaser.Easing.Linear.Out, true, 100)
+            for (var iniGarbage=0;iniGarbage<34;iniGarbage++)
+            {
+                if(garbage[iniGarbage]!=trash1 && garbage[iniGarbage]!=trash2 && garbage[iniGarbage]!=trash3 )
+                garbage2[iniGarbage]=false
+            }
+        for (var iniGarbageLine=0;iniGarbageLine<11;iniGarbageLine++)
+            {
+                if(garbageScreen1[iniGarbageLine]!=null && (garbageScreen1[iniGarbageLine]!=trash1 && garbageScreen1[iniGarbageLine]!=trash2 && garbageScreen1[iniGarbageLine]!=trash3)){
+                garbageScreen1[iniGarbageLine].alpha=0
+                garbageScreen1[iniGarbageLine].body.moves=false  
+                }
+                if(garbageScreen2[iniGarbageLine]!=null && (garbageScreen2[iniGarbageLine]!=trash1 && garbageScreen2[iniGarbageLine]!=trash2 && garbageScreen2[iniGarbageLine]!=trash3)){
+                garbageScreen2[iniGarbageLine].alpha=0
+                garbageScreen2[iniGarbageLine].body.moves=false
+                }
+                if(garbageScreen3[iniGarbageLine]!=null && (garbageScreen3[iniGarbageLine]!=trash1 && garbageScreen3[iniGarbageLine]!=trash2 && garbageScreen3[iniGarbageLine]!=trash3)){
+                garbageScreen3[iniGarbageLine].alpha=0
+                garbageScreen3[iniGarbageLine].body.moves=false
+                }
+                garbageScreen1[iniGarbageLine]=null
+                garbageScreen2[iniGarbageLine]=null
+                garbageScreen3[iniGarbageLine]=null
+                
+            }
+        
+        
+        
+        timeTween.onComplete.add(function(){
+        
+            startGame=true
+            timeTween=game.add.tween(timeBar.scale).to({x:0,y:.7}, 50000, Phaser.Easing.Linear.Out, true, 100)
+            timeTween.onComplete.add(function(){
+                
+                missPoint()
+                reset()
+        })
+        })
+        
+        
+    }
+    
 	function update()
     {
         
        
         
         
-        
-        
+        if(pointsBar.number%nextLevel==0 && pointsBar.number!=0)
+        {
+            speed+=2
+            appear-=10
+            timeTween.stop()
+            reset()
+            nextLevel+=20
+        }
+            
         if(startGame)
         {
         delayer++
             
         }
         
-        if(delayer==30){
+        if(delayer==appear){
             
             
             
@@ -459,7 +561,7 @@ var riverRescue = function(){
                 garbageScreen1[randomCreation].tag=trashObject
                 garbageScreen1[randomCreation].alpha=1
                 garbageScreen1[randomCreation].position.x=game.world.centerX-300
-                garbageScreen1[randomCreation].position.y=0
+                garbageScreen1[randomCreation].position.y=-200
                 delayer=0
                 garbage2[trashObject]=true
                 gameGroup.add(garbageScreen1[randomCreation])
@@ -477,7 +579,7 @@ var riverRescue = function(){
                 garbageScreen2[randomCreation].tag=trashObject
                 garbageScreen2[randomCreation].alpha=1
                 garbageScreen2[randomCreation].position.x=game.world.centerX-50
-                garbageScreen2[randomCreation].position.y=0
+                garbageScreen2[randomCreation].position.y=-200
                 delayer=0
                 gameGroup.add(garbageScreen2[randomCreation])
                 garbage2[trashObject]=true
@@ -495,7 +597,7 @@ var riverRescue = function(){
                 garbageScreen3[randomCreation].tag=trashObject
                 garbageScreen3[randomCreation].alpha=1
                 garbageScreen3[randomCreation].position.x=game.world.centerX+200
-                garbageScreen3[randomCreation].position.y=0
+                garbageScreen3[randomCreation].position.y=-200
                 delayer=0
                 gameGroup.add(garbageScreen3[randomCreation])
                 garbage2[trashObject]=true
@@ -561,9 +663,7 @@ var riverRescue = function(){
         obj.body.moves=false
         obj.alpha=0
         addPoint(1)
-        if(pointsBar.number%2==0){
-            speed+=4
-        }
+        
         
             
             
@@ -586,7 +686,10 @@ var riverRescue = function(){
             wrongParticle.position.x=obj.position.x+50
             wrongParticle.position.y=obj.position.y
             wrongParticle.start(true, 1000, null, 5)
-        obj.inputEnabled=false
+            obj.inputEnabled=false
+            
+            
+            
             
         }    
         
@@ -596,11 +699,10 @@ var riverRescue = function(){
             trash2.position.y=obj.position.y
             trash2.body.onCollide = new Phaser.Signal();
             missPoint()
-            character.setAnimationByName(0,"HIT",true);
             wrongParticle.position.x=obj.position.x+50
             wrongParticle.position.y=obj.position.y
             wrongParticle.start(true, 1000, null, 5)
-        obj.inputEnabled=false
+            obj.inputEnabled=false
             
         }
         
@@ -610,11 +712,10 @@ var riverRescue = function(){
             trash1.position.y=obj.position.y
             trash1.body.onCollide = new Phaser.Signal();
             missPoint()
-            character.setAnimationByName(0,"LOSE",true);
             wrongParticle.position.x=obj.position.x+50
             wrongParticle.position.y=obj.position.y
             wrongParticle.start(true, 1000, null, 5)
-        obj.inputEnabled=false  
+            obj.inputEnabled=false  
             
         }
         
@@ -677,8 +778,8 @@ var riverRescue = function(){
         particle.makeParticles('atlas.river',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.2;
-        particle.maxParticleScale = 0.5;
+        particle.minParticleScale = 0.5;
+        particle.maxParticleScale = 1;
         particle.gravity = 150;
         particle.angularDrag = 30;
         particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
