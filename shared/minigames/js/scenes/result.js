@@ -678,7 +678,7 @@ var result = function(){
 		nameText.anchor.setTo(0.5,0.5)
 		downloadButton.add(nameText)
 		
-		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', '¿ Te gusta ?', 40);
+		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', '¡Juega en la app!', 40);
 		nameText.tint = 0xffffff   
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
@@ -689,14 +689,9 @@ var result = function(){
 		nameText.angle = 180
 		overlayGroup.add(nameText)
 		
-		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', '¡Juega la app!', 28);
+		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', 'Y obtén grandes recompensas', 28);
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
-		
-		var nameText = game.add.bitmapText(back.x, back.y + 142, 'gotham', 'Y obtén grandes recompensas', 23);
-		nameText.anchor.setTo(0.5,0.5)
-		overlayGroup.add(nameText)
-		
 		
 		if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
 			
