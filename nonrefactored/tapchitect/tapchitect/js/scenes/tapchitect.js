@@ -76,7 +76,6 @@ var tapchitect = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		medList = []
         
         loadSounds()
         
@@ -584,6 +583,7 @@ var tapchitect = function(){
 		sceneGroup.add(trianglesGroup)
 		
 		trianglesGroup.dragList = []
+		medList = []
 		
 		var lastRect
 		var pivotX = game.world.centerX - 200
@@ -596,7 +596,7 @@ var tapchitect = function(){
 			
 			var triangleImg = group.create(0,0,'atlas.tapchitect','triangle' + i)
 			triangleImg.anchor.setTo(0.5,0.5)
-			medList[i] = 
+			medList[i] = triangleImg
 			
 			var groupText = game.add.group()
 			groupText.x = 0
@@ -673,6 +673,8 @@ var tapchitect = function(){
 	function createMedLine(){
 		
 		medLine = game.add.group()
+		medLine.x = game.world.centerX
+		medLine.y = game.world.centerY
 		sceneGroup.add(medLine)
 		
 		var line = game.add.tileSprite(100,100,200,51,'atlas.tapchitect','line')
@@ -686,15 +688,16 @@ var tapchitect = function(){
 		
 		var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
-        rect.drawRoundedRect(0,0,200, 75)
+        rect.drawRoundedRect(0,0,200, 75,12)
 		rect.x-= rect.width * 0.5
 		rect.y-= rect.height * 0.5
         rect.endFill()
 		textGroup.add(rect)
 		
 		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-        pointsBar.add(pointsText)
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "9.99", fontStyle)
+		rect.anchor.setTo(0.5,0.5)
+        textGroup.add(pointsText)
 		
 	}
 	
@@ -738,9 +741,5 @@ var tapchitect = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()
