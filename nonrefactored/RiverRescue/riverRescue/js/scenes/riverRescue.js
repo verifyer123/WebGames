@@ -383,9 +383,9 @@ var riverRescue = function(){
         var light1=game.add.image(game.world.centerX-300,0,'atlas.river',"light")
         var light2=game.add.image(game.world.centerX-50,0,'atlas.river',"light")
         var light3=game.add.image(game.world.centerX+200,0,'atlas.river',"light")
-        //backgroundGroup.add(light1)
-        //backgroundGroup.add(light2)
-        //backgroundGroup.add(light3)
+        backgroundGroup.add(light1)
+        backgroundGroup.add(light2)
+        backgroundGroup.add(light3)
         floor=gameGroup.create(0,game.world.height-180,'atlas.river',"floor")
         floor.width=game.world.width
         floor.height=game.world.height-600
@@ -399,12 +399,12 @@ var riverRescue = function(){
         var plants = game.add.tileSprite(0,game.world.centerY+100,game.world.width,200,"atlas.river","vegetation")
         backgroundGroup.add(backG)
         backgroundGroup.add(plants)
-        var stone1=gameGroup.create(game.world.width-400,game.world.height-400,'atlas.river',"river-34")
-        stone1.width=400
-        stone1.height=400
-        var stone2=gameGroup.create(400,game.world.height-400,'atlas.river',"river-34")
-        stone2.width=-400
-        stone2.height=400
+        var stone1=gameGroup.create(game.world.width-200,game.world.height-200,'atlas.river',"river-34")
+        stone1.width=200
+        stone1.height=200
+        var stone2=gameGroup.create(200,game.world.height-200,'atlas.river',"river-34")
+        stone2.width=-200
+        stone2.height=200
         character = game.add.spine(game.world.centerX,game.world.height, "axolotl");
             character.scale.setTo(scaleSpine*2,scaleSpine*2)
             character.scale.setTo(scaleSpine*2,scaleSpine*2)
