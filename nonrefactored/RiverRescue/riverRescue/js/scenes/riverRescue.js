@@ -55,7 +55,7 @@ var riverRescue = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 99
 	var indexGame
     var overlayGroup, backgroundGroup, trashGroup
     var spaceSong
@@ -68,12 +68,10 @@ var riverRescue = function(){
     var speed
     var scaleSpine=.55
     var randomCreation
-    var delayer=0
+    var delayer
 	var floor
     var startGame
     var trash1, trash2, trash3
-    var clean1, clean2, clean3
-    var count1, count2, count3
     
     
 	function loadSounds(){
@@ -85,7 +83,11 @@ var riverRescue = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         speed = 50
+        trash1=null
+        trash2=null
+        trash3=null
         startGame=false
+        delayer=0
         for (var iniGarbage=0;iniGarbage<34;iniGarbage++)
             {
                 garbage2[iniGarbage]=false
@@ -96,9 +98,6 @@ var riverRescue = function(){
                 garbageScreen2[iniGarbageLine]=null
                 garbageScreen3[iniGarbageLine]=null
             }
-        count1=0
-        count2=0
-        count3=0
         
         loadSounds()
         
@@ -316,11 +315,6 @@ var riverRescue = function(){
             
             
             
-            character = backgroundGroup.game.add.spine(game.world.centerX,game.world.height, "axolotl");
-            character.scale.setTo(scaleSpine*2,scaleSpine*2)
-            character.scale.setTo(scaleSpine*2,scaleSpine*2)
-            character.setAnimationByName(0,"IDLE",true);
-            character.setSkinByName("normal");
             
             
             startGame=true
@@ -386,26 +380,37 @@ var riverRescue = function(){
         
         var backG=game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.river',"background")
         backgroundGroup.add(backG)
-        floor=backgroundGroup.create(0,game.world.height-180,'atlas.river',"floor")
+        var light1=game.add.image(game.world.centerX-300,0,'atlas.river',"light")
+        var light2=game.add.image(game.world.centerX-50,0,'atlas.river',"light")
+        var light3=game.add.image(game.world.centerX+200,0,'atlas.river',"light")
+        //backgroundGroup.add(light1)
+        //backgroundGroup.add(light2)
+        //backgroundGroup.add(light3)
+        floor=gameGroup.create(0,game.world.height-180,'atlas.river',"floor")
         floor.width=game.world.width
         floor.height=game.world.height-600
-        floor2=gameGroup.create(0,game.world.height-80,'atlas.river',"floor")
+        floor2=gameGroup.create(0,game.world.height,'atlas.river',"floor")
         floor2.width=game.world.width
-        floor2.height=game.world.height-600
-        floor2.alpha=0
+        floor2.height=10
+        floor2.alpha=1
         game.physics.enable(floor2, Phaser.Physics.ARCADE)
         floor2.body.immovable=true
         
         var plants = game.add.tileSprite(0,game.world.centerY+100,game.world.width,200,"atlas.river","vegetation")
         backgroundGroup.add(backG)
         backgroundGroup.add(plants)
-        var stone1=backgroundGroup.create(game.world.width-400,game.world.height-400,'atlas.river',"river-34")
+        var stone1=gameGroup.create(game.world.width-400,game.world.height-400,'atlas.river',"river-34")
         stone1.width=400
         stone1.height=400
-        var stone2=backgroundGroup.create(400,game.world.height-400,'atlas.river',"river-34")
+        var stone2=gameGroup.create(400,game.world.height-400,'atlas.river',"river-34")
         stone2.width=-400
         stone2.height=400
-        
+        character = game.add.spine(game.world.centerX,game.world.height, "axolotl");
+            character.scale.setTo(scaleSpine*2,scaleSpine*2)
+            character.scale.setTo(scaleSpine*2,scaleSpine*2)
+            character.setAnimationByName(0,"IDLE",true);
+            character.setSkinByName("normal");
+            gameGroup.add(character)
         //Aqui metemos las basuras al arreglo
         
         for(var trashinside=0;trashinside<14;trashinside++)
@@ -426,54 +431,10 @@ var riverRescue = function(){
 	function update()
     {
         
-        if(count1==10){
-           for(var emptyingArray=0;emptyingArray<10;emptyingArray++)
-            {
-                
-                garbageScreen1[emptyingArray]==null
-                
-            }
-            count1=0;
-        }
-           
-        if(count2==10){
-           for(var emptyingArray2=0;emptyingArray2<10;emptyingArray2++)
-            {
-                
-                garbageScreen2[emptyingArray2]==null
-                
-            }
-            count2=0;
-        }
-        if(count3==10){
-           for(var emptyingArray3=0;emptyingArray3<10;emptyingArray3++)
-            {
-                
-                garbageScreen3[emptyingArray3]==null
-                
-            }
-            count3=0;
-        }
-        for(var emptyArray=0;emptyArray<10;emptyArray++)
-            {
-                if(garbageScreen1[randomCreation]!=null){
-                    count1++
-                }
-            }
+       
         
-        for(var emptyArray2=0;emptyArray2<10;emptyArray2++)
-            {
-                if(garbageScreen2[emptyArray2]!=null){
-                    count2++
-                }
-            }
         
-        for(var emptyArray3=0;emptyArray3<10;emptyArray3++)
-            {
-                if(garbageScreen3[emptyArray3]!=null){
-                    count3++
-                }
-            }
+        
         
         if(startGame)
         {
@@ -582,17 +543,16 @@ var riverRescue = function(){
         correctParticle.start(true, 1000, null, 5)
         garbage2[obj.tag]=false
         sound.play("clean")
-        
         for(var searchingNull=0; searchingNull<10;searchingNull++){
-        if(garbageScreen3[searchingNull]==obj){
+        if(garbageScreen3[searchingNull]==obj ){
             garbageScreen3[searchingNull]=null
             break
         }
-        if(garbageScreen2[searchingNull]==obj){
+        if(garbageScreen2[searchingNull]==obj ){
             garbageScreen2[searchingNull]=null
             break
         }
-        if(garbageScreen1[searchingNull]==obj){
+        if(garbageScreen1[searchingNull]==obj ){
             garbageScreen1[searchingNull]=null
             break
         }
@@ -602,7 +562,7 @@ var riverRescue = function(){
         obj.alpha=0
         addPoint(1)
         if(pointsBar.number%2==0){
-            speed+=2
+            speed+=4
         }
         
             
@@ -615,54 +575,49 @@ var riverRescue = function(){
     function hitTheFloor(obj,numb)
     {
         
-            wrongParticle.position.x=obj.position.x+50
-            wrongParticle.position.y=obj.position.y
-            wrongParticle.start(true, 1000, null, 5)
-        obj.inputEnabled=false
+        obj.body.moves=false
+        
         if(trash1!=null && trash2!=null && trash3==null){
             trash3=garbage[obj.tag]
             trash3.position.x=obj.position.x
             trash3.position.y=obj.position.y
-            trash3.body.moves=false
             trash3.body.onCollide = new Phaser.Signal();
-            if(garbageScreen3[obj.tag]==obj){
-            garbageScreen3[obj.tag]=null
-            }
-            if(garbageScreen2[obj.tag]==obj){
-            garbageScreen2[obj.tag]=null
-            }
-            if(garbageScreen1[obj.tag]==obj){
-            garbageScreen1[obj.tag]=null
-            }
-            garbage2[obj.tag]=false
             missPoint()
-        }
+            wrongParticle.position.x=obj.position.x+50
+            wrongParticle.position.y=obj.position.y
+            wrongParticle.start(true, 1000, null, 5)
+        obj.inputEnabled=false
+            
+        }    
+        
         if(trash1!=null && trash2==null){
             trash2=garbage[obj.tag]
             trash2.position.x=obj.position.x
             trash2.position.y=obj.position.y
-            trash2.body.moves=false
             trash2.body.onCollide = new Phaser.Signal();
-            garbageScreen3[obj.tag]=null
-            garbageScreen2[obj.tag]=null
-            garbageScreen1[obj.tag]=null
-            garbage2[obj.tag]=false
             missPoint()
             character.setAnimationByName(0,"HIT",true);
+            wrongParticle.position.x=obj.position.x+50
+            wrongParticle.position.y=obj.position.y
+            wrongParticle.start(true, 1000, null, 5)
+        obj.inputEnabled=false
+            
         }
+        
         if(trash1==null){
             trash1=garbage[obj.tag]
             trash1.position.x=obj.position.x
             trash1.position.y=obj.position.y
-            trash1.body.moves=false
             trash1.body.onCollide = new Phaser.Signal();
-            garbage2[obj.tag]=false
-            garbageScreen3[obj.tag]=null
-            garbageScreen2[obj.tag]=null
-            garbageScreen1[obj.tag]=null
             missPoint()
             character.setAnimationByName(0,"LOSE",true);
+            wrongParticle.position.x=obj.position.x+50
+            wrongParticle.position.y=obj.position.y
+            wrongParticle.start(true, 1000, null, 5)
+        obj.inputEnabled=false  
+            
         }
+        
     }
     
 	function createTextPart(text,obj){
