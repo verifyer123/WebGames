@@ -706,7 +706,7 @@ var oona = function(){
             okBtnImg.pressed = false
             okBtnImg.events.onInputUp.add(cook)
         
-            if(localization.getLanguage() == 'ES')
+            if(localization.getLanguage() == 'EN')
             {
                 text = 'OK!'
             }
