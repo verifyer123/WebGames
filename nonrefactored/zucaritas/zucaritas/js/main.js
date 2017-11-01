@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("zucaritas")
+				sceneloader.show("settings")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,6 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
+			settings,
             zucaritas,
             result,
     	])

@@ -26,8 +26,7 @@ var map = function(){
             },
         ],
         images: [
-			{   name:"background",
-				file: "images/map/fondo.png"},
+
 		],
 		sounds: [
             {	name: "magic",
@@ -59,6 +58,9 @@ var map = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
+	var scroller
+	var tileColors = [ 0xff92ad]
+	var horizontalScroll, verticalScroll,kineticMovement
 	
 
 	function loadSounds(){
@@ -252,12 +254,7 @@ var map = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
-        
-		game.load.image('howTo',"images/map/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/map/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/map/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -323,7 +320,34 @@ var map = function(){
 
 	function createBackground(){
 		
+		scroller = game.add.existing(new ScrollableArea(0, 0, game.width, game.height));
+		scroller.start();
+		sceneGroup.add(scroller)
+
+		horizontalScroll = false;
+		verticalScroll = true;
+		kineticMovement = true;
 		
+		configureScroll()
+		
+		background = game.add.tileSprite(0,0,game.world.width,game.world.height * 4,'atlas.map','texture')
+		background.anchor.setTo(0,0)
+		background.tint = tileColors[0]
+		scroller.add(background)
+		
+		var start = scroller.create(game.world.centerX,background.height - 100,'atlas.map','roadbegin')
+		start.anchor.setTo(0,0.5)
+		
+		
+	}
+	
+	function configureScroll() {
+		
+		scroller.configure({
+			horizontalScroll:horizontalScroll,
+			verticalScroll:verticalScroll,
+			kineticMovement:kineticMovement
+		});
 	}
 	
 	function update(){
@@ -530,7 +554,7 @@ var map = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                //spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
