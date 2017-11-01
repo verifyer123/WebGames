@@ -1,14 +1,12 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tapchitect = function(){
+var map = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!",
-			"equil":"equilateral",
-			"isos":""
+			"stop":"Stop!"
 		},
 
 		"ES":{
@@ -22,14 +20,14 @@ var tapchitect = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.tapchitect",
-                json: "images/tapchitect/atlas.json",
-                image: "images/tapchitect/atlas.png",
+                name: "atlas.map",
+                json: "images/map/atlas.json",
+                image: "images/map/atlas.png",
             },
         ],
         images: [
 			{   name:"background",
-				file: "images/tapchitect/fondo.png"},
+				file: "images/map/fondo.png"},
 		],
 		sounds: [
             {	name: "magic",
@@ -50,7 +48,7 @@ var tapchitect = function(){
 		],
     }
     
-    var yogotar
+        
     var lives = null
 	var sceneGroup = null
 	var background
@@ -61,11 +59,6 @@ var tapchitect = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
-	var fog, cloud
-	var cliffsGroup, trianglesGroup
-	var objToUse
-	var medLine
-	var medList
 	
 
 	function loadSounds(){
@@ -76,6 +69,7 @@ var tapchitect = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
+
         
         loadSounds()
         
@@ -187,7 +181,7 @@ var tapchitect = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.tapchitect','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.map','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -215,7 +209,7 @@ var tapchitect = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.tapchitect','life_box')
+        var heartImg = group.create(0,0,'atlas.map','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -258,12 +252,12 @@ var tapchitect = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('arthurius', "images/spines/normal.json")  
+        game.load.spine('ship', "images/spines/skeleton1.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/tapchitect/tutorial/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/tapchitect/tutorial/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/tapchitect/tutorial/introscreen.png")
+		game.load.image('howTo',"images/map/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/map/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/map/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -297,7 +291,7 @@ var tapchitect = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.tapchitect','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.map','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -311,11 +305,11 @@ var tapchitect = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.tapchitect',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.map',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.tapchitect','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.map','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -329,53 +323,11 @@ var tapchitect = function(){
 
 	function createBackground(){
 		
-		var sky = sceneGroup.create(0,0,'atlas.tapchitect','sky')
-		sky.width = game.world.width
-		sky.height = game.world.height
-		
-		cloud = game.add.tileSprite(0,200,game.world.width,214,'atlas.tapchitect','cloud')
-		cloud.anchor.setTo(0,0.5)
-		sceneGroup.add(cloud)
-		
-		var mountain3 = game.add.tileSprite(0,game.world.height - 475,game.world.width,285,'atlas.tapchitect','bot_mountain')
-		mountain3.anchor.setTo(0,1)
-		sceneGroup.add(mountain3)
-		
-		var mountain2 = game.add.tileSprite(0,game.world.height - 200,game.world.width, 436,'atlas.tapchitect','mountain2')
-		mountain2.anchor.setTo(0,1)
-		mountain2.alpha = 0.7
-		mountain2.tilePosition.x-= 200
-		sceneGroup.add(mountain2)
-		
-		var mountain = game.add.tileSprite(0,game.world.height,game.world.width,361,'atlas.tapchitect','mountain1')
-		mountain.anchor.setTo(0,1)
-		sceneGroup.add(mountain)
-		
-		fog = game.add.tileSprite(0,game.world.height,game.world.width, 349,'atlas.tapchitect','fog')
-		fog.anchor.setTo(0,1)
-		sceneGroup.add(fog)
-		
-		var tween = game.add.tween(fog).to({alpha: 0.3},1500,"Linear",true,0,-1)
-		tween.yoyo(true,0)
 		
 	}
 	
 	function update(){
-		
-		fog.tilePosition.x+= 0.5
-		cloud.tilePosition.x-= 0.2
-		
-		checkObjects()
-	}
-	
-	function checkObjects(){
-		
-		for(var i = 0; i < trianglesGroup.dragList.length;i++){
-			
-			var drag = trianglesGroup.dragList[i]
-			drag.posObj.x = drag.x
-			drag.posObj.y = drag.y
-		}
+
 	}
 	
 	function createTextPart(text,obj){
@@ -469,7 +421,7 @@ var tapchitect = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.tapchitect',tag);
+				particle.makeParticles('atlas.map',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -525,7 +477,7 @@ var tapchitect = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.tapchitect','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.map','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -538,7 +490,7 @@ var tapchitect = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.tapchitect','smoke');
+        particlesGood.makeParticles('atlas.map','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -563,148 +515,10 @@ var tapchitect = function(){
 		
 	}
 	
-	function createCliffs(){
-		
-		cliffsGroup = game.add.group()
-		sceneGroup.add(cliffsGroup)
-		
-		var pivotX = game.world.centerX - 250
-		for(var i = 0; i < 2;i++){
-			
-			var cliff = cliffsGroup.create(pivotX,game.world.height,'atlas.tapchitect','cliff' + (i + 1))
-			cliff.anchor.setTo(0.5,1)
-			
-		}
-	}
-	
-	function createTriangles(){
-		
-		trianglesGroup = game.add.group()
-		sceneGroup.add(trianglesGroup)
-		
-		trianglesGroup.dragList = []
-		medList = []
-		
-		var lastRect
-		var pivotX = game.world.centerX - 200
-		for(var i = 0; i < 3; i++){
-			
-			var group = game.add.group()
-			group.x = pivotX
-			group.y = game.world.height - 100
-			trianglesGroup.add(group)
-			
-			var triangleImg = group.create(0,0,'atlas.tapchitect','triangle' + i)
-			triangleImg.anchor.setTo(0.5,0.5)
-			medList[i] = triangleImg
-			
-			var groupText = game.add.group()
-			groupText.x = 0
-			groupText.y = 25
-			group.add(groupText)
-			
-			var rect = new Phaser.Graphics(game)
-			rect.beginFill(0x000000)
-			rect.drawRoundedRect(0,0,100, 50)
-			rect.alpha = 0.7
-			rect.endFill()
-			rect.x-= rect.width * 0.5
-			rect.y-= rect.height * 0.5
-			groupText.add(rect)
-			
-			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-			pointsText.anchor.setTo(0.5,0.5)
-			groupText.add(pointsText)
-			
-			group.text = pointsText
-			pivotX+= 250
-			
-			if(i == 1){
-				pivotX-= 50
-			}
-			
-			var triangle = sceneGroup.create(group.x,group.y,'atlas.tapchitect','triangle' + i)
-			triangle.anchor.setTo(0.5,0.5)
-			triangle.inputEnabled = true
-			triangle.input.enableDrag(true)
-			triangle.anchor.setTo(0.5,0.5)
-			triangle.events.onDragStart.add(onDragStart, this);
-			triangle.events.onDragStop.add(onDragStop, this);
-			triangle.initX = triangle.x
-			triangle.initY = triangle.y
-			
-			trianglesGroup.dragList[i] = triangle
-			triangle.alpha = 0
-			triangle.posObj = group
-			
-			console.log(triangle.width + ' medida triangle')
-			
-			
-		}		
-		
-	}
-	
-	function onDragStart(obj){
-        
-        if(!gameActive){
-            return
-        }
-		
-		objToUse = obj
-        
-        sound.play("drag")
-        
-    }
-	
-	function onDragStop(obj){
-		
-		objToUse = null
-		sound.play("pop")
-		obj.inputEnabled = false	
-				
-		game.add.tween(obj).to({x:obj.initX, y:obj.initY},500,"Linear",true).onComplete.add(function(){
-
-			console.log('enable Input')
-			obj.inputEnabled = true
-		})
-	}
-	
-	function createMedLine(){
-		
-		medLine = game.add.group()
-		medLine.x = game.world.centerX
-		medLine.y = game.world.centerY
-		sceneGroup.add(medLine)
-		
-		var line = game.add.tileSprite(100,100,200,51,'atlas.tapchitect','line')
-		line.anchor.setTo(0,0.5)
-		medLine.add(line)
-		
-		medLine.line = line
-		
-		var textGroup = game.add.group()
-		medLine.add(textGroup)
-		
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRoundedRect(0,0,200, 75,12)
-		rect.x-= rect.width * 0.5
-		rect.y-= rect.height * 0.5
-        rect.endFill()
-		textGroup.add(rect)
-		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "9.99", fontStyle)
-		rect.anchor.setTo(0.5,0.5)
-        textGroup.add(pointsText)
-		
-	}
-	
 	return {
 		
 		assets: assets,
-		name: "tapchitect",
+		name: "map",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -712,14 +526,11 @@ var tapchitect = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			createCliffs()
-			createMedLine()
-			createTriangles()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -732,14 +543,18 @@ var tapchitect = function(){
             
             initialize()
 			            
-			createPointsBar()
-			createHearts()
+			//createPointsBar()
+			//createHearts()
 			
 			buttons.getButton(spaceSong,sceneGroup)
-            createOverlay()
+            //createOverlay()
             
             animateScene()
             
 		},
+		show: function(event){
+			loadSounds()
+			initialize()
+		}
 	}
 }()
