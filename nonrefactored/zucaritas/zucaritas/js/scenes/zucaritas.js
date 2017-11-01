@@ -39,7 +39,7 @@ var zucaritas = function(){
 
 		],
 		sounds: [
-            {	name: "pop",
+			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "magic",
 				file: soundsPath + "magic.mp3"},
@@ -99,6 +99,7 @@ var zucaritas = function(){
     var lives = null
     var heartsGroup = null 
 	var backHeight
+	var lowGraphics = false
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -112,6 +113,11 @@ var zucaritas = function(){
             }
         }
     }  
+	
+	function setGraphics(isLow){
+		
+		lowGraphics = isLow
+	}
     
 	function initialize(){
         
@@ -147,7 +153,10 @@ var zucaritas = function(){
         game.stage.disableVisibilityChange = false;  
 		buttons.getImages(game)
         
-        game.load.spritesheet('coinS', 'images/zucaritas/sprites/coinS.png', 125, 125, 24);
+		if(!lowGraphics){
+			game.load.spritesheet('coinS', 'images/zucaritas/sprites/coinS.png', 125, 125, 24);
+		}
+        
         game.load.spritesheet('monster', 'images/zucaritas/sprites/monster.png', 292, 237, 17);
         
         game.load.audio('runningSong', soundsPath + 'songs/jungle_fun.mp3');
@@ -890,13 +899,19 @@ var zucaritas = function(){
         
         for(var o = 0; o<number;o++){
             
+			var obj
             if(type == 'coin'){
                 
-                obj = game.add.sprite(0, 0, 'coinS');
-				obj.scale.setTo(0.65,0.65)
-                piecesGroup.add(obj)
-                obj.animations.add('walk');
-                obj.animations.play('walk',24,true); 
+				if(!lowGraphics){
+					obj = game.add.sprite(0, 0, 'coinS');
+					obj.scale.setTo(0.65,0.65)
+					piecesGroup.add(obj)
+					obj.animations.add('walk');
+					obj.animations.play('walk',24,true);
+				}else{
+					obj = piecesGroup.create(0,0,'atlas.zucaritas','bowl')
+				}
+                 
                 
             }else if(type == 'monster'){
                 
@@ -908,7 +923,7 @@ var zucaritas = function(){
             
             }else{
                 
-                var obj = piecesGroup.create(0,0,'atlas.zucaritas',type)
+                obj = piecesGroup.create(0,0,'atlas.zucaritas',type)
             }
             
             if(type == 'move_plat'){
@@ -1102,6 +1117,7 @@ var zucaritas = function(){
         
 		assets: assets,
 		name: "zucaritas",
+		setGraphics:setGraphics,
 		create: function(event){
             
             cursors = game.input.keyboard.createCursorKeys()

@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Esquiva Cuetes",
+        name: "Corto Circuito",
         language: "es",
-        minigameUrl: "../esquivaCuetes/index.html?language=" + language,
+        minigameUrl: "../../esquivaCuetes/esquivaCuetes/index.html?language=ES",
         desktopUrl: "./desktop.html",
     }
 }
