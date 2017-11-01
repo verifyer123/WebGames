@@ -69,6 +69,7 @@ var oona = function(){
     var recipeGroup
     var toolsGroup
     var okBtn
+    var okBtnImg
 	var toolsTkn = ['mixTkn','pourTkn','cutTkn','ovenTkn','roastTkn','friedTkn']
     var orders = ['mix','pour','cut','oven','roast','fried']
     var aux
@@ -615,7 +616,7 @@ var oona = function(){
 
         //sound.play("cut")
         enterRecipe()
-        okBtn.inputEnabled = false
+        okBtnImg.inputEnabled = false
 
         for (var i = 0; i < toolsGroup.length; i++)
         {
@@ -628,7 +629,7 @@ var oona = function(){
         {
             game.add.tween(recipeGroup).to({alpha: 1}, 200, Phaser.Easing.linear, true)
             gameActive = true;
-            okBtn.inputEnabled = true
+            okBtnImg.inputEnabled = true
             timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, gameTime, Phaser.Easing.linear, true)
             
             timeGroup.tween.onComplete.add(function() 
@@ -643,7 +644,7 @@ var oona = function(){
     function endGame(timeEnded){
         
         timeGroup.tween.stop()
-        okBtn.inputEnabled = false
+        okBtnImg.inputEnabled = false
         
         if(timeEnded)
         {
@@ -737,8 +738,8 @@ var oona = function(){
         timeGroup.tween.stop()
         var timer = 500;
         var fin = true
-        okBtn.pressed = true
-        okBtn.inputEnabled = false
+        okBtnImg.pressed = true
+        okBtnImg.inputEnabled = false
        
         if(aux == cap)
         {
