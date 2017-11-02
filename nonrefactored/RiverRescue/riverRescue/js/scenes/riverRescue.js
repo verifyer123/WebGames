@@ -600,8 +600,9 @@ var riverRescue = function(){
        
         backG.tilePosition.x+=2
         
-        if(counter<20 && counter!=0)
+        if(counter<20 && counter!=0){
         game.add.tween(scoreBarMove.scale).to({x:counter/26,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
+        }
         
         for(var follow=0;follow<10;follow++){
             
