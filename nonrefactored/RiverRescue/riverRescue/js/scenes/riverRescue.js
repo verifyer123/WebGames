@@ -477,8 +477,8 @@ var riverRescue = function(){
         
         //Aqui meto la barra de recoleccion de basura
         var scoreBar=game.add.sprite(10,game.world.height-150,"atlas.river","blueBar")
-        scoreBar.scale.setTo(1.5,1.5)   
-        scoreBarMove=game.add.sprite(scoreBar.x+100,scoreBar.y-50,"atlas.river","barScore")
+        scoreBar.scale.setTo(.7,.7)
+        scoreBarMove=game.add.sprite(scoreBar.x+35,scoreBar.y-80,"atlas.river","barScore")
         scoreBarMove.scale.setTo(3,7)
         var poly2 = new Phaser.Polygon([ new Phaser.Point(200, 100), new Phaser.Point(450, 70), new Phaser.Point(450, 150), new Phaser.Point(200, 150)]);
         
@@ -489,9 +489,9 @@ var riverRescue = function(){
         graphics2.endFill();
         graphics2.alpha=1
         graphics2.anchor.setTo(0)
-        graphics2.scale.setTo(1,1)
-        graphics2.position.x=scoreBar.position.x-100
-        graphics2.position.y=scoreBar.position.y-50
+        graphics2.scale.setTo(.5,.5)
+        graphics2.position.x=scoreBar.position.x-60
+        graphics2.position.y=scoreBar.position.y-30
         backgroundGroup.add(scoreBar)
 		backgroundGroup.add(graphics2)
         
@@ -507,9 +507,9 @@ var riverRescue = function(){
         graphics.drawPolygon(poly.points);
         graphics.endFill();
         graphics.anchor.setTo(0)
-        graphics.scale.setTo(1,1)
-        graphics.position.x=scoreBar.position.x-100
-        graphics.position.y=scoreBar.position.y-50
+        graphics.scale.setTo(.5,.5)
+        graphics.position.x=scoreBar.position.x-60
+        graphics.position.y=scoreBar.position.y-30
 		backgroundGroup.add(graphics)
         scoreBarMove.scale.setTo(0,10)
         
@@ -601,7 +601,7 @@ var riverRescue = function(){
         backG.tilePosition.x+=2
         
         if(counter<20 && counter!=0)
-        game.add.tween(scoreBarMove.scale).to({x:counter/14,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
+        game.add.tween(scoreBarMove.scale).to({x:counter/26,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
         
         for(var follow=0;follow<10;follow++){
             

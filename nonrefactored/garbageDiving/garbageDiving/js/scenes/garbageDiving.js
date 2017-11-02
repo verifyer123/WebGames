@@ -585,8 +585,6 @@ var garbageDiving = function(){
                     trail1[spaceInTrail].alpha=1
                     trail1[spaceInTrail].tag=randomCreation
                     trail1[spaceInTrail].checkWorldBounds = true;
-                    tween=game.add.tween(trail1[spaceInTrail].scale).to({x:1,y:1},1000,"Linear",true,0,-1)
-                    tween.yoyo(true,200)
                     game.physics.enable(trail1[spaceInTrail], Phaser.Physics.ARCADE)
                     trail1[spaceInTrail].events.onOutOfBounds.add(outOfThisWorld, this);
                     trail1[spaceInTrail].body.onCollide = new Phaser.Signal();    
@@ -605,8 +603,6 @@ var garbageDiving = function(){
                     trail2[spaceInTrail].scale.setTo(.5,.5)
                     trail2[spaceInTrail].tag=randomCreation
                     trail2[spaceInTrail].checkWorldBounds = true;
-                    tween2=game.add.tween(trail2[spaceInTrail].scale).to({x:1,y:1},1000,"Linear",true,0,-1)
-                    tween2.yoyo(true,200)
                     game.physics.enable(trail2[spaceInTrail], Phaser.Physics.ARCADE)
                     trail2[spaceInTrail].events.onOutOfBounds.add(outOfThisWorld, this);
                     trail2[spaceInTrail].body.onCollide = new Phaser.Signal();    
@@ -624,8 +620,6 @@ var garbageDiving = function(){
                     trail3[spaceInTrail].scale.setTo(.5,.5)
                     trail3[spaceInTrail].tag=randomCreation
                     trail3[spaceInTrail].checkWorldBounds = true;
-                    tween3=game.add.tween(trail3[spaceInTrail].scale).to({x:1,y:1},1000,"Linear",true,0,-1)
-                    tween3.yoyo(true,200)
                     game.physics.enable(trail3[spaceInTrail], Phaser.Physics.ARCADE)
                     trail3[spaceInTrail].events.onOutOfBounds.add(outOfThisWorld, this);
                     trail3[spaceInTrail].body.onCollide = new Phaser.Signal();    
@@ -649,8 +643,6 @@ var garbageDiving = function(){
                     trail1[spaceInTrail].tag="mina"
                     mineActive=true
                     trail1[spaceInTrail].checkWorldBounds = true;
-                    tween4=game.add.tween(trail1[spaceInTrail].scale).to({x:1,y:1},1000,"Linear",true,0,-1)
-                    tween4.yoyo(true,200)
                     game.physics.enable(trail1[spaceInTrail], Phaser.Physics.ARCADE)
                     trail1[spaceInTrail].events.onOutOfBounds.add(outOfThisWorld, this);
                     trail1[spaceInTrail].body.onCollide = new Phaser.Signal();    
@@ -670,8 +662,6 @@ var garbageDiving = function(){
                     trail2[spaceInTrail].checkWorldBounds = true;
                     mineActive=true
                     game.physics.enable(trail2[spaceInTrail], Phaser.Physics.ARCADE)
-                    tween5=game.add.tween(trail2[spaceInTrail].scale).to({x:1,y:1},1000,"Linear",true,0,-1)
-                    tween5.yoyo(true,200)
                     trail2[spaceInTrail].events.onOutOfBounds.add(outOfThisWorld, this);
                     trail2[spaceInTrail].body.onCollide = new Phaser.Signal();    
                     trail2[spaceInTrail].body.onCollide.add(hitTheFish, this);
@@ -688,8 +678,6 @@ var garbageDiving = function(){
                     trail3[spaceInTrail].tag="mina"
                     mineActive=true
                     trail3[spaceInTrail].checkWorldBounds = true;
-                    tween6=game.add.tween(trail3[spaceInTrail].scale).to({x:1,y:1},1000,"Linear",true,0,-1)
-                    tween6.yoyo(true,200)
                     game.physics.enable(trail3[spaceInTrail], Phaser.Physics.ARCADE)
                     trail3[spaceInTrail].events.onOutOfBounds.add(outOfThisWorld, this);
                     trail3[spaceInTrail].body.onCollide = new Phaser.Signal();    
@@ -772,7 +760,6 @@ var garbageDiving = function(){
                 if(trail1[checkObjects]==obj)
                 {
                     obj.alpha=1
-                    obj.tween.stop()
                     obj.position.x=game.world.width+100
                     obj.position.y=game.world.centerY+50
                     trail1[checkObjects]=null
@@ -782,7 +769,6 @@ var garbageDiving = function(){
                 if(trail2[checkObjects]==obj)
                 {
                     obj.alpha=1
-                    obj.tween2.stop()
                     obj.position.x=game.world.width+100
                     obj.position.y=game.world.centerY+100
                     trail2[checkObjects]=null
@@ -791,7 +777,6 @@ var garbageDiving = function(){
                 if(trail3[checkObjects]==obj)
                 {
                     obj.alpha=1
-                    obj.tween3.stop()
                     obj.position.x=game.world.width+100
                     obj.position.y=game.world.centerY+200
                     trail3[checkObjects]=null
@@ -808,7 +793,6 @@ var garbageDiving = function(){
                 if(trail1[checkObjects]==obj)
                 {
                     obj.alpha=1
-                    tween4.stop()
                     obj.position.x=game.world.width+100
                     obj.position.y=game.world.centerY+50
                     trail1[checkObjects]=null
@@ -825,7 +809,6 @@ var garbageDiving = function(){
                 if(trail3[checkObjects]==obj)
                 {
                     obj.alpha=1
-                    tween6.stop()
                     obj.position.x=game.world.width+100
                     obj.position.y=game.world.centerY+200
                     trail3[checkObjects]=null
