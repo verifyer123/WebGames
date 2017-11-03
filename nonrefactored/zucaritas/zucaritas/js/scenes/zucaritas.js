@@ -434,7 +434,9 @@ var zucaritas = function(){
 			var back = backgroundGroup.children[i]
 			
 			if(!back.isSep){
-				back.tilePosition.x-= 0.25
+				if(!lowGraphics){
+					back.tilePosition.x-= 0.25
+				}
 			}
 			
 			if(back.world.y > game.world.height + back.height && back.isSky){

@@ -61,7 +61,90 @@ var map = function(){
 	var scroller
 	var tileColors = [ 0xff92ad]
 	var horizontalScroll, verticalScroll,kineticMovement
+	var ballsPosition
+	var mouseActive
+	var start
 	
+	var iconsPositions = [
+		
+		{x:885,y:7474.944751381216},
+		{x:998,y:7475.189076789056},
+		{x:1043,y:7413.939226519336},
+		{x:1040,y:7251.623885578169},
+		{x:965,y:7219.8446864792895},
+		{x:820,y:7218.021000073124},
+		{x:773,y:7152.43078610617},
+		{x:792,y:7026.977747432136},
+		{x:871,y:7056.698464121502},
+		{x:925,y:7108.885653248414},
+		{x:1046,y:7070.574958449699},
+		{x:1042,y:6892.831689458795},
+		{x:965,y:6840.77388382294},
+		{x:811,y:6839.241874461357},
+		{x:778,y:6780.326964090746},
+		{x:780,y:6670.063371271264},
+		{x:860,y:6645.74927553578},
+		{x:908,y:6733.4643587464125},
+		{x:1018,y:6722.690878083429},
+		{x:1046,y:6648.607064844089},
+		{x:1040,y:6504.382371454001},
+		{x:961,y:6468.238179729422},
+		{x:820,y:6461.679272387886},
+		{x:778,y:6391.191902697094},
+		{x:784,y:6285.355925915179},
+		{x:864,y:6285.79630876416},
+		{x:913,y:6358.376896215781},
+		{x:1012,y:6354.0778699185885},
+		{x:1047,y:6281.798941203933},
+		{x:1038,y:6130.519381751755},
+		{x:945,y:6096.92022440072},
+		{x:815,y:6081.691377023624},
+		{x:775,y:6015.237705714111},
+		{x:783,y:5915.137241328757},
+		{x:865,y:5912.568172423197},
+		{x:917,y:5979.648653960827},
+		{x:1026,y:5973.485378694191},
+		{x:1043,y:5899.126963247762},
+		{x:1028,y:5732.981923510895},
+		{x:950,y:5717.394605665894},
+		{x:816,y:5709.096848865336},
+		{x:775,y:5636.52875773156},
+		{x:792,y:5530.576011925224},
+		{x:868,y:5532.077177401563},
+		{x:918,y:5606.34140450047},
+		{x:1028,y:5593.000024826223},
+		{x:1040,y:5395.032231853043},
+		{x:962,y:5340.502917229031},
+		{x:811,y:5337.138276345053},
+		{x:780,y:5260.549702418664},
+		{x:790,y:5154.73555489621},
+		{x:872,y:5161.7608802212235},
+		{x:916,y:5231.710521012586},
+		{x:1032,y:5219.839884239056},
+		{x:1023,y:4980.320331007077},
+		{x:830,y:4964.9359888556155},
+		{x:778,y:4901.553670812966},
+		{x:783,y:4779.908197983344},
+		{x:869,y:4784.29163828438},
+		{x:920,y:4852.552982736441},
+		{x:1035,y:4844.097458311165},
+		{x:1027,y:4603.879307969499},
+		{x:824,y:4590.246617737086},
+		{x:778,y:4522.846913968708},
+		{x:795,y:4389.252716321165},
+		{x:872,y:4447},
+		{x:1011,y:4483},
+		{x:1046,y:4408},
+		{x:1038,y:4270},
+		{x:969,y:4218},
+		{x:819,y:4209},
+		{x:775,y:4146},
+		{x:802,y:4023},
+		{x:873,y:4072},
+		{x:1018,y:4105},
+		{x:1040,y:3987},
+		
+	]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -71,6 +154,7 @@ var map = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
+		mouseActive = false
 
         
         loadSounds()
@@ -255,6 +339,7 @@ var map = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+		game.load.spine('eagle',"images/spines/eagle.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -317,7 +402,25 @@ var map = function(){
         
         obj.parent.children[1].alpha = 1
     }
-
+	
+	function createBallsPos(){
+		
+		ballsPosition = game.add.group()
+		scroller.add(ballsPosition)
+		
+		for(var i = 0; i < iconsPositions.length;i++){
+			
+			var ball = ballsPosition.create(iconsPositions[i].x - start.x,iconsPositions[i].y - start.y,'atlas.map','number_container')
+			ball.anchor.setTo(0.5,0.5)
+			console.log(ball.x + ' posX,' +  ball.y + ' posY')
+		}
+	}
+	
+	function addPosition(obj){
+		
+		
+	}
+	
 	function createBackground(){
 		
 		scroller = game.add.existing(new ScrollableArea(0, 0, game.width, game.height));
@@ -333,11 +436,18 @@ var map = function(){
 		background = game.add.tileSprite(0,0,game.world.width,game.world.height * 4,'atlas.map','texture')
 		background.anchor.setTo(0,0)
 		background.tint = tileColors[0]
+		background.inputEnabled = true
+		background.events.onInputDown.add(addPosition)
 		scroller.add(background)
 		
-		var start = scroller.create(game.world.centerX,background.height - 100,'atlas.map','roadbegin')
-		start.anchor.setTo(0,0.5)
+		start = scroller.create(game.world.centerX + 150,background.height - 75,'atlas.map','roadbegin')
+		start.anchor.setTo(1,1)
 		
+		var road = game.add.tileSprite(start.x, start.y - start.height,328,374 * 9,'atlas.map','road')
+		road.anchor.setTo(1,1)
+		scroller.add(road)
+		
+		createBallsPos()
 		
 	}
 	
@@ -351,7 +461,42 @@ var map = function(){
 	}
 	
 	function update(){
-
+		
+		//console.log(scroller.x + ' posX,' + scroller.y + ' posY')
+		
+		/*if(!mouseActive && game.input.activePointer.middleButton.isDown){
+			
+			mouseActive = true
+			
+			var circle = ballsPosition.create(game.input.x,game.input.y - scroller.y,'atlas.map','number_container')
+			circle.anchor.setTo(0.5,0.5)
+			sound.play("pop")
+		}
+		
+		if(game.input.activePointer.middleButton.isUp){
+			mouseActive = false
+		}
+		
+		if(game.input.activePointer.rightButton.isDown && !gameActive){
+			
+			printCirclePositions()
+			gameActive = true
+		}*/
+	}
+	
+	function printCirclePositions(){
+		
+		
+		var stringToUse = ''
+		
+		for(var i = 0; i < ballsPosition.length;i++){
+			
+			var circle = ballsPosition.children[i]
+			
+			stringToUse+= '{x:' + (circle.x + start.x) +',y:' + (circle.y + start.y) + '},\n'
+		}
+		
+		console.log(stringToUse)
 	}
 	
 	function createTextPart(text,obj){

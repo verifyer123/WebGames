@@ -251,6 +251,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,21,129,42</rect>
+                <key>scale9Paddings</key>
+                <rect>64,21,129,42</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">desktop.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -330,6 +343,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">trashBar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,10,94,21</rect>
+                <key>scale9Paddings</key>
+                <rect>47,10,94,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -370,6 +396,8 @@
             <filename>desktop.png</filename>
             <filename>gametuto.png</filename>
             <filename>bar.png</filename>
+            <filename>container.png</filename>
+            <filename>trashBar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

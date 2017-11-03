@@ -980,6 +980,8 @@ var ms = function(){
 			enemy.running = false
 			enemy.active = false
 			game.add.tween(enemy).to({alpha:0},500,"Linear",true)
+			enemy.body.x = 50
+			enemy.body.y = 50
 			
 		}
 		
@@ -987,6 +989,7 @@ var ms = function(){
 			
 			var item = itemsGroup.children[i]
 			item.x = -100
+			item.y = -100
 			game.add.tween(item).to({alpha:0},100,"Linear",true)
 			item.active = false
 		}

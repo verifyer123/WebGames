@@ -1,0 +1,578 @@
+body{
+    margin: 0;    
+    overflow: hidden;
+    font-family: sans-serif;
+    color: #FFF;
+    text-align: center;
+    font-family: "VAGRounded";
+}
+
+#backgroundBody{
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/bgGame.png");
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center top;
+    overflow: hidden;  
+    z-index: 0;
+    position: absolute;
+    top: 0%;
+}
+
+#logoMath{
+    position: relative;
+    width: 100%;
+    height: 30%;
+    text-align: center; 
+    top:0;
+    z-index: 2;
+}
+
+#logoMath img{
+    height: 100%;
+    margin-top: 2%;
+}
+
+#monsters-section{
+    position: relative;
+    display: table;
+    width: 100%;
+    z-index: 1;
+}
+
+.monster-sec-img{
+    width: 50%;
+    display: table-cell;
+    vertical-align:middle;
+}
+
+.monster-sec-img .left-monster{
+    width: 100%;
+    margin-top:10%;
+}  
+    
+.monster-sec-img .right-monster{
+    width: 100%;
+    margin-top:10%;
+}  
+
+footer{
+    font-size: 2vh;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    font-family: "Arial";
+}
+
+.offBgButton{
+    background-image: url("../img/buttonGreenOff.png");
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position:center 3;
+    padding: 3vh;
+    font-size: 4vh;
+    margin-bottom: 5%;
+    font-family: "VAGRounded";
+}
+
+.onBgButton{
+    background-image: url("../img/buttonGreenOn.png");
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position:center 3;
+    padding: 3vh;
+    font-size: 4vh;
+    margin-bottom: 5%;
+    line-height: 1;
+    
+}
+
+#cortainBlack{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0%;
+    background-color: rgba(250,250,250,0.5);
+    opacity: 0;
+    z-index:1;
+}
+
+#selectLevel{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    top:32%;
+     z-index: 3;
+
+}
+
+#selectLevel .titleSection{
+    position: absolute;
+    width: 100%;
+    top:-12%;
+    font-size: 6vh;
+    -webkit-text-stroke: 20px #34449E;
+    
+}
+
+#selectLevel .textWhiteTitle{
+    position: absolute;
+    width: 100%;
+    top:-12%;
+    font-size: 6vh;
+}
+
+#selectLevel #levelBasicButton{
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.01) 1%,rgba(247,236,69,0.5) 50%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 );  /*IE6-9 */
+    padding: 3vh;
+}
+
+#selectLevel #levelMediumButton{
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.01) 1%,rgba(203,97,32,0.5) 50%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+    padding: 3vh;
+}
+
+#selectLevel #leveladvanceButton{
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.01) 1%,rgba(191,4,17,0.5) 50%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+    padding: 3vh;
+}
+
+#selectLevel .imageLevel{
+       width: 90%;
+}
+
+#selectLevel .imageLevel img{
+    width: 70%;
+}
+
+#selectLevel div{
+    text-align: center;
+    margin: 0 auto;
+}
+
+#basicLevel{
+    background-color: #EAC85D;
+    width: 70% !important;
+    border-radius: 2vh;
+    box-shadow: 0 2vh 0 #AD8811;
+}
+
+#mediumLevel{
+    background-color: #70B931;
+    width: 70% !important;
+    border-radius: 2vh;
+    box-shadow: 0 2vh 0 #4B6E22;   
+}
+
+#advanceLevel{
+    background-color: #AF2496;
+    width: 70% !important;
+    border-radius: 2vh;
+    box-shadow: 0 2vh 0 #72005E;    
+}
+
+
+#selectLevel .buttonLevel img{
+    position: relative;
+    transform: translate(0%,-100%);
+    z-index: 1;
+}
+
+#selectLevel span{
+    font-size: 2vh;
+}
+
+
+#selectLevel .buttonLevel span{
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 2;
+    font-size: 4vh;  
+    z-index: 2;
+}
+
+
+#waitingPlayers{
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    display: flex;
+    top:32%;
+     z-index: 1;
+}
+
+#waitingPlayers .titleSection{
+    position: absolute;
+    width: 100%;
+    top:-8%;
+    font-size: 6vh;
+    -webkit-text-stroke: 20px #34449E;
+    
+}
+
+#waitingPlayers .textWhiteTitle{
+    position: absolute;
+    width: 100%;
+    top:-8%;
+    font-size: 6vh;
+}
+
+#selectP1{
+    background-image: url("../img/bg_p1.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 90%;
+    width: 35%;
+}
+
+#selectP2{
+    background-image: url("../img/bg_p2.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 90%;
+    width: 35%;
+}
+
+#waitingPlayers .characterSelection{
+    height: 100%;
+}
+
+.characterSelection img{
+    height: 60%;
+    margin-top:20%;
+}
+
+
+#joinPin{
+    padding-top: 5vh;
+    width:33.3%;
+    font-size: 4vh;
+}
+
+#pinNumber{
+    font-size: 7vh;
+    color:#000;
+    background-color: #FFF;
+    border-radius: 1vh;
+}
+
+.nickNamePlayer{
+    font-size: 5vh;
+    margin-top: -10%;
+}
+
+#beginGame{
+    background-image: url("../img/buttonGreenOff.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 2vh;
+    opacity: 0.4;
+    visibility: hidden;
+    margin-top: -20%;
+}
+
+@media only screen and (max-width: 768px) {
+          #logoMath{
+        top:5%;
+    }
+    
+   #logoMath img{
+       width: 70%;
+       height: auto;
+    } 
+    
+
+    
+    #selectLevel .textWhiteTitle{
+        font-size: 4vh;
+            top: -12%;
+    }
+    
+    #selectLevel .titleSection{
+        font-size: 4vh;
+        top: -12%;
+    }    
+    
+    
+    #monsters-section{
+        width: 100%;
+        top:10%;
+    }
+      
+    
+    footer{
+    font-size: 2.1vh;
+    }
+    
+}
+
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    
+      #logoMath{
+        top:0%;
+    }
+    
+   #logoMath img{
+       width: 90%;
+       height: auto;
+    } 
+      
+   /* #selectLevel {
+        display: block;
+         top:25%;
+    }
+    
+      
+    #selectLevel div {
+        margin: 0;
+    }      
+      
+    .optionLevel{
+        width: 100% !important;
+        height: 20%;
+        display: flex;        
+    }   
+      
+    #selectLevel .imageLevel {
+        width: 30%;
+    }      
+      
+    #selectLevel .imageLevel img {
+        width: 100%;
+    }      
+      
+    #selectLevel #levelBasicButton{      
+      background: none;
+    }     
+      
+    #selectLevel #levelMediumButton{      
+      background: none;
+    }     
+      
+    #selectLevel #levelAdvanceButton{      
+      background: none;
+    }
+        
+    #basicLevel {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+        margin-top: -3% !important;
+        
+    }      
+      
+        
+    #mediumLevel {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+        margin-top: -3% !important;
+    }      
+      
+        
+    #advanceLevel {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+        margin-top: -3% !important;
+    }      
+      
+#selectLevel p {
+    font-size: 2.3vh;
+    position: absolute;
+    width: 100%;
+    top: 40%;
+    text-align: left;
+    left: 35%;
+}      
+      
+#selectLevel .buttonLevel span {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1;
+    font-size: 3vh;
+    z-index: 2;
+}      */
+      
+      
+}
+
+/*ipad Pro portrait*/
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2)  and (orientation: portrait)  {
+    #logoMath{
+        top:5%;
+    }
+    
+   #logoMath img{
+       width: 90%;
+       height: auto;
+    }    
+      #monsters-section{
+        width: 100%;
+        display: flex;
+        top:20%;
+    }  
+    .monster-sec-img{
+        width: 50%;
+    }
+    
+    #selectLevel p {
+        font-size: 1.5vh;
+    }
+
+    .monster-sec-img .left-monster{
+        width: 100%;
+        
+    }  
+    
+    .monster-sec-img .right-monster{
+        width: 100%;
+    }        
+    
+}
+/*ipad Pro landscape*/
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5) {
+    
+      #monsters-section{
+        width: 100%;
+        display: flex;
+        top:15%;
+    }  
+    .monster-sec-img{
+        width: 50%;
+    }
+
+   /* .monster-sec-img .left-monster{
+        width: 50%;
+        margin-top:15%;
+    }  
+    
+    .monster-sec-img .right-monster{
+        width: 60%;
+    } */   
+}
+
+
+/*Include class when portrait*/
+
+    .selectLevel-portrait{
+         display:block;
+         top:25% !important;
+        
+    }
+
+   #selectLevel .selectLevel-portrait{
+        display: block;
+         top:25%;
+    }
+    
+
+    .optionLevel-portrait{
+        width: 100% !important;
+        height: 20%;
+        display: flex;     
+        background: none !important;
+    }   
+      
+    #selectLevel .imageLevel-portrait{
+        width: 30%;
+    }      
+
+    .imageLevel-portrait img {
+        width: 100%;
+    }  
+
+      
+    .basicLevel-portrait {
+        width: auto !important;
+        height: 50%;
+        padding: 2vh;
+        margin-top: -3% !important;
+        
+    }      
+      
+             
+      
+.parrafo-portrait {
+    font-size: 2.3vh;
+    position: absolute;
+    width: 100%;
+    top: 40%;
+    text-align: left;
+    left: 35%;
+}      
+      
+.span-portrait {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    line-height: 1;
+    font-size: 3vh;
+    z-index: 2;
+}      
+
+/*LOADER*/
+.loader{
+    margin-top: 5%;
+}
+
+.loader span {
+  display: inline-block;
+  vertical-align: middle;
+  width: .6em;
+  height: .6em;
+  margin: .19em;
+  background: #007DB6;
+  border-radius: .6em;
+  animation: loader 1s infinite alternate;
+}
+
+.loader span:nth-of-type(2) {
+  background: #008FB2;
+  animation-delay: 0.2s;
+}
+.loader span:nth-of-type(3) {
+  background: #009B9E;
+  animation-delay: 0.4s;
+}
+.loader span:nth-of-type(4) {
+  background: #00A77D;
+  animation-delay: 0.6s;
+}
+.loader span:nth-of-type(5) {
+  background: #00B247;
+  animation-delay: 0.8s;
+}
+.loader span:nth-of-type(6) {
+  background: #5AB027;
+  animation-delay: 1.0s;
+}
+.loader span:nth-of-type(7) {
+  background: #A0B61E;
+  animation-delay: 1.2s;
+}
+
+ 
+@keyframes loader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
