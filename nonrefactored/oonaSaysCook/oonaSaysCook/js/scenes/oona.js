@@ -68,7 +68,8 @@ var oona = function(){
     var board
     var recipeGroup
     var toolsGroup
-    var cookBtn
+    var okBtn
+    var okBtnImg
 	var toolsTkn = ['mixTkn','pourTkn','cutTkn','ovenTkn','roastTkn','friedTkn']
     var orders = ['mix','pour','cut','oven','roast','fried']
     var aux
@@ -615,7 +616,7 @@ var oona = function(){
 
         //sound.play("cut")
         enterRecipe()
-        cookBtn.inputEnabled = false
+        okBtnImg.inputEnabled = false
 
         for (var i = 0; i < toolsGroup.length; i++)
         {
@@ -628,7 +629,7 @@ var oona = function(){
         {
             game.add.tween(recipeGroup).to({alpha: 1}, 200, Phaser.Easing.linear, true)
             gameActive = true;
-            cookBtn.inputEnabled = true
+            okBtnImg.inputEnabled = true
             timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, gameTime, Phaser.Easing.linear, true)
             
             timeGroup.tween.onComplete.add(function() 
@@ -643,7 +644,7 @@ var oona = function(){
     function endGame(timeEnded){
         
         timeGroup.tween.stop()
-        cookBtn.inputEnabled = false
+        okBtnImg.inputEnabled = false
         
         if(timeEnded)
         {
@@ -688,29 +689,48 @@ var oona = function(){
     }
         
     function createOona(){
-        oonaAvatar = game.add.spine(game.world.centerX, game.world.height, "oonaAvatar");
-        oonaAvatar.scale.setTo(0.9, 0.9);
-        oonaAvatar.setAnimationByName(0, "IDLE", true);
-        oonaAvatar.setSkinByName("normal");
-        sceneGroup.add(oonaAvatar);
+        oonaAvatar = game.add.spine(game.world.centerX, game.world.height, "oonaAvatar")
+        oonaAvatar.scale.setTo(0.9, 0.9)
+        oonaAvatar.setAnimationByName(0, "IDLE", true)
+        oonaAvatar.setSkinByName("normal")
+        sceneGroup.add(oonaAvatar)
  
-        cookBtn = sceneGroup.create(0, 0, 'atlas.oona', 'cookBtn')
-        cookBtn.x = game.world.centerX * 1.5
-        cookBtn.y = game.world.centerY * 1.2
-        cookBtn.anchor.setTo(0.5, 0.5)
-        cookBtn.inputEnabled = true
-        cookBtn.pressed = false
-        cookBtn.events.onInputDown.add(function(){
+        okBtn = game.add.group()
+        okBtn.x = game.world.centerX + 200
+        okBtn.y = game.world.height - 85 
+        sceneGroup.add(okBtn)
+
+            okBtnImg = okBtn.create(0, 0, 'atlas.oona', 'okBtn')
+            okBtnImg.scale.setTo(0.7, 0.7)
+            okBtnImg.anchor.setTo(0.5, 0.5)
+            okBtnImg.inputEnabled = true
+            okBtnImg.pressed = false
+            okBtnImg.events.onInputUp.add(cook)
         
-        game.add.tween(cookBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
-        {
-            game.add.tween(cookBtn.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
-        });
-        gameActive = false
-        sound.play("pop")
+            if(localization.getLanguage() == 'EN')
+            {
+                text = 'OK!'
+            }
+            else
+            {
+                text = '¡OK!'
+            }
+
+            fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            okText = new Phaser.Text(sceneGroup.game, 0, 0, text, fontStyle)
+            okText.x = okBtnImg.x
+            okText.y = okBtnImg.y
+            okText.anchor.setTo(0.5, 0.5)
+            okBtn.add(okText)
+        
+        okBtnImg.events.onInputDown.add(function(){
+        
+            game.add.tween(okBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
+            {
+                game.add.tween(okBtn.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
+            })
+            sound.play("pop")
         })
-    
-        cookBtn.events.onInputUp.add(cook)
     }
     
     function cook(){
@@ -718,8 +738,8 @@ var oona = function(){
         timeGroup.tween.stop()
         var timer = 500;
         var fin = true
-        cookBtn.pressed = true
-        cookBtn.inputEnabled = false
+        okBtnImg.pressed = true
+        okBtnImg.inputEnabled = false
        
         if(aux == cap)
         {

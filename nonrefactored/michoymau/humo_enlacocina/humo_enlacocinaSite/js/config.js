@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Humo en la cocina",
+        name: "Corto Circuito",
         language: "es",
-        minigameUrl: "../humo_enlacocina/index.html?language=" + language,
+        minigameUrl: "../../humo_enlacocina/humo_enlacocina/index.html?language=ES",
         desktopUrl: "./desktop.html",
     }
 }

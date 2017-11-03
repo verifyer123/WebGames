@@ -79,6 +79,11 @@ var riverRescue = function(){
     var trash1, trash2, trash3
     var timeBar
     var timeTween
+    var backG
+    var light1,light2,light3
+    var usage
+    var counter
+    var scoreBarMove
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -88,19 +93,21 @@ var riverRescue = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 3
-        speed = 20
-        appear=100
+        speed = .5
+        appear=35
+        counter=0
         trash1=null
         trash2=null
         trash3=null
         nextLevel=20
+        usage=.5
         startGame=false
         delayer=0
         for (var iniGarbage=0;iniGarbage<34;iniGarbage++)
             {
                 garbage2[iniGarbage]=false
             }
-        for (var iniGarbageLine=0;iniGarbageLine<11;iniGarbageLine++)
+        for (var iniGarbageLine=0;iniGarbageLine<10;iniGarbageLine++)
             {
                 garbageScreen1[iniGarbageLine]=null
                 garbageScreen2[iniGarbageLine]=null
@@ -273,7 +280,7 @@ var riverRescue = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
         
-        for (var iniGarbageLine=0;iniGarbageLine<11;iniGarbageLine++)
+        for (var iniGarbageLine=0;iniGarbageLine<10;iniGarbageLine++)
             {
                 if(garbageScreen1[iniGarbageLine]!=null && (garbageScreen1[iniGarbageLine]!=trash1 && garbageScreen1[iniGarbageLine]!=trash2 && garbageScreen1[iniGarbageLine]!=trash3)){
                 garbageScreen1[iniGarbageLine].alpha=0
@@ -418,13 +425,24 @@ var riverRescue = function(){
         wrongParticle = createPart("wrong")
         sceneGroup.add(wrongParticle)
         
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.physics.arcade.gravity.y = 0;
         //Creamos el fondo
         
-        var backG=game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.river',"background")
+        backG=game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.river',"background")
         backgroundGroup.add(backG)
-        var light1=game.add.image(game.world.centerX-300,0,'atlas.river',"light")
-        var light2=game.add.image(game.world.centerX-50,0,'atlas.river',"light")
-        var light3=game.add.image(game.world.centerX+200,0,'atlas.river',"light")
+        light1=game.add.image(game.world.centerX-300,0,'atlas.river',"light")
+        light1.height=0
+        light2=game.add.image(game.world.centerX-50,0,'atlas.river',"light")
+        light2.height=0
+        light3=game.add.image(game.world.centerX+200,0,'atlas.river',"light")
+        light3.height=0
+        var tween = game.add.tween(light1.scale).to({y:1},1000,"Linear",true,0,-1)
+        tween.yoyo(true,200)
+        var tween2 = game.add.tween(light2.scale).to({y:1},1000,"Linear",true,0,-1)
+        tween2.yoyo(true,200)
+        var tween3 = game.add.tween(light3.scale).to({y:1},1000,"Linear",true,0,-1)
+        tween3.yoyo(true,200)
         backgroundGroup.add(light1)
         backgroundGroup.add(light2)
         backgroundGroup.add(light3)
@@ -441,18 +459,62 @@ var riverRescue = function(){
         var plants = game.add.tileSprite(0,game.world.centerY+100,game.world.width,200,"atlas.river","vegetation")
         backgroundGroup.add(backG)
         backgroundGroup.add(plants)
+        backgroundGroup.add(floor)
         var stone1=gameGroup.create(game.world.width-200,game.world.height-200,'atlas.river',"river-34")
         stone1.width=200
         stone1.height=200
         var stone2=gameGroup.create(200,game.world.height-200,'atlas.river',"river-34")
         stone2.width=-200
         stone2.height=200
+        backgroundGroup.add(stone2)
+        backgroundGroup.add(stone1)
         character = game.add.spine(game.world.centerX,game.world.height, "axolotl");
             character.scale.setTo(scaleSpine*2,scaleSpine*2)
             character.scale.setTo(scaleSpine*2,scaleSpine*2)
             character.setAnimationByName(0,"IDLE",true);
             character.setSkinByName("normal");
             gameGroup.add(character)
+        
+        //Aqui meto la barra de recoleccion de basura
+        var scoreBar=game.add.sprite(10,game.world.height-150,"atlas.river","blueBar")
+        scoreBar.scale.setTo(.7,.7)
+        scoreBarMove=game.add.sprite(scoreBar.x+35,scoreBar.y-80,"atlas.river","barScore")
+        scoreBarMove.scale.setTo(3,7)
+        var poly2 = new Phaser.Polygon([ new Phaser.Point(200, 100), new Phaser.Point(450, 70), new Phaser.Point(450, 150), new Phaser.Point(200, 150)]);
+        
+        graphics2 = game.add.graphics(0, 0);
+
+        graphics2.beginFill(0x112C5C);
+        graphics2.drawPolygon(poly2.points);
+        graphics2.endFill();
+        graphics2.alpha=1
+        graphics2.anchor.setTo(0)
+        graphics2.scale.setTo(.5,.5)
+        graphics2.position.x=scoreBar.position.x-60
+        graphics2.position.y=scoreBar.position.y-30
+        backgroundGroup.add(scoreBar)
+		backgroundGroup.add(graphics2)
+        
+        
+       
+        
+        
+        var poly = new Phaser.Polygon([ new Phaser.Point(200, 100), new Phaser.Point(450, 70), new Phaser.Point(450, 150), new Phaser.Point(200, 150)]);
+
+        graphics = game.add.graphics(0, 0);
+
+        graphics.beginFill(0xFF33ff);
+        graphics.drawPolygon(poly.points);
+        graphics.endFill();
+        graphics.anchor.setTo(0)
+        graphics.scale.setTo(.5,.5)
+        graphics.position.x=scoreBar.position.x-60
+        graphics.position.y=scoreBar.position.y-30
+		backgroundGroup.add(graphics)
+        scoreBarMove.scale.setTo(0,10)
+        
+        scoreBarMove.mask=graphics
+        backgroundGroup.add(scoreBarMove)
         //Aqui metemos las basuras al arreglo
         
         for(var trashinside=0;trashinside<14;trashinside++)
@@ -487,23 +549,32 @@ var riverRescue = function(){
                 if(garbage[iniGarbage]!=trash1 && garbage[iniGarbage]!=trash2 && garbage[iniGarbage]!=trash3 )
                 garbage2[iniGarbage]=false
             }
-        for (var iniGarbageLine=0;iniGarbageLine<11;iniGarbageLine++)
+        for (var iniGarbageLine=0;iniGarbageLine<10;iniGarbageLine++)
             {
                 if(garbageScreen1[iniGarbageLine]!=null && (garbageScreen1[iniGarbageLine]!=trash1 && garbageScreen1[iniGarbageLine]!=trash2 && garbageScreen1[iniGarbageLine]!=trash3)){
                 garbageScreen1[iniGarbageLine].alpha=0
-                garbageScreen1[iniGarbageLine].body.moves=false  
+                garbageScreen1[iniGarbageLine].body.moves=false
+                garbageScreen1[iniGarbageLine].position.x=-300
+                garbageScreen1[iniGarbageLine].position.y=-110
+                garbageScreen1[iniGarbageLine]=null
+
                 }
                 if(garbageScreen2[iniGarbageLine]!=null && (garbageScreen2[iniGarbageLine]!=trash1 && garbageScreen2[iniGarbageLine]!=trash2 && garbageScreen2[iniGarbageLine]!=trash3)){
                 garbageScreen2[iniGarbageLine].alpha=0
                 garbageScreen2[iniGarbageLine].body.moves=false
+                garbageScreen2[iniGarbageLine].position.x=-300
+                garbageScreen2[iniGarbageLine].position.y=-110
+                garbageScreen2[iniGarbageLine]=null
+                
                 }
                 if(garbageScreen3[iniGarbageLine]!=null && (garbageScreen3[iniGarbageLine]!=trash1 && garbageScreen3[iniGarbageLine]!=trash2 && garbageScreen3[iniGarbageLine]!=trash3)){
                 garbageScreen3[iniGarbageLine].alpha=0
                 garbageScreen3[iniGarbageLine].body.moves=false
-                }
-                garbageScreen1[iniGarbageLine]=null
-                garbageScreen2[iniGarbageLine]=null
+                garbageScreen3[iniGarbageLine].position.x=-300
+                garbageScreen3[iniGarbageLine].position.y=-110
                 garbageScreen3[iniGarbageLine]=null
+                
+                }
                 
             }
         
@@ -527,15 +598,36 @@ var riverRescue = function(){
     {
         
        
+        backG.tilePosition.x+=2
         
+        if(counter<20 && counter!=0){
+        game.add.tween(scoreBarMove.scale).to({x:counter/26,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
+        }
         
-        if(pointsBar.number%nextLevel==0 && pointsBar.number!=0)
+        for(var follow=0;follow<10;follow++){
+            
+            if(garbageScreen1[follow]!=null && garbageScreen1[follow]!=trash1 && garbageScreen1[follow]!=trash2 && garbageScreen1[follow]!=trash3 && garbageScreen1[follow].alpha==1){
+            garbageScreen1[follow].position.y +=speed;
+            }
+            if(garbageScreen2[follow]!=null && garbageScreen2[follow]!=trash1 && garbageScreen2[follow]!=trash2 && garbageScreen2[follow]!=trash3 && garbageScreen2[follow].alpha==1){
+            garbageScreen2[follow].position.y +=speed;
+            }
+            if(garbageScreen3[follow]!=null && garbageScreen3[follow]!=trash1 && garbageScreen3[follow]!=trash2 && garbageScreen3[follow]!=trash3 && garbageScreen3[follow].alpha==1){
+            garbageScreen3[follow].position.y +=speed;
+            }
+        }
+        
+            
+            
+        if(counter==20)
         {
-            speed+=2
-            appear-=10
+            speed+=.4
+            counter=0
+            game.add.tween(scoreBarMove.scale).to({x:0,y:4}, 500, Phaser.Easing.Linear.Out, true, 100)
+            appear-=2
+            addPoint(1)
             timeTween.stop()
             reset()
-            nextLevel+=20
         }
             
         if(startGame)
@@ -548,9 +640,14 @@ var riverRescue = function(){
             
             
             
-            randomCreation=game.rnd.integerInRange(0,10)
+            randomCreation=game.rnd.integerInRange(0,9)
             var randomtrail=game.rnd.integerInRange(0,2)
-            var trashObject=game.rnd.integerInRange(0,26)
+            var trashObject=game.rnd.integerInRange(0,25)
+            
+            
+            if(mismo!=trashObject){
+            var mismo=trashObject
+            
             
             
          
@@ -561,17 +658,15 @@ var riverRescue = function(){
                 garbageScreen1[randomCreation].tag=trashObject
                 garbageScreen1[randomCreation].alpha=1
                 garbageScreen1[randomCreation].position.x=game.world.centerX-300
-                garbageScreen1[randomCreation].position.y=-200
-                delayer=0
+                garbageScreen1[randomCreation].position.y=-110
                 garbage2[trashObject]=true
                 gameGroup.add(garbageScreen1[randomCreation])
                 game.physics.enable(garbageScreen1[randomCreation], Phaser.Physics.ARCADE)
-                garbageScreen1[randomCreation].body.gravity.y = speed;
                 garbageScreen1[randomCreation].body.onCollide = new Phaser.Signal();
                 garbageScreen1[randomCreation].body.onCollide.add(hitTheFloor, this);
                 garbageScreen1[randomCreation].inputEnabled=true
-                garbageScreen1[randomCreation].body.moves=true
                 garbageScreen1[randomCreation].events.onInputDown.add(onClick,this)
+                delayer=0
             }
             if(garbageScreen2[randomCreation]==null && garbage2[trashObject]==false && randomtrail==1)
             {
@@ -579,17 +674,15 @@ var riverRescue = function(){
                 garbageScreen2[randomCreation].tag=trashObject
                 garbageScreen2[randomCreation].alpha=1
                 garbageScreen2[randomCreation].position.x=game.world.centerX-50
-                garbageScreen2[randomCreation].position.y=-200
-                delayer=0
+                garbageScreen2[randomCreation].position.y=-110
                 gameGroup.add(garbageScreen2[randomCreation])
                 garbage2[trashObject]=true
                 game.physics.enable(garbageScreen2[randomCreation], Phaser.Physics.ARCADE)
-                garbageScreen2[randomCreation].body.gravity.y = speed;
                 garbageScreen2[randomCreation].body.onCollide = new Phaser.Signal();
                 garbageScreen2[randomCreation].body.onCollide.add(hitTheFloor, this);
                 garbageScreen2[randomCreation].inputEnabled=true
-                garbageScreen2[randomCreation].body.moves=true
                 garbageScreen2[randomCreation].events.onInputDown.add(onClick,this)
+                delayer=0
             }
             if(garbageScreen3[randomCreation]==null && garbage2[trashObject]==false && randomtrail==2)
             {
@@ -597,24 +690,22 @@ var riverRescue = function(){
                 garbageScreen3[randomCreation].tag=trashObject
                 garbageScreen3[randomCreation].alpha=1
                 garbageScreen3[randomCreation].position.x=game.world.centerX+200
-                garbageScreen3[randomCreation].position.y=-200
-                delayer=0
+                garbageScreen3[randomCreation].position.y=-110
                 gameGroup.add(garbageScreen3[randomCreation])
                 garbage2[trashObject]=true
                 game.physics.enable(garbageScreen3[randomCreation], Phaser.Physics.ARCADE)
-                garbageScreen3[randomCreation].body.gravity.y = speed;
                 garbageScreen3[randomCreation].body.onCollide = new Phaser.Signal();
                 garbageScreen3[randomCreation].body.onCollide.add(hitTheFloor,this);
                 garbageScreen3[randomCreation].inputEnabled=true
-                garbageScreen3[randomCreation].body.moves=true
                 garbageScreen3[randomCreation].events.onInputDown.add(onClick,this)
+                delayer=0
             }
             
-            
+            randomtrail=3
             
             delayer=0
         }
-        
+        }
         
         
         for(var colliding=0; colliding<10; colliding++)
@@ -647,23 +738,27 @@ var riverRescue = function(){
         sound.play("clean")
         for(var searchingNull=0; searchingNull<10;searchingNull++){
         if(garbageScreen3[searchingNull]==obj ){
+            garbageScreen3[searchingNull].alpha=0
+            garbageScreen3[searchingNull].position.x=-300
+            garbageScreen3[searchingNull].position.y=-110
             garbageScreen3[searchingNull]=null
-            break
         }
         if(garbageScreen2[searchingNull]==obj ){
+            garbageScreen2[searchingNull].alpha=0
+            garbageScreen2[searchingNull].position.x=-50
+            garbageScreen2[searchingNull].position.y=-110
             garbageScreen2[searchingNull]=null
-            break
         }
         if(garbageScreen1[searchingNull]==obj ){
+            garbageScreen1[searchingNull].alpha=0
+            garbageScreen1[searchingNull].position.x=-200
+            garbageScreen1[searchingNull].position.y=-110
             garbageScreen1[searchingNull]=null
-            break
         }
         } 
         obj.inputEnabled=false
-        obj.body.moves=false
-        obj.alpha=0
-        addPoint(1)
         
+        counter++
         
             
             

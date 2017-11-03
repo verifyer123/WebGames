@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("dojo")
+				sceneloader.show("map")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,8 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            dojo,
-            result,
+            map,
     	])
     }
 }

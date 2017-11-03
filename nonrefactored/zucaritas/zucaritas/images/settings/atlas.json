@@ -1,0 +1,48 @@
+{"frames": [
+
+{
+	"filename": "button1",
+	"frame": {"x":1056,"y":1,"w":129,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
+	"sourceSize": {"w":129,"h":114},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "button2",
+	"frame": {"x":1056,"y":117,"w":129,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
+	"sourceSize": {"w":129,"h":114},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "introscreen",
+	"frame": {"x":1,"y":1,"w":581,"h":499},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":581,"h":499},
+	"sourceSize": {"w":581,"h":499},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "retro-pattern",
+	"frame": {"x":584,"y":1,"w":470,"h":470},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":470,"h":470},
+	"sourceSize": {"w":470,"h":470},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1186,"h":501},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5d4b89edef47b4082cc4c12732f5d55b:a31101587b1c868397f91336a0773b3b:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
