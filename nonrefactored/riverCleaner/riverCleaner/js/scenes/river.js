@@ -82,6 +82,7 @@ var river = function(){
     var barContainer
     var score
     var addTrash
+    var rand
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -102,6 +103,7 @@ var river = function(){
         speed = 0
         trowTimer = 1500
         trashTween = game.time.events
+        rand = 0
         
         loadSounds()
         
@@ -317,8 +319,7 @@ var river = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                //trowTrash()
-                trashTween.loop(trowTimer, trowTrash, this)
+                trowTrash()
                 nao.setAnimationByName(0, "RUN", true)
                 speed = 3
             })
@@ -704,9 +705,9 @@ var river = function(){
         trashGroup.setAll('checkWorldBounds', true)
     }
     
-    function trowTrash(trow){
+    function trowTrash(){
         
-        var rand = 0
+        trashTween.loop(trowTimer, function(){
         
             if(game.rnd.integerInRange(0, 2) == 1){
                 pullFish()
@@ -723,6 +724,7 @@ var river = function(){
                 }
                 else trashNumber = 0    
             }
+        }, this)
     }
     
     function getRand(rand){
