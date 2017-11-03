@@ -35,12 +35,12 @@ var river = function(){
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
+            {	name: "right",
+				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
+			{	name: "drag",
+				file: soundsPath + "drag.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 			
@@ -54,22 +54,35 @@ var river = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 100
 	var indexGame
     var overlayGroup
+    var particleCorrect
+    var particleWrong
     var fishSong
     var nao
     var naoPos
     var aux
-    var rows = [110, 440, 770]
+    var rows = [150, 390, 640]
     var rubbish = ['apple','bag','ball','banan','book','burger','cardboard','deadFish','pear','plastic','plate','steak','tomato','watermelon']
     var trashGroup
     var fishGroup
     var fishColliderGroup
-    var pivot
+    var fishNumber
+    var trashNumber
     var box
-    var velocity
-    var items
+    var speed
+    var fondo
+    var row0
+    var row1
+    var row2
+    var trashContainer
+    var level
+    var trowTimer
+    var barContainer
+    var score
+    var addTrash
+    var rand
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -81,9 +94,16 @@ var river = function(){
         lives = 1
         
         aux = 0
-        velocity = -90
-        items = 14
-        pivot = 0
+        fishNumber = 0
+        trashNumber = 0
+        trashContainer = 0
+        level = 4
+        score  = 7.5/level
+        addTrash = score    
+        speed = 0
+        trowTimer = 1500
+        trashTween = game.time.events
+        rand = 0
         
         loadSounds()
         
@@ -299,8 +319,9 @@ var river = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                startTrash()
-                startFish()
+                trowTrash()
+                nao.setAnimationByName(0, "RUN", true)
+                speed = 3
             })
             
         })
@@ -343,51 +364,34 @@ var river = function(){
     }
 
 	function createBackground(){
-		
-        var fondo
-        var row0
-        var row1
-        var row2
+		        
+       
+        fondo = game.add.tileSprite(0, 0, game.world.width, game.world.height, "fondo")
+        sceneGroup.add(fondo)
         
-        for(var d = 0; d < 11; d ++)
-        {
-            for(var f = 0; f < 14; f ++)
-            {
-                fondo = sceneGroup.create(0, 0, "fondo");
-                fondo.x = f * fondo.width * 0.99
-                fondo.y = d * fondo.height * 0.99
-            }
-        }   
+        row0 = game.add.tileSprite(0, 0, game.world.width, 330, "fondo2")
+        row0.scale.setTo(1, 0.85)
+        row0.y = 0.2 * row0.height
+        row0.number = 0
+        row0.inputEnabled = true
+        row0.events.onInputDown.add(changeRow)
+        sceneGroup.add(row0)
         
-        for(var f = 0; f < 13; f ++)
-        {
-              row0 = sceneGroup.create(0, 0, "fondo2");
-              row0.x = f * row0.width * 0.99
-              row0.y = 0
-              row0.number = 0
-              row0.inputEnabled = true
-              row0.events.onInputDown.add(changeRow)
-        }
-        
-        for(var f = 0; f < 13; f ++)
-        {
-              row1 = sceneGroup.create(0, 0, "fondo2");
-              row1.x = f * row1.width * 0.99
-              row1.y = row1.height
-              row1.number = 1
-              row1.inputEnabled = true
-              row1.events.onInputDown.add(changeRow)
-        }
-        
-        for(var f = 0; f < 13; f ++)
-        {
-              row2 = sceneGroup.create(0, 0, "fondo2");
-              row2.x = f * row2.width * 0.99
-              row2.y = 2 * row2.height
-              row2.number = 2
-              row2.inputEnabled = true
-              row2.events.onInputDown.add(changeRow)
-        }
+        row1 = game.add.tileSprite(0, 0, game.world.width, 330, "fondo2")
+        row1.scale.setTo(1, 0.85)
+        row1.y = 0.95 * row1.height
+        row1.number = 1
+        row1.inputEnabled = true
+        row1.events.onInputDown.add(changeRow)
+        sceneGroup.add(row1)
+
+        row2 = game.add.tileSprite(0, 0, game.world.width, 330, "fondo2")
+        row2.scale.setTo(1, 0.85)
+        row2.y = 1.7 * row2.height
+        row2.number = 2
+        row2.inputEnabled = true
+        row2.events.onInputDown.add(changeRow)
+        sceneGroup.add(row2)
 	}
 	
 	function createTextPart(text,obj){
@@ -442,27 +446,19 @@ var river = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+
+        particle.makeParticles('atlas.river',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+
+        return particle
+
     }
     
     function createParticles(tag,number){
@@ -583,46 +579,53 @@ var river = function(){
         nao.setSkinByName("normal")
         sceneGroup.add(nao)
         
-        naoPos = game.add.sprite(0, 0, 'atlas.river', 'star')
-        naoPos.scale.setTo(3.2, 3.2)
+        naoPos = game.add.sprite(200, 0, 'atlas.river', 'star')
+        naoPos.y = rows[0] + naoPos.height
+        //naoPos.scale.setTo(3.2, 3.2)
         naoPos.alpha = 0
-        naoPos.inputEnabled = true
-        naoPos.input.enableDrag()
-        naoPos.input.allowVerticalDrag = false
         game.physics.arcade.enable(naoPos)
         naoPos.body.immovable = true
     }
     
     function changeRow(obj){
         aux = obj.number
-        naoPos.x = 0
+        sound.play("cut")
+        game.add.tween(naoPos).to({y:rows[aux]+ naoPos.height}, 500, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(naoPos).to({x:200}, 300, Phaser.Easing.Cubic.Out, true)
     }
     
     function update(){
-        
-        naoPos.y = rows[aux]
-        
-        nao.x = naoPos.x + naoPos.width * 0.4
-        nao.y = naoPos.y + nao.height + 50
+      
+        nao.x = naoPos.x - naoPos.width 
+        nao.y = naoPos.y + nao.height 
         
         game.physics.arcade.collide(box, trashGroup, trashCollision, null, this)
         game.physics.arcade.collide(box, fishColliderGroup, boxFishCollision, null, this)
         game.physics.arcade.collide(naoPos, trashGroup, naoCollision, null, this)
         game.physics.arcade.collide(naoPos, fishColliderGroup, fishCollision, null, this)
         
-        if(items == 4){
-            fillTrashGroup()
-            startTrash()
-            items = 15
-        }
+        fondo.tilePosition.x -= speed * 0.5
+        row0.tilePosition.x -= speed
+        row1.tilePosition.x -= speed
+        row2.tilePosition.x -= speed
          
         for(var i = 0; i < fishGroup.length; i++)
         {
             if(fishGroup.children[i].active){
-                fishGroup.children[i].x -= 1
-                fishColliderGroup.children[i].x -= 1
+                fishGroup.children[i].x -= speed
+                fishColliderGroup.children[i].x -= speed
             }
         }
+        
+        for(var i = 0; i < trashGroup.length; i++)
+        {
+            if(trashGroup.children[i].active){
+                trashGroup.children[i].x -= speed
+            }
+        }
+        
+        if(trashContainer == level)
+            restartGame()
 	}
     
     function createFish(){
@@ -667,33 +670,19 @@ var river = function(){
         fishColliderGroup.setAll('checkWorldBounds', true)
     }
     
-    function startFish(){
+    function pullFish(){
         
-        var timer = 400
-        
-        for(var t = 0; t < 5; t++)
+        if(fishNumber < 5)
         {
-            pullFish(timer)
-            timer += 8000
+            fishGroup.children[fishNumber].alpha = 1
+            fishGroup.children[fishNumber].x = game.world.width
+            fishGroup.children[fishNumber].y = rows[game.rnd.integerInRange(0, 2)] + fishGroup.children[0].height 
+            fishGroup.children[fishNumber].active = true
+            fishColliderGroup.children[fishNumber].x = fishGroup.children[fishNumber].x
+            fishColliderGroup.children[fishNumber].y = fishGroup.children[fishNumber].y - 50
+            fishNumber++
         }
-    }
-    
-    function pullFish(delay){
-        
-        game.time.events.add(delay,function(){
-        if(pivot < 5)
-        {
-            fishGroup.children[pivot].alpha = 1
-            fishGroup.children[pivot].x = game.world.width
-            fishGroup.children[pivot].y = rows[game.rnd.integerInRange(0, 2)] + fishGroup.children[0].height 
-            fishGroup.children[pivot].active = true
-            fishColliderGroup.children[pivot].x = fishGroup.children[pivot].x
-            fishColliderGroup.children[pivot].y = fishGroup.children[pivot].y - 50
-            pivot++
-        }
-        else pivot = 0    
-                 
-        },this)
+        else fishNumber = 0    
     }
     
     function createTrash(){
@@ -703,15 +692,11 @@ var river = function(){
         trashGroup.physicsBodyType = Phaser.Physics.ARCADE
         sceneGroup.add(trashGroup)  
         
-        fillTrashGroup()
-    }
-    
-    function fillTrashGroup(){
-        
         for(var t = 0; t < 14; t++)
         {
             var trash = trashGroup.create(0, 0, 'atlas.river', rubbish[t])
             trash.number = t
+            trash.active = false
             game.physics.enable(trash, Phaser.Physics.ARCADE)
         }
         trashGroup.setAll('anchor.x', 1)
@@ -720,29 +705,34 @@ var river = function(){
         trashGroup.setAll('checkWorldBounds', true)
     }
     
-    function startTrash(){
+    function trowTrash(){
         
-        var timer = 400
+        trashTween.loop(trowTimer, function(){
         
-        for(var t = 0; t < 14; t++)
-        {
-            trowTrash(trashGroup.children[t], timer)
-            timer += 5000
-        }
+            if(game.rnd.integerInRange(0, 2) == 1){
+                pullFish()
+            }
+            else{
+                if(trashNumber < 14)
+                {
+                    rand = getRand(rand)
+                    trashGroup.children[trashNumber].alpha = 1
+                    trashGroup.children[trashNumber].x = game.world.width
+                    trashGroup.children[trashNumber].y = rows[rand] + 100
+                    trashGroup.children[trashNumber].active = true
+                    trashNumber++
+                }
+                else trashNumber = 0    
+            }
+        }, this)
     }
     
-    function trowTrash(obj,delay){
-        
-        game.time.events.add(delay,function(){
-
-            if (obj)
-            {
-                obj.alpha = 1
-                obj.reset(game.world.width, rows[game.rnd.integerInRange(0, 2)] + 100)
-                obj.body.velocity.x = velocity
-            }
+    function getRand(rand){
+        var x = game.rnd.integerInRange(0, 2)
+        if(x == rand)
+            return getRand(rand)
+        else return x
             
-        },this)
     }
     
     function createBox(){
@@ -759,19 +749,39 @@ var river = function(){
     
     function trashCollision (box, trash) {
         trash.alpha = 0
-        trowTrash(trash, 2000)
+        trashGroup.children[trash.number].active = false
+        trashGroup.children[trash.number].x = 0
+        trashGroup.children[trash.number].y = 0
     }
 
     function naoCollision(naoPos, trash){
-        trash.kill()
         nao.setAnimationByName(0, "HIT", false)
-        items--
-        addPoint(1)
-        idleNao()
+        sound.play("right")
+        particleCorrect.x = trash.world.x
+        particleCorrect.y = trash.world.y
+        particleCorrect.start(true, 1000, null, 1)
+        
+        trash.alpha = 0
+        trashGroup.children[trash.number].active = false
+        trashGroup.children[trash.number].x = 0
+        trashGroup.children[trash.number].y = 0    
+    
+        game.add.tween(barContainer.scale).to({x:addTrash}, 500, Phaser.Easing.Cubic.Out, true)
+        addTrash += score
+        
+        trashContainer++
+        
+        if(trashContainer < level)
+            nao.addAnimationByName(0, "RUN", true)
     }
     
     function fishCollision(naoPos, fishCollider){    
         nao.setAnimationByName(0, "LOSE", true)
+        
+        particleWrong.x = fishCollider.world.x
+        particleWrong.y = fishCollider.world.y
+        particleWrong.start(true, 1000, null, 1)
+        
         naoPos.kill()
         missPoint()
     }
@@ -782,11 +792,82 @@ var river = function(){
         fishGroup.children[fishCollider.number].y = 0
         fishCollider.x = 0
         fishCollider.y = 0
-        pullFish(7000)
     }
-   
-    function idleNao(){  
-        nao.addAnimationByName(0, "IDLE", true)
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        particleWrong = createPart('wrong')
+        sceneGroup.add(particleWrong)
+            
+    }
+    
+    function trashBar(){
+        
+        var containter = sceneGroup.create(0, 0, 'atlas.river', "container")
+        containter.scale.setTo(1.2, 1.2)
+        containter.anchor.setTo(0.5, 0.5)
+        containter.x = game.world.centerX
+        containter.y = game.world.height - 60
+        
+        var poly = new Phaser.Polygon([new Phaser.Point(200, 100), 
+                                       new Phaser.Point(450, 50), 
+                                       new Phaser.Point(450, 150), 
+                                       new Phaser.Point(200, 150)])
+                
+        barContainer = sceneGroup.create(0, 0, 'atlas.river', "bar")
+        barContainer.scale.setTo(0, 1.5)
+        barContainer.anchor.setTo(0, 0.5)
+        barContainer.x = game.world.centerX - 90
+        barContainer.y = game.world.height - 65
+        
+        barMask = game.add.graphics(0, 0)
+
+        barMask.beginFill(0xFF33ff);
+        barMask.drawPolygon(poly.points);
+        barMask.endFill();
+        barMask.anchor.setTo(0, 0.5)
+        barMask.scale.setTo(0.9,0.5)
+        barMask.position.x = game.world.centerX - 270
+        barMask.position.y = game.world.height - 115
+        sceneGroup.add(barMask)
+       
+        barContainer.mask=barMask
+    
+    }
+    
+    function restartGame(){
+        
+        addPoint(1)
+        trashContainer = 0
+        level += 2
+        var temp = speed
+        speed = 0
+        trowTimer *= 0.5
+        nao.setAnimationByName(0, "IDLE", true)
+        score  = 7.5/level
+        addTrash = score    
+        
+        game.time.events.add(2000, function() 
+        {
+            speed = temp + 2
+            game.add.tween(barContainer.scale).to({x:0}, 500, Phaser.Easing.Cubic.Out, true)
+            nao.setAnimationByName(0, "RUN", true)
+        }, this)
+        
+        for(var r = 0; r < fishGroup.length; r++){
+            fishGroup.children[r].active = false
+            fishGroup.children[r].x = 0
+            fishGroup.children[r].y = 0
+            fishColliderGroup.children[r].x = 0
+            fishColliderGroup.children[r].y = 0
+        }
+        
+        for(var r = 0; r < trashGroup.length; r++){
+            trashGroup.children[r].active = false
+            trashGroup.children[r].x = 0
+            trashGroup.children[r].y = 0
+        }
     }
     
 	return {
@@ -825,9 +906,11 @@ var river = function(){
             createBox()
             createFish()
             createFishCollider()
+            createParticles()
+            trashBar()
             
 			buttons.getButton(fishSong,sceneGroup)
-            createOverlay()
+            createOverlay()  
             animateScene()
             
 		},

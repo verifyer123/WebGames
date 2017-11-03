@@ -82,6 +82,8 @@ var riverRescue = function(){
     var backG
     var light1,light2,light3
     var usage
+    var counter
+    var scoreBarMove
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -93,6 +95,7 @@ var riverRescue = function(){
         lives = 3
         speed = .5
         appear=35
+        counter=0
         trash1=null
         trash2=null
         trash3=null
@@ -456,12 +459,15 @@ var riverRescue = function(){
         var plants = game.add.tileSprite(0,game.world.centerY+100,game.world.width,200,"atlas.river","vegetation")
         backgroundGroup.add(backG)
         backgroundGroup.add(plants)
+        backgroundGroup.add(floor)
         var stone1=gameGroup.create(game.world.width-200,game.world.height-200,'atlas.river',"river-34")
         stone1.width=200
         stone1.height=200
         var stone2=gameGroup.create(200,game.world.height-200,'atlas.river',"river-34")
         stone2.width=-200
         stone2.height=200
+        backgroundGroup.add(stone2)
+        backgroundGroup.add(stone1)
         character = game.add.spine(game.world.centerX,game.world.height, "axolotl");
             character.scale.setTo(scaleSpine*2,scaleSpine*2)
             character.scale.setTo(scaleSpine*2,scaleSpine*2)
@@ -470,10 +476,45 @@ var riverRescue = function(){
             gameGroup.add(character)
         
         //Aqui meto la barra de recoleccion de basura
+        var scoreBar=game.add.sprite(10,game.world.height-150,"atlas.river","blueBar")
+        scoreBar.scale.setTo(.7,.7)
+        scoreBarMove=game.add.sprite(scoreBar.x+35,scoreBar.y-80,"atlas.river","barScore")
+        scoreBarMove.scale.setTo(3,7)
+        var poly2 = new Phaser.Polygon([ new Phaser.Point(200, 100), new Phaser.Point(450, 70), new Phaser.Point(450, 150), new Phaser.Point(200, 150)]);
+        
+        graphics2 = game.add.graphics(0, 0);
+
+        graphics2.beginFill(0x112C5C);
+        graphics2.drawPolygon(poly2.points);
+        graphics2.endFill();
+        graphics2.alpha=1
+        graphics2.anchor.setTo(0)
+        graphics2.scale.setTo(.5,.5)
+        graphics2.position.x=scoreBar.position.x-60
+        graphics2.position.y=scoreBar.position.y-30
+        backgroundGroup.add(scoreBar)
+		backgroundGroup.add(graphics2)
         
         
+       
         
         
+        var poly = new Phaser.Polygon([ new Phaser.Point(200, 100), new Phaser.Point(450, 70), new Phaser.Point(450, 150), new Phaser.Point(200, 150)]);
+
+        graphics = game.add.graphics(0, 0);
+
+        graphics.beginFill(0xFF33ff);
+        graphics.drawPolygon(poly.points);
+        graphics.endFill();
+        graphics.anchor.setTo(0)
+        graphics.scale.setTo(.5,.5)
+        graphics.position.x=scoreBar.position.x-60
+        graphics.position.y=scoreBar.position.y-30
+		backgroundGroup.add(graphics)
+        scoreBarMove.scale.setTo(0,10)
+        
+        scoreBarMove.mask=graphics
+        backgroundGroup.add(scoreBarMove)
         //Aqui metemos las basuras al arreglo
         
         for(var trashinside=0;trashinside<14;trashinside++)
@@ -559,6 +600,9 @@ var riverRescue = function(){
        
         backG.tilePosition.x+=2
         
+        if(counter<20 && counter!=0){
+        game.add.tween(scoreBarMove.scale).to({x:counter/26,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
+        }
         
         for(var follow=0;follow<10;follow++){
             
@@ -575,13 +619,15 @@ var riverRescue = function(){
         
             
             
-        if(pointsBar.number%nextLevel==0 && pointsBar.number!=0)
+        if(counter==20)
         {
             speed+=.4
+            counter=0
+            game.add.tween(scoreBarMove.scale).to({x:0,y:4}, 500, Phaser.Easing.Linear.Out, true, 100)
             appear-=2
+            addPoint(1)
             timeTween.stop()
             reset()
-            nextLevel+=20
         }
             
         if(startGame)
@@ -711,8 +757,8 @@ var riverRescue = function(){
         }
         } 
         obj.inputEnabled=false
-        addPoint(1)
         
+        counter++
         
             
             
