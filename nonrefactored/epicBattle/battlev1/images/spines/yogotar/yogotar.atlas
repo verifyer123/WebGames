@@ -1,0 +1,111 @@
+
+yogotar.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dinamita/arm
+  rotate: true
+  xy: 2, 2
+  size: 34, 56
+  orig: 34, 56
+  offset: 0, 0
+  index: -1
+Dinamita/eyebrownL
+  rotate: false
+  xy: 320, 88
+  size: 28, 24
+  orig: 28, 24
+  offset: 0, 0
+  index: -1
+Dinamita/eyebrownR
+  rotate: false
+  xy: 274, 89
+  size: 44, 23
+  orig: 44, 23
+  offset: 0, 0
+  index: -1
+Dinamita/hair
+  rotate: false
+  xy: 2, 102
+  size: 216, 144
+  orig: 216, 144
+  offset: 0, 0
+  index: -1
+Dinamita/head
+  rotate: false
+  xy: 361, 125
+  size: 130, 121
+  orig: 130, 121
+  offset: 0, 0
+  index: -1
+Dinamita/legL
+  rotate: false
+  xy: 240, 69
+  size: 32, 43
+  orig: 32, 43
+  offset: 0, 0
+  index: -1
+Dinamita/legR
+  rotate: false
+  xy: 165, 53
+  size: 39, 47
+  orig: 39, 47
+  offset: 0, 0
+  index: -1
+Dinamita/torso
+  rotate: false
+  xy: 2, 38
+  size: 63, 62
+  orig: 63, 62
+  offset: 0, 0
+  index: -1
+Nao/arm
+  rotate: false
+  xy: 130, 45
+  size: 33, 55
+  orig: 33, 55
+  offset: 0, 0
+  index: -1
+Nao/eyebrownL
+  rotate: true
+  xy: 493, 219
+  size: 27, 12
+  orig: 27, 12
+  offset: 0, 0
+  index: -1
+Nao/eyebrownR
+  rotate: true
+  xy: 110, 9
+  size: 27, 10
+  orig: 27, 10
+  offset: 0, 0
+  index: -1
+Nao/head
+  rotate: false
+  xy: 220, 114
+  size: 139, 132
+  orig: 139, 132
+  offset: 0, 0
+  index: -1
+Nao/legL
+  rotate: false
+  xy: 206, 53
+  size: 32, 47
+  orig: 32, 47
+  offset: 0, 0
+  index: -1
+Nao/legR
+  rotate: true
+  xy: 60, 4
+  size: 32, 48
+  orig: 32, 48
+  offset: 0, 0
+  index: -1
+Nao/torso
+  rotate: false
+  xy: 67, 38
+  size: 61, 62
+  orig: 61, 62
+  offset: 0, 0
+  index: -1
