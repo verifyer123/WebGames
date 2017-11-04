@@ -13,7 +13,7 @@ normal/arm1
   index: -1
 normal/arm2
   rotate: true
-  xy: 970, 133
+  xy: 970, 187
   size: 36, 52
   orig: 36, 52
   offset: 0, 0
@@ -23,6 +23,13 @@ normal/eyes_a1
   xy: 2, 33
   size: 167, 53
   orig: 167, 53
+  offset: 0, 0
+  index: -1
+normal/eyes_a2
+  rotate: false
+  xy: 808, 146
+  size: 109, 55
+  orig: 109, 55
   offset: 0, 0
   index: -1
 normal/eyes_d3
@@ -47,8 +54,8 @@ normal/eyes_h5
   offset: 0, 0
   index: -1
 normal/foot1_c
-  rotate: false
-  xy: 926, 206
+  rotate: true
+  xy: 535, 35
   size: 45, 55
   orig: 45, 55
   offset: 0, 0
@@ -61,8 +68,8 @@ normal/foot1_e
   offset: 0, 0
   index: -1
 normal/foot2_a
-  rotate: true
-  xy: 775, 85
+  rotate: false
+  xy: 783, 73
   size: 53, 14
   orig: 53, 14
   offset: 0, 0
@@ -75,50 +82,50 @@ normal/foot2_e
   offset: 0, 0
   index: -1
 normal/forearm1_a
-  rotate: false
-  xy: 404, 34
+  rotate: true
+  xy: 970, 225
   size: 50, 52
   orig: 50, 52
   offset: 0, 0
   index: -1
 normal/forearm2_a
-  rotate: false
-  xy: 973, 222
+  rotate: true
+  xy: 592, 31
   size: 49, 53
   orig: 49, 53
   offset: 0, 0
   index: -1
 normal/hand1_a
   rotate: true
-  xy: 926, 150
+  xy: 926, 207
   size: 54, 42
   orig: 54, 42
   offset: 0, 0
   index: -1
 normal/hand1_b
   rotate: false
-  xy: 973, 171
+  xy: 783, 89
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
   index: -1
 normal/hand1_e
   rotate: false
-  xy: 338, 33
+  xy: 405, 33
   size: 64, 53
   orig: 64, 53
   offset: 0, 0
   index: -1
 normal/hand2_b
   rotate: false
-  xy: 842, 96
+  xy: 885, 104
   size: 43, 40
   orig: 43, 40
   offset: 0, 0
   index: -1
 normal/hand2_d
   rotate: false
-  xy: 791, 99
+  xy: 834, 107
   size: 49, 37
   orig: 49, 37
   offset: 0, 0
@@ -146,14 +153,14 @@ normal/helmet
   index: -1
 normal/leg1
   rotate: true
-  xy: 808, 138
+  xy: 708, 75
   size: 63, 73
   orig: 63, 73
   offset: 0, 0
   index: -1
 normal/leg2
   rotate: true
-  xy: 708, 81
+  xy: 338, 29
   size: 57, 65
   orig: 57, 65
   offset: 0, 0
@@ -167,7 +174,7 @@ normal/mouth_b3
   index: -1
 normal/mouth_c1
   rotate: false
-  xy: 951, 123
+  xy: 360, 2
   size: 17, 25
   orig: 17, 25
   offset: 0, 0
@@ -181,7 +188,7 @@ normal/mouth_c2
   index: -1
 normal/mouth_c3
   rotate: false
-  xy: 926, 112
+  xy: 988, 342
   size: 23, 36
   orig: 23, 36
   offset: 0, 0
@@ -194,8 +201,8 @@ normal/mouth_d3
   offset: 0, 0
   index: -1
 normal/shin1
-  rotate: true
-  xy: 883, 139
+  rotate: false
+  xy: 471, 39
   size: 62, 41
   orig: 62, 41
   offset: 0, 0
@@ -237,14 +244,14 @@ normal2/net_body
   index: -1
 normal2/net_eye_l
   rotate: false
-  xy: 141, 6
+  xy: 333, 2
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 normal2/net_eyebrow_l
   rotate: false
-  xy: 456, 72
+  xy: 141, 17
   size: 15, 14
   orig: 15, 14
   offset: 0, 0
@@ -258,7 +265,7 @@ normal2/net_net
   index: -1
 normal2/net_nose
   rotate: false
-  xy: 887, 101
+  xy: 838, 69
   size: 37, 36
   orig: 37, 36
   offset: 0, 0

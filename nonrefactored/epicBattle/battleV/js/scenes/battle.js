@@ -3,7 +3,7 @@ var soundsPath = "../../shared/minigames/sounds/"
 var battle = function(){
 	var server = parent.server || null
 	var serverData = server ? server.currentData : {
-		p1:{nickname:"Player1", avatar:"tomiko"},
+		p1:{nickname:"Player1aa", avatar:"tomiko"},
 		p2:{nickname:"Player2", avatar:"razzle"}
 	}
 
@@ -86,7 +86,7 @@ var battle = function(){
     var NUM_OPTIONS = 3
     var MAX_HP = 100
 	var WIDTH_DISTANCE = 110
-	var HP_BAR_WIDTH = 350
+	var HP_BAR_WIDTH = 200
 
     var MONSTERS = [
         {skin:"monster1", spineIndex:0, colorProyectile:"0xFFFE00", name:"Breeze"},
@@ -124,7 +124,7 @@ var battle = function(){
 	var ready, go
 	var hudGroup
 	var frontGroup
-	var answersGroup
+	var controlGroup
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -183,7 +183,6 @@ var battle = function(){
     }
     
     function winPlayer(player) {
-		hudGroup.winGroup.playerName.text = player.name
     	game.add.tween(hudGroup.uiGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
     	game.add.tween(hudGroup.winGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     	game.add.tween(alphaMask).to({alpha:0.7}, 800, Phaser.Easing.Cubic.Out, true)
@@ -389,64 +388,76 @@ var battle = function(){
 
 	function createHpbar(scale){
 		scale = scale || 1
-		var anchorX = scale < 1 ? 0 : 1
+		var anchorX = scale < 0 ? 1 : 0
 
     	var hpGroup = game.add.group()
-		hpGroup.scale.setTo(0.8 * scale, 0.8)
+		hpGroup.scale.setTo(1 * scale, 1)
 		hpGroup.health = MAX_HP
+
+		var groupBg = game.add.graphics()
+		groupBg.beginFill(0x000000)
+		groupBg.drawRoundedRect(0, 0, HP_BAR_WIDTH + 20, 72, 15)
+		groupBg.x = -groupBg.width * 0.5
+		groupBg.y = -groupBg.height + 3
+		groupBg.alpha = 0.5
+		groupBg.endFill()
+		hpGroup.add(groupBg)
 
 		var rectBg = game.add.graphics()
 		rectBg.beginFill(0x000000)
 		rectBg.alpha = 0.4
-		rectBg.drawRect(0,0, 390, 50)
+		rectBg.drawRect(0,0, HP_BAR_WIDTH, 17)
 		rectBg.endFill()
-		rectBg.x = -195
-		rectBg.y = -25 - 5
+		rectBg.x = -100 //+ HP_BAR_WIDTH
+		rectBg.y = -22 - 7
 		hpGroup.add(rectBg)
 
-		var hpBg = sceneGroup.create(-150, -6, 'atlas.battle', 'energy')
+		var hpBg = sceneGroup.create(-100, -22, 'atlas.battle', 'energy')
 		hpBg.anchor.setTo(0, 0.5)
-		hpBg.scale.setTo(0.9, 0.9)
+		hpBg.scale.setTo(0.5, 0.5)
 		hpBg.width = HP_BAR_WIDTH
+		hpBg.height = 17
 
 		hpGroup.add(hpBg)
 
 		var container = hpGroup.create(0, -22, 'atlas.battle', 'lifebar')
 		container.anchor.setTo(0.5, 0.5)
-		container.scale.setTo(0.8, 0.8)
+		container.scale.setTo(0.8 * -1, 0.8)
 
-		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var healthText = new Phaser.Text(game, 0, 5, "100/100", fontStyle)
-		healthText.x = -80
-		healthText.y = -50
-		healthText.anchor.setTo(0.5,0.5)
-		healthText.scale.x = scale
-		hpGroup.add(healthText)
-		hpGroup.healthText = healthText
+		// var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		// var healthText = new Phaser.Text(game, 0, 5, "100/100", fontStyle)
+		// healthText.x = -80
+		// healthText.y = -50
+		// healthText.anchor.setTo(0.5,0.5)
+		// healthText.scale.x = scale
+		// hpGroup.add(healthText)
+		// hpGroup.healthText = healthText
 
 		hpGroup.removeHealth = function (number) {
 			this.health -= number
 			var newWidth = this.health * HP_BAR_WIDTH * 0.01
 			game.add.tween(hpBg).to({width:newWidth}, 1000, Phaser.Easing.Cubic.Out, true)
 
-			this.healthText.text = this.health + "/100"
-			game.add.tween(this.healthText.scale).to({x:1.2 * scale, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			// this.healthText.text = this.health + "/100"
+			// game.add.tween(this.healthText.scale).to({x:1.2 * scale, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 		}
 
 		hpGroup.resetHealth = function () {
 			this.health = MAX_HP
 		}
 
-		var fontStyle2 = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var tAlign = scale < 0 ? "right" : "left"
+		var fontStyle2 = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", boundsAlignH: "left"}
 		var name = new Phaser.Text(game, 0, 5, "", fontStyle2)
 		name.stroke = '#2a2a2a';
 		name.strokeThickness = 6;
-		name.x = 0
-		name.y = -3
+		name.x = -HP_BAR_WIDTH * 0.5
+		name.y = -45
 		name.anchor.setTo(anchorX,0.5)
 		name.scale.x = scale
 		hpGroup.add(name)
         hpGroup.name = name
+		name.setTextBounds(0, 0, 150, 0);
 
 		return hpGroup
 	}
@@ -495,8 +506,8 @@ var battle = function(){
 		player.hit = hitParticle
 
 		var hpBar = createHpbar(scale)
-		hpBar.x = player.x + 10 * scale
-		hpBar.y = 120
+		hpBar.x = player.x + 200 * scale
+		hpBar.y = scale < 0 ? player.y - 110 : player.y
 		hudGroup.uiGroup.add(hpBar)
 		hpBar.name.text = data.nickname
 		player.hpBar = hpBar
@@ -558,9 +569,9 @@ var battle = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
-		player1 = createPlayer(serverData.p1, {x:WIDTH_DISTANCE, y: game.world.height - 170}, 1)
+		player1 = createPlayer(serverData.p1, {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
 		player1.numPlayer = 1
-		//TODO: quitar placeholder
+		//TODO: hacer dinamico el playerScale
 		// var playerScale =
 		player2 = createPlayer(serverData.p2, {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
 		player2.numPlayer = 2
@@ -574,8 +585,8 @@ var battle = function(){
 		player1.add(input1)
 		input1.inputEnabled = true
 		input1.events.onInputDown.add(function () {
-			winPlayer(player1)
-			// playerAttack(player1, player2, createProyectile, "proyectile")
+			// winPlayer(player1)
+			playerAttack(player1, player2, createProyectile, "proyectile")
 		})
 
 		var input2 = game.add.graphics()
@@ -745,15 +756,8 @@ var battle = function(){
 
     function startRound() {
 
-		if(server){
-			server.generateQuestion()
-		}else{
-			// enterGame()
-		}
-		// if(server)
-		// 	server.generateQuestion()
-
-		// game.time.events.add(1000, generateQuestion)
+		inputsEnabled = true
+		controlGroup.show.start()
     }
 
     function numbersEffect() {
@@ -798,48 +802,81 @@ var battle = function(){
 		winText.x = game.world.centerX
 		winText.y = 135
 
-		var playerName = game.add.text(0, -5, "Player1", fontStyle)
-		playerName.anchor.setTo(0.5, 0.5)
-		hudGroup.winGroup.add(playerName)
-		playerName.x = game.world.centerX
-		playerName.y = game.world.centerY - 50
-		hudGroup.winGroup.playerName = playerName
+		// var playerName = game.add.text(0, -5, "Player1", fontStyle)
+		// playerName.anchor.setTo(0.5, 0.5)
+		// hudGroup.winGroup.add(playerName)
+		// playerName.x = game.world.centerX
+		// playerName.y = game.world.centerY - 50
+		// hudGroup.winGroup.playerName = playerName
 
-		var buttonGroup = game.add.group()
-		buttonGroup.x = game.world.centerX
-		buttonGroup.y = game.world.centerY + 140
-		hudGroup.winGroup.add(buttonGroup)
+		// var buttonGroup = game.add.group()
+		// buttonGroup.x = game.world.centerX
+		// buttonGroup.y = game.world.centerY + 140
+		// hudGroup.winGroup.add(buttonGroup)
+		//
+		// var shareGroup = game.add.group()
+		// shareGroup.x = 0; shareGroup.y = -70
+		// buttonGroup.add(shareGroup)
+		// shareGroup.tag = "share"
+		//
+		// var shareBtn = shareGroup.create(0, 0, "atlas.battle", "share")
+		// shareBtn.anchor.setTo(0.5, 0.5)
+		//
+		// var shareImg = shareGroup.create(-20, 0, "share")
+		// shareImg.anchor.setTo(0.5, 0.5)
+		//
+		// var retryGroup = game.add.group()
+		// retryGroup.x = 0; retryGroup.y = 70
+		// buttonGroup.add(retryGroup)
+		// retryGroup.tag = "retry"
+		//
+		// var retryBtn = retryGroup.create(0, 0, "atlas.battle", "retry")
+		// retryBtn.anchor.setTo(0.5, 0.5)
+		//
+		// var retryImg = retryGroup.create(-20, 0, "retry")
+		// retryImg.anchor.setTo(0.5, 0.5)
+		//
+		// retryBtn.inputEnabled = true
+		// retryBtn.events.onInputDown.add(onClickBtn)
+	}
 
-		var shareGroup = game.add.group()
-		shareGroup.x = 0; shareGroup.y = -70
-		buttonGroup.add(shareGroup)
-		shareGroup.tag = "share"
+	function onClickAttack(btn) {
+		if(inputsEnabled){
+			inputsEnabled = false
+			game.add.tween(btn.scale).to({x:1.1, y:0.9}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
 
-		var shareBtn = shareGroup.create(0, 0, "atlas.battle", "share")
-		shareBtn.anchor.setTo(0.5, 0.5)
-
-		var shareImg = shareGroup.create(-20, 0, "share")
-		shareImg.anchor.setTo(0.5, 0.5)
-
-		var retryGroup = game.add.group()
-		retryGroup.x = 0; retryGroup.y = 70
-		buttonGroup.add(retryGroup)
-		retryGroup.tag = "retry"
-
-		var retryBtn = retryGroup.create(0, 0, "atlas.battle", "retry")
-		retryBtn.anchor.setTo(0.5, 0.5)
-
-		var retryImg = retryGroup.create(-20, 0, "retry")
-		retryImg.anchor.setTo(0.5, 0.5)
-
-		retryBtn.inputEnabled = true
-		retryBtn.events.onInputDown.add(onClickBtn)
+			if(btn.tag === "attack"){
+				playerAttack(player1, player2, createProyectile)
+				controlGroup.hide.start()
+			}
+		}
 	}
 	
     function createbattleUI() {
 
-		// var bar = answersGroup.create(0,0, "atlas.battle", "bar")
-		// bar.anchor.setTo(0.5, 1)
+		controlGroup = game.add.group()
+		controlGroup.x = game.world.centerX
+		controlGroup.y = game.world.height + 150
+		controlGroup.scale.setTo(0.8, 0.8)
+		hudGroup.add(controlGroup)
+
+		var bar = controlGroup.create(0,0, "atlas.battle", "bottom_bar")
+		bar.anchor.setTo(0.5, 1)
+
+		var attackBtn = controlGroup.create(-130, -20, "atlas.battle", "attack")
+		attackBtn.anchor.setTo(0.5, 1)
+		attackBtn.tag = "attack"
+		attackBtn.inputEnabled = true
+		attackBtn.events.onInputDown.add(onClickAttack)
+
+		var specialBtn = controlGroup.create(115, -20, "atlas.battle", "special")
+		specialBtn.anchor.setTo(0.5, 1)
+		specialBtn.tag = "special"
+		specialBtn.inputEnabled = true
+		specialBtn.events.onInputDown.add(onClickAttack)
+		
+		controlGroup.hide = game.add.tween(controlGroup).to({y:game.world.height + 150}, 1000, Phaser.Easing.Cubic.Out, false, 500)
+		controlGroup.show = game.add.tween(controlGroup).to({y:game.world.height}, 1000, Phaser.Easing.Cubic.Out)
 
 		var correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
@@ -1081,7 +1118,7 @@ var battle = function(){
             // createTutorial()
 
 			sceneGroup.bringToTop(hudGroup)
-            buttons.getButton(battleSong,hudGroup)
+            buttons.getButton(battleSong,hudGroup, game.width - 50)
 
 			frontGroup = game.add.group()
 			sceneGroup.add(frontGroup)
