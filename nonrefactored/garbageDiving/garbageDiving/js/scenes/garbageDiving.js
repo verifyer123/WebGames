@@ -609,7 +609,7 @@ var garbageDiving = function(){
         }
         
             //Crear objetos
-        if(delayer==50){
+        if(delayer==20){
             randomCreation=game.rnd.integerInRange(0,10)
             randomTrail=game.rnd.integerInRange(0,2)
             var spaceInTrail=game.rnd.integerInRange(0,4)
@@ -980,7 +980,6 @@ var garbageDiving = function(){
             trail1[reseting].position.x=game.world.width+100
             trail1[reseting]=null
             }
-            
             if(trail2[reseting]!=null){
             
                 if(trail2[reseting].tag=="mina"){

@@ -58,7 +58,22 @@ var spaceVaccum = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
-	
+    
+    var backgroundGroup=null
+    var gameGroup=null
+    
+    var spaceTrash=new Array(10)
+    var activeTrash=new Array(10)
+    var spaceTrashProxy=new Array(10)
+    
+    var trail1=new Array(5)
+    var trail2=new Array(5)
+    var trail3=new Array(5)
+    
+	var trails
+    var startGame
+    var fuel
+    var speed
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -66,12 +81,25 @@ var spaceVaccum = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#ffffff"
+        game.stage.backgroundColor = "#220341"
         lives = 1
-
+        startGame=false
+        speed=2
+        trails=0
+        fuel=50
+        for(var cleaning1=0; cleaning1<10;cleaning1++){
+            
+            spaceTrash[cleaning1]=null
+            activeTrash[cleaning1]=false
+        }
+        
+        for(var cleaning2=0;cleaning2<6;cleaning2++){
+            trail1[cleaning2]=null
+            trail2[cleaning2]=null
+            trail3[cleaning2]=null  
+        }
         
         loadSounds()
-        
 	}
 
     function popObject(obj,delay){
@@ -296,10 +324,10 @@ var spaceVaccum = function(){
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
-		var inputName = 'movil'
+		var inputName = 'Movil'
 		
 		if(game.device.desktop){
-			inputName = 'desktop'
+			//inputName = 'desktop'
 		}
 		
 		console.log(inputName)
@@ -320,8 +348,25 @@ var spaceVaccum = function(){
     }
 
 	function createBackground(){
-		
-		
+		backgroundGroup = game.add.group()
+        gameGroup = game.add.group()
+        sceneGroup.add(backgroundGroup)
+        sceneGroup.add(gameGroup)
+        
+        correctParticle = createPart("star")
+        sceneGroup.add(correctParticle)
+        wrongParticle = createPart("wrong")
+        sceneGroup.add(wrongParticle)
+        boomParticle = createPart("smoke")
+        sceneGroup.add(boomParticle)
+        
+        backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.vaccum',"TILING1")
+        backG.scale.setTo(1,.75)
+        backgroundGroup.add(backG)
+        backG2=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.vaccum',"TILING2")
+        backG2.scale.setTo(1,.75)
+        backgroundGroup.add(backG2)
+        
 	}
 	
 	function update(){
@@ -380,28 +425,19 @@ var spaceVaccum = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.vaccum',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.3;
+        particle.maxParticleScale = .5;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
     }
+    
     
     function createParticles(tag,number){
                 
