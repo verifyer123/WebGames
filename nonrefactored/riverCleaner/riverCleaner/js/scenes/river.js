@@ -62,6 +62,7 @@ var river = function(){
     var fishSong
     var nao
     var naoPos
+    var naoCollect
     var aux
     var rows = [150, 390, 640]
     var rubbish = ['apple','bag','ball','banan','book','burger','cardboard','deadFish','pear','plastic','plate','steak','tomato','watermelon']
@@ -83,6 +84,9 @@ var river = function(){
     var score
     var addTrash
     var rand
+    var trashTween
+    var cursors
+    var isPressedDown, isPressedUp
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -104,6 +108,8 @@ var river = function(){
         trowTimer = 1500
         trashTween = game.time.events
         rand = 0
+        isPressed = false
+        isPressedUp = false
         
         loadSounds()
         
@@ -321,7 +327,7 @@ var river = function(){
 				overlayGroup.y = -game.world.height
                 trowTrash()
                 nao.setAnimationByName(0, "RUN", true)
-                speed = 3
+                speed = 4
             })
             
         })
@@ -333,7 +339,7 @@ var river = function(){
         plane.anchor.setTo(0.5,0.5)
 		
 		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.river','gametuto')
-        tuto.scale.setTo(0.9, 0.9)
+        tuto.scale.setTo(0.85, 0.85)
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -574,35 +580,71 @@ var river = function(){
     function createNao(){
         
         nao = game.add.spine(0, 0, "nao")
-        nao.scale.setTo(0.4, 0.4)
+        nao.scale.setTo(0.3, 0.3)
         nao.setAnimationByName(0, "IDLE", true)
         nao.setSkinByName("normal")
         sceneGroup.add(nao)
         
-        naoPos = game.add.sprite(200, 0, 'atlas.river', 'star')
+        naoPos = game.add.sprite(60, 0, 'atlas.river', 'star')
         naoPos.y = rows[0] + naoPos.height
         //naoPos.scale.setTo(3.2, 3.2)
         naoPos.alpha = 0
         game.physics.arcade.enable(naoPos)
         naoPos.body.immovable = true
+        
+        naoCollect = game.add.sprite(0, 0, 'atlas.river', 'star')
+        naoCollect.y = rows[0] + naoPos.height
+        //naoCollect.scale.setTo(3.2, 3.2)
+        naoCollect.alpha = 0
+        game.physics.arcade.enable(naoCollect)
+        naoCollect.body.immovable = true
     }
     
     function changeRow(obj){
         aux = obj.number
         sound.play("cut")
         game.add.tween(naoPos).to({y:rows[aux]+ naoPos.height}, 500, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(naoPos).to({x:200}, 300, Phaser.Easing.Cubic.Out, true)
+    }
+    
+    function changeRow2(num){
+        aux = num
+        sound.play("cut")
+        game.add.tween(naoPos).to({y:rows[aux]+ naoPos.height}, 500, Phaser.Easing.Cubic.Out, true)
     }
     
     function update(){
       
-        nao.x = naoPos.x - naoPos.width 
+        nao.x = naoPos.x +20
         nao.y = naoPos.y + nao.height 
+        
+        naoCollect.x = naoPos.x +100
+        naoCollect.y = naoPos.y 
+        
+        if (cursors.up.isDown && !isPressedUp)
+        {
+            if(aux != 0)
+                aux--
+            changeRow2(aux)
+            isPressedUp = true
+        }
+        else if (cursors.down.isDown && !isPressedDown)
+        {
+             if(aux != 2)
+                aux++
+            changeRow2(aux)
+            isPressedDown = true
+        }
+        
+           
+        if(cursors.up.isUp && isPressedUp)
+            isPressedUp = false
+        else if(cursors.down.isUp && isPressedDown)
+            isPressedDown = false
         
         game.physics.arcade.collide(box, trashGroup, trashCollision, null, this)
         game.physics.arcade.collide(box, fishColliderGroup, boxFishCollision, null, this)
-        game.physics.arcade.collide(naoPos, trashGroup, naoCollision, null, this)
         game.physics.arcade.collide(naoPos, fishColliderGroup, fishCollision, null, this)
+        game.physics.arcade.collide(naoCollect, trashGroup, trashCollected, null, this)
         
         fondo.tilePosition.x -= speed * 0.5
         row0.tilePosition.x -= speed
@@ -657,7 +699,7 @@ var river = function(){
         
         for(var f = 0; f < 5; f++)
         { 
-            var fishCollider = fishColliderGroup.create(0, 0, 'atlas.river', 'bar')
+            var fishCollider = fishColliderGroup.create(0, 0, 'atlas.river', 'smoke')
             game.physics.enable(fishCollider, Phaser.Physics.ARCADE)
             game.physics.arcade.enable(fishColliderGroup)
             fishCollider.alpha = 0
@@ -675,10 +717,10 @@ var river = function(){
         if(fishNumber < 5)
         {
             fishGroup.children[fishNumber].alpha = 1
-            fishGroup.children[fishNumber].x = game.world.width
+            fishGroup.children[fishNumber].x = game.world.width + 60
             fishGroup.children[fishNumber].y = rows[game.rnd.integerInRange(0, 2)] + fishGroup.children[0].height 
             fishGroup.children[fishNumber].active = true
-            fishColliderGroup.children[fishNumber].x = fishGroup.children[fishNumber].x
+            fishColliderGroup.children[fishNumber].x = fishGroup.children[fishNumber].x + 30
             fishColliderGroup.children[fishNumber].y = fishGroup.children[fishNumber].y - 50
             fishNumber++
         }
@@ -697,6 +739,7 @@ var river = function(){
             var trash = trashGroup.create(0, 0, 'atlas.river', rubbish[t])
             trash.number = t
             trash.active = false
+            trash.body.immovable = true
             game.physics.enable(trash, Phaser.Physics.ARCADE)
         }
         trashGroup.setAll('anchor.x', 1)
@@ -717,7 +760,7 @@ var river = function(){
                 {
                     rand = getRand(rand)
                     trashGroup.children[trashNumber].alpha = 1
-                    trashGroup.children[trashNumber].x = game.world.width
+                    trashGroup.children[trashNumber].x = game.world.width + 60
                     trashGroup.children[trashNumber].y = rows[rand] + 100
                     trashGroup.children[trashNumber].active = true
                     trashNumber++
@@ -738,10 +781,11 @@ var river = function(){
     function createBox(){
         
         box = sceneGroup.create(0, 0, 'atlas.river', "bar")
+        box.x = -100
         box.y = game.world.centerY 
         box.anchor.setTo(0, 0.5)
         box.alpha = 0
-        box.scale.setTo(1, game.world.height)
+        box.scale.setTo(1,20)
         game.physics.enable(box, Phaser.Physics.ARCADE)
         box.body.immovable = true
         
@@ -754,25 +798,38 @@ var river = function(){
         trashGroup.children[trash.number].y = 0
     }
 
-    function naoCollision(naoPos, trash){
+    function trashCollected(naoCollect, trash){
+        
+        naoCollect.body.enable = false
         nao.setAnimationByName(0, "HIT", false)
         sound.play("right")
-        particleCorrect.x = trash.world.x
-        particleCorrect.y = trash.world.y
-        particleCorrect.start(true, 1000, null, 1)
         
-        trash.alpha = 0
-        trashGroup.children[trash.number].active = false
-        trashGroup.children[trash.number].x = 0
-        trashGroup.children[trash.number].y = 0    
-    
-        game.add.tween(barContainer.scale).to({x:addTrash}, 500, Phaser.Easing.Cubic.Out, true)
-        addTrash += score
+        game.time.events.add(200, function() 
+        {
+            game.add.tween(barContainer.scale).to({x:addTrash}, 500, Phaser.Easing.Cubic.Out, true)
+            addTrash += score
         
-        trashContainer++
+            trashContainer++
+            
+            particleCorrect.x = trash.world.x
+            particleCorrect.y = trash.world.y
+            particleCorrect.start(true, 1000, null, 4)
         
-        if(trashContainer < level)
-            nao.addAnimationByName(0, "RUN", true)
+            trash.alpha = 0
+            trashGroup.children[trash.number].active = false
+            trashGroup.children[trash.number].x = 0
+            trashGroup.children[trash.number].y = 0    
+        
+            if(trashContainer < level)
+                nao.addAnimationByName(0, "RUN", true)
+        }, this)
+        
+        game.time.events.add(400, function() 
+        {
+             naoCollect.body.enable = true
+        },this)
+        
+       
     }
     
     function fishCollision(naoPos, fishCollider){    
@@ -783,6 +840,7 @@ var river = function(){
         particleWrong.start(true, 1000, null, 1)
         
         naoPos.kill()
+        speed = 0
         missPoint()
     }
     
@@ -814,6 +872,16 @@ var river = function(){
                                        new Phaser.Point(450, 50), 
                                        new Phaser.Point(450, 150), 
                                        new Phaser.Point(200, 150)])
+        
+        mark = game.add.graphics(0, 0)
+        mark.beginFill(0x0000aa)
+        mark.drawPolygon(poly.points)
+        mark.endFill()
+        mark.anchor.setTo(0, 0.5)
+        mark.scale.setTo(0.9,0.5)
+        mark.position.x = game.world.centerX - 270
+        mark.position.y = game.world.height - 115
+        sceneGroup.add(mark)
                 
         barContainer = sceneGroup.create(0, 0, 'atlas.river', "bar")
         barContainer.scale.setTo(0, 1.5)
@@ -823,9 +891,9 @@ var river = function(){
         
         barMask = game.add.graphics(0, 0)
 
-        barMask.beginFill(0xFF33ff);
-        barMask.drawPolygon(poly.points);
-        barMask.endFill();
+        barMask.beginFill(0xFF33ff)
+        barMask.drawPolygon(poly.points)
+        barMask.endFill()
         barMask.anchor.setTo(0, 0.5)
         barMask.scale.setTo(0.9,0.5)
         barMask.position.x = game.world.centerX - 270
@@ -833,6 +901,8 @@ var river = function(){
         sceneGroup.add(barMask)
        
         barContainer.mask=barMask
+        
+       
     
     }
     
@@ -844,7 +914,7 @@ var river = function(){
         var temp = speed
         speed = 0
         trowTimer *= 0.5
-        nao.setAnimationByName(0, "IDLE", true)
+        nao.addAnimationByName(0, "WIN", true)
         score  = 7.5/level
         addTrash = score    
         
@@ -855,19 +925,6 @@ var river = function(){
             nao.setAnimationByName(0, "RUN", true)
         }, this)
         
-        for(var r = 0; r < fishGroup.length; r++){
-            fishGroup.children[r].active = false
-            fishGroup.children[r].x = 0
-            fishGroup.children[r].y = 0
-            fishColliderGroup.children[r].x = 0
-            fishColliderGroup.children[r].y = 0
-        }
-        
-        for(var r = 0; r < trashGroup.length; r++){
-            trashGroup.children[r].active = false
-            trashGroup.children[r].x = 0
-            trashGroup.children[r].y = 0
-        }
     }
     
 	return {
@@ -896,6 +953,8 @@ var river = function(){
             game.onResume.add(function(){
                 game.sound.mute = false
             }, this);
+            
+            cursors = game.input.keyboard.createCursorKeys()
             
             initialize()
 			            
