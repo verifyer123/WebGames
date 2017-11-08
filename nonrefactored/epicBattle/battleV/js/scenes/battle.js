@@ -3,7 +3,7 @@ var soundsPath = "../../shared/minigames/sounds/"
 var battle = function(){
 	var server = parent.server || null
 	var serverData = server ? server.currentData : {
-		p1:{nickname:"Player1aa", avatar:"tomiko"},
+		p1:{nickname:"Player1aa", avatar:"eagle"},
 		p2:{nickname:"Player2", avatar:"razzle"}
 	}
 
@@ -86,7 +86,7 @@ var battle = function(){
     var NUM_OPTIONS = 3
     var MAX_HP = 100
 	var WIDTH_DISTANCE = 110
-	var HP_BAR_WIDTH = 200
+	var HP_BAR_WIDTH = 195
 
     var MONSTERS = [
         {skin:"monster1", spineIndex:0, colorProyectile:"0xFFFE00", name:"Breeze"},
@@ -125,6 +125,7 @@ var battle = function(){
 	var hudGroup
 	var frontGroup
 	var controlGroup
+	var tapGroup
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -183,13 +184,16 @@ var battle = function(){
     }
     
     function winPlayer(player) {
+    	game.add.tween(player1.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+    	game.add.tween(player2.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+
     	game.add.tween(hudGroup.uiGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
     	game.add.tween(hudGroup.winGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     	game.add.tween(alphaMask).to({alpha:0.7}, 800, Phaser.Easing.Cubic.Out, true)
 		createConfeti()
 		inputsEnabled = true
 
-    	player.setAnimation(["WIN", "WINSTILL"])
+    	player.setAnimation(["WIN", "WINSTILL"], true)
 		battleSong.stop()
 		sound.play("winBattle")
 
@@ -206,22 +210,13 @@ var battle = function(){
 	}
 
     function receiveAttack(target, from) {
-		target.hpBar.removeHealth(20)
+		// target.hpBar.removeHealth(20)
         sound.play("fireExplosion")
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
-		target.setAnimation(["HIT", target.statusAnimation])
+		target.setAnimation(["HIT", target.statusAnimation], true)
 		// console.log(target.spine.state)
 		target.hit.start(true, 1000, null, 5)
-
-        if(target.hpBar.health > 0)
-            game.time.events.add(2000, startRound)
-        else{
-            // dino.setAnimation(["HIT", "IDLE"])
-            // game.time.events.add(2000, defeatPlayer, null, target)
-			defeatPlayer(target)
-			game.time.events.add(3000, winPlayer, null, from)
-        }
     }
 
     function returnCamera() {
@@ -263,20 +258,20 @@ var battle = function(){
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
 
-		fromPlayer.setAnimation(["ATTACK", fromPlayer.statusAnimation])
+		game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(targetPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
+
+    	fromPlayer.setAnimation(["CHARGE"], false)
 		fromPlayer.spine.speed = 0.5
 		fromPlayer.proyectile.startPower.alpha = 1
 		fromPlayer.proyectile.startPower.animations.play('start', 12, false)
 		game.camera.follow(fromPlayer.proyectile.followObj)
-		fromPlayer.proyectile.followObj.x = -200 * fromPlayer.scale.x
-		game.add.tween(fromPlayer.proyectile.followObj).to({x:0}, 2000, Phaser.Easing.Cubic.In, true)
-		// game.camera.focusOnXY(fromPlayer.startPower.x, fromPlayer.startPower.y)
-		// game.camera._targetPosition.x = game.camera.view.x + fromPlayer.startPower.world.x;
-		// game.camera._targetPosition.y = game.camera.view.y + fromPlayer.startPower.world.y;
+		fromPlayer.proyectile.followObj.x = -110 * fromPlayer.scale.x
+		// game.add.tween(fromPlayer.proyectile.followObj).to({x:0}, 2000, Phaser.Easing.Cubic.In, true)
 
 		var fromScale = fromPlayer.scale.y + fromPlayer.scale.y * 0.6
 		console.log("fromScale", fromScale)
-		zoomCamera((2 - fromScale) * 1.6, 2000)
+		zoomCamera((2 - fromScale) * 1.6, 4000)
 		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
 		var toAngle
 		if(fromPlayer.scaleReference > 0)
@@ -287,13 +282,14 @@ var battle = function(){
 		toAngle = -1.5708 * fromPlayer.scaleReference + toAngle
 		// console.log(toAngle)
 		fromPlayer.proyectile.scale.x = fromScale; fromPlayer.proyectile.scale.y = fromScale
-		game.add.tween(fromPlayer.proyectile.startPower).to({rotation:toAngle}, 1000, Phaser.Easing.Cubic.Out, true, 1000)
-		game.add.tween(fromPlayer.proyectile.idlePower).to({rotation:toAngle}, 1000, Phaser.Easing.Cubic.Out, true, 1000)
+		game.add.tween(fromPlayer.proyectile.startPower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
+		game.add.tween(fromPlayer.proyectile.idlePower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 		sound.play("fireReveal")
 
-		game.time.events.add(2000, function () {
+		tapGroup.attackCallBack = function () {
 			fromPlayer.spine.speed = 1
 			var targetX = targetPlayer.x < game.world.centerX ? 0 : game.world.width
+			fromPlayer.setAnimation(["ATTACK", "IDLE"], true)
 			// game.add.tween(game.camera.scale).to({x:1.7, y:1.7}, 300, Phaser.Easing.Cubic.Out, true)
 			// moveCamera.onComplete.add(returnCamera)
 
@@ -311,17 +307,20 @@ var battle = function(){
 			// proyectile.tint = fromPlayer.proyectile
 			sceneGroup.proyectile = proyectile
 			// proyectile.originalRotation = Phaser.Math.angleBetweenPoints(proyectile.previousPosition, proyectile.world)
+			game.time.events.add(500, function () {
+				typeAttack(proyectile, fromPlayer, targetPlayer)
+			})
+		}
 
-			typeAttack(proyectile, fromPlayer, targetPlayer)
-		})
-		// }
+		tapGroup.start()
 	}
 
     function defeatPlayer(player) {
-		player.setAnimation(["HIT", player.statusAnimation])
+		// player.setAnimation(["HIT", player.statusAnimation])
+		// game.add.tween(player.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 
         game.time.events.add(400, function () {
-			player.setAnimation(["LOSE", "LOSESTILL"])
+			player.setAnimation(["LOSE", "LOSESTILL"], true)
 			// var dissapear = game.add.tween(player).to({alpha: 0}, 800, Phaser.Easing.Cubic.Out, true)
 			// dissapear.onComplete.add(stopGame)
 			// stopGame()
@@ -343,6 +342,79 @@ var battle = function(){
 			})
 			receiveAttack(target, from)
 		})
+
+	}
+
+	function createTapGame(){
+		var GRADIENT_WIDTH = 457
+
+		tapGroup = game.add.group()
+		tapGroup.x = game.world.centerX;
+		tapGroup.y = 230
+		hudGroup.add(tapGroup)
+		tapGroup.alpha = 0
+
+		var gradientGroup = game.add.group()
+		gradientGroup.scale.setTo(0.8, 0.8)
+		tapGroup.add(gradientGroup)
+
+		var gradient = game.add.tileSprite(-GRADIENT_WIDTH * 0.5, 5, 457, 103, "atlas.battle", "gradient")
+		gradient.anchor.setTo(0, 0.5)
+		gradient.width = 0
+		gradientGroup.add(gradient)
+		var counter = gradientGroup.create(0, 0, "atlas.battle", "counter")
+		counter.anchor.setTo(0.5, 0.5)
+
+		var tapArea = game.add.graphics()
+		tapArea.beginFill(0x000000)
+		tapArea.drawRect(-2, -2, game.world.width + 2, game.world.height + 2)
+		tapArea.x = -game.world.width * 0.5 + 1; tapArea.y = -game.world.height * 0.5 + 1
+		tapArea.endFill()
+		tapArea.alpha = 0
+		tapGroup.add(tapArea)
+
+		var tapSpine = createSpine("tap", "normal", "TAP")
+		// tapSpine.setAnimation(["tap"],true)
+		tapSpine.y = - 120
+		tapSpine.scale.setTo(0.5, 0.5)
+		tapGroup.add(tapSpine)
+
+		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var attackText = game.add.text(game.world.centerX, 70, "PERFECT", fontStyle)
+		attackText.anchor.setTo(0.5, 0.5)
+		hudGroup.add(attackText)
+		attackText.strokeThickness = 5
+		attackText.stroke = "#000000"
+		attackText.scale.setTo(0.8, 0.8)
+		attackText.alpha = 0
+
+		tapArea.events.onInputDown.add(function () {
+			if(gradient.width < GRADIENT_WIDTH){
+				gradient.width = Phaser.Math.clamp(gradient.width + 30, 0, GRADIENT_WIDTH)
+			}
+		})
+
+		tapGroup.update = function () {
+			if(tapArea.inputEnabled){
+				// gradient.width = Phaser.Math.clamp(gradient.width - 1, 0, GRADIENT_WIDTH)
+				if(gradient.width >= GRADIENT_WIDTH - 10){
+					if(tapGroup.attackCallBack){tapGroup.attackCallBack()}
+					tapArea.inputEnabled = false
+					game.add.tween(tapGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
+					var textTween = game.add.tween(attackText).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
+					game.add.tween(attackText.scale).to({x:1, y:1}, 150, Phaser.Easing.Cubic.Out, true).yoyo(true)
+					var textTween2 = game.add.tween(attackText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, false, 1000)
+					textTween.chain(textTween2)
+
+				}
+			}
+		}
+
+		tapGroup.start = function () {
+			tapArea.inputEnabled = true
+			game.add.tween(tapGroup).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
+			gradient.width = 0
+		}
 
 	}
 
@@ -369,6 +441,22 @@ var battle = function(){
 					sceneGroup.proyectile = null
 					from.proyectile.startPower.rotation = 0
 					from.proyectile.idlePower.rotation = 0
+					game.add.tween(player1.hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+					game.add.tween(player2.hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+
+					game.time.events.add(500, function () {
+						target.hpBar.removeHealth(20)
+
+						if(target.hpBar.health > 0)
+							game.time.events.add(1000, startRound)
+						else{
+							// dino.setAnimation(["HIT", "IDLE"])
+							// game.time.events.add(2000, defeatPlayer, null, target)
+							defeatPlayer(target)
+							game.time.events.add(2000, winPlayer, null, from)
+						}
+					})
+
                 })
                 receiveAttack(target, from)
             })
@@ -408,11 +496,11 @@ var battle = function(){
 		rectBg.alpha = 0.4
 		rectBg.drawRect(0,0, HP_BAR_WIDTH, 17)
 		rectBg.endFill()
-		rectBg.x = -100 //+ HP_BAR_WIDTH
+		rectBg.x = -95 //+ HP_BAR_WIDTH
 		rectBg.y = -22 - 7
 		hpGroup.add(rectBg)
 
-		var hpBg = sceneGroup.create(-100, -22, 'atlas.battle', 'energy')
+		var hpBg = sceneGroup.create(-95, -22, 'atlas.battle', 'energy')
 		hpBg.anchor.setTo(0, 0.5)
 		hpBg.scale.setTo(0.5, 0.5)
 		hpBg.width = HP_BAR_WIDTH
@@ -508,7 +596,7 @@ var battle = function(){
 		var hpBar = createHpbar(scale)
 		hpBar.x = player.x + 200 * scale
 		hpBar.y = scale < 0 ? player.y - 110 : player.y
-		hudGroup.uiGroup.add(hpBar)
+		sceneGroup.add(hpBar)
 		hpBar.name.text = data.nickname
 		player.hpBar = hpBar
 		player.name = data.nickname
@@ -525,7 +613,7 @@ var battle = function(){
 		// followObj.beginFill(0xffffff)
 		followObj.drawRect(0, 0, 50, 50)
 		followObj.x = -followObj.width * 0.5
-		followObj.y = -followObj.height * 0.5
+		followObj.y = -followObj.height * 0.5 - 50
 		proyectile.add(followObj)
 		// followObj.endFill()
 		proyectile.followObj = followObj
@@ -605,6 +693,8 @@ var battle = function(){
 		// cloud.x = game.world.centerX
 		// cloud.y = game.world.height - 200
 		// sceneGroup.add(cloud)
+
+		createTapGame()
 
     }
 
@@ -697,6 +787,7 @@ var battle = function(){
 		game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
 		game.load.spine(avatar1, "images/spines/"+directory1+"/"+avatar1+".json")
 		game.load.spine(avatar2, "images/spines/"+directory2+"/"+avatar2+".json")
+		game.load.spine("tap", "images/spines/tap/tap.json")
 		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
 		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
 		game.load.spritesheet('confeti', 'images/battle/confeti.png', 64, 64, 6)
@@ -734,7 +825,7 @@ var battle = function(){
     function enterGame() {
 		player1.originalX = player1.x
 		player1.x = -100
-		player1.setAnimation(["RUN", "IDLE"])
+		player1.setAnimation(["RUN", "IDLE"], true)
 		game.add.tween(player1).to({x:player1.originalX}, 1200, Phaser.Easing.Cubic.Out, true)
 
 		// player1.hpBar.originalY = player1.hpBar.y
@@ -743,7 +834,7 @@ var battle = function(){
 
 		player2.originalX = player2.x
 		player2.x = game.world.width + 100
-		player2.setAnimation(["RUN", "IDLE"])
+		player2.setAnimation(["RUN", "IDLE"], true)
 		game.add.tween(player2).to({x:player2.originalX}, 1200, Phaser.Easing.Cubic.Out, true)
 
 		// player2.hpBar.originalY = player2.hpBar.y
@@ -758,18 +849,6 @@ var battle = function(){
 
 		inputsEnabled = true
 		controlGroup.show.start()
-    }
-
-    function numbersEffect() {
-        sound.play("cut")
-
-		equationGroup.alpha = 0
-
-		equationGroup.scale.x = 0.2
-		equationGroup.scale.y = 0.2
-
-        game.add.tween(equationGroup.scale).to({x: 1,y:1}, 800, Phaser.Easing.Bounce.Out, true)
-        game.add.tween(equationGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
 
     function enableCircle(option) {
@@ -923,15 +1002,15 @@ var battle = function(){
 		spineGroup.add(spineSkeleton)
 
 
-		spineGroup.setAnimation = function (animations, onComplete, args) {
+		spineGroup.setAnimation = function (animations, loop, onComplete, args) {
 			var entry
 			for(var index = 0; index < animations.length; index++) {
 				var animation = animations[index]
-				var loop = index === animations.length - 1
+				var isLoop = (index === animations.length - 1) && loop
 				if (index === 0)
-					entry = spineSkeleton.setAnimationByName(0, animation, loop)
+					entry = spineSkeleton.setAnimationByName(0, animation, isLoop)
 				else
-					spineSkeleton.addAnimationByName(0, animation, loop)
+					spineSkeleton.addAnimationByName(0, animation, isLoop)
 
 			}
 
@@ -967,6 +1046,10 @@ var battle = function(){
 				return spineSkeleton.slotContainers[slotIndex]
 			}
 		}
+
+		spineSkeleton.onEvent.add(function (i,e) {
+			console.log(i, e)
+		})
 
 		spineGroup.spine = spineSkeleton
 
