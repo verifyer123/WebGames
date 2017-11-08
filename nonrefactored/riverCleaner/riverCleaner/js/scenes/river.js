@@ -860,7 +860,6 @@ var river = function(){
         
         addDirty += dirty
         game.add.tween(polution).to({alpha: addDirty}, 200, Phaser.Easing.Cubic.Out, true)
-        console.log(addDirty)
         if(addDirty > 0.95){
             naoPos.kill()
             speed = 0

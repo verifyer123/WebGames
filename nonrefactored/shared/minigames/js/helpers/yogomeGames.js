@@ -104,7 +104,7 @@ yogomeGames.getGames = function(){
         {name:'Galactic Pool',url:'http://yogome.com/epic/minigames/galacticSite/',sceneName:'galactic',subject:'geography', review:false},//97
         {name:'Oona Says Cook',url:'http://yogome.com/epic/minigames/oonaSite/',sceneName:'oona',subject:'programming', review:false},//98
         {name:'River Rescue',url:'http://yogome.com/epic/minigames/riverSite/',sceneName:'riverRescue',subject:'Sustainability', review:false},//99
-        {name:'River Cleaner',url:'http://yogome.com/epic/minigames/cleanerSite/',sceneName:'riverCleaner',subject:'Sustainability', review:false},//100
+        {name:'River Cleaner',url:'http://yogome.com/epic/minigames/cleanerSite/',sceneName:'river',subject:'Sustainability', review:false},//100
         {name:'Garbage Diving',url:'http://yogome.com/epic/minigames/garbageSite/',sceneName:'garbageDiving',subject:'Sustainability', review:false}//101
         ]
     return games
