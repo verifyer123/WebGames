@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var flag = function(){
+var flagCollector = function(){
     
     var localizationData = {
 		"EN":{
@@ -678,7 +678,7 @@ var flag = function(){
     
 	return {
 		assets: assets,
-		name: "flag",
+		name: "flagCollector",
         preload:preload,
 		create: function(event){
             
