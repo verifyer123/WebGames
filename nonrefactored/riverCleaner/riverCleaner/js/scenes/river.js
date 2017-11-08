@@ -860,7 +860,8 @@ var river = function(){
         
         addDirty += dirty
         game.add.tween(polution).to({alpha: addDirty}, 200, Phaser.Easing.Cubic.Out, true)
-        if(addDirty == 1){
+        console.log(addDirty)
+        if(addDirty > 0.95){
             naoPos.kill()
             speed = 0
             nao.setAnimationByName(0, "LOSE", true)
@@ -875,8 +876,8 @@ var river = function(){
         addTrash -= score
         if(addTrash <= 0)
             addTrash = 0
-        else
-            game.add.tween(barContainer.scale).to({x:addTrash}, 500, Phaser.Easing.Cubic.Out, true)
+    
+        game.add.tween(barContainer.scale).to({x:addTrash}, 500, Phaser.Easing.Cubic.Out, true)
         
         sound.play("drag")
         
@@ -1047,12 +1048,14 @@ var river = function(){
         speed = 0
         
         if(trowTimer < 60)
-            trowTimer = 70
+            trowTimer = 60
         else trowTimer *= 0.6
         
-        if(spawnTimer < 500)
+       /* if(spawnTimer < 500)
             spawnTimer = 500
-        else spawnTimer -= 100
+        else spawnTimer -= 100*/
+        
+        spawnTimer -= 100
         
         nao.addAnimationByName(0, "WIN", true)
         naoCollect.body.enable = false
@@ -1120,8 +1123,8 @@ var river = function(){
             createFish()
             createFishCollider()
             createParticles()
-            trashOnScreen()
             cloud()
+            trashOnScreen()
             createNao()
             trashBar()
             createPointsBar()
