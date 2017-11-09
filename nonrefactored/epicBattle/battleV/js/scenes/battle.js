@@ -4,7 +4,7 @@ var battle = function(){
 	var server = parent.server || null
 	var serverData = server ? server.currentData : {
 		p1:{nickname:"Player1aa", avatar:"eagle"},
-		p2:{nickname:"Player2", avatar:"razzle"}
+		p2:{nickname:"Player2", avatar:"eagle"}
 	}
 
     var localizationData = {
@@ -87,6 +87,7 @@ var battle = function(){
     var MAX_HP = 100
 	var WIDTH_DISTANCE = 110
 	var HP_BAR_WIDTH = 195
+	var CHARACTERS_SOUNDS_PATH = "sounds/characters/"
 
     var MONSTERS = [
         {skin:"monster1", spineIndex:0, colorProyectile:"0xFFFE00", name:"Breeze"},
@@ -128,9 +129,30 @@ var battle = function(){
 	var tapGroup
 
     function loadSounds(){
-        sound.decode(assets.sounds)
+		getSoundsSpine(player1.spine)
+		getSoundsSpine(player2.spine)
+
+		console.log(assets.sounds)
+		sound.decode(assets.sounds)
     }
 
+    function getSoundsSpine(spine) {
+		var events = spine.skeletonData.events
+		console.log(events, spine)
+
+		for(var index = 0; index < events.length; index++){
+			var event = events[index]
+			var functionData = getFunctionData(event.name)
+
+			if((functionData)&&(functionData.name === "PLAY")){
+				var soundObj = {
+					name:functionData.param,
+					file: CHARACTERS_SOUNDS_PATH + functionData.param + ".mp3"
+				}
+				assets.sounds.push(soundObj)
+			}
+		}
+	}
 
     function initialize(){
         game.stage.backgroundColor = "#ffffff"
@@ -147,12 +169,6 @@ var battle = function(){
         var preloadAlpha = document.getElementById("preloadBattle");
         preloadAlpha.style.visibility = "hidden";
         inputsEnabled = false
-		if(server){
-			server.removeEventListener('afterGenerateQuestion', generateQuestion);
-			server.removeEventListener('onTurnEnds', checkAnswer);
-        	server.addEventListener('afterGenerateQuestion', generateQuestion);
-			server.addEventListener('onTurnEnds', checkAnswer);
-		}
 
         loadSounds()
 
@@ -211,7 +227,6 @@ var battle = function(){
 
     function receiveAttack(target, from) {
 		// target.hpBar.removeHealth(20)
-        sound.play("fireExplosion")
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation], true)
@@ -249,16 +264,34 @@ var battle = function(){
 		})
 	}
 	
-	function proyectileUpdate() {
-		var proyectile = sceneGroup.proyectile
+	function proyectileUpdate(tween, percentage) {
+    	var proyectile = sceneGroup.proyectile
 		// var angle = Phaser.Math.angleBetweenPoints(proyectile.worldPosition, proyectile.previousPosition)
 		// proyectile.rotation = -4.71239 + angle
 		// console.log(angle)
+		var zoom = (2 - proyectile.scale.y) * 1.6
+		game.camera.scale.x = zoom; game.camera.scale.y = zoom
+		var toScale1 = 1/zoom
+		var actualScale = hudGroup.scale.x
+		if(toScale1 < actualScale) {
+			hudGroup.scale.x = Phaser.Math.clamp(1 / game.camera.scale.x, toScale1, actualScale)
+			hudGroup.scale.y = Phaser.Math.clamp(1 / game.camera.scale.y, toScale1, actualScale)
+			frontGroup.scale.x = Phaser.Math.clamp(1 / game.camera.scale.x, toScale1, actualScale)
+			frontGroup.scale.y = Phaser.Math.clamp(1 / game.camera.scale.y, toScale1, actualScale)
+
+		}else{
+			hudGroup.scale.x = Phaser.Math.clamp(1/ game.camera.scale.x, actualScale, toScale1)
+			hudGroup.scale.y = Phaser.Math.clamp(1/ game.camera.scale.y, actualScale, toScale1)
+			frontGroup.scale.x = Phaser.Math.clamp(1/ game.camera.scale.x, actualScale, toScale1)
+			frontGroup.scale.y = Phaser.Math.clamp(1/ game.camera.scale.y, actualScale, toScale1)
+		}
+
 	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
+		var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
 
-		game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
+    	game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(targetPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 
     	fromPlayer.setAnimation(["CHARGE"], false)
@@ -267,6 +300,7 @@ var battle = function(){
 		fromPlayer.proyectile.startPower.animations.play('start', 12, false)
 		game.camera.follow(fromPlayer.proyectile.followObj)
 		fromPlayer.proyectile.followObj.x = -110 * fromPlayer.scale.x
+		fromPlayer.proyectile.followObj.y = -160 * fromPlayer.scale.x
 		// game.add.tween(fromPlayer.proyectile.followObj).to({x:0}, 2000, Phaser.Easing.Cubic.In, true)
 
 		var fromScale = fromPlayer.scale.y + fromPlayer.scale.y * 0.6
@@ -284,7 +318,6 @@ var battle = function(){
 		fromPlayer.proyectile.scale.x = fromScale; fromPlayer.proyectile.scale.y = fromScale
 		game.add.tween(fromPlayer.proyectile.startPower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 		game.add.tween(fromPlayer.proyectile.idlePower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
-		sound.play("fireReveal")
 
 		tapGroup.attackCallBack = function () {
 			fromPlayer.spine.speed = 1
@@ -312,7 +345,11 @@ var battle = function(){
 			})
 		}
 
-		tapGroup.start()
+		if(fromPlayer.numPlayer === 1)
+			tapGroup.start()
+		else {
+			game.time.events.add(2000, tapGroup.attackCallBack)
+		}
 	}
 
     function defeatPlayer(player) {
@@ -347,6 +384,7 @@ var battle = function(){
 
 	function createTapGame(){
 		var GRADIENT_WIDTH = 457
+		var TIMEBAR_WIDTH = 180
 
 		tapGroup = game.add.group()
 		tapGroup.x = game.world.centerX;
@@ -379,6 +417,13 @@ var battle = function(){
 		tapSpine.scale.setTo(0.5, 0.5)
 		tapGroup.add(tapSpine)
 
+		var timerBar = game.add.graphics()
+		timerBar.beginFill(0xFF4004)
+		timerBar.drawRect(0, 0, TIMEBAR_WIDTH, 10)
+		timerBar.y = -56
+		timerBar.endFill()
+		tapGroup.add(timerBar)
+
 		var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var attackText = game.add.text(game.world.centerX, 70, "PERFECT", fontStyle)
 		attackText.anchor.setTo(0.5, 0.5)
@@ -394,18 +439,33 @@ var battle = function(){
 			}
 		})
 
+		function endTapAttack() {
+			var percentageWidth = gradient.width / GRADIENT_WIDTH
+			var textString
+			if(percentageWidth > 0.85){
+				textString = "PERFECT"
+			}else{
+				textString = "WEAK"
+			}
+
+			attackText.text = textString
+			if(tapGroup.attackCallBack){tapGroup.attackCallBack()}
+			tapArea.inputEnabled = false
+			game.add.tween(tapGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
+			var textTween = game.add.tween(attackText).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
+			game.add.tween(attackText.scale).to({x:1, y:1}, 150, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			var textTween2 = game.add.tween(attackText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, false, 1000)
+			textTween.chain(textTween2)
+		}
+
 		tapGroup.update = function () {
 			if(tapArea.inputEnabled){
 				// gradient.width = Phaser.Math.clamp(gradient.width - 1, 0, GRADIENT_WIDTH)
+				timerBar.width = Phaser.Math.clamp(timerBar.width - 1, 0, TIMEBAR_WIDTH)
 				if(gradient.width >= GRADIENT_WIDTH - 10){
-					if(tapGroup.attackCallBack){tapGroup.attackCallBack()}
-					tapArea.inputEnabled = false
-					game.add.tween(tapGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
-					var textTween = game.add.tween(attackText).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
-					game.add.tween(attackText.scale).to({x:1, y:1}, 150, Phaser.Easing.Cubic.Out, true).yoyo(true)
-					var textTween2 = game.add.tween(attackText).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, false, 1000)
-					textTween.chain(textTween2)
-
+					endTapAttack()
+				}else if(timerBar.width === 0){
+					endTapAttack()
 				}
 			}
 		}
@@ -414,16 +474,17 @@ var battle = function(){
 			tapArea.inputEnabled = true
 			game.add.tween(tapGroup).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
 			gradient.width = 0
+			timerBar.width = TIMEBAR_WIDTH
 		}
 
 	}
 
     function createProyectile(proyectile, from, target){
-        sound.play("fireProjectile")
 
 		var toScale = target.scale.y + target.scale.y * 0.6
 
 		var toHit = target.hitDestination
+		game.add.tween(proyectile.followObj).to({y:0}, 1600, null, true)
 		var moveProyectile = game.add.tween(proyectile).to({x: toHit.x}, 1600, null, true)
 		moveProyectile.onUpdateCallback(proyectileUpdate)
         game.add.tween(proyectile.scale).to({x: toScale, y: toScale}, 1600, null, true)
@@ -448,7 +509,10 @@ var battle = function(){
 						target.hpBar.removeHealth(20)
 
 						if(target.hpBar.health > 0)
-							game.time.events.add(1000, startRound)
+							if(target.numPlayer === 1)
+								game.time.events.add(1000, startRound)
+							else
+								game.time.events.add(1000, playerAttack, null, player2, player1, createProyectile, "proyectile")
 						else{
 							// dino.setAnimation(["HIT", "IDLE"])
 							// game.time.events.add(2000, defeatPlayer, null, target)
@@ -561,7 +625,7 @@ var battle = function(){
 		player.x = position.x
 		player.y = position.y
 		player.alpha = 1
-		player.colorProyectile = MONSTERS[monsterCounter].colorProyectile
+		// player.colorProyectile = MONSTERS[monsterCounter].colorProyectile
 		player.scaleReference = scale
 
 		var shadow = player.create(0, 0, 'atlas.battle', 'shadow')
@@ -800,6 +864,7 @@ var battle = function(){
 		buttons.getImages(game)
 		console.log(parent.isKinder)
 
+		console.log(game.cache.getSpine(avatar1))
 	}
 
     function showReadyGo() {      
@@ -987,6 +1052,24 @@ var battle = function(){
 
     }
 
+    function playChar(param) {
+		sound.play()
+	}
+
+    function getFunctionData(value) {
+		var indexOfFunc = value.indexOf(":")
+		var functionName = null
+		var param = null
+
+		if(indexOfFunc > -1){
+			functionName = value.substr(0, indexOfFunc)
+			param = value.substr(indexOfFunc + 1)
+		}
+		console.log(functionName, param)
+
+		return {name: functionName, param: param}
+	}
+
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
 		idleAnimation = idleAnimation || "IDLE"
 		var spineGroup = game.add.group()
@@ -1048,7 +1131,16 @@ var battle = function(){
 		}
 
 		spineSkeleton.onEvent.add(function (i,e) {
-			console.log(i, e)
+			var eventName = e.data.name
+
+			if((!eventName)&&(typeof eventName !== 'string'))
+				return
+
+			var functionData = getFunctionData(eventName)
+			if((!functionData)||(!functionData.name)){return}
+
+			if(functionData.name === "PLAY")
+				sound.play(functionData.param)
 		})
 
 		spineGroup.spine = spineSkeleton
@@ -1179,8 +1271,6 @@ var battle = function(){
             //     game.sound.mute = false
             // }, this);
 
-            initialize()
-
 			hudGroup = game.add.group();
 			sceneGroup.add(hudGroup)
 			hudGroup.fixedToCamera = true
@@ -1196,6 +1286,7 @@ var battle = function(){
 
 			createGameObjects()
             createbattleUI()
+			initialize()
 			// game.time.events.add(500, startRound)
 			enterGame()
             // createTutorial()
