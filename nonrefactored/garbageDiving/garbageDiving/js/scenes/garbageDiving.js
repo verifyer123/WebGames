@@ -313,7 +313,7 @@ var garbageDiving = function(){
 		game.load.image('buttonText',"images/garbage/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/garbage/introscreen.png")
         
-        game.load.spine('bigFish',"images/spine/skeleton/Skeleton.json")
+        game.load.spine('bigFish',"images/Spine/skeleton/Skeleton.json")
         
 		console.log(localization.getLanguage() + ' language')
         
@@ -420,10 +420,10 @@ var garbageDiving = function(){
         backgroundGroup.add(backG)
         
         clock=game.add.image(game.world.centerX-200,0,"atlas.time","clock")
+        clock.scale.setTo(.7)
         
-        
-        timeBar=game.add.image(clock.position.x+55,clock.position.y+57,"atlas.time","bar")
-        timeBar.scale.setTo(11.5,.7)
+        timeBar=game.add.image(clock.position.x+40,clock.position.y+40,"atlas.time","bar")
+        timeBar.scale.setTo(8,.45)
         backgroundGroup.add(clock)
         backgroundGroup.add(timeBar)
         timeBar.alpha=0
@@ -534,6 +534,7 @@ var garbageDiving = function(){
 	function update(){
         
         
+        
         if(trashCollected<15 && trashCollected!=0){
         game.add.tween(scoreBarMove.scale).to({x:trashCollected/20,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
         }
@@ -571,7 +572,7 @@ var garbageDiving = function(){
         {
             clock.alpha=1
             timeBar.alpha=1
-            tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.7}, 45000, Phaser.Easing.Linear.Out, true, 100)
+            tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, 45000, Phaser.Easing.Linear.Out, true, 100)
             tweenTiempo.onComplete.add(function(){
             missPoint()
             startGame=false
@@ -609,7 +610,7 @@ var garbageDiving = function(){
         }
         
             //Crear objetos
-        if(delayer==20){
+        if(delayer==25){
             randomCreation=game.rnd.integerInRange(0,10)
             randomTrail=game.rnd.integerInRange(0,2)
             var spaceInTrail=game.rnd.integerInRange(0,4)
@@ -792,19 +793,57 @@ var garbageDiving = function(){
             
             trashCollected++
             
+            character.setAnimationByName(0,"ATTACK",true);
             
             sound.play("eat")
             correctParticle.position.x=obj.position.x+50
             correctParticle.position.y=obj.position.y
             correctParticle.start(true, 1000, null, 5)
+            game.add.tween(this).to({x:20}, 250 , Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
+            if(lives==3 && trashCollected%goal!=0){
+                
+                    character.setAnimationByName(0,"IDLE",true);
+                }
+                if(lives==2 && trashCollected%goal!=0){
+                    character.setAnimationByName(0,"HIT1",true);
+                
+                }
+            
+                if(lives==1 && trashCollected%goal!=0){
+                
+                    character.setAnimationByName(0,"HIT2",true);
+                }
+            })
             if(trashCollected%goal==0){
                 
                 tweenTiempo.stop()
                 speed+=2
                 delayer-=1
+
                 addPoint(1)
                 startGame=false
+                character.setAnimationByName(0,"WIN",true);
                 reset()
+                game.add.tween(this).to({x:20}, 950 , Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
+                    
+                if(lives==3){
+                
+                    character.setAnimationByName(0,"IDLE",true);
+                    
+                }
+                if(lives==2){
+                    
+                    character.setAnimationByName(0,"HIT1",true);
+                
+                }
+            
+                if(lives==1){
+                
+                    character.setAnimationByName(0,"HIT2",true);
+                    
+                }
+            
+            })
                 
             }
             
@@ -836,10 +875,27 @@ var garbageDiving = function(){
                     trashActive[obj.tag]=false
                 }   
             }
+            
+            
         }else
         {
+                    
+                
             tweens[10].stop()
             missPoint()
+            if(lives==3){
+                
+                    character.setAnimationByName(0,"IDLE",true);
+                }
+                if(lives==2){
+                    character.setAnimationByName(0,"HIT1",true);
+                
+                }
+            
+                if(lives==1){
+                
+                    character.setAnimationByName(0,"HIT2",true);
+                }
             sound.play("explosion")
             boomParticle.position.x=bigFish.position.x+50
             boomParticle.position.y=bigFish.position.y
@@ -870,15 +926,18 @@ var garbageDiving = function(){
             }
             mineActive=false
             startGame=false
-            if(trashCollected>=10 || pointsBar.number>0){
+            if(clockStarts==true){
                 game.add.tween(this).to({x:20}, 500 , Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
                 tweenTiempo.stop()
+                if(lives>0){
                 reset()
+                }
                 }) 
             }else{
-                
+                if(lives>0){
                 reset()
-  
+                }
+                
             }
             
             
@@ -977,12 +1036,12 @@ var garbageDiving = function(){
                 if(trail1[reseting].tag!="mina"){
                     tweens[trail1[reseting].tag].stop()
                     }
-            trail1[reseting].position.x=game.world.width+100
-            trail1[reseting]=null
-            }
-            if(trail2[reseting]!=null){
+                    trail1[reseting].position.x=game.world.width+100
+                    trail1[reseting]=null
+                    }
+                    if(trail2[reseting]!=null){
             
-                if(trail2[reseting].tag=="mina"){
+                    if(trail2[reseting].tag=="mina"){
                     tweens[10].stop()
                     }
                 if(trail2[reseting].tag!="mina"){
@@ -1014,25 +1073,17 @@ var garbageDiving = function(){
         
         character.alpha=1
         
-            
-            if(lives==2){
-                
-                
-            }
-            
-            if(lives==1){
-                
-                
-            }
+             
         
         if(lives>0){
         startGame=true
+        
         }
         })
-        if(trashCollected>10 || pointsBar.number>0){
-                tweenTiempo=game.add.tween(timeBar.scale).to({x:11.5,y:.7}, 300, Phaser.Easing.Linear.Out, true, 100)
+        if(clockStarts==true){
+                tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, 300, Phaser.Easing.Linear.Out, true, 100)
                 tweenTiempo.onComplete.add(function(){
-                tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.7}, 45000, Phaser.Easing.Linear.Out, true, 100)
+                tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, 45000, Phaser.Easing.Linear.Out, true, 100)
                 tweenTiempo.onComplete.add(function(){
                 missPoint()
                 startGame=false
