@@ -26,7 +26,7 @@ yogomeGames.getGames = function(){
 		{name:'tiltSprout',url:'http://yogome.com/epic/minigames/tiltSite/',sceneName:'tilt',subject:'science',review:true},
 		{name:'cultureIcons',url:'http://yogome.com/epic/minigames/cultureSite/',sceneName:'culture',subject:'geography',review:true},
 		{name:'dizzyBoat',url:'http://yogome.com/epic/minigames/dizzySite/',sceneName:'dizzy',subject:'geography',review:true},
-		{name:'flagCollector',url:'http://yogome.com/epic/minigames/flagCollectorSite/',sceneName:'flag',subject:'geography',review:true},
+		{name:'flagCollector',url:'http://yogome.com/epic/minigames/flagCollectorSite/',sceneName:'flagCollector',subject:'geography',review:true},
 		{name:'mediCatcher',url:'http://yogome.com/epic/minigames/mediSite/',sceneName:'medi',subject:'health',review:true},
         {name:'wildSnaps',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild',subject:'creativity',review:true},
 		{name:'geMath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem',subject:'math',review:true},
@@ -104,7 +104,7 @@ yogomeGames.getGames = function(){
         {name:'Galactic Pool',url:'http://yogome.com/epic/minigames/galacticSite/',sceneName:'galactic',subject:'geography', review:false},//97
         {name:'Oona Says Cook',url:'http://yogome.com/epic/minigames/oonaSite/',sceneName:'oona',subject:'programming', review:false},//98
         {name:'River Rescue',url:'http://yogome.com/epic/minigames/riverSite/',sceneName:'riverRescue',subject:'Sustainability', review:false},//99
-        {name:'River Cleaner',url:'http://yogome.com/epic/minigames/cleanerSite/',sceneName:'riverCleaner',subject:'Sustainability', review:false},//100
+        {name:'River Cleaner',url:'http://yogome.com/epic/minigames/cleanerSite/',sceneName:'river',subject:'Sustainability', review:false},//100
         {name:'Garbage Diving',url:'http://yogome.com/epic/minigames/garbageSite/',sceneName:'garbageDiving',subject:'Sustainability', review:false}//101
         ]
     return games

@@ -24,6 +24,12 @@ var map = function(){
                 json: "images/map/atlas.json",
                 image: "images/map/atlas.png",
             },
+			
+			{   
+                name: "atlas.icons",
+                json: "images/map/icons/atlas.json",
+                image: "images/map/icons/atlas.png",
+            },
         ],
         images: [
 
@@ -43,6 +49,12 @@ var map = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "whoosh",
+				file: soundsPath + "whoosh.mp3"},
+			{	name: "laserPull",
+				file: soundsPath + "laserPull.mp3"},
+			{	name: "bomb",
+				file: soundsPath + "bomb.mp3"},
 			
 		],
     }
@@ -64,85 +76,62 @@ var map = function(){
 	var ballsPosition
 	var mouseActive
 	var start
+	var yogotarGroup
+	var buttonsActive
+	var pointer
+	var ship
+	var whiteFade
+	var shine
 	
 	var iconsPositions = [
 		
-		{x:885,y:7474.944751381216},
-		{x:998,y:7475.189076789056},
-		{x:1043,y:7413.939226519336},
-		{x:1040,y:7251.623885578169},
-		{x:965,y:7219.8446864792895},
-		{x:820,y:7218.021000073124},
-		{x:773,y:7152.43078610617},
-		{x:792,y:7026.977747432136},
-		{x:871,y:7056.698464121502},
-		{x:925,y:7108.885653248414},
-		{x:1046,y:7070.574958449699},
-		{x:1042,y:6892.831689458795},
-		{x:965,y:6840.77388382294},
-		{x:811,y:6839.241874461357},
-		{x:778,y:6780.326964090746},
-		{x:780,y:6670.063371271264},
-		{x:860,y:6645.74927553578},
-		{x:908,y:6733.4643587464125},
-		{x:1018,y:6722.690878083429},
-		{x:1046,y:6648.607064844089},
-		{x:1040,y:6504.382371454001},
-		{x:961,y:6468.238179729422},
-		{x:820,y:6461.679272387886},
-		{x:778,y:6391.191902697094},
-		{x:784,y:6285.355925915179},
-		{x:864,y:6285.79630876416},
-		{x:913,y:6358.376896215781},
-		{x:1012,y:6354.0778699185885},
-		{x:1047,y:6281.798941203933},
-		{x:1038,y:6130.519381751755},
-		{x:945,y:6096.92022440072},
-		{x:815,y:6081.691377023624},
-		{x:775,y:6015.237705714111},
-		{x:783,y:5915.137241328757},
-		{x:865,y:5912.568172423197},
-		{x:917,y:5979.648653960827},
-		{x:1026,y:5973.485378694191},
-		{x:1043,y:5899.126963247762},
-		{x:1028,y:5732.981923510895},
-		{x:950,y:5717.394605665894},
-		{x:816,y:5709.096848865336},
-		{x:775,y:5636.52875773156},
-		{x:792,y:5530.576011925224},
-		{x:868,y:5532.077177401563},
-		{x:918,y:5606.34140450047},
-		{x:1028,y:5593.000024826223},
-		{x:1040,y:5395.032231853043},
-		{x:962,y:5340.502917229031},
-		{x:811,y:5337.138276345053},
-		{x:780,y:5260.549702418664},
-		{x:790,y:5154.73555489621},
-		{x:872,y:5161.7608802212235},
-		{x:916,y:5231.710521012586},
-		{x:1032,y:5219.839884239056},
-		{x:1023,y:4980.320331007077},
-		{x:830,y:4964.9359888556155},
-		{x:778,y:4901.553670812966},
-		{x:783,y:4779.908197983344},
-		{x:869,y:4784.29163828438},
-		{x:920,y:4852.552982736441},
-		{x:1035,y:4844.097458311165},
-		{x:1027,y:4603.879307969499},
-		{x:824,y:4590.246617737086},
-		{x:778,y:4522.846913968708},
-		{x:795,y:4389.252716321165},
-		{x:872,y:4447},
-		{x:1011,y:4483},
-		{x:1046,y:4408},
-		{x:1038,y:4270},
-		{x:969,y:4218},
-		{x:819,y:4209},
-		{x:775,y:4146},
-		{x:802,y:4023},
-		{x:873,y:4072},
-		{x:1018,y:4105},
-		{x:1040,y:3987},
+		{x:  38,y:7466.3090909090915},
+		{x:  -115,y:7447.523554581991},
+		{x:  -94,y:7224.231409716987},
+		{x:  127,y:7207.08732866864},
+		{x:  121,y:7014.4967477663595},
+		{x:  32,y:7100.369475039087},
+		{x:  -113,y:7088.7092339989795},
+		{x:  -97,y:6846.999617944877},
+		{x:  135,y:6823.529843451141},
+		{x:  113,y:6636.157133637524},
+		{x:  32,y:6724.418032035787},
+		{x:  -121,y:6705.463449446595},
+		{x:  -95,y:6471.29981308296},
+		{x:  134,y:6451.654220860643},
+		{x:  109,y:6263.366602182181},
+		{x:  33,y:6354.5215037301605},
+		{x:  -113,y:6336.812412821069},
+		{x:  -92,y:6097.522175274089},
+		{x:  137,y:6072.794902546816},
+		{x:  109,y:5881.53345154249},
+		{x:  34,y:5973.102574679746},
+		{x:  -104,y:5967.986074893585},
+		{x:  -92,y:5720.751421602689},
+		{x:  130,y:5699.792429128066},
+		{x:  105,y:5508.868594874287},
+		{x:  33,y:5600.913558141134},
+		{x:  -109,y:5587.140868284927},
+		{x:  -94,y:5344.233294444293},
+		{x:  139,y:5322.21672804405},
+		{x:  119,y:5134.961340598599},
+		{x:  32,y:5224.140341995779},
+		{x:  -109,y:5212.500618944498},
+		{x:  -97,y:4973.027891671771},
+		{x:  135,y:4944.224619607021},
+		{x:  111,y:4759.625734341299},
+		{x:  35,y:4850.776769630385},
+		{x:  -109,y:4840.055797831114},
+		{x:  -96,y:4598.611335442015},
+		{x:  134,y:4572.32142267851},
+		{x:  110,y:4386.32142267851},
+		{x:  35,y:4472.2123317694195},
+		{x:  -110,y:4454.355402349839},
+		{x:  -89,y:4220.100856895293},
+		{x:  135,y:4196.069788168984},
+		{x:  108,y:4013.3226685388277},
+		{x:  30,y:4100.101245102956},
+		{x:  -114,y:4081.3841742767454},
 		
 	]
 
@@ -155,7 +144,8 @@ var map = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 1
 		mouseActive = false
-
+		buttonsActive = false
+		buttonPressed = null
         
         loadSounds()
         
@@ -179,7 +169,47 @@ var map = function(){
         sceneGroup.add(startGroup)
                 
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        game.add.tween(sceneGroup).to({alpha:1},400,"Linear",true)
+		
+		game.time.events.add(1200,function(){
+			
+			ship.alpha = 1
+			sound.play("laserPull")
+			
+			var startBall = ballsPosition.children[0]
+			game.add.tween(ship).to({y:startBall.y - 50},2500,"Linear",true).onComplete.add(function(){
+				
+				createPart('smoke',ship,0,50)
+				sound.play("bomb")
+				
+				game.time.events.add(500,function(){
+					
+					sound.play("whoosh")
+					
+					yogotarGroup.anim.setAnimationByName(0,"JUMP",true)
+					yogotarGroup.alpha = 1
+					game.add.tween(yogotarGroup).to({x:startBall.x},1000,"Linear",true)
+
+					game.add.tween(yogotarGroup).to({y:startBall.y - 150},500,Phaser.Easing.Quadratic.In,true)
+					game.time.events.add(500,function(){
+						
+						yogotarGroup.anim.setAnimationByName(0,"LAND",false)
+						yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
+						
+						game.add.tween(yogotarGroup).to({y:startBall.y},500,Phaser.Easing.Quadratic.Out,true).onComplete.add(function(){
+							
+							buttonsActive = true
+							scroller.start()
+						})
+					})
+				})
+				
+								
+			})
+			
+			var scaleTween = game.add.tween(ship.scale).to({x:0.9,y:0.9},200,"Linear",true,0,5)
+			scaleTween.yoyo(true,0)
+		})
 
     }
 	
@@ -260,58 +290,6 @@ var map = function(){
         
     }
     
-    function createPointsBar(){
-        
-        pointsBar = game.add.group()
-        pointsBar.x = game.world.width
-        pointsBar.y = 0
-        sceneGroup.add(pointsBar)
-        
-        var pointsImg = pointsBar.create(-10,10,'atlas.map','xpcoins')
-        pointsImg.anchor.setTo(1,0)
-    
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
-        pointsText.y = pointsImg.height * 0.25
-        pointsBar.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        pointsBar.text = pointsText
-        pointsBar.number = 0
-        
-    }
-    
-    function createHearts(){
-        
-        heartsGroup = game.add.group()
-        heartsGroup.y = 10
-        sceneGroup.add(heartsGroup)
-        
-        
-        var pivotX = 10
-        var group = game.add.group()
-        group.x = pivotX
-        heartsGroup.add(group)
-
-        var heartImg = group.create(0,0,'atlas.map','life_box')
-
-        pivotX+= heartImg.width * 0.45
-        
-        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-        pointsText.x = pivotX
-        pointsText.y = heartImg.height * 0.15
-        pointsText.setText('X ' + lives)
-        heartsGroup.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        heartsGroup.text = pointsText
-                
-    }
-    
     function stopGame(win){
         
 		sound.play("wrong")
@@ -339,11 +317,19 @@ var map = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
-		game.load.spine('eagle',"images/spines/eagle.json")
+		game.load.spine('eagle',"images/spines/yogotar.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
     }
+	
+	function createShine(){
+		
+		shine = scroller.create(0,0,'atlas.map','shine')
+		shine.anchor.setTo(0.5,0.5)
+		shine.alpha = 0
+		
+	}
     
     function createOverlay(){
         
@@ -408,12 +394,134 @@ var map = function(){
 		ballsPosition = game.add.group()
 		scroller.add(ballsPosition)
 		
+		var games = epicYogomeGames.getGames()
+		Phaser.ArrayUtils.shuffle(games)
+		
 		for(var i = 0; i < iconsPositions.length;i++){
 			
-			var ball = ballsPosition.create(iconsPositions[i].x - start.x,iconsPositions[i].y - start.y,'atlas.map','number_container')
+			var ball = ballsPosition.create(game.world.centerX - iconsPositions[i].x,iconsPositions[i].y - start.y,'atlas.map','number_container')
 			ball.anchor.setTo(0.5,0.5)
-			console.log(ball.x + ' posX,' +  ball.y + ' posY')
+			ball.order = i
+			ball.inputEnabled = true
+			ball.icon = null
+			ball.events.onInputDown.add(inputBall)			
+							
+			if(i==0 || i % 5 == 0){
+				ball.alpha = 0
+			}else if(i % 5 != 0){
+				var gameImage = scroller.create(ball.x, ball.y,'atlas.icons',games[i].sceneName)
+				gameImage.scale.setTo(0.4,0.4)
+				gameImage.anchor.setTo(0.5,0.5)
+				
+				ball.icon = gameImage
+				ball.url = games[i].url
+				
+			}
 		}
+	}
+	
+	function inputBall(obj){
+		
+		//console.log('pressed ' + obj.order)
+		if(!buttonsActive || !obj.icon){
+			return
+		}
+		
+		
+		sound.play("pop")
+		
+		buttonPressed = obj
+		buttonsActive = false
+		
+		sendYogotar()
+	}
+	
+	function sendYogotar(){
+		
+		if(yogotarGroup.index != buttonPressed.order){
+			
+			var ballBack = ballsPosition.children[yogotarGroup.index]
+			var ballTo 
+			if(yogotarGroup.index < buttonPressed.order){
+				
+				yogotarGroup.index++
+		
+			}else{
+				
+				yogotarGroup.index--
+			}
+			
+			ballTo = ballsPosition.children[yogotarGroup.index]
+
+			if(ballBack.x > ballTo.x){
+				yogotarGroup.scale.setTo(-1,1)
+			}else{
+				yogotarGroup.scale.setTo(1,1)
+			}
+
+			yogotarGroup.anim.setAnimationByName(0,"RUN",true)
+			game.add.tween(yogotarGroup).to({x:ballTo.x,y:ballTo.y},1000,"Linear",true).onComplete.add(function(){
+
+				yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
+
+				//console.log(buttonPressed.order + ' order ' +  yogotarGroup.index + ' yogoIndex')
+				if(yogotarGroup.index == buttonPressed.order){
+					
+					sendGame()
+				}else{
+					sendYogotar()
+				}
+
+			})
+			
+		}else{
+			buttonsActive = true
+		}
+		
+		
+	}
+	
+	function sendGame(){
+		
+		yogotarGroup.anim.setAnimationByName(0,"WIN2",true)
+		
+		createPart('star',buttonPressed)
+		sound.play("magic")
+		
+		game.time.events.add(750,function(){
+			
+			var icon = buttonPressed.icon
+		
+			scroller.remove(icon)
+			scroller.add(icon)
+
+			game.add.tween(icon.scale).to({x:1,y:1},500,"Linear",true)
+			game.add.tween(icon).to({x:game.world.centerX, angle:icon.angle + 360},500,"Linear",true)
+
+			shine.x = icon.x
+			shine.y = icon.y
+			shine.alpha = 1
+
+			game.add.tween(shine.scale).to({x:5,y:5},500,"Linear",true)
+			game.add.tween(shine).to({x:game.world.centerX},500,"Linear",true)
+
+			//if(scroller < start.y * -0.74){
+				scroller.scrollTo(0,-yogotarGroup.y * 0.85,200)
+			//}
+			
+			console.log(scroller.y + ' posY')
+			game.time.events.add(200,function(){
+
+				scroller.stop()
+			})
+
+			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1500).onComplete.add(function(){
+				window.open(buttonPressed.url,'_self')
+			})
+		})
+		
+		
+		
 	}
 	
 	function addPosition(obj){
@@ -449,6 +557,12 @@ var map = function(){
 		
 		createBallsPos()
 		
+		scroller.stop()
+		scroller.scrollTo(0,-start.y * 0.76)
+		
+		pointer = sceneGroup.create(-100,0,'atlas.map','star')
+		pointer.anchor.setTo(0.5,0.5)
+		
 	}
 	
 	function configureScroll() {
@@ -463,6 +577,39 @@ var map = function(){
 	function update(){
 		
 		//console.log(scroller.x + ' posX,' + scroller.y + ' posY')
+		
+		shine.angle++
+		touchPosition()
+	}
+	
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+
+    }
+	
+	function touchPosition(){
+		
+		
+		if(game.input.activePointer.isDown && buttonsActive){
+			
+			pointer.x = game.input.x
+			pointer.y = game.input.y
+			
+			for(var i = 0; i < ballsPosition.length; i++){
+				
+				var ball = ballsPosition.children[i]
+				if(checkOverlap(ball,pointer)){
+					inputBall(ball)
+				}
+			}
+		}else{
+			
+			pointer.x = -100
+		}
 		
 		/*if(!mouseActive && game.input.activePointer.middleButton.isDown){
 			
@@ -493,7 +640,7 @@ var map = function(){
 			
 			var circle = ballsPosition.children[i]
 			
-			stringToUse+= '{x:' + (circle.x + start.x) +',y:' + (circle.y + start.y) + '},\n'
+			stringToUse+= '{x:' + (game.world.centerX -  circle.x) +',y:' + (circle.y + start.y) + '},\n'
 		}
 		
 		console.log(stringToUse)
@@ -551,15 +698,16 @@ var map = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
+    function createPart(key,obj,offsetX, offsetY){
         
         var offX = offsetX || 0
+		var offY = offsetY || 0
         var particle = lookParticle(key)
 		
         if(particle){
             
             particle.x = obj.world.x + offX
-            particle.y = obj.world.y
+            particle.y = obj.world.y + offY
             particle.scale.setTo(1,1)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
@@ -684,6 +832,31 @@ var map = function(){
 		
 	}
 	
+	function createYogotar(){
+		
+		var startBall = ballsPosition.children[0]
+		
+		ship = scroller.create(startBall.x - 125,startBall.y - game.world.height,'atlas.map','ship')
+		ship.alpha = 0
+		ship.scale.setTo(1.1,1.1)
+		ship.anchor.setTo(0.5,0.5)
+		
+		yogotarGroup = game.add.group()
+		yogotarGroup.alpha = 0
+		yogotarGroup.x =ship.x
+		yogotarGroup.y = startBall.y
+		scroller.add(yogotarGroup)
+		
+		var anim = game.add.spine(0,15,"eagle")
+		anim.setAnimationByName(0,"IDLE",true)
+		anim.setSkinByName("Eagle")
+		anim.scale.setTo(0.4,0.4)
+		yogotarGroup.add(anim)
+		
+		yogotarGroup.anim = anim
+		yogotarGroup.index = 0
+	}
+	
 	return {
 		
 		assets: assets,
@@ -695,6 +868,7 @@ var map = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createYogotar()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
@@ -716,6 +890,7 @@ var map = function(){
 			//createHearts()
 			
 			buttons.getButton(spaceSong,sceneGroup)
+			createShine()
             //createOverlay()
             
             animateScene()
