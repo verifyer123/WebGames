@@ -64,7 +64,7 @@ var spaceVaccum = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 102
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -317,11 +317,14 @@ var spaceVaccum = function(){
 		sound.play("gameLose")
 		
         gameActive = false
+        
+        
+        
+        
         spaceSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
-            
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
@@ -522,7 +525,7 @@ var spaceVaccum = function(){
         
         
         if(startGame){
-            
+            console.log(trail4)
             
         if(fuel==10 && clockStarts==false)
         {
@@ -618,7 +621,7 @@ var spaceVaccum = function(){
             proxy1.position.y=game.world.height-80
             ship.position.y=game.world.height-80
             
-            if(delayer==60){
+            if(delayer==30){
                 
                
                 
@@ -801,7 +804,7 @@ var spaceVaccum = function(){
     
        function hitTheShip(obj){
            
-           ship.setAnimationByName(0,"TAKETRASH",false);
+           
            
            if(obj.tag=="meteor1"){
                
@@ -811,12 +814,29 @@ var spaceVaccum = function(){
               boomParticle.start(true, 1000, null, 5)
               obj.position.x=game.world.width+100
               obj.position.y=10
+               
+               
+               if(trail4!=null){
+               game.add.tween(trail4).to({alpha:0},200,Phaser.Easing.linear,true)
+               }
+               if(trail5!=null){
+               game.add.tween(trail5).to({alpha:0},200,Phaser.Easing.linear,true)
+               }
+               trail4=null
+               trail5=null
+               if(lives==1){
+                   boomParticle.position.x=ship.position.x+50
+                   boomParticle.position.y=ship.position.y
+                   boomParticle.start(true, 1000, null, 5)
+                   ship.setAnimationByName(0,"LOSE",false);
+                
+               }
               missPoint()
                
                startGame=false
               reset()
            }else{   
-               
+               ship.setAnimationByName(0,"TAKETRASH",false);
                sound.play("vacc")
                correctParticle.position.x=obj.position.x
                correctParticle.position.y=obj.position.y
@@ -898,6 +918,7 @@ var spaceVaccum = function(){
     
         function reset(){
             
+            delayer=0
             if(clockStarts==true){
                 stopTimer()
             }
@@ -914,9 +935,11 @@ var spaceVaccum = function(){
                 }
                 if(trail4!=null){
                     game.add.tween(trail4).to({alpha:0},200,Phaser.Easing.linear,true)
+                    trail4=null
                 }
                 if(trail5!=null){
                     game.add.tween(trail5).to({alpha:0},200,Phaser.Easing.linear,true)
+                    trail5=null
                 }
                 if(activeTrash[order]==true){
                     activeTrash[order]=false
@@ -948,13 +971,11 @@ var spaceVaccum = function(){
                     trail3[order].position.y=10
                 }
                 }
-                trail4=null
-                trail5=null
             })
         }
     
        function outOfThisWorld(obj){
-       
+       delayer=0
         if(obj.position.y>1){
         
         if(obj.position.y>game.world.height+10){
@@ -981,18 +1002,18 @@ var spaceVaccum = function(){
             
         }
             
-            if(meteorsActive==true && obj.tag=="meteor1" && trail4==meteors){
-                console.log(trail4)
-                meteorsActive=false
+            if(meteorsActive==true  && trail4!=null){
                 game.add.tween(trail4).to({alpha:0},200,Phaser.Easing.linear,true)
                 obj.position.y=10
                 trail4=null
-            }
-            if(meteorsActive==true && obj.tag=="meteor1" && trail5==meteors){
                 meteorsActive=false
+            }
+            if(meteorsActive==true && trail5!=null){
                 game.add.tween(trail5).to({alpha:0},200,Phaser.Easing.linear,true)
-                obj.position.y=10
                 trail5=null
+                meteorsActive=false
+                obj.position.y=10
+                
             }
             
         for(var checkObjects=0;checkObjects<4;checkObjects++){

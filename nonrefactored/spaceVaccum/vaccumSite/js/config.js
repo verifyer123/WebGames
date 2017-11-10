@@ -21,7 +21,7 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "garbageDiving",
+        name: "spaceVaccum",
         language: "es",
         minigameUrl: "../spaceVaccum/index.html?language=" + language,
         desktopUrl: "./desktop.html",
