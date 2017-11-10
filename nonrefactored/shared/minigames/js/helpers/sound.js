@@ -18,9 +18,14 @@ var sound = function(){
 		game.sound.setDecodedCallback(decodedSounds, function(){}, this)
 	}
 
-	function play(soundId){
+	function play(soundId, params){
+		params = params || {}
+		var pitch = params.pitch || 1
+
 		if(decodedSounds[soundId] !== "undefined"){
+			console.log(decodedSounds[soundId])
 			decodedSounds[soundId].play()
+			decodedSounds[soundId]._sound.playbackRate.value = pitch
 		}else{
 			console.warn("[Sound]"+"Not found Sound: "+soundId)
 		}
