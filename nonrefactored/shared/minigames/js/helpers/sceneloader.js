@@ -56,6 +56,21 @@ var sceneloader = function(){
 			var currentScene = scenes[indexScene]
 			if(currentScene.assets !== "undefined"){
 				var assets = currentScene.assets
+
+				if(typeof assets.jsons == "object"){
+					for(var indexJson = 0; indexJson < assets.jsons.length; indexJson++){
+						var currentJson = assets.jsons[indexJson]
+						currentLoader.json(currentJson.name, currentJson.file)
+					}
+				}
+
+				if(typeof assets.spines == "object"){
+					for(var indexSpine = 0; indexSpine < assets.spines.length; indexSpine++){
+						var currentSpine = assets.spines[indexSpine]
+						currentLoader.spine(currentSpine.name, currentSpine.file)
+					}
+				}
+
 				if(typeof assets.images == "object"){
 					for(var indexImage = 0; indexImage < assets.images.length; indexImage++){
 						var currentImage = assets.images[indexImage]

@@ -1,0 +1,25 @@
+{
+	"timing":{
+		"stop":600,
+		"removal":1000,
+		"hit":300
+	},
+	"particles":[
+		"particles/characters/normalAttackEarth1/normalAttackEarth1.json",
+		"particles/characters/normalAttackEarth1/normalAttackEarth2.json",
+		"particles/characters/normalAttackEarth1/normalAttackEarth3.json"
+		
+	
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactEarth1/impactEarth1.json",
+			"particles/characters/impactEarth1/impactEarth2.json",
+			"particles/characters/impactEarth1/impactEarth3.json"
+		],
+		"soundID":"epicRockImpact4"
+	},
+	"onShoot":[
+	
+	]
+}

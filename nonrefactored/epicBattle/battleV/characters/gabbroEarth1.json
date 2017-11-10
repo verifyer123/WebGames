@@ -1,0 +1,48 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "earthAttack2",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			},
+				{
+				"id": "earthAttack2",
+				"attachment": "particle4",
+				"delay": 350,
+				"multiplier": 1
+			}
+			
+		],
+		"special": [
+			{
+				"id": "explosionEarth1",
+				"attachment": "particle7",
+				"delay": 200,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/gabbroEarth1/",
+	"name": "Earthbro",
+	"spine": {
+		"options": {
+			"scale": 0.8,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/gabbroEarth1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "earth"
+	},
+	"visuals": {
+		"shadowScaleX": 0.7,
+		"shadowScaleY": 1.2,
+		"cardFacing": "right",
+		"impactAttachment": "body"
+	}
+}

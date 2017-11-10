@@ -1,0 +1,27 @@
+{
+	"timing":{
+		"stop":600,
+		"removal":1000,
+		"hit":300
+	},
+	"particles":[
+		"particles/characters/specialAttackEarth10/specialAttackEarth30.json",
+		"particles/characters/specialAttackEarth10/specialAttackEarth31.json",
+		"particles/characters/specialAttackEarth10/specialAttackEarth32.json",
+		"particles/characters/specialAttackEarth10/specialAttackEarth33.json",
+		"particles/characters/specialAttackEarth10/specialAttackEarth34.json",		
+		"particles/characters/specialAttackEarth10/specialAttackEarth35.json"	
+	
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactEarth1/impactEarth1.json",
+			"particles/characters/impactEarth1/impactEarth2.json",
+			"particles/characters/impactEarth1/impactEarth3.json"
+		],
+		"soundID":"epicRockImpact4"
+	},
+	"onShoot":[
+	
+	]
+}

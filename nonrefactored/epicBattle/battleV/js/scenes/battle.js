@@ -4,7 +4,7 @@ var battle = function(){
 	var server = parent.server || null
 	var serverData = server ? server.currentData : {
 		p1:{nickname:"Player1aa", avatar:"eagle"},
-		p2:{nickname:"Player2", avatar:"eagle"}
+		p2:{nickname:"Player2", avatar:"arthurius"}
 	}
 
     var localizationData = {
@@ -78,8 +78,28 @@ var battle = function(){
 			{   name: "fireProjectile",
 				file: soundsPath + "mathTournament/fireProjectile1.mp3"},
 			{   name: "fireReveal",
-				file: soundsPath + "mathTournament/fireReveal1.mp3"}
-        ]
+				file: soundsPath + "mathTournament/fireReveal1.mp3"},
+			{	name:"epicTapTouchGames",
+				file:"sounds/battle/TapWhoosh.mp3"},
+			{	name:"epicAttackButton",
+				file:"sounds/battle/buttonTick.mp3"}
+        ],
+		spines: [
+			{
+				name:"arthurius",
+				file:"images/spines/Arthurius/arthurius.json"
+			},
+			{
+				name:"dazzle",
+				file:"images/spines/Dazzle/dazzle.json"
+			}
+		],
+		jsons: [
+			{
+				name:"sounds",
+				file:"data/sounds/general.json"
+			}
+		]
     }
 
     var NUM_LIFES = 3
@@ -88,24 +108,6 @@ var battle = function(){
 	var WIDTH_DISTANCE = 110
 	var HP_BAR_WIDTH = 195
 	var CHARACTERS_SOUNDS_PATH = "sounds/characters/"
-
-    var MONSTERS = [
-        {skin:"monster1", spineIndex:0, colorProyectile:"0xFFFE00", name:"Breeze"},
-        {skin:"monster2", spineIndex:0, colorProyectile:"0x84FF00", name:"Bloom"},
-        {skin:"monster3", spineIndex:0, colorProyectile:"0xFF8B00", name:"Typhoon"},
-        {skin:"monster4", spineIndex:1, colorProyectile:"0x30FF00", name:"Whirlpool"},
-        {skin:"monster5", spineIndex:0, colorProyectile:"0x00FFF5", name:"Bermuda"},
-        {skin:"monster6", spineIndex:0, colorProyectile:"0xF400FF", name:"Monsoon"},
-        {skin:"monster7", spineIndex:2, colorProyectile:"0xFF000C", name:"Batclops"},
-        {skin:"monster8", spineIndex:2, colorProyectile:"0x00FF89", name:"Bloobarian"},
-        {skin:"monster9", spineIndex:2, colorProyectile:"0x0057FF", name:"Grunth"}
-        ]
-
-    var SPINES = [
-        {skeleton:"monster12356", defaultSkin:"monster1"},
-        {skeleton:"monster4", defaultSkin:"monster4"},
-        {skeleton:"monster789", defaultSkin:"monster7"}
-    ]
 
     var lives
     var sceneGroup = null
@@ -127,10 +129,9 @@ var battle = function(){
 	var frontGroup
 	var controlGroup
 	var tapGroup
+	var soundsList
 
     function loadSounds(){
-		getSoundsSpine(player1.spine)
-		getSoundsSpine(player2.spine)
 
 		console.log(assets.sounds)
 		sound.decode(assets.sounds)
@@ -139,6 +140,7 @@ var battle = function(){
     function getSoundsSpine(spine) {
 		var events = spine.skeletonData.events
 		console.log(events, spine)
+		var soundsAdded = {}
 
 		for(var index = 0; index < events.length; index++){
 			var event = events[index]
@@ -147,9 +149,13 @@ var battle = function(){
 			if((functionData)&&(functionData.name === "PLAY")){
 				var soundObj = {
 					name:functionData.param,
-					file: CHARACTERS_SOUNDS_PATH + functionData.param + ".mp3"
+					file:soundsList[functionData.param]
 				}
-				assets.sounds.push(soundObj)
+				if(!soundsAdded[soundObj.name]){
+					assets.sounds.push(soundObj)
+					game.load.audio(soundObj.name, soundObj.file);
+					soundsAdded[soundObj.name] = soundObj.name
+				}
 			}
 		}
 	}
@@ -435,6 +441,9 @@ var battle = function(){
 
 		tapArea.events.onInputDown.add(function () {
 			if(gradient.width < GRADIENT_WIDTH){
+				var value = gradient.width / GRADIENT_WIDTH
+
+				sound.play("epicTapTouchGames", {pitch: 1 + (value * 0.25)})
 				gradient.width = Phaser.Math.clamp(gradient.width + 30, 0, GRADIENT_WIDTH)
 			}
 		})
@@ -614,10 +623,10 @@ var battle = function(){
 		return hpGroup
 	}
 
-    function createPlayer(data, position, scale, playerScale) {
+    function createPlayer(spine, position, scale, playerScale) {
 
 		playerScale = playerScale || 1
-		var player = createSpine(data.avatar, "normal")
+		var player = spine
 		player.scale.setTo(playerScale * 0.6 * scale, playerScale * 0.6)
 		sceneGroup.add(player)
 		player.statusAnimation = "IDLE"
@@ -661,13 +670,9 @@ var battle = function(){
 		hpBar.x = player.x + 200 * scale
 		hpBar.y = scale < 0 ? player.y - 110 : player.y
 		sceneGroup.add(hpBar)
-		hpBar.name.text = data.nickname
+		hpBar.name.text = player.name
 		player.hpBar = hpBar
-		player.name = data.nickname
-		// hpBar.fixedToCamera = true
-		// hpBar.setScaleMinMax(-1, 0.8);
-		// hpBar.cameraOffset.setTo(player.x, 120);
-		// monsterHpBar = hpBar1
+		// player.name = data.nickname
 
 		var proyectile = game.add.group()
 		proyectile.x = from.x; proyectile.y = from.y
@@ -721,11 +726,11 @@ var battle = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
-		player1 = createPlayer(serverData.p1, {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
+		player1 = createPlayer(player1, {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
 		player1.numPlayer = 1
 		//TODO: hacer dinamico el playerScale
 		// var playerScale =
-		player2 = createPlayer(serverData.p2, {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
+		player2 = createPlayer(player2, {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
 		player2.numPlayer = 2
 		// player2.scale.setTo(playerScale * -1, playerScale)
 
@@ -842,15 +847,11 @@ var battle = function(){
 	}
 
 	function preload(){
-		var avatar1 = serverData.p1.avatar
-		var directory1 = avatar1.charAt(0).toUpperCase() + avatar1.slice(1);
-		var avatar2 = serverData.p2.avatar
-		var directory2 = avatar2.charAt(0).toUpperCase() + avatar2.slice(1);
 
 		game.stage.disableVisibilityChange = true;
 		game.load.audio('battleSong', soundsPath + 'songs/battleSong.mp3');
-		game.load.spine(avatar1, "images/spines/"+directory1+"/"+avatar1+".json")
-		game.load.spine(avatar2, "images/spines/"+directory2+"/"+avatar2+".json")
+		// game.load.spine(avatar1, "images/spines/"+directory1+"/"+avatar1+".json")
+		// game.load.spine(avatar2, "images/spines/"+directory2+"/"+avatar2+".json")
 		game.load.spine("tap", "images/spines/tap/tap.json")
 		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
 		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
@@ -863,8 +864,19 @@ var battle = function(){
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 		buttons.getImages(game)
 		console.log(parent.isKinder)
+		soundsList = game.cache.getJSON('sounds')
 
-		console.log(game.cache.getSpine(avatar1))
+		player1 = createSpine(assets.spines[0].name, "normal")
+		player2 = createSpine(assets.spines[1].name, "normal")
+		var spineName1 = assets.spines[0].name
+		spineName1 = spineName1.charAt(0).toUpperCase() + spineName1.slice(1);
+		var spineName2 = assets.spines[1].name
+		spineName2 = spineName2.charAt(0).toUpperCase() + spineName2.slice(1);
+		player1.name = spineName1
+		player2.name = spineName2
+
+		getSoundsSpine(player1.spine)
+		getSoundsSpine(player2.spine)
 	}
 
     function showReadyGo() {      
@@ -986,6 +998,7 @@ var battle = function(){
 
 	function onClickAttack(btn) {
 		if(inputsEnabled){
+			sound.play("epicAttackButton")
 			inputsEnabled = false
 			game.add.tween(btn.scale).to({x:1.1, y:0.9}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
 
@@ -1051,10 +1064,6 @@ var battle = function(){
 		createWinOverlay()
 
     }
-
-    function playChar(param) {
-		sound.play()
-	}
 
     function getFunctionData(value) {
 		var indexOfFunc = value.indexOf(":")

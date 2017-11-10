@@ -1,0 +1,43 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "fireball1",
+				"attachment": "particle4",
+				"delay": 350,
+				"multiplier": 1
+			}
+			
+		],
+		"special": [
+			{
+				"id": "fireballSpecial",
+				"attachment": "particle4",
+				"delay": 300,
+				"multiplier": 1
+			}
+		
+		]
+	},
+	"directory": "spines/characters/rinoFire1/",
+	"name": "Firehorn",
+	"spine": {
+		"options": {
+			"scale": 0.70,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/rinoFire1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "fire"
+	},
+	"visuals": {
+		"shadowScaleX": 0.5,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "torso2"
+	}
+}

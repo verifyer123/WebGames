@@ -1,0 +1,25 @@
+{
+	"timing":{
+		"stop":800,
+		"removal":2000,
+		"hit":450
+	},
+	"particles":[
+		"particles/characters/specialAttackWater1/specialAttackWater1.json",
+		"particles/characters/specialAttackWater1/specialAttackWater2.json",
+		"particles/characters/specialAttackWater1/specialAttackWater3.json",
+		"particles/characters/specialAttackWater1/specialAttackWater4.json"
+	
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactWater1/impactWater1.json",
+			"particles/characters/impactWater1/impactWater2.json",
+			"particles/characters/impactWater1/impactWater3.json"
+		],
+		"soundID":"epicWindImpact1"
+	},
+	"onShoot":[
+	
+	]
+}
