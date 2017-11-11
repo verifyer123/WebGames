@@ -71,6 +71,17 @@ function startGame(){
 
 		localization.setLanguage(parent.language)
 
+		var charactersSet = []
+		var allCharacters = []
+		var mainCharName = parent.yogotar || epicCharacters[0]
+		charactersSet.push(mainCharName)
+		allCharacters = epicCharacters.slice()
+		allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
+		charactersSet.push(allCharacters[0])
+
+		console.log(charactersSet)
+		battle.setCharacters(charactersSet)
+
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)

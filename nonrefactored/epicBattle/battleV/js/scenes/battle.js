@@ -85,14 +85,14 @@ var battle = function(){
 				file:"sounds/battle/buttonTick.mp3"}
         ],
 		spines: [
-			{
-				name:"arthurius",
-				file:"images/spines/Arthurius/arthurius.json"
-			},
-			{
-				name:"dazzle",
-				file:"images/spines/Dazzle/dazzle.json"
-			}
+			// {
+			// 	name:"yogotarEagle",
+			// 	file:"images/spines/Eagle/eagle.json"
+			// },
+			// {
+			// 	name:"yogotarEagle",
+			// 	file:"images/spines/Eagle/eagle.json"
+			// }
 		],
 		jsons: [
 			{
@@ -107,7 +107,7 @@ var battle = function(){
     var MAX_HP = 100
 	var WIDTH_DISTANCE = 110
 	var HP_BAR_WIDTH = 195
-	var CHARACTERS_SOUNDS_PATH = "sounds/characters/"
+	var DATA_CHAR_PATH = "data/characters/"
 
     var lives
     var sceneGroup = null
@@ -233,6 +233,7 @@ var battle = function(){
 
     function receiveAttack(target, from) {
 		// target.hpBar.removeHealth(20)
+		sound.play("fireExplosion")
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation], true)
@@ -670,7 +671,7 @@ var battle = function(){
 		hpBar.x = player.x + 200 * scale
 		hpBar.y = scale < 0 ? player.y - 110 : player.y
 		sceneGroup.add(hpBar)
-		hpBar.name.text = player.name
+		hpBar.name.text = player.data.name
 		player.hpBar = hpBar
 		// player.name = data.nickname
 
@@ -865,15 +866,17 @@ var battle = function(){
 		buttons.getImages(game)
 		console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
+		var charactersJson = []
+		for(var spineIndex = 0; spineIndex < assets.spines.length; spineIndex++){
+			var spineAsset = assets.spines[spineIndex]
+			charactersJson.push(game.cache.getJSON(spineAsset.name + "Data"))
+		}
 
+		console.log(assets.spines[0].name, assets.spines[0].file)
 		player1 = createSpine(assets.spines[0].name, "normal")
 		player2 = createSpine(assets.spines[1].name, "normal")
-		var spineName1 = assets.spines[0].name
-		spineName1 = spineName1.charAt(0).toUpperCase() + spineName1.slice(1);
-		var spineName2 = assets.spines[1].name
-		spineName2 = spineName2.charAt(0).toUpperCase() + spineName2.slice(1);
-		player1.name = spineName1
-		player2.name = spineName2
+		player1.data = charactersJson[0]
+		player2.data = charactersJson[1]
 
 		getSoundsSpine(player1.spine)
 		getSoundsSpine(player2.spine)
@@ -1236,6 +1239,14 @@ var battle = function(){
         assets: assets,
         name: "battle",
         preload:preload,
+		setCharacters:function (characters) {
+			for(var charIndex = 0; charIndex < characters.length; charIndex++){
+				var character = characters[charIndex]
+				var jsonPath = DATA_CHAR_PATH + character.name + ".json"
+				assets.jsons.push({name:character.name + "Data", file:jsonPath})
+				assets.spines.push({name:character.name, file:character.directory})
+			}
+		},
         create: function(event){
 
         	game.camera.bounds = new Phaser.Rectangle(-50,0,game.world.width + 50,game.world.height)

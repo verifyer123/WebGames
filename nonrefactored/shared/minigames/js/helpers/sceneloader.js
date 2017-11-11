@@ -67,6 +67,7 @@ var sceneloader = function(){
 				if(typeof assets.spines == "object"){
 					for(var indexSpine = 0; indexSpine < assets.spines.length; indexSpine++){
 						var currentSpine = assets.spines[indexSpine]
+						console.log(currentSpine.name, currentSpine.file)
 						currentLoader.spine(currentSpine.name, currentSpine.file)
 					}
 				}

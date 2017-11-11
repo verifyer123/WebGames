@@ -23,7 +23,6 @@ var sound = function(){
 		var pitch = params.pitch || 1
 
 		if(decodedSounds[soundId] !== "undefined"){
-			console.log(decodedSounds[soundId])
 			decodedSounds[soundId].play()
 			decodedSounds[soundId]._sound.playbackRate.value = pitch
 		}else{
