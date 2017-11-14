@@ -108,6 +108,40 @@ var battle = function(){
 	var WIDTH_DISTANCE = 110
 	var HP_BAR_WIDTH = 195
 	var DATA_CHAR_PATH = "data/characters/"
+	var ELEMENT_MULTIPLIERS = {
+		"fire": {
+			"water": 0.5,
+			"earth": 2,
+		},
+		"water": {
+			"fire": 2,
+			"wind": 0.5,
+		},
+		"wind": {
+			"water": 2,
+			"earth": 0.5,
+		},
+		"earth": {
+			"fire": 0.5,
+			"wind": 2,
+		}
+	}
+	var XP_TABLE = {
+		HITS : {
+			NORMAL : {
+				PERFECT : 5,
+				GOOD : 4,
+				WEAK : 3,
+			},
+			SPECIAL : {
+				PERFECT : 6,
+				GOOD : 5,
+				WEAK : 4,
+			},
+		},
+		KILL : 10,
+		DEATH : 2,
+	}
 
     var lives
     var sceneGroup = null
@@ -294,9 +328,15 @@ var battle = function(){
 		}
 
 	}
+	
+	function getMultiplier(elementFrom, elementTarget) {
+    	return ELEMENT_MULTIPLIERS[elementFrom] && ELEMENT_MULTIPLIERS[elementFrom][elementTarget] || 1
+	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
-		var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
+		fromPlayer.multiplier = getMultiplier(fromPlayer.data.stats.element, targetPlayer.data.stats.element)
+		console.log(fromPlayer.multiplier)
+    	var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
 
     	game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(targetPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
@@ -326,7 +366,8 @@ var battle = function(){
 		game.add.tween(fromPlayer.proyectile.startPower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 		game.add.tween(fromPlayer.proyectile.idlePower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 
-		tapGroup.attackCallBack = function () {
+		tapGroup.attackCallBack = function (percentage) {
+			percentage = percentage || 0
 			fromPlayer.spine.speed = 1
 			var targetX = targetPlayer.x < game.world.centerX ? 0 : game.world.width
 			fromPlayer.setAnimation(["ATTACK", "IDLE"], true)
@@ -348,7 +389,7 @@ var battle = function(){
 			sceneGroup.proyectile = proyectile
 			// proyectile.originalRotation = Phaser.Math.angleBetweenPoints(proyectile.previousPosition, proyectile.world)
 			game.time.events.add(500, function () {
-				typeAttack(proyectile, fromPlayer, targetPlayer)
+				typeAttack(proyectile, fromPlayer, targetPlayer, percentage)
 			})
 		}
 
@@ -459,7 +500,7 @@ var battle = function(){
 			}
 
 			attackText.text = textString
-			if(tapGroup.attackCallBack){tapGroup.attackCallBack()}
+			if(tapGroup.attackCallBack){tapGroup.attackCallBack(percentageWidth)}
 			tapArea.inputEnabled = false
 			game.add.tween(tapGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
 			var textTween = game.add.tween(attackText).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
@@ -489,7 +530,7 @@ var battle = function(){
 
 	}
 
-    function createProyectile(proyectile, from, target){
+    function createProyectile(proyectile, from, target, percentage){
 
 		var toScale = target.scale.y + target.scale.y * 0.6
 
@@ -505,18 +546,24 @@ var battle = function(){
                 game.add.tween(proyectile.idlePower).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
                     // proyectile.destroy()
 					returnCamera()
-					from.proyectile.startPower.alpha = 0
-					from.proyectile.idlePower.alpha = 0
+					proyectile.startPower.alpha = 0
+					proyectile.idlePower.alpha = 0
 					proyectile.x = from.from.x
 					proyectile.y = from.from.y
 					sceneGroup.proyectile = null
-					from.proyectile.startPower.rotation = 0
-					from.proyectile.idlePower.rotation = 0
+					proyectile.startPower.rotation = 0
+					proyectile.idlePower.rotation = 0
 					game.add.tween(player1.hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
 					game.add.tween(player2.hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
 
+					//TODO add experience character if player id is 1
+					// var index = percentage < 0.5 ? "WEAK" : percentage < 0.8 ? "GOOD" : "PERFECT"
+					// addXp(character.playerID, XP_TABLE.HITS.NORMAL[index])
+
 					game.time.events.add(500, function () {
-						target.hpBar.removeHealth(20)
+						var combinedDamage = 10 + (15 * percentage)
+						combinedDamage = combinedDamage * from.multiplier
+						target.hpBar.removeHealth(combinedDamage)
 
 						if(target.hpBar.health > 0)
 							if(target.numPlayer === 1)
@@ -548,13 +595,14 @@ var battle = function(){
 		return result
 	}
 
-	function createHpbar(scale){
+	function createHpbar(scale, health){
 		scale = scale || 1
 		var anchorX = scale < 0 ? 1 : 0
 
     	var hpGroup = game.add.group()
 		hpGroup.scale.setTo(1 * scale, 1)
-		hpGroup.health = MAX_HP
+		hpGroup.health = health
+		hpGroup.maxHealth = health
 
 		var groupBg = game.add.graphics()
 		groupBg.beginFill(0x000000)
@@ -597,16 +645,17 @@ var battle = function(){
 
 		hpGroup.removeHealth = function (number) {
 			this.health -= number
-			var newWidth = this.health * HP_BAR_WIDTH * 0.01
+			var newWidth = Phaser.Math.clamp(this.health * HP_BAR_WIDTH / this.maxHealth, 0, HP_BAR_WIDTH)
+			console.log(this.health, newWidth)
 			game.add.tween(hpBg).to({width:newWidth}, 1000, Phaser.Easing.Cubic.Out, true)
 
 			// this.healthText.text = this.health + "/100"
 			// game.add.tween(this.healthText.scale).to({x:1.2 * scale, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 		}
 
-		hpGroup.resetHealth = function () {
-			this.health = MAX_HP
-		}
+		// hpGroup.resetHealth = function () {
+		// 	this.health = MAX_HP
+		// }
 
 		var tAlign = scale < 0 ? "right" : "left"
 		var fontStyle2 = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", boundsAlignH: "left"}
@@ -628,7 +677,8 @@ var battle = function(){
 
 		playerScale = playerScale || 1
 		var player = spine
-		player.scale.setTo(playerScale * 0.6 * scale, playerScale * 0.6)
+		var spineScale = player.data.spine.options.scale
+		player.scale.setTo(playerScale * 0.8 * spineScale * scale, playerScale * 0.8 * spineScale)
 		sceneGroup.add(player)
 		player.statusAnimation = "IDLE"
 		// console.log("width", player.width)
@@ -667,7 +717,7 @@ var battle = function(){
 		hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
 		player.hit = hitParticle
 
-		var hpBar = createHpbar(scale)
+		var hpBar = createHpbar(scale, player.data.stats.health)
 		hpBar.x = player.x + 200 * scale
 		hpBar.y = scale < 0 ? player.y - 110 : player.y
 		sceneGroup.add(hpBar)

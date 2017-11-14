@@ -73,11 +73,12 @@ function startGame(){
 
 		var charactersSet = []
 		var allCharacters = []
-		var mainCharName = parent.yogotar || epicCharacters[0]
+		var mainCharName = parent.yogotar || epicCharacters[15]
 		charactersSet.push(mainCharName)
-		allCharacters = epicCharacters.slice()
-		allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
-		charactersSet.push(allCharacters[0])
+		// allCharacters = epicCharacters.slice()
+		// allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
+		var charIndex = game.rnd.integerInRange(1, epicCharacters.length - 1)
+		charactersSet.push(epicCharacters[15])
 
 		console.log(charactersSet)
 		battle.setCharacters(charactersSet)
