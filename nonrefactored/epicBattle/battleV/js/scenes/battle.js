@@ -171,13 +171,13 @@ var battle = function(){
 
     function loadSounds(){
 
-		console.log(assets.sounds)
+		// console.log(assets.sounds)
 		sound.decode(assets.sounds)
     }
 
     function getSoundsSpine(spine) {
 		var events = spine.skeletonData.events
-		console.log(events, spine)
+		// console.log(events, spine)
 		var soundsAdded = {}
 
 		for(var index = 0; index < events.length; index++){
@@ -246,6 +246,7 @@ var battle = function(){
 
 	function showResults(player, win) {
 		var resultsGroup = win ? hudGroup.winGroup : hudGroup.loseGroup
+		resultsGroup.y = 0
 
     	game.add.tween(player1.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(player2.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
@@ -265,7 +266,8 @@ var battle = function(){
 		// game.camera.follow(player)
 		zoomCamera(1.5, 2000)
 		var toX = win ? -50 : -200
-		game.add.tween(game.camera).to({x:toX, y:player.y - 300}, 2000, Phaser.Easing.Cubic.Out, true)
+		var toY = win ? player.y - 300 : player.y
+		game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
 		// game.time.events.add(6000, stopGame)
 		if(server){
 			server.setGameEnded(player.numPlayer)
@@ -342,7 +344,7 @@ var battle = function(){
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
 		fromPlayer.multiplier = getMultiplier(fromPlayer.data.stats.element, targetPlayer.data.stats.element)
-		console.log(fromPlayer.multiplier)
+		// console.log(fromPlayer.multiplier)
     	var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
 
     	game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
@@ -358,7 +360,7 @@ var battle = function(){
 		// game.add.tween(fromPlayer.proyectile.followObj).to({x:0}, 2000, Phaser.Easing.Cubic.In, true)
 
 		var fromScale = fromPlayer.numPlayer === 1 ? 1 : 0.6
-		console.log("fromScale", fromScale)
+		// console.log("fromScale", fromScale)
 		zoomCamera((2 - fromScale) * 1.5, 4000)
 		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
 		var toAngle
@@ -654,7 +656,7 @@ var battle = function(){
 		hpGroup.updateHealth = function (number) {
 			this.health = Phaser.Math.clamp(this.health + number, 0, this.maxHealth)
 			var newWidth = this.health * HP_BAR_WIDTH / this.maxHealth
-			console.log(this.health, newWidth)
+			// console.log(this.health, newWidth)
 			game.add.tween(hpBg).to({width:newWidth}, 1000, Phaser.Easing.Cubic.Out, true)
 
 			this.healthText.text = this.health
@@ -803,7 +805,8 @@ var battle = function(){
 		// input1.events.onInputDown.add(function () {
 		// 	// winPlayer(player1)
 		// 	player1.setAnimation(["LOSE", "LOSESTILL"], true)
-		// 	showResults(player1, false)
+		// 	controlGroup.hide.start()
+		// 	showResults(player1, true)
 		// 	// playerAttack(player1, player2, createProyectile, "proyectile")
 		// })
 		//
@@ -860,14 +863,10 @@ var battle = function(){
 
     }
 
-    function stopGame(){
+    function stopGame(tag){
 
-        //objectsGroup.timer.pause()
-        //timer.pause()
-		// sound.play("uuh")
-		player1.hpBar.resetHealth()
-		player2.hpBar.resetHealth()
 		sound.stopAll()
+		battleSong.stop()
 		sound.play("pop")
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 200)
@@ -876,19 +875,13 @@ var battle = function(){
 			game.camera.y = 0
 			game.camera.scale.x = 1
 			game.camera.scale.y = 1
-			if(server){
-				server.removeEventListener('afterGenerateQuestion', generateQuestion);
-				server.removeEventListener('onTurnEnds', checkAnswer);
-				server.retry()
-			}
-			console.log("retryPressed")
-			// game.destroy()
-			console.log(parent.isKinder)
-			if(parent.isKinder)
-				window.open("indexSLP.html", "_self")
-			else
-				window.open("index.html", "_self")
-			// sceneloader.show("battle")
+			player1.destroy()
+			player2.destroy()
+
+			if(tag === "retry")
+				sceneloader.show("battle")
+			else if(tag === "exit")
+				window.open("../epicMapSite/index.html")
         })
     }
 
@@ -920,11 +913,9 @@ var battle = function(){
 
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
-		game.load.image('retry',"images/battle/retry" + localization.getLanguage() + ".png")
-		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 		buttons.getImages(game)
-		console.log(parent.isKinder)
+		// console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
 		var charactersJson = []
 		for(var spineIndex = 0; spineIndex < assets.spines.length; spineIndex++){
@@ -932,7 +923,7 @@ var battle = function(){
 			charactersJson.push(game.cache.getJSON(spineAsset.name + "Data"))
 		}
 
-		console.log(assets.spines[0].name, assets.spines[0].file)
+		// console.log(assets.spines[0].name, assets.spines[0].file)
 		player1 = createSpine(assets.spines[0].name, "normal")
 		player2 = createSpine(assets.spines[1].name, "normal")
 		player1.data = charactersJson[0]
@@ -995,20 +986,9 @@ var battle = function(){
         option.circle.inputEnabled = true
     }
     
-    function onClickBtn(btnImg) {
-		if(inputsEnabled){
-			console.log("retryPressed")
-			inputsEnabled = false
-			var buttonGroup = btnImg.parent
-			game.add.tween(buttonGroup.scale).to({x:0.8, y:0.8}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
-
-			if(buttonGroup.tag === "retry")
-				stopGame()
-		}
-	}
-    
     function createWinOverlay() {
 		hudGroup.winGroup.alpha = 0
+		hudGroup.winGroup.y = -game.world.height
 
     	var winBar = hudGroup.winGroup.create(0, 0, "atlas.battle", "win")
 		winBar.anchor.setTo(0.5, 0)
@@ -1021,46 +1001,17 @@ var battle = function(){
 		winText.x = game.world.centerX
 		winText.y = 135
 
-		// var playerName = game.add.text(0, -5, "Player1", fontStyle)
-		// playerName.anchor.setTo(0.5, 0.5)
-		// hudGroup.winGroup.add(playerName)
-		// playerName.x = game.world.centerX
-		// playerName.y = game.world.centerY - 50
-		// hudGroup.winGroup.playerName = playerName
-
-		// var buttonGroup = game.add.group()
-		// buttonGroup.x = game.world.centerX
-		// buttonGroup.y = game.world.centerY + 140
-		// hudGroup.winGroup.add(buttonGroup)
-		//
-		// var shareGroup = game.add.group()
-		// shareGroup.x = 0; shareGroup.y = -70
-		// buttonGroup.add(shareGroup)
-		// shareGroup.tag = "share"
-		//
-		// var shareBtn = shareGroup.create(0, 0, "atlas.battle", "share")
-		// shareBtn.anchor.setTo(0.5, 0.5)
-		//
-		// var shareImg = shareGroup.create(-20, 0, "share")
-		// shareImg.anchor.setTo(0.5, 0.5)
-		//
-		// var retryGroup = game.add.group()
-		// retryGroup.x = 0; retryGroup.y = 70
-		// buttonGroup.add(retryGroup)
-		// retryGroup.tag = "retry"
-		//
-		// var retryBtn = retryGroup.create(0, 0, "atlas.battle", "retry")
-		// retryBtn.anchor.setTo(0.5, 0.5)
-		//
-		// var retryImg = retryGroup.create(-20, 0, "retry")
-		// retryImg.anchor.setTo(0.5, 0.5)
-		//
-		// retryBtn.inputEnabled = true
-		// retryBtn.events.onInputDown.add(onClickBtn)
+		var exitButton = hudGroup.winGroup.create(0, game.world.height - 80, "atlas.battle", "go_01")
+		exitButton.anchor.setTo(0.5, 0.5)
+		exitButton.x = game.world.centerX
+		exitButton.tag = "exit"
+		exitButton.inputEnabled = true
+		exitButton.events.onInputDown.add(onClickBtn)
 	}
 	
 	function createLoseOverlay() {
 		hudGroup.loseGroup.alpha = 0
+		hudGroup.loseGroup.y = -game.world.height
 
 		var loseBar = hudGroup.loseGroup.create(0, 110, "atlas.battle", "lose")
 		loseBar.anchor.setTo(0.5, 0)
@@ -1072,18 +1023,40 @@ var battle = function(){
 		hudGroup.loseGroup.add(loseText)
 		loseText.x = game.world.centerX
 		loseText.y = 135
+
+		var retryButton = hudGroup.loseGroup.create(0, game.world.height - 80, "atlas.battle", "retry01")
+		retryButton.anchor.setTo(0.5, 0.5)
+		retryButton.scale.setTo(0.5, 0.5)
+		retryButton.x = game.world.centerX - 100
+		retryButton.tag = "retry"
+		retryButton.inputEnabled = true
+		retryButton.events.onInputDown.add(onClickBtn)
+
+		var exitButton = hudGroup.loseGroup.create(0, game.world.height - 80, "atlas.battle", "back01")
+		exitButton.anchor.setTo(0.5, 0.5)
+		exitButton.scale.setTo(0.5, 0.5)
+		exitButton.x = game.world.centerX + 100
+		exitButton.tag = "exit"
+		exitButton.inputEnabled = true
+		exitButton.events.onInputDown.add(onClickBtn)
+
 	}
 
-	function onClickAttack(btn) {
+	function onClickBtn(btn) {
 		if(inputsEnabled){
-			sound.play("epicAttackButton")
 			inputsEnabled = false
-			game.add.tween(btn.scale).to({x:1.1, y:0.9}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
+			var toScaleX = btn.scale.x + 0.1
+			var toScaleY = btn.scale.y - 0.1
+			game.add.tween(btn.scale).to({x:toScaleX, y:toScaleY}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
 
 			if(btn.tag === "attack"){
 				playerAttack(player1, player2, createProyectile)
 				controlGroup.hide.start()
-			}
+				sound.play("epicAttackButton")
+			}else if(btn.tag === "retry")
+				stopGame("retry")
+			else if(btn.tag === "exit")
+				stopGame("exit")
 		}
 	}
 	
@@ -1103,7 +1076,7 @@ var battle = function(){
 		attackBtn.anchor.setTo(0.5, 1)
 		attackBtn.tag = "attack"
 		attackBtn.inputEnabled = true
-		attackBtn.events.onInputDown.add(onClickAttack)
+		attackBtn.events.onInputDown.add(onClickBtn)
 
 		//TODO: Add special attacks
 		// var specialBtn = controlGroup.create(115, -20, "atlas.battle", "special")
@@ -1156,7 +1129,7 @@ var battle = function(){
 			functionName = value.substr(0, indexOfFunc)
 			param = value.substr(indexOfFunc + 1)
 		}
-		console.log(functionName, param)
+		// console.log(functionName, param)
 
 		return {name: functionName, param: param}
 	}
@@ -1344,7 +1317,7 @@ var battle = function(){
         create: function(event){
 
         	game.camera.bounds = new Phaser.Rectangle(-200,0,game.world.width + 200,game.world.height)
-			console.log(game.camera.bounds)
+			// console.log(game.camera.bounds)
         	sceneGroup = game.add.group();
             //yogomeGames.mixpanelCall("enterGame",gameIndex);
 
