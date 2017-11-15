@@ -244,7 +244,7 @@ var battle = function(){
         }
     }
 
-	function showResults(player, win) {
+	function showResults(win) {
 		var resultsGroup = win ? hudGroup.winGroup : hudGroup.loseGroup
 		resultsGroup.y = 0
 
@@ -257,7 +257,7 @@ var battle = function(){
 		if(win){createConfeti()}
 		inputsEnabled = true
 
-		if(win){player.setAnimation(["WIN", "WINSTILL"], true)}
+		if(win){player1.setAnimation(["WIN", "WINSTILL"], true)}
 		battleSong.stop()
 		if(win){sound.play("winBattle")}
 		else{sound.play("loseBattle")}
@@ -265,13 +265,12 @@ var battle = function(){
 		// var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
 		// game.camera.follow(player)
 		zoomCamera(1.5, 2000)
-		var toX = win ? -50 : -200
-		var toY = win ? player.y - 300 : player.y
+		var head = player1.getSlotContainer("head")
+		var torso = player1.getSlotContainer("torso1")
+		var toX = head.worldPosition.x - 200 + 40//200 is the left bounds limit
+		var toY = player1.y - 250
 		game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
-		// game.time.events.add(6000, stopGame)
-		if(server){
-			server.setGameEnded(player.numPlayer)
-		}
+		// game.camera.follow(head)
 	}
 
     function receiveAttack(target, from) {
@@ -584,7 +583,7 @@ var battle = function(){
 							else
 								sumXp += XP_TABLE.DEATH
 							defeatPlayer(target)
-							game.time.events.add(2000, showResults, null, from, from.numPlayer === 1)
+							game.time.events.add(2000, showResults, null, from.numPlayer === 1)
 						}
 					})
 
@@ -804,9 +803,9 @@ var battle = function(){
 		// input1.inputEnabled = true
 		// input1.events.onInputDown.add(function () {
 		// 	// winPlayer(player1)
-		// 	player1.setAnimation(["LOSE", "LOSESTILL"], true)
+		// 	// player1.setAnimation(["LOSE", "LOSESTILL"], true)
 		// 	controlGroup.hide.start()
-		// 	showResults(player1, true)
+		// 	game.time.events.add(1000, showResults, null, true)
 		// 	// playerAttack(player1, player2, createProyectile, "proyectile")
 		// })
 		//
@@ -1088,13 +1087,13 @@ var battle = function(){
 		controlGroup.hide = game.add.tween(controlGroup).to({y:game.world.height + 150}, 1000, Phaser.Easing.Cubic.Out, false, 500)
 		controlGroup.show = game.add.tween(controlGroup).to({y:game.world.height}, 1000, Phaser.Easing.Cubic.Out)
 
-		var correctParticle = createPart("star")
-        sceneGroup.add(correctParticle)
-		sceneGroup.correctParticle = correctParticle
-
-        var wrongParticle = createPart("wrong")
-		sceneGroup.add(wrongParticle)
-		sceneGroup.wrongParticle = wrongParticle
+		// var correctParticle = createPart("star")
+		// sceneGroup.add(correctParticle)
+		// sceneGroup.correctParticle = correctParticle
+		//
+		// var wrongParticle = createPart("wrong")f
+		// sceneGroup.add(wrongParticle)
+		// sceneGroup.wrongParticle = wrongParticle
 
 		// createConfeti()
 

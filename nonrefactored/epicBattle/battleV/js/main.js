@@ -82,7 +82,7 @@ function startGame(){
 
 		console.log(charactersSet)
 		battle.setCharacters(charactersSet)
-		battle.setBackground(2)
+		battle.setBackground()
 
         window.minigame.game = window.game
     	sceneloader.init(game)
