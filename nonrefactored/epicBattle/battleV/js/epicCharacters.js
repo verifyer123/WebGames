@@ -12,7 +12,7 @@ var epicCharacters = [
 	{name:"yogotarRazzle", directory:"images/spines/Razzle/razzle.json"},//10
 	{name:"yogotarTomiko", directory:"images/spines/Tomiko/tomiko.json"},//11
 	{name:"bPirateEarth1", directory:"images/spines/bPirate/bPirateEarth1/bpirateEarth1.json"},//12
-	{name:"bPirateFire1", directory:"images/spines/bPirate/bPirateEarth1/bpirateEarth1.json"},//13
-	{name:"bPirateWater1", directory:"images/spines/bPirate/bPirateEarth1/bpirateEarth1.json"},//14
-	{name:"bPirateWind1", directory:"images/spines/bPirate/bPirateEarth1/bpirateEarth1.json"}//15
+	{name:"bPirateFire1", directory:"images/spines/bPirate/bPirateFire1/bPirateFire1.json"},//13
+	{name:"bPirateWater1", directory:"images/spines/bPirate/bPirateWater1/bPirateWater1.json"},//14
+	{name:"bPirateWind1", directory:"images/spines/bPirate/bPirateWind1/bPirateWind1.json"}//15
 ]
