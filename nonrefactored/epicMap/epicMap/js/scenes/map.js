@@ -45,20 +45,19 @@ var map = function(){
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
-			{	name: "gameLose",
-				file: soundsPath + "gameLose.mp3"},
 			{	name: "whoosh",
 				file: soundsPath + "whoosh.mp3"},
 			{	name: "laserPull",
 				file: soundsPath + "laserPull.mp3"},
 			{	name: "bomb",
 				file: soundsPath + "bomb.mp3"},
-			{	name: "bomb",
-				file: soundsPath + "bomb.mp3"},
 			{	name: "secret",
 				file: soundsPath + "secret.mp3"},
+			{	name: "flipCard",
+				file: soundsPath + "flipCard.mp3"},
+			{	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
+			
 			
 		],
     }
@@ -68,14 +67,13 @@ var map = function(){
 	var sceneGroup = null
 	var background
     var gameActive = true
-	var shoot
 	var particlesGroup, particlesUsed
     var gameIndex = 7
 	var indexGame
     var overlayGroup
     var spaceSong
 	var scroller
-	var tileColors = [ 0xf1a6fd]
+	var tileColors = [ 0xa1ddb5,0xffe0ab,0xf1a6fd]
 	var horizontalScroll, verticalScroll,kineticMovement
 	var ballsPosition, sideBalls
 	var mouseActive
@@ -84,36 +82,34 @@ var map = function(){
 	var buttonsActive
 	var pointer
 	var ship
-	var whiteFade
 	var shine
 	var gamesMenu, gameIcons, extraRoads
+	var decorationGroup
 	
 	var iconsPositions = [
-		{x:-43,y:12993},
-		{x:-134,y:12735},
-		{x:-58,y:12479.502552658836},
-		{x:27,y:12221.526192540026},
-		{x:-68,y:11960.518649671485},
-		{x:-127,y:11707.48439166259},
-		{x:-44,y:11492.500534951876},
-		{x:22,y:11231.487103470778},
-		{x:-86,y:10967.475246144237},
-		{x:-127,y:10727.516838133055},
-		{x:-28,y:10504.48461854218},
-		{x:20,y:10229.520966508779},
-		{x:-93,y:9983.52008740191},
-		{x:-125,y:9762.483004709926},
-		{x:-28,y:9541.51041413365},
-		{x:24,y:9300.51041413365},
-		{x:-62,y:9097.506851229655},
-		{x:-134,y:8856.506851229655},
-		{x:-44,y:8617.501666637521},
-		{x:25,y:8352.507827053263},
-		{x:-77,y:8110.500491669427},
-		{x:-130,y:7885.520562752876},
-		{x:-44,y:7648.511759644327},
-		{x:25,y:7414.511759644327},
 		
+		{x:7,y:12970},
+		{x:-76,y:12636.43070893372},
+		{x:30,y:12381.509196780544},
+		{x:55,y:12081.968627009875},
+		{x:-76,y:11804.751019971756},
+		{x:-18,y:11513.890355670777},
+		{x:76,y:11242.71019985295},
+		{x:-79,y:10790.345023164078},
+		{x:-3,y:10526.716955304037},
+		{x:74,y:10242.793699481888},
+		{x:-22,y:10005.916953170059},
+		{x:-75,y:9750.441448847292},
+		{x:32,y:9504.364678283728},
+		{x:58,y:9211.499028257218},
+		{x:-71,y:8940.64390976088},
+		{x:3,y:8596.752375412496},
+		{x:76,y:8320.941747109862},
+		{x:-29,y:8080.865186620548},
+		{x:-72,y:7796.062098987113},
+		{x:44,y:7548.5296662415685},
+		{x:52,y:7279.053904439904},
+
 	]
 
 	function loadSounds(){
@@ -136,7 +132,7 @@ var map = function(){
         
         game.time.events.add(delay,function(){
             
-            sound.play("cut")
+            sound.play("flipCard")
             obj.alpha = 1
             game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
         },this)
@@ -270,27 +266,7 @@ var map = function(){
         
         addNumberPart(pointsBar.text,'+' + number,true)		
         
-    }
-    
-    function stopGame(win){
-        
-		sound.play("wrong")
-		sound.play("gameLose")
-		
-        gameActive = false
-        spaceSong.stop()
-        		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
-		tweenScene.onComplete.add(function(){
-            
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
-            sceneloader.show("result")
-		})
-    }
-    
+    }    
     
     function preload(){
         
@@ -314,6 +290,8 @@ var map = function(){
 		gamesMenu = scroller.create(game.world.centerX, game.world.centerY,'atlas.map','gamecontainer')
 		gamesMenu.anchor.setTo(0.5,0.5)
 		gamesMenu.alpha = 0
+		gamesMenu.inputEnabled = true
+		gamesMenu.active = false
 	}
     
     function createOverlay(){
@@ -393,7 +371,7 @@ var map = function(){
 		for(var i = 0; i < iconsPositions.length;i++){
 			
 			var ballGroup = game.add.group()
-			ballGroup.x = game.world.centerX - iconsPositions[i].x - 50
+			ballGroup.x = game.world.centerX - iconsPositions[i].x
 			ballGroup.y = iconsPositions[i].y - start.y
 			ballGroup.order = i
 			ballGroup.isBattle = false
@@ -444,7 +422,7 @@ var map = function(){
 				road.anchor.setTo(0,0.5)
 				road.width*= 2
 				
-				var battle = sideBalls.create(road.x + road.width,road.y - 65,'atlas.map','battle')
+				var battle = sideBalls.create(road.x + road.width,road.y - 50,'atlas.map','battle')
 				battle.ball = ballGroup
 				battle.anchor.setTo(0.5,0.5)
 				ballGroup.battle = battle
@@ -534,12 +512,21 @@ var map = function(){
 		yogotarGroup.anim.setAnimationByName(0,"RUN",true)
 		game.add.tween(yogotarGroup).to({x:battle.x,y:battle.y + 50},1000,"Linear",true).onComplete.add(function(){
 			
+			spaceSong.stop()
+			sound.play("gameLose")
+			
 			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
-			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000)
+			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
+				
+				window.open("../battleV/index.html", "_self")
+			})
 		})
 	}
 	
 	function sendGame(){
+		
+		scroller.stop()
+		console.log(yogotarGroup.y + ' posY ' + yogotarGroup.y + ' posYogo')
 		
 		yogotarGroup.anim.setAnimationByName(0,"WIN3",false)
 		yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
@@ -549,8 +536,7 @@ var map = function(){
 		
 		game.time.events.add(750,function(){
 			
-			scroller.stop()
-			scroller.scrollTo(0,-yogotarGroup.y * 0.9,200)
+			scroller.scrollTo(0,-yogotarGroup.y + game.world.height * 0.6,200)
 			
 			//sound.play("secret")
 			
@@ -563,8 +549,28 @@ var map = function(){
 		
 	}
 	
-	function addPosition(obj){
+	function closeMenu(obj){
 		
+		if(gamesMenu.active){
+			
+			gamesMenu.active = false
+			
+			sound.play("cut")
+			
+			for(var i = 0; i < gameIcons.length;i++){
+				
+				var icon = gameIcons.children[i]
+				if(icon.active){
+					game.add.tween(icon).to({alpha:0},250,"Linear",true)
+					icon.active =  false
+				}
+			}
+			
+			game.add.tween(gamesMenu).to({alpha:0,x:gamesMenu.x + 100},250,"Linear",true,250).onComplete.add(function(){
+				buttonsActive = true
+				scroller.start()
+			})
+		}
 		
 	}
 	
@@ -603,6 +609,10 @@ var map = function(){
 			delay+= 200
 		}
 		
+		game.time.events.add(delay, function(){
+			gamesMenu.active = true
+		})
+		
 		
 	}
 	
@@ -633,12 +643,27 @@ var map = function(){
 		
 		configureScroll()
 		
-		background = game.add.tileSprite(0,0,game.world.width,game.world.height * 7,'atlas.map','texture')
-		background.anchor.setTo(0,0)
-		background.tint = tileColors[0]
-		background.inputEnabled = true
-		background.events.onInputDown.add(addPosition)
+		background = game.add.group()
 		scroller.add(background)
+		
+		var pivotY = 0
+		for(var i = 0; i < tileColors.length;i++){
+			
+			var back = game.add.tileSprite(0,pivotY,game.world.width,game.world.height * 2.33,'atlas.map','texture')
+			back.anchor.setTo(0,0)
+			back.tint = tileColors[i]
+			background.add(back)
+			
+			pivotY+= back.height
+			
+			if(i < 2){
+				var sep = game.add.tileSprite(0,pivotY,game.world.width,105,'atlas.map','separator')
+				sep.tint = tileColors[i]
+				scroller.add(sep)
+			}
+			
+		}
+		
 		
 		start = scroller.create(game.world.centerX + 100,background.height - 200,'atlas.map','roadbegin')
 		start.anchor.setTo(1,1)
@@ -654,6 +679,7 @@ var map = function(){
 		
 		pointer = sceneGroup.create(-100,0,'atlas.map','star')
 		pointer.anchor.setTo(0.5,0.5)
+		pointer.scale.setTo(0.6,0.6)
 		
 	}
 	
@@ -684,7 +710,6 @@ var map = function(){
     }
 	
 	function touchPosition(){
-		
 		
 		if(game.input.activePointer.isDown){
 			
@@ -718,6 +743,11 @@ var map = function(){
 				}
 			}
 			
+			if(checkOverlap(background,pointer) && !checkOverlap(gamesMenu,pointer)){
+				
+				closeMenu()
+			}
+			
 		}else{
 			
 			pointer.x = -100
@@ -736,10 +766,10 @@ var map = function(){
 			mouseActive = false
 		}
 		
-		if(game.input.activePointer.rightButton.isDown && !gameActive){
+		if(game.input.activePointer.rightButton.isDown && gameActive){
 			
 			printCirclePositions()
-			gameActive = true
+			gameActive = false
 		}*/
 	}
 	
@@ -1026,6 +1056,55 @@ var map = function(){
 		
 	}
 	
+	function createDecoration(){
+		
+		decorationGroup = game.add.group()
+		scroller.add(decorationGroup)
+		
+		var pivotY = 400
+		var indexDeco = 1
+		var timesRepeat = background.height / 450
+		
+		for(var i = 0; i < timesRepeat;i++){
+			
+			var pivotX = game.world.centerX - (game.rnd.integerInRange(5,7) * 40)
+			if(game.rnd.integerInRange(0,3)>1){
+				console.log('right')
+				pivotX = game.world.centerX + (game.rnd.integerInRange(5,7) * 40)
+			}
+			
+			var decoration = decorationGroup.create(pivotX, pivotY,'atlas.map','decoration_' + indexDeco)
+			decoration.anchor.setTo(0.5,1)
+			
+			indexDeco++
+			if(indexDeco > 8){
+				indexDeco = 1
+			}
+			
+			pivotY+= 425
+			var tween = game.add.tween(decoration.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(6,10) * 60,"Linear",true,0,-1)
+			tween.yoyo(true,0)
+			
+			for(var o = 0; o < sideBalls.length;o++){
+				
+				var side = sideBalls.children[o]
+				if(Math.abs(decoration.x - side.x) < 125 && Math.abs(decoration.y - side.y) < 200){
+					console.log('left')
+					decoration.x = game.world.centerX - (game.rnd.integerInRange(5,7) * 40)
+				}
+			}
+		}
+		
+		var lastBall = ballsPosition.children[ballsPosition.length - 1]
+		
+		var end = decorationGroup.create(lastBall.x + 50,lastBall.y - 90,'atlas.map','cave')
+		end.scale.setTo(1.5,1.5)
+		end.anchor.setTo(0.5,1)
+		
+		var tween = game.add.tween(end.scale).to({x:1.4,y:1.6},400,"Linear",true,0,-1)
+		tween.yoyo(true,0)
+	}
+	
 	return {
 		
 		assets: assets,
@@ -1037,6 +1116,7 @@ var map = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
+			createDecoration()
 			createYogotar()
 			addParticles()
                         			
