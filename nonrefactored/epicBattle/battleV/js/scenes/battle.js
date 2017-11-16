@@ -157,8 +157,6 @@ var battle = function(){
     var monsterCounter
     var players
     var killedMonsters
-    var monsters
-    var hitParticle
 	var alphaMask
 	var ready, go
 	var hudGroup
@@ -272,12 +270,13 @@ var battle = function(){
 
     function receiveAttack(target, from) {
 		// target.hpBar.removeHealth(20)
-		sound.play("fireExplosion")
+		sound.play(target.projectileData.impact.soundID)
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation], true)
 		// console.log(target.spine.state)
-		target.hit.start(true, 1000, null, 5)
+		target.add(from.hit)
+		from.hit.start(true, 1000, null, 5)
     }
 
     function returnCamera() {
@@ -708,19 +707,16 @@ var battle = function(){
 
 		var hitDestination = {}
 		hitDestination.x = player.x
-		hitDestination.y = player.y - 100
+		hitDestination.y = player.y - 100 * playerScale
 		player.hitDestination = hitDestination
 
 		var scaleShoot = {from:{x: 1, y: 1}, to:{x: 1, y: 1}}
 		player.scaleShoot = scaleShoot
 
-		//
-		var explode = createPart("proyectile")
-		explode.y = -100
-		// explode.x = hitDestination2.x
-		player.add(explode)
-		hitParticle = explode
-		hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
+
+		var hitParticle = createPart("impact" + spine.projectileName)
+		hitParticle.y = -100
+		sceneGroup.add(hitParticle)
 		player.hit = hitParticle
 
 		var hpBar = createHpbar(scale, player.data.stats.health)
@@ -845,11 +841,11 @@ var battle = function(){
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
 
-        particle.makeParticles('atlas.battle',key);
+        particle.makeParticles(key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.3;
-        particle.maxParticleScale = 0.6;
+        particle.minParticleScale = 0.1;
+        particle.maxParticleScale = 0.3;
         particle.gravity = 150;
         particle.angularDrag = 30;
 
@@ -935,7 +931,12 @@ var battle = function(){
 					sheetData.idle.frameWidth, sheetData.idle.frameHeight, sheetData.idle.frameMax)
 
 				projectilesList[projectileName] = sheetData
-				console.log(projectileName)
+				game.load.image('impact' + projectileName, player.projectileData.impact.particles[0])
+				console.log(player.projectileData.impact.particles[0])
+				var name = player.projectileData.impact.soundID
+				var file = soundsList[name]
+				game.load.audio(name, file);
+				assets.sounds.push({name:name, file:file})
 			}
 
 			getSoundsSpine(player.spine)
@@ -1100,16 +1101,6 @@ var battle = function(){
 		// var wrongParticle = createPart("wrong")f
 		// sceneGroup.add(wrongParticle)
 		// sceneGroup.wrongParticle = wrongParticle
-
-		// createConfeti()
-
-		var explode = createPart("proyectile")
-		explode.y = -100
-		// explode.x = hitDestination2.x
-		sceneGroup.add(explode)
-		hitParticle = explode
-		hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
-		sceneGroup.hit = hitParticle
 
 		ready = sceneGroup.create(game.world.centerX, game.world.centerY, "ready")
 		ready.anchor.setTo(0.5, 0.5)

@@ -16,6 +16,12 @@ var projectilesData = {
 				fps:12
 			}
 		},
+		"impact":{
+			"particles":[
+				"images/battle/particles/Fire/rock2a.png"
+			],
+			"soundID":"epicFireExplosion1"
+		},
 	},
 	water : {
 		sheet:{
@@ -33,6 +39,12 @@ var projectilesData = {
 				frameMax:24,
 				fps:24
 			}
+		},
+		"impact":{
+			"particles":[
+				"images/battle/particles/Water&Ice/shell1.png"
+			],
+			"soundID":"epicImpactWater1"
 		},
 	},
 	earth : {
@@ -52,6 +64,13 @@ var projectilesData = {
 				fps:24
 			}
 		},
+		"impact":{
+			"particles":[
+				"images/battle/particles/Earth/stone1.png"
+			],
+			"soundID":"epicEarthImpact1"
+		},
+
 	},
 	wind : {
 		sheet:{
@@ -69,6 +88,12 @@ var projectilesData = {
 				frameMax:26,
 				fps:24
 			}
+		},
+		"impact":{
+			"particles":[
+				"images/battle/particles/Wind/cloud1.png"
+			],
+			"soundID":"epicWindImpact1"
 		},
 	}
 }

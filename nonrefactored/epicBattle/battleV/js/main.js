@@ -78,7 +78,7 @@ function startGame(){
 		// allCharacters = epicCharacters.slice()
 		// allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
 		var charIndex = game.rnd.integerInRange(1, epicCharacters.length - 1)
-		charactersSet.push(epicCharacters[charIndex])
+		charactersSet.push(epicCharacters[3])
 
 		console.log(charactersSet)
 		battle.setCharacters(charactersSet)
