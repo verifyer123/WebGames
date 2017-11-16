@@ -277,7 +277,7 @@ var map = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
 		game.load.spine('eagle',"images/spines/yogotar.json")
 		
-		console.log(localization.getLanguage() + ' language')
+		//console.log(localization.getLanguage() + ' language')
         
     }
 	
@@ -335,7 +335,7 @@ var map = function(){
 			inputName = 'desktop'
 		}
 		
-		console.log(inputName)
+		//console.log(inputName)
 		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.map',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
@@ -515,10 +515,13 @@ var map = function(){
 			spaceSong.stop()
 			sound.play("gameLose")
 			
+			scroller.stop()
+			scroller.scrollTo(0,-yogotarGroup.y + game.world.height * 0.6,200)
+			
 			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
 			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
 				
-				window.open("../battleV/index.html", "_self")
+				window.open("http://yogome.com/epic/minigames/battleV/", "_self")
 			})
 		})
 	}
@@ -526,7 +529,7 @@ var map = function(){
 	function sendGame(){
 		
 		scroller.stop()
-		console.log(yogotarGroup.y + ' posY ' + yogotarGroup.y + ' posYogo')
+		//console.log(yogotarGroup.y + ' posY ' + yogotarGroup.y + ' posYogo')
 		
 		yogotarGroup.anim.setAnimationByName(0,"WIN3",false)
 		yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
@@ -785,7 +788,7 @@ var map = function(){
 			stringToUse+= '{x:' + (game.world.centerX -  circle.x) +',y:' + (circle.y + start.y) + '},\n'
 		}
 		
-		console.log(stringToUse)
+		//console.log(stringToUse)
 	}
 	
 	function createTextPart(text,obj){
@@ -1022,7 +1025,7 @@ var map = function(){
 	
 	function inputIcon(icon){
 		
-		console.log(icon.active + ' active ' + gameActive + ' gameActive')
+		//console.log(icon.active + ' active ' + gameActive + ' gameActive')
 		if(!icon.active || !gameActive){
 			return
 		}
@@ -1069,7 +1072,7 @@ var map = function(){
 			
 			var pivotX = game.world.centerX - (game.rnd.integerInRange(5,7) * 40)
 			if(game.rnd.integerInRange(0,3)>1){
-				console.log('right')
+				//console.log('right')
 				pivotX = game.world.centerX + (game.rnd.integerInRange(5,7) * 40)
 			}
 			
@@ -1089,7 +1092,7 @@ var map = function(){
 				
 				var side = sideBalls.children[o]
 				if(Math.abs(decoration.x - side.x) < 125 && Math.abs(decoration.y - side.y) < 200){
-					console.log('left')
+					//console.log('left')
 					decoration.x = game.world.centerX - (game.rnd.integerInRange(5,7) * 40)
 				}
 			}
@@ -1122,7 +1125,7 @@ var map = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){

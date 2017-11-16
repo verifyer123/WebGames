@@ -871,7 +871,7 @@ var battle = function(){
 			if(tag === "retry")
 				sceneloader.show("battle")
 			else if(tag === "exit")
-				window.open("../epicMapSite/index.html")
+				window.open("http://yogome.com/epic/minigames/epicMap/",'_self')
         })
     }
 
