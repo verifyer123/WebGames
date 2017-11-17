@@ -1,0 +1,424 @@
+
+var soundsPath = "../../shared/minigames/sounds/"
+var characterSelect = function(){
+    
+    var localizationData = {
+		"EN":{
+            "howTo":"How to Play?",
+            "moves":"Moves left",
+			"stop":"Stop!"
+		},
+
+		"ES":{
+            "moves":"Movimientos extra",
+            "howTo":"¿Cómo jugar?",
+            "stop":"¡Detener!"
+		}
+	}
+    
+
+	assets = {
+        images: [
+
+		],
+		sounds: [
+            {	name: "magic",
+				file: soundsPath + "magic.mp3"},
+		],
+    }
+    
+        
+	var sceneGroup = null
+	var background
+	var particlesGroup, particlesUsed
+    var gameIndex = 7
+	var indexGame
+    var overlayGroup
+    var spaceSong
+    
+    var character=new Array(14)
+	var character2=new Array(14)
+	var character3=new Array(14)
+	var character4=new Array(14)
+	var character5=new Array(14)
+	var selected=false
+	var next, prev, continuar
+	var move=false
+	var actual=4
+	var space=300
+	var secondText
+	var style = { font: "40px Arial", fill: "#ffffff", align: "center" };
+	var style2 = { font: "30px Arial", fill: "#ffffff", align: "center" };
+	var selectedCharacter=null;
+	var yogotars = [
+    {name:"yogotarEagle", element:"wind", namey:"name_eagle"},//0
+    {name:"yogotarLuna", element:"earth" , namey:"name_luna"},//1
+    {name:"yogotarNao", element:"water" , namey:"name_nao"},//2
+    {name:"yogotarTomiko", element:"wind" , namey:"name_tomiko"},//3
+	{name:"yogotarDinamita", element:"fire" , namey:"name_dinamita"},//4
+    {name:"yogotarArthurius", element:"earth" , namey:"name_arthurius"},//5
+    {name:"yogotarJustice", element:"earth" , namey:"name_justice"},//6
+    {name:"yogotarRazzle", element:"water" , namey:"name_razzle"},//7
+	{name:"yogotarEstrella", element:"water" , namey:"name_estrella"},//8
+    {name:"yogotarOof", element:"earth" , namey:"name_oof"},//9
+    {name:"yogotarPaz", element:"fire" , namey:"name_paz"},//10
+    {name:"yogotarTheffanie", element:"fire" , namey:"name_theffanie"},//11
+	{name:"yogotarOona", element:"wind" , namey:"name_oona"},//12
+    {name:"yogotarDazzle", element:"fire" , namey:"name_dazzle"},//13
+	]
+	
+	function loadSounds(){
+		sound.decode(assets.sounds)
+	}
+
+	function initialize(){
+
+        game.stage.backgroundColor = "#ffffff"
+        loadSounds()
+	}
+    
+    function preload(){
+        
+		buttons.getImages(game)
+		
+        game.stage.disableVisibilityChange = false;
+        
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+		
+		game.load.image("selectBar","images/select.png")
+		game.load.image("acceptBtn","images/accept.png")
+		game.load.image("arrow","images/arrows.png")
+		
+		game.load.image("contin","images/contaainer_gradient.png")
+		game.load.image("contout","images/container_border.png")
+		
+		game.load.image("eagle","images/yogotarEagle.png")
+		game.load.image("eagle_name","images/name_eagle.png")
+		
+		game.load.image("luna","images/yogotarLuna.png")
+		game.load.image("eagle_luna","images/name_luna.png")
+		
+		for(var order=0; order<yogotars.length; order++){
+			
+			game.load.image(yogotars[order].name,"images/"+yogotars[order].name+".png")
+			game.load.image(yogotars[order].namey,"images/"+yogotars[order].namey+".png")
+			
+		}
+		
+			game.load.image("wind","images/wind.png")
+			game.load.image("fire","images/fire.png")
+			game.load.image("earth","images/earth.png")
+			game.load.image("water","images/water.png")
+		
+		
+		console.log(localization.getLanguage() + ' language')
+        
+			
+		
+    }
+    
+
+	function createBackground(){
+		backgroundGroup = game.add.group()
+        sceneGroup.add(backgroundGroup)
+		
+		
+		
+		
+        //Interpote color
+		
+		
+		game.stage.backgroundColor = "#0c9fc7";
+
+
+
+    var out = [];
+
+    var bmd = game.add.bitmapData(game.world.width, game.world.height);
+    bmd.addToWorld();
+
+	
+    var y = 0;
+
+    for (var i = 0; i < game.world.height; i++)
+    {
+        var c = Phaser.Color.interpolateColor(0x504de3, 0x250363, game.world.height, i);
+
+        // console.log(Phaser.Color.getWebRGB(c));
+
+        bmd.rect(0, y, game.world.width, y, Phaser.Color.getWebRGB(c));
+
+        out.push(Phaser.Color.getWebRGB(c));
+
+        y += 1;
+    }
+
+		
+		//End interpolate
+		
+		for(var put=0;put<yogotars.length;put++){
+		
+		character4[put]=game.add.sprite(game.world.centerX-space-50,game.world.centerY-70,"contin")
+		character4[put].anchor.setTo(.5)
+		character5[put]=game.add.sprite(character4[put].centerX-4,character4[put].centerY+5,"contout")
+		character5[put].anchor.setTo(.5)
+		character[put]=game.add.sprite(character4[put].centerX-90,character4[put].centerY-100,yogotars[put].name)
+
+		
+		if(put!=1 && put!=2 && put!=7 && put!=9 && put!=10 && put!=13){
+		character2[put]=game.add.sprite(character4[put].centerX,character4[put].centerY+180,yogotars[put].namey)
+		}
+		if(put==1){
+		character2[put]=game.add.sprite(character4[put].centerX+20,character4[put].centerY+180,yogotars[put].namey)
+		}
+		if(put==2){
+		character2[put]=game.add.sprite(character4[put].centerX+20,character4[put].centerY+180,yogotars[put].namey)
+		}
+		if(put==7){
+		character2[put]=game.add.sprite(character4[put].centerX-30,character4[put].centerY+180,yogotars[put].namey)
+		character2[put].scale.setTo(.6)
+		}
+		if(put==9){
+		character2[put]=game.add.sprite(character4[put].centerX+40,character4[put].centerY+180,yogotars[put].namey)
+		}
+		if(put==10){
+		character2[put]=game.add.sprite(character4[put].centerX+50,character4[put].centerY+180,yogotars[put].namey)
+		}
+		if(put==12){
+		character2[put]=game.add.sprite(character4[put].centerX+20,character4[put].centerY+180,yogotars[put].namey)
+		}
+		if(put==13){
+		character2[put]=game.add.sprite(character4[put].centerX-30,character4[put].centerY+180,yogotars[put].namey)
+		character2[put].scale.setTo(.6)
+		}
+		character3[put]=game.add.sprite(character4[put].centerX+70,character4[put].centerY+250,yogotars[put].element)
+		character[put].scale.setTo(.8)
+		if(put!=7 && put!=13){
+		character2[put].scale.setTo(.8)
+		}
+		character3[put].scale.setTo(.8)
+		
+		if(yogotars[put].element=="fire"){
+			character4[put].tint = 0xCE2946;
+		}
+		if(yogotars[put].element=="wind"){
+			character4[put].tint = 0xF1CC30;
+		}
+		if(yogotars[put].element=="earth"){
+			character4[put].tint = 0x8AE937;
+		}
+		if(yogotars[put].element=="water"){
+			character4[put].tint = 0x62ACFB;
+		}
+		
+			character[put].tag=yogotars[put].name
+			character2[put].tag=yogotars[put].name
+			character3[put].tag=yogotars[put].name
+			character4[put].tag=yogotars[put].name
+			character5[put].tag=yogotars[put].name
+		
+			
+			character[put].inputEnabled=true
+			character2[put].inputEnabled=true
+			character3[put].inputEnabled=true
+			character[put].events.onInputDown.add(opacateAll,character[put])
+			character2[put].events.onInputDown.add(opacateAll,character[put])
+			character3[put].events.onInputDown.add(opacateAll,character[put])
+		
+		space-=200
+			if(put>actual){
+				character2[put].alpha=0
+				character3[put].alpha=0
+				character4[put].alpha=0
+				character5[put].alpha=0
+				character[put].alpha=0
+			}
+		}
+		
+		
+		var sel= game.add.sprite(game.world.centerX,game.world.centerY/5,"selectBar")
+		sel.anchor.setTo(.5)
+		continuar=game.add.sprite(game.world.centerX-160,game.world.centerY+350,"acceptBtn")
+		prev=game.add.sprite(game.world.centerX-550,game.world.centerY-100,"arrow")
+		next=game.add.sprite(game.world.centerX+650,game.world.centerY-100,"arrow")
+		next.scale.setTo(-1,1)
+		continuar.alpha=0
+		
+		//textos
+		
+		var firstText=game.add.text(sel.centerX-250, sel.centerY-18, "SELECT YOUR YOGOTAR:",style);
+		 secondText=game.add.text(continuar.centerX-75,continuar.centerY-15,"CONTINUE",style2)
+		 secondText.alpha=0
+		 
+         prev.inputEnabled = true
+		 next.inputEnabled = true
+		 continuar.inputEnabled = true
+        
+		next.events.onInputDown.add(function(){
+			if(actual<13){
+				fadeOut(character[actual-4], character2[actual-4], character3[actual-4], character4[actual-4], character5[actual-4])
+				actual++
+				move=true
+				fadeIn(character[actual], character2[actual], character3[actual], character4[actual], character5[actual])
+				
+				for(var check=0;check<yogotars.length;check++){
+				carrousel(character[check], character2[check], character3[check], character4[check], character5[check],move)
+				}
+			}
+        })
+		prev.events.onInputDown.add(function(){
+			if(actual>4){
+				fadeOut(character[actual], character2[actual], character3[actual], character4[actual], character5[actual])
+				actual--
+				move=false
+				fadeIn(character[actual-4],character2[actual-4],character3[actual-4],character4[actual-4],character5[actual-4])
+				
+				for(var check=0;check<yogotars.length;check++){
+					carrousel(character[check],character2[check],character3[check],character4[check],character5[check],move)
+				}
+			}
+        })
+		
+		continuar.events.onInputDown.add(function(){
+			//Aqui ira el redireccionamiento
+			if(continuar.alpha==1){
+				console.log(selectedCharacter)
+			}
+        })
+		
+		
+		
+		
+    }
+	
+	function opacateAll(obj){
+		
+		
+		if(obj.alpha==1){
+		selectedCharacter=obj.tag
+		secondText.alpha=1
+		continuar.alpha=1
+		
+		for(var opacate=0; opacate<yogotars.length;opacate++){
+		
+				if(character[opacate].tag==obj.tag){
+					if(yogotars[opacate].element=="fire"){
+						character4[opacate].tint = 0xCE2946;
+							character[opacate].tint=0xffffff
+							character2[opacate].tint=0xffffff
+							character3[opacate].tint=0xffffff
+							character5[opacate].tint=0xffffff
+					}
+					if(yogotars[opacate].element=="wind"){
+						character4[opacate].tint = 0xF1CC30;
+							character[opacate].tint=0xffffff
+							character2[opacate].tint=0xffffff
+							character3[opacate].tint=0xffffff
+							character5[opacate].tint=0xffffff
+					}
+					if(yogotars[opacate].element=="earth"){
+						character4[opacate].tint = 0x8AE937;
+							character[opacate].tint=0xffffff
+							character2[opacate].tint=0xffffff
+							character3[opacate].tint=0xffffff
+							character5[opacate].tint=0xffffff
+					}
+					if(yogotars[opacate].element=="water"){
+						character4[opacate].tint = 0x62ACFB;
+							character[opacate].tint=0xffffff
+							character2[opacate].tint=0xffffff
+							character3[opacate].tint=0xffffff
+							character5[opacate].tint=0xffffff
+					}
+				}
+			if(character[opacate].tag!=obj.tag){
+				character[opacate].tint=0x696969;
+				character2[opacate].tint=0x696969;
+				character3[opacate].tint=0x696969;
+				character4[opacate].tint=0x696969;
+				character5[opacate].tint=0x696969;
+				
+				}
+			
+			}
+			
+			
+		}
+		
+	}
+
+	function carrousel(obj,obj2,obj3,obj4,obj5, moving){
+	
+		if(moving==true){
+			
+			game.add.tween(obj).to( { x: obj.position.x-200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj2).to( { x: obj2.position.x-200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj3).to( { x: obj3.position.x-200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj4).to( { x: obj4.position.x-200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj5).to( { x: obj5.position.x-200 }, 100, Phaser.Easing.Out, true);
+			
+			
+		}
+		if(moving==false){
+			
+			game.add.tween(obj).to( { x: obj.position.x+200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj2).to( { x: obj2.position.x+200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj3).to( { x: obj3.position.x+200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj4).to( { x: obj4.position.x+200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj5).to( { x: obj5.position.x+200 }, 100, Phaser.Easing.Out, true);
+			
+		}
+	
+	}
+    function fadeIn(obj, obj2, obj3, obj4, obj5){
+			
+		game.add.tween(obj).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj2).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj3).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj4).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj5).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+		
+	}
+	function fadeOut(obj , obj2, obj3, obj4, obj5){
+		
+		game.add.tween(obj).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj2).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj3).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj4).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj5).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
+	}
+    
+	function selected(obj){
+		
+		if(selectedCharacter!=null){
+		//continuar-alpha=1
+		}
+	}
+	
+	return {
+		
+		assets: assets,
+		name: "characterSelect",
+        preload:preload,
+		create: function(event){
+            
+			sceneGroup = game.add.group()
+			
+			createBackground()
+                        			
+            // spaceSong = game.add.audio('spaceSong')
+            // game.sound.setDecodedCallback(spaceSong, function(){
+                // spaceSong.loopFull(0.6)
+            // }, this);
+            
+            
+            initialize()
+		
+            
+		},
+		show: function(event){
+			loadSounds()
+			initialize()
+		}
+	}
+}()
