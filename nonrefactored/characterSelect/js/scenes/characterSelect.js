@@ -381,11 +381,11 @@ var characterSelect = function(){
 	}
 	function fadeOut(obj , obj2, obj3, obj4, obj5){
 		
-		game.add.tween(obj).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj2).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj3).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj4).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj5).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true,100)
+		game.add.tween(obj2).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true,100)
+		game.add.tween(obj3).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true,100)
+		game.add.tween(obj4).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true,100)
+		game.add.tween(obj5).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true,100)
 	}
     
 	function selected(obj){
