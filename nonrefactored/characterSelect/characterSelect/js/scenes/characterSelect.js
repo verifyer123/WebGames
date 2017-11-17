@@ -56,15 +56,19 @@ var characterSelect = function(){
     {name:"yogotarNao", element:"water" , namey:"name_nao", offsetxn:20 , offsetxc:-60,scalec:.7,scalen:.8, offsetyc:-100},//2
     {name:"yogotarTomiko", element:"wind" , namey:"name_tomiko" , offsetxn:0, offsetxc:-80,scalec:.8,scalen:.8, offsetyc:-100},//3
 	{name:"yogotarDinamita", element:"fire" , namey:"name_dinamita", offsetxn:0, offsetxc:-80,scalec:.8,scalen:.8, offsetyc:-100} ,//4
-    {name:"yogotarArthurius", element:"earth" , namey:"name_arthurius" , offsetxn:0, offsetxc:-60,scalec:.8,scalen:.8, offsetyc:-100},//5
-    {name:"yogotarJustice", element:"earth" , namey:"name_justice" , offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//6
-    {name:"yogotarRazzle", element:"water" , namey:"name_razzle" , offsetxn:-30, offsetxc:-90,scalec:.7,scalen:.6, offsetyc:-100},//7
-	{name:"yogotarEstrella", element:"water" , namey:"name_estrella" , offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//8
-    {name:"yogotarOof", element:"earth" , namey:"name_oof" , offsetxn:40, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//9
-    {name:"yogotarPaz", element:"fire" , namey:"name_paz" , offsetxn:50, offsetxc:-70,scalec:.8,scalen:.8, offsetyc:-80},//10
-    {name:"yogotarTheffanie", element:"fire" , namey:"name_theffanie", offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-80},//11
-	{name:"yogotarOona", element:"wind" , namey:"name_oona" , offsetxn:20, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//12
-    {name:"yogotarDazzle", element:"fire" , namey:"name_dazzle" , offsetxn:-30, offsetxc:-90,scalec:.7,scalen:.6, offsetyc:-100},//13
+	{name:"yogotarEstrella", element:"water" , namey:"name_estrella" , offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//5
+    {name:"yogotarArthurius", element:"earth" , namey:"name_arthurius" , offsetxn:0, offsetxc:-60,scalec:.8,scalen:.8, offsetyc:-100},//6
+    {name:"yogotarTheffanie", element:"fire" , namey:"name_theffanie", offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-80},//7
+    {name:"yogotarRazzle", element:"water" , namey:"name_razzle" , offsetxn:-30, offsetxc:-90,scalec:.7,scalen:.6, offsetyc:-100},//8
+	{name:"yogotarDazzle", element:"fire" , namey:"name_dazzle" , offsetxn:-5, offsetxc:-90,scalec:.7,scalen:.6, offsetyc:-100},//9
+    {name:"yogotarOof", element:"earth" , namey:"name_oof" , offsetxn:40, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//10
+	{name:"yogotarOona", element:"wind" , namey:"name_oona" , offsetxn:20, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//11
+	{name:"yogotarJustice", element:"earth" , namey:"name_justice" , offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//12
+    {name:"yogotarPaz", element:"fire" , namey:"name_paz" , offsetxn:50, offsetxc:-70,scalec:.8,scalen:.8, offsetyc:-80},//13
+
+    
+	
+    
 	]
 	
 	function loadSounds(){
@@ -129,6 +133,7 @@ var characterSelect = function(){
 		character3=new Array(yogotars.length)
 		character4=new Array(yogotars.length)
 		character5=new Array(yogotars.length)
+		
 
 		
         //Interpote color
