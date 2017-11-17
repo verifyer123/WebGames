@@ -166,7 +166,7 @@ var characterSelect = function(){
 		
 		character4[put]=game.add.sprite(game.world.centerX-space-100,game.world.centerY-70,"contin")
 		character4[put].anchor.setTo(.5)
-		character5[put]=game.add.sprite(character4[put].centerX-4,character4[put].centerY+5,"contout")
+		character5[put]=game.add.sprite(character4[put].centerX-2,character4[put].centerY+5,"contout")
 		character5[put].anchor.setTo(.5)
 		character[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,yogotars[put].name)
 
