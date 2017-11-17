@@ -135,7 +135,8 @@ var characterSelect = function(){
     var out = [];
 
     var bmd = game.add.bitmapData(game.world.width, game.world.height);
-    bmd.addToWorld();
+    var backgroud = bmd.addToWorld();
+    sceneGroup.add(backgroud)
 
 	
     var y = 0;
