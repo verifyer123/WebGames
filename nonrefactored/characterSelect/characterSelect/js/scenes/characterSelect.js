@@ -36,11 +36,11 @@ var characterSelect = function(){
     var overlayGroup
     var spaceSong
     
-    var character=new Array(14)
-	var character2=new Array(14)
-	var character3=new Array(14)
-	var character4=new Array(14)
-	var character5=new Array(14)
+    var character
+	var character2
+	var character3
+	var character4
+	var character5
 	var selected=false
 	var next, prev, continuar
 	var move=false
@@ -51,20 +51,20 @@ var characterSelect = function(){
 	var style2 = { font: "30px Arial", fill: "#ffffff", align: "center" };
 	var selectedCharacter=null;
 	var yogotars = [
-    {name:"yogotarEagle", element:"wind", namey:"name_eagle"},//0
-    {name:"yogotarLuna", element:"earth" , namey:"name_luna"},//1
-    {name:"yogotarNao", element:"water" , namey:"name_nao"},//2
-    {name:"yogotarTomiko", element:"wind" , namey:"name_tomiko"},//3
-	{name:"yogotarDinamita", element:"fire" , namey:"name_dinamita"},//4
-    {name:"yogotarArthurius", element:"earth" , namey:"name_arthurius"},//5
-    {name:"yogotarJustice", element:"earth" , namey:"name_justice"},//6
-    {name:"yogotarRazzle", element:"water" , namey:"name_razzle"},//7
-	{name:"yogotarEstrella", element:"water" , namey:"name_estrella"},//8
-    {name:"yogotarOof", element:"earth" , namey:"name_oof"},//9
-    {name:"yogotarPaz", element:"fire" , namey:"name_paz"},//10
-    {name:"yogotarTheffanie", element:"fire" , namey:"name_theffanie"},//11
-	{name:"yogotarOona", element:"wind" , namey:"name_oona"},//12
-    {name:"yogotarDazzle", element:"fire" , namey:"name_dazzle"},//13
+    {name:"yogotarEagle", element:"wind", namey:"name_eagle", offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//0
+    {name:"yogotarLuna", element:"earth" , namey:"name_luna" , offsetxn:20, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//1
+    {name:"yogotarNao", element:"water" , namey:"name_nao", offsetxn:20 , offsetxc:-60,scalec:.7,scalen:.8, offsetyc:-100},//2
+    {name:"yogotarTomiko", element:"wind" , namey:"name_tomiko" , offsetxn:0, offsetxc:-80,scalec:.8,scalen:.8, offsetyc:-100},//3
+	{name:"yogotarDinamita", element:"fire" , namey:"name_dinamita", offsetxn:0, offsetxc:-80,scalec:.8,scalen:.8, offsetyc:-100} ,//4
+    {name:"yogotarArthurius", element:"earth" , namey:"name_arthurius" , offsetxn:0, offsetxc:-60,scalec:.8,scalen:.8, offsetyc:-100},//5
+    {name:"yogotarJustice", element:"earth" , namey:"name_justice" , offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//6
+    {name:"yogotarRazzle", element:"water" , namey:"name_razzle" , offsetxn:-30, offsetxc:-90,scalec:.7,scalen:.6, offsetyc:-100},//7
+	{name:"yogotarEstrella", element:"water" , namey:"name_estrella" , offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//8
+    {name:"yogotarOof", element:"earth" , namey:"name_oof" , offsetxn:40, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//9
+    {name:"yogotarPaz", element:"fire" , namey:"name_paz" , offsetxn:50, offsetxc:-70,scalec:.8,scalen:.8, offsetyc:-80},//10
+    {name:"yogotarTheffanie", element:"fire" , namey:"name_theffanie", offsetxn:0, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-80},//11
+	{name:"yogotarOona", element:"wind" , namey:"name_oona" , offsetxn:20, offsetxc:-90,scalec:.8,scalen:.8, offsetyc:-100},//12
+    {name:"yogotarDazzle", element:"fire" , namey:"name_dazzle" , offsetxn:-30, offsetxc:-90,scalec:.7,scalen:.6, offsetyc:-100},//13
 	]
 	
 	function loadSounds(){
@@ -75,6 +75,8 @@ var characterSelect = function(){
 
         game.stage.backgroundColor = "#ffffff"
         loadSounds()
+		
+		
 	}
     
     function preload(){
@@ -122,8 +124,12 @@ var characterSelect = function(){
 		backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
 		
-		
-		
+		character=new Array(yogotars.length)
+		character2=new Array(yogotars.length)
+		character3=new Array(yogotars.length)
+		character4=new Array(yogotars.length)
+		character5=new Array(yogotars.length)
+
 		
         //Interpote color
 		
@@ -135,9 +141,8 @@ var characterSelect = function(){
     var out = [];
 
     var bmd = game.add.bitmapData(game.world.width, game.world.height);
-    var backgroud = bmd.addToWorld();
-    sceneGroup.add(backgroud)
-
+     var backgroud = bmd.addToWorld();
+     sceneGroup.add(backgroud)
 	
     var y = 0;
 
@@ -163,42 +168,16 @@ var characterSelect = function(){
 		character4[put].anchor.setTo(.5)
 		character5[put]=game.add.sprite(character4[put].centerX-4,character4[put].centerY+5,"contout")
 		character5[put].anchor.setTo(.5)
-		character[put]=game.add.sprite(character4[put].centerX-90,character4[put].centerY-100,yogotars[put].name)
+		character[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,yogotars[put].name)
 
 		
-		if(put!=1 && put!=2 && put!=7 && put!=9 && put!=10 && put!=13){
-		character2[put]=game.add.sprite(character4[put].centerX,character4[put].centerY+180,yogotars[put].namey)
-		}
-		if(put==1){
-		character2[put]=game.add.sprite(character4[put].centerX+20,character4[put].centerY+180,yogotars[put].namey)
-		}
-		if(put==2){
-		character2[put]=game.add.sprite(character4[put].centerX+20,character4[put].centerY+180,yogotars[put].namey)
-		}
-		if(put==7){
-		character2[put]=game.add.sprite(character4[put].centerX-30,character4[put].centerY+180,yogotars[put].namey)
-		character2[put].scale.setTo(.6)
-		}
-		if(put==9){
-		character2[put]=game.add.sprite(character4[put].centerX+40,character4[put].centerY+180,yogotars[put].namey)
-		}
-		if(put==10){
-		character2[put]=game.add.sprite(character4[put].centerX+50,character4[put].centerY+180,yogotars[put].namey)
-		}
-		if(put==12){
-		character2[put]=game.add.sprite(character4[put].centerX+20,character4[put].centerY+180,yogotars[put].namey)
-		}
-		if(put==13){
-		character2[put]=game.add.sprite(character4[put].centerX-30,character4[put].centerY+180,yogotars[put].namey)
-		character2[put].scale.setTo(.6)
-		}
-		character3[put]=game.add.sprite(character4[put].centerX+70,character4[put].centerY+250,yogotars[put].element)
-		character[put].scale.setTo(.8)
-		if(put!=7 && put!=13){
-		character2[put].scale.setTo(.8)
-		}
-		character3[put].scale.setTo(.8)
+		character2[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxn,character4[put].centerY+180,yogotars[put].namey)
+		character2[put].scale.setTo(yogotars[put].scalen)
 		
+		character3[put]=game.add.sprite(character4[put].centerX+70,character4[put].centerY+250,yogotars[put].element)
+		character[put].scale.setTo(yogotars[put].scalec)
+		character3[put].scale.setTo(.8)
+
 		if(yogotars[put].element=="fire"){
 			character4[put].tint = 0xCE2946;
 		}
@@ -226,7 +205,7 @@ var characterSelect = function(){
 			character2[put].events.onInputDown.add(opacateAll,character[put])
 			character3[put].events.onInputDown.add(opacateAll,character[put])
 		
-		space-=200
+		    space-=200
 			if(put>actual){
 				character2[put].alpha=0
 				character3[put].alpha=0
