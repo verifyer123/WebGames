@@ -1,8 +1,9 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var map = function(){
-    
-    var localizationData = {
+	var players = parent.epicModel || epicModel
+
+	var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
@@ -17,7 +18,7 @@ var map = function(){
 	}
     
 
-	assets = {
+	var assets = {
         atlases: [
             {   
                 name: "atlas.map",
@@ -85,6 +86,8 @@ var map = function(){
 	var shine
 	var gamesMenu, gameIcons, extraRoads
 	var decorationGroup
+	var battleCounter
+	var currentPlayer
 	
 	var iconsPositions = [
 		
@@ -123,7 +126,8 @@ var map = function(){
 		mouseActive = false
 		buttonsActive = false
 		buttonPressed = null
-        
+		battleCounter = -1
+		currentPlayer = players.getPlayer()
         loadSounds()
         
 	}
@@ -273,7 +277,7 @@ var map = function(){
 		buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false;
-        
+
         game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
 		game.load.spine('eagle',"images/spines/yogotar.json")
 		
@@ -480,8 +484,9 @@ var map = function(){
 				//console.log(buttonPressed.order + ' order ' +  yogotarGroup.index + ' yogoIndex')
 				if(yogotarGroup.index == buttonPressed.order){
 					
+					currentPlayer.currentPosition = buttonPressed.order
 					if(buttonPressed.isBattle){
-						
+						if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
 						sendBattle()
 					}else{
 						sendGame()
@@ -501,7 +506,7 @@ var map = function(){
 	}
 	
 	function sendBattle(){
-		
+
 		var battle = buttonPressed.battle
 		if(buttonPressed.x < battle.x){
 			yogotarGroup.scale.setTo(1,1)
@@ -742,6 +747,7 @@ var map = function(){
 				var side = sideBalls.children[i]
 				if(checkOverlap(side,pointer) && buttonsActive){
 					side.ball.isBattle = true
+					side.ball.battleIndex = battleCounter++
 					inputBall(side.ball)
 				}
 			}
@@ -994,7 +1000,7 @@ var map = function(){
 		
 		var anim = game.add.spine(0,-10,"eagle")
 		anim.setAnimationByName(0,"IDLE",true)
-		anim.setSkinByName("Eagle")
+		anim.setSkinByName(currentPlayer.yogotar)
 		anim.scale.setTo(0.4,0.4)
 		yogotarGroup.add(anim)
 		
@@ -1115,7 +1121,8 @@ var map = function(){
 		update: update,
         preload:preload,
 		create: function(event){
-            
+
+			initialize()
 			sceneGroup = game.add.group()
 			
 			createBackground()
@@ -1135,8 +1142,6 @@ var map = function(){
             game.onResume.add(function(){
                 game.sound.mute = false
             }, this);
-            
-            initialize()
 			            
 			//createPointsBar()
 			//createHearts()

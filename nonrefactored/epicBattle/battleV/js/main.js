@@ -73,7 +73,10 @@ function startGame(){
 
 		var charactersSet = []
 		var allCharacters = []
-		var mainCharName = parent.yogotar || epicCharacters[0]
+		var players = parent.epicModel || epicModel
+		var currentPlayer = players.getPlayer()
+		var mainCharName = "yogotar" + currentPlayer.yogotar
+		console.log(mainCharName)
 		charactersSet.push(mainCharName)
 		// allCharacters = epicCharacters.slice()
 		// allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
