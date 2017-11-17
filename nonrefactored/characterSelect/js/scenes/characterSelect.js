@@ -158,7 +158,7 @@ var characterSelect = function(){
 		
 		for(var put=0;put<yogotars.length;put++){
 		
-		character4[put]=game.add.sprite(game.world.centerX-space-50,game.world.centerY-70,"contin")
+		character4[put]=game.add.sprite(game.world.centerX-space-100,game.world.centerY-70,"contin")
 		character4[put].anchor.setTo(.5)
 		character5[put]=game.add.sprite(character4[put].centerX-4,character4[put].centerY+5,"contout")
 		character5[put].anchor.setTo(.5)
@@ -239,8 +239,8 @@ var characterSelect = function(){
 		var sel= game.add.sprite(game.world.centerX,game.world.centerY/5,"selectBar")
 		sel.anchor.setTo(.5)
 		continuar=game.add.sprite(game.world.centerX-160,game.world.centerY+350,"acceptBtn")
-		prev=game.add.sprite(game.world.centerX-550,game.world.centerY-100,"arrow")
-		next=game.add.sprite(game.world.centerX+650,game.world.centerY-100,"arrow")
+		prev=game.add.sprite(game.world.centerX-600,game.world.centerY-100,"arrow")
+		next=game.add.sprite(game.world.centerX+600,game.world.centerY-100,"arrow")
 		next.scale.setTo(-1,1)
 		continuar.alpha=0
 		
@@ -381,11 +381,11 @@ var characterSelect = function(){
 	}
 	function fadeOut(obj , obj2, obj3, obj4, obj5){
 		
-		game.add.tween(obj).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj2).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj3).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj4).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(obj5).to({alpha:0}, 100, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj2).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj3).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj4).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(obj5).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
 	}
     
 	function selected(obj){
