@@ -147,7 +147,7 @@ var characterSelect = function(){
 
     var bmd = game.add.bitmapData(game.world.width, game.world.height);
      var backgroud = bmd.addToWorld();
-     sceneGroup.add(backgroud)
+     backgroundGroup.add(backgroud)
 	
     var y = 0;
 
@@ -174,7 +174,7 @@ var characterSelect = function(){
 		character5[put]=game.add.sprite(character4[put].centerX-2,character4[put].centerY+5,"contout")
 		character5[put].anchor.setTo(.5)
 		character[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,yogotars[put].name)
-
+		
 		
 		character2[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxn,character4[put].centerY+180,yogotars[put].namey)
 		character2[put].scale.setTo(yogotars[put].scalen)
@@ -220,6 +220,13 @@ var characterSelect = function(){
 			}
 		}
 		
+		for(var adding=0; adding<yogotars.length;adding++){
+			backgroundGroup.add(character4[adding])
+			backgroundGroup.add(character5[adding])
+		}
+		for(var adding2=0; adding2<yogotars.length;adding2++){
+			backgroundGroup.add(character[adding2])
+		}
 		
 		var sel= game.add.sprite(game.world.centerX,game.world.centerY/5,"selectBar")
 		sel.anchor.setTo(.5)
