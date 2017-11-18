@@ -1,0 +1,47 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterball2",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			},
+			{
+				"id": "waterball2",
+				"attachment": "particle4",
+				"delay": 350,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "waterbeamSpecial",
+				"attachment": "particle7",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/condivWater1/",
+	"name": "Monsoon",
+	"spine": {
+		"options": {
+			"scale": 0.6,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/condivWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 0.7,
+		"shadowScaleY": 1.2,
+		"cardFacing": "right",
+		"impactAttachment": "body"
+	}
+}

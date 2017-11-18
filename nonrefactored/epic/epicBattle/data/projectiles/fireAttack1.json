@@ -1,0 +1,15 @@
+{
+	"timing":{
+		"stop":650,
+		"removal":1500,
+		"hit":650
+	},
+	"impact":{
+		"particles":[
+			"particles/characters/explosionFire1/explosionFire1.json",
+			"particles/characters/explosionFire1/explosionFire2.json",
+			"particles/characters/explosionFire1/explosionFire3.json"
+		],
+		"soundID":"epicFireExplosion1"
+	}
+}
