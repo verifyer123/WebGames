@@ -678,12 +678,12 @@ var result = function(){
 		nameText.anchor.setTo(0.5,0.5)
 		downloadButton.add(nameText)
 		
-		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', '¡Juega en la app!', 40);
+		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', 'Juega en la app!', 40);
 		nameText.tint = 0xffffff   
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
 		
-		var nameText = game.add.bitmapText(back.x - 112, back.y + 50, 'gothamMedium', '?', 40);
+		var nameText = game.add.bitmapText(back.x -170, back.y + 50, 'gothamMedium', '!', 40);
 		nameText.tint = 0xffffff   
 		nameText.anchor.setTo(0.5,0.5)
 		nameText.angle = 180
