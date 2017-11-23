@@ -88,6 +88,8 @@ var map = function(){
 	var decorationGroup
 	var battleCounter
 	var currentPlayer
+	var gamesList
+	var subjectsGroup
 	
 	var iconsPositions = [
 		
@@ -129,6 +131,7 @@ var map = function(){
 		battleCounter = -1
 		currentPlayer = players.getPlayer()
         loadSounds()
+		gamesList = epicYogomeGames.getGames()
         
 	}
 
@@ -372,6 +375,7 @@ var map = function(){
 	
 	function addBalls(){
 		
+		var indexIcon = 0
 		for(var i = 0; i < iconsPositions.length;i++){
 			
 			var ballGroup = game.add.group()
@@ -379,6 +383,14 @@ var map = function(){
 			ballGroup.y = iconsPositions[i].y - start.y
 			ballGroup.order = i
 			ballGroup.isBattle = false
+			ballGroup.icons = []
+			
+			var limit = indexIcon + 4
+			for(var u = indexIcon; u < limit; u++){
+				
+				ballGroup.icons[ballGroup.icons.length] = gamesList[u].sceneName
+			}
+			
 			ballsPosition.add(ballGroup)
 			
 			var ball = ballGroup.create(0,0,'atlas.map','number_container')
@@ -394,6 +406,7 @@ var map = function(){
 				numberText.alpha = 0
 			}else{
 				
+				indexIcon+= 4
 				ballGroup.text = numberText
 				
 				var starsGroup = game.add.group()
@@ -409,11 +422,12 @@ var map = function(){
 					group.y = 45
 					starsGroup.add(group)
 					
-					var fullStar = group.create(0,0,'atlas.map','star_won')
-					fullStar.anchor.setTo(0.5,0.5)
-					
 					var emptyStar = group.create(0,0,'atlas.map','star_empty')
-					emptyStar.anchor.setTo(0.5,0.5)				
+					emptyStar.anchor.setTo(0.5,0.5)		
+					
+					var fullStar = group.create(0,0,'atlas.map','star_won')
+					fullStar.alpha = 0
+					fullStar.anchor.setTo(0.5,0.5)
 					
 					pivotX+= 35
 					
@@ -526,7 +540,7 @@ var map = function(){
 			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
 			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
 				
-				window.open("../epicBattle/", "_self")
+				window.open("http://yogome.com/epic/minigames/battleV/", "_self")
 			})
 		})
 	}
@@ -574,12 +588,33 @@ var map = function(){
 				}
 			}
 			
+			for(var i = 0; i < subjectsGroup.length;i++){
+				
+				var subject = subjectsGroup.children[i]
+				if(subject.active){
+					subject.active = false
+					game.add.tween(subject).to({alpha:0},500,"Linear",true)
+				}
+			}
+			
 			game.add.tween(gamesMenu).to({alpha:0,x:gamesMenu.x + 100},250,"Linear",true,250).onComplete.add(function(){
 				buttonsActive = true
 				scroller.start()
 			})
 		}
 		
+	}
+	
+	function getSubject(subjectAsk){
+		
+		for(var i = 0; i < subjectsGroup.length;i++){
+			
+			var subject = subjectsGroup.children[i]
+			if(subject.tag == subjectAsk && !subject.active){
+				return subject
+			}
+			
+		}
 	}
 	
 	function getGamesMenu(){
@@ -592,12 +627,10 @@ var map = function(){
 		
 		var menuList = []
 		
-		var games = epicYogomeGames.getGames()
-		Phaser.ArrayUtils.shuffle(games)
-		
-		for(var i = 0; i < 4; i++){
+				
+		for(var i = 0; i < buttonPressed.icons.length; i++){
 			
-			var menuGame = getIcon(games[i].sceneName)
+			var menuGame = getIcon(buttonPressed.icons[i])
 			menuList[menuList.length] = menuGame
 			
 		}
@@ -609,6 +642,13 @@ var map = function(){
 			var menuGame = menuList[i]
 			menuGame.x = gamesMenu.x - 125
 			menuGame.y = gamesMenu.y + pivotY
+			
+			var subject = getSubject(menuGame.subject)
+			subject.x = menuGame.x + menuGame.width * 0.45
+			subject.y = menuGame.y + menuGame.height * 0.4
+			subject.active = true
+			
+			popObject(subject,delay)
 			
 			menuGame.active = true
 			popObject(menuGame,delay)
@@ -1010,19 +1050,17 @@ var map = function(){
 	
 	function createIcons(){
 		
-		var games = epicYogomeGames.getGames()
-		Phaser.ArrayUtils.shuffle(games)
-		
 		gameIcons = game.add.group()
 		scroller.add(gameIcons)
 		
-		for(var i = 0; i < games.length;i++){
+		for(var i = 0; i < gamesList.length;i++){
 			
-			var icon = gameIcons.create(game.world.centerX, 300,'atlas.icons',games[i].sceneName)
+			var icon = gameIcons.create(game.world.centerX, 300,'atlas.icons',gamesList[i].sceneName)
 			icon.anchor.setTo(0.5,0.5)
-			icon.tag = games[i].sceneName
+			icon.tag = gamesList[i].sceneName
+			icon.subject = gamesList[i].subject
 			icon.alpha = 0
-			icon.url = games[i].url
+			icon.url = gamesList[i].url
 			icon.scale.setTo(0.5,0.5)
 			icon.active = false
 			
@@ -1114,6 +1152,31 @@ var map = function(){
 		tween.yoyo(true,0)
 	}
 	
+	function createSubjects(){
+		
+		var subjects = ['health','math','coding','language','geography','sustainability','science','creativity']
+		
+		subjectsGroup = game.add.group()
+		scroller.add(subjectsGroup)
+		
+		for(var i = 0; i < subjects.length;i++){
+			
+			for(var u = 0; u < 4;u++){
+				
+				var subject = subjectsGroup.create(200,200,'atlas.map',subjects[i])
+				subject.tag = subjects[i]
+				subject.anchor.setTo(0.5,0.5)
+				subject.scale.setTo(0.3,0.3)
+				subject.alpha = 0
+				subject.active = false
+				
+			}
+			
+			
+		}
+		
+	}
+	
 	return {
 		
 		assets: assets,
@@ -1132,7 +1195,7 @@ var map = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                //spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -1149,6 +1212,7 @@ var map = function(){
 			buttons.getButton(spaceSong,sceneGroup)
 			createShine()
 			createIcons()
+			createSubjects()
             //createOverlay()
 
             animateScene()

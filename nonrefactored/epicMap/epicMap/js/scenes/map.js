@@ -88,6 +88,7 @@ var map = function(){
 	var decorationGroup
 	var battleCounter
 	var currentPlayer
+	var gamesList
 	
 	var iconsPositions = [
 		
@@ -129,6 +130,7 @@ var map = function(){
 		battleCounter = -1
 		currentPlayer = players.getPlayer()
         loadSounds()
+		gamesList = epicYogomeGames.getGames()
         
 	}
 
@@ -372,6 +374,7 @@ var map = function(){
 	
 	function addBalls(){
 		
+		var indexIcon = 0
 		for(var i = 0; i < iconsPositions.length;i++){
 			
 			var ballGroup = game.add.group()
@@ -379,6 +382,14 @@ var map = function(){
 			ballGroup.y = iconsPositions[i].y - start.y
 			ballGroup.order = i
 			ballGroup.isBattle = false
+			ballGroup.icons = []
+			
+			var limit = indexIcon + 4
+			for(var u = indexIcon; u < limit; u++){
+				
+				ballGroup.icons[ballGroup.icons.length] = gamesList[u].sceneName
+			}
+			
 			ballsPosition.add(ballGroup)
 			
 			var ball = ballGroup.create(0,0,'atlas.map','number_container')
@@ -592,12 +603,10 @@ var map = function(){
 		
 		var menuList = []
 		
-		var games = epicYogomeGames.getGames()
-		Phaser.ArrayUtils.shuffle(games)
-		
-		for(var i = 0; i < 4; i++){
+				
+		for(var i = 0; i < buttonPressed.icons.length; i++){
 			
-			var menuGame = getIcon(games[i].sceneName)
+			var menuGame = getIcon(buttonPressed.icons[i])
 			menuList[menuList.length] = menuGame
 			
 		}
@@ -1010,19 +1019,16 @@ var map = function(){
 	
 	function createIcons(){
 		
-		var games = epicYogomeGames.getGames()
-		Phaser.ArrayUtils.shuffle(games)
-		
 		gameIcons = game.add.group()
 		scroller.add(gameIcons)
 		
-		for(var i = 0; i < games.length;i++){
+		for(var i = 0; i < gamesList.length;i++){
 			
-			var icon = gameIcons.create(game.world.centerX, 300,'atlas.icons',games[i].sceneName)
+			var icon = gameIcons.create(game.world.centerX, 300,'atlas.icons',gamesList[i].sceneName)
 			icon.anchor.setTo(0.5,0.5)
-			icon.tag = games[i].sceneName
+			icon.tag = gamesList[i].sceneName
 			icon.alpha = 0
-			icon.url = games[i].url
+			icon.url = gamesList[i].url
 			icon.scale.setTo(0.5,0.5)
 			icon.active = false
 			
@@ -1132,7 +1138,7 @@ var map = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+                //spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
