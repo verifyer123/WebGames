@@ -83,7 +83,15 @@ var battle = function(){
 			{	name:"epicAttackButton",
 				file:"sounds/battle/buttonTick.mp3"},
 			{	name:"loseBattle",
-				file:"sounds/battle/loseBattle1.mp3"}
+				file:"sounds/battle/loseBattle1.mp3"},
+			{	name:"starsCollision",
+				file:"sounds/battle/starsCollision1.mp3"},
+			{	name:"barLoad",
+				file:"sounds/battle/barLoad1.mp3"},
+			{	name:"levelBar",
+				file:"sounds/battle/levelBar1.wav"},
+			{	name:"levelUp",
+				file:"sounds/battle/levelUp2.mp3"}
         ],
 		spines: [
 			// {
@@ -127,6 +135,17 @@ var battle = function(){
 			"wind": 2,
 		}
 	}
+	var ATTACK = {
+		"attack":{
+			"base":10,
+			"bonus":15
+		},
+		"special":{
+			"base":15,
+			"bonus":20
+		}
+	}
+
 	var XP_TABLE = {
 		HITS : {
 			NORMAL : {
@@ -143,6 +162,23 @@ var battle = function(){
 		KILL : 10,
 		DEATH : 2,
 	}
+
+	var POWER_LEVELS = {
+		LOW:{
+			color:0xFF0000,
+			width:60
+		},
+		MED:{
+			color:0xFFEB00,
+			width:120
+		},
+		HIGH:{
+			color:0x00F500,
+			width:176
+		}
+	}
+
+	var ELEMENTS = ["fire", "water", "wind", "earth"]
 
 	var NUM_BACKGROUNDS = 3
 
@@ -165,6 +201,7 @@ var battle = function(){
 	var tapGroup
 	var soundsList
 	var sumXp
+	var elements
 
     function loadSounds(){
 
@@ -209,6 +246,7 @@ var battle = function(){
         var preloadAlpha = document.getElementById("preloadBattle");
         preloadAlpha.style.visibility = "hidden";
         inputsEnabled = false
+		elements = {}
 
         loadSounds()
 
@@ -254,7 +292,7 @@ var battle = function(){
 
 		if(win){players[0].setAnimation(["WIN", "WINSTILL"], true)}
 		battleSong.stop()
-		if(win){sound.play("winBattle")}
+		if(win){sound.play("winBattle"); hudGroup.sumLvl()}
 		else{sound.play("loseBattle")}
 
 		// var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
@@ -270,7 +308,7 @@ var battle = function(){
 
     function receiveAttack(target, from) {
 		// target.hpBar.removeHealth(20)
-		sound.play(target.projectileData.impact.soundID)
+		sound.play(from.projectileData.impact.soundID)
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation], true)
@@ -338,7 +376,6 @@ var battle = function(){
 	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
-		fromPlayer.multiplier = getMultiplier(fromPlayer.data.stats.element, targetPlayer.data.stats.element)
 		// console.log(fromPlayer.multiplier)
     	var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
 
@@ -611,9 +648,9 @@ var battle = function(){
 
 		var groupBg = game.add.graphics()
 		groupBg.beginFill(0x000000)
-		groupBg.drawRoundedRect(0, 0, HP_BAR_WIDTH + 20, 72, 15)
+		groupBg.drawRoundedRect(0, 0, HP_BAR_WIDTH + 20, 100, 15)
 		groupBg.x = -groupBg.width * 0.5
-		groupBg.y = -groupBg.height + 3
+		groupBg.y = -groupBg.height * 0.5 - 18
 		groupBg.alpha = 0.5
 		groupBg.endFill()
 		hpGroup.add(groupBg)
@@ -675,6 +712,35 @@ var battle = function(){
         hpGroup.name = name
 		name.setTextBounds(0, 0, 150, 0);
 
+		var barPowerDown = hpGroup.create(0,0,"atlas.battle","barpower_down")
+		barPowerDown.anchor.setTo(0.5, 0.5)
+		barPowerDown.y = 12
+		barPowerDown.scale.setTo(0.7, 0.7)
+
+		var barFiller = game.add.graphics()
+		barFiller.beginFill(0xFFFFFF)
+		barFiller.drawRoundedRect(0,0, 120, 26, 8)
+		barFiller.x = -88
+		barFiller.endFill()
+		barFiller.width = 0
+
+		hpGroup.add(barFiller)
+
+		var barPower = hpGroup.create(0,0,"atlas.battle","barpower_up")
+		barPower.anchor.setTo(0.5, 0.5)
+		barPower.y = 12
+		barPower.scale.setTo(0.7, 0.7)
+
+		hpGroup.setPower = function (pwrLevel) {
+			sound.play("barLoad")
+
+			var powerData = POWER_LEVELS[pwrLevel]
+			game.add.tween(barFiller).to({width:powerData.width}, 1200, Phaser.Easing.Cubic.Out, true)
+			tweenTint(barFiller, POWER_LEVELS.LOW.color, powerData.color, 1200)
+			game.add.tween(hpGroup.scale).to({x:1.1 * scale, y:1.1}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			inputsEnabled = true
+		}
+
 		return hpGroup
 	}
 
@@ -713,7 +779,6 @@ var battle = function(){
 		var scaleShoot = {from:{x: 1, y: 1}, to:{x: 1, y: 1}}
 		player.scaleShoot = scaleShoot
 
-
 		var hitParticle = createPart("impact" + spine.projectileName)
 		hitParticle.y = -100
 		sceneGroup.add(hitParticle)
@@ -721,7 +786,7 @@ var battle = function(){
 
 		var hpBar = createHpbar(scale, player.data.stats.health)
 		hpBar.x = player.x + 200 * scale
-		hpBar.y = scale < 0 ? player.y - 110 : player.y
+		hpBar.y = scale < 0 ? player.y - 110 : player.y - 15
 		sceneGroup.add(hpBar)
 		hpBar.name.text = player.data.name
 		player.hpBar = hpBar
@@ -783,6 +848,8 @@ var battle = function(){
 
 		players[0] = createPlayer(players[0], {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
 		players[1] = createPlayer(players[1], {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
+		players[0].multiplier = getMultiplier(players[0].data.stats.element, players[1].data.stats.element)
+		players[1].multiplier = getMultiplier(players[1].data.stats.element, players[0].data.stats.element)
 		// player2.scale.setTo(playerScale * -1, playerScale)
 
 		// var input1 = game.add.graphics()
@@ -790,11 +857,12 @@ var battle = function(){
 		// input1.drawCircle(0,0, 200)
 		// input1.alpha = 0
 		// input1.endFill()
-		// player1.add(input1)
+		// players[0].add(input1)
 		// input1.inputEnabled = true
 		// input1.events.onInputDown.add(function () {
-		// 	// winPlayer(player1)
+		// 	// showResults(true)
 		// 	// player1.setAnimation(["LOSE", "LOSESTILL"], true)
+		// 	sumXp = 20
 		// 	controlGroup.hide.start()
 		// 	game.time.events.add(1000, showResults, null, true)
 		// 	// playerAttack(player1, player2, createProyectile, "proyectile")
@@ -838,16 +906,20 @@ var battle = function(){
 
 	}
 
-    function createPart(key){
+    function createPart(key, atlas){
         var particle = game.add.emitter(0, 0, 100);
 
-        particle.makeParticles(key);
+        if(atlas)
+        	particle.makeParticles(atlas, key);
+        else
+        	particle.makeParticles(key)
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.1;
         particle.maxParticleScale = 0.3;
         particle.gravity = 150;
         particle.angularDrag = 30;
+		particle.setAlpha(1, 0, 1000, Phaser.Easing.Cubic.In)
 
         return particle
 
@@ -943,8 +1015,62 @@ var battle = function(){
 			players.push(player)
 		}
 	}
+	
+	function checkPowerBars() {
+		inputsEnabled = false
+		var midY = (players[0].y + players[1].y) * 0.5
 
-    function showReadyGo() {      
+		for(var pIndex = 0; pIndex < players.length; pIndex++){
+			var elementName = players[pIndex].data.stats.element
+
+			var element = game.add.sprite(0,0,"atlas.battle",elementName)
+			element.anchor.setTo(0.5, 0.5)
+			element.scale.setTo(0.5, 0.5)
+			element.alpha = 0
+			element.index = pIndex
+
+			hudGroup.uiGroup.add(element)
+			element.x = players[pIndex].hitDestination.x; element.y = players[pIndex].hitDestination.y - 100
+			game.add.tween(element).to({alpha:1},600, Phaser.Easing.Cubic.Out, true)
+			var moveElement1 = game.add.tween(element).to({x:game.world.centerX - 30 * players[pIndex].scaleReference},
+				600, Phaser.Easing.Sinusoidal.In, true, 400)
+
+			var fromScale = element.scale.x + 0.2 * players[pIndex].scaleReference
+			var scaleTween = game.add.tween(element.scale).from({x:fromScale, y:fromScale}, 600, null, true, 400)
+			game.add.tween(element).to({y:game.world.centerY},600, Phaser.Easing.Sinusoidal.In, true, 400)
+			moveElement1.onStart.add(function () {
+				sound.play("cut")
+			})
+
+			var moveElement2 = game.add.tween(element).to({x:players[pIndex].hpBar.x, y:players[pIndex].hpBar.y}, 400,
+				null, false, 500)
+			moveElement2.onStart.add(function (obj) {
+				game.add.tween(obj.scale).to({x:0.25, y:0.25}, 400, null, true)
+			})
+			moveElement1.onComplete.add(function (obj) {
+				game.add.tween(obj.scale).to({x:0.6, y:0.6}, 150, Phaser.Easing.Cubic.Out, true).yoyo(true)
+				sound.play("starsCollision")
+			})
+			// var scaleElement = game.add.tween(element.scale).to({x:0.6, y:0.6}, 250, Phaser.Easing.Cubic.Out).yoyo(true)
+			var alphaElement = game.add.tween(element).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, false)
+			moveElement1.chain(moveElement2)
+			moveElement2.chain(alphaElement)
+			
+			alphaElement.onStart.add(function (obj) {
+				var powerLvl = players[obj.index].multiplier < 1 ? "LOW" :
+					players[obj.index].multiplier > 1 ? "HIGH" : "MED"
+
+				players[obj.index].hpBar.setPower(powerLvl)
+			})
+
+
+		}
+
+
+
+	}
+
+    function showReadyGo() {
 		sound.play("swipe")
     	var tweenReady1 = game.add.tween(ready).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(ready.scale).to({x:0.3, y:0.3}, 600, Phaser.Easing.Back.Out, true)
@@ -961,7 +1087,10 @@ var battle = function(){
 			tweenScale.start()
 			sound.play("comboSound")
 		})
-		tweenReady4.onComplete.add(startRound)
+		tweenReady4.onComplete.add(function(){
+			startRound()
+			checkPowerBars()
+		})
 	}
     
     function enterGame() {
@@ -1011,8 +1140,113 @@ var battle = function(){
 		exitButton.anchor.setTo(0.5, 0.5)
 		exitButton.x = game.world.centerX
 		exitButton.tag = "exit"
-		exitButton.inputEnabled = true
+		// exitButton.inputEnabled = true
 		exitButton.events.onInputDown.add(onClickBtn)
+		exitButton.alpha = 0
+
+		var xpGroup = game.add.group()
+		xpGroup.x = game.world.centerX - 180
+		xpGroup.y = game.world.height - 50
+		hudGroup.winGroup.add(xpGroup)
+
+		var xpBar = xpGroup.create(60,-9, "atlas.battle", "bar01")
+		xpBar.anchor.setTo(0, 0.5)
+
+		var xpContainer = xpGroup.create(0,0,"atlas.battle","xp")
+		xpContainer.anchor.setTo(0, 0.5)
+
+		var fontXp = {font: "22px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+		var sumXpText = game.add.text(155, 17, "0/0", fontXp)
+		sumXpText.anchor.setTo(0.5, 0.5)
+		xpGroup.add(sumXpText)
+
+		var lvlGroup = game.add.group()
+		lvlGroup.x = game.world.centerX + 140
+		lvlGroup.y = game.world.height - 80
+		hudGroup.winGroup.add(lvlGroup)
+		var levelBg = lvlGroup.create(0,0,"atlas.battle","level")
+		levelBg.anchor.setTo(0.5, 0.5)
+		levelBg.scale.setTo(0.8, 0.8)
+
+		var fontStyle2 = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var lvlLabel = game.add.text(0, -18, "Level", fontStyle2)
+		lvlLabel.anchor.setTo(0.5, 0.5)
+		lvlGroup.add(lvlLabel)
+
+		var fontStyle3 = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var numLevel = game.add.text(0, 18, "1", fontStyle3)
+		numLevel.anchor.setTo(0.5, 0.5)
+		lvlGroup.add(numLevel)
+
+		var starParticle = createPart("star", "atlas.battle")
+		lvlGroup.add(starParticle)
+		starParticle.y = numLevel.y
+
+		var soundLevelHandle
+		function setLvlBar(currentXp, totalXp) {
+			var currentLevel = charactersEntity.getLevel(currentXp)
+			var expLevel = charactersEntity.getLevelXp(currentLevel)
+			var expNextLevel = charactersEntity.getLevelXp(currentLevel + 1)
+			var expNeeded = expNextLevel - expLevel
+			console.log(currentXp, currentLevel, expNeeded)
+
+			numLevel.text = currentLevel
+			var difCurrentExp = currentXp - expLevel
+			sumXpText.text = difCurrentExp + "/" + expNeeded
+
+			var barPercentage = difCurrentExp / expNeeded
+			xpBar.scale.x = barPercentage
+
+			var tweenBar
+			var toExp
+			if(totalXp >= expNextLevel){
+				var newCurrenXp = expNextLevel
+				toExp = expNeeded
+				tweenBar = game.add.tween(xpBar.scale).to({x:1}, 2000, null, true)
+				tweenBar.onComplete.add(function () {
+					sound.play("levelUp")
+					soundLevelHandle._sound.playbackRate.value = 1
+					xpBar.scale.x = 0
+					game.add.tween(numLevel.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+					setLvlBar(newCurrenXp, totalXp)
+					starParticle.start(true, 1000, null, 5)
+				})
+			}else {
+				toExp = totalXp - expLevel
+				var finalBarPercentage = toExp / expNextLevel
+				console.log(currentXp, expNextLevel, finalBarPercentage)
+				tweenBar = game.add.tween(xpBar.scale).to({x: finalBarPercentage}, 2000, Phaser.Easing.Cubic.Out, true)
+				tweenBar.onComplete.add(function () {
+					console.log("stop")
+					soundLevelHandle.stop()
+					exitButton.inputEnabled = true
+					var hideLvlGroup = game.add.tween(lvlGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
+					var hidexPGroup = game.add.tween(xpGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
+					var showExit = game.add.tween(exitButton).to({alpha:1}, 500, Phaser.Easing.Cubic.Out)
+					hideLvlGroup.chain(showExit)
+					
+					showExit.onStart.add(function () {
+						game.add.tween(exitButton.scale).to({x:0.9, y:0.9}, 500, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true).loop(true)
+					})
+				})
+			}
+			tweenBar.onUpdateCallback(function (tween, percentage) {
+				var currentNum = Math.ceil(toExp * percentage)
+				sumXpText.text = currentNum + "/" + expNeeded
+				soundLevelHandle._sound.playbackRate.value = 1 + 1 * percentage
+			})
+		}
+
+		hudGroup.sumLvl = function () {
+			var currentXp = 0
+			var totalXp = currentXp + sumXp
+			soundLevelHandle = sound.play("levelBar", {loop : true})
+			setLvlBar(currentXp, totalXp)
+		}
+
+		// sumXp = 100
+		// hudGroup.sumLvl()
+
 	}
 	
 	function createLoseOverlay() {
@@ -1094,9 +1328,6 @@ var battle = function(){
 		controlGroup.hide = game.add.tween(controlGroup).to({y:game.world.height + 150}, 1000, Phaser.Easing.Cubic.Out, false, 500)
 		controlGroup.show = game.add.tween(controlGroup).to({y:game.world.height}, 1000, Phaser.Easing.Cubic.Out)
 
-		// var correctParticle = createPart("star")
-		// sceneGroup.add(correctParticle)
-		// sceneGroup.correctParticle = correctParticle
 		//
 		// var wrongParticle = createPart("wrong")f
 		// sceneGroup.add(wrongParticle)
@@ -1371,9 +1602,9 @@ var battle = function(){
 			hudGroup.add(loseGroup)
 			hudGroup.loseGroup = loseGroup
 
+			initialize()
 			createGameObjects()
             createbattleUI()
-			initialize()
 			// game.time.events.add(500, startRound)
 			enterGame()
             // createTutorial()

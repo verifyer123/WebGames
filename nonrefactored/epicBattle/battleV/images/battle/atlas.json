@@ -1,17 +1,8 @@
 {"frames": [
 
 {
-	"filename": "alecbuu",
-	"frame": {"x":759,"y":559,"w":148,"h":114},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":10,"y":0,"w":148,"h":114},
-	"sourceSize": {"w":158,"h":124},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "attack",
-	"frame": {"x":909,"y":566,"w":104,"h":102},
+	"frame": {"x":759,"y":711,"w":104,"h":102},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":102},
@@ -83,7 +74,7 @@
 },
 {
 	"filename": "energy",
-	"frame": {"x":197,"y":913,"w":40,"h":40},
+	"frame": {"x":979,"y":1,"w":40,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
@@ -101,7 +92,7 @@
 },
 {
 	"filename": "go_01",
-	"frame": {"x":759,"y":675,"w":128,"h":128},
+	"frame": {"x":889,"y":559,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -115,6 +106,15 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":457,"h":103},
 	"sourceSize": {"w":457,"h":103},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "level",
+	"frame": {"x":759,"y":559,"w":128,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":150},
+	"sourceSize": {"w":128,"h":150},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "proyectile",
-	"frame": {"x":925,"y":493,"w":79,"h":71},
+	"frame": {"x":940,"y":815,"w":79,"h":71},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":71},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "shadow",
-	"frame": {"x":768,"y":805,"w":170,"h":70},
+	"frame": {"x":768,"y":815,"w":170,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":170,"h":70},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "special",
-	"frame": {"x":889,"y":675,"w":104,"h":102},
+	"frame": {"x":865,"y":711,"w":104,"h":102},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":102},
@@ -194,8 +194,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1014,"h":956},
+	"size": {"w":1020,"h":956},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4fc0c97434265daf1e959ed4248442cf:5d1df5f9703d9c9a84d8d0cf492168b8:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a6cac59976c8e331da9f473542da6f22:033dedc347fc0e2a66bbb410f05a68d1:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

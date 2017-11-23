@@ -17,13 +17,12 @@ var epicModel = function () {
 			player.minigames.push(minigame)
 		}
 
-		var characters = epicCharacters
-		for(var charIndex = 0; charIndex < epicCharacters.length; charIndex++ ){
-			var character = epicCharacters[charIndex]
-			character.captured = false
-			character.xp = 0
-			character.level = 1
-		}
+		// var characters = epicCharacters
+		// for(var charIndex = 0; charIndex < epicCharacters.length; charIndex++ ){
+		// 	var character = epicCharacters[charIndex]
+		// 	character.captured = false
+		// 	character.xp = 0
+		// }
 
 		loadGame()
 	}
