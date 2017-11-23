@@ -1,0 +1,27 @@
+{
+	"timing":{
+		"stop":750,
+		"removal":1200,
+		"hit":700
+	},
+	"particles":[
+		"particles/characters/specialAttackFire3/specialAttackFire10.json",
+		"particles/characters/specialAttackFire3/specialAttackFire11.json",
+		"particles/characters/specialAttackFire3/specialAttackFire12.json",
+		"particles/characters/specialAttackFire3/specialAttackFire13.json"
+		
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactFire4/impactFire10.json",
+			"particles/characters/impactFire4/impactFire11.json",
+			"particles/characters/impactFire4/impactFire12.json",
+			"particles/characters/impactFire4/impactFire13.json"
+
+		],
+		"soundID":"epicFireFlame1"
+	},
+	"onShoot":[
+	
+	]
+}

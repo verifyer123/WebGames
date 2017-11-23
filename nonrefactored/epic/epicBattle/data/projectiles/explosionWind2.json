@@ -1,0 +1,26 @@
+{
+	"timing":{
+		"stop":300,
+		"removal":2000,
+		"hit":250
+	},
+	"impact":{
+		"forcePosition":{
+			"offsetX":0, 
+			"offsetY":0
+		},
+
+		"particles":[
+			"particles/characters/impactWind2/impactWind4.json",
+			"particles/characters/impactWind2/impactWind5.json",
+			"particles/characters/impactWind2/impactWind6.json",
+			"particles/characters/impactWind2/impactWind7.json",
+			"particles/characters/impactWind2/impactWind8.json"
+
+		],
+		"soundID":"epicImpactWind1"
+	},
+	"onShoot":[
+	
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"timing":{
+		"stop":350,
+		"removal":1000,
+		"hit":275
+	},
+	"particles":[
+		"particles/characters/specialAttackWind7/specialAttackWind22.json",
+		"particles/characters/specialAttackWind7/specialAttackWind23.json",
+		"particles/characters/specialAttackWind7/specialAttackWind24.json"
+	
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactWind1/explosionWind3.json",
+			"particles/characters/impactWind1/explosionWind4.json",
+			"particles/characters/impactWind1/explosionWind5.json"
+		],
+		"soundID":"epicWindImpact1"
+	},
+	"onShoot":[
+	
+	]
+}

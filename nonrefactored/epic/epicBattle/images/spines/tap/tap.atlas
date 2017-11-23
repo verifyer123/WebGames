@@ -1,0 +1,13 @@
+
+tap.png
+size: 110,80
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+taptap
+  rotate: false
+  xy: 2, 2
+  size: 106, 76
+  orig: 106, 76
+  offset: 0, 0
+  index: -1
