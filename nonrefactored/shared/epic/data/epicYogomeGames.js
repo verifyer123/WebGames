@@ -8,8 +8,8 @@ epicYogomeGames.getGames = function(){
 		{name:'snoozeCrater',url:'http://yogome.com/epic/minigames/snoozeCrater/',sceneName:'snooze',subject:'sustainability',review:true},//29
 		{name:'uniDream',url:'http://yogome.com/epic/minigames/uniDream/',sceneName:'uni',subject:'math', review:true},//53
 		{name:'wildSnaps',url:'http://yogome.com/epic/minigames/wildSnaps/',sceneName:'wild',subject:'creativity',review:true},
-		{name:'Space Count',url:'http://yogome.com/epic/minigames/SpaceCount/',sceneName:'spaceCount',subject:'math', review:true},//78
-		{name:'toyfigure',url:'http://yogome.com/epic/minigames/ToyFigures/',sceneName:'toyfigure',subject:'math', review:true},//55
+		{name:'Space Count',url:'http://yogome.com/epic/minigames/spaceCount/',sceneName:'spaceCount',subject:'math', review:true},//78
+		{name:'toyfigure',url:'http://yogome.com/epic/minigames/toyfigure/',sceneName:'toyfigure',subject:'math', review:true},//55
 		{name:'mathBomb',url:'http://yogome.com/epic/minigames/mathBomb/',sceneName:'bomb',subject:'math', review:true},//52
 		{name:'Float and Count',url:'http://yogome.com/epic/minigames/floatAndCount/',sceneName:'float',subject:'math', review:true},//77
 		{name:'duckCount',url:'http://yogome.com/epic/minigames/duckCount/',sceneName:'duck',subject:'math', review:true},//66

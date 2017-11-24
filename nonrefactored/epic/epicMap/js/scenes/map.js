@@ -153,14 +153,25 @@ var map = function(){
         sceneGroup.add(startGroup)
                 
         sceneGroup.alpha = 0
+		
+		var startBall = ballsPosition.children[currentPlayer.currentPosition]
         game.add.tween(sceneGroup).to({alpha:1},400,"Linear",true)
+		
+		var offsetY = game.world.height * 0.6
+		
+		if(currentPlayer.currentPosition == 0){
+			offsetY = game.world.height * 0.8
+		}
+		
+		scroller.scrollTo(0,-startBall.y + offsetY)
 		
 		game.time.events.add(1200,function(){
 			
+			ship.x = startBall.x - 125
 			ship.alpha = 1
 			sound.play("laserPull")
 			
-			var startBall = ballsPosition.children[0]
+			
 			game.add.tween(ship).to({y:startBall.y - 80},2500,"Linear",true).onComplete.add(function(){
 				
 				createPart('smoke',ship,0,50)
@@ -170,6 +181,8 @@ var map = function(){
 					
 					sound.play("whoosh")
 					
+					yogotarGroup.y = ship.y
+					yogotarGroup.index = currentPlayer.currentPosition
 					yogotarGroup.anim.setAnimationByName(0,"JUMP",true)
 					yogotarGroup.alpha = 1
 					game.add.tween(yogotarGroup).to({x:startBall.x},1000,"Linear",true)
@@ -543,7 +556,7 @@ var map = function(){
 			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
 			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
 				
-				window.open("http://yogome.com/epic/minigames/battleV/", "_self")
+				window.open("http://yogome.com/epic/minigames/epicBattle/", "_self")
 			})
 		})
 	}
@@ -726,7 +739,7 @@ var map = function(){
 		createBallsPos()
 		
 		scroller.stop()
-		scroller.scrollTo(0,-start.y * 0.87)
+		
 		
 		pointer = sceneGroup.create(-100,0,'atlas.map','star')
 		pointer.anchor.setTo(0.5,0.5)
