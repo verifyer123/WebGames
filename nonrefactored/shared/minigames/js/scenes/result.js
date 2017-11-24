@@ -303,6 +303,12 @@ var result = function(){
 		var titleText = 'great'
 		if(totalScore < 3){
 			titleText = 'tryText'
+		}else{
+			if(parent.epicModel){
+				
+				var currentPlayer = parent.epicModel.getPlayer()
+				currentPlayer.minigames[currentPlayer.currentMinigame] = true
+			}
 		}
 		
 		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,titleText)
