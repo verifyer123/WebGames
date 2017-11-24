@@ -426,8 +426,11 @@ var map = function(){
 					emptyStar.anchor.setTo(0.5,0.5)		
 					
 					var fullStar = group.create(0,0,'atlas.map','star_won')
-					fullStar.alpha = 0
 					fullStar.anchor.setTo(0.5,0.5)
+					
+					if(!currentPlayer.minigames[((i-1)*4) + u]){
+						fullStar.alpha = 0
+					}
 					
 					pivotX+= 35
 					
@@ -1061,6 +1064,7 @@ var map = function(){
 			icon.subject = gamesList[i].subject
 			icon.alpha = 0
 			icon.url = gamesList[i].url
+			icon.order = i
 			icon.scale.setTo(0.5,0.5)
 			icon.active = false
 			
@@ -1098,6 +1102,8 @@ var map = function(){
 		sound.play('secret')
 		game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,2000).onComplete.add(function(){
 			
+			currentPlayer.currentMinigame = icon.order
+			players.savePlayer(currentPlayer)
 			window.open(icon.url,'_self')
 		})		
 		
@@ -1195,7 +1201,7 @@ var map = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
