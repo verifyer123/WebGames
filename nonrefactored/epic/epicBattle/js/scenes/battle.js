@@ -300,7 +300,7 @@ var battle = function(){
 		zoomCamera(1.5, 2000)
 		var head = players[0].getSlotContainer("head")
 		var torso = players[0].getSlotContainer("torso1")
-		var toX = head.worldPosition.x - 200 + 40//200 is the left bounds limit
+		var toX = head ? head.worldPosition.x - 200 + 40 : players[0].x - 200 + 40//200 is the left bounds limit
 		var toY = players[0].y - 250
 		game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
 		// game.camera.follow(head)
