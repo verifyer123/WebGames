@@ -1041,7 +1041,7 @@ var map = function(){
 	
 	function createYogotar(){
 		
-		var startBall = ballsPosition.children[0]
+		var startBall = ballsPosition.children[currentPlayer.currentPosition]
 		
 		ship = scroller.create(startBall.x - 125,startBall.y - game.world.height,'atlas.map','ship')
 		ship.alpha = 0
