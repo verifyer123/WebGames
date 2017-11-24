@@ -13,9 +13,9 @@ var epicCharacters = function () {
 		{name:"yogotarRazzle", directory:"images/spines/Razzle/razzle.json"},//10
 		{name:"yogotarTomiko", directory:"images/spines/Tomiko/tomiko.json"},//11
 		{name:"bPirateEarth1", directory:"images/spines/bPirate/bPirateEarth1/bpirateEarth1.json"},//12
-		{name:"bPirateFire1", directory:"images/spines/bPirate/bPirateFire1/bPirateFire1.json"},//13
-		{name:"bPirateWater1", directory:"images/spines/bPirate/bPirateWater1/bPirateWater1.json"},//14
-		{name:"bPirateWind1", directory:"images/spines/bPirate/bPirateWind1/bPirateWind1.json"},//15
+		{name:"bPirateFire1", directory:"images/spines/bPirate/bPirateFire1/bpirateFire1.json"},//13
+		{name:"bPirateWater1", directory:"images/spines/bPirate/bPirateWater1/bpirateWater1.json"},//14
+		{name:"bPirateWind1", directory:"images/spines/bPirate/bPirateWind1/bpirateWind1.json"},//15
 		{name:"teddyEarth1", directory:"images/spines/Teddy/teddyEarth1/teddyEarth1.json"},//16
 		{name:"teddyFire1", directory:"images/spines/Teddy/teddyFire1/teddyFire1.json"},//17
 		{name:"teddyWater1", directory:"images/spines/Teddy/teddyWater1/teddyWater1.json"},//18
@@ -40,10 +40,10 @@ var epicCharacters = function () {
 		{name:"emoFire1", directory:"images/spines/emotiboy/emoFire1/emoFire1.json"},//37
 		{name:"emoWater1", directory:"images/spines/emotiboy/emoWater1/emoWater1.json"},//38
 		{name:"emoWind1", directory:"images/spines/emotiboy/emoWind1/emoWind1.json"},//39*/
-		{name:"wifiEarth1", directory:"images/spines/wifiMonster/wifiEarth1/wifiEarth1.json"},//40
-		{name:"wifiFire1", directory:"images/spines/wifiMonster/wifiFire1/wifiFire1.json"},//41
-		{name:"wifiWater1", directory:"images/spines/wifiMonster/wifiWater1/wifiWater1.json"},//42
-		{name:"wifiWind1", directory:"images/spines/wifiMonster/wifiWind1/wifiWind1.json"},//43
+		{name:"wifiEarth1", directory:"images/spines/wifimonster/wifiEarth1/wifiEarth1.json"},//40
+		{name:"wifiFire1", directory:"images/spines/wifimonster/wifiFire1/wifiFire1.json"},//41
+		{name:"wifiWater1", directory:"images/spines/wifimonster/wifiWater1/wifiWater1.json"},//42
+		{name:"wifiWind1", directory:"images/spines/wifimonster/wifiWind1/wifiWind1.json"},//43
 		{name:"beanEarth1", directory:"images/spines/Bean/beanEarth1/beanEarth1.json"},//44
 		{name:"beanFire1", directory:"images/spines/Bean/beanFire1/beanFire1.json"},//45
 		{name:"beanWater1", directory:"images/spines/Bean/beanWater1/beanWater1.json"},//46
