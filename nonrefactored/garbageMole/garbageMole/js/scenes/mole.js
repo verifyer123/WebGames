@@ -86,6 +86,7 @@ var mole = function(){
     var trashKind 
     var trashBoard
     var circle
+	var swipe
    
     var directions = {up: 0, down: 1, right: 2, left: 3}
     var organic = ['apple','apple2','banana','bone','burger','fish','lobester','pear','steak','tomato']
@@ -855,7 +856,7 @@ var mole = function(){
     }
 
     function updateDirection() {
-        if (cursors.right.isDown && moleDirection != directions.left) {
+        /*if (cursors.right.isDown && moleDirection != directions.left) {
             moleDirection = directions.right
         }
         if (cursors.left.isDown && moleDirection != directions.right) {
@@ -866,27 +867,27 @@ var mole = function(){
         }
         if (cursors.down.isDown && moleDirection != directions.up) {
             moleDirection = directions.down
-        }
+        }*/
         
-       /* var direction = this.swipe.check();
+       	var direction = swipe.check();
         
         if(direction !== null)
         {
             switch(direction.direction) {
-                case this.swipe.DIRECTION_UP:
+                case swipe.DIRECTION_UP:
                     moleDirection = directions.up
                     break;
-                case this.swipe.DIRECTION_DOWN:
+                case swipe.DIRECTION_DOWN:
                     moleDirection = directions.down
                     break;
-                case this.swipe.DIRECTION_LEFT:
+                case swipe.DIRECTION_LEFT:
                     moleDirection = directions.left
                     break;
-                case this.swipe.DIRECTION_RIGHT:
+                case swipe.DIRECTION_RIGHT:
                     moleDirection = directions.right
                     break;
             }
-        }*/
+        }
     }
 
     function movePlayer() {
@@ -945,7 +946,7 @@ var mole = function(){
             
 			sceneGroup = game.add.group()
             yogomeGames.mixpanelCall("enterGame",gameIndex)
-            this.swipe = new Swipe(this.game)
+            swipe = new Swipe(this.game)
 			
 			createBackground()
 			addParticles()
