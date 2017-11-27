@@ -1,0 +1,41 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterball",
+				"attachment": "particle2",
+				"delay": 400,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "waterSplash3",
+				"attachment": "particle8",
+				"delay": 450,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/ogreWater1/",
+	"name": "Kunerck",
+	"spine": {
+		"options": {
+			"scale": 0.6,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/ogreWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 0.9,
+		"shadowScaleY": 1.5,
+		"cardFacing": "right",
+		"impactAttachment": "torso2"
+	}
+}

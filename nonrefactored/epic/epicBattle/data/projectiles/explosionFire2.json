@@ -1,0 +1,26 @@
+{
+	"timing":{
+		"stop":300,
+		"removal":2000,
+		"hit":250
+	},
+	"impact":{
+		"forcePosition":{
+			"offsetX":0, 
+			"offsetY":0
+		},
+
+		"particles":[
+			"particles/characters/impactFire2/impactFire3.json",
+			"particles/characters/impactFire2/impactFire4.json",
+			"particles/characters/impactFire2/impactFire5.json",
+			"particles/characters/impactFire2/impactFire6.json"
+
+		],
+		"soundID":"epicRocksLift1",
+		"soundID":"epicFireExplosion4"
+	},
+	"onShoot":[
+	
+	]
+}

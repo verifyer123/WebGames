@@ -1,0 +1,2575 @@
+
+yogotar.png
+size: 1024,1021
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arthurius/foot1
+  rotate: true
+  xy: 969, 879
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Arthurius/hand1
+  rotate: true
+  xy: 795, 20
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Arthurius/hand2
+  rotate: false
+  xy: 636, 91
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Arthurius/head_b
+  rotate: false
+  xy: 2, 758
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_c
+  rotate: false
+  xy: 2, 495
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_d
+  rotate: false
+  xy: 354, 758
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_e
+  rotate: false
+  xy: 2, 232
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_f
+  rotate: false
+  xy: 354, 495
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_g
+  rotate: true
+  xy: 706, 669
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_h
+  rotate: false
+  xy: 354, 232
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_i
+  rotate: true
+  xy: 706, 317
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dazzle/arm1
+  rotate: false
+  xy: 969, 319
+  size: 41, 54
+  orig: 41, 54
+  offset: 0, 0
+  index: -1
+Dazzle/arm2
+  rotate: true
+  xy: 969, 986
+  size: 33, 53
+  orig: 33, 53
+  offset: 0, 0
+  index: -1
+Dazzle/foot2
+  rotate: true
+  xy: 979, 28
+  size: 52, 43
+  orig: 52, 43
+  offset: 0, 0
+  index: -1
+Dazzle/hair
+  rotate: true
+  xy: 636, 2
+  size: 78, 157
+  orig: 78, 157
+  offset: 0, 0
+  index: -1
+Dazzle/head_a
+  rotate: false
+  xy: 706, 82
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/leg1
+  rotate: true
+  xy: 636, 173
+  size: 57, 68
+  orig: 57, 68
+  offset: 0, 0
+  index: -1
+Dinamita/foot1
+  rotate: true
+  xy: 969, 807
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Dinamita/hand1
+  rotate: true
+  xy: 887, 20
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Eagle/foot1
+  rotate: true
+  xy: 969, 735
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Estrella/foot1
+  rotate: true
+  xy: 969, 663
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Justice/foot1
+  rotate: true
+  xy: 969, 591
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Paz/foot1
+  rotate: true
+  xy: 969, 591
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Luna/foot1
+  rotate: true
+  xy: 969, 519
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Nao/foot1
+  rotate: true
+  xy: 969, 447
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Oof/foot1
+  rotate: true
+  xy: 969, 375
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Oona/head_m
+  rotate: false
+  xy: 319, 6
+  size: 315, 224
+  orig: 315, 224
+  offset: 0, 0
+  index: -1
+Oona/head_o
+  rotate: false
+  xy: 2, 5
+  size: 315, 225
+  orig: 315, 225
+  offset: 0, 0
+  index: -1
+Razzle/arm2
+  rotate: true
+  xy: 969, 951
+  size: 33, 53
+  orig: 33, 53
+  offset: 0, 0
+  index: -1
+
+yogotar2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arthurius/arm2
+  rotate: false
+  xy: 969, 610
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Arthurius/foot2
+  rotate: true
+  xy: 969, 548
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Arthurius/head_j
+  rotate: false
+  xy: 2, 761
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_k
+  rotate: false
+  xy: 2, 498
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_l
+  rotate: false
+  xy: 354, 761
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_m
+  rotate: false
+  xy: 2, 235
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_n
+  rotate: false
+  xy: 354, 498
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/head_o
+  rotate: true
+  xy: 706, 672
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Arthurius/leg1
+  rotate: false
+  xy: 706, 238
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Dazzle/hand1
+  rotate: false
+  xy: 969, 737
+  size: 47, 70
+  orig: 47, 70
+  offset: 0, 0
+  index: -1
+Dazzle/leg2
+  rotate: false
+  xy: 969, 672
+  size: 50, 63
+  orig: 50, 63
+  offset: 0, 0
+  index: -1
+Dinamita/arm2
+  rotate: false
+  xy: 969, 486
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Dinamita/foot2
+  rotate: true
+  xy: 969, 424
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Dinamita/head_b
+  rotate: false
+  xy: 354, 235
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_c
+  rotate: true
+  xy: 706, 320
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_m
+  rotate: false
+  xy: 319, 5
+  size: 247, 228
+  orig: 247, 228
+  offset: 0, 0
+  index: -1
+Dinamita/head_n
+  rotate: false
+  xy: 568, 4
+  size: 247, 229
+  orig: 247, 229
+  offset: 0, 0
+  index: -1
+Eagle/arm2
+  rotate: false
+  xy: 969, 362
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Luna/arm2
+  rotate: false
+  xy: 969, 362
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Luna/hair
+  rotate: false
+  xy: 817, 61
+  size: 191, 257
+  orig: 191, 257
+  offset: 0, 0
+  index: -1
+Oona/foot1
+  rotate: true
+  xy: 969, 952
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Oona/head_n
+  rotate: false
+  xy: 2, 9
+  size: 315, 224
+  orig: 315, 224
+  offset: 0, 0
+  index: -1
+Razzle/hand1
+  rotate: false
+  xy: 969, 809
+  size: 49, 69
+  orig: 49, 69
+  offset: 0, 0
+  index: -1
+Razzle/leg1
+  rotate: true
+  xy: 817, 2
+  size: 57, 67
+  orig: 57, 67
+  offset: 0, 0
+  index: -1
+Razzle/leg2
+  rotate: true
+  xy: 958, 8
+  size: 51, 64
+  orig: 51, 64
+  offset: 0, 0
+  index: -1
+Theffanie/foot1
+  rotate: false
+  xy: 886, 9
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+Tomiko/foot1
+  rotate: true
+  xy: 969, 880
+  size: 70, 50
+  orig: 70, 50
+  offset: 0, 0
+  index: -1
+
+yogotar3.png
+size: 1024,1021
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arthurius/leg2
+  rotate: true
+  xy: 541, 6
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Dinamita/head_d
+  rotate: false
+  xy: 2, 758
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_e
+  rotate: true
+  xy: 354, 669
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_f
+  rotate: true
+  xy: 2, 406
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_g
+  rotate: false
+  xy: 265, 331
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_h
+  rotate: true
+  xy: 2, 54
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_i
+  rotate: false
+  xy: 617, 758
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_j
+  rotate: true
+  xy: 617, 245
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/head_k
+  rotate: false
+  xy: 265, 68
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/leg1
+  rotate: false
+  xy: 265, 676
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Eagle/foot2
+  rotate: true
+  xy: 972, 250
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Eagle/hand1
+  rotate: true
+  xy: 880, 250
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Eagle/leg1
+  rotate: false
+  xy: 265, 594
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Luna/leg1
+  rotate: false
+  xy: 265, 594
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Eagle/torso
+  rotate: false
+  xy: 870, 93
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Estrella/arm2
+  rotate: false
+  xy: 969, 959
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Estrella/foot2
+  rotate: true
+  xy: 969, 897
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Estrella/hand1
+  rotate: true
+  xy: 265, 6
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Estrella/leg1
+  rotate: true
+  xy: 337, 597
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Justice/arm2
+  rotate: false
+  xy: 969, 835
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Paz/arm2
+  rotate: false
+  xy: 969, 835
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Justice/foot2
+  rotate: true
+  xy: 969, 773
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Paz/foot2
+  rotate: true
+  xy: 969, 773
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Justice/hand1
+  rotate: true
+  xy: 357, 6
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Paz/hand1
+  rotate: true
+  xy: 357, 6
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Justice/head_m
+  rotate: false
+  xy: 617, 7
+  size: 251, 236
+  orig: 251, 236
+  offset: 0, 0
+  index: -1
+Justice/leg1
+  rotate: true
+  xy: 419, 597
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Paz/leg1
+  rotate: true
+  xy: 419, 597
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Justice/torso
+  rotate: true
+  xy: 699, 616
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Paz/torso
+  rotate: true
+  xy: 699, 616
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Luna/foot2
+  rotate: false
+  xy: 2, 2
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Luna/hand1
+  rotate: true
+  xy: 449, 6
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Luna/torso
+  rotate: true
+  xy: 851, 616
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Nao/arm2
+  rotate: true
+  xy: 64, 2
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Nao/foot2
+  rotate: false
+  xy: 126, 2
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Nao/leg1
+  rotate: true
+  xy: 501, 597
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Nao/torso
+  rotate: false
+  xy: 880, 464
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Oof/arm2
+  rotate: true
+  xy: 188, 2
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Oof/leg1
+  rotate: true
+  xy: 583, 597
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Oof/torso
+  rotate: false
+  xy: 880, 312
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Oona/leg1
+  rotate: true
+  xy: 617, 686
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Theffanie/leg1
+  rotate: true
+  xy: 870, 21
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+Tomiko/leg1
+  rotate: false
+  xy: 952, 11
+  size: 70, 80
+  orig: 70, 80
+  offset: 0, 0
+  index: -1
+
+yogotar4.png
+size: 1024,1023
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arthurius/arm1
+  rotate: false
+  xy: 955, 698
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Dazzle/foot1
+  rotate: true
+  xy: 969, 961
+  size: 60, 42
+  orig: 60, 42
+  offset: 0, 0
+  index: -1
+Dinamita/arm1
+  rotate: false
+  xy: 652, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Dinamita/hand2
+  rotate: false
+  xy: 265, 402
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Dinamita/head_l
+  rotate: false
+  xy: 2, 760
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Dinamita/leg2
+  rotate: false
+  xy: 265, 2
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Eagle/arm1
+  rotate: false
+  xy: 714, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Luna/arm1
+  rotate: false
+  xy: 714, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Eagle/hand2
+  rotate: true
+  xy: 709, 698
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Eagle/head_b
+  rotate: true
+  xy: 354, 671
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_c
+  rotate: true
+  xy: 2, 408
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_d
+  rotate: false
+  xy: 327, 408
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_e
+  rotate: false
+  xy: 617, 760
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_f
+  rotate: true
+  xy: 2, 56
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_g
+  rotate: true
+  xy: 679, 346
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_h
+  rotate: true
+  xy: 327, 56
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_i
+  rotate: false
+  xy: 652, 83
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/leg2
+  rotate: false
+  xy: 590, 172
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Luna/leg2
+  rotate: false
+  xy: 590, 172
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Estrella/arm1
+  rotate: false
+  xy: 776, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Estrella/hand2
+  rotate: true
+  xy: 791, 698
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Estrella/leg2
+  rotate: false
+  xy: 590, 100
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Justice/arm1
+  rotate: false
+  xy: 838, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Paz/arm1
+  rotate: false
+  xy: 838, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Justice/hand2
+  rotate: true
+  xy: 873, 698
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Paz/hand2
+  rotate: true
+  xy: 873, 698
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Justice/leg2
+  rotate: false
+  xy: 590, 28
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Paz/leg2
+  rotate: false
+  xy: 590, 28
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Luna/hand2
+  rotate: false
+  xy: 265, 320
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Nao/arm1
+  rotate: false
+  xy: 900, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Nao/hand1
+  rotate: false
+  xy: 265, 668
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Nao/hand2
+  rotate: false
+  xy: 265, 238
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Nao/leg2
+  rotate: false
+  xy: 942, 626
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Oof/arm1
+  rotate: false
+  xy: 962, 21
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Oof/foot2
+  rotate: false
+  xy: 2, 4
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Oof/hand1
+  rotate: true
+  xy: 617, 698
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Oof/hand2
+  rotate: false
+  xy: 265, 156
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Oof/leg2
+  rotate: false
+  xy: 942, 554
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Oona/arm2
+  rotate: true
+  xy: 64, 4
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Oona/foot2
+  rotate: false
+  xy: 126, 4
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Oona/hand1
+  rotate: false
+  xy: 265, 576
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Oona/hand2
+  rotate: false
+  xy: 265, 74
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Oona/leg2
+  rotate: false
+  xy: 942, 482
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Razzle/arm1
+  rotate: false
+  xy: 969, 843
+  size: 41, 54
+  orig: 41, 54
+  offset: 0, 0
+  index: -1
+Razzle/foot1
+  rotate: true
+  xy: 969, 899
+  size: 60, 42
+  orig: 60, 42
+  offset: 0, 0
+  index: -1
+Razzle/foot2
+  rotate: false
+  xy: 513, 11
+  size: 52, 43
+  orig: 52, 43
+  offset: 0, 0
+  index: -1
+Theffanie/arm2
+  rotate: true
+  xy: 188, 4
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Theffanie/foot2
+  rotate: false
+  xy: 327, 4
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Theffanie/hand1
+  rotate: false
+  xy: 265, 484
+  size: 60, 90
+  orig: 60, 90
+  offset: 0, 0
+  index: -1
+Theffanie/hand2
+  rotate: false
+  xy: 590, 326
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Theffanie/leg2
+  rotate: false
+  xy: 942, 410
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+Tomiko/arm2
+  rotate: true
+  xy: 389, 4
+  size: 50, 60
+  orig: 50, 60
+  offset: 0, 0
+  index: -1
+Tomiko/foot2
+  rotate: false
+  xy: 451, 4
+  size: 60, 50
+  orig: 60, 50
+  offset: 0, 0
+  index: -1
+Tomiko/hand2
+  rotate: false
+  xy: 590, 244
+  size: 60, 80
+  orig: 60, 80
+  offset: 0, 0
+  index: -1
+Tomiko/leg2
+  rotate: true
+  xy: 942, 348
+  size: 60, 70
+  orig: 60, 70
+  offset: 0, 0
+  index: -1
+
+yogotar5.png
+size: 1022,1023
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arthurius/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Dinamita/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Eagle/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Justice/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Nao/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Oof/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Oona/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Razzle/hair
+  rotate: true
+  xy: 520, 6
+  size: 191, 256
+  orig: 191, 256
+  offset: 0, 0
+  index: -1
+Arthurius/torso
+  rotate: true
+  xy: 544, 648
+  size: 110, 120
+  orig: 110, 120
+  offset: 0, 0
+  index: -1
+Dazzle/hand2
+  rotate: true
+  xy: 920, 64
+  size: 56, 61
+  orig: 56, 61
+  offset: 0, 0
+  index: -1
+Dazzle/head_m
+  rotate: false
+  xy: 706, 787
+  size: 282, 234
+  orig: 282, 234
+  offset: 0, 0
+  index: -1
+Dazzle/head_n
+  rotate: false
+  xy: 706, 551
+  size: 282, 234
+  orig: 282, 234
+  offset: 0, 0
+  index: -1
+Dinamita/head_o
+  rotate: true
+  xy: 791, 302
+  size: 247, 229
+  orig: 247, 229
+  offset: 0, 0
+  index: -1
+Eagle/head_j
+  rotate: false
+  xy: 2, 760
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_k
+  rotate: false
+  xy: 354, 760
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Eagle/head_l
+  rotate: true
+  xy: 2, 199
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/hair
+  rotate: true
+  xy: 791, 178
+  size: 122, 228
+  orig: 122, 228
+  offset: 0, 0
+  index: -1
+Estrella/head_b
+  rotate: true
+  xy: 265, 199
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_c
+  rotate: true
+  xy: 528, 199
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/arm1
+  rotate: false
+  xy: 920, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Oona/torso
+  rotate: false
+  xy: 778, 26
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Paz/hair
+  rotate: true
+  xy: 2, 568
+  size: 190, 256
+  orig: 190, 256
+  offset: 0, 0
+  index: -1
+Razzle/hand2
+  rotate: true
+  xy: 920, 122
+  size: 54, 62
+  orig: 54, 62
+  offset: 0, 0
+  index: -1
+Theffanie/arm1
+  rotate: false
+  xy: 544, 586
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Theffanie/hair
+  rotate: true
+  xy: 2, 6
+  size: 191, 257
+  orig: 191, 257
+  offset: 0, 0
+  index: -1
+Theffanie/torso
+  rotate: false
+  xy: 260, 608
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+Tomiko/arm1
+  rotate: false
+  xy: 606, 586
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+Tomiko/hair
+  rotate: true
+  xy: 261, 6
+  size: 191, 257
+  orig: 191, 257
+  offset: 0, 0
+  index: -1
+Tomiko/torso
+  rotate: false
+  xy: 402, 608
+  size: 140, 150
+  orig: 140, 150
+  offset: 0, 0
+  index: -1
+
+yogotar6.png
+size: 990,992
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dazzle/torso
+  rotate: true
+  xy: 2, 2
+  size: 110, 120
+  orig: 110, 120
+  offset: 0, 0
+  index: -1
+Dinamita/torso
+  rotate: false
+  xy: 880, 878
+  size: 108, 112
+  orig: 108, 112
+  offset: 0, 0
+  index: -1
+Estrella/head_d
+  rotate: false
+  xy: 2, 729
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_e
+  rotate: true
+  xy: 354, 640
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_f
+  rotate: true
+  xy: 2, 377
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_g
+  rotate: false
+  xy: 265, 377
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_h
+  rotate: true
+  xy: 617, 640
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_i
+  rotate: true
+  xy: 617, 288
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_j
+  rotate: false
+  xy: 2, 114
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_k
+  rotate: true
+  xy: 354, 25
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_l
+  rotate: false
+  xy: 617, 25
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/torso
+  rotate: false
+  xy: 880, 764
+  size: 108, 112
+  orig: 108, 112
+  offset: 0, 0
+  index: -1
+Razzle/torso
+  rotate: true
+  xy: 124, 2
+  size: 110, 120
+  orig: 110, 120
+  offset: 0, 0
+  index: -1
+
+yogotar7.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Estrella/head_m
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_n
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Estrella/head_o
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_b
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_c
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_d
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_e
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_f
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_g
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar8.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Justice/head_h
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_i
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_j
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_k
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Justice/head_l
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_b
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_c
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_d
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_e
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar9.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Luna/head_f
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_g
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Luna/head_h
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_b
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_c
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_d
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_e
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_f
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_g
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar10.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Nao/head_h
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_i
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_j
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_k
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Nao/head_l
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_b
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_c
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_d
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_e
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar11.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Oof/head_f
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_g
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_h
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_i
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_j
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_k
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_l
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_m
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oof/head_n
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar12.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Oof/head_o
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_b
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_c
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_d
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_e
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_f
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_g
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_h
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_i
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar13.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Oona/head_j
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_k
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Oona/head_l
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_b
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_c
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_d
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_e
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_f
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_g
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar14.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Paz/head_h
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_i
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_j
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_k
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_l
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_m
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_n
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Paz/head_o
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_b
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar15.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Theffanie/head_c
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_d
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_e
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_f
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_g
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_h
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_i
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_j
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_k
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar16.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Theffanie/head_l
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_m
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_n
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Theffanie/head_o
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_b
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_c
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_d
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_e
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_f
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar17.png
+size: 969,969
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Tomiko/head_g
+  rotate: false
+  xy: 2, 706
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_h
+  rotate: true
+  xy: 354, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_i
+  rotate: true
+  xy: 2, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_j
+  rotate: false
+  xy: 265, 354
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_k
+  rotate: true
+  xy: 617, 617
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_l
+  rotate: true
+  xy: 617, 265
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_m
+  rotate: false
+  xy: 2, 91
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_n
+  rotate: true
+  xy: 354, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+Tomiko/head_o
+  rotate: false
+  xy: 617, 2
+  size: 350, 261
+  orig: 350, 261
+  offset: 0, 0
+  index: -1
+
+yogotar18.png
+size: 968,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Arthurius/head_a
+  rotate: false
+  xy: 2, 762
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Dazzle/head_o
+  rotate: false
+  xy: 2, 2
+  size: 282, 234
+  orig: 282, 234
+  offset: 0, 0
+  index: -1
+Dinamita/head_a
+  rotate: false
+  xy: 2, 500
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Eagle/head_a
+  rotate: false
+  xy: 354, 762
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Estrella/head_a
+  rotate: false
+  xy: 2, 238
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Justice/head_a
+  rotate: false
+  xy: 354, 500
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Luna/head_a
+  rotate: true
+  xy: 706, 672
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Luna/head_i
+  rotate: false
+  xy: 354, 238
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Luna/head_j
+  rotate: true
+  xy: 706, 320
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Razzle/head_a
+  rotate: false
+  xy: 286, 2
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_b
+  rotate: false
+  xy: 569, 2
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+
+yogotar19.png
+size: 968,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Luna/head_k
+  rotate: false
+  xy: 2, 762
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Luna/head_l
+  rotate: false
+  xy: 2, 500
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Nao/head_a
+  rotate: false
+  xy: 354, 762
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Oof/head_a
+  rotate: false
+  xy: 2, 238
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Oona/head_a
+  rotate: false
+  xy: 354, 500
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Paz/head_a
+  rotate: true
+  xy: 706, 672
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Razzle/head_c
+  rotate: false
+  xy: 2, 2
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_d
+  rotate: false
+  xy: 285, 2
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_e
+  rotate: false
+  xy: 568, 2
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Theffanie/head_a
+  rotate: false
+  xy: 354, 238
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+Tomiko/head_a
+  rotate: true
+  xy: 706, 320
+  size: 350, 260
+  orig: 350, 260
+  offset: 0, 0
+  index: -1
+
+yogotar20.png
+size: 1014,1014
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dazzle/head_b
+  rotate: false
+  xy: 2, 779
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_c
+  rotate: false
+  xy: 286, 779
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_d
+  rotate: false
+  xy: 570, 779
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_e
+  rotate: true
+  xy: 2, 495
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_f
+  rotate: true
+  xy: 2, 211
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_g
+  rotate: false
+  xy: 237, 544
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_h
+  rotate: false
+  xy: 521, 544
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_i
+  rotate: true
+  xy: 237, 260
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_j
+  rotate: true
+  xy: 472, 260
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Dazzle/head_k
+  rotate: true
+  xy: 707, 260
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Justice/head_n
+  rotate: true
+  xy: 777, 7
+  size: 251, 235
+  orig: 251, 235
+  offset: 0, 0
+  index: -1
+Nao/head_m
+  rotate: false
+  xy: 237, 2
+  size: 268, 256
+  orig: 268, 256
+  offset: 0, 0
+  index: -1
+Nao/head_n
+  rotate: false
+  xy: 507, 2
+  size: 268, 256
+  orig: 268, 256
+  offset: 0, 0
+  index: -1
+
+yogotar21.png
+size: 979,1014
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dazzle/head_l
+  rotate: false
+  xy: 2, 779
+  size: 282, 233
+  orig: 282, 233
+  offset: 0, 0
+  index: -1
+Eagle/head_m
+  rotate: true
+  xy: 744, 8
+  size: 250, 233
+  orig: 250, 233
+  offset: 0, 0
+  index: -1
+Justice/head_o
+  rotate: true
+  xy: 507, 7
+  size: 251, 235
+  orig: 251, 235
+  offset: 0, 0
+  index: -1
+Luna/head_m
+  rotate: false
+  xy: 285, 543
+  size: 252, 233
+  orig: 252, 233
+  offset: 0, 0
+  index: -1
+Luna/head_n
+  rotate: true
+  xy: 272, 6
+  size: 252, 233
+  orig: 252, 233
+  offset: 0, 0
+  index: -1
+Luna/head_o
+  rotate: false
+  xy: 539, 543
+  size: 252, 233
+  orig: 252, 233
+  offset: 0, 0
+  index: -1
+Nao/head_o
+  rotate: false
+  xy: 2, 2
+  size: 268, 256
+  orig: 268, 256
+  offset: 0, 0
+  index: -1
+Razzle/head_f
+  rotate: false
+  xy: 286, 778
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_g
+  rotate: false
+  xy: 2, 543
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_h
+  rotate: false
+  xy: 569, 778
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_i
+  rotate: true
+  xy: 2, 260
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_j
+  rotate: true
+  xy: 238, 260
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_k
+  rotate: true
+  xy: 474, 260
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_l
+  rotate: true
+  xy: 710, 260
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+
+yogotar22.png
+size: 709,521
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Eagle/head_n
+  rotate: false
+  xy: 285, 3
+  size: 250, 233
+  orig: 250, 233
+  offset: 0, 0
+  index: -1
+Eagle/head_o
+  rotate: true
+  xy: 474, 269
+  size: 250, 233
+  orig: 250, 233
+  offset: 0, 0
+  index: -1
+Razzle/head_m
+  rotate: true
+  xy: 2, 238
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_n
+  rotate: false
+  xy: 2, 2
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1
+Razzle/head_o
+  rotate: true
+  xy: 238, 238
+  size: 281, 234
+  orig: 281, 234
+  offset: 0, 0
+  index: -1

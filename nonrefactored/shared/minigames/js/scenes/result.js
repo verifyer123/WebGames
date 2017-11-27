@@ -84,6 +84,10 @@ var result = function(){
             if( i == index){
                 group.children[i].alpha = 1
             }
+			
+			if(i == 2){
+				group.children[i].alpha = 1
+			}
         }
     }
     
@@ -168,7 +172,12 @@ var result = function(){
                     alphaTween.onComplete.add(function(){
                         sceneloader.show(gamesList[gameIndex].sceneName)
                     })
-            }
+            }else if(parent.tag == 'map'){
+				var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
+                    alphaTween.onComplete.add(function(){
+                        window.open("http://yogome.com/epic/minigames/epicMap/", "_self")
+                    })
+			}
         })
                                   
     }
@@ -178,13 +187,19 @@ var result = function(){
         var buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
-        var buttonNames = ['share','retry']
+        var buttonNames = ['share','retry','map']
         
-        var buttonTexts = ['share','retry']
+        var buttonTexts = ['share','retry','map']
         
+		var buttonsLength = buttonNames.length - 1
+		
+		if(parent.epicModel){
+			buttonsLength = buttonNames.length
+		}
+		
         var pivotX = game.world.centerX - 125
         var pivotY = pivot
-        for(var i = 0;i<buttonNames.length;i++){
+        for(var i = 0;i<buttonsLength;i++){
         
             var group = game.add.group()
             group.x = pivotX
@@ -205,10 +220,28 @@ var result = function(){
             
             changeImage(1,group)
   			
-			var buttonText = sceneGroup.create(pivotX - 25, pivotY , buttonNames[i] + 'Text')
+			var buttonText = group.create(-25, 0 , buttonNames[i] + 'Text')
 			buttonText.anchor.setTo(0.5,0.5)
             
             pivotX += 250
+			
+			if(i == 2){
+				
+				group.x = game.world.centerX
+				group.y+= 100
+				
+				for(var u = 0; u < buttonsGroup.length;u++){
+					
+					var button = buttonsGroup.children[u]
+					button.scale.setTo(0.85,0.85)
+					button.y-=40
+					
+					if(u==2){
+						button.y-= 22
+					}
+				}
+
+			}
         }
 
     }
@@ -270,6 +303,12 @@ var result = function(){
 		var titleText = 'great'
 		if(totalScore < 3){
 			titleText = 'tryText'
+		}else{
+			if(parent.epicModel){
+				
+				var currentPlayer = parent.epicModel.getPlayer()
+				currentPlayer.minigames[currentPlayer.currentMinigame] = true
+			}
 		}
 		
 		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,titleText)
@@ -448,6 +487,7 @@ var result = function(){
 		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
 		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
 		game.load.image('tryText', imagesPath + '/result/try' + localization.getLanguage() + '.png')
+		game.load.image('mapText', imagesPath + '/result/map' + localization.getLanguage() + '.png')
         
     }
     

@@ -33,8 +33,7 @@ var battle = function(){
             }
         ],
         images: [
-            {   name:"fondo",
-                file: "images/battle/top_bg.png"}
+
         ],
         sounds: [
             {	name: "pop",
@@ -82,7 +81,9 @@ var battle = function(){
 			{	name:"epicTapTouchGames",
 				file:"sounds/battle/TapWhoosh.mp3"},
 			{	name:"epicAttackButton",
-				file:"sounds/battle/buttonTick.mp3"}
+				file:"sounds/battle/buttonTick.mp3"},
+			{	name:"loseBattle",
+				file:"sounds/battle/loseBattle1.mp3"}
         ],
 		spines: [
 			// {
@@ -108,6 +109,42 @@ var battle = function(){
 	var WIDTH_DISTANCE = 110
 	var HP_BAR_WIDTH = 195
 	var DATA_CHAR_PATH = "data/characters/"
+	var ELEMENT_MULTIPLIERS = {
+		"fire": {
+			"water": 0.5,
+			"earth": 2,
+		},
+		"water": {
+			"fire": 2,
+			"wind": 0.5,
+		},
+		"wind": {
+			"water": 2,
+			"earth": 0.5,
+		},
+		"earth": {
+			"fire": 0.5,
+			"wind": 2,
+		}
+	}
+	var XP_TABLE = {
+		HITS : {
+			NORMAL : {
+				PERFECT : 5,
+				GOOD : 4,
+				WEAK : 3,
+			},
+			SPECIAL : {
+				PERFECT : 6,
+				GOOD : 5,
+				WEAK : 4,
+			},
+		},
+		KILL : 10,
+		DEATH : 2,
+	}
+
+	var NUM_BACKGROUNDS = 3
 
     var lives
     var sceneGroup = null
@@ -118,11 +155,8 @@ var battle = function(){
     var timeValue
     var inputsEnabled
     var monsterCounter
-    var player2
-    var player1
+    var players
     var killedMonsters
-    var monsters
-    var hitParticle
 	var alphaMask
 	var ready, go
 	var hudGroup
@@ -130,16 +164,17 @@ var battle = function(){
 	var controlGroup
 	var tapGroup
 	var soundsList
+	var sumXp
 
     function loadSounds(){
 
-		console.log(assets.sounds)
+		// console.log(assets.sounds)
 		sound.decode(assets.sounds)
     }
 
     function getSoundsSpine(spine) {
 		var events = spine.skeletonData.events
-		console.log(events, spine)
+		// console.log(events, spine)
 		var soundsAdded = {}
 
 		for(var index = 0; index < events.length; index++){
@@ -167,8 +202,7 @@ var battle = function(){
         timeValue = 60
         monsterCounter = 0
         killedMonsters = 0
-        monsters = []
-		questionCounter = 1
+		sumXp = 0
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -204,41 +238,45 @@ var battle = function(){
             colorTween.start();
         }
     }
-    
-    function winPlayer(player) {
-    	game.add.tween(player1.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
-    	game.add.tween(player2.hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 
-    	game.add.tween(hudGroup.uiGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-    	game.add.tween(hudGroup.winGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
-    	game.add.tween(alphaMask).to({alpha:0.7}, 800, Phaser.Easing.Cubic.Out, true)
-		createConfeti()
+	function showResults(win) {
+		var resultsGroup = win ? hudGroup.winGroup : hudGroup.loseGroup
+		resultsGroup.y = 0
+
+    	game.add.tween(players[0].hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(players[1].hpBar).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+
+		game.add.tween(hudGroup.uiGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(resultsGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(alphaMask).to({alpha:0.7}, 800, Phaser.Easing.Cubic.Out, true)
+		if(win){createConfeti()}
 		inputsEnabled = true
 
-    	player.setAnimation(["WIN", "WINSTILL"], true)
+		if(win){players[0].setAnimation(["WIN", "WINSTILL"], true)}
 		battleSong.stop()
-		sound.play("winBattle")
+		if(win){sound.play("winBattle")}
+		else{sound.play("loseBattle")}
 
 		// var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
 		// game.camera.follow(player)
-		zoomCamera(1.6, 2000)
-		// var scaleData = zoomCamera.generateData(60)
-1
-		game.add.tween(game.camera).to({x:-50, y:game.world.centerY}, 2000, Phaser.Easing.Cubic.Out, true)
-		// game.time.events.add(6000, stopGame)
-		if(server){
-			server.setGameEnded(player.numPlayer)
-		}
+		zoomCamera(1.5, 2000)
+		var head = players[0].getSlotContainer("head")
+		var torso = players[0].getSlotContainer("torso1")
+		var toX = head.worldPosition.x - 200 + 40//200 is the left bounds limit
+		var toY = players[0].y - 250
+		game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
+		// game.camera.follow(head)
 	}
 
     function receiveAttack(target, from) {
 		// target.hpBar.removeHealth(20)
-		sound.play("fireExplosion")
+		sound.play(target.projectileData.impact.soundID)
 
 		target.statusAnimation = target.hpBar.health <= 20 ? "TIRED" : "IDLE"
 		target.setAnimation(["HIT", target.statusAnimation], true)
 		// console.log(target.spine.state)
-		target.hit.start(true, 1000, null, 5)
+		target.add(from.hit)
+		from.hit.start(true, 1000, null, 5)
     }
 
     function returnCamera() {
@@ -276,7 +314,7 @@ var battle = function(){
 		// var angle = Phaser.Math.angleBetweenPoints(proyectile.worldPosition, proyectile.previousPosition)
 		// proyectile.rotation = -4.71239 + angle
 		// console.log(angle)
-		var zoom = (2 - proyectile.scale.y) * 1.6
+		var zoom = (2 - proyectile.scale.y) * 1.5
 		game.camera.scale.x = zoom; game.camera.scale.y = zoom
 		var toScale1 = 1/zoom
 		var actualScale = hudGroup.scale.x
@@ -294,9 +332,15 @@ var battle = function(){
 		}
 
 	}
+	
+	function getMultiplier(elementFrom, elementTarget) {
+    	return ELEMENT_MULTIPLIERS[elementFrom] && ELEMENT_MULTIPLIERS[elementFrom][elementTarget] || 1
+	}
 
 	function playerAttack(fromPlayer, targetPlayer, typeAttack, asset){
-		var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
+		fromPlayer.multiplier = getMultiplier(fromPlayer.data.stats.element, targetPlayer.data.stats.element)
+		// console.log(fromPlayer.multiplier)
+    	var timeAttack = fromPlayer.numPlayer === 1 ? 2000 : 1000
 
     	game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(targetPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
@@ -304,15 +348,15 @@ var battle = function(){
     	fromPlayer.setAnimation(["CHARGE"], false)
 		fromPlayer.spine.speed = 0.5
 		fromPlayer.proyectile.startPower.alpha = 1
-		fromPlayer.proyectile.startPower.animations.play('start', 12, false)
+		fromPlayer.proyectile.startPower.animations.play('start', fromPlayer.proyectile.startPower.fps, false)
 		game.camera.follow(fromPlayer.proyectile.followObj)
 		fromPlayer.proyectile.followObj.x = -110 * fromPlayer.scale.x
 		fromPlayer.proyectile.followObj.y = -160 * fromPlayer.scale.x
 		// game.add.tween(fromPlayer.proyectile.followObj).to({x:0}, 2000, Phaser.Easing.Cubic.In, true)
 
-		var fromScale = fromPlayer.scale.y + fromPlayer.scale.y * 0.6
-		console.log("fromScale", fromScale)
-		zoomCamera((2 - fromScale) * 1.6, 4000)
+		var fromScale = fromPlayer.numPlayer === 1 ? 1 : 0.6
+		// console.log("fromScale", fromScale)
+		zoomCamera((2 - fromScale) * 1.5, 4000)
 		game.add.tween(alphaMask).to({alpha:0.7}, 1000, Phaser.Easing.Cubic.Out, true)
 		var toAngle
 		if(fromPlayer.scaleReference > 0)
@@ -326,7 +370,8 @@ var battle = function(){
 		game.add.tween(fromPlayer.proyectile.startPower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 		game.add.tween(fromPlayer.proyectile.idlePower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 
-		tapGroup.attackCallBack = function () {
+		tapGroup.attackCallBack = function (percentage) {
+			percentage = percentage || 0
 			fromPlayer.spine.speed = 1
 			var targetX = targetPlayer.x < game.world.centerX ? 0 : game.world.width
 			fromPlayer.setAnimation(["ATTACK", "IDLE"], true)
@@ -348,14 +393,15 @@ var battle = function(){
 			sceneGroup.proyectile = proyectile
 			// proyectile.originalRotation = Phaser.Math.angleBetweenPoints(proyectile.previousPosition, proyectile.world)
 			game.time.events.add(500, function () {
-				typeAttack(proyectile, fromPlayer, targetPlayer)
+				typeAttack(proyectile, fromPlayer, targetPlayer, percentage)
 			})
 		}
 
 		if(fromPlayer.numPlayer === 1)
 			tapGroup.start()
 		else {
-			game.time.events.add(2000, tapGroup.attackCallBack)
+			var percentage = game.rnd.integerInRange(0, 10) * 0.1
+			game.time.events.add(2000, tapGroup.attackCallBack, null, percentage)
 		}
 	}
 
@@ -413,7 +459,7 @@ var battle = function(){
 		var tapArea = game.add.graphics()
 		tapArea.beginFill(0x000000)
 		tapArea.drawRect(-2, -2, game.world.width + 2, game.world.height + 2)
-		tapArea.x = -game.world.width * 0.5 + 1; tapArea.y = -game.world.height * 0.5 + 1
+		tapArea.x = -game.world.width * 0.5 + 1; tapArea.y = -tapGroup.y + 1
 		tapArea.endFill()
 		tapArea.alpha = 0
 		tapGroup.add(tapArea)
@@ -451,15 +497,10 @@ var battle = function(){
 
 		function endTapAttack() {
 			var percentageWidth = gradient.width / GRADIENT_WIDTH
-			var textString
-			if(percentageWidth > 0.85){
-				textString = "PERFECT"
-			}else{
-				textString = "WEAK"
-			}
+			var textString = percentageWidth < 0.5 ? "WEAK" : percentageWidth < 0.8 ? "GOOD" : "PERFECT"
 
 			attackText.text = textString
-			if(tapGroup.attackCallBack){tapGroup.attackCallBack()}
+			if(tapGroup.attackCallBack){tapGroup.attackCallBack(percentageWidth)}
 			tapArea.inputEnabled = false
 			game.add.tween(tapGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true)
 			var textTween = game.add.tween(attackText).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
@@ -489,9 +530,9 @@ var battle = function(){
 
 	}
 
-    function createProyectile(proyectile, from, target){
+    function createProyectile(proyectile, from, target, percentage){
 
-		var toScale = target.scale.y + target.scale.y * 0.6
+		var toScale = target.numPlayer === 1 ? 1 : 0.6
 
 		var toHit = target.hitDestination
 		game.add.tween(proyectile.followObj).to({y:0}, 1600, null, true)
@@ -505,29 +546,40 @@ var battle = function(){
                 game.add.tween(proyectile.idlePower).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
                     // proyectile.destroy()
 					returnCamera()
-					from.proyectile.startPower.alpha = 0
-					from.proyectile.idlePower.alpha = 0
+					proyectile.startPower.alpha = 0
+					proyectile.idlePower.alpha = 0
 					proyectile.x = from.from.x
 					proyectile.y = from.from.y
 					sceneGroup.proyectile = null
-					from.proyectile.startPower.rotation = 0
-					from.proyectile.idlePower.rotation = 0
-					game.add.tween(player1.hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
-					game.add.tween(player2.hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+					proyectile.startPower.rotation = 0
+					proyectile.idlePower.rotation = 0
+					game.add.tween(players[0].hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+					game.add.tween(players[1].hpBar).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+
+					//TODO add experience character if player id is 1
+					if(from.numPlayer === 1){
+						var index = percentage < 0.5 ? "WEAK" : percentage < 0.8 ? "GOOD" : "PERFECT"
+						sumXp += XP_TABLE.HITS.NORMAL[index]
+					}
 
 					game.time.events.add(500, function () {
-						target.hpBar.removeHealth(20)
+						var combinedDamage = 10 + (15 * percentage)
+						combinedDamage = Math.floor(combinedDamage * from.multiplier)
+						target.hpBar.updateHealth(-combinedDamage)
+						addNumberPart(target, -combinedDamage, "#FF0000", -100)
 
 						if(target.hpBar.health > 0)
 							if(target.numPlayer === 1)
 								game.time.events.add(1000, startRound)
 							else
-								game.time.events.add(1000, playerAttack, null, player2, player1, createProyectile, "proyectile")
+								game.time.events.add(1600, playerAttack, null, players[1], players[0], createProyectile, "proyectile")
 						else{
-							// dino.setAnimation(["HIT", "IDLE"])
-							// game.time.events.add(2000, defeatPlayer, null, target)
+							if (from.numPlayer === 1)
+								sumXp += XP_TABLE.KILL
+							else
+								sumXp += XP_TABLE.DEATH
 							defeatPlayer(target)
-							game.time.events.add(2000, winPlayer, null, from)
+							game.time.events.add(2000, showResults, null, from.numPlayer === 1)
 						}
 					})
 
@@ -548,13 +600,14 @@ var battle = function(){
 		return result
 	}
 
-	function createHpbar(scale){
+	function createHpbar(scale, health){
 		scale = scale || 1
 		var anchorX = scale < 0 ? 1 : 0
 
     	var hpGroup = game.add.group()
 		hpGroup.scale.setTo(1 * scale, 1)
-		hpGroup.health = MAX_HP
+		hpGroup.health = health
+		hpGroup.maxHealth = health
 
 		var groupBg = game.add.graphics()
 		groupBg.beginFill(0x000000)
@@ -586,27 +639,28 @@ var battle = function(){
 		container.anchor.setTo(0.5, 0.5)
 		container.scale.setTo(0.8 * -1, 0.8)
 
-		// var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		// var healthText = new Phaser.Text(game, 0, 5, "100/100", fontStyle)
-		// healthText.x = -80
-		// healthText.y = -50
-		// healthText.anchor.setTo(0.5,0.5)
-		// healthText.scale.x = scale
-		// hpGroup.add(healthText)
-		// hpGroup.healthText = healthText
+		var fontStyle = {font: "18px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var healthText = new Phaser.Text(game, 0, 5, health, fontStyle)
+		healthText.x = -66
+		healthText.y = -18
+		healthText.anchor.setTo(0.5,0.5)
+		healthText.scale.x = scale
+		hpGroup.add(healthText)
+		hpGroup.healthText = healthText
 
-		hpGroup.removeHealth = function (number) {
-			this.health -= number
-			var newWidth = this.health * HP_BAR_WIDTH * 0.01
+		hpGroup.updateHealth = function (number) {
+			this.health = Phaser.Math.clamp(this.health + number, 0, this.maxHealth)
+			var newWidth = this.health * HP_BAR_WIDTH / this.maxHealth
+			// console.log(this.health, newWidth)
 			game.add.tween(hpBg).to({width:newWidth}, 1000, Phaser.Easing.Cubic.Out, true)
 
-			// this.healthText.text = this.health + "/100"
+			this.healthText.text = this.health
 			// game.add.tween(this.healthText.scale).to({x:1.2 * scale, y:1.2}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
 		}
 
-		hpGroup.resetHealth = function () {
-			this.health = MAX_HP
-		}
+		// hpGroup.resetHealth = function () {
+		// 	this.health = MAX_HP
+		// }
 
 		var tAlign = scale < 0 ? "right" : "left"
 		var fontStyle2 = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", boundsAlignH: "left"}
@@ -628,7 +682,8 @@ var battle = function(){
 
 		playerScale = playerScale || 1
 		var player = spine
-		player.scale.setTo(playerScale * 0.6 * scale, playerScale * 0.6)
+		var spineScale = player.data.spine.options.scale
+		player.scale.setTo(playerScale * 0.8 * spineScale * scale, playerScale * 0.8 * spineScale)
 		sceneGroup.add(player)
 		player.statusAnimation = "IDLE"
 		// console.log("width", player.width)
@@ -652,22 +707,19 @@ var battle = function(){
 
 		var hitDestination = {}
 		hitDestination.x = player.x
-		hitDestination.y = player.y - 100
+		hitDestination.y = player.y - 100 * playerScale
 		player.hitDestination = hitDestination
 
 		var scaleShoot = {from:{x: 1, y: 1}, to:{x: 1, y: 1}}
 		player.scaleShoot = scaleShoot
 
-		//
-		var explode = createPart("proyectile")
-		explode.y = -100
-		// explode.x = hitDestination2.x
-		player.add(explode)
-		hitParticle = explode
-		hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
+
+		var hitParticle = createPart("impact" + spine.projectileName)
+		hitParticle.y = -100
+		sceneGroup.add(hitParticle)
 		player.hit = hitParticle
 
-		var hpBar = createHpbar(scale)
+		var hpBar = createHpbar(scale, player.data.stats.health)
 		hpBar.x = player.x + 200 * scale
 		hpBar.y = scale < 0 ? player.y - 110 : player.y
 		sceneGroup.add(hpBar)
@@ -688,7 +740,8 @@ var battle = function(){
 		// followObj.endFill()
 		proyectile.followObj = followObj
 
-		var idleSheet = game.add.sprite(0, 0, 'idlePower')
+		var idleSheet = game.add.sprite(0, 0, 'idlePower' + spine.projectileName)
+		idleSheet.fps = spine.projectileData.sheet.idle.fps
 		idleSheet.animations.add('idle')
 		idleSheet.anchor.setTo(0.5, 0.5)
 		proyectile.add(idleSheet)
@@ -697,7 +750,8 @@ var battle = function(){
 		idleSheet.alpha = 0
 		proyectile.idlePower = idleSheet
 
-		var startSheet = game.add.sprite(0, 0, 'startPower')
+		var startSheet = game.add.sprite(0, 0, 'startPower' + spine.projectileName)
+		startSheet.fps = spine.projectileData.sheet.start.fps
 		var startAnimation = startSheet.animations.add('start')
 		startSheet.anchor.setTo(0.5, 0.5)
 		proyectile.add(startSheet)
@@ -711,7 +765,7 @@ var battle = function(){
 		startAnimation.onComplete.add(function () {
 			startSheet.alpha = 0
 			idleSheet.alpha = 1
-			idleSheet.animations.play('idle', 12, true)
+			idleSheet.animations.play('idle', idleSheet.fps, true)
 		}, this);
 
 		player.spine.setMixByName("RUN", "IDLE", 0.3)
@@ -727,36 +781,35 @@ var battle = function(){
         sceneGroup.add(pullGroup)
         pullGroup.alpha = 0
 
-		player1 = createPlayer(player1, {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
-		player1.numPlayer = 1
-		//TODO: hacer dinamico el playerScale
-		// var playerScale =
-		player2 = createPlayer(player2, {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
-		player2.numPlayer = 2
+		players[0] = createPlayer(players[0], {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
+		players[1] = createPlayer(players[1], {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
 		// player2.scale.setTo(playerScale * -1, playerScale)
 
-		var input1 = game.add.graphics()
-		input1.beginFill(0xffffff)
-		input1.drawCircle(0,0, 200)
-		input1.alpha = 0
-		input1.endFill()
-		player1.add(input1)
-		input1.inputEnabled = true
-		input1.events.onInputDown.add(function () {
-			// winPlayer(player1)
-			playerAttack(player1, player2, createProyectile, "proyectile")
-		})
-
-		var input2 = game.add.graphics()
-		input2.beginFill(0xffffff)
-		input2.drawCircle(0,0, 200)
-		input2.alpha = 0
-		input2.endFill()
-		player2.add(input2)
-		input2.inputEnabled = true
-		input2.events.onInputDown.add(function () {
-			playerAttack(player2, player1, createProyectile, "proyectile")
-		})
+		// var input1 = game.add.graphics()
+		// input1.beginFill(0xffffff)
+		// input1.drawCircle(0,0, 200)
+		// input1.alpha = 0
+		// input1.endFill()
+		// player1.add(input1)
+		// input1.inputEnabled = true
+		// input1.events.onInputDown.add(function () {
+		// 	// winPlayer(player1)
+		// 	// player1.setAnimation(["LOSE", "LOSESTILL"], true)
+		// 	controlGroup.hide.start()
+		// 	game.time.events.add(1000, showResults, null, true)
+		// 	// playerAttack(player1, player2, createProyectile, "proyectile")
+		// })
+		//
+		// var input2 = game.add.graphics()
+		// input2.beginFill(0xffffff)
+		// input2.drawCircle(0,0, 200)
+		// input2.alpha = 0
+		// input2.endFill()
+		// player2.add(input2)
+		// input2.inputEnabled = true
+		// input2.events.onInputDown.add(function () {
+		// 	playerAttack(player2, player1, createProyectile, "proyectile")
+		// })
 
 		// var cloud = createSpine("cloud", "normal", "BITE")
 		// // cloud.setAnimation(["BITE"])
@@ -788,11 +841,11 @@ var battle = function(){
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
 
-        particle.makeParticles('atlas.battle',key);
+        particle.makeParticles(key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.3;
-        particle.maxParticleScale = 0.6;
+        particle.minParticleScale = 0.1;
+        particle.maxParticleScale = 0.3;
         particle.gravity = 150;
         particle.angularDrag = 30;
 
@@ -800,14 +853,10 @@ var battle = function(){
 
     }
 
-    function stopGame(){
+    function stopGame(tag){
 
-        //objectsGroup.timer.pause()
-        //timer.pause()
-		// sound.play("uuh")
-		player1.hpBar.resetHealth()
-		player2.hpBar.resetHealth()
 		sound.stopAll()
+		battleSong.stop()
 		sound.play("pop")
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 200)
@@ -816,19 +865,13 @@ var battle = function(){
 			game.camera.y = 0
 			game.camera.scale.x = 1
 			game.camera.scale.y = 1
-			if(server){
-				server.removeEventListener('afterGenerateQuestion', generateQuestion);
-				server.removeEventListener('onTurnEnds', checkAnswer);
-				server.retry()
-			}
-			console.log("retryPressed")
-			// game.destroy()
-			console.log(parent.isKinder)
-			if(parent.isKinder)
-				window.open("indexSLP.html", "_self")
-			else
-				window.open("index.html", "_self")
-			// sceneloader.show("battle")
+			players[0].destroy()
+			players[0].destroy()
+
+			if(tag === "retry")
+				sceneloader.show("battle")
+			else if(tag === "exit")
+				window.open("http://yogome.com/epic/minigames/epicMap/",'_self')
         })
     }
 
@@ -843,7 +886,7 @@ var battle = function(){
 			game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
 
-		addNumberPart(pointsBar.text,'+' + number)
+		addNumberPart(pointsBar.text, number)
 
 	}
 
@@ -854,17 +897,13 @@ var battle = function(){
 		// game.load.spine(avatar1, "images/spines/"+directory1+"/"+avatar1+".json")
 		// game.load.spine(avatar2, "images/spines/"+directory2+"/"+avatar2+".json")
 		game.load.spine("tap", "images/spines/tap/tap.json")
-		game.load.spritesheet('startPower', 'images/battle/START.png', 200, 200, 11)
-		game.load.spritesheet('idlePower', 'images/battle/IDLE.png', 200, 200, 11)
 		game.load.spritesheet('confeti', 'images/battle/confeti.png', 64, 64, 6)
 
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
-		game.load.image('retry',"images/battle/retry" + localization.getLanguage() + ".png")
-		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 		buttons.getImages(game)
-		console.log(parent.isKinder)
+		// console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
 		var charactersJson = []
 		for(var spineIndex = 0; spineIndex < assets.spines.length; spineIndex++){
@@ -872,20 +911,43 @@ var battle = function(){
 			charactersJson.push(game.cache.getJSON(spineAsset.name + "Data"))
 		}
 
-		console.log(assets.spines[0].name, assets.spines[0].file)
-		player1 = createSpine(assets.spines[0].name, "normal")
-		player2 = createSpine(assets.spines[1].name, "normal")
-		player1.data = charactersJson[0]
-		player2.data = charactersJson[1]
+		// console.log(assets.spines[0].name, assets.spines[0].file)
+		players = []
+		var projectilesList = {}
+		for(var pIndex = 0; pIndex < 2; pIndex++){
 
-		getSoundsSpine(player1.spine)
-		getSoundsSpine(player2.spine)
+			var player = createSpine(assets.spines[pIndex].name, "normal")
+			player.data = charactersJson[pIndex]
+			player.numPlayer = pIndex + 1
+			var projectileName = player.data.stats.element
+			player.projectileName = projectileName
+			player.projectileData = projectilesData[projectileName]
+
+			if(typeof projectilesList[projectileName] === "undefined"){
+				var sheetData = player.projectileData.sheet
+				game.load.spritesheet('startPower' + projectileName, sheetData.start.path,
+					sheetData.start.frameWidth, sheetData.start.frameHeight, sheetData.start.frameMax)
+				game.load.spritesheet('idlePower' + projectileName, sheetData.idle.path,
+					sheetData.idle.frameWidth, sheetData.idle.frameHeight, sheetData.idle.frameMax)
+
+				projectilesList[projectileName] = sheetData
+				game.load.image('impact' + projectileName, player.projectileData.impact.particles[0])
+				console.log(player.projectileData.impact.particles[0])
+				var name = player.projectileData.impact.soundID
+				var file = soundsList[name]
+				game.load.audio(name, file);
+				assets.sounds.push({name:name, file:file})
+			}
+
+			getSoundsSpine(player.spine)
+			players.push(player)
+		}
 	}
 
     function showReadyGo() {      
 		sound.play("swipe")
     	var tweenReady1 = game.add.tween(ready).to({alpha:1}, 600, Phaser.Easing.Cubic.Out, true)
-		game.add.tween(ready.scale).to({x:0.5, y:0.5}, 600, Phaser.Easing.Back.Out, true)
+		game.add.tween(ready.scale).to({x:0.3, y:0.3}, 600, Phaser.Easing.Back.Out, true)
 		var tweenReady2 = game.add.tween(ready).to({alpha:0}, 200, Phaser.Easing.Cubic.Out, null, 1000)
 
 		var tweenReady3 = game.add.tween(go).to({alpha:1}, 300, Phaser.Easing.Quintic.Out)
@@ -903,23 +965,18 @@ var battle = function(){
 	}
     
     function enterGame() {
-		player1.originalX = player1.x
-		player1.x = -100
-		player1.setAnimation(["RUN", "IDLE"], true)
-		game.add.tween(player1).to({x:player1.originalX}, 1200, Phaser.Easing.Cubic.Out, true)
+		for(var pIndex = 0; pIndex < players.length; pIndex++){
+			var player = players[pIndex]
 
-		// player1.hpBar.originalY = player1.hpBar.y
-		player1.hpBar.alpha = 0
-		game.add.tween(player1.hpBar).to({alpha:1}, 1200, Phaser.Easing.Cubic.Out, true, 600)
+			player.originalX = player.x
+			player.x = player.numPlayer === 1 ? -100 : game.world.width + 100 //* player.scaleReference
+			console.log(player.scaleReference, "scaleReference")
+			player.setAnimation(["RUN", "IDLE"], true)
+			game.add.tween(player).to({x:player.originalX}, 1200, Phaser.Easing.Cubic.Out, true)
 
-		player2.originalX = player2.x
-		player2.x = game.world.width + 100
-		player2.setAnimation(["RUN", "IDLE"], true)
-		game.add.tween(player2).to({x:player2.originalX}, 1200, Phaser.Easing.Cubic.Out, true)
-
-		// player2.hpBar.originalY = player2.hpBar.y
-		player2.hpBar.alpha = 0
-		game.add.tween(player2.hpBar).to({alpha:1}, 1200, Phaser.Easing.Cubic.Out, true, 600)
+			player.hpBar.alpha = 0
+			game.add.tween(player.hpBar).to({alpha:1}, 1200, Phaser.Easing.Cubic.Out, true, 600)
+		}
 
 		game.time.events.add(1200, showReadyGo)
 
@@ -935,20 +992,9 @@ var battle = function(){
         option.circle.inputEnabled = true
     }
     
-    function onClickBtn(btnImg) {
-		if(inputsEnabled){
-			console.log("retryPressed")
-			inputsEnabled = false
-			var buttonGroup = btnImg.parent
-			game.add.tween(buttonGroup.scale).to({x:0.8, y:0.8}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
-
-			if(buttonGroup.tag === "retry")
-				stopGame()
-		}
-	}
-    
     function createWinOverlay() {
 		hudGroup.winGroup.alpha = 0
+		hudGroup.winGroup.y = -game.world.height
 
     	var winBar = hudGroup.winGroup.create(0, 0, "atlas.battle", "win")
 		winBar.anchor.setTo(0.5, 0)
@@ -961,54 +1007,62 @@ var battle = function(){
 		winText.x = game.world.centerX
 		winText.y = 135
 
-		// var playerName = game.add.text(0, -5, "Player1", fontStyle)
-		// playerName.anchor.setTo(0.5, 0.5)
-		// hudGroup.winGroup.add(playerName)
-		// playerName.x = game.world.centerX
-		// playerName.y = game.world.centerY - 50
-		// hudGroup.winGroup.playerName = playerName
+		var exitButton = hudGroup.winGroup.create(0, game.world.height - 80, "atlas.battle", "go_01")
+		exitButton.anchor.setTo(0.5, 0.5)
+		exitButton.x = game.world.centerX
+		exitButton.tag = "exit"
+		exitButton.inputEnabled = true
+		exitButton.events.onInputDown.add(onClickBtn)
+	}
+	
+	function createLoseOverlay() {
+		hudGroup.loseGroup.alpha = 0
+		hudGroup.loseGroup.y = -game.world.height
 
-		// var buttonGroup = game.add.group()
-		// buttonGroup.x = game.world.centerX
-		// buttonGroup.y = game.world.centerY + 140
-		// hudGroup.winGroup.add(buttonGroup)
-		//
-		// var shareGroup = game.add.group()
-		// shareGroup.x = 0; shareGroup.y = -70
-		// buttonGroup.add(shareGroup)
-		// shareGroup.tag = "share"
-		//
-		// var shareBtn = shareGroup.create(0, 0, "atlas.battle", "share")
-		// shareBtn.anchor.setTo(0.5, 0.5)
-		//
-		// var shareImg = shareGroup.create(-20, 0, "share")
-		// shareImg.anchor.setTo(0.5, 0.5)
-		//
-		// var retryGroup = game.add.group()
-		// retryGroup.x = 0; retryGroup.y = 70
-		// buttonGroup.add(retryGroup)
-		// retryGroup.tag = "retry"
-		//
-		// var retryBtn = retryGroup.create(0, 0, "atlas.battle", "retry")
-		// retryBtn.anchor.setTo(0.5, 0.5)
-		//
-		// var retryImg = retryGroup.create(-20, 0, "retry")
-		// retryImg.anchor.setTo(0.5, 0.5)
-		//
-		// retryBtn.inputEnabled = true
-		// retryBtn.events.onInputDown.add(onClickBtn)
+		var loseBar = hudGroup.loseGroup.create(0, 110, "atlas.battle", "lose")
+		loseBar.anchor.setTo(0.5, 0)
+		loseBar.x = game.world.centerX
+
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var loseText = game.add.text(0, 22, "DON'T GIVE UP", fontStyle)
+		loseText.anchor.setTo(0.5, 0)
+		hudGroup.loseGroup.add(loseText)
+		loseText.x = game.world.centerX
+		loseText.y = 135
+
+		var retryButton = hudGroup.loseGroup.create(0, game.world.height - 80, "atlas.battle", "retry01")
+		retryButton.anchor.setTo(0.5, 0.5)
+		retryButton.scale.setTo(0.5, 0.5)
+		retryButton.x = game.world.centerX - 100
+		retryButton.tag = "retry"
+		retryButton.inputEnabled = true
+		retryButton.events.onInputDown.add(onClickBtn)
+
+		var exitButton = hudGroup.loseGroup.create(0, game.world.height - 80, "atlas.battle", "back01")
+		exitButton.anchor.setTo(0.5, 0.5)
+		exitButton.scale.setTo(0.5, 0.5)
+		exitButton.x = game.world.centerX + 100
+		exitButton.tag = "exit"
+		exitButton.inputEnabled = true
+		exitButton.events.onInputDown.add(onClickBtn)
+
 	}
 
-	function onClickAttack(btn) {
+	function onClickBtn(btn) {
 		if(inputsEnabled){
-			sound.play("epicAttackButton")
 			inputsEnabled = false
-			game.add.tween(btn.scale).to({x:1.1, y:0.9}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
+			var toScaleX = btn.scale.x + 0.1
+			var toScaleY = btn.scale.y - 0.1
+			game.add.tween(btn.scale).to({x:toScaleX, y:toScaleY}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
 
 			if(btn.tag === "attack"){
-				playerAttack(player1, player2, createProyectile)
+				playerAttack(players[0], players[1], createProyectile)
 				controlGroup.hide.start()
-			}
+				sound.play("epicAttackButton")
+			}else if(btn.tag === "retry")
+				stopGame("retry")
+			else if(btn.tag === "exit")
+				stopGame("exit")
 		}
 	}
 	
@@ -1023,41 +1077,34 @@ var battle = function(){
 		var bar = controlGroup.create(0,0, "atlas.battle", "bottom_bar")
 		bar.anchor.setTo(0.5, 1)
 
-		var attackBtn = controlGroup.create(-130, -20, "atlas.battle", "attack")
+		var attackBtn = controlGroup.create(-130, -40, "atlas.battle", "attack")
+		game.add.tween(attackBtn.scale).to({x: 1.1, y: 1.1}, 500, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true).loop(true)
 		attackBtn.anchor.setTo(0.5, 1)
 		attackBtn.tag = "attack"
 		attackBtn.inputEnabled = true
-		attackBtn.events.onInputDown.add(onClickAttack)
+		attackBtn.events.onInputDown.add(onClickBtn)
 
-		var specialBtn = controlGroup.create(115, -20, "atlas.battle", "special")
-		specialBtn.anchor.setTo(0.5, 1)
-		specialBtn.tag = "special"
-		specialBtn.inputEnabled = true
-		specialBtn.events.onInputDown.add(onClickAttack)
+		//TODO: Add special attacks
+		// var specialBtn = controlGroup.create(115, -20, "atlas.battle", "special")
+		// specialBtn.anchor.setTo(0.5, 1)
+		// specialBtn.tag = "special"
+		// specialBtn.inputEnabled = true
+		// specialBtn.events.onInputDown.add(onClickAttack)
 		
 		controlGroup.hide = game.add.tween(controlGroup).to({y:game.world.height + 150}, 1000, Phaser.Easing.Cubic.Out, false, 500)
 		controlGroup.show = game.add.tween(controlGroup).to({y:game.world.height}, 1000, Phaser.Easing.Cubic.Out)
 
-		var correctParticle = createPart("star")
-        sceneGroup.add(correctParticle)
-		sceneGroup.correctParticle = correctParticle
-
-        var wrongParticle = createPart("wrong")
-		sceneGroup.add(wrongParticle)
-		sceneGroup.wrongParticle = wrongParticle
-
-		// createConfeti()
-
-		var explode = createPart("proyectile")
-		explode.y = -100
-		// explode.x = hitDestination2.x
-		sceneGroup.add(explode)
-		hitParticle = explode
-		hitParticle.forEach(function(particle) {particle.tint = 0xffffff})
-		sceneGroup.hit = hitParticle
+		// var correctParticle = createPart("star")
+		// sceneGroup.add(correctParticle)
+		// sceneGroup.correctParticle = correctParticle
+		//
+		// var wrongParticle = createPart("wrong")f
+		// sceneGroup.add(wrongParticle)
+		// sceneGroup.wrongParticle = wrongParticle
 
 		ready = sceneGroup.create(game.world.centerX, game.world.centerY, "ready")
 		ready.anchor.setTo(0.5, 0.5)
+		ready.scale.setTo(0.6, 0.6)
 		ready.alpha = 0
 
 		go = sceneGroup.create(game.world.centerX, game.world.centerY, "go")
@@ -1065,6 +1112,7 @@ var battle = function(){
 		go.alpha = 0
 
 		createWinOverlay()
+		createLoseOverlay()
 
     }
 
@@ -1077,7 +1125,7 @@ var battle = function(){
 			functionName = value.substr(0, indexOfFunc)
 			param = value.substr(indexOfFunc + 1)
 		}
-		console.log(functionName, param)
+		// console.log(functionName, param)
 
 		return {name: functionName, param: param}
 	}
@@ -1218,18 +1266,19 @@ var battle = function(){
         playText.anchor.setTo(0.5,0.5)
     }
 
-	function addNumberPart(obj,number, offsetY){
+	function addNumberPart(obj,number, fill, offsetY){
 		offsetY = offsetY || 100
-		var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		fill = fill || "#ffffff"
+		var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: fill, align: "center"}
 
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
 		pointsText.x = obj.world ? obj.world.x : obj.centerX
-		pointsText.y = obj.world ? obj.world.y : obj.centerY
+		pointsText.y = obj.world ? obj.world.y : obj.centerY - 100
 		pointsText.anchor.setTo(0.5,0.5)
 		sceneGroup.add(pointsText)
 
-		game.add.tween(pointsText).to({y:pointsText.y + offsetY},800,Phaser.Easing.linear,true)
-		game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+		game.add.tween(pointsText).to({y:pointsText.y + offsetY},1000,Phaser.Easing.Cubic.Out,true)
+		game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.Cubic.In,true,1000)
 
 		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
@@ -1247,24 +1296,38 @@ var battle = function(){
 				assets.spines.push({name:character.name, file:character.directory})
 			}
 		},
+		setBackground:function (number) {
+			number = number || game.rnd.integerInRange(1, NUM_BACKGROUNDS)
+			var floorObj = {
+				name:"floor",
+				file:"images/battle/backgrounds/floor_" + number + ".png"
+			}
+			var bgObg = {
+				name:"background",
+				file:"images/battle/backgrounds/top_bg_" + number + ".png"
+			}
+
+			assets.images.push(floorObj)
+			assets.images.push(bgObg)
+		},
         create: function(event){
 
-        	game.camera.bounds = new Phaser.Rectangle(-50,0,game.world.width + 50,game.world.height)
-			console.log(game.camera.bounds)
+        	game.camera.bounds = new Phaser.Rectangle(-200,0,game.world.width + 200,game.world.height)
+			// console.log(game.camera.bounds)
         	sceneGroup = game.add.group();
             //yogomeGames.mixpanelCall("enterGame",gameIndex);
 
-			var fondo = sceneGroup.create(0,0,'fondo')
+			var fondo = sceneGroup.create(0,0,'background')
 			fondo.anchor.setTo(0.5, 0)
 			fondo.scale.setTo(1, 1)
 			fondo.x = game.world.centerX
 			fondo.y = -50
 
-			var floor = game.add.tileSprite(-100, game.world.height, game.world.width + 100, game.world.height - 300, "atlas.battle", "floor")
+			var floor = game.add.tileSprite(-200, game.world.height, game.world.width + 200, game.world.height - 300, "floor")
 			sceneGroup.add(floor)
 			floor.anchor.setTo(0, 1)
 
-			var gredient = game.add.tileSprite(-100, 0, game.world.width + 100, 256, "atlas.battle", "floor_gradient")
+			var gredient = game.add.tileSprite(-200, 0, game.world.width + 200, 256, "atlas.battle", "floor_gradient")
 			gredient.blendMode = PIXI.blendModes.MULTIPLY
 			gredient.y = game.world.height - floor.height
 			sceneGroup.add(gredient)
@@ -1273,7 +1336,7 @@ var battle = function(){
 			// fondo.height = game.world.height
 			alphaMask = game.add.graphics()
 			alphaMask.beginFill(0x000000)
-			alphaMask.drawRect(-100,-100, game.world.width + 100, game.world.height + 100)
+			alphaMask.drawRect(-200,-100, game.world.width + 200, game.world.height + 100)
 			alphaMask.endFill()
 			sceneGroup.add(alphaMask)
 			alphaMask.alpha = 0
@@ -1303,6 +1366,10 @@ var battle = function(){
 			var winGroup = game.add.group()
 			hudGroup.add(winGroup)
 			hudGroup.winGroup = winGroup
+
+			var loseGroup = game.add.group()
+			hudGroup.add(loseGroup)
+			hudGroup.loseGroup = loseGroup
 
 			createGameObjects()
             createbattleUI()
