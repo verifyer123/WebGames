@@ -168,6 +168,7 @@ var map = function(){
 		game.time.events.add(1200,function(){
 			
 			ship.x = startBall.x - 125
+			ship.y = startBall.y - game.world.height
 			ship.alpha = 1
 			sound.play("laserPull")
 			
@@ -529,7 +530,14 @@ var map = function(){
 			})
 			
 		}else{
-			buttonsActive = true
+			
+			currentPlayer.currentPosition = buttonPressed.order
+			if(buttonPressed.isBattle){
+				if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
+				sendBattle()
+			}else{
+				sendGame()
+			}
 		}
 		
 		
@@ -1043,7 +1051,7 @@ var map = function(){
 		
 		var startBall = ballsPosition.children[currentPlayer.currentPosition]
 		
-		ship = scroller.create(startBall.x - 125,startBall.y - game.world.height,'atlas.map','ship')
+		ship = scroller.create(startBall.x - 125,300,'atlas.map','ship')
 		ship.alpha = 0
 		ship.scale.setTo(1.1,1.1)
 		ship.anchor.setTo(0.5,0.5)
