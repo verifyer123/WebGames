@@ -76,7 +76,7 @@
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
-        <uint>1</uint>
+        <uint>0</uint>
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
@@ -104,7 +104,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">MaxRects</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -167,7 +167,7 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <true/>
+        <false/>
         <key>trimSpriteNames</key>
         <true/>
         <key>prependSmartFolderName</key>
@@ -181,13 +181,13 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>1</uint>
+            <uint>0</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
             <uint>1</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>
@@ -206,14 +206,12 @@
             <key type="filename">bottle.png</key>
             <key type="filename">can.png</key>
             <key type="filename">can2.png</key>
-            <key type="filename">can3.png</key>
             <key type="filename">cardboard.png</key>
             <key type="filename">cardboard2.png</key>
             <key type="filename">fish.png</key>
             <key type="filename">glass.png</key>
             <key type="filename">lobester.png</key>
             <key type="filename">milk.png</key>
-            <key type="filename">paper.png</key>
             <key type="filename">plastic.png</key>
             <key type="filename">soda.png</key>
             <key type="filename">trashBag.png</key>
@@ -226,6 +224,23 @@
                 <rect>16,16,33,33</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,33,33</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">banana.png</key>
+            <key type="filename">burger.png</key>
+            <key type="filename">pear.png</key>
+            <key type="filename">steak.png</key>
+            <key type="filename">tomato.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,21,43,43</rect>
+                <key>scale9Paddings</key>
+                <rect>21,21,43,43</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -384,7 +399,6 @@
             <filename>trashBag.png</filename>
             <filename>milk.png</filename>
             <filename>movil.png</filename>
-            <filename>paper.png</filename>
             <filename>plastic.png</filename>
             <filename>life_box.png</filename>
             <filename>lobester.png</filename>
@@ -395,7 +409,6 @@
             <filename>button.png</filename>
             <filename>can.png</filename>
             <filename>can2.png</filename>
-            <filename>can3.png</filename>
             <filename>cardboard.png</filename>
             <filename>apple.png</filename>
             <filename>apple2.png</filename>
@@ -406,6 +419,11 @@
             <filename>tile.png</filename>
             <filename>cuadro.png</filename>
             <filename>trashBoard.png</filename>
+            <filename>banana.png</filename>
+            <filename>burger.png</filename>
+            <filename>pear.png</filename>
+            <filename>tomato.png</filename>
+            <filename>steak.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
