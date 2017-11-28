@@ -38,15 +38,16 @@ var mole = function(){
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
+            {	name: "drag",
+				file: soundsPath + "drag.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			
+            {   name: "right",
+				file: soundsPath + "rightChoice.mp3"}
 		],
     }
     
@@ -77,13 +78,19 @@ var mole = function(){
     var trashGroup
     var score 
     var particleCorrect
+    var particleWrong
     var viewRight
     var bagsGroup
+    var trashObj
+    var mainTrash
+    var trashKind 
+    var trashBoard
+    var circle
+	var swipe
    
     var directions = {up: 0, down: 1, right: 2, left: 3}
-    var organic = ['apple','apple2','bone','fish','lobester']
-    var inorganic = ['book','bottle','can','can2','can3','cardboard','cardboard2','glass','milk','paper','plastic','soda']
-    var rubbish =['apple','apple2','bone','book','bottle','can','can2','can3','cardboard','cardboard2','fish','glass','lobester','milk','paper','plastic','soda']
+    var organic = ['apple','apple2','banana','bone','burger','fish','lobester','pear','steak','tomato']
+    var inorganic = ['book','bottle','can','can2','cardboard','cardboard2','glass','milk','plastic','soda']
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -91,12 +98,13 @@ var mole = function(){
 
 	function initialize(){
 
+        gameActive = false
         game.stage.backgroundColor = "#ffffff"
-        lives = 3
+        lives = 5
         loadSounds()
         
-        x = game.world.centerX
-        y = game.world.centerY
+        x = game.world.centerX + 80 
+        y = board.centerY - 100
         step = 45
         stepsTimer = 0
         speed = 20
@@ -106,8 +114,6 @@ var mole = function(){
         rightLimit = (board.width * 0.42) + board.x
         topLimit = board.y - (board.height * 0.5) + step
         downLimit = board.height - step * 2 
-        axisX = game.world.centerX//(downLimit - topLimit)/2
-        axisY = game.world.centerY//(rightLimit - leftLimit)/2
         
         viewRight = false
         viewLefth = false
@@ -377,15 +383,16 @@ var mole = function(){
         moleSpine.y = y + 50
         mole.x = x
         mole.y = y
-          
-        updateDirection()
             
-        stepsTimer++
+        if(gameActive){
+             updateDirection()
+             stepsTimer++
+        }
         
-         if (stepsTimer == speed) {
+        if (stepsTimer == speed) {
             movePlayer()
             moleView()
-             
+
             if (moleVSmole()) {
                 endGame()
             }
@@ -394,10 +401,10 @@ var mole = function(){
             } else if (moleDirection != undefined) {
                 deleteLast()
             }
-             
+
             if (moleDirection != undefined) 
                 newHead(x, y)
-             
+
             stepsTimer = 0
         }
     }
@@ -500,7 +507,7 @@ var mole = function(){
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            //particle.anchor.setTo(0.5,0.5)
+            particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
@@ -589,6 +596,7 @@ var mole = function(){
       
         mole = game.add.sprite(x, y, 'atlas.mole', 'star')
         mole.alpha = 0 
+        mole.scale.setTo(0.7, 0.7)
         game.physics.arcade.enable(mole)
         mole.body.immovable = true
     }
@@ -633,41 +641,7 @@ var mole = function(){
         tail = head
         newHead(x, y)
     }
-
-    function createTrash(){
-        
-        trashGroup = game.add.physicsGroup()
-        trashGroup.enableBody = true
-        trashGroup.physicsBodyType = Phaser.Physics.ARCADE
-        sceneGroup.add(trashGroup)  
-    }
-        
-    function trowTrash(spawnX, spawnY){
     
-        var trash = game.add.sprite(spawnX, spawnY, 'atlas.mole', rubbish[game.rnd.integerInRange(0, rubbish.length)])
-        trash.anchor.setTo(0.5, 0.5)
-        trashGroup.add(trash)  
-    }
-    
-    function initGame(){
-        
-        var spawnX =  game.rnd.integerInRange(leftLimit, game.world.centerX)
-        var spawnY =  game.rnd.integerInRange(topLimit, game.world.centerY)
-        trowTrash(spawnX, spawnY)
-        
-        var spawnX =  game.rnd.integerInRange(game.world.centerX, rightLimit)
-        var spawnY =  game.rnd.integerInRange(topLimit, game.world.centerY)
-        trowTrash(spawnX, spawnY)
-        
-        var spawnX =  game.rnd.integerInRange(leftLimit, game.world.centerX)
-        var spawnY =  game.rnd.integerInRange(game.world.centerY, downLimit)
-        trowTrash(spawnX, spawnY)
-        
-        var spawnX =  game.rnd.integerInRange(game.world.centerX, rightLimit)
-        var spawnY =  game.rnd.integerInRange(game.world.centerY, downLimit)
-        trowTrash(spawnX, spawnY)
-    }
-
     function newHead(x, y) {
         
         var newHead = new Object()
@@ -677,6 +651,119 @@ var mole = function(){
         head.next = newHead
         head = newHead
         bagsGroup.add(newHead.image)
+    }
+
+    function createTrash(){
+        
+        trashGroup = game.add.physicsGroup()
+        trashGroup.enableBody = true
+        trashGroup.physicsBodyType = Phaser.Physics.ARCADE
+        sceneGroup.add(trashGroup)  
+    }
+        
+    function trowTrash(pos, num, kind){
+        
+        var spawnX, spawnY
+                  
+        switch(pos){
+            case 0:
+                spawnX = game.rnd.integerInRange(leftLimit, game.world.centerX - step)
+                spawnY = game.rnd.integerInRange(topLimit, board.centerY - step)
+            break
+            case 1:
+                spawnX = game.rnd.integerInRange(game.world.centerX + step, rightLimit)
+                spawnY =  game.rnd.integerInRange(topLimit, board.centerY - step)
+            break
+            case 2:
+                spawnX =  game.rnd.integerInRange(leftLimit, game.world.centerX -step)
+                spawnY = game.rnd.integerInRange(board.centerY + step, downLimit)
+            break
+            case 3:
+                spawnX =  game.rnd.integerInRange(game.world.centerX + step, rightLimit)
+                spawnY = game.rnd.integerInRange(board.centerY + step, downLimit)
+            break
+        }
+        
+        if(kind == 0){
+            var trash = game.add.sprite(spawnX, spawnY, 'atlas.mole', organic[num])
+        }
+        else {
+            var trash = game.add.sprite(spawnX, spawnY, 'atlas.mole', inorganic[num])
+        }
+        
+        trash.anchor.setTo(0.5, 0.5)
+        trash.number = num
+        trashGroup.add(trash)  
+        
+        game.add.tween(trash.scale).to({x:1.8, y:1.8}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(trash.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
+            sound.play('drag')
+        })
+    }
+    
+    function initGame(){
+        
+        trashKind = game.rnd.integerInRange(0, 1)
+        
+        if(trashKind == 0){
+            mainTrash = game.rnd.integerInRange(0, organic.length - 1)
+            var trashImg = trashObj.create(0, 0, 'atlas.mole', organic[mainTrash])
+        }
+        else {
+            mainTrash = game.rnd.integerInRange(0, inorganic.length - 1)
+            var trashImg = trashObj.create(0, 0, 'atlas.mole', inorganic[mainTrash])
+        }
+                
+        trashImg.scale.setTo(1.2, 1.2)
+        trashImg.anchor.setTo(0.5, 0.5)
+        
+        var pos = diferentObj(checkMolePos(), 3) //game.rnd.integerInRange(0, 3)
+        
+        game.add.tween(trashImg.scale).to({x:1.8, y:1.8}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
+        {
+            sound.play('cut')
+            game.add.tween(trashImg.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.linear, true).onComplete.add(function()
+            {
+                trowTrash(pos, mainTrash, trashKind)
+
+                for(var t = 0; t < 4; t++){
+                    var obj = trashNum(trashKind)           
+                    if(t != pos && t != checkMolePos())        
+                        trowTrash(t, obj, !trashKind)    
+                }
+                game.time.events.add(400,function(){
+                    gameActive = true
+                })
+            })
+        })
+    }
+    
+    function trashNum(kind){
+        if(kind == 0){
+            return game.rnd.integerInRange(0, inorganic.length - 1)
+        }
+        else {
+            return game.rnd.integerInRange(0, organic.length - 1)
+        }
+    }
+    
+    function diferentObj(obj, limit){
+        var x = game.rnd.integerInRange(0, limit)
+        if(x == obj)
+            return diferentObj(obj, limit)
+        else return x
+    }
+    
+    function checkMolePos(){
+        
+        if(x < game.world.centerX && y < board.centerY)
+            return 0
+        if(x >= game.world.centerX && y <= board.centerY)
+            return 1
+        if(x < game.world.centerX && y > board.centerY)
+            return 2
+        if(x > game.world.centerX && y > board.centerY)
+            return 3
     }
     
     function createBags(){
@@ -696,12 +783,13 @@ var mole = function(){
         missPoint()
         bagsGroup.removeAll(true)
         trashGroup.removeAll(true)
+        trashObj.removeAll(true)
         speed = 20
         score = 0
         moleSpine.setAnimationByName(0, "IDLE_FRONT", true)
         moleDirection = undefined
-        x = game.world.centerX
-        y = game.world.centerY
+        x = game.world.centerX + 80 
+        y = board.centerY - 100
         
         initLine()
         initGame()
@@ -709,26 +797,56 @@ var mole = function(){
     
     function trashVSmole(mole, trash){
         
-        trashGroup.removeAll(true)
+        gameActive = false
+        trash.body.enable = false
         speed--
-        score++
-        if(score % 4 == 0)
-            addPoint(1)
-        if (speed <= 5) speed = 5
+        if (speed <= 5) 
+            speed = 5
         
-        particleCorrect.x = trash.x
-        particleCorrect.y = trash.y
-        particleCorrect.start(true, 1000, null, 4)
+        if(trashKind == 0){
+            posX = trashBoard.width * 0.4
+        }
+        else {
+            posX = - trashBoard.width * 0.4
+        }
         
-        initGame()
-         
+        game.add.tween(trash.scale).to({x:2.5, y:2.5}, 500, Phaser.Easing.linear, true).onComplete.add(function() 
+        {
+            game.add.tween(trash.scale).to({x: 0, y: 0}, 600, Phaser.Easing.linear, true).onComplete.add(function()
+            {
+                trashGroup.removeAll(true)
+                trashObj.removeAll(true)
+                initGame()
+            })
+        })
+        
+         game.add.tween(trash).to({x:trashBoard.x + posX, y:trashBoard.y - 10}, 1000, Phaser.Easing.linear, true).onComplete.add(function() 
+        {
+             if(trash.number == mainTrash){ 
+                score++
+                sound.play('right')
+                particleCorrect.x = trashBoard.x + posX
+                particleCorrect.y = trashBoard.y - 10
+                particleCorrect.start(true, 1000, null, 4)
+                 
+                if(score % 5 == 0)
+                    addPoint(1)
+             }
+             else{
+                missPoint()
+                particleWrong.x = trashBoard.x + posX
+                particleWrong.y = trashBoard.y - 10
+                particleWrong.start(true, 1000, null, 4)   
+             }
+        })
+
         return true
     }
     
     function moleVSmole() {
         
         var pivot = tail
-        while (pivot.next != head) {
+        while (pivot.next != null) {
             if (pivot.image.position.x == head.image.position.x &&
                 pivot.image.position.y == head.image.position.y) {
                 return true
@@ -738,7 +856,7 @@ var mole = function(){
     }
 
     function updateDirection() {
-        if (cursors.right.isDown && moleDirection != directions.left) {
+        /*if (cursors.right.isDown && moleDirection != directions.left) {
             moleDirection = directions.right
         }
         if (cursors.left.isDown && moleDirection != directions.right) {
@@ -749,6 +867,26 @@ var mole = function(){
         }
         if (cursors.down.isDown && moleDirection != directions.up) {
             moleDirection = directions.down
+        }*/
+        
+       	var direction = swipe.check();
+        
+        if(direction !== null)
+        {
+            switch(direction.direction) {
+                case swipe.DIRECTION_UP:
+                    moleDirection = directions.up
+                    break;
+                case swipe.DIRECTION_DOWN:
+                    moleDirection = directions.down
+                    break;
+                case swipe.DIRECTION_LEFT:
+                    moleDirection = directions.left
+                    break;
+                case swipe.DIRECTION_RIGHT:
+                    moleDirection = directions.right
+                    break;
+            }
         }
     }
 
@@ -777,14 +915,25 @@ var mole = function(){
     function createParticles(){
         particleCorrect = createPart('star')
         sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('wrong')
+        sceneGroup.add(particleWrong)
     }
 
     function createBoard(){
          
-        trashBoard = sceneGroup.create(game.world.centerX, board.height, 'atlas.mole', "trashBoard");
+        trashBoard = sceneGroup.create(game.world.centerX, 0, 'atlas.mole', "trashBoard")
         trashBoard.anchor.setTo(0.5, 0.5)
-        //trashBoard.scale.setTo(1, 0.8)
-        //trashBoard.y = trashBoard.height 
+        trashBoard.scale.setTo(1.6, 1.6)
+        trashBoard.y = board.height + trashBoard.height * 0.7
+        
+        square = sceneGroup.create(trashBoard.x, trashBoard.y - 10, 'atlas.mole', "cuadro")
+        square.anchor.setTo(0.5, 0.5)
+        
+        trashObj = game.add.group()
+        trashObj.x = square.x
+        trashObj.y = square.y
+        sceneGroup.add(trashObj)
     }
     
 	return {
@@ -796,6 +945,8 @@ var mole = function(){
 		create: function(event){
             
 			sceneGroup = game.add.group()
+            yogomeGames.mixpanelCall("enterGame",gameIndex)
+            swipe = new Swipe(this.game)
 			
 			createBackground()
 			addParticles()
@@ -821,12 +972,12 @@ var mole = function(){
 
 			createPointsBar()
 			createHearts()
-            createParticles()
             createBags()
             initLine()
+            createBoard()
             createTrash()
             createMole()
-            createBoard()
+            createParticles()
 
 			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()

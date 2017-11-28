@@ -1,15 +1,6 @@
 {"frames": [
 
 {
-	"filename": "arrow_bar",
-	"frame": {"x":133,"y":904,"w":50,"h":52},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":52},
-	"sourceSize": {"w":50,"h":52},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "battle",
 	"frame": {"x":1175,"y":433,"w":143,"h":173},
 	"rotated": false,
@@ -173,11 +164,20 @@
 },
 {
 	"filename": "lateralRoad",
-	"frame": {"x":1416,"y":795,"w":108,"h":62},
+	"frame": {"x":258,"y":901,"w":108,"h":62},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":24,"w":108,"h":62},
 	"sourceSize": {"w":108,"h":99},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "lock",
+	"frame": {"x":1416,"y":795,"w":63,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":70},
+	"sourceSize": {"w":63,"h":70},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -272,7 +272,7 @@
 },
 {
 	"filename": "star_empty",
-	"frame": {"x":927,"y":904,"w":35,"h":35},
+	"frame": {"x":133,"y":904,"w":35,"h":35},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
@@ -281,7 +281,7 @@
 },
 {
 	"filename": "star_won",
-	"frame": {"x":1482,"y":859,"w":34,"h":35},
+	"frame": {"x":368,"y":901,"w":34,"h":35},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":35},
@@ -317,7 +317,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1416,"y":859,"w":64,"h":64},
+	"frame": {"x":1416,"y":867,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -329,8 +329,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1535,"h":962},
+	"size": {"w":1535,"h":964},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1bb930982100ee5a7189e0db39161786:dd119c432d6e9b6501095adbc026bf16:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2bf1eb33a8ce9cd66bf5c50e07fa9caa:78034ab7e9e17bff4b75a0b5721af040:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
