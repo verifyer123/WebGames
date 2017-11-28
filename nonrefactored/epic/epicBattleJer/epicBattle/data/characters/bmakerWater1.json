@@ -1,0 +1,41 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterball2",
+				"attachment": "particle8",
+				"delay": 200,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "waterbeamSpecial4",
+				"attachment": "particle8",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/bmakerWater1/",
+	"name": "Squarky",
+	"spine": {
+		"options": {
+			"scale": 0.8,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/bmakerWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 0.7,
+		"shadowScaleY": 1.2,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

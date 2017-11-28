@@ -1,0 +1,24 @@
+{
+	"timing":{
+		"stop":550,
+		"removal":1700,
+		"hit":500
+	},
+	"particles":[
+		"particles/characters/specialAttackIce1/specialAttackIce1.json",
+		"particles/characters/specialAttackIce1/specialAttackIce2.json",
+		"particles/characters/specialAttackIce1/specialAttackIce3.json"
+		
+
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactIce1/impactIce1.json",
+			"particles/characters/impactIce1/impactIce2.json",
+			"particles/characters/impactIce1/impactIce3.json"
+		],
+		"soundID":"epicIceHit1"
+	
+	}
+	
+}

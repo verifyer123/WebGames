@@ -297,12 +297,15 @@ var battle = function(){
 
 		// var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
 		// game.camera.follow(player)
-		zoomCamera(1.5, 2000)
-		var head = players[0].getSlotContainer("head")
-		var torso = players[0].getSlotContainer("torso1")
-		var toX = head ? head.worldPosition.x - 200 + 40 : players[0].x - 200 + 40//200 is the left bounds limit
-		var toY = players[0].y - 250
-		game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
+		game.time.events.add(1000, function(){
+			zoomCamera(1.5, 2000)
+			var head = players[0].getSlotContainer("particle1")
+			var torso = players[0].getSlotContainer("torso1")
+			var toX = head ? head.worldPosition.x - 200 + 40 : players[0].x - 200 + 40//200 is the left bounds limit
+			var toY = win ? players[0].y - 310 : players[0].y - 250
+			game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
+		})
+		
 		// game.camera.follow(head)
 	}
 
@@ -434,8 +437,10 @@ var battle = function(){
 			})
 		}
 
-		if(fromPlayer.numPlayer === 1)
+		if(fromPlayer.numPlayer === 1) {
+			console.log("start")
 			tapGroup.start()
+		}
 		else {
 			var percentage = game.rnd.integerInRange(0, 10) * 0.1
 			game.time.events.add(2000, tapGroup.attackCallBack, null, percentage)
@@ -526,13 +531,14 @@ var battle = function(){
 		tapArea.events.onInputDown.add(function () {
 			if(gradient.width < GRADIENT_WIDTH){
 				var value = gradient.width / GRADIENT_WIDTH
-
+				console.log("inputOn")
 				sound.play("epicTapTouchGames", {pitch: 1 + (value * 0.25)})
 				gradient.width = Phaser.Math.clamp(gradient.width + 30, 0, GRADIENT_WIDTH)
 			}
 		})
 
 		function endTapAttack() {
+			console.log("endTapAttack")
 			var percentageWidth = gradient.width / GRADIENT_WIDTH
 			var textString = percentageWidth < 0.5 ? "WEAK" : percentageWidth < 0.8 ? "GOOD" : "PERFECT"
 
@@ -974,7 +980,7 @@ var battle = function(){
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
-		buttons.getImages(game)
+		// buttons.getImages(game)
 		// console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
 		var charactersJson = []
@@ -1430,8 +1436,10 @@ var battle = function(){
 			var functionData = getFunctionData(eventName)
 			if((!functionData)||(!functionData.name)){return}
 
-			if(functionData.name === "PLAY")
+			if(functionData.name === "PLAY"){
+				console.log(functionData.param)
 				sound.play(functionData.param)
+			}
 		})
 
 		spineGroup.spine = spineSkeleton
@@ -1610,7 +1618,7 @@ var battle = function(){
             // createTutorial()
 
 			sceneGroup.bringToTop(hudGroup)
-            buttons.getButton(battleSong,hudGroup, game.width - 50)
+            // buttons.getButton(battleSong,hudGroup, game.width - 50)
 
 			frontGroup = game.add.group()
 			sceneGroup.add(frontGroup)

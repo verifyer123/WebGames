@@ -555,8 +555,8 @@ var map = function(){
 			
 			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
 			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
-				
-				window.open("http://yogome.com/epic/minigames/epicBattle/", "_self")
+				console.log("goBattle")
+				window.open("../epicBattle/", "_self")
 			})
 		})
 	}

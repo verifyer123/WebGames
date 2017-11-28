@@ -1,0 +1,41 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "earthAttack5",
+				"attachment": "particle2",
+				"delay": 400,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "earthSmash2",
+				"attachment": "particle7",
+				"delay": 450,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/ogreEarth1/",
+	"name": "Cavemoss",
+	"spine": {
+		"options": {
+			"scale": 0.6,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/ogreEarth1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "earth"
+	},
+	"visuals": {
+		"shadowScaleX": 0.9,
+		"shadowScaleY": 1.5,
+		"cardFacing": "right",
+		"impactAttachment": "torso2"
+	}
+}

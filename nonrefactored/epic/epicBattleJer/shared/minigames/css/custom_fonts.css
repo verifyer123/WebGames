@@ -1,0 +1,32 @@
+@font-face{
+	font-family: 'VAGRounded';
+	src: url('../fonts/VAGRoundedStd-Bold.otf');
+}
+
+/*@font-face {*/
+	/*font-family: 'WAG';*/
+	/*src: url('../fonts/WAG.otf') format('opentype'),*/
+	/*url('../fonts/WAG.ttf') format('truetype')*/
+/*}*/
+
+
+/*@font-face {*/
+	/*font-family: 'WAG';*/
+	/*src: url('../fonts/WAG.eot'),*/
+
+	/*url('../fonts/WAG-Bold.woff') format('woff'),*/
+	/*url('../fonts/WAG.woff2') format('woff2'),*/
+	/*url('../fonts/WAG.ttf') format('truetype'),*/
+	/*url('../fonts/WAG-Bold.svg') format('svg');*/
+	/*url('../fonts/WAG.otf') format('opentype');*/
+	/*!*font-weight: normal;*!*/
+	/*!*font-style: normal;*!*/
+
+/*}*/
+
+.custom-font{
+	font-family: "VAGRounded";
+	opacity: 0;
+	height: 0%;
+	width: 0%;
+}
