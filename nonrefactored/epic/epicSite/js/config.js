@@ -12,11 +12,6 @@ if(parent.window.location.search){
 
 }
 
-var meta=document.getElementsByTagName("meta");
-if(language == "EN"){
-    meta[7].content = "Get the correct coins!";
-}
-
 
 window.amazing = {
     
