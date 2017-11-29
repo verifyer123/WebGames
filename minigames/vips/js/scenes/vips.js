@@ -567,7 +567,6 @@ var vips = function(){
 			
 		}
         randPlats=game.rnd.integerInRange(dificulty,5)
-        console.log(randPlats)
 				newPlat1.kill()
 				if(randPlats==1){
                 newPlat1.reset(game.world.x+80,game.world.height-100)
