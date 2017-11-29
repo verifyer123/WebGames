@@ -11,6 +11,9 @@ var vips = function(){
         images: [
             {   name:"fondo",
 				file: "images/vips/fondo.png"},
+            {   name:"logo",
+				file: "images/vips/logo.png"},
+            
 		],
 		sounds: [
             {	name: "pop",
@@ -132,7 +135,7 @@ var vips = function(){
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         lives = 3
-        gravity = 100
+        gravity = 500
 		shoot=false
 		inGoal=false
 		inGround=false
@@ -339,22 +342,7 @@ var vips = function(){
 			character.body.velocity.x =speed;
             efectZoom.alpha=1
             game.add.tween(efectZoom).to({alpha:0},speed, Phaser.Easing.Cubic.Out,true)
-            if(randCharac==0){
-		      character.loadTexture("atlas.vips","cafe2")
-		      }
-		      if(randCharac==1){
-		      character.loadTexture("atlas.vips","enchiladas2")
-		      }
-		      if(randCharac==2){
-		      character.loadTexture("atlas.vips","malteada2")
-		      }
-		      if(randCharac==3){
-		      character.loadTexture("atlas.vips","soda2")
-		      }
-              if(randCharac==4){
-		      character.loadTexture("atlas.vips","pay2")
-		      }
-            
+       
 			shooted=true
 			speed=0
 			game.add.tween(powerBar.scale).to({x: 0,y:2}, 200, Phaser.Easing.linear, true)
@@ -707,6 +695,7 @@ var vips = function(){
 		}
 		character.position.x=game.world.x+30
 		character.position.y=game.world.centerY+230
+        character.body.angle=0
         
     }
 	function miniReset(){
@@ -716,21 +705,7 @@ var vips = function(){
 		
 		if(inGoal==false && lives>0){
 			missPoint()
-             if(randCharac==0){
-		      character.loadTexture("atlas.vips","cafe1")
-		      }
-              if(randCharac==1){
-		      character.loadTexture("atlas.vips","enchiladas1")
-		      }
-		      if(randCharac==2){
-		      character.loadTexture("atlas.vips","malteada1")
-		      }
-		      if(randCharac==3){
-		      character.loadTexture("atlas.vips","soda1")
-		      }
-              if(randCharac==4){
-		      character.loadTexture("atlas.vips","pay1")
-		      }
+
             wrongParticle.position.x=character.position.x+50
             wrongParticle.position.y=character.position.y
             wrongParticle.start(true, 1000, null, 5)
@@ -751,6 +726,7 @@ var vips = function(){
 					if(randCharac==4){
 					character.reset(game.world.x+90,game.world.centerY+170)
                     }
+                    character.body.angle=0
 					shooted=false
 					inGoal=false
 			}
@@ -814,13 +790,10 @@ var vips = function(){
         
         var background = backgroundGroup.create(-2,-2,'fondo')
 		//var background=game.add.tileSprite(0,0,game.world.width,game.world.height,'fondo')
+        backgroundGroup.create(game.world.centerX-100,game.world.centerY-200,'logo')
          
 		 
-		 if(game.world.width>1024){
-		 background.width = game.world.x+1024
-		 }else{
 		 background.width = game.world.width
-		 }
          background.height = game.world.height
         
         loadSounds()
@@ -968,14 +941,14 @@ var vips = function(){
 		
 		
         
-        character=game.add.sprite(game.world.x+50,game.world.centerY+150,"atlas.vips","cafe1")
+        character=game.add.sprite(game.world.x+50,game.world.centerY+150,"atlas.vips","malteada1")
         sceneGroup.add(character)
         
         game.physics.p2.enable([ character ]);
         character.body.friction=4
-        character.body.fixedRotation=true
+        //character.body.fixedRotation=true
         character.body.clearShapes()
-        character.body.loadPolygon('physicsData', "cafe1");
+        character.body.loadPolygon('physicsData', "malteada1");
 		character.body.onBeginContact.add(where, this);
 		
         efectZoom=game.add.sprite(character.x-90,character.y,"atlas.vips","zooom")
