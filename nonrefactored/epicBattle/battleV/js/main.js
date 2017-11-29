@@ -71,6 +71,22 @@ function startGame(){
 
 		localization.setLanguage(parent.language)
 
+		var charactersSet = []
+		var allCharacters = epicCharacters.getCharacters()
+		var players = parent.epicModel || epicModel
+		var currentPlayer = players.getPlayer()
+		var mainCharName = allCharacters["yogotar" + currentPlayer.yogotar]
+		console.log(mainCharName)
+		charactersSet.push(mainCharName)
+		// allCharacters = epicCharacters.slice()
+		// allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
+		var charIndex = game.rnd.integerInRange(1, allCharacters.length - 1)
+		charactersSet.push(allCharacters[charIndex])
+
+		console.log(charactersSet)
+		battle.setCharacters(charactersSet)
+		battle.setBackground()
+
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)

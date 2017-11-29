@@ -1,0 +1,20 @@
+{
+	"timing":{
+		"stop":800,
+		"removal":1200,
+		"hit":400
+	},
+	
+	"impact":{
+		"particles":[
+			"particles/characters/impactEarth4/impactEarth12.json",
+			"particles/characters/impactEarth4/impactEarth13.json",
+			"particles/characters/impactEarth4/impactEarth14.json"
+		],
+
+		"soundID":"epicRockImpact4"
+	},
+	"onShoot":[
+	
+	]
+}

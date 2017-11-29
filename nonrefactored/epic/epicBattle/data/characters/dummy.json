@@ -1,0 +1,42 @@
+{
+	"disable":true,
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "windball",
+				"attachment": "particle4",
+				"delay": 400,
+				"multiplier": 0			}
+		],
+		"special": [
+			{
+				"id": "windWave2",
+				"attachment": "particle4",
+				"delay": 350,
+				"multiplier": 0
+			}
+		]
+	},
+	"directory": "spines/characters/dummy/",
+	"name": "Dummy",
+	"spine": {
+		"options": {
+			"scale": 0.7,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/dummy/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "wind"
+	},
+	"visuals": {
+		"shadowScaleX": 0.8,
+		"shadowY": 5,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "torso"
+	}
+}

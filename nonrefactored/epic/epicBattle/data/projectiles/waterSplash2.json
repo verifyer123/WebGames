@@ -1,0 +1,23 @@
+{
+	"timing":{
+		"stop":1000,
+		"removal":1700,
+		"hit":800
+	},
+	"particles":[
+		"particles/characters/specialAttackWater7/specialAttackWater22.json",
+		"particles/characters/specialAttackWater7/specialAttackWater23.json",
+		"particles/characters/specialAttackWater7/specialAttackWater24.json",
+		"particles/characters/specialAttackWater7/specialAttackWater25.json"
+
+	 
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactWater1/impactWater1.json",
+			"particles/characters/impactWater1/impactWater2.json",
+			"particles/characters/impactWater1/impactWater3.json"
+		],
+		"soundID":"epicWaterExplosion1"
+	}
+}

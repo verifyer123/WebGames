@@ -1,0 +1,61 @@
+{
+	"stats":{
+		"attack":20,
+		"bonus":15
+	},
+	"timing":{
+		"stop":800,
+		"removal":2000,
+		"hit":450
+	},
+	"particles":[
+		"particles/characters/specialAttackEarth5/specialAttackEarth13.json",
+		"particles/characters/specialAttackEarth5/specialAttackEarth14.json",
+		"particles/characters/specialAttackEarth5/specialAttackEarth15.json"
+
+	 
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactEarth1/impactEarth1.json",
+			"particles/characters/impactEarth1/impactEarth2.json",
+			"particles/characters/impactEarth1/impactEarth3.json"
+		],
+		"soundID":"epicRockImpact1"
+	},
+	"onShoot":[
+		{
+			"id":"get",
+			"variable":"target",
+			"name":"targetY",
+			"index":"y"
+		},
+		{
+			"id":"get",
+			"variable":"target",
+			"name":"targetX",
+			"index":"x"
+		},
+		
+		{
+			"id":"operation",
+			"variable1":"targetY",
+			"value2":600,
+			"operation":"-",
+			"storeReturn":"spawnY"
+		},
+		
+		{
+			"id":"set",
+			"name":"self",
+			"index":"x",
+			"copyFrom":"targetX"
+		},
+		{
+			"id":"set",
+			"name":"self",
+			"index":"y",
+			"copyFrom":"spawnY"
+		}
+	]
+}

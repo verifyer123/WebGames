@@ -1,0 +1,23 @@
+{
+	"timing":{
+		"stop":200,
+		"removal":1000,
+		"hit":180
+	},
+	"particles":[
+		"particles/characters/specialAttackWaterbeam4/specialAttackWaterbeam7.json",
+		"particles/characters/specialAttackWaterbeam4/specialAttackWaterbeam8.json"
+	 
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactWater1/impactWater1.json",
+			"particles/characters/impactWater1/impactWater2.json",
+			"particles/characters/impactWater1/impactWater3.json"
+		],
+		"soundID":"epicWaterExplosion1"
+	},
+	"onShoot":[
+	
+	]
+}

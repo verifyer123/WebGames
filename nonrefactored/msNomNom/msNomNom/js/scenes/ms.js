@@ -732,6 +732,7 @@ var ms = function(){
 		}
 		
 		var direction = this.swipe.check();
+		console.log(this.swipe)
 		
 		if (direction!==null) {
 		

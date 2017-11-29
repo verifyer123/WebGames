@@ -1,0 +1,50 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterball4",
+				"attachment": "particle2",
+				"delay": 250,
+				"multiplier": 1
+			},
+
+			{
+				"id": "waterball4",
+				"attachment": "particle4",
+				"delay": 320,
+				"multiplier": 1
+			}
+		
+			
+		],
+		"special": [
+			{
+				"id": "waterbeamSpecial2",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/scareWater1/",
+	"name": "Trunk",
+	"spine": {
+		"options": {
+			"scale": 0.7,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/scareWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 0.7,
+		"shadowScaleY": 1.2,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}
