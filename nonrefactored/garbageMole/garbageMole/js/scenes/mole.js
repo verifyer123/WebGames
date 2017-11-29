@@ -57,7 +57,7 @@ var mole = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 103
 	var indexGame
     var overlayGroup
     var spaceSong
