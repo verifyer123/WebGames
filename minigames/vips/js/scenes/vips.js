@@ -218,9 +218,9 @@ var vips = function(){
 
 		
 		if(amazing.getMinigameId()){
-			marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
+			marioSong = sound.setSong(soundsPath + 'songs/circus_gentlejammers.mp3',0.3)
 		}else{
-			game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+			game.load.audio('arcadeSong', soundsPath + 'songs/running_game.mp3');
 		}
 		
 	
@@ -237,11 +237,11 @@ var vips = function(){
         gameActive = false
         
         
-		// if(amazing.getMinigameId()){
-			// marioSong.pause()
-		// }else{
-			// marioSong.stop()
-		// }
+		if(amazing.getMinigameId()){
+			 marioSong.pause()
+		 }else{
+			 marioSong.stop()
+		 }
                 
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
@@ -336,6 +336,7 @@ var vips = function(){
 	   
 	   if(posFinal<posInicial && shooted==false && inGround==true)
 		{
+            sound.play("swipe")
 		 	speed=posInicial-posFinal
 			posFinal=0
 			posInicial=0
@@ -661,7 +662,7 @@ var vips = function(){
 					newPlat2.loadTexture(null)
 					newPlat2.body.clearShapes()
 				}*/
-		randCharac=game.rnd.integerInRange(0,4)
+		randCharac=3
 		if(randCharac==0){
 		character.loadTexture("atlas.vips","cafe1")
 		character.body.clearShapes()
@@ -1014,10 +1015,10 @@ var vips = function(){
             
 		if(!amazing.getMinigameId()){
 			
-			// marioSong = game.add.audio('arcadeSong')
-			// game.sound.setDecodedCallback(marioSong, function(){
-				// marioSong.loopFull(0.3)
-			// }, this);	
+			marioSong = game.add.audio('arcadeSong')
+			game.sound.setDecodedCallback(marioSong, function(){
+				marioSong.loopFull(0.3)
+			 }, this);	
 		}
         
         var topRect = new Phaser.Graphics(game)
