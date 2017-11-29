@@ -58,6 +58,8 @@ var map = function(){
 				file: soundsPath + "flipCard.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "error",
+				file: soundsPath + "error.mp3"},
 			
 			
 		],
@@ -449,6 +451,23 @@ var map = function(){
 					pivotX+= 35
 					
 				}
+				
+				var lock = ballGroup.create(0,0,'atlas.map','lock')
+				lock.anchor.setTo(0.5,0.5)
+				
+				if(i < 4){
+					
+					lock.alpha = 0
+					ballGroup.locked = false
+				}else{
+					
+					ballGroup.locked = true
+				
+					ballGroup.tween = game.add.tween(lock.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(3,6) * 100,"Linear",true,0,-1)
+					ballGroup.tween.yoyo(true,0)
+				}
+				
+				
 			}
 			
 			if((i+1) % 3 == 0){
@@ -793,7 +812,19 @@ var map = function(){
 				var ball = ballsPosition.children[i]
 				
 				if(checkOverlap(ball.ball,pointer) && buttonsActive){
-					inputBall(ball)
+					
+					if(ball.locked){
+						
+						sound.play("error")
+						buttonsActive = false
+						game.time.events.add(500,function(){
+							buttonsActive = true
+						})
+						
+					}else{
+						inputBall(ball)
+					}
+					
 				}
 			}
 			
