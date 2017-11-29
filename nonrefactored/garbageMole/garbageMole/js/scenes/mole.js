@@ -693,6 +693,7 @@ var mole = function(){
         
         trash.anchor.setTo(0.5, 0.5)
         trash.number = num
+        trash.kind = kind
         trashGroup.add(trash)  
         
         game.add.tween(trash.scale).to({x:1.8, y:1.8}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
@@ -717,7 +718,7 @@ var mole = function(){
         trashImg.scale.setTo(1.2, 1.2)
         trashImg.anchor.setTo(0.5, 0.5)
         
-        var pos = diferentObj(checkMolePos(), 3) //game.rnd.integerInRange(0, 3)
+        var pos = diferentObj(checkMolePos(), 3) 
         
         game.add.tween(trashImg.scale).to({x:1.8, y:1.8}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
         {
@@ -822,7 +823,7 @@ var mole = function(){
         
          game.add.tween(trash).to({x:trashBoard.x + posX, y:trashBoard.y - 10}, 800, Phaser.Easing.linear, true).onComplete.add(function() 
         {
-             if(trash.number == mainTrash){ 
+             if(trash.number === mainTrash && trash.kind === trashKind){ 
                 score++
                 sound.play('right')
                 particleCorrect.x = trashBoard.x + posX
