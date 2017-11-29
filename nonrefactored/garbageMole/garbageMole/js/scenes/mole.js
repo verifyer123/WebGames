@@ -89,7 +89,7 @@ var mole = function(){
 	var swipe
    
     var directions = {up: 0, down: 1, right: 2, left: 3}
-    var organic = ['apple','apple2','banana','bone','burger','fish','lobester','pear','steak','tomato']
+    var organic = ['apple','apple2','banana','bone','burguer','fish','lobester','pear','steak','tomato']
     var inorganic = ['book','bottle','can','can2','cardboard','cardboard2','glass','milk','plastic','soda']
 
 	function loadSounds(){
@@ -693,6 +693,7 @@ var mole = function(){
         
         trash.anchor.setTo(0.5, 0.5)
         trash.number = num
+        trash.kind = kind
         trashGroup.add(trash)  
         
         game.add.tween(trash.scale).to({x:1.8, y:1.8}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
@@ -717,7 +718,7 @@ var mole = function(){
         trashImg.scale.setTo(1.2, 1.2)
         trashImg.anchor.setTo(0.5, 0.5)
         
-        var pos = diferentObj(checkMolePos(), 3) //game.rnd.integerInRange(0, 3)
+        var pos = diferentObj(checkMolePos(), 3) 
         
         game.add.tween(trashImg.scale).to({x:1.8, y:1.8}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
         {
@@ -810,9 +811,9 @@ var mole = function(){
             posX = - trashBoard.width * 0.4
         }
         
-        game.add.tween(trash.scale).to({x:2.5, y:2.5}, 500, Phaser.Easing.linear, true).onComplete.add(function() 
+        game.add.tween(trash.scale).to({x:2.5, y:2.5}, 400, Phaser.Easing.linear, true).onComplete.add(function() 
         {
-            game.add.tween(trash.scale).to({x: 0, y: 0}, 600, Phaser.Easing.linear, true).onComplete.add(function()
+            game.add.tween(trash.scale).to({x: 0, y: 0}, 400, Phaser.Easing.linear, true).onComplete.add(function()
             {
                 trashGroup.removeAll(true)
                 trashObj.removeAll(true)
@@ -820,9 +821,9 @@ var mole = function(){
             })
         })
         
-         game.add.tween(trash).to({x:trashBoard.x + posX, y:trashBoard.y - 10}, 1000, Phaser.Easing.linear, true).onComplete.add(function() 
+         game.add.tween(trash).to({x:trashBoard.x + posX, y:trashBoard.y - 10}, 800, Phaser.Easing.linear, true).onComplete.add(function() 
         {
-             if(trash.number == mainTrash){ 
+             if(trash.number === mainTrash && trash.kind === trashKind){ 
                 score++
                 sound.play('right')
                 particleCorrect.x = trashBoard.x + posX

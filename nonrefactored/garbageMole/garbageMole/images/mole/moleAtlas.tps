@@ -204,6 +204,7 @@
             <key type="filename">bone.png</key>
             <key type="filename">book.png</key>
             <key type="filename">bottle.png</key>
+            <key type="filename">burguer.png</key>
             <key type="filename">can.png</key>
             <key type="filename">can2.png</key>
             <key type="filename">cardboard.png</key>
@@ -228,7 +229,6 @@
                 <false/>
             </struct>
             <key type="filename">banana.png</key>
-            <key type="filename">burger.png</key>
             <key type="filename">pear.png</key>
             <key type="filename">steak.png</key>
             <key type="filename">tomato.png</key>
@@ -322,19 +322,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">smoke.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>25,23,50,47</rect>
-                <key>scale9Paddings</key>
-                <rect>25,23,50,47</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">star.png</key>
             <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
@@ -393,7 +380,6 @@
         <array>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>smoke.png</filename>
             <filename>soda.png</filename>
             <filename>star.png</filename>
             <filename>trashBag.png</filename>
@@ -420,10 +406,10 @@
             <filename>cuadro.png</filename>
             <filename>trashBoard.png</filename>
             <filename>banana.png</filename>
-            <filename>burger.png</filename>
             <filename>pear.png</filename>
             <filename>tomato.png</filename>
             <filename>steak.png</filename>
+            <filename>burguer.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

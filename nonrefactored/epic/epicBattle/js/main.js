@@ -1,4 +1,7 @@
 window.minigame = window.minigame || {}
+window.onerror = function(){
+	location.reload()
+}
 
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
@@ -15,14 +18,6 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				if(server){
-					server.setGameReady(true)
-					console.log("GAME READY BATTLE")
-					server.startGame = function () {
-				    	console.log("BATTLE SHOW")
-						sceneloader.show("battle")
-					}
-				}else
 					sceneloader.show("battle")
 	    	}
 
@@ -80,7 +75,7 @@ function startGame(){
 		charactersSet.push(mainCharName)
 		// allCharacters = epicCharacters.slice()
 		// allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
-		var charIndex = game.rnd.integerInRange(1, allCharacters.length - 1)
+		var charIndex = game.rnd.integerInRange(0, allCharacters.length - 1)
 		charactersSet.push(allCharacters[charIndex])
 
 		console.log(charactersSet)
@@ -93,9 +88,9 @@ function startGame(){
     }
 
     function create(){
-
+		console.log("createEpicBattle")
     	preloadScenes([
-            preloaderIntro,
+           // preloaderIntro,
     		battle,
             //result,
     	])

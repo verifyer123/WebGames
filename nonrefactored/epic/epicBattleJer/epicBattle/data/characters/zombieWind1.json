@@ -1,0 +1,42 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "windball",
+				"attachment": "particle2",
+				"delay": 400,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "windballSpecial2",
+				"attachment": "particle8",
+				"delay": 420,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/zombieWind1/",
+	"name": "Zum-Zum",
+	"spine": {
+		"options": {
+			"scale": 0.65,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/zombieWind1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "wind"
+	},
+	"visuals": {
+		"shadowScaleX": 0.7,
+		"shadowY": 5,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

@@ -1,10 +1,10 @@
 body{
     margin: 0;
     background-color: #43BAD6;
-    background-image: url("../images/body_background.jpg");
-    background-size: cover;
-    background-position: center bottom;
-    background-repeat: repeat-x;
+    /*background-image: url("../images/body_background.jpg");*/
+    /*background-size: cover;*/
+    /*background-position: center bottom;*/
+    /*background-repeat: repeat-x;*/
 }
 
 .main-content{
@@ -65,6 +65,9 @@ body{
 
 .luna{
         float: right;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    margin-top: 20%;
     }
 
     .eagle{
@@ -151,13 +154,17 @@ body{
 	.description-content{
 		display: none !important;
 	}
+
+    .navbar{
+        display: none;
+    }
 }
 
 @media only screen
     and (max-device-width : 768px)
     and (orientation : landscape)
 {
-    .banner-content{
+    .navbar{
         display: none;
     }
 

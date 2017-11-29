@@ -1,0 +1,43 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "rocksSplash",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			}
+		
+			
+		],
+		"special": [
+			{
+				"id": "earthEye",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/scareEarth1/",
+	"name": "Jack",
+	"spine": {
+		"options": {
+			"scale": 0.7,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/scareEarth1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "earth"
+	},
+	"visuals": {
+		"shadowScaleX": 0.7,
+		"shadowScaleY": 1.2,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

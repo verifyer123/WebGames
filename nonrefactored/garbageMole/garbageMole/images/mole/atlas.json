@@ -2,7 +2,7 @@
 
 {
 	"filename": "apple",
-	"frame": {"x":0,"y":65,"w":65,"h":65},
+	"frame": {"x":130,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "apple2",
-	"frame": {"x":130,"y":130,"w":65,"h":65},
+	"frame": {"x":130,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -20,16 +20,16 @@
 },
 {
 	"filename": "banana",
-	"frame": {"x":309,"y":195,"w":85,"h":85},
+	"frame": {"x":260,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":85},
-	"sourceSize": {"w":85,"h":85},
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
+	"sourceSize": {"w":65,"h":65},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "bone",
-	"frame": {"x":195,"y":130,"w":65,"h":65},
+	"frame": {"x":0,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "book",
-	"frame": {"x":65,"y":130,"w":65,"h":65},
+	"frame": {"x":65,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "bottle",
-	"frame": {"x":260,"y":130,"w":65,"h":65},
+	"frame": {"x":390,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -55,17 +55,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "burger",
-	"frame": {"x":0,"y":280,"w":85,"h":85},
+	"filename": "burguer",
+	"frame": {"x":260,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":85},
-	"sourceSize": {"w":85,"h":85},
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
+	"sourceSize": {"w":65,"h":65},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "button",
-	"frame": {"x":135,"y":476,"w":129,"h":114},
+	"frame": {"x":135,"y":455,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "can",
-	"frame": {"x":0,"y":130,"w":65,"h":65},
+	"frame": {"x":325,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "can2",
-	"frame": {"x":0,"y":195,"w":65,"h":65},
+	"frame": {"x":390,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "cardboard",
-	"frame": {"x":390,"y":130,"w":65,"h":65},
+	"frame": {"x":325,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "cardboard2",
-	"frame": {"x":325,"y":130,"w":65,"h":65},
+	"frame": {"x":195,"y":194,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "cuadro",
-	"frame": {"x":85,"y":280,"w":87,"h":87},
+	"frame": {"x":74,"y":259,"w":87,"h":87},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":87,"h":87},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":0,"y":476,"w":135,"h":111},
+	"frame": {"x":0,"y":455,"w":135,"h":111},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":135,"h":111},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "fish",
-	"frame": {"x":260,"y":65,"w":65,"h":65},
+	"frame": {"x":390,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":0,"y":590,"w":392,"h":262},
+	"frame": {"x":0,"y":569,"w":392,"h":262},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":392,"h":262},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "glass",
-	"frame": {"x":390,"y":65,"w":65,"h":65},
+	"frame": {"x":195,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "lobester",
-	"frame": {"x":433,"y":0,"w":65,"h":65},
+	"frame": {"x":65,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "milk",
-	"frame": {"x":130,"y":65,"w":65,"h":65},
+	"frame": {"x":0,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":100,"y":369,"w":380,"h":107},
+	"frame": {"x":0,"y":348,"w":380,"h":107},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":380,"h":107},
@@ -191,16 +191,7 @@
 },
 {
 	"filename": "pear",
-	"frame": {"x":394,"y":195,"w":85,"h":85},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":85},
-	"sourceSize": {"w":85,"h":85},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "plastic",
-	"frame": {"x":65,"y":65,"w":65,"h":65},
+	"frame": {"x":195,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -208,17 +199,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "smoke",
-	"frame": {"x":0,"y":369,"w":100,"h":93},
+	"filename": "plastic",
+	"frame": {"x":260,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
-	"sourceSize": {"w":100,"h":93},
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
+	"sourceSize": {"w":65,"h":65},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "soda",
-	"frame": {"x":325,"y":65,"w":65,"h":65},
+	"frame": {"x":65,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -236,16 +227,16 @@
 },
 {
 	"filename": "steak",
-	"frame": {"x":139,"y":195,"w":85,"h":85},
+	"frame": {"x":130,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":85},
-	"sourceSize": {"w":85,"h":85},
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
+	"sourceSize": {"w":65,"h":65},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "tile",
-	"frame": {"x":65,"y":195,"w":74,"h":74},
+	"frame": {"x":0,"y":259,"w":74,"h":74},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":74},
@@ -254,16 +245,16 @@
 },
 {
 	"filename": "tomato",
-	"frame": {"x":224,"y":195,"w":85,"h":85},
+	"frame": {"x":0,"y":129,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":85},
-	"sourceSize": {"w":85,"h":85},
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
+	"sourceSize": {"w":65,"h":65},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "trashBag",
-	"frame": {"x":195,"y":65,"w":65,"h":65},
+	"frame": {"x":325,"y":64,"w":65,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":65},
@@ -272,7 +263,7 @@
 },
 {
 	"filename": "trashBoard",
-	"frame": {"x":172,"y":280,"w":262,"h":89},
+	"frame": {"x":161,"y":259,"w":262,"h":89},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":262,"h":89},
@@ -302,8 +293,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":498,"h":852},
+	"size": {"w":455,"h":831},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a129044772ff7d10e959d27fd60cd6f9:d4c54bb035e607cd35038d07f14e3273:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cca809ede16c0e6f4e1c22f4e71df916:159cd137fffe5ef279425ec967efb403:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

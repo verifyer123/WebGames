@@ -36,19 +36,31 @@ var epicCharacters = function () {
 		{name:"lizoFire1", directory:"images/spines/Lizo/lizoFire1/lizoFire1.json"},//33
 		{name:"lizoWater1", directory:"images/spines/Lizo/lizoWater1/lizoWater1.json"},//34
 		{name:"lizoWind1", directory:"images/spines/Lizo/lizoWind1/lizoWind1.json"},//35
-		/*{name:"emoEarth1", directory:"images/spines/emotiboy/emoEarth1/emoEarth1.json"},//36
+		{name:"emoEarth1", directory:"images/spines/emotiboy/emoEarth1/emoEarth1.json"},//36
 		{name:"emoFire1", directory:"images/spines/emotiboy/emoFire1/emoFire1.json"},//37
 		{name:"emoWater1", directory:"images/spines/emotiboy/emoWater1/emoWater1.json"},//38
-		{name:"emoWind1", directory:"images/spines/emotiboy/emoWind1/emoWind1.json"},//39*/
+		{name:"emoWind1", directory:"images/spines/emotiboy/emoWind1/emoWind1.json"},//39
 		{name:"wifiEarth1", directory:"images/spines/wifimonster/wifiEarth1/wifiEarth1.json"},//40
 		{name:"wifiFire1", directory:"images/spines/wifimonster/wifiFire1/wifiFire1.json"},//41
 		{name:"wifiWater1", directory:"images/spines/wifimonster/wifiWater1/wifiWater1.json"},//42
-		{name:"wifiWind1", directory:"images/spines/wifimonster/wifiWind1/wifiWind1.json"},//43
+		// {name:"wifiWind1", directory:"images/spines/wifimonster/wifiWind1/wifiWind1.json"},//43
 		{name:"beanEarth1", directory:"images/spines/Bean/beanEarth1/beanEarth1.json"},//44
 		{name:"beanFire1", directory:"images/spines/Bean/beanFire1/beanFire1.json"},//45
 		{name:"beanWater1", directory:"images/spines/Bean/beanWater1/beanWater1.json"},//46
 		{name:"beanWind1", directory:"images/spines/Bean/beanWind1/beanWind1.json"},//47
-	]
+		{name:"mastoEarth1", directory:"images/spines/Masto/mastoEarth1/mastoEarth1.json"},//48
+		{name:"mastoFire1", directory:"images/spines/Masto/mastoFire1/mastoFire1.json"},//49
+		{name:"mastoWater1", directory:"images/spines/Masto/mastoWater1/mastoWater1.json"},//50
+		{name:"mastoWind1", directory:"images/spines/Masto/mastoWind1/mastoWind1.json"},//51
+		{name:"pixieEarth1", directory:"images/spines/pixie/pixieEarth1/pixieEarth1.json"},//52
+        {name:"pixieFire1", directory:"images/spines/pixie/pixieFire1/pixieFire1.json"},//53
+        {name:"pixieWater1", directory:"images/spines/pixie/pixieWater1/pixieWater1.json"},//54
+        {name:"pixieWind1", directory:"images/spines/pixie/pixieWind1/pixieWind1.json"},//55
+        {name:"beastbEarth1", directory:"images/spines/beastb/beastbEarth1/beastbEarth1.json"},//56
+        {name:"beastbFire1", directory:"images/spines/beastb/beastbFire1/beastbFire1.json"},//57
+	    {name:"beastbWater1", directory:"images/spines/beastb/beastbWater1/beastbWater1.json"},//58
+        {name:"beastbWind1", directory:"images/spines/beastb/beastbWind1/beastbWind1.json"},//59
+] 
 
 	return{
 		getCharacters:function () {

@@ -1,0 +1,120 @@
+html{
+    overflow-x: hidden;
+}
+
+body{
+     background-image: url("../images/books/sky.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    margin: 0px;
+     overflow-x: hidden;
+
+}
+
+
+#content {
+    width: 100%;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: relative;
+    top: 0;
+    background-image: url("../images/books/floor.png");
+    background-repeat: no-repeat;
+    background-size: 100%;    
+    background-position: bottom center;       
+    right: 0;
+}
+
+.section-main{
+    width: 100%;
+    padding-bottom: 4vh;
+}
+
+.panel-books{
+    position: relative;
+    display: flex;
+    align-items:center;
+    justify-content: space-around;
+    width: 100%;
+}
+.menu-age{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 1;
+    width: 40%;
+    bottom: 0;
+    margin-top:-15%;
+    left: 50%;
+    transform: translate(-50%,-20%);
+}
+
+.menu-age .panelAge{
+    width: 100%;
+}
+
+.btn-back-age{
+    z-index: 1;
+    width: 20%;
+}
+
+.btn-next-age{
+    transform: scaleX(-1);
+    z-index: 1;
+    width: 20%;
+}
+.panel-text{
+    width: 100%;
+}
+.textMenu{
+    width: 60%;
+    text-align: center;
+    position: absolute;
+    line-height: 5;
+    font-weight: 700;
+}
+
+
+.btn-next-main{
+  margin-top: 25%;
+    transform: translate(-20%,-50%);
+}
+
+
+
+.btn-back-main{
+    z-index: 3;
+    margin-top: 25%;
+    transform: translate(0%,-50%);
+}
+
+footer{
+}
+
+/*COVERFLOW*/
+.w-gallery{
+    position: absolute;
+    left: 50%;
+    z-index: 2;
+    width: 80%;
+    transform: translate(-50%,50%);
+}
+
+.bookStar{
+    position: absolute;
+    bottom:-10%;
+    left: -10%;
+    z-index: 2;
+    width: 30%;
+    
+}
+
+.bookStar img{
+    width: 100%;
+}
+
+.yogotars{
+    position: relative;
+    margin-top: 15%;
+}

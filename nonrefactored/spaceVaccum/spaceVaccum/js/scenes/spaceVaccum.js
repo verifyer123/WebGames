@@ -51,7 +51,7 @@ var spaceVaccum = function(){
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
             {	name: "vacc",
-				file: soundsPath + "powerup.mp3"},
+				file: soundsPath + "swipe.mp3"},
             
 			
 		],
@@ -64,7 +64,7 @@ var spaceVaccum = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 102
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -75,6 +75,7 @@ var spaceVaccum = function(){
     var spaceTrash=new Array(4)
     var activeTrash=new Array(4)
     var spaceTrashProxy=new Array(4)
+    var planets= new Array(7)
     
     var meteors=null
     var meteorsProxy=null
@@ -91,6 +92,7 @@ var spaceVaccum = function(){
     var fuel
     var fuelBar
     var speed
+    var delayer2
     
     var proxy1
     var ship
@@ -111,9 +113,10 @@ var spaceVaccum = function(){
         game.stage.backgroundColor = "#220341"
         lives = 3
         delayer=0
+        delayer2=0
         trail4=null
         trail5=null
-        goal=20
+        goal=15
         startGame=false
         clockStarts=false
         speed=10
@@ -122,7 +125,7 @@ var spaceVaccum = function(){
         fuel=0
         for(var cleaning1=0; cleaning1<4;cleaning1++){
             
-            spaceTrashProxy[cleaning1]=game.add.sprite(game.world.centerX-450+adition,100,"atlas.vaccum","TRASH"+(cleaning1+1))
+            spaceTrashProxy[cleaning1]=game.add.sprite(game.world.centerX-450+adition,-10,"atlas.vaccum","TRASH"+(cleaning1+1))
             spaceTrashProxy[cleaning1].anchor.setTo(.5)
             spaceTrashProxy[cleaning1].alpha=0
             
@@ -317,11 +320,14 @@ var spaceVaccum = function(){
 		sound.play("gameLose")
 		
         gameActive = false
+        
+        
+        
+        
         spaceSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
-            
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
@@ -429,8 +435,13 @@ var spaceVaccum = function(){
 	function createBackground(){
 		backgroundGroup = game.add.group()
         gameGroup = game.add.group()
+        planetGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
         sceneGroup.add(gameGroup)
+        sceneGroup.add(planetGroup)
+        
+        //Aqui inicializo los botones
+        controles=game.input.keyboard.createCursorKeys()
         
         correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
@@ -439,12 +450,10 @@ var spaceVaccum = function(){
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
-        backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.vaccum',"TILING1")
+        backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.vaccum',"TILING2")
         backG.scale.setTo(1,.75)
+        backG.alpha=.5
         backgroundGroup.add(backG)
-        backG2=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.vaccum',"TILING2")
-        backG2.scale.setTo(1,.75)
-        backgroundGroup.add(backG2)
         
         var fuelMarc=game.add.sprite(game.world.width-100,game.world.height-250,"atlas.vaccum","FUEL")
         
@@ -479,7 +488,14 @@ var spaceVaccum = function(){
             ship.setSkinByName("normal");
             gameGroup.add(ship)
         
-	}
+        for(var randomPlanets2=0; randomPlanets2<5;randomPlanets2++){
+                
+                    
+                    planets[randomPlanets2]=game.add.image(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(-40,-game.world.height),"atlas.vaccum","PLANET"+(randomPlanets2+1))
+                    console.log(planets[randomPlanets2])
+                    planets[randomPlanets2].alpha=.6
+        }
+    }
 	
     function onDragStart(obj){
         
@@ -496,8 +512,8 @@ var spaceVaccum = function(){
         timeBar.scale.setTo(8,.45)
         backgroundGroup.add(clock)
         backgroundGroup.add(timeBar)
-        timeBar.alpha=0
-        clock.alpha=0
+        timeBar.alpha=1
+        clock.alpha=1
         
         
     }
@@ -522,18 +538,42 @@ var spaceVaccum = function(){
         
         
         if(startGame){
+            backG.tilePosition.y+=speed
             
+            for(var move=0;move<5;move++){
+                    planets[move].position.y+=speed
+            }
+            
+            function right(){
+                
+                proxy1.position.x+=8
+                
+            }
+            function left(){
+                proxy1.position.x-=8
+            }
+            
+            if(controles.left.isDown){
+            
+            left()
+            
+            }
+            if(controles.right.isDown){
+            
+            right()
+            
+            }
             
         if(fuel==10 && clockStarts==false)
         {
             clock.alpha=1
             timeBar.alpha=1
-            startTimer(65000)
+            startTimer(60000)
             clockStarts=true
         }
             
-            if(fuel<20 && fuel!=0){
-                game.add.tween(fuelBar.scale).to({x:1.5,y:fuel/16.3}, 5, Phaser.Easing.Linear.Out, true, 100)
+            if(fuel<15 && fuel!=0){
+                game.add.tween(fuelBar.scale).to({x:1.5,y:fuel/12.1}, 5, Phaser.Easing.Linear.Out, true, 100)
             }
 
             //colisiones
@@ -612,15 +652,24 @@ var spaceVaccum = function(){
             }
             
             delayer++
-            
+            delayer2++
+            console.log(delayer2)
             ship.position.x=proxy1.x
             ship.position.y=proxy1.y
             proxy1.position.y=game.world.height-80
             ship.position.y=game.world.height-80
-            
-            if(delayer==60){
+            if(delayer2==300){
+                for(var randomPlanets2=0; randomPlanets2<5;randomPlanets2++){
                 
-               
+                    
+                    planets[randomPlanets2].position.x=game.rnd.integerInRange(0,game.world.width)
+                    planets[randomPlanets2].position.y=game.rnd.integerInRange(0,-game.world.height)
+                    
+                }
+                delayer2=0
+            }
+            if(delayer==30){
+                
                 
                 randomCreation=game.rnd.integerInRange(0,5)
                 trails=game.rnd.integerInRange(0,4)
@@ -747,16 +796,16 @@ var spaceVaccum = function(){
                 } 
                 if(trails==3 && trail4==null && meteorsActive==false){
                     trail4=meteors
+                    meteorsProxy.tag="meteor1"
                     trail4.setAnimationByName(0,"IDLE",true);
                     trail4.position.x=-10
-                    trail4.position.y=0
+                    trail4.position.y=-10
                     trail4.scale.setTo(1,1)
                     meteorsProxy.position.x=trail4.x
                     meteorsProxy.position.y=10
                     trail4.angle=270
                     trail4.alpha=1
                     meteorsActive=true
-                    meteorsProxy.tag="meteor1"
                     game.physics.enable(meteorsProxy, Phaser.Physics.ARCADE)
                     meteorsProxy.checkWorldBounds = true;
                     meteorsProxy.events.onOutOfBounds.add(outOfThisWorld, this);
@@ -766,16 +815,16 @@ var spaceVaccum = function(){
                 } 
                 if(trails==4 && trail5==null && meteorsActive==false){
                     trail5=meteors
+                    meteorsProxy.tag="meteor1"
                     trail5.setAnimationByName(0,"IDLE",true);
                     trail5.position.x=game.world.width+10
-                    trail5.position.y=0
+                    trail5.position.y=-10
                     trail5.scale.setTo(1,1)
                     meteorsProxy.position.x=trail5.x
                     meteorsProxy.position.y=10
                     trail5.angle=-8
                     trail5.alpha=1
                     meteorsActive=true
-                    meteorsProxy.tag="meteor1"
                     game.physics.enable(meteorsProxy, Phaser.Physics.ARCADE)
                     meteorsProxy.checkWorldBounds = true;
                     meteorsProxy.events.onOutOfBounds.add(outOfThisWorld, this);
@@ -801,7 +850,7 @@ var spaceVaccum = function(){
     
        function hitTheShip(obj){
            
-           ship.setAnimationByName(0,"TAKETRASH",false);
+           
            
            if(obj.tag=="meteor1"){
                
@@ -811,12 +860,43 @@ var spaceVaccum = function(){
               boomParticle.start(true, 1000, null, 5)
               obj.position.x=game.world.width+100
               obj.position.y=10
+               
+               for(var cleanMeteors=0;cleanMeteors<5;cleanMeteors++){
+                   
+                   if(trail1[cleanMeteors]==meteors){
+                       game.add.tween(trail1[cleanMeteors]).to({alpha:0},200,Phaser.Easing.linear,true)
+                       trail1[cleanMeteors]=null
+                   }
+                   if(trail2[cleanMeteors]==meteors){
+                       game.add.tween(trail2[cleanMeteors]).to({alpha:0},200,Phaser.Easing.linear,true)
+                       trail2[cleanMeteors]=null
+                   }
+                   if(trail3[cleanMeteors]==meteors){
+                       game.add.tween(trail3[cleanMeteors]).to({alpha:0},200,Phaser.Easing.linear,true)
+                       trail3[cleanMeteors]=null
+                   }
+               }
+               if(trail4!=null){
+               game.add.tween(trail4).to({alpha:0},200,Phaser.Easing.linear,true)
+               }
+               if(trail5!=null){
+               game.add.tween(trail5).to({alpha:0},200,Phaser.Easing.linear,true)
+               }
+               trail4=null
+               trail5=null
+               if(lives==1){
+                   boomParticle.position.x=ship.position.x+50
+                   boomParticle.position.y=ship.position.y
+                   boomParticle.start(true, 1000, null, 5)
+                   ship.setAnimationByName(0,"LOSE",false);
+                
+               }
               missPoint()
                
                startGame=false
               reset()
            }else{   
-               
+               ship.setAnimationByName(0,"TAKETRASH",false);
                sound.play("vacc")
                correctParticle.position.x=obj.position.x
                correctParticle.position.y=obj.position.y
@@ -827,12 +907,12 @@ var spaceVaccum = function(){
                 {
                 trail1[cleanObj].setAnimationByName(0,"LOSE",true)
                    tween1=game.add.tween(trail1[cleanObj].scale).to({x:0,y:0}, 75, Phaser.Easing.Linear.Out, true, 1).onComplete.add(function(){
-                    obj.position.x=game.world.width+100
+                    obj.position.x=game.world.x+100
                     obj.position.y=10
                     
                         if(activeTrash[obj.tag]==true){
                             fuel++
-                            if(fuel%20==0){
+                            if(fuel%15==0){
                                 addPoint(1)
                                 reset()
                                 speed+=.5
@@ -849,12 +929,12 @@ var spaceVaccum = function(){
                 {
                 trail2[cleanObj].setAnimationByName(0,"LOSE",true)
                    tween2=game.add.tween(trail2[cleanObj].scale).to({x:0,y:0}, 75, Phaser.Easing.Linear.Out, true, 1).onComplete.add(function(){
-                    obj.position.x=game.world.width+400
+                    obj.position.x=game.world.x+300
                     obj.position.y=10
                     
                         if(activeTrash[obj.tag]==true){
                             fuel++
-                            if(fuel%20==0){
+                            if(fuel%15==0){
                                 addPoint(1)
                                 reset()
                                 speed+=.5
@@ -871,12 +951,12 @@ var spaceVaccum = function(){
                 {
                 trail3[cleanObj].setAnimationByName(0,"LOSE",true)
                    tween3=game.add.tween(trail3[cleanObj].scale).to({x:0,y:0}, 75, Phaser.Easing.Linear.Out, true, 1).onComplete.add(function(){
-                    obj.position.x=game.world.width+800
+                    obj.position.x=game.world.x+500
                     obj.position.y=10
                     
                         if(activeTrash[obj.tag]==true){
                             fuel++
-                            if(fuel%20==0){
+                            if(fuel%15==0){
                                 addPoint(1)
                                 reset()
                                 speed+=.5
@@ -885,7 +965,7 @@ var spaceVaccum = function(){
                     activeTrash[obj.tag]=false
                     
                         })
-                    
+                    trail3[cleanObj]=null
                 }
                    
                    
@@ -898,6 +978,7 @@ var spaceVaccum = function(){
     
         function reset(){
             
+            delayer=0
             if(clockStarts==true){
                 stopTimer()
             }
@@ -928,7 +1009,7 @@ var spaceVaccum = function(){
                 if(lives>0){
                 startGame=true
                     if(clockStarts==true){
-                        startTimer(65000)
+                        startTimer(60000)
                         fuel=0
                     }else{
                     fuel=0
@@ -936,25 +1017,37 @@ var spaceVaccum = function(){
                 }
                 for(var order=0;order<5;order++){
                 if(trail1[order]!=null){
-                    trail1[order].position.x=game.world.width+800
-                    trail1[order].position.y=10
+                    trail1[order].position.x=game.world.x+100
+                    trail1[order].position.y=-10
+                    trail1[order]=null
                 }
                 if(trail2[order]!=null){
-                    trail2[order].position.x=game.world.width+800
-                    trail2[order].position.y=10
+                    trail2[order].position.x=game.world.x+300
+                    trail2[order].position.y=-10
+                    trail2[order]=null
                 }
                 if(trail3[order]!=null){
-                    trail3[order].position.x=game.world.width+800
-                    trail3[order].position.y=10
+                    trail3[order].position.x=game.world.x+500
+                    trail3[order].position.y=-10
+                    trail3[order]=null
+                }   
                 }
+                if(trail4!=null){
+                    trail4.position.x=-10
+                    trail4.position.y=-10
+                    trail4=null
                 }
-                trail4=null
-                trail5=null
+                if(trail5!=null){
+                    trail5.position.x=game.world.width+10
+                    trail5.position.y=-10
+                    trail5=null
+                }
             })
         }
     
+    
        function outOfThisWorld(obj){
-       
+       delayer=0
         if(obj.position.y>1){
         
         if(obj.position.y>game.world.height+10){
@@ -981,18 +1074,18 @@ var spaceVaccum = function(){
             
         }
             
-            if(meteorsActive==true && obj.tag=="meteor1" && trail4==meteors){
-                console.log(trail4)
-                meteorsActive=false
+            if(meteorsActive==true && obj.tag=="meteor1" && trail4!=null){
                 game.add.tween(trail4).to({alpha:0},200,Phaser.Easing.linear,true)
                 obj.position.y=10
                 trail4=null
-            }
-            if(meteorsActive==true && obj.tag=="meteor1" && trail5==meteors){
                 meteorsActive=false
+            }
+            if(meteorsActive==true && obj.tag=="meteor1" && trail5!=null){
                 game.add.tween(trail5).to({alpha:0},200,Phaser.Easing.linear,true)
-                obj.position.y=10
                 trail5=null
+                meteorsActive=false
+                obj.position.y=10
+                
             }
             
         for(var checkObjects=0;checkObjects<4;checkObjects++){
@@ -1002,7 +1095,7 @@ var spaceVaccum = function(){
                 
                     trail1[checkObjects].alpha=0
                     obj.position.x=game.world.width+100
-                    obj.position.y=10
+                    obj.position.y=-10
                     trail1[checkObjects]=null
                     activeTrash[obj.tag]=false
                     
@@ -1012,7 +1105,7 @@ var spaceVaccum = function(){
                 
                     trail2[checkObjects].alpha=0
                     obj.position.x=game.world.width+400
-                    obj.position.y=10
+                    obj.position.y=-10
                     trail2[checkObjects]=null
                     activeTrash[obj.tag]=false
                     
@@ -1022,7 +1115,7 @@ var spaceVaccum = function(){
                 
                     trail3[checkObjects].alpha=0
                     obj.position.x=game.world.width+750
-                    obj.position.y=10
+                    obj.position.y=-10
                     trail3[checkObjects]=null
                     activeTrash[obj.tag]=false
                     

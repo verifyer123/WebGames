@@ -1,0 +1,43 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterball3",
+				"attachment": "particle7",
+				"delay": 250,
+				"multiplier": 1
+			}	
+			
+		],
+		"special": [
+			{
+				"id": "waterbeamSpecial2",
+				"attachment": "particle7",
+				"delay": 100,
+				"multiplier": 1
+			}
+		
+		]
+	},
+	"directory": "spines/characters/tankWater1/",
+	"name": "WAT-2000",
+	"spine": {
+		"options": {
+			"scale": 0.85,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/tankWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 1.3,
+		"shadowScaleY": 1.8,
+		"cardFacing": "right",
+		"impactAttachment": "torso2"
+	}
+}

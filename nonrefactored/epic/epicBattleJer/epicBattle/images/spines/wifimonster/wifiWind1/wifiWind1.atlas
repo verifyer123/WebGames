@@ -1,0 +1,411 @@
+
+wifiWind1.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm1
+  rotate: false
+  xy: 436, 370
+  size: 71, 116
+  orig: 71, 116
+  offset: 0, 0
+  index: -1
+normal/arm2
+  rotate: true
+  xy: 158, 419
+  size: 61, 96
+  orig: 61, 96
+  offset: 0, 0
+  index: -1
+normal/foot1a
+  rotate: true
+  xy: 337, 115
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/foot1b
+  rotate: true
+  xy: 420, 115
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/foot1c
+  rotate: true
+  xy: 503, 116
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/foot1d
+  rotate: false
+  xy: 509, 378
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/foot2a
+  rotate: true
+  xy: 2, 4
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: -1
+normal/foot2b
+  rotate: true
+  xy: 80, 4
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: -1
+normal/foot2c
+  rotate: true
+  xy: 436, 247
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: -1
+normal/forearm1_a
+  rotate: true
+  xy: 902, 378
+  size: 81, 101
+  orig: 81, 101
+  offset: 0, 0
+  index: -1
+normal/forearm2_a
+  rotate: true
+  xy: 436, 488
+  size: 68, 74
+  orig: 68, 74
+  offset: 0, 0
+  index: -1
+normal/hand1_a1
+  rotate: true
+  xy: 514, 247
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_a2
+  rotate: true
+  xy: 586, 116
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_a3
+  rotate: true
+  xy: 597, 247
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_b1
+  rotate: false
+  xy: 640, 378
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_b2
+  rotate: true
+  xy: 669, 116
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_b3
+  rotate: true
+  xy: 680, 247
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_c1
+  rotate: true
+  xy: 752, 116
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_c2
+  rotate: true
+  xy: 763, 247
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_c3
+  rotate: false
+  xy: 771, 378
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_d1
+  rotate: true
+  xy: 835, 116
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_d2
+  rotate: true
+  xy: 846, 247
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand1_d3
+  rotate: true
+  xy: 929, 247
+  size: 129, 81
+  orig: 129, 81
+  offset: 0, 0
+  index: -1
+normal/hand2_a1
+  rotate: true
+  xy: 337, 2
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_a2
+  rotate: true
+  xy: 410, 2
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_a3
+  rotate: true
+  xy: 483, 2
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_b1
+  rotate: true
+  xy: 556, 3
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_b2
+  rotate: true
+  xy: 629, 3
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_b3
+  rotate: true
+  xy: 702, 3
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_c1
+  rotate: true
+  xy: 775, 3
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: true
+  xy: 253, 198
+  size: 46, 77
+  orig: 46, 77
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: true
+  xy: 436, 558
+  size: 44, 75
+  orig: 44, 75
+  offset: 0, 0
+  index: -1
+normal/particle
+  rotate: false
+  xy: 918, 141
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: -1
+normal/shin1
+  rotate: false
+  xy: 158, 188
+  size: 93, 138
+  orig: 93, 138
+  offset: 0, 0
+  index: -1
+normal/shin2
+  rotate: true
+  xy: 119, 328
+  size: 89, 132
+  orig: 89, 132
+  offset: 0, 0
+  index: -1
+normal/shine_a
+  rotate: false
+  xy: 256, 425
+  size: 178, 177
+  orig: 178, 177
+  offset: 0, 0
+  index: -1
+normal/shine_b
+  rotate: false
+  xy: 256, 246
+  size: 178, 177
+  orig: 178, 177
+  offset: 0, 0
+  index: -1
+normal/shine_c
+  rotate: true
+  xy: 158, 8
+  size: 178, 177
+  orig: 178, 177
+  offset: 0, 0
+  index: -1
+normal/special1
+  rotate: false
+  xy: 256, 604
+  size: 227, 59
+  orig: 227, 59
+  offset: 0, 0
+  index: -1
+normal/special2
+  rotate: true
+  xy: 2, 127
+  size: 332, 115
+  orig: 332, 115
+  offset: 0, 0
+  index: -1
+normal/special3
+  rotate: false
+  xy: 513, 461
+  size: 481, 237
+  orig: 481, 237
+  offset: 0, 0
+  index: -1
+normal/special4
+  rotate: false
+  xy: 2, 665
+  size: 509, 355
+  orig: 509, 355
+  offset: 0, 0
+  index: -1
+normal/special5
+  rotate: false
+  xy: 513, 700
+  size: 488, 320
+  orig: 488, 320
+  offset: 0, 0
+  index: -1
+normal/torso1
+  rotate: false
+  xy: 2, 482
+  size: 252, 181
+  orig: 252, 181
+  offset: 0, 0
+  index: -1
+normal/torso2
+  rotate: false
+  xy: 918, 69
+  size: 104, 70
+  orig: 104, 70
+  offset: 0, 0
+  index: -1
+
+wifiWind12.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/foot2d
+  rotate: false
+  xy: 226, 178
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: -1
+normal/forearm1_b
+  rotate: false
+  xy: 226, 75
+  size: 81, 101
+  orig: 81, 101
+  offset: 0, 0
+  index: -1
+normal/forearm1_c
+  rotate: true
+  xy: 801, 173
+  size: 81, 101
+  orig: 81, 101
+  offset: 0, 0
+  index: -1
+normal/hand2_c2
+  rotate: false
+  xy: 226, 2
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_c3
+  rotate: false
+  xy: 349, 183
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_d1
+  rotate: false
+  xy: 462, 183
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_d2
+  rotate: false
+  xy: 575, 183
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/hand2_d3
+  rotate: false
+  xy: 688, 183
+  size: 111, 71
+  orig: 111, 71
+  offset: 0, 0
+  index: -1
+normal/signal_a
+  rotate: false
+  xy: 2, 144
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+normal/signal_b
+  rotate: false
+  xy: 2, 32
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+normal/signal_c
+  rotate: false
+  xy: 114, 144
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+normal/signal_d
+  rotate: false
+  xy: 114, 32
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1

@@ -557,9 +557,7 @@ var garbageDiving = function(){
         if(controles.down.isUp && keyPressed==true){
             
             keyPressed=false
-            
-            
-            
+ 
         }else if(controles.up.isUp && keyPressed2==true){
             
             keyPressed2=false
@@ -796,8 +794,8 @@ var garbageDiving = function(){
             character.setAnimationByName(0,"ATTACK",true);
             
             sound.play("eat")
-            correctParticle.position.x=obj.position.x+50
-            correctParticle.position.y=obj.position.y
+            correctParticle.position.x=character.position.x+50
+            correctParticle.position.y=character.position.y
             correctParticle.start(true, 1000, null, 5)
             game.add.tween(this).to({x:20}, 250 , Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
             if(lives==3 && trashCollected%goal!=0){

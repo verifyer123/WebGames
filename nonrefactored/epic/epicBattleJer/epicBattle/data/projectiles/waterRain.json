@@ -1,0 +1,62 @@
+{
+	"stats":{
+		"attack":20,
+		"bonus":15
+	},
+	"timing":{
+		"stop":800,
+		"removal":2000,
+		"hit":450
+	},
+	"particles":[
+		"particles/characters/specialAttackWater8/specialAttackWater26.json",
+		"particles/characters/specialAttackWater8/specialAttackWater27.json",
+		"particles/characters/specialAttackWater8/specialAttackWater28.json",
+		"particles/characters/specialAttackWater8/specialAttackWater29.json"
+
+	 
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactWater1/impactWater1.json",
+			"particles/characters/impactWater1/impactWater2.json",
+			"particles/characters/impactWater1/impactWater3.json"
+		],
+		"soundID":"epicWaterExplosion1"
+	},
+	"onShoot":[
+		{
+			"id":"get",
+			"variable":"target",
+			"name":"targetY",
+			"index":"y"
+		},
+		{
+			"id":"get",
+			"variable":"target",
+			"name":"targetX",
+			"index":"x"
+		},
+		
+		{
+			"id":"operation",
+			"variable1":"targetY",
+			"value2":600,
+			"operation":"-",
+			"storeReturn":"spawnY"
+		},
+		
+		{
+			"id":"set",
+			"name":"self",
+			"index":"x",
+			"copyFrom":"targetX"
+		},
+		{
+			"id":"set",
+			"name":"self",
+			"index":"y",
+			"copyFrom":"spawnY"
+		}
+	]
+}
