@@ -941,14 +941,14 @@ var vips = function(){
 		
 		
         
-        character=game.add.sprite(game.world.x+50,game.world.centerY+150,"atlas.vips","malteada1")
+        character=game.add.sprite(game.world.x+50,game.world.centerY+150,"atlas.vips","cafe1")
         sceneGroup.add(character)
         
         game.physics.p2.enable([ character ]);
         character.body.friction=4
         //character.body.fixedRotation=true
         character.body.clearShapes()
-        character.body.loadPolygon('physicsData', "malteada1");
+        character.body.loadPolygon('physicsData', "cafe1");
 		character.body.onBeginContact.add(where, this);
 		
         efectZoom=game.add.sprite(character.x-90,character.y,"atlas.vips","zooom")
