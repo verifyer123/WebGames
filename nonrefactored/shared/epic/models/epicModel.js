@@ -1,11 +1,13 @@
 var epicModel = function () {
 	var player = {
 		minigames:[],
+		minigamesCompleted:[],
 		battles:[],
 		characters:[],
 		yogotar:"Dinamita",
 		currentPosition:0,
 		currentMinigame:0,
+		paidUser:false,
 		version: 0.1
 	}
 
