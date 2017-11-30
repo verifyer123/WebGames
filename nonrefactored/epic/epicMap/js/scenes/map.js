@@ -443,9 +443,11 @@ var map = function(){
 					
 					var fullStar = group.create(0,0,'atlas.map','star_won')
 					fullStar.anchor.setTo(0.5,0.5)
+					fullStar.alpha = 0
 					
-					if(!currentPlayer.minigames[((i-1)*4) + u].completed){
-						fullStar.alpha = 0
+					var indexUsed = ((i-1)*4) + u
+					if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed].completed){
+						fullStar.alpha = 1
 					}
 					
 					pivotX+= 35
@@ -467,7 +469,7 @@ var map = function(){
 						var indexUsed = (i - 2) * 4
 						for(var u = 0; u < 4; u++){
 
-							if(currentPlayer.minigames[indexUsed + u].completed){
+							if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed + u].completed){
 								countMinigames++
 							}
 						}
@@ -1290,7 +1292,7 @@ var map = function(){
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+                spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
