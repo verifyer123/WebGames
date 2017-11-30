@@ -597,7 +597,7 @@ var mole = function(){
       
         mole = game.add.sprite(x, y, 'atlas.mole', 'star')
         mole.alpha = 0 
-        mole.scale.setTo(0.7, 0.7)
+        mole.scale.setTo(0.6, 0.6)
         game.physics.arcade.enable(mole)
         mole.body.immovable = true
     }
