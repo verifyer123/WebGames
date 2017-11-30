@@ -77,10 +77,12 @@ var tapcards = function(){
 	var styleClock = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
 
 	function fontsSize(){
-			if(game.world.width < 781){
-				styleCards = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+			if(game.world.width < 500){
+				styleCards = {font: "6vw VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+			}else if(game.world.width < 781){
+				styleCards = {font: "6vw VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}else{
-				styleCards = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+				styleCards = {font: "4vw VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 			}
 	}
 	
