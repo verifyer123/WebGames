@@ -510,10 +510,10 @@ var map = function(){
 			
 		}
 		
-		for(var i = 0; i < currentPlayer.minigames.length;i++){
+		/*for(var i = 0; i < currentPlayer.minigames.length;i++){
 					
 			console.log(currentPlayer.minigames[i].completed)
-		}
+		}*/
 	}
 	
 	function inputBall(obj){
