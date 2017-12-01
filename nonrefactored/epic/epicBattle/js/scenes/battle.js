@@ -986,7 +986,7 @@ var battle = function(){
 		var charactersJson = []
 		for(var spineIndex = 0; spineIndex < assets.spines.length; spineIndex++){
 			var spineAsset = assets.spines[spineIndex]
-			charactersJson.push(game.cache.getJSON(spineAsset.name + "Data"))
+			charactersJson.push(epicCharacters[assets.spines[spineIndex].name])
 		}
 
 		// console.log(assets.spines[0].name, assets.spines[0].file)
@@ -1530,9 +1530,9 @@ var battle = function(){
 		setCharacters:function (characters) {
 			for(var charIndex = 0; charIndex < characters.length; charIndex++){
 				var character = characters[charIndex]
-				var jsonPath = DATA_CHAR_PATH + character.name + ".json"
-				assets.jsons.push({name:character.name + "Data", file:jsonPath})
-				assets.spines.push({name:character.name, file:character.directory})
+				// var jsonPath = DATA_CHAR_PATH + character.name + ".json"
+				// assets.jsons.push({name:character.name + "Data", file:jsonPath})
+				assets.spines.push({name:character.id, file:character.directory})
 			}
 		},
 		setBackground:function (number) {
