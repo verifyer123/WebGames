@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
-window.onerror = function(){
-	location.reload()
-}
+//window.onerror = function(){
+//	location.reload()
+//}
 
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
@@ -18,7 +18,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-					sceneloader.show("battle")
+					sceneloader.show("vs")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -80,6 +80,7 @@ function startGame(){
 
 		console.log(charactersSet)
 		battle.setCharacters(charactersSet)
+		vs.setCharacters(charactersSet)
 		battle.setBackground()
 
         window.minigame.game = window.game
@@ -92,6 +93,7 @@ function startGame(){
     	preloadScenes([
            // preloaderIntro,
     		battle,
+			vs,
             //result,
     	])
     }
