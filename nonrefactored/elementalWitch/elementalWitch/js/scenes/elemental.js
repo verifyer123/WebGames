@@ -34,20 +34,19 @@ var elemental = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
-			{	name: "pop",
+            {	name: "right",
+				file: soundsPath + "rightChoice.mp3"},
+            {	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
+			{	name: "glassbreak",
+				file: soundsPath + "glassbreak.mp3"},
+			{	name: "cut",
+				file: soundsPath + "cut.mp3"},
 			{	name: "gameLose",
-				file: soundsPath + "gameLose.mp3"},
-			
-		],
+				file: soundsPath + "gameLose.mp3"}
+		]
     }
     
         
@@ -62,13 +61,14 @@ var elemental = function(){
     var overlayGroup
     var battleSong
     var witch
+    var witchAnimation
+    var IDLE, ATTACK
     var gems
     var aquaGem, fireGem, iceGem, windGem
-    var aquaShield, fireShield, iceShield, windShield
     var enemyMask
 	var elements = {aqua: 0, fire: 1, ice: 2, wind: 3}
     var level
-    var shieldHits
+    var enemyHP
     var speed
     var enemySelect
 
@@ -81,8 +81,7 @@ var elemental = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
 
-        level = 3
-        shieldHits = 2
+        level = 1
         speed = 1
         enemySelect =  game.rnd.integerInRange(0, 3)
         
@@ -272,7 +271,12 @@ var elemental = function(){
 		game.load.image('buttonText',"images/elemental/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/elemental/introscreen.png")
         
-        game.load.spine("witch", "images/spines/Witch/witch.json");
+        game.load.spritesheet('IDLE', 'images/sprites/IDLE.png', 240, 287, 23);
+        game.load.spritesheet('LOSESTILL', 'images/sprites/LOSESTILL.png', 260, 272, 8);
+        game.load.spritesheet('HIT', 'images/sprites/HIT.png', 260, 294, 5);
+        game.load.spritesheet('LOSE', 'images/sprites/LOSE.png', 262, 365, 9);
+        game.load.spritesheet('ATTACK', 'images/sprites/ATTACK.png', 328, 300, 11);
+        
         game.load.spine("fire", "images/spines/MaskFire/mask_fire.json");
         game.load.spine("aqua", "images/spines/MaskWater/mask_water.json");
         game.load.spine("ice", "images/spines/MaskIce/mask_ice.json");
@@ -300,6 +304,7 @@ var elemental = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+                initGame()
             })
             
         })
@@ -310,7 +315,8 @@ var elemental = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.elemental','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50, 'atlas.elemental',  'gametuto')
+        tuto.scale.setTo(0.8, 0.8)
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -342,27 +348,40 @@ var elemental = function(){
 
 	function createBackground(){
 		
-		dock = sceneGroup.create(game.world.centerX, game.world.centerY, "dock")
+        back = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.elemental", "background");
+        back.anchor.setTo(0.5, 0.5)
+        back.width = game.world.width
+        back.height = game.world.height
+        
+        for (var i = 0; i < 10; i++)
+        {
+        var wave = sceneGroup.create(game.world.randomX, game.world.randomY, "atlas.elemental", 'wave')
+        }
+        
+		dock = game.add.sprite(game.world.centerX, game.world.centerY, "dock")
         dock.anchor.setTo(0.5, 0.5)
         //dock.scale.setTo(1, 1)
         
-        tree1 = sceneGroup.create(0, 1, "atlas.elemental",  "tree1")
+        tree1 = sceneGroup.create(0, 2, "atlas.elemental",  "tree1")
         //tree1.anchor.setTo(0.5, 0)
-        tree1.x = game.world.centerX + dock.width * 0.25
+        tree1.x = game.world.centerX - dock.width * 0.58
         
-        tree2 = sceneGroup.create(0, 1, "atlas.elemental",  "tree2")
+        tree2 = sceneGroup.create(0, 2, "atlas.elemental",  "tree2")
         //tree2.anchor.setTo(0.5, 0)
-        tree2.x = game.world.centerX - dock.width * 0.5
+        tree2.x = game.world.centerX + dock.width * 0.35
         
-        tree3 = sceneGroup.create(0, dock.y, "atlas.elemental",  "tree3")
+        tree3 = sceneGroup.create(0, dock.y - 20, "atlas.elemental",  "tree3")
         tree3.anchor.setTo(0, 0.5)
-        tree3.x = game.world.centerX - dock.width * 0.5
+        tree3.x = game.world.centerX + dock.width * 0.36
+        
+        sceneGroup.add(dock)
 	}
 	
 	function update(){
-        enemyMask.y -= 1
+        enemyMask.y -= speed
         
-        game.physics.arcade.collide(gems, enemyMask, coll, null, this)
+        game.physics.arcade.collide(gems, enemyMask, attackMask, null, this)
+        game.physics.arcade.collide(witch, enemyMask, getDamage, null, this)
 	}
 	
 	function createTextPart(text,obj){
@@ -417,27 +436,18 @@ var elemental = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+
+        particle.makeParticles('atlas.elemental',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+
+        return particle
     }
     
     function createParticles(tag,number){
@@ -552,19 +562,54 @@ var elemental = function(){
 	
     function initWitch(){
         
-        var witchSpine = game.add.spine(game.world.centerX, 240, "witch")
-        //witch.scale.setTo(0.9, 0.9)
-        witchSpine.setAnimationByName(0, "IDLE", true)
-        witchSpine.setSkinByName("normal")
-        sceneGroup.add(witchSpine)
+        witchAnimation = game.add.sprite(game.world.centerX, 150, 'IDLE')
+        witchAnimation.anchor.setTo(0.5, 0.5)
+        witchAnimation.animations.add('IDLE', null, 12, true)
+        witchAnimation.animations.add('ATTACK', null, 18, true)
+        witchAnimation.animations.add('LOSESTILL', null, 12, true)
+        witchAnimation.animations.add('HIT', null, 12, true)
+        witchAnimation.animations.add('LOSE', null, 12, true)
+        sceneGroup.add(witchAnimation)
+                
+        witchAnimation.play('IDLE')
         
-        witch = sceneGroup.create(game.world.centerX, 150, 'atlas.elemental', "star");
+        witch = sceneGroup.create(game.world.centerX, 150, 'atlas.elemental', "background");
         witch.anchor.setTo(0.5, 0.5)
-        //witch.scale.setTo(3.2, 3.2)
-        //witch.alpha = 0
+        witch.scale.setTo(2.5, 0.2)
+        witch.alpha = 0
         game.physics.arcade.enable(witch)
         witch.body.immovable = true
         
+    }
+    
+    function witchAnim(anim){
+        
+        switch(anim){
+        case 'IDLE':
+            witchAnimation.loadTexture('IDLE', 0, true)
+            witchAnimation.play('IDLE')
+        break
+        
+        case 'ATTACK':
+            witchAnimation.loadTexture('ATTACK', 0, true)
+            witchAnimation.play('ATTACK')
+        break
+        
+        case 'LOSESTILL':
+            witchAnimation.loadTexture('LOSESTILL', 0, true)
+            witchAnimation.play('LOSESTILL')
+        break
+        
+        case 'HIT':
+            witchAnimation.loadTexture('HIT', 0, true)
+            witchAnimation.play('HIT')
+        break
+        
+        case 'LOSE':
+            witchAnimation.loadTexture('LOSE', 0, true)
+            witchAnimation.play('LOSE')
+        break
+        }
     }
     
     function elementalGems(){
@@ -576,124 +621,124 @@ var elemental = function(){
         
         fireGem = gems.create(0, 0, 'atlas.elemental', "fireGem");
         fireGem.anchor.setTo(0.5, 0.5)
-        fireGem.x = game.world.centerX - dock.x * 0.25
+        fireGem.x = game.world.centerX - 150
         fireGem.y = dock.y * 0.35
         fireGem.inputEnabled = true
+        fireGem.shooted = false
         fireGem.element = elements.fire
         fireGem.events.onInputUp.add(shootGem)
         game.physics.enable(fireGem, Phaser.Physics.ARCADE)
         
-        /*game.time.events.loop(4000,function(){
-            
-            game.add.tween(fireGem).to({y:fireGem.y + 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(fireGem).to({y:fireGem.y - 10}, 2000, Phaser.Easing.linear, true)
+        fireGem.tween = game.add.tween(fireGem).to({y:fireGem.y + 10}, 2000, Phaser.Easing.linear, true)
+        
+        fireGem.tween.onComplete.add(function() 
+        {
+            game.add.tween(fireGem).to({y:fireGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
+                fireGem.tween.start()
             })
-        },this)*/
+        })
         
         aquaGem = gems.create(0, 0, 'atlas.elemental', "aquaGem");
         aquaGem.anchor.setTo(0.5, 0.5)
-        aquaGem.x = game.world.centerX - dock.x * 0.1
+        aquaGem.x = game.world.centerX - 70
         aquaGem.y = dock.y * 0.6
         aquaGem.inputEnabled = true
+        aquaGem.shooted = false
         aquaGem.element = elements.aqua
         aquaGem.events.onInputUp.add(shootGem)
         game.physics.enable(aquaGem, Phaser.Physics.ARCADE)
         
-        /*game.time.events.loop(3000,function(){
-            
-            game.add.tween(aquaGem).to({y:aquaGem.y + 10}, 1500, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(aquaGem).to({y:aquaGem.y - 10}, 1500, Phaser.Easing.linear, true)
+        aquaGem.tween = game.add.tween(aquaGem).to({y:aquaGem.y + 10}, 2000, Phaser.Easing.linear, true)
+        
+        aquaGem.tween.onComplete.add(function() 
+        {
+            game.add.tween(aquaGem).to({y:aquaGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
+                aquaGem.tween.start()
             })
-        },this)*/
+        })
         
         iceGem = gems.create(0, 0, 'atlas.elemental', "iceGem");
         iceGem.anchor.setTo(0.5, 0.5)
-        iceGem.x = game.world.centerX + dock.x * 0.1
+        iceGem.x = game.world.centerX + 70
         iceGem.y = dock.y * 0.6
         iceGem.inputEnabled = true
+        iceGem.shooted = false
         iceGem.element = elements.ice
         iceGem.events.onInputUp.add(shootGem)
         game.physics.enable(iceGem, Phaser.Physics.ARCADE)
         
-        /*game.time.events.loop(4000,function(){
-            
-            game.add.tween(iceGem).to({y:iceGem.y + 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(iceGem).to({y:iceGem.y - 10}, 2000, Phaser.Easing.linear, true)
+        iceGem.tween = game.add.tween(iceGem).to({y:iceGem.y + 10}, 2000, Phaser.Easing.linear, true)
+        
+        iceGem.tween.onComplete.add(function() 
+        {
+            game.add.tween(iceGem).to({y:iceGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
+                iceGem.tween.start()
             })
-        },this)*/
+        })
         
         windGem = gems.create(0, 0, 'atlas.elemental', "windGem");
         windGem.anchor.setTo(0.5, 0.5)
-        windGem.x = game.world.centerX + dock.x * 0.25
+        windGem.x = game.world.centerX + 150 
         windGem.y = dock.y * 0.35
         windGem.inputEnabled = true
+        windGem.shooted = false
         windGem.element = elements.wind
-        windGem.events.onInputUp.add(shootGem)
         game.physics.enable(windGem, Phaser.Physics.ARCADE)
         
-        /*game.time.events.loop(3000,function(){
-            
-            game.add.tween(windGem).to({y:windGem.y + 10}, 1500, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(windGem).to({y:windGem.y - 10}, 1500, Phaser.Easing.linear, true)
+        windGem.tween = game.add.tween(windGem).to({y:windGem.y + 10}, 2000, Phaser.Easing.linear, true)
+        
+        windGem.tween.onComplete.add(function() 
+        {
+            game.add.tween(windGem).to({y:windGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
+                windGem.tween.start()
             })
-        },this)*/
+        })
+        
+        windGem.events.onInputUp.add(shootGem, this)
     }
     
-    function shootGem(obj){
+    function shootGem(gem){
         
-        var tmpX = obj.x
-        var tmpY = obj.y
+        witchAnim('ATTACK')
+        
+        game.time.events.add(700, function(){
+            witchAnim('IDLE')
+        }, this)
+       
+        sound.play("cut")
+        gem.shooted = true
+        
+        gem.tween.pause()
+        
+        var tmpX = gem.x
+        var tmpY = gem.y
  
-        game.add.tween(obj).to({x:enemyMask.x, y:enemyMask.y}, 200, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(obj).to({x:tmpX, y:tmpY}, 200, Phaser.Easing.linear, true)
-            })
-        obj.body.enable = true
+        game.add.tween(gem).to({x:enemyMask.x, y:enemyMask.y}, 200, Phaser.Easing.linear, true).onComplete.add(function() 
+        {
+            game.add.tween(gem).to({x:tmpX, y:tmpY}, 200, Phaser.Easing.linear, true).onComplete.add(function(){gem.tween.resume()})
+        })
+        
+        gem.body.enable = true
     }
     
     function enemiesMask(){
         
         enemyMask = game.add.physicsGroup()
         enemyMask.x = game.world.centerX
-        enemyMask.y = game.world.height + 100
+        enemyMask.y = game.world.height + 300
         enemyMask.enableBody = true
         enemyMask.physicsBodyType = Phaser.Physics.ARCADE
+        game.physics.arcade.enable(enemyMask)
         sceneGroup.add(enemyMask)  
-        
-        //crear un nuevo grupo independiente para el escudo
-        
-        windEnemy()
-    }
-    
-    function fireEnemy(){
-        
-        var fire = enemyMask.create(0, 25, 'atlas.elemental', 'fireMask')
-        fire.alpha = 0
-        fire.anchor.setTo(0.5, 1)
-        fire.body.immovable = true
-        fire.element = elements.fire
-        game.physics.enable(fire, Phaser.Physics.ARCADE)
-        
-        var fireMask = game.add.spine(0, 0, "fire")
-        //fireMask.scale.setTo(0.9, 0.9)
-        fireMask.setAnimationByName(0, "IDLE", true)
-        fireMask.setSkinByName("normal")
-        enemyMask.add(fireMask)
-        
-        if(level > 2){
-            fireShield = enemyMask.create(0, 25, 'atlas.elemental', 'fireShield')
-            fireShield.anchor.setTo(0.5, 1)
-            fireShield.body.immovable = true
-            fireShield.element = elements.fire
-            game.physics.enable(fireShield, Phaser.Physics.ARCADE)
-        }
     }
     
     function aquaEnemy(){
+        
+        var aquaMask = game.add.spine(0, 0, "aqua")
+        //aquaMask.scale.setTo(0.9, 0.9)
+        aquaMask.setAnimationByName(0, "IDLE", true)
+        aquaMask.setSkinByName("normal")
+        enemyMask.add(aquaMask)
         
         var aqua = enemyMask.create(0, 25, 'atlas.elemental', 'aquaMask')
         aqua.alpha = 0
@@ -702,22 +747,52 @@ var elemental = function(){
         aqua.element = elements.aqua
         game.physics.enable(aqua, Phaser.Physics.ARCADE)
         
-        var aquaMask = game.add.spine(0, 0, "aqua")
-        //fireMask.scale.setTo(0.9, 0.9)
-        aquaMask.setAnimationByName(0, "IDLE", true)
-        aquaMask.setSkinByName("normal")
-        enemyMask.add(aquaMask)
-        
-        if(level > 2){
-            aquaShield = enemyMask.create(0, -50, 'atlas.elemental', 'aquaShield')
+        if(level > 1){
+            var aquaShield = enemyMask.create(0, -50, 'atlas.elemental', 'aquaShield')
             aquaShield.anchor.setTo(0.5, 1)
-            aquaShield.body.immovable = true
             aquaShield.element = elements.aqua
-            game.physics.enable(aquaShield, Phaser.Physics.ARCADE)
+
+            var aquaShield2 = enemyMask.create(0, -50, 'atlas.elemental', 'aquaShieldBroken')
+            aquaShield2.anchor.setTo(0.5, 1)
+            aquaShield2.alpha = 0
+            aquaShield2.element = elements.aqua
+        }
+    }
+    
+    function fireEnemy(){
+        
+        var fireMask = game.add.spine(0, 0, "fire")
+        //fireMask.scale.setTo(0.9, 0.9)
+        fireMask.setAnimationByName(0, "IDLE", true)
+        fireMask.setSkinByName("normal")
+        enemyMask.add(fireMask)
+        
+        var fire = enemyMask.create(0, 25, 'atlas.elemental', 'fireMask')
+        fire.alpha = 0
+        fire.anchor.setTo(0.5, 1)
+        fire.body.immovable = true
+        fire.element = elements.fire
+        game.physics.enable(fire, Phaser.Physics.ARCADE)
+        
+        if(level > 1){
+            var fireShield = enemyMask.create(0, 2, 'atlas.elemental', 'fireShield')
+            fireShield.anchor.setTo(0.5, 1)
+            fireShield.element = elements.fire
+
+            var fireShield2 = enemyMask.create(0, 2, 'atlas.elemental', 'fireShieldBroken')
+            fireShield2.anchor.setTo(0.5, 1)
+            fireShield2.alpha = 0
+            fireShield2.element = elements.fire
         }
     }
     
     function iceEnemy(){
+        
+        var iceMask = game.add.spine(0, 0, "ice")
+        //fireMask.scale.setTo(0.9, 0.9)
+        iceMask.setAnimationByName(0, "IDLE", true)
+        iceMask.setSkinByName("normal")
+        enemyMask.add(iceMask)
         
         var ice = enemyMask.create(0, 25, 'atlas.elemental', 'iceMask')
         ice.alpha = 0
@@ -726,22 +801,25 @@ var elemental = function(){
         ice.element = elements.ice
         game.physics.enable(ice, Phaser.Physics.ARCADE)
         
-        var iceMask = game.add.spine(0, 0, "ice")
-        //fireMask.scale.setTo(0.9, 0.9)
-        iceMask.setAnimationByName(0, "IDLE", true)
-        iceMask.setSkinByName("normal")
-        enemyMask.add(iceMask)
-        
-        if(level > 2){
-            iceShield = enemyMask.create(0, -10, 'atlas.elemental', 'iceShield')
+        if(level > 1){
+            var iceShield = enemyMask.create(0, -10, 'atlas.elemental', 'iceShield')
             iceShield.anchor.setTo(0.5, 1)
-            iceShield.body.immovable = true
             iceShield.element = elements.ice
-            game.physics.enable(iceShield, Phaser.Physics.ARCADE)
+            
+            var iceShield2 = enemyMask.create(0, -10, 'atlas.elemental', 'iceShieldBroken')
+            iceShield2.anchor.setTo(0.5, 1)
+            iceShield2.alpha = 0
+            iceShield2.element = elements.ice
         }
     }
     
     function windEnemy(){
+        
+        var windMask = game.add.spine(0, 0, "wind")
+        //fireMask.scale.setTo(0.9, 0.9)
+        windMask.setAnimationByName(0, "IDLE", true)
+        windMask.setSkinByName("normal")
+        enemyMask.add(windMask)
         
         var wind = enemyMask.create(0, 25, 'atlas.elemental', 'windMask')
         wind.alpha = 0
@@ -750,42 +828,165 @@ var elemental = function(){
         wind.element = elements.wind
         game.physics.enable(wind, Phaser.Physics.ARCADE)
         
-        var windMask = game.add.spine(0, 0, "wind")
-        //fireMask.scale.setTo(0.9, 0.9)
-        windMask.setAnimationByName(0, "IDLE", true)
-        windMask.setSkinByName("normal")
-        enemyMask.add(windMask)
-        
-        if(level > 2){
-            windShield = enemyMask.create(0, 25, 'atlas.elemental', 'windShield')
+        if(level > 1){
+            var windShield = enemyMask.create(0, 25, 'atlas.elemental', 'windShield')
             windShield.anchor.setTo(0.5, 1)
-            windShield.body.immovable = true
             windShield.element = elements.wind
-            game.physics.enable(windShield, Phaser.Physics.ARCADE)
+            
+            var windShield2 = enemyMask.create(0, 25, 'atlas.elemental', 'windShieldBroken')
+            windShield2.anchor.setTo(0.5, 1)
+            windShield2.alpha = 0
+            windShield2.element = elements.wind
         }
     }
     
     function initGame(){
+        
+        enemyMask.y = game.world.height + 250
+        enemyMask.x = game.rnd.integerInRange(dock.centerX - dock.width * 0.4, dock.centerX + dock.width * 0.4)
+        witch.body.enable = true
+        
+        enemyHP = level
+        
+        if(level > 2){
+            enemyHP = 3
+            if(speed < 7)
+                speed += 0.5
+        }
+        
         switch(enemySelect)
         {
-
+            case 0: aquaEnemy()
+            break;
+            case 1: fireEnemy()
+            break;
+            case 2: iceEnemy()
+            break;
+            case 3: windEnemy()
+            break;
         }
+        
+        enemySelect = getRand()
     }
     
     function getRand(){
         var x = game.rnd.integerInRange(0, 3)
-        if(x == enemySelect)
+        if(x === enemySelect)
             return getRand()
-        else 
-            enemySelect = x
-        
-        return enemySelect     
+        else
+            return x     
     }
     
-    function coll(gems, enemyMask){
+    function attackMask(gem, enemyMask){
 
-        gems.body.enable = false
-        console.log(enemyMask.element)
+        gem.body.enable = false
+        var auxSpeed = speed
+        
+        if(gem.element === enemyMask.element && gem.shooted){
+            
+            particleCorrect.x = enemyMask.parent.x
+            particleCorrect.y = enemyMask.parent.y - 100
+            particleCorrect.start(true, 1000, null, 4)
+            
+            enemyHP--
+            
+            switch(enemyHP){
+                case 0:
+                    sound.play("right")
+                    enemyMask.parent.children[0].setAnimationByName(0, "LOSE", false)
+                    speed = 0
+                    
+                    if(auxSpeed%3 === 0)
+                        addPoint(1)
+                    
+                    game.time.events.add(1700, function() 
+                    {
+                        enemyMask.parent.removeAll(true)
+                        speed = auxSpeed
+                        level++
+                        initGame()
+                    }, this)
+                break
+                
+                case 1:
+                    sound.play("glassbreak")
+                    speed = -10
+                    enemyMask.parent.children[2].alpha = 0
+                    enemyMask.parent.children[3].alpha = 0
+                    game.time.events.add(300, function() 
+                    {
+                        speed = auxSpeed
+                    }, this)
+                break
+                
+                case 2:
+                    sound.play("glassbreak")
+                    speed = -10
+                    enemyMask.parent.children[2].alpha = 0
+                    enemyMask.parent.children[3].alpha = 1
+                    game.time.events.add(300, function() 
+                    {
+                        speed = auxSpeed
+                    }, this)
+                break
+            }
+            
+        }
+        else if(gem.shooted){
+            speed = 0
+            missPoint()
+            particleWrong.x = enemyMask.parent.x
+            particleWrong.y = enemyMask.parent.y - 200
+            particleWrong.start(true, 1000, null, 4)  
+            game.time.events.add(600, function() 
+            {
+                speed = auxSpeed
+            }, this)
+        }
+        
+        gem.shooted = false
+    }
+    
+    function getDamage(witch, enemyMask){
+        
+        witch.body.enable = false
+        speed = 0
+        
+        game.add.tween(enemyMask.parent).to({x:game.world.centerX, y:-50}, 500, Phaser.Easing.linear, true)
+        
+        if(lives > 1){
+            witchAnim('HIT')
+            missPoint()
+            
+            game.time.events.add(600, function(){
+                witchAnim('IDLE')
+            }, this)
+            
+            game.time.events.add(600, function() {
+                speed = 1
+                enemyMask.parent.removeAll(true)
+                initGame()
+            }, this)
+        }
+        else{
+            witchAnim('LOSE')
+            game.time.events.add(900, function(){
+                witchAnim('LOSESTILL')
+            }, this)
+            
+            game.time.events.add(1300, function() {
+                missPoint()
+            }, this)
+        }
+        
+    }
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('wrong')
+        sceneGroup.add(particleWrong)
     }
     
 	return {
@@ -821,6 +1022,7 @@ var elemental = function(){
             initWitch()
 			elementalGems()
             enemiesMask()
+            createParticles()
             
 			buttons.getButton(battleSong,sceneGroup)
             createOverlay()

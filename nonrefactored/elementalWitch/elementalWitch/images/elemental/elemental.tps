@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>D:/repositorioLocal/nonrefactored/elementalWitch/elementalWitch/images/elemental/elemental.tps</string>
+        <string>/Users/rockdrizt/Documents/repositorioLocal/nonrefactored/elementalWitch/elementalWitch/images/elemental/elemental.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -239,6 +239,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">background.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,99,95,198</rect>
+                <key>scale9Paddings</key>
+                <rect>48,99,95,198</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">button.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -448,6 +461,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">wave.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>146,19,291,37</rect>
+                <key>scale9Paddings</key>
+                <rect>146,19,291,37</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">windGem.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -528,6 +554,8 @@
             <filename>windMask.png</filename>
             <filename>windShield.png</filename>
             <filename>windGem.png</filename>
+            <filename>background.png</filename>
+            <filename>wave.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
