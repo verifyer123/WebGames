@@ -56,7 +56,7 @@ var elemental = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 104
 	var indexGame
     var overlayGroup
     var battleSong

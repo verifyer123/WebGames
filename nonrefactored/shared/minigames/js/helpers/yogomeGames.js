@@ -107,7 +107,8 @@ yogomeGames.getGames = function(){
         {name:'River Cleaner',url:'http://yogome.com/epic/minigames/cleanerSite/',sceneName:'river',subject:'Sustainability', review:false},//100
         {name:'Garbage Diving',url:'http://yogome.com/epic/minigames/garbageSite/',sceneName:'garbageDiving',subject:'Sustainability', review:false},//101
         {name:'Space Vaccum',url:'http://yogome.com/epic/minigames/vaccumSite/',sceneName:'spaceVaccum',subject:'Sustainability', review:false},//102
-        {name:'Garbage Mole',url:'http://yogome.com/epic/minigames/gMoleSite/',sceneName:'mole',subject:'Sustainability', review:false}//103
+        {name:'Garbage Mole',url:'http://yogome.com/epic/minigames/gMoleSite/',sceneName:'mole',subject:'Sustainability', review:false},//103
+        {name:'Elemental Witch',url:'http://yogome.com/epic/minigames/elementalSite/',sceneName:'elemental',subject:'Creativity', review:false}//104
         ]
     return games
         
