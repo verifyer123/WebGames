@@ -67,7 +67,7 @@ function startGame(){
 		localization.setLanguage(parent.language)
 
 		var charactersSet = []
-		var allCharacters = epicCharacters.getCharacters()
+		var allCharacters = epicCharacters
 		var players = parent.epicModel || epicModel
 		var currentPlayer = players.getPlayer()
 		var mainCharName = allCharacters["yogotar" + currentPlayer.yogotar]
