@@ -68,6 +68,12 @@ function startGame(){
 
 		var charactersSet = []
 		var allCharacters = epicCharacters
+		for(var pIndex = 0; pIndex < epicCharacters.length; pIndex++){
+			var character = epicCharacters[pIndex]
+			character.index = pIndex
+			epicCharacters[character.id] = character
+		}
+
 		var players = parent.epicModel || epicModel
 		var currentPlayer = players.getPlayer()
 		var mainCharName = allCharacters["yogotar" + currentPlayer.yogotar]
