@@ -6,6 +6,7 @@ var epicModel = function () {
 		yogotar:"Dinamita",
 		currentPosition:0,
 		currentMinigame:0,
+		paidUser:true,
 		version: 0.1
 	}
 

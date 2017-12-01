@@ -443,9 +443,11 @@ var map = function(){
 					
 					var fullStar = group.create(0,0,'atlas.map','star_won')
 					fullStar.anchor.setTo(0.5,0.5)
+					fullStar.alpha = 0
 					
-					if(!currentPlayer.minigames[((i-1)*4) + u]){
-						fullStar.alpha = 0
+					var indexUsed = ((i-1)*4) + u
+					if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed].completed){
+						fullStar.alpha = 1
 					}
 					
 					pivotX+= 35
@@ -461,12 +463,36 @@ var map = function(){
 					ballGroup.locked = false
 				}else{
 					
+					var countMinigames = 0
+					if(currentPlayer.paidUser){
+						
+						var indexUsed = (i - 2) * 4
+						for(var u = 0; u < 4; u++){
+
+							if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed + u].completed){
+								countMinigames++
+							}
+						}
+					}
+					
+					
+					
 					ballGroup.locked = true
 				
 					ballGroup.tween = game.add.tween(lock.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(3,6) * 100,"Linear",true,0,-1)
 					ballGroup.tween.yoyo(true,0)
+					
+					console.log(countMinigames + ' count')
+					
+					if(countMinigames >=2){
+						
+						ballGroup.locked = false
+						ballGroup.tween.stop()
+						
+						lock.alpha = 0
+						lock.scale.setTo(1,1)
+					}
 				}
-				
 				
 			}
 			
@@ -485,6 +511,11 @@ var map = function(){
 			
 			
 		}
+		
+		/*for(var i = 0; i < currentPlayer.minigames.length;i++){
+					
+			console.log(currentPlayer.minigames[i].completed)
+		}*/
 	}
 	
 	function inputBall(obj){
@@ -720,11 +751,19 @@ var map = function(){
 	
 	function createBackground(){
 		
-		var back = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.map','texture')
+		/*var back = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.map','texture')
 		back.tint =tileColors[0]
-		sceneGroup.add(back)
+		sceneGroup.add(back)*/
 		
-		scroller = game.add.existing(new ScrollableArea(0, 0, game.width, game.height));
+		var lineArea = 60
+		
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x314783)
+        rect.drawRect(0,0,game.world.width,lineArea)
+        rect.endFill()
+		sceneGroup.add(rect)
+		
+		scroller = game.add.existing(new ScrollableArea(0, lineArea + 5, game.width, game.height - lineArea + 5));
 		scroller.start();
 		sceneGroup.add(scroller)
 

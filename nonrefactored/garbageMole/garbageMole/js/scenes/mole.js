@@ -110,8 +110,8 @@ var mole = function(){
         speed = 20
         score = 0
         
-        leftLimit = board.x - (board.width * 0.42)
-        rightLimit = (board.width * 0.42) + board.x
+        leftLimit = board.x - (board.width * 0.45)
+        rightLimit = (board.width * 0.42) + board.x - step
         topLimit = board.y - (board.height * 0.5) + step
         downLimit = board.height - step * 2 
         
@@ -255,6 +255,7 @@ var mole = function(){
         heartsGroup.add(group)
 
         var heartImg = group.create(0,0,'atlas.mole','life_box')
+        heartImg.scale.setTo(0.9, 0.8)
 
         pivotX+= heartImg.width * 0.45
         
@@ -371,10 +372,10 @@ var mole = function(){
 		tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.mole', "tile")
         sceneGroup.add(tile)
         
-        board = sceneGroup.create(game.world.centerX, 0, "board");
+        board = sceneGroup.create(game.world.centerX, 0, "board")
         board.anchor.setTo(0.5, 0.5)
         board.scale.setTo(1, 0.8)
-        board.y = board.height * 0.5 + 20
+        board.y = board.height * 0.5 + 55
 	}
 	
 	function update(){
@@ -596,7 +597,7 @@ var mole = function(){
       
         mole = game.add.sprite(x, y, 'atlas.mole', 'star')
         mole.alpha = 0 
-        mole.scale.setTo(0.7, 0.7)
+        mole.scale.setTo(0.6, 0.6)
         game.physics.arcade.enable(mole)
         mole.body.immovable = true
     }
@@ -667,15 +668,15 @@ var mole = function(){
                   
         switch(pos){
             case 0:
-                spawnX = game.rnd.integerInRange(leftLimit, game.world.centerX - step)
-                spawnY = game.rnd.integerInRange(topLimit, board.centerY - step)
+                spawnX = game.rnd.integerInRange(leftLimit + step, game.world.centerX - step)
+                spawnY = game.rnd.integerInRange(topLimit + step, board.centerY - step)
             break
             case 1:
                 spawnX = game.rnd.integerInRange(game.world.centerX + step, rightLimit)
-                spawnY =  game.rnd.integerInRange(topLimit, board.centerY - step)
+                spawnY =  game.rnd.integerInRange(topLimit + step, board.centerY - step)
             break
             case 2:
-                spawnX =  game.rnd.integerInRange(leftLimit, game.world.centerX -step)
+                spawnX =  game.rnd.integerInRange(leftLimit + step, game.world.centerX - step)
                 spawnY = game.rnd.integerInRange(board.centerY + step, downLimit)
             break
             case 3:
@@ -870,22 +871,26 @@ var mole = function(){
             moleDirection = directions.down
         }*/
         
-       	var direction = swipe.check();
+       	var direction = swipe.check()
         
         if(direction !== null)
         {
             switch(direction.direction) {
                 case swipe.DIRECTION_UP:
-                    moleDirection = directions.up
+                    if(moleDirection != directions.down)
+                        moleDirection = directions.up
                     break;
                 case swipe.DIRECTION_DOWN:
-                    moleDirection = directions.down
+                    if(moleDirection != directions.up)
+                        moleDirection = directions.down
                     break;
                 case swipe.DIRECTION_LEFT:
-                    moleDirection = directions.left
+                    if(moleDirection != directions.right)
+                        moleDirection = directions.left
                     break;
                 case swipe.DIRECTION_RIGHT:
-                    moleDirection = directions.right
+                    if(moleDirection != directions.left)
+                        moleDirection = directions.right
                     break;
             }
         }
@@ -902,13 +907,13 @@ var mole = function(){
             y += step;
         }
         
-        if (x < leftLimit) {
-            x = rightLimit - step
-        } else if (x > rightLimit - step) {
+        if (x <= leftLimit) {
+            x = rightLimit
+        } else if (x > rightLimit) {
             x = leftLimit
         } else if (y < topLimit) {
-            y = downLimit - step
-        } else if (y >= downLimit) {
+            y = downLimit 
+        } else if (y >= downLimit + step) {
             y = topLimit 
         }
     }
@@ -926,7 +931,7 @@ var mole = function(){
         trashBoard = sceneGroup.create(game.world.centerX, 0, 'atlas.mole', "trashBoard")
         trashBoard.anchor.setTo(0.5, 0.5)
         trashBoard.scale.setTo(1.6, 1.6)
-        trashBoard.y = board.height + trashBoard.height * 0.7
+        trashBoard.y = board.height + trashBoard.height * 0.85
         
         square = sceneGroup.create(trashBoard.x, trashBoard.y - 10, 'atlas.mole', "cuadro")
         square.anchor.setTo(0.5, 0.5)
