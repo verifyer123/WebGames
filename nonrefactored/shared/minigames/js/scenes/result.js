@@ -307,7 +307,7 @@ var result = function(){
 			if(parent.epicModel){
 				
 				var currentPlayer = parent.epicModel.getPlayer()
-				currentPlayer.minigames[currentPlayer.currentMinigame] = true
+				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
 			}
 		}
 		
