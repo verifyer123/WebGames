@@ -44,6 +44,9 @@ var vs = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+			{	name: "energyCharge2",
+				file: soundsPath + "energyCharge2.mp3"},
+			
 			
 		],
     }
@@ -100,7 +103,9 @@ var vs = function(){
         sceneGroup.add(startGroup)
                 
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        game.add.tween(sceneGroup).to({alpha:1},500, Phaser.Easing.Cubic.Out,true)
+		
+		sound.play("energyCharge2")
 		
 		game.time.events.add(1000,function(){
 			
@@ -111,9 +116,54 @@ var vs = function(){
 			vsSpine.tween = game.add.tween(vsSpine.scale).to({x:0.95,y:1.05},350,"Linear",true,0,-1)
 			vsSpine.tween.yoyo(true,0)
 			
+			var posFromX = -game.world.width * 0.5
+			var posFromY = game.world.height * 1.5
+			for(var i = 0; i < characterGroup.length;i++){
+				
+				var character = characterGroup.children[i]
+				character.alpha = 1
+				game.add.tween(character).from({x:posFromX,y:posFromY},200,"Linear",true)
+				
+				posFromX+= game.world.width * 2
+				posFromY-= game.world.height * 2
+			
+			}
+			
 			game.time.events.add(200,function(){
+				
 				whiteFade.alpha = 1
 				game.add.tween(whiteFade).to({alpha:0},300,"Linear",true)
+				
+				var spine = characterGroup.children[1].anim
+				characterGroup.children[1].remove(spine)
+				sceneGroup.add(spine)
+				spine.x = game.world.centerX + 160
+				spine.y = game.world.centerY - 50
+				spine.scale.x*=-1
+				
+				var textUp = characterGroup.children[1].text
+				characterGroup.children[1].remove(textUp)
+				textUp.x = game.world.centerX + 175
+				textUp.y = game.world.centerY - 25
+				textUp.scale.x*=-1
+				sceneGroup.add(textUp)
+				
+				sceneGroup.remove(whiteFade)
+				sceneGroup.add(whiteFade)
+				
+				game.stage.backgroundColor = "#ffffff";
+				
+				game.time.events.add(6000,function(){
+					
+					game.add.tween(sceneGroup.scale).to({x:2,y:2},500,"Linear",true)
+					sound.play("energyCharge2")
+					//game.add.tween(whiteFade).to({alpha:1},500,"Linear",true)
+					game.add.tween(sceneGroup).to({alpha:0, x:-game.world.width * 0.5,y:-game.world.height * 0.4},500,"Linear",true).onComplete.add(function(){
+						
+						spaceSong.stop()
+						sceneloader.show("battle")
+					})
+				})
 			})
 						
 		})
@@ -224,7 +274,7 @@ var vs = function(){
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('vs', "images/spines/vsLight/VS.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/versusSong.mp3');
 		
 		console.log(localization.getLanguage() + ' language')
 		
@@ -392,6 +442,11 @@ var vs = function(){
 		whiteFade = new Phaser.Graphics(game)
         whiteFade.beginFill(0xffffff)
         whiteFade.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+        whiteFade.endFill()
+		
+		whiteFade = new Phaser.Graphics(game)
+        whiteFade.beginFill(0xffffff)
+        whiteFade.drawRect(0,0,game.world.width * 2, game.world.height * 2)
         whiteFade.alpha = 0
         whiteFade.endFill()
 		sceneGroup.add(whiteFade)
@@ -472,7 +527,7 @@ var vs = function(){
 	
 	function createVsEffect(){
 		
-		vsSpine = game.add.spine(game.world.centerX,game.world.centerY - 50,"vs")
+		vsSpine = game.add.spine(game.world.centerX,game.world.centerY - 25,"vs")
 		vsSpine.setSkinByName("normal")
 		vsSpine.alpha = 0
 		sceneGroup.add(vsSpine)
@@ -486,10 +541,11 @@ var vs = function(){
 		Phaser.ArrayUtils.shuffle(colorsGradient)
 		
 		var pivotX = game.world.centerX - 150
-		var pivotY = game.world.centerY - 200
+		var pivotY = game.world.centerY + 175
 		for(var i = 0; i < spineList.length;i++){
 			
 			var group = game.add.group()
+			group.alpha = 0
 			group.x = pivotX
 			group.y = pivotY
 			characterGroup.add(group)
@@ -506,16 +562,43 @@ var vs = function(){
 			spine.setSkinByName("normal")
 			spine.setAnimationByName(0,"IDLE",true)
 			spine.scale.setTo(0.6,0.6)
+			group.anim = spine
 			group.add(spine)
 			
-			console.log(char.name + ' name')
+			var groupName = game.add.group()
+			groupName.x = 35
+			groupName.y = 150
+			group.add(groupName)
+			
+			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+			var textName = new Phaser.Text(sceneGroup.game, 0, 27, char.name, fontStyle)
+			textName.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+			textName.anchor.setTo(0.5,0.5)
+			
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x000000)
+			rect.drawRoundedRect(0,0,textName.width +40,50)
+			rect.x-= rect.width * 0.5
+			rect.endFill()
+			groupName.add(rect)
+			
+			groupName.add(textName)
+			group.text = groupName
+			
+			groupName.scale.setTo(0.9,0.9)
+			if(char.name.length >= 10){
+				groupName.scale.setTo(0.75,0.75)
+			}
+			
 			
 			if(i==1){
 				group.scale.x*=-1
+				groupName.scale.x*=-1
 			}
 			
 			pivotX+= 300
-			pivotY+= 400
+			pivotY-= 350
 			
 		}
 	}
@@ -539,10 +622,13 @@ var vs = function(){
 			createVsEffect()
 			
 			addParticles()
-                        			
+                        	
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
-                //spaceSong.loopFull(0.6)
+				game.time.events.add(1000,function(){
+					spaceSong.loopFull(0.8)
+				})
+                
             }, this);
             
             game.onPause.add(function(){
