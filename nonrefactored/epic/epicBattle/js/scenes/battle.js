@@ -286,7 +286,12 @@ var battle = function(){
 
 		game.time.events.add(500, function(){
 			battleSong.stop()
-			if(win){sound.play("winBattle"); hudGroup.sumLvl()}
+			if(win){
+				var cardOwned = false
+				sound.play("winBattle");
+				hudGroup.sumLvl(cardOwned)
+
+			}
 			else{sound.play("loseBattle")}
 			resultsGroup.y = 0
 
@@ -304,7 +309,7 @@ var battle = function(){
 			zoomCamera(1.5, 2000)
 			var head = players[0].getSlotContainer("particle1")
 			var torso = players[0].getSlotContainer("torso1")
-			var toX = head ? head.worldPosition.x - game.world.centerX * 0.5 : players[0].x - 200 + 40//200 is the left bounds limit
+			var toX = head.worldPosition.x - 200 + 40 //: players[0].x - 200 + 40//200 is the left bounds limit
 			var toY = win ? players[0].y - 310 : players[0].y - 250
 			game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
 		})
@@ -579,9 +584,9 @@ var battle = function(){
 	function createCaptured() {
 		var captureGroup = game.add.group()
 		captureGroup.x = game.world.centerX
-		captureGroup.y = game.world.centerY
+		captureGroup.y = game.world.centerY + 80
 		hudGroup.captureGroup = captureGroup
-		sceneGroup.add(captureGroup)
+		hudGroup.add(captureGroup)
 
 		var container = captureGroup.create(0,0,"container")
 		container.anchor.setTo(0.5, 0.5)
@@ -591,12 +596,24 @@ var battle = function(){
 		captureGroup.add(card)
 
 		var fontStyle = {font: "78px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var capturedText = game.add.text(0, -220, "Captured", fontStyle)
+		var capturedText = game.add.text(0, -200, "Captured", fontStyle)
 		capturedText.stroke = '#2a2a2a';
 		capturedText.strokeThickness = 12;
 		capturedText.anchor.setTo(0.5, 0.5)
 		capturedText.setShadow(6, 6, 'rgba(0,0,0,0.5)', 0);
 		captureGroup.add(capturedText)
+
+		captureGroup.alpha = 0
+	}
+	
+	function showCaptured() {
+		var captureGroup = hudGroup.captureGroup
+		var captureTween = game.add.tween(captureGroup).to({alpha:1}, 800, Phaser.Easing.Quintic.In, true)
+		game.add.tween(captureGroup.scale).from({x:1.5, y:1.5}, 800, Phaser.Easing.Quintic.In, true)
+		captureTween.onComplete.add(function () {
+			sound.play("comboSound")
+			game.time.events.add(500, showExit)
+		})
 	}
 
     function createProyectile(proyectile, from, target, percentage){
@@ -879,26 +896,26 @@ var battle = function(){
         pullGroup.alpha = 0
 
 		players[0] = createPlayer(players[0], {x:WIDTH_DISTANCE, y: game.world.height - 150}, 1)
-		players[1] = createPlayer(players[1], {x:game.world.width - WIDTH_DISTANCE * 0.6, y: game.world.height -400}, -1, 0.6)
+		players[1] = createPlayer(players[1], {x:game.world.width - WIDTH_DISTANCE * 0.7, y: game.world.height -400}, -1, 0.6)
 		players[0].multiplier = getMultiplier(players[0].data.stats.element, players[1].data.stats.element)
 		players[1].multiplier = getMultiplier(players[1].data.stats.element, players[0].data.stats.element)
 		// player2.scale.setTo(playerScale * -1, playerScale)
 
-		// var input1 = game.add.graphics()
-		// input1.beginFill(0xffffff)
-		// input1.drawCircle(0,0, 200)
-		// input1.alpha = 0
-		// input1.endFill()
-		// players[0].add(input1)
-		// input1.inputEnabled = true
-		// input1.events.onInputDown.add(function () {
-		// 	// showResults(true)
-		// 	// player1.setAnimation(["LOSE", "LOSESTILL"], true)
-		// 	sumXp = 20
-		// 	controlGroup.hide.start()
-		// 	game.time.events.add(1000, showResults, null, true)
-		// 	// playerAttack(player1, player2, createProyectile, "proyectile")
-		// })
+		var input1 = game.add.graphics()
+		input1.beginFill(0xffffff)
+		input1.drawCircle(0,0, 200)
+		input1.alpha = 0
+		input1.endFill()
+		players[0].add(input1)
+		input1.inputEnabled = true
+		input1.events.onInputDown.add(function () {
+			// showResults(true)
+			// players[0].setAnimation(["LOSE", "LOSESTILL"], true)
+			sumXp = 20
+			controlGroup.hide.start()
+			game.time.events.add(1000, showResults, null, true)
+			// playerAttack(player1, player2, createProyectile, "proyectile")
+		})
 		//
 		// var input2 = game.add.graphics()
 		// input2.beginFill(0xffffff)
@@ -1152,7 +1169,16 @@ var battle = function(){
     function enableCircle(option) {
         option.circle.inputEnabled = true
     }
-    
+
+	function showExit() {
+
+		var exitButton = hudGroup.winGroup.exitButton
+		var exitTween = game.add.tween(exitButton).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+		exitTween.onStart.add(function () {
+			game.add.tween(exitButton.scale).to({x:0.9, y:0.9}, 500, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true).loop(true)
+		})
+	}
+
     function createWinOverlay() {
 		hudGroup.winGroup.alpha = 0
 		hudGroup.winGroup.y = -game.world.height
@@ -1175,6 +1201,7 @@ var battle = function(){
 		// exitButton.inputEnabled = true
 		exitButton.events.onInputDown.add(onClickBtn)
 		exitButton.alpha = 0
+		hudGroup.winGroup.exitButton = exitButton
 
 		var xpGroup = game.add.group()
 		xpGroup.x = game.world.centerX - 180
@@ -1215,6 +1242,7 @@ var battle = function(){
 		starParticle.y = numLevel.y
 
 		var soundLevelHandle
+		var callback
 		function setLvlBar(currentXp, totalXp) {
 			var currentLevel = charactersEntity.getLevel(currentXp)
 			var expLevel = charactersEntity.getLevelXp(currentLevel)
@@ -1251,14 +1279,12 @@ var battle = function(){
 				tweenBar.onComplete.add(function () {
 					console.log("stop")
 					soundLevelHandle.stop()
+					sound.stop("levelUp")
 					exitButton.inputEnabled = true
 					var hideLvlGroup = game.add.tween(lvlGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
 					var hidexPGroup = game.add.tween(xpGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
-					var showExit = game.add.tween(exitButton).to({alpha:1}, 500, Phaser.Easing.Cubic.Out)
-					hideLvlGroup.chain(showExit)
-					
-					showExit.onStart.add(function () {
-						game.add.tween(exitButton.scale).to({x:0.9, y:0.9}, 500, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true).loop(true)
+					hideLvlGroup.onComplete.add(function () {
+						callback()
 					})
 				})
 			}
@@ -1269,10 +1295,11 @@ var battle = function(){
 			})
 		}
 
-		hudGroup.sumLvl = function () {
+		hudGroup.sumLvl = function (cardOwned) {
 			var currentXp = 0
 			var totalXp = currentXp + sumXp
 			soundLevelHandle = sound.play("levelBar", {loop : true})
+			callback = cardOwned ? showExit : showCaptured
 			setLvlBar(currentXp, totalXp)
 		}
 
@@ -1628,6 +1655,8 @@ var battle = function(){
 			hudGroup.add(uiGroup)
 			hudGroup.uiGroup = uiGroup
 
+			createCaptured()
+
 			var winGroup = game.add.group()
 			hudGroup.add(winGroup)
 			hudGroup.winGroup = winGroup
@@ -1650,8 +1679,6 @@ var battle = function(){
 			sceneGroup.add(frontGroup)
 			frontGroup.fixedToCamera = true
 			frontGroup.cameraOffset.setTo(0, 0);
-
-			createCaptured()
 
         }
     }

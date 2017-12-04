@@ -2,6 +2,7 @@ var epicModel = function () {
 	var player = {
 		minigames:[],
 		battles:[],
+		cards:[]
 		characters:[],
 		yogotar:"Dinamita",
 		currentPosition:0,
@@ -18,6 +19,9 @@ var epicModel = function () {
 			minigame.completed = false
 			player.minigames.push(minigame)
 		}
+
+		var data = epicCharacters["yogotar" + player.yogotar]
+		var card = {id: "yogotar" + player.yogotar, xp:0, data:data}
 
 		// var characters = epicCharacters
 		// for(var charIndex = 0; charIndex < epicCharacters.length; charIndex++ ){

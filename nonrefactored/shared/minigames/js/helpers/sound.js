@@ -38,6 +38,14 @@ var sound = function(){
 		}
 	}
 
+	function stop(soundId) {
+		for(var key in decodedSounds){
+			var sound = decodedSounds[soundId]
+			if(sound)
+				sound.stop()
+		}
+	}
+
 	function stopAll() {
 		for(var key in decodedSounds){
 			var sound = decodedSounds[key]
@@ -50,7 +58,8 @@ var sound = function(){
 		decode: decode,
 		init: init,
 		play: play,
-		stopAll:stopAll
+		stopAll:stopAll,
+		stop:stop
 	}
 
 }()

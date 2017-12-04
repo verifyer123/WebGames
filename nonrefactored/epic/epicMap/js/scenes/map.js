@@ -536,7 +536,7 @@ var map = function(){
 	
 	function sendYogotar(){
 		
-		if(yogotarGroup.index != buttonPressed.order){
+		if(yogotarGroup.index !== buttonPressed.order){
 			
 			var ballBack = ballsPosition.children[yogotarGroup.index]
 			var ballTo 

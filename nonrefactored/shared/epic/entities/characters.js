@@ -41,7 +41,6 @@ var charactersEntity = function () {
 			path = path.replace(name + ".json", "")
 			var file = path + "/card.png"
 			imageList.push({name:name + "Card", file:file})
-			console.log(name, file)
 		}
 
 		for(var ecardIndex = 0; ecardIndex < enemyCards.length; ecardIndex++){
