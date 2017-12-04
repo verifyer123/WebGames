@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
-window.onerror = function(){
-	location.reload()
-}
+//window.onerror = function(){
+//	location.reload()
+//}
 
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
@@ -18,7 +18,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-					sceneloader.show("battle")
+					sceneloader.show("vs")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -68,6 +68,12 @@ function startGame(){
 
 		var charactersSet = []
 		var allCharacters = epicCharacters
+		for(var pIndex = 0; pIndex < epicCharacters.length; pIndex++){
+			var character = epicCharacters[pIndex]
+			character.index = pIndex
+			epicCharacters[character.id] = character
+		}
+
 		var players = parent.epicModel || epicModel
 		var currentPlayer = players.getPlayer()
 		var mainCharName = allCharacters["yogotar" + currentPlayer.yogotar]
@@ -80,6 +86,7 @@ function startGame(){
 
 		console.log(charactersSet)
 		battle.setCharacters(charactersSet)
+		vs.setCharacters(charactersSet)
 		battle.setBackground()
 
         window.minigame.game = window.game
@@ -92,6 +99,7 @@ function startGame(){
     	preloadScenes([
            // preloaderIntro,
     		battle,
+			vs,
             //result,
     	])
     }
