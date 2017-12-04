@@ -134,7 +134,7 @@ var vips = function(){
 
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
-        lives = 3
+        lives = 5
         gravity = 500
 		shoot=false
 		inGoal=false
@@ -323,6 +323,7 @@ var vips = function(){
 		      character.loadTexture("atlas.vips","pay1")
 		      }
 		  miniReset()
+
 	  }
 	  
 	 	//character.body.rotateLeft(1);
@@ -946,7 +947,7 @@ var vips = function(){
         
         game.physics.p2.enable([ character ]);
         character.body.friction=4
-        //character.body.fixedRotation=true
+        character.body.fixedRotation=true
         character.body.clearShapes()
         character.body.loadPolygon('physicsData', "cafe1");
 		character.body.onBeginContact.add(where, this);
@@ -958,7 +959,7 @@ var vips = function(){
         game.physics.p2.gravity.y = gravity;
         
         
-		
+        
 		//Terminan todas las plataformas del juego}
 		
 		

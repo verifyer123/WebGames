@@ -100,7 +100,7 @@ var mole = function(){
 
         gameActive = false
         game.stage.backgroundColor = "#ffffff"
-        lives = 5
+        lives = 3
         loadSounds()
         
         x = game.world.centerX + 80 
