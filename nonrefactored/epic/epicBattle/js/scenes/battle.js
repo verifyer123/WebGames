@@ -33,7 +33,10 @@ var battle = function(){
             }
         ],
         images: [
-
+			{
+				name: "container",
+				file: "images/battle/container.png"
+			}
         ],
         sounds: [
             {	name: "pop",
@@ -571,6 +574,29 @@ var battle = function(){
 			timerBar.width = TIMEBAR_WIDTH
 		}
 
+	}
+	
+	function createCaptured() {
+		var captureGroup = game.add.group()
+		captureGroup.x = game.world.centerX
+		captureGroup.y = game.world.centerY
+		hudGroup.captureGroup = captureGroup
+		sceneGroup.add(captureGroup)
+
+		var container = captureGroup.create(0,0,"container")
+		container.anchor.setTo(0.5, 0.5)
+
+		var card = charactersEntity.getCard({id:"toxicEarth1", xp:0})
+		// card.scale.setTo(0.8, 0.8)
+		captureGroup.add(card)
+
+		var fontStyle = {font: "78px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var capturedText = game.add.text(0, -220, "Captured", fontStyle)
+		capturedText.stroke = '#2a2a2a';
+		capturedText.strokeThickness = 12;
+		capturedText.anchor.setTo(0.5, 0.5)
+		capturedText.setShadow(6, 6, 'rgba(0,0,0,0.5)', 0);
+		captureGroup.add(capturedText)
 	}
 
     function createProyectile(proyectile, from, target, percentage){
@@ -1624,6 +1650,8 @@ var battle = function(){
 			sceneGroup.add(frontGroup)
 			frontGroup.fixedToCamera = true
 			frontGroup.cameraOffset.setTo(0, 0);
+
+			createCaptured()
 
         }
     }

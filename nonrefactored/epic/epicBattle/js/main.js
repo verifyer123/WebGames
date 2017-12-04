@@ -18,7 +18,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-					sceneloader.show("vs")
+					sceneloader.show("battle")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -88,6 +88,7 @@ function startGame(){
 		battle.setCharacters(charactersSet)
 		vs.setCharacters(charactersSet)
 		battle.setBackground()
+		charactersEntity.preloadCards(battle, [{id:"toxicEarth1", xp:0}], [])
 
         window.minigame.game = window.game
     	sceneloader.init(game)
