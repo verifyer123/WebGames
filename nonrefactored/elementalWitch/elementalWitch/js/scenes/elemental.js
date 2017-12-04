@@ -71,6 +71,8 @@ var elemental = function(){
     var enemyHP
     var speed
     var enemySelect
+    var weves
+    var count
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -84,6 +86,7 @@ var elemental = function(){
         level = 1
         speed = 1
         enemySelect =  game.rnd.integerInRange(0, 3)
+        count = 0
         
         loadSounds()
         
@@ -353,10 +356,9 @@ var elemental = function(){
         back.width = game.world.width
         back.height = game.world.height
         
-        for (var i = 0; i < 10; i++)
-        {
-        var wave = sceneGroup.create(game.world.randomX, game.world.randomY, "atlas.elemental", 'wave')
-        }
+        weves = game.add.tileSprite(0, 0, game.world.width * 2, game.world.height, "atlas.elemental", 'wave')
+        weves.anchor.setTo(0.5, 0)
+        sceneGroup.add(weves)
         
 		dock = game.add.sprite(game.world.centerX, game.world.centerY, "dock")
         dock.anchor.setTo(0.5, 0.5)
@@ -382,6 +384,10 @@ var elemental = function(){
         
         game.physics.arcade.collide(gems, enemyMask, attackMask, null, this)
         game.physics.arcade.collide(witch, enemyMask, getDamage, null, this)
+        
+        count += 0.005
+        weves.tileScale.x = 2 + Math.sin(count)
+        weves.tileScale.y = 2 + Math.cos(count)
 	}
 	
 	function createTextPart(text,obj){

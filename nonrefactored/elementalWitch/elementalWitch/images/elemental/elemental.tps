@@ -227,6 +227,7 @@
                 <false/>
             </struct>
             <key type="filename">aquaShield.png</key>
+            <key type="filename">aquaShieldBroken.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -305,6 +306,7 @@
                 <false/>
             </struct>
             <key type="filename">fireShield.png</key>
+            <key type="filename">fireShieldBroken.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -314,6 +316,19 @@
                 <rect>45,67,89,134</rect>
                 <key>scale9Paddings</key>
                 <rect>45,67,89,134</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">gametuto.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>107,84,214,168</rect>
+                <key>scale9Paddings</key>
+                <rect>107,84,214,168</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -331,6 +346,7 @@
                 <false/>
             </struct>
             <key type="filename">iceShield.png</key>
+            <key type="filename">iceShieldBroken.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -501,6 +517,7 @@
                 <false/>
             </struct>
             <key type="filename">windShield.png</key>
+            <key type="filename">windShieldBroken.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -556,6 +573,11 @@
             <filename>windGem.png</filename>
             <filename>background.png</filename>
             <filename>wave.png</filename>
+            <filename>gametuto.png</filename>
+            <filename>aquaShieldBroken.png</filename>
+            <filename>fireShieldBroken.png</filename>
+            <filename>iceShieldBroken.png</filename>
+            <filename>windShieldBroken.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
