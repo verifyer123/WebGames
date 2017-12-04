@@ -73,6 +73,7 @@ var elemental = function(){
     var enemySelect
     var weves
     var count
+    var score
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -87,6 +88,7 @@ var elemental = function(){
         speed = 1
         enemySelect =  game.rnd.integerInRange(0, 3)
         count = 0
+        score = 0
         
         loadSounds()
         
@@ -852,11 +854,13 @@ var elemental = function(){
         enemyMask.x = game.rnd.integerInRange(dock.centerX - dock.width * 0.4, dock.centerX + dock.width * 0.4)
         witch.body.enable = true
         
+        gems.setAll('inputEnabled', true)
+        
         enemyHP = level
         
         if(level > 2){
             enemyHP = 3
-            if(speed < 7)
+            if(speed < 11)
                 speed += 0.5
         }
         
@@ -901,8 +905,9 @@ var elemental = function(){
                     sound.play("right")
                     enemyMask.parent.children[0].setAnimationByName(0, "LOSE", false)
                     speed = 0
+                    score++
                     
-                    if(auxSpeed%3 === 0)
+                    if(score % 3 === 0)
                         addPoint(1)
                     
                     game.time.events.add(1700, function() 
@@ -957,19 +962,20 @@ var elemental = function(){
         
         witch.body.enable = false
         speed = 0
-        
+        gems.setAll('inputEnabled', false)
         game.add.tween(enemyMask.parent).to({x:game.world.centerX, y:-50}, 500, Phaser.Easing.linear, true)
         
         if(lives > 1){
             witchAnim('HIT')
             missPoint()
+            score = 0
             
             game.time.events.add(600, function(){
                 witchAnim('IDLE')
             }, this)
             
             game.time.events.add(600, function() {
-                speed = 1
+                speed = 3 
                 enemyMask.parent.removeAll(true)
                 initGame()
             }, this)
