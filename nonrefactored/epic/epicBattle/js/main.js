@@ -18,7 +18,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-					sceneloader.show("battle")
+					sceneloader.show("vs")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
