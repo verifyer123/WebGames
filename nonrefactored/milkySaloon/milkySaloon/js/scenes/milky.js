@@ -362,13 +362,13 @@ var milky = function(){
         bar.setSkinByName("normal")
         sceneGroup.add(bar)
         
-        var chocoCow = game.add.spine(game.world.centerX - 250, bar.y - 150, "cow")
+        var chocoCow = game.add.spine(game.world.centerX - 250, bar.y - 165, "cow")
         chocoCow.scale.setTo(-1, 1)
         chocoCow.setAnimationByName(0, "IDLE", true)
         chocoCow.setSkinByName("normal")
         sceneGroup.add(chocoCow)
         
-        var strawCow = game.add.spine(game.world.centerX + 10, bar.y - 170, "cow")
+        var strawCow = game.add.spine(game.world.centerX + 10, bar.y - 180, "cow")
         //strawCow.scale.setTo(0.9, 0.9)
         strawCow.setAnimationByName(0, "IDLE", true)
         strawCow.setSkinByName("normal1")
