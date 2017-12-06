@@ -277,12 +277,12 @@ var vs = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/versusSong.mp3');
 		
 		console.log(localization.getLanguage() + ' language')
-		
-		for(var i = 0; i < spineList.length;i++){
-			
-			var character = spineList[i]
-			game.load.spine(character.name,character.dir)
-		}
+
+		// for(var i = 0; i < spineList.length;i++){
+		//
+		// 	var character = spineList[i]
+		// 	game.load.spine(character.name,character.dir)
+		// }
         
     }
     
@@ -518,8 +518,9 @@ var vs = function(){
 			
 			var character = characters[i]
 			spineList[i]= {}
-			spineList[i].name = character.name
-			spineList[i].dir = character.directory
+			spineList[i].id = character.data.id
+			spineList[i].name = character.data.name
+			spineList[i].dir = character.data.directory
 		}
 		
 		console.log(spineList + ' list')
@@ -558,7 +559,7 @@ var vs = function(){
 			back.anchor.setTo(0.5,0.5)
 			
 			var char = spineList[i]
-			var spine = game.add.spine(0,110,char.name)
+			var spine = game.add.spine(0,110,char.id)
 			spine.setSkinByName("normal")
 			spine.setAnimationByName(0,"IDLE",true)
 			spine.scale.setTo(0.6,0.6)

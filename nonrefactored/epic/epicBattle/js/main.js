@@ -67,28 +67,41 @@ function startGame(){
 		localization.setLanguage(parent.language)
 
 		var charactersSet = []
-		var allCharacters = epicCharacters
-		for(var pIndex = 0; pIndex < epicCharacters.length; pIndex++){
-			var character = epicCharacters[pIndex]
-			character.index = pIndex
-			epicCharacters[character.id] = character
+		var allCharacters = []
+		for(var key in epicCharacters){
+			var character = epicCharacters[key]
+			allCharacters.push(character)
 		}
 
 		var players = parent.epicModel || epicModel
-		var currentPlayer = players.getPlayer()
-		var mainCharName = allCharacters["yogotar" + currentPlayer.yogotar]
-		console.log(mainCharName)
-		charactersSet.push(mainCharName)
-		// allCharacters = epicCharacters.slice()
-		// allCharacters = Phaser.ArrayUtils.shuffle(allCharacters)
-		var charIndex = game.rnd.integerInRange(0, allCharacters.length - 1)
-		charactersSet.push(allCharacters[charIndex])
+		// if(typeof parent.epicModel == "undefined")
+		//TODO uncomment this on dev
+		players.loadPlayer()
 
+		var currentPlayer = players.getPlayer()
+		var cards = currentPlayer.cards
+		var mainCharName = epicCharacters["yogotar" + currentPlayer.yogotar]
+		console.log(mainCharName)
+		// charactersSet.push(mainCharName)
+
+		var battleIndex = parent.env ? (parent.env.battleIndex ? parent.env.battleIndex : 0) : 0
+		var enemyCards = currentPlayer.battles[battleIndex] || battleService.getOpponents(1)
+		currentPlayer.battles[battleIndex] = enemyCards
+
+		//TODO: change when card Selector is ready
+		var selectedCard = cards[0]
+		var selectedCards = [selectedCard]
+		charactersSet = selectedCards.concat(enemyCards)
+		// var charIndex = game.rnd.integerInRange(0, allCharacters.length - 1)
+
+		// charactersSet.push(allCharacters[charIndex])
+
+		//TODO: change charactersSet to player and enemy cards for both battle and versus
 		console.log(charactersSet)
-		battle.setCharacters(charactersSet)
 		vs.setCharacters(charactersSet)
+		battle.setCharacters(charactersSet)
 		battle.setBackground()
-		charactersEntity.preloadCards(battle, [{id:"toxicEarth1", xp:0}], [])
+		charactersEntity.preloadCards(vs, charactersSet)
 
         window.minigame.game = window.game
     	sceneloader.init(game)
