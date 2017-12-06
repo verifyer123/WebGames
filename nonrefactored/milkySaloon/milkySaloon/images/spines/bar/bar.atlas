@@ -4,7 +4,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal3/background
+normal3/background_1
   rotate: false
   xy: 2, 59
   size: 540, 960
