@@ -30,13 +30,17 @@ var battle = function(){
                 name: "atlas.battle",
                 json: "images/battle/atlas.json",
                 image: "images/battle/atlas.png"
-            }
+            },
+			{
+				name: "atlas.cards",
+				json: "images/cards/atlas.json",
+				image: "images/cards/atlas.png"
+			}
         ],
         images: [
 			{
 				name: "container",
-				file: "images/battle/container.png"
-			}
+				file: "images/battle/container.png"},
         ],
         sounds: [
             {	name: "pop",
@@ -205,6 +209,9 @@ var battle = function(){
 	var soundsList
 	var sumXp
 	var elements
+	var charactersCards
+	var currentPlayer
+	var model
 
     function loadSounds(){
 
@@ -250,6 +257,8 @@ var battle = function(){
         preloadAlpha.style.visibility = "hidden";
         inputsEnabled = false
 		elements = {}
+		model = parent.epicModel || epicModel
+		currentPlayer = model.getPlayer()
 
         loadSounds()
 
@@ -287,10 +296,14 @@ var battle = function(){
 		game.time.events.add(500, function(){
 			battleSong.stop()
 			if(win){
-				var cardOwned = false
+				var battleIndex = parent.battleIndex || 0
+				console.log(currentPlayer.battles)
+				var cardOwned = currentPlayer.battles[battleIndex][0].captured
 				sound.play("winBattle");
 				hudGroup.sumLvl(cardOwned)
+				createConfeti()
 
+				players[0].card.xp += sumXp
 			}
 			else{sound.play("loseBattle")}
 			resultsGroup.y = 0
@@ -301,7 +314,6 @@ var battle = function(){
 			game.add.tween(hudGroup.uiGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
 			game.add.tween(resultsGroup).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
 			game.add.tween(alphaMask).to({alpha:0.7}, 800, Phaser.Easing.Cubic.Out, true)
-			if(win){createConfeti()}
 			inputsEnabled = true
 
 		// var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
@@ -309,7 +321,7 @@ var battle = function(){
 			zoomCamera(1.5, 2000)
 			var head = players[0].getSlotContainer("particle1")
 			var torso = players[0].getSlotContainer("torso1")
-			var toX = head.worldPosition.x - 200 + 40 //: players[0].x - 200 + 40//200 is the left bounds limit
+			var toX = head ? head.worldPosition.x - game.world.centerX * 0.5 : players[0].x - 200 + 40//200 is the left bounds limit
 			var toY = win ? players[0].y - 310 : players[0].y - 250
 			game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
 		})
@@ -591,7 +603,8 @@ var battle = function(){
 		var container = captureGroup.create(0,0,"container")
 		container.anchor.setTo(0.5, 0.5)
 
-		var card = charactersEntity.getCard({id:"toxicEarth1", xp:0})
+		//TODO change to compatible multiple cards
+		var card = charactersEntity.getCard(players[1].card)
 		// card.scale.setTo(0.8, 0.8)
 		captureGroup.add(card)
 
@@ -614,6 +627,9 @@ var battle = function(){
 			sound.play("comboSound")
 			game.time.events.add(500, showExit)
 		})
+		var battleIndex = parent.battleIndex || 0
+		currentPlayer.battles[battleIndex][0].captured = true
+		currentPlayer.cards.push(players[1].card)
 	}
 
     function createProyectile(proyectile, from, target, percentage){
@@ -650,7 +666,8 @@ var battle = function(){
 
 					game.time.events.add(500, function () {
 						var combinedDamage = 10 + (15 * percentage)
-						combinedDamage = Math.floor(combinedDamage * from.multiplier)
+						//TODO: check if level is multiplier
+						combinedDamage = Math.floor(combinedDamage * from.multiplier) * from.level
 						target.hpBar.updateHealth(-combinedDamage)
 						addNumberPart(target, -combinedDamage, "#FF0000", -100)
 
@@ -875,6 +892,7 @@ var battle = function(){
 		proyectile.startPower = startSheet
 
 		player.proyectile = proyectile
+		player.level = charactersEntity.getLevel(player.card.xp)
 
 		startAnimation.onComplete.add(function () {
 			startSheet.alpha = 0
@@ -901,21 +919,21 @@ var battle = function(){
 		players[1].multiplier = getMultiplier(players[1].data.stats.element, players[0].data.stats.element)
 		// player2.scale.setTo(playerScale * -1, playerScale)
 
-		var input1 = game.add.graphics()
-		input1.beginFill(0xffffff)
-		input1.drawCircle(0,0, 200)
-		input1.alpha = 0
-		input1.endFill()
-		players[0].add(input1)
-		input1.inputEnabled = true
-		input1.events.onInputDown.add(function () {
-			// showResults(true)
-			// players[0].setAnimation(["LOSE", "LOSESTILL"], true)
-			sumXp = 20
-			controlGroup.hide.start()
-			game.time.events.add(1000, showResults, null, true)
-			// playerAttack(player1, player2, createProyectile, "proyectile")
-		})
+		// var input1 = game.add.graphics()
+		// input1.beginFill(0xffffff)
+		// input1.drawCircle(0,0, 200)
+		// input1.alpha = 0
+		// input1.endFill()
+		// players[0].add(input1)
+		// input1.inputEnabled = true
+		// input1.events.onInputDown.add(function () {
+		// 	// showResults(true)
+		// 	// players[0].setAnimation(["LOSE", "LOSESTILL"], true)
+		// 	sumXp = 20
+		// 	controlGroup.hide.start()
+		// 	game.time.events.add(1000, showResults, null, true)
+		// 	// playerAttack(player1, player2, createProyectile, "proyectile")
+		// })
 		//
 		// var input2 = game.add.graphics()
 		// input2.beginFill(0xffffff)
@@ -991,8 +1009,10 @@ var battle = function(){
 
 			if(tag === "retry")
 				sceneloader.show("battle")
-			else if(tag === "exit")
-				window.open("../epicMap/",'_self')
+			else if(tag === "exit") {
+				window.open("../epicMap/", '_self')
+				model.savePlayer(currentPlayer)
+			}
         })
     }
 
@@ -1026,19 +1046,14 @@ var battle = function(){
 		// buttons.getImages(game)
 		// console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
-		var charactersJson = []
-		for(var spineIndex = 0; spineIndex < assets.spines.length; spineIndex++){
-			var spineAsset = assets.spines[spineIndex]
-			charactersJson.push(epicCharacters[assets.spines[spineIndex].name])
-		}
-
 		// console.log(assets.spines[0].name, assets.spines[0].file)
 		players = []
 		var projectilesList = {}
 		for(var pIndex = 0; pIndex < 2; pIndex++){
 
 			var player = createSpine(assets.spines[pIndex].name, "normal")
-			player.data = charactersJson[pIndex]
+			player.data = charactersCards[pIndex].data
+			player.card = charactersCards[pIndex]
 			player.numPlayer = pIndex + 1
 			var projectileName = player.data.stats.element
 			player.projectileName = projectileName
@@ -1296,7 +1311,7 @@ var battle = function(){
 		}
 
 		hudGroup.sumLvl = function (cardOwned) {
-			var currentXp = 0
+			var currentXp = players[0].card.xp
 			var totalXp = currentXp + sumXp
 			soundLevelHandle = sound.play("levelBar", {loop : true})
 			callback = cardOwned ? showExit : showCaptured
@@ -1581,11 +1596,14 @@ var battle = function(){
         name: "battle",
         preload:preload,
 		setCharacters:function (characters) {
-			for(var charIndex = 0; charIndex < characters.length; charIndex++){
+			charactersCards = []
+        	for(var charIndex = 0; charIndex < characters.length; charIndex++){
 				var character = characters[charIndex]
+				console.log(character, "character")
 				// var jsonPath = DATA_CHAR_PATH + character.name + ".json"
 				// assets.jsons.push({name:character.name + "Data", file:jsonPath})
-				assets.spines.push({name:character.id, file:character.directory})
+				assets.spines.push({name:character.id, file:character.data.directory})
+				charactersCards.push(character)
 			}
 		},
 		setBackground:function (number) {

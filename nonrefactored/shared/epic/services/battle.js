@@ -21,13 +21,18 @@ var battleService = function () {
 
 	function generateEnemyCards(cards) {
 		var enemies = []
+		console.log(cards)
 		for(var key in epicCharacters){
+			console.log(key, "key")
 			for(var cardIndex = 0; cardIndex<cards.length; cardIndex++){
 				var card = cards[cardIndex]
+				console.log(card.id, "card")
 				if(key !== card.id){
 					var enemyData = epicCharacters[key]
+					// console.log(enemyData)
 					var cardData = epicCharacters[card.id]
-					var multiplier = ELEMENT_MULTIPLIERS[cardData.element][enemyData.element] || 1
+					var multiplier = ELEMENT_MULTIPLIERS[cardData.stats.element][enemyData.stats.element] || 1
+					console.log(multiplier)
 					if(multiplier>=1){
 						var contains = false
 						for(var eIndex = 0; eIndex<enemies.length; eIndex++){
@@ -38,7 +43,7 @@ var battleService = function () {
 							}
 						}
 						if(!contains){
-							var cardEnemy = {id:enemyData.id, xp:0}
+							var cardEnemy = {id:enemyData.id, xp:0, data:enemyData}
 							enemies.push(cardEnemy)
 						}
 					}
@@ -47,7 +52,7 @@ var battleService = function () {
 		}
 
 		Phaser.ArrayUtils.shuffle(enemies)
-		console.log(enemies)
+		console.log(enemies, "enemies")
 
 		return enemies
 
@@ -56,8 +61,9 @@ var battleService = function () {
 	function getMaxXp(cards) {
 		var maxXp = 0
 
-		for(var cardIndex = 0; cards.length; cardIndex++){
+		for(var cardIndex = 0; cardIndex < cards.length; cardIndex++){
 			var card = cards[cardIndex]
+			console.log(card, "card")
 			maxXp = card.xp > maxXp ? card.xp : maxXp
 		}
 
@@ -67,13 +73,14 @@ var battleService = function () {
 	function generateOpponents(numOpponents) {
 		var opponents = []
 
-		var currentPlayer = epicModel.getPlayer()
+		var players = parent.epicModel || epicModel
+		var currentPlayer = players.getPlayer()
 		var cards = currentPlayer.cards
 		
 		var enemyCards = generateEnemyCards(cards)
-		var maxXp = getMaxXp()
+		var maxXp = getMaxXp(cards)
 
-		for (var numIndex = 0; numIndex < numOpponents; numIndex){
+		for (var numIndex = 0; numIndex < numOpponents; numIndex++){
 			var enemyCard = enemyCards[numIndex]
 			enemyCard.xp = maxXp
 			opponents.push(enemyCard)

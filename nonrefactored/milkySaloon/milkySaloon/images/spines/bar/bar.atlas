@@ -1,0 +1,200 @@
+
+bar.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/background
+  rotate: false
+  xy: 2, 59
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+normal3/pared_2
+  rotate: true
+  xy: 839, 455
+  size: 564, 122
+  orig: 564, 122
+  offset: 0, 0
+  index: -1
+normal3/puerta2_0
+  rotate: true
+  xy: 544, 2
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta3_0
+  rotate: true
+  xy: 544, 764
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+normal3/puerta3_1
+  rotate: true
+  xy: 544, 507
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+normal3/puerta3_2
+  rotate: true
+  xy: 544, 250
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+
+bar2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/puerta2_1
+  rotate: false
+  xy: 516, 593
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta2_2
+  rotate: false
+  xy: 259, 3
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta2_3
+  rotate: false
+  xy: 516, 299
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta2_4
+  rotate: false
+  xy: 764, 593
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta2_5
+  rotate: false
+  xy: 764, 299
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta2_6
+  rotate: false
+  xy: 507, 3
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta2_7
+  rotate: false
+  xy: 755, 5
+  size: 246, 292
+  orig: 246, 292
+  offset: 0, 0
+  index: -1
+normal3/puerta3_3
+  rotate: false
+  xy: 2, 592
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+normal3/puerta3_4
+  rotate: false
+  xy: 2, 297
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+normal3/puerta3_5
+  rotate: false
+  xy: 259, 592
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+normal3/puerta3_6
+  rotate: false
+  xy: 2, 2
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+normal3/puerta3_7
+  rotate: false
+  xy: 259, 297
+  size: 255, 293
+  orig: 255, 293
+  offset: 0, 0
+  index: -1
+
+bar3.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/puerta1_0
+  rotate: false
+  xy: 2, 206
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_1
+  rotate: false
+  xy: 206, 206
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_2
+  rotate: true
+  xy: 2, 2
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_3
+  rotate: false
+  xy: 410, 206
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_4
+  rotate: true
+  xy: 289, 2
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_5
+  rotate: false
+  xy: 614, 206
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_6
+  rotate: false
+  xy: 818, 206
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1
+normal3/puerta1_7
+  rotate: true
+  xy: 576, 2
+  size: 202, 285
+  orig: 202, 285
+  offset: 0, 0
+  index: -1

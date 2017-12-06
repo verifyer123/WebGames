@@ -130,7 +130,7 @@ var map = function(){
 		mouseActive = false
 		buttonsActive = false
 		buttonPressed = null
-		battleCounter = -1
+		battleCounter = 0
 		currentPlayer = players.getPlayer()
         loadSounds()
 		gamesList = epicYogomeGames.getGames()
@@ -563,11 +563,12 @@ var map = function(){
 				yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
 
 				//console.log(buttonPressed.order + ' order ' +  yogotarGroup.index + ' yogoIndex')
-				if(yogotarGroup.index == buttonPressed.order){
+				if(yogotarGroup.index === buttonPressed.order){
 					
 					currentPlayer.currentPosition = buttonPressed.order
 					if(buttonPressed.isBattle){
 						if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
+						console.log(buttonPressed.battleIndex)
 						sendBattle()
 					}else{
 						sendGame()
@@ -584,6 +585,7 @@ var map = function(){
 			currentPlayer.currentPosition = buttonPressed.order
 			if(buttonPressed.isBattle){
 				if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
+				console.log(buttonPressed.battleIndex)
 				sendBattle()
 			}else{
 				sendGame()
