@@ -907,7 +907,7 @@ var elemental = function(){
                     speed = 0
                     score++
                     
-                    if(score % 3 === 0)
+                    //if(score % 3 === 0)
                         addPoint(1)
                     
                     game.time.events.add(1700, function() 

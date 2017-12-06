@@ -77,6 +77,7 @@ var mole = function(){
     var mole
     var trashGroup
     var score 
+    var scoreGroup
     var particleCorrect
     var particleWrong
     var viewRight
@@ -826,13 +827,11 @@ var mole = function(){
         {
              if(trash.number === mainTrash && trash.kind === trashKind){ 
                 score++
+                addScore()
                 sound.play('right')
                 particleCorrect.x = trashBoard.x + posX
                 particleCorrect.y = trashBoard.y - 10
                 particleCorrect.start(true, 1000, null, 4)
-                 
-                if(score % 5 == 0)
-                    addPoint(1)
              }
              else{
                 missPoint()
@@ -940,6 +939,46 @@ var mole = function(){
         trashObj.x = square.x
         trashObj.y = square.y
         sceneGroup.add(trashObj)
+        
+        scoreGroup = game.add.group()
+        scoreGroup.x = game.world.centerX
+        scoreGroup.y = 40
+        sceneGroup.add(bagsGroup)
+    }
+    
+    function addScore(){
+        
+        switch(score){
+            case 0:
+                scoreGroup.removeAll()
+            break
+            case 1:
+                star = scoreGroup.create(-100, 0, 'atlas.mole', "star")
+                star.anchor.setTo(0.5, 0.5)
+                game.add.tween(star.scale).to({x:1.5, y:1.5}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(star.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
+                })
+            break
+            case 2:
+                star = scoreGroup.create(-30, 0, 'atlas.mole', "star")
+                star.anchor.setTo(0.5, 0.5)
+                game.add.tween(star.scale).to({x:1.5, y:1.5}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(star.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
+                })
+            break
+            case 3:
+                star = scoreGroup.create(40, 0, 'atlas.mole', "star")
+                star.anchor.setTo(0.5, 0.5)
+                game.add.tween(star.scale).to({x:1.5, y:1.5}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(star.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
+                })
+                addPoint(1)
+                score = 0
+                game.time.events.add(800,function(){
+                    addScore()
+                })
+            break
+        }
     }
     
 	return {
