@@ -94,7 +94,7 @@ var milky = function(){
         doorsOpen = false
         delay = 8000
         tweenStarted = false
-        level = 0
+        level = false
         
         loadSounds()
         
@@ -656,7 +656,12 @@ var milky = function(){
         
         if(btn.flavor === 3){
             openDoors()
-            handPos(order)
+            if(!level){
+                if(doorsOpen)
+                    handPos(order)
+                else
+                    handPos(3)
+            }
         }
         else{
             sound.play("pop")
@@ -664,15 +669,9 @@ var milky = function(){
             buttonsGroup.setAll('tint', '0xaaaaaa')
             shakeMilk(btn)
             
-            if(level !== 0)
+            if(level)
                 tweenTiempo.pause()
         }
-        
-        changeImage(1, handsGroup)
-        game.time.events.add(150,function(){
-            changeImage(0, handsGroup)
-        },this)
-        
     }
     
     function shakeMilk(btn){
@@ -811,7 +810,7 @@ var milky = function(){
         mugsGroup.y = game.world.centerY + 100
         changeImage(3, mugsGroup)
         
-        if(level === 0){
+        if(!level){
             handPos(3)
             changeImage(0, handsGroup)
         }
@@ -833,7 +832,7 @@ var milky = function(){
                 tweenStarted = true
             }
             
-            if(lives > 0 && level !== 0){
+            if(lives > 0 && level){
                 game.time.events.add(300,function(){
                     startTimer(delay)
                 },this)
@@ -904,7 +903,7 @@ var milky = function(){
         game.add.tween(mugsGroup).to({x:bar.x + 350}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
             mugsGroup.scale.setTo(0)
             
-            if(level !== 0){
+            if(level){
                 stopTimer()
             }
 
@@ -914,7 +913,7 @@ var milky = function(){
                 particleCorrect.start(true, 1200, null, 6)
                 addPoint(1)
                 delay -= 100
-                level = 1
+                level = true
             }
             else{
                 particleWrong.x = mugsGroup.x - 20
@@ -961,30 +960,45 @@ var milky = function(){
         handDown.anchor.setTo(0.5, 0.5)
         handDown.alpha = 0
         
-        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 1000, Phaser.Easing.linear, true)
+       
         
+        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
+            
         handsGroup.tween.onComplete.add(function() 
         {
-            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+            changeImage(0, handsGroup)
+            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
                 handsGroup.tween.start()
+                changeImage(1, handsGroup)
             })
         })
     }
     
     function handPos(ans){
         
+        buttonsGroup.setAll('inputEnabled', false)
+        buttonsGroup.setAll('tint', '0xaaaaaa')
+        
         switch(ans){
             case 0:
                 handsGroup.x -= 230
+                buttonsGroup.children[0].inputEnabled = true
+                buttonsGroup.children[0].tint = 0xffffff
             break
             case 1:
                 handsGroup.x -= 150
+                buttonsGroup.children[1].inputEnabled = true
+                buttonsGroup.children[1].tint = 0xffffff
             break
             case 2:
                 handsGroup.x -= 70
+                buttonsGroup.children[2].inputEnabled = true
+                buttonsGroup.children[2].tint = 0xffffff
             break
             case 3:
                 handsGroup.x = buttonsGroup.x + 160
+                buttonsGroup.children[3].inputEnabled = true
+                buttonsGroup.children[3].tint = 0xffffff
             break
         }
     }
