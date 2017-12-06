@@ -296,31 +296,27 @@ var result = function(){
 		
 		var background = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreen','base')
 		background.anchor.setTo(0.5,0.5)
-		background.scale.setTo(1.2,1.2)
+		//background.scale.setTo(1.2,1.2)
         
         var topHeight = game.world.height * 0.8  
 		
-		var titleText = 'great'
 		if(totalScore < 3){
-			titleText = 'tryText'
+			
 		}else{
+			
 			if(parent.epicModel){
 				
 				var currentPlayer = parent.epicModel.getPlayer()
 				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
 			}
 		}
-		
-		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,titleText)
-		greatText.anchor.setTo(0.5,0.5)
-		greatText.scale.setTo(0.7,0.7)
         
 		var animationName = "WIN"
 		
 		if(totalScore < 3){
 			animationName = "LOSE"
 		}
-        var buddy = game.add.spine(game.world.centerX,topHeight * 0.5, "master");
+        var buddy = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "master");
         buddy.scale.setTo(scaleSpine,scaleSpine)
         buddy.setAnimationByName(0, animationName, true);
         buddy.setSkinByName('normal');
@@ -328,10 +324,19 @@ var result = function(){
                 
         var pivotText = game.world.centerX - 170
         
+		
+		var coinsContainer = game.add.group()
+		coinsContainer.x = game.world.centerX + 110
+		coinsContainer.y = game.world.centerY - 100
+		sceneGroup.add(coinsContainer)
+		
+		var imgCont = coinsContainer.create(0,0,'atlas.resultScreen','coin_container')
+		imgCont.anchor.setTo(0.5,0.5)
+		
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY - 60, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
-        sceneGroup.add(retryText)
+        var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width * 0.08,5, 'x ' + totalScore, fontStyle)
+		retryText.anchor.setTo(0,0.5)
+        coinsContainer.add(retryText)
                 
         if(haveCoupon){
             
@@ -371,7 +376,7 @@ var result = function(){
 		if(gameIndex == 93){
 			pivotButtons += 75
 		}else{
-			createBanner()
+			//createBanner()
 		}
         createButtons(pivotButtons)
 		
@@ -483,10 +488,8 @@ var result = function(){
         
         //game.load.spine('amazing', "images/spines/Amaizing.json");
         game.load.spine('master', imagesPath + "spines/skeleton.json");
-		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png')       
 		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
 		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
-		game.load.image('tryText', imagesPath + '/result/try' + localization.getLanguage() + '.png')
 		game.load.image('mapText', imagesPath + '/result/map' + localization.getLanguage() + '.png')
         
     }
