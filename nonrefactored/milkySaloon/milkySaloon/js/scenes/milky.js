@@ -633,7 +633,8 @@ var milky = function(){
             var button = buttonsGroup.create(0, 0, 'atlas.milky', btn[t])
             button.anchor.setTo(0.5, 0.5)
             //button.scale.setTo(0.9, 0.9)
-            button.inputEnabled = true
+            button.inputEnabled = false
+            button.tint = 0xaaaaaa
             button.events.onInputDown.add(inputButton)
             button.flavor = t
             button.y = button.height * 0.5
@@ -814,7 +815,7 @@ var milky = function(){
             handPos(3)
             changeImage(0, handsGroup)
         }
-        else
+        else if(handsGroup != null)
             handsGroup.destroy()
         
         game.add.tween(mugsGroup.scale).to({x:1.3 , y:1.3}, 200, Phaser.Easing.linear, true).onComplete.add(function() 
