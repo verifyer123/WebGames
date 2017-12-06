@@ -92,7 +92,7 @@ var milky = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         doorsOpen = false
-        delay = 5000
+        delay = 8000
         tweenStarted = false
         level = 0
         
@@ -811,8 +811,10 @@ var milky = function(){
         mugsGroup.y = game.world.centerY + 100
         changeImage(3, mugsGroup)
         
-        if(level === 0)
+        if(level === 0){
+            handPos(3)
             changeImage(0, handsGroup)
+        }
         else
             handsGroup.destroy()
         
@@ -901,12 +903,18 @@ var milky = function(){
         sound.play("throw")
         game.add.tween(mugsGroup).to({x:bar.x + 350}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
             mugsGroup.scale.setTo(0)
+            
+            if(level !== 0){
+                stopTimer()
+            }
 
             if(ans === order && doorsOpen){
                 particleCorrect.x = mugsGroup.x -20
                 particleCorrect.y = mugsGroup.y
                 particleCorrect.start(true, 1200, null, 6)
                 addPoint(1)
+                delay -= 100
+                level = 1
             }
             else{
                 particleWrong.x = mugsGroup.x - 20
@@ -914,24 +922,18 @@ var milky = function(){
                 particleWrong.start(true, 1200, null, 6)
                 missPoint()
             }
+            
+            game.add.tween(ordersGroup.scale).to({x:0, y:0}, 250, Phaser.Easing.linear, true).onComplete.add(function(){
+                ordersGroup.removeChildAt(1) 
+                
+                initGame()
+            })
 
             if(doorsOpen)
                 openDoors()
 
             ordersGroup.tween.pause()
             
-            game.add.tween(ordersGroup.scale).to({x:0, y:0}, 250, Phaser.Easing.linear, true).onComplete.add(function(){
-                ordersGroup.removeChildAt(1) 
-                
-                if(ans !== -1)
-                    delay -= 100
-                
-                if(level !== 0)
-                    stopTimer()
-                
-                level = 1
-                initGame()
-            })
         })
     }
     
@@ -982,7 +984,7 @@ var milky = function(){
                 handsGroup.x -= 70
             break
             case 3:
-                handsGroup.x = handsGroup.x
+                handsGroup.x = buttonsGroup.x + 160
             break
         }
     }
