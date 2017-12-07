@@ -17,6 +17,7 @@ var epicModel = function () {
 		for(var mgIndex = 0; mgIndex < minigames.length; mgIndex++){
 			var minigame = minigames[mgIndex]
 			minigame.completed = false
+			minigame.record = 0
 			player.minigames.push(minigame)
 		}
 

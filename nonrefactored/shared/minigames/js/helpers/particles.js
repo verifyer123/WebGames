@@ -1,35 +1,32 @@
-var particles = {}
-var imagesPath = "../../shared/minigames/images/"
-var game
-var gameSong
+var epicparticles = function(){
+  var game = null
 
-particles.getAtlas = function(game){
-	
-	game = game
-		
-	game.load.atlas('atlas.particles', 'assets/sprites/atlas_hash_trim.png', 'assets/sprites/atlas_json_array_trim.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-	
-}
+  function init(gameObject){
+    game = gameObject
+  }
 
-buttons.getButton = function(song,group,posX, posY){
-	
-	gameSong = song
-	
-	console.log(song + ' song')
+  function update(deltaTime){ // Called on every frame
 
-	var button = game.add.group()
-	button.x = posX || game.world.width - 215
-	button.y = posY || 30
-	button.scale.setTo(0.45,0.45)
-	group.add(button)
+  }
 
-	var buttonImage = button.create(0,0,'audioOff')
-	buttonImage.anchor.setTo(0.5,0.5)
+  function loadEmitter(loader, key){
+    loader.image(key, "particles/battle/pickedEnergy/specialBar1.png")
+  }
 
-	var buttonImage = button.create(0,0,'audioOn')
-	buttonImage.pressed = false
-	buttonImage.inputEnabled = true
-	buttonImage.events.onInputDown.add(inputButton)
-	buttonImage.anchor.setTo(0.5,0.5)
-		
-}
+  function newEmitter(emitterName){
+    var group = game.add.group()
+
+    var sprite = game.add.sprite(0, 0, emitterName)
+    sprite.anchor.setTo(0.5, 0.5)
+    group.add(sprite)
+
+    return group
+  }
+
+  return {
+    loadEmitter: loadEmitter,
+    newEmitter: newEmitter,
+    update: update,
+    init: init,
+  }
+}()

@@ -163,7 +163,7 @@ var vs = function(){
 					game.add.tween(sceneGroup.scale).to({x:2,y:2},500,"Linear",true)
 					sound.play("energyCharge2")
 					//game.add.tween(whiteFade).to({alpha:1},500,"Linear",true)
-					game.add.tween(sceneGroup).to({alpha:0, x:-game.world.width * 0.5,y:-game.world.height * 0.4},500,"Linear",true).onComplete.add(function(){
+					game.add.tween(sceneGroup).to({alpha:0, x:-game.world.width * 0.5,y:-game.world.height * 0.45},500,"Linear",true).onComplete.add(function(){
 						
 						spaceSong.stop()
 						sceneloader.show("battle")

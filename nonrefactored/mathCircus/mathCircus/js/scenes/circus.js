@@ -29,6 +29,12 @@ var circus = function(){
 			{   name:"background",
 				file: "images/circus/fondo.png"},
 		],
+		jsons: [
+			{
+				name: 'pickedEnergy', 
+				file: 'particles/battle/pickedEnergy/specialBar1.json'
+			}
+		],
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
@@ -75,14 +81,12 @@ var circus = function(){
 	}
 
 	function initialize(){
-
         game.stage.backgroundColor = "#ffffff"
         lives = 1
 		numLimit = 5
 		timeToUse = 1250
         
-        loadSounds()
-        
+		loadSounds()
 	}
 
     function popObject(obj,delay,appear){
@@ -290,7 +294,6 @@ var circus = function(){
     
     
     function preload(){
-        
         game.stage.disableVisibilityChange = false;
 		buttons.getImages(game)
         
@@ -300,9 +303,10 @@ var circus = function(){
 		game.load.image('howTo',"images/circus/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/circus/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/circus/introscreen.png")
+
+		epicparticles.loadEmitter(game.load, "pickedEnergy")
 		
 		console.log(localization.getLanguage() + ' language')
-        
     }
     
 	function showButtons(appear){
@@ -460,8 +464,9 @@ var circus = function(){
 	}
 	
 	
-	function update(){
-		
+	function update(deltaTime){
+		epicparticles.update(deltaTime)
+
 		background.tilePosition.x--
 		floor.tilePosition.x+= 0.6
 	}
@@ -708,6 +713,11 @@ var circus = function(){
 		yogotar.setAnimationByName(0,"IDLE",true)
 		yogotar.setSkinByName("normal")
 		sceneGroup.add(yogotar)
+
+		//var emitter = epicparticles.newEmitter("pickedEnergy")
+		//emitter.x = yogotar.x
+		//emitter.y = yogotar.y
+		//sceneGroup.add(emitter)
 	}
 	
 	function createButtons(){
