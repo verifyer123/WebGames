@@ -11,6 +11,10 @@ var result = function(){
             "share":"Share",
             "retry":"Retry",
             "myScore":"My score is: ",
+            "previous":"Previous \n record :",
+            "record":"New Record!",
+            "great":"Great",
+            "again":"Try Again",
             "download":"Download"
             
 		},
@@ -22,6 +26,10 @@ var result = function(){
             "share":"Compartir",
             "retry":"Reintentar",
             "myScore":"Mi score es: ",
+            "previous":"Record \n anterior :",
+            "record":"¡Nuevo Récord!",
+            "great":"Genial",
+            "again":"Reintentar",
             "download":"Descargar"
             
 		}
@@ -40,6 +48,21 @@ var result = function(){
 		sounds: [
             {	name: "click",
 				file: soundsPath + "pop.mp3"},
+			{	name: "great",
+				file: soundsPath + "winwin.mp3"},
+			{	name: "point",
+				file: soundsPath + "point.mp3"},
+			{	name: "right",
+				file: soundsPath + "rightChoice.mp3"},
+			{	name: "wrong",
+				file: soundsPath + "wrong.mp3"},
+			{	name: "cheers",
+				file: soundsPath + "cheers.mp3"},
+			{	name: "magic",
+				file: soundsPath + "magic.mp3"},
+			{	name: "boo",
+				file: soundsPath + "CrowdBoo.mp3"},
+			
         ],
 	}
 
@@ -48,16 +71,26 @@ var result = function(){
 	var totalScore, totalTime, totalGoal
 	var shareButton, shareText, tryAgainText
     var win
+	var lastRecord
+	var whiteFade
     var iconsGroup
     var buttonsActive
+	var currentPlayer
     var haveCoupon
     var gamesList
     var goalScore = 50
     var gameNumbers = null
     var scaleToUse
     var gameIndex = 0
+	var newRecord
+	var whiteFade
 	var tile
     var icons
+	var starGroup, buttonsGroup
+	var particlesGroup, particlesUsed
+	var coinsContainer
+	var yogotar
+	var iconImage
 
 	var timeGoal = null
 
@@ -65,6 +98,7 @@ var result = function(){
         
         gamesList = yogomeGames.getGames()
 		        
+		currentPlayer = null
         gameIndex = index
 		totalScore = score
 		totalGoal = 50
@@ -148,13 +182,17 @@ var result = function(){
     
     function inputButton(obj){
         
-        if(obj.active == false){
+        if(obj.active == false || !buttonsActive){
             return
         }
         
         obj.active = false
         
         var parent = obj.parent
+		
+		if(obj.tag == 'map'){
+			parent = obj
+		}
         
         changeImage(0,parent)
         sound.play("click")
@@ -184,24 +222,21 @@ var result = function(){
     
     function createButtons(pivot){
         
-        var buttonsGroup = game.add.group()
+        buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
-        var buttonNames = ['share','retry','map']
+        var buttonNames = ['share','retry']
         
-        var buttonTexts = ['share','retry','map']
+        var buttonTexts = ['share','retry']
         
-		var buttonsLength = buttonNames.length - 1
-		
-		if(parent.epicModel){
-			buttonsLength = buttonNames.length
-		}
+		var buttonsLength = buttonNames.length
 		
         var pivotX = game.world.centerX - 125
         var pivotY = pivot
         for(var i = 0;i<buttonsLength;i++){
         
             var group = game.add.group()
+			group.alpha = 0
             group.x = pivotX
             group.y = pivotY
             buttonsGroup.add(group)
@@ -224,25 +259,14 @@ var result = function(){
 			buttonText.anchor.setTo(0.5,0.5)
             
             pivotX += 250
-			
-			if(i == 2){
-				
-				group.x = game.world.centerX
-				group.y+= 100
-				
-				for(var u = 0; u < buttonsGroup.length;u++){
-					
-					var button = buttonsGroup.children[u]
-					button.scale.setTo(0.85,0.85)
-					button.y-=40
-					
-					if(u==2){
-						button.y-= 22
-					}
-				}
-
-			}
         }
+		
+		var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
+		homeBtn.anchor.setTo(0.5,0.5)
+		homeBtn.alpha = 0
+		homeBtn.events.onInputDown.add(inputButton)
+		homeBtn.inputEnabled = true
+		homeBtn.tag = 'map'
 
     }
     
@@ -264,6 +288,12 @@ var result = function(){
     
     function createBackground(){
         
+		var background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.resultScreen','gradiente_versus')
+		sceneGroup.add(background)
+		
+		var tween = game.add.tween(background.scale).to({y:1.5},2000,"Linear",true,0,-1)
+		tween.yoyo(true,0)
+		
         tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'atlas.resultScreen','retro-pattern');
 		sceneGroup.add(tile)
     }
@@ -290,7 +320,7 @@ var result = function(){
         var win = totalScore >= goalScore
         
         var scaleSpine = 0.55
-        var pivotButtons = game.world.centerY + 115
+        var pivotButtons = game.world.centerY + 375
         
         createBackground()
 		
@@ -306,26 +336,20 @@ var result = function(){
 			
 			if(parent.epicModel){
 				
-				var currentPlayer = parent.epicModel.getPlayer()
+				currentPlayer = parent.epicModel.getPlayer()
 				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
 			}
 		}
-        
-		var animationName = "WIN"
 		
-		if(totalScore < 3){
-			animationName = "LOSE"
-		}
-        var buddy = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "master");
-        buddy.scale.setTo(scaleSpine,scaleSpine)
-        buddy.setAnimationByName(0, animationName, true);
-        buddy.setSkinByName('normal');
-        sceneGroup.add(buddy)
+        yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotar");
+        yogotar.scale.setTo(scaleSpine,scaleSpine)
+        yogotar.setAnimationByName(0, "IDLE", true);
+        yogotar.setSkinByName('Eagle');
+        sceneGroup.add(yogotar)
                 
         var pivotText = game.world.centerX - 170
-        
 		
-		var coinsContainer = game.add.group()
+		coinsContainer = game.add.group()
 		coinsContainer.x = game.world.centerX + 110
 		coinsContainer.y = game.world.centerY - 100
 		sceneGroup.add(coinsContainer)
@@ -337,51 +361,254 @@ var result = function(){
         var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width * 0.08,5, 'x ' + totalScore, fontStyle)
 		retryText.anchor.setTo(0,0.5)
         coinsContainer.add(retryText)
-                
-        if(haveCoupon){
-            
-            if(!win){
-                var needText = game.add.bitmapText(game.world.centerX - 190, game.world.centerY , 'gotham', 'Necesitas', 40);
-                needText.anchor.setTo(0,0.5)
-                needText.tint = 0x9d1760
-                sceneGroup.add(needText)
-
-                var fontStyle = {font: "43px VAGRounded", fontWeight: "bold", fill: "#9d1760", align: "center"}
-
-                var pointsText = new Phaser.Text(sceneGroup.game, needText.x + needText.width * 1.1, needText.y,   goalScore + ' puntos', fontStyle)
-                pointsText.anchor.setTo(0,0.5)
-                sceneGroup.add(pointsText)
-
-                var text = game.add.bitmapText(needText.x - 50, needText.y + 60, 'gotham', 'para obtener este cupón', 40);
-                text.anchor.setTo(0,0.5)
-                text.tint = 0x9d1760
-                sceneGroup.add(text)
-            }else{
-                
-                var imageExist = game.cache.getFrameByName('atlas.resultScreen','coupon')
-                
-                if(imageExist){
-                    
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 50,'atlas.resultScreen','coupon')
-                    coupon.anchor.setTo(0.5,0.5)
-                    
-                }
-            }
-            
-            
-        }
+		coinsContainer.text = retryText
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
-		if(gameIndex == 93){
-			pivotButtons += 75
+		iconImage = sceneGroup.create(game.world.centerX + 110, game.world.centerY - 265,'gameIcon')
+		iconImage.scale.setTo(0.6,0.6)
+		iconImage.anchor.setTo(0.5,0.5)
+		
+		starGroup = game.add.group()
+		starGroup.x = game.world.centerX
+		starGroup.y = game.world.centerY + 15
+		sceneGroup.add(starGroup)
+		
+		var starOff = starGroup.create(0,0,'atlas.resultScreen','star_off')
+		starOff.anchor.setTo(0.5,0.5)
+		
+		var starOn = starGroup.create(0,0,'atlas.resultScreen','star_on')
+		starOn.anchor.setTo(0.5,0.5)
+		
+		starOn.alpha = 0
+		starGroup.star = starOn
+		
+		infoGroup = game.add.group()
+		sceneGroup.add(infoGroup)
+		
+		var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			
+		var line = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY + 110,'-------------', fontStyle)
+		line.anchor.setTo(0.5,0.5)
+		infoGroup.add(line)
+		
+		if(totalScore > 3){
+
+			var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			
+			var previousText = new Phaser.Text(sceneGroup.game, game.world.centerX - 85, game.world.centerY + 200,localization.getString(localizationData,'previous'), fontStyle)
+			previousText.lineSpacing = -10
+			previousText.anchor.setTo(0.5,0.5)
+			infoGroup.add(previousText)
+			
+			var coin = infoGroup.create(game.world.centerX + 50,previousText.y,'atlas.resultScreen','coin')
+			coin.anchor.setTo(0.5,0.5)
+			
+			lastRecord = 0
+			
+			if(currentPlayer){
+				lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
+			}
+			
+			var previousText = new Phaser.Text(sceneGroup.game, coin.x + 75,coin.y + 5,'x ' + lastRecord, fontStyle)
+			previousText.anchor.setTo(0.5,0.5)
+			infoGroup.add(previousText)
+			
+			newRecord = game.add.group()
+			newRecord.alpha = 0
+			newRecord.record = true
+			newRecord.x = game.world.centerX
+			newRecord.y = game.world.centerY + 200
+			infoGroup.add(newRecord)
+			
+			var recordImage = newRecord.create(0,0,'atlas.resultScreen','ribbon')
+			recordImage.scale.setTo(0.9,0.9)
+			recordImage.anchor.setTo(0.5,0.5)
+			
+			var retryText = game.add.bitmapText(0,-15, 'luckiest', localization.getString(localizationData,'record'), 42);
+            retryText.anchor.setTo(0.5,0.5)
+            newRecord.add(retryText)
+
+			
+			pivotButtons = game.world.centerY + 350
+			
 		}else{
-			//createBanner()
+			
+			var greatGroup = game.add.group()
+			greatGroup.x = game.world.centerX
+			greatGroup.y = game.world.centerY + 225
+			greatGroup.scale.setTo(0.9,0.9)
+			infoGroup.add(greatGroup)
+			
+			var greatImage = greatGroup.create(0,0,'atlas.resultScreen','try_again')
+			greatImage.tint = 0xdb195f
+			greatImage.anchor.setTo(0.5,0.5)
+			
+			var greatText = game.add.bitmapText(0,-5, 'luckiest', localization.getString(localizationData,'again'), 52);
+            greatText.anchor.setTo(0.5,0.5)
+			greatText.tint = 0xdb195f
+            greatGroup.add(greatText)
+			
+			
 		}
-        createButtons(pivotButtons)
+		
+		for(var i = 0; i < infoGroup.length;i++){
+			
+			var obj = infoGroup.children[i]
+			obj.alpha = 0
+		}
+		
+		createButtons(pivotButtons)
+		addParticles()
+		
+		animateScene()
 		
 	}
+	
+	function animateScene(){
+		
+		sceneGroup.alpha = 0
+		game.add.tween(sceneGroup).to({alpha:1},500,"Linear",true).onComplete.add(function(){
+				
+			addCoins()
+				
+		})
+		
+	}
+	
+	function addCoins(){
+		
+		var numberAdd = 0
+		var delay = 0
+		var valueChange = 40
+		
+		for(var i = 0; i < totalScore;i++){
+			
+			game.time.events.add(delay,function(){
+				
+				numberAdd++
+				coinsContainer.text.setText('x ' + numberAdd)
+				coinsContainer.scale.setTo(1,1)
+				
+				var indexCheck = numberAdd - 1
+				if(indexCheck % 5 == 0){
+					
+					coinsContainer.scale.setTo(0.9,0.9)
+					
+					sound.play("point")
+				}
+				
+				if(indexCheck % 25 == 0){
+					createPart('coin',coinsContainer.text)
+				}
+				
+			})
+			delay+= valueChange
+			
+		}
+		
+		game.time.events.add(delay,function(){
+			
+			var animName = "LOSE"
+			var iconRight = 'right'
+			var soundName = 'cheers'
+			
+			if(totalScore > 3){
+				
+				game.add.tween(whiteFade).from({alpha:1},250,"Linear",true)
+				animName = "WIN"
+				
+				starGroup.star.alpha = 1
+				game.add.tween(starGroup.star.scale).from({x:2,y:2},500,"Linear",true)
+				game.add.tween(starGroup.star).to({angle:starGroup.star.angle - 360},500,"Linear",true)
+				
+				createPart('star',starGroup.star)
+				sound.play("great")
+				
+			}else{
+				
+				iconRight = 'wrong'
+				soundName = 'boo'
+			}
+			
+			var icon = sceneGroup.create(iconImage.x, iconImage.y,'atlas.resultScreen',iconRight)
+			icon.scale.setTo(0.9,0.9)
+			icon.anchor.setTo(0.5,0.5)
+			
+			game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50},500,"Linear",true)
+			game.add.tween(icon.scale).from({x:2,y:2},500,"Linear",true).onComplete.add(function(){
+				
+				sound.play(iconRight)
+				
+				game.time.events.add(500,function(){
+					
+					var delay = 0
+					for(var i = 0; i < infoGroup.length;i++){
+						
+						var obj = infoGroup.children[i]
+						if(!obj.record){
+							appearObject(obj,delay)
+							delay+= 200
+						}
+						
+					}
+					
+					for(var i = 0; i < buttonsGroup.length;i++){
+						
+						var button = buttonsGroup.children[i]
+						appearObject(button,delay)
+						
+						delay+= 200
+					}
+				})
+				
+			})
+			
+			yogotar.setAnimationByName(0,animName,true)
+			
+			game.time.events.add(750,function(){
+				
+				sound.play(soundName)
+				
+				game.time.events.add(1250,function(){
+					
+					if(totalScore > lastRecord){
+						
+						sound.play("magic")
+						newRecord.alpha = 1
+						game.add.tween(newRecord.scale).from({x:2,y:2},500,"Linear",true)
+						game.add.tween(newRecord).from({y:newRecord.y - 100},500,"Linear",true)
+						
+						createPart('star',newRecord.children[0])
+					}
+				})
+				
+			})
+			
+		})
+	}
     
+	function popObject(obj,delay,alphaValue){
+        
+		var alpha = alphaValue || 1
+        game.time.events.add(delay,function(){
+            
+            sound.play("click")
+            obj.alpha = alpha
+            game.add.tween(obj.scale).from({x:0, y:0, angle:obj.angle + 360},250,Phaser.Easing.linear,true)
+        },this)
+    }
+	
+	function appearObject(obj,delay){
+        
+		var alpha = 1
+        game.time.events.add(delay,function(){
+            
+            obj.alpha = alpha
+            game.add.tween(obj).from({alpha:0},250,Phaser.Easing.linear,true)
+        },this)
+    }
+	
     function inputBanner(obj){
         
         if(!obj.active){
@@ -434,6 +661,7 @@ var result = function(){
 
 	function initialize(){
         
+		buttonsActive = false
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
 		totalGoal = 50
@@ -485,18 +713,167 @@ var result = function(){
     function preload(){
         
         game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
+        game.load.bitmapFont('luckiest', imagesPath + 'bitfont/font.png', imagesPath + 'bitfont/font.fnt');
         
         //game.load.spine('amazing', "images/spines/Amaizing.json");
-        game.load.spine('master', imagesPath + "spines/skeleton.json");
+        game.load.spine('yogotar', imagesPath + "spines/yogotar.json");
 		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
 		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
-		game.load.image('mapText', imagesPath + '/result/map' + localization.getLanguage() + '.png')
+		game.load.image('mapText', imagesPath + 'result/map' + localization.getLanguage() + '.png')
+		
+		if(!gamesList){
+			gamesList = yogomeGames.getGames()
+		}
+		
+		var iconName = gamesList[gameIndex].sceneName
+		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")
+		
         
     }
     
+	function createTextPart(text,obj){
+        
+        var pointsText = lookParticle('text')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+            pointsText.scale.setTo(1,1)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+			//console.log(particle.tag + ' tag,' + particle.used)
+            if(!particle.used && particle.tag == key){
+                
+				particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+				                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj,offsetX){
+        
+        var offX = offsetX || 0
+        var particle = lookParticle(key)
+		
+        if(particle){
+            
+			var number = 6
+			if(key == 'coin'){
+				number = 4
+			}
+            particle.x = obj.world.x + offX
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            particle.start(true, 1500, null, number);
+			
+			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})
+			
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+                
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'text'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.resultScreen',tag);
+				particle.minParticleSpeed.setTo(-300, -100);
+				particle.maxParticleSpeed.setTo(400, -200);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            //particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+	
+	function addParticles(){
+		
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+		
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+		
+		createParticles('star',3)
+		createParticles('coin',3)
+		createParticles('text',5)
+		
+		whiteFade = new Phaser.Graphics(game)
+        whiteFade.beginFill(0xffffff);
+        whiteFade.drawRect(0, 0, game.world.width, game.world.height);
+        whiteFade.endFill();
+		whiteFade.alpha = 0
+        whiteFade.anchor.setTo(0,0)
+        sceneGroup.add(whiteFade)
+
+	}
+	
 	function update(){
 		
-		tile.tilePosition.x++
+		tile.tilePosition.x-= 2
+		tile.tilePosition.y-= 2
 	}
 	
 	return {
