@@ -568,7 +568,7 @@ var map = function(){
 					currentPlayer.currentPosition = buttonPressed.order
 					if(buttonPressed.isBattle){
 						if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
-						console.log(buttonPressed.battleIndex)
+						console.log("battleIndex", buttonPressed.battleIndex)
 						sendBattle()
 					}else{
 						sendGame()
@@ -585,7 +585,7 @@ var map = function(){
 			currentPlayer.currentPosition = buttonPressed.order
 			if(buttonPressed.isBattle){
 				if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
-				console.log(buttonPressed.battleIndex)
+				console.log("battleIndex", buttonPressed.battleIndex)
 				sendBattle()
 			}else{
 				sendGame()
@@ -842,7 +842,7 @@ var map = function(){
     }
 	
 	function touchPosition(){
-		
+		// console.log("battleINdex")
 		if(game.input.activePointer.isDown){
 			
 			pointer.x = game.input.x
@@ -877,13 +877,13 @@ var map = function(){
 					inputIcon(icon)
 				}
 			}
-			
 			for(var i = 0; i < sideBalls.length;i++){
 				
 				var side = sideBalls.children[i]
 				if(checkOverlap(side,pointer) && buttonsActive){
 					side.ball.isBattle = true
-					side.ball.battleIndex = battleCounter++
+					console.log("index", battleCounter)
+					side.ball.battleIndex = i
 					inputBall(side.ball)
 				}
 			}

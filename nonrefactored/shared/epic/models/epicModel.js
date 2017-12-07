@@ -4,14 +4,14 @@ var epicModel = function () {
 		battles:[],
 		cards:[],
 		characters:[],
-		yogotar:"Dinamita",
+		yogotar:null,
 		currentPosition:0,
 		currentMinigame:0,
 		paidUser:true,
 		version: 0.1
 	}
 
-	function loadPlayer (loadGame) {
+	function loadPlayer (loadGame, charSelector) {
 		var minigames = epicYogomeGames.getGames()
 
 		for(var mgIndex = 0; mgIndex < minigames.length; mgIndex++){
@@ -20,9 +20,14 @@ var epicModel = function () {
 			player.minigames.push(minigame)
 		}
 
+		// for(var battleIndex = 0; battleIndex < 50; battleIndex++){
+		// 	player.battles.push(false)
+		// }
+
 		var data = epicCharacters["yogotar" + player.yogotar]
 		var card = {id: "yogotar" + player.yogotar, xp:0, data:data}
 		player.cards.push(card)
+		// player.cards.push({id:"yogotarArthurius", xp:0, data:epicCharacters["yogotarArthurius"]})
 		console.log("epicCharacters", card)
 
 		// var characters = epicCharacters
@@ -32,7 +37,8 @@ var epicModel = function () {
 		// 	character.xp = 0
 		// }
 		console.log("players", player)
-		if(loadGame)loadGame()
+		if((loadGame)&&(player.yogotar))loadGame()
+		else charSelector()
 	}
 
 	function savePlayer(currentPlayer) {

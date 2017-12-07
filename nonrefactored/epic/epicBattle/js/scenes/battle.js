@@ -296,8 +296,7 @@ var battle = function(){
 		game.time.events.add(500, function(){
 			battleSong.stop()
 			if(win){
-				var battleIndex = parent.battleIndex || 0
-				console.log(currentPlayer.battles)
+				var battleIndex = parent.env ? (parent.env.battleIndex || 0) : 0
 				var cardOwned = currentPlayer.battles[battleIndex][0].captured
 				sound.play("winBattle");
 				hudGroup.sumLvl(cardOwned)
@@ -320,10 +319,20 @@ var battle = function(){
 		// game.camera.follow(player)
 			zoomCamera(1.5, 2000)
 			var head = players[0].getSlotContainer("particle1")
-			var torso = players[0].getSlotContainer("torso1")
-			var toX = head ? head.worldPosition.x - game.world.centerX * 0.5 : players[0].x - 200 + 40//200 is the left bounds limit
-			var toY = win ? players[0].y - 310 : players[0].y - 250
-			game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
+			var followResults = game.add.graphics()
+			followResults.beginFill(0x000000)
+			followResults.drawCircle(0,0,100)
+			followResults.endFill()
+			followResults.alpha = 0
+			followResults.x = win ? players[0].x : head.worldPosition.x
+			followResults.y = win ? players[0].y - 160 : players[0].y
+			sceneGroup.add(followResults)
+
+			// var torso = players[0].getSlotContainer("torso1")
+			// var toX = !win ? head.worldPosition.x - game.world.centerX * 0.5 : players[0].x //- 200 + 40//200 is the left bounds limit
+			// var toY = -500
+			// game.add.tween(game.camera).to({x:toX, y:toY}, 2000, Phaser.Easing.Cubic.Out, true)
+			game.camera.follow(followResults)
 		})
 		
 		// game.camera.follow(head)
@@ -627,8 +636,8 @@ var battle = function(){
 			sound.play("comboSound")
 			game.time.events.add(500, showExit)
 		})
-		var battleIndex = parent.battleIndex || 0
-		currentPlayer.battles[battleIndex][0].captured = true
+		var battleIndex = parent.env ? (parent.env.battleIndex || 0) : 0
+		var cardOwned = currentPlayer.battles[battleIndex][0].captured
 		currentPlayer.cards.push(players[1].card)
 	}
 

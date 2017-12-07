@@ -24,30 +24,26 @@ var battleService = function () {
 		console.log(cards)
 		for(var key in epicCharacters){
 			console.log(key, "key")
+			var enemyData = epicCharacters[key]
 			for(var cardIndex = 0; cardIndex<cards.length; cardIndex++){
-				var card = cards[cardIndex]
-				console.log(card.id, "card")
+				//TODO uncomment this when charSelector is ready
+				var card = cards[0]//cards[cardIndex]
+				console.log(card.id, key, "card")
+				var discard = false
 				if(key !== card.id){
-					var enemyData = epicCharacters[key]
 					// console.log(enemyData)
 					var cardData = epicCharacters[card.id]
 					var multiplier = ELEMENT_MULTIPLIERS[cardData.stats.element][enemyData.stats.element] || 1
 					console.log(multiplier)
-					if(multiplier>=1){
-						var contains = false
-						for(var eIndex = 0; eIndex<enemies.length; eIndex++){
-							var enemy = enemies[eIndex]
-							if(enemy.id === key){
-								contains = true
-								break
-							}
-						}
-						if(!contains){
-							var cardEnemy = {id:enemyData.id, xp:0, data:enemyData}
-							enemies.push(cardEnemy)
-						}
-					}
+					discard = multiplier<1
+				}else{
+					discard = true
+					break
 				}
+			}
+			if(!discard){
+				var cardEnemy = {id:enemyData.id, xp:0, data:enemyData}
+				enemies.push(cardEnemy)
 			}
 		}
 

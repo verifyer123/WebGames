@@ -40,6 +40,7 @@ var charactersEntity = function () {
 			console.log(name, "playerCard")
 			var path = cards[pcardIndex].data.directory
 			var yogotarReplace = name.replace("yogotar", "")
+			yogotarReplace = yogotarReplace.charAt(0).toLowerCase() + yogotarReplace.slice(1)
 			console.log(yogotarReplace)
 			path = path.replace(".json", "")
 			path = path.replace("/" + yogotarReplace, "")
@@ -53,11 +54,10 @@ var charactersEntity = function () {
 		var cardBg = cardGroup.create(0,0, "atlas.cards", "t_" + card.data.stats.element)
 		cardBg.anchor.setTo(0.5, 0.5)
 
-
 		var cardImage = cardGroup.create(0,0, card.id + "Card")
 		cardImage.anchor.setTo(0.5, 0.5)
 		cardImage.scale.setTo(0.8, 0.8)
-		cardImage.scale.x = card.data.visuals.cardFacing === "right" ? 1 : -1
+		cardImage.scale.x = card.data.visuals.cardFacing === "right" ? cardImage.scale.x * 1 : cardImage.scale.x * -1
 
 		var star = cardGroup.create(-78, -120, "atlas.cards", "star")
 		star.anchor.setTo(0.5, 0.5)

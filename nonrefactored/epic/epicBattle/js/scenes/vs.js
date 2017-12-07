@@ -68,7 +68,12 @@ var vs = function(){
 	var characterGroup
 	var characterList
 	
-	var colorsGradient = [0xff2e2e,0x436bff,0xfffd73,0x4cff39,0x4cff39]
+	var colorsGradient = {
+    	fire:0xff2e2e,
+		water:0x436bff,
+		wind:0xfffd73,
+		earth:0x4cff39
+    }
 	
 
 	function loadSounds(){
@@ -521,6 +526,8 @@ var vs = function(){
 			spineList[i].id = character.data.id
 			spineList[i].name = character.data.name
 			spineList[i].dir = character.data.directory
+			spineList[i].scale = character.data.spine.options.scale
+			spineList[i].element = character.data.stats.element
 		}
 		
 		console.log(spineList + ' list')
@@ -552,7 +559,6 @@ var vs = function(){
 			characterGroup.add(group)
 			
 			var gradient = group.create(3.5,-2,'atlas.vs','container_gradient')
-			gradient.tint = colorsGradient[i]
 			gradient.anchor.setTo(0.5,0.5)
 			
 			var back = group.create(0,0,'atlas.vs','container_border')
@@ -562,9 +568,10 @@ var vs = function(){
 			var spine = game.add.spine(0,110,char.id)
 			spine.setSkinByName("normal")
 			spine.setAnimationByName(0,"IDLE",true)
-			spine.scale.setTo(0.6,0.6)
+			spine.scale.setTo(char.scale * 0.9,char.scale * 0.9)
 			group.anim = spine
 			group.add(spine)
+			gradient.tint = colorsGradient[char.element]
 			
 			var groupName = game.add.group()
 			groupName.x = 35
