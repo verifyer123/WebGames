@@ -21,9 +21,9 @@ if(language == "EN"){
 window.amazing = {
     
     config: {
-        name: "Base",
+        name: "milky",
         language: "es",
-        minigameUrl: "../proyectoBase/index.html?language=" + language,
+        minigameUrl: "../milkySaloon/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

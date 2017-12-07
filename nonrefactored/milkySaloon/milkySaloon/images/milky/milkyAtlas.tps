@@ -359,6 +359,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">handDown.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,24,51,48</rect>
+                <key>scale9Paddings</key>
+                <rect>26,24,51,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">handUp.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,27,51,53</rect>
+                <key>scale9Paddings</key>
+                <rect>26,27,51,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -522,6 +548,8 @@
             <filename>bar.png</filename>
             <filename>barra.png</filename>
             <filename>fondo.png</filename>
+            <filename>handDown.png</filename>
+            <filename>handUp.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
