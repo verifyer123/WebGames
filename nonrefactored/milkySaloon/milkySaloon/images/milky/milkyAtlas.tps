@@ -199,19 +199,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">EMPTYMUG.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>11,21,22,42</rect>
-                <key>scale9Paddings</key>
-                <rect>11,21,22,42</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">bar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -329,6 +316,19 @@
                 <rect>26,24,53,49</rect>
                 <key>scale9Paddings</key>
                 <rect>26,24,53,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">emptyMug.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,21,22,42</rect>
+                <key>scale9Paddings</key>
+                <rect>11,21,22,42</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -568,12 +568,12 @@
             <filename>handUp.png</filename>
             <filename>chocoMug.png</filename>
             <filename>choco.png</filename>
-            <filename>EMPTYMUG.png</filename>
             <filename>straw.png</filename>
             <filename>strawMug.png</filename>
             <filename>vanilla.png</filename>
             <filename>vanillaMug.png</filename>
             <filename>gametuto.png</filename>
+            <filename>emptyMug.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
