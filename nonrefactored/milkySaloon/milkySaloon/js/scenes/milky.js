@@ -610,7 +610,7 @@ var milky = function(){
         var mug = mugsGroup.create(0, 0, 'atlas.milky', 'emptyMug') // 3
         mug.anchor.setTo(0.5, 0.5)
         
-        var swift = mugsGroup.create(-mug.width + 10, 0, 'atlas.milky', 'swift') // 4
+        var swift = mugsGroup.create(-mug.width, 0, 'atlas.milky', 'swift') // 4
         swift.anchor.setTo(0.5, 0.5)
         swift.alpha = 0
     }
@@ -769,9 +769,9 @@ var milky = function(){
         ordersGroup.scale.setTo(0, 0)
         sceneGroup.add(ordersGroup)
         
-        var dialogue = ordersGroup.create(0, 0, 'atlas.milky', 'dialogue')
+        var dialogue = ordersGroup.create(-20, 0, 'atlas.milky', 'dialogue')
         dialogue.scale.setTo(0.9, 0.9)
-        dialogue.anchor.setTo(1, 0.5)
+        dialogue.anchor.setTo(0.5, 0.5)
         
         ordersGroup.tween = game.add.tween(ordersGroup.scale).to({x:1.1 , y:1.1}, 700, Phaser.Easing.linear, false)
 
@@ -783,23 +783,28 @@ var milky = function(){
         })
     }
     
-    function choco(){
-        var flavor = ordersGroup.create(0, 0, 'atlas.milky', 'choco')
-        flavor.anchor.setTo(1.3, 0.5)
-        ordersGroup.flavor = flavors.choco
-    }
-    
-    function straw(){
-        var flavor = ordersGroup.create(0, 0, 'atlas.milky', 'straw')
-        flavor.anchor.setTo(1.45, 0.5)
-        ordersGroup.flavor = flavors.straw
-    }
-    
-    function vanilla(){
+    function selectFalvor(){
         
-        var flavor = ordersGroup.create(0, 0, 'atlas.milky', 'vanilla')
-        flavor.anchor.setTo(1.4, 0.5)
-        ordersGroup.flavor = flavors.vanilla
+        var flavor
+        
+        switch(order)
+        {
+            case flavors.choco: 
+                flavor = ordersGroup.create(0, 0, 'atlas.milky', 'choco')
+                ordersGroup.flavor = flavors.choco
+            break
+            case flavors.straw: 
+                flavor = ordersGroup.create(0, 0, 'atlas.milky', 'straw')
+                ordersGroup.flavor = flavors.straw
+            break
+            case flavors.vanilla: 
+                flavor = ordersGroup.create(0, 0, 'atlas.milky', 'vanilla')
+                ordersGroup.flavor = flavors.vanilla
+            break
+        }
+        
+        flavor.anchor.setTo(0.5, 0.5)
+        flavor.x = -30
     }
     
     function initGame(){
@@ -841,16 +846,7 @@ var milky = function(){
         })
         
         order = getRand()
-        
-        switch(order)
-        {
-            case flavors.choco: choco()
-            break;
-            case flavors.straw: straw()
-            break;
-            case flavors.vanilla: vanilla()
-            break;
-        }
+        selectFalvor()
     }
     
     function getRand(){

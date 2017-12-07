@@ -199,6 +199,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">EMPTYMUG.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,21,22,42</rect>
+                <key>scale9Paddings</key>
+                <rect>11,21,22,42</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">bar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -258,9 +271,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>18,17,35,34</rect>
+                <rect>9,17,18,34</rect>
                 <key>scale9Paddings</key>
-                <rect>18,17,35,34</rect>
+                <rect>9,17,18,34</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -281,16 +294,15 @@
                 <false/>
             </struct>
             <key type="filename">chocoMug.png</key>
-            <key type="filename">vanillaMug.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>14,20,28,41</rect>
+                <rect>14,26,27,52</rect>
                 <key>scale9Paddings</key>
-                <rect>14,20,28,41</rect>
+                <rect>14,26,27,52</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -320,19 +332,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">emptyMug.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>14,17,28,34</rect>
-                <key>scale9Paddings</key>
-                <rect>14,17,28,34</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">fondo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -353,9 +352,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>121,48,242,97</rect>
+                <rect>111,37,222,73</rect>
                 <key>scale9Paddings</key>
-                <rect>121,48,242,97</rect>
+                <rect>111,37,222,73</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -465,16 +464,15 @@
                 <false/>
             </struct>
             <key type="filename">straw.png</key>
-            <key type="filename">vanilla.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>16,16,32,33</rect>
+                <rect>9,18,18,36</rect>
                 <key>scale9Paddings</key>
-                <rect>16,16,32,33</rect>
+                <rect>9,18,18,36</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -485,9 +483,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>14,20,28,40</rect>
+                <rect>14,27,27,55</rect>
                 <key>scale9Paddings</key>
-                <rect>14,20,28,40</rect>
+                <rect>14,27,27,55</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -501,6 +499,32 @@
                 <rect>13,10,26,21</rect>
                 <key>scale9Paddings</key>
                 <rect>13,10,26,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">vanilla.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,17,20,34</rect>
+                <key>scale9Paddings</key>
+                <rect>10,17,20,34</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">vanillaMug.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,26,30,52</rect>
+                <key>scale9Paddings</key>
+                <rect>15,26,30,52</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -522,34 +546,34 @@
         <array>
             <filename>board.png</filename>
             <filename>button.png</filename>
-            <filename>choco.png</filename>
             <filename>chocoBtn.png</filename>
-            <filename>chocoMug.png</filename>
             <filename>desktop.png</filename>
             <filename>dialogue.png</filename>
             <filename>doorBtn.png</filename>
-            <filename>emptyMug.png</filename>
             <filename>life_box.png</filename>
             <filename>movil.png</filename>
             <filename>playEN.png</filename>
             <filename>playES.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>straw.png</filename>
             <filename>strawBtn.png</filename>
-            <filename>strawMug.png</filename>
             <filename>swift.png</filename>
-            <filename>vanilla.png</filename>
             <filename>vanillaBtn.png</filename>
-            <filename>vanillaMug.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>gametuto.png</filename>
             <filename>bar.png</filename>
             <filename>barra.png</filename>
             <filename>fondo.png</filename>
             <filename>handDown.png</filename>
             <filename>handUp.png</filename>
+            <filename>chocoMug.png</filename>
+            <filename>choco.png</filename>
+            <filename>EMPTYMUG.png</filename>
+            <filename>straw.png</filename>
+            <filename>strawMug.png</filename>
+            <filename>vanilla.png</filename>
+            <filename>vanillaMug.png</filename>
+            <filename>gametuto.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
