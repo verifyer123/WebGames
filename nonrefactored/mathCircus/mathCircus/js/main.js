@@ -59,7 +59,8 @@ function startGame(){
         localization.setLanguage(language)
 
         window.minigame.game = window.game
-    	sceneloader.init(game)
+        sceneloader.init(game)
+        epicparticles.init(game)
     	sound.init(game)
     }
 
