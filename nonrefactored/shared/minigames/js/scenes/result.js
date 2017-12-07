@@ -261,12 +261,15 @@ var result = function(){
             pivotX += 250
         }
 		
-		var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
-		homeBtn.anchor.setTo(0.5,0.5)
-		homeBtn.alpha = 0
-		homeBtn.events.onInputDown.add(inputButton)
-		homeBtn.inputEnabled = true
-		homeBtn.tag = 'map'
+		if(parent.epicModel){
+			var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
+			homeBtn.anchor.setTo(0.5,0.5)
+			homeBtn.alpha = 0
+			homeBtn.events.onInputDown.add(inputButton)
+			homeBtn.inputEnabled = true
+			homeBtn.tag = 'map'
+		}
+		
 
     }
     
@@ -568,6 +571,7 @@ var result = function(){
 			
 			game.time.events.add(750,function(){
 				
+				buttonsActive = true
 				sound.play(soundName)
 				
 				game.time.events.add(1250,function(){
