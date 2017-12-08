@@ -169,7 +169,10 @@ var flyingFractions = function(){
 	}
     function preload() {
 		//bgm
-		game.load.audio('bgm8bits',  soundsPath + 'songs/8-bit-Video-Game.mp3');
+		buttons.getImages(game)
+		game.stage.disableVisibilityChange = false;
+		
+		game.load.audio('bgm8bits',  soundsPath + 'songs/technology_action.mp3');
 		
 		/*Default*/
 		game.load.image("background", imagePath +"background.png");
@@ -259,13 +262,7 @@ var flyingFractions = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 overlayGroup.y = -game.world.height
 		
-		bgm = game.add.audio('bgm8bits')
-            game.sound.setDecodedCallback(bgm, function(){
-            }, this);
-		
-		bgm.loopFull(0.5);
 		starGame = true;
-
 				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
             })
             
@@ -309,6 +306,7 @@ var flyingFractions = function(){
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.1,0.5)
+		
     }	
 
 	function createHearts(){
@@ -432,6 +430,20 @@ var flyingFractions = function(){
 		bgclock.alpha = 0;
 		clockText.alpha = 0;
 		
+		bgm = game.add.audio('bgm8bits')
+		game.sound.setDecodedCallback(bgm, function(){
+			bgm.loopFull(0.6)
+		}, this);
+
+		game.onPause.add(function(){
+			game.sound.mute = true
+		} , this);
+
+		game.onResume.add(function(){
+			game.sound.mute = false
+		}, this);
+		
+		buttons.getButton(bgm,sceneGroup)
 		createOverlay();
 		
 		function createLevel(){
@@ -485,6 +497,7 @@ var flyingFractions = function(){
 				TweenMax.fromTo(goodShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:goodFun});
 				baseFracciones.alpha = 0;
 				function goodFun(){
+					clearInterval(timerCount)
 					sound.play("explode");
 					sound.play("magic");
 					coins++;
@@ -493,9 +506,19 @@ var flyingFractions = function(){
 						bgclock.alpha = 1;
 						clockText.alpha = 1;
 						console.log("Empieza timer");
-						timerCount = setInterval(timerFunction, 1000);
 						TweenMax.to(bgclock.scale,0.5,{x:1,ease:Back.easeOut});
 						TweenMax.to(clockText.scale,0.5,{x:1,ease:Back.easeOut});			
+					}
+					
+					if(coins>=3){
+						var waitTime = 0
+						if(coins>3){
+							waitTime = 750
+						}
+						game.time.events.add(waitTime,function(){
+							timerCount = setInterval(timerFunction, 1000);
+						})
+						
 					}
 					TweenMax.fromTo(malo,0.5,{alpha:1},{alpha:0});
 					TweenMax.to(malo.scale,0.7,{x:2,y:2});
