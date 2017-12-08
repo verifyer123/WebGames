@@ -643,6 +643,7 @@ var duck = function(){
 			parent.tween.stop()
 		}
 		parent.pressed = true
+		gameActive = false
 		
 		game.add.tween(parent).to({angle:parent.angle + 360},500,"Linear",true)
 		

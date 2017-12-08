@@ -155,7 +155,9 @@ var water = function(){
 				Phaser.ArrayUtils.shuffle(specialCards)
 				tag = specialCards[0]
 			}
-
+			
+			dragCard.y = dragCard.initialY
+			
             var card = getCard(tag)
 
             card.alpha = 1
@@ -500,11 +502,15 @@ var water = function(){
     }
     
     function onDragStop(obj){
-        
+		
         obj.inputEnabled = false
 		lastScore = pointsBar.number
 
 		if(!dragCard.double){
+			
+			if(!obj.card){
+				return
+			}
 			var card = obj.card
 						
 			if(card.special){
@@ -860,10 +866,11 @@ var water = function(){
         dragCard.initialY = dragCard.y
 		dragCard.scale.setTo(1.5,1.5)
         dragCard.alpha = 0
+		dragCard.y = -150
 
 		dragCard.specialItem = false
         dragCard.inputEnabled = true
-        dragCard.input.enableDrag(true)
+        dragCard.input.enableDrag(false)
         dragCard.events.onDragStart.add(onDragStart, this);
         dragCard.events.onDragStop.add(onDragStop, this);
 		
