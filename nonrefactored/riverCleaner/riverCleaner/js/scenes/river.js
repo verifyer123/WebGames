@@ -342,7 +342,7 @@ var river = function(){
                 
 				overlayGroup.y = -game.world.height
                 //trowTrash()
-                startTrash(trowTimer)
+                startTrash()
                 nao.setAnimationByName(0, "RUN", true)
                 speed = 4
             })
@@ -795,40 +795,33 @@ var river = function(){
         trashGroup.setAll('checkWorldBounds', true)
     }
     
-    function startTrash(timer){
-        var t = 0
-        while(t < level * 4){
-            trowTrash(timer)
-            timer += spawnTimer
-            t++
-        }
-       /* for(var t = 0; t < level * 3; t++)
-        {
-            trowTrash(timer)
-            timer += 500
-        }*/
+    function startTrash(){
+        
+        console.log(trowTimer)
+        game.time.events.add(trowTimer,function(){
+            trowTrash() 
+            if(canMove)
+                startTrash()
+        }, this)
     }
     
-    function trowTrash(delay){
+    function trowTrash(){
         
-        game.time.events.add(delay,function(){
-        
-            if(game.rnd.integerInRange(0, 2) == 1){
-                pullFish()
+        if(game.rnd.integerInRange(0, 2) == 1){
+            pullFish()
+        }
+        else{
+            if(trashNumber < 14)
+            {
+                rand = getRand(rand)
+                trashGroup.children[trashNumber].alpha = 1
+                trashGroup.children[trashNumber].x = game.world.width + 60
+                trashGroup.children[trashNumber].y = rows[rand] + 100
+                trashGroup.children[trashNumber].active = true
+                trashNumber++
             }
-            else{
-                if(trashNumber < 14)
-                {
-                    rand = getRand(rand)
-                    trashGroup.children[trashNumber].alpha = 1
-                    trashGroup.children[trashNumber].x = game.world.width + 60
-                    trashGroup.children[trashNumber].y = rows[rand] + 100
-                    trashGroup.children[trashNumber].active = true
-                    trashNumber++
-                }
-                else trashNumber = 0    
-            }
-        }, this)
+            else trashNumber = 0    
+        }
     }
     
     function getRand(rand){
@@ -1046,13 +1039,11 @@ var river = function(){
         var temp = speed
         speed = 0
         
+        gameActive = false
+        
         if(trowTimer < 60)
             trowTimer = 60
-        else trowTimer *= 0.6
-        
-       /* if(spawnTimer < 500)
-            spawnTimer = 500
-        else spawnTimer -= 100*/
+        else trowTimer *= 0.8
         
         spawnTimer -= 100
         
@@ -1082,7 +1073,7 @@ var river = function(){
         }, this)
          game.time.events.add(4000, function() 
         {
-            startTrash(trowTimer)
+            startTrash()
         }, this)
     }
     

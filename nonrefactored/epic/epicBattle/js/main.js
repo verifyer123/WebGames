@@ -76,7 +76,7 @@ function startGame(){
 		var players = parent.epicModel || epicModel
 		// if(typeof parent.epicModel == "undefined")
 		//TODO uncomment this on dev
-		players.loadPlayer()
+		// players.loadPlayer()
 
 		var currentPlayer = players.getPlayer()
 		var cards = currentPlayer.cards
