@@ -425,6 +425,7 @@ var invader = function(){
 		sceneGroup.add(background)
 		
 		stars = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.invader','swatch')
+		stars.tileScale.setTo(0.7,0.7)
 		sceneGroup.add(stars)
 		
 		changeBack()

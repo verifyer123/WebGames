@@ -79,6 +79,7 @@ var runneryogome = function(){
     var lives = null
     var heartsGroup = null 
     var groupButton = null
+	var playerCollision, enemiesCollision, assetsCollision
     
 
 	function loadSounds(){
@@ -355,11 +356,16 @@ var runneryogome = function(){
         if(lives<=0){
             lives = 0
             stopGame()
-        }
-        
-        //changeImage(0,heartsGroup.children[lives])
+        }else{
+
+			buddy.alpha = 0
+			player.invincible = true
+			game.add.tween(buddy).to({alpha:1},100,"Linear",true,0,10).onComplete.add(function(){
+				player.invincible = false
+			})
+		}
+
         heartsGroup.text.setText('X ' + lives)
-        //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
         
         addNumberPart(heartsGroup.text,'-1')
         
@@ -372,6 +378,7 @@ var runneryogome = function(){
         characterGroup.y = player.y +44 
         
         if(player.body.y > game.world.height - 50){
+			createPart('wrong',player)
             missPoint(5)
             //stopGame()
         }
@@ -690,18 +697,26 @@ var runneryogome = function(){
                     }
                 }
             }else if(tag == 'enemy_spike'){
-                missPoint(5)
-                createPart('wrong', obj2.sprite)
+				
+				if(!player.invincible){
+					missPoint(1)
+                	createPart('wrong', obj2.sprite)
+					doJump(JUMP_FORCE * 1.5)
+				}
+                
             }else if(tag == "enemy_squish"){
                 if(player.body.y < obj2.sprite.y - 8){
-                    doJump(JUMP_FORCE * 1.5)
+                    doJump(JUMP_FORCE * 1.3)
                     addPoint(obj2.sprite,'drop')
                     sound.play("splash")
                     deactivateObj(obj2.sprite)
                     
                 }else{
-                    missPoint(5)
-                    createPart('wrong', obj2.sprite)
+					if(!player.invincible){
+						missPoint(1)
+                    	createPart('wrong', obj2.sprite)
+						doJump(JUMP_FORCE * 1.3)
+					}
                 }
             }
         }
@@ -914,6 +929,16 @@ var runneryogome = function(){
             object.body.kinematic = true
             object.used = false
             
+			if(tag == 'floor' || tag == 'brick'){
+				object.body.setCollisionGroup(assetsCollision)	
+				object.body.collides([playerCollision,enemiesCollision])
+			}else if(tag == 'enemy_squish' || tag == 'enemy_spike'){
+				object.body.setCollisionGroup(enemiesCollision)
+				object.body.collides([playerCollision])
+			}
+			
+			object.body.collides([playerCollision,enemiesCollision])
+			
             if(tag == 'coin' || tag == 'skull'){
                 object.body.data.shapes[0].sensor = true
             }
@@ -1147,9 +1172,12 @@ var runneryogome = function(){
             game.physics.p2.gravity.y = WORLD_GRAVITY;
             game.physics.p2.world.defaultContactMaterial.friction = 0.3;
             game.physics.p2.world.setGlobalStiffness(1e5);
-            
+			
+            playerCollision = game.physics.p2.createCollisionGroup()
+            enemiesCollision = game.physics.p2.createCollisionGroup()
+            assetsCollision = game.physics.p2.createCollisionGroup()
+			
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-            
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
             
             worldGroup = game.add.group()
@@ -1203,8 +1231,12 @@ var runneryogome = function(){
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
             player.body.mass=50
+			player.invincible = false
             
-            player.body.collideWorldBounds = true;
+            player.body.collideWorldBounds = false;
+			
+			player.body.setCollisionGroup(playerCollision)
+			player.body.collides([enemiesCollision,assetsCollision])
             
             positionFirst()
             

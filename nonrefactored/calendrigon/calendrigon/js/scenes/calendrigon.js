@@ -1,20 +1,18 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var duck = function(){
+var calendrigon = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!",
-			"multiple":"Multiple of 10",
+			"stop":"Stop!"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!",
-			"multiple":"Múltiplo de 10",
+            "stop":"¡Detener!"
 		}
 	}
     
@@ -22,9 +20,9 @@ var duck = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.duck",
-                json: "images/duck/atlas.json",
-                image: "images/duck/atlas.png",
+                name: "atlas.calendrigon",
+                json: "images/calendrigon/atlas.json",
+                image: "images/calendrigon/atlas.png",
             },
         ],
         images: [
@@ -33,20 +31,18 @@ var duck = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
+            {	name: "error",
+				file: soundsPath + "error.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
+            {	name: "rightChoice",
+				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
+			{	name: "stoneDoor",
+				file: soundsPath + "stoneDoor.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "laser2.mp3"},
 			
 		],
     }
@@ -54,16 +50,25 @@ var duck = function(){
         
     var lives = null
 	var sceneGroup = null
-	var background, topBack,stars
-    var gameActive = true
+	var background
+    var gameActive = false
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 66
-    var overlayGroup
-    var spaceSong
-	var ducksGroup
-	var timeToUse
+    var gameIndex = 7
 	var indexGame
+    var overlayGroup
+    var adventureSong
+    var bottom, middle, top
+    var numbersGroup
+    var spinSpeed
+    var numberSelect
+    var click
+    var radius
+    var bottomFigures = [0, 7, 6, 3, 7, 4, 8, 5, 6, 8]
+    var middleFigures = [0, 5, 7, 0, 4, 6, 8, 0, 0, 3, 6]
+    var topFigures = [0, 5, 6, 8, 3, 0, 4, 7]
+    var answer = [-1, -1, -1]
+    var stopedDiscs
 	
 
 	function loadSounds(){
@@ -73,9 +78,11 @@ var duck = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
-		indexGame = 1
-		timeToUse = 6000
+        lives = 3
+        numberSelect = -1
+        click = false
+        radius = 0
+        stopedDiscs = 0
         
         loadSounds()
         
@@ -114,7 +121,7 @@ var duck = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -176,11 +183,7 @@ var duck = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)
-		
-		if(timeToUse > 1500){
-			timeToUse-= 500
-		}
+        addNumberPart(pointsBar.text,'+' + number,true)		
         
     }
     
@@ -191,7 +194,7 @@ var duck = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.duck','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.calendrigon','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -219,7 +222,7 @@ var duck = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.duck','life_box')
+        var heartImg = group.create(0,0,'atlas.calendrigon','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -242,7 +245,7 @@ var duck = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        spaceSong.stop()
+        adventureSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -254,81 +257,32 @@ var duck = function(){
             sceneloader.show("result")
 		})
     }
-    
-    
+      
     function preload(){
         
 		buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('spaceSong', soundsPath + 'songs/dancing_baby.mp3');
-		game.load.spine('duck', "images/spines/duck.json")  
+        game.load.audio('adventureSong', soundsPath + 'songs/adventure.mp3');
         
-		game.load.image('howTo',"images/duck/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/duck/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/duck/introscreen.png")
-		
+		game.load.image('howTo',"images/calendrigon/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/calendrigon/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/calendrigon/introscreen.png")
+        
+        game.load.image('bottomPlatform',"images/calendrigon/bottomPlatform.png")
+		game.load.image('bottom',"images/calendrigon/bottom.png")
+		game.load.image('middlePlatform',"images/calendrigon/middlePlatform.png")
+		game.load.image('middle',"images/calendrigon/middle.png")
+		game.load.image('topPlatform',"images/calendrigon/topPlatform.png")
+		game.load.image('top',"images/calendrigon/top.png")
+        
+        game.load.spine("caleidogon", "images/spines/caleidogon.json");
+        
 		console.log(localization.getLanguage() + ' language')
         
     }
     
-	function setNumbers(){
-		
-		var index = game.rnd.integerInRange(0,2)
-		
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			duck.number = (game.rnd.integerInRange(1,9) * 10) + game.rnd.integerInRange(1,9)
-			
-			if(index == i){
-				duck.number = indexGame * 10
-			}
-			
-			console.log(duck.number + ' number')
-			duck.text.setText(duck.number)
-		}
-		
-		indexGame++
-		if(indexGame > 10){
-			indexGame = 1
-		}
-	
-	}
-	
-	function sendDucks(){
-		
-		setNumbers()
-		
-		gameActive = true
-		var delay = 0
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			
-			if(duck.tween){
-				duck.tween.stop()
-			}
-			
-			duck.x = game.world.width + 300
-			duck.y = game.world.height - 350
-			duck.pressed = false
-			duck.alpha = 1
-			
-			duck.anim.setAnimationByName(0,"WALK",true)
-			duck.tween = game.add.tween(duck).to({x:-300},timeToUse,"Linear",true,delay)
-			delay+= timeToUse / 6
-			
-			if(duck.number % 10 == 0){
-				duck.tween.onComplete.add(function(){
-					missPoint()
-				})
-			}
-		}
-		
-	}
-	
     function createOverlay(){
         
         overlayGroup = game.add.group()
@@ -347,7 +301,8 @@ var duck = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				sendDucks()
+                initGame()
+                gameActive = true
             })
             
         })
@@ -358,16 +313,10 @@ var duck = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.duck','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.calendrigon','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.85,0.85)
-		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var numberText = new Phaser.Text(game, game.world.centerX, game.world.centerY + 60, localization.getString(localizationData,"multiple"), fontStyle)
-		numberText.anchor.setTo(0.5, 0.5)
-		overlayGroup.add(numberText)
         
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 245,'howTo')
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
@@ -378,11 +327,11 @@ var duck = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.duck',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.calendrigon',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.duck','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.calendrigon','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -395,29 +344,76 @@ var duck = function(){
     }
 
 	function createBackground(){
-		
-		background = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.duck','bg')
-		background.anchor.setTo(0.5,0.5)
-		background.width = game.world.width
-		
-		stars = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.duck','swatch_star')
-		sceneGroup.add(stars)
-		
-		var botBack = sceneGroup.create(0,game.world.height,'atlas.duck','suelo')
-		botBack.anchor.setTo(0,1)
-		botBack.width = game.world.width
-		
-		topBack = game.add.tileSprite(0,0,game.world.width,222,'atlas.duck','techo')
-		sceneGroup.add(topBack)
-		
-		
+        
+        spinSpeed = 10000
+        
+        var bottomPlat = sceneGroup.create(game.world.centerX, game.world.centerY, "bottomPlatform")
+        bottomPlat.anchor.setTo(0.5, 0.5)
+        
+        var arrow = sceneGroup.create(game.world.centerX, game.world.height - 50, 'atlas.calendrigon', "arrow")
+        arrow.anchor.setTo(0.5, 0.5)
+        arrow.scale.setTo(1, 0.65)
+        
+        bottom = sceneGroup.create(game.world.centerX, game.world.centerY, "bottom")
+        bottom.anchor.setTo(0.5, 0.5)
+        bottom.angle = 0
+        bottom.startAngle = bottom.angle
+        bottom.spin = 36
+        bottom.figures = 10
+        bottom.arr = bottomFigures
+        bottom.answer = 2
+        bottom.stoped = false
+        
+        
+        var middlePlat = sceneGroup.create(game.world.centerX, game.world.centerY, "middlePlatform")
+        middlePlat.anchor.setTo(0.5, 0.5)
+        
+        middle = sceneGroup.create(game.world.centerX, game.world.centerY, "middle")
+        middle.anchor.setTo(0.5, 0.5)
+        middle.angle = 65.4
+        middle.startAngle = middle.angle
+        middle.spin = 32.7
+        middle.figures = 11
+        middle.arr = middleFigures
+        middle.answer = 1
+        middle.stoped = false
+        
+        var topPlat = sceneGroup.create(game.world.centerX, game.world.centerY, "topPlatform")
+        topPlat.anchor.setTo(0.5, 0.5)
+        
+        top = sceneGroup.create(game.world.centerX, game.world.centerY, "top")
+        top.anchor.setTo(0.5, 0.5)
+        top.angle = 180
+        top.startAngle = top.angle
+        top.spin = 45
+        top.figures = 8
+        top.arr = topFigures
+        top.answer = 0
+        top.stoped = false
 	}
+    
+    function discsTweens(){
+        
+         bottom.tween = game.add.tween(bottom).to({angle: 360}, spinSpeed, Phaser.Easing.linear, false)
+            bottom.tween.onComplete.add(function(){bottom.tween.start()})
+        
+         middle.tween = game.add.tween(middle).to({angle: -360}, spinSpeed, Phaser.Easing.linear, false)
+            middle.tween.onComplete.add(function(){middle.tween.start()})
+        
+          top.tween = game.add.tween(top).to({angle: 360}, spinSpeed, Phaser.Easing.linear, false)
+            top.tween.onComplete.add(function(){top.tween.start()})
+        
+    }
 	
 	function update(){
-		
-		topBack.tilePosition.x+= 1
-		
-		stars.tilePosition.y-= 3
+        
+        if(game.input.activePointer.leftButton.isDown && !click){
+            getRadius()
+            click = true
+        }
+        if(game.input.activePointer.leftButton.isUp && click){
+           click = false
+        }
 	}
 	
 	function createTextPart(text,obj){
@@ -472,27 +468,18 @@ var duck = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+
+        particle.makeParticles('atlas.calendrigon',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+
+        return particle
     }
     
     function createParticles(tag,number){
@@ -511,7 +498,7 @@ var duck = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.duck',tag);
+				particle.makeParticles('atlas.calendrigon',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -567,7 +554,7 @@ var duck = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.duck','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.calendrigon','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -580,7 +567,7 @@ var duck = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.duck','smoke');
+        particlesGood.makeParticles('atlas.calendrigon','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -596,150 +583,220 @@ var duck = function(){
         sceneGroup.add(particlesGood)
         
     }
-	
-	function setDucks(animName){
-		
-		for(var i = 0; i < ducksGroup.length;i++){
-			
-			var duck = ducksGroup.children[i]
-			
-			if(!duck.pressed){
-				if(duck.tween){
-					duck.tween.stop()
-				}
-
-				duck.anim.setAnimationByName(0,animName,true)
-				
-				hideDuck(duck,animName)
-				
-			}
-			
-		}
-	}
-	
-	function hideDuck(duck,animName){
-		
-		game.time.events.add(1000,function(){
-					
-			if(animName == "WIN"){
-				duck.anim.setAnimationByName(0,"WALK",true)
-				duck.tween = game.add.tween(duck).to({x:duck.x - game.world.width * 1.2},2000,"Linear",true,0)
-			}
-
-		})
-	}
-	
-	function inputButton(obj){
-		
-		if(!gameActive){
-			return
-		}
-		
-		sound.play("shoot")
-		
-		var parent = obj.parent
-		
-		if(parent.tween){
-			parent.tween.stop()
-		}
-		parent.pressed = true
-		gameActive = false
-		
-		game.add.tween(parent).to({angle:parent.angle + 360},500,"Linear",true)
-		
-		game.add.tween(parent).to({y:parent.y - 100},300,"Linear",true).onComplete.add(function(){
-			game.add.tween(parent).to({y:game.world.height + 200},700,"Linear",true)
-		})
-		
-		if(parent.number % 10 == 0){
-			addPoint(1)
-			createPart('star',obj)
-			parent.anim.setAnimationByName(0,"JUMP",false)
-						
-			setDucks("WIN")
-			game.time.events.add(3000,sendDucks)
-		}else{
-			
-			missPoint()
-			createPart('wrong',obj)
-			setDucks("LOSE")
-		}
-		
-	}
-	
-	function createDucks(){
-		
-		ducksGroup = game.add.group()
-		sceneGroup.add(ducksGroup)
-		
-		for(var i = 0; i < 3;i++){
-			
-			var duck = game.add.group()
-			duck.x = game.world.width + 300
-			duck.y = game.world.height - 350
-			ducksGroup.add(duck)
-			
-			var anim = game.add.spine(0,100,'duck')
-			anim.setAnimationByName(0,"WALK",true)
-			anim.setSkinByName('normal')
-			duck.add(anim)
-			
-			var slot = getSpineSlot(anim,"empty")
-
-			var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var numberText = new Phaser.Text(game, 0, 0, '1', fontStyle)
-			numberText.anchor.setTo(0.5, 0.5)
-			duck.numberText = numberText
-			slot.add(numberText)
-			
-			duck.anim = anim
-			duck.text = numberText
-			anim.autoUpdateTransform()
-			
-			var duckImage = duck.create(0,0,'atlas.duck','star')
-			duckImage.scale.setTo(1.5,1.5)
-			duckImage.alpha = 0
-			duckImage.inputEnabled = true
-			duckImage.events.onInputDown.add(inputButton)
-			duckImage.anchor.setTo(0.5,0.5)
-			
-			duck.number = 0
-			
-		}
-	}
-	
-	function getSpineSlot(spine, slotName){
-		
-		var slotIndex
-		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
-			var slotData = spine.skeletonData.slots[index]
-			if(slotData.name === slotName){
-				slotIndex = index
-			}
-		}
-
-		if (slotIndex){
-			return spine.slotContainers[slotIndex]
-		}
-	}
-	
+    
+    function initCaleidogon(){
+        
+        var caleidogon = game.add.spine(game.world.centerX, game.world.centerY, "caleidogon")
+        //caleidogon.scale.setTo(0.9, 0.9)
+        caleidogon.setAnimationByName(0, "IDLE", true)
+        caleidogon.setSkinByName("normal")
+        sceneGroup.add(caleidogon)
+        
+        var screen = sceneGroup.create(game.world.centerX , game.world.centerY - 190, 'atlas.calendrigon', 'screen')
+        screen.anchor.setTo(0.5, 0.5)
+    }
+    
+    function rotateDisc(disc, nextAngle){
+        
+        game.add.tween(disc).to({ angle: disc.angle + nextAngle}, 1000, Phaser.Easing.linear, true)
+    }
+    
+    function initNumbersGroup(){
+        
+        numbersGroup = game.add.group()
+        numbersGroup.x = game.world.centerX 
+        numbersGroup.y = game.world.centerY - 190
+        sceneGroup.add(numbersGroup)
+        
+        for(var i = 3; i < 9; i++){
+            var number = numbersGroup.create(0, 0, 'atlas.calendrigon', ''+i) 
+            number.anchor.setTo(0.5, 0.5)
+            number.alpha = 0
+        }
+    }
+    
+    function initGame(){
+               
+        numberSelect = getRand()
+        changeImage(numberSelect - 3, numbersGroup)
+        discsTweens()
+        
+        for(var i = 0; i < 3; i++){
+            answer[i] = -1
+        }
+        
+        game.time.events.add(300,function(){
+            bottom.tween.start()
+            middle.tween.start()
+            top.tween.start()
+            sound.play("stoneDoor")
+        },this)
+    }
+    
+    function getRand(){
+        var x = game.rnd.integerInRange(3, 8)
+        if(x === numberSelect)
+            return getRand()
+        else
+            return x     
+    }
+    
+    function restartDiscs(){
+        
+        sound.play("stoneDoor")
+        
+        game.add.tween(bottom).to({ angle: bottom.startAngle}, 1000, Phaser.Easing.linear, true)
+        game.add.tween(middle).to({ angle: middle.startAngle}, 1000, Phaser.Easing.linear, true)
+        game.add.tween(top).to({ angle: top.startAngle}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+            stopedDiscs = 0
+            bottom.stoped = false
+            middle.stoped = false
+            top.stoped = false
+            initGame()
+        })
+    }
+    
+    function getRadius(){
+        
+        if(gameActive){
+            
+            var x = ((Math.pow((game.world.centerX - game.input.mousePointer.x), 2)) + (Math.pow((game.world.centerY - game.input.mousePointer.y), 2)))
+            radius = Math.sqrt(x)
+            stopDisc()
+        }
+        
+    }
+    
+    function stopDisc(){
+        
+        var fig
+        sound.play("stoneDoor")
+        
+        if(radius < top.height * 0.5 && !top.stoped){
+            top.tween.stop()
+            fig = getFigure(top)
+            game.add.tween(top).to({angle: fig}, 500, Phaser.Easing.linear, true)
+            stopedDiscs += 1
+            top.stoped = true
+        }
+        else if(radius > top.height * 0.5 && radius < middle.width * 0.5 && !middle.stoped){
+            middle.tween.stop()
+            fig = getFigure(middle)
+            game.add.tween(middle).to({angle: fig}, 500, Phaser.Easing.linear, true)
+            stopedDiscs += 1
+            middle.stoped = true
+        }
+        else if(radius > middle.width * 0.5 && radius < bottom.width * 0.4 && !bottom.stoped){
+            bottom.tween.stop()
+            fig = getFigure(bottom)
+            game.add.tween(bottom).to({angle: fig}, 500, Phaser.Easing.linear, true)
+            stopedDiscs += 1
+            bottom.stoped = true
+        }
+        
+        if(stopedDiscs === 3){
+            stopedDiscs += 1
+            var correct = false
+            var timer = 300
+            var space = 200
+        
+            for(var i = 0; i < 3; i++){
+            
+                giveOrTake(timer,space,i)
+                timer += 400
+                space += 130
+            }
+            
+            for(var i = 0; i < 3; i++){
+                if(answer[i] === numberSelect)
+                    correct = true
+                else{
+                    correct = false
+                    break
+                }
+            }
+            
+            game.time.events.add(1300,function(){
+                if(correct){
+                    addPoint(1)
+                    spinSpeed -= 500
+                }
+                else{
+                    missPoint()
+                }
+                restartDiscs()
+            },this)
+        }
+    }
+    
+    function getFigure(disc){
+        
+        var initAng = disc.startAngle
+        var spin = disc.spin
+        var ang = disc.angle
+        var figures = disc.figures
+        var arr = disc.arr
+        
+        for(var s = 0; s < figures; s++){
+            
+            if(ang < initAng + (spin * 0.5) && ang > initAng - (spin * 0.5)){
+                answer[disc.answer] = arr[s]
+                return initAng
+                break
+            }
+            else{
+                initAng += spin
+            }
+            
+            if(initAng > 180)
+                initAng -= 360
+        }
+    }
+    
+    function giveOrTake(timer, space,i){
+        
+        game.time.events.add(timer,function(){
+            
+            if(answer[i] === numberSelect){
+                sound.play("rightChoice")
+                particleCorrect.x = game.world.centerX
+                particleCorrect.y = game.world.centerY + space
+                particleCorrect.start(true, 1200, null, 5)
+            }
+            else{
+                sound.play("error")
+                particleWrong.x = game.world.centerX
+                particleWrong.y = game.world.centerY + space
+                particleWrong.start(true, 1200, null, 5)
+            }
+        },this)
+    }
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('wrong')
+        sceneGroup.add(particleWrong)
+    }
+    
 	return {
 		
 		assets: assets,
-		name: "duck",
+		name: "calendrigon",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+            game.input.mouse.capture = true
+			sceneGroup = game.add.group()
 			
 			createBackground()
-			createDucks()
 			addParticles()
                         			
-            spaceSong = game.add.audio('spaceSong')
-            game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+            adventureSong = game.add.audio('adventureSong')
+            game.sound.setDecodedCallback(adventureSong, function(){
+                adventureSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -754,8 +811,11 @@ var duck = function(){
 			            
 			createPointsBar()
 			createHearts()
+            initCaleidogon()
+            initNumbersGroup()
+            createParticles()
 			
-			buttons.getButton(spaceSong,sceneGroup)
+			buttons.getButton(adventureSong,sceneGroup)
             createOverlay()
             
             animateScene()

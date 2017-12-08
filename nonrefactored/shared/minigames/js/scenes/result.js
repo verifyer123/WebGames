@@ -361,7 +361,7 @@ var result = function(){
 		imgCont.anchor.setTo(0.5,0.5)
 		
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width * 0.08,5, 'x ' + totalScore, fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width * 0.08,5, 'x 0' , fontStyle)
 		retryText.anchor.setTo(0,0.5)
         coinsContainer.add(retryText)
 		coinsContainer.text = retryText
