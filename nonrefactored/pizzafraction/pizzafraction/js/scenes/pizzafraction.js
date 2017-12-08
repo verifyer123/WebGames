@@ -305,11 +305,21 @@ var isMobile = {
 			
 			TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width,onComplete:newYogotar});
 			if(coins >= 3){
-				timer = 10;
+				timer = 11;
 				clearInterval(timerCount);
-				timerCount = setInterval(timerFunction, 1000);
+				//timerCount = setInterval(timerFunction, 1000);
+                
+                var waitTime = 0
+				if(coins>3){
+				    waitTime = 800
+				}
+				game.time.events.add(waitTime,function(){
+				    timerCount = setInterval(timerFunction, 1000);
+				})
 			}
+            
 			
+            
 			
 			function newYogotar(){
 				timbre_iddle.inputEnabled = true;
