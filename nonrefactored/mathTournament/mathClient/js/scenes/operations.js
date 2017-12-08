@@ -499,7 +499,7 @@ var operations = function(){
 			waitingGroup.waitText.text = localization.getString(localizationData, "youWin")
 			waitingGroup.waitText.tint = 0x00A413
 		}else{
-			waitingGroup.waitText.text = localization.getString(localizationData, "bestLuckRe")
+			waitingGroup.waitText.text = localization.getString(localizationData, "bestLuck")
 			waitingGroup.waitText.tint = 0xA40101
 		}
 		game.add.tween(waitingGroup).to({alpha:1},300, Phaser.Easing.Cubic.Out,true)

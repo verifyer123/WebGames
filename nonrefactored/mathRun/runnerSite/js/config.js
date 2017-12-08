@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Candy Catch",
         language: "es",
-        minigameUrl: "http://www.yogome.com/epic/minigames/runneryogome/index.html?language=" + language,
+        minigameUrl: "../runneryogome/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }

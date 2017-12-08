@@ -276,10 +276,14 @@ var characterSelect = function(){
 		continuar.events.onInputDown.add(function(){
 			//Aqui ira el redireccionamiento
 			if(continuar.alpha==1){
+				selectedCharacter = selectedCharacter.replace("yogotar", "")
 				console.log(selectedCharacter)
-				game.paused = true
-				epicSiteMain.charSelected(selectedCharacter)
-				game.add.tween(sceneGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+				console.log(sceneGroup)
+				game.add.tween(sceneGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
+					console.log("end")
+					game.paused = true
+					epicSiteMain.charSelected(selectedCharacter)
+				})
 			}
         })
 		
