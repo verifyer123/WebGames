@@ -2,7 +2,7 @@ window.minigame = window.minigame || {}
 
 function startCharSelector(){
 	var div = document.getElementById("characterSelector")
-	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.canvas, "characterSelector", {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.canvas, "characterSelector", {init: init, create: create }, true, true);
 	// div.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -19,10 +19,10 @@ function startCharSelector(){
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
-            sceneloader.show("preloaderIntro")
+            // sceneloader.show("preloaderIntro")
     	}
 
-        document.body.style.visibility = "visible"
+        // document.body.style.visibility = "visible"
     	sceneloader.preload([preloaderIntro], {onComplete: onCompletePreloading})
 	}
 
@@ -40,9 +40,10 @@ function startCharSelector(){
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;        
+        game.stage.disableVisibilityChange = true;
+        game.clearBeforeRender = false
 
-        game.plugins.add(Fabrique.Plugins.Spine);
+		game.plugins.add(Fabrique.Plugins.Spine);
         
         var language = "EN"
         if(window.location.search){

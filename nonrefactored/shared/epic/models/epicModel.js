@@ -24,10 +24,6 @@ var epicModel = function () {
 		// for(var battleIndex = 0; battleIndex < 50; battleIndex++){
 		// 	player.battles.push(false)
 		// }
-
-		var data = epicCharacters["yogotar" + player.yogotar]
-		var card = {id: "yogotar" + player.yogotar, xp:0, data:data}
-		player.cards.push(card)
 		// player.cards.push({id:"yogotarArthurius", xp:0, data:epicCharacters["yogotarArthurius"]})
 		console.log("epicCharacters", card)
 
@@ -38,7 +34,12 @@ var epicModel = function () {
 		// 	character.xp = 0
 		// }
 		console.log("players", player)
-		if((loadGame)&&(player.yogotar))loadGame()
+		if((loadGame)&&(player.yogotar)){
+			var data = epicCharacters["yogotar" + player.yogotar]
+			var card = {id: "yogotar" + player.yogotar, xp:0, data:data}
+			player.cards.push(card)
+			loadGame()
+		}
 		else charSelector()
 	}
 

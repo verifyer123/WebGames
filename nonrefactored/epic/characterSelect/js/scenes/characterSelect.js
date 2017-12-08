@@ -169,17 +169,17 @@ var characterSelect = function(){
 		
 		for(var put=0;put<yogotars.length;put++){
 		
-		character4[put]=game.add.sprite(game.world.centerX-space-100,game.world.centerY-70,"contin")
+		character4[put]=backgroundGroup.create(game.world.centerX-space-100,game.world.centerY-70,"contin")
 		character4[put].anchor.setTo(.5)
-		character5[put]=game.add.sprite(character4[put].centerX-2,character4[put].centerY+5,"contout")
+		character5[put]=backgroundGroup.create(character4[put].centerX-2,character4[put].centerY+5,"contout")
 		character5[put].anchor.setTo(.5)
-		character[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,yogotars[put].name)
+		character[put]=backgroundGroup.create(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,yogotars[put].name)
 		
 		
-		character2[put]=game.add.sprite(character4[put].centerX+yogotars[put].offsetxn,character4[put].centerY+180,yogotars[put].namey)
+		character2[put]=backgroundGroup.create(character4[put].centerX+yogotars[put].offsetxn,character4[put].centerY+180,yogotars[put].namey)
 		character2[put].scale.setTo(yogotars[put].scalen)
 		
-		character3[put]=game.add.sprite(character4[put].centerX+70,character4[put].centerY+250,yogotars[put].element)
+		character3[put]=backgroundGroup.create(character4[put].centerX+70,character4[put].centerY+250,yogotars[put].element)
 		character[put].scale.setTo(yogotars[put].scalec)
 		character3[put].scale.setTo(.8)
 
@@ -228,11 +228,11 @@ var characterSelect = function(){
 			backgroundGroup.add(character[adding2])
 		}
 		
-		var sel= game.add.sprite(game.world.centerX,game.world.centerY/5,"selectBar")
+		var sel= backgroundGroup.create(game.world.centerX,game.world.centerY/5,"selectBar")
 		sel.anchor.setTo(.5)
-		continuar=game.add.sprite(game.world.centerX-160,game.world.centerY+350,"acceptBtn")
-		prev=game.add.sprite(game.world.centerX-600,game.world.centerY-100,"arrow")
-		next=game.add.sprite(game.world.centerX+600,game.world.centerY-100,"arrow")
+		continuar=backgroundGroup.create(game.world.centerX-160,game.world.centerY+350,"acceptBtn")
+		prev=backgroundGroup.create(game.world.centerX-600,game.world.centerY-100,"arrow")
+		next=backgroundGroup.create(game.world.centerX+600,game.world.centerY-100,"arrow")
 		next.scale.setTo(-1,1)
 		continuar.alpha=0
 		
@@ -241,7 +241,9 @@ var characterSelect = function(){
 		var firstText=game.add.text(sel.centerX-250, sel.centerY-18, "SELECT YOUR YOGOTAR:",style);
 		 secondText=game.add.text(continuar.centerX-75,continuar.centerY-15,"CONTINUE",style2)
 		 secondText.alpha=0
-		 
+		backgroundGroup.add(firstText)
+		backgroundGroup.add(secondText)
+
          prev.inputEnabled = true
 		 next.inputEnabled = true
 		 continuar.inputEnabled = true
@@ -275,6 +277,9 @@ var characterSelect = function(){
 			//Aqui ira el redireccionamiento
 			if(continuar.alpha==1){
 				console.log(selectedCharacter)
+				game.paused = true
+				epicSiteMain.charSelected(selectedCharacter)
+				game.add.tween(sceneGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 			}
         })
 		
@@ -395,7 +400,8 @@ var characterSelect = function(){
 		create: function(event){
             
 			sceneGroup = game.add.group()
-			
+
+			game.add.tween(sceneGroup).from({alpha:0}, 500, Phaser.Easing.Cubic.In, true)
 			createBackground()
                         			
             // spaceSong = game.add.audio('spaceSong')

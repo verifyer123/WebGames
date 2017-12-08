@@ -1,5 +1,5 @@
 
-window.onload =  function(){
+var epicSiteMain =  function(){
 	var gameFrame
 
 	function loadGame(){
@@ -18,18 +18,29 @@ window.onload =  function(){
 		characterSelector.style.visibility = "hidden"
 	}
 
+	function charSelected(yogotar){
+		var currentPlayer = epicModel.getPlayer()
+		currentPlayer.yogotar = yogotar
+		epicModel.savePlayer(currentPlayer)
+
+		var home = document.getElementById("home")
+		home.style.visibility = "visible"
+		loadGame()
+
+	}
+
 	function loadCharSelector() {
 		// var home = document.getElementById("home")
-		// var miObjeto = $("#home");
-		// TweenMax.to(miObjeto,1,{opacity:0,onComplete:NextFunction});
-		// function NextFunction(){
-		// 	miObjeto.hide();
-		// }
-		// miObjeto.show()
+		// home.style.visibility = "hidden"
+		startCharSelector()
 	}
 
 	gameContainer = document.getElementById("game-container")
 	epicModel.loadPlayer(loadGame, loadCharSelector)
-}
+
+	return{
+		charSelected:charSelected
+	}
+}()
 
 // window.addEventListener("resize", loadGame);
