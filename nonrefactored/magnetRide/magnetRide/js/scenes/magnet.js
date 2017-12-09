@@ -108,10 +108,9 @@ var magnet = function(){
         
 	}
     
-    
     function createTextPart(text,obj){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         
         if(pointsText){
             
@@ -133,14 +132,15 @@ var magnet = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
+			//console.log(particle.tag + ' tag,' + particle.used)
             if(!particle.used && particle.tag == key){
                 
-                particle.used = true
+				particle.used = true
                 particle.alpha = 1
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-                
+				                
                 return particle
                 break
             }
@@ -163,29 +163,32 @@ var magnet = function(){
     function createPart(key,obj,offsetX){
         
         var offX = offsetX || 0
-        key+='Part'
         var particle = lookParticle(key)
+		
         if(particle){
             
             particle.x = obj.world.x + offX
             particle.y = obj.world.y
             particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
+            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            particle.start(true, 1500, null, 6);
+			
+			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})
+			
         }
         
         
     }
     
     function createParticles(tag,number){
-        
-        tag+='Part'
-        
+                
         for(var i = 0; i < number;i++){
             
             var particle
-            if(tag == 'textPart'){
+            if(tag == 'text'){
                 
                 var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
@@ -194,18 +197,44 @@ var magnet = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.magnet',tag)
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.magnet',tag);
+				particle.minParticleSpeed.setTo(-300, -100);
+				particle.maxParticleSpeed.setTo(400, -400);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
             }
             
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            particle.anchor.setTo(0.5,0.5)
+            //particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
         
     }
+	
+	function addParticles(){
+		
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+		
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+		
+		createParticles('star',3)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		createParticles('smoke',1)
+
+	}
 
     function popObject(obj,delay){
         
@@ -343,6 +372,7 @@ var magnet = function(){
 		sceneGroup.add(yogotar)
 		
 		sound.play('laserexplode')
+		createPart('smoke',player)
 		
 		game.add.tween(yogotar).to({angle:yogotar.angle + 360},500,"Linear",true)
 		game.add.tween(yogotar.scale).to({x:5,y:5},500,"Linear",true)
@@ -613,6 +643,7 @@ var magnet = function(){
 				}else if(tag == 'coin'){
 					
 					addPoint(1)
+					createTextPart('+1',player)
 					deactivateObj(obj)
 					if(!obj.item){
 						addObject()
@@ -797,17 +828,6 @@ var magnet = function(){
 		createObjs('nave',1,5)
 		createObjs('bullet',1,12)
 		createObjs('battery',1.2,5)
-		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
-		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
-		
-		createParticles('ring',5)
-		createParticles('wrong',2)
-		createParticles('star',5)
-		createParticles('text',5)
 		
 	}
 	
@@ -1033,6 +1053,7 @@ var magnet = function(){
 			
 			buttons.getButton(magnetSong,sceneGroup)
 			            
+			addParticles()
             createOverlay()
             
             animateScene()

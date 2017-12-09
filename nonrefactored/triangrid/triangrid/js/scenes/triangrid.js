@@ -53,6 +53,7 @@ var triangrid = function(){
     
 	var staticLine
 	var limitDrag
+	var lastIndex
     var lives = null
 	var indexToUse
 	var sceneGroup = null
@@ -87,6 +88,7 @@ var triangrid = function(){
 		indexToUse = null
 		figureToUse = null
 		timeToUse = 15000
+		lastIndex = 0
         
         loadSounds()
         
@@ -287,8 +289,14 @@ var triangrid = function(){
 	function setFigure(){
 		
 		indexToUse = game.rnd.integerInRange(0,figureNames.length - 1)
+		
+		while(lastIndex == indexToUse){
+			indexToUse = game.rnd.integerInRange(0,figureNames.length - 1)
+		}
 		var tag = figureNames[indexToUse]
 		
+		lastIndex = indexToUse
+
 		game.add.tween(staticLine).to({angle:-anglesUsed[indexToUse][0]},200,"Linear",true)
 		staticLine.text.setText(Math.abs(anglesUsed[indexToUse][0]) + '°')
 		
@@ -307,6 +315,7 @@ var triangrid = function(){
 		
 		game.time.events.add(500,function(){
 			
+			dragPoints.drag.inputEnabled = true
 			clock.bar.scale.x = clock.bar.origScale
 			popObject(clock,0)
 			
@@ -490,7 +499,7 @@ var triangrid = function(){
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
 				
-				console.log(particle)
+				//console.log(particle)
                 
                 return particle
                 break
@@ -593,6 +602,8 @@ var triangrid = function(){
 			return
 		}
 		
+		dragPoints.drag.inputEnabled = false
+		
 		if(clock.tween){
 			clock.tween.stop()
 		}
@@ -600,7 +611,7 @@ var triangrid = function(){
 		game.add.tween(clock).to({alpha:0},500,"Linear",true)
 		
 		obj.alpha = 0.7
-		gameActive = false
+		//gameActive = false
 		obj.inputEnabled = false
 		sound.play("pop")
 		
@@ -706,12 +717,13 @@ var triangrid = function(){
 		var dragPoint = dragPoints.create(staticLine.x, point.y - 150, 'atlas.triangrid','handle')
 		dragPoint.inputEnabled = true
 		dragPoint.input.enableDrag(true)
-		dragPoint.dragging = false
+		dragPoint.dragging = true
 		dragPoint.events.onDragStart.add(onDragStart, this);
 		dragPoint.events.onDragStop.add(onDragStop, this);
 		dragPoint.anchor.setTo(0.5,0.5)
 		dragPoint.id = i
 		dragPoint.angleUsed = 30
+		dragPoints.drag = dragPoint
 
 		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var pointsText = new Phaser.Text(sceneGroup.game, pivotText, point.y + 50, "30°", fontStyle)
@@ -758,7 +770,7 @@ var triangrid = function(){
 	function onDragStop(obj){
 		
 		sound.play("pop")
-		obj.dragging = false
+		obj.dragging = true
 	}
 	
 	function createReadyBtn(){
