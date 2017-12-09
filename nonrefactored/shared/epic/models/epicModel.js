@@ -11,42 +11,37 @@ var epicModel = function () {
 		version: 0.1
 	}
 
-	function loadPlayer (loadGame) {
-		if((loadGame)&&(player.yogotar)){
-			var minigames = epicYogomeGames.getGames()
+	function loadPlayer (callback) {
 
-			for(var mgIndex = 0; mgIndex < minigames.length; mgIndex++){
-				var minigame = minigames[mgIndex]
-				minigame.completed = false
-				minigame.record = 0
-				player.minigames.push(minigame)
-			}
+		var minigames = epicYogomeGames.getGames()
 
-			// for(var battleIndex = 0; battleIndex < 50; battleIndex++){
-			// 	player.battles.push(false)
-			// }
-			// player.cards.push({id:"yogotarArthurius", xp:0, data:epicCharacters["yogotarArthurius"]})
-			console.log("epicCharacters", card)
-
-			// var characters = epicCharacters
-			// for(var charIndex = 0; charIndex < epicCharacters.length; charIndex++ ){
-			// 	var character = epicCharacters[charIndex]
-			// 	character.captured = false
-			// 	character.xp = 0
-			// }
-			console.log("players", player)
-			var data = epicCharacters["yogotar" + player.yogotar]
-			var card = {id: "yogotar" + player.yogotar, xp:0, data:data}
-			player.cards.push(card)
-			loadGame()
+		for(var mgIndex = 0; mgIndex < minigames.length; mgIndex++){
+			var minigame = minigames[mgIndex]
+			minigame.completed = false
+			minigame.record = 0
+			player.minigames.push(minigame)
 		}
-		else startCharSelector()
+
+		// for(var battleIndex = 0; battleIndex < 50; battleIndex++){
+		// 	player.battles.push(false)
+		// }
+		// player.cards.push({id:"yogotarArthurius", xp:0, data:epicCharacters["yogotarArthurius"]})
+		// console.log("epicCharacters", card)
+
+		// var characters = epicCharacters
+		// for(var charIndex = 0; charIndex < epicCharacters.length; charIndex++ ){
+		// 	var character = epicCharacters[charIndex]
+		// 	character.captured = false
+		// 	character.xp = 0
+		// }
+		console.log("players", player)
+		callback()
 	}
 
 	function savePlayer(currentPlayer) {
 		player = currentPlayer
 	}
-	
+
 	return{
 		loadPlayer:loadPlayer,
 		getPlayer:function(){return player},

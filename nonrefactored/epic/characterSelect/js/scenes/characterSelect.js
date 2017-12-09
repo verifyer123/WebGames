@@ -281,7 +281,8 @@ var characterSelect = function(){
 				console.log(sceneGroup)
 				game.add.tween(sceneGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
 					console.log("end")
-					game.paused = true
+					game.destroy()
+					// game.paused = true
 					epicSiteMain.charSelected(selectedCharacter)
 				})
 			}
