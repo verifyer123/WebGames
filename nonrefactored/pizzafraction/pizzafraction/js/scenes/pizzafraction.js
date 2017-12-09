@@ -50,7 +50,7 @@ var pizzafraction = function(){
 	timerCount = null;
 	var xpIcon;
 	
-	lives = 1;
+	var lives = 1;
 	var count = 0;
 	var cursors;
 	coins = 0;
@@ -91,9 +91,6 @@ var pizzafraction = function(){
 		/*SPINE*/
 		game.load.spine("yogotar", imagePath + "spine/skeleton.json");
 
-		
-		
-		
 	}
 
 	function loadSounds(){
@@ -102,6 +99,7 @@ var pizzafraction = function(){
 	
 	function initialize(){
 		lives = 1;
+        count = 0;
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
@@ -191,8 +189,13 @@ var isMobile = {
 		var textGlobe = game.add.text(50, 10, fractions[0].fraction, styleBlack,sceneGroup);	
 			textGlobe.anchor.setTo(0,0.3);
 			textGlobe.setTextBounds(globe.x,globe.y,globe.width/2,globe.height);
+        
+        var poly = new Phaser.Polygon([ new Phaser.Point(0,0), 
+                                        new Phaser.Point(90, 225), 
+                                        new Phaser.Point(-90, 225) ]);
 
 		var fractionPizza = new Array;
+        var graphics = new Array;
 		var numPizzas = 8;
 		
 		for(i=0;i<=numPizzas-1;i++){
@@ -205,10 +208,21 @@ var isMobile = {
 			fractionPizza[i].angle = i * 45;
 			fractionPizza[i].inputEnabled = true;
 			fractionPizza[i].over = false;
-			if(isMobile.any()){
-			   fractionPizza[i].events.onInputOver.add(onPress,this);
+            
+            graphics[i] = game.add.graphics(0, 0);
+            graphics[i].beginFill(0x00ff00);
+            graphics[i].drawPolygon(poly.points);
+            graphics[i].y = plato.y + fractionPizza[i].height + plato.height/20
+            graphics[i].x = plato.x + plato.width/2;
+            graphics[i].alpha = 0
+            graphics[i].angle = i * 45 + 180
+            graphics[i].inputEnabled = true;
+            graphics[i].pizza = fractionPizza[i]
+            graphics[i].endFill()
+            if(isMobile.any()){
+			   graphics[i].events.onInputOver.add(onPress,this);
 			   }else{
-				fractionPizza[i].events.onInputDown.add(onPress,this);	   
+                   graphics[i].events.onInputDown.add(onPress,this);	   
 			   }
         	
 		}
@@ -221,19 +235,17 @@ var isMobile = {
 			star.alpha= 0;
 		
 		function onPress(pizza){
-			if(!pizza.over){
+			if(!pizza.pizza.over){
 				count = count + 1;
-				pizza.blendMode = 0;
-				pizza.over = true;
+				pizza.pizza.blendMode = 0;
+				pizza.pizza.over = true;
 			}else{
 				count = count - 1;
-				pizza.blendMode = 3;
-				pizza.over = false;
+				pizza.pizza.blendMode = 3;
+				pizza.pizza.over = false;
 			}
 			
 		}
-		
-	
 		
 		var timbre_iddle = sceneGroup.create(0,0,"timbre_iddle");
 			timbre_iddle.x = globe.x + timbre_iddle.width;
@@ -255,14 +267,14 @@ var isMobile = {
 				TweenMax.fromTo(star.scale,3,{x:4,y:4},{x:8,y:8})
 				TweenMax.fromTo(star,3,{alpha:1},{alpha:0,onComplete:newPizza});
 				for(i=0;i<=numPizzas-1;i++){
-					fractionPizza[i].inputEnabled = false;
+					graphics[i].inputEnabled = false;
 				}
 			}else{
 				bgm.stop();
 				sound.play("wrong");
 				sound.play("gameLose");
 				for(i=0;i<=numPizzas-1;i++){
-					fractionPizza[i].inputEnabled = false;
+					graphics[i].inputEnabled = false;
 				}
 				yogotar1.setAnimationByName(0, "LOSE", true);
 				TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:0,delay:1,onComplete:gameOver})
@@ -289,15 +301,25 @@ var isMobile = {
 		}		
 		
 		
-		function newPizza(){
+        function newPizza(){
 			
 			TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width,onComplete:newYogotar});
 			if(coins >= 3){
-				timer = 10;
+				timer = 11;
 				clearInterval(timerCount);
-				timerCount = setInterval(timerFunction, 1000);
+				//timerCount = setInterval(timerFunction, 1000);
+                
+                var waitTime = 0
+				if(coins>3){
+				    waitTime = 800
+				}
+				game.time.events.add(waitTime,function(){
+				    timerCount = setInterval(timerFunction, 1000);
+				})
 			}
+            
 			
+            
 			
 			function newYogotar(){
 				timbre_iddle.inputEnabled = true;
@@ -306,7 +328,7 @@ var isMobile = {
 				count = 0;
 				for(i=0;i<=numPizzas-1;i++){
 					fractionPizza[i].blendMode = 3;
-					fractionPizza[i].inputEnabled = true;
+					graphics[i].inputEnabled = true;
 					fractionPizza[i].over = false;
 				}
 				textGlobe.setText(fractions[0].fraction);
@@ -355,7 +377,6 @@ var isMobile = {
 		createOverlay();
 		
 	}
-
 
 	
 	function update() {
