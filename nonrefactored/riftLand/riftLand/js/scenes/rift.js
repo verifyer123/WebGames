@@ -328,7 +328,7 @@ var rift = function(){
 			
 			sound.play("flesh")
 			
-			game.add.tween(yogotarGroup.anim.scale).to({x:3,y:3},250,"Linear",true)
+			game.add.tween(yogotarGroup.anim.scale).to({x:2.5,y:2.5},250,"Linear",true)
 			game.add.tween(yogotarGroup).to({x:0,y:game.world.centerY - fieldGroup.y, angle:25},250,"Linear",true).onComplete.add(function(){
 				
 				var rect = new Phaser.Graphics(game)
@@ -1137,9 +1137,12 @@ var rift = function(){
 		sound.play("whoosh")
 		game.add.tween(yogotarGroup).to({x:yogotarGroup.x + moveX, y: yogotarGroup.y + moveY},500,"Linear",true).onComplete.add(function(){
 			
-			yogotarGroup.anim.setAnimationByName(0,'IDLE',true)
-			yogotarGroup.anim.scale.x = Math.abs(yogotarGroup.anim.scale.x)
-			checkYogotar()
+			if(gameActive){
+				yogotarGroup.anim.setAnimationByName(0,'IDLE',true)
+				yogotarGroup.anim.scale.x = Math.abs(yogotarGroup.anim.scale.x)
+				checkYogotar()
+			}
+			
 		})
 	}
 	
