@@ -113,7 +113,7 @@ yogomeGames.getGames = function(){
         ]
     return games
         
-,}
+}
 
 yogomeGames.mixpanelCall = function(callName,gameIndex){
 	
@@ -127,4 +127,4 @@ yogomeGames.mixpanelCall = function(callName,gameIndex){
 	);
 	
 		
-,}
+}
