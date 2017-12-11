@@ -226,7 +226,7 @@ var toyfigure = function(){
         }
         
        
-        
+        coins = 0
         
 
 toysArray[0].id = 0;
@@ -275,7 +275,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         star.alpha = 0;
 
         function stopDrag(currentSprite, endSprite){   
-            console.log(currentSprite.id);
+            //console.log(currentSprite.id);
             
             if (!this.game.physics.arcade.overlap(currentSprite, endSprite, function() {
             currentSprite.input.draggable = false;
@@ -320,6 +320,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
             dinamita.setAnimationByName(0, "LOSE", true); 
             bgm.stop();	
         }	
+        
 	
 		
 		function gameOver(){
@@ -348,7 +349,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
             shuffle(newPositionRepiza);
 
              for(var i = 0; i<=2;i++){
-                 console.log(newPositionRepiza[i].id);
+                 //console.log(newPositionRepiza[i].id);
                 newPositionRepiza[i].x = eval("position" +[i] + "x");
                 newPositionRepiza[i].y = eval("position" +[i] + "y");  
                 TweenMax.fromTo(newPositionRepiza[i].scale,0.5,{x:0,y:0},{x:1,y:1,delay:i*0.2}); 
@@ -434,7 +435,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         
 		createCoins(coins);
 		createHearts(lives);
-		createOverlay();
+		createOverlay(lives);
 		
 	}
 
