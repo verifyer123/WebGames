@@ -320,7 +320,7 @@ var nutri = function(){
 		game.load.image('introscreen',"images/nutri/introscreen.png")
 		game.load.image('background',"images/nutri/background.png")
 		
-		game.load.spritesheet('coinS', 'images/nutri/sprites/coinS.png', 68, 70, 12);
+		game.load.spritesheet('coins', 'images/nutri/sprites/coins.png', 68, 70, 12);
 		        
     }
 	
@@ -814,7 +814,7 @@ var nutri = function(){
 		
 		isTop = !isTop
 		
-		var percent = game.rnd.integerInRange(2,5) * 0.1
+		var percent = game.rnd.integerInRange(0,4) * 0.1
 		var obj = getObject('bloque')
 		
 		var posY = obj.height * percent
