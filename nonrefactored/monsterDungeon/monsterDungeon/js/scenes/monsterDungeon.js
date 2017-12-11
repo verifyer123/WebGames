@@ -267,6 +267,7 @@ var monsterDungeon = function(){
             options[i].text.y = options[i].y;
             options[i].answer = answers[i-1];
             options[i].inputEnabled = true;
+            options[i].pressed = false;
             options[i].events.onInputDown.add(onPress,this);
         }
        
@@ -284,6 +285,7 @@ var monsterDungeon = function(){
             }else{
                 answerQuestion = false;
                 option.tint = 0xff0000;
+                option.pressed = true;
             }
             
             throwCandy();
@@ -351,7 +353,8 @@ var monsterDungeon = function(){
                 posCandy(numberRandom);
                 monster.setAnimationByName(0, "IDLE", true);
                 for(i=1;i<=3;i++){
-                    options[i].inputEnabled = true;
+                    if(!options[i].pressed)
+                        options[i].inputEnabled = true;
                 }
             }
             
@@ -372,6 +375,7 @@ var monsterDungeon = function(){
                     options[i].tint = 0xffffff;
                     options[i].answer = answers[i-1];
                     options[i].text.setText(answers[i-1]);
+                    options[i].pressed = false;
                 }        
             }
             
