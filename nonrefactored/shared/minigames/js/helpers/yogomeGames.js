@@ -3,39 +3,39 @@ var yogomeGames = {}
 yogomeGames.getGames = function(){
 	var games = [
 	
-		{name:'Addition Dojo',url:'http://yogome.com/epic/minigames/dojoSite/',sceneName:'dojo',subject:'math',review:true,objective:3},
+		{name:'Addition Dojo',url:'http://yogome.com/epic/minigames/dojoSite/',sceneName:'dojo',subject:'math',review:true,objective:15},
         {name:'Space Words',url:'http://yogome.com/epic/minigames/spaceSite/',sceneName:'space',subject:'language',review:true,objective:3},
-        {name:'Math Run',url:'http://yogome.com/epic/minigames/runnerSite/',sceneName:'runneryogome',subject:'math',review:true,objective:3},
-        {name:'Water Morphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water',subject:'science',review:true,objective:3},
-		{name:'Ice Cream Numbers',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice',subject:'math',review:true,objective:3},
-		{name:'Magnet Ride',url:'http://yogome.com/epic/minigames/magnetSite/',sceneName:'magnet',subject:'science',review:true,objective:3},
+        {name:'Math Run',url:'http://yogome.com/epic/minigames/runnerSite/',sceneName:'runneryogome',subject:'math',review:true,objective:20},
+        {name:'Water Morphosis',url:'http://yogome.com/epic/minigames/waterSite/',sceneName:'water',subject:'science',review:true,objective:40},
+		{name:'Ice Cream Numbers',url:'http://yogome.com/epic/minigames/iceSite/',sceneName:'ice',subject:'math',review:true,objective:10},
+		{name:'Magnet Ride',url:'http://yogome.com/epic/minigames/magnetSite/',sceneName:'magnet',subject:'science',review:true,objective:30},
 		{name:'Salad Cards',url:'http://yogome.com/epic/minigames/tapsite/',sceneName:'tapcards',subject:'language',review:false,objective:3},
 		{name:'Sky Language',url:'http://yogome.com/epic/minigames/skySite/',sceneName:'sky',subject:'language',review:true,objective:3},
 		{name:'Flag Runner',url:'http://yogome.com/epic/minigames/flagSite/',sceneName:'flag',subject:'geography',review:true,objective:3},
 		{name:'Rift Land',url:'http://yogome.com/epic/minigames/riftSite/',sceneName:'rift',subject:'coding',review:true,objective:3},
 		{name:'Puzzle Road',url:'http://yogome.com/epic/minigames/puzzleSite/',sceneName:'puzzle',subject:'creativity',review:true,objective:3},
 		{name:'Geo Journey',url:'http://yogome.com/epic/minigames/geoSite/',sceneName:'geoJourney',subject:'geography',review:true,objective:3},
-		{name:'Memonumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo',subject:'math',review:true,objective:3},
-		{name:'Beach Ninja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach',subject:'math',review:true,objective:3},
-        {name:'Flying Fractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions',subject:'math',review:true,objective:3},
+		{name:'Memonumbers',url:'http://yogome.com/epic/minigames/memoSite/',sceneName:'memo',subject:'math',review:true,objective:40},
+		{name:'Beach Ninja',url:'http://yogome.com/epic/minigames/beachSite/',sceneName:'beach',subject:'math',review:true,objective:15},
+        {name:'Flying Fractions',url:'http://yogome.com/epic/minigames/flyingFractionsSite/',sceneName:'flyingFractions',subject:'math',review:true,objective:20},
 		{name:'Color Attack',url:'http://yogome.com/epic/minigames/colorSite/',sceneName:'color',subject:'creativity',review:true,objective:3},
 		{name:'Nutricanon',url:'http://yogome.com/epic/minigames/nutriSite/',sceneName:'nutri',subject:'health',review:true,objective:3},
 		{name:'Microdefender',url:'http://yogome.com/epic/minigames/microdefendersite/',sceneName:'microdefender',subject:'health',review:true,objective:3},
 		{name:'Healthy Collector',url:'http://yogome.com/epic/minigames/healthySite/',sceneName:'healthyCollector',subject:'health',review:true,objective:3},
         {name:'Croak Song',url:'http://yogome.com/epic/minigames/CroakSongSite/',sceneName:'CroakSong',subject:'creativity',review:true,objective:3},
-		{name:'Tilt Sprout',url:'http://yogome.com/epic/minigames/tiltSite/',sceneName:'tilt',subject:'science',review:true,objective:3},
+		{name:'Tilt Sprout',url:'http://yogome.com/epic/minigames/tiltSite/',sceneName:'tilt',subject:'science',review:true,objective:10},
 		{name:'Culture Icons',url:'http://yogome.com/epic/minigames/cultureSite/',sceneName:'culture',subject:'geography',review:true,objective:3},
 		{name:'Dizzy Boat',url:'http://yogome.com/epic/minigames/dizzySite/',sceneName:'dizzy',subject:'geography',review:true,objective:3},
 		{name:'Flag Collector',url:'http://yogome.com/epic/minigames/flagCollectorSite/',sceneName:'flagCollector',subject:'geography',review:true,objective:3},
 		{name:'Medicatcher',url:'http://yogome.com/epic/minigames/mediSite/',sceneName:'medi',subject:'health',review:true,objective:3},
         {name:'Wild Snaps',url:'http://yogome.com/epic/minigames/wildSite/',sceneName:'wild',subject:'creativity',review:true,objective:3},
-		{name:'Gemath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem',subject:'math',review:true,objective:3},
+		{name:'Gemath',url:'http://yogome.com/epic/minigames/gemSite/',sceneName:'gem',subject:'math',review:true,objective:15},
 		{name:'Hackamole',url:'http://yogome.com/epic/minigames/hackSite/',sceneName:'hack',subject:'coding',review:true,objective:3},		
 		{name:'Lizart',url:'http://yogome.com/epic/minigames/lizartsite/',sceneName:'lizart',subject:'language',review:true,objective:3},
 		{name:'Snooze Crater',url:'http://yogome.com/epic/minigames/snoozeSite/',sceneName:'snooze',subject:'Sustainability',review:true,objective:3},//29
 		{name:'Math Feed',url:'http://yogome.com/epic/minigames/feedSite/',sceneName:'feed',subject:'math',review:true,objective:3},//30
 		{name:'Galaxy Heroes',url:'http://yogome.com/epic/minigames/galaxySite/',sceneName:'galaxy',subject:'geography',review:true,objective:3},//31
-		{name:'Pop Fish',url:'http://yogome.com/epic/minigames/fishSite/',sceneName:'fish',subject:'math',review:true,objective:3},//32
+		{name:'Pop Fish',url:'http://yogome.com/epic/minigames/fishSite/',sceneName:'fish',subject:'math',review:true,objective:15},//32
 		{name:'Bouncy Bath',url:'http://yogome.com/epic/minigames/bouncybathsite/',sceneName:'bouncybath',subject:'health',review:false,objective:3},//33
         {name:'Acorn Numbers',url:'http://yogome.com/epic/minigames/acornSite/',sceneName:'acorn',subject:'math',review:true,objective:3},//34
 		{name:'Popsteroids',url:'http://yogome.com/epic/minigames/popSite/',sceneName:'popScene',subject:'math',review:true,objective:3},//35
@@ -98,7 +98,7 @@ yogomeGames.getGames = function(){
 		{name:'iMagic',url:'http://yogome.com/epic/minigames/iMagicSite/',sceneName:'imagic',subject:'math', review:false,objective:3},//91
 		{name:'Ms NomNom',url:'http://yogome.com/epic/minigames/msSite/',sceneName:'ms',subject:'math', review:true,objective:3},//92
 		{name:'FrutiLluvia',url:'http://yogome.com/epic/minigames/frutiSite/',sceneName:'fruti',subject:'math', review:false,objective:3},//93
-		{name:'Dr Zombie',url:'http://yogome.com/epic/minigames/drZombieSite/',sceneName:'drzombie',subject:'health', review:true,objective:3},//94
+		{name:'Dr Zombie',url:'http://yogome.com/epic/minigames/drZombieSite/',sceneName:'drzombie',subject:'health', review:true,objective:20},//94
 		{name:'Wild Dentist',url:'http://yogome.com/epic/minigames/wildDentistSite/',sceneName:'wildDentist',subject:'health', review:false,objective:3},//95
 		{name:'Cog Count',url:'http://yogome.com/epic/minigames/cogSite/',sceneName:'cog',subject:'math', review:true,objective:3},//96
         {name:'Galactic Pool',url:'http://yogome.com/epic/minigames/galacticSite/',sceneName:'galactic',subject:'geography', review:false,objective:3},//97
@@ -113,7 +113,7 @@ yogomeGames.getGames = function(){
         ]
     return games
         
-,}
+}
 
 yogomeGames.mixpanelCall = function(callName,gameIndex){
 	
@@ -127,4 +127,4 @@ yogomeGames.mixpanelCall = function(callName,gameIndex){
 	);
 	
 		
-,}
+}
