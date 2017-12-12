@@ -3,7 +3,7 @@ var modal = function () {
         showLogin:function () {
 			console.log("showLogin")
 			$("#myModal").load( "login.html", function () {
-				$("#myModal").find("#signIn").show();
+				$("#myModal").find("#signIn").modal('show');
 			} );
 		}
     }

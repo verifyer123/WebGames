@@ -39,7 +39,7 @@ var epicSiteMain =  function(){
 	}
 
 	function main(){
-		epicModel.loadPlayer(checkPlayer)
+		epicModel.loadPlayer(false, checkPlayer)
 	}
 
 	function charSelected(yogotar, url){

@@ -63,7 +63,7 @@ var epicModel = function () {
 	function updateData() {
 		initializePlayer()
 		var credentials = getCredentials()
-		player = credentials.gameData
+		player = credentials.gameData || player
 		if(currentCallback) {
 			currentCallback()
 			currentCallback = null
@@ -143,17 +143,18 @@ var epicModel = function () {
 		}
 	}
 
-	function loadPlayer (callback) {
-		var credentials = getCredentials()
-		if(!credentials.gameData) {
-			currentCallback = callback
+	function loadPlayer (forceLogin, callback) {
+		// var credentials = getCredentials()
+		currentCallback = callback
+		if(forceLogin) {
 			checkLogin()
 		}
-		else
-			callback()
+		else {
+			updateData()
+		}
 	}
 
-	function savePlayer(currentPlayer) {
+	function savePlayer(currentPlayer, forceLogin) {
 		player = currentPlayer
 		localStorage.setItem("gameData", player)
 
@@ -166,7 +167,7 @@ var epicModel = function () {
 			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, updateChild, function () {
 				console.log("playerSaved")
 			})
-		}else{
+		}else if(forceLogin){
 			console.log("You need to login to save")
 		}
 	}
