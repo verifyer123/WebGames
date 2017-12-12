@@ -64,7 +64,7 @@ var flag = function(){
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 			{	name: "spaceShip",
-				file: soundsPath + "spaceShip.mp3"},
+				file: soundsPath + "spaceship.mp3"},
 			{	name: "fly",
 				file: soundsPath + "inflateballoon.mp3"},
 			
