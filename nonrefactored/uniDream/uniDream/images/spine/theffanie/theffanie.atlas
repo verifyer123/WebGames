@@ -4,52 +4,52 @@ size: 1024,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal/almoad
+normal/arm1_1
   rotate: false
-  xy: 310, 217
+  xy: 867, 243
+  size: 58, 114
+  orig: 58, 114
+  offset: 0, 0
+  index: -1
+normal/arm2_1
+  rotate: false
+  xy: 927, 260
+  size: 62, 97
+  orig: 62, 97
+  offset: 0, 0
+  index: -1
+normal/coat
+  rotate: false
+  xy: 2, 251
+  size: 306, 242
+  orig: 306, 242
+  offset: 0, 0
+  index: -1
+normal/head_lose_1
+  rotate: false
+  xy: 2, 2
+  size: 283, 247
+  orig: 283, 247
+  offset: 0, 0
+  index: -1
+normal/head_sleep_1
+  rotate: false
+  xy: 310, 246
+  size: 283, 247
+  orig: 283, 247
+  offset: 0, 0
+  index: -1
+normal/pillow
+  rotate: false
+  xy: 595, 227
   size: 270, 266
   orig: 270, 266
   offset: 0, 0
   index: -1
-normal/arm1
-  rotate: true
-  xy: 246, 152
-  size: 88, 62
-  orig: 88, 62
-  offset: 0, 0
-  index: -1
-normal/arm2
+normal/torso_1
   rotate: false
-  xy: 823, 273
-  size: 78, 78
-  orig: 78, 78
-  offset: 0, 0
-  index: -1
-normal/cobija
-  rotate: false
-  xy: 2, 242
-  size: 306, 241
-  orig: 306, 241
-  offset: 0, 0
-  index: -1
-normal/head1
-  rotate: false
-  xy: 582, 255
-  size: 239, 228
-  orig: 239, 228
-  offset: 0, 0
-  index: -1
-normal/head2
-  rotate: false
-  xy: 2, 2
-  size: 242, 238
-  orig: 242, 238
-  offset: 0, 0
-  index: -1
-normal/torso
-  rotate: false
-  xy: 823, 353
-  size: 126, 130
-  orig: 126, 130
+  xy: 867, 359
+  size: 122, 134
+  orig: 122, 134
   offset: 0, 0
   index: -1
