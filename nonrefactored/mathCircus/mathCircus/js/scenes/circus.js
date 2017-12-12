@@ -464,8 +464,8 @@ var circus = function(){
 	}
 	
 	
-	function update(deltaTime){
-		epicparticles.update(deltaTime)
+	function update(game){
+		epicparticles.update()
 
 		background.tilePosition.x--
 		floor.tilePosition.x+= 0.6
@@ -714,10 +714,10 @@ var circus = function(){
 		yogotar.setSkinByName("normal")
 		sceneGroup.add(yogotar)
 
-		//var emitter = epicparticles.newEmitter("pickedEnergy")
-		//emitter.x = yogotar.x
-		//emitter.y = yogotar.y
-		//sceneGroup.add(emitter)
+		var emitter = epicparticles.newEmitter("pickedEnergy")
+		emitter.x = yogotar.x
+		emitter.y = yogotar.y
+		sceneGroup.add(emitter)
 	}
 	
 	function createButtons(){
