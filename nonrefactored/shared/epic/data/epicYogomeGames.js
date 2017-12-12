@@ -99,8 +99,8 @@ var epicYogomeGames = function () {
 		{name:'Divisubmarine',url:url + '/diviSubmarine/',sceneName:'divisubmarine',subject:'math', review:true},//75
 		{name:'memoNumbers',url:url + '/memoNumbers/',sceneName:'memo',subject:'math',review:true},
 		{name:'jellyJump',url:url + '/jellyJump/',sceneName:'jelly',subject:'math', review:false},//56
-		{name:'numberIceCream',url:url + '/numberIce/',sceneName:'ice',subject:'math',review:true},
-		{name:'Triangrid',url:url + '/triangridSite/',sceneName:'triangrid',subject:'math', review:false},// 90
+		{name:'numberIceCream',url:url + '/numberIce/',sceneName:'ice',subject:'math',review:true}
+		//{name:'Triangrid',url:url + '/triangridSite/',sceneName:'triangrid',subject:'math', review:false}// 90
 
 	]
 
@@ -126,6 +126,6 @@ var epicYogomeGames = function () {
 
 	return{
 		mixpanelCall:mixpanelCall,
-		getGames:getGames
+		getGames:getGames,
 	}
 }()
