@@ -36,8 +36,10 @@ var wild = function(){
 				file: soundsPath + "wrong.mp3"},
             {	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
+            {   name: "magic",
+                file: soundsPath + "gameLose.mp3"},
             {   name: "gameLose",
-                file: soundsPath + "gameLose.mp3"}
+                file: soundsPath + "magic.mp3"}
 		]
     }
 
@@ -162,6 +164,7 @@ var wild = function(){
             sound.play("right")
             createPart("star", spineObj)
             numPoints++
+            addPoint(1)
             var tweenSpine = game.add.tween(spineObj).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400)
             tweenSpine.onComplete.add(function () {
                 startRound()
@@ -357,6 +360,44 @@ var wild = function(){
         
         // addNumberPart(batteryGroup,'-1')
     }
+    
+    function addPoint(number){
+        
+        sound.play("magic")
+        pointsBar.number+=number;
+        pointsBar.text.setText(pointsBar.number)
+        
+        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        addNumberPart(pointsBar.text,'+' + number,true)		
+        
+    }
+    
+    function createPointsBar(){
+        
+        pointsBar = game.add.group()
+        pointsBar.x = 200
+        pointsBar.y = 0
+        sceneGroup.add(pointsBar)
+        
+        var pointsImg = pointsBar.create(-10,10,'atlas.wild','xpcoins')
+        pointsImg.anchor.setTo(1,0)
+    
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsText.x = -pointsImg.width * 0.45
+        pointsText.y = pointsImg.height * 0.25
+        pointsBar.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        pointsBar.text = pointsText
+        pointsBar.number = 0
+        
+    }
 
     function createBattery(localX){
         
@@ -546,11 +587,11 @@ var wild = function(){
 
             createSnapsUI()
             createBattery(game.world.centerX + background.width * 0.5)
-            // createPointsBar()
+            createPointsBar()
             // createGameObjects()
             createTutorial()
 
-            buttons.getButton(wildSong,sceneGroup, game.world.centerX - background.width * 0.5 + 30, 30)
+            buttons.getButton(wildSong,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 		}
 	}
 }()
