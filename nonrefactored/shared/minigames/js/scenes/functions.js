@@ -1,6 +1,6 @@
 
 
-	function createOverlay(){
+	function createOverlay(lives){
 		//lives = 1;
 		coins = 0;
 		heartsText.setText(" ");
@@ -24,7 +24,7 @@
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
-             //heartsText.setText("x " + lives);
+             heartsText.setText("x " + lives);
             xpText.setText(coins);
             rect.inputEnabled = false
 			sound.play("pop")

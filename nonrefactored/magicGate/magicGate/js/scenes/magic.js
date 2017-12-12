@@ -280,6 +280,7 @@ var magic = function(){
         game.load.spine('yogotar', "images/spines/yogotar.json")  
 		game.load.spine('monster',"images/spines/monster.json")
 		game.load.spine('sign',"images/spines/power.json")
+		game.load.spine('operation',"images/spines/glow.json")
         game.load.audio('spaceSong', soundsPath + 'songs/fantasy_ballad.mp3');
         
 		game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
@@ -707,6 +708,18 @@ var magic = function(){
 			addition = !addition
 			
 		}
+        
+            var min = game.add.spine(game.world.centerX - 127 ,game.world.height - 105,'operation')
+            min.alpha = 0
+			min.setSkinByName('normal')
+			min.setAnimationByName(0,"IDLE_LESS",true)
+			buttonsGroup.add(min)
+        
+            var plus = game.add.spine(game.world.centerX + 127 ,game.world.height - 105,'operation')
+            plus.alpha = 0
+			plus.setSkinByName('normal')
+			plus.setAnimationByName(0,"IDLE_MORE",true)
+			buttonsGroup.add(plus)
 	}
 	
 	function createOperations(){

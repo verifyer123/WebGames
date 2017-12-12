@@ -270,7 +270,9 @@ var jump = function(){
 		buttons.getImages(game)
         game.stage.disableVisibilityChange = false;
         
-        game.load.spine('yogotar', "images/spines/nao.json")  
+        game.load.spine('yogotar', "images/spines/Nao/nao.json")  
+        game.load.spine('jumper', "images/spines/Jumper/jumper.json")  
+        
         game.load.audio('spaceSong', soundsPath + 'songs/space_bridge.mp3');
         
 		game.load.image('howTo',"images/jump/how" + localization.getLanguage() + ".png")

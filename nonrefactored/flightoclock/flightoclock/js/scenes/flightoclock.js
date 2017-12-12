@@ -122,6 +122,7 @@ var flightoclock = function(){
 		xpText.setText(coins);
 		speedGame = 5;
 		starGame = false;
+        ship = 0;
 
 	}	
 
@@ -148,6 +149,7 @@ var flightoclock = function(){
 	function createOverlay(){
 		lives = 1;
 		coins = 0;
+        ship = 0;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
 		speedGame = 5;
@@ -382,6 +384,9 @@ var flightoclock = function(){
 			TweenMax.fromTo(heligroup,1,{x:heligroup.x - game.width},{x:heligroup.x});
 			
 			sceneGroup.add(heligroup);
+            
+          
+            
 		}
 		
 
@@ -434,6 +439,8 @@ var flightoclock = function(){
 			TweenMax.fromTo(planegroup,1,{x:planegroup.x + game.width},{x:planegroup.x});
 			
 			sceneGroup.add(planegroup);
+            
+            
 			
 		}
 		
@@ -486,6 +493,8 @@ var flightoclock = function(){
 			TweenMax.fromTo(rocketgroup,1,{x:rocketgroup.x + game.width},{x:rocketgroup.x});
 			
 			sceneGroup.add(rocketgroup);
+            
+            
 			
 		}		
 			
@@ -551,7 +560,7 @@ var flightoclock = function(){
 		
 		function pressTime(item){
 			if(activeGame){
-				console.log("press");
+				//console.log("press");
 				
 				if(item.id == nums[0]){
 					sound.play("magic");
@@ -672,7 +681,7 @@ var flightoclock = function(){
 
 				
 				}
-				activeGame = false;
+				//activeGame = false;
 			}
 		}
 		

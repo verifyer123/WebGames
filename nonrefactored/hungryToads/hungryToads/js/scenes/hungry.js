@@ -781,7 +781,7 @@ var hungry = function(){
 		var toad = game.add.spine(leafBase.x,leafBase.y,"toad")
 		toad.angle = 25
 		toad.setAnimationByName(0,"IDLE",true)
-		toad.setSkinByName("normal")
+		toad.setSkinByName("coffee")
 		groupLeft.add(toad)
 		
 		var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
@@ -810,7 +810,7 @@ var hungry = function(){
 		var toad = game.add.spine(leafBase.x,leafBase.y,"toad")
 		toad.angle = -25
 		toad.setAnimationByName(0,"IDLE",true)
-		toad.setSkinByName("normal")
+		toad.setSkinByName("green")
 		groupRight.add(toad)
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, toad.x - 18, toad.y - 35, "0/0", fontStyle)

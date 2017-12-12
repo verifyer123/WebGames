@@ -223,7 +223,6 @@ var isMobile = {
         	
 		}
         
-
         
         shadow = ruletaGroup.create(0,0,"shadow");
         shadow.anchor.setTo(0.5,0.5);
@@ -256,7 +255,7 @@ var isMobile = {
         
         timbre_iddle = new Phaser.Graphics(game)
         timbre_iddle.beginFill(0x000000)
-        timbre_iddle.drawRect(0,0,game.world.width *2, game.world.height *2)
+        timbre_iddle.drawRect(0,0,game.world.width, game.world.height)
         timbre_iddle.alpha = 0;
         timbre_iddle.endFill();
         timbre_iddle.inputEnabled = true;
@@ -268,7 +267,7 @@ var isMobile = {
            
             TweenMax.fromTo(flechaRuleta,0.5,{x:flechaRuleta.posx - flechaRuleta.width/6},{x:flechaRuleta.posx});
             
-            if(ruletaGroup.angle >= 10 && ruletaGroup.angle <= 45){
+            if(ruletaGroup.angle >= 0 && ruletaGroup.angle < 45){
                 if(!fractionPizza[1].press){
                     fractionPizza[1].alpha = 1;
                     fractionPizza[1].press = true;
@@ -282,7 +281,7 @@ var isMobile = {
                     
             }
             
-            if(ruletaGroup.angle >= 45 && ruletaGroup.angle <= 90){                
+            if(ruletaGroup.angle >= 45 && ruletaGroup.angle < 90){                
                 if(!fractionPizza[8].press){
                     fractionPizza[8].alpha = 1;
                     fractionPizza[8].press = true;
@@ -292,7 +291,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 90 && ruletaGroup.angle <= 135){
+            if(ruletaGroup.angle >= 90 && ruletaGroup.angle < 135){
                 if(!fractionPizza[7].press){
                     fractionPizza[7].alpha = 1;
                     fractionPizza[7].press = true;
@@ -302,7 +301,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 135 && ruletaGroup.angle <= 180){
+            if(ruletaGroup.angle >= 135 && ruletaGroup.angle < 180){
                 if(!fractionPizza[6].press){
                     fractionPizza[6].alpha = 1;
                     fractionPizza[6].press = true;
@@ -312,7 +311,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 180 && ruletaGroup.angle <= 225){
+            if(ruletaGroup.angle >= 180 && ruletaGroup.angle < 225){
                 if(!fractionPizza[5].press){
                     fractionPizza[5].alpha = 1;
                     fractionPizza[5].press = true;
@@ -322,7 +321,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 225 && ruletaGroup.angle <= 270){
+            if(ruletaGroup.angle >= 225 && ruletaGroup.angle < 270){
                 if(!fractionPizza[4].press){
                     fractionPizza[4].alpha = 1;
                     fractionPizza[4].press = true;
@@ -332,7 +331,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 270 && ruletaGroup.angle <= 315){
+            if(ruletaGroup.angle >= 270 && ruletaGroup.angle < 315){
                 if(!fractionPizza[3].press){
                     fractionPizza[3].alpha = 1;
                     fractionPizza[3].press = true;
@@ -342,7 +341,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 315 && ruletaGroup.angle <= 360){
+            if(ruletaGroup.angle >= 315 && ruletaGroup.angle < 360){
                 if(!fractionPizza[2].press){
                     fractionPizza[2].alpha = 1;
                     fractionPizza[2].press = true;
@@ -360,6 +359,10 @@ var isMobile = {
 				timbre_iddle.inputEnabled = false;
                 TweenMax.fromTo(star.scale,1,{x:4,y:4},{x:8,y:8})
 				TweenMax.fromTo(star,1,{alpha:1},{alpha:0,onComplete:newroulette});
+                count = 0;
+                particleCorrect.x = fracciones.x 
+                particleCorrect.y = fracciones.y
+                particleCorrect.start(true, 1200, null, 6)
                 
             }
             
@@ -396,6 +399,8 @@ var isMobile = {
 			if(coins > 3){
 				clearInterval(timerCount);
 			}*/
+            
+             
 			
 		}		
         
@@ -407,10 +412,33 @@ var isMobile = {
 					sound.play("gameLose");
 					bgm.stop();	
             starGame = false;
+            particleWrong.x = fracciones.x 
+                particleWrong.y = fracciones.y
+                particleWrong.start(true, 1200, null, 6)
         }
         
 		
+        function createParticles(){
+                particleCorrect = createPart('star')
+                sceneGroup.add(particleCorrect)
+        
+                particleWrong = createPart('wrong')
+                sceneGroup.add(particleWrong)
+            }
+            
+            function createPart(key){
+                var particle = game.add.emitter(0, 0, 100);
 
+                particle.makeParticles(key);
+                particle.minParticleSpeed.setTo(-200, -50);
+                particle.maxParticleSpeed.setTo(200, -100);
+                particle.minParticleScale = 0.6;
+                particle.maxParticleScale = 1;
+                particle.gravity = 150;
+                particle.angularDrag = 30;
+
+                return particle
+            }
 		
 		function newroulette(){
                 if(giro <= 13){
@@ -468,7 +496,9 @@ var isMobile = {
 		
 		createCoins(coins);
 		createHearts(lives);
-		createOverlay();
+		createOverlay(lives);
+        createParticles();
+        
 		
 	}
 

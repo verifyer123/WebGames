@@ -116,7 +116,7 @@ var minmaxduel = function(){
 		var symbolArray = ["<",">"];
 		
 		function selectAnswer(){
-			console.log(optionsNumbers);
+			//console.log(optionsNumbers);
 			for(i= 0;i<=optionsNumbers.length;i++){
 				if(optionsNumbers[3] < optionsNumbers[i]){
 					if(optionsNumbers[0] != 0){
@@ -253,7 +253,7 @@ var minmaxduel = function(){
 			currentSprite.input.draggable = false;
 			ActiveDisableCards(false);		
 			TweenMax.to(currentSprite,0.4,{x:endSprite.x,y:endSprite.y});
-				console.log(symbol);
+				//console.log(symbol);
 				bgtimer.pause();
 				if(symbol == "<"){
 					if(endSprite.answer < currentSprite.answer){
@@ -358,7 +358,7 @@ var minmaxduel = function(){
 		
 		createCoins(coins);
 		createHearts(lives);
-		createOverlay();
+		createOverlay(lives);
 
 		
 	}

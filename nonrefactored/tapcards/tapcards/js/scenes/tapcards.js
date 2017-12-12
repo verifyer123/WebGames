@@ -163,6 +163,7 @@ var tapcards = function(){
 		lives = 5;
 		leveldifficulty = 0;
 		count= 0;
+        coins = 0;
 	}	
 	
 	function createOverlay(){
@@ -940,6 +941,7 @@ function positionCardsGreen(){
 		clockText.anchor.setTo(0.5, 0);
 		clockText.scale.x = 0;
 		createOverlay();
+        coins = 0;
 
 	
 		function createLevel(){

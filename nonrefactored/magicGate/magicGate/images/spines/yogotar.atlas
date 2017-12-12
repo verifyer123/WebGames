@@ -1,132 +1,132 @@
 
 yogotar.png
-size: 1024,256
+size: 259,529
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Arturius/arm1
-  rotate: true
-  xy: 220, 112
-  size: 29, 48
-  orig: 29, 48
+  rotate: false
+  xy: 229, 148
+  size: 28, 53
+  orig: 28, 53
   offset: 0, 0
   index: -1
 Arturius/arm2
-  rotate: true
-  xy: 312, 116
-  size: 25, 40
-  orig: 25, 40
+  rotate: false
+  xy: 95, 38
+  size: 25, 38
+  orig: 25, 38
   offset: 0, 0
   index: -1
 Arturius/head
-  rotate: false
-  xy: 2, 2
-  size: 113, 106
-  orig: 113, 106
+  rotate: true
+  xy: 126, 94
+  size: 107, 101
+  orig: 107, 101
   offset: 0, 0
   index: -1
 Arturius/head1
-  rotate: false
-  xy: 117, 2
-  size: 113, 106
-  orig: 113, 106
+  rotate: true
+  xy: 148, 420
+  size: 107, 100
+  orig: 107, 100
   offset: 0, 0
   index: -1
 Arturius/head2
   rotate: false
-  xy: 604, 148
-  size: 113, 106
-  orig: 113, 106
+  xy: 148, 318
+  size: 107, 100
+  orig: 107, 100
   offset: 0, 0
   index: -1
 Arturius/leg1
-  rotate: true
-  xy: 778, 167
-  size: 28, 40
-  orig: 28, 40
+  rotate: false
+  xy: 229, 108
+  size: 26, 38
+  orig: 26, 38
   offset: 0, 0
   index: -1
 Arturius/leg2
   rotate: false
-  xy: 860, 216
-  size: 30, 38
-  orig: 30, 38
+  xy: 95, 2
+  size: 24, 34
+  orig: 24, 34
   offset: 0, 0
   index: -1
 Arturius/tail
-  rotate: false
-  xy: 2, 110
+  rotate: true
+  xy: 2, 311
   size: 216, 144
   orig: 216, 144
   offset: 0, 0
   index: -1
 Arturius/torso
   rotate: false
-  xy: 776, 197
-  size: 52, 57
-  orig: 52, 57
+  xy: 126, 34
+  size: 58, 58
+  orig: 58, 58
   offset: 0, 0
   index: -1
 Teffane/arm1
   rotate: false
-  xy: 830, 205
-  size: 28, 49
-  orig: 28, 49
+  xy: 61, 26
+  size: 32, 50
+  orig: 32, 50
   offset: 0, 0
   index: -1
 Teffane/arm2
   rotate: true
-  xy: 892, 228
-  size: 26, 40
-  orig: 26, 40
+  xy: 2, 7
+  size: 25, 39
+  orig: 25, 39
   offset: 0, 0
   index: -1
 Teffane/head
   rotate: false
-  xy: 476, 144
-  size: 126, 110
-  orig: 126, 110
+  xy: 111, 203
+  size: 122, 106
+  orig: 122, 106
   offset: 0, 0
   index: -1
 Teffane/head1
-  rotate: false
-  xy: 220, 143
-  size: 126, 111
-  orig: 126, 111
+  rotate: true
+  xy: 2, 187
+  size: 122, 107
+  orig: 122, 107
   offset: 0, 0
   index: -1
 Teffane/head2
   rotate: false
-  xy: 348, 143
-  size: 126, 111
-  orig: 126, 111
+  xy: 2, 78
+  size: 122, 107
+  orig: 122, 107
   offset: 0, 0
   index: -1
 Teffane/leg1
   rotate: true
-  xy: 270, 113
-  size: 28, 40
-  orig: 28, 40
+  xy: 121, 7
+  size: 25, 38
+  orig: 25, 38
   offset: 0, 0
   index: -1
 Teffane/leg2
-  rotate: false
-  xy: 232, 73
-  size: 29, 37
-  orig: 29, 37
+  rotate: true
+  xy: 161, 3
+  size: 24, 34
+  orig: 24, 34
   offset: 0, 0
   index: -1
 Teffane/tail
   rotate: true
-  xy: 719, 156
-  size: 39, 57
-  orig: 39, 57
+  xy: 2, 34
+  size: 42, 57
+  orig: 42, 57
   offset: 0, 0
   index: -1
 Teffane/torso
-  rotate: false
-  xy: 719, 197
-  size: 55, 57
-  orig: 55, 57
+  rotate: true
+  xy: 186, 29
+  size: 63, 56
+  orig: 63, 56
   offset: 0, 0
   index: -1

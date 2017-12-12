@@ -103,7 +103,6 @@ var result = function(){
 		totalScore = score
 		totalGoal = 50
 		totalTime = 0
-        win = didWin
         
         scaleToUse = scale || 0.9
         mixpanel.track(
@@ -194,14 +193,13 @@ var result = function(){
 			parent = obj
 		}
         
-        changeImage(0,parent)
+        //changeImage(0,parent)
         sound.play("click")
         
         var origScale = parent.scale.x
         var scaleTween = game.add.tween(parent.scale).to({x:(origScale - 0.2),y:origScale - 0.2}, 200, Phaser.Easing.Cubic.In, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(parent.scale).to({x:origScale,y:origScale}, 200, Phaser.Easing.Cubic.Out, true)
-            changeImage(1,parent)
             
             if(parent.tag == 'share'){
                 shareEvent()
@@ -243,20 +241,24 @@ var result = function(){
             
             group.tag = buttonNames[i]
         
-            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'off')
+            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'Btn')
             button1.anchor.setTo(0.5,0.5)
-            
-            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'on')
-            button2.anchor.setTo(0.5,0.5)
+			button1.scale.setTo(1.15,1.15)
             
             button1.inputEnabled = true
             button1.events.onInputDown.add(inputButton)
             button1.active = true
-            
-            changeImage(1,group)
-  			
-			var buttonText = group.create(-25, 0 , buttonNames[i] + 'Text')
-			buttonText.anchor.setTo(0.5,0.5)
+              			
+			var textToUse = localization.getString(localizationData,buttonNames[i])
+			
+			var retryText = game.add.bitmapText(-25,-5, 'luckiest', localization.getString(localizationData,buttonNames[i]), 35);
+            retryText.anchor.setTo(0.5,0.5)
+            group.add(retryText)
+			
+			if(textToUse.length > 8){
+				retryText.scale.setTo(0.65,0.7)
+				retryText.y+= 4
+			}
             
             pivotX += 250
         }
@@ -320,7 +322,7 @@ var result = function(){
         background.anchor.setTo(0,0)
         sceneGroup.add(background)
         
-        var win = totalScore >= goalScore
+        win = totalScore >= goalScore
         
         var scaleSpine = 0.55
         var pivotButtons = game.world.centerY + 375
@@ -333,9 +335,7 @@ var result = function(){
         
         var topHeight = game.world.height * 0.8  
 		
-		if(totalScore < 3){
-			
-		}else{
+		if(win){
 			
 			if(parent.epicModel){
 				
@@ -343,6 +343,9 @@ var result = function(){
 				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
 			}
 		}
+		
+		var yogoBack = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 185,'atlas.resultScreen','yogoBg')
+		yogoBack.anchor.setTo(0.5,0.5)
 		
         yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotar");
         yogotar.scale.setTo(scaleSpine,scaleSpine)
@@ -354,14 +357,15 @@ var result = function(){
 		
 		coinsContainer = game.add.group()
 		coinsContainer.x = game.world.centerX + 110
-		coinsContainer.y = game.world.centerY - 100
+		coinsContainer.y = game.world.centerY - 110
+		coinsContainer.scale.setTo(0.9,0.9)
 		sceneGroup.add(coinsContainer)
 		
 		var imgCont = coinsContainer.create(0,0,'atlas.resultScreen','coin_container')
 		imgCont.anchor.setTo(0.5,0.5)
 		
         var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width * 0.08,5, 'x 0' , fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width * 0.06,5, 'x 0' , fontStyle)
 		retryText.anchor.setTo(0,0.5)
         coinsContainer.add(retryText)
 		coinsContainer.text = retryText
@@ -375,6 +379,7 @@ var result = function(){
 		starGroup = game.add.group()
 		starGroup.x = game.world.centerX
 		starGroup.y = game.world.centerY + 15
+		starGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(starGroup)
 		
 		var starOff = starGroup.create(0,0,'atlas.resultScreen','star_off')
@@ -395,7 +400,7 @@ var result = function(){
 		line.anchor.setTo(0.5,0.5)
 		infoGroup.add(line)
 		
-		if(totalScore > 3){
+		if(win){
 
 			var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			
@@ -516,7 +521,7 @@ var result = function(){
 			var iconRight = 'right'
 			var soundName = 'cheers'
 			
-			if(totalScore > 3){
+			if(win){
 				
 				game.add.tween(whiteFade).from({alpha:1},250,"Linear",true)
 				animName = "WIN"
@@ -536,9 +541,10 @@ var result = function(){
 			
 			var icon = sceneGroup.create(iconImage.x, iconImage.y,'atlas.resultScreen',iconRight)
 			icon.scale.setTo(0.9,0.9)
+			icon.alpha = 0.4
 			icon.anchor.setTo(0.5,0.5)
 			
-			game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50},500,"Linear",true)
+			game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50,alpha:1},500,"Linear",true)
 			game.add.tween(icon.scale).from({x:2,y:2},500,"Linear",true).onComplete.add(function(){
 				
 				sound.play(iconRight)
@@ -721,15 +727,13 @@ var result = function(){
         
         //game.load.spine('amazing', "images/spines/Amaizing.json");
         game.load.spine('yogotar', imagesPath + "spines/yogotar.json");
-		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
-		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
-		game.load.image('mapText', imagesPath + 'result/map' + localization.getLanguage() + '.png')
 		
 		if(!gamesList){
 			gamesList = yogomeGames.getGames()
 		}
 		
 		var iconName = gamesList[gameIndex].sceneName
+		goalScore = gamesList[gameIndex].objective
 		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")
 		
         

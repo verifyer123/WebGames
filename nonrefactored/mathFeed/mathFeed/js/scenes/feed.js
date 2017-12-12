@@ -53,7 +53,7 @@ var feed = function(){
             {   name: "bah",
                 file: soundsPath + "bah.mp3"},
             {   name: "collapse",
-                file: soundsPath + "towerCollapse.mp3"}
+                file: soundsPath + "towercollapse.mp3"}
 		]
     }
 
