@@ -5,7 +5,7 @@ var epicModel = function () {
 		minigames:[],
 		battles:[],
 		cards:[],
-		yogotar:null,
+		yogotar:"Eagle",
 		currentPosition:0,
 		currentMinigame:0,
 		paidUser:true,
