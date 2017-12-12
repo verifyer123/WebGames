@@ -1,90 +1,90 @@
 
 skeleton.png
-size: 512,128
+size: 277,159
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/hand1
-  rotate: true
-  xy: 342, 57
-  size: 26, 34
-  orig: 26, 34
+  rotate: false
+  xy: 132, 9
+  size: 25, 37
+  orig: 25, 37
   offset: 0, 0
   index: -1
 normal/hand2
-  rotate: true
-  xy: 280, 38
-  size: 27, 34
-  orig: 27, 34
+  rotate: false
+  xy: 159, 9
+  size: 25, 37
+  orig: 25, 37
   offset: 0, 0
   index: -1
 normal/hand3
-  rotate: false
-  xy: 342, 85
-  size: 39, 26
-  orig: 39, 26
+  rotate: true
+  xy: 2, 3
+  size: 43, 31
+  orig: 43, 31
   offset: 0, 0
   index: -1
 normal/hand4
-  rotate: false
-  xy: 383, 86
-  size: 39, 25
-  orig: 39, 25
+  rotate: true
+  xy: 35, 3
+  size: 43, 31
+  orig: 43, 31
   offset: 0, 0
   index: -1
 normal/head1
   rotate: false
-  xy: 2, 2
+  xy: 2, 48
   size: 109, 109
   orig: 109, 109
   offset: 0, 0
   index: -1
 normal/head2
   rotate: false
-  xy: 113, 2
-  size: 109, 109
-  orig: 109, 109
+  xy: 113, 48
+  size: 108, 109
+  orig: 108, 109
   offset: 0, 0
   index: -1
 normal/leg1
-  rotate: true
-  xy: 424, 87
+  rotate: false
+  xy: 186, 10
   size: 24, 36
   orig: 24, 36
   offset: 0, 0
   index: -1
 normal/leg2
-  rotate: true
-  xy: 462, 87
+  rotate: false
+  xy: 212, 10
   size: 24, 36
   orig: 24, 36
   offset: 0, 0
   index: -1
 normal/leg3
   rotate: false
-  xy: 280, 67
-  size: 29, 44
-  orig: 29, 44
+  xy: 68, 2
+  size: 30, 44
+  orig: 30, 44
   offset: 0, 0
   index: -1
 normal/leg4
   rotate: false
-  xy: 311, 67
-  size: 29, 44
-  orig: 29, 44
+  xy: 100, 2
+  size: 30, 44
+  orig: 30, 44
   offset: 0, 0
   index: -1
 normal/torso
-  rotate: false
-  xy: 224, 5
-  size: 53, 52
-  orig: 53, 52
+  rotate: true
+  xy: 223, 50
+  size: 53, 51
+  orig: 53, 51
   offset: 0, 0
   index: -1
 normal/torso2
   rotate: false
-  xy: 224, 59
-  size: 54, 52
-  orig: 54, 52
+  xy: 223, 105
+  size: 52, 52
+  orig: 52, 52
   offset: 0, 0
   index: -1

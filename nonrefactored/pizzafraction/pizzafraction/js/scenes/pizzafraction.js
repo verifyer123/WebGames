@@ -137,7 +137,7 @@ var isMobile = {
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		
-
+        count = 0;
 
 		var background = new Phaser.Graphics(game)
         background.beginFill(0xf15a24)
@@ -374,7 +374,7 @@ var isMobile = {
 		
 		createCoins(coins);
 		createHearts(lives);
-		createOverlay();
+		createOverlay(lives);
 		
 	}
 
