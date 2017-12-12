@@ -20,14 +20,7 @@ var epicModel = function () {
 	var updateChild = "/login/child/update"
 	var getChild = "/login/child/get"
 
-	function beginGame(response) {
-		var child = response.child
-		initializePlayer()
-		if(child){
-			player = child.gameData
-		}
-		epicSiteMain.checkPlayer()
-	}
+	var currentCallback
 
 	function ajaxCall(data, endPoint, callback) {
 
@@ -40,7 +33,7 @@ var epicModel = function () {
 				if((data)&&(data.status === "success")){
 					setCredentials(data)
 					if(callback)
-						callback(data)
+						callback()
 				}else {
 					localStorage.setItem("token", null)
 					// checkLogin()
@@ -66,6 +59,16 @@ var epicModel = function () {
 			player.minigames.push(minigame)
 		}
 	}
+	
+	function updateData() {
+		initializePlayer()
+		var credentials = getCredentials()
+		player = credentials.gameData
+		if(currentCallback) {
+			currentCallback()
+			currentCallback = null
+		}
+	}
 
 	function setCredentials(response) {
 
@@ -81,6 +84,15 @@ var epicModel = function () {
 			var children = response.children[0]
 			localStorage.setItem("remoteID", children.remoteID)
 		}
+
+		if ((response)&&(response.child)) {
+			var children = response.child
+			localStorage.setItem("remoteID", children.remoteID)
+			if(children.gameData) {
+				var gameData = children.gameData
+				localStorage.setItem("gameData", JSON.stringify(children.gameData))
+			}
+		}
 	}
 
 	function getCredentials() {
@@ -93,10 +105,13 @@ var epicModel = function () {
 		var remoteID = localStorage.getItem("remoteID")
 		remoteID = remoteID === "null" ? null : remoteID
 
-		return {email:email, token:token, remoteID:remoteID}
+		var gameData = localStorage.getItem("gameData")
+		gameData = gameData === "null" ? null : gameData
+
+		return {email:email, token:token, remoteID:remoteID, gameData:gameData}
 	}
 	
-	function checkLogin(response){
+	function checkLogin(){
 		var credentials = getCredentials()
 
 		var token = credentials.token
@@ -104,13 +119,12 @@ var epicModel = function () {
 		var remoteID = credentials.remoteID
 
 		if((token)&&(email)&&(remoteID)){
-			localStorage.setItem("token", token)
 
 			var tokenType = token.substr(0, 2)
 			console.log(tokenType)
 			if (tokenType === "pl"){
 				console.log("login player")
-				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, getChild, beginGame)
+				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, getChild, updateData)
 			}else if(tokenType === "pa"){
 				console.log("call select player")
 				ajaxCall({email:email, token: token, remoteID: remoteID}, accessChild, checkLogin)
@@ -119,6 +133,7 @@ var epicModel = function () {
 		}
 		else {
 			console.log("callLogin")
+			modal.showLogin()
 			var data = {
 				"email": "aaron+20171207_3@yogome.com",
 				"password": "explore-endless-adventure"
@@ -128,12 +143,19 @@ var epicModel = function () {
 		}
 	}
 
-	function loadPlayer () {
-		checkLogin()
+	function loadPlayer (callback) {
+		var credentials = getCredentials()
+		if(!credentials.gameData) {
+			currentCallback = callback
+			checkLogin()
+		}
+		else
+			callback()
 	}
 
 	function savePlayer(currentPlayer) {
 		player = currentPlayer
+		localStorage.setItem("gameData", player)
 
 		var credentials = getCredentials()
 		var token = credentials.token
@@ -152,7 +174,8 @@ var epicModel = function () {
 	return{
 		loadPlayer:loadPlayer,
 		getPlayer:function(){return player},
-		savePlayer:savePlayer
+		savePlayer:savePlayer,
+		getCredentials:getCredentials
 	}
 }()
 
