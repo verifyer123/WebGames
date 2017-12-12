@@ -1,10 +1,11 @@
 var epicModel = function () {
 	var url = "https://13-dot-heroesofknowledge.appspot.com"
+	var DEFAULT_CARD = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
 
 	var player = {
 		minigames:[],
 		battles:[],
-		cards:[],
+		cards:[DEFAULT_CARD],
 		yogotar:"Eagle",
 		currentPosition:0,
 		currentMinigame:0,
