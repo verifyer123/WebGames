@@ -2,7 +2,7 @@ window.minigame = window.minigame || {}
 
 function startCharSelector(){
 	var div = document.getElementById("characterSelector")
-	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.canvas, "characterSelector", {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.CANVAS, "characterSelector", {init: init, create: create }, true, true);
 	// div.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){

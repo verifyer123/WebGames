@@ -16,7 +16,7 @@ var epicModel = function () {
 	var GAME = "play.yogome"
 
 	var loginParent = "/login/parent"
-	var accessChild = "/login/access_child"
+	var accessChild = "/login/access_childs"
 	var changeChild = "/login/change_childs"
 	var updateChild = "/login/child/update"
 	var getChild = "/login/child/get"
@@ -29,24 +29,23 @@ var epicModel = function () {
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			dataType: 'json',
-			success: function(data){
-				console.log("success", data);
-				if((data)&&(data.status === "success")){
-					setCredentials(data)
-					if(callback)
-						callback()
-				}else {
-					localStorage.setItem("token", null)
-					// checkLogin()
-				}
-			},
-			error: function(){
-				console.log("error");
+			type: 'POST',
+			url: url + endPoint,
+			async:true,
+			processData:false
+		}).done(function(response){
+			console.log("success", response);
+			if((response)&&(response.status === "success")){
+				setCredentials(response)
+				if(callback)
+					callback(response)
+			}else {
 				localStorage.setItem("token", null)
 				// checkLogin()
-			},
-			type: 'POST',
-			url: url + endPoint
+			}
+		}).fail(function(response){
+			console.log("error");
+			localStorage.setItem("token", null)
 		});
 	}
 
@@ -84,14 +83,16 @@ var epicModel = function () {
 		if ((response)&&(response.children) && (response.children.length === 1)) {
 			var children = response.children[0]
 			localStorage.setItem("remoteID", children.remoteID)
+			localStorage.setItem("educationID", children.educationID)
 		}
 
 		if ((response)&&(response.child)) {
-			var children = response.child
-			localStorage.setItem("remoteID", children.remoteID)
-			if(children.gameData) {
-				var gameData = children.gameData
-				localStorage.setItem("gameData", JSON.stringify(children.gameData))
+			var child = response.child
+			localStorage.setItem("remoteID", child.remoteID)
+			localStorage.setItem("educationID", child.educationID)
+			if(child.gameData) {
+				var gameData = child.gameData
+				localStorage.setItem("gameData", JSON.stringify(child.gameData))
 			}
 		}
 	}
@@ -106,13 +107,32 @@ var epicModel = function () {
 		var remoteID = localStorage.getItem("remoteID")
 		remoteID = remoteID === "null" ? null : remoteID
 
+		var educationID = localStorage.getItem("educationID")
+		educationID = educationID === "null" ? "none" : educationID
+
 		var gameData = localStorage.getItem("gameData")
 		gameData = gameData === "null" ? null : gameData
 
-		return {email:email, token:token, remoteID:remoteID, gameData:gameData}
+		return {
+			email:email,
+			token:token,
+			remoteID:remoteID,
+			gameData:gameData,
+			educationID:educationID
+		}
 	}
 	
-	function checkLogin(){
+	function checkPlayers(response) {
+		console.log(response)
+		modal.showPlayers(response.children)
+	}
+
+	function loginPlayer(remoteID) {
+		var credentials = getCredentials()
+		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, accessChild, checkLogin)
+	}
+	
+	function checkLogin(response){
 		var credentials = getCredentials()
 
 		var token = credentials.token
@@ -128,16 +148,21 @@ var epicModel = function () {
 				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, getChild, updateData)
 			}else if(tokenType === "pa"){
 				console.log("call select player")
-				ajaxCall({email:email, token: token, remoteID: remoteID}, accessChild, checkLogin)
+				if(response)
+					checkPlayers(response)
+				else {
+					localStorage.setItem("token", null)
+					checkLogin()
+				}
 			}
 
 		}
 		else {
 			console.log("callLogin")
-			modal.showLogin()
+			// modal.showLogin()
 			var data = {
-				"email": "aaron+20171207_3@yogome.com",
-				"password": "explore-endless-adventure"
+				"email": "aaron+20171207_2@yogome.com",
+				"password" : "yogome-children-fun"
 			}
 			localStorage.setItem("email", data.email)
 			ajaxCall(data, loginParent, checkLogin)
@@ -177,7 +202,8 @@ var epicModel = function () {
 		loadPlayer:loadPlayer,
 		getPlayer:function(){return player},
 		savePlayer:savePlayer,
-		getCredentials:getCredentials
+		getCredentials:getCredentials,
+		loginPlayer:loginPlayer
 	}
 }()
 

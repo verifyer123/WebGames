@@ -13,7 +13,6 @@
 			<div class="navigation">
 				<button class="closeModal close"></button>
 			</div>
-
 			<!-- Modal header -->
 			<div class="modal-header">
 				<div class="topImg">
@@ -39,24 +38,28 @@
 				<button type="submit" id="login" class="loginBtn">Login</button><br>
 				<button class="recoverBtn" id="recoverPass">I Forgot My Password</button><br>
 				<!--</form>-->
-				<h3>Or</h3>
+				<!--<h3>Or</h3>-->
 			</div>
-
-			<!-- Modal footer -->
-			<div >
-				<button id="google" class="fbBtn"></button><br>
-				<button id="fb" class="googleBtn"></button><br>
-			</div>
-
-			<div class="fontOpenSans" style="color: #444444">
+			<div class="fontOpenSans modal-footer" style="color: #444444">
 				<p>Don't have an account?
 					<span><a href="https://yogomepayments.com/" target="_self" style="color: #009cee">Sing Up</a></span>
 				</p>
 			</div>
 
+			<!-- Modal footer -->
+			<!--<div >
+				<button id="google" class="fbBtn"></button><br>
+				<button id="fb" class="googleBtn"></button><br>
+			</div>-->
+
 		</div>
 
 
 	</div>
+<script>
+	$(".close").click(function() {
+		$("#signIn").modal('hide');
+	});
+</script>
 </body>
 </html>
