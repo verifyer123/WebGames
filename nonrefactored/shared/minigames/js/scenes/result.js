@@ -541,9 +541,10 @@ var result = function(){
 			
 			var icon = sceneGroup.create(iconImage.x, iconImage.y,'atlas.resultScreen',iconRight)
 			icon.scale.setTo(0.9,0.9)
+			icon.alpha = 0.4
 			icon.anchor.setTo(0.5,0.5)
 			
-			game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50},500,"Linear",true)
+			game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50,alpha:1},500,"Linear",true)
 			game.add.tween(icon.scale).from({x:2,y:2},500,"Linear",true).onComplete.add(function(){
 				
 				sound.play(iconRight)

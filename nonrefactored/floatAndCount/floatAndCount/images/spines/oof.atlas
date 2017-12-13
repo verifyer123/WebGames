@@ -1,75 +1,75 @@
 
 oof.png
-size: 1024,128
+size: 383,154
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm
   rotate: false
-  xy: 627, 99
-  size: 24, 27
-  orig: 24, 27
+  xy: 164, 42
+  size: 25, 29
+  orig: 25, 29
   offset: 0, 0
   index: -1
 normal/head1
   rotate: false
-  xy: 170, 56
+  xy: 191, 82
   size: 71, 70
   orig: 71, 70
   offset: 0, 0
   index: -1
 normal/head2
-  rotate: false
-  xy: 316, 56
-  size: 70, 70
-  orig: 70, 70
+  rotate: true
+  xy: 264, 81
+  size: 71, 70
+  orig: 71, 70
   offset: 0, 0
   index: -1
 normal/head3
   rotate: false
-  xy: 243, 56
+  xy: 250, 9
   size: 71, 70
   orig: 71, 70
   offset: 0, 0
   index: -1
 normal/headM
-  rotate: false
-  xy: 388, 69
+  rotate: true
+  xy: 191, 2
   size: 78, 57
   orig: 78, 57
   offset: 0, 0
   index: -1
 normal/headM_1
-  rotate: false
-  xy: 548, 68
+  rotate: true
+  xy: 323, 2
   size: 77, 58
   orig: 77, 58
   offset: 0, 0
   index: -1
 normal/headM_2
   rotate: false
-  xy: 468, 69
+  xy: 2, 8
   size: 78, 57
   orig: 78, 57
   offset: 0, 0
   index: -1
 normal/shadow
-  rotate: false
-  xy: 89, 34
+  rotate: true
+  xy: 97, 73
   size: 79, 92
   orig: 79, 92
   offset: 0, 0
   index: -1
 normal/torsoM
-  rotate: true
-  xy: 388, 2
+  rotate: false
+  xy: 97, 12
   size: 65, 59
   orig: 65, 59
   offset: 0, 0
   index: -1
 normal/water
-  rotate: false
-  xy: 2, 33
+  rotate: true
+  xy: 2, 67
   size: 85, 93
   orig: 85, 93
   offset: 0, 0

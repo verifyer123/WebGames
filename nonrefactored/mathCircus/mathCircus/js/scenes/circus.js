@@ -504,7 +504,7 @@ var circus = function(){
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
 				
-				console.log(particle)
+				//console.log(particle)
                 
                 return particle
                 break

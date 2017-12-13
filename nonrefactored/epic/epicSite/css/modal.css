@@ -1,0 +1,423 @@
+
+/*body{*/
+    /*position: absolute;*/
+    /*font-size: 1em;*/
+    /*overflow: hidden;*/
+    /*margin: 0;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*text-align: center;*/
+/*}*/
+
+/* The Modal (background) */
+#signIn {
+    padding-right: 0 !important;
+    padding-top: 3%;
+}
+
+.modal {
+
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: animateBack;
+    -webkit-animation-duration: 0.6s;
+    animation-name: animateBack;
+    animation-duration: 0.6s;
+}
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    margin: 0 auto;
+    background-color: #fefefe;
+    padding: 2vh;
+    border: 2px solid #888;
+    width: 90%;
+    top:0%;
+    max-width: 800px; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.5s;
+    animation-name: animatetop;
+    animation-duration: 0.5s
+}
+
+.modalBranch {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 5%; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modalBranch-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    padding-right: 2%;
+    padding-left: 2%;
+    padding-bottom: 2%;
+    border: 2px solid #888;
+     width: 30vw;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+/* Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@-webkit-keyframes animateBack {
+    from {background-color: rgba(0,0,0,0); } 
+    to {background-color: rgba(0,0,0,0.4); }
+}
+
+@keyframes animateBack {
+    from {background-color: rgba(0,0,0,0); }
+    to {background-color: rgba(0,0,0,0.4); }
+}
+
+.back {
+    padding: 0.5%;
+    float: left;
+}
+
+.back :hover {
+    color: #000;
+    cursor: pointer;
+    padding: 0%;
+}
+
+.navigation{
+    background-color: #ffffff;
+}
+
+.modal-header {
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.modal-body {
+    text-align: center;
+}
+
+.modal-footer {
+    font-size: 1em;
+    width: 100%;
+    color: black;
+    text-align: center;
+}
+
+h2{
+    font-size: 3vh;
+    color: #7fc83c !important;
+    font-family: 'Quicksand', sans-serif;
+}
+
+h3{
+    font-size: 1.5em !important;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h3:before,
+h3:after {
+    background-color: #ccc;
+    content: "";
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    height: 1px;
+    width: 40%;
+}
+h3:before {
+    right: 1em;
+    margin-left: -50%;
+}
+h3:after {
+    left: 1em;
+    margin-right: -50%;
+}
+
+.inputText {
+    margin: 1vh;
+    border-width: 2px;
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-style: solid;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px rgba(66,66,66,.75);
+    text-shadow: undefined 0px 0px 5px px rgba(66,66,66,.75);
+    width: 80%;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+.logoSize{
+    height: 40%;
+    width: 40%;
+}
+
+.smallRed{
+    color: #ff4040;
+    font-size: 1vw;
+}
+
+.smallBlue{
+    color: #009cee;
+    font-size: 1vw;
+}
+
+.smallPink{
+    color: #d23587;
+    text-align: center;
+}
+
+.fontOpenSans{
+    font-family: 'Open Sans', sans-serif;
+    
+}
+
+.agreeLegend{
+    text-align: justify; 
+    color: dimgrey;
+}
+
+.agreeLink{
+    text-align: justify; 
+    color: #444444;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/*BANNER*/
+.topImg{
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.topImg .particule{
+	width:15%;
+    max-width: 200px;
+}
+
+.topImg .logo{
+	width:80%;
+    max-width: 200px;
+}
+
+.recoverBtn {
+    border-style: none;
+	border-radius:5px;
+    display:inline-block;
+    cursor:pointer;
+	color:#ff4040;
+	font-family: 'Open Sans', sans-serif;
+    }
+
+.recoverBtn:hover {
+    background-color:#fce8db;
+}
+
+.loginBtn {
+    background-color: #1fc3ff;
+    box-shadow: 0px 1vh 0px #0b526c;
+    padding: 1vh;
+    margin: 1vh;
+    border-radius: 8px;
+    border-style: none;
+    cursor:pointer;
+    width: 80%;
+    max-width: 200px;
+    color: #FFF;
+    font-size: 2.5vh;
+}
+
+.loginBtn:hover {
+    margin-top:10px;
+    box-shadow: 0px 0vh 0px #0b526c;
+}
+
+.loginBtn:active {
+    position:relative;
+    top:1px;
+}
+        
+.fbBtn {
+    background: url('../images/button-facebook.png') no-repeat;
+    background-size: contain;
+     background-position: center;
+    padding: 2vh;
+    border-style: none;
+    display:inline-block;
+    cursor:pointer;
+    width: 100%;
+    margin-bottom: 2vh;
+}
+
+.fbBtn:hover {
+    background: url('../images/button-facebook-hover.png') no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.fbBtn:active {
+    position:relative;
+    top:1px;
+}
+        
+.googleBtn {
+    background: url('../images/button-google.png') no-repeat;
+    background-size: contain;
+    background-position: center;
+    padding: 2vh;
+    border-style: none;
+    display:inline-block;
+    cursor:pointer;
+    width: 100%;
+    margin-bottom: 2vh;
+}
+
+.googleBtn:hover {
+    background: url('../images/button-google-hover.png') no-repeat;
+    background-size: contain;
+    background-position: center;    
+}
+.googleBtn:active {
+    position:relative;
+    top:1px;
+}
+        
+.requestBtn {
+    background: url('../images/button-request.png') no-repeat;
+    background-size: cover;
+    padding: 1vw;
+    border-width: 2px;
+    border-radius: 8px;
+    border-style: solid;
+    display:inline-block;
+    cursor:pointer;       
+    width: 21.5vw;
+}
+
+.requestBtn:hover {
+    background: url('../images/button-request-hover.png') no-repeat;
+    background-size: cover;
+}
+
+.requestBtn:active {
+    position:relative;
+    top:1px;
+}
+        
+.requestBtnComplete {
+    background: url('../images/button-okay.png') no-repeat;
+    background-size: cover;
+    padding: 1vw;
+    border-width: 2px;
+    border-radius: 8px;
+    border-style: solid;
+    display:inline-block;
+    cursor:pointer;
+    width: 21.5vw;
+}
+
+.requestBtnComplete:hover {
+    background: url('../images/button-okay-hover.png') no-repeat;
+    background-size: cover;
+}
+
+.requestBtnComplete:active {
+    position:relative;
+    top:1px;
+}
+        
+/* Close Button */
+.closeModal {
+    background: url('../images/close-icon.png') no-repeat;
+    background-size: cover;
+    padding: 3%;
+    border-width: 0px;
+    border-style: solid;
+    display:inline-block;
+    cursor:pointer;
+    float: right;
+}
+
+.closeModal:hover {
+    background: url('../images/close-icon-hover.png') no-repeat;
+    background-size: contain;
+    display:inline-block;
+    cursor: pointer;
+    padding: 3%;
+}
+        
+/* Back Button */
+.backModal {
+    background: url('../images/back-icon.png') no-repeat;
+    background-size: contain;
+    padding: 3%;
+    border-width: 0px;
+    border-style: solid;
+    display:inline-block;
+    cursor:pointer;
+    float: left;
+}
+
+.backModal:hover {
+    background: url('../images/back-icon-hover.png') no-repeat;
+    background-size: contain;
+    display:inline-block;
+    cursor: pointer;
+    padding: 3%;
+}
+
+.createAccountBtn {
+    background: url('../images/button-login.png') no-repeat;
+    background-size: contain;
+    background-position: center;
+    padding: 2vh;
+    border-width: 2px;
+    border-radius: 8px;
+    border-style: none;
+    display:inline-block;
+    cursor:pointer;
+    width: 100%;
+}
+
+.createAccountBtn:hover {
+    background: url('../images/button-login-hover.png') no-repeat;
+    background-size: contain;
+}
+
+.createAccountBtn:active {
+    position:relative;
+    top:1px;
+}
+
+input[type=text]:focus {
+    border: 2px solid #555;
+}
+
+#error{
+    color: red;
+}
+#recover{
+    color:deepskyblue;
+}
+
+
+

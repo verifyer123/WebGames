@@ -36,4 +36,5 @@ var routing = function () {
 			},
 		})
 		.resolve();
+
 }()

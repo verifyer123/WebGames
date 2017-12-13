@@ -510,8 +510,12 @@ var CroakSong = function(){
 			TweenMax.fromTo(levelText,0.5,{alpha:0,y:game.world.centerY - 100},{alpha:1,y:game.world.centerY,onComplete:sigueLevel});
 			
 			function sigueLevel(){
-				TweenMax.fromTo(levelText,0.5,{alpha:1,y:game.world.centerY},{alpha:0,y:game.world.centerY + 100,delay:1})
+				TweenMax.fromTo(levelText,0.5,{alpha:1,y:game.world.centerY},{alpha:0,y:game.world.centerY + 100,delay:1,onComplete:startNextLvl})
 			}
+            
+            function startNextLvl(){
+                finishGame = false
+            }
 		}	
 	
 
@@ -598,13 +602,13 @@ var CroakSong = function(){
 			xpText.anchor.setTo(0, 0);	
 			xpText.x = 75;
 			xpText.y = 28;	
-			bgclock = game.add.sprite(0,1,"bgclock");
-			bgclock.x = game.width * 0.5;
-			bgclock.anchor.setTo(0.5, 0);
+			//bgclock = game.add.sprite(0,1,"bgclock");
+			//bgclock.x = game.width * 0.5;
+			//bgclock.anchor.setTo(0.5, 0);
 			clockText = game.add.text(50, 46, timer, styleClock);	
 			clockText.x = game.width * 0.5;
 			clockText.anchor.setTo(0.5, 0);
-			bgclock.alpha = 0;
+			//bgclock.alpha = 0;
 			clockText.alpha = 0;
 		}	
 	
@@ -701,7 +705,7 @@ var CroakSong = function(){
 		game.physics.startSystem(Phaser.Physics.ARCADE);	
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		/*background*/
-		background2 = game.add.tileSprite(0,225,game.width, game.height, "background2");
+		background2 = game.add.tileSprite(0,0,game.world.width, game.world.height, "background2");
 		
 		/*GAME*/
 		carril[1] = game.add.tileSprite(game.world.centerX, 225,101, game.height, "carril");
@@ -726,7 +730,7 @@ var CroakSong = function(){
 
 		var agua = game.add.graphics(0, 0);
         agua.beginFill(0x5f8dca);
-        agua.drawRect(0,game.world.height-132,game.world.width *2, game.world.height /6)
+        agua.drawRect(0,game.world.height-132,game.world.width, game.world.height /6)
         agua.endFill();
 
 		for(var i = 0;i<=2;i++){
@@ -885,7 +889,7 @@ function keyDownFrog(object){
 						ranas[object].setAnimationByName(0, "SING2", false);
 						sound.play(songs[selectMusic][readySound]);
 						//sound.play(pianoSong[selectMusic][readySound]);
-						console.log("note: " + songs[selectMusic][readySound]);
+						//console.log("note: " + songs[selectMusic][readySound]);
 						TweenMax.to(bichos[readySound].scale,0.2,{x:0,y:0});
 						star.x = ranas[object].x;
 						star.y = ranas[object].y;
@@ -928,6 +932,7 @@ function keyDownFrog(object){
 				readySound++;
 
 			}else{
+                finishGame = true
 				readySound = 0;
 				for(var p = 0;p<=songs[selectMusic].length-1;p++){
 					bichos[p].destroy();

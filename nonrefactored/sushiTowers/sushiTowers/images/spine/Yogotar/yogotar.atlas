@@ -1,132 +1,132 @@
 
 yogotar.png
-size: 1024,512
+size: 762,422
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 nao/arm1
-  rotate: true
-  xy: 963, 431
-  size: 73, 51
-  orig: 73, 51
+  rotate: false
+  xy: 718, 340
+  size: 42, 80
+  orig: 42, 80
   offset: 0, 0
   index: -1
 nao/arm2
   rotate: true
-  xy: 963, 367
-  size: 62, 43
-  orig: 62, 43
+  xy: 2, 2
+  size: 43, 61
+  orig: 43, 61
   offset: 0, 0
   index: -1
 nao/head1
   rotate: false
-  xy: 2, 323
-  size: 183, 181
-  orig: 183, 181
+  xy: 2, 234
+  size: 195, 186
+  orig: 195, 186
   offset: 0, 0
   index: -1
 nao/head2
   rotate: false
-  xy: 2, 140
-  size: 183, 181
-  orig: 183, 181
+  xy: 2, 47
+  size: 194, 185
+  orig: 194, 185
   offset: 0, 0
   index: -1
 nao/head3
   rotate: false
-  xy: 187, 324
-  size: 183, 180
-  orig: 183, 180
+  xy: 199, 235
+  size: 194, 185
+  orig: 194, 185
   offset: 0, 0
   index: -1
 nao/leg1
-  rotate: true
-  xy: 96, 4
-  size: 45, 63
-  orig: 45, 63
+  rotate: false
+  xy: 618, 19
+  size: 47, 70
+  orig: 47, 70
   offset: 0, 0
   index: -1
 nao/leg2
   rotate: false
-  xy: 373, 165
-  size: 46, 58
-  orig: 46, 58
+  xy: 713, 26
+  size: 42, 63
+  orig: 42, 63
   offset: 0, 0
   index: -1
 nao/tail
   rotate: false
-  xy: 372, 360
+  xy: 395, 276
   size: 216, 144
   orig: 216, 144
   offset: 0, 0
   index: -1
 nao/torso
-  rotate: false
-  xy: 373, 276
-  size: 81, 82
-  orig: 81, 82
+  rotate: true
+  xy: 473, 16
+  size: 83, 92
+  orig: 83, 92
   offset: 0, 0
   index: -1
 tomiko/arm1
-  rotate: false
-  xy: 373, 225
-  size: 73, 49
-  orig: 73, 49
+  rotate: true
+  xy: 65, 4
+  size: 41, 81
+  orig: 41, 81
   offset: 0, 0
   index: -1
 tomiko/arm2
   rotate: true
-  xy: 421, 162
-  size: 61, 41
-  orig: 61, 41
+  xy: 198, 3
+  size: 44, 61
+  orig: 44, 61
   offset: 0, 0
   index: -1
 tomiko/head1
   rotate: false
-  xy: 187, 155
-  size: 184, 167
-  orig: 184, 167
+  xy: 395, 101
+  size: 183, 173
+  orig: 183, 173
   offset: 0, 0
   index: -1
 tomiko/head2
-  rotate: false
-  xy: 777, 337
-  size: 184, 167
-  orig: 184, 167
+  rotate: true
+  xy: 580, 91
+  size: 183, 173
+  orig: 183, 173
   offset: 0, 0
   index: -1
 tomiko/head3
-  rotate: false
-  xy: 590, 337
-  size: 185, 167
-  orig: 185, 167
+  rotate: true
+  xy: 198, 49
+  size: 183, 173
+  orig: 183, 173
   offset: 0, 0
   index: -1
 tomiko/leg1
   rotate: false
-  xy: 456, 295
-  size: 44, 63
-  orig: 44, 63
+  xy: 567, 19
+  size: 49, 70
+  orig: 49, 70
   offset: 0, 0
   index: -1
 tomiko/leg2
   rotate: false
-  xy: 502, 300
-  size: 46, 58
-  orig: 46, 58
+  xy: 667, 26
+  size: 44, 63
+  orig: 44, 63
   offset: 0, 0
   index: -1
 tomiko/tail
   rotate: false
-  xy: 2, 2
-  size: 92, 136
-  orig: 92, 136
+  xy: 613, 277
+  size: 103, 143
+  orig: 103, 143
   offset: 0, 0
   index: -1
 tomiko/torso
-  rotate: false
-  xy: 96, 51
-  size: 82, 87
-  orig: 82, 87
+  rotate: true
+  xy: 373, 16
+  size: 83, 98
+  orig: 83, 98
   offset: 0, 0
   index: -1
