@@ -834,7 +834,7 @@ var cereal = function(){
 		create: function(event){
             
 			sceneGroup = game.add.group()
-			yogomeGames.mixpanelCall("enterGame",gameIndex);
+			
 			
 			createBackground()
 			createYogotar()

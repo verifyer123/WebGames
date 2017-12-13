@@ -1178,7 +1178,7 @@ var runneryogome = function(){
             assetsCollision = game.physics.p2.createCollisionGroup()
 			
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
             
             worldGroup = game.add.group()
             //worldGroup.scale.setTo(0.5,0.5)

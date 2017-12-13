@@ -1,4 +1,7 @@
 var yogomeGames = {}
+var gameLives = 0
+var timeCount = 0
+var addingTime = true
 
 yogomeGames.getGames = function(){
 	var games = [
@@ -116,15 +119,47 @@ yogomeGames.getGames = function(){
         
 }
 
-yogomeGames.mixpanelCall = function(callName,gameIndex){
+function addTime(){
+	
+	timeCount++
+	if(addingTime){
+		setTimeout(addTime,1000)
+	}
+}
+
+yogomeGames.returnData = function(){
+	
+	addingTime = false
+	return {timeReady:timeCount,lives:gameLives}
+}
+
+yogomeGames.mixpanelCall = function(callName,gameIndex,lives,model){
 	
 	var gamesList = yogomeGames.getGames()
+	
+	var email = "noEmail"
+	var playerId = "noPlayerId"
+	var hasMap = true
+	
+	if(model){
+		
+		email = model.getCredentials().email
+		playerId = model.getCredentials().remoteId
+	}else if(!model){
+		hasMap = false
+	}
+	
+	timeCount = 0
+	addingTime = true
+	addTime()
 		
 	console.log('gameIndex sent ' + gameIndex )
+	
+	gameLives = lives || 1
 
 	mixpanel.track(
 		callName,
-		{"gameName": gamesList[gameIndex].name,}
+		{"gameName": gamesList[gameIndex].name,"app":"epicWeb","isMap":hasMap,"email":email,"playerId":playerId}
 	);
 	
 		

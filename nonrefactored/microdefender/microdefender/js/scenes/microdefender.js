@@ -126,7 +126,7 @@ var microdefender = function(){
 		speedGame = 3.5;
 		starGame = false;
 		
-        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
         overlayGroup = game.add.group()
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
@@ -223,7 +223,7 @@ var microdefender = function(){
 	
 	/*CREATE SCENE*/
     function createScene(){
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		loadSounds();	
 		game.physics.startSystem(Phaser.Physics.ARCADE);	
 		game.physics.startSystem(Phaser.Physics.P2JS);

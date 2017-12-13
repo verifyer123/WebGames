@@ -994,7 +994,7 @@ var invader = function(){
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			createBackground()
 			createBase()

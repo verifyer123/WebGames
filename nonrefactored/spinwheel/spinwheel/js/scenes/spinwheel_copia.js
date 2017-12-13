@@ -157,7 +157,7 @@ var spinwheel = function(){
 	barra2.body.static = true;		
 
 		
-	sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
+	sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 	createControls();		
 		
 	cursors = game.input.keyboard.createCursorKeys();

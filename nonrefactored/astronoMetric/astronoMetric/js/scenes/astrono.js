@@ -809,7 +809,7 @@ var astrono = function(){
 		},
 		create: function(event){
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
 			var background = sceneGroup.create(-2,-2,'skygradient')
 			background.width = game.world.width+2

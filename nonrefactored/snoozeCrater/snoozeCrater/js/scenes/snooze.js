@@ -592,7 +592,7 @@ var snooze = function(){
         update:update,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
             
             var background = game.add.tileSprite(0 , 0, game.world.width, game.world.height, "fondo")
             background.width = game.world.width+2
