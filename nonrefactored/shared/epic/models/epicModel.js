@@ -23,7 +23,7 @@ var epicModel = function () {
 
 	var currentCallback
 
-	function ajaxCall(data, endPoint, callback) {
+	function ajaxCall(data, endPoint, onSuccess, onError) {
 
 		$.ajax({
 			contentType: 'application/json',
@@ -37,15 +37,17 @@ var epicModel = function () {
 			console.log("success", response);
 			if((response)&&(response.status === "success")){
 				setCredentials(response)
-				if(callback)
-					callback(response)
+				if(onSuccess)
+					onSuccess(response)
 			}else {
 				localStorage.setItem("token", null)
+				if(onError)onError(response)
 				// checkLogin()
 			}
 		}).fail(function(response){
 			console.log("error");
 			localStorage.setItem("token", null)
+			if(onError)onError(response)
 		});
 	}
 
@@ -127,9 +129,18 @@ var epicModel = function () {
 		modal.showPlayers(response.children)
 	}
 
-	function loginPlayer(remoteID) {
+	function loginPlayer(remoteID, callback) {
 		var credentials = getCredentials()
 		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, accessChild, checkLogin)
+	}
+
+	function signIn(data, onSuccess, onError) {
+		console.log(data)
+		function callback(response){
+			onSuccess()
+			checkLogin(response)
+		}
+		ajaxCall({email:data.email, password: data.password}, loginParent, callback, onError)
 	}
 	
 	function checkLogin(response){
@@ -160,12 +171,13 @@ var epicModel = function () {
 		else {
 			console.log("callLogin")
 			// modal.showLogin()
-			var data = {
-				"email": "aaron+20171207_2@yogome.com",
-				"password" : "yogome-children-fun"
-			}
-			localStorage.setItem("email", data.email)
-			ajaxCall(data, loginParent, checkLogin)
+			// var data = {
+			// 	"email": "aaron+20171207_2@yogome.com",
+			// 	"password" : "yogome-children-fun"
+			// }
+			// localStorage.setItem("email", data.email)
+			// ajaxCall(data, loginParent, checkLogin)
+			modal.showLogin()
 		}
 	}
 
@@ -203,7 +215,8 @@ var epicModel = function () {
 		getPlayer:function(){return player},
 		savePlayer:savePlayer,
 		getCredentials:getCredentials,
-		loginPlayer:loginPlayer
+		loginPlayer:loginPlayer,
+		loginParent:signIn
 	}
 }()
 

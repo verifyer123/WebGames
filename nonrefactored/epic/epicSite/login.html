@@ -34,7 +34,7 @@
 			<div class="modal-body">
 				<!--<form action="welcome.html">-->
 				<input type="text" id="email" class="inputText" placeholder="Email" name="Email"/><br>
-				<input type="text" id="pass" class="inputText" placeholder="Password" name="Password"/><br>
+				<input type="password" id="pass" class="inputText" placeholder="Password" name="Password"/><br>
 				<button type="submit" id="login" class="loginBtn">Login</button><br>
 				<button class="recoverBtn" id="recoverPass">I Forgot My Password</button><br>
 				<!--</form>-->
@@ -59,6 +59,24 @@
 <script>
 	$(".close").click(function() {
 		$("#signIn").modal('hide');
+	});
+
+	$("#login").click(function() {
+		function onSuccess() {
+			$("#signIn").modal('hide');
+		}
+
+		function onError(response) {
+			console.log(response)
+		}
+
+		var data = {
+			email:$("#email").val(),
+			password:$("#pass").val()
+		}
+
+		epicModel.loginParent(data,onSuccess, onError)
+
 	});
 </script>
 </body>
