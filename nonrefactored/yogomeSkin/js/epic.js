@@ -1,12 +1,32 @@
-
 var epicSiteMain =  function(){
 	var gameFrame
 	var gameContainer
 
 	var DEFAULT_SRC = "../epicMap/index.html?language=" + language
 
+	var buttonMinigames = $("#btn3")
+	var buttonAdventure = $("#btn1")
+	var buttonBooks = $("#btn2")
+	var buttonVideos = $("#btn4")
+	var home = document.getElementById("home")
+
+	buttonMinigames.click(function () {
+		routing.navigate('#/minigames');
+	})
+
+	buttonAdventure.click(function () {
+		routing.navigate('#/map');
+	})
+	
+	buttonBooks.click(function () {
+		window.location.href = "http://play.yogome.com/yogobooks.html"
+	})
+	
+	buttonVideos.click(function () {
+		window.location.href = "http://play.yogome.com/webisodes.html"
+	})
+
 	function loadGame(src){
-		var home = document.getElementById("home")
 		home.style.visibility = "visible"
 		home.style.opacity = 0
 
@@ -39,7 +59,7 @@ var epicSiteMain =  function(){
 	}
 
 	function main(){
-		epicModel.loadPlayer(true, checkPlayer)
+		epicModel.loadPlayer(false, checkPlayer)
 	}
 
 	function charSelected(yogotar, url){
@@ -52,6 +72,22 @@ var epicSiteMain =  function(){
 		epicModel.savePlayer(currentPlayer)
 		window.open(url, "_self")
 
+	}
+
+
+	function showGames(){
+		$("#minigames").show()
+		home.style.visibility = "hidden"
+		var pathGames = "games/nonrefactored/"
+		var games = yogomeGames.getGames();
+		for(var i = 0 ; i<= games.length-1 ;i++){
+
+			var num = i;
+			if(games[i].review){
+				$("#content-minigames").append("<div class='col-xs-6 col-sm-4 container'><a href='"+games[i].url+"' rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive bannerMinigame' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
+				$("#gameimg" + num).attr("value",i);
+			}
+		}
 	}
 
 	// function loadCharSelector() {
@@ -67,7 +103,8 @@ var epicSiteMain =  function(){
 		charSelected:charSelected,
 		startGame:main,
 		loadGame:loadGame,
-		checkPlayer:checkPlayer
+		checkPlayer:checkPlayer,
+		showGames:showGames
 	}
 }()
 

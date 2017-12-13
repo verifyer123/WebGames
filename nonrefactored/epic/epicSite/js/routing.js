@@ -3,13 +3,20 @@ var routing = function () {
 	var useHash = true; // Defaults to: false
 	var hash = '#/'; // Defaults to: '#'
 	var router = new Navigo(root, useHash, hash);
+	$("#minigames").show()
 
 	router
 		.on({
 			'yogotarselector': function () {
+				$("#minigames").hide()
 				startCharSelector()
 			},
-			'minigame/:id': function (params) {
+			'minigames': function () {
+				$("#minigames").hide()
+				epicSiteMain.showGames()
+			},
+			'minigames/:id': function (params) {
+				$("#minigames").show()
 				var id = params.id
 				var games = epicYogomeGames.getGames()
 				console.log(id, games.length)
@@ -29,12 +36,22 @@ var routing = function () {
 			'map': function () {
 				// if(game)
 				// 	game.destroy()
+				$("#minigames").hide()
 				epicSiteMain.checkPlayer()
 			},
-			'*':function () {
+			'*': function () {
+				$("#minigames").hide()
 				epicSiteMain.startGame()
-			},
+			}
+			// 'books': function () {
+			// 	$("#minigames").hide()
+			// 	window.location.href = "http://play.yogome.com/yogobooks.html"
+			// 	// window.location.reload(true)
+			// 	// router.navigate("http://play.yogome.com/yogobooks.html", true)
+			// },
 		})
-		.resolve();
 
+		router.resolve();
+
+	return router
 }()
