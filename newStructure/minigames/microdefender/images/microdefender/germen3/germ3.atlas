@@ -1,0 +1,55 @@
+
+germ3.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+germ3/germ3_bags1
+  rotate: true
+  xy: 409, 246
+  size: 127, 103
+  orig: 127, 103
+  offset: 0, 0
+  index: -1
+germ3/germ3_bags2
+  rotate: false
+  xy: 2, 2
+  size: 88, 87
+  orig: 88, 87
+  offset: 0, 0
+  index: -1
+germ3/germ3_eye1
+  rotate: false
+  xy: 409, 375
+  size: 104, 131
+  orig: 104, 131
+  offset: 0, 0
+  index: -1
+germ3/germ3_eye2
+  rotate: false
+  xy: 515, 379
+  size: 101, 127
+  orig: 101, 127
+  offset: 0, 0
+  index: -1
+germ3/germ3_eyelid1
+  rotate: false
+  xy: 409, 196
+  size: 33, 48
+  orig: 33, 48
+  offset: 0, 0
+  index: -1
+germ3/germ3_eyelid2
+  rotate: false
+  xy: 618, 458
+  size: 33, 48
+  orig: 33, 48
+  offset: 0, 0
+  index: -1
+germ3/germ3_torso
+  rotate: false
+  xy: 2, 91
+  size: 405, 415
+  orig: 405, 415
+  offset: 0, 0
+  index: -1

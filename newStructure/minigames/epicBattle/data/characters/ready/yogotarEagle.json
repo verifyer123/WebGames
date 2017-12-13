@@ -1,0 +1,41 @@
+{
+	"category":"yogotar",
+	"attacks": {
+		"normal": [
+			{
+				"id": "windball",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "windballSpecial",
+				"attachment": "particle7",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Eagle/eagle.json",
+	"name": "Eagle",
+	"spine": {
+		"options": {
+			"scale": 0.85,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/eagle/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "wind"
+	},
+	"visuals": {
+		"shadowScaleX": 0.6,
+		"shadowScaleY": 1.1,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

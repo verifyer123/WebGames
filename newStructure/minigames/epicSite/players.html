@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Players</title>
+</head>
+<body>
+<!-- Sing In Modal-->
+<div id="players" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<button class="closeModal close"></button>
+		</div>
+
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
+				<img class="logo" src="images/neueicon.png"/>
+			</div>
+			<h2>- Select a profile -</h2>
+		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body">
+			<div id="scrollArea">
+			</div>
+			<!--</form>-->
+			<!--<h3>Or</h3>-->
+			<button type="submit" class="addPlayer">+</button><br>
+		</div>
+
+		<!-- Modal footer -->
+		<!--<div >
+			<button id="google" class="fbBtn"></button><br>
+			<button id="fb" class="googleBtn"></button><br>
+		</div>-->
+
+	</div>
+
+
+</div>
+<script>
+	$(".close").click(function() {
+		$("#players").modal('hide');
+	});
+
+	var childrenModal = function () {
+
+		function onButton() {
+			var myData = $(this).data().child
+			epicModel.loginPlayer(myData.remoteID)
+			$("#players").modal('hide');
+		}
+		
+		function setChildren(children) {
+			var htmlButtons = ""
+			for(var childIndex = 0; childIndex < children.length; childIndex++){
+				var child = children[childIndex]
+				var $button = $("<button>", {"class":"loginBtn"})
+				$button.append(child.name)
+				$button.data("child", child)
+				$button.click(onButton)
+
+				$("#scrollArea").append($button)
+			}
+		}
+
+		return{
+			setChildren:setChildren,
+		}
+	}()
+</script>
+</body>
+</html>

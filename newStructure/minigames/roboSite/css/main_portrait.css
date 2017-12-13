@@ -1,0 +1,56 @@
+@media (min-width: 1430px) {
+  .content-game{
+    opacity: 1;
+    width: 70%;  
+  }
+}
+
+@media (max-width: 1430px) {
+  .content-game{
+    opacity: 1;
+    width: 70%;  
+  }
+}
+
+
+@media (orientation: portrait){
+	body{
+		margin: 0px !important;
+		padding: 0px !important;
+	}
+
+	.main-content{
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+
+	.content-game{
+        min-width: none;
+		max-width: 100% !important;
+		width: 100% !important;
+		position: fixed !important;
+		transform: translateY(0) !important;
+		top: 0px !important;
+		margin: 0px !important;
+		padding: 0px !important;
+		height: 100% !important;
+		max-height: 100% !important;
+    }
+
+    
+	.game-canvas{
+		width: 100% !important;
+		margin: 0px !important;
+		padding: 0px !important;
+        
+	}
+    
+    .game-instructions {
+        display: none;
+    }
+
+	.description-content{
+		display: none !important;
+	}
+}

@@ -1,0 +1,167 @@
+
+robot.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Robot/Robot_arm1
+  rotate: false
+  xy: 867, 744
+  size: 82, 170
+  orig: 82, 170
+  offset: 0, 0
+  index: -1
+Robot/Robot_arm2
+  rotate: false
+  xy: 761, 750
+  size: 104, 164
+  orig: 104, 164
+  offset: 0, 0
+  index: -1
+Robot/Robot_eye1a
+  rotate: false
+  xy: 943, 968
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+Robot/Robot_eye1b
+  rotate: false
+  xy: 387, 461
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+Robot/Robot_eye2a
+  rotate: false
+  xy: 474, 548
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+Robot/Robot_eye2b
+  rotate: false
+  xy: 387, 405
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+Robot/Robot_eye3a
+  rotate: false
+  xy: 185, 164
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+Robot/Robot_eye3b
+  rotate: false
+  xy: 387, 517
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+Robot/Robot_mouth1
+  rotate: true
+  xy: 82, 30
+  size: 112, 63
+  orig: 112, 63
+  offset: 0, 0
+  index: -1
+Robot/Robot_mouth2
+  rotate: false
+  xy: 397, 604
+  size: 164, 94
+  orig: 164, 94
+  offset: 0, 0
+  index: -1
+Robot/Robot_mouth3
+  rotate: true
+  xy: 2, 2
+  size: 140, 78
+  orig: 140, 78
+  offset: 0, 0
+  index: -1
+Robot/Robot_torso1
+  rotate: true
+  xy: 2, 251
+  size: 404, 276
+  orig: 404, 276
+  offset: 0, 0
+  index: -1
+Robot/bigflag-20
+  rotate: false
+  xy: 397, 916
+  size: 180, 106
+  orig: 180, 106
+  offset: 0, 0
+  index: -1
+Robot/bigflag-21
+  rotate: false
+  xy: 2, 144
+  size: 181, 105
+  orig: 181, 105
+  offset: 0, 0
+  index: -1
+Robot/bigflag-22
+  rotate: true
+  xy: 280, 474
+  size: 181, 105
+  orig: 181, 105
+  offset: 0, 0
+  index: -1
+Robot/bigflag-23
+  rotate: false
+  xy: 579, 701
+  size: 180, 105
+  orig: 180, 105
+  offset: 0, 0
+  index: -1
+Robot/bigflag-24
+  rotate: false
+  xy: 397, 808
+  size: 180, 106
+  orig: 180, 106
+  offset: 0, 0
+  index: -1
+Robot/bigflag-25
+  rotate: false
+  xy: 579, 916
+  size: 180, 106
+  orig: 180, 106
+  offset: 0, 0
+  index: -1
+Robot/bigflag-26
+  rotate: false
+  xy: 397, 700
+  size: 180, 106
+  orig: 180, 106
+  offset: 0, 0
+  index: -1
+Robot/bigflag-27
+  rotate: false
+  xy: 579, 808
+  size: 180, 106
+  orig: 180, 106
+  offset: 0, 0
+  index: -1
+Robot/bigflag-28
+  rotate: false
+  xy: 761, 916
+  size: 180, 106
+  orig: 180, 106
+  offset: 0, 0
+  index: -1
+Robot/bigflag-29
+  rotate: true
+  xy: 280, 291
+  size: 181, 105
+  orig: 181, 105
+  offset: 0, 0
+  index: -1
+Robot/box
+  rotate: false
+  xy: 2, 657
+  size: 393, 365
+  orig: 393, 365
+  offset: 0, 0
+  index: -1

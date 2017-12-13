@@ -1,0 +1,48 @@
+
+Oof.png
+size: 168,148
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm
+  rotate: false
+  xy: 91, 21
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+normal/head1
+  rotate: false
+  xy: 2, 12
+  size: 87, 65
+  orig: 87, 65
+  offset: 0, 0
+  index: -1
+normal/head2
+  rotate: false
+  xy: 2, 79
+  size: 86, 67
+  orig: 86, 67
+  offset: 0, 0
+  index: -1
+normal/head3
+  rotate: true
+  xy: 91, 59
+  size: 87, 64
+  orig: 87, 64
+  offset: 0, 0
+  index: -1
+normal/leg
+  rotate: true
+  xy: 91, 2
+  size: 17, 22
+  orig: 17, 22
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 133, 19
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: -1

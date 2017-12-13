@@ -1,0 +1,42 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "iceProjectile1",
+				"attachment": "particle2",
+				"delay": 300,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "iceExplosion1",
+				"attachment": "particle2",
+				"delay": 750,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Teddy/teddyWater1/teddyWater1.json",
+	"name": "Maxie",
+	"spine": {
+		"options": {
+			"scale": 0.6,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/teddyWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 0.5,
+		"shadowY": 2,
+		"shadowScaleY": 1.2,
+		"cardFacing": "right",
+		"impactAttachment": "particle8"
+	}
+}

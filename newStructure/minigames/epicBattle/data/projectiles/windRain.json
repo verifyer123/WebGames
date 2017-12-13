@@ -1,0 +1,57 @@
+{
+	"timing":{
+		"stop":800,
+		"removal":2000,
+		"hit":450
+	},
+	"particles":[
+		"particles/characters/specialAttackWind6/specialAttackWind19.json",
+		"particles/characters/specialAttackWind6/specialAttackWind20.json",
+		"particles/characters/specialAttackWind6/specialAttackWind21.json"
+
+	 
+	],
+	"impact":{
+		"particles":[
+			"particles/characters/impactWind1/explosionWind3.json",
+			"particles/characters/impactWind1/explosionWind4.json",
+			"particles/characters/impactWind1/explosionWind5.json"
+		],
+		"soundID":"epicWindImpact1"
+	},
+	"onShoot":[
+		{
+			"id":"get",
+			"variable":"target",
+			"name":"targetY",
+			"index":"y"
+		},
+		{
+			"id":"get",
+			"variable":"target",
+			"name":"targetX",
+			"index":"x"
+		},
+		
+		{
+			"id":"operation",
+			"variable1":"targetY",
+			"value2":600,
+			"operation":"-",
+			"storeReturn":"spawnY"
+		},
+		
+		{
+			"id":"set",
+			"name":"self",
+			"index":"x",
+			"copyFrom":"targetX"
+		},
+		{
+			"id":"set",
+			"name":"self",
+			"index":"y",
+			"copyFrom":"spawnY"
+		}
+	]
+}

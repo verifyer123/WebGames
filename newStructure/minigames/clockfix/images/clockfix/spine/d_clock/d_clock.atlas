@@ -1,0 +1,48 @@
+
+d_clock.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/D_empty
+  rotate: false
+  xy: 624, 175
+  size: 234, 79
+  orig: 234, 79
+  offset: 0, 0
+  index: -1
+normal/D_eye1
+  rotate: false
+  xy: 340, 67
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1
+normal/D_eye2
+  rotate: false
+  xy: 2, 13
+  size: 33, 34
+  orig: 33, 34
+  offset: 0, 0
+  index: -1
+normal/D_eyebrown
+  rotate: false
+  xy: 2, 2
+  size: 15, 9
+  orig: 15, 9
+  offset: 0, 0
+  index: -1
+normal/D_face
+  rotate: false
+  xy: 2, 49
+  size: 336, 205
+  orig: 336, 205
+  offset: 0, 0
+  index: -1
+normal/D_mouth
+  rotate: false
+  xy: 340, 102
+  size: 282, 152
+  orig: 282, 152
+  offset: 0, 0
+  index: -1

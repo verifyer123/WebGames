@@ -1,0 +1,132 @@
+
+skeleton.png
+size: 1008,1451
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Luna/arm1
+  rotate: true
+  xy: 894, 615
+  size: 45, 55
+  orig: 45, 55
+  offset: 0, 0
+  index: -1
+Luna/arm2
+  rotate: false
+  xy: 947, 668
+  size: 34, 49
+  orig: 34, 49
+  offset: 0, 0
+  index: -1
+Luna/foot1
+  rotate: true
+  xy: 949, 776
+  size: 61, 41
+  orig: 61, 41
+  offset: 0, 0
+  index: -1
+Luna/foot2
+  rotate: true
+  xy: 949, 719
+  size: 55, 36
+  orig: 55, 36
+  offset: 0, 0
+  index: -1
+Luna/hair
+  rotate: false
+  xy: 804, 621
+  size: 88, 108
+  orig: 88, 108
+  offset: 0, 0
+  index: -1
+Luna/hand1
+  rotate: false
+  xy: 894, 662
+  size: 51, 67
+  orig: 51, 67
+  offset: 0, 0
+  index: -1
+Luna/hand2
+  rotate: false
+  xy: 949, 902
+  size: 57, 61
+  orig: 57, 61
+  offset: 0, 0
+  index: -1
+Luna/head_a
+  rotate: false
+  xy: 696, 731
+  size: 251, 232
+  orig: 251, 232
+  offset: 0, 0
+  index: -1
+Luna/head_d
+  rotate: true
+  xy: 767, 353
+  size: 251, 232
+  orig: 251, 232
+  offset: 0, 0
+  index: -1
+Luna/head_f
+  rotate: true
+  xy: 767, 100
+  size: 251, 232
+  orig: 251, 232
+  offset: 0, 0
+  index: -1
+Luna/head_h
+  rotate: false
+  xy: 2, 2
+  size: 252, 232
+  orig: 252, 232
+  offset: 0, 0
+  index: -1
+Luna/leg1
+  rotate: false
+  xy: 696, 536
+  size: 59, 68
+  orig: 59, 68
+  offset: 0, 0
+  index: -1
+Luna/leg2
+  rotate: false
+  xy: 949, 839
+  size: 53, 61
+  orig: 53, 61
+  offset: 0, 0
+  index: -1
+Luna/ship1
+  rotate: false
+  xy: 281, 149
+  size: 484, 377
+  orig: 484, 377
+  offset: 0, 0
+  index: -1
+Luna/ship2
+  rotate: true
+  xy: 696, 965
+  size: 484, 301
+  orig: 484, 301
+  offset: 0, 0
+  index: -1
+Luna/ship3
+  rotate: true
+  xy: 281, 528
+  size: 921, 413
+  orig: 921, 413
+  offset: 0, 0
+  index: -1
+Luna/ship4
+  rotate: false
+  xy: 2, 236
+  size: 277, 1213
+  orig: 277, 1213
+  offset: 0, 0
+  index: -1
+Luna/torso
+  rotate: false
+  xy: 696, 606
+  size: 106, 123
+  orig: 106, 123
+  offset: 0, 0
+  index: -1
