@@ -786,7 +786,7 @@ var dojo = function(){
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel)
             
             var background = sceneGroup.create(-2,-2,'fondo')
             background.width = game.world.width+2

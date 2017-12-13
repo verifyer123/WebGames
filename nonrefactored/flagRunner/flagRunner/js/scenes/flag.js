@@ -1067,7 +1067,7 @@ var flag = function(){
 			cursors = game.input.keyboard.createCursorKeys();
 			this.swipe = new Swipe(this.game);
 			
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			createBackground()
 			createBoxes()

@@ -511,7 +511,7 @@ var wild = function(){
         preload:preload,
 		create: function(event){
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
             var background = sceneGroup.create(game.world.centerX,game.world.centerY,'fondo')
             background.anchor.setTo(0.5,0.5)

@@ -822,8 +822,8 @@ var sushi = function(){
         create: function(event){
 
             // swipe = new Swipe(game)
-			sceneGroup = game.add.group();
-			yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+			
 
 			var bgRect = game.add.graphics()
 			bgRect.beginFill(0x150426)

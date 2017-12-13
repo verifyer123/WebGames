@@ -290,8 +290,8 @@ function createTextPart(text,obj){
                     castores[p].clean = true;
                     castores[p].state = "";
                 }        
-        sceneGroup = game.add.group(); 
-        yogomeGames.mixpanelCall("enterGame",gameIndex);
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+        
         overlayGroup = game.add.group();
             if(game.device != 'desktop'){
             overlayGroup.scale.setTo(1,1);
@@ -393,7 +393,7 @@ function createTextPart(text,obj){
     
 	/*CREATE SCENE*/
     function createScene(){
-		sceneGroup = game.add.group();
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		loadSounds();
 		background = game.add.tileSprite(0,0,game.world.width, 216,"atlas.game", "tile_sky");
 		sceneGroup.add(background);

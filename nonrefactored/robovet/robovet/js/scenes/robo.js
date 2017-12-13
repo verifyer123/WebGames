@@ -870,7 +870,7 @@ var robo = function(){
 		preload:preload,
 		create: function(event){
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
 			var background = game.add.tileSprite(-2 , -2, game.world.width + 2, game.world.height + 2, "fondo")
 			sceneGroup.add(background)

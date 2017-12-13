@@ -898,7 +898,7 @@ var color = function(){
 			this.swipe = new Swipe(this.game);
 			cursors = game.input.keyboard.createCursorKeys()
 			
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			createBackground()
 			createBase()

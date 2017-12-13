@@ -999,7 +999,7 @@ var magnet = function(){
 			
 			jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);
+			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			/*sceneGroup.x = 200
 			sceneGroup.y = 200
 			sceneGroup.scale.setTo(0.5,0.5)*/

@@ -172,7 +172,7 @@ var monsterDungeon = function(){
 	/*CREATE SCENE*/
     function createScene(){
         lives = 3
-		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex);;
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
