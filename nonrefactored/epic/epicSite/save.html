@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Save</title>
+</head>
+<body>
+<!-- Sing In Modal-->
+<div id="save" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<button class="closeModal close"></button>
+		</div>
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
+
+			</div>
+			<h2 class="saveTitle">¿QUIERES GUARDAR TU AVANCE?</h2>
+		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body">
+			<p>Dile a tus papás que agreguen su mail para que no pierdas tu progreso en el juego.</p>
+			<!--</form>-->
+			<!--<h3>Or</h3>-->
+		</div>
+		<div class="fontOpenSans modal-footer" style="color: #444444">
+			<button type="submit" id="okay" class="okBtn">Okay</button><br>
+		</div>
+
+		<!-- Modal footer -->
+		<!--<div >
+			<button id="google" class="fbBtn"></button><br>
+			<button id="fb" class="googleBtn"></button><br>
+		</div>-->
+
+	</div>
+
+
+</div>
+<script>
+	$(".close").click(function() {
+		$("#save").modal('hide');
+	});
+
+	$("#okay").click(function() {
+		$("#save").modal('hide');
+		modal.showLogin()
+	});
+
+	var saveModal = function () {
+
+		function onButton() {
+			var myData = $(this).data().child
+			epicModel.loginPlayer(myData.remoteID)
+			$("#players").modal('hide');
+		}
+
+		function setHeader(tag) {
+			tag = tag || "minigame"
+			var $img = $("<img>", {"class":"logo", "src":"images/"+tag+"_reg_head.png"})
+			$(".topImg").append($img)
+		}
+
+		return{
+			setHeader:setHeader,
+		}
+	}()
+</script>
+</body>
+</html>

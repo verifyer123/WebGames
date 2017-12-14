@@ -53,7 +53,8 @@ var epicSiteMain =  function(){
 		// console.log(src)
 		var currentPlayer = epicModel.getPlayer()
 		if(!currentPlayer.yogotar){
-			window.open("#/yogotarselector", "_self")
+			// routing.navigate("#/yogotarselector")
+			window.location.href = "#/yogotarselector"
 		}else loadGame(src)
 
 	}
@@ -70,7 +71,7 @@ var epicSiteMain =  function(){
 		var card = {id: "yogotar" + currentPlayer.yogotar, xp:0, data:data}
 		currentPlayer.cards.push(card)
 		epicModel.savePlayer(currentPlayer)
-		window.open(url, "_self")
+		routing.navigate(url)
 
 	}
 

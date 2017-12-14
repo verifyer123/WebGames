@@ -13,6 +13,12 @@ var modal = function () {
         		childrenModal.setChildren(children)
 				$("#myModal").find("#players").modal('toggle');
 			} );
+		},
+		showSave:function (tag) {
+			$("#myModal").load( "save.html", function () {
+				saveModal.setHeader(tag)
+				$("#myModal").find("#save").modal('toggle');
+			})
 		}
     }
 
