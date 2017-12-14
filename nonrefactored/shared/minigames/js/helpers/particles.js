@@ -254,22 +254,43 @@ var epicparticles = function(){
     var data = game.cache.getJSON(key)
 
     emitter.emitterType = data.emitterType
-    emitter.sourcePosition = data.sourcePosition
-    emitter.sourcePositionVariance = data.sourcePositionVariance
+    emitter.sourcePosition = {
+      x: 0,
+      y: 0
+    }
+    emitter.sourcePositionVariance = {
+      x: data.sourcePositionVariancex,
+      y: data.sourcePositionVariancey
+    }
     emitter.speed = data.speed
     emitter.speedVariance = data.speedVariance
     emitter.particleLifespan = data.particleLifespan
     emitter.particleLifespanVariance = data.particleLifespanVariance
     emitter.angle = data.angle
     emitter.angleVariance = data.angleVariance
-    emitter.gravity = data.gravity
+    emitter.gravity = data.gravity // gravityx, gravityy
     emitter.radialAcceleration = data.radialAcceleration
     emitter.tangentialAcceleration = data.tangentialAcceleration
     emitter.tangentialAccelVariance = data.tangentialAccelVariance
     emitter.startColor = data.startColor
-    emitter.startColorVariance = data.startColorVariance
-    emitter.finishColor = data.finishColor
-    emitter.finishColorVariance = data.finishColorVariance
+    emitter.startColorVariance = {
+      r: data.startColorVarianceRed,
+      g: data.startColorVarianceGreen,
+      b: data.startColorVarianceBlue,
+      a: data.startColorVarianceAlpha
+    }
+    emitter.finishColor = {
+      r: data.finishColorRed,
+      g: data.finishColorGreen,
+      b: data.finishColorBlue,
+      a: data.finishColorAlpha
+    }
+    emitter.finishColorVariance = {
+      r: data.finishColorVarianceRed,
+      g: data.finishColorVarianceGreen,
+      b: data.finishColorVarianceBlue,
+      a: data.finishColorVarianceAlpha
+    }
     emitter.maxParticles = data.maxParticles
     emitter.startParticleSize = data.startParticleSize
     emitter.startParticleSizeVariance = data.startParticleSizeVariance
