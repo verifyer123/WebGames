@@ -19,6 +19,7 @@ var epicparticles = function(){
   function newParticle(emitter){
     var sprite = game.add.sprite(0, 0, emitter.key)
     sprite.anchor.setTo(0.5, 0.5)
+    sprite.visible = false
     emitter.add(sprite)
 
     return {
@@ -155,6 +156,8 @@ var epicparticles = function(){
     var endA = emitter.rotationEnd + emitter.rotationEndVariance * randomSideFloat()
     particle.rotation = startA;
     particle.rotationDelta = (endA - startA) / particle.timeToLive
+
+    particle.visible = true
   }
 
   function addParticle(emitter){
@@ -183,7 +186,8 @@ var epicparticles = function(){
 
   function removeParticleAtIndex(emitter, index){
     if (index != emitter.particleCount - 1) {
-      emitter.paricles.splice(index, 1)
+      emitter.particles[index] = emitter.particles[emitter.particleCount - 1];
+      //emitter.particles.splice(index, 1)
     }
     emitter.particleCount--
   }
@@ -272,7 +276,12 @@ var epicparticles = function(){
     emitter.radialAcceleration = data.radialAcceleration
     emitter.tangentialAcceleration = data.tangentialAcceleration
     emitter.tangentialAccelVariance = data.tangentialAccelVariance
-    emitter.startColor = data.startColor
+    emitter.startColor = {
+      r: data.startColorRed,
+      g: data.startColorGreen,
+      b: data.startColorBlue,
+      a: data.startColorAlpha
+    }
     emitter.startColorVariance = {
       r: data.startColorVarianceRed,
       g: data.startColorVarianceGreen,
