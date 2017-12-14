@@ -38,13 +38,24 @@
     
 </head>
 <body>
+    
+    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+
+<script>
+	var cut = document.getElementById("cut");
+	cut.play();
+</script>
+    
 <!-- Pass Recover Modal-->
 	<div id="recover" class="modal">
 
 		<!-- Modal content -->
 		<div class="modal-content container" >
 			<div class="navigation">
-				<button class="closeModal close"></button>
+				<button class="closeModal close" onclick="pop.play()"></button>
 			</div>
 			<!-- Modal header -->
 			<div class="modal-header">
@@ -82,9 +93,9 @@
 	<div id="success" class="modalBranch">
 
 		<!-- Modal content -->
-		<div class="modal-content container" >
+		<div class="modalBranch-content container" >
 			<div class="navigation">
-				<button class="closeModal close"></button>
+				<button class="closeModal close" onclick="pop.play()"></button>
 			</div>
 			<!-- Modal header -->
 			<div class="modal-header">
@@ -105,7 +116,7 @@
 			<!-- Modal body OK button-->
 			<div class="modal-body">
 				<br>
-                <button type="submit" class="loginBtn close"><div class="text3">Ok</div></button><br>
+                <button type="submit" class="loginBtn close"><div class="text3" onclick="magic.play()">Ok</div></button><br>
                 
 			</div>
 		</div>
@@ -143,6 +154,7 @@
             document.getElementById("error").innerText = leng; 
         }
         else{
+            cut.play();
             $("#recover").hide();
             $("#success").show();   
         }
