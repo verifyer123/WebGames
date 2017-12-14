@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
+    <link rel="stylesheet" href="css/modal.css">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
     
     <script>var language = "ES";</script>
     
@@ -88,7 +91,7 @@
 	</div>
 <script>
 	$(".close").click(function() {
-		$("#signIn").modal('hide');
+		$("#signIn").fadeOut();
 	});
 
 	$("#login").click(function() {

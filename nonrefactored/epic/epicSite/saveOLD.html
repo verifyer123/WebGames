@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <script>var language = "ES";</script>
+    
+    <script>
+        
+        //AQUI VA PARA SABER EL LENGUAGE
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+        var language = getParameterByName("language").toUpperCase();
+        
+    </script>
+    
+    
+	<meta charset="UTF-8">
+	<title>Save</title>
+</head>
+<body>
+<!-- Sing In Modal-->
+<div id="save" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<button class="closeModal close"></button>
+		</div>
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
+
+			</div>
+			<h2 class="saveTitle"><div class="text1">¿QUIERES GUARDAR TU AVANCE?</div></h2>
+		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body">
+			<p><span class="text2">Dile a tus papás que agreguen su mail para que no pierdas tu progreso en el juego.</span></p>
+			<!--</form>-->
+			<!--<h3>Or</h3>-->
+		</div>
+		<div class="fontOpenSans modal-footer" style="color: #444444">
+			<button type="submit" id="okay" class="okBtn"><div class="text3">Okay</div></button><br>
+		</div>
+
+		<!-- Modal footer -->
+		<!--<div >
+			<button id="google" class="fbBtn"></button><br>
+			<button id="fb" class="googleBtn"></button><br>
+		</div>-->
+
+	</div>
+
+
+</div>
+<script>
+	$(".close").click(function() {
+		$("#save").modal('hide');
+	});
+
+	$("#okay").click(function() {
+		$("#save").modal('hide');
+		modal.showLogin()
+	});
+
+	var saveModal = function () {
+
+		function onButton() {
+			var myData = $(this).data().child
+			epicModel.loginPlayer(myData.remoteID)
+			$("#players").modal('hide');
+		}
+
+		function setHeader(tag) {
+			tag = tag || "minigame"
+			var $img = $("<img>", {"class":"logo", "src":"images/"+tag+"_reg_head.png"})
+			$(".topImg").append($img)
+		}
+		return{
+			setHeader:setHeader,
+		}
+	}()
+</script>
+    <script src="js/languages.js"></script>
+</body>
+</html>

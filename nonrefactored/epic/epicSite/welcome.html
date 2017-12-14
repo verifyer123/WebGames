@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Save</title>
+	<title>Welcome</title>
     <link rel="stylesheet" href="css/modal.css">
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
@@ -33,13 +33,13 @@
             language.toUpperCase();
         }
     
-    </script>
+    </script> 
     
     
 </head>
 <body>
-<!-- Pass Recover Modal-->
-	<div id="save" class="modal">
+<!-- Welcome Modal-->
+	<div id="welcome" class="modal">
 
 		<!-- Modal content -->
 		<div class="modal-content container" >
@@ -50,37 +50,47 @@
 			<div class="modal-header">
 				<div class="topImg">
 					<div class="topImg">
-						<!--<img class="particule" src="images/particle-03.png"/>-->
-						<img class="logo" src="images/save.png"/>
-						<!--<img class="particule" src="images/particle-04.png"/>-->
+						<img class="particule" src="images/particle-03.png"/>
+						<img class="logo" src="images/yogome-logo.png"/>
+						<img class="particule" src="images/particle-04.png"/>
 					</div>
 				</div>
-				<h2><div class="text19" style="font-size: 0.8em;">Want to save your progress?</div></h2>
-                <div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans text20">
-            <p>Ask your parents to add their email so you don't lose your progress in the game.</p>
-        </div>
+				<h2><div class="text10">- Welcome -</div></h2>
+				<div>
+					<p></p>
+				</div>
 			</div>
 
-			<!-- Modal body Text box and sumbit button-->
+			<!-- Modal body-->
 			<div class="modal-body">
-				<br>
-                <button type="submit" class="loginBtn close"><div class="text3">Ok</div></button><br>
-                
+				<p><span class="fontOpenSans text11" style="color: #009cee; font-size: 1.5em"><b>Congrats!</b></span></p>
+                    <div class="fontOpenSans" style="font-size: 1.2em">
+                        <p><span class="text12">Now you have full access to the Yogome Learning Experience.</span><br>
+                            <span class="text13">Keep the adventure going!</span></p>
+                    </div>
 			</div>
+            <!-- Modal footer-->
 			<div class="fontOpenSans modal-footer" style="color: #444444">
-				
+				<button type="submit" id="ok" class="loginBtn close"><div class="text3">OK</div></button><br>
 			</div>
+
 		</div>
+
+
 	</div>
-    
+
 <script>
-    $(".close").click(function() {
-		$("#save").fadeOut();
+	$(".close").click(function() {
+		$("#welcome").fadeOut();
+	});
+
+	$(".close").click(function() {
+        $("#welcome").fadeOut();
 	});
     /*window.onclick = function() {
-        $("#recover").fadeOut();
+        $("#welcome").fadeOut();
     }*/
-</script>
+</script> 
     
     <script src="js/languages.js"></script>
 </body>
