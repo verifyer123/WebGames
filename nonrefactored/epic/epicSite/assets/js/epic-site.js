@@ -20,6 +20,7 @@ $(document).ready(function () {
             accessibility: true,
             arrows: false,
             mobileFirst: true,
+            infinite:false
         });
 
         $('.epic-slider').animate({
