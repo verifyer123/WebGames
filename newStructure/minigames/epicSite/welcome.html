@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Welcome</title>
+    <link rel="stylesheet" href="css/modal.css">
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+    
+    <script>var language = "ES";</script>
+    
+    <script>
+    //AQUI VA PARA SABER EL LENGUAGE
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+        var language;
+        language = getParameterByName("language");
+        
+        if(language == null ){
+            var lengua;
+            //lengua = navigator.language || navigator.userLanguage; 
+            //language = eval("'" + lengua + "'").toUpperCase();
+            language= "ES";
+        }else{
+            language.toUpperCase();
+        }
+    
+    </script> 
+    
+    
+</head>
+<body>
+<!-- Welcome Modal-->
+	<div id="welcome" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content container" >
+			<div class="navigation">
+				<button class="closeModal close"></button>
+			</div>
+			<!-- Modal header -->
+			<div class="modal-header">
+				<div class="topImg">
+					<div class="topImg">
+						<img class="particule" src="images/particle-03.png"/>
+						<img class="logo" src="images/yogome-logo.png"/>
+						<img class="particule" src="images/particle-04.png"/>
+					</div>
+				</div>
+				<h2><div class="text10">- Welcome -</div></h2>
+				<div>
+					<p></p>
+				</div>
+			</div>
+
+			<!-- Modal body-->
+			<div class="modal-body">
+				<p><span class="fontOpenSans text11" style="color: #009cee; font-size: 1.5em"><b>Congrats!</b></span></p>
+                    <div class="fontOpenSans" style="font-size: 1.2em">
+                        <p><span class="text12">Now you have full access to the Yogome Learning Experience.</span><br>
+                            <span class="text13">Keep the adventure going!</span></p>
+                    </div>
+			</div>
+            <!-- Modal footer-->
+			<div class="fontOpenSans modal-footer" style="color: #444444">
+				<button type="submit" id="ok" class="loginBtn close"><div class="text3">OK</div></button><br>
+			</div>
+
+		</div>
+
+
+	</div>
+
+<script>
+	$(".close").click(function() {
+		$("#welcome").fadeOut();
+	});
+
+	$(".close").click(function() {
+        $("#welcome").fadeOut();
+	});
+    /*window.onclick = function() {
+        $("#welcome").fadeOut();
+    }*/
+</script> 
+    
+    <script src="js/languages.js"></script>
+</body>
+</html>
