@@ -583,7 +583,7 @@ var milky = function(){
         var barra = sceneGroup.create(0, 0, 'atlas.milky', 'barra')
         barra.scale.setTo(1.2, 1)
         barra.anchor.setTo(0.5, 0.5)
-        barra.x = game.world.centerX - 3
+        barra.x = game.world.centerX + 10
         barra.y = game.world.centerY - 140
     }
     
@@ -742,7 +742,7 @@ var milky = function(){
             magician.children[0].setAnimationByName(0, "BACK_WALK", false)
             game.add.tween(magician).to({y:y}, delay, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
                 
-                var hit = game.add.tween(magician).to({y:y}, 600, Phaser.Easing.Linear.Out, true)
+                var hit = game.add.tween(magician).to({y:y}, 1000, Phaser.Easing.Linear.Out, true)
                 
                 if(y < bar.y){
                     sound.play("squeeze")
@@ -752,6 +752,7 @@ var milky = function(){
                 else{
                     sound.play("cog")
                     magician.children[0].setAnimationByName(0, "BACK_WRONG", false)
+                    magician.children[0].addAnimationByName(0, "BACK_IDLE", false)
                 }
                 
                 hit.onComplete.add(function(){
