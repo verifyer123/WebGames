@@ -162,7 +162,7 @@ yogomeGames.mixpanelCall = function(callName,gameIndex,lives,model){
 
 	mixpanel.track(
 		callName,
-		{"gameName": gamesList[gameIndex].name,"app":"epicWeb","isMap":hasMap,"email":email,"playerId":playerId}
+		{"gameName": gamesList[gameIndex].name,"subject":gamesList[gameIndex].subject,"app":"epicWeb","isMap":hasMap,"email":email,"playerId":playerId}
 	);
 	
 		
