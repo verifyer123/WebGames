@@ -3,11 +3,11 @@ var languageArrayIndex = [
                     id:0,
                     NAME:"mainMenu0",
                     ES:"Voltea tu teléfono o dispositivo para una mejor experiencia",
-                    EN:"Flip your phone or device for a better experience",
+                    EN:"Tilt your device for a better experience. ",
                     PT:"Flip your phone or device for a better experience",
                     ZH:"Flip your phone or device for a better experience",
                     JA:"Flip your phone or device for a better experience",
-                    KO:"Flip your phone or device for a better experience"
+                    KO:"더 나은 학습 환경을 위해 기기를 기울여주세요."
                 },
                 { 
                     id:1,
@@ -57,7 +57,7 @@ var languageArrayIndex = [
                     PT:"I Forgot My Password",
                     ZH:"I Forgot My Password",
                     JA:"I Forgot My Password",
-                    KO:"I Forgot My Password"
+                    KO:"비밀번호를 잃어버렸어요"
                 },
                 { 
                     id:6,
@@ -67,7 +67,7 @@ var languageArrayIndex = [
                     PT:"Don't have an account?",
                     ZH:"Don't have an account?",
                     JA:"Don't have an account?",
-                    KO:"Don't have an account?"
+                    KO:"아직 가입하지 않으셨나요?"
                 },
                 { 
                     id:7,
@@ -87,7 +87,17 @@ var languageArrayIndex = [
                     PT:"- Select a profile -",
                     ZH:"- Select a profile -",
                     JA:"- Select a profile -",
-                    KO:"- Select a profile -"
+                    KO:"- 프로필 선택하기 -"
+                },
+                { 
+                    id:9,
+                    NAME:"mainMenu9",
+                    ES:"Inicia sesión en Yogome ",
+                    EN:"Login to Yogome",
+                    PT:"Login to Yogome",
+                    ZH:"Login to Yogome",
+                    JA:"Login to Yogome",
+                    KO:"요고미 로그인하기"
                 },
         ]
                 
