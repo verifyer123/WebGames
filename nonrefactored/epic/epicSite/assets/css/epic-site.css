@@ -598,4 +598,32 @@ footer {
   
 }
 
-/*MINIJUEGOS*/
+/*NEW*/
+.panelMenuMain{
+}
+
+.panelMenuMain p{
+    position: absolute;
+    color:#FFF;
+    z-index: 221312;
+    font-size: 4vmin;
+    width: 60%;
+    text-align: center;
+    margin-top: 30%;
+    font-family: 'Bronic';
+}
+
+.iconMenu{
+    width: 60%;
+    height:7%;
+    margin-top:30%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+.iconMenu img{
+    width: 50%
+}
+
