@@ -62,18 +62,18 @@ var languageArrayIndex = [
                 { 
                     id:6,
                     NAME:"mainMenu6",
-                    ES:"No tienes cuenta?",
-                    EN:"Don't have an account?",
-                    PT:"Don't have an account?",
-                    ZH:"Don't have an account?",
-                    JA:"Don't have an account?",
-                    KO:"아직 가입하지 않으셨나요?"
+                    ES:"¿No tienes cuenta?",
+                    EN:"¿Don't have an account?",
+                    PT:"¿Don't have an account?",
+                    ZH:"¿Don't have an account?",
+                    JA:"¿Don't have an account?",
+                    KO:"¿아직 가입하지 않으셨나요?"
                 },
                 { 
                     id:7,
                     NAME:"mainMenu7",
                     ES:"Regístrate",
-                    EN:"Sing Up",
+                    EN:"Sign Up",
                     PT:"Inscrever-se",
                     ZH:"注册",
                     JA:"ご登録",
