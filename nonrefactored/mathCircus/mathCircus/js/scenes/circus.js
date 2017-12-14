@@ -33,6 +33,10 @@ var circus = function(){
 			{
 				name: 'pickedEnergy', 
 				file: 'particles/battle/pickedEnergy/specialBar1.json'
+			},
+			{
+				name: 'fireFloor', 
+				file: 'particles/battle/fireFloor/fireFloor1.json'
 			}
 		],
 		sounds: [
@@ -305,6 +309,7 @@ var circus = function(){
 		game.load.image('introscreen',"images/circus/introscreen.png")
 
 		epicparticles.loadEmitter(game.load, "pickedEnergy")
+		epicparticles.loadEmitter(game.load, "fireFloor")
 		
 		console.log(localization.getLanguage() + ' language')
     }
@@ -715,9 +720,14 @@ var circus = function(){
 		sceneGroup.add(yogotar)
 
 		var emitter = epicparticles.newEmitter("pickedEnergy")
-		emitter.x = yogotar.x
+		emitter.x = yogotar.x - 600
 		emitter.y = yogotar.y
 		sceneGroup.add(emitter)
+
+		var femitter = epicparticles.newEmitter("fireFloor")
+		femitter.x = yogotar.x + 600
+		femitter.y = yogotar.y
+		sceneGroup.add(femitter)
 	}
 	
 	function createButtons(){
