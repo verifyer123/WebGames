@@ -539,7 +539,7 @@ var garbageDiving = function(){
         game.add.tween(scoreBarMove.scale).to({x:trashCollected/20,y:4}, 5, Phaser.Easing.Linear.Out, true, 100)
         }
         
-        
+    
        
         
         if(controles.down.isDown && keyPressed==false){
@@ -555,11 +555,11 @@ var garbageDiving = function(){
         }
         
         if(controles.down.isUp && keyPressed==true){
-            
+            up()
             keyPressed=false
  
         }else if(controles.up.isUp && keyPressed2==true){
-            
+            down()
             keyPressed2=false
         }
         

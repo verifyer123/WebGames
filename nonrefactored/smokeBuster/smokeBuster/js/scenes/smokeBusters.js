@@ -64,12 +64,14 @@ var smokeBusters = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
-    var moveButton
     
     var clouds=new Array(10)
     var fakeClouds=new Array(10)
     var Luna
     var pollution=new Array(3)
+    var pollutionSkin=new Array(3)
+    var pollutionCanKill=new Array(3)
+    var way=new Array(3)
     
     var distanciaMin
     var scaleSpine=.5
@@ -78,7 +80,27 @@ var smokeBusters = function(){
     var inGround
 	var timing=0
     var controles
-
+    
+    var contHeight=0
+    var limite
+    var soundButton
+    var block1, block2
+    var actualVelocity=1000
+    var muerto=false
+    var dificulty=1
+    var rndEnemies=0
+    var moveSound
+    var btnOn
+    var sndActive
+    var speed
+    var pollutionActive
+    var finishLoad
+    var next=1
+    var rightBar,leftBar, botonAspirar
+    var runningAnim
+    var Left, Right
+    
+    
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -86,10 +108,18 @@ var smokeBusters = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#87D0EB"
-        lives = 1
-        inGround=false
+        lives = 3
+        finishLoad=true
+        runningAnim=false
+        inGround=true
         startGame=false
+        sndActive=true
+        Left=false
+        Right=false
+        pollutionActive=false
         loadSounds()
+        speed=1
+        limite=game.world.height
         
 	}
 
@@ -170,7 +200,15 @@ var smokeBusters = function(){
         })
         
         if(lives == 0){
+            character.body.velocity.y = 0;
+            character.body.acceleration.set(0);
+            luna.setAnimationByName(0,"LOSE",false);
+            inGround=null
+            startGame=false
+            muerto=true
             stopGame(false)
+            
+            
         }
         
         addNumberPart(heartsGroup.text,'-1',true)
@@ -254,7 +292,7 @@ var smokeBusters = function(){
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
-            
+            game.world.setBounds(0,0,game.world.width, game.world.height);
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
@@ -267,19 +305,26 @@ var smokeBusters = function(){
     
     function preload(){
         
-		buttons.getImages(game)
-        
+		//buttons.getImages(game)
         
 		
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
+        game.load.spine('luna', "images/Spine/Luna/luna.json");
+        
 		game.load.image('howTo',"images/smoke/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/smoke/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/smoke/introscreen.png")
+        
+        game.load.spritesheet("pollution1", 'images/smoke/polu1.png', 286, 250, 24)
+        game.load.spritesheet("pollution2", 'images/smoke/polu2.png', 384, 256, 24)
+        game.load.spritesheet("pollution3", 'images/smoke/polu3.png', 284, 224, 24)
 		
 		console.log(localization.getLanguage() + ' language')
+        
+        
         
         //Creamos las fisicas del proyecto
         
@@ -309,7 +354,7 @@ var smokeBusters = function(){
         
         overlayGroup.add(rect)
         
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+        var plane = overlayGroup.create(game.world.centerX,game.world.centerY,'introscreen')
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
@@ -346,77 +391,423 @@ var smokeBusters = function(){
 	function createBackground(){
 		backgroundGroup = game.add.group()
         gameGroup=game.add.group()
+        UIGroup=game.add.group()
         sceneGroup.add(backgroundGroup)
         sceneGroup.add(gameGroup)
-        game.world.setBounds(0, 0,860, 1024);
+        sceneGroup.add(UIGroup)
         
-        character=gameGroup.create(game.world.centerX, game.world.centerY-500,'atlas.smoke','LUNA')
+        botonAspirar=gameGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
+        botonAspirar.inputEnabled=true
+        botonAspirar.tag="suck"
+        
+        leftBar=gameGroup.create(0,0,'atlas.smoke','button')
+        leftBar.alpha=0
+        leftBar.width=game.world.width/2
+        leftBar.height=game.world.height
+        leftBar.tag="leftBar"
+        leftBar.inputEnabled=true
+        
+        rightBar=gameGroup.create(game.world.centerX,0,'atlas.smoke','button')
+        rightBar.alpha=0
+        rightBar.width=game.world.width/2
+        rightBar.height=game.world.height-200
+        rightBar.tag="rightBar"
+        rightBar.inputEnabled=true
+        
+        leftBar.events.onInputDown.add(onClick,this)
+        rightBar.events.onInputDown.add(onClick,this)
+        leftBar.events.onInputUp.add(onRelease,this)
+        rightBar.events.onInputUp.add(onRelease,this)
+        botonAspirar.events.onInputDown.add(onClick,this)
+        botonAspirar.events.onInputUp.add(onRelease,this)
+        
+         luna = gameGroup.game.add.spine(0,0, "luna");
+         
+         luna.scale.setTo(scaleSpine,scaleSpine)
+         luna.setSkinByName("normal");
+        
+        for(var b=0; b<4;b++){
+            way[b]=false
+        }
+        
+        btnOn=UIGroup.create(0, 0,'atlas.smoke','audio_on')
+        btnOn.scale.setTo(.5)
+        btnOn.inputEnabled=true
+        btnOn.events.onInputDown.add(OnSound,this)
+        
+        character=gameGroup.create(game.world.centerX, game.world.centerY-300,'atlas.smoke','LUNA')
         character.scale.setTo(scaleSpine)
+        character.anchor.setTo(.5)
+        character.alpha=0
         game.physics.enable(character, Phaser.Physics.ARCADE)
         character.body.onCollide = new Phaser.Signal();    
         character.body.onCollide.add(withClouds, this);
         character.checkWorldBounds = true;
-        game.camera.follow(character)
-        
+        character.body.checkCollision.top = false;
+        character.body.checkCollision.left = false;
+        character.body.checkCollision.right = false;
+        //game.physics.arcade.gravity.y = 100;
         
         for(var fill=0; fill<10;fill++){
             
-            clouds[fill]=gameGroup.create(game.world.centerX, game.world.centerY,'atlas.smoke','CLOUD')
+            if(fill!=0){
+            clouds[fill]=gameGroup.create(game.rnd.integerInRange(100,game.world.width-200), game.world.centerY+contHeight*-300,'atlas.smoke','CLOUD')
+            fakeClouds[fill]=true
+            
+            clouds[fill].tag=fill
+            gameGroup.add(clouds[fill])
             game.physics.enable(clouds[fill], Phaser.Physics.ARCADE)
             clouds[fill].body.immovable=true
             clouds[fill].body.bounce.set(.1);
-	       }
-        
-        //Aqui inicializo los botones
-        controles=game.input.keyboard.createCursorKeys()
-    }
-	
-	function update(){
-
-        //gravity
-        if(startGame){
-            
-            //parents
-            
-            
-            heartsGroup.position.x=game.camera.position.x
-            heartsGroup.position.y=game.camera.position.y
-            pointsBar.position.x=game.camera.position.x+game.world.width-50
-            pointsBar.position.y=game.camera.position.y
-            
-            if(character.position.y>game.world.height-150){
-                missPoint()
-                startGame=false
+            clouds[fill].body.checkCollision.down = false;
+            clouds[fill].body.checkCollision.right= false;
+            clouds[fill].body.checkCollision.left = false;
+            contHeight++
+            if(rndEnemies==0 && fill==5){
+                pollution[rndEnemies]=game.add.sprite(game.rnd.integerInRange(0,game.world.width),clouds[5].y-200,'atlas.smoke','POLLUTION1')
+                pollutionSkin[rndEnemies]=game.add.sprite(pollution[rndEnemies].x,pollution[rndEnemies].y, "pollution1")
+                pollutionSkin[rndEnemies].scale.setTo(scaleSpine)
+                pollutionSkin[rndEnemies].anchor.setTo(.5)
+                pollutionSkin[rndEnemies].animations.add('idle');
+                pollutionSkin[rndEnemies].animations.play('idle', 24, true);
+                game.physics.enable(pollution[rndEnemies], Phaser.Physics.ARCADE)
+                pollution[rndEnemies].alpha=0
+                pollution[rndEnemies].scale.setTo(.5)
+                pollution[rndEnemies].anchor.setTo(.5)
+                pollution[rndEnemies].tag="pollution"
+                pollutionCanKill[rndEnemies]=true
+                rndEnemies++
+            }
+            if(rndEnemies==1 && fill==7){
+                pollution[rndEnemies]=game.add.sprite(game.rnd.integerInRange(0,game.world.width),clouds[6].y-200,'atlas.smoke','POLLUTION2')
+                pollutionSkin[rndEnemies]=game.add.sprite(pollution[rndEnemies].x,pollution[rndEnemies].y, "pollution2")
+                pollutionSkin[rndEnemies].scale.setTo(scaleSpine)
+                pollutionSkin[rndEnemies].anchor.setTo(.5)
+                pollutionSkin[rndEnemies].animations.add('idle');
+                pollutionSkin[rndEnemies].animations.play('idle', 24, true);
+                game.physics.enable(pollution[rndEnemies], Phaser.Physics.ARCADE)
+                pollution[rndEnemies].alpha=0
+                pollution[rndEnemies].scale.setTo(.5)
+                pollution[rndEnemies].anchor.setTo(.5)
+                pollution[rndEnemies].tag="pollution"
+                pollutionCanKill[rndEnemies]=true
+                rndEnemies++
+            }
+                
+            if(rndEnemies==2 && fill==9){
+                pollution[rndEnemies]=game.add.sprite(game.rnd.integerInRange(0,game.world.width),clouds[8].y-200,'atlas.smoke','POLLUTION3')
+                pollutionSkin[rndEnemies]=game.add.sprite(pollution[rndEnemies].x,pollution[rndEnemies].y, "pollution3")
+                pollutionSkin[rndEnemies].scale.setTo(scaleSpine)
+                pollutionSkin[rndEnemies].anchor.setTo(.5)
+                pollutionSkin[rndEnemies].animations.add('idle');
+                pollutionSkin[rndEnemies].animations.play('idle', 24, true);
+                game.physics.enable(pollution[rndEnemies], Phaser.Physics.ARCADE)
+                pollution[rndEnemies].alpha=0 
+                pollution[rndEnemies].scale.setTo(.5)
+                pollution[rndEnemies].anchor.setTo(.5)
+                pollution[rndEnemies].tag="pollution"
+                pollutionCanKill[rndEnemies]=true
+                rndEnemies++
             }
             
+            }else{
+            clouds[fill]=gameGroup.create(character.x-50, character.y+300,'atlas.smoke','CLOUD')
+            game.physics.enable(clouds[fill], Phaser.Physics.ARCADE)
+            fakeClouds[fill]=true
+            clouds[fill].tag=fill
+            clouds[fill].body.immovable=true
+            clouds[fill].body.bounce.set(.1);
+            clouds[fill].body.checkCollision.down = false;
+            clouds[fill].body.checkCollision.right= false;
+            clouds[fill].body.checkCollision.left = false;
+            contHeight++
+            }
+	       }
+        contHeight=9
+        finishLoad=true
+        //Aqui inicializo los botones
+        controles=game.input.keyboard.createCursorKeys()
+        controles2=game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+		controles2.onDown.add(enter, this)
+    }
+    
             function right(){
                 
                 character.position.x+=8
+                luna.scale.setTo(scaleSpine,scaleSpine)
                 
             }
+    
             function left(){
                 character.position.x-=8
+                luna.scale.setTo(-scaleSpine,scaleSpine)
+            }
+    
+    
+         
+    function enter(){
+        
+        
+        for(var h=0; h<3;h++){
+            
+            if(character.y-200<pollution[h].y){
+                
+                luna.setAnimationByName(0,"SUCK",false);
+                game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
+            })
+                var number=h
+                pollutionCanKill[number]=false
+                //pollution[number].setAnimationByName(0,"DIE",true);
+                var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
+                pollution[number].kill();
+                pollutionCanKill[number]=true
+                
+                        if(next==1){
+                            next=2
+                        }else if(next==2){
+                            next=5
+                        }else if(next==5){
+                            next=8
+                        }else if(next==8){
+                            next=1
+                        } 
+                    console.log(next)
+                    addPoint(1)
+                    
+                    pollution[number].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-900)
+                    speed+=0.5
+                  })  
             }
             
-            if(controles.left.isDown && character.position.x>0){
+        }
+        
+    }
+    function onClick(obj){
+        
+        if(obj.tag=="rightBar"){
+            Right=true
+        } 
+        if(obj.tag=="leftBar"){
+            Left=true
+        }
+        console.log(obj.tag)
+        if(obj.tag=="suck"){    
             
+            obj.loadTexture("atlas.smoke","asp_off")
+            for(var h=0; h<3;h++){
+            
+            if(character.y-200<pollution[h].y){
+                
+                luna.setAnimationByName(0,"SUCK",false);
+                game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
+            })
+                var number=h
+                pollutionCanKill[number]=false
+                //pollutionSkin[number].alpha=1
+                //pollution[number].setAnimationByName(0,"DIE",true);
+                var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
+                pollution[number].kill();
+                pollutionCanKill[number]=true
+                
+                         if(next==1){
+                            next=2
+                        }else if(next==2){
+                            next=5
+                        }else if(next==5){
+                            next=8
+                        }else if(next==8){
+                            next=1
+                        } 
+                    
+                    addPoint(1)
+                    
+                    pollution[number].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-300)
+                    speed+=0.5
+                  })  
+            }
+            
+        }
+            
+        }
+    }
+    
+    function onRelease(obj){
+        if(obj.tag=="rightBar"){
+            Right=false
+        }
+        if(obj.tag=="leftBar"){
+            Left=false
+        }
+        if(obj.tag=="suck"){    
+            obj.loadTexture("atlas.smoke","asp_on")
+        }
+        
+    }
+    
+    function OnSound(obj){
+        
+        if(sndActive){
+            sndActive=false
+            spaceSong.stop()
+            obj.loadTexture("atlas.smoke","audio_off")
+        }else{
+            sndActive=true
+            spaceSong.play()
+            obj.loadTexture("atlas.smoke","audio_on")
+        }
+        
+    }
+    
+	function update(){
+        //gravity
+        if(startGame){
+            
+           if(lives<0){
+               lives=0
+           }
+            //skin de las nubes
+            
+            for(var u=0; u<10;u++){
+                
+                if(fakeClouds[u]){
+                    clouds[u].loadTexture("atlas.smoke","fake")
+                }else{
+                    
+                }
+                
+                
+            }
+            
+            //parents
+			game.world.setBounds(0,character.position.y-500,game.world.width, game.world.height);
+            game.camera.follow(character)
+			heartsGroup.position.x=game.camera.position.x
+			heartsGroup.position.y=game.camera.position.y+10
+			pointsBar.position.x=game.camera.position.x+game.world.width
+			pointsBar.position.y=game.camera.position.y+10
+            btnOn.position.x=game.camera.position.x+game.world.width-250
+            btnOn.position.y=game.camera.position.y+10
+            luna.position.x=character.x
+            luna.position.y=character.y+80
+            leftBar.position.x=game.camera.position.x
+            leftBar.position.y=game.camera.position.y
+            rightBar.position.x=game.camera.width/2
+            rightBar.position.y=game.camera.position.y
+            botonAspirar.position.x=game.camera.width-150
+            botonAspirar.position.y=game.camera.y+game.camera.height-150
+            pollutionSkin[0].position.x=pollution[0].x
+            pollutionSkin[0].position.y=pollution[0].y
+            pollutionSkin[1].position.x=pollution[1].x
+            pollutionSkin[1].position.y=pollution[1].y
+            pollutionSkin[2].position.x=pollution[2].x
+            pollutionSkin[2].position.y=pollution[2].y
+            
+            if(character.y>limite){
+                
+                inGround=null
+                character.body.velocity.y = 0;
+                luna.setAnimationByName(0,"LOSE",false);
+                character.body.acceleration.set(0);
+                startGame=false
+                missPoint()
+                muerto=true
+            }
+            
+            
+            //Aqui se van las nubes
+            for(var t=0; t<10;t++){
+                if(clouds[t].position.y>game.camera.y+1000){
+                    clouds[t].kill();
+                    clouds[t].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[contHeight].y-300)
+                    contHeight++
+                    speed+=0.5
+                    if(contHeight>9){
+                    contHeight=0
+                    }
+                    limite=character.y+400
+                }
+            }
+            //Aqui se va la contaminaciòn
+            for(var p=0; p<3;p++){
+
+                
+                if(pollution[p].position.y>game.camera.y+1000){
+                    pollution[p].kill();
+                         if(next==1){
+                            next=2
+                        }else if(next==2){
+                            next=5
+                        }else if(next==5){
+                            next=8
+                        }else if(next==8){
+                            next=1
+                        } 
+                        rndEnemies=game.rnd.integerInRange(0,2)
+                        pollution[rndEnemies].reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        pollution[rndEnemies].alpha=1
+                        
+                    if(pollution[p].alpha==1){
+                        missPoint()
+                    }
+            }
+                
+            }
+            
+            //Aqui animamos las nubes malas
+            
+                for(var z=0;z<3;z++){
+                    if(pollution[z]!=null){
+                    if(pollution[z].x>game.world.width-90){
+                        way[z]=true
+                        if(z!=1){
+                        pollution[z].scale.setTo(scaleSpine,scaleSpine)
+                        pollutionSkin[z].scale.setTo(scaleSpine,scaleSpine)
+                        }else{
+                        pollution[z].scale.setTo(-scaleSpine,scaleSpine)
+                        pollutionSkin[z].scale.setTo(-scaleSpine,scaleSpine)  
+                        }
+                    }else if(pollution[z].x<50){
+                    way[z]=false
+                    if(z!=1){
+                        pollution[z].scale.setTo(-scaleSpine,scaleSpine)
+                        pollutionSkin[z].scale.setTo(-scaleSpine,scaleSpine)
+                        }else{
+                        pollution[z].scale.setTo(scaleSpine,scaleSpine)
+                        pollutionSkin[z].scale.setTo(scaleSpine,scaleSpine)  
+                        }
+                    }
+                    
+                    if(!way[z]){
+                        pollution[z].position.x+=speed
+                    }else{
+                        pollution[z].position.x-=speed
+                    }
+                    
+                    }
+                }
+            
+            
+            if((controles.left.isDown|| Left) && character.position.x>0){
             left()
             
             }
-            if(controles.right.isDown && character.position.x<game.world.width-100){
-            
+            if((controles.right.isDown || Right) && character.position.x<game.world.width-100 ){
             right()
             
             }
             
-            if(inGround==false){
-            character.body.velocity.setTo(0,300);
+            if(!inGround && !muerto){
+                    character.body.acceleration.set(0,400);
+                
             }
             
-            if(inGround==true){
-            character.body.velocity.setTo(0,-500);
+            if(inGround && !muerto){
+                
                 timing++
-                if(timing==40){
+                 character.body.acceleration.set(0,-600);
+                    
+                       
+                if(timing==50){
                     timing=0;
                     inGround=false
                 }
@@ -428,18 +819,88 @@ var smokeBusters = function(){
             
             //Aqui checo las coliciones
             for(var collision=0; collision<10;collision++){
-            game.physics.arcade.collide(character,clouds[collision])
+                game.physics.arcade.collide(character,clouds[collision])
+            }
+            for(var collision2=0; collision2<3;collision2++){
+                game.physics.arcade.collide(character,pollution[collision2])
             }
         }
 	}
         
-    function withClouds(obj){
+    function withClouds(obj,obj2){
         
-        if(inGround==true){
-        inGround=false
-        }else{
-        inGround=true
+        
+            if(obj2.tag=="pollution" ){
+                
+                if(pollution[0]==obj2 && pollutionCanKill[0]){
+                   obj2.kill();
+                         if(next==1){
+                            next=2
+                        }else if(next==2){
+                            next=5
+                        }else if(next==5){
+                            next=8
+                        }else if(next==8){
+                            next=1
+                        } 
+                        obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        obj2.alpha=1
+                        pollutionCanKill[0]=true
+                missPoint() 
+                }
+                if(pollution[1]==obj2 && pollutionCanKill[1]){
+                   obj2.kill();
+                         if(next==1){
+                            next=2
+                        }else if(next==2){
+                            next=5
+                        }else if(next==5){
+                            next=8
+                        }else if(next==8){
+                            next=1
+                        } 
+                        obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        obj2.alpha=1
+                        pollutionCanKill[1]=true
+                missPoint() 
+                }
+                if(pollution[2]==obj2 && pollutionCanKill[2]){
+                   obj2.kill();
+                         if(next==1){
+                            next=2
+                        }else if(next==2){
+                            next=5
+                        }else if(next==5){
+                            next=8
+                        }else if(next==8){
+                            next=1
+                        } 
+                        obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        obj2.alpha=1
+                        pollutionCanKill[2]=true
+                missPoint() 
+                }
+            }
+        
+        if(character.body.velocity.y==0 && !inGround){
+            inGround=true
+            
+            luna.setAnimationByName(0,"IDLE",false)
+            
+            if(fakeClouds[obj2.tag]){
+
+                    obj2.kill();
+                    obj2.reset(game.rnd.integerInRange(100,game.world.width-200), clouds[contHeight].y-300)
+                    fakeClouds[obj2.tag]=game.rnd.integerInRange(0,1)
+                    contHeight++
+                    speed+=0.5
+                    if(contHeight>9){
+                    contHeight=0
+                    }
+                    limite=character.y+400
+            }
         }
+       
     }
 
 	function createTextPart(text,obj){
@@ -641,8 +1102,8 @@ var smokeBusters = function(){
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
-            game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+             game.sound.setDecodedCallback(spaceSong, function(){
+                 spaceSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -653,12 +1114,15 @@ var smokeBusters = function(){
                 game.sound.mute = false
             }, this);
             
+            
             initialize()
 			            
 			createPointsBar()
 			createHearts()
 			
-			buttons.getButton(spaceSong,sceneGroup)
+			
+            
+            
             createOverlay()
             
             animateScene()
