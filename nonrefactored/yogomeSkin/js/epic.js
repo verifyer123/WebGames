@@ -85,7 +85,7 @@ var epicSiteMain =  function(){
 
 			var num = i;
 			if(games[i].review){
-				$("#content-minigames").append("<div class='col-xs-6 col-sm-4 container'><a href='"+games[i].url+"' rev='"+games[i].name+"' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive bannerMinigame' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
+				$("#content-minigames").append("<div class='col-xs-6 col-sm-4 container'><a href='"+games[i].mapUrl+"' rev='"+games[i].name+"' target='_self' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive bannerMinigame' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
 				$("#gameimg" + num).attr("value",i);
 			}
 		}

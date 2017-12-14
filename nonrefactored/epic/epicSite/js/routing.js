@@ -3,7 +3,25 @@ var routing = function () {
 	var useHash = true; // Defaults to: false
 	var hash = '#/'; // Defaults to: '#'
 	var router = new Navigo(root, useHash, hash);
+	var badRouting = false
 	$("#minigames").show()
+
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	router.on(
+		function () {
+			$("#minigames").hide()
+			epicSiteMain.startGame()
+		}
+	);
 
 	router
 		.on({
@@ -18,7 +36,7 @@ var routing = function () {
 			'minigames/:id': function (params) {
 				$("#minigames").show()
 				var id = params.id
-				var games = epicYogomeGames.getGames()
+				var games = yogomeGames.getGames()
 				console.log(id, games.length)
 				var url
 				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
@@ -40,18 +58,32 @@ var routing = function () {
 				epicSiteMain.checkPlayer()
 			},
 			'*': function () {
+				window.location.href = router.root
 				$("#minigames").hide()
 				epicSiteMain.startGame()
-			}
-			// 'books': function () {
-			// 	$("#minigames").hide()
-			// 	window.location.href = "http://play.yogome.com/yogobooks.html"
-			// 	// window.location.reload(true)
-			// 	// router.navigate("http://play.yogome.com/yogobooks.html", true)
-			// },
+			},
 		})
 
-		router.resolve();
+	router.hooks({
+		before: function(done, params) {
+			console.log("checkToken", router)
+
+			var lastRoute = router.lastRouteResolved()
+			if((lastRoute.url.includes("minigames"))&&(params)){
+				/*Here goes the login validation*/
+			}
+
+			var token = getParameterByName("token")
+			if(token)
+				console.log(token)
+			done()
+		},
+		after: function(params) {
+			console.log("after")
+		}
+	});
+
+	router.resolve();
 
 	return router
 }()
