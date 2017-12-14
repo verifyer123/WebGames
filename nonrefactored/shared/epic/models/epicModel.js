@@ -5,11 +5,11 @@ var epicModel = function () {
 	var player = {
 		minigames:[],
 		battles:[],
-		cards:[DEFAULT_CARD],
-		yogotar:"Eagle",
+		cards:[],
+		yogotar:null,
 		currentPosition:0,
 		currentMinigame:0,
-		paidUser:true,
+		paidUser:false,
 		powerCoins:0,
 		version: 0.1
 	}
@@ -114,7 +114,7 @@ var epicModel = function () {
 		educationID = educationID === "null" ? "none" : educationID
 
 		var gameData = localStorage.getItem("gameData")
-		gameData = gameData === "null" ? null : gameData
+		gameData = gameData === "null" ? null : JSON.parse(gameData)
 
 		return {
 			email:email,
@@ -193,9 +193,9 @@ var epicModel = function () {
 		}
 	}
 
-	function savePlayer(currentPlayer, forceLogin) {
+	function savePlayer(currentPlayer, forceLogin, loginTag) {
 		player = currentPlayer
-		localStorage.setItem("gameData", player)
+		localStorage.setItem("gameData", JSON.stringify(player))
 
 		var credentials = getCredentials()
 		var token = credentials.token
@@ -208,6 +208,7 @@ var epicModel = function () {
 			})
 		}else if(forceLogin){
 			console.log("You need to login to save")
+			modal.showSave(loginTag)
 		}
 	}
 
