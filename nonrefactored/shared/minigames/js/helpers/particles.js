@@ -13,14 +13,21 @@ var epicparticles = function(){
   }
 
   function toRadians(angle) {
-    return angle * (Math.PI / 180);
+    return angle * (Math.PI / 180)
   }
 
   function normalize(point, scale) {
-    var norm = Math.sqrt(point.x * point.x + point.y * point.y);
+    var norm = Math.sqrt(point.x * point.x + point.y * point.y)
     if (norm != 0) {
-      point.x = scale * point.x / norm;
-      point.y = scale * point.y / norm;
+      return {
+        x: scale * point.x / norm,
+        y: scale * point.y / norm
+      }
+    }
+
+    return {
+      x: 0,
+      y: 0
     }
   }
   
@@ -89,8 +96,8 @@ var epicparticles = function(){
     
     // Create a new GLKVector2 using the newAngle
     var vector = {
-      x: Math.cos(emitter.newAngle), 
-      y: Math.sin(emitter.newAngle)
+      x: Math.cos(newAngle), 
+      y: Math.sin(newAngle)
     }
     
     // Calculate the vectorSpeed using the speed and speedVariance which has been passed in
@@ -165,7 +172,7 @@ var epicparticles = function(){
     particle.rotation = startA;
     particle.rotationDelta = (endA - startA) / particle.timeToLive
 
-    particle.visible = true
+    particle.sprite.visible = true
   }
 
   function addParticle(emitter){
@@ -292,19 +299,26 @@ var epicparticles = function(){
     particle.particleSize = Math.max(0, particle.particleSize)
     
     // Update the rotation of the particle
-    particle.rotation += particle.rotationDelta * delta;
+    particle.rotation += particle.rotationDelta * delta
+
+    // Update Sprite
+    particle.sprite.x = particle.position.x
+    particle.sprite.y = particle.position.y
   }
 
   function removeParticleAtIndex(emitter, index){
     if (index != emitter.particleCount - 1) {
-      emitter.particles[index] = emitter.particles[emitter.particleCount - 1];
-      //emitter.particles.splice(index, 1)
+      var particle = emitter.particles[index]
+      particle.sprite.visible = false
+
+      emitter.particles.splice(index, 1)
+      emitter.particles.push(particle)
     }
     emitter.particleCount--
   }
 
   function update(){ // Called on every frame
-    var deltaTime = game.time.elapsedMS * 0.0001
+    var deltaTime = game.time.elapsedMS * 0.001
 
     var arrayLength = emitters.length
     for (var i = 0; i < arrayLength; i++) {
@@ -338,7 +352,7 @@ var epicparticles = function(){
         currentParticle.timeToLive -= deltaTime
         if (currentParticle.timeToLive > 0) {
           updateParticleAtIndex(emitter, index, deltaTime)
-          index++;
+          index++
         } else {
           removeParticleAtIndex(emitter, index)
         }
@@ -363,7 +377,7 @@ var epicparticles = function(){
     var emitter = game.add.group()
 
     emitters.push(emitter)
-    
+
     var data = game.cache.getJSON(key)
 
     emitter.emitterType = data.emitterType
@@ -431,6 +445,9 @@ var epicparticles = function(){
     emitter.rotationStartVariance = data.rotationStartVariance
     emitter.rotationEnd = data.rotationEnd
     emitter.rotationEndVariance = data.rotationEndVariance
+
+    // Missing values from other project
+    emitter.radialAccelVariance = data.radialAccelVariance
     
     // Calculate the emission rate
     emitter.emissionRate = emitter.maxParticles / emitter.particleLifespan
