@@ -63,34 +63,6 @@
 
 	</script>
 
-
-	<script>
-
-		if(language == "ES"){
-			document.getElementById("email").placeholder = "Correo";
-			document.getElementById("pass").placeholder = "Contraseña";
-		}else if(language == "EN"){
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}else if(language == "PT"){
-			document.getElementById("email").placeholder = "E-mail";
-			document.getElementById("pass").placeholder = "Senha";
-		}else if(language == "ZH"){
-			document.getElementById("email").placeholder = "电邮";
-			document.getElementById("pass").placeholder = "密码";
-		}else if(language == "JA"){
-			document.getElementById("email").placeholder = "Eメール";
-			document.getElementById("pass").placeholder = "パスワード";
-		}else if(language == "KO"){
-			document.getElementById("email").placeholder = "이메일";
-			document.getElementById("pass").placeholder = "비밀번호";
-		}else{
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}
-
-	</script>
-
 </head>
 <body>
     
@@ -203,6 +175,33 @@
 		$("#signUp").attr("href", "https://yogomepayments.com/" + redirect);
 	}()
 </script>
+    
+    <script>
+
+		if(language == "ES"){
+			document.getElementById("email").placeholder = "Correo";
+			document.getElementById("pass").placeholder = "Contraseña";
+		}else if(language == "EN"){
+			document.getElementById("email").placeholder = "Email";
+			document.getElementById("pass").placeholder = "Password";
+		}else if(language == "PT"){
+			document.getElementById("email").placeholder = "E-mail";
+			document.getElementById("pass").placeholder = "Senha";
+		}else if(language == "ZH"){
+			document.getElementById("email").placeholder = "电邮";
+			document.getElementById("pass").placeholder = "密码";
+		}else if(language == "JA"){
+			document.getElementById("email").placeholder = "Eメール";
+			document.getElementById("pass").placeholder = "パスワード";
+		}else if(language == "KO"){
+			document.getElementById("email").placeholder = "이메일";
+			document.getElementById("pass").placeholder = "비밀번호";
+		}else{
+			document.getElementById("email").placeholder = "Email";
+			document.getElementById("pass").placeholder = "Password";
+		}
+
+	</script>
 
 <script src="js/languages.js"></script>
 </body>
