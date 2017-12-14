@@ -3,6 +3,36 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
+    
+    <script>var language = "ES";</script>
+    
+    <script>
+    //AQUI VA PARA SABER EL LENGUAGE
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+        var language;
+        language = getParameterByName("language");
+        
+        if(language == null ){
+            var lengua;
+            //lengua = navigator.language || navigator.userLanguage; 
+            //language = eval("'" + lengua + "'").toUpperCase();
+            language= "ES";
+        }else{
+            language.toUpperCase();
+        }
+    
+    </script>
+    
+    
 </head>
 <body>
 <!-- Sing In Modal-->
@@ -22,7 +52,7 @@
 						<img class="particule" src="images/particle-04.png"/>
 					</div>
 				</div>
-				<h2>- Login to Yogome -</h2>
+				<h2><div class="text4">- Login -</div></h2>
 				<div>
 					<span id="error" class="fontOpenSans"></span>
 					<span id="recover" class="fontOpenSans"></span>
@@ -35,14 +65,14 @@
 				<!--<form action="welcome.html">-->
 				<input type="text" id="email" class="inputText" placeholder="Email" name="Email"/><br>
 				<input type="password" id="pass" class="inputText" placeholder="Password" name="Password"/><br>
-				<button type="submit" id="login" class="loginBtn">Login</button><br>
-				<button class="recoverBtn" id="recoverPass">I Forgot My Password</button><br>
+                <button type="submit" id="login" class="loginBtn"><div class="text4">Login</div></button><br>
+                <button class="recoverBtn" id="recoverPass"><span class="text5">I Forgot My Password</span></button><br>
 				<!--</form>-->
 				<!--<h3>Or</h3>-->
 			</div>
 			<div class="fontOpenSans modal-footer" style="color: #444444">
-				<p>Don't have an account?
-					<span><a href="https://yogomepayments.com/" target="_self" style="color: #009cee">Sing Up</a></span>
+				<p><span class="text6">Don't have an account?</span>
+					<span><a href="https://yogomepayments.com/" target="_self" style="color: #009cee"><div class="text7">Sing Up</div></a></span>
 				</p>
 			</div>
 
@@ -79,5 +109,7 @@
 
 	});
 </script>
+    
+    <script src="js/languages.js"></script>
 </body>
 </html>

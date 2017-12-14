@@ -3,6 +3,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Players</title>
+    
+    <script>var language = "ES";</script>
+    
+    <script>
+    //AQUI VA PARA SABER EL LENGUAGE
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+        var language;
+        language = getParameterByName("language");
+        
+        if(language == null ){
+            var lengua;
+            //lengua = navigator.language || navigator.userLanguage; 
+            //language = eval("'" + lengua + "'").toUpperCase();
+            language= "ES";
+        }else{
+            language.toUpperCase();
+        }
+    
+    </script>
+    
 </head>
 <body>
 <!-- Sing In Modal-->
@@ -19,7 +48,7 @@
 			<div class="topImg">
 				<img class="logo" src="images/neueicon.png"/>
 			</div>
-			<h2>- Select a profile -</h2>
+			<h2> <div class="text8">- Select a profile -</div></h2>
 		</div>
 
 		<!-- Modal body Text box and sumbit button-->
@@ -72,5 +101,6 @@
 		}
 	}()
 </script>
+    <script src="js/languages.js"></script>
 </body>
 </html>

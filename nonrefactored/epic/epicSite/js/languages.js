@@ -2,19 +2,97 @@ var languageArrayIndex = [
                 { 
                     id:0,
                     NAME:"mainMenu0",
-                    ES:"Episodios",
-                    EN:"Webisodes",
-                    PT:"Episódios",
-                    ZH:"网络视频短片",
-                    JA:"ウェブエピソード",
-                    KO:"웹피소드"
+                    ES:"Voltea tu teléfono o dispositivo para una mejor experiencia",
+                    EN:"Flip your phone or device for a better experience",
+                    PT:"Flip your phone or device for a better experience",
+                    ZH:"Flip your phone or device for a better experience",
+                    JA:"Flip your phone or device for a better experience",
+                    KO:"Flip your phone or device for a better experience"
                 },
+                { 
+                    id:1,
+                    NAME:"mainMenu1",
+                    ES:"¿QUIERES GUARDAR TU AVANCE?",
+                    EN:"Want to save your progress?",
+                    PT:"Quer salvar seu progresso?",
+                    ZH:"希望保存进度吗？",
+                    JA:"進度を保存しますか？",
+                    KO:"게임 완성도를 저장하고 싶은가요?"
+                },
+                { 
+                    id:2,
+                    NAME:"mainMenu2",
+                    ES:"Dile a tus papás que agreguen su mail para que no pierdas tu progreso en el juego.",
+                    EN:"Ask your parents to add their email so you don't lose your progress in the game.",
+                    PT:"Peça para seus pais adicionarem o e-mail deles para você não perder seu progresso no jogo. ",
+                    ZH:"请让家长添加电子邮件地址，以便您能够保存游戏进度。",
+                    JA:"ゲームの進度を保存できるよう、保護者の方にEメールを登録するようお願いしてください。 ",
+                    KO:"부모님이 이메일 주소를 입력하시면 게임을 저장해서 나중에도 이어서 할 수 있어요."
+                },
+                { 
+                    id:3,
+                    NAME:"mainMenu3",
+                    ES:"Ok",
+                    EN:"OK",
+                    PT:"OK",
+                    ZH:"确认",
+                    JA:"OK",
+                    KO:"확인"
+                },
+                { 
+                    id:4,
+                    NAME:"mainMenu4",
+                    ES:"Iniciar Sesiòn",
+                    EN:"Log In",
+                    PT:"Login",
+                    ZH:"岁",
+                    JA:"ログイン",
+                    KO:"로그인"
+                },
+                { 
+                    id:5,
+                    NAME:"mainMenu5",
+                    ES:"Olvide mi contraseña",
+                    EN:"I Forgot My Password",
+                    PT:"I Forgot My Password",
+                    ZH:"I Forgot My Password",
+                    JA:"I Forgot My Password",
+                    KO:"I Forgot My Password"
+                },
+                { 
+                    id:6,
+                    NAME:"mainMenu6",
+                    ES:"No tienes cuenta?",
+                    EN:"Don't have an account?",
+                    PT:"Don't have an account?",
+                    ZH:"Don't have an account?",
+                    JA:"Don't have an account?",
+                    KO:"Don't have an account?"
+                },
+                { 
+                    id:7,
+                    NAME:"mainMenu7",
+                    ES:"Regístrate",
+                    EN:"Sing Up",
+                    PT:"Inscrever-se",
+                    ZH:"注册",
+                    JA:"ご登録",
+                    KO:"로그인"
+                },
+                { 
+                    id:8,
+                    NAME:"mainMenu8",
+                    ES:"-Selecciona un perfil-",
+                    EN:"- Select a profile -",
+                    PT:"- Select a profile -",
+                    ZH:"- Select a profile -",
+                    JA:"- Select a profile -",
+                    KO:"- Select a profile -"
+                },
+        ]
                 
         
         
-        
-        
-        ]
         
         
 function changeLanguage(){
