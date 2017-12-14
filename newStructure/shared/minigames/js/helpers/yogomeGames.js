@@ -141,14 +141,15 @@ yogomeGames.mixpanelCall = function(callName,gameIndex,lives,model){
 	
 	var email = "noEmail"
 	var playerId = "noPlayerId"
-	var hasMap = true
+	var hasMap = false
 	
 	if(model){
 		
 		email = model.getCredentials().email
 		playerId = model.getCredentials().remoteId
-	}else if(!model){
-		hasMap = false
+		if(model.getPlayer().isMap){
+			hasMap = true
+		}
 	}
 	
 	timeCount = 0
