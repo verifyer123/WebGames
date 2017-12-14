@@ -99,6 +99,10 @@ footer {
 
 }
 
+.homeButton{
+  cursor: pointer;
+}
+
 .slick-dots {
   position: absolute;
   left: 5%;
@@ -174,6 +178,7 @@ footer {
     left: 45%;
     top:13%;
         max-width: 800px;
+    display: none;
 }
 
 #content-minigames{

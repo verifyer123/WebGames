@@ -18,7 +18,7 @@ var routing = function () {
 			'minigames/:id': function (params) {
 				$("#minigames").show()
 				var id = params.id
-				var games = epicYogomeGames.getGames()
+				var games = yogomeGames.getGames()
 				console.log(id, games.length)
 				var url
 				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
