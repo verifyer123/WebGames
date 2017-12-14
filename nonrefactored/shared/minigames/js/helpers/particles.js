@@ -307,13 +307,14 @@ var epicparticles = function(){
   }
 
   function removeParticleAtIndex(emitter, index){
-    if (index != emitter.particleCount - 1) {
-      var particle = emitter.particles[index]
-      particle.sprite.visible = false
+    var particle = emitter.particles[index]
+    particle.sprite.visible = false
 
+    if (index != emitter.particleCount - 1) {
       emitter.particles.splice(index, 1)
       emitter.particles.push(particle)
     }
+    
     emitter.particleCount--
   }
 
