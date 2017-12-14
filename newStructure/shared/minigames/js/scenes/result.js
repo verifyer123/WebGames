@@ -104,12 +104,15 @@ var result = function(){
 		totalScore = score
 		goalScore = gamesList[gameIndex].objective
 		win = totalScore >= goalScore
+		if(parent.epicModel){
+			currentPlayer = parent.epicModel.getPlayer()
+		}
 		
 		playerData = yogomeGames.returnData()
 		playerData.hasMap = false
 		
 		console.log(playerData.timeReady + ' gameTime')
-		if(parent.epicModel){
+		if(currentPlayer && currentPlayer.isMap){
 			playerData.hasMap = true
 		}
         
@@ -276,7 +279,7 @@ var result = function(){
             pivotX += 250
         }
 		
-		if(parent.epicModel){
+		if(currentPlayer && currentPlayer.isMap){
 			var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
 			homeBtn.anchor.setTo(0.5,0.5)
 			homeBtn.alpha = 0
@@ -350,9 +353,8 @@ var result = function(){
 		
 		if(win){
 			
-			if(parent.epicModel){
+			if(currentPlayer && currentPlayer.isMap){
 				
-				currentPlayer = parent.epicModel.getPlayer()
 				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
 			}
 		}

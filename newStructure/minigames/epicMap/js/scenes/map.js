@@ -1196,6 +1196,7 @@ var map = function(){
 		game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,2000).onComplete.add(function(){
 			
 			currentPlayer.currentMinigame = icon.order
+			currentPlayer.isMap = true
 			players.savePlayer(currentPlayer)
 			window.open(icon.url,'_self')
 		})		

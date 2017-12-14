@@ -10,6 +10,7 @@ var epicModel = function () {
 		currentPosition:0,
 		currentMinigame:0,
 		paidUser:true,
+		isMap:false,
 		version: 0.1
 	}
 
