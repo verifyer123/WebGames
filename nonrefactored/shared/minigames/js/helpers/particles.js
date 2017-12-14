@@ -15,6 +15,14 @@ var epicparticles = function(){
   function toRadians(angle) {
     return angle * (Math.PI / 180);
   }
+
+  function normalize(point, scale) {
+    var norm = Math.sqrt(point.x * point.x + point.y * point.y);
+    if (norm != 0) {
+      point.x = scale * point.x / norm;
+      point.y = scale * point.y / norm;
+    }
+  }
   
   function newParticle(emitter){
     var sprite = game.add.sprite(0, 0, emitter.key)
@@ -179,9 +187,112 @@ var epicparticles = function(){
     emitter.emitCounter = 0
   }
 
-  function updateParticleAtIndex(emitter, index, deltaTime){
+  function updateParticleAtIndex(emitter, index, delta){
     var particle = emitter.particles[index]
   
+    // If maxRadius is greater than 0 then the particles are going to spin otherwise they are effected by speed and gravity
+    if (emitter.emitterType == kParticleTypeRadial) {
+        
+        // FIX 2
+        // Update the angle of the particle from the sourcePosition and the radius.  This is only done of the particles are rotating
+        particle.angle += particle.degreesPerSecond * delta
+        particle.radius -= particle.radiusDelta * delta
+
+        particle.sprite.width = particle.radius * 2
+        particle.sprite.height = particle.radius * 2
+        
+        var tmp = {
+          x: sourcePosition.x - Math.cos(particle.angle) * particle.radius,
+          y: sourcePosition.y - Math.sin(particle.angle) * particle.radius
+        }
+        particle.position = tmp
+        
+        if (particle.radius < emitter.minRadius){
+          particle.timeToLive = 0
+        }
+    } else {
+        var tmp = {
+          x: 0,
+          y: 0
+        }
+        var radial
+        var tangential
+        var vectorZero = {
+          x: 0,
+          y: 0
+        }
+        
+        radial = vectorZero
+        
+        // By default this emitters particles are moved relative to the emitter node position
+        var positionDifference = {
+          x: particle.startPos.x - vectorZero.x,
+          y: particle.startPos.y - vectorZero.y
+        }
+        particle.position = {
+          x: particle.position.x - positionDifference.x,
+          y: particle.position.y - positionDifference.y
+        }
+
+        if (particle.position.x || particle.position.y){
+          radial = normalize(particle.position, 1)
+        }
+        
+        tangential = radial
+        radial.x *= particle.radialAcceleration
+        radial.y *= particle.radialAcceleration
+        
+        var newy = tangential.x
+        tangential.x = -tangential.y
+        tangential.y = newy
+        tangential.x *= particle.tangentialAcceleration
+        tangential.y *= particle.tangentialAcceleration
+        
+        tmp.x = radial.x + tangential.x + emitter.gravity.x
+        tmp.y = radial.y + tangential.y + emitter.gravity.y
+
+        tmp.x *= delta
+        tmp.y *= delta
+
+        particle.direction.x += tmp.x
+        particle.direction.y += tmp.y
+
+        tmp.x = particle.direction.x * delta
+        tmp.y = particle.direction.y * delta
+
+        particle.position.x += tmp.x
+        particle.position.y += tmp.y
+
+        // Now apply the difference calculated early causing the particles to be relative in position to the emitter position
+        particle.position.x += positionDifference.x
+        particle.position.y += positionDifference.y
+    }
+    
+    // Update the particles color
+    particle.color.r += (particle.deltaColor.r * delta)
+    particle.color.g += (particle.deltaColor.g * delta)
+    particle.color.b += (particle.deltaColor.b * delta)
+    particle.color.a += (particle.deltaColor.a * delta)
+    
+    var c
+    
+    if (emitter._opacityModifyRGB == true) {
+      c = {
+        r: particle.color.r * particle.color.a,
+        g: particle.color.g * particle.color.a,
+        b: particle.color.b * particle.color.a,
+        a: particle.color.a
+      }
+    } else {
+        c = particle.color
+    }
+    
+    // Update the particle size
+    particle.particleSize += particle.particleSizeDelta * delta
+    particle.particleSize = Math.max(0, particle.particleSize)
+    
+    // Update the rotation of the particle
+    particle.rotation += particle.rotationDelta * delta;
   }
 
   function removeParticleAtIndex(emitter, index){
@@ -252,9 +363,7 @@ var epicparticles = function(){
     var emitter = game.add.group()
 
     emitters.push(emitter)
-
     
-
     var data = game.cache.getJSON(key)
 
     emitter.emitterType = data.emitterType
@@ -272,7 +381,10 @@ var epicparticles = function(){
     emitter.particleLifespanVariance = data.particleLifespanVariance
     emitter.angle = data.angle
     emitter.angleVariance = data.angleVariance
-    emitter.gravity = data.gravity // gravityx, gravityy
+    emitter.gravity = {
+      x: data.gravityx,
+      y: data.gravityy
+    }
     emitter.radialAcceleration = data.radialAcceleration
     emitter.tangentialAcceleration = data.tangentialAcceleration
     emitter.tangentialAccelVariance = data.tangentialAccelVariance
