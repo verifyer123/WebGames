@@ -1,6 +1,7 @@
 var modal = function () {
     return {
         showLogin:function () {
+			console.log("showLogin")
 			$("#myModal").load( "login.html", function () {
 				$("#myModal").find("#signIn").modal('toggle');
 			} );
@@ -8,7 +9,7 @@ var modal = function () {
 		showPlayers:function (children) {
         	// console.log(children)
         	$("#myModal").load( "players.html", function () {
-        		// console.log(children)
+        		console.log(children)
         		childrenModal.setChildren(children)
 				$("#myModal").find("#players").modal('toggle');
 			} );
