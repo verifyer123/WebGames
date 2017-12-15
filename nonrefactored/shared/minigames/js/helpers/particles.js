@@ -304,6 +304,14 @@ var epicparticles = function(){
     // Update Sprite
     particle.sprite.x = particle.position.x
     particle.sprite.y = particle.position.y
+    particle.sprite.angle = particle.rotation
+
+    particle.sprite.width = particle.particleSize
+    particle.sprite.height = particle.particleSize
+
+    particle.sprite.alpha = c.a
+
+    // TODO implement tint/Color
   }
 
   function removeParticleAtIndex(emitter, index){
@@ -314,7 +322,7 @@ var epicparticles = function(){
       emitter.particles.splice(index, 1)
       emitter.particles.push(particle)
     }
-    
+
     emitter.particleCount--
   }
 
