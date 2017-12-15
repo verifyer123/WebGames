@@ -76,17 +76,17 @@ var routing = function () {
 			}
 
 			function onSuccess() {
-				console.log("call welcome modal")
+				modal.showWelcome()
 				done()
 			}
-			// var token = getParameterByName("token")
-			// var email = getParameterByName("email")
-			// token = decodeURIComponent(token)
-			// email = decodeURIComponent(email)
+			var token = getParameterByName("token")
+			var email = getParameterByName("email")
+			token = token ? decodeURIComponent(token) : null
+			email = email ? decodeURIComponent(email) : null
 			//pa_%5BB%406d33b036
 			//aaron%2B20171207_2%40yogome.com
-			var token = null//"pa_[B@15f1b80"
-			var email = "aaron+20171207_2@yogome.com"
+			// var token = null//"pa_[B@15f1b80"
+			// var email = "aaron+20171207_2@yogome.com"
 
 			if((token)&&(email)) {
 				localStorage.setItem("email", email)
