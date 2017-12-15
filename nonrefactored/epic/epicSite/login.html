@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
-<<<<<<< HEAD
     <link rel="stylesheet" href="css/modal.css">
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
@@ -35,9 +34,6 @@
         }
     
     </script>
-    
-    
-=======
 
 	<script>var language = "ES";</script>
 
@@ -67,44 +63,26 @@
 
 	</script>
 
-
-	<script>
-
-		if(language == "ES"){
-			document.getElementById("email").placeholder = "Correo";
-			document.getElementById("pass").placeholder = "Contraseña";
-		}else if(language == "EN"){
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}else if(language == "PT"){
-			document.getElementById("email").placeholder = "E-mail";
-			document.getElementById("pass").placeholder = "Senha";
-		}else if(language == "ZH"){
-			document.getElementById("email").placeholder = "电邮";
-			document.getElementById("pass").placeholder = "密码";
-		}else if(language == "JA"){
-			document.getElementById("email").placeholder = "Eメール";
-			document.getElementById("pass").placeholder = "パスワード";
-		}else if(language == "KO"){
-			document.getElementById("email").placeholder = "이메일";
-			document.getElementById("pass").placeholder = "비밀번호";
-		}else{
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}
-
-	</script>
-
->>>>>>> 465b8a854afb45f794462a14bc8558682015a84a
 </head>
 <body>
+    
+    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+
+<script>
+	var cut = document.getElementById("cut");
+	cut.play();
+</script>
+    
 <!-- Sing In Modal-->
 <div id="signIn" class="modal">
 
 	<!-- Modal content -->
 	<div class="modal-content container" >
 		<div class="navigation">
-			<button class="closeModal close"></button>
+			<button class="closeModal close" onclick="pop.play()"></button>
 		</div>
 		<!-- Modal header -->
 		<div class="modal-header">
@@ -125,26 +103,18 @@
 
 		<!-- Modal body Text box and sumbit button-->
 		<div class="modal-body">
-			<!--<form action="welcome.html">-->
+			
 			<input type="text" id="email" class="inputText" placeholder="Email" name="Email"/><br>
 			<input type="password" id="pass" class="inputText" placeholder="Password" name="Password"/><br>
 			<button type="submit" id="login" class="loginBtn"><div class="text4">Login</div></button><br>
 			<button class="recoverBtn" id="recoverPass"><span class="text5">I Forgot My Password</span></button><br>
-			<!--</form>-->
-			<!--<h3>Or</h3>-->
+			
 		</div>
 		<div class="fontOpenSans modal-footer" style="color: #444444">
 			<p><span class="text6">Don't have an account?</span>
 				<span><a id="signUp" class="text7" href="https://yogomepayments.com/" target="_self" style="color: #009cee">Sign Up</a></span>
 			</p>
 		</div>
-
-		<!-- Modal footer -->
-		<!--<div >
-			<button id="google" class="fbBtn"></button><br>
-			<button id="fb" class="googleBtn"></button><br>
-		</div>-->
-
 	</div>
 
 
@@ -154,6 +124,32 @@
 	$(".close").click(function() {
 		$("#signIn").fadeOut();
 	});
+    
+    $("#login").click(function(){
+        var leng = "Fill the gaps";
+        
+        switch(language){
+            case "ES": leng = "Llena los espacios"
+                break;
+            case "EN": leng = "Llena los espacios"
+                break;
+            case "PT": leng = "Llena los espacios"
+                break;
+            case "ZH": leng = "Llena los espacios"
+                break;
+            case "JA": leng = "Llena los espacios"
+                break;
+            case "KO": leng = "Llena los espacios"
+                break;
+        }
+        
+        if(document.getElementById("email").value == "" || document.getElementById("pass").value == ""){
+            document.getElementById("error").innerText = leng; 
+        }
+        else{
+            cut.play();
+        }
+    });
 
 	$("#login").click(function() {
 		function onSuccess() {
@@ -179,6 +175,33 @@
 		$("#signUp").attr("href", "https://yogomepayments.com/" + redirect);
 	}()
 </script>
+    
+    <script>
+
+		if(language == "ES"){
+			document.getElementById("email").placeholder = "Correo";
+			document.getElementById("pass").placeholder = "Contraseña";
+		}else if(language == "EN"){
+			document.getElementById("email").placeholder = "Email";
+			document.getElementById("pass").placeholder = "Password";
+		}else if(language == "PT"){
+			document.getElementById("email").placeholder = "E-mail";
+			document.getElementById("pass").placeholder = "Senha";
+		}else if(language == "ZH"){
+			document.getElementById("email").placeholder = "电邮";
+			document.getElementById("pass").placeholder = "密码";
+		}else if(language == "JA"){
+			document.getElementById("email").placeholder = "Eメール";
+			document.getElementById("pass").placeholder = "パスワード";
+		}else if(language == "KO"){
+			document.getElementById("email").placeholder = "이메일";
+			document.getElementById("pass").placeholder = "비밀번호";
+		}else{
+			document.getElementById("email").placeholder = "Email";
+			document.getElementById("pass").placeholder = "Password";
+		}
+
+	</script>
 
 <script src="js/languages.js"></script>
 </body>

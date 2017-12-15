@@ -106,6 +106,7 @@ var result = function(){
 		win = totalScore >= goalScore
 		if(parent.epicModel){
 			currentPlayer = parent.epicModel.getPlayer()
+			mixpanel.people.set({ "minigamesPlayed": currentPlayer.minigamesPlayed+1 });
 		}
 		
 		playerData = yogomeGames.returnData()
@@ -114,10 +115,11 @@ var result = function(){
 		console.log(playerData.timeReady + ' gameTime')
 		if(currentPlayer && currentPlayer.isMap){
 			playerData.hasMap = true
+			currentPlayer.minigamesPlayed++
 		}
         
         scaleToUse = scale || 0.9
-        setMixpanel("finishGame")
+        setMixpanel("MinigameAnswer")
 	}
     
     function changeImage(index,group){
@@ -174,8 +176,8 @@ var result = function(){
 		
 		mixpanel.track(
             callName,
-            {"gameName": gamesList[gameIndex].name, "win":win, "score":totalScore,"incorrectAnswers":playerData.lives,
-			 "timePlayed":playerData.timeReady,"subject":gamesList[gameIndex].subject,"isMap":playerData.hasMap,"app":"epicWeb"}
+            {"minigame": gamesList[gameIndex].name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
+			 "answerTime":playerData.timeReady,"subject":gamesList[gameIndex].subject,"isMap":playerData.hasMap,"app":"epicWeb"}
         );
 	}
 

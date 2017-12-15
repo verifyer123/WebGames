@@ -38,13 +38,24 @@
     
 </head>
 <body>
+    
+    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+
+<script>
+	var cut = document.getElementById("cut");
+	cut.play();
+</script>
+    
 <!-- Pass Recover Modal-->
 	<div id="recover" class="modal">
 
 		<!-- Modal content -->
 		<div class="modal-content container" >
 			<div class="navigation">
-				<button class="closeModal close"></button>
+				<button class="closeModal close" onclick="pop.play()"></button>
 			</div>
 			<!-- Modal header -->
 			<div class="modal-header">
@@ -82,9 +93,9 @@
 	<div id="success" class="modalBranch">
 
 		<!-- Modal content -->
-		<div class="modal-content container" >
+		<div class="modalBranch-content container" >
 			<div class="navigation">
-				<button class="closeModal close"></button>
+				<button class="closeModal close" onclick="pop.play()"></button>
 			</div>
 			<!-- Modal header -->
 			<div class="modal-header">
@@ -105,7 +116,7 @@
 			<!-- Modal body OK button-->
 			<div class="modal-body">
 				<br>
-                <button type="submit" class="loginBtn close"><div class="text3">Ok</div></button><br>
+                <button type="submit" class="loginBtn close"><div class="text3" onclick="magic.play()">Ok</div></button><br>
                 
 			</div>
 		</div>
@@ -143,6 +154,7 @@
             document.getElementById("error").innerText = leng; 
         }
         else{
+            cut.play();
             $("#recover").hide();
             $("#success").show();   
         }
@@ -165,6 +177,33 @@
 		epicModel.loginParent(data,onSuccess, onError)
 
 	});
+</script>
+    
+<script>
+
+		if(language == "ES"){
+			document.getElementById("email").placeholder = "Correo";
+			document.getElementById("pass").placeholder = "Contraseña";
+		}else if(language == "EN"){
+			document.getElementById("email").placeholder = "Email";
+			document.getElementById("pass").placeholder = "Password";
+		}else if(language == "PT"){
+			document.getElementById("email").placeholder = "E-mail";
+			document.getElementById("pass").placeholder = "Senha";
+		}else if(language == "ZH"){
+			document.getElementById("email").placeholder = "电邮";
+			document.getElementById("pass").placeholder = "密码";
+		}else if(language == "JA"){
+			document.getElementById("email").placeholder = "Eメール";
+			document.getElementById("pass").placeholder = "パスワード";
+		}else if(language == "KO"){
+			document.getElementById("email").placeholder = "이메일";
+			document.getElementById("pass").placeholder = "비밀번호";
+		}else{
+			document.getElementById("email").placeholder = "Email";
+			document.getElementById("pass").placeholder = "Password";
+		}
+
 </script>
     
     <script src="js/languages.js"></script>
