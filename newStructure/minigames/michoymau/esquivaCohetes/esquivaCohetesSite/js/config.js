@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Corto Circuito",
         language: "es",
-        minigameUrl: "../../esquivaCuetes/esquivaCuetes/index.html?language=ES",
+        minigameUrl: "../../esquivaCohetes/esquivaCohetes/index.html?language=ES",
         desktopUrl: "./desktop.html",
     }
 }

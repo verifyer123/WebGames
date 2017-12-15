@@ -84,6 +84,7 @@ var cortoCircuito = function(){
 	function initialize(){
         enemyNames = ['coin']
         gameStart = false
+        jumping = false
         skullTrue = false
         gameSpeed =  SPEED
         lastOne = null
@@ -223,6 +224,7 @@ var cortoCircuito = function(){
         if(buddy.isRunning == true){
             if (checkIfCanJump())
             {
+                
                 groupButton.isPressed = true
                 jumping = true
                 doJump()
@@ -470,6 +472,8 @@ var cortoCircuito = function(){
     
     function update(){
         
+        
+        
         if(gameActive == false){
             return
         }
@@ -490,7 +494,7 @@ var cortoCircuito = function(){
         
         if(jumping == true){
             player.body.velocity.y-=2
-            
+            jumping = false
         }
         
         //console.log(player.body.velocity.y + ' velocity y')

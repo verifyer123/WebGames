@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("esquivaCuetes")
+				sceneloader.show("esquivaCohetes")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,7 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            esquivaCuetes,
+            esquivaCohetes,
             result
     	])
     }

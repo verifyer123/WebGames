@@ -1,5 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var esquivaCuetes = function(){
+var esquivaCohetes = function(){
 
 	assets = {
         atlases: [                
@@ -668,7 +668,7 @@ function createTextPart(text,obj){
 	}
 	return {
 		assets: assets,
-		name: "esquivaCuetes",
+		name: "esquivaCohetes",
 		preload: preload,
 		create: createScene,
 		update:update,
