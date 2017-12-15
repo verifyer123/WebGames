@@ -22,6 +22,7 @@ var epicModel = function () {
 	var changeChild = "/login/change_childs"
 	var updateChild = "/login/child/update"
 	var getChild = "/login/child/get"
+	var userRecover = "/users/parent/recover"
 
 	var currentCallback
 
@@ -216,6 +217,10 @@ var epicModel = function () {
 			modal.showSave(loginTag)
 		}
 	}
+	
+	function recoverPass(email, onSuccess) {
+		ajaxCall({email:email}, userRecover, onSuccess)
+	}
 
 	return{
 		loadPlayer:loadPlayer,
@@ -223,7 +228,8 @@ var epicModel = function () {
 		savePlayer:savePlayer,
 		getCredentials:getCredentials,
 		loginPlayer:loginPlayer,
-		loginParent:signIn
+		loginParent:signIn,
+		recoverPass:recoverPass
 	}
 }()
 

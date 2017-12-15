@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Password Recover</title>
-    <link rel="stylesheet" href="css/modal.css">
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+    <!--<link rel="stylesheet" href="css/modal.css">-->
+    <!--&lt;!&ndash; Jquery &ndash;&gt;-->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
     
     <script>var language = "ES";</script>
     
@@ -125,8 +125,8 @@
     
 <script>
     $(".close").click(function() {
-		$("#recover").fadeOut();
-		$("#success").fadeOut();
+		$("#recover").modal('hide');
+		$("#success").modal('hide');
 	});
     /*window.onclick = function() {
         $("#recover").fadeOut();
@@ -138,65 +138,47 @@
         switch(language){
             case "ES": leng = "Ingresa tu correo"
                 break;
-            case "EN": leng = "Ingresa tu correo"
+            case "EN": leng = "Enter your email"
                 break;
-            case "PT": leng = "Ingresa tu correo"
+            case "PT": leng = "Enter your email"
                 break;
-            case "ZH": leng = "Ingresa tu correo"
+            case "ZH": leng = "Enter your email"
                 break;
-            case "JA": leng = "Ingresa tu correo"
+            case "JA": leng = "Enter your email"
                 break;
-            case "KO": leng = "Ingresa tu correo"
+            case "KO": leng = "Enter your email"
                 break;
         }
         
-        if(document.getElementById("email").value == ""){
+        if(document.getElementById("email").value === ""){
             document.getElementById("error").innerText = leng; 
         }
         else{
             cut.play();
-            $("#recover").hide();
-            $("#success").show();   
+			$("#recover").modal('hide');
+            $("#success").modal('show');
         }
     });
-
-	$("#recover").click(function() {
-		function onSuccess() {
-			$("#recover").fadeOut();
-		}
-
-		function onError(response) {
-			console.log(response)
-		}
-
-		var data = {
-			email:$("#email").val(),
-			password:$("#pass").val()
-		}
-
-		epicModel.loginParent(data,onSuccess, onError)
-
-	});
 </script>
     
 <script>
 
-		if(language == "ES"){
+		if(language === "ES"){
 			document.getElementById("email").placeholder = "Correo";
 			document.getElementById("pass").placeholder = "Contraseña";
-		}else if(language == "EN"){
+		}else if(language === "EN"){
 			document.getElementById("email").placeholder = "Email";
 			document.getElementById("pass").placeholder = "Password";
-		}else if(language == "PT"){
+		}else if(language === "PT"){
 			document.getElementById("email").placeholder = "E-mail";
 			document.getElementById("pass").placeholder = "Senha";
-		}else if(language == "ZH"){
+		}else if(language === "ZH"){
 			document.getElementById("email").placeholder = "电邮";
 			document.getElementById("pass").placeholder = "密码";
-		}else if(language == "JA"){
+		}else if(language === "JA"){
 			document.getElementById("email").placeholder = "Eメール";
 			document.getElementById("pass").placeholder = "パスワード";
-		}else if(language == "KO"){
+		}else if(language === "KO"){
 			document.getElementById("email").placeholder = "이메일";
 			document.getElementById("pass").placeholder = "비밀번호";
 		}else{
