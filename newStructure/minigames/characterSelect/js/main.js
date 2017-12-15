@@ -56,7 +56,7 @@ function startCharSelector(){
         }
 
 		var language = getParameterByName("language")
-		language = language ? language.toUpperCase() : "EN"
+		language = language.toUpperCase()
 		console.log(language + ' language')
 		
 		localization.setLanguage(language)

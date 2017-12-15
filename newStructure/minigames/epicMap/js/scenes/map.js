@@ -1,6 +1,5 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var imagesPath = "../../shared/minigames/images/icons/"
 var map = function(){
 	var players = parent.epicModel || epicModel
 
@@ -29,8 +28,8 @@ var map = function(){
 			
 			{   
                 name: "atlas.icons",
-                json: imagesPath + "atlas.json",
-                image: imagesPath + "atlas.png",
+                json: "images/map/icons/atlas.json",
+                image: "images/map/icons/atlas.png",
             },
         ],
         images: [
@@ -507,7 +506,6 @@ var map = function(){
 				battle.ball = ballGroup
 				battle.anchor.setTo(0.5,0.5)
 				ballGroup.battle = battle
-				battle.group = ballGroup
 	
 			}
 			
@@ -884,15 +882,10 @@ var map = function(){
 				
 				var side = sideBalls.children[i]
 				if(checkOverlap(side,pointer) && buttonsActive){
-					if(side.group.locked){
-						sound.play("error")
-					}else{
-						side.ball.isBattle = true
-						console.log("index", battleCounter)
-						side.ball.battleIndex = i
-						inputBall(side.ball)
-					}
-					
+					side.ball.isBattle = true
+					console.log("index", battleCounter)
+					side.ball.battleIndex = i
+					inputBall(side.ball)
 				}
 			}
 			
@@ -1142,10 +1135,9 @@ var map = function(){
 		yogotarGroup.y = startBall.y
 		scroller.add(yogotarGroup)
 		
-		var skin = currentPlayer.yogotar || "Eagle"
 		var anim = game.add.spine(0,-10,"eagle")
 		anim.setAnimationByName(0,"IDLE",true)
-		anim.setSkinByName(skin)
+		anim.setSkinByName(currentPlayer.yogotar)
 		anim.scale.setTo(0.4,0.4)
 		yogotarGroup.add(anim)
 		
