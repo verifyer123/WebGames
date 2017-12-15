@@ -42,7 +42,7 @@ var languageArrayIndex = [
                 { 
                     id:4,
                     NAME:"mainMenu4",
-                    ES:"Iniciar Sesiòn",
+                    ES:"Iniciar Sesión",
                     EN:"Log In",
                     PT:"Login",
                     ZH:"岁",
@@ -112,12 +112,12 @@ var languageArrayIndex = [
                 { 
                     id:11,
                     NAME:"mainMenu10",
-                    ES:"- ¡Felicidades! -",
-                    EN:"- Congrats! -",
-                    PT:"- Congrats! -",
-                    ZH:"- Congrats! -",
-                    JA:"- Congrats! -",
-                    KO:"- Congrats! -"
+                    ES:"- ¡Felicitaciones! -",
+                    EN:"- Congratulations! -",
+                    PT:"- Parabéns -",
+                    ZH:"- 恭喜 -",
+                    JA:"- おめでとうございます -",
+                    KO:"- 축하합니다! -"
                 },{ 
                     id:12,
                     NAME:"mainMenu11",
@@ -141,22 +141,22 @@ var languageArrayIndex = [
                 { 
                     id:14,
                     NAME:"mainMenu14",
-                    ES:"- Recuperar contraseña -",
-                    EN:"- Reset Password -",
-                    PT:"- Reset Password -",
-                    ZH:"- Reset Password -",
-                    JA:"- Reset Password -",
-                    KO:"- Reset Password -"
+                    ES:"- Restablecer contraseña -",
+                    EN:"- Restore password -",
+                    PT:"- Redefinir senha -",
+                    ZH:"- 为拥有个性化的教育内容，请创建一个家庭账户。 -",
+                    JA:"- パスワードの復元 -",
+                    KO:"- 비밀번호 복원 -"
                 },
                 { 
                     id:15,
                     NAME:"mainMenu15",
-                    ES:"Ingresa tu correo y te enviaremos instrucciones para restaurar tu contraseña",
-                    EN:"Enter your email address and we'll send you instructions to reset your password.",
-                    PT:"Enter your email address and we'll send you instructions to reset your password.",
-                    ZH:"Enter your email address and we'll send you instructions to reset your password.",
-                    JA:"Enter your email address and we'll send you instructions to reset your password.",
-                    KO:"Enter your email address and we'll send you instructions to reset your password."
+                    ES:"Ingresa tu correo y te enviaremos instrucciones para restablecer tu contraseña",
+                    EN:"Enter your email address and we'll send you instructions to restore your password.",
+                    PT:"Enter your email address and we'll send you instructions to restore your password.",
+                    ZH:"Enter your email address and we'll send you instructions to restore your password.",
+                    JA:"Enter your email address and we'll send you instructions to restore your password.",
+                    KO:"Enter your email address and we'll send you instructions to restore your password."
                 },
                 { 
                     id:16,
@@ -227,6 +227,16 @@ var languageArrayIndex = [
                     ZH:"测试结束！请让家长添加电子邮件地址，以便您能继续探险。",
                     JA:"テストの最後の問題です！ゲームを続けられるよう、保護者の方にEメールを登録するようお願いしてください。",
                     KO:"이미 시험이 다 끝났어요! 부모님이 이메일 주소를 입력하시면 모험을 계속 이어갈 수 있어요."
+                },
+                { 
+                    id:23,
+                    NAME:"mainMenu23",
+                    ES:"Correo no encontrado",
+                    EN:"Mail not found",
+                    PT:"Correio não encontrado",
+                    ZH:"未找到郵件",
+                    JA:"メールが見つかりません",
+                    KO:"메일을 찾을 수 없음"
                 },
         ]
 
