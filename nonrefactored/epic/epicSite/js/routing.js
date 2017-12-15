@@ -16,12 +16,12 @@ var routing = function () {
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
-	router.on(
-		function () {
-			$("#minigames").hide()
-			epicSiteMain.startGame()
-		}
-	);
+	// router.on(
+	// 	function () {
+	// 		$("#minigames").hide()
+	// 		epicSiteMain.startGame()
+	// 	}
+	// );
 
 	router
 		.on({
@@ -58,7 +58,7 @@ var routing = function () {
 				epicSiteMain.checkPlayer()
 			},
 			'*': function () {
-				window.location.href = router.root
+				// window.location.href = router.root
 				$("#minigames").hide()
 				epicSiteMain.startGame()
 			},
@@ -73,10 +73,18 @@ var routing = function () {
 				/*Here goes the login validation*/
 			}
 
+			function onSuccess() {
+				console.log("call welcome modal")
+				done()
+			}
 			var token = getParameterByName("token")
-			if(token)
+			//pa_[B@6d33b036
+			if(token) {
 				console.log(token)
-			done()
+				epicModel.loginParent({token: token}, onSuccess)
+			}
+			else
+				done()
 		},
 		after: function(params) {
 			console.log("after")

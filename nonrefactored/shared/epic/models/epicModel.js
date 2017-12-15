@@ -46,7 +46,7 @@ var epicModel = function () {
 				// checkLogin()
 			}
 		}).fail(function(response){
-			console.log("error");
+			console.log("error", response);
 			localStorage.setItem("token", null)
 			if(onError)onError(response)
 		});
@@ -141,7 +141,12 @@ var epicModel = function () {
 			onSuccess()
 			checkLogin(response)
 		}
-		ajaxCall({email:data.email, password: data.password}, loginParent, callback, onError)
+		if(data.token) {
+			var credentials = getCredentials()
+			ajaxCall({email: credentials.email, token: data.token}, loginParent, callback, onError)
+		}
+		else
+			ajaxCall({email:data.email, password: data.password}, loginParent, callback, onError)
 	}
 	
 	function checkLogin(response){

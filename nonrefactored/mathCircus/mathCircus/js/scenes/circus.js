@@ -33,6 +33,10 @@ var circus = function(){
 			{
 				name: 'pickedEnergy', 
 				file: 'particles/battle/pickedEnergy/specialBar1.json'
+			},
+			{
+				name: 'fireFloor', 
+				file: 'particles/battle/fireFloor/fireFloor1.json'
 			}
 		],
 		sounds: [
@@ -73,6 +77,7 @@ var circus = function(){
     var spaceSong
 	var timerGroup
 	var numLimit, timeToUse
+	var clickLatch = false
 	
 	var numberOptions = [3,4,6]
 	
@@ -305,6 +310,7 @@ var circus = function(){
 		game.load.image('introscreen',"images/circus/introscreen.png")
 
 		epicparticles.loadEmitter(game.load, "pickedEnergy")
+		epicparticles.loadEmitter(game.load, "fireFloor")
 		
 		console.log(localization.getLanguage() + ' language')
     }
@@ -430,7 +436,7 @@ var circus = function(){
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
-		
+
 		var inputName = 'movil'
 		
 		if(game.device.desktop){
@@ -469,6 +475,18 @@ var circus = function(){
 
 		background.tilePosition.x--
 		floor.tilePosition.x+= 0.6
+
+		if (game.input.activePointer.isDown == true){
+			if (clickLatch == false) {
+				var emitter = epicparticles.newEmitter("pickedEnergy")
+				emitter.x = game.input.activePointer.x
+				emitter.y = game.input.activePointer.y
+			}
+
+			clickLatch = true
+		} else {
+			clickLatch = false
+		}
 	}
 	
 	function createTextPart(text,obj){
@@ -713,11 +731,6 @@ var circus = function(){
 		yogotar.setAnimationByName(0,"IDLE",true)
 		yogotar.setSkinByName("normal")
 		sceneGroup.add(yogotar)
-
-		var emitter = epicparticles.newEmitter("pickedEnergy")
-		emitter.x = yogotar.x
-		emitter.y = yogotar.y
-		sceneGroup.add(emitter)
 	}
 	
 	function createButtons(){
