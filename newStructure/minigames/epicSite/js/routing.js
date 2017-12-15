@@ -83,7 +83,7 @@ var routing = function () {
 			// email = decodeURIComponent(email)
 			//pa_%5BB%406d33b036
 			//aaron%2B20171207_2%40yogome.com
-			var token = "pa_[B@15f1b80"
+			var token = null//"pa_[B@15f1b80"
 			var email = "aaron+20171207_2@yogome.com"
 
 			if((token)&&(email)) {

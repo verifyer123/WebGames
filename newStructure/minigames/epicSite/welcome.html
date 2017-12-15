@@ -38,13 +38,24 @@
     
 </head>
 <body>
+    
+    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+    
+<script>
+	var cheers = document.getElementById("cheers");
+	cheers.play();
+</script>	
+    
 <!-- Welcome Modal-->
-	<div id="welcome" class="modal">
+	<div id="welcome" class="modal cheers.play()"  onshow="cheers.play()">
 
 		<!-- Modal content -->
 		<div class="modal-content container" >
 			<div class="navigation">
-				<button class="closeModal close"></button>
+				<button class="closeModal close" onclick="pop.play()"></button>
 			</div>
 			<!-- Modal header -->
 			<div class="modal-header">
@@ -71,7 +82,7 @@
 			</div>
             <!-- Modal footer-->
 			<div class="fontOpenSans modal-footer" style="color: #444444">
-				<button type="submit" id="ok" class="loginBtn close"><div class="text3">OK</div></button><br>
+				<button type="submit" id="ok" class="loginBtn close"><div class="text3" onclick="magic.play()">OK</div></button><br>
 			</div>
 
 		</div>
@@ -91,6 +102,12 @@
         $("#welcome").fadeOut();
     }*/
 </script> 
+    
+<script>
+    var pop = document.getElementById("pop");
+    var flipcard = document.getElementById("flipcard");
+    var magic = document.getElementById("magic");   
+</script>
     
     <script src="js/languages.js"></script>
 </body>
