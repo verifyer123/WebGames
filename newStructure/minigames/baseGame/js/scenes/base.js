@@ -386,8 +386,6 @@ var base = function(){
        sceneGroup.add(animalsGroup)
        sceneGroup.add(houseGroup)
         
-        //Aqui inicializo los botones
-        controles=game.input.keyboard.createCursorKeys()
         
         correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
@@ -396,10 +394,14 @@ var base = function(){
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
-//        backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.route',"BG")
-//        backG.scale.setTo(1,.75)
-//        backG.alpha=.5
-//        backgroundGroup.add(backG)
+        
+        
+        
+        
+        backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.route','BG')
+        backG.scale.setTo(1,.75)
+        backG.alpha=.5
+        backgroundGroup.add(backG)
         
     }
 	
