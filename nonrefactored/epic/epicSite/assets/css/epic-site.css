@@ -171,6 +171,7 @@ footer {
 }
 
 #minigames{
+    z-index: 0;
     background: url('../img/common/stars.png') no-repeat center, -webkit-linear-gradient(top, #1c0042 0%, #38008b 50%, #a85564 100%);
     background-repeat: repeat;
     border-radius: 2vh;
@@ -182,7 +183,7 @@ footer {
     width: 50%;
     left: 45%;
     top:13%;
-        max-width: 800px;
+    max-width: 800px;
     display: none;
 }
 
@@ -275,13 +276,23 @@ footer {
   position: fixed;
   top: 3%;
   left: 1%;
-  z-index: 999;  
+  z-index: 1001;  
   width: 10% !important;
 }    
        
     
 .home-Button img{
   width: 100%;
+}    
+    
+    
+#minigames{
+    z-index: 1000;
+    height: 95%;
+    width: 90%;
+    left: 5%;
+    top:13%;
+    max-width: 800px;
 }    
     
     
