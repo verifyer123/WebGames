@@ -483,7 +483,7 @@ var map = function(){
 					ballGroup.tween = game.add.tween(lock.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(3,6) * 100,"Linear",true,0,-1)
 					ballGroup.tween.yoyo(true,0)
 					
-					console.log(countMinigames + ' count')
+					//console.log(countMinigames + ' count')
 					
 					if(countMinigames >=2){
 						
@@ -721,6 +721,7 @@ var map = function(){
 			menuGame.x = gamesMenu.x - 125
 			menuGame.y = gamesMenu.y + pivotY
 			
+			console.log(menuGame.subject + ' subject')
 			var subject = getSubject(menuGame.subject)
 			subject.x = menuGame.x + menuGame.width * 0.45
 			subject.y = menuGame.y + menuGame.height * 0.4

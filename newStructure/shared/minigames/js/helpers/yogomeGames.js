@@ -37,7 +37,7 @@ yogomeGames.getGames = function(){
 		{name:'Gemath',url:yogoUrl + 'gemSite/',mapUrl:urlMap + 'geMath', sceneName:'gem',subject:'math',review:true,objective:15,demo:false},
 		{name:'Hackamole',url:yogoUrl + 'hackSite/',mapUrl:urlMap + 'hackaMole', sceneName:'hack',subject:'coding',review:true,objective:20,demo:false},		
 		{name:'Lizart',url:yogoUrl + 'lizartsite/',mapUrl:urlMap + 'lizart', sceneName:'lizart',subject:'language',review:true,objective:20,demo:false},
-		{name:'Snooze Crater',url:yogoUrl + 'snoozeSite/',mapUrl:urlMap + 'snoozeCrater', sceneName:'snooze',subject:'Sustainability',review:true,objective:10,demo:false},//29
+		{name:'Snooze Crater',url:yogoUrl + 'snoozeSite/',mapUrl:urlMap + 'snoozeCrater', sceneName:'snooze',subject:'sustainability',review:true,objective:10,demo:false},//29
 		{name:'Math Feed',url:yogoUrl + 'feedSite/',mapUrl:urlMap + 'mathFeed', sceneName:'feed',subject:'math',review:false,objective:25,demo:false},//30
 		{name:'Galaxy Heroes',url:yogoUrl + 'galaxySite/',mapUrl:urlMap + 'galaxyHeroes', sceneName:'galaxy',subject:'geography',review:true,objective:20,demo:false},//31
 		{name:'Pop Fish',url:yogoUrl + 'fishSite/',mapUrl:urlMap + 'popFish', sceneName:'fish',subject:'math',review:true,objective:15,demo:false},//32
@@ -108,12 +108,12 @@ yogomeGames.getGames = function(){
 		{name:'Cog Count',url:yogoUrl + 'cogSite/',mapUrl:urlMap + 'cogCount', sceneName:'cog',subject:'math', review:true,objective:50,demo:false},//96
         {name:'Galactic Pool',url:yogoUrl + 'galacticSite/',mapUrl:urlMap + 'galacticPool', sceneName:'galactic',subject:'geography', review:true,objective:10,demo:false},//97
         {name:'Oona Says Cook',url:yogoUrl + 'oonaSite/',mapUrl:urlMap + 'oonaSaysCook', sceneName:'oona',subject:'programming', review:false,objective:15,demo:true},//98
-        {name:'River Rescue',url:yogoUrl + 'riverSite/',mapUrl:urlMap + 'riverRescue', sceneName:'riverRescue',subject:'Sustainability', review:true,objective:5,demo:false},//99
-        {name:'River Cleaner',url:yogoUrl + 'cleanerSite/',mapUrl:urlMap + 'riverCleaner', sceneName:'river',subject:'Sustainability', review:true,objective:10,demo:true},//100
-        {name:'Garbage Diving',url:yogoUrl + 'garbageSite/',mapUrl:urlMap + 'garbageDiving', sceneName:'garbageDiving',subject:'Sustainability', review:true,objective:5,demo:false},//101
-        {name:'Space Vaccum',url:yogoUrl + 'vaccumSite/',mapUrl:urlMap + 'spaceVaccum', sceneName:'spaceVaccum',subject:'Sustainability', review:true,objective:5,demo:false},//102
-        {name:'Garbage Mole',url:yogoUrl + 'gMoleSite/',mapUrl:urlMap + 'garbageMole', sceneName:'mole',subject:'Sustainability', review:true,objective:5,demo:false},//103
-        {name:'Elemental Witch',url:yogoUrl + 'elementalSite/',mapUrl:urlMap + 'elementalWitch', sceneName:'elemental',subject:'Creativity', review:true,objective:15,demo:true},//104
+        {name:'River Rescue',url:yogoUrl + 'riverSite/',mapUrl:urlMap + 'riverRescue', sceneName:'riverRescue',subject:'sustainability', review:true,objective:5,demo:false},//99
+        {name:'River Cleaner',url:yogoUrl + 'cleanerSite/',mapUrl:urlMap + 'riverCleaner', sceneName:'river',subject:'sustainability', review:true,objective:10,demo:true},//100
+        {name:'Garbage Diving',url:yogoUrl + 'garbageSite/',mapUrl:urlMap + 'garbageDiving', sceneName:'garbageDiving',subject:'sustainability', review:true,objective:5,demo:false},//101
+        {name:'Space Vaccum',url:yogoUrl + 'vaccumSite/',mapUrl:urlMap + 'spaceVaccum', sceneName:'spaceVaccum',subject:'sustainability', review:true,objective:5,demo:false},//102
+        {name:'Garbage Mole',url:yogoUrl + 'gMoleSite/',mapUrl:urlMap + 'garbageMole', sceneName:'mole',subject:'sustainability', review:true,objective:5,demo:false},//103
+        {name:'Elemental Witch',url:yogoUrl + 'elementalSite/',mapUrl:urlMap + 'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true},//104
         {name:'Milky Saloon',url:yogoUrl + 'milkySite/',mapUrl:urlMap + 'milkySaloon', sceneName:'milky',subject:'programming', review:false,objective:3,demo:false},//105
         //{name:'Calendrigon',url:yogoUrl + 'calendrigonSite/',mapUrl:urlMap + 'calendrigon', sceneName:'calendrigon',subject:'math', review:false,objective:3}//106
         ]
