@@ -3,209 +3,198 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Password Recover</title>
-    <link rel="stylesheet" href="css/modal.css">
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
-    
-    <script>var language = "ES";</script>
-    
-    <script>
-    //AQUI VA PARA SABER EL LENGUAGE
-        function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-        
-        var language;
-        language = getParameterByName("language");
-        
-        if(language == null ){
-            var lengua;
-            //lengua = navigator.language || navigator.userLanguage; 
-            //language = eval("'" + lengua + "'").toUpperCase();
-            language= "ES";
-        }else{
-            language.toUpperCase();
-        }
-    
-    </script>
-    
-    
+	<!--<link rel="stylesheet" href="css/modal.css">-->
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
+
+	<script>var language = "ES";</script>
+
+	<script>
+		//AQUI VA PARA SABER EL LENGUAGE
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+		var language;
+		language = getParameterByName("language");
+
+		if(language == null ){
+			var lengua;
+			//lengua = navigator.language || navigator.userLanguage;
+			//language = eval("'" + lengua + "'").toUpperCase();
+			language= "ES";
+		}else{
+			language.toUpperCase();
+		}
+
+	</script>
+
+
 </head>
 <body>
-    
-    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
-    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
-    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
-    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+
+<audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+<audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+<audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+<audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
 
 <script>
 	var cut = document.getElementById("cut");
 	cut.play();
 </script>
-    
+
 <!-- Pass Recover Modal-->
-	<div id="recover" class="modal">
+<div id="recover" class="modal">
 
-		<!-- Modal content -->
-		<div class="modal-content container" >
-			<div class="navigation">
-				<button class="closeModal close" onclick="pop.play()"></button>
-			</div>
-			<!-- Modal header -->
-			<div class="modal-header">
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<button class="closeModal close" onclick="pop.play()"></button>
+		</div>
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
 				<div class="topImg">
-					<div class="topImg">
-						<img class="particule" src="images/particle-03.png"/>
-						<img class="logo" src="images/yogome-logo.png"/>
-						<img class="particule" src="images/particle-04.png"/>
-					</div>
+					<img class="particule" src="images/particle-03.png"/>
+					<img class="logo" src="images/yogome-logo.png"/>
+					<img class="particule" src="images/particle-04.png"/>
 				</div>
-				<h2><div class="text14" style="font-size: 0.9em;">- Reset Password -</div></h2>
-                <div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans text15">
-            <p>Enter your email address and we'll send you instructions to reset your password.</p>
-        </div>
-				<div style="text-align: center;">
-            <p><span id="error" class="smallRed fontOpenSans"></span>
-            </p>
-        </div>
 			</div>
-
-			<!-- Modal body Text box and sumbit button-->
-			<div class="modal-body">
-				
-				<input type="text" id="email" class="inputText" placeholder="Email" name="Email"/><br>
-                <button type="submit" id="send" class="loginBtn"><div class="text16">Send</div></button><br>
-                
+			<h2><div class="text14" style="font-size: 0.9em;">- Reset Password -</div></h2>
+			<div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans text15">
+				<p>Enter your email address and we'll send you instructions to reset your password.</p>
 			</div>
-			<div class="fontOpenSans modal-footer" style="color: #444444">
-				
+			<div style="text-align: center;">
+				<p><span id="error" class="smallRed fontOpenSans"></span>
+				</p>
 			</div>
 		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body">
+
+			<input type="text" id="email" class="inputText" placeholder="Email" name="Email"/><br>
+			<button type="submit" id="send" class="loginBtn"><div class="text16">Send</div></button><br>
+
+		</div>
+		<div class="fontOpenSans modal-footer" style="color: #444444">
+
+		</div>
 	</div>
-    
+</div>
+
 <!-- Restore Pass Modal Success -->
-	<div id="success" class="modalBranch">
+<div id="success" class="modal">
 
-		<!-- Modal content -->
-		<div class="modalBranch-content container" >
-			<div class="navigation">
-				<button class="closeModal close" onclick="pop.play()"></button>
-			</div>
-			<!-- Modal header -->
-			<div class="modal-header">
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<button class="closeModal close" onclick="pop.play()"></button>
+		</div>
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
 				<div class="topImg">
-					<div class="topImg">
-						<img class="particule" src="images/particle-03.png"/>
-						<img class="logo" src="images/yogome-logo.png"/>
-						<img class="particule" src="images/particle-04.png"/>
-					</div>
+					<img class="particule" src="images/particle-03.png"/>
+					<img class="logo" src="images/yogome-logo.png"/>
+					<img class="particule" src="images/particle-04.png"/>
 				</div>
-				<h2><div class="text18" style="font-size: 0.9em;">- Success! -</div></h2>
-                <div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans text17">
-            <p>Instructions to reset your password have been emailed to you. Please check your email.</p>
-        </div>
-				
+			</div>
+			<h2><div class="text18" style="font-size: 0.9em;">- Success! -</div></h2>
+			<div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans text17">
+				<p>Instructions to reset your password have been emailed to you. Please check your email.</p>
 			</div>
 
-			<!-- Modal body OK button-->
-			<div class="modal-body">
-				<br>
-                <button type="submit" class="loginBtn close"><div class="text3" onclick="magic.play()">Ok</div></button><br>
-                
-			</div>
+		</div>
+
+		<!-- Modal body OK button-->
+		<div class="modal-body">
+			<br>
+			<button type="submit" id="okSuccess", class="loginBtn"><div class="text3" onclick="magic.play()">Ok</div></button><br>
+
 		</div>
 	</div>
-    
-    
+</div>
+
+
 <script>
-    $(".close").click(function() {
+	$("#okSuccess").click(function() {
+		$("#success").modal('hide');
+	});
+
+	$(".close").click(function() {
+		$("#recover").modal('hide');
+		$("#success").modal('hide');
+	});
+	/*window.onclick = function() {
 		$("#recover").fadeOut();
-		$("#success").fadeOut();
-	});
-    /*window.onclick = function() {
-        $("#recover").fadeOut();
-    }*/
-    
-    $("#send").click(function(){
-        var leng = "Enter your email";
-        
-        switch(language){
-            case "ES": leng = "Ingresa tu correo"
-                break;
-            case "EN": leng = "Ingresa tu correo"
-                break;
-            case "PT": leng = "Ingresa tu correo"
-                break;
-            case "ZH": leng = "Ingresa tu correo"
-                break;
-            case "JA": leng = "Ingresa tu correo"
-                break;
-            case "KO": leng = "Ingresa tu correo"
-                break;
-        }
-        
-        if(document.getElementById("email").value == ""){
-            document.getElementById("error").innerText = leng; 
-        }
-        else{
-            cut.play();
-            $("#recover").hide();
-            $("#success").show();   
-        }
-    });
+	}*/
 
-	$("#recover").click(function() {
+	$("#send").click(function(){
+		var leng = "Enter your email";
+
+		switch(language){
+			case "ES": leng = "Ingresa tu correo"
+				break;
+			case "EN": leng = "Enter your email"
+				break;
+			case "PT": leng = "Enter your email"
+				break;
+			case "ZH": leng = "Enter your email"
+				break;
+			case "JA": leng = "Enter your email"
+				break;
+			case "KO": leng = "Enter your email"
+				break;
+		}
+
 		function onSuccess() {
-			$("#recover").fadeOut();
+			$("#recover").modal('hide');
+			$("#success").modal('show');
 		}
 
-		function onError(response) {
-			console.log(response)
+		function onError() {
+//			$("#recover").modal('show');
+			document.getElementById("error").innerText = "Parent not found";
 		}
 
-		var data = {
-			email:$("#email").val(),
-			password:$("#pass").val()
+		var email = document.getElementById("email").value
+		if(email === ""){
+			document.getElementById("error").innerText = leng;
 		}
-
-		epicModel.loginParent(data,onSuccess, onError)
-
+		else{
+			cut.play();
+			epicModel.recoverPass(email, onSuccess, onError)
+		}
 	});
 </script>
-    
+
 <script>
 
-		if(language == "ES"){
-			document.getElementById("email").placeholder = "Correo";
-			document.getElementById("pass").placeholder = "Contraseña";
-		}else if(language == "EN"){
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}else if(language == "PT"){
-			document.getElementById("email").placeholder = "E-mail";
-			document.getElementById("pass").placeholder = "Senha";
-		}else if(language == "ZH"){
-			document.getElementById("email").placeholder = "电邮";
-			document.getElementById("pass").placeholder = "密码";
-		}else if(language == "JA"){
-			document.getElementById("email").placeholder = "Eメール";
-			document.getElementById("pass").placeholder = "パスワード";
-		}else if(language == "KO"){
-			document.getElementById("email").placeholder = "이메일";
-			document.getElementById("pass").placeholder = "비밀번호";
-		}else{
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}
+	if(language === "ES"){
+		document.getElementById("email").placeholder = "Correo";
+	}else if(language === "EN"){
+		document.getElementById("email").placeholder = "Email";
+	}else if(language === "PT"){
+		document.getElementById("email").placeholder = "E-mail";
+	}else if(language === "ZH"){
+		document.getElementById("email").placeholder = "电邮";
+	}else if(language === "JA"){
+		document.getElementById("email").placeholder = "Eメール";
+	}else if(language === "KO"){
+		document.getElementById("email").placeholder = "이메일";
+	}else{
+		document.getElementById("email").placeholder = "Email";
+	}
 
 </script>
-    
-    <script src="js/languages.js"></script>
+
+<script src="js/languages.js"></script>
 </body>
 </html>

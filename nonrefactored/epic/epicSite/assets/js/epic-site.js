@@ -62,19 +62,24 @@ function addEvents() {
         home.style.visibility = "visible" 
     }, false);
   
+    
+    
+    
     var slide2 = document.getElementById("slide2");
     slide2.addEventListener("touchend", function () {
-        open(2)
+        window.location.href = "http://play.yogome.com/yogobooks.html";
     }, false);
 
     var slide3 = document.getElementById("slide3");
     slide3.addEventListener("touchend", function () {
-        open(3)
+        $("#minigames").show();
+        homeButton.style.visibility = "visible"; 
+        routing.navigate('#/minigames');
     }, false);
 
     var slide4 = document.getElementById("slide4");
     slide4.addEventListener("touchend", function () {
-        open(4)
+        window.location.href = "http://play.yogome.com/webisodes.html";
     }, false);
 
     close();
@@ -121,6 +126,7 @@ function close() {
 
 $("#homeButton").click(function(){
     homeButton.style.visibility = "hidden";
+    $("#minigames").hide();
     TweenMax.fromTo($("#home"),0.4,{y:"0%"},{y:"100%",onComplete:hideHome});
     function hideHome(){
         home.style.visibility = "hidden" ;

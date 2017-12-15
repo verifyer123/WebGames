@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
-    <link rel="stylesheet" href="css/modal.css">
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+    <!--<link rel="stylesheet" href="css/modal.css">-->
+    <!--&lt;!&ndash; Jquery &ndash;&gt;-->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
     
     <script>var language = "ES";</script>
     
@@ -122,7 +122,12 @@
 <script>
 
 	$(".close").click(function() {
-		$("#signIn").fadeOut();
+		$("#signIn").modal('hide');
+	});
+
+	$("#recoverPass").click(function() {
+		$("#signIn").modal('hide');
+		modal.showRecover()
 	});
     
     $("#login").click(function(){
@@ -142,16 +147,7 @@
             case "KO": leng = "Llena los espacios"
                 break;
         }
-        
-        if(document.getElementById("email").value == "" || document.getElementById("pass").value == ""){
-            document.getElementById("error").innerText = leng; 
-        }
-        else{
-            cut.play();
-        }
-    });
 
-	$("#login").click(function() {
 		function onSuccess() {
 			$("#signIn").modal('hide');
 		}
@@ -164,36 +160,41 @@
 			email:$("#email").val(),
 			password:$("#pass").val()
 		}
-
-		epicModel.loginParent(data,onSuccess, onError)
-
-	});
+        
+        if(document.getElementById("email").value === "" || document.getElementById("pass").value === ""){
+            document.getElementById("error").innerText = leng; 
+        }
+        else{
+            cut.play();
+			epicModel.loginParent(data,onSuccess, onError)
+        }
+    });
 
 	var signSetUp =function() {
 		var redirect = encodeURIComponent(window.location.href)
-		var redirect = "?redirect=" + redirect
+		redirect = "?redirect=" + redirect
 		$("#signUp").attr("href", "https://yogomepayments.com/" + redirect);
 	}()
 </script>
     
     <script>
 
-		if(language == "ES"){
+		if(language === "ES"){
 			document.getElementById("email").placeholder = "Correo";
 			document.getElementById("pass").placeholder = "Contraseña";
-		}else if(language == "EN"){
+		}else if(language === "EN"){
 			document.getElementById("email").placeholder = "Email";
 			document.getElementById("pass").placeholder = "Password";
-		}else if(language == "PT"){
+		}else if(language === "PT"){
 			document.getElementById("email").placeholder = "E-mail";
 			document.getElementById("pass").placeholder = "Senha";
-		}else if(language == "ZH"){
+		}else if(language === "ZH"){
 			document.getElementById("email").placeholder = "电邮";
 			document.getElementById("pass").placeholder = "密码";
-		}else if(language == "JA"){
+		}else if(language === "JA"){
 			document.getElementById("email").placeholder = "Eメール";
 			document.getElementById("pass").placeholder = "パスワード";
-		}else if(language == "KO"){
+		}else if(language === "KO"){
 			document.getElementById("email").placeholder = "이메일";
 			document.getElementById("pass").placeholder = "비밀번호";
 		}else{

@@ -19,6 +19,16 @@ var modal = function () {
 				saveModal.setHeader(tag)
 				$("#myModal").find("#save").modal('toggle');
 			})
+		},
+		showRecover:function () {
+			$("#myModal").load( "passRecover.html", function () {
+				$("#myModal").find("#recover").modal('toggle');
+			})
+		},
+		showWelcome:function () {
+			$("#myModal").load( "welcome.html", function () {
+				$("#myModal").find("#welcome").modal('toggle');
+			})
 		}
     }
 
