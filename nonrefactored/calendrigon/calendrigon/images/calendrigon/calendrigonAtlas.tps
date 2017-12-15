@@ -316,6 +316,84 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">fig3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,17,41,34</rect>
+                <key>scale9Paddings</key>
+                <rect>21,17,41,34</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fig4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,33,33</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,33,33</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fig5.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>18,17,36,35</rect>
+                <key>scale9Paddings</key>
+                <rect>18,17,36,35</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fig6.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,18,33,36</rect>
+                <key>scale9Paddings</key>
+                <rect>17,18,33,36</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fig7.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,19,39,38</rect>
+                <key>scale9Paddings</key>
+                <rect>20,19,39,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fig8.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,19,38,38</rect>
+                <key>scale9Paddings</key>
+                <rect>19,19,38,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">gametuto.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -326,6 +404,19 @@
                 <rect>106,56,212,113</rect>
                 <key>scale9Paddings</key>
                 <rect>106,56,212,113</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">gradient.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>39,86,78,172</rect>
+                <key>scale9Paddings</key>
+                <rect>39,86,78,172</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -456,6 +547,13 @@
             <filename>xpcoins.png</filename>
             <filename>desktop.png</filename>
             <filename>movil.png</filename>
+            <filename>gradient.png</filename>
+            <filename>fig3.png</filename>
+            <filename>fig4.png</filename>
+            <filename>fig5.png</filename>
+            <filename>fig8.png</filename>
+            <filename>fig6.png</filename>
+            <filename>fig7.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
