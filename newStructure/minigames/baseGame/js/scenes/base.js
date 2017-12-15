@@ -412,8 +412,14 @@ var base = function(){
         
          for(var placeRoad=1;placeRoad<game.world.height/100;placeRoad++){
             if(placeRoad==2 || placeRoad==4 || placeRoad==6 || placeRoad==8){
-            proxyTiles[placedEspecial]=game.add.image(game.world.centerX-50,placeRoad*100,"atlas.route","STRAIGHT")
+            proxyTiles[placedEspecial]=game.add.sprite(game.world.centerX-50,placeRoad*100,"atlas.route","STRAIGHT")
+            game.add.image()
+                for(var placeRoad2=0;placeRoad2<10;placeRoad2++){
+                    road=game.add.image(game.world.centerX-180+placeRoad2*-20,placeRoad*100,"atlas.route","HORIZONTAL")
+                    roadGroup.add(road)
+                }
             proxyTiles[placedEspecial].inputEnabled=true
+            //proxyTiles[placedEspecial].add(mouse.down)
             roadGroup.add(proxyTiles[placedEspecial])
             placedEspecial++
             }else{
