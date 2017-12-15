@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Welcome</title>
-    <link rel="stylesheet" href="css/modal.css">
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+    <!--<link rel="stylesheet" href="css/modal.css">-->
+    <!--&lt;!&ndash; Jquery &ndash;&gt;-->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
     
     <script>var language = "ES";</script>
     
@@ -82,7 +82,7 @@
 			</div>
             <!-- Modal footer-->
 			<div class="fontOpenSans modal-footer" style="color: #444444">
-				<button type="submit" id="ok" class="loginBtn close"><div class="text3" onclick="magic.play()">OK</div></button><br>
+				<button type="submit" id="ok" class="loginBtn"><div class="text3" onclick="magic.play()">OK</div></button><br>
 			</div>
 
 		</div>
@@ -92,11 +92,11 @@
 
 <script>
 	$(".close").click(function() {
-		$("#welcome").fadeOut();
+		$("#welcome").modal('hide');
 	});
 
-	$(".close").click(function() {
-        $("#welcome").fadeOut();
+	$("#ok").click(function() {
+		$("#welcome").modal('hide');
 	});
     /*window.onclick = function() {
         $("#welcome").fadeOut();

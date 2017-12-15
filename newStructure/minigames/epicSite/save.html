@@ -3,9 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Save</title>
-    <link rel="stylesheet" href="css/modal.css">
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+    <!--<link rel="stylesheet" href="css/modal.css">-->
+    <!--&lt;!&ndash; Jquery &ndash;&gt;-->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
     
     <script>var language = "ES";</script>
     
@@ -60,11 +60,7 @@
 			<!-- Modal header -->
 			<div class="modal-header">
 				<div class="topImg">
-					<div class="topImg">
-						<!--<img class="particule" src="images/particle-03.png"/>-->
-						<img class="logo" src="images/save.png"/>
-						<!--<img class="particule" src="images/particle-04.png"/>-->
-					</div>
+
 				</div>
 				<h2><div class="text19" style="font-size: 0.8em;">Want to save your progress?</div></h2>
                 <div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans text20">
@@ -74,23 +70,39 @@
 
 			<!-- Modal body Text box and sumbit button-->
 			<div class="modal-body">
-				<br>
-                <button type="submit" class="loginBtn close"><div class="text3" onclick="magic.play()">Ok</div></button><br>
+                <button type="submit" id="okay" class="loginBtn"><div class="text3" onclick="magic.play()">Ok</div></button><br>
                 
-			</div>
-			<div class="fontOpenSans modal-footer" style="color: #444444">
-				
 			</div>
 		</div>
 	</div>
     
 <script>
-    $(".close").click(function() {
-		$("#save").fadeOut();
+	$(".close").click(function() {
+		$("#save").modal('hide');
 	});
-    /*window.onclick = function() {
-        $("#recover").fadeOut();
-    }*/
+
+	$("#okay").click(function() {
+		$("#save").modal('hide');
+		modal.showLogin()
+	});
+
+	var saveModal = function () {
+
+		function onButton() {
+			var myData = $(this).data().child
+			epicModel.loginPlayer(myData.remoteID)
+			$("#players").modal('hide');
+		}
+
+		function setHeader(tag) {
+			tag = tag || "save"
+			var $img = $("<img>", {"class":"logo", "src":"images/"+tag+".png"})
+			$(".topImg").append($img)
+		}
+		return{
+			setHeader:setHeader,
+		}
+	}()
 </script>
     
     <script src="js/languages.js"></script>

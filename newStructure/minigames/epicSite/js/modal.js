@@ -24,6 +24,11 @@ var modal = function () {
 			$("#myModal").load( "passRecover.html", function () {
 				$("#myModal").find("#recover").modal('toggle');
 			})
+		},
+		showWelcome:function () {
+			$("#myModal").load( "welcome.html", function () {
+				$("#myModal").find("#welcome").modal('toggle');
+			})
 		}
     }
 

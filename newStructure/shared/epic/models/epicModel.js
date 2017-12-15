@@ -218,8 +218,8 @@ var epicModel = function () {
 		}
 	}
 	
-	function recoverPass(email, onSuccess) {
-		ajaxCall({email:email}, userRecover, onSuccess)
+	function recoverPass(email, onSuccess, onError) {
+		ajaxCall({email:email}, userRecover, onSuccess, onError)
 	}
 
 	return{
