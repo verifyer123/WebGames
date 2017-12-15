@@ -30,22 +30,22 @@ var routing = function () {
 				startCharSelector()
 			},
 			'minigames': function () {
-				$("#minigames").hide()
+				// $("#minigames").hide()
 				epicSiteMain.showGames()
 			},
 			'minigames/:id': function (params) {
-				$("#minigames").show()
+				$("#minigames").hide()
 				var id = params.id
 				var games = yogomeGames.getGames()
 				console.log(id, games.length)
 				var url
 				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
 					var game = games[gameIndex]
-					var gameId = game.name.trim()
+					var gameId = game.name.replace(/\s/g, "")
 					console.log(gameId)
 					if(id === gameId){
 						url = game.url
-						console.log(url)
+						console.log(url, "matched")
 						break
 					}
 				}

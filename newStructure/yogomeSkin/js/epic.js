@@ -77,6 +77,8 @@ var epicSiteMain =  function(){
 
 
 	function showGames(){
+		var characterSelector = document.getElementById("characterSelector")
+		characterSelector.style.visibility = "hidden"
 		$("#minigames").show()
 		home.style.visibility = "hidden"
 		var pathGames = "games/nonrefactored/"
