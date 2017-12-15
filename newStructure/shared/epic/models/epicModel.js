@@ -5,12 +5,12 @@ var epicModel = function () {
 	var player = {
 		minigames:[],
 		battles:[],
-		cards:[DEFAULT_CARD],
-		yogotar:"Eagle",
+		cards:[],
+		yogotar:null,
 		currentPosition:0,
 		currentMinigame:0,
-		paidUser:true,
-		isMap:false,
+		paidUser:false,
+		powerCoins:0,
 		version: 0.1
 	}
 
@@ -46,7 +46,7 @@ var epicModel = function () {
 				// checkLogin()
 			}
 		}).fail(function(response){
-			console.log("error");
+			console.log("error", response);
 			localStorage.setItem("token", null)
 			if(onError)onError(response)
 		});
@@ -114,7 +114,7 @@ var epicModel = function () {
 		educationID = educationID === "null" ? "none" : educationID
 
 		var gameData = localStorage.getItem("gameData")
-		gameData = gameData === "null" ? null : gameData
+		gameData = gameData === "null" ? null : JSON.parse(gameData)
 
 		return {
 			email:email,
@@ -137,11 +137,14 @@ var epicModel = function () {
 
 	function signIn(data, onSuccess, onError) {
 		console.log(data)
+		currentCallback = onSuccess
 		function callback(response){
-			onSuccess()
 			checkLogin(response)
 		}
-		ajaxCall({email:data.email, password: data.password}, loginParent, callback, onError)
+		if(data.token)
+			ajaxCall({email: data.email, token: data.token}, loginParent, callback, onError)
+		else
+			ajaxCall({email:data.email, password: data.password}, loginParent, callback, onError)
 	}
 	
 	function checkLogin(response){
@@ -158,6 +161,7 @@ var epicModel = function () {
 			if (tokenType === "pl"){
 				console.log("login player")
 				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, getChild, updateData)
+
 			}else if(tokenType === "pa"){
 				console.log("call select player")
 				if(response)
@@ -193,9 +197,9 @@ var epicModel = function () {
 		}
 	}
 
-	function savePlayer(currentPlayer, forceLogin) {
+	function savePlayer(currentPlayer, forceLogin, loginTag) {
 		player = currentPlayer
-		localStorage.setItem("gameData", player)
+		localStorage.setItem("gameData", JSON.stringify(player))
 
 		var credentials = getCredentials()
 		var token = credentials.token
@@ -208,6 +212,7 @@ var epicModel = function () {
 			})
 		}else if(forceLogin){
 			console.log("You need to login to save")
+			modal.showSave(loginTag)
 		}
 	}
 

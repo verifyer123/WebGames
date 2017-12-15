@@ -77,11 +77,19 @@ var routing = function () {
 				console.log("call welcome modal")
 				done()
 			}
-			var token = getParameterByName("token")
-			//pa_[B@6d33b036
-			if(token) {
+			// var token = getParameterByName("token")
+			// var email = getParameterByName("email")
+			// token = decodeURIComponent(token)
+			// email = decodeURIComponent(email)
+			//pa_%5BB%406d33b036
+			//aaron%2B20171207_2%40yogome.com
+			var token = "pa_[B@15f1b80"
+			var email = "aaron+20171207_2@yogome.com"
+
+			if((token)&&(email)) {
+				localStorage.setItem("email", email)
 				console.log(token)
-				epicModel.loginParent({token: token}, onSuccess)
+				epicModel.loginParent({token: token, email:email}, onSuccess)
 			}
 			else
 				done()
