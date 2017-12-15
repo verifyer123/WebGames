@@ -1,4 +1,7 @@
 var orientationTouched = false;
+var home = document.getElementById("home");
+var homeButton = document.getElementById("homeButton");
+
 //prevent tapping on drag content
 var dragging = false;
 $("body").on("touchmove", function () {
@@ -20,6 +23,7 @@ $(document).ready(function () {
             accessibility: true,
             arrows: false,
             mobileFirst: true,
+            infinite:false
         });
 
         $('.epic-slider').animate({
@@ -52,23 +56,30 @@ function addEvents() {
     closeButton.addEventListener("touchstart", close, false);
 
     var slide1 = document.getElementById("slide1");
-    slide1.addEventListener("touchend", function () {
-        open(1)
+    slide1.addEventListener("touchend", function () { 
+        TweenMax.fromTo($("#home"),0.5,{y:"100%"},{y:"0%"});
+        homeButton.style.visibility = "visible"; 
+        home.style.visibility = "visible" 
     }, false);
   
+    
+    
+    
     var slide2 = document.getElementById("slide2");
     slide2.addEventListener("touchend", function () {
-        open(2)
+        window.location.href = "http://play.yogome.com/yogobooks.html";
     }, false);
 
     var slide3 = document.getElementById("slide3");
     slide3.addEventListener("touchend", function () {
-        open(3)
+        $("#minigames").show();
+        homeButton.style.visibility = "visible"; 
+        routing.navigate('#/minigames');
     }, false);
 
     var slide4 = document.getElementById("slide4");
     slide4.addEventListener("touchend", function () {
-        open(4)
+        window.location.href = "http://play.yogome.com/webisodes.html";
     }, false);
 
     close();
@@ -110,8 +121,18 @@ $(window).on("orientationchange", function (event) {
 });
 
 function close() {
-    $('#iframe-mobile').css('display', 'none');
+    //$('#iframe-mobile').css('display', 'none');
 }
+
+$("#homeButton").click(function(){
+    homeButton.style.visibility = "hidden";
+    $("#minigames").hide();
+    TweenMax.fromTo($("#home"),0.4,{y:"0%"},{y:"100%",onComplete:hideHome});
+    function hideHome(){
+        home.style.visibility = "hidden" ;
+    }
+   
+});
 
 function open(slide) {
     if (dragging) return;
