@@ -4,28 +4,6 @@ var epicSiteMain =  function(){
 
 	var DEFAULT_SRC = "../epicMap/index.html?language=" + language
 
-	var buttonMinigames = $("#btn3")
-	var buttonAdventure = $("#btn1")
-	var buttonBooks = $("#btn2")
-	var buttonVideos = $("#btn4")
-	var home = document.getElementById("home")
-
-	buttonMinigames.click(function () {
-		routing.navigate('#/minigames');
-	})
-
-	buttonAdventure.click(function () {
-		routing.navigate('#/map');
-	})
-	
-	buttonBooks.click(function () {
-		window.location.href = "http://play.yogome.com/yogobooks.html"
-	})
-	
-	buttonVideos.click(function () {
-		window.location.href = "http://play.yogome.com/webisodes.html"
-	})
-
 	function loadGame(src){
 		home.style.visibility = "visible"
 		home.style.opacity = 0
@@ -77,6 +55,8 @@ var epicSiteMain =  function(){
 
 
 	function showGames(){
+		var characterSelector = document.getElementById("characterSelector")
+		characterSelector.style.visibility = "hidden"
 		$("#minigames").show()
 		home.style.visibility = "hidden"
 		var pathGames = "games/nonrefactored/"
