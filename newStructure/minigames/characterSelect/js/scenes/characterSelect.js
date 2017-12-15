@@ -49,9 +49,11 @@ var characterSelect = function(){
 	var character4
 	var character5
 	var selected=false
+    var dinamicMove
+    var dinamicCenter
 	var next, prev, continuar
 	var move=false
-	var actual=4
+	var actual=3
 	var space=300
 	var secondText
 	var style = { font: "40px Arial", fill: "#ffffff", align: "center" };
@@ -86,7 +88,8 @@ var characterSelect = function(){
 
         game.stage.backgroundColor = "#ffffff"
         loadSounds()
-		
+		dinamicMove=game.world.width/250
+        dinamicCenter=(game.world.width/2)-165
 		
 	}
     
@@ -225,11 +228,11 @@ var characterSelect = function(){
 		
 		    space-=200
 			if(put>actual){
-				character2[put].alpha=0
-				character3[put].alpha=0
-				character4[put].alpha=0
-				character5[put].alpha=0
-				character[put].alpha=0
+				character2[put].alpha=1
+				character3[put].alpha=1
+				character4[put].alpha=1
+				character5[put].alpha=1
+				character[put].alpha=1
 			}
 		}
 		
@@ -276,11 +279,12 @@ var characterSelect = function(){
 		 continuar.inputEnabled = true
         
 		next.events.onInputDown.add(function(){
-			if(actual<13){
-				fadeOut(character[actual-4], character2[actual-4], character3[actual-4], character4[actual-4], character5[actual-4])
+			if(character2[yogotars.length-1].x>game.world.centerX+dinamicCenter){
+				//fadeOut(character[actual-1], character2[actual-1], character3[actual-1], character4[actual-1], character5[actual-1])
 				actual++
+                console.log("hola")
 				move=true
-				fadeIn(character[actual], character2[actual], character3[actual], character4[actual], character5[actual])
+				//fadeIn(character[actual], character2[actual], character3[actual], character4[actual], character5[actual])
 				
 				for(var check=0;check<yogotars.length;check++){
 				carrousel(character[check], character2[check], character3[check], character4[check], character5[check],move)
@@ -288,11 +292,11 @@ var characterSelect = function(){
 			}
         })
 		prev.events.onInputDown.add(function(){
-			if(actual>4){
-				fadeOut(character[actual], character2[actual], character3[actual], character4[actual], character5[actual])
+			if(character2[0].x<game.world.centerX-dinamicCenter){
+				//fadeOut(character[actual], character2[actual], character3[actual], character4[actual], character5[actual])
 				actual--
 				move=false
-				fadeIn(character[actual-4],character2[actual-4],character3[actual-4],character4[actual-4],character5[actual-4])
+				//fadeIn(character[actual-3],character2[actual-3],character3[actual-3],character4[actual-3],character5[actual-3])
 				
 				for(var check=0;check<yogotars.length;check++){
 					carrousel(character[check],character2[check],character3[check],character4[check],character5[check],move)
@@ -382,23 +386,23 @@ var characterSelect = function(){
 
 	function carrousel(obj,obj2,obj3,obj4,obj5, moving){
 	
-		if(moving==true){
+		if(moving==true ){
+			game.add.tween(obj).to( { x: obj.position.x-(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj2).to( { x: obj2.position.x-(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj3).to( { x: obj3.position.x-(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj4).to( { x: obj4.position.x-(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj5).to( { x: obj5.position.x-(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
 			
-			game.add.tween(obj).to( { x: obj.position.x-200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj2).to( { x: obj2.position.x-200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj3).to( { x: obj3.position.x-200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj4).to( { x: obj4.position.x-200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj5).to( { x: obj5.position.x-200 }, 100, Phaser.Easing.Out, true);
-			
-			
+            
+            
 		}
 		if(moving==false){
 			
-			game.add.tween(obj).to( { x: obj.position.x+200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj2).to( { x: obj2.position.x+200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj3).to( { x: obj3.position.x+200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj4).to( { x: obj4.position.x+200 }, 100, Phaser.Easing.Out, true);
-			game.add.tween(obj5).to( { x: obj5.position.x+200 }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj).to( { x: obj.position.x+(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj2).to( { x: obj2.position.x+(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj3).to( { x: obj3.position.x+(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj4).to( { x: obj4.position.x+(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
+			game.add.tween(obj5).to( { x: obj5.position.x+(game.world.width/dinamicMove-90) }, 100, Phaser.Easing.Out, true);
 			
 		}
 	
@@ -432,6 +436,18 @@ var characterSelect = function(){
 		
 		stars.tilePosition.x-= 3
 		stars.tilePosition.y-= 3
+        
+        if(character2[0].x<game.world.centerX-dinamicCenter){
+            prev.alpha=1
+        }else{
+            prev.alpha=0
+        }
+        
+        if(character2[yogotars.length-1].x>game.world.centerX+dinamicCenter){
+            next.alpha=1
+        }else{
+            next.alpha=0
+        }
 	}
 	
 	return {
