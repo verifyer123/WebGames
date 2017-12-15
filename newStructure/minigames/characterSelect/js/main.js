@@ -44,21 +44,22 @@ function startCharSelector(){
         game.clearBeforeRender = false
 
 		game.plugins.add(Fabrique.Plugins.Spine);
-        
-        var language = "EN"
-        if(window.location.search){
-            var params = window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
+		
+		function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
 
-        localization.setLanguage(language)
+		var language = getParameterByName("language")
+		language = language.toUpperCase()
+		console.log(language + ' language')
+		
+		localization.setLanguage(language)
 
         window.minigame.game = window.game
     	sceneloader.init(game)

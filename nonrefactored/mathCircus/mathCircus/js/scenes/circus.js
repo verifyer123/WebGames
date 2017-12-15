@@ -77,6 +77,7 @@ var circus = function(){
     var spaceSong
 	var timerGroup
 	var numLimit, timeToUse
+	var clickLatch = false
 	
 	var numberOptions = [3,4,6]
 	
@@ -435,7 +436,7 @@ var circus = function(){
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
-		
+
 		var inputName = 'movil'
 		
 		if(game.device.desktop){
@@ -474,6 +475,18 @@ var circus = function(){
 
 		background.tilePosition.x--
 		floor.tilePosition.x+= 0.6
+
+		if (game.input.activePointer.isDown == true){
+			if (clickLatch == false) {
+				var emitter = epicparticles.newEmitter("pickedEnergy")
+				emitter.x = game.input.activePointer.x
+				emitter.y = game.input.activePointer.y
+			}
+
+			clickLatch = true
+		} else {
+			clickLatch = false
+		}
 	}
 	
 	function createTextPart(text,obj){
@@ -718,16 +731,6 @@ var circus = function(){
 		yogotar.setAnimationByName(0,"IDLE",true)
 		yogotar.setSkinByName("normal")
 		sceneGroup.add(yogotar)
-
-		var emitter = epicparticles.newEmitter("pickedEnergy")
-		emitter.x = yogotar.x - 600
-		emitter.y = yogotar.y
-		sceneGroup.add(emitter)
-
-		var femitter = epicparticles.newEmitter("fireFloor")
-		femitter.x = yogotar.x + 600
-		femitter.y = yogotar.y
-		sceneGroup.add(femitter)
 	}
 	
 	function createButtons(){

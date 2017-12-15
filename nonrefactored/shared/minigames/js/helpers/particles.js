@@ -172,6 +172,16 @@ var epicparticles = function(){
     particle.rotation = startA;
     particle.rotationDelta = (endA - startA) / particle.timeToLive
 
+    // TODO set missing values to sprite
+    particle.sprite.x = particle.position.x
+    particle.sprite.y = particle.position.y
+    particle.sprite.angle = particle.rotation
+
+    particle.sprite.width = particle.particleSize
+    particle.sprite.height = particle.particleSize
+
+    particle.sprite.alpha = particle.color.a
+
     particle.sprite.visible = true
   }
 
@@ -218,61 +228,61 @@ var epicparticles = function(){
           particle.timeToLive = 0
         }
     } else {
-        var tmp = {
-          x: 0,
-          y: 0
-        }
-        var radial
-        var tangential
-        var vectorZero = {
-          x: 0,
-          y: 0
-        }
-        
-        radial = vectorZero
-        
-        // By default this emitters particles are moved relative to the emitter node position
-        var positionDifference = {
-          x: particle.startPos.x - vectorZero.x,
-          y: particle.startPos.y - vectorZero.y
-        }
-        particle.position = {
-          x: particle.position.x - positionDifference.x,
-          y: particle.position.y - positionDifference.y
-        }
+      var tmp = {
+        x: 0,
+        y: 0
+      }
+      var radial
+      var tangential
+      var vectorZero = {
+        x: 0,
+        y: 0
+      }
+      
+      radial = vectorZero
+      
+      // By default this emitters particles are moved relative to the emitter node position
+      var positionDifference = {
+        x: particle.startPos.x - vectorZero.x,
+        y: particle.startPos.y - vectorZero.y
+      }
+      particle.position = {
+        x: particle.position.x - positionDifference.x,
+        y: particle.position.y - positionDifference.y
+      }
 
-        if (particle.position.x || particle.position.y){
-          radial = normalize(particle.position, 1)
-        }
-        
-        tangential = radial
-        radial.x *= particle.radialAcceleration
-        radial.y *= particle.radialAcceleration
-        
-        var newy = tangential.x
-        tangential.x = -tangential.y
-        tangential.y = newy
-        tangential.x *= particle.tangentialAcceleration
-        tangential.y *= particle.tangentialAcceleration
-        
-        tmp.x = radial.x + tangential.x + emitter.gravity.x
-        tmp.y = radial.y + tangential.y + emitter.gravity.y
+      if (particle.position.x || particle.position.y){
+        radial = normalize(particle.position, 1)
+      }
+      
+      tangential = radial
+      radial.x *= particle.radialAcceleration
+      radial.y *= particle.radialAcceleration
+      
+      var newy = tangential.x
+      tangential.x = -tangential.y
+      tangential.y = newy
+      tangential.x *= particle.tangentialAcceleration
+      tangential.y *= particle.tangentialAcceleration
+      
+      tmp.x = radial.x + tangential.x + emitter.gravity.x
+      tmp.y = radial.y + tangential.y + emitter.gravity.y
 
-        tmp.x *= delta
-        tmp.y *= delta
+      tmp.x *= delta
+      tmp.y *= delta
 
-        particle.direction.x += tmp.x
-        particle.direction.y += tmp.y
+      particle.direction.x += tmp.x
+      particle.direction.y += tmp.y
 
-        tmp.x = particle.direction.x * delta
-        tmp.y = particle.direction.y * delta
+      tmp.x = particle.direction.x * delta
+      tmp.y = particle.direction.y * delta
 
-        particle.position.x += tmp.x
-        particle.position.y += tmp.y
+      particle.position.x += tmp.x
+      particle.position.y += tmp.y
 
-        // Now apply the difference calculated early causing the particles to be relative in position to the emitter position
-        particle.position.x += positionDifference.x
-        particle.position.y += positionDifference.y
+      // Now apply the difference calculated early causing the particles to be relative in position to the emitter position
+      particle.position.x += positionDifference.x
+      particle.position.y += positionDifference.y
     }
     
     // Update the particles color
@@ -326,6 +336,11 @@ var epicparticles = function(){
     emitter.particleCount--
   }
 
+  function removeEmitter(emitter){
+    emitter.destroy()
+    emitters.splice(emitters.indexOf(emitter), 1)
+  }
+
   function update(){ // Called on every frame
     var deltaTime = game.time.elapsedMS * 0.001
 
@@ -364,6 +379,11 @@ var epicparticles = function(){
           index++
         } else {
           removeParticleAtIndex(emitter, index)
+
+          if (emitter.particleCount <= 0){
+            removeEmitter(emitter)
+            return
+          }
         }
       }
     }
@@ -382,7 +402,8 @@ var epicparticles = function(){
     loaders[key] = loaders[key] || loader
   }
 
-  function newEmitter(key){
+  function newEmitter(key, options){
+    // TODO implement options
     var emitter = game.add.group()
 
     emitters.push(emitter)

@@ -6,13 +6,17 @@ var characterSelect = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"select":"Select your Yogotar",
+			"continue":"Continue"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"select":"Selecciona tu Yogotar",
+			"continue":"Continuar"
 		}
 	}
     
@@ -24,6 +28,8 @@ var characterSelect = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
+			{	name: "pop",
+				file: soundsPath + "pop.mp3"},
 		],
     }
     
@@ -36,6 +42,7 @@ var characterSelect = function(){
     var overlayGroup
     var spaceSong
     
+	var stars
     var character
 	var character2
 	var character3
@@ -92,6 +99,8 @@ var characterSelect = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
 		
 		game.load.image("selectBar","../characterSelect/images/select.png")
+		game.load.image("gradient","../characterSelect/images/gradiente_versus.png")
+		game.load.image("stars","../characterSelect/images/stars_versus.png")
 		game.load.image("acceptBtn","../characterSelect/images/accept.png")
 		game.load.image("arrow","../characterSelect/images/arrows.png")
 		
@@ -103,6 +112,8 @@ var characterSelect = function(){
 		
 		game.load.image("luna","../characterSelect/images/yogotarLuna.png")
 		game.load.image("eagle_luna","../characterSelect/images/name_luna.png")
+		
+		game.load.bitmapFont('luckiest', "../characterSelect/images/font/font.png", "../characterSelect/images/font/font.fnt");
 		
 		for(var order=0; order<yogotars.length; order++){
 			
@@ -145,9 +156,12 @@ var characterSelect = function(){
 
     var out = [];
 
-    var bmd = game.add.bitmapData(game.world.width, game.world.height);
-     var backgroud = bmd.addToWorld();
-     backgroundGroup.add(backgroud)
+	var background = backgroundGroup.create(0,0,'gradient')
+	background.width = game.world.width
+	background.height = game.world.height
+	
+	stars = game.add.tileSprite(0,0,game.world.width,game.world.height,'stars')
+	backgroundGroup.add(stars)
 	
     var y = 0;
 
@@ -157,7 +171,6 @@ var characterSelect = function(){
 
         // console.log(Phaser.Color.getWebRGB(c));
 
-        bmd.rect(0, y, game.world.width, y, Phaser.Color.getWebRGB(c));
 
         out.push(Phaser.Color.getWebRGB(c));
 
@@ -230,18 +243,32 @@ var characterSelect = function(){
 		
 		var sel= backgroundGroup.create(game.world.centerX,game.world.centerY/5,"selectBar")
 		sel.anchor.setTo(.5)
-		continuar=backgroundGroup.create(game.world.centerX-160,game.world.centerY+350,"acceptBtn")
-		prev=backgroundGroup.create(game.world.centerX-600,game.world.centerY-100,"arrow")
-		next=backgroundGroup.create(game.world.centerX+600,game.world.centerY-100,"arrow")
+		sel.scale.setTo(0.4,0.4)
+		
+		continuar=backgroundGroup.create(game.world.centerX,game.world.centerY+350,"acceptBtn")
+		continuar.anchor.setTo(0.5,0.5)
+		continuar.scale.setTo(0.6,0.6)
+		
+		prev=backgroundGroup.create(25,game.world.centerY-100,"arrow")
+		next=backgroundGroup.create(game.world.width - 25,game.world.centerY-100,"arrow")
 		next.scale.setTo(-1,1)
 		continuar.alpha=0
 		
 		//textos
 		
-		var firstText=game.add.text(sel.centerX-250, sel.centerY-18, "SELECT YOUR YOGOTAR:",style);
-		 secondText=game.add.text(continuar.centerX-75,continuar.centerY-15,"CONTINUE",style2)
+		var retryText = game.add.bitmapText(sel.x+3,sel.y -7, 'luckiest', localization.getString(localizationData,"select"), 40);
+		retryText.anchor.setTo(0.5,0.5)
+		retryText.tint = 0x000000
+		retryText.alpha = 0.7
+		backgroundGroup.add(retryText)
+		
+		var retryText = game.add.bitmapText(sel.x,sel.y - 10, 'luckiest', localization.getString(localizationData,"select"), 40);
+		retryText.anchor.setTo(0.5,0.5)
+		backgroundGroup.add(retryText)
+		
+		 secondText=game.add.bitmapText(continuar.x, continuar.y - 5,'luckiest', localization.getString(localizationData,"continue"), 50);
 		 secondText.alpha=0
-		backgroundGroup.add(firstText)
+		 secondText.anchor.setTo(0.5,0.5)
 		backgroundGroup.add(secondText)
 
          prev.inputEnabled = true
@@ -274,6 +301,7 @@ var characterSelect = function(){
         })
 		
 		continuar.events.onInputDown.add(function(){
+			sound.play("pop")
 			//Aqui ira el redireccionamiento
 			if(continuar.alpha==1){
 				selectedCharacter = selectedCharacter.replace("yogotar", "")
@@ -295,11 +323,14 @@ var characterSelect = function(){
 	
 	function opacateAll(obj){
 		
-		
+		sound.play("pop")
 		if(obj.alpha==1){
 		selectedCharacter=obj.tag
-		secondText.alpha=1
-		continuar.alpha=1
+		
+		if(continuar.alpha ==0){
+			game.add.tween(continuar).to({alpha:1},300,"Linear",true)
+			game.add.tween(secondText).to({alpha:1},300,"Linear",true,100)
+		}
 		
 		for(var opacate=0; opacate<yogotars.length;opacate++){
 		
@@ -397,11 +428,18 @@ var characterSelect = function(){
 		}
 	}
 	
+	function update(){
+		
+		stars.tilePosition.x-= 3
+		stars.tilePosition.y-= 3
+	}
+	
 	return {
 		
 		assets: assets,
 		name: "characterSelect",
         preload:preload,
+		update:update,
 		create: function(event){
             
 			sceneGroup = game.add.group()
