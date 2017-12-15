@@ -59,11 +59,9 @@ function addEvents() {
     slide1.addEventListener("touchend", function () { 
         TweenMax.fromTo($("#home"),0.5,{y:"100%"},{y:"0%"});
         homeButton.style.visibility = "visible"; 
-        home.style.visibility = "visible" 
+        home.style.visibility = "visible"
+		routing.navigate('#/map');
     }, false);
-  
-    
-    
     
     var slide2 = document.getElementById("slide2");
     slide2.addEventListener("touchend", function () {

@@ -27,6 +27,8 @@ var routing = function () {
 		.on({
 			'yogotarselector': function () {
 				$("#minigames").hide()
+				var characterSelector = document.getElementById("characterSelector")
+				characterSelector.style.visibility = "visible"
 				startCharSelector()
 			},
 			'minigames': function () {
