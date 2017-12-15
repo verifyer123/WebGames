@@ -1,4 +1,7 @@
 var orientationTouched = false;
+var home = document.getElementById("home");
+var homeButton = document.getElementById("homeButton");
+
 //prevent tapping on drag content
 var dragging = false;
 $("body").on("touchmove", function () {
@@ -53,8 +56,10 @@ function addEvents() {
     closeButton.addEventListener("touchstart", close, false);
 
     var slide1 = document.getElementById("slide1");
-    slide1.addEventListener("touchend", function () {
-        open(1)
+    slide1.addEventListener("touchend", function () { 
+        TweenMax.fromTo($("#home"),0.5,{y:"100%"},{y:"0%"});
+        homeButton.style.visibility = "visible"; 
+        home.style.visibility = "visible" 
     }, false);
   
     var slide2 = document.getElementById("slide2");
@@ -111,8 +116,17 @@ $(window).on("orientationchange", function (event) {
 });
 
 function close() {
-    $('#iframe-mobile').css('display', 'none');
+    //$('#iframe-mobile').css('display', 'none');
 }
+
+$("#homeButton").click(function(){
+    homeButton.style.visibility = "hidden";
+    TweenMax.fromTo($("#home"),0.4,{y:"0%"},{y:"100%",onComplete:hideHome});
+    function hideHome(){
+        home.style.visibility = "hidden" ;
+    }
+   
+});
 
 function open(slide) {
     if (dragging) return;
