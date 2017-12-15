@@ -339,7 +339,6 @@ var vips = function(){
 		{
             sound.play("swipe")
 		 	speed=posInicial-posFinal
-            speed=speed*2
 			posFinal=0
 			posInicial=0
 			character.body.velocity.x =speed;
@@ -360,10 +359,9 @@ var vips = function(){
     {
 		posFinal=game.input.activePointer.position.x
 		speed=posInicial-posFinal
-        speed=speed*2
 		if(shooted==false && posFinal<posInicial){
 			
-			game.add.tween(powerBar.scale).to({x: -speed/70 ,y:2}, 100, Phaser.Easing.linear, true)
+			game.add.tween(powerBar.scale).to({x: -speed/70,y:2}, 100, Phaser.Easing.linear, true)
 		}
     }
     
@@ -664,7 +662,7 @@ var vips = function(){
 					newPlat2.loadTexture(null)
 					newPlat2.body.clearShapes()
 				}*/
-		randCharac=game.rnd.integerInRange(0,4)
+		randCharac=3
 		if(randCharac==0){
 		character.loadTexture("atlas.vips","cafe1")
 		character.body.clearShapes()

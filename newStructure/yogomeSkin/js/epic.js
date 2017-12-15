@@ -4,6 +4,29 @@ var epicSiteMain =  function(){
 
 	var DEFAULT_SRC = "../epicMap/index.html?language=" + language
 
+	var buttonMinigames = $("#btn3")
+	var buttonAdventure = $("#btn1")
+	var buttonBooks = $("#btn2")
+	var buttonVideos = $("#btn4")
+	var home = document.getElementById("home")
+
+	buttonMinigames.click(function () {
+		routing.navigate('#/minigames');
+	})
+
+	buttonAdventure.click(function () {
+		routing.navigate('#/map');
+	})
+
+	buttonBooks.click(function () {
+		window.location.href = "http://play.yogome.com/yogobooks.html"
+	})
+
+	buttonVideos.click(function () {
+		window.location.href = "http://play.yogome.com/webisodes.html"
+	})
+
+
 	function loadGame(src){
 		home.style.visibility = "visible"
 		home.style.opacity = 0
@@ -65,7 +88,7 @@ var epicSiteMain =  function(){
 
 			var num = i;
 			if(games[i].review){
-				$("#content-minigames").append("<div class='col-xs-6 col-sm-4 container'><a href='"+games[i].mapUrl+"' rev='"+games[i].name+"' target='_self' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive bannerMinigame' src='" +games[num].url +"/images/fbpost.png" + "'/></a> </div>");
+				$("#content-minigames").append("<div class='col-xs-6 col-sm-4 container'><a href='"+games[i].mapUrl+"' rev='"+games[i].name+"' target='_self' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive bannerMinigame' src='" +games[num].url +"images/fbpost.png" + "'/></a> </div>");
 				$("#gameimg" + num).attr("value",i);
 			}
 		}
