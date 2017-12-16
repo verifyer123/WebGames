@@ -61,7 +61,7 @@ var symfunny = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 107
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -588,7 +588,7 @@ var symfunny = function(){
             instument.anchor.setTo(0.5, 0)
             instument.scale.setTo(1, 1.5)
             instument.alpha = 0
-            instument.inputEnabled = false
+            instument.inputEnabled = true
             instument.events.onInputDown.add(inputButton)
             instument.instument = orchesta[t].name
             instument.value = orchesta[t].value
@@ -628,6 +628,7 @@ var symfunny = function(){
             }
             else{
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY_WRONG", false)
+                gameActive = false
                 missPoint()
                 game.time.events.add(2000,function(){
                     initGame()
@@ -640,6 +641,7 @@ var symfunny = function(){
     
     function crescendo(){
         
+        gameActive = false
         lvl++
         if(lvl % 2 === 0)
             cap++
@@ -661,6 +663,7 @@ var symfunny = function(){
     function initGame(){
         
         pivot = 0
+        gameActive = false
         
         for(var i = 0; i < cap; i++){
             correctAnswer[i] = game.rnd.integerInRange(0, 4)
@@ -670,7 +673,6 @@ var symfunny = function(){
             var time = playDemo()
             
             game.time.events.add(time,function(){
-                buttonsGroup.setAll('inputEnabled', true)
                 gameActive = true
             },this)
         },this)
@@ -687,8 +689,7 @@ var symfunny = function(){
     
     function playDemo(){
 
-         buttonsGroup.setAll('inputEnabled', false)
-        
+        gameActive = false
         var delay = 500
         
         for(var i = 0; i < cap; i++){
