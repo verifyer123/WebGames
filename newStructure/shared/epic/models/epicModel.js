@@ -101,6 +101,10 @@ var epicModel = function () {
 			signInCallback()
 			signInCallback = null
 		}
+
+		if(mixpanel){
+			mixpanel.identify(credentials.email);
+		}
 	}
 
 	function setCredentials(response) {
