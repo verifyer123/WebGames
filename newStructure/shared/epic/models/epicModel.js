@@ -1,6 +1,6 @@
 var epicModel = function () {
-	var url = "https://13-dot-heroesofknowledge.appspot.com"
-	var DEFAULT_CARD = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
+	var url = "https://12-dot-heroesofknowledge.appspot.com"
+	// var DEFAULT_CARD = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
 
 	var player = {
 		minigames:[],
@@ -25,6 +25,7 @@ var epicModel = function () {
 	var userRecover = "/users/parent/recover"
 
 	var currentCallback
+	var unlockAccessCall
 
 	function ajaxCall(data, endPoint, onSuccess, onError) {
 
@@ -99,12 +100,14 @@ var epicModel = function () {
 				var gameData = child.gameData
 				localStorage.setItem("gameData", JSON.stringify(child.gameData))
 			}
-			if(child.suscribed){
+			if(child.subscribed){
 				localStorage.setItem("subscribed", true)
-				if(unlockAccess)
-					unlockAccess()
+				if(unlockAccessCall) {
+					unlockAccessCall()
+					unlockAccessCall = null
+				}
 			}else{
-				//show nonsuscribed modal
+				modal.showYouKnow()
 			}
 		}
 	}
@@ -125,12 +128,16 @@ var epicModel = function () {
 		var gameData = localStorage.getItem("gameData")
 		gameData = gameData === "null" ? null : JSON.parse(gameData)
 
+		var subscribed = localStorage.getItem("subscribed")
+		subscribed = subscribed === "null" ? null : JSON.parse(subscribed)
+
 		return {
 			email:email,
 			token:token,
 			remoteID:remoteID,
 			gameData:gameData,
-			educationID:educationID
+			educationID:educationID,
+			subscribed:subscribed
 		}
 	}
 	
@@ -196,8 +203,9 @@ var epicModel = function () {
 		}
 	}
 
-	function loadPlayer (forceLogin, callback) {
+	function loadPlayer (forceLogin, callback, unlockCall) {
 		// var credentials = getCredentials()
+		unlockAccessCall = unlockCall
 		currentCallback = callback
 		if(forceLogin) {
 			checkLogin()

@@ -132,19 +132,26 @@
     
     $("#login").click(function(){
         var leng = "Fill the gaps";
+        var err = "User or password incorrect."
         
         switch(language){
-            case "ES": leng = "Llena los espacios"
+            case "ES": leng = "Llena los espacios."
+				err = "Usuario o contraseña incorrectos."
                 break;
-            case "EN": leng = "Llena los espacios"
+            case "EN": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "PT": leng = "Llena los espacios"
+            case "PT": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "ZH": leng = "Llena los espacios"
+            case "ZH": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "JA": leng = "Llena los espacios"
+            case "JA": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "KO": leng = "Llena los espacios"
+            case "KO": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
         }
 
@@ -153,7 +160,8 @@
 		}
 
 		function onError(response) {
-			console.log(response)
+			document.getElementById("error").innerText = err;
+			console.log("error login")
 		}
 
 		var data = {

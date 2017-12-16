@@ -29,6 +29,11 @@ var modal = function () {
 			$("#myModal").load( "welcome.html", function () {
 				$("#myModal").find("#welcome").modal('toggle');
 			})
+		},
+		showYouKnow:function() {
+			$("#myModal").load( "didYouKnow.html", function () {
+				$("#myModal").find("#know").modal('toggle');
+			})
 		}
     }
 
