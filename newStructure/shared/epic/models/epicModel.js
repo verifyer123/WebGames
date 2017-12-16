@@ -99,6 +99,13 @@ var epicModel = function () {
 				var gameData = child.gameData
 				localStorage.setItem("gameData", JSON.stringify(child.gameData))
 			}
+			if(child.suscribed){
+				localStorage.setItem("subscribed", true)
+				if(unlockAccess)
+					unlockAccess()
+			}else{
+				//show nonsuscribed modal
+			}
 		}
 	}
 
@@ -143,6 +150,7 @@ var epicModel = function () {
 		function callback(response){
 			checkLogin(response)
 		}
+		setCredentials(data)
 		if(data.token)
 			ajaxCall({email: data.email, token: data.token}, loginParent, callback, onError)
 		else
