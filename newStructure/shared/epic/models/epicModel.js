@@ -238,6 +238,29 @@ var epicModel = function () {
 		ajaxCall({email:email}, userRecover, onSuccess, onError)
 	}
 
+	function checkQuery(callBack){
+		function onSuccess() {
+			modal.showWelcome()
+			if(callBack)callBack()
+		}
+		var token = getParameterByName("token")
+		var email = getParameterByName("email")
+		token = token ? decodeURIComponent(token) : null
+		email = email ? decodeURIComponent(email) : null
+		//pa_%5BB%406d33b036
+		//aaron%2B20171207_2%40yogome.com
+		// var token = null//"pa_[B@15f1b80"
+		// var email = "aaron+20171207_2@yogome.com"
+
+		if((token)&&(email)) {
+			localStorage.setItem("email", email)
+			console.log(token)
+			epicModel.loginParent({token: token, email:email}, onSuccess)
+		}
+		else
+			if(callBack)callBack()
+	}
+
 	return{
 		loadPlayer:loadPlayer,
 		getPlayer:function(){return player},
@@ -245,7 +268,8 @@ var epicModel = function () {
 		getCredentials:getCredentials,
 		loginPlayer:loginPlayer,
 		loginParent:signIn,
-		recoverPass:recoverPass
+		recoverPass:recoverPass,
+		checkQuery:checkQuery
 	}
 }()
 
