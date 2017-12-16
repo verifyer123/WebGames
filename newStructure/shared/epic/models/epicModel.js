@@ -89,7 +89,7 @@ var epicModel = function () {
 				unlockAccessCall = null
 			}
 		}
-		else
+		else if(signInCallback)
 			modal.showYouKnow()
 
 		if(currentCallback) {
@@ -99,6 +99,7 @@ var epicModel = function () {
 
 		if(signInCallback){
 			signInCallback()
+			signInCallback = null
 		}
 	}
 
