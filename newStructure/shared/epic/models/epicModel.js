@@ -102,7 +102,7 @@ var epicModel = function () {
 			signInCallback = null
 		}
 
-		if(mixpanel){
+		if((mixpanel)&&(credentials.email)){
 			mixpanel.identify(credentials.email);
 		}
 	}
