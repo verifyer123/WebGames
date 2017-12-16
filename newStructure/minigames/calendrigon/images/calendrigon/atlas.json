@@ -2,7 +2,7 @@
 
 {
 	"filename": "3",
-	"frame": {"x":225,"y":462,"w":55,"h":75},
+	"frame": {"x":1,"y":556,"w":55,"h":75},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":75},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "4",
-	"frame": {"x":178,"y":462,"w":45,"h":76},
+	"frame": {"x":724,"y":329,"w":45,"h":76},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":76},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "5",
-	"frame": {"x":343,"y":380,"w":55,"h":82},
+	"frame": {"x":320,"y":633,"w":55,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":82},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "6",
-	"frame": {"x":463,"y":412,"w":52,"h":78},
+	"frame": {"x":492,"y":675,"w":52,"h":78},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":78},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "7",
-	"frame": {"x":409,"y":412,"w":52,"h":79},
+	"frame": {"x":438,"y":675,"w":52,"h":79},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":79},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "8",
-	"frame": {"x":282,"y":429,"w":59,"h":86},
+	"frame": {"x":377,"y":675,"w":59,"h":86},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":59,"h":86},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "arrow",
-	"frame": {"x":136,"y":441,"w":40,"h":91},
+	"frame": {"x":238,"y":675,"w":40,"h":91},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":91},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "button",
-	"frame": {"x":397,"y":135,"w":129,"h":114},
+	"frame": {"x":90,"y":556,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":1,"y":441,"w":133,"h":97},
+	"frame": {"x":1,"y":675,"w":133,"h":97},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":133,"h":97},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":1,"y":1,"w":394,"h":326},
+	"frame": {"x":378,"y":1,"w":394,"h":326},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":0,"w":394,"h":326},
@@ -91,8 +91,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "gradient",
+	"frame": {"x":378,"y":329,"w":156,"h":344},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":156,"h":344},
+	"sourceSize": {"w":156,"h":344},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "life_box",
-	"frame": {"x":179,"y":372,"w":140,"h":55},
+	"frame": {"x":90,"y":499,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -100,8 +109,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "light",
+	"frame": {"x":1,"y":1,"w":375,"h":496},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":375,"h":496},
+	"sourceSize": {"w":375,"h":496},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "movil",
-	"frame": {"x":1,"y":329,"w":176,"h":110},
+	"frame": {"x":546,"y":329,"w":176,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":176,"h":110},
@@ -110,7 +128,7 @@
 },
 {
 	"filename": "playEN",
-	"frame": {"x":346,"y":346,"w":87,"h":32},
+	"frame": {"x":1,"y":633,"w":87,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":87,"h":32},
@@ -119,7 +137,7 @@
 },
 {
 	"filename": "playES",
-	"frame": {"x":179,"y":429,"w":97,"h":31},
+	"frame": {"x":221,"y":633,"w":97,"h":31},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":97,"h":31},
@@ -128,7 +146,7 @@
 },
 {
 	"filename": "screen",
-	"frame": {"x":397,"y":1,"w":138,"h":132},
+	"frame": {"x":238,"y":499,"w":138,"h":132},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":132},
@@ -137,7 +155,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":397,"y":251,"w":100,"h":93},
+	"frame": {"x":136,"y":675,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -146,7 +164,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":435,"y":346,"w":64,"h":64},
+	"frame": {"x":536,"y":484,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -155,7 +173,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":343,"y":464,"w":64,"h":64},
+	"frame": {"x":536,"y":550,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -164,7 +182,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":179,"y":329,"w":165,"h":41},
+	"frame": {"x":546,"y":441,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -176,8 +194,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":539,"h":539},
+	"size": {"w":773,"h":773},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b082c082bd3fc9cf86d3430c81884b98:97e15cae1950cd164fd236e189c6d2b9:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7c940a1d6c39f82aa92fc1d69941080d:8efbbb1d24f1742f2b92693a5920303d:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

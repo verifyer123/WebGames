@@ -43,7 +43,8 @@ var calendrigon = function(){
 				file: soundsPath + "stoneDoor.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			
+			{	name: "cut",
+				file: soundsPath + "cut.mp3"},
 		],
     }
     
@@ -69,6 +70,7 @@ var calendrigon = function(){
     var topFigures = [0, 5, 6, 8, 3, 0, 4, 7]
     var answer = [-1, -1, -1]
     var stopedDiscs
+    var screen
 	
 
 	function loadSounds(){
@@ -347,14 +349,26 @@ var calendrigon = function(){
         
         spinSpeed = 10000
         
-        var bottomPlat = sceneGroup.create(game.world.centerX, game.world.centerY, "bottomPlatform")
-        bottomPlat.anchor.setTo(0.5, 0.5)
+        back = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.calendrigon", "gradient");
+        back.anchor.setTo(0.5, 0.5)
+        back.width = game.world.width
+        back.height = game.world.height
         
-        var arrow = sceneGroup.create(game.world.centerX, game.world.height - 50, 'atlas.calendrigon', "arrow")
+        var calGroup = game.add.group()
+        calGroup.x =  game.world.centerX
+        calGroup.y = game.world.centerY
+        calGroup.scale.setTo(0.8)
+        sceneGroup.add(calGroup)
+        
+        var bottomPlat = calGroup.create(0, 0, "bottomPlatform")
+        bottomPlat.anchor.setTo(0.5, 0.5)
+        bottomPlat.scale.setTo(1.5)
+        
+        var arrow = calGroup.create(0, 450, 'atlas.calendrigon', "arrow")
         arrow.anchor.setTo(0.5, 0.5)
         arrow.scale.setTo(1, 0.65)
         
-        bottom = sceneGroup.create(game.world.centerX, game.world.centerY, "bottom")
+        bottom = calGroup.create(0, 0, "bottom")
         bottom.anchor.setTo(0.5, 0.5)
         bottom.angle = 0
         bottom.startAngle = bottom.angle
@@ -365,10 +379,10 @@ var calendrigon = function(){
         bottom.stoped = false
         
         
-        var middlePlat = sceneGroup.create(game.world.centerX, game.world.centerY, "middlePlatform")
+        var middlePlat = calGroup.create(0, 0, "middlePlatform")
         middlePlat.anchor.setTo(0.5, 0.5)
         
-        middle = sceneGroup.create(game.world.centerX, game.world.centerY, "middle")
+        middle = calGroup.create(0, 0, "middle")
         middle.anchor.setTo(0.5, 0.5)
         middle.angle = 65.4
         middle.startAngle = middle.angle
@@ -378,10 +392,10 @@ var calendrigon = function(){
         middle.answer = 1
         middle.stoped = false
         
-        var topPlat = sceneGroup.create(game.world.centerX, game.world.centerY, "topPlatform")
+        var topPlat = calGroup.create(0, 0, "topPlatform")
         topPlat.anchor.setTo(0.5, 0.5)
         
-        top = sceneGroup.create(game.world.centerX, game.world.centerY, "top")
+        top = calGroup.create(0, 0, "top")
         top.anchor.setTo(0.5, 0.5)
         top.angle = 180
         top.startAngle = top.angle
@@ -586,14 +600,19 @@ var calendrigon = function(){
     
     function initCaleidogon(){
         
+        path = sceneGroup.create(game.world.centerX + 5, game.world.centerY + 30, 'atlas.calendrigon', 'light')
+        path.anchor.setTo(0.5, 0)
+        path.scale.setTo(0.8)
+        
         var caleidogon = game.add.spine(game.world.centerX, game.world.centerY, "caleidogon")
-        //caleidogon.scale.setTo(0.9, 0.9)
+        caleidogon.scale.setTo(0.7)
         caleidogon.setAnimationByName(0, "IDLE", true)
         caleidogon.setSkinByName("normal")
         sceneGroup.add(caleidogon)
         
-        var screen = sceneGroup.create(game.world.centerX , game.world.centerY - 190, 'atlas.calendrigon', 'screen')
+        screen = sceneGroup.create(game.world.centerX , game.world.centerY - 150, 'atlas.calendrigon', 'screen')
         screen.anchor.setTo(0.5, 0.5)
+        screen.scale.setTo(0.8)
     }
     
     function rotateDisc(disc, nextAngle){
@@ -605,7 +624,8 @@ var calendrigon = function(){
         
         numbersGroup = game.add.group()
         numbersGroup.x = game.world.centerX 
-        numbersGroup.y = game.world.centerY - 190
+        numbersGroup.y = game.world.centerY - 150
+        numbersGroup.scale.setTo(0.9)
         sceneGroup.add(numbersGroup)
         
         for(var i = 3; i < 9; i++){
@@ -615,17 +635,40 @@ var calendrigon = function(){
         }
     }
     
+    function initfiguresGroup(){
+        
+        /*figuresGroup = game.add.group()
+        figuresGroup.x = game.world.centerX 
+        figuresGroup.y = game.world.centerY
+        figuresGroup.scale.setTo(2)
+        sceneGroup.add(figuresGroup)
+        
+        for(var i = 3; i < 9; i++){
+            var figure = figuresGroup.create(0, 0, 'atlas.calendrigon', 'fig'+i) 
+            figure.anchor.setTo(0.5, 0.5)
+            figure.alpha = 0
+        }*/
+    }
+    
     function initGame(){
-               
-        numberSelect = getRand()
-        changeImage(numberSelect - 3, numbersGroup)
-        discsTweens()
+        
+        game.add.tween(screen.scale).to({x:1, y:1},150,Phaser.Easing.linear,true).onComplete.add(function(){
+            sound.play("cut")
+            game.add.tween(screen.scale).to({x:0.8, y:0.8},150,Phaser.Easing.linear,true)
+            
+            numberSelect = getRand()
+            changeImage(numberSelect - 3, numbersGroup)
+            //changeImage(numberSelect - 3, figuresGroup)
+            discsTweens()
+            
+            //game.add.tween(figuresGroup).to({alpha:0},300,Phaser.Easing.linear,true)
+        })
         
         for(var i = 0; i < 3; i++){
             answer[i] = -1
         }
         
-        game.time.events.add(300,function(){
+        game.time.events.add(310,function(){
             bottom.tween.start()
             middle.tween.start()
             top.tween.start()
@@ -670,23 +713,25 @@ var calendrigon = function(){
     function stopDisc(){
         
         var fig
-        sound.play("stoneDoor")
         
-        if(radius < top.height * 0.5 && !top.stoped){
+        if(radius < top.height * 0.4 && !top.stoped){
+            sound.play("stoneDoor")
             top.tween.stop()
             fig = getFigure(top)
             game.add.tween(top).to({angle: fig}, 500, Phaser.Easing.linear, true)
             stopedDiscs += 1
             top.stoped = true
         }
-        else if(radius > top.height * 0.5 && radius < middle.width * 0.5 && !middle.stoped){
+        else if(radius > top.height * 0.4 && radius < middle.width * 0.4 && !middle.stoped){
+            sound.play("stoneDoor")
             middle.tween.stop()
             fig = getFigure(middle)
             game.add.tween(middle).to({angle: fig}, 500, Phaser.Easing.linear, true)
             stopedDiscs += 1
             middle.stoped = true
         }
-        else if(radius > middle.width * 0.5 && radius < bottom.width * 0.4 && !bottom.stoped){
+        else if(radius > middle.width * 0.4 && radius < bottom.width * 0.4 && !bottom.stoped){
+            sound.play("stoneDoor")
             bottom.tween.stop()
             fig = getFigure(bottom)
             game.add.tween(bottom).to({angle: fig}, 500, Phaser.Easing.linear, true)
@@ -698,7 +743,7 @@ var calendrigon = function(){
             stopedDiscs += 1
             var correct = false
             var timer = 300
-            var space = 200
+            var space = 140
         
             for(var i = 0; i < 3; i++){
             
@@ -719,7 +764,8 @@ var calendrigon = function(){
             game.time.events.add(1300,function(){
                 if(correct){
                     addPoint(1)
-                    spinSpeed -= 500
+                    if(spinSpeed > 2000)
+                        spinSpeed -= 500
                 }
                 else{
                     missPoint()
@@ -813,6 +859,7 @@ var calendrigon = function(){
 			createHearts()
             initCaleidogon()
             initNumbersGroup()
+            //initfiguresGroup()
             createParticles()
 			
 			buttons.getButton(adventureSong,sceneGroup)

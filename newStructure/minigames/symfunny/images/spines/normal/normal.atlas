@@ -1,0 +1,160 @@
+
+normal.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/body
+  rotate: true
+  xy: 2, 144
+  size: 110, 266
+  orig: 110, 266
+  offset: 0, 0
+  index: -1
+normal/eye_l
+  rotate: false
+  xy: 776, 244
+  size: 9, 10
+  orig: 9, 10
+  offset: 0, 0
+  index: -1
+normal/eye_r
+  rotate: false
+  xy: 203, 20
+  size: 9, 10
+  orig: 9, 10
+  offset: 0, 0
+  index: -1
+normal/eyebrow_l
+  rotate: false
+  xy: 586, 50
+  size: 13, 7
+  orig: 13, 7
+  offset: 0, 0
+  index: -1
+normal/eyebrow_r
+  rotate: false
+  xy: 728, 223
+  size: 13, 7
+  orig: 13, 7
+  offset: 0, 0
+  index: -1
+normal/foot_l
+  rotate: false
+  xy: 674, 222
+  size: 52, 32
+  orig: 52, 32
+  offset: 0, 0
+  index: -1
+normal/foot_r
+  rotate: false
+  xy: 603, 163
+  size: 52, 32
+  orig: 52, 32
+  offset: 0, 0
+  index: -1
+normal/leg_l_0
+  rotate: true
+  xy: 140, 8
+  size: 22, 46
+  orig: 22, 46
+  offset: 0, 0
+  index: -1
+normal/leg_l_1
+  rotate: true
+  xy: 538, 35
+  size: 22, 46
+  orig: 22, 46
+  offset: 0, 0
+  index: -1
+normal/leg_l_2
+  rotate: true
+  xy: 674, 198
+  size: 22, 46
+  orig: 22, 46
+  offset: 0, 0
+  index: -1
+normal/leg_l_3
+  rotate: true
+  xy: 728, 232
+  size: 22, 46
+  orig: 22, 46
+  offset: 0, 0
+  index: -1
+normal/mouth
+  rotate: true
+  xy: 188, 2
+  size: 28, 13
+  orig: 28, 13
+  offset: 0, 0
+  index: -1
+normal/nose
+  rotate: false
+  xy: 603, 146
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+normal/nota_loose
+  rotate: false
+  xy: 538, 128
+  size: 63, 67
+  orig: 63, 67
+  offset: 0, 0
+  index: -1
+normal/nota_loose2
+  rotate: true
+  xy: 2, 2
+  size: 28, 67
+  orig: 28, 67
+  offset: 0, 0
+  index: -1
+normal/nota_ok_2
+  rotate: false
+  xy: 538, 59
+  size: 62, 67
+  orig: 62, 67
+  offset: 0, 0
+  index: -1
+normal/note_ok_1
+  rotate: true
+  xy: 71, 2
+  size: 28, 67
+  orig: 28, 67
+  offset: 0, 0
+  index: -1
+normal/shadow
+  rotate: false
+  xy: 538, 197
+  size: 134, 57
+  orig: 134, 57
+  offset: 0, 0
+  index: -1
+normal/special_1
+  rotate: true
+  xy: 2, 32
+  size: 110, 266
+  orig: 110, 266
+  offset: 0, 0
+  index: -1
+normal/special_2
+  rotate: true
+  xy: 270, 144
+  size: 110, 266
+  orig: 110, 266
+  offset: 0, 0
+  index: -1
+normal/special_3
+  rotate: true
+  xy: 270, 32
+  size: 110, 266
+  orig: 110, 266
+  offset: 0, 0
+  index: -1
+normal/tongue
+  rotate: true
+  xy: 657, 179
+  size: 16, 9
+  orig: 16, 9
+  offset: 0, 0
+  index: -1
