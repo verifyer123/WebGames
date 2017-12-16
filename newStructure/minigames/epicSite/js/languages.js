@@ -4,8 +4,8 @@ var languageArrayIndex = [
                     NAME:"mainMenu0",
                     ES:"Voltea tu teléfono o dispositivo para una mejor experiencia",
                     EN:"Tilt your device for a better experience. ",
-                    PT:"Flip your phone or device for a better experience",
-                    ZH:"Flip your phone or device for a better experience",
+                    PT:"Incline seu dispositivo para uma melhor experiência.",
+                    ZH:"将您的设备倾斜以获得更好的体验。",
                     JA:"Flip your phone or device for a better experience",
                     KO:"더 나은 학습 환경을 위해 기기를 기울여주세요."
                 },
@@ -52,20 +52,20 @@ var languageArrayIndex = [
                 { 
                     id:5,
                     NAME:"mainMenu5",
-                    ES:"Olvide mi contraseña",
+                    ES:"Olvidé mi contraseña",
                     EN:"I Forgot My Password",
-                    PT:"I Forgot My Password",
-                    ZH:"I Forgot My Password",
+                    PT:"Esqueci minha senha",
+                    ZH:"我忘记了密码",
                     JA:"I Forgot My Password",
                     KO:"비밀번호를 잃어버렸어요"
                 },
                 { 
                     id:6,
                     NAME:"mainMenu6",
-                    ES:"¿No tienes cuenta?",
+                    ES:"¿No tienes una cuenta?",
                     EN:"¿Don't have an account?",
-                    PT:"¿Don't have an account?",
-                    ZH:"¿Don't have an account?",
+                    PT:"Não tem uma conta?",
+                    ZH:"还没有帐户？",
                     JA:"¿Don't have an account?",
                     KO:"¿아직 가입하지 않으셨나요?"
                 },
@@ -82,10 +82,10 @@ var languageArrayIndex = [
                 { 
                     id:8,
                     NAME:"mainMenu8",
-                    ES:"-Selecciona un perfil-",
+                    ES:"- Selecciona un perfil -",
                     EN:"- Select a profile -",
-                    PT:"- Select a profile -",
-                    ZH:"- Select a profile -",
+                    PT:"- Selecione um perfil -",
+                    ZH:"- 选择个人资料 -",
                     JA:"- Select a profile -",
                     KO:"- 프로필 선택하기 -"
                 },
@@ -94,8 +94,8 @@ var languageArrayIndex = [
                     NAME:"mainMenu9",
                     ES:"Inicia sesión en Yogome ",
                     EN:"Login to Yogome",
-                    PT:"Login to Yogome",
-                    ZH:"Login to Yogome",
+                    PT:"Fazer login na Yogome",
+                    ZH:"登录Yogome",
                     JA:"Login to Yogome",
                     KO:"요고미 로그인하기"
                 },
@@ -227,6 +227,46 @@ var languageArrayIndex = [
                     ZH:"测试结束！请让家长添加电子邮件地址，以便您能继续探险。",
                     JA:"テストの最後の問題です！ゲームを続けられるよう、保護者の方にEメールを登録するようお願いしてください。",
                     KO:"이미 시험이 다 끝났어요! 부모님이 이메일 주소를 입력하시면 모험을 계속 이어갈 수 있어요."
+                },
+                { 
+                    id:23,
+                    NAME:"mainMenu23",
+                    ES:"¿Sabías qué...",
+                    EN:"Did you know...?",
+                    PT:"Did you know...?",
+                    ZH:"Did you know...?",
+                    JA:"Did you know...?",
+                    KO:"Did you know...?"
+                },
+                { 
+                    id:24,
+                    NAME:"mainMenu24",
+                    ES:"Al suscribirte tendrás acceso a más de 2000 actividades como juegos, videos y libros interactivos.",
+                    EN:"By subscribing you will have access to more than 2000 activities such as games, videos and interactive books.",
+                    PT:"By subscribing you will have access to more than 2000 activities such as games, videos and interactive books.",
+                    ZH:"By subscribing you will have access to more than 2000 activities such as games, videos and interactive books.",
+                    JA:"By subscribing you will have access to more than 2000 activities such as games, videos and interactive books.",
+                    KO:"By subscribing you will have access to more than 2000 activities such as games, videos and interactive books."
+                },
+                { 
+                    id:25,
+                    NAME:"mainMenu25",
+                    ES:"¡Lo quiero!",
+                    EN:"I want it!",
+                    PT:"I want it!",
+                    ZH:"I want it!",
+                    JA:"I want it!",
+                    KO:"I want it!"
+                },
+                { 
+                    id:26,
+                    NAME:"mainMenu26",
+                    ES:"¡Juega!",
+                    EN:"Play!",
+                    PT:"Jogar!",
+                    ZH:"开始游戏！",
+                    JA:"ゲーム開始！",
+                    KO:"게임 시작!"
                 },
         ]
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Did you know...?</title>
+    <link rel="stylesheet" href="assets/css/modal.css">
+    <!--&lt;!&ndash; Jquery &ndash;&gt;-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+    
+    <script>var language = "ES";</script>
+    
+    <script>
+    //AQUI VA PARA SABER EL LENGUAGE
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+        var language;
+        language = getParameterByName("language");
+        
+        if(language == null ){
+            var lengua;
+            //lengua = navigator.language || navigator.userLanguage; 
+            //language = eval("'" + lengua + "'").toUpperCase();
+            language= "ES";
+        }else{
+            language.toUpperCase();
+        }
+    
+    </script>
+    
+    
+</head>
+<body>
+    
+    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+
+<script>
+	var cut = document.getElementById("cut");
+	cut.play();
+</script>
+    
+<!-- Pass Recover Modal-->
+	<div id="know" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content container" >
+			<div class="navigation">
+				<button class="closeModal close" onclick="pop.play()"></button>
+			</div>
+			<!-- Modal header -->
+			<div class="modal-header">
+				<div class="topImg">
+                    <img class="logo" src="images/sabiasQue.png"/>
+				</div>
+				<h2><div class="textModal23" style="font-size: 0.8em;">Did you know...</div></h2>
+                <div style="text-align: justify; color: #727984; font-size: 1.2em" class="fontOpenSans textModal24">
+            <p>By subscribing you will have access to more than 2000 activities such as games, videos and interactive books.</p>
+        </div>
+			</div>
+
+			<!-- Modal body Text box and sumbit button-->
+			<div class="modal-body">
+                <br>
+                <button type="submit" id="want" class="loginBtn" style="width: 40%"><div class="textModal25" onclick="magic.play()">I want it!</div></button>
+                <button type="submit" id="play" class="okBtn" style="width: 40%"><div class="textModal26" onclick="magic.play()">Play</div></button><br>
+			</div>
+		</div>
+	</div>
+    
+<script>
+	$(".close").click(function() {
+		$("#know").modal('hide');
+	});
+
+	$("#want").click(function() {
+		$("#know").modal('hide');
+		modal.showLogin()
+	});
+    
+    $("#play").click(function() {
+		$("#know").modal('hide');
+		modal.showLogin()
+	});
+
+	var saveModal = function () {
+
+		function onButton() {
+			var myData = $(this).data().child
+			epicModel.loginPlayer(myData.remoteID)
+			$("#players").modal('hide');
+		}
+
+		function setHeader(tag) {
+			tag = tag || "save"
+			var $img = $("<img>", {"class":"logo", "src":"images/"+tag+".png"})
+			$(".topImg").append($img)
+		}
+		return{
+			setHeader:setHeader,
+		}
+	}()
+</script>
+    
+    <script src="js/languages.js"></script>
+</body>
+</html>
