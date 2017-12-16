@@ -26,6 +26,7 @@ var epicModel = function () {
 
 	var currentCallback
 	var unlockAccessCall
+	var signInCallback
 
 	function getParameterByName(name, url) {
 		if (!url) url = window.location.href;
@@ -56,12 +57,14 @@ var epicModel = function () {
 			}else {
 				localStorage.setItem("token", null)
 				if(onError)onError(response)
+				modal.showLogin()
 				// checkLogin()
 			}
 		}).fail(function(response){
 			console.log("error", response);
 			localStorage.setItem("token", null)
 			if(onError)onError(response)
+			modal.showLogin()
 		});
 	}
 
@@ -80,9 +83,22 @@ var epicModel = function () {
 		initializePlayer()
 		var credentials = getCredentials()
 		player = credentials.gameData || player
+		if(credentials.subscribed){
+			if(unlockAccessCall) {
+				unlockAccessCall()
+				unlockAccessCall = null
+			}
+		}
+		else
+			modal.showYouKnow()
+
 		if(currentCallback) {
 			currentCallback()
 			currentCallback = null
+		}
+
+		if(signInCallback){
+			signInCallback()
 		}
 	}
 
@@ -110,15 +126,10 @@ var epicModel = function () {
 				var gameData = child.gameData
 				localStorage.setItem("gameData", JSON.stringify(child.gameData))
 			}
-			if(child.subscribed){
-				localStorage.setItem("subscribed", true)
-				if(unlockAccessCall) {
-					unlockAccessCall()
-					unlockAccessCall = null
-				}
-			}else{
-				modal.showYouKnow()
-			}
+		}
+
+		if((response)&&(response.subscribed)){
+			localStorage.setItem("subscribed", true)
 		}
 	}
 
@@ -163,10 +174,12 @@ var epicModel = function () {
 
 	function signIn(data, onSuccess, onError) {
 		console.log(data)
-		currentCallback = onSuccess
+		signInCallback = onSuccess
+
 		function callback(response){
 			checkLogin(response)
 		}
+
 		setCredentials(data)
 		if(data.token)
 			ajaxCall({email: data.email, token: data.token}, loginParent, callback, onError)
