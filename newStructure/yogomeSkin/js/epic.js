@@ -56,7 +56,11 @@ var epicSiteMain =  function(){
 		if(!currentPlayer.yogotar){
 			// routing.navigate("#/yogotarselector")
 			window.location.href = "#/yogotarselector"
-		}else loadGame(src)
+		}else {
+			var yogotarImgPath = "assets/img/common/yogotars/" + currentPlayer.yogotar.toLowerCase() + ".png"
+			$( '.yogotar img' ).attr("src",yogotarImgPath);
+			loadGame(src)
+		}
 
 	}
 
@@ -74,8 +78,8 @@ var epicSiteMain =  function(){
 		epicModel.savePlayer(currentPlayer)
 		routing.navigate(url)
 
-		var yogotarImgPath = "assets/img/common/yogotars/" + yogotar.toLowerCase() + ".png"
-		$( '.yogotar img' ).attr("src",yogotarImgPath);
+		// var yogotarImgPath = "assets/img/common/yogotars/" + yogotar.toLowerCase() + ".png"
+		// $( '.yogotar img' ).attr("src",yogotarImgPath);
 
 		var credentials = epicModel.getCredentials()
 		mixpanel.track(

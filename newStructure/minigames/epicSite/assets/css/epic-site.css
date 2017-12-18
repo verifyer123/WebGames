@@ -230,6 +230,12 @@ footer {
     /*text-align: center;*/
 }
 
+.yogotar img{
+  transform: scale(-1, 1);
+  height: 160px;
+  width: auto;
+}
+
 /* show on mobile */
 
 @media (max-width: 768px) {
@@ -355,6 +361,10 @@ footer {
     bottom: -80px;
       z-index: 2;
   }
+
+  .yogotar img{
+    transform: scale(-1, 1);
+  }
 }
 
 @media (min-width: 767px) and (max-width: 769px) {
@@ -366,6 +376,10 @@ footer {
   .yogotar {
     width: 22%!important;
       z-index: 2;
+  }
+
+  .yogotar img{
+    transform: scale(-1, 1);
   }
 }
 
