@@ -157,11 +157,28 @@
 
 		function onSuccess() {
 			$("#signIn").modal('hide');
+
+			var credentials = epicModel.getCredentials()
+			mixpanel.track(
+				"onLoginSuccess",
+				{"user_id": credentials.educationID,
+				"subscribed":credentials.subscribed}
+			);
+			mixpanel.people.increment("loginCount");
+
 		}
 
 		function onError(response) {
 			document.getElementById("error").innerText = err;
 			console.log("error login")
+
+			var credentials = epicModel.getCredentials()
+			mixpanel.track(
+				"onLoginFailed",
+				{"user_id": credentials.educationID,
+				"reason":response}
+			);
+			mixpanel.people.increment("loginFailed");
 		}
 
 		var data = {

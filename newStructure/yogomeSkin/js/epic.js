@@ -74,6 +74,13 @@ var epicSiteMain =  function(){
 		epicModel.savePlayer(currentPlayer)
 		routing.navigate(url)
 
+		var credentials = epicModel.getCredentials()
+		mixpanel.track(
+			"yogotarSelected",
+			{"user_id": credentials.educationID,
+			"yogotar":yogotar}
+		);
+
 	}
 
 

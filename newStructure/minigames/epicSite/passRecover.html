@@ -154,13 +154,23 @@
 				break;
 		}
 
+		var credentials = epicModel.getCredentials()
 		function onSuccess() {
 			$("#recover").modal('hide');
 			$("#success").modal('show');
+
+			mixpanel.track(
+				"recoverySuccess",
+				{"user_id": credentials.educationID}
+			);
 		}
 
 		function onError() {
-//			$("#recover").modal('show');
+			mixpanel.track(
+				"recoveryFailed",
+				{"user_id": credentials.educationID,
+				"reason": "parent email not found"}
+			);
 			document.getElementById("error").innerText = "Parent not found";
 		}
 

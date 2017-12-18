@@ -4,6 +4,8 @@ var routing = function () {
 	var hash = '#/'; // Defaults to: '#'
 	var router = new Navigo(root, useHash, hash);
 	var badRouting = false
+	var credentials = epicModel.getCredentials()
+
 	$("#minigames").show()
 
 	// router.on(
@@ -20,10 +22,22 @@ var routing = function () {
 				var characterSelector = document.getElementById("characterSelector")
 				characterSelector.style.visibility = "visible"
 				startCharSelector()
+
+				mixpanel.track(
+					"pageLoadYogotarSelector",
+					{"user_id": credentials.educationID}
+				);
 			},
 			'minigames': function () {
 				// $("#minigames").hide()
 				epicSiteMain.showGames()
+
+				mixpanel.track(
+					"PageLoadGames",
+					{"user_id": credentials.educationID,
+					"app":"web",
+					"from":"home"}
+				);
 			},
 			'minigames/:id': function (params) {
 				$("#minigames").hide()
@@ -42,12 +56,24 @@ var routing = function () {
 					}
 				}
 				epicSiteMain.loadGame(url + "index.html?language=" + language)
+
+				//TODO: check mixpanel
+				// mixpanel.track(
+				// 	"minigameLoad",
+				// 	{"user_id": credentials.educationID,
+				// 	"minigame": id}
+				// );
 			},
 			'map': function () {
 				// if(game)
 				// 	game.destroy()
 				$("#minigames").hide()
 				epicSiteMain.checkPlayer()
+
+				mixpanel.track(
+					"PageLoadAdventureMode",
+					{"user_id": credentials.educationID}
+				);
 			},
 			'*': function () {
 				// window.location.href = router.root

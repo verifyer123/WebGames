@@ -17,12 +17,12 @@ var epicModel = function () {
 
 	var GAME = "play.yogome"
 
-	var loginParent = "/login/parent"
-	var accessChild = "/login/access_childs"
-	var changeChild = "/login/change_childs"
-	var updateChild = "/login/child/update"
-	var getChild = "/login/child/get"
-	var userRecover = "/users/parent/recover"
+	var LOGIN_PARENT = "/login/parent"
+	var ACCESS_CHILD = "/login/access_childs"
+	var CHANGE_CHILD = "/login/change_childs"
+	var UPDATE_CHILD = "/login/child/update"
+	var GET_CHILD = "/login/child/get"
+	var USER_RECOVERY = "/users/parent/recover"
 
 	var currentCallback
 	var unlockAccessCall
@@ -155,7 +155,7 @@ var epicModel = function () {
 		gameData = gameData === "null" ? null : JSON.parse(gameData)
 
 		var subscribed = localStorage.getItem("subscribed")
-		subscribed = subscribed === "null" ? null : JSON.parse(subscribed)
+		subscribed = subscribed !== "null"
 
 		return {
 			email:email,
@@ -174,7 +174,7 @@ var epicModel = function () {
 
 	function loginPlayer(remoteID, callback) {
 		var credentials = getCredentials()
-		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, accessChild, checkLogin)
+		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, ACCESS_CHILD, checkLogin)
 	}
 
 	function signIn(data, onSuccess, onError) {
@@ -187,9 +187,9 @@ var epicModel = function () {
 
 		setCredentials(data)
 		if(data.token)
-			ajaxCall({email: data.email, token: data.token}, loginParent, callback, onError)
+			ajaxCall({email: data.email, token: data.token}, LOGIN_PARENT, callback, onError)
 		else
-			ajaxCall({email:data.email, password: data.password}, loginParent, callback, onError)
+			ajaxCall({email:data.email, password: data.password}, LOGIN_PARENT, callback, onError)
 	}
 	
 	function checkLogin(response){
@@ -205,7 +205,7 @@ var epicModel = function () {
 			console.log(tokenType)
 			if (tokenType === "pl"){
 				console.log("login player")
-				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, getChild, updateData)
+				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, GET_CHILD, updateData)
 
 			}else if(tokenType === "pa"){
 				console.log("call select player")
@@ -219,8 +219,6 @@ var epicModel = function () {
 
 		}
 		else {
-			console.log("callLogin")
-			// modal.showLogin()
 			// var data = {
 			// 	"email": "aaron+20171207_2@yogome.com",
 			// 	"password" : "yogome-children-fun"
@@ -253,7 +251,7 @@ var epicModel = function () {
 		var remoteID = credentials.remoteID
 
 		if((token)&&(email)&&(remoteID)){
-			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, updateChild, function () {
+			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, UPDATE_CHILD, function () {
 				console.log("playerSaved")
 			})
 		}else if(forceLogin){
@@ -263,7 +261,7 @@ var epicModel = function () {
 	}
 	
 	function recoverPass(email, onSuccess, onError) {
-		ajaxCall({email:email}, userRecover, onSuccess, onError)
+		ajaxCall({email:email}, USER_RECOVERY, onSuccess, onError)
 	}
 
 	function checkQuery(callBack){
