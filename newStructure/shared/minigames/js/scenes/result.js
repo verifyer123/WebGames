@@ -532,6 +532,10 @@ var result = function(){
 			
 		}
 		
+		if(totalScore > 99){
+			coinsContainer.text.setScale(0.8,0.8)
+		}
+		
 		game.time.events.add(delay,function(){
 			
 			var animName = "LOSE"
