@@ -16,7 +16,7 @@ var epicYogomeGames = function () {
 		{name:'duckCount',url:url + '/duckCount/',sceneName:'duck',subject:'math', review:true},//66
 		{name:'countipede',url:url + '/countipede/',sceneName:'countip',subject:'math', review:true},//54
 		{name:'acornNumbers',url:url + '/acornNumbers/',sceneName:'acorn',subject:'math',review:true},//34
-		{name:'Elemental Witch',url:url + '/elementalWitch/',sceneName:'elemental',subject:'Creativity', review:true},//104
+		{name:'Elemental Witch',url:url + '/elementalWitch/',sceneName:'elemental',subject:'creativity', review:true},//104
 		{name:'saladCards',url:url + '/tapcards/',sceneName:'tapcards',subject:'language',review:false},
 		{name:'drZombie',url:url + '/drZombie/',sceneName:'drzombie',subject:'health', review:true},//94
 		{name:'magicGate',url:url + '/magicGate/',sceneName:'magic',subject:'math', review:true},//49
@@ -33,7 +33,7 @@ var epicYogomeGames = function () {
 		{name:'astronoMetric',url:url + '/astronoMetric/',sceneName:'astrono',subject:'math', review:true},//63
 		{name:'skyLanguage',url:url + '/skyLanguage/',sceneName:'sky',subject:'language',review:true},
 		{name:'flightoclock',url:url + '/flightoclock/',sceneName:'flightoclock',subject:'math',review:true},//39
-		{name:'Space Vaccum',url:url + '/spaceVaccum/',sceneName:'spaceVaccum',subject:'Sustainability', review:true},//102
+		{name:'Space Vaccum',url:url + '/spaceVaccum/',sceneName:'spaceVaccum',subject:'sustainability', review:true},//102
 		{name:'beachNinja',url:url + '/beachNinja/',sceneName:'beach',subject:'math',review:true},
 		{name:'colorAttack',url:url + '/colorAttack/',sceneName:'color',subject:'creativity',review:true},
 		{name:'wildDentist',url:url + '/wildDentist/',sceneName:'wildDentist',subject:'health', review:false},//95
@@ -87,14 +87,12 @@ var epicYogomeGames = function () {
 		{name:'skyTap',url:url + '/skyTap/',sceneName:'sky',subject:'math' ,review:true},//44
 		{name:'Garbage Diving',url:url + '/garbageDiving/',sceneName:'garbageDiving',subject:'sustainability', review:false},//101
 		{name:'duskdefense',url:url + '/duskDefense/',sceneName:'dusk',subject:'math', review:true},//73
-		{name:'Garbage Mole',url:url + '/garbageMole/',sceneName:'mole',subject:'Sustainability', review:true},//103
+		{name:'Garbage Mole',url:url + '/garbageMole/',sceneName:'mole',subject:'sustainability', review:true},//103
 		{name:'stackathon',url:url + '/stackathon/',sceneName:'stack',subject:'math', review:true},//69
 		{name:'Paper Ships',url:url + '/paperShips/',sceneName:'paper',subject:'math', review:true},//81
 		{name:'mathgicHat',url:url + '/mathgicHat/',sceneName:'magic',subject:'math', review:true},//59
 		{name:'geometryWarp',url:url + '/geometryWarp/',sceneName:'geometry',subject:'math', review:true},//70
 		{name:'mathrioska',url:url + '/mathrioska/',sceneName:'mathrioska',subject:'math', review:true},//71
-		
-		
 		{name:'jumptiply',url:url + '/jumptiply/',sceneName:'jump',subject:'math', review:true},//64
 		{name:'Divisubmarine',url:url + '/diviSubmarine/',sceneName:'divisubmarine',subject:'math', review:true},//75
 		{name:'memoNumbers',url:url + '/memoNumbers/',sceneName:'memo',subject:'math',review:true},
