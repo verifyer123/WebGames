@@ -138,6 +138,17 @@ var epicModel = function () {
 		}
 	}
 
+	function getJson(stringData) {
+		var jsonData
+		try{
+			jsonData = JSON.parse(stringData)
+		}catch (e){
+			jsonData = null
+		}
+
+		return jsonData
+	}
+
 	function getCredentials() {
 		var email = localStorage.getItem("email")
 		email = email === "null" ? null : email
@@ -152,7 +163,7 @@ var epicModel = function () {
 		educationID = educationID === "null" ? "none" : educationID
 
 		var gameData = localStorage.getItem("gameData")
-		gameData = gameData === "null" ? null : JSON.parse(gameData)
+		gameData = gameData === "null" ? null : getJson(gameData)
 
 		var subscribed = localStorage.getItem("subscribed")
 		subscribed = subscribed !== "null"

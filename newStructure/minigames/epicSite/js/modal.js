@@ -1,9 +1,9 @@
 var modal = function () {
-    var credentials = epicModel.getCredentials()
 
 	return {
         showLogin:function () {
-			mixpanel.track(
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
 				"showLogin",
 				{"user_id": credentials.educationID}
 			);
@@ -13,7 +13,8 @@ var modal = function () {
 			} );
 		},
 		showPlayers:function (children) {
-			mixpanel.track(
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
 				"showPlayers",
 				{"user_id": credentials.educationID}
 			);
@@ -25,7 +26,8 @@ var modal = function () {
 			} );
 		},
 		showSave:function (tag) {
-			mixpanel.track(
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
 				"showYouNeedLoginToSave",
 				{"user_id": credentials.educationID}
 			);
@@ -36,7 +38,8 @@ var modal = function () {
 			})
 		},
 		showRecover:function () {
-			mixpanel.track(
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
 				"showPasswordRecovery",
 				{"user_id": credentials.educationID}
 			);
@@ -46,7 +49,8 @@ var modal = function () {
 			})
 		},
 		showWelcome:function () {
-			mixpanel.track(
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
 				"showWelcome",
 				{"user_id": credentials.educationID}
 			);
@@ -56,7 +60,8 @@ var modal = function () {
 			})
 		},
 		showYouKnow:function() {
-			mixpanel.track(
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
 				"showYouKnowScreen",
 				{"user_id": credentials.educationID}
 			);
