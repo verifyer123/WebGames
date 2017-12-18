@@ -74,6 +74,9 @@ var epicSiteMain =  function(){
 		epicModel.savePlayer(currentPlayer)
 		routing.navigate(url)
 
+		var yogotarImgPath = "assets/img/common/yogotars/" + yogotar.toLowerCase() + ".png"
+		$( '.yogotar img' ).attr("src",yogotarImgPath);
+
 		var credentials = epicModel.getCredentials()
 		mixpanel.track(
 			"yogotarSelected",

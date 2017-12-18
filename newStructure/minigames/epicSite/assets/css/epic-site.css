@@ -307,6 +307,11 @@ footer {
     bottom: 5px;
     z-index: 2;
   }
+
+  .yogotar img{
+    transform: scale(-1, 1);
+  }
+
   .slick-dots li {
     margin-left: -2px;
     font-size: 25px;
