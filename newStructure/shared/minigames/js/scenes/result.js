@@ -112,7 +112,7 @@ var result = function(){
 		playerData = yogomeGames.returnData()
 		playerData.hasMap = false
 		
-		console.log(playerData.timeReady + ' gameTime')
+		// console.log(playerData.timeReady + ' gameTime')
 		if(currentPlayer && currentPlayer.isMap){
 			playerData.hasMap = true
 			currentPlayer.minigamesPlayed++
@@ -229,7 +229,7 @@ var result = function(){
 				setMixpanel("onMap")
 				var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        window.open("http://yogome.com/epic/minigames/epicMap/", "_self")
+                        window.open("../epicMap/", "_self")
                     })
 			}
         })
@@ -356,8 +356,11 @@ var result = function(){
 		if(win){
 			
 			if(currentPlayer && currentPlayer.isMap){
-				
+				// console.log(currentPlayer.currentMinigame)
 				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
+
+				currentPlayer.powerCoins += totalScore
+				parent.epicModel.savePlayer(currentPlayer)
 			}
 		}
 		
@@ -530,6 +533,10 @@ var result = function(){
 			})
 			delay+= valueChange
 			
+		}
+		
+		if(totalScore > 99){
+			coinsContainer.text.setScale(0.8,0.8)
 		}
 		
 		game.time.events.add(delay,function(){

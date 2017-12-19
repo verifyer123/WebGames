@@ -309,10 +309,10 @@ var characterSelect = function(){
 			//Aqui ira el redireccionamiento
 			if(continuar.alpha==1){
 				selectedCharacter = selectedCharacter.replace("yogotar", "")
-				console.log(selectedCharacter)
-				console.log(sceneGroup)
+				var yogotarImgPath = "assets/img/common/yogotars/" + selectedCharacter.toLowerCase() + ".png"
+				$( '.yogotar img' ).attr("src",yogotarImgPath);
+
 				game.add.tween(sceneGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
-					console.log("end")
 					game.lockRender = true
 					game.destroy()
 					// game.paused = true

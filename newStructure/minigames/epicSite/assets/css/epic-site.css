@@ -63,7 +63,7 @@ footer {
   min-height: 80px;
   clear: both;
   margin-left: 15%;
-  margin-top: 20px;
+  /*margin-top: 20px;*/
   position: relative;
 }
 
@@ -230,6 +230,12 @@ footer {
     /*text-align: center;*/
 }
 
+.yogotar img{
+  transform: scale(-1, 1);
+  height: 160px;
+  width: auto;
+}
+
 /* show on mobile */
 
 @media (max-width: 768px) {
@@ -307,6 +313,11 @@ footer {
     bottom: 5px;
     z-index: 2;
   }
+
+  .yogotar img{
+    transform: scale(-1, 1);
+  }
+
   .slick-dots li {
     margin-left: -2px;
     font-size: 25px;
@@ -350,6 +361,10 @@ footer {
     bottom: -80px;
       z-index: 2;
   }
+
+  .yogotar img{
+    transform: scale(-1, 1);
+  }
 }
 
 @media (min-width: 767px) and (max-width: 769px) {
@@ -361,6 +376,10 @@ footer {
   .yogotar {
     width: 22%!important;
       z-index: 2;
+  }
+
+  .yogotar img{
+    transform: scale(-1, 1);
   }
 }
 

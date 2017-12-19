@@ -7,7 +7,7 @@
     <!--&lt;!&ndash; Jquery &ndash;&gt;-->
     <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
     
-    <script>var language = "ES";</script>
+    <script>var language = "EN";</script>
     
     <script>
     //AQUI VA PARA SABER EL LENGUAGE
@@ -28,14 +28,14 @@
             var lengua;
             //lengua = navigator.language || navigator.userLanguage; 
             //language = eval("'" + lengua + "'").toUpperCase();
-            language= "ES";
+            language= "EN";
         }else{
             language.toUpperCase();
         }
     
     </script>
 
-	<script>var language = "ES";</script>
+	<script>var language = "EN";</script>
 
 	<script>
 		//AQUI VA PARA SABER EL LENGUAGE
@@ -56,7 +56,7 @@
 			var lengua;
 			//lengua = navigator.language || navigator.userLanguage;
 			//language = eval("'" + lengua + "'").toUpperCase();
-			language= "ES";
+			language= "EN";
 		}else{
 			language.toUpperCase();
 		}
@@ -132,28 +132,53 @@
     
     $("#login").click(function(){
         var leng = "Fill the gaps";
+        var err = "User or password incorrect."
         
         switch(language){
-            case "ES": leng = "Llena los espacios"
+            case "ES": leng = "Llena los espacios."
+				err = "Usuario o contraseña incorrectos."
                 break;
-            case "EN": leng = "Llena los espacios"
+            case "EN": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "PT": leng = "Llena los espacios"
+            case "PT": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "ZH": leng = "Llena los espacios"
+            case "ZH": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "JA": leng = "Llena los espacios"
+            case "JA": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
-            case "KO": leng = "Llena los espacios"
+            case "KO": leng = "Fill the gaps."
+				err = "User or password incorrect."
                 break;
         }
 
 		function onSuccess() {
 			$("#signIn").modal('hide');
+
+			var credentials = epicModel.getCredentials()
+			mixpanel.track(
+				"onLoginSuccess",
+				{"user_id": credentials.educationID,
+				"subscribed":credentials.subscribed}
+			);
+			mixpanel.people.increment("loginCount");
+
 		}
 
 		function onError(response) {
-			console.log(response)
+			document.getElementById("error").innerText = err;
+			console.log("error login")
+
+			var credentials = epicModel.getCredentials()
+			mixpanel.track(
+				"onLoginFailed",
+				{"user_id": credentials.educationID,
+				"reason":response}
+			);
+			mixpanel.people.increment("loginFailed");
 		}
 
 		var data = {

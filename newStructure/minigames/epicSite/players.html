@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Players</title>
     
-    <script>var language = "ES";</script>
+    <script>var language = "EN";</script>
     
     <script>
     //AQUI VA PARA SABER EL LENGUAGE
@@ -25,7 +25,7 @@
             var lengua;
             //lengua = navigator.language || navigator.userLanguage; 
             //language = eval("'" + lengua + "'").toUpperCase();
-            language= "ES";
+            language= "EN";
         }else{
             language.toUpperCase();
         }
@@ -81,6 +81,7 @@
 			var myData = $(this).data().child
 			epicModel.loginPlayer(myData.remoteID)
 			$("#players").modal('hide');
+			console.log("onButton")
 		}
 		
 		function setChildren(children) {

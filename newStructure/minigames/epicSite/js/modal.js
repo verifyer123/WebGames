@@ -1,13 +1,24 @@
 var modal = function () {
-    return {
+
+	return {
         showLogin:function () {
-			console.log("showLogin")
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
+				"showLogin",
+				{"user_id": credentials.educationID}
+			);
+
 			$("#myModal").load( "login.html", function () {
 				$("#myModal").find("#signIn").modal('toggle');
 			} );
 		},
 		showPlayers:function (children) {
-        	// console.log(children)
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
+				"showPlayers",
+				{"user_id": credentials.educationID}
+			);
+
         	$("#myModal").load( "players.html", function () {
         		console.log(children)
         		childrenModal.setChildren(children)
@@ -15,19 +26,48 @@ var modal = function () {
 			} );
 		},
 		showSave:function (tag) {
-			$("#myModal").load( "save.html", function () {
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
+				"showYouNeedLoginToSave",
+				{"user_id": credentials.educationID}
+			);
+
+        	$("#myModal").load( "save.html", function () {
 				saveModal.setHeader(tag)
 				$("#myModal").find("#save").modal('toggle');
 			})
 		},
 		showRecover:function () {
-			$("#myModal").load( "passRecover.html", function () {
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
+				"showPasswordRecovery",
+				{"user_id": credentials.educationID}
+			);
+
+        	$("#myModal").load( "passRecover.html", function () {
 				$("#myModal").find("#recover").modal('toggle');
 			})
 		},
 		showWelcome:function () {
-			$("#myModal").load( "welcome.html", function () {
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
+				"showWelcome",
+				{"user_id": credentials.educationID}
+			);
+
+        	$("#myModal").load( "welcome.html", function () {
 				$("#myModal").find("#welcome").modal('toggle');
+			})
+		},
+		showYouKnow:function() {
+			var credentials = epicModel.getCredentials()
+        	mixpanel.track(
+				"showYouKnowScreen",
+				{"user_id": credentials.educationID}
+			);
+
+        	$("#myModal").load( "didYouKnow.html", function () {
+				$("#myModal").find("#know").modal('toggle');
 			})
 		}
     }

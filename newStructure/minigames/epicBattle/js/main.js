@@ -87,9 +87,11 @@ function startGame(){
 		var battleIndex = parent.env ? (parent.env.battleIndex ? parent.env.battleIndex : 0) : 0
 		var enemyCards = currentPlayer.battles[battleIndex] || battleService.getOpponents(1)
 		currentPlayer.battles[battleIndex] = enemyCards
+		enemyCards = [{id:"yogotarPaz", xp:0, data:epicCharacters["yogotarPaz"]}]
 
 		//TODO: change when card Selector is ready
-		var selectedCard = cards[0]
+		// var selectedCard = cards[0]
+		var selectedCard = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
 		var selectedCards = [selectedCard]
 		charactersSet = selectedCards.concat(enemyCards)
 		// var charIndex = game.rnd.integerInRange(0, allCharacters.length - 1)

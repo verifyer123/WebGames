@@ -4,17 +4,9 @@ var routing = function () {
 	var hash = '#/'; // Defaults to: '#'
 	var router = new Navigo(root, useHash, hash);
 	var badRouting = false
-	$("#minigames").show()
+	var credentials = epicModel.getCredentials()
 
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
+	$("#minigames").show()
 
 	// router.on(
 	// 	function () {
@@ -30,10 +22,22 @@ var routing = function () {
 				var characterSelector = document.getElementById("characterSelector")
 				characterSelector.style.visibility = "visible"
 				startCharSelector()
+
+				mixpanel.track(
+					"pageLoadYogotarSelector",
+					{"user_id": credentials.educationID}
+				);
 			},
 			'minigames': function () {
 				// $("#minigames").hide()
 				epicSiteMain.showGames()
+
+				mixpanel.track(
+					"PageLoadGames",
+					{"user_id": credentials.educationID,
+					"app":"web",
+					"from":"home"}
+				);
 			},
 			'minigames/:id': function (params) {
 				$("#minigames").hide()
@@ -52,12 +56,24 @@ var routing = function () {
 					}
 				}
 				epicSiteMain.loadGame(url + "index.html?language=" + language)
+
+				//TODO: check mixpanel
+				// mixpanel.track(
+				// 	"minigameLoad",
+				// 	{"user_id": credentials.educationID,
+				// 	"minigame": id}
+				// );
 			},
 			'map': function () {
 				// if(game)
 				// 	game.destroy()
 				$("#minigames").hide()
 				epicSiteMain.checkPlayer()
+
+				mixpanel.track(
+					"PageLoadAdventureMode",
+					{"user_id": credentials.educationID}
+				);
 			},
 			'*': function () {
 				// window.location.href = router.root
@@ -75,26 +91,7 @@ var routing = function () {
 				/*Here goes the login validation*/
 			}
 
-			function onSuccess() {
-				modal.showWelcome()
-				done()
-			}
-			var token = getParameterByName("token")
-			var email = getParameterByName("email")
-			token = token ? decodeURIComponent(token) : null
-			email = email ? decodeURIComponent(email) : null
-			//pa_%5BB%406d33b036
-			//aaron%2B20171207_2%40yogome.com
-			// var token = null//"pa_[B@15f1b80"
-			// var email = "aaron+20171207_2@yogome.com"
-
-			if((token)&&(email)) {
-				localStorage.setItem("email", email)
-				console.log(token)
-				epicModel.loginParent({token: token, email:email}, onSuccess)
-			}
-			else
-				done()
+			epicModel.checkQuery(done)
 		},
 		after: function(params) {
 			console.log("after")
