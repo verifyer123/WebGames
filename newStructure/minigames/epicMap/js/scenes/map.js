@@ -1170,7 +1170,7 @@ var map = function(){
 			icon.scale.setTo(0.5,0.5)
 			icon.active = false
 			icon.id = gamesList[i].id
-			console.log(gamesList[i])
+			// console.log(gamesList[i])
 			
 		}
 	}
