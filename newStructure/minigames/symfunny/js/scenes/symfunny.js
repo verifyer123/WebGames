@@ -39,6 +39,8 @@ var symfunny = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
+            {	name: "error",
+				file: soundsPath + "error.mp3"},
             {	name: "harp",
 				file: "sounds/" + "harp.mp3"},
 			{	name: "piano",
@@ -622,12 +624,12 @@ var symfunny = function(){
             if(correctAnswer[pivot] === instument.value){
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY", false)
                 pivot++
-                //sound.play('right')
                 sound.play(orchesta[instument.value].name)
                 if(pivot === cap)
                     crescendo(true)
             }
             else{
+                sound.play('error')
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY_WRONG", false)
                 crescendo(false)
             }

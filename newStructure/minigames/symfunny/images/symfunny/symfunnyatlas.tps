@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/rockdrizt/Documents/repositorioLocal/nonrefactored/symfunny/symfunny/images/symfunny/symfunnyatlas.tps</string>
+        <string>/Users/rockdrizt/Documents/WebGames/newStructure/minigames/symfunny/images/symfunny/symfunnyatlas.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -238,6 +238,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">gametuto.jpg</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>82,80,165,160</rect>
+                <key>scale9Paddings</key>
+                <rect>82,80,165,160</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -372,6 +385,7 @@
             <filename>tile.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>gametuto.jpg</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
