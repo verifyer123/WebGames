@@ -138,10 +138,13 @@ var epicModel = function () {
 			localStorage.setItem("name", children.name)
 			if(child.gameData) {
 				var gameData = child.gameData
+				gameData = JSON.stringify(child.gameData)
 				if(gameData.version === player.version)
-					localStorage.setItem("gameData", JSON.stringify(child.gameData))
-				else
-					localStorage.setItem("gameData", null)
+					localStorage.setItem("gameData", gameData)
+				else{
+					gameData.minigames = {}
+					localStorage.setItem("gameData", gameData)
+				}
 			}
 		}
 
@@ -176,6 +179,9 @@ var epicModel = function () {
 
 		var gameData = localStorage.getItem("gameData")
 		gameData = gameData === "null" ? null : getJson(gameData)
+		if(gameData.version !== player.version){
+			gameData.minigames = {}
+		}
 
 		var subscribed = localStorage.getItem("subscribed")
 		subscribed = subscribed !== "null"
@@ -286,7 +292,7 @@ var epicModel = function () {
 			modal.showSave(loginTag)
 		}
 
-		if(epicSiteMain){
+		if((epicSiteMain) && (typeof epicSiteMain.updatePlayerInfo === "function")){
 			epicSiteMain.updatePlayerInfo()
 		}
 	}
