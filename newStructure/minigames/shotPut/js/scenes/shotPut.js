@@ -56,7 +56,7 @@ var shotPut = function(){
     var gameActive = false
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 107
+    var gameIndex = 108
 	var indexGame
     var overlayGroup
     var timberman
@@ -638,8 +638,11 @@ var shotPut = function(){
                     }
                 break
             }
+            if(force === objIndex + 1)
+                stamina.tint = 0x33ff33
+            else
+                stamina.tint = 0xffffff
 		}
-		
 	}
     
     function initObjGroup(){
@@ -715,16 +718,17 @@ var shotPut = function(){
     
     function initGame(){
         
-        objGroup.alpha = 1
         objIndex = getRand()
-        changeImage(objIndex, objGroup)
         game.add.tween(stamina).to({width:Phaser.Math.clamp(0, 0, topStamina)}, 200, Phaser.Easing.linear, true)
         force = 0
-        game.add.tween(objGroup.scale).to({x:1, y:1},150,Phaser.Easing.linear,true).onComplete.add(function(){
-            sound.play("pop")
-            game.add.tween(objGroup.scale).to({x:0.5, y:0.5},150,Phaser.Easing.linear,true)
-        })
-                
+        objGroup.alpha = 1
+        changeImage(objIndex, objGroup)
+        rotate()
+        
+        game.time.events.add(380,function(){
+            oof.setSkinByName("normal"+(objIndex+1))
+        },this)
+        
         game.time.events.add(1000,function(){
             startTimer(delay)
             gameActive = true
@@ -739,9 +743,66 @@ var shotPut = function(){
             return x     
     }
     
+    function rotate(){
+        
+        var delay1, delay2, scale
+        
+        switch(objIndex){
+            case 0:
+                objGroup.angle = 20
+                delay1 = 600
+                delay2 = 250
+                scale = 0.8
+            break
+            case 1:
+                objGroup.angle = 45
+                delay1 = 500
+                delay2 = 315
+                scale = 0.6
+            break
+            case 2:
+                objGroup.angle = -45
+                delay1 = 400
+                delay2 = 320
+                scale = 0.8
+                objGroup.y += 40
+            break
+            case 3:
+                objGroup.angle = -45
+                delay1 = 400
+                delay2 = 280
+                scale = 0.75
+                objGroup.y -= 30
+                objGroup.X -= 10
+            break
+            case 4:
+                objGroup.angle = 20
+                delay1 = 400
+                delay2 = 250
+                scale = 0.9
+                objGroup.y -= 20
+            break
+        }
+        
+        game.add.tween(objGroup.scale).to({x:1, y:1},delay1,Phaser.Easing.linear,true).onComplete.add(function(){
+            sound.play("pop")
+            game.add.tween(objGroup.scale).to({x:scale, y:scale},delay2,Phaser.Easing.linear,true).onComplete.add(function(){
+                objGroup.alpha = 0
+            })
+        })
+        if(objIndex === 2)
+            objGroup.y -= 40
+        else if(objIndex === 3){
+            objGroup.y += 30
+            objGroup.X += 10 
+        }
+    }
+    
     function throwObj(proyectile){
         
         gameActive = false
+        objGroup.alpha = 1
+        changeImage(objIndex, objGroup)
         oof.setAnimationByName(0, "THROW", false)
         
         var destinyX, destinyY, aux, scale
@@ -754,10 +815,19 @@ var shotPut = function(){
             delay -= 250
         }
         else if(force < objIndex+1){
-            destinyX =  target.x - 100
-            destinyY =  target.y + 100
-            aux = 180
-            scale = 0.2
+            
+            if((objIndex +1 - force) >= 3){
+                destinyX =  target.x - 200
+                destinyY =  target.y + 200
+                aux = 350
+                scale = 0.3
+            }
+            else{
+                destinyX =  target.x - 100
+                destinyY =  target.y + 100
+                aux = 180
+                scale = 0.2
+            }
         }
         else{
             destinyX =  target.x + 50
@@ -766,14 +836,15 @@ var shotPut = function(){
             scale = 0
         }
         
+        oof.setSkinByName("normal")
         oof.addAnimationByName(0, "IDLE", true)
         sound.play('throw')
-        game.add.tween(objGroup.scale).to({x: scale, y: scale}, 1200, null, true)
+        game.add.tween(objGroup.scale).to({x: scale, y: scale}, 1000, null, true)
         
-		game.add.tween(objGroup).to({x: destinyX}, 1200, null, true)
+		game.add.tween(objGroup).to({x: destinyX}, 1000, null, true)
         
-        game.add.tween(objGroup).to({y: aux}, 600, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
-            game.add.tween(objGroup).to({y: destinyY}, 600, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+        game.add.tween(objGroup).to({y: aux}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
+            game.add.tween(objGroup).to({y: destinyY}, 500, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
                 if(force === objIndex+1){
                     particleCorrect.x = destinyX
                     particleCorrect.y = destinyY
@@ -789,12 +860,14 @@ var shotPut = function(){
                     oof.setAnimationByName(0, "LOSE", false)
                 }
                 
+                oof.setSkinByName("normal")
                 oof.addAnimationByName(0, "IDLE", true)
                 
                 game.add.tween(objGroup).to({alpha:0}, 1200, Phaser.Easing.linear, true).onComplete.add(function(){
                     objGroup.x = objGroup.startPosX
                     objGroup.y = objGroup.startPosY
-                    initGame()
+                    if(lives !== 0)
+                        initGame()
                 })
             })
         })
@@ -857,3 +930,13 @@ var shotPut = function(){
 		}
 	}
 }()
+
+
+
+Correccion de errores en juegos 
+Edicion de los yogobooks
+Agregar y editar traducciones
+Crear y editar paginas y modales del epicSite
+Programación del juego Symfunny
+edicion de efectos de sonido para symfunny
+apoyo en la edicion de la pagina de play Yogome
