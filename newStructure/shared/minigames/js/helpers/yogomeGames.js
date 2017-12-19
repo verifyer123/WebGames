@@ -116,6 +116,7 @@ var yogomeGames = function () {
 		{name:'Elemental Witch',url:urlSet + 'elementalWitch/',mapUrl:urlMap + 'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true},//104
 		{name:'Milky Saloon',url:urlSet + 'milkySaloon/',mapUrl:urlMap + 'milkySaloon', sceneName:'milky',subject:'programming', review:false,objective:3,demo:false},//105
 		//{name:'Calendrigon',url:yogoUrl + 'calendrigonSite/',mapUrl:urlMap + 'calendrigon', sceneName:'calendrigon',subject:'math', review:false,objective:3}//106
+		// {name:'Shot Put',url:yogoUrl + 'shotPutSite/',mapUrl:urlMap + 'shotPut', sceneName:'shotPut',subject:'sciencie', review:false,objective:3}//107
 	]
 
 	for(var gIndex = 0; gIndex < games.length; gIndex++){
