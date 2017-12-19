@@ -25,7 +25,15 @@ var epicSiteMain =  function(){
 	buttonVideos.click(function () {
 		window.location.href = "http://play.yogome.com/webisodes.html"
 	})
+	
+	function updatePlayerInfo() {
+		var credentials = epicModel.getCredentials()
 
+		var name = credentials.name || credentials.gameData.yogotar
+		$(".player-name").html(name)
+		$(".player-coins").html(credentials.gameData.powerCoins)
+		$(".player-number").html(credentials.gameData.level)
+	}
 
 	function loadGame(src){
 		home.style.visibility = "visible"
@@ -122,7 +130,8 @@ var epicSiteMain =  function(){
 		startGame:main,
 		loadGame:loadGame,
 		checkPlayer:checkPlayer,
-		showGames:showGames
+		showGames:showGames,
+		updatePlayerInfo:updatePlayerInfo,
 	}
 }()
 

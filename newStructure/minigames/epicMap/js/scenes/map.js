@@ -393,6 +393,7 @@ var map = function(){
 	function addBalls(){
 		
 		var indexIcon = 0
+		console.log(gamesList)
 		for(var i = 0; i < iconsPositions.length;i++){
 			
 			var ballGroup = game.add.group()
@@ -404,7 +405,7 @@ var map = function(){
 			
 			var limit = indexIcon + 4
 			for(var u = indexIcon; u < limit; u++){
-				
+				// console.log(u)
 				ballGroup.icons[ballGroup.icons.length] = gamesList[u].sceneName
 			}
 			
@@ -570,7 +571,7 @@ var map = function(){
 					currentPlayer.currentPosition = buttonPressed.order
 					if(buttonPressed.isBattle){
 						if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
-						console.log("battleIndex", buttonPressed.battleIndex)
+						// console.log("battleIndex", buttonPressed.battleIndex)
 						sendBattle()
 					}else{
 						sendGame()
@@ -587,7 +588,7 @@ var map = function(){
 			currentPlayer.currentPosition = buttonPressed.order
 			if(buttonPressed.isBattle){
 				if(parent){parent.env = {battleIndex : buttonPressed.battleIndex}}
-				console.log("battleIndex", buttonPressed.battleIndex)
+				// console.log("battleIndex", buttonPressed.battleIndex)
 				sendBattle()
 			}else{
 				sendGame()
@@ -617,7 +618,7 @@ var map = function(){
 			
 			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
 			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
-				console.log("goBattle")
+				// console.log("goBattle")
 				window.open("../epicBattle/", "_self")
 			})
 		})
@@ -721,7 +722,7 @@ var map = function(){
 			menuGame.x = gamesMenu.x - 125
 			menuGame.y = gamesMenu.y + pivotY
 			
-			console.log(menuGame.subject + ' subject')
+			// console.log(menuGame.subject + ' subject')
 			var subject = getSubject(menuGame.subject)
 			subject.x = menuGame.x + menuGame.width * 0.45
 			subject.y = menuGame.y + menuGame.height * 0.4
@@ -888,7 +889,7 @@ var map = function(){
 						sound.play("error")
 					}else{
 						side.ball.isBattle = true
-						console.log("index", battleCounter)
+						// console.log("index", battleCounter)
 						side.ball.battleIndex = i
 						inputBall(side.ball)
 					}
@@ -1169,6 +1170,8 @@ var map = function(){
 			icon.order = i
 			icon.scale.setTo(0.5,0.5)
 			icon.active = false
+			icon.id = gamesList[i].id
+			console.log(gamesList[i])
 			
 		}
 	}
@@ -1203,8 +1206,9 @@ var map = function(){
 		
 		sound.play('secret')
 		game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,2000).onComplete.add(function(){
-			
-			currentPlayer.currentMinigame = icon.order
+
+			console.log(icon, "iconSelected")
+			currentPlayer.currentMinigame = icon.id
 			currentPlayer.isMap = true
 			players.savePlayer(currentPlayer)
 			window.open(icon.url,'_self')

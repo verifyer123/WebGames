@@ -3,7 +3,7 @@ var epicModel = function () {
 	// var DEFAULT_CARD = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
 
 	var player = {
-		minigames:[],
+		minigames:{},
 		battles:[],
 		cards:[],
 		yogotar:null,
@@ -12,7 +12,8 @@ var epicModel = function () {
 		currentMinigame:0,
 		paidUser:false,
 		powerCoins:0,
-		version: 0.1
+		level:1,
+		version: 0.2
 	}
 
 	var GAME = "play.yogome"
@@ -69,20 +70,23 @@ var epicModel = function () {
 	}
 
 	function initializePlayer() {
-		var minigames = epicYogomeGames.getGames()
+		var minigames = yogomeGames.getObjectGames()
 
-		for(var mgIndex = 0; mgIndex < minigames.length; mgIndex++){
-			var minigame = minigames[mgIndex]
-			minigame.completed = false
-			minigame.record = 0
-			player.minigames.push(minigame)
+		for(var key in minigames){
+			if(!player.minigames[key]){
+				player.minigames[key] = minigames[key]
+				player.minigames[key].completed = false
+				player.minigames[key].record = 0
+			}
 		}
+
+		console.log(player.minigames, "currentMinigames")
 	}
 	
 	function updateData() {
-		initializePlayer()
 		var credentials = getCredentials()
 		player = credentials.gameData || player
+		initializePlayer()
 		if(credentials.subscribed){
 			if(unlockAccessCall) {
 				unlockAccessCall()
@@ -105,6 +109,9 @@ var epicModel = function () {
 		if((mixpanel)&&(credentials.email)){
 			mixpanel.identify(credentials.email);
 		}
+
+		if(epicSiteMain)
+			epicSiteMain.updatePlayerInfo()
 	}
 
 	function setCredentials(response) {
@@ -121,15 +128,20 @@ var epicModel = function () {
 			var children = response.children[0]
 			localStorage.setItem("remoteID", children.remoteID)
 			localStorage.setItem("educationID", children.educationID)
+			localStorage.setItem("name", children.name)
 		}
 
 		if ((response)&&(response.child)) {
 			var child = response.child
 			localStorage.setItem("remoteID", child.remoteID)
 			localStorage.setItem("educationID", child.educationID)
+			localStorage.setItem("name", children.name)
 			if(child.gameData) {
 				var gameData = child.gameData
-				localStorage.setItem("gameData", JSON.stringify(child.gameData))
+				if(gameData.version === player.version)
+					localStorage.setItem("gameData", JSON.stringify(child.gameData))
+				else
+					localStorage.setItem("gameData", null)
 			}
 		}
 
@@ -168,13 +180,17 @@ var epicModel = function () {
 		var subscribed = localStorage.getItem("subscribed")
 		subscribed = subscribed !== "null"
 
+		var name = localStorage.getItem("name")
+		name = (name === "null" || !name) ? null : name
+
 		return {
 			email:email,
 			token:token,
 			remoteID:remoteID,
 			gameData:gameData,
 			educationID:educationID,
-			subscribed:subscribed
+			subscribed:subscribed,
+			name:name
 		}
 	}
 	
@@ -268,6 +284,10 @@ var epicModel = function () {
 		}else if(forceLogin){
 			console.log("You need to login to save")
 			modal.showSave(loginTag)
+		}
+
+		if(epicSiteMain){
+			epicSiteMain.updatePlayerInfo()
 		}
 	}
 	
