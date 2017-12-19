@@ -1206,7 +1206,7 @@ var map = function(){
 		sound.play('secret')
 		game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,2000).onComplete.add(function(){
 
-			console.log(icon, "iconSelected")
+			// console.log(icon, "iconSelected")
 			currentPlayer.currentMinigame = icon.id
 			currentPlayer.isMap = true
 			players.savePlayer(currentPlayer)
