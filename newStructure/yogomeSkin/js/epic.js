@@ -28,11 +28,30 @@ var epicSiteMain =  function(){
 	
 	function updatePlayerInfo() {
 		var credentials = epicModel.getCredentials()
+		var currentCoins = $(".player-coins").html()
+		currentCoins = parseInt(currentCoins)
+		var newCoins = credentials.gameData.powerCoins
+		var coinsDisplay = $(".player-coins")
+		var coinsObj = {coins:currentCoins}
 
 		var name = credentials.name || credentials.gameData.yogotar
 		$(".player-name").html(name)
-		$(".player-coins").html(credentials.gameData.powerCoins)
 		$(".player-number").html(credentials.gameData.level)
+		var coinImg = $("#player-info img")
+
+		if(newCoins > currentCoins){
+			function updateHandler() {
+				coinsDisplay.html(coinsObj.coins)
+			}
+			
+			function nextTween() {
+				TweenLite.to(coinImg, 0.5, {css:{scale:1}, ease:Quad.easeOut, onComplete:nextTween})
+			}
+			
+			TweenMax.to(coinsObj, 1, {coins:newCoins, roundProps:"coins", onUpdate:updateHandler});
+			TweenLite.to(coinImg, 0.5, {css:{scale:1.05}, ease:Quad.easeIn, onComplete:nextTween})
+		}else
+			$(".player-coins").html(credentials.gameData.powerCoins)
 	}
 
 	function loadGame(src){
@@ -43,7 +62,7 @@ var epicSiteMain =  function(){
 		function NextFunction(){
 			var characterSelector = document.getElementById("characterSelector")
 			characterSelector.style.visibility = "hidden"
-			// window.open(url, "_self")
+			//';ljxz  window.open(url, "_self")
 			if(gameFrame)
 				gameContainer.removeChild(gameFrame);
 			else
