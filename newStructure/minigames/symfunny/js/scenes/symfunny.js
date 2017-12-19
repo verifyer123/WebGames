@@ -361,8 +361,8 @@ var symfunny = function(){
         
         curtain = sceneGroup.create(game.world.centerX, 0, 'atlas.symfunny', "tile")
         curtain.anchor.setTo(0.5, 0)
-        curtain.scale.setTo(1.15, 1.05)
-        //curtain.y = board.height * 0.5 + 55
+        curtain.width = game.world.width
+        curtain.height = game.world.height * 0.45
 	}
 	
 	function update(){
