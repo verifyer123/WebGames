@@ -60,6 +60,7 @@ var base = function(){
 	var sceneGroup = null
 	var background
     var gameActive = true
+    var gameStarted=false
 	var shoot
 	var particlesGroup, particlesUsed
     var gameIndex = 102
@@ -75,13 +76,15 @@ var base = function(){
     var houseGroup=null
     
 
-    var animals=new Array(20)
+    var animals=new Array(24)
+    var animalsActive=new Array(24)
     var houses=new Array(4)
     var housesActive=new Array(4)
     var countersHouses=new Array(4)
+    var bus
     
     var proxyTiles=new Array(4)
-    
+    var goldTiles=new Array(4)
     
     var level=null
     
@@ -90,8 +93,8 @@ var base = function(){
     var busSpeed=null
     var animalSpeed=null
     
+    var randomAnimal, randomHouse, farmLeft, zooLeft
     
-
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -100,8 +103,10 @@ var base = function(){
 
         game.stage.backgroundColor = "#220341"
         lives = 3
-        howManyAnimals=4
+        howManyAnimals=0
         level=1
+        farmLeft=2
+        zooLeft=2
         busSpeed=100
         timerBus=100
         waitingTime=10
@@ -111,14 +116,51 @@ var base = function(){
             housesActive[cleaningArrays]=false
             countersHouses[cleaningArrays]=0
         }
+         
+        animals[0]=game.add.image(0,0,"atlas.route","CHICKEN")
+        animals[1]=game.add.image(0,0,"atlas.route","DOG")
+        animals[2]=game.add.image(0,0,"atlas.route","SHEEP")
+        animals[3]=game.add.image(0,0,"atlas.route","PIG")
+        animals[4]=game.add.image(0,0,"atlas.route","BULL")
+        animals[5]=game.add.image(0,0,"atlas.route","HORSE")
+        animals[6]=game.add.image(0,0,"atlas.route","DUCK")
+        animals[7]=game.add.image(0,0,"atlas.route","COW")
+        animals[8]=game.add.image(0,0,"atlas.route","RABBIT")
+        animals[9]=game.add.image(0,0,"atlas.route","TURKEY")
+        animals[10]=game.add.image(0,0,"atlas.route","GOAT")
+        animals[11]=game.add.image(0,0,"atlas.route","LAMB")
+        animals[12]=game.add.image(0,0,"atlas.route","TIGER")
+        animals[13]=game.add.image(0,0,"atlas.route","TOUCAN")
+        animals[14]=game.add.image(0,0,"atlas.route","ZEBRA")
+        animals[15]=game.add.image(0,0,"atlas.route","MONKEY")
+        animals[16]=game.add.image(0,0,"atlas.route","LEMUR")
+        animals[17]=game.add.image(0,0,"atlas.route","KANGAROO")
+        animals[18]=game.add.image(0,0,"atlas.route","HIPPO")
+        animals[19]=game.add.image(0,0,"atlas.route","LION")
+        animals[20]=game.add.image(0,0,"atlas.route","SNAKE")
+        animals[21]=game.add.image(0,0,"atlas.route","CROC")
+        animals[22]=game.add.image(0,0,"atlas.route","GIRAFFE")
+        animals[23]=game.add.image(0,0,"atlas.route","TIGER")
+        animals[24]=game.add.image(0,0,"atlas.route","GORILA")
         
+        for(var scaleAnimals=0;scaleAnimals<animals.length;scaleAnimals++){
+            
+            animals[scaleAnimals].scale.setTo(.4)
+            animalsActive[scaleAnimals]=false
+            animals[scaleAnimals].alpha=0
+            if(scaleAnimals<12){
+                animals[scaleAnimals].name="FARM"
+            }else{
+                animals[scaleAnimals].name="ZOO"
+            }
+        }
         
         
         loadSounds()
 	}
 
     function popObject(obj,delay){
-        
+         
         game.time.events.add(delay,function(){
             
             sound.play("cut")
@@ -328,7 +370,7 @@ var base = function(){
 			sound.play("pop")
             
             //Aqui va la primera funciòn que realizara el juego
-            
+            gameStarted=true
             
             startGame=true
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
@@ -384,11 +426,19 @@ var base = function(){
        busGroup = game.add.group()
        animalsGroup = game.add.group()
        houseGroup = game.add.group()
+       houseGroup1 = game.add.group()
+       houseGroup2 = game.add.group()
+       houseGroup3 = game.add.group()
+       houseGroup4 = game.add.group()
        sceneGroup.add(backgroundGroup)
        sceneGroup.add(roadGroup)
        sceneGroup.add(busGroup)
        sceneGroup.add(animalsGroup)
        sceneGroup.add(houseGroup)
+       sceneGroup.add(houseGroup1)
+       sceneGroup.add(houseGroup2)
+       sceneGroup.add(houseGroup3)
+       sceneGroup.add(houseGroup4)
         
         
         correctParticle = createPart("star")
@@ -412,50 +462,261 @@ var base = function(){
         
          for(var placeRoad=1;placeRoad<game.world.height/100;placeRoad++){
             if(placeRoad==2 || placeRoad==4 || placeRoad==6 || placeRoad==8){
-            proxyTiles[placedEspecial]=game.add.sprite(game.world.centerX-50,placeRoad*100,"atlas.route","STRAIGHT")
-            game.add.image()
-                for(var placeRoad2=0;placeRoad2<10;placeRoad2++){
-                    road=game.add.image(game.world.centerX-180+placeRoad2*-20,placeRoad*100,"atlas.route","HORIZONTAL")
-                    roadGroup.add(road)
+                proxyTiles[placedEspecial]=game.add.sprite(game.world.centerX+10,placeRoad*100+50,"atlas.route","STRAIGHT")
+                goldTiles[placedEspecial]=game.add.sprite(game.world.centerX-50,placeRoad*100,"atlas.route","STRAIGHT")
+                proxyTiles[placedEspecial].anchor.setTo(0.5,0.5)
+                proxyTiles[placedEspecial].scale.setTo(0.1,0.1)
+                goldTiles[placedEspecial].scale.setTo(1,0.9)
+                proxyTiles[placedEspecial].tag="STRAIGHT"
+                goldTiles[placedEspecial].tag=(placeRoad/2)-1
+                    if(placeRoad==2){
+                        proxyTiles[placedEspecial].name="primero"
+                    }
+                    if(placeRoad==4){
+                       proxyTiles[placedEspecial].name="segundo"
+                    }
+                    if(placeRoad==6){
+                        proxyTiles[placedEspecial].name="tercero"
+                    }
+                    if(placeRoad==8){
+                        proxyTiles[placedEspecial].name="cuarto"
+                    }  
+                goldTiles[placedEspecial].inputEnabled=true
+                goldTiles[placedEspecial].events.onInputDown.add(onClick,this)
+                for(var placeRoad2=0;placeRoad2<2;placeRoad2++){
+                    
+                    if(placeRoad==2){
+                        road=game.add.image(game.world.centerX-118+placeRoad2*-50,placeRoad*100,"atlas.route","HORIZONTAL")
+                        road.scale.setTo(0.5,0.85)
+                        houseGroup1.add(road)
+                    }
+                    if(placeRoad==4){
+                        road=game.add.image(game.world.centerX+68+placeRoad2*50,placeRoad*100,"atlas.route","HORIZONTAL")
+                        road.scale.setTo(0.5,0.85)
+                        houseGroup2.add(road)
+                    }
+                    if(placeRoad==6){
+                        road=game.add.image(game.world.centerX-118+placeRoad2*-50,placeRoad*100,"atlas.route","HORIZONTAL")
+                        road.scale.setTo(0.5,0.85)
+                        houseGroup3.add(road) 
+                    }
+                    if(placeRoad==8){
+                        road=game.add.image(game.world.centerX+68+placeRoad2*50,placeRoad*100,"atlas.route","HORIZONTAL")
+                        road.scale.setTo(0.5,0.85)
+                        houseGroup4.add(road) 
+                    }  
                 }
-            proxyTiles[placedEspecial].inputEnabled=true
+                
             //proxyTiles[placedEspecial].add(mouse.down)
             roadGroup.add(proxyTiles[placedEspecial])
+            roadGroup.add(goldTiles[placedEspecial])
             placedEspecial++
             }else{
              road=game.add.image(game.world.centerX-50,placeRoad*100,"atlas.route","VERTICAL")
+             road.scale.setTo(1,0.9)
+             roadGroup.add(road)
             }
              
-           roadGroup.add(road)
+           
         }
         
+        //Aqui voy a meter las casas 
+    
+            houses[0]=game.add.image(game.world.centerX-270,proxyTiles[0].y-90,"atlas.route","FARM")
+            houses[0].scale.setTo(.6)
+            houses[0].tag="FARM"
+            houses[1]=game.add.image(game.world.centerX+170,proxyTiles[1].y-90,"atlas.route","ZOO")
+            houses[1].scale.setTo(.6)
+            houses[1].tag="ZOO"
+            houses[2]=game.add.image(game.world.centerX-270,proxyTiles[2].y-90,"atlas.route","FARM")
+            houses[2].scale.setTo(.6)
+            houses[2].tag="FARM"
+            houses[3]=game.add.image(game.world.centerX+170,proxyTiles[3].y-90,"atlas.route","ZOO")
+            houses[3].scale.setTo(.6)
+            houses[3].tag="ZOO"
+                
+            houseGroup1.add(houses[0])
+            houseGroup2.add(houses[1])
+            houseGroup3.add(houses[2])
+            houseGroup4.add(houses[3])
+        
+            houseGroup3.alpha=0
+            houseGroup4.alpha=0
+            
+        //Aqui se pone el autobus y todos los animales
+        
+            bus=game.add.image(-400,20,"atlas.route","UBRE")
+            bus.scale.setTo(.7)
+            busGroup.add(bus)
+            
+            
     }
 	
 
     function onClick(obj){
         
+        if(proxyTiles[obj.tag].tag=="STRAIGHT" && (proxyTiles[obj.tag].name=="primero" && houseGroup1.alpha==1 || proxyTiles[obj.tag]=="tercero" && houseGroup3.alpha==1)){
+            proxyTiles[obj.tag].tag="LEFT"
+        }else if(proxyTiles[obj.tag].tag=="LEFT" && (proxyTiles[obj.tag].name=="primero" || proxyTiles[obj.tag].name=="tercero")){
+            proxyTiles[obj.tag].tag="STRAIGHT"
+        }
         
+        if(proxyTiles[obj.tag].tag=="STRAIGHT" && (proxyTiles[obj.tag].name=="segundo" && houseGroup2.alpha==1|| proxyTiles[obj.tag].name=="cuarto" && houseGroup4.alpha==1)){
+            proxyTiles[obj.tag].tag="RIGHT"
+        }else if(proxyTiles[obj.tag].tag=="RIGHT" && (proxyTiles[obj.tag].name=="segundo" || proxyTiles[obj.tag].name=="cuarto")){
+            proxyTiles[obj.tag].tag="STRAIGHT"
+        }
         
+        for(var changeTiles=0;changeTiles<4;changeTiles++){
+            
+            if(proxyTiles[obj.tag].tag=="STRAIGHT"){
+                obj.loadTexture("atlas.route","STRAIGHT")
+            }
+            if(proxyTiles[obj.tag].tag=="RIGHT"){
+                obj.loadTexture("atlas.route","RIGHT")
+            }
+            if(proxyTiles[obj.tag].tag=="LEFT"){
+                obj.loadTexture("atlas.route","LEFT")
+            }
+            
+        }
         
     }
   
     
 	function update(){
         
+        if(gameStarted){
         
-        if(startGame){
-            
-        }
-
-	}
-    
-    
-    
-        function reset(){
-            
-            
+        for(var wichIsActive=0; wichIsActive<animalsActive.length;wichIsActive++){
+            if(animalsActive[wichIsActive]==false && wichIsActive!=22){
+                animals[wichIsActive].position.x=busGroup.x-320
+                animals[wichIsActive].position.y=busGroup.y
+            }else if(animalsActive[22]==false && wichIsActive==22){
+                animals[wichIsActive].position.x=busGroup.x-320
+                animals[wichIsActive].position.y=busGroup.y-70  
+            }
         }
     
+        if(timerBus<=300){
+            timerBus+=1;
+        }
+        if(timerBus==300 && howManyAnimals<4){
+            busStart()
+        }
+        
+        //Aqui se mueven los animalitoss
+        for(var moveAnimals=0;moveAnimals<animals.length;moveAnimals++){
+            if(animalsActive[moveAnimals]==true && animals[moveAnimals].x>-10){
+                
+                if(animals[moveAnimals].tag=="STRAIGHT"){
+                    animals[moveAnimals].position.y+=1
+                }
+                if(animals[moveAnimals].tag=="LEFT"){
+                    animals[moveAnimals].position.x-=1
+                }
+                if(animals[moveAnimals].tag=="RIGHT"){
+                    animals[moveAnimals].position.x+=1
+                }   
+            }
+        }
+        
+        
+        //Check Overlaps
+        for(var checkCol=0;checkCol<animals.length;checkCol++){
+            for(var checkCol2=0;checkCol2<4;checkCol2++){
+                    if (checkOverlap(animals[checkCol], proxyTiles[checkCol2])){
+                        animals[checkCol].tag=proxyTiles[checkCol2].tag
+                        }
+                }
+	       }
+            
+        //Check Overlaps houses
+        for(var checkCol3=0;checkCol3<animals.length;checkCol3++){
+            for(var checkCol4=0;checkCol4<4;checkCol4++){
+                    if (checkOverlap(animals[checkCol3], houses[checkCol4]) && houses[checkCol4].tag==animals[checkCol3].name && animalsActive[checkCol3]==true){
+                        //animalsActive[checkCol3]=false
+                        animals[checkCol3].x=-100
+                        animals[checkCol3].alpha=0
+                        addPoint(1)  
+                        howManyAnimals++
+                        if(randomHouse==0){
+                        farmLeft--
+                        }else{
+                        zooLeft--
+                        }
+                    }else if(checkOverlap(animals[checkCol3], houses[checkCol4]) && houses[checkCol4].tag!=animals[checkCol3].name && animalsActive[checkCol3]==true){
+                        //animalsActive[checkCol3]=false
+                        animals[checkCol3].x=-100
+                        animals[checkCol3].alpha=0
+                        missPoint()
+                    }
+                }
+	       }
+            
+            
+        }
+        
+    }
+    function busStart(){
+        
+    //Sistema Camion
+            busGroup.alpha=1
+            game.add.tween(busGroup).to({x:game.world.centerX+300},1950,Phaser.Easing.linear,true).onComplete.add(function(){
+                
+                        randomHouse=game.rnd.integerInRange(0,1)
+                        if(randomHouse==0 && farmLeft>0){
+                            randomAnimal=game.rnd.integerInRange(0,11)
+                        }else if(randomHouse==1 && zooLeft>0){
+                            randomAnimal=game.rnd.integerInRange(12,24)
+                        }
+                    
+                    while(animalsActive[randomAnimal]==true){
+                        console.log(randomHouse)
+                        randomHouse=game.rnd.integerInRange(0,1)
+                        if(randomHouse==0 && farmLeft>0){
+                            randomAnimal=game.rnd.integerInRange(0,11)
+                        }else if(randomHouse==1 && zooLeft>0){
+                            randomAnimal=game.rnd.integerInRange(12,24)
+                        }
+                    }
+                    
+                    
+                        animalsActive[randomAnimal]=true
+                        animals[randomAnimal].tag="STRAIGHT";
+                        animals[randomAnimal]
+                        game.add.tween(animals[randomAnimal]).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+                
+            })
+            //Aqui va un delayer
+            game.time.events.add(2550, function(){
+                game.add.tween(busGroup).to({x:game.world.width+570},1950,Phaser.Easing.linear,true).onComplete.add(function(){
+                        this.stop()
+                        busGroup.position.x=0
+                        timerBus=0
+                })
+            })
+        
+    }
+    
+    function reset(){
+            
+        dificulty++
+        
+            
+    }
+    
+    function checkOverlap(animal,switcher){
+        var boundsA = animal.getBounds();
+        var boundsB = switcher.getBounds();
+        return Phaser.Rectangle.intersects(boundsA, boundsB); 
+    }
+    
+    function checkOverlap2(animal,house){
+        var boundsA = animal.getBounds();
+        var boundsB = house.getBounds();
+        return Phaser.Rectangle.intersects(boundsA, boundsB); 
+    }
 	
 	function createTextPart(text,obj){
         
@@ -502,7 +763,6 @@ var base = function(){
         game.time.events.add(delay,function(){
             
             obj.used = false
-            
             particlesUsed.remove(obj)
             particlesGroup.add(obj)
             

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/nonrefactored/base/baseGame/images/game/animalRoute.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/baseGame/images/game/animalRoute.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -150,7 +150,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>atlas.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -199,6 +199,437 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">BG.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,29,58,58</rect>
+                <key>scale9Paddings</key>
+                <rect>29,29,58,58</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">BULL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>58,56,115,111</rect>
+                <key>scale9Paddings</key>
+                <rect>58,56,115,111</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">CHICKEN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,33,51,66</rect>
+                <key>scale9Paddings</key>
+                <rect>25,33,51,66</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">COW.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,40,107,79</rect>
+                <key>scale9Paddings</key>
+                <rect>53,40,107,79</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">CROC.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,52,98,105</rect>
+                <key>scale9Paddings</key>
+                <rect>49,52,98,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">DOG.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>37,26,74,52</rect>
+                <key>scale9Paddings</key>
+                <rect>37,26,74,52</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">DUCK.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,37,58,75</rect>
+                <key>scale9Paddings</key>
+                <rect>29,37,58,75</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">GIRAFFE.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>58,101,116,202</rect>
+                <key>scale9Paddings</key>
+                <rect>58,101,116,202</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">GOAT.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,35,87,69</rect>
+                <key>scale9Paddings</key>
+                <rect>43,35,87,69</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">GORILA.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,52,79,104</rect>
+                <key>scale9Paddings</key>
+                <rect>40,52,79,104</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">GRASS.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,11,22,23</rect>
+                <key>scale9Paddings</key>
+                <rect>11,11,22,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">HERB.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>9,12,17,25</rect>
+                <key>scale9Paddings</key>
+                <rect>9,12,17,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">HIPPO.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,62,95,124</rect>
+                <key>scale9Paddings</key>
+                <rect>47,62,95,124</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">HORIZONTAL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,30,69,59</rect>
+                <key>scale9Paddings</key>
+                <rect>35,30,69,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">HORSE.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>55,54,110,109</rect>
+                <key>scale9Paddings</key>
+                <rect>55,54,110,109</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">KANGAROO.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>39,40,78,80</rect>
+                <key>scale9Paddings</key>
+                <rect>39,40,78,80</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">LAMB.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,36,93,73</rect>
+                <key>scale9Paddings</key>
+                <rect>47,36,93,73</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">LEFT.png</key>
+            <key type="filename">RIGHT.png</key>
+            <key type="filename">STRAIGHT.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,30,59,59</rect>
+                <key>scale9Paddings</key>
+                <rect>30,30,59,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">LEMUR.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,31,65,62</rect>
+                <key>scale9Paddings</key>
+                <rect>33,31,65,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">LION.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>42,49,84,99</rect>
+                <key>scale9Paddings</key>
+                <rect>42,49,84,99</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">MONKEY.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>37,31,73,62</rect>
+                <key>scale9Paddings</key>
+                <rect>37,31,73,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PIG.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,31,51,62</rect>
+                <key>scale9Paddings</key>
+                <rect>26,31,51,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PLATFORM.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9Paddings</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">RABBIT.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,37,55,74</rect>
+                <key>scale9Paddings</key>
+                <rect>27,37,55,74</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SHEEP.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,39,94,78</rect>
+                <key>scale9Paddings</key>
+                <rect>47,39,94,78</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SNAKE.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,30,56,60</rect>
+                <key>scale9Paddings</key>
+                <rect>28,30,56,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">TIGER.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,49,67,97</rect>
+                <key>scale9Paddings</key>
+                <rect>33,49,67,97</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">TOUCAN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,32,56,63</rect>
+                <key>scale9Paddings</key>
+                <rect>28,32,56,63</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">TURKEY.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,41,76,81</rect>
+                <key>scale9Paddings</key>
+                <rect>38,41,76,81</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">UBRE.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>61,29,121,57</rect>
+                <key>scale9Paddings</key>
+                <rect>61,29,121,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">VERTICAL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,35,59,69</rect>
+                <key>scale9Paddings</key>
+                <rect>30,35,59,69</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ZEBRA.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>44,49,88,98</rect>
+                <key>scale9Paddings</key>
+                <rect>44,49,88,98</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ZOO.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>57,66,114,132</rect>
+                <key>scale9Paddings</key>
+                <rect>57,66,114,132</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">button.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -317,19 +748,68 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../../../../../Downloads/Animal Route/FARM.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,68,98,136</rect>
+                <key>scale9Paddings</key>
+                <rect>49,68,98,136</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
+            <filename>BG.png</filename>
+            <filename>BULL.png</filename>
             <filename>button.png</filename>
+            <filename>CHICKEN.png</filename>
+            <filename>COW.png</filename>
+            <filename>CROC.png</filename>
             <filename>desktop.png</filename>
+            <filename>DOG.png</filename>
+            <filename>DUCK.png</filename>
             <filename>gametuto.png</filename>
+            <filename>GIRAFFE.png</filename>
+            <filename>GOAT.png</filename>
+            <filename>GORILA.png</filename>
+            <filename>GRASS.png</filename>
+            <filename>HERB.png</filename>
+            <filename>HIPPO.png</filename>
+            <filename>HORSE.png</filename>
             <filename>introscreen.png</filename>
+            <filename>KANGAROO.png</filename>
+            <filename>LAMB.png</filename>
+            <filename>LEMUR.png</filename>
             <filename>life_box.png</filename>
+            <filename>LION.png</filename>
+            <filename>MONKEY.png</filename>
             <filename>movil.png</filename>
+            <filename>PIG.png</filename>
+            <filename>PLATFORM.png</filename>
+            <filename>RABBIT.png</filename>
+            <filename>SHEEP.png</filename>
             <filename>smoke.png</filename>
+            <filename>SNAKE.png</filename>
             <filename>star.png</filename>
+            <filename>TIGER.png</filename>
+            <filename>TOUCAN.png</filename>
+            <filename>TURKEY.png</filename>
+            <filename>UBRE.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>ZEBRA.png</filename>
+            <filename>ZOO.png</filename>
+            <filename>HORIZONTAL.png</filename>
+            <filename>LEFT.png</filename>
+            <filename>RIGHT.png</filename>
+            <filename>STRAIGHT.png</filename>
+            <filename>VERTICAL.png</filename>
+            <filename>../../../../../../../../Downloads/Animal Route/FARM.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
