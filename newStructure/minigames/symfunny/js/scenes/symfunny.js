@@ -687,13 +687,15 @@ var symfunny = function(){
             correctAnswer[i] = game.rnd.integerInRange(0, 4)
         }
         
-        game.time.events.add(500,function(){
-            var time = playDemo()
-            
-            game.time.events.add(time,function(){
-                gameActive = true
+        if(lives !== 0){
+            game.time.events.add(500,function(){
+                var time = playDemo()
+
+                game.time.events.add(time,function(){
+                    gameActive = true
+                },this)
             },this)
-        },this)
+        }
         
     }
     
