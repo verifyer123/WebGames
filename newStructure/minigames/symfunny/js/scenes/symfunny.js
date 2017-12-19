@@ -622,42 +622,58 @@ var symfunny = function(){
             if(correctAnswer[pivot] === instument.value){
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY", false)
                 pivot++
-                sound.play('right')
+                //sound.play('right')
+                sound.play(orchesta[instument.value].name)
                 if(pivot === cap)
-                    crescendo()
+                    crescendo(true)
             }
             else{
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY_WRONG", false)
-                gameActive = false
-                missPoint()
-                game.time.events.add(2000,function(){
-                    initGame()
-                },this)
+                crescendo(false)
             }
         }
         
         orchestaGroup.children[instument.value].addAnimationByName(0, "IDLE", true)
 	}
     
-    function crescendo(){
+    function crescendo(good){
         
         gameActive = false
-        lvl++
-        if(lvl % 2 === 0)
-            cap++
         
-        game.time.events.add(1000,function(){
-            sound.play('song')
-            for(var a = 0; a < orchestaGroup.length; a++){
-                orchestaGroup.children[a].setAnimationByName(0, "PLAY", false)
-                orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
-            }
-        },this)
-        
-        game.time.events.add(2500,function(){
-            addPoint(1)
-            initGame()
-        },this)
+        if(good){
+            
+            lvl++
+            if(lvl % 2 === 0)
+                cap++
+
+            game.time.events.add(1000,function(){
+                sound.play('song')
+                for(var a = 0; a < orchestaGroup.length; a++){
+                    orchestaGroup.children[a].setAnimationByName(0, "PLAY", false)
+                    orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
+                }
+            },this)
+
+            game.time.events.add(2500,function(){
+                addPoint(1)
+                initGame()
+            },this)
+        }
+        else{
+            
+            game.time.events.add(1000,function(){
+                sound.play('gameLose')
+                for(var a = 0; a < orchestaGroup.length; a++){
+                    orchestaGroup.children[a].setAnimationByName(0, "PLAY_WRONG", false)
+                    orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
+                }
+            },this)
+
+            game.time.events.add(2500,function(){
+                missPoint()
+                initGame()
+            },this)
+        }
     }
     
     function initGame(){
