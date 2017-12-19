@@ -393,7 +393,6 @@ var map = function(){
 	function addBalls(){
 		
 		var indexIcon = 0
-		console.log(gamesList)
 		for(var i = 0; i < iconsPositions.length;i++){
 			
 			var ballGroup = game.add.group()
