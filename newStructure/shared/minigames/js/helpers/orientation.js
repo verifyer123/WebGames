@@ -30,24 +30,27 @@ window.minigame.orientation = function(){
 	}
 
 	function init(onPortraitOrientation){
-		screen.orientation = screen.orientation || {}
-		var initialDegree = window.orientation || screen.orientation.angle
-		var initialOrientation = checkOrientation(initialDegree)
-		if(initialOrientation == "portrait"){
-			if(onPortraitOrientation && typeof(onPortraitOrientation) == "function"){
-				onPortraitOrientation()
-			}
+		if(onPortraitOrientation && typeof(onPortraitOrientation) == "function"){
+			onPortraitOrientation()
 		}
-		window.addEventListener("orientationchange", function(event){
-			var currentDegree = window.orientation || screen.orientation.angle
-			var currentOrientation = checkOrientation(currentDegree)
-			if(initialOrientation == "landscape" && currentOrientation == "portrait"){
-				initialOrientation = "portrait"
-				if(onPortraitOrientation && typeof(onPortraitOrientation) == "function"){
-					onPortraitOrientation()
-				}	
-			}
-		})
+		// screen.orientation = screen.orientation || {}
+		// var initialDegree = window.orientation || screen.orientation.angle
+		// var initialOrientation = checkOrientation(initialDegree)
+		// if(initialOrientation == "portrait"){
+		// 	if(onPortraitOrientation && typeof(onPortraitOrientation) == "function"){
+		// 		onPortraitOrientation()
+		// 	}
+		// }
+		// window.addEventListener("orientationchange", function(event){
+		// 	var currentDegree = window.orientation || screen.orientation.angle
+		// 	var currentOrientation = checkOrientation(currentDegree)
+		// 	if(initialOrientation == "landscape" && currentOrientation == "portrait"){
+		// 		initialOrientation = "portrait"
+		// 		if(onPortraitOrientation && typeof(onPortraitOrientation) == "function"){
+		// 			onPortraitOrientation()
+		// 		}
+		// 	}
+		// })
 	}
 
 	return{
