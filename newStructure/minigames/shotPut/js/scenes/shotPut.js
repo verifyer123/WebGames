@@ -930,13 +930,3 @@ var shotPut = function(){
 		}
 	}
 }()
-
-
-
-Correccion de errores en juegos 
-Edicion de los yogobooks
-Agregar y editar traducciones
-Crear y editar paginas y modales del epicSite
-Programación del juego Symfunny
-edicion de efectos de sonido para symfunny
-apoyo en la edicion de la pagina de play Yogome
