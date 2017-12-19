@@ -2,12 +2,12 @@ var languageArrayIndex = [
                 { 
                     id:0,
                     NAME:"mainMenu0",
-                    ES:"Voltea tu teléfono o dispositivo para una mejor experiencia",
-                    EN:"Tilt your device for a better experience. ",
+                    ES:"Voltea tu teléfono o dispositivo para una mejor experiencia.",
+                    EN:"Tilt your device for a better experience.",
                     PT:"Incline seu dispositivo para uma melhor experiência.",
                     ZH:"将您的设备倾斜以获得更好的体验。",
-                    JA:"Flip your phone or device for a better experience",
-                    KO:"더 나은 학습 환경을 위해 기기를 기울여주세요."
+                    JA:"デバイスをかたむけてお楽しみください。",
+                    KO:"더 나은 학습 환경을 위해 기기를 기울여주세요。"
                 },
                 { 
                     id:1,
@@ -42,22 +42,22 @@ var languageArrayIndex = [
                 { 
                     id:4,
                     NAME:"mainMenu4",
-                    ES:"Iniciar Sesiòn",
-                    EN:"Log In",
-                    PT:"Login",
-                    ZH:"岁",
-                    JA:"ログイン",
-                    KO:"로그인"
+                    ES:"Iniciar Sesión.",
+                    EN:"Log In.",
+                    PT:"Login.",
+                    ZH:"岁。",
+                    JA:"ログイン。",
+                    KO:"로그인。"
                 },
                 { 
                     id:5,
                     NAME:"mainMenu5",
-                    ES:"Olvidé mi contraseña",
-                    EN:"I Forgot My Password",
-                    PT:"Esqueci minha senha",
-                    ZH:"我忘记了密码",
-                    JA:"I Forgot My Password",
-                    KO:"비밀번호를 잃어버렸어요"
+                    ES:"Olvidé mi contraseña.",
+                    EN:"I Forgot My Password.",
+                    PT:"Esqueci minha senha.",
+                    ZH:"我忘记了密码。",
+                    JA:"パスワードを忘れた場合。",
+                    KO:"비밀번호를 잃어버렸어요。"
                 },
                 { 
                     id:6,
@@ -66,18 +66,18 @@ var languageArrayIndex = [
                     EN:"¿Don't have an account?",
                     PT:"Não tem uma conta?",
                     ZH:"还没有帐户？",
-                    JA:"¿Don't have an account?",
+                    JA:"アカウント新規登録?",
                     KO:"¿아직 가입하지 않으셨나요?"
                 },
                 { 
                     id:7,
                     NAME:"mainMenu7",
-                    ES:"Regístrate",
-                    EN:"Sign Up",
-                    PT:"Inscrever-se",
-                    ZH:"注册",
-                    JA:"ご登録",
-                    KO:"로그인"
+                    ES:"Regístrate.",
+                    EN:"Sign Up.",
+                    PT:"Inscrever-se.",
+                    ZH:"注册。",
+                    JA:"ご登録。",
+                    KO:"로그인。"
                 },
                 { 
                     id:8,
@@ -86,18 +86,18 @@ var languageArrayIndex = [
                     EN:"- Select a profile -",
                     PT:"- Selecione um perfil -",
                     ZH:"- 选择个人资料 -",
-                    JA:"- Select a profile -",
+                    JA:"- プロフィールを選ぶ -",
                     KO:"- 프로필 선택하기 -"
                 },
                 { 
                     id:9,
                     NAME:"mainMenu9",
-                    ES:"Inicia sesión en Yogome ",
-                    EN:"Login to Yogome",
-                    PT:"Fazer login na Yogome",
-                    ZH:"登录Yogome",
-                    JA:"Login to Yogome",
-                    KO:"요고미 로그인하기"
+                    ES:"Inicia sesión en Yogome.",
+                    EN:"Login to Yogome.",
+                    PT:"Fazer login na Yogome.",
+                    ZH:"登录Yogome。",
+                    JA:"Yogomeにログイン。",
+                    KO:"요고미 로그인하기。"
                 },
                 { 
                     id:10,
@@ -206,7 +206,7 @@ var languageArrayIndex = [
                     PT:"Peça para seus pais adicionarem o e-mail deles para você não perder seu progresso no jogo.",
                     ZH:"请让家长添加电子邮件地址，以便您能够保存游戏进度。",
                     JA:"ゲームの進度を保存できるよう、保護者の方にEメールを登録するようお願いしてください。",
-                    KO:"부모님이 이메일 주소를 입력하시면 게임을 저장해서 나중에도 이어서 할 수 있어요."
+                    KO:"부모님이 이메일 주소를 입력하시면 게임을 저장해서 나중에도 이어서 할 수 있어요。"
                 },
                 { 
                     id:21,
@@ -226,7 +226,7 @@ var languageArrayIndex = [
                     PT:"Você já está no final do teste! Peça para seus pais adicionarem o e-mail deles para a aventura continuar.",
                     ZH:"测试结束！请让家长添加电子邮件地址，以便您能继续探险。",
                     JA:"テストの最後の問題です！ゲームを続けられるよう、保護者の方にEメールを登録するようお願いしてください。",
-                    KO:"이미 시험이 다 끝났어요! 부모님이 이메일 주소를 입력하시면 모험을 계속 이어갈 수 있어요."
+                    KO:"이미 시험이 다 끝났어요! 부모님이 이메일 주소를 입력하시면 모험을 계속 이어갈 수 있어요。"
                 },
                 { 
                     id:23,
