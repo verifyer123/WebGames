@@ -58,14 +58,15 @@ var epicModel = function () {
 			}else {
 				localStorage.setItem("token", null)
 				if(onError)onError(response)
-				modal.showLogin()
+				if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
 		}).fail(function(response){
 			console.log("error", response);
 			localStorage.setItem("token", null)
 			if(onError)onError(response)
-			modal.showLogin()
+			if(!signInCallback) modal.showLogin()
+			// modal.showLogin()
 		});
 	}
 
@@ -80,7 +81,6 @@ var epicModel = function () {
 			}
 		}
 
-		console.log(player.minigames, "currentMinigames")
 	}
 	
 	function updateData() {
@@ -112,8 +112,9 @@ var epicModel = function () {
 			mixpanel.identify(credentials.email);
 		}
 
-		if(epicSiteMain)
+		if((typeof epicSiteMain !== "undefined") && (typeof epicSiteMain.updatePlayerInfo === "function")){
 			epicSiteMain.updatePlayerInfo()
+		}
 	}
 
 	function setCredentials(response) {
@@ -181,12 +182,13 @@ var epicModel = function () {
 
 		var gameData = localStorage.getItem("gameData")
 		gameData = gameData === "null" ? null : getJson(gameData)
-		if(gameData.version !== player.version){
+		if((gameData) && (gameData.version !== player.version)){
 			gameData.minigames = {}
 		}
 
 		var subscribed = localStorage.getItem("subscribed")
-		subscribed = subscribed !== "null"
+		// subscribed = typeof subscribed === "boolean" ? subscribed : false
+		// console.log(subscribed)
 
 		var name = localStorage.getItem("name")
 		name = (name === "null" || !name) ? null : name
@@ -213,7 +215,7 @@ var epicModel = function () {
 	}
 
 	function signIn(data, onSuccess, onError) {
-		console.log(data)
+		// console.log(data)
 		signInCallback = true
 
 		function callback(response){
@@ -298,7 +300,7 @@ var epicModel = function () {
 			modal.showSave(loginTag)
 		}
 
-		if((epicSiteMain) && (typeof epicSiteMain.updatePlayerInfo === "function")){
+		if((typeof epicSiteMain !== "undefined") && (typeof epicSiteMain.updatePlayerInfo === "function")){
 			epicSiteMain.updatePlayerInfo()
 		}
 	}

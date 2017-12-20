@@ -30,7 +30,7 @@ var epicSiteMain =  function(){
 		var credentials = epicModel.getCredentials()
 		var currentCoins = $(".player-coins").html()
 		currentCoins = parseInt(currentCoins)
-		var newCoins = credentials.gameData.powerCoins
+		var newCoins = credentials.gameData ? credentials.gameData.powerCoins : 0
 		var coinsDisplay = $(".player-coins")
 		var coinsObj = {coins:currentCoins}
 
