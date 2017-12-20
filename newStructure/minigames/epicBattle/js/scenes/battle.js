@@ -467,7 +467,7 @@ var battle = function(){
 		}
 
 		if(fromPlayer.numPlayer === 1) {
-			console.log("start")
+			// console.log("start")
 			tapGroup.start()
 		}
 		else {
@@ -560,8 +560,6 @@ var battle = function(){
 		tapArea.events.onInputDown.add(function () {
 			if(gradient.width < GRADIENT_WIDTH){
 				var value = gradient.width / GRADIENT_WIDTH
-				console.log("inputOn")
-				sound.play("epicTapTouchGames", {pitch: 1 + (value * 0.25)})
 				gradient.width = Phaser.Math.clamp(gradient.width + 30, 0, GRADIENT_WIDTH)
 			}
 		})
@@ -583,7 +581,6 @@ var battle = function(){
 
 		tapGroup.update = function () {
 			if(tapArea.inputEnabled){
-				// gradient.width = Phaser.Math.clamp(gradient.width - 1, 0, GRADIENT_WIDTH)
 				timerBar.width = Phaser.Math.clamp(timerBar.width - 1, 0, TIMEBAR_WIDTH)
 				if(gradient.width >= GRADIENT_WIDTH - 10){
 					endTapAttack()
@@ -1077,7 +1074,7 @@ var battle = function(){
 
 				projectilesList[projectileName] = sheetData
 				game.load.image('impact' + projectileName, player.projectileData.impact.particles[0])
-				console.log(player.projectileData.impact.particles[0])
+				// console.log(player.projectileData.impact.particles[0])
 				var name = player.projectileData.impact.soundID
 				var file = soundsList[name]
 				game.load.audio(name, file);
@@ -1172,7 +1169,7 @@ var battle = function(){
 
 			player.originalX = player.x
 			player.x = player.numPlayer === 1 ? -100 : game.world.width + 100 //* player.scaleReference
-			console.log(player.scaleReference, "scaleReference")
+			// console.log(player.scaleReference, "scaleReference")
 			player.setAnimation(["RUN", "IDLE"], true)
 			game.add.tween(player).to({x:player.originalX}, 1200, Phaser.Easing.Cubic.Out, true)
 
@@ -1272,7 +1269,7 @@ var battle = function(){
 			var expLevel = charactersEntity.getLevelXp(currentLevel)
 			var expNextLevel = charactersEntity.getLevelXp(currentLevel + 1)
 			var expNeeded = expNextLevel - expLevel
-			console.log(currentXp, currentLevel, expNeeded)
+			// console.log(currentXp, currentLevel, expNeeded)
 
 			numLevel.text = currentLevel
 			var difCurrentExp = currentXp - expLevel
@@ -1298,12 +1295,11 @@ var battle = function(){
 			}else {
 				toExp = totalXp - expLevel
 				var finalBarPercentage = toExp / expNextLevel
-				console.log(currentXp, expNextLevel, finalBarPercentage)
+				// console.log(currentXp, expNextLevel, finalBarPercentage)
 				tweenBar = game.add.tween(xpBar.scale).to({x: finalBarPercentage}, 2000, Phaser.Easing.Cubic.Out, true)
-				tweenBar.onComplete.add(function () {
-					console.log("stop")
+				tweenBar.onComplete.add(function () {\
 					soundLevelHandle.stop()
-					sound.stop("levelUp")
+					// sound.stop("levelUp")
 					exitButton.inputEnabled = true
 					var hideLvlGroup = game.add.tween(lvlGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
 					var hidexPGroup = game.add.tween(xpGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
@@ -1514,7 +1510,7 @@ var battle = function(){
 			if((!functionData)||(!functionData.name)){return}
 
 			if(functionData.name === "PLAY"){
-				console.log(functionData.param)
+				// console.log(functionData.param)
 				sound.play(functionData.param)
 			}
 		})
@@ -1608,7 +1604,7 @@ var battle = function(){
 			charactersCards = []
         	for(var charIndex = 0; charIndex < characters.length; charIndex++){
 				var character = characters[charIndex]
-				console.log(character, "character")
+				// console.log(character, "character")
 				// var jsonPath = DATA_CHAR_PATH + character.name + ".json"
 				// assets.jsons.push({name:character.name + "Data", file:jsonPath})
 				assets.spines.push({name:character.id, file:character.data.directory})
