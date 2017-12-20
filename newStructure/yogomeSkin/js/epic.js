@@ -92,7 +92,10 @@ var epicSiteMain =  function(){
 	}
 
 	function main(){
-		epicModel.loadPlayer(false, checkPlayer)
+		function callback() {
+			checkPlayer()
+		}
+		epicModel.loadPlayer(false, callback)
 	}
 
 	function charSelected(yogotar, url){

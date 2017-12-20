@@ -16,7 +16,7 @@ var routing = function () {
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
-	var language = getParameterByName("language")
+	language = getParameterByName("language")
 	console.log(language)
 	language = language || "en"
 	language = language.toUpperCase()
