@@ -121,14 +121,6 @@
 		function onSuccess() {
 			$("#signIn").modal('hide');
 
-			var credentials = epicModel.getCredentials()
-			mixpanel.track(
-				"onLoginSuccess",
-				{"user_id": credentials.educationID,
-					"subscribed":credentials.subscribed}
-			);
-			mixpanel.people.increment("loginCount");
-
 		}
 
 		function onError(response) {
