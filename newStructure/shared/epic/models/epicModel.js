@@ -26,7 +26,6 @@ var epicModel = function () {
 	var USER_RECOVERY = "/users/parent/recover"
 
 	var currentCallback
-	var unlockAccessCall
 	var signInCallback
 
 	function getParameterByName(name, url) {
@@ -98,25 +97,15 @@ var epicModel = function () {
 		var credentials = getCredentials()
 		player = credentials.gameData || player
 		initializePlayer()
-		if(credentials.subscribed){
-			if(unlockAccessCall) {
-				unlockAccessCall()
-				unlockAccessCall = null
-			}
-			if(signInCallback){
-				signInCallback = false
-				callMixpanelLogin(true)
-			}
-		}
-		else if(signInCallback) {
-			signInCallback = false
-			callMixpanelLogin(false)
-			modal.showYouKnow()
-		}
-
 		if(currentCallback) {
-			currentCallback()
+			currentCallback(credentials.subscribed)
 			currentCallback = null
+		}
+		if(signInCallback){
+			signInCallback = false
+			callMixpanelLogin(credentials.subscribed)
+			if(!credentials.subscribed)
+				modal.showYouKnow()
 		}
 
 		if((mixpanel)&&(credentials.email)){
@@ -281,9 +270,8 @@ var epicModel = function () {
 		}
 	}
 
-	function loadPlayer (forceLogin, callback, unlockCall) {
+	function loadPlayer (forceLogin, callback) {
 		// var credentials = getCredentials()
-		unlockAccessCall = unlockCall
 		currentCallback = callback
 		if(forceLogin) {
 			checkLogin()
