@@ -39,6 +39,8 @@ var symfunny = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
+            {	name: "error",
+				file: soundsPath + "error.mp3"},
             {	name: "harp",
 				file: "sounds/" + "harp.mp3"},
 			{	name: "piano",
@@ -359,8 +361,8 @@ var symfunny = function(){
         
         curtain = sceneGroup.create(game.world.centerX, 0, 'atlas.symfunny', "tile")
         curtain.anchor.setTo(0.5, 0)
-        curtain.scale.setTo(1.15, 1.05)
-        //curtain.y = board.height * 0.5 + 55
+        curtain.width = game.world.width
+        curtain.height = game.world.height * 0.45
 	}
 	
 	function update(){
@@ -622,42 +624,58 @@ var symfunny = function(){
             if(correctAnswer[pivot] === instument.value){
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY", false)
                 pivot++
-                sound.play('right')
+                sound.play(orchesta[instument.value].name)
                 if(pivot === cap)
-                    crescendo()
+                    crescendo(true)
             }
             else{
+                sound.play('error')
                 orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY_WRONG", false)
-                gameActive = false
-                missPoint()
-                game.time.events.add(2000,function(){
-                    initGame()
-                },this)
+                crescendo(false)
             }
         }
         
         orchestaGroup.children[instument.value].addAnimationByName(0, "IDLE", true)
 	}
     
-    function crescendo(){
+    function crescendo(good){
         
         gameActive = false
-        lvl++
-        if(lvl % 2 === 0)
-            cap++
         
-        game.time.events.add(1000,function(){
-            sound.play('song')
-            for(var a = 0; a < orchestaGroup.length; a++){
-                orchestaGroup.children[a].setAnimationByName(0, "PLAY", false)
-                orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
-            }
-        },this)
-        
-        game.time.events.add(2500,function(){
-            addPoint(1)
-            initGame()
-        },this)
+        if(good){
+            
+            lvl++
+            if(lvl % 2 === 0)
+                cap++
+
+            game.time.events.add(1000,function(){
+                sound.play('song')
+                for(var a = 0; a < orchestaGroup.length; a++){
+                    orchestaGroup.children[a].setAnimationByName(0, "PLAY", false)
+                    orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
+                }
+            },this)
+
+            game.time.events.add(2500,function(){
+                addPoint(1)
+                initGame()
+            },this)
+        }
+        else{
+            
+            game.time.events.add(1000,function(){
+                sound.play('gameLose')
+                for(var a = 0; a < orchestaGroup.length; a++){
+                    orchestaGroup.children[a].setAnimationByName(0, "PLAY_WRONG", false)
+                    orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
+                }
+            },this)
+
+            game.time.events.add(2500,function(){
+                missPoint()
+                initGame()
+            },this)
+        }
     }
     
     function initGame(){
@@ -669,13 +687,15 @@ var symfunny = function(){
             correctAnswer[i] = game.rnd.integerInRange(0, 4)
         }
         
-        game.time.events.add(500,function(){
-            var time = playDemo()
-            
-            game.time.events.add(time,function(){
-                gameActive = true
+        if(lives !== 0){
+            game.time.events.add(500,function(){
+                var time = playDemo()
+
+                game.time.events.add(time,function(){
+                    gameActive = true
+                },this)
             },this)
-        },this)
+        }
         
     }
     

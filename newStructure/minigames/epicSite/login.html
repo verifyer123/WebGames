@@ -3,79 +3,23 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
-    <!--<link rel="stylesheet" href="css/modal.css">-->
-    <!--&lt;!&ndash; Jquery &ndash;&gt;-->
-    <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
-    
-    <script>var language = "EN";</script>
-    
-    <script>
-    //AQUI VA PARA SABER EL LENGUAGE
-        function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-        
-        var language;
-        language = getParameterByName("language");
-        
-        if(language == null ){
-            var lengua;
-            //lengua = navigator.language || navigator.userLanguage; 
-            //language = eval("'" + lengua + "'").toUpperCase();
-            language= "EN";
-        }else{
-            language.toUpperCase();
-        }
-    
-    </script>
-
-	<script>var language = "EN";</script>
-
-	<script>
-		//AQUI VA PARA SABER EL LENGUAGE
-		function getParameterByName(name, url) {
-			if (!url) url = window.location.href;
-			name = name.replace(/[\[\]]/g, "\\$&");
-			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
-
-		var language;
-		language = getParameterByName("language");
-
-		if(language == null ){
-			var lengua;
-			//lengua = navigator.language || navigator.userLanguage;
-			//language = eval("'" + lengua + "'").toUpperCase();
-			language= "EN";
-		}else{
-			language.toUpperCase();
-		}
-
-	</script>
+	<!--<link rel="stylesheet" href="css/modal.css">-->
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
 
 </head>
 <body>
-    
-    <audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
-    <audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
-    <audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
-    <audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+
+<audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+<audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+<audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+<audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
 
 <script>
 	var cut = document.getElementById("cut");
 	cut.play();
 </script>
-    
+
 <!-- Sing In Modal-->
 <div id="signIn" class="modal">
 
@@ -93,7 +37,7 @@
 					<img class="particule" src="images/particle-04.png"/>
 				</div>
 			</div>
-			<h2><div class="text9">- Login to Yogome -</div></h2>
+			<h2><div class="textModal9">- Login to Yogome -</div></h2>
 			<div>
 				<span id="error" class="fontOpenSans"></span>
 				<span id="recover" class="fontOpenSans"></span>
@@ -103,16 +47,16 @@
 
 		<!-- Modal body Text box and sumbit button-->
 		<div class="modal-body">
-			
+
 			<input type="text" id="email" class="inputText" placeholder="Email" name="Email"/><br>
 			<input type="password" id="pass" class="inputText" placeholder="Password" name="Password"/><br>
-			<button type="submit" id="login" class="loginBtn"><div class="text4">Login</div></button><br>
-			<button class="recoverBtn" id="recoverPass"><span class="text5">I Forgot My Password</span></button><br>
-			
+			<button type="submit" id="login" class="loginBtn"><div class="textModal4">Login</div></button><br>
+			<button class="recoverBtn" id="recoverPass"><span class="textModal5">I Forgot My Password</span></button><br>
+
 		</div>
 		<div class="fontOpenSans modal-footer" style="color: #444444">
-			<p><span class="text6">Don't have an account?</span>
-				<span><a id="signUp" class="text7" href="https://yogomepayments.com/" target="_self" style="color: #009cee">Sign Up</a></span>
+			<p><span class="textModal6">Don't have an account?</span>
+				<span><a id="signUp" class="textModal7" href="https://yogomepayments.com/" target="_self" style="color: #009cee">Sign Up</a></span>
 			</p>
 		</div>
 	</div>
@@ -120,6 +64,25 @@
 
 </div>
 <script>
+	//AQUI VA PARA SABER EL LENGUAGE
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		console.log("URL", url)
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	if(language){
+	}else{
+		language = getParameterByName("language");
+		language = language ? language.toUpperCase() : "EN"
+	}
+
+	console.log(language)
 
 	$(".close").click(function() {
 		$("#signIn").modal('hide');
@@ -129,42 +92,34 @@
 		$("#signIn").modal('hide');
 		modal.showRecover()
 	});
-    
-    $("#login").click(function(){
-        var leng = "Fill the gaps";
-        var err = "User or password incorrect."
-        
-        switch(language){
-            case "ES": leng = "Llena los espacios."
+
+	$("#login").click(function(){
+		var leng = "Fill the gaps";
+		var err = "User or password incorrect."
+
+		switch(language){
+			case "ES": leng = "Llena los espacios."
 				err = "Usuario o contraseña incorrectos."
-                break;
-            case "EN": leng = "Fill the gaps."
+				break;
+			case "EN": leng = "Fill the gaps."
 				err = "User or password incorrect."
-                break;
-            case "PT": leng = "Fill the gaps."
+				break;
+			case "PT": leng = "Fill the gaps."
 				err = "User or password incorrect."
-                break;
-            case "ZH": leng = "Fill the gaps."
+				break;
+			case "ZH": leng = "Fill the gaps."
 				err = "User or password incorrect."
-                break;
-            case "JA": leng = "Fill the gaps."
+				break;
+			case "JA": leng = "Fill the gaps."
 				err = "User or password incorrect."
-                break;
-            case "KO": leng = "Fill the gaps."
+				break;
+			case "KO": leng = "Fill the gaps."
 				err = "User or password incorrect."
-                break;
-        }
+				break;
+		}
 
 		function onSuccess() {
 			$("#signIn").modal('hide');
-
-			var credentials = epicModel.getCredentials()
-			mixpanel.track(
-				"onLoginSuccess",
-				{"user_id": credentials.educationID,
-				"subscribed":credentials.subscribed}
-			);
-			mixpanel.people.increment("loginCount");
 
 		}
 
@@ -176,7 +131,7 @@
 			mixpanel.track(
 				"onLoginFailed",
 				{"user_id": credentials.educationID,
-				"reason":response}
+					"reason":response}
 			);
 			mixpanel.people.increment("loginFailed");
 		}
@@ -185,15 +140,15 @@
 			email:$("#email").val(),
 			password:$("#pass").val()
 		}
-        
-        if(document.getElementById("email").value === "" || document.getElementById("pass").value === ""){
-            document.getElementById("error").innerText = leng; 
-        }
-        else{
-            cut.play();
+
+		if(document.getElementById("email").value === "" || document.getElementById("pass").value === ""){
+			document.getElementById("error").innerText = leng;
+		}
+		else{
+			cut.play();
 			epicModel.loginParent(data,onSuccess, onError)
-        }
-    });
+		}
+	});
 
 	var signSetUp =function() {
 		var redirect = encodeURIComponent(window.location.href)
@@ -201,33 +156,33 @@
 		$("#signUp").attr("href", "https://yogomepayments.com/" + redirect);
 	}()
 </script>
-    
-    <script>
 
-		if(language === "ES"){
-			document.getElementById("email").placeholder = "Correo";
-			document.getElementById("pass").placeholder = "Contraseña";
-		}else if(language === "EN"){
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}else if(language === "PT"){
-			document.getElementById("email").placeholder = "E-mail";
-			document.getElementById("pass").placeholder = "Senha";
-		}else if(language === "ZH"){
-			document.getElementById("email").placeholder = "电邮";
-			document.getElementById("pass").placeholder = "密码";
-		}else if(language === "JA"){
-			document.getElementById("email").placeholder = "Eメール";
-			document.getElementById("pass").placeholder = "パスワード";
-		}else if(language === "KO"){
-			document.getElementById("email").placeholder = "이메일";
-			document.getElementById("pass").placeholder = "비밀번호";
-		}else{
-			document.getElementById("email").placeholder = "Email";
-			document.getElementById("pass").placeholder = "Password";
-		}
+<script>
 
-	</script>
+	if(language === "ES"){
+		document.getElementById("email").placeholder = "Correo";
+		document.getElementById("pass").placeholder = "Contraseña";
+	}else if(language === "EN"){
+		document.getElementById("email").placeholder = "Email";
+		document.getElementById("pass").placeholder = "Password";
+	}else if(language === "PT"){
+		document.getElementById("email").placeholder = "E-mail";
+		document.getElementById("pass").placeholder = "Senha";
+	}else if(language === "ZH"){
+		document.getElementById("email").placeholder = "电邮";
+		document.getElementById("pass").placeholder = "密码";
+	}else if(language === "JA"){
+		document.getElementById("email").placeholder = "Eメール";
+		document.getElementById("pass").placeholder = "パスワード";
+	}else if(language === "KO"){
+		document.getElementById("email").placeholder = "이메일";
+		document.getElementById("pass").placeholder = "비밀번호";
+	}else{
+		document.getElementById("email").placeholder = "Email";
+		document.getElementById("pass").placeholder = "Password";
+	}
+
+</script>
 
 <script src="js/languages.js"></script>
 </body>

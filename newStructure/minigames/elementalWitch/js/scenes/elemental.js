@@ -637,14 +637,8 @@ var elemental = function(){
         fireGem.events.onInputUp.add(shootGem)
         game.physics.enable(fireGem, Phaser.Physics.ARCADE)
         
-        fireGem.tween = game.add.tween(fireGem).to({y:fireGem.y + 10}, 2000, Phaser.Easing.linear, true)
-        
-        fireGem.tween.onComplete.add(function() 
-        {
-            game.add.tween(fireGem).to({y:fireGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-                fireGem.tween.start()
-            })
-        })
+        fireGem.tween = game.add.tween(fireGem).to({y:fireGem.y + 10}, 2000, Phaser.Easing.linear, true, 0, -1)
+        fireGem.tween.yoyo(true, 200)
         
         aquaGem = gems.create(0, 0, 'atlas.elemental', "aquaGem");
         aquaGem.anchor.setTo(0.5, 0.5)
@@ -656,14 +650,8 @@ var elemental = function(){
         aquaGem.events.onInputUp.add(shootGem)
         game.physics.enable(aquaGem, Phaser.Physics.ARCADE)
         
-        aquaGem.tween = game.add.tween(aquaGem).to({y:aquaGem.y + 10}, 2000, Phaser.Easing.linear, true)
-        
-        aquaGem.tween.onComplete.add(function() 
-        {
-            game.add.tween(aquaGem).to({y:aquaGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-                aquaGem.tween.start()
-            })
-        })
+        aquaGem.tween = game.add.tween(aquaGem).to({y:aquaGem.y + 10}, 2000, Phaser.Easing.linear, true, 0, -1)
+        aquaGem.tween.yoyo(true, 400)
         
         iceGem = gems.create(0, 0, 'atlas.elemental', "iceGem");
         iceGem.anchor.setTo(0.5, 0.5)
@@ -675,15 +663,9 @@ var elemental = function(){
         iceGem.events.onInputUp.add(shootGem)
         game.physics.enable(iceGem, Phaser.Physics.ARCADE)
         
-        iceGem.tween = game.add.tween(iceGem).to({y:iceGem.y + 10}, 2000, Phaser.Easing.linear, true)
-        
-        iceGem.tween.onComplete.add(function() 
-        {
-            game.add.tween(iceGem).to({y:iceGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-                iceGem.tween.start()
-            })
-        })
-        
+        iceGem.tween = game.add.tween(iceGem).to({y:iceGem.y + 10}, 2000, Phaser.Easing.linear, true, 0, -1)
+        iceGem.tween.yoyo(true, 200)
+       
         windGem = gems.create(0, 0, 'atlas.elemental', "windGem");
         windGem.anchor.setTo(0.5, 0.5)
         windGem.x = game.world.centerX + 150 
@@ -691,18 +673,11 @@ var elemental = function(){
         windGem.inputEnabled = true
         windGem.shooted = false
         windGem.element = elements.wind
+        windGem.events.onInputUp.add(shootGem)
         game.physics.enable(windGem, Phaser.Physics.ARCADE)
         
-        windGem.tween = game.add.tween(windGem).to({y:windGem.y + 10}, 2000, Phaser.Easing.linear, true)
-        
-        windGem.tween.onComplete.add(function() 
-        {
-            game.add.tween(windGem).to({y:windGem.y - 10}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-                windGem.tween.start()
-            })
-        })
-        
-        windGem.events.onInputUp.add(shootGem, this)
+        windGem.tween = game.add.tween(windGem).to({y:windGem.y + 10}, 2000, Phaser.Easing.linear, true, 0, -1)
+        windGem.tween.yoyo(true, 400)
     }
     
     function shootGem(gem){
@@ -723,7 +698,9 @@ var elemental = function(){
  
         game.add.tween(gem).to({x:enemyMask.x, y:enemyMask.y}, 200, Phaser.Easing.linear, true).onComplete.add(function() 
         {
-            game.add.tween(gem).to({x:tmpX, y:tmpY}, 200, Phaser.Easing.linear, true).onComplete.add(function(){gem.tween.resume()})
+            game.add.tween(gem).to({x:tmpX, y:tmpY}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+                gem.tween.resume()
+            })
         })
         
         gem.body.enable = true

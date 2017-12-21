@@ -393,7 +393,6 @@ var map = function(){
 	function addBalls(){
 		
 		var indexIcon = 0
-		console.log(gamesList)
 		for(var i = 0; i < iconsPositions.length;i++){
 			
 			var ballGroup = game.add.group()
@@ -1171,7 +1170,7 @@ var map = function(){
 			icon.scale.setTo(0.5,0.5)
 			icon.active = false
 			icon.id = gamesList[i].id
-			console.log(gamesList[i])
+			// console.log(gamesList[i])
 			
 		}
 	}
@@ -1207,7 +1206,7 @@ var map = function(){
 		sound.play('secret')
 		game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,2000).onComplete.add(function(){
 
-			console.log(icon, "iconSelected")
+			// console.log(icon, "iconSelected")
 			currentPlayer.currentMinigame = icon.id
 			currentPlayer.isMap = true
 			players.savePlayer(currentPlayer)

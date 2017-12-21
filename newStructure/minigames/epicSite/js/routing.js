@@ -6,6 +6,21 @@ var routing = function () {
 	var badRouting = false
 	var credentials = epicModel.getCredentials()
 
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	language = getParameterByName("language")
+	console.log(language)
+	language = language || "en"
+	language = language.toUpperCase()
+
 	$("#minigames").show()
 
 	// router.on(
@@ -43,19 +58,21 @@ var routing = function () {
 				$("#minigames").hide()
 				var id = params.id
 				var games = yogomeGames.getGames()
-				console.log(id, games.length)
+				// console.log(id, games.length)
 				var url
 				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
 					var game = games[gameIndex]
 					var gameId = game.name.replace(/\s/g, "")
-					console.log(gameId)
+					// console.log(gameId)
 					if(id === gameId){
 						url = game.url
 						console.log(url, "matched")
 						break
 					}
 				}
-				epicSiteMain.loadGame(url + "index.html?language=" + language)
+				console.log(language, "language")
+				var src = url + "index.html?language=" + language
+				epicSiteMain.startGame(src)
 
 				//TODO: check mixpanel
 				// mixpanel.track(
@@ -68,7 +85,7 @@ var routing = function () {
 				// if(game)
 				// 	game.destroy()
 				$("#minigames").hide()
-				epicSiteMain.checkPlayer()
+				epicSiteMain.startGame(null, false, true)
 
 				mixpanel.track(
 					"PageLoadAdventureMode",
@@ -78,7 +95,7 @@ var routing = function () {
 			'*': function () {
 				// window.location.href = router.root
 				$("#minigames").hide()
-				epicSiteMain.startGame()
+				epicSiteMain.startGame(null, false, true)
 			},
 		})
 

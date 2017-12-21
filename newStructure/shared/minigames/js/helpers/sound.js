@@ -24,7 +24,7 @@ var sound = function(){
 		var loop = params.loop
 		var volume = params.volume || 1
 
-		if(decodedSounds[soundId] !== "undefined"){
+		if(typeof decodedSounds[soundId] !== "undefined"){
 			decodedSounds[soundId].play()
 			decodedSounds[soundId]._sound.playbackRate.value = pitch
 			if (loop){

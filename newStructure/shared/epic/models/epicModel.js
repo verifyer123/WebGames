@@ -26,7 +26,6 @@ var epicModel = function () {
 	var USER_RECOVERY = "/users/parent/recover"
 
 	var currentCallback
-	var unlockAccessCall
 	var signInCallback
 
 	function getParameterByName(name, url) {
@@ -50,7 +49,7 @@ var epicModel = function () {
 			async:true,
 			processData:false
 		}).done(function(response){
-			console.log("success", response);
+			// console.log("success", response);
 			if((response)&&(response.status === "success")){
 				setCredentials(response)
 				if(onSuccess)
@@ -58,14 +57,15 @@ var epicModel = function () {
 			}else {
 				localStorage.setItem("token", null)
 				if(onError)onError(response)
-				modal.showLogin()
+				if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
 		}).fail(function(response){
-			console.log("error", response);
+			// console.log("error", response);
 			localStorage.setItem("token", null)
 			if(onError)onError(response)
-			modal.showLogin()
+			if(!signInCallback) modal.showLogin()
+			// modal.showLogin()
 		});
 	}
 
@@ -80,38 +80,41 @@ var epicModel = function () {
 			}
 		}
 
-		console.log(player.minigames, "currentMinigames")
+	}
+
+	function callMixpanelLogin(subscribed){
+		var credentials = epicModel.getCredentials()
+		mixpanel.track(
+			"onLoginSuccess",
+			{"user_id": credentials.educationID,
+				"subscribed":subscribed}
+		);
+		mixpanel.people.increment("loginCount");
+		// console.log("loginMixpanel", subscribed)
 	}
 	
 	function updateData() {
 		var credentials = getCredentials()
 		player = credentials.gameData || player
 		initializePlayer()
-		if(credentials.subscribed){
-			if(unlockAccessCall) {
-				unlockAccessCall()
-				unlockAccessCall = null
-			}
-		}
-		else if(signInCallback)
-			modal.showYouKnow()
-
 		if(currentCallback) {
 			currentCallback()
 			currentCallback = null
 		}
-
 		if(signInCallback){
-			signInCallback()
-			signInCallback = null
+			signInCallback = false
+			callMixpanelLogin()
+			if(!credentials.subscribed)
+				modal.showYouKnow()
 		}
 
 		if((mixpanel)&&(credentials.email)){
 			mixpanel.identify(credentials.email);
 		}
 
-		if(epicSiteMain)
+		if((typeof epicSiteMain !== "undefined") && (typeof epicSiteMain.updatePlayerInfo === "function")){
 			epicSiteMain.updatePlayerInfo()
+		}
 	}
 
 	function setCredentials(response) {
@@ -135,13 +138,16 @@ var epicModel = function () {
 			var child = response.child
 			localStorage.setItem("remoteID", child.remoteID)
 			localStorage.setItem("educationID", child.educationID)
-			localStorage.setItem("name", children.name)
+			localStorage.setItem("name", child.name)
 			if(child.gameData) {
 				var gameData = child.gameData
+				gameData = JSON.stringify(child.gameData)
 				if(gameData.version === player.version)
-					localStorage.setItem("gameData", JSON.stringify(child.gameData))
-				else
-					localStorage.setItem("gameData", null)
+					localStorage.setItem("gameData", gameData)
+				else{
+					gameData.minigames = {}
+					localStorage.setItem("gameData", gameData)
+				}
 			}
 		}
 
@@ -176,9 +182,13 @@ var epicModel = function () {
 
 		var gameData = localStorage.getItem("gameData")
 		gameData = gameData === "null" ? null : getJson(gameData)
+		if((gameData) && (gameData.version !== player.version)){
+			gameData.minigames = {}
+		}
 
 		var subscribed = localStorage.getItem("subscribed")
-		subscribed = subscribed !== "null"
+		// subscribed = typeof subscribed === "boolean" ? subscribed : false
+		// console.log(subscribed)
 
 		var name = localStorage.getItem("name")
 		name = (name === "null" || !name) ? null : name
@@ -195,7 +205,7 @@ var epicModel = function () {
 	}
 	
 	function checkPlayers(response) {
-		console.log(response)
+		// console.log(response)
 		modal.showPlayers(response.children)
 	}
 
@@ -205,10 +215,11 @@ var epicModel = function () {
 	}
 
 	function signIn(data, onSuccess, onError) {
-		console.log(data)
-		signInCallback = onSuccess
+		// console.log(data)
+		signInCallback = true
 
 		function callback(response){
+			onSuccess()
 			checkLogin(response)
 		}
 
@@ -226,22 +237,25 @@ var epicModel = function () {
 		var email = credentials.email
 		var remoteID = credentials.remoteID
 
-		if((token)&&(email)&&(remoteID)){
+		// console.log(token, email, remoteID, "credentials")
+		if((token)&&(email)){
 
 			var tokenType = token.substr(0, 2)
-			console.log(tokenType)
-			if (tokenType === "pl"){
-				console.log("login player")
+			// console.log(tokenType)
+			if ((tokenType === "pl")&&(remoteID)){
+				// console.log("login player")
 				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, GET_CHILD, updateData)
 
 			}else if(tokenType === "pa"){
-				console.log("call select player")
+				// console.log("call select player")
 				if(response)
 					checkPlayers(response)
 				else {
 					localStorage.setItem("token", null)
 					checkLogin()
 				}
+			}else{
+				modal.showLogin()
 			}
 
 		}
@@ -256,9 +270,8 @@ var epicModel = function () {
 		}
 	}
 
-	function loadPlayer (forceLogin, callback, unlockCall) {
+	function loadPlayer (forceLogin, callback) {
 		// var credentials = getCredentials()
-		unlockAccessCall = unlockCall
 		currentCallback = callback
 		if(forceLogin) {
 			checkLogin()
@@ -282,11 +295,11 @@ var epicModel = function () {
 				console.log("playerSaved")
 			})
 		}else if(forceLogin){
-			console.log("You need to login to save")
+			// console.log("You need to login to save")
 			modal.showSave(loginTag)
 		}
 
-		if(epicSiteMain){
+		if((typeof epicSiteMain !== "undefined") && (typeof epicSiteMain.updatePlayerInfo === "function")){
 			epicSiteMain.updatePlayerInfo()
 		}
 	}
@@ -311,7 +324,7 @@ var epicModel = function () {
 
 		if((token)&&(email)) {
 			localStorage.setItem("email", email)
-			console.log(token)
+			// console.log(token)
 			epicModel.loginParent({token: token, email:email}, onSuccess)
 		}
 		else
