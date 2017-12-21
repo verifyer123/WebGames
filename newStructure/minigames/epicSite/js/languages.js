@@ -268,6 +268,16 @@ var languageArrayIndex = [
                     JA:"ゲーム開始！",
                     KO:"게임 시작!"
                 },
+                { 
+                    id:27,
+                    NAME:"mainMenu27",
+                    ES:"- Elige su edad -",
+                    EN:"- Select your child's age -",
+                    PT:"- Selecione a idade do seu filho -",
+                    ZH:"- 选择你孩子的年龄 -",
+                    JA:"- お子様の年齢を選択してください -",
+                    KO:"- 자녀의 나이를 선택하세요. -"
+                },
         ]
 
 function changeLanguage(){
