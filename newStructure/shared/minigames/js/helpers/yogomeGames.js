@@ -3,7 +3,7 @@ var yogomeGames = function () {
 	var timeCount = 0
 	var addingTime = true
 	var yogoUrl = 'http://play.yogome.com/epicweb/minigames/'
-	var urlMap = yogoUrl + 'epicSite/#/minigames/'
+	var urlMap = 'epicSite/#/minigames/'
 	var relativeUrl = "../"
 
 	function getGames(pathTag){
@@ -130,7 +130,7 @@ var yogomeGames = function () {
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
 			var game = games[gIndex]
 			var gameId = game.name.replace(/\s/g, "")
-			games[gIndex].mapUrl = urlMap + gameId
+			games[gIndex].mapUrl = urlSet + urlMap + gameId
 			games[gIndex].id = gameId
 		}
 

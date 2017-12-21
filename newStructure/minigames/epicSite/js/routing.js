@@ -71,7 +71,8 @@ var routing = function () {
 					}
 				}
 				console.log(language, "language")
-				epicSiteMain.loadGame(url + "index.html?language=" + language)
+				var src = url + "index.html?language=" + language
+				epicSiteMain.startGame(src)
 
 				//TODO: check mixpanel
 				// mixpanel.track(
@@ -84,7 +85,7 @@ var routing = function () {
 				// if(game)
 				// 	game.destroy()
 				$("#minigames").hide()
-				epicSiteMain.checkPlayer()
+				epicSiteMain.startGame(null, false, true)
 
 				mixpanel.track(
 					"PageLoadAdventureMode",
@@ -94,7 +95,7 @@ var routing = function () {
 			'*': function () {
 				// window.location.href = router.root
 				$("#minigames").hide()
-				epicSiteMain.startGame()
+				epicSiteMain.startGame(null, false, true)
 			},
 		})
 

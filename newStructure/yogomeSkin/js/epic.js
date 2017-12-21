@@ -76,24 +76,30 @@ var epicSiteMain =  function(){
 		}
 	}
 
-	function checkPlayer(src){
+	function checkPlayer(src, needYogotar){
 		// src = src || "#/map"
 		// console.log(src)
 		var currentPlayer = epicModel.getPlayer()
-		if(!currentPlayer.yogotar){
+		if((!currentPlayer.yogotar)&&(needYogotar)){
 			// routing.navigate("#/yogotarselector")
 			window.location.href = "#/yogotarselector"
 		}else {
-			var yogotarImgPath = "assets/img/common/yogotars/" + currentPlayer.yogotar.toLowerCase() + ".png"
-			$( '.yogotar img' ).attr("src",yogotarImgPath);
+			if(currentPlayer.yogotar){
+				var yogotarImgPath = "assets/img/common/yogotars/" + currentPlayer.yogotar.toLowerCase() + ".png"
+				$( '.yogotar img' ).attr("src",yogotarImgPath);
+			}
 			loadGame(src)
 		}
 
 	}
 
-	function main(){
-		
-		epicModel.loadPlayer(false, checkPlayer)
+	function start(src, forceLogin, needYogotar){
+
+		var callback = function () {
+			checkPlayer(src, needYogotar)
+		}
+
+		epicModel.loadPlayer(forceLogin, callback)
 	}
 
 	function charSelected(yogotar, url){
@@ -147,9 +153,9 @@ var epicSiteMain =  function(){
 
 	return{
 		charSelected:charSelected,
-		startGame:main,
-		loadGame:loadGame,
-		checkPlayer:checkPlayer,
+		startGame:start,
+		// loadGame:loadGame,
+		// checkPlayer:checkPlayer,
 		showGames:showGames,
 		updatePlayerInfo:updatePlayerInfo,
 	}
