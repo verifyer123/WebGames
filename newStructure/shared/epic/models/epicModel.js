@@ -98,12 +98,12 @@ var epicModel = function () {
 		player = credentials.gameData || player
 		initializePlayer()
 		if(currentCallback) {
-			currentCallback(credentials.subscribed)
+			currentCallback()
 			currentCallback = null
 		}
 		if(signInCallback){
 			signInCallback = false
-			callMixpanelLogin(credentials.subscribed)
+			callMixpanelLogin()
 			if(!credentials.subscribed)
 				modal.showYouKnow()
 		}
