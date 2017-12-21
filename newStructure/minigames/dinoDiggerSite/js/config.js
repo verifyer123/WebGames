@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "dino",
         language: "es",
-        minigameUrl: "../dino/index.html?language=" + language,
+        minigameUrl: "../dinoDigger/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
