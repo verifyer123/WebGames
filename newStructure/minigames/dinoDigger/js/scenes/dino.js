@@ -63,6 +63,7 @@ var dino = function(){
     var fossilPossition
     var lvl
     var fosilFound
+    var fondo
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -349,6 +350,7 @@ var dino = function(){
 
 	function update(){
         
+        fondo.tilePosition.x += 0.5
     }
     
 	function createTextPart(text,obj){
@@ -575,6 +577,9 @@ var dino = function(){
                     oof.setAnimationByName(0, "LOSE", true)
                     oof.addAnimationByName(0, "IDLE", true)
                     missPoint()
+                    particleWrong.x = obj.x
+                    particleWrong.y = obj.y
+                    particleWrong.start(true, 1200, null, 6)
                 }
             }
             
@@ -632,6 +637,10 @@ var dino = function(){
                     fosilFound++
                     addPoint(1)
                     animateFossil(f)
+                    particleCorrect.x = fossilGroup.children[f].x
+                    particleCorrect.y = fossilGroup.children[f].y
+                    particleCorrect.start(true, 1200, null, 6)
+                    createTextPart('+1',fossilGroup.children[f])
                 }
                 break
             }
@@ -749,7 +758,7 @@ var dino = function(){
         
         changeImage(index, liveFossilGroup)
         animateScene()
-        game.add.tween(liveFossilGroup.children[index]).to({x: -1000}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
+        game.add.tween(liveFossilGroup.children[index]).to({x: -1200}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
             liveFossilGroup.children[index].x = liveFossilGroup.x
             liveFossilGroup.children[index].alpha = 0
                 gameActive = true
@@ -763,6 +772,14 @@ var dino = function(){
         }
         else
             return getRand()     
+    }
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('wrong')
+        sceneGroup.add(particleWrong)
     }
 
 	return {
@@ -799,6 +816,7 @@ var dino = function(){
             initGrid()
             initFossil()
             initLiveFossil()
+            createParticles()
 			
 			buttons.getButton(jungleFun,sceneGroup)
             createOverlay()
