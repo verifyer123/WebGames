@@ -655,11 +655,11 @@ var dino = function(){
         
         for(var f = 0; f < 6; f++){
             
-            var fossil = game.add.group()
-            fossil.create(0, 0, "atlas.dino", ""+(f+1)).anchor.setTo(0.5)
+            var fossil = fossilGroup.create(0, 0, "atlas.dino", ""+(f+1))
+            fossil.anchor.setTo(0.5)
             fossil.scale.setTo(0.8)
+            fossil.tint = 0x76CCA0
             fossil.found = false
-            fossilGroup.add(fossil)
         }
         fossilGroup.setAll('alpha',0)
     }
@@ -667,7 +667,7 @@ var dino = function(){
     function initLiveFossil(){
         
         liveFossilGroup = game.add.group()
-        liveFossilGroup.x = game.world.width + 200
+        liveFossilGroup.x = game.world.centerX
         liveFossilGroup.y = game.world.centerY
         //liveFossilGroup.scale.setTo(0.96)
         sceneGroup.add(liveFossilGroup)
@@ -758,9 +758,8 @@ var dino = function(){
         
         changeImage(index, liveFossilGroup)
         animateScene()
-        game.add.tween(liveFossilGroup.children[index]).to({x: -1200}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
-            liveFossilGroup.children[index].x = liveFossilGroup.x
-            liveFossilGroup.children[index].alpha = 0
+        game.add.tween(liveFossilGroup.children[index]).to({alpha:1}, 750, Phaser.Easing.linear, true).onComplete.add(function(){
+           game.add.tween(liveFossilGroup.children[index]).to({alpha:0}, 750, Phaser.Easing.linear, true)
                 gameActive = true
         })
     }

@@ -69,7 +69,13 @@ var modal = function () {
         	$("#myModal").load( "didYouKnow.html", function () {
 				$("#myModal").find("#know").modal('toggle');
 			})
-		}
+		},
+		showAge:function (callback) {
+			$("#myModal").load( "selectAge.html", function () {
+				ageModal.setCallback(callback)
+				$("#myModal").find("#age").modal('toggle');
+			} );
+		},
     }
 
 }()
