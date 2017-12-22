@@ -1,0 +1,55 @@
+
+pez.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pez/dino dig-32
+  rotate: false
+  xy: 441, 237
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+pez/dino dig-33
+  rotate: false
+  xy: 348, 199
+  size: 91, 51
+  orig: 91, 51
+  offset: 0, 0
+  index: -1
+pez/dino dig-34
+  rotate: false
+  xy: 100, 45
+  size: 66, 53
+  orig: 66, 53
+  offset: 0, 0
+  index: -1
+pez/dino dig-35
+  rotate: false
+  xy: 348, 185
+  size: 20, 12
+  orig: 20, 12
+  offset: 0, 0
+  index: -1
+pez/dino dig-51
+  rotate: false
+  xy: 2, 40
+  size: 96, 58
+  orig: 96, 58
+  offset: 0, 0
+  index: -1
+pez/mouth
+  rotate: false
+  xy: 2, 2
+  size: 30, 36
+  orig: 30, 36
+  offset: 0, 0
+  index: -1
+pez/torso
+  rotate: false
+  xy: 2, 100
+  size: 344, 150
+  orig: 344, 150
+  offset: 0, 0
+  index: -1
