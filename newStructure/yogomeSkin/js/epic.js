@@ -28,15 +28,17 @@ var epicSiteMain =  function(){
 	
 	function updatePlayerInfo() {
 		var credentials = epicModel.getCredentials()
+		var player = epicModel.getPlayer()
+
 		var currentCoins = $(".player-coins").html()
 		currentCoins = parseInt(currentCoins)
-		var newCoins = credentials.gameData ? credentials.gameData.powerCoins : 0
+		var newCoins = player.powerCoins
 		var coinsDisplay = $(".player-coins")
 		var coinsObj = {coins:currentCoins}
 
-		var name = credentials.name || credentials.gameData.yogotar
+		var name = credentials.name || (player.yogotar ? player.yogotar : "Eagle")
 		$(".player-name").html(name)
-		$(".player-number").html(credentials.gameData.level)
+		$(".player-number").html(player.level)
 		var coinImg = $("#player-info img")
 
 		if(newCoins > currentCoins){
@@ -51,7 +53,7 @@ var epicSiteMain =  function(){
 			TweenMax.to(coinsObj, 1, {coins:newCoins, roundProps:"coins", onUpdate:updateHandler});
 			TweenLite.to(coinImg, 0.5, {css:{scale:1.05}, ease:Quad.easeIn, onComplete:nextTween})
 		}else
-			$(".player-coins").html(credentials.gameData.powerCoins)
+			$(".player-coins").html(player.powerCoins)
 	}
 
 	function loadGame(src){
@@ -93,13 +95,13 @@ var epicSiteMain =  function(){
 
 	}
 
-	function start(src, forceLogin, needYogotar){
+	function start(src, forceLogin, needYogotar, checkAge){
 
 		var callback = function () {
 			checkPlayer(src, needYogotar)
 		}
 
-		epicModel.loadPlayer(forceLogin, callback)
+		epicModel.loadPlayer(forceLogin, callback, checkAge)
 	}
 
 	function charSelected(yogotar, url){
