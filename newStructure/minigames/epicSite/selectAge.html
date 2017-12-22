@@ -7,8 +7,6 @@
 	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
 	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
 
-	<script>var language = "ES";</script>
-
 	<audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
 	<audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
 	<audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
@@ -138,14 +136,15 @@
 </style>
 
 <script>
-    var AgeSelect;
-    
-        $(".buttonAge").click(function(){
-            $(".buttonAge").removeClass("buttonSelect");
-            $(this).addClass("buttonSelect");
-            AgeSelect = $(this).text();
-            
-        });
+
+	$(".buttonAge").click(function(){
+		$(".buttonAge").removeClass("buttonSelect");
+		$(this).addClass("buttonSelect");
+//		console.log(this)
+		var ageSelected = parseInt($(this).text())
+		ageModal.setAge(ageSelected)
+
+	});
     
 	$(".close").click(function() {
 		$("#age").modal('hide');
@@ -153,10 +152,28 @@
 
 	$("#ok").click(function() {
 		$("#age").modal('hide');
-		var redirect = encodeURIComponent(window.location.href)
-		redirect = "?redirect=" + redirect
-		window.location.href = "https://yogomepayments.com/" + redirect
+		ageModal.saveAge()
+
 	});
+
+	var ageModal = function () {
+		var currentCallback
+		var currentAge
+
+		return {
+			setCallback:function (callback) {
+				currentCallback = callback
+			},
+			setAge:function (age) {
+				currentAge = age
+			},
+			saveAge:function () {
+				localStorage.setItem("age", currentAge)
+				currentCallback()
+			}
+		}
+
+	}()
 
 </script>
     
