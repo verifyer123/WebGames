@@ -1297,7 +1297,7 @@ var battle = function(){
 				var finalBarPercentage = toExp / expNextLevel
 				// console.log(currentXp, expNextLevel, finalBarPercentage)
 				tweenBar = game.add.tween(xpBar.scale).to({x: finalBarPercentage}, 2000, Phaser.Easing.Cubic.Out, true)
-				tweenBar.onComplete.add(function () {\
+				tweenBar.onComplete.add(function () {
 					soundLevelHandle.stop()
 					// sound.stop("levelUp")
 					exitButton.inputEnabled = true

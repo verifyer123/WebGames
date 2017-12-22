@@ -6,13 +6,15 @@ var vs = function(){
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"challenger":"Challenger"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"challenger":"Retador"
 		}
 	}
     
@@ -619,9 +621,6 @@ var vs = function(){
         preload:preload,
 		setCharacters:setCharacters,
 		create: function(event){
-            
-			var preloadAlpha = document.getElementById("preloadBattle");
-        	preloadAlpha.style.visibility = "hidden";
 			
 			sceneGroup = game.add.group()
 			
