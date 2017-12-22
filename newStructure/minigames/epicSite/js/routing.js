@@ -85,7 +85,7 @@ var routing = function () {
 				// if(game)
 				// 	game.destroy()
 				$("#minigames").hide()
-				epicSiteMain.startGame(null, false, true)
+				epicSiteMain.startGame(null, false, true, true)
 
 				mixpanel.track(
 					"PageLoadAdventureMode",
@@ -95,7 +95,7 @@ var routing = function () {
 			'*': function () {
 				// window.location.href = router.root
 				$("#minigames").hide()
-				epicSiteMain.startGame(null, false, true)
+				epicSiteMain.startGame(null, false, true, true)
 			},
 		})
 

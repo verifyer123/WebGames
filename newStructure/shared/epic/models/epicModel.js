@@ -27,6 +27,7 @@ var epicModel = function () {
 
 	var currentCallback
 	var signInCallback
+	var checkAgeFlag
 
 	function getParameterByName(name, url) {
 		if (!url) url = window.location.href;
@@ -97,10 +98,16 @@ var epicModel = function () {
 		var credentials = getCredentials()
 		player = credentials.gameData || player
 		initializePlayer()
-		if(currentCallback) {
+
+		if((currentCallback)&&(credentials.age)) {
 			currentCallback()
 			currentCallback = null
-		}
+		}else if((currentCallback)&&(checkAgeFlag)){
+			checkAgeFlag = false
+			modal.showAge(currentCallback)
+		}else
+			currentCallback()
+
 		if(signInCallback){
 			signInCallback = false
 			callMixpanelLogin()
@@ -115,6 +122,7 @@ var epicModel = function () {
 		if((typeof epicSiteMain !== "undefined") && (typeof epicSiteMain.updatePlayerInfo === "function")){
 			epicSiteMain.updatePlayerInfo()
 		}
+
 	}
 
 	function setCredentials(response) {
@@ -132,6 +140,7 @@ var epicModel = function () {
 			localStorage.setItem("remoteID", children.remoteID)
 			localStorage.setItem("educationID", children.educationID)
 			localStorage.setItem("name", children.name)
+			localStorage.setItem("age", children.age)
 		}
 
 		if ((response)&&(response.child)) {
@@ -139,6 +148,7 @@ var epicModel = function () {
 			localStorage.setItem("remoteID", child.remoteID)
 			localStorage.setItem("educationID", child.educationID)
 			localStorage.setItem("name", child.name)
+			localStorage.setItem("age", child.age)
 			if(child.gameData) {
 				var gameData = child.gameData
 				gameData = JSON.stringify(child.gameData)
@@ -193,6 +203,9 @@ var epicModel = function () {
 		var name = localStorage.getItem("name")
 		name = (name === "null" || !name) ? null : name
 
+		var age = localStorage.getItem("age")
+		age = age === "null" ? null : age
+
 		return {
 			email:email,
 			token:token,
@@ -200,7 +213,8 @@ var epicModel = function () {
 			gameData:gameData,
 			educationID:educationID,
 			subscribed:subscribed,
-			name:name
+			name:name,
+			age:age
 		}
 	}
 	
@@ -270,9 +284,10 @@ var epicModel = function () {
 		}
 	}
 
-	function loadPlayer (forceLogin, callback) {
+	function loadPlayer (forceLogin, callback, checkAge) {
 		// var credentials = getCredentials()
 		currentCallback = callback
+		checkAgeFlag = checkAge
 		if(forceLogin) {
 			checkLogin()
 		}
