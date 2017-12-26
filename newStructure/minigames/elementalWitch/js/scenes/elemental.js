@@ -85,7 +85,7 @@ var elemental = function(){
         lives = 3
 
         level = 1
-        speed = 1
+        speed = 5
         enemySelect =  game.rnd.integerInRange(0, 3)
         count = 0
         score = 0
@@ -631,6 +631,8 @@ var elemental = function(){
         fireGem.anchor.setTo(0.5, 0.5)
         fireGem.x = game.world.centerX - 150
         fireGem.y = dock.y * 0.35
+        fireGem.initX = fireGem.x
+        fireGem.initY = fireGem.y
         fireGem.inputEnabled = true
         fireGem.shooted = false
         fireGem.element = elements.fire
@@ -643,6 +645,8 @@ var elemental = function(){
         aquaGem = gems.create(0, 0, 'atlas.elemental', "aquaGem");
         aquaGem.anchor.setTo(0.5, 0.5)
         aquaGem.x = game.world.centerX - 70
+        aquaGem.initX = aquaGem.x
+        aquaGem.initY = aquaGem.y
         aquaGem.y = dock.y * 0.6
         aquaGem.inputEnabled = true
         aquaGem.shooted = false
@@ -657,6 +661,8 @@ var elemental = function(){
         iceGem.anchor.setTo(0.5, 0.5)
         iceGem.x = game.world.centerX + 70
         iceGem.y = dock.y * 0.6
+        iceGem.initX = iceGem.x
+        iceGem.initY = iceGem.y
         iceGem.inputEnabled = true
         iceGem.shooted = false
         iceGem.element = elements.ice
@@ -670,6 +676,8 @@ var elemental = function(){
         windGem.anchor.setTo(0.5, 0.5)
         windGem.x = game.world.centerX + 150 
         windGem.y = dock.y * 0.35
+        windGem.initX = windGem.x
+        windGem.initY = windGem.y
         windGem.inputEnabled = true
         windGem.shooted = false
         windGem.element = elements.wind
@@ -693,12 +701,9 @@ var elemental = function(){
         
         gem.tween.pause()
         
-        var tmpX = gem.x
-        var tmpY = gem.y
- 
         game.add.tween(gem).to({x:enemyMask.x, y:enemyMask.y}, 200, Phaser.Easing.linear, true).onComplete.add(function() 
         {
-            game.add.tween(gem).to({x:tmpX, y:tmpY}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(gem).to({x:gem.initX, y:gem.initY}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
                 gem.tween.resume()
             })
         })
@@ -889,11 +894,14 @@ var elemental = function(){
                     
                     game.time.events.add(1700, function() 
                     {
+                        if(enemyMask){
                         enemyMask.parent.removeAll(true)
                         speed = auxSpeed
                         level++
                         initGame()
+                        }
                     }, this)
+                    
                 break
                 
                 case 1:
