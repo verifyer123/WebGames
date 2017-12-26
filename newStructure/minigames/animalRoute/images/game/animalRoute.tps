@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/baseGame/images/game/animalRoute.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/animalRoute/images/game/animalRoute.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -734,6 +734,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">playEN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,8,44,16</rect>
+                <key>scale9Paddings</key>
+                <rect>22,8,44,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -824,6 +837,7 @@
             <filename>VERTICAL.png</filename>
             <filename>BUBBLE.png</filename>
             <filename>FARM.png</filename>
+            <filename>playEN.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

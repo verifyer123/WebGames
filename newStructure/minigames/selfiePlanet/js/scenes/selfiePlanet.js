@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var dino = function(){
+var selfiePlanet = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,9 +20,9 @@ var dino = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.dino",
-                json: "images/dino/atlas.json",
-                image: "images/dino/atlas.png",
+                name: "atlas.selfiePlanet",
+                json: "images/selfiePlanet/atlas.json",
+                image: "images/selfiePlanet/atlas.png",
             },
         ],
         images: [
@@ -35,10 +35,12 @@ var dino = function(){
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
+            {	name: "right",
+				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "drag",
-				file: soundsPath + "drag.mp3"},
+			{	name: "snapshot",
+				file: soundsPath + "snapshot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 		]
@@ -48,22 +50,21 @@ var dino = function(){
     var lives = null
 	var sceneGroup = null
 	var background
-    var gameActive
+    var gameActive = true
     var gameStarted=false
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 109
+    var gameIndex = 102
 	var indexGame
     var overlayGroup
-    var jungleFun
-    var gridGroup
-    var rows, columns
-    var fossilGroup
-    var liveFossilGroup
-    var fossilPossition
-    var lvl
-    var fosilFound
-    var fondo
+    var dancing_baby
+    //var stars
+    var planets = ['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']
+    var speed
+    var planetsGroup
+    var target
+    var pivot
+    var eagle, eagleSad, eagleHappy
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -72,13 +73,9 @@ var dino = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        gameActive = false
         lives = 3
-        rows = 8
-        columns = 5
-        fossilPossition = -1
-        lvl = 2
-        fosilFound = 0
+        pivot = 0
+        speed = 3000
         loadSounds()
 	}
 
@@ -87,8 +84,8 @@ var dino = function(){
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-            //obj.alpha = 1
-            game.add.tween(obj).to({ alpha:1},300,Phaser.Easing.linear,true)
+            obj.alpha = 1
+            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -188,7 +185,7 @@ var dino = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.dino','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.selfiePlanet','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -216,7 +213,7 @@ var dino = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.dino','life_box')
+        var heartImg = group.create(0,0,'atlas.selfiePlanet','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -239,7 +236,7 @@ var dino = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        jungleFun.stop()
+        dancing_baby.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -257,17 +254,24 @@ var dino = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('jungleFun', soundsPath + 'songs/jungle_fun.mp3');
+        game.load.audio('dancing_baby', soundsPath + 'songs/dancing_baby.mp3');
         
-		game.load.image('howTo',"images/dino/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/dino/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/dino/introscreen.png")
+		game.load.image('howTo',"images/selfiePlanet/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/selfiePlanet/play" + localization.getLanguage() + ".png")
+        game.load.image('introscreen',"images/selfiePlanet/introscreen.png")
         
-        game.load.spine("oof", "images/spines/explorador.json")
-        game.load.spine("fish", "images/spines/pez.json")
-        game.load.spine("trex", "images/spines/trex.json")
-        game.load.spine("triceratops", "images/spines/triceratops.json")
-        game.load.spine("trilobite", "images/spines/trilobite.json")
+        game.load.image('mercury',"images/selfiePlanet/mercury.png")
+        game.load.image('venus',"images/selfiePlanet/venus.png")
+        game.load.image('earth',"images/selfiePlanet/earth.png")
+        game.load.image('mars',"images/selfiePlanet/mars.png")
+        game.load.image('jupiter',"images/selfiePlanet/jupiter.png")
+        game.load.image('saturn',"images/selfiePlanet/saturn.png")
+        game.load.image('uranus',"images/selfiePlanet/uranus.png")
+        game.load.image('neptune',"images/selfiePlanet/neptune.png")
+        
+        game.load.spine("eagle", "images/spines/Normal.json");
+        game.load.image('eagleSad',"images/selfiePlanet/eagleSad.png")
+        game.load.image('eagleHappy',"images/selfiePlanet/eagleHappy.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -296,7 +300,6 @@ var dino = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                gameActive = false
                 initGame()
             })
             
@@ -308,7 +311,7 @@ var dino = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.dino','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.selfiePlanet','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -322,11 +325,11 @@ var dino = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.dino',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.selfiePlanet',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.dino','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.selfiePlanet','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -340,17 +343,18 @@ var dino = function(){
 
 	function createBackground(){
         
-        fondo = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.dino', "background")
-        sceneGroup.add(fondo)
+        background = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "background");
+        background.anchor.setTo(0.5, 0.5)
+        background.width = game.world.width
+        background.height = game.world.height
         
-        rocks = game.add.tileSprite(game.world.centerX - 240, game.world.centerY - 270, 460, 735, 'atlas.dino', "rocks")
-        sceneGroup.add(rocks)
-            
+        stars = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.selfiePlanet", 'stars')
+        sceneGroup.add(stars)
     }
 
 	function update(){
         
-        fondo.tilePosition.x += 0.5
+        //stars.tilePosition.x += 0.5
     }
     
 	function createTextPart(text,obj){
@@ -405,7 +409,7 @@ var dino = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.dino',key);
+        particle.makeParticles('atlas.selfiePlanet',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -432,7 +436,7 @@ var dino = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.dino',tag);
+				particle.makeParticles('atlas.selfiePlanet',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -488,7 +492,7 @@ var dino = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.dino','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.selfiePlanet','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -501,7 +505,7 @@ var dino = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.dino','smoke');
+        particlesGood.makeParticles('atlas.selfiePlanet','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -518,261 +522,6 @@ var dino = function(){
         
     }
     
-    function initOof(){
-        
-        oofBack =  sceneGroup.create(game.world.centerX, game.world.centerY - 360, "atlas.dino", "explorerBack")
-        oofBack.anchor.setTo(0.5)
-
-        oof = game.add.spine(game.world.centerX, game.world.centerY - 300, "oof")
-        //oof.scale.setTo(0.8)
-        oof.setAnimationByName(0, "IDLE", true)
-        oof.setSkinByName("normal")
-        sceneGroup.add(oof)
-        
-    }
-	
-    function initGrid(){
-        
-        gridGroup = game.add.group()
-        gridGroup.scale.setTo(0.96)
-        sceneGroup.add(gridGroup)
-        
-        gridGroup.coordinates = new Array(rows)
-        for (var i = 0; i < rows; i++) {
-            gridGroup.coordinates[i] = new Array(columns)
-        }
-
-        for(var j = 0; j < rows; j++){
-            for(var i = 0; i < columns; i++){
-                
-                var grid =  gridGroup.create(0, 0, "atlas.dino", "grid")
-                grid.anchor.setTo(0.5)
-                grid.x = game.world.centerX + grid.width * i - 190
-                grid.y = game.world.centerY + grid.height * j - 215
-                grid.empty = true
-                grid.isClose = false
-                grid.column = i
-                grid.row = j
-                grid.inputEnabled = true
-                grid.events.onInputDown.add(inputButton)
-                gridGroup.coordinates[i][j] = grid
-            }
-        }
-    }
-    
-    function inputButton(obj){
-		
-		if(fosilFound < lvl && gameActive){
-            
-            if(!obj.empty){
-                breakingBad(obj)
-            }
-            else{
-                if(obj.isClose){
-                    sound.play('drag')
-                    blink()
-                }
-                else{
-                    blink()
-                    oof.setAnimationByName(0, "LOSE", true)
-                    oof.addAnimationByName(0, "IDLE", true)
-                    missPoint()
-                    particleWrong.x = obj.x
-                    particleWrong.y = obj.y
-                    particleWrong.start(true, 1200, null, 6)
-                }
-            }
-            
-            if(fosilFound === lvl){
-                gameActive = false
-                oof.setAnimationByName(0, "WIN", true)
-                oof.addAnimationByName(0, "IDLE", true)
-                if(lvl < 6)
-                    lvl++
-                game.time.events.add(1600,function(){
-                    initGame()
-                },this)
-            }
-		}
-	}
-    
-    function checkneighbor(block){
-        
-        for(var j = -1; j < 2; j++){
-            for(var i = -1; i < 2; i++){
-                
-                c = block.column + i
-                r = block.row + j 
-                
-                if (r >= 0 && r < rows && c >= 0 && c < columns && gridGroup.coordinates[c][r].empty) {
-                    
-                }
-            }
-        }
-    }
-    
-    function blink(){
-        
-        for(var f = 0; f < lvl; f++){
-            if(!fossilGroup.children[f].found)
-                showHint(fossilGroup.children[f])
-        }
-    }
-    
-    function showHint(foss){
-        game.add.tween(foss).to({alpha: 1}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
-            game.add.tween(foss).to({alpha: 0}, 200, Phaser.Easing.linear, true)
-        })
-    }
-    
-    function breakingBad(foss){
-        
-        for(var f = 0; f < lvl; f++){
-            if(fossilGroup.children[f].x === foss.x && fossilGroup.children[f].y === foss.y){
-                game.add.tween(fossilGroup.children[f]).to({alpha: 1}, 500, Phaser.Easing.linear, true)
-                if(!fossilGroup.children[f].found){
-                    fossilGroup.children[f].found = true
-                    oof.setAnimationByName(0, "WIN", true)
-                    oof.addAnimationByName(0, "IDLE", true)
-                    fosilFound++
-                    addPoint(1)
-                    animateFossil(f)
-                    particleCorrect.x = fossilGroup.children[f].x
-                    particleCorrect.y = fossilGroup.children[f].y
-                    particleCorrect.start(true, 1200, null, 6)
-                    createTextPart('+1',fossilGroup.children[f])
-                }
-                break
-            }
-        }
-    }
-    
-    function initFossil(){
-        
-        fossilGroup = game.add.group()
-        //fossilGroup.scale.setTo(0.8)
-        gridGroup.add(fossilGroup)
-        
-        for(var f = 0; f < 6; f++){
-            
-            var fossil = fossilGroup.create(0, 0, "atlas.dino", ""+(f+1))
-            fossil.anchor.setTo(0.5)
-            fossil.scale.setTo(0.8)
-            fossil.tint = 0x76CCA0
-            fossil.found = false
-        }
-        fossilGroup.setAll('alpha',0)
-    }
-    
-    function initLiveFossil(){
-        
-        liveFossilGroup = game.add.group()
-        liveFossilGroup.x = game.world.centerX
-        liveFossilGroup.y = game.world.centerY
-        //liveFossilGroup.scale.setTo(0.96)
-        sceneGroup.add(liveFossilGroup)
-        
-        triceratops = game.add.spine(0, 0, "triceratops")
-        triceratops.setAnimationByName(0, "IDLE", true)
-        triceratops.setSkinByName("normal")
-        triceratops.alpha = 0
-        liveFossilGroup.add(triceratops)
-        
-        fish = game.add.spine(0, 0, "fish")
-        fish.setAnimationByName(0, "IDLE", true)
-        fish.setSkinByName("normal")
-        fish.alpha = 0
-        liveFossilGroup.add(fish)
-        
-        trex = game.add.spine(0, 0, "trex")
-        trex.setAnimationByName(0, "IDLE", true)
-        trex.setSkinByName("normal")
-        trex.alpha = 0
-        liveFossilGroup.add(trex)
-        
-        trilobite = game.add.spine(0, 0, "trilobite")
-        trilobite.setAnimationByName(0, "IDLE", true)
-        trilobite.setSkinByName("normal")
-        trilobite.alpha = 0
-        liveFossilGroup.add(trilobite)
-        
-        flower = liveFossilGroup.create(0, 0, 'atlas.dino', 'flower')
-        flower.alpha = 0
-        flower.scale.setTo(2)
-        
-        plant = liveFossilGroup.create(0, 0, 'atlas.dino', 'plant')
-        plant.alpha = 0
-        plant.angle = 45
-        plant.scale.setTo(2)
-    }
-    
-    function initGame(){
-        
-        fossilGroup.setAll('found',false)
-        fossilGroup.setAll('alpha',0)
-        gridGroup.setAll('empty', true)
-        gridGroup.setAll('isClose', false)
-        fosilFound = 0
-        delay = 300
-        gameActive = false
-        for(var f = 0; f < lvl; f++){
-            fossilPossition = getRand()
-            fossilGroup.children[f].x = gridGroup.children[fossilPossition].x 
-            fossilGroup.children[f].y = gridGroup.children[fossilPossition].y
-            gridGroup.children[fossilPossition].empty = false
-            neighborhood(gridGroup.children[fossilPossition])
-            popObject(fossilGroup.children[f], delay)
-            delay += 300
-        }
-        game.time.events.add(delay+300,function(){
-            fossilGroup.setAll('alpha',0)
-            gameActive = true
-        },this)
-    }
-    
-    function neighborhood(block){
-        
-        for(var j = -1; j < 2; j++){
-            for(var i = -1; i < 2; i++){
-                
-                c = block.column + i
-                r = block.row + j 
-                
-                if (r >= 0 && r < rows && c >= 0 && c < columns && gridGroup.coordinates[c][r].empty) {
-                    //gridGroup.coordinates[c][r].tint = 0x3333ff
-                    gridGroup.coordinates[c][r].isClose = true
-                }
-            }
-        }
-        
-        /*for(var r = 0; r < gridGroup.length; r ++){
-            if(!gridGroup.children[r].empty){
-                gridGroup.children[r].tint = 0xff3333
-            }
-        }*/
-    }
-    
-    function animateFossil(index){
-        
-        gameActive = false
-        
-        changeImage(index, liveFossilGroup)
-        animateScene()
-        game.add.tween(liveFossilGroup.children[index]).to({alpha:1}, 750, Phaser.Easing.linear, true).onComplete.add(function(){
-           game.add.tween(liveFossilGroup.children[index]).to({alpha:0}, 750, Phaser.Easing.linear, true)
-                gameActive = true
-        })
-    }
-    
-    function getRand(){
-        var x = game.rnd.integerInRange(0, 39)
-        if(x !== fossilPossition && gridGroup.children[x].empty){
-            return x
-        }
-        else
-            return getRand()     
-    }
-    
     function createParticles(){
         particleCorrect = createPart('star')
         sceneGroup.add(particleCorrect)
@@ -780,11 +529,153 @@ var dino = function(){
         particleWrong = createPart('wrong')
         sceneGroup.add(particleWrong)
     }
+    
+    function initPlanetsGroup(){
+        
+        planetsGroup = game.add.group()
+        planetsGroup.x = -200
+        planetsGroup.y = game.world.centerY - 100
+        planetsGroup.scale.setTo(0.9)
+        sceneGroup.add(planetsGroup)
+        
+        for(var p = 0; p < planets.length; p++){
+            var planet = planetsGroup.create(0, 0, planets[p])
+            planet.anchor.setTo(0.5)
+            planet.alpha = 0
+        }
+    }
+    
+    function initEagle(){
+        
+        eagle = game.add.spine(game.world.centerX + 130, game.world.height , "eagle")
+        //eagle.scale.setTo(0.7)
+        eagle.setAnimationByName(0, "IDLE", true)
+        eagle.setSkinByName("normal")
+        sceneGroup.add(eagle)
+        
+        eagleSad = sceneGroup.create(game.world.centerX - 20, game.world.centerY, "eagleSad")    
+        eagleSad.alpha = 0
+        eagleHappy = sceneGroup.create(game.world.centerX - 20, game.world.centerY, "eagleHappy")  
+        eagleHappy.alpha = 0
+    }
+    
+    function initCam(){
+        
+        selfie = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "selfie");
+        selfie.anchor.setTo(0.5, 0.5)
+        selfie.width = game.world.width
+        
+        target = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "target");
+        target.anchor.setTo(0.5, 0.5)
+        
+        var snapBtn = sceneGroup.create(game.world.centerX, game.world.height - 60, 'atlas.selfiePlanet', 'camBtn')
+        snapBtn.anchor.setTo(0.5)
+        //snapBtn.scale.setTo(1, 1.5)
+        snapBtn.inputEnabled = true
+        snapBtn.events.onInputDown.add(inputButton)
+    }
+	
+	function inputButton(btn){
+		
+		if(gameActive){
+            game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
+            {
+                sound.play('snapshot')
+                animateScene()
+                planetsGroup.translate.stop()
+                checkCorrect()
+                game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
+            })
+		}
+	}
+    
+    function checkCorrect() {
 
+        gameActive = false
+        eagle.alpha = 0
+        var pic = target.getBounds()
+        var obj = planetsGroup.children[pivot].getBounds()
+         
+        var x = (obj.width - pic.width) //* 0.5
+        var y = (obj.height - pic.height) //* 0.5
+        
+        var xx = -(obj.width)/2
+        var yy = -(obj.height)
+        
+        pic.inflate(x * 0.5, y * 0.5)
+        obj.inflate(-x * 0.15, -y * 0.15)
+        
+        pic.y -= 100
+        
+        /*var graphics = game.add.graphics(0, 0);
+        graphics.beginFill(0xFF3300);
+        graphics.lineStyle(2, 0x0000FF, 1);
+        graphics.alpha = 0.5
+        graphics.drawRect(pic.x, pic.y, pic.width, pic.height);
+        
+        var graphics2 = game.add.graphics(0, 0);
+        graphics2.beginFill(0x3333ff);
+        graphics2.lineStyle(2, 0x0000FF, 1);
+        graphics2.alpha = 0.5
+        graphics2.drawRect(obj.x, obj.y, obj.width, obj.height);*/
+        
+        var focus = pic.containsRect(obj)
+
+        if(focus){
+            sound.play("right")
+            particleCorrect.x = target.x 
+            particleCorrect.y = target.y
+            particleCorrect.start(true, 1200, null, 6)
+            eagleHappy.alpha = 1
+            addPoint(1)
+        } 
+        else{
+            particleWrong.x = target.x - 20
+            particleWrong.y = target.y
+            particleWrong.start(true, 1200, null, 6)
+            eagleSad.alpha = 1
+            missPoint()
+        }
+        restartGame()
+    }
+    
+    function initGame(){
+        
+        gameActive = true
+        planetsGroup.x = -200
+        changeImage(pivot, planetsGroup)
+        
+        planetsGroup.translate = game.add.tween(planetsGroup).to({x: game.world.width + 200}, speed, Phaser.Easing.linear, true)
+        
+        planetsGroup.translate.onComplete.add(function(){
+            missPoint()
+            planetsGroup.children[pivot].alpha = 0
+            restartGame()
+        })
+    }
+    
+    function restartGame(){
+        
+        if(pivot < planets.length-1)
+            pivot++
+        else
+            pivot = 0
+        
+        if(lives !== 0){
+            game.add.tween(planetsGroup.children[pivot]).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400).onComplete.add(function () {
+                animateScene()
+                eagleHappy.alpha = 0
+                eagleSad.alpha = 0
+                eagle.alpha = 1
+                initGame()
+            })
+        }
+    }
+	
 	return {
 		
 		assets: assets,
-		name: "dino",
+		name: "selfiePlanet",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -794,9 +685,9 @@ var dino = function(){
 			createBackground()
 			addParticles()
                         			
-            jungleFun = game.add.audio('jungleFun')
-            game.sound.setDecodedCallback(jungleFun, function(){
-                jungleFun.loopFull(0.6)
+            dancing_baby = game.add.audio('dancing_baby')
+            game.sound.setDecodedCallback(dancing_baby, function(){
+                dancing_baby.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -808,16 +699,15 @@ var dino = function(){
             }, this);
             
             initialize()
-			            
-			createPointsBar()
+			         
+            initPlanetsGroup()
+            initEagle()
+            initCam()
+            createPointsBar()
 			createHearts()
-            initOof()
-            initGrid()
-            initFossil()
-            initLiveFossil()
             createParticles()
 			
-			buttons.getButton(jungleFun,sceneGroup)
+			buttons.getButton(dancing_baby,sceneGroup)
             createOverlay()
             
             animateScene()
