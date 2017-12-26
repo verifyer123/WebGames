@@ -568,7 +568,7 @@ var selfiePlanet = function(){
         target = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "target");
         target.anchor.setTo(0.5, 0.5)
         
-        var snapBtn = sceneGroup.create(game.world.centerX, game.world.height - 60, 'atlas.selfiePlanet', 'camBtn')
+        var snapBtn = sceneGroup.create(game.world.centerX, game.world.height - 70, 'atlas.selfiePlanet', 'camBtn')
         snapBtn.anchor.setTo(0.5)
         //snapBtn.scale.setTo(1, 1.5)
         snapBtn.inputEnabled = true
@@ -603,7 +603,7 @@ var selfiePlanet = function(){
         var yy = -(obj.height)
         
         pic.inflate(x * 0.5, y * 0.5)
-        obj.inflate(-x * 0.15, -y * 0.15)
+        obj.inflate(-x * 0.2, -y * 0.2)
         
         pic.y -= 100
         
