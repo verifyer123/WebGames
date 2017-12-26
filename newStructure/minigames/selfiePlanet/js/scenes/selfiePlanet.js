@@ -54,7 +54,7 @@ var selfiePlanet = function(){
     var gameStarted=false
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 111
 	var indexGame
     var overlayGroup
     var dancing_baby
