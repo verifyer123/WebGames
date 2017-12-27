@@ -69,6 +69,7 @@ var smokeBusters = function(){
     var fakeClouds=new Array(10)
     var Luna
     var pollution=new Array(3)
+    var pollutionAbsorb=new Array(3)
     var pollutionSkin=new Array(3)
     var pollutionCanKill=new Array(3)
     var way=new Array(3)
@@ -153,6 +154,11 @@ var smokeBusters = function(){
             }
         }
     } 
+    
+    
+  
+        
+
     
     function addNumberPart(obj,number,isScore){
         
@@ -313,6 +319,7 @@ var smokeBusters = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
         game.load.spine('luna', "images/Spine/Luna/luna.json");
+        game.load.spine('pollutionAnim', "images/Spine/Clouds/clouds.json");
         
 		game.load.image('howTo',"images/smoke/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/smoke/play" + localization.getLanguage() + ".png")
@@ -396,6 +403,21 @@ var smokeBusters = function(){
         sceneGroup.add(gameGroup)
         sceneGroup.add(UIGroup)
         
+        var myBitmap = game.add.bitmapData(game.camera.width,game.camera.height);
+        var grd=myBitmap.context.createLinearGradient(0,0,0,200);
+        grd.addColorStop(0,"#49364A");
+        grd.addColorStop(1,"#7FCDEE");
+        myBitmap.context.fillStyle=grd;
+        myBitmap.context.fillRect(0,0,game.camera.width,game.camera.height);
+        grd=myBitmap.context.createLinearGradient(0,0,0,200);
+        grd.addColorStop(0,"#7FCDEE");
+        grd.addColorStop(1,"#E8BE8B");
+        myBitmap.context.fillStyle=grd;
+        myBitmap.context.fillRect(0,500,game.camera.width,game.camera.height);
+        game.add.sprite(0, 0, myBitmap);
+        //backgroundGroup.add(myBitmap)
+        
+        
         botonAspirar=gameGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
         botonAspirar.inputEnabled=true
         botonAspirar.tag="suck"
@@ -448,11 +470,29 @@ var smokeBusters = function(){
         character.body.checkCollision.right = false;
         //game.physics.arcade.gravity.y = 100;
         
+        pollutionAbsorb[0]= gameGroup.game.add.spine(0,0, "pollutionAnim");
+        pollutionAbsorb[0].scale.setTo(scaleSpine)
+        pollutionAbsorb[0].setSkinByName("normal");
+        pollutionAbsorb[0].setAnimationByName(0,"LOSE",true)
+        pollutionAbsorb[0].alpha=0
+        
+        pollutionAbsorb[1]= gameGroup.game.add.spine(0,0, "pollutionAnim");
+        pollutionAbsorb[1].scale.setTo(scaleSpine)
+        pollutionAbsorb[1].setSkinByName("normal2");
+        pollutionAbsorb[1].setAnimationByName(0,"LOSE",true)
+        pollutionAbsorb[1].alpha=0
+        
+        pollutionAbsorb[2]= gameGroup.game.add.spine(0,0, "pollutionAnim");
+        pollutionAbsorb[2].scale.setTo(scaleSpine)
+        pollutionAbsorb[2].setSkinByName("normal1");
+        pollutionAbsorb[2].setAnimationByName(0,"LOSE",true)
+        pollutionAbsorb[2].alpha=0
+        
         for(var fill=0; fill<10;fill++){
             
             if(fill!=0){
             clouds[fill]=gameGroup.create(game.rnd.integerInRange(100,game.world.width-200), game.world.centerY+contHeight*-300,'atlas.smoke','CLOUD')
-            fakeClouds[fill]=true
+            fakeClouds[fill]=false
             
             clouds[fill].tag=fill
             gameGroup.add(clouds[fill])
@@ -553,24 +593,34 @@ var smokeBusters = function(){
             if(character.y-200<pollution[h].y){
                 
                 luna.setAnimationByName(0,"SUCK",false);
+                 
+               
                 game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
             })
                 var number=h
+                pollutionAbsorb[number].alpha=1
+                pollutionSkin[number].alpha=0
                 pollutionCanKill[number]=false
                 //pollution[number].setAnimationByName(0,"DIE",true);
                 var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
                 pollution[number].kill();
+                
+               pollutionAbsorb[number].alpha=0
+                pollutionSkin[number].alpha=1
+                    
                 pollutionCanKill[number]=true
                 
-                        if(next==1){
-                            next=2
-                        }else if(next==2){
+                         if(next==1){
+                            next=9
+                        }else if(next==9){
+                            next=7
+                        }else if(next==7){
                             next=5
                         }else if(next==5){
-                            next=8
-                        }else if(next==8){
+                            next=3
+                        }else if(next==3){
                             next=1
-                        } 
+                        }  
                     console.log(next)
                     addPoint(1)
                     
@@ -582,6 +632,15 @@ var smokeBusters = function(){
         }
         
     }
+    
+    function reset(){
+        
+        speed=.5
+        
+        
+        
+    }
+    
     function onClick(obj){
         
         if(obj.tag=="rightBar"){
@@ -602,22 +661,26 @@ var smokeBusters = function(){
                 game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
             })
                 var number=h
+                pollutionAbsorb[number].alpha=1
+                pollutionSkin[number].alpha=0
+                
                 pollutionCanKill[number]=false
-                //pollutionSkin[number].alpha=1
-                //pollution[number].setAnimationByName(0,"DIE",true);
                 var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
                 pollution[number].kill();
                 pollutionCanKill[number]=true
-                
-                         if(next==1){
-                            next=2
-                        }else if(next==2){
+                pollutionAbsorb[number].alpha=0
+                pollutionSkin[number].alpha=1
+                          if(next==1){
+                            next=9
+                        }else if(next==9){
+                            next=7
+                        }else if(next==7){
                             next=5
                         }else if(next==5){
-                            next=8
-                        }else if(next==8){
+                            next=3
+                        }else if(next==3){
                             next=1
-                        } 
+                        }  
                     
                     addPoint(1)
                     
@@ -665,15 +728,26 @@ var smokeBusters = function(){
            if(lives<0){
                lives=0
            }
+   
+            pollutionAbsorb[0].x=pollution[0].x
+            pollutionAbsorb[0].y=pollution[0].y
+            
+            pollutionAbsorb[1].x=pollution[1].x
+            pollutionAbsorb[1].y=pollution[1].y
+            
+            pollutionAbsorb[2].x=pollution[2].x
+            pollutionAbsorb[2].y=pollution[2].y
+            
             //skin de las nubes
             
             for(var u=0; u<10;u++){
                 
                 if(fakeClouds[u]){
-                    clouds[u].loadTexture("atlas.smoke","fake")
+                    clouds[u].loadTexture("atlas.smoke","FAKE")
                 }else{
-                    
+                    clouds[u].loadTexture("atlas.smoke","CLOUD")
                 }
+                
                 
                 
             }
@@ -710,6 +784,7 @@ var smokeBusters = function(){
                 character.body.acceleration.set(0);
                 startGame=false
                 missPoint()
+                reset()
                 muerto=true
             }
             
@@ -734,20 +809,23 @@ var smokeBusters = function(){
                 if(pollution[p].position.y>game.camera.y+1000){
                     pollution[p].kill();
                          if(next==1){
-                            next=2
-                        }else if(next==2){
+                            next=9
+                        }else if(next==9){
+                            next=7
+                        }else if(next==7){
                             next=5
                         }else if(next==5){
-                            next=8
-                        }else if(next==8){
+                            next=3
+                        }else if(next==3){
                             next=1
-                        } 
+                        }  
                         rndEnemies=game.rnd.integerInRange(0,2)
                         pollution[rndEnemies].reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
                         pollution[rndEnemies].alpha=1
                         
                     if(pollution[p].alpha==1){
                         missPoint()
+                        reset()
                     }
             }
                 
@@ -835,60 +913,68 @@ var smokeBusters = function(){
                 if(pollution[0]==obj2 && pollutionCanKill[0]){
                    obj2.kill();
                          if(next==1){
-                            next=2
-                        }else if(next==2){
+                            next=9
+                        }else if(next==9){
+                            next=7
+                        }else if(next==7){
                             next=5
                         }else if(next==5){
-                            next=8
-                        }else if(next==8){
+                            next=3
+                        }else if(next==3){
                             next=1
-                        } 
+                        }   
                         obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        obj2.alpha=1
                         pollutionCanKill[0]=true
-                missPoint() 
+                        missPoint() 
+                        reset()
                 }
                 if(pollution[1]==obj2 && pollutionCanKill[1]){
                    obj2.kill();
                          if(next==1){
-                            next=2
-                        }else if(next==2){
+                            next=9
+                        }else if(next==9){
+                            next=7
+                        }else if(next==7){
                             next=5
                         }else if(next==5){
-                            next=8
-                        }else if(next==8){
+                            next=3
+                        }else if(next==3){
                             next=1
-                        } 
+                        }  
                         obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        obj2.alpha=1
                         pollutionCanKill[1]=true
-                missPoint() 
+                        missPoint()
+                        reset()
+                        
                 }
                 if(pollution[2]==obj2 && pollutionCanKill[2]){
                    obj2.kill();
-                         if(next==1){
-                            next=2
-                        }else if(next==2){
+                          if(next==1){
+                            next=9
+                        }else if(next==9){
+                            next=7
+                        }else if(next==7){
                             next=5
                         }else if(next==5){
-                            next=8
-                        }else if(next==8){
+                            next=3
+                        }else if(next==3){
                             next=1
-                        } 
+                        }  
                         obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        obj2.alpha=1
                         pollutionCanKill[2]=true
-                missPoint() 
+                        missPoint()
+                        reset()
                 }
             }
         
         if(character.body.velocity.y==0 && !inGround){
             inGround=true
             
-            luna.setAnimationByName(0,"IDLE",false)
+            luna.setAnimationByName(0,"JUMP",false)
             
             if(fakeClouds[obj2.tag]){
-
+                    
+                    
                     obj2.kill();
                     obj2.reset(game.rnd.integerInRange(100,game.world.width-200), clouds[contHeight].y-300)
                     fakeClouds[obj2.tag]=game.rnd.integerInRange(0,1)
