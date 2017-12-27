@@ -83,7 +83,7 @@ var vips = function(){
 	var newPlat1, newPlat2, newPlat3
     var dificulty=5
     var level
-    var levelDeleteBlock = 2
+    var levelDeleteBlock = 5
 	var evaluate
     var randCharac=0
     var goal
@@ -664,7 +664,7 @@ var vips = function(){
      
 
 		level++
-		console.log("CurrentLevel "+level)
+		//console.log("CurrentLevel "+level)
 		if(level < levelDeleteBlock*4){
 			if(level%levelDeleteBlock==0){
 				currentId = initialPlatforms-(level/levelDeleteBlock)
@@ -680,10 +680,10 @@ var vips = function(){
 		//x = 100
 		var idCorret
 		if(currentId>=3){
-			idCorrect = game.rnd.integerInRange(0,currentId-1)
+			idCorrect = game.rnd.integerInRange(0,currentId-2)
 		}
 		else{
-			idCorrect = game.rnd.integerInRange(0,currentId)
+			idCorrect = game.rnd.integerInRange(0,currentId-1)
 		}
 
 		for(var i = 0 ; i < currentId; i ++){
@@ -813,7 +813,7 @@ var vips = function(){
 	function where(body, bodyB, shapeA, shapeB, equation)
 	{
 		if(evaluate==false){
-		  inGoal=false
+		  //inGoal=false
 		}
 		inGround=true
 		if(body){
@@ -853,7 +853,7 @@ var vips = function(){
 				if(body.sprite.tag=="goal"){
 					goalCount--
 					console.log(body.sprite.tag+"   endcontact")
-					if(goalCount<=1){
+					if(goalCount<=0){
 		            	inGoal=false
 		            	evaluate = false	
 		            }
