@@ -51,7 +51,11 @@ var animalRoute = function(){
 				file: soundsPath + "carAcceleration.mp3"
             },
             {	name: "cheers",
-				file: soundsPath + "cheers.mp3"},
+				file: soundsPath + "cheers.mp3"
+            },
+            {	name: "clic",
+				file: soundsPath + "click.mp3"
+            },
 			
 		],
     }
@@ -88,6 +92,10 @@ var animalRoute = function(){
     var housesActive=new Array(4)
     var countersHouses=new Array(4)
     var bus, wrongAnimal, wrongNumber,wrongNumber2,busSpine,scaleSpine
+    var correctNumber 
+    var correctNumber2
+    var correctNumber3
+    var correctNumber4
     
     var guideSpine
     
@@ -117,6 +125,8 @@ var animalRoute = function(){
     var animalsSpineTuto
     var animalsSpineTuto2
     var rect,rect2,rect3,rect4
+    var coins=new Array(4)
+    var playButton, play
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -130,15 +140,19 @@ var animalRoute = function(){
         level=1
         wrongNumber=-1
         scaleSpine=.5
+        correctNumber=-1
+        correctNumber2=-1
+        correctNumber3=-1
+        correctNumber4=-1
         farmLeft=2
         dificulty=2
         busSpeed=1950
         zooLeft=2
         goal=4
-        timerBus=100
+        timerBus=0
         waitingTime=10
         animalSpeed=20
-        timeDificulty=300
+        timeDificulty=50
         
         for(var cleaningArrays=0;cleaningArrays<4;cleaningArrays++){
             housesActive[cleaningArrays]=false
@@ -172,7 +186,7 @@ var animalRoute = function(){
         
         
         
-        
+    
         for(var scaleAnimals=0;scaleAnimals<animals.length;scaleAnimals++){
             
             animals[scaleAnimals].scale.setTo(.4)
@@ -374,6 +388,7 @@ var animalRoute = function(){
         game.load.spine('Car', "images/Spine/Game elements/Car/car.json");
         
         game.load.spritesheet("manita", 'images/Spine/Tuturial Extras/manita.png', 115, 111, 23)
+        game.load.spritesheet("coin", 'images/Spine/Game elements/coin/coin.png', 122, 123, 12)
         
         game.load.audio('spaceSong', soundsPath + 'songs/circus_gentlejammers.mp3');
         
@@ -429,8 +444,6 @@ var animalRoute = function(){
         
         correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
-        wrongParticle = createPart("wrong")
-        sceneGroup.add(wrongParticle)
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
@@ -495,10 +508,12 @@ var animalRoute = function(){
          for(var placeRoad=1;placeRoad<game.world.height/100;placeRoad++){
             if(placeRoad==2 || placeRoad==4 || placeRoad==6 || placeRoad==8){
                 proxyTiles[placedEspecial]=game.add.sprite(game.world.centerX+10,placeRoad*100+50,"atlas.route","STRAIGHT")
-                goldTiles[placedEspecial]=game.add.sprite(game.world.centerX-50,placeRoad*100,"atlas.route","STRAIGHT")
+                goldTiles[placedEspecial]=game.add.sprite(game.world.centerX+10,placeRoad*100+50,"atlas.route","STRAIGHT")
                 proxyTiles[placedEspecial].anchor.setTo(0.5,0.5)
                 proxyTiles[placedEspecial].scale.setTo(0.1,0.1)
+                goldTiles[placedEspecial].anchor.setTo(0.5)
                 goldTiles[placedEspecial].scale.setTo(1,0.9)
+                game.add.tween(goldTiles[placedEspecial].scale).to({x:1.1, y:1.1}, (600), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
                 proxyTiles[placedEspecial].tag="STRAIGHT"
                 goldTiles[placedEspecial].tag=(placeRoad/2)-1
                     if(placeRoad==2){
@@ -540,8 +555,9 @@ var animalRoute = function(){
                 }
                 
             //proxyTiles[placedEspecial].add(mouse.down)
+            sceneGroup.add(goldTiles[placedEspecial])
             roadGroup.add(proxyTiles[placedEspecial])
-            roadGroup.add(goldTiles[placedEspecial])
+                sceneGroup.bringToTop(animalsGroup)
             placedEspecial++
             }else{
              road=game.add.image(game.world.centerX-50,placeRoad*100,"atlas.route","VERTICAL")
@@ -597,6 +613,17 @@ var animalRoute = function(){
         
             houseGroup3.alpha=0
             houseGroup4.alpha=0
+        
+        
+        //Coins
+        for(var putingCoins=0;putingCoins<coins.length;putingCoins++){
+            coins[putingCoins]=game.add.sprite(houses[putingCoins].x+65,houses[putingCoins].y+50, "coin")
+            coins[putingCoins].anchor.setTo(.5)
+            coins[putingCoins].scale.setTo(.5)
+            coins[putingCoins].animations.add('coin');
+            coins[putingCoins].animations.play('coin', 24, true);
+            coins[putingCoins].alpha=0
+        }
         
         //Bubble Groups
         
@@ -681,16 +708,21 @@ var animalRoute = function(){
 
     function onClick(obj){
         
+        
         if(proxyTiles[obj.tag].tag=="STRAIGHT" && (proxyTiles[obj.tag].name=="primero" && houseGroup1.alpha==1 || proxyTiles[obj.tag].name=="tercero" && houseGroup3.alpha==1)){
             proxyTiles[obj.tag].tag="LEFT"
+            sound.play("clic")
         }else if(proxyTiles[obj.tag].tag=="LEFT" && (proxyTiles[obj.tag].name=="primero" || proxyTiles[obj.tag].name=="tercero")){
             proxyTiles[obj.tag].tag="STRAIGHT"
+            sound.play("clic")
         }
         
         if(proxyTiles[obj.tag].tag=="STRAIGHT" && (proxyTiles[obj.tag].name=="segundo" && houseGroup2.alpha==1|| proxyTiles[obj.tag].name=="cuarto" && houseGroup4.alpha==1)){
             proxyTiles[obj.tag].tag="RIGHT"
+            sound.play("clic")
         }else if(proxyTiles[obj.tag].tag=="RIGHT" && (proxyTiles[obj.tag].name=="segundo" || proxyTiles[obj.tag].name=="cuarto")){
             proxyTiles[obj.tag].tag="STRAIGHT"
+            sound.play("clic")
         }
         
         for(var changeTiles=0;changeTiles<4;changeTiles++){
@@ -711,17 +743,15 @@ var animalRoute = function(){
 	function update(){
         
         if(tutorialComplete){
-        
+        animals[22].scale.setTo(.4,.1)
         //Aqui vamos a hacer los seguidores
             busSpine.position.x=bus.x+100
             busSpine.position.y=bus.y+80
-        
         //Seteo el texto
         houseGroup1.text.setText(scores[0]+"/"+scoreHouse[0])
         houseGroup2.text.setText(scores[1]+"/"+scoreHouse[1])
         houseGroup3.text.setText(scores[2]+"/"+scoreHouse[2])
         houseGroup4.text.setText(scores[3]+"/"+scoreHouse[3])
-        
         
         
             for(var animalFollower=0; animalFollower<animals.length;animalFollower++){
@@ -731,7 +761,7 @@ var animalRoute = function(){
                 animalsSpine[animalFollower].position.y=animals[animalFollower].y+75
             }else if(animalFollower==22){
                 animalsSpine[animalFollower].position.x=animals[animalFollower].x+40
-                animalsSpine[animalFollower].position.y=animals[animalFollower].y+200
+                animalsSpine[animalFollower].position.y=animals[animalFollower].centerY+50
             }
                 
             }
@@ -767,21 +797,20 @@ var animalRoute = function(){
             if(animalsActive[moveAnimalsOut]==true && animals[moveAnimalsOut].y>game.world.height && gameStarted==true){
                 
                 //Aqui iran las particulas
-                gameStarted=false
-                wrongParticle.x=animals[moveAnimalsOut].x
-                wrongParticle.y=animals[moveAnimalsOut].y
-                wrongParticle.start(true, 1000, null, 5)
-                animalsSpine[moveAnimalsOut].alpha=0
                 wrongNumber=moveAnimalsOut
-                animalsActive[moveAnimalsOut]=false
-                game.time.events.add(1500, function(){
-                missPoint()
-                timerBus=0
-                if(wrongNumber<12){
+                if(moveAnimalsOut<12){
                     farmLeft++
                 }else{
                     zooLeft++
                 }
+                
+                animalsActive[moveAnimalsOut]=false
+                
+                gameStarted=false
+                animalsSpine[moveAnimalsOut].alpha=0
+                game.time.events.add(1500, function(){
+                missPoint()
+                //timerBus=0
                 gameStarted=true
                 })
             }
@@ -820,11 +849,70 @@ var animalRoute = function(){
                         //animalsActive[checkCol3]=false
                         animals[checkCol3].x=-100
                         scores[checkCol4]++
+                        if(correctNumber==-1){
+                            correctNumber=checkCol4
+                            game.add.tween(coins[correctNumber]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                            game.add.tween(coins[correctNumber]).to({x:houses[correctNumber].centerX,y:houses[correctNumber].centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                            game.add.tween(coins[correctNumber]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
+                            game.add.tween(coins[correctNumber]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                                coins[correctNumber].x=houses[correctNumber].centerX
+                                coins[correctNumber].y=houses[correctNumber].centerY
+                                addPoint(1)
+                                correctNumber=-1
+                                })
+                            })
+                        }else if(correctNumber!=-1 && correctNumber2==-1){
+                            correctNumber2=checkCol4
+                            game.add.tween(coins[correctNumber2]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                            game.add.tween(coins[correctNumber2]).to({x:houses[correctNumber2].centerX,y:houses[correctNumber2].centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                            game.add.tween(coins[correctNumber2]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
+                            game.add.tween(coins[correctNumber2]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                                coins[correctNumber2].x=houses[correctNumber2].centerX
+                                coins[correctNumber2].y=houses[correctNumber2].centerY
+                                addPoint(1)
+                                correctNumber2=-1
+                                })
+                            })
+                        }else if(correctNumber2!=-1 && correctNumber3==-1){
+                            correctNumber3=checkCol4
+                            game.add.tween(coins[correctNumber3]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                            game.add.tween(coins[correctNumber3]).to({x:houses[correctNumber2].centerX,y:houses[correctNumber3].centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                            game.add.tween(coins[correctNumber3]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
+                            game.add.tween(coins[correctNumber3]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                                coins[correctNumber3].x=houses[correctNumber3].centerX
+                                coins[correctNumber3].y=houses[correctNumber3].centerY
+                                addPoint(1)
+                                correctNumber3=-1
+                                })
+                            })
+                            
+                        }else if(correctNumber3!=-1 && correctNumber4==-1){
+                            correctNumber4=checkCol4
+                            game.add.tween(coins[correctNumber4]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                            game.add.tween(coins[correctNumber4]).to({x:houses[correctNumber4].centerX,y:houses[correctNumber4].centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                            game.add.tween(coins[correctNumber4]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
+                            game.add.tween(coins[correctNumber4]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                                coins[correctNumber4].x=houses[correctNumber4].centerX
+                                coins[correctNumber4].y=houses[correctNumber4].centerY
+                                addPoint(1)
+                                correctNumber4=-1
+                                })
+                            })
+                            
+                        }
+                        
                         //animals[checkCol3].alpha=0
-                        addPoint(1)
                         correctParticle.x=houses[checkCol4].x
                         correctParticle.y=houses[checkCol4].y
                         correctParticle.start(true, 1000, null, 5)
+                       
+                            
+                            
+                            
+                            
+                            
+                            
+                    
                         howManyAnimals++
                     }else if(checkOverlap(animals[checkCol3], houses[checkCol4]) && (houses[checkCol4].tag!=animals[checkCol3].name && animalsActive[checkCol3]==true || scores[checkCol4]==scoreHouse[checkCol4])){
                         //animalsActive[checkCol3]=false
@@ -833,7 +921,15 @@ var animalRoute = function(){
                         animalsSpine[checkCol3].setAnimationByName(0,"IDLE",true)
                         wrongNumber=checkCol3
                         wrongNumber2=checkCol4
-                       // wrongAnimal.position.x=animals[checkCol3].x
+                        if(checkCol3<12){
+                                farmLeft++
+                        }else{
+                                zooLeft++
+                        }
+                        animalsActive[wrongNumber]=false
+                        animals[wrongNumber].position.x=-100
+                        animals[wrongNumber].position.y=-100
+                        //wrongAnimal.position.x=animals[checkCol3].x
                         //wrongAnimal.position.y=animals[checkCol3].y
                         //animals[checkCol3].alpha=0
                         game.add.tween(wrongAnimal).to({alpha:0},300, Phaser.Easing.Cubic.Out,true)
@@ -841,21 +937,11 @@ var animalRoute = function(){
                         gameStarted=false
                         game.time.events.add(1500, function(){
                             missPoint()
-                            wrongParticle.x=houses[wrongNumber2].x
-                            wrongParticle.y=houses[wrongNumber2].y
-                            wrongParticle.start(true, 1000, null, 5)
-                            if(wrongNumber<12){
-                                farmLeft++
-                            }else{
-                                zooLeft++
-                            }
                             if(houses[wrongNumber2].tag=="FARM"){
                                 houseSpine[wrongNumber2].setAnimationByName(0,"IDLE_FARM",true)
                             }else{
                                 houseSpine[wrongNumber2].setAnimationByName(0,"IDLE_ZOO",true)
                             }
-                            animalsActive[wrongNumber]=false
-                            timerBus=0
                             gameStarted=true
                             wrongAnimal.alpha=0
                             wrongNumber2=0
@@ -867,6 +953,7 @@ var animalRoute = function(){
         }
         
     }
+    
     function busStart(){
         
     //Sistema Camion
@@ -903,22 +990,26 @@ var animalRoute = function(){
                     }else{
                         zooLeft--
                     }
+                    
+                    animalsActive[randomAnimal]=true
+                    animals[randomAnimal].tag="STRAIGHT";
+                    animalsSpine[randomAnimal].setAnimationByName(0,"WALK",true)
+                    game.add.tween(animalsSpine[randomAnimal]).to({alpha:1},busSpeed-1550, Phaser.Easing.Cubic.In,true)
+                    
                 }else if(wrongNumber !=-1 && gameStarted==true){
                     randomAnimal=wrongNumber
                     wrongNumber=-1
-                    if(randomHouse==0){
+                    if(randomAnimal<12){
                         farmLeft--
                     }else{
                         zooLeft--
                     }
+                    animalsActive[randomAnimal]=true
+                    animals[randomAnimal].tag="STRAIGHT";
+                    animalsSpine[randomAnimal].setAnimationByName(0,"WALK",true)
+                    game.add.tween(animalsSpine[randomAnimal]).to({alpha:1},busSpeed-1550, Phaser.Easing.Cubic.In,true)
+                    
                 }
-                
-                        if(gameStarted){
-                            animalsActive[randomAnimal]=true
-                            animals[randomAnimal].tag="STRAIGHT";
-                            animalsSpine[randomAnimal].setAnimationByName(0,"WALK",true)
-                            game.add.tween(animalsSpine[randomAnimal]).to({alpha:1},busSpeed-1550, Phaser.Easing.Cubic.In,true)
-                        }
                 
                     })
                 }
@@ -1017,7 +1108,7 @@ var animalRoute = function(){
         
         
         gameStarted=false
-        if(busSpeed>500){
+        if(busSpeed>900){
             busSpeed-=100
         }
         if(timeDificulty>50){
@@ -1240,15 +1331,21 @@ var animalRoute = function(){
         tutorialComplete=false        
         var animalNamestuto="chiken"
         var animalNamestuto2="lion"
-        
+        playButton=game.add.image(game.world.centerX+10,game.world.centerY+170,"atlas.route","button")
+        playButton.anchor.setTo(.5)
+        play=game.add.image(playButton.centerX-40,playButton.centerY-20,"atlas.route","playEN")
+        playButton.alpha=0
+        play.alpha=0
         
         manita=game.add.sprite(game.world.width+50,-50, "manita")
         manita.anchor.setTo(.5)
         manita.scale.setTo(.7)
         
         
-
         
+        playButton.inputEnabled=true
+        playButton.events.onInputDown.add(onClickTuto,this)
+        playButton.tag="continue"
         
         var road
         var placedEspecial=0
@@ -1404,18 +1501,19 @@ var animalRoute = function(){
         
         
         
+        
         //Uno: Crear cuatro rectangulos que pongan todo el fondo del juego oscuro
         
         rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2,120)
-        rect.alpha = 0.7
+        rect.alpha = 0.5
         rect.endFill()
         
         rect2 = new Phaser.Graphics(game)
         rect2.beginFill(0x000000)
         rect2.drawRect(0,120,game.world.width *2,230)
-        rect2.alpha = 0.7
+        rect2.alpha = 0.6
         rect2.endFill()
         
         rect3 = new Phaser.Graphics(game)
@@ -1483,11 +1581,14 @@ var animalRoute = function(){
         tutoGroup.add(rect2)
         tutoGroup.add(rect3)
         tutoGroup.add(rect4)
+        tutoGroup.add(playButton)
+        tutoGroup.add(play)
     }
     
     function onClickTuto(obj){
         if(!tutorialComplete){
         if(count==1 && proxyTiles[obj.tag].tag=="STRAIGHT" && proxyTiles[obj.tag].name=="primero"){
+            sound.play("clic")
             correctParticlet.x=proxyTiles[obj.tag].x+350
             correctParticlet.y=proxyTiles[obj.tag].y+230
             correctParticlet.scale.setTo(.5)
@@ -1513,6 +1614,7 @@ var animalRoute = function(){
         }
         if(count==2 && proxyTiles[obj.tag].tag=="LEFT"){
             
+            sound.play("clic")
             goldTiles[0].loadTexture("atlas.route","STRAIGHT")
             proxyTiles[obj.tag].tag="STRAIGHT1"
             manita.alpha=0
@@ -1531,7 +1633,7 @@ var animalRoute = function(){
                     correctParticlet.scale.setTo(1)
                     correctParticlet.x=houses[0].x
                     correctParticlet.y=houses[0].y
-                    correctParticlet.start(true, 1000, null, 5)
+                    correctParticlet.start(true, 1000, null, 5)    
                       game.add.tween(rect3).to({alpha:0}, 1100, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
                         game.add.tween(manita).to({alpha:1}, 900, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
                             manita.animations.play('idle', 24, true);
@@ -1542,7 +1644,22 @@ var animalRoute = function(){
                 })
             })
         }
+        if(count==4 && obj.tag=="continue"){
+                sound.play("pop")
+                tutoGroup.alpha=0
+                createBackground()
+                initialize()
+                gameStarted=true
+                tutorialComplete=true
+                houseScore()
+                startGame=true
+                animateScene()
+                createPointsBar()
+			    createHearts()
+                buttons.getButton(spaceSong,sceneGroup)
+        }
         if(count==3 && proxyTiles[obj.tag].tag=="STRAIGHT"){
+            sound.play("clic")
             goldTiles[1].loadTexture("atlas.route","RIGHT")
             proxyTiles[obj.tag].tag="STRAIGHT1"
             manita.alpha=0
@@ -1556,26 +1673,20 @@ var animalRoute = function(){
                         correctParticlet.x=houses[1].x
                         correctParticlet.y=houses[1].y
                         correctParticlet.start(true, 1000, null, 5)
-                        game.add.tween(animalsSpineTuto2).to({alpha:1}, 900, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
-                        tutoGroup.alpha=0
-                        count=0
+                        game.add.tween(animalsSpineTuto2).to({alpha:1}, 1200, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
+                        count=4
+                        game.add.tween(animalsSpineTuto2).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+                        game.add.tween(playButton).to({alpha:1}, 300, Phaser.Easing.Cubic.In, true,100)
+                        game.add.tween(play).to({alpha:1}, 300, Phaser.Easing.Cubic.In, true,100)
+                        playButton.inputEnabled=true
                         goldTiles[0].inputEnabled=false
                         goldTiles[1].inputEnabled=false
-                        createBackground()
-                        initialize()
-                        gameStarted=true
-                        tutorialComplete=true
-                        houseScore()
-                        startGame=true
-                        animateScene()
-                        createPointsBar()
-			            createHearts()
-                        buttons.getButton(spaceSong,sceneGroup)
                         })
                     })
                 })
             
         }
+            
         }
     }
 	
@@ -1613,18 +1724,19 @@ var animalRoute = function(){
             game.onResume.add(function(){
                 game.sound.mute = false
             }, this);
-
+            
 			
             addParticles()
             if(!tutorialComplete){
-            tutorial()
+                tutorial()
+                animateScene()
+                initialize()
             }else{
                  createBackground()
-                 initialize()
+                 
                  gameStarted=true
                  houseScore()
                  startGame=true
-                 animateScene()
                  createPointsBar()
 			     createHearts()
                  buttons.getButton(spaceSong,sceneGroup)

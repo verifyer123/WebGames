@@ -1,14 +1,14 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var vs = function(){
+var selectCards = function(){
     
     var localizationData = {
 		"EN":{
-
+			"challenger":"CHALLENGER"
 		},
 
 		"ES":{
-
+			"challenger":"RETADOR"
 		}
 	}
     
@@ -16,37 +16,32 @@ var vs = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.vs",
+                name: "atlas.select",
                 json: "images/selectCards/atlas.json",
                 image: "images/selectCards/atlas.png",
             },
         ],
         images: [
-			{   name:"background",
-				file: "images/selectCards/fondo.png"},
+
 		],
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
-            {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "energyCharge2",
-				file: soundsPath + "energyCharge2.mp3"},
+
 			
 			
 		],
     }
     
+	var CARD_SCALE = 0.5
         
     var lives = null
 	var sceneGroup = null
@@ -62,7 +57,14 @@ var vs = function(){
 	var whiteFade
 	var spineList
 	var characterGroup
+	var playerGUI
+	var battleButton
 	var characterList
+	var enemyCard
+	var slotCards
+	var playerCards
+	var currentPlayer
+	var whiteFade
 	
 	var colorsGradient = {
     	fire:0xff2e2e,
@@ -86,13 +88,24 @@ var vs = function(){
         
 	}
 
-    function popObject(obj,delay){
+    function popObject(obj,delay,fromX,fromY){
         
+		var scaleX = fromX || 0
+		var scaleY = fromY || 0
         game.time.events.add(delay,function(){
             
             sound.play("cut")
             obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            game.add.tween(obj.scale).from({x: scaleX, y: scaleY},250,Phaser.Easing.linear,true)
+        },this)
+    }
+	
+	function fadeObject(obj,delay,alpha){
+        
+		var alphaUse = alpha || 1
+        game.time.events.add(delay,function(){
+            
+            game.add.tween(obj).to({ alpha:alphaUse},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -100,7 +113,30 @@ var vs = function(){
                 
         gameActive = false
         
-
+		game.add.tween(sceneGroup).from({alpha:0},1000,"Linear",true).onComplete.add(function(){
+			gameActive = true
+			
+			var animObjects = [sceneGroup.challengerText,enemyCard,slotCards]
+			
+			var delay = 0
+			for(var i = 0; i < animObjects.length;i++){
+				
+				var obj = animObjects[i]
+				fadeObject(obj,delay)
+				
+				delay+= 200
+			}
+			
+			popObject(playerGUI,delay,0,1)
+			delay+= 200
+			for(var i = 0; i < playerCards.length;i++){
+				
+				var card = playerCards.children[i]
+				popObject(card,delay)
+				
+				delay+= 200
+			}
+		})
     }
 	
     function changeImage(index,group){
@@ -205,6 +241,8 @@ var vs = function(){
 		buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false;
+		
+		game.load.bitmapFont('luckiest', 'images/bitfont/font.png', imagesPath + 'bitfont/font.fnt');
         
         game.load.spine('vs', "images/spines/vsLight/VS.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/versusSong.mp3');
@@ -226,17 +264,72 @@ var vs = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.vs','gradiente_versus')
-		sceneGroup.add(background)
+		var topBack = sceneGroup.create(0,0,'atlas.select','topgradient')
+		topBack.width = game.world.width
+		topBack.height *= 0.85
+		
+		var challengerGroup = game.add.group()
+		challengerGroup.x = game.world.centerX
+		challengerGroup.y = 25
+		challengerGroup.alpha = 0
+		sceneGroup.add(challengerGroup)
+		
+		var chalText = game.add.bitmapText(5,5, 'luckiest', localization.getString(localizationData,'challenger'), 45);
+		chalText.tint = 0x000000
+		chalText.anchor.setTo(0.5,0.5)
+		challengerGroup.add(chalText)
+		
+		var chalText = game.add.bitmapText(0,0, 'luckiest', localization.getString(localizationData,'challenger'), 45);
+		chalText.anchor.setTo(0.5,0.5)
+		challengerGroup.add(chalText)
+		
+		sceneGroup.challengerText = challengerGroup
+		
+		var midBack = sceneGroup.create(0,topBack.height,'atlas.select','middle')
+		midBack.anchor.setTo(0,0)
+		midBack.width = game.world.width
+		
+		var deck = sceneGroup.create(0,midBack.y,'atlas.select','deck_deploy')
+		deck.anchor.setTo(0,0)
+		deck.width = game.world.width
+		deck.height*= 0.9
+		
+		sceneGroup.remove(midBack)
+		sceneGroup.add(midBack)
+		
+		var deckBot = sceneGroup.create(0,deck.y + deck.height,'atlas.select','deck_gradient')
+		deckBot.anchor.setTo(0,0)
+		deckBot.width = game.world.width
+		
+		playerGUI = game.add.group()
+		playerGUI.alpha = 0
+		playerGUI.x = deckBot.x
+		playerGUI.y = deckBot.y - 50
+		sceneGroup.add(playerGUI)		
+		
+		var level = playerGUI.create(0,0,'atlas.select','username_leve')
+		
+		var bar = game.add.tileSprite(level.width,27,game.world.width,36,'atlas.select','username-bar')
+		playerGUI.add(bar)
+		
+		var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+		var levelText = new Phaser.Text(sceneGroup.game, 130, 15, currentPlayer.level, fontStyle)
+		playerGUI.add(levelText)
+				
+		var name = parent.epicModel.getCredentials().name || "Yogotarsin"
+		
+		var playerName = game.add.bitmapText(310,40, 'luckiest', name, 35);
+		playerName.anchor.setTo(0.5,0.5)
+		playerGUI.add(playerName)
+		
+		playerGUI.nameText = playerName
+		playerGUI.levelText = levelText
 	}
 	
 	function update(){
 		
-		stars.tilePosition.x-= 3
-		stars.tilePosition.y-= 3
-		
-		
-		//stars.angle++
+
 	}
 	
 	function createTextPart(text,obj){
@@ -330,7 +423,7 @@ var vs = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.vs',tag);
+				particle.makeParticles('atlas.select',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -361,14 +454,7 @@ var vs = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',3)
-		createParticles('wrong',1)
 		createParticles('text',5)
-		createParticles('smoke',1)
-		
-		whiteFade = new Phaser.Graphics(game)
-        whiteFade.beginFill(0xffffff)
-        whiteFade.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-        whiteFade.endFill()
 		
 		whiteFade = new Phaser.Graphics(game)
         whiteFade.beginFill(0xffffff)
@@ -385,15 +471,24 @@ var vs = function(){
 			return
 		}
 		
+		if(obj.tween){
+			obj.tween.stop()
+			obj.scale.setTo(1,1)
+		}
+		
+		sound.play("pop")
+		var tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},200,"Linear",true,0,0)
+		tween.yoyo(true,0)
+		
 	}
 	
-	function setCharacters(characters){
+	function setCharacters(charactersLoad){
 		
 		spineList = []
 		
-		for(var i = 0; i < characters.length;i++){
+		for(var i = 0; i < charactersLoad.length;i++){
 			
-			var character = characters[i]
+			var character = charactersLoad[i]
 			spineList[i]= {}
 			spineList[i].id = character.data.id
 			spineList[i].name = character.data.name
@@ -402,13 +497,99 @@ var vs = function(){
 			spineList[i].element = character.data.stats.element
 		}
 		
-		console.log(spineList + ' list')
+	}
+	
+	function createCards(){
+		
+		var card = {id : spineList[1].id, xp : 0, data : epicCharacters[spineList[1].id]}
+
+		enemyCard = charactersEntity.getCard(card)
+		enemyCard.x = game.world.centerX
+		enemyCard.y = 135
+		enemyCard.alpha = 0
+		enemyCard.scale.setTo(CARD_SCALE,CARD_SCALE)
+		sceneGroup.add(enemyCard)
+		
+		slotCards = sceneGroup.create(game.world.centerX, game.world.centerY - 25,'atlas.select','caard_slot')
+		slotCards.alpha = 0
+		slotCards.anchor.setTo(0.5,0.5)
+		slotCards.empty = true
+		
+		playerCards = game.add.group()
+		sceneGroup.add(playerCards)
+		
+		if(currentPlayer.cards.length < 1){
+			currentPlayer.cards[currentPlayer.cards.length] = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
+		}
+		
+		var pivotX = game.world.centerX - 150
+		var pivotY = game.world.centerY + 250
+		var initPivotX = pivotX
+		for(var i = 0; i < currentPlayer.cards.length;i++){
+			
+			var card = charactersEntity.getCard(currentPlayer.cards[i])
+			card.alpha = 0
+			card.x = pivotX
+			card.y = pivotY
+			card.scale.setTo(CARD_SCALE,CARD_SCALE)
+			playerCards.add(card)
+			
+			var cardInput = card.create(0,0,'atlas.select','star')
+			cardInput.alpha = 0
+			cardInput.inputEnabled = true
+			cardInput.scale.setTo(3,3)
+			cardInput.anchor.setTo(0.5,0.5)
+			cardInput.events.onInputDown.add(inputCard)
+			
+			pivotX+= 150
+			if((i+1) % 3 == 0){
+				pivotY+= 150
+				pivotX = initPivotX
+			}
+			
+		}
+		
+		battleButton = sceneGroup.create(game.world.centerX,sceneGroup.children[2].y + 10,'atlas.select','chaallenge')
+		battleButton.anchor.setTo(0.5,0.5)
+		battleButton.alpha = 0
+		battleButton.inputEnabled = false
+		battleButton.events.onInputDown.add(inputButton)
+		
+	}
+	
+	function inputCard(card){
+				
+		if(!slotCards.empty && !gameActive){
+			return
+		}
+		
+		var parent = card.parent
+		sound.play("magic")
+		
+		createPart('star',card)
+		
+		game.add.tween(parent).to({x:slotCards.x,y:slotCards.y,angle:parent.angle + 360},500,"Linear",true)
+		slotCards.empty = false
+		
+		if(battleButton.alpha == 0){
+			popObject(battleButton,0)
+			
+			game.time.events.add(300,function(){
+				
+				battleButton.inputEnabled = true
+				
+				battleButton.tween = game.add.tween(battleButton.scale).to({x:0.8,y:0.8},200,"Linear",true,0,-1)
+				battleButton.tween.yoyo(true,0)
+			})
+			
+		}
+		
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "vs",
+		name: "selectCards",
 		update: update,
         preload:preload,
 		setCharacters:setCharacters,
@@ -418,15 +599,17 @@ var vs = function(){
         	preloadAlpha.style.visibility = "hidden";
 			
 			sceneGroup = game.add.group()
+			currentPlayer = parent.epicModel.getPlayer()
 			
 			createBackground()
+			createCards()
 			
 			addParticles()
                         	
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
 				game.time.events.add(1000,function(){
-					spaceSong.loopFull(0.8)
+					//spaceSong.loopFull(0.8)
 				})
                 
             }, this);
@@ -441,7 +624,7 @@ var vs = function(){
             
             initialize()
 			
-			buttons.getButton(spaceSong,sceneGroup)
+			buttons.getButton(spaceSong,sceneGroup,game.world.width - 100)
             
             animateScene()
             

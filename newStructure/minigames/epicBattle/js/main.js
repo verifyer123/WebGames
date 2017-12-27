@@ -18,7 +18,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-					sceneloader.show("vs")
+					sceneloader.show("selectCards")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -100,6 +100,7 @@ function startGame(){
 
 		//TODO: change charactersSet to player and enemy cards for both battle and versus
 		console.log(charactersSet)
+		selectCards.setCharacters(charactersSet)
 		vs.setCharacters(charactersSet)
 		battle.setCharacters(charactersSet)
 		battle.setBackground()
@@ -114,6 +115,7 @@ function startGame(){
 		console.log("createEpicBattle")
     	preloadScenes([
            // preloaderIntro,
+			selectCards,
     		battle,
 			vs,
             //result,
