@@ -415,7 +415,6 @@ var smokeBusters = function(){
         myBitmap.context.fillStyle=grd;
         myBitmap.context.fillRect(0,500,game.camera.width,game.camera.height);
         game.add.sprite(0, 0, myBitmap);
-        //backgroundGroup.add(myBitmap)
         
         
         botonAspirar=gameGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
