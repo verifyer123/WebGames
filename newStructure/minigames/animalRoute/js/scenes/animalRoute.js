@@ -1647,6 +1647,7 @@ var animalRoute = function(){
         if(count==4 && obj.tag=="continue"){
                 sound.play("pop")
                 tutoGroup.alpha=0
+                playButton.inputEnabled=false
                 createBackground()
                 initialize()
                 gameStarted=true
