@@ -27,7 +27,7 @@ var battleService = function () {
 			var enemyData = epicCharacters[key]
 			for(var cardIndex = 0; cardIndex<cards.length; cardIndex++){
 				//TODO uncomment this when charSelector is ready
-				var card = cards[0]//cards[cardIndex]
+				var card = cards[cardIndex]//cards[cardIndex]
 				console.log(card.id, key, "card")
 				var discard = false
 				if(key !== card.id){

@@ -45,7 +45,7 @@ var routing = function () {
 			},
 			'minigames': function () {
 				// $("#minigames").hide()
-				epicSiteMain.showGames()
+				epicModel.loadPlayer(false, epicSiteMain.showGames)
 
 				mixpanel.track(
 					"PageLoadGames",

@@ -50,6 +50,18 @@ function startGame(){
 
         // game.plugins.add(Fabrique.Plugins.Spine);
         game.plugins.add(PhaserSpine.SpinePlugin);
+		game.kineticScrolling = game.plugins.add(Phaser.Plugin.KineticScrolling);
+
+		this.game.kineticScrolling.configure({
+			kineticMovement: true,
+			// timeConstantScroll: 325, //really mimic iOS
+			horizontalScroll: false,
+			verticalScroll: true,
+			// horizontalWheel: true,
+			verticalWheel: true,
+			deltaWheel: 40,
+			// onUpdate: null
+		});
 
         // var language = "EN"
         // if(window.location.search){
@@ -80,19 +92,15 @@ function startGame(){
 
 		var currentPlayer = players.getPlayer()
 		var cards = currentPlayer.cards
-		var mainCharName = epicCharacters["yogotar" + currentPlayer.yogotar]
-		console.log(mainCharName)
-		// charactersSet.push(mainCharName)
 
 		var battleIndex = parent.env ? (parent.env.battleIndex ? parent.env.battleIndex : 0) : 0
 		var enemyCards = currentPlayer.battles[battleIndex] || battleService.getOpponents(1)
 		currentPlayer.battles[battleIndex] = enemyCards
-		enemyCards = [{id:"yogotarPaz", xp:0, data:epicCharacters["yogotarPaz"]}]
+		// enemyCards = [{id:"yogotarPaz", xp:0, data:epicCharacters["yogotarPaz"]}]
 
 		//TODO: change when card Selector is ready
 		// var selectedCard = cards[0]
-		var selectedCard = {id:"yogotarEagle", xp:0, data:epicCharacters["yogotarEagle"]}
-		var selectedCards = [selectedCard]
+		var selectedCards = currentPlayer.cards
 		charactersSet = selectedCards.concat(enemyCards)
 		// var charIndex = game.rnd.integerInRange(0, allCharacters.length - 1)
 
@@ -100,11 +108,11 @@ function startGame(){
 
 		//TODO: change charactersSet to player and enemy cards for both battle and versus
 		console.log(charactersSet)
-		selectCards.setCharacters(charactersSet)
-		vs.setCharacters(charactersSet)
-		battle.setCharacters(charactersSet)
-		battle.setBackground()
 		charactersEntity.preloadCards(vs, charactersSet)
+		selectCards.setCharacters(enemyCards, selectedCards)
+		// vs.setCharacters(charactersSet)
+		// battle.setCharacters(charactersSet)
+		battle.setBackground()
 
         window.minigame.game = window.game
     	sceneloader.init(game)

@@ -32,6 +32,8 @@ buttons.getButton = function(song,group,posX, posY){
 	buttonImage.inputEnabled = true
 	buttonImage.events.onInputDown.add(inputButton)
 	buttonImage.anchor.setTo(0.5,0.5)
+
+	return button
 		
 }
 

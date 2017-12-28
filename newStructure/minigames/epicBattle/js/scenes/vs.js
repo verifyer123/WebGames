@@ -285,11 +285,13 @@ var vs = function(){
 		
 		console.log(localization.getLanguage() + ' language')
 
-		// for(var i = 0; i < spineList.length;i++){
-		//
-		// 	var character = spineList[i]
-		// 	game.load.spine(character.name,character.dir)
-		// }
+		// assets.spines.push({name:character.id, file:character.data.directory})
+
+		for(var i = 0; i < spineList.length;i++){
+
+			var character = spineList[i]
+			game.load.spine(character.id,character.dir)
+		}
         
     }
     
@@ -461,24 +463,24 @@ var vs = function(){
 	}
 
 	function setExplosion(obj){
-        
+
         var posX = obj.x
         var posY = obj.y
-        
+
         if(obj.world){
             posX = obj.world.x
             posY = obj.world.y
         }
-        
+
 		var rect = new Phaser.Graphics(game)
         rect.beginFill(0xffffff)
         rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
         rect.alpha = 0
         rect.endFill()
 		sceneGroup.add(rect)
-		
+
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
-		
+
         var exp = sceneGroup.create(0,0,'atlas.vs','cakeSplat')
         exp.x = posX
         exp.y = posY
@@ -487,9 +489,9 @@ var vs = function(){
         exp.scale.setTo(6,6)
         game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
         var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
+
         particlesNumber = 8
-            
+
         var particlesGood = game.add.emitter(0, 0, 100);
 
         particlesGood.makeParticles('atlas.vs','smoke');
@@ -506,23 +508,23 @@ var vs = function(){
 
         game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
         sceneGroup.add(particlesGood)
-        
+
     }
-	
+
 	function inputButton(obj){
-		
+
 		if(!gameActive){
 			return
 		}
-		
+
 	}
 	
 	function setCharacters(characters){
-		
+
 		spineList = []
-		
+
 		for(var i = 0; i < characters.length;i++){
-			
+
 			var character = characters[i]
 			spineList[i]= {}
 			spineList[i].id = character.data.id
@@ -531,7 +533,7 @@ var vs = function(){
 			spineList[i].scale = character.data.spine.options.scale
 			spineList[i].element = character.data.stats.element
 		}
-		
+
 		console.log(spineList + ' list')
 	}
 	
