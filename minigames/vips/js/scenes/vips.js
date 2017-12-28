@@ -100,6 +100,9 @@ var vips = function(){
 	var currentId
 	var deltaBlock = 104
 	var goalCount
+    var FORCE_SWIP = 4
+    var maxSpeed=null
+
     
     function getSkins(){
         
@@ -388,10 +391,15 @@ var vips = function(){
 		{
             sound.play("swipe")
              var widthRelation = document.body.clientWidth/baseWidth;
-		 	speed=(posInicial-posFinal)*widthRelation*2.5
+		 	speed=(posInicial-posFinal)*widthRelation*FORCE_SWIP
+            console.log(speed)
+            if(speed > maxSpeed){
+                speed = maxSpeed
+            }
+
 			posFinal=0
 			posInicial=0
-            console.log('End drag')
+            //console.log('End drag')
 			character.body.velocity.x =speed;
             efectZoom.alpha=1
             game.add.tween(efectZoom).to({alpha:0},speed, Phaser.Easing.Cubic.Out,true)
@@ -417,7 +425,7 @@ var vips = function(){
         //console.log('Drag update')
 		if(shooted==false && posFinal<posInicial){
 			//console.log('Drag update if')
-			game.add.tween(powerBar.scale).to({x: -speed/speedRealtionPixels}, 100, Phaser.Easing.linear, true)
+			game.add.tween(powerBar.scale).to({x:-speed/speedRealtionPixels}, 100, Phaser.Easing.linear, true)
 		}
     }
     
@@ -682,7 +690,7 @@ var vips = function(){
                     positionRange = {min:game.world.centerX+50, max:game.world.centerX+100}
                 }
                 else if(level/levelDeleteBlock==2){
-                    positionRange = {min:game.world.centerX+50, max:game.world.centerX+150}
+                    positionRange = {min:game.world.centerX+20, max:game.world.centerX+100}
                 }
 
 			}
@@ -833,11 +841,11 @@ var vips = function(){
 		inGround=true
 		if(body){
             if(body.sprite.tag=="goal"){
-                console.log("touch goal")
+               // console.log("touch goal")
                 evaluate = true
                 inGoal=true
                 goalCount++
-                console.log("touch goal "+goalCount)
+               // console.log("touch goal "+goalCount)
             }
            /* else{
             	console.log(body.sprite.tag)
@@ -870,7 +878,7 @@ var vips = function(){
 					goalCount--
 
 					if(goalCount<=0){
-                        console.log('endContact on goal');
+                        //console.log('endContact on goal');
 		            	inGoal=false
 		            	evaluate = false
                         goalCount = 0
@@ -899,7 +907,7 @@ var vips = function(){
         currentId = initialPlatforms
         level = 0
         goalCount = 0
-
+        maxSpeed = FORCE_SWIP*240
 
         
         var background = backgroundGroup.create(-2,-2,'fondo')
