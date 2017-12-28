@@ -447,7 +447,8 @@ var map = function(){
 					fullStar.alpha = 0
 					
 					var indexUsed = ((i-1)*4) + u
-					if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed].completed){
+					console.log(currentPlayer.minigames[gamesList[indexUsed].id])
+					if(currentPlayer.minigames[gamesList[indexUsed].id] && currentPlayer.minigames[gamesList[indexUsed].id].completed){
 						fullStar.alpha = 1
 					}
 					
@@ -470,7 +471,7 @@ var map = function(){
 						var indexUsed = (i - 2) * 4
 						for(var u = 0; u < 4; u++){
 
-							if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed + u].completed){
+							if(currentPlayer.minigames[gamesList[indexUsed].id] && currentPlayer.minigames[gamesList[indexUsed + u].id].completed){
 								countMinigames++
 							}
 						}
