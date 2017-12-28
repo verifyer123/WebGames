@@ -1057,7 +1057,7 @@ var battle = function(){
 		var projectilesList = {}
 		for(var pIndex = 0; pIndex < 2; pIndex++){
 
-			var player = createSpine(assets.spines[pIndex].name, "normal")
+			var player = createSpine(charactersCards[pIndex].id, "normal")
 			player.data = charactersCards[pIndex].data
 			player.card = charactersCards[pIndex]
 			player.numPlayer = pIndex + 1
@@ -1607,7 +1607,7 @@ var battle = function(){
 				// console.log(character, "character")
 				// var jsonPath = DATA_CHAR_PATH + character.name + ".json"
 				// assets.jsons.push({name:character.name + "Data", file:jsonPath})
-				assets.spines.push({name:character.id, file:character.data.directory})
+				// assets.spines.push({name:character.id, file:character.data.directory})
 				charactersCards.push(character)
 			}
 		},

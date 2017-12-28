@@ -21,20 +21,20 @@ var battleService = function () {
 
 	function generateEnemyCards(cards) {
 		var enemies = []
-		console.log(cards)
+		// console.log(cards)
 		for(var key in epicCharacters){
-			console.log(key, "key")
+			// console.log(key, "key")
 			var enemyData = epicCharacters[key]
 			for(var cardIndex = 0; cardIndex<cards.length; cardIndex++){
 				//TODO uncomment this when charSelector is ready
-				var card = cards[0]//cards[cardIndex]
-				console.log(card.id, key, "card")
+				var card = cards[cardIndex]//cards[cardIndex]
+				// console.log(card.id, key, "card")
 				var discard = false
 				if(key !== card.id){
 					// console.log(enemyData)
 					var cardData = epicCharacters[card.id]
 					var multiplier = ELEMENT_MULTIPLIERS[cardData.stats.element][enemyData.stats.element] || 1
-					console.log(multiplier)
+					// console.log(multiplier)
 					discard = multiplier<1
 				}else{
 					discard = true
@@ -48,7 +48,7 @@ var battleService = function () {
 		}
 
 		Phaser.ArrayUtils.shuffle(enemies)
-		console.log(enemies, "enemies")
+		// console.log(enemies, "enemies")
 
 		return enemies
 
@@ -59,7 +59,7 @@ var battleService = function () {
 
 		for(var cardIndex = 0; cardIndex < cards.length; cardIndex++){
 			var card = cards[cardIndex]
-			console.log(card, "card")
+			// console.log(card, "card")
 			maxXp = card.xp > maxXp ? card.xp : maxXp
 		}
 

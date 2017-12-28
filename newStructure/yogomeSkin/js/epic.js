@@ -134,8 +134,14 @@ var epicSiteMain =  function(){
 		home.style.visibility = "hidden"
 		var pathGames = "games/nonrefactored/"
 		var games = yogomeGames.getGames();
-		for(var i = 0 ; i<= games.length-1 ;i++){
 
+		var currentPlayer = epicModel.getPlayer()
+		if(currentPlayer.yogotar){
+			var yogotarImgPath = "assets/img/common/yogotars/" + currentPlayer.yogotar.toLowerCase() + ".png"
+			$( '.yogotar img' ).attr("src",yogotarImgPath);
+		}
+
+		for(var i = 0 ; i<= games.length-1 ;i++){
 			var num = i;
 			if(games[i].review){
 				$("#content-minigames").append("<div class='col-xs-6 col-sm-4 container'><a href='"+games[i].mapUrl+"' rev='"+games[i].name+"' target='_self' class='gameCatalog' id='gameimg" + num+"' ><img class='growMouse img-responsive bannerMinigame' src='" +games[num].url +"images/fbpost.png" + "'/></a> </div>");

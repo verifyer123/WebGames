@@ -17,7 +17,7 @@ var routing = function () {
 	}
 
 	language = getParameterByName("language")
-	console.log(language)
+	// console.log(language, "language")
 	language = language || "en"
 	language = language.toUpperCase()
 
@@ -45,7 +45,7 @@ var routing = function () {
 			},
 			'minigames': function () {
 				// $("#minigames").hide()
-				epicSiteMain.showGames()
+				epicModel.loadPlayer(false, epicSiteMain.showGames)
 
 				mixpanel.track(
 					"PageLoadGames",
