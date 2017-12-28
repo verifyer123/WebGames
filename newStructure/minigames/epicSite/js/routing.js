@@ -17,7 +17,7 @@ var routing = function () {
 	}
 
 	language = getParameterByName("language")
-	console.log(language)
+	// console.log(language, "language")
 	language = language || "en"
 	language = language.toUpperCase()
 

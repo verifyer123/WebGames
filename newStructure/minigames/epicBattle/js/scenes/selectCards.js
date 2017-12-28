@@ -250,7 +250,7 @@ var selectCards = function(){
         game.load.spine('vs', "images/spines/vsLight/VS.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/versusSong.mp3');
 		
-		console.log(localization.getLanguage() + ' language')
+		// console.log(localization.getLanguage() + ' language')
 
 		// for(var i = 0; i < spineList.length;i++){
 		//
@@ -334,7 +334,7 @@ var selectCards = function(){
 		playerGUI.add(levelText)
 		levelText.fixedToCamera = true
 				
-		var name = parent.epicModel.getCredentials().name || "Yogotarsin"
+		var name = parent.epicModel.getCredentials().name || currentPlayer.yogotar
 		
 		var playerName = game.add.bitmapText(310,40, 'luckiest', name, 35);
 		playerName.anchor.setTo(0.5,0.5)
@@ -499,6 +499,7 @@ var selectCards = function(){
 
 		vs.setCharacters(cardsList.concat(cardsEnemyData))
 		battle.setCharacters(cardsList.concat(cardsEnemyData))
+		game.kineticScrolling.stop()
 		sceneloader.show("vs")
 		
 	}
@@ -524,7 +525,7 @@ var selectCards = function(){
 		slotCards = sceneGroup.create(game.world.centerX, game.world.centerY - 25,'atlas.select','caard_slot')
 		slotCards.alpha = 0
 		slotCards.anchor.setTo(0.5,0.5)
-		slotCards.empty = true
+		slotCards.card = null
 		slotCards.fixedToCamera = true
 
 		// sceneGroup.sendToBack(playerCardsGroup)
@@ -548,10 +549,12 @@ var selectCards = function(){
 			card.alpha = 0
 			card.x = pivotX
 			card.y = pivotY
+			card.originalX = pivotX
+			card.originalY = pivotY
 			card.scale.setTo(CARD_SCALE,CARD_SCALE)
 			playerCardsGroup.add(card)
 			card.info = playerCards[i]
-			console.log(card.info)
+			// console.log(card.info)
 			
 			var cardInput = card.create(0,0,'atlas.select','star')
 			cardInput.alpha = 0
@@ -566,6 +569,7 @@ var selectCards = function(){
 					if (!game.kineticScrolling.dragging) inputCard(e)
 				}, 200, e);
 			})
+			card.cardInput = cardInput
 			
 			pivotX+= 150
 			
@@ -583,12 +587,34 @@ var selectCards = function(){
 	}
 	
 	function inputCard(card){
-				
-		if(!slotCards.empty && !gameActive){
+
+		card.inputEnabled = false
+		game.kineticScrolling.stop();
+
+		if(slotCards.card || !gameActive){
+			if(slotCards.card){
+				var prevCard = slotCards.card
+				cardsList = []
+				prevCard.fixedToCamera = false
+
+				game.add.tween(prevCard).to({x:prevCard.originalX,y:prevCard.originalY,angle:prevCard.angle + 360},500,"Linear",true)
+					.onComplete.add(function () {
+					playerCardsGroup.add(prevCard)
+					slotCards.card = null
+					prevCard.cardInput.inputEnabled = true
+					inputCard(card)
+				})
+			}
+			else{
+				card.inputEnabled = true
+				game.kineticScrolling.start();
+			}
 			return
 		}
-		
+
 		var parent = card.parent
+		slotCards.card = parent
+
 		sound.play("magic")
 		sceneGroup.add(parent)
 		
@@ -598,11 +624,11 @@ var selectCards = function(){
 			.onComplete.add(function (obj) {
 				obj.fixedToCamera = true
 				obj.cameraOffset.setTo(obj.x, obj.y - game.camera.y);
+				game.kineticScrolling.start();
 				// console.log("tween complete")
 			})
-		slotCards.empty = false
 
-		console.log(parent.info)
+		// console.log(parent.info)
 		cardsList.push(parent.info)
 
 		sceneGroup.bringToTop(battleButton)
