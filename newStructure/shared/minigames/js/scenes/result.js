@@ -1,3 +1,5 @@
+
+
 var soundsPath = "../../shared/minigames/sounds/"
 var iconsPath = "../../shared/minigames/images/icons/"
 var imagesPath = "../../shared/minigames/images/"
@@ -95,6 +97,8 @@ var result = function(){
 
 	var timeGoal = null
 
+
+    
 	function setScore(didWin,score,index,scale) {
         
         gamesList = yogomeGames.getGames()
@@ -370,7 +374,13 @@ var result = function(){
         yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotar");
         yogotar.scale.setTo(scaleSpine,scaleSpine)
         yogotar.setAnimationByName(0, "IDLE", true);
-        yogotar.setSkinByName('Eagle');
+        if(currentPlayer.yogotar){
+            var yogotarSkin = currentPlayer.yogotar;
+             yogotar.setSkinByName(yogotarSkin);
+        }else{
+            yogotar.setSkinByName('Eagle');
+        }        
+        //yogotar.setSkinByName('Eagle');
         sceneGroup.add(yogotar)
                 
         var pivotText = game.world.centerX - 170
@@ -468,9 +478,9 @@ var result = function(){
 			greatGroup.scale.setTo(0.9,0.9)
 			infoGroup.add(greatGroup)
 			
-			var greatImage = greatGroup.create(0,0,'atlas.resultScreen','try_again')
+			/*var greatImage = greatGroup.create(0,0,'atlas.resultScreen','try_again')
 			greatImage.tint = 0xdb195f
-			greatImage.anchor.setTo(0.5,0.5)
+			greatImage.anchor.setTo(0.5,0.5)*/
 			
 			var greatText = game.add.bitmapText(0,-5, 'luckiest', localization.getString(localizationData,'again'), 52);
             greatText.anchor.setTo(0.5,0.5)
@@ -541,10 +551,11 @@ var result = function(){
 		
 		game.time.events.add(delay,function(){
 			
-			var animName = "LOSE"
+			var animName = "WIN"
 			var iconRight = 'right'
 			var soundName = 'cheers'
-			
+			var icon;
+            
 			if(win){
 				
 				game.add.tween(whiteFade).from({alpha:1},250,"Linear",true)
@@ -556,19 +567,22 @@ var result = function(){
 				
 				createPart('star',starGroup.star)
 				sound.play("great")
-				
+                
+
+
 			}else{
-				
-				iconRight = 'wrong'
-				soundName = 'boo'
+				//animName = "LOSE"
+				//iconRight = 'wrong'
+				//soundName = 'boo'
 			}
 			
-			var icon = sceneGroup.create(iconImage.x, iconImage.y,'atlas.resultScreen',iconRight)
-			icon.scale.setTo(0.9,0.9)
-			icon.alpha = 0.4
-			icon.anchor.setTo(0.5,0.5)
+                icon = sceneGroup.create(iconImage.x, iconImage.y,'atlas.resultScreen',iconRight)
+                icon.scale.setTo(0.9,0.9)
+                icon.alpha = 0
+                icon.anchor.setTo(0.5,0.5)
+	
 			
-			game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50,alpha:1},500,"Linear",true)
+			//game.add.tween(icon).from({x:icon.x + 50,y:icon.y - 50,alpha:1},500,"Linear",true)
 			game.add.tween(icon.scale).from({x:2,y:2},500,"Linear",true).onComplete.add(function(){
 				
 				sound.play(iconRight)
