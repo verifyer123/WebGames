@@ -4,7 +4,7 @@ var vips = function(){
         atlases: [
             {   
                 name: "atlas.vips",
-                json: "images/vips/atlas.json?v5",
+                json: "images/vips/atlas.json?v7",
                 image: "images/vips/atlas.png",
             },
         ],
@@ -83,7 +83,7 @@ var vips = function(){
 	var newPlat1, newPlat2, newPlat3
     var dificulty=5
     var level
-    var levelDeleteBlock = 5
+    var levelDeleteBlock = 4
 	var evaluate
     var randCharac=0
     var goal
@@ -95,7 +95,7 @@ var vips = function(){
 
 	var platformsWin
 	var platformsWinPosition 
-	var initialPlatforms = 4
+	var initialPlatforms = 3
 	var positionRange
 	var currentId
 	var deltaBlock = 104
@@ -318,7 +318,7 @@ var vips = function(){
             miniReset()
         }
 
-        if(character.position.x > game.world.width*0.95){
+        if(character.position.x > game.world.width*1.1){
         	 evaluate=true
             inGoal = false
             miniReset()
@@ -346,7 +346,6 @@ var vips = function(){
 
 	  }
       //console.log(character.body.angularVelocity);
-      //console.log(character.body.velocity.x);
       
 
       if(character.body.velocity.x < 10 && shooted==true){
@@ -389,9 +388,10 @@ var vips = function(){
 		{
             sound.play("swipe")
              var widthRelation = document.body.clientWidth/baseWidth;
-		 	speed=(posInicial-posFinal)*widthRelation
+		 	speed=(posInicial-posFinal)*widthRelation*2.5
 			posFinal=0
 			posInicial=0
+            console.log('End drag')
 			character.body.velocity.x =speed;
             efectZoom.alpha=1
             game.add.tween(efectZoom).to({alpha:0},speed, Phaser.Easing.Cubic.Out,true)
@@ -406,23 +406,26 @@ var vips = function(){
 		}
     }
     
-	 function onDragUpdate(obj)
+	function onDragUpdate(obj)
     {
 		posFinal=game.input.activePointer.position.x
         var widthRelation = document.body.clientWidth/baseWidth;
 		speed=posInicial-posFinal
         
 
-        var speedRealtionPixels = 60/widthRelation;
+        var speedRealtionPixels = 20/widthRelation;
+        //console.log('Drag update')
 		if(shooted==false && posFinal<posInicial){
-			
+			//console.log('Drag update if')
 			game.add.tween(powerBar.scale).to({x: -speed/speedRealtionPixels}, 100, Phaser.Easing.linear, true)
 		}
     }
     
     function onDragStart(obj)
     {
+        //console.log('DragStart')
 		if(shooted==false && inGround==true){
+            //console.log('DragStart if')
 		  posInicial=game.input.activePointer.position.x
 		}
     }
@@ -632,28 +635,28 @@ var vips = function(){
 
 				}
 				if(randPlats==4){
-                newPlat1.reset(game.world.x+150,game.world.height-98) 
+                newPlat1.reset(game.world.x,game.world.height-98) 
 				newPlat1.loadTexture('atlas.vips','bloque'+randPlats)
 				newPlat1.body.clearShapes()
 				newPlat1.body.loadPolygon('physicsData', "bloque"+randPlats)
 
 				}
 				if(randPlats==2){
-                newPlat1.reset(game.world.x+150,game.world.height-98) 
+                newPlat1.reset(game.world.x,game.world.height-98) 
 				newPlat1.loadTexture('atlas.vips','bloque'+randPlats)
 				newPlat1.body.clearShapes()
 				newPlat1.body.loadPolygon('physicsData', "bloque"+randPlats)
 
 				}
                 if(randPlats==3){
-                newPlat1.reset(game.world.x+150,game.world.height-100.5) 
+                newPlat1.reset(game.world.x,game.world.height-100.5) 
 				newPlat1.loadTexture('atlas.vips','bloque'+randPlats)
 				newPlat1.body.clearShapes()
 				newPlat1.body.loadPolygon('physicsData', "bloque"+randPlats)
 
 				}
                 if(randPlats==5){
-                newPlat1.reset(game.world.x+150,game.world.height-100.5) 
+                newPlat1.reset(game.world.x,game.world.height-100.5) 
 				newPlat1.loadTexture('atlas.vips','bloque'+randPlats)
 				newPlat1.body.clearShapes()
 				newPlat1.body.loadPolygon('physicsData', "bloque"+randPlats)
@@ -661,11 +664,12 @@ var vips = function(){
                 }
                 
         
-     
+        
+       
 
 		level++
 		//console.log("CurrentLevel "+level)
-		if(level < levelDeleteBlock*4){
+		if(level < levelDeleteBlock*initialPlatforms){
 			if(level%levelDeleteBlock==0){
 				currentId = initialPlatforms-(level/levelDeleteBlock)
 				platformsArray[currentId].proxy.kill()
@@ -673,6 +677,14 @@ var vips = function(){
 				//platformsArray[currentId].light.kill()
 				platformsArray[currentId].group.visible = false
 				platformsArray[currentId].kill()
+
+                if(level/levelDeleteBlock == 1){
+                    positionRange = {min:game.world.centerX+50, max:game.world.centerX+100}
+                }
+                else if(level/levelDeleteBlock==2){
+                    positionRange = {min:game.world.centerX+50, max:game.world.centerX+150}
+                }
+
 			}
 		}
 
@@ -724,37 +736,37 @@ var vips = function(){
 
 
 		randCharac=3
-		if(randCharac==0){
-		character.loadTexture("atlas.vips","cafe1")
-		character.body.clearShapes()
-		//game.physics.p2.enable([ character ],true)
-		character.body.loadPolygon('physicsData', "cafe1")
+        if(randCharac==0){
+        character.loadTexture("atlas.vips","cafe1")
+        character.body.clearShapes()
+        //game.physics.p2.enable([ character ],true)
+        character.body.loadPolygon('physicsData', "cafe1")
         character.reset(game.world.x+50,game.world.centerY+170)
-		}
-		if(randCharac==1){
-		character.loadTexture("atlas.vips","enchiladas1")
-		character.body.clearShapes()
-		character.body.loadPolygon('physicsData', "enchiladas1")
+        }
+        if(randCharac==1){
+        character.loadTexture("atlas.vips","enchiladas1")
+        character.body.clearShapes()
+        character.body.loadPolygon('physicsData', "enchiladas1")
         character.reset(game.world.x+100,game.world.centerY+170)
-		}
-		if(randCharac==2){
-		character.loadTexture("atlas.vips","malteada1")
-		character.body.clearShapes()
-		character.body.loadPolygon('physicsData', "malteada1")
+        }
+        if(randCharac==2){
+        character.loadTexture("atlas.vips","malteada1")
+        character.body.clearShapes()
+        character.body.loadPolygon('physicsData', "malteada1")
         character.reset(game.world.x+50,game.world.centerY+100)
-		}
-		if(randCharac==3){
-		character.loadTexture("atlas.vips","soda1")
-		character.body.clearShapes()
-		character.body.loadPolygon('physicsData', "soda1")
+        }
+        if(randCharac==3){
+        character.loadTexture("atlas.vips","soda1")
+        character.body.clearShapes()
+        character.body.loadPolygon('physicsData', "soda1")
         character.reset(game.world.x+50,game.world.centerY+150)
-		}
+        }
         if(randCharac==4){
-		character.loadTexture("atlas.vips","pay1")
-		character.body.clearShapes()
-		character.body.loadPolygon('physicsData', "pay1")
+        character.loadTexture("atlas.vips","pay1")
+        character.body.clearShapes()
+        character.body.loadPolygon('physicsData', "pay1")
         character.reset(game.world.x+90,game.world.centerY+170)
-		}
+        }
 		character.position.x=game.world.x+30
 		character.position.y=game.world.centerY+230
         character.body.angle=0
@@ -795,19 +807,22 @@ var vips = function(){
 		}
 		else if(inGoal==true){
 			addPoint(1)
-            console.log("goal compleate");
             correctParticle.position.x=character.position.x+50
             correctParticle.position.y=character.position.y
             correctParticle.start(true, 1000, null, 5)
+            character.body.velocity.x = 0
+            character.body.angle=0
+            speed = 0
 			shooted=false
 			inGoal=false
+            inGround = true
 			reset()
 		}
 		else if(lives<=0){
 			character.kill()
 		}
 		evaluate=false
-		inGround=false
+		//inGround=false
     }
 	
 	function where(body, bodyB, shapeA, shapeB, equation)
@@ -822,6 +837,7 @@ var vips = function(){
                 evaluate = true
                 inGoal=true
                 goalCount++
+                console.log("touch goal "+goalCount)
             }
            /* else{
             	console.log(body.sprite.tag)
@@ -852,10 +868,12 @@ var vips = function(){
 			if(body.sprite){
 				if(body.sprite.tag=="goal"){
 					goalCount--
-					console.log(body.sprite.tag+"   endcontact")
+
 					if(goalCount<=0){
+                        console.log('endContact on goal');
 		            	inGoal=false
-		            	evaluate = false	
+		            	evaluate = false
+                        goalCount = 0
 		            }
 				}
 			}
@@ -876,11 +894,13 @@ var vips = function(){
         sceneGroup.add(boomParticle)
         
          
-        positionRange = {min:game.world.centerX-120, max:game.world.centerX}
-        platformsWinPosition = game.world.centerX-120
+        positionRange = {min:game.world.centerX+50, max:game.world.centerX+50}
+        platformsWinPosition = game.world.centerX+100
         currentId = initialPlatforms
         level = 0
         goalCount = 0
+
+
         
         var background = backgroundGroup.create(-2,-2,'fondo')
 		//var background=game.add.tileSprite(0,0,game.world.width,game.world.height,'fondo')
@@ -932,7 +952,7 @@ var vips = function(){
         game.physics.startSystem(Phaser.Physics.P2JS)
 		game.physics.p2.world.defaultContactMaterial.friction = .8;
         //Aqui creamos las plataformas y las agrupamos con sus debidas especificaciones
-        
+        game.physics.p2.setBoundsToWorld(false, false, true, true);
 		
 		
         var arrowPower=sceneGroup.create(game.world.centerX-200, game.world.height-180,"atlas.vips","slip")
@@ -1007,7 +1027,7 @@ var vips = function(){
         
 		randPlats = 3
 
-		newPlat1=game.add.sprite(game.world.x+150,game.world.height-100.5,'atlas.vips','bloque'+randPlats)
+		newPlat1=game.add.sprite(game.world.x,game.world.height-100.5,'atlas.vips','bloque'+randPlats)
 		platformsGroup2.add(newPlat1)
 
 		game.physics.p2.enable([ newPlat1 ]);
