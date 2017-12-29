@@ -7,8 +7,8 @@ var spaceCount = function(){
         atlases: [                
 			{
                 name: "atlas.space",
-                json: "images/SpaceCount/atlas.json",
-                image: "images/SpaceCount/atlas.png"
+                json: "images/spaceCount/atlas.json",
+                image: "images/spaceCount/atlas.png"
 			}],
         images: [],
 		sounds: [
