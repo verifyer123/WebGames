@@ -70,6 +70,9 @@ var flyingFractions = function(){
 	var fraction2;
 	var timerCount;
 	var timer = 10;
+	var timerEvent = null
+
+	var gamePaused = false
 
 	
 	var fractionsInfo =[{
@@ -209,6 +212,7 @@ var flyingFractions = function(){
 		xpText.setText(coins);
 		speedGame = 2;
 		starGame = false;
+		gamePaused = false
 
 	}	
 
@@ -437,10 +441,12 @@ var flyingFractions = function(){
 
 		game.onPause.add(function(){
 			game.sound.mute = true
+			gamePaused = true
 		} , this);
 
 		game.onResume.add(function(){
 			game.sound.mute = false
+			gamePaused = false
 		}, this);
 		
 		buttons.getButton(bgm,sceneGroup)
@@ -554,12 +560,16 @@ var flyingFractions = function(){
 		
 
 	function timerFunction(){
+		if(gamePaused){
+			return
+		}
+
 		if(timer != 0){
 			timer-- 
 		}else if(timer == 0){
 				lives--
 			
-						TweenMax.to(groupMarco1.scale,3,{x:1.2 , y:1.2});
+			TweenMax.to(groupMarco1.scale,3,{x:1.2 , y:1.2});
 			TweenMax.to(groupMarco1,0.5,{alpha:0});
 			TweenMax.to(groupMarco2.scale,3,{x:1.2 , y:1.2});
 			TweenMax.to(groupMarco2,0.5,{alpha:0});

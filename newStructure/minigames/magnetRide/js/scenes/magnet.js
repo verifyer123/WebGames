@@ -84,6 +84,7 @@ var magnet = function(){
 	var yogotar
     var magnetSong
 	var isNoun
+
 		
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -99,7 +100,7 @@ var magnet = function(){
 		tagsToUse = ['coin']
 		gameSpeed = 3
         pivotObjects =  game.world.width
-		WORLD_GRAVITY = -1250
+		WORLD_GRAVITY = -1700//-1250
 		lastObject = null
 		canRed = false
 		canBattery = false
@@ -722,6 +723,7 @@ var magnet = function(){
   
 		player.body.velocity.y*=0.5
         game.physics.p2.gravity.y*=-1;
+        
     
     }
     
