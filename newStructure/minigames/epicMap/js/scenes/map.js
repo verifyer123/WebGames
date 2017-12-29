@@ -447,7 +447,8 @@ var map = function(){
 					fullStar.alpha = 0
 					
 					var indexUsed = ((i-1)*4) + u
-					if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed].completed){
+					// console.log(currentPlayer.minigames[gamesList[indexUsed].id])
+					if(currentPlayer.minigames[gamesList[indexUsed].id] && currentPlayer.minigames[gamesList[indexUsed].id].completed){
 						fullStar.alpha = 1
 					}
 					
@@ -470,7 +471,7 @@ var map = function(){
 						var indexUsed = (i - 2) * 4
 						for(var u = 0; u < 4; u++){
 
-							if(currentPlayer.minigames[indexUsed] && currentPlayer.minigames[indexUsed + u].completed){
+							if(currentPlayer.minigames[gamesList[indexUsed].id] && currentPlayer.minigames[gamesList[indexUsed + u].id].completed){
 								countMinigames++
 							}
 						}
@@ -696,9 +697,11 @@ var map = function(){
 	}
 	
 	function getGamesMenu(){
-		
-		gamesMenu.x = yogotarGroup.x - 200
+
+		gamesMenu.x = yogotarGroup.x < game.world.centerX ? yogotarGroup.x + 200 : yogotarGroup.x - 200
 		gamesMenu.y = yogotarGroup.y - 90
+		gamesMenu.scale.x = yogotarGroup.x < game.world.centerX ? -1 : 1
+		// gamesMenu.anchor.x = yogotarGroup.x < game.world.centerX ? 0 : 1
 
 		gamesMenu.alpha = 1
 		game.add.tween(gamesMenu).from({alpha:0,x:gamesMenu.x + 100},500,"Linear",true)
@@ -718,7 +721,7 @@ var map = function(){
 		for(var i = 0; i < menuList.length;i++){
 			
 			var menuGame = menuList[i]
-			menuGame.x = gamesMenu.x - 125
+			menuGame.x = yogotarGroup.x - 225 * gamesMenu.scale.x
 			menuGame.y = gamesMenu.y + pivotY
 			
 			// console.log(menuGame.subject + ' subject')
