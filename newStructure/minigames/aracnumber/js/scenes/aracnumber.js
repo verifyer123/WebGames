@@ -67,6 +67,7 @@ var aracnumber = function(){
     var activeMultiple = 100;
     var counter = 0;
     var spider;
+    var lives;
 
 	
 	styleWhite = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};

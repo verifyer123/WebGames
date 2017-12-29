@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("magic")
+				sceneloader.show("magicGate")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -66,7 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            magic,
+            magicGate,
             result,
     	])
     }

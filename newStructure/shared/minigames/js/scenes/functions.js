@@ -24,7 +24,8 @@
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
-             heartsText.setText("x " + lives);
+             //heartsText.setText("x " + lives);
+             heartsText.setText("x "+heartsText.initialLives)
             xpText.setText(coins);
             rect.inputEnabled = false
 			sound.play("pop")
@@ -95,6 +96,7 @@ function createHearts(lives){
 		heartsText.anchor.setTo(0, 0);	
 		heartsText.x = game.world.width - 75;
 		heartsText.y = 5;
+		heartsText.initialLives = lives
 		sceneGroup.add(heartsGroup);		
 }
 	

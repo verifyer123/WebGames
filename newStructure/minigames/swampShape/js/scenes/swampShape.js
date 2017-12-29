@@ -123,6 +123,7 @@ var swampShape = function(){
 	var astronoSong
 	var clock
 	var timeValue
+	var lives =0
 
 	var gameIndex = 65
 

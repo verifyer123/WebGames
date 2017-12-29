@@ -289,25 +289,30 @@ var space = function(){
         missPoint()
         
         master.tween.stop()
-        
-        game.add.tween(barGroup.bar.scale).to({y:0},250,"Linear",true)
-        game.add.tween(master).to({y:game.world.height - 100, angle:master.angle + 15},250,Phaser.Easing.linear,true).onComplete.add(function(){
-            
-            sound.play("splash")
-            
-            createSplash(master)
-            master.setAnimationByName(0,"LOSE",true)
-            
-            game.add.tween(master).to({y:master.y +35},2000,Phaser.Easing.linear,true)
-            
-            showAssets(false)
 
-            game.time.events.add(1000,function(){
-                if(gameActive){
-                    showAssets(true)
-                }
-            })
-        },this)
+        var FALL_TIME = 700
+        
+        game.add.tween(barGroup.bar.scale).to({y:0},FALL_TIME,"Linear",true)
+        game.add.tween(master).to({y:master.y-50, angle:master.angle},300,Phaser.Easing.linear,true).onComplete.add(function(){
+	        game.add.tween(master).to({y:game.world.height - 100, angle:master.angle + 15},FALL_TIME-300,Phaser.Easing.linear,true).onComplete.add(function(){
+	            
+	            sound.stop('fall')
+	            sound.play("splash")
+	            
+	            createSplash(master)
+	            master.setAnimationByName(0,"LOSE",true)
+	            
+	            game.add.tween(master).to({y:master.y +35},2000,Phaser.Easing.linear,true)
+	            
+	            showAssets(false)
+
+	            game.time.events.add(1000,function(){
+	                if(gameActive){
+	                    showAssets(true)
+	                }
+	            })
+	        },this)
+	    },this)
     }
     
     function createSplash(obj){

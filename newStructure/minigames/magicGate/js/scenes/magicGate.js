@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var magic = function(){
+
+var magicGate = function(){
     
     var localizationData = {
 		"EN":{
@@ -882,7 +883,7 @@ var magic = function(){
 	return {
 		
 		assets: assets,
-		name: "magic",
+		name: "magicGate",
 		update: update,
         preload:preload,
 		create: function(event){

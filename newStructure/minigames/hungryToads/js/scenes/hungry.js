@@ -186,10 +186,68 @@ var hungry = function(){
 		var number2 = game.rnd.integerInRange(2,number1 - 1)
 		
 		toadsGroup.list[0].text.setText(number2 + '/' + number1)
+
+		//Find numbers that ever can complete the fraction
+		var value = number2 - 1
+		var fractionValues = []
+		while(value>0){
+			if(value == 1){
+				value = 0
+				fractionValues.push(1)
+			}
+			else{
+				var r 
+				if(value > 4){
+					r = game.rnd.integerInRange(2,3)
+				}
+				else{
+					r = game.rnd.integerInRange(1,3)
+				}
+
+				if(value - r >= 0){
+					value-=r
+					fractionValues.push(r)
+				}
+				else if(value == 2){
+					value = 0
+					fractionValues.push(2)
+				}
+			}
+		}
+
 		
+
+		//set correct bees
+		var tempBeesIds = [0,1,2,3,4,5]
+		var selectedBeesIds = []
+		var currentId = 0
+
+		for(var i = 0; i < fractionValues.length; i++){
+			var r = game.rnd.integerInRange(0,tempBeesIds.length-1)
+			selectedBeesIds.push(tempBeesIds[r])
+		}
+
+		selectedBeesIds.sort()
+
+
+
 		for(var i = 0; i < beesGroup.length;i++){
 			
-			var number = game.rnd.integerInRange(1,3)
+			var number
+			if(currentId < selectedBeesIds.length){
+				if(i == selectedBeesIds[currentId]){
+					var random = game.rnd.integerInRange(0,fractionValues.length-1)
+					number = fractionValues[random]
+					fractionValues.splice(r,1)
+					currentId++
+				}
+				else{
+					number = game.rnd.integerInRange(1,3)
+				}
+			}
+			else{
+				number = game.rnd.integerInRange(1,3)
+			}
 			
 			var bee = beesGroup.children[i]
 			bee.text.setText(number + '/' + number1)

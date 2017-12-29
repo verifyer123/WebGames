@@ -1,10 +1,10 @@
 
 
 var soundsPath = "../../shared/minigames/sounds/"
-var iconsPath = "../../shared/minigames/images/icons/"
-var imagesPath = "../../shared/minigames/images/"
-var result = function(){
 
+var result = function(){
+	var iconsPath = "../../shared/minigames/images/icons/"
+	var imagesPath = "../../shared/minigames/images/"
 	localizationData = {
 		"EN":{
             "youGot":"You earned ",
@@ -124,6 +124,7 @@ var result = function(){
         
         scaleToUse = scale || 0.9
         setMixpanel("minigameAnswer")
+        console.log('Set score')
 	}
     
     function changeImage(index,group){
@@ -241,7 +242,7 @@ var result = function(){
     }
     
     function createButtons(pivot){
-        
+       
         buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
@@ -332,6 +333,8 @@ var result = function(){
             haveCoupon = false
         }
 		
+
+		console.log("Create scene results")
         loadSounds()
         
 		sceneGroup = game.add.group()
@@ -371,10 +374,10 @@ var result = function(){
 		var yogoBack = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 185,'atlas.resultScreen','yogoBg')
 		yogoBack.anchor.setTo(0.5,0.5)
 		
-        yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotar");
+        yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotaResults");
         yogotar.scale.setTo(scaleSpine,scaleSpine)
         yogotar.setAnimationByName(0, "IDLE", true);
-        if(currentPlayer.yogotar){
+        if(currentPlayer && currentPlayer.yogotar){
             var yogotarSkin = currentPlayer.yogotar;
              yogotar.setSkinByName(yogotarSkin);
         }else{
@@ -612,6 +615,7 @@ var result = function(){
 			})
 			
 			yogotar.setAnimationByName(0,animName,true)
+
 			
 			game.time.events.add(750,function(){
 				
@@ -712,17 +716,18 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
         game.load.bitmapFont('luckiest', imagesPath + 'bitfont/font.png', imagesPath + 'bitfont/font.fnt');
         
+
         //game.load.spine('amazing', "images/spines/Amaizing.json");
-        game.load.spine('yogotar', imagesPath + "spines/yogotar.json");
-		
+        //console.log('Start  preload ' +imagesPath)
+        game.load.spine('yogotaResults', imagesPath + "spines/yogotar.json?v2");
+
 		if(!gamesList){
 			gamesList = yogomeGames.getGames()
 		}
 		
 		var iconName = gamesList[gameIndex].sceneName
 		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")
-		
-        
+		//console.log('End preload')
     }
     
 	function createTextPart(text,obj){

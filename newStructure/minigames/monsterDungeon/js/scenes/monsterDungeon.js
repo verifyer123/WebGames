@@ -316,7 +316,8 @@ var monsterDungeon = function(){
             
             function badThrow(){
                 monster.setAnimationByName(0, "HIT", true);
-                lives--;
+                lives--
+                console.log('lives '+lives)
                 heartsText.setText("x " + lives);
                 sound.play("splash");
                 if(lives != 0){
@@ -391,11 +392,11 @@ var monsterDungeon = function(){
         
         optionGroup.x = game.world.centerX - optionGroup.width/1.5;
         sceneGroup.add(optionGroup);
-    
+        lives = 3;
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();
-        lives = 3;
+        //console.log(lives)
         heartsText.setText("x " + lives);
 	}
 
