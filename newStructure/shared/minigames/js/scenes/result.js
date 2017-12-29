@@ -123,7 +123,7 @@ var result = function(){
 		}
         
         scaleToUse = scale || 0.9
-        setMixpanel("MinigameAnswer")
+        setMixpanel("minigameAnswer")
 	}
     
     function changeImage(index,group){
