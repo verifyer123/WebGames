@@ -22,7 +22,12 @@ var modal = function () {
         	$("#myModal").load( "players.html", function () {
         		console.log(children)
         		childrenModal.setChildren(children)
-				$("#myModal").find("#players").modal('toggle');
+				$("#myModal").find("#players").modal({
+					show:true,
+					backdrop: 'static',
+					keyboard: false
+				})
+				// $("#myModal").find("#players").modal('toggle');
 			} );
 		},
 		showSave:function (tag) {

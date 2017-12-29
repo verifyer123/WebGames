@@ -39,7 +39,7 @@ var routing = function () {
 				startCharSelector()
 
 				mixpanel.track(
-					"pageLoadYogotarSelector",
+					"PageLoadYogotarSelector",
 					{"user_id": credentials.educationID}
 				);
 			},
