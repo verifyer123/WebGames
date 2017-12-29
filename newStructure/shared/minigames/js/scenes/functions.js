@@ -24,8 +24,12 @@
         rect.endFill()
         rect.inputEnabled = true
         rect.events.onInputDown.add(function(){
-             //heartsText.setText("x " + lives);
-             heartsText.setText("x "+heartsText.initialLives)
+        	if(lives!=null){
+	        	heartsText.setText("x " + lives);
+	        }
+	        else{
+	            heartsText.setText("x "+heartsText.initialLives)
+	        }
             xpText.setText(coins);
             rect.inputEnabled = false
 			sound.play("pop")
