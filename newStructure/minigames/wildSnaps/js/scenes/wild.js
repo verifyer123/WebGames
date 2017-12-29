@@ -37,9 +37,11 @@ var wild = function(){
             {	name: "right",
 				file: soundsPath + "rightChoice.mp3"},
             {   name: "magic",
-                file: soundsPath + "gameLose.mp3"},
+                //file: soundsPath + "gameLose.mp3"},
+                file: soundsPath + "magic.mp3"},
             {   name: "gameLose",
-                file: soundsPath + "magic.mp3"}
+                //file: soundsPath + "magic.mp3"}
+                file: soundsPath + "gameLose.mp3"}
 		]
     }
 
