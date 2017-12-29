@@ -42,8 +42,21 @@ function startCharSelector(){
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;
         game.clearBeforeRender = false
+		game.input.maxPointers = 1
 
 		game.plugins.add(Fabrique.Plugins.Spine);
+		game.kineticScrolling = game.plugins.add(Phaser.Plugin.KineticScrolling);
+
+		this.game.kineticScrolling.configure({
+			kineticMovement: true,
+			// timeConstantScroll: 325, //really mimic iOS
+			horizontalScroll: true,
+			verticalScroll: false,
+			horizontalWheel: true,
+			// verticalWheel: true,
+			deltaWheel: 40,
+			// onUpdate: null
+		});
 		
 		function getParameterByName(name, url) {
             if (!url) url = window.location.href;
