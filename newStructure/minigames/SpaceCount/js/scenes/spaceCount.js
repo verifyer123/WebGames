@@ -43,6 +43,8 @@ var spaceCount = function(){
     
 	
 	sceneGroup = null;
+
+    var INITIAL_TIME = 5
 	
 	var speedGame = 5;
 	var background;
@@ -56,7 +58,7 @@ var spaceCount = function(){
     var gameIndex = 78;
     var activeMultiple = 4;
     var NumTaps = 0;
-    var numberTime = 3;
+    var numberTime = INITIAL_TIME;
 	var countComplete = 0;
     var bar;
     var buttonGame;
@@ -106,6 +108,8 @@ var spaceCount = function(){
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
+        console.log('initialize')
+        numberTime = INITIAL_TIME
 
 	}	
     
@@ -116,6 +120,8 @@ var spaceCount = function(){
 	/*CREATE SCENE*/
     function createScene(){
 		
+        initialize()
+
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
         
 		loadSounds();
@@ -319,7 +325,7 @@ var spaceCount = function(){
             bgm.stop();	
             NumTaps = 0;
             countComplete = 0;
-            numberTime = 10;
+            numberTime = INITIAL_TIME;
             heartsText.setText("x " + 0);
         }	
 	
