@@ -128,6 +128,7 @@ var swampShape = function(){
 	var gameIndex = 65
 
 	function preload() {
+
 		game.load.audio('astronoSong',  soundsPath + 'songs/space_bridge.mp3');
 		/*Default*/
 		buttons.getImages(game);
@@ -413,6 +414,8 @@ var swampShape = function(){
 
 	/*CREATE SCENE*/
     function createScene() {
+    	game.stage.disableVisibilityChange = false;
+
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -448,6 +451,7 @@ var swampShape = function(){
 		game.sound.setDecodedCallback(astronoSong, function(){
 			astronoSong.loopFull(0.6)
 		}, this);
+
 
 		game.onPause.add(function(){
 			game.sound.mute = true
