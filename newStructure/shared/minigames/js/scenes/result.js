@@ -404,10 +404,11 @@ var result = function(){
 				// console.log(currentPlayer.currentMinigame)
 				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
 
-				currentPlayer.powerCoins += totalScore
 				parent.epicModel.savePlayer(currentPlayer)
 			}
+
 		}
+		currentPlayer.powerCoins += totalScore
 		
 		var yogoBack = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 185,'atlas.resultScreen','yogoBg')
 		yogoBack.anchor.setTo(0.5,0.5)
@@ -829,7 +830,7 @@ var result = function(){
 		})
 
 		if(parent.epicModel){
-			parent.epicModel.savePlayer()
+			parent.epicModel.savePlayer(currentPlayer)
 		}
 
 	}
