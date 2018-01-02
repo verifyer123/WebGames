@@ -829,7 +829,7 @@ var result = function(){
 		})
 
 		if(parent.epicModel){
-			parent.epicModel.setPlayer()
+			parent.epicModel.savePlayer()
 		}
 
 	}
