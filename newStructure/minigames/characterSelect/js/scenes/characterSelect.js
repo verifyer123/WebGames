@@ -31,6 +31,13 @@ var characterSelect = function(){
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 		],
+		atlases:[
+			{
+				name: "atlas.select",
+				json: "../characterSelect/images/atlas.json",
+				image: "../characterSelect/images/atlas.png"
+			}
+		]
 	}
 
 
@@ -102,34 +109,34 @@ var characterSelect = function(){
 
 		game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
 
-		game.load.image("selectBar","../characterSelect/images/select.png")
-		game.load.image("gradient","../characterSelect/images/gradiente_versus.png")
-		game.load.image("stars","../characterSelect/images/stars_versus.png")
-		game.load.image("acceptBtn","../characterSelect/images/accept.png")
-		game.load.image("arrow","../characterSelect/images/arrows.png")
-
-		game.load.image("contin","../characterSelect/images/contaainer_gradient.png")
-		game.load.image("contout","../characterSelect/images/container_border.png")
-
-		game.load.image("eagle","../characterSelect/images/yogotarEagle.png")
-		game.load.image("eagle_name","../characterSelect/images/name_eagle.png")
-
-		game.load.image("luna","../characterSelect/images/yogotarLuna.png")
-		game.load.image("eagle_luna","../characterSelect/images/name_luna.png")
+		// game.load.image("selectBar","../characterSelect/images/select.png")
+		// game.load.image("gradient","../characterSelect/images/gradiente_versus.png")
+		// game.load.image("stars","../characterSelect/images/stars_versus.png")
+		// game.load.image("acceptBtn","../characterSelect/images/accept.png")
+		// game.load.image("arrow","../characterSelect/images/arrows.png")
+		//
+		// game.load.image("contin","../characterSelect/images/contaainer_gradient.png")
+		// game.load.image("contout","../characterSelect/images/container_border.png")
+		//
+		// game.load.image("eagle","../characterSelect/images/yogotarEagle.png")
+		// game.load.image("eagle_name","../characterSelect/images/name_eagle.png")
+		//
+		// game.load.image("luna","../characterSelect/images/yogotarLuna.png")
+		// game.load.image("eagle_luna","../characterSelect/images/name_luna.png")
 
 		game.load.bitmapFont('luckiest', "../characterSelect/images/font/font.png", "../characterSelect/images/font/font.fnt");
 
-		for(var order=0; order<yogotars.length; order++){
-
-			game.load.image(yogotars[order].name,"../characterSelect/images/"+yogotars[order].name+".png")
-			game.load.image(yogotars[order].namey,"../characterSelect/images/"+yogotars[order].namey+".png")
-
-		}
-
-		game.load.image("wind","../characterSelect/images/wind.png")
-		game.load.image("fire","../characterSelect/images/fire.png")
-		game.load.image("earth","../characterSelect/images/earth.png")
-		game.load.image("water","../characterSelect/images/water.png")
+		// for(var order=0; order<yogotars.length; order++){
+		//
+		// 	game.load.image(yogotars[order].name,"../characterSelect/images/"+yogotars[order].name+".png")
+		// 	game.load.image(yogotars[order].namey,"../characterSelect/images/"+yogotars[order].namey+".png")
+		//
+		// }
+		//
+		// game.load.image("wind","../characterSelect/images/wind.png")
+		// game.load.image("fire","../characterSelect/images/fire.png")
+		// game.load.image("earth","../characterSelect/images/earth.png")
+		// game.load.image("water","../characterSelect/images/water.png")
 
 
 		console.log(localization.getLanguage() + ' language')
@@ -171,12 +178,12 @@ var characterSelect = function(){
 
 		var out = [];
 
-		var background = backgroundGroup.create(0,0,'gradient')
+		var background = backgroundGroup.create(0,0,"atlas.select", 'gradiente_versus')
 		background.width = game.world.width
 		background.height = game.world.height
 		background.fixedToCamera = true
 
-		stars = game.add.tileSprite(0,0,game.world.width,game.world.height,'stars')
+		stars = game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.select", 'stars_versus')
 		backgroundGroup.add(stars)
 		stars.fixedToCamera = true
 
@@ -199,17 +206,17 @@ var characterSelect = function(){
 
 		for(var put=0;put<yogotars.length;put++){
 
-			character4[put]=backgroundGroup.create(200 * put + 200,game.world.centerY-70,"contin")
+			character4[put]=backgroundGroup.create(200 * put + 200,game.world.centerY-70,"atlas.select", "contaainer_gradient")
 			character4[put].anchor.setTo(.5)
-			character5[put]=backgroundGroup.create(character4[put].centerX-2,character4[put].centerY+5,"contout")
+			character5[put]=backgroundGroup.create(character4[put].centerX-2,character4[put].centerY+5,"atlas.select", "container_border")
 			character5[put].anchor.setTo(.5)
-			character[put]=backgroundGroup.create(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,yogotars[put].name)
+			character[put]=backgroundGroup.create(character4[put].centerX+yogotars[put].offsetxc,character4[put].centerY+yogotars[put].offsetyc,"atlas.select", yogotars[put].name)
 
 
-			character2[put]=backgroundGroup.create(character4[put].centerX+yogotars[put].offsetxn,character4[put].centerY+180,yogotars[put].namey)
+			character2[put]=backgroundGroup.create(character4[put].centerX+yogotars[put].offsetxn,character4[put].centerY+180, "atlas.select", yogotars[put].namey)
 			character2[put].scale.setTo(yogotars[put].scalen)
 
-			character3[put]=backgroundGroup.create(character4[put].centerX+70,character4[put].centerY+250,yogotars[put].element)
+			character3[put]=backgroundGroup.create(character4[put].centerX+70,character4[put].centerY+250,"atlas.select", yogotars[put].element)
 			character[put].scale.setTo(yogotars[put].scalec)
 			character3[put].scale.setTo(.8)
 
@@ -265,18 +272,18 @@ var characterSelect = function(){
 
 		game.camera.bounds = new Phaser.Rectangle(0,0,character[character.length - 1].x + 300,game.world.height)
 
-		var sel= backgroundGroup.create(game.world.centerX,game.world.centerY/5,"selectBar")
+		var sel= backgroundGroup.create(game.world.centerX,game.world.centerY/5,"atlas.select", "select")
 		sel.anchor.setTo(.5)
-		sel.scale.setTo(0.4,0.4)
+		sel.scale.setTo(0.8,0.8)
 		sel.fixedToCamera = true
 
-		continuar=backgroundGroup.create(game.world.centerX,game.world.centerY+350,"acceptBtn")
+		continuar=backgroundGroup.create(game.world.centerX,game.world.centerY+350,"atlas.select", "accept")
 		continuar.anchor.setTo(0.5,0.5)
-		continuar.scale.setTo(0.45,0.6)
+		continuar.scale.setTo(0.9,1)
 
-		prev=backgroundGroup.create(50,game.world.centerY+350,"arrow")
+		prev=backgroundGroup.create(50,game.world.centerY+350,"atlas.select", "arrows")
 		prev.anchor.setTo(0.5, 0.5)
-		next=backgroundGroup.create(game.world.width - 50,game.world.centerY+350,"arrow")
+		next=backgroundGroup.create(game.world.width - 50,game.world.centerY+350,"atlas.select", "arrows")
 		next.anchor.setTo(0.5, 0.5)
 		next.scale.setTo(-1,1)
 		continuar.alpha=0
