@@ -355,7 +355,7 @@ var spaceVaccum = function(){
         
         game.load.image("proxy1","images/space/SHIP.png")
 		
-		console.log(localization.getLanguage() + ' language')
+		//console.log(localization.getLanguage() + ' language')
         
     }
     
@@ -415,7 +415,7 @@ var spaceVaccum = function(){
 			inputName = 'desktop'
 		}
 		
-		console.log(inputName)
+		//console.log(inputName)
 		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.vaccum',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
@@ -492,7 +492,7 @@ var spaceVaccum = function(){
                 
                     
                     planets[randomPlanets2]=game.add.image(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(-40,-game.world.height),"atlas.vaccum","PLANET"+(randomPlanets2+1))
-                    console.log(planets[randomPlanets2])
+                    //console.log(planets[randomPlanets2])
                     planets[randomPlanets2].alpha=.6
         }
     }
@@ -653,7 +653,7 @@ var spaceVaccum = function(){
             
             delayer++
             delayer2++
-            console.log(delayer2)
+           // console.log(delayer2)
             ship.position.x=proxy1.x
             ship.position.y=proxy1.y
             proxy1.position.y=game.world.height-80
