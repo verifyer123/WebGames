@@ -60,9 +60,10 @@ var routing = function () {
 				var games = yogomeGames.getGames()
 				// console.log(id, games.length)
 				var url
+				var gameId
 				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
 					var game = games[gameIndex]
-					var gameId = game.name.replace(/\s/g, "")
+					gameId = game.name.replace(/\s/g, "")
 					// console.log(gameId)
 					if(id === gameId){
 						url = game.url
@@ -72,6 +73,11 @@ var routing = function () {
 				}
 				console.log(language, "language")
 				var src = url + "index.html?language=" + language
+
+				var currentPlayer = epicModel.getPlayer()
+				currentPlayer.currentMinigame = gameId
+				// epicModel.savePlayer()
+
 				epicSiteMain.startGame(src)
 
 				//TODO: check mixpanel
