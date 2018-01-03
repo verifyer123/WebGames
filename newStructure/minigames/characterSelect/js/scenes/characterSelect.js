@@ -30,6 +30,10 @@ var characterSelect = function(){
 				file: soundsPath + "magic.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
+            {	name: "energy",
+				file: soundsPath + "energyCharge2.mp3"},
+            {	name: "sword",
+				file: soundsPath + "swordSmash.mp3"},
 		],
 		atlases:[
 			{
@@ -324,19 +328,66 @@ var characterSelect = function(){
 
 		continuar.events.onInputDown.add(function(){
 			sound.play("pop")
+            var selectedEnd=0
+            game.kineticScrolling.stop();
+            for(var fleeAnothers=0; fleeAnothers<character.length;fleeAnothers++){
+                
+                if(character[fleeAnothers].tag!=selectedCharacter){
+                    
+                     game.add.tween(character[fleeAnothers]).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+                     game.add.tween(character2[fleeAnothers]).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+                     game.add.tween(character3[fleeAnothers]).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+                     game.add.tween(character4[fleeAnothers]).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+                     game.add.tween(character5[fleeAnothers]).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
+
+                    
+                    
+                }else{
+                    
+                    game.add.tween(game.camera).to({x:0}, 500, Phaser.Easing.Cubic.Out, true)
+                    
+                    character[fleeAnothers].anchor.setTo(0.5,0.5)
+                    character2[fleeAnothers].anchor.setTo(0.5,0.5)
+                    character3[fleeAnothers].anchor.setTo(0.5,0.5)
+                    character4[fleeAnothers].anchor.setTo(0.5,0.5)
+                    character5[fleeAnothers].anchor.setTo(0.5,0.5)
+                    
+                    character[fleeAnothers].position.x=game.world.centerX+yogotars[fleeAnothers].offsetxc*4+character[fleeAnothers].width*0.5
+                    character[fleeAnothers].position.y=game.world.centerY+yogotars[fleeAnothers].offsetyc*1.7+character[fleeAnothers].height*0.5
+                    sound.play("sword")
+                    
+                    selectedEnd=fleeAnothers
+                    game.add.tween(character[fleeAnothers]).to({x:game.world.centerX}, 500, Phaser.Easing.Cubic.Out, true)
+                    game.add.tween(character2[fleeAnothers]).to({x:game.world.centerX+70}, 500, Phaser.Easing.Cubic.Out, true)
+                    game.add.tween(character3[fleeAnothers]).to({x:game.world.centerX+90}, 500, Phaser.Easing.Cubic.Out, true)
+                    game.add.tween(character4[fleeAnothers]).to({x:game.world.centerX}, 500, Phaser.Easing.Cubic.Out, true)
+                    game.add.tween(character5[fleeAnothers]).to({x:game.world.centerX}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function (){
+
+                    game.add.tween(character[selectedEnd].scale).to({x:1.1,y:1.1}, 700, Phaser.Easing.Cubic.Out, true)
+
+                    })
+                }
+                
+            }
+            
+            game.time.events.add(1500, function(){
 			//Aqui ira el redireccionamiento
+            sound.play("energy")
 			if(continuar.alpha==1){
 				selectedCharacter = selectedCharacter.replace("yogotar", "")
 				var yogotarImgPath = "assets/img/common/yogotars/" + selectedCharacter.toLowerCase() + ".png"
 				$( '.yogotar img' ).attr("src",yogotarImgPath);
 
-				game.add.tween(sceneGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
-					game.lockRender = true
-					game.destroy()
-					// game.paused = true
-					epicSiteMain.charSelected(selectedCharacter)
-				})
+				game.add.tween(sceneGroup).to({alpha:0}, 1500, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
+                    game.time.events.add(500,function(){
+					   game.lockRender = true
+					   game.destroy()
+					   // game.paused = true
+					   epicSiteMain.charSelected(selectedCharacter)
+				    })
+                })
 			}
+            })
 		})
 
 

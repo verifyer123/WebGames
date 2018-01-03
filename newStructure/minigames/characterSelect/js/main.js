@@ -52,7 +52,7 @@ function startCharSelector(){
 			// timeConstantScroll: 325, //really mimic iOS
 			horizontalScroll: true,
 			verticalScroll: false,
-			horizontalWheel: true,
+			horizontalWheel: false,
 			// verticalWheel: true,
 			deltaWheel: 40,
 			// onUpdate: null
