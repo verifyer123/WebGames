@@ -292,7 +292,7 @@ var smokeBusters = function(){
         
 		sound.play("wrong")
 		sound.play("gameLose")
-		
+        //luna.setAnimationByName(0,"LOSE",false);
         gameActive = false
         spaceSong.stop()
         		
@@ -396,25 +396,14 @@ var smokeBusters = function(){
     }
 
 	function createBackground(){
+        
+        
 		backgroundGroup = game.add.group()
         gameGroup=game.add.group()
         UIGroup=game.add.group()
         sceneGroup.add(backgroundGroup)
         sceneGroup.add(gameGroup)
         sceneGroup.add(UIGroup)
-        
-        var myBitmap = game.add.bitmapData(game.camera.width,game.camera.height);
-        var grd=myBitmap.context.createLinearGradient(0,0,0,200);
-        grd.addColorStop(0,"#49364A");
-        grd.addColorStop(1,"#7FCDEE");
-        myBitmap.context.fillStyle=grd;
-        myBitmap.context.fillRect(0,0,game.camera.width,game.camera.height);
-        grd=myBitmap.context.createLinearGradient(0,0,0,200);
-        grd.addColorStop(0,"#7FCDEE");
-        grd.addColorStop(1,"#E8BE8B");
-        myBitmap.context.fillStyle=grd;
-        myBitmap.context.fillRect(0,500,game.camera.width,game.camera.height);
-        game.add.sprite(0, 0, myBitmap);
         
         
         botonAspirar=gameGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
@@ -635,8 +624,9 @@ var smokeBusters = function(){
     function reset(){
         
         speed=.5
-        
-        
+        character.position.y=character.position.y-300
+        inGround=true;
+        startGame=true
         
     }
     
@@ -779,12 +769,11 @@ var smokeBusters = function(){
                 
                 inGround=null
                 character.body.velocity.y = 0;
-                luna.setAnimationByName(0,"LOSE",false);
                 character.body.acceleration.set(0);
                 startGame=false
                 missPoint()
                 reset()
-                muerto=true
+                //muerto=true
             }
             
             
