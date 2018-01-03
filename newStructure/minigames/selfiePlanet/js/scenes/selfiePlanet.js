@@ -553,9 +553,9 @@ var selfiePlanet = function(){
         eagle.setSkinByName("normal")
         sceneGroup.add(eagle)
         
-        eagleSad = sceneGroup.create(game.world.centerX - 5, game.world.centerY, "eagleSad")    
+        eagleSad = sceneGroup.create(game.world.centerX - 10, game.world.centerY, "eagleSad")    
         eagleSad.alpha = 0
-        eagleHappy = sceneGroup.create(game.world.centerX - 5, game.world.centerY, "eagleHappy")  
+        eagleHappy = sceneGroup.create(game.world.centerX - 10, game.world.centerY, "eagleHappy")  
         eagleHappy.alpha = 0
     }
     
@@ -607,7 +607,7 @@ var selfiePlanet = function(){
         
         pic.y -= 100
         
-        /*var graphics = game.add.graphics(0, 0);
+        var graphics = game.add.graphics(0, 0);
         graphics.beginFill(0xFF3300);
         graphics.lineStyle(2, 0x0000FF, 1);
         graphics.alpha = 0.5
@@ -617,7 +617,7 @@ var selfiePlanet = function(){
         graphics2.beginFill(0x3333ff);
         graphics2.lineStyle(2, 0x0000FF, 1);
         graphics2.alpha = 0.5
-        graphics2.drawRect(obj.x, obj.y, obj.width, obj.height);*/
+        graphics2.drawRect(obj.x, obj.y, obj.width, obj.height);
         
         var focus = pic.containsRect(obj)
 

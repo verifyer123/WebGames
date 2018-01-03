@@ -77,6 +77,7 @@ var oona = function(){
     var correctAnswer = [0,1,2,3,4,5]
     var inputAnswer = []
     var animations = ['MIX', 'PERCOLATE', 'CUT', 'BAKE', 'STEW', 'FRY', 'LOSE']
+    var toolsArray = []
 	
     function loadSounds(){
 		sound.decode(assets.sounds)
@@ -92,6 +93,8 @@ var oona = function(){
         gameTime = 10000
         
         inputAnswer = [cap]
+
+        toolsArray = []
         
         loadSounds()
         
@@ -660,11 +663,12 @@ var oona = function(){
         oonaAvatar.addAnimationByName(0, "IDLE", true);
         
         gameActive = false;
-                
-        game.time.events.add(900, function() 
-        {
-            reloadElements()
-        },this)
+        if(lives>0){   
+            game.time.events.add(900, function() 
+            {
+                reloadElements()
+            },this)
+        }
     }
     
     function reloadElements(){
@@ -734,7 +738,12 @@ var oona = function(){
     }
     
     function cook(){
-        
+        console.log("Prees ok button")
+
+        for(var t =0; t < 6; t ++){
+            toolsArray[t].inputEnabled = false
+        }
+
         timeGroup.tween.stop()
         var timer = 500;
         var fin = true
@@ -855,7 +864,7 @@ var oona = function(){
     }
      
     function tools(){
-        
+        toolsArray = []
         toolsGroup = game.add.group()
         toolsGroup.x =  game.world.centerX - board.width * 0.38
         toolsGroup.y = board.y - 6
@@ -884,6 +893,8 @@ var oona = function(){
             tool.image = toolImg
             tool.originPosX = tool.x
             tool.originPosY = tool.y
+
+            toolsArray.push(toolImg)
         }
     }
     

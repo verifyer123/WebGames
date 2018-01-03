@@ -168,7 +168,7 @@ var flagCollector = function(){
 	}
 
     function addPoint(number){
-
+        numPoints++
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
@@ -299,6 +299,8 @@ var flagCollector = function(){
 
     function generateFlags(numFlags, flags) {
 
+
+
         selectedFlags = []
         var continentName = continentsGroup.continent.name
         if (!flags){
@@ -365,7 +367,7 @@ var flagCollector = function(){
         console.log("click")
         if (flag.continent === continentsGroup.continent.name) {
             sound.play("right")
-            numPoints++
+            //numPoints++
             correctFlags.push(flag)
             correctTotal--
             flag.inputEnabled = false

@@ -2,7 +2,7 @@ window.minigame = window.minigame || {}
 
 function startCharSelector(){
 	var div = document.getElementById("characterSelector")
-	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.CANVAS, "characterSelector", {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.CANVAS, "characterSelector", {init: init, create: create }, false, true);
 	// div.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -19,7 +19,7 @@ function startCharSelector(){
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
-            // sceneloader.show("preloaderIntro")
+            sceneloader.show("preloaderIntro")
     	}
 
         // document.body.style.visibility = "visible"
@@ -82,7 +82,7 @@ function startCharSelector(){
     function create(){
 
     	preloadScenes([
-            characterSelect,
+    		characterSelect,
     	])
     }
 }

@@ -97,6 +97,7 @@ var epicModel = function () {
 	function updateData() {
 		var credentials = getCredentials()
 		player = credentials.gameData || player
+		// console.log(credentials.gameData, "Game DATA")
 		initializePlayer()
 
 		if((currentCallback)&&(credentials.age)) {
