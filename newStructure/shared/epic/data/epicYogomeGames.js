@@ -3,6 +3,7 @@ var epicYogomeGames = function () {
 	var urls = {dev:"../..", prod:".."}
 	var url = urls.prod
 	var games = yogomeGames.getObjectGames()
+	var currentPlayer = parent.epicModel.getPlayer()
 
 	var epicGames = [
 		games["UniDream"],
@@ -103,10 +104,19 @@ var epicYogomeGames = function () {
 
 	]
 
+	Array.prototype.diff = function(a) {
+		return this.filter(function(i) {return a.indexOf(i) < 0;});
+	};
+
 	var getGames = function(){
 
-		console.log(url)
-		return epicGames
+		var unlockedGames = getUnlockedGames()
+		// var restGames = epicGames.slice(unlockedGames.length, epicGames.length)
+		// console.log(restGames)
+		var restGames = epicGames.diff(unlockedGames)
+		restGames = unlockedGames.concat(epicGames)
+
+		return restGames
 
 	}
 
@@ -123,8 +133,31 @@ var epicYogomeGames = function () {
 
 	}
 
+	function unlockGames(games) {
+		// console.log(games)
+		for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
+			var game = games[gameIndex]
+			currentPlayer.minigames[game.id].unlocked = true
+		}
+	}
+	
+	function getUnlockedGames() {
+		var unlockedGames = []
+
+		for(var epicIndex = 0; epicIndex < epicGames.length; epicIndex++){
+			var game = epicGames[epicIndex]
+			var gameData = currentPlayer.minigames[game.id]
+			if(gameData.unlocked){
+				unlockedGames.push(game)
+			}
+		}
+
+		return unlockedGames
+	}
+
 	return{
 		mixpanelCall:mixpanelCall,
 		getGames:getGames,
+		unlockGames:unlockGames
 	}
 }()

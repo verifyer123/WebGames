@@ -149,6 +149,7 @@ var yogomeGames = function () {
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
 			var game = games[gIndex]
 			var gameId = game.name.replace(/\s/g, "")
+			game.id = gameId
 			object[gameId] = game
 		}
 

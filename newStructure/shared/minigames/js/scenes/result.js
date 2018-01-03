@@ -112,7 +112,7 @@ var result = function(){
 		//console.log(parent.epicModel)
 		if(parent.epicModel){
 			currentPlayer = parent.epicModel.getPlayer()
-			mixpanel.people.set({ "minigamesPlayed": currentPlayer.minigamesPlayed+1 });
+			mixpanel.people.set({ "MinigamesPlayed": currentPlayer.minigamesPlayed+1 });
 		}
 
 		stars = startsObtained(totalScore)

@@ -63,9 +63,9 @@ var routing = function () {
 				var gameId
 				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
 					var game = games[gameIndex]
-					gameId = game.name.replace(/\s/g, "")
+					// gameId = game.name.replace(/\s/g, "")
 					// console.log(gameId)
-					if(id === gameId){
+					if(id === game.id){
 						url = game.url
 						console.log(url, "matched")
 						break
