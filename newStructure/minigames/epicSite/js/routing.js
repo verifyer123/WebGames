@@ -67,6 +67,7 @@ var routing = function () {
 					// console.log(gameId)
 					if(id === game.id){
 						url = game.url
+						gameId = game.id
 						console.log(url, "matched")
 						break
 					}
