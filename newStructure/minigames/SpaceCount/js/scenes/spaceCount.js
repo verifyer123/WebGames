@@ -108,7 +108,7 @@ var spaceCount = function(){
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
-        console.log('initialize')
+        //console.log('initialize')
         numberTime = INITIAL_TIME
 
 	}	
