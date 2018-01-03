@@ -765,9 +765,16 @@ var sky = function(){
 			}
 		}
 		
-		if(correctButton.world.y > shipGroup.y){
+		/*if(correctButton.world.y > shipGroup.y){
 			angleUsed = Math.abs(angleUsed)
-		}
+		}*/
+
+        var y = shipGroup.y - correctButton.world.y
+        var x = shipGroup.x - correctButton.world.x
+        var ang = Math.atan(y/x)*(180/Math.PI)
+        //console.log(ang)
+
+        angleUsed = ang
 		
 		game.add.tween(shipGroup).to({angle:angleUsed},500,"Linear",true).onComplete.add(function(){
 			

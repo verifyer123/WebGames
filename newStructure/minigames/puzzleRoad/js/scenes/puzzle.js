@@ -47,6 +47,8 @@ var puzzle = function(){
 		],
     }
     
+    var DELTA_JUMP = 107
+
 	var angleToUse = -15
         
     var lives = null
@@ -474,6 +476,7 @@ var puzzle = function(){
 			}
 		}
 		
+
 		checkObjects()
 	}
 	
@@ -483,6 +486,16 @@ var puzzle = function(){
 		botBack.tilePosition.x-=gameSpeed * 1.1
 		
 		usedObjects.x-=gameSpeed
+
+		var playerRail = 1
+
+		/*if(playerGroup.figPos.world.y < game.world.centerY -53){
+			playerRail = 0
+		}
+		else if(playerGroup.figPos.world.y > game.world.centerY +53){
+			playerRail = 2
+		}*/
+		//console.log('rail '+playerRail)
 		
 		for(var i = 0; i < usedObjects.length;i++){
 			
@@ -491,10 +504,13 @@ var puzzle = function(){
 			if(obj.world.x < -100){
 				deactivateObject(obj)
 			}
+			//console.log(i+'   '+obj.world.y)
+			
 			
 			if(checkOverlap(obj,playerGroup) && obj.active){
-				
-				if(Math.abs(obj.world.x - playerGroup.figPos.world.x) < 50 && Math.abs(obj.world.y - playerGroup.figPos.world.y) < 50){
+			//if(obj.active && i == playerRail){	
+
+				if(Math.abs(obj.world.x - playerGroup.figPos.world.x) < 55 && Math.abs(obj.world.y - playerGroup.figPos.world.y) < 55){
 					
 					//console.log(obj.tag + ' objTag ' + playerGroup.tag + ' playerTag')
 					if(obj.tag == playerGroup.tag){

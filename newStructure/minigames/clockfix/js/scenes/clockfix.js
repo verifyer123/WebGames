@@ -87,6 +87,13 @@ var clockfix = function(){
 
     
     function preload() {
+
+        //Text that force charge of Digital font
+        var helpText = game.add.text(0, 0,"0:0", styleDigital);
+        helpText.alpha = 0
+        //
+
+        game.stage.disableVisibilityChange = false;
         game.input.maxPointers = 1;
 		game.load.audio('sillyAdventureGameLoop',  soundsPath + 'songs/sillyAdventureGameLoop.mp3');
 		/*Default*/
@@ -138,6 +145,7 @@ var clockfix = function(){
 
 	/*CREATE SCENE*/
     function createScene(){
+
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -220,6 +228,8 @@ var clockfix = function(){
         okButtonOn.inputEnabled = true;
         okButtonOn.events.onInputDown.add(answerButton,this);
         sceneGroup.add(buttonOkGroup);
+
+       
         
         function downButton(object){
             sound.play("pop");
