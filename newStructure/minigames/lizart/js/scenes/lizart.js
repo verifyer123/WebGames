@@ -75,6 +75,7 @@ var lizart = function(){
 	var wrong;
 	var stars;
 	var fruits = new Array;
+	var canTakeFruit = true
 	
 	var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	var styleClock = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
@@ -275,6 +276,9 @@ var lizart = function(){
 	
 	/*CREATE SCENE*/
     function createScene(){
+
+    	canTakeFruit = true
+
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		loadSounds();
 		
@@ -390,15 +394,19 @@ var lizart = function(){
 			TweenMax.to(fruits[indexNumber[2]],1.4,{y:option3[1],ease:Bounce.easeOut,delay:1.4});
 	
 			good = getRandomArbitrary(0,3);
-			console.log(good);
+			//console.log(good);
 			colorSelect = colorsArray[fruits[indexNumber[good] ].id ];
-			console.log(colorSelect);
+			//console.log(colorSelect);
 			
 		}
 
 		
 		
 		function downFruit(fruitItem){
+			if(!canTakeFruit){
+				return
+			}
+			canTakeFruit = false
 			if(indexNumber[good] == fruitItem.id){
 				rightBody.tint=fruitItem.color;
 				TweenMax.to(fruitItem,1,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
@@ -429,6 +437,7 @@ var lizart = function(){
 		}
 		
 		function newLizar(){
+			canTakeFruit = true
 			sound.play("combo");
 			rightGroup.alpha = 0;
 			idleGroup.alpha = 1;

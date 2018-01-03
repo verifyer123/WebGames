@@ -217,6 +217,7 @@ var rift = function(){
         
         if(lives == 0){
             stopGame(false)
+           
         }
         
         addNumberPart(heartsGroup.text,'-1',true)
@@ -644,10 +645,18 @@ var rift = function(){
 							
 						}else{
 							obj = getObject('coin')
+							//console.log(field.x,field.y)
+							//console.log(yogotarGroup.x,yogotarGroup.y)
+							if(field.x >30 && field.x < 32 && field.y == 0){
+								//console.log('coin in init space yogotar')
+								continue
+							}
 						}
 					}
-					
+
 					activateObject(obj,field.x,field.y,true)
+					
+
 
 				}
 					
@@ -675,6 +684,15 @@ var rift = function(){
 		lastTile = tilesToUse
 		
 		pivotObjects+= moveSpace
+
+		/*for(var i = 0; i < fieldGroup.length;i++){
+			var obj = fieldGroup.children[i]
+			if(obj.tag=='coin'){
+				if(checkOverlap(yogotarGroup,obj)){
+					console.log('coin in worng space')
+				}
+			}
+		}*/
 		
 		//console.log(lastNumber + ' lastNumber, ' + lastTile)
 	}
@@ -814,7 +832,8 @@ var rift = function(){
 			button.x = drag.x
 			button.y = drag.y
 		}
-		
+		var yogotarRoll = false
+		var yDestroy = 0
 		for(var i = 0; i < fieldGroup.length;i++){
 			
 			var object = fieldGroup.children[i]
@@ -825,14 +844,50 @@ var rift = function(){
 					
 					if(object.tag == 'piece'){
 						sound.play("explode")
-						createPart('rock',object)
+						//createPart('rock',object)
+						//console.log('destroy field')
+						//if(checkOverlap(yogotarGroup,object)){
+						yogotarRoll = true
+						yDestroy = object.world.y
+						//}
 					}
 					
-					deactivateObject(object)
+					//deactivateObject(object)
 					break
 				}
 			}
 			
+		}
+
+		var objectsToDesactivate =[]
+
+		if(yogotarRoll){
+			
+			for(var i = 0; i < fieldGroup.length;i++){
+				var object = fieldGroup.children[i]
+			
+				if(object.active){
+					
+					if(Math.abs(object.world.y - yDestroy) < 10){
+						
+						if(object.tag == 'piece'){
+							
+							createPart('rock',object)
+							if(checkOverlap(yogotarGroup,object)){
+								yogotarGroup.fall = false
+								missPoint()
+							}
+						}
+						objectsToDesactivate.push(object)
+						
+					}
+				}
+
+			}
+
+			for(var i =0 ; i < objectsToDesactivate.length; i++){
+				deactivateObject(objectsToDesactivate[i])
+			}
 		}
 		
 		if(checkOverlap(yogotarGroup.yogoPos,machineGroup)){
