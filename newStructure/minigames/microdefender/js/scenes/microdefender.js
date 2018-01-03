@@ -253,6 +253,8 @@ var microdefender = function(){
 		globuloBlanco.scale.setTo(0.25,0.25);
 		globuloBlanco.setAnimationByName(0, "IDLE", true);
 		globuloBlanco.setSkinByName("whitecell");
+		globuloBlanco.scaledWidth = globuloBlanco.width/globuloBlanco.scale.x
+		globuloBlanco.scaledHeight = globuloBlanco.height/globuloBlanco.scale.y
 
 			wallLeft = lado_izq.x + lado_izq.width;
 			wallRigth = lado_der.x;
@@ -398,8 +400,10 @@ var microdefender = function(){
 	
 	function moveObject(object){
 		object.y -= speedGame;
-		if (parseFloat(object.y) >= 110 && parseFloat(object.y) <= globuloBlanco.y + globuloBlanco.height + 50) {
-			if (parseFloat(object.x) >= globuloBlanco.x - 50 && parseFloat(object.x) <= globuloBlanco.x + object.width + 50){
+		var proporcionalValue = 0.75
+		if (parseFloat(object.y) >= globuloBlanco.y - globuloBlanco.scaledHeight*proporcionalValue  && parseFloat(object.y) <= globuloBlanco.y + globuloBlanco.scaledHeight*proporcionalValue) {
+			//if (parseFloat(object.x)  >= globuloBlanco.x - 50 && parseFloat(object.x) <= globuloBlanco.x + object.width + 50){
+			if (parseFloat(object.x)  <= globuloBlanco.x + globuloBlanco.scaledWidth*proporcionalValue &&  parseFloat(object.x) >= globuloBlanco.x - globuloBlanco.scaledWidth*proporcionalValue){
 				speedGame = speedGame + 0.005;
 
 				if(!object.impact){
