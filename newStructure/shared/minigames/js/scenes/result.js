@@ -127,7 +127,7 @@ var result = function(){
 		}
         
         scaleToUse = scale || 0.9
-        setMixpanel("minigameAnswer")
+        setMixpanel("MinigameAnswer")
         console.log('Set score')
 	}
 
@@ -193,7 +193,7 @@ var result = function(){
 
 		}
 
-		containerGroup.updateAnswers(0)*/4
+		containerGroup.updateAnswers(0)*/
 
 		return containerGroup
 	}
