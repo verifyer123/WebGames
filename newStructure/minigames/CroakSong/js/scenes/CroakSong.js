@@ -272,6 +272,7 @@ var CroakSong = function(){
 	var pressDown = false;
 	var pressRight = false;
 	var minSpaceItems = 70;
+	var inTutorial = true
 
 	function getRandomArbitrary(min, max) {
   			return Math.floor(Math.random() * (max - min) + min);
@@ -696,6 +697,8 @@ var CroakSong = function(){
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.1,0.5)
+
+		
     }	
 	
 	
@@ -879,7 +882,9 @@ function keyDownFrog(object){
 				TweenMax.to(troncos[i],0.05,{y: troncos[i].y+spaceItems});
 				TweenMax.to(troncos2[i],0.05,{y: troncos[i].y+spaceItems});
 			}
-					
+
+			
+			
 				if(bichos[readySound].y >=  600){
 					TweenMax.to(troncos[readySound],0.2,{alpha:0});
 					TweenMax.to(troncos2[readySound],0.2,{alpha:0});
@@ -926,28 +931,30 @@ function keyDownFrog(object){
 						  }
 
 					}
+
+					if(readySound <= songs[selectMusic].length-2){
+						readySound++;
+
+					}else{
+		                finishGame = true
+						readySound = 0;
+						for(var p = 0;p<=songs[selectMusic].length-1;p++){
+							bichos[p].destroy();
+							troncos[p].destroy();
+							troncos2[p].destroy();
+						}
+						level++;
+						if(spaceItems >= minSpaceItems){
+							spaceItems = spaceItems - 10;
+						}
+						sound.play("combo");
+						createBugs();
+						createItemsGame();
+						TextLevelfunction();
+					}
 				}				
 			
-			if(readySound <= songs[selectMusic].length-2){
-				readySound++;
-
-			}else{
-                finishGame = true
-				readySound = 0;
-				for(var p = 0;p<=songs[selectMusic].length-1;p++){
-					bichos[p].destroy();
-					troncos[p].destroy();
-					troncos2[p].destroy();
-				}
-				level++;
-				if(spaceItems >= minSpaceItems){
-					spaceItems = spaceItems - 10;
-				}
-				sound.play("combo");
-				createBugs();
-				createItemsGame();
-				TextLevelfunction();
-			}
+			
 
 		}	
 	
@@ -973,7 +980,7 @@ function keyDownFrog(object){
 	function update() {
 		background2.tilePosition.y += speedGame;
 		
-		if(finishGame == false){
+		if(finishGame == false && starGame){
 			if (cursors.left.isUp){
 				if(pressLeft){
 				pressLeft = false;
@@ -984,39 +991,39 @@ function keyDownFrog(object){
 			if (cursors.right.isUp){
 				if(pressRight){
 				pressRight = false;
-				ranas[key2].setAnimationByName(0, "IDLE", true);
+				ranas[key3].setAnimationByName(0, "IDLE", true);
 				}
 			}
 				
 			if (cursors.down.isUp){
 				if(pressDown){
 				pressDown = false;
-				ranas[key3].setAnimationByName(0, "IDLE", true);
+				ranas[key2].setAnimationByName(0, "IDLE", true);
 				}
 			}
 		
 			if (cursors.left.isDown){
 				
-					if(!pressLeft){
-						keyDownFrog(key1);
-						pressLeft = true;
-						
-					}
-				
-				}else if (cursors.down.isDown){
-					if(!pressDown){
-						keyDownFrog(key2);
-						pressDown = true;
-						
-					}
+				if(!pressLeft && !pressDown && !pressRight){
+					keyDownFrog(key1);
+					pressLeft = true;
 					
-				}else if (cursors.right.isDown){
-					if(!pressRight){
-						keyDownFrog(key3);
-						pressRight = true;
-						
-					}
 				}
+				
+			}else if (cursors.down.isDown){
+				if(!pressDown  && !pressRight && !pressLeft){
+					keyDownFrog(key2);
+					pressDown = true;
+					
+				}
+				
+			}else if (cursors.right.isDown){
+				if(!pressRight && !pressLeft && !pressDown ){
+					keyDownFrog(key3);
+					pressRight = true;
+					
+				}
+			}
 		}
 		
 	}

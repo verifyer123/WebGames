@@ -1,5 +1,7 @@
 var epicYogomeGames = function () {
 
+	var GRADES = [9, 18, 18, 16, 11, 8]
+
 	var urls = {dev:"../..", prod:".."}
 	var url = urls.prod
 	var games = yogomeGames.getObjectGames()
@@ -71,9 +73,6 @@ var epicYogomeGames = function () {
 		games["FlyingFractions"],
 		games["Fractiorama"],
 		games["MathEngine"],
-		games["Medicatcher"],
-		games["FeatherShelter"],
-		games["MathFeed"],
 		games["MathPort"],
 		games["RiftLand"],
 		games["Microdefender"],
@@ -94,11 +93,6 @@ var epicYogomeGames = function () {
 		games["MathgicHat"],
 		games["GeometryWarp"],
 		games["Mathrioska"],
-		games["Jumptiply"],
-		games["Divisubmarine"],
-		games["Memonumbers"],
-		games["JellyJump"],
-		games["IceCreamNumbers"]
 
 		//{name:'Triangrid',url:url + '/triangridSite/',sceneName:'triangrid',subject:'math', review:false}// 90
 
@@ -108,15 +102,29 @@ var epicYogomeGames = function () {
 		return this.filter(function(i) {return a.indexOf(i) < 0;});
 	};
 
-	var getGames = function(){
+	var getGames = function(grade) {
+		grade = grade || 0
+		var gradeGames
+
+		if (grade > 0){
+			var sumIndex = 0
+			for(var gradeIndex = 0; gradeIndex < grade; gradeIndex++){
+				sumIndex += GRADES[gradeIndex]
+			}
+			var fromIndex = sumIndex + 1
+			gradeGames = epicGames.slice(fromIndex, epicGames.length)
+		} else{
+			gradeGames = epicGames
+		}
 
 		var unlockedGames = getUnlockedGames()
 		// var restGames = epicGames.slice(unlockedGames.length, epicGames.length)
 		// console.log(restGames)
-		var restGames = epicGames.diff(unlockedGames)
-		restGames = unlockedGames.concat(epicGames)
+		var restGames = gradeGames.diff(unlockedGames)
+		restGames = unlockedGames.concat(gradeGames)
+		console.log(restGames)
 
-		return restGames
+		return gradeGames
 
 	}
 
@@ -151,6 +159,8 @@ var epicYogomeGames = function () {
 				unlockedGames.push(game)
 			}
 		}
+
+		console.log(unlockedGames)
 
 		return unlockedGames
 	}

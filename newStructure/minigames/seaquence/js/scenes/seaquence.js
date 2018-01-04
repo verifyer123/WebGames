@@ -662,7 +662,7 @@ var seaquence = function(){
             particle.scale.setTo(1,1)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);+
+            particle.start(true, 1500, null, 6);
             particle.setAlpha(1,0,2000,Phaser.Easing.Cubic.In)
             
             /*game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
@@ -690,7 +690,7 @@ var seaquence = function(){
            }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-                particle.makeParticles('atlas.dusk',tag);
+                particle.makeParticles('atlas.seaquence',tag);
                 particle.minParticleSpeed.setTo(-200, -50);
                 particle.maxParticleSpeed.setTo(200, -100);
                 particle.minParticleScale = 0.6;

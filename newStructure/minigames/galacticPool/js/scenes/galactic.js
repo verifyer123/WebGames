@@ -201,7 +201,9 @@ var galactic = function(){
     }
     
     function missPoint(){
-          
+        if(lives<0){
+            return
+        }
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -399,7 +401,7 @@ var galactic = function(){
                         spinePlanets[loadPlanets].setAnimationByName(0,"IDLE",true);
                         spinePlanets[loadPlanets].setSkinByName(planetNames[loadPlanets]);
                         spinePlanets[loadPlanets].tag=planetNames[loadPlanets]
-                        planetsGroup.add(spinePlanets[loadPlanets])
+                        //planetsGroup.add(spinePlanets[loadPlanets])
                         
                         correctPositions[loadPlanets] = correctedPos.create(game.world.centerX+movementInX,game.world.height-heightBetweenPlanets-185, "destiny");
                         correctPositions[loadPlanets].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
@@ -463,14 +465,26 @@ var galactic = function(){
                     spinePlanets[0].setAnimationByName(0,"IDLE",true);
                     spinePlanets[0].setSkinByName(planetNames[0]);
                     spinePlanets[0].tag=planetNames[0]
-                    planetsGroup.add(spinePlanets[0])
+                    //planetsGroup.add(spinePlanets[0])
                     dragablePlanets[0]= planetsGroup.create(spinePlanets[0].position.x,spinePlanets[0].position.y,"mrc");
                     dragablePlanets[0].anchor.setTo(.5,.5)
                     dragablePlanets[0].scale.setTo(scaleSpine*2.5,scaleSpine*2.5)
                     game.physics.enable(dragablePlanets[0], Phaser.Physics.ARCADE)
                     dragablePlanets[0].alpha=0
             
-            
+                    planetsGroup.add(spinePlanets[5])
+                    planetsGroup.add(spinePlanets[6])
+                    planetsGroup.add(spinePlanets[7])
+                    planetsGroup.add(spinePlanets[8])
+                    planetsGroup.add(spinePlanets[3])
+                    planetsGroup.add(spinePlanets[2])
+                    planetsGroup.add(spinePlanets[4])
+                    planetsGroup.add(spinePlanets[1])
+
+                    /*planetsGroup.add(spinePlanets[4])
+                    planetsGroup.add(spinePlanets[5])
+                    planetsGroup.add(spinePlanets[4])*/
+
                     //game.physics.enable(dragablePlanets[0], Phaser.Physics.ARCADE)
                     dragablePlanets[0].body.collideWorldBounds = true;
                     dragablePlanets[0].body.bounce.set(.9);
@@ -919,6 +933,7 @@ var galactic = function(){
                         tweenText=game.add.tween(textsPlanets[checkWrong1]).to({alpha:1},1200,Phaser.Easing.linear,true)
                         tweenText.onComplete.add(function(){ 
                         //Pequeño delay
+                        tweentiempo.pause()
                         game.add.tween(this).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
                         missPoint()
                         })

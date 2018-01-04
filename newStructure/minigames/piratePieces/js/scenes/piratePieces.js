@@ -167,7 +167,7 @@ var piratePieces = function(){
 		shipGroup1 = game.add.group();
 		shipGroup1.alpha = 0
 		shipGroup1.x = game.world.centerX
-		shipGroup1.y = game.world.centerY + 100
+		shipGroup1.y = game.world.centerY + 140
 		
         var ship1 = game.add.spine(0,0,"ship");
         ship1.setAnimationByName(0, "IDLE", true);
@@ -193,9 +193,12 @@ var piratePieces = function(){
 			
 		}
 		
-        seaShip1 = game.add.tileSprite(-shipGroup1.x,ship1.y-30,game.width*2,35,"seaShip");
-        shipGroup1.add(seaShip1);
+        //seaShip1 = game.add.tileSprite(-shipGroup1.x,ship1.y-30,game.width*2,35,"seaShip");
+        seaShip1 = game.add.tileSprite(game.world.centerX+20,game.world.centerY-16,game.width*2,35,"seaShip");
+        seaShip1.anchor.setTo(0.5,0.5)
+        //shipGroup1.add(seaShip1);
 		
+
         var mask = game.add.graphics(0,0)
         mask.beginFill(0xFFFFFF)
         mask.drawRoundedRect(0, 0, game.width, ship1.height-20,0)
@@ -236,7 +239,7 @@ var piratePieces = function(){
 		}
 		
         seaShip2 = game.add.tileSprite(-shipGroup2.x,ship1.y-30,game.width*2,35,"seaShip");
-        shipGroup2.add(seaShip2);
+        //shipGroup2.add(seaShip2);
 		
         var mask = game.add.graphics(0,0)
         mask.beginFill(0xFFFFFF)
@@ -249,6 +252,8 @@ var piratePieces = function(){
         sceneGroup.add(shipGroup2);
 		
 		shipList = [shipGroup1,shipGroup2]
+
+		sceneGroup.add(seaShip1)
 		
 	}
 	

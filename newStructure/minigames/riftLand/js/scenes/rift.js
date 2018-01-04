@@ -380,6 +380,12 @@ var rift = function(){
 	
 	function getButton(){
 		
+		console.log(buttonsGroup.length)
+
+		if(buttonsGroup.length==0){
+			createSingleButton()
+		}
+
 		for(var i = 0; i < buttonsGroup.length;i++){
 			
 			var button = buttonsGroup.children[i]
@@ -1064,50 +1070,54 @@ var rift = function(){
 		usedButtons = game.add.group()
 		sceneGroup.add(usedButtons)
 		
-		for(var i = 0; i < 7;i++){
-			
-			var group = game.add.group()
-			group.x = game.world.centerX
-			group.y = -200
-			buttonsGroup.add(group)
-			
-			var buttonImage = group.create(0,0,'atlas.rift','dragobject')
-			buttonImage.anchor.setTo(0.5,0.5)
-			
-			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
-			
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
-			pointsText.anchor.setTo(0.5,0.5)
-			group.add(pointsText)
-			
-			group.text = pointsText
-			
-			var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
-			
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
-			pointsText.scale.y = 0.7
-			pointsText.anchor.setTo(0.5,0.5)
-			group.add(pointsText)
-			
-			group.text2 = pointsText
-			
-			var dragImage = sceneGroup.create(83,-200,'atlas.rift','dragobject')
-			dragImage.anchor.setTo(0.5,0.5)
-			dragImage.alpha = 0
-			group.drag = dragImage
-			
-			dragImage.active = true
-			dragImage.inputEnabled = true
-			dragImage.input.enableDrag(true)
-			dragImage.events.onDragStart.add(onDragStart, this);
-			dragImage.events.onDragStop.add(onDragStop, this);
-			dragImage.tween = null
-			dragImage.button = group
-			
-			group.active = false
-			group.tag = null
+		for(var i = 0; i < 9;i++){
+			createSingleButton()
 			
 		}
+	}
+
+	function createSingleButton(){
+		var group = game.add.group()
+		group.x = game.world.centerX
+		group.y = -200
+		buttonsGroup.add(group)
+		
+		var buttonImage = group.create(0,0,'atlas.rift','dragobject')
+		buttonImage.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+		
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+		group.add(pointsText)
+		
+		group.text = pointsText
+		
+		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+		
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
+		pointsText.scale.y = 0.7
+		pointsText.anchor.setTo(0.5,0.5)
+		group.add(pointsText)
+		
+		group.text2 = pointsText
+		
+		var dragImage = sceneGroup.create(83,-200,'atlas.rift','dragobject')
+		dragImage.anchor.setTo(0.5,0.5)
+		dragImage.alpha = 0
+		group.drag = dragImage
+		
+		dragImage.active = true
+		dragImage.inputEnabled = true
+		dragImage.input.enableDrag(true)
+		dragImage.events.onDragStart.add(onDragStart, this);
+		dragImage.events.onDragStop.add(onDragStop, this);
+		dragImage.tween = null
+		dragImage.button = group
+		
+		group.active = false
+		group.tag = null
+			
 	}
 	
 	function checkButtons(){

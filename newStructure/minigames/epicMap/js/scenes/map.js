@@ -93,30 +93,15 @@ var map = function(){
 	var currentPlayer
 	var gamesList
 	var subjectsGroup
+	var newHeight
+
+	var END_POS = 200
 
 	var iconsPositions = [
 
 		{x:7,y:12970},
 		{x:-76,y:12636.43070893372},
-		{x:30,y:12381.509196780544},
-		{x:55,y:12081.968627009875},
-		{x:-76,y:11804.751019971756},
-		{x:-18,y:11513.890355670777},
-		{x:76,y:11242.71019985295},
-		{x:-79,y:10790.345023164078},
-		{x:-3,y:10526.716955304037},
-		{x:74,y:10242.793699481888},
-		{x:-22,y:10005.916953170059},
-		{x:-75,y:9750.441448847292},
-		{x:32,y:9504.364678283728},
-		{x:58,y:9211.499028257218},
-		{x:-71,y:8940.64390976088},
-		{x:3,y:8596.752375412496},
-		{x:76,y:8320.941747109862},
-		{x:-29,y:8080.865186620548},
-		{x:-72,y:7796.062098987113},
-		{x:44,y:7548.5296662415685},
-		{x:52,y:7279.053904439904},
+		{x:35,y:12381.509196780544},
 
 	]
 
@@ -134,7 +119,9 @@ var map = function(){
 		battleCounter = 0
 		currentPlayer = players.getPlayer()
 		loadSounds()
-		gamesList = epicYogomeGames.getGames()
+		var age = players.getCredentials().age
+		console.log(age - 5)
+		gamesList = epicYogomeGames.getGames(5)
 
 	}
 
@@ -161,7 +148,7 @@ var map = function(){
 		game.add.tween(sceneGroup).to({alpha:1},400,"Linear",true)
 
 		var offsetY = game.world.height * 0.6
-
+		//var offsetY = 0
 		if(currentPlayer.currentPosition == 0){
 			offsetY = game.world.height * 0.8
 		}
@@ -387,17 +374,24 @@ var map = function(){
 		ballsPosition = game.add.group()
 		scroller.add(ballsPosition)
 
+
+
 		addBalls()
+
+		
 	}
 
 	function addBalls(){
 
 		var indexIcon = 0
-		for(var i = 0; i < iconsPositions.length;i++){
+		var num = Math.ceil(gamesList.length / 4)
+		//console.log(num)
+		for(var i = 0; i < num + 1; i++){
 
 			var ballGroup = game.add.group()
-			ballGroup.x = game.world.centerX - iconsPositions[i].x
-			ballGroup.y = iconsPositions[i].y - start.y
+			ballGroup.x = game.world.centerX - iconsPositions[i % 3].x
+			//ballGroup.y = start.y - newHeight + 320 * (num - i)//iconsPositions[i].y//- start.y + 4500
+			ballGroup.y = start.y -(320 * i)
 			ballGroup.order = i
 			ballGroup.isBattle = false
 			ballGroup.icons = []
@@ -405,7 +399,8 @@ var map = function(){
 			var limit = indexIcon + 4
 			for(var u = indexIcon; u < limit; u++){
 				// console.log(u)
-				ballGroup.icons[ballGroup.icons.length] = gamesList[u]
+				if(gamesList[u])
+					ballGroup.icons[ballGroup.icons.length] = gamesList[u]
 			}
 
 			ballsPosition.add(ballGroup)
@@ -448,7 +443,8 @@ var map = function(){
 
 					var indexUsed = ((i-1)*4) + u
 					// console.log(currentPlayer.minigames[gamesList[indexUsed].id])
-					if(currentPlayer.minigames[gamesList[indexUsed].id] && currentPlayer.minigames[gamesList[indexUsed].id].completed){
+					if(currentPlayer.minigames[gamesList[indexUsed]] && currentPlayer.minigames[gamesList[indexUsed].id]
+						&& currentPlayer.minigames[gamesList[indexUsed].id].completed){
 						fullStar.alpha = 1
 					}
 
@@ -479,8 +475,8 @@ var map = function(){
 					}
 
 
-
-					ballGroup.locked = true
+					//TODO: uncomment to lock levels
+					 ballGroup.locked = true
 
 					ballGroup.tween = game.add.tween(lock.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(3,6) * 100,"Linear",true,0,-1)
 					ballGroup.tween.yoyo(true,0)
@@ -500,7 +496,7 @@ var map = function(){
 
 			}
 
-			if((i+1) % 3 == 0){
+			if((i+1) % 3 === 0){
 
 				var road = extraRoads.create(ballGroup.x,ballGroup.y + 5,'atlas.map','lateralRoad')
 				road.anchor.setTo(0,0.5)
@@ -786,17 +782,46 @@ var map = function(){
 		background = game.add.group()
 		scroller.add(background)
 
-		var pivotY = 0
-		for(var i = 0; i < tileColors.length;i++){
+		var maxHeight = 960 * 7
 
-			var back = game.add.tileSprite(0,pivotY,game.world.width,game.world.height * 2.33,'atlas.map','texture')
-			back.anchor.setTo(0,0)
-			back.tint = tileColors[i]
-			background.add(back)
+		var MAXLEVELS = 22
+		var currentLevels = Math.ceil(gamesList.length / 4) + 1
+		newHeight = currentLevels * maxHeight / MAXLEVELS
+		var numTiles = Math.ceil(newHeight / (game.world.height * 2.33))
+
+
+		
+		var tileHeight = game.world.height * 2.33
+
+		var pivotY = 0
+		var lastBackHeigth = 0
+		var differenceHeigth = 0
+		for(var i = 0; i < numTiles;i++){
+			
+			if(i > 0){
+				
+				var back = game.add.tileSprite(0,pivotY,game.world.width,game.world.height * 2.33,'atlas.map','texture')
+				back.anchor.setTo(0,0)
+				back.tint = tileColors[i % 3]
+				background.add(back)
+			}
+			else{
+				var levelHeight = 320
+				var offsetHeigth = 200
+				var levelPerTile = 7
+				var finalNumberLevels = currentLevels-((numTiles-1)*levelPerTile)
+				var tH = (finalNumberLevels * levelHeight) + offsetHeigth
+
+				var back = game.add.tileSprite(0,pivotY,game.world.width,tH,'atlas.map','texture')
+				back.anchor.setTo(0,0)
+				back.tint = tileColors[i % 3]
+				background.add(back)
+
+			}
 
 			pivotY+= back.height
 
-			if(i < 2){
+			if(i < numTiles - 1){
 				var sep = game.add.tileSprite(0,pivotY,game.world.width,105,'atlas.map','separator')
 				sep.tint = tileColors[i]
 				scroller.add(sep)
@@ -805,12 +830,16 @@ var map = function(){
 		}
 
 
+
 		start = scroller.create(game.world.centerX + 100,background.height - 200,'atlas.map','roadbegin')
 		start.anchor.setTo(1,1)
-
-		var road = game.add.tileSprite(start.x, start.y - start.height,190,960 * 6,'atlas.map','road')
+		var roadHeigth = start.y - start.height - END_POS +50
+		var road = game.add.tileSprite(start.x, start.y - start.height,190,roadHeigth,'atlas.map','road')
+		road.tilePosition.y = roadHeigth % 960
 		road.anchor.setTo(1,1)
 		scroller.add(road)
+
+		
 
 		createBallsPos()
 
@@ -1162,10 +1191,10 @@ var map = function(){
 
 		gameIcons = game.add.group()
 		scroller.add(gameIcons)
-
+		//console.log(gameIcons.y)
 		for(var i = 0; i < gamesList.length;i++){
 
-			var icon = gameIcons.create(game.world.centerX, 300,'atlas.icons',gamesList[i].sceneName)
+			var icon = gameIcons.create(game.world.centerX, game.world.centerY,'atlas.icons',gamesList[i].sceneName)
 			icon.anchor.setTo(0.5,0.5)
 			icon.tag = gamesList[i].sceneName
 			icon.subject = gamesList[i].subject
@@ -1227,7 +1256,7 @@ var map = function(){
 
 		var pivotY = 400
 		var indexDeco = 1
-		var timesRepeat = background.height / 450
+		var timesRepeat = (background.height - pivotY*2) / 450 
 
 		for(var i = 0; i < timesRepeat;i++){
 
@@ -1261,7 +1290,8 @@ var map = function(){
 
 		var lastBall = ballsPosition.children[ballsPosition.length - 1]
 
-		var end = decorationGroup.create(lastBall.x + 50,lastBall.y - 90,'atlas.map','cave')
+
+		var end = decorationGroup.create(game.world.centerX + 60, END_POS,'atlas.map','cave')
 		end.scale.setTo(1.5,1.5)
 		end.anchor.setTo(0.5,1)
 
