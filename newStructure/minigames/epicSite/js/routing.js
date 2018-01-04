@@ -77,7 +77,8 @@ var routing = function () {
 
 				var currentPlayer = epicModel.getPlayer()
 				currentPlayer.currentMinigame = gameId
-				// epicModel.savePlayer()
+				console.log(currentPlayer.currentMinigame)
+				epicModel.savePlayer(currentPlayer)
 
 				epicSiteMain.startGame(src)
 
