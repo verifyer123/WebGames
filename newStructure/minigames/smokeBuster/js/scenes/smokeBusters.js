@@ -39,17 +39,18 @@ var smokeBusters = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
+				file: soundsPath + "inflateballoon.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 			{	name: "absorb",
 				file: soundsPath + "gameLose.mp3"},
+            
 		],
     }
     
@@ -60,7 +61,7 @@ var smokeBusters = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 112
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -100,7 +101,16 @@ var smokeBusters = function(){
     var rightBar,leftBar, botonAspirar
     var runningAnim
     var Left, Right
-    
+    var colorChanger=15253131
+    var colorChangerHex=0
+    var backG, change, city
+    var startingColor="0xE8BE8B"
+    var endingColor="0x7FCDEE"
+    var unlockHit=true
+    var windowSmoke1, windowSmoke2, windowSomke3
+    var coins=new Array(2)
+    var correctNumber=-1
+    var correctNumber2=-1
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -108,7 +118,7 @@ var smokeBusters = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#87D0EB"
+        game.stage.backgroundColor = "#E8BE8B"
         lives = 3
         finishLoad=true
         runningAnim=false
@@ -155,7 +165,40 @@ var smokeBusters = function(){
         }
     } 
     
-    
+    function tweenTint(obj, startColor, endColor, time, delay, callback) {
+        // check if is valid object
+        time = time || 250
+        delay = delay || 0
+
+        if (obj) {
+            // create a step object
+            var colorBlend = { step: 0 };
+            // create a tween to increment that step from 0 to 100.
+            var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
+            // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
+            colorTween.onUpdateCallback(function () {
+                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);
+            })
+            // set object to the starting colour
+            obj.tint = startColor;
+            // if you passed a callback, add it to the tween on complete
+                colorTween.onComplete.add(function(){
+                    change=false
+                    if(startingColor=="0xE8BE8B"){
+                        startingColor="0x7FCDEE"
+                        endingColor="0x49364A"
+                    }else if(startingColor=="0x7FCDEE"){
+                        startingColor="0x49364A"
+                        endingColor="0xE8BE8B"
+                    }else{
+                        startingColor="0xE8BE8B"
+                        endingColor="0x7FCDEE"
+                    }
+                });
+            // finally, start the tween
+            colorTween.start();
+        }
+    }
   
         
 
@@ -198,6 +241,20 @@ var smokeBusters = function(){
         sound.play("wrong")
 		        
         lives--;
+        
+//        if(lives==2)
+//        {
+//            windowSmoke1.alpha=1
+//        }
+//        else if(lives==1)
+//        {
+//            windowSmoke2.alpha=1
+//        }
+//        else if(lives==0)
+//        {
+//            windowSmoke3.alpha=1
+//        } 
+        
         heartsGroup.text.setText('X ' + lives)
         
         var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
@@ -208,10 +265,10 @@ var smokeBusters = function(){
         if(lives == 0){
             character.body.velocity.y = 0;
             character.body.acceleration.set(0);
-            luna.setAnimationByName(0,"LOSE",false);
-            inGround=null
+            inGround=true;
             startGame=false
             muerto=true
+            luna.setAnimationByName(0,"LOSE",false);
             stopGame(false)
             
             
@@ -318,6 +375,8 @@ var smokeBusters = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
+        game.load.image("back","images/smoke/BG.png")
+        
         game.load.spine('luna', "images/Spine/Luna/luna.json");
         game.load.spine('pollutionAnim', "images/Spine/Clouds/clouds.json");
         
@@ -325,9 +384,11 @@ var smokeBusters = function(){
 		game.load.image('buttonText',"images/smoke/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/smoke/introscreen.png")
         
+        
         game.load.spritesheet("pollution1", 'images/smoke/polu1.png', 286, 250, 24)
         game.load.spritesheet("pollution2", 'images/smoke/polu2.png', 384, 256, 24)
         game.load.spritesheet("pollution3", 'images/smoke/polu3.png', 284, 224, 24)
+        game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -355,6 +416,8 @@ var smokeBusters = function(){
 			sound.play("pop")
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 startGame=true
+                city.alpha=1
+                backG.alpha=1
 				overlayGroup.y = -game.world.height
             })
         })
@@ -405,6 +468,49 @@ var smokeBusters = function(){
         sceneGroup.add(gameGroup)
         sceneGroup.add(UIGroup)
         
+        correctParticle = createPart("star")
+        sceneGroup.add(correctParticle)
+        
+        
+        
+        windowSmoke1=game.add.image(0,0,"atlas.smoke","smoke1")
+        windowSmoke2=game.add.image(0,0,"atlas.smoke","smoke2")
+        windowSmoke3=game.add.image(0,0,"atlas.smoke","smoke3")
+        
+        windowSmoke1.anchor.setTo(0.5,0.5)
+        windowSmoke2.anchor.setTo(0.5,0.5)
+        windowSmoke3.anchor.setTo(0.5,0.5)
+        
+        windowSmoke1.scale.setTo(game.world.width,game.world.height)
+        windowSmoke2.scale.setTo(game.world.width,game.world.height)
+        windowSmoke3.scale.setTo(game.world.width,game.world.height)
+        
+        windowSmoke1.position.x=game.world.centerX
+        windowSmoke1.position.y=game.world.centerY
+        windowSmoke2.position.x=game.world.centerX
+        windowSmoke2.position.y=game.world.centerY
+        windowSmoke3.position.x=game.world.centerX
+        windowSmoke3.position.y=game.world.centerY
+        
+        UIGroup.add(windowSmoke1)
+        UIGroup.add(windowSmoke2)
+        UIGroup.add(windowSmoke3)
+        
+        
+        windowSmoke1.alpha=0
+        windowSmoke2.alpha=0
+        windowSmoke3.alpha=0
+        
+        backG = new Phaser.Graphics(game)
+        backG.beginFill(0xffffff)
+        backG.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+        backG.alpha = 1
+        backG.endFill()
+        backgroundGroup.add(backG)
+        city=game.add.image(game.world.centerX-500,game.world.centerY-200,"atlas.smoke","CITY")
+        backgroundGroup.add(city)
+        city.alpha=0
+        backG.alpha=0
         
         botonAspirar=gameGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
         botonAspirar.inputEnabled=true
@@ -435,15 +541,17 @@ var smokeBusters = function(){
          
          luna.scale.setTo(scaleSpine,scaleSpine)
          luna.setSkinByName("normal");
-        
+         luna.setAnimationByName(0,"JUMP",false) 
+         gameGroup.add(luna)
         for(var b=0; b<4;b++){
             way[b]=false
         }
         
-        btnOn=UIGroup.create(0, 0,'atlas.smoke','audio_on')
+        btnOn=sceneGroup.create(0, 0,'atlas.smoke','audio_on')
         btnOn.scale.setTo(.5)
         btnOn.inputEnabled=true
         btnOn.events.onInputDown.add(OnSound,this)
+        sceneGroup.add(btnOn)
         
         character=gameGroup.create(game.world.centerX, game.world.centerY-300,'atlas.smoke','LUNA')
         character.scale.setTo(scaleSpine)
@@ -458,23 +566,39 @@ var smokeBusters = function(){
         character.body.checkCollision.right = false;
         //game.physics.arcade.gravity.y = 100;
         
-        pollutionAbsorb[0]= gameGroup.game.add.spine(0,0, "pollutionAnim");
+        
+        //Coins
+        for(var putingCoins=0;putingCoins<coins.length;putingCoins++){
+            coins[putingCoins]=game.add.sprite(luna.x,luna.y, "coin")
+            coins[putingCoins].anchor.setTo(.5)
+            coins[putingCoins].scale.setTo(.5)
+            coins[putingCoins].animations.add('coin');
+            coins[putingCoins].animations.play('coin', 24, true);
+            coins[putingCoins].alpha=0
+        }
+        
+        
+        pollutionAbsorb[0]= backgroundGroup.game.add.spine(0,0, "pollutionAnim");
         pollutionAbsorb[0].scale.setTo(scaleSpine)
         pollutionAbsorb[0].setSkinByName("normal");
         pollutionAbsorb[0].setAnimationByName(0,"LOSE",true)
         pollutionAbsorb[0].alpha=0
+        backgroundGroup.add(pollutionAbsorb[0])
         
-        pollutionAbsorb[1]= gameGroup.game.add.spine(0,0, "pollutionAnim");
+        pollutionAbsorb[1]= backgroundGroup.game.add.spine(0,0, "pollutionAnim");
         pollutionAbsorb[1].scale.setTo(scaleSpine)
         pollutionAbsorb[1].setSkinByName("normal2");
         pollutionAbsorb[1].setAnimationByName(0,"LOSE",true)
         pollutionAbsorb[1].alpha=0
+        backgroundGroup.add(pollutionAbsorb[1])
         
-        pollutionAbsorb[2]= gameGroup.game.add.spine(0,0, "pollutionAnim");
+        pollutionAbsorb[2]= backgroundGroup.game.add.spine(0,0, "pollutionAnim");
         pollutionAbsorb[2].scale.setTo(scaleSpine)
         pollutionAbsorb[2].setSkinByName("normal1");
         pollutionAbsorb[2].setAnimationByName(0,"LOSE",true)
         pollutionAbsorb[2].alpha=0
+        backgroundGroup.add(pollutionAbsorb[2])
+        
         
         for(var fill=0; fill<10;fill++){
             
@@ -483,7 +607,7 @@ var smokeBusters = function(){
             fakeClouds[fill]=false
             
             clouds[fill].tag=fill
-            gameGroup.add(clouds[fill])
+            backgroundGroup.add(clouds[fill])
             game.physics.enable(clouds[fill], Phaser.Physics.ARCADE)
             clouds[fill].body.immovable=true
             clouds[fill].body.bounce.set(.1);
@@ -492,12 +616,13 @@ var smokeBusters = function(){
             clouds[fill].body.checkCollision.left = false;
             contHeight++
             if(rndEnemies==0 && fill==5){
-                pollution[rndEnemies]=game.add.sprite(game.rnd.integerInRange(0,game.world.width),clouds[5].y-200,'atlas.smoke','POLLUTION1')
+                pollution[rndEnemies]=game.add.sprite(0,clouds[5].y-200,'atlas.smoke','POLLUTION1')
                 pollutionSkin[rndEnemies]=game.add.sprite(pollution[rndEnemies].x,pollution[rndEnemies].y, "pollution1")
                 pollutionSkin[rndEnemies].scale.setTo(scaleSpine)
                 pollutionSkin[rndEnemies].anchor.setTo(.5)
                 pollutionSkin[rndEnemies].animations.add('idle');
                 pollutionSkin[rndEnemies].animations.play('idle', 24, true);
+                gameGroup.add(pollutionSkin[rndEnemies])
                 game.physics.enable(pollution[rndEnemies], Phaser.Physics.ARCADE)
                 pollution[rndEnemies].alpha=0
                 pollution[rndEnemies].scale.setTo(.5)
@@ -514,6 +639,7 @@ var smokeBusters = function(){
                 pollutionSkin[rndEnemies].animations.add('idle');
                 pollutionSkin[rndEnemies].animations.play('idle', 24, true);
                 game.physics.enable(pollution[rndEnemies], Phaser.Physics.ARCADE)
+                gameGroup.add(pollutionSkin[rndEnemies])
                 pollution[rndEnemies].alpha=0
                 pollution[rndEnemies].scale.setTo(.5)
                 pollution[rndEnemies].anchor.setTo(.5)
@@ -530,6 +656,7 @@ var smokeBusters = function(){
                 pollutionSkin[rndEnemies].animations.add('idle');
                 pollutionSkin[rndEnemies].animations.play('idle', 24, true);
                 game.physics.enable(pollution[rndEnemies], Phaser.Physics.ARCADE)
+                gameGroup.add(pollutionSkin[rndEnemies])
                 pollution[rndEnemies].alpha=0 
                 pollution[rndEnemies].scale.setTo(.5)
                 pollution[rndEnemies].anchor.setTo(.5)
@@ -574,29 +701,60 @@ var smokeBusters = function(){
     
          
     function enter(){
-        
-        
+    
+      sound.play("shoot")
+      if(unlockHit){  
         for(var h=0; h<3;h++){
             
-            if(character.y-200<pollution[h].y){
+            if(character.y-200<pollution[h].y  && (character.x<pollution[h].x+200 && character.x>pollution[h].x-200)){
                 
+                unlockHit=false
                 luna.setAnimationByName(0,"SUCK",false);
-                 
-               
-                game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
-            })
                 var number=h
-                pollutionAbsorb[number].alpha=1
-                pollutionSkin[number].alpha=0
-                pollutionCanKill[number]=false
+                
+                    
+                   
+                    pollutionAbsorb[number].alpha=1
+                    pollutionSkin[number].alpha=0
+                    pollutionCanKill[number]=false
+                    if(pollutionCanKill[number]==false){
+                            if(correctNumber==-1){
+                            correctNumber=1
+                            game.add.tween(coins[correctNumber]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                            game.add.tween(coins[correctNumber]).to({x:character.centerX,y:character.centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                            game.add.tween(coins[correctNumber]).to({x:pointsBar.x,y:pointsBar.y-30},200,Phaser.Easing.inOut,true)
+                            game.add.tween(coins[correctNumber]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
+                                coins[correctNumber].x=luna.x
+                                coins[correctNumber].y=luna.y
+                                addPoint(1)
+                                correctNumber=-1
+                                })
+                            })
+                            }else if(correctNumber!=-1 && correctNumber2==-1){
+                                correctNumber2=1
+                                game.add.tween(coins[correctNumber2]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                                game.add.tween(coins[correctNumber2]).to({x:character.centerX,y:character.centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                                game.add.tween(coins[correctNumber2]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
+                                game.add.tween(coins[correctNumber2]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
+                                    coins[correctNumber2].x=luna.x
+                                    coins[correctNumber2].y=luna.y
+                                    addPoint(1)
+                                    correctNumber2=-1
+                                    })
+                                })
+                            }
+                            correctParticle.position.x=character.position.x+50
+                            correctParticle.position.y=character.position.y
+                            correctParticle.start(true, 1000, null, 5)
+                    }
                 //pollution[number].setAnimationByName(0,"DIE",true);
                 var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
-                pollution[number].kill();
-                
-               pollutionAbsorb[number].alpha=0
-                pollutionSkin[number].alpha=1
+                    pollution[number].kill();
+                    unlockHit=true
+                    pollutionAbsorb[number].alpha=0
+                    pollutionSkin[number].alpha=1
                     
-                pollutionCanKill[number]=true
+                
                 
                          if(next==1){
                             next=9
@@ -610,23 +768,20 @@ var smokeBusters = function(){
                             next=1
                         }  
                     console.log(next)
-                    addPoint(1)
                     
                     pollution[number].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-900)
+                    pollutionCanKill[number]=true
                     speed+=0.5
                   })  
             }
             
         }
-        
+      }
     }
     
     function reset(){
         
         speed=.5
-        character.position.y=character.position.y-300
-        inGround=true;
-        startGame=true
         
     }
     
@@ -638,50 +793,87 @@ var smokeBusters = function(){
         if(obj.tag=="leftBar"){
             Left=true
         }
-        console.log(obj.tag)
         if(obj.tag=="suck"){    
             
             obj.loadTexture("atlas.smoke","asp_off")
-            for(var h=0; h<3;h++){
-            
-            if(character.y-200<pollution[h].y){
-                
-                luna.setAnimationByName(0,"SUCK",false);
-                game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
-            })
-                var number=h
-                pollutionAbsorb[number].alpha=1
-                pollutionSkin[number].alpha=0
-                
-                pollutionCanKill[number]=false
-                var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
-                pollution[number].kill();
-                pollutionCanKill[number]=true
-                pollutionAbsorb[number].alpha=0
-                pollutionSkin[number].alpha=1
-                          if(next==1){
-                            next=9
-                        }else if(next==9){
-                            next=7
-                        }else if(next==7){
-                            next=5
-                        }else if(next==5){
-                            next=3
-                        }else if(next==3){
-                            next=1
-                        }  
-                    
-                    addPoint(1)
-                    
-                    pollution[number].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-300)
-                    speed+=0.5
-                  })  
+            sound.play("shoot")
+            if(unlockHit){
+                for(var h=0; h<3;h++){
+
+                    if(character.y-200<pollution[h].y  && (character.x<pollution[h].x+200 && character.x>pollution[h].x-200)){
+
+                        unlockHit=false
+                        luna.setAnimationByName(0,"SUCK",false);
+                        var number=h
+
+                        game.add.tween(this).to({x:0}, 200 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
+                    })
+                            
+                            pollutionAbsorb[number].alpha=1
+                            pollutionSkin[number].alpha=0
+                            pollutionCanKill[number]=false
+                            if(pollutionCanKill[number]==false){
+                                if(correctNumber==-1){
+                                    correctNumber=1
+                                    game.add.tween(coins[correctNumber]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                                    game.add.tween(coins[correctNumber]).to({x:character.centerX,y:character.centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                                    game.add.tween(coins[correctNumber]).to({x:pointsBar.x,y:pointsBar.y-30},200,Phaser.Easing.inOut,true)
+                                    game.add.tween(coins[correctNumber]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
+                                        coins[correctNumber].x=character.centerX
+                                        coins[correctNumber].y=character.centerY
+                                        addPoint(1)
+                                        correctNumber=-1
+                                        })
+                                    })
+                                    }else if(correctNumber!=-1 && correctNumber2==-1){
+                                        correctNumber2=1
+                                        game.add.tween(coins[correctNumber2]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
+                                        game.add.tween(coins[correctNumber2]).to({x:character.centerX,y:character.centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
+                                        game.add.tween(coins[correctNumber2]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
+                                        game.add.tween(coins[correctNumber2]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100).onComplete.add(function(){
+                                            coins[correctNumber2].x=character.centerX
+                                            coins[correctNumber2].y=character.centerY
+                                            addPoint(1)
+                                            correctNumber2=-1
+                                            })
+                                    })
+                            }
+                                    correctParticle.position.x=character.position.x+50
+                                    correctParticle.position.y=character.position.y
+                                    correctParticle.start(true, 1000, null, 5)
+                            }
+                        //pollution[number].setAnimationByName(0,"DIE",true);
+                        var timed=game.add.tween(pollution[number]).to({x:character.x,y:character.y}, 50 , Phaser.Easing.Linear.In, true, 100).onComplete.add(function(){
+                            pollution[number].kill();
+                            unlockHit=true
+                            pollutionAbsorb[number].alpha=0
+                            pollutionSkin[number].alpha=1
+
+
+
+                                 if(next==1){
+                                    next=9
+                                }else if(next==9){
+                                    next=7
+                                }else if(next==7){
+                                    next=5
+                                }else if(next==5){
+                                    next=3
+                                }else if(next==3){
+                                    next=1
+                                }  
+                            console.log(next)
+
+                            pollution[number].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-900)
+                            pollutionCanKill[number]=true
+                            speed+=0.5
+                          })  
+                    }
+
+                }
+              }
             }
-            
         }
-            
-        }
-    }
     
     function onRelease(obj){
         if(obj.tag=="rightBar"){
@@ -710,14 +902,32 @@ var smokeBusters = function(){
         
     }
     
+    
 	function update(){
         //gravity
         if(startGame){
             
+            
            if(lives<0){
                lives=0
            }
-   
+            
+            if(!change){
+                    tweenTint(backG,startingColor,endingColor,10000,1000)
+                    change=true
+            }
+            
+            
+             if(correctNumber==-1){
+                coins[0].position.x=luna.x
+                coins[0].position.y=luna.y-50
+              }
+              
+              if(correctNumber2==-1){
+                coins[1].position.x=luna.x
+                coins[1].position.y=luna.y-50
+              }
+            
             pollutionAbsorb[0].x=pollution[0].x
             pollutionAbsorb[0].y=pollution[0].y
             
@@ -746,6 +956,16 @@ var smokeBusters = function(){
             game.camera.follow(character)
 			heartsGroup.position.x=game.camera.position.x
 			heartsGroup.position.y=game.camera.position.y+10
+            backG.position.x=game.camera.position.x
+            backG.position.y=game.camera.position.y-20
+            
+            windowSmoke1.position.x=game.world.centerX
+            windowSmoke1.position.y=game.world.centerY
+            windowSmoke2.position.x=game.world.centerX
+            windowSmoke2.position.y=game.world.centerY
+            windowSmoke3.position.x=game.world.centerX
+            windowSmoke3.position.y=game.world.centerY
+            
 			pointsBar.position.x=game.camera.position.x+game.world.width
 			pointsBar.position.y=game.camera.position.y+10
             btnOn.position.x=game.camera.position.x+game.world.width-250
@@ -771,8 +991,12 @@ var smokeBusters = function(){
                 character.body.velocity.y = 0;
                 character.body.acceleration.set(0);
                 startGame=false
+                character.position.y=character.position.y-300
+                inGround=true;
+                startGame=true
                 missPoint()
-                reset()
+                if(lives>0) reset()
+                
                 //muerto=true
             }
             
@@ -795,6 +1019,7 @@ var smokeBusters = function(){
 
                 
                 if(pollution[p].position.y>game.camera.y+1000){
+
                     pollution[p].kill();
                          if(next==1){
                             next=9
@@ -806,15 +1031,13 @@ var smokeBusters = function(){
                             next=3
                         }else if(next==3){
                             next=1
-                        }  
-                        rndEnemies=game.rnd.integerInRange(0,2)
-                        pollution[rndEnemies].reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        pollution[rndEnemies].alpha=1
-                        
-                    if(pollution[p].alpha==1){
-                        missPoint()
-                        reset()
-                    }
+                        }
+                        pollution[p].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-900)
+                        pollution[p].alpha=0
+                        if(pollution[p].alpha==0){
+                            missPoint()
+                            if(lives>0) reset()
+                        }
             }
                 
             }
@@ -823,24 +1046,24 @@ var smokeBusters = function(){
             
                 for(var z=0;z<3;z++){
                     if(pollution[z]!=null){
-                    if(pollution[z].x>game.world.width-90){
-                        way[z]=true
-                        if(z!=1){
-                        pollution[z].scale.setTo(scaleSpine,scaleSpine)
-                        pollutionSkin[z].scale.setTo(scaleSpine,scaleSpine)
-                        }else{
-                        pollution[z].scale.setTo(-scaleSpine,scaleSpine)
-                        pollutionSkin[z].scale.setTo(-scaleSpine,scaleSpine)  
-                        }
-                    }else if(pollution[z].x<50){
-                    way[z]=false
-                    if(z!=1){
-                        pollution[z].scale.setTo(-scaleSpine,scaleSpine)
-                        pollutionSkin[z].scale.setTo(-scaleSpine,scaleSpine)
-                        }else{
-                        pollution[z].scale.setTo(scaleSpine,scaleSpine)
-                        pollutionSkin[z].scale.setTo(scaleSpine,scaleSpine)  
-                        }
+                        if(pollution[z].x>game.world.width-90){
+                            way[z]=true
+                            if(z!=1){
+                                pollution[z].scale.setTo(scaleSpine,scaleSpine)
+                                pollutionSkin[z].scale.setTo(scaleSpine,scaleSpine)
+                            }else{
+                                pollution[z].scale.setTo(-scaleSpine,scaleSpine)
+                                pollutionSkin[z].scale.setTo(-scaleSpine,scaleSpine)
+                            }
+                        }else if(pollution[z].x<50){
+                            way[z]=false
+                            if(z!=1){
+                                pollution[z].scale.setTo(-scaleSpine,scaleSpine)
+                                pollutionSkin[z].scale.setTo(-scaleSpine,scaleSpine)
+                            }else{
+                                pollution[z].scale.setTo(scaleSpine,scaleSpine)
+                                pollutionSkin[z].scale.setTo(scaleSpine,scaleSpine) 
+                            }
                     }
                     
                     if(!way[z]){
@@ -894,8 +1117,9 @@ var smokeBusters = function(){
 	}
         
     function withClouds(obj,obj2){
-        
-        
+            
+           
+            
             if(obj2.tag=="pollution" ){
                 
                 if(pollution[0]==obj2 && pollutionCanKill[0]){
@@ -912,9 +1136,8 @@ var smokeBusters = function(){
                             next=1
                         }   
                         obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        pollutionCanKill[0]=true
                         missPoint() 
-                        reset()
+                        if(lives>0) reset()
                 }
                 if(pollution[1]==obj2 && pollutionCanKill[1]){
                    obj2.kill();
@@ -930,9 +1153,8 @@ var smokeBusters = function(){
                             next=1
                         }  
                         obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        pollutionCanKill[1]=true
                         missPoint()
-                        reset()
+                        if(lives>0) reset()
                         
                 }
                 if(pollution[2]==obj2 && pollutionCanKill[2]){
@@ -949,16 +1171,34 @@ var smokeBusters = function(){
                             next=1
                         }  
                         obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
-                        pollutionCanKill[2]=true
                         missPoint()
-                        reset()
+                        if(lives>0) reset()
                 }
             }
         
         if(character.body.velocity.y==0 && !inGround){
             inGround=true
             
-            luna.setAnimationByName(0,"JUMP",false)
+            
+//            if(game.stage.backgroundColor==8375790){
+//                game.stage.backgroundColor = "#49364A"   
+//            }else if(game.stage.backgroundColor==4798030){
+//                game.stage.backgroundColor = "#E8BE8B"
+//            }else{
+//                game.stage.backgroundColor = "#7FCDEE"
+//            }
+            
+            //Conevertidor background
+            
+//            colorChanger+=10000
+//            colorChangerHex= colorChanger.toString(16);
+//            console.log(colorChangerHex)
+//            game.stage.backgroundColor = colorChangerHex
+            
+           
+           
+            luna.setAnimationByName(0,"JUMP",false) 
+            
             
             if(fakeClouds[obj2.tag]){
                     
@@ -976,6 +1216,8 @@ var smokeBusters = function(){
         }
        
     }
+    
+    
 
 	function createTextPart(text,obj){
         
@@ -1029,27 +1271,17 @@ var smokeBusters = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
+ function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.smoke',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.5;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
     }
     
     function createParticles(tag,number){
