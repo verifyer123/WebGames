@@ -52,6 +52,9 @@ var memorama = function(){
     
     
     var CARD_TIME = 300
+    var MAX_LIVES = 5
+    var MAX_COMBO = 5
+    var INITIAL_LIVES = 5
     
     var gameIndex = 6
     var lives = null
@@ -74,7 +77,7 @@ var memorama = function(){
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         cardsNumber = 4
-        lives = 5
+        lives = INITIAL_LIVES
         arrayComparison = []
         comboCount = 0
         
@@ -188,8 +191,14 @@ var memorama = function(){
     }
     
     function addLive(){
-        
+
         sound.play("right")
+
+        if(lives >= MAX_LIVES){
+            return
+        }
+        
+        
         
         lives++;
         heartsGroup.text.setText('X ' + lives)
@@ -297,10 +306,12 @@ var memorama = function(){
                     var addNumber = 1
                     arrayComparison = []
                     if(lastObj.tag == obj.tag){
-                        comboCount++
+                        if(comboCount < MAX_COMBO){
+                            comboCount++
+                        }
                         if(comboCount>1){
                             sound.play("combo")
-                            setCombo(obj.parent,comboCount)
+                            setCombo(obj.parent,comboCount) 
                             addNumber = comboCount
                         }
                         winCard(lastObj.parent)
@@ -461,7 +472,7 @@ var memorama = function(){
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
+        pointsText.x = -pointsImg.width * 0.5
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
         
