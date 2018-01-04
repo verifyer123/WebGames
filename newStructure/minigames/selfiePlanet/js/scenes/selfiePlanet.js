@@ -599,15 +599,16 @@ var selfiePlanet = function(){
         var x = (obj.width - pic.width) //* 0.5
         var y = (obj.height - pic.height) //* 0.5
         
-        var xx = -(obj.width)/2
-        var yy = -(obj.height)
-        
         pic.inflate(x * 0.5, y * 0.5)
-        obj.inflate(-x * 0.2, -y * 0.2)
+        
+        if(pivot < 4)
+            obj.inflate(-x * 0.4, -y * 0.4)
+        else
+            obj.inflate(-x * 0.2, -y * 0.2)
         
         pic.y -= 100
         
-        var graphics = game.add.graphics(0, 0);
+        /*var graphics = game.add.graphics(0, 0);
         graphics.beginFill(0xFF3300);
         graphics.lineStyle(2, 0x0000FF, 1);
         graphics.alpha = 0.5
@@ -617,7 +618,7 @@ var selfiePlanet = function(){
         graphics2.beginFill(0x3333ff);
         graphics2.lineStyle(2, 0x0000FF, 1);
         graphics2.alpha = 0.5
-        graphics2.drawRect(obj.x, obj.y, obj.width, obj.height);
+        graphics2.drawRect(obj.x, obj.y, obj.width, obj.height);*/
         
         var focus = pic.containsRect(obj)
 
