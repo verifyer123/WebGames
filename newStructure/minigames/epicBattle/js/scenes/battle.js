@@ -12,14 +12,26 @@ var battle = function(){
             "howTo":"How to Play?",
             "moves":"Moves left",
 			"question":"Question ",
-			"winner":"WINNER"
+			"winner":"WINNER",
+			"victory":"VICTORY",
+			"newCard":"New Card",
+			"perfect":"PERFECT",
+			"good":"GOOD",
+			"weak":"WEAK",
+			"dontgiveup":"DON'T GIVE UP"
         },
 
         "ES":{
             "moves":"Movimientos extra",
             "howTo":"�C�mo jugar?",
 			"question":"Pregunta ",
-			"winner":"GANADOR"
+			"winner":"GANADOR",
+			"victory":"VICTORIA",
+			"newCard":"Nueva Carta",
+			"perfect":"PERFECTO",
+			"good":"BIEN",
+			"weak":"DEBIL",
+			"dontgiveup":"NO TE RINDAS"
         }
     }
 
@@ -567,7 +579,10 @@ var battle = function(){
 		function endTapAttack() {
 			console.log("endTapAttack")
 			var percentageWidth = gradient.width / GRADIENT_WIDTH
-			var textString = percentageWidth < 0.5 ? "WEAK" : percentageWidth < 0.8 ? "GOOD" : "PERFECT"
+			var weakString = localization.getString(localizationData, "weak")
+			var goodString = localization.getString(localizationData, "good")
+			var perfectString = localization.getString(localizationData, "perfect")
+			var textString = percentageWidth < 0.5 ? weakString : percentageWidth < 0.8 ? goodString : perfectString
 
 			attackText.text = textString
 			if(tapGroup.attackCallBack){tapGroup.attackCallBack(percentageWidth)}
@@ -615,7 +630,7 @@ var battle = function(){
 		captureGroup.add(card)
 
 		var fontStyle = {font: "78px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var capturedText = game.add.text(0, -200, "Captured", fontStyle)
+		var capturedText = game.add.text(0, -200, localization.getString(localizationData, "newCard"), fontStyle)
 		capturedText.stroke = '#2a2a2a';
 		capturedText.strokeThickness = 12;
 		capturedText.anchor.setTo(0.5, 0.5)
@@ -1209,7 +1224,7 @@ var battle = function(){
 		winBar.x = game.world.centerX
 
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var winText = game.add.text(0, -5, "VICTORY", fontStyle)
+		var winText = game.add.text(0, -5, localization.getString(localizationData, "victory"), fontStyle)
 		winText.anchor.setTo(0.5, 0)
 		hudGroup.winGroup.add(winText)
 		winText.x = game.world.centerX

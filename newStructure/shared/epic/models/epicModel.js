@@ -5,7 +5,7 @@ var epicModel = function () {
 	var player = {
 		minigames:{},
 		battles:[],
-		cards:[DEFAULT_CARD, DEFAULT_CARD, DEFAULT_CARD, DEFAULT_CARD, DEFAULT_CARD, DEFAULT_CARD],
+		cards:[],
 		yogotar:null,
 		minigamesPlayed:0,
 		currentPosition:0,
