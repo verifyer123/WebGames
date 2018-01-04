@@ -480,16 +480,17 @@ var acorn = function(){
                 sound.play("win")
 
                 // runnerMode = true
-
+                inputsEnabled = false
                 tween.start()
                 addPoint(1)
                 tween.onComplete.add(function () {
                     ardilla.setAnimation(["RUN"])
                     runnerMode = true
                     canSwipe = true
-                    inputsEnabled = false
+                    //inputsEnabled = false
                 })
             }else{
+                //inputsEnabled = false
                 particleWrong.x = block.x + blocksGroup.x
                 particleWrong.y = block.y
 

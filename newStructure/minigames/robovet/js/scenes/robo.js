@@ -87,6 +87,7 @@ var robo = function(){
 	var engine
 	var answerCompleted
 	var electricBand
+	var canAnswer
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -110,6 +111,7 @@ var robo = function(){
 		quantNumber = 2
 		roundCounter = 0
 		optionList = []
+		canAnswer = true
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -307,8 +309,9 @@ var robo = function(){
 
 		var callback
 		clock.tween.stop()
-
+		canAnswer = false
 		if((answers[0] * answers[1]) === dog.answer){
+			
 			engine.correctParticle.start(true, 1000, null, 5)
 			callback = rightReaction
 			sound.play("right")
@@ -350,7 +353,7 @@ var robo = function(){
 		game.add.tween(option.scale).to({x: 1, y: 1}, 400, Phaser.Easing.Cubic.Out, true)
 
 		var answer = checkCollision(option)
-		if (answer){
+		if (answer && canAnswer){
 			sound.play("stop")
 			option.x = (option.centerX - engine.x)
 			option.y = (option.centerY - engine.y)
@@ -520,6 +523,7 @@ var robo = function(){
 		leftRieles.callAll("playAnimation")
 		rightRieles.callAll("playAnimation")
 		answerCompleted = false
+		canAnswer = true
 
 		for(var answerIndex = 0, n = engine.answers.length; answerIndex < n; answerIndex++){
 			var answer = engine.answers[answerIndex]
