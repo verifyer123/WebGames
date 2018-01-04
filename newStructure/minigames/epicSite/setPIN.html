@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Set your PIN</title>
+	<link rel="stylesheet" href="css/modal.css">
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+
+	<audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+	<audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+	<audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+	<audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+	<!--<link rel="stylesheet" href="css/modal.css">-->
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
+
+	<script>var language = "EN";</script>
+
+	<script>
+		//AQUI VA PARA SABER EL LENGUAGE
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+		var language;
+		language = getParameterByName("language");
+
+		if(language === null){
+			var lengua;
+			//lengua = navigator.language || navigator.userLanguage;
+			//language = eval("'" + lengua + "'").toUpperCase();
+			language= "EN";
+		}else{
+			language.toUpperCase();
+		}
+
+	</script>
+
+	<script>
+		var cut = document.getElementById("cut");
+		cut.play();
+	</script>
+
+</head>
+<body>
+    
+<!-- set PIN Modal-->
+	<div id="pin" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content container" >
+			<div class="navigation">
+				<button class="closeModal close" onclick="pop.play()"></button>
+			</div>
+			<!-- Modal header -->
+			<div class="modal-header">
+                <h2><div class="textModal28" style="font-size: 3vh; color: dimgrey;">SET YOUR PIN</div></h2>
+				<h2><div class="textModal29"  style="font-size: 2vh; color: #d23587;">- Select a combination sequence -</div></h2>      
+			</div>
+            
+                <div id="yogoContainer" class="modal-body ">
+                    <div id="yogo1"  class="yogoButton" style="background-image: url('images/yogotars/1.png');">
+                        <div id="circle">1</div>
+                    </div>
+                    <div id="yogo2"  class="yogoButton" style="background-image: url('images/yogotars/2.png');">
+                        <div id="circle">2</div>
+                    </div>
+                    <div id="yogo3"  class="yogoButton" style="background-image: url('images/yogotars/3.png');">
+                        <div id="circle">3</div>
+                    </div>
+                    <div id="yogo4"  class="yogoButton" style="background-image: url('images/yogotars/4.png');">
+                        <div id="circle">4</div>
+                    </div>
+                    <div id="yogo5"  class="yogoButton" style="background-image: url('images/yogotars/5.png');">
+                        <div id="circle">5</div>
+                    </div>
+                    <div id="yogo6"  class="yogoButton" style="background-image: url('images/yogotars/6.png');">
+                        <div id="circle">6</div>
+                    </div>
+                    <div id="yogo7"  class="yogoButton" style="background-image: url('images/yogotars/7.png');">
+                        <div id="circle">7</div>
+                    </div>
+                    <div id="yogo8"  class="yogoButton" style="background-image: url('images/yogotars/8.png');">
+                        <div id="circle">8</div>
+                    </div>
+                    <div id="yogo9"  class="yogoButton" style="background-image: url('images/yogotars/9.png');">
+                        <div id="circle">9</div>
+                    </div>
+                    <div id="yogo10"  class="yogoButton" style="background-image: url('images/yogotars/10.png');">
+                        <div id="circle">10</div>
+                    </div>
+                    <div id="yogo11"  class="yogoButton" style="background-image: url('images/yogotars/11.png');">
+                        <div id="circle">11</div>
+                    </div>
+                    <div id="yogo12"  class="yogoButton" style="background-image: url('images/yogotars/12.png');">
+                        <div id="circle">12</div>
+                    </div>
+                </div>
+
+                <div class="containerPinPonit">
+                    <div class="pinPoint" id="0"></div>
+                    <div class="pinPoint" id="1"></div>
+                    <div class="pinPoint" id="2"></div>
+                    <div class="pinPoint" id="3"></div>
+                </div>
+            <div class="modal-footer">
+                <button type="submit" id="back" class="okBtn"><div class="textModal31" onclick="pop.play()">BACK</div></button>
+                <button type="submit" id="next" class="loginBtn" style="visibility: hidden;"><div class="textModal30" onclick="magic.play()">NEXT</div></button>
+            </div>
+		</div>
+	</div>
+    
+<style>
+    /*PIN*/
+
+.containerPinPonit{
+    /* width: 100%; */
+    /* left: -1px; */
+    height: 3vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh; 
+    display: flex;
+    justify-content: space-around;
+    max-height: 3vh;
+}
+
+.pinPoint{
+    align-self: center;
+    height: 1vh;
+    width: 1vh;
+    border-radius: 100%;
+    background-color: lightgrey;
+}
+    
+.yogoContainer{
+    position: absolute;
+    height: 80%;
+    width: 100%;
+    border-radius: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    align-content: center;
+    justify-content: space-around;
+}
+    
+.yogoButton {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor:pointer;
+    /*width: 10%;*/
+    background-color: white; 
+    border: none;
+    padding: 4vh;
+    display: inline-block;
+    margin: 0.3vh 0.3vh;
+    cursor: pointer;
+    box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24);
+}
+    
+#circle {
+	width: 4vh;
+	height: 4vh;
+	background-color: #d23587;
+	border-radius: 100%;
+    color:  white;
+    text-align: center;
+    font-size: 2.5vh;
+    align-self: 
+}
+
+.buttonSelect{
+    background-color: #88ff88;  
+}
+    
+.imagenSelect{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+   
+    padding: 3vh;
+}
+
+
+</style>
+
+<script>
+
+    var pivot = 0;
+    var pinSelected = [];      
+    
+    $(".yogoButton").click(function(){
+        if(pivot < 4){
+            pinSelected[pivot] = parseInt($(this).children("#circle").text());
+            var img = $( this ).css( "background-image" );
+            
+            $(this).addClass("buttonSelect");
+
+            $("#"+pivot).removeClass("pinPoint");
+            $("#"+pivot).addClass("imagenSelect");
+            $("#"+pivot).css("background-image", img);
+
+            //alert(pinSelected)
+            pinModal.setPin(pinSelected);
+            
+            pivot++;
+        }
+        if(pivot === 4){
+            showNext(false)
+        }
+	});
+    
+    $("#back").click(function(){
+        showNext(true)
+        if(pivot > 0){
+            pivot--
+        }
+        $("#yogo"+pinSelected[pivot]).removeClass("buttonSelect");
+        $("#"+pivot).removeClass("imagenSelect");
+        $("#"+pivot).remove("background-image")
+        $("#"+pivot).addClass("pinPoint");
+    })
+    
+    function showNext(canShow){
+        var next = document.getElementById("next");
+        if (canShow) {
+            next.style.visibility = "hidden";
+        } else {
+            next.style.visibility = "visible";
+        }
+    }
+    
+	$(".close").click(function() {
+		$("#pin").modal('hide');
+	});
+
+	$("#next").click(function() {
+		$("#pin").modal('hide');
+		pinModal.savePin()
+
+	});
+
+	var pinModal = function () {
+		var currentCallback
+		var currentPin
+
+		return {
+			setCallback:function (callback) {
+				currentCallback = callback
+			},
+			setPin:function (pin) {
+				currentPin = pin
+			},
+			savePin:function () {
+				localStorage.setItem("pin", currentpin)
+				currentCallback()
+			}
+		}
+
+	}()
+
+</script>
+    
+    <script src="js/languages.js"></script>
+</body>
+</html>

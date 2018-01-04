@@ -278,6 +278,46 @@ var languageArrayIndex = [
                     JA:"- お子様の年齢を選択してください -",
                     KO:"- 자녀의 나이를 선택하세요. -"
                 },
+                { 
+                    id:28,
+                    NAME:"mainMenu28",
+                    ES:"INGRESA TU PIN",
+                    EN:"SET YOUR PIN",
+                    PT:"SET YOUR PIN",
+                    ZH:"SET YOUR PIN",
+                    JA:"SET YOUR PIN",
+                    KO:"SET YOUR PIN"
+                },
+                { 
+                    id:29,
+                    NAME:"mainMenu29",
+                    ES:"- Selecciona la combinación -",
+                    EN:"- Select a combination sequence -",
+                    PT:"- Select a combination sequence -",
+                    ZH:"- Select a combination sequence -",
+                    JA:"- Select a combination sequence -",
+                    KO:"- Select a combination sequence -"
+                },
+                { 
+                    id:30,
+                    NAME:"mainMenu30",
+                    ES:"SIGUIENTE",
+                    EN:"NEXT",
+                    PT:"NEXT",
+                    ZH:"NEXT",
+                    JA:"NEXT",
+                    KO:"NEXT"
+                },
+                { 
+                    id:31,
+                    NAME:"mainMenu31",
+                    ES:"REGRESAR",
+                    EN:"BACK",
+                    PT:"BACK",
+                    ZH:"BACK",
+                    JA:"BACK",
+                    KO:"BACK"
+                },
         ]
 
 function changeLanguage(){

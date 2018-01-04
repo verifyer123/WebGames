@@ -251,10 +251,10 @@ h3:after {
     font-size: 2.5vh;
 }
 
-/*.loginBtn:hover {*/
-    /*margin-top:10px;*/
-    /*box-shadow: 0px 0vh 0px #0b526c;*/
-/*}*/
+/*.loginBtn:hover {
+    margin-top:10px;
+    box-shadow: 0px 0vh 0px #0b526c;
+}*/
 
 .loginBtn:active {
     position:relative;
@@ -474,7 +474,7 @@ input[type=text]:focus {
 }
 
 .container {
-    max-width: 320px !important;
+    max-width: 40vh !important;
 }
 
 #scrollArea{
