@@ -468,7 +468,7 @@ var map = function(){
 					}
 
 
-
+					//TODO: uncomment to lock levels
 					// ballGroup.locked = true
 
 					ballGroup.tween = game.add.tween(lock.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(3,6) * 100,"Linear",true,0,-1)
