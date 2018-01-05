@@ -408,7 +408,8 @@ var result = function(){
 			}
 
 		}
-		currentPlayer.powerCoins += totalScore
+		if(currentPlayer.powerCoins)
+			currentPlayer.powerCoins += totalScore
 		
 		var yogoBack = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 185,'atlas.resultScreen','yogoBg')
 		yogoBack.anchor.setTo(0.5,0.5)
