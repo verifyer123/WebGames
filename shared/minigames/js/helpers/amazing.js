@@ -20,7 +20,7 @@ amazing.savePlaycount = function(){
 	var params = {
 		type: "playcount"
 	}
-	// parent.postMessage(JSON.stringify(params), "*")
+	parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.share = function(score, game){
