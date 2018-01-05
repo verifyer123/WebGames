@@ -47,76 +47,6 @@
 		var cut = document.getElementById("cut");
 		cut.play();
 	</script>
-
-</head>
-<body>
-    
-<!-- set PIN Modal-->
-	<div id="pin" class="modal">
-
-		<!-- Modal content -->
-		<div class="modal-content container" >
-			<div class="navigation">
-				<button class="closeModal close" onclick="pop.play()"></button>
-			</div>
-			<!-- Modal header -->
-			<div class="modal-header">
-                <h2><div class="textModal28" style="font-size: 3vh; color: dimgrey;">SET YOUR PIN</div></h2>
-				<h2><div class="textModal29"  style="font-size: 2vh; color: #d23587;">- Select a combination sequence -</div></h2>      
-			</div>
-            
-                <div id="yogoContainer" class="modal-body ">
-                    <div id="yogo1"  class="yogoButton" style="background-image: url('images/yogotars/1.png');">
-                        <div id="circle">1</div>
-                    </div>
-                    <div id="yogo2"  class="yogoButton" style="background-image: url('images/yogotars/2.png');">
-                        <div id="circle">2</div>
-                    </div>
-                    <div id="yogo3"  class="yogoButton" style="background-image: url('images/yogotars/3.png');">
-                        <div id="circle">3</div>
-                    </div>
-                    <div id="yogo4"  class="yogoButton" style="background-image: url('images/yogotars/4.png');">
-                        <div id="circle">4</div>
-                    </div>
-                    <div id="yogo5"  class="yogoButton" style="background-image: url('images/yogotars/5.png');">
-                        <div id="circle">5</div>
-                    </div>
-                    <div id="yogo6"  class="yogoButton" style="background-image: url('images/yogotars/6.png');">
-                        <div id="circle">6</div>
-                    </div>
-                    <div id="yogo7"  class="yogoButton" style="background-image: url('images/yogotars/7.png');">
-                        <div id="circle">7</div>
-                    </div>
-                    <div id="yogo8"  class="yogoButton" style="background-image: url('images/yogotars/8.png');">
-                        <div id="circle">8</div>
-                    </div>
-                    <div id="yogo9"  class="yogoButton" style="background-image: url('images/yogotars/9.png');">
-                        <div id="circle">9</div>
-                    </div>
-                    <div id="yogo10"  class="yogoButton" style="background-image: url('images/yogotars/10.png');">
-                        <div id="circle">10</div>
-                    </div>
-                    <div id="yogo11"  class="yogoButton" style="background-image: url('images/yogotars/11.png');">
-                        <div id="circle">11</div>
-                    </div>
-                    <div id="yogo12"  class="yogoButton" style="background-image: url('images/yogotars/12.png');">
-                        <div id="circle">12</div>
-                    </div>
-                </div>
-
-                <div class="containerPinPonit">
-                    <div class="pinPoint" id="0"></div>
-                    <div class="pinPoint" id="1"></div>
-                    <div class="pinPoint" id="2"></div>
-                    <div class="pinPoint" id="3"></div>
-                </div>
-            <div class="modal-footer">
-                <button type="submit" id="back" class="okBtn"><div class="textModal31" onclick="pop.play()">BACK</div></button>
-                <button type="submit" id="next" class="loginBtn" style="visibility: hidden;"><div class="textModal30" onclick="magic.play()">NEXT</div></button>
-            </div>
-		</div>
-	</div>
-    
 <style>
     /*PIN*/
 
@@ -155,7 +85,7 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor:pointer;
-    /*width: 10%;*/
+/*    width: 10%;*/
     background-color: white; 
     border: none;
     padding: 4vh;
@@ -165,17 +95,27 @@
     box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24);
 }
     
-#circle {
+.circle {
+    position: relative;
 	width: 4vh;
 	height: 4vh;
 	background-color: #d23587;
 	border-radius: 100%;
     color:  white;
-    text-align: center;
     font-size: 2.5vh;
-    align-self: 
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    transform: translate(100%,100%);
+    font-family: sans-serif;
+        
+    
 }
 
+    .textCircle{
+        
+    }    
+    
 .buttonSelect{
     background-color: #88ff88;  
 }
@@ -191,22 +131,62 @@
 
 
 </style>
+</head>
+<body>
+    
+<!-- set PIN Modal-->
+	<div id="pin" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content container" >
+			<div class="navigation">
+				<button class="closeModal close" onclick="pop.play()"></button>
+			</div>
+			<!-- Modal header -->
+			<div class="modal-header">
+                <h2><div class="textModal28" style="font-size: 3vh; color: dimgrey;">SET YOUR PIN</div></h2>
+				<h2><div class="textModal29"  style="font-size: 2vh; color: #d23587;">- Select a combination sequence -</div></h2>      
+			</div>
+            
+                <div id="yogoContainer" class="modal-body ">
+                    
+                </div>
+
+                <div class="containerPinPonit">
+                    <div class="pinPoint" id="Pin0"></div>
+                    <div class="pinPoint" id="Pin1"></div>
+                    <div class="pinPoint" id="Pin2"></div>
+                    <div class="pinPoint" id="Pin3"></div>
+                </div>
+            <div class="modal-footer">
+                <button type="submit" id="back" class="okBtn"><div class="textModal31" onclick="pop.play()">BACK</div></button>
+                <button type="submit" id="next" class="loginBtn" style="visibility: hidden;"><div class="textModal30" onclick="magic.play()">NEXT</div></button>
+            </div>
+		</div>
+	</div>
+    
+
 
 <script>
+    
+    for(i=1;i<=12;i++){
+        $("#yogoContainer").append('<div id="yogo' + i+'"  class="yogoButton"><div class="circle"><span class="textCircle">'+i+'</span></div></div>');
+        $("#yogo" + i).css("background-image", "url('images/yogotars/"+i+".png')");
+    }
 
     var pivot = 0;
     var pinSelected = [];      
     
     $(".yogoButton").click(function(){
         if(pivot < 4){
-            pinSelected[pivot] = parseInt($(this).children("#circle").text());
+            pinSelected[pivot] = parseInt($(this).children(".circle").find("span").text());
             var img = $( this ).css( "background-image" );
             
             $(this).addClass("buttonSelect");
 
-            $("#"+pivot).removeClass("pinPoint");
-            $("#"+pivot).addClass("imagenSelect");
-            $("#"+pivot).css("background-image", img);
+            $("#Pin"+pivot).removeClass("pinPoint");
+            $("#Pin"+pivot).addClass("imagenSelect");
+            $("#Pin"+pivot).css("background-image", img);
 
             //alert(pinSelected)
             pinModal.setPin(pinSelected);
@@ -224,9 +204,9 @@
             pivot--
         }
         $("#yogo"+pinSelected[pivot]).removeClass("buttonSelect");
-        $("#"+pivot).removeClass("imagenSelect");
-        $("#"+pivot).remove("background-image")
-        $("#"+pivot).addClass("pinPoint");
+        $("#Pin"+pivot).removeClass("imagenSelect");
+        $("#Pin"+pivot).remove("background-image")
+        $("#Pin"+pivot).addClass("pinPoint");
     })
     
     function showNext(canShow){
