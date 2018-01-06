@@ -69,6 +69,12 @@ var cubejump = function(){
     var heartsGroup = null 
     var delayObjects
     var particlesGroup, particlesUsed
+    var gameInit = false
+    var firstObstacle = null
+    var startedTween = []
+    var nextTweens = []
+    var nextObjects = []
+    var desactivatObjects = []
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -99,6 +105,7 @@ var cubejump = function(){
         moveLeft = false
         moveRight = false
         canPoint = true
+        gameInit = false
         
 	}
     
@@ -305,19 +312,19 @@ var cubejump = function(){
             player.body.x = game.world.height * 0.9
         }
         
-        if(player.body.y > player.lastpos + 5){
+        /*if(player.body.y > player.lastpos + 5){
             player.falling = true    
         }else{
             player.falling = false
-        }
+        }*/
         
         characterGroup.x = player.x
         characterGroup.y = player.y +44 
         
-        if(player.body.y > game.world.height - sceneGroup.dashboard.height  - player.height * 0.25 && player.falling){
+        /*if(player.body.y > game.world.height - sceneGroup.dashboard.height  - player.height * 0.25 && player.falling){
             
             //stopGame()
-        }
+        }*/
         
         player.lastpos = player.body.y
 
@@ -351,11 +358,22 @@ var cubejump = function(){
     }
 
     function checkObjects(){
+
+        if(!player.active){
+            return
+        }
         
+        var firstObjectNeedTween = false
+
+        var checkFalling = player.falling
+
+
         for(var i = 0; i<objectsGroup.length;i++){
             
             var object = objectsGroup.children[i]
             
+            var col = false
+
             if(object.active){
                 
                 var tag = object.tag
@@ -366,7 +384,7 @@ var cubejump = function(){
 
                         var obj = object.children[u]
 
-                        var checkTop = player.world.y < obj.world.y - obj.height * 0.5 && player.falling && player.active
+                        var checkTop = player.world.y < obj.world.y  && checkFalling && player.active
 
                         if(checkOverlap(player,obj)){
                             
@@ -384,6 +402,32 @@ var cubejump = function(){
                             
                             if(Math.abs(obj.angle)< 15){
                                 if(checkTop){
+
+                                    if(firstObstacle == object && !gameInit){
+
+                                        firstObjectNeedTween = true
+
+                                        for(var i = 0 ; i < startedTween.length; i++){
+                                            startedTween[i].stop()
+                                        }
+                                       
+                                        console.log(nextTweens.length)
+                                        for(var i = 0 ; i < nextTweens.length; i++){
+                                            if(nextTweens[i]!=null){
+                                                nextTweens[i].resume()
+                                                //console.log('start tween '+i)
+                                            }
+                                        }
+                                        gameInit = true;
+                                    }
+
+                                    if(firstObjectNeedTween){
+                                        game.add.tween(obj).to({x:0},100,Phaser.Easing.linear,true)
+                                    }
+
+                                    col = true
+                                    player.falling = false  
+                                
                                     game.physics.p2.gravity.y = 0
                                     player.canJump = true
                                     player.body.velocity.y = 0
@@ -396,9 +440,13 @@ var cubejump = function(){
                                     game.time.events.add(300,function(){
                                         buddy.animations.play('idle',12,true)
                                     },this)
+
+
                                 }else{
+                                    console.log('Enter bad '+ '  '+player.falling)
                                     buddy.animations.play('air',12,false)
                                     player.body.velocity.y = 0
+                                    //player.active = false
                                     sound.play('wrongItem')
                                 }
                             }
@@ -406,15 +454,27 @@ var cubejump = function(){
 
                     }
                 }
-                
-                if(object.y > game.world.height - 200){
+
+                /*if(player.world.y < object.children[0].world.y ){
                     deactivateObj(object)
                     
                     console.log('deactivateObjects')
                     
-                }
+                }*/
                 
             }
+
+            if(col){
+                acid.acidSpeed+=0.05
+                desactivatObjects.push(object)
+
+                if(desactivatObjects.length>3){
+                    console.log("Desactivate object")
+                     deactivateObj(desactivatObjects[0])
+                     desactivatObjects.splice(0,1)
+                }
+            }
+
             
             if(object.tag == 'acid'){
                 
@@ -444,7 +504,13 @@ var cubejump = function(){
         if(!gameActive || !player.canJump){
             return
         }
-        
+
+        if(!gameInit){
+           // gameInit = true
+           delayObjects+=1500
+        }
+
+        player.falling = true
         player.canJump = false
         buddy.animations.play('jump',12,false)
         
@@ -462,6 +528,7 @@ var cubejump = function(){
         player.jumps++
         
         addObjects()
+        activateNext()
         
         player.body.moveUp(jumpValue)        
     
@@ -546,17 +613,46 @@ var cubejump = function(){
         heartsGroup.text = pointsText
                 
     }
+
+    function activateNext(){
+        var child = nextObjects[0];
+        console.log(nextObjects.length)
+        var tag = child.tag
+        var timeToClose = game.rnd.integerInRange(85,175) * 10
+
+        nextObjects.splice(0,1)
+
+        if(tag == 'movil'){
+            timeToClose = game.rnd.integerInRange(90,125) * 10
+        }
+
+        for(var i = 0; i< child.length;i++){
+
+             var obj = child.children[i]
+            
+            if(tag == 'fija'){
+
+                game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,1000)
+            }
+            else{
+                game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,1000)
+            }
+        }
+    }
     
     function activateObject(child,posX,posY){
         
         piecesGroup.remove(child)
         objectsGroup.add(child)
 
+        objectsGroup.bringToTop(acid);
+
         var tag = child.tag
         child.active = true
         child.alpha = 1
         child.y = posY
         child.x = posX
+
         
         var timeToClose = game.rnd.integerInRange(85,175) * 10
 
@@ -573,6 +669,10 @@ var cubejump = function(){
             objectsGroup.first = false
         }
         
+
+        console.log(delayObjects)
+
+        nextObjects.push(child)
         for(var i = 0; i< child.length;i++){
 
             var obj = child.children[i]
@@ -580,11 +680,29 @@ var cubejump = function(){
             if(tag == 'fija'){
                 
                 obj.x = obj.initPos
-                game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                //var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                /*if(!gameInit){
+                    var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                    nextTweens.push(t)
+                    t.pause()
+                }
+                else{
+                     game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                }*/
             }else if(tag == 'movil'){
                 
                 obj.angle = obj.initAngle
-                game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                //var t = game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                /*if(!gameInit){
+                    
+                    //t.pause()
+                    var t = game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                    t.pause()
+                    nextTweens.push(t)
+                }
+                else{
+                    game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,delayObjects)
+                }*/
             }
             
         }
@@ -592,12 +710,54 @@ var cubejump = function(){
         var timeValue = 1500
 
         if(acid.acidSpeed != 0 ){
-        timeValue = 0  
+            timeValue = 0 
         }
 
         console.log(timeValue + ' timeValue')
         delayObjects+= timeValue
          
+    }
+
+    function specialActive(child,posX,posY){
+        piecesGroup.remove(child)
+        objectsGroup.add(child)
+
+        objectsGroup.bringToTop(acid);
+
+        var tag = child.tag
+        child.active = true
+        child.alpha = 1
+        child.y = posY
+        child.x = posX
+        
+        var timeToClose = game.rnd.integerInRange(85,175) * 10
+
+        if(player.jumps == 1){
+            delayObjects-=1200
+        }
+        
+        
+        for(var i = 0; i< child.length;i++){
+
+            var obj = child.children[i]
+            
+            if(tag == 'fija'){
+                
+                obj.x = obj.initPos
+                var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects,-1)
+                t.yoyo(true,0)
+                startedTween.push(t)
+            }
+            
+        }
+
+        delayObjects = 0
+        /*var timeValue = 1500
+
+        if(acid.acidSpeed != 0 ){
+            timeValue = 0  
+        }*/
+
     }
     
     function addItem(obj){
@@ -636,10 +796,20 @@ var cubejump = function(){
         for(var i = 0; i < piecesGroup.length;i++){
             
             var object = piecesGroup.children[i]
+
+
             if(!object.active && object.tag == tag){
+
+                console.log(object.active+"   "+object.tag+"  "+piecesGroup.length )
                 
                 var posX = game.world.centerX
-                activateObject(object,posX,pivotObjects)
+                if(firstObstacle!=null){
+                    activateObject(object,posX,pivotObjects)
+                }
+                else{
+                    firstObstacle = object
+                    specialActive(object,posX,pivotObjects)
+                }
                 
                 /*if(Math.random()*3 >1.5 && object.tag == 'blue_plat' && lastOne){
                     addItem(object)
@@ -847,7 +1017,7 @@ var cubejump = function(){
     
     function createObjects(){
         
-        createAcid()
+        
         createObstacle('fija',10,1)
         createObstacle('movil',10,1)
         
@@ -856,6 +1026,8 @@ var cubejump = function(){
         
         particlesUsed = game.add.group()
         sceneGroup.add(particlesUsed)
+
+        createAcid()
         
         createParticles('star',3)
         createParticles('ring',3)
@@ -894,7 +1066,7 @@ var cubejump = function(){
         
         //console.log(piecesGroup.length + ' available')
         addObstacle(tag)
-                
+
     }
     
     function createBase(){
