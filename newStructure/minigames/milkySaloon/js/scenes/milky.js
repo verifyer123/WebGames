@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 var milky = function(){
     
@@ -571,7 +570,7 @@ var milky = function(){
         magician = game.add.group()
         magician.x = game.world.centerX + 50
         magician.y = game.world.centerY + 100
-        magician.scale.setTo(0.8, 0.8)
+        magician.scale.setTo(0.76, 0.76)
         sceneGroup.add(magician)
         
         var magicianSpine = game.add.spine(0, 0, "magician")
@@ -670,7 +669,7 @@ var milky = function(){
             buttonsGroup.setAll('tint', '0xaaaaaa')
             shakeMilk(btn)
             
-            if(level)
+            if(level && tweenTiempo != null)
                 tweenTiempo.pause()
         }
     }
@@ -698,7 +697,7 @@ var milky = function(){
         if(doorsOpen)
             destinyY = bar.y - 80
         else
-            destinyY = bar.y + 70
+            destinyY = bar.y + 115
         
         mugsGroup.scale.setTo(0)
         moveMagician(destinyX, destinyY, walkTime, btn.flavor)
@@ -729,32 +728,49 @@ var milky = function(){
             magician.children[0].setAnimationByName(0, "SIDE_WALK", false)
         }
         
+        if(y < bar.y){
+            var delay = 900
+        }
+        else{
+            var delay = 250
+        }
+        
+        
         game.add.tween(magician).to({x:x}, wt, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
         
             magician.children[0].setAnimationByName(0, "BACK_WALK", false)
-            game.add.tween(magician).to({y:y}, 700, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+            game.add.tween(magician).to({y:y}, delay, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+                
+                var hit = game.add.tween(magician).to({y:y}, 600, Phaser.Easing.Linear.Out, true)
                 
                 if(y < bar.y){
                     sound.play("squeeze")
                     changeImage(ans, mugsGroup)
+                    magician.children[0].setAnimationByName(0, "BACK_IDLE", false)
                 }
-                magician.children[0].setAnimationByName(0, "FRONT_WALK", false)
+                else{
+                    sound.play("cog")
+                    magician.children[0].setAnimationByName(0, "BACK_WRONG", false)
+                }
                 
-                game.add.tween(magician).to({y: game.world.centerY + 100}, 700, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
-                    
-                    if(x < game.world.centerX){
-                        magician.children[0].scale.setTo(1, 1)
-                        magician.children[0].setAnimationByName(0, "SIDE_WALK", false)
-                    }
-                    else{
-                        magician.children[0].scale.setTo(-1, 1)
-                        magician.children[0].setAnimationByName(0, "SIDE_WALK", false)
-                    }
-                    
-                    game.add.tween(magician).to({x: game.world.centerX + 50}, wt, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
-                        
-                        magician.children[0].addAnimationByName(0, "IDLE", true)
-                        serveMilk(ans)
+                hit.onComplete.add(function(){
+                    magician.children[0].setAnimationByName(0, "FRONT_WALK", false)
+                    game.add.tween(magician).to({y: game.world.centerY + 100}, 700, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+
+                        if(x < game.world.centerX){
+                            magician.children[0].scale.setTo(1, 1)
+                            magician.children[0].setAnimationByName(0, "SIDE_WALK", false)
+                        }
+                        else{
+                            magician.children[0].scale.setTo(-1, 1)
+                            magician.children[0].setAnimationByName(0, "SIDE_WALK", false)
+                        }
+
+                        game.add.tween(magician).to({x: game.world.centerX + 50}, wt, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+
+                            magician.children[0].addAnimationByName(0, "IDLE", true)
+                            serveMilk(ans)
+                        })
                     })
                 })
             })
