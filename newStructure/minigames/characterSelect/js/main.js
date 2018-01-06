@@ -36,7 +36,7 @@ function startCharSelector(){
         var gameWidth = Math.round(fullHeight * ratio)
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight)
+        game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
