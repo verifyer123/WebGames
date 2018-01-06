@@ -71,7 +71,7 @@ var epicSiteMain =  function(){
 				gameFrame = document.createElement("iframe")
 			gameFrame.src= src || DEFAULT_SRC
 			gameFrame.style.borderStyle = "none"
-			gameFrame.scrolling = "no"
+			// gameFrame.scrolling = "yes"
 			gameFrame.width = "100%"
 			gameFrame.height = "100%"
 			gameContainer.appendChild(gameFrame);

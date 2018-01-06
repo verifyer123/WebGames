@@ -45,7 +45,7 @@ var routing = function () {
 			},
 			'minigames': function () {
 				// $("#minigames").hide()
-				epicModel.loadPlayer(false, epicSiteMain.showGames)
+				epicSiteMain.startGame("../../../letsplay.html?epicsite=true&language=" + language)
 
 				mixpanel.track(
 					"PageLoadGames",

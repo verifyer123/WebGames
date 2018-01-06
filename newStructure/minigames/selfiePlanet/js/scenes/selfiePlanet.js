@@ -547,16 +547,20 @@ var selfiePlanet = function(){
     
     function initEagle(){
         
-        eagle = game.add.spine(game.world.centerX + 145, game.world.height , "eagle")
-        //eagle.scale.setTo(0.7)
+        eagleSad = sceneGroup.create(game.world.width, game.world.centerY, "eagleSad") 
+        eagleSad.anchor.setTo(1, 0)
+        eagleSad.alpha = 0
+        
+        eagleHappy = sceneGroup.create(game.world.width, game.world.centerY, "eagleHappy") 
+        eagleHappy.anchor.setTo(1, 0)
+        eagleHappy.alpha = 0
+        
+        eagle = game.add.spine(game.world.width, game.world.height , "eagle")
+        eagle.x -= eagleSad.width * 0.5
         eagle.setAnimationByName(0, "IDLE", true)
         eagle.setSkinByName("normal")
         sceneGroup.add(eagle)
         
-        eagleSad = sceneGroup.create(game.world.centerX - 10, game.world.centerY, "eagleSad")    
-        eagleSad.alpha = 0
-        eagleHappy = sceneGroup.create(game.world.centerX - 10, game.world.centerY, "eagleHappy")  
-        eagleHappy.alpha = 0
     }
     
     function initCam(){

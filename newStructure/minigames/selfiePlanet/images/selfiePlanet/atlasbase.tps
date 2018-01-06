@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Users/rockdrizt/Documents/WebGames/newStructure/minigames/selfiePlanet/images/selfiePlanet/atlasbase.tps</string>
+        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/selfiePlanet/images/selfiePlanet/atlasbase.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
