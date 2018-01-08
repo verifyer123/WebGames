@@ -76,6 +76,7 @@ var fish = function(){
 	var objectsGroup,usedObjects
 	var gameSpeed
 	var isTop,isMoving
+	var lastBubble
 			
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -307,7 +308,6 @@ var fish = function(){
     }
 	
 	function activateObject(obj,posX, posY){
-		
 		objectsGroup.remove(obj)
 		usedObjects.add(obj)
 		
@@ -379,6 +379,7 @@ var fish = function(){
 				game.time.events.add(250,function(){
 					
 					pivotObjects = -200 -usedObjects.y
+
 					for(var i = 0; i < 5;i++){
 
 						addObjects()
@@ -437,8 +438,9 @@ var fish = function(){
 		background = game.add.tileSprite(0,0,game.world.width,game.world.height,'background')
 		sceneGroup.add(background)
 		
-		background2 = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.pop','wood')
+		background2 = game.add.tileSprite(0,game.world.height+50,game.world.width,game.world.height/2,'atlas.pop','wood')
 		background2.tint = 0x6a6a6a
+		background2.anchor.setTo(0,1)
 		sceneGroup.add(background2)
 		
 		var light = sceneGroup.create(game.world.centerX, 0,'atlas.pop','light')
@@ -472,7 +474,7 @@ var fish = function(){
 		
 		positionPlayer()
 		
-		background2.tilePosition.y+= gameSpeed
+		background2.tilePosition.x+= gameSpeed
 		
 		if(rotateLeft){
 			if(rotationBar.angle > -22){
@@ -530,28 +532,45 @@ var fish = function(){
 						
 						createPart('star',obj.circle)
 						addPoint(1)
-						deactivateObject(obj)
-						addObjects()
+						//deactivateObject(obj)
+						//addObjects()
+						reposBubble(obj)
 						
 						fishAnim.anim.setAnimationByName()
 						
 					}else{
 						createPart('wrong',obj.circle)
 						missPoint()
-						deactivateObject(obj)
+						//deactivateObject(obj)
+						reposBubble(obj)
 					}
 				}
 			}
 			
 			if(obj.circle.world.y >= game.world.height + obj.height){
-				deactivateObject(obj)
+				//deactivateObject(obj)
 				if(tag == 'bubble'){
-					addObjects()
+
+					//addObjects()
+					reposBubble(obj)
+				}
+				else{
+					deactivateObject(obj)
 				}
 			}
 			
 		}
 
+	}
+
+	function reposBubble(obj){
+		var posX = game.rnd.integerInRange(obj.width * 2,game.world.width - obj.width * 2)
+		var y = lastBubble.y - 250
+		lastBubble = obj
+		obj.number = game.rnd.integerInRange(1,9)
+		obj.text.setText(obj.number)
+		obj.x = posX
+		obj.y = y
 	}
 		
 	function checkOverlap(spriteA, spriteB) {
@@ -784,11 +803,25 @@ var fish = function(){
 	function addObjects(){
 		
 		var obj = getObject('bubble')
+
+		/*if(lastBubble==obj){
+			console.log("enter here")
+			return
+		}*/
 		
 		var posX = game.rnd.integerInRange(obj.width * 2,game.world.width - obj.width * 2)
+		var y
+		if(lastBubble == null){
+			y = pivotObjects
+		}
+		else{
+			y = lastBubble.y - 250
+		}
 		
-		activateObject(obj,posX, pivotObjects)
-		pivotObjects-=250
+		activateObject(obj,posX, y)
+		//pivotObjects-=250
+
+		lastBubble = obj
 		
 		//console.log(obj.x + ' posX,' +  obj.y + ' posY,' +  posX + ' ' + pivotObjects)
 		

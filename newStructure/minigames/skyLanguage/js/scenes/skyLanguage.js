@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var magic = function(){
+var skyLanguage = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,13 +20,14 @@ var magic = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.magic",
-                json: "images/magic/atlas.json",
-                image: "images/magic/atlas.png",
+                name: "atlas.skyL",
+                json: "images/sky/atlas.json",
+                image: "images/sky/atlas.png",
             },
         ],
         images: [
-
+			{   name:"background",
+				file: "images/sky/fondo.png"},
 		],
 		sounds: [
             {	name: "magic",
@@ -43,31 +44,29 @@ var magic = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "secret",
-				file: soundsPath + "secret.mp3"},
 			
+
 		],
     }
     
-    var BIG_FONT_SIZE = '55px'
-    var SMALL_FONT_SIZE = '42px'
-
-
+        
     var lives = null
 	var sceneGroup = null
-	var background, table, magician
-	var cardsGroup
+    var pointsGroup = null
+	var background,topBack,botBack
+	var shipGroup, barGroup, animalsGroup
     var gameActive = true
 	var shoot
+    var arrayComparison = null
+	var indexCard,wrongIndex
 	var particlesGroup, particlesUsed
-    var gameIndex = 59
+    var gameIndex = 7
 	var indexGame
     var overlayGroup
+	var timeValue
     var spaceSong
-	var timeToUse
-	var rabbit
-	var result
 	
+	var animalNames = ['cat','chicken','cow','dog','elephant','giraffe','hamster','horse','lion','parrot','pig','sheep','monkey','turtle','zebra']
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -77,28 +76,60 @@ var magic = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 1
-		timeToUse = 15000
+        arrayComparison = []
+        timeValue = 10000
+		
+		Phaser.ArrayUtils.shuffle(animalNames)
+		indexCard = 0
         
         loadSounds()
         
 	}
+    
+    
+    function createPart(key,obj){
+        
+        var particlesNumber = 2
+        
+        /*if(game.device.desktop == true){ 
+            
+            particlesNumber = 4
+            
+            var particlesGood = game.add.emitter(0, 0, 100);
 
-    function popObject(obj,delay,appear){
+            particlesGood.makeParticles('atlas.skyL',key);
+            particlesGood.minParticleSpeed.setTo(-200, -50);
+            particlesGood.maxParticleSpeed.setTo(200, -100);
+            particlesGood.minParticleScale = 0.2;
+            particlesGood.maxParticleScale = 1;
+            particlesGood.gravity = 150;
+            particlesGood.angularDrag = 30;
+
+            particlesGood.x = obj.x;
+            particlesGood.y = obj.y;
+            particlesGood.start(true, 1000, null, particlesNumber);
+
+            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+            sceneGroup.add(particlesGood)
+
+        }else{*/
+            key+='Part'
+            var particle = sceneGroup.create(obj.x,obj.y,'atlas.skyL',key)
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1.2,1.2)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
+        //}
+        
+    }
+
+    function popObject(obj,delay){
         
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-			if(appear){
-
-				obj.alpha = 1
-            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
-			}else{
-				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
-					obj.scale.setTo(1,1)
-					obj.alpha = 0
-				})
-			}
-            
+            obj.alpha = 1
+            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
     
@@ -113,6 +144,99 @@ var magic = function(){
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
     }
+	
+	function setCard(){
+		
+		wrongIndex = indexCard
+		
+		while(wrongIndex == indexCard){
+			
+			wrongIndex = game.rnd.integerInRange(0,animalNames.length - 1)
+		}
+	}
+	
+	function resetButtons(){
+		
+		shoot.alpha = 0
+		
+		for(var i = 0; i<animalsGroup.length;i++){
+			
+			var animal = animalsGroup.children[i]
+			animal.x = -200
+			animal.alpha = 0
+		}
+	}
+	
+	function positionBar(){
+				
+		game.add.tween(shipGroup).to({x:shipGroup.initialX, y:shipGroup.initialY, angle:0},500,"Linear",true)
+		
+		game.add.tween(shipGroup.text).to({alpha:0},300,"Linear",true).onComplete.add(function(){
+			shipGroup.text.setText('')
+		})
+		
+		barGroup.alpha = 1
+		barGroup.angle = 0
+		barGroup.x = barGroup.initialX
+		
+		gameActive = true
+		gameActive = true
+		
+		game.add.tween(barGroup).from({x:game.world.width * 1.5},1000,"Linear",true).onComplete.add(function(){
+			
+			setCard()
+			
+			var indexs = [indexCard,wrongIndex]
+			Phaser.ArrayUtils.shuffle(indexs)
+			
+			for(var i = 0; i < indexs.length; i++){
+				
+				var tap = barGroup.taps[i]
+				
+				console.log(animalNames[indexs[i]])
+				
+				var card = getCard(animalNames[indexs[i]])
+				card.x = barGroup.x
+				card.y = tap.world.y
+				
+				tap.correct = false
+				if(indexs[i] == indexCard){
+					tap.correct = true
+				}
+				
+				game.add.tween(card.scale).from({x:0,y:0},500,"Linear",true)
+			}
+			
+			shipGroup.text.alpha = 1
+			shipGroup.text.setText(animalNames[indexCard])
+			
+			game.add.tween(shipGroup.text.scale).from({x:0,y:0},500,"Linear",true)
+			
+			shipGroup.tween = game.add.tween(shipGroup).to({x:barGroup.x},timeValue,"Linear",true,500)
+			shipGroup.tween.onComplete.add(function(){
+				
+				crashShip(1)
+				
+			},this)
+			
+			
+			sound.play("pop")
+			
+		},this)
+	}
+	
+	function getCard(tag){
+	
+		for(var i = 0; i < animalsGroup.length;i++){
+			
+			var card = animalsGroup.children[i]
+			if(card.tag == tag){
+				card.alpha = 1
+				return card
+				break
+			}
+		}
+	}
 	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
@@ -178,7 +302,7 @@ var magic = function(){
     
     function addPoint(number){
         
-        sound.play("magic")
+        sound.play("pop")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -187,11 +311,12 @@ var magic = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)		
+        addNumberPart(pointsBar.text,'+' + number,true)
 		
-		if(timeToUse> 2000){
-			timeToUse-= 1000
+		if(timeValue>1000){
+			timeValue-=400
 		}
+		
         
     }
     
@@ -202,7 +327,7 @@ var magic = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.magic','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.skyL','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -224,12 +349,13 @@ var magic = function(){
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
+        
         var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.magic','life_box')
+        var heartImg = group.create(0,0,'atlas.skyL','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -254,7 +380,7 @@ var magic = function(){
         gameActive = false
         spaceSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -268,16 +394,15 @@ var magic = function(){
     
     function preload(){
         
+        game.stage.disableVisibilityChange = false;  
 		buttons.getImages(game)
-        game.stage.disableVisibilityChange = false;
         
-        game.load.spine('magician', "images/spines/basi.json")  
-		game.load.spine('rabbit', "images/spines/conejo.json")
-        game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
+        game.load.spine('ship', "images/spines/skeleton1.json")  
+        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/magic/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/magic/introscreen.png")
+		game.load.image('howTo',"images/sky/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/sky/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/sky/introscreen.png")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -301,8 +426,7 @@ var magic = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				showButtons(true)				
-				
+				positionBar()
             })
             
         })
@@ -313,7 +437,7 @@ var magic = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.magic','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.skyL','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -327,11 +451,11 @@ var magic = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.magic',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.skyL',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.magic','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.skyL','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -345,25 +469,32 @@ var magic = function(){
 
 	function createBackground(){
 		
-		background = sceneGroup.create(0,0,'atlas.magic','fondo')
-		background.width = game.world.width
-		background.height = game.world.height
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'background');
+		sceneGroup.add(background)
 		
-		var top = game.add.tileSprite(0,-25,game.world.width,150, 'atlas.magic','swatch')
-		sceneGroup.add(top)
+		createBar()
+	
+		topBack = game.add.tileSprite(0,0,game.world.width, 141, 'atlas.skyL' ,'up');
+		sceneGroup.add(topBack)
 		
-		table = sceneGroup.create(game.world.centerX, game.world.height,'atlas.magic','mesa')
-		table.anchor.setTo(0.5,1)
+		botBack = game.add.tileSprite(0,game.world.height,game.world.width,141,'atlas.skyL','up')
+		botBack.scale.setTo(1,-1)
+		sceneGroup.add(botBack)
 		
 	}
 	
+	
 	function update(){
-
+		
+		background.tilePosition.x-=3
+		
+		topBack.tilePosition.x-=5
+		botBack.tilePosition.x-=5
 	}
 	
 	function createTextPart(text,obj){
         
-        var pointsText = lookParticle('text')
+        var pointsText = lookParticle('textPart')
         
         if(pointsText){
             
@@ -385,16 +516,13 @@ var magic = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
             if(!particle.used && particle.tag == key){
                 
-				particle.used = true
+                particle.used = true
                 particle.alpha = 1
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-				
-				//console.log(particle)
                 
                 return particle
                 break
@@ -418,32 +546,29 @@ var magic = function(){
     function createPart(key,obj,offsetX){
         
         var offX = offsetX || 0
+        key+='Part'
         var particle = lookParticle(key)
-		
         if(particle){
             
             particle.x = obj.world.x + offX
             particle.y = obj.world.y
             particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
         }
         
         
     }
     
     function createParticles(tag,number){
-                
+        
+        tag+='Part'
+        
         for(var i = 0; i < number;i++){
             
             var particle
-            if(tag == 'text'){
+            if(tag == 'textPart'){
                 
                 var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
@@ -452,45 +577,84 @@ var magic = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                var particle = game.add.emitter(0, 0, 100);
-
-				particle.makeParticles('atlas.magic',tag);
-				particle.minParticleSpeed.setTo(-200, -50);
-				particle.maxParticleSpeed.setTo(200, -100);
-				particle.minParticleScale = 0.6;
-				particle.maxParticleScale = 1.5;
-				particle.gravity = 150;
-				particle.angularDrag = 30;
-				
-				particlesGroup.add(particle)
-				
+                particle = particlesGroup.create(-200,0,'atlas.skyL',tag)
             }
             
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            //particle.anchor.setTo(0.5,0.5)
+            particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
         
     }
 	
-	function addParticles(){
+	function createSpaceship(){
 		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
+		shoot = sceneGroup.create(0,0,'atlas.skyL','shoot')
+		shoot.anchor.setTo(0.5,0.5)
+		shoot.alpha = 0
 		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
+		shipGroup = game.add.group()
+		shipGroup.x = game.world.centerX - 200
+		shipGroup.y = game.world.centerY
+		shipGroup.initialX = shipGroup.x
+		shipGroup.initialY = shipGroup.y
+		sceneGroup.add(shipGroup)
 		
-		createParticles('star',3)
-		createParticles('wrong',1)
-		createParticles('text',5)
-		createParticles('smoke',1)
-
+		var ship = game.add.spine(0,80, "ship");
+		ship.setSkinByName("nave")
+		ship.setAnimationByName(0,"IDLE",true)
+		shipGroup.add(ship)
+		shipGroup.ship = ship
+		
+		var textCont = game.add.group()
+		shipGroup.add(textCont)
+		
+		var cont = textCont.create(0,0,'atlas.skyL','textcont')
+		cont.anchor.setTo(0.5,0.5)
+		
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, -5, 0, '', fontStyle)
+		pointsText.anchor.setTo(0.5,0.5)
+        textCont.add(pointsText)
+		
+		shipGroup.text = pointsText
+		shipGroup.textCont = textCont
+		shipGroup.tween = null
 	}
-
+	
+	function createBar(){
+		
+		barGroup = game.add.group()
+		barGroup.alpha = 0
+		barGroup.x = game.world.centerX + 200
+		barGroup.initialX = barGroup.x
+		sceneGroup.add(barGroup)
+		
+		var bar = barGroup.create(0,0,'atlas.skyL','block')
+		bar.anchor.setTo(0.5,0)
+		
+		barGroup.taps = []
+		
+		var pivotY = 300
+		for( var i = 0; i< 2;i++){
+			
+			var tap1 = barGroup.create(0,pivotY,'atlas.skyL','tap')
+			tap1.anchor.setTo(0.5,0.5)
+			tap1.inputEnabled = true
+			tap1.events.onInputDown.add(inputButton)
+			tap1.correct = false
+			
+			barGroup.taps[i] = tap1
+		
+			pivotY+=300
+		}
+		
+	}
+	
 	function setExplosion(obj){
         
         var posX = obj.x
@@ -510,7 +674,7 @@ var magic = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.magic','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.skyL','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -523,7 +687,7 @@ var magic = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.magic','smoke');
+        particlesGood.makeParticles('atlas.skyL','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -546,282 +710,142 @@ var magic = function(){
 			return
 		}
 		
-		if(clock.tween){
-			clock.tween.stop()
-		}
-		
 		gameActive = false
 		
-		sound.play("pop")
+		if(shipGroup.tween){
+			shipGroup.tween.stop()
+		}
 		
-		var parent = obj.parent
-		
-		var tween = game.add.tween(parent.scale).to({x:0.7,y:0.7},100,"Linear",true,0,0)
-		tween.yoyo(true,0)
-		
-		if(obj.parent.number == result){
+		if(obj.correct){
 			
-			magician.setAnimationByName(0,"PUT",false)
-			magician.addAnimationByName(0,"TAKE_OUT_WIN",false)
-			magician.addAnimationByName(0,"IDLE_WIN",true)
-			
-			game.time.events.add(1000,function(){
-				magician.addAnimationByName(0,"PUT_WIN",false)
-				magician.addAnimationByName(0,"TAKE_OUT",false)
-				magician.addAnimationByName(0,"IDLE",true)
-			})
-			
-			
-			addPoint(1)
+			sound.play("magic")
 			createPart('star',obj)
-			sound.play('secret')
-
-            console.log("Set result "+result )
-
-            if(result > 9){
-                magician.text.fontSize = SMALL_FONT_SIZE
-            }
-            else{
-                magician.text.fontSize = BIG_FONT_SIZE
-            }
 			
-			magician.text.setText(result)
-			
-			game.time.events.add(3500,function(){
-				showButtons(false)
-			})
-			
-			game.time.events.add(4500,function(){
-				showButtons(true)
-			})
+			shootShip()
 			
 		}else{
 			
-			magician.setAnimationByName(0,"PUT",false)
-			magician.addAnimationByName(0,"TAKE_OUT_LOSE",false)
-			magician.addAnimationByName(0,"IDLE_LOSE",true)
+			sound.play('wrong')
+			createPart('wrong',obj)
+			crashShip(500)
+			
+		}
+		sound.play("pop")
+	}
+	
+	function crashShip(time){
+		
+		gameActive = false
+		
+		game.add.tween(shipGroup).to({x:barGroup.x},time,"Linear",true).onComplete.add(function(){
+			
+			shipGroup.ship.setAnimationByName(0,"LOSE",false)
+			shipGroup.textCont.alpha = 0
+			
+			sound.play("explosion")
+			setExplosion(shipGroup)
+			
+			game.add.tween(shipGroup).to({y:game.world.height*0.9, angle:180,alpha: 0},500,"Linear",true)
 			
 			missPoint()
-			createPart('wrong',obj)
-			
-		}
+		},this)
 	}
 	
-	function createCards(){
+	function shootShip(win){
 		
-		cardsGroup = game.add.group()
-		sceneGroup.add(cardsGroup)
+		var angleUsed = -25
 		
-		var pivotX = game.world.centerX - 150
-		for(var i = 0; i < 3; i++){
-			
-			var cardG = game.add.group()
-			cardG.alpha = 0
-			cardG.x = pivotX
-			cardG.y = game.world.height - 90
-			cardsGroup.add(cardG)
-			
-			var cardImage = cardG.create(0,0,'atlas.magic','carta')
-			cardImage.inputEnabled = true
-			cardImage.events.onInputDown.add(inputButton)
-			
-			cardImage.anchor.setTo(0.5,0.5)
-			
-			var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 5, 2, "0", fontStyle)
-			pointsText.anchor.setTo(0.5,0.5)
-			cardG.add(pointsText)
-			
-			cardG.number = 0
-			cardG.text = pointsText
-			
-			pivotX += 150
-			
-		}
-	}
-	
-	function showButtons(appear){
+		var correctButton = null
 		
-		var delay = 3500
-		
-		if(!appear){
-			delay = 0
-			game.add.tween(clock).to({alpha:0},500,"Linear",true)
-		}
-		
-		for(var i = 0; i < cardsGroup.length;i++){
+		for(var i = 0; i < barGroup.taps.length; i++){
 			
-			var button = cardsGroup.children[i]
-			if(appear){
-				popObject(button,delay,appear)
-			}else{
-				popObject(button,delay,appear)
+			if(barGroup.taps[i].correct){
+				correctButton = barGroup.taps[i]
+				break
 			}
-			
-			delay+= 100
-			
 		}
 		
-		if(appear){
-			
-			magician.setAnimationByName(0,"PUT",false)
-			magician.addAnimationByName(0,"TAKE_OUT_WIN",false)
-			magician.addAnimationByName(0,"IDLE_WIN",false)
-			magician.addAnimationByName(0,"PUT_WIN",false)
-			magician.addAnimationByName(0,"TAKE_OUT",false)
-			magician.addAnimationByName(0,"IDLE",true)
-			
-			var tween = game.add.tween(rabbit.scale).to({x:0.7,y:0.7},200,"Linear",true,0,0)
-			tween.yoyo(true,0)
-			
-			game.time.events.add(500,function(){
-				sound.play("cut")	
-			})
-				
-			setNumbers()
-			
-			game.time.events.add(delay,function(){
-				gameActive = true
-				
-				popObject(clock,0,true)
-				
-				clock.bar.scale.x = clock.bar.origScale
-				
-				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
-				clock.tween.onComplete.add(function(){
-					missPoint()
-				})
-				
-			})
-		}
-	}
-	
-	function createClock(){
-		
-        clock = game.add.group()
-		clock.alpha = 0
-        clock.x = game.world.centerX
-		clock.scale.setTo(0.85,0.85)
-        clock.y = 65
-		clock.alpha = 0
-        sceneGroup.add(clock)
-        
-        var clockImage = clock.create(0,0,'atlas.magic','clock')
-        clockImage.anchor.setTo(0.5,0.5)
-        
-        var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.magic','bar')
-        clockBar.anchor.setTo(0,0.5)
-        clockBar.width = clockImage.width*0.76
-        clockBar.height = 22
-        clockBar.origScale = clockBar.scale.x
-        
-        clock.bar = clockBar
-        
-    }
-	
-	function createMagician(){
-		
-		magician = game.add.spine(game.world.centerX, game.world.height - table.height * 0.95,'magician')
-		magician.setSkinByName("normal")
-		magician.setAnimationByName(0,"IDLE",true)
-		sceneGroup.add(magician)
-		
-		var cont = getSpineSlot(magician,"emty")
-		game.world.bringToTop(cont)
-		
-		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "0", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		cont.add(pointsText)
-		
-		magician.text = pointsText
-		magician.autoUpdateTransform()
-		
-		rabbit = game.add.spine(game.world.centerX + 100,magician.y + 50,'rabbit')
-		rabbit.setSkinByName('normal')
-		rabbit.setAnimationByName(0,"IDLE",true)
-		sceneGroup.add(rabbit)
-		
-		var cont = getSpineSlot(rabbit,"empty")
-		
-		rabbit.autoUpdateTransform()
-		
-		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 2, "0", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		pointsText.alpha = 1
-		cont.add(pointsText)
-		
-		rabbit.text = pointsText
-	}
-	
-	function setNumbers(){
-		
-		var number1 = game.rnd.integerInRange(2,10)
-		var number2 = game.rnd.integerInRange(2,10)
-		
-        if(number1 > 9){
-            magician.text.fontSize = SMALL_FONT_SIZE
-        }
-        else{
-            magician.text.fontSize = BIG_FONT_SIZE
-        }
+		/*if(correctButton.world.y > shipGroup.y){
+			angleUsed = Math.abs(angleUsed)
+		}*/
 
-        if(number2 > 9){
-            rabbit.text.fontSize = SMALL_FONT_SIZE
-        }
-        else{
-            rabbit.text.fontSize = BIG_FONT_SIZE
-        }
+        var y = shipGroup.y - correctButton.world.y
+        var x = shipGroup.x - correctButton.world.x
+        var ang = Math.atan(y/x)*(180/Math.PI)
+        //console.log(ang)
 
-		magician.text.setText(number1)
-		rabbit.text.setText(number2)
+        angleUsed = ang
 		
-		magician.number = number1
-		rabbit.number = number2
+		game.add.tween(shipGroup).to({angle:angleUsed},500,"Linear",true).onComplete.add(function(){
+			
+			shoot.x = shipGroup.x
+			shoot.y = shipGroup.y
+			shoot.angle = angleUsed
+			shoot.alpha = 1
+			
+			shipGroup.ship.setAnimationByName(0,"FIRE",false)
+			shipGroup.ship.addAnimationByName(0,"IDLE",true)
+			
+			sound.play("shoot")
+			
+			game.add.tween(shoot).to({x:correctButton.world.x,y:correctButton.world.y},500,"Linear",true).onComplete.add(function(){
+				
+				setExplosion(correctButton)
+				
+				sound.play("explosion")
+				resetButtons()
+				
+				game.add.tween(barGroup).to({x:game.world.width * 1.5, angle:barGroup.angle - 180,alpha:0},500,"Linear",true)
+				
+				game.time.events.add(1000,positionBar)
+				addPoint(1)
+				
+				if(indexCard < animalNames.length - 1){
+					indexCard++
+				}else{
+					Phaser.ArrayUtils.shuffle(animalNames)
+					indexCard = 0
+				}
+				
+			},this)
+				
+		},this)
+	}
+	
+	function createAnimals(){
 		
-		result = number1 * number2
+		animalsGroup = game.add.group()
+		sceneGroup.add(animalsGroup)
 		
-		var correctIndex = game.rnd.integerInRange(0,cardsGroup.length - 1)
-		
-		for(var i = 0; i < cardsGroup.length;i++){
+		for(var i = 0; i < animalNames.length;i++){
 			
-			var card = cardsGroup.children[i]
-			
-			card.number = result
-			while(card.number == result){
-				card.number = game.rnd.integerInRange(2,result + 5)
-			}
-			
-			if(correctIndex == i){
-				card.number = result
-			}
-			
-			card.text.setText(card.number)
-			
+			var card = animalsGroup.create(-200,0,'atlas.skyL',animalNames[i])
+			card.anchor.setTo(0.5,0.5)
+			card.alpha = 0
+			card.tag = animalNames[i]
+			card.used = false
 		}
 		
 	}
 	
-	function getSpineSlot(spine, slotName){
+	function createObjects(){
 		
-		var slotIndex
-		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
-			var slotData = spine.skeletonData.slots[index]
-			if(slotData.name === slotName){
-				slotIndex = index
-			}
-		}
-
-		if (slotIndex){
-			return spine.slotContainers[slotIndex]
-		}
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+		
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+		
+		createParticles('star',5)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "magic",
+		name: "skyLanguage",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -829,10 +853,9 @@ var magic = function(){
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			createBackground()
-			createCards()
-			createClock()
-			createMagician()
-			addParticles()
+			createSpaceship()
+			createAnimals()
+			createObjects()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
@@ -858,9 +881,5 @@ var magic = function(){
             animateScene()
             
 		},
-		show: function(event){
-			loadSounds()
-			initialize()
-		}
 	}
 }()

@@ -266,8 +266,11 @@ var isMobile = {
 		function onPressBell(currentSprite,endSprite){
            
             TweenMax.fromTo(flechaRuleta,0.5,{x:flechaRuleta.posx - flechaRuleta.width/6},{x:flechaRuleta.posx});
+
+            var deltaAngle = 45/2
+            //console.log("Angle "+ruletaGroup.angle)
             
-            if(ruletaGroup.angle >= 0 && ruletaGroup.angle < 45){
+            if(ruletaGroup.angle >= 0+deltaAngle && ruletaGroup.angle < 45+deltaAngle){
                 if(!fractionPizza[1].press){
                     fractionPizza[1].alpha = 1;
                     fractionPizza[1].press = true;
@@ -281,7 +284,7 @@ var isMobile = {
                     
             }
             
-            if(ruletaGroup.angle >= 45 && ruletaGroup.angle < 90){                
+            else if(ruletaGroup.angle >= 45+deltaAngle && ruletaGroup.angle < 90+deltaAngle){                
                 if(!fractionPizza[8].press){
                     fractionPizza[8].alpha = 1;
                     fractionPizza[8].press = true;
@@ -290,8 +293,9 @@ var isMobile = {
                     fractionPizza[8].tint = 0x000000;
                     stopGame(); 
                 }
-            }            
-            if(ruletaGroup.angle >= 90 && ruletaGroup.angle < 135){
+            }    
+
+            else if(ruletaGroup.angle >= 90+deltaAngle && ruletaGroup.angle < 135+deltaAngle){
                 if(!fractionPizza[7].press){
                     fractionPizza[7].alpha = 1;
                     fractionPizza[7].press = true;
@@ -301,7 +305,8 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 135 && ruletaGroup.angle < 180){
+
+            else if(ruletaGroup.angle >= 135+deltaAngle && ruletaGroup.angle < 180+deltaAngle){
                 if(!fractionPizza[6].press){
                     fractionPizza[6].alpha = 1;
                     fractionPizza[6].press = true;
@@ -311,7 +316,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 180 && ruletaGroup.angle < 225){
+            else if(ruletaGroup.angle >= 180+deltaAngle && ruletaGroup.angle < 225+deltaAngle){
                 if(!fractionPizza[5].press){
                     fractionPizza[5].alpha = 1;
                     fractionPizza[5].press = true;
@@ -321,7 +326,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 225 && ruletaGroup.angle < 270){
+            else if(ruletaGroup.angle >= 225+deltaAngle && ruletaGroup.angle < 270+deltaAngle){
                 if(!fractionPizza[4].press){
                     fractionPizza[4].alpha = 1;
                     fractionPizza[4].press = true;
@@ -331,7 +336,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 270 && ruletaGroup.angle < 315){
+            else if(ruletaGroup.angle >= 270+deltaAngle && ruletaGroup.angle < 315+deltaAngle){
                 if(!fractionPizza[3].press){
                     fractionPizza[3].alpha = 1;
                     fractionPizza[3].press = true;
@@ -341,7 +346,7 @@ var isMobile = {
                     stopGame(); 
                 }
             }            
-            if(ruletaGroup.angle >= 315 && ruletaGroup.angle < 360){
+            else if(ruletaGroup.angle >= 315+deltaAngle || ruletaGroup.angle < 0+deltaAngle){
                 if(!fractionPizza[2].press){
                     fractionPizza[2].alpha = 1;
                     fractionPizza[2].press = true;
@@ -351,6 +356,12 @@ var isMobile = {
                     stopGame(); 
                 }
             }
+
+            /*var rouleteAngle = 45
+
+            for(var i = 0 ; i < fractionPizza.lenght; i++){
+
+            }*/
             
             if(count == fractions[0].id){
                 sound.play("magic");

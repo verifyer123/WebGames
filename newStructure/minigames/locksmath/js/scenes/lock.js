@@ -380,6 +380,16 @@ var lock = function(){
 		dissapear.onComplete.add(openDoors)
 		
 	}
+
+	function endTime(){
+		
+		var bargroupTween = game.add.tween(barGroup).to({alpha:0}, 800, Phaser.Easing.Cubic.In, true)
+		lock.wrongParticle.start(true, 1000, null, 5)
+		sound.play("wrong")
+		barGroup.isCorrect = false
+		bargroupTween.onComplete.add(createReaction)
+
+	}
 	
 	function checkCorrect() {
 		answersChecked = true
@@ -663,7 +673,7 @@ var lock = function(){
 		// lock.y = game.world.centerY + 20
 		lock.y = -200
 		lock.alpha = 1
-		answersChecked = true
+		answersChecked = false
 		sound.play("swipe")
 		var lockTween = game.add.tween(lock).to({y:game.world.centerY + 20 }, 800, Phaser.Easing.Back.Out, true)
 		lockTween.onComplete.add(function () {
@@ -742,8 +752,11 @@ var lock = function(){
 
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true,delay )
 		clock.tween.onComplete.add(function(){
-			if(!answersChecked)
-				onComplete()
+			if(!answersChecked){
+				//onComplete()
+				endTime()
+			}
+
 		})
 	}
 

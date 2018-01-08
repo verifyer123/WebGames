@@ -255,7 +255,9 @@ var isMobile = {
 		
 		function onPressBell(bell){
 			
-				
+			if(timer == 0){
+				return
+			}
 			
 
 			timbre_iddle.inputEnabled = false;
@@ -324,6 +326,7 @@ var isMobile = {
 			function newYogotar(){
 				timbre_iddle.inputEnabled = true;
 				shuffle(fractions);
+				console.log(fractions)
 				shuffle(characters);
 				count = 0;
 				for(i=0;i<=numPizzas-1;i++){
@@ -351,14 +354,15 @@ var isMobile = {
 	timerFunction = function(){
 		if(timer != 0){
 			timer-- 
-		}else if(timer == 0){
-				lives--
-			clearInterval(timerCount);
-					TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:1,onComplete:gameOver});
-					sound.play("wrong");
-					sound.play("gameLose");
-					bgm.stop();	
+			if(timer==0){
+				clearInterval(timerCount);
+				TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:0,onComplete:gameOver});
+				sound.play("wrong");
+				sound.play("gameLose");
+				bgm.stop();	
+			}
 		}
+
 		clockText.setText(timer);
 	}		
 		
