@@ -37,7 +37,7 @@ var invader = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -59,6 +59,7 @@ var invader = function(){
     }
     
 	var SPEED = 5
+	var INITIAL_LIVES = 3
        
 	var gameSpeed
     var lives = null
@@ -89,7 +90,7 @@ var invader = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		moveLeft = false
 		moveRight = false
 		buttonPressed = false
@@ -557,7 +558,7 @@ var invader = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',2)
-		createParticles('wrong',1)
+		//createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',2)
 
@@ -643,7 +644,7 @@ var invader = function(){
 						}else{
 
 							missPoint()
-							createPart('wrong',obj.image)
+							//createPart('wrong',obj.image)
 							deactivateObj(obj)
 
 							animName = "HIT"

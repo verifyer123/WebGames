@@ -42,7 +42,7 @@ var galactic = function(){
             {	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -61,7 +61,7 @@ var galactic = function(){
 		],
     }
     
-        
+    var NUM_LIVES = 3   
     var lives = null
 	var sceneGroup = null
 	var background
@@ -111,7 +111,7 @@ var galactic = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#1B1464"
-        lives = 1
+        lives = NUM_LIVES
         heightBetweenPlanets=70
         activateMovement=false
         timetoHit=0
@@ -915,29 +915,32 @@ var galactic = function(){
                 for(var checkWrong1=1; checkWrong1<9 ; checkWrong1++){
                     if(checkOverlap(correctPositions[checkWrong1],dragablePlanets[checkWrong2]) && releasedPlanet[checkWrong2-1]==true && cantMovePlanet[checkWrong2-1]==false && checkWrong1!=checkWrong2)
                     {
-                        hitthePlanets=false
+                        //hitthePlanets=false
                         sound.play("wrong")
-                        spinePlanets[checkWrong2].alpha=0
+                        releasedPlanet[checkWrong2-1] = false
+                        //spinePlanets[checkWrong2].alpha=0
+                        dragablePlanets[checkWrong2].position.x=dragablePlanets[checkWrong1].position.x
+                        dragablePlanets[checkWrong2].position.y=dragablePlanets[checkWrong1].position.y
                         dragablePlanets[checkWrong1].position.x=correctPositions[checkWrong1].position.x
                         dragablePlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y
                         textsPlanets[checkWrong1].position.x=correctPositions[checkWrong1].position.x+50
                         textsPlanets[checkWrong1].position.y=correctPositions[checkWrong1].position.y-35
                         for(var quickBlock=1;quickBlock<9;quickBlock++){
-                            dragablePlanets[quickBlock].inputEnabled = false;
-                            dragablePlanets[quickBlock].input.enableDrag(false);
+                            //dragablePlanets[quickBlock].inputEnabled = false;
+                            //dragablePlanets[quickBlock].input.enableDrag(false);
                         }
                         textsPlanets[checkWrong1].alpha=1
-                        wrongParticle.x = spinePlanets[checkWrong2].position.x
-                        wrongParticle.y = spinePlanets[checkWrong2].position.y
-                        wrongParticle.start(true, 1000, null, 5)
+                        //wrongParticle.x = spinePlanets[checkWrong2].position.x
+                        //wrongParticle.y = spinePlanets[checkWrong2].position.y
+                        //wrongParticle.start(true, 1000, null, 5)
                         tweenText=game.add.tween(textsPlanets[checkWrong1]).to({alpha:1},1200,Phaser.Easing.linear,true)
-                        tweenText.onComplete.add(function(){ 
+                        //tweenText.onComplete.add(function(){ 
                         //Pequeño delay
-                        tweentiempo.pause()
-                        game.add.tween(this).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
+                        //tweentiempo.pause()
+                        //game.add.tween(this).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
                         missPoint()
-                        })
-                    })
+                        //})
+                    //})
                     break;
                 }
             }

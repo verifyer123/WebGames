@@ -505,8 +505,9 @@ var float = function(){
                     }
 
                     if(checkPosPlayer(playerGroup.gem,obstacle) && !playerGroup.jumping){
-                        if(obstacle.tag == 'obstacle' && obstacle.active){
-							if(numIndex  == obstacle.number - 1){
+                        if(obstacle.tag == 'obstacle' && obstacle.active && playerGroup.active){
+                            playerGroup.active = false
+							if(numIndex  == obstacle.number - 1 ){
 								addPoint(2)
                                 createPart('star',obstacle.obs)
                                 sound.play("magic")
@@ -767,7 +768,7 @@ var float = function(){
     }
     
     function doJump(){
-        
+        playerGroup.active = true
         addPoint(1)
         jumpTimes++
         
@@ -929,6 +930,7 @@ var float = function(){
             playerGroup.x = game.world.centerX
             playerGroup.y = 100
             gameGroup.add(playerGroup)
+            playerGroup.active = false
             
             var hex = playerGroup.create(0,0,'atlas.float','player')
             hex.anchor.setTo(0.5,0.5)

@@ -443,7 +443,7 @@ var swampShape = function(){
 
 		pointerGame = game.add.sprite(0,0, graphic.generateTexture())
 		pointerGame.anchor.setTo(0.5, 0.5)
-		pointerGame.alpha = 0.5
+		pointerGame.alpha = 0
 		sceneGroup.add(pointerGame)
 		graphic.destroy()
 

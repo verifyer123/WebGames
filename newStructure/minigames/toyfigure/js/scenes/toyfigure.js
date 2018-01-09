@@ -41,6 +41,12 @@ var toyfigure = function(){
     
 	
 	sceneGroup = null;
+    var INITIAL_TOYS = 6
+    var DELTA_TOYS = 4
+    var MAX_TOYS = 18
+
+    var COINS_TO_TIME = 14
+
 	
 	var speedGame = 5;
 	var background;
@@ -57,6 +63,7 @@ var toyfigure = function(){
     var time = 60;
     var timerBar = null;
     var gameIndex = 55;
+    var currentToys
 
     var isMobile = {
         Android: function() {
@@ -125,11 +132,12 @@ var toyfigure = function(){
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
-
+        currentToys = INITIAL_TOYS
 	}	
 
 	/*CREATE SCENE*/
     function createScene(){
+        initialize()
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 		loadSounds();
 		game.physics.startSystem(Phaser.Physics.P2JS);
@@ -182,6 +190,7 @@ var toyfigure = function(){
             this.game.physics.arcade.enable(repizasArray[i]);
             repizasArray[i].id = i;
             newPositionRepiza[i] = repizasArray[i];
+            newPositionRepiza[i].currentSetToy = 0
 
         }
         
@@ -278,7 +287,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
             //console.log(currentSprite.id);
             
             if (!this.game.physics.arcade.overlap(currentSprite, endSprite, function() {
-            currentSprite.input.draggable = false;
+                currentSprite.input.draggable = false;
                 TweenMax.to(currentSprite,0.4,{x:endSprite.x,y:endSprite.y});
                 star.x = endSprite.x;
                 star.y = endSprite.y;
@@ -288,6 +297,13 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
                 coins++;
                 xpText.setText(coins);
                 goodAnswer++;
+                console.log("Id sprote dragged "+currentSprite.id)
+                for(var i = 0; i<=8;i++){
+                    if(currentSprite.id == newPositionRepiza[i].id){
+                        newPositionRepiza[i].currentSetToy++
+                    }
+                }
+
                 moreToys();
                 sound.play("magic");
                 
@@ -332,7 +348,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         
         function choiceToy(){
             
-            if(coins >= 18){
+            if(coins >= COINS_TO_TIME){
                 if(time >= 20){
                    time = time - 5; 
                 }
@@ -340,23 +356,39 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
             }
             
             goodAnswer = 0;
+
+
+
              for(var i = 0; i<=8;i++){
                 newPositionRepiza[i].x = -450;
                 newPositionRepiza[i].y = -450;
+                newPositionRepiza[i].currentSetToy = 0
+                newPositionRepiza[i].canTween = true
              }
             
             
             shuffle(newPositionRepiza);
-
-             for(var i = 0; i<=2;i++){
-                 //console.log(newPositionRepiza[i].id);
+            var toysIds = []
+             for(var i = 0; i<3;i++){
                 newPositionRepiza[i].x = eval("position" +[i] + "x");
                 newPositionRepiza[i].y = eval("position" +[i] + "y");  
                 TweenMax.fromTo(newPositionRepiza[i].scale,0.5,{x:0,y:0},{x:1,y:1,delay:i*0.2}); 
+                if(toysIds.indexOf(newPositionRepiza[i].id)==-1){
+                    toysIds.push(newPositionRepiza[i].id)
+                }
              }
+
+            for(var i = 3; i < currentToys/2; i++){
+                 if(toysIds.indexOf(newPositionRepiza[i].id)==-1){
+                    toysIds.push(newPositionRepiza[i].id)
+                }
+            }
  
             
             for(var p = 0; p<= 17;p++){
+                if(toysIds.indexOf(toysArray[p].id)==-1){
+                    continue
+                }
                 toysArray[p].scale.setTo(1,1);
                 toysArray[p].x = getRandomArbitrary(0 + toysArray[p].width/2, game.world.centerX*1.5 - toysArray[p].width/2);
                 toysArray[p].y = getRandomArbitrary(floor.y , clock.y - toysArray[p].width/2);
@@ -371,25 +403,57 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         choiceToy();
         
         function moreToys(){
-            if(goodAnswer == 3){
+            console.log(goodAnswer,currentToys)
+            if(goodAnswer == currentToys){
+                if(currentToys<MAX_TOYS){
+                    currentToys+=DELTA_TOYS
+                }
+                TweenMax.fromTo(star.scale,3,{x:2,y:2},{x:4,y:4});
+                star.x = game.world.centerX;
+                star.y = game.world.centerY;
+                TweenMax.fromTo(star,3,{alpha:1},{alpha:0,onComplete:nextToys});
+                dinamita.setAnimationByName(0, "WIN", true);
+                if(timerBar != null){
+                   timerBar.kill(); 
+                }
                 
-                newPositionRepiza[3].x = eval("position" +[3] + "x");
-                newPositionRepiza[3].y = eval("position" +[3] + "y"); 
-                TweenMax.fromTo(newPositionRepiza[3].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+                function nextToys(){
+                    sound.play("combo");
+                 choiceToy();   
+                dinamita.setAnimationByName(0, "IDLE", true);    
+                }
+
+                return
+                
             }
-            if(goodAnswer == 6){
-                
-                newPositionRepiza[4].x = eval("position" +[4] + "x");
-                newPositionRepiza[4].y = eval("position" +[4] + "y"); 
-                TweenMax.fromTo(newPositionRepiza[4].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
-            }   
-            if(goodAnswer == 9){
-                
-                newPositionRepiza[5].x = eval("position" +[5] + "x");
-                newPositionRepiza[5].y = eval("position" +[5] + "y"); 
-                TweenMax.fromTo(newPositionRepiza[5].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
-            }   
-            if(goodAnswer == 12){
+
+
+            if(currentToys>6){
+                if(goodAnswer == 5){
+                    
+                    newPositionRepiza[3].x = eval("position" +[3] + "x");
+                    newPositionRepiza[3].y = eval("position" +[3] + "y"); 
+                    TweenMax.fromTo(newPositionRepiza[3].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+                }  
+
+                if(goodAnswer == 7){
+                    
+                    newPositionRepiza[4].x = eval("position" +[4] + "x");
+                    newPositionRepiza[4].y = eval("position" +[4] + "y"); 
+                    TweenMax.fromTo(newPositionRepiza[4].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+                }   
+            }
+            
+            if(currentToys>10){
+                if(goodAnswer == 9){
+                    
+                    newPositionRepiza[5].x = eval("position" +[5] + "x");
+                    newPositionRepiza[5].y = eval("position" +[5] + "y"); 
+                    TweenMax.fromTo(newPositionRepiza[5].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+                }   
+            }
+            
+            /*if(goodAnswer == 12){
                 var changeToy = 3
                 newPositionRepiza[6].x = eval("position" +[changeToy] + "x");
                 newPositionRepiza[6].y = eval("position" +[changeToy] + "y"); 
@@ -410,25 +474,34 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
                 TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.5,{x:1,y:1},{x:0,y:0});
                 TweenMax.fromTo(newPositionRepiza[8].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
                 
-            }   
-            
-            if(goodAnswer == 18){
-                TweenMax.fromTo(star.scale,3,{x:2,y:2},{x:4,y:4});
-                star.x = game.world.centerX;
-                star.y = game.world.centerY;
-                TweenMax.fromTo(star,3,{alpha:1},{alpha:0,onComplete:nextToys});
-                dinamita.setAnimationByName(0, "WIN", true);
-                if(timerBar != null){
-                   timerBar.kill(); 
+            } */
+
+            if(goodAnswer== 11 || goodAnswer == 13 || goodAnswer == 15){
+                if(goodAnswer+1 == currentToys){
+                    return
                 }
-                
-                function nextToys(){
-                    sound.play("combo");
-                 choiceToy();   
-                dinamita.setAnimationByName(0, "IDLE", true);    
+                var changeToy
+
+                var randomIds = [0,1,2,3,4,5]
+                shuffle(randomIds)
+
+                 for(var i = 0; i<randomIds.length;i++){
+                    if(newPositionRepiza[randomIds[i]].currentSetToy>=2 && newPositionRepiza[randomIds[i]].canTween){
+                        newPositionRepiza[randomIds[i]].canTween = false
+                        changeToy = randomIds[i]
+                        break
+                    }
                 }
-                
+                console.log(changeToy)
+                var currentRepiza = (goodAnswer+1)/2
+                newPositionRepiza[currentRepiza].x = eval("position" +[changeToy] + "x");
+                newPositionRepiza[currentRepiza].y = eval("position" +[changeToy] + "y"); 
+                console.log(newPositionRepiza[changeToy])
+                TweenMax.fromTo(newPositionRepiza[changeToy].scale,0.5,{x:1,y:1},{x:0,y:0});
+                TweenMax.fromTo(newPositionRepiza[currentRepiza].scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
             }
+            
+            
             
         }
         
@@ -438,6 +511,8 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
 		createOverlay(lives);
 		
 	}
+
+    
 
 
 	

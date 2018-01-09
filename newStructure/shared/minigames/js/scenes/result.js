@@ -519,7 +519,7 @@ var result = function(){
 
 		
 
-		var glitter = starGroup.create(-200,60,'atlas.resultScreen','glitter')
+		/*var glitter = starGroup.create(-200,60,'atlas.resultScreen','glitter')
 		glitter.anchor.setTo(0.5,0.5)
 
 		glitter = starGroup.create(130,55,'atlas.resultScreen','glitter')
@@ -528,7 +528,7 @@ var result = function(){
 
 		glitter = starGroup.create(140,-70,'atlas.resultScreen','glitter')
 		glitter.anchor.setTo(0.5,0.5)
-		glitter.scale.setTo(1,1)
+		glitter.scale.setTo(1,1)*/
 		
 		
 		infoGroup = game.add.group()
@@ -751,8 +751,13 @@ var result = function(){
 					game.add.tween(starGroup.star[i].scale).from({x:2,y:2},500,"Linear",true)
 					game.add.tween(starGroup.star[i]).to({angle:starGroup.star[i].angle - 360},500,"Linear",true)
 					
-					createPart('star',starGroup.star[i])
+					//createPart('star',starGroup.star[i])
 				}
+
+				//if(stars>0){
+					createPart('glitter',starGroup.star[2])
+				//}
+
 				sound.play("great")
                 
 
@@ -1052,6 +1057,7 @@ var result = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',3)
+		createParticles('glitter',5)
 		createParticles('coin',3)
 		createParticles('text',5)
 		
