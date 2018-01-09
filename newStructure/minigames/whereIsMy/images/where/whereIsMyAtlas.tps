@@ -362,9 +362,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>48,49,96,98</rect>
+                <rect>49,50,98,100</rect>
                 <key>scale9Paddings</key>
-                <rect>48,49,96,98</rect>
+                <rect>49,50,98,100</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -793,7 +793,6 @@
             <filename>DOLL.png</filename>
             <filename>DOWN BTN.png</filename>
             <filename>FLAG.png</filename>
-            <filename>FLOOR TILE.png</filename>
             <filename>FRONT.png</filename>
             <filename>gametuto.png</filename>
             <filename>HAPPY.png</filename>
@@ -820,6 +819,7 @@
             <filename>TENNIS_Q.png</filename>
             <filename>PHOTO_Q.png</filename>
             <filename>YO YO_Q.png</filename>
+            <filename>FLOOR TILE.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

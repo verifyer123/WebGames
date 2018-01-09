@@ -39,7 +39,7 @@ var whereIsMy = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -52,6 +52,8 @@ var whereIsMy = function(){
 				file: soundsPath + "robotBeep.mp3"},
             {	name: "vacc",
 				file: soundsPath + "swipe.mp3"},
+            {	name: "pick",
+				file: soundsPath + "cut.mp3"},
             
 			
 		],
@@ -64,7 +66,7 @@ var whereIsMy = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 114
 	var indexGame
     var overlayGroup
     var whereSong
@@ -119,7 +121,10 @@ var whereIsMy = function(){
     var characterProxy
     var passingLevel
     var coins=new Array(7)
-    
+    var objectDisplay
+    var playedBaul
+    var posX=new Array(objects.length)
+    var posY=new Array(objects.length)
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -129,8 +134,10 @@ var whereIsMy = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 3
+        playedBaul=null
         passingLevel=false
         btnActive=false
+        objectDisplay=false
         dificulty=100000
         objects[0]="DOLL"
         objects[1]="BALL"
@@ -322,7 +329,7 @@ var whereIsMy = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('whereSong', soundsPath + 'songs/electro_trance_minus.mp3');
+        game.load.audio('whereSong', soundsPath + 'songs/farming_time.mp3');
         
 		game.load.image('howTo',"images/where/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/where/play" + localization.getLanguage() + ".png")
@@ -330,7 +337,7 @@ var whereIsMy = function(){
         
         game.load.spine('thef', "images/Spine/normal/normal.json");
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
-        
+        game.load.spritesheet("baul", 'images/Spine/baul/baul.png', 186, 207, 7)
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -428,6 +435,18 @@ var whereIsMy = function(){
         backGwall.anchor.setTo(0.5,0.5)
         backGwall.alpha=1
         backgroundGroup.add(backGwall)
+        
+        pilars1=game.add.sprite(game.world.centerX/10,120,'atlas.where',"COLUMN")
+        pilars1.scale.setTo(1,1)
+        pilars1.anchor.setTo(0.5,0.5)
+        pilars1.alpha=1
+        backgroundGroup.add(pilars1)
+        
+        pilars2=game.add.sprite(game.world.centerX*1.9,120,'atlas.where',"COLUMN")
+        pilars2.scale.setTo(1,1)
+        pilars2.anchor.setTo(0.5,0.5)
+        pilars2.alpha=1
+        backgroundGroup.add(pilars2)
         
         backGfloor=game.add.tileSprite(game.world.centerX,game.world.height-100,game.world.width,game.world.height*1.2,'atlas.where',"FLOOR TILE")
         backGfloor.scale.setTo(1,1)
@@ -622,6 +641,20 @@ var whereIsMy = function(){
         objectsInSceneProxy[3].tag="PHOTO"
         objectGroup.add(objectsInSceneProxy[3])
         
+        //Baul
+        baul=game.add.sprite(bed.x,bed.centerY+200,"baul")
+        baul.anchor.setTo(.5)
+        baul.scale.setTo(.7)
+        baul.animations.add('baul');
+        baul.alpha=1
+        objectGroup.add(baul)
+        
+        character=game.add.spine(board.centerX,board.centerY-170,"thef")
+        character.scale.setTo(1,1)
+        character.alpha=1
+        character.setSkinByName("normal");
+        character.setAnimationByName(0,"IDLE",true)
+        objectGroup.add(character)
         
         objectsInScene[6]=game.add.sprite(board.centerX,board.centerY-120,'atlas.where',"TENNIS")
         objectsInScene[6].scale.setTo(1,1)
@@ -633,19 +666,14 @@ var whereIsMy = function(){
         objectsInScene[6].body.immovable=true
         objectGroup.add(objectsInScene[6])
         
-        objectsInSceneProxy[6]=game.add.sprite(board.centerX,board.centerY-170,'atlas.where',"TENNIS")
-        objectsInSceneProxy[6].scale.setTo(.5,.5)
+        objectsInSceneProxy[6]=game.add.sprite(board.centerX,board.centerY-190,'atlas.where',"TENNIS")
+        objectsInSceneProxy[6].scale.setTo(0.5,0.5)
         objectsInSceneProxy[6].anchor.setTo(0.5,0.5)
         objectsInSceneProxy[6].alpha=0
         objectsInSceneProxy[6].tag="TENNIS"
         objectGroup.add(objectsInSceneProxy[6])
         
-        character=game.add.spine(board.centerX,board.centerY-170,"thef")
-        character.scale.setTo(1,1)
-        character.alpha=1
-        character.setSkinByName("normal");
-        character.setAnimationByName(0,"IDLE",true)
-        objectGroup.add(character)
+        
         
         objectsInScene[4]=game.add.sprite(puff.centerX-20,puff.centerY-50,'atlas.where',"STUFFED")
         objectsInScene[4].scale.setTo(1,1)
@@ -673,7 +701,7 @@ var whereIsMy = function(){
         objectGroup.add(objectsInScene[5])
         
         objectsInSceneProxy[5]=game.add.sprite(table.centerX+100,table.centerY-60,'atlas.where',"LAMP")
-        objectsInSceneProxy[5].scale.setTo(.5,.5)
+        objectsInSceneProxy[5].scale.setTo(0.5,0.5)
         objectsInSceneProxy[5].anchor.setTo(0.5,0.5)
         objectsInSceneProxy[5].alpha=0
         objectsInSceneProxy[5].tag="LAMP"
@@ -689,6 +717,13 @@ var whereIsMy = function(){
         objectGroup.add(characterProxy)
         
         
+        objectFalled=game.add.sprite(bed.centerX,bed.centerY+100,'atlas.where',"LAMP")
+        objectFalled.scale.setTo(1,1)
+        objectFalled.anchor.setTo(0.5,0.5)
+        objectFalled.alpha=0
+        objectGroup.add(objectFalled)
+        
+        
         qGlobe=game.add.sprite(character.centerX,character.centerY-320,'atlas.where',"QUESTION")
         qGlobe.scale.setTo(1,1)
         qGlobe.anchor.setTo(0.5,0.5)
@@ -702,17 +737,31 @@ var whereIsMy = function(){
         objectGroup.add(objectsToFind)
         
         //Coins
-        for(var putingCoins=0;putingCoins<coins.length;putingCoins++){
-            coins[putingCoins]=game.add.sprite(objectsInScene[putingCoins].x,objectsInScene[putingCoins].y, "coin")
-            coins[putingCoins].anchor.setTo(.5)
-            coins[putingCoins].scale.setTo(.5)
-            coins[putingCoins].animations.add('coin');
-            coins[putingCoins].animations.play('coin', 24, true);
-            coins[putingCoins].alpha=0
-        }
+        coins=game.add.sprite(objectsInScene[0].x,objectsInScene[0].y, "coin")
+        coins.anchor.setTo(.5)
+        coins.scale.setTo(.5)
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0
         
+        posX[0]=bed.centerX
+        posY[0]=bed.centerY-50
+        posX[1]=nightStand.centerX-40
+        posY[1]=nightStand.centerY-50
+        posX[2]=carpet.centerX+70
+        posY[2]=carpet.centerY-100
+        posX[3]=carpet.centerX+70
+        posY[3]=carpet.centerY
+        posX[4]=puff.centerX-20
+        posY[4]=puff.centerY-50
+        posX[5]=table.centerX+20
+        posY[5]=table.centerY-60
+        posX[6]=board.centerX
+        posY[6]=board.centerY-120
         
         positionTimer()
+        game.add.tween(qGlobe.scale).to({x:1.1, y:1.1}, (620), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
+        game.add.tween(objectsToFind.scale).to({x:1.1, y:1.1}, (620), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
         
     }
 	
@@ -723,53 +772,194 @@ var whereIsMy = function(){
         objectsToFind.loadTexture("atlas.where",objects[whichObject]+"_Q")
         objectsToFind.tag=objects[whichObject]
         
-        
-        game.add.tween(qGlobe).to({alpha:1},1000,Phaser.Easing.linear,true, 250).onComplete.add(function(){
+        game.add.tween(qGlobe).to({alpha:1},950,Phaser.Easing.linear,true, 250).onComplete.add(function(){
+            
             game.add.tween(objectsToFind).to({alpha:1},900,Phaser.Easing.linear,true, 250).onComplete.add(function(){
-                 startTimer(dificulty)
+                startTimer(dificulty)
+                objectDisplay=true
             })
         })
-        game.add.tween(qGlobe.scale).to({x:1.1, y:1.1}, (620), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
-        game.add.tween(objectsToFind.scale).to({x:1.1, y:1.1}, (620), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
+
         
         
     }
     
+    function baulFun(objToFall){
+        
+        
+        objectFalled.loadTexture(objToFall.texture)
+        game.time.events.add(950, function(){
+            if(playedBaul){
+                playedBaul.reverse()
+                playedBaul.play()
+            }else{
+                playedBaul=baul.animations.play('baul', 24, false);
+            }
+            game.add.tween(objectFalled).to({alpha:1},900,Phaser.Easing.linear,true, 250).onComplete.add(function(){
+                game.add.tween(objectFalled).to({alpha:0},50,Phaser.Easing.linear,true, 100)
+                game.add.tween(objectFalled).to({y:objectFalled.centerY+100},200,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+                    playedBaul.reverse()
+                    playedBaul.play()
+                    Coin(objectFalled,pointsBar,100)
+                    objectFalled.position.y-=100
+                    game.time.events.add(950, function(){
+                        game.time.events.add(200, function(){
+                        saveObjects()
+                    })
+                    })
+                })
+            })
+        })
+    }
+    
+    
+    function saveObjects(){
+        
+        if(playedBaul){
+                playedBaul.reverse()
+                playedBaul.play()
+            }else{
+                playedBaul=baul.animations.play('baul', 24, false);
+        }
+        game.time.events.add(1000, function(){
+            for(var save=0;save<objectsInScene.length;save++){
+
+                if(objectsInScene[save]!=objectToFind){
+                    game.add.tween(objectsInScene[save]).to({x:baul.centerX,y:baul.centerY},300,Phaser.Easing.Cubic.InOut,true,200*save*2)
+                    game.add.tween(objectsInScene[save]).to({alpha:0},330,Phaser.Easing.linear,true, 200*save*2)
+                }else{
+                    objectsInScene[save].position.x=baul.centerX
+                    objectsInScene[save].position.y=baul.centerY
+                }
+            }
+        })
+        game.time.events.add(3700, function(){
+            playedBaul.reverse()
+            playedBaul.play()
+        })
+        game.time.events.add(4500, function(){
+            playedBaul.reverse()
+            playedBaul.play()
+        })
+        game.time.events.add(5000, function(){
+            
+            takeOutObjects()  
+        })
+        
+    }
+    
+    function takeOutObjects(){
+        
+        for(var takeOut=0;takeOut<objects.length;takeOut++){
+            
+            
+                game.add.tween(objectsInScene[takeOut]).to({alpha:1},200,Phaser.Easing.linear,true, 100*takeOut*2)
+                    game.add.tween(objectsInScene[takeOut]).to({x:posX[takeOut],y:posY[takeOut]},250,Phaser.Easing.Cubic.InOut,true,100*takeOut*2).onComplete.add(function(){
+                        passingLevel=false
+                })
+        }
+        
+        var actualObject=0
+        var moving=0
+        objects[0]="DOLL"
+        objects[1]="BALL"
+        objects[2]="LAMP"
+        objects[3]="TENNIS"
+        objects[4]="PHOTO"
+        objects[5]="YO YO"
+        objects[6]="STUFFED"
+        
+        while(moving<7){
+            
+            actualObject=game.rnd.integerInRange(0,6)
+            console.log(objects[actualObject])
+            
+            if(objects[actualObject]!="noObject"){
+                
+                objectsInScene[moving].loadTexture("atlas.where",objects[actualObject])
+                objectsInScene[moving].tag=objects[actualObject]
+                objects[actualObject]="noObject"
+                moving++
+            }
+
+        }
+        game.time.events.add(1400, function(){
+            objects[0]="DOLL"
+            objects[1]="BALL"
+            objects[2]="LAMP"
+            objects[3]="TENNIS"
+            objects[4]="PHOTO"
+            objects[5]="YO YO"
+            objects[6]="STUFFED"
+            startGlobe()
+            
+            playedBaul.reverse()
+            playedBaul.play()
+            
+        })
+        
+        
+    }
+    
+    
     function onSelect(obj){
          
         
-        if(!passingLevel){
+        if(!passingLevel && objectDisplay){
+        
+            stopTimer()
+            sound.play("pick")
             passingLevel=true
-            characterProxy.position.x=game.world.centerX
-            characterProxy.position.y=game.world.centerY+100
+            objectDisplay=false
             game.add.tween(qGlobe).to({alpha:0},300,Phaser.Easing.linear,true, 250)
             game.add.tween(objectsToFind).to({alpha:0},300,Phaser.Easing.linear,true, 250).onComplete.add(function (){
+                game.add.tween(characterProxy).to({x:game.world.centerX, y:game.world.centerY+100}, (1000), Phaser.Easing.Cubic.Linear, true)
+                character.setAnimationByName(0,"FRONT_WALK",true)
+                if(obj.tag==objectsToFind.tag){
+                    game.add.tween(obj).to({alpha:0},300,Phaser.Easing.linear,true, 250)
+                    dificulty-=100
+                    baulFun(obj)
+                    game.time.events.add(950, function(){
+                        character.setAnimationByName(0,"WIN",false)
+                    })
+                    game.time.events.add(1900, function(){
+                        character.setAnimationByName(0,"IDLE",true)
+                    })
+                }else{
+                    missPoint()
+                    if(lives>0)saveObjects()
+                    game.time.events.add(950, function(){
+                        character.setAnimationByName(0,"LOSE",false)
+                    })
                     
-                    
-                    
-                        
-                    if(obj.tag==objectsToFind.tag){
-                        console.log(parseInt(objectsInScene[].name))
-                        game.add.tween(coins[objectsInScene.name]).to({alpha:1}, 100, Phaser.Easing.Cubic.In, true,100)
-                            game.add.tween(coins[objectsInScene.name]).to({x:objectsInScene[objectsInScene.name].centerX,y:objectsInScene[objectsInScene.name].centerY-100},900,Phaser.Easing.inOut,true).onComplete.add(function(){
-                                game.add.tween(coins[objectsInScene.name]).to({x:pointsBar.centerX,y:pointsBar.centerY},200,Phaser.Easing.inOut,true)
-                                    game.add.tween(coins[objectsInScene.name]).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
-                                        coins[correctNumber].x=objectsInScene[objectsInScene.name].centerX
-                                        coins[correctNumber].y=objectsInScene[objectsInScene.name].centerY
-                                        addPoint(1)
-                                        nextLevel()
-                                        passingLevel=false
-                            })
-                        })
-                        
-                        
-                    }else{
-                        missPoint()
-                        reset()
-                        passingLevel=false
-                    }
-             })
+                     game.time.events.add(1900, function(){
+                        character.setAnimationByName(0,"IDLE",true) 
+                    })
+                }
+            })
         }
+    }
+    
+    
+    function Coin(objectBorn,objectDestiny,time){
+        
+        
+        //objectBorn= Objeto de donde nacen
+        // 
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+                nextLevel()
+                passingLevel=false
+            })
+        })
     }
     
     
@@ -778,7 +968,7 @@ var whereIsMy = function(){
         sound.play("pop")
         
         
-        if(obj.tag=="left" && !btnActive){
+        if(obj.tag=="left" && !btnActive && objectDisplay){
             characterProxy.body.velocity.x = -100;
             character.scale.setTo(-1,1)
             btnActive=true
@@ -792,7 +982,7 @@ var whereIsMy = function(){
             })
             
         }
-        if(obj.tag=="right" && !btnActive){
+        if(obj.tag=="right" && !btnActive && objectDisplay){
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.x = +100;
@@ -804,7 +994,7 @@ var whereIsMy = function(){
                 btnActive=false
             })
         }
-        if(obj.tag=="up" && !btnActive){
+        if(obj.tag=="up" && !btnActive && objectDisplay){
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.y = -100;
@@ -816,7 +1006,7 @@ var whereIsMy = function(){
                 btnActive=false
             })
         }
-        if(obj.tag=="down" && !btnActive){
+        if(obj.tag=="down" && !btnActive && objectDisplay){
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.y = +100;
@@ -829,7 +1019,7 @@ var whereIsMy = function(){
             })
         }
        
-        //nextLevel()
+        
     }
     
 	function update(){
@@ -910,17 +1100,28 @@ var whereIsMy = function(){
                 objects[4]="PHOTO"
                 objects[5]="YO YO"
                 objects[6]="STUFFED"
-                startGlobe()
            })
        }
        function startTimer(time){
-               tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
-               tweenTiempo.onComplete.add(function(){
-               missPoint()
-               startGame=false
-               reset()
-               })
-       }
+            tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
+            tweenTiempo.onComplete.add(function(){
+                game.add.tween(qGlobe).to({alpha:0},300,Phaser.Easing.linear,true, 250)
+                game.add.tween(objectsToFind).to({alpha:0},300,Phaser.Easing.linear,true, 250).onComplete.add(function (){
+                game.add.tween(characterProxy).to({x:game.world.centerX, y:game.world.centerY+100}, (1000), Phaser.Easing.Cubic.Linear, true)
+                character.setAnimationByName(0,"FRONT_WALK",true)
+                missPoint()
+                saveObjects()
+                objectDisplay=false
+                game.time.events.add(950, function(){
+                    character.setAnimationByName(0,"LOSE",false)
+                })
+                    
+                game.time.events.add(1900, function(){
+                    character.setAnimationByName(0,"IDLE",true) 
+                })
+            })
+        })
+    }
     
     function reset(){
             
@@ -936,42 +1137,14 @@ var whereIsMy = function(){
         
         for(var reOrder=0; reOrder<7;reOrder++){
             objectsInScene[reOrder].loadTexture("atlas.where",objects[reOrder])
-            objectsInScene.tag=objects[reOrder]
+            objectsInScene[reOrder].tag=objects[reOrder]
         }
-        
-        stopTimer()
-        
-            
+        stopTimer() 
     }
     
     function nextLevel(){
         
-        dificulty-=100
-        characterProxy.position.x=game.world.centerX
-        characterProxy.position.y=game.world.centerY+100
-        var actualObject=0
-        var moving=0
-        objects[0]="DOLL"
-        objects[1]="BALL"
-        objects[2]="LAMP"
-        objects[3]="TENNIS"
-        objects[4]="PHOTO"
-        objects[5]="YO YO"
-        objects[6]="STUFFED"
         
-        while(moving<7){
-            
-            actualObject=game.rnd.integerInRange(0,6)
-            console.log(objects[actualObject])
-            if(objects[actualObject]!="noObject"){
-                
-                objectsInScene[moving].loadTexture("atlas.where",objects[actualObject])
-                objectsInScene[moving].tag=objects[actualObject]
-                objects[actualObject]="noObject"
-                moving++
-            }
-        }
-        stopTimer()
     
     }
 	
@@ -1162,10 +1335,10 @@ var whereIsMy = function(){
 			createBackground()
 			addParticles()
                         			
-//            whereSong = game.add.audio('whereSong')
-//            game.sound.setDecodedCallback(whereSong, function(){
-//                whereSong.loopFull(0.6)
-//            }, this);
+            whereSong = game.add.audio('whereSong')
+            game.sound.setDecodedCallback(whereSong, function(){
+                whereSong.loopFull(0.6)
+            }, this);
             
             game.onPause.add(function(){
                 game.sound.mute = true

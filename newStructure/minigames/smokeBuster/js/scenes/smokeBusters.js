@@ -110,6 +110,7 @@ var smokeBusters = function(){
     var correctNumber
     var correctNumber2
     var empezoReal
+    var counterSmoke
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -120,6 +121,7 @@ var smokeBusters = function(){
         startGame=true
         game.stage.backgroundColor = "#E8BE8B"
         lives = 3
+        counterSmoke=lives;
         next=1
         contHeight=0
         finishLoad=true 
@@ -256,18 +258,19 @@ var smokeBusters = function(){
         sound.play("wrong")
 		        
         lives--;
-        
-        if(lives==2)
+        counterSmoke--;
+        console.log(counterSmoke)
+        if(counterSmoke==2)
         {
-            windowSmoke1.alpha=1
+            game.add.tween(windowSmoke1).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1300)
         }
-        else if(lives==1)
+        else if(counterSmoke==1)
         {
-            windowSmoke2.alpha=1
+            game.add.tween(windowSmoke2).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1300)
         }
-        else if(lives==0)
+        else if(counterSmoke==0)
         {
-            windowSmoke3.alpha=1
+            game.add.tween(windowSmoke3).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1300)
         } 
         
         heartsGroup.text.setText('X ' + lives)
@@ -298,6 +301,8 @@ var smokeBusters = function(){
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
+        
+
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
@@ -530,9 +535,6 @@ var smokeBusters = function(){
         city.alpha=0
         backG.alpha=0
         
-        botonAspirar=gameGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
-        botonAspirar.inputEnabled=true
-        botonAspirar.tag="suck"
         
         leftBar=gameGroup.create(0,0,'atlas.smoke','button')
         leftBar.alpha=0
@@ -552,8 +554,7 @@ var smokeBusters = function(){
         rightBar.events.onInputDown.add(onClick,this)
         leftBar.events.onInputUp.add(onRelease,this)
         rightBar.events.onInputUp.add(onRelease,this)
-        botonAspirar.events.onInputDown.add(onClick,this)
-        botonAspirar.events.onInputUp.add(onRelease,this)
+       
         
          luna = gameGroup.game.add.spine(0,0, "luna");
          
@@ -565,11 +566,7 @@ var smokeBusters = function(){
             way[b]=false
         }
         
-        btnOn=sceneGroup.create(0, 0,'atlas.smoke','audio_on')
-        btnOn.scale.setTo(.5)
-        btnOn.inputEnabled=true
-        btnOn.events.onInputDown.add(OnSound,this)
-        sceneGroup.add(btnOn)
+        
         
         character=gameGroup.create(game.world.centerX, game.world.centerY-300,'atlas.smoke','LUNA')
         character.scale.setTo(scaleSpine)
@@ -697,6 +694,18 @@ var smokeBusters = function(){
             }
 	       }
         
+        btnOn=sceneGroup.create(0, 0,'atlas.smoke','audio_on')
+        btnOn.scale.setTo(.5)
+        btnOn.inputEnabled=true
+        btnOn.events.onInputDown.add(OnSound,this)
+        sceneGroup.add(btnOn)
+        
+        botonAspirar=sceneGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
+        botonAspirar.inputEnabled=true
+        botonAspirar.tag="suck"
+        botonAspirar.events.onInputDown.add(onClick,this)
+        botonAspirar.events.onInputUp.add(onRelease,this)
+        
          //clouds
                 
         for(var spongy=0;spongy<clouds.length;spongy++){
@@ -708,8 +717,8 @@ var smokeBusters = function(){
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
-        controles2=game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-		controles2.onDown.add(enter, this)
+        controles2=game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		controles2.onDown.add(space, this)
     }
     
             function right(){
@@ -726,23 +735,22 @@ var smokeBusters = function(){
     
     
          
-    function enter(){
+    function space(){
     
       sound.play("shoot")
       if(unlockHit){  
         for(var h=0; h<3;h++){
             
             if(character.y-200<pollution[h].y  && (character.x<pollution[h].x+200 && character.x>pollution[h].x-200)){
-                
-                unlockHit=false
-                luna.setAnimationByName(0,"SUCK",false);
                 var number=h
+                unlockHit=false
+                pollutionCanKill[number]=false
+                luna.setAnimationByName(0,"SUCK",false);
                 
-                    
-                   
                     pollutionAbsorb[number].alpha=1
                     pollutionSkin[number].alpha=0
-                    pollutionCanKill[number]=false
+                    
+                    
                     if(pollutionCanKill[number]==false){
                             if(correctNumber==-1){
                             correctNumber=1
@@ -771,6 +779,23 @@ var smokeBusters = function(){
                             }
                             correctParticle.position.x=character.position.x+50
                             correctParticle.position.y=character.position.y
+                            
+                            if(counterSmoke==2 && (pointsBar.number+1)%5==0 &&  pointsBar.number>1)
+                            {
+                                game.add.tween(windowSmoke1).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+                                counterSmoke++
+                            }
+                            else if(counterSmoke==1 && (pointsBar.number+1)%5==0 &&  pointsBar.number>1)
+                            {
+                                game.add.tween(windowSmoke2).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+                                counterSmoke++
+                            }
+                            else if(counterSmoke==0 && (pointsBar.number+1)%5==0 &&  pointsBar.number>1)
+                            {
+                                game.add.tween(windowSmoke3).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+                                counterSmoke++
+                            } 
+                            
                             correctParticle.start(true, 1000, null, 5)
                     }
                 //pollution[number].setAnimationByName(0,"DIE",true);
@@ -1049,6 +1074,7 @@ var smokeBusters = function(){
                     if(pollution[p].position.y>game.camera.y+1000){
 
                         pollution[p].kill();
+                        pollution[p].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-900)
                              if(next==1){
                                 next=9
                             }else if(next==9){
@@ -1060,10 +1086,10 @@ var smokeBusters = function(){
                             }else if(next==3){
                                 next=1
                             }
-                            pollution[p].reset(game.rnd.integerInRange(100,game.world.width-200), clouds[next].y-900)
                             pollution[p].alpha=0
                             if(pollution[p].alpha==0){
                                 missPoint()
+                                console.log(next)
                                 if(lives>0) reset()
                             }
                         }
@@ -1153,6 +1179,7 @@ var smokeBusters = function(){
                 
                 if(pollution[0]==obj2 && pollutionCanKill[0]){
                    obj2.kill();
+                    obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
                          if(next==1){
                             next=9
                         }else if(next==9){
@@ -1163,13 +1190,15 @@ var smokeBusters = function(){
                             next=3
                         }else if(next==3){
                             next=1
-                        }   
-                        obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        }
+                        
                         missPoint() 
                         if(lives>0) reset()
                 }
                 if(pollution[1]==obj2 && pollutionCanKill[1]){
                    obj2.kill();
+                    
+                    obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
                          if(next==1){
                             next=9
                         }else if(next==9){
@@ -1181,13 +1210,15 @@ var smokeBusters = function(){
                         }else if(next==3){
                             next=1
                         }  
-                        obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        
                         missPoint()
                         if(lives>0) reset()
                         
                 }
                 if(pollution[2]==obj2 && pollutionCanKill[2]){
                    obj2.kill();
+                    
+                    obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
                           if(next==1){
                             next=9
                         }else if(next==9){
@@ -1199,7 +1230,7 @@ var smokeBusters = function(){
                         }else if(next==3){
                             next=1
                         }  
-                        obj2.reset(game.rnd.integerInRange(0,game.world.width-400),clouds[next].y-400)
+                        
                         missPoint()
                         if(lives>0) reset()
                 }
