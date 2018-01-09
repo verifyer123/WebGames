@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var colorScientist = function(){
+var H2Orbit = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,15 +20,10 @@ var colorScientist = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.colorScientist",
-                json: "images/colorScientist/atlas.json",
-                image: "images/colorScientist/atlas.png",
+                name: "atlas.H2Orbit",
+                json: "images/H2Orbit/atlas.json",
+                image: "images/H2Orbit/atlas.png",
             },
-            {   
-                name: "atlas.time",
-                json: "images/colorScientist/timeAtlas.json",
-                image: "images/colorScientist/timeAtlas.png",
-            }
         ],
         images: [
 
@@ -36,12 +31,12 @@ var colorScientist = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "robotWhoosh",
-				file: soundsPath + "robotWhoosh.mp3"},
-            {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
+            {	name: "wrong",
+				file: soundsPath + "wrong.mp3"},
+            {	name: "rightChoice",
+				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
@@ -54,20 +49,16 @@ var colorScientist = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 114
+    var gameIndex = 116
     var overlayGroup
-    var colorSong
-    var colors =  ['blue', 'red', 'yellow'] 
-    var colorGroup1
-    var colorGroup2
-    var computer
-    var bottlesGroup
-    var okGroup
-    var pivot
-    var GOP
-    var time
-    var usedColor
-    var roundCount
+    var starsSong
+    var back, stars
+    var speed
+    var states 
+    var fontStyle 
+    var shipGroup
+    var planetsGroup
+    var actualState
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -76,16 +67,32 @@ var colorScientist = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 3
+        lives = 1
         gameActive = false
-        pivot = 1
-        GOP = 1
-        time = 6000
-        usedColor = 0
-        roundCount = 0
+        speed = 2
+        actualState = 0
+        
+        if(localization.getLanguage() === 'EN'){
+            states = ['Solid', 'Liquid', 'Gas'] 
+            fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        }
+        else{
+            states = ['Solido', 'Líquido', 'Gaseoso'] 
+            fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        }
         
         loadSounds()
 	}
+
+    function popObject(obj,delay){
+         
+        game.time.events.add(delay,function(){
+            
+            sound.play("cut")
+            obj.alpha = 1
+            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+        },this)
+    }
     
     function animateScene() {
                 
@@ -183,7 +190,7 @@ var colorScientist = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.colorScientist','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.H2Orbit','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -211,7 +218,7 @@ var colorScientist = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.colorScientist','life_box')
+        var heartImg = group.create(0,0,'atlas.H2Orbit','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -234,7 +241,7 @@ var colorScientist = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        colorSong.stop()
+        starsSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -252,16 +259,22 @@ var colorScientist = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('colorSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
+        game.load.audio('starsSong', soundsPath + 'songs/shooting_stars.mp3');
         
-		game.load.image('howTo',"images/colorScientist/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/colorScientist/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/colorScientist/introscreen.png")
-		
-        game.load.image('background',"images/colorScientist/background.png")
+		game.load.image('howTo',"images/H2Orbit/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/H2Orbit/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/H2Orbit/introscreen.png")
         
-        game.load.spine("computer", "images/spines/computer/computer.json")
-        game.load.spine("bottle", "images/spines/bottle/bottle.json")
+		game.load.image('bottle',"images/H2Orbit/bottle.png")
+		game.load.image('paint',"images/H2Orbit/paint.png")
+        
+        game.load.spine("solidShip", "images/spines/IceShip/iceship.json")
+        game.load.spine("liquidShip", "images/spines/WaterShip/whatership.json")
+        game.load.spine("gasShip", "images/spines/WindShip/cloudship.json")
+        
+        game.load.spine("solidPlanet", "images/spines/IcePlanet/iceplanet.json")
+        game.load.spine("liquidPlanet", "images/spines/WaterPlanet/watherplanet.json")
+        game.load.spine("gasPlanet", "images/spines/WindPlanet/cloudplanet.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -286,8 +299,7 @@ var colorScientist = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                //initGame()
-                tutorial()
+                initGame()
             })
             
         })
@@ -298,7 +310,7 @@ var colorScientist = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.colorScientist','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.H2Orbit','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -312,43 +324,55 @@ var colorScientist = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.colorScientist',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.H2Orbit',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.colorScientist','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.H2Orbit','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)
     }
-    
-    function releaseButton(obj){
-        
-        obj.parent.children[1].alpha = 1
-    }
 
 	function createBackground(){
+            
+        back = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.H2Orbit", "background")
+        sceneGroup.add(back)
         
-        back = sceneGroup.create(game.world.centerX, game.world.centerY, "background")
-        back.anchor.setTo(0.5)
-        back.width = game.world.width
-        back.height = game.world.height
+        bottle = sceneGroup.create(game.world.width, game.world.centerY, "bottle") 
+        bottle.anchor.setTo(1, 0)
         
-        base = sceneGroup.create(game.world.centerX, game.world.height, "atlas.colorScientist", "base")
-        base.anchor.setTo(0.5, 1)
-        base.width = game.world.width
+        paint = sceneGroup.create(game.world.centerX - 200, game.world.centerY - 330, "paint") 
+        paint.anchor.setTo(0.5)
         
-        connect = game.add.tileSprite(0, game.world.centerY - 50, game.world.width, 65, "atlas.colorScientist", "connect")
-        connect.scale.setTo(1.3, 1)
-        sceneGroup.add(connect)  
-        
-        screen = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.colorScientist", "screen")
-        screen.anchor.setTo(0.5)
+        stars = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.H2Orbit", "stars")
+        stars.alpha = 0.5
+        sceneGroup.add(stars)
     }
 
 	function update(){
         
+        back.tilePosition.y += speed * 0.7
+        stars.tilePosition.y += speed
+        
+        if(bottle.y <  game.world.height + bottle.height)
+            bottle.y += speed * 0.5
+        else
+            bottle.y = -bottle.height
+        if(paint.y <  game.world.height + paint.height)
+            paint.y += speed * 0.05
+        else
+            paint.y = -paint.height
+        
+        if(gameActive){
+             if(planetsGroup.y < game.world.height + planetsGroup.children[actualState].height)
+                planetsGroup.y += speed
+            else
+                throwPlanets()
+        }
+        
+        game.physics.arcade.overlap(planetsGroup, shipGroup, planetVSship, null, this)
     }
     
 	function createTextPart(text,obj){
@@ -403,7 +427,7 @@ var colorScientist = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.colorScientist',key);
+        particle.makeParticles('atlas.H2Orbit',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -430,7 +454,7 @@ var colorScientist = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.colorScientist',tag);
+				particle.makeParticles('atlas.H2Orbit',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -486,7 +510,7 @@ var colorScientist = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.colorScientist','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.H2Orbit','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -499,7 +523,7 @@ var colorScientist = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.colorScientist','smoke');
+        particlesGood.makeParticles('atlas.H2Orbit','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -522,321 +546,177 @@ var colorScientist = function(){
         
         particleWrong = createPart('wrong')
         sceneGroup.add(particleWrong)
-        
-        particleSmoke = createPart('smoke')
-        sceneGroup.add(particleSmoke)
     }
     
-    function positionTimer(){
+    function bigBangTheory(){
         
-        timerGroup = game.add.group()
-        timerGroup.scale.setTo(1.5)
-        timerGroup.alpha = 0
-        sceneGroup.add(timerGroup)
+        planetsGroup = game.add.group()
+        planetsGroup.x = game.world.centerX 
+        planetsGroup.y = -70
+        planetsGroup.state = 0
+        planetsGroup.enableBody = true
+        planetsGroup.physicsBodyType = Phaser.Physics.ARCADE
+        sceneGroup.add(planetsGroup)
         
-        var clock = game.add.image(0, 0, "atlas.time", "clock")
-        clock.scale.setTo(0.7)
-        clock.alpha = 1
-        timerGroup.add(clock)
+        var solidPlanet = game.add.spine(0, 0, "solidPlanet")
+        solidPlanet.setAnimationByName(0, "IDLE", true)
+        solidPlanet.setSkinByName("normal")
+        solidPlanet.alpha = 0
+        planetsGroup.add(solidPlanet)
         
-        timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
-        timeBar.scale.setTo(8, 0.45)
-        timeBar.alpha = 1
-        timerGroup.add(timeBar)
+        var liquidPlanet = game.add.spine(0, 0, "liquidPlanet")
+        liquidPlanet.setAnimationByName(0, "IDLE", true)
+        liquidPlanet.setSkinByName("normal")
+        liquidPlanet.alpha = 0
+        planetsGroup.add(liquidPlanet)
         
-        timerGroup.x = game.world.centerX - clock.width * 0.75
-        timerGroup.y = clock.height * 0.5
-   }
+        var gasPlanet = game.add.spine(0, 0, "gasPlanet")
+        gasPlanet.setAnimationByName(0, "IDLE", true)
+        gasPlanet.setSkinByName("normal")
+        gasPlanet.alpha = 0
+        planetsGroup.add(gasPlanet)
+        
+        var planetCollider = planetsGroup.create(0, 0, "atlas.H2Orbit", "star")
+        planetCollider.anchor.setTo(0.5)
+        planetCollider.alpha = 0
+        planetCollider.body.immovable = true
+    }
     
-    function stopTimer(){
+    function starDestroyer(){
         
-        tweenTiempo.stop()
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
-   }
+        shipGroup = game.add.group()
+        shipGroup.x = game.world.centerX
+        shipGroup.y = game.world.centerY + 200
+        shipGroup.state = 0
+        shipGroup.enableBody = true
+        shipGroup.physicsBodyType = Phaser.Physics.ARCADE
+        sceneGroup.add(shipGroup)
+        
+        var solidShip = game.add.spine(0, 0, "solidShip")
+        solidShip.setAnimationByName(0, "IDLE", true)
+        solidShip.setSkinByName("normal")
+        solidShip.alpha = 1
+        shipGroup.add(solidShip)
+        
+        var liquidShip = game.add.spine(0, 0, "liquidShip")
+        liquidShip.setAnimationByName(0, "IDLE", true)
+        liquidShip.setSkinByName("normal")
+        liquidShip.alpha = 0
+        shipGroup.add(liquidShip)
+        
+        var gasShip = game.add.spine(0, 0, "gasShip")
+        gasShip.setAnimationByName(0, "IDLE", true)
+        gasShip.setSkinByName("normal")
+        gasShip.alpha = 0
+        shipGroup.add(gasShip)
+        
+        var shipCollider = shipGroup.create(0, 0, "atlas.H2Orbit", "star")
+        shipCollider.anchor.setTo(0.5)
+        shipCollider.alpha = 0
+        shipCollider.body.immovable = true
+    }
     
-    function startTimer(time){
+    function initButtons(){
         
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
-        tweenTiempo.onComplete.add(function(){
+        for(var b = -1; b < 2; b++){
             
-            checkColors()
-        })
-    }
-    
-    function MrRobot(color){
-        
-        computer = game.add.spine(game.world.centerX, game.world.centerY - 18, "computer")
-        computer.setAnimationByName(0, "IDLE", true)
-        computer.setSkinByName("face_black")
-        sceneGroup.add(computer)
-        
-        for(var c = 0; c < colors.length; c++){
-            glass = game.add.spine(game.world.centerX - 150, game.world.height - 50, "bottle")
-            glass.x += 150 * c
-            glass.setAnimationByName(0, "IDLE", true)
-            glass.setSkinByName(colors[c])
-            sceneGroup.add(glass)
+            var buttonGroup = game.add.group()
+            buttonGroup.x = game.world.centerX + 170 * b 
+            buttonGroup.y = game.world.height - 100
+            sceneGroup.add(buttonGroup)
+            
+            var stateBtn = buttonGroup.create(0, 0, "atlas.H2Orbit", "stateButton")
+            stateBtn.anchor.setTo(0.5)
+            //stateBtn.x += 170 * b
+            stateBtn.elementalState = b + 1
+            //stateBtn.scale.setTo(1, 1.5)
+            stateBtn.inputEnabled = true
+            stateBtn.events.onInputDown.add(changeShip, this)
+            
+            var mesage = new Phaser.Text(sceneGroup.game, 0, 18, '0', fontStyle)
+            mesage.anchor.setTo(0.5)
+            mesage.y = stateBtn.y
+            mesage.x = stateBtn.x
+            mesage.setText(states[b + 1])
+            buttonGroup.add(mesage)
         }
     }
     
-    function trueColors(){
-        
-        target1 = sceneGroup.create(game.world.centerX - 80, game.world.centerY - 270, "atlas.colorScientist", "target")
-        target1.anchor.setTo(0.5) 
-        target1.scale.setTo(1.1) 
-        
-        target2 = sceneGroup.create(game.world.centerX + 80, game.world.centerY - 270, "atlas.colorScientist", "target")
-        target2.anchor.setTo(0.5) 
-        target2.scale.setTo(1.1) 
-        
-        colorGroup1 = game.add.group()
-        colorGroup1.x = target1.x
-        colorGroup1.y = target1.y
-        sceneGroup.add(colorGroup1)
-        
-        colorGroup2 = game.add.group()
-        colorGroup2.x = target2.x
-        colorGroup2.y = target2.y
-        sceneGroup.add(colorGroup2)
-        
-        for(var c = 0; c < colors.length; c++){
-            colorGroup1.create(0, 0, 'atlas.colorScientist', colors[c]).anchor.setTo(0.5)
-            colorGroup2.create(0, 0, 'atlas.colorScientist', colors[c]).anchor.setTo(0.5)
-        }
-        colorGroup1.create(0, 0, 'atlas.colorScientist', 'riddle').anchor.setTo(0.5)
-        colorGroup2.create(0, 0, 'atlas.colorScientist', 'riddle').anchor.setTo(0.5)
-        
-        colorGroup1.setAll('alpha', 0)
-        colorGroup2.setAll('alpha', 0)
-    }
-	
-    function ok(){
-        
-        okGroup = game.add.group()
-        okGroup.x = game.world.centerX + 250
-        okGroup.y = game.world.centerY + 230
-        okGroup.scale.setTo(1.3)
-        sceneGroup.add(okGroup)
-        
-        okBtn = okGroup.create(0, 0, "atlas.colorScientist", "okOff")
-        okBtn.anchor.setTo(0.5) 
-        okBtn.alpha = 0
-        okBtn.inputEnabled = false
-        okBtn.events.onInputDown.add(okPressed,this)   
-        okBtn.events.onInputUp.add(okRelased,this) 
-        
-        var okBtnOff = okGroup.create(0, 0, "atlas.colorScientist", "okOff")
-        okBtnOff.anchor.setTo(0.5) 
- 
-        var okBtnOn = okGroup.create(0, 0, "atlas.colorScientist", "okOn")
-        okBtnOn.anchor.setTo(0.5) 
-        okBtnOn.alpha = 0
-        
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var okTxt = new Phaser.Text(sceneGroup.game, 0, 2, 'OK', fontStyle)
-        okTxt.anchor.setTo(0.5)
-        okGroup.add(okTxt)
-        
-        okGroup.setAll('tint', 0x909090)
-    }
-    
-    function okPressed(ok){
+    function changeShip(stateBtn){
         
         if(gameActive){
-            sound.play('pop')
-            ok.parent.children[1].alpha = 0
-            ok.parent.children[2].alpha = 1
-            ok.parent.children[3].scale.setTo(0.8)
-        }
-    }
-    
-    function okRelased(ok){
-        
-        if(gameActive){
-            ok.parent.children[1].alpha = 1
-            ok.parent.children[2].alpha = 0
-            ok.parent.children[3].scale.setTo(1)
-            ok.inputEnabled = false
-            
-            if(roundCount === 3){
-                checkColors()
-            }
-            else{
-                checkTutorial()
-            }
-        }
-    }
-    
-    function mesageInABottle(){
-        
-        bottlesGroup = game.add.group()
-        sceneGroup.add(bottlesGroup)
-        
-        for(var c = 0; c < colors.length; c++){
-            bottle = bottlesGroup.create(game.world.centerX - 150, game.world.height - 140, 'atlas.colorScientist', colors[c]+'Bottle')
-            bottle.x += 150 * c
-            bottle.anchor.setTo(0.5)
-            bottle.color = c
-            bottle.alpha = 0
-            bottle.inputEnabled = true
-            bottle.events.onInputDown.add(paintItBlack,this)
-        }
-    } 
-    
-    function paintItBlack(bottle){
-    
-        if(gameActive){
-            sound.play('robotWhoosh')
-            
-            if(pivot === 1){
-                changeImage(bottle.color, colorGroup1)
-                usedColor += bottle.color
-            }
-            else if(pivot === 2){
-                changeImage(bottle.color, colorGroup2)
-                usedColor += bottle.color
-                okBtn.inputEnabled = true
-                okGroup.setAll('tint', 0xffffff)
-            }
-             pivot++
-        }
-    }
-    
-    function checkColors(){
-        
-        if(gameActive){
-            
-            gameActive = false
-            stopTimer()
-            okGroup.setAll('tint', 0x909090)
-
-            if(usedColor === GOP){
-                addPoint(1)
-                computer.setAnimationByName(0, "WIN", true)
-                if(time > 500)
-                    time -= 200
-            }
-            else{
-                computer.setAnimationByName(0, "LOSE", true)
-                missPoint()
-            }
-
-            pivot = 1
-
-            game.time.events.add(1800,function(){
-                paintFace(4)
-                initGame()
+            game.add.tween(stateBtn.parent.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
+            {
+                sound.play('cut')
+                changeImage(stateBtn.elementalState, shipGroup)
+                shipGroup.state = stateBtn.elementalState
+                game.add.tween(stateBtn.parent.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
             })
         }
     }
-    
+	
     function initGame(){
         
-        GOP = getRand()
-        usedColor = 0
-        changeImage(3, colorGroup1)
-        changeImage(3, colorGroup2)
+        gameActive = true
+        throwPlanets()
+    }
+    
+    function throwPlanets(){
         
-        //paintFace(4)
-                                   
-        game.time.events.add(1200,function(){
-            gameActive = true
-            paintFace(GOP)
-            startTimer(time)
-        })
+        planetsGroup.y = -70
+        actualState = getRand()
+        changeImage(actualState, planetsGroup)
+        planetsGroup.state = actualState
+        shipGroup.children[3].body.enable = true
     }
     
     function getRand(){
-        var x = game.rnd.integerInRange(1, 3)
-        if(x === GOP)
+        var x = game.rnd.integerInRange(0, 2)
+        if(x === actualState)
             return getRand()
         else
             return x     
     }
     
-    function paintFace(color){
-        
-        computer.setAnimationByName(0, "IDLE", true)
-        sound.play('cut')
-        
-        switch(color){
-            case 1:
-                computer.setSkinByName("face_purple")
-            break
-            case 2:
-                computer.setSkinByName("face_green")
-            break
-            case 3:
-                computer.setSkinByName("face_orange")
-            break
-            case 4:
-                computer.setSkinByName("face_black")
-            break
-        }
-    }
-    
-    function tutorial(){
-        
-        usedColor = 0
-        changeImage(3, colorGroup1)
-        changeImage(3, colorGroup2)
-        
-        game.time.events.add(1200,function(){
-            gameActive = true
-            paintFace(GOP)
-        })
-    }
-    
-    function checkTutorial(){
-        
-        if(gameActive){
-            
-            gameActive = false
-            okGroup.setAll('tint', 0x909090)
+    function planetVSship(planet, ship){
 
-            if(usedColor === GOP){
-                addPoint(1)
-                roundCount++
-                computer.setAnimationByName(0, "WIN", true)
-            }
-            else{
-                computer.setAnimationByName(0, "LOSE", true)
-                missPoint()
-            }
+        shipGroup.children[3].body.enable = false
 
-            pivot = 1
-            
-            game.time.events.add(1800,function(){
-                paintFace(4)
-                if(roundCount === 3){
-                    timerGroup.alpha = 1
-                    initGame()
-                }
-                else{
-                    GOP++
-                    tutorial()
-                }
-            })
+        if(planet.parent.state === ship.parent.state){
+            addPoint(1)
+            sound.play('rightChoice')
+            speed += 0.5
+            particleCorrect.x = shipGroup.x 
+            particleCorrect.y = shipGroup.y
+            particleCorrect.start(true, 1200, null, 6)
         }
+        else{
+            shipGroup.children[ship.parent.state].setAnimationByName(0, "LOSE", false)
+            missPoint()
+            particleWrong.x = shipGroup.x - 20
+            particleWrong.y = shipGroup.y
+            particleWrong.start(true, 1200, null, 6)
+        }
+        
     }
     
 	return {
 		
 		assets: assets,
-		name: "colorScientist",
+		name: "H2Orbit",
 		update: update,
         preload:preload,
 		create: function(event){
             
+            game.physics.startSystem(Phaser.Physics.ARCADE)
 			sceneGroup = game.add.group()
 			
 			createBackground()
 			addParticles()
                         			
-            colorSong = game.add.audio('colorSong')
-            game.sound.setDecodedCallback(colorSong, function(){
-                colorSong.loopFull(0.6)
+            starsSong = game.add.audio('starsSong')
+            game.sound.setDecodedCallback(starsSong, function(){
+                starsSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -851,14 +731,12 @@ var colorScientist = function(){
 			            
 			createPointsBar()
 			createHearts()
-            positionTimer()
-            MrRobot()
-            trueColors()
-            ok()
-            mesageInABottle()
+            bigBangTheory()
+            starDestroyer()
+            initButtons()
             createParticles()
 			
-			buttons.getButton(colorSong,sceneGroup)
+			buttons.getButton(starsSong,sceneGroup)
             createOverlay()
             
             animateScene()
