@@ -940,11 +940,11 @@ var dusk = function(){
 	
 	function createContainer(){
 		
-		container = sceneGroup.create(game.world.centerX + 150, game.world.height - 175,'atlas.dusk','container_potion')
+		container = sceneGroup.create(game.world.centerX + 80, game.world.height - 175,'atlas.dusk','container_potion')
 		container.alpha = 0
 		container.anchor.setTo(0.5,0.5)
 		container.scale.x*= 1.3
-		
+
 		potionGroup = game.add.group()
 		sceneGroup.add(potionGroup)
 		
@@ -959,6 +959,8 @@ var dusk = function(){
 
 			pivotX += potion.width * 1.2
 		}
+
+		
 	}
 	
 	function createZombies(){
