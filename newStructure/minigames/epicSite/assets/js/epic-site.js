@@ -14,27 +14,30 @@ $("body").on("touchstart", function () {
 
 $(document).ready(function () {
     initSizes();
-    setTimeout(function () {
-        $('.epic-slider').slick({
-            dots: true,
-            autoplay: false,
-            vertical: true,
-            verticalSwiping: true,
-            accessibility: true,
-            arrows: false,
-            mobileFirst: true,
-            infinite:false
-        });
-
-        $('.epic-slider').animate({
-            opacity: '1'
-        }, 500);
-    }, 500);
+    // setTimeout(function () {
+    //     $('.epic-slider').slick({
+    //         dots: true,
+    //         autoplay: false,
+    //         vertical: true,
+    //         verticalSwiping: true,
+    //         accessibility: true,
+    //         arrows: false,
+    //         mobileFirst: true,
+    //         infinite:false
+    //     });
+	//
+    //     $('.epic-slider').animate({
+    //         opacity: '1'
+    //     }, 500);
+    // }, 500);
 
     if ($(window).width() <= 768) {
         addEvents();
         isPortrait();
     }
+
+	const ps = new PerfectScrollbar('.epic-slider', {suppressScrollX:true});
+	const ps2 = new PerfectScrollbar('#scroll2', {suppressScrollX:true});
 });
 
 function isPortrait() {
@@ -55,38 +58,13 @@ function addEvents() {
     var closeButton = document.getElementById("close");
     closeButton.addEventListener("touchstart", close, false);
 
-    var slide1 = document.getElementById("slide1");
-    slide1.addEventListener("touchend", function () { 
-        TweenMax.fromTo($("#home"),0.5,{y:"100%"},{y:"0%"});
-        homeButton.style.visibility = "visible"; 
-        home.style.visibility = "visible"
-		routing.navigate('#/map');
-    }, false);
-    
-    var slide2 = document.getElementById("slide2");
-    slide2.addEventListener("touchend", function () {
-        window.location.href = "http://play.yogome.com/yogobooks.html";
-    }, false);
-
-    var slide3 = document.getElementById("slide3");
-    slide3.addEventListener("touchend", function () {
-        $("#minigames").show();
-        homeButton.style.visibility = "visible"; 
-        routing.navigate('#/minigames');
-    }, false);
-
-    var slide4 = document.getElementById("slide4");
-    slide4.addEventListener("touchend", function () {
-        window.location.href = "http://play.yogome.com/webisodes.html";
-    }, false);
-
     close();
 }
 
 function initSizes() {
     // 20 px for the player info margin top
     var sliderHeight = $('#left').height() - $('#player-info').height() - 20;
-    $('.epic-slider').css('height', sliderHeight);
+    // $('.epic-slider').css('height', sliderHeight);
 
     var innerHeight = $('#iframe-box').height() - 40;
     var innerWidth = $('#iframe-box').width() - 40;

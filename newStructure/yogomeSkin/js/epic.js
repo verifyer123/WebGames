@@ -4,17 +4,24 @@ var epicSiteMain =  function(){
 
 	var DEFAULT_SRC = "../epicMap/index.html?language=" + language
 
-	var buttonMinigames = $("#btn3")
-	var buttonAdventure = $("#btn1")
-	var buttonBooks = $("#btn2")
-	var buttonVideos = $("#btn4")
+	var buttonMinigames = $(".btn3")
+	var buttonAdventure = $(".btn1")
+	var buttonBooks = $(".btn2")
+	var buttonVideos = $(".btn4")
 	var home = document.getElementById("home")
 
 	buttonMinigames.click(function () {
+		console.log("minigamesButton")
+		TweenMax.fromTo(home,0.5,{y:"100%"},{y:"0%"});
+		homeButton.style.visibility = "visible";
+		home.style.visibility = "visible"
 		routing.navigate('#/minigames');
 	})
 
 	buttonAdventure.click(function () {
+		TweenMax.fromTo(home,0.5,{y:"100%"},{y:"0%"});
+		homeButton.style.visibility = "visible";
+		home.style.visibility = "visible"
 		routing.navigate('#/map');
 	})
 
