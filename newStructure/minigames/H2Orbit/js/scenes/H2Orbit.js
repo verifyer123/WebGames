@@ -41,6 +41,10 @@ var H2Orbit = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {	name: "explosion",
+				file: soundsPath + "explosion.mp3"},
+            {	name: "throw",
+				file: soundsPath + "throw.mp3"},
 		]
     }
     
@@ -67,7 +71,7 @@ var H2Orbit = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
         gameActive = false
         speed = 2
         actualState = 0
@@ -692,12 +696,32 @@ var H2Orbit = function(){
         }
         else{
             shipGroup.children[ship.parent.state].setAnimationByName(0, "LOSE", false)
-            missPoint()
+            sound.play('explosion')
+            if(lives !== 0){
+                restartGame()   
+            }
             particleWrong.x = shipGroup.x - 20
             particleWrong.y = shipGroup.y
             particleWrong.start(true, 1200, null, 6)
         }
         
+    }
+    
+    function restartGame(){
+        
+        game.add.tween(planetsGroup).to({y: game.world.height + planetsGroup.children[actualState].height}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
+            gameActive = false
+            planetsGroup.y = -100
+            shipGroup.y = game.world.height
+            shipGroup.children[shipGroup.state].setAnimationByName(0, "IDLE", true)
+            missPoint()
+            game.add.tween(shipGroup).to({y: game.world.centerY}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
+                sound.play('throw')
+                game.add.tween(shipGroup).to({y: game.world.centerY + 200}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                    initGame()
+                })
+            })
+        })    
     }
     
 	return {
