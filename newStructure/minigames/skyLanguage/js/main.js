@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("sky")
+				sceneloader.show("skyLanguage")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -35,7 +35,7 @@ function startGame(){
         var gameWidth = Math.round(fullHeight * ratio)
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight)
+        game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
@@ -66,7 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            sky,
+            skyLanguage,
             result,
     	])
     }

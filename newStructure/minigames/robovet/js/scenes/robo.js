@@ -89,6 +89,7 @@ var robo = function(){
 	var electricBand
 	var canAnswer
 
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -277,6 +278,10 @@ var robo = function(){
 	function wrongReaction() {
 		dog.setAnimation(["LOSE", "LOSESTILL"])
 		sound.play("robotLose")
+		console.log("wrongReaction")
+		canAnswer = false
+
+
 		missPoint()
 
 		if(lives === 0){
@@ -288,6 +293,8 @@ var robo = function(){
 	}
 	
 	function rightReaction() {
+
+		console.log("rigth rectino")
 		sound.play("robotWin")
 		dog.setAnimation(["WAKE_UP", "WIN"])
 		addPoint(1)
@@ -296,6 +303,11 @@ var robo = function(){
 	}
 	
 	function checkCorrect(x, y) {
+
+		if(!canAnswer){
+			return
+		}
+
 		answerCompleted = true
 
 		var answers = []
@@ -322,6 +334,7 @@ var robo = function(){
 			callback = wrongReaction
 			sound.play("wrong")
 		}
+		
 
 		var engineOnEffect = game.add.tween(engine.scale).to({x:0.9, y:1.1}, 300, Phaser.Easing.Sinusoidal.Out, true, 800).yoyo(true)
 		engineOnEffect.onStart.add(callback)

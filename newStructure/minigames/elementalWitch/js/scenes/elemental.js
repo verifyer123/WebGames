@@ -74,6 +74,7 @@ var elemental = function(){
     var weves
     var count
     var score
+    var enemyAttack =true
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -89,6 +90,8 @@ var elemental = function(){
         enemySelect =  game.rnd.integerInRange(0, 3)
         count = 0
         score = 0
+
+        enemyAttack = true
         
         loadSounds()
         
@@ -689,8 +692,10 @@ var elemental = function(){
     }
     
     function shootGem(gem){
-        
+        //console.log("Shoot gem")
         witchAnim('ATTACK')
+
+
         
         game.time.events.add(700, function(){
             witchAnim('IDLE')
@@ -698,6 +703,12 @@ var elemental = function(){
        
         sound.play("cut")
         gem.shooted = true
+
+        //console.log(gem.element+"   "+enemyMask.element)
+        if(gem.element === enemyMask.element){
+            //console.log("EnemyCantAttack")
+            enemyAttack = false
+        }
         
         gem.tween.pause()
         
@@ -735,6 +746,7 @@ var elemental = function(){
         aqua.anchor.setTo(0.5, 1)
         aqua.body.immovable = true
         aqua.element = elements.aqua
+        enemyMask.element = elements.aqua
         game.physics.enable(aqua, Phaser.Physics.ARCADE)
         
         if(level > 1){
@@ -762,6 +774,7 @@ var elemental = function(){
         fire.anchor.setTo(0.5, 1)
         fire.body.immovable = true
         fire.element = elements.fire
+        enemyMask.element = elements.fire
         game.physics.enable(fire, Phaser.Physics.ARCADE)
         
         if(level > 1){
@@ -789,6 +802,7 @@ var elemental = function(){
         ice.anchor.setTo(0.5, 1)
         ice.body.immovable = true
         ice.element = elements.ice
+        enemyMask.element = elements.ice
         game.physics.enable(ice, Phaser.Physics.ARCADE)
         
         if(level > 1){
@@ -816,6 +830,7 @@ var elemental = function(){
         wind.anchor.setTo(0.5, 1)
         wind.body.immovable = true
         wind.element = elements.wind
+        enemyMask.element = elements.wind
         game.physics.enable(wind, Phaser.Physics.ARCADE)
         
         if(level > 1){
@@ -831,11 +846,11 @@ var elemental = function(){
     }
     
     function initGame(){
-        
+        //console.log("Init round")
         enemyMask.y = game.world.height + 250
         enemyMask.x = game.rnd.integerInRange(dock.centerX - dock.width * 0.4, dock.centerX + dock.width * 0.4)
         witch.body.enable = true
-        
+        enemyAttack = true
         gems.setAll('inputEnabled', true)
         
         enemyHP = level
@@ -869,15 +884,15 @@ var elemental = function(){
             return x     
     }
     
-    function attackMask(gem, enemyMask){
+    function attackMask(gem, enemy){
 
         gem.body.enable = false
         var auxSpeed = speed
         
-        if(gem.element === enemyMask.element && gem.shooted){
+        if(gem.element === enemy.element && gem.shooted){
             
-            particleCorrect.x = enemyMask.parent.x
-            particleCorrect.y = enemyMask.parent.y - 100
+            particleCorrect.x = enemy.parent.x
+            particleCorrect.y = enemy.parent.y - 100
             particleCorrect.start(true, 1000, null, 4)
             
             enemyHP--
@@ -885,7 +900,7 @@ var elemental = function(){
             switch(enemyHP){
                 case 0:
                     sound.play("right")
-                    enemyMask.parent.children[0].setAnimationByName(0, "LOSE", false)
+                    enemy.parent.children[0].setAnimationByName(0, "LOSE", false)
                     speed = 0
                     score++
                     
@@ -894,8 +909,8 @@ var elemental = function(){
                     
                     game.time.events.add(1700, function() 
                     {
-                        if(enemyMask){
-                        enemyMask.parent.removeAll(true)
+                        if(enemy){
+                        enemy.parent.removeAll(true)
                         speed = auxSpeed
                         level++
                         initGame()
@@ -907,8 +922,8 @@ var elemental = function(){
                 case 1:
                     sound.play("glassbreak")
                     speed = -10
-                    enemyMask.parent.children[2].alpha = 0
-                    enemyMask.parent.children[3].alpha = 0
+                    enemy.parent.children[2].alpha = 0
+                    enemy.parent.children[3].alpha = 0
                     game.time.events.add(300, function() 
                     {
                         speed = auxSpeed
@@ -918,8 +933,8 @@ var elemental = function(){
                 case 2:
                     sound.play("glassbreak")
                     speed = -10
-                    enemyMask.parent.children[2].alpha = 0
-                    enemyMask.parent.children[3].alpha = 1
+                    enemy.parent.children[2].alpha = 0
+                    enemy.parent.children[3].alpha = 1
                     game.time.events.add(300, function() 
                     {
                         speed = auxSpeed
@@ -931,8 +946,8 @@ var elemental = function(){
         else if(gem.shooted){
             speed = 0
             missPoint()
-            particleWrong.x = enemyMask.parent.x
-            particleWrong.y = enemyMask.parent.y - 200
+            particleWrong.x = enemy.parent.x
+            particleWrong.y = enemy.parent.y - 200
             particleWrong.start(true, 1000, null, 4)  
             game.time.events.add(600, function() 
             {
@@ -944,10 +959,16 @@ var elemental = function(){
     }
     
     function getDamage(witch, enemyMask){
+
+        if(!enemyAttack){
+            //console.log("Enemy try to attack but he cant")
+            return
+        }
         
         witch.body.enable = false
         speed = 0
         gems.setAll('inputEnabled', false)
+        //console.log("InputEnabled = false")
         game.add.tween(enemyMask.parent).to({x:game.world.centerX, y:-50}, 500, Phaser.Easing.linear, true)
         
         if(lives > 1){

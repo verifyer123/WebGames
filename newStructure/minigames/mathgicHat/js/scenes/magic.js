@@ -49,7 +49,10 @@ var magic = function(){
 		],
     }
     
-        
+    var BIG_FONT_SIZE = '55px'
+    var SMALL_FONT_SIZE = '42px'
+
+
     var lives = null
 	var sceneGroup = null
 	var background, table, magician
@@ -391,7 +394,7 @@ var magic = function(){
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
 				
-				console.log(particle)
+				//console.log(particle)
                 
                 return particle
                 break
@@ -572,6 +575,15 @@ var magic = function(){
 			addPoint(1)
 			createPart('star',obj)
 			sound.play('secret')
+
+            console.log("Set result "+result )
+
+            if(result > 9){
+                magician.text.fontSize = SMALL_FONT_SIZE
+            }
+            else{
+                magician.text.fontSize = BIG_FONT_SIZE
+            }
 			
 			magician.text.setText(result)
 			
@@ -748,6 +760,20 @@ var magic = function(){
 		var number1 = game.rnd.integerInRange(2,10)
 		var number2 = game.rnd.integerInRange(2,10)
 		
+        if(number1 > 9){
+            magician.text.fontSize = SMALL_FONT_SIZE
+        }
+        else{
+            magician.text.fontSize = BIG_FONT_SIZE
+        }
+
+        if(number2 > 9){
+            rabbit.text.fontSize = SMALL_FONT_SIZE
+        }
+        else{
+            rabbit.text.fontSize = BIG_FONT_SIZE
+        }
+
 		magician.text.setText(number1)
 		rabbit.text.setText(number2)
 		

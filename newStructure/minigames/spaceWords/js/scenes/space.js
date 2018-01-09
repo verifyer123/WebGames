@@ -64,7 +64,7 @@ var space = function(){
         ['camioneta',['truck','track']],
         ['brazo',['arm','armory']],
         ['cena',['dinner','diner']],
-        ['horno',['horn','corn']],
+        ['cuerno',['horn','corn']],
         ['fecha',['date','fetch']],   
         ['arma',['gun','arm']],
         ['cartón',['cardboard','cartoon']],

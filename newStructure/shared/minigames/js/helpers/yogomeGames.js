@@ -130,7 +130,8 @@ var yogomeGames = function () {
             {name:'Selfie Planet',url:urlSet + 'selfiePlanet/',mapUrl:urlMap + 'selfiePlanet', sceneName:'selfiePlanet',subject:'geography', review:false,objective:15,demo:false},//111
             {name:'Smoke Buster',url:urlSet + 'smokeBuster/',mapUrl:urlMap + 'smokeBuster', sceneName:'smokeBusters',subject:'sustainability', review:false,objective:25,demo:false},//112
             {name:'Milky Bar',url:urlSet + 'milkyBar/',mapUrl:urlMap + 'milkyBar', sceneName:'milkyBar',subject:'coding', review:false,objective:25,demo:false},//113
-            {name:'Where Is My',url:urlSet + 'whereIsMy/',mapUrl:urlMap + 'whereIsMy', sceneName:'whereIsMy',subject:'language', review:false,objective:25,demo:false},//114
+            {name:'Color Scientist',url:urlSet + 'colorScientist/',mapUrl:urlMap + 'colorScientist', sceneName:'colorScientist',subject:'creativity', review:false,objective:30,demo:false},//114
+            {name:'Where Is My',url:urlSet + 'whereIsMy/',mapUrl:urlMap + 'whereIsMy', sceneName:'whereIsMy',subject:'language', review:false,objective:25,demo:false},//115
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

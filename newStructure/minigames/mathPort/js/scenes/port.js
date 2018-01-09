@@ -691,7 +691,7 @@ var port = function(){
 					
 					sound.play("brake")
 					createPart('smoke',obj.children[0],-120)
-					game.add.tween(airPlane).to({y:game.world.height + 200},2000,"Linear",true).onComplete.add(function(){
+					game.add.tween(airPlane).to({y:game.world.height + 220},2000,"Linear",true).onComplete.add(function(){
 						
 						yogotar.setAnimationByName(0,"IDLE",true)
 						showButtons(false)

@@ -566,39 +566,41 @@ var flyingFractions = function(){
 
 		if(timer != 0){
 			timer-- 
-		}else if(timer == 0){
-				lives--
-			
-			TweenMax.to(groupMarco1.scale,3,{x:1.2 , y:1.2});
-			TweenMax.to(groupMarco1,0.5,{alpha:0});
-			TweenMax.to(groupMarco2.scale,3,{x:1.2 , y:1.2});
-			TweenMax.to(groupMarco2,0.5,{alpha:0});
-			fraccionesText.alpha = 0;
-			fraction1.destroy();
-			fraction2.destroy();
-			bgFracciones.destroy();
-			bgFracciones2.destroy();
-			sound.play("shootBall");
-			
-			
-				heartsText.setText("x " + lives);
-				maloShoot.alpha = 1;
-				TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
-				TweenMax.fromTo(maloShoot,1,{y:malo.y + malo.height},{y: ship.y-ship.height/2});
-				TweenMax.fromTo(maloShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:badFun});
-				function badFun(){
-					sound.play("explode");
-					sound.play("gameLose");
-					bgm.stop();
-					explosion = game.add.sprite(ship.x, ship.y, 'explosion');
-					var objectexplosion = explosion.animations.add('objectexplosion');
-					explosion.animations.play('objectexplosion', 5, false);
-					explosion.anchor.setTo(0.5,1);
-				}
-			clearInterval(timerCount);
-			
+			clockText.setText(timer);
+			if(timer == 0){
+					lives--
+				
+				TweenMax.to(groupMarco1.scale,3,{x:1.2 , y:1.2});
+				TweenMax.to(groupMarco1,0.5,{alpha:0});
+				TweenMax.to(groupMarco2.scale,3,{x:1.2 , y:1.2});
+				TweenMax.to(groupMarco2,0.5,{alpha:0});
+				fraccionesText.alpha = 0;
+				fraction1.destroy();
+				fraction2.destroy();
+				bgFracciones.destroy();
+				bgFracciones2.destroy();
+				sound.play("shootBall");
+				
+				
+					heartsText.setText("x " + lives);
+					maloShoot.alpha = 1;
+					TweenMax.fromTo(maloShoot.scale,1,{x:2},{x:1});
+					TweenMax.fromTo(maloShoot,1,{y:malo.y + malo.height},{y: ship.y-ship.height/2});
+					TweenMax.fromTo(maloShoot,0,{alpha:1},{alpha:0,delay:0.8,onComplete:badFun});
+					function badFun(){
+						sound.play("explode");
+						sound.play("gameLose");
+						bgm.stop();
+						explosion = game.add.sprite(ship.x, ship.y, 'explosion');
+						var objectexplosion = explosion.animations.add('objectexplosion');
+						explosion.animations.play('objectexplosion', 5, false);
+						explosion.anchor.setTo(0.5,1);
+					}
+				clearInterval(timerCount);
+				
+			}
 		}
-		clockText.setText(timer);
+		
 	}		
 		
 		

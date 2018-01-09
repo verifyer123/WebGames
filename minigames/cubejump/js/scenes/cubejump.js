@@ -106,7 +106,11 @@ var cubejump = function(){
         moveRight = false
         canPoint = true
         gameInit = false
-        
+        firstObstacle = null
+        nextObjects = []
+        startedTween = []
+        nextTweens = []
+        desactivatObjects = []
 	}
     
     function animateScene() {
@@ -224,7 +228,7 @@ var cubejump = function(){
         
         worldGroup.alpha = 0
         game.add.tween(worldGroup).to({alpha:1},250,Phaser.Easing.linear,true)
-        
+        firstObstacle = null
         //objectsGroup.timer.pause()
         gameActive = false
         
@@ -719,6 +723,7 @@ var cubejump = function(){
     }
 
     function specialActive(child,posX,posY){
+        console.log("special Active")
         piecesGroup.remove(child)
         objectsGroup.add(child)
 
@@ -792,6 +797,7 @@ var cubejump = function(){
     }
     
     function addObstacle(tag){
+        console.log("Enter to add objects")
         
         for(var i = 0; i < piecesGroup.length;i++){
             
