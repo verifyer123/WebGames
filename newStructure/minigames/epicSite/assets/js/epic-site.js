@@ -38,6 +38,30 @@ $(document).ready(function () {
 
 	const ps = new PerfectScrollbar('.epic-slider', {suppressScrollX:true});
 	const ps2 = new PerfectScrollbar('#scroll2', {suppressScrollX:true});
+
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	var language;
+	language = getParameterByName("language");
+	language = language || "en"
+    language = language.toUpperCase()
+
+	function changeLanguages(){
+		$(".advModeText").text(epicLanguages[language]["adventureMode"])
+		$(".booksText").text(epicLanguages[language]["books"])
+		$(".videosText").text(epicLanguages[language]["videos"])
+		$(".minigamesText").text(epicLanguages[language]["minigames"])
+	}
+
+	changeLanguages()
 });
 
 function isPortrait() {

@@ -6,21 +6,6 @@ var routing = function () {
 	var badRouting = false
 	var credentials = epicModel.getCredentials()
 
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
-
-	language = getParameterByName("language")
-	// console.log(language, "language")
-	language = language || "en"
-	language = language.toUpperCase()
-
 	$("#minigames").show()
 
 	// router.on(
@@ -45,6 +30,8 @@ var routing = function () {
 			},
 			'minigames': function () {
 				// $("#minigames").hide()
+				$(".game-canvas p").text(epicLanguages[language]["minigames"])
+				$(".bgIcon img").attr("src","assets/img/common/minigames.png");
 				epicSiteMain.startGame("../../../letsplay.html?epicsite=true&language=" + language)
 
 				mixpanel.track(
@@ -95,10 +82,29 @@ var routing = function () {
 				$("#minigames").hide()
 				epicSiteMain.startGame(null, false, true, true)
 
+				console.log(language)
+				$(".game-canvas p").text(epicLanguages[language]["adventureMode"])
+				$(".bgIcon img").attr("src","assets/img/common/adventure_mode.png");
+
 				mixpanel.track(
 					"PageLoadAdventureMode",
 					{"user_id": credentials.educationID}
 				);
+			},
+			'books':function () {
+				var characterSelector = document.getElementById("characterSelector")
+				characterSelector.style.visibility = "hidden"
+				$(".game-canvas p").text(epicLanguages[language]["books"])
+				$(".bgIcon img").attr("src","assets/img/common/books.png");
+				epicModel.loadPlayer()
+			},
+			'videos':function () {
+				var characterSelector = document.getElementById("characterSelector")
+				characterSelector.style.visibility = "hidden"
+				$(".game-canvas p").text(epicLanguages[language]["videos"])
+				$(".bgIcon img").attr("src","assets/img/common/videos.png");
+				epicModel.loadPlayer()
+
 			},
 			'*': function () {
 				// window.location.href = router.root

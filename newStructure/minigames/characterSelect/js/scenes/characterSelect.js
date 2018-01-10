@@ -314,7 +314,7 @@ var characterSelect = function(){
 
 		prev.inputEnabled = true
 		next.inputEnabled = true
-		continuar.inputEnabled = true
+		// continuar.inputEnabled = true
 		prev.fixedToCamera = true
 		next.fixedToCamera = true
 		continuar.fixedToCamera = true
@@ -326,7 +326,8 @@ var characterSelect = function(){
 			moveCameraButton(-1)
 		})
 
-		continuar.events.onInputDown.add(function(){
+		continuar.events.onInputDown.add(function(obj){
+			obj.inputEnabled = false
 			sound.play("pop")
             var selectedEnd=0
             game.kineticScrolling.stop();
@@ -400,6 +401,7 @@ var characterSelect = function(){
 		sound.play("pop")
 		if(obj.alpha==1){
 			selectedCharacter=obj.tag
+			continuar.inputEnabled = true
 
 			if(continuar.alpha ==0){
 				game.add.tween(continuar).to({alpha:1},300,"Linear",true)

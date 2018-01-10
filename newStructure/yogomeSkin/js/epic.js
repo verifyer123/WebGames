@@ -9,29 +9,103 @@ var epicSiteMain =  function(){
 	var buttonBooks = $(".btn2")
 	var buttonVideos = $(".btn4")
 	var home = document.getElementById("home")
+	home.style.visibility = "visible"
+	var popAudio = new Audio('sounds/pop.mp3');
 
 	buttonMinigames.click(function () {
-		console.log("minigamesButton")
-		TweenMax.fromTo(home,0.5,{y:"100%"},{y:"0%"});
-		homeButton.style.visibility = "visible";
-		home.style.visibility = "visible"
+		tweenButton(this)
+		showHome()
+
+		var lanAbr = language.toLowerCase()
+		popAudio.play();
+
+		setTimeout(function () {
+			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/minigames.mp3');
+			booksAudio.play();
+		}, 1000)
 		routing.navigate('#/minigames');
 	})
 
 	buttonAdventure.click(function () {
-		TweenMax.fromTo(home,0.5,{y:"100%"},{y:"0%"});
-		homeButton.style.visibility = "visible";
-		home.style.visibility = "visible"
+		tweenButton(this)
+		showHome()
+
+		var lanAbr = language.toLowerCase()
+		popAudio.play();
+
+		setTimeout(function () {
+			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/adventure_mode.mp3');
+			booksAudio.play();
+		}, 1000)
 		routing.navigate('#/map');
 	})
 
 	buttonBooks.click(function () {
-		window.location.href = "http://play.yogome.com/yogobooks.html"
+		tweenButton(this)
+		if (gameFrame) {
+			gameContainer.removeChild(gameFrame);
+			gameFrame = null
+		}
+
+		var lanAbr = language.toLowerCase()
+		popAudio.play();
+
+		setTimeout(function () {
+			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/books.mp3');
+			booksAudio.play();
+		}, 1000)
+
+		$("#sectionInfo").css("visibility", "visible")
+		showHome()
+		console.log("books")
+		setTimeout(function() {
+			window.location.href = "https://play.yogome.com/yogobooks.html"
+		}, 3000)
+		routing.navigate("#/books")
 	})
 
 	buttonVideos.click(function () {
-		window.location.href = "http://play.yogome.com/webisodes.html"
+		tweenButton(this)
+		if (gameFrame) {
+			gameContainer.removeChild(gameFrame);
+			gameFrame = null
+		}
+
+		var lanAbr = language.toLowerCase()
+		popAudio.play();
+
+		setTimeout(function () {
+			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/videos.mp3');
+			booksAudio.play();
+		}, 1000)
+
+		$("#sectionInfo").css("visibility", "visible")
+		showHome()
+		setTimeout(function() {
+			window.location.href = "https://play.yogome.com/webisodes.html"
+		}, 3000)
+		routing.navigate("#/videos")
 	})
+
+	function tweenButton(obj) {
+		function nextTween() {
+			TweenLite.to(obj, 0.3, {css:{scale:1}, ease:Quad.easeIn, delay:1})
+		}
+		TweenLite.to(obj, 0.3, {css:{scale:1.2}, ease:Quad.easeOut, onComplete:nextTween})
+	}
+
+	function showHome(callback) {
+		console.log(home.style.visibility)
+		if(home.style.visibility !== "visible") {
+			TweenMax.fromTo(home, 0.5, {y: "100%"}, {y: "0%", onComplete:function () {
+				if(callback) callback()
+			}});
+			homeButton.style.visibility = "visible";
+			home.style.visibility = "visible"
+		}else{
+			if(callback) callback()
+		}
+	}
 	
 	function updatePlayerInfo() {
 		var credentials = epicModel.getCredentials()
@@ -42,6 +116,11 @@ var epicSiteMain =  function(){
 		var newCoins = player.powerCoins
 		var coinsDisplay = $(".player-coins")
 		var coinsObj = {coins:currentCoins}
+
+		if(player.yogotar){
+			var yogotarImgPath = "assets/img/common/yogotars/" + player.yogotar.toLowerCase() + ".png"
+			$( '.yogotar img' ).attr("src",yogotarImgPath);
+		}
 
 		var name = credentials.name || (player.yogotar ? player.yogotar : "Eagle")
 		$(".player-name").html(name)
@@ -64,25 +143,31 @@ var epicSiteMain =  function(){
 	}
 
 	function loadGame(src){
-		home.style.visibility = "visible"
-		home.style.opacity = 0
-
-		TweenMax.to(home,1,{opacity:1,onComplete:NextFunction});
 		function NextFunction(){
-			var characterSelector = document.getElementById("characterSelector")
-			characterSelector.style.visibility = "hidden"
-			//';ljxz  window.open(url, "_self")
-			if(gameFrame)
+			if (gameFrame) {
 				gameContainer.removeChild(gameFrame);
-			else
+				gameFrame = null
+			}
+			$("#sectionInfo").css("visibility", "visible")
+			setTimeout(function() {
+				var characterSelector = document.getElementById("characterSelector")
+				characterSelector.style.visibility = "hidden"
+
+				// $(".game-canvas p").style.visibility = "hidden"
+				$("#sectionInfo").css("visibility", "hidden")
+				//';ljxz  window.open(url, "_self")
+
 				gameFrame = document.createElement("iframe")
-			gameFrame.src= src || DEFAULT_SRC
-			gameFrame.style.borderStyle = "none"
-			// gameFrame.scrolling = "yes"
-			gameFrame.width = "100%"
-			gameFrame.height = "100%"
-			gameContainer.appendChild(gameFrame);
+				gameFrame.src = src || DEFAULT_SRC
+				gameFrame.style.borderStyle = "none"
+				// gameFrame.scrolling = "yes"
+				gameFrame.width = "100%"
+				gameFrame.height = "100%"
+				gameContainer.appendChild(gameFrame);
+			}, 3000)
 		}
+
+		showHome(NextFunction)
 	}
 
 	function checkPlayer(src, needYogotar){
@@ -93,10 +178,6 @@ var epicSiteMain =  function(){
 			// routing.navigate("#/yogotarselector")
 			window.location.href = "#/yogotarselector"
 		}else {
-			if(currentPlayer.yogotar){
-				var yogotarImgPath = "assets/img/common/yogotars/" + currentPlayer.yogotar.toLowerCase() + ".png"
-				$( '.yogotar img' ).attr("src",yogotarImgPath);
-			}
 			loadGame(src)
 		}
 

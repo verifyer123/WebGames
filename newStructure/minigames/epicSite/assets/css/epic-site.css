@@ -8,8 +8,9 @@
 	src: url('../fonts/VAGRounded.ttf');
 }
 
-html {
+html, body {
 	height: 100%;
+	overflow: hidden;
 }
 
 body {
@@ -20,6 +21,10 @@ body {
 	padding: 0;
 	margin: 0;
 	font-size: 20px;
+}
+
+.yogotar {
+	right:0;
 }
 
 .roof_wires{
@@ -250,6 +255,7 @@ footer {
 	transform: scale(-1, 1);
 	height: 160px;
 	width: auto;
+	margin-left: 10vh;
 }
 
 /* show on mobile */
@@ -324,14 +330,15 @@ footer {
 	}
 	.yogotar {
 		position: fixed;
-		width: 20%;
-		right: 37%;
+		/*width: 20%;*/
+		right: 0;
 		bottom: 5px;
 		z-index: 5;
 	}
 
 	.yogotar img{
 		transform: scale(-1, 1);
+		margin-left: 10vh;
 	}
 
 	.slick-dots li {
@@ -372,7 +379,7 @@ footer {
 	}
 	.yogotar {
 		position: absolute;
-		width: 25%;
+		/*width: 25%;*/
 		right: 0;
 		bottom: -80px;
 		z-index: 2;
@@ -390,7 +397,7 @@ footer {
 		margin: 5% auto !important;
 	}
 	.yogotar {
-		width: 22%!important;
+		/*width: 22%!important;*/
 		z-index: 2;
 	}
 
@@ -493,6 +500,20 @@ footer {
 	transform: translate(50%, 0);
 }
 
+.game-canvas p{
+	position: absolute;
+	color:#FFF;
+	z-index: 3;
+	font-size: 5.5vh;
+	width: 60vh;
+	text-align: center;
+	margin-top: 18vh;
+	font-family: 'Bronic';
+	/*! right: 2vh; */
+	right: 50%;
+	transform: translate(50%, 0);
+}
+
 .iconMenu{
 	width: 40vh;
 	height:25%;
@@ -507,6 +528,37 @@ footer {
 	/*! margin-top: -1px; */
 	right: 50%;
 	transform: translate(50%, 0);
+}
+
+.bgIcon{
+	/*! width: 60vh; */
+	height:36vh;
+	margin:0 auto;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/*! margin-left: -20%; */
+	/*! right: 12vh; */
+	z-index: 1;
+	/*! margin-top: -1px; */
+	right: 50%;
+	transform: translate(50%, 28%);
+	top: 10vh;
+	width: 40vh;
+	background-image: url(../../images/effect.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
+
+.bgIcon img{
+	width: 50%;
+}
+
+#sectionInfo{
+	width: 60vh;
 }
 
 .iconMenu img{
