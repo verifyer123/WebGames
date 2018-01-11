@@ -95,7 +95,8 @@ var map = function(){
 	var subjectsGroup
 	var newHeight
 
-	var END_POS = 200
+	var END_POS = 400
+	var OFFSET_HEIGTH = 500
 
 	var iconsPositions = [
 
@@ -121,7 +122,7 @@ var map = function(){
 		loadSounds()
 		var age = players.getCredentials().age
 		console.log(age - 5)
-		gamesList = epicYogomeGames.getGames(5)
+		gamesList = epicYogomeGames.getGames(4)
 
 	}
 
@@ -635,7 +636,14 @@ var map = function(){
 
 		game.time.events.add(750,function(){
 
-			scroller.scrollTo(0,-yogotarGroup.y + game.world.height * 0.6,200)
+			var scrollY = -yogotarGroup.y + game.world.height * 0.6
+			console.log(scrollY)
+			if(scrollY > 0){
+				console.log("Scroll out limit")
+				scrollY = 0
+			}
+
+			scroller.scrollTo(0,scrollY,200)
 
 			//sound.play("secret")
 
@@ -698,6 +706,15 @@ var map = function(){
 
 		gamesMenu.x = yogotarGroup.x < game.world.centerX ? yogotarGroup.x + 200 : yogotarGroup.x - 200
 		gamesMenu.y = yogotarGroup.y - 90
+
+		/*var yPos = gamesMenu.y + gamesMenu.height/2
+		console.log("Ypos "+gamesMenu.y+" ")
+
+		/*if(gamesMenu.y<game.world.centerY-100){
+			console.log("minCenyter")
+			gamesMenu.y = game.world.centerY-100
+		}*/
+
 		gamesMenu.scale.x = yogotarGroup.x < game.world.centerX ? -1 : 1
 		// gamesMenu.anchor.x = yogotarGroup.x < game.world.centerX ? 0 : 1
 
@@ -761,13 +778,13 @@ var map = function(){
 		back.tint =tileColors[0]
 		sceneGroup.add(back)*/
 
-		var lineArea = 60
+		var lineArea = -5
 
-		var rect = new Phaser.Graphics(game)
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x314783)
 		rect.drawRect(0,0,game.world.width,lineArea)
 		rect.endFill()
-		sceneGroup.add(rect)
+		sceneGroup.add(rect)*/
 
 		scroller = game.add.existing(new ScrollableArea(0, lineArea + 5, game.width, game.height - lineArea + 5));
 		scroller.start();
@@ -807,10 +824,10 @@ var map = function(){
 			}
 			else{
 				var levelHeight = 320
-				var offsetHeigth = 200
+				
 				var levelPerTile = 7
 				var finalNumberLevels = currentLevels-((numTiles-1)*levelPerTile)
-				var tH = (finalNumberLevels * levelHeight) + offsetHeigth
+				var tH = (finalNumberLevels * levelHeight) + OFFSET_HEIGTH
 
 				var back = game.add.tileSprite(0,pivotY,game.world.width,tH,'atlas.map','texture')
 				back.anchor.setTo(0,0)
@@ -884,6 +901,7 @@ var map = function(){
 
 			pointer.x = game.input.x
 			pointer.y = game.input.y
+			//console.log(game.input)
 
 			for(var i = 0; i < ballsPosition.length; i++){
 
@@ -1361,7 +1379,7 @@ var map = function(){
 			//createPointsBar()
 			//createHearts()
 
-			buttons.getButton(spaceSong,sceneGroup)
+			buttons.getButton(spaceSong,sceneGroup,100)
 			createShine()
 			createIcons()
 			createSubjects()
