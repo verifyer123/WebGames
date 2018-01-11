@@ -29,9 +29,9 @@ var preloaderIntro = function(){
 
 			var sceneGroup = game.add.group()
 
-			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
-			logo.scale.setTo(0.5, 0.5)
-			logo.anchor.setTo(0.5, 0.5)
+			// var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logoAtlas', 'logo')
+			// logo.scale.setTo(0.5, 0.5)
+			// logo.anchor.setTo(0.5, 0.5)
 
 			var loadingGroup = new Phaser.Group(game)
 			sceneGroup.add(loadingGroup)
@@ -46,7 +46,7 @@ var preloaderIntro = function(){
 			loadingGroup.topBar = loadingTop
 
 			loadingGroup.x = game.world.centerX - loadingGroup.width * 0.5
-			loadingGroup.y = (game.world.centerY + logo.height) - loadingGroup.height * 0.5
+			loadingGroup.y = (game.world.centerY + 180) - loadingGroup.height * 0.5
 
 			loadingBar = loadingGroup
 			loadingBar.topBar.width = 0

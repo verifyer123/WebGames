@@ -1334,6 +1334,11 @@ var map = function(){
 
 			initialize()
 			sceneGroup = game.add.group()
+			var graphic = game.add.graphics()
+			graphic.beginFill(0xffffff)
+			graphic.drawRect(0,0, game.world.width, game.world.height)
+			graphic.endFill()
+			sceneGroup.add(graphic)
 
 			createBackground()
 			createDecoration()
