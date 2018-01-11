@@ -94,8 +94,10 @@ var map = function(){
 	var gamesList
 	var subjectsGroup
 	var newHeight
+    var tutorial, mano, ballTutorialUnlock
 
-	var END_POS = 200
+	var END_POS = 400
+	var OFFSET_HEIGTH = 500
 
 	var iconsPositions = [
 
@@ -112,8 +114,17 @@ var map = function(){
 	function initialize(){
 
 		game.stage.backgroundColor = "#ffffff"
+        
+        if(parent.epicModal){
+            currentPlayer = parent.epicModel.getPlayer();
+            tutorial=currentPlayer.mapPlayed;
+        }else{
+            tutorial=false;
+        }
+        
 		lives = 1
 		mouseActive = false
+        ballTutorialUnlock=1;
 		buttonsActive = false
 		buttonPressed = null
 		battleCounter = 0
@@ -121,7 +132,8 @@ var map = function(){
 		loadSounds()
 		var age = players.getCredentials().age
 		console.log(age - 5)
-		gamesList = epicYogomeGames.getGames(5)
+		gamesList = epicYogomeGames.getGames(4)
+		touchSound = false
 
 	}
 
@@ -287,6 +299,9 @@ var map = function(){
 
 		game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
 		game.load.spine('eagle',"images/spines/yogotar.json")
+        
+        
+        game.load.spritesheet("hand", 'images/spines/Tuto/manita.png', 115, 111, 23)
 
 		//console.log(localization.getLanguage() + ' language')
 
@@ -454,8 +469,14 @@ var map = function(){
 
 				var lock = ballGroup.create(0,0,'atlas.map','lock')
 				lock.anchor.setTo(0.5,0.5)
-
-				if(i < 4){
+                
+                if(!tutorial){
+                    ballTutorialUnlock=2;
+                }else{
+                    ballTutorialUnlock=4;
+                }
+                
+				if(i < ballTutorialUnlock){
 
 					lock.alpha = 0
 					ballGroup.locked = false
@@ -472,7 +493,7 @@ var map = function(){
 								countMinigames++
 							}
 						}
-					}
+				    }
 
 
 					//TODO: uncomment to lock levels
@@ -528,7 +549,7 @@ var map = function(){
 
 
 		sound.play("pop")
-
+        
 		buttonPressed = obj
 		buttonsActive = false
 
@@ -635,7 +656,14 @@ var map = function(){
 
 		game.time.events.add(750,function(){
 
-			scroller.scrollTo(0,-yogotarGroup.y + game.world.height * 0.6,200)
+			var scrollY = -yogotarGroup.y + game.world.height * 0.6
+			console.log(scrollY)
+			if(scrollY > 0){
+				console.log("Scroll out limit")
+				scrollY = 0
+			}
+
+			scroller.scrollTo(0,scrollY,200)
 
 			//sound.play("secret")
 
@@ -698,6 +726,15 @@ var map = function(){
 
 		gamesMenu.x = yogotarGroup.x < game.world.centerX ? yogotarGroup.x + 200 : yogotarGroup.x - 200
 		gamesMenu.y = yogotarGroup.y - 90
+
+		/*var yPos = gamesMenu.y + gamesMenu.height/2
+		console.log("Ypos "+gamesMenu.y+" ")
+
+		/*if(gamesMenu.y<game.world.centerY-100){
+			console.log("minCenyter")
+			gamesMenu.y = game.world.centerY-100
+		}*/
+
 		gamesMenu.scale.x = yogotarGroup.x < game.world.centerX ? -1 : 1
 		// gamesMenu.anchor.x = yogotarGroup.x < game.world.centerX ? 0 : 1
 
@@ -761,16 +798,18 @@ var map = function(){
 		back.tint =tileColors[0]
 		sceneGroup.add(back)*/
 
-		var lineArea = 60
+		var lineArea = -5
 
-		var rect = new Phaser.Graphics(game)
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x314783)
-		rect.drawRect(0,0,game.world.width,lineArea)
+		rect.drawRect(0,0,game.world.width,60)
 		rect.endFill()
-		sceneGroup.add(rect)
-
+		rect.alpha = 1
+		sceneGroup.add(rect)*/
+                
 		scroller = game.add.existing(new ScrollableArea(0, lineArea + 5, game.width, game.height - lineArea + 5));
 		scroller.start();
+        scroller.priorityID = 1
 		sceneGroup.add(scroller)
 
 		horizontalScroll = false;
@@ -778,10 +817,11 @@ var map = function(){
 		kineticMovement = true;
 
 		configureScroll()
-
+        
+        
 		background = game.add.group()
 		scroller.add(background)
-
+        
 		var maxHeight = 960 * 7
 
 		var MAXLEVELS = 22
@@ -807,10 +847,10 @@ var map = function(){
 			}
 			else{
 				var levelHeight = 320
-				var offsetHeigth = 200
+				
 				var levelPerTile = 7
 				var finalNumberLevels = currentLevels-((numTiles-1)*levelPerTile)
-				var tH = (finalNumberLevels * levelHeight) + offsetHeigth
+				var tH = (finalNumberLevels * levelHeight) + OFFSET_HEIGTH
 
 				var back = game.add.tileSprite(0,pivotY,game.world.width,tH,'atlas.map','texture')
 				back.anchor.setTo(0,0)
@@ -829,7 +869,8 @@ var map = function(){
 
 		}
 
-
+        
+        
 
 		start = scroller.create(game.world.centerX + 100,background.height - 200,'atlas.map','roadbegin')
 		start.anchor.setTo(1,1)
@@ -849,7 +890,20 @@ var map = function(){
 		pointer = sceneGroup.create(-100,0,'atlas.map','star')
 		pointer.anchor.setTo(0.5,0.5)
 		pointer.scale.setTo(0.6,0.6)
-
+        
+        
+        
+        if(!tutorial){
+            
+            mano=game.add.sprite(ballsPosition.children[1].x,ballsPosition.children[1].y-50, "hand")
+            mano.alpha=0;
+            mano.animations.add('hand');
+            mano.animations.play('hand', 24, true);
+            game.time.events.add(6000, function(){
+                scroller.add(mano);
+                game.add.tween(mano).to({alpha:1},300,Phaser.Easing.linear,true, 250) 
+            })
+        }
 	}
 
 	function configureScroll() {
@@ -884,6 +938,7 @@ var map = function(){
 
 			pointer.x = game.input.x
 			pointer.y = game.input.y
+			//console.log(game.input)
 
 			for(var i = 0; i < ballsPosition.length; i++){
 
@@ -900,7 +955,12 @@ var map = function(){
 						})
 
 					}else{
-						inputBall(ball)
+                        if(tutorial){
+				            inputBall(ball)
+                        }else{
+                            game.add.tween(mano).to({alpha:0},300,Phaser.Easing.linear,true, 250)
+                            inputBall(ball)
+                        }
 					}
 
 				}
@@ -935,8 +995,10 @@ var map = function(){
 				closeMenu()
 			}
 
-		}else{
+			
 
+		}else{
+			//touchSound = false
 			pointer.x = -100
 		}
 
@@ -1361,7 +1423,7 @@ var map = function(){
 			//createPointsBar()
 			//createHearts()
 
-			buttons.getButton(spaceSong,sceneGroup)
+			buttons.getButton(spaceSong,sceneGroup,100)
 			createShine()
 			createIcons()
 			createSubjects()
