@@ -1,6 +1,28 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var iconsPath = "../../shared/minigames/images/icons/"
 var imagesUrl = "../../shared/minigames/images/"
+var jsonData = "../../shared/minigames/amazing.json"
+var dataJson = [{
+      total: 500,
+      expiration: "12/30/2018",
+      promo: "-$100",
+      link: "http://bit.ly/netshoes-amazing",
+      imgHead: "/img/coupons/imgHead_netshoes.png",
+      serialNumber: "APP-NT-735",
+      imgUsed: "/img/coupons/imgUsed_netshoes.png",
+      used: "true",
+      id: 5106770607341568,
+      title: "$100 de descuento",
+      minigameId: "0",
+      color: "#ffffff",
+      imgBanner: "/img/coupons/imgBanner_netshoes.png",
+      imgPreview: "img/coupons/imgPreview_gympass.png",
+      isOnlyOnce: true,
+      brand: "NetShoes",
+      scoreGoal: 1,
+      quantity: -235,
+      copy: "$100 de descuento en el sitio web"
+}]
 var result = function(){
 
 	localizationData = {
@@ -58,7 +80,7 @@ var result = function(){
         gameName = icons[gameIndex].mixName
                 
 		totalScore = score
-		totalGoal = 50
+		totalGoal = 1
 		totalTime = 0
         win = didWin
         
@@ -68,6 +90,10 @@ var result = function(){
         );
         
 	}
+
+    function getDataJson(){
+
+    }
     
     function changeImage(index,group){
         
@@ -336,14 +362,18 @@ var result = function(){
     
     function setRank(){
         
-        amazing.saveScore(totalScore)
+        //amazing.saveScore(totalScore)
+        console.log("Enter set rank")
         
         minigameId = null
         minigameId = amazing.getMinigameId()
         
         if(minigameId){
+
+            console.log(minigameId)
             
-            window.addEventListener("message", function(event){        
+            window.addEventListener("message", function(event){    
+                console.log("recive message")    
                 if(event.data && event.data != ""){
                     var parsedData = {}
                     try {
@@ -353,10 +383,13 @@ var result = function(){
                     }
                     switch(parsedData.type){
                     case "rankMinigame":
-                       
+                        
+                        console.log("Enter rank minigame")
+
                         rankMinigame = parsedData.rankMinigame
                        
                         addRank()
+                        break
                     }
                 }
             })
@@ -378,7 +411,9 @@ var result = function(){
         group.add(text)
         
         var numberTrophy = 0
-        
+        if(!rankMinigame){
+            rankMinigame = '--'
+        }
         if(rankMinigame > 1){
             numberTrophy = 1
         }
@@ -391,9 +426,7 @@ var result = function(){
             numberTrophy = 3
         }
         
-        if(!rankMinigame){
-            rankMinigame = '--'
-        }
+        
         
         var pivotY = 90
         var pivotX = -200
@@ -448,7 +481,6 @@ var result = function(){
     }
     
 	function createScene(){
-        
         loadSounds()
         
         var showIcons = true
@@ -459,6 +491,8 @@ var result = function(){
         background.endFill();
         background.anchor.setTo(0,0)
         sceneGroup.add(background)
+
+
         
         var win = totalScore >= goalScore
         
@@ -579,45 +613,42 @@ var result = function(){
                                 
                 pivotButtons = game.world.height* 0.92
                 
-                var discount 
-                if(couponData.discount){
-                    
-                    discount = couponData.discount * 100
+                if(couponData.imgPreview){
+
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
+                    coupon.anchor.setTo(0.5,0.5)
+
                 }
+                else{
+
+                    var discount 
+                    if(couponData.discount){
+                        
+                        discount = couponData.discount * 100
+                    }
+                        
+                    var colorToUse = couponData.color
                     
-                var colorToUse = couponData.color
-                
-                var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
-                coupon.anchor.setTo(0.5,0.5)
-                
-                var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
-                
-                if(discount){
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
+                    coupon.anchor.setTo(0.5,0.5)
                     
-                    /*var pointsText = new Phaser.Text(sceneGroup.game, coupon.x - 10,coupon.y - coupon.height * 0.18, discount + '%', fontStyle)
-                    pointsText.anchor.setTo(0,0)
-                    pointsText.lineSpacing = -15
-                    sceneGroup.add(pointsText)*/
+                    var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
+                    
+
+                    
+                    var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
+
+                    var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
+                    storeText.anchor.setTo(0,0)
+                    sceneGroup.add(storeText)
+                    
+                    var fontStyle = {font: "15px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "left", wordWrap: true, wordWrapWidth: 220}
+
+                    var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
+                    storeText.anchor.setTo(0,0)
+                    sceneGroup.add(storeText)
+
                 }
-                
-                var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "center"}
-
-                var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
-                storeText.anchor.setTo(0,0)
-                sceneGroup.add(storeText)
-                
-                var fontStyle = {font: "15px VAGRounded", fontWeight: "bold", fill: colorToUse, align: "left", wordWrap: true, wordWrapWidth: 220}
-
-                var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
-                storeText.anchor.setTo(0,0)
-                sceneGroup.add(storeText)
-
-                /*var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-                var pText = new Phaser.Text(sceneGroup.game, coupon.x + coupon.width * 0.42, coupon.y + coupon.height * 0.34, discount + '%', fontStyle)
-                pText.anchor.setTo(0.5,0.5)
-                pText.angle = -15
-                sceneGroup.add(pText)*/
                                          
             }
             
@@ -746,7 +777,7 @@ var result = function(){
         
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
-		totalGoal = 50
+		totalGoal = 1
         
         game.stage.backgroundColor = "#ffffff"
 	}
@@ -796,21 +827,39 @@ var result = function(){
         
         pivotRank = game.world.centerY - 10
         
-        couponData = amazing.getCoupon()
+        //couponData = amazing.getCoupon()
+        couponData = dataJson[0]//JSON.parse(dataJson)
+        //console.log(couponData)
         
         sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
         
         rankGroup = game.add.group()
+
         
         setRank()
                 
         if(!couponData){
             haveCoupon = false
+            //haveCoupon = true
+            //goalScore = 1
+
         }else{
+            //game.load.baseURL = domain;
+            //game.load.crossOrigin = 'anonymous';
+            
+
             haveCoupon = true
-            //game.load.image('coupon','http://amazingyogome.appspot.com' + couponData.couponImage)
-            game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
+            if(couponData.imgPreview){
+                var imageName = couponData.imgPreview.split('/')
+                console.log(imageName)
+                console.log(imageName[2])
+                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[2])
+            }
+            else{
+                game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
+            }
+            //game.load.image('coupon',sessionStorage.getItem("game_icon0"));
             goalScore = couponData.scoreGoal
         }
                         

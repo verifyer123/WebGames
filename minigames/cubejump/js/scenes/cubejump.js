@@ -415,7 +415,7 @@ var cubejump = function(){
                                             startedTween[i].stop()
                                         }
                                        
-                                        console.log(nextTweens.length)
+                                        //console.log(nextTweens.length)
                                         for(var i = 0 ; i < nextTweens.length; i++){
                                             if(nextTweens[i]!=null){
                                                 nextTweens[i].resume()
@@ -447,7 +447,7 @@ var cubejump = function(){
 
 
                                 }else{
-                                    console.log('Enter bad '+ '  '+player.falling)
+                                    //console.log('Enter bad '+ '  '+player.falling)
                                     buddy.animations.play('air',12,false)
                                     player.body.velocity.y = 0
                                     //player.active = false
@@ -473,7 +473,7 @@ var cubejump = function(){
                 desactivatObjects.push(object)
 
                 if(desactivatObjects.length>3){
-                    console.log("Desactivate object")
+                    //console.log("Desactivate object")
                      deactivateObj(desactivatObjects[0])
                      desactivatObjects.splice(0,1)
                 }
@@ -620,7 +620,7 @@ var cubejump = function(){
 
     function activateNext(){
         var child = nextObjects[0];
-        console.log(nextObjects.length)
+        //console.log(nextObjects.length)
         var tag = child.tag
         var timeToClose = game.rnd.integerInRange(85,175) * 10
 
@@ -674,7 +674,7 @@ var cubejump = function(){
         }
         
 
-        console.log(delayObjects)
+        //console.log(delayObjects)
 
         nextObjects.push(child)
         for(var i = 0; i< child.length;i++){
@@ -717,13 +717,13 @@ var cubejump = function(){
             timeValue = 0 
         }
 
-        console.log(timeValue + ' timeValue')
+        //console.log(timeValue + ' timeValue')
         delayObjects+= timeValue
          
     }
 
     function specialActive(child,posX,posY){
-        console.log("special Active")
+        //console.log("special Active")
         piecesGroup.remove(child)
         objectsGroup.add(child)
 
@@ -797,7 +797,7 @@ var cubejump = function(){
     }
     
     function addObstacle(tag){
-        console.log("Enter to add objects")
+        //console.log("Enter to add objects")
         
         for(var i = 0; i < piecesGroup.length;i++){
             
@@ -806,7 +806,7 @@ var cubejump = function(){
 
             if(!object.active && object.tag == tag){
 
-                console.log(object.active+"   "+object.tag+"  "+piecesGroup.length )
+                //console.log(object.active+"   "+object.tag+"  "+piecesGroup.length )
                 
                 var posX = game.world.centerX
                 if(firstObstacle!=null){

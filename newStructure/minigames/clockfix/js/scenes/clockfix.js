@@ -145,6 +145,7 @@ var clockfix = function(){
 
 	/*CREATE SCENE*/
     function createScene(){
+        initialize()
 
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		loadSounds();

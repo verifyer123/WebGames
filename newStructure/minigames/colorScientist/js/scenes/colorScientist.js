@@ -46,8 +46,6 @@ var colorScientist = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {	name: "wronganswer",
-				file: soundsPath + "wronganswer.mp3"},
 		]
     }
     
@@ -69,6 +67,7 @@ var colorScientist = function(){
     var GOP
     var time
     var usedColor
+    var roundCount
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -80,9 +79,10 @@ var colorScientist = function(){
         lives = 3
         gameActive = false
         pivot = 1
-        GOP = -1
-        time = 5000
+        GOP = 1
+        time = 6000
         usedColor = 0
+        roundCount = 0
         
         loadSounds()
 	}
@@ -143,7 +143,7 @@ var colorScientist = function(){
     
     function missPoint(){
         
-        sound.play("wronganswer")
+        sound.play("wrong")
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -286,7 +286,8 @@ var colorScientist = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                initGame()
+                //initGame()
+                tutorial()
             })
             
         })
@@ -528,8 +529,9 @@ var colorScientist = function(){
     
     function positionTimer(){
         
-        var timerGroup = game.add.group()
+        timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
@@ -611,8 +613,9 @@ var colorScientist = function(){
     function ok(){
         
         okGroup = game.add.group()
-        okGroup.x = game.world.centerX
-        okGroup.y = game.world.centerY + 200
+        okGroup.x = game.world.centerX + 250
+        okGroup.y = game.world.centerY + 230
+        okGroup.scale.setTo(1.3)
         sceneGroup.add(okGroup)
         
         okBtn = okGroup.create(0, 0, "atlas.colorScientist", "okOff")
@@ -622,12 +625,18 @@ var colorScientist = function(){
         okBtn.events.onInputDown.add(okPressed,this)   
         okBtn.events.onInputUp.add(okRelased,this) 
         
-        okBtnOff = okGroup.create(0, 0, "atlas.colorScientist", "okOff")
+        var okBtnOff = okGroup.create(0, 0, "atlas.colorScientist", "okOff")
         okBtnOff.anchor.setTo(0.5) 
  
-        okBtnOn = okGroup.create(0, 0, "atlas.colorScientist", "okOn")
+        var okBtnOn = okGroup.create(0, 0, "atlas.colorScientist", "okOn")
         okBtnOn.anchor.setTo(0.5) 
         okBtnOn.alpha = 0
+        
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var okTxt = new Phaser.Text(sceneGroup.game, 0, 2, 'OK', fontStyle)
+        okTxt.anchor.setTo(0.5)
+        okGroup.add(okTxt)
         
         okGroup.setAll('tint', 0x909090)
     }
@@ -638,6 +647,7 @@ var colorScientist = function(){
             sound.play('pop')
             ok.parent.children[1].alpha = 0
             ok.parent.children[2].alpha = 1
+            ok.parent.children[3].scale.setTo(0.8)
         }
     }
     
@@ -646,8 +656,15 @@ var colorScientist = function(){
         if(gameActive){
             ok.parent.children[1].alpha = 1
             ok.parent.children[2].alpha = 0
+            ok.parent.children[3].scale.setTo(1)
             ok.inputEnabled = false
-            checkColors()
+            
+            if(roundCount === 3){
+                checkColors()
+            }
+            else{
+                checkTutorial()
+            }
         }
     }
     
@@ -697,7 +714,7 @@ var colorScientist = function(){
             if(usedColor === GOP){
                 addPoint(1)
                 computer.setAnimationByName(0, "WIN", true)
-                if(time > 5000)
+                if(time > 500)
                     time -= 200
             }
             else{
@@ -756,6 +773,51 @@ var colorScientist = function(){
             case 4:
                 computer.setSkinByName("face_black")
             break
+        }
+    }
+    
+    function tutorial(){
+        
+        usedColor = 0
+        changeImage(3, colorGroup1)
+        changeImage(3, colorGroup2)
+        
+        game.time.events.add(1200,function(){
+            gameActive = true
+            paintFace(GOP)
+        })
+    }
+    
+    function checkTutorial(){
+        
+        if(gameActive){
+            
+            gameActive = false
+            okGroup.setAll('tint', 0x909090)
+
+            if(usedColor === GOP){
+                addPoint(1)
+                roundCount++
+                computer.setAnimationByName(0, "WIN", true)
+            }
+            else{
+                computer.setAnimationByName(0, "LOSE", true)
+                missPoint()
+            }
+
+            pivot = 1
+            
+            game.time.events.add(1800,function(){
+                paintFace(4)
+                if(roundCount === 3){
+                    timerGroup.alpha = 1
+                    initGame()
+                }
+                else{
+                    GOP++
+                    tutorial()
+                }
+            })
         }
     }
     

@@ -1,3 +1,6 @@
+
+window.onunload = function(){};
+
 var routing = function () {
 	var root = null;
 	var useHash = true; // Defaults to: false
@@ -5,21 +8,6 @@ var routing = function () {
 	var router = new Navigo(root, useHash, hash);
 	var badRouting = false
 	var credentials = epicModel.getCredentials()
-
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
-
-	language = getParameterByName("language")
-	// console.log(language, "language")
-	language = language || "en"
-	language = language.toUpperCase()
 
 	$("#minigames").show()
 
@@ -33,7 +21,6 @@ var routing = function () {
 	router
 		.on({
 			'yogotarselector': function () {
-				$("#minigames").hide()
 				var characterSelector = document.getElementById("characterSelector")
 				characterSelector.style.visibility = "visible"
 				startCharSelector()
@@ -44,7 +31,8 @@ var routing = function () {
 				);
 			},
 			'minigames': function () {
-				// $("#minigames").hide()
+				$(".game-canvas p").text(epicLanguages[language]["minigames"])
+				$(".bgIcon img").attr("src","assets/img/common/minigames.png");
 				epicSiteMain.startGame("../../../letsplay.html?epicsite=true&language=" + language)
 
 				mixpanel.track(
@@ -55,32 +43,22 @@ var routing = function () {
 				);
 			},
 			'minigames/:id': function (params) {
-				$("#minigames").hide()
 				var id = params.id
-				var games = yogomeGames.getGames()
+				var games = yogomeGames.getObjectGames()
 				// console.log(id, games.length)
-				var url
-				var gameId
-				for(var gameIndex = 0; gameIndex < games.length; gameIndex++){
-					var game = games[gameIndex]
-					// gameId = game.name.replace(/\s/g, "")
-					// console.log(gameId)
-					if(id === game.id){
-						url = game.url
-						gameId = game.id
-						console.log(url, "matched")
-						break
-					}
-				}
+				var game = games[id]
 				console.log(language, "language")
-				var src = url + "index.html?language=" + language
+				var src = game.url + "index.html?language=" + language
 
 				var currentPlayer = epicModel.getPlayer()
-				currentPlayer.currentMinigame = gameId
+				currentPlayer.currentMinigame = id
 				console.log(currentPlayer.currentMinigame)
 				epicModel.savePlayer(currentPlayer)
 
 				epicSiteMain.startGame(src)
+
+				$(".game-canvas p").text("")
+				$(".bgIcon img").attr("src","../../shared/minigames/images/icons/"+game.sceneName + ".png");
 
 				//TODO: check mixpanel
 				// mixpanel.track(
@@ -92,18 +70,39 @@ var routing = function () {
 			'map': function () {
 				// if(game)
 				// 	game.destroy()
-				$("#minigames").hide()
 				epicSiteMain.startGame(null, false, true, true)
+
+				console.log(language)
+				$(".game-canvas p").text(epicLanguages[language]["adventureMode"])
+				$(".bgIcon img").attr("src","assets/img/common/adventure_mode.png");
 
 				mixpanel.track(
 					"PageLoadAdventureMode",
 					{"user_id": credentials.educationID}
 				);
 			},
+			'books':function () {
+				var characterSelector = document.getElementById("characterSelector")
+				characterSelector.style.visibility = "hidden"
+				$(".game-canvas p").text(epicLanguages[language]["books"])
+				$(".bgIcon img").attr("src","assets/img/common/books.png");
+				epicModel.loadPlayer()
+
+				window.history.replaceState( {} , 'SmartKids', '#/map' );
+			},
+			'videos':function () {
+				var characterSelector = document.getElementById("characterSelector")
+				characterSelector.style.visibility = "hidden"
+				$(".game-canvas p").text(epicLanguages[language]["videos"])
+				$(".bgIcon img").attr("src","assets/img/common/videos.png");
+				epicModel.loadPlayer()
+				window.history.replaceState( {} , 'SmartKids', '#/map' );
+
+			},
 			'*': function () {
 				// window.location.href = router.root
-				$("#minigames").hide()
-				epicSiteMain.startGame(null, false, true, true)
+				router.navigate("#/map")
+				// epicSiteMain.startGame(null, false, true, true)
 			},
 		})
 

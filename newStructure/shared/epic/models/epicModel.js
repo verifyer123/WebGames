@@ -106,7 +106,7 @@ var epicModel = function () {
 		}else if((currentCallback)&&(checkAgeFlag)){
 			checkAgeFlag = false
 			modal.showAge(currentCallback)
-		}else
+		}else if(currentCallback)
 			currentCallback()
 
 		if(signInCallback){

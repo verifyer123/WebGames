@@ -14,27 +14,97 @@ $("body").on("touchstart", function () {
 
 $(document).ready(function () {
     initSizes();
-    setTimeout(function () {
-        $('.epic-slider').slick({
-            dots: true,
-            autoplay: false,
-            vertical: true,
-            verticalSwiping: true,
-            accessibility: true,
-            arrows: false,
-            mobileFirst: true,
-            infinite:false
-        });
-
-        $('.epic-slider').animate({
-            opacity: '1'
-        }, 500);
-    }, 500);
+    // setTimeout(function () {
+    //     $('.epic-slider').slick({
+    //         dots: true,
+    //         autoplay: false,
+    //         vertical: true,
+    //         verticalSwiping: true,
+    //         accessibility: true,
+    //         arrows: false,
+    //         mobileFirst: true,
+    //         infinite:false
+    //     });
+	//
+    //     $('.epic-slider').animate({
+    //         opacity: '1'
+    //     }, 500);
+    // }, 500);
 
     if ($(window).width() <= 768) {
         addEvents();
         isPortrait();
     }
+
+	const ps = new PerfectScrollbar('.epic-slider', {suppressScrollX:true});
+	const ps2 = new PerfectScrollbar('#scroll2', {suppressScrollX:true});
+	console.log(ps)
+
+	ps.element.addEventListener('ps-y-reach-end', function () {
+		$(".scrolldown1").css("display", "none")
+		$(".scrollup1").css("display", "block")
+	});
+
+	ps.element.addEventListener('ps-y-reach-start', function () {
+		$(".scrolldown1").css("display", "block")
+		$(".scrollup1").css("display", "none")
+	});
+
+	$('.scrolldown1').click(function () {
+		TweenLite.to(ps.element, 0.5, {scrollTop:ps.containerHeight, ease:Quad.easeOut})
+	})
+
+	$('.scrollup1').click(function () {
+		console.log("scrollTOp")
+		TweenLite.to(ps.element, 0.5, {scrollTop:0, ease:Quad.easeOut})
+	})
+
+	ps2.element.addEventListener('ps-y-reach-end', function () {
+		$(".scrolldown2").css("display", "none")
+		$(".scrollup2").css("display", "block")
+	});
+
+	ps2.element.addEventListener('ps-y-reach-start', function () {
+		$(".scrolldown2").css("display", "block")
+		$(".scrollup2").css("display", "none")
+	});
+
+	$('.scrolldown2').click(function () {
+		TweenLite.to(ps2.element, 0.5, {scrollTop:ps2.containerHeight, ease:Quad.easeOut})
+	})
+
+	$('.scrollup2').click(function () {
+		console.log("scrollup")
+		TweenLite.to(ps2.element, 0.5, {scrollTop:0, ease:Quad.easeOut})
+	})
+
+	// $('#scroll2').addEventListener('ps-y-reach-end', function () {
+	// 	$(".arrow-down").css("display", "none")
+	// });
+
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	var language;
+	language = getParameterByName("language");
+	language = language || "en"
+    language = language.toUpperCase()
+
+	function changeLanguages(){
+		$(".advModeText").text(epicLanguages[language]["adventureMode"])
+		$(".booksText").text(epicLanguages[language]["books"])
+		$(".videosText").text(epicLanguages[language]["videos"])
+		$(".minigamesText").text(epicLanguages[language]["minigames"])
+	}
+
+	changeLanguages()
 });
 
 function isPortrait() {
@@ -55,38 +125,13 @@ function addEvents() {
     var closeButton = document.getElementById("close");
     closeButton.addEventListener("touchstart", close, false);
 
-    var slide1 = document.getElementById("slide1");
-    slide1.addEventListener("touchend", function () { 
-        TweenMax.fromTo($("#home"),0.5,{y:"100%"},{y:"0%"});
-        homeButton.style.visibility = "visible"; 
-        home.style.visibility = "visible"
-		routing.navigate('#/map');
-    }, false);
-    
-    var slide2 = document.getElementById("slide2");
-    slide2.addEventListener("touchend", function () {
-        window.location.href = "http://play.yogome.com/yogobooks.html";
-    }, false);
-
-    var slide3 = document.getElementById("slide3");
-    slide3.addEventListener("touchend", function () {
-        $("#minigames").show();
-        homeButton.style.visibility = "visible"; 
-        routing.navigate('#/minigames');
-    }, false);
-
-    var slide4 = document.getElementById("slide4");
-    slide4.addEventListener("touchend", function () {
-        window.location.href = "http://play.yogome.com/webisodes.html";
-    }, false);
-
     close();
 }
 
 function initSizes() {
     // 20 px for the player info margin top
     var sliderHeight = $('#left').height() - $('#player-info').height() - 20;
-    $('.epic-slider').css('height', sliderHeight);
+    // $('.epic-slider').css('height', sliderHeight);
 
     var innerHeight = $('#iframe-box').height() - 40;
     var innerWidth = $('#iframe-box').width() - 40;
@@ -122,16 +167,6 @@ function close() {
     //$('#iframe-mobile').css('display', 'none');
 }
 
-$("#homeButton").click(function(){
-    homeButton.style.visibility = "hidden";
-    $("#minigames").hide();
-    TweenMax.fromTo($("#home"),0.4,{y:"0%"},{y:"100%",onComplete:hideHome});
-    function hideHome(){
-        home.style.visibility = "hidden" ;
-    }
-   
-});
-
 function open(slide) {
     if (dragging) return;
     //slide -> parameter to show content based on selected slice
@@ -142,6 +177,7 @@ function open(slide) {
     // 4 = Videos
     $('#iframe-mobile').css('display', 'block');
 }
+
 
 
 //ESTE ES PARA EL DIV DE LOS MINIJUEGOS
