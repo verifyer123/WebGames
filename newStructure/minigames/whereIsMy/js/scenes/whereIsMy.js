@@ -125,6 +125,8 @@ var whereIsMy = function(){
     var playedBaul
     var posX=new Array(objects.length)
     var posY=new Array(objects.length)
+    var mano;
+    var desbloqueo;
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -135,6 +137,7 @@ var whereIsMy = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         playedBaul=null
+        desbloqueo=false;
         passingLevel=false
         btnActive=false
         objectDisplay=false
@@ -336,8 +339,11 @@ var whereIsMy = function(){
 		game.load.image('introscreen',"images/where/introscreen.png")
         
         game.load.spine('thef', "images/Spine/normal/normal.json");
+        
+        game.load.spritesheet("manita", 'images/Spine/Tuto/manita.png', 115, 111, 23)
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
         game.load.spritesheet("baul", 'images/Spine/baul/baul.png', 186, 207, 7)
+        
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -759,15 +765,25 @@ var whereIsMy = function(){
         posX[6]=board.centerX
         posY[6]=board.centerY-120
         
-        positionTimer()
+        mano=game.add.sprite(board.centerX+175,board.centerY-10, "manita")
+        mano.animations.add('manita');
+        mano.animations.play('manita', 24, true);
+        objectGroup.add(mano);
+        
         game.add.tween(qGlobe.scale).to({x:1.1, y:1.1}, (620), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
         game.add.tween(objectsToFind.scale).to({x:1.1, y:1.1}, (620), Phaser.Easing.Cubic.Out, true).yoyo(true).loop(true)
+        
+        
+        Up.tint = 0x909090;
+        Right.tint = 0x909090;
+        Left.tint = 0x909090;
         
     }
 	
     function startGlobe(){
         
         var whichObject=game.rnd.integerInRange(0,6)
+        if(dificulty==100000)whichObject=3;
         
         objectsToFind.loadTexture("atlas.where",objects[whichObject]+"_Q")
         objectsToFind.tag=objects[whichObject]
@@ -775,7 +791,10 @@ var whereIsMy = function(){
         game.add.tween(qGlobe).to({alpha:1},950,Phaser.Easing.linear,true, 250).onComplete.add(function(){
             
             game.add.tween(objectsToFind).to({alpha:1},900,Phaser.Easing.linear,true, 250).onComplete.add(function(){
-                startTimer(dificulty)
+                if(dificulty!=100000){
+                    positionTimer();
+                    startTimer(dificulty);
+                }
                 objectDisplay=true
             })
         })
@@ -872,7 +891,6 @@ var whereIsMy = function(){
         while(moving<7){
             
             actualObject=game.rnd.integerInRange(0,6)
-            console.log(objects[actualObject])
             
             if(objects[actualObject]!="noObject"){
                 
@@ -906,8 +924,15 @@ var whereIsMy = function(){
          
         
         if(!passingLevel && objectDisplay){
-        
-            stopTimer()
+            
+            if(dificulty==100000){
+                desbloqueo=true;
+                Up.tint = 0xffffff;
+                Right.tint = 0xffffff;
+                Left.tint = 0xffffff;
+                game.add.tween(mano).to({alpha:0},300,Phaser.Easing.linear,true, 250)
+            }
+           if(dificulty!=100000)stopTimer();
             sound.play("pick")
             passingLevel=true
             objectDisplay=false
@@ -968,7 +993,7 @@ var whereIsMy = function(){
         sound.play("pop")
         
         
-        if(obj.tag=="left" && !btnActive && objectDisplay){
+        if(obj.tag=="left" && !btnActive && objectDisplay && desbloqueo){
             characterProxy.body.velocity.x = -100;
             character.scale.setTo(-1,1)
             btnActive=true
@@ -982,7 +1007,7 @@ var whereIsMy = function(){
             })
             
         }
-        if(obj.tag=="right" && !btnActive && objectDisplay){
+        if(obj.tag=="right" && !btnActive && objectDisplay && desbloqueo){
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.x = +100;
@@ -994,7 +1019,7 @@ var whereIsMy = function(){
                 btnActive=false
             })
         }
-        if(obj.tag=="up" && !btnActive && objectDisplay){
+        if(obj.tag=="up" && !btnActive && objectDisplay && desbloqueo){
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.y = -100;
@@ -1008,6 +1033,14 @@ var whereIsMy = function(){
         }
         if(obj.tag=="down" && !btnActive && objectDisplay){
             character.scale.setTo(1,1)
+            if(dificulty==100000){
+                game.add.tween(mano).to({alpha:0},450,Phaser.Easing.linear,true, 250);
+                game.time.events.add(950, function(){
+                    mano.position.x=objectsInScene[6].x;
+                    mano.position.y=objectsInScene[6].y;
+                    game.add.tween(mano).to({alpha:1},450,Phaser.Easing.linear,true, 250);
+                })
+            }
             btnActive=true
             characterProxy.body.velocity.y = +100;
             character.setAnimationByName(0,"FRONT_WALK",false)
@@ -1110,6 +1143,7 @@ var whereIsMy = function(){
                 game.add.tween(characterProxy).to({x:game.world.centerX, y:game.world.centerY+100}, (1000), Phaser.Easing.Cubic.Linear, true)
                 character.setAnimationByName(0,"FRONT_WALK",true)
                 missPoint()
+                stopTimer();
                 saveObjects()
                 objectDisplay=false
                 game.time.events.add(950, function(){
@@ -1124,8 +1158,6 @@ var whereIsMy = function(){
     }
     
     function reset(){
-            
-        dificulty=100000
         
         objects[0]="DOLL"
         objects[1]="YO YO"
