@@ -133,6 +133,7 @@ var map = function(){
 		var age = players.getCredentials().age
 		console.log(age - 5)
 		gamesList = epicYogomeGames.getGames(4)
+		touchSound = false
 
 	}
 
@@ -801,12 +802,14 @@ var map = function(){
 
 		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x314783)
-		rect.drawRect(0,0,game.world.width,lineArea)
+		rect.drawRect(0,0,game.world.width,60)
 		rect.endFill()
+		rect.alpha = 1
 		sceneGroup.add(rect)*/
                 
 		scroller = game.add.existing(new ScrollableArea(0, lineArea + 5, game.width, game.height - lineArea + 5));
 		scroller.start();
+        scroller.priorityID = 1
 		sceneGroup.add(scroller)
 
 		horizontalScroll = false;
@@ -992,8 +995,10 @@ var map = function(){
 				closeMenu()
 			}
 
-		}else{
+			
 
+		}else{
+			//touchSound = false
 			pointer.x = -100
 		}
 
