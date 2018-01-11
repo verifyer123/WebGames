@@ -31,11 +31,13 @@ buttons.getButton = function(song,group,posX, posY){
 	buttonImage.pressed = false
 	buttonImage.inputEnabled = true
 	buttonImage.events.onInputDown.add(inputButton)
+	buttonImage.InputDown = inputButton
 	buttonImage.anchor.setTo(0.5,0.5)
 
 	return button
 		
 }
+
 
 function inputButton(btn){
 	

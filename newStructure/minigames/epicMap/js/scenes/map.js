@@ -94,6 +94,8 @@ var map = function(){
 	var gamesList
 	var subjectsGroup
 	var newHeight
+	var buttonsGroup
+	var touchSound = false
 
 	var END_POS = 400
 	var OFFSET_HEIGTH = 500
@@ -123,6 +125,7 @@ var map = function(){
 		var age = players.getCredentials().age
 		console.log(age - 5)
 		gamesList = epicYogomeGames.getGames(4)
+		touchSound = false
 
 	}
 
@@ -782,8 +785,9 @@ var map = function(){
 
 		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x314783)
-		rect.drawRect(0,0,game.world.width,lineArea)
+		rect.drawRect(0,0,game.world.width,60)
 		rect.endFill()
+		rect.alpha = 1
 		sceneGroup.add(rect)*/
 
 		scroller = game.add.existing(new ScrollableArea(0, lineArea + 5, game.width, game.height - lineArea + 5));
@@ -953,8 +957,13 @@ var map = function(){
 				closeMenu()
 			}
 
-		}else{
+			if(checkOverlap(buttonsGroup.children[1],pointer) && !touchSound){
+				buttonsGroup.children[1].InputDown(buttonsGroup.children[1])
+				touchSound = true
+			}
 
+		}else{
+			touchSound = false
 			pointer.x = -100
 		}
 
@@ -1379,7 +1388,7 @@ var map = function(){
 			//createPointsBar()
 			//createHearts()
 
-			buttons.getButton(spaceSong,sceneGroup,100)
+			buttonsGroup = buttons.getButton(spaceSong,sceneGroup,100)
 			createShine()
 			createIcons()
 			createSubjects()
