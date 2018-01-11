@@ -17,7 +17,7 @@ var epicSiteMain =  function(){
 	var delayTime = 0
 
 	$("#homeButton").click(function(){
-		hideHome()
+		hideHome(null, true)
 
 	});
 
@@ -163,15 +163,15 @@ var epicSiteMain =  function(){
 		home.style.visibility = "visible"
 	}
 	
-	function hideHome(callback, hidecallback) {
+	function hideHome(callback, keepFrame) {
 		if(home.style.visibility !== "visible"){
 			callback()
 			return
 		}
 
-		TweenMax.fromTo(home, 0.5, {y: "0%"}, {y: "115%", ease:Quad.easeInOut, onComplete:function () {
+		TweenMax.to(home, 0.5,{y: "115%", ease:Quad.easeInOut, onComplete:function () {
 			if(callback) callback()
-			if (gameFrame) {
+			if (gameFrame&&!keepFrame) {
 				gameContainer.removeChild(gameFrame);
 				gameFrame = null
 				home.style.visibility = "hidden"
