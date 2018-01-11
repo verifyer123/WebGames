@@ -50,132 +50,129 @@
 
 </head>
 <body>
-    
+
 <!-- Pass Recover Modal-->
-	<div id="age" class="modal">
+<div id="age" class="modal">
 
-		<!-- Modal content -->
-		<div class="modal-content container" >
-			<div class="navigation">
-				<button class="closeModal close" onclick="pop.play()"></button>
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<!--<button class="closeModal close" onclick="pop.play()"></button>-->
+		</div>
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
+				<img class="logo" src="images/age.png"/>
 			</div>
-			<!-- Modal header -->
-			<div class="modal-header">
-				<div class="topImg">
-                    <img class="logo" src="images/age.png"/>
+			<h2><div class="textModal27" style="font-size: 3vh;">- Select your age -</div></h2><br>
+			<div id="TimeLine-Age">
+				<div id="containerButtonsAge">
+					<div class="buttonAge">5</div>
+					<div class="buttonAge">6</div>
+					<div class="buttonAge">7</div>
+					<div class="buttonAge">8</div>
+					<div class="buttonAge">9</div>
+					<div class="buttonAge">10+</div>
 				</div>
-				<h2><div class="textModal27" style="font-size: 3vh;">- Select your age -</div></h2><br>
-                <div id="TimeLine-Age">
-                    <div id="containerButtonsAge">
-                        <div class="buttonAge">5</div>
-                        <div class="buttonAge">6</div>
-                        <div class="buttonAge">7</div>
-                        <div class="buttonAge">8</div>
-                        <div class="buttonAge">9</div>
-                        <div class="buttonAge">10+</div>
-                    </div>
-                    <div class="lineAge"></div>
-                </div>
-			</div>
-
-			<!-- Modal body Text box and sumbit button-->
-			<div class="modal-body"><br>
-                <button type="submit" id="ok" class="okBtn" style="width: 40%"><div class="textModal3" onclick="magic.play()">OK</div></button>
+				<div class="lineAge"></div>
 			</div>
 		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body"><br>
+			<button type="submit" id="ok" class="okBtn" style="width: 40%"><div class="textModal3" onclick="magic.play()">OK</div></button>
+		</div>
 	</div>
-    
+</div>
+
 <style>
-    /*AGE*/
+	/*AGE*/
 
-.lineAge{
-    height: 2vh;
-    max-height: 15px;
-    width: 100%;
-    background-color: #e6e6e6;
-    border-radius: 2vh;
-    margin-bottom: 2vh;
-}
+	.lineAge{
+		height: 2vh;
+		max-height: 15px;
+		width: 100%;
+		background-color: #e6e6e6;
+		border-radius: 2vh;
+		margin-bottom: 2vh;
+	}
 
-#containerButtonsAge{
-    position: absolute;
-    height: 70%;
-    width: 100%;
-    left:0;
-    border-radius: 2vh;
-    margin-bottom: 2vh;
-    display: flex;
-    align-content: center;
-    justify-content: space-around;
-}
+	#containerButtonsAge{
+		position: absolute;
+		height: 70%;
+		width: 100%;
+		left:0;
+		border-radius: 2vh;
+		margin-bottom: 2vh;
+		display: flex;
+		align-content: center;
+		justify-content: space-around;
+	}
 
-.buttonAge{
-    margin-top: -3%;
-    height: 18%;
-    width: 10%;
-    border-radius: 50%;
-    background-color: #808080;
-    color:#FFF;
-     font-family: 'Open Sans', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+	.buttonAge {
+		margin-top: -3%;
+		height: 5vh;
+		width: 5vh;
+		border-radius: 50%;
+		background-color: #808080;
+		color: #FFF;
+		font-family: 'Open Sans', sans-serif;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+	}
 
-.buttonSelect{
-    height: 23%;
-    width: 13%;
-    margin-top: -6%;
-    border-radius: 50%;
-    background-color: #3ec4ff;  
-    border:0.8vh solid #999999;
-}
+	.buttonSelect{
+		height: 23%;
+		width: 13%;
+		margin-top: -6%;
+		border-radius: 50%;
+		background-color: #3ec4ff;
+		border:0.8vh solid #999999;
+	}
 
 
 </style>
 
 <script>
-
-	$(".buttonAge").click(function(){
-		$(".buttonAge").removeClass("buttonSelect");
-		$(this).addClass("buttonSelect");
-//		console.log(this)
-		var ageSelected = parseInt($(this).text())
-		ageModal.setAge(ageSelected)
-
-	});
-    
-	$(".close").click(function() {
-		$("#age").modal('hide');
-	});
-
-	$("#ok").click(function() {
-		$("#age").modal('hide');
-		ageModal.saveAge()
-
-	});
-
 	var ageModal = function () {
 		var currentCallback
 		var currentAge
+
+		var popAudio = new Audio('sounds/pop.mp3');
+
+		$(".buttonAge").click(function(){
+			$(".buttonAge").removeClass("buttonSelect");
+			$(this).addClass("buttonSelect");
+			currentAge = parseInt($(this).text())
+			popAudio.play()
+
+		});
+
+		$(".close").click(function() {
+			$("#age").modal('hide');
+		});
+
+		$("#ok").click(function() {
+			if(typeof currentAge === "number") {
+				$("#age").modal('hide');
+				popAudio.play()
+				localStorage.setItem("age", currentAge)
+				currentCallback()
+			}
+		});
 
 		return {
 			setCallback:function (callback) {
 				currentCallback = callback
 			},
-			setAge:function (age) {
-				currentAge = age
-			},
-			saveAge:function () {
-				localStorage.setItem("age", currentAge)
-				currentCallback()
-			}
 		}
 
 	}()
 
 </script>
-    
-    <script src="js/languages.js"></script>
+
+<script src="js/languages.js"></script>
 </body>
 </html>
