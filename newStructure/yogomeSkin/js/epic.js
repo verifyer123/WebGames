@@ -3,6 +3,8 @@ var epicSiteMain =  function(){
 	var gameContainer
 
 	var DEFAULT_SRC = "../epicMap/index.html?language=" + language
+	var INTR0_TIME = 3000
+	var BUTTON_DELAY = 1000
 
 	var buttonMinigames = $(".btn3")
 	var buttonAdventure = $(".btn1")
@@ -11,100 +13,171 @@ var epicSiteMain =  function(){
 	var home = document.getElementById("home")
 	home.style.visibility = "visible"
 	var popAudio = new Audio('sounds/pop.mp3');
+	var currentTimeout
+	var delayTime = 0
+
+	$("#homeButton").click(function(){
+		hideHome()
+
+	});
 
 	buttonMinigames.click(function () {
-		tweenButton(this)
-		showHome()
 
-		var lanAbr = language.toLowerCase()
+		delayTime = 3000
+		tweenButton(this)
 		popAudio.play();
+		console.log(home.style.visibility)
+
+		var lastRoute = routing.lastRouteResolved()
+		if(lastRoute.url === "minigames"){
+			showHome()
+			return
+		}
+
+		hideHome(function () {
+			routing.navigate('#/minigames');
+		})
+		var lanAbr = language.toLowerCase()
 
 		setTimeout(function () {
 			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/minigames.mp3');
 			booksAudio.play();
-		}, 1000)
-		routing.navigate('#/minigames');
+		}, BUTTON_DELAY)
 	})
 
 	buttonAdventure.click(function () {
-		tweenButton(this)
-		showHome()
 
-		var lanAbr = language.toLowerCase()
+		delayTime = 3000
+		tweenButton(this)
 		popAudio.play();
+
+		var lastRoute = routing.lastRouteResolved()
+		if(lastRoute.url === "map") {
+			showHome()
+			return
+		}
+
+		hideHome(function () {
+			routing.navigate('#/map');
+		})
+		var lanAbr = language.toLowerCase()
 
 		setTimeout(function () {
 			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/adventure_mode.mp3');
 			booksAudio.play();
-		}, 1000)
-		routing.navigate('#/map');
+		}, BUTTON_DELAY)
 	})
 
 	buttonBooks.click(function () {
+		delayTime = 3000
+		popAudio.play();
 		tweenButton(this)
-		if (gameFrame) {
-			gameContainer.removeChild(gameFrame);
-			gameFrame = null
+
+		var lastRoute = routing.lastRouteResolved()
+		if(lastRoute.url === "books") {
+			showHome()
+			return
 		}
 
+		hideHome(function () {
+			routing.navigate("#/books")
+			if (gameFrame) {
+				gameContainer.removeChild(gameFrame);
+				gameFrame = null
+			}
+			showHome()
+		})
+
+
 		var lanAbr = language.toLowerCase()
-		popAudio.play();
 
 		setTimeout(function () {
 			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/books.mp3');
 			booksAudio.play();
-		}, 1000)
+		}, BUTTON_DELAY)
 
-		$("#sectionInfo").css("visibility", "visible")
-		showHome()
-		console.log("books")
-		setTimeout(function() {
-			window.location.href = "https://play.yogome.com/yogobooks.html"
-		}, 3000)
-		routing.navigate("#/books")
+
+		if(currentTimeout){
+			clearTimeout(currentTimeout)
+		}
+		currentTimeout = setTimeout(function() {
+			window.location.href = "https://play.yogome.com/yogobooks.html?language=" + language
+			delayTime = 0
+		}, delayTime)
 	})
 
 	buttonVideos.click(function () {
+		delayTime = 3000
+		popAudio.play();
+		// $("#sectionInfo").css("visibility", "visible")
 		tweenButton(this)
+
+		var lastRoute = routing.lastRouteResolved()
+		if(lastRoute.url === "videos") {
+			showHome()
+			return
+		}
+
+		hideHome(function () {
+			routing.navigate("#/videos")
+			if (gameFrame) {
+				gameContainer.removeChild(gameFrame);
+				gameFrame = null
+			}
+			showHome()
+		})
+
 		if (gameFrame) {
 			gameContainer.removeChild(gameFrame);
 			gameFrame = null
 		}
 
 		var lanAbr = language.toLowerCase()
-		popAudio.play();
 
 		setTimeout(function () {
 			var booksAudio = new Audio('assets/sounds/'+lanAbr+'/videos.mp3');
 			booksAudio.play();
-		}, 1000)
+		}, BUTTON_DELAY)
 
-		$("#sectionInfo").css("visibility", "visible")
-		showHome()
-		setTimeout(function() {
-			window.location.href = "https://play.yogome.com/webisodes.html"
-		}, 3000)
-		routing.navigate("#/videos")
+		if(currentTimeout){
+			clearTimeout(currentTimeout)
+		}
+		currentTimeout = setTimeout(function() {
+			delayTime = 0
+			window.location.href = "https://play.yogome.com/webisodes.html?language=" + language
+		}, delayTime)
 	})
 
 	function tweenButton(obj) {
 		function nextTween() {
-			TweenLite.to(obj, 0.3, {css:{scale:1}, ease:Quad.easeIn, delay:1})
+			TweenLite.to(obj, 0.3, {css:{scale:1}, ease:Quad.easeOut, delay:1})
 		}
 		TweenLite.to(obj, 0.3, {css:{scale:1.2}, ease:Quad.easeOut, onComplete:nextTween})
 	}
-
+	
 	function showHome(callback) {
-		console.log(home.style.visibility)
-		if(home.style.visibility !== "visible") {
-			TweenMax.fromTo(home, 0.5, {y: "100%"}, {y: "0%", onComplete:function () {
-				if(callback) callback()
-			}});
-			homeButton.style.visibility = "visible";
-			home.style.visibility = "visible"
-		}else{
+		TweenMax.to(home, 0.5, {y: "0%", ease:Quad.easeInOut, onComplete:function () {
 			if(callback) callback()
+		}});
+		homeButton.style.visibility = "visible";
+		home.style.visibility = "visible"
+	}
+	
+	function hideHome(callback, hidecallback) {
+		if(home.style.visibility !== "visible"){
+			callback()
+			return
 		}
+
+		TweenMax.fromTo(home, 0.5, {y: "0%"}, {y: "115%", ease:Quad.easeInOut, onComplete:function () {
+			if(callback) callback()
+			if (gameFrame) {
+				gameContainer.removeChild(gameFrame);
+				gameFrame = null
+				home.style.visibility = "hidden"
+			}
+		}});
+		homeButton.style.visibility = "hidden";
 	}
 	
 	function updatePlayerInfo() {
@@ -144,27 +217,37 @@ var epicSiteMain =  function(){
 
 	function loadGame(src){
 		function NextFunction(){
-			if (gameFrame) {
-				gameContainer.removeChild(gameFrame);
-				gameFrame = null
-			}
 			$("#sectionInfo").css("visibility", "visible")
-			setTimeout(function() {
+			if(currentTimeout){
+				clearTimeout(currentTimeout)
+			}
+			console.log(delayTime, "time")
+
+			currentTimeout = setTimeout(function() {
 				var characterSelector = document.getElementById("characterSelector")
 				characterSelector.style.visibility = "hidden"
 
 				// $(".game-canvas p").style.visibility = "hidden"
-				$("#sectionInfo").css("visibility", "hidden")
+				// $("#sectionInfo").css("visibility", "hidden")
 				//';ljxz  window.open(url, "_self")
+				if (gameFrame) {
+					gameContainer.removeChild(gameFrame);
+					gameFrame = null
+				}
 
 				gameFrame = document.createElement("iframe")
 				gameFrame.src = src || DEFAULT_SRC
 				gameFrame.style.borderStyle = "none"
+				gameFrame.style.position = "absolute"
+				gameFrame.style.top = "0"
+				gameFrame.style.zIndex = "3"
 				// gameFrame.scrolling = "yes"
 				gameFrame.width = "100%"
 				gameFrame.height = "100%"
 				gameContainer.appendChild(gameFrame);
-			}, 3000)
+
+				delayTime = 0
+			}, delayTime)
 		}
 
 		showHome(NextFunction)

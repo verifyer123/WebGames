@@ -38,6 +38,49 @@ $(document).ready(function () {
 
 	const ps = new PerfectScrollbar('.epic-slider', {suppressScrollX:true});
 	const ps2 = new PerfectScrollbar('#scroll2', {suppressScrollX:true});
+	console.log(ps)
+
+	ps.element.addEventListener('ps-y-reach-end', function () {
+		$(".scrolldown1").css("display", "none")
+		$(".scrollup1").css("display", "block")
+	});
+
+	ps.element.addEventListener('ps-y-reach-start', function () {
+		$(".scrolldown1").css("display", "block")
+		$(".scrollup1").css("display", "none")
+	});
+
+	$('.scrolldown1').click(function () {
+		TweenLite.to(ps.element, 0.5, {scrollTop:ps.containerHeight, ease:Quad.easeOut})
+	})
+
+	$('.scrollup1').click(function () {
+		console.log("scrollTOp")
+		TweenLite.to(ps.element, 0.5, {scrollTop:0, ease:Quad.easeOut})
+	})
+
+	ps2.element.addEventListener('ps-y-reach-end', function () {
+		$(".scrolldown2").css("display", "none")
+		$(".scrollup2").css("display", "block")
+	});
+
+	ps2.element.addEventListener('ps-y-reach-start', function () {
+		$(".scrolldown2").css("display", "block")
+		$(".scrollup2").css("display", "none")
+	});
+
+	$('.scrolldown2').click(function () {
+		TweenLite.to(ps2.element, 0.5, {scrollTop:ps2.containerHeight, ease:Quad.easeOut})
+	})
+
+	$('.scrollup2').click(function () {
+		console.log("scrollup")
+		TweenLite.to(ps2.element, 0.5, {scrollTop:0, ease:Quad.easeOut})
+	})
+
+	// $('#scroll2').addEventListener('ps-y-reach-end', function () {
+	// 	$(".arrow-down").css("display", "none")
+	// });
 
 	function getParameterByName(name, url) {
 		if (!url) url = window.location.href;
@@ -124,16 +167,6 @@ function close() {
     //$('#iframe-mobile').css('display', 'none');
 }
 
-$("#homeButton").click(function(){
-    homeButton.style.visibility = "hidden";
-    $("#minigames").hide();
-    TweenMax.fromTo($("#home"),0.4,{y:"0%"},{y:"100%",onComplete:hideHome});
-    function hideHome(){
-        home.style.visibility = "hidden" ;
-    }
-   
-});
-
 function open(slide) {
     if (dragging) return;
     //slide -> parameter to show content based on selected slice
@@ -144,6 +177,7 @@ function open(slide) {
     // 4 = Videos
     $('#iframe-mobile').css('display', 'block');
 }
+
 
 
 //ESTE ES PARA EL DIV DE LOS MINIJUEGOS
