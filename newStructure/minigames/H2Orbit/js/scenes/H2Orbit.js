@@ -689,7 +689,7 @@ var H2Orbit = function(){
         if(planet.parent.state === ship.parent.state){
             addPoint(1)
             sound.play('rightChoice')
-            speed += 0.5
+            speed += 0.25
             particleCorrect.x = shipGroup.x 
             particleCorrect.y = shipGroup.y
             particleCorrect.start(true, 1200, null, 6)
@@ -697,8 +697,11 @@ var H2Orbit = function(){
         else{
             shipGroup.children[ship.parent.state].setAnimationByName(0, "LOSE", false)
             sound.play('explosion')
-            if(lives !== 0){
+            if(lives > 1){
                 restartGame()   
+            }
+            else{
+                missPoint()
             }
             particleWrong.x = shipGroup.x - 20
             particleWrong.y = shipGroup.y
