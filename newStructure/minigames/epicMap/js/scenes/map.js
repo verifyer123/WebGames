@@ -94,6 +94,7 @@ var map = function(){
 	var gamesList
 	var subjectsGroup
 	var newHeight
+    var tutorial, mano, ballTutorialUnlock
 
 	var END_POS = 400
 	var OFFSET_HEIGTH = 500
@@ -113,8 +114,17 @@ var map = function(){
 	function initialize(){
 
 		game.stage.backgroundColor = "#ffffff"
+        
+        if(parent.epicModal){
+            currentPlayer = parent.epicModel.getPlayer();
+            tutorial=currentPlayer.mapPlayed;
+        }else{
+            tutorial=false;
+        }
+        
 		lives = 1
 		mouseActive = false
+        ballTutorialUnlock=1;
 		buttonsActive = false
 		buttonPressed = null
 		battleCounter = 0
@@ -288,6 +298,9 @@ var map = function(){
 
 		game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
 		game.load.spine('eagle',"images/spines/yogotar.json")
+        
+        
+        game.load.spritesheet("hand", 'images/spines/Tuto/manita.png', 115, 111, 23)
 
 		//console.log(localization.getLanguage() + ' language')
 
@@ -455,8 +468,14 @@ var map = function(){
 
 				var lock = ballGroup.create(0,0,'atlas.map','lock')
 				lock.anchor.setTo(0.5,0.5)
-
-				if(i < 4){
+                
+                if(!tutorial){
+                    ballTutorialUnlock=2;
+                }else{
+                    ballTutorialUnlock=4;
+                }
+                
+				if(i < ballTutorialUnlock){
 
 					lock.alpha = 0
 					ballGroup.locked = false
@@ -473,7 +492,7 @@ var map = function(){
 								countMinigames++
 							}
 						}
-					}
+				    }
 
 
 					//TODO: uncomment to lock levels
@@ -529,7 +548,7 @@ var map = function(){
 
 
 		sound.play("pop")
-
+        
 		buttonPressed = obj
 		buttonsActive = false
 
@@ -785,7 +804,7 @@ var map = function(){
 		rect.drawRect(0,0,game.world.width,lineArea)
 		rect.endFill()
 		sceneGroup.add(rect)*/
-
+                
 		scroller = game.add.existing(new ScrollableArea(0, lineArea + 5, game.width, game.height - lineArea + 5));
 		scroller.start();
 		sceneGroup.add(scroller)
@@ -795,10 +814,11 @@ var map = function(){
 		kineticMovement = true;
 
 		configureScroll()
-
+        
+        
 		background = game.add.group()
 		scroller.add(background)
-
+        
 		var maxHeight = 960 * 7
 
 		var MAXLEVELS = 22
@@ -846,7 +866,8 @@ var map = function(){
 
 		}
 
-
+        
+        
 
 		start = scroller.create(game.world.centerX + 100,background.height - 200,'atlas.map','roadbegin')
 		start.anchor.setTo(1,1)
@@ -866,7 +887,20 @@ var map = function(){
 		pointer = sceneGroup.create(-100,0,'atlas.map','star')
 		pointer.anchor.setTo(0.5,0.5)
 		pointer.scale.setTo(0.6,0.6)
-
+        
+        
+        
+        if(!tutorial){
+            
+            mano=game.add.sprite(ballsPosition.children[1].x,ballsPosition.children[1].y-50, "hand")
+            mano.alpha=0;
+            mano.animations.add('hand');
+            mano.animations.play('hand', 24, true);
+            game.time.events.add(6000, function(){
+                scroller.add(mano);
+                game.add.tween(mano).to({alpha:1},300,Phaser.Easing.linear,true, 250) 
+            })
+        }
 	}
 
 	function configureScroll() {
@@ -918,7 +952,12 @@ var map = function(){
 						})
 
 					}else{
-						inputBall(ball)
+                        if(tutorial){
+				            inputBall(ball)
+                        }else{
+                            game.add.tween(mano).to({alpha:0},300,Phaser.Easing.linear,true, 250)
+                            inputBall(ball)
+                        }
 					}
 
 				}
