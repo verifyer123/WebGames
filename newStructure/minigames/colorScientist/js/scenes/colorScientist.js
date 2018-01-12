@@ -691,11 +691,14 @@ var colorScientist = function(){
             
             if(pivot === 1){
                 changeImage(bottle.color, colorGroup1)
-                usedColor += bottle.color
+                usedColor += bottle.color 
             }
             else if(pivot === 2){
                 changeImage(bottle.color, colorGroup2)
-                usedColor += bottle.color
+                if(GOP === 2 && usedColor === 1){
+                }else{
+                    usedColor += bottle.color
+                }
                 okBtn.inputEnabled = true
                 okGroup.setAll('tint', 0xffffff)
             }
@@ -798,6 +801,7 @@ var colorScientist = function(){
             if(usedColor === GOP){
                 addPoint(1)
                 roundCount++
+                GOP++
                 computer.setAnimationByName(0, "WIN", true)
             }
             else{
@@ -814,7 +818,6 @@ var colorScientist = function(){
                     initGame()
                 }
                 else{
-                    GOP++
                     tutorial()
                 }
             })
