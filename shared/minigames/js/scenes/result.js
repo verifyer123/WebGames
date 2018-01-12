@@ -70,6 +70,7 @@ var result = function(){
     var minigameId
     var skinTable
 	var overlayGroup
+    var currentCouponId
 
 	var timeGoal = null
 
@@ -584,6 +585,8 @@ var result = function(){
             var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y, 'gothamMedium', totalScore + " punto" + addText, 50);
             retryText.anchor.setTo(0,1)
             sceneGroup.add(retryText)
+
+
             
         }else{
             
@@ -613,6 +616,8 @@ var result = function(){
                 pivotRank+=200
                                 
                 pivotButtons = game.world.height* 0.92
+
+                amazing.winCoupon(currentCouponId)
                 
                 if(couponData.imgPreview){
 
@@ -857,6 +862,7 @@ var result = function(){
             if(couponData.imgPreview){
                 var imageName = couponData.imgPreview.split('/')
                 game.load.image('coupon',imagesUrl + 'coupons/'+imageName[2])
+                currentCouponId = couponData.id
             }
             else{
                 game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
