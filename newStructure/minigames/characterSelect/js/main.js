@@ -2,10 +2,13 @@ window.minigame = window.minigame || {}
 
 function startCharSelector(){
 	var div = document.getElementById("characterSelector")
+	div.style.visibility = "visible"
+	div.style.opacity = 1
 	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.CANVAS, "characterSelector", {init: init, create: create }, true, true);
 	// div.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
+		$(".loader").css("display", "show")
 
     	function onCompletePreloading(){
 
@@ -15,6 +18,7 @@ function startCharSelector(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
+				$(".loader").css("display", "none")
 				sceneloader.show("characterSelect")
 	    	}
 

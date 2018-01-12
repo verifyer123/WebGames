@@ -21,8 +21,6 @@ var routing = function () {
 	router
 		.on({
 			'yogotarselector': function () {
-				var characterSelector = document.getElementById("characterSelector")
-				characterSelector.style.visibility = "visible"
 				startCharSelector()
 
 				mixpanel.track(
