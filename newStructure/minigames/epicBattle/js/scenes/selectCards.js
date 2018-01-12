@@ -67,6 +67,7 @@ var selectCards = function(){
 	var cardsList
 	var cardsEnemyData
 	var playerCards
+    var tutorial, mano
 	
 	var colorsGradient = {
     	fire:0xff2e2e,
@@ -85,7 +86,6 @@ var selectCards = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 1
 		cardsList = []
-
         
         loadSounds()
         
@@ -249,6 +249,8 @@ var selectCards = function(){
         
         game.load.spine('vs', "images/spines/vsLight/VS.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/versusSong.mp3');
+        
+        game.load.spritesheet("hand", 'images/spines/Tuto/manita.png', 115, 111, 23)
 		
 		// console.log(localization.getLanguage() + ' language')
 
@@ -343,6 +345,16 @@ var selectCards = function(){
 		
 		playerGUI.nameText = playerName
 		playerGUI.levelText = levelText
+        if(!tutorial){
+            
+            mano=game.add.sprite(deckBot.centerX-120,deckBot.centerY-100, "hand")
+            mano.alpha=0;
+            mano.animations.add('hand');
+            mano.animations.play('hand', 24, true);
+            sceneGroup.add(mano);
+            game.add.tween(mano).to({alpha:1},500,Phaser.Easing.linear,true, 2100) 
+        }
+        
 	}
 	
 	function update(){
@@ -492,7 +504,9 @@ var selectCards = function(){
 			obj.tween.stop()
 			obj.scale.setTo(1,1)
 		}
-		
+		 if(!tutorial){
+            game.add.tween(mano).to({alpha:0},500,Phaser.Easing.linear,true, 200);
+        }
 		sound.play("pop")
 		var tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},200,"Linear",true,0,0)
 		tween.yoyo(true,0)
@@ -501,6 +515,8 @@ var selectCards = function(){
 		battle.setCharacters(cardsList.concat(cardsEnemyData))
 		game.kineticScrolling.stop()
 		sceneloader.show("vs")
+        
+
 		
 	}
 
@@ -630,8 +646,12 @@ var selectCards = function(){
 
 		// console.log(parent.info)
 		cardsList.push(parent.info)
-
-		sceneGroup.bringToTop(battleButton)
+        
+        if(tutorial){
+		  sceneGroup.bringToTop(battleButton)
+        }else{
+             sceneGroup.bringToTop(mano)
+        }
 		if(battleButton.alpha === 0){
 			popObject(battleButton,0)
 			
@@ -644,6 +664,15 @@ var selectCards = function(){
 			})
 			
 		}
+        
+        if(!tutorial){
+            game.add.tween(mano).to({alpha:0},200,Phaser.Easing.linear,true, 250).onComplete.add(function(){
+                mano.position.x=battleButton.x
+                mano.position.y=battleButton.y-50
+                
+                game.add.tween(mano).to({alpha:1},300,Phaser.Easing.linear,true, 200)
+            })
+        }
 		
 	}
 	
@@ -663,7 +692,14 @@ var selectCards = function(){
 			
 			sceneGroup = game.add.group()
 			currentPlayer = parent.epicModel.getPlayer()
-			
+            
+			if(parent && parent.epicModel){
+                currentPlayer = parent.epicModel.getPlayer();
+                tutorial=currentPlayer.battlePlayed;
+            }else{
+                tutorial=false
+            }
+            
 			createBackground()
 			createCards()
 			

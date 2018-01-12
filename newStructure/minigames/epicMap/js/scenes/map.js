@@ -115,12 +115,7 @@ var map = function(){
 
 		game.stage.backgroundColor = "#ffffff"
         
-        if(parent.epicModal){
-            currentPlayer = parent.epicModel.getPlayer();
-            tutorial=currentPlayer.mapPlayed;
-        }else{
-            tutorial=false;
-        }
+        
         
 		lives = 1
 		mouseActive = false
@@ -134,7 +129,12 @@ var map = function(){
 		console.log(age - 5)
 		gamesList = epicYogomeGames.getGames(4)
 		touchSound = false
-
+        if(parent && parent.epicModel){
+            currentPlayer = parent.epicModel.getPlayer();
+            tutorial=currentPlayer.mapPlayed;
+        }else{
+            tutorial=false
+        }
 	}
 
 	function popObject(obj,delay){
@@ -678,7 +678,7 @@ var map = function(){
 
 	function closeMenu(obj){
 
-		if(gamesMenu.active){
+		if(gamesMenu.active && tutorial){
 
 			gamesMenu.active = false
 
@@ -773,6 +773,13 @@ var map = function(){
 			pivotY+= 155
 			delay+= 200
 		}
+        
+        if(!tutorial){
+            
+            mano.position.x=subject.x-50;
+            mano.position.y=subject.y-500;
+            mano.alpha=1;
+        }
 
 		game.time.events.add(delay, function(){
 			gamesMenu.active = true
@@ -899,7 +906,7 @@ var map = function(){
             mano.alpha=0;
             mano.animations.add('hand');
             mano.animations.play('hand', 24, true);
-            game.time.events.add(6000, function(){
+            game.time.events.add(4500, function(){
                 scroller.add(mano);
                 game.add.tween(mano).to({alpha:1},300,Phaser.Easing.linear,true, 250) 
             })
@@ -970,8 +977,13 @@ var map = function(){
 
 				var icon = gameIcons.children[i]
 				if(checkOverlap(icon,pointer) && icon.active && gameActive){
-
-					inputIcon(icon)
+                    parent.epicModel.savePlayer(currentPlayer);
+                    if(tutorial){
+					   inputIcon(icon)
+                    }else if(!tutorial){
+                        inputIcon(icon)
+                        game.add.tween(mano).to({alpha:0},200,Phaser.Easing.linear,true, 250)
+                    }
 				}
 			}
 			for(var i = 0; i < sideBalls.length;i++){
@@ -1406,6 +1418,9 @@ var map = function(){
 			createDecoration()
 			createYogotar()
 			addParticles()
+            currentPlayer.mapPlayed = true
+            
+            this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
 			spaceSong = game.add.audio('spaceSong')
 			game.sound.setDecodedCallback(spaceSong, function(){

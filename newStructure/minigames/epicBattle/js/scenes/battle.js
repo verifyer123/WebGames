@@ -224,6 +224,7 @@ var battle = function(){
 	var charactersCards
 	var currentPlayer
 	var model
+    var tutorial,mano;
 
     function loadSounds(){
 
@@ -262,7 +263,8 @@ var battle = function(){
         monsterCounter = 0
         killedMonsters = 0
 		sumXp = 0
-
+        
+        
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
         var preloadAlpha = document.getElementById("preloadBattle");
@@ -308,6 +310,8 @@ var battle = function(){
 		game.time.events.add(500, function(){
 			battleSong.stop()
 			if(win){
+                currentPlayer.battlePlayed = true;
+                parent.epicModel.savePlayer(currentPlayer);
 				var battleIndex = parent.env ? (parent.env.battleIndex || 0) : 0
 				var cardOwned = currentPlayer.battles[battleIndex][0].captured
 				sound.play("winBattle");
@@ -425,7 +429,7 @@ var battle = function(){
 
     	game.add.tween(fromPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(targetPlayer.hpBar).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true)
-
+        
     	fromPlayer.setAnimation(["CHARGE"], false)
 		fromPlayer.spine.speed = 0.5
 		fromPlayer.proyectile.startPower.alpha = 1
@@ -450,12 +454,18 @@ var battle = function(){
 		fromPlayer.proyectile.scale.x = fromScale; fromPlayer.proyectile.scale.y = fromScale
 		game.add.tween(fromPlayer.proyectile.startPower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
 		game.add.tween(fromPlayer.proyectile.idlePower).to({rotation:toAngle}, 2000, Phaser.Easing.Cubic.Out, true, 1000)
+        
+        
+        
 
+        
+        
 		tapGroup.attackCallBack = function (percentage) {
 			percentage = percentage || 0
 			fromPlayer.spine.speed = 1
 			var targetX = targetPlayer.x < game.world.centerX ? 0 : game.world.width
 			fromPlayer.setAnimation(["ATTACK", "IDLE"], true)
+            
 			// game.add.tween(game.camera.scale).to({x:1.7, y:1.7}, 300, Phaser.Easing.Cubic.Out, true)
 			// moveCamera.onComplete.add(returnCamera)
 
@@ -546,6 +556,7 @@ var battle = function(){
 		tapArea.endFill()
 		tapArea.alpha = 0
 		tapGroup.add(tapArea)
+        
 
 		var tapSpine = createSpine("tap", "normal", "TAP")
 		// tapSpine.setAnimation(["tap"],true)
@@ -578,6 +589,11 @@ var battle = function(){
 
 		function endTapAttack() {
 			console.log("endTapAttack")
+            
+            if(!tutorial){
+                game.add.tween(mano).to({alpha:0},200,Phaser.Easing.linear,true, 100)
+                tutorial=true
+            }
 			var percentageWidth = gradient.width / GRADIENT_WIDTH
 			var weakString = localization.getString(localizationData, "weak")
 			var goodString = localization.getString(localizationData, "good")
@@ -1064,6 +1080,8 @@ var battle = function(){
 		game.load.image('ready',"images/battle/ready" + localization.getLanguage() + ".png")
 		game.load.image('go',"images/battle/go" + localization.getLanguage() + ".png")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
+        game.load.spritesheet("hand", 'images/spines/Tuto/manita.png', 115, 111, 23)
+        
 		// buttons.getImages(game)
 		// console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
@@ -1377,12 +1395,25 @@ var battle = function(){
 	}
 
 	function onClickBtn(btn) {
+        
+        
+        
 		if(inputsEnabled){
+            if(!tutorial){
+                game.add.tween(mano).to({alpha:0},100,Phaser.Easing.linear,true, 200).onComplete.add(function(){
+                        sceneGroup.add(mano);
+                        mano.position.x=game.world.centerX-90
+                        mano.position.y=game.world.centerY-140
+                        mano.animations.stop("hand")
+                        mano.animations.play('hand', 60, true);
+                        game.add.tween(mano).to({alpha:1},200,Phaser.Easing.linear,true, 100)
+                    })
+                }
 			inputsEnabled = false
 			var toScaleX = btn.scale.x + 0.1
 			var toScaleY = btn.scale.y - 0.1
 			game.add.tween(btn.scale).to({x:toScaleX, y:toScaleY}, 200, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true)
-
+            
 			if(btn.tag === "attack"){
 				playerAttack(players[0], players[1], createProyectile)
 				controlGroup.hide.start()
@@ -1411,6 +1442,16 @@ var battle = function(){
 		attackBtn.tag = "attack"
 		attackBtn.inputEnabled = true
 		attackBtn.events.onInputDown.add(onClickBtn)
+        
+        if(!tutorial){
+            
+                mano=game.add.sprite(attackBtn.x,attackBtn.y-100, "hand")
+                mano.alpha=0;
+                mano.animations.add('hand');
+                mano.animations.play('hand', 24, true);
+                controlGroup.add(mano);
+                game.add.tween(mano).to({alpha:1},500,Phaser.Easing.linear,true, 1500)
+        }
 
 		//TODO: Add special attacks
 		// var specialBtn = controlGroup.create(115, -20, "atlas.battle", "special")
@@ -1539,59 +1580,13 @@ var battle = function(){
         rect.inputEnabled = false
         sound.play("pop")
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-
+            
             tutoGroup.y = -game.world.height
             startRound()
             // startTimer(missPoint)
         })
     }
 
-    function createTutorial(){
-
-        tutoGroup = game.add.group()
-        //overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(tutoGroup)
-
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            onClickPlay(rect)
-
-        })
-
-        tutoGroup.add(rect)
-
-        var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-        plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-
-        var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.battle','gametuto')
-        tuto.anchor.setTo(0.5,0.5)
-
-        var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-        howTo.anchor.setTo(0.5,0.5)
-        howTo.scale.setTo(0.8,0.8)
-
-        var inputName = 'movil'
-
-        if(game.device.desktop){
-            inputName = 'desktop'
-        }
-
-        var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.battle',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-        inputLogo.scale.setTo(0.7,0.7)
-
-        var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.battle','button')
-        button.anchor.setTo(0.5,0.5)
-
-        var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-        playText.anchor.setTo(0.5,0.5)
-    }
 
 	function addNumberPart(obj,number, fill, offsetY){
 		offsetY = offsetY || 100
@@ -1641,12 +1636,22 @@ var battle = function(){
 			assets.images.push(bgObg)
 		},
         create: function(event){
+            
 
         	game.camera.bounds = new Phaser.Rectangle(-200,0,game.world.width + 200,game.world.height)
 			// console.log(game.camera.bounds)
         	sceneGroup = game.add.group();
             //yogomeGames.mixpanelCall("enterGame",gameIndex);
-
+            
+            
+            if(parent && parent.epicModel){
+                currentPlayer = parent.epicModel.getPlayer();
+                tutorial=currentPlayer.battlePlayed;
+            }else{
+                tutorial=false
+            }
+            
+            
 			var fondo = sceneGroup.create(0,0,'background')
 			fondo.anchor.setTo(0.5, 0)
 			fondo.scale.setTo(1, 1)
@@ -1692,6 +1697,7 @@ var battle = function(){
 			var uiGroup = game.add.group()
 			hudGroup.add(uiGroup)
 			hudGroup.uiGroup = uiGroup
+            
 
 			createCaptured()
 
@@ -1702,6 +1708,7 @@ var battle = function(){
 			var loseGroup = game.add.group()
 			hudGroup.add(loseGroup)
 			hudGroup.loseGroup = loseGroup
+            
 
 			initialize()
 			createGameObjects()
