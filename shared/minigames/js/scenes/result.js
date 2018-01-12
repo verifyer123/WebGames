@@ -91,9 +91,6 @@ var result = function(){
         
 	}
 
-    function getDataJson(){
-
-    }
     
     function changeImage(index,group){
         
@@ -167,7 +164,7 @@ var result = function(){
     
     function inputButton(obj){
         
-		console.log('pressed')
+		//console.log('pressed')
 		
         if(obj.active == false){
             return
@@ -362,18 +359,17 @@ var result = function(){
     
     function setRank(){
         
-        //amazing.saveScore(totalScore)
-        console.log("Enter set rank")
+        amazing.saveScore(totalScore) 
+        
+       
         
         minigameId = null
         minigameId = amazing.getMinigameId()
         
         if(minigameId){
 
-            console.log(minigameId)
-            
             window.addEventListener("message", function(event){    
-                console.log("recive message")    
+                
                 if(event.data && event.data != ""){
                     var parsedData = {}
                     try {
@@ -383,8 +379,6 @@ var result = function(){
                     }
                     switch(parsedData.type){
                     case "rankMinigame":
-                        
-                        console.log("Enter rank minigame")
 
                         rankMinigame = parsedData.rankMinigame
                        
@@ -393,7 +387,9 @@ var result = function(){
                     }
                 }
             })
-        }        
+        }   
+
+
     }
     
     function addRank(){
@@ -481,7 +477,10 @@ var result = function(){
     }
     
 	function createScene(){
+
+
         loadSounds()
+        
         
         var showIcons = true
         
@@ -493,6 +492,8 @@ var result = function(){
         sceneGroup.add(background)
 
 
+        setRank()
+        //addRank()
         
         var win = totalScore >= goalScore
         
@@ -660,6 +661,8 @@ var result = function(){
         createIcons(showIcons)
 		createOverlay()
         
+
+
         //addRank()
 	}
 	
@@ -827,17 +830,18 @@ var result = function(){
         
         pivotRank = game.world.centerY - 10
         
-        //couponData = amazing.getCoupon()
-        couponData = dataJson[0]//JSON.parse(dataJson)
+        couponData = amazing.getCoupon()
+        //couponData = dataJson[0]//JSON.parse(dataJson)
         //console.log(couponData)
         
         sceneGroup = game.add.group()
 		sceneGroup.alpha = 0
         
         rankGroup = game.add.group()
-
+        game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
+        game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
         
-        setRank()
+        
                 
         if(!couponData){
             haveCoupon = false
@@ -852,8 +856,6 @@ var result = function(){
             haveCoupon = true
             if(couponData.imgPreview){
                 var imageName = couponData.imgPreview.split('/')
-                console.log(imageName)
-                console.log(imageName[2])
                 game.load.image('coupon',imagesUrl + 'coupons/'+imageName[2])
             }
             else{
@@ -889,6 +891,8 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
         
+        
+
         game.load.spine('amazing', imagesUrl + "spines/skeleton.json");
         
         for(var i = 0; i<3;i++){
@@ -898,8 +902,14 @@ var result = function(){
         }
         
         gameIcon = icons[gameIndex].iconName
-        console.log(gameIcon + ' name')
+        //console.log(gameIcon + ' name')
         game.load.image(gameIcon, iconsPath + gameIcon + '.png')
+
+       // game.load.onComplete.add()
+
+        game.load.start()
+
+
         
         
     }

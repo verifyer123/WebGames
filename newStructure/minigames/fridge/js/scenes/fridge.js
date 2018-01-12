@@ -294,6 +294,7 @@ var fridge = function(){
 		game.load.image('introscreen',"images/fridge/introscreen.png")
 		
         game.load.image('fridge',"images/fridge/fridge.png")
+        game.load.image('kitchen',"images/fridge/kitchen.png")
         
         game.load.spine("animalSpine", "images/spines/animal/animal.json")
         game.load.spine("cerealesSpine", "images/spines/cereales/cereales.json")
@@ -370,13 +371,16 @@ var fridge = function(){
         
         var back = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.fridge", "background")
         sceneGroup.add(back)
+        
+        var kitchen  = sceneGroup.create(game.world.centerX -100, game.world.centerY, "kitchen") 
+        kitchen.anchor.setTo(0.5)
     }
 
 	function update(){
         
         for(var f = 0; f < food.length - 1; f++){
             animalsSpineGroup.children[f].x = animalsGroup.children[f].x
-            animalsSpineGroup.children[f].y = animalsGroup.children[f].y + 20
+            animalsSpineGroup.children[f].y = animalsGroup.children[f].y + 35
             
             dairySpineGroup.children[f].x = dairyGroup.children[f].x
             dairySpineGroup.children[f].y = dairyGroup.children[f].y + 20
@@ -388,7 +392,7 @@ var fridge = function(){
             vegetablesSpineGroup.children[f].y = vegetablesGroup.children[f].y + 20
             
             cerealsSpineGroup.children[f].x = cerealsGroup.children[f].x
-            cerealsSpineGroup.children[f].y = cerealsGroup.children[f].y + 20
+            cerealsSpineGroup.children[f].y = cerealsGroup.children[f].y + 25
             
             legumeSpineGroup.children[f].x = legumeGroup.children[f].x
             legumeSpineGroup.children[f].y = legumeGroup.children[f].y + 20
@@ -633,6 +637,10 @@ var fridge = function(){
                 num++
             }
         }
+        
+        var table = sceneGroup.create(game.world.centerX, game.world.height, "atlas.fridge", "table") 
+        table.anchor.setTo(0.5, 1)
+        table.scale.setTo(1.5, 1)
     }
     
     function xBox(){
@@ -645,17 +653,17 @@ var fridge = function(){
         
         for(var r = 0; r < 2; r++){
             for(var c = 0; c < 3; c++){
-                var container = game.add.graphics(game.world.centerX - 200, game.world.centerY  - 350)
-                container.x += 205 * r
+                var container = game.add.graphics(game.world.centerX - 195, game.world.centerY  - 350)
+                container.x += 200 * r
                 container.y += 230 * c
                 //container.beginFill(0xFF3300);
                 container.drawRect(0, 0, 190, 210)
                 container.alpha = 0
                 container.foodValue = num
-                container.slots = [{x: -container.width * 0.25, y: -container.height * 0.25},
-                                   {x: container.width * 0.25, y: -container.height * 0.25},
-                                   {x: -container.width * 0.25, y: container.height * 0.25},
-                                   {x: container.width * 0.25, y: container.height * 0.25},
+                container.slots = [{x: -container.width * 0.20, y: -container.height * 0.20},
+                                   {x: container.width * 0.20, y: -container.height * 0.20},
+                                   {x: -container.width * 0.20, y: container.height * 0.20},
+                                   {x: container.width * 0.20, y: container.height * 0.20},
                                    {x: 0, y: 0}]
                 container.slotPos = 0
                 containerGroup.add(container)
@@ -687,7 +695,7 @@ var fridge = function(){
         for(var f = 1; f < food.length; f++){
             var animalFood = animalsGroup.create(0, 0, 'atlas.fridge', "animal" + f)
             animalFood.anchor.setTo(0.5)
-            animalFood.scale.setTo(0.4)
+            animalFood.scale.setTo(0.6)
             animalFood.alpha = 0
             animalFood.foodValue = foodValue.animal
             animalFood.popUpPosX = 0
@@ -698,7 +706,7 @@ var fridge = function(){
             
             var dairyFood = dairyGroup.create(0, 0, 'atlas.fridge', "lacteo" + f)
             dairyFood.anchor.setTo(0.5)
-            dairyFood.scale.setTo(0.4)
+            dairyFood.scale.setTo(0.6)
             dairyFood.alpha = 0
             dairyFood.foodValue = foodValue.dairy
             dairyFood.popUpPosX = 0
@@ -709,7 +717,7 @@ var fridge = function(){
             
             var fruitFood = fruitsGroup.create(0, 0, 'atlas.fridge', "fruta" + f)
             fruitFood.anchor.setTo(0.5)
-            fruitFood.scale.setTo(0.4)
+            fruitFood.scale.setTo(0.6)
             fruitFood.alpha = 0
             fruitFood.foodValue = foodValue.fruits
             fruitFood.popUpPosX = 0
@@ -720,7 +728,7 @@ var fridge = function(){
             
             var vegetablesFood = vegetablesGroup.create(0, 0, 'atlas.fridge', "verdura" + f)
             vegetablesFood.anchor.setTo(0.5)
-            vegetablesFood.scale.setTo(0.4)
+            vegetablesFood.scale.setTo(0.6)
             vegetablesFood.alpha = 0
             vegetablesFood.foodValue = foodValue.vegetables
             vegetablesFood.popUpPosX = 0
@@ -731,7 +739,7 @@ var fridge = function(){
             
             var cerealsFood = cerealsGroup.create(0, 0, 'atlas.fridge', "cereal" + f)
             cerealsFood.anchor.setTo(0.5)
-            cerealsFood.scale.setTo(0.4)
+            cerealsFood.scale.setTo(0.6)
             cerealsFood.alpha = 0
             cerealsFood.foodValue = foodValue.cereals
             cerealsFood.popUpPosX = 0
@@ -742,7 +750,7 @@ var fridge = function(){
             
             var legumeFood = legumeGroup.create(0, 0, 'atlas.fridge', "leguminosa" + f)
             legumeFood.anchor.setTo(0.5)
-            legumeFood.scale.setTo(0.4)
+            legumeFood.scale.setTo(0.6)
             legumeFood.alpha = 0
             legumeFood.foodValue = foodValue.legunmes
             legumeFood.popUpPosX = 0
@@ -777,42 +785,42 @@ var fridge = function(){
             var animalSpine = game.add.spine(0, 0, "animalSpine")
             animalSpine.setAnimationByName(0, "IDLE", true)
             animalSpine.setSkinByName("animal" + f)
-            animalSpine.scale.setTo(0.4)
+            animalSpine.scale.setTo(0.6)
             animalSpine.alpha = 0
             animalsSpineGroup.add(animalSpine)
             
             var dairySpine = game.add.spine(0, 0, "lacteosSpine")
             dairySpine.setAnimationByName(0, "IDLE", true)
             dairySpine.setSkinByName("lacteos" + f)
-            dairySpine.scale.setTo(0.4)
+            dairySpine.scale.setTo(0.6)
             dairySpine.alpha = 0
             dairySpineGroup.add(dairySpine)
             
             var fruitsSpine = game.add.spine(0, 0, "frutasSpine")
             fruitsSpine.setAnimationByName(0, "IDLE", true)
             fruitsSpine.setSkinByName("frutas" + f)
-            fruitsSpine.scale.setTo(0.4)
+            fruitsSpine.scale.setTo(0.6)
             fruitsSpine.alpha = 0
             fruitsSpineGroup.add(fruitsSpine)
             
             var vegetablesSpine = game.add.spine(0, 0, "verdurasSpine")
             vegetablesSpine.setAnimationByName(0, "IDLE", true)
             vegetablesSpine.setSkinByName("verduras" + f)
-            vegetablesSpine.scale.setTo(0.4)
+            vegetablesSpine.scale.setTo(0.6)
             vegetablesSpine.alpha = 0
             vegetablesSpineGroup.add(vegetablesSpine)
             
             var cerealsSpine = game.add.spine(0, 0, "cerealesSpine")
             cerealsSpine.setAnimationByName(0, "IDLE", true)
             cerealsSpine.setSkinByName("cereal" + f)
-            cerealsSpine.scale.setTo(0.4)
+            cerealsSpine.scale.setTo(0.6)
             cerealsSpine.alpha = 0
             cerealsSpineGroup.add(cerealsSpine)
             
             var legumeSpine = game.add.spine(0, 0, "leguminosasSpine")
             legumeSpine.setAnimationByName(0, "IDLE", true)
             legumeSpine.setSkinByName("leguminosas" + f)
-            legumeSpine.scale.setTo(0.4)
+            legumeSpine.scale.setTo(0.6)
             legumeSpine.alpha = 0
             legumeSpineGroup.add(legumeSpine)
         }
@@ -903,6 +911,7 @@ var fridge = function(){
     
     function theWalkingFridge(){
         
+        tableFront.alpha = 1
         game.add.tween(fridgeGroup).to({y: game.world.height * 1.5}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
             fridgeGroup.y = - 500
             game.add.tween(fridgeGroup).to({y: game.world.centerY - 50}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
@@ -928,6 +937,7 @@ var fridge = function(){
     
     function initGame(){
        
+        tableFront.alpha = 0
         inception()
         delay = cloudyWithAChanceOfMeatballs()
         
@@ -1070,6 +1080,12 @@ var fridge = function(){
         return delay
     }
     
+    function initTable(){
+        
+        tableFront = sceneGroup.create(game.world.centerX, game.world.height, "atlas.fridge", "table") 
+        tableFront.anchor.setTo(0.5, 1)
+        tableFront.scale.setTo(1.5, 1)
+    }
 	return {
 		
 		assets: assets,
@@ -1105,6 +1121,7 @@ var fridge = function(){
             xBox()
             worldWarFood()
             worldWarFoodAnimated()
+            initTable()
             createParticles()
            
 			buttons.getButton(fridgeSong,sceneGroup)

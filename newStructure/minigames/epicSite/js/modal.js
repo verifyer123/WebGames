@@ -78,7 +78,11 @@ var modal = function () {
 		showAge:function (callback) {
 			$("#myModal").load( "selectAge.html", function () {
 				ageModal.setCallback(callback)
-				$("#myModal").find("#age").modal('toggle');
+				$("#myModal").find("#age").modal({
+					show:true,
+					backdrop: 'static',
+					keyboard: false
+				})
 			} );
 		},
     }
