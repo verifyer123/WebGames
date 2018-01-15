@@ -227,11 +227,7 @@ footer {
 
 #game-container{
 	height: 100%;
-	/*! background-image: url(../../images/effect.gif?v=1234); */
-	/*! background-repeat: no-repeat; */
-	/*! background-position: center; */
-	/*! background-size: cover; */
-	/*! background-color: #fff; */
+
 }
 
 #game-container iframe{
@@ -581,47 +577,49 @@ footer {
 
 .arrow-scroll{
 
-	width: 10vh;
+	/*width: 10vh;*/
 	/*! margin-left: 3vh; */
 }
 
+
 .arrow-down{
 
-	width: 9vh;
-	margin-left: 4vh;
 	bottom: 1vh;
 	position: absolute;
 	animation: arrowDownAn 1s ease-in-out infinite alternate;
 	-webkit-animation: arrowDownAn 1s ease-in-out infinite alternate;
 	z-index: 5;
+	left: 50%;
+	width: 11vh;
 }
 
 .arrow-up{
 
-	width: 9vh;
-	margin-left: 4vh;
+	margin-top: -3vh;
+	left:50%;
 	position: absolute;
 	z-index: 5;
 	animation: arrowUpAn 1s ease-in-out infinite alternate;
 	-webkit-animation: arrowUpAn 1s ease-in-out infinite alternate;
 	display: none;
+	width: 11vh;
 }
 
 @keyframes arrowDownAn {
 	0% {
-		transform: scale(1.0, 1.0);
+		transform: translate(-50%, 0) scale(1.0, 1.0);
 	}
 	100% {
-		transform: scale(0.8, 0.75);
+		transform: translate(-50%, 0) scale(0.8, 0.75);
 	}
 }
 
 @keyframes arrowUpAn {
 	0% {
-		transform: scale(1.0, -1.0);
+		transform: translate(-50%, 0) scale(1.0, -1.0);
 	}
 	100% {
-		transform: scale(0.8, -0.75);
+		transform: translate(-50%, 0) scale(0.8, -0.75);
 	}
 }
 

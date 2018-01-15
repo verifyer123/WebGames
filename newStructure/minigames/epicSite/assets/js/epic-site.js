@@ -40,14 +40,18 @@ $(document).ready(function () {
 	const ps2 = new PerfectScrollbar('#scroll2', {suppressScrollX:true});
 	console.log(ps)
 
-	ps.element.addEventListener('ps-y-reach-end', function () {
-		$(".scrolldown1").css("display", "none")
-		$(".scrollup1").css("display", "block")
-	});
+	ps.element.addEventListener('ps-scroll-y', function (event) {
+		var scrollDown1Display = $(".scrolldown1").css("display")
+		var scrollUp1Display = $(".scrollup1").css("display")
+		if(ps.element.scrollTop >= ps.element.scrollTopMax){
+			$(".scrolldown1").css("display", "none")
+		}else if(scrollDown1Display === "none")
+			$(".scrolldown1").css("display", "block")
 
-	ps.element.addEventListener('ps-y-reach-start', function () {
-		$(".scrolldown1").css("display", "block")
-		$(".scrollup1").css("display", "none")
+		if(ps.element.scrollTop <= 0){
+			$(".scrollup1").css("display", "none")
+		}else if(scrollUp1Display === "none")
+			$(".scrollup1").css("display", "block")
 	});
 
 	$('.scrolldown1').click(function () {
@@ -59,14 +63,18 @@ $(document).ready(function () {
 		TweenLite.to(ps.element, 0.5, {scrollTop:0, ease:Quad.easeOut})
 	})
 
-	ps2.element.addEventListener('ps-y-reach-end', function () {
-		$(".scrolldown2").css("display", "none")
-		$(".scrollup2").css("display", "block")
-	});
+	ps2.element.addEventListener('ps-scroll-y', function (event) {
+		var scrollDown1Display = $(".scrolldown2").css("display")
+		var scrollUp1Display = $(".scrollup2").css("display")
+		if(ps2.element.scrollTop >= ps2.element.scrollTopMax){
+			$(".scrolldown2").css("display", "none")
+		}else if(scrollDown1Display === "none")
+			$(".scrolldown2").css("display", "block")
 
-	ps2.element.addEventListener('ps-y-reach-start', function () {
-		$(".scrolldown2").css("display", "block")
-		$(".scrollup2").css("display", "none")
+		if(ps2.element.scrollTop <= 0){
+			$(".scrollup2").css("display", "none")
+		}else if(scrollUp1Display === "none")
+			$(".scrollup2").css("display", "block")
 	});
 
 	$('.scrolldown2').click(function () {
