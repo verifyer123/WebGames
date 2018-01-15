@@ -122,7 +122,7 @@ var epicYogomeGames = function () {
 		// console.log(restGames)
 		var restGames = gradeGames.diff(unlockedGames)
 		restGames = unlockedGames.concat(gradeGames)
-		console.log(restGames)
+		// console.log(restGames)
 
 		return gradeGames
 
@@ -131,8 +131,6 @@ var epicYogomeGames = function () {
 	var mixpanelCall = function(callName,gameIndex){
 
 		var gamesList = epicYogomeGames.getGames()
-
-		console.log('gameIndex sent ' + gameIndex )
 
 		mixpanel.track(
 			callName,
@@ -159,8 +157,6 @@ var epicYogomeGames = function () {
 				unlockedGames.push(game)
 			}
 		}
-
-		console.log(unlockedGames)
 
 		return unlockedGames
 	}

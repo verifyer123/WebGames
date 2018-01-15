@@ -126,8 +126,7 @@ var map = function(){
 		currentPlayer = players.getPlayer()
 		loadSounds()
 		var age = players.getCredentials().age
-		console.log(age - 5)
-		gamesList = epicYogomeGames.getGames(4)
+		gamesList = epicYogomeGames.getGames(age - 5)
 		touchSound = false
         if(parent && parent.epicModel){
             currentPlayer = parent.epicModel.getPlayer();
@@ -457,8 +456,7 @@ var map = function(){
 					fullStar.alpha = 0
 
 					var indexUsed = ((i-1)*4) + u
-					// console.log(currentPlayer.minigames[gamesList[indexUsed].id])
-					if(currentPlayer.minigames[gamesList[indexUsed]] && currentPlayer.minigames[gamesList[indexUsed].id]
+					if(gamesList[indexUsed] && currentPlayer.minigames[gamesList[indexUsed].id]
 						&& currentPlayer.minigames[gamesList[indexUsed].id].completed){
 						fullStar.alpha = 1
 					}
@@ -657,9 +655,9 @@ var map = function(){
 		game.time.events.add(750,function(){
 
 			var scrollY = -yogotarGroup.y + game.world.height * 0.6
-			console.log(scrollY)
+			// console.log(scrollY)
 			if(scrollY > 0){
-				console.log("Scroll out limit")
+				// console.log("Scroll out limit")
 				scrollY = 0
 			}
 
@@ -1316,7 +1314,8 @@ var map = function(){
 
 			// console.log(icon, "iconSelected")
 			currentPlayer.currentMinigame = icon.id
-			currentPlayer.isMap = true
+			if(parent)
+				parent.env = {isMap:true}
 			players.savePlayer(currentPlayer)
 			window.open(icon.url,'_self')
 		})
