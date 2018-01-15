@@ -3,6 +3,7 @@ var couponData
 var dataStore
 var minigameId
 var userMail, gender, birthday
+//var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
@@ -13,6 +14,15 @@ amazing.saveScore = function(score){
 		}
 	}
 	parent.postMessage(JSON.stringify(params), "*")
+}
+
+amazing.winCoupon = function(couponId){
+
+    var params = {
+        type: "winCoupon",
+        id: couponId,
+    }
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.savePlaycount = function(){
@@ -73,9 +83,10 @@ amazing.getGames = function(){
 }
 
 amazing.getInfo = function(){
+
     
     window.addEventListener("message", function(event){
-        //console.log(event)
+        //console.log("Getinfo ",event)
         
         if(event.data && event.data != ""){
             var parsedData = {}
@@ -98,7 +109,7 @@ amazing.getInfo = function(){
 amazing.setProfile = function(){
     
     window.addEventListener("message", function(event){
-        //console.log(event)
+        //console.log("profile",event)
         
         if(event.data && event.data != ""){
             var parsedData = {}
