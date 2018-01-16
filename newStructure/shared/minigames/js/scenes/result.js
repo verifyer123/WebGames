@@ -122,9 +122,10 @@ var result = function(){
 		playerData.hasMap = false
 		
 		// console.log(playerData.timeReady + ' gameTime')
-		if(currentPlayer && currentPlayer.isMap){
-			playerData.hasMap = true
-			currentPlayer.minigamesPlayed++
+		if(parent && parent.env){
+			playerData.hasMap = parent.env.isMap
+			if(currentPlayer)
+				currentPlayer.minigamesPlayed++
 		}
         
         scaleToUse = scale || 0.9
@@ -307,8 +308,9 @@ var result = function(){
             
             pivotX += 250
         }
-		
-		if(currentPlayer && currentPlayer.isMap){
+
+        console.log(parent.env)
+		if(parent.env && parent.env.isMap){
 			var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
 			homeBtn.anchor.setTo(0.5,0.5)
 			homeBtn.alpha = 0
@@ -402,9 +404,8 @@ var result = function(){
 		if(currentPlayer){
 			currentPlayer.powerCoins += totalScore
 
-			if(env.isMap){
+			if(env.isMap && win){
 				currentPlayer.minigames[gamesList[gameIndex].id].completed = true
-				parent.env = {}
 			}
 			parent.epicModel.savePlayer(currentPlayer)
 		}
@@ -683,6 +684,7 @@ var result = function(){
 		addParticles()
 		
 		animateScene()
+		parent.env = {}
 		
 	}
 	

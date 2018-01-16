@@ -5,7 +5,7 @@ var epicYogomeGames = function () {
 	var urls = {dev:"../..", prod:".."}
 	var url = urls.prod
 	var games = yogomeGames.getObjectGames()
-	var currentPlayer = parent.epicModel.getPlayer()
+	var currentPlayer
 
 	var epicGames = [
 		games["UniDream"],
@@ -105,6 +105,7 @@ var epicYogomeGames = function () {
 	var getGames = function(grade) {
 		grade = grade || 0
 		var gradeGames
+		currentPlayer = parent.epicModel.getPlayer()
 
 		if (grade > 0){
 			var sumIndex = 0
