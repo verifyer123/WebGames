@@ -58,14 +58,14 @@ var epicModel = function () {
 			}else {
 				localStorage.clear()
 				if(onError)onError(response)
-				modal.showLogin()
+				if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
 		}).fail(function(response){
 			// console.log("error", response);
 			localStorage.clear()
 			if(onError)onError(response)
-			modal.showLogin()
+			if(!signInCallback) modal.showLogin()
 			// modal.showLogin()
 		});
 	}
@@ -289,13 +289,10 @@ var epicModel = function () {
 		// var credentials = getCredentials()
 		currentCallback = callback
 		checkAgeFlag = checkAge
-		var credentials = getCredentials()
-		var token = credentials.token
-		if((forceLogin)||(token)) {
+		// var credentials = getCredentials()
+		// var token = credentials.token
+		if(forceLogin) {
 			checkLogin()
-			if(!forceLogin){
-				updateData()
-			}
 		}
 		else {
 			updateData()
