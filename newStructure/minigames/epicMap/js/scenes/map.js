@@ -468,13 +468,13 @@ var map = function(){
 				var lock = ballGroup.create(0,0,'atlas.map','lock')
 				lock.anchor.setTo(0.5,0.5)
                 
-                if(!tutorial){
-                    ballTutorialUnlock=2;
-                }else{
-                    ballTutorialUnlock=4;
-                }
+                // if(!tutorial){
+                //     ballTutorialUnlock=2;
+                // }else{
+                //     ballTutorialUnlock=4;
+                // }
                 
-				if(i < ballTutorialUnlock){
+				if(i < 4){
 
 					lock.alpha = 0
 					ballGroup.locked = false
@@ -482,12 +482,11 @@ var map = function(){
 				}else{
 
 					var countMinigames = 0
-					var locked = true
 					if(currentPlayer.paidUser){
 
 						var indexUsed = (i - 2) * 4
 						for(var u = 0; u < 4; u++){
-							locked = locked && !currentPlayer.minigames[gamesList[indexUsed].id].unlocked
+							// locked = locked && !currentPlayer.minigames[gamesList[indexUsed].id].unlocked
 
 							if(currentPlayer.minigames[gamesList[indexUsed].id] && currentPlayer.minigames[gamesList[indexUsed + u].id].completed){
 								countMinigames++
@@ -497,7 +496,7 @@ var map = function(){
 
 
 					//TODO: uncomment to lock levels
-					ballGroup.locked = locked
+					ballGroup.locked = true
 
 					ballGroup.tween = game.add.tween(lock.scale).to({x:0.9,y:1.2},game.rnd.integerInRange(3,6) * 100,"Linear",true,0,-1)
 					ballGroup.tween.yoyo(true,0)
@@ -1319,7 +1318,7 @@ var map = function(){
 			if(parent)
 				parent.env = {isMap:true}
 			players.savePlayer(currentPlayer)
-			window.open(icon.url,'_self')
+			window.open(icon.url + "?language=" + localization.getLanguage(),'_self')
 		})
 
 	}
