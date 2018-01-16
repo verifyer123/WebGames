@@ -360,7 +360,8 @@ var drzombie = function(){
 	}
 	
 	function chooseOrgans(){
-		
+		numberOk = 0
+		//console.log("set organs")
 		var tagsToUse = []
 		Phaser.ArrayUtils.shuffle(organsPosition)
 		
@@ -422,8 +423,8 @@ var drzombie = function(){
 		}
 		
 		game.time.events.add(delay,function(){
-			
-			numberOk = 0
+			//console.log("End preparation")
+			//numberOk = 0
 			gameActive = true
 			popObject(clock,0)
 			
@@ -483,7 +484,7 @@ var drzombie = function(){
 			inputName = 'desktop'
 		}
 		
-		console.log(inputName)
+		//console.log(inputName)
 		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.zombie',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
@@ -718,7 +719,7 @@ var drzombie = function(){
 			positions+= '{name: "' + organ.tag + '" ,x:' + (game.world.centerX - organ.x) + ', y:' + (game.world.centerY - organ.y) + '},\n'
 		}
 		
-		console.log(positions)
+		//console.log(positions)
 	}
 	
 	function createZombie(){
@@ -847,6 +848,8 @@ var drzombie = function(){
 				createPart('star',obj)
 				
 				numberOk++
+
+				//console.log(numberOk,numberOrgans)
 				if(numberOk == numberOrgans){
 					
 					clock.tween.stop()
@@ -899,7 +902,7 @@ var drzombie = function(){
 				
 		game.add.tween(obj).to({x:obj.origX, y:obj.origY},500,"Linear",true).onComplete.add(function(){
 
-			console.log('enable Input')
+			//console.log('enable Input')
 			obj.inputEnabled = true
 		})
 	}
