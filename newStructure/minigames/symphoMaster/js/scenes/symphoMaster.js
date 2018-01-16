@@ -99,9 +99,9 @@ var symphoMaster = function(){
     var INSTRUMENT_NUMBER = 5
     var INITIAL_QUESTIONS = 3
     var DELTA_SPACES = 85
-    var INITIAL_TIME  = 6000
+    var INITIAL_TIME  = 30000
     var DELTA_TIME = 200
-    var MIN_TIME = 3000
+    var MIN_TIME = 22000
     var MAX_TIMES_RESTART=1
 
     var button_initial_positions
@@ -150,6 +150,8 @@ var symphoMaster = function(){
     var timesRestarted = 0
     var canRestart = false
     var inEvaluate = false
+    var inTutorial = true
+    var tutorialId = 0
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -191,6 +193,15 @@ var symphoMaster = function(){
         timesRestarted = 0
         canRestart = false 
         inEvaluate = false
+
+        inTutorial = true
+        tutorialId = 0
+        particlesArray= []
+        answerSequence = []
+    	correctSequence = []
+    	retrySequence = []
+    	spaces = []
+    	instrumentButtons = []
 
         loadSounds()
         
@@ -362,7 +373,7 @@ var symphoMaster = function(){
 
     function stopGame(){
 
-        //symphoSong.stop()
+        backgroundSound.stop()
         inputsEnabled = false
         
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
@@ -408,11 +419,6 @@ var symphoMaster = function(){
         })
 
         addNumberPart(pointsBar.text,'+' + number)
-
-        // if(pointsBar.number % 2 == 0){
-        //timeValue-=timeValue * 0.10
-        // }
-
 
     }
     
@@ -781,6 +787,10 @@ var symphoMaster = function(){
 
         for(var i = 0; i < INSTRUMENT_NUMBER; i++){
             var r = game.rnd.integerInRange(0,positionArray.length-1)
+            if(inTutorial){
+            	r = 0
+            }
+
             var p = positionArray[r]
             positionArray.splice(r,1)
             instrumentsGroup.children[i].x = p.x
@@ -791,7 +801,9 @@ var symphoMaster = function(){
             instrumentsGroup.children[i].inScene = true
 
             //instrumentsGroup.children[i].inputEnabled = true
-            instrumentsGroup.children[i].scaleTween = game.add.tween(instrumentsGroup.children[i].scale).from({x:0,y:0}).to({x:1, y:1}, 500, Phaser.Easing.linear, true)
+            if(!inTutorial){
+            	instrumentsGroup.children[i].scaleTween = game.add.tween(instrumentsGroup.children[i].scale).from({x:0,y:0}).to({x:1, y:1}, 500, Phaser.Easing.linear, true)
+            }
         }
 
         var lastTween
@@ -801,16 +813,65 @@ var symphoMaster = function(){
             spaceGroup.children[i].x = initialX + (i*DELTA_SPACES)
             spaceGroup.children[i].positionId = i
             spaceGroup.children[i].empty = false
-            game.add.tween(spaceGroup.children[i].scale).from({x:0,y:0}).to({x:0.6, y:0.6}, 500, Phaser.Easing.linear, true)
 
             spaceGroup.children[i].note.x = spaceGroup.children[i].x
             spaceGroup.children[i].note.y = spaceGroup.children[i].y-80
-            lastTween = game.add.tween(spaceGroup.children[i].note.scale).from({x:0,y:0}).to({x:0.6, y:0.6}, 500, Phaser.Easing.linear, true)
+            
+            if(!inTutorial){
+	            game.add.tween(spaceGroup.children[i].scale).from({x:0,y:0}).to({x:0.6, y:0.6}, 500, Phaser.Easing.linear, true)
+	            lastTween = game.add.tween(spaceGroup.children[i].note.scale).from({x:0,y:0}).to({x:0.6, y:0.6}, 500, Phaser.Easing.linear, true)
+	        }
+	        else{
+	        	spaceGroup.children[i].scale.setTo(0,0)
+	        	spaceGroup.children[i].note.scale.setTo(0,0)
+	        }
+
         }
-        restartBtnImg.loadTexture('atlas.sympho','sound_off')
-        lastTween.onComplete.add(playConcert)
+
+
+        if(timeOn){
+            startTimer(currentTime)
+            if(currentTime > MIN_TIME){
+                currentTime -= DELTA_TIME
+            }
+        }
+
+        if(!inTutorial){
+        	instrumentsGroup.setAll('inputEnabled',true)
+	        restartBtnImg.loadTexture('atlas.sympho','sound_push')
+	        lastTween.onComplete.add(playConcert)
+	    }
+	    else{
+	    	playTutorial()
+	    }
         
 
+    }
+
+    function playTutorial(){
+    	if(tutorialId < INSTRUMENT_NUMBER){
+
+    		setTimeout(function(){playInstrumentSound('instrument_'+tutorialId); tutorialId++;},1000)
+    		
+    		var tween_1 = game.add.tween(instrumentsGroup.children[tutorialId].scale).from({x:0,y:0}).to({x:1, y:1}, 1000, Phaser.Easing.linear,true).onComplete.add(playTutorial)
+    		//var tween_2 = game.add.tween(instrumentsGroup.children[tutorialId].scale).to({x:1, y:1}, 1000, Phaser.Easing.linear).onComplete.add(playTutorial)
+    		//tween_1.chain(tween_2)
+    		
+    		//tween_1.start()
+    	}
+    	else{
+    		instrumentsGroup.setAll('inputEnabled',true)
+    		inTutorial = false
+    		setTimeout(function(){
+	    		for(var i = 0; i < currentQuestions; i++){
+		    		game.add.tween(spaceGroup.children[i].scale).from({x:0,y:0}).to({x:0.6, y:0.6}, 500, Phaser.Easing.linear, true)
+			        lastTween = game.add.tween(spaceGroup.children[i].note.scale).from({x:0,y:0}).to({x:0.6, y:0.6}, 500, Phaser.Easing.linear, true)
+			    }
+
+			    restartBtnImg.loadTexture('atlas.sympho','sound_push')
+		        lastTween.onComplete.add(playConcert)
+	    	},1000)
+    	}
     }
 
     function playConcert(){
@@ -827,13 +888,7 @@ var symphoMaster = function(){
             currentConcertId++
         }
         else{
-            instrumentsGroup.setAll('inputEnabled',true)
-	        if(timeOn){
-	            startTimer(currentTime)
-	            if(currentTime > MIN_TIME){
-	                currentTime -= DELTA_TIME
-	            }
-	        }
+            
             currentConcertId = 0
             if(timesRestarted < MAX_TIMES_RESTART){
 	            restartBtnImg.loadTexture('atlas.sympho','sound_on')
@@ -923,7 +978,7 @@ var symphoMaster = function(){
         game.add.tween(button.scale).to({x: 0, y: 0}, 200, Phaser.Easing.Cubic.Out, true).onComplete.add(liberateButton)
         retrySequence.splice(retrySequence.length-1,1)*/
         if(canRestart){
-	        restartBtnImg.loadTexture('atlas.sympho','sound_off')
+	        restartBtnImg.loadTexture('atlas.sympho','sound_push')
 	        timesRestarted++
 	        playConcert()
 
@@ -946,7 +1001,7 @@ var symphoMaster = function(){
 
     	okBtnImg.loadTexture('atlas.sympho', 'ok_off')
 
-    	if(tweenTiempo){
+    	if(tweenTiempo && timeOn){
 	    	stopTimer()
 	    }
 
@@ -1095,6 +1150,7 @@ var symphoMaster = function(){
 
 
         backgroundSound = game.add.audio('symphoSong')
+        backgroundSound.volume = 0.5
         game.sound.setDecodedCallback(backgroundSound, function(){
             backgroundSound.loopFull(0.6)
         }, this);
