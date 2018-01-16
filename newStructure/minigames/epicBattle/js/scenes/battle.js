@@ -583,6 +583,7 @@ var battle = function(){
 		tapArea.events.onInputDown.add(function () {
 			if(gradient.width < GRADIENT_WIDTH){
 				var value = gradient.width / GRADIENT_WIDTH
+				sound.play("epicTapTouchGames", {pitch: 1 + (value * 0.25)})
 				gradient.width = Phaser.Math.clamp(gradient.width + 30, 0, GRADIENT_WIDTH)
 			}
 		})
@@ -1097,6 +1098,7 @@ var battle = function(){
 			var projectileName = player.data.stats.element
 			player.projectileName = projectileName
 			player.projectileData = projectilesData[projectileName]
+			player.y = -100
 
 			if(typeof projectilesList[projectileName] === "undefined"){
 				var sheetData = player.projectileData.sheet
@@ -1332,7 +1334,7 @@ var battle = function(){
 				tweenBar = game.add.tween(xpBar.scale).to({x: finalBarPercentage}, 2000, Phaser.Easing.Cubic.Out, true)
 				tweenBar.onComplete.add(function () {
 					soundLevelHandle.stop()
-					// sound.stop("levelUp")
+					sound.stop("levelUp")
 					exitButton.inputEnabled = true
 					var hideLvlGroup = game.add.tween(lvlGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)
 					var hidexPGroup = game.add.tween(xpGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true, 1000)

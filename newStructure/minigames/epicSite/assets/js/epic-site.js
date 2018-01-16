@@ -43,7 +43,8 @@ $(document).ready(function () {
 	ps.element.addEventListener('ps-scroll-y', function (event) {
 		var scrollDown1Display = $(".scrolldown1").css("display")
 		var scrollUp1Display = $(".scrollup1").css("display")
-		if(ps.element.scrollTop >= ps.element.scrollTopMax){
+		var scrollTop = ps.element.scrollTopMax || ps.containerHeight - 70
+		if(ps.element.scrollTop >= scrollTop){
 			$(".scrolldown1").css("display", "none")
 		}else if(scrollDown1Display === "none")
 			$(".scrolldown1").css("display", "block")
