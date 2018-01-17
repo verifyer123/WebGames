@@ -49,9 +49,9 @@ var noisyMonsters = function(){
             {	name: "noise2",
 				file: "noise/babyCrying.mp3"},
             {	name: "noise1",
-				file: "noise/carHorn.mp3"},
+				file: "noise/carHorn.wav"},
             {	name: "noise0",
-				file: "noise/drill.mp3"},
+				file: "noise/jackhammer.mp3"},
 		]
     }
        
@@ -59,7 +59,7 @@ var noisyMonsters = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 120
     var overlayGroup
     var noisySong
     var coin
@@ -162,6 +162,10 @@ var noisyMonsters = function(){
     }
     
     function missPoint(){
+        
+        for(var p = 0; p < positions.length; p++){
+            sound.stop(noiseGroup[p])
+        }
         
         sound.play("wrongAnswer")
 		        
@@ -759,15 +763,25 @@ var noisyMonsters = function(){
         toolsGroup.setAll('inputEnabled', false)
         
         if(ans){
-            dificult += 0.05
+            dificult += 0.15
         }
         else{
             dinamita.setAnimationByName(0, "WAKE_UP", false)
             dinamita.addAnimationByName(0, "WAKE_STILL", true)
             missPoint()
+            if(dificult > 0.4){
+                dificult -= 0.15
+            }
         }
         
+        
+        
         game.time.events.add(1500,function(){
+            
+            for(var p = 0; p < positions.length; p++){
+                sound.stop(noiseGroup[p])
+            }
+            
             game.add.tween(backgroundGroup).to({alpha:0}, 400, Phaser.Easing.linear, true)
             game.add.tween(noiseMeter).to({x: -90, y: -10}, 400, Phaser.Easing.linear, true)
             game.add.tween(toolsGroup).to({alpha:0}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
@@ -794,7 +808,7 @@ var noisyMonsters = function(){
             backgroundGroup.children[p].y = scenePos[positions[p]].y
             boxGroup.children[p].x = scenePos[positions[p]].x
             boxGroup.children[p].y = scenePos[positions[p]].y
-            sound.play(noiseGroup[p]).loopFull(0.5)
+            sound.play(noiseGroup[p]).loopFull(0.7)
             
             if(positions[p] === 0){
                 boxGroup.children[p].active = false
@@ -844,7 +858,7 @@ var noisyMonsters = function(){
         game.add.tween(toolsGroup).to({alpha:1}, 400, Phaser.Easing.linear, true)
         game.add.tween(backgroundGroup).to({alpha:1}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
             game.time.events.add(400,function(){
-                sound.play(noiseGroup[tutoPivot]).loopFull(0.5)
+                sound.play(noiseGroup[tutoPivot]).loopFull(0.7)
                 toolsGroup.children[tutoPivot].inputEnabled = true
                 toolsGroup.children[tutoPivot].tint = 0xffffff
                 boxGroup.children[tutoPivot].active = true
@@ -922,7 +936,7 @@ var noisyMonsters = function(){
                         			
             noisySong = game.add.audio('noisySong')
             game.sound.setDecodedCallback(noisySong, function(){
-                noisySong.loopFull(0.6)
+                noisySong.loopFull(0.5)
             }, this);
             
             game.onPause.add(function(){
