@@ -92,12 +92,7 @@ var dino = function(){
         },this)
     }
     
-    function animateScene() {
-                
-        gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
+    function flashScene() {
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -757,7 +752,7 @@ var dino = function(){
         gameActive = false
         
         changeImage(index, liveFossilGroup)
-        animateScene()
+        flashScene()
         game.add.tween(liveFossilGroup.children[index]).to({alpha:1}, 750, Phaser.Easing.linear, true).onComplete.add(function(){
            game.add.tween(liveFossilGroup.children[index]).to({alpha:0}, 750, Phaser.Easing.linear, true)
                 gameActive = true
@@ -820,7 +815,7 @@ var dino = function(){
 			buttons.getButton(jungleFun,sceneGroup)
             createOverlay()
             
-            animateScene()
+            flashScene()
             
 		},
 		show: function(event){

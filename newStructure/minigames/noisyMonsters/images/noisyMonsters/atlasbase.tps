@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/dinamitaDance/images/dinamitaDance/atlasbase.tps</string>
+        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/noisyMonsters/images/noisyMonsters/atlasbase.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -199,16 +199,29 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">bottom.png</key>
+            <key type="filename">bar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,66,271,131</rect>
+                <rect>47,11,93,23</rect>
                 <key>scale9Paddings</key>
-                <rect>135,66,271,131</rect>
+                <rect>47,11,93,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">board.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>135,41,271,83</rect>
+                <key>scale9Paddings</key>
+                <rect>135,41,271,83</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -222,47 +235,6 @@
                 <rect>32,29,65,57</rect>
                 <key>scale9Paddings</key>
                 <rect>32,29,65,57</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">button2_ON.png</key>
-            <key type="filename">buttonCorrect.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>33,21,65,41</rect>
-                <key>scale9Paddings</key>
-                <rect>33,21,65,41</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">buttonOFF.png</key>
-            <key type="filename">buttonON.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>33,20,65,41</rect>
-                <key>scale9Paddings</key>
-                <rect>33,20,65,41</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">buttonsBase.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>128,47,255,95</rect>
-                <key>scale9Paddings</key>
-                <rect>128,47,255,95</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -292,46 +264,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">glitter1.png</key>
-            <key type="filename">glitter3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>25,26,51,51</rect>
-                <key>scale9Paddings</key>
-                <rect>25,26,51,51</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">glitter2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>11,11,21,21</rect>
-                <key>scale9Paddings</key>
-                <rect>11,11,21,21</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">glitter4.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>8,8,16,17</rect>
-                <key>scale9Paddings</key>
-                <rect>8,8,16,17</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -345,29 +277,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">light0.png</key>
+            <key type="filename">meter.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>108,111,215,223</rect>
+                <rect>6,10,11,19</rect>
                 <key>scale9Paddings</key>
-                <rect>108,111,215,223</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">light1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>107,111,215,223</rect>
-                <key>scale9Paddings</key>
-                <rect>107,111,215,223</rect>
+                <rect>6,10,11,19</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -437,6 +356,58 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">tool0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>31,20,61,39</rect>
+                <key>scale9Paddings</key>
+                <rect>31,20,61,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tool1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,28,40,56</rect>
+                <key>scale9Paddings</key>
+                <rect>20,28,40,56</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tool2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,29,30,57</rect>
+                <key>scale9Paddings</key>
+                <rect>15,29,30,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tool3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>31,30,62,60</rect>
+                <key>scale9Paddings</key>
+                <rect>31,30,62,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -464,18 +435,13 @@
             <filename>star.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>glitter1.png</filename>
-            <filename>glitter2.png</filename>
-            <filename>glitter3.png</filename>
-            <filename>button2_ON.png</filename>
-            <filename>glitter4.png</filename>
-            <filename>light0.png</filename>
-            <filename>light1.png</filename>
-            <filename>buttonsBase.png</filename>
-            <filename>bottom.png</filename>
-            <filename>buttonOFF.png</filename>
-            <filename>buttonON.png</filename>
-            <filename>buttonCorrect.png</filename>
+            <filename>board.png</filename>
+            <filename>tool2.png</filename>
+            <filename>tool3.png</filename>
+            <filename>tool0.png</filename>
+            <filename>tool1.png</filename>
+            <filename>bar.png</filename>
+            <filename>meter.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
