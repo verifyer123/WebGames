@@ -719,8 +719,11 @@ var result = function(){
 		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', 'Y obtén grandes recompensas', 28);
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
+
+		console.log("Ismobile "+isMobile)
+
 		
-		if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
+		if(!couponData && !game.device.desktop && !amazing.getMinigameId() && !isMobile){
 			
 			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
@@ -896,3 +899,25 @@ var result = function(){
 		init: initialize,
 	}
 }()
+
+
+
+function detectmob() { 
+ if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)
+ ){
+     //document.body.style.zoom = "100%"
+    return true;
+  }
+ else {
+     //document.body.style.zoom = "100%"
+    return false;
+  }
+}
+
+var isMobile = detectmob();
