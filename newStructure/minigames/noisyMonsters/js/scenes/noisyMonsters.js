@@ -59,7 +59,7 @@ var noisyMonsters = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 120
+    var gameIndex = 121
     var overlayGroup
     var noisySong
     var coin
