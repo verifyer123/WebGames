@@ -67,6 +67,7 @@ var noisyMonsters = function(){
     var toolsGroup
     var boxGroup
     var monstersGroup
+    var dinamitaGroup
     var back
     var scenePos
     var positions = [0,1,2,3]
@@ -381,7 +382,7 @@ var noisyMonsters = function(){
                     {x: back.width, y: back.height}]
         
         showMustGoOn()
-        sceneGroup.add(back)
+        //sceneGroup.add(back)
     }
 
 	function update(){
@@ -635,11 +636,15 @@ var noisyMonsters = function(){
     
     function tnt(){
         
+        dinamitaGroup = game.add.group()
+        sceneGroup.add(dinamitaGroup)
+        
         dinamita = game.add.spine(back.centerX - 50, back.height, "dinamita")
         dinamita.setAnimationByName(0, "SLEEP", true)
         dinamita.setSkinByName("normal")
         dinamita.alpha = 0
-        sceneGroup.add(dinamita)
+        dinamitaGroup.add(back)
+        dinamitaGroup.add(dinamita)
     }
     
     function silenceMeter(){
@@ -768,6 +773,8 @@ var noisyMonsters = function(){
         else{
             dinamita.setAnimationByName(0, "WAKE_UP", false)
             dinamita.addAnimationByName(0, "WAKE_STILL", true)
+            game.add.tween(dinamitaGroup).to({x: back.centerX * 0.5, y: back.centerY * 0.5}, 400, Phaser.Easing.linear, true)
+            game.add.tween(dinamitaGroup.scale).to({x: 1.5, y: 1.5}, 400, Phaser.Easing.linear, true)
             missPoint()
             if(dificult > 0.4){
                 dificult -= 0.15
@@ -784,6 +791,8 @@ var noisyMonsters = function(){
             
             game.add.tween(backgroundGroup).to({alpha:0}, 400, Phaser.Easing.linear, true)
             game.add.tween(noiseMeter).to({x: -90, y: -10}, 400, Phaser.Easing.linear, true)
+            game.add.tween(dinamitaGroup.scale).to({x: 1, y: 1}, 400, Phaser.Easing.linear, true)
+            game.add.tween(dinamitaGroup).to({x: 0, y: 0}, 400, Phaser.Easing.linear, true)
             game.add.tween(toolsGroup).to({alpha:0}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
                 toolsGroup.setAll('tint', 0xffffff)
                 toolsGroup.setAll('x', 0)
@@ -849,7 +858,7 @@ var noisyMonsters = function(){
             boxGroup.children[p].y = scenePos[p].y
             
             backgroundGroup.children[p].children[1].setAnimationByName(0, "NOISY", true)
-            backgroundGroup.children[p].setAll('tint', 0x404040)
+            backgroundGroup.children[p].children[1].alpha = 0
             
             toolsGroup.children[p].x += p * 160
             toolsGroup.children[p].fixPosX = toolsGroup.children[p].x  
@@ -862,7 +871,7 @@ var noisyMonsters = function(){
                 toolsGroup.children[tutoPivot].inputEnabled = true
                 toolsGroup.children[tutoPivot].tint = 0xffffff
                 boxGroup.children[tutoPivot].active = true
-                backgroundGroup.children[tutoPivot].setAll('tint', 0xffffff)
+                backgroundGroup.children[tutoPivot].children[1].alpha = 1
             },this)
         })
     }
@@ -908,7 +917,7 @@ var noisyMonsters = function(){
                         game.add.tween(noiseMeterGroup).to({alpha:1}, 400, Phaser.Easing.linear, true)
                         toolsGroup.setAll('tint', 0xffffff)
                         for(var f = 0; f < backgroundGroup.length; f++){
-                            backgroundGroup.children[f].setAll('tint', 0xffffff)
+                            backgroundGroup.children[f].children[1].alpha = 1
                         }
                         console.log('inicio el juego')
                         initGame()
