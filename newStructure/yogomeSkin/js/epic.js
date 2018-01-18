@@ -224,9 +224,6 @@ var epicSiteMain =  function(){
 			console.log(delayTime, "time")
 
 			currentTimeout = setTimeout(function() {
-				var characterSelector = document.getElementById("characterSelector")
-				characterSelector.style.visibility = "hidden"
-
 				// $(".game-canvas p").style.visibility = "hidden"
 				// $("#sectionInfo").css("visibility", "hidden")
 				//';ljxz  window.open(url, "_self")

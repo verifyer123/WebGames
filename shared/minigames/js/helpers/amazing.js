@@ -3,6 +3,9 @@ var couponData
 var dataStore
 var minigameId
 var userMail, gender, birthday
+var origin
+var fromApp
+//var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
 	console.log("Saving Score...")
@@ -12,7 +15,16 @@ amazing.saveScore = function(score){
 			score: score,
 		}
 	}
-	parent.postMessage(JSON.stringify(params), "*")
+	parent.postMessage(JSON.stringify(params), origin)
+}
+
+amazing.winCoupon = function(couponId){
+
+    var params = {
+        type: "winCoupon",
+        id: couponId,
+    }
+    parent.postMessage(JSON.stringify(params), origin)
 }
 
 amazing.savePlaycount = function(){
@@ -20,7 +32,7 @@ amazing.savePlaycount = function(){
 	var params = {
 		type: "playcount"
 	}
-	parent.postMessage(JSON.stringify(params), "*")
+	parent.postMessage(JSON.stringify(params), origin)
 }
 
 amazing.share = function(score, game){
@@ -30,7 +42,7 @@ amazing.share = function(score, game){
 		score: score,
 		game: game,
 	}
-	parent.postMessage(JSON.stringify(params), "*")
+	parent.postMessage(JSON.stringify(params), origin)
 }
 
 amazing.checkBrowser = function(game){
@@ -65,7 +77,7 @@ amazing.getGames = function(){
         {name:'Cube Jump',iconName:'cube',url:'http://amazingapp.mx/juegos/cubejump/',coupon : false,mixName:'cubejump',id:5674368789118976},
         {name:'Nutribaby',iconName:'nutribaby',url:'http://amazingapp.mx/juegos/nutribaby/',coupon : false,mixName:'nutribaby',id:5674368789118976},
 		{name:'Net Shoes',iconName:'net',url:'http://amazingapp.mx/juegos/netshoes/',coupon : false,mixName:'netshoes',id:5634101323235328},
-        {name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},
+        //{name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},
         
     ]
     
@@ -73,14 +85,16 @@ amazing.getGames = function(){
 }
 
 amazing.getInfo = function(){
-    
+    this.setApp()
     window.addEventListener("message", function(event){
-        //console.log(event)
+        console.log("Getinfo ",event)
+        
         
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
+                origin = event.origin
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
@@ -98,12 +112,13 @@ amazing.getInfo = function(){
 amazing.setProfile = function(){
     
     window.addEventListener("message", function(event){
-        //console.log(event)
-        
+        //console.log("profile",event)
+       
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
+                 origin = event.origin
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
@@ -118,6 +133,7 @@ amazing.setProfile = function(){
         
 }
 
+
 amazing.setMinigameId = function(){
     
     window.addEventListener("message", function(event){
@@ -127,6 +143,7 @@ amazing.setMinigameId = function(){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
+                origin = event.origin
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
@@ -149,6 +166,30 @@ amazing.setMinigameId = function(){
         
 }
 
+
+amazing.setApp = function(){
+    console.log("Enter to setApp function")
+    fromApp = false
+    window.addEventListener("message", function(event){
+        //console.log(event)
+        
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+                origin = event.origin
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "app":
+                fromApp = true
+            }
+        }
+    })
+        
+}
+
 amazing.sendGameId = function(gameId){
    console.log("Sending GameId...")
    var params = {
@@ -157,7 +198,7 @@ amazing.sendGameId = function(gameId){
            gameId: gameId,
        }
    }
-   parent.postMessage(JSON.stringify(params), "*")
+   parent.postMessage(JSON.stringify(params), origin)
 }
 
 amazing.getScores = function(dataId, onSuccess, onError ){

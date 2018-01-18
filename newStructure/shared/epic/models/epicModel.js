@@ -56,14 +56,14 @@ var epicModel = function () {
 				if(onSuccess)
 					onSuccess(response)
 			}else {
-				localStorage.setItem("token", null)
+				localStorage.clear()
 				if(onError)onError(response)
 				if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
 		}).fail(function(response){
 			// console.log("error", response);
-			localStorage.setItem("token", null)
+			localStorage.clear()
 			if(onError)onError(response)
 			if(!signInCallback) modal.showLogin()
 			// modal.showLogin()
@@ -289,6 +289,8 @@ var epicModel = function () {
 		// var credentials = getCredentials()
 		currentCallback = callback
 		checkAgeFlag = checkAge
+		// var credentials = getCredentials()
+		// var token = credentials.token
 		if(forceLogin) {
 			checkLogin()
 		}

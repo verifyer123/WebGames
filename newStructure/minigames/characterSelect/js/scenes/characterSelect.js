@@ -379,10 +379,13 @@ var characterSelect = function(){
 				var yogotarImgPath = "assets/img/common/yogotars/" + selectedCharacter.toLowerCase() + ".png"
 				$( '.yogotar img' ).attr("src",yogotarImgPath);
 
+				var characterSelector = document.getElementById("characterSelector")
+				TweenMax.to(characterSelector, 0.5, {opacity: 0, ease:Quad.easeInOut})
 				game.add.tween(sceneGroup).to({alpha:0}, 1500, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
                     game.time.events.add(500,function(){
 					   game.lockRender = true
 					   game.destroy()
+						characterSelector.style.visibility = "hidden"
 					   // game.paused = true
 					   epicSiteMain.charSelected(selectedCharacter)
 				    })

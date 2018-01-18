@@ -10,7 +10,16 @@ var spaceCount = function(){
                 json: "images/spaceCount/atlas.json",
                 image: "images/spaceCount/atlas.png"
 			}],
-        images: [],
+        images: [
+            {
+                name: "okBtn",
+                file: "images/spaceCount/okBtn.png"
+            }, 
+            {
+                name: "clock",
+                file: "images/spaceCount/clock.png"
+            }, 
+            ],
 		sounds: [
             {	name: "pop",
 				file: soundsPath + "pop.mp3"},
@@ -69,6 +78,10 @@ var spaceCount = function(){
     var typeShips = ["ship","ship1","ship2"];
     var counterText;
     var moreCoin;
+    var currentTapIndex 
+    var timerTween 
+    var okBtn
+    var inCount 
     
 	styleWhite = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	styleBlack = {font: "80px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center",boundsAlignH: "center", boundsAlignV: "middle" };
@@ -110,6 +123,8 @@ var spaceCount = function(){
 		starGame = false;
         //console.log('initialize')
         numberTime = INITIAL_TIME
+        currentTapIndex = 0
+        inCount = false
 
 	}	
     
@@ -119,6 +134,15 @@ var spaceCount = function(){
 
 	/*CREATE SCENE*/
     function createScene(){
+        game.stage.disableVisibilityChange = false;
+        game.onPause.add(function(){
+            console.log("OnPause")
+            game.sound.mute = true
+        } , this);
+
+        game.onResume.add(function(){
+            game.sound.mute = false
+        }, this);
 		
         initialize()
 
@@ -150,6 +174,8 @@ var spaceCount = function(){
         eagle.y = game.height - eagle.height/1.8;
         eagle.x = game.world.centerX;
         sceneGroup.add(eagle);
+
+       
         
         for(i=0;i<=9;i++){
             multipleBars[i] = new Array;
@@ -172,16 +198,17 @@ var spaceCount = function(){
         }
         
         
-        var timeBar = sceneGroup.create(0,0,"atlas.space","timer.png");
+        var timeBar = sceneGroup.create(0,0,"clock");
         timeBar.anchor.setTo(0.5,0.5);
+        timeBar.scale.setTo(0.8,0.8)
         timeBar.x = game.world.centerX;
         timeBar.y = timeBar.height*1.5;
         
         bar = new Phaser.Graphics(game);
         bar.beginFill(0x8cc63f)
-        bar.drawRect(0,0,timeBar.width/1.4, timeBar.height/4);
-        bar.x = game.world.centerX - timeBar.width/3;
-        bar.y = timeBar.y - bar.height/6;
+        bar.drawRect(0,0,timeBar.width/1.33, timeBar.height/4);
+        bar.x = game.world.centerX - timeBar.width/2.65;
+        bar.y = timeBar.y + 5;
         bar.alpha = 1;
         bar.endFill()
         bar.scale.setTo(0,1);
@@ -199,13 +226,52 @@ var spaceCount = function(){
         buttonGame.alpha = 0
         buttonGame.endFill()
         buttonGame.inputEnabled = true;
+       // buttonGame.input.priorityID = 2
         sceneGroup.add(buttonGame);
         buttonGame.events.onInputDown.add(function(){
-            NumTaps++;
-            sound.play("click");
+            tap()
         });        
+
+        /*okBtn = sceneGroup.create(game.world.centerX,game.world.centerY + 380,"okBtn");
+        okBtn.anchor.setTo(0.5,0.5)
+        okBtn.events.onInputDown.add(setOk)
+        okBtn.inputEnabled = true;
+       // okBtn.input.priorityID = 1
+        okBtn.visible = false*/
+
+
+        okBtn = game.add.group()
+        okBtn.x = game.world.centerX
+        okBtn.y = game.world.height - 85 
+        okBtn.visible = false
+        sceneGroup.add(okBtn)
+
+        var okBtnImg = okBtn.create(0, 0, 'okBtn')
+        okBtnImg.scale.setTo(0.7, 0.7)
+        okBtnImg.anchor.setTo(0.5, 0.5)
+        okBtnImg.inputEnabled = true
+        okBtnImg.pressed = false
+        okBtnImg.events.onInputUp.add(setOk)
+        var text =""
+        if(localization.getLanguage() == 'EN')
+        {
+            text = 'OK!'
+        }
+        else
+        {
+            text = '¡OK!'
+        }
+
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var okText = new Phaser.Text(sceneGroup.game, 0, 0, text, fontStyle)
+        okText.x = okBtnImg.x
+        okText.y = okBtnImg.y
+        okText.anchor.setTo(0.5, 0.5)
+        okBtn.add(okText)
+
+
         
-        NumberTapText = game.add.text(0, 0,NumTaps + " taps", styleWhite,sceneGroup);
+        NumberTapText = game.add.text(0, 0, NumTaps + " taps", styleWhite,sceneGroup);
         NumberTapText.fontSize = "60px";
         NumberTapText.anchor.setTo(0.5,0.5);
         NumberTapText.x = game.world.centerX;
@@ -221,10 +287,49 @@ var spaceCount = function(){
         
         moreCoin = game.add.text(100, 20,"+1", styleWhite,sceneGroup);
         moreCoin.alpha = 0;
+
+
 		
 	}
+
+    function setOk (){
+        if(!inCount){
+            console.log("onInputOk")
+            timerTween.kill()
+            completeTime()
+        }
+    }
+
+    function tap(){
+        NumTaps++;
+        sound.play("click");
+        if( !okBtn.visible ){
+             okBtn.visible = true
+        }
+        
+
+        if(NumTaps == 0 || NumTaps>10){
+            sound.play("error");
+            for(var p = 0; p<= 9;p++){
+                TweenMax.fromTo(multipleBars[p][0],0.1,{alpha:0},{alpha:1,yoyo:true,repeat:10});
+            }                
+            finishGame();
+        }
+            
+        else{
+            multipleBars[currentTapIndex][1].alpha = 1;
+            TweenMax.fromTo(multipleBars[currentTapIndex][1].scale,1,{x:0,y:0},{x:1,y:1,ease:Elastic.easeOut,delay:0.2});
+        }
+
+        currentTapIndex++
+    }
     
       function countTaps(){
+
+        for(var i = 0 ; i < 10 ; i++){
+            multipleBars[i][1].alpha = 0;
+            multipleBars[i][2].alpha = 0;
+        }
             TweenMax.to(buttonGame,0.3,{alpha:0});
             TweenMax.to(NumberTapText,0.3,{y:game.world.centerY+NumberTapText.height});
             TweenMax.to(NumberTapText,0.3,{alpha:0});            
@@ -291,6 +396,7 @@ var spaceCount = function(){
         
         function newYogotar(){
             sound.play("inflateballoon");
+            okBtn.visible = false
             buttonGame.x = 0;
             bar.scale.setTo(0,1);
             eagle.setSkinByName(typeShips[getRandomArbitrary(0, 3)]);
@@ -302,6 +408,7 @@ var spaceCount = function(){
                 for(i=0;i<=9;i++){
                     multipleBars[i][1].alpha = 0; 
                 }
+                currentTapIndex = 0
                 NumTaps = 0;
                 countComplete = 0;
                 activeMultiple = getRandomArbitrary(1, 11);
@@ -312,6 +419,7 @@ var spaceCount = function(){
                     numberTime = numberTime - 0.25
                 }
                timer(numberTime); 
+               inCount = false
             }
             
         }
@@ -337,10 +445,11 @@ var spaceCount = function(){
 		}     
 
         function timer(time){
-            TweenMax.fromTo(bar.scale,time,{x:0},{x:1,ease:Linear.easeNone,onComplete:completeTime});
+            timerTween = TweenMax.fromTo(bar.scale,time,{x:0},{x:1,ease:Linear.easeNone,onComplete:completeTime});
         }
 
         function completeTime(){
+            inCount = true
             buttonGame.x = game.width;
             NumberTapText.setText(NumTaps + " taps");
             TweenMax.fromTo(NumberTapText,1,{y:game.world.centerY-NumberTapText.height},{y:game.world.centerY});

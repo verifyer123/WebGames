@@ -5,7 +5,7 @@ var epicYogomeGames = function () {
 	var urls = {dev:"../..", prod:".."}
 	var url = urls.prod
 	var games = yogomeGames.getObjectGames()
-	var currentPlayer = parent.epicModel.getPlayer()
+	var currentPlayer
 
 	var epicGames = [
 		games["UniDream"],
@@ -105,6 +105,7 @@ var epicYogomeGames = function () {
 	var getGames = function(grade) {
 		grade = grade || 0
 		var gradeGames
+		currentPlayer = parent.epicModel.getPlayer()
 
 		if (grade > 0){
 			var sumIndex = 0
@@ -122,7 +123,7 @@ var epicYogomeGames = function () {
 		// console.log(restGames)
 		var restGames = gradeGames.diff(unlockedGames)
 		restGames = unlockedGames.concat(gradeGames)
-		console.log(restGames)
+		// console.log(restGames)
 
 		return gradeGames
 
@@ -131,8 +132,6 @@ var epicYogomeGames = function () {
 	var mixpanelCall = function(callName,gameIndex){
 
 		var gamesList = epicYogomeGames.getGames()
-
-		console.log('gameIndex sent ' + gameIndex )
 
 		mixpanel.track(
 			callName,
@@ -159,8 +158,6 @@ var epicYogomeGames = function () {
 				unlockedGames.push(game)
 			}
 		}
-
-		console.log(unlockedGames)
 
 		return unlockedGames
 	}

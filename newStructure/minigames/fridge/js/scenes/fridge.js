@@ -102,7 +102,7 @@ var fridge = function(){
         fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
         if(localization.getLanguage() === 'ES'){
-            food = ['Animal', 'Lacteos', 'Frutas', 'Vegetales', 'Cereles', 'Leguminosas'] 
+            food = ['Animal', 'Lacteos', 'Frutas', 'Verduras', 'Cereles', 'Leguminosas'] 
         }
         else{
             food = ['Animal', 'Dairy', 'Fruits', 'Vegetables', 'Cerels', 'Legume']
@@ -653,18 +653,18 @@ var fridge = function(){
         
         for(var r = 0; r < 2; r++){
             for(var c = 0; c < 3; c++){
-                var container = game.add.graphics(game.world.centerX - 195, game.world.centerY  - 350)
+                var container = game.add.graphics(game.world.centerX - 197, game.world.centerY  - 335)
                 container.x += 200 * r
                 container.y += 230 * c
                 //container.beginFill(0xFF3300);
-                container.drawRect(0, 0, 190, 210)
+                container.drawRect(0, 0, 195, 226)
                 container.alpha = 0
                 container.foodValue = num
-                container.slots = [{x: -container.width * 0.20, y: -container.height * 0.20},
-                                   {x: container.width * 0.20, y: -container.height * 0.20},
-                                   {x: -container.width * 0.20, y: container.height * 0.20},
-                                   {x: container.width * 0.20, y: container.height * 0.20},
-                                   {x: 0, y: 0}]
+                container.slots = [{x: -container.width * 0.20, y: -container.height * 0.30},
+                                   {x: container.width * 0.20, y: -container.height * 0.30},
+                                   {x: -container.width * 0.20, y: container.height * 0.10},
+                                   {x: container.width * 0.20, y: container.height * 0.10},
+                                   {x: 0, y: -container.height * 0.15}]
                 container.slotPos = 0
                 containerGroup.add(container)
                 num++
@@ -1021,7 +1021,8 @@ var fridge = function(){
     }
     
     function getRandX(){
-        var x = game.rnd.integerInRange(50, game.world.width - 70)
+        var x = game.rnd.integerInRange(game.world.centerX - tableFront.width * 0.4, 
+                                        game.world.centerX + tableFront.width * 0.4)
         if(x === popPosX)
             return getRandX()
         else
@@ -1086,6 +1087,7 @@ var fridge = function(){
         tableFront.anchor.setTo(0.5, 1)
         tableFront.scale.setTo(1.5, 1)
     }
+    
 	return {
 		
 		assets: assets,

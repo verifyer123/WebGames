@@ -70,6 +70,7 @@ var result = function(){
     var minigameId
     var skinTable
 	var overlayGroup
+    var currentCouponId
 
 	var timeGoal = null
 
@@ -124,18 +125,7 @@ var result = function(){
 		var answeredQuestions = totalAnswered
         
         trackerText.text = totalScore
-		/*containerGroup.updateAnswers = function(incrementNumber){
-			answeredQuestions += incrementNumber
-			if(answeredQuestions >= 0){
-				trackerText.text = answeredQuestions+"/"+goal
-			}else if(answeredQuestions < 0){
-				answeredQuestions = 0
-			}
-
-		}
-
-		containerGroup.updateAnswers(0)*/4
-
+		
 		return containerGroup
 	}
 
@@ -361,8 +351,6 @@ var result = function(){
         
         amazing.saveScore(totalScore) 
         
-       
-        
         minigameId = null
         minigameId = amazing.getMinigameId()
         
@@ -374,6 +362,7 @@ var result = function(){
                     var parsedData = {}
                     try {
                        var parsedData = JSON.parse(event.data)
+                       origin = event.origin
                     }catch(e){
                        console.warn("Data is not JSON in message listener")
                     }
@@ -584,6 +573,8 @@ var result = function(){
             var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y, 'gothamMedium', totalScore + " punto" + addText, 50);
             retryText.anchor.setTo(0,1)
             sceneGroup.add(retryText)
+
+
             
         }else{
             
@@ -613,6 +604,8 @@ var result = function(){
                 pivotRank+=200
                                 
                 pivotButtons = game.world.height* 0.92
+
+                amazing.winCoupon(currentCouponId)
                 
                 if(couponData.imgPreview){
 
@@ -727,8 +720,8 @@ var result = function(){
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
 		
-		if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
-			
+		//if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
+        if(!couponData && !amazing.getMinigameId() && amazing.fromApp){
 			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
 			game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
@@ -857,6 +850,7 @@ var result = function(){
             if(couponData.imgPreview){
                 var imageName = couponData.imgPreview.split('/')
                 game.load.image('coupon',imagesUrl + 'coupons/'+imageName[2])
+                currentCouponId = couponData.id
             }
             else{
                 game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
@@ -865,28 +859,7 @@ var result = function(){
             goalScore = couponData.scoreGoal
         }
                         
-        /*var file = {            
-            type: 'image',            
-            key: 'coupon',            
-            url: 'http://amazingyogome.appspot.com/img/coupons/bg_chilimbalam.png',            
-            data: null,            
-            error: false,            
-            loaded: false        
-        };     
         
-        file.data = new Image();        
-        file.data.name = file.key;        
-        file.data.onload = function () {            
-            file.loaded = true;            
-            game.cache.addImage(file.key, file.url, file.data);        
-        };  
-        
-        file.data.onerror = function () {            
-            file.error = true;        
-        };        
-        
-        file.data.crossOrigin = '*';        
-        file.data.src = file.url;*/
                         
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
@@ -923,3 +896,25 @@ var result = function(){
 		init: initialize,
 	}
 }()
+
+
+
+function detectmob() { 
+ if( navigator.userAgent.match(/Android/i)
+ || navigator.userAgent.match(/webOS/i)
+ || navigator.userAgent.match(/iPhone/i)
+ || navigator.userAgent.match(/iPad/i)
+ || navigator.userAgent.match(/iPod/i)
+ || navigator.userAgent.match(/BlackBerry/i)
+ || navigator.userAgent.match(/Windows Phone/i)
+ ){
+     //document.body.style.zoom = "100%"
+    return true;
+  }
+ else {
+     //document.body.style.zoom = "100%"
+    return false;
+  }
+}
+
+var isMobile = detectmob();

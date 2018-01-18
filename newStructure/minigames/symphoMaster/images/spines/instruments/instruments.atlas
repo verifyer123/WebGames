@@ -1,0 +1,48 @@
+
+instruments.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/box
+  rotate: false
+  xy: 2, 527
+  size: 463, 495
+  orig: 463, 495
+  offset: 0, 0
+  index: -1
+normal/clarinet
+  rotate: false
+  xy: 360, 56
+  size: 334, 326
+  orig: 334, 326
+  offset: 0, 0
+  index: -1
+normal/flute
+  rotate: false
+  xy: 2, 2
+  size: 230, 193
+  orig: 230, 193
+  offset: 0, 0
+  index: -1
+normal/guitar
+  rotate: false
+  xy: 467, 384
+  size: 336, 314
+  orig: 336, 314
+  offset: 0, 0
+  index: -1
+normal/piano
+  rotate: false
+  xy: 2, 197
+  size: 356, 328
+  orig: 356, 328
+  offset: 0, 0
+  index: -1
+normal/trumpet
+  rotate: false
+  xy: 467, 700
+  size: 340, 322
+  orig: 340, 322
+  offset: 0, 0
+  index: -1

@@ -109,6 +109,7 @@ var result = function(){
 		totalScore = score
 		goalScore = gamesList[gameIndex].objective
 		win = totalScore >= goalScore
+		console.log(win)
 		//console.log(parent.epicModel)
 		if(parent.epicModel){
 			currentPlayer = parent.epicModel.getPlayer()
@@ -121,9 +122,10 @@ var result = function(){
 		playerData.hasMap = false
 		
 		// console.log(playerData.timeReady + ' gameTime')
-		if(currentPlayer && currentPlayer.isMap){
-			playerData.hasMap = true
-			currentPlayer.minigamesPlayed++
+		if(parent && parent.env){
+			playerData.hasMap = parent.env.isMap
+			if(currentPlayer)
+				currentPlayer.minigamesPlayed++
 		}
         
         scaleToUse = scale || 0.9
@@ -306,8 +308,9 @@ var result = function(){
             
             pivotX += 250
         }
-		
-		if(currentPlayer && currentPlayer.isMap){
+
+        console.log(parent.env)
+		if(parent.env && parent.env.isMap){
 			var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
 			homeBtn.anchor.setTo(0.5,0.5)
 			homeBtn.alpha = 0
@@ -397,19 +400,15 @@ var result = function(){
 		//background.scale.setTo(1.2,1.2)
         
         var topHeight = game.world.height * 0.8  
-		
-		if(win){
-			
-			if(currentPlayer && currentPlayer.isMap){
-				// console.log(currentPlayer.currentMinigame)
-				currentPlayer.minigames[currentPlayer.currentMinigame].completed = true
-
-				parent.epicModel.savePlayer(currentPlayer)
-			}
-
-		}
-		if(currentPlayer)
+		var env = parent ? (parent.env ? parent.env : {}) : {}
+		if(currentPlayer){
 			currentPlayer.powerCoins += totalScore
+
+			if(env.isMap && win){
+				currentPlayer.minigames[gamesList[gameIndex].id].completed = true
+			}
+			parent.epicModel.savePlayer(currentPlayer)
+		}
 		
 		var yogoBack = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 185,'atlas.resultScreen','yogoBg')
 		yogoBack.anchor.setTo(0.5,0.5)
@@ -685,6 +684,7 @@ var result = function(){
 		addParticles()
 		
 		animateScene()
+		parent.env = {}
 		
 	}
 	

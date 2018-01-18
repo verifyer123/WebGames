@@ -38,11 +38,14 @@ var sound = function(){
 		}
 	}
 
-	function stop(soundId) {
+	function stop(soundId, isDestroy) {
+
+
 		for(var key in decodedSounds){
 			var sound = decodedSounds[soundId]
-			if(sound)
+			if(sound){
 				sound.stop()
+			}
 		}
 	}
 
