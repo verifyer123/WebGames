@@ -362,7 +362,7 @@ var result = function(){
                     var parsedData = {}
                     try {
                        var parsedData = JSON.parse(event.data)
-                       origin = event.origin
+                       //origin = event.origin
                     }catch(e){
                        console.warn("Data is not JSON in message listener")
                     }
@@ -721,7 +721,7 @@ var result = function(){
 		overlayGroup.add(nameText)
 		
 		//if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
-        if(!couponData && !amazing.getMinigameId() && amazing.fromApp){
+        if(!fromApp){
 			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
 			game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
