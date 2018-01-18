@@ -85,7 +85,7 @@ amazing.getGames = function(){
 }
 
 amazing.getInfo = function(){
-
+    this.setApp()
     window.addEventListener("message", function(event){
         console.log("Getinfo ",event)
         
@@ -168,6 +168,7 @@ amazing.setMinigameId = function(){
 
 
 amazing.setApp = function(){
+    console.log("Enter to setApp function")
     fromApp = false
     window.addEventListener("message", function(event){
         //console.log(event)
