@@ -4,6 +4,7 @@ var dataStore
 var minigameId
 var userMail, gender, birthday
 var origin
+var fromApp
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
@@ -160,6 +161,29 @@ amazing.setMinigameId = function(){
 				}
             }
             //console.log('entra case')
+        }
+    })
+        
+}
+
+
+amazing.setApp = function(){
+    fromApp = false
+    window.addEventListener("message", function(event){
+        //console.log(event)
+        
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+                origin = event.origin
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "app":
+                fromApp = true
+            }
         }
     })
         

@@ -719,12 +719,9 @@ var result = function(){
 		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', 'Y obtén grandes recompensas', 28);
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
-
-		console.log("Ismobile "+isMobile)
-
 		
-		if(!couponData && !game.device.desktop && !amazing.getMinigameId() && !isMobile){
-			
+		//if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
+        if(!couponData && !amazing.getMinigameId() && amazing.fromApp){
 			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
 			game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
