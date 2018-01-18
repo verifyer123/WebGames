@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/greenRescue/images/space/greenRescueTP.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/greenRescue/images/green/greenRescueTP.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -150,7 +150,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../green/atlas.json</filename>
+                <filename>atlas.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -199,7 +199,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../green/BOARD.png</key>
+            <key type="filename">BOARD.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -212,7 +212,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/CLOUD.png</key>
+            <key type="filename">BROOM.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,34,43,67</rect>
+                <key>scale9Paddings</key>
+                <rect>21,34,43,67</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">CLOUD.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -225,7 +238,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/ICON SHOVEL.png</key>
+            <key type="filename">ICON SHOVEL.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -238,7 +251,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/ICON SPRINKLER.png</key>
+            <key type="filename">ICON SPRINKLER.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -251,7 +264,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/ICON SPROUT.png</key>
+            <key type="filename">ICON SPROUT.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -264,7 +277,33 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/Movil.png</key>
+            <key type="filename">ICON_BROOM.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,36,49,73</rect>
+                <key>scale9Paddings</key>
+                <rect>24,36,49,73</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">MOON.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,31,61,62</rect>
+                <key>scale9Paddings</key>
+                <rect>30,31,61,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Movil.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -277,7 +316,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/OLD BAG.png</key>
+            <key type="filename">OLD BAG.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -290,7 +329,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/SHOVEL.png</key>
+            <key type="filename">SHOVEL.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -303,7 +342,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/SPRINKLER.png</key>
+            <key type="filename">SPRINKLER.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -316,7 +355,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/SPROUT.png</key>
+            <key type="filename">SPROUT.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -329,7 +368,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/SUN.png</key>
+            <key type="filename">STARS.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,32,64,64</rect>
+                <key>scale9Paddings</key>
+                <rect>32,32,64,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">SUN.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -342,7 +394,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/button.png</key>
+            <key type="filename">TRASH_CAN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>39,47,77,93</rect>
+                <key>scale9Paddings</key>
+                <rect>39,47,77,93</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">button.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -355,7 +420,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/gametuto.png</key>
+            <key type="filename">desktop.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,27,107,54</rect>
+                <key>scale9Paddings</key>
+                <rect>53,27,107,54</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">gametuto.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -368,7 +446,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/introscreen.png</key>
+            <key type="filename">introscreen.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -381,7 +459,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/life_box.png</key>
+            <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -394,7 +472,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/smoke.png</key>
+            <key type="filename">movil.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,31,99,62</rect>
+                <key>scale9Paddings</key>
+                <rect>49,31,99,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -407,7 +498,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/star.png</key>
+            <key type="filename">star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -420,7 +511,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../green/xpcoins.png</key>
+            <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -436,24 +527,31 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>../green/BOARD.png</filename>
-            <filename>../green/button.png</filename>
-            <filename>../green/CLOUD.png</filename>
-            <filename>../green/gametuto.png</filename>
-            <filename>../green/ICON SHOVEL.png</filename>
-            <filename>../green/ICON SPRINKLER.png</filename>
-            <filename>../green/ICON SPROUT.png</filename>
-            <filename>../green/introscreen.png</filename>
-            <filename>../green/life_box.png</filename>
-            <filename>../green/Movil.png</filename>
-            <filename>../green/OLD BAG.png</filename>
-            <filename>../green/SHOVEL.png</filename>
-            <filename>../green/smoke.png</filename>
-            <filename>../green/SPRINKLER.png</filename>
-            <filename>../green/SPROUT.png</filename>
-            <filename>../green/star.png</filename>
-            <filename>../green/SUN.png</filename>
-            <filename>../green/xpcoins.png</filename>
+            <filename>BOARD.png</filename>
+            <filename>button.png</filename>
+            <filename>CLOUD.png</filename>
+            <filename>gametuto.png</filename>
+            <filename>ICON SHOVEL.png</filename>
+            <filename>ICON SPRINKLER.png</filename>
+            <filename>ICON SPROUT.png</filename>
+            <filename>introscreen.png</filename>
+            <filename>life_box.png</filename>
+            <filename>Movil.png</filename>
+            <filename>OLD BAG.png</filename>
+            <filename>SHOVEL.png</filename>
+            <filename>smoke.png</filename>
+            <filename>SPRINKLER.png</filename>
+            <filename>SPROUT.png</filename>
+            <filename>star.png</filename>
+            <filename>SUN.png</filename>
+            <filename>xpcoins.png</filename>
+            <filename>BROOM.png</filename>
+            <filename>ICON_BROOM.png</filename>
+            <filename>TRASH_CAN.png</filename>
+            <filename>desktop.png</filename>
+            <filename>STARS.png</filename>
+            <filename>MOON.png</filename>
+            <filename>movil.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -415,9 +415,18 @@ var garbageDiving = function(){
         boomParticle = createPart("explosion")
         sceneGroup.add(boomParticle)
         
+        backGrect = new Phaser.Graphics(game)
+        backGrect.beginFill(0x112C5C)
+        backGrect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        backGrect.alpha = 1
+        backGrect.endFill()
+        backgroundGroup.add(backGrect)
+        
         backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.garbage',"tile")
         backG.scale.setTo(1,.75)
         backgroundGroup.add(backG)
+        
+        
         
         clock=game.add.image(game.world.centerX-200,0,"atlas.time","clock")
         clock.scale.setTo(.7)

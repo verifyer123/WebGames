@@ -733,6 +733,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">movil.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,31,99,62</rect>
+                <key>scale9Paddings</key>
+                <rect>49,31,99,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -820,6 +833,7 @@
             <filename>PHOTO_Q.png</filename>
             <filename>YO YO_Q.png</filename>
             <filename>FLOOR TILE.png</filename>
+            <filename>movil.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

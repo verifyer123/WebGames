@@ -65,6 +65,7 @@ function startGame(){
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
+        epicparticles.init(game)
     }
 
     function create(){
