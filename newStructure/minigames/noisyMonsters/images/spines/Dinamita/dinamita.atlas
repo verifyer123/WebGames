@@ -1,0 +1,90 @@
+
+dinamita.png
+size: 623,275
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dinamita/Capa_41
+  rotate: false
+  xy: 157, 6
+  size: 158, 170
+  orig: 158, 170
+  offset: 0, 0
+  index: -1
+dinamita/bed
+  rotate: false
+  xy: 2, 178
+  size: 261, 95
+  orig: 261, 95
+  offset: 0, 0
+  index: -1
+dinamita/blanked
+  rotate: false
+  xy: 317, 154
+  size: 177, 119
+  orig: 177, 119
+  offset: 0, 0
+  index: -1
+dinamita/body
+  rotate: false
+  xy: 496, 193
+  size: 77, 80
+  orig: 77, 80
+  offset: 0, 0
+  index: -1
+dinamita/eyebrown_a
+  rotate: true
+  xy: 265, 205
+  size: 68, 40
+  orig: 68, 40
+  offset: 0, 0
+  index: -1
+dinamita/eyebrown_b
+  rotate: false
+  xy: 496, 155
+  size: 70, 36
+  orig: 70, 36
+  offset: 0, 0
+  index: -1
+dinamita/hand
+  rotate: false
+  xy: 575, 231
+  size: 46, 42
+  orig: 46, 42
+  offset: 0, 0
+  index: -1
+dinamita/head
+  rotate: false
+  xy: 317, 8
+  size: 151, 144
+  orig: 151, 144
+  offset: 0, 0
+  index: -1
+dinamita/head2
+  rotate: true
+  xy: 470, 4
+  size: 148, 141
+  orig: 148, 141
+  offset: 0, 0
+  index: -1
+dinamita/mouth_a
+  rotate: false
+  xy: 265, 187
+  size: 17, 16
+  orig: 17, 16
+  offset: 0, 0
+  index: -1
+dinamita/mouth_b
+  rotate: false
+  xy: 575, 219
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+dinamita/pillow
+  rotate: true
+  xy: 2, 2
+  size: 174, 153
+  orig: 174, 153
+  offset: 0, 0
+  index: -1

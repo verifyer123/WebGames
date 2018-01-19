@@ -450,6 +450,14 @@ var spaceVaccum = function(){
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
+        backGrect = new Phaser.Graphics(game)
+        backGrect.beginFill(0x220341)
+        backGrect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        backGrect.alpha = 1
+        backGrect.endFill()
+        backGrect.inputEnabled = true
+        backgroundGroup.add(backGrect)
+        
         backG=game.add.tileSprite(0,100,game.world.width,game.world.height*2,'atlas.vaccum',"TILING2")
         backG.scale.setTo(1,.75)
         backG.alpha=.5
@@ -897,6 +905,9 @@ var spaceVaccum = function(){
               reset()
            }else{   
                ship.setAnimationByName(0,"TAKETRASH",false);
+                game.time.events.add(430, function(){
+                    ship.setAnimationByName(0,"IDLE",true);
+                })
                sound.play("vacc")
                correctParticle.position.x=obj.position.x
                correctParticle.position.y=obj.position.y

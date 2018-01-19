@@ -4,6 +4,7 @@ var dataStore
 var minigameId
 var userMail, gender, birthday
 var origin
+var fromApp
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
@@ -14,7 +15,7 @@ amazing.saveScore = function(score){
 			score: score,
 		}
 	}
-	parent.postMessage(JSON.stringify(params), origin)
+	parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.winCoupon = function(couponId){
@@ -23,7 +24,7 @@ amazing.winCoupon = function(couponId){
         type: "winCoupon",
         id: couponId,
     }
-    parent.postMessage(JSON.stringify(params), origin)
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.savePlaycount = function(){
@@ -31,7 +32,7 @@ amazing.savePlaycount = function(){
 	var params = {
 		type: "playcount"
 	}
-	parent.postMessage(JSON.stringify(params), origin)
+	parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.share = function(score, game){
@@ -41,7 +42,7 @@ amazing.share = function(score, game){
 		score: score,
 		game: game,
 	}
-	parent.postMessage(JSON.stringify(params), origin)
+	parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.checkBrowser = function(game){
@@ -84,7 +85,7 @@ amazing.getGames = function(){
 }
 
 amazing.getInfo = function(){
-
+    this.setApp()
     window.addEventListener("message", function(event){
         console.log("Getinfo ",event)
         
@@ -93,12 +94,13 @@ amazing.getInfo = function(){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
-                origin = event.origin
+               
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
             switch(parsedData.type){
             case "couponMinigame":
+                //origin = event.origin
                 couponData = parsedData.coupon
                 
             }
@@ -117,7 +119,7 @@ amazing.setProfile = function(){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
-                 origin = event.origin
+                 //origin = event.origin
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
@@ -142,7 +144,7 @@ amazing.setMinigameId = function(){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
-                origin = event.origin
+                //origin = event.origin
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
@@ -152,7 +154,7 @@ amazing.setMinigameId = function(){
                 userMail = parsedData.userProfile.email
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
-
+                 origin = event.origin
 				if(userMail){
 
 					console.log('email sent')
@@ -160,6 +162,30 @@ amazing.setMinigameId = function(){
 				}
             }
             //console.log('entra case')
+        }
+    })
+        
+}
+
+
+amazing.setApp = function(){
+    console.log("Enter to setApp function")
+    fromApp = false
+    window.addEventListener("message", function(event){
+        //console.log(event)
+        
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+                //origin = event.origin
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "app":
+                fromApp = true
+            }
         }
     })
         
@@ -173,7 +199,7 @@ amazing.sendGameId = function(gameId){
            gameId: gameId,
        }
    }
-   parent.postMessage(JSON.stringify(params), origin)
+   parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.getScores = function(dataId, onSuccess, onError ){

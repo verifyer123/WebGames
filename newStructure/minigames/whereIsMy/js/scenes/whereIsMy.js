@@ -389,7 +389,7 @@ var whereIsMy = function(){
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
-		var inputName = 'Movil'
+		var inputName = 'movil'
 		
 		if(game.device.desktop){
 			inputName = 'desktop'

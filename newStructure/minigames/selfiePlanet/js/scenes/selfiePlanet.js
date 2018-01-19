@@ -89,12 +89,7 @@ var selfiePlanet = function(){
         },this)
     }
     
-    function animateScene() {
-                
-        gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
+    function flashScene() {
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -585,7 +580,7 @@ var selfiePlanet = function(){
             game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
             {
                 sound.play('snapshot')
-                animateScene()
+                flashScene()
                 planetsGroup.translate.stop()
                 checkCorrect()
                 game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
@@ -672,7 +667,7 @@ var selfiePlanet = function(){
         
         if(lives !== 0){
             game.add.tween(planetsGroup.children[pivot]).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400).onComplete.add(function () {
-                animateScene()
+                flashScene()
                 eagleHappy.alpha = 0
                 eagleSad.alpha = 0
                 eagle.alpha = 1
@@ -719,7 +714,7 @@ var selfiePlanet = function(){
 			buttons.getButton(dancing_baby,sceneGroup)
             createOverlay()
             
-            animateScene()
+            flashScene()
             
 		},
 		show: function(event){
