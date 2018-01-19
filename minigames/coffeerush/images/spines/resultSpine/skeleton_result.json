@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "BRlD3qm4mx2gdquxS7oeAg4gbc0", "spine": "3.3.07", "width": 114.74, "height": 108, "images": "" },
+"skeleton_result": { "hash": "BRlD3qm4mx2gdquxS7oeAg4gbc0", "spine": "3.3.07", "width": 114.74, "height": 108, "images": "" },
 "bones": [
 	{ "name": "root", "rotation": -0.5 },
 	{ "name": "Emogi", "parent": "root", "length": 59.22, "rotation": 90.5, "x": -112.06, "y": 110.29 },

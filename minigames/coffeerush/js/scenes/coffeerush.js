@@ -66,6 +66,7 @@ var coffeerush = function(){
     var upKey = null
     var downKey = null
     var buddy = null
+    var buddy_result = null
 
     var arrayObstcales
 
@@ -93,11 +94,11 @@ var coffeerush = function(){
     function getSkins(){
         
         var dataStore = amazing.getProfile()
-        
+
         if(!dataStore){
             skinTable = [1,1,1,1]
         }else{
-         
+
             skinTable = dataStore
         }
 
@@ -186,6 +187,7 @@ var coffeerush = function(){
 		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
         game.load.spine('mascot', "images/spines/skeleton.json");
+        game.load.spine('mascot_result', "images/spines/resultSpine/skeleton_result.json");
         game.load.spine('clock_circle', "images/spines/clock_circle/clock_circle.json");
         game.load.spine('clock_cup', "images/spines/clock_cup/clock_cup.json");
         game.load.spine('clock_large', "images/spines/clock_large/clock_large.json");
@@ -418,7 +420,7 @@ var coffeerush = function(){
     }
     
     function stopGame(win){
-        
+        heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
 
         gameActive = false
@@ -570,7 +572,7 @@ var coffeerush = function(){
 
     function collideWrong(obj){
     	//Obstacle object collision function
-        buddy.setAnimationByName(0,"LOSE",false)
+        /*buddy.setAnimationByName(0,"LOSE",false)
         var newSkin = buddy.createCombinedSkin(
             'combined2', 
             "LOSE",
@@ -580,11 +582,43 @@ var coffeerush = function(){
             'torso' + skinTable[3]
         );
         buddy.setSkinByName('combined2')
-        buddy.setToSetupPose()
+        buddy.setToSetupPose()*/
+
+        buddy.visible = false
+        buddy_result.visible = true
 
     	createPart('wrong', obj)
     	stopGame()
 
+    }
+
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 15
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        group.create(0,0,'atlas.coffeerush','life_box')
+
+        pivotX+= 47
+        
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = 2
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
     }
 
 
@@ -1070,6 +1104,10 @@ var coffeerush = function(){
         buddy.scale.setTo(0.7,0.7 )
         characterGroup.add(buddy)
 
+        buddy_result = game.add.spine(0,50, "mascot_result");
+        buddy_result.scale.setTo(0.7,0.7 )
+        characterGroup.add(buddy_result)
+
         playerCollision = game.add.sprite(0,50,'atlas.coffeerush','chilimLogo')
         game.physics.arcade.enable(playerCollision,true);
         playerCollision.anchor.setTo(0.5,0.5)
@@ -1091,6 +1129,25 @@ var coffeerush = function(){
         );
 
         buddy.setSkinByName('combined')
+
+
+        buddy_result.setAnimationByName(0, "LOSE", true);
+        //buddy_result.setSkinByName('normal');
+        buddy_result.visible = false
+
+        
+        var newSkin = buddy_result.createCombinedSkin(
+            'combinedLose',
+            "LOSE",
+            'glasses' + skinTable[0] + '_Sad',
+            'hair' +  skinTable[1],
+            'skin' + skinTable[2],
+            'torso' + skinTable[3]
+        );
+
+        buddy_result.setSkinByName('combinedLose')
+        buddy_result.setToSetupPose()
+
         
         game.onPause.add(function(){
 			
@@ -1130,6 +1187,7 @@ var coffeerush = function(){
         sceneGroup.add(topRect)
         
         createPointsBar()
+        createHearts()
         createObstacles()
         createCorrect()
         createControls()
