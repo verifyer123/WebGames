@@ -1185,12 +1185,12 @@ var coffeerush = function(){
 			}, this);	
 		}
         
-        var topRect = new Phaser.Graphics(game)
+        /*var topRect = new Phaser.Graphics(game)
         topRect.beginFill(0xffffff);
         topRect.drawRect(0, 0, game.world.width, 60);
         topRect.endFill();
         topRect.anchor.setTo(0,0)
-        sceneGroup.add(topRect)
+        sceneGroup.add(topRect)*/
         
         createPointsBar()
         createHearts()
