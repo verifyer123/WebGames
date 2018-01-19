@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Players</title>
+    
+    <script>var language = "EN";</script>
+    
+    <script>
+    //AQUI VA PARA SABER EL LENGUAGE
+        function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+        
+        var language;
+        language = getParameterByName("language");
+        
+        if(language == null ){
+            var lengua;
+            //lengua = navigator.language || navigator.userLanguage; 
+            //language = eval("'" + lengua + "'").toUpperCase();
+            language= "EN";
+        }else{
+            language.toUpperCase();
+        }
+    
+    </script>
+    
+</head>
+<body>
+<!-- Sing In Modal-->
+<div id="players" class="modal fade" data-backdrop="static">
+
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<!--<div class="navigation">-->
+			<!--<button class="closeModal close"></button>-->
+		<!--</div>-->
+
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
+				<img class="logo" src="images/neueicon.png"/>
+			</div>
+			<h2> <div class="textModal8" style="font-size: 3vh;">- Select a profile -</div></h2>
+		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body">
+			<div id="scrollArea">
+			</div>
+			<!--</form>-->
+			<!--<h3>Or</h3>-->
+			<button type="submit" class="addPlayer">+</button><br>
+		</div>
+
+		<!-- Modal footer -->
+		<!--<div >
+			<button id="google" class="fbBtn"></button><br>
+			<button id="fb" class="googleBtn"></button><br>
+		</div>-->
+
+	</div>
+
+
+</div>
+<script>
+
+	var childrenModal = function () {
+
+		function onButton() {
+			var myData = $(this).data().child
+			epicModel.loginPlayer(myData.remoteID)
+			$("#players").modal('hide');
+			console.log("onButton")
+		}
+		
+		function setChildren(children) {
+			var htmlButtons = ""
+			for(var childIndex = 0; childIndex < children.length; childIndex++){
+				var child = children[childIndex]
+				var $button = $("<button>", {"class":"loginBtn"})
+				$button.append(child.name)
+				$button.data("child", child)
+				$button.click(onButton)
+
+				$("#scrollArea").append($button)
+			}
+		}
+
+		return{
+			setChildren:setChildren,
+		}
+	}()
+</script>
+    <script src="js/languages.js"></script>
+</body>
+</html>

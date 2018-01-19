@@ -9,7 +9,15 @@ module.exports = {
 	output: {
 		path: DIST_DIR + '/app',
 		filename: "bundle.js",
-		publicPath: "/app/"
+		publicPath: "/app/",
+	},
+	externals: {
+		lodash: {
+			commonjs: 'lodash',
+			commonjs2: 'lodash',
+			amd: 'lodash',
+			root: '_'
+		}
 	},
 	module: {
 		loaders: [
