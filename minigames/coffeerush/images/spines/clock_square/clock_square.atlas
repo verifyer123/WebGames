@@ -1,0 +1,132 @@
+
+clock_square.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/circle
+  rotate: false
+  xy: 126, 21
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+normal2/clock_square_body
+  rotate: false
+  xy: 2, 18
+  size: 96, 108
+  orig: 96, 108
+  offset: 0, 0
+  index: -1
+normal2/eye_l_white
+  rotate: false
+  xy: 100, 93
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1
+normal2/eye_pupil_l
+  rotate: false
+  xy: 135, 93
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
+normal2/eye_pupil_r
+  rotate: false
+  xy: 134, 84
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
+normal2/eye_r_white
+  rotate: false
+  xy: 100, 58
+  size: 32, 33
+  orig: 32, 33
+  offset: 0, 0
+  index: -1
+normal2/eye_retina_l
+  rotate: false
+  xy: 159, 102
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal2/eye_retina_r
+  rotate: false
+  xy: 135, 102
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+normal2/eyelid_l_b
+  rotate: false
+  xy: 77, 4
+  size: 21, 12
+  orig: 21, 12
+  offset: 0, 0
+  index: -1
+normal2/eyelid_l_c
+  rotate: false
+  xy: 182, 102
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal2/eyelid_l_d
+  rotate: false
+  xy: 205, 102
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal2/eyelid_l_e
+  rotate: false
+  xy: 228, 102
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal2/eyelid_r_b
+  rotate: false
+  xy: 53, 3
+  size: 22, 13
+  orig: 22, 13
+  offset: 0, 0
+  index: -1
+normal2/eyelid_r_c
+  rotate: false
+  xy: 100, 32
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+normal2/eyelid_r_d
+  rotate: true
+  xy: 100, 9
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal2/eyelid_r_e
+  rotate: false
+  xy: 124, 32
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal2/hour
+  rotate: false
+  xy: 2, 2
+  size: 19, 14
+  orig: 19, 14
+  offset: 0, 0
+  index: -1
+normal2/minutes
+  rotate: true
+  xy: 23, 3
+  size: 13, 28
+  orig: 13, 28
+  offset: 0, 0
+  index: -1
