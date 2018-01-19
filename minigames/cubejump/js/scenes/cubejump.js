@@ -536,7 +536,9 @@ var cubejump = function(){
         player.jumps++
         
         addObjects()
-        //activateNext()
+        if(!gameInit){
+            activateNext()
+        }
         
         player.body.moveUp(jumpValue)        
     
@@ -626,7 +628,11 @@ var cubejump = function(){
         var child = nextObjects[0];
         //console.log(nextObjects.length)
         var tag = child.tag
+
         var timeToClose = game.rnd.integerInRange(75,115) * 10
+        if(!gameInit){
+            timeToClose = 700
+        }
 
         nextObjects.splice(0,1)
 
@@ -738,6 +744,8 @@ var cubejump = function(){
         child.alpha = 1
         child.y = posY
         child.x = posX
+
+        nextObjects.push(child)
         
         var timeToClose = game.rnd.integerInRange(85,175) * 10
 
@@ -753,19 +761,14 @@ var cubejump = function(){
             if(tag == 'fija'){
                 
                 obj.x = obj.initPos
-                var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects,-1)
-                t.yoyo(true,0)
-                startedTween.push(t)
+                //var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects,-1)
+                //t.yoyo(true,0)
+                //startedTween.push(t)
             }
             
         }
 
         delayObjects = 0
-        /*var timeValue = 1500
-
-        if(acid.acidSpeed != 0 ){
-            timeValue = 0  
-        }*/
 
     }
     
