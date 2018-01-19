@@ -71,6 +71,7 @@ var result = function(){
     var skinTable
 	var overlayGroup
     var currentCouponId
+    var fromApp
 
 	var timeGoal = null
 
@@ -353,7 +354,7 @@ var result = function(){
 
         minigameId = null
         minigameId = amazing.getMinigameId()
-
+        fromApp = false
         if(minigameId){
 
             window.addEventListener("message", function(event){
@@ -367,9 +368,12 @@ var result = function(){
                     }
                     switch(parsedData.type){
                     case "rankMinigame":
-
+                        fromApp = true
                         rankMinigame = parsedData.rankMinigame
 
+                        if(overlayGroup!=null){
+                            overlayGroup.alpha = 0
+                        }
                         addRank()
                         break
                     }

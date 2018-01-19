@@ -4,7 +4,7 @@ var dataStore
 var minigameId
 var userMail, gender, birthday
 var origin
-var fromApp
+
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
@@ -78,6 +78,7 @@ amazing.getGames = function(){
         {name:'Cube Jump',iconName:'cube',url:'http://amazingapp.mx/juegos/cubejump/',coupon : false,mixName:'cubejump',id:5674368789118976},
         {name:'Nutribaby',iconName:'nutribaby',url:'http://amazingapp.mx/juegos/nutribaby/',coupon : false,mixName:'nutribaby',id:5674368789118976},
 		{name:'Net Shoes',iconName:'net',url:'http://amazingapp.mx/juegos/netshoes/',coupon : false,mixName:'netshoes',id:5634101323235328},
+        {name:'Coffee Rush',iconName:'net',url:'http://amazingapp.mx/juegos/coffeerush/',coupon : false,mixName:'coffeerush',id:5662438108168192},
         //{name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},
 
     ]
@@ -249,4 +250,4 @@ amazing.getGender = function(){
 	return gender
 }
 
-amazing.setApp()
+//amazing.setApp()
