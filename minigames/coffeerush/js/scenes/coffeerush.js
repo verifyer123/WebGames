@@ -222,6 +222,7 @@ var coffeerush = function(){
         buttonsGroup.x = game.world.centerX
         buttonsGroup.y = game.world.height - bottomRect.height/2
 
+
         var logo = buttonsGroup.create(0, 0, 'atlas.coffeerush', 'delicafe_logo')
         logo.anchor.setTo(0.5,0.5)
 
@@ -271,6 +272,8 @@ var coffeerush = function(){
        	buttonArrow = buttonsGroup.create(-160,0,'atlas.coffeerush', 'flecha')
         buttonArrow.anchor.setTo(0.5,0.5)
         buttonArrow.angle = 270
+
+        sceneGroup.add(buttonsGroup)
         
     }
 
@@ -302,7 +305,7 @@ var coffeerush = function(){
     	correctObject = game.add.sprite(game.world.width*0.3,game.world.height*0.3,'atlas.coffeerush','cafe')
     	
         game.physics.arcade.enable(correctObject,true)
-
+        sceneGroup.add(correctObject)
         correctObject.tag="correct"
 
     }
@@ -1074,10 +1077,13 @@ var coffeerush = function(){
 		touchPosition = {x:-1, y:-1}
 		currentSpeed = SPEED
         
-        var background = sceneGroup.create(-2,-2,'atlas.coffeerush','woodBackground')
+        var background = game.add.tileSprite(0,0,game.world.width,game.world.height*0.7,'atlas.coffeerush','woodBackground')
         //background.anchor.setTo(0.5,0.5)
-        background.width = game.world.width+2
-        background.height = game.world.height+2
+        //background.width = game.world.width+2
+        //background.height = game.world.height+2
+        background.anchor.setTo(0,0)
+        sceneGroup.add(background)
+
 
         limitHorizontal = {min: 50, max: game.world.width - 50}
         limitlVertical = {min: game.world.height*0.12, max: (game.world.height*0.7) - 50}
