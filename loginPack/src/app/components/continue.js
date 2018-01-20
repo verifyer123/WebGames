@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactAudioPlayer from 'react-audio-player';
 
 export class Continue extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE

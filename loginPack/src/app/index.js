@@ -8,6 +8,8 @@ import _ from 'lodash'
 // import {Minigames} from "./components/Minigames";
 // import {Map} from "./components/Map";
 import {Continue} from "./components/continue";
+import {Login} from "./components/Login";
+import {Pin} from "./components/Pin";
 
 export let showContinue
 
@@ -30,7 +32,7 @@ class App extends React.Component{
 	}
 
 	getComponent() {
-		return this.state.showModal ? <Continue closeModal={this.handleClick}/> : null
+		return this.state.showModal ? <Login closeModal={this.handleClick}/> : null
 	}
 
 	render() {
