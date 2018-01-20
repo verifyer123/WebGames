@@ -4,17 +4,18 @@ var dataStore
 var minigameId
 var userMail, gender, birthday
 var origin
-var fromApp
+
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
-	console.log("Saving Score...")
+	console.log("Saving Score win...")
 	var params = {
 		type: "score",
 		data: {
 			score: score,
 		}
-	}
+    }
+    console.log("score to amazing => ", score);
 	parent.postMessage(JSON.stringify(params), "*")
 }
 
@@ -28,11 +29,11 @@ amazing.winCoupon = function(couponId){
 }
 
 amazing.savePlaycount = function(){
-	console.log("Saving Score...")
+	console.log("Playcount...")
 	var params = {
 		type: "playcount"
 	}
-	parent.postMessage(JSON.stringify(params), "*")
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.share = function(score, game){
@@ -42,15 +43,15 @@ amazing.share = function(score, game){
 		score: score,
 		game: game,
 	}
-	parent.postMessage(JSON.stringify(params), "*")
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.checkBrowser = function(game){
-	
+	//console.log("check browser")
     var ua = navigator.userAgent || navigator.vendor || window.opera;
     if ((ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) && game.device.iPhone){
-		
-		game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE		
+
+		game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
 		game.scale.setUserScale(document.body.clientWidth/game.scale.width,document.body.clientHeight/game.scale.height * 0.9)
 		//console.log((document.body.clientWidth/game.scale.width) + 'width'(document.body.clientHeight/game.scale.height) + ' height')
 	}
@@ -59,7 +60,7 @@ amazing.checkBrowser = function(game){
 
 amazing.getGames = function(){
 	var games = [
-        
+
         {name:'Amazing Bros',iconName:'bros',url:'http://amazingapp.mx/juegos/amazingbros/',coupon: true,mixName:'amazingbros', id:5654313976201216},
         {name:'Zombie\n Crush',iconName:'zombie',url:'http://amazingapp.mx/juegos/zombiecrush/',coupon : false,mixName:'zombiecrush',id:5769015641243648},
         {name:'Cirquit',iconName:'cirquit',url:'http://amazingapp.mx/juegos/cirquit/',coupon : false,mixName:'cirquit',id:5739719937753088},
@@ -77,24 +78,23 @@ amazing.getGames = function(){
         {name:'Cube Jump',iconName:'cube',url:'http://amazingapp.mx/juegos/cubejump/',coupon : false,mixName:'cubejump',id:5674368789118976},
         {name:'Nutribaby',iconName:'nutribaby',url:'http://amazingapp.mx/juegos/nutribaby/',coupon : false,mixName:'nutribaby',id:5674368789118976},
 		{name:'Net Shoes',iconName:'net',url:'http://amazingapp.mx/juegos/netshoes/',coupon : false,mixName:'netshoes',id:5634101323235328},
+        {name:'Coffee Rush',iconName:'net',url:'http://amazingapp.mx/juegos/coffeerush/',coupon : false,mixName:'coffeerush',id:5662438108168192},
         //{name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},
-        
+
     ]
-    
+
     return games
 }
 
 amazing.getInfo = function(){
-    this.setApp()
+    //this.setApp()
     window.addEventListener("message", function(event){
-        console.log("Getinfo ",event)
-        
-        
+
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
-               
+
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
@@ -102,19 +102,19 @@ amazing.getInfo = function(){
             case "couponMinigame":
                 //origin = event.origin
                 couponData = parsedData.coupon
-                
+
             }
             //console.log('entra case')
         }
     })
-        
+
 }
 
 amazing.setProfile = function(){
-    
+
     window.addEventListener("message", function(event){
         //console.log("profile",event)
-       
+
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
@@ -126,20 +126,20 @@ amazing.setProfile = function(){
             switch(parsedData.type){
             case "dataStore":
                 dataStore = parsedData.dataStore
-                
+
             }
             //console.log('entra case')
         }
     })
-        
+
 }
 
 
 amazing.setMinigameId = function(){
-    
+
     window.addEventListener("message", function(event){
         //console.log(event)
-        
+
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
@@ -154,26 +154,25 @@ amazing.setMinigameId = function(){
                 userMail = parsedData.userProfile.email
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
-                 origin = event.origin
+                //origin = event.origin
 				if(userMail){
 
 					console.log('email sent')
-					mixpanel.identify(userMail)	
+					mixpanel.identify(userMail)
 				}
             }
             //console.log('entra case')
         }
     })
-        
+
 }
 
 
 amazing.setApp = function(){
-    console.log("Enter to setApp function")
     fromApp = false
     window.addEventListener("message", function(event){
         //console.log(event)
-        
+
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
@@ -188,7 +187,8 @@ amazing.setApp = function(){
             }
         }
     })
-        
+
+
 }
 
 amazing.sendGameId = function(gameId){
@@ -199,15 +199,15 @@ amazing.sendGameId = function(gameId){
            gameId: gameId,
        }
    }
-   parent.postMessage(JSON.stringify(params), "*")
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.getScores = function(dataId, onSuccess, onError ){
-    
+
     var hasData = (data.score >= 0) && (data.minigameId) && (data.authentication) && (data.email)
     if(hasData){
         $.post({
-            url: amazing.DOMAIN+"/users/score", 
+            url: amazing.DOMAIN+"/users/score",
             crossDomain: true,
             data: JSON.stringify(data),
             success: function(data) {
@@ -249,3 +249,5 @@ amazing.getBirthday = function(){
 amazing.getGender = function(){
 	return gender
 }
+
+//amazing.setApp()
