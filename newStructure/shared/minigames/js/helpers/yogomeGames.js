@@ -138,6 +138,7 @@ var yogomeGames = function () {
             {name:'Dinamita Dance',url:urlSet + 'dinamitaDance/',mapUrl:urlMap + 'dinamitaDance', sceneName:'dinamitaDance',subject:'language', review:false,objective:15,demo:false},//119
             {name:'Rabbit Trace',url:urlSet + 'rabitTrace/',mapUrl:urlMap + 'rabitTrace', sceneName:'rabitTrace',subject:'sciencie', review:false,objective:15,demo:false},//120
             {name:'Noisy Monsters',url:urlSet + 'noisyMonsters/',mapUrl:urlMap + 'noisyMonsters', sceneName:'noisyMonsters',subject:'sustainability', review:false,objective:25,demo:false},//121
+            {name:'Balance Science',url:urlSet + 'balanceScience/',mapUrl:urlMap + 'balanceScience', sceneName:'balanceScience',subject:'sciencie', review:false,objective:15,demo:false},//122
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
