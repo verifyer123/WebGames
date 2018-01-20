@@ -1,8 +1,8 @@
 window.amazing = {
 	config: {
-		name: "Amazing Bros",
+		name: "Coffee Rush",
 		language: "en",
-		minigameUrl: "../../minigames/netshoes/index.html",
+		minigameUrl: "../../minigames/coffeerush/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }
