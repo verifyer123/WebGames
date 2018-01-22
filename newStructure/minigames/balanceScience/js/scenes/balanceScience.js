@@ -609,16 +609,18 @@ var balanceScience = function(){
     
     function equilibrium(){
         
-        balance = game.add.spine(game.world.centerX, game.world.height - 50, "balance")
+        balance = game.add.spine(game.world.centerX -10, game.world.height - 50, "balance")
         balance.setAnimationByName(0, "IDLE", true)
         balance.setSkinByName("normal")
         balance.autoUpdateTransform()
+        balance.scale.setTo(0.8)
         sceneGroup.add(balance)
     }
     
 	function heavyWeight(){
         
         offGroup = game.add.group()
+        offGroup.scale.setTo(0.9)
         sceneGroup.add(offGroup)
         
         monsterGroup = game.add.group()
@@ -706,7 +708,7 @@ var balanceScience = function(){
         
         okGroup = game.add.group()
         okGroup.x = game.world.centerX 
-        okGroup.y = game.world.height - 100
+        okGroup.y = game.world.height - 50
         okGroup.scale.setTo(1.5)
         sceneGroup.add(okGroup)
         
@@ -790,7 +792,7 @@ var balanceScience = function(){
         
         game.time.events.add(1000,function(){
             game.add.tween(cloudGroup).to({x: game.world.width}, 2600, Phaser.Easing.linear,true).onComplete.add(function(){
-                cloudGroup.x = - game.world.width * 2
+                cloudGroup.x = game.world.width * - 2.5
                 initGame()                                                                                               
             })
         },this)
@@ -920,7 +922,7 @@ var balanceScience = function(){
     function flyingCloud(){
         
         cloudGroup = game.add.group()
-        cloudGroup.x = - game.world.width * 2
+        cloudGroup.x = - game.world.width * 2.5
         cloudGroup.scale.setTo(1.1)
         sceneGroup.add(cloudGroup)
         
@@ -1000,7 +1002,7 @@ var balanceScience = function(){
             
             game.time.events.add(1000,function(){
                 game.add.tween(cloudGroup).to({x: game.world.width}, 2600, Phaser.Easing.linear,true).onComplete.add(function(){
-                    cloudGroup.x = - game.world.width * 2                                                                                         
+                    cloudGroup.x = - game.world.width * 2.5                                                                                         
                     if(tutoLvl < 2){
                         initTuto()
                     }
