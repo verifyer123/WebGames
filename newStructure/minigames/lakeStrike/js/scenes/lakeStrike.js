@@ -39,7 +39,7 @@ var lakeStrike = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -48,10 +48,10 @@ var lakeStrike = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {	name: "ship",
-				file: soundsPath + "robotBeep.mp3"},
-            {	name: "vacc",
-				file: soundsPath + "swipe.mp3"},
+            {	name: "hit",
+				file: soundsPath + "punch3.mp3"},
+            {	name: "laugh",
+				file: soundsPath + "insectLaghing.mp3"},
             
 			
 		],
@@ -70,14 +70,18 @@ var lakeStrike = function(){
     var lakeSong
     var diameter,x,y
     var backgroundGroup=null
-    var speed=0
-    var speed2=0
-    var speed3=0
-    var speed4=0
+    var direction, angle, speedDelta, radius
+    var howMany
+    var pollutionAttacking=new Array(9)
+    var hits=new Array(9)
+    var pollutionAttackingActive=new Array(9)
+    var pollutionTween=new Array(9)
+    var pollutionDefeated=new Array(9)
     var rotating
     var rightDir
-    var clock, timeBar, tweenTiempo
     var clockStarts
+    var goal
+    var dificulty, goalToGet, goalReached, speedCreate
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -90,6 +94,18 @@ var lakeStrike = function(){
         diameter=500
         x=0.1
         y=0.1
+        howMany=0
+        dificulty=3000
+        goalToGet=10
+        goalReached=0
+        goal=10
+        x = 0;    
+        y = 0;    
+        angle = 0;    
+        direction = 1;    
+        speedDelta = 0.002;
+        speedCreate=10000;
+        radius = 220; 
         rotating=0.0005
         rightDir=false
         loadSounds()
@@ -275,20 +291,21 @@ var lakeStrike = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('lakeSong', soundsPath + 'songs/electro_trance_minus.mp3');
+        game.load.audio('lakeSong', soundsPath + 'songs/dancing_baby.mp3');
+        
+        game.load.spine('justice', "images/Spine/justice/justice.json");
         
 		game.load.image('howTo',"images/lake/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/lake/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/lake/introscreen.png")
         
-        game.load.spine("ship","images/Spine/ship/ship.json")
-        game.load.spine("trash","images/Spine/Trash/trash.json")
-        game.load.spine("meteor","images/Spine/Meteoro/meteoro.json")
+        game.load.spritesheet("pollutionMoving", 'images/Spine/Pollution/224X220_25F_24FPS.png', 224, 220, 25)
+        game.load.spritesheet("pollutionKilled", 'images/Spine/Pollution/244X279_25F_24FPS.png', 244, 279, 25)
+        game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
         
-        game.load.image("proxy1","images/lake/SHIP.png")
 		
 		console.log(localization.getLanguage() + ' language')
-        
+        game.time.advancedTiming = true;
     }
     
     function createOverlay(){
@@ -310,6 +327,7 @@ var lakeStrike = function(){
             //Aqui va la primera funciòn que realizara el juego
             
             startGame=true
+            returnGenerate()
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
@@ -356,10 +374,13 @@ var lakeStrike = function(){
 	function createBackground(){
         backgroundGroup = game.add.group()
         lakeGroup=game.add.group()
+        pollutionGroup = game.add.group()
 
         sceneGroup.add(backgroundGroup)
         sceneGroup.add(lakeGroup)
+        sceneGroup.add(pollutionGroup)
 
+        game.physics.startSystem(Phaser.Physics.ARCADE); 
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -372,16 +393,95 @@ var lakeStrike = function(){
         sceneGroup.add(boomParticle)
         
         
-        var options={anchorX:0.5,anchorY:0.5,isCollision:false}
         
-        diameter=500
+        // grass
+        grass=game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.lake","tile_floor")
+        grass.scale.setTo(1,1)
+        grass.alpha=1
+        backgroundGroup.add(grass)
         
-        circulosprite=createCircleSprite(game.world.centerX,game.world.centerY,diameter,options)
         
-        var options2={anchorX:0.5,anchorY:0.5,isCollision:false,isColor:"ff00000"}
-        circulospriteFollower=createCircleSprite(circulosprite.centerX*2-250,circulosprite.centerY*2,50,options2)
-        backgroundGroup.add(circulosprite)
-        backgroundGroup.add(circulospriteFollower)
+        // lake
+        lake=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","lake")
+        lake.scale.setTo(1,1)
+        lake.anchor.setTo(0.5,0.5)
+        lake.alpha=1
+        lakeGroup.add(lake)
+        
+        //ProxyLake
+        
+        proxyLake=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","lake")
+        proxyLake.scale.setTo(0.4,0.4)
+        proxyLake.anchor.setTo(0.5,0.5)
+        proxyLake.alpha=0
+        lakeGroup.add(proxyLake)
+        
+        
+        Justice = game.add.spine(proxyLake.centerX,proxyLake.centerY, "justice");
+        Justice.scale.setTo(0.5,0.5)
+        Justice.setSkinByName("normal");
+        Justice.setAnimationByName(0,"SIDE_WALK",true) 
+        lakeGroup.add(Justice)
+        
+        //proxyJustice
+        
+        proxyJustice=game.add.sprite(lake.centerX,lake.centerY,"atlas.lake","water")
+        proxyJustice.scale.setTo(1,1)
+        proxyJustice.anchor.setTo(0.5,0.5)
+        proxyJustice.alpha=0
+        lakeGroup.add(proxyJustice)
+        
+        
+        //Coins
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
+        coins.anchor.setTo(0.5)
+        coins.scale.setTo(0.5)
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0
+        
+        //Bush 1
+        
+        bush=game.add.sprite(50,game.world.height-50,"atlas.lake", "bush")
+        bush.anchor.setTo(0.5)
+        bush.scale.setTo(-1,1)
+        bush.alpha=1
+        backgroundGroup.add(bush)
+        
+        //Bush 2
+        
+        bush2=game.add.sprite(game.world.width-50,game.world.height-50,"atlas.lake", "bush")
+        bush2.anchor.setTo(0.5)
+        bush2.scale.setTo(1,1)
+        bush2.alpha=1
+        backgroundGroup.add(bush2)
+        
+        //Bush 3
+        
+        bush3=game.add.sprite(50,70,"atlas.lake", "bush")
+        bush3.anchor.setTo(0.5)
+        bush3.scale.setTo(-1,-1)
+        bush3.alpha=1
+        backgroundGroup.add(bush3)
+        
+        //Bush 4
+        
+        bush4=game.add.sprite(game.world.width-60,70,"atlas.lake", "bush")
+        bush4.anchor.setTo(0.5)
+        bush4.scale.setTo(1,-1)
+        bush4.alpha=1
+        backgroundGroup.add(bush4)
+        
+        var poly = game.add.graphics(game.world.centerX, game.world.centerY);
+        //Agregar linea para fisicas : game.physics.startSystem(Phaser.Physics.ARCADE);
+        poly.beginFill("0x003a37", 1);
+        poly.alpha=0.3
+        poly.drawCircle(0, 0, 900);
+        backgroundGroup.add(poly)
+        
+        
+        diameter=300
+        
         
         
         var rect2 = new Phaser.Graphics(game)
@@ -395,42 +495,53 @@ var lakeStrike = function(){
             changeRotation()
         })
         
+        
+        for(var fill=0;fill<pollutionAttacking.length;fill++){
+            
+            pollutionAttacking[fill]=game.add.sprite(-200,0,'pollutionMoving');
+            pollutionAttacking[fill].scale.setTo(0.5)
+            pollutionAttacking[fill].anchor.setTo(0.5)
+            pollutionAttacking[fill].animations.add('move');
+            pollutionAttacking[fill].animations.play('move', 24, true);
+            pollutionGroup.add(pollutionAttacking[fill])
+            
+            pollutionDefeated[fill]=game.add.sprite(-200,0,'pollutionKilled');
+            pollutionDefeated[fill].scale.setTo(0.5)
+            pollutionDefeated[fill].alpha=0;
+            pollutionDefeated[fill].anchor.setTo(0.5)
+            pollutionDefeated[fill].animations.add('kill');
+            pollutionGroup.add(pollutionDefeated[fill])
+            
+            hits[fill]=game.add.sprite(pollutionAttacking.x,pollutionAttacking.y,"atlas.lake","hit");
+            hits[fill].scale.setTo(0.5)
+            hits[fill].alpha=0;
+            hits[fill].anchor.setTo(0.5,0.5)
+            pollutionGroup.add(hits[fill])
+            
+            pollutionAttackingActive[fill]=false;
+        }
+        
     }
 	
     
-    function createCircleSprite(posX,posY,diameter,params){
-        params = params || {}
-        var isCollision = params.isCollision
-        var anchorX = params.anchorX || 0.5
-        var anchorY = params.anchorY || 0.5
-        var inputCallback = params.inputCallback
-        var isColor = params.isColor || "0000ff"
+    function generateThem(){
         
-        var turnToSprite=game.add.sprite(posX/2,posY/2)
-        var circle = game.add.graphics(turnToSprite.centerX, turnToSprite.centerY);
-        turnToSprite.anchor.setTo(anchorX,anchorY)
-        turnToSprite.addChild(circle)   
-        //Agregar linea para fisicas : game.physics.startSystem(Phaser.Physics.ARCADE);
-        circle.beginFill("0x"+isColor, 1);
-        circle.drawCircle(0, 0, diameter);
+        enemyGenerator(pollutionAttacking,pollutionAttackingActive,pollutionTween,goal,speedCreate);
+        returnGenerate()
+    }
+    
+    function returnGenerate(){
         
-        if(isCollision){
-            game.physics.enable(turnToSprite, Phaser.Physics.ARCADE);
-        }
-        if(typeof inputCallback === "function"){
-            turnToSprite.inputEnabled=true
-            turnToSprite.events.onInputDown.add(inputCallback, this);
-        }
-        return(turnToSprite)
+        game.time.events.add(dificulty,function(){
+          
+            generateThem()
+            
+        })
     }
     
     
     function changeRotation(){
-        if(rightDir){
-            rightDir=false
-        }else if(!rightDir){
-            rightDir=true
-        }
+        direction *= -1;
     }
     function inputs(obj){
         
@@ -446,30 +557,122 @@ var lakeStrike = function(){
         
         if(startGame){
             
-            moveCircle()
+            moveCircle(proxyJustice)
+            Justice.position.x=proxyJustice.position.x;
+            Justice.position.y=proxyJustice.position.y+30;
             
+            for(var samePos=0; samePos<pollutionAttacking.length;samePos++){
+                
+                pollutionDefeated[samePos].x=pollutionAttacking[samePos].x;
+                pollutionDefeated[samePos].y=pollutionAttacking[samePos].y;
+                hits[samePos].x=pollutionAttacking[samePos].x;
+                hits[samePos].y=pollutionAttacking[samePos].y;
+                hits[samePos].angle=pollutionAttacking[samePos].angle;
+                pollutionDefeated[samePos].angle=pollutionAttacking[samePos].angle;
+                
+                
+            }
+            
+            for(var checkOverlaping=0;checkOverlaping<pollutionAttacking.length;checkOverlaping++){
+                if (checkOverlap(proxyJustice,pollutionAttacking[checkOverlaping]) && pollutionAttackingActive[checkOverlaping] && lives>0){
+                    var temp=checkOverlaping
+                    Coin(pollutionAttacking[checkOverlaping],pointsBar,100);
+                    sound.play("hit")
+                    pollutionAttackingActive[checkOverlaping]=false
+                    pollutionAttacking[checkOverlaping].alpha=0
+                    pollutionDefeated[checkOverlaping].alpha=1
+                    hits[checkOverlaping].alpha=1
+                    pollutionDefeated[checkOverlaping].animations.play('kill', 24, true);
+                    pollutionTween[checkOverlaping].stop()
+                    game.time.events.add(200,function(){
+                        pollutionDefeated[temp].animations.stop('kill')
+                        game.add.tween(hits[temp]).to({alpha:0},100,Phaser.Easing.Cubic.Out,true);
+                        pollutionDefeated[temp].alpha=0
+                        pollutionAttacking[temp].position.x=-200
+                        howMany--;
+                        goalReached++;
+                        if(goalReached==goalToGet && dificulty>1000){
+                            speedCreate-=500;
+                            dificulty-=200;
+                            goalToGet+=5;
+                            goalReached=0;
+                        }
+                    })
+                        
+                }
+                if (checkOverlap(proxyLake,pollutionAttacking[checkOverlaping]) && pollutionAttackingActive[checkOverlaping] && lives>0)
+                {
+                        missPoint()
+                        sound.play("laugh")
+                        pollutionAttacking[checkOverlaping].alpha=0
+                        Justice.setAnimationByName(0,"BACK_WRONG",false)
+                        pollutionAttacking[checkOverlaping].position.x=-200
+                        pollutionAttackingActive[checkOverlaping]=false
+                        pollutionTween[checkOverlaping].stop()
+                        howMany--;
+                        game.time.events.add(300,function(){
+                            Justice.setAnimationByName(0,"SIDE_WALK",true)
+                        })
+                }
+            }
         }
-
 	}
     
-    function moveCircle(){
-        
-    period = game.time.now * 0.0005;
-        
-        var radius = (diameter+80)/2;
-        var pointBefore=period
-        if(rightDir){
-            period = game.time.now * 0.0005;
-            circulospriteFollower.x = circulosprite.centerX+120+Math.cos(period) * radius;
-            circulospriteFollower.y = circulosprite.centerY+10+Math.sin(period) * radius;
-        }
-        if(!rightDir){
-            period = game.time.now * 0.0005;
-            circulospriteFollower.x = circulosprite.centerX+120+(Math.sin(period-2))* radius;
-            circulospriteFollower.y = circulosprite.centerY+10+(Math.cos(period-2)) * radius;
-        }
-        console.log(Math.sin(period-2))
+    function checkOverlap(spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA, boundsB);
+
     }
+    
+    function Coin(objectBorn,objectDestiny,time){
+        
+        
+        //objectBorn= Objeto de donde nacen
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+            })
+        })
+    }
+    
+    function moveCircle(obj){
+        
+        
+        if (direction == 1) {      
+            speedDelta = 1.14;
+            if(obj.position.y>game.world.centerY){
+                Justice.scale.setTo(-0.5,0.5);
+            }else if(obj.position.y<game.world.centerY){
+                Justice.scale.setTo(0.5,0.5);
+            }
+            
+            
+        } else if (direction == -1) {
+            speedDelta = -1.14;
+            if(obj.position.y>game.world.centerY){
+                Justice.scale.setTo(0.5,0.5);
+            }else if(obj.position.y<game.world.centerY){
+                Justice.scale.setTo(-0.5,0.5);
+            }
+            
+        }
+        angle += game.time.physicsElapsed  * speedDelta; 
+        obj.x =  Math.cos(angle) * radius + game.world.centerX;    
+        obj.y =  Math.sin(angle) * radius + game.world.centerY;
+        
+        
+    }
+    
     
     
     function reset(){
@@ -477,7 +680,73 @@ var lakeStrike = function(){
             
     }
     
-	
+	function enemyGenerator(enemys,enemysActive,enemyTween, howMuch, speed, params){
+        params = params || {}
+        var destinyX=params.destinyX || game.world.centerX
+        var destinyY=params.destinyY || game.world.centerY
+        var where=game.rnd.integerInRange(0,3);
+        var generate=game.rnd.integerInRange(0,9);
+        
+        if(howMany<howMuch){
+            if(where==0){
+
+                while(enemysActive[generate]==true){
+                    generate=game.rnd.integerInRange(0,9);
+                }
+                if(enemysActive[generate]==false){
+                    enemys[generate].alpha=1
+                    enemys[generate].position.x=game.rnd.integerInRange(0,game.world.width);
+                    enemys[generate].position.y=-200;
+                    enemys[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-60;
+                    enemyTween[generate]=game.add.tween(enemys[generate]).to({x:destinyX,y:destinyY},speed,Phaser.Easing.In,true);
+                    enemysActive[generate]=true;
+                    howMany++;
+                }
+            }else if(where==1){
+
+                 while(enemysActive[generate]==true){
+                    generate=game.rnd.integerInRange(0,9);
+                }
+                if(enemysActive[generate]==false){
+                    enemys[generate].alpha=1
+                    enemys[generate].position.x=game.world.width+200
+                    enemys[generate].position.y=game.rnd.integerInRange(0,game.world.height);
+                    enemys[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-60;
+                    enemyTween[generate]=game.add.tween(enemys[generate]).to({x:destinyX,y:destinyY},speed,Phaser.Easing.In,true);
+                    enemysActive[generate]=true;
+                    howMany++;
+                }
+            }else if(where==2){
+
+                 while(enemysActive[generate]==true){
+                    generate=game.rnd.integerInRange(0,9);
+                }
+                if(enemysActive[generate]==false){
+                    enemys[generate].alpha=1
+                    enemys[generate].position.x=game.rnd.integerInRange(0,game.world.width);
+                    enemys[generate].position.y=game.world.height+200;
+                    enemys[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-60;
+                    enemyTween[generate]=game.add.tween(enemys[generate]).to({x:destinyX,y:destinyY},speed,Phaser.Easing.In,true);
+                    enemysActive[generate]=true;
+                    howMany++;
+                }
+            }else if(where==3){
+
+                 while(enemysActive[generate]==true){
+                    generate=game.rnd.integerInRange(0,9);
+                }
+                if(enemysActive[generate]==false){
+                    enemys[generate].alpha=1
+                    enemys[generate].position.x=-100;
+                    enemys[generate].position.y=game.rnd.integerInRange(0,game.world.height);
+                    enemys[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-60;
+                    enemyTween[generate]=game.add.tween(enemys[generate]).to({x:destinyX,y:destinyY},speed,Phaser.Easing.In,true);
+                    enemysActive[generate]=true;
+                    howMany++;
+                }
+            }
+        }
+    }
     
     
 	function createTextPart(text,obj){
@@ -666,7 +935,7 @@ var lakeStrike = function(){
 			sceneGroup = game.add.group()
 			
 			createBackground()
-            
+           
 			addParticles()
                         			
             lakeSong = game.add.audio('lakeSong')
