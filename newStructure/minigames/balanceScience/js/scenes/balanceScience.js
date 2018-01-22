@@ -74,6 +74,8 @@ var balanceScience = function(){
     var offWeight, monsterWeight
     var cloudGroup
     var tutoLvl
+    var handsGroup
+    var tweenTiempo
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -546,7 +548,7 @@ var balanceScience = function(){
         
         timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
-        //timerGroup.alpha = 0
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
@@ -573,7 +575,7 @@ var balanceScience = function(){
         
         tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         tweenTiempo.onComplete.add(function(){
-            win()
+            win(true)
         })
     }
     
@@ -592,11 +594,11 @@ var balanceScience = function(){
         
         coin.x = game.world.centerX
         coin.y = game.world.centerY
-        time = 200
+        var timer = 200
 
-        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        game.add.tween(coin).to({alpha:1}, timer, Phaser.Easing.linear, true)
         
-        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+        game.add.tween(coin).to({y:coin.y - 100}, timer + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
            game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
                game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
                    addPoint(1)
@@ -636,8 +638,9 @@ var balanceScience = function(){
             offSide.popX = offSide.x
             offSide.popY = offSide.y
             offSide.inputEnabled = true
-            offSide.input.enableDrag()
-            offSide.events.onDragStop.add(putThatThingDown,this)
+            //offSide.input.enableDrag()
+            //offSide.events.onDragStop.add(putThatThingDown,this)
+            offSide.events.onInputDown.add(putThatThingDown,this)
             pivot++
             
             var monsterSide = monsterGroup.create(0, 90, 'atlas.balanceScience', 'weight' + w)
@@ -669,6 +672,10 @@ var balanceScience = function(){
 
         offWeight += mass.weight
         top++
+        
+        if(handsGroup !== undefined){
+            posHand(okGroup)
+        }
     }
     
     function sortOnDrop(){
@@ -748,29 +755,30 @@ var balanceScience = function(){
         btn.parent.children[2].scale.setTo(1)
     }
     
-    function win(){
+    function win(ans){
         
         gameActive = false
-        //stopTimer()
+        stopTimer()
         offGroup.setAll('inputEnabled', false)
+        
+        if(ans){
+            offWeight = -1
+        }
         
         if(offWeight === monsterWeight){
             sound.play('rightChoice')
             addCoin()
             balance.setAnimationByName(0, "WIN", true)
-            time = 6000
-            if(lvl < 6){
-                lvl++
-            }
-            else{
-                time -= 100
+            lvl = game.rnd.integerInRange(1, 4)
+            if(pointsBar.number > 8){
+                time -= 300
             }
         }
         else{
             balance.setAnimationByName(0, "LOSE", false)
             balance.addAnimationByName(0, "LOSESTILL", true)
             sound.play('throw')
-            //missPoint()
+            missPoint()
         }
         
         game.time.events.add(2800,function(){
@@ -816,7 +824,7 @@ var balanceScience = function(){
          game.time.events.add(startTime,function(){
              offGroup.setAll('inputEnabled', true)
              gameActive = true
-             //startTimer(time)
+             startTimer(time)
             },this)
     }
     
@@ -856,7 +864,7 @@ var balanceScience = function(){
         
         var index 
         var element
-
+    
         for(var w = 0; w < lvl; w++){
             index = getWeight(weight[w])
             element = monsterGroup.children[index]
@@ -952,6 +960,7 @@ var balanceScience = function(){
 
             offGroup.children[rnd].tint = 0xffffff
             offGroup.children[rnd].inputEnabled = true
+            posHand(offGroup.children[rnd])
         }
         else{
             aux = monsterGroup.children[4]
@@ -975,7 +984,8 @@ var balanceScience = function(){
             balance.setAnimationByName(0, "WIN", true)
             sound.play('rightChoice')
             tutoLvl++
-
+            handsGroup.alpha = 0
+            
            // game.time.events.add(500,function(){
                 
             //})
@@ -997,6 +1007,7 @@ var balanceScience = function(){
                     else{
                         game.add.tween(timerGroup).to({alpha:1}, 400, Phaser.Easing.linear, true)
                         offGroup.setAll("tint", 0xffffff)
+                        handsGroup.destroy()
                         initGame()
                     }                                                                                               
                 })
@@ -1005,6 +1016,37 @@ var balanceScience = function(){
         else{
             sound.play("wrongAnswer")
         }
+    }
+    
+    function initHand(){
+        
+        handsGroup = game.add.group()
+        handsGroup.alpha = 0
+        sceneGroup.add(handsGroup)
+        
+        var handUp = handsGroup.create(0, 0, 'atlas.balanceScience', 'handUp') // 0
+        handUp.alpha = 0
+        
+        var handDown = handsGroup.create(0, 0, 'atlas.balanceScience', 'handDown') // 1
+        handDown.alpha = 0
+         
+        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
+            
+        handsGroup.tween.onComplete.add(function() 
+        {
+            changeImage(0, handsGroup)
+            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
+                handsGroup.tween.start()
+                changeImage(1, handsGroup)
+            })
+        })
+    }
+    
+    function posHand(pos){
+        
+        handsGroup.setAll("x", pos.x)
+        handsGroup.setAll("y", pos.y - 40)
+        handsGroup.alpha = 1
     }
 	
 	return {
@@ -1043,6 +1085,7 @@ var balanceScience = function(){
             ok()
             flyingCloud()
             initCoin()
+            initHand()
             createParticles()
 			
 			buttons.getButton(balanceSong,sceneGroup)
