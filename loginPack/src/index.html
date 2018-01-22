@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Play Yogome!</title>
+	<!-- Bootstrap CSS CDN -->
+	<!-- Our Custom CSS -->
+	<link rel="stylesheet" href="css/modal.css">
+	<!-- Jquery -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<link rel="stylesheet" href="css/modal.css">
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
+	<script src="js/phaser.min.js"></script>
+	<script src="js/phaser-spine.min.js"></script>
+</head>
+<body>
+<section id="app"></section>
+<script src="/app/login.js"></script>
+<script>
+	window.onload = function () {
+		var x = new loginModal.App()
+		console.log(x)
+		x.state.showModal = true
+	}
+</script>
+</body>
+</html>

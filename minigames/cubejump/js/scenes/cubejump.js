@@ -42,7 +42,7 @@ var cubejump = function(){
     var JUMP_FORCE = 1050
     var DEBUG_PHYSICS = false
     var ANGLE_VALUE = 3
-    var ACID_SPEED = 3
+    var ACID_SPEED = 2.5
     var WORLD_GRAVITY = 1600
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
@@ -236,6 +236,7 @@ var cubejump = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
+            console.log(pointsBar.number)
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
             
             //amazing.saveScore(pointsBar.number) 
@@ -414,7 +415,7 @@ var cubejump = function(){
                                         for(var i = 0 ; i < startedTween.length; i++){
                                             startedTween[i].stop()
                                         }
-                                       
+                                        
                                         //console.log(nextTweens.length)
                                         for(var i = 0 ; i < nextTweens.length; i++){
                                             if(nextTweens[i]!=null){
@@ -428,6 +429,8 @@ var cubejump = function(){
                                     if(firstObjectNeedTween){
                                         game.add.tween(obj).to({x:0},100,Phaser.Easing.linear,true)
                                     }
+
+                                    //
 
                                     col = true
                                     player.falling = false  
@@ -469,7 +472,8 @@ var cubejump = function(){
             }
 
             if(col){
-                acid.acidSpeed+=0.05
+                activateNext()
+                acid.acidSpeed+=0.08
                 desactivatObjects.push(object)
 
                 if(desactivatObjects.length>3){
@@ -532,7 +536,9 @@ var cubejump = function(){
         player.jumps++
         
         addObjects()
-        activateNext()
+        if(!gameInit){
+            activateNext()
+        }
         
         player.body.moveUp(jumpValue)        
     
@@ -622,12 +628,16 @@ var cubejump = function(){
         var child = nextObjects[0];
         //console.log(nextObjects.length)
         var tag = child.tag
-        var timeToClose = game.rnd.integerInRange(85,175) * 10
+
+        var timeToClose = game.rnd.integerInRange(75,115) * 10
+        if(!gameInit){
+            timeToClose = 700
+        }
 
         nextObjects.splice(0,1)
 
         if(tag == 'movil'){
-            timeToClose = game.rnd.integerInRange(90,125) * 10
+            timeToClose = game.rnd.integerInRange(80,115) * 10
         }
 
         for(var i = 0; i< child.length;i++){
@@ -636,10 +646,10 @@ var cubejump = function(){
             
             if(tag == 'fija'){
 
-                game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,1000)
+                game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,300)
             }
             else{
-                game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,1000)
+                game.add.tween(obj).to({angle:0},timeToClose,Phaser.Easing.linear,true,300)
             }
         }
     }
@@ -734,6 +744,8 @@ var cubejump = function(){
         child.alpha = 1
         child.y = posY
         child.x = posX
+
+        nextObjects.push(child)
         
         var timeToClose = game.rnd.integerInRange(85,175) * 10
 
@@ -749,19 +761,14 @@ var cubejump = function(){
             if(tag == 'fija'){
                 
                 obj.x = obj.initPos
-                var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects,-1)
-                t.yoyo(true,0)
-                startedTween.push(t)
+                //var t = game.add.tween(obj).to({x:0},timeToClose,Phaser.Easing.linear,true,delayObjects,-1)
+                //t.yoyo(true,0)
+                //startedTween.push(t)
             }
             
         }
 
         delayObjects = 0
-        /*var timeValue = 1500
-
-        if(acid.acidSpeed != 0 ){
-            timeValue = 0  
-        }*/
 
     }
     
