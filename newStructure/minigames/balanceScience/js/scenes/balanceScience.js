@@ -640,6 +640,7 @@ var balanceScience = function(){
             offSide.popX = offSide.x
             offSide.popY = offSide.y
             offSide.inputEnabled = true
+            offSide.val = w
             //offSide.input.enableDrag()
             //offSide.events.onDragStop.add(putThatThingDown,this)
             offSide.events.onInputDown.add(putThatThingDown,this)
@@ -649,10 +650,11 @@ var balanceScience = function(){
             monsterSide.anchor.setTo(0.5, 1)
             monsterSide.alpha = 0
             monsterSide.weight = weight[w]
+            monsterSide.val = w
         }
         
-        offGroup.sort('weight', Phaser.Group.SORT_ASCENDING)
-        monsterGroup.sort('weight', Phaser.Group.SORT_ASCENDING)
+        offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
+        monsterGroup.sort('val', Phaser.Group.SORT_ASCENDING)
     }
     
     function putThatThingDown(mass){
@@ -692,7 +694,7 @@ var balanceScience = function(){
             slotNext = getSpineSlot(balance, "emptyO" + (w - 1))
             
             if(slot.children[1] !== undefined && slotNext.children[1] !== undefined){
-                if(slot.children[1].weight > slotNext.children[1].weight){
+                if(slot.children[1].val > slotNext.children[1].val){
                     aux = slot.children[1]
                     auxNext = slotNext.children[1]
                     slot.remove(aux)
@@ -771,7 +773,7 @@ var balanceScience = function(){
             sound.play('rightChoice')
             addCoin()
             balance.setAnimationByName(0, "WIN", true)
-            lvl = game.rnd.integerInRange(1, 4)
+            lvl = getRand()
             if(pointsBar.number > 8){
                 time -= 300
             }
@@ -830,6 +832,14 @@ var balanceScience = function(){
             },this)
     }
     
+    function getRand(){
+        var x = game.rnd.integerInRange(1, 4)
+        if(x === lvl)
+            return getRand()
+        else
+            return x     
+    }
+    
     function bringItOn(){
             
         var spriteIn
@@ -874,7 +884,8 @@ var balanceScience = function(){
             auxGroup.add(element)
         }
         
-        auxGroup.sort('weight', Phaser.Group.SORT_DESCENDING)
+        auxGroup.sort('val', Phaser.Group.SORT_DESCENDING)
+        offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
     }
     
     function shuffle(){
@@ -915,8 +926,8 @@ var balanceScience = function(){
             }
         }
         
-        offGroup.sort('weight', Phaser.Group.SORT_ASCENDING)
-        monsterGroup.sort('weight', Phaser.Group.SORT_ASCENDING)
+        offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
+        monsterGroup.sort('val', Phaser.Group.SORT_ASCENDING)
     }
     
     function flyingCloud(){
