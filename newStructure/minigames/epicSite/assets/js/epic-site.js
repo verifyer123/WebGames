@@ -127,7 +127,7 @@ function isPortrait() {
         //landscape mode
         $('#landscape').css('display', 'block');
     }
-    if (orientationTouched) window.location.replace("index.html");
+    if (orientationTouched) window.location.reload();
 }
 
 function addEvents() {
@@ -167,10 +167,10 @@ $(window).resize(function () {
     }
 });
 
-$(window).on("orientationchange", function (event) {
-    orientationTouched = true;
-    isPortrait();
-});
+// $(window).on("orientationchange", function (event) {
+//     orientationTouched = true;
+//     isPortrait();
+// });
 
 function close() {
     //$('#iframe-mobile').css('display', 'none');

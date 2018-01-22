@@ -28,9 +28,14 @@ var map = function(){
 			},
 
 			{
-				name: "atlas.icons",
+				name: "atlas.icons1",
 				json: imagesPath + "atlas.json",
 				image: imagesPath + "atlas.png",
+			},
+			{
+				name: "atlas.icons2",
+				json: imagesPath + "atlas2.json",
+				image: imagesPath + "atlas2.png",
 			},
 		],
 		images: [
@@ -1267,7 +1272,13 @@ var map = function(){
 		//console.log(gameIcons.y)
 		for(var i = 0; i < gamesList.length;i++){
 
-			var icon = gameIcons.create(game.world.centerX, game.world.centerY,'atlas.icons',gamesList[i].sceneName)
+			var atlas = 'atlas.icons1'
+			var iconFrame = game.cache.getFrameByName(atlas, gamesList[i].sceneName)
+			if(iconFrame === null) {
+				atlas = "atlas.icons2"
+			}
+
+			var icon = gameIcons.create(game.world.centerX, game.world.centerY, atlas, gamesList[i].sceneName)
 			icon.anchor.setTo(0.5,0.5)
 			icon.tag = gamesList[i].sceneName
 			icon.subject = gamesList[i].subject

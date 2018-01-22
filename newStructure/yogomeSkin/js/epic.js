@@ -15,6 +15,7 @@ var epicSiteMain =  function(){
 	var popAudio = new Audio('sounds/pop.mp3');
 	var currentTimeout
 	var delayTime = 0
+	var currentSrc = DEFAULT_SRC
 
 	$("#homeButton").click(function(){
 		hideHome(null, true)
@@ -243,12 +244,18 @@ var epicSiteMain =  function(){
 				gameFrame.height = "100%"
 				gameContainer.appendChild(gameFrame);
 
+				currentSrc = gameFrame.src
+
 				delayTime = 0
 			}, delayTime)
 		}
 
 		showHome(NextFunction)
 	}
+
+	$(window).resize(function () {
+		loadGame(currentSrc)
+	});
 
 	function checkPlayer(src, needYogotar){
 		// src = src || "#/map"
