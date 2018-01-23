@@ -938,7 +938,7 @@ var game2Plus2 = function(){
 			
 			game.sound.mute = true
 			if(amazing.getMinigameId()){
-				marioSong.pause()
+				//marioSong.pause()
 			}
 			
 		} , this);
@@ -948,7 +948,7 @@ var game2Plus2 = function(){
 			
 			if(amazing.getMinigameId()){
 				if(lives>0){
-					marioSong.play()
+					//marioSong.play()
 				}
 			}
 			
@@ -959,9 +959,9 @@ var game2Plus2 = function(){
 		if(!amazing.getMinigameId()){
 			
 			marioSong = game.add.audio('arcadeSong')
-			game.sound.setDecodedCallback(marioSong, function(){
+			/*game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.3)
-			}, this);	
+			}, this);*/	
 		}
         
         
