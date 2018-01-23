@@ -1,5 +1,5 @@
-var login = function () {
-	var url = "https://12-dot-heroesofknowledge.appspot.com"
+export var login = function () {
+	var url = "https://14-dot-heroesofknowledge.appspot.com"
 
 	var GAME = "play.yogome"
 
@@ -43,14 +43,16 @@ var login = function () {
 			}else {
 				localStorage.clear()
 				if(onError)onError(response)
-				if(!signInCallback) modal.showLogin()
+				console.log("error")
+				// if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
 		}).fail(function(response){
 			// console.log("error", response);
 			localStorage.clear()
 			if(onError)onError(response)
-			if(!signInCallback) modal.showLogin()
+			console.log(onError)
+			// if(!signInCallback) modal.showLogin()
 			// modal.showLogin()
 		});
 	}
@@ -171,8 +173,7 @@ var login = function () {
 
 	function signIn(data, onSuccess, onError) {
 		// console.log(data)
-		signInCallback = true
-
+		// signInCallback = true
 		function callback(response){
 			onSuccess()
 			checkLogin(response)

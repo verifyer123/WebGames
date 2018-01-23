@@ -11,7 +11,7 @@ export class Pin extends React.Component {
 		this.cut.src = "sounds/cut.mp3";
 
 		this.pivot = 0
-		this.pinSelected = []
+		this.pinSelected = props.pinSelected
 
 		this.closeModal = this.closeModal.bind(this)
 	}
@@ -41,7 +41,7 @@ export class Pin extends React.Component {
 		if(this.pivot === 4){
 			this.pop.play()
 			$("#save").hide();
-			this.props.closeModal()
+			this.props.login()
 		}
 	}
 
@@ -58,30 +58,36 @@ export class Pin extends React.Component {
 		$("#Pin"+this.pivot).css("background-image", "")
 		$("#Pin"+this.pivot).removeClass("imagenSelect")
 		$("#Pin"+this.pivot).addClass("pinPoint")
+		$("#Pin"+this.pivot).html('')
+
+		$("#next").css("opacity", 0.5);
+		console.log($("#next"))
 
 	}
 
 	pinSelect(id){
 		console.log(id)
+		var yogoId = "#yogo" + id
 
 		var contains = false
 		for(var pinIndex = 0; pinIndex < this.pinSelected.length; pinIndex++){
-			if(this.pinSelected[pinIndex] === id){
+			if(this.pinSelected[pinIndex] === yogoId){
 				contains = true
 				break
 			}
 		}
 
 		if((this.pivot < 4)&&(!contains)){
-			this.pinSelected[this.pivot] = id
-			var img = $( id ).css( "background-image" );
+			this.pinSelected[this.pivot] = yogoId
+			var img = $( yogoId ).css( "background-image" );
 			console.log(img)
 
-			$(id).addClass("buttonSelect");
+			$(yogoId).addClass("buttonSelect");
 
 			$("#Pin"+this.pivot).removeClass("pinPoint");
 			$("#Pin"+this.pivot).addClass("imagenSelect");
 			$("#Pin"+this.pivot).css("background-image", img);
+			$("#Pin"+this.pivot).html('<div class="miniCircle"><span class="textCircle">'+id+'</span></div>')
 
 			this.pivot++;
 		}
@@ -118,20 +124,20 @@ export class Pin extends React.Component {
 					<div id="yogoContainer" className="modal-body ">
 						{[...Array(12)].map((x, i) =>
 							<div style={{width:"33.33%", display:"inline-block"}} key={i}>
-							<div id={"yogo" + (i+1)} className="yogoButton" onClick={this.pinSelect.bind(this, "#yogo" + (i+1))} style={{backgroundImage:"url('images/yogotars/"+(i+1) + ".png')"}}><div className="circle"><span className="textCircle">{i + 1}</span></div></div>
+							<div id={"yogo" + (i+1)} className="yogoButton" onClick={this.pinSelect.bind(this, (i+1))} style={{backgroundImage:"url('images/yogotars/"+(i+1) + ".png')"}}><div className="circle"><span className="textCircle">{i + 1}</span></div></div>
 							</div>
 						)}
 					</div>
 
 					<div className="containerPinPonit">
-						<div style={{width:"25%"}}> <div className="pinPoint" id="Pin0"></div></div>
-						<div style={{width:"25%"}}> <div className="pinPoint" id="Pin1"></div></div>
-						<div style={{width:"25%"}}> <div className="pinPoint" id="Pin2"></div></div>
-						<div style={{width:"25%"}}> <div className="pinPoint" id="Pin3"></div></div>
+						<div id="container1" style={{width:"25%"}}> <div className="pinPoint" id="Pin0"></div></div>
+						<div id="container2" style={{width:"25%"}}> <div className="pinPoint" id="Pin1"></div></div>
+						<div id="container3" style={{width:"25%"}}> <div className="pinPoint" id="Pin2"></div></div>
+						<div id="container4" style={{width:"25%"}}> <div className="pinPoint" id="Pin3"></div></div>
 					</div>
 					<div className="modal-footer" style={{display:"flex"}}>
 						<button type="submit" id="back" className="loginBtn bgOrange" onClick={this.removePin.bind(this)}><img src="images/backspace.png" /> </button>
-						<button type="submit" id="next" className="loginBtn bgGreen" style={{opacity: 0.5}}><div className="textModal30" onClick={this.goNext.bind(this)}>NEXT</div></button>
+						<button type="submit" id="next" className="loginBtn bgGreen" style={{opacity: 0.5}} onClick={this.goNext.bind(this)}>NEXT</button>
 					</div>
 				</div>
 			</div>
