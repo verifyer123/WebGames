@@ -175,7 +175,7 @@ var game2Plus2 = function(){
     
     function addPoint(number,obj){
         
-        sound.play("pop")
+        sound.play("magic")
         createPart('star', obj)
         createTextPart('+' + number, obj)
         
@@ -809,6 +809,9 @@ var game2Plus2 = function(){
     		break
     		
     	}
+        if(box.value!=2){
+            sound.play("pop")
+        }
     	box.text.setStyle({font: "40px AvenirHeavy", fontWeight: "bold", fill: colorText, align: "center"})
     	box.text.setText(box.value)
     	box.sprite.tint = color
