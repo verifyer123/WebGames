@@ -1,0 +1,251 @@
+
+justice.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+magician1/body
+  rotate: true
+  xy: 826, 93
+  size: 84, 78
+  orig: 84, 78
+  offset: 0, 0
+  index: -1
+magician1/eye_l
+  rotate: false
+  xy: 442, 17
+  size: 32, 31
+  orig: 32, 31
+  offset: 0, 0
+  index: -1
+magician1/eye_r
+  rotate: false
+  xy: 630, 62
+  size: 31, 31
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
+magician1/feet_l
+  rotate: true
+  xy: 203, 2
+  size: 33, 36
+  orig: 33, 36
+  offset: 0, 0
+  index: -1
+magician1/feet_r
+  rotate: false
+  xy: 562, 84
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+magician1/hand_l
+  rotate: false
+  xy: 265, 38
+  size: 37, 62
+  orig: 37, 62
+  offset: 0, 0
+  index: -1
+magician1/hand_r
+  rotate: true
+  xy: 435, 84
+  size: 36, 62
+  orig: 36, 62
+  offset: 0, 0
+  index: -1
+magician1/hat
+  rotate: false
+  xy: 151, 102
+  size: 148, 152
+  orig: 148, 152
+  offset: 0, 0
+  index: -1
+magician1/head
+  rotate: false
+  xy: 301, 110
+  size: 132, 144
+  orig: 132, 144
+  offset: 0, 0
+  index: -1
+magician1/leg_l
+  rotate: true
+  xy: 241, 2
+  size: 33, 35
+  orig: 33, 35
+  offset: 0, 0
+  index: -1
+magician1/leg_r
+  rotate: false
+  xy: 664, 96
+  size: 32, 35
+  orig: 32, 35
+  offset: 0, 0
+  index: -1
+magician2/1
+  rotate: false
+  xy: 705, 179
+  size: 156, 75
+  orig: 156, 75
+  offset: 0, 0
+  index: -1
+magician2/2
+  rotate: false
+  xy: 2, 15
+  size: 119, 82
+  orig: 119, 82
+  offset: 0, 0
+  index: -1
+magician2/3
+  rotate: false
+  xy: 906, 84
+  size: 104, 97
+  orig: 104, 97
+  offset: 0, 0
+  index: -1
+magician2/4
+  rotate: false
+  xy: 705, 95
+  size: 119, 82
+  orig: 119, 82
+  offset: 0, 0
+  index: -1
+magician2/5
+  rotate: false
+  xy: 863, 183
+  size: 156, 71
+  orig: 156, 71
+  offset: 0, 0
+  index: -1
+magician2/body
+  rotate: true
+  xy: 123, 13
+  size: 84, 78
+  orig: 84, 78
+  offset: 0, 0
+  index: -1
+magician2/feet_l
+  rotate: false
+  xy: 596, 95
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+magician2/feet_r
+  rotate: false
+  xy: 630, 95
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+magician2/hand_l
+  rotate: true
+  xy: 357, 69
+  size: 39, 61
+  orig: 39, 61
+  offset: 0, 0
+  index: -1
+magician2/hand_r
+  rotate: true
+  xy: 499, 82
+  size: 38, 61
+  orig: 38, 61
+  offset: 0, 0
+  index: -1
+magician2/hat
+  rotate: false
+  xy: 304, 57
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+magician2/head
+  rotate: false
+  xy: 2, 99
+  size: 147, 155
+  orig: 147, 155
+  offset: 0, 0
+  index: -1
+magician2/leg_l
+  rotate: false
+  xy: 442, 50
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+magician2/leg_r
+  rotate: false
+  xy: 596, 61
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+magician3/body
+  rotate: false
+  xy: 203, 37
+  size: 60, 63
+  orig: 60, 63
+  offset: 0, 0
+  index: -1
+magician3/eye_r
+  rotate: false
+  xy: 407, 34
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1
+magician3/feet_l
+  rotate: false
+  xy: 562, 58
+  size: 32, 24
+  orig: 32, 24
+  offset: 0, 0
+  index: -1
+magician3/feet_r
+  rotate: false
+  xy: 476, 24
+  size: 32, 23
+  orig: 32, 23
+  offset: 0, 0
+  index: -1
+magician3/hand_l
+  rotate: true
+  xy: 278, 2
+  size: 34, 50
+  orig: 34, 50
+  offset: 0, 0
+  index: -1
+magician3/hand_r
+  rotate: true
+  xy: 357, 31
+  size: 36, 48
+  orig: 36, 48
+  offset: 0, 0
+  index: -1
+magician3/hat
+  rotate: false
+  xy: 435, 122
+  size: 138, 132
+  orig: 138, 132
+  offset: 0, 0
+  index: -1
+magician3/head
+  rotate: false
+  xy: 575, 133
+  size: 128, 121
+  orig: 128, 121
+  offset: 0, 0
+  index: -1
+magician3/leg_l
+  rotate: false
+  xy: 476, 49
+  size: 29, 31
+  orig: 29, 31
+  offset: 0, 0
+  index: -1
+magician3/leg_r
+  rotate: false
+  xy: 507, 49
+  size: 29, 31
+  orig: 29, 31
+  offset: 0, 0
+  index: -1

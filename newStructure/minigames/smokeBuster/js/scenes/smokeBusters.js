@@ -492,7 +492,13 @@ var smokeBusters = function(){
         correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
         
-        
+        backGrect = new Phaser.Graphics(game)
+        backGrect.beginFill(0xE8BE8B)
+        backGrect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        backGrect.alpha = 1
+        backGrect.endFill()
+        backGrect.inputEnabled = true
+        backgroundGroup.add(backGrect)
         
         windowSmoke1=game.add.sprite(0,0,"atlas.smoke","smoke1")
         windowSmoke2=game.add.sprite(0,0,"atlas.smoke","smoke2")
