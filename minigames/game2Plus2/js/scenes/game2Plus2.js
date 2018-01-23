@@ -201,7 +201,7 @@ var game2Plus2 = function(){
 
     function updateSwipe(){
         if(game.input.activePointer.isDown){
-            console.log("Is Down")
+            //console.log("Is Down")
             if(canSwipe){
                 if(inSwipe){
                     var dx = game.input.activePointer.x - initialPositionSwipe.x
@@ -434,7 +434,7 @@ var game2Plus2 = function(){
     	quadsArray[emptySpaces[r].i][emptySpaces[r].j].box = box
 
     	if(emptySpaces.length==1){
-    		console.log("Analice options")
+    		
     		analiceOptions()
     	}
 
