@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("lakeStrike")
+				sceneloader.show("noisyStreets")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -41,7 +41,7 @@ function startGame(){
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
-         game.plugins.add(PhaserSpine.SpinePlugin);
+        game.plugins.add(Fabrique.Plugins.Spine);
         
         var language = "EN"
         if(window.location.search){
@@ -61,12 +61,13 @@ function startGame(){
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
+        epicparticles.init(game)
     }
 
     function create(){
 
     	preloadScenes([
-            lakeStrike,
+            noisyStreets,
             result,
     	])
     }
