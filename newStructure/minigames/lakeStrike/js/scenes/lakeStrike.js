@@ -64,7 +64,7 @@ var lakeStrike = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 124
+    var gameIndex = 125
 	var indexGame
     var overlayGroup
     var lakeSong

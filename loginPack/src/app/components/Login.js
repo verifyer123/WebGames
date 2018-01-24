@@ -1,4 +1,6 @@
 import React from 'react';
+import {Pin} from './Pin.js'
+import {login} from '../libs/login'
 
 export class Login extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
@@ -10,7 +12,15 @@ export class Login extends React.Component {
 		this.cut = new Audio();
 		this.cut.src = "sounds/cut.mp3";
 
+		this.state = {
+			showPin:false
+		}
+
+		this.pinSelected = []
+
 		this.closeModal = this.closeModal.bind(this)
+		this.togglePin = this.togglePin.bind(this)
+		this.setLogin = this.setLogin.bind(this)
 	}
 
 	getParameterByName(name, url) {
@@ -25,6 +35,52 @@ export class Login extends React.Component {
 
 	componentDidMount() {
 		this.cut.play()
+	}
+
+	static onError(text){
+		$('#username').addClass('invalid')
+		$('#onError').html(text)
+		$('#onError').css("display", "block")
+	}
+
+	togglePin() {  // switch the value of the showModal state
+		$('#onError').css('display', "none")
+		$('#username').removeClass('invalid')
+		
+		let userName = $('#username').val()
+		userName = userName.replace(/\s/g, '');
+		if(userName.length > 0) {
+			this.setState({
+				showPin: !this.state.showPin
+			});
+		}else{
+			Login.onError("Invalid username.")
+		}
+	}
+
+	setLogin(){
+		this.togglePin()
+		$('#login').css("opacity", 0.5)
+		$('#loadSpace').css("display", "block")
+
+		function onError() {
+			console.log("error")
+			Login.onError("Username or pin incorrect.")
+			$('#loadSpace').css("display", "none")
+			$('#login').css("opacity", 1)
+		}
+
+		function onSuccess() {
+			console.log("success")
+			$('#loadSpace').css("display", "none")
+			$('#login').css("opacity", 1)
+		}
+
+		login.loginParent({pin:"0000", username:"huu"}, onSuccess, onError)
+	}
+
+	getPinComponent(){
+		return this.state.showPin ? <Pin closeModal={this.togglePin} pinSelected={this.pinSelected} login={this.setLogin}/> : null
 	}
 
 	closeModal(){
@@ -60,24 +116,24 @@ export class Login extends React.Component {
 							</div>
 						</div>
 						<h2><div className="textModal9" style={{fontSize: "3vh"}}>- Login to Yogome -</div></h2>
-						<div>
-							<span id="error" className="fontOpenSans"></span>
-							<span id="recover" className="fontOpenSans"></span>
-							<p></p>
-						</div>
 					</div>
 
 					<div className="modal-body">
 
-						<input type="text" id="email" className="inputText" placeholder="Username" name="Username" onFocus={function(){
-							$('#email').attr("placeholder", '')
+						<input type="text" id="username" className="inputText" placeholder="Username" name="Username" onFocus={function(){
+							$('#username').attr("placeholder", '')
+							$('#username').removeClass('invalid')
+							$('#onError').css('display', "none")
 							// this.placeholder = ''
 						}}
 							   onBlur={function(){
-								   $('#email').attr("placeholder", 'Username')
+								   $('#username').attr("placeholder", 'Username')
 							   }} /><br />
-						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}}>Login</button><br />
+						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.togglePin}>Login</button>
 
+						<div id="loadSpace" className="loader" style={{display:"none"}}></div>
+						<br />
+						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						<hr />
 						<button type="submit" id="firstLogin" className="loginBtn bgOrange">First Time Login</button><br />
 						<button type="submit" id="createAccount" className="loginBtn bgGreen">Create New Account</button><br />
@@ -85,8 +141,7 @@ export class Login extends React.Component {
 
 					</div>
 				</div>
-
-
+				{this.getPinComponent()}
 			</div>
 		)
 	}
