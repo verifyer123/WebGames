@@ -726,7 +726,9 @@ var robo = function(){
 		// spineSkeleton.scale.setTo(0.8,0.8)
 		spineSkeleton.setSkinByName(skin)
 		spineSkeleton.setAnimationByName(0, idleAnimation, true)
+        
 		spineSkeleton.autoUpdateTransform ()
+        
 		spineGroup.add(spineSkeleton)
 
 

@@ -1,0 +1,62 @@
+
+figure.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_10
+  rotate: true
+  xy: 237, 44
+  size: 18, 17
+  orig: 18, 17
+  offset: 0, 0
+  index: -1
+normal/circle
+  rotate: true
+  xy: 68, 3
+  size: 59, 63
+  orig: 59, 63
+  offset: 0, 0
+  index: -1
+normal/cube
+  rotate: true
+  xy: 2, 3
+  size: 59, 64
+  orig: 59, 64
+  offset: 0, 0
+  index: -1
+normal/eye
+  rotate: true
+  xy: 194, 2
+  size: 16, 18
+  orig: 16, 18
+  offset: 0, 0
+  index: -1
+normal/face1
+  rotate: false
+  xy: 194, 36
+  size: 41, 26
+  orig: 41, 26
+  offset: 0, 0
+  index: -1
+normal/face3
+  rotate: false
+  xy: 194, 20
+  size: 41, 14
+  orig: 41, 14
+  offset: 0, 0
+  index: -1
+normal/face4
+  rotate: false
+  xy: 237, 37
+  size: 9, 5
+  orig: 9, 5
+  offset: 0, 0
+  index: -1
+normal/tringule
+  rotate: false
+  xy: 133, 10
+  size: 59, 52
+  orig: 59, 52
+  offset: 0, 0
+  index: -1
