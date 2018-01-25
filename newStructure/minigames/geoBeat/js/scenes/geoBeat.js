@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var continentalPuzzle = function(){
+var geoBeat = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,14 +20,14 @@ var continentalPuzzle = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.continentalPuzzle",
-                json: "images/continentalPuzzle/atlas.json",
-                image: "images/continentalPuzzle/atlas.png",
+                name: "atlas.geoBeat",
+                json: "images/geoBeat/atlas.json",
+                image: "images/geoBeat/atlas.png",
             },
             {   
                 name: "atlas.time",
-                json: "images/continentalPuzzle/timeAtlas.json",
-                image: "images/continentalPuzzle/timeAtlas.png",
+                json: "images/geoBeat/timeAtlas.json",
+                image: "images/geoBeat/timeAtlas.png",
             }
         ],
         images: [
@@ -36,18 +36,20 @@ var continentalPuzzle = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
+            {	name: "pop",
+				file: soundsPath + "pop.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "rightChoice",
 				file: soundsPath + "rightChoice.mp3"},
-			{	name: "pop",
-				file: soundsPath + "pop.mp3"},
+			{	name: "robotWhoosh",
+				file: soundsPath + "robotWhoosh.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {	name: "energy",
-				file: soundsPath + "energyCharge2.mp3"},
+            {	name: "robotWin",
+				file: soundsPath + "robotWin.mp3"},
+            {	name: "robotLose",
+				file: soundsPath + "robotLose.mp3"},
 		]
     }
     
@@ -56,25 +58,21 @@ var continentalPuzzle = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 127
+    var gameIndex = 128
     var overlayGroup
-    var continentSong
+    var mapSong
     var coin
-    var continentGroup
-    var buttonGroup
+    var geoMachine
+    var countryName
+    var namesGroup
+    var countryLights
+    var map
+    var ledsLights
     var rnd
-    var banner
-    var nameGroup
-    var contiName
-    var fontStyle
-    var index
-    var cloudBitmap
-    var pivotinent
-    var clean 
-    var handsGroup
-    var flyingCloud
-    var colors = [0xffff00, 0x00ffff, 0xff00ff, 0xff0000]
-    var playTuto = true
+    var lvl
+    var ansArray = []
+    var pivot
+    var speed
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -86,30 +84,19 @@ var continentalPuzzle = function(){
         lives = 3
         gameActive = false
         rnd = -1
-        index = 0
-        pivotinent = 0
-        clean = false
-        fontStyle = {font: "54px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        lvl = 2
+        pivot = 0
+        speed = 1500
         
         if(localization.getLanguage() === 'EN'){
-            contiName = ['Africa', 'America', 'Antarctica', 'Asia', 'Europe', 'Australia'] 
+            countryName = ['America', 'Europe', 'Africa', 'Asia', 'Antarctica', 'Australia'] 
         }
         else{
-            contiName = ['África', 'América', 'Antártida', 'Asia', 'Europa', 'Oceanía'] 
+            countryName = ['América', 'Europa', 'África', 'Asia', 'Antártida', 'Oceanía'] 
         }
         
         loadSounds()
 	}
-
-    function popObject(obj,delay){
-         
-        game.time.events.add(delay,function(){
-            
-            sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
-        },this)
-    }
     
     function animateScene() {
                 
@@ -128,15 +115,6 @@ var continentalPuzzle = function(){
             group.children[i].alpha = 0
             if( i == index){
                 group.children[i].alpha = 1
-            }
-        }
-    } 
-    
-    function rotateImage(index,group){
-        for (var i = 0;i< group.length; i ++){
-            group.children[i].angle = 0
-            if( i == index){
-                group.children[i].angle = game.rnd.integerInRange(1, 7) * 45
             }
         }
     } 
@@ -216,7 +194,7 @@ var continentalPuzzle = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.continentalPuzzle','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.geoBeat','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -244,7 +222,7 @@ var continentalPuzzle = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.continentalPuzzle','life_box')
+        var heartImg = group.create(0,0,'atlas.geoBeat','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -267,7 +245,7 @@ var continentalPuzzle = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        continentSong.stop()
+        mapSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -285,24 +263,16 @@ var continentalPuzzle = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('continentSong', soundsPath + 'songs/the_buildup.mp3');
+        game.load.audio('mapSong', soundsPath + 'songs/retrowave.mp3');
         
-		game.load.image('howTo',"images/continentalPuzzle/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/continentalPuzzle/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/continentalPuzzle/introscreen.png")
-		
-        game.load.image('continent0',"images/continentalPuzzle/continentes/africa.png")
-        game.load.image('continent1',"images/continentalPuzzle/continentes/america.png")
-        game.load.image('continent2',"images/continentalPuzzle/continentes/antartida.png")
-        game.load.image('continent3',"images/continentalPuzzle/continentes/asia.png")
-        game.load.image('continent4',"images/continentalPuzzle/continentes/europa.png")
-        game.load.image('continent5',"images/continentalPuzzle/continentes/oceania.png")
-        game.load.image('board',"images/continentalPuzzle/board.png")
-        game.load.image('clouds',"images/continentalPuzzle/clouds.png")
-        
+		game.load.image('howTo',"images/geoBeat/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/geoBeat/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/geoBeat/introscreen.png")
+		game.load.image('map',"images/geoBeat/map.png")
+		game.load.image('leds',"images/geoBeat/leds.png")
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
-        game.load.spritesheet("IDLE", 'images/spines/576 × 236_40f_24fps_idle.png', 576, 236, 40)
-        game.load.spritesheet("WIN", 'images/spines/576 × 245_26f_24fps_win.png', 576, 245, 26)
+        
+        game.load.spine("geoMachine", "images/spines/geobeat.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -327,18 +297,7 @@ var continentalPuzzle = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-                if(playTuto)
-                    initTuto()
-                else{
-                    buttonGroup.alpha = 1
-                    buttonGroup.setAll('inputEnabled', true)
-                    nameGroup.setAll('alpha', 0)
-                    banner.loadTexture('IDLE', 0, true)
-                    banner.play('IDLE')
-                    handsGroup.alpha = 1
-                    posHand(buttonGroup.children[2])
-                    initGame()
-                }
+                initGame()
             })
             
         })
@@ -349,7 +308,7 @@ var continentalPuzzle = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.continentalPuzzle','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.geoBeat','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -363,11 +322,11 @@ var continentalPuzzle = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.continentalPuzzle',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.geoBeat',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.continentalPuzzle','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.geoBeat','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -381,24 +340,12 @@ var continentalPuzzle = function(){
 
 	function createBackground(){
         
-        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.continentalPuzzle", 'tile')
+        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.geoBeat", 'tile')
         sceneGroup.add(tile)
     }
 
 	function update(){
         
-        if (game.input.activePointer.isDown && gameActive){
-          var x = game.input.x - cloudBitmap.x
-          var y = game.input.y - cloudBitmap.y
-          var rgba = cloudBitmap.getPixel(x, y)
-          if (rgba.a > 0)
-          {
-            cloudBitmap.blendDestinationOut()
-            cloudBitmap.circle(x, y, 50, 'rgba(0, 0, 0, 255')
-            cloudBitmap.blendReset()
-            cloudBitmap.dirty = true
-          }
-        }
     }
     
 	function createTextPart(text,obj){
@@ -453,11 +400,11 @@ var continentalPuzzle = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.continentalPuzzle',key);
+        particle.makeParticles('atlas.geoBeat',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
-        //particle.maxParticleScale = .8;
+        particle.maxParticleScale = .8;
         particle.gravity = 150;
         particle.angularDrag = 30;
         particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
@@ -480,7 +427,7 @@ var continentalPuzzle = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.continentalPuzzle',tag);
+				particle.makeParticles('atlas.geoBeat',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -536,7 +483,7 @@ var continentalPuzzle = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.continentalPuzzle','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.geoBeat','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -549,7 +496,7 @@ var continentalPuzzle = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.continentalPuzzle','smoke');
+        particlesGood.makeParticles('atlas.geoBeat','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -574,6 +521,42 @@ var continentalPuzzle = function(){
         sceneGroup.add(particleWrong)
     }
     
+    function positionTimer(){
+        
+        timerGroup = game.add.group()
+        timerGroup.scale.setTo(1.5)
+        //timerGroup.alpha = 0
+        sceneGroup.add(timerGroup)
+        
+        var clock = game.add.image(0, 0, "atlas.time", "clock")
+        clock.scale.setTo(0.7)
+        clock.alpha = 1
+        timerGroup.add(clock)
+        
+        timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
+        timeBar.scale.setTo(8, 0.45)
+        timeBar.alpha = 1
+        timerGroup.add(timeBar)
+        
+        timerGroup.x = game.world.centerX - clock.width * 0.75
+        timerGroup.y = clock.height * 0.3
+   }
+    
+    function stopTimer(){
+        
+        tweenTiempo.stop()
+        tweenTiempo = game.add.tween(timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
+   }
+    
+    function startTimer(time){
+        
+        tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
+        tweenTiempo.onComplete.add(function(){
+            stopTimer()
+            win(false)
+        })
+    }
+	
 	function initCoin(){
         
        coin = game.add.sprite(0, 0, "coin")
@@ -600,177 +583,223 @@ var continentalPuzzle = function(){
         })
     }
     
-    function pangea(){
+    function mapaRocola(){
         
-        board = sceneGroup.create(game.world.centerX, game.world.centerY - 100, 'board')
-        board.anchor.setTo(0.5)
+        geoMachine = game.add.spine(game.world.centerX, game.world.height, "geoMachine")
+        geoMachine.setAnimationByName(0, "IDLE", true)
+        geoMachine.setSkinByName("normal")
+        sceneGroup.add(geoMachine)
+    }
+    
+    function speedOfLight(){
         
-        continentGroup = game.add.group()
-        sceneGroup.add(continentGroup)
+        map = sceneGroup.create(geoMachine.centerX + 5, geoMachine.centerY + 60, 'map')
+        map.anchor.setTo(0.5)
+        
+        countryLights = game.add.group()
+        sceneGroup.add(countryLights)
         
         for(var c = 0; c < 6; c++){
-            var continent = continentGroup.create(board.centerX, board.centerY, 'continent'+c)
-            continent.anchor.setTo(0.5)
-            continent.alpha = 0
-            continent.active = false
+            var country = countryLights.create(0, 0, 'atlas.geoBeat', 'country' + c)
+            country.anchor.setTo(0.5)
+            country.inputEnabled = true
+            country.alpha = 0
+            country.value = c
+            country.events.onInputDown.add(turnItOn,this)   
+            country.events.onInputUp.add(turnItOff,this)   
+        }
+        
+        countryLights.children[0].x = map.x - 140
+        countryLights.children[0].y = map.y - 30
+        
+        countryLights.children[1].x = map.x - 10
+        countryLights.children[1].y = map.y - 100
+        
+        countryLights.children[2].x = map.x - 10
+        countryLights.children[2].y = map.y + 30
+        
+        countryLights.children[3].x = map.x + 120
+        countryLights.children[3].y = map.y - 60
+        countryLights.children[3].scale.setTo(0.85)
+        
+        countryLights.children[4].x = map.x
+        countryLights.children[4].y = map.y + 120
+        
+        countryLights.children[5].x = map.x + 150
+        countryLights.children[5].y = map.y + 60
+        
+        countryLights.moveDown(countryLights.children[3])
+        countryLights.moveDown(countryLights.children[2])
+        
+    }
+    
+    function turnItOn(btn){
+        
+        if(gameActive){
+            btn.alpha = 1
+            ledsLights.children[btn.value].alpha = 1
+            changeImage(btn.value, namesGroup)
         }
     }
     
-    function flag(){
+    function turnItOff(btn){
         
-        banner = game.add.sprite(game.world.centerX, game.world.height - 220, 'IDLE')
-        banner.anchor.setTo(0.5)
-        banner.animations.add('IDLE', null, 24, true)
-        banner.animations.add('WIN', null, 24, true)
-        sceneGroup.add(banner)
-                
-        banner.play('IDLE')
+        if(gameActive){
+            
+            btn.alpha = 0
+            ledsLights.children[btn.value].alpha = 0
+            
+            if(btn.value === ansArray[pivot]){
+                pivot++
+                win(win)
+            }
+            else{
+                win(false)
+            }
+        }
+    }
+    
+    function colorLeds(){
         
-        nameGroup = game.add.group()
-        sceneGroup.add(nameGroup)
+        var leds = sceneGroup.create(geoMachine.centerX - 200, geoMachine.centerY + 300, 'leds')
+        leds.anchor.setTo(0, 0.5)
+        
+        ledsLights = game.add.group()
+        sceneGroup.add(ledsLights)
+        
+        for(var c = 0; c < 6; c++){
+            var led = ledsLights.create(leds.x - 15, leds.y, 'atlas.geoBeat', 'led' + c)
+            led.anchor.setTo(0, 0.5)
+            led.inputEnabled = true
+            led.x += 38 * c
+            led.alpha = 0
+        }
+    }
+    
+    function sayMyName(){
+        
+        var fontStyle = {font: "56px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        namesGroup = game.add.group()
+        sceneGroup.add(namesGroup)
         
         for(var c = 0; c < 6; c++){
             var name = new Phaser.Text(sceneGroup.game, 0, 0, '0', fontStyle)
             name.anchor.setTo(0.5)
-            name.y = banner.y - 10
-            name.x = banner.x
+            name.y = geoMachine.y - 65
+            name.x = geoMachine.centerX
             name.alpha = 0
-            name.setText(contiName[c])
-            nameGroup.add(name)
+            name.setText(countryName[c])
+            namesGroup.add(name)
         }
     }
     
-    function buttonnes(){
+    function win(ans){
         
-        buttonGroup = game.add.group()
-        buttonGroup.alpha = 0
-        sceneGroup.add(buttonGroup)
+        var lost = true
         
-        var aux = -1
-        
-        for(var b = 0; b < 3; b++){
-            var btn = buttonGroup.create(game.world.centerX + 170 * aux, game.world.height - 100, "atlas.continentalPuzzle", "btn" + b)
-            btn.anchor.setTo(0.5)
-            btn.option = b
-            btn.inputEnabled = false
-            btn.events.onInputDown.add(press, this)
-            aux++
+        if(ans){
+            geoMachine.setAnimationByName(0, "WIN", false)
+            sound.play('rightChoice')
         }
-    }
-    
-    function press(btn){
-        
-        if(gameActive){
-            game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                options(btn.option)
-                game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
+        else{
+            geoMachine.setAnimationByName(0, "LOSE", false)
+            sound.play('robotLose')
+            game.time.events.add(500,function(){
+                missPoint()
+            },this)
+            gameActive = false
+            
+            for(var a = 0; a < ansArray.length; a++)
+                ansArray[a] = -1
+            
+            game.add.tween(map).to({ alpha:0}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
+                game.add.tween(map).to({ alpha:1}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
+                    if(lives !== 0){
+                        geoMachine.setAnimationByName(0, "IDLE", true)
+                        initGame() 
+                    }
                 })
             })
         }
-        if(handsGroup !== undefined){
-            handsGroup.destroy()
-        }
-    }
-    
-    function options(op){
         
-        switch(op){
-            case 0:
-                sound.play('cut')
-                game.add.tween(nameGroup.children[index]).to({ x: nameGroup.children[index].x - 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
-                    nameGroup.children[index].x = banner.x
-                    if(index > 0){
-                     index--
-                    }
-                    else{
-                        index = 5
-                    }
-                    changeImage(index, nameGroup)
-                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x + 50}, 100,Phaser.Easing.linear,true)
-                })
-            break
-            case 1:
-                sound.play('pop')
-                cloudBitmap.clear()
-                win()
-            break
-            case 2:
-                sound.play('cut')
-                game.add.tween(nameGroup.children[index]).to({ x: nameGroup.children[index].x + 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
-                    nameGroup.children[index].x = banner.x
-                    if(index < 5){
-                         index++
-                    }
-                    else{
-                        index = 0
-                    }
-                    changeImage(index, nameGroup)
-                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x - 50}, 100,Phaser.Easing.linear,true)
-                })
-            break
-        }
+        geoMachine.addAnimationByName(0, "IDLE", true)
         
-        
-    }
-    
-    function win(){
-        
-        gameActive = false
-        
-        if(index === rnd){
-            sound.play('rightChoice')
+        if(pivot === lvl){
+            sound.play('robotWin')
+            geoMachine.setAnimationByName(0, "WIN", true)
+            gameActive = false
             addCoin()
-            banner.loadTexture('WIN', 0, true)
-            banner.play('WIN')
-            particleCorrect.x = banner.x 
-            particleCorrect.y = banner.y - 50
-            particleCorrect.start(true, 1200, null, 10)
-        }
-        else{
-            missPoint()
-        }
-        
-        
-        
-        if(pointsBar.number === 12 || pointsBar.number === 6){
-            flyingCloud.alpha = 1
-            sound.play('energy')
-            game.add.tween(flyingCloud.scale).from({x: 0, y: 0}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
-                banner.loadTexture('IDLE', 0, true)
-                banner.play('IDLE')
-                game.add.tween(flyingCloud).to({alpha: 0}, 1000, Phaser.Easing.linear,true)
-                if(lives !== 0)
-                    initGame()                                                                                              
-            })   
-        }
-        else{
-            game.time.events.add(1300,function(){
-                banner.loadTexture('IDLE', 0, true)
-                banner.play('IDLE')
-                if(lives !== 0)
-                    initGame()
-            },this)
+            
+            for(var a = 0; a < ansArray.length; a++)
+                ansArray[a] = -1
+            
+            if(pointsBar.number !== 0 && pointsBar.number % 3 === 0)
+                lvl++
+            
+            game.add.tween(map).to({ alpha:0}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
+                game.add.tween(map).to({ alpha:1}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
+                    if(lives !== 0){
+                        geoMachine.setAnimationByName(0, "IDLE", true)
+                        initGame() 
+                    }
+                })
+            })
         }
     }
     
     function initGame(){
         
-        rnd = getRand()
-        cloudBitmap.load('clouds')
-        changeImage(rnd, continentGroup)
-        nameGroup.setAll('alpha', 0)
+        namesGroup.setAll('alpha', 0)
+        var time = strobeLight()
+        pivot = 0
         
-        if(pointsBar.number > 6){
-            rotateImage(rnd, continentGroup)  
+         game.time.events.add(time,function(){
+             gameActive = true
+             namesGroup.setAll('alpha', 0)
+         },this)
+    }
+    
+    function strobeLight(){
+        
+        var delay = speed
+        
+        for(var s = 0; s < lvl; s++){
+            rnd = getRand()
+            showMeTheMoney(countryLights.children[rnd], delay)
+            showMeTheMoney(ledsLights.children[countryLights.children[rnd].value], delay)
+            namePlate(countryLights.children[rnd].value, delay)
+            ansArray[s] = countryLights.children[rnd].value
+            delay += speed
         }
+        return delay
+    }
+    
+    function namePlate(aux, delay){
         
-        if(pointsBar.number > 12){
-            continentGroup.children[rnd].tint = colors[game.rnd.integerInRange(0, 3)]   
-        }
+         game.time.events.add(delay,function(){
+            particleCorrect.x = namesGroup.children[0].x
+            particleCorrect.y = namesGroup.children[0].y - 30
+            particleCorrect.start(true, 1200, null, 5)
+            changeImage(aux, namesGroup)
+        })
+    }
+    
+    function showMeTheMoney(obj, delay){
         
-        game.time.events.add(500,function(){
-            gameActive = true
+        game.time.events.add(delay,function(){
+            
+            sound.play('robotWhoosh')
+            if(game.rnd.integerInRange(0, 1) === 0)
+                geoMachine.setAnimationByName(0, "BIP", true)
+            else
+                geoMachine.setAnimationByName(0, "BOP", true)
+
+            geoMachine.addAnimationByName(0, "IDLE", true)
+            
+            game.add.tween(obj).to({ alpha:1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+                game.add.tween(obj).to({ alpha:0}, 500, Phaser.Easing.linear,true)
+            })
         },this)
     }
     
@@ -781,137 +810,11 @@ var continentalPuzzle = function(){
         else
             return x     
     }
-    
-    function initBitmap(){
-        
-        cloudBitmap = game.add.bitmapData(board.width, board.height)
-        cloudBitmap.load('clouds')
-        cloudBitmap.update()
-        cloudBitmap.x = board.centerX - (board.width * 0.5)
-        cloudBitmap.y = board.centerY - (board.height * 0.5)
-        cloudBitmap.addToWorld(cloudBitmap.x, cloudBitmap.y)
-        cloudBitmap.clear()
-    }
-    
-    function initTuto(){
-        
-        cloudBitmap.load('clouds')
-        clean = false
-        changeImage(pivotinent, continentGroup)
-        changeImage(pivotinent, nameGroup)
-        
-        game.input.onUp.add(countPixels, this)
-
-        game.time.events.add(500,function(){
-            gameActive = true
-        },this)
-    }
-    
-    function countPixels(){
-      
-        if(!clean && getPixels(cloudBitmap.ctx) < 0.2){
-            clean = true
-            cloudBitmap.clear()
-            landInSight()
-        }
-    }
-    
-    function getPixels(ctx) {
-        
-        var alphaPixels = 0
-        var data = ctx.getImageData(0,0, ctx.canvas.width,ctx.canvas.height).data
-
-        for(var i=3; i<data.length; i+=4){
-            if(data[i] > 0) 
-                alphaPixels++
-        }
-
-        return alphaPixels / (ctx.canvas.width * ctx.canvas.height)
-    }
-    
-    function landInSight(){
-        
-        pivotinent++
-        banner.loadTexture('WIN', 0, true)
-        banner.play('WIN')
-        sound.play("magic")
-        particleCorrect.x = banner.x 
-        particleCorrect.y = banner.y - 50
-        particleCorrect.start(true, 1200, null, 10)
-
-        if(pivotinent < 6){
-            game.time.events.add(1200,function(){
-                banner.loadTexture('IDLE', 0, true)
-                banner.play('IDLE')
-            },this)
-            game.time.events.add(2500,function(){
-                initTuto()
-            },this)
-        }
-        else{
-            addCoin()
-            game.time.events.add(1200,function(){
-                flyingCloud.alpha = 1
-                sound.play('energy')
-                game.add.tween(flyingCloud.scale).from({x: 0, y: 0}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
-                    buttonGroup.alpha = 1
-                    nameGroup.setAll('alpha', 0)
-                    banner.loadTexture('IDLE', 0, true)
-                    banner.play('IDLE')
-                    handsGroup.alpha = 1
-                    buttonGroup.setAll('inputEnabled', true)
-                    posHand(buttonGroup.children[2])
-                    playTuto = false
-                    initGame()
-                    game.add.tween(flyingCloud).to({alpha: 0}, 1000, Phaser.Easing.linear,true)
-                })
-            },this)
-        }
-    }
-    
-    function initHand(){
-        
-        handsGroup = game.add.group()
-        handsGroup.alpha = 0
-        sceneGroup.add(handsGroup)
-        
-        var handUp = handsGroup.create(0, 0, 'atlas.continentalPuzzle', 'handUp') // 0
-        handUp.alpha = 0
-        
-        var handDown = handsGroup.create(0, 0, 'atlas.continentalPuzzle', 'handDown') // 1
-        handDown.alpha = 0
-         
-        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
-            
-        handsGroup.tween.onComplete.add(function() 
-        {
-            changeImage(0, handsGroup)
-            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
-                handsGroup.tween.start()
-                changeImage(1, handsGroup)
-            })
-        })
-    }
-    
-    function posHand(pos){
-        
-        handsGroup.setAll("x", pos.x)
-        handsGroup.setAll("y", pos.y - 20)
-        handsGroup.alpha = 1
-    }
-    
-    function flyCloud(){
-        
-        flyingCloud = sceneGroup.create(game.world.centerX, game.world.centerY, 'clouds')
-        flyingCloud.scale.setTo(3)
-        flyingCloud.anchor.setTo(0.5)
-        flyingCloud.alpha = 0
-    }
-    
+	
 	return {
 		
 		assets: assets,
-		name: "continentalPuzzle",
+		name: "geoBeat",
 		update: update,
         preload:preload,
 		create: function(event){
@@ -921,9 +824,9 @@ var continentalPuzzle = function(){
 			createBackground()
 			addParticles()
                         			
-            continentSong = game.add.audio('continentSong')
-            game.sound.setDecodedCallback(continentSong, function(){
-                continentSong.loopFull(0.6)
+            mapSong = game.add.audio('mapSong')
+            game.sound.setDecodedCallback(mapSong, function(){
+                mapSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -938,16 +841,14 @@ var continentalPuzzle = function(){
 			            
 			createPointsBar()
 			createHearts()
-            pangea()
-            flag()
-            buttonnes()
-            initBitmap()
-            initHand()
-            flyCloud()
-            initCoin() 
+            mapaRocola()
+            sayMyName()
+            speedOfLight()
+            colorLeds()
+            initCoin()
             createParticles()
 			
-			buttons.getButton(continentSong,sceneGroup)
+			buttons.getButton(mapSong,sceneGroup)
             createOverlay()
             
             animateScene()

@@ -144,6 +144,7 @@ var yogomeGames = function () {
             {name:'Lake Strike',url:urlSet + 'lakeStrike/',mapUrl:urlMap + 'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false},//125
             {name:'Nosiy Streets',url:urlSet + 'noisyStreets/',mapUrl:urlMap + 'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false},//126
             {name:'Continental Puzzle',url:urlSet + 'continentalPuzzle/',mapUrl:urlMap + 'continentalPuzzle', sceneName:'continentalPuzzle',subject:'geography', review:false,objective:15,demo:false},//127
+            {name:'Geo Beat',url:urlSet + 'geoBeat/',mapUrl:urlMap + 'geoBeat', sceneName:'geoBeat',subject:'geography', review:false,objective:25,demo:false},//128
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
