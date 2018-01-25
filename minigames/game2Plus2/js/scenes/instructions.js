@@ -143,7 +143,7 @@ var instructions = function(){
       
         mixpanel.track(
             "loadGame",
-            {"gameName": "game2Plus2","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+            {"gameName": "2+2","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
         
 		game.stage.backgroundColor = "#ffffff"

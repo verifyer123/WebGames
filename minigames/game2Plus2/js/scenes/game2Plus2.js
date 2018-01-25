@@ -35,6 +35,7 @@ var game2Plus2 = function(){
     var OFFSET_Y = 1
     var DELTA_TIME = 50
     var BACKGROUND_VELOCITY = 3
+    var DELTA_SWIPE = 100
 
     var skinTable
     
@@ -68,6 +69,10 @@ var game2Plus2 = function(){
     var mask
 
     var background
+
+    var inSwipe
+    var canSwipe
+    var initialPositionSwipe = {x:0,y:0}
 
     function getSkins(){
         
@@ -104,10 +109,11 @@ var game2Plus2 = function(){
         canMove = true
         numberTweens = 0
     	numberTweensCompleted = 0
+        inSwipe = false
+        canSwipe = true
 	}
     
 
-    
     function animateScene() {
                 
         gameActive = false
@@ -169,7 +175,7 @@ var game2Plus2 = function(){
     
     function addPoint(number,obj){
         
-        sound.play("pop")
+        sound.play("magic")
         createPart('star', obj)
         createTextPart('+' + number, obj)
         
@@ -190,7 +196,53 @@ var game2Plus2 = function(){
         	background.tilePosition.x -= BACKGROUND_VELOCITY
         	background.tilePosition.y += BACKGROUND_VELOCITY
         }
+        updateSwipe()
+    }
 
+    function updateSwipe(){
+        if(game.input.activePointer.isDown){
+            //console.log("Is Down")
+            if(canSwipe){
+                if(inSwipe){
+                    var dx = game.input.activePointer.x - initialPositionSwipe.x
+                    var dy = game.input.activePointer.y - initialPositionSwipe.y
+
+                    if(dx < -DELTA_SWIPE){
+                        //Swipe left
+                        inSwipe = false
+                        canSwipe = false
+                        moveLeft()
+                    }
+                    else if(dx > DELTA_SWIPE){
+                        //Swipe right
+                        inSwipe = false
+                        canSwipe = false
+                        moveRight()
+                    }
+                    else if(dy < -DELTA_SWIPE){
+                        //swipe up
+                        inSwipe = false
+                        canSwipe = false
+                        moveUp()
+                    }
+                    else if(dy > DELTA_SWIPE){
+                        //swipe down
+                        inSwipe = false
+                        canSwipe = false
+                        moveDown()
+                    }
+                }
+                else{
+                    initialPositionSwipe.x = game.input.activePointer.x
+                    initialPositionSwipe.y = game.input.activePointer.y
+                    inSwipe = true
+                }
+            }
+        }
+        else{
+            canSwipe = true
+            inSwipe = false
+        }
     }
     
     function createPointsBar(){
@@ -382,7 +434,7 @@ var game2Plus2 = function(){
     	quadsArray[emptySpaces[r].i][emptySpaces[r].j].box = box
 
     	if(emptySpaces.length==1){
-    		console.log("Analice options")
+    		
     		analiceOptions()
     	}
 
@@ -757,6 +809,9 @@ var game2Plus2 = function(){
     		break
     		
     	}
+        if(box.value!=2){
+            sound.play("pop")
+        }
     	box.text.setStyle({font: "40px AvenirHeavy", fontWeight: "bold", fill: colorText, align: "center"})
     	box.text.setText(box.value)
     	box.sprite.tint = color
@@ -886,7 +941,7 @@ var game2Plus2 = function(){
 			
 			game.sound.mute = true
 			if(amazing.getMinigameId()){
-				marioSong.pause()
+				//marioSong.pause()
 			}
 			
 		} , this);
@@ -896,7 +951,7 @@ var game2Plus2 = function(){
 			
 			if(amazing.getMinigameId()){
 				if(lives>0){
-					marioSong.play()
+					//marioSong.play()
 				}
 			}
 			
@@ -907,9 +962,9 @@ var game2Plus2 = function(){
 		if(!amazing.getMinigameId()){
 			
 			marioSong = game.add.audio('arcadeSong')
-			game.sound.setDecodedCallback(marioSong, function(){
+			/*game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.3)
-			}, this);	
+			}, this);*/	
 		}
         
         

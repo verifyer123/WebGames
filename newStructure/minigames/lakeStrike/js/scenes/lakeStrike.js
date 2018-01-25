@@ -64,7 +64,7 @@ var lakeStrike = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 125
 	var indexGame
     var overlayGroup
     var lakeSong
@@ -105,7 +105,7 @@ var lakeStrike = function(){
         direction = 1;    
         speedDelta = 0.002;
         speedCreate=10000;
-        radius = 220; 
+        radius = 150; 
         rotating=0.0005
         rightDir=false
         loadSounds()
@@ -295,6 +295,8 @@ var lakeStrike = function(){
         
         game.load.spine('justice', "images/Spine/justice/justice.json");
         
+        game.load.spine('lake', "images/Spine/lake/lake.json");
+        
 		game.load.image('howTo',"images/lake/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/lake/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/lake/introscreen.png")
@@ -403,7 +405,7 @@ var lakeStrike = function(){
         
         // lake
         lake=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","lake")
-        lake.scale.setTo(1,1)
+        lake.scale.setTo(0.7,0.7)
         lake.anchor.setTo(0.5,0.5)
         lake.alpha=1
         lakeGroup.add(lake)
@@ -411,10 +413,18 @@ var lakeStrike = function(){
         //ProxyLake
         
         proxyLake=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","lake")
-        proxyLake.scale.setTo(0.4,0.4)
+        proxyLake.scale.setTo(0.1,0.1)
         proxyLake.anchor.setTo(0.5,0.5)
         proxyLake.alpha=0
         lakeGroup.add(proxyLake)
+        
+        //Lake
+        
+        lakeSpine = game.add.spine(proxyLake.centerX-3,game.world.centerY+155, "lake");
+        lakeSpine.scale.setTo(0.7,0.7)
+        lakeSpine.setSkinByName("clean");
+        lakeSpine.setAnimationByName(0,"IDLE",true) 
+        lakeGroup.add(lakeSpine)
         
         
         Justice = game.add.spine(proxyLake.centerX,proxyLake.centerY, "justice");
@@ -422,10 +432,10 @@ var lakeStrike = function(){
         Justice.setSkinByName("normal");
         Justice.setAnimationByName(0,"SIDE_WALK",true) 
         lakeGroup.add(Justice)
-        
+
         //proxyJustice
         
-        proxyJustice=game.add.sprite(lake.centerX,lake.centerY,"atlas.lake","water")
+        proxyJustice=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","water")
         proxyJustice.scale.setTo(1,1)
         proxyJustice.anchor.setTo(0.5,0.5)
         proxyJustice.alpha=0
@@ -559,14 +569,14 @@ var lakeStrike = function(){
             
             moveCircle(proxyJustice)
             Justice.position.x=proxyJustice.position.x;
-            Justice.position.y=proxyJustice.position.y+30;
+            Justice.position.y=proxyJustice.position.y+10;
             
             for(var samePos=0; samePos<pollutionAttacking.length;samePos++){
                 
                 pollutionDefeated[samePos].x=pollutionAttacking[samePos].x;
                 pollutionDefeated[samePos].y=pollutionAttacking[samePos].y;
                 hits[samePos].x=pollutionAttacking[samePos].x;
-                hits[samePos].y=pollutionAttacking[samePos].y;
+                hits[samePos].y=pollutionAttacking[samePos].y-50;
                 hits[samePos].angle=pollutionAttacking[samePos].angle;
                 pollutionDefeated[samePos].angle=pollutionAttacking[samePos].angle;
                 
@@ -582,9 +592,9 @@ var lakeStrike = function(){
                     pollutionAttacking[checkOverlaping].alpha=0
                     pollutionDefeated[checkOverlaping].alpha=1
                     hits[checkOverlaping].alpha=1
-                    pollutionDefeated[checkOverlaping].animations.play('kill', 24, true);
+                    pollutionDefeated[checkOverlaping].animations.play('kill', 12, true);
                     pollutionTween[checkOverlaping].stop()
-                    game.time.events.add(200,function(){
+                    game.time.events.add(800,function(){
                         pollutionDefeated[temp].animations.stop('kill')
                         game.add.tween(hits[temp]).to({alpha:0},100,Phaser.Easing.Cubic.Out,true);
                         pollutionDefeated[temp].alpha=0
@@ -602,16 +612,43 @@ var lakeStrike = function(){
                 }
                 if (checkOverlap(proxyLake,pollutionAttacking[checkOverlaping]) && pollutionAttackingActive[checkOverlaping] && lives>0)
                 {
+                        var temp2=checkOverlaping
                         missPoint()
+                        if(lives==2){
+                            lakeSpine.setTint("0xff1500")
+                            game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                                game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
+                                lakeSpine.setSkinByName("dirty1")
+                                lakeSpine.setTint("0xffffff")
+                            })
+                        }
+                        if(lives==1){
+                            lakeSpine.setTint("0xff1500")
+                            game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                                game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
+                                lakeSpine.setSkinByName("dirty2")
+                                lakeSpine.setTint("0xffffff")
+                            })
+                        }
+                        if(lives==0){
+                            lakeSpine.setTint("0xff1500")
+                            game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                                game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
+                                lakeSpine.setSkinByName("dirty3")
+                                lakeSpine.setTint("0xffffff")
+                            })
+                        }
                         sound.play("laugh")
-                        pollutionAttacking[checkOverlaping].alpha=0
+                        game.add.tween(pollutionAttacking[checkOverlaping]).to({alpha:0},505,Phaser.Easing.linear,true, 100)
+                        game.add.tween(pollutionAttacking[checkOverlaping].scale).to({x:0,y:0},500, Phaser.Easing.Linear.In, true)
                         Justice.setAnimationByName(0,"BACK_WRONG",false)
-                        pollutionAttacking[checkOverlaping].position.x=-200
                         pollutionAttackingActive[checkOverlaping]=false
                         pollutionTween[checkOverlaping].stop()
                         howMany--;
                         game.time.events.add(300,function(){
                             Justice.setAnimationByName(0,"SIDE_WALK",true)
+                            pollutionAttacking[temp2].scale.setTo(0.5)
+                            pollutionAttacking[temp2].position.x=-200
                         })
                 }
             }
