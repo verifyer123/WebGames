@@ -302,11 +302,12 @@ var coffeerush = function(){
 
     function createCorrect(){
     	//Object that give points init
-    	correctObject = game.add.sprite(game.world.width*0.3,game.world.height*0.3,'atlas.coffeerush','cafe')
+    	correctObject = game.add.sprite(0,0,'atlas.coffeerush','cafe')
     	
         game.physics.arcade.enable(correctObject,true)
         sceneGroup.add(correctObject)
         correctObject.tag="correct"
+        changeCorrectPosition()
 
     }
 
