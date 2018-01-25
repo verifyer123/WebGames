@@ -274,6 +274,7 @@ var base = function(){
         game.stage.disableVisibilityChange = false;
         epicparticles.loadEmitter(game.load, "pickedEnergy")
         
+        
         game.load.audio('spaceSong', soundsPath + 'songs/electro_trance_minus.mp3');
         
 		game.load.image('howTo',"images/base/how" + localization.getLanguage() + ".png")
@@ -364,10 +365,39 @@ var base = function(){
         
         //Circulo de prueba
         createCircleSprite(game.world.centerX, game.world.centerY,100,{inputCallback:inputs})
+        
+        
+        //Coins
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
+        coins.anchor.setTo(0.5)
+        coins.scale.setTo(0.5)
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0
     }
 	
 
-    
+    function Coin(objectBorn,objectDestiny,time){
+        
+        
+        //objectBorn= Objeto de donde nacen
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        
+        emitter = epicparticles.newEmitter("pickedEnergy")
+        emitter.duration=0.05;
+        emitter.x = coins.x
+        emitter.y = coins.y
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+            })
+        })
+    }
   
     
 	function update(){
