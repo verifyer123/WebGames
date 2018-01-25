@@ -9,6 +9,8 @@ export var login = function () {
 	var UPDATE_CHILD = "/login/child/update"
 	var GET_CHILD = "/login/child/get"
 	var USER_RECOVERY = "/users/parent/recover"
+	var CHECK_EMAIL = "/login/check"
+	var REGISTER_CHILD = "/login/child"
 
 	var currentCallback
 	var signInCallback
@@ -24,13 +26,14 @@ export var login = function () {
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
-	function ajaxCall(data, endPoint, onSuccess, onError) {
+	function ajaxCall(data, endPoint, onSuccess, onError, type) {
+		type = type || "POST"
 
 		$.ajax({
 			contentType: 'application/json',
 			data: JSON.stringify(data),
 			dataType: 'json',
-			type: 'POST',
+			type: type,
 			url: url + endPoint,
 			async:true,
 			processData:false
@@ -161,29 +164,25 @@ export var login = function () {
 		}
 	}
 
-	function checkPlayers(response) {
-		// console.log(response)
-		modal.showPlayers(response.children)
-	}
-
 	function loginPlayer(remoteID, callback) {
 		var credentials = getCredentials()
 		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, ACCESS_CHILD, checkLogin)
 	}
 
+	function registerPin(data, onSuccess, onError) {
+		console.log(data)
+		ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
+	}
+
 	function signIn(data, onSuccess, onError) {
 		// console.log(data)
 		// signInCallback = true
-		function callback(response){
-			onSuccess()
-			checkLogin(response)
-		}
 
 		setCredentials(data)
 		if(data.token)
-			ajaxCall({email: data.email, token: data.token}, LOGIN_PARENT, callback, onError)
+			ajaxCall({email: data.email, token: data.token}, LOGIN_PARENT, onSuccess, onError)
 		else
-			ajaxCall({email:data.email, password: data.password}, LOGIN_PARENT, callback, onError)
+			ajaxCall({email:data.email, password: data.password}, LOGIN_PARENT, onSuccess, onError)
 	}
 
 	function checkLogin(response){
@@ -278,13 +277,19 @@ export var login = function () {
 		if(callBack)callBack()
 	}
 
+	function checkMail(email, onSuccess, onError) {
+		ajaxCall({email:email}, CHECK_EMAIL, onSuccess, onError)
+	}
+
 	return{
 		updatePlayer:updatePlayer,
 		getCredentials:getCredentials,
 		loginPlayer:loginPlayer,
 		loginParent:signIn,
 		recoverPass:recoverPass,
-		checkQuery:checkQuery
+		checkQuery:checkQuery,
+		checkMail:checkMail,
+		registerPin:registerPin,
 	}
 }()
 
