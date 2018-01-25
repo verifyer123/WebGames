@@ -951,6 +951,8 @@ var battle = function(){
 		shareGroup.x = 0; shareGroup.y = -70
 		buttonGroup.add(shareGroup)
 		shareGroup.tag = "share"
+		//button share in demo visible = false, descomment this line on finish mode
+		shareGroup.visible = false
 
 		var shareBtn = shareGroup.create(0, 0, "atlas.battle", "share")
 		shareBtn.anchor.setTo(0.5, 0.5)
@@ -959,7 +961,7 @@ var battle = function(){
 		shareImg.anchor.setTo(0.5, 0.5)
 
 		var retryGroup = game.add.group()
-		retryGroup.x = 0; retryGroup.y = 70
+		retryGroup.x = 0; retryGroup.y = 0
 		buttonGroup.add(retryGroup)
 		retryGroup.tag = "retry"
 

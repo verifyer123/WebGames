@@ -38,7 +38,11 @@
             "menu":"Contact Us | About Us | Terms & Conditions | Kids & Online Safety",
             "allRigths" :"All rights reserved",
             "nickNameP1" :"Player 1",
-            "nickNameP2" :"Player 2"
+            "nickNameP2" :"Player 2",
+            "footter1":"Read our ",
+            "footer_politics":"Privacy policy",
+            "footer2":" and ",
+            "footer_terms":"Terms of service."
 		},
 
 		"ES":{
@@ -56,7 +60,11 @@
             "menu":"Contáctanos | Nosotros | Términos y condiciones | Niños y seguridad en línea",
             "allRigths" :"Todos los derechos reservados",
             "nickNameP1" :"Jugador 1",
-            "nickNameP2" :"Jugador 2"
+            "nickNameP2" :"Jugador 2",
+            "footter1":"Lee nuestra ",
+            "footer_politics":"Política de Privacidad",
+            "footer2":" y ",
+            "footer_terms": "Terminos de servicio."
 		},
 
 		"PT":{
@@ -74,7 +82,11 @@
             "menu":"Fale conosco | Quem somos | Termos e condições | Crianças e segurança on-line",
             "allRigths" :"Todos os direitos reservados",
             "nickNameP1" :"jogador 1",
-            "nickNameP2" :"jogador 2"
+            "nickNameP2" :"jogador 2",
+             "footter1":"Leia nossa ",
+             "footer_politics":"Política de Privacidade",
+             "footer2":" e ",
+             "footer_terms":"TERMOS DE SERVIÇO."
 		},
 
 		"CN":{
@@ -92,7 +104,11 @@
             "menu":"联系我们 | 关于我们 | 条款和条件 | 儿童和网络安全",
             "allRigths" :"保留所有权利",
             "nickNameP1" :"玩家1",
-            "nickNameP2" :"玩家2"
+            "nickNameP2" :"玩家2",
+             "footter1": "Read our ",
+             "footer_politics":"隐私政策",
+             "footer2":" 和 ",
+             "footer_terms":"Terms of service."
 		}
 	}
 </script>
@@ -141,7 +157,7 @@
             <div class="characterSelection">
                 <img src="img/character_p1.png">
             </div>
-            <div id="nickNameP1" class="nickNamePlayer"></div>
+            <div id="nickNameP1" class="nickNamePlayer" style="padding-left: 100;"></div>
         </div>
         <div id="joinPin">
             <div id="joinText" class="text9"></div><br><br>
@@ -157,7 +173,7 @@
             <div class="characterSelection">
                 <img src="img/character_p2.png">
             </div>
-            <div id="nickNameP2" class="nickNamePlayer"></div>
+            <div id="nickNameP2" class="nickNamePlayer" style="padding-right: 100;"></div>
         </div>
         <div>
             
@@ -166,8 +182,13 @@
     
     <footer>
         <div id="startGameButton" class="offBgButton"><div class="text0"></div></div>
-        <div class="text11"></div>
-        <p>v© 2017, Yogome, Inc. <span class="text12"></span> </p>
+        <div class="text11"> 
+            <p><span class="text13">Read our </span>
+            <a href="http://yogome.com/en/privacy/" class="text14" target="_blank">Privacy policy </a>
+            <span class="text15"> and </span>
+            <a href="http://yogome.com/en/privacy/" class="text16" target="_blank"> Terms of service.</a></p>
+        </div>
+        <p>v© 2018, Yogome, Inc. <span class="text12"></span> </p>
         
     </footer>
 
@@ -186,6 +207,19 @@
 	}
 
         var language = parent.language;
+
+    /*$(".mixpanel-call").click(function(e){
+//          e.preventDefault()
+        mixpanel.track("buttonClick", {
+            "Url": window.location.href.split("?")[0].split("#")[0].split("&")[0],
+            "Button Id" : e.target,
+            "language" : language
+
+        });
+    });*/
+
+    //$(".mixpanel-call").click(function(e){
+
     
     $(".text0").text(localizationData[language].play);
     $(".text1").text(localizationData[language].selectLevel);
@@ -198,8 +232,11 @@
     $(".text8").text(localizationData[language].waitinPlayers);
     $(".text9").text(localizationData[language].joinPIN);
     $(".text10").text(localizationData[language].START);
-    $(".text11").text(localizationData[language].menu);
-    $(".text12").text(localizationData[language].allRigths);
+    //$(".text11").text(localizationData[language].menu);
+    $(".text12").text(localizationData[language].footter1);
+    $(".text13").text(localizationData[language].footer_politics);
+    $(".text14").text(localizationData[language].footer2);
+    $(".text15").text(localizationData[language].footer_terms);
     $("#nickNameP1").text(localizationData[language].nickNameP1);
     $("#nickNameP2").text(localizationData[language].nickNameP2);
     
