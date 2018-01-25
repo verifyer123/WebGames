@@ -11,6 +11,7 @@ export var login = function () {
 	var USER_RECOVERY = "/users/parent/recover"
 	var CHECK_EMAIL = "/login/check"
 	var REGISTER_CHILD = "/login/child"
+	var LOGIN_CHILD = "/login/pin"
 
 	var currentCallback
 	var signInCallback
@@ -174,7 +175,7 @@ export var login = function () {
 		ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
 	}
 
-	function signIn(data, onSuccess, onError) {
+	function loginParent(data, onSuccess, onError) {
 		// console.log(data)
 		// signInCallback = true
 
@@ -183,6 +184,10 @@ export var login = function () {
 			ajaxCall({email: data.email, token: data.token}, LOGIN_PARENT, onSuccess, onError)
 		else
 			ajaxCall({email:data.email, password: data.password}, LOGIN_PARENT, onSuccess, onError)
+	}
+
+	function loginChild(nickname, pin, onSuccess, onError) {
+		ajaxCall({nickname:nickname, pin:pin, game:GAME}, LOGIN_CHILD, onSuccess, onError)
 	}
 
 	function checkLogin(response){
@@ -271,7 +276,7 @@ export var login = function () {
 		if((token)&&(email)) {
 			localStorage.setItem("email", email)
 			// console.log(token)
-			signIn({token: token, email:email}, onSuccess)
+			loginParent({token: token, email:email}, onSuccess)
 		}
 		else
 		if(callBack)callBack()
@@ -285,11 +290,12 @@ export var login = function () {
 		updatePlayer:updatePlayer,
 		getCredentials:getCredentials,
 		loginPlayer:loginPlayer,
-		loginParent:signIn,
+		loginParent:loginParent,
 		recoverPass:recoverPass,
 		checkQuery:checkQuery,
 		checkMail:checkMail,
 		registerPin:registerPin,
+		loginChild:loginChild,
 	}
 }()
 

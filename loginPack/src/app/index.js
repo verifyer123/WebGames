@@ -80,7 +80,7 @@ class App extends React.Component{
 									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData}/>
 				break;
 			case "login":
-				component = <Login closeModal={this.handleClick.bind(this, false)}/>
+				component = <Login closeModal={this.handleClick.bind(this, false)} addChildData={this.addChildData} child={this.childData}/>
 				break
 			case "players":
 				component = <Players closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}
@@ -108,7 +108,7 @@ class App extends React.Component{
 		showContinue = this.handleClick
 		return(
 			<div>
-				<button onClick={this.handleClick.bind(this, "register")}>Continue</button>
+				<button onClick={this.handleClick.bind(this, "login")}>Continue</button>
 				{this.getComponent(this.state.props)}
 			</div>
 		)

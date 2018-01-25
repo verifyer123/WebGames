@@ -575,16 +575,17 @@ var battle = function(){
 			this.health = MAX_HP
 		}
 
-		var fontStyle2 = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var fontStyle2 = {font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", boundsAlignH: "left"}
 		var name = new Phaser.Text(game, 0, 5, "", fontStyle2)
 		name.stroke = '#2a2a2a';
 		name.strokeThickness = 6;
-		name.x = 0
-		name.y = -3
+		name.x = -HP_BAR_WIDTH * 0.5
+		name.y = -45
 		name.anchor.setTo(anchorX,0.5)
 		name.scale.x = scale
 		hpGroup.add(name)
-        hpGroup.name = name
+		hpGroup.name = name
+		name.setTextBounds(0, 0, 150, 0);
 
 		return hpGroup
 	}

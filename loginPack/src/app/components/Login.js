@@ -56,8 +56,7 @@ export class Login extends React.Component {
 		}
 	}
 
-	setLogin(pin){
-		console.log(pin)
+	setLogin(){
 		this.togglePin()
 		$('#loadSpace').css("display", "block")
 
@@ -71,12 +70,17 @@ export class Login extends React.Component {
 			console.log("success")
 			$('#loadSpace').css("display", "none")
 		}
+		let child = this.props.child
+		login.loginChild(child.username, child.pin, onSuccess, onError)
+	}
 
-		login.loginParent({pin:"0000", username:"huu"}, onSuccess, onError)
+	onLoginPressed(){
+		this.props.addChildData("username", this.username.value)
+		this.togglePin()
 	}
 
 	getPinComponent(){
-		return this.state.showPin ? <Pin closeModal={this.togglePin} nextCallback={this.setLogin}/> : null
+		return this.state.showPin ? <Pin closeModal={this.togglePin} nextCallback={this.setLogin} addChildData={this.props.addChildData}/> : null
 	}
 
 	closeModal(){
@@ -115,7 +119,7 @@ export class Login extends React.Component {
 
 					<div className="modal-body">
 
-						<input type="text" id="username" className="inputText" placeholder="Username" name="Username" onFocus={function(){
+						<input type="text" id="username" ref={(input) => {this.username = input}} className="inputText" placeholder="Username" name="Username" onFocus={function(){
 							$('#username').attr("placeholder", '')
 							$('#username').removeClass('invalid')
 							$('#onError').css('display', "none")
@@ -124,7 +128,7 @@ export class Login extends React.Component {
 							   onBlur={function(){
 								   $('#username').attr("placeholder", 'Username')
 							   }} /><br />
-						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.togglePin}>Login</button>
+						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.onLoginPressed.bind(this)}>Login</button>
 
 						<div id="loadSpace" className="loader" style={{display:"none"}}>
 						</div>
