@@ -579,7 +579,7 @@ var battle = function(){
 		var name = new Phaser.Text(game, 0, 5, "", fontStyle2)
 		name.stroke = '#2a2a2a';
 		name.strokeThickness = 6;
-		name.x = -HP_BAR_WIDTH * 0.5
+		name.x = 0
 		name.y = -45
 		name.anchor.setTo(anchorX,0.5)
 		name.scale.x = scale
