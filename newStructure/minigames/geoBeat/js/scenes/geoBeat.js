@@ -68,9 +68,8 @@ var geoBeat = function(){
     var countryLights
     var map
     var ledsLights
-    var rnd
     var lvl
-    var ansArray = []
+    var ansArray = [0,1,2,3,4,5]
     var pivot
     var speed
     
@@ -83,7 +82,6 @@ var geoBeat = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         gameActive = false
-        rnd = -1
         lvl = 2
         pivot = 0
         speed = 1500
@@ -606,7 +604,7 @@ var geoBeat = function(){
             country.alpha = 0
             country.value = c
             country.events.onInputDown.add(turnItOn,this)   
-            country.events.onInputUp.add(turnItOff,this)   
+            //country.events.onInputUp.add(turnItOff,this)   
         }
         
         countryLights.children[0].x = map.x - 140
@@ -620,17 +618,13 @@ var geoBeat = function(){
         
         countryLights.children[3].x = map.x + 120
         countryLights.children[3].y = map.y - 60
-        countryLights.children[3].scale.setTo(0.85)
+        countryLights.children[3].scale.setTo(0.8)
         
         countryLights.children[4].x = map.x
         countryLights.children[4].y = map.y + 120
         
         countryLights.children[5].x = map.x + 150
-        countryLights.children[5].y = map.y + 60
-        
-        countryLights.moveDown(countryLights.children[3])
-        countryLights.moveDown(countryLights.children[2])
-        
+        countryLights.children[5].y = map.y + 60    
     }
     
     function turnItOn(btn){
@@ -639,6 +633,14 @@ var geoBeat = function(){
             btn.alpha = 1
             ledsLights.children[btn.value].alpha = 1
             changeImage(btn.value, namesGroup)
+
+            if(btn.value === ansArray[pivot]){
+                pivot++
+                win(win)
+            }
+            else{
+                win(false)
+            }
         }
     }
     
@@ -688,6 +690,8 @@ var geoBeat = function(){
             name.anchor.setTo(0.5)
             name.y = geoMachine.y - 65
             name.x = geoMachine.centerX
+            name.popUpX = name.x
+            name.popUpY = name.y
             name.alpha = 0
             name.setText(countryName[c])
             namesGroup.add(name)
@@ -700,6 +704,7 @@ var geoBeat = function(){
         
         if(ans){
             geoMachine.setAnimationByName(0, "WIN", false)
+            geoMachine.addAnimationByName(0, "IDLE", true)
             sound.play('rightChoice')
         }
         else{
@@ -710,10 +715,9 @@ var geoBeat = function(){
             },this)
             gameActive = false
             
-            for(var a = 0; a < ansArray.length; a++)
-                ansArray[a] = -1
-            
             game.add.tween(map).to({ alpha:0}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
+                countryLights.setAll('alpha', 0)
+                ledsLights.setAll('alpha', 0)
                 game.add.tween(map).to({ alpha:1}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
                     if(lives !== 0){
                         geoMachine.setAnimationByName(0, "IDLE", true)
@@ -723,7 +727,7 @@ var geoBeat = function(){
             })
         }
         
-        geoMachine.addAnimationByName(0, "IDLE", true)
+       
         
         if(pivot === lvl){
             sound.play('robotWin')
@@ -731,13 +735,17 @@ var geoBeat = function(){
             gameActive = false
             addCoin()
             
-            for(var a = 0; a < ansArray.length; a++)
-                ansArray[a] = -1
-            
-            if(pointsBar.number !== 0 && pointsBar.number % 3 === 0)
-                lvl++
+            if(pointsBar.number !== 0 && pointsBar.number % 3 === 0){
+                if(lvl < 5)
+                   lvl++
+            }
+            else if(pointsBar.number > 25){
+                speed -= 100
+            }
             
             game.add.tween(map).to({ alpha:0}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
+                countryLights.setAll('alpha', 0)
+                ledsLights.setAll('alpha', 0)
                 game.add.tween(map).to({ alpha:1}, 900, Phaser.Easing.linear,true).onComplete.add(function(){
                     if(lives !== 0){
                         geoMachine.setAnimationByName(0, "IDLE", true)
@@ -763,25 +771,31 @@ var geoBeat = function(){
     function strobeLight(){
         
         var delay = speed
+        Phaser.ArrayUtils.shuffle(ansArray)
         
         for(var s = 0; s < lvl; s++){
-            rnd = getRand()
-            showMeTheMoney(countryLights.children[rnd], delay)
-            showMeTheMoney(ledsLights.children[countryLights.children[rnd].value], delay)
-            namePlate(countryLights.children[rnd].value, delay)
-            ansArray[s] = countryLights.children[rnd].value
+            showMeTheMoney(countryLights.children[ansArray[s]], delay)
+            showMeTheMoney(ledsLights.children[ansArray[s]], delay)
+            namePlate([ansArray[s]], delay)
             delay += speed
         }
         return delay
     }
     
-    function namePlate(aux, delay){
+    function namePlate(aux, delay, r){
         
          game.time.events.add(delay,function(){
-            particleCorrect.x = namesGroup.children[0].x
-            particleCorrect.y = namesGroup.children[0].y - 30
-            particleCorrect.start(true, 1200, null, 5)
             changeImage(aux, namesGroup)
+            namesGroup.children[aux].x = countryLights.children[aux].x
+            namesGroup.children[aux].y = countryLights.children[aux].y
+           
+            game.add.tween(namesGroup.children[aux].scale).from({x: 0, y: 0}, 800, Phaser.Easing.linear,true).onComplete.add(function(){
+                game.add.tween(namesGroup.children[aux]).to({x: namesGroup.children[aux].popUpX , y: namesGroup.children[aux].popUpY}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+                    particleCorrect.x = namesGroup.children[0].x
+                    particleCorrect.y = namesGroup.children[0].y - 30
+                    particleCorrect.start(true, 1200, null, 5)
+                })
+            })
         })
     }
     
@@ -801,14 +815,6 @@ var geoBeat = function(){
                 game.add.tween(obj).to({ alpha:0}, 500, Phaser.Easing.linear,true)
             })
         },this)
-    }
-    
-    function getRand(){
-        var x = game.rnd.integerInRange(0, 5)
-        if(x === rnd)
-            return getRand()
-        else
-            return x     
     }
 	
 	return {
@@ -842,9 +848,9 @@ var geoBeat = function(){
 			createPointsBar()
 			createHearts()
             mapaRocola()
-            sayMyName()
             speedOfLight()
             colorLeds()
+            sayMyName()
             initCoin()
             createParticles()
 			
