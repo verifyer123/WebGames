@@ -54,6 +54,7 @@ var routing = function () {
 				epicModel.savePlayer(currentPlayer)
 
 				epicSiteMain.startGame(src)
+				console.log(src)
 
 				$(".game-canvas p").text("")
 				$(".bgIcon img").attr("src","../../shared/minigames/images/icons/"+game.sceneName + ".png");

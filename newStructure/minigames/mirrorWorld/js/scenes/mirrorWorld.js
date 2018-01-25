@@ -68,7 +68,7 @@ var mirrorWorld = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 127
+    var gameIndex = 129
 	var indexGame
     var overlayGroup
     var spaceSong

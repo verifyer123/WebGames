@@ -11,7 +11,7 @@ export class Pin extends React.Component {
 		this.cut.src = "sounds/cut.mp3";
 
 		this.pivot = 0
-		this.pinSelected = props.pinSelected
+		this.pinSelected = []
 
 		this.closeModal = this.closeModal.bind(this)
 	}
@@ -39,9 +39,12 @@ export class Pin extends React.Component {
 	goNext(){
 		console.log(this.pivot)
 		if(this.pivot === 4){
+			let pin = this.pinSelected.join('')
+
 			this.pop.play()
 			$("#save").hide();
-			this.props.login()
+			this.props.addChildData("pin", pin)
+			this.props.nextCallback()
 		}
 	}
 
@@ -54,7 +57,7 @@ export class Pin extends React.Component {
 		var val = this.pinSelected[this.pinSelected.length - 1]
 		this.pinSelected.splice(-1,1)
 
-		$(val).removeClass("buttonSelect")
+		$("#yogo"+val).removeClass("buttonSelect")
 		$("#Pin"+this.pivot).css("background-image", "")
 		$("#Pin"+this.pivot).removeClass("imagenSelect")
 		$("#Pin"+this.pivot).addClass("pinPoint")
@@ -71,14 +74,14 @@ export class Pin extends React.Component {
 
 		var contains = false
 		for(var pinIndex = 0; pinIndex < this.pinSelected.length; pinIndex++){
-			if(this.pinSelected[pinIndex] === yogoId){
+			if(this.pinSelected[pinIndex] === id){
 				contains = true
 				break
 			}
 		}
 
 		if((this.pivot < 4)&&(!contains)){
-			this.pinSelected[this.pivot] = yogoId
+			this.pinSelected[this.pivot] = id
 			var img = $( yogoId ).css( "background-image" );
 			console.log(img)
 

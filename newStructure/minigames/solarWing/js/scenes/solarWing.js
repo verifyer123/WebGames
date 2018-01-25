@@ -69,7 +69,7 @@ var solarWing = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 130
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -190,6 +190,20 @@ var solarWing = function(){
         }
         
         addNumberPart(heartsGroup.text,'-1',true)
+        
+    }
+    
+    function changeWings(obj){
+        
+        if(obj.tag=="open"){
+            eagleActivated=true
+            eagle.setAnimationByName(0,"FLY_FAST",true)
+            obj.tag="closed"
+        }else if(obj.tag=="closed"){
+            eagleActivated=false
+            eagle.setAnimationByName(0,"FLY",true)
+            obj.tag="open"
+        }
         
     }
     
@@ -490,9 +504,16 @@ var solarWing = function(){
         cloudAll.y=-200
         
         
+        //cloudPar1=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
+        //cloudPar2=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
+        //cloudPar3=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
+        //cloudPar4=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
         
+//        cloudPar1.anchor.setTo(0.5)
+//        cloudPar2.anchor.setTo(0.5)
+//        cloudPar3.anchor.setTo(0.5)
+//        cloudPar4.anchor.setTo(0.5)
         
-        console.log(canCreate)
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
         
@@ -619,9 +640,34 @@ var solarWing = function(){
                 }
                 if(eagleActivated){
                     if(eagle.y>game.world.centerY)eagle.position.y-=5;
+//                    cloudPar1.y+=speed*2
+//                    cloudPar2.y+=speed*2
+//                    cloudPar3.y+=speed*2
+//                    cloudPar4.y+=speed*2
                 }else if(!eagleActivated){
                     if(eagle.y<game.world.height-130)eagle.position.y+=5;
+//                    cloudPar1.y+=speed
+//                    cloudPar2.y+=speed
+//                    cloudPar3.y+=speed
+//                    cloudPar4.y+=speed
                 }
+                
+//                if(cloudPar1>game.world.height+100){
+//                    cloudPar1.x=game.rnd.integerInRange(0,game.world.width)
+//                    cloudPar1.y=game.rnd.integerInRange(-200,-100)
+//                }
+//                if(cloudPar2>game.world.height+100){
+//                    cloudPar2.x=game.rnd.integerInRange(0,game.world.width)
+//                    cloudPar2.y=game.rnd.integerInRange(-200,-100)
+//                }
+//                if(cloudPar3>game.world.height+100){
+//                    cloudPar3.x=game.rnd.integerInRange(0,game.world.width)
+//                    cloudPar3.y=game.rnd.integerInRange(-200,-100)
+//                }
+//                if(cloudPar4>game.world.height+100){
+//                    cloudPar4.x=game.rnd.integerInRange(0,game.world.width)
+//                    cloudPar4.y=game.rnd.integerInRange(-200,-100)
+//                }
             }
             
         }

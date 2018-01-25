@@ -143,7 +143,10 @@ var yogomeGames = function () {
             {name:'Green Rescue',url:urlSet + 'greenRescue/',mapUrl:urlMap + 'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false},//124
             {name:'Lake Strike',url:urlSet + 'lakeStrike/',mapUrl:urlMap + 'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false},//125
             {name:'Nosiy Streets',url:urlSet + 'noisyStreets/',mapUrl:urlMap + 'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false},//126
-            {name:'Mirror World',url:urlSet + 'mirrorWorld/',mapUrl:urlMap + 'mirrorWorld', sceneName:'mirrorWorld',subject:'creativity', review:false,objective:10,demo:false},//127
+            {name:'Continental Puzzle',url:urlSet + 'continentalPuzzle/',mapUrl:urlMap +'continentalPuzzle',sceneName:'continentalPuzzle',subject:'geography',review:false,objective:15,demo:false},//127
+            {name:'Geo Beat',url:urlSet + 'geoBeat/',mapUrl:urlMap + 'geoBeat', sceneName:'geoBeat',subject:'geography', review:false,objective:25,demo:false},//128
+            {name:'Mirror World',url:urlSet + 'mirrorWorld/',mapUrl:urlMap + 'mirrorWorld', sceneName:'mirrorWorld',subject:'creativity', review:false,objective:10,demo:false},//129
+            {name:'Solar Wing',url:urlSet + 'solarWing/',mapUrl:urlMap + 'solarWing', sceneName:'solarWing',subject:'sustainability', review:false,objective:30,demo:false},//130
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

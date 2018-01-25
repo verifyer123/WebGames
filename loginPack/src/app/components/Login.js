@@ -3,7 +3,7 @@ import {Pin} from './Pin.js'
 import {login} from '../libs/login'
 
 export class Login extends React.Component {
-	//AQUI VA PARA SABER EL LENGUAGE
+
 	constructor(props) {
 		super(props);
 		this.pop = new Audio();
@@ -15,8 +15,6 @@ export class Login extends React.Component {
 		this.state = {
 			showPin:false
 		}
-
-		this.pinSelected = []
 
 		this.closeModal = this.closeModal.bind(this)
 		this.togglePin = this.togglePin.bind(this)
@@ -60,32 +58,33 @@ export class Login extends React.Component {
 
 	setLogin(){
 		this.togglePin()
-		$('#login').css("opacity", 0.5)
 		$('#loadSpace').css("display", "block")
 
 		function onError() {
 			console.log("error")
 			Login.onError("Username or pin incorrect.")
 			$('#loadSpace').css("display", "none")
-			$('#login').css("opacity", 1)
 		}
 
 		function onSuccess() {
 			console.log("success")
 			$('#loadSpace').css("display", "none")
-			$('#login').css("opacity", 1)
 		}
+		let child = this.props.child
+		login.loginChild(child.username, child.pin, onSuccess, onError)
+	}
 
-		login.loginParent({pin:"0000", username:"huu"}, onSuccess, onError)
+	onLoginPressed(){
+		this.props.addChildData("username", this.username.value)
+		this.togglePin()
 	}
 
 	getPinComponent(){
-		return this.state.showPin ? <Pin closeModal={this.togglePin} pinSelected={this.pinSelected} login={this.setLogin}/> : null
+		return this.state.showPin ? <Pin closeModal={this.togglePin} nextCallback={this.setLogin} addChildData={this.props.addChildData}/> : null
 	}
 
 	closeModal(){
 		this.pop.play()
-		$("#save").hide();
 		this.props.closeModal()
 	}
 
@@ -120,7 +119,7 @@ export class Login extends React.Component {
 
 					<div className="modal-body">
 
-						<input type="text" id="username" className="inputText" placeholder="Username" name="Username" onFocus={function(){
+						<input type="text" id="username" ref={(input) => {this.username = input}} className="inputText" placeholder="Username" name="Username" onFocus={function(){
 							$('#username').attr("placeholder", '')
 							$('#username').removeClass('invalid')
 							$('#onError').css('display', "none")
@@ -129,9 +128,10 @@ export class Login extends React.Component {
 							   onBlur={function(){
 								   $('#username').attr("placeholder", 'Username')
 							   }} /><br />
-						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.togglePin}>Login</button>
+						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.onLoginPressed.bind(this)}>Login</button>
 
-						<div id="loadSpace" className="loader" style={{display:"none"}}></div>
+						<div id="loadSpace" className="loader" style={{display:"none"}}>
+						</div>
 						<br />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						<hr />

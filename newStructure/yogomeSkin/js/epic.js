@@ -217,6 +217,8 @@ var epicSiteMain =  function(){
 	}
 
 	function loadGame(src){
+		currentSrc = src
+
 		function NextFunction(){
 			$("#sectionInfo").css("visibility", "visible")
 			if(currentTimeout){
@@ -234,7 +236,7 @@ var epicSiteMain =  function(){
 				}
 
 				gameFrame = document.createElement("iframe")
-				gameFrame.src = src || DEFAULT_SRC
+				gameFrame.src = currentSrc
 				gameFrame.style.borderStyle = "none"
 				gameFrame.style.position = "absolute"
 				gameFrame.style.top = "0"
@@ -243,8 +245,6 @@ var epicSiteMain =  function(){
 				gameFrame.width = "100%"
 				gameFrame.height = "100%"
 				gameContainer.appendChild(gameFrame);
-
-				currentSrc = gameFrame.src
 
 				delayTime = 0
 			}, delayTime)
