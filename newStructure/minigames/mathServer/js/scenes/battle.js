@@ -527,7 +527,7 @@ var battle = function(){
 
 	function createHpbar(scale){
 		scale = scale || 1
-		var anchorX = scale < 1 ? 0 : 1
+		var anchorX = scale < 1 ? 1 : 0
 
     	var hpGroup = game.add.group()
 		hpGroup.scale.setTo(0.8 * scale, 0.8)
@@ -579,7 +579,7 @@ var battle = function(){
 		var name = new Phaser.Text(game, 0, 5, "", fontStyle2)
 		name.stroke = '#2a2a2a';
 		name.strokeThickness = 6;
-		name.x = HP_BAR_WIDTH * 0.6
+		name.x = HP_BAR_WIDTH*0.7
 		//name.y = -45
 		//name.x = 30
 		name.y = -3
