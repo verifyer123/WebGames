@@ -69,9 +69,10 @@ export class Login extends React.Component {
 		function onSuccess() {
 			console.log("success")
 			$('#loadSpace').css("display", "none")
+			this.props.handleClick("continue")
 		}
 		let child = this.props.child
-		login.loginChild(child.username, child.pin, onSuccess, onError)
+		login.loginChild(child.username, child.pin.join(''), onSuccess.bind(this), onError)
 	}
 
 	onLoginPressed(){
@@ -85,7 +86,7 @@ export class Login extends React.Component {
 
 	closeModal(){
 		this.pop.play()
-		this.props.closeModal()
+		this.props.handleClick(false)
 	}
 
 	render() {
@@ -135,7 +136,7 @@ export class Login extends React.Component {
 						<br />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						<hr />
-						<button type="submit" id="firstLogin" className="loginBtn bgOrange">First Time Login</button><br />
+						<button type="submit" id="firstLogin" className="loginBtn bgOrange" onClick={()=>{this.props.handleClick("register")}}>First Time Login</button><br />
 						<button type="submit" id="createAccount" className="loginBtn bgGreen">Create New Account</button><br />
 						<button className="recoverBtn" id="recoverPass">I Forgot My Password</button><br />
 

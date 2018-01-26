@@ -52,17 +52,20 @@ export class Continue extends React.Component {
 					</div>
 					<div className="modal-header">
 						<div className="topImg">
-							<img className="logo" src="images/continue.png"/>
+							<img className="particule" src="images/particle-03.png"/>
+							<img className="logo" src="images/neueicon.png"/>
+							<img className="particule" src="images/particle-04.png"/>
 						</div>
-						<h2><div className="textModal21" style={{fontSize:'3vh'}}>Want to keep playing?</div></h2>
+						<h2><div className="textModal21" style={{fontSize:'3vh'}}>Welcome to Yogome</div></h2>
+						<p className="subtitle" >You Have 7 Days FREE</p>
 						<div style={{textAlign: 'justify', color: '#727984', fontSize: '2vh'}} className="fontOpenSans textModal22">
-							<p>You're at the end of the test! Ask your parents to add their email so the adventure can continue.</p>
+							<p>Remind your parents to check their email to confirm your information.</p>
 						</div>
 					</div>
 
 					<div className="modal-body">
 						<br />
-							<button type="submit" className="loginBtn close" onClick={this.closeModal}>Ok</button><br />
+							<button type="submit" className="loginBtn bgGreen" onClick={this.closeModal}>Ok</button><br />
 
 					</div>
 					<div className="fontOpenSans modal-footer" style={{color: '#444444'}}>

@@ -14,6 +14,7 @@ import {Players} from "./components/Players";
 import {Register} from "./components/Register";
 import {login} from "./libs/login";
 import {Nickname} from "./components/Nickname";
+import {Success} from "./components/Success";
 
 export let showContinue
 
@@ -43,7 +44,7 @@ class App extends React.Component{
 	register(){
 		function onSuccess(){
 			this.setState({
-				component: "contine"
+				component: "success"
 			})
 		}
 
@@ -56,7 +57,7 @@ class App extends React.Component{
 		let data = {
 			nickname:this.childData.nickname,
 			email:this.childData.parentMail,
-			pin:this.childData.pin,
+			pin:this.childData.pin.join(''),
 			token: credentials.token
 		}
 
@@ -80,7 +81,7 @@ class App extends React.Component{
 									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData}/>
 				break;
 			case "login":
-				component = <Login closeModal={this.handleClick.bind(this, false)} addChildData={this.addChildData} child={this.childData}/>
+				component = <Login handleClick={this.handleClick.bind(this)} addChildData={this.addChildData} child={this.childData}/>
 				break
 			case "players":
 				component = <Players closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}
@@ -97,6 +98,9 @@ class App extends React.Component{
 			case "nickname":
 				component = <Nickname closeModal={this.handleClick.bind(this, false)} onNext={this.handleClick.bind(this, "pin", this.register)} addChildData={this.addChildData}/>
 				break;
+			case "success":
+				component = <Success closeModal={this.handleClick.bind(this, false)} child={this.childData} onOk={this.handleClick.bind(this, "continue")}/>
+				break;
 			default:
 				component = null
 		}
@@ -105,7 +109,7 @@ class App extends React.Component{
 	}
 
 	render() {
-		showContinue = this.handleClick
+		showContinue = this.handleClick.bind(this, "login")
 		return(
 			<div>
 				<button onClick={this.handleClick.bind(this, "login")}>Continue</button>
