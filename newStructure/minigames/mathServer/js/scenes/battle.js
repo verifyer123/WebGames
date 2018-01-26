@@ -528,7 +528,7 @@ var battle = function(){
 	function createHpbar(scale){
 		scale = scale || 1
 		var anchorX = scale < 1 ? 1 : 0
-
+		//anchorX = 0.5
     	var hpGroup = game.add.group()
 		hpGroup.scale.setTo(0.8 * scale, 0.8)
 		hpGroup.health = MAX_HP
@@ -579,9 +579,9 @@ var battle = function(){
 		var name = new Phaser.Text(game, 0, 5, "", fontStyle2)
 		name.stroke = '#2a2a2a';
 		name.strokeThickness = 6;
-		name.x = HP_BAR_WIDTH*0.7
+		//name.x = HP_BAR_WIDTH*0.1
 		//name.y = -45
-		//name.x = 30
+		name.x = -120
 		name.y = -3
 		name.anchor.setTo(anchorX,0.5)
 		name.scale.x = scale
@@ -638,9 +638,12 @@ var battle = function(){
 		hpBar.x = player.x + 10 * scale
 		hpBar.y = 120
 		hudGroup.uiGroup.add(hpBar)
-		hpBar.name.text = data.nickname
+		//hpBar.name.text = data.nickname
+		//hpBar.name.text = "Player1"
+		hpBar.name.text = "DavidSanchezGarduno"
 		player.hpBar = hpBar
 		player.name = data.nickname
+		//player.name = "DavidSanchezGarduno"
 		// hpBar.fixedToCamera = true
 		// hpBar.setScaleMinMax(-1, 0.8);
 		// hpBar.cameraOffset.setTo(player.x, 120);
