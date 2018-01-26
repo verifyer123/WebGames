@@ -628,6 +628,9 @@ var donnieBunny = function(){
                 donnie.setAnimationByName(0, "WIN", true)
             break
             case 6:
+                donnie.setAnimationByName(0, "HIT", true)
+            break
+            case 7:
                 donnie.setAnimationByName(0, "LOSE", false)
                 donnie.addAnimationByName(0, "LOSESTILL", true)
             break
@@ -702,7 +705,12 @@ var donnieBunny = function(){
         }
         else{
             missPoint()
-            moveDatPart(6)
+            if(lives !== 0){
+                moveDatPart(6)
+            }
+            else{
+                moveDatPart(7)
+            }
         }
         
         if(pointsBar.number === 5){
