@@ -638,9 +638,9 @@ var battle = function(){
 		hpBar.x = player.x + 10 * scale
 		hpBar.y = 120
 		hudGroup.uiGroup.add(hpBar)
-		//hpBar.name.text = data.nickname
+		hpBar.name.text = data.nickname
 		//hpBar.name.text = "Player1"
-		hpBar.name.text = "DavidSanchezGarduno"
+		//hpBar.name.text = "DavidSanchezGarduno"
 		player.hpBar = hpBar
 		player.name = data.nickname
 		//player.name = "DavidSanchezGarduno"
