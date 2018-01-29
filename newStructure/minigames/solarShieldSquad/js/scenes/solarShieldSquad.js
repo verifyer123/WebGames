@@ -49,6 +49,12 @@ var solarShieldSquad = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {	name: "explode",
+				file: soundsPath + "fireExplosion.mp3"},
+            {	name: "falling",
+				file: soundsPath + "falling.mp3"},
+            {	name: "energy",
+				file: soundsPath + "energyCharge2.mp3"},
             
 			
 		],
@@ -56,6 +62,10 @@ var solarShieldSquad = function(){
 			{
 				name: 'pickedEnergy', 
 				file:  particlesPath + 'pickedEnergy/specialBar1.json'
+			},
+            {
+				name: 'meteor', 
+				file:  particlesPath + 'meteors/meteorParticle.json'
 			}
 		],
     }
@@ -78,6 +88,7 @@ var solarShieldSquad = function(){
     var tweenTiempo
     var clock, timeBar
     var emitter
+    var emitter2
     var rotating
     
     var lifes1=new Array(4)
@@ -120,6 +131,7 @@ var solarShieldSquad = function(){
             meteorsActive[fulfill]=false
         }
         emitter=""
+        emitter2=""
         loadSounds()
 	}
 
@@ -302,10 +314,9 @@ var solarShieldSquad = function(){
 		buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false;
-        epicparticles.loadEmitter(game.load, "pickedEnergy")
+        epicparticles.loadEmitter(game.load, "meteor")
         
-        
-        game.load.audio('spaceSong', soundsPath + 'songs/electro_trance_minus.mp3');
+        game.load.audio('spaceSong', soundsPath + 'songs/chemical_electro.mp3');
         
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
 		game.load.image('howTo',"images/solarS/how" + localization.getLanguage() + ".png")
@@ -385,12 +396,14 @@ var solarShieldSquad = function(){
 	function createBackground(){
 	   
         backgroundGroup = game.add.group()
-        earthGroup=game.add.group()
+        
         FXGroup=game.add.group()
+        earthGroup=game.add.group()
         
         sceneGroup.add(backgroundGroup)
-        sceneGroup.add(earthGroup)
+        
         sceneGroup.add(FXGroup)
+        sceneGroup.add(earthGroup)
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -469,8 +482,15 @@ var solarShieldSquad = function(){
         
         
         
+        earth2=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.solarS","earth")
+        earth2.anchor.setTo(0.5)
+        earth2.scale.setTo(0.8)
+        FXGroup.add(earth2)
+        
         earth=game.add.sprite(0,0,"atlas.solarS","earth")
         earth.anchor.setTo(0.5)
+        earth.scale.setTo(0.8)
+        earth.alpha=0
         earthGroup.add(earth)
         
         shadow=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.solarS","shadow")
@@ -506,6 +526,36 @@ var solarShieldSquad = function(){
         shield1Proxy.alpha=0
         shield2Proxy.alpha=0
         shield3Proxy.alpha=0
+        
+        chargingIcon1=game.add.sprite(life1.x+20,life1.y-35,"atlas.solarS","electricity");
+        chargingIcon1.anchor.setTo(0.5)
+        
+        chargingIcon2=game.add.sprite(life2.x-15,life2.y-35,"atlas.solarS","electricity");
+        chargingIcon2.anchor.setTo(0.5)
+        
+        chargingIcon3=game.add.sprite(life3.x-10,life3.y+35,"atlas.solarS","electricity");
+        chargingIcon3.anchor.setTo(0.5)
+        
+        earthGroup.add(chargingIcon1)
+        earthGroup.add(chargingIcon2)
+        earthGroup.add(chargingIcon3)
+        
+        chargingIcon1.rotation=0.5
+        chargingIcon2.rotation=-0.5
+        chargingIcon3.rotation=91.10
+        
+        chargingTween1=game.add.tween(chargingIcon1).to({alpha:0},250,Phaser.Easing.Cubic.In,true).yoyo(true).loop(true);
+        chargingTween2=game.add.tween(chargingIcon2).to({alpha:0},250,Phaser.Easing.Cubic.In,true).yoyo(true).loop(true);
+        chargingTween3=game.add.tween(chargingIcon3).to({alpha:0},250,Phaser.Easing.Cubic.In,true).yoyo(true).loop(true);
+        
+        chargingIcon1.alpha=0
+        chargingIcon2.alpha=0
+        chargingIcon3.alpha=0
+        
+        chargingTween1.isPaused=true;
+        chargingTween2.isPaused=true;
+        chargingTween3.isPaused=true;
+        
         
         shield1Proxy.rotation=0.5
         shield2Proxy.rotation=-0.5
@@ -568,6 +618,7 @@ var solarShieldSquad = function(){
         for(var filling=0; filling<meteorsProxy.length;filling++){
             meteorsProxy[filling]=game.add.sprite(0,0,"atlas.solarS","shield")
             meteorsProxy[filling].anchor.setTo(0.5)
+            meteorsProxy[filling].scale.setTo(0.5)
             meteorsProxy[filling].alpha=0
             meteors[filling]=game.add.spine(0,-100,"meteors")
             meteors[filling].setSkinByName("normal");
@@ -610,14 +661,16 @@ var solarShieldSquad = function(){
                 while(enemysActive[generate]==true){
                     generate=game.rnd.integerInRange(0,9);
                 }
-                meteors[generate].setSkinByName("normal");
-                meteors[generate].setAnimationByName(0,"IDLE",true)
+                
                 if(enemysActive[generate]==false){
                     meteors[generate].alpha=1
-                    console.log(generate)
+                    sound.play("falling")
+                    meteors[generate].setAnimationByName(0,"IDLE",true)
                     enemys[generate].position.x=game.rnd.integerInRange(0,game.world.width);
                     enemys[generate].position.y=-200;
                     meteors[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-90;
+                    meteorsProxy[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-90;
+                    
                     enemyTween[generate]=game.add.tween(enemys[generate]).to({x:destinyX,y:destinyY},speed,Phaser.Easing.In,true);
                     enemysActive[generate]=true;
                     howMany++;
@@ -627,7 +680,7 @@ var solarShieldSquad = function(){
     }
     
 
-	
+	//Monedas que van a algun lado
 
     function Coin(objectBorn,objectDestiny,time){
         
@@ -635,8 +688,8 @@ var solarShieldSquad = function(){
         //objectBorn= Objeto de donde nacen
         coins.x=objectBorn.centerX
         coins.y=objectBorn.centerY
-        
-        emitter = epicparticles.newEmitter("pickedEnergy")
+        sound.play("explode")
+        emitter = epicparticles.newEmitter("meteor")
         emitter.duration=0.05;
         emitter.x = coins.x
         emitter.y = coins.y
@@ -660,8 +713,8 @@ var solarShieldSquad = function(){
             recoveryEnergy()
             for(var followMeteors=0; followMeteors<meteors.length;followMeteors++){
                 
-                meteors[followMeteors].position.x=meteorsProxy[followMeteors].x
-                meteors[followMeteors].position.y=meteorsProxy[followMeteors].y+140
+                meteors[followMeteors].position.x=meteorsProxy[followMeteors].x+30
+                meteors[followMeteors].position.y=meteorsProxy[followMeteors].y+100
                 
                 
             }
@@ -683,14 +736,14 @@ var solarShieldSquad = function(){
                      howMany--
                      var temp=checkCols
                     Coin(shield1,pointsBar,100)
+                    dificulty-=50;
                     meteorsActive[checkCols]=false
                     numLifes1--
-                    meteors[temp].setAnimationByName(0,"EXPLOSION",false)
+                    meteors[temp].alpha=1
+                    meteorsProxy[temp].position.y=-200
                     meteorsTween[checkCols].stop()
-                     game.time.events.add(600,function(){
-                         meteors[temp].alpha=1
-                         meteors[temp].setAnimationByName(0,"IDLE",true)
-                         //meteorsProxy[temp].position.y=-200
+                     game.time.events.add(400,function(){
+                         
                          temp=-10
                      })
                     if(numLifes1==3){
@@ -721,13 +774,13 @@ var solarShieldSquad = function(){
                     var temp=checkCols
                     numLifes2--
                     Coin(shield2,pointsBar,100)
+                    dificulty-=50;
                     meteorsActive[checkCols]=false
-                    meteors[temp].setAnimationByName(0,"EXPLOSION",false)
                     meteorsTween[checkCols].stop()
+                    meteors[temp].alpha=1
+                    meteorsProxy[temp].position.y=-200
                      game.time.events.add(400,function(){ 
-                          meteors[temp].setAnimationByName(0,"IDLE",true)
-                         meteors[temp].alpha=1
-                         //meteorsProxy[temp].position.y=-200
+                         
                          temp=-10
                      })
                     if(numLifes2==3){
@@ -759,13 +812,12 @@ var solarShieldSquad = function(){
                     var temp=checkCols
                     numLifes3--
                     Coin(shield3,pointsBar,100)
+                    dificulty-=50;
                     meteorsActive[checkCols]=false
-                    meteors[temp].setAnimationByName(0,"EXPLOSION",false)
+                    meteors[temp].alpha=1
+                    meteorsProxy[temp].position.y=-200
                     meteorsTween[checkCols].stop()
                      game.time.events.add(400,function(){
-                          meteors[temp].setAnimationByName(0,"IDLE",true)
-                         meteors[temp].alpha=1
-                         //meteorsProxy[temp].position.y=-200
                          temp=-10
                      })
                     if(numLifes3==3){
@@ -784,7 +836,7 @@ var solarShieldSquad = function(){
                         lifes3[3].alpha=0
                         shield3.setAnimationByName(0,"LOSE",false)
                         game.time.events.add(600,function(){
-                           shield3.setAnimationByName(0,"LOSESTILL",true) 
+                           shield3.setAnimationByName(0,"LOSESTILL",true)
                         })
                     }
                 }
@@ -796,19 +848,22 @@ var solarShieldSquad = function(){
                 howMany--
                 var temp=checkCols
                 meteorsActive[checkCols]=false
-                meteors[checkCols].setAnimationByName(0,"EXPLOSION",false)
                 meteorsTween[checkCols].stop()
-                earth.tint="0xff0000"
+                sound.play("explode")
+                meteors[temp].alpha=0
+                meteorsProxy[temp].position.y=-200
+                earth2.tint="0xff0000"
+                emitter2 = epicparticles.newEmitter("meteor")
+                emitter2.duration=0.08;
+                emitter2.x = meteors[temp].x
+                emitter2.y = meteors[temp].y
                 game.time.events.add(400,function(){ 
-                     meteors[temp].setAnimationByName(0,"IDLE",true)
-                    meteors[temp].alpha=1
-                    //meteorsProxy[temp].position.y=-200
                     temp=-10
                 })
                 game.time.events.add(50,function(){ 
-                    earth.tint="0xaaaaaa"
+                    earth2.tint="0xaaaaaa"
                     game.time.events.add(200,function(){ 
-                        earth.tint="0xffffff"
+                        earth2.tint="0xffffff"
                     })
                 })
             }
@@ -842,7 +897,11 @@ var solarShieldSquad = function(){
     
     function recoveryEnergy(){
         if(earthGroup.angle>=69 && earthGroup.angle<=223 && numLifes1>0 && numLifes1<4 && !charged1){
-                   numLifes1++
+            numLifes1++
+            sound.play("energy")
+            chargingIcon1.alpha=1;
+            chargingTween1.isPaused=false;
+            
                     if(numLifes1==1){
                         lifes1[3].alpha=1
                         shield1.setAnimationByName(0,"HIT3",true)
@@ -863,9 +922,14 @@ var solarShieldSquad = function(){
                     }
         }else if(earthGroup.angle>223){
             charged1=false
+            chargingTween1.isPaused=true;
+            chargingIcon1.alpha=0
         }
         if(earthGroup.angle>=135 && earthGroup.angle<=269 && numLifes2>0 && numLifes2<4 && !charged2){
                 numLifes2++
+                sound.play("energy")
+                chargingIcon2.alpha=1;
+                chargingTween2.isPaused=false;
                 if(numLifes2==1){
                     lifes2[3].alpha=1
                     shield2.setAnimationByName(0,"HIT3",true)
@@ -886,9 +950,14 @@ var solarShieldSquad = function(){
                 }
         }else if(earthGroup.angle<135 || earthGroup.angle>269){
             charged2=false
+            chargingTween2.isPaused=true;
+            chargingIcon2.alpha=0
         }
         if((earthGroup.angle<=68 || earthGroup.angle>=297) && numLifes3>0 && numLifes3<4 && !charged3){
                 numLifes3++
+                sound.play("energy")
+                chargingIcon3.alpha=1;
+                chargingTween3.isPaused=false;
                 if(numLifes3==1){
                     lifes3[3].alpha=1
                     shield3.setAnimationByName(0,"HIT3",true)
@@ -909,6 +978,8 @@ var solarShieldSquad = function(){
                 }
         }else if(earthGroup.angle>68 && earthGroup.angle<297){
             charged3=false
+            chargingTween3.isPaused=true;
+            chargingIcon3.alpha=0
         }
         
         

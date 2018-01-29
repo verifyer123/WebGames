@@ -28,6 +28,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "electricity",
+	"frame": {"x":1700,"y":205,"w":32,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":40},
+	"sourceSize": {"w":32,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "gametuto",
 	"frame": {"x":1343,"y":1,"w":395,"h":202},
 	"rotated": false,
@@ -151,6 +160,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1739,"h":501},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4204d569d1ab7ef78e9ec6bced2bfa4c:5ccc01c663435236ddaa36e1515ee3f6:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:789157acb9b11c622933aa0038cbd6e6:52ba7a73e5993441c3899d2eac825ff3:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
