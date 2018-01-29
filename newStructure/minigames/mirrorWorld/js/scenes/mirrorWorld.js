@@ -316,7 +316,6 @@ var mirrorWorld = function(){
             dificulty=4
             createPat()
             //Aqui va la primera funciòn que realizara el juego
-            spaceSong.play()
             startGame=true
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
