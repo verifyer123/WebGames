@@ -1,0 +1,104 @@
+
+shield.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/base_escudo
+  rotate: false
+  xy: 47, 45
+  size: 50, 13
+  orig: 50, 13
+  offset: 0, 0
+  index: -1
+normal/cristal_escudo
+  rotate: false
+  xy: 2, 60
+  size: 124, 66
+  orig: 124, 66
+  offset: 0, 0
+  index: -1
+normal/escudo_roto_1
+  rotate: false
+  xy: 128, 60
+  size: 124, 66
+  orig: 124, 66
+  offset: 0, 0
+  index: -1
+normal/escudo_roto_2
+  rotate: false
+  xy: 254, 60
+  size: 124, 66
+  orig: 124, 66
+  offset: 0, 0
+  index: -1
+normal/escudo_roto_3
+  rotate: false
+  xy: 380, 60
+  size: 124, 66
+  orig: 124, 66
+  offset: 0, 0
+  index: -1
+normal/esrtructuera_escudo
+  rotate: false
+  xy: 2, 22
+  size: 43, 36
+  orig: 43, 36
+  offset: 0, 0
+  index: -1
+normal/foco_off
+  rotate: false
+  xy: 99, 46
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+normal/foco_on
+  rotate: false
+  xy: 18, 8
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+normal/lightstrike_01
+  rotate: false
+  xy: 65, 26
+  size: 5, 17
+  orig: 5, 17
+  offset: 0, 0
+  index: -1
+normal/lightstrike_02
+  rotate: false
+  xy: 56, 26
+  size: 7, 17
+  orig: 7, 17
+  offset: 0, 0
+  index: -1
+normal/lightstrike_03
+  rotate: false
+  xy: 47, 23
+  size: 7, 20
+  orig: 7, 20
+  offset: 0, 0
+  index: -1
+normal/lightstrike_04
+  rotate: true
+  xy: 113, 53
+  size: 5, 19
+  orig: 5, 19
+  offset: 0, 0
+  index: -1
+normal/lightstrike_05
+  rotate: false
+  xy: 11, 2
+  size: 5, 18
+  orig: 5, 18
+  offset: 0, 0
+  index: -1
+normal/lightstrike_06
+  rotate: false
+  xy: 2, 2
+  size: 7, 18
+  orig: 7, 18
+  offset: 0, 0
+  index: -1

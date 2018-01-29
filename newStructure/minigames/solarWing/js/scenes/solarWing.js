@@ -40,7 +40,7 @@ var solarWing = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -51,6 +51,12 @@ var solarWing = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
+            {	name: "energy",
+				file: soundsPath + "energyCharge2.mp3"},
+            {	name: "changeOpen",
+				file: soundsPath + "robotBeep.mp3"},
+            {	name: "changeClose",
+				file: soundsPath + "lock.mp3"},
             
 			
 		],
@@ -83,8 +89,9 @@ var solarWing = function(){
     var canCollide
     var emitter
     var clouds=new Array(4)
-    var cloudState
+    var cloudState, sunState
     var canCreate
+    var oblig
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -94,9 +101,10 @@ var solarWing = function(){
 
         game.stage.backgroundColor = "#000000"
         lives = 3
+        oblig=0
         canCollide=true
         canCreate=false
-        speed=0.1
+        speed=3.3
         eagleActivated=false
         emitter=""
         cloudState=false
@@ -176,7 +184,6 @@ var solarWing = function(){
         if(lives==0){
             
             canCreate=false
-            eagle.setAnimationByName(0,"LOOSE",true)
         }
         heartsGroup.text.setText('X ' + lives)
         
@@ -196,14 +203,26 @@ var solarWing = function(){
     function changeWings(obj){
         
         if(obj.tag=="open"){
-            eagleActivated=true
-            eagle.setAnimationByName(0,"FLY_FAST",true)
-            obj.tag="closed"
-        }else if(obj.tag=="closed"){
             eagleActivated=false
             eagle.setAnimationByName(0,"FLY",true)
-            obj.tag="open"
+            sound.play("changeOpen")
+            buttonOpen.loadTexture("atlas.solar","press_op-8")
+        }else if(obj.tag=="closed"){
+            eagleActivated=true
+            eagle.setAnimationByName(0,"FLY_FASTER",true)
+            sound.play("changeClose")
+            buttonClose.loadTexture("atlas.solar","press_clos-8")
         }
+        
+    }
+    
+    function changeWingsR(obj){
+        
+         if(obj.tag=="open"){
+             buttonOpen.loadTexture("atlas.solar","open-8")
+         }else if(obj.tag=="closed"){
+             buttonClose.loadTexture("atlas.solar","close-8")
+         }
         
     }
     
@@ -224,35 +243,58 @@ var solarWing = function(){
     
     function createClouds(){
         
-        create=game.rnd.integerInRange(0,3)
+        create=game.rnd.integerInRange(0,4)
         canCollide=true
+        oblig++
+        if(oblig==2){
+            create=4
+            oblig=0
+        }
         if(create==0){
             cloudGroup1.alpha=1
             cloudGroup2.alpha=0
             cloudGroup3.alpha=0
             cloudGroup4.alpha=0
+            cloudGroup5.alpha=0
             cloudState=false
+            sunState=false
         }
         if(create==1){
             cloudGroup1.alpha=0
             cloudGroup2.alpha=1
             cloudGroup3.alpha=0
             cloudGroup4.alpha=0
+            cloudGroup5.alpha=0
             cloudState=false
+            sunState=false
         }
         if(create==2){
             cloudGroup1.alpha=0
             cloudGroup2.alpha=0
             cloudGroup3.alpha=1
             cloudGroup4.alpha=0
+            cloudGroup5.alpha=0
             cloudState=true
+            sunState=false
         }
         if(create==3){
             cloudGroup1.alpha=0
             cloudGroup2.alpha=0
             cloudGroup3.alpha=0
             cloudGroup4.alpha=1
+            cloudGroup5.alpha=0
             cloudState=true
+            sunState=false
+        }
+        if(create==4){
+            cloudGroup1.alpha=0
+            cloudGroup2.alpha=0
+            cloudGroup3.alpha=0
+            cloudGroup4.alpha=0
+            cloudGroup5.alpha=1
+            cloudAll.position.y=sun.y-100
+            cloudState=false
+            sunState=true
         }
     }
     
@@ -351,6 +393,8 @@ var solarWing = function(){
 		game.load.image('introscreen',"images/solar/introscreen.png")
         
         game.load.spine("eagle","images/Spine/eagle/eagle.json")
+        game.load.spine("sun","images/Spine/sun/sun.json")
+        
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -437,17 +481,14 @@ var solarWing = function(){
         cloudGroup2=game.add.group()
         cloudGroup3=game.add.group()
         cloudGroup4=game.add.group()
+        cloudGroup5=game.add.group()
         
         cloudAll.add(cloudGroup1)
         cloudAll.add(cloudGroup2)
         cloudAll.add(cloudGroup3)
         cloudAll.add(cloudGroup4)
+        cloudAll.add(cloudGroup5)
         
-        
-        cloudGroup1
-        cloudGroup2
-        cloudGroup3
-        cloudGroup4
         
         cloudy1=game.add.sprite(game.world.centerX, 0,"cloudy1")
         cloudy1.anchor.setTo(0.5)
@@ -500,19 +541,28 @@ var solarWing = function(){
         cloudGroup4.alpha=0
         
         
+        ray1=game.add.graphics(game.world.centerX+150, 0);
+        ray1.beginFill("0xffee00");
+        ray1.drawCircle(0, 0, 50);
+        ray1.anchor.setTo(0.5)
+
+        
+        ray2=game.add.graphics(game.world.centerX-150, 0);
+        ray2.beginFill("0xffee00");
+        ray2.drawCircle(0, 0, 50);
+        ray2.anchor.setTo(0.5)
+        
+        
+        cloudGroup5.add(ray1)
+        cloudGroup5.add(ray2)
+        cloudGroup5.alpha=0
+        
+        
         cloudAll.alpha=1
         cloudAll.y=-200
         
         
-        //cloudPar1=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
-        //cloudPar2=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
-        //cloudPar3=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
-        //cloudPar4=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","cloud")
         
-//        cloudPar1.anchor.setTo(0.5)
-//        cloudPar2.anchor.setTo(0.5)
-//        cloudPar3.anchor.setTo(0.5)
-//        cloudPar4.anchor.setTo(0.5)
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -530,7 +580,7 @@ var solarWing = function(){
         backG=game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.solar","tile-8")
         backgroundGroup.add(backG)
         
-        solarBar=game.add.sprite(game.world.centerX,game.world.height-80,"atlas.solar","barra-8")
+        solarBar=game.add.sprite(game.world.centerX,120,"atlas.solar","barra-8")
         solarBar.anchor.setTo(0.5)
         UIGroup.add(solarBar)
         
@@ -540,6 +590,14 @@ var solarWing = function(){
         bar.scale.setTo(0.1,0.5)
         UIGroup.add(bar)
         
+        //Sun 
+        
+        sun=game.add.spine(game.world.centerX, 400,"sun")
+        sun.scale.setTo(0.5)
+        sun.setSkinByName("normal")
+        sun.setAnimationByName(0,"IDLE",true)
+        backgroundGroup.add(sun)
+        
         //Eagle
         
         eagle=game.add.spine(game.world.centerX,game.world.height-130,"eagle")
@@ -548,14 +606,6 @@ var solarWing = function(){
         eagle.setAnimationByName(0,"FLY",true)
         characterGroup.add(eagle)
         
-        rect2 = new Phaser.Graphics(game)
-        rect2.beginFill(0x000000)
-        rect2.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect2.alpha = 0
-        rect2.endFill()
-        rect2.inputEnabled = true
-        characterGroup.add(rect2)
-        rect2.events.onInputDown.add(playedEagle, this);
         
         //Coins
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
@@ -564,13 +614,52 @@ var solarWing = function(){
         coins.animations.add('coin');
         coins.animations.play('coin', 24, true);
         coins.alpha=0
+        
+        cloudPar1=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","tile_1-8")
+        cloudPar2=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","tile_1-8")
+        cloudPar3=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","tile_1-8")
+        cloudPar4=game.add.sprite(game.rnd.integerInRange(0,game.world.width),game.rnd.integerInRange(0,game.world.height-200),"atlas.solar","tile_1-8")
+        
+        backgroundGroup.add(cloudPar1)
+        backgroundGroup.add(cloudPar2)
+        backgroundGroup.add(cloudPar3)
+        backgroundGroup.add(cloudPar4)
+        
+        cloudPar1.anchor.setTo(0.5)
+        cloudPar2.anchor.setTo(0.5)
+        cloudPar3.anchor.setTo(0.5)
+        cloudPar4.anchor.setTo(0.5)
+        
+        cloudPar1.alpha=0.5
+        cloudPar2.alpha=0.5
+        cloudPar3.alpha=0.5
+        cloudPar4.alpha=0.5
+        
+        
+        buttonOpen=game.add.sprite(game.world.centerX-150,game.world.height-100,"atlas.solar","open-8");
+        buttonOpen.inputEnabled=true;
+        buttonOpen.anchor.setTo(0.5);
+        buttonOpen.tag="open";
+        buttonOpen.events.onInputDown.add(changeWings, this);
+        buttonOpen.events.onInputUp.add(changeWingsR, this);
+        
+        buttonClose=game.add.sprite(game.world.centerX+150,game.world.height-100,"atlas.solar","close-8");
+        buttonClose.inputEnabled=true;
+        buttonClose.tag="closed";
+        buttonClose.events.onInputDown.add(changeWings, this);
+        buttonClose.events.onInputUp.add(changeWingsR, this);
+        buttonClose.anchor.setTo(0.5);
+        
+        characterGroup.add(buttonOpen)
+        characterGroup.add(buttonClose)
+        
     }
 	
     function playedEagle(obj){
         
         if(!eagleActivated){
             eagleActivated=true
-            eagle.setAnimationByName(0,"FLY_FAST",true)
+            eagle.setAnimationByName(0,"FLY_FASTER",true)
         }else if(eagleActivated){
             eagleActivated=false
             eagle.setAnimationByName(0,"FLY",true)
@@ -609,20 +698,27 @@ var solarWing = function(){
             epicparticles.update()
             
             if(canCreate){
-                if(speed<11.7){
-                    speed+=0.01
-                }
-                if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && eagleActivated==cloudState){
+                if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && eagleActivated==cloudState && !sunState){
                     Coin(eagle,pointsBar,100)
                     canCollide=false
-                }else if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && eagleActivated!=cloudState){
+                }else if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && eagleActivated!=cloudState && !sunState){
                     missPoint()
                     canCollide=false
-                    eagle.setAnimationByName(0,"HIT",false)
-                    rect2.inputEnabled=false
+                    if(lives>0){
+                        eagle.setAnimationByName(0,"HIT",false)
+                    }else{
+                        eagle.setAnimationByName(0,"LOOSE",false)
+                    }
+                    buttonOpen.inputEnabled=false
+                    buttonClose.inputEnabled=false
+                    
                     game.time.events.add(600,function(){
-                        eagle.setAnimationByName(0,"FLY",true)
-                        rect2.inputEnabled=true
+                         if(lives>0){
+                            eagle.setAnimationByName(0,"FLY",true)
+                         }
+                        buttonOpen.inputEnabled=true
+                        buttonClose.inputEnabled=true
+                        
                         eagleActivated=false
                     })
                     if(speed>1.01){
@@ -630,44 +726,73 @@ var solarWing = function(){
                     }else{
                         speed-=0.01
                     }
+                }else if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && sunState && speed<11.6){
+                    speed+=0.8
+                    canCollide=false
+                    sound.play("energy")
+                    emitter2 = epicparticles.newEmitter("pickedEnergy")
+                    emitter2.duration=0.5;
+                    emitter2.x = eagle.x-150
+                    emitter2.y = eagle.y-70
+                    
+                    emitter3 = epicparticles.newEmitter("pickedEnergy")
+                    emitter3.duration=0.5;
+                    emitter3.x = eagle.x+150
+                    emitter3.y = eagle.y-70
+                    cloudAll.alpha=0
+                }else if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && sunState){
+                    sound.play("energy")
+                    emitter2 = epicparticles.newEmitter("pickedEnergy")
+                    emitter2.duration=0.5;
+                    emitter2.x = eagle.x-150
+                    emitter2.y = eagle.y-70
+                    
+                    emitter3 = epicparticles.newEmitter("pickedEnergy")
+                    emitter3.duration=0.5;
+                    emitter3.x = eagle.x+150
+                    emitter3.y = eagle.y-70
+                    cloudAll.alpha=0
                 }
+                
+                
                 bar.scale.setTo(speed,0.5)
                 cloudAll.y+=speed*1.8
 
                 if(cloudAll.y>game.world.height+200){
                     cloudAll.y=-200
+                    cloudAll.alpha=1
                     createClouds()
                 }
                 if(eagleActivated){
                     if(eagle.y>game.world.centerY)eagle.position.y-=5;
-//                    cloudPar1.y+=speed*2
-//                    cloudPar2.y+=speed*2
-//                    cloudPar3.y+=speed*2
-//                    cloudPar4.y+=speed*2
+                    cloudPar1.y+=speed*2
+                    cloudPar2.y+=speed*2
+                    cloudPar3.y+=speed*2
+                    cloudPar4.y+=speed*2
                 }else if(!eagleActivated){
                     if(eagle.y<game.world.height-130)eagle.position.y+=5;
-//                    cloudPar1.y+=speed
-//                    cloudPar2.y+=speed
-//                    cloudPar3.y+=speed
-//                    cloudPar4.y+=speed
+                    cloudPar1.y+=speed
+                    cloudPar2.y+=speed
+                    cloudPar3.y+=speed
+                    cloudPar4.y+=speed
                 }
                 
-//                if(cloudPar1>game.world.height+100){
-//                    cloudPar1.x=game.rnd.integerInRange(0,game.world.width)
-//                    cloudPar1.y=game.rnd.integerInRange(-200,-100)
-//                }
-//                if(cloudPar2>game.world.height+100){
-//                    cloudPar2.x=game.rnd.integerInRange(0,game.world.width)
-//                    cloudPar2.y=game.rnd.integerInRange(-200,-100)
-//                }
-//                if(cloudPar3>game.world.height+100){
-//                    cloudPar3.x=game.rnd.integerInRange(0,game.world.width)
-//                    cloudPar3.y=game.rnd.integerInRange(-200,-100)
-//                }
-//                if(cloudPar4>game.world.height+100){
-//                    cloudPar4.x=game.rnd.integerInRange(0,game.world.width)
-//                    cloudPar4.y=game.rnd.integerInRange(-200,-100)
-//                }
+                if(cloudPar1.y>game.world.height+100){
+                    cloudPar1.x=game.rnd.integerInRange(0,game.world.width)
+                    cloudPar1.y=game.rnd.integerInRange(-200,-100)
+                }
+                if(cloudPar2.y>game.world.height+100){
+                    cloudPar2.x=game.rnd.integerInRange(0,game.world.width)
+                    cloudPar2.y=game.rnd.integerInRange(-200,-100)
+                }
+                if(cloudPar3.y>game.world.height+100){
+                    cloudPar3.x=game.rnd.integerInRange(0,game.world.width)
+                    cloudPar3.y=game.rnd.integerInRange(-200,-100)
+                }
+                if(cloudPar4.y>game.world.height+100){
+                    cloudPar4.x=game.rnd.integerInRange(0,game.world.width)
+                    cloudPar4.y=game.rnd.integerInRange(-200,-100)
+                }
             }
             
         }

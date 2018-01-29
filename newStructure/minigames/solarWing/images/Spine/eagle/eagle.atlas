@@ -1,251 +1,251 @@
 
 eagle.png
-size: 1024,512
+size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/antenna
-  rotate: true
-  xy: 278, 97
+  rotate: false
+  xy: 899, 900
   size: 85, 117
   orig: 85, 117
   offset: 0, 0
   index: -1
 normal/arm1
-  rotate: true
-  xy: 411, 201
+  rotate: false
+  xy: 526, 578
   size: 67, 43
   orig: 67, 43
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 978, 398
+  xy: 130, 98
   size: 44, 49
   orig: 44, 49
   offset: 0, 0
   index: -1
 normal/covert1_a
-  rotate: false
-  xy: 273, 270
-  size: 186, 67
-  orig: 186, 67
+  rotate: true
+  xy: 2, 474
+  size: 296, 216
+  orig: 296, 216
   offset: 0, 0
   index: -1
 normal/covert1_b
-  rotate: false
-  xy: 273, 425
-  size: 189, 85
-  orig: 189, 85
+  rotate: true
+  xy: 2, 146
+  size: 326, 118
+  orig: 326, 118
   offset: 0, 0
   index: -1
 normal/covert1_c
-  rotate: false
-  xy: 461, 252
-  size: 117, 77
-  orig: 117, 77
+  rotate: true
+  xy: 412, 590
+  size: 209, 112
+  orig: 209, 112
   offset: 0, 0
   index: -1
 normal/covert2_a
   rotate: false
-  xy: 778, 442
-  size: 185, 68
-  orig: 185, 68
+  xy: 273, 801
+  size: 296, 216
+  orig: 296, 216
   offset: 0, 0
   index: -1
 normal/covert2_b
   rotate: false
-  xy: 273, 339
-  size: 189, 84
-  orig: 189, 84
+  xy: 571, 899
+  size: 326, 118
+  orig: 326, 118
   offset: 0, 0
   index: -1
 normal/covert2_c
   rotate: false
-  xy: 778, 363
-  size: 117, 77
-  orig: 117, 77
+  xy: 526, 623
+  size: 209, 112
+  orig: 209, 112
   offset: 0, 0
   index: -1
 normal/eyes_a
-  rotate: false
-  xy: 2, 2
+  rotate: true
+  xy: 802, 755
   size: 142, 69
   orig: 142, 69
   offset: 0, 0
   index: -1
 normal/eyes_b
   rotate: false
-  xy: 464, 331
+  xy: 122, 173
   size: 141, 68
   orig: 141, 68
   offset: 0, 0
   index: -1
 normal/eyes_c
   rotate: false
-  xy: 278, 184
+  xy: 220, 474
   size: 131, 84
   orig: 131, 84
   offset: 0, 0
   index: -1
 normal/eyes_d
   rotate: true
-  xy: 214, 122
+  xy: 284, 331
   size: 141, 62
   orig: 141, 62
   offset: 0, 0
   index: -1
 normal/faceshield
-  rotate: false
-  xy: 2, 73
+  rotate: true
+  xy: 220, 560
   size: 210, 190
   orig: 210, 190
   offset: 0, 0
   index: -1
 normal/foot1_a
   rotate: false
-  xy: 885, 311
+  xy: 130, 2
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 normal/foot1_b
   rotate: false
-  xy: 214, 73
+  xy: 818, 650
   size: 54, 47
   orig: 54, 47
   offset: 0, 0
   index: -1
 normal/foot2_a
-  rotate: false
-  xy: 783, 269
+  rotate: true
+  xy: 986, 900
   size: 50, 36
   orig: 50, 36
   offset: 0, 0
   index: -1
 normal/foot2_b
-  rotate: true
-  xy: 745, 344
+  rotate: false
+  xy: 273, 772
   size: 55, 27
   orig: 55, 27
   offset: 0, 0
   index: -1
 normal/forearm1
-  rotate: true
-  xy: 965, 449
+  rotate: false
+  xy: 661, 565
   size: 61, 56
   orig: 61, 56
   offset: 0, 0
   index: -1
 normal/forearm2
-  rotate: false
-  xy: 526, 186
+  rotate: true
+  xy: 595, 570
   size: 51, 64
   orig: 51, 64
   offset: 0, 0
   index: -1
 normal/hand1_a
-  rotate: true
-  xy: 222, 16
+  rotate: false
+  xy: 737, 601
   size: 55, 50
   orig: 55, 50
   offset: 0, 0
   index: -1
 normal/hand1_b
   rotate: false
-  xy: 783, 307
+  xy: 818, 699
   size: 52, 54
   orig: 52, 54
   offset: 0, 0
   index: -1
 normal/hand2_a
   rotate: false
-  xy: 978, 358
+  xy: 526, 761
   size: 39, 38
   orig: 39, 38
   offset: 0, 0
   index: -1
 normal/hand2_b
   rotate: false
-  xy: 837, 314
+  xy: 130, 49
   size: 46, 47
   orig: 46, 47
   offset: 0, 0
   index: -1
 normal/head
   rotate: false
-  xy: 2, 265
+  xy: 2, 772
   size: 269, 245
   orig: 269, 245
   offset: 0, 0
   index: -1
 normal/leg1
   rotate: false
-  xy: 897, 358
+  xy: 737, 653
   size: 79, 82
   orig: 79, 82
   offset: 0, 0
   index: -1
 normal/leg2
-  rotate: false
-  xy: 146, 4
+  rotate: true
+  xy: 284, 255
   size: 74, 67
   orig: 74, 67
   offset: 0, 0
   index: -1
 normal/mouth_a
   rotate: true
-  xy: 745, 277
+  xy: 986, 952
   size: 65, 36
   orig: 65, 36
   offset: 0, 0
   index: -1
 normal/mouth_b
   rotate: false
-  xy: 932, 337
+  xy: 330, 780
   size: 52, 19
   orig: 52, 19
   offset: 0, 0
   index: -1
 normal/mouth_c
   rotate: true
-  xy: 932, 318
+  xy: 384, 782
   size: 17, 26
   orig: 17, 26
   offset: 0, 0
   index: -1
 normal/mouth_d
-  rotate: true
-  xy: 580, 275
+  rotate: false
+  xy: 122, 149
   size: 54, 22
   orig: 54, 22
   offset: 0, 0
   index: -1
 normal/shin1
-  rotate: false
-  xy: 456, 189
+  rotate: true
+  xy: 353, 490
   size: 68, 61
   orig: 68, 61
   offset: 0, 0
   index: -1
 normal/torso
-  rotate: true
-  xy: 607, 273
+  rotate: false
+  xy: 2, 8
   size: 126, 136
   orig: 126, 136
   offset: 0, 0
   index: -1
 normal/wing1
-  rotate: false
-  xy: 464, 401
-  size: 155, 109
-  orig: 155, 109
+  rotate: true
+  xy: 122, 243
+  size: 229, 160
+  orig: 229, 160
   offset: 0, 0
   index: -1
 normal/wing2
   rotate: false
-  xy: 621, 401
-  size: 155, 109
-  orig: 155, 109
+  xy: 571, 737
+  size: 229, 160
+  orig: 229, 160
   offset: 0, 0
   index: -1
