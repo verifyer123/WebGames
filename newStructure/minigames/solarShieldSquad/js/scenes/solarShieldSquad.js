@@ -77,7 +77,7 @@ var solarShieldSquad = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 133
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -319,6 +319,8 @@ var solarShieldSquad = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/chemical_electro.mp3');
         
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
+        game.load.spritesheet("explo", 'images/Spine/explo.png', 140, 168, 5)
+        
 		game.load.image('howTo',"images/solarS/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/solarS/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/solarS/introscreen.png")
@@ -502,6 +504,7 @@ var solarShieldSquad = function(){
         sun=game.add.spine(game.world.centerX+10,game.world.height+150,"sunS")
         sun.setSkinByName("normal");
         sun.setAnimationByName(0,"IDLE",true)
+        sun.speed =0.1
         FXGroup.add(sun)
         
         
@@ -614,13 +617,19 @@ var solarShieldSquad = function(){
         earthGroup.add(shield2)
         earthGroup.add(shield3)
         
+        explo1=game.add.sprite(-100,-100,"explo")
+        explo1.anchor.setTo(0.5,0.5);
+        explo1.animations.add('explo');
+        
+        
+        
         //Meteor proxy
         for(var filling=0; filling<meteorsProxy.length;filling++){
             meteorsProxy[filling]=game.add.sprite(0,0,"atlas.solarS","shield")
             meteorsProxy[filling].anchor.setTo(0.5)
             meteorsProxy[filling].scale.setTo(0.5)
             meteorsProxy[filling].alpha=0
-            meteors[filling]=game.add.spine(0,-100,"meteors")
+            meteors[filling]=game.add.spine(0,0,"meteors")
             meteors[filling].setSkinByName("normal");
             meteors[filling].scale.setTo(1)
             meteors[filling].alpha=0
@@ -666,10 +675,9 @@ var solarShieldSquad = function(){
                     meteors[generate].alpha=1
                     sound.play("falling")
                     meteors[generate].setAnimationByName(0,"IDLE",true)
-                    enemys[generate].position.x=game.rnd.integerInRange(0,game.world.width);
+                    enemys[generate].position.x=game.rnd.integerInRange(100,game.world.width-100);
                     enemys[generate].position.y=-200;
                     meteors[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-90;
-                    meteorsProxy[generate].angle= (Math.atan2(destinyY - enemys[generate].y, destinyX - enemys[generate].x) * 180 / Math.PI)-90;
                     
                     enemyTween[generate]=game.add.tween(enemys[generate]).to({x:destinyX,y:destinyY},speed,Phaser.Easing.In,true);
                     enemysActive[generate]=true;
@@ -693,6 +701,12 @@ var solarShieldSquad = function(){
         emitter.duration=0.05;
         emitter.x = coins.x
         emitter.y = coins.y
+        explo1.position.x=emitter.x
+        explo1.position.y=emitter.y
+        explo1.animations.play('explo', 24, false);
+        game.time.events.add(200,function(){
+            explo1.y=-100
+        })
         game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
         game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
             game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
@@ -713,7 +727,7 @@ var solarShieldSquad = function(){
             recoveryEnergy()
             for(var followMeteors=0; followMeteors<meteors.length;followMeteors++){
                 
-                meteors[followMeteors].position.x=meteorsProxy[followMeteors].x+30
+                meteors[followMeteors].position.x=meteorsProxy[followMeteors].x
                 meteors[followMeteors].position.y=meteorsProxy[followMeteors].y+100
                 
                 
@@ -779,7 +793,7 @@ var solarShieldSquad = function(){
                     meteorsTween[checkCols].stop()
                     meteors[temp].alpha=1
                     meteorsProxy[temp].position.y=-200
-                     game.time.events.add(400,function(){ 
+                    game.time.events.add(400,function(){ 
                          
                          temp=-10
                      })
@@ -845,6 +859,7 @@ var solarShieldSquad = function(){
             if (checkOverlap(earth,meteorsProxy[checkCols]) && meteorsActive[checkCols]){
                 
                 missPoint()
+                
                 howMany--
                 var temp=checkCols
                 meteorsActive[checkCols]=false
@@ -857,6 +872,12 @@ var solarShieldSquad = function(){
                 emitter2.duration=0.08;
                 emitter2.x = meteors[temp].x
                 emitter2.y = meteors[temp].y
+                explo1.position.x=emitter2.x
+                explo1.position.y=emitter2.y
+                explo1.animations.play('explo', 24, false);
+                game.time.events.add(200,function(){
+                    explo1.y=-100
+                })
                 game.time.events.add(400,function(){ 
                     temp=-10
                 })

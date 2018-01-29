@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/solarShieldSquad/images/solarS/solarShieldtpk.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/galaxyJumper/images/galaxy/atlas.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -225,6 +225,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">cola_estrella.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,25,91,50</rect>
+                <key>scale9Paddings</key>
+                <rect>45,25,91,50</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">cola_meteoro.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>57,38,113,77</rect>
+                <key>scale9Paddings</key>
+                <rect>57,38,113,77</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">desktop.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -238,29 +264,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">earth.png</key>
+            <key type="filename">estrella.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>94,95,189,189</rect>
+                <rect>21,21,43,42</rect>
                 <key>scale9Paddings</key>
-                <rect>94,95,189,189</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">electricity.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>8,10,16,20</rect>
-                <key>scale9Paddings</key>
-                <rect>8,10,16,20</rect>
+                <rect>21,21,43,42</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -271,22 +284,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>99,51,198,101</rect>
+                <rect>91,59,182,119</rect>
                 <key>scale9Paddings</key>
-                <rect>99,51,198,101</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">hex.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>45,27,89,54</rect>
-                <key>scale9Paddings</key>
-                <rect>45,27,89,54</rect>
+                <rect>91,59,182,119</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -316,42 +316,42 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">lifebar.png</key>
+            <key type="filename">meteoro.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>14,4,29,7</rect>
+                <rect>21,22,42,44</rect>
                 <key>scale9Paddings</key>
-                <rect>14,4,29,7</rect>
+                <rect>21,22,42,44</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">shadow.png</key>
+            <key type="filename">partes_dino/cuerpo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>95,95,189,189</rect>
+                <rect>29,39,57,78</rect>
                 <key>scale9Paddings</key>
-                <rect>95,95,189,189</rect>
+                <rect>29,39,57,78</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">shield.png</key>
+            <key type="filename">planetas/tierra.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>31,22,62,43</rect>
+                <rect>18,18,36,36</rect>
                 <key>scale9Paddings</key>
-                <rect>31,22,62,43</rect>
+                <rect>18,18,36,36</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -382,16 +382,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">stars.png</key>
+            <key type="filename">tile.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>32,32,65,64</rect>
+                <rect>50,50,99,99</rect>
                 <key>scale9Paddings</key>
-                <rect>32,32,65,64</rect>
+                <rect>50,50,99,99</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -411,23 +411,23 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>shadow.png</filename>
-            <filename>wrong.png</filename>
+            <filename>gametuto.png</filename>
+            <filename>meteoro.png</filename>
+            <filename>button.png</filename>
+            <filename>cola_meteoro.png</filename>
+            <filename>cola_estrella.png</filename>
+            <filename>estrella.png</filename>
+            <filename>introscreen.png</filename>
+            <filename>planetas/tierra.png</filename>
+            <filename>partes_dino/cuerpo.png</filename>
+            <filename>tile.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>life_box.png</filename>
+            <filename>Movil.png</filename>
+            <filename>desktop.png</filename>
             <filename>star.png</filename>
             <filename>smoke.png</filename>
-            <filename>shield.png</filename>
-            <filename>lifebar.png</filename>
-            <filename>life_box.png</filename>
-            <filename>earth.png</filename>
-            <filename>desktop.png</filename>
-            <filename>gametuto.png</filename>
-            <filename>hex.png</filename>
-            <filename>introscreen.png</filename>
-            <filename>button.png</filename>
-            <filename>Movil.png</filename>
-            <filename>stars.png</filename>
-            <filename>electricity.png</filename>
+            <filename>wrong.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
