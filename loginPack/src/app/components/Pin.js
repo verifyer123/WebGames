@@ -39,7 +39,7 @@ export class Pin extends React.Component {
 	goNext(){
 		console.log(this.pivot)
 		if(this.pivot === 4){
-			let pin = this.pinSelected.join('')
+			let pin = this.pinSelected
 
 			this.pop.play()
 			$("#save").hide();

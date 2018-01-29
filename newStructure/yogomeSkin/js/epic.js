@@ -217,7 +217,7 @@ var epicSiteMain =  function(){
 	}
 
 	function loadGame(src){
-		currentSrc = src
+		currentSrc = src || DEFAULT_SRC
 
 		function NextFunction(){
 			$("#sectionInfo").css("visibility", "visible")

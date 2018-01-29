@@ -29,6 +29,8 @@
     height: 100%;
     top: 0;
     left: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2vh;
 }
 
 /* Modal Content */
@@ -687,6 +689,39 @@ input[type=text]:focus {
     -moz-transition: max-height 0.8s;
     transition: max-height 0.8s;
     /*border-width: 0px;*/
+}
+
+.pinDisplay{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    height: 6vh;
+    width: 6vh;
+}
+
+.pinCircle{
+    position: absolute;
+    width: 2.2vh;
+    height: 2.2vh;
+    background-color: #d23587;
+    border-radius: 100%;
+    color: white;
+    font-size: 1.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    margin-top: 4.2vh;
+    margin-left: 4.2vh;
+}
+
+.labelSuccess{
+    text-align: left !important;
+    color: rgb(114, 121, 132);
+    font-size: 2vh;
+    padding-right: 40px;
+    float: left;
 }
 
 
