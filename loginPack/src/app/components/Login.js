@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pin} from './Pin.js'
 import {login} from '../libs/login'
+import {localization} from "../libs/localization";
 
 export class Login extends React.Component {
 
@@ -19,16 +20,6 @@ export class Login extends React.Component {
 		this.closeModal = this.closeModal.bind(this)
 		this.togglePin = this.togglePin.bind(this)
 		this.setLogin = this.setLogin.bind(this)
-	}
-
-	getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
 	componentDidMount() {
@@ -90,22 +81,15 @@ export class Login extends React.Component {
 	}
 
 	render() {
-
-		let language = this.getParameterByName("language");
-		if (language === null) {
-			let lengua;
-			//lengua = navigator.language || navigator.userLanguage;
-			//language = eval("'" + lengua + "'").toUpperCase();
-			language = "EN";
-		} else {
-			language.toUpperCase();
-		}
+		let language = localization.getLanguage()
 		return (
 			<div id="signIn" className="modal">
 
 				<div className="modal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.closeModal}></button>
+						{!this.props.forceLogin &&
+							<button className="closeModal close" onClick={this.closeModal}></button>
+						}
 					</div>
 					<div className="modal-header">
 						<div className="topImg">
@@ -115,30 +99,30 @@ export class Login extends React.Component {
 								<img className="particule" src="images/particle-04.png"/>
 							</div>
 						</div>
-						<h2><div className="textModal9" style={{fontSize: "3vh"}}>- Login to Yogome -</div></h2>
+						<h2><div style={{fontSize: "3vh"}}>- {localization.getString("logInYogome", language)} -</div></h2>
 					</div>
 
 					<div className="modal-body">
 
-						<input type="text" id="username" ref={(input) => {this.username = input}} className="inputText" placeholder="Username" name="Username" onFocus={function(){
+						<input type="text" id="username" ref={(input) => {this.username = input}} className="inputText" placeholder={localization.getString("nickname", language)} name="Username" onFocus={function(){
 							$('#username').attr("placeholder", '')
 							$('#username').removeClass('invalid')
 							$('#onError').css('display', "none")
 							// this.placeholder = ''
 						}}
 							   onBlur={function(){
-								   $('#username').attr("placeholder", 'Username')
+								   $('#username').attr("placeholder", localization.getString("nickname", language))
 							   }} /><br />
-						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.onLoginPressed.bind(this)}>Login</button>
+						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.onLoginPressed.bind(this)}>{localization.getString("logIn", language)}</button>
 
 						<div id="loadSpace" className="loader" style={{display:"none"}}>
 						</div>
 						<br />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						<hr />
-						<button type="submit" id="firstLogin" className="loginBtn bgOrange" onClick={()=>{this.props.handleClick("register")}}>First Time Login</button><br />
-						<button type="submit" id="createAccount" className="loginBtn bgGreen">Create New Account</button><br />
-						<button className="recoverBtn" id="recoverPass">I Forgot My Password</button><br />
+						<button type="submit" id="firstLogin" className="loginBtn bgOrange" onClick={()=>{this.props.handleClick("register", false)}}>{localization.getString("firstTimeLogin", language)}</button><br />
+						<button type="submit" id="createAccount" className="loginBtn bgGreen" onClick={()=>{this.props.handleClick("register", true)}}>{localization.getString("createAccount", language)}</button><br />
+						<button className="recoverBtn" id="recoverPass" onClick={()=>{this.props.handleClick("recover")}}>{localization.getString("forgotPass", language)}</button><br />
 
 					</div>
 				</div>

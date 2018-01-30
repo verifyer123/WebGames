@@ -330,7 +330,12 @@ function SelectLevel(){
             magicSound.play();
 			var level = parseInt($(this).attr("level"));
 			var currentID = server.getIdGame()
-			server.start(level, currentID);
+            function onStart() {
+				console.log("onStart", server.getIdGame())
+				$("#pinNumber").text(server.getIdGame())
+			}
+
+			server.start(level, currentID, onStart);
 			server.addEventListener("onInitPlayer", showYogotar);
 			server.addEventListener('onPlayersReady', onPlayersReady);
         	$("#levelBasicButton,#levelMediumButton,#leveladvanceButton").unbind("mouseover");
@@ -351,7 +356,7 @@ function SelectLevel(){
 function NextScene2(){
     $("#selectLevel").hide();
     $("#waitingPlayers").show();
-    $("#pinNumber").text(server.getIdGame())
+//    $("#pinNumber").text(server.getIdGame())
 }
 </script>
 </html>

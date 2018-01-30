@@ -150,6 +150,7 @@ var epicModel = function () {
 			localStorage.setItem("educationID", child.educationID)
 			localStorage.setItem("name", child.name)
 			localStorage.setItem("age", child.age)
+			console.log(child, "gameData")
 			if(child.gameData) {
 				var gameData = child.gameData
 				gameData = JSON.stringify(child.gameData)
@@ -159,6 +160,8 @@ var epicModel = function () {
 					gameData.minigames = {}
 					localStorage.setItem("gameData", gameData)
 				}
+			}else{
+				localStorage.setItem("gameData", null)
 			}
 		}
 
@@ -226,6 +229,7 @@ var epicModel = function () {
 
 	function loginPlayer(remoteID, callback) {
 		var credentials = getCredentials()
+		console.log(remoteID, "loginPlayer")
 		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, ACCESS_CHILD, checkLogin)
 	}
 

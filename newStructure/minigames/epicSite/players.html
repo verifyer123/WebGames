@@ -76,6 +76,7 @@
 
 		function onButton() {
 			var myData = $(this).data().child
+			console.log(myData)
 			epicModel.loginPlayer(myData.remoteID)
 			$("#players").modal('hide');
 			console.log("onButton")

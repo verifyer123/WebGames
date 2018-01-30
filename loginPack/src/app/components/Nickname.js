@@ -17,7 +17,7 @@ export class Nickname extends React.Component {
 			showPass:false,
 		}
 
-		this.closeModal = this.closeModal.bind(this)
+		this.newAccount = this.props.newAccount
 
 	}
 
@@ -33,15 +33,26 @@ export class Nickname extends React.Component {
 	}
 
 	okPressed(){
-		var nickname = this.nickname.value
+		let nickname = this.nickname.value
+		$('#loadSpace').css("display", "block")
 
-		this.props.addChildData("nickname", nickname)
-		this.props.onNext()
-	}
+		function onSuccess(response) {
+			if(response.exists){
+				onError()
+				return
+			}
+			this.props.addChildData("nickname", nickname)
+			this.props.handleClick("pin", ()=>{this.props.onRegister(this.newAccount)})
+		}
 
-	closeModal(){
-		this.pop.play()
-		this.props.closeModal()
+		function onError() {
+			Nickname.onError("Please use another nickname")
+			$('#loadSpace').css("display", "none")
+		}
+
+		login.checkExists({nickname:nickname}, onSuccess.bind(this), onError)
+
+
 	}
 
 	render() {
@@ -51,7 +62,7 @@ export class Nickname extends React.Component {
 
 				<div className="modal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.closeModal}></button>
+						<button className="closeModal close" onClick={this.props.handleClick.bind(null, "login")}></button>
 					</div>
 					<div className="modal-header">
 						<div className="topImg">
@@ -67,7 +78,7 @@ export class Nickname extends React.Component {
 
 					<div className="modal-body">
 
-						<input type="text" id="nickname" className="inputText" placeholder="nickname" name="nickname"
+						<input type="text" id="nickname" className="inputText" placeholder="Nickname" name="nickname"
 							   ref={(input) =>{this.nickname = input} }
 							   onFocus={function(){
 							$('#nickname').attr("placeholder", '')
@@ -76,7 +87,7 @@ export class Nickname extends React.Component {
 							// this.placeholder = ''
 						}}
 							   onBlur={function(){
-								   $('#nickname').attr("placeholder", 'nickname')
+								   $('#nickname').attr("placeholder", 'Nickname')
 							   }} />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 
