@@ -75,7 +75,8 @@ var coffeerush = function(){
     //var INITIAL_VELOCITY = 0
     var DELTA_VELOCITY = 0.1
     var TOUCH_MINIMUN_DELTA = 50
-    var DELTA_LIMIT_APPEAR_CORRECT = 50
+    var DELTA_LIMIT_APPEAR_CORRECT = 85
+    var DELTA_LIMIT_APPEAR_CORRECT_Y = 100
     var limitHorizontal = null
     var limitlVertical = null
     var playerCollision = null
@@ -88,7 +89,7 @@ var coffeerush = function(){
 
     var isRunning
     var isTouchAvailable
-
+    var background
 
     
     function getSkins(){
@@ -303,7 +304,7 @@ var coffeerush = function(){
     function createCorrect(){
     	//Object that give points init
     	correctObject = game.add.sprite(0,0,'atlas.coffeerush','cafe')
-    	
+    	correctObject.anchor.setTo(0.5)
         game.physics.arcade.enable(correctObject,true)
         sceneGroup.add(correctObject)
         correctObject.tag="correct"
@@ -332,16 +333,17 @@ var coffeerush = function(){
     	}
     	else{
     		if(characterGroup.y < game.world.centerY){
-    			minY = game.world.centerY + DELTA_LIMIT_APPEAR_CORRECT
+    			minY = background.centerY + DELTA_LIMIT_APPEAR_CORRECT_Y
     		}
     		else{
-    			maxY = game.world.centerY - DELTA_LIMIT_APPEAR_CORRECT
+    			maxY = background.centerY - DELTA_LIMIT_APPEAR_CORRECT_Y
     		}
     	}
 
     	var rX = game.rnd.integerInRange(minX, maxX)
     	var rY = game.rnd.integerInRange(minY, maxY)
-
+        //var rX = game.world.centerX 
+        //var rY = background.centerY + DELTA_LIMIT_APPEAR_CORRECT_Y
     	//
 
     	correctObject.x = rX
@@ -1078,7 +1080,7 @@ var coffeerush = function(){
 		touchPosition = {x:-1, y:-1}
 		currentSpeed = SPEED
         
-        var background = game.add.tileSprite(0,0,game.world.width,game.world.height*0.7,'atlas.coffeerush','woodBackground')
+        background = game.add.tileSprite(0,0,game.world.width,game.world.height*0.7,'atlas.coffeerush','woodBackground')
         //background.anchor.setTo(0.5,0.5)
         //background.width = game.world.width+2
         //background.height = game.world.height+2
