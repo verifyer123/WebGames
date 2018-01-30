@@ -461,7 +461,7 @@ function Server(){
 	/**
 	 * @summary Starts the server
 	 */
-	this.start = function(inLevel, currentId){
+	this.start = function(inLevel, currentId, onStart){
 		self.events = {};
 		self.p1Ready = false;
 		self.p2Ready = false;
@@ -469,6 +469,7 @@ function Server(){
 
 		var promise = makeid(currentId);
         promise.then(function(id){
+
         	id_game = id;
 			level = inLevel
 			var serverReady = false;
@@ -489,6 +490,8 @@ function Server(){
 			refIdGame.set(valores);
 
             if(!currentId) {
+				if(onStart) onStart()
+
                 var refP1 = database.ref(id_game + "/p1");
                 refP1.on('value', function (snapshot) {
                     if (serverReady) {

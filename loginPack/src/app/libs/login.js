@@ -97,16 +97,9 @@ export var login = function () {
 			localStorage.setItem("name", child.name)
 			localStorage.setItem("age", child.age)
 			if(child.gameData) {
-				var gameData = child.gameData
-				gameData = JSON.stringify(child.gameData)
-				if(gameData.version === player.version)
-					localStorage.setItem("gameData", gameData)
-				else{
-					gameData.minigames = {}
-					localStorage.setItem("gameData", gameData)
+				localStorage.setItem("gameData", child.gameData)
 				}
 			}
-		}
 
 		if((response)&&(response.subscribed)){
 			localStorage.setItem("subscribed", true)
@@ -170,9 +163,13 @@ export var login = function () {
 		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, ACCESS_CHILD, checkLogin)
 	}
 
-	function registerPin(data, onSuccess, onError) {
+	function registerPin(data, onSuccess, onError, newAccount) {
 		console.log(data)
-		ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
+		if(newAccount){
+			ajaxCall(data, LOGIN_PARENT, onSuccess, onError, "PUT")
+		}else {
+			ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
+		}
 	}
 
 	function loginParent(data, onSuccess, onError) {
@@ -211,7 +208,7 @@ export var login = function () {
 				if(response)
 					checkPlayers(response)
 				else {
-					localStorage.setItem("token", null)
+					localStorage.removeItem("token")
 					checkLogin()
 				}
 			}else{
@@ -282,8 +279,8 @@ export var login = function () {
 		if(callBack)callBack()
 	}
 
-	function checkMail(email, onSuccess, onError) {
-		ajaxCall({email:email}, CHECK_EMAIL, onSuccess, onError)
+	function checkExists(data, onSuccess, onError) {
+		ajaxCall(data, CHECK_EMAIL, onSuccess, onError)
 	}
 
 	return{
@@ -293,7 +290,7 @@ export var login = function () {
 		loginParent:loginParent,
 		recoverPass:recoverPass,
 		checkQuery:checkQuery,
-		checkMail:checkMail,
+		checkExists:checkExists,
 		registerPin:registerPin,
 		loginChild:loginChild,
 	}

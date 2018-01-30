@@ -32,7 +32,6 @@ export class Pin extends React.Component {
 
 	closeModal(){
 		this.pop.play()
-		$("#save").hide();
 		this.props.closeModal()
 	}
 
@@ -44,6 +43,7 @@ export class Pin extends React.Component {
 			this.pop.play()
 			$("#save").hide();
 			this.props.addChildData("pin", pin)
+			$('#loadSpace').css("display", "block")
 			this.props.nextCallback()
 		}
 	}
@@ -141,6 +141,8 @@ export class Pin extends React.Component {
 					<div className="modal-footer" style={{display:"flex"}}>
 						<button type="submit" id="back" className="loginBtn bgOrange" onClick={this.removePin.bind(this)}><img src="images/backspace.png" /> </button>
 						<button type="submit" id="next" className="loginBtn bgGreen" style={{opacity: 0.5}} onClick={this.goNext.bind(this)}>NEXT</button>
+					</div>
+					<div id="loadSpace" className="loader" style={{display:"none"}}>
 					</div>
 				</div>
 			</div>
