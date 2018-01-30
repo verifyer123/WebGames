@@ -1219,6 +1219,6 @@ var coffeerush = function(){
 		create: create,
         preload: preload,
         update: update,
-        render:render,
+        //render:render,
 	}
 }()
