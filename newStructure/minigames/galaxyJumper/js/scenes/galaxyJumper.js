@@ -512,6 +512,89 @@ var galaxyJumper = function(){
         rect2.events.onInputDown.add(passPosition, this);
         characterGroup.add(rect2)
         
+        // Draw the circle
+        
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,150,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,250,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,350,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,450,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,550,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,650,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,750,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,850,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,920,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
     }
 	
     
