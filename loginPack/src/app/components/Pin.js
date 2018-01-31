@@ -1,4 +1,5 @@
 import React from 'react';
+import {localization} from "../libs/localization";
 
 export class Pin extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
@@ -9,21 +10,12 @@ export class Pin extends React.Component {
 
 		this.cut = new Audio();
 		this.cut.src = "sounds/cut.mp3";
+		this.language = localization.getLanguage()
 
 		this.pivot = 0
 		this.pinSelected = []
 
 		this.closeModal = this.closeModal.bind(this)
-	}
-
-	getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 
 	componentDidMount() {
@@ -102,16 +94,6 @@ export class Pin extends React.Component {
 	}
 
 	render() {
-
-		let language = this.getParameterByName("language");
-		if (language === null) {
-			let lengua;
-			//lengua = navigator.language || navigator.userLanguage;
-			//language = eval("'" + lengua + "'").toUpperCase();
-			language = "EN";
-		} else {
-			language.toUpperCase();
-		}
 		return (
 			<div id="pin" className="modal">
 
@@ -121,7 +103,10 @@ export class Pin extends React.Component {
 					</div>
 
 					<div className="modal-header">
-						<h2><div className="textModal28" style={{fontSize: "3vh", color: "dimgrey"}}>SET YOUR PIN</div></h2>
+						<h2><div style={{fontSize: "3vh", color: "dimgrey"}}>
+							{localization.getString("setYourPin", this.language)}
+							</div>
+						</h2>
 					</div>
 
 					<div id="yogoContainer" className="modal-body ">
@@ -140,7 +125,9 @@ export class Pin extends React.Component {
 					</div>
 					<div className="modal-footer" style={{display:"flex"}}>
 						<button type="submit" id="back" className="loginBtn bgOrange" onClick={this.removePin.bind(this)}><img src="images/backspace.png" /> </button>
-						<button type="submit" id="next" className="loginBtn bgGreen" style={{opacity: 0.5}} onClick={this.goNext.bind(this)}>NEXT</button>
+						<button type="submit" id="next" className="loginBtn bgGreen" style={{opacity: 0.5}} onClick={this.goNext.bind(this)}>
+							{localization.getString("next", this.language)}
+						</button>
 					</div>
 					<div id="loadSpace" className="loader" style={{display:"none"}}>
 					</div>

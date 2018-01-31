@@ -724,6 +724,14 @@ input[type=text]:focus {
     float: left;
 }
 
+.privacy{
+    color: dimgray;
+    font-size: 0.9em;
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 80%;
+}
+
 
 /*.hide-element{*/
     /*visibility: hidden;*/

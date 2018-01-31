@@ -1,6 +1,6 @@
 var epicYogomeGames = function () {
 
-	var GRADES = [9, 18, 18, 16, 11, 8]
+	var GRADES = [9, 17, 17, 16, 11, 8]
 
 	var urls = {dev:"../..", prod:".."}
 	var url = urls.prod
@@ -21,7 +21,7 @@ var epicYogomeGames = function () {
 		games["AcornNumbers"],
 		games["ElementalWitch"],
 		games["SaladCards"],
-		games["DrZombie"],
+		// games["DrZombie"],
 		games["MagicGate"],
 		games["GalacticPool"],
 		games["SwampShapes"],
@@ -47,7 +47,7 @@ var epicYogomeGames = function () {
 		games["RiverRescue"],
 		games["Evening"],
 		games["CogCount"],
-		games["WaterMorphosis"],
+		// games["WaterMorphosis"],
 		games["DizzyBoat"],
 		games["MsNomNom"],
 		games["Aracnumber"],

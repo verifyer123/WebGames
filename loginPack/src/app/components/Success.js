@@ -1,4 +1,5 @@
 import React from 'react';
+import {localization} from "../libs/localization";
 
 export class Success extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
@@ -37,8 +38,8 @@ export class Success extends React.Component {
 							<img className="logo" src="images/neueicon.png"/>
 							<img className="particule" src="images/particle-04.png"/>
 						</div>
-						<h2><div className="textModal21" style={{fontSize:'3vh'}}>Account created</div></h2>
-						<p className="subtitle" >- Make sure to save your login information -</p>
+						<h2><div className="textModal21" style={{fontSize:'3vh', color:"dimgrey"}}>{localization.getString("accountCreated")}</div></h2>
+						<p className="subtitle" >- {localization.getString("saveLoginInfo")} -</p>
 					</div>
 
 					<div className="modal-body">
@@ -57,7 +58,7 @@ export class Success extends React.Component {
 						<div>
 							<div style={{display:"inline-block", width:"70%"}}>
 								<div style={{textAlign: 'justify', color: '#727984', fontSize: '2vh', float:"left", marginTop:"2vh"}} className="fontOpenSans textModal22">
-									Pin:
+									{localization.getString("pin")}:
 								</div>
 								<div style={{float:"right"}}>
 									{this.props.child.pin.map((i) =>
@@ -69,7 +70,7 @@ export class Success extends React.Component {
 							</div>
 						</div>
 						<br />
-						<button type="submit" className="loginBtn bgBlue" onClick={this.props.onOk}>Ok</button><br />
+						<button type="submit" className="loginBtn bgBlue" onClick={this.props.onOk}>{localization.getString("ok")}</button><br />
 
 					</div>
 					<div className="fontOpenSans modal-footer" style={{color: '#444444'}}>

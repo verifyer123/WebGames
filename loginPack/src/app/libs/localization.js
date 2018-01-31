@@ -1,3 +1,5 @@
+import React from 'react';
+
 export var localization = function(){
 
 	const DEFAULT_LANG = "EN"
@@ -94,11 +96,28 @@ export var localization = function(){
 			JA: "Yogomeにログイン。",
 			KO: "요고미 로그인하기。"
 		},
-		welcome: {
+		welcomeYogome: {
 			id: 10,
 			NAME: "mainMenu9",
-			ES: "- ¡Bienvenido! -",
-			EN: "- Welcome! -",
+			ES: "Bienvenido a Yogome",
+			EN: "Welcome to Yogome",
+			PT: "Bem-vindo à Yogome",
+			ZH: "欢迎使用Yogome",
+			JA: "Yogome へようこそ",
+			KO: "요고미에 오신걸 환영합니다"
+		},
+		youHaveFree:{
+			EN: "You have %s days of free Trial Remaining.",
+			ES: "Te quedan %s dias de prueba Gratis Restantes."
+		},
+		remindParents:{
+			EN:"Please remind your parents to check their email to confirm your information.",
+			ES:"Recuerda a tus padres que revisen su correo para confirmar tu información.",
+			PT:"Lembre seus pais de conferir o e-mail deles para confirmar suas informações.",
+			ZH:"请提醒您的父母查看他们的电子邮件以确认您的信息。",
+			JA:"おうちの人にEメールをかくにんしてもらってください。",
+			KO:"어린이가 입력한 정보를 확인하려면 부모님이 이메일을 확인하셔야 해요. 지금 바로 부모님께 말씀드리세요.",
+
 		},
 		congrats: {
 			id: 11,
@@ -123,12 +142,20 @@ export var localization = function(){
 			NAME: "mainMenu14",
 			ES: "- Recuperar contraseña -",
 			EN: "- Reset Password -",
+			PT: "- Redefinir senha -",
+			ZH: "- 重置密码 -",
+			JA: "- パスワードのリセット -",
+			KO: "- 비밀번호 변경 -"
+
 		},
 		enterYourEmail: {
 			id: 15,
 			NAME: "mainMenu15",
-			ES: "Ingresa tu correo y te enviaremos instrucciones para restaurar tu contraseña",
-			EN: "Enter your email address and we'll send you instructions to reset your password.",
+			ES: "Ingresa el correo de tu padre/madre y te enviaremos instrucciones para restaurar tu contraseña",
+			EN: "Please enter your parent's email address and we'll send you instructions to reset your password.",
+			ZH: "请输入您父母的电子邮件地址，我们将向您发送重置密码的说明。",
+			JA: "保護者の方のEメールアドレスを入力してください。パスワードをリセットする方法をお送りします。",
+			KO: "부모님의 이메일 주소를 입력해주세요. 부모님 이메일 주소로 비밀번호 변경 방법을 보내드립니다."
 		},
 		send: {
 			id: 16,
@@ -136,15 +163,24 @@ export var localization = function(){
 			ES: "Enviar",
 			EN: "Send",
 		},
+		submitRequest:{
+			EN:"Submit a Request",
+			ES:"Enviar pedido",
+			PT:"Enviar pedido",
+			ZH:"提交请求",
+			JA:"リクエスト送信",
+			KO:"요청하기"
+		},
 		intrustionsToReset: {
 			id: 17,
 			NAME: "mainMenu17",
-			ES: "Se han enviado instrucciones a tu correo para recuperar tu contraseña. Revisa tu corro porfavor",
+			ES: "Se han enviado instrucciones a tu correo para recuperar tu contraseña. Revisa tu correo porfavor.",
 			EN: "Instructions to reset your password have been emailed to you. Please check your email.",
-			PT: "Instructions to reset your password have been emailed to you. Please check your email.",
-			ZH: "Instructions to reset your password have been emailed to you. Please check your email.",
-			JA: "Instructions to reset your password have been emailed to you. Please check your email.",
-			KO: "Instructions to reset your password have been emailed to you. Please check your email."
+			PT: "As instruções para redefinir sua senha foram enviadas com sucesso para seu pai/mãe. Confira o e-mail.",
+			ZH: "重置密码的说明已成功通过电子邮件发送给您的父母。请查看电子邮件。",
+			JA: "パスワードのリセット方法を保護者の方に送信しました。Eメールを確認してください。",
+			KO: "부모님의 이메일 주소로 비밀번호 변경 방법이 담긴 이메일을 전송했습니다. 이메일을 확인해주세요."
+
 		},
 		success: {
 			id: 18,
@@ -238,7 +274,11 @@ export var localization = function(){
 			id: 28,
 			NAME: "mainMenu28",
 			ES: "INGRESA TU PIN",
-			EN: "SET YOUR PIN"
+			EN: "SET YOUR PIN",
+			PT: "DEFINIR CÓDIGO",
+			ZH: "设置您的PIN",
+			JA: "PIN の設定",
+			KO: "비밀번호 설정"
 		},
 		selectCombination: {
 			id: 29,
@@ -251,6 +291,11 @@ export var localization = function(){
 			NAME: "mainMenu30",
 			ES: "SIGUIENTE",
 			EN: "NEXT",
+			PT: "AVANÇAR",
+			ZH: "下一步",
+			JA: "次へ",
+			KO: "다음으로"
+
 		},
 		back: {
 			id: 31,
@@ -260,11 +305,19 @@ export var localization = function(){
 		},
 		firstTimeLogin:{
 			ES:"Primer inicio de sesión",
-			EN:"First Time Login"
+			EN:"First Time Login",
+			PT:"Primeiro login",
+			ZH:"首次登录",
+			JA:"初回ログイン",
+			KO:"처음으로 로그인해요"
 		},
 		createAccount:{
-			ES:"Crear Nueva cuenta",
-			EN:"Create New Account"
+			ES:"Crear Nueva Cuenta",
+			EN:"Create New Account",
+			PT:"Criar nova conta",
+			ZH:"创建新帐户",
+			JA:"新しいアカウントを作成",
+			KO:"새로 가입하기"
 		},
 		invalidNickname:{
 			ES:"Sobrenombre invalido.",
@@ -272,8 +325,114 @@ export var localization = function(){
 		},
 		nickname:{
 			ES:"Sobrenombre",
-			EN:"Nickname"
-		}
+			EN:"Nickname",
+			PT:"Apelido",
+			ZH:"昵称",
+			JA:"ニックネーム",
+			KO:"별명"
+		},
+		setNickname:{
+			ES:"PON TU SOBRENOMBRE.",
+			EN:"SET YOUR NICKNAME.",
+			PT:"DEFINIR APELIDO",
+			ZH:"设置您的昵称",
+			JA:"ニックネームの設定",
+			KO:"별명 선택하기"
+		},
+		chooseYourNickname:{
+			ES:"Escoge to sobrenombre",
+			EN:"Choose your nickname",
+		},
+		anotherNickname:{
+			EN:"Please use another nickname.",
+			ES:"Favor de usar otro sobrenombre."
+		},
+		enterParentsMail: {
+			EN: "Please enter your parent's email",
+			ES: "Ingresa el correo del padre",
+			PT: "Insira o endereço de e-mail de seu pai/mãe",
+			ZH: "请输入您父母的电子邮件地址",
+			JA: "保護者のEメールアドレスを入力してください",
+			KO: "부모님의 이메일 주소를 입력해주세요"
+		},
+		kidAccount:{
+			ES:"CUANTA DEL NIÑO.",
+			EN:"KID ACCOUNT.",
+			PT:"CONTA DA CRIANÇA",
+			ZH:"孩子帐户",
+			JA:"キッズアカウント",
+			KO:"어린이 계정"
+		},
+		byRegistringAgree:{
+			EN:<div className="privacy">By registering you agree to the <a href="//yogome.com/en/privacy/">Terms of Service</a> and <a href="//yogome.com/en/privacy/">Privacy Policy</a></div>,
+			ES:<div className="privacy">Registrandote estas de acuerdo a los <a href="//yogome.com/es/privacy/">Términos y Condiciones</a> y a la <a href="//yogome.com/en/privacy/">Política de Privacidad</a></div>,
+			PT:<div className="privacy">Ao se inscrever, você concorda com os <a href="//yogome.com/pt/privacy/">Termos de Serviço</a> e a <a href="//yogome.com/pt/privacy/">Política de Privacidade</a></div>,
+			ZH:<div className="privacy">注册即表明，您同意<a href="//yogome.com/cn/privacy/">服务条款</a>和<a href="//yogome.com/cn/privacy/">隐私政策</a></div>,
+			JA:<div className="privacy">登録することで、<a href="//yogome.com/jp/privacy/">サービス規約</a>および<a href="//yogome.com/jp/privacy/">プライバシーポリシー</a>に同意されるものとします。</div>,
+			KO:<div className="privacy">가입을 하면 요고미의 <a href="//yogome.com/kr/privacy/">서비스 이용 약관</a>과 <a href="//yogome.com/kr/privacy/">개인정보 보호정책</a>에 동의하게 됩니다.</div>
+		},
+		enterParentPass:{
+			EN:"Now enter your parent's password.",
+			ES:"Ahora ingresa la contraseña del padre."
+		},
+		noAccountRegistered:{
+			EN:"There is no account registered with this email.",
+			ES:"No hay cuenta registrada con este correo."
+		},
+		accountRegisteredError:{
+			EN:"There is already an account registered with this email.",
+			ES:"Ya hay una cuenta registrada con este correo."
+		},
+		invalidEmail:{
+			EN:"Please enter a valid email.",
+			ES:"Favor de ingresar un correo valido.",
+		},
+		invalidPassword:{
+			EN:"Invalid password.",
+			ES:"Contraseña invalida."
+		},
+		password:{
+			ES:"Contraseña",
+			EN:"Password"
+		},
+		parentsMail:{
+			EN:"Your Parent's Email",
+			ES:"Correo del Padre",
+			PT:"E-mail de seu pai/mãe",
+			ZH:"您父母的电子邮件",
+			JA:"保護者のEメールアドレス",
+			KO:"부모님 이메일 주소"
+		},
+		pinNicknameError:{
+			EN:"Nickname or pin incorrect.",
+			ES:"Sobrenombre o pin incorrecto."
+		},
+		accountCreated:{
+			EN:"ACCOUNT CREATED",
+			ES:"CUENTA CREADA",
+			PT:"CONTA CRIADA",
+			ZH:"已创建帐户",
+			JA:"アカウントを作成しました",
+			KO:"계정이 생성되었습니다"
+
+		},
+		saveLoginInfo:{
+			EN:"Make sure to save your login information.",
+			ES:"Asegurate de guardar la información de inicio de sesión.",
+			PT:"Certifique-se de salvar suas informações de login.",
+			ZH:"一定要记住您的登录信息",
+			JA:"ログイン情報を忘れないようにしてください",
+			KO:"로그인 정보를 잊지 말고 기억해주세요"
+		},
+		pin:{
+			EN:"Pin",
+			ES:"Pin",
+			PT:"Código",
+			ZH:"Pin",
+			JA:"Pin",
+			KO:"비밀번호"
+		},
+
 	}
 
 
@@ -282,7 +441,9 @@ export var localization = function(){
             return language.toUpperCase()
 		},
         getString:function (string, lang) {
-			if(!languageArrayIndex[string]){
+			lang = lang || language.toUpperCase()
+
+	    	if(!languageArrayIndex[string]){
 				console.log("text not found")
 				return
 			}
@@ -292,6 +453,9 @@ export var localization = function(){
 			}
 
 	    	return languageArrayIndex[string][lang]
+		},
+		replace:function (string, toReplace) {
+			return string.replace(/%s/i, toReplace);
 		}
     }
 }()
