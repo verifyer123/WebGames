@@ -1,5 +1,6 @@
 import React from 'react';
 import {Pin} from '../components/Pin'
+import {localization} from "../libs/localization";
 
 export class Players extends React.Component {
 	constructor(props) {
@@ -13,6 +14,8 @@ export class Players extends React.Component {
 		this.state = {
 			showPin:false
 		}
+
+		this.language = localization.getLanguage()
 
 		this.togglePin = this.togglePin.bind(this)
 		console.log(props.children)
@@ -52,7 +55,7 @@ export class Players extends React.Component {
 						<div className="topImg">
 							<img className="logo" src="images/neueicon.png"/>
 						</div>
-						<h2> <div className="textModal8" style={{fontSize: "3vh"}}>- Select a profile -</div></h2>
+						<h2> <div className="textModal8" style={{fontSize: "3vh"}}>- {localization.getString("selectProfile", this.language)} -</div></h2>
 					</div>
 
 					<div className="modal-body">

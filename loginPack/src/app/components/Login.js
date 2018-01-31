@@ -43,7 +43,7 @@ export class Login extends React.Component {
 				showPin: !this.state.showPin
 			});
 		}else{
-			Login.onError("Invalid username.")
+			Login.onError(localization.getString("invalidNickname"))
 		}
 	}
 
@@ -53,7 +53,7 @@ export class Login extends React.Component {
 
 		function onError() {
 			console.log("error")
-			Login.onError("Username or pin incorrect.")
+			Login.onError(localization.getString("pinNicknameError"))
 			$('#loadSpace').css("display", "none")
 		}
 

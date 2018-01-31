@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pin} from '../components/Pin'
 import {login} from '../libs/login'
+import {localization} from "../libs/localization";
 
 export class Nickname extends React.Component {
 	constructor(props) {
@@ -11,9 +12,10 @@ export class Nickname extends React.Component {
 		this.cut = new Audio();
 		this.cut.src = "sounds/cut.mp3";
 
+		this.language = localization.getLanguage()
 		this.state = {
 			showPin:false,
-			description: "- Choose your nickname -",
+			description: "- " + localization.getString("chooseYourNickname", this.language) + " -",
 			showPass:false,
 		}
 
@@ -46,7 +48,7 @@ export class Nickname extends React.Component {
 		}
 
 		function onError() {
-			Nickname.onError("Please use another nickname")
+			Nickname.onError(localization.getString("anotherNickname"))
 			$('#loadSpace').css("display", "none")
 		}
 
@@ -56,7 +58,7 @@ export class Nickname extends React.Component {
 	}
 
 	render() {
-
+		let nicknameText = localization.getString("nickname", this.language)
 		return (
 			<div id="signIn" className="modal">
 
@@ -72,13 +74,13 @@ export class Nickname extends React.Component {
 								<img className="particule" src="images/particle-04.png"/>
 							</div>
 						</div>
-						<h2><div className="textModal9" style={{fontSize: "3vh", color: "dimgrey"}}>Set your Nickname</div></h2>
+						<h2><div className="textModal9" style={{fontSize: "3vh", color: "dimgrey"}}>{localization.getString("setNickname", this.language)}</div></h2>
 						<p className="subtitle" >{this.state.description}</p>
 					</div>
 
 					<div className="modal-body">
 
-						<input type="text" id="nickname" className="inputText" placeholder="Nickname" name="nickname"
+						<input type="text" id="nickname" className="inputText" placeholder={nicknameText} name="nickname"
 							   ref={(input) =>{this.nickname = input} }
 							   onFocus={function(){
 							$('#nickname').attr("placeholder", '')
@@ -87,11 +89,13 @@ export class Nickname extends React.Component {
 							// this.placeholder = ''
 						}}
 							   onBlur={function(){
-								   $('#nickname').attr("placeholder", 'Nickname')
+								   $('#nickname').attr("placeholder", nicknameText)
 							   }} />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 
-						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.okPressed.bind(this)}>Next</button>
+						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.okPressed.bind(this)}>
+							{localization.getString("next", this.language)}
+						</button>
 
 						<div id="loadSpace" className="loader" style={{display:"none"}}>
 						</div>

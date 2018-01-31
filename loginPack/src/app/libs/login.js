@@ -40,7 +40,7 @@ export var login = function () {
 			processData:false
 		}).done(function(response){
 			// console.log("success", response);
-			if((response)&&(response.status === "success")){
+			if((response)&&((response.status === "success")||(response.status === "registered"))){
 				setCredentials(response)
 				if(onSuccess)
 					onSuccess(response)

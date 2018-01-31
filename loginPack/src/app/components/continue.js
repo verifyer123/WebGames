@@ -1,4 +1,5 @@
 import React from 'react';
+import {localization} from "../libs/localization";
 
 export class Continue extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
@@ -13,16 +14,6 @@ export class Continue extends React.Component {
 		this.closeModal = this.closeModal.bind(this)
 	}
 
-	getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
-
 	componentDidMount() {
 		this.cut.play()
 	}
@@ -34,16 +25,10 @@ export class Continue extends React.Component {
 	}
 
 	render() {
+		let youHaveDays = localization.getString("youHaveFree")
+		let days = 7
+		youHaveDays = localization.replace(youHaveDays, days)
 
-		let language = this.getParameterByName("language");
-		if (language === null) {
-			let lengua;
-			//lengua = navigator.language || navigator.userLanguage;
-			//language = eval("'" + lengua + "'").toUpperCase();
-			language = "EN";
-		} else {
-			language.toUpperCase();
-		}
 		return (
 			<div id="save" className="modal">
 				<div className="modal-content container-login" >
@@ -56,16 +41,15 @@ export class Continue extends React.Component {
 							<img className="logo" src="images/neueicon.png"/>
 							<img className="particule" src="images/particle-04.png"/>
 						</div>
-						<h2><div className="textModal21" style={{fontSize:'3vh'}}>Welcome to Yogome</div></h2>
-						<p className="subtitle" >You Have 7 Days FREE</p>
+						<h2><div className="textModal21" style={{fontSize:'3vh'}}>{localization.getString("welcomeYogome")}</div></h2>
+						<p className="subtitle" >{youHaveDays}</p>
 						<div style={{textAlign: 'justify', color: '#727984', fontSize: '2vh'}} className="fontOpenSans textModal22">
-							<p>Remind your parents to check their email to confirm your information.</p>
+							<p>{localization.getString("remindParents")}</p>
 						</div>
 					</div>
 
 					<div className="modal-body">
-						<br />
-							<button type="submit" className="loginBtn bgGreen" onClick={this.closeModal}>Ok</button><br />
+							<button type="submit" className="loginBtn bgGreen" onClick={this.closeModal}>{localization.getString("ok")}</button><br />
 
 					</div>
 					<div className="fontOpenSans modal-footer" style={{color: '#444444'}}>

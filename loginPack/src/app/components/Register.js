@@ -2,6 +2,7 @@ import React from 'react';
 import {Pin} from '../components/Pin'
 import {login} from '../libs/login'
 import {Validation} from "../libs/validation";
+import {localization} from "../libs/localization";
 
 export class Register extends React.Component {
 	constructor(props) {
@@ -11,19 +12,21 @@ export class Register extends React.Component {
 
 		this.cut = new Audio();
 		this.cut.src = "sounds/cut.mp3";
+		this.language = localization.getLanguage()
 
 		this.state = {
 			showPin:false,
-			description: "- Please enter your parent's email -",
+			description: "- "+ localization.getString("enterParentsMail", this.language) +" -",
 			showPass:false,
 		}
 
 		this.togglePass = this.togglePass.bind(this)
 		this.closeModal = this.closeModal.bind(this)
 		this.newAccount = this.props.newAccount
-		console.log(this.newAccount, "account")
 
-		this.title = this.newAccount ? "KID ACCOUNT" : "Login to Yogome"
+		let kidAccountText = localization.getString("kidAccount", this.language)
+		let loginYogome = localization.getString("logInYogome", this.language)
+		this.title = this.newAccount ? kidAccountText : loginYogome
 
 	}
 
@@ -47,19 +50,25 @@ export class Register extends React.Component {
 
 				this.setState({
 					showPass: true,
-					description: "- Now enter your parent's password. -"
+					description: "- " + localization.getString("enterParentPass", this.language) + " -"
 				})
 				$('#loadSpace').css("display", "none")
 			}else{
+				if (response.exists)
+					return onError()
+
 				this.props.addChildData("parentMail", email)
 				this.props.onNext("nickname", true)
 			}
 		}
 
 		function onError() {
-			Register.onError("There is no account registered with this email")
+			let errorTag = !this.newAccount ? "noAccountRegistered" : "accountRegisteredError"
+			Register.onError(localization.getString(errorTag))
 			$('#loadSpace').css("display", "none")
 		}
+
+		onError = onError.bind(this)
 
 		if(Validation.ValidateEmail(email)) {
 			$('#loadSpace').css("display", "block")
@@ -67,7 +76,7 @@ export class Register extends React.Component {
 			login.checkExists(data, onSuccess.bind(this), onError)
 		}
 		else
-			Register.onError("Please enter a valid email")
+			Register.onError(localization.getString("invalidEmail", this.language))
 	}
 
 	enterPassword(email, password){
@@ -85,8 +94,9 @@ export class Register extends React.Component {
 			$('#loadSpace').css("display", "none")
 		}
 
+		let language = this.language
 		function onError() {
-			Register.onError("This password is invalid for this account.")
+			Register.onError(localization.getString("invalidPassword", language))
 			$('#loadSpace').css("display", "none")
 		}
 
@@ -111,16 +121,17 @@ export class Register extends React.Component {
 	}
 
 	getPassword(){
-		return this.state.showPass ? <div><input type="password" id="password" className="inputText" placeholder="password" name="password" onFocus={function(){
+		let passwordText = localization.getString("password", this.language)
+		return this.state.showPass ? <div><input type="password" id="password" className="inputText" placeholder={passwordText} name="password" onFocus={function(){
 				$('#password').attr("placeholder", '')
 				$('#password').removeClass('invalid')
 				$('#onError').css('display', "none")
 				// this.placeholder = ''
 			}}
 											onBlur={function(){
-												$('#password').attr("placeholder", 'password')
+												$('#password').attr("placeholder", {passwordText})
 											}} />
-			<button className="recoverBtn" id="recoverPass">I Forgot My Password</button><br />
+			<button className="recoverBtn" id="recoverPass" onClick={this.props.onNext.bind(null, "recover")}>{localization.getString("forgotPass", this.language)}</button><br />
 			</div>
 	: null;
 	}
@@ -131,7 +142,7 @@ export class Register extends React.Component {
 	}
 
 	render() {
-
+		let emailText = localization.getString("parentsMail", this.language)
 		return (
 			<div id="signIn" className="modal">
 
@@ -153,14 +164,14 @@ export class Register extends React.Component {
 
 					<div className="modal-body">
 
-						<input type="text" id="email" className="inputText" placeholder="email" name="email" onFocus={function(){
+						<input type="text" id="email" className="inputText" placeholder={emailText} name="email" onFocus={function(){
 							$('#email').attr("placeholder", '')
 							$('#email').removeClass('invalid')
 							$('#onError').css('display', "none")
 							// this.placeholder = ''
 						}}
 							   onBlur={function(){
-								   $('#email').attr("placeholder", 'email')
+								   $('#email').attr("placeholder", emailText)
 							   }} />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						{this.getPassword()}
@@ -170,6 +181,7 @@ export class Register extends React.Component {
 						<div id="loadSpace" className="loader" style={{display:"none"}}>
 						</div>
 
+						{this.newAccount && localization.getString("byRegistringAgree")}
 
 					</div>
 				</div>

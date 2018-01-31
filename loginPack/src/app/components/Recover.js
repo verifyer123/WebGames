@@ -2,6 +2,7 @@ import React from 'react';
 import {Pin} from '../components/Pin'
 import {login} from '../libs/login'
 import {Validation} from "../libs/validation";
+import {localization} from "../libs/localization";
 
 export class Recover extends React.Component {
 	constructor(props) {
@@ -49,15 +50,15 @@ export class Recover extends React.Component {
 						<img className="logo" src="images/lock-icon-opened.png"/>
 						<img className="particule" src="images/particle-04.png"/>
 					</div>
-					<h2><div className="textModal18" style={{fontSize: "3vh"}}>- Success! -</div></h2>
+					<h2><div className="textModal18" style={{fontSize: "3vh"}}>- {localization.getString("success")} -</div></h2>
 					<div style={{textAlign: "justify", color: "#727984", fontSize: "2vh"}} className="fontOpenSans textModal17">
-						<p>Instructions to reset your password have been emailed to you. Please check your email.</p>
+						<p>{localization.getString("intrustionsToReset")}</p>
 					</div>
 
 				</div>
 
 				<div className="modal-body">
-						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textModal3" onClick={this.closeModal}>Ok</div></button>
+						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textModal3" onClick={this.closeModal}>{localization.getString("ok")}</div></button>
 				<br/>
 
 				</div>
@@ -94,13 +95,13 @@ export class Recover extends React.Component {
 					modal: "success"
 				})
 			}else{
-				Recover.onError("There is no account registered with this email.")
+				Recover.onError(localization.getString("noAccountRegistered"))
 			}
 		}
 
 		function onError() {
 			$("#loadSpace").css("display", "none")
-			Recover.onError("There is no account registered with this email.")
+			Recover.onError(localization.getString("noAccountRegistered"))
 		}
 
 		login.recoverPass(email, onSuccess.bind(this), onError.bind(this))
@@ -119,9 +120,9 @@ export class Recover extends React.Component {
 						<img className="logo" src="images/lock-icon-closed.png"/>
 						<img className="particule" src="images/particle-04.png"/>
 					</div>
-					<h2><div className="textModal14" style={{fontSize: "3vh"}}>- Reset Password -</div></h2>
+					<h2><div className="textModal14" style={{fontSize: "3vh"}}>{localization.getString("resetPassword")}</div></h2>
 					<div style={{textAlign: "justify", color: "#727984", fontSize: "2vh"}} className="fontOpenSans textModal15">
-						<p>Enter your email address and we'll send you instructions to reset your password.</p>
+						<p>{localization.getString("enterYourEmail")}</p>
 					</div>
 					<div style={{textAlign: "center"}}>
 						<p><span id="error" className="smallRed fontOpenSans"></span>
@@ -131,17 +132,17 @@ export class Recover extends React.Component {
 
 				<div className="modal-body">
 
-					<input type="text" id="email" className="inputText" placeholder="Email" ref={(input) => {this.email = input}} name="Email" onFocus={function(){
+					<input type="text" id="email" className="inputText" placeholder={localization.getString("parentsMail")} ref={(input) => {this.email = input}} name="Email" onFocus={function(){
 						$('#email').attr("placeholder", '')
 						$('#email').removeClass('invalid')
 						$('#onError').css('display', "none")
 						// this.placeholder = ''
 					}}
 						   onBlur={function(){
-							   $('#email').attr("placeholder", 'Email')
+							   $('#email').attr("placeholder", localization.getString("parentsMail"))
 						   }} />
 					<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div><br/>
-					<button type="submit" id="send" className="loginBtn bgGreen" onClick={this.recoverPass.bind(this)}><div className="textModal16">Send</div></button><br/>
+					<button type="submit" id="send" className="loginBtn bgGreen" onClick={this.recoverPass.bind(this)}><div className="textModal16">{localization.getString("submitRequest")}</div></button><br/>
 
 				</div>
 
