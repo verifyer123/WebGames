@@ -15,8 +15,9 @@ import {Register} from "./components/Register";
 import {login} from "./libs/login";
 import {Nickname} from "./components/Nickname";
 import {Success} from "./components/Success";
+import {Recover} from "./components/Recover";
 
-export let showContinue
+export let showLogin
 
 class App extends React.Component{
 	constructor(props) {
@@ -41,7 +42,8 @@ class App extends React.Component{
 		});
 	}
 
-	register(){
+	register(newAccount){
+		newAccount = newAccount || false
 		function onSuccess(){
 			this.setState({
 				component: "success"
@@ -57,11 +59,13 @@ class App extends React.Component{
 		let data = {
 			nickname:this.childData.nickname,
 			email:this.childData.parentMail,
-			pin:this.childData.pin.join(''),
-			token: credentials.token
+			pin:this.childData.pin.join('')
 		}
 
-		login.registerPin(data, onSuccess.bind(this), onError.bind(this))
+		if(!newAccount)
+			data.token = credentials.token
+
+		login.registerPin(data, onSuccess.bind(this), onError.bind(this), newAccount)
 	}
 
 	setChildData(childData){
@@ -73,15 +77,22 @@ class App extends React.Component{
 		console.log(this.childData)
 	}
 
+	showLogin(forceLogin){
+		this.forceLogin = forceLogin || false
+		this.handleClick("login")
+	}
+
 	getComponent(props) {
 		let component = null
 		switch (this.state.component) {
 			case "register":
 				component = <Register closeModal={this.handleClick.bind(this, false)}
-									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData}/>
+									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData} newAccount={props}
+				addChildData={this.addChildData}/>
 				break;
 			case "login":
-				component = <Login handleClick={this.handleClick.bind(this)} addChildData={this.addChildData} child={this.childData}/>
+				component = <Login handleClick={this.handleClick.bind(this)} addChildData={this.addChildData}
+								   child={this.childData} forceLogin={this.forceLogin}/>
 				break
 			case "players":
 				component = <Players closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}
@@ -89,17 +100,20 @@ class App extends React.Component{
 				setChildData={this.setChildData}/>
 				break;
 			case "pin":
-				component = <Pin closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}
+				component = <Pin closeModal={this.handleClick.bind(this, "login")} getComponent={this.getComponent}
 									 nextCallback={props} addChildData={this.addChildData}/>
 				break;
 			case "continue":
 				component = <Continue closeModal={this.handleClick.bind(this, false)} />
 				break;
 			case "nickname":
-				component = <Nickname closeModal={this.handleClick.bind(this, false)} onNext={this.handleClick.bind(this, "pin", this.register)} addChildData={this.addChildData}/>
+				component = <Nickname closeModal={this.handleClick.bind(this, false)} handleClick = {this.handleClick.bind(this)} onRegister={this.register} addChildData={this.addChildData} newAccount={props}/>
 				break;
 			case "success":
 				component = <Success closeModal={this.handleClick.bind(this, false)} child={this.childData} onOk={this.handleClick.bind(this, "continue")}/>
+				break;
+			case "recover":
+				component = <Recover closeModal={this.handleClick.bind(this, false)}/>
 				break;
 			default:
 				component = null
@@ -109,7 +123,7 @@ class App extends React.Component{
 	}
 
 	render() {
-		showContinue = this.handleClick.bind(this, "login")
+		showLogin = this.showLogin.bind(this)
 		return(
 			<div>
 				<button onClick={this.handleClick.bind(this, "login")}>Continue</button>
@@ -119,7 +133,7 @@ class App extends React.Component{
 	}
 };
 
-// export function showContinue() {
+// export function showLogin() {
 // 	console.log(App)
 // 	// App.state.showModal = !App.state.showModal
 // }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Pin} from '../components/Pin'
 import {login} from '../libs/login'
+import {Validation} from "../libs/validation";
 
 export class Register extends React.Component {
 	constructor(props) {
@@ -19,6 +20,10 @@ export class Register extends React.Component {
 
 		this.togglePass = this.togglePass.bind(this)
 		this.closeModal = this.closeModal.bind(this)
+		this.newAccount = this.props.newAccount
+		console.log(this.newAccount, "account")
+
+		this.title = this.newAccount ? "KID ACCOUNT" : "Login to Yogome"
 
 	}
 
@@ -33,40 +38,22 @@ export class Register extends React.Component {
 		$('#onError').css("display", "block")
 	}
 
-	ValidateEmail(mail)
-	{
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
-		{
-			return (true)
-		}
-		return (false)
-	}
-
-	togglePin() {  // switch the value of the showModal state
-		$('#onError').css('display', "none")
-		$('#username').removeClass('invalid')
-
-		let userName = $('#username').val()
-		userName = userName.replace(/\s/g, '');
-		if(userName.length > 0) {
-			this.setState({
-				showPin: !this.state.showPin
-			});
-		}else{
-			Register.onError("Invalid username.")
-		}
-	}
-
 	enterEmail(email){
 		function onSuccess(response) {
-			if(!response.exists)
-				return onError()
 
-			this.setState({
-				showPass:true,
-				description:"- Now enter your parent's password. -"
-			})
-			$('#loadSpace').css("display", "none")
+			if(!this.newAccount) {
+				if (!response.exists)
+					return onError()
+
+				this.setState({
+					showPass: true,
+					description: "- Now enter your parent's password. -"
+				})
+				$('#loadSpace').css("display", "none")
+			}else{
+				this.props.addChildData("parentMail", email)
+				this.props.onNext("nickname", true)
+			}
 		}
 
 		function onError() {
@@ -74,9 +61,10 @@ export class Register extends React.Component {
 			$('#loadSpace').css("display", "none")
 		}
 
-		if(this.ValidateEmail(email)) {
+		if(Validation.ValidateEmail(email)) {
 			$('#loadSpace').css("display", "block")
-			login.checkMail(email, onSuccess.bind(this), onError)
+			let data = {email:email}
+			login.checkExists(data, onSuccess.bind(this), onError)
 		}
 		else
 			Register.onError("Please enter a valid email")
@@ -87,8 +75,12 @@ export class Register extends React.Component {
 		function onSuccess(response) {
 			console.log(response)
 			var children = response.children
-			if((children)&&(children.length > 0))
+			if((children)&&(children.length > 1))
 				this.props.onNext("players", children)
+			else{
+				let child = children ? children[0] : response.child
+				this.props.onNext("nickname", child)
+			}
 
 			$('#loadSpace').css("display", "none")
 		}
@@ -145,7 +137,7 @@ export class Register extends React.Component {
 
 				<div className="modal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.closeModal}></button>
+						<button className="closeModal close" onClick={this.props.onNext.bind(null, "login")}></button>
 					</div>
 					<div className="modal-header">
 						<div className="topImg">
@@ -155,7 +147,7 @@ export class Register extends React.Component {
 								<img className="particule" src="images/particle-04.png"/>
 							</div>
 						</div>
-						<h2><div className="textModal9" style={{fontSize: "3vh", color: "dimgrey"}}>Login to Yogome</div></h2>
+						<h2><div className="textModal9" style={{fontSize: "3vh", color: "dimgrey"}}>{this.title}</div></h2>
 						<p className="subtitle" >{this.state.description}</p>
 					</div>
 
