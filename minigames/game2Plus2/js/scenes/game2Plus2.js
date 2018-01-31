@@ -1051,7 +1051,7 @@ var game2Plus2 = function(){
     
 	return {
 		assets: assets,
-		name: "game2Plus2",
+		name: "2+2",
 		create: create,
         preload: preload,
         update: update,
