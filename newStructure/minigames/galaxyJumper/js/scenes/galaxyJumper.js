@@ -75,13 +75,13 @@ var galaxyJumper = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 134
 	var indexGame
     var overlayGroup
     var spaceSong
     var positions=new Array(8)
     var positionsX=new Array(8)
-    var character,actualPosition, characterProxy, starPos, meteorPos,dificulty
+    var character,actualPosition, characterProxy, starPos, meteorPos,dificulty,lost
     var planets= new Array(8)
     var planetsProxy= new Array(8)
     var planetsPosition= new Array(9)
@@ -107,6 +107,7 @@ var galaxyJumper = function(){
         actualPosition=9
         activePlanets=false
         emitter=""
+        lost=false
         starPos=0
         meteorPos=0
         characterActive=true
@@ -443,7 +444,7 @@ var galaxyJumper = function(){
                 planetsProxy[fillPlanets]=game.add.sprite( planets[fillPlanets].x, planets[fillPlanets].y,"atlas.galaxy","tierra")
                 planetsProxy[fillPlanets].anchor.setTo(0.5,0.5)
                 positions[fillPlanets]=planets[fillPlanets].y
-                positionsX[fillPlanets]=120+fillPlanets*2
+                
                 planetsGroups[fillPlanets].add(planetsProxy[fillPlanets])
             }
             
@@ -454,7 +455,15 @@ var galaxyJumper = function(){
             
         }
         
-        
+        positionsX[8]=game.world.centerX-100
+        positionsX[7]=game.world.centerX-50
+        positionsX[6]=game.world.centerX
+        positionsX[5]=game.world.centerX
+        positionsX[4]=game.world.centerX
+        positionsX[3]=game.world.centerX
+        positionsX[2]=game.world.centerX
+        positionsX[1]=game.world.centerX
+        positionsX[0]=game.world.centerX
         //Coins
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
         coins.anchor.setTo(0.5)
@@ -464,8 +473,8 @@ var galaxyJumper = function(){
         coins.alpha=0
         
         positions[9]=game.world.height-70
-        positionsX[9]=100
-        character=game.add.sprite(50,game.world.height-150,"dinoGood");
+        positionsX[9]=game.world.centerX-200
+        character=game.add.sprite(game.world.centerX-200,game.world.height-150,"dinoGood");
         character.scale.setTo(0.5)
         character.anchor.setTo(0.5)
         character.position.y=positions[9]
@@ -503,6 +512,89 @@ var galaxyJumper = function(){
         rect2.events.onInputDown.add(passPosition, this);
         characterGroup.add(rect2)
         
+        // Draw the circle
+        
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,150,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,250,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,350,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,450,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,550,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,650,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,750,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,850,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
+        
+        bmd = game.add.bitmapData(game.world.width,game.world.height);
+        bmd.ctx.translate(game.world.centerX-65, -50);
+        bmd.ctx.beginPath();
+        bmd.ctx.setLineDash([30]);
+        bmd.ctx.strokeStyle = 'white'; 
+        bmd.ctx.arc(65,65,920,0,100 * Math.PI,false);
+        bmd.ctx.stroke();
+        bmd.addToWorld()
     }
 	
     
@@ -532,7 +624,7 @@ var galaxyJumper = function(){
     function passPosition(obj){
         
        
-        if(actualPosition>0 && characterActive){
+        if(actualPosition>0 && characterActive && !lost){
             sound.play("jump")
             actualPosition--
             character.position.x=positionsX[actualPosition]
@@ -561,9 +653,10 @@ var galaxyJumper = function(){
                     if(lives==0){
                         characterDe.alpha=1
                         character.alpha=0
+                        lost=true
                     }
                     actualPosition=9
-                    game.add.tween(character).to({y:positions[9]},300,Phaser.Easing.Cubic.InOut,true)
+                    game.add.tween(character).to({x:positionsX[9],y:positions[9]},300,Phaser.Easing.Cubic.InOut,true)
                     game.time.events.add(50,function(){
                         character.alpha=0.1
                         game.time.events.add(50,function(){
@@ -572,6 +665,18 @@ var galaxyJumper = function(){
                                 character.alpha=0.1 
                                     game.time.events.add(50,function(){
                                         character.alpha=1 
+                                        game.time.events.add(50,function(){
+                                        character.alpha=0.1 
+                                            game.time.events.add(50,function(){
+                                                character.alpha=1 
+                                                game.time.events.add(50,function(){
+                                                character.alpha=0.1 
+                                                    game.time.events.add(50,function(){
+                                                        character.alpha=1 
+                                                })
+                                            })
+                                        })
+                                    })
                                 })
                             })
                         })
@@ -702,7 +807,7 @@ var galaxyJumper = function(){
     function reset(){
         
         sound.play("reseting")
-        game.add.tween(character).to({y:positions[9]},800,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+        game.add.tween(character).to({x:positionsX[9],y:positions[9]},800,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
             game.add.tween(star).to({x:game.world.centerX,y:positions[starPos]},500,Phaser.Easing.Cubic.In,true,900)
             game.add.tween(star.scale).to({x:0.7,y:0.7}, 500, Phaser.Easing.Cubic.In, true,900).onComplete.add(function(){
                characterActive=true 
