@@ -285,6 +285,10 @@ export var localization = function(){
 			NAME: "mainMenu29",
 			ES: "- Selecciona la combinación -",
 			EN: "- Select a combination sequence -",
+			PT: "- selecione uma sequência -",
+			ZH: "- 选择组合顺序 -",
+			JA: "- ロックのパターンを選んでください -",
+			KO: "- 비밀번호 조합을 선택해주세요 -"
 		},
 		next: {
 			id: 30,
@@ -342,6 +346,10 @@ export var localization = function(){
 		chooseYourNickname:{
 			ES:"Escoge to sobrenombre",
 			EN:"Choose your nickname",
+			PT:"Escolha seu apelido",
+			ZH:"选择您的昵称",
+			JA:"ニックネームをつけてください",
+			KO:"별명을 입력해주세요"
 		},
 		anotherNickname:{
 			EN:"Please use another nickname.",

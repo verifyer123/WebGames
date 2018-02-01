@@ -5,11 +5,7 @@ import {localization} from "../libs/localization";
 export class Players extends React.Component {
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
+		this.audios = this.props.audios
 
 		this.state = {
 			showPin:false
@@ -22,26 +18,20 @@ export class Players extends React.Component {
 
 	}
 
-	componentDidMount() {
-		this.cut.play()
-	}
-
-
 	togglePin() {  // switch the value of the showModal state
-
+		this.audios.cut.play()
 		this.setState({
 			showPin: !this.state.showPin
 		});
 	}
 
 	onPressed(child){
+		this.audios.pop.play()
 		this.props.setChildData(child)
 		this.props.callback()
 	}
 
 	closeModal(){
-		this.pop.play()
-		console.log(this.props.closeModal)
 		this.props.closeModal()
 	}
 

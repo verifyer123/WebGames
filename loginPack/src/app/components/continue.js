@@ -5,22 +5,12 @@ export class Continue extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
+		this.audios = this.props.audios
 
 		this.closeModal = this.closeModal.bind(this)
 	}
 
-	componentDidMount() {
-		this.cut.play()
-	}
-
 	closeModal(){
-		this.pop.play()
-		$("#save").hide();
 		this.props.closeModal()
 	}
 
@@ -33,7 +23,7 @@ export class Continue extends React.Component {
 			<div id="save" className="modal">
 				<div className="modal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.closeModal} />
+						<button className="closeModal close" onClick={this.props.onLogin} />
 					</div>
 					<div className="modal-header">
 						<div className="topImg">
@@ -49,7 +39,7 @@ export class Continue extends React.Component {
 					</div>
 
 					<div className="modal-body">
-							<button type="submit" className="loginBtn bgGreen" onClick={this.closeModal}>{localization.getString("ok")}</button><br />
+							<button type="submit" className="loginBtn bgGreen" onClick={this.props.onLogin}>{localization.getString("ok")}</button><br />
 
 					</div>
 					<div className="fontOpenSans modal-footer" style={{color: '#444444'}}>

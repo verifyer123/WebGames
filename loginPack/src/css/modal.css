@@ -729,7 +729,14 @@ input[type=text]:focus {
     font-size: 0.9em;
     margin: 0 auto;
     margin-top: 30px;
-    width: 80%;
+    width: 70%;
+    margin-left: 20%;
+}
+
+.checkbox{
+    position: absolute;
+    left: 13%;
+    width: 4vh;
 }
 
 

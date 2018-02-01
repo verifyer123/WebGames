@@ -5,22 +5,11 @@ export class Success extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
 
 		this.closeModal = this.closeModal.bind(this)
 	}
 
-	componentDidMount() {
-		this.cut.play()
-	}
-
 	closeModal(){
-		this.pop.play()
-		$("#save").hide();
 		this.props.closeModal()
 	}
 
@@ -30,7 +19,7 @@ export class Success extends React.Component {
 			<div id="save" className="modal">
 				<div className="modal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.closeModal} />
+
 					</div>
 					<div className="modal-header">
 						<div className="topImg">
@@ -47,10 +36,10 @@ export class Success extends React.Component {
 						<div>
 							<div style={{display:"inline-block", width:"70%", marginBottom:"10px"}}>
 								<div className="fontOpenSans labelSuccess textModal22">
-									Username:
+									{localization.getString("nickname")}
 								</div>
 								<div style={{textAlign:"left"}}>
-									{this.props.child.nickname}
+									{this.props.child.nickname}:
 								</div>
 							</div>
 						</div>

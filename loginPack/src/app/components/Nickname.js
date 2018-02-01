@@ -1,30 +1,20 @@
 import React from 'react';
-import {Pin} from '../components/Pin'
 import {login} from '../libs/login'
 import {localization} from "../libs/localization";
 
 export class Nickname extends React.Component {
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
+		this.audios = this.props.audios
 
 		this.language = localization.getLanguage()
 		this.state = {
-			showPin:false,
 			description: "- " + localization.getString("chooseYourNickname", this.language) + " -",
 			showPass:false,
 		}
 
 		this.newAccount = this.props.newAccount
 
-	}
-
-	componentDidMount() {
-		this.cut.play()
 	}
 
 	static onError(text){
@@ -37,6 +27,7 @@ export class Nickname extends React.Component {
 	okPressed(){
 		let nickname = this.nickname.value
 		$('#loadSpace').css("display", "block")
+		this.audios.pop.play()
 
 		function onSuccess(response) {
 			if(response.exists){
@@ -44,7 +35,7 @@ export class Nickname extends React.Component {
 				return
 			}
 			this.props.addChildData("nickname", nickname)
-			this.props.handleClick("pin", ()=>{this.props.onRegister(this.newAccount)})
+			this.props.togglePin(()=>{this.props.onRegister(this.newAccount)})
 		}
 
 		function onError() {

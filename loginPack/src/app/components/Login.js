@@ -7,23 +7,11 @@ export class Login extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
-
-		this.state = {
-			showPin:false
-		}
+		this.audios = this.props.audios
 
 		this.closeModal = this.closeModal.bind(this)
 		this.togglePin = this.togglePin.bind(this)
 		this.setLogin = this.setLogin.bind(this)
-	}
-
-	componentDidMount() {
-		this.cut.play()
 	}
 
 	static onError(text){
@@ -37,17 +25,17 @@ export class Login extends React.Component {
 		$('#username').removeClass('invalid')
 		
 		let userName = $('#username').val()
-		userName = userName.replace(/\s/g, '');
+		userName = userName.replace(/\s/g, '')
 		if(userName.length > 0) {
-			this.setState({
-				showPin: !this.state.showPin
-			});
+			this.audios.cut.play()
+			this.props.togglePin(()=>{this.setLogin()})
 		}else{
 			Login.onError(localization.getString("invalidNickname"))
 		}
 	}
 
 	setLogin(){
+
 		this.togglePin()
 		$('#loadSpace').css("display", "block")
 
@@ -62,6 +50,7 @@ export class Login extends React.Component {
 			$('#loadSpace').css("display", "none")
 			this.props.handleClick("continue")
 		}
+
 		let child = this.props.child
 		login.loginChild(child.username, child.pin.join(''), onSuccess.bind(this), onError)
 	}
@@ -71,12 +60,7 @@ export class Login extends React.Component {
 		this.togglePin()
 	}
 
-	getPinComponent(){
-		return this.state.showPin ? <Pin closeModal={this.togglePin} nextCallback={this.setLogin} addChildData={this.props.addChildData}/> : null
-	}
-
 	closeModal(){
-		this.pop.play()
 		this.props.handleClick(false)
 	}
 
@@ -126,7 +110,6 @@ export class Login extends React.Component {
 
 					</div>
 				</div>
-				{this.getPinComponent()}
 			</div>
 		)
 	}

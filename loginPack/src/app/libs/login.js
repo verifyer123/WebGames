@@ -4,7 +4,6 @@ export var login = function () {
 	var GAME = "play.yogome"
 
 	var LOGIN_PARENT = "/login/parent"
-	var ACCESS_CHILD = "/login/access_childs"
 	var CHANGE_CHILD = "/login/change_childs"
 	var UPDATE_CHILD = "/login/child/update"
 	var GET_CHILD = "/login/child/get"
@@ -12,20 +11,6 @@ export var login = function () {
 	var CHECK_EMAIL = "/login/check"
 	var REGISTER_CHILD = "/login/child"
 	var LOGIN_CHILD = "/login/pin"
-
-	var currentCallback
-	var signInCallback
-	var checkAgeFlag
-
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-			results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
 
 	function ajaxCall(data, endPoint, onSuccess, onError, type) {
 		type = type || "POST"
@@ -73,94 +58,41 @@ export var login = function () {
 	}
 
 	function setCredentials(response) {
+		if(!response)
+			return
 
-		if((response)&&(response.email)){
+		if((response.email)&&(typeof response.email !== "undefined")){
 			localStorage.setItem("email", response.email)
 		}
 
-		if((response)&&(response.token)){
+		if((response.token)&&(typeof response.token !== "undefined")){
 			localStorage.setItem("token", response.token)
 		}
 
-		if ((response)&&(response.children) && (response.children.length === 1)) {
-			var children = response.children[0]
-			localStorage.setItem("remoteID", children.remoteID)
-			localStorage.setItem("educationID", children.educationID)
-			localStorage.setItem("name", children.name)
-			localStorage.setItem("age", children.age)
+		if((response.remoteID)&&(typeof response.remoteID !== "undefined")){
+			localStorage.setItem("remoteID", response.remoteID)
 		}
 
-		if ((response)&&(response.child)) {
-			var child = response.child
+		let child = response.child
+		if(!child)
+			return
+
+		if ((child.parentMail)&&(typeof child.parentMail !== "undefined"))
+			localStorage.setItem("email", child.parentMail)
+
+		if ((child.remoteID)&&(typeof child.remoteID !== "undefined"))
 			localStorage.setItem("remoteID", child.remoteID)
-			localStorage.setItem("educationID", child.educationID)
-			localStorage.setItem("name", child.name)
-			localStorage.setItem("age", child.age)
-			if(child.gameData) {
-				localStorage.setItem("gameData", child.gameData)
-				}
-			}
 
-		if((response)&&(response.subscribed)){
-			localStorage.setItem("subscribed", true)
-		}
-	}
-
-	function getJson(stringData) {
-		var jsonData
-		try{
-			jsonData = JSON.parse(stringData)
-		}catch (e){
-			jsonData = null
-		}
-
-		return jsonData
 	}
 
 	function getCredentials() {
-		var email = localStorage.getItem("email")
-		email = email === "null" ? null : email
-
-		var token = localStorage.getItem("token")
-		token = token === "null" ? null : token
-
-		var remoteID = localStorage.getItem("remoteID")
-		remoteID = remoteID === "null" ? null : remoteID
-
-		var educationID = localStorage.getItem("educationID")
-		educationID = educationID === "null" ? "none" : educationID
-
-		var gameData = localStorage.getItem("gameData")
-		gameData = gameData === "null" ? null : getJson(gameData)
-		if((gameData) && (gameData.version !== player.version)){
-			gameData.minigames = {}
-		}
-
-		var subscribed = localStorage.getItem("subscribed")
-		// subscribed = typeof subscribed === "boolean" ? subscribed : false
-		// console.log(subscribed)
-
-		var name = localStorage.getItem("name")
-		name = (name === "null" || !name) ? null : name
-
-		var age = localStorage.getItem("age")
-		age = age === "null" ? null : age
 
 		return {
-			email:email,
-			token:token,
-			remoteID:remoteID,
-			gameData:gameData,
-			educationID:educationID,
-			subscribed:subscribed,
-			name:name,
-			age:age
+			email: localStorage.getItem("email"),
+			token: localStorage.getItem("token"),
+			remoteID: localStorage.getItem("remoteID"),
+			educationID: localStorage.getItem("educationID")
 		}
-	}
-
-	function loginPlayer(remoteID, callback) {
-		var credentials = getCredentials()
-		ajaxCall({email:credentials.email, token: credentials.token, remoteID: remoteID}, ACCESS_CHILD, checkLogin)
 	}
 
 	function registerPin(data, onSuccess, onError, newAccount) {
@@ -187,7 +119,7 @@ export var login = function () {
 		ajaxCall({nickname:nickname, pin:pin, game:GAME}, LOGIN_CHILD, onSuccess, onError)
 	}
 
-	function checkLogin(response){
+	function checkLogin(onSuccess, onError){
 		var credentials = getCredentials()
 
 		var token = credentials.token
@@ -201,55 +133,14 @@ export var login = function () {
 			// console.log(tokenType)
 			if ((tokenType === "pl")&&(remoteID)){
 				// console.log("login player")
-				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, GET_CHILD, updateData)
+				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, GET_CHILD, onSuccess, onError)
 
-			}else if(tokenType === "pa"){
-				// console.log("call select player")
-				if(response)
-					checkPlayers(response)
-				else {
-					localStorage.removeItem("token")
-					checkLogin()
-				}
 			}else{
-				modal.showLogin()
+				onError()
 			}
 
-		}
-		else {
-			// var data = {
-			// 	"email": "aaron+20171207_2@yogome.com",
-			// 	"password" : "yogome-children-fun"
-			// }
-			// localStorage.setItem("email", data.email)
-			// ajaxCall(data, loginParent, checkLogin)
-			modal.showLogin()
-		}
-	}
-
-	function updatePlayer(currentPlayer, forceLogin, loginTag, updateCallback) {
-		localStorage.setItem("gameData", JSON.stringify(currentPlayer))
-
-		var credentials = getCredentials()
-		var token = credentials.token
-		var email = credentials.email
-		var remoteID = credentials.remoteID
-
-		function onErrorSave() {
-			modal.showSave(loginTag)
-		}
-
-		if((token)&&(email)&&(remoteID)){
-			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:currentPlayer}, UPDATE_CHILD, function () {
-				console.log("playerSaved")
-			}, onErrorSave)
-		}else if(forceLogin){
-			// console.log("You need to login to save")
-			modal.showSave(loginTag)
-		}
-
-		if(updateCallback)
-			updateCallback()
+		}else
+			onError()
 	}
 
 	function recoverPass(email, onSuccess, onError) {
@@ -283,16 +174,30 @@ export var login = function () {
 		ajaxCall(data, CHECK_EMAIL, onSuccess, onError)
 	}
 
+	function saveChild(player) {
+
+		var credentials = getCredentials()
+		var token = credentials.token
+		var email = credentials.email
+		var remoteID = credentials.remoteID
+
+		if((token)&&(email)&&(remoteID)){
+			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, UPDATE_CHILD, function () {
+				console.log("playerSaved")
+			})
+		}
+	}
+
 	return{
-		updatePlayer:updatePlayer,
 		getCredentials:getCredentials,
-		loginPlayer:loginPlayer,
+		checkLogin:checkLogin,
 		loginParent:loginParent,
 		recoverPass:recoverPass,
 		checkQuery:checkQuery,
 		checkExists:checkExists,
 		registerPin:registerPin,
 		loginChild:loginChild,
+		saveChild:saveChild
 	}
 }()
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Pin} from '../components/Pin'
 import {login} from '../libs/login'
 import {Validation} from "../libs/validation";
 import {localization} from "../libs/localization";
@@ -7,15 +6,10 @@ import {localization} from "../libs/localization";
 export class Register extends React.Component {
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
+		this.audios = this.props.audios
 		this.language = localization.getLanguage()
 
 		this.state = {
-			showPin:false,
 			description: "- "+ localization.getString("enterParentsMail", this.language) +" -",
 			showPass:false,
 		}
@@ -28,10 +22,6 @@ export class Register extends React.Component {
 		let loginYogome = localization.getString("logInYogome", this.language)
 		this.title = this.newAccount ? kidAccountText : loginYogome
 
-	}
-
-	componentDidMount() {
-		this.cut.play()
 	}
 
 	static onError(text){
@@ -106,6 +96,7 @@ export class Register extends React.Component {
 	okPressed(){
 		var email = $('#email').val()
 		var password = $('#password').val()
+		this.audios.pop.play()
 
 		if(!this.state.showPass){
 			this.enterEmail(email)
@@ -137,7 +128,6 @@ export class Register extends React.Component {
 	}
 
 	closeModal(){
-		this.pop.play()
 		this.props.closeModal()
 	}
 
@@ -176,12 +166,14 @@ export class Register extends React.Component {
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						{this.getPassword()}
 
-						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.okPressed.bind(this)}>Next</button>
+						<button type="submit" id="login" className="loginBtn bgBlue" style={{marginBottom:"2vh"}} onClick={this.okPressed.bind(this)}>
+							{localization.getString("next")}
+						</button>
 
 						<div id="loadSpace" className="loader" style={{display:"none"}}>
 						</div>
 
-						{this.newAccount && localization.getString("byRegistringAgree")}
+						{this.newAccount && <div><img className="checkbox" src="images/checkbox.png" />{localization.getString("byRegistringAgree")}</div>}
 
 					</div>
 				</div>

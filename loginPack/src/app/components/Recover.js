@@ -7,11 +7,7 @@ import {localization} from "../libs/localization";
 export class Recover extends React.Component {
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
+		this.audios = this.props.audios
 
 		this.state = {
 			modal:"recover"
@@ -22,10 +18,6 @@ export class Recover extends React.Component {
 
 	}
 
-	componentDidMount() {
-		this.cut.play()
-	}
-
 	static onError(text){
 		$('#email').addClass('invalid')
 		$('#onError').html(text)
@@ -33,7 +25,6 @@ export class Recover extends React.Component {
 	}
 
 	closeModal(){
-		this.pop.play()
 		this.props.closeModal()
 	}
 
@@ -78,6 +69,8 @@ export class Recover extends React.Component {
 	}
 
 	recoverPass(){
+		this.audios.pop.play()
+
 		let email = this.email.value
 		console.log(email)
 		if(!Validation.ValidateEmail(email)){

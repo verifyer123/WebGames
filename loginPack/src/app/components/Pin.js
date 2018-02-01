@@ -5,11 +5,7 @@ export class Pin extends React.Component {
 	//AQUI VA PARA SABER EL LENGUAGE
 	constructor(props) {
 		super(props);
-		this.pop = new Audio();
-		this.pop.src = "sounds/pop.mp3";
-
-		this.cut = new Audio();
-		this.cut.src = "sounds/cut.mp3";
+		this.audios = this.props.audios
 		this.language = localization.getLanguage()
 
 		this.pivot = 0
@@ -18,21 +14,15 @@ export class Pin extends React.Component {
 		this.closeModal = this.closeModal.bind(this)
 	}
 
-	componentDidMount() {
-		this.cut.play()
-	}
-
 	closeModal(){
-		this.pop.play()
 		this.props.closeModal()
 	}
 
 	goNext(){
-		console.log(this.pivot)
 		if(this.pivot === 4){
+			this.audios.pop.play()
 			let pin = this.pinSelected
 
-			this.pop.play()
 			$("#save").hide();
 			this.props.addChildData("pin", pin)
 			$('#loadSpace').css("display", "block")
@@ -41,7 +31,8 @@ export class Pin extends React.Component {
 	}
 
 	removePin(){
-		console.log(this.pivot)
+		this.audios.cut.play()
+
 		if(this.pivot < 1)
 			return
 
@@ -61,7 +52,8 @@ export class Pin extends React.Component {
 	}
 
 	pinSelect(id){
-		console.log(id)
+		this.audios.pop.play()
+
 		var yogoId = "#yogo" + id
 
 		var contains = false

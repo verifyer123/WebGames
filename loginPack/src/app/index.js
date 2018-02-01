@@ -18,23 +18,38 @@ import {Success} from "./components/Success";
 import {Recover} from "./components/Recover";
 
 export let showLogin
+export let getChildData
+export let saveChild
 
 class App extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
 			component: false,
-			props:false
+			props:false,
+			showPin:false
 		};
 
 		this.childData = {}
 		this.setChildData = this.setChildData.bind(this)
 		this.addChildData = this.addChildData.bind(this)
 		this.register = this.register.bind(this)
+		this.togglePin = this.togglePin.bind(this)
+		this.loadAudios()
+		getChildData = this.getChildData.bind(this)
+		saveChild = this.saveGame
+	}
 
+	togglePin(callback){
+		this.setState({showPin:!this.state.showPin, pinCallback:callback})
 	}
 
 	handleClick(component, props) {  // switch the value of the showModal state
+		if (component) {
+			this.audios.cut.play()
+		} else
+			this.audios.pop.play()
+
 		props = props || false
 		this.setState({
 			component: component,
@@ -42,16 +57,33 @@ class App extends React.Component{
 		});
 	}
 
+	loadAudios(){
+		let cut = new Audio();
+		cut.src = "sounds/cut.mp3";
+
+		let pop = new Audio();
+		pop.src = "sounds/pop.mp3"
+
+		this.audios = {
+			pop:pop,
+			cut:cut
+		}
+	}
+
 	register(newAccount){
+		$('#loadSpace').css("display", "block")
+		this.togglePin()
+
 		newAccount = newAccount || false
 		function onSuccess(){
+			$('#loadSpace').css("display", "none")
 			this.setState({
 				component: "success"
 			})
 		}
 
 		function onError() {
-			console.log("error")
+			$('#loadSpace').css("display", "none")
 		}
 
 
@@ -74,46 +106,81 @@ class App extends React.Component{
 
 	addChildData(prop, data){
 		this.childData[prop] = data
-		console.log(this.childData)
 	}
 
-	showLogin(forceLogin){
+	getChildData(){
+		return this.childData
+	}
+
+	saveGame(player, onSuccess, onError){
+		login.saveChild(player)
+	}
+
+	showLogin(forceLogin, autoLogin, onLogin){
 		this.forceLogin = forceLogin || false
-		this.handleClick("login")
+
+		this.onLogin = () => {
+			onLogin()
+			this.handleClick(false)
+		}
+
+		if(autoLogin){
+			function onSuccess(response) {
+				this.setChildData(response.child)
+				this.handleClick("continue")
+			}
+
+			function onError() {
+				this.handleClick("login")
+			}
+
+			login.checkLogin(onSuccess.bind(this), onError.bind(this))
+		}else{
+			this.handleClick("login")
+		}
+	}
+
+	pinComponent(){
+		if(this.state.showPin) {
+			return <Pin closeModal={this.togglePin}
+						nextCallback={this.state.pinCallback} addChildData={this.addChildData} audios={this.audios} />
+		}else
+			return null
 	}
 
 	getComponent(props) {
+
 		let component = null
 		switch (this.state.component) {
 			case "register":
 				component = <Register closeModal={this.handleClick.bind(this, false)}
 									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData} newAccount={props}
-				addChildData={this.addChildData}/>
+				addChildData={this.addChildData} audios={this.audios}/>
 				break;
 			case "login":
 				component = <Login handleClick={this.handleClick.bind(this)} addChildData={this.addChildData}
-								   child={this.childData} forceLogin={this.forceLogin}/>
+								   child={this.childData} forceLogin={this.forceLogin} audios={this.audios}
+				togglePin={this.togglePin}/>
 				break
 			case "players":
 				component = <Players closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}
 									 children={props} callback={this.handleClick.bind(this, "nickname")}
-				setChildData={this.setChildData}/>
-				break;
-			case "pin":
-				component = <Pin closeModal={this.handleClick.bind(this, "login")} getComponent={this.getComponent}
-									 nextCallback={props} addChildData={this.addChildData}/>
+				setChildData={this.setChildData} audios={this.audios}/>
 				break;
 			case "continue":
-				component = <Continue closeModal={this.handleClick.bind(this, false)} />
+				component = <Continue closeModal={this.handleClick.bind(this, false)} audios={this.audios} onLogin={this.onLogin}/>
 				break;
 			case "nickname":
-				component = <Nickname closeModal={this.handleClick.bind(this, false)} handleClick = {this.handleClick.bind(this)} onRegister={this.register} addChildData={this.addChildData} newAccount={props}/>
+				component = <Nickname closeModal={this.handleClick.bind(this, false)} handleClick = {this.handleClick.bind(this)}
+									  onRegister={this.register} addChildData={this.addChildData} newAccount={props} audios={this.audios}
+				togglePin={this.togglePin}/>
 				break;
 			case "success":
-				component = <Success closeModal={this.handleClick.bind(this, false)} child={this.childData} onOk={this.handleClick.bind(this, "continue")}/>
+				component = <Success closeModal={this.handleClick.bind(this, false)} child={this.childData}
+									 onOk={this.handleClick.bind(this, "continue")} audios={this.audios}/>
 				break;
 			case "recover":
-				component = <Recover closeModal={this.handleClick.bind(this, false)}/>
+				component = <Recover closeModal={this.handleClick.bind(this, "login")} audios={this.audios}/>
 				break;
 			default:
 				component = null
@@ -126,8 +193,8 @@ class App extends React.Component{
 		showLogin = this.showLogin.bind(this)
 		return(
 			<div>
-				<button onClick={this.handleClick.bind(this, "login")}>Continue</button>
 				{this.getComponent(this.state.props)}
+				{this.pinComponent()}
 			</div>
 		)
 	}
