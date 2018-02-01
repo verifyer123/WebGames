@@ -80,7 +80,7 @@ amazing.getGames = function(){
 		{name:'Net Shoes',iconName:'net',url:'http://amazingapp.mx/juegos/netshoes/',coupon : false,mixName:'netshoes',id:5634101323235328},//16
         {name:'Coffee Rush',iconName:'coffeerush',url:'http://amazingapp.mx/juegos/coffeerush/',coupon : false,mixName:'coffeerush',id:5662438108168192},//17
         {name:'2+2',iconName:'2+2',url:'http://amazingapp.mx/juegos/game2Plus2/',coupon : false,mixName:'2+2',id:6293705958883328},//18
-        {name:'Rafaga de Tamales',iconName:'2+2',url:'http://amazingapp.mx/juegos/rafagaDeTamales/',coupon : false,mixName:'rafagaDeTamales',id:6293705958883328},//18
+        {name:'Rafaga de Tamales',iconName:'rafagaDeTamales',url:'http://amazingapp.mx/juegos/rafagaDeTamales/',coupon : false,mixName:'rafagaDeTamales',id:5679382827892736},//19
         //{name:'brickPop',iconName:'brickPop',url:'http://amazingapp.mx/juegos/brickPop/',coupon : false,mixName:'brickPop',id:6293705958883328},//19
         //{name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},
     ]

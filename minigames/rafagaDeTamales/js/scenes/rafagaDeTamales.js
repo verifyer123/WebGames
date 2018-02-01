@@ -53,7 +53,7 @@ var rafagaDeTamales = function(){
     var DISTANCE_TO_PLUS = 100
 
     
-    var gameIndex = 18
+    var gameIndex = 19
     var marioSong = null
 	var sceneGroup = null
     var pointsGroup = null
