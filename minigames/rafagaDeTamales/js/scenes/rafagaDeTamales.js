@@ -150,9 +150,9 @@ var rafagaDeTamales = function(){
         //game.load.spritesheet('fireSpritesheet', 'images/rafagaDeTamales/fire.png', 320, 440, 23);
         		
 		if(amazing.getMinigameId()){
-			marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
+			marioSong = sound.setSong(soundsPath + 'songs/la_fiesta.mp3',0.3)
 		}else{
-			game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+			game.load.audio('arcadeSong', soundsPath + 'songs/la_fiesta.mp3');
 		}
 		var fontStyle = {font: "30px AvenirHeavy", fontWeight: "bold", fill: "#000000", align: "center"}
 		var text = new Phaser.Text(game, 0, 10, "2", fontStyle)
