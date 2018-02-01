@@ -546,9 +546,8 @@ var stomake = function(){
         var destinyY=params.destinyY || game.world.centerY
         var where=0
         var generate=game.rnd.integerInRange(0,9);
-        wall=2
         
-        if(howMany<howMuch && wall!=2){
+        if(howMany<howMuch && wall<2){
             if(where==0){
                 while(enemysActive[generate]==true){
                     generate=game.rnd.integerInRange(0,9);
@@ -566,7 +565,6 @@ var stomake = function(){
             }
         }
         
-        if(wall==2){
            
             var generate2=game.rnd.integerInRange(0,9);
             var generate3=game.rnd.integerInRange(0,9);
@@ -610,7 +608,6 @@ var stomake = function(){
 
             while(enemysActive[generate]==true && enemysActive[generate2]==true && enemysActive[generate3]==true && enemysActive[generate4]==true && enemysActive[generate5]==true && generate==generate2 && generate==generate3 && generate==generate4 && generate==generate5 && generate2==generate3 && generate2==generate4 && generate2==generate5 && generate3==generate4 && generate3==generate5 && generate4==generate5 &&  generate11==generate12 && generate11==generate13 && generate11==generate14 && generate11==generate15 && generate12==generate13 && generate12==generate14 && generate12==generate15 && generate13==generate14 && generate13==generate15 && generate14==generate15 && generate21==generate22 && generate21==generate23 && generate21==generate24 && generate21==generate25 && generate22==generate23 && generate22==generate24 && generate22==generate25 && generate23==generate24 && generate23==generate25 && generate24==generate25){
                  
-               console.log(wall)
                    if(enemysActive[generate]==true && whichGenerate!=0)generate=game.rnd.integerInRange(0,4);
                    if(enemysActive[generate2]==true && whichGenerate!=1)generate2=game.rnd.integerInRange(0,4);
                    if(enemysActive[generate3]==true && whichGenerate!=2)generate3=game.rnd.integerInRange(0,4);
@@ -651,8 +648,7 @@ var stomake = function(){
                     
                 }
             
-            if(enemysActive[generate]==false && enemysActive[generate2]==false && enemysActive[generate3]==false && enemysActive[generate4]==false && enemysActive[generate5]==false && generate!=generate2 && generate!=generate3 && generate!=generate4 && generate!=generate5 && generate2!=generate3 && generate2!=generate4 && generate2!=generate5 && generate3!=generate4 && generate3!=generate5 && generate4!=generate5 && generate11!=generate12 && generate11!=generate13 && generate11!=generate14 && generate11!=generate15 && generate12!=generate13 && generate12!=generate14 && generate12!=generate15 && generate13!=generate14 && generate13!=generate15 && generate14!=generate15 && generate21!=generate22 && generate21!=generate23 && generate21!=generate24 && generate21!=generate25 && generate22!=generate23 && generate22!=generate24 && generate22!=generate25 && generate23!=generate24 && generate23!=generate25 && generate24!=generate25 ){
-               
+            if(wall==2){
                 enemys[generate].alpha=1
                 enemys[generate].scale.setTo(0.7,0.7)
                 enemys[generate].position.x=game.world.centerX-200
@@ -699,15 +695,15 @@ var stomake = function(){
                 
                 enemys2[generate11].alpha=1
                 enemys2[generate11].scale.setTo(0.7,0.7)
-                enemys2[generate11].position.x=game.world.centerX-300
-                enemys2[generate11].position.y=-250;
+                enemys2[generate11].position.x=game.world.centerX-350
+                enemys2[generate11].position.y=-200;
                 enemy2Tween[generate11]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys2Active[generate11]=true;
                 howMany2++;
                 
                 enemys2[generate12].alpha=1
                 enemys2[generate12].scale.setTo(0.7,0.7)
-                enemys2[generate12].position.x=game.world.centerX-400
+                enemys2[generate12].position.x=game.world.centerX-450
                 enemys2[generate12].position.y=-250;
                 enemy2Tween[generate12]=game.add.tween(enemys2[generate12]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys2Active[generate12]=true;
@@ -715,15 +711,15 @@ var stomake = function(){
                 
                 enemys2[generate13].alpha=1
                 enemys2[generate13].scale.setTo(0.7,0.7)
-                enemys2[generate13].position.x=game.world.centerX-500
-                enemys2[generate13].position.y=-250;
+                enemys2[generate13].position.x=game.world.centerX-550
+                enemys2[generate13].position.y=-200;
                 enemy2Tween[generate13]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys2Active[generate13]=true;
                 howMany2++;
                 
                 enemys2[generate14].alpha=1
                 enemys2[generate14].scale.setTo(0.7,0.7)
-                enemys2[generate14].position.x=game.world.centerX-600
+                enemys2[generate14].position.x=game.world.centerX-650
                 enemys2[generate14].position.y=-250;
                 enemy2Tween[generate14]=game.add.tween(enemys2[generate14]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys2Active[generate14]=true;
@@ -731,15 +727,15 @@ var stomake = function(){
                 
                 enemys2[generate15].alpha=1
                 enemys2[generate15].scale.setTo(0.7,0.7)
-                enemys2[generate15].position.x=game.world.centerX-700
-                enemys2[generate15].position.y=-250;
+                enemys2[generate15].position.x=game.world.centerX-750
+                enemys2[generate15].position.y=-200;
                 enemy2Tween[generate15]=game.add.tween(enemys2[generate15]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys2Active[generate15]=true;
                 howMany2++;
                 
                 enemys3[generate21].alpha=1
                 enemys3[generate21].scale.setTo(0.7,0.7)
-                enemys3[generate21].position.x=game.world.centerX+300
+                enemys3[generate21].position.x=game.world.centerX+350
                 enemys3[generate21].position.y=-250;
                 enemy3Tween[generate21]=game.add.tween(enemys3[generate21]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys3Active[generate21]=true;
@@ -747,8 +743,8 @@ var stomake = function(){
                 
                 enemys3[generate22].alpha=1
                 enemys3[generate22].scale.setTo(0.7,0.7)
-                enemys3[generate22].position.x=game.world.centerX+400
-                enemys3[generate22].position.y=-250;
+                enemys3[generate22].position.x=game.world.centerX+450
+                enemys3[generate22].position.y=-200;
                 enemy3Tween[generate22]=game.add.tween(enemys3[generate22]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys3Active[generate22]=true;
                 howMany3++;
@@ -756,7 +752,7 @@ var stomake = function(){
                 
                 enemys3[generate23].alpha=1
                 enemys3[generate23].scale.setTo(0.7,0.7)
-                enemys3[generate23].position.x=game.world.centerX+500
+                enemys3[generate23].position.x=game.world.centerX+550
                 enemys3[generate23].position.y=-250;
                 enemy3Tween[generate23]=game.add.tween(enemys3[generate23]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys3Active[generate23]=true;
@@ -765,27 +761,31 @@ var stomake = function(){
                 
                 enemys3[generate24].alpha=1
                 enemys3[generate24].scale.setTo(0.7,0.7)
-                enemys3[generate24].position.x=game.world.centerX+600
-                enemys3[generate24].position.y=-250;
+                enemys3[generate24].position.x=game.world.centerX+650
+                enemys3[generate24].position.y=-200;
                 enemy3Tween[generate24]=game.add.tween(enemys3[generate24]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys3Active[generate24]=true;
                 howMany3++;
                 
                 enemys3[generate25].alpha=1
                 enemys3[generate25].scale.setTo(0.7,0.7)
-                enemys3[generate25].position.x=game.world.centerX+700
+                enemys3[generate25].position.x=game.world.centerX+75    0
                 enemys3[generate25].position.y=-250;
                 enemy3Tween[generate25]=game.add.tween(enemys3[generate25]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys3Active[generate25]=true;
                 howMany3++;
             
-                
+                wall=3
+                game.time.events.add(800,function(){
+                    wall=0
+                })
                 
                 sound.play("falling")
-               
-                
             }
-        }
+            
+            if(enemysActive[generate]==false && enemysActive[generate2]==false && enemysActive[generate3]==false && enemysActive[generate4]==false && enemysActive[generate5]==false && generate!=generate2 && generate!=generate3 && generate!=generate4 && generate!=generate5 && generate2!=generate3 && generate2!=generate4 && generate2!=generate5 && generate3!=generate4 && generate3!=generate5 && generate4!=generate5 && generate11!=generate12 && generate11!=generate13 && generate11!=generate14 && generate11!=generate15 && generate12!=generate13 && generate12!=generate14 && generate12!=generate15 && generate13!=generate14 && generate13!=generate15 && generate14!=generate15 && generate21!=generate22 && generate21!=generate23 && generate21!=generate24 && generate21!=generate25 && generate22!=generate23 && generate22!=generate24 && generate22!=generate25 && generate23!=generate24 && generate23!=generate25 && generate24!=generate25 ){
+               wall=2
+            }
     }
     
     
@@ -920,6 +920,96 @@ var stomake = function(){
                         
                     }
                 }
+                
+                if(checkOverlap(characterProxy,food2[check]) && activeFood2[check] && lives>0){
+                 
+                    if(food2[check].tag=="healthy"){
+                        var temp=check
+                        sound.play("eathealthy")
+                        activeFood2[temp]=false
+                        foodTweens2[temp].stop()
+                        game.add.tween(food2[check].scale).to({x:0,y:0},250,Phaser.Easing.linear,true)
+                        character.setAnimationByName(0,"WIN",false)
+                        game.time.events.add(500,function(){
+                            character.setAnimationByName(0,"IDLE",true)
+                        })
+                        
+                        Coin(character,pointsBar,20)
+                    }
+                    if(food2[check].tag=="junk"){
+                        var temp2=check
+                        sound.play("eatunhealthy")
+                        activeFood2[temp2]=false
+                        foodTweens2[temp2].stop()
+                        game.add.tween(food2[temp2].scale).to({x:0,y:0},250,Phaser.Easing.linear,true)
+                        character.setAnimationByName(0,"HIT",false)
+                        missPoint()
+                        game.time.events.add(500,function(){
+                            if(lives>0){
+                                character.setAnimationByName(0,"IDLE",true)
+                            }else{
+                                for(var checkedQuick=0; checkedQuick<food2.length;checkedQuick++){
+                                    if(foodTweens2[checkedQuick]){
+                                        foodTweens2[checkedQuick].stop()
+                                        food2[checkedQuick].alpha=0
+                                    }
+                                }
+                                character.setAnimationByName(0,"LOSE",false)
+                                game.time.events.add(500,function(){
+                                    sound.play("lost")
+                                    character.setAnimationByName(0,"LOSESTILL",true)
+                                })
+                            }
+                        })
+                        
+                        
+                    }
+                }
+                
+                if(checkOverlap(characterProxy,food3[check]) && activeFood3[check] && lives>0){
+                 
+                    if(food3[check].tag=="healthy"){
+                        var temp=check
+                        sound.play("eathealthy")
+                        activeFood3[temp]=false
+                        foodTweens3[temp].stop()
+                        game.add.tween(food3[check].scale).to({x:0,y:0},250,Phaser.Easing.linear,true)
+                        character.setAnimationByName(0,"WIN",false)
+                        game.time.events.add(500,function(){
+                            character.setAnimationByName(0,"IDLE",true)
+                        })
+                        
+                        Coin(character,pointsBar,20)
+                    }
+                    if(food3[check].tag=="junk"){
+                        var temp2=check
+                        sound.play("eatunhealthy")
+                        activeFood3[temp2]=false
+                        foodTweens3[temp2].stop()
+                        game.add.tween(food3[temp2].scale).to({x:0,y:0},250,Phaser.Easing.linear,true)
+                        character.setAnimationByName(0,"HIT",false)
+                        missPoint()
+                        game.time.events.add(500,function(){
+                            if(lives>0){
+                                character.setAnimationByName(0,"IDLE",true)
+                            }else{
+                                for(var checkedQuick=0; checkedQuick<food3.length;checkedQuick++){
+                                    if(foodTweens3[checkedQuick]){
+                                        foodTweens3[checkedQuick].stop()
+                                        food3[checkedQuick].alpha=0
+                                    }
+                                }
+                                character.setAnimationByName(0,"LOSE",false)
+                                game.time.events.add(500,function(){
+                                    sound.play("lost")
+                                    character.setAnimationByName(0,"LOSESTILL",true)
+                                })
+                            }
+                        })
+                        
+                        
+                    }
+                }
             }
             
             for(var checkAll=0; checkAll<10;checkAll++){
@@ -938,7 +1028,9 @@ var stomake = function(){
             }
             if(howMany==10){
                 howMany=0
-                wall++
+                if(wall<2){
+                    wall++
+                }
                 if(dificulty>500){
                     speed-=100
                     dificulty-=100
