@@ -49,7 +49,7 @@ export class Recover extends React.Component {
 				</div>
 
 				<div className="lgmodal-body">
-						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textlgmodal3" onClick={this.closemodal}>{localization.getString("ok")}</div></button>
+						<button type="submit" id="okSuccess" className="loginBtn bgGreen" onClick={this.closemodal}><div className="textlgmodal3">{localization.getString("ok")}</div></button>
 				<br/>
 
 				</div>
