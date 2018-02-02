@@ -30,6 +30,8 @@ export class Nickname extends React.Component {
 		this.audios.pop.play()
 
 		function onSuccess(response) {
+			$('#loadSpace').css("display", "none")
+
 			if(response.exists){
 				onError()
 				return
@@ -51,13 +53,13 @@ export class Nickname extends React.Component {
 	render() {
 		let nicknameText = localization.getString("nickname", this.language)
 		return (
-			<div id="signIn" className="modal">
+			<div id="signIn" className="lgmodal">
 
-				<div className="modal-content container-login" >
+				<div className="lgmodal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.props.handleClick.bind(null, "login")}></button>
+						<button className="closelgmodal close" onClick={this.props.handleClick.bind(null, "login")}></button>
 					</div>
-					<div className="modal-header">
+					<div className="lgmodal-header">
 						<div className="topImg">
 							<div className="topImg">
 								<img className="particule" src="images/particle-03.png"/>
@@ -65,11 +67,11 @@ export class Nickname extends React.Component {
 								<img className="particule" src="images/particle-04.png"/>
 							</div>
 						</div>
-						<h2><div className="textModal9" style={{fontSize: "3vh", color: "dimgrey"}}>{localization.getString("setNickname", this.language)}</div></h2>
+						<h2><div className="textlgmodal9" style={{fontSize: "3vh", color: "dimgrey"}}>{localization.getString("setNickname", this.language)}</div></h2>
 						<p className="subtitle" >{this.state.description}</p>
 					</div>
 
-					<div className="modal-body">
+					<div className="lgmodal-body">
 
 						<input type="text" id="nickname" className="inputText" placeholder={nicknameText} name="nickname"
 							   ref={(input) =>{this.nickname = input} }

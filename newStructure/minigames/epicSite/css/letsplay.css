@@ -1,0 +1,183 @@
+body{
+    overflow-x: hidden;
+}
+.section-one {
+    background-color: #3B91FF;
+    background-image: url("../images/rocket.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.second-title {
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.bottom-clouds {
+    background-image: url('../images/bg-main-nubes.png');
+    background-position: bottom center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 180px;
+}
+
+.main-title {
+    font-size: 8vh;
+    font-weight: 600;
+    color: white;
+}
+
+.secondsub-title {
+    font-size: 25px;
+    font-weight: 600;
+    color: #ecd06c;
+}
+
+.math-section {
+    background-image: url("../images/lestplaygreen.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.wallpaper-item {
+    padding: 10px;
+    width: auto;
+    height: auto;
+    float: left;
+}
+
+.wallpaper-thumb {
+    margin: auto;
+}
+
+#subject-slider {
+    width: 70%;
+    margin: auto;
+    
+}
+
+#tab-minigames{
+    margin-top: -10%;
+}
+
+.img-minigames{
+    border-radius: 2vh;
+    width: 300px;
+    height: 150px;
+    padding: 1vh;
+}
+
+.buttonsgamesMenu{
+    width: auto;
+    transform: translate(0%,0%);
+}
+
+@media only screen and (min-width: 1px) and (max-width:1150px) {
+    .mid-container {
+        width: 100%;
+        height: auto;
+        margin: auto;
+    }
+}
+
+@media only screen and (min-width: 1151px) {
+    .mid-container {
+        width: 1150px;
+        height: auto;
+        margin: auto;
+    }
+}
+
+@media only screen and (min-width: 320px) and (max-width:400px) {
+    #subject-slider {
+        width: 90%;
+        margin: auto;
+    }
+    .wallpaper-thumb {
+        width: 113px;
+    }
+}
+
+@media only screen and (min-width: 401px) and (max-width:500px) {
+    #subject-slider {
+        width: 300px;
+        margin: auto;
+    }
+    .override-buttons {
+        position: absolute;
+        width: 90%!important;
+        margin: auto;
+        z-index: 3;
+        height: 1px;
+    }
+    .wallpaper-thumb {
+        width: 113px;
+    }
+
+    .img-minigames {
+        height: 100px;
+    }       
+    
+}
+
+@media only screen and (min-width: 501px) and (max-width:768px) {
+    #subject-slider {
+        width: 400px;
+        margin: auto;
+    }
+    .override-buttons {
+        position: absolute;
+        width: 550px!important;
+        margin: auto;
+        z-index: 3;
+        height: 1px;
+        transform: translate(0%,0%);
+        
+    }
+    .wallpaper-thumb {
+        width: 113px;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    #subject-slider {
+        width: 600px;
+        margin: auto;
+    }
+    .override-buttons {
+        position: absolute;
+        width: 750px!important;
+        margin: auto;
+        z-index: 3;
+        height: 1px;
+        transform: translate(0%,0%);
+    }
+    .wallpaper-thumb {
+        width: 110px;
+    }
+
+ 
+    
+}
+
+@media only screen and (max-width:319px) {
+
+    
+    #subject-slider {
+        display: none;
+    }
+}
+
+/* Portrait */
+@media all and (orientation:portrait)
+{
+
+.img-minigames{
+    border-radius: 2vh;
+    width: 300px !important;
+    height: 90px !important;
+    padding: 1vh;
+}
+}

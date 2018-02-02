@@ -7,11 +7,11 @@ export class Continue extends React.Component {
 		super(props);
 		this.audios = this.props.audios
 
-		this.closeModal = this.closeModal.bind(this)
+		this.closelgmodal = this.closelgmodal.bind(this)
 	}
 
-	closeModal(){
-		this.props.closeModal()
+	closelgmodal(){
+		this.props.closelgmodal()
 	}
 
 	render() {
@@ -20,29 +20,29 @@ export class Continue extends React.Component {
 		youHaveDays = localization.replace(youHaveDays, days)
 
 		return (
-			<div id="save" className="modal">
-				<div className="modal-content container-login" >
+			<div id="save" className="lgmodal">
+				<div className="lgmodal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.props.onLogin} />
+						<button className="closelgmodal close" onClick={this.props.onLogin} />
 					</div>
-					<div className="modal-header">
+					<div className="lgmodal-header">
 						<div className="topImg">
 							<img className="particule" src="images/particle-03.png"/>
 							<img className="logo" src="images/neueicon.png"/>
 							<img className="particule" src="images/particle-04.png"/>
 						</div>
-						<h2><div className="textModal21" style={{fontSize:'3vh'}}>{localization.getString("welcomeYogome")}</div></h2>
+						<h2><div className="textlgmodal21" style={{fontSize:'3vh'}}>{localization.getString("welcomeYogome")}</div></h2>
 						<p className="subtitle" >{youHaveDays}</p>
-						<div style={{textAlign: 'justify', color: '#727984', fontSize: '2vh'}} className="fontOpenSans textModal22">
+						<div style={{textAlign: 'justify', color: '#727984', fontSize: '2vh'}} className="fontOpenSans textlgmodal22">
 							<p>{localization.getString("remindParents")}</p>
 						</div>
 					</div>
 
-					<div className="modal-body">
+					<div className="lgmodal-body">
 							<button type="submit" className="loginBtn bgGreen" onClick={this.props.onLogin}>{localization.getString("ok")}</button><br />
 
 					</div>
-					<div className="fontOpenSans modal-footer" style={{color: '#444444'}}>
+					<div className="fontOpenSans lgmodal-footer" style={{color: '#444444'}}>
 
 					</div>
 				</div>

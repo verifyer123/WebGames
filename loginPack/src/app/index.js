@@ -37,7 +37,8 @@ class App extends React.Component{
 		this.togglePin = this.togglePin.bind(this)
 		this.loadAudios()
 		getChildData = this.getChildData.bind(this)
-		saveChild = this.saveGame
+		saveChild = this.saveGame.bind(this)
+		this.registerLogin = this.registerLogin.bind(this)
 	}
 
 	togglePin(callback){
@@ -69,6 +70,23 @@ class App extends React.Component{
 			cut:cut
 		}
 	}
+	registerLogin(){
+		let child = this.childData
+
+		function onSuccess(response) {
+			$('#loadSpace').css("display", "none")
+			this.setState({
+				component: "success"
+			})
+			this.setChildData(response.child)
+		}
+
+		function onError() {
+			$('#loadSpace').css("display", "none")
+		}
+
+		login.loginChild(child.nickname, child.pin.join(''), onSuccess.bind(this), onError)
+	}
 
 	register(newAccount){
 		$('#loadSpace').css("display", "block")
@@ -76,10 +94,7 @@ class App extends React.Component{
 
 		newAccount = newAccount || false
 		function onSuccess(){
-			$('#loadSpace').css("display", "none")
-			this.setState({
-				component: "success"
-			})
+			this.registerLogin()
 		}
 
 		function onError() {
@@ -113,7 +128,8 @@ class App extends React.Component{
 	}
 
 	saveGame(player, onSuccess, onError){
-		login.saveChild(player)
+		this.addChildData("gameData", player)
+		login.saveChild(player, onSuccess)
 	}
 
 	showLogin(forceLogin, autoLogin, onLogin){
@@ -160,7 +176,7 @@ class App extends React.Component{
 			case "login":
 				component = <Login handleClick={this.handleClick.bind(this)} addChildData={this.addChildData}
 								   child={this.childData} forceLogin={this.forceLogin} audios={this.audios}
-				togglePin={this.togglePin}/>
+				togglePin={this.togglePin} setChildData={this.setChildData}/>
 				break
 			case "players":
 				component = <Players closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}

@@ -1,16 +1,19 @@
 
 var language = "EN"
-if(parent.window.location.search){
-    var params = parent.window.location.search.trim(1)
-    var regex = /language=(..)/i
-    var result = regex.exec(params)
-    if(result){
-        language = result[result.index].toUpperCase()    
-    }else{
-        language = "EN"
-    }
-
+function getParameterByName(name, url) {
+	if (!url) url = window.location.href;
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+language = getParameterByName("language")
+// console.log(language, "language")
+language = language || "en"
+language = language.toUpperCase()
 
 
 window.amazing = {

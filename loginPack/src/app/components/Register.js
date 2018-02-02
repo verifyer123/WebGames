@@ -15,7 +15,7 @@ export class Register extends React.Component {
 		}
 
 		this.togglePass = this.togglePass.bind(this)
-		this.closeModal = this.closeModal.bind(this)
+		this.closemodal = this.closemodal.bind(this)
 		this.newAccount = this.props.newAccount
 
 		let kidAccountText = localization.getString("kidAccount", this.language)
@@ -74,6 +74,7 @@ export class Register extends React.Component {
 		function onSuccess(response) {
 			console.log(response)
 			var children = response.children
+			console.log(children)
 			if((children)&&(children.length > 1))
 				this.props.onNext("players", children)
 			else{
@@ -127,20 +128,20 @@ export class Register extends React.Component {
 	: null;
 	}
 
-	closeModal(){
+	closemodal(){
 		this.props.closeModal()
 	}
 
 	render() {
 		let emailText = localization.getString("parentsMail", this.language)
 		return (
-			<div id="signIn" className="modal">
+			<div id="signIn" className="lgmodal">
 
-				<div className="modal-content container-login" >
+				<div className="lgmodal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.props.onNext.bind(null, "login")}></button>
+						<button className="closelgmodal close" onClick={this.props.onNext.bind(null, "login")}></button>
 					</div>
-					<div className="modal-header">
+					<div className="lgmodal-header">
 						<div className="topImg">
 							<div className="topImg">
 								<img className="particule" src="images/particle-03.png"/>
@@ -148,11 +149,11 @@ export class Register extends React.Component {
 								<img className="particule" src="images/particle-04.png"/>
 							</div>
 						</div>
-						<h2><div className="textModal9" style={{fontSize: "3vh", color: "dimgrey"}}>{this.title}</div></h2>
+						<h2><div className="textlgmodal9" style={{fontSize: "3vh", color: "dimgrey"}}>{this.title}</div></h2>
 						<p className="subtitle" >{this.state.description}</p>
 					</div>
 
-					<div className="modal-body">
+					<div className="lgmodal-body">
 
 						<input type="text" id="email" className="inputText" placeholder={emailText} name="email" onFocus={function(){
 							$('#email').attr("placeholder", '')

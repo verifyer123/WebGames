@@ -182,7 +182,9 @@ var epicSiteMain =  function(){
 	}
 	
 	function updatePlayerInfo() {
-		var credentials = epicModel.getCredentials()
+		console.log("update player")
+
+		var credentials = loginModal.getChildData()
 		var player = epicModel.getPlayer()
 
 		var currentCoins = $(".player-coins").html()
@@ -196,7 +198,7 @@ var epicSiteMain =  function(){
 			$( '.yogotar img' ).attr("src",yogotarImgPath);
 		}
 
-		var name = credentials.name || (player.yogotar ? player.yogotar : "Eagle")
+		var name = credentials.nickname || (player.yogotar ? player.yogotar : "Eagle")
 		$(".player-name").html(name)
 		$(".player-number").html(player.level)
 		var coinImg = $("#player-info img")
@@ -261,6 +263,7 @@ var epicSiteMain =  function(){
 		// src = src || "#/map"
 		// console.log(src)
 		var currentPlayer = epicModel.getPlayer()
+		console.log(currentPlayer)
 		if((!currentPlayer.yogotar)&&(needYogotar)){
 			// routing.navigate("#/yogotarselector")
 			window.location.href = "#/yogotarselector"
@@ -271,12 +274,7 @@ var epicSiteMain =  function(){
 	}
 
 	function start(src, forceLogin, needYogotar, checkAge){
-
-		var callback = function () {
-			checkPlayer(src, needYogotar)
-		}
-
-		epicModel.loadPlayer(forceLogin, callback, checkAge)
+		checkPlayer(src, needYogotar)
 	}
 
 	function charSelected(yogotar, url){
@@ -292,13 +290,14 @@ var epicSiteMain =  function(){
 		// var yogotarImgPath = "assets/img/common/yogotars/" + yogotar.toLowerCase() + ".png"
 		// $( '.yogotar img' ).attr("src",yogotarImgPath);
 
-		var credentials = epicModel.getCredentials()
+		var credentials = loginModal.getChildData()
 		mixpanel.track(
 			"yogotarSelected",
 			{"user_id": credentials.educationID,
 			"yogotar":yogotar}
 		);
 
+		updatePlayerInfo()
 	}
 
 

@@ -174,7 +174,7 @@ export var login = function () {
 		ajaxCall(data, CHECK_EMAIL, onSuccess, onError)
 	}
 
-	function saveChild(player) {
+	function saveChild(player, onSuccess) {
 
 		var credentials = getCredentials()
 		var token = credentials.token
@@ -182,9 +182,7 @@ export var login = function () {
 		var remoteID = credentials.remoteID
 
 		if((token)&&(email)&&(remoteID)){
-			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, UPDATE_CHILD, function () {
-				console.log("playerSaved")
-			})
+			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, UPDATE_CHILD, onSuccess)
 		}
 	}
 

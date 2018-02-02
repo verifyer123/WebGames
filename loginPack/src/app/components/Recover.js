@@ -10,10 +10,10 @@ export class Recover extends React.Component {
 		this.audios = this.props.audios
 
 		this.state = {
-			modal:"recover"
+			lgmodal:"recover"
 		}
 
-		this.closeModal = this.closeModal.bind(this)
+		this.closemodal = this.closemodal.bind(this)
 		this.showComponent = this.showComponent.bind(this)
 
 	}
@@ -24,32 +24,32 @@ export class Recover extends React.Component {
 		$('#onError').css("display", "block")
 	}
 
-	closeModal(){
+	closemodal(){
 		this.props.closeModal()
 	}
 
 	successRecover(){
-		return <div id="success" className="modal">
+		return <div id="success" className="lgmodal">
 
-			<div className="modal-content container-login" >
+			<div className="lgmodal-content container-login" >
 				<div className="navigation">
-					<button className="closeModal close" onClick={this.closeModal}></button>
+					<button className="closelgmodal close" onClick={this.closelgmodal}></button>
 				</div>
-				<div className="modal-header">
+				<div className="lgmodal-header">
 					<div className="topImg">
 						<img className="particule" src="images/particle-03.png"/>
 						<img className="logo" src="images/lock-icon-opened.png"/>
 						<img className="particule" src="images/particle-04.png"/>
 					</div>
-					<h2><div className="textModal18" style={{fontSize: "3vh"}}>- {localization.getString("success")} -</div></h2>
-					<div style={{textAlign: "justify", color: "#727984", fontSize: "2vh"}} className="fontOpenSans textModal17">
+					<h2><div className="textlgmodal18" style={{fontSize: "3vh"}}>- {localization.getString("success")} -</div></h2>
+					<div style={{textAlign: "justify", color: "#727984", fontSize: "2vh"}} className="fontOpenSans textlgmodal17">
 						<p>{localization.getString("intrustionsToReset")}</p>
 					</div>
 
 				</div>
 
-				<div className="modal-body">
-						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textModal3" onClick={this.closeModal}>{localization.getString("ok")}</div></button>
+				<div className="lgmodal-body">
+						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textlgmodal3" onClick={this.closelgmodal}>{localization.getString("ok")}</div></button>
 				<br/>
 
 				</div>
@@ -58,7 +58,7 @@ export class Recover extends React.Component {
 	}
 
 	showComponent(){
-		return this.state.modal === "recover" ? this.recoverModal() : this.successRecover()
+		return this.state.lgmodal === "recover" ? this.recoverlgmodal() : this.successRecover()
 	}
 
 	static onError(text){
@@ -85,7 +85,7 @@ export class Recover extends React.Component {
 
 			if(response.status === "success") {
 				this.setState({
-					modal: "success"
+					lgmodal: "success"
 				})
 			}else{
 				Recover.onError(localization.getString("noAccountRegistered"))
@@ -100,21 +100,21 @@ export class Recover extends React.Component {
 		login.recoverPass(email, onSuccess.bind(this), onError.bind(this))
 	}
 
-	recoverModal(){
-		return <div id="recover" className="modal">
+	recoverlgmodal(){
+		return <div id="recover" className="lgmodal">
 
-			<div className="modal-content container-login" >
+			<div className="lgmodal-content container-login" >
 				<div className="navigation">
-					<button className="closeModal close" onClick={this.closeModal}></button>
+					<button className="closelgmodal close" onClick={this.closemodal}></button>
 				</div>
-				<div className="modal-header">
+				<div className="lgmodal-header">
 					<div className="topImg">
 						<img className="particule" src="images/particle-03.png"/>
 						<img className="logo" src="images/lock-icon-closed.png"/>
 						<img className="particule" src="images/particle-04.png"/>
 					</div>
-					<h2><div className="textModal14" style={{fontSize: "3vh"}}>{localization.getString("resetPassword")}</div></h2>
-					<div style={{textAlign: "justify", color: "#727984", fontSize: "2vh"}} className="fontOpenSans textModal15">
+					<h2><div className="textlgmodal14" style={{fontSize: "3vh"}}>{localization.getString("resetPassword")}</div></h2>
+					<div style={{textAlign: "justify", color: "#727984", fontSize: "2vh"}} className="fontOpenSans textlgmodal15">
 						<p>{localization.getString("enterYourEmail")}</p>
 					</div>
 					<div style={{textAlign: "center"}}>
@@ -123,7 +123,7 @@ export class Recover extends React.Component {
 					</div>
 				</div>
 
-				<div className="modal-body">
+				<div className="lgmodal-body">
 
 					<input type="text" id="email" className="inputText" placeholder={localization.getString("parentsMail")} ref={(input) => {this.email = input}} name="Email" onFocus={function(){
 						$('#email').attr("placeholder", '')
@@ -135,14 +135,14 @@ export class Recover extends React.Component {
 							   $('#email').attr("placeholder", localization.getString("parentsMail"))
 						   }} />
 					<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div><br/>
-					<button type="submit" id="send" className="loginBtn bgGreen" onClick={this.recoverPass.bind(this)}><div className="textModal16">{localization.getString("submitRequest")}</div></button><br/>
+					<button type="submit" id="send" className="loginBtn bgGreen" onClick={this.recoverPass.bind(this)}><div className="textlgmodal16">{localization.getString("submitRequest")}</div></button><br/>
 
 				</div>
 
 				<div id="loadSpace" className="loader" ref={(div) => {this.loadSpace = div }} style={{display:"none"}}>
 				</div>
 
-				<div className="fontOpenSans modal-footer" style={{color: "#444444"}}>
+				<div className="fontOpenSans lgmodal-footer" style={{color: "#444444"}}>
 
 				</div>
 			</div>

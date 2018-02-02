@@ -8,7 +8,7 @@ function startCharSelector(){
 	// div.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
-		$(".loader").css("display", "show")
+		$(".epic-loader").css("display", "show")
 
     	function onCompletePreloading(){
 
@@ -18,7 +18,7 @@ function startCharSelector(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				$(".loader").css("display", "none")
+				$(".epic-loader").css("display", "none")
 				sceneloader.show("characterSelect")
 	    	}
 

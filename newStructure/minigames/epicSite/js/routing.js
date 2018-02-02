@@ -1,4 +1,3 @@
-
 window.onunload = function(){};
 
 var routing = function () {
@@ -7,7 +6,6 @@ var routing = function () {
 	var hash = '#/'; // Defaults to: '#'
 	var router = new Navigo(root, useHash, hash);
 	var badRouting = false
-	var credentials = epicModel.getCredentials()
 
 	$("#minigames").show()
 
@@ -23,22 +21,23 @@ var routing = function () {
 			'yogotarselector': function () {
 				startCharSelector()
 
-				mixpanel.track(
-					"PageLoadYogotarSelector",
-					{"user_id": credentials.educationID}
-				);
+				// var credentials = loginModal.getChildData()
+				// mixpanel.track(
+				// 	"PageLoadYogotarSelector",
+				// 	{"user_id": credentials.educationID}
+				// );
 			},
 			'minigames': function () {
 				$(".game-canvas p").text(epicLanguages[language]["minigames"])
 				$(".bgIcon img").attr("src","assets/img/common/minigames.png");
 				epicSiteMain.startGame("../../../letsplay.html?epicsite=true&language=" + language)
 
-				mixpanel.track(
-					"PageLoadGames",
-					{"user_id": credentials.educationID,
-					"app":"web",
-					"from":"home"}
-				);
+				// mixpanel.track(
+				// 	"PageLoadGames",
+				// 	{"user_id": credentials.educationID,
+				// 	"app":"web",
+				// 	"from":"home"}
+				// );
 			},
 			'minigames/:id': function (params) {
 				var id = params.id
@@ -50,7 +49,6 @@ var routing = function () {
 
 				var currentPlayer = epicModel.getPlayer()
 				currentPlayer.currentMinigame = id
-				console.log(currentPlayer.currentMinigame)
 				epicModel.savePlayer(currentPlayer)
 
 				epicSiteMain.startGame(src)
@@ -71,21 +69,20 @@ var routing = function () {
 				// 	game.destroy()
 				epicSiteMain.startGame(null, false, true, true)
 
-				console.log(language)
+				console.log("map")
 				$(".game-canvas p").text(epicLanguages[language]["adventureMode"])
 				$(".bgIcon img").attr("src","assets/img/common/adventure_mode.png");
 
-				mixpanel.track(
-					"PageLoadAdventureMode",
-					{"user_id": credentials.educationID}
-				);
+				// mixpanel.track(
+				// 	"PageLoadAdventureMode",
+				// 	{"user_id": credentials.educationID}
+				// );
 			},
 			'books':function () {
 				var characterSelector = document.getElementById("characterSelector")
 				characterSelector.style.visibility = "hidden"
 				$(".game-canvas p").text(epicLanguages[language]["books"])
 				$(".bgIcon img").attr("src","assets/img/common/books.png");
-				epicModel.loadPlayer()
 
 				window.history.replaceState( {} , 'SmartKids', '#/map' );
 			},
@@ -94,7 +91,6 @@ var routing = function () {
 				characterSelector.style.visibility = "hidden"
 				$(".game-canvas p").text(epicLanguages[language]["videos"])
 				$(".bgIcon img").attr("src","assets/img/common/videos.png");
-				epicModel.loadPlayer()
 				window.history.replaceState( {} , 'SmartKids', '#/map' );
 
 			},
@@ -114,7 +110,15 @@ var routing = function () {
 				/*Here goes the login validation*/
 			}
 
-			epicModel.checkQuery(done)
+			var childData = loginModal.getChildData()
+			console.log(childData.remoteID)
+			if(!childData.remoteID) {
+				console.log("load Player call")
+				epicModel.loadPlayer(true, done)
+			}
+			else
+				done()
+			// epicModel.checkQuery(done)
 		},
 		after: function(params) {
 			console.log("after")

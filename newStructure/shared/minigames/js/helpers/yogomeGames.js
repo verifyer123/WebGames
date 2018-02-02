@@ -194,7 +194,7 @@ var yogomeGames = function () {
 		return {timeReady:timeCount,lives:gameLives}
 	}
 
-	function mixpanelCall(callName,gameIndex,lives,model) {
+	function mixpanelCall(callName,gameIndex,lives,childata) {
 
 		var gamesList = getGames()
 
@@ -202,11 +202,11 @@ var yogomeGames = function () {
 		var playerId = "noPlayerId"
 		var hasMap = false
 
-		if (model) {
+		if (childata) {
 
-			email = model.getCredentials().email
-			playerId = model.getCredentials().remoteId
-			if (model.getPlayer().isMap) {
+			email = childata.parentMail
+			playerId = childata.remoteId
+			if (childata.isMap) {
 				hasMap = true
 			}
 		}

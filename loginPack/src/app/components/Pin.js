@@ -11,10 +11,10 @@ export class Pin extends React.Component {
 		this.pivot = 0
 		this.pinSelected = []
 
-		this.closeModal = this.closeModal.bind(this)
+		this.closemodal = this.closemodal.bind(this)
 	}
 
-	closeModal(){
+	closemodal(){
 		this.props.closeModal()
 	}
 
@@ -87,21 +87,21 @@ export class Pin extends React.Component {
 
 	render() {
 		return (
-			<div id="pin" className="modal">
+			<div id="pin" className="lgmodal">
 
-				<div className="modal-content container-login" >
+				<div className="lgmodal-content container-login" >
 					<div className="navigation">
-						<button className="closeModal close" onClick={this.closeModal}></button>
+						<button className="closelgmodal close" onClick={this.closemodal}></button>
 					</div>
 
-					<div className="modal-header">
+					<div className="lgmodal-header">
 						<h2><div style={{fontSize: "3vh", color: "dimgrey"}}>
 							{localization.getString("setYourPin", this.language)}
 							</div>
 						</h2>
 					</div>
 
-					<div id="yogoContainer" className="modal-body ">
+					<div id="yogoContainer" className="lgmodal-body ">
 						{[...Array(12)].map((x, i) =>
 							<div style={{width:"33.33%", display:"inline-block"}} key={i}>
 							<div id={"yogo" + (i+1)} className="yogoButton" onClick={this.pinSelect.bind(this, (i+1))} style={{backgroundImage:"url('images/yogotars/"+(i+1) + ".png')"}}><div className="circle"><span className="textCircle">{i + 1}</span></div></div>
@@ -115,7 +115,7 @@ export class Pin extends React.Component {
 						<div id="container3" style={{width:"25%"}}> <div className="pinPoint" id="Pin2"></div></div>
 						<div id="container4" style={{width:"25%"}}> <div className="pinPoint" id="Pin3"></div></div>
 					</div>
-					<div className="modal-footer" style={{display:"flex"}}>
+					<div className="lgmodal-footer" style={{display:"flex"}}>
 						<button type="submit" id="back" className="loginBtn bgOrange" onClick={this.removePin.bind(this)}><img src="images/backspace.png" /> </button>
 						<button type="submit" id="next" className="loginBtn bgGreen" style={{opacity: 0.5}} onClick={this.goNext.bind(this)}>
 							{localization.getString("next", this.language)}

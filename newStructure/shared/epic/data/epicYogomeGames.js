@@ -154,7 +154,7 @@ var epicYogomeGames = function () {
 		for(var epicIndex = 0; epicIndex < epicGames.length; epicIndex++){
 			var game = epicGames[epicIndex]
 			var gameData = currentPlayer.minigames[game.id]
-			if(gameData.unlocked){
+			if((gameData)&&(gameData.unlocked)){
 				unlockedGames.push(game)
 			}
 		}

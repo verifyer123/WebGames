@@ -9,7 +9,7 @@ export class Login extends React.Component {
 		super(props);
 		this.audios = this.props.audios
 
-		this.closeModal = this.closeModal.bind(this)
+		this.closemodal = this.closemodal.bind(this)
 		this.togglePin = this.togglePin.bind(this)
 		this.setLogin = this.setLogin.bind(this)
 	}
@@ -20,7 +20,7 @@ export class Login extends React.Component {
 		$('#onError').css("display", "block")
 	}
 
-	togglePin() {  // switch the value of the showModal state
+	togglePin() {  // switch the value of the showlgmodal state
 		$('#onError').css('display', "none")
 		$('#username').removeClass('invalid')
 		
@@ -45,37 +45,38 @@ export class Login extends React.Component {
 			$('#loadSpace').css("display", "none")
 		}
 
-		function onSuccess() {
+		function onSuccess(response) {
 			console.log("success")
 			$('#loadSpace').css("display", "none")
+			this.props.setChildData(response.child)
 			this.props.handleClick("continue")
 		}
 
 		let child = this.props.child
-		login.loginChild(child.username, child.pin.join(''), onSuccess.bind(this), onError)
+		login.loginChild(child.nickname, child.pin.join(''), onSuccess.bind(this), onError)
 	}
 
 	onLoginPressed(){
-		this.props.addChildData("username", this.username.value)
+		this.props.addChildData("nickname", this.username.value)
 		this.togglePin()
 	}
 
-	closeModal(){
+	closemodal(){
 		this.props.handleClick(false)
 	}
 
 	render() {
 		let language = localization.getLanguage()
 		return (
-			<div id="signIn" className="modal">
+			<div id="signIn" className="lgmodal">
 
-				<div className="modal-content container-login" >
+				<div className="lgmodal-content container-login" >
 					<div className="navigation">
 						{!this.props.forceLogin &&
-							<button className="closeModal close" onClick={this.closeModal}></button>
+							<button className="closelgmodal close" onClick={this.closemodal}></button>
 						}
 					</div>
-					<div className="modal-header">
+					<div className="lgmodal-header">
 						<div className="topImg">
 							<div className="topImg">
 								<img className="particule" src="images/particle-03.png"/>
@@ -86,7 +87,7 @@ export class Login extends React.Component {
 						<h2><div style={{fontSize: "3vh"}}>- {localization.getString("logInYogome", language)} -</div></h2>
 					</div>
 
-					<div className="modal-body">
+					<div className="lgmodal-body">
 
 						<input type="text" id="username" ref={(input) => {this.username = input}} className="inputText" placeholder={localization.getString("nickname", language)} name="Username" onFocus={function(){
 							$('#username').attr("placeholder", '')
