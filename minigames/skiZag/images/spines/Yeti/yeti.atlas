@@ -1,0 +1,41 @@
+
+yeti.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/armY
+  rotate: true
+  xy: 228, 176
+  size: 77, 251
+  orig: 77, 251
+  offset: 0, 0
+  index: -1
+normal/bodyY
+  rotate: false
+  xy: 2, 56
+  size: 224, 197
+  orig: 224, 197
+  offset: 0, 0
+  index: -1
+normal/footY
+  rotate: false
+  xy: 376, 80
+  size: 70, 94
+  orig: 70, 94
+  offset: 0, 0
+  index: -1
+normal/headY
+  rotate: true
+  xy: 228, 58
+  size: 116, 146
+  orig: 116, 146
+  offset: 0, 0
+  index: -1
+normal/legY
+  rotate: true
+  xy: 376, 2
+  size: 76, 82
+  orig: 76, 82
+  offset: 0, 0
+  index: -1
