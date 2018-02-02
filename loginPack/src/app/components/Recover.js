@@ -33,7 +33,7 @@ export class Recover extends React.Component {
 
 			<div className="lgmodal-content container-login" >
 				<div className="navigation">
-					<button className="closelgmodal close" onClick={this.closelgmodal}></button>
+					<button className="closelgmodal close" onClick={this.closemodal}></button>
 				</div>
 				<div className="lgmodal-header">
 					<div className="topImg">
@@ -49,7 +49,7 @@ export class Recover extends React.Component {
 				</div>
 
 				<div className="lgmodal-body">
-						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textlgmodal3" onClick={this.closelgmodal}>{localization.getString("ok")}</div></button>
+						<button type="submit" id="okSuccess" className="loginBtn bgGreen"><div className="textlgmodal3" onClick={this.closemodal}>{localization.getString("ok")}</div></button>
 				<br/>
 
 				</div>
