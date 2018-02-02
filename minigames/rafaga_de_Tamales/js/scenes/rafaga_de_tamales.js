@@ -4,9 +4,9 @@ var rafaga_de_tamales = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.rafagaDeTamales",
-                json: "images/rafagaDeTamales/atlas.json",
-                image: "images/rafagaDeTamales/atlas.png",
+                name: "atlas.rafaga_de_tamales",
+                json: "images/rafaga_de_tamales/atlas.json",
+                image: "images/rafaga_de_tamales/atlas.png",
             },
         ],
         /*images: [
@@ -147,7 +147,7 @@ var rafaga_de_tamales = function(){
 		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
        
-        //game.load.spritesheet('fireSpritesheet', 'images/rafagaDeTamales/fire.png', 320, 440, 23);
+        //game.load.spritesheet('fireSpritesheet', 'images/rafaga_de_tamales/fire.png', 320, 440, 23);
         		
 		if(amazing.getMinigameId()){
 			marioSong = sound.setSong(soundsPath + 'songs/la_fiesta.mp3',0.3)
@@ -461,7 +461,7 @@ var rafaga_de_tamales = function(){
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,10,'atlas.rafagaDeTamales','xpcoins')
+        var pointsImg = pointsBar.create(0,10,'atlas.rafaga_de_tamales','xpcoins')
         pointsImg.x = game.world.width - pointsImg.width * 1.2
         pointsImg.width *=1
         pointsImg.height *=1
@@ -489,7 +489,7 @@ var rafaga_de_tamales = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        group.create(0,0,'atlas.rafagaDeTamales','life_box')
+        group.create(0,0,'atlas.rafaga_de_tamales','life_box')
 
         pivotX+= 47
         
@@ -590,7 +590,7 @@ var rafaga_de_tamales = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.rafagaDeTamales',tag)
+                particle = particlesGroup.create(-200,0,'atlas.rafaga_de_tamales',tag)
             }
             
             particle.alpha = 0
@@ -607,7 +607,7 @@ var rafaga_de_tamales = function(){
         
         var offY = offsetY || 0
 
-        var exp = sceneGroup.create(0,0,'atlas.rafagaDeTamales','explosion')
+        var exp = sceneGroup.create(0,0,'atlas.rafaga_de_tamales','explosion')
         exp.x = obj.x
         exp.y = obj.y + offY
         exp.anchor.setTo(0.5,0.5)
@@ -626,7 +626,7 @@ var rafaga_de_tamales = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.rafagaDeTamales',idString);
+        particlesGood.makeParticles('atlas.rafaga_de_tamales',idString);
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -794,7 +794,7 @@ var rafaga_de_tamales = function(){
 
         }
         
-        var object = game.add.sprite(0,0,'atlas.rafagaDeTamales',key)
+        var object = game.add.sprite(0,0,'atlas.rafaga_de_tamales',key)
         object.type = r
         game.physics.p2.enable(object,false);
         object.anchor.setTo(0.5)
@@ -829,7 +829,7 @@ var rafaga_de_tamales = function(){
 
     function createWrongObject(){
         
-        var object = game.add.sprite(0,0,'atlas.rafagaDeTamales','bomba')
+        var object = game.add.sprite(0,0,'atlas.rafaga_de_tamales','bomba')
         game.physics.p2.enable(object,false);
         object.anchor.setTo(0.5)
         object.wait = -1
@@ -847,7 +847,7 @@ var rafaga_de_tamales = function(){
 
 
     function createTouchCut(){
-        var touch = game.add.sprite(0,0,'atlas.rafagaDeTamales','rafaja')
+        var touch = game.add.sprite(0,0,'atlas.rafaga_de_tamales','rafaja')
         touch.scale.setTo(0.2)
         game.physics.p2.enable(touch,false);
         touch.alpha = 0
@@ -924,14 +924,14 @@ var rafaga_de_tamales = function(){
                 o = partsGroup.children[i]
                	o.visible = true
                	o.body.gravityScale = 1
-                o.loadTexture('atlas.rafagaDeTamales',key,0,false)
+                o.loadTexture('atlas.rafaga_de_tamales',key,0,false)
                 break
                 //return partsGroup.children[i]
             }
         }
         if(o==null){
 
-        	o = partsGroup.create(0,0,'atlas.rafagaDeTamales',key)
+        	o = partsGroup.create(0,0,'atlas.rafaga_de_tamales',key)
         	o.anchor.setTo(0.5)
 
         	game.physics.p2.enable(o)
@@ -1016,7 +1016,7 @@ var rafaga_de_tamales = function(){
         sceneGroup.add(bladeGroup)
         var starsWithBody = 10
         for(var i = 1; i < BLADE_COUNT; i++){
-            var blade = bladeGroup.create(0,0,'atlas.rafagaDeTamales','rafaja')
+            var blade = bladeGroup.create(0,0,'atlas.rafaga_de_tamales','rafaja')
             blade.scale.setTo(BLADE_INITIAL_SCALE - (BLADE_DELTA*i))
             blade.anchor.setTo(0.5,0.5)
             blade.alpha = 0
@@ -1037,7 +1037,7 @@ var rafaga_de_tamales = function(){
 
         sceneGroup = game.add.group()
 
-        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.rafagaDeTamales','background')
+        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.rafaga_de_tamales','background')
         background.anchor.setTo(0.5)
         sceneGroup.add(background)
 
@@ -1081,7 +1081,7 @@ var rafaga_de_tamales = function(){
 
     	sceneGroup.add(shade)
         
-       	extraPointsObject = game.add.sprite(-200,-200,'atlas.rafagaDeTamales','combo')
+       	extraPointsObject = game.add.sprite(-200,-200,'atlas.rafaga_de_tamales','combo')
         extraPointsObject.anchor.setTo(0.5)
 
         game.physics.p2.enable(extraPointsObject,false);
