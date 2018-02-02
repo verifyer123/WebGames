@@ -893,7 +893,7 @@ var rafagaDeTamales = function(){
             sound.play("explode")
         }
         else if(body.name=="correct" && body.sprite.visible){
-            
+            starParticles(body.sprite,"migajas_"+body.key)
             addPoint(1,body)
             hitComboArray.push(game.time.now)
             if(hitComboArray.length>=3){

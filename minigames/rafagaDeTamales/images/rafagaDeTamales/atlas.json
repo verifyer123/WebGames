@@ -109,12 +109,30 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "migajas",
+	"filename": "migajas_chile",
 	"frame": {"x":768,"y":37,"w":28,"h":28},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":28},
 	"sourceSize": {"w":28,"h":28},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "migajas_dulce",
+	"frame": {"x":768,"y":67,"w":28,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":28},
+	"sourceSize": {"w":28,"h":28},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "migajas_pina",
+	"frame": {"x":768,"y":97,"w":27,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":28},
+	"sourceSize": {"w":27,"h":28},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -223,6 +241,6 @@
 	"format": "RGBA8888",
 	"size": {"w":818,"h":963},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:5f85e40dea24f789cc9338e316a70112:143a91117b2c4838e31b5f0470fe4725:7336ba1f5faca6c885895eca136b5172$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2df9b8efb795f69f83c503e23783e24e:bf52287293f964cbd9a6d2ebac259251:7336ba1f5faca6c885895eca136b5172$"
 }
 }
