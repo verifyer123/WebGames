@@ -470,6 +470,7 @@ var fruityChaser = function(){
             game.time.events.add(1800,function(){
                 if(lives != 0){
                     gameActive = true
+                    checkIfRunning()
                     speed = riseSpeed
                     nao.setAnimationByName(0, "RUN", true)
                     naoCollider.body.enable = true
@@ -500,6 +501,18 @@ var fruityChaser = function(){
             speed = riseSpeed
             nao.setAnimationByName(0, "RUN", true)
         },this)
+    }
+    
+    function checkIfRunning(){
+        
+        for(var t = 0; t < fruitsGroup.length; t++){
+            if(fruitsGroup.children[t].isActive){
+                game.time.events.add(trowTimer,function(){
+                    trowFruit()
+                }, this)
+                break
+            }
+        }
     }
     
     function changeRow(row){
