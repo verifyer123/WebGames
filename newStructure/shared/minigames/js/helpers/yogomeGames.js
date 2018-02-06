@@ -153,6 +153,7 @@ var yogomeGames = function () {
             {name:'Galaxy Jumper',url:urlSet + 'galaxyJumper/',mapUrl:urlMap + 'galaxyJumper', sceneName:'galaxyJumper',subject:'Geography', review:false,objective:20,demo:false},//134
             {name:'Stomake',url:urlSet + 'stomake/',mapUrl:urlMap + 'stomake', sceneName:'stomake',subject:'sciencie', review:false,objective:30,demo:false},//135
             {name:'Scranimal',url:urlSet + 'scranimal/',mapUrl:urlMap + 'scranimal', sceneName:'scranimal',subject:'language', review:false,objective:50,demo:false},//136
+            {name:'Fruity Chaser',url:urlSet + 'fruityChaser/',mapUrl:urlMap + 'fruityChaser', sceneName:'fruityChaser',subject:'language', review:false,objective:30,demo:false},//137
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
