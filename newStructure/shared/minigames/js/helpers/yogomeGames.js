@@ -152,6 +152,7 @@ var yogomeGames = function () {
             {name:'Solar Shield Squad',url:urlSet + 'solarShieldSquad/',mapUrl:urlMap + 'solarShieldSquad', sceneName:'solarShieldSquad',subject:'Geography', review:false,objective:35,demo:false},//133
             {name:'Galaxy Jumper',url:urlSet + 'galaxyJumper/',mapUrl:urlMap + 'galaxyJumper', sceneName:'galaxyJumper',subject:'Geography', review:false,objective:20,demo:false},//134
             {name:'Stomake',url:urlSet + 'stomake/',mapUrl:urlMap + 'stomake', sceneName:'stomake',subject:'sciencie', review:false,objective:30,demo:false},//135
+            {name:'Scranimal',url:urlSet + 'scranimal/',mapUrl:urlMap + 'scranimal', sceneName:'scranimal',subject:'language', review:false,objective:50,demo:false},//136
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
