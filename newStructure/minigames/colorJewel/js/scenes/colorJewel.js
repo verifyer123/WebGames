@@ -181,9 +181,7 @@ var colorJewel = function(){
 
         game.load.spritesheet("coin", 'images/colorJewel/coin.png', 122, 123, 12)
 
-        var type = 0
-
-        loadType(type)
+        loadType(gameIndex)
 
         buttons.getImages(game)
 
@@ -1057,9 +1055,8 @@ var colorJewel = function(){
         
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
-        var list = yogomeGames.getGames()
-        goalScore = list[gameIndex].objective
-        createTutorialGif(tutoGroup,goalScore,onClickPlay)
+
+        createTutorialGif(tutoGroup,onClickPlay)
     }
 
     function checkCollision(obj){
