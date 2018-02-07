@@ -392,14 +392,12 @@ var vips = function(){
             sound.play("swipe")
              var widthRelation = document.body.clientWidth/baseWidth;
 		 	speed=(posInicial-posFinal)*widthRelation*FORCE_SWIP
-            console.log(speed)
             if(speed > maxSpeed){
                 speed = maxSpeed
             }
 
 			posFinal=0
 			posInicial=0
-            //console.log('End drag')
 			character.body.velocity.x =speed;
             efectZoom.alpha=1
             game.add.tween(efectZoom).to({alpha:0},speed, Phaser.Easing.Cubic.Out,true)
@@ -407,6 +405,7 @@ var vips = function(){
 			shooted=true
 			speed=0
 			game.add.tween(powerBar.scale).to({x: 0,y:2}, 200, Phaser.Easing.linear, true)
+
 		}else{
 			posFinal=0
 			posInicial=0
@@ -422,9 +421,7 @@ var vips = function(){
         
 
         var speedRealtionPixels = 20/widthRelation;
-        //console.log('Drag update')
 		if(shooted==false && posFinal<posInicial){
-			//console.log('Drag update if')
 			game.add.tween(powerBar.scale).to({x:-speed/speedRealtionPixels}, 100, Phaser.Easing.linear, true)
 		}
     }
