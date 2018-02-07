@@ -34,7 +34,7 @@ var pullTheMonster = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "rightChoice",
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
@@ -664,7 +664,7 @@ var pullTheMonster = function(){
             btn.pressed = true
             gameActive = false
             meter.swing.stop()
-            rope.swing.stop()
+            sound.play('cut')
             if(!lvl){
                 getHighLvl1(meter.y)
             }
@@ -791,8 +791,8 @@ var pullTheMonster = function(){
         meter.swing = game.add.tween(meter).to({y:strengthBar.height - 40}, moveTime, Phaser.Easing.linear, false, 0, -1)
         meter.swing.yoyo(true, 0)
         
-        rope.swing = game.add.tween(rope).to({y:rope.y - 40}, 200, Phaser.Easing.linear, false, 0, -1)
-        rope.swing.yoyo(true, 0)
+        /*rope.swing = game.add.tween(rope).to({y:rope.y - 40}, 200, Phaser.Easing.linear, false, 0, -1)
+        rope.swing.yoyo(true, 0)*/
         
         game.time.events.add(1500,function(){
             nao.setAnimationByName(0, "PULL", true)
@@ -804,7 +804,7 @@ var pullTheMonster = function(){
             }
             gameActive = true
             meter.swing.start()
-            rope.swing.start()
+            
         },this)
     }
     
