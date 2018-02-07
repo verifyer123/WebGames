@@ -141,7 +141,7 @@ var result = function(){
 		else if(total >= goalScore/2){
 			return 2
 		}
-		else if(total > 0){
+		else if(total >= 1){
 			return 1
 		}
 		else{

@@ -155,6 +155,7 @@ var yogomeGames = function () {
             {name:'Scranimal',url:urlSet + 'scranimal/',mapUrl:urlMap + 'scranimal', sceneName:'scranimal',subject:'language', review:false,objective:50,demo:false},//136
             {name:'Fruity Chaser',url:urlSet + 'fruityChaser/',mapUrl:urlMap + 'fruityChaser', sceneName:'fruityChaser',subject:'language', review:false,objective:30,demo:false},//137
             {name:'Pull The Monster',url:urlSet + 'pullTheMonster/',mapUrl:urlMap + 'pullTheMonster', sceneName:'pullTheMonster',subject:'sciencie', review:false,objective:15,demo:false},//138
+            {name:'Color Jewel',url:urlSet + 'colorJewel/',mapUrl:urlMap + 'colorJewel', sceneName:'colorJewel',subject:'language', review:false,objective:50,demo:false},//139
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
