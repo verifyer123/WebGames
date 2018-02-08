@@ -99,7 +99,7 @@ var dizzy = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		boatSpeed = 100
 		boatRotation = 30
 		obstacleList = ['rock','rock','rock','rock','rock','rock']
@@ -990,7 +990,7 @@ var dizzy = function(){
 			var initX = map.cross.initX
 			var mapWidth = map.rect.width * 0.4
 			
-			console.log(initX + ' initX ' + map.boat.x + ' mapX,' + mapWidth + ' width')
+			//console.log(initX + ' initX ' + map.boat.x + ' mapX,' + mapWidth + ' width')
 			if(map.boat.x < initX - mapWidth){
 				map.boat.x = initX - mapWidth
 			}else if(map.boat.x > initX + mapWidth){
