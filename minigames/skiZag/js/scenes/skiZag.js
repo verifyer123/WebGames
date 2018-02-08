@@ -101,6 +101,11 @@ var skiZag = function(){
     var treesBackground
     var snowBackground
 
+    var inYetiZone
+    var inSnowZone
+
+    var lastEnemy
+
 
     function getSkins(){
         
@@ -131,12 +136,15 @@ var skiZag = function(){
         SIN_ANG = Math.sin(ANGLE_LINE*(Math.PI/180))
         VEL_X = (COS_ANG*VEL)
         VEL_Y = (SIN_ANG*VEL)
-        VEL_Y -= VEL_Y*0.08
+        VEL_Y -= VEL_Y*0.082
         MAX_TILE_Y = game.world.height+100
         currentRails=0
         initialTap = true
         currentWaitFrames = 0
 
+        lastEnemy = null
+        inYetiZone = false
+        inSnowZone = false
     }
     
 
@@ -164,9 +172,9 @@ var skiZag = function(){
         game.load.spine('yetiSpine', "images/spines/Yeti/yeti.json");
                 
         if(amazing.getMinigameId()){
-            marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
+            marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
         }else{
-            game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+            game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
         }
         var fontStyle = {font: "30px AvenirHeavy", fontWeight: "bold", fill: "#000000", align: "center"}
         var text = new Phaser.Text(game, 0, 10, "2", fontStyle)
@@ -256,6 +264,22 @@ var skiZag = function(){
 
         }
         var snowCanTrail = false
+
+        if(player!=null){
+            spinePlayer.x = player.body.x
+           /* if(player.scale.x<0 ){
+                if(spinePlayer.scale.x!=-SPINE_SCALE){
+                    
+                }
+            }
+            else{
+                if(spinePlayer.scale.x!=SPINE_SCALE){
+                    spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
+                }
+            }*/
+        }
+
+
         if(!initialTap){
 
             //bitmap.clear(0, game.height, game.width, game.height+20) 
@@ -296,34 +320,29 @@ var skiZag = function(){
                     }
                 }
             }
-        }
 
-        if(obstaclesGroup!=null){
-            for(var i = 0; i < obstaclesGroup.length; i++){
-                var obstcaleY = obstaclesGroup.children[i].body.y +((obstaclesGroup.children[i].width/2)*SIN_ANG)
-                if(obstcaleY < 0){
-                    obstaclesGroup.children[i].visible = false
-                    obstaclesGroup.children[i].body.setZeroVelocity()
+            if(obstaclesGroup!=null){
+                for(var i = 0; i < obstaclesGroup.length; i++){
+                    var obstcaleY = obstaclesGroup.children[i].body.y +((obstaclesGroup.children[i].width/2)*SIN_ANG)
+                    if(obstcaleY < 0){
+                        obstaclesGroup.children[i].visible = false
+                        obstaclesGroup.children[i].body.setZeroVelocity()
+                    }
                 }
             }
-        }
 
-         if(player!=null){
-            spinePlayer.x = player.body.x
-            if(player.scale.x<0 ){
-            	if(spinePlayer.scale.x!=-SPINE_SCALE){
-	                spinePlayer.scale.setTo(-SPINE_SCALE,SPINE_SCALE)
-	            }
-            }
-            else{
-            	if(spinePlayer.scale.x!=SPINE_SCALE){
-	                spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
-	            }
-            }
-        }
+
         //return
 
         if(yetisGroup!=null){
+            if(!inYetiZone){
+                return
+            }
+
+            if(!lastEnemy.visible){
+                inYetiZone = false
+            }
+
             for(var i = 0; i < yetisGroup.length; i++){
                 if(yetisGroup.children[i].visible){
                     yetisGroup.children[i].spine.visible = true
@@ -359,6 +378,15 @@ var skiZag = function(){
         }
 
         if(snowBallGroup!=null){
+
+            if(!inSnowZone){
+                return
+            }
+
+            if(!lastEnemy.visible){
+                inSnowZone = false
+            }
+
             for(var i = 0; i < snowBallGroup.length; i++){
                 if(snowBallGroup.children[i].visible){
 
@@ -396,7 +424,7 @@ var skiZag = function(){
         }
 
 
-
+    }
 
     }
     
@@ -605,8 +633,10 @@ var skiZag = function(){
 
         if(!initialTap){
             var xScale = -player.scale.x
+            var xSpine = - spinePlayer.scale.x
             //player.body.angle = - player.body.angle
             player.scale.setTo(xScale,1)
+            spinePlayer.scale.setTo(xSpine,SPINE_SCALE)
             //SetObject(trailsCurveGroup,'coin',player.body.x,player.body.y, player.body.angle)
         }
         else{
@@ -708,7 +738,7 @@ var skiZag = function(){
         var r = deltaX/COS_ANG
         var limitY = r*SIN_ANG
 
-        var randomY = game.rnd.integerInRange(30,limitY)
+        var randomY = game.rnd.integerInRange(50,limitY)
         var newR = randomY/SIN_ANG
         newR = Math.floor(newR)
         var module = newR%WIDTH_PER_TILE
@@ -750,6 +780,8 @@ var skiZag = function(){
         currentX = randomX
 
         setPoint()
+
+        gameActive = true
     }
 
 
@@ -810,12 +842,15 @@ var skiZag = function(){
         player.body.setRectangle(45,5,0,30)
         //player.body.angle = ANGLE_LINE * currentAngle
         player.scale.setTo(-currentAngle*1,1)
+
         //player.body.velocity.x = VEL_X * currentAngle
         player.body.onBeginContact.add(collisionPlayer,this)
         //game.camera.follow(player);
 
         spinePlayer = game.add.spine(game.world.centerX,280, "mascot");
         spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
+
+        spinePlayer.scale.setTo(-currentAngle*SPINE_SCALE,SPINE_SCALE)
         //characterGroup.add(spinePlayer)
         //spinePlayer.scale.setTo(0.1,0.1)
        //characterGroup.scale.setTo()
@@ -971,7 +1006,7 @@ var skiZag = function(){
 
     function SetBackground(x, y, width, angle){
 
-        var max = (width*2)/200
+        var max = (width*2)/250
         var r = game.rnd.integerInRange(max-2,max+2)
         var newY = width*SIN_ANG
         for(var i = 0; i < r; i++){
@@ -1094,7 +1129,7 @@ var skiZag = function(){
         for(var i = 0; i < group.length; i++){
             if(group.children[i].visible){
                 group.children[i].y += vel
-                group.children[i].alpha -= 0.01
+                group.children[i].alpha -= 0.02
 
                 if(group.children[i].alpha<=0){
                 	group.children[i].visible = false
@@ -1184,6 +1219,7 @@ var skiZag = function(){
     }
 
     function setEnemiesYetis(initialY, height){
+        inYetiZone = true
         var y = initialY
         var delta = height/4
         for(var i = 0; i < 5; i++){
@@ -1200,11 +1236,17 @@ var skiZag = function(){
             else{
                 enemy.direction = 1
             }
+
             enemy.body.velocity.x = enemy.direction*VEL_X
+
+            if(i ==4){
+                lastEnemy = enemy
+            }
         }
     }
 
     function setEnemiesSnow(initialY, height){
+        inSnowZone = true
     	//console.log(snowBallGroup.length)
         for(var i = 0; i < snowBallGroup.length; i++){
             snowBallGroup.children[i].body.setZeroVelocity()
@@ -1253,6 +1295,10 @@ var skiZag = function(){
 
             enemy.visible = true
 
+
+            if(i ==7){
+                lastEnemy = enemy
+            }
             //console.log(enemy.body.y,enemy.body.x,enemy.deltaWait)
         }
     }
@@ -1330,23 +1376,12 @@ var skiZag = function(){
             }, this);   
         }
 
-
-        trailImage = game.make.sprite(0,0,'atlas.skiZag','coin')
-        trailImage.anchor.setTo(0.5)
-        trailImage.scale.setTo(0.4)
-
-        bitmap = game.add.bitmapData(game.width, game.height+20);
-        bitmap.addToWorld();
-        bitmap.smoothed = false
-
-
         
         snowBackground = game.add.group()
         sceneGroup.add(snowBackground)
         treesBackground = game.add.group()
         sceneGroup.add(treesBackground)
         
-        animateScene()
 
          createTrails()
 
@@ -1364,6 +1399,8 @@ var skiZag = function(){
         createPlayer()
 
         setInitial()
+
+        animateScene()
 
     }
 
