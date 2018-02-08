@@ -50,6 +50,11 @@ function createTutorialGif(group,onClickFunction){
 	
 	var button = group.create(game.world.centerX+120, game.world.centerY+360,'atlas.tutorial','play_'+localization.getLanguage())
 	button.anchor.setTo(0.5,0.5)
+	button.scale.setTo(0.85)
+
+	game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
+
+
 
 	tutorialVideo = game.add.video('tutorialGif');
 	tutorialVideo.play(true)
