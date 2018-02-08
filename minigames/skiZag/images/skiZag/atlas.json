@@ -2,7 +2,7 @@
 
 {
 	"filename": "barra_h1",
-	"frame": {"x":666,"y":753,"w":98,"h":38},
+	"frame": {"x":645,"y":787,"w":98,"h":38},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":0,"w":98,"h":38},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "barra_h1_flip",
-	"frame": {"x":666,"y":793,"w":98,"h":38},
+	"frame": {"x":645,"y":827,"w":98,"h":38},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":98,"h":38},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "camino_nieve",
-	"frame": {"x":544,"y":938,"w":46,"h":14},
+	"frame": {"x":745,"y":799,"w":46,"h":14},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":46,"h":14},
@@ -82,6 +82,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "name",
+	"frame": {"x":745,"y":787,"w":48,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":10},
+	"sourceSize": {"w":48,"h":10},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "Nieve1",
 	"frame": {"x":544,"y":1,"w":214,"h":101},
 	"rotated": false,
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "Nieve2",
-	"frame": {"x":676,"y":552,"w":99,"h":61},
+	"frame": {"x":544,"y":775,"w":99,"h":61},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":5,"y":0,"w":99,"h":61},
@@ -110,7 +119,7 @@
 },
 {
 	"filename": "Nieve4",
-	"frame": {"x":673,"y":615,"w":122,"h":71},
+	"frame": {"x":670,"y":714,"w":122,"h":71},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":122,"h":71},
@@ -137,7 +146,7 @@
 },
 {
 	"filename": "Pino",
-	"frame": {"x":666,"y":833,"w":94,"h":123},
+	"frame": {"x":544,"y":838,"w":94,"h":123},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":0,"w":94,"h":123},
@@ -182,7 +191,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":671,"y":688,"w":124,"h":63},
+	"frame": {"x":544,"y":710,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -191,7 +200,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":544,"y":872,"w":64,"h":64},
+	"frame": {"x":640,"y":867,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -218,7 +227,7 @@
 },
 {
 	"filename": "Yeti",
-	"frame": {"x":544,"y":710,"w":120,"h":160},
+	"frame": {"x":676,"y":552,"w":120,"h":160},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":120,"h":160},
@@ -230,8 +239,8 @@
 	"version": "1.0",
 	"image": "skiZag_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":796,"h":963},
+	"size": {"w":797,"h":963},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a6888ed5e02a14403f3483e05c6ffb69:fcf64253794166feaa8c2fa41c573317:c0d9e110c1c161fa4974369ba1ba4ccd$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f07c78f1793a18a6af4d9c46057b2290:0291918413fe8feacf4323e42946b18b:c0d9e110c1c161fa4974369ba1ba4ccd$"
 }
 }

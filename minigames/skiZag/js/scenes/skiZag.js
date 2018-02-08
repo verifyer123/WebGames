@@ -97,6 +97,7 @@ var skiZag = function(){
     var yetisGroup
     var snowBallGroup
     var init
+    var name
     var treesBackground
     var snowBackground
 
@@ -267,6 +268,7 @@ var skiZag = function(){
                 snowCanTrail = true
             }
             init.y+=-LINE_VELOCITY
+            name.y+=-LINE_VELOCITY
             moveGroupY(trailsLinearGroup,-LINE_VELOCITY,-100)
             moveGroupY(trailsCurveGroup,-LINE_VELOCITY,-100)
             moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
@@ -772,6 +774,13 @@ var skiZag = function(){
     
         init.scale.setTo(-currentAngle,1)
 
+        name = sceneGroup.create(game.world.centerX,205,'atlas.skiZag','name')
+        name.anchor.setTo(0.5)
+
+        name.angle = -currentAngle*30
+
+        //init.addChild(name)
+
         characterGroup = game.add.group()
         characterGroup.x = 0
         characterGroup.y = 0
@@ -783,7 +792,7 @@ var skiZag = function(){
         player = characterGroup.create(game.world.centerX,250,'atlas.skiZag','Meizy')
         player.anchor.setTo(0.5,0.5)
         //player.scale.setTo(0.15,0.3)
-        player.alpha = 0.5
+        player.alpha = 0
         game.physics.p2.enable(player, false);
         player.body.clearShapes()
         player.body.setRectangle(45,5,0,30)
@@ -896,7 +905,7 @@ var skiZag = function(){
     function createSingleCoin(){
         var coin = coinsGroup.create(0,0,'atlas.skiZag','coin')
         coin.anchor.setTo(0.5)
-        coin.scale.setTo(0.3)
+        coin.scale.setTo(0.6)
         coin.visible = false
         
         game.physics.p2.enable(coin, false);
