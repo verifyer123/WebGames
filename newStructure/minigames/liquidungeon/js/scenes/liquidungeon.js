@@ -839,7 +839,7 @@ var liquidungeon = function(){
         waterCollider.body.enable = true
         stop = false
         col = false
-        wall = 2//getRand()
+        wall = getRand()
         changeImage(wall, wallGroup)
         moveIt()
     }
