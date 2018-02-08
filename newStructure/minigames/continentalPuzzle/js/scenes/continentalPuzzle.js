@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var continentalPuzzle = function(){
     
     var localizationData = {
@@ -28,7 +29,13 @@ var continentalPuzzle = function(){
                 name: "atlas.time",
                 json: "images/continentalPuzzle/timeAtlas.json",
                 image: "images/continentalPuzzle/timeAtlas.png",
+            },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
 
@@ -287,9 +294,9 @@ var continentalPuzzle = function(){
         
         game.load.audio('continentSong', soundsPath + 'songs/the_buildup.mp3');
         
-		game.load.image('howTo',"images/continentalPuzzle/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/continentalPuzzle/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/continentalPuzzle/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/continentalPuzzle/introscreen.png")
+		game.load.image('introscreen',"images/continentalPuzzle/introscreen.png")*/
 		
         game.load.image('continent0',"images/continentalPuzzle/continentes/africa.png")
         game.load.image('continent1',"images/continentalPuzzle/continentes/america.png")
@@ -305,6 +312,10 @@ var continentalPuzzle = function(){
         game.load.spritesheet("WIN", 'images/spines/576 × 245_26f_24fps_win.png', 576, 245, 26)
 		
 		console.log(localization.getLanguage() + ' language')
+
+        game.load.image('tutorial_image',"images/continentalPuzzle/tutorial_image_"+localization.getLanguage()+".png")
+        loadType(gameIndex)
+
         
     }
     
@@ -313,8 +324,8 @@ var continentalPuzzle = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
+        createTutorialGif(overlayGroup,onClickPlay)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -371,7 +382,25 @@ var continentalPuzzle = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(rect){
+        
+        
+        overlayGroup.y = -game.world.height
+        if(playTuto)
+            initTuto()
+        else{
+            buttonGroup.alpha = 1
+            buttonGroup.setAll('inputEnabled', true)
+            nameGroup.setAll('alpha', 0)
+            banner.loadTexture('IDLE', 0, true)
+            banner.play('IDLE')
+            handsGroup.alpha = 1
+            posHand(buttonGroup.children[2])
+            initGame()
+        }
     }
     
     function releaseButton(obj){
@@ -386,7 +415,7 @@ var continentalPuzzle = function(){
     }
 
 	function update(){
-        
+        tutorialUpdate()
         if (game.input.activePointer.isDown && gameActive){
           var x = game.input.x - cloudBitmap.x
           var y = game.input.y - cloudBitmap.y

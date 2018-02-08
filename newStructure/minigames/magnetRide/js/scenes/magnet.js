@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var magnet = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var magnet = function(){
                 json: "images/magnet/atlas.json",
                 image: "images/magnet/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 			{   name:"background",
@@ -428,15 +435,18 @@ var magnet = function(){
         game.load.spine('oof', "images/spines/Oof.json")  
         game.load.audio('magnetSong', soundsPath + 'songs/retrowave.mp3');
         
-        game.load.image('introscreen',"images/magnet/introscreen.png")
+        //game.load.image('introscreen',"images/magnet/introscreen.png")
 		game.load.spritesheet('verde', 'images/magnet/verde.png', 96, 108, 12);
 		game.load.spritesheet('rojo', 'images/magnet/rojo.png', 97, 111, 12);
 		game.load.spritesheet('nave', 'images/magnet/nave.png', 147, 118, 12);
 		game.load.spritesheet('coin', 'images/magnet/coin.png', 68, 70, 12);
 		
-		game.load.image('howTo',"images/magnet/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/magnet/play" + localization.getLanguage() + ".png")
+		//game.load.image('howTo',"images/magnet/how" + localization.getLanguage() + ".png")
+		//game.load.image('buttonText',"images/magnet/play" + localization.getLanguage() + ".png")
 		
+        game.load.image('tutorial_image',"images/magnet/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
 	
@@ -445,8 +455,10 @@ var magnet = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -505,7 +517,18 @@ var magnet = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(rect){
+
+        overlayGroup.y = -game.world.height
+        gameActive = true
+        game.physics.p2.gravity.y = WORLD_GRAVITY;
+        while(pivotObjects < game.world.width * 2){
+            addObject()
+        }
+        
     }
     
     function releaseButton(obj){
@@ -729,6 +752,8 @@ var magnet = function(){
     
     function update(){
         
+        tutorialUpdate()
+
         if(gameActive == false){
             return
         }

@@ -114,6 +114,7 @@ var colorJewel = function(){
     var arrayColorsInScene
 
     var currentAnimalId 
+    var bmd
 
 
 	function loadSounds(){
@@ -266,6 +267,8 @@ var colorJewel = function(){
        emitter.x = coins.x
        emitter.y = coins.y*/
 
+
+
         correctParticle.x = objectBorn.x
         correctParticle.y = objectBorn.y
         correctParticle.start(true, 1000, null, 5)
@@ -359,19 +362,19 @@ var colorJewel = function(){
 
 
     function onClickPlay(rect) {
-        rect.inputEnabled = false
-        sound.play("pop")
+        
 
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.Linear.none,true).onComplete.add(function(){
+        tutoGroup.y = -game.world.height
+        tutoGroup.destroy()
+        inputsEnabled = true
+        setRound()
 
-            tutoGroup.y = -game.world.height
-            inputsEnabled = true
-            setRound()
-            // startTimer(missPoint)
-        })
     }
     
     function update() {
+
+    	tutorialUpdate()
+
         if(!gameActive){
         	return
         }
@@ -380,6 +383,8 @@ var colorJewel = function(){
 
         updateTouch()
     }
+
+    
 
     function updateTouch(){
         if(game.input.activePointer.isDown){
@@ -493,6 +498,8 @@ var colorJewel = function(){
 
             }
         }
+
+        //return
 
         for (var i = 0; i < ARRAY_WIDTH; i++) {
     		for (var j = ARRAY_HEIGHT-1; j >=0; j--) {
@@ -1057,6 +1064,7 @@ var colorJewel = function(){
         sceneGroup.add(tutoGroup)
 
         createTutorialGif(tutoGroup,onClickPlay)
+
     }
 
     function checkCollision(obj){
@@ -1394,6 +1402,8 @@ var colorJewel = function(){
         createTutorial()
 
         correctParticle = createPart('atlas.colorJewel','star')
+
+        console.log("paticle correc ",correctParticle)
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 

@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var feather = function(){
     
     var localizationData = {
@@ -24,6 +25,11 @@ var feather = function(){
                 json: "images/feather/atlas.json",
                 image: "images/feather/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
         ],
         images: [
 			{   name:"background",
@@ -270,12 +276,14 @@ var feather = function(){
 		game.load.spine('wolf', "images/spines/wolf.json")
         game.load.audio('spaceSong', soundsPath + 'songs/farming_time.mp3');
         
-		game.load.image('howTo',"images/feather/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/feather/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/feather/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/feather/introscreen.png")
+		game.load.image('introscreen',"images/feather/introscreen.png")*/
+
+        game.load.image('tutorial_image',"images/feather/tutorial_image.png")
 		
 		console.log(localization.getLanguage() + ' language')
-        
+        loadType(gameIndex)
     }
     
 	function getChick(){
@@ -391,7 +399,7 @@ var feather = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -439,9 +447,22 @@ var feather = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
     }
     
+    function onClickPlay(rect){
+            
+        overlayGroup.y = -game.world.height
+        
+        numberChicks = game.rnd.integerInRange(2,5)
+        sendChicks(numberChicks,true)
+
+    }
+
+
     function releaseButton(obj){
         
         obj.parent.children[1].alpha = 1
@@ -466,7 +487,7 @@ var feather = function(){
 	}
 	
 	function update(){
-		
+		tutorialUpdate()
 		clouds.tilePosition.x+= 0.4
 	}
 	

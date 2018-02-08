@@ -8,6 +8,9 @@ var coinText_1
 var coinText_2
 var coinText_3
 
+var bmd
+var inTutorial
+
 function createTutorialGif(group,onClickFunction){
 
 	var rect = new Phaser.Graphics(game)
@@ -17,13 +20,22 @@ function createTutorialGif(group,onClickFunction){
     rect.endFill()
     rect.inputEnabled = true
     rect.events.onInputDown.add(function(){
-        onClickFunction(rect)
+    	rect.inputEnabled = false
+    	sound.play("pop")
+        game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+        	onClickFunction()
+        })
         //videoImage.destroy()
         tutorialVideo.stop()
+        inTutorial = false
         //tutorialVideo.removeVideoElement()
     })
     
+    inTutorial = true
+    
     group.add(rect)
+
+    //return
     
     var plane = group.create(game.world.centerX, game.world.centerY+60,'atlas.tutorial','background_tutorial')
 	plane.scale.setTo(1,1)
@@ -41,7 +53,16 @@ function createTutorialGif(group,onClickFunction){
 
 	tutorialVideo = game.add.video('tutorialGif');
 	tutorialVideo.play(true)
-	videoImage = tutorialVideo.addToWorld(game.world.centerX-120, game.world.centerY+352, 0.5, 0.5);
+	if(game.device.webmVideo){
+		videoImage = tutorialVideo.addToWorld(game.world.centerX-120, game.world.centerY+352, 0.5, 0.5);
+	}
+	else{
+		videoImage = tutorialVideo.addToWorld(-1000, game.world.centerY+352, 0.5, 0.5);
+		bmd = game.add.bitmapData(game.width, game.height);
+		var imageBmd = bmd.addToWorld();
+		group.add(imageBmd)
+	}
+
 	group.add(videoImage)
 
 	//console.log("Video auto play")
@@ -102,14 +123,52 @@ function createTutorialGif(group,onClickFunction){
     typeText.anchor.setTo(0.5)
     group.add(typeText)
 
+    tutorialVideo.video.setAttribute('webkit-playsinline', 'webkit-playsinline');
+	tutorialVideo.video.setAttribute('playsinline', 'playsinline');
+
+    setTimeout(function(){tutorialVideo.play(true)},1000)
+
+}
+
+function tutorialUpdate(){
+	if(inTutorial){
+		if(!game.device.webmVideo && tutorialVideo.playing){
+			bmd.cls()
+			bmd.draw(videoImage,game.world.centerX-120, game.world.centerY+352)
+			bmd.update()
+			bmd.processPixelRGB(forEachPixel, this,game.world.centerX-280, game.world.centerY+252,400,400);
+		}
+	}
 }
 
 function onTweenText(text){
 	game.add.tween(text.scale).to({x:1,y:1},100,Phaser.Easing.Linear.none,true)
 }
 
+function forEachPixel(pixel){
+	//console.log(pixel)
+
+
+	if(pixel.r <10 && pixel.g<10 && pixel.b<10){
+		pixel.r = 1
+		pixel.g = 1
+		pixel.b =1
+		pixel.a = 1
+		//console.log("alpha pixel")
+	}
+	else{
+		//console.log(pixel)
+	}
+	//else{
+    return pixel
+    //}
+    	
+}
+
 
 function loadType(gameIndex){
+
+	//return
 	var path = tutorialPath+"tutorial_gifs/"
 	var videoName
 
@@ -150,12 +209,14 @@ function loadType(gameIndex){
 
 	//console.log(game.device.webmVideo)
 
-	//if(game.device.webmVideo){
+	if(game.device.webmVideo){
 		game.load.video("tutorialGif",path+videoName+".webm")
-	/*}
+		//game.load.video("tutorialGif",path+"sample_iTunes.mov")
+	}
 	else{
+		console.log("step mov video")
 		game.load.video("tutorialGif",path+videoName+".mp4")
-	}*/
+	}
 
 	
 
