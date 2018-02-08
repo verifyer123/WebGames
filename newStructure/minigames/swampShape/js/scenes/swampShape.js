@@ -123,7 +123,7 @@ var swampShape = function(){
 	var astronoSong
 	var clock
 	var timeValue
-	var lives =0
+	var lives 
 
 	var gameIndex = 65
 
@@ -156,7 +156,7 @@ var swampShape = function(){
 
 		game.stage.backgroundColor = "#ffffff"
 		//gameActive = true
-		// lives = NUM_LIFES
+        lives = 3
 		// timeValue = 10
 		// quantNumber = 2
 		roundCounter = 0
@@ -195,7 +195,7 @@ var swampShape = function(){
 				copyLines.splice(lineIndex, 1)
 			}
 		}
-		console.log(sumResult)
+		//console.log(sumResult)
 		finalResults.push(sumResult)
 		if(copyLines.length>0)
 			recursiveSumResult(copyLines, finalResults)
@@ -205,9 +205,7 @@ var swampShape = function(){
 
 		for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
 			var line = lines[lineIndex]
-			correctParticle.x = line.star.world.x
-			correctParticle.y = line.star.world.y
-			correctParticle.start(true, 1000, null, 3)
+			
 			line.star.selected = true
 			if(line.star.tween)
 				line.star.tween.stop()
@@ -320,7 +318,12 @@ var swampShape = function(){
 		
 		if(isRight){
 			addPoint(1)
-			hideFireflies()
+            for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
+				var line = lines[lineIndex]
+				correctParticle.x = line.star.world.x
+                correctParticle.y = line.star.world.y
+                correctParticle.start(true, 1000, null, 3)
+			}
 		}else{
 			for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
 				var line = lines[lineIndex]
@@ -328,9 +331,65 @@ var swampShape = function(){
 				wrongParticle.y = line.star.world.y
 				wrongParticle.start(true, 1000, null, 3)
 			}
-			stopGame()
+			//stopGame()
+            missPoint()
 		}
+        
+        game.time.events.add(1000,function(){
+            if(lives !== 0){
+                hideFireflies()
+            }
+        },this)
 	}
+    
+    function missPoint(){
+        
+        sound.play("wrong")
+		        
+        lives--;
+        heartsGroup.text.setText('X ' + lives)
+        
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        if(lives == 0){
+            stopGame(false)
+        }
+        
+        addNumberPart(heartsGroup.text,'-1',true)
+        
+    }
+    
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 10
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        var heartImg = group.create(0,0,'atlas.swampShape','life_box')
+
+        pivotX+= heartImg.width * 0.45
+        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
+    }
 
 	function checkLines(){
 		var resultX = 0, resultY = 0
@@ -482,6 +541,7 @@ var swampShape = function(){
 
 		createClock()
 		createPointsBar()
+        createHearts()
 		createTutorial()
 
 		correctParticle = createPart("star")
@@ -723,7 +783,7 @@ var swampShape = function(){
 
 		game.time.events.add(800, function () {
 			isActive = true
-			startTimer(stopGame)
+			startTimer(missPoint)
 		})
 	}
 
