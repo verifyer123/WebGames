@@ -428,7 +428,7 @@ var astrono = function(){
 		generateFigure(round)
 		game.time.events.add(800, function () {
 			isActive = true
-			startTimer(stopGame)
+			startTimer(incorrectReaction)
 		})
 		// isActive = true
 	}
@@ -449,10 +449,6 @@ var astrono = function(){
 		if(lives === 0){
 			stopGame(false)
 		}
-		else{
-			startRound()
-		}
-
 		addNumberPart(heartsGroup.text,'-1')
 	}
 
@@ -783,6 +779,78 @@ var astrono = function(){
 		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
 		game.time.events.add(1600, startRound)
 	}
+    
+    function incorrectReaction(){
+        
+        var localizedName = localizationData[localization.getLanguage()][currentFigure.figureData.name]
+		var toScale = {}
+		if(currentFigure.figureData.name === "triangle"){
+			toScale.x = 0.8
+			toScale.y = 0.8
+			nameGroup.y = game.world.centerY - 55
+		}else{
+			toScale.x = 0.9
+			toScale.y = 0.9
+			nameGroup.y = game.world.centerY - 80
+		}
+
+		nameGroup.name.text = localizedName
+		game.add.tween(nameGroup).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(nameGroup.scale).to({x:toScale.x, y:toScale.y}, 500, Phaser.Easing.Back.Out, true)
+
+		missPoint()
+		// correctParticle.start(true, 1000, null, 5)
+		game.add.tween(currentFigure.sprite.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
+
+		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
+			var star = starsInGame[starIndex]
+			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
+			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 1000)
+			star.setAnimation(["WRONG"])
+			wrongParticle.x = star.centerX; wrongParticle.y = star.centerY
+			wrongParticle.start(true, 1000, null, 3)
+		}
+
+		for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
+			var line = lines[lineIndex]
+			game.add.tween(line).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true, 1000)
+		}
+
+		game.add.tween(currentFigure.sprite).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
+		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
+        
+        if(lives !== 0)
+		  game.time.events.add(1600, startRound)
+	}
+    
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 10
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        var heartImg = group.create(0,0,'atlas.astrono','life_box')
+
+        pivotX+= heartImg.width * 0.45
+        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
+    }
 
 	return {
 		assets: assets,
@@ -803,7 +871,7 @@ var astrono = function(){
 					if(isCorrect)
 						correctReaction()
 					else
-						stopGame()
+						incorrectReaction()
 				}
 			}
 		},
@@ -837,6 +905,7 @@ var astrono = function(){
 			initialize()
 
 			createPointsBar()
+            createHearts()
 			createGameObjects()
 			createClock()
 			// startRound(true)
