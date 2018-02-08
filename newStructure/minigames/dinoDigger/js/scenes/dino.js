@@ -775,6 +775,13 @@ var dino = function(){
         particleWrong = createPart('wrong')
         sceneGroup.add(particleWrong)
     }
+    
+    function backAndWihte(){
+        
+        var wihte = game.add.graphics(0, 0)
+        wihte.beginFill(0xFFFFFF)
+        wihte.drawRect(0, 0, game.world.width, game.world.height)
+    }
 
 	return {
 		
@@ -784,6 +791,7 @@ var dino = function(){
         preload:preload,
 		create: function(event){
             
+            backAndWihte()
 			sceneGroup = game.add.group()
 			
 			createBackground()

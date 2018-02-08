@@ -584,10 +584,6 @@ var pullTheMonster = function(){
         nao.setSkinByName("normal")
         sceneGroup.add(nao)
         
-        rope = sceneGroup.create(game.world.centerX - 20, game.world.centerY + 50, 'atlas.pullTheMonster', "rope")
-        rope.anchor.setTo(0.5)
-        rope.angle = - 5
-        
         robot = game.add.spine(game.world.centerX, game.world.height , "robot")
         robot.setAnimationByName(0, "IDLE", true)
         robot.setSkinByName("normal")
@@ -790,9 +786,6 @@ var pullTheMonster = function(){
         meter.y = 130
         meter.swing = game.add.tween(meter).to({y:strengthBar.height - 40}, moveTime, Phaser.Easing.linear, false, 0, -1)
         meter.swing.yoyo(true, 0)
-        
-        /*rope.swing = game.add.tween(rope).to({y:rope.y - 40}, 200, Phaser.Easing.linear, false, 0, -1)
-        rope.swing.yoyo(true, 0)*/
         
         game.time.events.add(1500,function(){
             nao.setAnimationByName(0, "PULL", true)

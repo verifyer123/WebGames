@@ -675,6 +675,13 @@ var selfiePlanet = function(){
             })
         }
     }
+    
+    function backAndWihte(){
+        
+        var wihte = game.add.graphics(0, 0)
+        wihte.beginFill(0xFFFFFF)
+        wihte.drawRect(0, 0, game.world.width, game.world.height)
+    }
 	
 	return {
 		
@@ -684,6 +691,7 @@ var selfiePlanet = function(){
         preload:preload,
 		create: function(event){
             
+            backAndWihte()
 			sceneGroup = game.add.group()
 			
 			createBackground()

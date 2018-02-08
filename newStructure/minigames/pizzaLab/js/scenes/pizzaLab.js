@@ -270,9 +270,6 @@ var pizzaLab = function(){
         game.load.audio('pizzaSong', soundsPath + 'songs/marioSong.mp3');
         
         game.load.image('tutorial_image',"images/pizzaLab/gametuto.png")
-		//game.load.image('howTo',"images/pizzaLab/how" + localization.getLanguage() + ".png")
-		//game.load.image('buttonText',"images/pizzaLab/play" + localization.getLanguage() + ".png")
-		//game.load.image('introscreen',"images/pizzaLab/introscreen.png")
 		game.load.image('background',"images/pizzaLab/background.png")
 		game.load.image('machine',"images/pizzaLab/machine.png")
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
@@ -294,13 +291,13 @@ var pizzaLab = function(){
     }
     
     function onClickPlay(rect) {
-        rect.inputEnabled = false
+        //rect.inputEnabled = false
         sound.play("pop")
 
         game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.Linear.none,true).onComplete.add(function(){
 
             tutoGroup.y = -game.world.height
-        initGame()
+            initGame()
             })
     }
     
