@@ -59,8 +59,8 @@ var galaxy = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "spaceship",
-				file: soundsPath + "spaceship.mp3"},
+			{	name: "ship",
+				file: soundsPath + "robotWhoosh.mp3"},
 			{	name: "combo",
 				file: soundsPath + "combo.mp3"},
 			
@@ -829,7 +829,7 @@ var galaxy = function(){
 		
 		//yogotarShip.abducts = true
 		
-		sound.play("spaceship")
+		sound.play("ship")
 		
 		checkCollider()
 		
@@ -896,6 +896,13 @@ var galaxy = function(){
 		}
 		
 	}
+    
+    function backAndWihte(){
+        
+        var wihte = game.add.graphics(0, 0)
+        wihte.beginFill(0xFFFFFF)
+        wihte.drawRect(0, 0, game.world.width, game.world.height)
+    }
 	
 	return {
 		
@@ -905,6 +912,7 @@ var galaxy = function(){
         preload:preload,
 		create: function(event){
             
+            backAndWihte()
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			createBackground()
