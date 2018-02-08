@@ -135,7 +135,7 @@ var yogomeGames = function () {
 			{name:'Elemental Witch',url:urlSet + 'elementalWitch/',mapUrl:urlMap + 'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},//104
 			{name:'Milky Saloon',url:urlSet + 'milkySaloon/',mapUrl:urlMap + 'milkySaloon', sceneName:'milky',subject:'coding', review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//105
 			{name:'Calendrigon',url:urlSet + 'calendrigon/',mapUrl:urlMap + 'calendrigon', sceneName:'calendrigon',subject:'math', review:false,objective:10,demo:false,type:gameTypeEnum.CHOOSE},//106
-            {name:'Symfunny',url:urlSet + 'symfunny/',mapUrl:urlMap + 'symfunny', sceneName:'symfunny',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//107
+            {name:'Symfunny',url:urlSet + 'symfunny/',mapUrl:urlMap + 'symfunny', sceneName:'symfunny',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},//107
 			{name:'Shot Put',url:urlSet + 'shotPut/',mapUrl:urlMap + 'shotPut', sceneName:'shotPut',subject:'sciencie', review:false,objective:10,demo:false,type:gameTypeEnum.CHOOSE},//108
 			{name:'Dino Dig',url:urlSet + 'dinoDigger/',mapUrl:urlMap + 'dinoDigger', sceneName:'dino',subject:'sciencie', review:false,objective:35,demo:false,type:gameTypeEnum.CHOOSE},//109
             {name:'Animal Route',url:urlSet + 'animalRoute/',mapUrl:urlMap + 'animalRoute', sceneName:'animalRoute',subject:'sciencie', review:false,objective:10,demo:false,type:gameTypeEnum.CHOOSE},//110
@@ -145,12 +145,12 @@ var yogomeGames = function () {
             {name:'Color Scientist',url:urlSet + 'colorScientist/',mapUrl:urlMap + 'colorScientist', sceneName:'colorScientist',subject:'creativity', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//114
             {name:'Where Is My',url:urlSet + 'whereIsMy/',mapUrl:urlMap + 'whereIsMy', sceneName:'whereIsMy',subject:'language', review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//115
             {name:'H2Orbit',url:urlSet + 'H2Orbit/',mapUrl:urlMap + 'H2Orbit', sceneName:'H2Orbit',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//116
-            {name:'Fridge',url:urlSet + 'fridge/',mapUrl:urlMap + 'fridge', sceneName:'fridge',subject:'health', review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//117
+            {name:'Fridge',url:urlSet + 'fridge/',mapUrl:urlMap + 'fridge', sceneName:'fridge',subject:'health', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//117
             {name:'Sympho Master',url:urlSet + 'symphoMaster/',mapUrl:urlMap + 'symphoMaster', sceneName:'symphoMaster',subject:'creativity', review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//118
             {name:'Dinamita Dance',url:urlSet + 'dinamitaDance/',mapUrl:urlMap + 'dinamitaDance', sceneName:'dinamitaDance',subject:'language', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//119
             {name:'Rabbit Trace',url:urlSet + 'rabitTrace/',mapUrl:urlMap + 'rabitTrace', sceneName:'rabitTrace',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//120
             {name:'Noisy Monsters',url:urlSet + 'noisyMonsters/',mapUrl:urlMap + 'noisyMonsters', sceneName:'noisyMonsters',subject:'sustainability', review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//121
-            {name:'Balance Science',url:urlSet + 'balanceScience/',mapUrl:urlMap + 'balanceScience', sceneName:'balanceScience',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//122
+            {name:'Balance Science',url:urlSet + 'balanceScience/',mapUrl:urlMap + 'balanceScience', sceneName:'balanceScience',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//122
             {name:'Liquidungeon',url:urlSet + 'liquidungeon/',mapUrl:urlMap + 'liquidungeon', sceneName:'liquidungeon',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//123
             {name:'Green Rescue',url:urlSet + 'greenRescue/',mapUrl:urlMap + 'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.CHOOSE},//124
             {name:'Lake Strike',url:urlSet + 'lakeStrike/',mapUrl:urlMap + 'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//125

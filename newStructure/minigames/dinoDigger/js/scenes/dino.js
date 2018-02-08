@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var dino = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var dino = function(){
                 json: "images/dino/atlas.json",
                 image: "images/dino/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -254,9 +262,9 @@ var dino = function(){
         
         game.load.audio('jungleFun', soundsPath + 'songs/jungle_fun.mp3');
         
-		game.load.image('howTo',"images/dino/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/dino/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/dino/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/dino/introscreen.png")
+		game.load.image('introscreen',"images/dino/introscreen.png")*/
         
         game.load.spine("oof", "images/spines/explorador.json")
         game.load.spine("fish", "images/spines/pez.json")
@@ -265,7 +273,9 @@ var dino = function(){
         game.load.spine("trilobite", "images/spines/trilobite.json")
 		
 		console.log(localization.getLanguage() + ' language')
-        
+        game.load.image('tutorial_image',"images/dino/tutorial_image.png")
+        loadType(gameIndex)
+
     }
     
     function createOverlay(){
@@ -273,8 +283,8 @@ var dino = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
+        createTutorialGif(overlayGroup,onClickPlay)
+       /* var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -325,7 +335,13 @@ var dino = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        gameActive = false
+        initGame()
     }
     
     function releaseButton(obj){
@@ -344,7 +360,8 @@ var dino = function(){
     }
 
 	function update(){
-        
+        tutorialUpdate()
+
         fondo.tilePosition.x += 0.5
     }
     

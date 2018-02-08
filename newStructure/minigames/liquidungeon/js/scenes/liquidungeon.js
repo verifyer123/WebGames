@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var liquidungeon = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var liquidungeon = function(){
                 json: "images/liquidungeon/atlas.json",
                 image: "images/liquidungeon/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -271,15 +278,19 @@ var liquidungeon = function(){
         
         game.load.audio('liquidSong', soundsPath + 'songs/kids_and_videogame.mp3');
         
-		game.load.image('howTo',"images/liquidungeon/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/liquidungeon/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/liquidungeon/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/liquidungeon/introscreen.png")
+		game.load.image('introscreen',"images/liquidungeon/introscreen.png")*/
 		game.load.image('background',"images/liquidungeon/background.png")
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
         
         game.load.spine("water", "images/spines/water.json")
 		
 		console.log(localization.getLanguage() + ' language')
+
+        game.load.image('tutorial_image',"images/liquidungeon/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -288,8 +299,10 @@ var liquidungeon = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -335,7 +348,12 @@ var liquidungeon = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        initGame()
     }
     
 	function createBackground(){
@@ -354,6 +372,8 @@ var liquidungeon = function(){
     }
 
 	function update(){
+
+        tutorialUpdate()
         
         clouds.tilePosition.x -= speed * 0.1
         floor.tilePosition.x -= speed

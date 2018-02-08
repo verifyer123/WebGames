@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var fridge = function(){
     
     var localizationData = {
@@ -28,7 +30,13 @@ var fridge = function(){
                 name: "atlas.time",
                 json: "images/fridge/timeAtlas.json",
                 image: "images/fridge/timeAtlas.png",
+            },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
 
@@ -289,9 +297,13 @@ var fridge = function(){
         
         game.load.audio('fridgeSong', soundsPath + 'songs/happy_game_memories.mp3');
         
-		game.load.image('howTo',"images/fridge/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/fridge/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/fridge/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/fridge/introscreen.png")
+		game.load.image('introscreen',"images/fridge/introscreen.png")*/
+
+        game.load.image('tutorial_image',"images/fridge/tutorial_image_"+localization.getLanguage()+".png")
+        loadType(gameIndex)
+
 		
         game.load.image('fridge',"images/fridge/fridge.png")
         game.load.image('kitchen',"images/fridge/kitchen.png")
@@ -313,7 +325,10 @@ var fridge = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -359,7 +374,12 @@ var fridge = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        initGame()
     }
     
     function releaseButton(obj){
@@ -377,6 +397,9 @@ var fridge = function(){
     }
 
 	function update(){
+
+        tutorialUpdate()
+
         
         for(var f = 0; f < food.length - 1; f++){
             animalsSpineGroup.children[f].x = animalsGroup.children[f].x
