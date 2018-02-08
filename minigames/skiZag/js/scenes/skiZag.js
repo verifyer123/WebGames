@@ -45,7 +45,7 @@ var skiZag = function(){
     var DISTANCE_RAIL_ENEMIES = 1300
     var MAX_COINS_IN_LINE = 2
     var COIN_PROBABILITY = 0.4
-    var WAIT_FRAMES = 4
+    var WAIT_FRAMES = 9
     var WAIT_SNOW = 7000
     var DELTA_WAIT_SNOW = 600
     var LINE_VELOCITY = 2.1
@@ -161,7 +161,7 @@ var skiZag = function(){
         game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
         game.load.spine('mascot', "images/spines/amazing/amazing.json");
-        game.load.spine('yetiSpine', "images/spines/yeti/yeti.json");
+        game.load.spine('yetiSpine', "images/spines/Yeti/yeti.json");
                 
         if(amazing.getMinigameId()){
             marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
@@ -267,11 +267,13 @@ var skiZag = function(){
                 SetObject(trailsLinearGroup,'Camino_Meizy',player.body.x,player.body.y,player.scale.x)
                 snowCanTrail = true
             }
-            init.y+=-LINE_VELOCITY
-            name.y+=-LINE_VELOCITY
+            if(init.y > -200){
+	            init.y+=-LINE_VELOCITY
+	            name.y+=-LINE_VELOCITY
+	        }
             moveGroupY(trailsLinearGroup,-LINE_VELOCITY,-100)
-            moveGroupY(trailsCurveGroup,-LINE_VELOCITY,-100)
-            moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
+            //moveGroupY(trailsCurveGroup,-LINE_VELOCITY,-100)
+            //
 
             for(var i = 0; i < treesBackground.length; i++){
                 if(treesBackground.children[i].visible){
@@ -305,6 +307,21 @@ var skiZag = function(){
                 }
             }
         }
+
+         if(player!=null){
+            spinePlayer.x = player.body.x
+            if(player.scale.x<0 ){
+            	if(spinePlayer.scale.x!=-SPINE_SCALE){
+	                spinePlayer.scale.setTo(-SPINE_SCALE,SPINE_SCALE)
+	            }
+            }
+            else{
+            	if(spinePlayer.scale.x!=SPINE_SCALE){
+	                spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
+	            }
+            }
+        }
+        //return
 
         if(yetisGroup!=null){
             for(var i = 0; i < yetisGroup.length; i++){
@@ -346,7 +363,7 @@ var skiZag = function(){
                 if(snowBallGroup.children[i].visible){
 
                     if(snowBallGroup.children[i].y < 0){
-                        console.log(snowBallGroup.children[i].y,snowBallGroup.children[i].deltaWait,game.time.now, snowBallGroup.children[i].body.velocity.y)
+                        //console.log(snowBallGroup.children[i].y,snowBallGroup.children[i].deltaWait,game.time.now, snowBallGroup.children[i].body.velocity.y)
                         snowBallGroup.children[i].visible = false
                         snowBallGroup.children[i].body.setZeroVelocity()
                     }
@@ -360,7 +377,7 @@ var skiZag = function(){
                     else{
                         //console.log(snowBallGroup.children[i].deltaWait)
                         if(snowBallGroup.children[i].deltaWait < game.time.now){
-                            console.log("Pass time")
+                            //console.log("Pass time")
                             //snowBallGroup.children[i].body.x = game.world.centerX
                             if(snowBallGroup.children[i].body.x <0){
                                 snowBallGroup.children[i].body.velocity.x = VEL_X
@@ -372,19 +389,14 @@ var skiZag = function(){
                         }
                     }
                 }
+
+
             }
+            moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
         }
 
 
-        if(player!=null){
-            spinePlayer.x = player.body.x
-            if(player.scale.x<0){
-                spinePlayer.scale.setTo(-SPINE_SCALE,SPINE_SCALE)
-            }
-            else{
-                spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
-            }
-        }
+
 
     }
     
@@ -700,9 +712,9 @@ var skiZag = function(){
         var newR = randomY/SIN_ANG
         newR = Math.floor(newR)
         var module = newR%WIDTH_PER_TILE
-        console.log("First R", newR)
+        //console.log("First R", newR)
         if(module!=0){
-        	console.log(module)
+        	//console.log(module)
         	if(module>(WIDTH_PER_TILE/2)){
         		//redondear hacia arriba
         		newR+=(WIDTH_PER_TILE - module)
@@ -712,7 +724,7 @@ var skiZag = function(){
         		newR-=module
         	}
         }
-        console.log("Second R",newR)
+       // console.log("Second R",newR)
 
         var nextX = currentX + (newR*COS_ANG*currentAngle)
 
@@ -873,7 +885,7 @@ var skiZag = function(){
 
 
         var randomEnemy = game.rnd.integerInRange(0,1)
-        //randomEnemy = 0
+        //randomEnemy = 1
         if(randomEnemy==0){
             setEnemiesYetis(currentY + 300, DISTANCE_RAIL_ENEMIES-600)
         }
@@ -959,7 +971,7 @@ var skiZag = function(){
 
     function SetBackground(x, y, width, angle){
 
-        var max = (width*2)/120
+        var max = (width*2)/200
         var r = game.rnd.integerInRange(max-2,max+2)
         var newY = width*SIN_ANG
         for(var i = 0; i < r; i++){
@@ -994,8 +1006,6 @@ var skiZag = function(){
         if(randomType > 6){
             randomType=6
         }
-
-        
 
         var key 
         var object
@@ -1074,7 +1084,7 @@ var skiZag = function(){
         var object = getFromPool(group,key)
         object.x = x
         object.y = y + 20
-
+        object.alpha = 1
 
         object.scale.setTo(scale,1)
         //console.log("Set object ",object.x,object.y,object.visible)
@@ -1084,6 +1094,11 @@ var skiZag = function(){
         for(var i = 0; i < group.length; i++){
             if(group.children[i].visible){
                 group.children[i].y += vel
+                group.children[i].alpha -= 0.01
+
+                if(group.children[i].alpha<=0){
+                	group.children[i].visible = false
+                }
 
                 if(group.children[i].y <= limit){
                     group.children[i].visible = false
@@ -1096,14 +1111,14 @@ var skiZag = function(){
         yetisGroup = game.add.group()
         sceneGroup.add(yetisGroup)
 
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 5; i++){
             createYeti()
         }
 
         snowBallGroup = game.add.group()
         sceneGroup.add(snowBallGroup)
 
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 10; i++){
             createSnowBall()
         }
      }
@@ -1156,7 +1171,7 @@ var skiZag = function(){
         else{
             group = snowBallGroup
         }
-        console.log(group.length)
+        //console.log(group.length)
         for(var i = 0; i < group.length; i++){
             if(!group.children[i].visible){
                 group.children[i].visible = true
@@ -1190,7 +1205,7 @@ var skiZag = function(){
     }
 
     function setEnemiesSnow(initialY, height){
-    	console.log(snowBallGroup.length)
+    	//console.log(snowBallGroup.length)
         for(var i = 0; i < snowBallGroup.length; i++){
             snowBallGroup.children[i].body.setZeroVelocity()
             snowBallGroup.children[i].body.y = game.world.height
@@ -1203,7 +1218,7 @@ var skiZag = function(){
         var delta = height/7
         var deltawait = game.time.now + WAIT_SNOW
         var randomX = game.rnd.integerInRange(0,1)
-        console.log("SetEnemy snow ",deltawait)
+        //console.log("SetEnemy snow ",deltawait)
 
         if(randomX == 0){
             randomX = -1
@@ -1238,7 +1253,7 @@ var skiZag = function(){
 
             enemy.visible = true
 
-            console.log(enemy.body.y,enemy.body.x,enemy.deltaWait)
+            //console.log(enemy.body.y,enemy.body.x,enemy.deltaWait)
         }
     }
     
