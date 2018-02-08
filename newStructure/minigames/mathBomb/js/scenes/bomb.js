@@ -97,7 +97,7 @@ var bomb = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		numbersToAdd = 6
 		figToUse = null
 		timeToUse = 32000
@@ -975,7 +975,12 @@ var bomb = function(){
 			delay += 50
 			
 		}
-		
+        
+        for(var i = 0; i < figuresGroup.length;i++){
+            var fig = figuresGroup.children[i]
+            fig.anim.setAnimationByName(0,'IDLE',true)
+        }
+        
 		delay+= 500
 		game.time.events.add(delay,function(){
 			
@@ -1006,7 +1011,15 @@ var bomb = function(){
 		clock.tween = game.add.tween(bar.scale).to({x:0},timeToUse,"Linear",true,500)
 		
 		clock.tween.onComplete.add(function(){
-			missPoint()
+            missPoint()
+            for(var i = 0; i < usedFigures.length;i++){
+                var fig = usedFigures.children[i]
+                fig.anim.setAnimationByName(0,'LOSE',true)
+            }
+            game.time.events.add(1000, function () {
+                if(lives !== 0)
+                    restartBoard()
+            })
 		})
 		
 	}
