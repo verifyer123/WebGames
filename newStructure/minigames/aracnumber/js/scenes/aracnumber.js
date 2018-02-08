@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/aracnumber/";
+var tutorialPath = "../../shared/minigames/"
+
 
 var aracnumber = function(){
 
@@ -9,7 +11,14 @@ var aracnumber = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
+            ],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -83,9 +92,9 @@ var aracnumber = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		
 		/*GAME*/
 		game.load.image("background",imagePath + "background.png");
@@ -101,6 +110,10 @@ var aracnumber = function(){
 		/*SPINE*/
 		game.load.spine("spider", imagePath + "spine/spider/spider.json");
         game.load.spine("fly", imagePath + "spine/fly/fly.json");
+
+        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+        loadType(gameIndex)
+
 
 	}
     
@@ -159,6 +172,8 @@ var aracnumber = function(){
 
 	/*CREATE SCENE*/
     function createScene(){
+
+        initialize()
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
         
 		loadSounds();
@@ -528,7 +543,8 @@ var aracnumber = function(){
 	
 	function update() {
         
-        
+        //tutorialUpdate()
+
         
             if(starGame){
             if(fly1.y < game.height + fly1.height && fly1.active){

@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var beach = function(){
     
     var localizationData = {
@@ -20,6 +22,12 @@ var beach = function(){
                 json: "images/beach/atlas.json",
                 image: "images/beach/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -279,9 +287,13 @@ var beach = function(){
         game.load.spine('nao', "images/spines/skeleton.json")  
         game.load.audio('puzzleSong', soundsPath + 'songs/chinese_new_year.mp3');
         
-		game.load.image('howTo',"images/beach/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/beach/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/beach/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/beach/introscreen.png")
+		game.load.image('introscreen',"images/beach/introscreen.png")*/
+
+		game.load.image('tutorial_image',"images/beach/tutorial_image.png")
+		loadType(gameIndex)
+
 		
 		//console.log(localization.getLanguage() + ' language')
         
@@ -407,8 +419,11 @@ var beach = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -455,9 +470,15 @@ var beach = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
     }
    
+
+   function onClickPlay(){
+   		overlayGroup.y = -game.world.height
+				
+		setNumber()
+   }
 
 	function createBackground(){
 		
@@ -475,7 +496,7 @@ var beach = function(){
 	}
 	
 	function update(){
-		
+		//tutorialUpdate()
 		sky.tilePosition.x+=0.5
 		seaTile.tilePosition.x--
 		

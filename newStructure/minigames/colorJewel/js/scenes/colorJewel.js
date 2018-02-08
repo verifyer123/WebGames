@@ -168,6 +168,7 @@ var colorJewel = function(){
 
     function preload(){
         game.stage.disableVisibilityChange = false;
+        //game.stage.disableVisibilityChange = true;
 
         game.load.audio('colorJewelSong', soundsPath + 'songs/childrenbit.mp3');
 
@@ -1376,11 +1377,13 @@ var colorJewel = function(){
         }, this);
         
         game.onPause.add(function(){
+            //console.log("Game paused")
             game.sound.mute = true
             gamePaused = true
         } , this);
 
         game.onResume.add(function(){
+            //console.log("Game resume")
             game.sound.mute = false
             gamePaused = false
         }, this);

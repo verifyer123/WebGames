@@ -12,7 +12,7 @@
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        createTutorialGif(overlayGroup,function (rect){onClickPlay(lives)})
 
 
 		/*if(game.device != 'desktop'){
@@ -94,7 +94,8 @@
 		playText.anchor.setTo(0.1,0.5)*/
     }	
 
-    function onClickPlay(rect){
+    function onClickPlay(lives){
+
     	if(lives!=null){
         	heartsText.setText("x " + lives);
         }
@@ -102,8 +103,8 @@
             heartsText.setText("x "+heartsText.initialLives)
         }
         xpText.setText(coins);
-        rect.inputEnabled = false
-		sound.play("pop")
+        //rect.inputEnabled = false
+		//sound.play("pop")
       	
             overlayGroup.y = -game.world.height
 

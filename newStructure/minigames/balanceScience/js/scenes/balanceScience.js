@@ -389,7 +389,7 @@ var balanceScience = function(){
     }
 
 	function update(){
-        tutorialUpdate()
+        //tutorialUpdate()
 
         clouds.tilePosition.x += 0.1
     }

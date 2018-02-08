@@ -1,4 +1,3 @@
-
 var tutorialVideo
 var videoImage
 var tutorialTypeText
@@ -10,6 +9,8 @@ var coinText_3
 
 var bmd
 var inTutorial
+
+var noWebmTextType
 
 function createTutorialGif(group,onClickFunction){
 
@@ -26,8 +27,12 @@ function createTutorialGif(group,onClickFunction){
         	onClickFunction()
         })
         //videoImage.destroy()
-        tutorialVideo.stop()
-        inTutorial = false
+        if(game.device.webmVideo){
+	        tutorialVideo.stop()
+	        inTutorial = false
+	    }
+
+	    group.destroy()
         //tutorialVideo.removeVideoElement()
     })
     
@@ -56,19 +61,55 @@ function createTutorialGif(group,onClickFunction){
 
 
 
-	tutorialVideo = game.add.video('tutorialGif');
-	tutorialVideo.play(true)
+	
 	if(game.device.webmVideo){
-		videoImage = tutorialVideo.addToWorld(game.world.centerX-120, game.world.centerY+352, 0.5, 0.5);
+		/*tutorialVideo = game.add.video('tutorialGif');
+		tutorialVideo.play(true)*/
+		tutorialVideo = game.add.video('tutorialGif');
+		tutorialVideo.play(true)
+		videoImage = tutorialVideo.addToWorld(game.world.centerX-120, game.world.centerY+354, 0.5, 0.5);
+		group.add(videoImage)
+
+		game.input.touch.addTouchLockCallback(function(){
+			tutorialVideo.play(true)
+		}, tutorialVideo, true);
+
+		/*game.input.touch.addTouchLockCallback(function(){
+			tutorialVideo.play(true)
+		}, tutorialVideo, true);*/
+
+
 	}
 	else{
-		videoImage = tutorialVideo.addToWorld(-1000, game.world.centerY+352, 0.5, 0.5);
+		//videoImage = game.add.sprite(game.world.centerX-120,game.world.centerY+352,'tutorialGif')
+		//videoImage.animations.add('loop')
+		//videoImage.animations.play('loop',10,true)
+
+		/*var x = document.createElement("IMG");
+	    x.setAttribute("src", noWebmTextType);
+	    x.setAttribute("width", "304");
+	    x.setAttribute("height", "228");
+	    x.style.position = "absolute"
+	    x.style.top = ((game.world.centerY+352) - (x.height/2))+"px"
+	    x.style.left = ((game.world.centerX-120) - (x.width/2))+"px"
+	    //x.setAttribute("alt", "The Pulpit Rock");
+	    document.body.appendChild(x);*/
+
+		/*videoImage = tutorialVideo.addToWorld(-1000, game.world.centerY+420, 0.5, 0.5);
 		bmd = game.add.bitmapData(game.width, game.height);
 		var imageBmd = bmd.addToWorld();
-		group.add(imageBmd)
+		group.add(imageBmd)*/
+
+		var spine = game.add.spine(game.world.centerX-120, game.world.centerY+480,"tutorialGif")
+		spine.setSkinByName("normal")
+		spine.setAnimationByName(0,"IDLE",true)
+		group.add(spine)
+
 	}
 
-	group.add(videoImage)
+	
+
+	//
 
 	//console.log("Video auto play")
 
@@ -128,18 +169,19 @@ function createTutorialGif(group,onClickFunction){
     typeText.anchor.setTo(0.5)
     group.add(typeText)
 
-    tutorialVideo.video.setAttribute('webkit-playsinline', 'webkit-playsinline');
-	tutorialVideo.video.setAttribute('playsinline', 'playsinline');
+    //tutorialVideo.video.setAttribute('webkit-playsinline', 'webkit-playsinline');
+	//tutorialVideo.video.setAttribute('playsinline', 'playsinline');
 
-    setTimeout(function(){tutorialVideo.play(true)},1000)
+    //setTimeout(function(){tutorialVideo.play(true)},1000)
 
 }
 
 function tutorialUpdate(){
+	return
 	if(inTutorial){
 		if(!game.device.webmVideo && tutorialVideo.playing){
 			bmd.cls()
-			bmd.draw(videoImage,game.world.centerX-120, game.world.centerY+352)
+			bmd.draw(videoImage,game.world.centerX-120, game.world.centerY+354)
 			bmd.update()
 			bmd.processPixelRGB(forEachPixel, this,game.world.centerX-280, game.world.centerY+252,400,400);
 		}
@@ -219,8 +261,10 @@ function loadType(gameIndex){
 		//game.load.video("tutorialGif",path+"sample_iTunes.mov")
 	}
 	else{
-		console.log("step mov video")
-		game.load.video("tutorialGif",path+videoName+".mp4")
+
+		game.load.spine("tutorialGif",path+videoName+"/"+videoName+".json")
+		//noWebmTextType = path+"trace.gif"
+		//game.load.image("tutorialGif",path+"test.gif")
 	}
 
 	

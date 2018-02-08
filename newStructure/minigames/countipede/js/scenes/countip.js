@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var countip = function(){
 
 	// var localizationData = {
@@ -21,7 +23,13 @@ var countip = function(){
 				name: "atlas.countip",
 				json: "images/countip/atlas.json",
 				image: "images/countip/atlas.png"
-			}
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
 		],
 		images: [
 			{   name:"fondo",
@@ -219,13 +227,17 @@ var countip = function(){
 		game.stage.disableVisibilityChange = false;
 		game.load.audio('countipSong', soundsPath + 'songs/classic_arcade.mp3');
 
-		game.load.image('introscreen',"images/countip/introscreen.png")
+		/*game.load.image('introscreen',"images/countip/introscreen.png")
 		game.load.image('howTo',"images/countip/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/countip/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/countip/play" + localization.getLanguage() + ".png")*/
 		game.load.image('box',"images/countip/box.png")
 		game.load.spine('centipede', "images/spine/centipede.json")
 
 		buttons.getImages(game)
+
+		game.load.image('tutorial_image',"images/countip/tutorial_image.png")
+		loadType(gameIndex)
+
 
 	}
 
@@ -290,15 +302,12 @@ var countip = function(){
 
 	}
 
-	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+	function onClickPlay() {
 
-			tutoGroup.y = -game.world.height
-			startRound()
-			// startTimer(missPoint)
-		})
+
+		tutoGroup.y = -game.world.height
+		startRound()
+
 	}
 
 	function createTutorial(){
@@ -307,47 +316,9 @@ var countip = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			onClickPlay(rect)
+		createTutorialGif(tutoGroup,onClickPlay)
 
-		})
-
-		tutoGroup.add(rect)
-
-		var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-		plane.anchor.setTo(0.5,0.5)
-
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.countip','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.9, 0.9)
-
-		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-
-		var inputName = 'movil'
-
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.countip',inputName)
-		inputLogo.anchor.setTo(0.5,0.5)
-		// inputLogo.scale.setTo(0.7,0.7)
-
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.countip','button')
-		button.anchor.setTo(0.5,0.5)
-
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+	
 	}
 
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
