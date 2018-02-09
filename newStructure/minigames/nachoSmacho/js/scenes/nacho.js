@@ -85,7 +85,7 @@ var nacho = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 10000
 		moveFloor = false
 		pixMove = 0
@@ -831,6 +831,26 @@ var nacho = function(){
 					door.setAnimationByName(0,"LOSE",false)
 					game.add.tween(door).to({x:door.x - 50,y:door.y+25},500,"Linear",true)
 				})
+                
+                if(lives !== 0){
+                    game.add.tween(door).to({alpha:0,x:door.x + 300,y:door.y - 100},600,"Linear",true,1000)
+
+                    game.time.events.add(3000,function(){
+
+                        //yogotar.anim.setAnimationByName(0,"WALK",true)
+                        moveFloor = true
+
+                        game.add.tween(yogotar).to({x:game.world.width +100,y:yogotar.posY - 150},1000,"Linear",true)
+
+                        table.x = table.posX
+                        table.y = table.posY
+                        game.add.tween(table).from({x:-400,y:table.y + 250},1000,"Linear",true).onComplete.add(function(){
+
+                            moveFloor = false
+                            showScene()
+                        })
+                    })
+                }
 			}
 		})
 		
