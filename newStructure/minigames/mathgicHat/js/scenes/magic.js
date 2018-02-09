@@ -76,7 +76,7 @@ var magic = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 15000
         
         loadSounds()
@@ -576,7 +576,7 @@ var magic = function(){
 			createPart('star',obj)
 			sound.play('secret')
 
-            console.log("Set result "+result )
+            //console.log("Set result "+result )
 
             if(result > 9){
                 magician.text.fontSize = SMALL_FONT_SIZE
@@ -604,6 +604,13 @@ var magic = function(){
 			missPoint()
 			createPart('wrong',obj)
 			
+            game.time.events.add(3500,function(){
+				showButtons(false)
+			})
+			
+			game.time.events.add(4500,function(){
+				showButtons(true)
+			})
 		}
 	}
 	
