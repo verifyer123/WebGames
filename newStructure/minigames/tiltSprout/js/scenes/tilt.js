@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var tilt = function(){
     
     var localizationData = {
@@ -20,6 +21,12 @@ var tilt = function(){
                 json: "images/tilt/atlas.json",
                 image: "images/tilt/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 			{   name:"fondo",
@@ -331,14 +338,18 @@ var tilt = function(){
         game.load.spine('dinamita', "images/spines/skeleton.json")  
         game.load.audio('gardenSong', soundsPath + 'songs/mysterious_garden.mp3');
         
-		game.load.image('howTo',"images/tilt/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/tilt/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/tilt/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/tilt/introscreen.png")
+		game.load.image('introscreen',"images/tilt/introscreen.png")*/
 		game.load.image('background',"images/tilt/background.png")
 		
 		game.load.spritesheet('spider', 'images/tilt/sprites/spider.png', 99, 112, 12)
 		game.load.spritesheet('gota', 'images/tilt/sprites/gota.png', 60, 129, 12)
 		game.load.spritesheet('planta', 'images/tilt/sprites/planta.png', 140, 300, 13)
+
+		game.load.image('tutorial_image',"images/tilt/tutorial_image.png")
+		loadType(gameIndex)
+
 		        
     }
 	
@@ -397,8 +408,10 @@ var tilt = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -468,8 +481,32 @@ var tilt = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 		
+	}
+
+	function onClickPlay(){
+		overlayGroup.y = -game.world.height
+		gameActive = true
+		buttonActive = true
+		
+		var delay = 500
+
+		for(var i = 0; i < 4; i++){
+			game.time.events.add(delay,addDrop,this)
+			delay+= 3000
+		}
+		
+		game.time.events.add(spidersDelay,function(){
+			
+			pivotObjects = -200 -usedObjects.y
+			for(var i = 0; i < 5;i++){
+
+				addObjects()
+			}
+			
+			game.time.events.add(10000,sendSpiderBoss,this)
+		})
 	}
 
 	function createBackground(){

@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var stack = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var stack = function(){
                 json: "images/stack/atlas.json",
                 image: "images/stack/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -307,11 +314,13 @@ var stack = function(){
         game.load.spine('explosion', "images/spines/explotion.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/game_on.mp3');
         
-		game.load.image('howTo',"images/stack/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/stack/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/stack/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/stack/introscreen.png")
+		game.load.image('introscreen',"images/stack/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/stack/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -411,8 +420,8 @@ var stack = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
+        createTutorialGif(overlayGroup,onClickPlay)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -457,7 +466,12 @@ var stack = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	showButtons()
+		overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

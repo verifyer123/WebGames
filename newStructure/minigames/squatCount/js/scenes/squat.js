@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var squat = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var squat = function(){
                 json: "images/squat/atlas.json",
                 image: "images/squat/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -266,11 +273,20 @@ var squat = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/melodic_basss.mp3');
 		game.load.spine('yogotar',"images/spines/dinamita.json")
         
-		game.load.image('howTo',"images/squat/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/squat/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/squat/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/squat/introscreen.png")
+		game.load.image('introscreen',"images/squat/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		var inputName = 'movil'
+        
+		if(game.device.desktop){
+			inputName = 'desktop'
+        }
+
+
+		game.load.image('tutorial_image',"images/squat/tutorial_image_"+inputName+".png")
+		loadType(gameIndex)
+
         
     }
     
@@ -281,8 +297,10 @@ var squat = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -330,7 +348,12 @@ var squat = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	setNumber()
+    	overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

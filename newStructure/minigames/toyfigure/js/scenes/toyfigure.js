@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/toyfigure/";
+var tutorialPath = "../../shared/minigames/"
 
 var toyfigure = function(){
 
@@ -9,7 +10,13 @@ var toyfigure = function(){
                 name: "atlas.toy",
                 json: "images/toyfigure/atlas.json",
                 image: "images/toyfigure/atlas.png",
-			}],
+			},
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -104,9 +111,9 @@ var toyfigure = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		
 		/*GAME*/
 		game.load.image("background",imagePath + "background.png");
@@ -117,6 +124,10 @@ var toyfigure = function(){
 
 		/*SPINE*/
 		game.load.spine("dinamita", imagePath + "spine/dinamita.json");
+
+        game.load.image('tutorial_image',imagePath+"/tutorial_image.png")
+        loadType(gameIndex)
+
 
 		
 		

@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
 var stomake = function(){
     
     var localizationData = {
@@ -30,6 +31,12 @@ var stomake = function(){
                 json: "images/stomake/timeAtlas.json",
                 image: "images/stomake/timeAtlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -303,14 +310,16 @@ var stomake = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/musicVideogame9.mp3');
         
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
-		game.load.image('howTo',"images/stomake/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/stomake/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/stomake/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/stomake/introscreen.png")
+		game.load.image('introscreen',"images/stomake/introscreen.png")*/
         
         //game.load.spine("ship","images/Spine/ship/ship.json")
         game.load.spine("tomaguito","images/Spine/normal/normal.json")
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/stomake/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -319,8 +328,10 @@ var stomake = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -368,7 +379,13 @@ var stomake = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        generateThem()
+        startGame=true
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){
@@ -769,7 +786,7 @@ var stomake = function(){
                 
                 enemys3[generate25].alpha=1
                 enemys3[generate25].scale.setTo(0.7,0.7)
-                enemys3[generate25].position.x=game.world.centerX+75    0
+                enemys3[generate25].position.x=game.world.centerX+75
                 enemys3[generate25].position.y=-250;
                 enemy3Tween[generate25]=game.add.tween(enemys3[generate25]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
                 enemys3Active[generate25]=true;
