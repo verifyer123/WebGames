@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var divisubmarine = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var divisubmarine = function(){
                 json: "images/submarine/atlas.json",
                 image: "images/submarine/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -276,11 +283,13 @@ var divisubmarine = function(){
 		game.load.spine('monster',"images/spines/skeleton.json")
         game.load.audio('spaceSong', soundsPath + 'songs/space_bridge.mp3');
         
-		game.load.image('howTo',"images/submarine/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/submarine/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/submarine/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/submarine/introscreen.png")
+		game.load.image('introscreen',"images/submarine/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/submarine/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -289,8 +298,10 @@ var divisubmarine = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -336,7 +347,12 @@ var divisubmarine = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        showScene(true)
     }
     
     function releaseButton(obj){
