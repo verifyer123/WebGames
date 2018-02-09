@@ -86,7 +86,7 @@ var magicGate = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 15000
         
         loadSounds()
@@ -568,8 +568,26 @@ var magicGate = function(){
 			
 			missPoint()
 			createPart('wrong',resultImage)
+            sound.play("evilLaugh")
+            game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
 			
-			enterMonster()
+            if(lives !== 0){
+                for(var i = 0; i < 2;i++){
+                    towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
+                    towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
+                }
+                game.time.events.add(1000,function(){
+
+                    showButtons(false)
+                    game.time.events.add(1000,function(){
+                        showButtons(true)
+                    })
+
+                })
+            }
+            else{
+                enterMonster()
+            }
 		}
 		
 	}
@@ -589,7 +607,7 @@ var magicGate = function(){
 		
 		game.add.tween(operationGroup).to({alpha:0},500,"Linear",true)
 		
-		sound.play("evilLaugh")
+		//sound.play("evilLaugh")
 		
 		game.add.tween(monster).to({y:monster.y + 100},500,"Linear",true)
 		monster.setAnimationByName(0,"WIN",false)
@@ -816,8 +834,26 @@ var magicGate = function(){
 				tween.onComplete.add(function(){
 					
 					missPoint()
+                    sound.play("evilLaugh")
+                    game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
 					createPart('wrong',operationGroup.result.children[0])
-					enterMonster()
+                    if(lives !== 0){
+                        for(var i = 0; i < 2;i++){
+                            towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
+                            towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
+                        }
+                        game.time.events.add(1000,function(){
+
+                            showButtons(false)
+                            game.time.events.add(1000,function(){
+                                showButtons(true)
+                            })
+
+                        })
+                    }
+                    else{
+                        enterMonster()
+                    }
 				})
 				
 				clock.tween = tween
