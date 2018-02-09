@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var nacho = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var nacho = function(){
                 json: "images/nacho/atlas.json",
                 image: "images/nacho/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -279,11 +287,13 @@ var nacho = function(){
 		game.load.spine('yogotar', "images/spines/dinamita.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/la_fiesta.mp3');
         
-		game.load.image('howTo',"images/nacho/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/nacho/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/nacho/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/nacho/introscreen.png")
+		game.load.image('introscreen',"images/nacho/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/nacho/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -300,8 +310,10 @@ var nacho = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -346,9 +358,14 @@ var nacho = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
     }
     
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        showScene()
+    }
+
     function releaseButton(obj){
         
         obj.parent.children[1].alpha = 1

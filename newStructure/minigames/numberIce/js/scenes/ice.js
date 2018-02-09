@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var ice = function(){
     
     var localizationData = {
@@ -44,6 +45,12 @@ var ice = function(){
                 json: "images/ice/atlas.json",
                 image: "images/ice/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -457,9 +464,13 @@ var ice = function(){
         game.load.spine('oona', "images/spines/Oona.json")  
         game.load.audio('dojoSong', soundsPath + 'songs/childrenbit.mp3');
         
-        game.load.image('introscreen',"images/ice/introscreen.png")
+        /*game.load.image('introscreen',"images/ice/introscreen.png")
 		game.load.image('howTo',"images/ice/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/ice/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/ice/play" + localization.getLanguage() + ".png")*/
+
+		game.load.image('tutorial_image',"images/ice/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -480,8 +491,11 @@ var ice = function(){
 		
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
         rect.alpha = 0.6
@@ -527,8 +541,14 @@ var ice = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
         
+    }
+
+    function onClickPlay(){
+    	 overlayGroup.y = -game.world.height
+        gameActive = true
+		game.time.events.add(500, showGlobe , this);
     }
     
 	function createBackground(){

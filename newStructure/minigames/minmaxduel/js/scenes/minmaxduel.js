@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/minmaxduel/";
+var tutorialPath = "../../shared/minigames/"
 
 var minmaxduel = function(){
 
@@ -9,7 +10,13 @@ var minmaxduel = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+			 {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -92,6 +99,10 @@ var minmaxduel = function(){
 		game.load.image("bar",imagePath + "bar.png");
 		/*SPINE*/
 		//game.load.spine("helicoptero", imagePath + "spine/helicoptero.json");
+
+		game.load.image('tutorial_image',imagePath+"/tutorial_image.png")
+		loadType(gameIndex)
+
 
 	}
 

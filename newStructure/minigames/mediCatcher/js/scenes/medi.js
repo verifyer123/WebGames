@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var medi = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var medi = function(){
                 json: "images/medi/atlas.json",
                 image: "images/medi/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -272,11 +280,20 @@ var medi = function(){
 		game.load.spine('yogotar', "images/spines/skeleton.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/classic_arcade.mp3');
         
-		game.load.image('howTo',"images/medi/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/medi/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/medi/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/medi/introscreen.png")
+		game.load.image('introscreen',"images/medi/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		var inputName = 'movil'
+        
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+
+
+		game.load.image('tutorial_image',"images/medi/tutorial_image_"+inputName+".png")
+		loadType(gameIndex)
+
         
     }
     
@@ -347,8 +364,11 @@ var medi = function(){
         
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -395,8 +415,16 @@ var medi = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 		
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		gameActive = true
+
+		addObjects()
+		addItems()
     }
     
     function releaseButton(obj){
