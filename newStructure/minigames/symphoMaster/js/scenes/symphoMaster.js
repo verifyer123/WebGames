@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var symphoMaster = function(){
     
     var localizationData = {
@@ -26,7 +27,13 @@ var symphoMaster = function(){
                 name: "atlas.time",
                 json: "images/sympho/timeAtlas.json",
                 image: "images/sympho/timeAtlas.png"
+            },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         /*images: [
             {   name:"fondo",
@@ -215,11 +222,24 @@ var symphoMaster = function(){
 
         game.load.audio('symphoSong', soundsPath + 'songs/childrenbit.mp3');
         
-        game.load.image('introscreen',"images/sympho/introscreen.png")
+        /*game.load.image('introscreen',"images/sympho/introscreen.png")
         game.load.image('howTo',"images/sympho/how" + localization.getLanguage() + ".png")
-        game.load.image('buttonText',"images/sympho/play" + localization.getLanguage() + ".png")
+        game.load.image('buttonText',"images/sympho/play" + localization.getLanguage() + ".png")*/
+
+
 
         game.load.spritesheet("coin", 'images/sympho/coin.png', 122, 123, 12)
+
+
+        var inputName = 'movil'
+        
+        if(game.device.desktop){
+            inputName = 'desktop'
+        }
+
+
+        game.load.image('tutorial_image',"images/sympho/tutorial_image_"+inputName+".png")
+        loadType(gameIndex)
 
         buttons.getImages(game)
 
@@ -449,17 +469,11 @@ var symphoMaster = function(){
 
 
     function onClickPlay(rect) {
-        console.log('enter tuto')
-        rect.inputEnabled = false
-        sound.play("pop")
+        
+        tutoGroup.y = -game.world.height
+        inputsEnabled = true
+        setRound()
 
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.Linear.none,true).onComplete.add(function(){
-
-            tutoGroup.y = -game.world.height
-            inputsEnabled = true
-            setRound()
-            // startTimer(missPoint)
-        })
     }
     
     function update() {
@@ -475,8 +489,10 @@ var symphoMaster = function(){
         tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
+
+        createTutorialGif(tutoGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -515,7 +531,7 @@ var symphoMaster = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
     }
 
 
