@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var hungry = function(){
     
     var localizationData = {
@@ -27,6 +29,12 @@ var hungry = function(){
                 json: "images/hungry/atlas.json",
                 image: "images/hungry/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -399,11 +407,13 @@ var hungry = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/adventure.mp3');
         
 		game.load.spritesheet('bee', 'images/hungry/bee.png', 138, 169, 20);
-		game.load.image('howTo',"images/hungry/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/hungry/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/hungry/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/hungry/introscreen.png")
-		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('introscreen',"images/hungry/introscreen.png")*/
+		game.load.image('tutorial_image',"images/hungry/tutorial_image.png")
+		loadType(gameIndex)
+
+
         
     }
     
@@ -477,60 +487,16 @@ var hungry = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				setOperation()
-				showButtons(true)
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.hungry','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "18px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX - 60, game.world.centerY - 127, localization.getString(localizationData, "addition"), fontStyle)
-		pointsText.lineSpacing = -10
-		pointsText.anchor.setTo(0.5,0.5)
-        overlayGroup.add(pointsText)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.hungry',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.hungry','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+       
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		setOperation()
+		showButtons(true)
     }
     
     function releaseButton(obj){

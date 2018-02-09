@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var drzombie = function(){
     
     var localizationData = {
@@ -43,6 +45,12 @@ var drzombie = function(){
                 json: "images/zombie/atlas.json",
                 image: "images/zombie/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -321,9 +329,13 @@ var drzombie = function(){
         game.load.spine('zombie', "images/spines/zombies.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/space_bridge.mp3');
         
-		game.load.image('howTo',"images/zombie/tutorial/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/zombie/tutorial/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/zombie/tutorial/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/zombie/tutorial/introscreen.png")
+		game.load.image('introscreen',"images/zombie/tutorial/introscreen.png")*/
+
+		game.load.image('tutorial_image',"images/zombie/tutorial_image.png")
+		loadType(gameIndex)
+
 		
 		game.load.spritesheet('zombie', 'images/zombie/spriteSheets/zombie.png', 589, 554, 13);
 		
@@ -445,55 +457,16 @@ var drzombie = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				gameActive = true
-				
-				setOrgans()
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		gameActive = true
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.zombie','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		//console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.zombie',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.zombie','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		setOrgans()
     }
     
     function releaseButton(obj){

@@ -1,6 +1,8 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
+
 var galaxyJumper = function(){
     
     var localizationData = {
@@ -30,6 +32,12 @@ var galaxyJumper = function(){
                 json: "images/galaxy/timeAtlas.json",
                 image: "images/galaxy/timeAtlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -302,9 +310,13 @@ var galaxyJumper = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/8-bit-Video-Game.mp3');
         
-		game.load.image('howTo',"images/galaxy/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/galaxy/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/galaxy/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/galaxy/introscreen.png")
+		game.load.image('introscreen',"images/galaxy/introscreen.png")*/
+
+        game.load.image('tutorial_image',"images/galaxy/tutorial_image.png")
+        loadType(gameIndex)
+
         
         game.load.spine("planets","images/Spine/planets/planets.json")
 		
@@ -317,8 +329,10 @@ var galaxyJumper = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -366,7 +380,15 @@ var galaxyJumper = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        activePlanets=true
+
+        startGame=true
+
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){
