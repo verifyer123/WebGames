@@ -109,7 +109,7 @@ var galaxy = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		planetSpeed = 0.5
 		monsterNumber = 5
 		indexPlanet = 0
@@ -777,6 +777,8 @@ var galaxy = function(){
 		}else{
 			
 			missPoint()
+            yogotarShip.setAnimationByName(0,"ABDUCTION",true)
+            yogotarShip.addAnimationByName(0,"IDLE",true)
 		}
 	}
 	
