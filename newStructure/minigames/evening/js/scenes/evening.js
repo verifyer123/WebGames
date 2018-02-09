@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var evening = function(){
     
     var localizationData = {
@@ -28,6 +30,12 @@ var evening = function(){
                 json: "images/evening/atlas.json",
                 image: "images/evening/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -293,11 +301,13 @@ var evening = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         
 		game.load.spritesheet('sleepStar', 'images/evening/starSprite.png', 99, 97, 23);
-		game.load.image('howTo',"images/evening/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/evening/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/evening/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/evening/introscreen.png")
+		game.load.image('introscreen',"images/evening/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/evening/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
 	
@@ -335,8 +345,10 @@ var evening = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+       /* var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -396,7 +408,18 @@ var evening = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        gameActive = true
+        
+        var delay = 200
+        for(var i = 0; i < 3; i++){
+            delayAdd(usedObjects.rows[i*2],delay)
+            delay+=300
+        }
     }
     
     function releaseButton(obj){

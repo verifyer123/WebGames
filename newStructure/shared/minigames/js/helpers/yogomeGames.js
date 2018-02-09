@@ -46,10 +46,10 @@ var yogomeGames = function () {
 			{name:'Nutricanon',url:urlSet + 'nutriCanon/',mapUrl:urlMap + 'nutriCanon', sceneName:'nutri',subject:'health',review:true,objective:20,demo:false,type:gameTypeEnum.TARGET},
 			{name:'Microdefender',url:urlSet + 'microdefender/',mapUrl:urlMap + 'microdefender', sceneName:'microdefender',subject:'health',review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Healthy Collector',url:urlSet + 'healthyCollector/',mapUrl:urlMap + 'healthyCollector', sceneName:'healthyCollector',subject:'health',review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},
-			{name:'Croak Song',url:urlSet + 'CroakSong/',mapUrl:urlMap + 'CroakSong', sceneName:'CroakSong',subject:'creativity',review:true,objective:40,demo:false,type:gameTypeEnum.CHOOSE},
+			{name:'Croak Song',url:urlSet + 'CroakSong/',mapUrl:urlMap + 'CroakSong', sceneName:'CroakSong',subject:'creativity',review:true,objective:40,demo:false,type:gameTypeEnum.SEQUENCE},
 			{name:'Tilt Sprout',url:urlSet + 'tiltSprout/',mapUrl:urlMap + 'tiltSprout', sceneName:'tilt',subject:'science',review:true,objective:10,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Culture Icons',url:urlSet + 'cultureIcons/',mapUrl:urlMap + 'cultureIcons', sceneName:'culture',subject:'geography',review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
-			{name:'Dizzy Boat',url:urlSet + 'dizzyBoat/',mapUrl:urlMap + 'dizzyBoat', sceneName:'dizzy',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
+			{name:'Dizzy Boat',url:urlSet + 'dizzyBoat/',mapUrl:urlMap + 'dizzyBoat', sceneName:'dizzy',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.TARGET},
 			{name:'Flag Collector',url:urlSet + 'flagCollector/',mapUrl:urlMap + 'flagCollector', sceneName:'flagCollector',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Medicatcher',url:urlSet + 'mediCatcher/',mapUrl:urlMap + 'mediCatcher', sceneName:'medi',subject:'health',review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Wild Snaps',url:urlSet + 'wildSnaps/',mapUrl:urlMap + 'wildSnaps', sceneName:'wild',subject:'creativity',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
@@ -63,7 +63,7 @@ var yogomeGames = function () {
 			{name:'Bouncy Bath',url:urlSet + 'bouncybath/',mapUrl:urlMap + 'bouncybath', sceneName:'bouncybath',subject:'health',review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//33
 			{name:'Acorn Numbers',url:urlSet + 'acornNumbers/',mapUrl:urlMap + 'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},//34
 			{name:'Popsteroids',url:urlSet + 'popSteroids/',mapUrl:urlMap + 'popSteroids', sceneName:'popScene',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//35
-			{name:'Candy Shapes',url:urlSet + 'candyShapes/',mapUrl:urlMap + 'candyShapes', sceneName:'candy',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//36
+			{name:'Candy Shapes',url:urlSet + 'candyShapes/',mapUrl:urlMap + 'candyShapes', sceneName:'candy',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//36
 			{name:'Feather Shelter',url:urlSet + 'featherShelter/',mapUrl:urlMap + 'featherShelter', sceneName:'feather',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//37
 			{name:'Math Circus',url:urlSet + 'mathCircus/',mapUrl:urlMap + 'mathCircus', sceneName:'circus',subject:'math',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//38
 			{name:'Flight o Clock',url:urlSet + 'flightoclock/',mapUrl:urlMap + 'flightoclock', sceneName:'flightoclock',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//39
@@ -72,7 +72,7 @@ var yogomeGames = function () {
 			{name:'Pizza Fraction',url:urlSet + 'pizzafraction/',mapUrl:urlMap + 'pizzafraction', sceneName:'pizzafraction',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//42
 			{name:'Hungry Toads',url:urlSet + 'hungryToads/',mapUrl:urlMap + 'hungryToads', sceneName:'hungry',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//43
 			{name:'Sky Tap',url:urlSet + 'skyTap/',mapUrl:urlMap + 'skyTap', sceneName:'sky',subject:'math' ,review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//44
-			{name:'Evening',url:urlSet + 'evening/',mapUrl:urlMap + 'evening', sceneName:'evening',subject:'math', review:true,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//45
+			{name:'Evening',url:urlSet + 'evening/',mapUrl:urlMap + 'evening', sceneName:'evening',subject:'math', review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//45
 			{name:'Minmax Duel',url:urlSet + 'minmaxduel/',mapUrl:urlMap + 'minmaxduel', sceneName:'minmaxduel',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//46
 			{name:'Math Invader',url:urlSet + 'mathInvader/',mapUrl:urlMap + 'mathInvader', sceneName:'invader',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//47
 			{name:'Locksmath',url:urlSet + 'locksmath/',mapUrl:urlMap + 'locksmath', sceneName:'lock',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.MATCH},//48
@@ -90,7 +90,7 @@ var yogomeGames = function () {
 			{name:'Seaquence',url:urlSet + 'seaquence/',mapUrl:urlMap + 'seaquence', sceneName:'seaquence',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//60
 			{name:'Clock Fix',url:urlSet + 'clockfix/',mapUrl:urlMap + 'clockfix', sceneName:'clockfix',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},//61
 			{name:'Math Engine',url:urlSet + 'mathEngine/',mapUrl:urlMap + 'mathEngine', sceneName:'engine',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//62
-			{name:'Astronometric',url:urlSet + 'astronoMetric/',mapUrl:urlMap + 'astronoMetric', sceneName:'astrono',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//63
+			{name:'Astronometric',url:urlSet + 'astronoMetric/',mapUrl:urlMap + 'astronoMetric', sceneName:'astrono',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.TRACE},//63
 			{name:'Jumptiply',url:urlSet + 'jumptiply/',mapUrl:urlMap + 'jumptiply', sceneName:'jump',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//64
 			{name:'Swamp Shapes',url:urlSet + 'swampShape/',mapUrl:urlMap + 'swampShape', sceneName:'swampShape',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//65
 			{name:'Duck Count',url:urlSet + 'duckCount/',mapUrl:urlMap + 'duckCount', sceneName:'duck',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//66
@@ -100,7 +100,7 @@ var yogomeGames = function () {
 			{name:'Geometry Warp',url:urlSet + 'geometryWarp/',mapUrl:urlMap + 'geometryWarp', sceneName:'geometry',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//70
 			{name:'Mathrioska',url:urlSet + 'mathrioska/',mapUrl:urlMap + 'mathrioska', sceneName:'mathrioska',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//71
 			{name:'Aracnumber',url:urlSet + 'aracnumber/',mapUrl:urlMap + 'aracnumber', sceneName:'aracnumber',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},//72
-			{name:'Dusk Defense',url:urlSet + 'duskDefense/',mapUrl:urlMap + 'duskDefense', sceneName:'dusk',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//73
+			{name:'Dusk Defense',url:urlSet + 'duskDefense/',mapUrl:urlMap + 'duskDefense', sceneName:'dusk',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.TARGET},//73
 			{name:'zucaritas',url:urlSet + 'zucaritas/',mapUrl:urlMap + 'zucaritas', sceneName:'zucaritas',subject:'geography', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//74 K
 			{name:'Divisubmarine',url:urlSet + 'diviSubmarine/',mapUrl:urlMap + 'diviSubmarine', sceneName:'divisubmarine',subject:'math', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//75
 			{name:'Sushi Towers',url:urlSet + 'sushiTowers/',mapUrl:urlMap + 'sushiTowers', sceneName:'sushi',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//76
@@ -131,7 +131,7 @@ var yogomeGames = function () {
 			{name:'Garbage Diving',url:urlSet + 'garbageDiving/',mapUrl:urlMap + 'garbageDiving', sceneName:'garbageDiving',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//101
 			{name:'Space Vaccum',url:urlSet + 'spaceVaccum/',mapUrl:urlMap + 'spaceVaccum', sceneName:'spaceVaccum',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.CHOOSE},//102
 			{name:'Garbage Mole',url:urlSet + 'garbageMole/',mapUrl:urlMap + 'garbageMole', sceneName:'mole',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//103
-			{name:'Elemental Witch',url:urlSet + 'elementalWitch/',mapUrl:urlMap + 'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},//104
+			{name:'Elemental Witch',url:urlSet + 'elementalWitch/',mapUrl:urlMap + 'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true,type:gameTypeEnum.MATCH},//104
 			{name:'Milky Saloon',url:urlSet + 'milkySaloon/',mapUrl:urlMap + 'milkySaloon', sceneName:'milky',subject:'coding', review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//105
 			{name:'Calendrigon',url:urlSet + 'calendrigon/',mapUrl:urlMap + 'calendrigon', sceneName:'calendrigon',subject:'math', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//106
             {name:'Symfunny',url:urlSet + 'symfunny/',mapUrl:urlMap + 'symfunny', sceneName:'symfunny',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},//107

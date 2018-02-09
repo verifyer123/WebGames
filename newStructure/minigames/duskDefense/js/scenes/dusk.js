@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var dusk = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var dusk = function(){
                 json: "images/dusk/atlas.json",
                 image: "images/dusk/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -271,11 +279,13 @@ var dusk = function(){
 		game.load.spine('zombie', "images/spines/zombie.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
         
-		game.load.image('howTo',"images/dusk/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/dusk/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/dusk/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/dusk/introscreen.png")
+		game.load.image('introscreen',"images/dusk/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/dusk/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -425,6 +435,9 @@ var dusk = function(){
 		coordIndicator.y = 100
 		coordIndicator.alpha = 0
 		sceneGroup.add(coordIndicator)
+
+
+
 		
 		var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -445,8 +458,10 @@ var dusk = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -491,7 +506,12 @@ var dusk = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		game.time.events.add(1000,sendZombies)
     }
     
     function releaseButton(obj){
