@@ -71,7 +71,7 @@ var stack = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		indexBar = 0
 		indexButton = 0
 		timeToUse = 10000
@@ -685,6 +685,27 @@ var stack = function(){
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
 		clock.tween.onComplete.add(function(){
 			missPoint()
+            var bar = getBar(indexButton)
+            var question = bar.question
+            game.add.tween(question).to({alpha:0},500,"Linear",true)
+            
+            if(lives !== 0){
+                indexButton++
+                game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+                game.time.events.add(750,function(){
+
+                    sound.play("cut")
+                    bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
+
+                    barsGroup.remove(bar)
+                    barsGroup.add(bar)
+
+                    barsGroup.pivotY+= bar.height * 0.8
+                    sendBar(bar,barsGroup.pivotY,0,0)
+                    moveBars()
+
+                })
+            }
 		})
 		
 	}
@@ -719,27 +740,28 @@ var stack = function(){
 			addPoint(1)
 			createPart('star',question)
 			
-			game.time.events.add(750,function(){
-				
-				sound.play("cut")
-				bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
-				
-				barsGroup.remove(bar)
-				barsGroup.add(bar)
-			
-				barsGroup.pivotY+= bar.height * 0.8
-				sendBar(bar,barsGroup.pivotY,0,0)
-				moveBars()
-				
-			})
-			
 		}else{
 			
 			missPoint()
 			createPart('wrong',question)
+            
 		}
 		
-		
+        if(lives !== 0){
+            game.time.events.add(750,function(){
+
+                sound.play("cut")
+                bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
+
+                barsGroup.remove(bar)
+                barsGroup.add(bar)
+
+                barsGroup.pivotY+= bar.height * 0.8
+                sendBar(bar,barsGroup.pivotY,0,0)
+                moveBars()
+
+            })
+        }
 	}
 	
 	function getBar(index){
