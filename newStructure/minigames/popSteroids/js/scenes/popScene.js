@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var popScene = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var popScene = function(){
                 json: "images/pop/atlas.json",
                 image: "images/pop/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -293,11 +301,13 @@ var popScene = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
 		game.load.spine('yogotar', "images/spines/skeleton.json") 
         
-		game.load.image('howTo',"images/pop/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/pop/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/pop/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/pop/introscreen.png")
+		game.load.image('introscreen',"images/pop/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/pop/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -307,8 +317,10 @@ var popScene = function(){
 		
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -357,7 +369,15 @@ var popScene = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	addAsteroids(8)
+		overlayGroup.y = -game.world.height
+		gameActive = true
+		
+		Phaser.ArrayUtils.shuffle(colorsToUse)
     }
     
     function releaseButton(obj){

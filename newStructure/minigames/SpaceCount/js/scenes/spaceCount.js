@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/spaceCount/";
+var tutorialPath = "../../shared/minigames/"
 
 var spaceCount = function(){
 
@@ -9,7 +10,13 @@ var spaceCount = function(){
                 name: "atlas.space",
                 json: "images/spaceCount/atlas.json",
                 image: "images/spaceCount/atlas.png"
-			}],
+			},
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [
             {
                 name: "okBtn",
@@ -96,9 +103,9 @@ var spaceCount = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
         
 		game.load.image('star',imagePath + "star.png");
         game.load.image('wrong',imagePath + "wrong.png");
@@ -106,6 +113,9 @@ var spaceCount = function(){
 
         /*SPINE*/
 		game.load.spine("eagle", imagePath + "spine/ship.json");
+
+        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+        loadType(gameIndex)
 
 		
 		

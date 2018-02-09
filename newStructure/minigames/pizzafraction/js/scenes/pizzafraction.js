@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/pizzafraction/";
+var tutorialPath = "../../shared/minigames/"
+
 
 var pizzafraction = function(){
 
@@ -9,7 +11,13 @@ var pizzafraction = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -90,6 +98,17 @@ var pizzafraction = function(){
 		game.load.image("wrong",imagePath + "wrong.png");		
 		/*SPINE*/
 		game.load.spine("yogotar", imagePath + "spine/skeleton.json");
+
+		var inputName = 'movil'
+        
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+
+
+		game.load.image('tutorial_image',imagePath+"tutorial_image_"+inputName+".png")
+		loadType(gameIndex)
+
 
 	}
 

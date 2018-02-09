@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var sky = function(){
 
     var localizationData = {
@@ -21,7 +22,13 @@ var sky = function(){
                 name: "atlas.sky",
                 json: "images/sky/atlas.json",
                 image: "images/sky/atlas.png"
+            },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
             {   name:"fondo",
@@ -530,15 +537,19 @@ var sky = function(){
         game.stage.disableVisibilityChange = false;
         game.load.audio('skySong', soundsPath + 'songs/upbeat_casual_8.mp3');
 
-        game.load.image('introscreen',"images/sky/introscreen.png")
+        /*game.load.image('introscreen',"images/sky/introscreen.png")
         game.load.image('howTo',"images/sky/how" + localization.getLanguage() + ".png")
-        game.load.image('buttonText',"images/sky/play" + localization.getLanguage() + ".png")
+        game.load.image('buttonText',"images/sky/play" + localization.getLanguage() + ".png")*/
 
         game.load.image('clouds',"images/sky/cloud.png")
         game.load.spritesheet('b_flying', 'images/sky/idle.png', 26, 125, 20)
         game.load.spine('owl', "images/spine/owl.json")
 
         buttons.getImages(game)
+
+        game.load.image('tutorial_image',"images/sky/tutorial_image.png")
+        loadType(gameIndex)
+
 
     }
 
@@ -636,12 +647,10 @@ var sky = function(){
     }
 
     function onClickPlay(rect) {
-        rect.inputEnabled = false
-        sound.play("pop")
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-            tutoGroup.y = -game.world.height
-            startRound()
-        })
+       
+        tutoGroup.y = -game.world.height
+        startRound()
+        
     }
 
     function createTutorial(){
@@ -650,7 +659,9 @@ var sky = function(){
         //overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        var rect = new Phaser.Graphics(game)
+        createTutorialGif(tutoGroup,onClickPlay)
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -689,7 +700,7 @@ var sky = function(){
         button.anchor.setTo(0.5,0.5)
 
         var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-        playText.anchor.setTo(0.5,0.5)
+        playText.anchor.setTo(0.5,0.5)*/
     }
     
     function createSkyUI() {
