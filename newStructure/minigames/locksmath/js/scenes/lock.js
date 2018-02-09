@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var lock = function(){
 
 	var localizationData = {
@@ -21,7 +23,13 @@ var lock = function(){
 				name: "atlas.lock",
 				json: "images/lock/atlas.json",
 				image: "images/lock/atlas.png"
-			}
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
 		],
 		images: [
 			{   name:"fondowin",
@@ -603,6 +611,10 @@ var lock = function(){
 
 		buttons.getImages(game)
 
+		game.load.image('tutorial_image',"images/lock/tutorial_image.png")
+		loadType(gameIndex)
+
+
 	}
 
 	function addNumberPart(obj,number){
@@ -761,16 +773,12 @@ var lock = function(){
 	}
 
 	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
-			tutoGroup.y = -game.world.height
-			// sceneGroup.callback = startLose
-			// loseGroup.alpha = 1
-			// openDoors(sceneGroup)
-			startRound()
-		})
+		tutoGroup.y = -game.world.height
+		// sceneGroup.callback = startLose
+		// loseGroup.alpha = 1
+		// openDoors(sceneGroup)
+		startRound()
 	}
 
 	function createTutorial(){
@@ -779,46 +787,9 @@ var lock = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			onClickPlay(rect)
+		createTutorialGif(tutoGroup,onClickPlay)
 
-		})
-
-		tutoGroup.add(rect)
-
-		var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-		plane.anchor.setTo(0.5,0.5)
-
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.lock','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-
-		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-
-		var inputName = 'movil'
-
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.lock',inputName)
-		inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.lock','button')
-		button.anchor.setTo(0.5,0.5)
-
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		
 	}
 
 	function createClock(){

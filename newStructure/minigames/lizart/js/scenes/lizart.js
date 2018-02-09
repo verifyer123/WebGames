@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var imagePath = "images/lizart/"
+var tutorialPath = "../../shared/minigames/"
+
 var lizart = function(){
 
 	assets = {
@@ -8,7 +10,13 @@ var lizart = function(){
                 //name: "atlas.lizart",
                 //json: "images/lizart/atlas.json",
                 //image: "images/lizart/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+			],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -96,9 +104,9 @@ var lizart = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	*/
 		game.load.image("shadowLizar", imagePath + "shadow.png");
 		game.load.image("tree", imagePath +"tree.png");
 		game.load.image("piso", imagePath +"piso.png");
@@ -113,6 +121,10 @@ var lizart = function(){
 			game.load.image("fruit" + d, imagePath + "fruit" + d + ".png");
 		}
 		buttons.getImages(game);
+
+		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+		loadType(gameIndex)
+
 	}
 
 	function loadSounds(){
@@ -155,6 +167,9 @@ var lizart = function(){
 		
         sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
         overlayGroup = game.add.group()
+
+        
+
 		if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
 		}else{
@@ -162,7 +177,11 @@ var lizart = function(){
 		}
 		
         sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+
+       /* var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -227,8 +246,24 @@ var lizart = function(){
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
     }	
+
+    function onClickPlay(){
+    	 overlayGroup.y = -game.world.height
+		TweenMax.to(idleEyes,0.5,{alpha:1});
+		TweenMax.to(idleBody,1,{alpha:1,tint:0xb7b7b7,delay:1,onComplete:keepBallon});
+		
+		bgm = game.add.audio('wormwood')
+            game.sound.setDecodedCallback(bgm, function(){
+            }, this);
+		
+		bgm.loopFull(0.5);
+		starGame = true;
+		buttons.getButton(bgm,sceneGroup)
+				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
+       
+    }
 	
 	function createHearts(){
 		heartsGroup = game.add.group();
