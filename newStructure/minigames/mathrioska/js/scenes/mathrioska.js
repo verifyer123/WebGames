@@ -78,7 +78,7 @@ var mathrioska = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		dollToUse = null
 		indexDoll = 0
 		timeToUse = 20000
@@ -301,6 +301,8 @@ var mathrioska = function(){
 			clock.tween.onComplete.add(function(){
 				missPoint()
 				createPart('wrong',dragButton)
+                if(lives !== 0)
+                    showScene()
 			})
 			
 		})
@@ -765,6 +767,9 @@ var mathrioska = function(){
 					//console.log(dollToUse.result + ' result ' + number.number + ' number')
 					missPoint()
 					createPart('wrong',number)
+                    if(lives !== 0){
+                        showScene()
+                    }
 				}
 			}
 		}
