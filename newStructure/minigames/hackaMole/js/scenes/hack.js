@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var hack = function(){
     
     var localizationData = {
@@ -32,6 +34,12 @@ var hack = function(){
                 json: "images/hack/atlas.json",
                 image: "images/hack/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -347,9 +355,13 @@ var hack = function(){
         game.load.spine('topo', "images/spines/front.json")  
         game.load.audio('medievalSong', soundsPath + 'songs/upbeat_casual_8.mp3');
         
-		game.load.image('howTo',"images/hack/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/hack/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/hack/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/hack/introscreen.png")
+		game.load.image('introscreen',"images/hack/introscreen.png")*/
+
+		game.load.image('tutorial_image',"images/hack/tutorial_image.png")
+		loadType(gameIndex)
+
 		        
     }
 	
@@ -506,8 +518,11 @@ console.log(buttonsGroup.length)
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -567,8 +582,23 @@ console.log(buttonsGroup.length)
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 		
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		gameActive = true
+		
+		game.time.events.add(1000,startTutorial)
+		
+		var delay = 100
+		for(var i = 0; i < 4; i++){
+			game.time.events.add(delay,addButton)
+			delay+=100	
+		}	
+		
+		addObject('carrot')
     }
 	
 	function checkShield(){

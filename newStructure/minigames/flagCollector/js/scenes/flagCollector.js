@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var flagCollector = function(){
     
     var localizationData = {
@@ -63,7 +64,13 @@ var flagCollector = function(){
                 name: "atlas.flag",
                 json: "images/flag/atlas.json",
                 image: "images/flag/atlas.png"
+            },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
             {   name:"fondo",
@@ -490,9 +497,13 @@ var flagCollector = function(){
         game.stage.disableVisibilityChange = false;
         game.load.audio('dojoSong', soundsPath + 'songs/wormwood.mp3');
         
-        game.load.image('introscreen',"images/flag/introscreen.png")
+        /*game.load.image('introscreen',"images/flag/introscreen.png")
 		game.load.image('howTo',"images/flag/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/flag/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/flag/play" + localization.getLanguage() + ".png")*/
+
+        game.load.image('tutorial_image',"images/flag/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
 
@@ -601,13 +612,11 @@ var flagCollector = function(){
     }
 
     function onClickPlay(rect) {
-        rect.inputEnabled = false
-        sound.play("pop")
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+        
 
-            tutoGroup.y = -game.world.height
-            startTimer(missPoint)
-        })
+        tutoGroup.y = -game.world.height
+        startTimer(missPoint)
+
     }
 
     function createTutorial(){
@@ -615,8 +624,11 @@ var flagCollector = function(){
         tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
+
+        createTutorialGif(tutoGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -655,7 +667,7 @@ var flagCollector = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function createClock(){

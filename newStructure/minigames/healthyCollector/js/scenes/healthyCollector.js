@@ -1,4 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var healthyCollector = function(){
 
 	assets = {
@@ -7,7 +9,13 @@ var healthyCollector = function(){
                 //name: "atlas.healthyCollector",
                 //json: "images/healthyCollector/atlas.json",
                 //image: "images/healthyCollector/atlas.png",
-			}],
+			},
+			 {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+			],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -97,14 +105,17 @@ var healthyCollector = function(){
 		game.load.image("starPart", "images/healthyCollector/starPart.png");
 		game.load.image("wrongPart", "images/healthyCollector/wrongPart.png");	
 		game.load.image('gametuto',"images/healthyCollector/gametuto.png");
-		game.load.image('introscreen',"images/healthyCollector/introscreen.png");
+		//game.load.image('introscreen',"images/healthyCollector/introscreen.png");
 		game.load.image('bgclock',"images/healthyCollector/bgclock.png");
-		game.load.image('buttonPlay',"images/healthyCollector/button.png");		game.load.image('pc',"images/healthyCollector/desktop.png");
-		game.load.image('howTo',"images/healthyCollector/how"  + localization.getLanguage()  + ".png");
+		//game.load.image('buttonPlay',"images/healthyCollector/button.png");		game.load.image('pc',"images/healthyCollector/desktop.png");
+		//game.load.image('howTo',"images/healthyCollector/how"  + localization.getLanguage()  + ".png");
 		game.load.image('buttonText',"images/healthyCollector/play" + localization.getLanguage() + ".png");		
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
 		game.load.spritesheet('glow', 'images/healthyCollector/glow.png', 170, 141, 11);
 		buttons.getImages(game);
+		game.load.image('tutorial_image',"images/healthyCollector/tutorial_image.png")
+		loadType(gameIndex)
+
 	}
 
 	function loadSounds(){
@@ -141,7 +152,9 @@ var healthyCollector = function(){
 		}
 		
         sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -200,8 +213,22 @@ var healthyCollector = function(){
 		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'buttonPlay')
 		button.anchor.setTo(0.2,0.5)
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText');
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
     }	
+
+    function onClickPlay(){
+
+		overlayGroup.y = -game.world.height
+		
+		bgm = game.add.audio('wormwood');
+            game.sound.setDecodedCallback(bgm, function(){
+            }, this);
+		
+		bgm.loopFull(0.5);
+		starGame = true;
+		buttons.getButton(bgm,sceneGroup)
+
+    }
 	
 	function createHearts(){
 		heartsGroup = game.add.group();
