@@ -67,7 +67,8 @@ var jump = function(){
 	var floorGroup, yogotar
 	var board
 	var timeToUse,result
-
+    var firstToing
+    
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -75,7 +76,7 @@ var jump = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 15000
         
         loadSounds()
@@ -620,8 +621,6 @@ var jump = function(){
 				game.add.tween(yogotar).to({x:obj.world.x},1000,"Linear",true)
 				game.add.tween(yogotar).to({y:obj.world.y - 50},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					game.add.tween(yogotar).to({y:obj.world.y + 130},500,Phaser.Easing.Cubic.Out,true,500).onComplete.add(function(){
-					
-						yogotar.setAnimationByName(0,"JUMP",true)
 						
 						sound.play("throw")
 						var tween = game.add.tween(parent.toing.scale).to({y:0.6},200,"Linear",true)
@@ -632,28 +631,51 @@ var jump = function(){
 						
 						tween.onComplete.add(function(){
 							
-							game.add.tween(yogotar).to({x:game.world.centerX, y: game.world.centerY,angle:yogotar.angle + 360},500,"Linear",true)
-							game.add.tween(yogotar.scale).to({x:3,y:3},500,"Linear",true).onComplete.add(function(){
-								
-								var rect = new Phaser.Graphics(game)
-								rect.beginFill(0xffffff)
-								rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-								rect.alpha = 0
-								rect.endFill()
-								sceneGroup.add(rect)
-								
-								game.add.tween(rect).from({alpha:1},500,"Linear",true)
-								
-								game.add.tween(yogotar).to({y:yogotar.y + 200},2000,"Linear",true)
-								
-								sound.play("glassbreak")
-								
-								var glass = sceneGroup.create(yogotar.x, yogotar.y - 150,'atlas.jump','brokenglass')
-								glass.anchor.setTo(0.5,0.5)
-								glass.scale.setTo(3,3)
-								
-							})
-							
+                            if(lives !== 0){
+                                yogotar.setAnimationByName(0,"LOSE",false)
+                                background.fall = true
+                                sound.play("powerup")
+
+                                game.add.tween(yogotar).to({x:game.world.centerX - 200,angle:yogotar.angle - 360},1200,"Linear",true)
+                                var tween = game.add.tween(yogotar).to({y:yogotar.y - 200},900,"Linear",true)
+                                tween.yoyo(true,0)
+                                tween.onComplete.add(function(){
+                                    yogotar.setAnimationByName(0,"IDLE",true)
+
+                                    showScene(true)
+                                })
+
+                                game.add.tween(floorGroup).to({y:game.world.height + 300},500,"Linear",true).onComplete.add(function(){
+                                    floorGroup.y = -300
+                                    game.add.tween(floorGroup).to({y:game.world.height - 100},700,"Linear",true).onComplete.add(function(){
+                                        background.fall = false
+                                    })
+                                })
+                            }
+                            else{
+                                game.add.tween(yogotar).to({x:game.world.centerX, y: game.world.centerY,angle:yogotar.angle + 360},500,"Linear",true)
+                                game.add.tween(yogotar.scale).to({x:3,y:3},500,"Linear",true).onComplete.add(function(){
+
+                                    var rect = new Phaser.Graphics(game)
+                                    rect.beginFill(0xffffff)
+                                    rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+                                    rect.alpha = 0
+                                    rect.endFill()
+                                    sceneGroup.add(rect)
+
+                                    game.add.tween(rect).from({alpha:1},500,"Linear",true)
+
+                                    game.add.tween(yogotar).to({y:yogotar.y + 200},2000,"Linear",true)
+
+                                    sound.play("glassbreak")
+
+                                    var glass = sceneGroup.create(yogotar.x, yogotar.y - 150,'atlas.jump','brokenglass')
+                                    glass.anchor.setTo(0.5,0.5)
+                                    glass.scale.setTo(3,3)
+
+                                })
+                            }
+                            
 							yogotar.setAnimationByName(0,"LOSE",false)
 							
 							//yogotar.addAnimationByName(0,"LOSESTILL",false)
@@ -663,7 +685,6 @@ var jump = function(){
 				})
 				
 			})
-			
 		}
 	}
 	
@@ -720,6 +741,8 @@ var jump = function(){
 			pivotX+= 150
 		}
 		
+        firstToing = floorGroup.children[1].toing
+        
 		yogotar = game.add.spine(game.world.centerX - 200,game.world.height - 175,'yogotar')
 		yogotar.setSkinByName('nao')
 		yogotar.setAnimationByName(0,"IDLE",true)
@@ -834,7 +857,7 @@ var jump = function(){
 				clock.bar.scale.x = clock.bar.origScale
 				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
 				clock.tween.onComplete.add(function(){
-					missPoint()
+					timeUp()
 				})
 			})
 			
@@ -847,6 +870,99 @@ var jump = function(){
 			
 		}
 	}
+    
+    function timeUp(){
+        
+        missPoint()
+        
+        var particle = lookParticle('wrong')
+		
+        if(particle){
+            
+            particle.x = yogotar.x 
+            particle.y = yogotar.y
+            particle.scale.setTo(1,1)
+            particle.start(true, 1500, null, 6);
+			
+			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
+				deactivateParticle(particle,0)
+			})
+			
+        }
+
+        game.time.events.add(500,function(){
+            showScene(false)
+
+            sound.play("cut")
+
+            yogotar.setAnimationByName(0,"JUMP",true)
+
+            game.add.tween(yogotar).to({y:yogotar.y - 50},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+                game.add.tween(yogotar).to({y:yogotar.y + 50},500,Phaser.Easing.Cubic.Out,true,500).onComplete.add(function(){
+
+                    sound.play("throw")
+                    var tween = game.add.tween(firstToing.scale).to({y:0.6},200,"Linear",true)
+				    tween.yoyo(true,0)
+
+                    var tween = game.add.tween(yogotar).to({y:yogotar.y + 25},200,"Linear",true)
+                    tween.yoyo(true,0)
+
+                    tween.onComplete.add(function(){
+
+                        if(lives !== 0){
+                            yogotar.setAnimationByName(0,"LOSE",false)
+                            background.fall = true
+                            sound.play("powerup")
+
+                            game.add.tween(yogotar).to({x:game.world.centerX - 200,angle:yogotar.angle - 360},1200,"Linear",true)
+                            var tween = game.add.tween(yogotar).to({y:yogotar.y - 200},900,"Linear",true)
+                            tween.yoyo(true,0)
+                            tween.onComplete.add(function(){
+                                yogotar.setAnimationByName(0,"IDLE",true)
+
+                                showScene(true)
+                            })
+
+                            game.add.tween(floorGroup).to({y:game.world.height + 300},500,"Linear",true).onComplete.add(function(){
+                                floorGroup.y = -300
+                                game.add.tween(floorGroup).to({y:game.world.height - 100},700,"Linear",true).onComplete.add(function(){
+                                    background.fall = false
+                                })
+                            })
+                        }
+                        else{
+                            game.add.tween(yogotar).to({x:game.world.centerX, y: game.world.centerY,angle:yogotar.angle + 360},500,"Linear",true)
+                            game.add.tween(yogotar.scale).to({x:3,y:3},500,"Linear",true).onComplete.add(function(){
+
+                                var rect = new Phaser.Graphics(game)
+                                rect.beginFill(0xffffff)
+                                rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+                                rect.alpha = 0
+                                rect.endFill()
+                                sceneGroup.add(rect)
+
+                                game.add.tween(rect).from({alpha:1},500,"Linear",true)
+
+                                game.add.tween(yogotar).to({y:yogotar.y + 200},2000,"Linear",true)
+
+                                sound.play("glassbreak")
+
+                                var glass = sceneGroup.create(yogotar.x, yogotar.y - 150,'atlas.jump','brokenglass')
+                                glass.anchor.setTo(0.5,0.5)
+                                glass.scale.setTo(3,3)
+
+                            })
+                        }
+
+                        yogotar.setAnimationByName(0,"LOSE",false)
+
+                        //yogotar.addAnimationByName(0,"LOSESTILL",false)
+
+                    })
+                })
+            })
+        })
+    }
 	
 	function createClock(){
 		

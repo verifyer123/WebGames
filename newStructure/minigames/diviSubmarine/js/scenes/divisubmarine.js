@@ -426,8 +426,8 @@ var divisubmarine = function(){
 		
         if(particle){
             
-            particle.x = obj.world.x
-            particle.y = obj.world.y + offX
+            particle.x = obj.x
+            particle.y = obj.y + offX
             particle.scale.setTo(1,1)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
@@ -890,7 +890,7 @@ var divisubmarine = function(){
 				clock.bar.scale.x = clock.bar.origScale
 				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
 				clock.tween.onComplete.add(function(){
-					missPoint()
+					timeUp()
 				})
 			})
 			
@@ -903,6 +903,79 @@ var divisubmarine = function(){
 			
 		}
 	}
+    
+    function timeUp(){
+        
+        missPoint()
+			
+        game.time.events.add(500,function(){
+            
+            showScene(false)
+            yogotar.setAnimationByName(0,"LOSE",false)
+            game.add.tween(yogotar.scale).to({x:0,y:0},500,"Linear",true)
+            sound.play("throw")
+
+            game.time.events.add(700,function(){
+
+                monster.x = yogotar.x
+                monster.y = yogotar.y - 130
+
+                popObject(monster,0,true)
+
+                sound.play("explode")
+
+                createPart('smoke',yogotar,-125)
+
+                if(lives !== 0){
+
+                    background.fall = true
+                    sound.play("explode")
+
+                    game.add.tween(yogotar.scale).to({x:1,y:1},500,"Linear",true)
+                    game.add.tween(yogotar).to({x:game.world.centerX - 200,angle:yogotar.angle - 360},1200,"Linear",true)
+                    var tween = game.add.tween(yogotar).to({y:yogotar.y - 200},900,"Linear",true)
+                    tween.yoyo(true,0)
+                    tween.onComplete.add(function(){
+
+                        showScene(true)
+                    })
+
+                    game.add.tween(monster).to({y:game.world.height + 300},500,"Linear",true)
+                    game.add.tween(floorGroup).to({y:game.world.height + 300},500,"Linear",true).onComplete.add(function(){
+                        floorGroup.y = -300
+                        game.add.tween(floorGroup).to({y:game.world.height - 100},700,"Linear",true).onComplete.add(function(){
+                            background.fall = false
+                            yogotar.setAnimationByName(0,"IDLE",true)
+                        })
+                    })
+                }
+                else{
+                    monster.y = yogotar.y
+                    game.add.tween(yogotar).to({x:game.world.centerX, y: game.world.centerY,angle:yogotar.angle + 360},500,"Linear",true)
+                    game.add.tween(yogotar.scale).to({x:3,y:3},500,"Linear",true).onComplete.add(function(){
+
+                        var rect = new Phaser.Graphics(game)
+                        rect.beginFill(0xffffff)
+                        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+                        rect.alpha = 0
+                        rect.endFill()
+                        sceneGroup.add(rect)
+
+                        game.add.tween(rect).from({alpha:1},500,"Linear",true)
+
+                        game.add.tween(yogotar).to({y:yogotar.y + 200},2000,"Linear",true)
+
+                        sound.play("glassbreak")
+
+                        var glass = sceneGroup.create(yogotar.x, yogotar.y - 150,'atlas.submarine','brokenglass')
+                        glass.anchor.setTo(0.5,0.5)
+                        glass.scale.setTo(3,3)
+
+                    })
+                }
+            })
+        })
+    }
 	
 	function createClock(){
 		
