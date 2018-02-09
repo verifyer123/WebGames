@@ -23,8 +23,8 @@ var minmaxduel = function(){
 				file: soundsPath + "pop.mp3"},
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+            {	name: "wrongAnswer",
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "whoosh",
 				file: soundsPath + "whoosh.mp3"},
             {	name: "gameLose",
@@ -57,12 +57,15 @@ var minmaxduel = function(){
 	var heartsIcon;
 	var heartsText;	
 	var xpIcon;
-	var lives = 1;
+	var lives = ' ';
+    var livesLocal = 3
 	var cursors;
 	var gameIndex = 46;
 	var bgtimer;
 	var cardsArray;
 	var dashedcard;
+    var select;
+    function loadNewGame(){newGame()}
 	
 	styleWhite = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 	styleBlack = {font: "80px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center",boundsAlignH: "center", boundsAlignV: "middle" };
@@ -111,7 +114,7 @@ var minmaxduel = function(){
 	}
 	
 	function initialize(){
-		lives = 1;
+		livesLocal = 3;
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
@@ -253,9 +256,6 @@ var minmaxduel = function(){
 		var wrong = sceneGroup.create(0,0,"wrong");
 		wrong.anchor.setTo(0.5,0.5);
 		wrong.alpha = 0;	
-		
-		var select;
-		
 
 		
 		
@@ -278,11 +278,16 @@ var minmaxduel = function(){
 						xpText.setText(coins);
 						
 					}else{
+                        select = currentSprite;
 						wrong.x = endSprite.x
 						wrong.y = endSprite.y
 						TweenMax.fromTo(wrong.scale,1,{x:1,y:1},{x:4,y:4});
 						TweenMax.fromTo(wrong,1,{alpha:1},{alpha:0});	
-						finishGame()
+						missPoint()
+                        game.time.events.add(1000,function(){
+                            if(livesLocal !== 0)
+                                newGame()
+                        },this)
 					}	
 				}else{
 					if(endSprite.answer > currentSprite.answer){
@@ -295,13 +300,16 @@ var minmaxduel = function(){
 						coins++;
 						xpText.setText(coins);
 					}else{
-						
+						select = currentSprite;
 						wrong.x = endSprite.x
 						wrong.y = endSprite.y
 						TweenMax.fromTo(wrong.scale,1,{x:1,y:1},{x:4,y:4});
 						TweenMax.fromTo(wrong,1,{alpha:1},{alpha:0});
-						finishGame()
-						
+						missPoint()
+						game.time.events.add(1000,function(){
+                            if(livesLocal !== 0)
+                                newGame()
+                        },this)
 					}	
 				}
 	
@@ -313,8 +321,35 @@ var minmaxduel = function(){
 		  }	
 
 		
+    function createHeartsLocal(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 6
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 10
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
 
-		
+        //var heartImg = group.create(0,0,'atlas.noisyMonsters','life_box')
+
+        pivotX+= game.world.width - 70
+        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = 5
+        pointsText.setText('  ' + livesLocal)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
+    }
+        
 		
 		function newGame(){
 			TweenMax.to(backcard1.scale,1,{x:1,ease:Back.easeOut,delay:1});
@@ -359,25 +394,42 @@ var minmaxduel = function(){
 					TweenMax.to(cardsArray[r],0.5,{x:cardsArray[r].positionX});
 				}
 			}
-				
-			
 		}
 		
-		
-		
-		
+
 		
 		createCoins(coins);
 		createHearts(lives);
+        createHeartsLocal()
 		createOverlay(lives);
+        
+    }
 
-		
-	}
+		function missPoint(){
+        
+        sound.play("wrongAnswer")
+		        
+        livesLocal--;
+        heartsGroup.text.setText('  ' + livesLocal)
+        
+        var scaleTween = game.add.tween(heartsGroup.text.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.text.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        if(livesLocal == 0){
+            finishGame()
+        }
+        
+        //addNumberPart(heartsGroup.text,'-1',true)
+        
+    }
+	
 
 
 	function finishGame(){
 		TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
-		sound.play("wrong");
+		sound.play("wrongAnswer");
 		sound.play("gameLose");
 		bgm.stop();	
 	}	
@@ -391,9 +443,11 @@ var minmaxduel = function(){
 	
 		function finishTime(){
 			
-			finishGame();
-			ActiveDisableCards(false);
+			finishGame()
+			
 		}	
+    
+    
 	
 		function ActiveDisableCards(activar){
 			for(var s=0;s<=3;s++){
@@ -422,7 +476,6 @@ var minmaxduel = function(){
 
 		
 	}
-	
 	
 
 	
