@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var dinamitaDance = function(){
     
     var localizationData = {
@@ -28,7 +30,13 @@ var dinamitaDance = function(){
                 name: "atlas.time",
                 json: "images/dinamitaDance/timeAtlas.json",
                 image: "images/dinamitaDance/timeAtlas.png",
+            },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
 
@@ -274,9 +282,9 @@ var dinamitaDance = function(){
         
         game.load.audio('danceSong', soundsPath + 'songs/shooting_stars.mp3');
         
-		game.load.image('howTo',"images/dinamitaDance/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/dinamitaDance/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/dinamitaDance/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/dinamitaDance/introscreen.png")
+		game.load.image('introscreen',"images/dinamitaDance/introscreen.png")*/
         
 		game.load.image('background',"images/dinamitaDance/background.png")
 		game.load.image('danceFloor',"images/dinamitaDance/danceFloor.png")
@@ -284,7 +292,16 @@ var dinamitaDance = function(){
         game.load.spine("dinamita", "images/spines/Dinamita/dinamita.json")
         game.load.spine("boton", "images/spines/Boton/boton.json")
         
-		console.log(localization.getLanguage() + ' language')
+		var inputName = 'movil'
+        
+        if(game.device.desktop){
+            inputName = 'desktop'
+        }
+
+
+        game.load.image('tutorial_image',"images/dinamitaDance/tutorial_image_"+inputName+".png")
+        loadType(gameIndex)
+
         
     }
     
@@ -293,8 +310,10 @@ var dinamitaDance = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -340,7 +359,14 @@ var dinamitaDance = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+
+
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        initTuto()
     }
     
     function releaseButton(obj){

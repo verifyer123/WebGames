@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var hackATon = function(){
     
     var localizationData = {
@@ -23,7 +24,13 @@ var hackATon = function(){
                 name: "atlas.hackATon",
                 json: "images/hackATon/atlas.json",
                 image: "images/hackATon/atlas.png",
+            },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
 
@@ -265,9 +272,9 @@ var hackATon = function(){
         
         game.load.audio('hackSong', soundsPath + 'songs/classic_arcade.mp3');
         
-		game.load.image('howTo',"images/hackATon/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/hackATon/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/hackATon/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/hackATon/introscreen.png")
+		game.load.image('introscreen',"images/hackATon/introscreen.png")*/
 		game.load.image('tile',"images/hackATon/tile.png")
         game.load.image('city',"images/hackATon/city.png")
 		game.load.image('floor',"images/hackATon/floor.png")
@@ -275,7 +282,9 @@ var hackATon = function(){
         
         game.load.spine("estrella", "images/spines/estrella.json")
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/hackATon/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -284,8 +293,11 @@ var hackATon = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -331,7 +343,12 @@ var hackATon = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        initGame()
     }
     
     function releaseButton(obj){

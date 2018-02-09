@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var smokeBusters = function(){
     
     var localizationData = {
@@ -29,6 +31,12 @@ var smokeBusters = function(){
                 json: "images/smoke/timeAtlas.json",
                 image: "images/smoke/timeAtlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -400,9 +408,9 @@ var smokeBusters = function(){
         game.load.spine('luna', "images/Spine/Luna/luna.json");
         game.load.spine('pollutionAnim', "images/Spine/Clouds/clouds.json");
         
-		game.load.image('howTo',"images/smoke/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/smoke/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/smoke/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/smoke/introscreen.png")
+		game.load.image('introscreen',"images/smoke/introscreen.png")*/
         
         
         game.load.spritesheet("pollution1", 'images/smoke/polu1.png', 286, 250, 24)
@@ -410,7 +418,9 @@ var smokeBusters = function(){
         game.load.spritesheet("pollution3", 'images/smoke/polu3.png', 284, 224, 24)
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/smoke/tutorial_image.png")
+        loadType(gameIndex)
+
         
         
         
@@ -424,8 +434,10 @@ var smokeBusters = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -471,7 +483,15 @@ var smokeBusters = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        startGame=true
+        city.alpha=1
+        backG.alpha=1
+        overlayGroup.y = -game.world.height
+        empezoReal=true
     }
     
     function releaseButton(obj){
