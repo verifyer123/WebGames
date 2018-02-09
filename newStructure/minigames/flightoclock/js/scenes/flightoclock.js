@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var imagePath = "images/flightoclock/"
+var tutorialPath = "../../shared/minigames/"
+
 var flightoclock = function(){
 
 	assets = {
@@ -8,7 +10,13 @@ var flightoclock = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+			],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -84,9 +92,9 @@ var flightoclock = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		
 		/*GAME*/
 		game.load.image("bigStar",imagePath + "star.png");
@@ -108,7 +116,9 @@ var flightoclock = function(){
 		game.load.spine("avion", imagePath + "spine/avion.json");
 		game.load.spine("cohete", imagePath + "spine/coete.json");
 		
-		
+		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+		loadType(gameIndex)
+
 		
 	}
 
@@ -157,14 +167,19 @@ var flightoclock = function(){
 		
         sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
         overlayGroup = game.add.group()
+
+        sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
 		if(game.device != 'desktop'){
-		overlayGroup.scale.setTo(0.9,0.9);
+			overlayGroup.scale.setTo(0.9,0.9);
 		}else{
 			overlayGroup.scale.setTo(1.2,1.2);
 		}
 		
-        sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+        
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -226,8 +241,20 @@ var flightoclock = function(){
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
     }	
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+
+		bgm = game.add.audio('sillyAdventureGameLoop')
+            game.sound.setDecodedCallback(bgm, function(){
+            }, this);
+		
+		bgm.loopFull(0.5);
+		starGame = true;
+		buttons.getButton(bgm,sceneGroup)
+    }
 	
 	function createHearts(){
 		heartsGroup = game.add.group();

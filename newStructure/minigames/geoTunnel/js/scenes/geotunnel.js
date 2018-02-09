@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var geotunnel = function(){
 
 	var localizationData = {
@@ -26,7 +28,13 @@ var geotunnel = function(){
 				name: "atlas.geotunnel",
 				json: "images/geotunnel/atlas.json",
 				image: "images/geotunnel/atlas.png"
-			}
+			},
+			 {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
 		],
 		images: [
 			{   name:"fondo",
@@ -321,10 +329,14 @@ var geotunnel = function(){
 		game.stage.disableVisibilityChange = false;
 		game.load.audio('geotunnelSong', soundsPath + 'songs/game_on.mp3');
 
-		game.load.image('introscreen',"images/geotunnel/introscreen.png")
+		//game.load.image('introscreen',"images/geotunnel/introscreen.png")
 		game.load.image('hex',"images/geotunnel/hex.png")
-		game.load.image('howTo',"images/geotunnel/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/geotunnel/play" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/geotunnel/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/geotunnel/play" + localization.getLanguage() + ".png")*/
+
+		game.load.image('tutorial_image',"images/geotunnel/tutorial_image_"+localization.getLanguage() +".png")
+		loadType(gameIndex)
+
 		game.load.script('filter', 'js/tunnel.js');
 		game.load.spine('figures', "images/spine/figures/figures.json")
 
@@ -468,15 +480,11 @@ var geotunnel = function(){
 	}
 
 	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
-			sceneGroup.rectInput.inputEnabled = true
-			tutoGroup.y = -game.world.height
-			startRound()
-			// startTimer(missPoint)
-		})
+		sceneGroup.rectInput.inputEnabled = true
+		tutoGroup.y = -game.world.height
+		startRound()
+
 	}
 
 	function createTutorial(){
@@ -485,49 +493,9 @@ var geotunnel = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			onClickPlay(rect)
+		createTutorialGif(tutoGroup,onClickPlay)
 
-		})
-
-		tutoGroup.add(rect)
-
-		var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-		plane.anchor.setTo(0.5,0.5)
-
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.geotunnel','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-
-		var tutoCompl = tutoGroup.create(game.world.centerX - 120, game.world.centerY + 125,'atlas.geotunnel','tcomplement')
-		tutoCompl.anchor.setTo(0.5,0.5)
-
-		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-
-		var inputName = 'movil'
-
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX + 120 ,game.world.centerY + 125,'atlas.geotunnel',inputName)
-		inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.geotunnel','button')
-		button.anchor.setTo(0.5,0.5)
-
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		
 	}
 
 	function spawnFigure() {

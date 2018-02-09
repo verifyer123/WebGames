@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var garbageDiving = function(){
     
     var localizationData = {
@@ -29,6 +31,12 @@ var garbageDiving = function(){
                 json: "images/garbage/timeAtlas.json",
                 image: "images/garbage/timeAtlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -309,13 +317,15 @@ var garbageDiving = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/chemical_electro.mp3');
         
-		game.load.image('howTo',"images/garbage/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/garbage/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/garbage/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/garbage/introscreen.png")
+		game.load.image('introscreen',"images/garbage/introscreen.png")*/
         
         game.load.spine('bigFish',"images/Spine/skeleton/Skeleton.json")
         
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/garbage/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -324,75 +334,29 @@ var garbageDiving = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            
-            
-            
-            character = game.add.spine(100,game.world.height-450, "bigFish");
-            character.scale.setTo(scaleSpine*2,scaleSpine*2)
-            character.scale.setTo(scaleSpine*2,scaleSpine*2)
-            character.setAnimationByName(0,"IDLE",true);
-            character.setSkinByName("normal");
-            gameGroup.add(character)
-            bigFish=game.add.sprite(game.world.centerX-500,game.world.height-350,"atlas.garbage","mina")
-            gameGroup.add(bigFish)
-            bigFish.alpha=0
-            bigFish.scale.setTo(.3,.3)
-            bigFish.position.x=character.position.x-40
-            bigFish.position.y=character.position.y-60
-            game.physics.enable(bigFish, Phaser.Physics.ARCADE)
-            bigFish.body.immovable=true
-            
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-                startGame=true
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.garbage','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'tablet'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-        var inputLogo2 = overlayGroup.create(game.world.centerX +70,game.world.centerY + 125,'atlas.garbage',"Mesa de trabajo 48")
-        inputLogo2.anchor.setTo(0.5,0.5)
-		inputLogo2.scale.setTo(0.7,0.7)
-		}
-		
-		var inputLogo = overlayGroup.create(game.world.centerX,game.world.centerY + 125,'atlas.garbage',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-        
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.garbage','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+  
+    }
+
+    function onClickPlay(){
+        character = game.add.spine(100,game.world.height-450, "bigFish");
+        character.scale.setTo(scaleSpine*2,scaleSpine*2)
+        character.scale.setTo(scaleSpine*2,scaleSpine*2)
+        character.setAnimationByName(0,"IDLE",true);
+        character.setSkinByName("normal");
+        gameGroup.add(character)
+        bigFish=game.add.sprite(game.world.centerX-500,game.world.height-350,"atlas.garbage","mina")
+        gameGroup.add(bigFish)
+        bigFish.alpha=0
+        bigFish.scale.setTo(.3,.3)
+        bigFish.position.x=character.position.x-40
+        bigFish.position.y=character.position.y-60
+        game.physics.enable(bigFish, Phaser.Physics.ARCADE)
+        bigFish.body.immovable=true
+
+        overlayGroup.y = -game.world.height
+        startGame=true
     }
     
     function releaseButton(obj){
