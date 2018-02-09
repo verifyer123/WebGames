@@ -85,6 +85,7 @@ var ms = function(){
 	var zombieSpeed
 	var enemyActions = ['up','down','left','right']
 	var playerCol, enemiesCol, tilesCol
+    var touchIt
 	
 	var tilePositions = [
 		
@@ -190,10 +191,11 @@ var ms = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		piecesToUse = []
 		gameSpeed = 200
 		zombieSpeed = 150
+        touchIt = false
         
 		dirX = 0
 		dirY = 0
@@ -440,6 +442,7 @@ var ms = function(){
 		player.body.y = game.world.centerY + 25
 		player.body.velocity.x = 0
 		player.body.velocity.y = 0
+        touchIt = false
 				
 		itemsNumber = game.rnd.integerInRange(2,10)
 		numToUse = game.rnd.integerInRange(2,itemsNumber)
@@ -510,6 +513,7 @@ var ms = function(){
 			popObject(characterGroup,0)
 			gameActive = true
 			player.active = true
+            characterGroup.anim.setAnimationByName(0,"IDLE",true)
 			
 			activateEnemies()
 			
@@ -732,7 +736,7 @@ var ms = function(){
 		}
 		
 		var direction = this.swipe.check();
-		console.log(this.swipe)
+		//console.log(this.swipe)
 		
 		if (direction!==null) {
 		
@@ -822,12 +826,23 @@ var ms = function(){
 				
 				hideItems()
 				
-				game.time.events.add(1000,getItems)
+				game.time.events.add(1000,function(){
+                    if(lives !== 0){
+                        getItems()
+                    }
+                })
 				
 			}else{
 				
 				missPoint()
 				createPart('wrong',containerGroup.text)
+                hideItems()
+				
+                game.time.events.add(1000,function(){
+                    if(lives !== 0){
+                        getItems()
+                    }
+                })
 			}
 			
 		}
@@ -848,10 +863,22 @@ var ms = function(){
 					enemy.body.velocity.x = 0
 					enemy.body.velocity.y = 0
 					
-				}else{
+				}else if(!touchIt){
 					missPoint()
+                    touchIt = true
+                    player.body.velocity.x = 0
+		            player.body.velocity.y = 0
+                    player.active = false
+			        gameActive = false
 					createPart('wrong',player)
 					characterGroup.anim.setAnimationByName(0,"LOSE",false)
+                    hideItems()
+				
+				    game.time.events.add(1000,function(){
+                        if(lives !== 0){
+                            getItems()
+                        }
+                    })
 				}
 				
 				
