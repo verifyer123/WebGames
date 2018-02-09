@@ -70,7 +70,7 @@ var squat = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		squatsNumber = 0
 		timeToUse = 10000
 		multTime = 1.5
@@ -613,6 +613,18 @@ var squat = function(){
 		}else{
 			missPoint()
 			createPart('wrong',board.text)
+            yogotar.setAnimationByName(0,"LOSE",false)
+            yogotar.addAnimationByName(0,"LOSESTILL",true)
+            if(lives !== 0){
+                if(clock.tween){
+                    clock.tween.stop()
+                    clock.bar.scale.x = clock.bar.origScale
+                }
+                game.add.tween(clock).to({alpha:0},1000,"Linear",true).onComplete.add(function(){
+                    yogotar.setAnimationByName(0,"IDLE",true)
+                    setNumber()
+                })
+            }
 		}
 	}
 	
