@@ -36,8 +36,7 @@ var geoJourney = function(){
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/geoJourney/background.png"},
+            
 		],
 		sounds: [
             {	name: "pop",
@@ -439,7 +438,7 @@ var geoJourney = function(){
 				
 				if(checkOverlap(player,back) && levelIndex == back.index && back.isSep){
 					
-					console.log(back.index + ' index')
+					//console.log(back.index + ' index')
 					if(levelIndex > 4){
 						
 						if(levelContainer.alpha == 1){
