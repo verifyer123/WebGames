@@ -128,7 +128,7 @@ var space = function(){
         //gameActive = true
         cardsNumber = 4
         maxNumber = 3
-        lives = 1
+        lives = 3
         quantNumber = 0
         arrayComparison = []
         comboCount = 0
@@ -215,7 +215,17 @@ var space = function(){
             barGroup.tween = game.add.tween(barGroup.bar.scale).to({y:0},barTime,Phaser.Easing.linear,true)
             barGroup.tween.onComplete.add(function(){
 
-                fallWater()
+                missPoint()
+                createPart('wrong',parent)
+                master.tween.stop()
+                showAssets(false)
+                game.time.events.add(1000,function(){
+                    if(lives !== 0){
+                        showAssets(true)
+                    }
+                    else
+                        fallWater()
+                })
 
             })
                 
@@ -475,8 +485,17 @@ var space = function(){
                 showAssets(true)
             })
         }else{
-            fallWater()
+            missPoint()
             createPart('wrong',parent)
+            master.tween.stop()
+            showAssets(false)
+            game.time.events.add(1000,function(){
+                if(lives !== 0){
+                    showAssets(true)
+                }
+                else
+                    fallWater()
+            })
         }
         
     }
