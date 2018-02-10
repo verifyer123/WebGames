@@ -80,7 +80,7 @@ var duck = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		indexGame = 1
 		timeToUse = 6000
         
@@ -297,15 +297,9 @@ var duck = function(){
 				duck.number = indexGame * 10
 			}
 			
-			console.log(duck.number + ' number')
+			//console.log(duck.number + ' number')
 			duck.text.setText(duck.number)
-		}
-		
-		indexGame++
-		if(indexGame > 10){
-			indexGame = 1
-		}
-	
+		}	
 	}
 	
 	function sendDucks(){
@@ -334,6 +328,10 @@ var duck = function(){
 			if(duck.number % 10 == 0){
 				duck.tween.onComplete.add(function(){
 					missPoint()
+                    game.time.events.add(400,function(){
+                        if(lives !== 0)
+                            sendDucks()
+                    },this)
 				})
 			}
 		}
@@ -569,11 +567,12 @@ var duck = function(){
 		for(var i = 0; i < ducksGroup.length;i++){
 			
 			var duck = ducksGroup.children[i]
+            
+            if(duck.tween){
+                duck.tween.stop()
+            }
 			
 			if(!duck.pressed){
-				if(duck.tween){
-					duck.tween.stop()
-				}
 
 				duck.anim.setAnimationByName(0,animName,true)
 				
@@ -592,7 +591,6 @@ var duck = function(){
 				duck.anim.setAnimationByName(0,"WALK",true)
 				duck.tween = game.add.tween(duck).to({x:duck.x - game.world.width * 1.2},2000,"Linear",true,0)
 			}
-
 		})
 	}
 	
@@ -617,19 +615,29 @@ var duck = function(){
 		game.add.tween(parent).to({y:parent.y - 100},300,"Linear",true).onComplete.add(function(){
 			game.add.tween(parent).to({y:game.world.height + 200},700,"Linear",true)
 		})
-		
+		parent.anim.setAnimationByName(0,"JUMP",false)
 		if(parent.number % 10 == 0){
+            indexGame++
+            if(indexGame > 10){
+                indexGame = 1
+            }
+            
 			addPoint(1)
 			createPart('star',obj)
-			parent.anim.setAnimationByName(0,"JUMP",false)
-						
 			setDucks("WIN")
 			game.time.events.add(3000,sendDucks)
 		}else{
-			
+            
 			missPoint()
 			createPart('wrong',obj)
 			setDucks("LOSE")
+            for(var i = 0; i < ducksGroup.length;i++){
+                 game.add.tween(ducksGroup.children[i]).to({alpha:0},1500,"Linear",true)
+            }
+            game.time.events.add(3000,function(){
+                if(lives !== 0)
+                    sendDucks()
+            },this)
 		}
 		
 	}
