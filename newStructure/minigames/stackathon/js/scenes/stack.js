@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var stack = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var stack = function(){
                 json: "images/stack/atlas.json",
                 image: "images/stack/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -71,7 +78,7 @@ var stack = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		indexBar = 0
 		indexButton = 0
 		timeToUse = 10000
@@ -307,11 +314,13 @@ var stack = function(){
         game.load.spine('explosion', "images/spines/explotion.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/game_on.mp3');
         
-		game.load.image('howTo',"images/stack/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/stack/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/stack/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/stack/introscreen.png")
+		game.load.image('introscreen',"images/stack/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/stack/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -411,8 +420,8 @@ var stack = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
+        createTutorialGif(overlayGroup,onClickPlay)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -457,7 +466,12 @@ var stack = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	showButtons()
+		overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){
@@ -685,6 +699,27 @@ var stack = function(){
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
 		clock.tween.onComplete.add(function(){
 			missPoint()
+            var bar = getBar(indexButton)
+            var question = bar.question
+            game.add.tween(question).to({alpha:0},500,"Linear",true)
+            
+            if(lives !== 0){
+                indexButton++
+                game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+                game.time.events.add(750,function(){
+
+                    sound.play("cut")
+                    bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
+
+                    barsGroup.remove(bar)
+                    barsGroup.add(bar)
+
+                    barsGroup.pivotY+= bar.height * 0.8
+                    sendBar(bar,barsGroup.pivotY,0,0)
+                    moveBars()
+
+                })
+            }
 		})
 		
 	}
@@ -719,27 +754,28 @@ var stack = function(){
 			addPoint(1)
 			createPart('star',question)
 			
-			game.time.events.add(750,function(){
-				
-				sound.play("cut")
-				bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
-				
-				barsGroup.remove(bar)
-				barsGroup.add(bar)
-			
-				barsGroup.pivotY+= bar.height * 0.8
-				sendBar(bar,barsGroup.pivotY,0,0)
-				moveBars()
-				
-			})
-			
 		}else{
 			
 			missPoint()
 			createPart('wrong',question)
+            
 		}
 		
-		
+        if(lives !== 0){
+            game.time.events.add(750,function(){
+
+                sound.play("cut")
+                bar.tween = game.add.tween(bar.scale).to({x:0,y:0},200,"Linear",true)
+
+                barsGroup.remove(bar)
+                barsGroup.add(bar)
+
+                barsGroup.pivotY+= bar.height * 0.8
+                sendBar(bar,barsGroup.pivotY,0,0)
+                moveBars()
+
+            })
+        }
 	}
 	
 	function getBar(index){

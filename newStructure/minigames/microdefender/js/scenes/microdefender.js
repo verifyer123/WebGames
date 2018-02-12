@@ -1,4 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var microdefender = function(){
 
 	assets = {
@@ -7,7 +8,13 @@ var microdefender = function(){
                 name: "atlas.microdefender",
                 json: "images/microdefender/atlas.json",
                 image: "images/microdefender/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -90,14 +97,18 @@ var microdefender = function(){
 		game.load.image("starPart", "images/microdefender/starPart.png");
 		game.load.image("wrongPart", "images/microdefender/wrongPart.png");	
 		game.load.image('gametuto',"images/microdefender/gametuto.png");
-		game.load.image('introscreen',"images/microdefender/introscreen.png");
+		//game.load.image('introscreen',"images/microdefender/introscreen.png");
 		game.load.image('bgclock',"images/microdefender/bgclock.png");
 		game.load.image('buttonPlay',"images/microdefender/button.png");		game.load.image('pc',"images/microdefender/pc.png");
 		game.load.image('movil',"images/microdefender/movil.png");
-		game.load.image('howTo',"images/microdefender/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',"images/microdefender/play" + localization.getLanguage() + ".png");		
+		//game.load.image('howTo',"images/microdefender/how"  + localization.getLanguage()  + ".png");
+		//game.load.image('buttonText',"images/microdefender/play" + localization.getLanguage() + ".png");		
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
 		buttons.getImages(game);
+
+		game.load.image('tutorial_image',"images/microdefender/tutorial_image.png")
+		loadType(gameIndex)
+
 	}
 
 	function loadSounds(){
@@ -135,7 +146,9 @@ var microdefender = function(){
 		}
 		
         sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+       /* var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -190,8 +203,22 @@ var microdefender = function(){
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
     }	
+
+    function onClickPlay(){
+
+    	overlayGroup.y = -game.world.height
+		
+		bgm = game.add.audio('wormwood')
+            game.sound.setDecodedCallback(bgm, function(){
+            }, this);
+		
+		bgm.loopFull(0.5);
+		starGame = true;
+		buttons.getButton(bgm,sceneGroup)
+    }
+
 	
 	function createHearts(){
 		heartsGroup = game.add.group();

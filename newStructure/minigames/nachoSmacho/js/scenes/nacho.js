@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var nacho = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var nacho = function(){
                 json: "images/nacho/atlas.json",
                 image: "images/nacho/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -85,7 +93,7 @@ var nacho = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 10000
 		moveFloor = false
 		pixMove = 0
@@ -279,11 +287,13 @@ var nacho = function(){
 		game.load.spine('yogotar', "images/spines/dinamita.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/la_fiesta.mp3');
         
-		game.load.image('howTo',"images/nacho/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/nacho/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/nacho/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/nacho/introscreen.png")
+		game.load.image('introscreen',"images/nacho/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/nacho/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -300,8 +310,10 @@ var nacho = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -346,9 +358,14 @@ var nacho = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
     }
     
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        showScene()
+    }
+
     function releaseButton(obj){
         
         obj.parent.children[1].alpha = 1
@@ -831,6 +848,26 @@ var nacho = function(){
 					door.setAnimationByName(0,"LOSE",false)
 					game.add.tween(door).to({x:door.x - 50,y:door.y+25},500,"Linear",true)
 				})
+                
+                if(lives !== 0){
+                    game.add.tween(door).to({alpha:0,x:door.x + 300,y:door.y - 100},600,"Linear",true,1000)
+
+                    game.time.events.add(3000,function(){
+
+                        //yogotar.anim.setAnimationByName(0,"WALK",true)
+                        moveFloor = true
+
+                        game.add.tween(yogotar).to({x:game.world.width +100,y:yogotar.posY - 150},1000,"Linear",true)
+
+                        table.x = table.posX
+                        table.y = table.posY
+                        game.add.tween(table).from({x:-400,y:table.y + 250},1000,"Linear",true).onComplete.add(function(){
+
+                            moveFloor = false
+                            showScene()
+                        })
+                    })
+                }
 			}
 		})
 		

@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var shotPut = function(){
     
     var localizationData = {
@@ -29,6 +31,12 @@ var shotPut = function(){
                 json: "images/shotPut/timeAtlas.json",
                 image: "images/shotPut/timeAtlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -264,13 +272,15 @@ var shotPut = function(){
         
         game.load.audio('timberman', soundsPath + 'songs/timberman.mp3')
         
-		game.load.image('howTo',"images/shotPut/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/shotPut/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/shotPut/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/shotPut/introscreen.png")  
+		game.load.image('introscreen',"images/shotPut/introscreen.png")  */
         
         game.load.spine("oof", "images/spines/Oof/Oof.json")
 		
-		console.log(localization.getLanguage() + ' language')   
+		game.load.image('tutorial_image',"images/shotPut/tutorial_image.png")
+        loadType(gameIndex)
+  
     }
     
     function createOverlay(){
@@ -278,8 +288,11 @@ var shotPut = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -330,7 +343,16 @@ var shotPut = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+
+
+    }
+
+    function onClickPlay(){
+        startGame=true
+        overlayGroup.y = -game.world.height
+        gameActive = true
+        initGame()
     }
     
     function releaseButton(obj){

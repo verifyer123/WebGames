@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var flag = function(){
     
     var localizationData = {
@@ -44,6 +45,12 @@ var flag = function(){
                 json: "images/flag/atlas.json",
                 image: "images/flag/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -64,7 +71,7 @@ var flag = function(){
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 			{	name: "spaceShip",
-				file: soundsPath + "spaceship.mp3"},
+				file: soundsPath + "whoosh.mp3"},
 			{	name: "fly",
 				file: soundsPath + "inflateballoon.mp3"},
 			
@@ -334,12 +341,14 @@ var flag = function(){
 		game.load.spine('helicopter', "images/spines/helicopter.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/musicVideogame9.mp3');
         
-		game.load.image('howTo',"images/flag/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/flag/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/flag/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/flag/introscreen.png")
+		game.load.image('introscreen',"images/flag/introscreen.png")*/
 		game.load.spritesheet('light', 'images/flag/light.png', 128, 128, 8);
 		
-		//console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/flag/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -483,8 +492,10 @@ var flag = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -530,7 +541,12 @@ var flag = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		setScene()	
     }
     
     function releaseButton(obj){
@@ -553,18 +569,18 @@ var flag = function(){
 			
 			if(i % 2 == 0){
 				tileName = 'leftP'
-				left = 1
+				left = 0
 			}else{
 				tileName = 'rightP'
 			}
 			
 			if(i == 0 || i > 5){
 				tileName = 'safeP'
-				left = 3
+				left = -10
 				tileHeight = 160
 			}
 			
-			var tile = game.add.tileSprite(0,pivotY,game.world.width, tileHeight, 'atlas.flag',tileName);
+			var tile = game.add.tileSprite(0,pivotY,game.world.width+10, tileHeight, 'atlas.flag',tileName);
 			tile.left = left
 			lanesGroup.add(tile)
 			

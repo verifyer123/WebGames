@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var sky = function(){
+var particlesPath="../../shared/minigames/images/particles/battle/"
+var satellite = function(){
     
     var localizationData = {
 		"EN":{
@@ -20,14 +21,18 @@ var sky = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.skyL",
-                json: "images/sky/atlas.json",
-                image: "images/sky/atlas.png",
+                name: "atlas.satellite",
+                json: "images/satellite/atlas.json",
+                image: "images/satellite/atlas.png",
+            },
+            {   
+                name: "atlas.time",
+                json: "images/satellite/timeAtlas.json",
+                image: "images/satellite/timeAtlas.png",
             },
         ],
         images: [
-			{   name:"background",
-				file: "images/sky/fondo.png"},
+
 		],
 		sounds: [
             {	name: "magic",
@@ -44,29 +49,37 @@ var sky = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {	name: "ship",
+				file: soundsPath + "robotBeep.mp3"},
+            
 			
-
+		],
+        jsons: [
+			{
+				name: 'pickedEnergy', 
+				file:  particlesPath + 'pickedEnergy/specialBar1.json'
+			}
 		],
     }
     
         
     var lives = null
 	var sceneGroup = null
-    var pointsGroup = null
-	var background,topBack,botBack
-	var shipGroup, barGroup, animalsGroup
+	var background
     var gameActive = true
 	var shoot
-    var arrayComparison = null
-	var indexCard,wrongIndex
 	var particlesGroup, particlesUsed
-    var gameIndex = 7
+    var gameIndex = 102
 	var indexGame
     var overlayGroup
-	var timeValue
     var spaceSong
-	
-	var animalNames = ['cat','chicken','cow','dog','elephant','giraffe','hamster','horse','lion','parrot','pig','sheep','monkey','turtle','zebra']
+    
+    var backgroundGroup=null
+    
+    
+    var tweenTiempo
+    var clock, timeBar
+    var emitter
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -74,54 +87,11 @@ var sky = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#ffffff"
-        lives = 1
-        arrayComparison = []
-        timeValue = 10000
-		
-		Phaser.ArrayUtils.shuffle(animalNames)
-		indexCard = 0
-        
+        game.stage.backgroundColor = "#000000"
+        lives = 3
+        emitter=""
         loadSounds()
-        
 	}
-    
-    
-    function createPart(key,obj){
-        
-        var particlesNumber = 2
-        
-        /*if(game.device.desktop == true){ 
-            
-            particlesNumber = 4
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.skyL',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.x;
-            particlesGood.y = obj.y;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-        }else{*/
-            key+='Part'
-            var particle = sceneGroup.create(obj.x,obj.y,'atlas.skyL',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        //}
-        
-    }
 
     function popObject(obj,delay){
         
@@ -145,99 +115,6 @@ var sky = function(){
 
     }
 	
-	function setCard(){
-		
-		wrongIndex = indexCard
-		
-		while(wrongIndex == indexCard){
-			
-			wrongIndex = game.rnd.integerInRange(0,animalNames.length - 1)
-		}
-	}
-	
-	function resetButtons(){
-		
-		shoot.alpha = 0
-		
-		for(var i = 0; i<animalsGroup.length;i++){
-			
-			var animal = animalsGroup.children[i]
-			animal.x = -200
-			animal.alpha = 0
-		}
-	}
-	
-	function positionBar(){
-				
-		game.add.tween(shipGroup).to({x:shipGroup.initialX, y:shipGroup.initialY, angle:0},500,"Linear",true)
-		
-		game.add.tween(shipGroup.text).to({alpha:0},300,"Linear",true).onComplete.add(function(){
-			shipGroup.text.setText('')
-		})
-		
-		barGroup.alpha = 1
-		barGroup.angle = 0
-		barGroup.x = barGroup.initialX
-		
-		gameActive = true
-		gameActive = true
-		
-		game.add.tween(barGroup).from({x:game.world.width * 1.5},1000,"Linear",true).onComplete.add(function(){
-			
-			setCard()
-			
-			var indexs = [indexCard,wrongIndex]
-			Phaser.ArrayUtils.shuffle(indexs)
-			
-			for(var i = 0; i < indexs.length; i++){
-				
-				var tap = barGroup.taps[i]
-				
-				console.log(animalNames[indexs[i]])
-				
-				var card = getCard(animalNames[indexs[i]])
-				card.x = barGroup.x
-				card.y = tap.world.y
-				
-				tap.correct = false
-				if(indexs[i] == indexCard){
-					tap.correct = true
-				}
-				
-				game.add.tween(card.scale).from({x:0,y:0},500,"Linear",true)
-			}
-			
-			shipGroup.text.alpha = 1
-			shipGroup.text.setText(animalNames[indexCard])
-			
-			game.add.tween(shipGroup.text.scale).from({x:0,y:0},500,"Linear",true)
-			
-			shipGroup.tween = game.add.tween(shipGroup).to({x:barGroup.x},timeValue,"Linear",true,500)
-			shipGroup.tween.onComplete.add(function(){
-				
-				crashShip(1)
-				
-			},this)
-			
-			
-			sound.play("pop")
-			
-		},this)
-	}
-	
-	function getCard(tag){
-	
-		for(var i = 0; i < animalsGroup.length;i++){
-			
-			var card = animalsGroup.children[i]
-			if(card.tag == tag){
-				card.alpha = 1
-				return card
-				break
-			}
-		}
-	}
-	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].alpha = 0
@@ -249,7 +126,7 @@ var sky = function(){
     
     function addNumberPart(obj,number,isScore){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         if(pointsText){
             
             pointsText.x = obj.world.x
@@ -302,7 +179,7 @@ var sky = function(){
     
     function addPoint(number){
         
-        sound.play("pop")
+        sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         
@@ -311,12 +188,7 @@ var sky = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)
-		
-		if(timeValue>1000){
-			timeValue-=400
-		}
-		
+        addNumberPart(pointsBar.text,'+' + number,true)		
         
     }
     
@@ -327,7 +199,7 @@ var sky = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.skyL','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.satellite','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -355,7 +227,7 @@ var sky = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.skyL','life_box')
+        var heartImg = group.create(0,0,'atlas.satellite','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -378,11 +250,14 @@ var sky = function(){
 		sound.play("gameLose")
 		
         gameActive = false
+        
+        
+        
+        
         spaceSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
-            
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
@@ -394,15 +269,19 @@ var sky = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;  
 		buttons.getImages(game)
+		
+        game.stage.disableVisibilityChange = false;
+        epicparticles.loadEmitter(game.load, "pickedEnergy")
         
-        game.load.spine('ship', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		game.load.image('howTo',"images/sky/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/sky/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/sky/introscreen.png")
+        game.load.audio('spaceSong', soundsPath + 'songs/electro_trance_minus.mp3');
+        
+		game.load.image('howTo',"images/satellite/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/satellite/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/satellite/introscreen.png")
+        
+        //game.load.spine("ship","images/Spine/ship/ship.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -423,10 +302,13 @@ var sky = function(){
         rect.events.onInputDown.add(function(){
             rect.inputEnabled = false
 			sound.play("pop")
+            
+            //Aqui va la primera funciòn que realizara el juego
+            
+            startGame=true
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
-				positionBar()
             })
             
         })
@@ -437,25 +319,25 @@ var sky = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.skyL','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.satellite','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 		
-		var inputName = 'movil'
+		var inputName = 'Movil'
 		
 		if(game.device.desktop){
 			inputName = 'desktop'
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.skyL',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.satellite',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.skyL','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.satellite','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -468,33 +350,111 @@ var sky = function(){
     }
 
 	function createBackground(){
-		
-		background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'background');
-		sceneGroup.add(background)
-		
-		createBar()
+	   backgroundGroup = game.add.group()
+       sceneGroup.add(backgroundGroup)
+        
+        //Aqui inicializo los botones
+        controles=game.input.keyboard.createCursorKeys()
+        
+        correctParticle = createPart("star")
+        sceneGroup.add(correctParticle)
+        wrongParticle = createPart("wrong")
+        sceneGroup.add(wrongParticle)
+        boomParticle = createPart("smoke")
+        sceneGroup.add(boomParticle)
+        
+        //Circulo de prueba
+        createCircleSprite(game.world.centerX, game.world.centerY,100,{inputCallback:inputs})
+        
+        
+        //Coins
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
+        coins.anchor.setTo(0.5)
+        coins.scale.setTo(0.5)
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0
+    }
 	
-		topBack = game.add.tileSprite(0,0,game.world.width, 141, 'atlas.skyL' ,'up');
-		sceneGroup.add(topBack)
-		
-		botBack = game.add.tileSprite(0,game.world.height,game.world.width,141,'atlas.skyL','up')
-		botBack.scale.setTo(1,-1)
-		sceneGroup.add(botBack)
-		
-	}
-	
-	
+
+    function Coin(objectBorn,objectDestiny,time){
+        
+        
+        //objectBorn= Objeto de donde nacen
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        
+        emitter = epicparticles.newEmitter("pickedEnergy")
+        emitter.duration=0.05;
+        emitter.x = coins.x
+        emitter.y = coins.y
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+            })
+        })
+    }
+  
+    
 	function update(){
-		
-		background.tilePosition.x-=3
-		
-		topBack.tilePosition.x-=5
-		botBack.tilePosition.x-=5
+        
+        
+        if(startGame){
+            epicparticles.update()
+            
+        }
+
 	}
+    
+    function createCircleSprite(posX,posY,diameter,params){
+        params = params || {}
+        var isCollision = params.isCollision
+        var anchorX = params.anchorX || 0.5
+        var anchorY = params.anchorY || 0.5
+        var inputCallback = params.inputCallback
+        var isColor = params.isColor || "ffffff"
+        
+        var turnToSprite=game.add.sprite(posX/2,posY/2)
+        var circle = game.add.graphics(turnToSprite.centerX, turnToSprite.centerY);
+        turnToSprite.anchor.setTo(anchorX,anchorY)
+        turnToSprite.addChild(circle)   
+        //Agregar linea para fisicas : game.physics.startSystem(Phaser.Physics.ARCADE);
+        circle.beginFill("0x"+isColor, 1);
+        circle.drawCircle(0, 0, diameter);
+        
+        if(isCollision){
+            game.physics.enable(turnToSprite, Phaser.Physics.ARCADE);
+        }
+        if(typeof inputCallback === "function"){
+            turnToSprite.inputEnabled=true
+            turnToSprite.events.onInputDown.add(inputCallback, this);
+        }
+        return(turnToSprite)
+    }
+    
+    function inputs(obj){
+        
+        //Listo para programar
+        console.log("Tell me to do something")
+        emitter = epicparticles.newEmitter("pickedEnergy")
+        emitter.duration=0.05;
+        emitter.x = game.world.centerX
+        emitter.y = game.world.centerY
+    }
+    
+    function reset(){
+            
+            
+    }
+    
 	
 	function createTextPart(text,obj){
         
-        var pointsText = lookParticle('textPart')
+        var pointsText = lookParticle('text')
         
         if(pointsText){
             
@@ -516,14 +476,15 @@ var sky = function(){
         for(var i = 0;i<particlesGroup.length;i++){
             
             var particle = particlesGroup.children[i]
+			//console.log(particle.tag + ' tag,' + particle.used)
             if(!particle.used && particle.tag == key){
                 
-                particle.used = true
+				particle.used = true
                 particle.alpha = 1
                 
                 particlesGroup.remove(particle)
                 particlesUsed.add(particle)
-                
+				                
                 return particle
                 break
             }
@@ -543,32 +504,25 @@ var sky = function(){
         },this)
     }
     
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        key+='Part'
-        var particle = lookParticle(key)
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
-        }
-        
-        
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.satellite',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.3;
+        particle.maxParticleScale = .8;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
     }
     
     function createParticles(tag,number){
-        
-        tag+='Part'
-        
+                
         for(var i = 0; i < number;i++){
             
             var particle
-            if(tag == 'textPart'){
+            if(tag == 'text'){
                 
                 var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
@@ -577,84 +531,45 @@ var sky = function(){
                 particlesGroup.add(particle)
                 
             }else{
-                particle = particlesGroup.create(-200,0,'atlas.skyL',tag)
+                var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.satellite',tag);
+				particle.minParticleSpeed.setTo(-200, -50);
+				particle.maxParticleSpeed.setTo(200, -100);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+				
+				particlesGroup.add(particle)
+				
             }
             
             particle.alpha = 0
             particle.tag = tag
             particle.used = false
-            particle.anchor.setTo(0.5,0.5)
+            //particle.anchor.setTo(0.5,0.5)
             particle.scale.setTo(1,1)
         }
         
         
     }
 	
-	function createSpaceship(){
+	function addParticles(){
 		
-		shoot = sceneGroup.create(0,0,'atlas.skyL','shoot')
-		shoot.anchor.setTo(0.5,0.5)
-		shoot.alpha = 0
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
 		
-		shipGroup = game.add.group()
-		shipGroup.x = game.world.centerX - 200
-		shipGroup.y = game.world.centerY
-		shipGroup.initialX = shipGroup.x
-		shipGroup.initialY = shipGroup.y
-		sceneGroup.add(shipGroup)
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
 		
-		var ship = game.add.spine(0,80, "ship");
-		ship.setSkinByName("nave")
-		ship.setAnimationByName(0,"IDLE",true)
-		shipGroup.add(ship)
-		shipGroup.ship = ship
-		
-		var textCont = game.add.group()
-		shipGroup.add(textCont)
-		
-		var cont = textCont.create(0,0,'atlas.skyL','textcont')
-		cont.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var pointsText = new Phaser.Text(sceneGroup.game, -5, 0, '', fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-        textCont.add(pointsText)
-		
-		shipGroup.text = pointsText
-		shipGroup.textCont = textCont
-		shipGroup.tween = null
+		createParticles('star',3)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		createParticles('smoke',1)
+
 	}
-	
-	function createBar(){
-		
-		barGroup = game.add.group()
-		barGroup.alpha = 0
-		barGroup.x = game.world.centerX + 200
-		barGroup.initialX = barGroup.x
-		sceneGroup.add(barGroup)
-		
-		var bar = barGroup.create(0,0,'atlas.skyL','block')
-		bar.anchor.setTo(0.5,0)
-		
-		barGroup.taps = []
-		
-		var pivotY = 300
-		for( var i = 0; i< 2;i++){
-			
-			var tap1 = barGroup.create(0,pivotY,'atlas.skyL','tap')
-			tap1.anchor.setTo(0.5,0.5)
-			tap1.inputEnabled = true
-			tap1.events.onInputDown.add(inputButton)
-			tap1.correct = false
-			
-			barGroup.taps[i] = tap1
-		
-			pivotY+=300
-		}
-		
-	}
-	
+
 	function setExplosion(obj){
         
         var posX = obj.x
@@ -674,7 +589,7 @@ var sky = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.skyL','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.satellite','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -687,7 +602,7 @@ var sky = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.skyL','smoke');
+        particlesGood.makeParticles('atlas.satellite','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -710,152 +625,20 @@ var sky = function(){
 			return
 		}
 		
-		gameActive = false
-		
-		if(shipGroup.tween){
-			shipGroup.tween.stop()
-		}
-		
-		if(obj.correct){
-			
-			sound.play("magic")
-			createPart('star',obj)
-			
-			shootShip()
-			
-		}else{
-			
-			sound.play('wrong')
-			createPart('wrong',obj)
-			crashShip(500)
-			
-		}
-		sound.play("pop")
-	}
-	
-	function crashShip(time){
-		
-		gameActive = false
-		
-		game.add.tween(shipGroup).to({x:barGroup.x},time,"Linear",true).onComplete.add(function(){
-			
-			shipGroup.ship.setAnimationByName(0,"LOSE",false)
-			shipGroup.textCont.alpha = 0
-			
-			sound.play("explosion")
-			setExplosion(shipGroup)
-			
-			game.add.tween(shipGroup).to({y:game.world.height*0.9, angle:180,alpha: 0},500,"Linear",true)
-			
-			missPoint()
-		},this)
-	}
-	
-	function shootShip(win){
-		
-		var angleUsed = -25
-		
-		var correctButton = null
-		
-		for(var i = 0; i < barGroup.taps.length; i++){
-			
-			if(barGroup.taps[i].correct){
-				correctButton = barGroup.taps[i]
-				break
-			}
-		}
-		
-		/*if(correctButton.world.y > shipGroup.y){
-			angleUsed = Math.abs(angleUsed)
-		}*/
-
-        var y = shipGroup.y - correctButton.world.y
-        var x = shipGroup.x - correctButton.world.x
-        var ang = Math.atan(y/x)*(180/Math.PI)
-        //console.log(ang)
-
-        angleUsed = ang
-		
-		game.add.tween(shipGroup).to({angle:angleUsed},500,"Linear",true).onComplete.add(function(){
-			
-			shoot.x = shipGroup.x
-			shoot.y = shipGroup.y
-			shoot.angle = angleUsed
-			shoot.alpha = 1
-			
-			shipGroup.ship.setAnimationByName(0,"FIRE",false)
-			shipGroup.ship.addAnimationByName(0,"IDLE",true)
-			
-			sound.play("shoot")
-			
-			game.add.tween(shoot).to({x:correctButton.world.x,y:correctButton.world.y},500,"Linear",true).onComplete.add(function(){
-				
-				setExplosion(correctButton)
-				
-				sound.play("explosion")
-				resetButtons()
-				
-				game.add.tween(barGroup).to({x:game.world.width * 1.5, angle:barGroup.angle - 180,alpha:0},500,"Linear",true)
-				
-				game.time.events.add(1000,positionBar)
-				addPoint(1)
-				
-				if(indexCard < animalNames.length - 1){
-					indexCard++
-				}else{
-					Phaser.ArrayUtils.shuffle(animalNames)
-					indexCard = 0
-				}
-				
-			},this)
-				
-		},this)
-	}
-	
-	function createAnimals(){
-		
-		animalsGroup = game.add.group()
-		sceneGroup.add(animalsGroup)
-		
-		for(var i = 0; i < animalNames.length;i++){
-			
-			var card = animalsGroup.create(-200,0,'atlas.skyL',animalNames[i])
-			card.anchor.setTo(0.5,0.5)
-			card.alpha = 0
-			card.tag = animalNames[i]
-			card.used = false
-		}
-		
-	}
-	
-	function createObjects(){
-		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
-		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
-		
-		createParticles('star',5)
-		createParticles('wrong',1)
-		createParticles('text',5)
-		
 	}
 	
 	return {
 		
 		assets: assets,
-		name: "sky",
+		name: "satellite",
 		update: update,
         preload:preload,
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			sceneGroup = game.add.group()
 			
 			createBackground()
-			createSpaceship()
-			createAnimals()
-			createObjects()
+			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
@@ -881,5 +664,9 @@ var sky = function(){
             animateScene()
             
 		},
+		show: function(event){
+			loadSounds()
+			initialize()
+		}
 	}
 }()

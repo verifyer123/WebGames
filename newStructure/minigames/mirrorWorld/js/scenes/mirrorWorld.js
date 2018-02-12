@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
 var mirrorWorld = function(){
     
     var localizationData = {
@@ -30,6 +31,12 @@ var mirrorWorld = function(){
                 json: "images/mirror/timeAtlas.json",
                 image: "images/mirror/timeAtlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -288,13 +295,22 @@ var mirrorWorld = function(){
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
         game.load.audio('spaceSong', soundsPath + 'songs/8-bit-Video-Game.mp3');
         
-		game.load.image('howTo',"images/mirror/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/mirror/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/mirror/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/mirror/introscreen.png")
+		game.load.image('introscreen',"images/mirror/introscreen.png")*/
         
         game.load.spine("piece","images/Spine/figure.json")
 		
-		console.log(localization.getLanguage() + ' language')
+		var inputName = 'movil'
+        
+        if(game.device.desktop){
+            inputName = 'desktop'
+        }
+
+
+        game.load.image('tutorial_image',"images/mirror/tutorial_image_"+inputName+".png")
+        loadType(gameIndex)
+
         
     }
     
@@ -303,8 +319,11 @@ var mirrorWorld = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -352,7 +371,16 @@ var mirrorWorld = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        dificulty=4
+        createPat()
+        //Aqui va la primera funciòn que realizara el juego
+        startGame=true
+
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

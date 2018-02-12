@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/swampShape/";
+var tutorialPath = "../../shared/minigames/"
 
 var swampShape = function(){
 
@@ -9,7 +10,13 @@ var swampShape = function(){
                 name: "atlas.swampShape",
                 json:  imagePath + "atlas.json",
                 image:  imagePath + "atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+	],
         images: [],
 		sounds: [
 			{	name: "pop",
@@ -132,9 +139,9 @@ var swampShape = function(){
 		game.load.audio('astronoSong',  soundsPath + 'songs/space_bridge.mp3');
 		/*Default*/
 		buttons.getImages(game);
-		game.load.image('introscreen',"images/swampShape/introscreen.png")
+		/*game.load.image('introscreen',"images/swampShape/introscreen.png")
 		game.load.image('howTo',"images/swampShape/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/swampShape/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/swampShape/play" + localization.getLanguage() + ".png")*/
 		buttons.getImages(game)
 		
 		/*GAME*/
@@ -143,7 +150,9 @@ var swampShape = function(){
 		/*SPINE*/
 		//game.load.spine("helicoptero", imagePath + "spine/helicoptero.json");
 
-		
+		game.load.image('tutorial_image',"images/swampShape/tutorial_image.png")
+		loadType(gameIndex)
+
 		
 		
 	}
@@ -563,7 +572,9 @@ var swampShape = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
+		createTutorialGif(tutoGroup,onClickPlay)
+
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		rect.alpha = 0.7
@@ -601,7 +612,7 @@ var swampShape = function(){
 		button.anchor.setTo(0.5,0.5)
 
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 	}
 
 	function checkCollision() {
@@ -789,14 +800,9 @@ var swampShape = function(){
 
 
 	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-
-			tutoGroup.y = -game.world.height
-			startRound()
-			// startTimer(missPoint)
-		})
+		
+		tutoGroup.y = -game.world.height
+		startRound()
 	}
 
 	function update() {

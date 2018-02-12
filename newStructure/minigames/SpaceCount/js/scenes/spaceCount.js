@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/spaceCount/";
+var tutorialPath = "../../shared/minigames/"
 
 var spaceCount = function(){
 
@@ -9,7 +10,13 @@ var spaceCount = function(){
                 name: "atlas.space",
                 json: "images/spaceCount/atlas.json",
                 image: "images/spaceCount/atlas.png"
-			}],
+			},
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [
             {
                 name: "okBtn",
@@ -28,7 +35,7 @@ var spaceCount = function(){
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
             {	name: "spaceship",
-				file: soundsPath + "spaceship.mp3"},
+				file: soundsPath + "whoosh.mp3"},
             {	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {	name: "wrongItem",
@@ -45,6 +52,8 @@ var spaceCount = function(){
 				file: soundsPath + "error.mp3"},
 			{	name: "combo",
 				file: soundsPath + "combo.mp3"},
+            {	name: "wrongAnswer",
+				file: soundsPath + "wrongAnswer.mp3"},
 			{	name: "click",
 				file: soundsPath + "click.mp3"}
 		],
@@ -61,8 +70,9 @@ var spaceCount = function(){
 	var heartsIcon;
 	var xpIcon;
 	var coins = 0;
-	var lives = 1;
+	var lives = 3;
 	var cursors;
+    var losed;
 	var activeGame = true;
     var gameIndex = 78;
     var activeMultiple = 4;
@@ -96,9 +106,9 @@ var spaceCount = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
         
 		game.load.image('star',imagePath + "star.png");
         game.load.image('wrong',imagePath + "wrong.png");
@@ -106,6 +116,9 @@ var spaceCount = function(){
 
         /*SPINE*/
 		game.load.spine("eagle", imagePath + "spine/ship.json");
+
+        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+        loadType(gameIndex)
 
 		
 		
@@ -117,9 +130,10 @@ var spaceCount = function(){
 	}
 	
 	function initialize(){
-		lives = 1;
+		lives = 3;
 		coins = 0;
 		speedGame = 5;
+        losed=false
 		starGame = false;
         //console.log('initialize')
         numberTime = INITIAL_TIME
@@ -278,7 +292,7 @@ var spaceCount = function(){
         NumberTapText.y = game.world.centerY;
         NumberTapText.alpha = 0;                          
         
-        lives = 1;
+        lives = 3;
 		createCoins(coins);
 		createHearts(lives);
 		createOverlay();
@@ -312,8 +326,18 @@ var spaceCount = function(){
             sound.play("error");
             for(var p = 0; p<= 9;p++){
                 TweenMax.fromTo(multipleBars[p][0],0.1,{alpha:0},{alpha:1,yoyo:true,repeat:10});
-            }                
-            finishGame();
+            }
+            buttonGame.inputEnabled = false;
+            lives--;
+            timerTween.kill()
+            sound.play("wrongAnswer");
+            createHearts(lives);
+            TweenMax.to(eagle,1,{x:-100,ease:Back.easeIn,delay:3,onComplete:newYogotar});
+            eagle.setAnimationByName(0, "LOSE", true); 
+            losed=true
+            if(lives===0){
+                finishGame()
+            }
         }
             
         else{
@@ -339,7 +363,16 @@ var spaceCount = function(){
                 for(var p = 0; p<= 9;p++){
                     TweenMax.fromTo(multipleBars[p][0],0.1,{alpha:0},{alpha:1,yoyo:true,repeat:10});
                 }                
-                finishGame();
+                lives--;
+                sound.play("wrongAnswer");
+                createHearts(lives);
+                TweenMax.to(eagle,1,{x:-100,ease:Back.easeIn,delay:3,onComplete:newYogotar});
+                eagle.setAnimationByName(0, "LOSE", true); 
+                losed=true
+                
+                if(lives===0){
+                    finishGame()
+                }
             }
             
           if(NumTaps > 10){
@@ -347,7 +380,16 @@ var spaceCount = function(){
                 for(var p = 0; p<= 9;p++){
                     TweenMax.fromTo(multipleBars[p][2],0.1,{alpha:0},{alpha:1,yoyo:true,repeat:10});
                 }
-              finishGame();
+              timerTween.kill()
+              lives--;
+              sound.play("wrongAnswer");
+              createHearts(lives);
+              TweenMax.to(eagle,1,{x:-100,ease:Back.easeIn,delay:3,onComplete:newYogotar});
+              eagle.setAnimationByName(0, "LOSE", true); 
+              losed=true
+                if(lives===0){
+                    finishGame()
+                }
               
 
           }else{
@@ -384,7 +426,15 @@ var spaceCount = function(){
                             TweenMax.fromTo(moreCoin,1,{y:0,alpha:1},{y:25,alpha:0} );
                         }else{
                             console.log("incorrect");
-                            finishGame();
+                            sound.play("wrongAnswer");
+                            lives--;
+                            createHearts(lives);
+                            TweenMax.to(eagle,1,{x:-100,ease:Back.easeIn,delay:3,onComplete:newYogotar});
+                            eagle.setAnimationByName(0, "LOSE", true);
+                            losed=true
+                            if(lives===0){
+                                finishGame()
+                            }   
                         }
                    }else{
                        countComplete++
@@ -395,6 +445,8 @@ var spaceCount = function(){
         }               
         
         function newYogotar(){
+            
+            buttonGame.inputEnabled = true;
             sound.play("inflateballoon");
             okBtn.visible = false
             buttonGame.x = 0;
@@ -406,7 +458,8 @@ var spaceCount = function(){
             
             function newLevel(){
                 for(i=0;i<=9;i++){
-                    multipleBars[i][1].alpha = 0; 
+                    multipleBars[i][2].alpha = 0;
+                    multipleBars[i][1].alpha = 0;
                 }
                 currentTapIndex = 0
                 NumTaps = 0;
@@ -415,8 +468,10 @@ var spaceCount = function(){
                 counterText.setText(activeMultiple * 10);
                 sound.play("robotBeep");
                 TweenMax.fromTo(counterText.scale,0.5,{x:2,y:2},{x:1,y:1});
-                if(numberTime >= 2.5){
+                if(numberTime >= 2.5 && !losed){
                     numberTime = numberTime - 0.25
+                }else{
+                    losed=false
                 }
                timer(numberTime); 
                inCount = false
@@ -428,7 +483,7 @@ var spaceCount = function(){
         function finishGame(){
             eagle.setAnimationByName(0, "LOSE", true); 
             TweenMax.to(game,2,{alpha:0,onComplete:gameOver});
-            sound.play("wrong");
+            sound.play("wrongAnswer");
             sound.play("gameLose");
             bgm.stop();	
             NumTaps = 0;

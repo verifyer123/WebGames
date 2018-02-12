@@ -837,5 +837,5 @@ var magic = function(){
 			loadSounds()
 			initialize()
 		}
-	}
+	}  
 }()

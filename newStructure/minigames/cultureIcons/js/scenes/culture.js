@@ -105,7 +105,7 @@ var culture = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 
         
         loadSounds()
@@ -718,6 +718,16 @@ var culture = function(){
 					missPoint()
 					createPart('wrong',obj)
 					setExplosion(obj)
+                    game.time.events.add(1000,showObjects)
+					game.time.events.add(2200,function(){
+						
+						indexToUse++
+						if(indexToUse == countryList.length){
+							setOrderList()
+						}
+						setFlag()
+						showObjects(true)
+					})
 				}
 			})
 		}else{

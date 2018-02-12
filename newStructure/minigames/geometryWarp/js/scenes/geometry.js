@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var geometry = function(){
 
 	var localizationData = {
@@ -21,7 +23,13 @@ var geometry = function(){
 				name: "atlas.geometry",
 				json: "images/geometry/atlas.json",
 				image: "images/geometry/atlas.png"
-			}
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
 		],
 		images: [
 
@@ -116,14 +124,17 @@ var geometry = function(){
 		game.stage.disableVisibilityChange = false;
 		game.load.audio('geometrySong', soundsPath + 'songs/game_on.mp3');
 
-		game.load.image('introscreen',"images/geometry/introscreen.png")
+		/*game.load.image('introscreen',"images/geometry/introscreen.png")
 		game.load.image('howTo',"images/geometry/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/geometry/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/geometry/play" + localization.getLanguage() + ".png")*/
 
 		game.load.spine('ship', "images/spine/ship/ship.json")
 		game.load.spine('figures', "images/spine/figures/figures.json")
 
 		buttons.getImages(game)
+		game.load.image('tutorial_image',"images/geometry/tutorial_image.png")
+		loadType(gameIndex)
+
 
 	}
 
@@ -565,14 +576,10 @@ var geometry = function(){
 	}
 
 	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-
+		
 			tutoGroup.y = -game.world.height
 			startRound()
-			// startTimer(missPoint)
-		})
+
 	}
 
 	function createTutorial(){
@@ -581,7 +588,9 @@ var geometry = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
+		createTutorialGif(tutoGroup,onClickPlay)
+
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		rect.alpha = 0.7
@@ -620,7 +629,7 @@ var geometry = function(){
 		button.anchor.setTo(0.5,0.5)
 
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 	}
 	
 	function spawnAsteroid() {

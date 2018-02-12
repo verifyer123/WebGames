@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var lakeStrike = function(){
     
     var localizationData = {
@@ -29,6 +30,12 @@ var lakeStrike = function(){
                 json: "images/lake/timeAtlas.json",
                 image: "images/lake/timeAtlas.png",
             },
+              {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -297,16 +304,18 @@ var lakeStrike = function(){
         
         game.load.spine('lake', "images/Spine/lake/lake.json");
         
-		game.load.image('howTo',"images/lake/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/lake/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/lake/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/lake/introscreen.png")
+		game.load.image('introscreen',"images/lake/introscreen.png")*/
         
         game.load.spritesheet("pollutionMoving", 'images/Spine/Pollution/224X220_25F_24FPS.png', 224, 220, 25)
         game.load.spritesheet("pollutionKilled", 'images/Spine/Pollution/244X279_25F_24FPS.png', 244, 279, 25)
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
         
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/lake/tutorial_image.png")
+        loadType(gameIndex)
+
         game.time.advancedTiming = true;
     }
     
@@ -315,8 +324,10 @@ var lakeStrike = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -365,7 +376,13 @@ var lakeStrike = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        startGame=true
+        returnGenerate()
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

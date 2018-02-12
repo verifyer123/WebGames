@@ -45,6 +45,8 @@ var lizart = function(){
 				file: soundsPath + "combo.mp3"}
 		],
 	}
+	var INITIAL_LIVES = 3
+
     var gameIndex = 28;
 	var background;
 	var sceneGroup = null;
@@ -73,7 +75,8 @@ var lizart = function(){
 	var globo;
 	var textGlobo;
 	var idleBody;
-	var idleEyes;	
+	var idleEyes;
+	var wrongIdleEyes	
 	var rightBody;
 	var rightEyes;	
 	var wrongBody;
@@ -131,7 +134,7 @@ var lizart = function(){
 		sound.decode(assets.sounds)
 	}
 	function initialize(){
-		lives = 1;
+		lives = INITIAL_LIVES;
 		coins = 0;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
@@ -158,7 +161,7 @@ var lizart = function(){
 		}
 	
 	function createOverlay(){
-		lives = 1;
+		lives = INITIAL_LIVES;
 		coins = 0;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
@@ -345,6 +348,15 @@ var lizart = function(){
 		idleEyes.animations.play('idleEyesAnimation', 24, true);
 		idleEyes.alpha = 0;
 		idleGroup.x = game.world.centerX/2;
+
+		/*wrongIdleEyes = idleGroup.create(0, 0, 'wrongEyes');
+		wrongIdleEyes.y = idleBody.y - idleBody.height/10;
+		wrongIdleEyes.x = idleBody.x + idleBody.width/1.8;
+		wrongIdleEyes.animations.add('wrongEyesAnimation');
+		//idleEyes.animations.play('idleEyesAnimation', 24, true);
+		wrongIdleEyes.alpha = 0;
+		idleGroup.x = game.world.centerX/2;*/
+
 		
 	
 		var rightGroup = game.add.group();
@@ -448,17 +460,52 @@ var lizart = function(){
 				TweenMax.to(idleBody,0.5,{tint:fruitItem.color,onComplete:winLizar});	
 				sound.play("magic");
 			}else{
-				wrongBody.animations.play('wrongBodyAnimation', 24, false);
-				wrongEyes.animations.play('wrongEyesAnimation', 24, false);
-				wrongGroup.alpha = 1;
-				idleGroup.alpha = 0;
+				//wrongBody.animations.play('wrongBodyAnimation', 24, false);
+				
+				
+				//idleGroup.alpha = 0;
 				lives--;
 				heartsText.setText("x " + lives);
-				TweenMax.to(wrongBody,1,{alpha:0,onComplete:gameOver});	
-				sound.play("gameLose");
-				bgm.stop();
+
+				if(lives<=0){
+					idleGroup.alpha = 0;
+					wrongGroup.alpha = 1;
+					wrongEyes.animations.play('wrongEyesAnimation', 24, false);
+					wrongBody.animations.play('wrongBodyAnimation', 24, false);
+					TweenMax.to(wrongBody,1,{alpha:0,onComplete:gameOver});	
+					sound.play("gameLose");
+					bgm.stop();
+				}
+				else{
+					sound.play("wrong")
+					//idleEyes.alpha = 0;
+					//wrongIdleEyes.alpha = 1;
+					globo.destroy();
+					textGlobo.destroy();
+					idleGroup.alpha = 0;
+					wrongGroup.alpha = 1;
+					wrongEyes.animations.play('wrongEyesAnimation', 24, false);
+					wrongBody.animations.play('wrongBodyAnimation', 24, false);
+					//wrongIdleEyes.animations.play('wrongEyesAnimation', 24, false);
+					TweenMax.to(wrongBody,1,{alpha:0,onComplete:endwrong});	
+				}
+				
+				
 			}
 
+		}
+
+		function endwrong(){
+			//globo.destroy();
+			//textGlobo.destroy();
+			idleGroup.alpha = 0;
+			wrongGroup.alpha = 0;
+			//createFruits()
+			for(var i = 0;i<=5;i++){
+				fruits[i].y = -500;
+			}
+			TweenMax.to(idleGroup,1,{alpha:1,onComplete:newLizar,delay:0});
+			//newLizar()
 		}
 		
 		function winLizar(){
@@ -468,12 +515,13 @@ var lizart = function(){
 			idleGroup.alpha = 0;
 			coins++;
 			xpText.setText(coins)
+			sound.play("combo");
 			TweenMax.to(rightGroup,1,{alpha:1,onComplete:newLizar,delay:1});
 		}
 		
 		function newLizar(){
 			canTakeFruit = true
-			sound.play("combo");
+			
 			rightGroup.alpha = 0;
 			idleGroup.alpha = 1;
 			createFruits();

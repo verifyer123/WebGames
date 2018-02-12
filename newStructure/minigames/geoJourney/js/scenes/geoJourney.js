@@ -1,4 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var geoJourney = function(){
     
 	var localizationData = {
@@ -34,10 +35,15 @@ var geoJourney = function(){
                 json: "images/geoJourney/atlas.json",
                 image: "images/geoJourney/atlas.png",
             },
+              {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
-            {   name:"fondo",
-				file: "images/geoJourney/background.png"},
+            
 		],
 		sounds: [
             {	name: "pop",
@@ -153,9 +159,13 @@ var geoJourney = function(){
         
         game.load.audio('runningSong', soundsPath + 'songs/jungle_fun.mp3');
 		
-		game.load.image('howTo',"images/geoJourney/tutorial/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/geoJourney/tutorial/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/geoJourney/tutorial/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/geoJourney/tutorial/introscreen.png")
+		game.load.image('introscreen',"images/geoJourney/tutorial/introscreen.png")*/
+
+        game.load.image('tutorial_image',"images/geoJourney/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -439,7 +449,7 @@ var geoJourney = function(){
 				
 				if(checkOverlap(player,back) && levelIndex == back.index && back.isSep){
 					
-					console.log(back.index + ' index')
+					//console.log(back.index + ' index')
 					if(levelIndex > 4){
 						
 						if(levelContainer.alpha == 1){
@@ -945,8 +955,10 @@ var geoJourney = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -994,7 +1006,13 @@ var geoJourney = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        gameActive = true
+        doJump()
     }
 	
 	function createBackgrounds(){

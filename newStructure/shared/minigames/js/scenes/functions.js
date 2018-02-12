@@ -131,7 +131,7 @@ function createHearts(lives){
 		heartsText.x = game.world.width - 75;
 		heartsText.y = 5;
 		heartsText.initialLives = lives
-		sceneGroup.add(heartsGroup);		
+		sceneGroup.add(heartsGroup);	
 }
 	
 function createCoins(coins){

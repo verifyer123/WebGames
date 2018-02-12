@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/pizzafraction/";
+var tutorialPath = "../../shared/minigames/"
+
 
 var pizzafraction = function(){
 
@@ -9,7 +11,13 @@ var pizzafraction = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -91,6 +99,17 @@ var pizzafraction = function(){
 		/*SPINE*/
 		game.load.spine("yogotar", imagePath + "spine/skeleton.json");
 
+		var inputName = 'movil'
+        
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+
+
+		game.load.image('tutorial_image',imagePath+"tutorial_image_"+inputName+".png")
+		loadType(gameIndex)
+
+
 	}
 
 	function loadSounds(){
@@ -142,9 +161,11 @@ var isMobile = {
 		var background = new Phaser.Graphics(game)
         background.beginFill(0xf15a24)
         background.drawRect(0,0,game.world.width *2, game.world.height *2)
-        background.alpha = 0.7
+        background.alpha = 1
         background.endFill()
 		sceneGroup.add(background);
+        
+        
 
 		var circles = sceneGroup.create(0,0,"circles");
 		circles.y = 0;

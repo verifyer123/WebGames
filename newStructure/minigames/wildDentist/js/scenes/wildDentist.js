@@ -1,19 +1,26 @@
 var soundsPath = "../../shared/minigames/sounds/";
+var tutorialPath = "../../shared/minigames/"
 var imagePath = "images/wildDentist/";
 var wildDentist = function(){
 
 	assets = {
         atlases: [                
-			{
+			/*{
                 name:  "atlas.tutorial",
                 json:  imagePath + "tutorial/atlas.json",
                 image: imagePath + "tutorial/atlas.png",
-			},                
+			},    */            
 			{
                 name:  "atlas.game",
                 json:  imagePath + "atlas.json",
                 image: imagePath + "atlas.png",
-			}],
+			},
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -81,6 +88,7 @@ var wildDentist = function(){
 	
 
     function preload() {
+        
 		buttons.getImages(game);
         game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
         game.load.image("background", imagePath + "background.png");
@@ -98,6 +106,10 @@ var wildDentist = function(){
         game.load.spritesheet('caries', imagePath + 'sprites/caries/sprite.png', 249, 238, 23);
         game.load.spritesheet('idle', imagePath + 'sprites/idle/sprite.png', 249, 238, 24);
         game.load.spritesheet('hit', imagePath + 'sprites/hit/sprite.png', 338, 268, 14);
+
+        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+        loadType(gameIndex)
+
     }
 
 	function loadSounds(){
@@ -299,7 +311,10 @@ function createTextPart(text,obj){
                 overlayGroup.scale.setTo(1.2,1.2);
             }
         sceneGroup.add(overlayGroup);
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width, game.world.height);
         rect.alpha = 0.7
@@ -348,8 +363,23 @@ function createTextPart(text,obj){
 		var button = overlayGroup.create(game.world.centerX, plane.y + plane.height/2,"atlas.tutorial",'button')
 		button.anchor.setTo(0.4,0.5)
 		var playText = overlayGroup.create(game.world.centerX, button.y,"atlas.tutorial",'play' + localization.getLanguage())
-		playText.anchor.setTo(0.4,0.5)
+		playText.anchor.setTo(0.4,0.5)*/
+
+
     };	
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        
+        bgm = game.add.audio('wormwood');
+            game.sound.setDecodedCallback(bgm, function(){
+            }, this);
+        
+        bgm.loopFull(0.5);
+        starGame = true;
+        buttons.getButton(bgm,sceneGroup)
+    }
+
 	
 	function createHearts(){
 		heartsGroup = game.add.group();

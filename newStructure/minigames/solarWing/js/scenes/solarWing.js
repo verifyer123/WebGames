@@ -1,6 +1,8 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
+
 var solarWing = function(){
     
     var localizationData = {
@@ -30,6 +32,12 @@ var solarWing = function(){
                 json: "images/solar/timeAtlas.json",
                 image: "images/solar/timeAtlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -388,15 +396,17 @@ var solarWing = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         
-		game.load.image('howTo',"images/solar/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/solar/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/solar/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/solar/introscreen.png")
+		game.load.image('introscreen',"images/solar/introscreen.png")*/
         
         game.load.spine("eagle","images/Spine/eagle/eagle.json")
         game.load.spine("sun","images/Spine/sun/sun.json")
         
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/solar/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -405,8 +415,10 @@ var solarWing = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -455,7 +467,16 @@ var solarWing = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        canCreate=true
+        createClouds()
+
+        startGame=true
+
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

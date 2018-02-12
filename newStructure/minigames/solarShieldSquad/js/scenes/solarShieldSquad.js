@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
 var solarShieldSquad = function(){
     
     var localizationData = {
@@ -30,6 +31,12 @@ var solarShieldSquad = function(){
                 json: "images/solarS/timeAtlas.json",
                 image: "images/solarS/timeAtlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -321,16 +328,18 @@ var solarShieldSquad = function(){
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
         game.load.spritesheet("explo", 'images/Spine/explo.png', 140, 168, 5)
         
-		game.load.image('howTo',"images/solarS/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/solarS/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/solarS/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/solarS/introscreen.png")
+		game.load.image('introscreen',"images/solarS/introscreen.png")*/
         
         
         game.load.spine("sunS","images/Spine/Sun/sun.json")
         game.load.spine("shieldS","images/Spine/Shield/shield.json")    
         game.load.spine("meteors","images/Spine/Meteor/meteor.json")
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/solarS/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -339,8 +348,10 @@ var solarShieldSquad = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -387,7 +398,15 @@ var solarShieldSquad = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+
+    }
+
+    function onClickPlay(){
+        //Aqui va la primera funciòn que realizara el juego
+        returnGenerate()
+        startGame=true
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

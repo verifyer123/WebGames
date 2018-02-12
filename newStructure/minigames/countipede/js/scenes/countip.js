@@ -78,6 +78,7 @@ var countip = function(){
 	var countipSong
 	var exitArrow
 	var timeValue
+    var lives
 	var quantNumber
 	var inputsEnabled
 	var pointsBar
@@ -110,6 +111,7 @@ var countip = function(){
 		roundCounter = 0
 		timeElapsed = 0
 		speed = 2
+        lives=3
 		objectsInGame = []
 		objectList = []
 
@@ -169,6 +171,35 @@ var countip = function(){
 		pointsBar.number = 0
 
 	}
+    
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 10
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        var heartImg = group.create(0,0,'atlas.stomake','life_box')
+
+        pivotX+= heartImg.width * 0.45
+        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
+    }
 
 	function createGameObjects(){
 
@@ -949,6 +980,7 @@ var countip = function(){
 			createPointsBar()
 			createGameObjects()
 			// createClock()
+            createHearts()
 			createTutorial()
 
 			// addRandomApple()

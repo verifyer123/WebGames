@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/piratePieces/";
+var tutorialPath = "../../shared/minigames/"
+
 
 var piratePieces = function(){
 	
@@ -19,7 +21,13 @@ var piratePieces = function(){
                 name: "atlas.pirate",
                 json: "images/piratePieces/atlas.json",
                 image: "images/piratePieces/atlas.png",
-			}],
+			},
+			 {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [
 			
 		],
@@ -108,9 +116,9 @@ var piratePieces = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		
 		/*GAME*/
 		game.load.image("sea",imagePath + "sea.png");
@@ -119,8 +127,15 @@ var piratePieces = function(){
         game.load.image("chest",imagePath + "cofre.png");
 		/*SPINE*/
 		game.load.spine("ship", imagePath + "spine/ships.json");
+		var inputName = 'movil'
+        
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
 
-		
+		game.load.image('tutorial_image',imagePath+"tutorial_image_"+inputName+".png")
+		loadType(gameIndex)
+
 		
 		
 	}
@@ -956,8 +971,10 @@ var piratePieces = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -1005,8 +1022,15 @@ var piratePieces = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 		
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		setNumber()
+		
+		gameActive = true
     }
 	
 	function createClock(){

@@ -66,7 +66,7 @@ var clockfix = function(){
 	var background;
 	var heartsGroup = null;
 	var heartsIcon;
-	var lives = 1;
+	var lives = 3;
 	var cursors;
 	var coins = 0;
 	var activeGame = true;
@@ -148,7 +148,7 @@ var clockfix = function(){
 	}
 	
 	function initialize(){
-		lives = 1;
+		lives = 3;
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
@@ -278,8 +278,8 @@ var clockfix = function(){
                 object.alpha = 1;
             }
 
-            console.log("hora:" + hour);
-            console.log("minuto:" + minute);
+//            console.log("hora:" + hour);
+//            console.log("minuto:" + minute);
             
             for(i=0;i<=12;i++){
                 switch(hour){
@@ -332,25 +332,49 @@ var clockfix = function(){
             }else{
                 object.inputEnabled = false;
                 TweenMax.to(manecilla1,0.5,{angle:180,ease:Back.easeOut});
-                TweenMax.to(manecilla2,0.5,{angle:180,ease:Back.easeOut,onComplete:finishGame});
-                aclock.setAnimationByName(0, "LOSE", true);
+                TweenMax.to(manecilla2,0.5,{angle:180,ease:Back.easeOut});
+                aclock.setAnimationByName(0, "LOSE", false);
+               
+                
+                 game.time.events.add(1000,function(){
+                   TweenMax.to(manecilla1,3.5,{alpha:1,onComplete:newHour});
+                })
                 lives--;
+                game.add.tween(barra.scale).to({x:0},500,Phaser.Easing.linear,true)
+                timerBar.stop()
+                createHearts(lives)
+                if(lives===0){
+                finishGame()
                 heartsText.setText("x " + lives);
                                  if(coins >= 1){
-                      timerBar.kill();
                     }
+                }
             }
             
             answer = 0;
-            if(coins > 1){
-                timerBar.kill();
-            }
         }
         
-
         
-        
-        
+        function reset(object){
+            object.inputEnabled = false;
+                TweenMax.to(manecilla1,0.5,{angle:180,ease:Back.easeOut});
+                TweenMax.to(manecilla2,0.5,{angle:180,ease:Back.easeOut});
+                aclock.setAnimationByName(0, "LOSE", false);
+                game.add.tween(barra.scale).to({x:0},500,Phaser.Easing.linear,true)
+                timerBar.stop()
+                 game.time.events.add(1000,function(){
+                   TweenMax.to(manecilla1,3.5,{alpha:1,onComplete:newHour});
+                })
+                lives--;
+                createHearts(lives)
+                if(lives===0){
+                finishGame()
+                heartsText.setText("x " + lives);
+                                 if(coins >= 1){
+                    }
+                }
+            
+        }
         
         var textHour;
         if(hour <= 9){
@@ -518,8 +542,13 @@ var clockfix = function(){
                 time= time - 5;
             }
             barra.alpha = 1;
-            clockTime.alpha = 1;
-            timerClock();
+            if(coins!=0){
+                clockTime.alpha = 1;
+                timerClock();
+            }
+            manecilla1.alpha = 1;
+            manecilla2.alpha = 1;    
+            boton_manecillas.alpha = 1;
             sound.play("magic");
             console.log("Antes: hora:" + hour + " minuto:" + minute);
             targetAngle = 0;
@@ -550,8 +579,13 @@ var clockfix = function(){
         }
         
         
+        
         function timerClock(){
-            timerBar = TweenMax.fromTo(barra.scale,time,{x:0},{x:1,onComplete:finishGame});
+            
+            timerBar = game.add.tween(barra.scale).to({x:1},36000,Phaser.Easing.linear,true)
+            timerBar.onComplete.add(function(){
+                reset(okButtonOn)
+            })
         }
         
         function finishGame(){

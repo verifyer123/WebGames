@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var paper = function(){
 
 	var localizationData = {
@@ -21,7 +23,13 @@ var paper = function(){
 				name: "atlas.paper",
 				json: "images/paper/atlas.json",
 				image: "images/paper/atlas.png"
-			}
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
 		],
 		images: [
 			{
@@ -317,15 +325,19 @@ var paper = function(){
 		game.stage.disableVisibilityChange = false;
 		game.load.audio('paperSong', soundsPath + 'songs/battleLoop.mp3');
 
-		game.load.image('introscreen',"images/paper/introscreen.png")
+		/*game.load.image('introscreen',"images/paper/introscreen.png")
 		game.load.image('howTo',"images/paper/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/paper/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/paper/play" + localization.getLanguage() + ".png")*/
 
 		game.load.spine('background', "images/spine/background/skeleton.json")
 		game.load.spine('ship', "images/spine/ships/boats.json")
 		game.load.spritesheet('impact', 'images/paper/impact.png', 256, 256, 8)
 
 		buttons.getImages(game)
+
+		game.load.image('tutorial_image',"images/paper/tutorial_image.png")
+		loadType(gameIndex)
+
 
 	}
 
@@ -403,12 +415,9 @@ var paper = function(){
 	}
 
 	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+		
 			tutoGroup.y = -game.world.height
 			startRound()
-		})
 	}
 
 	function createTutorial(){
@@ -417,7 +426,10 @@ var paper = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
+		createTutorialGif(tutoGroup,onClickPlay)
+
+
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		rect.alpha = 0.7
@@ -455,7 +467,7 @@ var paper = function(){
 		button.anchor.setTo(0.5,0.5)
 
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 	}
 	
 	function waveUpdate() {

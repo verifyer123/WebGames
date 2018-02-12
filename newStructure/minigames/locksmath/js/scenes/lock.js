@@ -375,19 +375,35 @@ var lock = function(){
 			callback = function(){
 				startWin()
 			}
+            var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
+            lock.callback = callback
+            dissapear.onComplete.add(openDoors)
 		}else {
 			sound.play("anger")
 			lock.setAnimation(["LOSE"])
-			loseGroup.alpha = 1
-			callback = function(){
-				startLose()
-			}
+            missPoint()
+            if(lives !== 0){
+                clock.bar.scale.x = clock.bar.origScale
+                game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000).onComplete.add(startRound)                
+            }
+            else{
+                loseGroup.alpha = 1
+                callback = function(){
+                    startLose()
+                }
+                var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
+                lock.callback = callback
+                dissapear.onComplete.add(openDoors)
+            }
 		}
-		var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
-		lock.callback = callback
-		dissapear.onComplete.add(openDoors)
 		
 	}
+    
+    function newRound(){
+        
+        //startRound()
+        clock.bar.scale.x = clock.bar.origScale
+    }
 
 	function endTime(){
 		
@@ -603,6 +619,7 @@ var lock = function(){
 		game.load.image('introscreen',"images/lock/introscreen.png")
 		game.load.image('howTo',"images/lock/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/lock/play" + localization.getLanguage() + ".png")
+		game.load.image('life_box',"images/lock/life_box.png")
 
 		game.load.image('door',"images/lock/door.png")
 		game.load.spine('lock', "images/spine/lock.json")
@@ -717,43 +734,40 @@ var lock = function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
 
-		if(lives === 0){
+		/*if(lives === 0){
 			stopGame(false)
-		}
-		else{
-			startRound()
-		}
+		}*/
 
 		addNumberPart(heartsGroup.text,'-1')
 	}
 
-	// function createHearts(){
-	//
-	//     heartsGroup = game.add.group()
-	//     heartsGroup.y = 10
-	//     sceneGroup.add(heartsGroup)
-	//
-	//     var pivotX = 10
-	//     var group = game.add.group()
-	//     group.x = pivotX
-	//     heartsGroup.add(group)
-	//
-	//     var heartImg = group.create(0,0,'atlas.lock','life_box')
-	//
-	//     pivotX+= heartImg.width * 0.45
-	//
-	//     var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-	//     var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-	//     pointsText.x = pivotX
-	//     pointsText.y = heartImg.height * 0.15
-	//     pointsText.setText('X ' + lives)
-	//     heartsGroup.add(pointsText)
-	//
-	//     pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-	//
-	//     heartsGroup.text = pointsText
-	//
-	// }
+    function createHearts(){
+
+            heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+
+            var pivotX = 10
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+            var heartImg = group.create(0,0,'life_box')
+
+            pivotX+= heartImg.width * 0.45
+
+            var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+
+            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+            heartsGroup.text = pointsText
+
+        }
 
 	function startTimer(onComplete, delay) {
 		var delay = 500
@@ -1027,7 +1041,7 @@ var lock = function(){
 			createDoors()
 			createBarBlocks()
 
-			// createHearts()
+			createHearts()
 			createPointsBar()
 			createClock()
 			createTutorial()

@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 
 
 var rabitTrace = function(){
@@ -28,7 +29,13 @@ var rabitTrace = function(){
                 name: "atlas.time",
                 json: "images/rabitTrace/timeAtlas.json",
                 image: "images/rabitTrace/timeAtlas.png"
+            },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         /*images: [
             {   name:"fondo",
@@ -166,13 +173,16 @@ var rabitTrace = function(){
         game.load.spine('rabitSpineBack', "images/spines/rabit/bunny_back/bunny_back.json")
         game.load.audio('rabitSong', soundsPath + 'songs/childrenbit.mp3');
         
-        game.load.image('introscreen',"images/rabitTrace/introscreen.png")
+        /*game.load.image('introscreen',"images/rabitTrace/introscreen.png")
         game.load.image('howTo',"images/rabitTrace/how" + localization.getLanguage() + ".png")
-        game.load.image('buttonText',"images/rabitTrace/play" + localization.getLanguage() + ".png")
+        game.load.image('buttonText',"images/rabitTrace/play" + localization.getLanguage() + ".png")*/
 
         game.load.spritesheet("coin", 'images/rabitTrace/coin.png', 122, 123, 12)
 
         buttons.getImages(game)
+        game.load.image('tutorial_image',"images/rabitTrace/tutorial_image.png")
+        loadType(gameIndex)
+
 
     }
 
@@ -377,17 +387,10 @@ var rabitTrace = function(){
 
 
     function onClickPlay(rect) {
-        //console.log('enter tuto')
-        rect.inputEnabled = false
-        sound.play("pop")
+        tutoGroup.y = -game.world.height
+        inputsEnabled = true
+        setRound()
 
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.Linear.none,true).onComplete.add(function(){
-
-            tutoGroup.y = -game.world.height
-            inputsEnabled = true
-            setRound()
-            // startTimer(missPoint)
-        })
     }
     
     function update() {
@@ -537,8 +540,11 @@ var rabitTrace = function(){
         tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
+
+        createTutorialGif(tutoGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -576,7 +582,7 @@ var rabitTrace = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
     }
 
 
