@@ -64,7 +64,7 @@ var flag = function(){
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 			{	name: "spaceShip",
-				file: soundsPath + "spaceship.mp3"},
+				file: soundsPath + "whoosh.mp3"},
 			{	name: "fly",
 				file: soundsPath + "inflateballoon.mp3"},
 			
@@ -553,18 +553,18 @@ var flag = function(){
 			
 			if(i % 2 == 0){
 				tileName = 'leftP'
-				left = 1
+				left = 0
 			}else{
 				tileName = 'rightP'
 			}
 			
 			if(i == 0 || i > 5){
 				tileName = 'safeP'
-				left = 3
+				left = -10
 				tileHeight = 160
 			}
 			
-			var tile = game.add.tileSprite(0,pivotY,game.world.width, tileHeight, 'atlas.flag',tileName);
+			var tile = game.add.tileSprite(0,pivotY,game.world.width+10, tileHeight, 'atlas.flag',tileName);
 			tile.left = left
 			lanesGroup.add(tile)
 			

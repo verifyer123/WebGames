@@ -58,7 +58,7 @@ var luckynumber = function(){
 	timer = 10;
 	timerCount = null;
 	starGame = true;
-	lives = 1;
+	lives = 3;
 	coins = 0;
 	heartsText = null;	
 	xpText = null;
@@ -78,7 +78,7 @@ var luckynumber = function(){
 		game.load.image("heartsIcon", imagePath +"hearts.png");
 		game.load.image("xpIcon", imagePath +"xpcoins.png");	
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
-		game.load.image('pc',imagePath +"tutorial/desktop.png");
+		game.load.image('desktop',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
 		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
@@ -111,7 +111,7 @@ var luckynumber = function(){
 	}
 	
 	function initialize(){
-		lives = 1;
+		lives = 3;
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
@@ -143,6 +143,7 @@ var isMobile = {
 
 	/*CREATE SCENE*/
     function createScene(){
+        lives = 3;
 		count = 0;
         giro = 2;
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
@@ -278,7 +279,7 @@ var isMobile = {
                 }else{
                     fractionPizza[1].tint = 0x000000;
                     count = 0;
-                    stopGame(); 
+                    reset()
                     
                 }
                     
@@ -291,7 +292,7 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[8].tint = 0x000000;
-                    stopGame(); 
+                    reset()
                 }
             }    
 
@@ -302,7 +303,7 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[7].tint = 0x000000;
-                    stopGame(); 
+                    reset() 
                 }
             }            
 
@@ -313,7 +314,7 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[6].tint = 0x000000;
-                    stopGame(); 
+                    reset()
                 }
             }            
             else if(ruletaGroup.angle >= 180+deltaAngle && ruletaGroup.angle < 225+deltaAngle){
@@ -323,7 +324,7 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[5].tint = 0x000000;
-                    stopGame(); 
+                    reset() 
                 }
             }            
             else if(ruletaGroup.angle >= 225+deltaAngle && ruletaGroup.angle < 270+deltaAngle){
@@ -333,7 +334,7 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[4].tint = 0x000000;
-                    stopGame(); 
+                    reset()
                 }
             }            
             else if(ruletaGroup.angle >= 270+deltaAngle && ruletaGroup.angle < 315+deltaAngle){
@@ -343,7 +344,7 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[3].tint = 0x000000;
-                    stopGame(); 
+                    reset()
                 }
             }            
             else if(ruletaGroup.angle >= 315+deltaAngle || ruletaGroup.angle < 0+deltaAngle){
@@ -353,9 +354,12 @@ var isMobile = {
                      count++;
                 }else{
                     fractionPizza[2].tint = 0x000000;
-                    stopGame(); 
+                    reset()
                 }
             }
+            
+            
+            
 
             /*var rouleteAngle = 45
 
@@ -415,7 +419,25 @@ var isMobile = {
 			
 		}		
         
-
+        function reset(){
+                
+                lives--
+                createHearts(lives)
+                if(lives==0){
+                   stopGame()
+                   }
+                clockText.setText(timer);
+			    clearInterval(timerCount);
+                count=0;
+                particleWrong.x = fracciones.x 
+                particleWrong.y = fracciones.y
+                particleWrong.start(true, 1200, null, 6)
+                timbre_iddle.inputEnabled = false;
+                sound.play("wrong");
+				sound.play("gameLose");
+            
+            newroulette()
+            }
         function stopGame(){
             timbre_iddle.inputEnabled = false;
             TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:1,onComplete:gameOver});
@@ -463,6 +485,7 @@ var isMobile = {
 					fractionPizza[i].alpha = 0.2;
 					fractionPizza[i].inputEnabled = true;
 					fractionPizza[i].press = false;
+                    fractionPizza[i].tint = 0xffffff;
 				}
 				textGlobe.setText(fractions[0].fraction);
 				sound.play("combo");
@@ -490,7 +513,6 @@ var isMobile = {
 					TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:1,onComplete:gameOver});
 					sound.play("wrong");
 					sound.play("gameLose");
-					bgm.stop();	
 		}
 		clockText.setText(timer);
 	}		
@@ -522,6 +544,7 @@ var isMobile = {
         }else{
            ruletaGroup.angle = 0; 
         }
+            
         }
         
         

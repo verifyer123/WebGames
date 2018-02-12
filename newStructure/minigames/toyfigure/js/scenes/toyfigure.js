@@ -143,14 +143,14 @@ var toyfigure = function(){
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-		var background = sceneGroup.create(0,0,"background");
-        background.width = game.width;
-        background.height = game.height;
+		var background = sceneGroup.create(-100,-100,"background");
+        background.width = game.width*2;
+        background.height = game.height*2;
         
 		var floor = sceneGroup.create(0,game.height/1.5,"floor");
         floor.anchor.setTo(0,0);
         floor.width = game.width;
-        floor.height = game.height/3;
+        floor.height = game.height*2;
         
         var bed = sceneGroup.create(0,0,"atlas.toy","cama.png");
         bed.x = game.width - bed.width;

@@ -97,6 +97,7 @@ var stomake = function(){
     var clock, timeBar
     var emitter
     var wall
+    var already
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -110,6 +111,7 @@ var stomake = function(){
         howMany=0
         howMany2=0
         howMany3=0
+        already=0
         wall=0
         charRight=false
         charLeft=false
@@ -394,32 +396,29 @@ var stomake = function(){
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
-        
-        
-        backG1=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.stomake","fondo");
-        backG1.anchor.setTo(0.5,0.5)
-        backG1.scale.setTo(game.world.width/500,1)  
-        backgroundGroup.add(backG1)
-        
-        backG12=game.add.sprite(game.world.centerX,game.world.centerY-game.world.height,"atlas.stomake","fondo");
-        backG12.anchor.setTo(0.5,0.5)
-        backG12.scale.setTo(game.world.width/500,1)  
+        backG12=game.add.tileSprite(game.world.centerX,game.world.centerY,game.world.width,game.world.height,"atlas.stomake","fondo");
+        backG12.anchor.setTo(0.5,0.5) 
         backgroundGroup.add(backG12)
         
         
         
         
-        backG2=game.add.tileSprite(0,0,50,game.world.height,"atlas.stomake","tile");
-        backG3=game.add.tileSprite(game.world.width,0,50,game.world.height,"atlas.stomake","tile");
+        backG2=game.add.tileSprite(0,0,35,game.world.height,"atlas.stomake","tile");
+        backG3=game.add.tileSprite(game.world.width,0,35,game.world.height,"atlas.stomake","tile");
         backG3.scale.setTo(-1,1)
         
-        backgroundGroup.add(backG2)
+        backG4=game.add.tileSprite(0,0,160,game.world.height,"atlas.stomake","tripas");
+        backG5=game.add.tileSprite(game.world.width,0,160,game.world.height,"atlas.stomake","tripas");
+        backG5.scale.setTo(-1,1)
+        
+         backgroundGroup.add(backG4)
+        backgroundGroup.add(backG5)
         backgroundGroup.add(backG3)
+        backgroundGroup.add(backG2)
         
         
-        floor=game.add.sprite(game.world.centerX,game.world.height-50,"atlas.stomake","piso")
-        floor.scale.setTo(game.world.width/500,1)
-        floor.anchor.setTo(0.5,0.5)
+        floor=game.add.tileSprite(0,game.world.height-50,game.world.width,100,"atlas.stomake","piso")
+        floor.anchor.setTo(0,0.5)
         backgroundGroup.add(floor)
 
         
@@ -547,7 +546,7 @@ var stomake = function(){
         var where=0
         var generate=game.rnd.integerInRange(0,9);
         
-        if(howMany<howMuch && wall<2){
+        if(howMany<howMuch && wall<2 && already<8){
             if(where==0){
                 while(enemysActive[generate]==true){
                     generate=game.rnd.integerInRange(0,9);
@@ -561,6 +560,7 @@ var stomake = function(){
                     enemyTween[generate]=game.add.tween(enemys[generate]).to({y:destinyY},speed,Phaser.Easing.In,true)
                     enemysActive[generate]=true;
                     howMany++;
+                    already++
                 }
             }
         }
@@ -649,138 +649,142 @@ var stomake = function(){
                 }
             
             if(wall==2){
-                enemys[generate].alpha=1
-                enemys[generate].scale.setTo(0.7,0.7)
-                enemys[generate].position.x=game.world.centerX-200
-                enemys[generate].position.y=-250;
-                enemyTween[generate]=game.add.tween(enemys[generate]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemysActive[generate]=true;
-                howMany++;
-                
-                
-                enemys[generate2].alpha=1
-                enemys[generate2].scale.setTo(0.7,0.7)
-                enemys[generate2].position.x=game.world.centerX-100
-                enemys[generate2].position.y=-200;
-                enemyTween[generate2]=game.add.tween(enemys[generate2]).to({y:destinyY},speed,Phaser.Easing.In,true)
-                enemysActive[generate2]=true;
-                howMany++;
-
-                
-                enemys[generate3].alpha=1
-                enemys[generate3].scale.setTo(0.7,0.7)
-                enemys[generate3].position.x=game.world.centerX
-                enemys[generate3].position.y=-250;
-                enemyTween[generate3]=game.add.tween(enemys[generate3]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemysActive[generate3]=true;
-                howMany++;
-
-                
-                enemys[generate4].alpha=1
-                enemys[generate4].scale.setTo(0.7,0.7)
-                enemys[generate4].position.x=game.world.centerX+100
-                enemys[generate4].position.y=-200;
-                enemyTween[generate4]=game.add.tween(enemys[generate4]).to({y:destinyY},speed,Phaser.Easing.In,true)
-                enemysActive[generate4]=true;
-                howMany++;
-
-                enemys[generate5].alpha=1
-                enemys[generate5].scale.setTo(0.7,0.7)
-                enemys[generate5].position.x=game.world.centerX+200
-                enemys[generate5].position.y=-250;
-                enemyTween[generate5]=game.add.tween(enemys[generate5]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemysActive[generate5]=true;
-                howMany++;
-                
-                
-                enemys2[generate11].alpha=1
-                enemys2[generate11].scale.setTo(0.7,0.7)
-                enemys2[generate11].position.x=game.world.centerX-350
-                enemys2[generate11].position.y=-200;
-                enemy2Tween[generate11]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys2Active[generate11]=true;
-                howMany2++;
-                
-                enemys2[generate12].alpha=1
-                enemys2[generate12].scale.setTo(0.7,0.7)
-                enemys2[generate12].position.x=game.world.centerX-450
-                enemys2[generate12].position.y=-250;
-                enemy2Tween[generate12]=game.add.tween(enemys2[generate12]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys2Active[generate12]=true;
-                howMany2++;
-                
-                enemys2[generate13].alpha=1
-                enemys2[generate13].scale.setTo(0.7,0.7)
-                enemys2[generate13].position.x=game.world.centerX-550
-                enemys2[generate13].position.y=-200;
-                enemy2Tween[generate13]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys2Active[generate13]=true;
-                howMany2++;
-                
-                enemys2[generate14].alpha=1
-                enemys2[generate14].scale.setTo(0.7,0.7)
-                enemys2[generate14].position.x=game.world.centerX-650
-                enemys2[generate14].position.y=-250;
-                enemy2Tween[generate14]=game.add.tween(enemys2[generate14]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys2Active[generate14]=true;
-                howMany2++;
-                
-                enemys2[generate15].alpha=1
-                enemys2[generate15].scale.setTo(0.7,0.7)
-                enemys2[generate15].position.x=game.world.centerX-750
-                enemys2[generate15].position.y=-200;
-                enemy2Tween[generate15]=game.add.tween(enemys2[generate15]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys2Active[generate15]=true;
-                howMany2++;
-                
-                enemys3[generate21].alpha=1
-                enemys3[generate21].scale.setTo(0.7,0.7)
-                enemys3[generate21].position.x=game.world.centerX+350
-                enemys3[generate21].position.y=-250;
-                enemy3Tween[generate21]=game.add.tween(enemys3[generate21]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys3Active[generate21]=true;
-                howMany3++;
-                
-                enemys3[generate22].alpha=1
-                enemys3[generate22].scale.setTo(0.7,0.7)
-                enemys3[generate22].position.x=game.world.centerX+450
-                enemys3[generate22].position.y=-200;
-                enemy3Tween[generate22]=game.add.tween(enemys3[generate22]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys3Active[generate22]=true;
-                howMany3++;
-                
-                
-                enemys3[generate23].alpha=1
-                enemys3[generate23].scale.setTo(0.7,0.7)
-                enemys3[generate23].position.x=game.world.centerX+550
-                enemys3[generate23].position.y=-250;
-                enemy3Tween[generate23]=game.add.tween(enemys3[generate23]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys3Active[generate23]=true;
-                howMany3++;
-                
-                
-                enemys3[generate24].alpha=1
-                enemys3[generate24].scale.setTo(0.7,0.7)
-                enemys3[generate24].position.x=game.world.centerX+650
-                enemys3[generate24].position.y=-200;
-                enemy3Tween[generate24]=game.add.tween(enemys3[generate24]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys3Active[generate24]=true;
-                howMany3++;
-                
-                enemys3[generate25].alpha=1
-                enemys3[generate25].scale.setTo(0.7,0.7)
-                enemys3[generate25].position.x=game.world.centerX+75    0
-                enemys3[generate25].position.y=-250;
-                enemy3Tween[generate25]=game.add.tween(enemys3[generate25]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
-                enemys3Active[generate25]=true;
-                howMany3++;
-            
                 wall=3
-                game.time.events.add(800,function(){
-                    wall=0
+                
+                game.time.events.add(3000,function(){
+                    enemys[generate].alpha=1
+                    enemys[generate].scale.setTo(0.7,0.7)
+                    enemys[generate].position.x=game.world.centerX-200
+                    enemys[generate].position.y=-250;
+                    enemyTween[generate]=game.add.tween(enemys[generate]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemysActive[generate]=true;
+                    howMany++;
+
+
+                    enemys[generate2].alpha=1
+                    enemys[generate2].scale.setTo(0.7,0.7)
+                    enemys[generate2].position.x=game.world.centerX-100
+                    enemys[generate2].position.y=-200;
+                    enemyTween[generate2]=game.add.tween(enemys[generate2]).to({y:destinyY},speed,Phaser.Easing.In,true)
+                    enemysActive[generate2]=true;
+                    howMany++;
+
+
+                    enemys[generate3].alpha=1
+                    enemys[generate3].scale.setTo(0.7,0.7)
+                    enemys[generate3].position.x=game.world.centerX
+                    enemys[generate3].position.y=-250;
+                    enemyTween[generate3]=game.add.tween(enemys[generate3]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemysActive[generate3]=true;
+                    howMany++;
+
+
+                    enemys[generate4].alpha=1
+                    enemys[generate4].scale.setTo(0.7,0.7)
+                    enemys[generate4].position.x=game.world.centerX+100
+                    enemys[generate4].position.y=-200;
+                    enemyTween[generate4]=game.add.tween(enemys[generate4]).to({y:destinyY},speed,Phaser.Easing.In,true)
+                    enemysActive[generate4]=true;
+                    howMany++;
+
+                    enemys[generate5].alpha=1
+                    enemys[generate5].scale.setTo(0.7,0.7)
+                    enemys[generate5].position.x=game.world.centerX+200
+                    enemys[generate5].position.y=-250;
+                    enemyTween[generate5]=game.add.tween(enemys[generate5]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemysActive[generate5]=true;
+                    howMany++;
+
+
+                    enemys2[generate11].alpha=1
+                    enemys2[generate11].scale.setTo(0.7,0.7)
+                    enemys2[generate11].position.x=game.world.centerX-350
+                    enemys2[generate11].position.y=-200;
+                    enemy2Tween[generate11]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys2Active[generate11]=true;
+                    howMany2++;
+
+                    enemys2[generate12].alpha=1
+                    enemys2[generate12].scale.setTo(0.7,0.7)
+                    enemys2[generate12].position.x=game.world.centerX-450
+                    enemys2[generate12].position.y=-250;
+                    enemy2Tween[generate12]=game.add.tween(enemys2[generate12]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys2Active[generate12]=true;
+                    howMany2++;
+
+                    enemys2[generate13].alpha=1
+                    enemys2[generate13].scale.setTo(0.7,0.7)
+                    enemys2[generate13].position.x=game.world.centerX-550
+                    enemys2[generate13].position.y=-200;
+                    enemy2Tween[generate13]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys2Active[generate13]=true;
+                    howMany2++;
+
+                    enemys2[generate14].alpha=1
+                    enemys2[generate14].scale.setTo(0.7,0.7)
+                    enemys2[generate14].position.x=game.world.centerX-650
+                    enemys2[generate14].position.y=-250;
+                    enemy2Tween[generate14]=game.add.tween(enemys2[generate14]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys2Active[generate14]=true;
+                    howMany2++;
+
+                    enemys2[generate15].alpha=1
+                    enemys2[generate15].scale.setTo(0.7,0.7)
+                    enemys2[generate15].position.x=game.world.centerX-750
+                    enemys2[generate15].position.y=-200;
+                    enemy2Tween[generate15]=game.add.tween(enemys2[generate15]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys2Active[generate15]=true;
+                    howMany2++;
+
+                    enemys3[generate21].alpha=1
+                    enemys3[generate21].scale.setTo(0.7,0.7)
+                    enemys3[generate21].position.x=game.world.centerX+350
+                    enemys3[generate21].position.y=-250;
+                    enemy3Tween[generate21]=game.add.tween(enemys3[generate21]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys3Active[generate21]=true;
+                    howMany3++;
+
+                    enemys3[generate22].alpha=1
+                    enemys3[generate22].scale.setTo(0.7,0.7)
+                    enemys3[generate22].position.x=game.world.centerX+450
+                    enemys3[generate22].position.y=-200;
+                    enemy3Tween[generate22]=game.add.tween(enemys3[generate22]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys3Active[generate22]=true;
+                    howMany3++;
+
+
+                    enemys3[generate23].alpha=1
+                    enemys3[generate23].scale.setTo(0.7,0.7)
+                    enemys3[generate23].position.x=game.world.centerX+550
+                    enemys3[generate23].position.y=-250;
+                    enemy3Tween[generate23]=game.add.tween(enemys3[generate23]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys3Active[generate23]=true;
+                    howMany3++;
+
+
+                    enemys3[generate24].alpha=1
+                    enemys3[generate24].scale.setTo(0.7,0.7)
+                    enemys3[generate24].position.x=game.world.centerX+650
+                    enemys3[generate24].position.y=-200;
+                    enemy3Tween[generate24]=game.add.tween(enemys3[generate24]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys3Active[generate24]=true;
+                    howMany3++;
+
+                    enemys3[generate25].alpha=1
+                    enemys3[generate25].scale.setTo(0.7,0.7)
+                    enemys3[generate25].position.x=game.world.centerX+750
+                    enemys3[generate25].position.y=-250;
+                    enemy3Tween[generate25]=game.add.tween(enemys3[generate25]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                    enemys3Active[generate25]=true;
+                    howMany3++;
+                    howMany=0
+                    sound.play("falling")
+                    game.time.events.add(3000,function(){
+                        wall=0
+                    })
                 })
                 
-                sound.play("falling")
+                
             }
             
             if(enemysActive[generate]==false && enemysActive[generate2]==false && enemysActive[generate3]==false && enemysActive[generate4]==false && enemysActive[generate5]==false && generate!=generate2 && generate!=generate3 && generate!=generate4 && generate!=generate5 && generate2!=generate3 && generate2!=generate4 && generate2!=generate5 && generate3!=generate4 && generate3!=generate5 && generate4!=generate5 && generate11!=generate12 && generate11!=generate13 && generate11!=generate14 && generate11!=generate15 && generate12!=generate13 && generate12!=generate14 && generate12!=generate15 && generate13!=generate14 && generate13!=generate15 && generate14!=generate15 && generate21!=generate22 && generate21!=generate23 && generate21!=generate24 && generate21!=generate25 && generate22!=generate23 && generate22!=generate24 && generate22!=generate25 && generate23!=generate24 && generate23!=generate25 && generate24!=generate25 ){
@@ -800,7 +804,7 @@ var stomake = function(){
     }
     
     function returnGenerate(){
-        if(lives>0){
+        if(lives>0 && already!=9){
             game.time.events.add(dificulty,function(){
                 generateThem()
             })
@@ -845,23 +849,17 @@ var stomake = function(){
 	function update(){
         
         
+        
         if(startGame && lives>0){
             epicparticles.update()
+            backG12.tilePosition.y+=10
             backG2.tilePosition.y+=10
             backG3.tilePosition.y+=10
+            backG4.tilePosition.y+=10
+            backG5.tilePosition.y+=10
             
             characterProxy.position.x=character.x
             characterProxy.position.y=character.y-50
-            
-            backG1.position.y+=15
-            backG12.position.y+=15
-            
-            if(backG1.position.y>=game.world.height+500){
-                backG1.position.y=backG1.height*-0.463
-            }
-            if(backG12.position.y>=game.world.height+500){
-                backG12.position.y=backG12.height*-0.458
-            }
             
             if((controles.left.isDown && character.x>100) || (charLeft && character.x>100)){
     
@@ -878,6 +876,8 @@ var stomake = function(){
                 
                 if(checkOverlap(characterProxy,food[check]) && activeFood[check] && lives>0){
                  
+                    already--
+                    
                     if(food[check].tag=="healthy"){
                         var temp=check
                         sound.play("eathealthy")
@@ -923,6 +923,8 @@ var stomake = function(){
                 
                 if(checkOverlap(characterProxy,food2[check]) && activeFood2[check] && lives>0){
                  
+                    already--
+                    
                     if(food2[check].tag=="healthy"){
                         var temp=check
                         sound.play("eathealthy")
@@ -968,6 +970,8 @@ var stomake = function(){
                 
                 if(checkOverlap(characterProxy,food3[check]) && activeFood3[check] && lives>0){
                  
+                    already--
+                    
                     if(food3[check].tag=="healthy"){
                         var temp=check
                         sound.play("eathealthy")
@@ -1014,16 +1018,21 @@ var stomake = function(){
             
             for(var checkAll=0; checkAll<10;checkAll++){
                 if(food[checkAll].y>game.world.height+50){
-                    food[checkAll].x=-200;
+                    food[checkAll].y=-200;
+                    
                     activeFood[checkAll]=false;
+                    already--
                 }
                  if(food2[checkAll].y>game.world.height+50){
-                    food2[checkAll].x=-200;
-                    activeFood3[checkAll]=false;
+                    food2[checkAll].y=-200;
+                     
+                    activeFood2[checkAll]=false;
+                     already--
                 }
-                 if(food2[checkAll].y>game.world.height+50){
-                    food2[checkAll].x=-200;
+                 if(food3[checkAll].y>game.world.height+50){
+                    food3[checkAll].y=-200; 
                     activeFood3[checkAll]=false;
+                     already--
                 }
             }
             if(howMany==10){
@@ -1031,8 +1040,11 @@ var stomake = function(){
                 if(wall<2){
                     wall++
                 }
-                if(dificulty>500){
-                    speed-=100
+                if(speed>50){
+                    speed-=200
+                }
+                if(dificulty>450){
+                    
                     dificulty-=100
                 }
             }

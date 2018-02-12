@@ -142,9 +142,11 @@ var isMobile = {
 		var background = new Phaser.Graphics(game)
         background.beginFill(0xf15a24)
         background.drawRect(0,0,game.world.width *2, game.world.height *2)
-        background.alpha = 0.7
+        background.alpha = 1
         background.endFill()
 		sceneGroup.add(background);
+        
+        
 
 		var circles = sceneGroup.create(0,0,"circles");
 		circles.y = 0;

@@ -654,11 +654,21 @@ var galactic = function(){
         
         
         //Cargo el fondo que sea resizeble
+               backGrect = new Phaser.Graphics(game)
+        backGrect.beginFill(0x1B1464)
+        backGrect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        backGrect.alpha = 1
+        backGrect.endFill()
+        backgroundGroup.add(backGrect)
+        
         
         var backGr=game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.galactic",'stars')
         backgroundGroup.add(backGr)
         
         backgroundStains()
+        
+        
+ 
         
         //Cargo el palo como si fuera del fondo
         
@@ -738,7 +748,7 @@ var galactic = function(){
     function reset()
     {
         
-        // Primero ponemos todo en su lugar con un tweenque haga invisibles todas las cosas y luego las acomodo para luego hacerlas visibles, aqui tambien manejo la dificultad
+        // Primero ponemos  todo en su lugar con un tweenque haga invisibles todas las cosas y luego las acomodo para luego hacerlas visibles, aqui tambien manejo la dificultad
         levels++
         if(levels%2==0 && dificulty>9)
             {
@@ -772,8 +782,12 @@ var galactic = function(){
             game.add.tween(textsPlanets[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
             game.add.tween(correctPositions[dissapearObjects]).to({alpha:0},500,Phaser.Easing.linear,true)
             dragablePlanets[dissapearObjects].reset(correctPositions[dissapearObjects].x,correctPositions[dissapearObjects].position.y)
+            
+            
             spinePlanets[dissapearObjects].position.x=dragablePlanets[dissapearObjects].position.x
             spinePlanets[dissapearObjects].position.y=dragablePlanets[dissapearObjects].position.y
+            textsPlanets[dissapearObjects].position.x=spinePlanets[dissapearObjects].position.x+50
+            textsPlanets[dissapearObjects].position.y=spinePlanets[dissapearObjects].position.y-35
             nebul[dissapearObjects].alpha=0
             
             dragablePlanets[dissapearObjects].inputEnabled = false;
@@ -781,7 +795,6 @@ var galactic = function(){
             dragablePlanets[dissapearObjects].body.gravity.set(0, 0);
 
         }
-        
                         tweentiempo=game.add.tween(timeBar.scale).to({x:-11.5,y:.7}, 1000, Phaser.Easing.Linear.Out, true, 100);
         
                         tweentiempo.onComplete.add(function(){
@@ -856,11 +869,7 @@ var galactic = function(){
                         else
                             {
                                 sound.play("wrong")
-                                hitthePlanets=false
-                                for(var quickBlock2=1;quickBlock2<9;quickBlock2++)
-                                {
-                                dragablePlanets[quickBlock2].kill();
-                                }
+                                reset();
                                 missPoint()
                             }
                     

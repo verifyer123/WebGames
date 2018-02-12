@@ -47,7 +47,7 @@ var magnet = function(){
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 			{	name: "spaceship",
-				file: soundsPath + "spaceship.mp3"},
+				file: soundsPath + "whoosh.mp3"},
 			{	name: "whoosh",
 				file: soundsPath + "whoosh.mp3"},
 			{	name: "alienLaugh",

@@ -630,12 +630,14 @@ var uni = function(){
 		sceneGroup.wrongParticle.x = clockCounter.centerX
 		sceneGroup.wrongParticle.y = clockCounter.centerY
 		sceneGroup.wrongParticle.start(true, 1000, null, 5)
-
+        
 		for(var objIndex = 0; objIndex < objectsInGame.length; objIndex++){
 			var spine = objectsInGame[objIndex]
 			spine.setAnimation(["LOSE"])
 		}
-
+        
+        missPoint()
+        if(lives===0){
 		var shockEffect = game.add.tween(clockCounter).to({x: clockCounter.x + 20}, 200, null, true)
 		shockEffect.onComplete.add(function () {
 			game.add.tween(clockCounter).to({x: clockCounter.x - 20}, 200, null, true).yoyo(true).loop(true)
@@ -650,8 +652,12 @@ var uni = function(){
 				sound.play("swipe")
 			})
 		})
-
-		stopGame()
+        }else{
+        game.time.events.add(700, function () {
+            theffanie.setAnimation(["IDLE"])
+        })
+        }
+		
 	}
 	
 	function checkCorrect(obj) {
@@ -823,6 +829,7 @@ var uni = function(){
 
 			// createHearts()
 			createPointsBar()
+            createHearts()
 			createGameObjects()
 			createClock()
 			createTutorial()
