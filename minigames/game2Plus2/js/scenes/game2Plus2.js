@@ -163,7 +163,7 @@ var game2Plus2 = function(){
 			marioSong.stop()
 		}
                 
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 5500)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -780,31 +780,31 @@ var game2Plus2 = function(){
     		color= 0x578de8
     		break
     		case 32:
-    		points=1
+    		points=2
     		color= 0x65c3d9
     		break
     		case 64:
-    		points=1
+    		points=3
     		color= 0x2ba8e0
     		break
     		case 128:
-    		points=1
+    		points=4
     		color= 0x8765f1
     		break
     		case 256:
-    		points=1
+    		points=5
     		color= 0x9281ef
     		break
     		case 512:
-    		points=1
+    		points=6
     		color= 0x7b5df4
     		break
     		case 1024:
-    		points=1
+    		points=7
     		color= 0x6e51d7
     		break
     		default:
-    		points=1
+    		points=8
     		color= 0x5227fb
     		break
     		
@@ -812,6 +812,9 @@ var game2Plus2 = function(){
         if(box.value!=2){
             sound.play("pop")
         }
+
+
+
     	box.text.setStyle({font: "40px AvenirHeavy", fontWeight: "bold", fill: colorText, align: "center"})
     	box.text.setText(box.value)
     	box.sprite.tint = color
