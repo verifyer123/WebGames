@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var galaxy = function(){
     
     var localizationData = {
@@ -40,6 +42,12 @@ var galaxy = function(){
                 json: "images/galaxy/atlas.json",
                 image: "images/galaxy/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -59,8 +67,8 @@ var galaxy = function(){
 				file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-			{	name: "spaceship",
-				file: soundsPath + "spaceship.mp3"},
+			{	name: "ship",
+				file: soundsPath + "robotWhoosh.mp3"},
 			{	name: "combo",
 				file: soundsPath + "combo.mp3"},
 			
@@ -109,7 +117,7 @@ var galaxy = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		planetSpeed = 0.5
 		monsterNumber = 5
 		indexPlanet = 0
@@ -352,14 +360,16 @@ var galaxy = function(){
 		
 		 game.load.audio('endSong', soundsPath + 'songs/shooting_stars.mp3');
         
-		game.load.image('howTo',"images/galaxy/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/galaxy/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/galaxy/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/galaxy/introscreen.png")
+		game.load.image('introscreen',"images/galaxy/introscreen.png")*/
 		
 		game.load.spritesheet('alien1', 'images/galaxy/sprites/alien1.png', 64, 64, 12);
 		game.load.spritesheet('alien2', 'images/galaxy/sprites/alien2.png', 128, 128, 12);
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/galaxy/tutorial_image.png")
+		loadType(gameIndex)
+
 		
 		
         
@@ -475,8 +485,10 @@ var galaxy = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
 		
-        var rect = new Phaser.Graphics(game)
+       /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -522,7 +534,12 @@ var galaxy = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	addPlanet()
+		overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){
@@ -777,6 +794,8 @@ var galaxy = function(){
 		}else{
 			
 			missPoint()
+            yogotarShip.setAnimationByName(0,"ABDUCTION",true)
+            yogotarShip.addAnimationByName(0,"IDLE",true)
 		}
 	}
 	
@@ -829,7 +848,7 @@ var galaxy = function(){
 		
 		//yogotarShip.abducts = true
 		
-		sound.play("spaceship")
+		sound.play("ship")
 		
 		checkCollider()
 		
@@ -896,6 +915,13 @@ var galaxy = function(){
 		}
 		
 	}
+    
+    function backAndWihte(){
+        
+        var wihte = game.add.graphics(0, 0)
+        wihte.beginFill(0xFFFFFF)
+        wihte.drawRect(0, 0, game.world.width, game.world.height)
+    }
 	
 	return {
 		
@@ -905,6 +931,7 @@ var galaxy = function(){
         preload:preload,
 		create: function(event){
             
+            backAndWihte()
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			createBackground()

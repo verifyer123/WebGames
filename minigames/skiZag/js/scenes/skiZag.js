@@ -45,7 +45,7 @@ var skiZag = function(){
     var DISTANCE_RAIL_ENEMIES = 1300
     var MAX_COINS_IN_LINE = 2
     var COIN_PROBABILITY = 0.4
-    var WAIT_FRAMES = 4
+    var WAIT_FRAMES = 9
     var WAIT_SNOW = 7000
     var DELTA_WAIT_SNOW = 600
     var LINE_VELOCITY = 2.1
@@ -97,8 +97,14 @@ var skiZag = function(){
     var yetisGroup
     var snowBallGroup
     var init
+    var name
     var treesBackground
     var snowBackground
+
+    var inYetiZone
+    var inSnowZone
+
+    var lastEnemy
 
 
     function getSkins(){
@@ -130,12 +136,15 @@ var skiZag = function(){
         SIN_ANG = Math.sin(ANGLE_LINE*(Math.PI/180))
         VEL_X = (COS_ANG*VEL)
         VEL_Y = (SIN_ANG*VEL)
-        VEL_Y -= VEL_Y*0.08
+        VEL_Y -= VEL_Y*0.082
         MAX_TILE_Y = game.world.height+100
         currentRails=0
         initialTap = true
         currentWaitFrames = 0
 
+        lastEnemy = null
+        inYetiZone = false
+        inSnowZone = false
     }
     
 
@@ -160,12 +169,12 @@ var skiZag = function(){
         game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
         game.load.spine('mascot', "images/spines/amazing/amazing.json");
-        game.load.spine('yetiSpine', "images/spines/yeti/yeti.json");
+        game.load.spine('yetiSpine', "images/spines/Yeti/yeti.json");
                 
         if(amazing.getMinigameId()){
-            marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
+            marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
         }else{
-            game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+            game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
         }
         var fontStyle = {font: "30px AvenirHeavy", fontWeight: "bold", fill: "#000000", align: "center"}
         var text = new Phaser.Text(game, 0, 10, "2", fontStyle)
@@ -255,6 +264,22 @@ var skiZag = function(){
 
         }
         var snowCanTrail = false
+
+        if(player!=null){
+            spinePlayer.x = player.body.x
+           /* if(player.scale.x<0 ){
+                if(spinePlayer.scale.x!=-SPINE_SCALE){
+                    
+                }
+            }
+            else{
+                if(spinePlayer.scale.x!=SPINE_SCALE){
+                    spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
+                }
+            }*/
+        }
+
+
         if(!initialTap){
 
             //bitmap.clear(0, game.height, game.width, game.height+20) 
@@ -266,10 +291,13 @@ var skiZag = function(){
                 SetObject(trailsLinearGroup,'Camino_Meizy',player.body.x,player.body.y,player.scale.x)
                 snowCanTrail = true
             }
-            init.y+=-LINE_VELOCITY
+            if(init.y > -200){
+	            init.y+=-LINE_VELOCITY
+	            name.y+=-LINE_VELOCITY
+	        }
             moveGroupY(trailsLinearGroup,-LINE_VELOCITY,-100)
-            moveGroupY(trailsCurveGroup,-LINE_VELOCITY,-100)
-            moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
+            //moveGroupY(trailsCurveGroup,-LINE_VELOCITY,-100)
+            //
 
             for(var i = 0; i < treesBackground.length; i++){
                 if(treesBackground.children[i].visible){
@@ -292,19 +320,29 @@ var skiZag = function(){
                     }
                 }
             }
-        }
 
-        if(obstaclesGroup!=null){
-            for(var i = 0; i < obstaclesGroup.length; i++){
-                var obstcaleY = obstaclesGroup.children[i].body.y +((obstaclesGroup.children[i].width/2)*SIN_ANG)
-                if(obstcaleY < 0){
-                    obstaclesGroup.children[i].visible = false
-                    obstaclesGroup.children[i].body.setZeroVelocity()
+            if(obstaclesGroup!=null){
+                for(var i = 0; i < obstaclesGroup.length; i++){
+                    var obstcaleY = obstaclesGroup.children[i].body.y +((obstaclesGroup.children[i].width/2)*SIN_ANG)
+                    if(obstcaleY < 0){
+                        obstaclesGroup.children[i].visible = false
+                        obstaclesGroup.children[i].body.setZeroVelocity()
+                    }
                 }
             }
-        }
+
+
+        //return
 
         if(yetisGroup!=null){
+            if(!inYetiZone){
+                return
+            }
+
+            if(!lastEnemy.visible){
+                inYetiZone = false
+            }
+
             for(var i = 0; i < yetisGroup.length; i++){
                 if(yetisGroup.children[i].visible){
                     yetisGroup.children[i].spine.visible = true
@@ -340,11 +378,20 @@ var skiZag = function(){
         }
 
         if(snowBallGroup!=null){
+
+            if(!inSnowZone){
+                return
+            }
+
+            if(!lastEnemy.visible){
+                inSnowZone = false
+            }
+
             for(var i = 0; i < snowBallGroup.length; i++){
                 if(snowBallGroup.children[i].visible){
 
                     if(snowBallGroup.children[i].y < 0){
-                        console.log(snowBallGroup.children[i].y,snowBallGroup.children[i].deltaWait,game.time.now, snowBallGroup.children[i].body.velocity.y)
+                        //console.log(snowBallGroup.children[i].y,snowBallGroup.children[i].deltaWait,game.time.now, snowBallGroup.children[i].body.velocity.y)
                         snowBallGroup.children[i].visible = false
                         snowBallGroup.children[i].body.setZeroVelocity()
                     }
@@ -358,7 +405,7 @@ var skiZag = function(){
                     else{
                         //console.log(snowBallGroup.children[i].deltaWait)
                         if(snowBallGroup.children[i].deltaWait < game.time.now){
-                            console.log("Pass time")
+                            //console.log("Pass time")
                             //snowBallGroup.children[i].body.x = game.world.centerX
                             if(snowBallGroup.children[i].body.x <0){
                                 snowBallGroup.children[i].body.velocity.x = VEL_X
@@ -370,19 +417,14 @@ var skiZag = function(){
                         }
                     }
                 }
+
+
             }
+            moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
         }
 
 
-        if(player!=null){
-            spinePlayer.x = player.body.x
-            if(player.scale.x<0){
-                spinePlayer.scale.setTo(-SPINE_SCALE,SPINE_SCALE)
-            }
-            else{
-                spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
-            }
-        }
+    }
 
     }
     
@@ -591,8 +633,10 @@ var skiZag = function(){
 
         if(!initialTap){
             var xScale = -player.scale.x
+            var xSpine = - spinePlayer.scale.x
             //player.body.angle = - player.body.angle
             player.scale.setTo(xScale,1)
+            spinePlayer.scale.setTo(xSpine,SPINE_SCALE)
             //SetObject(trailsCurveGroup,'coin',player.body.x,player.body.y, player.body.angle)
         }
         else{
@@ -694,13 +738,13 @@ var skiZag = function(){
         var r = deltaX/COS_ANG
         var limitY = r*SIN_ANG
 
-        var randomY = game.rnd.integerInRange(30,limitY)
+        var randomY = game.rnd.integerInRange(50,limitY)
         var newR = randomY/SIN_ANG
         newR = Math.floor(newR)
         var module = newR%WIDTH_PER_TILE
-        console.log("First R", newR)
+        //console.log("First R", newR)
         if(module!=0){
-        	console.log(module)
+        	//console.log(module)
         	if(module>(WIDTH_PER_TILE/2)){
         		//redondear hacia arriba
         		newR+=(WIDTH_PER_TILE - module)
@@ -710,7 +754,7 @@ var skiZag = function(){
         		newR-=module
         	}
         }
-        console.log("Second R",newR)
+       // console.log("Second R",newR)
 
         var nextX = currentX + (newR*COS_ANG*currentAngle)
 
@@ -736,6 +780,8 @@ var skiZag = function(){
         currentX = randomX
 
         setPoint()
+
+        gameActive = true
     }
 
 
@@ -772,6 +818,13 @@ var skiZag = function(){
     
         init.scale.setTo(-currentAngle,1)
 
+        name = sceneGroup.create(game.world.centerX,205,'atlas.skiZag','name')
+        name.anchor.setTo(0.5)
+
+        name.angle = -currentAngle*30
+
+        //init.addChild(name)
+
         characterGroup = game.add.group()
         characterGroup.x = 0
         characterGroup.y = 0
@@ -783,18 +836,21 @@ var skiZag = function(){
         player = characterGroup.create(game.world.centerX,250,'atlas.skiZag','Meizy')
         player.anchor.setTo(0.5,0.5)
         //player.scale.setTo(0.15,0.3)
-        player.alpha = 0.5
+        player.alpha = 0
         game.physics.p2.enable(player, false);
         player.body.clearShapes()
         player.body.setRectangle(45,5,0,30)
         //player.body.angle = ANGLE_LINE * currentAngle
         player.scale.setTo(-currentAngle*1,1)
+
         //player.body.velocity.x = VEL_X * currentAngle
         player.body.onBeginContact.add(collisionPlayer,this)
         //game.camera.follow(player);
 
         spinePlayer = game.add.spine(game.world.centerX,280, "mascot");
         spinePlayer.scale.setTo(SPINE_SCALE,SPINE_SCALE)
+
+        spinePlayer.scale.setTo(-currentAngle*SPINE_SCALE,SPINE_SCALE)
         //characterGroup.add(spinePlayer)
         //spinePlayer.scale.setTo(0.1,0.1)
        //characterGroup.scale.setTo()
@@ -864,7 +920,7 @@ var skiZag = function(){
 
 
         var randomEnemy = game.rnd.integerInRange(0,1)
-        //randomEnemy = 0
+        //randomEnemy = 1
         if(randomEnemy==0){
             setEnemiesYetis(currentY + 300, DISTANCE_RAIL_ENEMIES-600)
         }
@@ -896,7 +952,7 @@ var skiZag = function(){
     function createSingleCoin(){
         var coin = coinsGroup.create(0,0,'atlas.skiZag','coin')
         coin.anchor.setTo(0.5)
-        coin.scale.setTo(0.3)
+        coin.scale.setTo(0.6)
         coin.visible = false
         
         game.physics.p2.enable(coin, false);
@@ -950,7 +1006,7 @@ var skiZag = function(){
 
     function SetBackground(x, y, width, angle){
 
-        var max = (width*2)/120
+        var max = (width*2)/250
         var r = game.rnd.integerInRange(max-2,max+2)
         var newY = width*SIN_ANG
         for(var i = 0; i < r; i++){
@@ -985,8 +1041,6 @@ var skiZag = function(){
         if(randomType > 6){
             randomType=6
         }
-
-        
 
         var key 
         var object
@@ -1065,7 +1119,7 @@ var skiZag = function(){
         var object = getFromPool(group,key)
         object.x = x
         object.y = y + 20
-
+        object.alpha = 1
 
         object.scale.setTo(scale,1)
         //console.log("Set object ",object.x,object.y,object.visible)
@@ -1075,6 +1129,11 @@ var skiZag = function(){
         for(var i = 0; i < group.length; i++){
             if(group.children[i].visible){
                 group.children[i].y += vel
+                group.children[i].alpha -= 0.02
+
+                if(group.children[i].alpha<=0){
+                	group.children[i].visible = false
+                }
 
                 if(group.children[i].y <= limit){
                     group.children[i].visible = false
@@ -1087,14 +1146,14 @@ var skiZag = function(){
         yetisGroup = game.add.group()
         sceneGroup.add(yetisGroup)
 
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 5; i++){
             createYeti()
         }
 
         snowBallGroup = game.add.group()
         sceneGroup.add(snowBallGroup)
 
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 10; i++){
             createSnowBall()
         }
      }
@@ -1147,7 +1206,7 @@ var skiZag = function(){
         else{
             group = snowBallGroup
         }
-        console.log(group.length)
+        //console.log(group.length)
         for(var i = 0; i < group.length; i++){
             if(!group.children[i].visible){
                 group.children[i].visible = true
@@ -1160,6 +1219,7 @@ var skiZag = function(){
     }
 
     function setEnemiesYetis(initialY, height){
+        inYetiZone = true
         var y = initialY
         var delta = height/4
         for(var i = 0; i < 5; i++){
@@ -1176,12 +1236,18 @@ var skiZag = function(){
             else{
                 enemy.direction = 1
             }
+
             enemy.body.velocity.x = enemy.direction*VEL_X
+
+            if(i ==4){
+                lastEnemy = enemy
+            }
         }
     }
 
     function setEnemiesSnow(initialY, height){
-    	console.log(snowBallGroup.length)
+        inSnowZone = true
+    	//console.log(snowBallGroup.length)
         for(var i = 0; i < snowBallGroup.length; i++){
             snowBallGroup.children[i].body.setZeroVelocity()
             snowBallGroup.children[i].body.y = game.world.height
@@ -1194,7 +1260,7 @@ var skiZag = function(){
         var delta = height/7
         var deltawait = game.time.now + WAIT_SNOW
         var randomX = game.rnd.integerInRange(0,1)
-        console.log("SetEnemy snow ",deltawait)
+        //console.log("SetEnemy snow ",deltawait)
 
         if(randomX == 0){
             randomX = -1
@@ -1229,7 +1295,11 @@ var skiZag = function(){
 
             enemy.visible = true
 
-            console.log(enemy.body.y,enemy.body.x,enemy.deltaWait)
+
+            if(i ==7){
+                lastEnemy = enemy
+            }
+            //console.log(enemy.body.y,enemy.body.x,enemy.deltaWait)
         }
     }
     
@@ -1306,23 +1376,12 @@ var skiZag = function(){
             }, this);   
         }
 
-
-        trailImage = game.make.sprite(0,0,'atlas.skiZag','coin')
-        trailImage.anchor.setTo(0.5)
-        trailImage.scale.setTo(0.4)
-
-        bitmap = game.add.bitmapData(game.width, game.height+20);
-        bitmap.addToWorld();
-        bitmap.smoothed = false
-
-
         
         snowBackground = game.add.group()
         sceneGroup.add(snowBackground)
         treesBackground = game.add.group()
         sceneGroup.add(treesBackground)
         
-        animateScene()
 
          createTrails()
 
@@ -1340,6 +1399,8 @@ var skiZag = function(){
         createPlayer()
 
         setInitial()
+
+        animateScene()
 
     }
 

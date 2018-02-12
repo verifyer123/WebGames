@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var imagePath = "images/flyingFractions/"
+var tutorialPath = "../../shared/minigames/"
+
 var flyingFractions = function(){
 
 	assets = {
@@ -8,7 +10,13 @@ var flyingFractions = function(){
                 name: "atlas.flyingFractions",
                 json: imagePath + "atlas.json",
                 image: imagePath + "atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+			],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -184,9 +192,9 @@ var flyingFractions = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	*/
 		/*Default*/
 		game.load.image('bgclock',imagePath + "bgclock.png");
 		game.load.spine("ship", imagePath + "ship/skeleton.json");
@@ -200,6 +208,10 @@ var flyingFractions = function(){
 		game.load.image("f5", imagePath + "f5.png");
 		game.load.image("f6", imagePath + "f6.png");	
 		game.load.spritesheet('explosion', imagePath +  'explosion.png', 118, 118, 6);
+
+		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+		loadType(gameIndex)
+
 	}
 
 	function loadSounds(){
@@ -254,7 +266,10 @@ var flyingFractions = function(){
 		}
 		
         sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -309,9 +324,15 @@ var flyingFractions = function(){
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
 		
-    }	
+    }
+    	
+    function onClickPlay(){
+		overlayGroup.y = -game.world.height
+		
+		starGame = true;
+    }
 
 	function createHearts(){
 		heartsGroup = game.add.group();

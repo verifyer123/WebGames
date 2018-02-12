@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var cog = function(){
 
     var localizationData = {
@@ -21,7 +22,13 @@ var cog = function(){
                 name: "atlas.cog",
                 json: "images/cog/atlas.json",
                 image: "images/cog/atlas.png"
+            },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
             {   name:"fondo",
@@ -251,14 +258,18 @@ var cog = function(){
         game.stage.disableVisibilityChange = false;
         game.load.audio('cogSong', soundsPath + 'songs/funky_monkey.mp3');
 
-        game.load.image('introscreen',"images/cog/introscreen.png")
+        //game.load.image('introscreen',"images/cog/introscreen.png")
         game.load.image('marco',"images/cog/marco.png")
         game.load.image('mask',"images/cog/mask.png")
-        game.load.image('howTo',"images/cog/how" + localization.getLanguage() + ".png")
-        game.load.image('buttonText',"images/cog/play" + localization.getLanguage() + ".png")
+        /*game.load.image('howTo',"images/cog/how" + localization.getLanguage() + ".png")
+        game.load.image('buttonText',"images/cog/play" + localization.getLanguage() + ".png")*/
 
         game.load.spine('masterClock', "images/spines/master/master_clock.json")
         game.load.spine('cloky', "images/spines/cloky/cloky.json")
+
+        game.load.image('tutorial_image',"images/cog/tutorial_image.png")
+        loadType(gameIndex)
+
 
         buttons.getImages(game)
 
@@ -369,16 +380,12 @@ var cog = function(){
 
     }
 
-    function onClickPlay(rect) {
-        rect.inputEnabled = false
-        sound.play("pop")
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+    function onClickPlay() {
+        
+        tutoGroup.y = -game.world.height
+        clockGroup.input.inputEnabled = true
+        game.time.events.add(500, startRound)
 
-            tutoGroup.y = -game.world.height
-            clockGroup.input.inputEnabled = true
-            game.time.events.add(500, startRound)
-            // startTimer(missPoint)
-        })
     }
     
     function addOptions(numOptions, maxValue, values) {
@@ -656,7 +663,9 @@ var cog = function(){
         //overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        var rect = new Phaser.Graphics(game)
+        createTutorialGif(tutoGroup,onClickPlay)
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -695,7 +704,7 @@ var cog = function(){
         button.anchor.setTo(0.5,0.5)
 
         var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-        playText.anchor.setTo(0.5,0.5)
+        playText.anchor.setTo(0.5,0.5)*/
     }
     
     function update() {

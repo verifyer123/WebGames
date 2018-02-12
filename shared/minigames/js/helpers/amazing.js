@@ -82,8 +82,9 @@ amazing.getGames = function(){
         {name:'2+2',iconName:'2+2',url:'http://amazingapp.mx/juegos/game2Plus2/',coupon : false,mixName:'2+2',id:6293705958883328},//18
         {name:'Rafaga de\n Tamales',iconName:'rafaga_de_tamales',url:'http://amazingapp.mx/juegos/rafaga_de_tamales/',coupon : false,mixName:'rafaga_de_tamales',id:5679382827892736},//19
         {name:'Ski Zag',iconName:'skiZag',url:'http://amazingapp.mx/juegos/skiZag/',coupon : false,mixName:'skiZag',id:5766289444306944},//20
-        //{name:'BrickPop',iconName:'brickPop',url:'http://amazingapp.mx/juegos/brickPop/',coupon : false,mixName:'brickPop',id:5766289444306944},//20
-        //{name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},
+        {name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},//21
+        {name:'Chak Block',iconName:'chakBlock',url:'http://amazingapp.mx/juegos/chakBlock/',coupon : false,mixName:'chakBlock',id:5642980933238784},//22
+        //
     ]
 
     return games

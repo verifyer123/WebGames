@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/clockfix/";
+var tutorialPath = "../../shared/minigames/"
+
 
 var clockfix = function(){
 
@@ -9,7 +11,14 @@ var clockfix = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
+            ],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -103,9 +112,9 @@ var clockfix = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		
 		/*GAME*/
 		game.load.image("morning",imagePath + "morning.png");
@@ -128,6 +137,10 @@ var clockfix = function(){
 		/*SPINE*/
 		game.load.spine("aclock", imagePath + "spine/a_clock/a_clock.json");
         game.load.spine("dclock", imagePath + "spine/d_clock/d_clock.json");	
+
+        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+        loadType(gameIndex)
+
 	}
 
 	function loadSounds(){

@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var mathrioska = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var mathrioska = function(){
                 json: "images/mathrioska/atlas.json",
                 image: "images/mathrioska/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -78,7 +85,7 @@ var mathrioska = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		dollToUse = null
 		indexDoll = 0
 		timeToUse = 20000
@@ -273,11 +280,13 @@ var mathrioska = function(){
         game.load.spine('doll', "images/spines/matrioska.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
         
-		game.load.image('howTo',"images/mathrioska/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/mathrioska/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/mathrioska/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/mathrioska/introscreen.png")
+		game.load.image('introscreen',"images/mathrioska/introscreen.png")*/
 		
-		//console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/mathrioska/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
 	
@@ -301,6 +310,8 @@ var mathrioska = function(){
 			clock.tween.onComplete.add(function(){
 				missPoint()
 				createPart('wrong',dragButton)
+                if(lives !== 0)
+                    showScene()
 			})
 			
 		})
@@ -389,8 +400,10 @@ var mathrioska = function(){
         
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -435,7 +448,12 @@ var mathrioska = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		showScene()
     }
     
     function releaseButton(obj){
@@ -765,6 +783,9 @@ var mathrioska = function(){
 					//console.log(dollToUse.result + ' result ' + number.number + ' number')
 					missPoint()
 					createPart('wrong',number)
+                    if(lives !== 0){
+                        showScene()
+                    }
 				}
 			}
 		}

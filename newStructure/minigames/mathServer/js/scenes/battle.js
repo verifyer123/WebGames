@@ -200,7 +200,7 @@ var battle = function(){
 		var toCamaraX = player.x < game.world.centerX ? 0 : game.world.width
 		zoomCamera(1.6, 2000)
 		// var scaleData = zoomCamera.generateData(60)
-1
+
 		game.add.tween(game.camera).to({x:toCamaraX, y:player.y - 250}, 2000, Phaser.Easing.Cubic.Out, true)
 		// game.time.events.add(6000, stopGame)
 		if(server){
@@ -500,28 +500,6 @@ var battle = function(){
 		timeTween.onComplete.add(function () {
 			compareResult(event, playerWin, playerLose)
 		})
-
-		// if(playerWin){
-		// 	sound.play("magic")
-		// 	sceneGroup.correctParticle.x = playerWin.x
-		// 	sceneGroup.correctParticle.y = playerWin.y - 150
-		// 	sceneGroup.correctParticle.start(true, 1000, null, 5)
-		// 	playerWin.setAnimation(["WIN", "IDLE"])
-		// 	game.time.events.add(1000, function () {
-		// 		game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
-		// 		game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
-		// 		playerAttack(playerWin, playerLose, createProyectile, "proyectile")
-		// 	})
-		// }else{
-		// 	player1.setAnimation(["HIT", "IDLE"])
-		// 	player2.setAnimation(["HIT", "IDLE"])
-		// 	game.time.events.add(1000, function(){
-		// 		game.add.tween(answersGroup).to({y:answersGroup.y + 184 * 0.9}, 1000, Phaser.Easing.Cubic.Out, true)
-		// 		game.add.tween(questionGroup).to({y:-180}, 1000, Phaser.Easing.Cubic.Out, true)
-		// 		startRound()
-		// 	})
-		// }
-
 
     }
 

@@ -10,13 +10,18 @@
 		
         sceneGroup = game.add.group();
         overlayGroup = game.add.group()
-		if(game.device != 'desktop'){
+        sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,function (rect){onClickPlay(lives)})
+
+
+		/*if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
 		}else{
 			overlayGroup.scale.setTo(1.2,1.2);
 		}
 		
-        sceneGroup.add(overlayGroup)
+        
         var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
@@ -86,8 +91,33 @@
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
     }	
+
+    function onClickPlay(lives){
+
+    	if(lives!=null){
+        	heartsText.setText("x " + lives);
+        }
+        else{
+            heartsText.setText("x "+heartsText.initialLives)
+        }
+        xpText.setText(coins);
+        //rect.inputEnabled = false
+		//sound.play("pop")
+      	
+            overlayGroup.y = -game.world.height
+
+			bgm = game.add.audio('sillyAdventureGameLoop')
+		        game.sound.setDecodedCallback(bgm, function(){
+		        }, this);
+			
+			bgm.loopFull(0.5);
+			starGame = true;
+			buttons.getButton(bgm,sceneGroup)
+				//TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});		
+	    
+    }
 
 
 function createHearts(lives){
@@ -101,7 +131,7 @@ function createHearts(lives){
 		heartsText.x = game.world.width - 75;
 		heartsText.y = 5;
 		heartsText.initialLives = lives
-		sceneGroup.add(heartsGroup);		
+		sceneGroup.add(heartsGroup);	
 }
 	
 function createCoins(coins){

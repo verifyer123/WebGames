@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var invader = function(){
     
     var localizationData = {
@@ -26,6 +28,12 @@ var invader = function(){
                 json: "images/invader/atlas.json",
                 image: "images/invader/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 			{   name:"background",
@@ -339,11 +347,13 @@ var invader = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/game_on.mp3');
         
 		game.load.spritesheet('clock', 'images/invader/clock.png', 83, 95, 23);
-		game.load.image('howTo',"images/invader/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/invader/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/invader/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/invader/introscreen.png")
+		game.load.image('introscreen',"images/invader/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/invader/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
     
@@ -359,60 +369,17 @@ var invader = function(){
         
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				gameActive = true
-				setNumber()
-				addObjects()
-            })
-            
-        })
         
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.invader','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 255,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 145,'atlas.invader',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 82, localization.getString(localizationData,"multiple"), fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		overlayGroup.add(pointsText)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.invader','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		gameActive = true
+		setNumber()
+		addObjects()
     }
     
     function releaseButton(obj){

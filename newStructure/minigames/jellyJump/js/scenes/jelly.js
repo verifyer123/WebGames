@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var jelly = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var jelly = function(){
                 json: "images/jelly/atlas.json",
                 image: "images/jelly/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -286,9 +294,13 @@ var jelly = function(){
 		game.load.spine('fish',"images/spines/fish.json")
         game.load.audio('spaceSong', soundsPath + 'songs/bubble_fishgame.mp3');
         
-		game.load.image('howTo',"images/jelly/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/jelly/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/jelly/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/jelly/introscreen.png")
+		game.load.image('introscreen',"images/jelly/introscreen.png")*/
+
+		game.load.image('tutorial_image',"images/jelly/tutorial_image.png")
+		loadType(gameIndex)
+
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -376,8 +388,10 @@ var jelly = function(){
 		
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -422,7 +436,12 @@ var jelly = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	gameActive = true
+		overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

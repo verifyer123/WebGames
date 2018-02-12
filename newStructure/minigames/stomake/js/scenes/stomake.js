@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
 var stomake = function(){
     
     var localizationData = {
@@ -30,6 +31,12 @@ var stomake = function(){
                 json: "images/stomake/timeAtlas.json",
                 image: "images/stomake/timeAtlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -305,14 +312,16 @@ var stomake = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/musicVideogame9.mp3');
         
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
-		game.load.image('howTo',"images/stomake/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/stomake/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/stomake/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/stomake/introscreen.png")
+		game.load.image('introscreen',"images/stomake/introscreen.png")*/
         
         //game.load.spine("ship","images/Spine/ship/ship.json")
         game.load.spine("tomaguito","images/Spine/normal/normal.json")
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/stomake/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -321,8 +330,10 @@ var stomake = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -370,7 +381,13 @@ var stomake = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        generateThem()
+        startGame=true
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){
@@ -403,8 +420,8 @@ var stomake = function(){
         
         
         
-        backG2=game.add.tileSprite(0,0,35,game.world.height,"atlas.stomake","tile");
-        backG3=game.add.tileSprite(game.world.width,0,35,game.world.height,"atlas.stomake","tile");
+        backG2=game.add.tileSprite(0,0,38,game.world.height,"atlas.stomake","tile");
+        backG3=game.add.tileSprite(game.world.width,0,38,game.world.height,"atlas.stomake","tile");
         backG3.scale.setTo(-1,1)
         
         backG4=game.add.tileSprite(0,0,160,game.world.height,"atlas.stomake","tripas");
@@ -782,17 +799,109 @@ var stomake = function(){
                     game.time.events.add(3000,function(){
                         wall=0
                     })
-                })
+                enemys[generate5].alpha=1
+                enemys[generate5].scale.setTo(0.7,0.7)
+                enemys[generate5].position.x=game.world.centerX+200
+                enemys[generate5].position.y=-250;
+                enemyTween[generate5]=game.add.tween(enemys[generate5]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemysActive[generate5]=true;
+                howMany++;
                 
                 
-            }
+                enemys2[generate11].alpha=1
+                enemys2[generate11].scale.setTo(0.7,0.7)
+                enemys2[generate11].position.x=game.world.centerX-350
+                enemys2[generate11].position.y=-200;
+                enemy2Tween[generate11]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys2Active[generate11]=true;
+                howMany2++;
+                
+                enemys2[generate12].alpha=1
+                enemys2[generate12].scale.setTo(0.7,0.7)
+                enemys2[generate12].position.x=game.world.centerX-450
+                enemys2[generate12].position.y=-250;
+                enemy2Tween[generate12]=game.add.tween(enemys2[generate12]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys2Active[generate12]=true;
+                howMany2++;
+                
+                enemys2[generate13].alpha=1
+                enemys2[generate13].scale.setTo(0.7,0.7)
+                enemys2[generate13].position.x=game.world.centerX-550
+                enemys2[generate13].position.y=-200;
+                enemy2Tween[generate13]=game.add.tween(enemys2[generate11]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys2Active[generate13]=true;
+                howMany2++;
+                
+                enemys2[generate14].alpha=1
+                enemys2[generate14].scale.setTo(0.7,0.7)
+                enemys2[generate14].position.x=game.world.centerX-650
+                enemys2[generate14].position.y=-250;
+                enemy2Tween[generate14]=game.add.tween(enemys2[generate14]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys2Active[generate14]=true;
+                howMany2++;
+                
+                enemys2[generate15].alpha=1
+                enemys2[generate15].scale.setTo(0.7,0.7)
+                enemys2[generate15].position.x=game.world.centerX-750
+                enemys2[generate15].position.y=-200;
+                enemy2Tween[generate15]=game.add.tween(enemys2[generate15]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys2Active[generate15]=true;
+                howMany2++;
+                
+                enemys3[generate21].alpha=1
+                enemys3[generate21].scale.setTo(0.7,0.7)
+                enemys3[generate21].position.x=game.world.centerX+350
+                enemys3[generate21].position.y=-250;
+                enemy3Tween[generate21]=game.add.tween(enemys3[generate21]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys3Active[generate21]=true;
+                howMany3++;
+                
+                enemys3[generate22].alpha=1
+                enemys3[generate22].scale.setTo(0.7,0.7)
+                enemys3[generate22].position.x=game.world.centerX+450
+                enemys3[generate22].position.y=-200;
+                enemy3Tween[generate22]=game.add.tween(enemys3[generate22]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys3Active[generate22]=true;
+                howMany3++;
+                
+                
+                enemys3[generate23].alpha=1
+                enemys3[generate23].scale.setTo(0.7,0.7)
+                enemys3[generate23].position.x=game.world.centerX+550
+                enemys3[generate23].position.y=-250;
+                enemy3Tween[generate23]=game.add.tween(enemys3[generate23]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys3Active[generate23]=true;
+                howMany3++;
+                
+                
+                enemys3[generate24].alpha=1
+                enemys3[generate24].scale.setTo(0.7,0.7)
+                enemys3[generate24].position.x=game.world.centerX+650
+                enemys3[generate24].position.y=-200;
+                enemy3Tween[generate24]=game.add.tween(enemys3[generate24]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys3Active[generate24]=true;
+                howMany3++;
+                
+                enemys3[generate25].alpha=1
+                enemys3[generate25].scale.setTo(0.7,0.7)
+                enemys3[generate25].position.x=game.world.centerX+75
+                enemys3[generate25].position.y=-250;
+                enemy3Tween[generate25]=game.add.tween(enemys3[generate25]).to({y:destinyY},speed+50,Phaser.Easing.In,true)
+                enemys3Active[generate25]=true;
+                howMany3++;
             
-            if(enemysActive[generate]==false && enemysActive[generate2]==false && enemysActive[generate3]==false && enemysActive[generate4]==false && enemysActive[generate5]==false && generate!=generate2 && generate!=generate3 && generate!=generate4 && generate!=generate5 && generate2!=generate3 && generate2!=generate4 && generate2!=generate5 && generate3!=generate4 && generate3!=generate5 && generate4!=generate5 && generate11!=generate12 && generate11!=generate13 && generate11!=generate14 && generate11!=generate15 && generate12!=generate13 && generate12!=generate14 && generate12!=generate15 && generate13!=generate14 && generate13!=generate15 && generate14!=generate15 && generate21!=generate22 && generate21!=generate23 && generate21!=generate24 && generate21!=generate25 && generate22!=generate23 && generate22!=generate24 && generate22!=generate25 && generate23!=generate24 && generate23!=generate25 && generate24!=generate25 ){
+                wall=3
+                game.time.events.add(800,function(){
+                    wall=0
+                })
+                })
+            
+            if(enemysActive[generate]==false && enemysActive[generate2]==false && enemysActive[generate3]==false && enemysActive[generate4]==false && enemysActive[generate5]==false && generate!=generate2 && generate!=generate3 && generate!=generate4 && generate!=generate5 && generate2!=generate3 && generate2!=generate4 && generate2!=generate5 && generate3!=generate4 && generate3!=generate5 && generate4!=generate5 && generate11!=generate12 && generate11!=generate13 && generate11!=generate14 && generate11!=generate15 && generate12!=generate13 && generate12!=generate14 && generate12!=generate15 && generate13!=generate14 && generate13!=generate15 && generate14!=generate15 && generate21!=generate22 && generate21!=generate23 && generate21!=generate24 && generate21!=generate25 && generate22!=generate23 && generate22!=generate24 && generate22!=generate25 && generate23!=generate24 && generate23!=generate25 && generate24!=generate25){
                wall=2
             }
+                                     
+            }
     }
-    
-    
         
     
     //funcion ciclo (tiene otro nombre que no me acuerdo ahorita)

@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var ms = function(){
     
     var localizationData = {
@@ -24,6 +26,12 @@ var ms = function(){
                 json: "images/ms/atlas.json",
                 image: "images/ms/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -85,6 +93,7 @@ var ms = function(){
 	var zombieSpeed
 	var enemyActions = ['up','down','left','right']
 	var playerCol, enemiesCol, tilesCol
+    var touchIt
 	
 	var tilePositions = [
 		
@@ -190,10 +199,11 @@ var ms = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		piecesToUse = []
 		gameSpeed = 200
 		zombieSpeed = 150
+        touchIt = false
         
 		dirX = 0
 		dirY = 0
@@ -413,13 +423,15 @@ var ms = function(){
 		game.load.spine('light', "images/spines/Thunder/thunder.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/timberman.mp3');
         
-		game.load.image('howTo',"images/ms/tutorial/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/ms/tutorial/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/ms/tutorial/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/ms/tutorial/introscreen.png")
+		game.load.image('introscreen',"images/ms/tutorial/introscreen.png")*/
 		
 		game.load.spritesheet('zombie', 'images/ms/spritesheets/zombie_idle.png', 76, 62, 6);
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/ms/tutorial_image.png")
+		loadType(gameIndex)
+
         
     }
 	
@@ -440,6 +452,7 @@ var ms = function(){
 		player.body.y = game.world.centerY + 25
 		player.body.velocity.x = 0
 		player.body.velocity.y = 0
+        touchIt = false
 				
 		itemsNumber = game.rnd.integerInRange(2,10)
 		numToUse = game.rnd.integerInRange(2,itemsNumber)
@@ -510,6 +523,7 @@ var ms = function(){
 			popObject(characterGroup,0)
 			gameActive = true
 			player.active = true
+            characterGroup.anim.setAnimationByName(0,"IDLE",true)
 			
 			activateEnemies()
 			
@@ -537,8 +551,10 @@ var ms = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+		createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -584,7 +600,13 @@ var ms = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+				
+		getItems()
     }
     
     function releaseButton(obj){
@@ -732,7 +754,7 @@ var ms = function(){
 		}
 		
 		var direction = this.swipe.check();
-		console.log(this.swipe)
+		//console.log(this.swipe)
 		
 		if (direction!==null) {
 		
@@ -822,12 +844,23 @@ var ms = function(){
 				
 				hideItems()
 				
-				game.time.events.add(1000,getItems)
+				game.time.events.add(1000,function(){
+                    if(lives !== 0){
+                        getItems()
+                    }
+                })
 				
 			}else{
 				
 				missPoint()
 				createPart('wrong',containerGroup.text)
+                hideItems()
+				
+                game.time.events.add(1000,function(){
+                    if(lives !== 0){
+                        getItems()
+                    }
+                })
 			}
 			
 		}
@@ -848,10 +881,22 @@ var ms = function(){
 					enemy.body.velocity.x = 0
 					enemy.body.velocity.y = 0
 					
-				}else{
+				}else if(!touchIt){
 					missPoint()
+                    touchIt = true
+                    player.body.velocity.x = 0
+		            player.body.velocity.y = 0
+                    player.active = false
+			        gameActive = false
 					createPart('wrong',player)
 					characterGroup.anim.setAnimationByName(0,"LOSE",false)
+                    hideItems()
+				
+				    game.time.events.add(1000,function(){
+                        if(lives !== 0){
+                            getItems()
+                        }
+                    })
 				}
 				
 				

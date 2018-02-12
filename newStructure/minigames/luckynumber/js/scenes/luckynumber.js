@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/luckynumber/";
+var tutorialPath = "../../shared/minigames/"
 
 var luckynumber = function(){
 
@@ -9,7 +10,14 @@ var luckynumber = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
+			],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -80,9 +88,9 @@ var luckynumber = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('desktop',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		/*GAME*/
 		game.load.image("background",imagePath + "background.png");
 		game.load.image("background2",imagePath + "background2.png");
@@ -103,6 +111,10 @@ var luckynumber = function(){
         for(i=1;i<=9;i++){
            game.load.image("noveno" + i,imagePath + "novenos/noveno" + i + ".png"); 
         }
+
+        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+		loadType(gameIndex)
+
 	
 	}
 
@@ -538,6 +550,7 @@ var isMobile = {
 
 	
 	function update() {
+		tutorialUpdate()
         if(starGame){
 		if(ruletaGroup.angle <= 360){
           ruletaGroup.angle += giro  

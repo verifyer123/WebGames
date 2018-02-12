@@ -100,7 +100,8 @@ export var login = function () {
 		if(newAccount){
 			ajaxCall(data, LOGIN_PARENT, onSuccess, onError, "PUT")
 		}else {
-			ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
+			data.game = GAME
+			ajaxCall(data, UPDATE_CHILD, onSuccess, onError)
 		}
 	}
 

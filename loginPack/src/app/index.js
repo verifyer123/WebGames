@@ -106,7 +106,8 @@ class App extends React.Component{
 		let data = {
 			nickname:this.childData.nickname,
 			email:this.childData.parentMail,
-			pin:this.childData.pin.join('')
+			pin:this.childData.pin.join(''),
+			remoteID:this.childData.remoteID
 		}
 
 		if(!newAccount)

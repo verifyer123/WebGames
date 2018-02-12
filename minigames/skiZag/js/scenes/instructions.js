@@ -6,6 +6,8 @@ var instructions = function(){
 				file: "images/instructions/back.png"},
             {   name:"okbtn",
                 file: "images/instructions/okbtn.png"},
+            {   name:"ins",
+                file: "images/instructions/ins.png"},
             {   name:"inst-tap",
                 file: "images/instructions/inst-tap.png"},
             {   name:"inst-click",
@@ -30,6 +32,9 @@ var instructions = function(){
         
         var game = sceneGroup.game
 		var circleGroup = new Phaser.Group(sceneGroup.game)
+
+        var ins = circleGroup.create(0,0,'ins')
+        ins.anchor.setTo(0.5,0.5)
         
         var platform = 'click'
         
@@ -37,7 +42,7 @@ var instructions = function(){
             platform = 'tap'
         }
         
-        var instruction = circleGroup.create(0,0,'inst-'+ platform)
+        var instruction = circleGroup.create(0,250,'inst-'+ platform)
         instruction.anchor.setTo(0.5,0.5)
         
         

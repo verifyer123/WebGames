@@ -1,5 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var imagePath = "images/CroakSong/"
+var tutorialPath = "../../shared/minigames/"
 var CroakSong = function(){
 
 	assets = {
@@ -8,7 +9,13 @@ var CroakSong = function(){
                 //name: "atlas.frogs",
                 //json: imagePath + "ranas/atlas.json",
                 //image: imagePath + "ranas/atlas.png",
-			}],
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+			],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -463,9 +470,9 @@ var CroakSong = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");	)/
 		//game.load.image('bgclock',imagePath + "bgclock.png");
 		/*Default*/
 		game.load.image("background2", imagePath +"background2.png");
@@ -480,6 +487,10 @@ var CroakSong = function(){
 		game.load.image('wrong',imagePath + "wrong.png");
 		game.load.spritesheet('bicho', imagePath +  'bicho.png', 74, 79, 12);
 		game.load.spine("frogs", imagePath + "ranas/skeleton.json");
+
+		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
+		loadType(gameIndex)
+
 	}
 
 	function loadSounds(){
@@ -637,7 +648,11 @@ var CroakSong = function(){
 		}
 		
         sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -696,11 +711,18 @@ var CroakSong = function(){
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.1,0.5)
+		playText.anchor.setTo(0.1,0.5)*/
 
 		
     }	
 	
+	function onClickPlay(){
+		sound.play("combo");
+		TextLevelfunction();
+		 overlayGroup.y = -game.world.height
+
+		starGame = true;
+	}
 	
 	/*CREATE SCENE*/
     function createScene(){

@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var magic = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var magic = function(){
                 json: "images/magic/atlas.json",
                 image: "images/magic/atlas.png",
             },
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -76,7 +83,7 @@ var magic = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 15000
         
         loadSounds()
@@ -275,11 +282,13 @@ var magic = function(){
 		game.load.spine('rabbit', "images/spines/conejo.json")
         game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
         
-		game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/magic/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/magic/introscreen.png")
+		game.load.image('introscreen',"images/magic/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/magic/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -288,54 +297,13 @@ var magic = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				showButtons(true)				
-				
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.magic','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.magic',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.magic','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        showButtons(true)
     }
     
     function releaseButton(obj){
@@ -576,7 +544,7 @@ var magic = function(){
 			createPart('star',obj)
 			sound.play('secret')
 
-            console.log("Set result "+result )
+            //console.log("Set result "+result )
 
             if(result > 9){
                 magician.text.fontSize = SMALL_FONT_SIZE
@@ -604,6 +572,13 @@ var magic = function(){
 			missPoint()
 			createPart('wrong',obj)
 			
+            game.time.events.add(3500,function(){
+				showButtons(false)
+			})
+			
+			game.time.events.add(4500,function(){
+				showButtons(true)
+			})
 		}
 	}
 	
@@ -862,5 +837,5 @@ var magic = function(){
 			loadSounds()
 			initialize()
 		}
-	}
+	}  
 }()

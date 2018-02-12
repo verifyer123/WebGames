@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var nutri = function(){
     
     var localizationData = {
@@ -20,6 +21,12 @@ var nutri = function(){
                 json: "images/nutri/atlas.json",
                 image: "images/nutri/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -315,12 +322,23 @@ var nutri = function(){
         game.load.spine('dinamita', "images/spines/skeleton.json")  
         game.load.audio('canonSong', soundsPath + 'songs/dancing_baby.mp3');
         
-		game.load.image('howTo',"images/nutri/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/nutri/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/nutri/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/nutri/introscreen.png")
+		game.load.image('introscreen',"images/nutri/introscreen.png")*/
+
 		game.load.image('background',"images/nutri/background.png")
 		
 		game.load.spritesheet('coins', 'images/nutri/sprites/coins.png', 68, 70, 12);
+
+		var device = "movil"
+
+		if(game.device.desktop){
+			device = "desktop"
+		}
+
+		game.load.image('tutorial_image',"images/nutri/tutorial_image_"+device+".png")
+		loadType(gameIndex)
+
 		        
     }
 	
@@ -370,8 +388,10 @@ var nutri = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -422,7 +442,18 @@ var nutri = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+
+    }
+
+    function onClickPlay(){
+	
+		overlayGroup.y = -game.world.height
+		gameActive = true
+		buttonActive = true
+		jumping = false
+		//showObjects()
+
     }
     
     function releaseButton(obj){
@@ -446,6 +477,8 @@ var nutri = function(){
 	}
 	
 	function update(){
+
+		tutorialUpdate()
 		
 		background.tilePosition.x-=0.5
 		water.tilePosition.x-=1	

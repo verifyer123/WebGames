@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var bomb = function(){
     
     var localizationData = {
@@ -34,6 +35,12 @@ var bomb = function(){
                 json: "images/bomb/atlas.json",
                 image: "images/bomb/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 			{   name:"background",
@@ -97,7 +104,7 @@ var bomb = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		numbersToAdd = 6
 		figToUse = null
 		timeToUse = 32000
@@ -348,11 +355,14 @@ var bomb = function(){
 		game.load.spine('explosion',"images/spines/explotion.json")
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         
-		game.load.image('howTo',"images/bomb/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/bomb/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/bomb/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/bomb/introscreen.png")
+		game.load.image('introscreen',"images/bomb/introscreen.png")*/
+
+		game.load.image('tutorial_image',"images/bomb/tutorial_image.png")
+		loadType(gameIndex)
+
 		
-		console.log(localization.getLanguage() + ' language')
         
     }
     
@@ -481,63 +491,19 @@ var bomb = function(){
         sceneGroup.add(overlayGroup)
         
 		setContainers()
+
+		createTutorialGif(overlayGroup,onClickPlay)
 		
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				gameActive = true
-				
-				getDragFigure()
-				setClock()
-            })
-            
-        })
         
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.bomb','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "18px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX - 115, game.world.centerY + 15, localization.getString(localizationData,"triangle"), fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		overlayGroup.add(pointsText)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.bomb',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.bomb','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
     }
-    
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		gameActive = true
+		
+		getDragFigure()
+		setClock()
+    }
     function releaseButton(obj){
         
         obj.parent.children[1].alpha = 1
@@ -975,7 +941,12 @@ var bomb = function(){
 			delay += 50
 			
 		}
-		
+        
+        for(var i = 0; i < figuresGroup.length;i++){
+            var fig = figuresGroup.children[i]
+            fig.anim.setAnimationByName(0,'IDLE',true)
+        }
+        
 		delay+= 500
 		game.time.events.add(delay,function(){
 			
@@ -1006,7 +977,15 @@ var bomb = function(){
 		clock.tween = game.add.tween(bar.scale).to({x:0},timeToUse,"Linear",true,500)
 		
 		clock.tween.onComplete.add(function(){
-			missPoint()
+            missPoint()
+            for(var i = 0; i < usedFigures.length;i++){
+                var fig = usedFigures.children[i]
+                fig.anim.setAnimationByName(0,'LOSE',true)
+            }
+            game.time.events.add(1000, function () {
+                if(lives !== 0)
+                    restartBoard()
+            })
 		})
 		
 	}

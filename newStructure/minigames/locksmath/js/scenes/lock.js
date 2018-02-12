@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var lock = function(){
 
 	var localizationData = {
@@ -21,7 +23,13 @@ var lock = function(){
 				name: "atlas.lock",
 				json: "images/lock/atlas.json",
 				image: "images/lock/atlas.png"
-			}
+			},
+			{   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
 		],
 		images: [
 			{   name:"fondowin",
@@ -367,19 +375,35 @@ var lock = function(){
 			callback = function(){
 				startWin()
 			}
+            var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
+            lock.callback = callback
+            dissapear.onComplete.add(openDoors)
 		}else {
 			sound.play("anger")
 			lock.setAnimation(["LOSE"])
-			loseGroup.alpha = 1
-			callback = function(){
-				startLose()
-			}
+            missPoint()
+            if(lives !== 0){
+                clock.bar.scale.x = clock.bar.origScale
+                game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000).onComplete.add(startRound)                
+            }
+            else{
+                loseGroup.alpha = 1
+                callback = function(){
+                    startLose()
+                }
+                var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
+                lock.callback = callback
+                dissapear.onComplete.add(openDoors)
+            }
 		}
-		var dissapear = game.add.tween(lock).to({alpha:0}, 600, Phaser.Easing.Cubic.Out, true, 2000)
-		lock.callback = callback
-		dissapear.onComplete.add(openDoors)
 		
 	}
+    
+    function newRound(){
+        
+        //startRound()
+        clock.bar.scale.x = clock.bar.origScale
+    }
 
 	function endTime(){
 		
@@ -595,6 +619,7 @@ var lock = function(){
 		game.load.image('introscreen',"images/lock/introscreen.png")
 		game.load.image('howTo',"images/lock/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/lock/play" + localization.getLanguage() + ".png")
+		game.load.image('life_box',"images/lock/life_box.png")
 
 		game.load.image('door',"images/lock/door.png")
 		game.load.spine('lock', "images/spine/lock.json")
@@ -602,6 +627,10 @@ var lock = function(){
 		game.load.spritesheet('jewel', 'images/lock/diamond.png', 84, 76, 23)
 
 		buttons.getImages(game)
+
+		game.load.image('tutorial_image',"images/lock/tutorial_image.png")
+		loadType(gameIndex)
+
 
 	}
 
@@ -705,43 +734,40 @@ var lock = function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
 
-		if(lives === 0){
+		/*if(lives === 0){
 			stopGame(false)
-		}
-		else{
-			startRound()
-		}
+		}*/
 
 		addNumberPart(heartsGroup.text,'-1')
 	}
 
-	// function createHearts(){
-	//
-	//     heartsGroup = game.add.group()
-	//     heartsGroup.y = 10
-	//     sceneGroup.add(heartsGroup)
-	//
-	//     var pivotX = 10
-	//     var group = game.add.group()
-	//     group.x = pivotX
-	//     heartsGroup.add(group)
-	//
-	//     var heartImg = group.create(0,0,'atlas.lock','life_box')
-	//
-	//     pivotX+= heartImg.width * 0.45
-	//
-	//     var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-	//     var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-	//     pointsText.x = pivotX
-	//     pointsText.y = heartImg.height * 0.15
-	//     pointsText.setText('X ' + lives)
-	//     heartsGroup.add(pointsText)
-	//
-	//     pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-	//
-	//     heartsGroup.text = pointsText
-	//
-	// }
+    function createHearts(){
+
+            heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+
+            var pivotX = 10
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+            var heartImg = group.create(0,0,'life_box')
+
+            pivotX+= heartImg.width * 0.45
+
+            var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+
+            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+            heartsGroup.text = pointsText
+
+        }
 
 	function startTimer(onComplete, delay) {
 		var delay = 500
@@ -761,16 +787,12 @@ var lock = function(){
 	}
 
 	function onClickPlay(rect) {
-		rect.inputEnabled = false
-		sound.play("pop")
-		game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
-			tutoGroup.y = -game.world.height
-			// sceneGroup.callback = startLose
-			// loseGroup.alpha = 1
-			// openDoors(sceneGroup)
-			startRound()
-		})
+		tutoGroup.y = -game.world.height
+		// sceneGroup.callback = startLose
+		// loseGroup.alpha = 1
+		// openDoors(sceneGroup)
+		startRound()
 	}
 
 	function createTutorial(){
@@ -779,46 +801,9 @@ var lock = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			onClickPlay(rect)
+		createTutorialGif(tutoGroup,onClickPlay)
 
-		})
-
-		tutoGroup.add(rect)
-
-		var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-		plane.anchor.setTo(0.5,0.5)
-
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.lock','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-
-		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-
-		var inputName = 'movil'
-
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.lock',inputName)
-		inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.lock','button')
-		button.anchor.setTo(0.5,0.5)
-
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		
 	}
 
 	function createClock(){
@@ -1056,7 +1041,7 @@ var lock = function(){
 			createDoors()
 			createBarBlocks()
 
-			// createHearts()
+			createHearts()
 			createPointsBar()
 			createClock()
 			createTutorial()

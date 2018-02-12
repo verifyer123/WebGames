@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var duck = function(){
     
     var localizationData = {
@@ -26,6 +27,12 @@ var duck = function(){
                 json: "images/duck/atlas.json",
                 image: "images/duck/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -73,7 +80,7 @@ var duck = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		indexGame = 1
 		timeToUse = 6000
         
@@ -265,11 +272,15 @@ var duck = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/dancing_baby.mp3');
 		game.load.spine('duck', "images/spines/duck.json")  
         
-		game.load.image('howTo',"images/duck/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/duck/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/duck/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/duck/introscreen.png")
+		game.load.image('introscreen',"images/duck/introscreen.png")*/
+
+        game.load.image('tutorial_image',"images/duck/tutorial_image.png")
+        loadType(gameIndex)
+
 		
-		console.log(localization.getLanguage() + ' language')
+		
         
     }
     
@@ -286,15 +297,9 @@ var duck = function(){
 				duck.number = indexGame * 10
 			}
 			
-			console.log(duck.number + ' number')
+			//console.log(duck.number + ' number')
 			duck.text.setText(duck.number)
-		}
-		
-		indexGame++
-		if(indexGame > 10){
-			indexGame = 1
-		}
-	
+		}	
 	}
 	
 	function sendDucks(){
@@ -323,6 +328,10 @@ var duck = function(){
 			if(duck.number % 10 == 0){
 				duck.tween.onComplete.add(function(){
 					missPoint()
+                    game.time.events.add(400,function(){
+                        if(lives !== 0)
+                            sendDucks()
+                    },this)
 				})
 			}
 		}
@@ -334,59 +343,15 @@ var duck = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				sendDucks()
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.duck','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.85,0.85)
-		
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-		var numberText = new Phaser.Text(game, game.world.centerX, game.world.centerY + 60, localization.getString(localizationData,"multiple"), fontStyle)
-		numberText.anchor.setTo(0.5, 0.5)
-		overlayGroup.add(numberText)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 245,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.duck',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.duck','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        sendDucks()
     }
     
     function releaseButton(obj){
@@ -602,11 +567,12 @@ var duck = function(){
 		for(var i = 0; i < ducksGroup.length;i++){
 			
 			var duck = ducksGroup.children[i]
+            
+            if(duck.tween){
+                duck.tween.stop()
+            }
 			
 			if(!duck.pressed){
-				if(duck.tween){
-					duck.tween.stop()
-				}
 
 				duck.anim.setAnimationByName(0,animName,true)
 				
@@ -625,7 +591,6 @@ var duck = function(){
 				duck.anim.setAnimationByName(0,"WALK",true)
 				duck.tween = game.add.tween(duck).to({x:duck.x - game.world.width * 1.2},2000,"Linear",true,0)
 			}
-
 		})
 	}
 	
@@ -650,19 +615,29 @@ var duck = function(){
 		game.add.tween(parent).to({y:parent.y - 100},300,"Linear",true).onComplete.add(function(){
 			game.add.tween(parent).to({y:game.world.height + 200},700,"Linear",true)
 		})
-		
+		parent.anim.setAnimationByName(0,"JUMP",false)
 		if(parent.number % 10 == 0){
+            indexGame++
+            if(indexGame > 10){
+                indexGame = 1
+            }
+            
 			addPoint(1)
 			createPart('star',obj)
-			parent.anim.setAnimationByName(0,"JUMP",false)
-						
 			setDucks("WIN")
 			game.time.events.add(3000,sendDucks)
 		}else{
-			
+            
 			missPoint()
 			createPart('wrong',obj)
 			setDucks("LOSE")
+            for(var i = 0; i < ducksGroup.length;i++){
+                 game.add.tween(ducksGroup.children[i]).to({alpha:0},1500,"Linear",true)
+            }
+            game.time.events.add(3000,function(){
+                if(lives !== 0)
+                    sendDucks()
+            },this)
 		}
 		
 	}

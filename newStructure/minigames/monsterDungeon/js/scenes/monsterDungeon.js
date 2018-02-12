@@ -1,5 +1,7 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/monsterDungeon/";
+var tutorialPath = "../../shared/minigames/"
+
 
 var monsterDungeon = function(){
 
@@ -9,7 +11,13 @@ var monsterDungeon = function(){
                 //name: "atlas.bouncybath",
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
-			}],
+			},
+             {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -152,8 +160,9 @@ var monsterDungeon = function(){
         game.load.spine("SpiderOrb", imagePath + "spine/SpiderOrb/spiderorb.json");
         game.load.spine("TreeMower", imagePath + "spine/TreeMower/treemower.json");
 
-		
-		
+		game.load.image('tutorial_image',imagePath+"/tutorial_image.png")
+        loadType(gameIndex)
+
 		
 	}
 

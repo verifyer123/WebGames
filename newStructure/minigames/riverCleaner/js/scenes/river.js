@@ -1,4 +1,6 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var river = function(){
     
     var localizationData = {
@@ -23,6 +25,12 @@ var river = function(){
                 json: "images/river/atlas.json",
                 image: "images/river/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -309,9 +317,9 @@ var river = function(){
         
         game.load.audio('fishSong', soundsPath + 'songs/bubble_fishgame.mp3');
         
-		game.load.image('howTo',"images/river/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/river/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/river/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/river/introscreen.png")
+		game.load.image('introscreen',"images/river/introscreen.png")*/
         
 		game.load.image('fondo',"images/river/tile.png")
         game.load.image('fondo2',"images/river/tile2.png")
@@ -319,7 +327,9 @@ var river = function(){
         game.load.spine("nao", "images/spines/Nao/nao.json");
         game.load.spine("fish", "images/spines/Fish/fish.json");
         
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('tutorial_image',"images/river/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -328,8 +338,10 @@ var river = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -378,7 +390,15 @@ var river = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        //trowTrash()
+        startTrash()
+        nao.setAnimationByName(0, "RUN", true)
+        speed = 4
     }
     
     function releaseButton(obj){

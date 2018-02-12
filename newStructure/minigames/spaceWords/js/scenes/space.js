@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var space = function(){
     
     var localizationData = {
@@ -23,6 +24,12 @@ var space = function(){
                 json: "images/space/atlas.json",
                 image: "images/space/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
             {   name:"fondo",
@@ -121,7 +128,7 @@ var space = function(){
         //gameActive = true
         cardsNumber = 4
         maxNumber = 3
-        lives = 1
+        lives = 3
         quantNumber = 0
         arrayComparison = []
         comboCount = 0
@@ -208,7 +215,17 @@ var space = function(){
             barGroup.tween = game.add.tween(barGroup.bar.scale).to({y:0},barTime,Phaser.Easing.linear,true)
             barGroup.tween.onComplete.add(function(){
 
-                fallWater()
+                missPoint()
+                createPart('wrong',parent)
+                master.tween.stop()
+                showAssets(false)
+                game.time.events.add(1000,function(){
+                    if(lives !== 0){
+                        showAssets(true)
+                    }
+                    else
+                        fallWater()
+                })
 
             })
                 
@@ -468,8 +485,17 @@ var space = function(){
                 showAssets(true)
             })
         }else{
-            fallWater()
+            missPoint()
             createPart('wrong',parent)
+            master.tween.stop()
+            showAssets(false)
+            game.time.events.add(1000,function(){
+                if(lives !== 0){
+                    showAssets(true)
+                }
+                else
+                    fallWater()
+            })
         }
         
     }
@@ -638,9 +664,13 @@ var space = function(){
         
         game.load.spritesheet('splash', 'images/space/splash.png', 240, 190, 13);
         
-        game.load.image('introscreen',"images/space/introscreen.png")
+        /*game.load.image('introscreen',"images/space/introscreen.png")
 		game.load.image('howTo',"images/space/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/space/play" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/space/play" + localization.getLanguage() + ".png")*/
+
+        game.load.image('tutorial_image',"images/space/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
 	
@@ -649,8 +679,10 @@ var space = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -696,7 +728,12 @@ var space = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        showAssets(true)
     }
     
     function createWater(){

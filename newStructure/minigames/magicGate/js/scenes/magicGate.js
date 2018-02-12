@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 
 var magicGate = function(){
     
@@ -25,6 +27,12 @@ var magicGate = function(){
                 json: "images/magic/atlas.json",
                 image: "images/magic/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 
@@ -78,7 +86,7 @@ var magicGate = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		timeToUse = 15000
         
         loadSounds()
@@ -284,11 +292,13 @@ var magicGate = function(){
 		game.load.spine('operation',"images/spines/glow.json")
         game.load.audio('spaceSong', soundsPath + 'songs/fantasy_ballad.mp3');
         
-		game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/magic/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/magic/introscreen.png")
-		
-		console.log(localization.getLanguage() + ' language')
+		game.load.image('introscreen',"images/magic/introscreen.png")*/
+
+        game.load.image('tutorial_image',"images/magic/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -297,53 +307,14 @@ var magicGate = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				showButtons(true)
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.magic','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.magic',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.magic','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        showButtons(true)
     }
     
     function releaseButton(obj){
@@ -597,8 +568,26 @@ var magicGate = function(){
 			
 			missPoint()
 			createPart('wrong',resultImage)
+            sound.play("evilLaugh")
+            game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
 			
-			enterMonster()
+            if(lives !== 0){
+                for(var i = 0; i < 2;i++){
+                    towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
+                    towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
+                }
+                game.time.events.add(1000,function(){
+
+                    showButtons(false)
+                    game.time.events.add(1000,function(){
+                        showButtons(true)
+                    })
+
+                })
+            }
+            else{
+                enterMonster()
+            }
 		}
 		
 	}
@@ -618,7 +607,7 @@ var magicGate = function(){
 		
 		game.add.tween(operationGroup).to({alpha:0},500,"Linear",true)
 		
-		sound.play("evilLaugh")
+		//sound.play("evilLaugh")
 		
 		game.add.tween(monster).to({y:monster.y + 100},500,"Linear",true)
 		monster.setAnimationByName(0,"WIN",false)
@@ -845,8 +834,26 @@ var magicGate = function(){
 				tween.onComplete.add(function(){
 					
 					missPoint()
+                    sound.play("evilLaugh")
+                    game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
 					createPart('wrong',operationGroup.result.children[0])
-					enterMonster()
+                    if(lives !== 0){
+                        for(var i = 0; i < 2;i++){
+                            towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
+                            towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
+                        }
+                        game.time.events.add(1000,function(){
+
+                            showButtons(false)
+                            game.time.events.add(1000,function(){
+                                showButtons(true)
+                            })
+
+                        })
+                    }
+                    else{
+                        enterMonster()
+                    }
 				})
 				
 				clock.tween = tween

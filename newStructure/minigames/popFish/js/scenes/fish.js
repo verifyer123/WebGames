@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var fish = function(){
     
     var localizationData = {
@@ -20,6 +22,12 @@ var fish = function(){
                 json: "images/pop/atlas.json",
                 image: "images/pop/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 			{   name:"fondo",
@@ -300,10 +308,14 @@ var fish = function(){
         game.load.spine('fish', "images/spines/skeleton.json")  
         game.load.audio('gardenSong', soundsPath + 'songs/adventure.mp3');
         
-		game.load.image('howTo',"images/pop/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/pop/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/pop/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/pop/introscreen.png")
+		game.load.image('introscreen',"images/pop/introscreen.png")*/
 		game.load.image('background',"images/pop/background.png")
+
+		game.load.image('tutorial_image',"images/pop/tutorial_image.png")
+		loadType(gameIndex)
+
 		        
     }
 	
@@ -357,8 +369,10 @@ var fish = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -429,8 +443,28 @@ var fish = function(){
 		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX + 150, game.world.centerY - 75, localization.getString(localizationData,"multiple"), fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
-		overlayGroup.add(pointsText)
+		overlayGroup.add(pointsText)*/
 		
+	}
+
+	function onClickPlay(){
+		overlayGroup.y = -game.world.height
+		gameActive = true
+		buttonActive = true
+		
+		player.number = game.rnd.integerInRange(2,3)
+		fishAnim.text.setText(player.number)
+			
+		game.time.events.add(250,function(){
+			
+			pivotObjects = -200 -usedObjects.y
+
+			for(var i = 0; i < 5;i++){
+
+				addObjects()
+			}
+			
+		})
 	}
 
 	function createBackground(){

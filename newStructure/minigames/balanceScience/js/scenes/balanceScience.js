@@ -1,5 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
+
 var balanceScience = function(){
     
     var localizationData = {
@@ -28,7 +30,13 @@ var balanceScience = function(){
                 name: "atlas.time",
                 json: "images/balanceScience/timeAtlas.json",
                 image: "images/balanceScience/timeAtlas.png",
+            },
+              {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
+
         ],
         images: [
 
@@ -274,9 +282,9 @@ var balanceScience = function(){
         
         game.load.audio('balanceSong', soundsPath + 'songs/funny_invaders.mp3');
         
-		game.load.image('howTo',"images/balanceScience/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/balanceScience/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/balanceScience/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/balanceScience/introscreen.png")
+		game.load.image('introscreen',"images/balanceScience/introscreen.png")*/
         
 		game.load.image('background',"images/balanceScience/background.png")
 		game.load.image('floor',"images/balanceScience/floor.png")
@@ -288,6 +296,10 @@ var balanceScience = function(){
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
         
 		console.log(localization.getLanguage() + ' language')
+
+        game.load.image('tutorial_image',"images/balanceScience/tutorial_image.png")
+        loadType(gameIndex)
+
         
     }
     
@@ -297,7 +309,12 @@ var balanceScience = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
+
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -343,7 +360,12 @@ var balanceScience = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        initTuto()
     }
     
     function releaseButton(obj){
@@ -367,7 +389,8 @@ var balanceScience = function(){
     }
 
 	function update(){
-        
+        //tutorialUpdate()
+
         clouds.tilePosition.x += 0.1
     }
     

@@ -1,4 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var tapcards = function(){
 
 	assets = {
@@ -7,7 +8,13 @@ var tapcards = function(){
                 name: "atlas.cards",
                 json: "images/tapcards/atlas.json",
                 image: "images/tapcards/atlas.png",
-			}],
+			},
+			{
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+],
         images: [],
 		sounds: [
             {	name: "pop",
@@ -119,9 +126,13 @@ var tapcards = function(){
 		game.load.image('bgclock',"images/tapcards/bgclock.png");
 		game.load.image('pc',"images/tapcards/pc.png");
 		game.load.image('movil',"images/tapcards/movil.png");
-		game.load.image('howTo',"images/tapcards/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',"images/tapcards/play" + localization.getLanguage() + ".png");		
+		//game.load.image('howTo',"images/tapcards/how"  + localization.getLanguage()  + ".png");
+		//game.load.image('buttonText',"images/tapcards/play" + localization.getLanguage() + ".png");		
 		//game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
+
+		game.load.image('tutorial_image',"images/tapcards/tutorial_image.png")
+		loadType(gameIndex)
+
 	}
 	
 	frutas = [
@@ -176,7 +187,9 @@ var tapcards = function(){
 		}
 		
         sceneGroup.add(overlayGroup)
-        var rect = new Phaser.Graphics(game)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -235,8 +248,17 @@ var tapcards = function(){
 		button.anchor.setTo(0.2,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0,0.5)
+		playText.anchor.setTo(0,0.5)*/
     }	
+
+    function onClickPlay(){
+    	overlayGroup.y = -game.world.height
+		createCardsGreen();
+		createCardsBlue();
+		createCardsRed();
+		positionCardsBlue();
+		TweenMax.to(readyButton,1,{y:game.height - readyButton.height,ease:Back.easeOut});
+    }
 	
 	
 	function createCardsGreen(){
