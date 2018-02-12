@@ -160,7 +160,7 @@ var greenRescue = function(){
     
     function animateScene() {
                 
-        gameActive = false
+        //gameActive = false
         
         var startGroup = new Phaser.Group(game)
         sceneGroup.add(startGroup)
@@ -739,11 +739,12 @@ var greenRescue = function(){
     
     function checkOverlap(spriteA, spriteB) {
 
-        var boundsA = spriteA.getBounds();
-        var boundsB = spriteB.getBounds();
+        if(gameActive){
+            var boundsA = spriteA.getBounds();
+            var boundsB = spriteB.getBounds();
 
-        return Phaser.Rectangle.intersects(boundsA, boundsB);
-
+            return Phaser.Rectangle.intersects(boundsA, boundsB);
+        }
     }
     
 	function update(){
