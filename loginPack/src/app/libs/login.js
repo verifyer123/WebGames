@@ -11,6 +11,7 @@ export var login = function () {
 	var CHECK_EMAIL = "/login/check"
 	var REGISTER_CHILD = "/login/child"
 	var LOGIN_CHILD = "/login/pin"
+	var LOGIN_UPDATE = "/login/child_update"
 
 	function ajaxCall(data, endPoint, onSuccess, onError, type) {
 		type = type || "POST"
@@ -95,13 +96,15 @@ export var login = function () {
 		}
 	}
 
-	function registerPin(data, onSuccess, onError, newAccount) {
+	function registerPin(data, onSuccess, onError, registerType) {
 		console.log(data)
-		if(newAccount){
+		if(registerType === "newAccount"){
 			ajaxCall(data, LOGIN_PARENT, onSuccess, onError, "PUT")
-		}else {
-			data.game = GAME
-			ajaxCall(data, UPDATE_CHILD, onSuccess, onError)
+		}else if(registerType === "firstLogin") {
+			// data.game = GAME
+			ajaxCall(data, LOGIN_UPDATE, onSuccess, onError, "PUT")
+		}else{
+			ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
 		}
 	}
 

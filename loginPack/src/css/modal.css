@@ -502,7 +502,7 @@ input[type=text]:focus {
 }
 
 #scrollArea{
-    height: 190px;
+    height: 46vh;
     overflow-y: scroll;
 }
 

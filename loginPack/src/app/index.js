@@ -88,11 +88,11 @@ class App extends React.Component{
 		login.loginChild(child.nickname, child.pin.join(''), onSuccess.bind(this), onError)
 	}
 
-	register(newAccount){
+	register(registerType){
 		$('#loadSpace').css("display", "block")
 		this.togglePin()
 
-		newAccount = newAccount || false
+		registerType = registerType || "firstLogin"
 		function onSuccess(){
 			this.registerLogin()
 		}
@@ -110,10 +110,10 @@ class App extends React.Component{
 			remoteID:this.childData.remoteID
 		}
 
-		if(!newAccount)
+		if(registerType !== "newAccount")
 			data.token = credentials.token
 
-		login.registerPin(data, onSuccess.bind(this), onError.bind(this), newAccount)
+		login.registerPin(data, onSuccess.bind(this), onError.bind(this), registerType)
 	}
 
 	setChildData(childData){
@@ -171,7 +171,7 @@ class App extends React.Component{
 		switch (this.state.component) {
 			case "register":
 				component = <Register closeModal={this.handleClick.bind(this, false)}
-									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData} newAccount={props}
+									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData} registerType={props}
 				addChildData={this.addChildData} audios={this.audios}/>
 				break;
 			case "login":
@@ -189,7 +189,7 @@ class App extends React.Component{
 				break;
 			case "nickname":
 				component = <Nickname closeModal={this.handleClick.bind(this, false)} handleClick = {this.handleClick.bind(this)}
-									  onRegister={this.register} addChildData={this.addChildData} newAccount={props} audios={this.audios}
+									  onRegister={this.register} addChildData={this.addChildData} registerType={props} audios={this.audios}
 				togglePin={this.togglePin}/>
 				break;
 			case "success":

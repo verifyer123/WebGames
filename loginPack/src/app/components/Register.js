@@ -16,8 +16,9 @@ export class Register extends React.Component {
 
 		this.togglePass = this.togglePass.bind(this)
 		this.closemodal = this.closemodal.bind(this)
-		this.newAccount = this.props.newAccount
+		this.registerType = this.props.registerType
 
+		this.newAccount = this.registerType === "newAccount"
 		let kidAccountText = localization.getString("kidAccount", this.language)
 		let loginYogome = localization.getString("logInYogome", this.language)
 		this.title = this.newAccount ? kidAccountText : loginYogome
@@ -48,7 +49,7 @@ export class Register extends React.Component {
 					return onError()
 
 				this.props.addChildData("parentMail", email)
-				this.props.onNext("nickname", true)
+				this.props.onNext("nickname", this.registerType)
 			}
 		}
 
@@ -75,11 +76,14 @@ export class Register extends React.Component {
 			console.log(response)
 			var children = response.children
 			console.log(children)
-			if((children)&&(children.length > 1))
+			if((children)&&(children.length > 1)) {
+				this.props.setChildData({parentMail: email})
 				this.props.onNext("players", children)
+			}
 			else{
 				let child = children ? children[0] : response.child
-				this.props.onNext("nickname", child)
+				this.props.setChildData(child)
+				this.props.onNext("nickname", this.registerType)
 			}
 
 			$('#loadSpace').css("display", "none")

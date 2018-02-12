@@ -28,7 +28,7 @@ export class Players extends React.Component {
 	onPressed(child){
 		this.audios.pop.play()
 		this.props.setChildData(child)
-		this.props.callback()
+		this.props.callback("firstLogin")
 	}
 
 	closemodal(){
@@ -36,6 +36,12 @@ export class Players extends React.Component {
 	}
 
 	render() {
+		let childrenIndent = []
+		for(let index = 0; index < this.props.children.length; index++){
+			let child = this.props.children[index]
+			let childName = child.name || child.nickname
+			childrenIndent.push(<button className="loginBtn bgBlue" key={childName} onClick={this.onPressed.bind(this, child)} data={child}>{childName}</button>)
+		}
 
 		return (
 			<div id="players" className="lgmodal" data-backdrop="static">
@@ -50,11 +56,12 @@ export class Players extends React.Component {
 
 					<div className="lgmodal-body">
 						<div id="scrollArea">
-							{this.props.children.map((child) =>
-								<button className="loginBtn bgBlue" key={child.name} onClick={this.onPressed.bind(this, child)} data={child}>{child.name}</button>
-							)}
+							{childrenIndent}
+							{/*{this.props.children.map((child) => (*/}
+								{/*<button className="loginBtn bgBlue" key={child.name} onClick={this.onPressed.bind(this, child)} data={child}>{child.name}</button>*/}
+							{/*))}*/}
 						</div>
-						<button type="submit" className="addPlayer">+</button><br />
+						<button type="submit" className="addPlayer" onClick={this.props.callback.bind(null, "newChild")}>+</button><br />
 					</div>
 
 				</div>

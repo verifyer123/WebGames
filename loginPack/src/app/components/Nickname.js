@@ -13,7 +13,7 @@ export class Nickname extends React.Component {
 			showPass:false,
 		}
 
-		this.newAccount = this.props.newAccount
+		this.registerType = this.props.registerType
 
 	}
 
@@ -37,7 +37,7 @@ export class Nickname extends React.Component {
 				return
 			}
 			this.props.addChildData("nickname", nickname)
-			this.props.togglePin(()=>{this.props.onRegister(this.newAccount)})
+			this.props.togglePin(()=>{this.props.onRegister(this.registerType)})
 		}
 
 		function onError() {
