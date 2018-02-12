@@ -800,7 +800,7 @@ var chakBlock = function(){
 			
 			game.sound.mute = true
 			if(amazing.getMinigameId()){
-				//marioSong.pause()
+				marioSong.pause()
 			}
 			
 		} , this);
@@ -810,7 +810,7 @@ var chakBlock = function(){
 			
 			if(amazing.getMinigameId()){
 				if(lives>0){
-					//marioSong.play()
+					marioSong.play()
 				}
 			}
 			
@@ -821,9 +821,9 @@ var chakBlock = function(){
 		if(!amazing.getMinigameId()){
 			
 			marioSong = game.add.audio('arcadeSong')
-			/*game.sound.setDecodedCallback(marioSong, function(){
+			game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.3)
-			}, this);*/	
+			}, this);
 		}
         
         var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.chakBlock','fondo')
