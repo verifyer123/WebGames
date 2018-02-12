@@ -77,7 +77,7 @@ var greenRescue = function(){
     var lives = null
 	var sceneGroup = null
 	var background
-    var gameActive = true
+    var gameActive
 	var particlesGroup, particlesUsed
     var gameIndex = 124
 	var indexGame
@@ -140,6 +140,7 @@ var greenRescue = function(){
         checked=0;
         allClean=0;
         dificulty=3;
+        gameActive=true
         velocidadNubes=4;
         lives = 3
         sumX=1
@@ -833,7 +834,8 @@ var greenRescue = function(){
             animations[4]="SODA";
             animations[5]="TIRE";
             animations[6]="TV";
-           if(gameActive){ 
+            
+            if(gameActive){
             for(var checkOverlaping=0;checkOverlaping<estados.length;checkOverlaping++){
                 if (checkOverlap(sprinklerProxy,proxy[checkOverlaping]) && sprinklerProxy.alpha==0)
                 {
