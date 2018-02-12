@@ -739,12 +739,11 @@ var greenRescue = function(){
     
     function checkOverlap(spriteA, spriteB) {
 
-        if(gameActive){
+        
             var boundsA = spriteA.getBounds();
             var boundsB = spriteB.getBounds();
 
             return Phaser.Rectangle.intersects(boundsA, boundsB);
-        }
     }
     
 	function update(){
@@ -834,7 +833,7 @@ var greenRescue = function(){
             animations[4]="SODA";
             animations[5]="TIRE";
             animations[6]="TV";
-            
+           if(gameActive){ 
             for(var checkOverlaping=0;checkOverlaping<estados.length;checkOverlaping++){
                 if (checkOverlap(sprinklerProxy,proxy[checkOverlaping]) && sprinklerProxy.alpha==0)
                 {
@@ -850,9 +849,9 @@ var greenRescue = function(){
                 {
                     objectOverlaping=proxy[checkOverlaping];
                     objectOverlaping.tag=proxy[checkOverlaping].tag
+                    }
                 }
             }
-            
             shovelProxy.position.x=shovel.x;
             shovelProxy.position.y=shovel.y;
             
