@@ -272,8 +272,8 @@ var chakBlock = function(){
     	}
 
     	if(quadsDestroy.length>1){
-    		var num = quadsDestroy.length-1
-    		var divisor = Math.round(num/2)
+    		var num = quadsDestroy.length-2
+    		var divisor = Math.round(num/6)
     		var val = num*divisor
     		if(val < 1){
     			val = 1
@@ -747,6 +747,66 @@ var chakBlock = function(){
     		}
     	}
 
+        for(var i = 0; i < ARRAY_WIDTH; i++){
+            for(var j = 0; j<ARRAY_HEIGTH; j++){
+                var value = arrayValues[i][j].value
+                var alone = true
+                if(i < ARRAY_WIDTH-1){
+                    if(arrayValues[i+1][j].value == value){
+                        alone = false
+                    }
+                }
+                if(i > 0){
+                    if(arrayValues[i-1][j].value == value){
+                        alone = false
+                    }
+                }
+
+                if(j < ARRAY_HEIGTH-1){
+                    if(arrayValues[i][j+1].value == value){
+                        alone = false
+                    }
+                }
+                if(j > 0){
+                    if(arrayValues[i][j-1].value == value){
+                        alone = false
+                    }
+                }
+
+                if(alone){
+                    
+                    var r = game.rnd.frac()
+                    //if(r>0.1){
+                        r = game.rnd.integerInRange(0,currentColors-1)
+                        r = arrayColors[r]
+
+                        arrayValues[i][j].value = r
+                        arrayValues[i][j].object.type = r
+
+                        switch(r){
+                            case ColorsEnum.RED:
+                            arrayValues[i][j].object.loadTexture('atlas.chakBlock','rojo')
+                            break
+                            case ColorsEnum.BLUE:
+                            arrayValues[i][j].object.loadTexture('atlas.chakBlock','azul')
+                            break
+                            case ColorsEnum.PURPLE:
+                            arrayValues[i][j].object.loadTexture('atlas.chakBlock','morado')
+                            break
+                            case ColorsEnum.GREEN:
+                            arrayValues[i][j].object.loadTexture('atlas.chakBlock','verde')
+                            break
+                            case ColorsEnum.YELLOW:
+                            arrayValues[i][j].object.loadTexture('atlas.chakBlock','amarillo')
+                            break
+                        }
+                    //}
+
+                }
+
+            }
+        }
+
     	//game.physics.arcade.gravity.y = 10;
     }
 
@@ -770,6 +830,8 @@ var chakBlock = function(){
     function create(){
         
         sceneGroup = game.add.group()
+
+        
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
         game.physics.arcade.gravity.y = 0;
@@ -832,16 +894,26 @@ var chakBlock = function(){
         var scaleX = game.world.width/background.width
 		var scaleY = game.world.height/background.height
         background.scale.setTo(1.1)
+
+        //game.camera.focusOnXY(game.world.centerX, game.world.centerY);
+
 		/*if(scaleX > scaleY){
 			if(scaleX > 1){
-				background.scale.setTo(scaleX)
+				game.camera.scale.x = scaleX;
+                game.camera.scale.y = scaleX;
 			}
 		}
 		else{
 			if(scaleY > 1){
-				background.scale.setTo(scaleY)
+				game.camera.scale.x = scaleY;
+                game.camera.scale.y = scaleY;
 			}
-		}*/
+		}
+
+        game.camera.bounds.x = (game.world.centerX*game.camera.scale.x) - game.world.centerX;
+        game.camera.bounds.y = (game.world.centerY*game.camera.scale.y) - game.world.centerY;
+        game.camera.bounds.width = 540 * game.camera.scale.x;
+        game.camera.bounds.height = 960 * game.camera.scale.y;*/
 
 
         sceneGroup.add(background)

@@ -1103,23 +1103,26 @@ var symphoMaster = function(){
         sceneGroup = game.add.group() 
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
+        var scaleX = game.world.width/540
 
         var background = game.add.tileSprite(game.world.centerX,0,game.world.width,game.world.height/2,'atlas.sympho','background_top')
         background.anchor.setTo(0.5,0)
         backgroundGroup.add(background)
 
         background = backgroundGroup.create(game.world.centerX,game.world.centerY,'atlas.sympho','background_down')
-        background.scale.setTo(1.2,1.2)
+        background.scale.setTo(scaleX,1.2)
         background.anchor.setTo(0.5,0)
 
         var partitura = backgroundGroup.create(game.world.centerX,game.world.height*0.25,'atlas.sympho','partitura')
         partitura.anchor.setTo(0.5,0.5)
         partitura.scale.setTo(1.15,1.15)
+
+       
         
 
         background = backgroundGroup.create(game.world.centerX,game.world.centerY,'atlas.sympho','center')
         background.anchor.setTo(0.5,0.5)
-        background.scale.setTo(1.2,1.2)
+        background.scale.setTo(scaleX,1.2)
 
         gameGroup = game.add.group()
         gameGroup.x = game.world.centerX
