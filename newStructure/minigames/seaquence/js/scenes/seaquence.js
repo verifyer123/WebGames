@@ -56,7 +56,7 @@ var seaquence = function(){
 			
 		],
     }
-        
+    var INITIAL_LIVES = 3
     var lives = null
 	var numLimit
 	var result
@@ -87,7 +87,7 @@ var seaquence = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		pointerActive = false
 		numLimit = 3
 		gameTime = 20000
@@ -354,7 +354,12 @@ var seaquence = function(){
 			
 			clock.tween = game.add.tween(clock.bar.scale).to({x:0},gameTime,"Linear",true)
 			clock.tween.onComplete.add(function(){
+
 				missPoint()	
+				//deactivatePointer()
+				if(lives>0){
+					placeButtons(0)
+				}
 			})
 			
 			setSignResult()
@@ -899,7 +904,7 @@ var seaquence = function(){
 		}
 		
 		var lastNum = listUsed[listUsed.length - 1]
-		var numberItems
+		var numberItems = 0
 		
 		if(listUsed && listUsed.length > 2){
 			
@@ -932,6 +937,12 @@ var seaquence = function(){
 				
 			}else{
 				missPoint()
+				if(lives>0){
+					if(clock.tween){
+						clock.tween.stop()
+						game.add.tween(clock).to({alpha:0},500,"Linear",true)
+					}
+				}
 			}
 			
 			for(var i = 0; i < listUsed.length;i++){
@@ -958,11 +969,13 @@ var seaquence = function(){
 				rowList[obj.row].number++
 			}
 			
-			if(partName == 'star'){
+			if(lives > 0){
 				placeButtons(numberItems)
 			}
 			
 		}
+
+		
 		
 		for(var i = 0; i < glowGroup.length;i++){
 			

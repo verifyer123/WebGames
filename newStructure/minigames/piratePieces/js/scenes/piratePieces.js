@@ -57,6 +57,7 @@ var piratePieces = function(){
 		],
 	}
     
+    var INITIAL_LIVES = 3
 	
 	sceneGroup = null;
 	
@@ -67,7 +68,7 @@ var piratePieces = function(){
 	var heartsText;	
 	var xpIcon;
 	var xpText;
-	var lives = 1;
+	var lives = INITIAL_LIVES;
 	var cursors;
 	var coins = 0;
 	var bgm = null;
@@ -164,7 +165,7 @@ var piratePieces = function(){
 	
 	function initialize(){
 		
-		lives = 1;
+		lives = INITIAL_LIVES;
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
@@ -566,6 +567,18 @@ var piratePieces = function(){
 				var ship = shipList[i]
 				//ship.ship.setAnimationByName(0,"SINK_HIT",false)
 				ship.ship.setAnimationByName(0,"SINK",false)
+
+			}
+
+			if(lives>0){
+
+				game.time.events.add(2100,function(){
+					for(var i = 0; i < shipList.length;i++){
+						
+						shipList[i].ship.setAnimationByName(0,"IDLE",false)
+					}
+					setNumber()
+				})
 			}
 			
 			sound.play("water_splash")
@@ -827,6 +840,7 @@ var piratePieces = function(){
 			var shipToUse = shipList[game.rnd.integerInRange(0,shipList.length - 1)]
 			shipToUse.x = game.world.centerX
 			shipToUse.y = game.world.centerY
+			//shipToUse.alpha = 1
 			shipToUse.active = true
 			
 			shipToUse.alpha = 1
@@ -950,7 +964,7 @@ var piratePieces = function(){
 			}
 		}
 		
-		
+		game.time.events.add(delay,function(){coffinsGroup.alpha = 1})
 		popObject(readyBtn,delay)
 		readyBtn.btn.inputEnabled = true
 	}

@@ -56,6 +56,7 @@ var skyLanguage = function(){
 		],
     }
     
+    var INITIAL_LIVES = 3
         
     var lives = null
 	var sceneGroup = null
@@ -82,7 +83,7 @@ var skyLanguage = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
         arrayComparison = []
         timeValue = 10000
 		
@@ -200,7 +201,7 @@ var skyLanguage = function(){
 				
 				var tap = barGroup.taps[i]
 				
-				console.log(animalNames[indexs[i]])
+				
 				
 				var card = getCard(animalNames[indexs[i]])
 				card.x = barGroup.x
@@ -213,7 +214,7 @@ var skyLanguage = function(){
 				
 				game.add.tween(card.scale).from({x:0,y:0},500,"Linear",true)
 			}
-			
+			shipGroup.textCont.alpha = 1
 			shipGroup.text.alpha = 1
 			shipGroup.text.setText(animalNames[indexCard])
 			
@@ -758,10 +759,38 @@ var skyLanguage = function(){
 			
 			sound.play("explosion")
 			setExplosion(shipGroup)
+
+            missPoint()
 			
-			game.add.tween(shipGroup).to({y:game.world.height*0.9, angle:180,alpha: 0},500,"Linear",true)
+			game.add.tween(shipGroup).to({y:game.world.height*0.9, angle:180,alpha: 0},500,"Linear",true).onComplete.add(function(){
+                if(lives>0){
+                    resetButtons()
+                    game.add.tween(barGroup).to({x:game.world.width * 1.5, angle:barGroup.angle - 180,alpha:0},500,"Linear",true).onComplete.add(function(){
+                    
+                        shipGroup.y = game.world.centerY
+                        shipGroup.angle = 0
+                        shipGroup.ship.setAnimationByName(0,"IDLE",true)
+                        shipGroup.x = shipGroup.initialX
+                        game.add.tween(shipGroup).to({alpha :1},200,"Linear",true).onComplete.add(function(){
+
+                            positionBar()
+                        })
+                    })
+
+                    if(indexCard < animalNames.length - 1){
+                        indexCard++
+                    }else{
+                        Phaser.ArrayUtils.shuffle(animalNames)
+                        indexCard = 0
+                    }
+                }
+
+            })
+
 			
-			missPoint()
+			
+
+
 		},this)
 	}
 	
