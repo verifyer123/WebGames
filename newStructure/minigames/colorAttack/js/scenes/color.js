@@ -51,6 +51,8 @@ var color = function(){
 			
 		],
     }
+
+    var INITIAL_LIVES = 3
     
 	var angleToUse = -15
         
@@ -85,7 +87,7 @@ var color = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		gameSpeed = 3
 		gameActive = false
         moveDir = false
@@ -193,7 +195,7 @@ var color = function(){
 	
     function missPoint(){
         
-		gameActive = false		
+		//gameActive = false		
 		
         sound.play("wrong")
 		sound.play("explosion")
@@ -207,6 +209,7 @@ var color = function(){
         })
         
         if(lives == 0){
+        	gameActive = false
             stopGame(false)
         }
         
@@ -652,9 +655,9 @@ var color = function(){
 				var triangle = colorsGroup.circles.children[u]
 				if(checkOverlap(obj,triangle)){
 					
-					console.log(triangle.tint + ' color ' + obj.tint + ' ballColor')
+					//console.log(triangle.tint + ' color ' + obj.tint + ' ballColor')
 					if(obj.tint == triangle.tint){
-						console.log('point')
+						//console.log('point')
 						addPoint(1)
 						createPart('ring',obj,-50)
 						createTextPart('+1',obj)
@@ -663,6 +666,7 @@ var color = function(){
 						missPoint()
 						createPart('wrong',triangle)
 						setExplosion(triangle)
+						sendBall()
 					}
 					
 					deactivateObject(obj)
