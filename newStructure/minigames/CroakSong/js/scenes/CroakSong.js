@@ -489,7 +489,7 @@ var CroakSong = function(){
 		game.load.spine("frogs", imagePath + "ranas/skeleton.json");
 
 		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 

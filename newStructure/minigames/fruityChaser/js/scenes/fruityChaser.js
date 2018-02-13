@@ -296,7 +296,7 @@ var fruityChaser = function(){
         game.load.spine("fruits", "images/spines/Fruits/fruits.json")
 		
 		game.load.image('tutorial_image',"images/fruityChaser/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -920,7 +920,7 @@ var fruityChaser = function(){
 		assets: assets,
 		name: "fruityChaser",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.ARCADE)

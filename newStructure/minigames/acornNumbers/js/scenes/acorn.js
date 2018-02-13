@@ -58,7 +58,9 @@ var acorn = function(){
             {   name: "win",
                 file: soundsPath + "moleHit.mp3"},
             {   name: "knockout",
-                file: soundsPath + "knockOut1.mp3"}
+                file: soundsPath + "knockOut1.mp3"},
+            {   name:"acornSong",
+				file: soundsPath + 'songs/childrenbit.mp3'}
 		]
     }
 
@@ -81,7 +83,6 @@ var acorn = function(){
 	var sceneGroup = null
     var gameIndex = 34
     var tutoGroup
-    var acornSong
     var heartsGroup = null
     var pullGroup = null
     var clock
@@ -242,7 +243,7 @@ var acorn = function(){
 
         //objectsGroup.timer.pause()
         //timer.pause()
-        acornSong.stop()
+        sound.stop("acornSong")
         // clock.tween.stop()
         // runnerMode = false
         inputsEnabled = false
@@ -264,7 +265,6 @@ var acorn = function(){
     function preload(){
 
         game.stage.disableVisibilityChange = false;
-        game.load.audio('acornSong', soundsPath + 'songs/childrenbit.mp3');
 
         /*game.load.image('introscreen',"images/acorn/introscreen.png")
 		game.load.image('howTo',"images/acorn/how" + localization.getLanguage() + ".png")
@@ -277,12 +277,10 @@ var acorn = function(){
         }
 
         game.load.image('tutorial_image',"images/acorn/tutorial_image_"+inputName+".png")
-        loadType(gameIndex)
-
 
         game.load.spine('ardilla', "images/spine/skeleton.json")
 
-        buttons.getImages(game)
+        buttons.getImages()
     }
 
     function addNumberPart(obj,number){
@@ -426,7 +424,7 @@ var acorn = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
 
         /*var rect = new Phaser.Graphics(game)
@@ -777,6 +775,10 @@ var acorn = function(){
 		name: "acorn",
         preload:preload,
         update:update,
+		getGameData:function () {
+			var games = yogomeGames.getGames()
+			return games[gameIndex]
+		},
 		create: function(event){
 
             swipe = new Swipe(game)
@@ -787,11 +789,10 @@ var acorn = function(){
 
             background = game.add.tileSprite(0,0,game.world.width,961,'fondo')
             sceneGroup.add(background)
-
-            acornSong = game.add.audio('acornSong')
-            game.sound.setDecodedCallback(acornSong, function(){
-                acornSong.loopFull(0.6)
-            }, this);
+			// acornSong = game.add.audio('acornSong')
+            // game.sound.setDecodedCallback(acornSong, function(){
+            //     acornSong.loopFull(0.6)
+            // }, this);
 
             game.onPause.add(function(){
                 game.sound.mute = true
@@ -802,6 +803,7 @@ var acorn = function(){
             }, this);
 
             initialize()
+			var acornSong = sound.play("acornSong", {loop:true, volume:0.6})
 
             createHearts()
             createPointsBar()

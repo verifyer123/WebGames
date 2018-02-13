@@ -314,7 +314,7 @@ var mole = function(){
         game.load.spine("mole", "images/spines/mole.json")
 		
 		game.load.image('tutorial_image',"images/mole/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -957,7 +957,7 @@ var mole = function(){
 		assets: assets,
 		name: "mole",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

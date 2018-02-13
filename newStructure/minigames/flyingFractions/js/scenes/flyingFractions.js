@@ -210,7 +210,7 @@ var flyingFractions = function(){
 		game.load.spritesheet('explosion', imagePath +  'explosion.png', 118, 118, 6);
 
 		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 

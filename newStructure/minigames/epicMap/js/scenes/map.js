@@ -1414,7 +1414,7 @@ var map = function(){
 		assets: assets,
 		name: "map",
 		update: update,
-		preload:preload,
+		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 
 			initialize()

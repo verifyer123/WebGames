@@ -352,7 +352,7 @@ var invader = function(){
 		game.load.image('introscreen',"images/invader/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/invader/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -958,7 +958,7 @@ var invader = function(){
 		assets: assets,
 		name: "invader",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()

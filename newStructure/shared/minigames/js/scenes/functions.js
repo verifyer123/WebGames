@@ -12,7 +12,7 @@
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,function (rect){onClickPlay(lives)})
+        tutorialHelper.createTutorialGif(overlayGroup,function (rect){onClickPlay(lives)})
 
 
 		/*if(game.device != 'desktop'){

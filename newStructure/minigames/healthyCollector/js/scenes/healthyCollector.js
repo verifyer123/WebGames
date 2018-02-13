@@ -114,7 +114,7 @@ var healthyCollector = function(){
 		game.load.spritesheet('glow', 'images/healthyCollector/glow.png', 170, 141, 11);
 		buttons.getImages(game);
 		game.load.image('tutorial_image',"images/healthyCollector/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 

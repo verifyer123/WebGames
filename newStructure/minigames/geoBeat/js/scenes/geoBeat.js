@@ -283,7 +283,7 @@ var geoBeat = function(){
 		console.log(localization.getLanguage() + ' language')
 
         game.load.image('tutorial_image',"images/geoBeat/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -847,7 +847,7 @@ var geoBeat = function(){
 		assets: assets,
 		name: "geoBeat",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

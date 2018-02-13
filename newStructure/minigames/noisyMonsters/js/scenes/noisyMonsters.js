@@ -305,7 +305,7 @@ var noisyMonsters = function(){
         game.load.spine("monster3", "images/spines/PurpleMonster/purple_monster.json")
 		
 		game.load.image('tutorial_image',"images/noisyMonsters/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -953,7 +953,7 @@ var noisyMonsters = function(){
 		assets: assets,
 		name: "noisyMonsters",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

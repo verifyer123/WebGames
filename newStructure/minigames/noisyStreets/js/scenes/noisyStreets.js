@@ -330,7 +330,7 @@ var noisyStreets = function(){
         }
 
         game.load.image('tutorial_image',"images/noisy/tutorial_image_"+inputName+".png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
         game.load.spritesheet("coin", 'images/coin/coin.png', 122, 123, 12)
@@ -999,7 +999,7 @@ var noisyStreets = function(){
 		assets: assets,
 		name: "noisyStreets",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

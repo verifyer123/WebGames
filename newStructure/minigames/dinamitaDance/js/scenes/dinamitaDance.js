@@ -300,7 +300,7 @@ var dinamitaDance = function(){
 
 
         game.load.image('tutorial_image',"images/dinamitaDance/tutorial_image_"+inputName+".png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -869,7 +869,7 @@ var dinamitaDance = function(){
 		assets: assets,
 		name: "dinamitaDance",
 		//update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

@@ -278,7 +278,7 @@ var pizzaLab = function(){
         
 		console.log(localization.getLanguage() + ' language')
         
-        loadType(gameIndex)
+        //loadType(gameIndex)
         
     }
     
@@ -287,7 +287,7 @@ var pizzaLab = function(){
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
     }
     
     function onClickPlay(rect) {
@@ -893,7 +893,7 @@ var pizzaLab = function(){
 		assets: assets,
 		name: "pizzaLab",
 		//update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

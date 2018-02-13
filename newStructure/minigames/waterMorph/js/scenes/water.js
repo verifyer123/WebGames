@@ -1100,7 +1100,7 @@ var water = function(){
 		game.load.image('buttonText',"images/water/play" + localization.getLanguage() + ".png")*/
 
 		game.load.image('tutorial_image',"images/water/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -1304,7 +1304,7 @@ var water = function(){
 		assets: assets,
         update: update,
 		name: "water",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

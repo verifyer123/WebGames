@@ -126,7 +126,7 @@ var toyfigure = function(){
 		game.load.spine("dinamita", imagePath + "spine/dinamita.json");
 
         game.load.image('tutorial_image',imagePath+"/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 
 		

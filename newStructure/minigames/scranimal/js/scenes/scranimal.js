@@ -208,7 +208,7 @@ var scranimal = function(){
         game.load.image('howTo',"images/scranimal/how" + localization.getLanguage() + ".png")
         game.load.image('buttonText',"images/scranimal/play" + localization.getLanguage() + ".png")*/
         game.load.image('tutorial_image',"images/scranimal/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 
         game.load.spritesheet("coin", 'images/scranimal/coin.png', 122, 123, 12)
@@ -545,7 +545,7 @@ var scranimal = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -1121,7 +1121,7 @@ var scranimal = function(){
 		assets: assets,
 		name: "scranimal",
         update:update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene
 	}
 }()

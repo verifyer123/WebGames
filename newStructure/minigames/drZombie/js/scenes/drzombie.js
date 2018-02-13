@@ -334,7 +334,7 @@ var drzombie = function(){
 		game.load.image('introscreen',"images/zombie/tutorial/introscreen.png")*/
 
 		game.load.image('tutorial_image',"images/zombie/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
 		game.load.spritesheet('zombie', 'images/zombie/spriteSheets/zombie.png', 589, 554, 13);
@@ -937,7 +937,7 @@ var drzombie = function(){
 		assets: assets,
 		name: "drzombie",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

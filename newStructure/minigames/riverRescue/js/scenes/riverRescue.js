@@ -341,7 +341,7 @@ var riverRescue = function(){
         game.load.spine('axolotl',"images/spine/skeleton.json")
 		
 		game.load.image('tutorial_image',"images/river/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1019,7 +1019,7 @@ var riverRescue = function(){
 		assets: assets,
 		name: "riverRescue",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

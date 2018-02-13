@@ -374,7 +374,7 @@ var dizzy = function(){
 		game.load.spritesheet('monster', 'images/dizzy/sprites/seamounster.png', 92, 98, 11);
 		
 		game.load.image('tutorial_image',"images/dizzy/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -1175,7 +1175,7 @@ var dizzy = function(){
 		assets: assets,
 		name: "dizzy",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			game.physics.startSystem(Phaser.Physics.P2JS);

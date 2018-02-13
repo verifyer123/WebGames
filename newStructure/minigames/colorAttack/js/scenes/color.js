@@ -323,7 +323,7 @@ var color = function(){
 		game.load.image('background',"images/color/background.png")
 
 		game.load.image('tutorial_image',"images/color/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		//console.log(localization.getLanguage() + ' language')
         
@@ -914,7 +914,7 @@ var color = function(){
 		assets: assets,
 		name: "color",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			this.swipe = new Swipe(this.game);

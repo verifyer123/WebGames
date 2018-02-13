@@ -328,7 +328,7 @@ var river = function(){
         game.load.spine("fish", "images/spines/Fish/fish.json");
         
 		game.load.image('tutorial_image',"images/river/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1102,7 +1102,7 @@ var river = function(){
 		assets: assets,
 		name: "river",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.ARCADE)

@@ -419,7 +419,7 @@ var smokeBusters = function(){
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
 		
 		game.load.image('tutorial_image',"images/smoke/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
         
@@ -1487,7 +1487,7 @@ var smokeBusters = function(){
 		assets: assets,
 		name: "smokeBusters",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

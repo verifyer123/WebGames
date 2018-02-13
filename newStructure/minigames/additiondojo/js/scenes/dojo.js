@@ -783,7 +783,7 @@ var dojo = function(){
 	return {
 		assets: assets,
 		name: "dojo",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel)

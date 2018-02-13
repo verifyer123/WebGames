@@ -306,7 +306,7 @@ var evening = function(){
 		game.load.image('introscreen',"images/evening/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/evening/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -960,7 +960,7 @@ var evening = function(){
 		assets: assets,
 		name: "evening",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

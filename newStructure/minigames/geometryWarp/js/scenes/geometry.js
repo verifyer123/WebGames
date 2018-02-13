@@ -133,7 +133,7 @@ var geometry = function(){
 
 		buttons.getImages(game)
 		game.load.image('tutorial_image',"images/geometry/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 
 	}
@@ -588,7 +588,7 @@ var geometry = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		createTutorialGif(tutoGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
 		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
@@ -719,7 +719,7 @@ var geometry = function(){
 	return {
 		assets: assets,
 		name: "geometry",
-		preload:preload,
+		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		update:function() {
 			if(isActive)
 				update()

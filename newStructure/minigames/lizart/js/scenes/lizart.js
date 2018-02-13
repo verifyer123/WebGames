@@ -126,7 +126,7 @@ var lizart = function(){
 		buttons.getImages(game);
 
 		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 

@@ -54,6 +54,12 @@ var sceneloader = function(){
 		for(var indexScene = 0; indexScene < scenes.length; indexScene++){
 
 			var currentScene = scenes[indexScene]
+
+			var gameData = currentScene.getGameData ? currentScene.getGameData() : "none"
+			if(typeof gameData === "object"){
+				tutorialHelper.loadType(gameData, currentLoader)
+			}
+
 			if(currentScene.assets !== "undefined"){
 				var assets = currentScene.assets
 
@@ -95,7 +101,7 @@ var sceneloader = function(){
 
 				if(typeof assets.spritesheets == "object"){
 					for(var indexSheet = 0; indexSheet < assets.spritesheets.length; indexSheet++){
-						var currentSheet = assets.atlases[indexSheet]
+						var currentSheet = assets.spritesheets[indexSheet]
 						currentLoader.spritesheet(currentSheet.name, currentSheet.file, currentSheet.width, currentSheet.height, currentSheet.frames)
 					}
 				}

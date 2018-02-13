@@ -302,7 +302,7 @@ var fridge = function(){
 		game.load.image('introscreen',"images/fridge/introscreen.png")*/
 
         game.load.image('tutorial_image',"images/fridge/tutorial_image_"+localization.getLanguage()+".png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 		
         game.load.image('fridge',"images/fridge/fridge.png")
@@ -1116,7 +1116,7 @@ var fridge = function(){
 		assets: assets,
 		name: "fridge",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

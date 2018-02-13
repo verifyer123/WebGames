@@ -112,7 +112,7 @@ var aracnumber = function(){
         game.load.spine("fly", imagePath + "spine/fly/fly.json");
 
         game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 
 	}

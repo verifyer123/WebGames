@@ -319,7 +319,7 @@ var stack = function(){
 		game.load.image('introscreen',"images/stack/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/stack/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -895,7 +895,7 @@ var stack = function(){
 		assets: assets,
 		name: "stack",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

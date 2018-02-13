@@ -299,7 +299,7 @@ var elemental = function(){
         game.load.spine("wind", "images/spines/MaskWind/mask_air.json");
 		
 		game.load.image('tutorial_image',"images/elemental/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1029,7 +1029,7 @@ var elemental = function(){
 		assets: assets,
 		name: "elemental",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

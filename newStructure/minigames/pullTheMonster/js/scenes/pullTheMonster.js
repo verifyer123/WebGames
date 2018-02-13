@@ -271,7 +271,7 @@ var pullTheMonster = function(){
         game.load.spine("robot", "images/spines/robot/robot.json")
 		
 		game.load.image('tutorial_image',"images/pullTheMonster/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -823,7 +823,7 @@ var pullTheMonster = function(){
 		assets: assets,
 		name: "pullTheMonster",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

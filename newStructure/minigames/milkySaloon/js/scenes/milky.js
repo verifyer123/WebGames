@@ -1021,7 +1021,7 @@ var milky = function(){
 		assets: assets,
 		name: "milky",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

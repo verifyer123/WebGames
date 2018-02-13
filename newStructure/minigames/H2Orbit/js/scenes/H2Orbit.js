@@ -288,7 +288,7 @@ var H2Orbit = function(){
         game.load.spine("gasPlanet", "images/spines/WindPlanet/cloudplanet.json")
 		
 		game.load.image('tutorial_image',"images/H2Orbit/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -701,7 +701,7 @@ var H2Orbit = function(){
 		assets: assets,
 		name: "H2Orbit",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.ARCADE)

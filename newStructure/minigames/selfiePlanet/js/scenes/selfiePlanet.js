@@ -688,7 +688,7 @@ var selfiePlanet = function(){
 		assets: assets,
 		name: "selfiePlanet",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             backAndWihte()

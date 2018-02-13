@@ -298,7 +298,7 @@ var balanceScience = function(){
 		console.log(localization.getLanguage() + ' language')
 
         game.load.image('tutorial_image',"images/balanceScience/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1090,7 +1090,7 @@ var balanceScience = function(){
 		assets: assets,
 		name: "balanceScience",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

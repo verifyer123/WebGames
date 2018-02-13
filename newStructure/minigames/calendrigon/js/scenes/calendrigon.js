@@ -290,7 +290,7 @@ var calendrigon = function(){
         game.load.spine("caleidogon", "images/spines/caleidogon.json");
         
 		game.load.image('tutorial_image',"images/calendrigon/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -850,7 +850,7 @@ var calendrigon = function(){
 		assets: assets,
 		name: "calendrigon",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             game.input.mouse.capture = true
