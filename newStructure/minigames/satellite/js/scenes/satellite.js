@@ -33,7 +33,6 @@ var satellite = function(){
             },
         ],
         images: [
-
 		],
         spines: [
             {
@@ -615,7 +614,7 @@ var satellite = function(){
             meteorsProxy[filling]=game.add.sprite(meteors[filling].x,meteors[filling].y,"atlas.satellite","wifiReceptor")
             meteorsProxy[filling].anchor.setTo(0.5)
             meteorsProxy[filling].scale.setTo(0.5)
-            meteorsProxy[filling].alpha=0
+            meteorsProxy[filling].alpha=1
         
         }
         
@@ -942,6 +941,10 @@ var satellite = function(){
                     game.time.events.add(500,function(){
                         meteorsProxy[temp1].x=-200
                         meteorsActive[temp1]=false
+                        meteors[temp1].setAnimationByName(0,"IDLE",true)
+                        meteors[temp1].alpha=1
+                        meteors[temp1].x=meteorsProxy[temp1].x
+                        meteors[temp1].y=meteorsProxy[temp1].y
                     })
                     shield1Proxy.x=-200;
                     shield1Proxy.alpha=0
@@ -955,8 +958,11 @@ var satellite = function(){
                     
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp2].x=-200
+                        meteorsProxy[temp2].y=-200
                         meteorsActive[temp2]=false
+                        meteors[temp2].setAnimationByName(0,"IDLE",true)
+                        meteors[temp2].x=meteorsProxy[temp2].x
+                        meteors[temp2].y=meteorsProxy[temp2].y
                     })
                     shield2Proxy.alpha=0
                     shield2Proxy.x=-200;
@@ -971,8 +977,11 @@ var satellite = function(){
                     meteorsActive[checkCols]=false
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp3].x=-200
+                        meteorsProxy[temp3].y=-200
                         meteorsActive[temp3]=false
+                        meteors[temp3].setAnimationByName(0,"IDLE",true)
+                        meteors[temp3].x=meteorsProxy[temp3].x
+                        meteors[temp3].y=meteorsProxy[temp3].y
                     })
                     shield3Proxy.alpha=0
                     shield3Proxy.x=-200;
@@ -988,9 +997,11 @@ var satellite = function(){
                     game.add.tween(meteors[checkCols].scale).to({x:0,y:0}, 500, Phaser.Easing.Cubic.In, true)
                     meteors[checkCols].setAnimationByName(0,"DISINTEGRATE",false)
                     
-                    game.time.events.add(800,function(){
+                    game.time.events.add(1000,function(){
                         meteorsTween[temp4].stop()
+                        meteors[temp4].scale.setTo(1,1)
                         meteorsProxy[temp4].y=-200
+                        meteors[temp4].setAnimationByName(0,"IDLE",true)
                         temp4=0
                     })
                     
