@@ -93,7 +93,7 @@ var humoCocina = function(){
         game.load.image('heartsIcon',imagePath + "hearts.png");
         game.load.image('gametuto',imagePath + "tutorial/gametuto.png");
         game.load.image('buttons',imagePath + "buttons.png");
-		buttons.getImages(game);
+		;
         /*SPINES*/
         game.load.spine("nao", imagePath + "nao/nao.json");
         game.load.spine("badguy", imagePath + "badguy/badguy.json");

@@ -104,7 +104,7 @@ var microdefender = function(){
 		//game.load.image('howTo',"images/microdefender/how"  + localization.getLanguage()  + ".png");
 		//game.load.image('buttonText',"images/microdefender/play" + localization.getLanguage() + ".png");		
 		game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
-		buttons.getImages(game);
+		;
 
 		game.load.image('tutorial_image',"images/microdefender/tutorial_image.png")
 		//loadType(gameIndex)

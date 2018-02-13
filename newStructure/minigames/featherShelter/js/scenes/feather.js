@@ -270,7 +270,7 @@ var feather = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+
         
         game.load.spine('chick', "images/spines/Chick.json")  
 		game.load.spine('wolf', "images/spines/wolf.json")

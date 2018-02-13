@@ -267,7 +267,7 @@ var squat = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+		
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/melodic_basss.mp3');

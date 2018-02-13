@@ -282,7 +282,7 @@ var beach = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.spine('nao', "images/spines/skeleton.json")  
         game.load.audio('puzzleSong', soundsPath + 'songs/chinese_new_year.mp3');

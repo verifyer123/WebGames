@@ -362,7 +362,7 @@ var rift = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
         game.load.spine('yogotar', "images/spines/Arthurius.json")  
         game.load.audio('medievalSong', soundsPath + 'songs/fantasy_ballad.mp3');

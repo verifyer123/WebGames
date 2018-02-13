@@ -275,7 +275,7 @@ var medi = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+
         
 		game.load.spine('yogotar', "images/spines/skeleton.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/classic_arcade.mp3');

@@ -290,7 +290,7 @@ var hover = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.spine('melvin', "images/spines/melvin.json")  
         game.load.audio('magnetSong', soundsPath + 'songs/adventure.mp3');

@@ -297,7 +297,7 @@ var popScene = function(){
         
         game.stage.disableVisibilityChange = false;
         
-		buttons.getImages(game)
+		
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
 		game.load.spine('yogotar', "images/spines/skeleton.json") 
         

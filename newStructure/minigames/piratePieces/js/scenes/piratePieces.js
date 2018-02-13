@@ -110,7 +110,7 @@ var piratePieces = function(){
 		
 		game.load.audio('spaceSong', soundsPath + 'songs/pirates_song.mp3');
 		/*Default*/
-		buttons.getImages(game);
+		;
 		
 		game.load.image("heartsIcon", imagePath +"hearts.png");
 		game.load.image("xpIcon", imagePath +"xpcoins.png");	

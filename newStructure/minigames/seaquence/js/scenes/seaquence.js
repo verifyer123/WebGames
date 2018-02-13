@@ -285,7 +285,7 @@ var seaquence = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+		
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/adventure.mp3');

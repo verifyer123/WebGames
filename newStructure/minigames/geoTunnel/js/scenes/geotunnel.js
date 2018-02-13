@@ -340,7 +340,7 @@ var geotunnel = function(){
 		game.load.script('filter', 'js/tunnel.js');
 		game.load.spine('figures', "images/spine/figures/figures.json")
 
-		buttons.getImages(game)
+
 
 	}
 

@@ -355,7 +355,7 @@ var snooze = function(){
         game.load.spritesheet('eruption', 'images/snooze/volcanoExplosion.png', 256, 256, 14)
         game.load.spritesheet('smoke', 'images/snooze/volcanoBubbles.png', 128, 128, 15)
 
-        buttons.getImages(game)
+        
 
         game.load.image('tutorial_image',"images/snooze/tutorial_image.png")
         //loadType(gameIndex)

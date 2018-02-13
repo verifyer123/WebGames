@@ -277,7 +277,7 @@ var sushi = function(){
         game.load.spine('octopus', "images/spine/Octopus/octopus.json")
         game.load.spine('yogotar', "images/spine/Yogotar/yogotar.json")
 
-		buttons.getImages(game)
+		
 		game.load.image('tutorial_image',"images/sushi/tutorial_image.png")
 		//loadType(gameIndex)
 

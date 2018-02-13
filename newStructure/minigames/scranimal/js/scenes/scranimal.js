@@ -213,7 +213,7 @@ var scranimal = function(){
 
         game.load.spritesheet("coin", 'images/scranimal/coin.png', 122, 123, 12)
 
-        buttons.getImages(game)
+        
 
     }
 

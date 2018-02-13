@@ -245,7 +245,7 @@ var selfiePlanet = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+		
 		
         game.stage.disableVisibilityChange = false;
         

@@ -626,7 +626,7 @@ var lock = function(){
 		game.load.spine('rock', "images/spine/roca.json")
 		game.load.spritesheet('jewel', 'images/lock/diamond.png', 84, 76, 23)
 
-		buttons.getImages(game)
+
 
 		game.load.image('tutorial_image',"images/lock/tutorial_image.png")
 		//loadType(gameIndex)

@@ -15,7 +15,6 @@ var acorn = function(){
 		}
 	}
 
-
 	var assets = {
         atlases: [
             {
@@ -34,7 +33,11 @@ var acorn = function(){
             {   name:"fondo",
 				file: "images/acorn/fondo.png"},
             {   name:"montains",
-                file: "images/acorn/fondo1.png"}
+                file: "images/acorn/fondo1.png"},
+			{
+				name:'tutorial_image',
+				file:"images/acorn/tutorial_image_%input.png"
+			}
 		],
 		sounds: [
             {	name: "pop",
@@ -61,6 +64,12 @@ var acorn = function(){
                 file: soundsPath + "knockOut1.mp3"},
             {   name:"acornSong",
 				file: soundsPath + 'songs/childrenbit.mp3'}
+		],
+		spines:[
+			{
+				name:"ardilla",
+				file:"images/spine/skeleton.json"
+			}
 		]
     }
 
@@ -266,21 +275,6 @@ var acorn = function(){
 
         game.stage.disableVisibilityChange = false;
 
-        /*game.load.image('introscreen',"images/acorn/introscreen.png")
-		game.load.image('howTo',"images/acorn/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/acorn/play" + localization.getLanguage() + ".png")*/
-
-        var inputName = 'movil'
-
-        if(game.device.desktop){
-            inputName = 'desktop'
-        }
-
-        game.load.image('tutorial_image',"images/acorn/tutorial_image_"+inputName+".png")
-
-        game.load.spine('ardilla', "images/spine/skeleton.json")
-
-        buttons.getImages()
     }
 
     function addNumberPart(obj,number){

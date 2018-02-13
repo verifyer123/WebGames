@@ -657,7 +657,7 @@ var space = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
         game.load.spine('master', "images/spines/skeleton1.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/space_music.mp3');

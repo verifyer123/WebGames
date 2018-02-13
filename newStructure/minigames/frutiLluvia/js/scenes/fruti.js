@@ -159,7 +159,7 @@ var fruti = function(){
     
     function preload() {
         
-		buttons.getImages(game)
+
 				
 		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;

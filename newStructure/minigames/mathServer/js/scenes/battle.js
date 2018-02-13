@@ -800,7 +800,7 @@ var battle = function(){
 		game.load.image('retry',"images/battle/retry" + localization.getLanguage() + ".png")
 		game.load.image('share',"images/battle/share" + localization.getLanguage() + ".png")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
-		buttons.getImages(game)
+
 		console.log(parent.isKinder)
 
 	}

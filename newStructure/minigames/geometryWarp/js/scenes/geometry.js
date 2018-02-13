@@ -131,7 +131,7 @@ var geometry = function(){
 		game.load.spine('ship', "images/spine/ship/ship.json")
 		game.load.spine('figures', "images/spine/figures/figures.json")
 
-		buttons.getImages(game)
+
 		game.load.image('tutorial_image',"images/geometry/tutorial_image.png")
 		//loadType(gameIndex)
 

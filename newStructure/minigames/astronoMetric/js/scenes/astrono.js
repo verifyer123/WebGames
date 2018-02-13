@@ -366,7 +366,7 @@ var astrono = function(){
 		game.load.image('buttonText',"images/astrono/play" + localization.getLanguage() + ".png")*/
 		game.load.spine('stars', "images/spine/stars.json")
 
-		buttons.getImages(game)
+
 		game.load.image('tutorial_image',"images/astrono/tutorial_image.png")
 		// //loadType(gameIndex)
 

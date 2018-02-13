@@ -241,7 +241,7 @@ var symphoMaster = function(){
         game.load.image('tutorial_image',"images/sympho/tutorial_image_"+inputName+".png")
         //loadType(gameIndex)
 
-        buttons.getImages(game)
+        
 
     }
 
