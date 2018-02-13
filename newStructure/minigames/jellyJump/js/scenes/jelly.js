@@ -299,7 +299,7 @@ var jelly = function(){
 		game.load.image('introscreen',"images/jelly/introscreen.png")*/
 
 		game.load.image('tutorial_image',"images/jelly/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
 		console.log(localization.getLanguage() + ' language')
@@ -1039,7 +1039,7 @@ var jelly = function(){
 		assets: assets,
 		name: "jelly",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			game.physics.startSystem(Phaser.Physics.P2JS);

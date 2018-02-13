@@ -338,7 +338,7 @@ var solarShieldSquad = function(){
         game.load.spine("meteors","images/Spine/Meteor/meteor.json")
 		
 		game.load.image('tutorial_image',"images/solarS/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -760,7 +760,6 @@ var solarShieldSquad = function(){
             
         }
         
-        console.log()
         
         for(var checkCols=0; checkCols<meteors.length; checkCols++){
             
@@ -1211,7 +1210,7 @@ var solarShieldSquad = function(){
 		assets: assets,
 		name: "solarShieldSquad",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

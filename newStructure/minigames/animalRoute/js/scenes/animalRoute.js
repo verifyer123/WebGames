@@ -1704,7 +1704,7 @@ var animalRoute = function(){
 		assets: assets,
 		name: "animalRoute",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

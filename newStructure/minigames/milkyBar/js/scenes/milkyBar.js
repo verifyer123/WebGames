@@ -284,7 +284,7 @@ var milkyBar = function(){
         game.load.spine("cat", "images/spines/normal.json")
 		
 		game.load.image('tutorial_image',"images/milkyBar/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -838,7 +838,7 @@ var milkyBar = function(){
 		assets: assets,
 		name: "milkyBar",
 		//update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
                     
 			sceneGroup = game.add.group()

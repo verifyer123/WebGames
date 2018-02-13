@@ -285,7 +285,7 @@ var squat = function(){
 
 
 		game.load.image('tutorial_image',"images/squat/tutorial_image_"+inputName+".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -800,7 +800,7 @@ var squat = function(){
 		assets: assets,
 		name: "squat",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			//this.swipe = new Swipe(this.game);

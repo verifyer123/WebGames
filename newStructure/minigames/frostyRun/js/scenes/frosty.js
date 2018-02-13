@@ -1315,7 +1315,7 @@ var frosty = function(){
             
             
 		},
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         update:update,
 	}
 

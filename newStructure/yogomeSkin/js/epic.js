@@ -255,7 +255,7 @@ var epicSiteMain =  function(){
 		showHome(NextFunction)
 	}
 
-	$(window).resize(function () {
+	$( window ).on( "orientationchange", function( event ) {
 		loadGame(currentSrc)
 	});
 

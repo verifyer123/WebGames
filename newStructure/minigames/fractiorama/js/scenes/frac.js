@@ -304,7 +304,7 @@ var frac = function(){
 
 
 		game.load.image('tutorial_image',"images/frac/tutorial_image_"+inputName+".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
 		var games = yogomeGames.getGames()
@@ -881,7 +881,7 @@ var frac = function(){
 		assets: assets,
 		name: "frac",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

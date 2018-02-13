@@ -306,7 +306,7 @@ var popScene = function(){
 		game.load.image('introscreen',"images/pop/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/pop/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -1230,7 +1230,7 @@ var popScene = function(){
 		assets: assets,
 		name: "popScene",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()

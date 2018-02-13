@@ -501,7 +501,7 @@ var robo = function(){
 		game.load.spritesheet('riel', 'images/robo/riel.png', 308, 102, 23)
 
 		buttons.getImages(game)
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 
@@ -664,7 +664,7 @@ var robo = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		createTutorialGif(tutoGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
 		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
@@ -901,7 +901,7 @@ var robo = function(){
 		assets: assets,
 		name: "robo",
 		update:update,
-		preload:preload,
+		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

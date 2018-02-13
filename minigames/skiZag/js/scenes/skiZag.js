@@ -106,6 +106,12 @@ var skiZag = function(){
 
     var lastEnemy
 
+    var bitmapsLeft
+    var bitmapsRigth
+
+    var leftSprite
+    var rigthSprite
+
 
     function getSkins(){
         
@@ -137,7 +143,7 @@ var skiZag = function(){
         VEL_X = (COS_ANG*VEL)
         VEL_Y = (SIN_ANG*VEL)
         VEL_Y -= VEL_Y*0.082
-        MAX_TILE_Y = game.world.height+100
+        MAX_TILE_Y = game.world.height
         currentRails=0
         initialTap = true
         currentWaitFrames = 0
@@ -145,6 +151,9 @@ var skiZag = function(){
         lastEnemy = null
         inYetiZone = false
         inSnowZone = false
+
+        bitmapsLeft = []
+        bitmapsRigth = []
     }
     
 
@@ -238,6 +247,8 @@ var skiZag = function(){
 
         if(lastTile!=null){
             var maxY = lastTile.body.y + ((lastTile.width/2)*SIN_ANG)
+            //var maxY = lastTile.y + ((lastTile.width/2)*SIN_ANG)
+            //var maxY = lastTile.y
             //console.log(maxY)
             if(maxY<MAX_TILE_Y){
                 var isEnemies = false
@@ -323,7 +334,9 @@ var skiZag = function(){
 
             if(obstaclesGroup!=null){
                 for(var i = 0; i < obstaclesGroup.length; i++){
-                    var obstcaleY = obstaclesGroup.children[i].body.y +((obstaclesGroup.children[i].width/2)*SIN_ANG)
+                    var obstcaleY = obstaclesGroup.children[i].body.y + ((obstaclesGroup.children[i].width/2)*SIN_ANG)
+                    //obstaclesGroup.children[i].y +=-LINE_VELOCITY
+                    //var obstcaleY = obstaclesGroup.children[i].y + ((obstaclesGroup.children[i].width/2)*SIN_ANG)
                     if(obstcaleY < 0){
                         obstaclesGroup.children[i].visible = false
                         obstaclesGroup.children[i].body.setZeroVelocity()
@@ -335,94 +348,93 @@ var skiZag = function(){
         //return
 
         if(yetisGroup!=null){
-            if(!inYetiZone){
-                return
-            }
+            if(inYetiZone){
+                
+                if(!lastEnemy.visible){
+                    inYetiZone = false
+                }
 
-            if(!lastEnemy.visible){
-                inYetiZone = false
-            }
-
-            for(var i = 0; i < yetisGroup.length; i++){
-                if(yetisGroup.children[i].visible){
-                    yetisGroup.children[i].spine.visible = true
-                    if(yetisGroup.children[i].y < 0){
-                        yetisGroup.children[i].visible = false
-                        yetisGroup.children[i].spine.visible = false
-                        yetisGroup.children[i].body.setZeroVelocity()
-                    }
-
-                    if(yetisGroup.children[i].direction == 1){
-                        if(yetisGroup.children[i].body.x > yetisGroup.children[i].nextX){
+                for(var i = 0; i < yetisGroup.length; i++){
+                    if(yetisGroup.children[i].visible){
+                        yetisGroup.children[i].spine.visible = true
+                        if(yetisGroup.children[i].y < 0){
+                            yetisGroup.children[i].visible = false
+                            yetisGroup.children[i].spine.visible = false
                             yetisGroup.children[i].body.setZeroVelocity()
-                            yetisGroup.children[i].body.velocity.x = -VEL_X
-                            yetisGroup.children[i].body.velocity.y = -VEL_Y
-                            yetisGroup.children[i].direction = -1
-                            yetisGroup.children[i].nextX = game.rnd.integerInRange(100,yetisGroup.children[i].body.x-100)
                         }
-                    }
-                    else{
-                        if(yetisGroup.children[i].body.x < yetisGroup.children[i].nextX){
-                            yetisGroup.children[i].body.setZeroVelocity()
-                            yetisGroup.children[i].body.velocity.x = VEL_X
-                            yetisGroup.children[i].body.velocity.y = -VEL_Y
-                            yetisGroup.children[i].direction = 1
-                            yetisGroup.children[i].nextX = game.rnd.integerInRange(yetisGroup.children[i].body.x+100, game.world.width-100)
-                        }
-                    }
 
-                    yetisGroup.children[i].spine.x = yetisGroup.children[i].body.x
-                    yetisGroup.children[i].spine.y = yetisGroup.children[i].body.y +70
+                        if(yetisGroup.children[i].direction == 1){
+                            if(yetisGroup.children[i].body.x > yetisGroup.children[i].nextX){
+                                yetisGroup.children[i].body.setZeroVelocity()
+                                yetisGroup.children[i].body.velocity.x = -VEL_X
+                                yetisGroup.children[i].body.velocity.y = -VEL_Y
+                                yetisGroup.children[i].direction = -1
+                                yetisGroup.children[i].nextX = game.rnd.integerInRange(100,yetisGroup.children[i].body.x-100)
+                            }
+                        }
+                        else{
+                            if(yetisGroup.children[i].body.x < yetisGroup.children[i].nextX){
+                                yetisGroup.children[i].body.setZeroVelocity()
+                                yetisGroup.children[i].body.velocity.x = VEL_X
+                                yetisGroup.children[i].body.velocity.y = -VEL_Y
+                                yetisGroup.children[i].direction = 1
+                                yetisGroup.children[i].nextX = game.rnd.integerInRange(yetisGroup.children[i].body.x+100, game.world.width-100)
+                            }
+                        }
+
+                        yetisGroup.children[i].spine.x = yetisGroup.children[i].body.x
+                        yetisGroup.children[i].spine.y = yetisGroup.children[i].body.y +70
+                    }
                 }
             }
         }
 
         if(snowBallGroup!=null){
 
-            if(!inSnowZone){
-                return
-            }
+            if(inSnowZone){
 
-            if(!lastEnemy.visible){
-                inSnowZone = false
-            }
-
-            for(var i = 0; i < snowBallGroup.length; i++){
-                if(snowBallGroup.children[i].visible){
-
-                    if(snowBallGroup.children[i].y < 0){
-                        //console.log(snowBallGroup.children[i].y,snowBallGroup.children[i].deltaWait,game.time.now, snowBallGroup.children[i].body.velocity.y)
-                        snowBallGroup.children[i].visible = false
-                        snowBallGroup.children[i].body.setZeroVelocity()
-                    }
-
-                    if(snowBallGroup.children[i].deltaWait==-1){
-                        snowBallGroup.children[i].angle+=Math.PI/40
-                        if(snowCanTrail){
-                            SetObject(trailsSnowGroup,'camino_nieve',snowBallGroup.children[i].body.x,snowBallGroup.children[i].body.y,1)
-                        }
-                    }
-                    else{
-                        //console.log(snowBallGroup.children[i].deltaWait)
-                        if(snowBallGroup.children[i].deltaWait < game.time.now){
-                            //console.log("Pass time")
-                            //snowBallGroup.children[i].body.x = game.world.centerX
-                            if(snowBallGroup.children[i].body.x <0){
-                                snowBallGroup.children[i].body.velocity.x = VEL_X
-                            }
-                            else{
-                                snowBallGroup.children[i].body.velocity.x = -VEL_X
-                            }
-                            snowBallGroup.children[i].deltaWait = -1
-                        }
-                    }
+                if(!lastEnemy.visible){
+                    inSnowZone = false
                 }
 
+                for(var i = 0; i < snowBallGroup.length; i++){
+                    if(snowBallGroup.children[i].visible){
 
+                        if(snowBallGroup.children[i].y < 0){
+                            //console.log(snowBallGroup.children[i].y,snowBallGroup.children[i].deltaWait,game.time.now, snowBallGroup.children[i].body.velocity.y)
+                            snowBallGroup.children[i].visible = false
+                            snowBallGroup.children[i].body.setZeroVelocity()
+                        }
+
+                        if(snowBallGroup.children[i].deltaWait==-1){
+                            snowBallGroup.children[i].angle+=Math.PI/40
+                            if(snowCanTrail){
+                                SetObject(trailsSnowGroup,'camino_nieve',snowBallGroup.children[i].body.x,snowBallGroup.children[i].body.y,1)
+                            }
+                        }
+                        else{
+                            
+                            if(snowBallGroup.children[i].deltaWait < game.time.now){
+                               
+                                //snowBallGroup.children[i].body.x = game.world.centerX
+                                if(snowBallGroup.children[i].body.x <0){
+                                    snowBallGroup.children[i].body.velocity.x = VEL_X
+                                }
+                                else{
+                                    snowBallGroup.children[i].body.velocity.x = -VEL_X
+                                }
+                                snowBallGroup.children[i].deltaWait = -1
+                            }
+                        }
+                    }
+
+
+                }
+
+                moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
             }
-            moveGroupY(trailsSnowGroup,-LINE_VELOCITY,-100)
         }
-
+        
 
     }
 
@@ -672,17 +684,33 @@ var skiZag = function(){
         sceneGroup.add(obstaclesGroup)
     }
 
-    function createSingleObstacle(type){
+    function createSingleObstacle(type,width){
+
+
 
         var line
-
-        if(type == -1){
+        
+        /*if(type == -1){
            line = game.add.tileSprite(0,0,100,TILE_HEIGTH,'atlas.skiZag','barra_h1')
         }
         else{
             line = game.add.tileSprite(0,0,100,TILE_HEIGTH,'atlas.skiZag','barra_h1_flip')
+        }*/
+        var index = (width/WIDTH_PER_TILE)-1
+        if(index>=bitmapsLeft.length){
+            console.log("Error "+index)
         }
 
+        if(type == -1){
+           line = game.add.sprite(0,0,bitmapsLeft[index])
+        }
+        else{
+            line = game.add.sprite(0,0,bitmapsRigth[index])
+        }
+
+        //line.scale.setTo(100/line.width,TILE_HEIGTH/line.height)
+
+        line.anchor.setTo(0)
         line.type = type
         obstaclesGroup.add(line)
         line.visible = false
@@ -694,15 +722,26 @@ var skiZag = function(){
         line.body.static = true
         line.body.name = "obstacle"
 
+        //line.x = game.world.width
+
+
         return line
 
     }
 
-    function getObstacle(ang){
+    function getObstacle(ang,width){
         for(var i = 0; i < obstaclesGroup.length; i++){
             if(!obstaclesGroup.children[i].visible){
                 if(obstaclesGroup.children[i].type == ang){
                     obstaclesGroup.children[i].visible = true
+                    var index = (width/WIDTH_PER_TILE)-1
+                    //console.log("Change texture",index)
+                    if(ang==-1){
+                        obstaclesGroup.children[i].loadTexture(bitmapsLeft[index])
+                    }
+                    else{
+                        obstaclesGroup.children[i].loadTexture(bitmapsRigth[index])
+                    }
                     obstaclesGroup.children[i].body.setZeroVelocity()
                     if(!initialTap){
                         obstaclesGroup.children[i].body.velocity.y = -VEL_Y
@@ -712,7 +751,7 @@ var skiZag = function(){
             }
         }
 
-        var line = createSingleObstacle(ang)
+        var line = createSingleObstacle(ang,width)
         line.visible = true
         line.body.setZeroVelocity()
         if(!initialTap){
@@ -754,7 +793,7 @@ var skiZag = function(){
         		newR-=module
         	}
         }
-       // console.log("Second R",newR)
+        console.log("Second R",newR)
 
         var nextX = currentX + (newR*COS_ANG*currentAngle)
 
@@ -773,8 +812,11 @@ var skiZag = function(){
         var randomX = game.rnd.integerInRange(game.world.centerX - 100, game.world.centerX + 100)
 
 
-        var leftLine = SetLine(1,1010,randomX,INITIAL_POS_Y,-1,true)
-        var rightLine = SetLine(-1,1000,randomX,INITIAL_POS_Y,1,true)
+        //var leftLine = SetLine(1,1010,randomX,INITIAL_POS_Y,-1,true)
+        //var rightLine = SetLine(-1,1000,randomX,INITIAL_POS_Y,1,true)
+
+        var leftLine = SetLine(1,WIDTH_PER_TILE*4,randomX,INITIAL_POS_Y,-1,true)
+        var rightLine = SetLine(-1,WIDTH_PER_TILE*4,randomX,INITIAL_POS_Y,1,true)
 
         currentY = INITIAL_POS_Y
         currentX = randomX
@@ -786,12 +828,13 @@ var skiZag = function(){
 
 
     function SetLine(ang, width, x, y, side, exception){
-
-        var line = getObstacle(ang)
+        //console.log(obstac)
+        var line = getObstacle(ang,width)
         line.body.clearShapes()
         line.body.setRectangle(width,TILE_HEIGTH/4,0,TILE_HEIGTH*0.2)
         line.body.angle = ang * ANGLE_LINE
-        line.width = width
+        line.body.data.shapes[0].sensor=false;
+        //line.width = width
 
         var direction = -1
 
@@ -801,6 +844,10 @@ var skiZag = function(){
 
         line.body.x = (x - (direction*ang*width/2)*COS_ANG) + (CORRECT_OFFSET*side)
         line.body.y = y + (-direction*width/2)*SIN_ANG
+        /*line.angle = ang* ANGLE_LINE
+        line.x = (x - (direction*ang*width/2)*COS_ANG) + (CORRECT_OFFSET*side)
+        line.y = y + (-direction*width/2)*SIN_ANG*/
+
         return line
     }
 
@@ -915,8 +962,8 @@ var skiZag = function(){
         // limitLines
         //var x = game.world.centerX
 
-        var leftLine = SetLine(-1,1010,currentX,currentY,-1,false)
-        var rightLine = SetLine(1,1000,currentX,currentY,1,false)
+        var leftLine = SetLine(-1,WIDTH_PER_TILE*5,currentX,currentY,-1,false)
+        var rightLine = SetLine(1,WIDTH_PER_TILE*5,currentX,currentY,1,false)
 
 
         var randomEnemy = game.rnd.integerInRange(0,1)
@@ -932,8 +979,8 @@ var skiZag = function(){
 
         var randomX = game.rnd.integerInRange(game.world.centerX - 100, game.world.centerX + 100)
 
-        var leftLine = SetLine(1,1000,randomX,currentY,-1,true)
-        var rightLine = SetLine(-1,1000,randomX,currentY,1,true)
+        var leftLine = SetLine(1,WIDTH_PER_TILE*5,randomX,currentY,-1,true)
+        var rightLine = SetLine(-1,WIDTH_PER_TILE*5,randomX,currentY,1,true)
 
         lastTile = rightLine
 
@@ -1247,7 +1294,7 @@ var skiZag = function(){
 
     function setEnemiesSnow(initialY, height){
         inSnowZone = true
-    	//console.log(snowBallGroup.length)
+    	console.log(snowBallGroup.length)
         for(var i = 0; i < snowBallGroup.length; i++){
             snowBallGroup.children[i].body.setZeroVelocity()
             snowBallGroup.children[i].body.y = game.world.height
@@ -1260,7 +1307,7 @@ var skiZag = function(){
         var delta = height/7
         var deltawait = game.time.now + WAIT_SNOW
         var randomX = game.rnd.integerInRange(0,1)
-        //console.log("SetEnemy snow ",deltawait)
+        console.log("SetEnemy snow ",deltawait)
 
         if(randomX == 0){
             randomX = -1
@@ -1301,6 +1348,21 @@ var skiZag = function(){
             }
             //console.log(enemy.body.y,enemy.body.x,enemy.deltaWait)
         }
+    }
+
+    function createSprites(side,number){
+        var bmd = game.add.bitmapData(number*WIDTH_PER_TILE,TILE_HEIGTH)
+        for(var i = 0; i < number; i++){
+            if(side==1){
+                bmd.draw(leftSprite, i*WIDTH_PER_TILE, 0);
+            }
+            else{
+                bmd.draw(rigthSprite, i*WIDTH_PER_TILE, 0);
+            }
+        }
+        //bmd.addToWorld()
+
+        return bmd
     }
     
 
@@ -1381,7 +1443,22 @@ var skiZag = function(){
         sceneGroup.add(snowBackground)
         treesBackground = game.add.group()
         sceneGroup.add(treesBackground)
+
+        leftSprite = game.make.sprite(0,0,'atlas.skiZag','barra_h1')
+        rigthSprite = game.make.sprite(0,0,'atlas.skiZag','barra_h1_flip')
         
+
+        bitmapsLeft.push(createSprites(1,1))
+        bitmapsLeft.push(createSprites(1,2))
+        bitmapsLeft.push(createSprites(1,3))
+        bitmapsLeft.push(createSprites(1,4))
+        bitmapsLeft.push(createSprites(1,5))
+
+        bitmapsRigth.push(createSprites(2,1))
+        bitmapsRigth.push(createSprites(2,2))
+        bitmapsRigth.push(createSprites(2,3))
+        bitmapsRigth.push(createSprites(2,4))
+        bitmapsRigth.push(createSprites(2,5))
 
          createTrails()
 

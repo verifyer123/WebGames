@@ -324,7 +324,7 @@ var garbageDiving = function(){
         game.load.spine('bigFish',"images/Spine/skeleton/Skeleton.json")
         
 		game.load.image('tutorial_image',"images/garbage/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1254,7 +1254,7 @@ var garbageDiving = function(){
 		assets: assets,
 		name: "garbageDiving",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

@@ -297,7 +297,7 @@ var oona = function(){
         game.load.spine("oonaAvatar", "images/spines/oona.json");
 		
 		game.load.image('tutorial_image',"images/oona/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -935,7 +935,7 @@ var oona = function(){
 		assets: assets,
 		name: "oona",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

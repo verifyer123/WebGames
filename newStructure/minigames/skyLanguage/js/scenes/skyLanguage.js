@@ -413,7 +413,7 @@ var skyLanguage = function(){
 		game.load.image('introscreen',"images/sky/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/sky/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -890,7 +890,7 @@ var skyLanguage = function(){
 		assets: assets,
 		name: "skyLanguage",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

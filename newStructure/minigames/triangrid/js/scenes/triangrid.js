@@ -290,7 +290,7 @@ var triangrid = function(){
 		game.load.image('introscreen',"images/triangrid/introscreen.png")
 		
 		game.load.image('tutorial_image',"images/triangrid/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -838,7 +838,7 @@ var triangrid = function(){
 		assets: assets,
 		name: "triangrid",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

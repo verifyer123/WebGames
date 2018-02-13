@@ -284,7 +284,7 @@ var dusk = function(){
 		game.load.image('introscreen',"images/dusk/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/dusk/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -1029,7 +1029,7 @@ var dusk = function(){
 		assets: assets,
 		name: "dusk",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

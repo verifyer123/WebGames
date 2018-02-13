@@ -289,7 +289,7 @@ var jump = function(){
 		game.load.image('introscreen',"images/jump/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/jump/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1009,7 +1009,7 @@ var jump = function(){
 		assets: assets,
 		name: "jump",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

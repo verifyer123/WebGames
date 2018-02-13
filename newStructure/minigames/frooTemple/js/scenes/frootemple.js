@@ -1243,7 +1243,7 @@ var frootemple = function(){
 		assets: assets,
 		name: "frootemple",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()

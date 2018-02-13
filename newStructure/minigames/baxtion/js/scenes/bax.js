@@ -957,7 +957,7 @@ var bax = function(){
     return {
         assets: assets,
         name: "bax",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         create: function(event){
 
             sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

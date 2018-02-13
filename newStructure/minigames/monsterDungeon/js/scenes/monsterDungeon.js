@@ -161,7 +161,7 @@ var monsterDungeon = function(){
         game.load.spine("TreeMower", imagePath + "spine/TreeMower/treemower.json");
 
 		game.load.image('tutorial_image',imagePath+"/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 		
 	}

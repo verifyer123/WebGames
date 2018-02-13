@@ -348,7 +348,7 @@ var tilt = function(){
 		game.load.spritesheet('planta', 'images/tilt/sprites/planta.png', 140, 300, 13)
 
 		game.load.image('tutorial_image',"images/tilt/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		        
     }
@@ -932,7 +932,7 @@ var tilt = function(){
 		assets: assets,
 		name: "tilt",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()

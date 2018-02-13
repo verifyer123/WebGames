@@ -283,7 +283,7 @@ var feather = function(){
         game.load.image('tutorial_image',"images/feather/tutorial_image.png")
 		
 		console.log(localization.getLanguage() + ' language')
-        loadType(gameIndex)
+        //loadType(gameIndex)
     }
     
 	function getChick(){
@@ -821,7 +821,7 @@ var feather = function(){
 		assets: assets,
 		name: "feather",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

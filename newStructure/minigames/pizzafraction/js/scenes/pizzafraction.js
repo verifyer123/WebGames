@@ -107,7 +107,7 @@ var pizzafraction = function(){
 
 
 		game.load.image('tutorial_image',imagePath+"tutorial_image_"+inputName+".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 
 	}

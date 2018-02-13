@@ -309,7 +309,7 @@ var mirrorWorld = function(){
 
 
         game.load.image('tutorial_image',"images/mirror/tutorial_image_"+inputName+".png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -906,7 +906,7 @@ var mirrorWorld = function(){
 		assets: assets,
 		name: "mirrorWorld",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

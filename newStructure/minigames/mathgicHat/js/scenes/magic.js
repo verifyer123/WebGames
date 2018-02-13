@@ -287,7 +287,7 @@ var magic = function(){
 		game.load.image('introscreen',"images/magic/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/magic/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -798,7 +798,7 @@ var magic = function(){
 		assets: assets,
 		name: "magic",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

@@ -54,6 +54,12 @@ var sceneloader = function(){
 		for(var indexScene = 0; indexScene < scenes.length; indexScene++){
 
 			var currentScene = scenes[indexScene]
+
+			var gameData = currentScene.getGameData ? currentScene.getGameData() : "none"
+			if(typeof gameData === "object"){
+				tutorialHelper.loadType(gameData, currentLoader)
+			}
+
 			if(currentScene.assets !== "undefined"){
 				var assets = currentScene.assets
 
@@ -90,6 +96,13 @@ var sceneloader = function(){
 					for(var indexAtlas = 0; indexAtlas < assets.atlases.length; indexAtlas++){
 						var currentAtlas = assets.atlases[indexAtlas]
 						currentLoader.atlas(currentAtlas.name, currentAtlas.image, currentAtlas.json, null, Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY)
+					}
+				}
+
+				if(typeof assets.spritesheets == "object"){
+					for(var indexSheet = 0; indexSheet < assets.spritesheets.length; indexSheet++){
+						var currentSheet = assets.spritesheets[indexSheet]
+						currentLoader.spritesheet(currentSheet.name, currentSheet.file, currentSheet.width, currentSheet.height, currentSheet.frames)
 					}
 				}
 			}

@@ -183,7 +183,7 @@ var colorJewel = function(){
 
         game.load.spritesheet("coin", 'images/colorJewel/coin.png', 122, 123, 12)
 
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         buttons.getImages(game)
 
@@ -1064,7 +1064,7 @@ var colorJewel = function(){
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
     }
 
@@ -1417,7 +1417,7 @@ var colorJewel = function(){
 		assets: assets,
 		name: "colorJewel",
         update:update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene
 	}
 }()

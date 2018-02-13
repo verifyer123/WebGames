@@ -632,7 +632,7 @@ var base = function(){
 		assets: assets,
 		name: "base",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

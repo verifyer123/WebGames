@@ -36,9 +36,16 @@ var selectCards = function(){
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
 
-
-
 		],
+		spritesheets:[
+			{
+				name:"hand",
+				file:"images/spines/Tuto/manita.png",
+				width:115,
+				height:111,
+				frames:23
+			}
+		]
     }
 
 	var CARD_SCALE = 0.5

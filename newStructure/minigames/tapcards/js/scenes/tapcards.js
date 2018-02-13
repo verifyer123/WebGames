@@ -131,7 +131,7 @@ var tapcards = function(){
 		//game.load.audio('runningSong', soundsPath + 'songs/running_game.mp3');
 
 		game.load.image('tutorial_image',"images/tapcards/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 	

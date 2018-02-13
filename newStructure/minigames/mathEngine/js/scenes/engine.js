@@ -317,7 +317,7 @@ var engine = function(){
 
 
 		game.load.image('tutorial_image',"images/engine/tutorial_image_"+inputName+".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -895,7 +895,7 @@ var engine = function(){
 		assets: assets,
 		name: "engine",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

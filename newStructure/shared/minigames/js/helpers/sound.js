@@ -25,8 +25,10 @@ var sound = function(){
 		var volume = params.volume || 1
 
 		if(typeof decodedSounds[soundId] !== "undefined"){
-			decodedSounds[soundId].play()
-			decodedSounds[soundId]._sound.playbackRate.value = pitch
+			if(!loop)
+				decodedSounds[soundId].play()
+			if(decodedSounds[soundId]._sound)
+				decodedSounds[soundId]._sound.playbackRate.value = pitch
 			if (loop){
 				game.sound.setDecodedCallback(decodedSounds[soundId], function(){
 					decodedSounds[soundId].loopFull(volume)

@@ -313,7 +313,7 @@ var memo = function(){
 		game.load.image('gradient',"images/memo/gradient.png")
 		
 		game.load.image('tutorial_image',"images/memo/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -814,7 +814,7 @@ var memo = function(){
 		assets: assets,
 		name: "memo",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			this.swipe = new Swipe(this.game);

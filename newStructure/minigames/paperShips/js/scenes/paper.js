@@ -336,7 +336,7 @@ var paper = function(){
 		buttons.getImages(game)
 
 		game.load.image('tutorial_image',"images/paper/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 
 	}
@@ -426,7 +426,7 @@ var paper = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		createTutorialGif(tutoGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
 
 		/*var rect = new Phaser.Graphics(game)
@@ -975,7 +975,7 @@ var paper = function(){
 	return {
 		assets: assets,
 		name: "paper",
-		preload:preload,
+		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		update:function () {
 			// filter.update()
 		},

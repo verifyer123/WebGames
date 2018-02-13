@@ -118,7 +118,7 @@ var spaceCount = function(){
 		game.load.spine("eagle", imagePath + "spine/ship.json");
 
         game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 		
 		

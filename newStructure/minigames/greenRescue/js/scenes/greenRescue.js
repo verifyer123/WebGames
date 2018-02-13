@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var particlesPath="../../shared/minigames/images/particles/battle/"
 var tutorialPath = "../../shared/minigames/"
 
 var greenRescue = function(){
@@ -347,7 +348,7 @@ var greenRescue = function(){
         
 		
 		game.load.image('tutorial_image',"images/green/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -358,7 +359,7 @@ var greenRescue = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         
         /*var rect = new Phaser.Graphics(game)
@@ -1303,7 +1304,7 @@ var greenRescue = function(){
 		assets: assets,
 		name: "greenRescue",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

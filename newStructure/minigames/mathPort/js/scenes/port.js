@@ -300,7 +300,7 @@ var port = function(){
 		game.load.image('introscreen',"images/port/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/port/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -368,7 +368,7 @@ var port = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -842,7 +842,7 @@ var port = function(){
 		assets: assets,
 		name: "port",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

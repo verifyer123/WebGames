@@ -986,7 +986,7 @@ var hover = function(){
 		assets: assets,
 		name: "hover",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			game.physics.startSystem(Phaser.Physics.P2JS);

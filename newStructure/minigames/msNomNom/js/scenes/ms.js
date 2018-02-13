@@ -430,7 +430,7 @@ var ms = function(){
 		game.load.spritesheet('zombie', 'images/ms/spritesheets/zombie_idle.png', 76, 62, 6);
 		
 		game.load.image('tutorial_image',"images/ms/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -1426,7 +1426,7 @@ var ms = function(){
 		assets: assets,
 		name: "ms",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			game.physics.startSystem(Phaser.Physics.P2JS);

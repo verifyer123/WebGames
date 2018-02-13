@@ -314,7 +314,7 @@ var continentalPuzzle = function(){
 		console.log(localization.getLanguage() + ' language')
 
         game.load.image('tutorial_image',"images/continentalPuzzle/tutorial_image_"+localization.getLanguage()+".png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -942,7 +942,7 @@ var continentalPuzzle = function(){
 		assets: assets,
 		name: "continentalPuzzle",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()
