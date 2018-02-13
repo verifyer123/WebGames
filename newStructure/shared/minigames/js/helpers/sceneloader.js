@@ -101,7 +101,7 @@ var sceneloader = function(){
 
 				if(typeof assets.spritesheets == "object"){
 					for(var indexSheet = 0; indexSheet < assets.spritesheets.length; indexSheet++){
-						var currentSheet = assets.atlases[indexSheet]
+						var currentSheet = assets.spritesheets[indexSheet]
 						currentLoader.spritesheet(currentSheet.name, currentSheet.file, currentSheet.width, currentSheet.height, currentSheet.frames)
 					}
 				}
