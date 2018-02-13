@@ -316,7 +316,7 @@ var sweetEmotions = function(){
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
     }
     
     function onClickPlay(rect) {
