@@ -245,9 +245,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,240,271,480</rect>
+                <rect>135,73,270,145</rect>
                 <key>scale9Paddings</key>
-                <rect>135,240,271,480</rect>
+                <rect>135,73,270,145</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -427,9 +427,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,34,271,67</rect>
+                <rect>135,34,270,67</rect>
                 <key>scale9Paddings</key>
-                <rect>135,34,271,67</rect>
+                <rect>135,34,270,67</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -460,6 +460,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">tile.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,25,19,50</rect>
+                <key>scale9Paddings</key>
+                <rect>10,25,19,50</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tripas.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>41,240,82,480</rect>
+                <key>scale9Paddings</key>
+                <rect>41,240,82,480</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -473,29 +499,14 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../Downloads/tile.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>10,25,19,50</rect>
-                <key>scale9Paddings</key>
-                <rect>10,25,19,50</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>button.png</filename>
             <filename>desktop.png</filename>
-            <filename>fondo.png</filename>
             <filename>gametuto.png</filename>
             <filename>introscreen.png</filename>
             <filename>life_box.png</filename>
-            <filename>piso.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
             <filename>wrong.png</filename>
@@ -511,7 +522,10 @@
             <filename>junk3.png</filename>
             <filename>junk4.png</filename>
             <filename>junk5.png</filename>
-            <filename>../../../../../../../../Downloads/tile.png</filename>
+            <filename>fondo.png</filename>
+            <filename>tripas.png</filename>
+            <filename>piso.png</filename>
+            <filename>tile.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
