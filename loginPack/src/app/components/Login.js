@@ -105,8 +105,8 @@ export class Login extends React.Component {
 						<br />
 						<div id="onError" className="fontOpenSans" style={{display:"none", color:"red"}}></div>
 						<hr />
-						<button type="submit" id="firstLogin" className="loginBtn bgOrange" onClick={()=>{this.props.handleClick("register", false)}}>{localization.getString("firstTimeLogin", language)}</button><br />
-						<button type="submit" id="createAccount" className="loginBtn bgGreen" onClick={()=>{this.props.handleClick("register", true)}}>{localization.getString("createAccount", language)}</button><br />
+						<button type="submit" id="firstLogin" className="loginBtn bgOrange" onClick={()=>{this.props.handleClick("register", "firstLogin")}}>{localization.getString("firstTimeLogin", language)}</button><br />
+						<button type="submit" id="createAccount" className="loginBtn bgGreen" onClick={()=>{this.props.handleClick("register", "newAccount")}}>{localization.getString("createAccount", language)}</button><br />
 						<button className="recoverBtn" id="recoverPass" onClick={()=>{this.props.handleClick("recover")}}>{localization.getString("forgotPass", language)}</button><br />
 
 					</div>

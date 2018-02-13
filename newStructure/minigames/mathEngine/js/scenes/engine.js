@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var engine = function(){
     
     var localizationData = {
@@ -24,6 +25,12 @@ var engine = function(){
                 json: "images/engine/atlas.json",
                 image: "images/engine/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
+
         ],
         images: [
 			{   name:"background",
@@ -54,7 +61,7 @@ var engine = function(){
 		],
     }
     
-        
+    var INITIAL_LIVES = 3
     var lives = null
 	var sceneGroup = null
 	var background
@@ -78,7 +85,7 @@ var engine = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		timeToUse = 17000
 
         
@@ -174,6 +181,23 @@ var engine = function(){
         
         if(lives == 0){
             stopGame(false)
+        }
+        else{
+        	var tween = game.add.tween(car).to({alpha:0},1200,Phaser.Easing.linear, true)
+        	tween.onComplete.add(function(){
+        		delay = 300
+				for(var i = 0; i < motorGroup.length;i++){
+					
+					var motor = motorGroup.children[i]
+					showMotor(delay,motor,false)
+					delay+= 100
+				}
+        		game.time.events.add(1500,function(){
+					showScene(true)
+				})
+        	})
+        	
+
         }
         
         addNumberPart(heartsGroup.text,'-1',true)
@@ -281,11 +305,20 @@ var engine = function(){
 		game.load.spine('motor',"images/spines/motor.json")
         game.load.audio('spaceSong', soundsPath + 'songs/funky_monkey.mp3');
         
-		game.load.image('howTo',"images/engine/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/engine/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/engine/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/engine/introscreen.png")
+		game.load.image('introscreen',"images/engine/introscreen.png")*/
 		
-		console.log(localization.getLanguage() + ' language')
+		var inputName = 'movil'
+        
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+
+
+		game.load.image('tutorial_image',"images/engine/tutorial_image_"+inputName+".png")
+		loadType(gameIndex)
+
         
     }
     
@@ -420,8 +453,11 @@ var engine = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        createTutorialGif(overlayGroup,onClickPlay)
+
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -466,7 +502,12 @@ var engine = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+    	showScene(true)
+		overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){

@@ -46,7 +46,7 @@ var toyfigure = function(){
 		],
 	}
     
-	
+	var INITIAL_LIVES = 3
 	sceneGroup = null;
     var INITIAL_TOYS = 6
     var DELTA_TOYS = 4
@@ -61,7 +61,7 @@ var toyfigure = function(){
 	var heartsIcon;
 	var heartsText;	
 	var xpIcon;
-	var lives = 1;
+	var lives = INITIAL_LIVES;
 	var cursors;
 	var coins = 0;
 	var activeGame = true;
@@ -139,7 +139,7 @@ var toyfigure = function(){
 	}
 	
 	function initialize(){
-		lives = 1;
+		lives = INITIAL_LIVES;
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
@@ -331,21 +331,40 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         
        
         function timerClock(){
+
             clock.alpha = 1;
             barra.alpha = 1;
+
             timerBar = TweenMax.fromTo(barra.scale,time,{x:0},{x:1,onComplete:finishGame});
         }
         
         function finishGame(){
-            for(var p = 0; p<= 17;p++){
-                toysArray[p].input.draggable = false;
-            }    
-            
-            TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
-            sound.play("wrong");
-            sound.play("gameLose");
-            dinamita.setAnimationByName(0, "LOSE", true); 
-            bgm.stop();	
+            lives--
+            setLives(lives)
+            if(lives<=0){
+                for(var p = 0; p<= 17;p++){
+                    toysArray[p].input.draggable = false;
+                }    
+                
+                TweenMax.to(game,1,{alpha:0,onComplete:gameOver});
+                sound.play("wrong");
+                sound.play("gameLose");
+                dinamita.setAnimationByName(0, "LOSE", true); 
+                bgm.stop();	
+            }
+            else{
+                sound.play("wrong");
+                dinamita.setAnimationByName(0, "LOSE", true); 
+                for(var p = 0; p<= 17;p++){
+                    TweenMax.to(toysArray[p],0.2,{alpha:0})
+                }   
+
+                for(var i = 0; i<=8;i++){
+                    TweenMax.to(newPositionRepiza[i],0.2,{alpha:0})
+                }
+
+                game.time.events.add(800,choiceToy)
+            }
         }	
         
 	
@@ -358,7 +377,12 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
         
         
         function choiceToy(){
-            
+
+            /*for(var p = 0; p<= 17;p++){
+                TweenMax.to(toysArray[p],0.5,{alpha:1,onComplete:choiceToy})
+            }*/
+
+            dinamita.setAnimationByName(0, "IDLE", true); 
             if(coins >= COINS_TO_TIME){
                 if(time >= 20){
                    time = time - 5; 
@@ -371,6 +395,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
 
 
              for(var i = 0; i<=8;i++){
+                newPositionRepiza[i].alpha = 1
                 newPositionRepiza[i].x = -450;
                 newPositionRepiza[i].y = -450;
                 newPositionRepiza[i].currentSetToy = 0
@@ -401,6 +426,7 @@ toysArray[17].events.onDragStop.add(function(currentSprite){stopDrag(currentSpri
                     continue
                 }
                 toysArray[p].scale.setTo(1,1);
+                toysArray[p].alpha = 1
                 toysArray[p].x = getRandomArbitrary(0 + toysArray[p].width/2, game.world.centerX*1.5 - toysArray[p].width/2);
                 toysArray[p].y = getRandomArbitrary(floor.y , clock.y - toysArray[p].width/2);
                 toysArray[p].positionX = toysArray[p].x;

@@ -336,7 +336,7 @@ var selectCards = function(){
 		playerGUI.add(levelText)
 		levelText.fixedToCamera = true
 
-		var name = parent.epicModel.getCredentials().name || currentPlayer.yogotar
+		var name = parent.loginModal.getChildData().nickname || currentPlayer.yogotar
 
 		var playerName = game.add.bitmapText(310,40, 'luckiest', name, 35);
 		playerName.anchor.setTo(0.5,0.5)

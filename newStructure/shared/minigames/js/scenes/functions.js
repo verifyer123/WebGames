@@ -119,6 +119,9 @@
 	    
     }
 
+    function setLives(lives){
+    	heartsText.setText("x " + lives);
+    }
 
 function createHearts(lives){
 		var heartsGroup = game.add.group();

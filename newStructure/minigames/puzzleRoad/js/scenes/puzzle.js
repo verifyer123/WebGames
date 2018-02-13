@@ -53,7 +53,7 @@ var puzzle = function(){
 			
 		],
     }
-    
+    var INITIAL_LIVES = 3
     var DELTA_JUMP = 107
 
 	var angleToUse = -15
@@ -84,7 +84,7 @@ var puzzle = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		gameSpeed = 3
 		tagsToUse = ['circle','rhombus','square','triangle']
 		gameActive = false
@@ -160,7 +160,7 @@ var puzzle = function(){
 	
     function missPoint(){
         
-		gameActive = false		
+		
 		
 		setExplosion(playerGroup)
         sound.play("wrong")
@@ -176,15 +176,14 @@ var puzzle = function(){
         })
         
         if(lives == 0){
+        	gameActive = false
             stopGame(false)
-        }else{
-			
-			restartPlayer()
-		}
+        }
         
         addNumberPart(heartsGroup.text,'-1',true)
         
     }
+
     
     function addPoint(number){
         
@@ -543,9 +542,40 @@ var puzzle = function(){
 						}
 						game.time.events.add(500,addObject)
 					}else{
-						playerGroup.alpha = 0
-						deactivateObject(obj)
+						
 						missPoint()
+						if(lives<=0){
+							playerGroup.alpha = 0
+							deactivateObject(obj)
+						}
+						else{
+							var blink_time = 400
+							var tween1 = game.add.tween(playerGroup).to({alpha:0},blink_time,"Linear",false)
+							var tween2 = game.add.tween(playerGroup).to({alpha:1},blink_time,"Linear",false)
+							var tween3 = game.add.tween(playerGroup).to({alpha:0},blink_time,"Linear",false)
+							var tween4 = game.add.tween(playerGroup).to({alpha:1},blink_time,"Linear",false)
+							var tween5 = game.add.tween(playerGroup).to({alpha:0},blink_time,"Linear",false)
+							var tween6 = game.add.tween(playerGroup).to({alpha:1},blink_time,"Linear",false)
+
+							tween1.chain(tween2)
+							tween2.chain(tween3)
+							tween3.chain(tween4)
+							tween4.chain(tween5)
+							tween5.chain(tween6)
+
+							tween1.start()
+
+
+							obj.active = false
+							game.time.events.add(500,function(){deactivateObject(obj)})
+							for(var i = 0; i < usedObjects.length ; i++){
+								var obj = usedObjects.children[i]
+								obj.active = false
+								game.add.tween(obj).to({alpha:0},250,"Linear",true,250)
+							}
+							game.time.events.add(500,addObject)
+							}
+
 					}
 				}
 				

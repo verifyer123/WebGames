@@ -34,7 +34,7 @@ var yogomeGames = function () {
 			{name:'Ice Cream Numbers',url:urlSet + 'numberIce/',mapUrl:urlMap + 'numberIce', sceneName:'ice',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 			{name:'Magnet Ride',url:urlSet + 'magnetRide/',mapUrl:urlMap + 'magnetRide', sceneName:'magnet',subject:'science',review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
 			{name:'Salad Cards',url:urlSet + 'tapcards/',mapUrl:urlMap + 'tapcards', sceneName:'tapcards',subject:'language',review:false,objective:30,demo:false,type:gameTypeEnum.MATCH},
-			{name:'Sky Language',url:urlSet + 'skyLanguage/',mapUrl:urlMap + 'skyLanguage', sceneName:'sky',subject:'language',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
+			{name:'Sky Language',url:urlSet + 'skyLanguage/',mapUrl:urlMap + 'skyLanguage', sceneName:'skyLanguage',subject:'language',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Flag Runner',url:urlSet + 'flagRunner/',mapUrl:urlMap + 'flagRunner', sceneName:'flag',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Rift Land',url:urlSet + 'riftLand/',mapUrl:urlMap + 'riftLand', sceneName:'rift',subject:'coding',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Puzzle Road',url:urlSet + 'puzzleRoad/',mapUrl:urlMap + 'puzzleRoad', sceneName:'puzzle',subject:'creativity',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},

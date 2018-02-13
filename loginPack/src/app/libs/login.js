@@ -11,6 +11,7 @@ export var login = function () {
 	var CHECK_EMAIL = "/login/check"
 	var REGISTER_CHILD = "/login/child"
 	var LOGIN_CHILD = "/login/pin"
+	var LOGIN_UPDATE = "/login/child_update"
 
 	function ajaxCall(data, endPoint, onSuccess, onError, type) {
 		type = type || "POST"
@@ -58,6 +59,7 @@ export var login = function () {
 	}
 
 	function setCredentials(response) {
+
 		if(!response)
 			return
 
@@ -95,13 +97,15 @@ export var login = function () {
 		}
 	}
 
-	function registerPin(data, onSuccess, onError, newAccount) {
+	function registerPin(data, onSuccess, onError, registerType) {
 		console.log(data)
-		if(newAccount){
+		if(registerType === "newAccount"){
 			ajaxCall(data, LOGIN_PARENT, onSuccess, onError, "PUT")
-		}else {
-			data.game = GAME
-			ajaxCall(data, UPDATE_CHILD, onSuccess, onError)
+		}else if(registerType === "firstLogin") {
+			// data.game = GAME
+			ajaxCall(data, LOGIN_UPDATE, onSuccess, onError, "PUT")
+		}else{
+			ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
 		}
 	}
 
@@ -121,6 +125,10 @@ export var login = function () {
 	}
 
 	function checkLogin(onSuccess, onError){
+		var isChecking = checkQuery(onSuccess, onError)
+		if(isChecking)
+			return
+
 		var credentials = getCredentials()
 
 		var token = credentials.token
@@ -148,27 +156,23 @@ export var login = function () {
 		ajaxCall({email:email}, USER_RECOVERY, onSuccess, onError)
 	}
 
-	function checkQuery(callBack){
-		function onSuccess() {
-			modal.showWelcome()
-			if(callBack)callBack()
-		}
+	function checkQuery(callBack, onError){
+
 		var token = getParameterByName("token")
 		var email = getParameterByName("email")
 		token = token ? decodeURIComponent(token) : null
 		email = email ? decodeURIComponent(email) : null
-		//pa_%5BB%406d33b036
-		//aaron%2B20171207_2%40yogome.com
-		// var token = null//"pa_[B@15f1b80"
-		// var email = "aaron+20171207_2@yogome.com"
+
+		// var token = "pa_[B@7d5e6202"//"pa_[B@15f1b80"
+		// var email = "erick@yogome.com"
 
 		if((token)&&(email)) {
+
 			localStorage.setItem("email", email)
 			// console.log(token)
-			loginParent({token: token, email:email}, onSuccess)
+			loginParent({token: token, email:email}, callBack, onError)
+			return true
 		}
-		else
-		if(callBack)callBack()
 	}
 
 	function checkExists(data, onSuccess, onError) {
