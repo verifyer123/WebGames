@@ -26,11 +26,6 @@ var sweetEmotions = function(){
                 image: "images/sweetEmotions/atlas.png",
             },
             {   
-                name: "atlas.time",
-                json: "images/sweetEmotions/timeAtlas.json",
-                image: "images/sweetEmotions/timeAtlas.png",
-            },
-            {   
                 name: "atlas.tutorial",
                 json: tutorialPath+"images/tutorial/tutorial_atlas.json",
                 image: tutorialPath+"images/tutorial/tutorial_atlas.png"
@@ -78,11 +73,13 @@ var sweetEmotions = function(){
     var luna
     var linesGroup
     var chocoLeftGroup, chocoRightGroup
+    var shineGroup
     var emotions = ['ANGRY', 'BORED', 'CRY', 'RAGE', 'SAD', 'SCARED']
     var click
     var pointer
     var pivotLeft
     var pivotRight
+    var shinePivot
     var wordListLeft
     var wordListRight
     var ans
@@ -106,6 +103,7 @@ var sweetEmotions = function(){
         click = false
         pivotLeft = 0
         pivotRight = 0
+        shinePivot = 0
         wordListLeft = []
         wordListRight = []
         clickLeft = true
@@ -319,7 +317,7 @@ var sweetEmotions = function(){
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
     }
     
-    function onClickPlay(rect) {
+    function onClickPlay() {
         
         overlayGroup.y = -game.world.height
         initGame()
@@ -669,42 +667,6 @@ var sweetEmotions = function(){
         sceneGroup.add(particleWrong)
     }
     
-    function positionTimer(){
-        
-        timerGroup = game.add.group()
-        timerGroup.scale.setTo(1.5)
-        //timerGroup.alpha = 0
-        sceneGroup.add(timerGroup)
-        
-        var clock = game.add.image(0, 0, "atlas.time", "clock")
-        clock.scale.setTo(0.7)
-        clock.alpha = 1
-        timerGroup.add(clock)
-        
-        timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
-        timeBar.scale.setTo(8, 0.45)
-        timeBar.alpha = 1
-        timerGroup.add(timeBar)
-        
-        timerGroup.x = game.world.centerX - clock.width * 0.75
-        timerGroup.y = clock.height * 0.3
-   }
-    
-    function stopTimer(){
-        
-        tweenTiempo.stop()
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
-   }
-    
-    function startTimer(time){
-        
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
-        tweenTiempo.onComplete.add(function(){
-            stopTimer()
-            win(false)
-        })
-    }
-	
 	function initCoin(){
         
        coin = game.add.sprite(0, 0, "coin")
@@ -862,6 +824,21 @@ var sweetEmotions = function(){
         sceneGroup.add(heart)
     }
     
+    function blingBling(){
+        
+        shineGroup = game.add.group()
+        sceneGroup.add(shineGroup)
+        
+        for(var i = 0; i < 12; i++){
+			var glow = shineGroup.create(0, 0, 'atlas.sweetEmotions', 'glow')
+            glow.scale.setTo(1.3)
+			glow.anchor.setTo(0.5)
+			glow.alpha = 0
+            glow.active = false
+            glow.side = null
+		}
+    }
+    
     function clickDown(){
         
         if(gameActive){
@@ -873,6 +850,7 @@ var sweetEmotions = function(){
     function clickUp(){
         
         click = false
+        gameActive = false
         pointer.y = -100
         var feeling
         
@@ -899,14 +877,17 @@ var sweetEmotions = function(){
                 }
                 oof.addAnimationByName(0, "IDLE", true)
                 game.time.events.add(1000,function(){
+                    hideAnswer(false)
                     destroyChocolate(chocoLeftGroup, 0)
                 },this)
 			}else{
 				missPoint()
+                blackOrWithe(0xaaaaaa, chocoLeftGroup)
                 oof.setAnimationByName(0, "WRONG", true)
                 oof.addAnimationByName(0, "IDLE", true)
 			}
             
+            showAnswer(false)
             descativeDevice(chocoLeftGroup)
         }
         else if(wordListRight && wordListRight.length > 1 && clickRight){
@@ -932,14 +913,17 @@ var sweetEmotions = function(){
                 }
                 oof.addAnimationByName(0, "IDLE", true)
                 game.time.events.add(1000,function(){
+                    hideAnswer(true)
                     destroyChocolate(chocoRightGroup, 1)
                 },this)
 			}else{
 				missPoint()
+                blackOrWithe(0xaaaaaa, chocoRightGroup)
                 oof.setAnimationByName(0, "WRONG", true)
                 oof.addAnimationByName(0, "IDLE", true)
 			}
             
+            showAnswer(true)
             descativeDevice(chocoRightGroup)
         }
         
@@ -991,7 +975,7 @@ var sweetEmotions = function(){
         }
         
         hearGroup.children[x].alpha = 1
-        game.add.tween(hearGroup.children[x].scale).to({x:1.2,y:1.2},200,"Linear",true,0,0).yoyo(true,0)
+        game.add.tween(hearGroup.children[x].scale).to({x:1.2,y:1.2},300,"Linear",true,0,0).yoyo(true,0)
         
         for(var i = 0; i < linesGroup.length; i++){
 
@@ -1026,6 +1010,7 @@ var sweetEmotions = function(){
     function loveIsInTheAir(){
         
         var win = false
+        var delay
         
         if(dinaHappy && lunaHappy){
             luna.setAnimationByName(0, "LOVE", true)
@@ -1046,21 +1031,15 @@ var sweetEmotions = function(){
             gameActive = false
             
             if(win){
+                delay = 3100
                 game.time.events.add(2000,function(){
                     game.add.tween(heart.scale).to({x: 3, y: 3},500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-                        game.add.tween(heart).to({alpha: 0},500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-                            if(lives !== 0){
-                                restarElements()
-                                initGame()
-                                dinamita.setAnimationByName(0, "IDLE", true)
-                                luna.setAnimationByName(0, "IDLE", true)
-                                oof.setAnimationByName(0, "IDLE", true)
-                            }
-                        })
+                        game.add.tween(heart).to({alpha: 0},500,Phaser.Easing.Cubic.InOut,true)
                     })
                 },this)
             }
             else{
+                delay = 1100
                 game.time.events.add(500,function(){
                     
                     for(var i = 0; i < linesGroup.length; i++){
@@ -1075,24 +1054,41 @@ var sweetEmotions = function(){
                     
                     for(var t = 0; t < chocoLeftGroup.length; t++){
                         if(!dinaHappy){
+                            hideAnswer(false)
                             game.add.tween(chocoLeftGroup.children[t]).to({x:-100},game.rnd.integerInRange(300, 500),Phaser.Easing.Cubic.InOut,true)
                         }
                         if(!lunaHappy){
+                            hideAnswer(true)
                             game.add.tween(chocoRightGroup.children[t]).to({x:game.world.width + 100},game.rnd.integerInRange(300, 500),Phaser.Easing.Cubic.InOut,true)
                         }
                     }
-                    
-                    game.time.events.add(800,function(){
-                        if(lives !== 0){
-                            restarElements()
-                            initGame()
-                            dinamita.setAnimationByName(0, "IDLE", true)
-                            luna.setAnimationByName(0, "IDLE", true)
-                            oof.setAnimationByName(0, "IDLE", true)
-                        }
-                    })
                 },this)
             }
+            
+            game.time.events.add(delay,function(){
+                if(lives !== 0 && pointsBar.number < 2){
+                    restarElements()
+                    initGame()
+                    dinamita.setAnimationByName(0, "IDLE", true)
+                    luna.setAnimationByName(0, "IDLE", true)
+                    oof.setAnimationByName(0, "IDLE", true)
+                }
+                else{
+                    gameActive = false
+                    dinamita.setAnimationByName(0, "LOVE", true)
+                    luna.setAnimationByName(0, "LOVE", true)
+                    heart.addAnimationByName(0, "FINISH", true)
+                    heart.scale.setTo(2)
+                    game.add.tween(heart).to({alpha: 1},500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+                        game.time.events.add(1000,function(){
+                            stopGame(false)
+                        },this)
+                    })
+                }
+            },this)
+        }
+        else{
+            gameActive = true
         }
     }
     
@@ -1105,8 +1101,10 @@ var sweetEmotions = function(){
     
     function initGame(){
         
+        gameActive = false
         pivotLeft = 0
         pivotRight = 0
+        shinePivot = 0
         wordListLeft = []
         wordListRight = []
         clickLeft = true
@@ -1121,6 +1119,8 @@ var sweetEmotions = function(){
             heart.alpha = 0
             dinamita.setAnimationByName(0, ans, true)
             luna.setAnimationByName(0, wer, true)
+            blackOrWithe(0xffffff, chocoLeftGroup)
+            blackOrWithe(0xffffff, chocoRightGroup)
             gameActive = true
         },this)
     }
@@ -1163,6 +1163,9 @@ var sweetEmotions = function(){
         
         hearGroup.setAll('alpha', 0)
         heart.scale.setTo(0.8)
+        shineGroup.setAll('alpha', 0)
+        shineGroup.setAll('active', false)
+        shineGroup.setAll('side', null)
     }
     
     function chocolateRain(){
@@ -1198,6 +1201,8 @@ var sweetEmotions = function(){
             }
         }
         
+        theShining(chocoLeftGroup, false)
+        
         //_____________________//
         
         rnd = getRand()
@@ -1229,7 +1234,7 @@ var sweetEmotions = function(){
             }
         }
         
-        
+        theShining(chocoRightGroup, true)
         
         for(var i = 0; i < chocoLeftGroup.length; i++){
             
@@ -1244,9 +1249,49 @@ var sweetEmotions = function(){
             }
             
             game.add.tween(chocoLeftGroup.children[i]).from({y: - 50}, game.rnd.integerInRange(1000, 1500), Phaser.Easing.Cubic.InOut,true)
-            
             game.add.tween(chocoRightGroup.children[i]).from({y: - 50}, game.rnd.integerInRange(1000, 1500), Phaser.Easing.Cubic.InOut,true)
+        }
+        
+        blackOrWithe(0xaaaaaa, chocoLeftGroup)
+        blackOrWithe(0xaaaaaa, chocoRightGroup)
+    }
+    
+    function blackOrWithe(color, side){
+        
+        for(var i = 0; i < chocoLeftGroup.length; i++){
             
+            side.children[i].setAll('tint', color)
+        }
+    }
+    
+    function theShining(chocoGroup, side){
+        
+        for(var w = 0; w < chocoGroup.length; w++){
+            if(!chocoGroup.children[w].empty){
+                //shineGroup.children[shinePivot].alpha = 1
+                shineGroup.children[shinePivot].x = chocoGroup.children[w].centerX
+                shineGroup.children[shinePivot].y = chocoGroup.children[w].centerY
+                shineGroup.children[shinePivot].active = true
+                shineGroup.children[shinePivot].side = side
+                shinePivot++
+            }
+        }
+    }
+    
+    function showAnswer(side){
+        
+        for(var w = 0; w < shineGroup.length; w++){
+            if(shineGroup.children[w].active && shineGroup.children[w].side === side){
+                shineGroup.children[w].alpha = 1
+            }
+        }
+    }
+    
+    function hideAnswer(side){
+        for(var w = 0; w < shineGroup.length; w++){
+            if(shineGroup.children[w].active && shineGroup.children[w].side === side){
+                shineGroup.children[w].alpha = 0
+            }
         }
     }
 	
@@ -1283,6 +1328,7 @@ var sweetEmotions = function(){
             initCoin()
             cupido()
             chocolateFactory()
+            blingBling()
             theLine()
             chocoHeart()
             createParticles()

@@ -13,6 +13,8 @@ var tutorialHelper = function () {
 	var inTutorial
 
 	var noWebmTextType
+	var howkey = "how_to_play"
+	var playKey = "button_play"
 
 	function createTutorialGif(group,onClickFunction){
 
@@ -51,18 +53,15 @@ var tutorialHelper = function () {
 		var tuto = group.create(game.world.centerX, game.world.centerY - 90,'tutorial_image')
 		tuto.anchor.setTo(0.5,0.5)
 
-		var howTo = group.create(game.world.centerX,120,'atlas.tutorial','how_'+localization.getLanguage())
+		var howTo = group.create(game.world.centerX,120, howkey)
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 
-		var button = group.create(game.world.centerX+120, game.world.centerY+360,'atlas.tutorial','play_'+localization.getLanguage())
+		var button = group.create(game.world.centerX+120, game.world.centerY+360, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
 		button.anchor.setTo(0.5,0.5)
 		button.scale.setTo(0.85)
 
 		game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
-
-
-
 
 		// if(game.device.webmVideo){
 		// 	/*tutorialVideo = game.add.video('tutorialGif');
@@ -246,6 +245,8 @@ var tutorialHelper = function () {
 		// currentScene.assets.spines.push(obj)
 
 		currentLoader.spine(obj.name, obj.file)
+		currentLoader.image(howkey,tutorialPath+'images/tutorial/how_'+localization.getLanguage()+'.png')
+		currentLoader.image(playKey,tutorialPath+'images/tutorial/play_'+localization.getLanguage()+'.png')
 
 			//noWebmTextType = path+"trace.gif"
 			//game.load.image("tutorialGif",path+"test.gif")
