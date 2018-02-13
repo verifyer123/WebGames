@@ -337,7 +337,7 @@ var nutri = function(){
 		}
 
 		game.load.image('tutorial_image',"images/nutri/tutorial_image_"+device+".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		        
     }
@@ -970,7 +970,7 @@ var nutri = function(){
 		assets: assets,
 		name: "nutri",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

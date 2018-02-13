@@ -315,7 +315,7 @@ var galaxyJumper = function(){
 		game.load.image('introscreen',"images/galaxy/introscreen.png")*/
 
         game.load.image('tutorial_image',"images/galaxy/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
         game.load.spine("planets","images/Spine/planets/planets.json")
@@ -963,7 +963,7 @@ var galaxyJumper = function(){
 		assets: assets,
 		name: "galaxyJumper",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

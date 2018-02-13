@@ -288,7 +288,7 @@ var divisubmarine = function(){
 		game.load.image('introscreen',"images/submarine/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/submarine/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1021,7 +1021,7 @@ var divisubmarine = function(){
 		assets: assets,
 		name: "divisubmarine",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

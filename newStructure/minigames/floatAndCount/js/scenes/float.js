@@ -596,7 +596,7 @@ var float = function(){
 		game.load.image('introscreen',"images/float/introscreen.png")*/
 
         game.load.image('tutorial_image',"images/float/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }

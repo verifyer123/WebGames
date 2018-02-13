@@ -117,7 +117,7 @@ var flightoclock = function(){
 		game.load.spine("cohete", imagePath + "spine/coete.json");
 		
 		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
 	}

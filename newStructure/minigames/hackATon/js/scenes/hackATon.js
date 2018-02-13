@@ -283,7 +283,7 @@ var hackATon = function(){
         game.load.spine("estrella", "images/spines/estrella.json")
 		
 		game.load.image('tutorial_image',"images/hackATon/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -806,7 +806,7 @@ var hackATon = function(){
 		assets: assets,
 		name: "hackATon",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.ARCADE)

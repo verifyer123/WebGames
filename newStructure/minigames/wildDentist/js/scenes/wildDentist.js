@@ -108,7 +108,7 @@ var wildDentist = function(){
         game.load.spritesheet('hit', imagePath + 'sprites/hit/sprite.png', 338, 268, 14);
 
         game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
     }
 

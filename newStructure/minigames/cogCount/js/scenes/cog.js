@@ -268,7 +268,7 @@ var cog = function(){
         game.load.spine('cloky', "images/spines/cloky/cloky.json")
 
         game.load.image('tutorial_image',"images/cog/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 
         buttons.getImages(game)
@@ -663,7 +663,7 @@ var cog = function(){
         //overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -744,7 +744,7 @@ var cog = function(){
     return {
         assets: assets,
         name: "cog",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         update:update,
         create: function(event){
 

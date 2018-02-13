@@ -669,7 +669,7 @@ var space = function(){
 		game.load.image('buttonText',"images/space/play" + localization.getLanguage() + ".png")*/
 
         game.load.image('tutorial_image',"images/space/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -760,7 +760,7 @@ var space = function(){
 	return {
 		assets: assets,
 		name: "space",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

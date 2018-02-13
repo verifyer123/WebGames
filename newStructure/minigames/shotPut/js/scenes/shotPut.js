@@ -279,7 +279,7 @@ var shotPut = function(){
         game.load.spine("oof", "images/spines/Oof/Oof.json")
 		
 		game.load.image('tutorial_image',"images/shotPut/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
   
     }
     
@@ -908,7 +908,7 @@ var shotPut = function(){
 		assets: assets,
 		name: "shotPut",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

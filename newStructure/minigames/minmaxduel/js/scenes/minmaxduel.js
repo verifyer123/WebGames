@@ -104,7 +104,7 @@ var minmaxduel = function(){
 		//game.load.spine("helicoptero", imagePath + "spine/helicoptero.json");
 
 		game.load.image('tutorial_image',imagePath+"/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 
 	}

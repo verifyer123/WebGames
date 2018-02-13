@@ -279,7 +279,7 @@ var sushi = function(){
 
 		buttons.getImages(game)
 		game.load.image('tutorial_image',"images/sushi/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
     }
 
@@ -721,7 +721,7 @@ var sushi = function(){
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -824,7 +824,7 @@ var sushi = function(){
 	return {
 		assets: assets,
 		name: "sushi",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         update:function(event) {
             if(gameActive)
                 update()

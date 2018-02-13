@@ -320,7 +320,7 @@ var stomake = function(){
         game.load.spine("tomaguito","images/Spine/normal/normal.json")
 		
 		game.load.image('tutorial_image',"images/stomake/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1345,7 +1345,7 @@ var stomake = function(){
 		assets: assets,
 		name: "stomake",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

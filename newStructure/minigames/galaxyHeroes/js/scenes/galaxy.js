@@ -368,7 +368,7 @@ var galaxy = function(){
 		game.load.spritesheet('alien2', 'images/galaxy/sprites/alien2.png', 128, 128, 12);
 		
 		game.load.image('tutorial_image',"images/galaxy/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
 		
@@ -928,7 +928,7 @@ var galaxy = function(){
 		assets: assets,
 		name: "galaxy",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
             backAndWihte()

@@ -265,7 +265,7 @@ var wild = function(){
         game.load.spine('cervidos', "images/spines/cervidos/cervidos.json")
 
         game.load.image('tutorial_image',"images/wild/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
     }
 
@@ -472,7 +472,7 @@ var wild = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -519,7 +519,7 @@ var wild = function(){
 	return {
 		assets: assets,
 		name: "wild",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

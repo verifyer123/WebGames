@@ -292,7 +292,7 @@ var beach = function(){
 		game.load.image('introscreen',"images/beach/introscreen.png")*/
 
 		game.load.image('tutorial_image',"images/beach/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
 		//console.log(localization.getLanguage() + ' language')
@@ -942,7 +942,7 @@ var beach = function(){
 		assets: assets,
 		name: "beach",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			this.swipe = new Swipe(this.game);

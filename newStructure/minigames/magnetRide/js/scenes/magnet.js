@@ -445,7 +445,7 @@ var magnet = function(){
 		//game.load.image('buttonText',"images/magnet/play" + localization.getLanguage() + ".png")
 		
         game.load.image('tutorial_image',"images/magnet/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1015,7 +1015,7 @@ var magnet = function(){
 		assets: assets,
 		name: "magnet",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			game.physics.startSystem(Phaser.Physics.P2JS);

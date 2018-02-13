@@ -164,7 +164,7 @@ var geoJourney = function(){
 		game.load.image('introscreen',"images/geoJourney/tutorial/introscreen.png")*/
 
         game.load.image('tutorial_image',"images/geoJourney/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1205,7 +1205,7 @@ var geoJourney = function(){
             
             
 		},
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         update:update,
 	}
 

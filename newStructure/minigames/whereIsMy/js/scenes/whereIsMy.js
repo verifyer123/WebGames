@@ -354,7 +354,7 @@ var whereIsMy = function(){
         
 		
 		game.load.image('tutorial_image',"images/where/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -1376,7 +1376,7 @@ var whereIsMy = function(){
 		assets: assets,
 		name: "whereIsMy",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

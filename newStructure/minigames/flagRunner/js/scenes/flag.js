@@ -347,7 +347,7 @@ var flag = function(){
 		game.load.spritesheet('light', 'images/flag/light.png', 128, 128, 8);
 		
 		game.load.image('tutorial_image',"images/flag/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -1077,7 +1077,7 @@ var flag = function(){
 		assets: assets,
 		name: "flag",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys();

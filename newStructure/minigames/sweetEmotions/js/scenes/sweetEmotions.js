@@ -308,7 +308,7 @@ var sweetEmotions = function(){
 		
 		console.log(localization.getLanguage() + ' language')
         
-        loadType(gameIndex)
+        //loadType(gameIndex)
     }
     
     function createTutorial(){
@@ -1255,7 +1255,7 @@ var sweetEmotions = function(){
 		assets: assets,
 		name: "sweetEmotions",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

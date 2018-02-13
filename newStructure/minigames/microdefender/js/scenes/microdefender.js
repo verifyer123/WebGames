@@ -107,7 +107,7 @@ var microdefender = function(){
 		buttons.getImages(game);
 
 		game.load.image('tutorial_image',"images/microdefender/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 	}
 

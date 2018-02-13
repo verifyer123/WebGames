@@ -297,7 +297,7 @@ var symfunny = function(){
 		console.log(localization.getLanguage() + ' language')
 
         game.load.image('tutorial_image',"images/symfunny/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -768,7 +768,7 @@ var symfunny = function(){
 		assets: assets,
 		name: "symfunny",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

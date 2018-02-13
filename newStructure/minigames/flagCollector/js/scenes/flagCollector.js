@@ -502,7 +502,7 @@ var flagCollector = function(){
 		game.load.image('buttonText',"images/flag/play" + localization.getLanguage() + ".png")*/
 
         game.load.image('tutorial_image',"images/flag/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         
     }
@@ -625,7 +625,7 @@ var flagCollector = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
         
         /*var rect = new Phaser.Graphics(game)
@@ -693,7 +693,7 @@ var flagCollector = function(){
 	return {
 		assets: assets,
 		name: "flagCollector",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

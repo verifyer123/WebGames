@@ -314,7 +314,7 @@ var lakeStrike = function(){
         
 		
 		game.load.image('tutorial_image',"images/lake/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         game.time.advancedTiming = true;
     }
@@ -983,7 +983,7 @@ var lakeStrike = function(){
 		assets: assets,
 		name: "lakeStrike",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

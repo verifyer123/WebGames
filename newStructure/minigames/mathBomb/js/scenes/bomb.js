@@ -360,7 +360,7 @@ var bomb = function(){
 		game.load.image('introscreen',"images/bomb/introscreen.png")*/
 
 		game.load.image('tutorial_image',"images/bomb/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		
         
@@ -1071,7 +1071,7 @@ var bomb = function(){
 		assets: assets,
 		name: "bomb",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

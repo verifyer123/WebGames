@@ -139,7 +139,7 @@ var clockfix = function(){
         game.load.spine("dclock", imagePath + "spine/d_clock/d_clock.json");	
 
         game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 	}
 

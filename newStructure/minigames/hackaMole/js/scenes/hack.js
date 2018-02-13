@@ -360,7 +360,7 @@ var hack = function(){
 		game.load.image('introscreen',"images/hack/introscreen.png")*/
 
 		game.load.image('tutorial_image',"images/hack/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		        
     }
@@ -1339,7 +1339,7 @@ console.log(buttonsGroup.length)
 		assets: assets,
 		name: "hack",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

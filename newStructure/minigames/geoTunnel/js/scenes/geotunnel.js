@@ -335,7 +335,7 @@ var geotunnel = function(){
 		game.load.image('buttonText',"images/geotunnel/play" + localization.getLanguage() + ".png")*/
 
 		game.load.image('tutorial_image',"images/geotunnel/tutorial_image_"+localization.getLanguage() +".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		game.load.script('filter', 'js/tunnel.js');
 		game.load.spine('figures', "images/spine/figures/figures.json")
@@ -493,7 +493,7 @@ var geotunnel = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		createTutorialGif(tutoGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
 		
 	}
@@ -731,7 +731,7 @@ var geotunnel = function(){
 	return {
 		assets: assets,
 		name: "geotunnel",
-		preload:preload,
+		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		update:function () {
 			if(isActive)
 				update()

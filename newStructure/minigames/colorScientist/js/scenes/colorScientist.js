@@ -829,7 +829,7 @@ var colorScientist = function(){
 		assets: assets,
 		name: "colorScientist",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

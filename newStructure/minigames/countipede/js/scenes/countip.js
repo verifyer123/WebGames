@@ -267,7 +267,7 @@ var countip = function(){
 		buttons.getImages(game)
 
 		game.load.image('tutorial_image',"images/countip/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 
 	}
@@ -347,7 +347,7 @@ var countip = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 
-		createTutorialGif(tutoGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
 	
 	}
@@ -942,7 +942,7 @@ var countip = function(){
 	return {
 		assets: assets,
 		name: "countip",
-		preload:preload,
+		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		update:function(){
 			if(isActive)
 				update()

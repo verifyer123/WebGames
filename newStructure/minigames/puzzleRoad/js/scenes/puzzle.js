@@ -289,7 +289,7 @@ var puzzle = function(){
 		game.load.image('introscreen',"images/puzzle/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/puzzle/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -848,7 +848,7 @@ var puzzle = function(){
 		assets: assets,
 		name: "puzzle",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			this.swipe = new Swipe(this.game);

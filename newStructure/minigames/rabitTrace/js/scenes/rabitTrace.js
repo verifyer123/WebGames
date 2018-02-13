@@ -181,7 +181,7 @@ var rabitTrace = function(){
 
         buttons.getImages(game)
         game.load.image('tutorial_image',"images/rabitTrace/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 
     }
@@ -541,7 +541,7 @@ var rabitTrace = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
         
         /*var rect = new Phaser.Graphics(game)
@@ -1206,7 +1206,7 @@ var rabitTrace = function(){
 		assets: assets,
 		name: "rabitTrace",
         update:update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene
 	}
 }()

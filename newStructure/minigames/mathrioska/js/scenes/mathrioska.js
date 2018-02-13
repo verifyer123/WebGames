@@ -285,7 +285,7 @@ var mathrioska = function(){
 		game.load.image('introscreen',"images/mathrioska/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/mathrioska/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -868,7 +868,7 @@ var mathrioska = function(){
 		assets: assets,
 		name: "mathrioska",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()

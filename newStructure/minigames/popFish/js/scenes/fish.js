@@ -314,7 +314,7 @@ var fish = function(){
 		game.load.image('background',"images/pop/background.png")
 
 		game.load.image('tutorial_image',"images/pop/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
 		        
     }
@@ -953,7 +953,7 @@ var fish = function(){
 		assets: assets,
 		name: "fish",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()

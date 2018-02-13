@@ -347,7 +347,7 @@ var candy = function(){
 		game.load.image('introscreen',"images/candy/introscreen.png")*/
 		
 		game.load.image('tutorial_image',"images/candy/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
         
     }
 	
@@ -825,7 +825,7 @@ var candy = function(){
 		assets: assets,
 		name: "candy",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

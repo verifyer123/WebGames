@@ -292,7 +292,7 @@ var medi = function(){
 
 
 		game.load.image('tutorial_image',"images/medi/tutorial_image_"+inputName+".png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -885,7 +885,7 @@ var medi = function(){
 		assets: assets,
 		name: "medi",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			cursors = game.input.keyboard.createCursorKeys()

@@ -521,7 +521,7 @@ var clash = function(){
         buttons.getImages(game)
 
         game.load.image('tutorial_image',"images/clash/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
 
     }
@@ -796,7 +796,7 @@ var clash = function(){
         //overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -842,7 +842,7 @@ var clash = function(){
     return {
         assets: assets,
         name: "clash",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         create: function(event){
 
             sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

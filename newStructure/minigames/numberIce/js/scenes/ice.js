@@ -469,7 +469,7 @@ var ice = function(){
 		game.load.image('buttonText',"images/ice/play" + localization.getLanguage() + ".png")*/
 
 		game.load.image('tutorial_image',"images/ice/tutorial_image.png")
-		loadType(gameIndex)
+		//loadType(gameIndex)
 
         
     }
@@ -737,7 +737,7 @@ var ice = function(){
 		
 		assets: assets,
 		name: "ice",
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 

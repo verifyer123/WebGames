@@ -290,7 +290,7 @@ var donnieBunny = function(){
 		game.load.image('introscreen',"images/donnieBunny/introscreen.png")*/
 
         game.load.image('tutorial_image',"images/donnieBunny/tutorial_image.png")
-        loadType(gameIndex)
+        //loadType(gameIndex)
 
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
         
@@ -741,7 +741,7 @@ var donnieBunny = function(){
 		assets: assets,
 		name: "donnieBunny",
 		update: update,
-        preload:preload,
+        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
 			sceneGroup = game.add.group()
