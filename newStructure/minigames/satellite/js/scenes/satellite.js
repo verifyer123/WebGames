@@ -140,7 +140,7 @@ var satellite = function(){
         speedCreate=10000;
         temp4=0
         gameActive=true
-        dificulty=3000
+        dificulty=2000
         charged3=false
         activateEarth=true
         for(var fulfill=0; fulfill<meteors.length;fulfill++){
@@ -683,6 +683,7 @@ var satellite = function(){
                 if(enemysActive[generate]==false){
                     meteors[generate].alpha=1
                     sound.play("falling")
+                    meteors[generate].scale.setTo(1,1)
                     meteors[generate].setAnimationByName(0,"IDLE",true)
                     enemys[generate].position.x=game.rnd.integerInRange(100,game.world.width-100);
                     enemys[generate].position.y=-200;
@@ -693,13 +694,14 @@ var satellite = function(){
                     howMany++;
                 }
             }
-            if(where==1){ 
+            if(where==1){
                 while(enemysActive[generate]==true){
                     generate=game.rnd.integerInRange(0,9);
                 }
                 
                 if(enemysActive[generate]==false){
                     meteors[generate].alpha=1
+                    meteors[generate].scale.setTo(1,1)
                     sound.play("falling")
                     meteors[generate].setAnimationByName(0,"IDLE",true)
                     enemys[generate].position.x=game.rnd.integerInRange(100,game.world.width-100);
@@ -727,11 +729,15 @@ var satellite = function(){
                 
                 
             }
+
              
+             if(dificulty>1500 && howMany==9){
+                 dificulty-=200
+             }
              if(howMany==9){
                  howMany=0
-                 dificulty-=300
              }
+             
              if(gameActive)timerRest--;
              if(timerRest<=0){
                  numLifes1--
@@ -939,7 +945,7 @@ var satellite = function(){
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     temp1=checkCols
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp1].x=-200
+                        meteorsProxy[temp1].x=200
                         meteorsActive[temp1]=false
                         meteors[temp1].setAnimationByName(0,"IDLE",true)
                         meteors[temp1].alpha=1
@@ -958,7 +964,7 @@ var satellite = function(){
                     
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp2].y=-200
+                        meteorsProxy[temp2].y=200
                         meteorsActive[temp2]=false
                         meteors[temp2].setAnimationByName(0,"IDLE",true)
                         meteors[temp2].x=meteorsProxy[temp2].x
@@ -977,7 +983,7 @@ var satellite = function(){
                     meteorsActive[checkCols]=false
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp3].y=-200
+                        meteorsProxy[temp3].y=200
                         meteorsActive[temp3]=false
                         meteors[temp3].setAnimationByName(0,"IDLE",true)
                         meteors[temp3].x=meteorsProxy[temp3].x
@@ -990,17 +996,16 @@ var satellite = function(){
                     
                 }
             
-            if(checkOverlap(meteorsProxy[checkCols], earth) && meteorsActive[checkCols]){
+            if(checkOverlap(meteorsProxy[checkCols], earth) && temp4==0){
                     
                     temp4=checkCols
-                    meteorsActive[temp4]=false
+                    
                     game.add.tween(meteors[checkCols].scale).to({x:0,y:0}, 500, Phaser.Easing.Cubic.In, true)
                     meteors[checkCols].setAnimationByName(0,"DISINTEGRATE",false)
                     
-                    game.time.events.add(1000,function(){
-                        meteorsTween[temp4].stop()
-                        meteors[temp4].scale.setTo(1,1)
-                        meteorsProxy[temp4].y=-200
+                    game.time.events.add(500,function(){
+                        meteorsProxy[temp4].y=200
+                        meteorsActive[temp4]=false
                         meteors[temp4].setAnimationByName(0,"IDLE",true)
                         temp4=0
                     })
