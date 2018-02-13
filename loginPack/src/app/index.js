@@ -143,12 +143,20 @@ class App extends React.Component{
 
 		if(autoLogin){
 			function onSuccess(response) {
-				this.setChildData(response.child)
-				this.handleClick("continue")
+				if((response.children)&&(response.children.length > 1)){
+					this.setChildData({parentMail:login.getCredentials().email})
+					this.handleClick("players", response.children)
+				}else{
+					let child = response.children ? response.children[0] : response.child
+					this.setChildData(child)
+					this.handleClick("continue")
+				}
+
 			}
 
 			function onError() {
-				this.handleClick("login")
+				if(forceLogin)
+					this.handleClick("login")
 			}
 
 			login.checkLogin(onSuccess.bind(this), onError.bind(this))
