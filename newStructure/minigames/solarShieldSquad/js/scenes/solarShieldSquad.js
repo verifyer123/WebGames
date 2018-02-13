@@ -760,7 +760,6 @@ var solarShieldSquad = function(){
             
         }
         
-        console.log()
         
         for(var checkCols=0; checkCols<meteors.length; checkCols++){
             

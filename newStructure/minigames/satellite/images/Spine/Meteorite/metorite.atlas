@@ -1,0 +1,76 @@
+
+metorite.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+explote/1
+  rotate: false
+  xy: 789, 351
+  size: 133, 141
+  orig: 133, 141
+  offset: 0, 0
+  index: -1
+explote/2
+  rotate: false
+  xy: 274, 323
+  size: 195, 169
+  orig: 195, 169
+  offset: 0, 0
+  index: -1
+explote/3
+  rotate: false
+  xy: 2, 23
+  size: 224, 209
+  orig: 224, 209
+  offset: 0, 0
+  index: -1
+explote/4
+  rotate: false
+  xy: 2, 234
+  size: 270, 258
+  orig: 270, 258
+  offset: 0, 0
+  index: -1
+explote/5
+  rotate: true
+  xy: 471, 315
+  size: 177, 179
+  orig: 177, 179
+  offset: 0, 0
+  index: -1
+explote/7
+  rotate: false
+  xy: 652, 339
+  size: 135, 153
+  orig: 135, 153
+  offset: 0, 0
+  index: -1
+normal/flame
+  rotate: true
+  xy: 2, 2
+  size: 19, 96
+  orig: 19, 96
+  offset: 0, 0
+  index: -1
+normal/meteorito
+  rotate: false
+  xy: 924, 430
+  size: 61, 62
+  orig: 61, 62
+  offset: 0, 0
+  index: -1
+normal/metorite
+  rotate: false
+  xy: 347, 268
+  size: 61, 53
+  orig: 61, 53
+  offset: 0, 0
+  index: -1
+normal/son
+  rotate: false
+  xy: 274, 250
+  size: 71, 71
+  orig: 71, 71
+  offset: 0, 0
+  index: -1
