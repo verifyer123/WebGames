@@ -119,7 +119,7 @@ var sweetEmotions = function(){
         rnd = -1
         ans = ''
         wer = ''
-        limit = null
+        limit = false
         
         loadSounds()
 	}
@@ -402,17 +402,15 @@ var sweetEmotions = function(){
             
             if(pointer.x < game.world.centerX){
                 checkLeft()
-                limit = false
             }
             else{
                 checkRight()
-                limit = true
             }
 		}
     }
     
     function checkLeft(){
-        
+    
         for(var i = 0; i < chocoLeftGroup.length; i++){
             if(checkOverlap(pointer, chocoLeftGroup.children[i].image)){
                 if(Math.abs(pointer.x - chocoLeftGroup.children[i].image.world.x) < 30 && 
@@ -424,6 +422,7 @@ var sweetEmotions = function(){
     }
     
     function checkRight(){
+       
         for(var i = 0; i < chocoRightGroup.length; i++){
             if(checkOverlap(pointer,chocoRightGroup.children[i].image)){
                 if(Math.abs(pointer.x - chocoRightGroup.children[i].image.world.x) < 30 && 
@@ -436,7 +435,7 @@ var sweetEmotions = function(){
     
     function traceWordLeft(obj){
         
-        if(!gameActive || !obj.parent.active){
+        if(!gameActive || !obj.parent.active || limit){
 			return
 		}
         
@@ -466,7 +465,7 @@ var sweetEmotions = function(){
     
     function traceWordRight(obj){
         
-        if(!gameActive || !obj.parent.active){
+        if(!gameActive || !obj.parent.active || !limit){
 			return
 		}
         
@@ -899,6 +898,8 @@ var sweetEmotions = function(){
 
                 showAnswer(false)
                 descativeDevice(chocoLeftGroup)
+                limit = true
+                blackOrWithe(0xffffff, chocoRightGroup)
             }
             else if(wordListRight && wordListRight.length > 1 && clickRight){
 
@@ -1133,6 +1134,7 @@ var sweetEmotions = function(){
         dinaHappy = false
         lunaHappy = false
         acomplished = false
+        limit = false
         
         restarElements()
         chocolateRain()
@@ -1142,7 +1144,6 @@ var sweetEmotions = function(){
             dinamita.setAnimationByName(0, ans, true)
             luna.setAnimationByName(0, wer, true)
             blackOrWithe(0xffffff, chocoLeftGroup)
-            blackOrWithe(0xffffff, chocoRightGroup)
             gameActive = true
         },this)
     }
