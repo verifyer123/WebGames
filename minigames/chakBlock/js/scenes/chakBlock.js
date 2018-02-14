@@ -37,6 +37,7 @@ var chakBlock = function(){
             
 		],
 	}
+    var PROBABILITY_CHANGE = 0.5
     
     var INITIAL_LIVES = 1
     var DELTA_TIME = 50
@@ -789,7 +790,7 @@ var chakBlock = function(){
                 if(alone){
                     
                     var r = game.rnd.frac()
-                    if(r>0.4){
+                    if(r>PROBABILITY_CHANGE){
                         r = game.rnd.integerInRange(0,nearColors.length-1)
                         r = nearColors[r]
 
