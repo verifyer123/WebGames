@@ -333,7 +333,7 @@ var paper = function(){
 		game.load.spine('ship', "images/spine/ships/boats.json")
 		game.load.spritesheet('impact', 'images/paper/impact.png', 256, 256, 8)
 
-		buttons.getImages(game)
+		
 
 		game.load.image('tutorial_image',"images/paper/tutorial_image.png")
 		//loadType(gameIndex)

@@ -259,7 +259,7 @@ var wild = function(){
 		game.load.image('howTo',"images/wild/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/wild/play" + localization.getLanguage() + ".png")*/
 
-        buttons.getImages(game)
+        
 
 
         game.load.spine('cervidos', "images/spines/cervidos/cervidos.json")

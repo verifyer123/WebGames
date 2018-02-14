@@ -306,7 +306,7 @@ var culture = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         

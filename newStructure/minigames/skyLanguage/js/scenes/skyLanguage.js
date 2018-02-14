@@ -403,7 +403,7 @@ var skyLanguage = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
         game.load.spine('ship', "images/spines/skeleton1.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');

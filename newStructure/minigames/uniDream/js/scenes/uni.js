@@ -247,7 +247,7 @@ var uni = function(){
 		game.load.spine('unicorn', "images/spine/unicorn/unicorn.json")
 		game.load.spine('donkey', "images/spine/donkey/donkey.json")
 
-		buttons.getImages(game)
+		
 
 		game.load.image('tutorial_image',"images/uni/tutorial_image.png")
 		//loadType(gameIndex)

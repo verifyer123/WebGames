@@ -611,7 +611,7 @@ var bax = function(){
         game.load.spine('monster789', "images/spines/monster789/monster789.json")
         game.load.spine('arthurius', "images/spines/arthurius/arthurius.json")
         game.load.spine('flama', "images/spines/flama/flama.json")
-        buttons.getImages(game)
+
 
     }
 

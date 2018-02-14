@@ -350,7 +350,7 @@ var hack = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.spine('topo', "images/spines/front.json")  
         game.load.audio('medievalSong', soundsPath + 'songs/upbeat_casual_8.mp3');

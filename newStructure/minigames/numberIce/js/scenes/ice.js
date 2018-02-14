@@ -459,7 +459,7 @@ var ice = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
         game.load.spine('oona', "images/spines/Oona.json")  
         game.load.audio('dojoSong', soundsPath + 'songs/childrenbit.mp3');

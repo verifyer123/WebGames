@@ -266,7 +266,7 @@ var H2Orbit = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+
 		
         game.stage.disableVisibilityChange = false;
         

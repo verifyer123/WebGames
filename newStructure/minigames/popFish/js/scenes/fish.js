@@ -303,7 +303,7 @@ var fish = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
         game.load.spine('fish', "images/spines/skeleton.json")  
         game.load.audio('gardenSong', soundsPath + 'songs/adventure.mp3');

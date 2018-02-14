@@ -179,7 +179,7 @@ var rabitTrace = function(){
 
         game.load.spritesheet("coin", 'images/rabitTrace/coin.png', 122, 123, 12)
 
-        buttons.getImages(game)
+        
         game.load.image('tutorial_image',"images/rabitTrace/tutorial_image.png")
         //loadType(gameIndex)
 

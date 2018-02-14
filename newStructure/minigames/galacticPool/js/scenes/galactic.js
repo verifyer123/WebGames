@@ -317,7 +317,7 @@ var galactic = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+
         
         //Creamos las fisicas del proyecto
         

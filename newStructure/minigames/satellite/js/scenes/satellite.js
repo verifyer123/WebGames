@@ -365,7 +365,7 @@ var satellite = function(){
     function preload(){                
     
         
-		buttons.getImages(game)
+		
 		
         game.stage.disableVisibilityChange = false;
         epicparticles.loadEmitter(game.load, "pickedEnergy")

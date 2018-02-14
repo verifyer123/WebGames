@@ -273,7 +273,7 @@ var operations = function(){
 		game.load.spine("loading", "images/spine/loading/skeleton.json")
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
 
-		buttons.getImages(game)
+
 
 	}
 

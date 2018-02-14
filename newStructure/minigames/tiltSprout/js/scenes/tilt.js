@@ -333,7 +333,7 @@ var tilt = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
         game.load.spine('dinamita', "images/spines/skeleton.json")  
         game.load.audio('gardenSong', soundsPath + 'songs/mysterious_garden.mp3');

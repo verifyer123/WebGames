@@ -138,11 +138,11 @@ var swampShape = function(){
 
 		game.load.audio('astronoSong',  soundsPath + 'songs/space_bridge.mp3');
 		/*Default*/
-		buttons.getImages(game);
+		;
 		/*game.load.image('introscreen',"images/swampShape/introscreen.png")
 		game.load.image('howTo',"images/swampShape/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/swampShape/play" + localization.getLanguage() + ".png")*/
-		buttons.getImages(game)
+		
 		
 		/*GAME*/
 		// game.load.image("background",imagePath + "background.png");

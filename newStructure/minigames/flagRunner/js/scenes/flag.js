@@ -335,7 +335,7 @@ var flag = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.spine('robot', "images/spines/robot.json")  
 		game.load.spine('helicopter', "images/spines/helicopter.json") 

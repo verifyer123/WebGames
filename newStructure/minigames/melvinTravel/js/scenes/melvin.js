@@ -333,7 +333,7 @@ var melvin = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
 		game.load.spine('melvin', "images/spines/skeleton.json") 
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');

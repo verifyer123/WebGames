@@ -48,8 +48,10 @@ var sceneloader = function(){
 
 
 	function preload(scenes, callbacks){
+		var inputDevice = game.device.desktop ? "desktop" : "movil"
 
 		currentLoader = createNewLoader(callbacks)
+		buttons.getImages(currentLoader)
 
 		for(var indexScene = 0; indexScene < scenes.length; indexScene++){
 
@@ -81,7 +83,13 @@ var sceneloader = function(){
 				if(typeof assets.images == "object"){
 					for(var indexImage = 0; indexImage < assets.images.length; indexImage++){
 						var currentImage = assets.images[indexImage]
-						currentLoader.image(currentImage.name, currentImage.file)
+						var file = currentImage.file
+						if(file.includes("%input")) {
+							var re = /%input/gi;
+							file = file.replace(re, inputDevice);
+							console.log("file", file)
+						}
+						currentLoader.image(currentImage.name, file)
 					}
 				}
 

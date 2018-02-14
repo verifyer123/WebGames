@@ -108,7 +108,7 @@ var esquivaCohetes = function(){
         game.load.image('smoke',"images/esquivaCuetes/smoke.png");
         game.load.image('star',"images/esquivaCuetes/star.png");
         game.load.image('wrong',"images/esquivaCuetes/wrong.png");
-		buttons.getImages(game);
+		;
         /*COMIC*/
         game.load.image('comic1',"images/esquivaCuetes/comic/1.png");
         game.load.image('comic2',"images/esquivaCuetes/comic/2.png");

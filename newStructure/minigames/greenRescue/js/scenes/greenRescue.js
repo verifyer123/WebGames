@@ -327,7 +327,7 @@ var greenRescue = function(){
         
         
         epicparticles.loadEmitter(game.load, "pickedEnergy")
-		buttons.getImages(game)
+
 		
         game.stage.disableVisibilityChange = false;
         

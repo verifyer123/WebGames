@@ -285,7 +285,7 @@ var frootMath = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');

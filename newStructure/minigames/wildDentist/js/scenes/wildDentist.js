@@ -89,7 +89,7 @@ var wildDentist = function(){
 
     function preload() {
         
-		buttons.getImages(game);
+		;
         game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
         game.load.image("background", imagePath + "background.png");
         game.load.image("heartsIcon", imagePath + "hearts.png");

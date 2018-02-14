@@ -430,7 +430,7 @@ var magnet = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.spine('oof', "images/spines/Oof.json")  
         game.load.audio('magnetSong', soundsPath + 'songs/retrowave.mp3');

@@ -180,7 +180,7 @@ var imagic = function(){
 		
 		game.load.audio('neonSong', soundsPath + 'songs/technology_action.mp3');
 		
-		buttons.getImages(game)
+
         
         game.load.image('introscreen',"images/iMagic/tutorial/introscreen.png")
 		game.load.image('howTo',"images/iMagic/tutorial/how" + localization.getLanguage() + ".png")

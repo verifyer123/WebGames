@@ -122,7 +122,7 @@ var cortoCircuito = function(){
     
     function preload() {
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+
 
         game.load.spine('mascot', "images/spines/oon.json");
         

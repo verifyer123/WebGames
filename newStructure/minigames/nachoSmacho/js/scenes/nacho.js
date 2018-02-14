@@ -279,7 +279,7 @@ var nacho = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+
 		
         game.stage.disableVisibilityChange = false;
         

@@ -276,7 +276,7 @@ var divisubmarine = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+
         game.stage.disableVisibilityChange = false;
         
         game.load.spine('yogotar', "images/spines/Eagle.json")  
