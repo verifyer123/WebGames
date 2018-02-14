@@ -90,6 +90,9 @@ var sweetEmotions = function(){
     var lunaHappy
     var offAim
     var hearGroup
+    var acomplished 
+    var lose 
+    var limit
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -111,9 +114,12 @@ var sweetEmotions = function(){
         dinaHappy = false
         lunaHappy = false
         offAim = false
+        acomplished = false
+        lose = false
         rnd = -1
         ans = ''
         wer = ''
+        limit = null
         
         loadSounds()
 	}
@@ -396,17 +402,16 @@ var sweetEmotions = function(){
             
             if(pointer.x < game.world.centerX){
                 checkLeft()
+                limit = false
             }
             else{
                 checkRight()
+                limit = true
             }
 		}
     }
     
     function checkLeft(){
-        
-        if(pointer.x > game.world.centerX)
-            return
         
         for(var i = 0; i < chocoLeftGroup.length; i++){
             if(checkOverlap(pointer, chocoLeftGroup.children[i].image)){
@@ -452,7 +457,9 @@ var sweetEmotions = function(){
         }
         
         var chocoTween = game.add.tween(chocoWord.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0)
-		chocoTween.yoyo(true,0)
+		chocoTween.yoyo(true,0).onComplete.add(function(){
+            chocoWord.scale.setTo(1.3)
+        })
         
         pivotLeft++
     }
@@ -480,7 +487,9 @@ var sweetEmotions = function(){
         }
         
         var chocoTween = game.add.tween(chocoWord.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0)
-		chocoTween.yoyo(true,0)
+		chocoTween.yoyo(true,0).onComplete.add(function(){
+            chocoWord.scale.setTo(1.3)
+        })
         
         pivotRight++
     }
@@ -791,7 +800,7 @@ var sweetEmotions = function(){
 			
 		}
         
-        pointer = sceneGroup.create(0,0,'atlas.sweetEmotions','star')
+        pointer = sceneGroup.create(-200,0,'atlas.sweetEmotions','star')
 		pointer.scale.setTo(0.4)
 		pointer.anchor.setTo(0.5)
         
@@ -850,93 +859,108 @@ var sweetEmotions = function(){
     function clickUp(){
         
         click = false
-        gameActive = false
-        pointer.y = -100
-        var feeling
         
-        if(wordListLeft && wordListLeft.length > 1 && clickLeft){
-            
-            clickLeft = false
-            feeling = ''
-            for(var i = 0; i < wordListLeft.length; i++){
-                feeling += wordListLeft[i].text.text
-            }
-            
-            if(feeling == ans){
-                dinaHappy = true
-                dinamita.setAnimationByName(0, "HAPPY", true)
-                oof.setAnimationByName(0, "SHOOT", true)
-                game.time.events.add(800,function(){
-                    sound.play('throw')
-                    sound.play('towercollapse')
-                    addCoin()
-                },this)
-                if(!offAim){
-                    offAim = true
-                    oof.scale.setTo(-0.6, 0.6)
+        if(gameActive){
+            pointer.y = -100
+            var feeling
+
+            if(wordListLeft && wordListLeft.length > 1 && clickLeft){
+
+                clickLeft = false
+                feeling = ''
+                for(var i = 0; i < wordListLeft.length; i++){
+                    feeling += wordListLeft[i].text.text
                 }
-                oof.addAnimationByName(0, "IDLE", true)
-                game.time.events.add(1000,function(){
-                    hideAnswer(false)
-                    destroyChocolate(chocoLeftGroup, 0)
-                },this)
-			}else{
-				missPoint()
-                blackOrWithe(0xaaaaaa, chocoLeftGroup)
-                oof.setAnimationByName(0, "WRONG", true)
-                oof.addAnimationByName(0, "IDLE", true)
-			}
-            
-            showAnswer(false)
-            descativeDevice(chocoLeftGroup)
-        }
-        else if(wordListRight && wordListRight.length > 1 && clickRight){
-                
-            clickRight = false
-            feeling = ''
-            for(var i = 0; i < wordListRight.length; i++){
-                feeling += wordListRight[i].text.text
-            }
-            
-            if(feeling == wer){
-                lunaHappy = true
-                luna.setAnimationByName(0, "HAPPY", true)
-                oof.setAnimationByName(0, "SHOOT", true)
-                game.time.events.add(800,function(){
-                    sound.play('throw')
-                    sound.play('towercollapse')
-                    addCoin()
-                },this)
-                if(offAim){
-                    offAim = false
-                    oof.scale.setTo(0.6, 0.6)
+
+                if(feeling == ans){
+                    dinaHappy = true
+                    dinamita.setAnimationByName(0, "HAPPY", true)
+                    oof.setAnimationByName(0, "SHOOT", true)
+                    game.time.events.add(800,function(){
+                        sound.play('throw')
+                        sound.play('towercollapse')
+                        addCoin()
+                    },this)
+                    if(!offAim){
+                        offAim = true
+                        oof.scale.setTo(-0.6, 0.6)
+                    }
+                    oof.addAnimationByName(0, "IDLE", true)
+                    game.time.events.add(1000,function(){
+                        hideAnswer(false)
+                        destroyChocolate(chocoLeftGroup, 0)
+                    },this)
+                }else{
+                    missPoint()
+                    blackOrWithe(0xaaaaaa, chocoLeftGroup)
+                    oof.setAnimationByName(0, "WRONG", true)
+                    oof.addAnimationByName(0, "IDLE", true)
                 }
-                oof.addAnimationByName(0, "IDLE", true)
-                game.time.events.add(1000,function(){
-                    hideAnswer(true)
-                    destroyChocolate(chocoRightGroup, 1)
-                },this)
-			}else{
-				missPoint()
-                blackOrWithe(0xaaaaaa, chocoRightGroup)
-                oof.setAnimationByName(0, "WRONG", true)
-                oof.addAnimationByName(0, "IDLE", true)
-			}
+
+                showAnswer(false)
+                descativeDevice(chocoLeftGroup)
+            }
+            else if(wordListRight && wordListRight.length > 1 && clickRight){
+
+                clickRight = false
+                feeling = ''
+                for(var i = 0; i < wordListRight.length; i++){
+                    feeling += wordListRight[i].text.text
+                }
+
+                if(feeling == wer){
+                    lunaHappy = true
+                    luna.setAnimationByName(0, "HAPPY", true)
+                    oof.setAnimationByName(0, "SHOOT", true)
+                    game.time.events.add(800,function(){
+                        sound.play('throw')
+                        sound.play('towercollapse')
+                        addCoin()
+                    },this)
+                    if(offAim){
+                        offAim = false
+                        oof.scale.setTo(0.6, 0.6)
+                    }
+                    oof.addAnimationByName(0, "IDLE", true)
+                    game.time.events.add(1000,function(){
+                        hideAnswer(true)
+                        destroyChocolate(chocoRightGroup, 1)
+                    },this)
+                }else{
+                    missPoint()
+                    blackOrWithe(0xaaaaaa, chocoRightGroup)
+                    oof.setAnimationByName(0, "WRONG", true)
+                    oof.addAnimationByName(0, "IDLE", true)
+                }
+
+                showAnswer(true)
+                descativeDevice(chocoRightGroup)
+            }
+
+            feeling = missClick()
+
+
+            if(!clickRight && !clickLeft){
+                gameActive = false
+                acomplished = true
+            }
             
-            showAnswer(true)
-            descativeDevice(chocoRightGroup)
+            if(lives <= 0){
+                gameActive = false
+                acomplished = false
+            }
+
+
+            game.time.events.add(1000,function(){
+                if(lives !== 0){
+                    loveIsInTheAir()
+                }
+                else{
+                    if(!lose)
+                        offDestruction()
+                }
+            },this)
         }
-        
-        feeling = missClick()
-        
-        game.time.events.add(1000,function(){
-            if(lives !== 0){
-                loveIsInTheAir()
-            }
-            else{
-                offDestruction()
-            }
-        },this)
     }
     
     function missClick(){
@@ -990,8 +1014,8 @@ var sweetEmotions = function(){
     
     function offDestruction(){
         
-        console.log('lose')
         gameActive = false
+        lose = true
         oof.setAnimationByName(0, "LOSE_FALLIN", true)
         luna.setAnimationByName(0, "CRY", true)
         dinamita.setAnimationByName(0, "CRY", true)
@@ -1027,8 +1051,8 @@ var sweetEmotions = function(){
             win = true
         }
         
-        if(!clickRight && !clickLeft){
-            gameActive = false
+        if(acomplished){
+            acomplished = false
             
             if(win){
                 delay = 3100
@@ -1066,7 +1090,7 @@ var sweetEmotions = function(){
             }
             
             game.time.events.add(delay,function(){
-                if(lives !== 0 && pointsBar.number < 2){
+                if(lives !== 0 && pointsBar.number < 25){
                     restarElements()
                     initGame()
                     dinamita.setAnimationByName(0, "IDLE", true)
@@ -1086,9 +1110,6 @@ var sweetEmotions = function(){
                     })
                 }
             },this)
-        }
-        else{
-            gameActive = true
         }
     }
     
@@ -1111,6 +1132,7 @@ var sweetEmotions = function(){
         clickRight = true
         dinaHappy = false
         lunaHappy = false
+        acomplished = false
         
         restarElements()
         chocolateRain()
