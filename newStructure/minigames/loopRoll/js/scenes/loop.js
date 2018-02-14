@@ -297,7 +297,7 @@ var loop = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+		
         
         game.load.spine('yogotar', "images/spines/sam.json")  
 		game.load.spine('frootLoop', "images/spines/frootloop.json")  

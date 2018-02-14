@@ -123,7 +123,7 @@ var lizart = function(){
 		for(var d = 0;d<=5;d++){
 			game.load.image("fruit" + d, imagePath + "fruit" + d + ".png");
 		}
-		buttons.getImages(game);
+		;
 
 		game.load.image('tutorial_image',imagePath+"tutorial_image.png")
 		//loadType(gameIndex)

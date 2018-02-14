@@ -692,7 +692,7 @@ var dojo = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+
         
         game.load.spine('master', "images/spines/skeleton.json")  
         game.load.audio('dojoSong', soundsPath + 'songs/asianLoop2.mp3');

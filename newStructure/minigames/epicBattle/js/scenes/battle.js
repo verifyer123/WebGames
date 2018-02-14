@@ -1083,7 +1083,7 @@ var battle = function(){
 		game.load.bitmapFont('WAG', 'fonts/WAG.png', 'fonts/WAG.xml');
         game.load.spritesheet("hand", 'images/spines/Tuto/manita.png', 115, 111, 23)
         
-		// buttons.getImages(game)
+		//
 		// console.log(parent.isKinder)
 		soundsList = game.cache.getJSON('sounds')
 		// console.log(assets.spines[0].name, assets.spines[0].file)

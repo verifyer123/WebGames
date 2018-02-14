@@ -180,7 +180,7 @@ var flyingFractions = function(){
 	}
     function preload() {
 		//bgm
-		buttons.getImages(game)
+
 		game.stage.disableVisibilityChange = false;
 		
 		game.load.audio('bgm8bits',  soundsPath + 'songs/technology_action.mp3');

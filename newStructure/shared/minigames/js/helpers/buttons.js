@@ -3,10 +3,10 @@ var buttons = function () {
 	var imagesPath = "../../shared/minigames/images/"
 	var gameSong
 
-	var getImages = function () {
+	var getImages = function (currentLoader) {
 
-		game.load.image('audioOn', imagesPath + "buttons/audio_on.png")
-		game.load.image('audioOff', imagesPath + "buttons/audio_off.png")
+		currentLoader.image('audioOn', imagesPath + "buttons/audio_on.png")
+		currentLoader.image('audioOff', imagesPath + "buttons/audio_off.png")
 
 	}
 

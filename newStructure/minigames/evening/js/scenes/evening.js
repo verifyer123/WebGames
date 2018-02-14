@@ -296,7 +296,7 @@ var evening = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+
         
         game.load.audio('spaceSong', soundsPath + 'songs/technology_action.mp3');
         

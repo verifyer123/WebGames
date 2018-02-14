@@ -518,7 +518,7 @@ var clash = function(){
 
         game.load.spine('monsters', "images/spines/monster/monster.json")
         game.load.spine('dino', "images/spines/dino/dino.json")
-        buttons.getImages(game)
+        
 
         game.load.image('tutorial_image',"images/clash/tutorial_image.png")
         //loadType(gameIndex)

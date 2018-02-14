@@ -33,6 +33,8 @@ var satellite = function(){
             },
         ],
         images: [
+
+                
 		],
         spines: [
             {
@@ -92,7 +94,7 @@ var satellite = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 142
 	var indexGame
     var overlayGroup
     var spaceSong
@@ -256,7 +258,7 @@ var satellite = function(){
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
-        
+           
         var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
@@ -360,13 +362,21 @@ var satellite = function(){
     }
     
     
-    function preload(){
+    function preload(){                
+    
         
-		buttons.getImages(game)
+		
 		
         game.stage.disableVisibilityChange = false;
         epicparticles.loadEmitter(game.load, "pickedEnergy")
         
+        		var inputName = 'movil'
+		
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+        
+        game.load.image('tutorial_image',"images/satellite/tutorial_image" + inputName + ".png")
         
         game.load.audio('spaceSong', soundsPath + 'songs/electro_trance_minus.mp3');
         
@@ -388,56 +398,64 @@ var satellite = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
         
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
+        
+//        var rect = new Phaser.Graphics(game)
+//        rect.beginFill(0x000000)
+//        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+//        rect.alpha = 0.7
+//        rect.endFill()
+//        rect.inputEnabled = true
+//        rect.events.onInputDown.add(function(){
+//            rect.inputEnabled = false
+//			sound.play("pop")
+//            
+//            //Aqui va la primera funciòn que realizara el juego
+//           
+//            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+//                
+//				overlayGroup.y = -game.world.height
+//            })
+//            
+//        })
+//        
+//        overlayGroup.add(rect)
+//        
+//        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+//		plane.scale.setTo(1,1)
+//        plane.anchor.setTo(0.5,0.5)
+//		
+//		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.satellite','gametuto')
+//		tuto.anchor.setTo(0.5,0.5)
+//        
+//        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
+//		howTo.anchor.setTo(0.5,0.5)
+//		howTo.scale.setTo(0.8,0.8)
+//		
+
+//		
+//		console.log(inputName)
+//		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.satellite',inputName)
+//        inputLogo.anchor.setTo(0.5,0.5)
+//		inputLogo.scale.setTo(0.7,0.7)
+//		
+//		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.satellite','button')
+//		button.anchor.setTo(0.5,0.5)
+//		
+//		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+//		playText.anchor.setTo(0.5,0.5)
+    }
+    
+    function onClickPlay(){
+        sunAct=true
             //Aqui va la primera funciòn que realizara el juego
-            generateThem()
+        startGame=true
+        game.time.events.add(1250, function(){
+             generateThem()
             gameActive=true
             startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.satellite','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.satellite',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.satellite','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+        });
+        overlayGroup.y = -game.world.height
     }
     
     function releaseButton(obj){
@@ -505,9 +523,9 @@ var satellite = function(){
         life2.anchor.setTo(0.5)
         life3.anchor.setTo(0.5)
         
-        shield1Proxy.alpha=1
-        shield2Proxy.alpha=1
-        shield3Proxy.alpha=1
+        shield1Proxy.alpha=0
+        shield2Proxy.alpha=0
+        shield3Proxy.alpha=0
         
         chargingIcon1=game.add.sprite(life1.x+20,life1.y-35,"atlas.satellite","wifi");
         chargingIcon1.anchor.setTo(0.5)
@@ -579,23 +597,23 @@ var satellite = function(){
         
         satelliteGroup.scale.setTo(0.8)
         
-        shield1=game.add.spine(earth.centerX+80, earth.centerY-160,"satell")
+        shield1=game.add.spine(shield1Proxy.centerX, shield1Proxy.centerY,"satell")
         shield1.setSkinByName("normal");
         shield1.rotation=0.5
-        shield1.alpha=0
-//        shield1.setAnimationByName(0,"FULL",true)
+        shield1.alpha=1
+        shield1.setAnimationByName(0,"FULL",true)
         
-        shield2=game.add.spine(earth.centerX-90, earth.centerY-160,"satell")
+        shield2=game.add.spine(shield2Proxy.centerX, shield2Proxy.centerY,"satell")
         shield2.setSkinByName("normal");
         shield2.rotation=-0.5
-        shield2.alpha=0
-//        shield2.setAnimationByName(0,"FULL",true)
+        shield2.alpha=1
+        shield2.setAnimationByName(0,"FULL",true)
         
-        shield3=game.add.spine(earth.centerX, earth.centerY+180,"satell")
+        shield3=game.add.spine(shield3Proxy.centerX, shield3Proxy.centerY,"satell")
         shield3.setSkinByName("normal");
         shield3.rotation=91.10
-        shield1.alpha=0
-//        shield3.setAnimationByName(0,"FULL",true)
+        shield3.alpha=1
+        shield3.setAnimationByName(0,"FULL",true)
         
         satelliteGroup.add(shield1)
         satelliteGroup.add(shield2)
@@ -614,7 +632,7 @@ var satellite = function(){
             meteorsProxy[filling]=game.add.sprite(meteors[filling].x,meteors[filling].y,"atlas.satellite","wifiReceptor")
             meteorsProxy[filling].anchor.setTo(0.5)
             meteorsProxy[filling].scale.setTo(0.5)
-            meteorsProxy[filling].alpha=1
+            meteorsProxy[filling].alpha=0
         
         }
         
@@ -672,7 +690,7 @@ var satellite = function(){
         var destinyX=params.destinyX || game.world.centerX
         var destinyY=params.destinyY || game.world.centerY
         var where=game.rnd.integerInRange(0,1);
-        var generate=game.rnd.integerInRange(0,9);
+        var generate=game.rnd.integerInRange(1,9);
         if(howMany<howMuch){
             
             if(where==0){ 
@@ -818,27 +836,23 @@ var satellite = function(){
         
             
             
-            if(((checkOverlap(lifesProxy[0],shield2Proxy) && shield2Proxy.alpha==1)  || (checkOverlap(lifesProxy[0],shield1Proxy) && shield1Proxy.alpha==1) || (checkOverlap(lifesProxy[0],shield3Proxy) && shield3Proxy.alpha==1))&& numLifes1<5 && numLifes1>=1 && !charged1){
+            if(((checkOverlap(lifesProxy[0],shield2Proxy) && shield2.alpha==1)  || (checkOverlap(lifesProxy[0],shield1Proxy) && shield1.alpha==1) || (checkOverlap(lifesProxy[0],shield3Proxy) && shield3.alpha==1))&& numLifes1<5 && numLifes1>=1 && !charged1){
                  numLifes1++
                 sound.play("energy")
                 chargingIcon1.alpha=1;
                 chargingTween1.isPaused=false;
                 if(numLifes1==1){
                     lifes1[4].alpha=1
-                    shield1.setAnimationByName(0,"HIT",true)
                     charged1=true 
                     
                 }else if(numLifes1==2){
                     lifes1[3].alpha=1
-                    shield1.setAnimationByName(0,"HIT",true)
                     charged1=true
                 }else if(numLifes1==3){
-                    shield1.setAnimationByName(0,"HIT",true)
                     lifes1[2].alpha=1
                     charged1=true
                 }
                 if(numLifes1==4){
-                    shield1.setAnimationByName(0,"HIT",true)
                     lifes1[1].alpha=1
                     charged1=true
                 }
@@ -859,7 +873,7 @@ var satellite = function(){
                 
                 
               
-            if(((checkOverlap(lifesProxy[1],shield1Proxy) && shield1Proxy.alpha==1) || (checkOverlap(lifesProxy[1],shield2Proxy) && shield2Proxy.alpha==1) || (checkOverlap(lifesProxy[1],shield3Proxy) && shield3Proxy.alpha==1)) && numLifes2<5 && numLifes2>=1 && !charged2){
+            if(((checkOverlap(lifesProxy[1],shield1Proxy) && shield1.alpha==1) || (checkOverlap(lifesProxy[1],shield2Proxy) && shield2.alpha==1) || (checkOverlap(lifesProxy[1],shield3Proxy) && shield3.alpha==1)) && numLifes2<5 && numLifes2>=1 && !charged2){
                 numLifes2++
                 sound.play("energy")
                 chargingIcon2.alpha=1;
@@ -898,26 +912,22 @@ var satellite = function(){
                 
                     
             
-            if(((checkOverlap(lifesProxy[2],shield1Proxy) && shield1Proxy.alpha==1) || (checkOverlap(lifesProxy[2],shield2Proxy)  && shield2Proxy.alpha==1) || (checkOverlap(lifesProxy[2],shield3Proxy)  && shield3Proxy.alpha==1)) && numLifes3<5 && numLifes3>=1 && !charged3){
+            if(((checkOverlap(lifesProxy[2],shield1Proxy) && shield1.alpha==1) || (checkOverlap(lifesProxy[2],shield2Proxy)  && shield2.alpha==1) || (checkOverlap(lifesProxy[2],shield3Proxy)  && shield3.alpha==1)) && numLifes3<5 && numLifes3>=1 && !charged3){
                 numLifes3++
                 sound.play("energy")
                 chargingIcon3.alpha=1;
                 chargingTween3.isPaused=false;
                 if(numLifes3==1){
                     lifes3[4].alpha=1
-                    shield3.setAnimationByName(0,"HIT",true)
                     charged3=true
                 }else if(numLifes3==2){
                     lifes3[3].alpha=1
-                    shield3.setAnimationByName(0,"HIT",true)
                     charged3=true
                 }else if(numLifes3==3){
-                    shield3.setAnimationByName(0,"HIT",true)
                     lifes3[2].alpha=1
                     charged3=true
                 }
                 if(numLifes3==4){
-                    shield3.setAnimationByName(0,"HIT",true)
                     lifes3[1].alpha=1
                     charged3=true
                 }
@@ -942,18 +952,20 @@ var satellite = function(){
                 if(checkOverlap(meteorsProxy[checkCols], shield1Proxy)&& activeShield1){
                     
                     meteorsTween[checkCols].stop()
+                    shield1.setAnimationByName(0,"LOSE",false)
+                    sound.play("explosion")
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     temp1=checkCols
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp1].x=200
+                        meteorsProxy[temp1].x=-200
                         meteorsActive[temp1]=false
                         meteors[temp1].setAnimationByName(0,"IDLE",true)
-                        meteors[temp1].alpha=1
                         meteors[temp1].x=meteorsProxy[temp1].x
                         meteors[temp1].y=meteorsProxy[temp1].y
+                        shield1.x=-200;
+                        shield1.alpha=0
                     })
-                    shield1Proxy.x=-200;
-                    shield1Proxy.alpha=0
+                    
                     missPoint()
                     activeShield1=false
                 }
@@ -962,16 +974,19 @@ var satellite = function(){
                     meteorsTween[checkCols].stop()
                     temp2=checkCols
                     
+                    shield2.setAnimationByName(0,"LOSE",false)
+                    sound.play("explosion")
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp2].y=200
+                        meteorsProxy[temp2].y=-200
                         meteorsActive[temp2]=false
                         meteors[temp2].setAnimationByName(0,"IDLE",true)
                         meteors[temp2].x=meteorsProxy[temp2].x
                         meteors[temp2].y=meteorsProxy[temp2].y
+                        shield2.alpha=0
+                        shield2.x=-200;
                     })
-                    shield2Proxy.alpha=0
-                    shield2Proxy.x=-200;
+                    
                     missPoint()
                     activeShield2=false
                 }
@@ -980,17 +995,19 @@ var satellite = function(){
                     
                     meteorsTween[checkCols].stop()
                     temp3=checkCols
-                    meteorsActive[checkCols]=false
+                    shield3.setAnimationByName(0,"LOSE",false)
                     meteors[checkCols].setAnimationByName(0,"HIT",false)
+                    sound.play("explosion")
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp3].y=200
+                        meteorsProxy[temp3].y=-200
                         meteorsActive[temp3]=false
                         meteors[temp3].setAnimationByName(0,"IDLE",true)
                         meteors[temp3].x=meteorsProxy[temp3].x
                         meteors[temp3].y=meteorsProxy[temp3].y
+                        shield3.alpha=0
+                        shield3.x=-200;
                     })
-                    shield3Proxy.alpha=0
-                    shield3Proxy.x=-200;
+                    
                     missPoint()
                     activeShield3=false
                     
@@ -1000,11 +1017,11 @@ var satellite = function(){
                     
                     temp4=checkCols
                     
-                    game.add.tween(meteors[checkCols].scale).to({x:0,y:0}, 500, Phaser.Easing.Cubic.In, true)
-                    meteors[checkCols].setAnimationByName(0,"DISINTEGRATE",false)
+                    game.add.tween(meteors[checkCols].scale).to({x:0,y:0}, 550, Phaser.Easing.Cubic.In, true)
+                    meteors[checkCols].setAnimationByName(0,"DISINTEGRATE",true)
                     
                     game.time.events.add(500,function(){
-                        meteorsProxy[temp4].y=200
+                        meteorsProxy[temp4].y=-200
                         meteorsActive[temp4]=false
                         meteors[temp4].setAnimationByName(0,"IDLE",true)
                         temp4=0

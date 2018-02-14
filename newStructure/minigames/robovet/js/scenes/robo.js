@@ -500,7 +500,7 @@ var robo = function(){
 
 		game.load.spritesheet('riel', 'images/robo/riel.png', 308, 102, 23)
 
-		buttons.getImages(game)
+		
 		//loadType(gameIndex)
 
 	}

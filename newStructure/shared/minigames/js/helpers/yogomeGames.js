@@ -169,6 +169,7 @@ var yogomeGames = function () {
             {name:'Color Jewel',url:urlSet + 'colorJewel/',mapUrl:urlMap + 'colorJewel', sceneName:'colorJewel',subject:'language', review:false,objective:50,demo:false, type:gameTypeEnum.CHOOSE},//139
             {name:'Pizza Lab',url:urlSet + 'pizzaLab/',mapUrl:urlMap + 'pizzaLab', sceneName:'pizzaLab',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//140
             {name:'Sweet Emotions',url:urlSet + 'sweetEmotions/',mapUrl:urlMap + 'sweetEmotions', sceneName:'sweetEmotions',subject:'language', review:false,objective:25,demo:false, type:gameTypeEnum.TRACE},//141
+            {name:'Satellite',url:urlSet + 'satellite/',mapUrl:urlMap + 'satellite', sceneName:'satellite',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//142
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

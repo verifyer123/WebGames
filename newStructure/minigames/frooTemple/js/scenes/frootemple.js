@@ -290,7 +290,7 @@ var frootemple = function(){
         
         game.stage.disableVisibilityChange = false;
         
-		buttons.getImages(game)
+
         game.load.audio('spaceSong', soundsPath + 'songs/jungle_fun.mp3');
 		game.load.spine('sam', "images/spines/sam.json")
         

@@ -114,7 +114,7 @@ var bouncybath = function(){
 		game.load.spritesheet('water', imagePath + "sprites/" + 'waterPump.png', 128, 128, 6);
 		game.load.spine("cochino", imagePath + "spine/skeleton.json");
 		
-		buttons.getImages(game);
+		;
 	}
 
 	function loadSounds(){

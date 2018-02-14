@@ -545,7 +545,7 @@ var sky = function(){
         game.load.spritesheet('b_flying', 'images/sky/idle.png', 26, 125, 20)
         game.load.spine('owl', "images/spine/owl.json")
 
-        buttons.getImages(game)
+        
 
         game.load.image('tutorial_image',"images/sky/tutorial_image.png")
         //loadType(gameIndex)

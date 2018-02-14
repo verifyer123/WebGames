@@ -131,7 +131,7 @@ var monsterDungeon = function(){
     function preload() {
 		game.load.audio('sillyAdventureGameLoop',  soundsPath + 'songs/weLoveElectricCars.mp3');
 		/*Default*/
-		buttons.getImages(game);
+		;
 		game.load.image("heartsIcon", imagePath +"hearts.png");
 		game.load.image("xpIcon", imagePath +"xpcoins.png");	
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		

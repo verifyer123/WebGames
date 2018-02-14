@@ -151,7 +151,7 @@ var zucaritas = function(){
         
         game.load.spine('mascot', "images/spines/Tono.json");
         game.stage.disableVisibilityChange = false;  
-		buttons.getImages(game)
+		
         
 		if(!lowGraphics){
 			game.load.spritesheet('coinS', 'images/zucaritas/sprites/coinS.png', 125, 125, 24);

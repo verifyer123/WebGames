@@ -284,7 +284,7 @@ var magicGate = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+		
         
         game.load.spine('yogotar', "images/spines/yogotar.json")  
 		game.load.spine('monster',"images/spines/monster.json")

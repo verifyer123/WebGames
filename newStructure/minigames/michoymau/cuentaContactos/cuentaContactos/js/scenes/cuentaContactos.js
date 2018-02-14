@@ -166,7 +166,7 @@ var cuentaContactos = function(){
     
     function preload() {
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+
 
         game.load.spine('dinamita', "images/spines/dinamita.json");
         

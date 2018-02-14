@@ -264,7 +264,7 @@ var countip = function(){
 		game.load.image('box',"images/countip/box.png")
 		game.load.spine('centipede', "images/spine/centipede.json")
 
-		buttons.getImages(game)
+
 
 		game.load.image('tutorial_image',"images/countip/tutorial_image.png")
 		//loadType(gameIndex)

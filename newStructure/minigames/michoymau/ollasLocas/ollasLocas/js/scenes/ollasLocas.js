@@ -139,7 +139,7 @@ var ollasLocas = function(){
     
     function preload() {
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+		
 
         game.load.spine('pots', "images/spines/pots.json");
         

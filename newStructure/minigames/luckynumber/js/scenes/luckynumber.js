@@ -81,7 +81,7 @@ var luckynumber = function(){
     function preload() {
 		game.load.audio('sillyAdventureGameLoop',  soundsPath + 'songs/sillyAdventureGameLoop.mp3');
 		/*Default*/
-		buttons.getImages(game);
+		;
 		game.load.image('bgclock',imagePath + "bgclock.png");
 		game.load.image("heartsIcon", imagePath +"hearts.png");
 		game.load.image("xpIcon", imagePath +"xpcoins.png");	

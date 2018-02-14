@@ -293,7 +293,7 @@ var port = function(){
 		game.load.spine('plane', "images/spines/avion.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/funky_monkey.mp3');
 		
-		buttons.getImages(game)
+
         
 		/*game.load.image('howTo',"images/port/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/port/play" + localization.getLanguage() + ".png")

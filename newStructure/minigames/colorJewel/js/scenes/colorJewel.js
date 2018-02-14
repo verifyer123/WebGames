@@ -185,7 +185,7 @@ var colorJewel = function(){
 
         //loadType(gameIndex)
 
-        buttons.getImages(game)
+
 
     }
 

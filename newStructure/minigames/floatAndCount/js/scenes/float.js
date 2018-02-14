@@ -589,7 +589,7 @@ var float = function(){
         game.load.audio('spaceSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
 		game.load.spine('yogotar', "images/spines/oof.json") 
 		
-		buttons.getImages(game)
+		
         
 		/*game.load.image('howTo',"images/float/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/float/play" + localization.getLanguage() + ".png")

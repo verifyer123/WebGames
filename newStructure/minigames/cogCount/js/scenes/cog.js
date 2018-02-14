@@ -271,7 +271,7 @@ var cog = function(){
         //loadType(gameIndex)
 
 
-        buttons.getImages(game)
+
 
     }
 

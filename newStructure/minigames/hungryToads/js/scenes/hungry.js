@@ -401,7 +401,7 @@ var hungry = function(){
     function preload(){
         
         game.stage.disableVisibilityChange = false;
-		buttons.getImages(game)
+
         
         game.load.spine('toad', "images/spines/frog.json")  
         game.load.audio('spaceSong', soundsPath + 'songs/adventure.mp3');

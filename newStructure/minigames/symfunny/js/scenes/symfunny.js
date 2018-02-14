@@ -278,7 +278,7 @@ var symfunny = function(){
     
     function preload(){
         
-		buttons.getImages(game)
+		
 		
         game.stage.disableVisibilityChange = false;
         
