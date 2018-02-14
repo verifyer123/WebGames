@@ -71,7 +71,8 @@ var base = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
-            
+            {   name:"acornSong",
+				file: soundsPath + 'songs/childrenbit.mp3'}
 			
 		],
         jsons: [
@@ -93,7 +94,7 @@ var base = function(){
     var tutoGroup
 	var indexGame
     var overlayGroup
-    var spaceSong
+    var baseSong
     
     var backgroundGroup=null
     
@@ -287,7 +288,7 @@ var base = function(){
         
         
         
-        spaceSong.stop()
+        baseSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -609,10 +610,11 @@ var base = function(){
 			
 			createBackground()
 			addParticles()
+            baseSong = sound.play("acornSong", {loop:true, volume:0.6})
                         			
-            spaceSong = game.add.audio('spaceSong')
-            game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+            baseSong = game.add.audio('acornSong')
+            game.sound.setDecodedCallback(baseSong, function(){
+                baseSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -624,12 +626,13 @@ var base = function(){
             }, this);
             
             initialize()
+            
 			            
 			createPointsBar()
 			createHearts()
             createTutorial()
 			
-			buttons.getButton(spaceSong,sceneGroup)
+			buttons.getButton(baseSong,sceneGroup)
             
             animateScene()
             
