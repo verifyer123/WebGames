@@ -751,14 +751,21 @@ var chakBlock = function(){
             for(var j = 0; j<ARRAY_HEIGTH; j++){
                 var value = arrayValues[i][j].value
                 var alone = true
+                var nearColors = []
                 if(i < ARRAY_WIDTH-1){
                     if(arrayValues[i+1][j].value == value){
                         alone = false
+                    }
+                    else{
+                        nearColors.push(arrayValues[i+1][j].value)
                     }
                 }
                 if(i > 0){
                     if(arrayValues[i-1][j].value == value){
                         alone = false
+                    }
+                    else{
+                        nearColors.push(arrayValues[i-1][j].value)
                     }
                 }
 
@@ -766,19 +773,25 @@ var chakBlock = function(){
                     if(arrayValues[i][j+1].value == value){
                         alone = false
                     }
+                    else{
+                        nearColors.push(arrayValues[i][j+1].value)
+                    }
                 }
                 if(j > 0){
                     if(arrayValues[i][j-1].value == value){
                         alone = false
+                    }
+                    else{
+                        nearColors.push(arrayValues[i][j-1].value)
                     }
                 }
 
                 if(alone){
                     
                     var r = game.rnd.frac()
-                    //if(r>0.1){
-                        r = game.rnd.integerInRange(0,currentColors-1)
-                        r = arrayColors[r]
+                    if(r>0.4){
+                        r = game.rnd.integerInRange(0,nearColors.length-1)
+                        r = nearColors[r]
 
                         arrayValues[i][j].value = r
                         arrayValues[i][j].object.type = r
@@ -800,7 +813,7 @@ var chakBlock = function(){
                             arrayValues[i][j].object.loadTexture('atlas.chakBlock','amarillo')
                             break
                         }
-                    //}
+                    }
 
                 }
 
