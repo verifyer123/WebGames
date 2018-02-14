@@ -45,6 +45,9 @@ var base = function(){
 			}
 
 		],
+        spines: [
+
+        ],
         spritesheets: [
             {
                 name:"coin",
