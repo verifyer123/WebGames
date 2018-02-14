@@ -1,6 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
 var base = function(){
     
     var localizationData = {
@@ -30,10 +31,29 @@ var base = function(){
                 json: "images/base/timeAtlas.json",
                 image: "images/base/timeAtlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
         ],
         images: [
+            
+            {
+				name:'tutorial_image',
+				file:"images/base/tutorial_image_%input.png"
+			}
 
 		],
+        spritesheets: [
+            {
+                name:"coin",
+                file:"images/Spine/coin/coin.png",
+                width:122,
+                height:123,
+                frames:12
+            }
+        ],
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
@@ -69,13 +89,13 @@ var base = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 1
+    var tutoGroup
 	var indexGame
     var overlayGroup
     var spaceSong
     
     var backgroundGroup=null
-    
     
     var tweenTiempo
     var clock, timeBar
@@ -86,13 +106,26 @@ var base = function(){
 	}
 
 	function initialize(){
-
+          
         game.stage.backgroundColor = "#000000"
         lives = 3
         emitter=""
         loadSounds()
 	}
 
+    function onClickPlay(rect) {
+        tutoGroup.y = -game.world.height
+    }
+    
+    function createTutorial(){
+        
+        tutoGroup = game.add.group()
+		//overlayGroup.scale.setTo(0.8,0.8)
+        sceneGroup.add(tutoGroup)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+        
+    }
+    
     function popObject(obj,delay){
         
         game.time.events.add(delay,function(){
@@ -267,82 +300,11 @@ var base = function(){
     }
     
     
-    function preload(){
-        
-
-		
+    function preload(){		
         game.stage.disableVisibilityChange = false;
-        epicparticles.loadEmitter(game.load, "pickedEnergy")
-        
-        
-        game.load.audio('spaceSong', soundsPath + 'songs/electro_trance_minus.mp3');
-        
-		game.load.image('howTo',"images/base/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/base/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/base/introscreen.png")
-        
-        //game.load.spine("ship","images/Spine/ship/ship.json")
-		
-		console.log(localization.getLanguage() + ' language')
-        
+        epicparticles.loadEmitter(game.load, "pickedEnergy") 
     }
     
-    function createOverlay(){
-        
-        overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            
-            //Aqui va la primera funciòn que realizara el juego
-            
-            startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.base','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'Movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.base',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.base','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
-    }
     
     function releaseButton(obj){
         
@@ -350,6 +312,7 @@ var base = function(){
     }
 
 	function createBackground(){
+        
 	   backgroundGroup = game.add.group()
        sceneGroup.add(backgroundGroup)
         
@@ -418,8 +381,8 @@ var base = function(){
         var inputCallback = params.inputCallback
         var isColor = params.isColor || "ffffff"
         
-        var turnToSprite=game.add.sprite(posX/2,posY/2)
-        var circle = game.add.graphics(turnToSprite.centerX, turnToSprite.centerY);
+        var turnToSprite=game.add.sprite(posX,posY)
+        var circle = game.add.graphics(turnToSprite.centerX/200-3, turnToSprite.centerY/200-3);
         turnToSprite.anchor.setTo(anchorX,anchorY)
         turnToSprite.addChild(circle)   
         //Agregar linea para fisicas : game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -444,6 +407,7 @@ var base = function(){
         emitter.duration=0.05;
         emitter.x = game.world.centerX
         emitter.y = game.world.centerY
+        Coin(obj,pointsBar,10)
     }
     
     function reset(){
@@ -556,6 +520,7 @@ var base = function(){
     }
 	
 	function addParticles(){
+        
 		
 		particlesGroup = game.add.group()
 		sceneGroup.add(particlesGroup)
@@ -631,9 +596,14 @@ var base = function(){
 		
 		assets: assets,
 		name: "base",
-		update: update,
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
-		create: function(event){
+        preload:preload,
+        update:update,
+		getGameData:function () {
+			var games = yogomeGames.getGames()
+			return games[gameIndex]
+		},
+            create: function(event){
+            
             
 			sceneGroup = game.add.group()
 			
@@ -657,9 +627,9 @@ var base = function(){
 			            
 			createPointsBar()
 			createHearts()
+            createTutorial()
 			
 			buttons.getButton(spaceSong,sceneGroup)
-            createOverlay()
             
             animateScene()
             
