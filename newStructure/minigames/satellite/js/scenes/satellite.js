@@ -138,7 +138,7 @@ var satellite = function(){
         lives = 3
         charged1=false
         charged2=false
-        timerRest=500
+        timerRest=200
         speedCreate=10000;
         temp4=0
         gameActive=true
@@ -811,7 +811,7 @@ var satellite = function(){
                     if(numLifes3==0){
                         lifes3[4].alpha=0
                     }
-                 timerRest=500
+                 timerRest=200
                  
                  if(numLifes1==0){
                      missPoint()
@@ -880,19 +880,15 @@ var satellite = function(){
                 chargingTween2.isPaused=false;
                 if(numLifes2==1){
                     lifes2[4].alpha=1
-                    shield2.setAnimationByName(0,"HIT",true)
                     charged2=true
                 }else if(numLifes2==2){
                     lifes2[3].alpha=1
-                    shield2.setAnimationByName(0,"HIT",true)
                     charged2=true
                 }else if(numLifes2==3){
-                    shield2.setAnimationByName(0,"HIT",true)
                     lifes2[2].alpha=1
                     charged2=true
                 }
                 if(numLifes2==4){
-                    shield2.setAnimationByName(0,"HIT",true)
                     lifes2[1].alpha=1
                     charged2=true
                 }
