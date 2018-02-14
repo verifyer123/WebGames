@@ -177,7 +177,7 @@ h3:after {
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     font-size: 2.5vh;
-    height: 4vh;
+    height: 5vh;
 }
 
 .logoSize{
@@ -257,6 +257,10 @@ h3:after {
     width: 80%;
     color: #FFF;
     font-size: 2.5vh;
+}
+
+#back img{
+    width:33.333%
 }
 
 .bgBlue {
@@ -735,9 +739,13 @@ input[type=text]:focus {
 }
 
 .checkbox{
-    position: absolute;
+    position: absolute !important;
     left: 13%;
     width: 4vh;
+}
+
+hr {
+    border-top: 2px solid #9b9898 !important;
 }
 
 

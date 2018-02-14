@@ -295,13 +295,21 @@ var sweetEmotions = function(){
     
     function preload(){
         
-		
-		
+        //buttons.getImages(game)
+        
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('loveSong', soundsPath + 'songs/happy_game_memories.mp3');
         
-        game.load.image('tutorial_image',"images/sweetEmotions/gametuto.png")
+        //game.load.image('tutorial_image',"images/sweetEmotions/gametuto.png")
+        game.load.image('howTo',"images/sweetEmotions/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/sweetEmotions/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/sweetEmotions/introscreen.png")
+		game.load.image('gametuto',"images/sweetEmotions/gametuto.png")
+		game.load.image('button',"images/sweetEmotions/button.png")
+		game.load.image('desktop',"images/sweetEmotions/button.png")
+		game.load.image('movil',"images/sweetEmotions/button.png")
+        
         game.load.image('background',"images/sweetEmotions/background.png")
         game.load.image('floor',"images/sweetEmotions/floor.png")
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
@@ -348,6 +356,7 @@ var sweetEmotions = function(){
             game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
                 
 				overlayGroup.y = -game.world.height
+                initGame()
             })
             
         })
@@ -358,8 +367,9 @@ var sweetEmotions = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.sweetEmotions','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY, 'gametuto')
 		tuto.anchor.setTo(0.5,0.5)
+		tuto.scale.setTo(0.8)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
 		howTo.anchor.setTo(0.5,0.5)
@@ -372,11 +382,12 @@ var sweetEmotions = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.sweetEmotions',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125, inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
+        inputLogo.alpha = 0
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.sweetEmotions','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -1357,7 +1368,7 @@ var sweetEmotions = function(){
             createParticles()
 			
 			buttons.getButton(loveSong,sceneGroup)
-            createTutorial()
+            createOverlay()
             
             animateScene()
             

@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.canvas, null, {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.canvas, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("sweetEmotions")
+				sceneloader.show("gourmetTraveller")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -39,10 +39,9 @@ function startGame(){
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;
+        game.stage.disableVisibilityChange = true;        
 
-        // game.plugins.add(Fabrique.Plugins.Spine);
-		game.plugins.add(PhaserSpine.SpinePlugin);
+        game.plugins.add(Fabrique.Plugins.Spine);
         
         var language = "EN"
         if(window.location.search){
@@ -67,7 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            sweetEmotions,
+            gourmetTraveller,
             result,
     	])
     }

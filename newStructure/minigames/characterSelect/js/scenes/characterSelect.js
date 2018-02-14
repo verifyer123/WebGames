@@ -529,7 +529,7 @@ var characterSelect = function(){
 
 		assets: assets,
 		name: "characterSelect",
-		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+		preload:preload,
 		update:update,
 		create: function(event){
 
