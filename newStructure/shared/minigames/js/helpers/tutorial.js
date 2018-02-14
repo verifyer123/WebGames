@@ -15,6 +15,7 @@ var tutorialHelper = function () {
 	var noWebmTextType
 	var howkey = "how_to_play"
 	var playKey = "button_play"
+	var backKey = "background_tutorial"
 
 	function createTutorialGif(group,onClickFunction){
 
@@ -46,7 +47,7 @@ var tutorialHelper = function () {
 
 		//return
 
-		var plane = group.create(game.world.centerX, game.world.centerY+60,'atlas.tutorial','background_tutorial')
+		var plane = group.create(game.world.centerX, game.world.centerY+60,backKey)
 		plane.scale.setTo(1,1)
 		plane.anchor.setTo(0.5,0.5)
 
@@ -83,10 +84,10 @@ var tutorialHelper = function () {
 		// }
 		// else{
 
-			var spine = game.add.spine(game.world.centerX-120, game.world.centerY+480,"tutorialGif")
-			spine.setSkinByName("normal")
-			spine.setAnimationByName(0,"IDLE",true)
-			group.add(spine)
+		var spine = game.add.spine(game.world.centerX-120, game.world.centerY+480,"tutorialGif")
+		spine.setSkinByName("normal")
+		spine.setAnimationByName(0,"IDLE",true)
+		group.add(spine)
 
 		// }
 
@@ -247,9 +248,7 @@ var tutorialHelper = function () {
 		currentLoader.spine(obj.name, obj.file)
 		currentLoader.image(howkey,tutorialPath+'images/tutorial/how_'+localization.getLanguage()+'.png')
 		currentLoader.image(playKey,tutorialPath+'images/tutorial/play_'+localization.getLanguage()+'.png')
-
-			//noWebmTextType = path+"trace.gif"
-			//game.load.image("tutorialGif",path+"test.gif")
+		currentLoader.image(backKey,tutorialPath+'images/tutorial/background_tutorial.png')
 
 
 
