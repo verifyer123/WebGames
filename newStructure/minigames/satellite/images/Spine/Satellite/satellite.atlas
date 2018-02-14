@@ -1,60 +1,32 @@
 
 satellite.png
-size: 256,128
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal/antena
-  rotate: false
-  xy: 209, 25
-  size: 33, 21
-  orig: 33, 21
-  offset: 0, 0
-  index: -1
 normal/exp1
   rotate: false
-  xy: 98, 31
+  xy: 43, 104
   size: 47, 53
   orig: 47, 53
   offset: 0, 0
   index: -1
 normal/explotion
   rotate: false
-  xy: 2, 30
+  xy: 2, 159
   size: 94, 95
   orig: 94, 95
   offset: 0, 0
   index: -1
-normal/nivel1
-  rotate: false
-  xy: 29, 5
-  size: 39, 23
-  orig: 39, 23
-  offset: 0, 0
-  index: -1
-normal/nivel2
-  rotate: false
-  xy: 70, 5
-  size: 39, 23
-  orig: 39, 23
-  offset: 0, 0
-  index: -1
-normal/nivel3
-  rotate: false
-  xy: 111, 6
-  size: 39, 23
-  orig: 39, 23
-  offset: 0, 0
-  index: -1
 normal/remains1
   rotate: false
-  xy: 152, 9
+  xy: 98, 179
   size: 55, 75
   orig: 55, 75
   offset: 0, 0
   index: -1
 normal/remains2
-  rotate: true
+  rotate: false
   xy: 2, 2
   size: 26, 25
   orig: 26, 25
@@ -62,14 +34,14 @@ normal/remains2
   index: -1
 normal/remains3
   rotate: false
-  xy: 209, 48
+  xy: 155, 218
   size: 38, 36
   orig: 38, 36
   offset: 0, 0
   index: -1
 normal/satellite
-  rotate: false
-  xy: 111, 86
+  rotate: true
+  xy: 2, 29
   size: 128, 39
   orig: 128, 39
   offset: 0, 0
