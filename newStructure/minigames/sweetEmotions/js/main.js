@@ -39,9 +39,10 @@ function startGame(){
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;        
+        game.stage.disableVisibilityChange = true;
 
-        game.plugins.add(Fabrique.Plugins.Spine);
+        // game.plugins.add(Fabrique.Plugins.Spine);
+		game.plugins.add(PhaserSpine.SpinePlugin);
         
         var language = "EN"
         if(window.location.search){
