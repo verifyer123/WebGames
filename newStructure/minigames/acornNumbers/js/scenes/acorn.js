@@ -22,11 +22,6 @@ var acorn = function(){
                 json: "images/acorn/atlas.json",
                 image: "images/acorn/atlas.png"
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [

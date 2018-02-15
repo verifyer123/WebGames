@@ -25,11 +25,6 @@ var feather = function(){
                 json: "images/feather/atlas.json",
                 image: "images/feather/atlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
         ],
         images: [
 			{   name:"background",
@@ -449,7 +444,7 @@ var feather = function(){
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)*/
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
     }
     
@@ -487,7 +482,6 @@ var feather = function(){
 	}
 	
 	function update(){
-		tutorialUpdate()
 		clouds.tilePosition.x+= 0.4
 	}
 	

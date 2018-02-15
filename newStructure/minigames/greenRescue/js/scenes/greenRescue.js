@@ -32,11 +32,6 @@ var greenRescue = function(){
                 json: "images/green/timeAtlas.json",
                 image: "images/green/timeAtlas.png",
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [

@@ -23,11 +23,6 @@ var wild = function(){
                 json: "images/wild/atlas.json",
                 image: "images/wild/atlas.png"
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [

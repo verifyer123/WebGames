@@ -31,11 +31,6 @@ var flapitat = function(){
                 json: "images/flapitat/timeAtlas.json",
                 image: "images/flapitat/timeAtlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
         ],
         images: [
             

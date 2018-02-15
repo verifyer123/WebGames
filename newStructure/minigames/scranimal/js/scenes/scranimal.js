@@ -29,11 +29,6 @@ var scranimal = function(){
                 json: "images/scranimal/timeAtlas.json",
                 image: "images/scranimal/timeAtlas.png"
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
 

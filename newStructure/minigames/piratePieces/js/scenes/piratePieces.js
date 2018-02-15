@@ -22,11 +22,6 @@ var piratePieces = function(){
                 json: "images/piratePieces/atlas.json",
                 image: "images/piratePieces/atlas.png",
 			},
-			 {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 ],
         images: [
 			
@@ -986,7 +981,7 @@ var piratePieces = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -1080,7 +1075,7 @@ var piratePieces = function(){
 	return {
 		assets: assets,
 		name: "piratePieces",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,	
 	}

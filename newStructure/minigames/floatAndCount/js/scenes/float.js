@@ -29,11 +29,6 @@ var float = function(){
                 json: "images/float/atlas.json",
                 image: "images/float/atlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -841,7 +836,7 @@ var float = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)

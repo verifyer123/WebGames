@@ -28,11 +28,6 @@ var invader = function(){
                 json: "images/invader/atlas.json",
                 image: "images/invader/atlas.png",
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -370,7 +365,7 @@ var invader = function(){
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
         
     }

@@ -23,11 +23,6 @@ var robo = function(){
 				json: "images/robo/atlas.json",
 				image: "images/robo/atlas.png"
 			},
-			{   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
 		],
 		images: [
@@ -130,7 +125,7 @@ var robo = function(){
 	}
 
 	function update(){
-		tutorialUpdate()
+	
 	}
 
 	function addPoint(number){

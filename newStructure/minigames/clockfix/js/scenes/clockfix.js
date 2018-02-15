@@ -12,11 +12,6 @@ var clockfix = function(){
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
 			},
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
             ],
         images: [],

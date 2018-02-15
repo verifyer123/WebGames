@@ -31,11 +31,6 @@ var shotPut = function(){
                 json: "images/shotPut/timeAtlas.json",
                 image: "images/shotPut/timeAtlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -289,7 +284,7 @@ var shotPut = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         
         /*var rect = new Phaser.Graphics(game)

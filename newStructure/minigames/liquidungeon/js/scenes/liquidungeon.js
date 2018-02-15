@@ -300,7 +300,7 @@ var liquidungeon = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -372,8 +372,6 @@ var liquidungeon = function(){
     }
 
 	function update(){
-
-        tutorialUpdate()
         
         clouds.tilePosition.x -= speed * 0.1
         floor.tilePosition.x -= speed

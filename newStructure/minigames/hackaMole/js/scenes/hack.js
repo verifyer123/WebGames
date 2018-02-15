@@ -34,11 +34,6 @@ var hack = function(){
                 json: "images/hack/atlas.json",
                 image: "images/hack/atlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [

@@ -380,9 +380,9 @@ var satellite = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/electro_trance_minus.mp3');
         
-		game.load.image('howTo',"images/satellite/how" + localization.getLanguage() + ".png")
+		/*game.load.image('howTo',"images/satellite/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/satellite/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/satellite/introscreen.png")
+		game.load.image('introscreen',"images/satellite/introscreen.png")*/
         
         //game.load.spritesheet("coin", 'Spine/coin/coin.png', 122, 123, 12)
         
