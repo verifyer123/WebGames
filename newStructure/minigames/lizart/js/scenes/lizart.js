@@ -181,7 +181,7 @@ var lizart = function(){
 		
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
 
        /* var rect = new Phaser.Graphics(game)
@@ -566,8 +566,9 @@ var lizart = function(){
 	return {
 		assets: assets,
 		name: "lizart",
-		preload: preload,
-		create: createScene,
+		preload:preload,
+		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+		create:createScene,
 		update:update,
 		show: function(event){
 			initialize()
