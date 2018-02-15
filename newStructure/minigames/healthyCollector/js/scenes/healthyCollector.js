@@ -140,11 +140,11 @@ var healthyCollector = function(){
 		
         sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
         overlayGroup = game.add.group()
-		if(game.device != 'desktop'){
+		/*if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
 		}else{
 			overlayGroup.scale.setTo(1.2,1.2);
-		}
+		}*/
 		
         sceneGroup.add(overlayGroup)
 
@@ -507,7 +507,7 @@ var healthyCollector = function(){
 	return {
 		assets: assets,
 		name: "healthyCollector",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

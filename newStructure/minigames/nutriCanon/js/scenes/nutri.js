@@ -50,6 +50,12 @@ var nutri = function(){
 			
 			
 		],
+		spines:[
+		{
+			name:"tutorialGif",
+			file:tutorialPath+"tutorial_gifs/"+"target"+"/"+"target"+".json"
+		}
+		]
     }
     
 	var OFF_OBJECTS = 400
@@ -995,9 +1001,10 @@ var nutri = function(){
 			createHearts()
 			
 			buttons.getButton(canonSong,sceneGroup)
+			addParticles()
             createOverlay()
 			
-			addParticles()
+			
             
             animateScene()
             

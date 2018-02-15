@@ -654,7 +654,7 @@ var flyingFractions = function(){
 	return {
 		assets: assets,
 		name: "flyingFractions",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

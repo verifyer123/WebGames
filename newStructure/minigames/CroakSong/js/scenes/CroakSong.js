@@ -1048,7 +1048,7 @@ function keyDownFrog(object){
 	return {
 		assets: assets,
 		name: "CroakSong",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

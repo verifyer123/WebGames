@@ -813,7 +813,7 @@ var flightoclock = function(){
 	return {
 		assets: assets,
 		name: "flightoclock",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

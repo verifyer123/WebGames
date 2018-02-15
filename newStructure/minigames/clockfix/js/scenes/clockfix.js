@@ -623,7 +623,7 @@ var clockfix = function(){
 	return {
 		assets: assets,
 		name: "clockfix",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

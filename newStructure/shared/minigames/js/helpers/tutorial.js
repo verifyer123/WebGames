@@ -201,7 +201,8 @@ var tutorialHelper = function () {
 
 		//return
 		console.log(gameData)
-		var path = tutorialPath+"tutorial_gifs/"
+		var sharePath = "../../shared/minigames/"
+		var path = sharePath+"tutorial_gifs/"
 		var videoName
 
 		goalScore = gameData.objective
@@ -238,17 +239,16 @@ var tutorialHelper = function () {
 				break
 		}
 
-		// currentScene.assets.spines = currentScene.assets.spines || []
 		var obj = {
 			name:"tutorialGif",
 			file:path+videoName+"/"+videoName+".json"
 		}
-		// currentScene.assets.spines.push(obj)
+
 
 		currentLoader.spine(obj.name, obj.file)
-		currentLoader.image(howkey,tutorialPath+'images/tutorial/how_'+localization.getLanguage()+'.png')
-		currentLoader.image(playKey,tutorialPath+'images/tutorial/play_'+localization.getLanguage()+'.png')
-		currentLoader.image(backKey,tutorialPath+'images/tutorial/background_tutorial.png')
+		currentLoader.image(howkey,sharePath+'images/tutorial/how_'+localization.getLanguage()+'.png')
+		currentLoader.image(playKey,sharePath+'images/tutorial/play_'+localization.getLanguage()+'.png')
+		currentLoader.image(backKey,sharePath+'images/tutorial/background_tutorial.png')
 
 
 

@@ -173,11 +173,11 @@ var lizart = function(){
 
         
 
-		if(game.device != 'desktop'){
+		/*if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
 		}else{
 			overlayGroup.scale.setTo(1.2,1.2);
-		}
+		}*/
 		
         sceneGroup.add(overlayGroup)
 

@@ -923,7 +923,7 @@ var float = function(){
 	
 	return {
 		assets: assets,
-        preload: preload,
+        preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         update:update,
 		name: "float",
 		create: function(event){
