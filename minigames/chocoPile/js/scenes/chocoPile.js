@@ -1010,7 +1010,7 @@ var chocoPile = function(){
 
         cityImage = sceneGroup.create(game.world.centerX,game.world.height,'atlas.game','ciudad')
         cityImage.anchor.setTo(0.5,1)
-        cityImage.scale.setTo(1.2,1.2)
+        cityImage.scale.setTo(1.4,1.4)
 
         loadSounds()
         initialize()  
