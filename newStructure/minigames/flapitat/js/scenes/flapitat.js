@@ -64,15 +64,15 @@ var flapitat = function(){
             },
             {
                 name:"AnimS",
-                file:"images/Spine/jungle/savanna_animals.json",
+                file:"images/Spine/savanna/savanna_animals.json",
             },
             {
                 name:"AnimD",
-                file:"images/Spine/jungle/desert_animals.json",
+                file:"images/Spine/desert/desert_animals.json",
             },
             {
                 name:"AnimF",
-                file:"images/Spine/jungle/forest_animals.json",
+                file:"images/Spine/forest/forest_animals.json",
             },
             {
                 name:"AnimJ",
@@ -81,12 +81,47 @@ var flapitat = function(){
         ],
         spritesheets: [
             {
+                name:"Msavanna",
+                file:"images/Spine/spriteSheet/savanna.png",
+                width:594,
+                height:645,
+                frames:20
+            },
+            {
+                name:"Mdesert",
+                file:"images/Spine/spriteSheet/desert.png",
+                width:594,
+                height:645,
+                frames:20
+            },
+            {
+                name:"Mforest",
+                file:"images/Spine/spriteSheet/forest.png",
+                width:594,
+                height:645,
+                frames:20
+            },
+            {
+                name:"Mjungle",
+                file:"images/Spine/spriteSheet/jungle.png",
+                width:594,
+                height:645,
+                frames:20
+            },
+            {
                 name:"coin",
                 file:"images/Spine/coin/coin.png",
                 width:122,
                 height:123,
                 frames:12
-            }
+            },
+            {
+                name:"manita",
+                file:"images/Spine/manita/manita.png",
+                width:115,
+                height:111,
+                frames:5
+            },
         ],
 		sounds: [
             {	name: "magic",
@@ -94,7 +129,7 @@ var flapitat = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -106,7 +141,7 @@ var flapitat = function(){
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
             {   name:"flapiSong",
-				file: soundsPath + 'songs/childrenbit.mp3'}
+				file: soundsPath + 'songs/jungle_fun.mp3'}
 			
 		],
         jsons: [
@@ -126,23 +161,31 @@ var flapitat = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 1
     var tutoGroup
+    var scoreText
 	var indexGame
     var overlayGroup
     var baseSong
-    
+    var tutorial=true
+    var style
+    var possProxyX,possProxyY
     var actualScenario
     var tagToWin
     var fourAnimalsToChoose=new Array(4)
     var threeAnimalsInStage=new Array(3)
+    var proxyNames=new Array(12)
     var allAnimals=new Array(12)
+    var allSpineAnimals=new Array(3)
     var animalsActive=new Array(12)
     var actualBook
+    var countToWin
+    var hand
+    var startGame,pastLevel
     
     var backgroundGroup=null
     
     var tweenTiempo
     var clock, timeBar
-    var animalsToPut,animalsOverall
+    var animalsToPut,animalsOverall, animalsInStage
     var emitter
     var choosedPos,choosedPos2,choosedPos3,choosedPos4
 
@@ -153,13 +196,19 @@ var flapitat = function(){
 	function initialize(){
         game.stage.backgroundColor = "#000000";
         lives = 3;
+        pastLevel=true
         emitter="";
         animalsToPut=1;
+        animalsInStage=1
+        startGame=false
         loadSounds();
+        countToWin=0
 	}
 
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
+        chooseCorrectAnimals()
+        startGame=true
     }
     
     function createTutorial(){
@@ -292,6 +341,7 @@ var flapitat = function(){
         pointsBar.number = 0
         
     }
+
     
     function createHearts(){
         
@@ -357,8 +407,30 @@ var flapitat = function(){
         
 	   backgroundGroup = game.add.group()
        sceneGroup.add(backgroundGroup)
+        
+        pestañaGroup=game.add.group()
         spineGroup=game.add.group()
+        sceneGroup.add(pestañaGroup)
         sceneGroup.add(spineGroup)
+        
+        
+        //Aqui pongo el grupo de la pestaña
+        
+        pest=game.add.sprite(game.world.centerX-130,game.world.centerY-290,"atlas.flapitat","pestaniaa");
+        pest.anchor.setTo(0.5,0.5);
+        pest.scale.setTo(0.1,0.1);
+        pestañaGroup.add(pest);
+        
+        style = {font: "35px VAGRounded", fontWeight: "bold", fill: "#B22480", align: "center"}
+        scoreText = game.add.text(game.world.centerX, game.world.centerY, "0", style)
+        pestañaGroup.add(scoreText)
+        scoreText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        animalsInStage=1
+        scoreText._text=animalsInStage.toString()
+        
+        
+        
+        game.add.tween(pest).to({y:game.world.centerY-330},800,Phaser.Easing.Cubic.Out,true)
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -404,6 +476,8 @@ var flapitat = function(){
             book4.alpha=0
             
         
+        
+        
         //Aqui pongo el proxy del escenario
         
             scenarioProxy=game.add.sprite(game.world.centerX,game.world.centerY+120,"atlas.flapitat","hola");
@@ -429,6 +503,10 @@ var flapitat = function(){
         allAnimals[2].tag="Savanna"
         allAnimals[2].alpha=0
         
+        proxyNames[0]="AnimS";
+        proxyNames[1]="AnimS";
+        proxyNames[2]="AnimS";
+        
         allAnimals[3]=game.add.sprite(100,100,"atlas.flapitat","CAMEL");
         allAnimals[3].tag="Desert"
         allAnimals[3].alpha=0
@@ -438,6 +516,10 @@ var flapitat = function(){
         allAnimals[5]=game.add.sprite(100,100,"atlas.flapitat","SNAKE");
         allAnimals[5].tag="Desert"
         allAnimals[5].alpha=0
+        
+        proxyNames[3]="AnimD";
+        proxyNames[4]="AnimD";
+        proxyNames[5]="AnimD";
         
         allAnimals[6]=game.add.sprite(100,100,"atlas.flapitat","BEAR");
         allAnimals[6].tag="Forest"
@@ -449,57 +531,139 @@ var flapitat = function(){
         allAnimals[8].tag="Forest"
         allAnimals[8].alpha=0
         
+        proxyNames[6]="AnimF";
+        proxyNames[7]="AnimF";
+        proxyNames[8]="AnimF";
         
         allAnimals[9]=game.add.sprite(100,100,"atlas.flapitat","MONKEY");
         allAnimals[9].tag="Jungle"
         allAnimals[9].alpha=0
-        allAnimals[10]=game.add.sprite(100,100,"atlas.flapitat","PANTERA");
+        allAnimals[10]=game.add.sprite(100,100,"atlas.flapitat","PANTHER");
         allAnimals[10].tag="Jungle"
         allAnimals[10].alpha=0
         allAnimals[11]=game.add.sprite(100,100,"atlas.flapitat","TOUCAN");
         allAnimals[11].tag="Jungle"
         allAnimals[11].alpha=0
         
+        proxyNames[9]="AnimJ";
+        proxyNames[10]="AnimJ";
+        proxyNames[11]="AnimJ";
+        
+        
         //Aqui coloco a los animales que estaran disponibles para el book
         
         for(var forPick=0; forPick<4; forPick++){
             fourAnimalsToChoose[forPick]=game.add.sprite(game.world.centerX-140*forPick+210,game.world.height-100,"atlas.flapitat","BEAR")
-            fourAnimalsToChoose[forPick].inputEnabled=true;
+//            fourAnimalsToChoose[forPick].inputEnabled=true;
             fourAnimalsToChoose[forPick].scale.setTo(0.7,0.7)
             fourAnimalsToChoose[forPick].anchor.setTo(0.5,0.5)
-            fourAnimalsToChoose[forPick].input.enableDrag(true);
+//            fourAnimalsToChoose[forPick].input.enableDrag(true);
             fourAnimalsToChoose[forPick].events.onDragStop.add(onDragStop, this);
+            fourAnimalsToChoose[forPick].events.onDragStart.add(onDragStart, this);
+            fourAnimalsToChoose[forPick].alpha=0
             spineGroup.add(fourAnimalsToChoose[forPick])
         }
         animalsToPut=1
-        chooseCorrectAnimals()
-
+        
+         //Tutorial
+        
+        hand=game.add.sprite(100,100,"manita")
+        hand.anchor.setTo(0.5)
+        hand.scale.setTo(0.5)
+        hand.animations.add('handi');
+        
+        
+        
+        spineGroup.add(hand)
         
         //Coins
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
         coins.anchor.setTo(0.5)
         coins.scale.setTo(0.5)
         coins.animations.add('coin');
-        coins.animations.play('coin', 24, true);
+        coins.play("coin",24,true);
         coins.alpha=0
+        
+        //Transition Savanna
+        sav=game.add.sprite(game.world.centerX+3,game.world.centerY-37, "Msavanna")
+        sav.anchor.setTo(0.5)
+        sav.animations.add('sav');
+        sav.alpha=0
+        
+        //Transition Desert
+        des=game.add.sprite(game.world.centerX+3,game.world.centerY-37, "Mdesert")
+        des.anchor.setTo(0.5)
+        des.animations.add('des');
+        des.alpha=0
+        
+        
+        //Transition Forest
+        fore=game.add.sprite(game.world.centerX+3,game.world.centerY-37, "Mforest")
+        fore.anchor.setTo(0.5)
+        fore.animations.add('fore');
+        fore.alpha=0
+        
+        //Transition Jungle
+        jung=game.add.sprite(game.world.centerX+3,game.world.centerY-37, "Mjungle")
+        jung.anchor.setTo(0.5)
+        jung.animations.add('jung');
+        jung.alpha=0
+        
+       
+        
     }
     
     function onDragStop(obj){
-        
+        hand.alpha=0
         for(var check=0;check<4;check++){
             if(checkOverlap(fourAnimalsToChoose[check],scenarioProxy) && fourAnimalsToChoose[check].alpha==1){
                 if(scenarioProxy.tag==fourAnimalsToChoose[check].tag){
                     Coin(fourAnimalsToChoose[check],pointsBar,70);
+                    animalsInStage--
                     fourAnimalsToChoose[check].inputEnabled=false
                     fourAnimalsToChoose[check].alpha=0
+                    allSpineAnimals[check].alpha=1
+                    countToWin++
+                    if(countToWin==animalsToPut){
+                        countToWin=0;
+                        fourAnimalsToChoose[0].inputEnabled=false;
+                        fourAnimalsToChoose[1].inputEnabled=false;
+                        fourAnimalsToChoose[2].inputEnabled=false;
+                        fourAnimalsToChoose[3].inputEnabled=false;
+                        if(pointsBar.number==3){
+                            animalsToPut=2;
+                        }
+                        if(pointsBar.number>=12){
+                            animalsToPut=3;
+                        }
+                        game.time.events.add(1000,function(){
+                            pastLevel=true
+                            for(var forPick=0; forPick<4; forPick++){
+                                fourAnimalsToChoose[forPick].x=game.world.centerX-140*forPick+210
+                                fourAnimalsToChoose[forPick].y=game.world.height-100
+                                fourAnimalsToChoose[forPick].inputEnabled=true;
+                                allSpineAnimals[forPick].alpha=0                                   
+                            }
+                            chooseNextScenario()
+                        })
+                    }
                     //Aqui ira el cambio de spine
                 }else{
-                    missPoint()
+                    obj.x=possProxyX;
+                    obj.y=possProxyY+20;
+                    missPoint();
+                    
                 }
             }
         }
     }
     
+    function onDragStart(obj){
+        if(obj.y>game.world.centerY+200){
+            possProxyX=obj.x;
+            possProxyY=obj.y-5;
+        }
+    }
      //funcion para checar si sprites estan colicionando
      function checkOverlap(spriteA, spriteB) {
 
@@ -514,6 +678,9 @@ var flapitat = function(){
         //animals to put
         //primer voy a meter la cantidad de animales correctos en el juego
         
+        animalsInStage=animalsToPut;
+        scoreText.setText(animalsInStage.toString())
+        
         randAnimal1=0
         randAnimal2=0
         randAnimal3=0
@@ -523,14 +690,12 @@ var flapitat = function(){
         choosedPos3=game.rnd.integerInRange(0,3);
         choosedPos4=game.rnd.integerInRange(0,3);
         
-        console.log(choosedPos,choosedPos2,choosedPos3,choosedPos4)
         
         while(choosedPos==choosedPos2 || choosedPos==choosedPos3 || choosedPos==choosedPos4 || choosedPos2==choosedPos3 || choosedPos2==choosedPos4 || choosedPos3==choosedPos4){
             choosedPos=game.rnd.integerInRange(0,3);
             choosedPos2=game.rnd.integerInRange(0,3);
             choosedPos3=game.rnd.integerInRange(0,3);
             choosedPos4=game.rnd.integerInRange(0,3);
-            console.log("entro")
             if(choosedPos!=choosedPos2 && choosedPos!=choosedPos3 && choosedPos!=choosedPos4 && choosedPos2!=choosedPos3 && choosedPos2!=choosedPos4 && choosedPos3!=choosedPos4){
                 chooseCorrectAnimalsSecondPart()
             }
@@ -543,9 +708,11 @@ var flapitat = function(){
     
     function chooseCorrectAnimalsSecondPart(){
         
+        
         if(scenarioNumber==0){
-
-                if(animalsToPut==1){
+                
+            
+                if(animalsToPut==1){                    
                     while(randAnimal1==randAnimal2 || randAnimal1==randAnimal3 || randAnimal2==randAnimal3 || randAnimal1==0 || randAnimal2==0 || randAnimal3==0){
                         randAnimal1=game.rnd.integerInRange(0,11)
                         randAnimal2=game.rnd.integerInRange(0,11)
@@ -558,7 +725,53 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[randAnimal1].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[0]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal1]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        if(tutorial){
+                            hand.x=fourAnimalsToChoose[choosedPos].x
+                            hand.y=fourAnimalsToChoose[choosedPos].y
+                            hand.play("handi",6,false);
+                            
+                            hand.alpha=1
+                            game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY+100},1400,Phaser.Easing.InOut,true).loop(true)
+                                 hand.play("handi",1,true);   
+                            
+                            game.time.events.add(1500,function(){
+                                 tutorial=false;
+                            })
+                            
+                        }
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[0]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[randAnimal1]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
+                    
                 }else
                 if(animalsToPut==2){
                     while(randAnimal2==randAnimal3 || randAnimal2==0 || randAnimal3==0 || randAnimal2==1 || randAnimal3==1){
@@ -572,8 +785,38 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[1].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[0]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[1]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[0]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[1]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
-
+                    
                 }else
                 if(animalsToPut==3){
                     while(randAnimal3==0 || randAnimal3==1 || randAnimal3==2){
@@ -586,6 +829,36 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[1].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[0]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[1]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[0]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[1]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }
 
@@ -605,6 +878,51 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[randAnimal1].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[3]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal1]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        if(tutorial){
+                            hand.x=fourAnimalsToChoose[choosedPos].x
+                            hand.y=fourAnimalsToChoose[choosedPos].y
+                            hand.play("handi",6,false);
+                            
+                            hand.alpha=1
+                            game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY+100},1400,Phaser.Easing.InOut,true).loop(true)
+                                 hand.play("handi",1,true);   
+                            
+                            game.time.events.add(1500,function(){
+                                 tutorial=false;
+                            })
+                            
+                        }
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[3]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[randAnimal1]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }else
                 if(animalsToPut==2){
@@ -619,10 +937,40 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[4].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[3]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[4]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[3]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[4]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }else
                 if(animalsToPut==3){
-                    while(randAnimal3==3 || randAnimal3==4 || randAnimal3==5){
+                    while(randAnimal3==3 || randAnimal3==4 || randAnimal3==5 || randAnimal3==0){
                         randAnimal3=game.rnd.integerInRange(0,11)
                         fourAnimalsToChoose[choosedPos].loadTexture("atlas.flapitat",allAnimals[3]._frame.name);
                         fourAnimalsToChoose[choosedPos2].loadTexture("atlas.flapitat",allAnimals[4]._frame.name);
@@ -632,6 +980,36 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[4].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[5].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[3]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[4]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[5]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[3]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[4]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[5]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }
 
@@ -652,6 +1030,51 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[randAnimal1].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[6]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal1]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        if(tutorial){
+                            hand.x=fourAnimalsToChoose[choosedPos].x
+                            hand.y=fourAnimalsToChoose[choosedPos].y
+                            hand.play("handi",6,false);
+                            
+                            hand.alpha=1
+                            game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY+100},1400,Phaser.Easing.InOut,true).loop(true)
+                                 hand.play("handi",1,true);   
+                            
+                            game.time.events.add(1500,function(){
+                                 tutorial=false;
+                            })
+                            
+                        }
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[6]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[randAnimal1]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }else
                 if(animalsToPut==2){
@@ -666,10 +1089,40 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[7].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[6]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[7]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[6]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[7]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                         allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }else
                 if(animalsToPut==3){
-                    while(randAnimal3==6 || randAnimal3==7 || randAnimal3==8){
+                    while(randAnimal3==6 || randAnimal3==7 || randAnimal3==8 || randAnimal3==0){
                         randAnimal3=game.rnd.integerInRange(0,11)
                         fourAnimalsToChoose[choosedPos].loadTexture("atlas.flapitat",allAnimals[6]._frame.name);
                         fourAnimalsToChoose[choosedPos2].loadTexture("atlas.flapitat",allAnimals[7]._frame.name);
@@ -679,6 +1132,36 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[7].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[8].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[6]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[7]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[8]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[6]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[7]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[8]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }
 
@@ -694,10 +1177,57 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].loadTexture("atlas.flapitat",allAnimals[randAnimal1]._frame.name);
                         fourAnimalsToChoose[choosedPos3].loadTexture("atlas.flapitat",allAnimals[randAnimal2]._frame.name);
                         fourAnimalsToChoose[choosedPos4].loadTexture("atlas.flapitat",allAnimals[randAnimal3]._frame.name);
+                         
                         fourAnimalsToChoose[choosedPos].tag=allAnimals[9].tag
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[randAnimal1].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                         
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[9]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal1]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                         
+                         if(tutorial){
+                            hand.x=fourAnimalsToChoose[choosedPos].x
+                            hand.y=fourAnimalsToChoose[choosedPos].y
+                            hand.play("handi",6,false);
+                            
+                            hand.alpha=1
+                            game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY+100},1400,Phaser.Easing.InOut,true).loop(true)
+                                 hand.play("handi",1,true);   
+                            
+                            game.time.events.add(1500,function(){
+                                 tutorial=false;
+                            })
+                            
+                        }
+                         
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[9]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[randAnimal1]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                         
+                         
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                         
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                          
                     }
                 }else
@@ -713,10 +1243,40 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[10].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[randAnimal2].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
+                        
+                        allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[9]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[10]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal2]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[9]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[10]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[randAnimal2]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                         
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
                     }
                 }else
                 if(animalsToPut==3){
-                    while(randAnimal3==9 || randAnimal3==10 || randAnimal3==11){
+                    while(randAnimal3==9 || randAnimal3==10 || randAnimal3==11 || randAnimal3==0){
                         randAnimal3=game.rnd.integerInRange(0,11)
                         fourAnimalsToChoose[choosedPos].loadTexture("atlas.flapitat",allAnimals[9]._frame.name);
                         fourAnimalsToChoose[choosedPos2].loadTexture("atlas.flapitat",allAnimals[10]._frame.name);
@@ -726,10 +1286,43 @@ var flapitat = function(){
                         fourAnimalsToChoose[choosedPos2].tag=allAnimals[10].tag
                         fourAnimalsToChoose[choosedPos3].tag=allAnimals[11].tag
                         fourAnimalsToChoose[choosedPos4].tag=allAnimals[randAnimal3].tag
-                    }
+                        
+                       allSpineAnimals[choosedPos]=game.add.spine(0,game.world.height-30,proxyNames[9]);
+                        allSpineAnimals[choosedPos2]=game.add.spine(0,game.world.height-30,proxyNames[10]);
+                        allSpineAnimals[choosedPos3]=game.add.spine(0,game.world.height-30,proxyNames[11]);
+                        allSpineAnimals[choosedPos4]=game.add.spine(0,game.world.height-30,proxyNames[randAnimal3]);
+                        
+                        allSpineAnimals[choosedPos].alpha=0;
+                        allSpineAnimals[choosedPos2].alpha=0;
+                        allSpineAnimals[choosedPos3].alpha=0;
+                        allSpineAnimals[choosedPos4].alpha=0;
+                        
+                        allSpineAnimals[choosedPos].setSkinByName(allAnimals[9]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos2].setSkinByName(allAnimals[10]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos3].setSkinByName(allAnimals[11]._frame.name.toLowerCase());
+                        allSpineAnimals[choosedPos4].setSkinByName(allAnimals[randAnimal3]._frame.name.toLowerCase());
+                        
+                        allSpineAnimals[choosedPos].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos2].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
+                        allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
+                        
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        
+                        spineGroup.add(allSpineAnimals[choosedPos])
+                        spineGroup.add(allSpineAnimals[choosedPos2])
+                        spineGroup.add(allSpineAnimals[choosedPos3])
+                        spineGroup.add(allSpineAnimals[choosedPos4])
+                    }   
                 }
             }
-        
+                        fourAnimalsToChoose[choosedPos].alpha=1
+                        fourAnimalsToChoose[choosedPos2].alpha=1
+                        fourAnimalsToChoose[choosedPos3].alpha=1
+                        fourAnimalsToChoose[choosedPos4].alpha=1
     }
     
     function chooseScenario(){
@@ -742,6 +1335,7 @@ var flapitat = function(){
             actualBook.setAnimationByName(0,"IDLE",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Savanna"
+            actualBook.alpha=1
         }
         if(scenarioNumber==1){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookD")
@@ -749,6 +1343,7 @@ var flapitat = function(){
             actualBook.setAnimationByName(0,"IDLE",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Desert"
+            actualBook.alpha=1
         }
         if(scenarioNumber==2){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookF")
@@ -756,6 +1351,7 @@ var flapitat = function(){
             actualBook.setAnimationByName(0,"IDLE",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Forest"
+            actualBook.alpha=1
         }
         if(scenarioNumber==3){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookJ")
@@ -763,6 +1359,7 @@ var flapitat = function(){
             actualBook.setAnimationByName(0,"IDLE",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Jungle"
+            actualBook.alpha=1
         }
         
         spineGroup.add(book)
@@ -774,88 +1371,142 @@ var flapitat = function(){
     
     function chooseNextScenario(){
         
+        if(scenarioNumber==0){
+            sav.alpha=1
+            sav.play("sav",24,false);
+        }
+        if(scenarioNumber==1){
+            des.alpha=1
+            des.play("des",24,false);
+        }
+        if(scenarioNumber==2){
+            fore.alpha=1
+            fore.play("fore",24,false);
+        }
+        if(scenarioNumber==3){
+            jung.alpha=1
+            jung.play("jung",24,false);
+        }
+        
+        
+       
+        
         scenarioNumber=game.rnd.integerInRange(0,3);
+
+        book.alpha=0;
+        book2.alpha=0;
+        book3.alpha=0;
+        book4.alpha=0;
         
         if(scenarioNumber==0){
-           actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookS")
-            actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"MOVE",true)
+            book.alpha=1;
+        }
+        if(scenarioNumber==1){
+            book2.alpha=1;
+        }
+        if(scenarioNumber==2){
+            book3.alpha=1;
+        }
+        if(scenarioNumber==3){
+            book4.alpha=1;
+        }
+        
+
+        
+        if(scenarioNumber==0){
+            scenarioProxy.tag="Savanna"
+            actualBook.alpha=0
             spineGroup.add(actualBook)
             
             //desaparecemos animales y aparecemos entorno 
             
             //primero a los animales
-            game.time.events.add(200,function(){
-                threeAnimalsInStage[0].alpha=0;
-                //Aqui aparezco el siguiente libro
-                book.alpha=1
-                game.time.events.add(200,function(){
-                    threeAnimalsInStage[1].alpha=0;
-                    game.time.events.add(200,function(){
-                        threeAnimalsInStage[2].alpha=0;
+            game.time.events.add(400,function(){
+                fourAnimalsToChoose[0].alpha=0;
+                game.time.events.add(400,function(){
+                    fourAnimalsToChoose[1].alpha=0;
+                    game.time.events.add(400,function(){
+                        fourAnimalsToChoose[2].alpha=0;
+                        game.time.events.add(400,function(){
+                            fourAnimalsToChoose[3].alpha=0;
+                            game.time.events.add(400,function(){
+                                chooseCorrectAnimals()
+                            })
+                        })
                     })
                 })
             })
         }
         if(scenarioNumber==1){
-            actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookD")
-            actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"MOVE",true)
+            scenarioProxy.tag="Desert"
             spineGroup.add(actualBook)
-            
+            actualBook.alpha=0
             //desaparecemos animales y aparecemos entorno 
             
             //primero a los animales
-            game.time.events.add(200,function(){
-                threeAnimalsInStage[0].alpha=0;
+            game.time.events.add(400,function(){
+                fourAnimalsToChoose[0].alpha=0;
                 //Aqui aparezco el siguiente libro
-                book2.alpha=1
-                game.time.events.add(200,function(){
-                    threeAnimalsInStage[1].alpha=0;
-                    game.time.events.add(200,function(){
-                        threeAnimalsInStage[2].alpha=0;
+                game.time.events.add(400,function(){
+                    fourAnimalsToChoose[1].alpha=0;
+                    game.time.events.add(400,function(){
+                        fourAnimalsToChoose[2].alpha=0;
+                        game.time.events.add(400,function(){
+                            fourAnimalsToChoose[3].alpha=0;
+                            game.time.events.add(400,function(){
+                                chooseCorrectAnimals()
+                                book2.alpha=1
+                            })
+                        })
                     })
                 })
             })
         }
         if(scenarioNumber==2){
-            actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookF")
-            actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"MOVE",true)
+            scenarioProxy.tag="Forest"
             spineGroup.add(actualBook)
-            
+            actualBook.alpha=0
             //desaparecemos animales y aparecemos entorno 
             
             //primero a los animales
-            game.time.events.add(200,function(){
-                threeAnimalsInStage[0].alpha=0;
+            game.time.events.add(400,function(){
+                fourAnimalsToChoose[0].alpha=0;
                 //Aqui aparezco el siguiente libro
-                book3.alpha=1
-                game.time.events.add(200,function(){
-                    threeAnimalsInStage[1].alpha=0;
-                    game.time.events.add(200,function(){
-                        threeAnimalsInStage[2].alpha=0;
+                game.time.events.add(400,function(){
+                    fourAnimalsToChoose[1].alpha=0;
+                    game.time.events.add(400,function(){
+                        fourAnimalsToChoose[2].alpha=0;
+                        game.time.events.add(400,function(){
+                            fourAnimalsToChoose[3].alpha=0;
+                            game.time.events.add(400,function(){
+                                chooseCorrectAnimals()
+                                book3.alpha=1
+                            })
+                        })
                     })
                 })
             })
         }
         if(scenarioNumber==3){
-            actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookJ")
-            actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"MOVE",true)
+            scenarioProxy.tag="Jungle"
             spineGroup.add(actualBook)
-            
+            actualBook.alpha=0
             //desaparecemos animales y aparecemos entorno 
             
             //primero a los animales
-            game.time.events.add(200,function(){
-                threeAnimalsInStage[0].alpha=0;
-                //Aqui aparezco el siguiente libro
-                book4.alpha=1
-                game.time.events.add(200,function(){
-                    threeAnimalsInStage[1].alpha=0;
-                    game.time.events.add(200,function(){
-                        threeAnimalsInStage[2].alpha=0;
+            game.time.events.add(400,function(){
+                fourAnimalsToChoose[0].alpha=0;
+                game.time.events.add(400,function(){
+                    fourAnimalsToChoose[1].alpha=0;
+                    game.time.events.add(400,function(){
+                        fourAnimalsToChoose[2].alpha=0;
+                        game.time.events.add(400,function(){
+                            fourAnimalsToChoose[3].alpha=0;
+                            game.time.events.add(400,function(){
+                                chooseCorrectAnimals()
+                                book4.alpha=1
+                            })
+                        })
                     })
                 })
             })
@@ -865,6 +1516,8 @@ var flapitat = function(){
         spineGroup.add(book2);
         spineGroup.add(book3);
         spineGroup.add(book4);
+        
+        
     }
     
     
@@ -896,7 +1549,30 @@ var flapitat = function(){
 	function update(){
         if(startGame){
             epicparticles.update()
+            if(startGame){
+            for(var follow=0; follow<4;follow++){
+                allSpineAnimals[follow].x=fourAnimalsToChoose[follow].x;
+                allSpineAnimals[follow].y=fourAnimalsToChoose[follow].y+70;
+            }
             
+            if(tutorial){
+                fourAnimalsToChoose[choosedPos].x=hand.x;
+                fourAnimalsToChoose[choosedPos].y=hand.y;
+            }else if(!tutorial && pastLevel){
+                fourAnimalsToChoose[choosedPos].inputEnabled=true;
+                fourAnimalsToChoose[choosedPos2].inputEnabled=true;
+                fourAnimalsToChoose[choosedPos3].inputEnabled=true;
+                fourAnimalsToChoose[choosedPos4].inputEnabled=true;
+                fourAnimalsToChoose[choosedPos].input.enableDrag(true);
+                fourAnimalsToChoose[choosedPos2].input.enableDrag(true);
+                fourAnimalsToChoose[choosedPos3].input.enableDrag(true);
+                fourAnimalsToChoose[choosedPos4].input.enableDrag(true);
+                pastLevel=false;
+            }
+            scoreText.x = pest.x-10
+            scoreText.y = pest.y-30
+            scoreText.setText(animalsInStage)
+            }
         }
 
 	}
