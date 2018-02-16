@@ -12,11 +12,6 @@ var pizzafraction = function(){
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
 			},
-			{   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 ],
         images: [],
 		sounds: [
@@ -82,9 +77,9 @@ var pizzafraction = function(){
 		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
 		game.load.image('pc',imagePath +"tutorial/desktop.png");
 		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
+		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
 		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");
+		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
 		/*GAME*/
 		game.load.image("background",imagePath + "background.png");
 		game.load.image("circles",imagePath + "circles.png");
@@ -414,7 +409,7 @@ var isMobile = {
 	return {
 		assets: assets,
 		name: "pizzafraction",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

@@ -23,12 +23,6 @@ var sushi = function(){
                 json: "images/sushi/atlas.json",
                 image: "images/sushi/atlas.png"
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
-
 
         ],
         images: [

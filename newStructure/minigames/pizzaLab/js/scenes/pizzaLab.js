@@ -30,11 +30,6 @@ var pizzaLab = function(){
                 json: "images/pizzaLab/timeAtlas.json",
                 image: "images/pizzaLab/timeAtlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
         ],
         images: [
 

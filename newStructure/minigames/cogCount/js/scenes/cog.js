@@ -23,11 +23,6 @@ var cog = function(){
                 json: "images/cog/atlas.json",
                 image: "images/cog/atlas.png"
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [

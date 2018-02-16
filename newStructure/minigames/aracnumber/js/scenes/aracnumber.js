@@ -577,7 +577,7 @@ var aracnumber = function(){
 	return {
 		assets: assets,
 		name: "aracnumber",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

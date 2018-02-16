@@ -11,11 +11,6 @@ var flyingFractions = function(){
                 json: imagePath + "atlas.json",
                 image: imagePath + "atlas.png",
 			},
-			{   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 			],
         images: [],
 		sounds: [
@@ -267,7 +262,7 @@ var flyingFractions = function(){
 		
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -659,7 +654,7 @@ var flyingFractions = function(){
 	return {
 		assets: assets,
 		name: "flyingFractions",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

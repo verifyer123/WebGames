@@ -45,11 +45,6 @@ var ice = function(){
                 json: "images/ice/atlas.json",
                 image: "images/ice/atlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -492,7 +487,7 @@ var ice = function(){
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         
         /*var rect = new Phaser.Graphics(game)

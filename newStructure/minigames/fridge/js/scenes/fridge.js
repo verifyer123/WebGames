@@ -31,11 +31,6 @@ var fridge = function(){
                 json: "images/fridge/timeAtlas.json",
                 image: "images/fridge/timeAtlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -326,7 +321,7 @@ var fridge = function(){
         sceneGroup.add(overlayGroup)
         
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
@@ -398,7 +393,6 @@ var fridge = function(){
 
 	function update(){
 
-        tutorialUpdate()
 
         
         for(var f = 0; f < food.length - 1; f++){

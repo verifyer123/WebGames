@@ -31,11 +31,6 @@ var galactic = function(){
                 json: "images/galactic/atlastime.json",
                 image: "images/galactic/atlastime.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -372,7 +367,7 @@ var galactic = function(){
         overlayGroup = game.add.group()
         sceneGroup.add(overlayGroup)
         
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
         
         /*var rect = new Phaser.Graphics(game)

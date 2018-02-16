@@ -24,11 +24,6 @@ var countip = function(){
 				json: "images/countip/atlas.json",
 				image: "images/countip/atlas.png"
 			},
-			{   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
 		],
 		images: [

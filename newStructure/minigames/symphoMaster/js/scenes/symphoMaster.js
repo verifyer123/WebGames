@@ -28,11 +28,6 @@ var symphoMaster = function(){
                 json: "images/sympho/timeAtlas.json",
                 image: "images/sympho/timeAtlas.png"
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         /*images: [

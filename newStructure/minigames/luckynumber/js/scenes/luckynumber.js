@@ -11,11 +11,6 @@ var luckynumber = function(){
                 //json: "images/bouncybath/atlas.json",
                 //image: "images/bouncybath/atlas.png",
 			},
-			{   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
 			],
         images: [],
@@ -550,7 +545,6 @@ var isMobile = {
 
 	
 	function update() {
-		tutorialUpdate()
         if(starGame){
 		if(ruletaGroup.angle <= 360){
           ruletaGroup.angle += giro  
@@ -570,7 +564,7 @@ var isMobile = {
 	return {
 		assets: assets,
 		name: "luckynumber",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){

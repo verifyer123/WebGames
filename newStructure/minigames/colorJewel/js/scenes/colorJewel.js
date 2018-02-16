@@ -25,11 +25,6 @@ var colorJewel = function(){
                 json: "images/colorJewel/atlas.json",
                 image: "images/colorJewel/atlas.png"
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
         ],
         /*images: [
             {   name:"fondo",
@@ -374,7 +369,6 @@ var colorJewel = function(){
     
     function update() {
 
-    	tutorialUpdate()
 
         if(!gameActive){
         	return

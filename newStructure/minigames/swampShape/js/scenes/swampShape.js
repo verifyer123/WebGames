@@ -11,11 +11,6 @@ var swampShape = function(){
                 json:  imagePath + "atlas.json",
                 image:  imagePath + "atlas.png",
 			},
-			{   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 	],
         images: [],
 		sounds: [
@@ -832,7 +827,7 @@ var swampShape = function(){
 	return {
 		assets: assets,
 		name: "swampShape",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:function() {
 			if (isActive) {

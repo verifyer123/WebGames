@@ -11,11 +11,6 @@ var spaceCount = function(){
                 json: "images/spaceCount/atlas.json",
                 image: "images/spaceCount/atlas.png"
 			},
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 ],
         images: [
             {
@@ -526,7 +521,7 @@ var spaceCount = function(){
 	return {
 		assets: assets,
 		name: "spaceCount",
-		preload: preload,
+		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		update:update,
 		show: function(event){
