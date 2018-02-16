@@ -29,11 +29,7 @@ var geotunnel = function(){
 				json: "images/geotunnel/atlas.json",
 				image: "images/geotunnel/atlas.png"
 			},
-			 {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
+
 
 		],
 		images: [

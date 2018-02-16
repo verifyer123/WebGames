@@ -23,11 +23,7 @@ var clash = function(){
                 json: "images/clash/atlas.json",
                 image: "images/clash/atlas.png"
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
+
 
         ],
         images: [

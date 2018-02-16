@@ -49,6 +49,8 @@ export class Login extends React.Component {
 			console.log("success")
 			$('#loadSpace').css("display", "none")
 			this.props.setChildData(response.child)
+			this.props.addChildData("subscribed", response.subscribed)
+			this.props.addChildData("daysToExpire", response.daysToExpire)
 			this.props.handleClick("continue")
 		}
 

@@ -30,11 +30,6 @@ var balanceScience = function(){
                 name: "atlas.time",
                 json: "images/balanceScience/timeAtlas.json",
                 image: "images/balanceScience/timeAtlas.png",
-            },
-              {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
 
         ],
@@ -310,7 +305,7 @@ var balanceScience = function(){
         sceneGroup.add(overlayGroup)
         
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
 
 

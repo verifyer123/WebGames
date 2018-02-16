@@ -35,12 +35,6 @@ var bomb = function(){
                 json: "images/bomb/atlas.json",
                 image: "images/bomb/atlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
-
         ],
         images: [
 			{   name:"background",
@@ -492,7 +486,7 @@ var bomb = function(){
         
 		setContainers()
 
-		createTutorialGif(overlayGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 		
         
     }

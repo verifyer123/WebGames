@@ -931,14 +931,14 @@ var chakBlock = function(){
 
 
         sceneGroup.add(background)
-
+        createObjects()
         createPointsBar()
         createHearts()
         animateScene()
         
 
         setRound()
-        createObjects()
+        
 
 
 

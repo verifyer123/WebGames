@@ -2,10 +2,12 @@ import React from 'react';
 import {localization} from "../libs/localization";
 
 export class Continue extends React.Component {
-	//AQUI VA PARA SABER EL LENGUAGE
+
 	constructor(props) {
 		super(props);
 		this.audios = this.props.audios
+		this.dataSubscription = this.props.child
+		this.inTrial = this.dataSubscription.daysToExpire > 0
 
 		this.closelgmodal = this.closelgmodal.bind(this)
 	}
@@ -14,10 +16,30 @@ export class Continue extends React.Component {
 		this.props.closelgmodal()
 	}
 
+	continueClick(){
+		if(this.inTrial)
+			this.props.onLogin()
+		else {
+			localStorage.clear()
+			this.props.closeModal()
+		}
+	}
+
+	componentDidMount() {
+		if (this.dataSubscription.daysToExpire > 7) {
+			this.props.onLogin()
+		}
+	}
+
 	render() {
+
 		let youHaveDays = localization.getString("youHaveFree")
-		let days = 7
+		let days = this.dataSubscription.daysToExpire
 		youHaveDays = localization.replace(youHaveDays, days)
+		let trialEnded = localization.getString("inTrial")
+		let description = !this.inTrial ? localization.getString("remindCheck") : localization.getString("remindParents")
+
+		let subtitle = this.inTrial ? youHaveDays : trialEnded
 
 		return (
 			<div id="save" className="lgmodal">
@@ -32,14 +54,15 @@ export class Continue extends React.Component {
 							<img className="particule" src="images/particle-04.png"/>
 						</div>
 						<h2><div className="textlgmodal21" style={{fontSize:'3vh'}}>{localization.getString("welcomeYogome")}</div></h2>
-						<p className="subtitle" >{youHaveDays}</p>
+
+						<p className="subtitle" >{subtitle}</p>
 						<div style={{textAlign: 'justify', color: '#727984', fontSize: '2vh'}} className="fontOpenSans textlgmodal22">
-							<p>{localization.getString("remindParents")}</p>
+							<p>{description}</p>
 						</div>
 					</div>
 
 					<div className="lgmodal-body">
-							<button type="submit" className="loginBtn bgGreen" onClick={this.props.onLogin}>{localization.getString("ok")}</button><br />
+							<button type="submit" className="loginBtn bgGreen" onClick={this.continueClick.bind(this)}>{localization.getString("ok")}</button><br />
 
 					</div>
 					<div className="fontOpenSans lgmodal-footer" style={{color: '#444444'}}>

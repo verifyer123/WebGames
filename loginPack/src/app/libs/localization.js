@@ -107,7 +107,7 @@ export var localization = function(){
 			KO: "요고미에 오신걸 환영합니다"
 		},
 		youHaveFree:{
-			EN: "You have %s days of free Trial Remaining.",
+			EN: "You have %s days of Free Trial Remaining.",
 			ES: "Te quedan %s dias de prueba Gratis Restantes."
 		},
 		remindParents:{
@@ -440,6 +440,14 @@ export var localization = function(){
 			JA:"Pin",
 			KO:"비밀번호"
 		},
+		inTrial:{
+			EN:"Your free trial has ended.",
+			ES:"Tu tiempo de prueba se terminó."
+		},
+		remindCheck:{
+			EN:"Please tell your parents to check their email to confirm your information.",
+			ES:"Dile a tus padres que revisen su correo para confirmar tu información."
+		}
 
 	}
 

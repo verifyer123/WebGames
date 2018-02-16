@@ -2,27 +2,7 @@ var soundsPath = "../../shared/minigames/sounds/"
 var iconsPath = "../../shared/minigames/images/icons/"
 var imagesUrl = "../../shared/minigames/images/"
 var jsonData = "../../shared/minigames/amazing.json"
-var dataJson = [{
-      total: 500,
-      expiration: "12/30/2018",
-      promo: "-$100",
-      link: "http://bit.ly/netshoes-amazing",
-      imgHead: "/img/coupons/imgHead_netshoes.png",
-      serialNumber: "APP-NT-735",
-      imgUsed: "/img/coupons/imgUsed_netshoes.png",
-      used: "true",
-      id: 5106770607341568,
-      title: "$100 de descuento",
-      minigameId: "0",
-      color: "#ffffff",
-      imgBanner: "/img/coupons/imgBanner_netshoes.png",
-      imgPreview: "img/coupons/imgPreview_gympass.png",
-      isOnlyOnce: true,
-      brand: "NetShoes",
-      scoreGoal: 1,
-      quantity: -235,
-      copy: "$100 de descuento en el sitio web"
-}]
+
 var result = function(){
 
 	localizationData = {
@@ -796,6 +776,10 @@ var result = function(){
             equal = true
         }
 
+        if(icons[number].demo!=null){
+            equal = true
+        }
+
         return equal
     }
 
@@ -827,7 +811,6 @@ var result = function(){
         pivotRank = game.world.centerY - 10
 
         couponData = amazing.getCoupon()
-        //couponData = dataJson[0]//JSON.parse(dataJson)
         //console.log(couponData)
 
         sceneGroup = game.add.group()

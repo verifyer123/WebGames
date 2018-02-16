@@ -79,6 +79,8 @@ class App extends React.Component{
 				component: "success"
 			})
 			this.setChildData(response.child)
+			this.addChildData("subscribed", response.subscribed)
+			this.addChildData("daysToExpire", response.daysToExpire)
 		}
 
 		function onError() {
@@ -149,6 +151,8 @@ class App extends React.Component{
 				}else{
 					let child = response.children ? response.children[0] : response.child
 					this.setChildData(child)
+					this.addChildData("subscribed", response.subscribed)
+					this.addChildData("daysToExpire", response.daysToExpire)
 					this.handleClick("continue")
 				}
 
@@ -180,25 +184,26 @@ class App extends React.Component{
 			case "register":
 				component = <Register closeModal={this.handleClick.bind(this, false)}
 									  onNext={this.handleClick.bind(this)} setChildData={this.setChildData} registerType={props}
-				addChildData={this.addChildData} audios={this.audios}/>
+									  addChildData={this.addChildData} audios={this.audios}/>
 				break;
 			case "login":
 				component = <Login handleClick={this.handleClick.bind(this)} addChildData={this.addChildData}
 								   child={this.childData} forceLogin={this.forceLogin} audios={this.audios}
-				togglePin={this.togglePin} setChildData={this.setChildData}/>
+								   togglePin={this.togglePin} setChildData={this.setChildData}/>
 				break
 			case "players":
 				component = <Players closeModal={this.handleClick.bind(this, false)} getComponent={this.getComponent}
 									 children={props} callback={this.handleClick.bind(this, "nickname")}
-				setChildData={this.setChildData} audios={this.audios}/>
+									 setChildData={this.setChildData} audios={this.audios}/>
 				break;
 			case "continue":
-				component = <Continue closeModal={this.handleClick.bind(this, false)} audios={this.audios} onLogin={this.onLogin}/>
+				component = <Continue closeModal={this.handleClick.bind(this, "login")} audios={this.audios} onLogin={this.onLogin}
+									  child={this.childData} />
 				break;
 			case "nickname":
 				component = <Nickname closeModal={this.handleClick.bind(this, false)} handleClick = {this.handleClick.bind(this)}
 									  onRegister={this.register} addChildData={this.addChildData} registerType={props} audios={this.audios}
-				togglePin={this.togglePin}/>
+									  togglePin={this.togglePin}/>
 				break;
 			case "success":
 				component = <Success closeModal={this.handleClick.bind(this, false)} child={this.childData}

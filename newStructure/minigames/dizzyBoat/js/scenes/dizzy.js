@@ -42,11 +42,6 @@ var dizzy = function(){
                 json: "images/dizzy/atlas.json",
                 image: "images/dizzy/atlas.png",
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
@@ -586,7 +581,7 @@ var dizzy = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         
         /*var rect = new Phaser.Graphics(game)

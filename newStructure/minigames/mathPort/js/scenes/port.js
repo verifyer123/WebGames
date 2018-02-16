@@ -25,11 +25,6 @@ var port = function(){
                 json: "images/port/atlas.json",
                 image: "images/port/atlas.png",
             },
-             {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
 
         ],
         images: [
