@@ -172,6 +172,7 @@ var yogomeGames = function () {
             {name:'Satellite',url:urlSet + 'satellite/',mapUrl:urlMap + 'satellite', sceneName:'satellite',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//142
             {name:'Gourmet Traveller',url:urlSet + 'gourmetTraveller/',mapUrl:urlMap + 'gourmetTraveller', sceneName:'gourmetTraveller',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//143
             {name:'Beat O Matic',url:urlSet + 'beatOMatic/',mapUrl:urlMap + 'beatOMatic', sceneName:'beatOMatic',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},//144
+            {name:'Bee Travel',url:urlSet + 'beeTravel/',mapUrl:urlMap + 'beeTravel', sceneName:'beeTravel',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.TRACE},//145
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
