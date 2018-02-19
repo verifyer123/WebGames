@@ -82,6 +82,14 @@ var float = function(){
 	var counter
 	var numIndex, lineIndex
 
+    var directionLeft
+    var deltaMoveSpeed
+    var maxMoveSpeed
+
+    var canTake
+
+    var porcentage_change = 2.3
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -93,13 +101,19 @@ var float = function(){
         lives = 1
         jumpTimes = 0
         jumpDistance = 170
-        gameSpeed = 1.3
-        moveSpeed = 2.5
+        gameSpeed = 1.5
+        moveSpeed = 2.1
+        maxMoveSpeed = 3
+
+        deltaMoveSpeed = 0.05
         gameLevel = 1
         loadSounds()
         levelNumber = 1
-		numIndex = 0
-		lineIndex = numIndex
+		numIndex = 1
+		lineIndex = numIndex-1
+
+        directionLeft = true
+        canTake = true
         
 	}
 
@@ -443,12 +457,18 @@ var float = function(){
             if(i == 0 && obstacle.isLeft){
                 pivotPoint = 0
                 offset = 1
+                //obstacle.isLeft = true
             }
+            else{
+                //obstacle.isLeft = false
+            }
+
+            obstacle.isLeft = directionLeft
 
             obstacle.x = pivotPoint
 			
 			obstacle.number = lineIndex + 1
-			if(randomize(1.7)){
+			if(randomize(porcentage_change)){
 				obstacle.number = game.rnd.integerInRange(lineIndex,lineIndex + 2)
 			}
 			obstacle.text.setText(obstacle.number)
@@ -460,6 +480,8 @@ var float = function(){
             //console.log(obstacle.startPosition + ' start')
 
         }
+
+        directionLeft= !directionLeft
 		lineIndex++
     }
     
@@ -472,7 +494,7 @@ var float = function(){
     
     function checkLine(line){
         
-        if(line.children[0].world.y < playerGroup.gem.world.y - jumpDistance * 0.5 && line.active){
+        if(line.children[0].world.y < - jumpDistance * 0.5 && line.active){
             
             activateLine(line)
         }    
@@ -500,26 +522,35 @@ var float = function(){
 
                     if(obstacle.isLeft == true){
                         obstacle.x-= moveSpeed
+                        if(obstacle.x < -obstacle.width){
+                            obstacle.x += (obstacle.width * 1.5)*group.obstacles.length
+                        }
                         //obstacle.angle-=moveSpeed
                     }else{
                         obstacle.x+= moveSpeed
+                        if(obstacle.x > game.world.height+obstacle.width){
+                            obstacle.x -= (obstacle.width * 1.5)*group.obstacles.length
+                        }
                         //obstacle.angle+=moveSpeed
                     }
 
                     if(checkPosPlayer(playerGroup.gem,obstacle) && !playerGroup.jumping){
                         if(obstacle.tag == 'obstacle' && obstacle.active && playerGroup.active){
-                            playerGroup.active = false
-							if(numIndex  == obstacle.number - 1 ){
-								addPoint(2)
-                                createPart('star',obstacle.obs)
-                                sound.play("magic")
-                                addNumberPart(obstacle.obs,'+' + 2,false)
-								
-								numIndex++
-								updateCounter()
-							}else{
-								stopGame()
-							}
+                            //playerGroup.active = false
+                            if(canTake){
+    							if(numIndex  == obstacle.number){
+    								addPoint(1)
+                                    createPart('star',obstacle.obs)
+                                    sound.play("magic")
+                                    //addNumberPart(obstacle.obs,'+' + 2,false)
+    								
+    								numIndex++
+    								updateCounter()
+    							}else{
+    								stopGame()
+    							}
+                                canTake = false
+                            }
                             
                         }
                         obstacle.alpha = 0
@@ -532,7 +563,7 @@ var float = function(){
 
         }
         
-        if(!playerGroup.jumping){
+        if(!playerGroup.jumping && playerGroup.active){
             if(playerGroup.isLeft){
                 playerGroup.x+= moveSpeed
                 playerGroup.gem.angle+= moveSpeed
@@ -544,7 +575,7 @@ var float = function(){
         
         var worldX = playerGroup.gem.world.x
         var worldY = playerGroup.gem.world.y
-        if(worldX <= 0 || worldX > game.world.width || worldY <= 0){
+        if(worldX <= -playerGroup.gem.width/3 || worldX > game.world.width+playerGroup.gem.width/3 || worldY <= -playerGroup.gem.height/3){
             stopGame()
         }
     
@@ -559,7 +590,7 @@ var float = function(){
 		background.tilePosition.x++
 		background.tilePosition.y--
         
-        if(gameGroup.isMoving){
+        if(gameGroup.isMoving && playerGroup.active){
             gameGroup.y-=gameSpeed
         }
         
@@ -704,7 +735,7 @@ var float = function(){
             
             linesGroup.pivotY += jumpDistance
             
-            if(i>0){
+            if(i>=0){
                 
                 group.active = true
                 
@@ -716,14 +747,16 @@ var float = function(){
                 var isLeft = true
                 var offset = 1
 
-                if(isPair){
+                if(!directionLeft){
                     pivotPoint = game.world.width
                     offset = -1
                     isLeft = false
                 }
+
+                directionLeft=!directionLeft
 				
 				var indexColor = 0
-                for(var a = 0; a < 20;a++){
+                for(var a = 0; a < 10; a++){
                     
                     var obstacle = game.add.group()
 					obstacle.x = pivotPoint
@@ -746,8 +779,9 @@ var float = function(){
 					obstacle.add(pointsText)
 			
 					obstacle.number = lineIndex + 1
-					if(randomize(1.7)){
-						obstacle.number = game.rnd.integerInRange(lineIndex,lineIndex + 2)
+					if(randomize(porcentage_change) && i > 0){
+					    obstacle.number = game.rnd.integerInRange(lineIndex,lineIndex + 2)
+                        //obstacle.number =0
 					}
 					
 					pointsText.setText(obstacle.number)
@@ -766,7 +800,7 @@ var float = function(){
                 group.active = false
             }
 			
-			if(i>0){
+			if(i>=0){
 				lineIndex++
 			}
         }
@@ -774,11 +808,15 @@ var float = function(){
     }
     
     function doJump(){
+        if(moveSpeed<maxMoveSpeed){
+            moveSpeed+=deltaMoveSpeed
+        }
         playerGroup.active = true
-        addPoint(1)
+        //addPoint(1)
         jumpTimes++
         
         sound.play("cut")
+        canTake = true
         
         if(jumpTimes % 2 == 0){
             playerGroup.isLeft = true
@@ -838,53 +876,6 @@ var float = function(){
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				gameActive = true
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.float','gametuto')
-		tuto.scale.setTo(0.75,0.75)
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.float',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.float','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 	
     function onClickPlay() {
@@ -934,7 +925,7 @@ var float = function(){
 			
             gameGroup = game.add.group()
             sceneGroup.add(gameGroup)
-            gameGroup.isMoving = false
+            gameGroup.isMoving = true
             
             linesGroup = game.add.group()
             gameGroup.add(linesGroup)
@@ -961,7 +952,7 @@ var float = function(){
             initialize()
             animateScene()
             
-            createLinesGroup(5)
+            createLinesGroup(8)
             
             createLevelText()
             
