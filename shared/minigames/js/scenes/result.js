@@ -352,6 +352,8 @@ var result = function(){
                         rankMinigame = parsedData.rankMinigame
 
                         if(overlayGroup!=null){
+                            overlayGroup.destroy()
+                            overlayGroup.tween.remove()
                             overlayGroup.alpha = 0
                         }
                         addRank()
@@ -637,9 +639,6 @@ var result = function(){
         createIcons(showIcons)
 		createOverlay()
 
-
-
-        //addRank()
 	}
 
 	function createOverlay(){
@@ -707,7 +706,7 @@ var result = function(){
         if(!fromApp){
 			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
-			game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
+			overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
 		}
 	}
 
