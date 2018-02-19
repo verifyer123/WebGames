@@ -154,7 +154,7 @@ var flapitat = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 147
+    var gameIndex = 146
     var tutoGroup
     var scoreText
 	var indexGame

@@ -98,7 +98,7 @@ var orbitalOrder = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 146
+    var gameIndex = 147
     var tutoGroup
     var rect2
 	var indexGame
@@ -427,10 +427,18 @@ var orbitalOrder = function(){
         
         //Aqui inicializo las velocidades
         //var fill2=10
+//        for(var fill=0; fill<10; fill++){
+//            //speeds[fill]=0.005*(fill2+1)
+//            speeds[fill]=0.02/fill
+//            //fill2--
+//        }
+        dificulty=0.01
         for(var fill=0; fill<10; fill++){
-            //speeds[fill]=0.005*(fill2+1)
-            speeds[fill]=0.02/fill
-            //fill2--
+            speeds[fill]=(Math.random()*dificulty+0.01)+dificulty;
+            console.log(speeds[fill])
+            if(fill<8){
+                targetsGroup[fill].rotation=((Math.random()*0.4)-0.1);
+            }
         }
         var where=0
         
@@ -453,7 +461,6 @@ var orbitalOrder = function(){
                 targetsGroup[fillPlanets].add(correctPlaces[fillPlanets])
                 
                 targetsGroup[fillPlanets].rotation=((Math.random()*0.4)-0.1);
-                console.log(targetsGroup[fillPlanets].rotation)
                 planetsGroups[fillPlanets].add(planetsProxy[fillPlanets])
             }
             
