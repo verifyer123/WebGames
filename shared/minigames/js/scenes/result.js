@@ -632,7 +632,7 @@ var result = function(){
         createButtons(pivotButtons)
         createIcons(showIcons)
         console.log(gameFromApp)
-        if(!gameFromApp){
+        if(!amazing.getFromApp()){
 
     		createOverlay()
         }
