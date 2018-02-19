@@ -469,10 +469,10 @@ var cheesyMaze = function(){
             missPoint()
             mouse.movil.body.velocity.setTo(0, 0)
             
-            if(lives !== 0){
-                game.add.tween(mouse.spine).to({x: obst.centerX, y:obst.centerY - 10},500,Phaser.Easing.Cubic.Out,true)
-                game.add.tween(mouse.spine.scale).to({x: 0, y: 0},1000,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
+            game.add.tween(mouse.spine).to({x: obst.centerX, y:obst.centerY - 10},500,Phaser.Easing.Cubic.Out,true)
+            game.add.tween(mouse.spine.scale).to({x: 0, y: 0},1000,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
 
+                if(lives !== 0){
                     for(var f = 0; f < wallsGroup.length; f++){
                         if(wallsGroup.children[f].isActive){
                             game.add.tween(wallsGroup.children[f]).to({y: wallsGroup.children[f].y - 200},500,Phaser.Easing.linear,true)
@@ -496,8 +496,8 @@ var cheesyMaze = function(){
                               initGame()
                         })
                     })
-                })
-            }
+                }
+            })
         }
     }
     
