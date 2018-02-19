@@ -51,7 +51,6 @@ var result = function(){
     var skinTable
 	var overlayGroup
     var currentCouponId
-    var fromApp
 
 	var timeGoal = null
 
@@ -348,14 +347,9 @@ var result = function(){
                     }
                     switch(parsedData.type){
                     case "rankMinigame":
-                        fromApp = true
                         rankMinigame = parsedData.rankMinigame
 
-                        if(overlayGroup!=null){
-                            overlayGroup.destroy()
-                            overlayGroup.tween.remove()
-                            overlayGroup.alpha = 0
-                        }
+
                         addRank()
                         break
                     }
@@ -637,7 +631,11 @@ var result = function(){
 
         createButtons(pivotButtons)
         createIcons(showIcons)
-		createOverlay()
+        console.log(gameFromApp)
+        if(!gameFromApp){
+
+    		createOverlay()
+        }
 
 	}
 
@@ -703,11 +701,10 @@ var result = function(){
 		overlayGroup.add(nameText)
 
 		//if(!couponData && !game.device.desktop && !amazing.getMinigameId()){
-        if(!fromApp){
 			overlayGroup.y+= game.world.height
 			overlayGroup.alpha = 1
 			overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
-		}
+
 	}
 
 	function inputOverlay(obj){
