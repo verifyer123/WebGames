@@ -38,7 +38,7 @@ amazing.savePlaycount = function(){
 
     gameFromApp = false
 
-    window.addEventListener("message", function(event){
+    /*window.addEventListener("message", function(event){
     //console.log("profile",event)
 
         if(event.data && event.data != ""){
@@ -55,7 +55,7 @@ amazing.savePlaycount = function(){
                 console.log("Game come from app")
             }
         }
-    })
+    })*/
 
 }
 
@@ -183,6 +183,8 @@ amazing.setMinigameId = function(){
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
                 //origin = event.origin
+                gameFromApp = true
+                console.log("Get minigameId")
 				if(userMail){
 
 					console.log('email sent')
