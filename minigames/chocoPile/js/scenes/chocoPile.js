@@ -41,7 +41,7 @@ var chocoPile = function(){
     var INITIAL_HEIGHT = 359
 
 
-    var DELTA_LEVEL = 25
+    var DELTA_LEVEL = 35
 
     var TOLERANCE = 10
 
@@ -164,18 +164,33 @@ var chocoPile = function(){
             game.load.audio('arcadeSong', soundsPath + 'songs/funky_monkey.mp3');
         }
 
-        /*game.load.image('chocolate','images/chocoPile/barra_chocolate.png')
+        var bmd = game.add.bitmapData(1, (game.world.height/4)*(BACKGROUND_COLORS.length-1))
 
-        game.load.image('city','images/chocoPile/ciudad.png')
+        var y = 0;
+        var imageY = 0
 
-        game.load.image('neblina','images/chocoPile/neblina.png')
+        for(var i = 1; i < BACKGROUND_COLORS.length; i++){
 
-        game.load.image('cloud1','images/chocoPile/neblina.png')
-        game.load.image('cloud2','images/chocoPile/neblina.png')*/
+            for (var j = 0; j <= game.world.height/8; j++)
+            {
+                var c = Phaser.Color.interpolateColor(BACKGROUND_COLORS[i-1], BACKGROUND_COLORS[i], game.world.height/8, j);
 
-        /*var fontStyle = {font: "30px AvenirHeavy", fontWeight: "bold", fill: "#000000", align: "center"}
-        var text = new Phaser.Text(game, 0, 10, "2", fontStyle)
-        text.visible = false*/
+                // console.log(Phaser.Color.getWebRGB(c));
+
+                bmd.rect(0, y+imageY, 1, imageY+y+1, Phaser.Color.getWebRGB(c));
+
+                //out.push(Phaser.Color.getWebRGB(c));
+
+                y += 1;
+            }
+            imageY+=game.world.height/8
+            
+        }
+
+        game.load.image('preloadedImage', bmd.canvas.toDataURL());
+      
+      	bmd.destroy();
+
 
         maskData = []
 
@@ -222,8 +237,7 @@ var chocoPile = function(){
     
     function update(){
 
-        //moveBackground(50)
-
+		
         for(var i = 0 ; i < clouds.length; i++){
         	if(clouds[i].y >-100){
 	        	clouds[i].x += clouds[i].vel
@@ -240,13 +254,6 @@ var chocoPile = function(){
         for(var i = 0; i < downChocolatesFront.length; i++){
             if(downChocolatesFront.children[i].visible){
                 downChocolatesFront.children[i].y +=VEL_DOWN
-                //downChocolates.children[i].alpha -= 0.01
-
-
-                /*if(downChocolatesFront.children[i].alpha <=0){
-                    downChocolatesFront.children[i].visible = false
-                    downChocolates.destroy()
-                }*/
 
                 if(downChocolatesFront.children[i].y>=game.world.height){
                     var chocolateRemove = downChocolatesFront.children[i]
@@ -261,14 +268,6 @@ var chocoPile = function(){
         for(var i = 0; i < downChocolatesBack.length; i++){
             if(downChocolatesBack.children[i].visible){
                 downChocolatesBack.children[i].y +=VEL_DOWN
-                //downChocolates.children[i].alpha -= 0.01
-
-
-                /*if(downChocolatesFront.children[i].alpha <=0){
-                    downChocolatesFront.children[i].visible = false
-                    downChocolates.destroy()
-                }*/
-
                 if(downChocolatesBack.children[i].y>=game.world.height){
                     var chocolateRemove = downChocolatesBack.children[i]
                     chocolateRemove.visible = false
@@ -735,7 +734,6 @@ var chocoPile = function(){
 
         }
 
-        console.log(maskData,currentSize)
 
 
     }
@@ -802,9 +800,6 @@ var chocoPile = function(){
 
      function createChocolate(x,y,width,height,leftMask,rightMask,upMask,downMask){
 
-        //upMask = 0
-
-        //downMask = 0
         
         var deltaR = rightMask
         //leftMask = INITIAL_WIDTH - leftMask
@@ -818,12 +813,10 @@ var chocoPile = function(){
         var h = downMask - upMask
 
         if(w<TOLERANCE){
-            console.log("Error null w ")
             return null
         }
 
         if(h*SIN_ANG < TOLERANCE){
-             console.log("Error null h")
              return null
         }
 
@@ -831,7 +824,6 @@ var chocoPile = function(){
         var initialYDown = deltaR*TAN_ANG
 
         if(upMask+initialY > downMask-(w*TAN_ANG)-initialYDown){
-            console.log("Faltal error")
             return null
         }
 
@@ -840,30 +832,31 @@ var chocoPile = function(){
         chocolateGroup.x = x
         chocolateGroup.y = y
         var chocolate = game.add.sprite(0,0,'atlas.game','barra_chocolate')
+        var notMask = false
+        if(leftMask==0 && rightMask==INITIAL_WIDTH && upMask==0 && downMask==INITIAL_HEIGHT){
+        	notMask = true
+        }
+        if(!notMask){
+        	var graphics = game.add.graphics(0, 0);
+	        graphics.beginFill(0xFF0000);
+	        graphics.moveTo(leftMask,upMask+initialY);
+	        graphics.lineTo(leftMask,downMask-(w*TAN_ANG)-initialYDown)
+	        graphics.lineTo(rightMask,downMask-initialYDown)
+	        graphics.lineTo(rightMask,upMask+(w*TAN_ANG)+ initialY)
+	        graphics.lineTo(leftMask,upMask+initialY)
+	        graphics.endFill();
 
-        //if(h<0 || w<0 || rightMask <= 0 || leftMask>=INITIAL_WIDTH || downMask<=0 || upMask>=INITIAL_HEIGHT){
-            //console.log("error ",w,h)
-        //}
-
-
-        var graphics = game.add.graphics(0, 0);
-        graphics.beginFill(0xFF0000);
-        graphics.moveTo(leftMask,upMask+initialY);
-        graphics.lineTo(leftMask,downMask-(w*TAN_ANG)-initialYDown)
-        graphics.lineTo(rightMask,downMask-initialYDown)
-        graphics.lineTo(rightMask,upMask+(w*TAN_ANG)+ initialY)
-        graphics.lineTo(leftMask,upMask+initialY)
-        graphics.endFill();
-
-        chocolate.mask = graphics
-        chocolate.addChild(graphics)
+	        chocolate.mask = graphics
+	        chocolate.addChild(graphics)
+	    
+	     }
         chocolateGroup.add(chocolate)
 
         var tile_1 = game.add.graphics();
         tile_1.beginFill(0x7a473d);
         tile_1.moveTo(leftMask+1,upMask+initialY)
-        tile_1.lineTo(leftMask-20,upMask+initialY+10)
-        tile_1.lineTo(leftMask-20,downMask-(w*TAN_ANG)-initialYDown+10)
+        tile_1.lineTo(leftMask-30,upMask+initialY+15)
+        tile_1.lineTo(leftMask-30,downMask-(w*TAN_ANG)-initialYDown+15)
         tile_1.lineTo(leftMask+1,downMask-(w*TAN_ANG)-initialYDown)
         tile_1.lineTo(leftMask+1,upMask+initialY)
         tile_1.endFill();
@@ -872,8 +865,8 @@ var chocoPile = function(){
         var tile_2 = game.add.graphics();
         tile_2.beginFill(0x966357);
         tile_2.moveTo(leftMask,downMask-(w*TAN_ANG)-initialYDown-1)
-        tile_2.lineTo(leftMask-19,downMask-(w*TAN_ANG)-initialYDown+10)
-        tile_2.lineTo(rightMask-19,downMask-initialYDown+10)
+        tile_2.lineTo(leftMask-29,downMask-(w*TAN_ANG)-initialYDown+15)
+        tile_2.lineTo(rightMask-29,downMask-initialYDown+15)
         tile_2.lineTo(rightMask,downMask-initialYDown-1)
         tile_2.lineTo(leftMask,downMask-(w*TAN_ANG)-initialYDown-1)
         tile_2.endFill();
@@ -903,14 +896,13 @@ var chocoPile = function(){
         rightX = (game.world.centerX-200)+(VEL_X*frames)
         leftX = (game.world.centerX-200)-(VEL_X*frames)
 
-        for(var i = 0; i <30; i ++){
+        for(var i = 0; i <15; i ++){
             moveGroupY(chocolatesGroup,DELTA_LEVEL,LIMIT_Y)
             var c = createChocolate(game.world.width +currentvel.x*frames,game.world.centerY-100+(currentvel.y*frames)+DELTA_LEVEL,INITIAL_WIDTH,INITIAL_HEIGHT,0,0,0,0)
             chocolatesGroup.add(c)
 
         }
         
-
         currentPosition.x = c.x
         currentPosition.y = c.y
      }
@@ -928,7 +920,7 @@ var chocoPile = function(){
         if(cityImage.visible){
         	//cityImage.y+=vel
         	game.add.tween(cityImage).to({y:cityImage.y+vel},500,Phaser.Easing.linear,true)
-        	if(cityImage.y > game.world.height*2){
+        	if(cityImage.y > game.world.height*3){
         		cityImage.visible = false
         	}
     	}
@@ -942,70 +934,30 @@ var chocoPile = function(){
         	}
     	}
 
-
-
-
-
-
      }
 
     function create(){
 
+    	game.time.desiredFps = 40
         
         sceneGroup = game.add.group()
 
-
+        backgroundImage = []
 
         //var bmd = game.add.bitmapData(2, game.world.height*(BACKGROUND_COLORS.length+4))
-        var bmd = game.add.bitmapData(2, (game.world.height/4)*(BACKGROUND_COLORS.length-1))
+        
 
-        //bmd.addToWorld()
-        //sceneGroup.add(bmd)
-        backgroundImage = []
-        //sceneGroup.add(backgroundImage)
-        //var i = 1
-        var y = 0;
-        var imageY = 0
 
-        for(var i = 1; i < BACKGROUND_COLORS.length; i++){
-
-            for (var j = 0; j <= game.world.height/8; j++)
-            {
-                var c = Phaser.Color.interpolateColor(BACKGROUND_COLORS[i-1], BACKGROUND_COLORS[i], game.world.height/8, j);
-
-                // console.log(Phaser.Color.getWebRGB(c));
-
-                bmd.rect(0, y+imageY, 2, imageY+y+1, Phaser.Color.getWebRGB(c));
-
-                //out.push(Phaser.Color.getWebRGB(c));
-
-                y += 1;
-            }
-            imageY+=game.world.height/8
-            
-        }
-
-        /*var backSprite = sceneGroup.create(0,-game.world.height*(BACKGROUND_COLORS.length+3),bmd)
-        backSprite.scale.setTo(game.world.width/2,1)
-        //imageY+=game.world.height
-        //backgroundImage.add(backSprite)
-        backgroundImage.push(backSprite)
-
-        var backSprite2 = sceneGroup.create(0,-(game.world.height*(BACKGROUND_COLORS.length+3))-(game.world.height*(BACKGROUND_COLORS.length+4)),bmd)
-        //backgroundImage.add(backSprite)
-        backSprite2.scale.setTo(game.world.width/2,1)
-        backgroundImage.push(backSprite2)*/
-
-        var backSprite = sceneGroup.create(0,-(game.world.height)*(BACKGROUND_COLORS.length-2)+((game.world.height)*(BACKGROUND_COLORS.length-1)/4),bmd)
-        backSprite.scale.setTo(game.world.width/2,3)
+        var backSprite = sceneGroup.create(0,-(game.world.height)*(BACKGROUND_COLORS.length-2)+((game.world.height)*(BACKGROUND_COLORS.length-1)/4),'preloadedImage')
+        backSprite.scale.setTo(game.world.width,3)
 
         //imageY+=game.world.height
         //backgroundImage.add(backSprite)
         backgroundImage.push(backSprite)
 
-        var backSprite2 = sceneGroup.create(0,backSprite.y-backSprite.height,bmd)
+        var backSprite2 = sceneGroup.create(0,backSprite.y-backSprite.height,'preloadedImage')
         //backgroundImage.add(backSprite)
-        backSprite2.scale.setTo(game.world.width/2,3)
+        backSprite2.scale.setTo(game.world.width,3)
         backgroundImage.push(backSprite2)
 
         cityImage = sceneGroup.create(game.world.centerX,game.world.height,'atlas.game','ciudad')
@@ -1094,11 +1046,12 @@ var chocoPile = function(){
 
       	var neblina_1=sceneGroup.create(game.world.centerX+100,game.world.height+100,'atlas.game','neblina')
       	neblina_1.anchor.setTo(0.5,1)
+      	neblina_1.scale.setTo(1.5)
 
 
       	var neblina_2=sceneGroup.create(game.world.centerX-100,game.world.height+100,'atlas.game','neblina')
       	neblina_2.anchor.setTo(0.5,1)
-      	neblina_2.scale.setTo(-1,1)
+      	neblina_2.scale.setTo(-1.5,1.5)
 
 
 
@@ -1109,6 +1062,9 @@ var chocoPile = function(){
 
     }
 
+    function render(){
+    	game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
     
     return {
         assets: assets,
@@ -1116,5 +1072,6 @@ var chocoPile = function(){
         create: create,
         preload: preload,
         update: update,
+        render:render
     }
 }()
