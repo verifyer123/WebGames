@@ -10,9 +10,9 @@ var chocoPile = function(){
             },
         ],
         /*images: [
-            {   name:"player",
-                file: "images/skiZag/reloj.png"},
-        ],*/
+            {   name:"city",
+                file: "images/chocoPile/patron ciudad.png"},
+        ]*/
         sounds: [
             {   name: "magic",
                 file: soundsPath + "magic.mp3"},
@@ -909,8 +909,8 @@ var chocoPile = function(){
 
      function moveBackground(vel){
         for(var i = 0; i < backgroundImage.length; i++){
-        	//backgroundImage[i].y+=vel
-            game.add.tween(backgroundImage).to({y:backgroundImage[i].y+vel},500,Phaser.Easing.linear,true)
+        	//backgroundImage[i].y+=500
+            game.add.tween(backgroundImage[i]).to({y:backgroundImage[i].y+vel},500,Phaser.Easing.linear,true)
             if(backgroundImage[i].y > game.world.height){
             	backgroundImage[i].y -= backgroundImage[i].height*backgroundImage.length
 
@@ -1044,14 +1044,14 @@ var chocoPile = function(){
 
 
 
-      	var neblina_1=sceneGroup.create(game.world.centerX+100,game.world.height+100,'atlas.game','neblina')
+      	var neblina_1=sceneGroup.create(game.world.centerX+150,game.world.height+150,'atlas.game','neblina')
       	neblina_1.anchor.setTo(0.5,1)
-      	neblina_1.scale.setTo(1.5)
+      	neblina_1.scale.setTo(1.4)
 
 
-      	var neblina_2=sceneGroup.create(game.world.centerX-100,game.world.height+100,'atlas.game','neblina')
+      	var neblina_2=sceneGroup.create(game.world.centerX-150,game.world.height+150,'atlas.game','neblina')
       	neblina_2.anchor.setTo(0.5,1)
-      	neblina_2.scale.setTo(-1.5,1.5)
+      	neblina_2.scale.setTo(-1.4,1.4)
 
 
 
@@ -1062,9 +1062,9 @@ var chocoPile = function(){
 
     }
 
-    function render(){
+    /*function render(){
     	game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
-    }
+    }*/
     
     return {
         assets: assets,
@@ -1072,6 +1072,6 @@ var chocoPile = function(){
         create: create,
         preload: preload,
         update: update,
-        render:render
+        //render:render
     }
 }()
