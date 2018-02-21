@@ -1312,7 +1312,7 @@ var codeCake = function(){
 
         buttonGroup = game.add.group()
         //buttonGroup.y = game.world.height - 80
-        //buttonGroup.x = 0
+        buttonGroup.x = game.world.centerX-280
 
         var deltaButton = 100
         var initX = 100
@@ -1338,7 +1338,7 @@ var codeCake = function(){
 
         sceneGroup.add(buttonGroup)
 
-        var okBtn = sceneGroup.create(game.world.width-110,game.world.height-80,'atlas.game','button')
+        var okBtn = sceneGroup.create(game.world.centerX+180,game.world.height-80,'atlas.game','button')
         okBtn.anchor.setTo(0.5)
         okBtn.inputEnabled = true
         okBtn.events.onInputDown.add(clickOk,this)
