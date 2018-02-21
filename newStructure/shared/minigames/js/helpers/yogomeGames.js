@@ -173,6 +173,9 @@ var yogomeGames = function () {
             {name:'Gourmet Traveller',url:urlSet + 'gourmetTraveller/',mapUrl:urlMap + 'gourmetTraveller', sceneName:'gourmetTraveller',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//143
             {name:'Beat O Matic',url:urlSet + 'beatOMatic/',mapUrl:urlMap + 'beatOMatic', sceneName:'beatOMatic',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},//144
             {name:'Bee Travel',url:urlSet + 'beeTravel/',mapUrl:urlMap + 'beeTravel', sceneName:'beeTravel',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.TRACE},//145
+            {name:'Flappitat',url:urlSet + 'flapitat/',mapUrl:urlMap + 'flapitat', sceneName:'flapitat',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//146
+            {name:'OrbitalOrder',url:urlSet + 'orbitalOrder/',mapUrl:urlMap + 'orbitalOrder', sceneName:'orbitalOrder',subject:'Geography', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//147
+            {name:'Cheesy Maze',url:urlSet + 'cheesyMaze/',mapUrl:urlMap + 'cheesyMaze', sceneName:'cheesyMaze',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.GRAB},//148
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

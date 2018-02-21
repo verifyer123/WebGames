@@ -1150,7 +1150,10 @@ var beeTravel = function(){
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
 
-        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.beeTravel','BACKGROUND')
+        var backgroundTile = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.beeTravel','background')
+        backgroundGroup.add(backgroundTile)
+
+        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.beeTravel','chess')
         background.anchor.setTo(0.5)
         backgroundGroup.add(background)
 

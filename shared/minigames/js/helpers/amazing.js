@@ -4,6 +4,7 @@ var dataStore
 var minigameId
 var userMail, gender, birthday
 var origin
+var gameFromApp
 
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
@@ -34,6 +35,28 @@ amazing.savePlaycount = function(){
 		type: "playcount"
 	}
     parent.postMessage(JSON.stringify(params), "*")
+
+    gameFromApp = false
+
+    /*window.addEventListener("message", function(event){
+    //console.log("profile",event)
+
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+                 //origin = event.origin
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "app":
+                gameFromApp = true
+                console.log("Game come from app")
+            }
+        }
+    })*/
+
 }
 
 amazing.share = function(score, game){
@@ -84,6 +107,7 @@ amazing.getGames = function(){
         {name:'Ski Zag',iconName:'skiZag',url:'http://amazingapp.mx/juegos/skiZag/',coupon : false,mixName:'skiZag',id:5766289444306944},//20
         {name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',id:5303856053354496},//21
         {name:'Chak Block',iconName:'chakBlock',url:'http://amazingapp.mx/juegos/chakBlock/',coupon : false,mixName:'chakBlock',id:5642980933238784},//22
+        {name:'Choco Pile',iconName:'chocoPile',url:'http://amazingapp.mx/juegos/chocoPile/',coupon : false,mixName:'chocoPile',demo:true,id:5642980933238784},//23
         //
     ]
 
@@ -159,6 +183,8 @@ amazing.setMinigameId = function(){
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
                 //origin = event.origin
+                gameFromApp = true
+                console.log("Get minigameId")
 				if(userMail){
 
 					console.log('email sent')
@@ -252,6 +278,10 @@ amazing.getBirthday = function(){
 
 amazing.getGender = function(){
 	return gender
+}
+
+amazing.getFromApp = function(){
+    return gameFromApp
 }
 
 //amazing.setApp()
