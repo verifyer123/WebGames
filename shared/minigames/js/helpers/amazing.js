@@ -4,6 +4,7 @@ var dataStore
 var minigameId
 var userMail, gender, birthday
 var origin
+var gameFromApp
 
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
@@ -34,6 +35,28 @@ amazing.savePlaycount = function(){
 		type: "playcount"
 	}
     parent.postMessage(JSON.stringify(params), "*")
+
+    gameFromApp = false
+
+    /*window.addEventListener("message", function(event){
+    //console.log("profile",event)
+
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+                 //origin = event.origin
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "app":
+                gameFromApp = true
+                console.log("Game come from app")
+            }
+        }
+    })*/
+
 }
 
 amazing.share = function(score, game){
@@ -160,6 +183,8 @@ amazing.setMinigameId = function(){
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
                 //origin = event.origin
+                gameFromApp = true
+                console.log("Get minigameId")
 				if(userMail){
 
 					console.log('email sent')
@@ -253,6 +278,10 @@ amazing.getBirthday = function(){
 
 amazing.getGender = function(){
 	return gender
+}
+
+amazing.getFromApp = function(){
+    return gameFromApp
 }
 
 //amazing.setApp()

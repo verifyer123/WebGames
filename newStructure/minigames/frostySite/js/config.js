@@ -23,7 +23,7 @@ window.amazing = {
     config: {
         name: "Frosty Run",
         language: "es",
-        minigameUrl: "http://www.yogome.com/epic/minigames/frostyRun/index.html?language=" + language,
+        minigameUrl: "../frostyRun/index.html?language=" + language,
         desktopUrl: "./desktop.html",
     }
 }
