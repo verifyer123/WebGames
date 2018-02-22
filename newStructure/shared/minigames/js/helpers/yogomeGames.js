@@ -177,6 +177,7 @@ var yogomeGames = function () {
             {name:'OrbitalOrder',url:urlSet + 'orbitalOrder/',mapUrl:urlMap + 'orbitalOrder', sceneName:'orbitalOrder',subject:'Geography', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//147
             {name:'Cheesy Maze',url:urlSet + 'cheesyMaze/',mapUrl:urlMap + 'cheesyMaze', sceneName:'cheesyMaze',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.GRAB},//148
             {name:'Code Cake',url:urlSet + 'codeCake/',mapUrl:urlMap + 'codeCake', sceneName:'codeCake',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//149
+            {name:'S Mart',url:urlSet + 'smart/',mapUrl:urlMap + 'smart', sceneName:'smart',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//150
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
