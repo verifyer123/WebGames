@@ -26,7 +26,8 @@ export class Continue extends React.Component {
 	}
 
 	componentDidMount() {
-		if (this.dataSubscription.daysToExpire > 7) {
+
+		if ((this.dataSubscription.daysToExpire > 7)||((!this.dataSubscription.isTrial && this.dataSubscription.subscribed))){
 			this.props.onLogin()
 		}
 	}

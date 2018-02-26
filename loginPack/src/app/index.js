@@ -81,6 +81,7 @@ class App extends React.Component{
 			this.setChildData(response.child)
 			this.addChildData("subscribed", response.subscribed)
 			this.addChildData("daysToExpire", response.daysToExpire)
+			this.addChildData("isTrial", response.isTrial)
 		}
 
 		function onError() {
