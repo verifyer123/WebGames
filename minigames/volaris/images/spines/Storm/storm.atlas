@@ -1,0 +1,27 @@
+
+storm.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/lluvia
+  rotate: false
+  xy: 2, 2
+  size: 164, 122
+  orig: 164, 122
+  offset: 0, 0
+  index: -1
+normal/tormenta
+  rotate: false
+  xy: 2, 126
+  size: 186, 123
+  orig: 186, 123
+  offset: 0, 0
+  index: -1
+normal/truenos
+  rotate: false
+  xy: 168, 34
+  size: 69, 90
+  orig: 69, 90
+  offset: 0, 0
+  index: -1
