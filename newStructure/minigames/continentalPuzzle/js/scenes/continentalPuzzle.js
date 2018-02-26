@@ -137,8 +137,10 @@ var continentalPuzzle = function(){
     function rotateImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].angle = 0
+            group.children[i].scale.setTo(1)
             if( i == index){
                 group.children[i].angle = game.rnd.integerInRange(1, 7) * 45
+                group.children[i].scale.setTo(0.8)
             }
         }
     } 
@@ -711,7 +713,9 @@ var continentalPuzzle = function(){
                         index = 5
                     }
                     changeImage(index, nameGroup)
-                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x + 50}, 100,Phaser.Easing.linear,true)
+                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x + 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
+                        nameGroup.children[index].x = banner.x
+                    })
                 })
             break
             case 1:
@@ -730,7 +734,9 @@ var continentalPuzzle = function(){
                         index = 0
                     }
                     changeImage(index, nameGroup)
-                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x - 50}, 100,Phaser.Easing.linear,true)
+                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x - 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
+                        nameGroup.children[index].x = banner.x
+                    })
                 })
             break
         }
@@ -863,7 +869,7 @@ var continentalPuzzle = function(){
         particleCorrect.y = banner.y - 50
         particleCorrect.start(true, 1200, null, 10)
 
-        if(pivotinent < 6){
+        if(pivotinent < 2){
             game.time.events.add(1200,function(){
                 banner.loadTexture('IDLE', 0, true)
                 banner.play('IDLE')
