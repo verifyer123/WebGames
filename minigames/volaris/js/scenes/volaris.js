@@ -128,6 +128,8 @@ var volaris = function(){
 
     var objectsOnCollision
 
+    var spaceBar
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -145,6 +147,7 @@ var volaris = function(){
         deltaVel = 0
         initialTouch = false
         objectsOnCollision = []
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	}
     
 
@@ -236,7 +239,7 @@ var volaris = function(){
         }
         var turbo = 0
         if(initialTouch){
-            if(game.input.activePointer.isDown){
+            if(spaceBar.isDown){//if(game.input.activePointer.isDown){
             	if(player.body.y > 100){
                 	if(velocity>-Y_MAX_VELOCITY){
                     	velocity-=DELTA_VELOCITY
@@ -351,7 +354,7 @@ var volaris = function(){
         }
         else{
             //typeScreen
-            if(game.input.activePointer.isDown){
+            if(spaceBar.isDown){//if(game.input.activePointer.isDown){
                 tutorialGroup.visible = false
                 initialTouch = true
             }
@@ -934,6 +937,8 @@ var volaris = function(){
     
 
     function create(){
+        
+
 
         initialize()  
         
@@ -1209,7 +1214,7 @@ var volaris = function(){
         sceneGroup.add(tutorialGroup)
 
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        var tutorialText = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY+220, "Da click para iniciar", fontStyle)
+        var tutorialText = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY+220, "Da click en la barra espaciadora para iniciar", fontStyle)
         tutorialText.anchor.setTo(0.5)
         tutorialGroup.add(tutorialText)
 
