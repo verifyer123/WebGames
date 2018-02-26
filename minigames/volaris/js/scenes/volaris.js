@@ -31,10 +31,6 @@ var volaris = function(){
                 name: "turbo",
                 file:soundsPath+"inflateballoon.mp3"
             },
-            {
-                name: "turbo",
-                file:soundsPath+"inflateballoon.mp3"
-            },
             
 		],
 	}
@@ -55,7 +51,7 @@ var volaris = function(){
     var INIT_X
 
     var TURBO_VELOCITY = 5
-    var TURBO_TIME = 5000
+    var TURBO_TIME = 10000
 
     var INITIAL_VELOCITY= 7
 
@@ -160,9 +156,6 @@ var volaris = function(){
 
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
-        
-
-
     }
     
     
@@ -191,7 +184,7 @@ var volaris = function(){
     function stopGame(win){
         liveBar.mask.scale.setTo(0.001,1)
         
-
+        //game.tweens.removeAll()
     	game.add.tween(player.body).to({x:game.world.width-200,y:game.world.height-100},3000,Phaser.Easing.linear,true)
 
         //heartsGroup.text.setText('X ' + 0)
@@ -319,7 +312,9 @@ var volaris = function(){
             	turbo = TURBO_VELOCITY
             	if(timeTurbo<game.time.now){
             		turboActivated = false
-                    player.spine.setAnimationByName(0,'idle',true)
+                    if(gameActive){
+                        player.spine.setAnimationByName(0,'idle',true)
+                    }
             	}
             }
 
@@ -357,14 +352,14 @@ var volaris = function(){
             }
 
             if(hand.timeChange < game.time.now){
-                hand.timeChange = game.time.noe + HAND_TUTORIAL_DELTA
+                hand.timeChange = game.time.now + HAND_TUTORIAL_DELTA
                 if(hand.current==0){
                     hand.loadTexture('handUp',0,false)
-                    hand.type = 1
+                    hand.current = 1
                 }
                 else{
                     hand.loadTexture('handDown',0,false)
-                    hand.type = 0
+                    hand.current = 0
                 }
             }
         }
@@ -810,7 +805,7 @@ var volaris = function(){
             }
             createPart('wrong',player)
             sound.play('wrong')
-            setTimeout(function(){evaluateCollision(body)},1000)
+            setTimeout(function(){evaluateCollision(body)},500)
     	}
     }
 
@@ -867,7 +862,7 @@ var volaris = function(){
             var animation = player.spine.setAnimationByName(0,'hit',false)
             animation.onComplete = function(){if(gameActive){player.spine.setAnimationByName(0,'idle',true)}}
             
-	        setTimeout(function(){evaluateCollision(body)},1000)
+	        setTimeout(function(){evaluateCollision(body)},500)
 	        
             objectsOnCollision.push(body)
 	        
@@ -887,7 +882,7 @@ var volaris = function(){
             animation.onComplete = function(){if(gameActive){player.spine.setAnimationByName(0,'idle',true)}}
             objectsOnCollision.push(body)
 
-            setTimeout(function(){evaluateCollision(body)},1000)
+            setTimeout(function(){evaluateCollision(body)},500)
 
         }
         else if(body.type == "plusTime"){
@@ -1212,6 +1207,10 @@ var volaris = function(){
         var tutorialText = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY+220, "Da click para iniciar", fontStyle)
         tutorialText.anchor.setTo(0.5)
         tutorialGroup.add(tutorialText)
+
+        if(!game.device.desktop){
+            tutorialText.setText('Da tap para iniciar')
+        }
 
         hand = tutorialGroup.create(game.world.centerX,game.world.centerY+150,'handDown')
         hand.anchor.setTo(0.5)
