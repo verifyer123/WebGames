@@ -1098,22 +1098,22 @@ var Yfactor = function(){
             game.sound.setDecodedCallback(Mexican, function(){
                 Mexican.loopFull(0.6)
             }, this);
-                
+            Mexican.stop()    
             Japanese = game.add.audio('Jap')
             game.sound.setDecodedCallback(Japanese, function(){
                 Japanese.loopFull(0.6)
             }, this);
-                
+            Japanese.stop()   
             Corean = game.add.audio('Cor')
             game.sound.setDecodedCallback(Corean, function(){
                 Corean.loopFull(0.6)
             }, this);
-                
+            Corean.stop()     
             American = game.add.audio('Ame')
             game.sound.setDecodedCallback(American, function(){
                 American.loopFull(0.6)
             }, this);
-            
+            American.stop()
             game.onPause.add(function(){
                 game.sound.mute = true
             } , this);
