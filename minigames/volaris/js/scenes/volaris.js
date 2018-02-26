@@ -22,7 +22,7 @@ var volaris = function(){
             {	name: "swipe",
 				file: soundsPath + "swipe.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "bomb.mp3"},
             {	name: "pop",
 				file: soundsPath + "pop.mp3"},
             {	name: "gameLose",
@@ -30,6 +30,10 @@ var volaris = function(){
             {
                 name: "turbo",
                 file:soundsPath+"inflateballoon.mp3"
+            },
+            {
+                name: "falling",
+                file:soundsPath+"falling.mp3"
             },
             
 		],
@@ -189,6 +193,7 @@ var volaris = function(){
 
         //heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
+        sound.play("falling")
 
         gameActive = false
 
