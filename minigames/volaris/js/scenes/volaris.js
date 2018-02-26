@@ -51,11 +51,11 @@ var volaris = function(){
     var INIT_X
 
     var TURBO_VELOCITY = 5
-    var TURBO_TIME = 10000
+    var TURBO_TIME = 4000
 
     var INITIAL_VELOCITY= 7
 
-    var TIME_PERMIT_TURBO = 10000
+    var TIME_PERMIT_TURBO = 20000
     var DELTA_VEL_OBS = 0.1
     var MAX_DELTA_VEL_OBS = 2
 
@@ -137,7 +137,7 @@ var volaris = function(){
         groups = []
         onCollisionBackground = 0
         turboActivated = false
-        timePermitTurbo = 5000
+        timePermitTurbo = 6000
         deltaVel = 0
         initialTouch = false
         objectsOnCollision = []
