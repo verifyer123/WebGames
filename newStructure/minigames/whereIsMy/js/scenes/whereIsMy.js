@@ -448,6 +448,8 @@ var whereIsMy = function(){
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
+        
+        
         backGwall=game.add.tileSprite(0,game.world.centerY,game.world.width*2,game.world.height,'atlas.where',"TILE WALL")
         backGwall.scale.setTo(1,1)
         backGwall.anchor.setTo(0.5,0.5)
@@ -790,6 +792,31 @@ var whereIsMy = function(){
         Right.tint = 0x909090;
         Left.tint = 0x909090;
         
+        // paredes anti-salirse
+       
+        wall1=game.add.sprite(game.world.centerX+280,game.world.centerY,'atlas.where',"COLUMN")
+        wall1.anchor.setTo(0.5,0.5)
+        game.physics.enable(wall1, Phaser.Physics.ARCADE);
+        wall1.body.immovable=true
+        backgroundGroup.add(wall1)
+        
+        wall2=game.add.sprite(game.world.centerX-280,game.world.centerY+50,'atlas.where',"COLUMN")
+        wall2.anchor.setTo(0.5,0.5)
+        game.physics.enable(wall2, Phaser.Physics.ARCADE);
+        wall2.body.immovable=true
+        backgroundGroup.add(wall2)
+        
+        wall3=game.add.sprite(game.world.centerX,game.world.centerY+310,'atlas.where',"COLUMN")
+        wall3.anchor.setTo(0.5,0.5)
+        wall3.scale.setTo(6,0.3)
+        game.physics.enable(wall3, Phaser.Physics.ARCADE);
+        wall3.body.immovable=true
+        backgroundGroup.add(wall3)
+        
+        wall1.alpha=0;
+        wall2.alpha=0;
+        wall3.alpha=0;
+        
     }
 	
     function startGlobe(){
@@ -1002,10 +1029,11 @@ var whereIsMy = function(){
     
     function onClick(obj){
         
-        sound.play("pop")
+        
         
         
         if(obj.tag=="left" && !btnActive && objectDisplay && desbloqueo){
+            sound.play("pop")
             characterProxy.body.velocity.x = -100;
             character.scale.setTo(-1,1)
             btnActive=true
@@ -1020,6 +1048,7 @@ var whereIsMy = function(){
             
         }
         if(obj.tag=="right" && !btnActive && objectDisplay && desbloqueo){
+            sound.play("pop")
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.x = +100;
@@ -1032,6 +1061,7 @@ var whereIsMy = function(){
             })
         }
         if(obj.tag=="up" && !btnActive && objectDisplay && desbloqueo){
+            sound.play("pop")
             character.scale.setTo(1,1)
             btnActive=true
             characterProxy.body.velocity.y = -100;
@@ -1044,13 +1074,14 @@ var whereIsMy = function(){
             })
         }
         if(obj.tag=="down" && !btnActive && objectDisplay){
+            sound.play("pop")
             character.scale.setTo(1,1)
             if(dificulty==100000){
-                game.add.tween(mano).to({alpha:0},450,Phaser.Easing.linear,true, 250);
+                game.add.tween(mano).to({alpha:0},350,Phaser.Easing.linear,true, 150);
                 game.time.events.add(950, function(){
                     mano.position.x=objectsInScene[6].x;
                     mano.position.y=objectsInScene[6].y;
-                    game.add.tween(mano).to({alpha:1},450,Phaser.Easing.linear,true, 250);
+                    game.add.tween(mano).to({alpha:1},150,Phaser.Easing.linear,true);
                 })
             }
             btnActive=true
@@ -1109,6 +1140,9 @@ var whereIsMy = function(){
             game.physics.arcade.collide(characterProxy, nightStand);
             game.physics.arcade.collide(characterProxy, backGglass);
             game.physics.arcade.collide(characterProxy, puff);
+            game.physics.arcade.collide(characterProxy, wall1);
+            game.physics.arcade.collide(characterProxy, wall2);
+            game.physics.arcade.collide(characterProxy, wall3);
             
         }
 

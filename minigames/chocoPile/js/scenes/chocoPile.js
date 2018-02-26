@@ -109,6 +109,9 @@ var chocoPile = function(){
 
 	var clouds =[]
 
+    var framesReturn = 2
+    var currentFrames 
+
     function loadSounds(){
         sound.decode(assets.sounds)
     }
@@ -132,6 +135,8 @@ var chocoPile = function(){
         currentCombo = 0
         VEL = INITIAL_VEL
         LIMIT_Y = game.world.height + 100
+
+        currentFrames = 0
         
     }
     
@@ -237,6 +242,13 @@ var chocoPile = function(){
     
     function update(){
 
+        /*if(currentFrames<framesReturn){
+            currentFrames++
+        }
+        else{
+            currentFrames=0
+            return
+        }*/
 		
         for(var i = 0 ; i < clouds.length; i++){
         	if(clouds[i].y >-100){
@@ -250,8 +262,10 @@ var chocoPile = function(){
 	        	}
 	        }
         }
+
         
         for(var i = 0; i < downChocolatesFront.length; i++){
+
             if(downChocolatesFront.children[i].visible){
                 downChocolatesFront.children[i].y +=VEL_DOWN
 
@@ -324,7 +338,7 @@ var chocoPile = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.6
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
         
@@ -500,6 +514,8 @@ var chocoPile = function(){
 
     function Tap(){
 
+        console.log(chocolatesGroup.length,downChocolatesFront.length,downChocolatesBack.length,sceneGroup.length)
+
         VEL+=DELTA_VEL
         VEL_X = VEL*COS_ANG
         VEL_Y = VEL*SIN_ANG
@@ -516,7 +532,7 @@ var chocoPile = function(){
                 
                 }
                 else{
-
+                    chocolatesGroup.remove(currentChocolate)
                     currentChocolate.destroy()
                     for(var i = 0; i < maskData.length; i++){
                         if(maskData[i]>PLUS_BY_COMBO){
@@ -563,7 +579,7 @@ var chocoPile = function(){
         if(currentChocolate.x > currentPosition.x){
             if(currentChocolate.y < currentPosition.y - DELTA_LEVEL){
                 //x- y-
-
+                chocolatesGroup.remove(currentChocolate)
                 currentChocolate.destroy()
 
                 var width = (currentChocolate.x - currentPosition.x)
@@ -593,6 +609,7 @@ var chocoPile = function(){
                     return
                 }
                 else{
+                    chocolatesGroup.remove(lastChocolate)
                     lastChocolate.destroy()
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0]+currentSize.width,maskData[1],maskData[2],maskData[3])
@@ -637,6 +654,7 @@ var chocoPile = function(){
                     return
                 }
                 else{
+                    chocolatesGroup.remove(lastChocolate)
                     lastChocolate.destroy()
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0],maskData[1],maskData[2]+currentSize.height*SIN_ANG,maskData[3])
@@ -680,6 +698,7 @@ var chocoPile = function(){
                     return
                 }
                 else{
+                    chocolatesGroup.remove(lastChocolate)
                     lastChocolate.destroy()
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0],maskData[1],maskData[2],maskData[3]+currentSize.height*SIN_ANG)
@@ -720,6 +739,7 @@ var chocoPile = function(){
                     return
                 }
                 else{
+                    chocolatesGroup.remove(lastChocolate)
                     lastChocolate.destroy()
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0],maskData[1]+currentSize.width,maskData[2],maskData[3])
@@ -921,6 +941,7 @@ var chocoPile = function(){
         	//cityImage.y+=vel
         	game.add.tween(cityImage).to({y:cityImage.y+vel},500,Phaser.Easing.linear,true)
         	if(cityImage.y > game.world.height*3){
+                console.log("cityImage turn off")
         		cityImage.visible = false
         	}
     	}
@@ -946,7 +967,12 @@ var chocoPile = function(){
 
         //var bmd = game.add.bitmapData(2, game.world.height*(BACKGROUND_COLORS.length+4))
         
+        /*var bmd = game.add.bitmapData(game.world.width, ((game.world.height/4)*(BACKGROUND_COLORS.length-1)))
+        bmd.draw('preloadedImage',0,0,game.world.width,((game.world.height/4)*(BACKGROUND_COLORS.length-1)))
 
+        var ciudad = game.make.sprite(0,0,'atlas.game','ciudad')
+
+        bmd.draw(ciudad,0,(((game.world.height/4)*(BACKGROUND_COLORS.length-1)))-(game.world.height),game.world.width,(game.world.height))*/
 
         var backSprite = sceneGroup.create(0,-(game.world.height)*(BACKGROUND_COLORS.length-2)+((game.world.height)*(BACKGROUND_COLORS.length-1)/4),'preloadedImage')
         backSprite.scale.setTo(game.world.width,3)
@@ -963,6 +989,7 @@ var chocoPile = function(){
         cityImage = sceneGroup.create(game.world.centerX,game.world.height,'atlas.game','ciudad')
         cityImage.anchor.setTo(0.5,1)
         cityImage.scale.setTo(1.4,1.4)
+
 
         loadSounds()
         initialize()  
@@ -1004,8 +1031,6 @@ var chocoPile = function(){
             }, this);   
         }
 
-        
-
         createPointsBar()
         createHearts()
 
@@ -1022,7 +1047,7 @@ var chocoPile = function(){
         maskData.push(0)
         maskData.push(0)
 
-        var cloud = sceneGroup.create(game.world.centerX,-game.world.height*2,'atlas.game','nube1')
+        /*var cloud = sceneGroup.create(game.world.centerX,-game.world.height*2,'atlas.game','nube1')
         cloud.anchor.setTo(0.5,0.5)
         cloud.vel = -5
         clouds.push(cloud)
@@ -1035,25 +1060,18 @@ var chocoPile = function(){
         cloud = sceneGroup.create(game.world.centerX,-game.world.height*2+150,'atlas.game','nube1')
         cloud.anchor.setTo(0.5,0.5)
         cloud.vel = 3
-        clouds.push(cloud)
-
-
+        clouds.push(cloud)*/
 
         initialChocolate()
 
-
-
-
-      	var neblina_1=sceneGroup.create(game.world.centerX+150,game.world.height+150,'atlas.game','neblina')
+      	/*var neblina_1=sceneGroup.create(game.world.centerX+150,game.world.height+150,'atlas.game','neblina')
       	neblina_1.anchor.setTo(0.5,1)
       	neblina_1.scale.setTo(1.4)
 
 
       	var neblina_2=sceneGroup.create(game.world.centerX-150,game.world.height+150,'atlas.game','neblina')
       	neblina_2.anchor.setTo(0.5,1)
-      	neblina_2.scale.setTo(-1.4,1.4)
-
-
+      	neblina_2.scale.setTo(-1.4,1.4)*/
 
 
        	currentChocolate = createChocolate(rightX,game.world.centerY-100,INITIAL_WIDTH,INITIAL_HEIGHT,0,0,0,0)

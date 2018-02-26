@@ -64,11 +64,12 @@ var result = function(){
 		totalGoal = 1
 		totalTime = 0
         win = didWin
-
-        mixpanel.track(
-            "finishGame",
-            {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        //if(icons[gameIndex].demo==null){
+            mixpanel.track(
+                "finishGame",
+                {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+            );
+        //}
 
 	}
 
@@ -111,11 +112,12 @@ var result = function(){
 
 
 	function shareEvent(){
-
-        mixpanel.track(
-            "pressFacebook",
-            {"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        //if(icons[gameIndex].demo==null){
+            mixpanel.track(
+                "pressFacebook",
+                {"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+            );
+        //}
 
         if(!minigameId){
             FB.ui({
@@ -161,16 +163,17 @@ var result = function(){
                 },this)
 
             }else if(parent.tag == 'reintentar'){
+                //if(icons[gameIndex].demo==null){
+    				mixpanel.track(
+    					"retryGame",
+    					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+    				);
 
-				mixpanel.track(
-					"retryGame",
-					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-				);
-
-				mixpanel.track(
-					"enterGame",
-					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-				);
+    				mixpanel.track(
+    					"enterGame",
+    					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
+    				);
+                //}
 
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
@@ -772,7 +775,7 @@ var result = function(){
             equal = true
         }
 
-        if(icons[number].demo!=null){
+        if(icons[number].demo){
             equal = true
         }
 

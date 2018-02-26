@@ -1,0 +1,90 @@
+
+mexican.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal4/arm1
+  rotate: false
+  xy: 2, 2
+  size: 123, 60
+  orig: 123, 60
+  offset: 0, 0
+  index: -1
+normal4/earring
+  rotate: true
+  xy: 257, 26
+  size: 35, 61
+  orig: 35, 61
+  offset: 0, 0
+  index: -1
+normal4/eyes
+  rotate: false
+  xy: 127, 11
+  size: 128, 51
+  orig: 128, 51
+  offset: 0, 0
+  index: -1
+normal4/face_a
+  rotate: false
+  xy: 346, 165
+  size: 173, 119
+  orig: 173, 119
+  offset: 0, 0
+  index: -1
+normal4/face_b
+  rotate: true
+  xy: 911, 321
+  size: 179, 93
+  orig: 179, 93
+  offset: 0, 0
+  index: -1
+normal4/hand1
+  rotate: true
+  xy: 260, 63
+  size: 105, 60
+  orig: 105, 60
+  offset: 0, 0
+  index: -1
+normal4/head
+  rotate: false
+  xy: 2, 170
+  size: 342, 330
+  orig: 342, 330
+  offset: 0, 0
+  index: -1
+normal4/leg1
+  rotate: false
+  xy: 649, 154
+  size: 84, 130
+  orig: 84, 130
+  offset: 0, 0
+  index: -1
+normal4/necklace
+  rotate: true
+  xy: 521, 174
+  size: 110, 126
+  orig: 110, 126
+  offset: 0, 0
+  index: -1
+normal4/skirt
+  rotate: false
+  xy: 346, 286
+  size: 407, 214
+  orig: 407, 214
+  offset: 0, 0
+  index: -1
+normal4/top
+  rotate: false
+  xy: 2, 64
+  size: 256, 104
+  orig: 256, 104
+  offset: 0, 0
+  index: -1
+normal4/torso
+  rotate: false
+  xy: 755, 319
+  size: 154, 181
+  orig: 154, 181
+  offset: 0, 0
+  index: -1
