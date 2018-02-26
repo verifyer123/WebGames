@@ -239,7 +239,7 @@ var volaris = function(){
         }
         var turbo = 0
         if(initialTouch){
-            if(spaceBar.isDown){//if(game.input.activePointer.isDown){
+            if(spaceBar.isDown || game.input.activePointer.isDown){//if(game.input.activePointer.isDown){
             	if(player.body.y > 100){
                 	if(velocity>-Y_MAX_VELOCITY){
                     	velocity-=DELTA_VELOCITY
@@ -354,7 +354,7 @@ var volaris = function(){
         }
         else{
             //typeScreen
-            if(spaceBar.isDown){//if(game.input.activePointer.isDown){
+            if(spaceBar.isDown || game.input.activePointer.isDown){//if(game.input.activePointer.isDown){
                 tutorialGroup.visible = false
                 initialTouch = true
             }
