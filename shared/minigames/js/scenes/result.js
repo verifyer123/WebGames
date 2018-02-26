@@ -765,7 +765,7 @@ var result = function(){
         var equal = false
         for(var i = 0; i < gameNumbers.length; i++){
 
-            //console.log(number + ' number, ' + gameIndex + ' index, ' + gameNumbers[i] + ' gameNumbers' )
+            console.log(number + ' number, ' + gameIndex + ' index, ' + gameNumbers[i] + ' gameNumbers' )
             if(number == gameNumbers[i]){
                 equal = true
             }
@@ -775,7 +775,7 @@ var result = function(){
             equal = true
         }
 
-        if(icons[number].demo!=null){
+        if(icons[number].demo){
             equal = true
         }
 

@@ -10,10 +10,12 @@ var volaris = function(){
                 image: "images/volaris/atlas.png",
             },
         ],
-        /*images: [
-            {   name:"fondo",
-				file: "images/delicafe/fondo.png"},
-		],*/
+        images: [
+            {   name:"handDown",
+				file: "images/volaris/handDown.png"},
+            {   name:"handUp",
+                file: "images/volaris/handUp.png"},
+		],
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
@@ -36,30 +38,32 @@ var volaris = function(){
             
 		],
 	}
-    var PROBABILITY_OBSTACLE = 0.3
+    var PROBABILITY_OBSTACLE = 0.5
     
     var INITIAL_LIVES = 1
-    var DELTA_LOSE = 0.0005
-    var DELTA_ENEMY = 0.1
-    var DELTA_PLUS = 0.3
+    var DELTA_LOSE = 0.001
+    var DELTA_ENEMY = 0.15
+    var DELTA_PLUS = 0.2
 
     var Y_MAX_VELOCITY = 10
-    var DELTA_VELOCITY = 0.3
+    var DELTA_VELOCITY = 0.6
 
-    var DELTA_TIME_OBSTACLE = 200
-    var INIT_TIME_OBSTACLE = 4000
-    var MIN_TIME_OBSTACLE = 3000
+    var DELTA_TIME_OBSTACLE = 100
+    var INIT_TIME_OBSTACLE = 2000
+    var MIN_TIME_OBSTACLE = 1000
 
     var INIT_X
 
     var TURBO_VELOCITY = 5
     var TURBO_TIME = 5000
 
+    var INITIAL_VELOCITY= 7
+
     var TIME_PERMIT_TURBO = 10000
     var DELTA_VEL_OBS = 0.1
     var MAX_DELTA_VEL_OBS = 2
 
-
+    var HAND_TUTORIAL_DELTA = 500
 
     
     
@@ -117,6 +121,12 @@ var volaris = function(){
 
     var deltaVel
 
+    var tutorialGroup
+
+    var hand
+    var initialTouch
+
+    var objectsOnCollision
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -133,6 +143,8 @@ var volaris = function(){
         turboActivated = false
         timePermitTurbo = 5000
         deltaVel = 0
+        initialTouch = false
+        objectsOnCollision = []
 	}
     
 
@@ -224,107 +236,135 @@ var volaris = function(){
         if(gameActive == false){
             return
         }
-
-        if(game.input.activePointer.isDown){
-        	if(player.body.y > 100){
-            	if(velocity>-Y_MAX_VELOCITY){
-                	velocity-=DELTA_VELOCITY
-            	}
+        var turbo = 0
+        if(initialTouch){
+            if(game.input.activePointer.isDown){
+            	if(player.body.y > 100){
+                	if(velocity>-Y_MAX_VELOCITY){
+                    	velocity-=DELTA_VELOCITY
+                	}
+                }
+                else{
+                	velocity = 0
+                }
             }
             else{
-            	velocity = 0
+            	if(player.body.y < game.world.height-100){
+    	            if(velocity<Y_MAX_VELOCITY){
+    	                velocity+=DELTA_VELOCITY
+    	            }
+    	        }else{
+    	        	velocity = 0
+    	        }
+
+
+            }
+            if(((player.body.y >100 && velocity<0)||(player.body.y < game.world.height-100 && velocity>1)) && !turboActivated ){ 
+    	        player.body.y += velocity
+    	    }
+
+
+
+            if(timeNewObstacle < game.time.now){
+                if(currentDeltaTime>MIN_TIME_OBSTACLE){
+                    currentDeltaTime-=DELTA_TIME_OBSTACLE
+                }
+                timeNewObstacle = game.time.now + currentDeltaTime
+
+                /*if(turboActivated){
+                    timeNewObstacle-=1000
+                }*/
+                var r = game.rnd.integerInRange(1,3)
+
+                var x = game.rnd.integerInRange(-100,150)
+
+                for(var i = 0 ; i < r; i ++){
+                    var id
+                    var obs = game.rnd.frac()
+
+                    if(timePermitTurbo<game.time.now){
+                        if(obs<=PROBABILITY_OBSTACLE){
+                            id = game.rnd.integerInRange(0,2)
+                        }
+                        else{
+                            id = game.rnd.integerInRange(3,groups.length-1)
+                        }
+                        if(id == groups.length-1){
+                            timePermitTurbo = game.time.now + TIME_PERMIT_TURBO
+                        }
+                    }
+                    else{
+
+                        if(obs<=PROBABILITY_OBSTACLE){
+                            id = game.rnd.integerInRange(0,2)
+                        }
+                        else{
+                            id = game.rnd.integerInRange(3,groups.length-2)
+                        }
+                    }
+                    var o = getObjectFromGroup(groups[id])
+                    o.visible = true
+                    o.body.x = INIT_X + x
+                    x += game.rnd.integerInRange(300,500)
+                    o.body.y = game.rnd.integerInRange(game.world.centerY - 220, game.world.centerY+180)
+                    o.vel = game.rnd.integerInRange(INITIAL_VELOCITY+1+deltaVel,INITIAL_VELOCITY+2+deltaVel)
+                    //console.log("Set object ",o)
+                }
+                if(deltaVel < MAX_DELTA_VEL_OBS){
+                    deltaVel += DELTA_VEL_OBS
+                }
+            }
+            
+            if(turboActivated){
+            	turbo = TURBO_VELOCITY
+            	if(timeTurbo<game.time.now){
+            		turboActivated = false
+                    player.spine.setAnimationByName(0,'idle',true)
+            	}
+            }
+
+            for(var i = 0; i < groups.length; i++){
+                //console.log(groups.length,groups[i].length)
+                for(var j = 0; j < groups[i].length; j++){
+                    if(groups[i].children[j].visible){
+
+                        groups[i].children[j].body.x -= (groups[i].children[j].vel + turbo)
+
+                        if(groups[i].children[j].secondPart!=null){
+                            groups[i].children[j].secondPart.x = groups[i].children[j].body.x+groups[i].children[j].secondPart.delta.x
+                            groups[i].children[j].secondPart.y = groups[i].children[j].body.y+groups[i].children[j].secondPart.delta.y
+                        }
+                        //console.log("vel")
+                        if(groups[i].children[j].body.x < -200){
+                            groups[i].children[j].visible = false
+                        }
+                    }
+                }
+            }
+
+            if(liveBar.canDecrease && !turboActivated){
+                liveBar.mask.scale.setTo(liveBar.mask.scale.x - DELTA_LOSE, 1)
+                if(liveBar.mask.scale.x <= 0){
+                    stopGame()
+                }
             }
         }
         else{
-        	if(player.body.y < game.world.height-100){
-	            if(velocity<Y_MAX_VELOCITY){
-	                velocity+=DELTA_VELOCITY
-	            }
-	        }else{
-	        	velocity = 0
-	        }
-
-
-        }
-        if((player.body.y >100 && velocity<0)||(player.body.y < game.world.height-100 && velocity>1)){ 
-	        player.body.y += velocity
-	    }
-
-
-
-        if(timeNewObstacle < game.time.now){
-            if(currentDeltaTime>MIN_TIME_OBSTACLE){
-                currentDeltaTime-=DELTA_TIME_OBSTACLE
+            //typeScreen
+            if(game.input.activePointer.isDown){
+                tutorialGroup.visible = false
+                initialTouch = true
             }
-            timeNewObstacle = game.time.now + currentDeltaTime
 
-            if(turboActivated){
-                timeNewObstacle-=1000
-            }
-            var r = game.rnd.integerInRange(1,2)
-
-            var x = game.rnd.integerInRange(-100,100)
-
-            for(var i = 0 ; i < r; i ++){
-                var id
-                var obs = game.rnd.frac()
-
-                if(timePermitTurbo<game.time.now){
-                    if(obs<=PROBABILITY_OBSTACLE){
-                        id = game.rnd.integerInRange(0,2)
-                    }
-                    else{
-                        id = game.rnd.integerInRange(3,groups.length-1)
-                    }
-                    if(id == groups.length-1){
-                        timePermitTurbo = game.time.now + TIME_PERMIT_TURBO
-                    }
+            if(hand.timeChange < game.time.now){
+                hand.timeChange = game.time.noe + HAND_TUTORIAL_DELTA
+                if(hand.current==0){
+                    hand.loadTexture('handUp',0,false)
+                    hand.type = 1
                 }
                 else{
-
-                    if(obs<=PROBABILITY_OBSTACLE){
-                        id = game.rnd.integerInRange(0,2)
-                    }
-                    else{
-                        id = game.rnd.integerInRange(3,groups.length-2)
-                    }
-                }
-                var o = getObjectFromGroup(groups[id])
-                o.visible = true
-                o.body.x = INIT_X + x
-                x += game.rnd.integerInRange(0,300)
-                o.body.y = game.rnd.integerInRange(game.world.centerY - 220, game.world.centerY+180)
-                o.vel = game.rnd.integerInRange(2+deltaVel,3+deltaVel)
-                //console.log("Set object ",o)
-            }
-            if(deltaVel < MAX_DELTA_VEL_OBS){
-                deltaVel += DELTA_VEL_OBS
-            }
-        }
-        var turbo = 0
-        if(turboActivated){
-        	turbo = TURBO_VELOCITY
-        	if(timeTurbo<game.time.now){
-        		turboActivated = false
-                player.spine.setAnimationByName(0,'idle',true)
-        	}
-        }
-
-        for(var i = 0; i < groups.length; i++){
-            //console.log(groups.length,groups[i].length)
-            for(var j = 0; j < groups[i].length; j++){
-                if(groups[i].children[j].visible){
-
-                    groups[i].children[j].body.x -= (groups[i].children[j].vel + turbo)
-
-                    if(groups[i].children[j].secondPart!=null){
-                        groups[i].children[j].secondPart.x = groups[i].children[j].body.x+groups[i].children[j].secondPart.delta.x
-                        groups[i].children[j].secondPart.y = groups[i].children[j].body.y+groups[i].children[j].secondPart.delta.y
-                    }
-                    //console.log("vel")
-                    if(groups[i].children[j].body.x < -200){
-                        groups[i].children[j].visible = false
-                    }
+                    hand.loadTexture('handDown',0,false)
+                    hand.type = 0
                 }
             }
         }
@@ -337,12 +377,7 @@ var volaris = function(){
         moveBackground(cespedGroup,turbo)
         moveBackground(backgroundAdornGroup,turbo)
 
-        if(liveBar.canDecrease){
-            liveBar.mask.scale.setTo(liveBar.mask.scale.x - DELTA_LOSE, 1)
-            if(liveBar.mask.scale.x <= 0){
-                stopGame()
-            }
-        }
+        
 
     }
 
@@ -760,11 +795,12 @@ var volaris = function(){
         return s
     }
 
-    function evaluateCollisionBackground(){
+    function evaluateCollision(body){
     	if(!gameActive){
     		return
     	}
-    	if(onCollisionBackground>0){
+    	var index = objectsOnCollision.indexOf(body)
+        if(index!=-1){
     		if(liveBar.mask.scale.x - DELTA_ENEMY < 0){
                 liveBar.mask.scale.setTo(0,1)
                 stopGame()
@@ -774,7 +810,7 @@ var volaris = function(){
             }
             createPart('wrong',player)
             sound.play('wrong')
-            setTimeout(evaluateCollisionBackground,1000)
+            setTimeout(function(){evaluateCollision(body)},1000)
     	}
     }
 
@@ -786,28 +822,37 @@ var volaris = function(){
             return
         }
 
-        if(turboActivated){
-        	if(body.type != "background"){
-        		//body.sprite.visible = false
-        		body.x = -200
-        		liveBar.mask.canDecrease = false
-	            var s 
-	            if(liveBar.mask.scale.x + DELTA_PLUS>1){
-	                s = 1
-	            }
-	            else{
-	                s = liveBar.mask.scale.x + DELTA_PLUS
-	            }
+        body.enable = false
 
-	            liveBar.mask.scale.setTo(s,1)
-	            createPart('star',body.sprite)
-	            sound.play('magic')
-	            addPoint(1,player)
-        	}
+        if(turboActivated){
+        	if(body.type == "plusTime"){
+                liveBar.mask.canDecrease = false
+                var s 
+                if(liveBar.mask.scale.x + DELTA_PLUS>1){
+                    s = 1
+                }
+                else{
+                    s = liveBar.mask.scale.x + DELTA_PLUS
+                }
+                tweenLive = game.add.tween(liveBar.mask.scale).to({x: s},400,Phaser.Easing.linear,true)
+                tweenLive.onComplete.add(function(){liveBar.mask.canDecrease = true})
+                createPart('star',body.sprite)
+                sound.play('magic')
+
+                if(body.ballon){
+                    body.sprite.visible = false
+                }
+
+            }
+            else if(body.type == "coin" && body.sprite.visible){
+                body.sprite.visible = false
+                addPoint(1,body.sprite)
+            }
+
         	return
         }
 
-        body.enable = false
+        
         if(body.type == "background"){
             if(liveBar.mask.scale.x - DELTA_ENEMY < 0){
                 liveBar.mask.scale.setTo(0,1)
@@ -820,11 +865,11 @@ var volaris = function(){
             sound.play('wrong')
             body.enable = true
             var animation = player.spine.setAnimationByName(0,'hit',false)
-            animation.onComplete = function(){player.spine.setAnimationByName(0,'idle',true)}
-            if(onCollisionBackground==0){
-            	onCollisionBackground ++
-	            setTimeout(evaluateCollisionBackground,1000)
-	        }
+            animation.onComplete = function(){if(gameActive){player.spine.setAnimationByName(0,'idle',true)}}
+            
+	        setTimeout(function(){evaluateCollision(body)},1000)
+	        
+            objectsOnCollision.push(body)
 	        
         }
         else if(body.type == "enemy"){
@@ -839,7 +884,10 @@ var volaris = function(){
             sound.play('wrong')
 
             var animation = player.spine.setAnimationByName(0,'hit',false)
-            animation.onComplete = function(){player.spine.setAnimationByName(0,'idle',true)}
+            animation.onComplete = function(){if(gameActive){player.spine.setAnimationByName(0,'idle',true)}}
+            objectsOnCollision.push(body)
+
+            setTimeout(function(){evaluateCollision(body)},1000)
 
         }
         else if(body.type == "plusTime"){
@@ -861,7 +909,7 @@ var volaris = function(){
             }
 
         }
-        else if(body.type == "coin"){
+        else if(body.type == "coin" && body.sprite.visible){
             body.sprite.visible = false
             addPoint(1,body.sprite)
         }
@@ -878,13 +926,10 @@ var volaris = function(){
     	if(!gameActive){
     		return
     	}
-    	if(body.type == 'background'){
-    		onCollisionBackground --
-            if(onCollisionBackground>0){
-                onCollisionBackground = 0
-            }
-    		console.log('backfrounds ',onCollisionBackground)
-    	}
+        var index = objectsOnCollision.indexOf(body)
+    	if(index!=-1){
+            objectsOnCollision.splice(index,1)
+        }
     }
     
 
@@ -955,7 +1000,7 @@ var volaris = function(){
 	        upperCloud.body.clearShapes()
         	upperCloud.body.loadPolygon('physicsData','cloud')
 	        upperCloud.body.data.shapes[0].sensor = true;
-	        upperCloud.vel = 1
+	        upperCloud.vel = INITIAL_VELOCITY
 	        x+=upperCloud.width-1
 	    }
 
@@ -966,7 +1011,7 @@ var volaris = function(){
             mountain_1 = mountain_1_Group.create(x,game.world.height,'atlas.game','monte1')
             mountain_1.anchor.setTo(0,1)
             mountain_1.scale.setTo(0.5)
-            mountain_1.vel = 1
+            mountain_1.vel = INITIAL_VELOCITY
             x += mountain_1.width-1
         }
 
@@ -977,7 +1022,7 @@ var volaris = function(){
             mountain_2 = mountain_2_Group.create(x,game.world.height,'atlas.game','monte2')
             mountain_2.anchor.setTo(0,1)
             mountain_2.scale.setTo(1)
-            mountain_2.vel = 0.7
+            mountain_2.vel = INITIAL_VELOCITY - 0.3
             x+=mountain_2.width-1
         }
 
@@ -989,7 +1034,7 @@ var volaris = function(){
             mountain_3 = mountain_3_Group.create(x,game.world.height-100,'atlas.game','Montanas')
             mountain_3.anchor.setTo(0,1)
             mountain_3.scale.setTo(1)
-            mountain_3.vel = 0.5
+            mountain_3.vel = INITIAL_VELOCITY - 0.5
             x +=mountain_3.width-1
             game.physics.p2.enable(mountain_3,false)
             mountain_3.body.type = "background"
@@ -1006,7 +1051,7 @@ var volaris = function(){
             floor = floorGroup.create(x,game.world.height,'atlas.game','piso')
             floor.anchor.setTo(0,1)
             floor.scale.setTo(1)
-            floor.vel = 1
+            floor.vel = INITIAL_VELOCITY
             x +=floor.width-1
      		
         }
@@ -1014,27 +1059,27 @@ var volaris = function(){
         var adorn = backgroundAdornGroup.create(game.world.width+game.rnd.integerInRange(-200,500),game.world.centerY+game.rnd.integerInRange(-200,200),'atlas.game','viento_fondo')
         adorn.anchor.setTo(0.5)
         adorn.scale.setTo(1)
-        adorn.vel = 0.4
+        adorn.vel = INITIAL_VELOCITY -0.6
 
         adorn = backgroundAdornGroup.create(game.world.width+game.rnd.integerInRange(0,500),game.world.centerY+game.rnd.integerInRange(-200,150),'atlas.game','nubes_fondo')
         adorn.anchor.setTo(0.5)
         adorn.scale.setTo(1)
-        adorn.vel = 0.3
+        adorn.vel = INITIAL_VELOCITY - 0.7
 
         adorn = backgroundAdornGroup.create(game.world.centerX+game.rnd.integerInRange(-200,0),game.world.centerY+game.rnd.integerInRange(-200,150),'atlas.game','nubes_fondo')
         adorn.anchor.setTo(0.5)
         adorn.scale.setTo(1)
-        adorn.vel = 0.25
+        adorn.vel =INITIAL_VELOCITY - 0.75
 
         var adorn = backgroundAdornGroup.create((game.world.width*2)+game.rnd.integerInRange(-200,500),game.world.centerY+game.rnd.integerInRange(-200,200),'atlas.game','viento_fondo')
         adorn.anchor.setTo(0.5)
         adorn.scale.setTo(1)
-        adorn.vel = 0.4
+        adorn.vel = INITIAL_VELOCITY - 0.6
 
         adorn = backgroundAdornGroup.create((game.world.width*2)+game.rnd.integerInRange(-200,500),game.world.centerY+game.rnd.integerInRange(-200,150),'atlas.game','nubes_fondo')
         adorn.anchor.setTo(0.5)
         adorn.scale.setTo(1)
-        adorn.vel = 0.3
+        adorn.vel = INITIAL_VELOCITY - 0.7
 
         
 
@@ -1059,7 +1104,7 @@ var volaris = function(){
         sceneGroup.add(ballonsGroup)
         
         
-        player = sceneGroup.create(100,game.world.centerY,'atlas.game','avion')
+        player = sceneGroup.create(180,game.world.centerY,'atlas.game','avion')
         player.anchor.setTo(0.5)
         //player.alpha = 0.5
         game.physics.p2.enable(player,false)
@@ -1159,6 +1204,20 @@ var volaris = function(){
         mask.endFill()
         liveBar.mask = mask
         liveBar.addChild(mask)
+
+        tutorialGroup = game.add.group()
+        sceneGroup.add(tutorialGroup)
+
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var tutorialText = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY+220, "Da click para iniciar", fontStyle)
+        tutorialText.anchor.setTo(0.5)
+        tutorialGroup.add(tutorialText)
+
+        hand = tutorialGroup.create(game.world.centerX,game.world.centerY+150,'handDown')
+        hand.anchor.setTo(0.5)
+        hand.timeChange = game.time.now+HAND_TUTORIAL_DELTA
+        hand.current = 0
+
 
 
 
