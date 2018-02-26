@@ -124,7 +124,7 @@ var Yfactor = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 1
+    var gameIndex = 151
     var tutoGroup
 	var indexGame
     var overlayGroup
