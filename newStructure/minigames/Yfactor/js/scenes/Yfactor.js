@@ -596,7 +596,7 @@ var Yfactor = function(){
                 pieceUp[pieceSpot].x=board.x+210;
                 pieceUp[pieceSpot].y=game.world.height-165; 
                 pieceUp[pieceSpot].alpha=1
-                pieceUpTween[pieceSpot]=game.add.tween(pieceUp[pieceSpot]).to({x:0},speed+tempo[actual]*3,Phaser.Easing.Cubic.Linear,true)
+                pieceUpTween[pieceSpot]=game.add.tween(pieceUp[pieceSpot]).to({x:lose.x},speed+tempo[actual]*3,Phaser.Easing.Cubic.Linear,true)
             }
         }else if(pieceToChoose==1 && countLefts<15){
             pieceSpot2=game.rnd.integerInRange(0,14);
@@ -612,7 +612,7 @@ var Yfactor = function(){
                 pieceLeft[pieceSpot2].x=board.x+210;
                 pieceLeft[pieceSpot2].y=game.world.height-120;
                 pieceLeft[pieceSpot2].alpha=1
-                pieceLeftTween[pieceSpot2]=game.add.tween(pieceLeft[pieceSpot2]).to({x:0},speed+tempo[actual]*3,Phaser.Easing.Cubic.Linear,true)
+                pieceLeftTween[pieceSpot2]=game.add.tween(pieceLeft[pieceSpot2]).to({x:lose.x},speed+tempo[actual]*3,Phaser.Easing.Cubic.Linear,true)
             }
         }else if(pieceToChoose==2 && countDowns<15){
             
@@ -630,7 +630,7 @@ var Yfactor = function(){
                 pieceDown[pieceSpot3].x=board.x+210;
                 pieceDown[pieceSpot3].y=game.world.height-75;
                 pieceDown[pieceSpot3].alpha=1
-                pieceDownTween[pieceSpot3]=game.add.tween(pieceDown[pieceSpot3]).to({x:0},speed+tempo[actual]*3,Phaser.Easing.Cubic.Linear,true)
+                pieceDownTween[pieceSpot3]=game.add.tween(pieceDown[pieceSpot3]).to({x:lose.x},speed+tempo[actual]*3,Phaser.Easing.Cubic.Linear,true)
                 }
                 
                 }
