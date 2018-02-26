@@ -36,7 +36,7 @@ var volaris = function(){
             
 		],
 	}
-    var PROBABILITY_OBSTACLE = 0.6
+    var PROBABILITY_OBSTACLE = 0.3
     
     var INITIAL_LIVES = 1
     var DELTA_LOSE = 0.0005
@@ -621,6 +621,7 @@ var volaris = function(){
         s.body.clearShapes()
         s.body.loadPolygon('physicsData','rainbow')
         s.body.data.shapes[0].sensor = true;
+        s.body.ballon = false
 
 
         var front = game.add.sprite(50,0,'atlas.game','arcoiris_detras')
@@ -746,6 +747,7 @@ var volaris = function(){
         s.anchor.setTo(0.5)
         game.physics.p2.enable(s,false)
         s.body.type = "plusTime"
+        s.body.ballon = true
         s.body.enable = true
         //for(var i = 0; i< s.body.data.shapes.length;)
         
@@ -853,6 +855,11 @@ var volaris = function(){
             tweenLive.onComplete.add(function(){liveBar.mask.canDecrease = true})
             createPart('star',body.sprite)
             sound.play('magic')
+
+            if(body.ballon){
+                body.sprite.visible = false
+            }
+
         }
         else if(body.type == "coin"){
             body.sprite.visible = false
