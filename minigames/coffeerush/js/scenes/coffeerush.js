@@ -90,7 +90,10 @@ var coffeerush = function(){
     var isRunning
     var isTouchAvailable
     var background
+    var lastPosition
 
+    var framesToStopRunning 
+    var distanceChangeScale
     
     function getSkins(){
         
@@ -120,6 +123,12 @@ var coffeerush = function(){
         arrayObstcales = [0,1,2,3,4,5]
         isRunning = false
         isTouchAvailable = false
+
+        lastPosition = {x:0,y:0}
+
+        framesToStopRunning = 0
+        distanceChangeScale = 0
+
 	}
     
 
@@ -390,12 +399,15 @@ var coffeerush = function(){
             characterGroup.x = limitHorizontal.min
             return false
         }
+        distanceChangeScale+= speed
 
-        if(speed>0){
+        if(distanceChangeScale>10){
 			characterGroup.scale.x = 1
+            distanceChangeScale=0
     	}
-    	else if(speed<0){
+    	else if(distanceChangeScale<-10){
     		characterGroup.scale.x = -1
+            distanceChangeScale = 0
     	}
     	if(speed==0){
     		return false
@@ -713,7 +725,7 @@ var coffeerush = function(){
 
         //Check if there is a touch on screen
 
-        var canRunTouch2 = false, canRunTouch1 = false
+        /*var canRunTouch2 = false, canRunTouch1 = false
         if(game.input.pointer2.isDown){
         	isTouchAvailable = true
         	canRunTouch2 = buttonsUpdate(game.input.pointer2.x, game.input.pointer2.y)
@@ -721,10 +733,10 @@ var coffeerush = function(){
         else if(game.input.pointer1.isDown){
         	isTouchAvailable = true
 	        canRunTouch1 = buttonsUpdate(game.input.pointer1.x, game.input.pointer1.y)
-        }
+        }*/
 
 
-        if(isTouchAvailable){
+        /*if(isTouchAvailable){
 	        if(canRunTouch2 || canRunTouch1){
 	        	if(!isRunning){
 		        	buddy.setAnimationByName(0,"RUN",true)
@@ -751,13 +763,54 @@ var coffeerush = function(){
 		        	buddy.setAnimationByName(0,"IDLE",true)
 		        }
 	        }
-	    }
+	    }*/
 
-        if(game.input.mousePointer.isDown){
+        if(game.input.activePointer.isDown){
+            if(buttonsUpdate(game.input.activePointer.x, game.input.activePointer.y)){
+              if(!isRunning){
+                    buddy.setAnimationByName(0,"RUN",true)
+                    isRunning = true
+                    framesToStopRunning = 0
+                }
+            }
+            else{
+                if(isRunning){
+                    framesToStopRunning++
+                }
+            }
+        }
+        else{
+            
+            lastPosition.x = 0
+            lastPosition.y = 0
+            if(keyDownVertical || keyDownHorizontal){
+                if(!isRunning){
+                    buddy.setAnimationByName(0,"RUN",true)
+                    isRunning = true
+                }
+            }
+            else{
+                distanceChangeScale = 0
+                if(isRunning){
+                    isRunning = false
+                    buddy.setAnimationByName(0,"IDLE",true)
+                }
+            }
+        }
+
+
+        if(isRunning){
+            if(framesToStopRunning>20){
+                isRunning = false
+                buddy.setAnimationByName(0,"IDLE",true)
+            }
+        }
+
+        /*if(game.input.mousePointer.isDown){
         	
 	        buttonsUpdate(game.input.mousePointer.x, game.input.mousePointer.y)
 	        
-        }
+        }*/
 
 
 
@@ -814,8 +867,8 @@ var coffeerush = function(){
     }
 
 
-    function buttonsUpdate(x,y){
-    	// touch update that decide the direction depending where the touch is and its position 
+    /*function buttonsUpdate(x,y){
+    	// touch update that decide the direction depending where the touch is and its position
     	// vs the cener of the touchzone
     	// speed horizontal and vertical are calculated separately
     	if(y > limitlVertical.max){
@@ -879,6 +932,53 @@ var coffeerush = function(){
 			}
 
     	}
+    }*/
+
+    function buttonsUpdate(x,y){
+        if(y > limitlVertical.max){
+            if(lastPosition.y == 0){
+                lastPosition.y = y
+                lastPosition.x = x
+                return false
+            }
+            else{
+                var deltaX = (x - lastPosition.x)*1.5
+
+                /*if(deltaX >0){
+                    deltaX = 1 * (SPEED)
+                }
+                else if(deltaX < 0){
+                    deltaX = -1 * (SPEED)
+                }
+                else{
+                    deltaX = 0
+                }*/
+                var deltaY = (y - lastPosition.y)*1.5
+
+                /*if(deltaY >0){
+                    deltaY = 1 * (SPEED)
+                }
+                else if(deltaY <0){
+                    deltaY = -1* (SPEED)
+                }
+                else{deltaY = 0}*/
+
+                lastPosition.x = x
+                lastPosition.y = y
+
+                var moveH = moveHorizontal(deltaX)
+                var moveV = moveVertical(deltaY)
+
+
+
+                if(moveH || moveV){
+                    return true
+                }
+                else{
+                    return false
+                }
+            }
+        }
     }
     
     function createTime(){
