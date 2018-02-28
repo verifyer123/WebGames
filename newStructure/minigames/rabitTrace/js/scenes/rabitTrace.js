@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 
@@ -25,7 +24,7 @@ var rabitTrace = function(){
                 json: "images/rabitTrace/atlas.json",
                 image: "images/rabitTrace/atlas.png"
             },
-            {   
+            {
                 name: "atlas.time",
                 json: "images/rabitTrace/timeAtlas.json",
                 image: "images/rabitTrace/timeAtlas.png"
@@ -394,7 +393,7 @@ var rabitTrace = function(){
                 var pos = evaluateTouchPosition()
                // console.log(pos)
                 if(touchStarted){
-                    if(pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y){
+                    if((pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y) && !(pos.x ==decidedRute[decidedRute.length-2].x && pos.y ==decidedRute[decidedRute.length-2].y)){
 
                         var dX = Math.abs(pos.x - decidedRute[decidedRute.length-1].x)
                         var dY = Math.abs(pos.y - decidedRute[decidedRute.length-1].y)
