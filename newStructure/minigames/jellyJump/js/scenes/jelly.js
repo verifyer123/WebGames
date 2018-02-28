@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 
@@ -29,6 +28,10 @@ var jelly = function(){
 
         ],
         images: [
+        	{
+        		name:'barra',
+        		file:"images/jelly/barra.png"
+        	}
 
 		],
 		sounds: [
@@ -59,10 +62,11 @@ var jelly = function(){
 	var WORLD_GRAVITY = 1400
 	var ANGLE_VALUE = 2
 	var OFFSET_OBJS = 650
+	var INITIAL_LIVES =3
 	
 	var colorsToUse = [0xFA2038, 0x3B55D3,0x41E07B,0xFFF129]
 	var listObstacles = ['bar', 'circle']
-	var numbersToUse = ['1/16','1/8','1/4','1/2']
+	var numbersToUse = ['16','8','4','2']
         
 	var pivotObjects
     var lives = null
@@ -80,6 +84,12 @@ var jelly = function(){
 	var jumpButton
 	var playersNumber, playerIndex
 	var lastObject
+
+	var goalText
+	var currentDecimal
+	
+	var objectsUpdate
+	var hasJump
 	
 
 	function loadSounds(){
@@ -89,10 +99,11 @@ var jelly = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
         playerIndex = 0
 		lastObject = null
-		
+		currentDecimal = 0
+		hasJump = false
         loadSounds()
         
 	}
@@ -316,6 +327,9 @@ var jelly = function(){
 		
 		Phaser.ArrayUtils.shuffle(listObstacles)
 		var tag = listObstacles[0]
+		if(!lastObject){
+			tag = 'bar'
+		}
 		
 		var obstacle = getObstacle(tag)
 		
@@ -329,7 +343,7 @@ var jelly = function(){
 		if(lastObject){
 			pivotObjects = lastObject.y - (OFFSET_OBJS * offset)
 		}else{
-			pivotObjects = game.world.centerY - 200
+			pivotObjects = game.world.centerY -200
 		}
 		
 		if(lastObject && lastObject.type == 'circle'){
@@ -343,18 +357,43 @@ var jelly = function(){
 	}
 	
 	function activateObstacle(obstacle, posX, posY){
-		
 		obstacle.alpha = 1
 		obstacle.x = posX
 		obstacle.y = posY
 		obstacle.used = true
 		
+		if(obstacle.type == 'circle'){
+			for(var i = 0; i < obstacle.fishes.length; i++){
+				//objectsUpdate.remove(obstacle.fishes[i])
+				obstacle.add(obstacle.fishes[i])
+			}
+			obstacle.disable = false
+		}
 		for(var i = 0; i < obstacle.length;i++){
 			
 			var obj = obstacle.children[i]
 			obj.alpha = 1
 			if(obstacle.type == 'bar'){
 				obj.x = obj.initX
+				
+				obj.spine.scale.setTo(1,1)
+				//obj.x = obstacle.children[i].startPos
+				obj.direction = 1
+				obj.disable = false
+				obj.angle = 0
+				obj.scale.setTo(obstacle.children[i].startScale,obstacle.children[i].scale.y)
+				
+			}
+			else if(obstacle.type=='circle'){
+				obstacle.angle = 0
+
+				obj.spine.scale.setTo(1,1)
+				obj.x = obstacle.children[i].startPos.x
+				obj.y = obstacle.children[i].startPos.y
+				obj.angle = obstacle.children[i].starterAngle
+				obj.scale.setTo(obstacle.children[i].startScale,obstacle.children[i].scale.y)
+				obj.direction = 1
+				
 			}
 		}
 		
@@ -386,52 +425,7 @@ var jelly = function(){
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				gameActive = true
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
         
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.jelly','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.jelly',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.jelly','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(){
@@ -483,7 +477,7 @@ var jelly = function(){
 		addPoint(1)
 		createPart('star',player)
 	
-		playerIndex++
+		/*playerIndex++
 		
 		if(playerIndex == 4){
 			playerIndex = 0
@@ -502,10 +496,56 @@ var jelly = function(){
 		}else{
 			characterGroup.number = numbersToUse[playerIndex]
 			characterGroup.numberText.setText(characterGroup.number)
+		}*/
+
+		if(goalText.value == numbersToUse[currentDecimal]){
+			currentDecimal++
+			if(currentDecimal>=numbersToUse.length){
+				currentDecimal = 0
+			}
+
+			characterGroup.number = goalText.value
+			characterGroup.numberText.setText(1)
+
+			game.time.events.add(750,function(){
+				sound.play("powerup")
+				game.add.tween(characterGroup).to({angle:characterGroup.angle + 360},500,"Linear",true)
+				characterGroup.number = 1
+				characterGroup.numberText.setText(characterGroup.number+'/'+numbersToUse[currentDecimal])
+			})
+
+			goalText.value = 1
+
+			changeDecimal()
+
 		}
+		else{
+			characterGroup.number = goalText.value
+			characterGroup.numberText.setText(characterGroup.number+'/'+numbersToUse[currentDecimal])
+		}
+
+
+		goalText.value+=game.rnd.integerInRange(1,4)
+		if(goalText.value > numbersToUse[currentDecimal]){
+			goalText.value = numbersToUse[currentDecimal]
+		}
+
+		goalText.setText(goalText.value+'/'+numbersToUse[currentDecimal])
 		
 		
-		
+	}
+
+	function changeDecimal(){
+		for(var i = 0; i < usedObjects.length;i++){
+			var object = usedObjects.children[i]
+			var tag = object.type
+			
+			for(var u = 0;u<object.length;u++){
+				var obj = object.children[u]
+				obj.numberText.setText(obj.number+'/'+numbersToUse[currentDecimal])
+			}
+			
+		}
 	}
 	
 	function checkObjects(){
@@ -516,43 +556,79 @@ var jelly = function(){
 			var tag = object.type
 			if(tag == 'bar'){
 
-				object.x += ANGLE_VALUE
+				//object.x += (ANGLE_VALUE*obj.direction)
 				for(var u = 0;u<object.length;u++){
 
 					var obj = object.children[u]
-
-					if(obj.numberText.world.x > game.world.width + 50){
-						//console.log('last object')
-						obj.x = object.lastObject.x - obj.width *1.5
-						object.lastObject = obj
+					obj.x +=( ANGLE_VALUE*obj.direction)
+					if(!obj.disable){
+						if(obj.numberText.world.x > game.world.width + 100){
+							//console.log('last object')
+							obj.x = object.lastObject.x - obj.width *1.5
+							object.lastObject = obj
+						}
+					}
+					else{
+						if(obj.numberText.world.x > game.world.width + 100){
+							obj.direction = 0
+						}
+						else if(obj.numberText.world.x < - 100){
+							obj.direction = 0
+						}
 					}
 					
 					if(checkOverlap(obj.numberText,player) && obj.alpha == 1){
-						if(obj.number == characterGroup.number){
+						if((obj.number+characterGroup.number) == goalText.value){
 							scoreUp()
 							obj.alpha = 0
 						}else{
+							obj.alpha = 0
 							missPoint()
 							createPart('wrong',player)
 						}
+
+						moveBar(object)
+
+						//break
 					}
+
+
 				}
 				
 			}else if(tag == 'circle'){
-				
-				object.angle-= ANGLE_VALUE * 0.7
-				
-				for(var u = 0; u < object.length;u++){
-					
-					var obj = object.children[u]
-					if(checkOverlap(obj.numberText,player) && obj.alpha == 1){
-						if(obj.number == characterGroup.number){
-							scoreUp()
-							obj.alpha = 0
-						}else{
-							characterGroup.anim.setAnimationByName(0,"LOSE",true)
-							missPoint()
-							createPart('wrong',player)
+				if(!object.disable){
+					object.angle-= ANGLE_VALUE * 0.7
+
+					for(var u = 0; u < object.length;u++){
+						
+						var obj = object.children[u]
+
+						if(object.disable){
+							obj.x += (ANGLE_VALUE*obj.direction)
+
+
+							if(obj.numberText.world.x > game.world.width + 100){
+								obj.direction = 0
+							}
+							else if(obj.numberText.world.x < - 100){
+								obj.direction = 0
+							}
+
+						}
+
+						if(checkOverlap(obj.numberText,player) && obj.alpha == 1){
+							if((obj.number+characterGroup.number) == goalText.value){
+								scoreUp()
+								obj.alpha = 0
+							}else{
+								characterGroup.anim.setAnimationByName(0,"LOSE",true)
+								obj.alpha = 0
+								missPoint()
+								createPart('wrong',player)
+							}
+
+							moveCircle(object)
+							//break
 						}
 					}
 				}
@@ -562,6 +638,21 @@ var jelly = function(){
 				addObjects()
 				deactivateObstacle(object)
 				console.log('deactivate object')
+			}
+		}
+
+
+
+		for(var i = 0; i < objectsUpdate.length; i++){
+			objectsUpdate.children[i].x +=(ANGLE_VALUE*objectsUpdate.children[i].direction)
+			if(objectsUpdate.children[i].numberText.world.x > game.world.width + 100){
+				objectsUpdate.children[i].direction = 0
+				//objectsUpdate[i].group.add(objectsUpdate[i])
+
+			}
+			else if(objectsUpdate.children[i].numberText.world.x < - 100){
+				objectsUpdate.children[i].direction = 0 
+				//objectsUpdate[i].group.add(objectsUpdate[i])
 			}
 		}
 		
@@ -574,19 +665,78 @@ var jelly = function(){
             
             usedObjects.y+=value
             player.body.y+=value
+
+            for(var i = 0; i < objectsUpdate.length; i++){
+           		objectsUpdate.children[i].y +=value
+            }
 			
 			background.tilePosition.y+= value * 0.5
         }
 		
 	}
 	
+	function moveBar(group){
+		for(var i = 0; i < group.length; i++){
+			var obj = group.children[i]
+			//obj.numberText.visible = false
+			if(obj.x < player.x){
+				//obj.angle = 180
+				obj.direction = -1
+				obj.scale.setTo(-obj.startScale,obj.scale.y)
+				obj.spine.scale.setTo(-1,1)
+			}
+			else{
+				obj.direction = 1
+			}
+
+			obj.disable = true
+		}
+
+	}
+
+	function moveCircle(group){
+		group.disable = true
+
+		for(var i = group.length-1; i >= 0; i--){
+			var obj = group.children[i]
+			var x = obj.worldPosition.x
+			var y = obj.worldPosition.y
+			group.remove(obj)
+			objectsUpdate.add(obj)
+			obj.x = x
+			obj.y = y
+			//obj.numberText.visible = false
+			if(obj.worldPosition.x < player.x){
+				obj.angle = 0
+				obj.direction = -1
+				obj.scale.setTo(-obj.startScale,obj.scale.y)
+				obj.spine.scale.setTo(-1,1)
+			}
+			else{
+				obj.angle = 0
+				obj.direction = 1
+			}
+
+		}
+	}
+
 	function positionPlayer(){
-		
 		characterGroup.y = player.body.y + 35
-		
-		if(player.body.y > game.world.height * 0.95 && usedObjects.y > 5){
-			createPart('wrong',player)
-			missPoint()
+		if(hasJump){
+			
+			if(player.body.y > game.world.height * 0.75 ){
+				if(usedObjects.y > 5){
+					createPart('wrong',player)
+					missPoint()
+				}
+				hasJump = false
+				
+			}
+		}
+		else{
+			if(player.body.y < game.world.height * 0.75){
+				hasJump = true
+			}
 		}
 	}
 	
@@ -784,7 +934,6 @@ var jelly = function(){
         }
         
         player.body.moveUp(jumpValue)        
-    
     }
 	
 	function inputButton(obj){
@@ -811,7 +960,7 @@ var jelly = function(){
 		
 		characterGroup = game.add.group()
 		characterGroup.x = game.world.centerX
-		characterGroup.y = game.world.height * 0.85
+		characterGroup.y = game.world.height * 0.75
 		sceneGroup.add(characterGroup)
 
 		var anim = game.add.spine(0,0,"player")
@@ -820,12 +969,12 @@ var jelly = function(){
 		characterGroup.add(anim)
 		characterGroup.anim = anim
 		
-		characterGroup.number = numbersToUse[playerIndex]
+		characterGroup.number = 1
 		
 		var slot = getSpineSlot(anim,"empty")
 		
 		var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var numberText = new Phaser.Text(game, 0, 0, characterGroup.number, fontStyle)
+		var numberText = new Phaser.Text(game, 0, 0, characterGroup.number+'/'+numbersToUse[currentDecimal], fontStyle)
 		numberText.anchor.setTo(0.5, 0.5)
 		characterGroup.numberText = numberText
 		slot.add(numberText)
@@ -840,6 +989,12 @@ var jelly = function(){
 		player.lastpos = player.y
 
 		player.body.collideWorldBounds = true;
+
+		var body = new p2.Body({ mass: 0, position: [ game.physics.p2.pxmi(0), game.physics.p2.pxmi(game.world.height*0.8) ] });
+		game.physics.p2.world.addBody(body);
+		body.addShape(new p2.Plane());
+
+
 		
 	}
 	
@@ -898,6 +1053,7 @@ var jelly = function(){
 	function calcCircles(n) {
         
         group = game.add.group()
+        group.disable = false
         
         var baseRadius = 80
         var angle = Math.PI / n;
@@ -906,6 +1062,11 @@ var jelly = function(){
 
 		var index = 0
 		var angles = [60,120, 220, 340]
+
+		var values = [1,2,3,4]
+
+		group.fishes = []
+
         for(var i=0;i<n;++i) {
 			
             var phi = 15 + angle * i * 2;
@@ -915,28 +1076,41 @@ var jelly = function(){
             var group1 = game.add.group()
 			group1.x = cx
 			group1.y = cy
+			
+			group.fishes.push(group1)
+			
+			group1.direction = 1
+
 			group.add(group1)
 			group1.angle = angles[i]
+			group1.starterAngle = angles[i]
+			group1.startScale = 1
 
 			var spine = game.add.spine(0,0,"fish")
 			spine.setSkinByName("normal")
 			spine.setAnimationByName(0,"IDLE",true)
 			group1.add(spine)
+			//group1.spine = spine
 			
 			//group1.angle = angle
 
 			spine.autoUpdateTransform()
 			spine.setTint(colorsToUse[index])
-			
-			group1.number = numbersToUse[index]
+
+			var random = game.rnd.integerInRange(0,values.length-1)
+			group1.number = values[random]
+			values.splice(random,1)
 			
 			var slot = getSpineSlot(spine,"empty")
 
 			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var numberText = new Phaser.Text(game, 0, 5, group1.number, fontStyle)
+			var numberText = new Phaser.Text(game, 0, 5, group1.number+'/'+numbersToUse[currentDecimal], fontStyle)
 			numberText.anchor.setTo(0.5, 0.5)
 			group1.numberText = numberText
-			slot.add(numberText)
+			var groupText = game.add.group()
+			groupText.add(numberText)
+			group1.spine = groupText
+			slot.add(groupText)
 			
 			index++
 			if(index>3){
@@ -965,6 +1139,9 @@ var jelly = function(){
                 var pivotX = game.world.width - 60
                 var indexColor = 0
                 var length = 8
+
+                var values = [1,2,3,4]
+
                 for(var i = 0; i<length;i++){
 
                     var group1 = game.add.group()
@@ -972,24 +1149,38 @@ var jelly = function(){
 					group1.initX = pivotX
 					group1.y = 0
 					group.add(group1)
+					group1.disable = false
+					group1.direction = 1
+					group1.startPos = pivotX
+					group1.startScale = 1
 					
 					var spine = game.add.spine(0,0,"fish")
 					spine.setSkinByName("normal")
 					spine.setAnimationByName(0,"IDLE",true)
 					group1.add(spine)
 					
+					
 					spine.autoUpdateTransform()
 					spine.setTint(colorsToUse[index])
 					
 					var slot = getSpineSlot(spine,"empty")
-					
-					group1.number = numbersToUse[index]
+
+					var r = game.rnd.integerInRange(0,values.length-1)
+					group1.number = values[r]
+
+					values.splice(r,1)
+					if(values.length<=0){
+						values = [1,2,3,4]
+					}
 					
 					var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-					var numberText = new Phaser.Text(game, 0, 5, group1.number, fontStyle)
+					var numberText = new Phaser.Text(game, 0, 5, group1.number+'/'+numbersToUse[currentDecimal], fontStyle)
 					numberText.anchor.setTo(0.5, 0.5)
 					group1.numberText = numberText
-					slot.add(numberText)
+					var groupText = game.add.group()
+					groupText.add(numberText)
+					group1.spine = groupText
+					slot.add(groupText)
 					
                     if(i == length-1){
                         group.lastObject = group1
@@ -1019,6 +1210,8 @@ var jelly = function(){
                     
                     obj.x+=value
                     obj.y+=valueY
+
+                    obj.startPos = {x:obj.x,y:obj.y}
                                   
                 }
 
@@ -1027,6 +1220,21 @@ var jelly = function(){
 				objectsGroup.add(group)
 			}	
 		}
+	}
+
+	function createGoal(){
+		var num = game.rnd.integerInRange(2,4)
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        goalText = new Phaser.Text(sceneGroup.game, game.world.centerX,game.world.height*0.9, num+"/16", fontStyle)
+        goalText.anchor.setTo(0.5)
+        goalText.value = num
+        
+
+        var goalBack = sceneGroup.create(game.world.centerX,game.world.height*0.9,'barra')
+        goalBack.anchor.setTo(0.5)
+
+        sceneGroup.add(goalText)
+
 	}
 	
 	return {
@@ -1046,12 +1254,16 @@ var jelly = function(){
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
-			
+			 initialize()
 			createBackground()
 			createObjects()
 			createPlayer()	
 			createButtons()
 			addParticles()
+
+			objectsUpdate = game.add.group()
+			sceneGroup.add(objectsUpdate)
+			createGoal()
                         			
             spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
@@ -1066,7 +1278,7 @@ var jelly = function(){
                 game.sound.mute = false
             }, this);
             
-            initialize()
+           
 			            
 			createPointsBar()
 			createHearts()
