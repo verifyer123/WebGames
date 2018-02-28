@@ -118,7 +118,6 @@ var chocoPile = function(){
 
 
     function initialize(){
-    	console.log(COS_ANG,SIN_ANG)
         game.stage.backgroundColor = "#ffffff"
         lives = INITIAL_LIVES
         initialTap = true
@@ -250,7 +249,7 @@ var chocoPile = function(){
             return
         }*/
 		
-        for(var i = 0 ; i < clouds.length; i++){
+        /*for(var i = 0 ; i < clouds.length; i++){
         	if(clouds[i].y >-100){
 	        	clouds[i].x += clouds[i].vel
 
@@ -261,10 +260,10 @@ var chocoPile = function(){
 	        		clouds[i].x=-100
 	        	}
 	        }
-        }
+        }*/
 
         
-        for(var i = 0; i < downChocolatesFront.length; i++){
+        for(var i =downChocolatesFront.length-1; i >= 0; i--){
 
             if(downChocolatesFront.children[i].visible){
                 downChocolatesFront.children[i].y +=VEL_DOWN
@@ -274,12 +273,19 @@ var chocoPile = function(){
                     chocolateRemove.visible = false
 
                     downChocolatesFront.remove(chocolateRemove)
-                    chocolateRemove.destroy()
+                    chocolatesGroup.add(chocolateRemove)
+                    //chocolateRemove.destroy()
                 }
             }
+            /*var chocolateRemove = downChocolatesFront.children[i]
+                    chocolateRemove.visible = false
+
+                    downChocolatesFront.remove(chocolateRemove)
+                    chocolatesGroup.add(chocolateRemove)*/
+
         }
 
-        for(var i = 0; i < downChocolatesBack.length; i++){
+        for(var i = downChocolatesBack.length-1; i >= 0; i--){
             if(downChocolatesBack.children[i].visible){
                 downChocolatesBack.children[i].y +=VEL_DOWN
                 if(downChocolatesBack.children[i].y>=game.world.height){
@@ -287,9 +293,15 @@ var chocoPile = function(){
                     chocolateRemove.visible = false
 
                     downChocolatesBack.remove(chocolateRemove)
-                    chocolateRemove.destroy()
+                    chocolatesGroup.add(chocolateRemove)
+                    //chocolateRemove.destroy()
                 }
             }
+            /*var chocolateRemove = downChocolatesBack.children[i]
+                    chocolateRemove.visible = false
+
+                    downChocolatesBack.remove(chocolateRemove)
+                    chocolatesGroup.add(chocolateRemove)*/
         }
         
         if(gameActive == false){
@@ -514,8 +526,6 @@ var chocoPile = function(){
 
     function Tap(){
 
-        console.log(chocolatesGroup.length,downChocolatesFront.length,downChocolatesBack.length,sceneGroup.length)
-
         VEL+=DELTA_VEL
         VEL_X = VEL*COS_ANG
         VEL_Y = VEL*SIN_ANG
@@ -532,8 +542,9 @@ var chocoPile = function(){
                 
                 }
                 else{
-                    chocolatesGroup.remove(currentChocolate)
-                    currentChocolate.destroy()
+                    //chocolatesGroup.remove(currentChocolate)
+                    //currentChocolate.destroy()
+                    currentChocolate.visible = false
                     for(var i = 0; i < maskData.length; i++){
                         if(maskData[i]>PLUS_BY_COMBO){
                             maskData[i] -= PLUS_BY_COMBO
@@ -579,8 +590,9 @@ var chocoPile = function(){
         if(currentChocolate.x > currentPosition.x){
             if(currentChocolate.y < currentPosition.y - DELTA_LEVEL){
                 //x- y-
-                chocolatesGroup.remove(currentChocolate)
-                currentChocolate.destroy()
+                //chocolatesGroup.remove(currentChocolate)
+                //currentChocolate.destroy()
+
 
                 var width = (currentChocolate.x - currentPosition.x)
                 //currentPosition.x = currentChocolate.x
@@ -609,8 +621,9 @@ var chocoPile = function(){
                     return
                 }
                 else{
-                    chocolatesGroup.remove(lastChocolate)
-                    lastChocolate.destroy()
+                    //chocolatesGroup.remove(lastChocolate)
+                    //lastChocolate.destroy()
+                    lastChocolate.visible = false
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0]+currentSize.width,maskData[1],maskData[2],maskData[3])
                 if(downC!=null){
@@ -654,8 +667,9 @@ var chocoPile = function(){
                     return
                 }
                 else{
-                    chocolatesGroup.remove(lastChocolate)
-                    lastChocolate.destroy()
+                    //chocolatesGroup.remove(lastChocolate)
+                    //lastChocolate.destroy()
+                    lastChocolate.visible = false
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0],maskData[1],maskData[2]+currentSize.height*SIN_ANG,maskData[3])
                 if(downC!=null){
@@ -698,8 +712,9 @@ var chocoPile = function(){
                     return
                 }
                 else{
-                    chocolatesGroup.remove(lastChocolate)
-                    lastChocolate.destroy()
+                    //chocolatesGroup.remove(lastChocolate)
+                    //lastChocolate.destroy()
+                    lastChocolate.visible = false
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0],maskData[1],maskData[2],maskData[3]+currentSize.height*SIN_ANG)
                 if(downC!=null){
@@ -739,8 +754,9 @@ var chocoPile = function(){
                     return
                 }
                 else{
-                    chocolatesGroup.remove(lastChocolate)
-                    lastChocolate.destroy()
+                    //chocolatesGroup.remove(lastChocolate)
+                    //lastChocolate.destroy()
+                    lastChocolate.visible = false
                 }
                 var downC = createChocolate(currentChocolate.x,currentChocolate.y,currentSize.width,currentSize.height,maskData[0],maskData[1]+currentSize.width,maskData[2],maskData[3])
                 if(downC!=null){
@@ -784,16 +800,13 @@ var chocoPile = function(){
 
     function moveGroupY(group,vel,limit){
         for(var i = 0; i < group.length; i++){
-            if(group.children[i].visible){
+            if(group.children[i].visible && group.children[i]!=currentChocolate){
                 group.children[i].y += vel
-
-                
-
                 if(group.children[i].y >= limit){
                     var obj = group.children[i]
                     obj.visible = false
-                    group.remove(obj)
-                    obj.destroy()
+                    //group.remove(obj)
+                    //obj.destroy()
                 }
             }
         }
@@ -801,26 +814,154 @@ var chocoPile = function(){
 
     function moveTweenGroup(group,vel,time,limit){
         for(var i = 0; i < group.length; i++){
-            if(group.children[i].visible){
+            if(group.children[i].visible && group.children[i]!=currentChocolate){
                 
                 if(group.children[i].y + vel >= limit){
                     var obj = group.children[i]
                     obj.visible = false
-                    group.remove(obj)
-                    obj.destroy()
+                    if(obj.tween!=null){
+                        obj.tween.stop()
+                    }
+                    //group.remove(obj)
+                    //obj.destroy()
                 }
                 else{
-                    game.add.tween(group.children[i]).to({y:group.children[i].y+vel},time,Phaser.Easing.linear,true)
+                    group.children[i].tween = game.add.tween(group.children[i]).to({y:group.children[i].y+vel},time,Phaser.Easing.linear,true)
+                    //group.children[i].y +=vel 
                 }
             }
         }
+    }
+
+    function setChocolate(chocolateGroup,x,y,width,height,leftMask,rightMask,upMask,downMask){
+        var deltaR = rightMask
+        //leftMask = INITIAL_WIDTH - leftMask
+        rightMask = INITIAL_WIDTH - rightMask
+        //upMask = INITIAL_HEIGHT - upMask
+        downMask = INITIAL_HEIGHT - downMask
+
+        var w = rightMask - leftMask
+        var h = downMask - upMask
+
+        if(w<TOLERANCE){
+            return null
+        }
+
+        if(h*SIN_ANG < TOLERANCE){
+             return null
+        }
+
+        var initialY = leftMask*TAN_ANG
+        var initialYDown = deltaR*TAN_ANG
+
+        if(upMask+initialY > downMask-(w*TAN_ANG)-initialYDown){
+            return null
+        }
+
+        chocolateGroup.x = x
+        chocolateGroup.y = y
+
+        var notMask = false
+        if(leftMask==0 && rightMask==INITIAL_WIDTH && upMask==0 && downMask==INITIAL_HEIGHT){
+            notMask = true
+        }
+        if(!notMask){
+
+            if(chocolateGroup.sprite.mask!=null){
+
+                chocolateGroup.sprite.mask.clear()
+                chocolateGroup.sprite.mask.beginFill(0xFF0000);
+                chocolateGroup.sprite.mask.moveTo(0,0);
+                chocolateGroup.sprite.mask.lineTo(0,(downMask-(w*TAN_ANG)-initialYDown)-(upMask+initialY))
+                chocolateGroup.sprite.mask.lineTo(rightMask- leftMask,(downMask-initialYDown)-(upMask+initialY))
+                chocolateGroup.sprite.mask.lineTo(rightMask - leftMask,(w*TAN_ANG))
+                chocolateGroup.sprite.mask.lineTo(0,0)
+                chocolateGroup.sprite.mask.endFill();
+
+                //chocolate.mask = graphics
+                h = (downMask-initialYDown)-(upMask+initialY)
+                chocolateGroup.sprite.crop(new Phaser.Rectangle(leftMask, upMask+initialY, w ,h));
+                chocolateGroup.sprite.x = leftMask
+                chocolateGroup.sprite.y = upMask+initialY
+                chocolateGroup.sprite.updateCrop()
+                //chocolatesGroup.sprite.addChild(graphics)
+            }
+            else{
+                var graphics = game.add.graphics(0, 0);
+                graphics.beginFill(0xFF0000);
+                graphics.moveTo(0,0);
+                graphics.lineTo(0,(downMask-(w*TAN_ANG)-initialYDown)-(upMask+initialY))
+                graphics.lineTo(rightMask- leftMask,(downMask-initialYDown)-(upMask+initialY))
+                graphics.lineTo(rightMask - leftMask,(w*TAN_ANG))
+                graphics.lineTo(0,0)
+                graphics.endFill();
+
+                chocolateGroup.sprite.mask = graphics
+                h = (downMask-initialYDown)-(upMask+initialY)
+                chocolateGroup.sprite.crop(new Phaser.Rectangle(leftMask, upMask+initialY, w ,h));
+                chocolateGroup.sprite.x = leftMask
+                chocolateGroup.sprite.y = upMask+initialY
+                chocolateGroup.sprite.updateCrop()
+                chocolateGroup.sprite.addChild(graphics)
+            }
+       }
+
+        //chocolateGroup.add(chocolate)
+        //chocolateGroup.sprite= chocolate
+
+        //var tile_1 = game.add.graphics();
+        chocolateGroup.tile_1.clear()
+        chocolateGroup.tile_1.beginFill(0x7a473d);
+        chocolateGroup.tile_1.moveTo(leftMask+1,upMask+initialY)
+        chocolateGroup.tile_1.lineTo(leftMask-30,upMask+initialY+15)
+        chocolateGroup.tile_1.lineTo(leftMask-30,downMask-(w*TAN_ANG)-initialYDown+15)
+        chocolateGroup.tile_1.lineTo(leftMask+1,downMask-(w*TAN_ANG)-initialYDown)
+        chocolateGroup.tile_1.lineTo(leftMask+1,upMask+initialY)
+        chocolateGroup.tile_1.endFill();
+        //chocolateGroup.tile_1 = tile_1
+        //tile_1.angle = 90
+
+        //var tile_2 = game.add.graphics();
+        chocolateGroup.tile_2.clear()
+        chocolateGroup.tile_2.beginFill(0x966357);
+        chocolateGroup.tile_2.moveTo(leftMask,downMask-(w*TAN_ANG)-initialYDown-1)
+        chocolateGroup.tile_2.lineTo(leftMask-29,downMask-(w*TAN_ANG)-initialYDown+15)
+        chocolateGroup.tile_2.lineTo(rightMask-29,downMask-initialYDown+15)
+        chocolateGroup.tile_2.lineTo(rightMask,downMask-initialYDown-1)
+        chocolateGroup.tile_2.lineTo(leftMask,downMask-(w*TAN_ANG)-initialYDown-1)
+        chocolateGroup.tile_2.endFill();
+        //chocolateGroup.tile_2 = tile_2
+        //tile_2.y = width+18
+
+        /*chocolateGroup.add(tile_1)
+        chocolateGroup.add(tile_2)*/
+        //console.log(chocolateGroup)
+
+        chocolatesGroup.bringToTop(chocolateGroup)
+        chocolateGroup.visible = true
+        return chocolateGroup
     }
 
      
 
      function createChocolate(x,y,width,height,leftMask,rightMask,upMask,downMask){
 
-        
+        var c = null
+
+        for(var i = 0; i< chocolatesGroup.length; i++){
+            if(!chocolatesGroup.children[i].visible){
+                c = chocolatesGroup.children[i]
+                break
+            }
+        }
+
+        if(c!=null){
+            return setChocolate(c,x,y,width,height,leftMask,rightMask,upMask,downMask)
+        }
+        else{
+        }
+
+
         var deltaR = rightMask
         //leftMask = INITIAL_WIDTH - leftMask
         rightMask = INITIAL_WIDTH - rightMask
@@ -859,18 +1000,24 @@ var chocoPile = function(){
         if(!notMask){
         	var graphics = game.add.graphics(0, 0);
 	        graphics.beginFill(0xFF0000);
-	        graphics.moveTo(leftMask,upMask+initialY);
-	        graphics.lineTo(leftMask,downMask-(w*TAN_ANG)-initialYDown)
-	        graphics.lineTo(rightMask,downMask-initialYDown)
-	        graphics.lineTo(rightMask,upMask+(w*TAN_ANG)+ initialY)
-	        graphics.lineTo(leftMask,upMask+initialY)
+	        graphics.moveTo(0,0);
+	        graphics.lineTo(0,(downMask-(w*TAN_ANG)-initialYDown)-(upMask+initialY))
+	        graphics.lineTo(rightMask- leftMask,(downMask-initialYDown)-(upMask+initialY))
+	        graphics.lineTo(rightMask - leftMask,(w*TAN_ANG))
+	        graphics.lineTo(0,0)
 	        graphics.endFill();
 
 	        chocolate.mask = graphics
+            h = (downMask-initialYDown)-(upMask+initialY)
+            chocolate.crop(new Phaser.Rectangle(leftMask, upMask+initialY, w ,h));
+            chocolate.x = leftMask
+            chocolate.y = upMask+initialY
+            chocolate.updateCrop()
 	        chocolate.addChild(graphics)
-	    
-	     }
+	   }
+
         chocolateGroup.add(chocolate)
+        chocolateGroup.sprite = chocolate
 
         var tile_1 = game.add.graphics();
         tile_1.beginFill(0x7a473d);
@@ -880,6 +1027,7 @@ var chocoPile = function(){
         tile_1.lineTo(leftMask+1,downMask-(w*TAN_ANG)-initialYDown)
         tile_1.lineTo(leftMask+1,upMask+initialY)
         tile_1.endFill();
+        chocolateGroup.tile_1 = tile_1
         //tile_1.angle = 90
 
         var tile_2 = game.add.graphics();
@@ -890,11 +1038,9 @@ var chocoPile = function(){
         tile_2.lineTo(rightMask,downMask-initialYDown-1)
         tile_2.lineTo(leftMask,downMask-(w*TAN_ANG)-initialYDown-1)
         tile_2.endFill();
+        chocolateGroup.tile_2 = tile_2
         //tile_2.y = width+18
 
-
-        //chocolate.addChild(tile_1)
-        //chocolate.addChild(tile_2)
         chocolateGroup.add(tile_1)
         chocolateGroup.add(tile_2)
 
@@ -941,7 +1087,6 @@ var chocoPile = function(){
         	//cityImage.y+=vel
         	game.add.tween(cityImage).to({y:cityImage.y+vel},500,Phaser.Easing.linear,true)
         	if(cityImage.y > game.world.height*3){
-                console.log("cityImage turn off")
         		cityImage.visible = false
         	}
     	}
@@ -989,6 +1134,7 @@ var chocoPile = function(){
         cityImage = sceneGroup.create(game.world.centerX,game.world.height,'atlas.game','ciudad')
         cityImage.anchor.setTo(0.5,1)
         cityImage.scale.setTo(1.4,1.4)
+        //cityImage.visible = false
 
 
         loadSounds()
@@ -1080,9 +1226,9 @@ var chocoPile = function(){
 
     }
 
-    /*function render(){
+    function render(){
     	game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
-    }*/
+    }
     
     return {
         assets: assets,
