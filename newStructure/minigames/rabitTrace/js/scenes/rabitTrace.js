@@ -116,7 +116,7 @@ var rabitTrace = function(){
     var currentTime
     var correctParticle
 
-
+    var foundFinish
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -143,6 +143,8 @@ var rabitTrace = function(){
 
         currentLevel = 0
         timeOn = false
+
+        foundFinish = false
 
         restartArraySpaces()
 
@@ -390,6 +392,9 @@ var rabitTrace = function(){
     function update() {
         if(canTouch){
             if(game.input.activePointer.isDown){
+                if(foundFinish){
+                    return
+                }
                 var pos = evaluateTouchPosition()
                // console.log(pos)
                 if(touchStarted){
@@ -426,9 +431,14 @@ var rabitTrace = function(){
                         
                     }
                 }
+
+                if(pos.x == ruteArray[ruteArray.length-1].x && pos.y == ruteArray[ruteArray.length-1].y){
+                    foundFinish = true
+                }
             }
             else{
                 if(touchStarted){
+                    foundFinish = false
                     canTouch = false
                     //console.log(decidedRute, ruteArray)
 
