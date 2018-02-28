@@ -63,7 +63,7 @@ var smoothieLoops = function(){
     }
 
     var NUM_LIFES = 3
-    var LEVEL_TIMER = 4
+    var LEVEL_TIMER = 2
     var INITIAL_TIME = 15000
     var DELTA_TIME = 100
     var MIN_TIME = 10000
@@ -86,6 +86,8 @@ var smoothieLoops = function(){
 
     var timeOn = false
     var clock, tweenTiempo, timeBar
+    var currentLevel
+    var currentTime
 
     var currentButtonSelected
     var hand
@@ -124,6 +126,7 @@ var smoothieLoops = function(){
     var lButton
 
     var dialog
+    var rectAnswer
 
 
 	function loadSounds(){
@@ -146,6 +149,8 @@ var smoothieLoops = function(){
         inTutorial = 0
         arrayButtons = []
         playedLoops = 0
+
+        currentTime = INITIAL_TIME
 
         loadSounds()
 	}
@@ -247,10 +252,9 @@ var smoothieLoops = function(){
     function startTimer(time){
        tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
        tweenTiempo.onComplete.add(function(){
-       		stopTimer()
-           missPoint()
+       		smoothieBad()
            // operationGroup.visible = false
-           setTimeout(setRound,700)
+           //setTimeout(setRound,700)
        })
     }
 
@@ -373,6 +377,7 @@ var smoothieLoops = function(){
     function updateTouch(){
         if(game.input.activePointer.isDown){
         	if(currentButtonSelected!=null){
+
     	    	currentButtonSelected.x = game.input.activePointer.x
     	    	currentButtonSelected.y = game.input.activePointer.y
 
@@ -406,6 +411,10 @@ var smoothieLoops = function(){
 
 
     function setRound(){
+        if(rectAnswer.x > 0){
+            rectAnswer.x = -500
+        }
+
     	lButton.visible = true
     	lButton.x = lButton.startPos.x
     	lButton.y = lButton.startPos.y
@@ -444,6 +453,20 @@ var smoothieLoops = function(){
             break
         }
 
+        if(timeOn){
+            if(currentTime>MIN_TIME){
+                currentTime-=DELTA_TIME
+            }
+            startTimer(currentTime)
+        }
+        else{
+            if(currentLevel>LEVEL_TIMER){
+                timeOn = true
+                positionTimer()
+                startTimer(currentTime)
+            }
+        }
+
 
         game.add.tween(dialog.scale).to({x:1,y:1},500,Phaser.Easing.linear,true)
 
@@ -475,8 +498,14 @@ var smoothieLoops = function(){
 
     
     function clickButton(button,pointer){
-    	if(inTutorial!=-1 && button.inArea){
-    		return
+    	if(inTutorial!=-1 ){
+            if(button.inArea){
+    	   	   return
+            }
+
+            if((inTutorial==0 && button.id != 0)||(inTutorial==1 && button.id != 1)||(inTutorial==2 && button.id != 3)||(inTutorial==3 && button.id != 2)||(inTutorial==4 && button.id != 6)){
+                return
+            }
     	}
 
         if(!inAnimation){
@@ -544,11 +573,13 @@ var smoothieLoops = function(){
             button.inArea = false
             var id = arrayButtons.indexOf(button)
             if(id != -1){
+                //
                 arrayButtons.splice(id,1)
                 for(var i = id; i < arrayButtons.length; i++){
-                    button.x -=DELTA_BUTTON
+                    arrayButtons[i].x -=DELTA_BUTTON
                 }
-                arrayButtons.alpha = 0.5
+                
+                okBtn.alpha = 0.5
             }
 
             adjustLoop()
@@ -599,6 +630,9 @@ var smoothieLoops = function(){
         }*/
 
         if(inTutorial!=-1){
+            if(inTutorial!=6){
+                return
+            }
         	inTutorial++
         	if(tutorialTween!=null){
 				tutorialTween.stop()
@@ -638,11 +672,22 @@ var smoothieLoops = function(){
                         arrayButtons[currentIngredientAnimation-1].scale.setTo(1)
                     }
                     arrayButtons[currentIngredientAnimation].scale.setTo(1.2)
+                    rectAnswer.x = arrayButtons[currentIngredientAnimation].x - rectAnswer.width/2
+                    rectAnswer.y = arrayButtons[currentIngredientAnimation].y - rectAnswer.height/2
+                    sceneGroup.bringToTop(rectAnswer)
+                    sceneGroup.bringToTop(arrayButtons[currentIngredientAnimation])
                     if(arrayButtons[currentIngredientAnimation].id != correctSecuence[currentIngredientAnimation]){
+                        rectAnswer.tint = 0xff0000
                         smoothieBad()
                         return
                     }
+                    else{
+                        rectAnswer.tint = 0x00ff00
+                    }
+                   
+                   
                 }
+
 
                 switch(currentIngredientAnimation){
                     case 0:
@@ -671,6 +716,7 @@ var smoothieLoops = function(){
                         var machineWorking = machineSpine.setAnimationByName(0,'finish',false)
                         machineWorking.onComplete = startSmothies
                         loopButton.final.scale.setTo(1.2)
+                        rectAnswer.x = -500
                     break
                     case 5:
                         currentIngredientAnimation ++
@@ -700,6 +746,10 @@ var smoothieLoops = function(){
             if(playedLoops==drinkCount){
                 //correct
                 //addPoint()
+                if(timeOn){
+                    stopTimer()
+                }
+
                 Coin(yogotar,pointsBar,500)
                 var dinamitaWin =yogotar.setAnimationByName(0,'win',false)
                 dinamitaWin.onComplete = setRound
@@ -713,6 +763,9 @@ var smoothieLoops = function(){
     }
 
     function smoothieBad(){
+        if(timeOn){
+           stopTimer()
+        }
         missPoint()
         machineSpine.setAnimationByName(0,'lose',false)
         var dinamitalose =yogotar.setAnimationByName(0,'lose',false)
@@ -720,12 +773,18 @@ var smoothieLoops = function(){
     }
 
     function clickLoop(){
+        var last = loopText.value
         loopText.value++
         if(loopText.value >3){
         	loopText.value = 1
         }
 
         if(inTutorial!=-1){
+            if(inTutorial!=5){
+                loopText.value = last
+
+                return
+            }
         	if(loopText.value==drinkCount){
         		inTutorial++
         		if(tutorialTween!=null){
@@ -912,6 +971,45 @@ var smoothieLoops = function(){
         tutorialButtons = []
         //buttons
 
+        loopButton = game.add.group()
+        loopButton.x = game.world.centerX
+        loopButton.y = buttons_Area.y
+
+        var initial_part = loopButton.create(-225,-1,'atlas.game','loop_1')
+        initial_part.anchor.setTo(0.5)
+
+        loopButton.parts = []
+        var x = -210
+        for(var i = 0; i < 15; i++){
+            var part = loopButton.create(x,-26,'atlas.game','loop_2')
+            part.anchor.setTo(0.5)
+            loopButton.parts.push(part)
+            x+=part.width-1
+        }
+
+        var final_part = loopButton.create(95,0,'atlas.game','loop_3')
+        final_part.anchor.setTo(0.5)
+        final_part.inputEnabled = true
+        final_part.events.onInputDown.add(clickLoop,this)
+
+
+        loopButton.final = final_part
+
+        loopText = new Phaser.Text(sceneGroup.game, -3, 20, "1", fontStyle)
+        loopText.anchor.setTo(0.5)
+        final_part.addChild(loopText)
+        loopText.value = 1
+        loopButton.visible = false
+
+        sceneGroup.add(loopButton)
+
+        rectAnswer = game.add.graphics()
+        rectAnswer.beginFill(0xffffff);
+        rectAnswer.drawRoundedRect(0,0,100,80,30)
+        rectAnswer.endFill()
+        sceneGroup.add(rectAnswer)
+        rectAnswer.x = -500
+
         var button = sceneGroup.create(game.world.centerX-180, game.world.centerY+210,'atlas.game','milk')
         button.anchor.setTo(0.5)
         button.inputEnabled = true
@@ -919,6 +1017,7 @@ var smoothieLoops = function(){
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
         tutorialButtons.push(button.startPos)
+
         button.inArea = false
 
         button = sceneGroup.create(game.world.centerX-80, game.world.centerY+210,'atlas.game','ice')
@@ -977,38 +1076,7 @@ var smoothieLoops = function(){
         var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
 
-        loopButton = game.add.group()
-        loopButton.x = game.world.centerX
-        loopButton.y = buttons_Area.y
-
-        var initial_part = loopButton.create(-225,-1,'atlas.game','loop_1')
-        initial_part.anchor.setTo(0.5)
-
-        loopButton.parts = []
-        var x = -210
-        for(var i = 0; i < 15; i++){
-        	var part = loopButton.create(x,-26,'atlas.game','loop_2')
-        	part.anchor.setTo(0.5)
-        	loopButton.parts.push(part)
-        	x+=part.width-1
-        }
-
-        var final_part = loopButton.create(95,0,'atlas.game','loop_3')
-        final_part.anchor.setTo(0.5)
-        final_part.inputEnabled = true
-        final_part.events.onInputDown.add(clickLoop,this)
-
-
-        loopButton.final = final_part
-
-        loopText = new Phaser.Text(sceneGroup.game, -3, 20, "1", fontStyle)
-        loopText.anchor.setTo(0.5)
-        final_part.addChild(loopText)
-        loopText.value = 1
-        loopButton.visible = false
-
-        sceneGroup.add(loopButton)
-
+        
         //buttons
 
 
