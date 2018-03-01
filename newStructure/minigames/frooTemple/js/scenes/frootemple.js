@@ -278,7 +278,7 @@ var frootemple = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.SAM)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")

@@ -1,6 +1,12 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var iconsPath = "../../shared/minigames/images/icons/"
 var imagesPath = "../../shared/minigames/images/"
+
+var KELLOGS_ENUM = {
+    TONO :"Tono",
+    SAM:"Sam",
+    MELVIN:"Melvin"
+}
 var result = function(){
 
 	localizationData = {
@@ -31,11 +37,15 @@ var result = function(){
 		atlases: [
 			{
 				name: 'atlas.resultScreen',
-				json: imagesPath + "result/atlas.json",
-				image: imagesPath + "result/atlas.png"},
+				json: imagesPath + "result/result_K/atlas.json",
+				image: imagesPath + "result/result_K/atlas.png"},
 		],
 		images: [
-			
+			/*{
+                name: 'great',
+                file:'imagesPath + "result/result_K/great_'+localization.getLanguage()+'.png'
+
+            },*/
 		],
 		sounds: [
             {	name: "click",
@@ -60,11 +70,18 @@ var result = function(){
     var icons
 
 	var timeGoal = null
+    var characterId
 
-	function setScore(didWin,score,index,scale) {
+	function setScore(didWin,score,index,character,scale) {
         
         gamesList = yogomeGames.getGames()
-		        
+        console.log(character)
+        if(character!=null){
+    		characterId = character
+        }
+        else{
+            characterId = KELLOGS_ENUM.TONO
+        }
         gameIndex = index
 		totalScore = score
 		totalGoal = 50
@@ -178,11 +195,11 @@ var result = function(){
         var buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
-        var buttonNames = ['retry']
+        var buttonNames = ['retry','share']
         
         var buttonTexts = ['retry']
         
-        var pivotX = game.world.centerX
+        var pivotX = game.world.centerX-150
         var pivotY = pivot
         for(var i = 0;i<buttonNames.length;i++){
         
@@ -193,10 +210,10 @@ var result = function(){
             
             group.tag = buttonNames[i]
         
-            var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'off')
+            var button1 = group.create(0,0,buttonNames[i] + '_off')
             button1.anchor.setTo(0.5,0.5)
             
-            var button2 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'on')
+            var button2 = group.create(0,0,buttonNames[i] + '_on')
             button2.anchor.setTo(0.5,0.5)
             
             button1.inputEnabled = true
@@ -205,10 +222,10 @@ var result = function(){
             
             changeImage(1,group)
   			
-			var buttonText = sceneGroup.create(pivotX - 25, pivotY , buttonNames[i] + 'Text')
+			var buttonText = sceneGroup.create(pivotX - 25, pivotY , buttonNames[i] + '_text')
 			buttonText.anchor.setTo(0.5,0.5)
             
-            pivotX += 250
+            pivotX += 300
         }
 
     }
@@ -231,13 +248,12 @@ var result = function(){
     
     function createBackground(){
         
-        tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'atlas.resultScreen','retro-pattern');
+        tile = game.add.tileSprite(0,0,game.world.width, game.world.height, 'atlas.resultScreen','tile');
 		sceneGroup.add(tile)
     }
     
 	function createScene(){
         
-        //console.log(icons[0].name + ' name')
         if(game.device.desktop){
             haveCoupon = false
         }
@@ -257,20 +273,20 @@ var result = function(){
         var win = totalScore >= goalScore
         
         var scaleSpine = 0.55
-        var pivotButtons = game.world.centerY + 115
+        var pivotButtons = game.world.centerY + 250
         
         createBackground()
 		
-		var background = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreen','base')
+		var background = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreen','Base')
 		background.anchor.setTo(0.5,0.5)
 		background.scale.setTo(1.2,1.2)
         
         var topHeight = game.world.height * 0.8  
 		
 		var titleText = 'great'
-		if(totalScore < 3){
+		/*if(totalScore < 3){
 			titleText = 'tryText'
-		}
+		}*/
 		
 		var greatText = sceneGroup.create(game.world.centerX, topHeight * 0.15,titleText)
 		greatText.anchor.setTo(0.5,0.5)
@@ -281,17 +297,23 @@ var result = function(){
 		if(totalScore < 3){
 			animationName = "LOSE"
 		}
-        var buddy = game.add.spine(game.world.centerX,topHeight * 0.5, "master");
-        buddy.scale.setTo(scaleSpine,scaleSpine)
-        buddy.setAnimationByName(0, animationName, true);
-        buddy.setSkinByName('normal');
-        sceneGroup.add(buddy)
+
+
+        var obj = game.add.sprite(game.world.centerX-300, game.world.centerY + 30, 'coinResult');
+        obj.scale.setTo(0.8,0.8)
+        sceneGroup.add(obj)
+        obj.animations.add('walk');
+        obj.animations.play('walk',24,true);
+
+        var character = sceneGroup.create(game.world.centerX,topHeight * 0.45, 'atlas.resultScreen',characterId)
+        character.anchor.setTo(0.5)
+
                 
         var pivotText = game.world.centerX - 170
         
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY- 50, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
+        var retryText = new Phaser.Text(sceneGroup.game, pivotText, game.world.centerY + 50, localization.getString(localizationData, "youGot") + ': ' + totalScore + ' ' + localization.getString(localizationData, "points"), fontStyle)
         sceneGroup.add(retryText)
                 
         if(haveCoupon){
@@ -330,7 +352,7 @@ var result = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
         
         createButtons(pivotButtons)
-        createBanner()
+        //createBanner()
 		
 	}
     
@@ -436,13 +458,21 @@ var result = function(){
     function preload(){
         
         game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
+        game.load.image('great',imagesPath + "result/result_K/great_"+localization.getLanguage()+'.png')
+        game.load.image('retry_on',imagesPath + "result/result_K/retry_"+localization.getLanguage()+'_on.png')
+        game.load.image('retry_off',imagesPath + "result/result_K/retry_"+localization.getLanguage()+'_off.png')
+        game.load.image('retry_text',imagesPath + "result/result_K/retry_"+localization.getLanguage()+'_text.png')
+        game.load.image('share_on',imagesPath + "result/result_K/share_"+localization.getLanguage()+'_on.png')
+        game.load.image('share_off',imagesPath + "result/result_K/share_"+localization.getLanguage()+'_off.png')
+        game.load.image('share_text',imagesPath + "result/result_K/share_"+localization.getLanguage()+'_text.png')
+        game.load.spritesheet('coinResult',imagesPath + 'result/result_K/coinS.png', 125, 125, 24);
         
         //game.load.spine('amazing', "images/spines/Amaizing.json");
-        game.load.spine('master', imagesPath + "spines/skeleton.json");
-		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png')       
+        /*game.load.spine('master', imagesPath + "spines/skeleton.json");
+		game.load.image('great', imagesPath + 'result/great' + localization.getLanguage() + '.png')
 		game.load.image('shareText', imagesPath + 'result/share' + localization.getLanguage() + '.png') 
 		game.load.image('retryText', imagesPath + 'result/retry' + localization.getLanguage() + '.png') 
-		game.load.image('tryText', imagesPath + '/result/try' + localization.getLanguage() + '.png')
+		game.load.image('tryText', imagesPath + '/result/try' + localization.getLanguage() + '.png')*/
         
     }
     
