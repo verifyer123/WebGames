@@ -834,7 +834,7 @@ var result = function(){
             haveCoupon = true
             if(couponData.imgPreview){
                 var imageName = couponData.imgPreview.split('/')
-                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[2])
+                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[3])
                 currentCouponId = couponData.id
             }
             else{
