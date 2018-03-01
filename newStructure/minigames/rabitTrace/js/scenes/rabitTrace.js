@@ -117,6 +117,7 @@ var rabitTrace = function(){
     var correctParticle
 
     var foundFinish
+    var stopTouch
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -145,6 +146,8 @@ var rabitTrace = function(){
         timeOn = false
 
         foundFinish = false
+        
+        stopTouch = false
 
         restartArraySpaces()
 
@@ -369,6 +372,8 @@ var rabitTrace = function(){
         })
 
         addNumberPart(heartsGroup.text,'-1')
+
+        stopTouch = true
         
         if(lives === 0){
             stopGame(false)
@@ -392,6 +397,9 @@ var rabitTrace = function(){
     function update() {
         if(canTouch){
             if(game.input.activePointer.isDown){
+                if(stopTouch){
+                    return
+                }
                 if(foundFinish){
                     return
                 }
@@ -407,6 +415,10 @@ var rabitTrace = function(){
 
                             setLineDirection(pos,decidedRute[decidedRute.length-1])
                             decidedRute.push({x:pos.x, y:pos.y})
+
+                            if(pos.x == ruteArray[ruteArray.length-1].x && pos.y == ruteArray[ruteArray.length-1].y){
+                                foundFinish = true
+                            }
                             //console.log(decidedRute)
                             //var helpImage = sceneGroup.create(space_0.x + (pos.x*DELTA_SPACE), space_0.y - (pos.y*DELTA_SPACE),'atlas.rabitTrace','star')
                             //helpImage.anchor.setTo(0.5,0.5)
@@ -432,11 +444,16 @@ var rabitTrace = function(){
                     }
                 }
 
-                if(pos.x == ruteArray[ruteArray.length-1].x && pos.y == ruteArray[ruteArray.length-1].y){
-                    foundFinish = true
-                }
+                
             }
             else{
+                if(stopTouch){
+                    stopTouch = false
+                    touchStarted = false
+                    //canTouch = false
+                    return
+                }
+
                 if(touchStarted){
                     foundFinish = false
                     canTouch = false
@@ -910,6 +927,7 @@ var rabitTrace = function(){
     function startTouch(){
     	touchStarted = false
     	canTouch = true
+        stopTouch = false
     	if(timeOn){
             startTimer(currentTime)
             if(currentTime > MIN_TIME){
@@ -978,6 +996,8 @@ var rabitTrace = function(){
 
 
     function setRound(){
+        touchStarted = false
+        canTouch = false
         ruteArray = []
         restartArraySpaces()
         createRute()
