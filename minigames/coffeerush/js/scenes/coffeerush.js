@@ -71,9 +71,10 @@ var coffeerush = function(){
     var arrayObstcales
 
 
-    var INITIAL_VELOCITY = 2
+    var INITIAL_VELOCITY = 1
     //var INITIAL_VELOCITY = 0
     var DELTA_VELOCITY = 0.1
+    var MAX_VELOCITY = 10
     var TOUCH_MINIMUN_DELTA = 50
     var DELTA_LIMIT_APPEAR_CORRECT = 85
     var DELTA_LIMIT_APPEAR_CORRECT_Y = 100
@@ -509,7 +510,7 @@ var coffeerush = function(){
     }
 
     function createNewObstacle(id, p){
-
+        var name
     	switch(id){
             case 0:
             name = "clock_circle"
@@ -528,6 +529,9 @@ var coffeerush = function(){
             break
             case 5:
             name = "clock_triangle"
+            break
+            default:
+            name = "clock_large"
             break
         }
 
@@ -647,8 +651,12 @@ var coffeerush = function(){
            	var directionX = obj.velX/Math.abs(obj.velX)
            	var directionY = obj.velY/Math.abs(obj.velY)
 
-           	obj.velX+=directionX*DELTA_VELOCITY;
-           	obj.velY+=directionY*DELTA_VELOCITY;
+            if(obj.velX<MAX_VELOCITY){
+           	    obj.velX+=directionX*DELTA_VELOCITY;
+            }
+            if(obj.velX<MAX_VELOCITY){
+           	    obj.velY+=directionY*DELTA_VELOCITY;
+            }
         }
     }
 
@@ -1218,7 +1226,7 @@ var coffeerush = function(){
         characterGroup.add(buddy_result)
 
         playerCollision = game.add.sprite(0,50,'atlas.coffeerush','chilimLogo')
-        game.physics.arcade.enable(playerCollision,true);
+        game.physics.arcade.enable(playerCollision);
         playerCollision.anchor.setTo(0.5,0.5)
         //playerCollision.visible = false
         playerCollision.alpha = 0
