@@ -93,10 +93,10 @@ var bondroid = function(){
     var DELTA_SPACE_X = 100
     var DELTA_SPACE_Y = 100
     var Y_SPACES = 6
-    var INITIAL_TIME = 12000
-    var DELTA_TIME = 200
-    var MIN_TIME = 7000
-    var LEVLES_TO_TIMER = 3
+    var INITIAL_TIME = 16000
+    var DELTA_TIME = 250
+    var MIN_TIME = 10000
+    var LEVLES_TO_TIMER = 1
 
     
     var lives
@@ -347,7 +347,7 @@ var bondroid = function(){
        tweenTiempo.onComplete.add(function(){
            missPoint()
            stopTimer()
-           canPlant=false
+           passLevel(false)
        })
     }
 
@@ -488,22 +488,26 @@ var bondroid = function(){
 				                    var line = setLineDirection(pos,currentline[currentline.length-1], currentInitialButton.sprite.tint)
 				                    currentline.push({x:pos.x, y:pos.y, line:line})
 				                    for(var i = 0; i < currentline.length; i ++){
-				                    	gridArray[currentline[i].x][currentline[i].y] = currentInitialButton.color
+				                    	gridArray[currentline[i].x][currentline[i].y] = currentInitialButton.sprite.tint
 				                    }
 				                    endLine = true
 				                    currentPairs ++
 				                    currentline = []
+				                    console.log(gridArray)
 				                    if(inTutorial!=-1){
 				                    	inTutorial++
 				                    	evalTutorial()
+				                    	
 				                    }
 				                    if(currentPairs == levelPairs){
-				                    	passLevel()
+				                    	hand.visible = false
+				                    	passLevel(true)
 				                    }
 				                    return
 				                }
 				                else if(gridArray[pos.x][pos.y] != currentInitialButton.sprite.tint){
-				                	missPoint()
+				                	restartAllLines()
+
 
 				                }
 				                endLine = true
@@ -523,11 +527,19 @@ var bondroid = function(){
 
 	                    if(dX + dY == 1){
 
-	                        touchStarted = true
+	                    	if(!evaluateOcupation(pos)){
 
-	                        var line = setLineDirection(pos,{x:currentInitialButton.gridX,y:currentInitialButton.gridY},currentInitialButton.sprite.tint)
-	                        currentline.push({x:currentInitialButton.gridX, y:currentInitialButton.gridY, line:line})
-	                        currentline.push({x:pos.x, y:pos.y, line:line})
+		                        touchStarted = true
+
+		                        var line = setLineDirection(pos,{x:currentInitialButton.gridX,y:currentInitialButton.gridY},currentInitialButton.sprite.tint)
+		                        currentline.push({x:currentInitialButton.gridX, y:currentInitialButton.gridY, line:line})
+		                        currentline.push({x:pos.x, y:pos.y, line:line})
+		                    }
+		                    else{
+		                    	restartAllLines()
+		                    	endLine = true
+		                    	touchStarted = true
+		                    }
 
 	                    }
 	                }
@@ -556,13 +568,46 @@ var bondroid = function(){
         }
     }
 
-    function passLevel(){
-    	game.add.tween(currentRobotSpine).to({y:game.world.centerY},500,Phaser.Easing.linear,true)
+    function restartAllLines(){
+    	missPoint()
+    	restartArraySpaces()
+    	for(var i = 0; i < buttonsGroup.length; i++){
+    		console.log(buttonsGroup.children[i].sprite.tint,buttonsGroup.children[i].gridX,buttonsGroup.children[i].gridY)
+    		if(buttonsGroup.children[i].visible){
+        		gridArray[buttonsGroup.children[i].gridX][buttonsGroup.children[i].gridY] = buttonsGroup.children[i].sprite.tint
+        	}
+    	}
+    	console.log(gridArray)
+
+    	for(var i = 0; i < horizontalGroup.length; i ++){
+    		if(horizontalGroup.children[i].visible){
+    			horizontalGroup.children[i].visible=false
+    		}
+    	}
+
+    	for(var i = 0; i < verticalGroup.length; i ++){
+    		if(verticalGroup.children[i].visible){
+    			verticalGroup.children[i].visible=false
+    		}
+    	}
+
+    	currentPairs = 0
+    }
+
+    function passLevel(win){
+    	if(win){
+	    	game.add.tween(currentRobotSpine).to({y:game.world.centerY},500,Phaser.Easing.linear,true)
+	    }
+	    else{
+	    	game.add.tween(currentRobotSpine).to({y:game.world.height+700},500,Phaser.Easing.linear,true)
+	    }
 
         game.add.tween(door_1).to({x:game.world.centerX-135},500,Phaser.Easing.linear,true)
         game.add.tween(door_2).to({x:game.world.centerX+135},500,Phaser.Easing.linear,true).onComplete.add(function(){
-        	Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,100)
-        	setTimeout(nextRound,1000)
+        	if(win){
+	        	Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,100)
+	        }
+        	setTimeout(function(){nextRound(win)},1000)
         })
 
     	//Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,100)
@@ -571,19 +616,21 @@ var bondroid = function(){
     }
 
     function removeCurrentLine(){
-    	for(var i = 0; i < currentline.length; i ++){
+    	for(var i = 1; i < currentline.length; i ++){
     		currentline[i].line.visible = false
     		gridArray[currentline[i].x][currentline[i].y] = 0
     	}
     }
 
     function evaluateOcupation(pos){
-        if(gridArray[pos.x][pos.y]!=0){
-            return true
+        if(gridArray[pos.x][pos.y]==0){
+        	console.log("slot empty ",gridArray[pos.x][pos.y],pos,currentInitialButton.sprite.tint)
+        	gridArray[pos.x][pos.y] = currentInitialButton.sprite.tint
+            return false
+            
         }
         else{
-            gridArray[pos.x][pos.y] = currentInitialButton.sprite.tint
-            return false
+            return true
         }
     }
 
@@ -869,7 +916,7 @@ var bondroid = function(){
     }
 
 
-    function nextRound(){
+    function nextRound(win){
 
     	//Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,100)
 
@@ -883,8 +930,10 @@ var bondroid = function(){
                positionTimer()
             }
         }
+        if(win){
+	        game.add.tween(currentRobotSpine).to({y:-300},1000,Phaser.Easing.linear,true)
+	    }
 
-        game.add.tween(currentRobotSpine).to({y:-300},1000,Phaser.Easing.linear,true)
 
         //game.add.tween(door_1).to({x:game.world.centerX-400},500,Phaser.Easing.linear,true)
         //game.add.tween(door_2).to({x:game.world.centerX+400},500,Phaser.Easing.linear,true)
