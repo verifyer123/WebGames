@@ -37,7 +37,7 @@ var chedraui = function(){
     var OFF_BRICK = 200
     var BOT_OFFSET = 250
     
-    var gameIndex = 10
+    var gameIndex = 25
     var indexCoin
     var skullTrue = false
     var marioSong = null
