@@ -493,7 +493,7 @@ var bondroid = function(){
 				                    endLine = true
 				                    currentPairs ++
 				                    currentline = []
-				                    console.log(gridArray)
+				                    //console.log(gridArray)
 				                    if(inTutorial!=-1){
 				                    	inTutorial++
 				                    	evalTutorial()
@@ -572,12 +572,12 @@ var bondroid = function(){
     	missPoint()
     	restartArraySpaces()
     	for(var i = 0; i < buttonsGroup.length; i++){
-    		console.log(buttonsGroup.children[i].sprite.tint,buttonsGroup.children[i].gridX,buttonsGroup.children[i].gridY)
+    		//console.log(buttonsGroup.children[i].sprite.tint,buttonsGroup.children[i].gridX,buttonsGroup.children[i].gridY)
     		if(buttonsGroup.children[i].visible){
         		gridArray[buttonsGroup.children[i].gridX][buttonsGroup.children[i].gridY] = buttonsGroup.children[i].sprite.tint
         	}
     	}
-    	console.log(gridArray)
+    	//console.log(gridArray)
 
     	for(var i = 0; i < horizontalGroup.length; i ++){
     		if(horizontalGroup.children[i].visible){
@@ -624,7 +624,7 @@ var bondroid = function(){
 
     function evaluateOcupation(pos){
         if(gridArray[pos.x][pos.y]==0){
-        	console.log("slot empty ",gridArray[pos.x][pos.y],pos,currentInitialButton.sprite.tint)
+        	//console.log("slot empty ",gridArray[pos.x][pos.y],pos,currentInitialButton.sprite.tint)
         	gridArray[pos.x][pos.y] = currentInitialButton.sprite.tint
             return false
             
@@ -795,7 +795,7 @@ var bondroid = function(){
     			return
     		}
     	}
-    	console.log("click button ", button.parent)
+    	//console.log("click button ", button.parent)
         canTouch = true
         currentInitialButton = button.parent
     }
@@ -870,7 +870,7 @@ var bondroid = function(){
 
         var difficult = game.rnd.integerInRange(0,currentPosibleLevels.length-1)
         difficult = currentPosibleLevels[difficult]
-        console.log(difficult)
+        //console.log(difficult)
         var level = game.rnd.integerInRange(0,levelArrays[difficult].length-1)
 
         if(lastLevel!=null){
