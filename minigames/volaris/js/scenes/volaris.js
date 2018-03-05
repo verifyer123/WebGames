@@ -65,7 +65,10 @@ var volaris = function(){
     var MAX_DELTA_VEL_OBS = 2
 
     var HAND_TUTORIAL_DELTA = 500
-
+    var MAX_REPEATED = 3
+    var repeatedObstacles
+	var repeatedLive
+	var repeatedCoins
     
     
     var gameIndex = 24
@@ -149,6 +152,9 @@ var volaris = function(){
         initialTouch = false
         objectsOnCollision = []
         spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        repeatedObstacles = 0
+		repeatedLive = 0
+		repeatedCoins = 0
 	}
     
 
@@ -287,12 +293,27 @@ var volaris = function(){
                     if(timePermitTurbo<game.time.now){
                         if(obs<=PROBABILITY_OBSTACLE){
                             id = game.rnd.integerInRange(0,2)
+                            repeatedObstacles++
+                            if(repeatedObstacles>MAX_REPEATED){
+                            	repeatedObstacles=0
+                            	id = game.rnd.integerInRange(3,groups.length-1)
+                            }
                         }
                         else if(obs<=PROBABILITY_OBSTACLE+PROBABILITY_COIN){
                             id = game.rnd.integerInRange(3,4)
+                            repeatedCoins++
+                            if(repeatedCoins>MAX_REPEATED){
+                            	repeatedCoins=0
+                            	id = game.rnd.integerInRange(5,groups.length-1)
+                            }
                         }
                         else{
-                        	id = game.rnd.integerInRange(5,groups.length-2)
+                        	id = game.rnd.integerInRange(5,groups.length-1)
+                        	repeatedLive++
+                        	if(repeatedLive>MAX_REPEATED){
+                        		repeatedLive=0
+                            	id = game.rnd.integerInRange(0,4)
+                            }
                         }
 
                         if(id == groups.length-1){
@@ -302,12 +323,27 @@ var volaris = function(){
                     else{
                         if(obs<=PROBABILITY_OBSTACLE){
                             id = game.rnd.integerInRange(0,2)
+                            repeatedObstacles++
+                            if(repeatedObstacles>MAX_REPEATED){
+                            	repeatedObstacles=0
+                            	id = game.rnd.integerInRange(3,groups.length-2)
+                            }
                         }
                         else if(obs<=PROBABILITY_OBSTACLE+PROBABILITY_COIN){
                             id = game.rnd.integerInRange(3,4)
+                            repeatedCoins++
+                            if(repeatedCoins>MAX_REPEATED){
+                            	repeatedCoins=0
+                            	id = game.rnd.integerInRange(5,groups.length-2)
+                            }
                         }
                         else{
-                        	id = game.rnd.integerInRange(5,groups.length-1)
+                        	id = game.rnd.integerInRange(5,groups.length-2)
+                        	repeatedLive++
+                        	if(repeatedLive>MAX_REPEATED){
+                        		repeatedLive=0
+                            	id = game.rnd.integerInRange(0,4)
+                            }
                         }
                     }
                     var o = getObjectFromGroup(groups[id])
