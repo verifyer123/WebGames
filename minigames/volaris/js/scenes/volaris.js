@@ -205,7 +205,7 @@ var volaris = function(){
         //game.tweens.removeAll()
     	game.add.tween(player.body).to({x:game.world.width-200,y:game.world.height-100},3000,Phaser.Easing.linear,true)
 
-        //heartsGroup.text.setText('X ' + 0)
+        heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
         sound.play("falling")
 
