@@ -581,7 +581,7 @@ var coffeerush = function(){
 
         //collision of obstacle
         var collision = game.add.sprite(0,0,'atlas.coffeerush','reloj_'+id)
-        game.physics.p2.enable(collision,false)
+        game.physics.p2.enable(collision,true)
         collision.body.clearShapes()
         collision.body.loadPolygon('physicsData','reloj_'+id)
         collision.body.data.shapes[0].sensor = true;
