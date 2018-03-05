@@ -38,7 +38,8 @@ var volaris = function(){
             
 		],
 	}
-    var PROBABILITY_OBSTACLE = 0.5
+    var PROBABILITY_OBSTACLE = 0.4
+    var PROBABILITY_COIN = 0.2
     
     var INITIAL_LIVES = 1
     var DELTA_LOSE = 0.001
@@ -287,20 +288,26 @@ var volaris = function(){
                         if(obs<=PROBABILITY_OBSTACLE){
                             id = game.rnd.integerInRange(0,2)
                         }
-                        else{
-                            id = game.rnd.integerInRange(3,groups.length-1)
+                        else if(obs<=PROBABILITY_OBSTACLE+PROBABILITY_COIN){
+                            id = game.rnd.integerInRange(3,4)
                         }
+                        else{
+                        	id = game.rnd.integerInRange(5,groups.length-2)
+                        }
+
                         if(id == groups.length-1){
                             timePermitTurbo = game.time.now + TIME_PERMIT_TURBO
                         }
                     }
                     else{
-
                         if(obs<=PROBABILITY_OBSTACLE){
                             id = game.rnd.integerInRange(0,2)
                         }
+                        else if(obs<=PROBABILITY_OBSTACLE+PROBABILITY_COIN){
+                            id = game.rnd.integerInRange(3,4)
+                        }
                         else{
-                            id = game.rnd.integerInRange(3,groups.length-2)
+                        	id = game.rnd.integerInRange(5,groups.length-1)
                         }
                     }
                     var o = getObjectFromGroup(groups[id])
@@ -590,9 +597,6 @@ var volaris = function(){
         }
 
         var o 
-        /*o= createBallon()
-        group.add(o)
-        return o*/
 
         switch(group){
             case birdsGroup:
@@ -630,6 +634,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','Parvada')
         s.anchor.setTo(0.5)
+        s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "enemy"
         s.body.enable = true
@@ -653,6 +658,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','arcoiris_frente')
         s.anchor.setTo(0.5)
+        //s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "plusTime"
         s.body.enable = true
@@ -679,6 +685,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','Nube_lluvia')
         s.anchor.setTo(0.5)
+        s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "enemy"
         s.body.enable = true
@@ -758,6 +765,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','Ovni')
         s.anchor.setTo(0.5)
+        s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "enemy"
         s.body.enable = true

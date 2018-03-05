@@ -1,0 +1,51 @@
+{
+	"reloj_0": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 12,15 , 41,5 , 73,20 , 75,59 , 54,80 , 17,76 , 0,41 ]
+		}
+	],
+	"reloj_1": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 5,14 , 36,4 , 65,15 , 82,32 , 75,54 , 59,58 , 51,69 , 21,68 , 9,44 ]
+		}
+	],
+	"reloj_2": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 12,5 , 88,6 , 98,30 , 89,54 , 14,54 , 0,28 ]
+		}
+	],
+	"reloj_3": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 4,19 , 37,2 , 68,23 , 67,71 , 54,82 , 17,81 , 6,72 ]
+		}
+	],
+	"reloj_4": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 1,20 , 37,2 , 69,27 , 56,93 , 16,94 ]
+		}
+	],
+	"reloj_5": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ -6,70 , 38,-2 , 80,72 ]
+		}
+	],
+	"cafe": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 2,34 , 34,3 , 76,61 , 45,93 , 13,94 ]
+		}
+	]
+}

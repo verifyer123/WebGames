@@ -197,6 +197,7 @@ var coffeerush = function(){
         
 		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
+        game.load.physics('physicsData', 'physics/physics.json?v2');
         game.load.spine('mascot', "images/spines/skeleton.json");
         game.load.spine('mascot_result', "images/spines/resultSpine/skeleton_result.json");
         game.load.spine('clock_circle', "images/spines/clock_circle/clock_circle.json");
@@ -315,7 +316,10 @@ var coffeerush = function(){
     	//Object that give points init
     	correctObject = game.add.sprite(0,0,'atlas.coffeerush','cafe')
     	correctObject.anchor.setTo(0.5)
-        game.physics.arcade.enable(correctObject,true)
+        game.physics.p2.enable(correctObject,false)
+        correctObject.body.clearShapes()
+        correctObject.body.loadPolygon('physicsData','cafe')
+        correctObject.body.data.shapes[0].sensor = true;
         sceneGroup.add(correctObject)
         correctObject.tag="correct"
         changeCorrectPosition()
@@ -328,6 +332,9 @@ var coffeerush = function(){
     	var maxX = limitHorizontal.max-50
     	var minY = limitlVertical.min+50
     	var maxY = limitlVertical.max-50
+
+        //correctObject.body.x = -500
+        //correctObject.body.y = -500
 
 
     	//Code to obtain a position that is not in the seam position of the character
@@ -342,7 +349,7 @@ var coffeerush = function(){
     		}
     	}
     	else{
-    		if(characterGroup.y < game.world.centerY){
+    		if(characterGroup.y < background.centerY){
     			minY = background.centerY + DELTA_LIMIT_APPEAR_CORRECT_Y
     		}
     		else{
@@ -356,8 +363,8 @@ var coffeerush = function(){
         //var rY = background.centerY + DELTA_LIMIT_APPEAR_CORRECT_Y
     	//
 
-    	correctObject.x = rX
-    	correctObject.y = rY
+    	correctObject.body.x = rX
+    	correctObject.body.y = rY
     }
     
     function moveRight(){
@@ -502,6 +509,10 @@ var coffeerush = function(){
             	createNewObstacle(arrayObstcales[random_clock],p)
 
             	arrayObstcales.splice(random_clock,1)
+
+                if(arrayObstcales.length==0){
+                    arrayObstcales = [0,1,2,3,4,5]
+                }
         	}
         }
 
@@ -532,6 +543,7 @@ var coffeerush = function(){
             break
             default:
             name = "clock_large"
+            id = 2
             break
         }
 
@@ -569,15 +581,20 @@ var coffeerush = function(){
 
         //collision of obstacle
         var collision = game.add.sprite(0,0,'atlas.coffeerush','reloj_'+id)
-        game.physics.arcade.enable(collision)
+        game.physics.p2.enable(collision,false)
+        collision.body.clearShapes()
+        collision.body.loadPolygon('physicsData','reloj_'+id)
+        collision.body.data.shapes[0].sensor = true;
         collision.anchor.setTo(0.5,0.5)
         collision.scale.setTo(0.7,0.7)
+        //collision.body.scale.setTo(0.5)
         //collision.visible = false
         collision.alpha = 0
         //collision.body.setCircle(35)
         collision.tag="wrong"
 
         group.collision = collision
+
         group.add(collision)
 
         //o.x = collision.width/2
@@ -702,6 +719,9 @@ var coffeerush = function(){
             obj.x += obj.velX
             obj.y += obj.velY
 
+            obj.collision.body.x = obj.x+obj.collision.width/4
+            obj.collision.body.y = obj.y+obj.collision.height/4
+
             if(obj.x <= limitHorizontal.min){
                 //obj.x = limitHorizontal.min
                 if(obj.velX < 0){
@@ -727,7 +747,7 @@ var coffeerush = function(){
             //obj.collision.x = obj.x
             //obj.collision.y = obj.y
 
-            game.physics.arcade.collide(playerCollision, obj.collision, collisionEnter, null, this);
+            //game.physics.arcade.collide(playerCollision, obj.collision, collisionEnter, null, this);
             //game.debug.body(obj.collision)
         }
 
@@ -830,10 +850,13 @@ var coffeerush = function(){
         }
 
 
-        game.physics.arcade.collide(playerCollision, correctObject, collisionEnter, null, this);
+        //game.physics.arcade.collide(playerCollision, correctObject, collisionEnter, null, this);
 
         //console.log(game.input.pointer1)
 
+
+        characterGroup.collision.body.x = characterGroup.x
+        characterGroup.collision.body.y = characterGroup.y
         
     }
 
@@ -1155,11 +1178,13 @@ var coffeerush = function(){
                 
     }
 
-    function collisionEnter(body, bodyB){
+    function collisionEnter(body, bodyB, shapeA, shapeB, equation){
     	//character collision function
+
     	if(gameActive==false){
     		return
-    	}
+        }
+    	
 
     	if(body==null){
     		return
@@ -1167,11 +1192,11 @@ var coffeerush = function(){
 
     	//console.log(body,bodyB)
 
-    	if(bodyB.tag=="correct"){
-    		collideCorrect(bodyB)
+    	if(body.sprite.tag=="correct"){
+    		collideCorrect(correctObject)
     	}
-    	else if(bodyB.tag=="wrong"){
-    		collideWrong(body.parent)
+    	else if(body.sprite.tag=="wrong"){
+    		collideWrong(body.sprite.parent)
     	}
 
     }
@@ -1199,7 +1224,8 @@ var coffeerush = function(){
         limitHorizontal = {min: 50, max: game.world.width - 50}
         limitlVertical = {min: game.world.height*0.12, max: (game.world.height*0.7) - 50}
 
-        game.physics.startSystem(Phaser.Physics.ARCADE)
+        game.physics.startSystem(Phaser.Physics.P2JS)
+        game.physics.p2.gravity.y = 0
         //game.physics.p2.world.defaultContactMaterial.friction = 0;
         //game.physics.p2.gravity.y = 0;
         //game.physics.p2.gravity.x = 0;
@@ -1226,11 +1252,18 @@ var coffeerush = function(){
         characterGroup.add(buddy_result)
 
         playerCollision = game.add.sprite(0,50,'atlas.coffeerush','chilimLogo')
-        game.physics.arcade.enable(playerCollision);
-        playerCollision.anchor.setTo(0.5,0.5)
+        game.physics.p2.enable(playerCollision,false);
+        playerCollision.body.clearShapes()
+        playerCollision.body.setRectangle(90,50,0,-15)
+        playerCollision.body.addRectangle(50,50,0,28)
+        playerCollision.body.addRectangle(30,20,0,-50)
+        //playerCollision.anchor.setTo(0.5,0.5)
+        playerCollision.body.data.shapes[0].sensor = true;
         //playerCollision.visible = false
-        playerCollision.alpha = 0
-        playerCollision.body.setSize(80,100,20,-30);
+       playerCollision.alpha = 0
+        //playerCollision.body.setSize(80,100,20,-30);
+        playerCollision.body.onBeginContact.add(collisionEnter,this)
+        characterGroup.collision = playerCollision
         characterGroup.add(playerCollision)
 
         buddy.setAnimationByName(0, "IDLE", true);
@@ -1313,13 +1346,13 @@ var coffeerush = function(){
         
     }
 
-    function render(){
+    /*function render(){
     	game.debug.body(playerCollision)
     	game.debug.body(correctObject)
     	for(var i = 0; i < objectsGroup.length; i++){
     		game.debug.body(objectsGroup.children[i].collision)
     	}
-    }
+    }*/
     
 	return {
 		assets: assets,
