@@ -11,7 +11,7 @@ var chedraui = function(){
         ],
         images: [
             {   name:"fondo",
-				file: "images/chedraui/background.png"},
+				file: "images/chedraui/background.jpg"},
 		],
 		sounds: [
             {	name: "pop",
@@ -134,7 +134,7 @@ var chedraui = function(){
     
     function preload() {
         
-        game.plugins.add(Fabrique.Plugins.Spine);
+        //game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false
         game.load.spine('mascot', "images/spines/skeleton.json");
         
