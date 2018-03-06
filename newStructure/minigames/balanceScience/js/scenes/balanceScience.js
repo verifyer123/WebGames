@@ -647,12 +647,9 @@ var balanceScience = function(){
         auxGroup = game.add.group()
         sceneGroup.add(auxGroup)
         
-        var pivot = -2
-        
         for(var w = 0; w < 5; w++){
             
-            var offSide = offGroup.create(game.world.centerX, game.world.centerY * 0.65, 'atlas.balanceScience', 'weight' + w)
-            offSide.x += pivot * 100
+            var offSide = offGroup.create(game.world.centerX * 0.25, game.world.centerY * 0.65, 'atlas.balanceScience', 'weight' + w)
             offSide.anchor.setTo(0.5, 1)
             offSide.weight = weight[w]
             offSide.popX = offSide.x
@@ -662,7 +659,6 @@ var balanceScience = function(){
             //offSide.input.enableDrag()
             //offSide.events.onDragStop.add(putThatThingDown,this)
             offSide.events.onInputDown.add(putThatThingDown,this)
-            pivot++
             
             var monsterSide = monsterGroup.create(0, 90, 'atlas.balanceScience', 'weight' + w)
             monsterSide.anchor.setTo(0.5, 1)
@@ -673,6 +669,12 @@ var balanceScience = function(){
         
         offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
         monsterGroup.sort('val', Phaser.Group.SORT_ASCENDING)
+        
+        var pivot = 0
+        for(var f = 0; f < offGroup.length; f++){
+            offGroup.children[f].x += pivot
+            pivot += offGroup.children[f].width +10
+        }
     }
     
     function putThatThingDown(mass){
@@ -762,7 +764,7 @@ var balanceScience = function(){
             btn.parent.children[2].scale.setTo(0.9)
             
             if(tutoLvl > 1){
-                win()
+                win(false)
             }
             else{
                 checkTuto()
@@ -786,7 +788,7 @@ var balanceScience = function(){
         if(ans){
             offWeight = -1
         }
-        
+       
         if(offWeight === monsterWeight){
             sound.play('rightChoice')
             addCoin()
