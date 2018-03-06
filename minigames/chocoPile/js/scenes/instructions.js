@@ -70,10 +70,11 @@ var instructions = function(){
         })
         
 		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "chocoPile","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+        //amazing.setMixPanelTrack("chocoPile","enterGame")
 		
 	}
     
@@ -143,10 +144,12 @@ var instructions = function(){
 
 	function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "chocoPile","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        //amazing.setMixPanelTrack("chocoPile","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

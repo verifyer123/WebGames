@@ -66,10 +66,12 @@ var instructions = function(){
         })
         
 		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "coffeerush","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("coffeerush","enterGame")
 		
 	}
     
@@ -139,10 +141,11 @@ var instructions = function(){
 
 	function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "coffeerush","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+        amazing.setMixPanelTrack("coffeerush","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

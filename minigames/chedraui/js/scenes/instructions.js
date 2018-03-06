@@ -73,6 +73,7 @@ var instructions = function(){
             "enterGame",
             {"gameName": "chedraui","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );*/
+        //amazing.setMixPanelTrack("chedraui","enterGame")
 		
 	}
     
@@ -146,6 +147,7 @@ var instructions = function(){
             "loadGame",
             {"gameName": "chedraui","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );*/
+        //amazing.setMixPanelTrack("chedraui","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"
