@@ -2,7 +2,7 @@ var amazing = {}
 var couponData
 var dataStore
 var minigameId
-var userMail, gender, birthday
+var userMail, gender, birthday, interests
 var origin
 var gameFromApp
 
@@ -184,6 +184,7 @@ amazing.setMinigameId = function(){
                 userMail = parsedData.userProfile.email
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
+                interests = parsedData.userProfile.interests
                 //origin = event.origin
                 gameFromApp = true
                 console.log("Get minigameId")
@@ -284,6 +285,13 @@ amazing.getGender = function(){
 
 amazing.getFromApp = function(){
     return gameFromApp
+}
+
+amazing.setMixPanelTrack= function(minigameName,event){
+    mixpanel.track(
+        event,
+        {"gameName": minigameName,"email":email,"gender":gender,"birthday":birthday,"interests":interests}
+    );
 }
 
 //amazing.setApp()
