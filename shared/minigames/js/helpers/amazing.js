@@ -294,6 +294,8 @@ amazing.setMixPanelTrack= function(minigameName,event){
         {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
     );
 
+    console.log("Enter to setMixPanelTrack")
+
     var params = {
        type: "analyticsMessage",
        data: {
