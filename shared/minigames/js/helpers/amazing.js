@@ -293,6 +293,15 @@ amazing.setMixPanelTrack= function(minigameName,event){
         event,
         {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
     );
+
+    var params = {
+       type: "analyticsMessage",
+       data: {
+           event: event,
+           gameName: minigameName
+       }
+   }
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 //amazing.setApp()
