@@ -5,13 +5,13 @@ var chedraui = function(){
         atlases: [
             {   
                 name: "atlas.game",
-                json: "images/chedraui/atlas.json?v2",
+                json: "images/chedraui/atlas.json",
                 image: "images/chedraui/atlas.png",
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/chedraui/background.jpg"},
+            /*{   name:"fondo",
+				file: "images/chedraui/background.jpg"},*/
 		],
 		sounds: [
             {	name: "pop",
@@ -138,7 +138,7 @@ var chedraui = function(){
         game.stage.disableVisibilityChange = false
         game.load.spine('mascot', "images/spines/skeleton.json");
 
-        //game.load.image('fondo',"images/chedraui/background.jpg")
+        game.load.image('fondo',"images/chedraui/background.jpg")
         
         game.load.spritesheet('bMonster', 'images/chedraui/bMonster.png', 101, 165, 17);
         game.load.spritesheet('pMonster', 'images/chedraui/pMonster.png', 149, 124, 17);
@@ -149,6 +149,8 @@ var chedraui = function(){
 		}else{
 			game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
 		}
+
+
         
     }
     
@@ -901,8 +903,8 @@ var chedraui = function(){
     
     function createObjects(){
         
-        createObjs('floor',1.4,6)
-        createObjs('brick',1.1,6)
+        createObjs('floor',1.4,15)
+        createObjs('brick',1.1,15)
         createObjs('coin',1,10)
         createObjs('enemy_squish',1,4)
         createObjs('enemy_spike',1,4)
@@ -919,7 +921,7 @@ var chedraui = function(){
         createParticles('wrong',2)
         createParticles('text',6)
         
-        while(pivotObjects < game.world.width * 2){
+        while(pivotObjects < game.world.width*1.6){
             addObstacle('floor')
         }
         
@@ -1027,6 +1029,8 @@ var chedraui = function(){
 		assets: assets,
 		name: "chedraui",
 		create: function(event){
+
+
             
             game.physics.startSystem(Phaser.Physics.P2JS);
 
@@ -1086,6 +1090,8 @@ var chedraui = function(){
 				
                 game.sound.mute = false
             }, this);
+
+            //alert("pass 3")
             
             objectsGroup = game.add.group()
             worldGroup.add(objectsGroup)
@@ -1114,7 +1120,9 @@ var chedraui = function(){
             );
             
             buddy.setSkinByName('combined')
+
             
+
             player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.game','enemy_spike')
             player.anchor.setTo(0.5,1)
             player.alpha = 0
@@ -1125,18 +1133,23 @@ var chedraui = function(){
             player.body.collideWorldBounds = true;
             
             positionFirst()
+
             
             createPointsBar()
             createHearts()
             createControls()  
-            
+
+
+            //alert("pass 7")
             createObjects()          
             
             //createControls()
-            
+            //alert("pass 8")
             game.physics.p2.setImpactEvents(true);
             
             animateScene()
+
+
             
             
 		},
