@@ -10,8 +10,8 @@ var chedraui = function(){
             },
         ],
         images: [
-            /*{   name:"fondo",
-				file: "images/chedraui/background.jpg"},*/
+            {   name:"fondo",
+				file: "images/chedraui/background.jpg"},
 		],
 		sounds: [
             {	name: "pop",
@@ -138,7 +138,7 @@ var chedraui = function(){
         game.stage.disableVisibilityChange = false
         game.load.spine('mascot', "images/spines/skeleton.json");
 
-        game.load.image('fondo',"images/chedraui/background.jpg")
+        //game.load.image('fondo',"images/chedraui/background.jpg")
         
         game.load.spritesheet('bMonster', 'images/chedraui/bMonster.png', 101, 165, 17);
         game.load.spritesheet('pMonster', 'images/chedraui/pMonster.png', 149, 124, 17);
@@ -403,6 +403,7 @@ var chedraui = function(){
 
         for(var i = 0; i< backgroundObjects.length; i++){
             backgroundObjects[i].x-=0.5
+            //backgroundObjects[i].x-=5
             if(backgroundObjects[i].x<-backgroundObjects[i].width){
                 backgroundObjects[i].x+=backgroundObjects[i].width*backgroundObjects.length
             }
@@ -1045,6 +1046,7 @@ var chedraui = function(){
             var x = 0
             for(var i = 0; i< 2;i++){
                 var background = worldGroup.create(x,0,'fondo')
+                background.scale.setTo(2)
                 x+=background.width
                 backgroundObjects.push(background)
             }
