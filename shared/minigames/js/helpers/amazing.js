@@ -185,7 +185,7 @@ amazing.setMinigameId = function(){
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
                 interests = parsedData.userProfile.interests
-                userName = params.userProfile.name
+                userName = parsedData.userProfile.name
                 //origin = event.origin
                 gameFromApp = true
                 console.log("Get minigameId")
