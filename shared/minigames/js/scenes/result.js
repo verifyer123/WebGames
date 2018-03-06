@@ -65,10 +65,12 @@ var result = function(){
 		totalTime = 0
         win = didWin
         //if(icons[gameIndex].demo==null){
-            mixpanel.track(
+            /*mixpanel.track(
                 "finishGame",
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-            );
+            );*/
+
+            amazing.setMixPanelTrack(gameName,"finishGame")
         //}
 
 	}
@@ -113,10 +115,11 @@ var result = function(){
 
 	function shareEvent(){
         //if(icons[gameIndex].demo==null){
-            mixpanel.track(
+            /*mixpanel.track(
                 "pressFacebook",
                 {"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-            );
+            );*/
+            amazing.setMixPanelTrack(gameName,"pressFacebook")
         //}
 
         if(!minigameId){
@@ -164,15 +167,18 @@ var result = function(){
 
             }else if(parent.tag == 'reintentar'){
                 //if(icons[gameIndex].demo==null){
-    				mixpanel.track(
+    				/*mixpanel.track(
     					"retryGame",
     					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-    				);
+    				);*/
+                    amazing.setMixPanelTrack(gameName,"retryGame")
 
-    				mixpanel.track(
+    				/*mixpanel.track(
     					"enterGame",
     					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-    				);
+    				);*/
+
+                    amazing.setMixPanelTrack(gameName,"enterGame")
                 //}
 
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
