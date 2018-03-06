@@ -10,8 +10,8 @@ var chedraui = function(){
             },
         ],
         images: [
-            {   name:"fondo",
-				file: "images/chedraui/background.jpg"},
+            /*{   name:"fondo",
+				file: "images/chedraui/background.jpg"},*/
 		],
 		sounds: [
             {	name: "pop",
@@ -137,6 +137,8 @@ var chedraui = function(){
         //game.plugins.add(Fabrique.Plugins.Spine);
         game.stage.disableVisibilityChange = false
         game.load.spine('mascot', "images/spines/skeleton.json");
+
+        game.load.image('fondo',"images/chedraui/background.jpg")
         
         game.load.spritesheet('bMonster', 'images/chedraui/bMonster.png', 101, 165, 17);
         game.load.spritesheet('pMonster', 'images/chedraui/pMonster.png', 149, 124, 17);
