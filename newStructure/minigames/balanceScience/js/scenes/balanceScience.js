@@ -652,8 +652,6 @@ var balanceScience = function(){
             var offSide = offGroup.create(game.world.centerX * 0.25, game.world.centerY * 0.65, 'atlas.balanceScience', 'weight' + w)
             offSide.anchor.setTo(0.5, 1)
             offSide.weight = weight[w]
-            offSide.popX = offSide.x
-            offSide.popY = offSide.y
             offSide.inputEnabled = true
             offSide.val = w
             //offSide.input.enableDrag()
@@ -673,7 +671,9 @@ var balanceScience = function(){
         var pivot = 0
         for(var f = 0; f < offGroup.length; f++){
             offGroup.children[f].x += pivot
-            pivot += offGroup.children[f].width +10
+            pivot += offGroup.children[f].width + 10
+            offGroup.children[f].popX = offGroup.children[f].x
+            offGroup.children[f].popY = offGroup.children[f].y
         }
     }
     
@@ -906,6 +906,7 @@ var balanceScience = function(){
         
         auxGroup.sort('val', Phaser.Group.SORT_DESCENDING)
         offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
+        
     }
     
     function shuffle(){
