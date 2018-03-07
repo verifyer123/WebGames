@@ -472,7 +472,7 @@ var monumentHammer = function(){
     function evaluateTouchPosition(){
         var position = {x:0,y:0,inGrid: false}
         var x = (game.input.activePointer.x - space_0.x)/DELTA_SPACE_X 
-        var y = (game.input.activePointer.y - space_0.y)/DELTA_SPACE_Y 
+        var y = (game.input.activePointer.y - (space_0.y+offset))/DELTA_SPACE_Y 
         x = Math.round(x)
         y = Math.round(y)
 
