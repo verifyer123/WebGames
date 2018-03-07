@@ -189,6 +189,12 @@ var chedraui = function(){
         //bottomRect.width = game.world.width
         //bottomRect.height *= 1.02
         bottomRect.anchor.setTo(0.5,1)
+
+        var bottomRect2 = sceneGroup.create(game.world.centerX-bottomRect.width,game.world.height,'atlas.game','dashboard')
+        bottomRect2.anchor.setTo(0.5,1)
+
+        var bottomRect3 = sceneGroup.create(game.world.centerX+bottomRect.width,game.world.height,'atlas.game','dashboard')
+        bottomRect3.anchor.setTo(0.5,1)
         
         groupButton = game.add.group()
         groupButton.x = game.world.centerX
@@ -1050,7 +1056,7 @@ var chedraui = function(){
             var x = 0
             for(var i = 0; i< 2;i++){
                 var background = worldGroup.create(x,0,'fondo')
-                background.scale.setTo(2)
+                //background.scale.setTo(2)
                 x+=background.width
                 backgroundObjects.push(background)
             }
