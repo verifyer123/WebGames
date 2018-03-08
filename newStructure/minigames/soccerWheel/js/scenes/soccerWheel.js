@@ -735,6 +735,7 @@ var soccerWheel = function(){
     function stopWheel(){
         
         if(gameActive){
+            sound.play('pop')
             gameActive = false
             arrow.tint = 0x505050 
             
