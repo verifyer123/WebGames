@@ -128,6 +128,8 @@ var smoothieLoops = function(){
     var dialog
     var rectAnswer
 
+    var clouds
+
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -366,6 +368,7 @@ var smoothieLoops = function(){
     
     function update() {
 
+        clouds.tilePosition.x -=0.1
 
         if(!gameActive){
         	return
@@ -909,7 +912,7 @@ var smoothieLoops = function(){
         sceneGroup.add(backgroundGroup)
 
         var backgroundTop = game.add.graphics(0,0)
-        backgroundTop.beginFill(0x73ffef)
+        backgroundTop.beginFill(0xbffff8)
         backgroundTop.drawRect(0,0,game.world.width,game.world.height)
         backgroundTop.endFill()
 
@@ -918,7 +921,7 @@ var smoothieLoops = function(){
         var floor = game.add.tileSprite(0,game.world.centerY+100, game.world.width, game.world.height-(game.world.centerY+100), 'atlas.game','tile')
         backgroundGroup.add(floor)
 
-        var clouds = game.add.tileSprite(0,0,game.world.width,500,'atlas.game','tile_nubes')
+        clouds = game.add.tileSprite(0,0,game.world.width,500,'atlas.game','tile_nubes')
         backgroundGroup.add(clouds)
 
 
