@@ -476,7 +476,7 @@ var tapchitect = function(){
     		blinkTimes++
     	}
 
-    	if(blinkTimes<3){
+    	if(blinkTimes<7){
     		setTimeout(revive,400)
     	}
     	else{
@@ -557,7 +557,7 @@ var tapchitect = function(){
                             createBridgePoints(2)
                         }
                         else{
-                            VEL+=0.05
+                            VEL+=0.03
                             createBridgePoints()
                         }
                     }
