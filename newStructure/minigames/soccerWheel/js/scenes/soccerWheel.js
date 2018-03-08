@@ -652,6 +652,8 @@ var soccerWheel = function(){
         var name = new Phaser.Text(sceneGroup.game, bar.centerX, bar.centerY, '0', fontStyle)
         name.anchor.setTo(0.5, 0.4)
         name.setText('')
+        name.stroke = "#000000"
+        name.strokeThickness = 10
         namesGroup.add(name)
         namesGroup.text = name
     }
@@ -661,7 +663,7 @@ var soccerWheel = function(){
         var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var wheelText
          
-        if(localization.getLanguage() === 'EN'){
+        if(localization.getLanguage() === 'ES'){
             wheelText = ['         Ball',
                          '        Field',
                          '         Foul',
@@ -717,12 +719,14 @@ var soccerWheel = function(){
             var name = new Phaser.Text(sceneGroup.game, 0, 0, '0', fontStyle)
             name.anchor.setTo(0, 0.4)
             name.setText(wheelText[i])
+            name.stroke = "#000000"
+            name.strokeThickness = 5
             name.angle = (i * 32) - (10 - i)
             name.word = words[i]
             wheelGroup.add(name)
 		}
         
-        if(localization.getLanguage() === 'EN'){
+        if(localization.getLanguage() === 'ES'){
             wheelGroup.children[11].style.font = "22px VAGRounded"
         }
         else{
