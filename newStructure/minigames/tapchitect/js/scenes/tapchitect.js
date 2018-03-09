@@ -111,7 +111,7 @@ var tapchitect = function(){
         inMovement = false
         canTouch = false
         inTutorial = 0
-        lastX = game.world.centerX-380
+        lastX = -380
         lastSpace = null
         realGame = false
         inFall = false
@@ -395,7 +395,7 @@ var tapchitect = function(){
             for(var i = 0; i < briedGroup.length; i++){
                 if(briedGroup.children[i].visible){
                     briedGroup.children[i].x -= VEL
-                    if(briedGroup.children[i].x < -500){
+                    if(briedGroup.children[i].x < -game.world.width){
                         briedGroup.children[i].visible = false
                     }
                 }
@@ -427,7 +427,7 @@ var tapchitect = function(){
 	            for(var i = 0; i < briedGroup.length; i++){
 	                if(briedGroup.children[i].visible){
 	                    briedGroup.children[i].x -= VEL
-	                    if(briedGroup.children[i].x < -500){
+	                    if(briedGroup.children[i].x < -game.world.width){
 	                        briedGroup.children[i].visible = false
 	                    }
 	                }
@@ -521,7 +521,7 @@ var tapchitect = function(){
                                 //moveCamera()
                                 inMovement = true
                                 createBridgePoints(0)
-                                lastSpace.x = game.world.width-50
+                                lastSpace.x = 500
                                 lastSpace.loadTexture('atlas.game','triangle0')
                                 createBridgePoints(0) 
                                 lastSpace.loadTexture('atlas.game','triangle0')
@@ -615,6 +615,8 @@ var tapchitect = function(){
             w = lastSpace.width/2
         }
         else{
+            //lastX = briedGroup.x-lastX
+            lastX = -100
             w = -1
         }
         lastSpace = setPoint(type,lastX,0)

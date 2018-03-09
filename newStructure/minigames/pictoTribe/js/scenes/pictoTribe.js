@@ -68,6 +68,18 @@ var pictoTribe = function(){
     var DELTA_QUADS = 2
 
     var LEVELS = [
+    	[
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,1],
+            [0,0,0,0,1,0],
+            [0,1,0,1,0,0],
+            [0,0,1,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0],
+            [0,0,0,0,0,0]
+        ],
         [
             [0,0,0,0,0,0],
             [0,1,0,0,1,0],
@@ -158,7 +170,7 @@ var pictoTribe = function(){
     
     var lives
 	var sceneGroup = null
-    var gameIndex = 156
+    var gameIndex = 157
     var tutoGroup
     var backgroundSound
     var timeValue
@@ -197,6 +209,11 @@ var pictoTribe = function(){
 
  	var grid
 
+ 	var tutorialTimeout
+
+ 	var tutorialPoints = [2,3,2,1,0]
+ 	var tutorialIndex
+
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -218,7 +235,7 @@ var pictoTribe = function(){
 
         horizontalTexts = []
         verticalTexts = []
-
+        tutorialIndex = 0
         quadsPainted = INITIAL_QUADS_PAINTED
 
         loadSounds()
@@ -458,19 +475,42 @@ var pictoTribe = function(){
                 //console.log(pointsArray)
                 if(pos.inGrid){
                     var correct = false
-                    for(var i = 0; i < pointsArray.length; i++){
-                        if(pos.x == pointsArray[i].x && pos.y == pointsArray[i].y){
-                            correct = true
-                            var x = space_0.x + (pointsArray[i].x*DELTA_SPACE_X) - (DELTA_SPACE_X/2)
-                            var y = space_0.y + (pointsArray[i].y*DELTA_SPACE_Y) - (DELTA_SPACE_Y/2)
-                            totalPointsArray.push(pointsArray[i])
-                            pointsArray.splice(i,1)
+                    if(inTutorial==-1){
+	                    for(var i = 0; i < pointsArray.length; i++){
+
+	                        if(pos.x == pointsArray[i].x && pos.y == pointsArray[i].y){
+	                            correct = true
+	                            var x = space_0.x + (pointsArray[i].x*DELTA_SPACE_X) - (DELTA_SPACE_X/2)
+	                            var y = space_0.y + (pointsArray[i].y*DELTA_SPACE_Y) - (DELTA_SPACE_Y/2)
+	                            totalPointsArray.push(pointsArray[i])
+	                            pointsArray.splice(i,1)
+	                            imageGraphic.beginFill(0xffffff)
+	                            imageGraphic.drawRect(x,y,DELTA_SPACE_X,DELTA_SPACE_Y)
+	                            imageGraphic.endFill()
+	                            break
+	                        }
+	                    }
+	                }
+	                else{
+	                	if(pos.x == pointsArray[tutorialPoints[tutorialIndex]].x && pos.y == pointsArray[tutorialPoints[tutorialIndex]].y){
+	                		correct = true
+                            var x = space_0.x + (pos.x*DELTA_SPACE_X) - (DELTA_SPACE_X/2)
+                            var y = space_0.y + (pos.y*DELTA_SPACE_Y) - (DELTA_SPACE_Y/2)
+                            totalPointsArray.push(pos)
+                            pointsArray.splice(tutorialPoints[tutorialIndex],1)
                             imageGraphic.beginFill(0xffffff)
                             imageGraphic.drawRect(x,y,DELTA_SPACE_X,DELTA_SPACE_Y)
                             imageGraphic.endFill()
-                            break
-                        }
-                    }
+                            
+                            inTutorial++
+                            tutorialIndex++
+                            console.log(tutorialIndex)
+                            if(tutorialTimeout!=null){
+                            	clearTimeout(tutorialTimeout)
+                            }
+                            evalTutorial()
+	                	}
+	                }
 
                     if(correct){
                     	if(pointsArray.length==0){
@@ -483,6 +523,9 @@ var pictoTribe = function(){
                     	}
                     }
                     else{
+                    	if(inTutorial!=-1){
+                    		return
+                    	}
                     	for(var i = 0; i < totalPointsArray.length; i++){
 	                        if(pos.x == totalPointsArray[i].x && pos.y == totalPointsArray[i].y){
 	                            correct = true
@@ -545,7 +588,12 @@ var pictoTribe = function(){
     function setRound(){
     	caveMan.setAnimationByName(0,'idle',true)
 	    eagle.setAnimationByName(0,'idle',true)
-        currentLevel = LEVELS[game.rnd.integerInRange(0,LEVELS.length-1)]
+	    if(inTutorial==-1){
+	        currentLevel = LEVELS[game.rnd.integerInRange(1,LEVELS.length-1)]
+	    }
+	    else{
+	    	currentLevel = LEVELS[0]
+	    }
         //currentLevel = LEVELS[5]
         var horizontalNumbers = []
         var verticalNumbers = []
@@ -629,26 +677,32 @@ var pictoTribe = function(){
 
 
         }
-        
-        for(var i = 0; i < quadsPainted; i++){
-            var r = game.rnd.integerInRange(0,pointsArray.length-1)
-            var x = space_0.x + (pointsArray[r].x*DELTA_SPACE_X) - (DELTA_SPACE_X/2)
-            var y = space_0.y + (pointsArray[r].y*DELTA_SPACE_Y) - (DELTA_SPACE_Y/2)
-            totalPointsArray.push(pointsArray[r])
-            pointsArray.splice(r,1)
-            imageGraphic.beginFill(0xffffff)
-            imageGraphic.drawRect(x,y,DELTA_SPACE_X,DELTA_SPACE_Y)
-            imageGraphic.endFill()
+        if(inTutorial!=-1){
+        	evalTutorial()
         }
+        else{
+	        for(var i = 0; i < quadsPainted; i++){
+	            var r = game.rnd.integerInRange(0,pointsArray.length-1)
+	            var x = space_0.x + (pointsArray[r].x*DELTA_SPACE_X) - (DELTA_SPACE_X/2)
+	            var y = space_0.y + (pointsArray[r].y*DELTA_SPACE_Y) - (DELTA_SPACE_Y/2)
+	            totalPointsArray.push(pointsArray[r])
+	            pointsArray.splice(r,1)
+	            imageGraphic.beginFill(0xffffff)
+	            imageGraphic.drawRect(x,y,DELTA_SPACE_X,DELTA_SPACE_Y)
+	            imageGraphic.endFill()
+	        }
 
-        if(quadsPainted>0){
-            quadsPainted-=DELTA_QUADS
-            if(quadsPainted < 0){
-                quadsPainted = 0
-            }
-        }
+	        if(quadsPainted>0){
+	            quadsPainted-=DELTA_QUADS
+	            if(quadsPainted < 0){
+	                quadsPainted = 0
+	            }
+	        }
+	    }
 
         canTouch = true
+
+        
 
     }
 
@@ -667,60 +721,25 @@ var pictoTribe = function(){
 
 
     function evalTutorial(){
-    	if(tutorialTween !=null){
+
+    	if(pointsArray.length<=0){
+    		inTutorial=-1
+    		hand.visible = false
     		return
     	}
 
     	hand.visible = true
-    	evalPosTutorial()
-    	switch(inTutorial){
-    		case 0:
-            hand.x = space_0.x+(sculptureImage.initX*DELTA_SPACE_X)
-            hand.y = space_0.y+(sculptureImage.initY*DELTA_SPACE_Y)+(offset/2)
-    		hand.loadTexture('atlas.game','handDown')
-    		setTimeout(function(){
-    			
-    			hand.loadTexture('atlas.game','handUp')
-    			setTimeout(evalTutorial,500)
-    		},500)
-    		break
-
-    		case 1:
-    		hand.loadTexture('atlas.game','handDown')
-
-    		setTimeout(function(){
-    			
-    			hand.loadTexture('atlas.game','handUp')
-    			setTimeout(evalTutorial,500)
-    		},500)
-    		break
-
-    		case 2:
-    		hand.loadTexture('atlas.game','handDown')
-
-    		setTimeout(function(){
-    			
-    			hand.loadTexture('atlas.game','handUp')
-    			setTimeout(evalTutorial,500)
-    		},500)
-    		break
-
-    		case 3:
-    		hand.loadTexture('atlas.game','handDown')
-
-    		setTimeout(function(){
-    			
-    			hand.loadTexture('atlas.game','handUp')
-    			setTimeout(evalTutorial,500)
-    		},500)
-    		break
-
-    		default:
-    		inTutorial = -1
-    		hand.visible = false
-    		break
-    	}
-    }
+    	console.log()
+    	hand.x = space_0.x+(pointsArray[tutorialPoints[tutorialIndex]].x*DELTA_SPACE_X)+DELTA_SPACE_X
+        hand.y = space_0.y+(pointsArray[tutorialPoints[tutorialIndex]].y*DELTA_SPACE_Y)+DELTA_SPACE_Y
+        hand.loadTexture('atlas.game','handDown')
+		tutorialTimeout = setTimeout(function(){
+			
+			hand.loadTexture('atlas.game','handUp')
+			setTimeout(evalTutorial,500)
+		},500)
+	}
+    	
 
     function createTex(x,y,number){
         for(var i = 0; i < textsArray.length; i++){
