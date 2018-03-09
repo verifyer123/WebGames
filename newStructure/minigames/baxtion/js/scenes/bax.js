@@ -26,6 +26,10 @@ var bax = function(){
         images: [
             // {   name:"fondo",
             //     file: "images/bax/fondo.png"}
+            {
+                name:'tutorial_image',
+                file:"images/bax/tutorial_image.png"
+            },
         ],
         sounds: [
             {	name: "pop",
@@ -880,14 +884,10 @@ var bax = function(){
     }
 
     function onClickPlay(rect) {
-        rect.inputEnabled = false
-        sound.play("pop")
-        game.add.tween(tutoGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-
+        
             tutoGroup.y = -game.world.height
             startRound()
-            // startTimer(missPoint)
-        })
+
     }
 
     function createTutorial(){
@@ -896,7 +896,9 @@ var bax = function(){
         //overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
-        var rect = new Phaser.Graphics(game)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -934,7 +936,7 @@ var bax = function(){
         button.anchor.setTo(0.5,0.5)
 
         var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-        playText.anchor.setTo(0.5,0.5)
+        playText.anchor.setTo(0.5,0.5)*/
     }
 
 	function addNumberPart(obj,number, offsetY){
