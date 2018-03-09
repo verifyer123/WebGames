@@ -1,25 +1,25 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 
-var monumentHammer = function(){
+var chiseler = function(){
     
 	var assets = {
         atlases: [
             {   
                 name: "atlas.game",
-                json: "images/monumentHammer/atlas.json",
-                image: "images/monumentHammer/atlas.png"
+                json: "images/chiseler/atlas.json",
+                image: "images/chiseler/atlas.png"
             },
             {   
                 name: "atlas.time",
-                json: "images/monumentHammer/timeAtlas.json",
-                image: "images/monumentHammer/timeAtlas.png"
+                json: "images/chiseler/timeAtlas.json",
+                image: "images/chiseler/timeAtlas.png"
             },
 
         ],
         images: [
             {   name:"tutorial_image",
-				file: "images/monumentHammer/tutorial_image.png"}
+				file: "images/chiseler/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -141,7 +141,7 @@ var monumentHammer = function(){
 
     function preload(){
         game.stage.disableVisibilityChange = false;
-        game.load.spritesheet("coin", 'images/monumentHammer/coin.png', 122, 123, 12)
+        game.load.spritesheet("coin", 'images/chiseler/coin.png', 122, 123, 12)
     }
 
     function createHearts(){
@@ -802,7 +802,7 @@ var monumentHammer = function(){
     
 	return {
 		assets: assets,
-		name: "monumentHammer",
+		name: "chiseler",
         update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene

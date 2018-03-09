@@ -504,7 +504,6 @@ var pictoTribe = function(){
                             
                             inTutorial++
                             tutorialIndex++
-                            console.log(tutorialIndex)
                             if(tutorialTimeout!=null){
                             	clearTimeout(tutorialTimeout)
                             }
