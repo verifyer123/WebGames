@@ -184,7 +184,7 @@ var yogomeGames = function () {
             {name:'Monument Hammer',url:urlSet + 'monumentHammer/',mapUrl:urlMap + 'monumentHammer', sceneName:'monumentHammer',subject:'creativity', review:false,objective:5,demo:false, type:gameTypeEnum.CHOOSE},//154
             {name:'Soccer Wheel',url:urlSet + 'soccerWheel/',mapUrl:urlMap + 'soccerWheel', sceneName:'soccerWheel',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.COUNT},//155
             {name:'Tapchitect',url:urlSet + 'tapchitect/',mapUrl:urlMap + 'tapchitect', sceneName:'tapchitect',subject:'math', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//156
-            {name:'Picto Tribe',url:urlSet + 'pictoTribe/',mapUrl:urlMap + 'pictoTribe', sceneName:'pictoTribe',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.CHOOSE},//156
+            {name:'Picto Tribe',url:urlSet + 'pictoTribe/',mapUrl:urlMap + 'pictoTribe', sceneName:'pictoTribe',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.CHOOSE},//157
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
