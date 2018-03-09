@@ -27,6 +27,8 @@ var dojo = function(){
         images: [
             {   name:"fondo",
 				file: "images/dojo/fondo.png"},
+            {   name:"tutorial_image",
+                file: "images/dojo/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -708,8 +710,10 @@ var dojo = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -757,7 +761,14 @@ var dojo = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+                
+        gameStart = true
+        animateNumbers()
     }
     
     function createClock(){
