@@ -835,7 +835,7 @@ var pictoTribe = function(){
         hand.anchor.setTo(0.5)
         hand.visible = false
         
-        createTutorial()
+        
 
         createPointsBar()
         createHearts()
@@ -844,6 +844,8 @@ var pictoTribe = function(){
         correctParticle = createPart('atlas.game','star')
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+
+        createTutorial()
 
         
     }
