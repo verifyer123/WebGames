@@ -334,7 +334,7 @@ var H2Orbit = function(){
             paint.y = -paint.height
         
         if(gameActive){
-             if(planetsGroup.y < game.world.height + planetsGroup.children[actualState].height)
+             if(planetsGroup.y < game.world.height + 200)
                 planetsGroup.y += speed
             else
                 throwPlanets()
@@ -631,7 +631,7 @@ var H2Orbit = function(){
     
     function throwPlanets(){
         
-        planetsGroup.y = -70
+        planetsGroup.y = -150
         actualState = getRand()
         changeImage(actualState, planetsGroup)
         planetsGroup.state = actualState
@@ -664,9 +664,6 @@ var H2Orbit = function(){
             if(lives > 1){
                 restartGame()   
             }
-            else{
-                missPoint()
-            }
             particleWrong.x = shipGroup.x - 20
             particleWrong.y = shipGroup.y
             particleWrong.start(true, 1200, null, 6)
@@ -676,16 +673,18 @@ var H2Orbit = function(){
     
     function restartGame(){
         
-        game.add.tween(planetsGroup).to({y: game.world.height + planetsGroup.children[actualState].height}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
-            gameActive = false
-            planetsGroup.y = -100
-            shipGroup.y = game.world.height
+        gameActive = false
+        game.add.tween(planetsGroup).to({y: game.world.height + 200}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
+            planetsGroup.y = -150
+            shipGroup.y = game.world.height + 100
             shipGroup.children[shipGroup.state].setAnimationByName(0, "IDLE", true)
             missPoint()
-            game.add.tween(shipGroup).to({y: game.world.centerY}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
-                sound.play('throw')
-                game.add.tween(shipGroup).to({y: game.world.centerY + 200}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
-                    initGame()
+            game.time.events.add(500,function(){
+                game.add.tween(shipGroup).to({y: game.world.centerY}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
+                    sound.play('throw')
+                    game.add.tween(shipGroup).to({y: game.world.centerY + 200}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                        initGame()
+                    })
                 })
             })
         })    
