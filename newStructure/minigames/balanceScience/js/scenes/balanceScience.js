@@ -593,7 +593,8 @@ var balanceScience = function(){
         
         tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         tweenTiempo.onComplete.add(function(){
-            win(true)
+            offWeight = -1
+            win()
         })
     }
     
@@ -671,7 +672,7 @@ var balanceScience = function(){
         var pivot = 0
         for(var f = 0; f < offGroup.length; f++){
             offGroup.children[f].x += pivot
-            pivot += offGroup.children[f].width + 10
+            pivot += offGroup.children[f].width
             offGroup.children[f].popX = offGroup.children[f].x
             offGroup.children[f].popY = offGroup.children[f].y
         }
@@ -730,7 +731,7 @@ var balanceScience = function(){
         
         okGroup = game.add.group()
         okGroup.x = game.world.centerX 
-        okGroup.y = game.world.height - 50
+        okGroup.y = game.world.height - 80
         okGroup.scale.setTo(1.5)
         sceneGroup.add(okGroup)
         
@@ -764,7 +765,7 @@ var balanceScience = function(){
             btn.parent.children[2].scale.setTo(0.9)
             
             if(tutoLvl > 1){
-                win(false)
+                win()
             }
             else{
                 checkTuto()
@@ -779,21 +780,17 @@ var balanceScience = function(){
         btn.parent.children[2].scale.setTo(1)
     }
     
-    function win(ans){
+    function win(){
         
         gameActive = false
         stopTimer()
         offGroup.setAll('inputEnabled', false)
-        
-        if(ans){
-            offWeight = -1
-        }
        
         if(offWeight === monsterWeight){
             sound.play('rightChoice')
             addCoin()
             balance.setAnimationByName(0, "WIN", true)
-            lvl = getRand()
+            lvl = 2//getRand()
             if(pointsBar.number > 8){
                 time -= 300
             }
@@ -913,10 +910,10 @@ var balanceScience = function(){
         
         Phaser.ArrayUtils.shuffle(weight)
 
-        if(lvl === 2){
-            if(weight[0] === 1 && weight[1] === 3 || weight[0] === 3 && weight[1] === 1 ){
-                shuffle()
-            }
+        if(lvl === 2 && weight[0] + weight[1] === 4){
+            console.log(weight)
+            shuffle()
+            console.log('exeption')
         }
     }
     
