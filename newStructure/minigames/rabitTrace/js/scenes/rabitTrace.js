@@ -1216,13 +1216,15 @@ var rabitTrace = function(){
 
         createPointsBar()
         createHearts()
-        createTutorial()
+        
 
         createRabit()
         createCarrots()
         correctParticle = createPart('atlas.rabitTrace','star')
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+
+        createTutorial()
     
     }
     

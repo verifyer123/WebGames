@@ -17,6 +17,8 @@ var tutorialHelper = function () {
 	var playKey = "button_play"
 	var backKey = "background_tutorial"
 
+
+
 	function createTutorialGif(group,onClickFunction){
 
 		var rect = new Phaser.Graphics(game)
@@ -47,18 +49,18 @@ var tutorialHelper = function () {
 
 		//return
 
-		var plane = group.create(game.world.centerX, game.world.centerY+60,backKey)
+		var plane = group.create(game.world.centerX, game.world.centerY+30,backKey)
 		plane.scale.setTo(1,1)
 		plane.anchor.setTo(0.5,0.5)
 
-		var tuto = group.create(game.world.centerX, game.world.centerY - 90,'tutorial_image')
+		var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
 		tuto.anchor.setTo(0.5,0.5)
 
-		var howTo = group.create(game.world.centerX,120, howkey)
+		var howTo = group.create(game.world.centerX,90, howkey)
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 
-		var button = group.create(game.world.centerX+120, game.world.centerY+360, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
+		var button = group.create(game.world.centerX+120, game.world.centerY+330, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
 		button.anchor.setTo(0.5,0.5)
 		button.scale.setTo(0.85)
 
@@ -84,7 +86,7 @@ var tutorialHelper = function () {
 		// }
 		// else{
 
-		var spine = game.add.spine(game.world.centerX-120, game.world.centerY+480,"tutorialGif")
+		var spine = game.add.spine(game.world.centerX-120, game.world.centerY+450,"tutorialGif")
 		spine.setSkinByName("normal")
 		spine.setAnimationByName(0,"IDLE",true)
 		group.add(spine)
@@ -103,7 +105,7 @@ var tutorialHelper = function () {
 		coinsRect.endFill()
 
 
-		var coinsSprite = game.add.sprite(game.world.centerX-181, game.world.centerY+198);
+		var coinsSprite = game.add.sprite(game.world.centerX-181, game.world.centerY+168);
 		coinsSprite.addChild(coinsRect)
 		coinsSprite.anchor.setTo(0,0.5)
 		group.add(coinsSprite)
@@ -126,28 +128,28 @@ var tutorialHelper = function () {
 
 
 		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+215, "1 pts", fontStyle)
+		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+185, "1 pts", fontStyle)
 		coinText_1.stroke = '#000000';
 		coinText_1.strokeThickness = 4;
 		coinText_1.anchor.setTo(0.5)
 		coinText_1.scale.setTo(0.8)
 		group.add(coinText_1)
 
-		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+215, Math.floor(goalScore/2)+" pts", fontStyle)
+		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+185, Math.floor(goalScore/2)+" pts", fontStyle)
 		coinText_2.stroke = '#000000';
 		coinText_2.strokeThickness = 4;
 		coinText_2.anchor.setTo(0.5)
 		coinText_2.scale.setTo(0.8)
 		group.add(coinText_2)
 
-		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+215, goalScore+" pts", fontStyle)
+		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+185, goalScore+" pts", fontStyle)
 		coinText_3.stroke = '#000000';
 		coinText_3.strokeThickness = 4;
 		coinText_3.anchor.setTo(0.5)
 		coinText_3.scale.setTo(0.8)
 		group.add(coinText_3)
 
-		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+430, tutorialTypeText, fontStyle)
+		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
 		typeText.stroke = '#000000';
 		typeText.strokeThickness = 4;
 		typeText.anchor.setTo(0.5)
@@ -207,35 +209,71 @@ var tutorialHelper = function () {
 
 		goalScore = gameData.objective
 		var type = gameData.type
+		var language = localization.getLanguage()
 
 		switch(type){
 			case gameTypeEnum.CHOOSE:
 				videoName = "choose"
-				tutorialTypeText = "CHOOSE"
+				if(language=="EN"){
+					tutorialTypeText = "CHOOSE"
+				}
+				else{
+					tutorialTypeText = "ESCOGER"
+				}
 				break
 			case gameTypeEnum.COUNT:
 				videoName = "count"
-				tutorialTypeText = "COUNT"
+				if(language=="EN"){
+					tutorialTypeText = "COUNT"
+				}
+				else{
+					tutorialTypeText = "CONTAR"
+				}
 				break
 			case gameTypeEnum.GRAB:
 				videoName = "grab"
-				tutorialTypeText = "GRAB"
+				if(language=="EN"){
+					tutorialTypeText = "GRAB"
+				}
+				else{
+					tutorialTypeText = "TOMAR"
+				}
 				break
 			case gameTypeEnum.MATCH:
 				videoName = "match"
-				tutorialTypeText = "MATCH"
+				if(language=="EN"){
+					tutorialTypeText = "MATCH"
+				}
+				else{
+					tutorialTypeText = "IGUALAR"
+				}
 				break
 			case gameTypeEnum.SEQUENCE:
 				videoName = "sequence"
-				tutorialTypeText = "SEQUENCE"
+				if(language=="EN"){
+					tutorialTypeText = "SEQUENCE"
+				}
+				else{
+					tutorialTypeText = "SECUENCIA"
+				}
 				break
 			case gameTypeEnum.TARGET:
 				videoName = "target"
-				tutorialTypeText = "TARGET"
+				if(language=="EN"){
+					tutorialTypeText = "TARGET"
+				}
+				else{
+					tutorialTypeText = "APUNTAR"
+				}
 				break
 			case gameTypeEnum.TRACE:
 				videoName = "trace"
-				tutorialTypeText = "TRACE"
+				if(language=="EN"){
+					tutorialTypeText = "TRACE"
+				}
+				else{
+					tutorialTypeText = "TRAZAR"
+				}
 				break
 		}
 
@@ -246,8 +284,8 @@ var tutorialHelper = function () {
 
 
 		currentLoader.spine(obj.name, obj.file)
-		currentLoader.image(howkey,sharePath+'images/tutorial/how_'+localization.getLanguage()+'.png')
-		currentLoader.image(playKey,sharePath+'images/tutorial/play_'+localization.getLanguage()+'.png')
+		currentLoader.image(howkey,sharePath+'images/tutorial/how_'+language+'.png')
+		currentLoader.image(playKey,sharePath+'images/tutorial/play_'+language+'.png')
 		currentLoader.image(backKey,sharePath+'images/tutorial/background_tutorial.png')
 
 

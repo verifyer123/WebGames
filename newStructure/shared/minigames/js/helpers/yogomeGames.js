@@ -85,7 +85,7 @@ var yogomeGames = function () {
 			{name:'Toy Figures',url:urlSet + 'toyfigure/',mapUrl:urlMap + 'toyfigure', sceneName:'toyfigure',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//55
 			{name:'Jelly Jump',url:urlSet + 'jellyJump/',mapUrl:urlMap + 'jellyJump', sceneName:'jelly',subject:'math', review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//56
 			{name:'Squat Count',url:urlSet + 'squatCount/',mapUrl:urlMap + 'squatCount', sceneName:'squat',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.COUNT},//57
-			{name:'Baxtion',url:urlSet + 'baxtion/',mapUrl:urlMap + 'baxtion', sceneName:'bax',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.CHOOSE},//58
+			{name:'Baxtion',url:urlSet + 'baxtion/',mapUrl:urlMap + 'baxtion', sceneName:'bax',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.COUNT},//58
 			{name:'Mathgic Hat',url:urlSet + 'mathgicHat/',mapUrl:urlMap + 'mathgicHat', sceneName:'magic',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//59
 			{name:'Seaquence',url:urlSet + 'seaquence/',mapUrl:urlMap + 'seaquence', sceneName:'seaquence',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//60
 			{name:'Clock Fix',url:urlSet + 'clockfix/',mapUrl:urlMap + 'clockfix', sceneName:'clockfix',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},//61
