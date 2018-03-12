@@ -236,7 +236,7 @@ var tutorialHelper = function () {
 					tutorialTypeText = "GRAB"
 				}
 				else{
-					tutorialTypeText = "TOMAR"
+					tutorialTypeText = "RECOLECTAR"
 				}
 				break
 			case gameTypeEnum.MATCH:
@@ -245,7 +245,7 @@ var tutorialHelper = function () {
 					tutorialTypeText = "MATCH"
 				}
 				else{
-					tutorialTypeText = "IGUALAR"
+					tutorialTypeText = "ARMAR"
 				}
 				break
 			case gameTypeEnum.SEQUENCE:
@@ -263,7 +263,7 @@ var tutorialHelper = function () {
 					tutorialTypeText = "TARGET"
 				}
 				else{
-					tutorialTypeText = "APUNTAR"
+					tutorialTypeText = "DIRECCIONAR"
 				}
 				break
 			case gameTypeEnum.TRACE:
