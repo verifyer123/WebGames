@@ -885,7 +885,7 @@ var noisyMonsters = function(){
         game.add.tween(toolsGroup).to({alpha:1}, 400, Phaser.Easing.linear, true)
         game.add.tween(backgroundGroup).to({alpha:1}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
             game.time.events.add(400,function(){
-                sound.play(noiseGroup[tutoPivot]).loopFull(0.6)
+                sound.play(noiseGroup[tutoPivot], {loop:true, volume:0.6})
                 toolsGroup.children[tutoPivot].inputEnabled = true
                 toolsGroup.children[tutoPivot].tint = 0xffffff
                 boxGroup.children[tutoPivot].active = true
