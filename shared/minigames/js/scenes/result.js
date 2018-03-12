@@ -402,9 +402,9 @@ var result = function(){
 
 
         var pivotY = 90
-        var pivotX = -200
+        var pivotX = -100
 
-        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
+        /*var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
         trophy.scale.setTo(0.9,0.9)
         trophy.anchor.setTo(0.5,0.5)
 
@@ -413,9 +413,9 @@ var result = function(){
         var text = game.add.bitmapText(pivotX  ,pivotY, 'gothamMedium', '#' + rankMinigame, 35);
         text.tint = 0x000000
         text.anchor.setTo(0.5,0.5)
-        group.add(text)
+        group.add(text)*/
 
-        pivotX+= 110
+        //pivotX+= 110
         var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
         coin.anchor.setTo(0.5,0.5)
 

@@ -34,7 +34,8 @@ var rift = function(){
             },
         ],
         images: [
-
+        	{   name:"tutorial_image",
+				file: "images/rift/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "magic",
@@ -380,7 +381,7 @@ var rift = function(){
 	
 	function getButton(){
 		
-		console.log(buttonsGroup.length)
+		//console.log(buttonsGroup.length)
 
 		if(buttonsGroup.length==0){
 			createSingleButton()
@@ -495,13 +496,15 @@ var rift = function(){
 	
     function createOverlay(){
         
-		createTutorial()
+		//createTutorial()
 		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -559,8 +562,22 @@ var rift = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
 		
+    }
+
+    function onClickPlay(){
+    	createTutorial()
+    	overlayGroup.y = -game.world.height
+		gameActive = true
+		
+		game.time.events.add(1000,startTutorial)
+		
+		var delay = 100
+		for(var i = 0; i < 4; i++){
+			game.time.events.add(delay,addButton)
+			delay+=100	
+		}	
     }
 	
 	function addTiles(){

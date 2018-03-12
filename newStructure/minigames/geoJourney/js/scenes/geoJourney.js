@@ -1,5 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+//var tutorialPath = "../../shared/minigames/"
 var geoJourney = function(){
     
 	var localizationData = {
@@ -143,7 +143,7 @@ var geoJourney = function(){
     
     function preload() {
         
-        game.plugins.add(Fabrique.Plugins.Spine);
+        //game.plugins.add(Fabrique.Plugins.Spine);
         
         game.load.spine('mascot', "images/spines/dinamita.json");
         game.stage.disableVisibilityChange = false;  
