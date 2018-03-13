@@ -466,9 +466,15 @@ footer {
 	}
       
     #home {
-		max-height: 870px;
-        max-width: 770px;
+        max-height: 1100px;
+        max-width: 950px;
+        width: 100%;
+        left: 4%;
 	} 
+      
+    #landscape{
+        display: none;
+    }
 }
 
 /* Landscape */
