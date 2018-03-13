@@ -158,7 +158,7 @@ var yogomeGames = function () {
             {name:'Geo Beat',url:urlSet + 'geoBeat/',mapUrl:urlMap + 'geoBeat', sceneName:'geoBeat',subject:'geography', review:false,objective:25,demo:false,type:gameTypeEnum.SEQUENCE},//128
             {name:'Mirror World',url:urlSet + 'mirrorWorld/',mapUrl:urlMap + 'mirrorWorld', sceneName:'mirrorWorld',subject:'creativity', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//129
             {name:'Solar Wing',url:urlSet + 'solarWing/',mapUrl:urlMap + 'solarWing', sceneName:'solarWing',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//130
-            {name:'Donnie Bunny',url:urlSet + 'donnieBunny/',mapUrl:urlMap + 'donnieBunny', sceneName:'donnieBunny',subject:'language', review:false,objective:30,demo:false,type:gameTypeEnum.MATCH},//131
+            {name:'Face Ahoy',url:urlSet + 'faceAhoy/',mapUrl:urlMap + 'faceAhoy', sceneName:'faceAhoy',subject:'language', review:false,objective:30,demo:false,type:gameTypeEnum.MATCH},//131
             {name:'Hack A Ton',url:urlSet + 'hackATon/',mapUrl:urlMap + 'hackATon', sceneName:'hackATon',subject:'coding', review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//132
             {name:'Solar Shield Squad',url:urlSet + 'solarShieldSquad/',mapUrl:urlMap + 'solarShieldSquad', sceneName:'solarShieldSquad',subject:'Geography', review:false,objective:35,demo:false, type:gameTypeEnum.TARGET},//133
             {name:'Galaxy Jumper',url:urlSet + 'galaxyJumper/',mapUrl:urlMap + 'galaxyJumper', sceneName:'galaxyJumper',subject:'Geography', review:false,objective:20,demo:false, type:gameTypeEnum.GRAB},//134

@@ -2,7 +2,7 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 
-var donnieBunny = function(){
+var faceAhoy = function(){
     
     var localizationData = {
 		"EN":{
@@ -22,14 +22,14 @@ var donnieBunny = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.donnieBunny",
-                json: "images/donnieBunny/atlas.json",
-                image: "images/donnieBunny/atlas.png",
+                name: "atlas.faceAhoy",
+                json: "images/faceAhoy/atlas.json",
+                image: "images/faceAhoy/atlas.png",
             },
             {   
                 name: "atlas.time",
-                json: "images/donnieBunny/timeAtlas.json",
-                image: "images/donnieBunny/timeAtlas.png",
+                json: "images/faceAhoy/timeAtlas.json",
+                image: "images/faceAhoy/timeAtlas.png",
             },
 
         ],
@@ -59,10 +59,10 @@ var donnieBunny = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 131
     var overlayGroup
-    var donnieSong
+    var pirateSong
     var coin
     var timerGroup
-    var donnie
+    var pirate
     var appleGroup
     var rnd
     var shuffle = [0,1,2]
@@ -209,7 +209,7 @@ var donnieBunny = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.donnieBunny','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.faceAhoy','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -237,7 +237,7 @@ var donnieBunny = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.donnieBunny','life_box')
+        var heartImg = group.create(0,0,'atlas.faceAhoy','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -260,7 +260,7 @@ var donnieBunny = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        donnieSong.stop()
+        pirateSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -278,20 +278,20 @@ var donnieBunny = function(){
 		
         game.stage.disableVisibilityChange = false;
         
-        game.load.audio('donnieSong', soundsPath + 'songs/marioSong.mp3');
+        game.load.audio('pirateSong', soundsPath + 'songs/marioSong.mp3');
         
-		/*game.load.image('howTo',"images/donnieBunny/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/donnieBunny/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/donnieBunny/introscreen.png")*/
+		/*game.load.image('howTo',"images/faceAhoy/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/faceAhoy/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/faceAhoy/introscreen.png")*/
 
-        game.load.image('tutorial_image',"images/donnieBunny/tutorial_image.png")
+        game.load.image('tutorial_image',"images/faceAhoy/tutorial_image.png")
         //loadType(gameIndex)
 
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
         
-        game.load.image('background',"images/donnieBunny/background.png")
+        game.load.image('background',"images/faceAhoy/background.png")
         
-        game.load.spine("donnie", "images/spines/bunny.json")
+        game.load.spine("pirate", "images/spines/pirate.json")
 		
 		console.log(localization.getLanguage() + ' language')
         
@@ -319,8 +319,11 @@ var donnieBunny = function(){
 
 	function createBackground(){
         
-        var background = sceneGroup.create(game.world.centerX, game.world.centerY, 'background')
-        background.anchor.setTo(0.5)
+        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.faceAhoy', 'tile')
+        sceneGroup.add(tile)
+        
+        var background = sceneGroup.create(game.world.centerX, game.world.height, 'background')
+        background.anchor.setTo(0.5, 1)
     }
 
 	function update(){
@@ -379,7 +382,7 @@ var donnieBunny = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.donnieBunny',key);
+        particle.makeParticles('atlas.faceAhoy',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -406,7 +409,7 @@ var donnieBunny = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.donnieBunny',tag);
+				particle.makeParticles('atlas.faceAhoy',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -462,7 +465,7 @@ var donnieBunny = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.donnieBunny','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.faceAhoy','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -475,7 +478,7 @@ var donnieBunny = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.donnieBunny','smoke');
+        particlesGood.makeParticles('atlas.faceAhoy','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -564,42 +567,42 @@ var donnieBunny = function(){
         })
     }
     
-    function theBirthOfDonnieBonnie(){
+    function createPirate(){
         
-        donnie = game.add.spine(game.world.centerX, game.world.height - 50, "donnie")
-        //donnie.scale.setTo(0.8)
-        donnie.setAnimationByName(0, "IDLE", true)
-        donnie.setSkinByName("normal")
-        sceneGroup.add(donnie)
+        pirate = game.add.spine(game.world.centerX, game.world.height - 50, "pirate")
+        //pirate.scale.setTo(0.8)
+        pirate.setAnimationByName(0, "idle", true)
+        pirate.setSkinByName("normal")
+        sceneGroup.add(pirate)
     }
     
     function moveDatPart(opt){
         
         switch(opt){
             case 0:
-                donnie.setAnimationByName(0, "EARS", true)
+                pirate.setAnimationByName(0, "idle_ears", true)
             break
             case 1:
-                donnie.setAnimationByName(0, "EYES", true)
+                pirate.setAnimationByName(0, "idle_eyes", true)
             break
             case 2:
-                donnie.setAnimationByName(0, "MOUTH", true)
+                pirate.setAnimationByName(0, "idle_mouth", true)
             break
             case 3:
-                donnie.setAnimationByName(0, "NOSE", true)
+                pirate.setAnimationByName(0, "idle_nose", true)
             break
             case 4:
-                donnie.setAnimationByName(0, "IDLE", true)
+                pirate.setAnimationByName(0, "idle", true)
             break
             case 5:
-                donnie.setAnimationByName(0, "WIN", true)
+                pirate.setAnimationByName(0, "win", false)
+                pirate.addAnimationByName(0, "winstill", true)
             break
             case 6:
-                donnie.setAnimationByName(0, "HIT", true)
+                pirate.setAnimationByName(0, "lose", false)
             break
             case 7:
-                donnie.setAnimationByName(0, "LOSE", false)
-                donnie.addAnimationByName(0, "LOSESTILL", true)
+                pirate.setAnimationByName(0, "lose", true)
             break
         }
     }
@@ -620,7 +623,7 @@ var donnieBunny = function(){
             appleName.y = game.world.centerY * 0.5
             appleGroup.add(appleName)
             
-            var apple = appleName.create(0, 0, 'atlas.donnieBunny', 'apple')
+            var apple = appleName.create(0, 0, 'atlas.faceAhoy', 'apple')
             apple.anchor.setTo(0.5)
             apple.inputEnabled = true
             apple.events.onInputDown.add(select ,this)
@@ -734,8 +737,8 @@ var donnieBunny = function(){
 	return {
 		
 		assets: assets,
-		name: "donnieBunny",
-		update: update,
+		name: "faceAhoy",
+		//update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
@@ -744,9 +747,9 @@ var donnieBunny = function(){
 			createBackground()
 			addParticles()
                         			
-            donnieSong = game.add.audio('donnieSong')
-            game.sound.setDecodedCallback(donnieSong, function(){
-                donnieSong.loopFull(0.6)
+            pirateSong = game.add.audio('pirateSong')
+            game.sound.setDecodedCallback(pirateSong, function(){
+                pirateSong.loopFull(0.6)
             }, this);
             
             game.onPause.add(function(){
@@ -762,12 +765,12 @@ var donnieBunny = function(){
 			createPointsBar()
 			createHearts()
             positionTimer()
-            theBirthOfDonnieBonnie()
+            createPirate()
             threeAppleTree()
             initCoin()
             createParticles()
 			
-			buttons.getButton(donnieSong,sceneGroup)
+			buttons.getButton(pirateSong,sceneGroup)
             createOverlay()
             
             animateScene()
