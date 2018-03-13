@@ -1,4 +1,7 @@
 var epicSiteMain =  function(){
+	var DEVICE_WIDTH = 540
+	var DEVICE_HEIGHT = 960
+
 	var gameFrame
 	var gameContainer
 
@@ -330,7 +333,7 @@ var epicSiteMain =  function(){
 
 		var width = iframeElement.offsetWidth
 		var height = iframeElement.offsetHeight
-		var ratio = 960 / 540
+		var ratio = DEVICE_HEIGHT / DEVICE_WIDTH
 		var newHeight = Math.round(width * ratio)
 		iframeElement.style.maxHeight = newHeight + "px"
 

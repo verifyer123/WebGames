@@ -98,7 +98,7 @@ export var login = function () {
 	}
 
 	function registerPin(data, onSuccess, onError, registerType) {
-		console.log(data)
+		// console.log(data)
 		if(registerType === "newAccount"){
 			ajaxCall(data, LOGIN_PARENT, onSuccess, onError, "PUT")
 		}else if(registerType === "firstLogin") {
