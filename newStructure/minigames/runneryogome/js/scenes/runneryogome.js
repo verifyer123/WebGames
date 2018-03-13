@@ -23,7 +23,8 @@ var runneryogome = function(){
             },
         ],
         images: [
-
+            {   name:"tutorial_image",
+                file: "images/runner/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -1110,8 +1111,8 @@ var runneryogome = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -1159,7 +1160,14 @@ var runneryogome = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        
+        gameActive = true
+        gameStart = true
     }
     
 	return {

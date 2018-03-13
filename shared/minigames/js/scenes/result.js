@@ -65,10 +65,12 @@ var result = function(){
 		totalTime = 0
         win = didWin
         //if(icons[gameIndex].demo==null){
-            mixpanel.track(
+            /*mixpanel.track(
                 "finishGame",
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-            );
+            );*/
+
+            amazing.setMixPanelTrack(gameName,"finishGame")
         //}
 
 	}
@@ -113,10 +115,11 @@ var result = function(){
 
 	function shareEvent(){
         //if(icons[gameIndex].demo==null){
-            mixpanel.track(
+            /*mixpanel.track(
                 "pressFacebook",
                 {"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-            );
+            );*/
+            amazing.setMixPanelTrack(gameName,"pressFacebook")
         //}
 
         if(!minigameId){
@@ -164,15 +167,18 @@ var result = function(){
 
             }else if(parent.tag == 'reintentar'){
                 //if(icons[gameIndex].demo==null){
-    				mixpanel.track(
+    				/*mixpanel.track(
     					"retryGame",
     					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-    				);
+    				);*/
+                    amazing.setMixPanelTrack(gameName,"retryGame")
 
-    				mixpanel.track(
+    				/*mixpanel.track(
     					"enterGame",
     					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-    				);
+    				);*/
+
+                    amazing.setMixPanelTrack(gameName,"enterGame")
                 //}
 
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
@@ -396,9 +402,9 @@ var result = function(){
 
 
         var pivotY = 90
-        var pivotX = -200
+        var pivotX = -100
 
-        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
+        /*var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
         trophy.scale.setTo(0.9,0.9)
         trophy.anchor.setTo(0.5,0.5)
 
@@ -407,9 +413,9 @@ var result = function(){
         var text = game.add.bitmapText(pivotX  ,pivotY, 'gothamMedium', '#' + rankMinigame, 35);
         text.tint = 0x000000
         text.anchor.setTo(0.5,0.5)
-        group.add(text)
+        group.add(text)*/
 
-        pivotX+= 110
+        //pivotX+= 110
         var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
         coin.anchor.setTo(0.5,0.5)
 
@@ -834,7 +840,7 @@ var result = function(){
             haveCoupon = true
             if(couponData.imgPreview){
                 var imageName = couponData.imgPreview.split('/')
-                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[2])
+                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[3])
                 currentCouponId = couponData.id
             }
             else{

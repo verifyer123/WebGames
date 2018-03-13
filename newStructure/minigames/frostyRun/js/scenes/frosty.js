@@ -282,7 +282,7 @@ var frosty = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex,1.4)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.TONO,1.4)
             //amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
 		})

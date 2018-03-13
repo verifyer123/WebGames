@@ -1,0 +1,104 @@
+
+player.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bust_body
+  rotate: false
+  xy: 2, 142
+  size: 198, 112
+  orig: 198, 112
+  offset: 0, 0
+  index: -1
+normal/bust_eyes
+  rotate: false
+  xy: 111, 32
+  size: 33, 31
+  orig: 33, 31
+  offset: 0, 0
+  index: -1
+normal/bust_head
+  rotate: true
+  xy: 2, 65
+  size: 75, 151
+  orig: 75, 151
+  offset: 0, 0
+  index: -1
+normal/full_arm_l
+  rotate: true
+  xy: 155, 123
+  size: 17, 45
+  orig: 17, 45
+  offset: 0, 0
+  index: -1
+normal/full_arm_r
+  rotate: true
+  xy: 198, 103
+  size: 17, 47
+  orig: 17, 47
+  offset: 0, 0
+  index: -1
+normal/full_ball
+  rotate: true
+  xy: 61, 2
+  size: 25, 24
+  orig: 25, 24
+  offset: 0, 0
+  index: -1
+normal/full_hand_l
+  rotate: true
+  xy: 173, 63
+  size: 10, 21
+  orig: 10, 21
+  offset: 0, 0
+  index: -1
+normal/full_hand_r
+  rotate: false
+  xy: 87, 6
+  size: 11, 21
+  orig: 11, 21
+  offset: 0, 0
+  index: -1
+normal/full_head
+  rotate: false
+  xy: 173, 75
+  size: 23, 46
+  orig: 23, 46
+  offset: 0, 0
+  index: -1
+normal/full_leg_l
+  rotate: false
+  xy: 202, 122
+  size: 22, 132
+  orig: 22, 132
+  offset: 0, 0
+  index: -1
+normal/full_leg_r
+  rotate: false
+  xy: 226, 122
+  size: 22, 132
+  orig: 22, 132
+  offset: 0, 0
+  index: -1
+normal/full_pants
+  rotate: false
+  xy: 61, 29
+  size: 48, 34
+  orig: 48, 34
+  offset: 0, 0
+  index: -1
+normal/full_shadow
+  rotate: true
+  xy: 155, 61
+  size: 60, 16
+  orig: 60, 16
+  offset: 0, 0
+  index: -1
+normal/full_torso
+  rotate: true
+  xy: 2, 2
+  size: 61, 57
+  orig: 61, 57
+  offset: 0, 0
+  index: -1

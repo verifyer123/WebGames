@@ -1,5 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var selfiePlanet = function(){
     
     var localizationData = {
@@ -24,9 +25,17 @@ var selfiePlanet = function(){
                 json: "images/selfiePlanet/atlas.json",
                 image: "images/selfiePlanet/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
         ],
         images: [
-
+            {
+				name:'tutorial_image',
+				file:"images/selfiePlanet/gametuto.png"
+			},
 		],
 		sounds: [
             {	name: "magic",
@@ -54,6 +63,7 @@ var selfiePlanet = function(){
     var gameStarted=false
 	var shoot
 	var particlesGroup, particlesUsed
+    var tutoGroup
     var gameIndex = 111
 	var indexGame
     var overlayGroup
@@ -270,6 +280,19 @@ var selfiePlanet = function(){
 		
 		console.log(localization.getLanguage() + ' language')
         
+    }
+    
+    function createTutorial(){
+        
+        tutoGroup = game.add.group()
+        sceneGroup.add(tutoGroup)
+
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+    }
+    
+    function onClickPlay() {
+        tutoGroup.y = -game.world.height
+        initGame()
     }
     
     function createOverlay(){
@@ -720,7 +743,8 @@ var selfiePlanet = function(){
             createParticles()
 			
 			buttons.getButton(dancing_baby,sceneGroup)
-            createOverlay()
+            createTutorial()
+            //createOverlay()
             
             flashScene()
             

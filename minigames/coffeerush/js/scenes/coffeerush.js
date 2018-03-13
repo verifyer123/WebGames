@@ -71,9 +71,10 @@ var coffeerush = function(){
     var arrayObstcales
 
 
-    var INITIAL_VELOCITY = 2
+    var INITIAL_VELOCITY = 1
     //var INITIAL_VELOCITY = 0
     var DELTA_VELOCITY = 0.1
+    var MAX_VELOCITY = 10
     var TOUCH_MINIMUN_DELTA = 50
     var DELTA_LIMIT_APPEAR_CORRECT = 85
     var DELTA_LIMIT_APPEAR_CORRECT_Y = 100
@@ -90,7 +91,10 @@ var coffeerush = function(){
     var isRunning
     var isTouchAvailable
     var background
+    var lastPosition
 
+    var framesToStopRunning 
+    var distanceChangeScale
     
     function getSkins(){
         
@@ -120,6 +124,12 @@ var coffeerush = function(){
         arrayObstcales = [0,1,2,3,4,5]
         isRunning = false
         isTouchAvailable = false
+
+        lastPosition = {x:0,y:0}
+
+        framesToStopRunning = 0
+        distanceChangeScale = 0
+
 	}
     
 
@@ -187,6 +197,7 @@ var coffeerush = function(){
         
 		game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
+        game.load.physics('physicsData', 'physics/physics.json?v2');
         game.load.spine('mascot', "images/spines/skeleton.json");
         game.load.spine('mascot_result', "images/spines/resultSpine/skeleton_result.json");
         game.load.spine('clock_circle', "images/spines/clock_circle/clock_circle.json");
@@ -305,7 +316,10 @@ var coffeerush = function(){
     	//Object that give points init
     	correctObject = game.add.sprite(0,0,'atlas.coffeerush','cafe')
     	correctObject.anchor.setTo(0.5)
-        game.physics.arcade.enable(correctObject,true)
+        game.physics.p2.enable(correctObject,false)
+        correctObject.body.clearShapes()
+        correctObject.body.loadPolygon('physicsData','cafe')
+        correctObject.body.data.shapes[0].sensor = true;
         sceneGroup.add(correctObject)
         correctObject.tag="correct"
         changeCorrectPosition()
@@ -318,6 +332,9 @@ var coffeerush = function(){
     	var maxX = limitHorizontal.max-50
     	var minY = limitlVertical.min+50
     	var maxY = limitlVertical.max-50
+
+        //correctObject.body.x = -500
+        //correctObject.body.y = -500
 
 
     	//Code to obtain a position that is not in the seam position of the character
@@ -332,7 +349,7 @@ var coffeerush = function(){
     		}
     	}
     	else{
-    		if(characterGroup.y < game.world.centerY){
+    		if(characterGroup.y < background.centerY){
     			minY = background.centerY + DELTA_LIMIT_APPEAR_CORRECT_Y
     		}
     		else{
@@ -346,8 +363,8 @@ var coffeerush = function(){
         //var rY = background.centerY + DELTA_LIMIT_APPEAR_CORRECT_Y
     	//
 
-    	correctObject.x = rX
-    	correctObject.y = rY
+    	correctObject.body.x = rX
+    	correctObject.body.y = rY
     }
     
     function moveRight(){
@@ -390,12 +407,15 @@ var coffeerush = function(){
             characterGroup.x = limitHorizontal.min
             return false
         }
+        distanceChangeScale+= speed
 
-        if(speed>0){
+        if(distanceChangeScale>10){
 			characterGroup.scale.x = 1
+            distanceChangeScale=0
     	}
-    	else if(speed<0){
+    	else if(distanceChangeScale<-10){
     		characterGroup.scale.x = -1
+            distanceChangeScale = 0
     	}
     	if(speed==0){
     		return false
@@ -489,6 +509,10 @@ var coffeerush = function(){
             	createNewObstacle(arrayObstcales[random_clock],p)
 
             	arrayObstcales.splice(random_clock,1)
+
+                if(arrayObstcales.length==0){
+                    arrayObstcales = [0,1,2,3,4,5]
+                }
         	}
         }
 
@@ -497,7 +521,7 @@ var coffeerush = function(){
     }
 
     function createNewObstacle(id, p){
-
+        var name
     	switch(id){
             case 0:
             name = "clock_circle"
@@ -516,6 +540,10 @@ var coffeerush = function(){
             break
             case 5:
             name = "clock_triangle"
+            break
+            default:
+            name = "clock_large"
+            id = 2
             break
         }
 
@@ -553,15 +581,20 @@ var coffeerush = function(){
 
         //collision of obstacle
         var collision = game.add.sprite(0,0,'atlas.coffeerush','reloj_'+id)
-        game.physics.arcade.enable(collision)
+        game.physics.p2.enable(collision,false)
+        collision.body.clearShapes()
+        collision.body.loadPolygon('physicsData','reloj_'+id)
+        collision.body.data.shapes[0].sensor = true;
         collision.anchor.setTo(0.5,0.5)
         collision.scale.setTo(0.7,0.7)
+        //collision.body.scale.setTo(0.5)
         //collision.visible = false
         collision.alpha = 0
         //collision.body.setCircle(35)
         collision.tag="wrong"
 
         group.collision = collision
+
         group.add(collision)
 
         //o.x = collision.width/2
@@ -635,8 +668,12 @@ var coffeerush = function(){
            	var directionX = obj.velX/Math.abs(obj.velX)
            	var directionY = obj.velY/Math.abs(obj.velY)
 
-           	obj.velX+=directionX*DELTA_VELOCITY;
-           	obj.velY+=directionY*DELTA_VELOCITY;
+            if(obj.velX<MAX_VELOCITY){
+           	    obj.velX+=directionX*DELTA_VELOCITY;
+            }
+            if(obj.velX<MAX_VELOCITY){
+           	    obj.velY+=directionY*DELTA_VELOCITY;
+            }
         }
     }
 
@@ -682,6 +719,9 @@ var coffeerush = function(){
             obj.x += obj.velX
             obj.y += obj.velY
 
+            obj.collision.body.x = obj.x+obj.collision.width/4
+            obj.collision.body.y = obj.y+obj.collision.height/4
+
             if(obj.x <= limitHorizontal.min){
                 //obj.x = limitHorizontal.min
                 if(obj.velX < 0){
@@ -707,13 +747,13 @@ var coffeerush = function(){
             //obj.collision.x = obj.x
             //obj.collision.y = obj.y
 
-            game.physics.arcade.collide(playerCollision, obj.collision, collisionEnter, null, this);
+            //game.physics.arcade.collide(playerCollision, obj.collision, collisionEnter, null, this);
             //game.debug.body(obj.collision)
         }
 
         //Check if there is a touch on screen
 
-        var canRunTouch2 = false, canRunTouch1 = false
+        /*var canRunTouch2 = false, canRunTouch1 = false
         if(game.input.pointer2.isDown){
         	isTouchAvailable = true
         	canRunTouch2 = buttonsUpdate(game.input.pointer2.x, game.input.pointer2.y)
@@ -721,10 +761,10 @@ var coffeerush = function(){
         else if(game.input.pointer1.isDown){
         	isTouchAvailable = true
 	        canRunTouch1 = buttonsUpdate(game.input.pointer1.x, game.input.pointer1.y)
-        }
+        }*/
 
 
-        if(isTouchAvailable){
+        /*if(isTouchAvailable){
 	        if(canRunTouch2 || canRunTouch1){
 	        	if(!isRunning){
 		        	buddy.setAnimationByName(0,"RUN",true)
@@ -751,13 +791,54 @@ var coffeerush = function(){
 		        	buddy.setAnimationByName(0,"IDLE",true)
 		        }
 	        }
-	    }
+	    }*/
 
-        if(game.input.mousePointer.isDown){
+        if(game.input.activePointer.isDown){
+            if(buttonsUpdate(game.input.activePointer.x, game.input.activePointer.y)){
+              if(!isRunning){
+                    buddy.setAnimationByName(0,"RUN",true)
+                    isRunning = true
+                    framesToStopRunning = 0
+                }
+            }
+            else{
+                if(isRunning){
+                    framesToStopRunning++
+                }
+            }
+        }
+        else{
+            
+            lastPosition.x = 0
+            lastPosition.y = 0
+            if(keyDownVertical || keyDownHorizontal){
+                if(!isRunning){
+                    buddy.setAnimationByName(0,"RUN",true)
+                    isRunning = true
+                }
+            }
+            else{
+                distanceChangeScale = 0
+                if(isRunning){
+                    isRunning = false
+                    buddy.setAnimationByName(0,"IDLE",true)
+                }
+            }
+        }
+
+
+        if(isRunning){
+            if(framesToStopRunning>20){
+                isRunning = false
+                buddy.setAnimationByName(0,"IDLE",true)
+            }
+        }
+
+        /*if(game.input.mousePointer.isDown){
         	
 	        buttonsUpdate(game.input.mousePointer.x, game.input.mousePointer.y)
 	        
-        }
+        }*/
 
 
 
@@ -769,10 +850,13 @@ var coffeerush = function(){
         }
 
 
-        game.physics.arcade.collide(playerCollision, correctObject, collisionEnter, null, this);
+        //game.physics.arcade.collide(playerCollision, correctObject, collisionEnter, null, this);
 
         //console.log(game.input.pointer1)
 
+
+        characterGroup.collision.body.x = characterGroup.x
+        characterGroup.collision.body.y = characterGroup.y
         
     }
 
@@ -814,8 +898,8 @@ var coffeerush = function(){
     }
 
 
-    function buttonsUpdate(x,y){
-    	// touch update that decide the direction depending where the touch is and its position 
+    /*function buttonsUpdate(x,y){
+    	// touch update that decide the direction depending where the touch is and its position
     	// vs the cener of the touchzone
     	// speed horizontal and vertical are calculated separately
     	if(y > limitlVertical.max){
@@ -879,6 +963,53 @@ var coffeerush = function(){
 			}
 
     	}
+    }*/
+
+    function buttonsUpdate(x,y){
+        if(y > limitlVertical.max){
+            if(lastPosition.y == 0){
+                lastPosition.y = y
+                lastPosition.x = x
+                return false
+            }
+            else{
+                var deltaX = (x - lastPosition.x)*1.5
+
+                /*if(deltaX >0){
+                    deltaX = 1 * (SPEED)
+                }
+                else if(deltaX < 0){
+                    deltaX = -1 * (SPEED)
+                }
+                else{
+                    deltaX = 0
+                }*/
+                var deltaY = (y - lastPosition.y)*1.5
+
+                /*if(deltaY >0){
+                    deltaY = 1 * (SPEED)
+                }
+                else if(deltaY <0){
+                    deltaY = -1* (SPEED)
+                }
+                else{deltaY = 0}*/
+
+                lastPosition.x = x
+                lastPosition.y = y
+
+                var moveH = moveHorizontal(deltaX)
+                var moveV = moveVertical(deltaY)
+
+
+
+                if(moveH || moveV){
+                    return true
+                }
+                else{
+                    return false
+                }
+            }
+        }
     }
     
     function createTime(){
@@ -1047,11 +1178,13 @@ var coffeerush = function(){
                 
     }
 
-    function collisionEnter(body, bodyB){
+    function collisionEnter(body, bodyB, shapeA, shapeB, equation){
     	//character collision function
+
     	if(gameActive==false){
     		return
-    	}
+        }
+    	
 
     	if(body==null){
     		return
@@ -1059,11 +1192,11 @@ var coffeerush = function(){
 
     	//console.log(body,bodyB)
 
-    	if(bodyB.tag=="correct"){
-    		collideCorrect(bodyB)
+    	if(body.sprite.tag=="correct"){
+    		collideCorrect(correctObject)
     	}
-    	else if(bodyB.tag=="wrong"){
-    		collideWrong(body.parent)
+    	else if(body.sprite.tag=="wrong"){
+    		collideWrong(body.sprite.parent)
     	}
 
     }
@@ -1091,7 +1224,8 @@ var coffeerush = function(){
         limitHorizontal = {min: 50, max: game.world.width - 50}
         limitlVertical = {min: game.world.height*0.12, max: (game.world.height*0.7) - 50}
 
-        game.physics.startSystem(Phaser.Physics.ARCADE)
+        game.physics.startSystem(Phaser.Physics.P2JS)
+        game.physics.p2.gravity.y = 0
         //game.physics.p2.world.defaultContactMaterial.friction = 0;
         //game.physics.p2.gravity.y = 0;
         //game.physics.p2.gravity.x = 0;
@@ -1118,11 +1252,18 @@ var coffeerush = function(){
         characterGroup.add(buddy_result)
 
         playerCollision = game.add.sprite(0,50,'atlas.coffeerush','chilimLogo')
-        game.physics.arcade.enable(playerCollision,true);
-        playerCollision.anchor.setTo(0.5,0.5)
+        game.physics.p2.enable(playerCollision,false);
+        playerCollision.body.clearShapes()
+        playerCollision.body.setRectangle(90,50,0,-15)
+        playerCollision.body.addRectangle(50,50,0,28)
+        playerCollision.body.addRectangle(30,20,0,-50)
+        //playerCollision.anchor.setTo(0.5,0.5)
+        playerCollision.body.data.shapes[0].sensor = true;
         //playerCollision.visible = false
-        playerCollision.alpha = 0
-        playerCollision.body.setSize(80,100,20,-30);
+       playerCollision.alpha = 0
+        //playerCollision.body.setSize(80,100,20,-30);
+        playerCollision.body.onBeginContact.add(collisionEnter,this)
+        characterGroup.collision = playerCollision
         characterGroup.add(playerCollision)
 
         buddy.setAnimationByName(0, "IDLE", true);
@@ -1205,13 +1346,13 @@ var coffeerush = function(){
         
     }
 
-    function render(){
+    /*function render(){
     	game.debug.body(playerCollision)
     	game.debug.body(correctObject)
     	for(var i = 0; i < objectsGroup.length; i++){
     		game.debug.body(objectsGroup.children[i].collision)
     	}
-    }
+    }*/
     
 	return {
 		assets: assets,

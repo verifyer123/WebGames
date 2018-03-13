@@ -72,6 +72,8 @@ var instructions = function(){
             "enterGame",
             {"gameName": "volaris","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );*/
+
+        //amazing.setMixPanelTrack("volaris","enterGame")
 		
 	}
     
@@ -145,6 +147,8 @@ var instructions = function(){
             "loadGame",
             {"gameName": "volaris","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );*/
+
+        //amazing.setMixPanelTrack("volaris","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

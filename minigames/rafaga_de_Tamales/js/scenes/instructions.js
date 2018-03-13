@@ -68,10 +68,12 @@ var instructions = function(){
         })
         
         console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "rafaga_de_tamales","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("rafaga_de_tamales","enterGame")
         
     }
     
@@ -141,10 +143,11 @@ var instructions = function(){
 
     function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "rafaga_de_tamales","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+        amazing.setMixPanelTrack("rafaga_de_tamales","loadGame")
         
         game.stage.backgroundColor = "#ffffff"
     }

@@ -260,7 +260,7 @@ var zucaritas = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.TONO)
             
             //amazing.saveScore(pointsBar.number) 
             

@@ -75,10 +75,12 @@ var instructions = function(){
             
         })
         
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "neonedge","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("neonedge","enterGame")
 		
 	}
     
@@ -152,6 +154,8 @@ var instructions = function(){
             "loadGame",
             {"gameName": "neonedge","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
         );
+
+        amazing.setMixPanelTrack("neonedge","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"

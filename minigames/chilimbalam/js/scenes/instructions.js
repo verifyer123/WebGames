@@ -70,10 +70,7 @@ var instructions = function(){
         })
         
 		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        mixpanel.track(
-            "enterGame",
-            {"gameName": "chilimBalam","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        amazing.setMixPanelTrack("chilimbalam","enterGame")
 		
 	}
     
@@ -143,10 +140,12 @@ var instructions = function(){
 
 	function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "chilimbalam","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("chilimbalam","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

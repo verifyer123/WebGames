@@ -2,7 +2,7 @@ var amazing = {}
 var couponData
 var dataStore
 var minigameId
-var userMail, gender, birthday
+var userMail, gender, birthday, interests, userName
 var origin
 var gameFromApp
 
@@ -109,6 +109,7 @@ amazing.getGames = function(){
         {name:'Chak Block',iconName:'chakBlock',url:'http://amazingapp.mx/juegos/chakBlock/',coupon : false,mixName:'chakBlock',demo:false,id:5642980933238784},//22
         {name:'Choco Pile',iconName:'chocoPile',url:'http://amazingapp.mx/juegos/chocoPile/',coupon : false,mixName:'chocoPile',demo:true,id:5676219550924800},//23
         {name:'Volaris',iconName:'volaris',url:'http://amazingapp.mx/juegos/volaris/',coupon : false,mixName:'volaris',demo:true,id:5676219550924800},//24
+        {name:'Chedraui',iconName:'chedraui',url:'http://amazingapp.mx/juegos/chedraui/',coupon : false,mixName:'chedraui',demo:true,id:5676219550924800},//25
         //
     ]
 
@@ -183,6 +184,8 @@ amazing.setMinigameId = function(){
                 userMail = parsedData.userProfile.email
 				gender = parsedData.userProfile.gender
 				birthday = parsedData.userProfile.birthday
+                interests = parsedData.userProfile.interests
+                userName = parsedData.userProfile.name
                 //origin = event.origin
                 gameFromApp = true
                 console.log("Get minigameId")
@@ -283,6 +286,24 @@ amazing.getGender = function(){
 
 amazing.getFromApp = function(){
     return gameFromApp
+}
+
+amazing.setMixPanelTrack= function(minigameName,event){
+    mixpanel.track(
+        event,
+        {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
+    );
+
+    console.log("Enter to setMixPanelTrack")
+
+    var params = {
+       type: "analyticsMessage",
+       data: {
+           event: event,
+           gameName: minigameName
+       }
+   }
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 //amazing.setApp()

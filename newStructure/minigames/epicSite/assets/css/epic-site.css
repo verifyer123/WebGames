@@ -162,9 +162,10 @@ footer {
 	float: right;
 	z-index: 1000;
 	position: absolute;
-	top: 0%;
+	top: 5%;
 	left: 50%;
 	max-width: 700px;
+	max-height: 750px;
 }
 
 #iframe-inner {
@@ -190,6 +191,7 @@ footer {
 	background: url('../img/common/stars.png') no-repeat center, -webkit-linear-gradient(top, #1c0042 0%, #38008b 50%, #a85564 100%);
 	background-repeat: repeat;
 	border-radius: 2vh;
+    max-height: 960px;
 	box-shadow:
 			0 0 0 10px hsl(221, 85%, 52%),
 			0 0 0 20px hsl(221, 85%, 62%);
@@ -393,6 +395,124 @@ footer {
 	.yogotar img{
 		transform: scale(-1, 1);
 	}
+}
+
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait */
+/* show mobile*/
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1023px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: inline;
+	}
+
+	#desktop-landing {
+		display: none;
+	}
+      
+    #home {
+		max-height: 870px;
+        max-width: 770px;
+	}
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1025px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: none;
+	}
+	#desktop-landing {
+		height: 100%;
+		margin: auto;
+	}
+	.yogotar {
+		position: absolute;
+		/*width: 25%;*/
+		right: 0;
+		bottom: -80px;
+		z-index: 2;
+	}
+
+	.yogotar img{
+		transform: scale(-1, 1);
+	}
+}
+
+/* ----------- iPad Pro 12.9" ----------- */
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* show mobile */
+
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: inline;
+	}
+
+	#desktop-landing {
+		display: none;
+	}
+      
+    #home {
+        max-height: 1100px;
+        max-width: 950px;
+        width: 100%;
+        left: 4%;
+	} 
+      
+    #landscape{
+        display: none;
+    }
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Show desktop */
+
+@media only screen 
+  and (min-device-width: 1366px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: none;
+	}
+	#desktop-landing {
+		height: 100%;
+		margin: auto;
+	}
+	.yogotar {
+		position: absolute;
+		/*width: 25%;*/
+		right: 0;
+		bottom: -80px;
+		z-index: 2;
+	}
+
+	.yogotar img{
+		transform: scale(-1, 1);
+	}
+      
+    #home {
+        top: 10% !important;
+    }
 }
 
 @media (min-width: 767px) and (max-width: 769px) {

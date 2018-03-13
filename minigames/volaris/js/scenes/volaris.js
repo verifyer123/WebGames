@@ -38,19 +38,20 @@ var volaris = function(){
             
 		],
 	}
-    var PROBABILITY_OBSTACLE = 0.5
+    var PROBABILITY_OBSTACLE = 0.4
+    var PROBABILITY_COIN = 0.2
     
     var INITIAL_LIVES = 1
     var DELTA_LOSE = 0.001
-    var DELTA_ENEMY = 0.15
+    var DELTA_ENEMY = 0.17
     var DELTA_PLUS = 0.2
 
     var Y_MAX_VELOCITY = 10
     var DELTA_VELOCITY = 0.6
 
     var DELTA_TIME_OBSTACLE = 100
-    var INIT_TIME_OBSTACLE = 2000
-    var MIN_TIME_OBSTACLE = 1000
+    var INIT_TIME_OBSTACLE = 2500
+    var MIN_TIME_OBSTACLE = 1300
 
     var INIT_X
 
@@ -64,7 +65,12 @@ var volaris = function(){
     var MAX_DELTA_VEL_OBS = 2
 
     var HAND_TUTORIAL_DELTA = 500
-
+    var MAX_REPEATED = 2
+    var repeatedObstacles
+	var repeatedLive
+	var repeatedCoins
+	var lastObs
+	var lastLive
     
     
     var gameIndex = 24
@@ -148,6 +154,11 @@ var volaris = function(){
         initialTouch = false
         objectsOnCollision = []
         spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        repeatedObstacles = 0
+		repeatedLive = 0
+		repeatedCoins = 0
+		lastLive = 0
+		lastObs = 5
 	}
     
 
@@ -194,7 +205,7 @@ var volaris = function(){
         //game.tweens.removeAll()
     	game.add.tween(player.body).to({x:game.world.width-200,y:game.world.height-100},3000,Phaser.Easing.linear,true)
 
-        //heartsGroup.text.setText('X ' + 0)
+        heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
         sound.play("falling")
 
@@ -285,24 +296,99 @@ var volaris = function(){
 
                     if(timePermitTurbo<game.time.now){
                         if(obs<=PROBABILITY_OBSTACLE){
+                        	lastObs = 0
+                        	repeatedLive=0
+                        	repeatedCoins=0
                             id = game.rnd.integerInRange(0,2)
+                            repeatedObstacles++
+                            if(repeatedObstacles>=MAX_REPEATED){
+                            	repeatedObstacles=0
+                            	id = game.rnd.integerInRange(3,groups.length-1)
+                            }
+                        }
+                        else if(obs<=PROBABILITY_OBSTACLE+PROBABILITY_COIN){
+                        	repeatedObstacles=0
+                        	repeatedLive=0
+                            id = game.rnd.integerInRange(3,4)
+                            repeatedCoins++
+                            if(repeatedCoins>=MAX_REPEATED){
+                            	repeatedCoins=0
+                            	id = game.rnd.integerInRange(0,2)
+                            }
                         }
                         else{
-                            id = game.rnd.integerInRange(3,groups.length-1)
+                        	lastLive = 0
+                        	repeatedObstacles=0
+                        	repeatedCoins=0
+                        	id = game.rnd.integerInRange(5,groups.length-1)
+                        	repeatedLive++
+                        	if(repeatedLive>=MAX_REPEATED){
+                        		repeatedLive=0
+                            	id = game.rnd.integerInRange(0,4)
+                            }
                         }
+
                         if(id == groups.length-1){
                             timePermitTurbo = game.time.now + TIME_PERMIT_TURBO
                         }
                     }
                     else{
-
                         if(obs<=PROBABILITY_OBSTACLE){
+                        	lastObs = 0
+                        	repeatedLive=0
+                        	repeatedCoins=0
                             id = game.rnd.integerInRange(0,2)
+                            repeatedObstacles++
+                            if(repeatedObstacles>=MAX_REPEATED){
+                            	repeatedObstacles=0
+                            	id = game.rnd.integerInRange(3,groups.length-2)
+                            }
+                        }
+                        else if(obs<=PROBABILITY_OBSTACLE+PROBABILITY_COIN){
+                        	repeatedObstacles=0
+                        	repeatedLive=0
+                            id = game.rnd.integerInRange(3,4)
+                            repeatedCoins++
+                            if(repeatedCoins>=MAX_REPEATED){
+                            	repeatedCoins=0
+                            	id = game.rnd.integerInRange(0,2)
+                            }
                         }
                         else{
-                            id = game.rnd.integerInRange(3,groups.length-2)
+                        	lastLive = 0
+                        	repeatedObstacles=0
+                        	repeatedCoins=0
+                        	id = game.rnd.integerInRange(5,groups.length-2)
+                        	repeatedLive++
+                        	if(repeatedLive>=MAX_REPEATED){
+                        		repeatedLive=0
+                            	id = game.rnd.integerInRange(0,4)
+                            }
                         }
                     }
+
+                    if(id>=0 && id<=2){
+                    	lastLive++
+                    }
+                    else if(id>=5 && id<groups.length){
+                    	lastObs++
+                    }
+                    else{
+                    	lastLive ++
+                    	lastObs++
+                    }
+
+                    if(lastObs>=4){
+                    	lastObs = 0
+                    	id = game.rnd.integerInRange(0,2)
+                    }
+
+                    if(lastLive>=4){
+                    	lastLive = 0
+                    	id = game.rnd.integerInRange(5,groups.length-2)
+                    }
+
+
                     var o = getObjectFromGroup(groups[id])
                     o.visible = true
                     o.body.x = INIT_X + x
@@ -590,9 +676,6 @@ var volaris = function(){
         }
 
         var o 
-        /*o= createBallon()
-        group.add(o)
-        return o*/
 
         switch(group){
             case birdsGroup:
@@ -630,6 +713,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','Parvada')
         s.anchor.setTo(0.5)
+        s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "enemy"
         s.body.enable = true
@@ -653,6 +737,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','arcoiris_frente')
         s.anchor.setTo(0.5)
+        //s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "plusTime"
         s.body.enable = true
@@ -679,6 +764,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','Nube_lluvia')
         s.anchor.setTo(0.5)
+        s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "enemy"
         s.body.enable = true
@@ -758,6 +844,7 @@ var volaris = function(){
 
         var s = game.add.sprite(0,0,'atlas.game','Ovni')
         s.anchor.setTo(0.5)
+        s.scale.setTo(0.8)
         game.physics.p2.enable(s,false)
         s.body.type = "enemy"
         s.body.enable = true

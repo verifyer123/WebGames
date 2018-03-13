@@ -84,6 +84,7 @@ var hover = function(){
 	var yogotar
     var magnetSong
 	var isNoun
+
 		
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -279,7 +280,7 @@ var hover = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.MELVIN)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -292,7 +293,7 @@ var hover = function(){
         game.stage.disableVisibilityChange = false;  
 
         
-        game.load.spine('melvin', "images/spines/melvin.json")  
+        game.load.spine('melvin', "images/spines/melvin.json?v2")  
         game.load.audio('magnetSong', soundsPath + 'songs/adventure.mp3');
         
         game.load.image('introscreen',"images/hover/introscreen.png")
@@ -1008,7 +1009,11 @@ var hover = function(){
 			
 			yogotar = game.add.spine(game.world.centerX - 200,game.world.centerY, "melvin");
 			yogotar.scale.setTo(1,1)
-            sceneGroup.add(yogotar)   
+            sceneGroup.add(yogotar) 
+
+            
+
+
 			
 			player = sceneGroup.create(yogotar.x, yogotar.y,'atlas.hover','yogotar')
 			player.scale.setTo(0.8,0.8)
@@ -1027,6 +1032,8 @@ var hover = function(){
 						
             yogotar.setAnimationByName(0, "IDLE", true);
             yogotar.setSkinByName('rojo');
+
+           
 			
 			createObjects()
 			createButton()

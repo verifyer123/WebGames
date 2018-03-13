@@ -1101,13 +1101,15 @@ var scranimal = function(){
         createTouch()
         createPointsBar()
         createHearts()
-        createTutorial()
+        
 
         //positionTimer()
 
         correctParticle = createPart('atlas.scranimal','star')
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+
+        createTutorial()
 
 
     }

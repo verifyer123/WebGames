@@ -1,0 +1,68 @@
+
+sculpture.png
+size: 1007,998
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/base
+  rotate: false
+  xy: 2, 43
+  size: 290, 292
+  orig: 290, 292
+  offset: 0, 0
+  index: -1
+normal/mon1
+  rotate: true
+  xy: 472, 630
+  size: 366, 533
+  orig: 366, 533
+  offset: 0, 0
+  index: -1
+normal/mon4
+  rotate: false
+  xy: 472, 2
+  size: 452, 626
+  orig: 452, 626
+  offset: 0, 0
+  index: -1
+normal/resplandor
+  rotate: false
+  xy: 2, 337
+  size: 468, 659
+  orig: 468, 659
+  offset: 0, 0
+  index: -1
+normal/star
+  rotate: true
+  xy: 294, 235
+  size: 100, 101
+  orig: 100, 101
+  offset: 0, 0
+  index: -1
+
+sculpture2.png
+size: 966,808
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/mon2
+  rotate: true
+  xy: 2, 476
+  size: 330, 567
+  orig: 330, 567
+  offset: 0, 0
+  index: -1
+normal/mon3
+  rotate: false
+  xy: 571, 226
+  size: 393, 580
+  orig: 393, 580
+  offset: 0, 0
+  index: -1
+normal/mon5
+  rotate: true
+  xy: 2, 2
+  size: 472, 557
+  orig: 472, 557
+  offset: 0, 0
+  index: -1
