@@ -191,7 +191,6 @@ footer {
 	background: url('../img/common/stars.png') no-repeat center, -webkit-linear-gradient(top, #1c0042 0%, #38008b 50%, #a85564 100%);
 	background-repeat: repeat;
 	border-radius: 2vh;
-    max-height: 960px;
 	box-shadow:
 			0 0 0 10px hsl(221, 85%, 52%),
 			0 0 0 20px hsl(221, 85%, 62%);
@@ -474,6 +473,7 @@ footer {
         max-width: 950px;
         width: 100%;
         left: 4%;
+        top: 10%;
 	} 
       
     #landscape{
