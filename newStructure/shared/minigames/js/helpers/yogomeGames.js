@@ -182,7 +182,7 @@ var yogomeGames = function () {
             {name:'Smoothie Loops',url:urlSet + 'smoothieLoops/',mapUrl:urlMap + 'smoothieLoops', sceneName:'smoothieLoops',subject:'coding', review:false,objective:20,demo:false, type:gameTypeEnum.COUNT},//152
             {name:'Bondroid',url:urlSet + 'bondroid/',mapUrl:urlMap + 'bondroid', sceneName:'bondroid',subject:'coding', review:false,objective:10,demo:false, type:gameTypeEnum.TRACE},//153
             {name:'Chiseler',url:urlSet + 'chiseler/',mapUrl:urlMap + 'chiseler', sceneName:'chiseler',subject:'creativity', review:false,objective:5,demo:false, type:gameTypeEnum.CHOOSE},//154
-            {name:'Soccer Wheel',url:urlSet + 'soccerWheel/',mapUrl:urlMap + 'soccerWheel', sceneName:'soccerWheel',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.COUNT},//155
+            {name:'Soccer Wheel',url:urlSet + 'soccerWheel/',mapUrl:urlMap + 'soccerWheel', sceneName:'soccerWheel',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//155
             {name:'Tapchitect',url:urlSet + 'tapchitect/',mapUrl:urlMap + 'tapchitect', sceneName:'tapchitect',subject:'math', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//156
             {name:'Picto Tribe',url:urlSet + 'pictoTribe/',mapUrl:urlMap + 'pictoTribe', sceneName:'pictoTribe',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//157
             {name:'Tri Olimpics',url:urlSet + 'triOlimpics/',mapUrl:urlMap + 'triOlimpics', sceneName:'triOlimpics',subject:'health', review:false,objective:35,demo:false, type:gameTypeEnum.TARGET},//158

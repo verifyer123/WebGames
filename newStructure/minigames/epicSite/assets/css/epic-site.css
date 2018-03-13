@@ -411,6 +411,11 @@ footer {
 	#desktop-landing {
 		display: none;
 	}
+      
+    #home {
+		max-height: 870px;
+        max-width: 770px;
+	}
 }
 
 /* Landscape */
