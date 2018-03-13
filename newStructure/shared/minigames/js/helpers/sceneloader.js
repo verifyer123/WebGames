@@ -113,6 +113,13 @@ var sceneloader = function(){
 						currentLoader.spritesheet(currentSheet.name, currentSheet.file, currentSheet.width, currentSheet.height, currentSheet.frames)
 					}
 				}
+
+				if(typeof assets.particles == "object"){
+					for(var indexPart = 0; indexPart < assets.particles.length; indexPart++){
+						var currentPart = assets.particles[indexPart]
+						epicparticles.loadEmitter(currentLoader, currentPart.name)
+					}
+				}
 			}
 
 			else{
@@ -161,7 +168,7 @@ var sceneloader = function(){
 			// var currentState = game.state.getCurrentState()
 			// var stage = currentState.stage
 
-			var texture = new Phaser.RenderTexture(game, game.world.width, game.world.height)
+			// var texture = new Phaser.RenderTexture(game, game.world.width, game.world.height)
 			
 		}	
 
