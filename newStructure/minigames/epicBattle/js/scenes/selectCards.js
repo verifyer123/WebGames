@@ -252,7 +252,7 @@ var selectCards = function(){
 
         game.stage.disableVisibilityChange = false;
 
-		game.load.bitmapFont('luckiest', 'images/bitfont/font.png', imagesPath + 'bitfont/font.fnt');
+		game.load.bitmapFont('luckiest', 'images/bitfont/font.png', 'images/bitfont/font.fnt');
 
         game.load.spine('vs', "images/spines/vsLight/VS.json")
         game.load.audio('spaceSong', soundsPath + 'songs/versusSong.mp3');

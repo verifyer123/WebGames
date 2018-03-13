@@ -33,9 +33,15 @@ function startGame(){
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
+		console.log(gameWidth, gameHeight)
+		// gameWidth = gameWidth < 540 ? 540 : gameWidth
 
-        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
         game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
+		// game.canvas.style.width = "100%"
+		// game.canvas.style.height = "100%"
+		// game.scale.pageAlignHorizontally = true;
+		// game.scale.pageAlignVertically = true;
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true

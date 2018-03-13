@@ -344,7 +344,7 @@ export var localization = function(){
 			KO:"별명 선택하기"
 		},
 		chooseYourNickname:{
-			ES:"Escoge to sobrenombre",
+			ES:"Escoge tu sobrenombre",
 			EN:"Choose your nickname",
 			PT:"Escolha seu apelido",
 			ZH:"选择您的昵称",
@@ -364,7 +364,7 @@ export var localization = function(){
 			KO: "부모님의 이메일 주소를 입력해주세요"
 		},
 		kidAccount:{
-			ES:"CUANTA DEL NIÑO.",
+			ES:"CUENTA DEL NIÑO.",
 			EN:"KID ACCOUNT.",
 			PT:"CONTA DA CRIANÇA",
 			ZH:"孩子帐户",
@@ -373,7 +373,7 @@ export var localization = function(){
 		},
 		byRegistringAgree:{
 			EN:<div className="privacy">By registering you agree to the <a href="//yogome.com/en/privacy/">Terms of Service</a> and <a href="//yogome.com/en/privacy/">Privacy Policy</a></div>,
-			ES:<div className="privacy">Registrandote estas de acuerdo a los <a href="//yogome.com/es/privacy/">Términos y Condiciones</a> y a la <a href="//yogome.com/en/privacy/">Política de Privacidad</a></div>,
+			ES:<div className="privacy">Registrándote estas de acuerdo a los <a href="//yogome.com/es/privacy/">Términos y Condiciones</a> y a la <a href="//yogome.com/en/privacy/">Política de Privacidad</a></div>,
 			PT:<div className="privacy">Ao se inscrever, você concorda com os <a href="//yogome.com/pt/privacy/">Termos de Serviço</a> e a <a href="//yogome.com/pt/privacy/">Política de Privacidade</a></div>,
 			ZH:<div className="privacy">注册即表明，您同意<a href="//yogome.com/cn/privacy/">服务条款</a>和<a href="//yogome.com/cn/privacy/">隐私政策</a></div>,
 			JA:<div className="privacy">登録することで、<a href="//yogome.com/jp/privacy/">サービス規約</a>および<a href="//yogome.com/jp/privacy/">プライバシーポリシー</a>に同意されるものとします。</div>,

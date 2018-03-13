@@ -27,7 +27,6 @@ var epicSiteMain =  function(){
 		delayTime = 3000
 		tweenButton(this)
 		popAudio.play();
-		console.log(home.style.visibility)
 
 		var lastRoute = routing.lastRouteResolved()
 		if(lastRoute.url === "minigames"){
@@ -182,7 +181,6 @@ var epicSiteMain =  function(){
 	}
 	
 	function updatePlayerInfo() {
-		console.log("update player")
 
 		var credentials = loginModal.getChildData()
 		var player = epicModel.getPlayer()
@@ -226,7 +224,6 @@ var epicSiteMain =  function(){
 			if(currentTimeout){
 				clearTimeout(currentTimeout)
 			}
-			console.log(delayTime, "time")
 
 			currentTimeout = setTimeout(function() {
 				// $(".game-canvas p").style.visibility = "hidden"
@@ -238,7 +235,7 @@ var epicSiteMain =  function(){
 				}
 
 				gameFrame = document.createElement("iframe")
-				gameFrame.src = currentSrc
+				gameFrame.src = currentSrc //+ "&rand=" + Math.round(Math.random() * 10000000);
 				gameFrame.style.borderStyle = "none"
 				gameFrame.style.position = "absolute"
 				gameFrame.style.top = "0"
@@ -248,6 +245,7 @@ var epicSiteMain =  function(){
 				gameFrame.height = "100%"
 				gameContainer.appendChild(gameFrame);
 
+
 				delayTime = 0
 			}, delayTime)
 		}
@@ -256,14 +254,17 @@ var epicSiteMain =  function(){
 	}
 
 	$( window ).on( "orientationchange", function( event ) {
-		loadGame(currentSrc)
+		window.setTimeout(function () {
+			initSkin()
+			loadGame(currentSrc)
+		}, 500)
+
 	});
 
 	function checkPlayer(src, needYogotar){
 		// src = src || "#/map"
 		// console.log(src)
 		var currentPlayer = epicModel.getPlayer()
-		console.log(currentPlayer)
 		if((!currentPlayer.yogotar)&&(needYogotar)){
 			// routing.navigate("#/yogotarselector")
 			window.location.href = "#/yogotarselector"
@@ -324,13 +325,25 @@ var epicSiteMain =  function(){
 		}
 	}
 
-	// function loadCharSelector() {
-	// 	// var home = document.getElementById("home")
-	// 	// home.style.visibility = "hidden"
-	// 	startCharSelector()
-	// }
+	function initSkin() {
+		var iframeElement = document.getElementById("iframe")
+
+		var width = iframeElement.offsetWidth
+		var height = iframeElement.offsetHeight
+		var ratio = 960 / 540
+		var newHeight = Math.round(width * ratio)
+		iframeElement.style.maxHeight = newHeight + "px"
+
+		var iframeInner = document.getElementById("iframe-inner")
+		var totalHeight = iframeInner.offsetHeight
+		var percentSize = (totalHeight - newHeight) + (totalHeight) * 0.04 //+ 132
+		// percentSize = Math.round(percentSize) + Math.round((totalHeight - newHeight) / (132 * 5) * 100)
+
+		iframeInner.style.backgroundSize = percentSize + "px"
+	}
 
 	gameContainer = document.getElementById("game-container")
+	initSkin()
 	// epicModel.loadPlayer(loadGame)
 
 	return{
@@ -342,5 +355,7 @@ var epicSiteMain =  function(){
 		updatePlayerInfo:updatePlayerInfo,
 	}
 }()
+
+
 
 // window.addEventListener("resize", loadGame);

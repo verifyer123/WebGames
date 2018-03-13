@@ -1,5 +1,5 @@
 export var login = function () {
-	var url = "https://14-dot-heroesofknowledge.appspot.com"
+	var url = "https://12-dot-heroesofknowledge.appspot.com"
 
 	var GAME = "play.yogome"
 
