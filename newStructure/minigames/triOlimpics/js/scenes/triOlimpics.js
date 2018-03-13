@@ -56,11 +56,15 @@ var triOlimpics = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "rightChoice",
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
+            {	name: "splash",
+				file: soundsPath + "water_splash.mp3"},
+            {	name: "throw",
+				file: soundsPath + "throw.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'spaceSong',
@@ -115,7 +119,7 @@ var triOlimpics = function(){
     var trowTime 
     var coinsCount
     var isMoving
-    var cursors, isPressedUp, isPressedDown
+    var cursors, isPressedUp, isPressedDown, onChange
     var line 
     
 	function loadSounds(){
@@ -130,12 +134,13 @@ var triOlimpics = function(){
         speed = 1
         rand = -1
         actualState = 0
-        trowTime = 2000
+        trowTime = 1800
         coinsCount = 0
         line = 1
         isMoving = false
         isPressedUp = false
         isPressedDown = false
+        onChange = false
         
         loadSounds()
 	}
@@ -422,9 +427,11 @@ var triOlimpics = function(){
                 if(obj.isGood){
                     obj.alpha = 0
                     addCoin(obj)
+                    sound.play('rightChoice')
                     coinsCount++
                     if(coinsCount === 5){
                         gameActive = false
+                        sound.play('throw')
                         particleCorrect.x = obj.x 
                         particleCorrect.y = obj.y
                         particleCorrect.start(true, 1200, null, 6)
@@ -778,27 +785,30 @@ var triOlimpics = function(){
     
     function changeRow(col){
         
-        if(gameActive && !col.isActive){
+        if(gameActive && !col.isActive && !onChange){
             
+            sound.play('cut')
+            onChange = true
             inputsGroup.setAll('isActive', false)
             game.add.tween(yogoGroup.children[actualState]).to({y: col.centerY + 30}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
                 col.isActive = true
                 line = col.line
+                onChange = false
             })
         }
     }
     
     function changeRow2(num){
         
-        if(gameActive && !inputsGroup.children[num].isActive){
+        if(gameActive && !inputsGroup.children[num].isActive && !onChange){
             
+            sound.play('cut')
+            onChange = true
             inputsGroup.setAll('isActive', false)
             game.add.tween(yogoGroup.children[actualState]).to({y: inputsGroup.children[num].centerY + 30}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
                 line = inputsGroup.children[num].line
                 inputsGroup.children[line].isActive = true
-                console.log(inputsGroup.children[0].isActive)
-                console.log(inputsGroup.children[1].isActive)
-                console.log(inputsGroup.children[2].isActive)
+                onChange = false
             })
         }
     }
@@ -813,6 +823,7 @@ var triOlimpics = function(){
             yogoGroup.children[actualState].addAnimationByName(0, "run", true)
             game.time.events.add(600,function(){
                 yogoGroup.children[actualState].y = colliderGroup.children[1].centerY + 30
+                sound.play('splash')
             })
             delay = 250
         }
@@ -826,6 +837,7 @@ var triOlimpics = function(){
                 inputsGroup.setAll('isActive', false)
                 inputsGroup.children[1].isActive = true
                 tracksGroup.children[1].x -= 200
+                line = 1
                 gameActive = true
                 movingGroup.alpha = 1
                 addObstacle()
@@ -882,8 +894,8 @@ var triOlimpics = function(){
         if(actualState < 2){
             actualState++
             speed++
-            if(trowTime > 500)
-                trowTime -= 250
+            if(trowTime > 400)
+                trowTime -= 200
         }
         else{
             actualState = 0
