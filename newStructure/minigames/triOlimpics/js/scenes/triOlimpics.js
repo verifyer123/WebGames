@@ -96,7 +96,7 @@ var triOlimpics = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 158
     var tutoGroup
     var spaceSong
     var coin
