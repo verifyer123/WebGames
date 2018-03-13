@@ -354,7 +354,7 @@ var soilSweeper = function(){
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
-        numPoints++
+        numPoints+=number
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
@@ -482,7 +482,7 @@ var soilSweeper = function(){
 					dangerArray[i].evaluated = true
 					dangerArray[i].inputEnabled = false
 					getAlphaSoil(dangerArray[i].x,dangerArray[i].y)
-					Coin(dangerArray[i],pointsBar,500,1)
+					//Coin(dangerArray[i],pointsBar,500,1)
 					sound.play("right")
 				}
 			}
@@ -494,9 +494,9 @@ var soilSweeper = function(){
 			}
 
 			if(allToxic){
-				if(coins>0){
-					Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,500,coins)
-				}
+				//if(coins>0){
+				Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,500,5)
+				//}
 				sound.play("magic")
 				setTimeout(setRound,1500)
 				tomikoSpine.setAnimationByName(0,'WIN',true)
@@ -518,9 +518,9 @@ var soilSweeper = function(){
 							coins++
 						}
 					}
-					if(coins>0){
-						Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,500,coins)
-					}
+					//if(coins>0){
+					Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,500,5)
+					//}
 					sound.play("magic")
 					setTimeout(setRound,1500)
 					tomikoSpine.setAnimationByName(0,'WIN',true)
