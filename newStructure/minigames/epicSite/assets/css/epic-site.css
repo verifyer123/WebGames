@@ -421,7 +421,7 @@ footer {
 /* Landscape */
 @media only screen 
   and (min-device-width: 768px) 
-  and (max-device-width: 1023px) 
+  and (max-device-width: 1024px) 
   and (orientation: landscape) 
   and (-webkit-min-device-pixel-ratio: 2) {
       
@@ -470,7 +470,6 @@ footer {
         max-width: 770px;
 	} 
 }
-
 
 /* Landscape */
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
