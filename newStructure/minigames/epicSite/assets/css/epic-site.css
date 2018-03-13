@@ -263,7 +263,7 @@ footer {
 
 /* show on mobile, iPad pro resolution */
 
-@media (max-width: 1366px) {
+@media (max-width: 1367px) {
 	#mobile-landing {
 		display: inline;
 	}

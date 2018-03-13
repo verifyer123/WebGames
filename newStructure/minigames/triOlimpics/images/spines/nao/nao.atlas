@@ -1,0 +1,83 @@
+
+nao.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nao/arml
+  rotate: false
+  xy: 205, 154
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+nao/armr
+  rotate: true
+  xy: 39, 3
+  size: 34, 23
+  orig: 34, 23
+  offset: 0, 0
+  index: -1
+nao/face_a
+  rotate: true
+  xy: 154, 130
+  size: 88, 29
+  orig: 88, 29
+  offset: 0, 0
+  index: -1
+nao/face_b
+  rotate: false
+  xy: 154, 220
+  size: 86, 34
+  orig: 86, 34
+  offset: 0, 0
+  index: -1
+nao/face_c
+  rotate: true
+  xy: 185, 127
+  size: 91, 18
+  orig: 91, 18
+  offset: 0, 0
+  index: -1
+nao/foot
+  rotate: false
+  xy: 2, 2
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+nao/handl
+  rotate: true
+  xy: 205, 181
+  size: 37, 29
+  orig: 37, 29
+  offset: 0, 0
+  index: -1
+nao/handr
+  rotate: true
+  xy: 114, 67
+  size: 42, 39
+  orig: 42, 39
+  offset: 0, 0
+  index: -1
+nao/head
+  rotate: false
+  xy: 2, 111
+  size: 150, 143
+  orig: 150, 143
+  offset: 0, 0
+  index: -1
+nao/leg
+  rotate: false
+  xy: 68, 64
+  size: 44, 45
+  orig: 44, 45
+  offset: 0, 0
+  index: -1
+nao/torso
+  rotate: false
+  xy: 2, 39
+  size: 64, 70
+  orig: 64, 70
+  offset: 0, 0
+  index: -1
