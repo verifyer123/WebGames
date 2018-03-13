@@ -534,7 +534,7 @@ var faceAhoy = function(){
         
         tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         tweenTiempo.onComplete.add(function(){
-            stopTimer()
+            gameActive = false
             win(false)
         })
     }
@@ -643,11 +643,14 @@ var faceAhoy = function(){
         if(gameActive){
             gameActive = false
             
+            if(timeAttack)
+                tweenTiempo.stop()
+            
             game.add.tween(btn.parent.scale).to({x:0.5, y:0.5}, 150, Phaser.Easing.linear, true).onComplete.add(function() 
             {
                 sound.play('cut')
                 game.add.tween(btn.parent.scale).to({x: 1, y: 1}, 150, Phaser.Easing.linear, true).onComplete.add(function(){
-                    gameActive = true
+                    
                     if(btn.parent.text.text === answer){
                         win(true)
                         addCoin(btn.parent)
