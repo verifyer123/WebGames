@@ -400,7 +400,7 @@ footer {
 
 @media only screen 
   and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
+  and (max-device-width: 1023px) 
   and (orientation: portrait) 
   and (-webkit-min-device-pixel-ratio: 2) {
       
@@ -421,7 +421,7 @@ footer {
 /* Landscape */
 @media only screen 
   and (min-device-width: 768px) 
-  and (max-device-width: 1024px) 
+  and (max-device-width: 1025px) 
   and (orientation: landscape) 
   and (-webkit-min-device-pixel-ratio: 2) {
       
@@ -501,7 +501,7 @@ footer {
 	}
       
     #home {
-        top: 10%;
+        top: 10% !important;
     }
 }
 
