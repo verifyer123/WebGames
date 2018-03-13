@@ -261,9 +261,9 @@ footer {
 	margin-left: 10vh;
 }
 
-/* show on mobile, iPad pro resolution */
+/* show on mobile */
 
-@media (max-width: 1367px) {
+@media (max-width: 768px) {
 	#mobile-landing {
 		display: inline;
 	}
@@ -374,6 +374,104 @@ footer {
 
 @media (min-width: 769px) {
 	#mobile-landing {
+		display: none;
+	}
+	#desktop-landing {
+		height: 100%;
+		margin: auto;
+	}
+	.yogotar {
+		position: absolute;
+		/*width: 25%;*/
+		right: 0;
+		bottom: -80px;
+		z-index: 2;
+	}
+
+	.yogotar img{
+		transform: scale(-1, 1);
+	}
+}
+
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait */
+/* show mobile*/
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: inline;
+	}
+
+	#desktop-landing {
+		display: none;
+	}
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: none;
+	}
+	#desktop-landing {
+		height: 100%;
+		margin: auto;
+	}
+	.yogotar {
+		position: absolute;
+		/*width: 25%;*/
+		right: 0;
+		bottom: -80px;
+		z-index: 2;
+	}
+
+	.yogotar img{
+		transform: scale(-1, 1);
+	}
+}
+
+/* ----------- iPad Pro 12.9" ----------- */
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* show mobile */
+
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
+		display: inline;
+	}
+
+	#desktop-landing {
+		display: none;
+	}
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Show desktop */
+
+@media only screen 
+  and (min-device-width: 1366px) 
+  and (max-device-width: 1366px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+    #mobile-landing {
 		display: none;
 	}
 	#desktop-landing {
