@@ -504,6 +504,19 @@ footer {
     #landscape{
         display: none;
     }
+      
+    .home-Button {
+        display: inline;
+        width: 12%;
+        top: 2%;
+        left: 3%;
+        z-index: 1001;
+        position: fixed;
+    }
+      
+      .home-Button img{
+          width: 100%;
+      }
 }
 
 /* Landscape */
@@ -538,6 +551,10 @@ footer {
     /*#home {
         top: 10% !important;
     }*/
+      
+    .home-Button {
+      display: none;
+    }
 }
 
 @media (min-width: 767px) and (max-width: 769px) {
