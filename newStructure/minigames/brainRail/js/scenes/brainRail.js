@@ -39,6 +39,14 @@ var brainRail = function(){
             {
 				name:'tutorial_image',
 				file:"images/brainRail/gametuto.png"
+			},
+            {
+				name:'handDown',
+				file:"images/brainRail/handDown.png"
+			},
+            {
+				name:'handUp',
+				file:"images/brainRail/handUp.png"
 			}
 
 		],
@@ -106,6 +114,9 @@ var brainRail = function(){
     var rand
     var timeTravel
     var destiny
+    var index
+    var handsGroup
+    var tuto
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -117,7 +128,9 @@ var brainRail = function(){
         lives = 3
         gameActive = false
         rand = -1
-        timeTravel = 1000
+        timeTravel = 1600
+        index = 0
+        tuto = true
         
         loadSounds()
 	}
@@ -310,7 +323,7 @@ var brainRail = function(){
     
     function onClickPlay() {
         tutoGroup.y = -game.world.height
-        initGame()
+        initTuto()
     }
     
     function releaseButton(obj){
@@ -578,14 +591,16 @@ var brainRail = function(){
             
             var btn = subGroup.create(0, 0, 'atlas.brainRail', stations[i].color + '_btn')
             btn.anchor.setTo(0.5)
-            btn.inputEnabled = true
+            btn.inputEnabled = false
             btn.events.onInputDown.add(changeWay ,this)
+            btn.tint = 0x505050 
             
-            var btn = subGroup.create(0, 0, 'atlas.brainRail', 'yellow_btn')
+            btn = subGroup.create(0, 0, 'atlas.brainRail', 'yellow_btn')
             btn.anchor.setTo(0.5)
             btn.alpha = 0
-            btn.inputEnabled = true
+            btn.inputEnabled = false
             btn.events.onInputDown.add(changeWay ,this)
+            btn.tint = 0x505050 
         }
         
         buttonsGroup.children[0].x = game.world.centerX - 135   
@@ -613,6 +628,12 @@ var brainRail = function(){
             changeImage(btn.parent.yellow, btn.parent)
         
             btn.parent.yellow === 0 ? btn.parent.yellow = 1 : btn.parent.yellow = 0   
+            
+            if(tuto){
+                buttonsGroup.children[index].setAll('inputEnabled', false)
+                index++
+                nextStep()
+            }
         }
     }
     
@@ -652,8 +673,10 @@ var brainRail = function(){
         destiny.y = 240
         
         sound.play('pop')
-        game.add.tween(destiny.scale).from({x: 0, y: 0}, 150, Phaser.Easing.linear, true).onComplete.add(function(){
-            changeDirection(0)
+        game.add.tween(destiny.scale).from({x: 0, y: 0}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.time.events.add(600,function(){
+                changeDirection(0)
+            })
         })
     }
     
@@ -676,7 +699,7 @@ var brainRail = function(){
             break
             
             case 2:
-                game.add.tween(destiny).to({x: stations[1].btnX, y: stations[1].btnY}, timeTravel, Phaser.Easing.linear, true).onComplete.add(function(){
+                game.add.tween(destiny).to({y: stations[1].btnY}, timeTravel, Phaser.Easing.linear, true).onComplete.add(function(){
                     buttonsGroup.children[1].yellow === 1 ? changeDirection(3) : changeDirection(4)   
                 })
             break
@@ -690,7 +713,7 @@ var brainRail = function(){
             break
             
             case 4:
-                game.add.tween(destiny).to({x: stations[2].btnX, y: stations[2].btnY}, timeTravel, Phaser.Easing.linear, true).onComplete.add(function(){
+                game.add.tween(destiny).to({x: stations[2].btnX}, timeTravel, Phaser.Easing.linear, true).onComplete.add(function(){
                     buttonsGroup.children[2].yellow === 1 ? changeDirection(5) : changeDirection(6)   
                 })
             break
@@ -731,10 +754,124 @@ var brainRail = function(){
             timeTravel -= 200
         }
         
-        game.time.events.add(1000,function(){
+        for(var i = 0; i < buttonsGroup.length; i++){
+            buttonsGroup.children[i].setAll('inputEnabled', true)
+            changeImage(0, buttonsGroup.children[i])
+        }
+        buttonsGroup.setAll('yellow', 1)
+        
+        game.time.events.add(1500,function(){
             if(lives !== 0)
                 initGame()
         })
+    }
+    
+    function initTuto(){
+        
+        startTourTuto()
+        gameActive = true
+    }
+    
+    function initHand(){
+        
+        handsGroup = game.add.group()
+        handsGroup.alpha = 0
+        sceneGroup.add(handsGroup)
+        
+        var handUp = handsGroup.create(0, 0, 'handUp') // 0
+        handUp.alpha = 0
+        
+        var handDown = handsGroup.create(0, 0, 'handDown') // 1
+        handDown.alpha = 0
+        
+        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
+            
+        handsGroup.tween.onComplete.add(function(){
+            
+            changeImage(0, handsGroup)
+            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
+                handsGroup.tween.start()
+                changeImage(1, handsGroup)
+            })
+        })
+    }
+    
+    function startTourTuto(){
+        
+        rand = 3
+        changeImage(rand, signalGroup)
+        destiny = signalGroup.children[rand]
+        destiny.x = stations[0].btnX 
+        destiny.y = 240
+        index = 0
+        //buttonsGroup.children[0].setAll('tint', 0x505050)
+        
+        sound.play('pop')
+        game.add.tween(destiny.scale).from({x: 0, y: 0}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.time.events.add(600,function(){
+                nextStep()
+            })
+        })
+    }
+    
+    function nextStep(){
+        
+        sound.play('rolling')
+        switch(index){
+            case 0:
+                game.add.tween(destiny).to({y: stations[0].btnY - 100}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                    handPos()
+                })
+            break
+
+            case 1:
+                game.add.tween(destiny).to({y: stations[1].btnY - 100}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    handPos()
+                })
+            break
+            
+            case 2:
+                game.add.tween(destiny).to({y: stations[1].btnY}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(destiny).to({x: stations[2].btnX - 100}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                        handPos()
+                    })
+                })
+            break
+            
+            case 3:
+                tuto = false
+                game.add.tween(destiny).to({x: stations[3].endX -15}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(destiny).to({y: stations[3].endY}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
+                        handsGroup.destroy()
+                        sound.play('rightChoice')
+                        particleCorrect.x = signalGroup.children[3].x 
+                        particleCorrect.y = signalGroup.children[3].y
+                        particleCorrect.start(true, 1200, null, 6)
+                        gameActive = false
+                        game.add.tween(destiny).to({alpha: 0}, 300, Phaser.Easing.linear, true)
+                        
+                        for(var i = 0; i < buttonsGroup.length; i++){
+                            buttonsGroup.children[i].setAll('inputEnabled', true)
+                            changeImage(0, buttonsGroup.children[i])
+                        }
+                        buttonsGroup.setAll('yellow', 1)
+                        game.time.events.add(1500,function(){
+                                initGame()
+                        })
+                    })
+                })
+            break
+        }
+    }
+    
+    function handPos(){
+        
+        handsGroup.alpha = 1
+        handsGroup.setAll('x', buttonsGroup.children[index].centerX) 
+        handsGroup.setAll('y', buttonsGroup.children[index].centerY) 
+        
+        buttonsGroup.children[index].setAll('tint', 0xffffff)
+        buttonsGroup.children[index].setAll('inputEnabled', true)
     }
 	
 	return {
@@ -753,11 +890,6 @@ var brainRail = function(){
 			
 			createBackground()
 			addParticles()
-                        			
-            /*branSong = game.add.audio('branSong')
-            game.sound.setDecodedCallback(branSong, function(){
-                branSong.loopFull(0.6)
-            }, this);*/
             
             initialize()
             branSong = sound.play("branSong", {loop:true, volume:0.6})
@@ -778,6 +910,7 @@ var brainRail = function(){
             colorButtons()
             batSiganl()
             initCoin()
+            initHand()
             createParticles()
 			
 			buttons.getButton(branSong,sceneGroup)
