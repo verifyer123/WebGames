@@ -978,33 +978,7 @@ var smoothieLoops = function(){
         loopButton.x = game.world.centerX
         loopButton.y = buttons_Area.y
 
-        var initial_part = loopButton.create(-225,-1,'atlas.game','loop_1')
-        initial_part.anchor.setTo(0.5)
-
-        loopButton.parts = []
-        var x = -210
-        for(var i = 0; i < 15; i++){
-            var part = loopButton.create(x,-26,'atlas.game','loop_2')
-            part.anchor.setTo(0.5)
-            loopButton.parts.push(part)
-            x+=part.width-1
-        }
-
-        var final_part = loopButton.create(95,0,'atlas.game','loop_3')
-        final_part.anchor.setTo(0.5)
-        final_part.inputEnabled = true
-        final_part.events.onInputDown.add(clickLoop,this)
-
-
-        loopButton.final = final_part
-
-        loopText = new Phaser.Text(sceneGroup.game, -3, 20, "1", fontStyle)
-        loopText.anchor.setTo(0.5)
-        final_part.addChild(loopText)
-        loopText.value = 1
-        loopButton.visible = false
-
-        sceneGroup.add(loopButton)
+       
 
         rectAnswer = game.add.graphics()
         rectAnswer.beginFill(0xffffff);
@@ -1079,25 +1053,54 @@ var smoothieLoops = function(){
         var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
 
+         var initial_part = loopButton.create(-224,-1,'atlas.game','loop_1')
+        initial_part.anchor.setTo(0.5)
+
+        loopButton.parts = []
+        var x = -209
+        for(var i = 0; i < 15; i++){
+            var part = loopButton.create(x,-26,'atlas.game','loop_2')
+            part.anchor.setTo(0.5)
+            loopButton.parts.push(part)
+            x+=part.width-1
+        }
+
+        var final_part = loopButton.create(95,0,'atlas.game','loop_3')
+        final_part.anchor.setTo(0.5)
+        final_part.inputEnabled = true
+        final_part.events.onInputDown.add(clickLoop,this)
+
+
+        loopButton.final = final_part
+
+        loopText = new Phaser.Text(sceneGroup.game, -3, 20, "1", fontStyle)
+        loopText.anchor.setTo(0.5)
+        final_part.addChild(loopText)
+        loopText.value = 1
+        loopButton.visible = false
+
+        sceneGroup.add(loopButton)
         
         //buttons
 
 
         dialog = game.add.group()
         
-        dialog.x = yogotar.x
-        dialog.y = yogotar.y - 250
+        dialog.x = yogotar.x +20
+        dialog.y = yogotar.y - 300
 
 
         var dialogBack = dialog.create(0,0,'atlas.game','dilogo')
+        dialogBack.scale.setTo(1.25)
         dialogBack.anchor.setTo(0.5)
 
-        var smoothie = dialog.create(-35,-35,'atlas.game','smoothie_banana')
+        var smoothie = dialog.create(-35,-45,'atlas.game','smoothie_banana')
         smoothie.anchor.setTo(0.5)
+        smoothie.scale.setTo(1.4)
         dialog.smoothie = smoothie
 
-        fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        var textDialog = new Phaser.Text(sceneGroup.game, 20, -25, "x 3", fontStyle)
+        fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var textDialog = new Phaser.Text(sceneGroup.game, 30, -35, "x 3", fontStyle)
         textDialog.anchor.setTo(0.5)
         dialog.add(textDialog)
         dialog.text = textDialog
