@@ -58,7 +58,7 @@ var graveMatter = function(){
                 file: soundsPath + "gameLose.mp3"},
             {
                 name: 'gameSong',
-                file: soundsPath + 'songs/childrenbit.mp3'
+                file: soundsPath + 'songs/upbeat_casual_8.mp3'
                 }
 		],
         spines:[
@@ -456,6 +456,7 @@ var graveMatter = function(){
                             else{
                             	if(pos.x == currentInitialButton.pair.gridX && pos.y == currentInitialButton.pair.gridY){
 				                    //endLineOnPoint
+                                    sound.play('right')
 				                    var line = setLineDirection(pos,currentline[currentline.length-1], currentInitialButton.sprite.tintColor)
 				                    currentline.push({x:pos.x, y:pos.y, line:line})
 				                    for(var i = 0; i < currentline.length; i ++){
@@ -479,7 +480,7 @@ var graveMatter = function(){
 				                }
 				                else if(gridArray[pos.x][pos.y] != currentInitialButton.sprite.tintColor){
 				                	restartAllLines()
-
+                                    sound.play('wrong')
 
 				                }
 				                endLine = true
