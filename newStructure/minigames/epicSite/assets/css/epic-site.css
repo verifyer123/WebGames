@@ -266,7 +266,32 @@ footer {
 
 /* show on mobile */
 
+@media (max-width: 400px) {
+	#player-info {
+		width: 375px;
+	}
+
+	.player-number {
+		top: -5px;
+		font-size: 47px;
+		left: 87px;
+	}
+
+	.player-name {
+		left: 130px;
+		top: 13px;
+		font-size: 23px;
+	}
+
+	.player-coins {
+		left: 303px;
+		top: 11px;
+		font-size: 26px;
+	}
+}
+
 @media (max-width: 768px) {
+
 	#mobile-landing {
 		display: inline;
 	}
@@ -416,7 +441,7 @@ footer {
 	}
       
     #home {
-		max-height: 870px;
+		/*max-height: 870px;*/
         max-width: 770px;
 	}
 }
