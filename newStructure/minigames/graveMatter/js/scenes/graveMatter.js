@@ -465,8 +465,14 @@ var graveMatter = function(){
 				                    }
 				                    endLine = true
 				                    currentPairs ++
+				                    currentInitialButton.sprite.inputEnabled = false
+				                    currentInitialButton.pair.sprite.inputEnabled = false
+				                    currentInitialButton = null
+
+
+
 				                    currentline = []
-				                    //console.log(gridArray)
+				                    console.log(gridArray)
 				                    if(inTutorial!=-1){
 				                    	inTutorial++
 				                    	evalTutorial()
@@ -480,19 +486,20 @@ var graveMatter = function(){
 				                    return
 				                }
 				                else if(gridArray[pos.x][pos.y] != currentInitialButton.sprite.tintColor){
+                                    //console.log(pos,gridArray)
                                     var decimal = Math.abs(pos.decimalX%1)
                                     //console.log(decimal)
                                     if(decimal<0.3 || decimal>0.8){
 
                                     }
                                     else{return}
+                                    //console.log("restar line 1",gridArray, pos)
 				                	restartAllLines()
                                     sound.play('wrong')
-
 				                }
+
 				                endLine = true
                             	removeCurrentLine()
-
                             }
                             
                         }
@@ -516,7 +523,10 @@ var graveMatter = function(){
 		                        currentline.push({x:pos.x, y:pos.y, line:line})
 		                    }
 		                    else{
+                                //console.log(currentInitialButton)
+                                //console.log("restar line 2", gridArray, pos)
 		                    	restartAllLines()
+		                    	//missPoint()
 		                    	endLine = true
 		                    	touchStarted = true
 		                    }
@@ -540,6 +550,7 @@ var graveMatter = function(){
 
                     endLine = false
                     touchStarted = false
+                    currentInitialButton = null
 
                 }
 
@@ -550,6 +561,7 @@ var graveMatter = function(){
 
     function restartAllLines(){
         if(inTutorial==-1){
+
         	missPoint()
         }
         else if(inTutorial>0){
@@ -560,11 +572,15 @@ var graveMatter = function(){
             zombieSpine.setAnimationByName(0,'lose',false)
             zombieSpine.addAnimationByName(0,'losestill',true)
         }
+
+        currentline = []
     	restartArraySpaces()
     	for(var i = 0; i < buttonsGroup.length; i++){
     		//console.log(buttonsGroup.children[i].sprite.tint,buttonsGroup.children[i].gridX,buttonsGroup.children[i].gridY)
     		if(buttonsGroup.children[i].visible){
         		gridArray[buttonsGroup.children[i].gridX][buttonsGroup.children[i].gridY] = buttonsGroup.children[i].sprite.tintColor
+        		buttonsGroup.children[i].sprite.inputEnabled = true
+
         	}
     	}
     	//console.log(gridArray)
@@ -823,6 +839,7 @@ var graveMatter = function(){
                 buttonsGroup.children[i].gridX = button.x
                 buttonsGroup.children[i].gridY = button.y
                 gridArray[button.x][button.y] = button.color
+                buttonsGroup.children[i].sprite.inputEnabled = true
                 return buttonsGroup.children[i]
             }
         }
@@ -972,6 +989,8 @@ var graveMatter = function(){
         	setTimeout(evalTutorial,500)
             
         }
+
+        console.log(gridArray)
 
     }
 
