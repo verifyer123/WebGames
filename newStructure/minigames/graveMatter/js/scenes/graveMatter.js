@@ -6,7 +6,7 @@ var graveMatter = function(){
         RED:0xff0000,
         PINK:0xeb00a1,
         BLUE:0x006aeb,
-        GREEN:0x2fa600,
+        GREEN:0x237D00,
         TURQUOISE:0x00eba4,
     }
     
