@@ -154,8 +154,13 @@ var codeCake = function(){
 
     var hand
     var tutorialTween
+    var timeOutTutorial
     var needUp
 
+    var tutorialButtonInex
+    var tutorialButtonArray 
+    var stationTutorial
+    var handState
 
     var smokeSpine
 
@@ -203,6 +208,12 @@ var codeCake = function(){
         inTutorial = 0
 
         needUp = false
+        stationTutorial = 1
+        tutorialButtonInex = 0
+        handState = SCROLL_STATE.WAIT
+
+        tutorialButtonArray = []
+
         loadSounds()
 	}
 
@@ -425,11 +436,6 @@ var codeCake = function(){
 
         if(game.input.activePointer.isDown && !needUp){
         	var canScrollTutorial = true
-        	if(inTutorial!=-1){
-        		if(inTutorial != 1 && inTutorial!=3 && inTutorial!=5){
-        			canScrollTutorial = false
-        		}
-        	}
 
         	if(game.input.activePointer.y > game.world.height - 150){
         		if(lastX==-1){
@@ -522,12 +528,12 @@ var codeCake = function(){
         	buttonGroup.force*=FRICTION
         }
 
-        if(inTutorial==-1){
-        	return
+        if(inTutorial!=-1){
+            evalTutorial()
         }
 
-        if(inTutorial==1){
-        	if(buttonGroup.x <-200){
+        /*if(inTutorial==1){
+        	if(buttonGroup.children.x <-200){
         		buttonGroup.x = -200
         		buttonGroup.force = 0
         		lastX = game.input.activePointer.x
@@ -579,8 +585,10 @@ var codeCake = function(){
         		}
         		evalTutorial()
         	}
-        }
+        }*/
 
+
+        
 
 
     }
@@ -925,15 +933,18 @@ var codeCake = function(){
 
     function clickOk(){
     	//console.log("Click ok")
-    	if(inTutorial!=-1){
+    	if(hand.visible){
 
-    		console.log("click ok in tutorial")
-    		if(inTutorial!=7){
-    			return
-    		}
+    		
     		inTutorial=-1
     		hand.visible = false
-    		evalTutorial()
+            if(tutorialTween!=null){
+                tutorialTween.stop()
+            }
+            if(timeOutTutorial!=null){
+                clearTimeout(timeOutTutorial)
+            }
+    		//evalTutorial()
     	}
     	if(timeOn){
 	        stopTimer()
@@ -965,7 +976,7 @@ var codeCake = function(){
 
 
 		if(inTutorial!=-1){
-	    	if(!((inTutorial == 0 && type == "base" && id==correctSequence[0]) || (inTutorial == 2 && type == "topping" && id==correctSequence[1]) || (inTutorial == 4 && type == "fruit" && id==correctSequence[2]) || (inTutorial == 6 && type == "extra" && id==correctSequence[3]))){
+	    	if(!((inTutorial == 0 && type == "base" && id==correctSequence[0]) || (inTutorial == 1 && type == "topping" && id==correctSequence[1]) || (inTutorial == 2 && type == "fruit" && id==correctSequence[2]) || (inTutorial == 3 && type == "extra" && id==correctSequence[3]))){
 	    		button.x = button.initialX
 		    	button.y = button.initialY
 			    sceneGroup.remove(currentButtonSelected)
@@ -1008,12 +1019,13 @@ var codeCake = function(){
     					tutorialTween.stop()
 						tutorialTween = null
     					game.tweens.removeAll()
-
-
     				}
 
     				inTutorial++
-    				evalTutorial()
+                    tutorialButtonInex++
+                    stationTutorial++
+
+    				//evalTutorial()
     			}
     			
 
@@ -1042,7 +1054,7 @@ var codeCake = function(){
     }
 
     function evalTutorial(){
-    	if(tutorialTween !=null){
+    	/*if(tutorialTween !=null){
     		return
     	}
 
@@ -1140,7 +1152,156 @@ var codeCake = function(){
     		hand.visible = false
     		break
 
-    	}
+    	}*/
+        if(tutorialButtonInex>3){
+            inTutorial=-1
+            handOk()
+            return
+        }
+
+
+
+        //console.log(buttonGroup.children[tutorialButtonInex].world.x)
+        if(currentButtonSelected!=null && scrollState == SCROLL_STATE.SELECT){
+            if(handState == SCROLL_STATE.SCROLL){
+                if(tutorialTween!=null){
+                    tutorialTween.stop()
+                }
+                if(timeOutTutorial!=null){
+                    clearTimeout(timeOutTutorial)
+                }
+            }
+            else if(handState == SCROLL_STATE.WAIT){
+                if(tutorialTween !=null){
+                    return
+                }
+            }
+            else if(handState==SCROLL_STATE.SELECT){
+                return
+            }
+
+            handState = SCROLL_STATE.WAIT
+            hand.loadTexture('atlas.game','handDown')
+            hand.x = currentButtonSelected.x+50
+            hand.y = currentButtonSelected.y+50
+            tutorialTween = game.add.tween(hand).to({x:stationPositions[stationTutorial].x,y:stationPositions[stationTutorial].y},2000,Phaser.Easing.linear,true)
+            tutorialTween.onComplete.add(function(){
+                handState = SCROLL_STATE.SELECT
+                tutorialTween = null
+                hand.loadTexture('atlas.game','handUp')
+                timeOutTutorial = setTimeout(function(){handState = SCROLL_STATE.WAIT},500)
+            })
+        }
+        else if(tutorialButtonArray[tutorialButtonInex].world.x > game.world.centerX-200 && tutorialButtonArray[tutorialButtonInex].world.x< game.world.centerX+150){
+            //console.log("eter tutoria")
+            if(handState == SCROLL_STATE.SCROLL){
+                if(tutorialTween!=null){
+                    tutorialTween.stop()
+                }
+                if(timeOutTutorial!=null){
+                    clearTimeout(timeOutTutorial)
+                }
+            }
+            else if(handState == SCROLL_STATE.WAIT){
+                if(tutorialTween !=null){
+                    return
+                }
+            }
+            else if(handState==SCROLL_STATE.SELECT){
+                return
+            }
+
+            handState = SCROLL_STATE.WAIT
+            hand.loadTexture('atlas.game','handDown')
+            hand.x = tutorialButtonArray[tutorialButtonInex].world.x+50
+            hand.y = tutorialButtonArray[tutorialButtonInex].world.y+50
+            tutorialTween = game.add.tween(hand).to({x:stationPositions[stationTutorial].x,y:stationPositions[stationTutorial].y},2000,Phaser.Easing.linear,true)
+            tutorialTween.onComplete.add(function(){
+                handState = SCROLL_STATE.SELECT
+                tutorialTween = null
+                hand.loadTexture('atlas.game','handUp')
+                timeOutTutorial = setTimeout(function(){handState = SCROLL_STATE.WAIT},500)
+            })
+        }
+        else if(tutorialButtonArray[tutorialButtonInex].world.x < game.world.centerX-200){
+            if(handState == SCROLL_STATE.SCROLL){
+                return
+            }
+            else if(handState == SCROLL_STATE.WAIT || handState == SCROLL_STATE.SELECT){
+                if(tutorialTween!=null){
+                    tutorialTween.stop()
+                }
+                if(timeOutTutorial!=null){
+                    clearTimeout(timeOutTutorial)
+                }
+            }
+            /*else if(handState==SCROLL_STATE.SELECT){
+                return
+            }*/
+
+            handState = SCROLL_STATE.SCROLL
+            hand.loadTexture('atlas.game','handDown')
+            hand.x = game.world.centerX-150
+            hand.y = game.world.height-5
+            tutorialTween = game.add.tween(hand).to({x:game.world.centerX+100},2000,Phaser.Easing.linear,true)
+            tutorialTween.onComplete.add(function(){
+                //handState = SCROLL_STATE.SELECT
+                hand.loadTexture('atlas.game','handUp')
+                tutorialTween = null
+                setTimeout(function(){handState = SCROLL_STATE.WAIT},500)
+            })
+
+        }
+
+        else if(tutorialButtonArray[tutorialButtonInex].world.x > game.world.centerX+150){
+            if(handState == SCROLL_STATE.SCROLL){
+                return
+            }
+            else if(handState == SCROLL_STATE.WAIT || handState == SCROLL_STATE.SELECT){
+                if(tutorialTween!=null){
+                    tutorialTween.stop()
+                }
+                if(timeOutTutorial!=null){
+                    clearTimeout(timeOutTutorial)
+                }
+            }
+            /*else if(handState==SCROLL_STATE.SELECT){
+                return
+            }*/
+
+            handState = SCROLL_STATE.SCROLL
+            hand.loadTexture('atlas.game','handDown')
+            hand.x = game.world.centerX+150
+            hand.y = game.world.height-5
+            tutorialTween = game.add.tween(hand).to({x:game.world.centerX-100},2000,Phaser.Easing.linear,true)
+            tutorialTween.onComplete.add(function(){
+                //handState = SCROLL_STATE.SELECT
+                hand.loadTexture('atlas.game','handUp')
+                tutorialTween = null
+                setTimeout(function(){handState = SCROLL_STATE.WAIT},500)
+            })
+
+        }
+    }
+
+    function handOk(){
+        if(!hand.visible){
+            return
+        }
+        if(tutorialTween!=null){
+            tutorialTween.stop()
+        }
+        if(timeOutTutorial!=null){
+            clearTimeout(timeOutTutorial)
+        }
+        hand.loadTexture('atlas.game','handDown')
+        hand.x = game.world.centerX+200
+        hand.y = game.world.height-50
+        setTimeout(function(){
+            hand.loadTexture('atlas.game','handUp')
+            tutorialTween = null
+            setTimeout(handOk,500)
+        },500)
     }
 
     
@@ -1318,6 +1479,9 @@ var codeCake = function(){
         var initX = 100
         for(var i = 0; i < imageNames.length; i++){
        		var button = buttonGroup.create(initX+(deltaButton*i),game.world.height - 80,'atlas.game',imageNames[i])
+            if(i ==0 || i == 2 || i == 6|| i==10){
+                tutorialButtonArray.push(button)
+            }
        		button.anchor.setTo(0.5)
        		button.key = imageNames[i]
        		button.initialX = button.x
