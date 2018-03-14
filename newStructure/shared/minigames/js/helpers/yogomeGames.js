@@ -188,6 +188,7 @@ var yogomeGames = function () {
             {name:'Tri Olimpics',url:urlSet + 'triOlimpics/',mapUrl:urlMap + 'triOlimpics', sceneName:'triOlimpics',subject:'health', review:false,objective:35,demo:false, type:gameTypeEnum.TARGET},//158
             {name:'Soil Sweeper',url:urlSet + 'soilSweeper/',mapUrl:urlMap + 'soilSweeper', sceneName:'soilSweeper',subject:'sustainability', review:false,objective:25,demo:false, type:gameTypeEnum.CHOOSE},//159
             {name:'Grave Matter',url:urlSet + 'graveMatter/',mapUrl:urlMap + 'graveMatter', sceneName:'graveMatter',subject:'health', review:false,objective:25,demo:false, type:gameTypeEnum.TRACE},//160
+            {name:'Brain Rail',url:urlSet + 'brainRail/',mapUrl:urlMap + 'brainRail', sceneName:'brainRail',subject:'health', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//161
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
