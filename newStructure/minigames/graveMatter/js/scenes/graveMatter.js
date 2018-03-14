@@ -389,7 +389,7 @@ var graveMatter = function(){
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
-        numPoints++
+        numPoints+=number
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
@@ -440,6 +440,7 @@ var graveMatter = function(){
             		return
             	}
                 var pos = evaluateTouchPosition()
+
                 if(touchStarted){
                     if((pos.x != currentline[currentline.length-1].x || pos.y != currentline[currentline.length-1].y) && !(pos.x ==currentline[currentline.length-2].x && pos.y ==currentline[currentline.length-2].y)){
 
@@ -479,6 +480,12 @@ var graveMatter = function(){
 				                    return
 				                }
 				                else if(gridArray[pos.x][pos.y] != currentInitialButton.sprite.tintColor){
+                                    var decimal = Math.abs(pos.decimalX%1)
+                                    //console.log(decimal)
+                                    if(decimal<0.3 || decimal>0.8){
+
+                                    }
+                                    else{return}
 				                	restartAllLines()
                                     sound.play('wrong')
 
@@ -737,6 +744,7 @@ var graveMatter = function(){
         var position = {x:0,y:0,inGrid: false}
         var x = (game.input.activePointer.x - space_0.x)/DELTA_SPACE_X 
         var y = (game.input.activePointer.y - space_0.y)/DELTA_SPACE_Y 
+        var decimal = x
         x = Math.round(x)
         y = Math.round(y)
 
@@ -744,6 +752,7 @@ var graveMatter = function(){
             position.x = x
             position.y = y
             position.inGrid = true
+            position.decimalX = decimal
         }
 
         return position
@@ -826,6 +835,7 @@ var graveMatter = function(){
 
         var buttonSprite = b.create(0,0,'atlas.game',key)
         buttonSprite.anchor.setTo(0.5)
+        buttonSprite.scale.setTo(0.7)
         //buttonSprite.tint = button.color
         buttonSprite.tintColor = button.color
         b.add(buttonSprite)
