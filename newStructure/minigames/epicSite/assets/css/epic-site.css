@@ -506,8 +506,8 @@ footer {
     }
       
     .home-Button {
-        display: inline;
-        width: 12%;
+        display: inline !important;
+        width: 12% !important;
         top: 2%;
         left: 3%;
         z-index: 1001;
