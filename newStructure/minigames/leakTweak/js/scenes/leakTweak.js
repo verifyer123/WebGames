@@ -529,13 +529,13 @@ var leakTweak = function(){
         for(var i = 0; i< bulletsGroup.length; i++){
             if(!bulletsGroup.children[i].visible){
                 bulletsGroup.children[i].visible = true
-                bulletsGroup.children[i].x = tomikoSpine.x
-                bulletsGroup.children[i].y = tomikoSpine.y
+                bulletsGroup.children[i].x = tomikoSpine.x-60
+                //bulletsGroup.children[i].y = tomikoSpine.y-40
                 return
             }
         }
 
-        var bullet = game.add.graphics(tomikoSpine.x,tomikoSpine.y-40)
+        var bullet = game.add.graphics(tomikoSpine.x-60,tomikoSpine.y-40)
         bullet.beginFill(0xf761ff)
         bullet.drawCircle(0,0,20)
         bulletsGroup.add(bullet)
