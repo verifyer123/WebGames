@@ -67,8 +67,8 @@ var treeNumbers = function(){
 
     var NUM_LIFES = 3
     var INITIAL_TIME = 8000
-    var DELTA_TIME = 200
-    var MIN_TIME = 2000
+    var DELTA_TIME = 500
+    var MIN_TIME = 1000
     var LEVLES_TO_TIMER = 6
 
     var DELTA_BUTTON = 170
