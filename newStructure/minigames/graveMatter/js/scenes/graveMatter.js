@@ -472,7 +472,7 @@ var graveMatter = function(){
 
 
 				                    currentline = []
-				                    console.log(gridArray)
+				                    //console.log(gridArray)
 				                    if(inTutorial!=-1){
 				                    	inTutorial++
 				                    	evalTutorial()
@@ -962,7 +962,7 @@ var graveMatter = function(){
 
         levelPairs = level.length
         //currentCoins = levelPairs
-        console.log(level)
+        //console.log(level)
         for(var i = 0; i < level.length; i++){
             var b1 = createButton({x:level[i].x1,y:level[i].y1,color:level[i].color})
             var b2 = createButton({x:level[i].x2,y:level[i].y2,color:level[i].color})
@@ -990,13 +990,13 @@ var graveMatter = function(){
             
         }
 
-        console.log(gridArray)
+        //console.log(gridArray)
 
     }
 
 
     function nextRound(win){
-        console.log("nextRound")
+        //console.log("nextRound")
     	//Coin({x:game.world.centerX,y:game.world.centerY},pointsBar,100)
         zombieSpine.setAnimationByName(0,'idle',true)
     	canTouch = false
