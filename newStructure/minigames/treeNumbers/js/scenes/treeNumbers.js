@@ -69,7 +69,7 @@ var treeNumbers = function(){
     var INITIAL_TIME = 8000
     var DELTA_TIME = 200
     var MIN_TIME = 2000
-    var LEVLES_TO_TIMER = 3
+    var LEVLES_TO_TIMER = 6
 
     var DELTA_BUTTON = 170
 
@@ -108,6 +108,8 @@ var treeNumbers = function(){
 
     var inTutorial
     var hand
+
+    var appleTween
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -396,7 +398,8 @@ var treeNumbers = function(){
         var temp = numberArray.slice()
         //console.log(temp[correct])
         buttonGroup.children[indexCorrectButton].text.setText(temp[correct])
-        letreroText.setText(temp[correct])
+        var temptext = temp[correct]
+        
         temp.splice(correct,1)
         buttonGroup.children[indexCorrectButton].correct = true
         for(var i =0; i < buttonGroup.length; i++){
@@ -414,29 +417,50 @@ var treeNumbers = function(){
         currentLevel++
 
         if(currentLevel>LEVLES_TO_TIMER){
-            if(!timeOn){
+            /*if(!timeOn){
                 timeOn = true
                 console.log("Position timer")
                 positionTimer()
-            }
+            }*/
 
             if(currentTime>MIN_TIME){
                 currentTime -=DELTA_TIME
             }
 
-            startTimer(currentTime)
+
+            var randomAngle = game.rnd.integerInRange(-80,80)
+            appleTween = game.add.tween(apple).to({y:350,angle:randomAngle},currentTime,Phaser.Easing.linear,true)
+            appleTween.onComplete.add(endTimeApple)
+            appleTween.randomAngle = randomAngle
+
+            //startTimer(currentTime)
+            letreroText.setText("")
+        }
+        else{
+            letreroText.setText(temptext)
         }
 
         if(inTutorial!=-1){
+            evalTutorial()
+        }
+        if(currentLevel<4){
             hand.visible = true
             //console.log('hand')
             hand.x = buttonGroup.children[indexCorrectButton].world.x+50
             hand.y = buttonGroup.children[indexCorrectButton].world.y+50
-            evalTutorial()
         }
     }
 
+    function endTimeApple(){
+        canTouch = false
+        win = false
+        evaluateApple()
+    }
+
     function evalTutorial(){
+        if(currentLevel>=4){
+            return
+        }
         hand.loadTexture('atlas.game','handDown',0,false)
         setTimeout(function(){
             hand.loadTexture('atlas.game','handUp',0,false)
@@ -456,9 +480,21 @@ var treeNumbers = function(){
         }
         canTouch = false
         win = button.correct
-        var randomAngle = game.rnd.integerInRange(-80,80)
-        var tween = game.add.tween(apple).to({y:350,angle:randomAngle},500,Phaser.Easing.linear,true)
-        tween.onComplete.add(evaluateApple)
+        if(win){
+            letreroText.setText(button.text.text)
+        } 
+        if(appleTween==null){
+            var randomAngle = game.rnd.integerInRange(-80,80)
+            var tween = game.add.tween(apple).to({y:350,angle:randomAngle},500,Phaser.Easing.linear,true)
+            tween.onComplete.add(evaluateApple)
+        }
+        else{
+            var r = appleTween.randomAngle
+            appleTween.stop()
+            var tween = game.add.tween(apple).to({y:350,angle:r},250,Phaser.Easing.linear,true)
+            tween.onComplete.add(evaluateApple)
+
+        }
         if(timeOn){
             stopTimer()
         }
@@ -565,7 +601,7 @@ var treeNumbers = function(){
             container.addChild(button)
 
             var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-            var text = new Phaser.Text(sceneGroup.game, 0, 0, "ONE", fontStyle)
+            var text = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
             text.anchor.setTo(0.5)
             button.addChild(text)
             container.text = text
@@ -575,7 +611,7 @@ var treeNumbers = function(){
         letrero.anchor.setTo(0.5)
 
         var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        letreroText = new Phaser.Text(sceneGroup.game, 0, 5, "ONE", fontStyle)
+        letreroText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
         letreroText.anchor.setTo(0.5)
         letrero.addChild(letreroText)
 
