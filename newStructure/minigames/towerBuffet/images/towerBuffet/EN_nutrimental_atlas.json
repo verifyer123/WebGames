@@ -1,0 +1,48 @@
+{"frames": [
+
+{
+	"filename": "nutrimental_US",
+	"frame": {"x":1,"y":1,"w":358,"h":269},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":358,"h":269},
+	"sourceSize": {"w":358,"h":269},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nutriobjects_us",
+	"frame": {"x":361,"y":1,"w":308,"h":229},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":308,"h":229},
+	"sourceSize": {"w":308,"h":229},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "shade_complete",
+	"frame": {"x":624,"y":232,"w":260,"h":261},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":260,"h":261},
+	"sourceSize": {"w":260,"h":261},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "shade_US",
+	"frame": {"x":361,"y":232,"w":261,"h":261},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":261,"h":261},
+	"sourceSize": {"w":261,"h":261},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "towerBuffet_EN_nutrimental_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":885,"h":494},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:85d932b8bb7e4bd43124b718f1de8a07:77fd4db004d885d90a1d8e9f7c0c7176:4786c989b3e6c96789cd5e7f0afadb23$"
+}
+}
