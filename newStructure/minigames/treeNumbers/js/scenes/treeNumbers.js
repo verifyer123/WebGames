@@ -135,13 +135,13 @@ var treeNumbers = function(){
 
         var lang = localization.getLanguage()
 
-        /*if(lang == "ES"){
-            numberArray = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGTH","NINE"]
+        if(lang == "ES"){
+            numberArray = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"]
         }
         else{
             numberArray = ["UNO","DOS","TRES","CUATRO","CINCO","SEIS","SIETE","OCHO","NUEVE"]
-        }*/
-        numberArray = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGTH","NINE"]
+        }
+        //numberArray = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGTH","NINE"]
 
         loadSounds()
         
@@ -599,8 +599,15 @@ var treeNumbers = function(){
             var button = game.add.sprite(0,0,'atlas.game','boton')
             button.anchor.setTo(0.5)
             container.addChild(button)
+            var l = localization.getLanguage()
 
-            var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            if(l=="ES"){
+                l = "32px"
+            }
+            else{
+                l = "28px"
+            }
+            var fontStyle = {font: l+" VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
             var text = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
             text.anchor.setTo(0.5)
             button.addChild(text)

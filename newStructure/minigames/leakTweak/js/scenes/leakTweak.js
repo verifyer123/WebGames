@@ -470,18 +470,20 @@ var leakTweak = function(){
                         bulletsGroup.children[i].visible = false
                         if(object.type){
                             //collision to correct fauce
-                            object.spine.setAnimationByName(0,'block',false)
-                            object.blocked = true
-                            Coin(object.parent,pointsBar,100)
-                            tutorialCounts ++
-                            if(tutorialCounts<4){
-                                time = game.time.now + currentTimeFaucet
-                                //console.log(time,game.time.now,currentTime)
-                            }
+                            if(!object.blocked){
+                                object.spine.setAnimationByName(0,'block',false)
+                                object.blocked = true
+                                Coin(object.parent,pointsBar,100)
+                                tutorialCounts ++
+                                if(tutorialCounts<4){
+                                    time = game.time.now + currentTimeFaucet
+                                    //console.log(time,game.time.now,currentTime)
+                                }
 
-                            stopByTutorial = false
-                            hand.visible = false
-                            clearTimeout(handTimeout)
+                                stopByTutorial = false
+                                hand.visible = false
+                                clearTimeout(handTimeout)
+                            }
                         }
                         else{
                             missPoint()
