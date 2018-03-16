@@ -37,6 +37,9 @@ var leakTweak = function(){
             {   name: "gameLose",
                 //file: soundsPath + "magic.mp3"}
                 file: soundsPath + "gameLose.mp3"},
+            {   name: "lock",
+                //file: soundsPath + "magic.mp3"}
+                file: soundsPath + "flipCard.mp3"},
             {
                 name: 'gameSong',
                 file: soundsPath + 'songs/upbeat_casual_8.mp3'
@@ -479,7 +482,7 @@ var leakTweak = function(){
                                     time = game.time.now + currentTimeFaucet
                                     //console.log(time,game.time.now,currentTime)
                                 }
-
+                                sound.play('lock')
                                 stopByTutorial = false
                                 hand.visible = false
                                 clearTimeout(handTimeout)
@@ -526,6 +529,7 @@ var leakTweak = function(){
     }
 
     function getBullet(){
+        sound.play('pop')
         tomikoSpine.setAnimationByName(0,'shoot',false)
         tomikoSpine.addAnimationByName(0,'idle',true)
         for(var i = 0; i< bulletsGroup.length; i++){
