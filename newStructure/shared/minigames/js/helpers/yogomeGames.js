@@ -192,6 +192,7 @@ var yogomeGames = function () {
             {name:'Tree Numbers',url:urlSet + 'treeNumbers/',mapUrl:urlMap + 'treeNumbers', sceneName:'treeNumbers',subject:'sustainability', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//162
             {name:'Leak Tweak',url:urlSet + 'leakTweak/',mapUrl:urlMap + 'leakTweak', sceneName:'leakTweak',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//163
             {name:'Tower Buffet',url:urlSet + 'towerBuffet/',mapUrl:urlMap + 'towerBuffet', sceneName:'towerBuffet',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.GRAB},//164
+            {name:'Happypolis',url:urlSet + 'happypolis/',mapUrl:urlMap + 'happypolis', sceneName:'happypolis',subject:'sustainability', review:false,objective:10,demo:false, type:gameTypeEnum.GRAB},//165
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
