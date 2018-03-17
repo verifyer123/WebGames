@@ -595,7 +595,7 @@ var brainRail = function(){
             btn.events.onInputDown.add(changeWay ,this)
             btn.tint = 0x505050 
             
-            btn = subGroup.create(0, 0, 'atlas.brainRail', 'yellow_btn')
+            btn = subGroup.create(0, 0, 'atlas.brainRail', stations[i + 1].color + '_btn')
             btn.anchor.setTo(0.5)
             btn.alpha = 0
             btn.inputEnabled = false
@@ -605,10 +605,10 @@ var brainRail = function(){
         
         buttonsGroup.children[0].x = game.world.centerX - 135   
         buttonsGroup.children[0].y = game.world.centerY + 60  
-        buttonsGroup.children[0].children[1].angle = 90
        
         buttonsGroup.children[1].x = game.world.centerX - 135
         buttonsGroup.children[1].y = game.world.centerY + 230
+        buttonsGroup.children[1].children[1].angle = 90
         
         buttonsGroup.children[2].x = game.world.centerX + 65
         buttonsGroup.children[2].y = game.world.centerY + 230

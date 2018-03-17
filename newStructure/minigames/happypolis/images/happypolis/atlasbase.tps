@@ -222,6 +222,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">happyEN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>115,20,229,39</rect>
+                <key>scale9Paddings</key>
+                <rect>115,20,229,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">happyES.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>104,20,209,39</rect>
+                <key>scale9Paddings</key>
+                <rect>104,20,209,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">hole.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -284,6 +310,19 @@
                 <rect>72,63,143,126</rect>
                 <key>scale9Paddings</key>
                 <rect>72,63,143,126</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">sand.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>31,36,61,72</rect>
+                <key>scale9Paddings</key>
+                <rect>31,36,61,72</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -401,6 +440,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">unhappyEN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>113,20,227,39</rect>
+                <key>scale9Paddings</key>
+                <rect>113,20,227,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">unhappyES.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>103,20,207,39</rect>
+                <key>scale9Paddings</key>
+                <rect>103,20,207,39</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -444,6 +509,11 @@
             <filename>trash7.png</filename>
             <filename>trash8.png</filename>
             <filename>trash9.png</filename>
+            <filename>sand.png</filename>
+            <filename>happyEN.png</filename>
+            <filename>happyES.png</filename>
+            <filename>unhappyEN.png</filename>
+            <filename>unhappyES.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
