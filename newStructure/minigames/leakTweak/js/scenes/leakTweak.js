@@ -72,11 +72,11 @@ var leakTweak = function(){
     var DELTA_FAUCET = 100
     var MIN_FAUCET_TIME = 1000
 
-    var INIT_VEL = 5
+    var INIT_VEL = 6
     var DELTA_VEl = 0.1
     var MIN_VEL = 2
 
-    var BULLET_VEL = 10
+    var BULLET_VEL = 13
     
     var lives
 	var sceneGroup = null
@@ -752,12 +752,14 @@ var leakTweak = function(){
     
         var plattform = sceneGroup.create(game.world.width,game.world.centerY+50,'atlas.game','platform')    
         plattform.anchor.setTo(1,0.5)
+        plattform.scale.setTo(1.5)
 
 
         tomikoSpine = game.add.spine(plattform.x-90 , plattform.y - 25, 'tomiko')
         tomikoSpine.setSkinByName('normal')
         tomikoSpine.setAnimationByName(0,'idle',true)
         sceneGroup.add(tomikoSpine)
+        tomikoSpine.scale.setTo(1.5)
 
         onfaucetGroup = game.add.group()
         sceneGroup.add(onfaucetGroup)
@@ -814,7 +816,7 @@ var leakTweak = function(){
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
-        hand = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.game','handUp')
+        hand = sceneGroup.create(tomikoSpine.x - 50, tomikoSpine.y -20,'atlas.game','handUp')
         hand.anchor.setTo(0.5)
         hand.visible = false
 
