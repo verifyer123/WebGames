@@ -222,6 +222,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">handDown.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,24,51,47</rect>
+                <key>scale9Paddings</key>
+                <rect>26,24,51,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">handUp.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,27,51,53</rect>
+                <key>scale9Paddings</key>
+                <rect>26,27,51,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">happyEN.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -514,6 +540,8 @@
             <filename>happyES.png</filename>
             <filename>unhappyEN.png</filename>
             <filename>unhappyES.png</filename>
+            <filename>handDown.png</filename>
+            <filename>handUp.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

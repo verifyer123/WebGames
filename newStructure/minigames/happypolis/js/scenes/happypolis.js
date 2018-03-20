@@ -124,6 +124,7 @@ var happypolis = function(){
     var timerGroup
     var scenariosGroup
     var happypolisGroup
+    var handsGroup
     var river
     var forest
     var factory
@@ -138,6 +139,7 @@ var happypolis = function(){
     var trowDelay
     var colector
     var trowObjects
+    var tutorial = true
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -148,12 +150,12 @@ var happypolis = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         gameActive = false
-        speed = 100
+        speed = 200
         counterTime = 0
         trowDelay = 1000
         colector = 0
         trowObjects = false
-        currentLvl = level.forestLvl
+        currentLvl = 2//level.forestLvl
         
         limit = {left: 100, right: game.world.width - 100, top: 200, down: game.world.height - 200}
         
@@ -348,7 +350,8 @@ var happypolis = function(){
     
     function onClickPlay() {
         tutoGroup.y = -game.world.height
-        gameTransition()
+
+        tutorial === true ?  initTutorial() : initGame()
     }
     
     function releaseButton(obj){
@@ -709,7 +712,7 @@ var happypolis = function(){
         
          
         factory = game.add.group()
-        factory.time = 5000
+        factory.time = 11000
         scenariosGroup.add(factory)
     
         factory.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.happypolis', 'forestTile'))
@@ -717,19 +720,25 @@ var happypolis = function(){
         var floor = factory.create(0, 0, 'floor')
         floor.width = game.world.width
         
-        var dirty = factory.create(-170, 200, 'dirty')
+        var dirty = factory.create(game.world.width + 40, 160, 'dirty')
+        dirty.anchor.setTo(1 ,0)
+        dirty.width = game.world.width * 1.3
         factory.dirty = dirty
         
-        var clean = factory.create(-170, 200, 'clean')
+        var clean = factory.create(game.world.width + 40, 160, 'clean')
+        clean.anchor.setTo(1 ,0)
         clean.alpha = 0
+        clean.width = game.world.width * 1.3
         factory.clean = clean
         
-        var pat = factory.create(50, 170, 'pat')
+        var pat = factory.create(game.world.width + 40, 160, 'pat')
+        pat.anchor.setTo(1 ,0)
+        pat.width = game.world.width
         factory.pat = pat
         
         
         forest = game.add.group()
-        forest.numTrees = 4
+        forest.numTrees = 1
         scenariosGroup.add(forest)
         
         forest.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.happypolis', 'forestTile'))
@@ -742,13 +751,13 @@ var happypolis = function(){
         forest.add(animals)
         forest.animals = animals
         
-        var anim = game.add.spine(0, 0, 'forest_animals')
+        var anim = game.add.spine(game.world.centerX, game.world.centerY, 'forest_animals')
         anim.scale.setTo(0.5)
         anim.setAnimationByName(0, "idle", true)
         anim.setSkinByName("bunny")
         animals.add(anim)
         
-        anim = game.add.spine(0, 0, 'forest_animals')
+        anim = game.add.spine(game.world.centerX, game.world.centerY, 'forest_animals')
         anim.scale.setTo(0.5)
         anim.setAnimationByName(0, "idle", true)
         anim.setSkinByName("squirrel")
@@ -769,7 +778,7 @@ var happypolis = function(){
         loseTile.alpha = 0
         happypolisGroup.lose = loseTile
         
-        var luna = game.add.spine(game.world.centerX - 130, game.world.centerY -150, 'luna')
+        var luna = game.add.spine(130, game.world.centerY -150, 'luna')
         luna.scale.setTo(0.7)
         luna.setAnimationByName(0, "idle", true)
         luna.setSkinByName('normal')
@@ -791,6 +800,8 @@ var happypolis = function(){
         unhappy.anchor.setTo(0.5)
         unhappy.alpha = 0
         happypolisGroup.unhappy = unhappy
+        
+        happypolisGroup.alpha = 0
     }
     
     function createPointer(){
@@ -828,33 +839,72 @@ var happypolis = function(){
             
             var acomplished 
             
-            if(list.length > 1){
+            if(tutorial){
                 
-                gameActive = false
-                stopTimer() 
-                
-                if(list.length < 4){
-                    win(false)
-                    return
-                }
-                else{
+                if(list.length > 1){
                     
-                    for(var i = 0; i < 3; i++){
-            
-                        if(list[i].secuence === i){
-                            acomplished = true
+                    for(var i = 0; i < 4; i++){
+
+                        if(list[i] === undefined){
+                            acomplished = false
+                            break
                         }
                         else{
-                            acomplished = false
+                            if(list[i].secuence !== i){
+                                acomplished = false
+                                break
+                            }
+                            else
+                                acomplished = true
                         }
                     }
                     
                     if(acomplished){
                         factory.clean.alpha = 1
                         factory.dirty.alpha = 0
+                        handsGroup.tween.stop()
+                        handsGroup.destroy()
+                        tutorial = false
+                        game.time.events.add(1500,function(){
+                            lvlUp(true)
+                        })
                     }
-                    
+                    else{
+                        factory.lines.destroy()
+                        restarElements()
+                    }
+                }
+            }
+            else{
+                
+                if(list.length > 1){
+
+                    gameActive = false
+                    stopTimer() 
+
+                    for(var i = 0; i < 4; i++){
+
+                        if(list[i] === undefined){
+                            acomplished = false
+                            break
+                        }
+                        else{
+                            if(list[i].secuence !== i){
+                                acomplished = false
+                                break
+                            }
+                            else
+                                acomplished = true
+                        }
+                    }
+
+                    if(acomplished){
+                        factory.clean.alpha = 1
+                        factory.dirty.alpha = 0
+                    }
+
                     win(acomplished)
+                    
                 }
             }
             
@@ -907,14 +957,13 @@ var happypolis = function(){
             var posX
             
             if(treeHole.x > game.world.centerX){
-                posX = game.world.centerX - game.rnd.integerInRange(50, 250)
+                posX = game.world.centerX - game.rnd.integerInRange(50, 300)
             }
             else{
-                posX = game.world.centerX + game.rnd.integerInRange(50, 250)
+                posX = game.world.centerX + game.rnd.integerInRange(50, 300)
             }
             
-            forest.animals.children[j].x = posX
-            forest.animals.children[j].y = treeHole.centerY
+            game.add.tween(forest.animals.children[j]).to({x: posX, y: treeHole.centerY}, 1000, Phaser.Easing.linear, true)
         }
         
         return delay
@@ -938,8 +987,16 @@ var happypolis = function(){
                 tree.setSkinByName("normal")
                 forest.restored.add(tree)
                 if(forest.restoredTrees === forest.numTrees){
-                    stopTimer() 
-                    win(true)
+                    if(tutorial){
+                        handsGroup.alpha = 0
+                        game.time.events.add(1500,function(){
+                                lvlUp(true)
+                        })
+                    }
+                    else{
+                        stopTimer() 
+                        win(true)
+                    }
                 }
             }
         }
@@ -948,7 +1005,7 @@ var happypolis = function(){
     function openFactory(){
         
         for(var i = 0; i < 2; i++){
-            var anim = game.add.spine(150, game.world.centerY - 70, 'factories')
+            var anim = game.add.spine(game.world.centerX , game.world.centerY - 150, 'factories')
             //anim.scale.setTo(0.8)
             anim.setAnimationByName(0, "factory_a", true)
             anim.setSkinByName("normal")
@@ -956,7 +1013,7 @@ var happypolis = function(){
         }
         
         factory.children[6].setAnimationByName(0, "factory_b", true)
-        factory.children[6].x = game.world.width - 100
+        factory.children[6].x = game.world.centerX + 200
         factory.children[6].y = game.world.height - 200 
 
         var boxGroup = game.add.group()
@@ -965,20 +1022,21 @@ var happypolis = function(){
         
         for(var i = 0; i < 4; i++){
             
-            var box = boxGroup.create(game.world.centerX + 50, game.world.centerY - 120, 'atlas.happypolis', 'star')
+            var box = boxGroup.create(factory.pat.width - 50, factory.pat.y + 50, 'atlas.happypolis', 'star')
             box.anchor.setTo(0.5)
             box.active = true
             box.secuence = i
             boxGroup.add(box)
         }
-        boxGroup.children[1].x = 55
-        boxGroup.children[1].y = game.world.centerY + 60
         
-        boxGroup.children[2].x = game.world.centerX + 50
-        boxGroup.children[2].y = game.world.centerY + 170
+        boxGroup.children[1].x = 50
+        boxGroup.children[1].y = factory.pat.centerY 
         
-        boxGroup.children[3].x = 120
-        boxGroup.children[3].y = game.world.height - 50
+        boxGroup.children[2].x = factory.pat.centerX - 20
+        boxGroup.children[2].y = factory.pat.centerY + 110
+        
+        boxGroup.children[3].x = 110
+        boxGroup.children[3].y = game.world.height - 70
     }
     
     function factoryLines(){
@@ -1027,17 +1085,18 @@ var happypolis = function(){
         
         var fishSkins = ['fish', 'octopus', 'piranha']
         
-        var pivot = -2
+        var space = game.world.width/9
+        var pivot = space - 90
         
-        for(var j = 0; j < 5; j++){
+        for(var j = 0; j < 9; j++){
              
-            var box = game.add.graphics(game.world.centerX - 50, game.rnd.integerInRange(game.world.centerY, limit.down))
-            box.x += 100 * pivot
+            var box = game.add.graphics(pivot, game.rnd.integerInRange(game.world.centerY, limit.down))
+            //box.x += 150 * pivot
             box.beginFill(0x0000ff)
             box.drawRect(0, 0, 100, 100)
             box.alpha = 0
             coliderGroup.add(box)
-            pivot ++
+            pivot += space
             
             var anim = game.add.spine(box.centerX, box.centerY + 70, 'ocean_animals')
             anim.scale.setTo(0.7)
@@ -1050,6 +1109,7 @@ var happypolis = function(){
             
             var trash = trashGroup.create(300, 0, 'atlas.happypolis', 'trash' + i)
             trash.anchor.setTo(0.5, 1)
+            trash.scale.setTo(1.6)
             //trash.body.velocity.y = speed;
             trash.exists = false;
             trash.visible = false;
@@ -1087,13 +1147,21 @@ var happypolis = function(){
         
         if(gameActive){
             obj.kill()
-            colector++
 
-            if(colector === 10){
-                trowObjects = false
-                river.trash.setAll('col', false)
-                river.trash.setAll('alpha', 0)
-                win(true)
+            if(tutorial){
+                handsGroup.alpha = 0
+                game.time.events.add(1500,function(){
+                        lvlUp(true)
+                })
+            }
+            else{
+                colector++
+                if(colector === 10){
+                    trowObjects = false
+                    river.trash.setAll('col', false)
+                    river.trash.setAll('alpha', 0)
+                    win(true)
+                }
             }
         }
     }
@@ -1119,7 +1187,8 @@ var happypolis = function(){
         
         game.time.events.add(1500,function(){
             game.add.tween(happypolisGroup).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
-                initGame()
+                tutorial === true ? initTutorial() : initGame()
+                
             })          
         })
     }
@@ -1204,7 +1273,7 @@ var happypolis = function(){
             
             case 1:
                 if(complete){
-                    speed += 200
+                    speed += 150
                     counterTime = 0
                     trowDelay -= 200
                     colector = 0
@@ -1221,7 +1290,7 @@ var happypolis = function(){
             
             case 2:
                 if(complete)
-                    factory.time -= 200
+                    factory.time -= 100
                 game.add.tween(timerGroup).to({alpha: 0}, 300, Phaser.Easing.linear, true)
                 game.add.tween(happypolisGroup).from({x: -game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                     scenariosGroup.bringToTop(forest)
@@ -1231,6 +1300,117 @@ var happypolis = function(){
                 })
             break
         }
+        
+    }
+    
+    function initHand(){
+        
+        handsGroup = game.add.group()
+        handsGroup.alpha = 0
+        //handsGroup.scale.setTo(0.8)
+        sceneGroup.add(handsGroup)
+        
+        var handUp = handsGroup.create(0, 0, 'atlas.happypolis', 'handUp') // 0
+        handUp.alpha = 0
+        
+        var handDown = handsGroup.create(0, 0, 'atlas.happypolis', 'handDown') // 1
+        handDown.alpha = 0
+        
+        
+        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
+            
+        handsGroup.tween.onComplete.add(function() 
+        {
+            changeImage(0, handsGroup)
+            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
+                handsGroup.tween.start()
+                changeImage(1, handsGroup)
+            })
+        })
+    }
+    
+    function handPos(obj){
+        
+        handsGroup.alpha = 1
+        handsGroup.setAll('x', obj.centerX) 
+        handsGroup.setAll('y', obj.centerY) 
+    }
+    
+    function initTutorial(){
+        
+        switch(currentLvl){
+            
+            case 0:
+                changeImage(0, pointer)
+                var delay = fillForest()
+                forest.holes.children[0].x = game.world.centerX
+                forest.holes.children[0].y = game.world.centerY
+                game.time.events.add(delay + 200,function(){
+                    handPos(forest.holes.children[0])
+                    gameActive = true
+                })
+            break
+            
+            case 1:
+                changeImage(1, pointer)
+                game.time.events.add(1000,function(){
+                    trowTrashTuto()
+                })
+            break
+            
+            case 2:
+                changeImage(1, pointer)
+                restarElements()
+                game.time.events.add(1000,function(){
+                    factoryTuto()
+                })
+            break
+        }
+    }
+    
+    function trowTrashTuto(){
+        
+        var trashy = river.trash.getFirstExists(false);
+                
+        if (trashy)
+        {
+            trashy.reset(game.rnd.integerInRange(limit.left, limit.right), 0);
+            trashy.loadTexture('atlas.happypolis', 'trash' + game.rnd.integerInRange(0, 9))
+            game.add.tween(trashy).to({y: 300}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                gameActive = true
+                handPos(trashy)
+            })
+        }
+    }
+    
+    function factoryTuto(){
+        
+        handsGroup.tween.stop()
+        handTween()
+        gameActive = true
+    }
+    
+    function handTween(){
+        
+        handsGroup.alpha = 1
+        
+        var oneHand = handsGroup.create(0, 0, 'atlas.happypolis', 'handUp') // 0
+        oneHand.x = factory.boxes.children[0].centerX
+        oneHand.y = factory.boxes.children[0].centerY
+        
+        changeImage(2, handsGroup)
+        
+        handsGroup.tween = game.add.tween(oneHand).to({x: factory.boxes.children[1].centerX, y: factory.boxes.children[1].centerY}, 1000, Phaser.Easing.linear, true)
+            
+        handsGroup.tween.onComplete.add(function(){
+            game.add.tween(oneHand).to({x: factory.boxes.children[2].centerX, y: factory.boxes.children[2].centerY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                game.add.tween(oneHand).to({x: factory.boxes.children[3].centerX, y: factory.boxes.children[3].centerY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                    oneHand.x = factory.boxes.children[0].centerX
+                    oneHand.y = factory.boxes.children[0].centerY
+                    handsGroup.tween.start()
+                })
+            })
+        })
         
     }
 	
@@ -1270,6 +1450,7 @@ var happypolis = function(){
             positionTimer()
             openFactory()
             createPointer()
+            initHand()
             initCoin()
             createParticles()
 			
