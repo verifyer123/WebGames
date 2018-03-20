@@ -862,9 +862,9 @@ var happypolis = function(){
                     if(acomplished){
                         factory.clean.alpha = 1
                         factory.dirty.alpha = 0
-                        handsGroup.tween.stop()
-                        handsGroup.destroy()
                         tutorial = false
+                        sceneGroup.handtween.stop()
+                        sceneGroup.hand.destroy()
                         game.time.events.add(1500,function(){
                             lvlUp(true)
                         })
@@ -1137,6 +1137,7 @@ var happypolis = function(){
                 {
                     trashy.reset(game.rnd.integerInRange(limit.left, limit.right), 0);
                     trashy.loadTexture('atlas.happypolis', 'trash' + game.rnd.integerInRange(0, 9))
+                    trashy.scale.setTo(1.6)
                     trashy.body.velocity.y = speed
                     trashy.col = true
                     counterTime = game.time.now + trowDelay
@@ -1240,6 +1241,8 @@ var happypolis = function(){
     
     function lvlUp(complete){
         
+        gameActive = false
+        
         if(complete){
             happypolisGroup.win.alpha = 1
             happypolisGroup.lose.alpha = 0
@@ -1285,6 +1288,8 @@ var happypolis = function(){
                     river.colider.destroy()
                     river.fishes.destroy()
                     river.trash.destroy()
+                    factory.clean.alpha = 0
+                    factory.dirty.alpha = 1
                     currentLvl = level.factoryLvl
                     gameTransition()
                 })
@@ -1363,7 +1368,7 @@ var happypolis = function(){
             case 2:
                 changeImage(1, pointer)
                 restarElements()
-                game.time.events.add(1000,function(){
+                game.time.events.add(500,function(){
                     factoryTuto()
                 })
             break
@@ -1387,29 +1392,27 @@ var happypolis = function(){
     
     function factoryTuto(){
         
-        handsGroup.tween.stop()
-        handTween()
-        gameActive = true
+        
+        handsGroup.destroy()
+        
+        var hand = sceneGroup.create(factory.boxes.children[0].centerX, factory.boxes.children[0].centerY, 'atlas.happypolis', 'handUp')
+        sceneGroup.hand = hand
+        
+        handTween(hand)
     }
     
-    function handTween(){
+    function handTween(oneHand){
         
-        handsGroup.alpha = 1
-        
-        var oneHand = handsGroup.create(0, 0, 'atlas.happypolis', 'handUp') // 0
-        oneHand.x = factory.boxes.children[0].centerX
-        oneHand.y = factory.boxes.children[0].centerY
-        
-        changeImage(2, handsGroup)
-        
-        handsGroup.tween = game.add.tween(oneHand).to({x: factory.boxes.children[1].centerX, y: factory.boxes.children[1].centerY}, 1000, Phaser.Easing.linear, true)
+        changeImage(0, handsGroup)
+        sceneGroup.handtween = game.add.tween(oneHand).to({x: factory.boxes.children[1].centerX, y: factory.boxes.children[1].centerY}, 1000, Phaser.Easing.linear, true)
             
-        handsGroup.tween.onComplete.add(function(){
+        sceneGroup.handtween.onComplete.add(function(){
             game.add.tween(oneHand).to({x: factory.boxes.children[2].centerX, y: factory.boxes.children[2].centerY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                 game.add.tween(oneHand).to({x: factory.boxes.children[3].centerX, y: factory.boxes.children[3].centerY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                     oneHand.x = factory.boxes.children[0].centerX
                     oneHand.y = factory.boxes.children[0].centerY
-                    handsGroup.tween.start()
+                    gameActive = true
+                    sceneGroup.handtween.start()
                 })
             })
         })
