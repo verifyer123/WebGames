@@ -101,6 +101,8 @@ var map = function(){
 	var newHeight
     var tutorial, mano, ballTutorialUnlock
 
+    var spineKey
+
 	var END_POS = 400
 	var OFFSET_HEIGTH = 500
 
@@ -190,15 +192,20 @@ var map = function(){
 
 					yogotarGroup.y = ship.y
 					yogotarGroup.index = currentPlayer.currentPosition
-					yogotarGroup.anim.setAnimationByName(0,"JUMP",true)
+					//yogotarGroup.anim.setAnimationByName(0,"JUMP",true)
+					yogotarGroup.anim.setAnimationByName(0,"jump",true)
+
 					yogotarGroup.alpha = 1
 					game.add.tween(yogotarGroup).to({x:startBall.x},1000,"Linear",true)
 
 					game.add.tween(yogotarGroup).to({y:startBall.y - 150},500,Phaser.Easing.Quadratic.In,true)
 					game.time.events.add(500,function(){
 
-						yogotarGroup.anim.setAnimationByName(0,"LAND",false)
-						yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
+						/*yogotarGroup.anim.setAnimationByName(0,"LAND",false)
+						yogotarGroup.anim.addAnimationByName(0,"IDLE",true)*/
+
+						yogotarGroup.anim.setAnimationByName(0,"land",false)
+						yogotarGroup.anim.addAnimationByName(0,"idle",true)
 
 						game.add.tween(yogotarGroup).to({y:startBall.y},500,Phaser.Easing.Quadratic.Out,true).onComplete.add(function(){
 
@@ -297,13 +304,16 @@ var map = function(){
 
 	function preload(){
 
-
-
 		game.stage.disableVisibilityChange = false;
 
 		game.load.audio('spaceSong', soundsPath + 'songs/mysterious_garden.mp3');
-		game.load.spine('eagle',"images/spines/yogotar.json")
-        
+		var c = players.getPlayer()
+		console.log(c)
+		spineKey = c.yogotar || "Arthurius"
+		spineKey = spineKey.toLowerCase();
+		//spineKey = "tomiko"
+		//game.load.spine('eagle',"images/spines/yogotar.json")
+        game.load.spine(spineKey,"images/spines/"+spineKey+"/"+spineKey+".json")
         
         game.load.spritesheet("hand", 'images/spines/Tuto/manita.png', 115, 111, 23)
 
@@ -583,10 +593,12 @@ var map = function(){
 				yogotarGroup.scale.setTo(1,1)
 			}
 
-			yogotarGroup.anim.setAnimationByName(0,"RUN",true)
+			//yogotarGroup.anim.setAnimationByName(0,"RUN",true)
+			yogotarGroup.anim.setAnimationByName(0,"run",true)
 			game.add.tween(yogotarGroup).to({x:ballTo.x,y:ballTo.y},1000,"Linear",true).onComplete.add(function(){
 
-				yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
+				//yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
+				yogotarGroup.anim.setAnimationByName(0,"idle",true)
 
 				//console.log(buttonPressed.order + ' order ' +  yogotarGroup.index + ' yogoIndex')
 				if(yogotarGroup.index === buttonPressed.order){
@@ -630,7 +642,8 @@ var map = function(){
 			yogotarGroup.scale.setTo(-1,1)
 		}
 
-		yogotarGroup.anim.setAnimationByName(0,"RUN",true)
+		//yogotarGroup.anim.setAnimationByName(0,"RUN",true)
+		yogotarGroup.anim.setAnimationByName(0,"run",true)
 		game.add.tween(yogotarGroup).to({x:battle.x,y:battle.y + 50},1000,"Linear",true).onComplete.add(function(){
 
 			spaceSong.stop()
@@ -639,7 +652,8 @@ var map = function(){
 			scroller.stop()
 			scroller.scrollTo(0,-yogotarGroup.y + game.world.height * 0.6,200)
 
-			yogotarGroup.anim.setAnimationByName(0,"WIN",true)
+			//yogotarGroup.anim.setAnimationByName(0,"WIN",true)
+			yogotarGroup.anim.setAnimationByName(0,"win",true)
 			game.add.tween(sceneGroup).to({alpha:0},1000,"Linear",true,1000).onComplete.add(function(){
 				// console.log("goBattle")
 				window.open("../epicBattle/", "_self")
@@ -652,8 +666,11 @@ var map = function(){
 		scroller.stop()
 		//console.log(yogotarGroup.y + ' posY ' + yogotarGroup.y + ' posYogo')
 
-		yogotarGroup.anim.setAnimationByName(0,"WIN3",false)
-		yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
+		/*yogotarGroup.anim.setAnimationByName(0,"WIN3",false)
+		yogotarGroup.anim.addAnimationByName(0,"IDLE",true)*/
+
+		yogotarGroup.anim.setAnimationByName(0,"win",false)
+		yogotarGroup.anim.addAnimationByName(0,"idle",true)
 
 		createPart('star',buttonPressed.ball)
 		sound.play("magic")
@@ -1254,10 +1271,16 @@ var map = function(){
 		yogotarGroup.y = startBall.y
 		scroller.add(yogotarGroup)
 
-		var skin = currentPlayer.yogotar || "Eagle"
+		/*var skin = currentPlayer.yogotar || "Eagle"
 		var anim = game.add.spine(0,-10,"eagle")
 		anim.setAnimationByName(0,"IDLE",true)
 		anim.setSkinByName(skin)
+		anim.scale.setTo(0.4,0.4)
+		yogotarGroup.add(anim)*/
+
+		var anim = game.add.spine(0,-10,spineKey)
+		anim.setAnimationByName(0,"idle",true)
+		anim.setSkinByName('normal')
 		anim.scale.setTo(0.4,0.4)
 		yogotarGroup.add(anim)
 

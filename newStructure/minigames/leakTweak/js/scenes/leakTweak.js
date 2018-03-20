@@ -81,7 +81,11 @@ var leakTweak = function(){
     
     var lives
 	var sceneGroup = null
+
+
     var gameIndex = 163
+
+
     var tutoGroup
     var backgroundSound
     var timeValue
@@ -233,16 +237,10 @@ var leakTweak = function(){
     }
 
     function Coin(objectBorn,objectDestiny,time){
-       
-       
-       //objectBorn= Objeto de donde nacen
+
        coins.x=objectBorn.centerX
        coins.y=objectBorn.centerY
-       
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
+      
 
        correctParticle.x = objectBorn.x
         correctParticle.y = objectBorn.y
@@ -268,10 +266,9 @@ var leakTweak = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
+			resultScreen.setScore(true, numPoints, gameIndex)	
             sceneloader.show("result")
+            
             sound.play("gameLose")
 		})
     }
