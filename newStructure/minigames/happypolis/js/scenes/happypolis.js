@@ -1263,7 +1263,7 @@ var happypolis = function(){
                 
             case 0:
                 if(complete){
-                    forest.numTrees += 2
+                    forest.numTrees += 1
                 }
                 game.add.tween(timerGroup).to({alpha: 0}, 300, Phaser.Easing.linear, true)
                 game.add.tween(happypolisGroup).from({y: game.world.height}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
@@ -1277,11 +1277,11 @@ var happypolis = function(){
             break
             
             case 1:
+                colector = 0
                 if(complete){
-                    speed += 150
+                    speed += 100
                     counterTime = 0
-                    trowDelay -= 200
-                    colector = 0
+                    trowDelay -= 100
                 }
                 game.add.tween(happypolisGroup).from({x: game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                     scenariosGroup.bringToTop(factory)
