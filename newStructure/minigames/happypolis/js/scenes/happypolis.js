@@ -155,7 +155,7 @@ var happypolis = function(){
         trowDelay = 1000
         colector = 0
         trowObjects = false
-        currentLvl = 2//level.forestLvl
+        currentLvl = level.forestLvl
         
         limit = {left: 100, right: game.world.width - 100, top: 200, down: game.world.height - 200}
         
@@ -957,13 +957,15 @@ var happypolis = function(){
             var posX
             
             if(treeHole.x > game.world.centerX){
-                posX = game.world.centerX - game.rnd.integerInRange(50, 300)
+                posX = game.world.centerX - game.rnd.integerInRange(0, 350)
             }
             else{
-                posX = game.world.centerX + game.rnd.integerInRange(50, 300)
+                posX = game.world.centerX + game.rnd.integerInRange(0, 300)
             }
+            //forest.animals.children[j].x = posX
+            //forest.animals.children[j].y = treeHole.centerY
             
-            game.add.tween(forest.animals.children[j]).to({x: posX, y: treeHole.centerY}, 1000, Phaser.Easing.linear, true)
+            game.add.tween(forest.animals.children[j]).to({x: posX, y: treeHole.centerY}, 500, Phaser.Easing.linear, true)
         }
         
         return delay
