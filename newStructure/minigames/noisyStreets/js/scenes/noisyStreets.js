@@ -95,7 +95,7 @@ var noisyStreets = function(){
     var selected1,selected2, numSelected1, numSelected2
     var emit, emit2
     var card1, card2, checkingCard
-    
+    var firstRound
     var soundsArray=new Array(5)
 
 	function loadSounds(){
@@ -116,6 +116,7 @@ var noisyStreets = function(){
         emit2=""
         picked=0
         checkingCard=false
+        firstRound = true
         for(var fill=0;fill<cards.length;fill++){
             cardsActivated[fill]=false;
         }
@@ -585,10 +586,14 @@ var noisyStreets = function(){
             cardsValue[filled]=cardsValueEver[filled]
         }
         
+        var time = 1000
+        if(firstRound){
+            firstRound = false
+            time = 100
+        }
         
         
-        
-        game.time.events.add(1000,function(){
+        game.time.events.add(time,function(){
             if(level==1){
                 horn.play()
                 claxon.play()
