@@ -31,8 +31,12 @@ var spatialOverdrive = function(){
 
         ],
         images: [
-            {   name:"tutorial_image",
-                file: "images/spatialOverdrive/tutorial_image_movil.png"}
+            /*{   name:"tutorial_image",
+                file: "images/spatialOverdrive/tutorial_image_movil.png"}*/
+            {
+                name:'tutorial_image',
+                file:"images/spatialOverdrive/tutorial_image_%input.png"
+            }
 		],
 		sounds: [
             {	name: "pop",
@@ -159,6 +163,8 @@ var spatialOverdrive = function(){
         game.stage.disableVisibilityChange = false;
 
         game.load.spritesheet("coin", 'images/spatialOverdrive/coin.png', 122, 123, 12)
+
+
 
     }
 
