@@ -79,11 +79,10 @@ var lakeStrike = function(){
     var pollutionAttackingActive=new Array(9)
     var pollutionTween=new Array(9)
     var pollutionDefeated=new Array(9)
-    var rotating
-    var rightDir
     var clockStarts
     var goal
     var dificulty, goalToGet, goalReached, speedCreate
+    var fast
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -106,10 +105,9 @@ var lakeStrike = function(){
         angle = 0;    
         direction = 1;    
         speedDelta = 0.002;
-        speedCreate=10000;
+        fast = 1.64
+        speedCreate=8000;
         radius = 150; 
-        rotating=0.0005
-        rightDir=false
         loadSounds()
 	}
 
@@ -614,8 +612,8 @@ var lakeStrike = function(){
                         howMany--;
                         goalReached++;
                         if(goalReached==goalToGet && dificulty>1000){
-                            speedCreate-=500;
-                            dificulty-=200;
+                            speedCreate-=1000;
+                            dificulty-=300;
                             goalToGet+=5;
                             goalReached=0;
                         }
@@ -698,7 +696,7 @@ var lakeStrike = function(){
         
         
         if (direction == 1) {      
-            speedDelta = 1.14;
+            speedDelta = fast;
             if(obj.position.y>game.world.centerY){
                 Justice.scale.setTo(-0.5,0.5);
             }else if(obj.position.y<game.world.centerY){
@@ -707,7 +705,7 @@ var lakeStrike = function(){
             
             
         } else if (direction == -1) {
-            speedDelta = -1.14;
+            speedDelta = -fast;
             if(obj.position.y>game.world.centerY){
                 Justice.scale.setTo(0.5,0.5);
             }else if(obj.position.y<game.world.centerY){
