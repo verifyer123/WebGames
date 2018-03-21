@@ -48,6 +48,9 @@ var chakBlock = function(){
     var MAX_COLOR = 5
     
     var gameIndex = 22
+    var gameId = 5642980933238784
+    
+
     var marioSong = null
 	var sceneGroup = null
     var pointsGroup = null
@@ -91,6 +94,8 @@ var chakBlock = function(){
 
 
 	function initialize(){
+
+        gameIndex = amazing.getId(gameId)
 
         game.stage.backgroundColor = "#33302d"
         lives = INITIAL_LIVES

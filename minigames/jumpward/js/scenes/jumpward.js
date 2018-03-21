@@ -46,6 +46,7 @@ var jumpward = function(){
     var BOT_OFFSET = 105
     
     var gameIndex = 7
+    var gameId = 5647648723828736
     
     var gameCollisionGroup, playerCollisionGroup
     var cursors
@@ -80,7 +81,7 @@ var jumpward = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         platNames = ['blue_plat']
         itemNames = ['coin','spring','coin','coin','coin']
         game.stage.backgroundColor = "#ffffff"

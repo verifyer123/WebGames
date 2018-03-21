@@ -57,6 +57,7 @@ var memorama = function(){
     var INITIAL_LIVES = 5
     
     var gameIndex = 6
+    var gameId = 5667908084563968
     var lives = null
 	var sceneGroup = null
     var pointsGroup = null
@@ -73,7 +74,7 @@ var memorama = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         cardsNumber = 4

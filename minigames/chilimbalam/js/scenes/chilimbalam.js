@@ -42,6 +42,8 @@ var chilimbalam = function(){
     var skinTable
     
     var gameIndex = 9
+    var gameId = 5676073085829120
+    
     var marioSong = null
 	var sceneGroup = null
     var answersGroup = null
@@ -118,7 +120,7 @@ var chilimbalam = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         moveLeft = false

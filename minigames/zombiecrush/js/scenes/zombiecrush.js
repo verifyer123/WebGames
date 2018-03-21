@@ -52,6 +52,7 @@ var zombiecrush = function(){
     var objectsList
     
     var gameIndex = 1
+    var gameId = 
     var zombieSong
     var itemsList
     var bulletSpeed
@@ -86,7 +87,7 @@ var zombiecrush = function(){
 
 
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         addSkull = true
         itemsList = ['escombros','trash']
         pivotTiles = game.world.height - sceneGroup.botBar.height
