@@ -311,6 +311,10 @@ var map = function(){
 		console.log(c)
 		spineKey = c.yogotar || "Arthurius"
 		spineKey = spineKey.toLowerCase();
+
+		if(spineKey == "jutice"){
+			spineKey = "jsutice"
+		}
 		//spineKey = "tomiko"
 		//game.load.spine('eagle',"images/spines/yogotar.json")
         game.load.spine(spineKey,"images/spines/"+spineKey+"/"+spineKey+".json")

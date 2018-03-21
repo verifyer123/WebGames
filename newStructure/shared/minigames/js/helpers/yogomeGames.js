@@ -193,6 +193,7 @@ var yogomeGames = function () {
             {name:'Leak Tweak',url:urlSet + 'leakTweak/',mapUrl:urlMap + 'leakTweak', sceneName:'leakTweak',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//163
             {name:'Tower Buffet',url:urlSet + 'towerBuffet/',mapUrl:urlMap + 'towerBuffet', sceneName:'towerBuffet',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.GRAB},//164
             {name:'Happypolis',url:urlSet + 'happypolis/',mapUrl:urlMap + 'happypolis', sceneName:'happypolis',subject:'sustainability', review:false,objective:10,demo:false, type:gameTypeEnum.TARGET},//165
+            {name:'Spatial Overdrive',url:urlSet + 'spatialOverdrive/',mapUrl:urlMap + 'spatialOverdrive', sceneName:'spatialOverdrive',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//166
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
