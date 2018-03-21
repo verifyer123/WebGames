@@ -728,7 +728,6 @@ var shotPut = function(){
         
         tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         tweenTiempo.onComplete.add(function(){
-            stopTimer()
             throwObj()
         })
     }
@@ -815,9 +814,10 @@ var shotPut = function(){
         }
     }
     
-    function throwObj(proyectile){
+    function throwObj(){
         
         gameActive = false
+        stopTimer()
         objGroup.alpha = 1
         changeImage(objIndex, objGroup)
         oof.setAnimationByName(0, "THROW", false)
@@ -877,8 +877,10 @@ var shotPut = function(){
                     oof.setAnimationByName(0, "LOSE", false)
                 }
                 
-                oof.setSkinByName("normal")
-                oof.addAnimationByName(0, "IDLE", true)
+                if(lives !== 0){
+                    oof.setSkinByName("normal")
+                    oof.addAnimationByName(0, "IDLE", true)
+                }
                 
                 game.add.tween(objGroup).to({alpha:0}, 1200, Phaser.Easing.linear, true).onComplete.add(function(){
                     objGroup.x = objGroup.startPosX
@@ -897,7 +899,27 @@ var shotPut = function(){
         particleWrong = createPart('wrong')
         sceneGroup.add(particleWrong)
     }
-	
+    
+    function okBtn(){
+        
+        var okBtn = sceneGroup.create(game.world.width - 150, game.world.height - 250, 'atlas.shotPut', 'ok')
+        okBtn.anchor.setTo(0.5) 
+        okBtn.inputEnabled = true
+        okBtn.events.onInputDown.add(okPressed, this)       
+    }
+    
+    function okPressed(okBtn){
+        
+        if(gameActive){
+            
+            sound.play('pop')
+            game.add.tween(okBtn.scale).to({x: 0.5, y:0.5}, 150, Phaser.Easing.linear,true,0,0).yoyo(true,0).onComplete.add(function(){
+                okBtn.scale.setTo(1)
+            })
+            throwObj()
+        }
+    }
+
 	return {
 		
 		assets: assets,
@@ -933,6 +955,7 @@ var shotPut = function(){
             initStaminaBar()
             initObjGroup() 
             initBtn()
+            okBtn()
             createParticles()
 			
 			buttons.getButton(timberman,sceneGroup)
