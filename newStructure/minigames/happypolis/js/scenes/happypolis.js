@@ -1136,7 +1136,7 @@ var happypolis = function(){
                 if (trashy)
                 {
                     trashy.reset(game.rnd.integerInRange(limit.left, limit.right), 0);
-                    trashy.loadTexture('atlas.happypolis', 'trash' + game.rnd.integerInRange(0, 9))
+                    trashy.loadTexture('atlas.happypolis', 'trash' + game.rnd.integerInRange(0, 12))
                     trashy.scale.setTo(1.6)
                     trashy.body.velocity.y = speed
                     trashy.col = true
