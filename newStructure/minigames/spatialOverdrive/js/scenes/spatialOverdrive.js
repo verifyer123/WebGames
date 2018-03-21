@@ -565,6 +565,13 @@ var spatialOverdrive = function(){
         var w = game.world.width/background.width
         var h = game.world.height/background.height
 
+        var topTile = game.add.tileSprite(game.world.centerX,0,game.world.width,180,'atlas.game','top')
+        topTile.anchor.setTo(0.5,0)
+        sceneGroup.add(topTile)
+
+        var bottomTile  = game.add.tileSprite(game.world.centerX,game.world.height,game.world.width,game.world.centerY-180,'atlas.game','bottom')
+        bottomTile.anchor.setTo(0.5,1)
+        sceneGroup.add(bottomTile)
 
         planets = game.add.spine(game.world.centerX,game.world.centerY-100,'planets')
         planets.setSkinByName(spinePlanetArray[0])
