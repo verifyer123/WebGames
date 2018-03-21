@@ -404,6 +404,8 @@ var noisyStreets = function(){
         startGame=true
 
         overlayGroup.y = -game.world.height
+
+        arrangeCards()
     }
     
     function releaseButton(obj){
@@ -459,12 +461,10 @@ var noisyStreets = function(){
         dificulty=2;
         for(var fill=0; fill<10;fill++){
             
-            
-            
-            cardsBack[fill] = game.add.sprite(game.world.centerX-180+moveX,game.world.centerY-100+moveY, "atlas.noisy","card off");
-            cardsBack[fill].scale.setTo(0.9,0.9)
+            cardsBack[fill] = game.add.sprite(game.world.centerX-180+moveX,game.world.centerY-100+moveY, "atlas.noisy","card on");
+            cardsBack[fill].scale.setTo(0,0.9)
             cardsBack[fill].anchor.setTo(0.5,0.5)
-            cardsBack[fill].inputEnabled=true;
+            cardsBack[fill].inputEnabled=false;
             cardsBack[fill].name=fill;
             if(fill>3){
                 cardsBack[fill].alpha=0
@@ -594,13 +594,13 @@ var noisyStreets = function(){
                 claxon.play()
                 dog.play()
             }
-        if(level==2){
+            if(level==2){
                 horn.play()
                 claxon.play()
                 dog.play()
                 stereo.play()
             }
-        if(level>=3){
+            if(level>=3){
                 horn.play()
                 claxon.play()
                 dog.play()
@@ -610,20 +610,35 @@ var noisyStreets = function(){
             
             
             dinamita.setAnimationByName(0,"IDLE",true)
+
             for(var arrange=0; arrange<dificulty*2;arrange++){
                 sound.play("cards")
-                game.add.tween(cards[arrange].scale).to({x:0},100, Phaser.Easing.Linear.Out, true)
-                game.add.tween(cards[arrange]).to({alpha:0},105,Phaser.Easing.linear,true, 100)
-                game.add.tween(cardsBack[arrange]).to({alpha:1},505,Phaser.Easing.linear,true, 100)
-                if(!lostLive){
-                game.add.tween(cardsBack[arrange].scale).to({x:0.9},500, Phaser.Easing.Linear.Out, true, 300*arrange)
-                }else{
-                  game.add.tween(cardsBack[arrange].scale).to({x:0.9},500, Phaser.Easing.Linear.Out, true,300)  
-                  lostLive=false
-                }
                 cardsBack[arrange].loadTexture("atlas.noisy","card off")
-                cardsBack[arrange].inputEnabled=true
+                game.add.tween(cards[arrange].scale).to({x:1},500, Phaser.Easing.Linear.Out, true,100)
+                game.add.tween(cards[arrange]).to({alpha:1},505,Phaser.Easing.linear,true, 100)
+                game.add.tween(cardsBack[arrange]).to({alpha:0},100,Phaser.Easing.linear,true)
+                game.add.tween(cardsBack[arrange].scale).to({x:0},100, Phaser.Easing.Linear.Out, true)
+                    
+                
+
+                cardsBack[arrange].loadTexture("atlas.noisy","card on")
+                game.add.tween(cardsBack[arrange]).to({alpha:1},500,Phaser.Easing.linear,true,100)
+                game.add.tween(cardsBack[arrange].scale).to({x:0.9},500, Phaser.Easing.Linear.Out, true,100)
+
+
+                /*if(!lostLive){
+                game.add.tween(cardsBack[arrange].scale).to({x:0},100, Phaser.Easing.Linear.Out, true, 300*arrange)
+                }else{
+                  game.add.tween(cardsBack[arrange].scale).to({x:0},100, Phaser.Easing.Linear.Out, true,300)  
+                  lostLive=false
+                }*/
+
+                
+                cardsBack[arrange].inputEnabled=false
                 cardsActivated[arrange]=false
+            }
+            if(lives>0){
+                setTimeout(startRound,2000)
             }
             
             all=0
@@ -637,10 +652,40 @@ var noisyStreets = function(){
                     all++    
                 }
             }
-            if(dificulty>=5){
-                startTimer(100000)
-            }
+            
         })
+    }
+
+    function startRound(){
+        for(var arrange=0; arrange<dificulty*2;arrange++){
+            //cardsBack[arrange].loadTexture("atlas.noisy","card off")
+            game.add.tween(cards[arrange].scale).to({x:0},250, Phaser.Easing.Linear.Out, true)
+            game.add.tween(cards[arrange]).to({alpha:0},250,Phaser.Easing.linear,true)
+            game.add.tween(cardsBack[arrange]).to({alpha:0},250,Phaser.Easing.linear,true)
+            var tween = game.add.tween(cardsBack[arrange].scale).to({x:0},250, Phaser.Easing.Linear.Out, true)
+            
+            if(arrange == (dificulty*2)-1){
+                tween.onComplete.add(hideCards)
+            }
+            
+
+            //cardsBack[arrange].inputEnabled=true
+        }
+    }
+
+    function hideCards(){
+        for(var arrange=0; arrange<dificulty*2;arrange++){
+            cardsBack[arrange].loadTexture("atlas.noisy","card off")
+            game.add.tween(cardsBack[arrange]).to({alpha:1},500,Phaser.Easing.linear,true,300*arrange)
+            var tween = game.add.tween(cardsBack[arrange].scale).to({x:0.9},500, Phaser.Easing.Linear.Out, true,300*arrange)
+            cardsBack[arrange].inputEnabled=true
+
+            if(arrange == (dificulty*2)-1){
+                if(dificulty>=5){
+                    tween.onComplete.add(function(){startTimer(10000)})
+                }
+            }
+        }
     }
     
     function positionTimer(){
@@ -683,7 +728,7 @@ var noisyStreets = function(){
                 numSelected2=0
                 stopTimer()
                 if(lives>0){
-                    arrangeCards()
+                    setTimeout(arrangeCards,300)
                 }
         })
     }
@@ -776,11 +821,6 @@ var noisyStreets = function(){
             })
             
             
-            
-            
-            
-            
-            
         }else{
             picked=3
             cardsBack[numSelected1].inputEnabled=false
@@ -809,6 +849,8 @@ var noisyStreets = function(){
                     numSelected2=0
                 })
             })
+
+            missPoint()
         }
         
     }
