@@ -72,7 +72,8 @@ var solarShieldSquad = function(){
 		],
     }
     
-        
+    var INITIAL_TIME_CHARGE = 500
+    var DELTA_TIME_CHARGE = 10
     var lives = null
 	var sceneGroup = null
 	var background
@@ -111,6 +112,9 @@ var solarShieldSquad = function(){
     var activateEarth
     var charged1, charged2, charged3
     var howMany
+
+    var currentDirection
+    var currentTimeCharge
     
 
 	function loadSounds(){
@@ -132,8 +136,11 @@ var solarShieldSquad = function(){
         for(var fulfill=0; fulfill<meteors.length;fulfill++){
             meteorsActive[fulfill]=false
         }
+
+        currentDirection = 1
         emitter=""
         emitter2=""
+        currentTimeCharge = INITIAL_TIME_CHARGE
         loadSounds()
 	}
 
@@ -345,55 +352,6 @@ var solarShieldSquad = function(){
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            //Aqui va la primera funciòn que realizara el juego
-            returnGenerate()
-            startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.solarS','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'Movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.solarS',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.solarS','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
 
     }
 
@@ -664,11 +622,12 @@ var solarShieldSquad = function(){
     
     
     function stopEarth(obj){
-        if(activateEarth){
+        /*if(activateEarth){
             activateEarth=false
         }else if(!activateEarth){
             activateEarth=true
-        }
+        }*/
+        currentDirection *=-1
     }
     
     function enemyGenerator(enemys,enemysActive,enemyTween, howMuch, speed, params){
@@ -747,11 +706,14 @@ var solarShieldSquad = function(){
                 
             }
             
-            if(activateEarth){
+            //if(activateEarth){
                 
-                earthGroup.rotation+=0.03
-                if(earthGroup.angle>=359)earthGroup.angle=0
-            }
+                earthGroup.rotation+=(0.03*currentDirection)
+                if(earthGroup.angle>=359) earthGroup.angle=0
+                if(earthGroup.angle<0){
+                    earthGroup.angle+=360
+                }
+            //}
             
         }
         
@@ -760,6 +722,8 @@ var solarShieldSquad = function(){
             
             if (checkOverlap(shield1,meteorsProxy[checkCols]) && numLifes1>0){
                 if(meteorsActive[checkCols]){
+
+                    currentTimeCharge+=DELTA_TIME_CHARGE
                      howMany--
                      var temp=checkCols
                     Coin(shield1,pointsBar,100)
@@ -797,6 +761,7 @@ var solarShieldSquad = function(){
             if (checkOverlap(shield2,meteorsProxy[checkCols]) && numLifes2>0){
                 
                  if(meteorsActive[checkCols]){
+                    currentTimeCharge+=DELTA_TIME_CHARGE
                      howMany--
                     var temp=checkCols
                     numLifes2--
@@ -835,6 +800,7 @@ var solarShieldSquad = function(){
             if (checkOverlap(shield3,meteorsProxy[checkCols]) && numLifes3>0){
                 
                 if(meteorsActive[checkCols]){
+                    currentTimeCharge+=DELTA_TIME_CHARGE
                     howMany--
                     var temp=checkCols
                     numLifes3--
@@ -930,86 +896,113 @@ var solarShieldSquad = function(){
     }
     
     function recoveryEnergy(){
-        if(earthGroup.angle>=69 && earthGroup.angle<=223 && numLifes1>0 && numLifes1<4 && !charged1){
-            numLifes1++
-            sound.play("energy")
-            chargingIcon1.alpha=1;
-            chargingTween1.isPaused=false;
-            
-                    if(numLifes1==1){
-                        lifes1[3].alpha=1
-                        shield1.setAnimationByName(0,"HIT3",true)
-                        charged1=true
-                    }else if(numLifes1==2){
-                        lifes1[2].alpha=1
-                        shield1.setAnimationByName(0,"HIT2",true)
-                        charged1=true
-                    }else if(numLifes1==3){
-                        shield1.setAnimationByName(0,"HIT1",true)
-                        lifes1[1].alpha=1
-                        charged1=true
-                    }
-                    if(numLifes1==4){
-                        shield1.setAnimationByName(0,"IDLE",true)
-                        lifes1[0].alpha=1
-                        charged1=true
-                    }
+        if(earthGroup.angle>=69 && earthGroup.angle<=223 && numLifes1>=0 && numLifes1<4){
+             if(!charged1){
+                chargingIcon1.time = game.time.now + currentTimeCharge
+                chargingIcon1.alpha=1;
+                charged1 = true
+            }
+            else if(game.time.now > chargingIcon1.time){
+                numLifes1++
+                sound.play("energy")
+                //chargingIcon1.alpha=1;
+                chargingTween1.isPaused=false;
+                
+                if(numLifes1==1){
+                    lifes1[3].alpha=1
+                    shield1.setAnimationByName(0,"HIT3",true)
+                    //charged1=true
+                }else if(numLifes1==2){
+                    lifes1[2].alpha=1
+                    shield1.setAnimationByName(0,"HIT2",true)
+                    //charged1=true
+                }else if(numLifes1==3){
+                    shield1.setAnimationByName(0,"HIT1",true)
+                    lifes1[1].alpha=1
+                    //charged1=true
+                }
+                if(numLifes1==4){
+                    shield1.setAnimationByName(0,"IDLE",true)
+                    lifes1[0].alpha=1
+                    //charged1=true
+                }
+
+                charged1 = false
+            }
         }else if(earthGroup.angle>223){
             charged1=false
             chargingTween1.isPaused=true;
             chargingIcon1.alpha=0
         }
-        if(earthGroup.angle>=135 && earthGroup.angle<=269 && numLifes2>0 && numLifes2<4 && !charged2){
+
+        if(earthGroup.angle>=135 && earthGroup.angle<=269 && numLifes2>=0 && numLifes2<4){
+            if(!charged2){
+                chargingIcon2.time = game.time.now + currentTimeCharge
+                chargingIcon2.alpha=1;
+                charged2 = true
+            }
+            else if(game.time.now > chargingIcon2.time){
                 numLifes2++
                 sound.play("energy")
-                chargingIcon2.alpha=1;
+                //chargingIcon2.alpha=1;
                 chargingTween2.isPaused=false;
                 if(numLifes2==1){
                     lifes2[3].alpha=1
                     shield2.setAnimationByName(0,"HIT3",true)
-                    charged2=true
+                    //charged2=true
                 }else if(numLifes2==2){
                     lifes2[2].alpha=1
                     shield2.setAnimationByName(0,"HIT2",true)
-                    charged2=true
+                    //charged2=true
                 }else if(numLifes2==3){
                     shield2.setAnimationByName(0,"HIT1",true)
                     lifes2[1].alpha=1
-                    charged2=true
+                   // charged2=true
                 }
                 if(numLifes2==4){
                     shield2.setAnimationByName(0,"IDLE",true)
                     lifes2[0].alpha=1
-                    charged2=true
+                    //charged2=true
                 }
+                charged2 = false
+            }
         }else if(earthGroup.angle<135 || earthGroup.angle>269){
             charged2=false
             chargingTween2.isPaused=true;
             chargingIcon2.alpha=0
         }
-        if((earthGroup.angle<=68 || earthGroup.angle>=297) && numLifes3>0 && numLifes3<4 && !charged3){
+
+
+        if((earthGroup.angle<=68 || earthGroup.angle>=297) && numLifes3>=0 && numLifes3<4){
+            if(!charged3){
+                chargingIcon3.time = game.time.now + currentTimeCharge
+                chargingIcon3.alpha=1;
+                charged3 = true
+            }
+            else if(game.time.now > chargingIcon3.time){
                 numLifes3++
                 sound.play("energy")
-                chargingIcon3.alpha=1;
                 chargingTween3.isPaused=false;
                 if(numLifes3==1){
                     lifes3[3].alpha=1
                     shield3.setAnimationByName(0,"HIT3",true)
-                    charged3=true
+                   
                 }else if(numLifes3==2){
                     lifes3[2].alpha=1
                     shield3.setAnimationByName(0,"HIT2",true)
-                    charged3=true
+                    
                 }else if(numLifes3==3){
                     shield3.setAnimationByName(0,"HIT1",true)
                     lifes3[1].alpha=1
-                    charged3=true
+                    
                 }
                 if(numLifes3==4){
                     shield3.setAnimationByName(0,"IDLE",true)
                     lifes3[0].alpha=1
-                    charged3=true
+                    
                 }
+                charged3 = false
+            }
         }else if(earthGroup.angle>68 && earthGroup.angle<297){
             charged3=false
             chargingTween3.isPaused=true;
