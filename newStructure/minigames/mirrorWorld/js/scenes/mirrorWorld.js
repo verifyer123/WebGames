@@ -38,6 +38,14 @@ var mirrorWorld = function(){
 				name:'tutorial_image',
 				file:"images/mirror/gametuto.png"
 			},
+            {
+				name:'handDown',
+				file:"images/mirror/handDown.png"
+			},
+            {
+				name:'handUp',
+				file:"images/mirror/handUp.png"
+			}
 
 		],
 		sounds: [
@@ -82,6 +90,7 @@ var mirrorWorld = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
+    var handsGroup
     
     var backgroundGroup=null
     
@@ -564,11 +573,13 @@ var mirrorWorld = function(){
                 iconsPlayer[obj.name].tag="cube"
                 iconsPlayer[obj.name].alpha=1
                 iconsPlayer[obj.name].setSkinByName("cube")
+                
             }else if(iconsPlayer[obj.name].tag=="cube"){
                 iconsPlayer[obj.name].tag="triangle";
                 iconsPlayer[obj.name].tag="triangle"
                 iconsPlayer[obj.name].alpha=1
                 iconsPlayer[obj.name].setSkinByName("triangle")
+                
             }else if(iconsPlayer[obj.name].tag=="triangle"){
                 iconsPlayer[obj.name].tag="empty";
                 iconsPlayer[obj.name].tag="empty"
@@ -577,6 +588,10 @@ var mirrorWorld = function(){
             }
 
             iconsPlayer[obj.name].setAnimationByName(0,"idle_orange",true) 
+            
+            if(handsGroup){
+                handsGroup.destroy()
+            }
         }
         
     }
@@ -732,6 +747,7 @@ var mirrorWorld = function(){
         var howMany=0
         var where=game.rnd.integerInRange(0,26)
         var whichPiece=game.rnd.integerInRange(1,3)
+    
         while(howMany!=dificulty){
             where=game.rnd.integerInRange(0,26)
             whichPiece=game.rnd.integerInRange(1,3)
@@ -762,6 +778,8 @@ var mirrorWorld = function(){
             stGame=true
             howMany=0
         }
+        
+        handPos(iconsPlayer[where])
         
     }
     
@@ -977,6 +995,37 @@ var mirrorWorld = function(){
     function okRelased(){
         changeImage(0, okGroup)
     }
+    
+    function initHand(){
+        
+        handsGroup = game.add.group()
+        handsGroup.alpha = 0
+        sceneGroup.add(handsGroup)
+        
+        var handUp = handsGroup.create(0, 0, 'handUp') // 0
+        handUp.alpha = 0
+        
+        var handDown = handsGroup.create(0, 0, 'handDown') // 1
+        handDown.alpha = 0
+        
+        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
+            
+        handsGroup.tween.onComplete.add(function(){
+            
+            changeImage(0, handsGroup)
+            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
+                handsGroup.tween.start()
+                changeImage(1, handsGroup)
+            })
+        })
+    }
+    
+    function handPos(obj){
+        
+        handsGroup.alpha = 1
+        handsGroup.setAll('x', obj.centerX) 
+        handsGroup.setAll('y', obj.centerY) 
+    }
 	
 	return {
 		
@@ -1012,6 +1061,7 @@ var mirrorWorld = function(){
 			createPointsBar()
 			createHearts()
 			okBtn()
+            initHand()
 			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             
