@@ -52,7 +52,7 @@ var zombiecrush = function(){
     var objectsList
     
     var gameIndex = 1
-    var gameId = 
+    var gameId = 5769015641243648
     var zombieSong
     var itemsList
     var bulletSpeed
