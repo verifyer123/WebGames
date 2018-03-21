@@ -32,7 +32,10 @@ var pizzaLab = function(){
             },
         ],
         images: [
-
+            {
+                name: 'badPizza',
+                file: "images/pizzaLab/badPizza.png"
+            }
 		],
 		sounds: [
             {	name: "magic",
@@ -49,6 +52,8 @@ var pizzaLab = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "robotBeep",
 				file: soundsPath + "robotBeep.mp3"},
+            {	name: "splash",
+				file: soundsPath + "splash.mp3"},
 		]
     }
     
@@ -64,6 +69,7 @@ var pizzaLab = function(){
     var ingredients = ['jam', 'mush', 'pepe', 'pepper', 'pineapple']
     var val = [1,2,3,4,5]
     var ingredientGroup
+    var pipesGroup
     var pizzaGroup
     var pizzaCooked
     var rnd
@@ -367,18 +373,6 @@ var pizzaLab = function(){
         var bar = sceneGroup.create(0, 71, 'atlas.pizzaLab', 'bar')
         bar.width = game.world.width
         bar.height *= 0.25
-        
-        var machine = sceneGroup.create(game.world.centerX, 100, 'machine')
-        machine.anchor.setTo(0.5, 0)
-        machine.scale.setTo(0.83)
-        
-        leftDoor = sceneGroup.create(game.world.centerX + 5, machine.centerY + 90, 'atlas.pizzaLab', 'doorLeft')
-        leftDoor.anchor.setTo(1, 0)
-        leftDoor.scale.setTo(0.83)
-        
-        rigthDoor = sceneGroup.create(game.world.centerX + 7, machine.centerY + 90, 'atlas.pizzaLab', 'doorRight')
-        rigthDoor.anchor.setTo(0, 0)
-        rigthDoor.scale.setTo(0.83)
     }
 
 	function update(){
@@ -631,10 +625,49 @@ var pizzaLab = function(){
         sceneGroup.add(oof)
     }
     
+    function pipes(bar){
+        
+        pipesGroup = game.add.group()
+        sceneGroup.add(pipesGroup)
+        
+        var piv = -2
+        
+        for(var b = 0; b < ingredients.length; b++){
+            
+            var subGroup = game.add.group()
+            subGroup.x = bar.centerX + (piv * 100)
+            subGroup.y = bar.centerY - 10
+            pipesGroup.add(subGroup)
+            
+            var pipeOff = subGroup.create(-piv * 25, -55, 'atlas.pizzaLab', 'pipeOff_' + b)
+            pipeOff.anchor.setTo(0.5, 1)
+            
+            var pipeOn = subGroup.create(-piv * 25, -55, 'atlas.pizzaLab', 'pipeOn_' + b) 
+            pipeOn.anchor.setTo(0.5, 1)
+            pipeOn.alpha = 0
+            
+            piv++
+        }
+        
+        var machine = sceneGroup.create(game.world.centerX, 100, 'machine')
+        machine.anchor.setTo(0.5, 0)
+        machine.scale.setTo(0.83)
+        
+        leftDoor = sceneGroup.create(game.world.centerX + 5, machine.centerY + 90, 'atlas.pizzaLab', 'doorLeft')
+        leftDoor.anchor.setTo(1, 0)
+        leftDoor.scale.setTo(0.83)
+        
+        rigthDoor = sceneGroup.create(game.world.centerX + 7, machine.centerY + 90, 'atlas.pizzaLab', 'doorRight')
+        rigthDoor.anchor.setTo(0, 0)
+        rigthDoor.scale.setTo(0.83)
+    }
+    
     function barBtns(){
         
-        var bar = sceneGroup.create(0, game.world.centerY + 150, 'atlas.pizzaLab', 'bar')
+        var bar = sceneGroup.create(0, game.world.centerY + 160, 'atlas.pizzaLab', 'bar')
         bar.width = game.world.width
+        
+        pipes(bar)
         
         ingredientGroup = game.add.group()
         sceneGroup.add(ingredientGroup)
@@ -691,6 +724,9 @@ var pizzaLab = function(){
                 btn.parent.children[3].alpha = 0
                 btn.parent.children[4].alpha = 1
                 btn.parent.children[5].alpha = 0
+                
+                pipesGroup.children[btn.parent.val - 1].children[0].alpha = 1
+                pipesGroup.children[btn.parent.val - 1].children[1].alpha = 0
             }
             else{
                 btn.parent.turnOn = true
@@ -698,6 +734,9 @@ var pizzaLab = function(){
                 btn.parent.children[3].alpha = 1
                 btn.parent.children[4].alpha = 0
                 btn.parent.children[5].alpha = 1
+                
+                pipesGroup.children[btn.parent.val - 1].children[0].alpha = 0
+                pipesGroup.children[btn.parent.val - 1].children[1].alpha = 1
             }
         }
     }
@@ -729,6 +768,7 @@ var pizzaLab = function(){
     function okPressed(btn){
         
         var ans = false
+        var count = 0
         
         if(gameActive){
             sound.play('pop')
@@ -739,16 +779,32 @@ var pizzaLab = function(){
                 stopTimer()
             
             for(var c = 0; c < ingredientGroup.length; c++){
+                
                 if(ingredientGroup.children[c].turnOn){
-                    if(val.indexOf(ingredientGroup.children[c].val) < rnd){
-                        ans = true
-                    }
-                    else{
-                        ans = false
-                        break
+                    count++
+                }
+            }
+            
+            if(count === rnd){
+                
+                for(var c = 0; c < ingredientGroup.length; c++){
+                
+                    if(ingredientGroup.children[c].turnOn){
+                        if(val.indexOf(ingredientGroup.children[c].val) < rnd){
+                            ans = true
+                        }
+                        else{
+                            ans = false
+                            break
+                        }
                     }
                 }
             }
+            else{
+                ans = false
+            }
+            
+            
             win(ans)
         }
     }
@@ -764,7 +820,7 @@ var pizzaLab = function(){
             particleCorrect.start(true, 1000, null, 10)   
         }
         else{
-            missPoint()
+            pizzaMess()
             oof.setAnimationByName(0, "LOSE", false)
             oof.addAnimationByName(0, "LOSESTILL", true)
             particleWrong.x = game.world.centerX
@@ -794,12 +850,31 @@ var pizzaLab = function(){
         game.add.tween(leftDoor).to({x: leftDoor.x - 50}, 300, Phaser.Easing.linear, true)
         game.add.tween(rigthDoor).to({x: rigthDoor.x + 50}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
             pizzaCooked.alpha = 1
+            pizzaCooked.badPizza.alpha = 0
             game.add.tween(pizzaCooked.scale).from({x: 0, y: 0}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                 leftDoor.x = leftDoor.x + 50
                 rigthDoor.x = rigthDoor.x - 50
                 addCoin()
                 game.add.tween(pizzaCooked).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
                     pizzaCooked.setAll('alpha', 0)
+                })
+            })
+        })
+    }
+    
+    function pizzaMess(){
+        
+        game.add.tween(leftDoor).to({x: leftDoor.x - 50}, 300, Phaser.Easing.linear, true)
+        game.add.tween(rigthDoor).to({x: rigthDoor.x + 50}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
+            pizzaCooked.alpha = 1
+            pizzaCooked.setAll('alpha', 0)
+            pizzaCooked.badPizza.alpha = 1
+            game.add.tween(pizzaCooked.badPizza.scale).from({x: 0, y: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                leftDoor.x = leftDoor.x + 50
+                rigthDoor.x = rigthDoor.x - 50
+                sound.play('splash')
+                game.add.tween(pizzaCooked).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    missPoint()
                 })
             })
         })
@@ -846,6 +921,11 @@ var pizzaLab = function(){
             ing.anchor.setTo(0.5)
             ing.alpha = 0
         }
+        
+        var badPizza = pizzaCooked.create(0, 0, 'badPizza')
+        badPizza.anchor.setTo(0.5)
+        badPizza.alpha = 0
+        pizzaCooked.badPizza = badPizza
     }
     
     function enterOrder(){
@@ -854,7 +934,7 @@ var pizzaLab = function(){
         Phaser.ArrayUtils.shuffle(val)
         pizzaGroup.children[0].alpha = 1
         pizzaCooked.children[0].alpha = 1
-                
+            
         for(var p = 0; p < rnd; p++){
             pizzaGroup.children[val[p]].alpha = 1
             pizzaCooked.children[val[p]].alpha = 1

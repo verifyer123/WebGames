@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.1</string>
+        <string>4.6.3</string>
         <key>fileName</key>
         <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/pizzaLab/images/pizzaLab/atlasbase.tps</string>
         <key>autoSDSettings</key>
@@ -129,22 +129,6 @@
                 <uint>1</uint>
             </struct>
         </struct>
-        <key>andEngine</key>
-        <struct type="AndEngine">
-            <key>minFilter</key>
-            <enum type="AndEngine::MinFilter">Linear</enum>
-            <key>packageName</key>
-            <string>Texture</string>
-            <key>wrap</key>
-            <struct type="AndEngineWrap">
-                <key>s</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-                <key>t</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-            </struct>
-            <key>magFilter</key>
-            <enum type="AndEngine::MagFilter">MagLinear</enum>
-        </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
             <key>data</key>
@@ -200,18 +184,6 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">Off.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,19,32,39</rect>
-                <key>scale9Paddings</key>
-                <rect>16,19,32,39</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">On.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -219,9 +191,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>12,19,25,37</rect>
+                <rect>24,24,48,48</rect>
                 <key>scale9Paddings</key>
-                <rect>12,19,25,37</rect>
+                <rect>24,24,48,48</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -455,6 +427,100 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">pipeOff_0.png</key>
+            <key type="filename">pipeOff_4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,43,91,87</rect>
+                <key>scale9Paddings</key>
+                <rect>45,43,91,87</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pipeOff_1.png</key>
+            <key type="filename">pipeOff_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,41,51,81</rect>
+                <key>scale9Paddings</key>
+                <rect>26,41,51,81</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pipeOff_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>18,30,35,61</rect>
+                <key>scale9Paddings</key>
+                <rect>18,30,35,61</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pipeOn_0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>56,52,112,103</rect>
+                <key>scale9Paddings</key>
+                <rect>56,52,112,103</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pipeOn_1.png</key>
+            <key type="filename">pipeOn_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,49,65,97</rect>
+                <key>scale9Paddings</key>
+                <rect>33,49,65,97</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pipeOn_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,36,49,71</rect>
+                <key>scale9Paddings</key>
+                <rect>24,36,49,71</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pipeOn_4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>56,52,113,103</rect>
+                <key>scale9Paddings</key>
+                <rect>56,52,113,103</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">pizzaBase.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -567,8 +633,6 @@
             <filename>bulbOff.png</filename>
             <filename>pepeOff.png</filename>
             <filename>pepeOn.png</filename>
-            <filename>Off.png</filename>
-            <filename>On.png</filename>
             <filename>mushOff.png</filename>
             <filename>mushOn.png</filename>
             <filename>pepperOff.png</filename>
@@ -586,6 +650,18 @@
             <filename>pineapple.png</filename>
             <filename>okOff.png</filename>
             <filename>okOn.png</filename>
+            <filename>Off.png</filename>
+            <filename>On.png</filename>
+            <filename>pipeOff_0.png</filename>
+            <filename>pipeOff_1.png</filename>
+            <filename>pipeOff_2.png</filename>
+            <filename>pipeOff_3.png</filename>
+            <filename>pipeOff_4.png</filename>
+            <filename>pipeOn_0.png</filename>
+            <filename>pipeOn_1.png</filename>
+            <filename>pipeOn_2.png</filename>
+            <filename>pipeOn_3.png</filename>
+            <filename>pipeOn_4.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
