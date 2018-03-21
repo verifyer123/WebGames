@@ -687,7 +687,7 @@ var noisyStreets = function(){
 
             if(arrange == (dificulty*2)-1){
                 if(dificulty>=5){
-                    tween.onComplete.add(function(){startTimer(10000)})
+                    tween.onComplete.add(function(){startTimer(100000)})
                 }
             }
         }
