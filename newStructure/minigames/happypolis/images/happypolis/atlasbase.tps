@@ -440,6 +440,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">trash10.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,29,69,57</rect>
+                <key>scale9Paddings</key>
+                <rect>35,29,69,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">trash11.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,21,69,41</rect>
+                <key>scale9Paddings</key>
+                <rect>35,21,69,41</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">trash12.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,26,51,51</rect>
+                <key>scale9Paddings</key>
+                <rect>26,26,51,51</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">tree0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -542,6 +581,9 @@
             <filename>unhappyES.png</filename>
             <filename>handDown.png</filename>
             <filename>handUp.png</filename>
+            <filename>trash10.png</filename>
+            <filename>trash11.png</filename>
+            <filename>trash12.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
