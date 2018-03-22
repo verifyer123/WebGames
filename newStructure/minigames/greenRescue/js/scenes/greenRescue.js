@@ -78,7 +78,7 @@ var greenRescue = function(){
     var gameIndex = 124
 	var indexGame
     var overlayGroup
-    var morning,night
+    var morning,night, danced
     var velocidadNubes=4
     
     var backgroundGroup=null
@@ -112,6 +112,8 @@ var greenRescue = function(){
 	}
 
 	function initialize(){
+        
+        
 
        for(var falseStates=0;falseStates<estados.length;falseStates++){
             estados[falseStates]=0;   
@@ -328,6 +330,7 @@ var greenRescue = function(){
         
         game.load.audio('morning', soundsPath + 'songs/forestAmbience.mp3');
         game.load.audio('night', soundsPath + 'owl.mp3');
+        game.load.audio('danced', soundsPath + 'songs/jungle_fun.mp3');
         
 		/*game.load.image('howTo',"images/green/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/green/play" + localization.getLanguage() + ".png")
@@ -693,7 +696,7 @@ var greenRescue = function(){
             
             proxy[translate]=game.add.sprite(game.world.centerX-standarX+10+acomodateX*general,game.world.centerY-40+standarY-acomodateY*general,"atlas.green","OLD BAG")
             proxy[translate].scale.setTo(1,1)
-            proxy[translate].anchor.setTo(0.5,0.5)
+            proxy[translate].anchor.setTo(0.6,0.6)
             proxy[translate].alpha=0
             platformGroup.add(proxy[translate])
             
@@ -704,6 +707,7 @@ var greenRescue = function(){
         
         
         positionTimer()
+        
     }
 	
     
@@ -728,8 +732,13 @@ var greenRescue = function(){
             tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
             tweenTiempo.onComplete.add(function(){
                 missPoint()
+                 game.sound.setDecodedCallback(danced, function(){
+                    danced.loopFull(0.6)
+                }, this);
                 stopTimer()
-                reset()
+                game.time.events.add(2500,function(){
+                    reset()
+                });
                 canPlant=false
         })
     }
@@ -745,6 +754,14 @@ var greenRescue = function(){
     
 	function update(){
         
+        
+        //PARCHEZOTE #1
+        for(var mess=0;mess<estados.length;mess++){
+                if(tweenIcon[mess] && estados[mess]==0){
+                    tweenIcon[mess].stop()
+                    iconic[mess].alpha=0
+                }
+        }
         
         if(startGame){
             objectOverlaping=null   
@@ -776,7 +793,7 @@ var greenRescue = function(){
                     moon.position.y-=sumY*sumY
                 }
             }
-
+            
             if(sun.x>=game.world.width){
                 game.add.tween(gradient2).to({alpha:1},2500,Phaser.Easing.Cubic.Out,true,300);
                 game.add.tween(starsGroup).to({alpha:1},2500,Phaser.Easing.Cubic.Out,true,300);
@@ -864,6 +881,17 @@ var greenRescue = function(){
     
     function onDragStart(obj){
         obj.alpha=1;
+        
+        if(obj.tag=="sho"){
+            obj.position.x=shovelIcon.x
+            obj.position.y=shovelIcon.y
+        }else if(obj.tag=="sprin"){
+            obj.position.x=sprinklerIcon.x
+            obj.position.y=sprinklerIcon.y 
+        }else if(obj.tag=="sprout"){
+            obj.position.x=sproutIcon.x
+            obj.position.y=sproutIcon.y
+        }
     }
     
     function onDragStop(obj){
@@ -983,9 +1011,11 @@ var greenRescue = function(){
     }
     function water(obj){
         var objHere=obj.tag 
-        
-        sound.play("water")
-        tweenIcon[obj.tag].stop()
+        //PARCHEZOTE #2
+        if(estados[obj.tag]==2 || estados[obj.tag]==3 || estados[obj.tag]==4){
+            sound.play("water")
+        }
+            tweenIcon[obj.tag].stop()
         iconic[obj.tag].alpha=0
         if(estados[obj.tag]==3){
             animatedSprinklers[objHere].alpha=1
@@ -1004,13 +1034,14 @@ var greenRescue = function(){
             animatedSprinklers[objHere].alpha=1
             animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
             tree[obj.tag].setAnimationByName(0,"COMPLETE",false);
-            estados[obj.tag]=5
-            iconic[obj.tag].y-=100
+            tree[obj.tag].alpha=0.3;
+            estados[obj.tag]=5;
+            iconic[obj.tag].y-=200
             animatedSprinklers[objHere].y-=100
             tweenIcon[obj.tag].stop()
             game.add.tween(iconic[obj.tag]).to({alpha:0}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
                 iconic[obj.tag].y+=170
-                game.time.events.add(490,function(){
+                game.time.events.add(390,function(){
                     sound.stop("water")
                     animatedSprinklers[objHere].alpha=0
                     animatedSprinklers[objHere].y+=170
@@ -1028,6 +1059,7 @@ var greenRescue = function(){
                     iconic[mess].alpha=0
                 }
              }
+            game.time.events.add(100,function(){
             Coin(platform1,pointsBar,200)
             checked=0;
             canPlant=false
@@ -1044,9 +1076,10 @@ var greenRescue = function(){
                     platform1.setAnimationByName(0,"OUT_DIRTY",false);
                     nextLevel()
                 })
-            })
+            });
             
-        }
+        });
+    }
     }
     
     function Coin(objectBorn,objectDestiny,time){
@@ -1075,9 +1108,9 @@ var greenRescue = function(){
         checked=0;
         allClean=0;
         
-        for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
-            if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
-                tweenIcon[iconicDissapear].stop()
+            for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
+                if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
+                    tweenIcon[iconicDissapear].stop()
             }
             iconic[iconicDissapear].alpha=0
             iconic[iconicDissapear].y=trash[iconicDissapear].y-90
@@ -1096,7 +1129,10 @@ var greenRescue = function(){
             }
             platformGroup.position.x=0
             platform1.setAnimationByName(0,"OUT_DIRTY",false);
+            
+            
         })
+        
         game.time.events.add(1500,function(){
             platformGroup.alpha=1
             platform1.setAnimationByName(0,"STAR_DIRTY",false);
@@ -1304,8 +1340,11 @@ var greenRescue = function(){
             
 			sceneGroup = game.add.group()
 			
+            
 			createBackground()
 			addParticles()
+            
+            
                         			
             morning = game.add.audio('morning')
             game.sound.setDecodedCallback(morning, function(){
@@ -1316,7 +1355,13 @@ var greenRescue = function(){
             game.sound.setDecodedCallback(night, function(){
                     night.loopFull(0.6)
             }, this);
+            
+            danced = game.add.audio('danced')
+            game.sound.setDecodedCallback(danced, function(){
+                    danced.loopFull(0.7)
+            }, this);
             night.stop();
+            
             game.onPause.add(function(){
                 game.sound.mute = true
             } , this);
@@ -1334,6 +1379,8 @@ var greenRescue = function(){
             createOverlay()
             
             animateScene()
+            
+            
             
 		},
 		show: function(event){
