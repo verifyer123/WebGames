@@ -1,0 +1,55 @@
+
+skeleton.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+barco/barco1
+  rotate: false
+  xy: 2, 90
+  size: 166, 148
+  orig: 166, 148
+  offset: 0, 0
+  index: -1
+barco/barco2
+  rotate: true
+  xy: 170, 42
+  size: 86, 154
+  orig: 86, 154
+  offset: 0, 0
+  index: -1
+barco/barco4
+  rotate: true
+  xy: 2, 2
+  size: 86, 166
+  orig: 86, 166
+  offset: 0, 0
+  index: -1
+barco/olas1
+  rotate: false
+  xy: 326, 83
+  size: 150, 45
+  orig: 150, 45
+  offset: 0, 0
+  index: -1
+barco/olas2
+  rotate: true
+  xy: 170, 130
+  size: 108, 151
+  orig: 108, 151
+  offset: 0, 0
+  index: -1
+barco/olas4
+  rotate: true
+  xy: 323, 130
+  size: 108, 151
+  orig: 108, 151
+  offset: 0, 0
+  index: -1
+water
+  rotate: false
+  xy: 170, 19
+  size: 67, 21
+  orig: 67, 21
+  offset: 0, 0
+  index: -1

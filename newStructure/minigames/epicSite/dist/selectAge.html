@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Select your age</title>
+	<!--<link rel="stylesheet" href="css/modal.css">-->
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
+
+	<audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+	<audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+	<audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+	<audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+	<!--<link rel="stylesheet" href="css/modal.css">-->
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
+
+	<script>var language = "EN";</script>
+
+	<script>
+		//AQUI VA PARA SABER EL LENGUAGE
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+		var language;
+		language = getParameterByName("language");
+
+		if(language === null){
+			var lengua;
+			//lengua = navigator.language || navigator.userLanguage;
+			//language = eval("'" + lengua + "'").toUpperCase();
+			language= "EN";
+		}else{
+			language.toUpperCase();
+		}
+
+	</script>
+
+	<script>
+		var cut = document.getElementById("cut");
+		cut.play();
+	</script>
+
+</head>
+<body>
+
+<!-- Pass Recover Modal-->
+<div id="age" class="modal">
+
+	<!-- Modal content -->
+	<div class="modal-content container" >
+		<div class="navigation">
+			<!--<button class="closeModal close" onclick="pop.play()"></button>-->
+		</div>
+		<!-- Modal header -->
+		<div class="modal-header">
+			<div class="topImg">
+				<img class="logo" src="images/age.png"/>
+			</div>
+			<h2><div class="textModal27" style="font-size: 3vh;">- Select your age -</div></h2><br>
+			<div id="TimeLine-Age">
+				<div id="containerButtonsAge">
+					<div class="buttonAge">5</div>
+					<div class="buttonAge">6</div>
+					<div class="buttonAge">7</div>
+					<div class="buttonAge">8</div>
+					<div class="buttonAge">9</div>
+					<div class="buttonAge">10+</div>
+				</div>
+				<div class="lineAge"></div>
+			</div>
+		</div>
+
+		<!-- Modal body Text box and sumbit button-->
+		<div class="modal-body"><br>
+			<button type="submit" id="ok" class="okBtn" style="width: 40%"><div class="textModal3" onclick="magic.play()">OK</div></button>
+		</div>
+	</div>
+</div>
+
+<style>
+	/*AGE*/
+
+	.lineAge{
+		height: 2vh;
+		max-height: 15px;
+		width: 100%;
+		background-color: #e6e6e6;
+		border-radius: 2vh;
+		margin-bottom: 2vh;
+	}
+
+	#containerButtonsAge{
+		position: absolute;
+		height: 70%;
+		width: 100%;
+		left:0;
+		border-radius: 2vh;
+		margin-bottom: 2vh;
+		display: flex;
+		align-content: center;
+		justify-content: space-around;
+	}
+
+	.buttonAge {
+		margin-top: -3%;
+		height: 5vh;
+		width: 5vh;
+		border-radius: 50%;
+		background-color: #808080;
+		color: #FFF;
+		font-family: 'Open Sans', sans-serif;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+	}
+
+	.buttonSelect{
+		height: 5vh;
+		width: 5vh;
+		/*margin-top: -6%;*/
+		border-radius: 50%;
+		background-color: #3ec4ff;
+		border:0.8vh solid #999999;
+	}
+
+
+</style>
+
+<script>
+	var ageModal = function () {
+		var currentCallback
+		var currentAge
+
+		var popAudio = new Audio('sounds/pop.mp3');
+
+		$(".buttonAge").click(function(){
+			$(".buttonAge").removeClass("buttonSelect");
+			$(this).addClass("buttonSelect");
+			currentAge = parseInt($(this).text())
+			popAudio.play()
+
+		});
+
+		$(".close").click(function() {
+			$("#age").modal('hide');
+		});
+
+		$("#ok").click(function() {
+			if(typeof currentAge === "number") {
+				$("#age").modal('hide');
+				popAudio.play()
+				localStorage.setItem("age", currentAge)
+				currentCallback()
+			}
+		});
+
+		return {
+			setCallback:function (callback) {
+				currentCallback = callback
+			},
+		}
+
+	}()
+
+</script>
+
+<script src="js/languages.js"></script>
+</body>
+</html>

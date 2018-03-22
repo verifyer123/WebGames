@@ -1,0 +1,97 @@
+
+fish.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/body
+  rotate: false
+  xy: 2, 13
+  size: 132, 113
+  orig: 132, 113
+  offset: 0, 0
+  index: -1
+normal1/cheek
+  rotate: false
+  xy: 167, 47
+  size: 40, 40
+  orig: 40, 40
+  offset: 0, 0
+  index: -1
+normal1/eye_l
+  rotate: false
+  xy: 191, 17
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+normal1/eye_r
+  rotate: false
+  xy: 191, 32
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+normal1/eyebrow_l
+  rotate: false
+  xy: 164, 5
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+normal1/eyebrow_r
+  rotate: false
+  xy: 2, 2
+  size: 10, 9
+  orig: 10, 9
+  offset: 0, 0
+  index: -1
+normal1/fin_1
+  rotate: true
+  xy: 136, 68
+  size: 19, 29
+  orig: 19, 29
+  offset: 0, 0
+  index: -1
+normal1/fin_2
+  rotate: false
+  xy: 164, 24
+  size: 25, 21
+  orig: 25, 21
+  offset: 0, 0
+  index: -1
+normal1/fin_3
+  rotate: false
+  xy: 210, 103
+  size: 43, 23
+  orig: 43, 23
+  offset: 0, 0
+  index: -1
+normal1/fin_4
+  rotate: false
+  xy: 209, 12
+  size: 45, 54
+  orig: 45, 54
+  offset: 0, 0
+  index: -1
+normal1/fin_5
+  rotate: false
+  xy: 210, 68
+  size: 42, 33
+  orig: 42, 33
+  offset: 0, 0
+  index: -1
+normal1/fin_6
+  rotate: true
+  xy: 136, 6
+  size: 60, 26
+  orig: 60, 26
+  offset: 0, 0
+  index: -1
+normal1/mouth
+  rotate: true
+  xy: 136, 89
+  size: 37, 72
+  orig: 37, 72
+  offset: 0, 0
+  index: -1

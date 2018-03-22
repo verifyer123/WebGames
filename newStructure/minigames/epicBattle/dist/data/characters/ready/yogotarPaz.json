@@ -1,0 +1,42 @@
+{
+	"category":"yogotar",
+	"attacks": {
+		"normal": [
+			{
+				"id": "fireFlame2",
+				"attachment": "particle2",
+				"delay": 450,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "fireballSpecial2",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Paz/paz.json",
+	"name": "Paz",
+	"spine": {
+		"options": {
+			"scale": 0.85,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/paz/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "fire"
+	},
+	"visuals": {
+		"shadowScaleX": 0.8,
+		"shadowY": -7,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

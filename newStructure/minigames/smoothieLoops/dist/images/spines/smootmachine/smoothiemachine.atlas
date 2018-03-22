@@ -1,0 +1,223 @@
+
+smoothiemachine.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_10
+  rotate: false
+  xy: 879, 867
+  size: 61, 60
+  orig: 61, 60
+  offset: 0, 0
+  index: -1
+normal/Capa_13
+  rotate: false
+  xy: 975, 939
+  size: 30, 83
+  orig: 30, 83
+  offset: 0, 0
+  index: -1
+normal/Capa_5
+  rotate: false
+  xy: 2, 63
+  size: 76, 102
+  orig: 76, 102
+  offset: 0, 0
+  index: -1
+normal/bannana
+  rotate: false
+  xy: 132, 171
+  size: 28, 46
+  orig: 28, 46
+  offset: 0, 0
+  index: -1
+normal/bar
+  rotate: false
+  xy: 2, 2
+  size: 76, 59
+  orig: 76, 59
+  offset: 0, 0
+  index: -1
+normal/base
+  rotate: false
+  xy: 349, 569
+  size: 232, 54
+  orig: 232, 54
+  offset: 0, 0
+  index: -1
+normal/coffie
+  rotate: true
+  xy: 254, 303
+  size: 26, 35
+  orig: 26, 35
+  offset: 0, 0
+  index: -1
+normal/conveyor_belt
+  rotate: true
+  xy: 254, 331
+  size: 180, 38
+  orig: 180, 38
+  offset: 0, 0
+  index: -1
+normal/front_machine
+  rotate: false
+  xy: 349, 625
+  size: 361, 397
+  orig: 361, 397
+  offset: 0, 0
+  index: -1
+normal/gear_1
+  rotate: false
+  xy: 712, 860
+  size: 165, 162
+  orig: 165, 162
+  offset: 0, 0
+  index: -1
+normal/gear_2
+  rotate: false
+  xy: 879, 929
+  size: 94, 93
+  orig: 94, 93
+  offset: 0, 0
+  index: -1
+normal/gear_3
+  rotate: false
+  xy: 712, 754
+  size: 104, 104
+  orig: 104, 104
+  offset: 0, 0
+  index: -1
+normal/glass
+  rotate: false
+  xy: 132, 219
+  size: 63, 76
+  orig: 63, 76
+  offset: 0, 0
+  index: -1
+normal/glow
+  rotate: false
+  xy: 2, 167
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+normal/hams
+  rotate: true
+  xy: 818, 779
+  size: 79, 50
+  orig: 79, 50
+  offset: 0, 0
+  index: -1
+normal/hatch
+  rotate: false
+  xy: 2, 297
+  size: 250, 214
+  orig: 250, 214
+  offset: 0, 0
+  index: -1
+normal/hose_blender
+  rotate: true
+  xy: 349, 524
+  size: 43, 135
+  orig: 43, 135
+  offset: 0, 0
+  index: -1
+normal/hose_ing
+  rotate: false
+  xy: 294, 418
+  size: 42, 93
+  orig: 42, 93
+  offset: 0, 0
+  index: -1
+normal/hose_milk
+  rotate: true
+  xy: 583, 589
+  size: 34, 114
+  orig: 34, 114
+  offset: 0, 0
+  index: -1
+normal/ice
+  rotate: true
+  xy: 80, 104
+  size: 61, 42
+  orig: 61, 42
+  offset: 0, 0
+  index: -1
+normal/legs
+  rotate: false
+  xy: 583, 569
+  size: 53, 18
+  orig: 53, 18
+  offset: 0, 0
+  index: -1
+normal/ligth_a
+  rotate: false
+  xy: 712, 654
+  size: 35, 98
+  orig: 35, 98
+  offset: 0, 0
+  index: -1
+normal/machine
+  rotate: false
+  xy: 2, 513
+  size: 345, 509
+  orig: 345, 509
+  offset: 0, 0
+  index: -1
+normal/milk
+  rotate: false
+  xy: 1007, 979
+  size: 14, 43
+  orig: 14, 43
+  offset: 0, 0
+  index: -1
+normal/minigear_1
+  rotate: false
+  xy: 712, 629
+  size: 24, 23
+  orig: 24, 23
+  offset: 0, 0
+  index: -1
+normal/parts_hams
+  rotate: false
+  xy: 486, 541
+  size: 71, 26
+  orig: 71, 26
+  offset: 0, 0
+  index: -1
+normal/smoothieb
+  rotate: false
+  xy: 749, 729
+  size: 38, 23
+  orig: 38, 23
+  offset: 0, 0
+  index: -1
+normal/smoothiec
+  rotate: false
+  xy: 294, 393
+  size: 39, 23
+  orig: 39, 23
+  offset: 0, 0
+  index: -1
+normal/smoothief
+  rotate: true
+  xy: 942, 890
+  size: 37, 22
+  orig: 37, 22
+  offset: 0, 0
+  index: -1
+normal/strawberry
+  rotate: true
+  xy: 818, 754
+  size: 23, 37
+  orig: 23, 37
+  offset: 0, 0
+  index: -1
+normal/top
+  rotate: false
+  xy: 197, 243
+  size: 51, 52
+  orig: 51, 52
+  offset: 0, 0
+  index: -1

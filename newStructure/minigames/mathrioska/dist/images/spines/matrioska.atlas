@@ -1,0 +1,55 @@
+
+matrioska.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bot_1
+  rotate: false
+  xy: 2, 2
+  size: 563, 365
+  orig: 563, 365
+  offset: 0, 0
+  index: -1
+normal/bot_2
+  rotate: false
+  xy: 579, 359
+  size: 368, 255
+  orig: 368, 255
+  offset: 0, 0
+  index: -1
+normal/bot_3
+  rotate: false
+  xy: 567, 49
+  size: 177, 115
+  orig: 177, 115
+  offset: 0, 0
+  index: -1
+normal/last
+  rotate: false
+  xy: 748, 179
+  size: 108, 178
+  orig: 108, 178
+  offset: 0, 0
+  index: -1
+normal/top_1
+  rotate: false
+  xy: 2, 369
+  size: 575, 614
+  orig: 575, 614
+  offset: 0, 0
+  index: -1
+normal/top_2
+  rotate: false
+  xy: 579, 616
+  size: 375, 367
+  orig: 375, 367
+  offset: 0, 0
+  index: -1
+normal/top_3
+  rotate: false
+  xy: 567, 166
+  size: 179, 191
+  orig: 179, 191
+  offset: 0, 0
+  index: -1

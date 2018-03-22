@@ -1,0 +1,24 @@
+@font-face{
+	font-family: 'VAGRounded';
+	src: url('../fonts/VAGRoundedStd-Bold.otf');
+}
+
+@font-face{
+	font-family: 'Bronic';
+	src: url('../fonts/bronic.ttf');
+}
+
+.custom-font{
+	font-family: "VAGRounded";
+	opacity: 1;
+	height: 0%;
+	width: 0%;
+}
+
+
+.bronic-font{
+	font-family: "Bronic";
+	opacity: 1;
+	height: 0%;
+	width: 0%;
+}

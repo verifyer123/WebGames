@@ -1,0 +1,47 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterbeamSpecial3",
+				"attachment": "particle3",
+				"delay": 280,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "waterball2",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			},
+			{
+				"id": "waterball2",
+				"attachment": "particle3",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/serpenWater1/",
+	"name": "Tsunami Snake",
+	"spine": {
+		"options": {
+			"scale": 0.8,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/serpenWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 1,
+		"shadowScaleY": 1.5,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

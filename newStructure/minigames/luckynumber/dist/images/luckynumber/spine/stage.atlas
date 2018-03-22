@@ -1,0 +1,40 @@
+
+stage.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_3
+  rotate: false
+  xy: 2, 23
+  size: 712, 926
+  orig: 712, 926
+  offset: 0, 0
+  index: -1
+normal/Capa_6
+  rotate: false
+  xy: 2, 2
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: -1
+normal/floor
+  rotate: true
+  xy: 716, 245
+  size: 704, 196
+  orig: 704, 196
+  offset: 0, 0
+  index: -1
+
+stage2.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/luz
+  rotate: false
+  xy: 2, 2
+  size: 474, 826
+  orig: 474, 826
+  offset: 0, 0
+  index: -1

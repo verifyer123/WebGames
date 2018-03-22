@@ -1,0 +1,336 @@
+{"frames": [
+
+{
+	"filename": "Aligot",
+	"frame": {"x":615,"y":1029,"w":193,"h":157},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":157},
+	"sourceSize": {"w":193,"h":157},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "background",
+	"frame": {"x":810,"y":1007,"w":137,"h":137},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":137,"h":137},
+	"sourceSize": {"w":137,"h":137},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Bockwurst",
+	"frame": {"x":1,"y":698,"w":234,"h":156},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":234,"h":156},
+	"sourceSize": {"w":234,"h":156},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Brezel",
+	"frame": {"x":237,"y":730,"w":230,"h":152},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":230,"h":152},
+	"sourceSize": {"w":230,"h":152},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Calgary Beef Hash",
+	"frame": {"x":882,"y":816,"w":216,"h":187},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":216,"h":187},
+	"sourceSize": {"w":216,"h":187},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Canada",
+	"frame": {"x":628,"y":162,"w":282,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
+	"sourceSize": {"w":282,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Chile en nogada",
+	"frame": {"x":1,"y":1037,"w":225,"h":149},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":225,"h":149},
+	"sourceSize": {"w":225,"h":149},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "China",
+	"frame": {"x":334,"y":198,"w":282,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
+	"sourceSize": {"w":282,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Crépes",
+	"frame": {"x":569,"y":482,"w":244,"h":152},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":244,"h":152},
+	"sourceSize": {"w":244,"h":152},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Dim sum",
+	"frame": {"x":949,"y":1005,"w":222,"h":181},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":222,"h":181},
+	"sourceSize": {"w":222,"h":181},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "France",
+	"frame": {"x":628,"y":1,"w":282,"h":159},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":159},
+	"sourceSize": {"w":282,"h":159},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Gaeng kiew wan",
+	"frame": {"x":912,"y":1,"w":250,"h":198},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":250,"h":198},
+	"sourceSize": {"w":250,"h":198},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Germany",
+	"frame": {"x":618,"y":322,"w":282,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
+	"sourceSize": {"w":282,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Italy",
+	"frame": {"x":902,"y":360,"w":282,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
+	"sourceSize": {"w":282,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Kartoffelbrei",
+	"frame": {"x":687,"y":848,"w":193,"h":157},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":157},
+	"sourceSize": {"w":193,"h":157},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "life_box",
+	"frame": {"x":667,"y":791,"w":140,"h":55},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
+	"sourceSize": {"w":140,"h":55},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "México",
+	"frame": {"x":1,"y":333,"w":282,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
+	"sourceSize": {"w":282,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "name",
+	"frame": {"x":469,"y":791,"w":196,"h":67},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":196,"h":67},
+	"sourceSize": {"w":196,"h":67},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Pad thai",
+	"frame": {"x":1,"y":493,"w":278,"h":203},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":278,"h":203},
+	"sourceSize": {"w":278,"h":203},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Panna cotta",
+	"frame": {"x":433,"y":1036,"w":180,"h":146},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":180,"h":146},
+	"sourceSize": {"w":180,"h":146},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Pasta",
+	"frame": {"x":924,"y":674,"w":226,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":140},
+	"sourceSize": {"w":226,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Pizza",
+	"frame": {"x":228,"y":1037,"w":203,"h":147},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":203,"h":147},
+	"sourceSize": {"w":203,"h":147},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Poutine",
+	"frame": {"x":881,"y":520,"w":234,"h":152},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":234,"h":152},
+	"sourceSize": {"w":234,"h":152},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Pozole",
+	"frame": {"x":1,"y":856,"w":228,"h":179},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":228,"h":179},
+	"sourceSize": {"w":228,"h":179},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Pudding au Chomeur",
+	"frame": {"x":231,"y":884,"w":226,"h":150},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":150},
+	"sourceSize": {"w":226,"h":150},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Ratatouille",
+	"frame": {"x":524,"y":636,"w":231,"h":153},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":231,"h":153},
+	"sourceSize": {"w":231,"h":153},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "shadow",
+	"frame": {"x":1,"y":1,"w":331,"h":330},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":331,"h":330},
+	"sourceSize": {"w":331,"h":330},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Shahe fen",
+	"frame": {"x":281,"y":518,"w":241,"h":210},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":241,"h":210},
+	"sourceSize": {"w":241,"h":210},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "smoke",
+	"frame": {"x":757,"y":636,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Som tam",
+	"frame": {"x":334,"y":1,"w":292,"h":195},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":292,"h":195},
+	"sourceSize": {"w":292,"h":195},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":815,"y":482,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Tacos",
+	"frame": {"x":459,"y":884,"w":226,"h":143},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":226,"h":143},
+	"sourceSize": {"w":226,"h":143},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Tallarines Lo Mein",
+	"frame": {"x":912,"y":201,"w":248,"h":157},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":248,"h":157},
+	"sourceSize": {"w":248,"h":157},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Thailand",
+	"frame": {"x":285,"y":358,"w":282,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":282,"h":158},
+	"sourceSize": {"w":282,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":815,"y":548,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":757,"y":731,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1187,"h":1187},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1fa2d3c7d720b0422f2a8304c2849941:790bb0b00c614af9f3ab9ec0dc308d59:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

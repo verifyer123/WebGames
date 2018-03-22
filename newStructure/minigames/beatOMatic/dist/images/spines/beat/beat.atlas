@@ -1,0 +1,62 @@
+
+beat.png
+size: 455,567
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beat/blue
+  rotate: false
+  xy: 239, 406
+  size: 214, 159
+  orig: 214, 159
+  offset: 0, 0
+  index: -1
+beat/bosina
+  rotate: true
+  xy: 350, 130
+  size: 106, 98
+  orig: 106, 98
+  offset: 0, 0
+  index: -1
+beat/bosina2
+  rotate: false
+  xy: 350, 42
+  size: 91, 86
+  orig: 91, 86
+  offset: 0, 0
+  index: -1
+beat/green
+  rotate: false
+  xy: 238, 238
+  size: 213, 166
+  orig: 213, 166
+  offset: 0, 0
+  index: -1
+beat/lightblue
+  rotate: false
+  xy: 2, 415
+  size: 235, 150
+  orig: 235, 150
+  offset: 0, 0
+  index: -1
+beat/purple
+  rotate: false
+  xy: 2, 238
+  size: 234, 175
+  orig: 234, 175
+  offset: 0, 0
+  index: -1
+beat/red
+  rotate: true
+  xy: 2, 2
+  size: 234, 160
+  orig: 234, 160
+  offset: 0, 0
+  index: -1
+beat/yellow
+  rotate: true
+  xy: 164, 19
+  size: 217, 184
+  orig: 217, 184
+  offset: 0, 0
+  index: -1

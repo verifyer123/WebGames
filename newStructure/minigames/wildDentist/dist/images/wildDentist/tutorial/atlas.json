@@ -1,0 +1,75 @@
+{"frames": [
+
+{
+	"filename": "button",
+	"frame": {"x":511,"y":1,"w":129,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
+	"sourceSize": {"w":129,"h":114},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "howEN",
+	"frame": {"x":1,"y":277,"w":638,"h":164},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":638,"h":164},
+	"sourceSize": {"w":638,"h":164},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "howES",
+	"frame": {"x":1,"y":117,"w":641,"h":158},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":641,"h":158},
+	"sourceSize": {"w":641,"h":158},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "introscreen",
+	"frame": {"x":1,"y":443,"w":581,"h":499},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":581,"h":499},
+	"sourceSize": {"w":581,"h":499},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pc",
+	"frame": {"x":189,"y":1,"w":320,"h":110},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":320,"h":110},
+	"sourceSize": {"w":320,"h":114},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "playEN",
+	"frame": {"x":99,"y":1,"w":88,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":0,"w":88,"h":32},
+	"sourceSize": {"w":96,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "playES",
+	"frame": {"x":1,"y":1,"w":96,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":31},
+	"sourceSize": {"w":96,"h":31},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":643,"h":943},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a2a740e4814db48080f573387f38595d:8c4b6a7cec6ea5d0e09fc99939424060:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

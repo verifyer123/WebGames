@@ -1,0 +1,118 @@
+
+meteor.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/estela_1
+  rotate: false
+  xy: 2, 221
+  size: 242, 96
+  orig: 242, 96
+  offset: 0, 0
+  index: -1
+normal/estela_2
+  rotate: false
+  xy: 2, 416
+  size: 288, 94
+  orig: 288, 94
+  offset: 0, 0
+  index: -1
+normal/estela_3
+  rotate: false
+  xy: 2, 319
+  size: 252, 95
+  orig: 252, 95
+  offset: 0, 0
+  index: -1
+normal/estela_4
+  rotate: false
+  xy: 292, 420
+  size: 239, 90
+  orig: 239, 90
+  offset: 0, 0
+  index: -1
+normal/estela_5
+  rotate: false
+  xy: 2, 124
+  size: 236, 95
+  orig: 236, 95
+  offset: 0, 0
+  index: -1
+normal/estela_6
+  rotate: false
+  xy: 2, 31
+  size: 179, 91
+  orig: 179, 91
+  offset: 0, 0
+  index: -1
+normal/explosion_1
+  rotate: false
+  xy: 183, 30
+  size: 72, 92
+  orig: 72, 92
+  offset: 0, 0
+  index: -1
+normal/explosion_2
+  rotate: false
+  xy: 256, 304
+  size: 100, 110
+  orig: 100, 110
+  offset: 0, 0
+  index: -1
+normal/explosion_3
+  rotate: false
+  xy: 862, 378
+  size: 128, 132
+  orig: 128, 132
+  offset: 0, 0
+  index: -1
+normal/explosion_4
+  rotate: true
+  xy: 703, 367
+  size: 143, 157
+  orig: 143, 157
+  offset: 0, 0
+  index: -1
+normal/explosion_5
+  rotate: true
+  xy: 533, 359
+  size: 151, 168
+  orig: 151, 168
+  offset: 0, 0
+  index: -1
+normal/meteorito
+  rotate: false
+  xy: 358, 351
+  size: 73, 67
+  orig: 73, 67
+  offset: 0, 0
+  index: -1
+normal/roca_1
+  rotate: false
+  xy: 433, 399
+  size: 18, 19
+  orig: 18, 19
+  offset: 0, 0
+  index: -1
+normal/roca_2
+  rotate: false
+  xy: 992, 485
+  size: 29, 25
+  orig: 29, 25
+  offset: 0, 0
+  index: -1
+normal/roca_3
+  rotate: false
+  xy: 358, 334
+  size: 12, 15
+  orig: 12, 15
+  offset: 0, 0
+  index: -1
+normal/roca_4
+  rotate: false
+  xy: 2, 2
+  size: 16, 26
+  orig: 16, 26
+  offset: 0, 0
+  index: -1

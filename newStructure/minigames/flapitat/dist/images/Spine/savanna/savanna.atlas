@@ -1,0 +1,104 @@
+
+savanna.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal4/book
+  rotate: false
+  xy: 2, 453
+  size: 594, 568
+  orig: 594, 568
+  offset: 0, 0
+  index: -1
+normal4/cloud_1
+  rotate: false
+  xy: 300, 181
+  size: 205, 56
+  orig: 205, 56
+  offset: 0, 0
+  index: -1
+normal4/cloud_2
+  rotate: false
+  xy: 2, 2
+  size: 168, 46
+  orig: 168, 46
+  offset: 0, 0
+  index: -1
+normal4/floor
+  rotate: false
+  xy: 2, 307
+  size: 522, 144
+  orig: 522, 144
+  offset: 0, 0
+  index: -1
+normal4/grass_1
+  rotate: true
+  xy: 598, 537
+  size: 484, 85
+  orig: 484, 85
+  offset: 0, 0
+  index: -1
+normal4/grass_2
+  rotate: true
+  xy: 685, 575
+  size: 446, 95
+  orig: 446, 95
+  offset: 0, 0
+  index: -1
+normal4/low_label
+  rotate: false
+  xy: 782, 608
+  size: 125, 39
+  orig: 125, 39
+  offset: 0, 0
+  index: -1
+normal4/mountains
+  rotate: false
+  xy: 300, 239
+  size: 418, 66
+  orig: 418, 66
+  offset: 0, 0
+  index: -1
+normal4/rock_1
+  rotate: false
+  xy: 418, 104
+  size: 86, 75
+  orig: 86, 75
+  offset: 0, 0
+  index: -1
+normal4/rock_2
+  rotate: false
+  xy: 782, 649
+  size: 180, 91
+  orig: 180, 91
+  offset: 0, 0
+  index: -1
+normal4/sun
+  rotate: false
+  xy: 300, 63
+  size: 116, 116
+  orig: 116, 116
+  offset: 0, 0
+  index: -1
+normal4/top_label
+  rotate: true
+  xy: 526, 327
+  size: 124, 49
+  orig: 124, 49
+  offset: 0, 0
+  index: -1
+normal4/tree
+  rotate: false
+  xy: 2, 50
+  size: 296, 255
+  orig: 296, 255
+  offset: 0, 0
+  index: -1
+normal4/tree_shadow
+  rotate: true
+  xy: 782, 742
+  size: 279, 240
+  orig: 279, 240
+  offset: 0, 0
+  index: -1

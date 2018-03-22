@@ -1,0 +1,139 @@
+
+green_monster.png
+size: 172,541
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Capa_20
+  rotate: true
+  xy: 2, 2
+  size: 62, 54
+  orig: 62, 54
+  offset: 0, 0
+  index: -1
+arm
+  rotate: false
+  xy: 121, 407
+  size: 32, 132
+  orig: 32, 132
+  offset: 0, 0
+  index: -1
+arm2
+  rotate: false
+  xy: 2, 128
+  size: 95, 59
+  orig: 95, 59
+  offset: 0, 0
+  index: -1
+chik
+  rotate: true
+  xy: 122, 283
+  size: 42, 41
+  orig: 42, 41
+  offset: 0, 0
+  index: -1
+crumb
+  rotate: false
+  xy: 147, 59
+  size: 23, 21
+  orig: 23, 21
+  offset: 0, 0
+  index: -1
+eye
+  rotate: false
+  xy: 97, 3
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 189
+  size: 96, 90
+  orig: 96, 90
+  offset: 0, 0
+  index: -1
+helmet
+  rotate: true
+  xy: 58, 3
+  size: 61, 37
+  orig: 61, 37
+  offset: 0, 0
+  index: -1
+leg
+  rotate: false
+  xy: 100, 160
+  size: 63, 54
+  orig: 63, 54
+  offset: 0, 0
+  index: -1
+machine
+  rotate: false
+  xy: 2, 402
+  size: 117, 137
+  orig: 117, 137
+  offset: 0, 0
+  index: -1
+machine1
+  rotate: false
+  xy: 152, 131
+  size: 18, 27
+  orig: 18, 27
+  offset: 0, 0
+  index: -1
+machine2
+  rotate: false
+  xy: 155, 427
+  size: 7, 48
+  orig: 7, 48
+  offset: 0, 0
+  index: -1
+mouth
+  rotate: true
+  xy: 99, 82
+  size: 76, 51
+  orig: 76, 51
+  offset: 0, 0
+  index: -1
+mouth_a
+  rotate: true
+  xy: 122, 327
+  size: 78, 32
+  orig: 78, 32
+  offset: 0, 0
+  index: -1
+nouse
+  rotate: true
+  xy: 98, 35
+  size: 45, 47
+  orig: 45, 47
+  offset: 0, 0
+  index: -1
+rock
+  rotate: true
+  xy: 2, 281
+  size: 119, 118
+  orig: 119, 118
+  offset: 0, 0
+  index: -1
+sanwichito
+  rotate: false
+  xy: 2, 66
+  size: 94, 60
+  orig: 94, 60
+  offset: 0, 0
+  index: -1
+torso
+  rotate: false
+  xy: 100, 216
+  size: 70, 63
+  orig: 70, 63
+  offset: 0, 0
+  index: -1
+wave
+  rotate: false
+  xy: 155, 477
+  size: 14, 62
+  orig: 14, 62
+  offset: 0, 0
+  index: -1

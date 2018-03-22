@@ -1,0 +1,328 @@
+<html><head><meta charset="utf-8">
+<meta http-equiv="cache-control" content="max-age=0">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+<meta http-equiv="pragma" content="no-cache">
+
+    <title>Yogome Minigame</title>
+
+    <!--Style sheets-->
+    <link rel="stylesheet" type="text/css" href="../../shared/minigames/css/custom_fonts.css">
+    <link rel="stylesheet" type="text/css" href="../../shared/minigames/css/minigame.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/custom_fonts.css">
+    
+</head>
+<body>
+    <div id="logoMath"><img src="images/logoMath.png"></div>
+<div id="orientation-overlay" style="visibility: hidden"></div>
+<div class="custom-font">
+    <p>Created at Yogome, inc.</p>
+    <p>www.yogome.com</p>
+</div>
+
+<script>
+    var popSound = new Audio('sounds/pop.mp3');
+    var magicSound = new Audio('sounds/magic.mp3');
+    var lockSound = new Audio('sounds/lock.mp3');    
+    var localizationData = {
+		"EN":{
+            "pin":"Write PIN",
+            "Nickname": "Nickname",
+            "start":"Start Game",
+            "player":"Player",
+            "ready":"Ready!",
+            "waiting":"Waiting for your Oponent"
+		},
+
+		"ES":{
+            "pin":"Escribe el PIN",
+            "Nickname": "Apodo",
+            "start":"Empezar",            
+            "player":"Jugador",
+            "ready":"¡Listo!",
+            "waiting":"Esperando a tu rival"
+        }
+        };
+        var language = parent.language
+    var selectYogotarName;
+	var onClientInit = function(e){
+		$("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting);
+//		var div_resultado = document.getElementById("resultado");
+//		var btn_start = document.getElementById("start");
+//        var dataInfo =  document.getElementById("dataInfo");
+//        $("#settings").append('<div id ="readyPlayerStroke">' + localizationData[language].player + " " +  cliente.numPlayer + " " + localizationData[language].ready +'</div><div id ="readyPlayer">' + localizationData[language].player + " " +  1 + " " + localizationData[language].ready +'</div><div id="waitOponent">' + localizationData[language].waiting + '<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+//		//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+//        $("#infoContainer").css("height",'0');
+//        $("#infoContainer").css("visibility",'hidden');
+//        //dataInfo.style.visibility = 'hidden';
+//		//btn_start.style.visibility = 'hidden';
+//        $("#start").hide();
+//        $("#arrowRight").hide();
+//        $("#arrowLeft").hide();
+//        $("input").prop("disabled",true);
+//
+//		if(cliente.numPlayer!= null){
+//			document.getElementById("start").disabled =true;
+//		}
+	}
+
+	function onPlayersReady(event) {
+		cliente.removeEventListener('onClientInit', onClientInit);
+		cliente.removeEventListener('onGameFull', onGameFull);
+		cliente.removeEventListener('showPossibleAnswers', onPlayersReady);
+		window.open("https://play.yogome.com/epicweb/minigames/mathClient/operations.html", "_self")
+//		window.open("../mathClient/operations.html", "_self")
+	}
+
+	function onError() {
+		alert("No se encuentra la partida");
+		$("#infoContainer").css("height",'100%');
+		$("#infoContainer").css("visibility",'visible');
+		//dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
+		$("#start").show();
+		$("#arrowRight").show();
+		$("#arrowLeft").show();
+		$("input").prop("disabled",false);
+		$(".loading").remove();
+
+	}
+
+	var onGameFull = function(){
+		alert("La partida ya se encuentra ocupada");
+		$("#infoContainer").css("height",'100%');
+		$("#infoContainer").css("visibility",'visible');
+		//dataInfo.style.visibility = 'hidden';
+		//btn_start.style.visibility = 'hidden';
+		$("#start").show();
+		$("#arrowRight").show();
+		$("#arrowLeft").show();
+		$("input").prop("disabled",false);
+		$(".loading").remove();
+	}
+
+	cliente = parent.cliente;
+	function startButton(){
+        magicSound.play();
+        if($("#idGame").val() != "" && $("#nickname").val() != ""){
+            var idGame = cliente.id_game || document.getElementById("idGame").value;
+            var player = {
+                nickname: document.getElementById("nickname").value,
+                avatar: selectYogotarName,
+                life: 100,
+                ready:false
+            }
+            cliente.addEventListener('onClientInit', onClientInit);
+            cliente.addEventListener('onGameFull', onGameFull);
+            cliente.startGame = onPlayersReady
+            cliente.start(player, idGame, onError);
+			//div_resultado.innerText = "Player: "+cliente.numPlayer + "Ready!";
+			$("#infoContainer").css("height",'0');
+			$("#infoContainer").css("visibility",'hidden');
+			//dataInfo.style.visibility = 'hidden';
+			//btn_start.style.visibility = 'hidden';
+			$("#start").hide();
+			$("#arrowRight").hide();
+			$("#arrowLeft").hide();
+			$("input").prop("disabled",true);
+			$("#settings").append('<div class="loading"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>');
+
+//			if(cliente.numPlayer!= null){
+//				document.getElementById("start").disabled =true;
+//			}
+
+        }
+
+	}
+</script>
+    <div id="MenuYogotar">
+        <div id="arrowLeft" class="arrow-menu"><img src="images/arrow_left.png"></div>
+        <div id="arrowRight" class="arrow-menu"><img src="images/arrow_right.png"></div>
+    </div>
+<div id="settings">
+    <section id="nameYogo"></section>
+        <section id="avatar">
+            
+        </section>
+    <section id="infoContainer">
+        <section id="dataInfo">
+        <div id="pin">
+            <p class="text0">Write PIN</p>
+            <input id="idGame" type="number" min="0" inputmode="numeric" placeholder="PIN">
+        </div>
+        <p class="text1">Nickname</p>
+        <input type="text" id="nickname" placeholder="Player" maxlength="15">
+        </section>    
+        <hr>
+        <input type="button" id="start" onclick="startButton()" style="box-shadow: 0px 1vh 0px #1b3473;">
+        <div id="resultado"></div>
+    </section>
+</div>
+
+    <script>
+   
+    $(".text0").text(localizationData[language].pin);  
+    $(".text1").text(localizationData[language].Nickname);  
+    $("#start").attr("value",localizationData[language].start);          
+        
+		if((cliente)&&(cliente.id_game)){
+			var pinSection = document.getElementById("pin");
+			pinSection.style.display = 'none';
+			$("#idGame").val(cliente.id_game)
+		}
+
+		var yogotarCharacters = [
+            {
+                index:0,
+                name:"eagle",
+                nameText:"Eagle",
+                img:"images/yogotars/eagle.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"luna",
+                nameText:"Luna",
+                img:"images/yogotars/luna.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"dinamita",
+                nameText:"Dinamita",
+                img:"images/yogotars/dinamita.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"estrella",
+                nameText:"Estrella",
+                img:"images/yogotars/estrella.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"arthurius",
+                nameText:"Arthurius",
+                img:"images/yogotars/arthurius.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"tomiko",
+                nameText:"Tomiko",
+                img:"images/yogotars/tomiko.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"justice",
+                nameText:"Justice",
+                img:"images/yogotars/justice.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"oona",
+                nameText:"Oona",
+                img:"images/yogotars/oona.png",
+                unlock: true
+            },
+            {   
+                index:0,
+                name:"razzle",
+                nameText:"Razzle",
+                img:"images/yogotars/razzle.png",
+                unlock: true
+            }
+        ];
+        
+                $("#nameYogo").append('<div id="nameYogotarStroke">'+yogotarCharacters[0].nameText +'</div><div id="nameYogotar">'+yogotarCharacters[0].nameText +'</div>');
+            for(var i = 0;i<=yogotarCharacters.length-1;i++){
+                yogotarCharacters[i].index = i;
+                $("#avatar").append('<div id="SelectYogotar'+yogotarCharacters[i].index+'" class="yogotarBlock"><img src="'+yogotarCharacters[i].img+'" /></div>');
+                if(!yogotarCharacters[i].unlock){
+                    $("#SelectYogotar"+yogotarCharacters[i].index).find("img").addClass("lockYogotar");
+                    $("#SelectYogotar"+yogotarCharacters[i].index).append("<div id='locked'><img src='images/lock.png'/></div>");
+                }
+                $("#SelectYogotar" + +yogotarCharacters[i].index).css("opacity",1-(i*1));
+            }
+                
+           selectYogotarName = yogotarCharacters[0].name;
+            var lengthAvatar = yogotarCharacters.length;
+            var YogoPosx = parseInt($("#SelectYogotar1").css("left"));
+            var counter = 0;
+//            console.log(YogoPosx);
+        
+            $("#arrowRight").click(function(){ 
+                lockSound.play();
+                $(this).css("padding-right","28%");  
+                $(this).animate({'padding-right':"30%"}, 50, 'linear');  
+                if(counter != lengthAvatar-1){   
+                    $("#arrowLeft").css("opacity",1);
+                    counter++;          
+                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("opacity",0);
+                $("#SelectYogotar" + +yogotarCharacters[counter-1].index).css("left",0);  
+                $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
+                $("#nameYogotarStroke").text(yogotarCharacters[counter].nameText);
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1);     
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear'); 
+                   
+                }
+                if(counter == lengthAvatar-1){
+                    $(this).css("opacity",0.5);
+                }
+                if(yogotarCharacters[counter].unlock){
+                   selectYogotarName = yogotarCharacters[counter].name; 
+                }else{
+                    selectYogotarName = null
+                }
+                
+        });
+      $("#arrowLeft").css("opacity",0.5);
+        $("#arrowLeft").click(function(){
+            lockSound.play();
+                $(this).css("padding-left","28%");  
+                $(this).animate({'padding-left':"30%"}, 50, 'linear'); 
+             if(counter != 0){   
+                $("#arrowRight").css("opacity",1);
+                counter--;
+                $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("opacity",0);
+                $("#SelectYogotar" + +yogotarCharacters[counter+1].index).css("left",0);  
+                $("#nameYogotar").text(yogotarCharacters[counter].nameText); 
+                $("#nameYogotarStroke").text(yogotarCharacters[counter].nameText); 
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("left","50%");     
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("opacity",1); 
+                $("#SelectYogotar" + +yogotarCharacters[counter].index).css("height","80%");  
+                $("#SelectYogotar" + +yogotarCharacters[counter].index ).animate({height: "100%"}, 50, 'linear');       
+                }
+                if(counter == 0){
+                    $(this).css("opacity",0.5);
+                }
+                
+                if(yogotarCharacters[counter].unlock){
+                   selectYogotarName = yogotarCharacters[counter].name; 
+                }else{
+                    selectYogotarName = null
+                }
+        });
+                
+        
+        $("input[type='text']").on('input',function(e){
+                          if($("#idGame").val() != "" && $("#nickname").val() != "" && selectYogotarName != null){
+                         $("#start").css("opacity",1);
+                     }else{
+                         $("#start").css("opacity",0.5);
+                     }
+                });
+        
+        
+    </script>
+    
+
+<script src="js/script.min.js"></script></body></html>

@@ -1,0 +1,97 @@
+
+geobeat.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bulb_idle
+  rotate: false
+  xy: 2, 38
+  size: 163, 168
+  orig: 163, 168
+  offset: 0, 0
+  index: -1
+normal/bulb_lose
+  rotate: false
+  xy: 516, 831
+  size: 163, 168
+  orig: 163, 168
+  offset: 0, 0
+  index: -1
+normal/bulb_win
+  rotate: false
+  xy: 167, 38
+  size: 163, 168
+  orig: 163, 168
+  offset: 0, 0
+  index: -1
+normal/eye_blink
+  rotate: false
+  xy: 583, 784
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+normal/eye_idle
+  rotate: false
+  xy: 681, 900
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+normal/eye_lose
+  rotate: false
+  xy: 847, 954
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+normal/eye_win
+  rotate: false
+  xy: 332, 106
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+normal/maquina
+  rotate: false
+  xy: 2, 208
+  size: 512, 791
+  orig: 512, 791
+  offset: 0, 0
+  index: -1
+normal/mouth_bip
+  rotate: false
+  xy: 332, 153
+  size: 103, 53
+  orig: 103, 53
+  offset: 0, 0
+  index: -1
+normal/mouth_bop
+  rotate: false
+  xy: 516, 564
+  size: 53, 53
+  orig: 53, 53
+  offset: 0, 0
+  index: -1
+normal/mouth_idle
+  rotate: false
+  xy: 2, 2
+  size: 210, 34
+  orig: 210, 34
+  offset: 0, 0
+  index: -1
+normal/mouth_lose
+  rotate: false
+  xy: 681, 947
+  size: 164, 52
+  orig: 164, 52
+  offset: 0, 0
+  index: -1
+normal/mouth_win
+  rotate: true
+  xy: 516, 619
+  size: 210, 65
+  orig: 210, 65
+  offset: 0, 0
+  index: -1

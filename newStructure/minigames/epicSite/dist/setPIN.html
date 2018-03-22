@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Set your PIN</title>
+	<link rel="stylesheet" href="css/modal.css">
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>
+
+	<audio preload="auto" id="pop"  src="sounds/pop.mp3"></audio>
+	<audio preload="auto" id="cut"  src="sounds/cut.mp3"></audio>
+	<audio preload="auto" id="magic" src="sounds/magic.mp3"></audio>
+	<audio preload="auto" id="cheers" src="sounds/cheers.mp3"></audio>
+	<!--<link rel="stylesheet" href="css/modal.css">-->
+	<!--&lt;!&ndash; Jquery &ndash;&gt;-->
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="application/javascript" ></script>-->
+
+	<script>var language = "EN";</script>
+
+	<script>
+		//AQUI VA PARA SABER EL LENGUAGE
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+		var language;
+		language = getParameterByName("language");
+
+		if(language === null){
+			var lengua;
+			//lengua = navigator.language || navigator.userLanguage;
+			//language = eval("'" + lengua + "'").toUpperCase();
+			language= "EN";
+		}else{
+			language.toUpperCase();
+		}
+
+	</script>
+
+	<script>
+		var cut = document.getElementById("cut");
+		cut.play();
+	</script>
+</head>
+<body>
+
+<!-- set PIN Modal-->
+<div id="pin" class="lgmodal">
+
+	<div class="lgmodal-content container-login" >
+		<div class="navigation">
+			<button class="closelgmodal close"></button>
+		</div>
+
+		<div class="lgmodal-header">
+			<h2><div style="font-size: 3vh; color: dimgrey;"}}>
+				SET YOUR PIN
+			</div>
+			</h2>
+		</div>
+
+		<div id="yogoContainer" class="lgmodal-body ">
+
+		</div>
+		<div class="containerPinPonit">
+			<div id="container1" style="width:25%"> <div class="pinPoint" id="Pin0"></div></div>
+			<div id="container2" style="width:25%"> <div class="pinPoint" id="Pin1"></div></div>
+			<div id="container3" style="width:25%"> <div class="pinPoint" id="Pin2"></div></div>
+			<div id="container4" style="width:25%"> <div class="pinPoint" id="Pin3"></div></div>
+		</div>
+		<div class="lgmodal-footer" style="display:flex">
+			<button type="submit" id="back" class="loginBtn bgOrange"><img src="images/backspace.png" /> </button>
+			<button type="submit" id="next" class="loginBtn bgGreen" style="opacity:0.5">
+				NEXT
+			</button>
+		</div>
+		<div id="loadSpace" class="loader" style="display:none">
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+
+	for(i=0;i<12;i++){
+		$("#yogoContainer").append('<div style="width:33.33%; display:inline-block;";> <div id="yogo' + (i+1) + '" class="yogoButton" ><div class="circle"><span class="textCircle">' + (i + 1) + '</span></div></div>');
+		$("#yogo" + (i + 1)).css("background-image", "url('images/yogotars/"+(i + 1)+".png')");
+	}
+
+	var pivot = 0;
+	var pinSelected = [];
+
+	$(".yogoButton").click(function(){
+		if(pivot < 4){
+			pinSelected[pivot] = parseInt($(this).children(".circle").find("span").text());
+			var img = $( this ).css( "background-image" );
+
+			$(this).addClass("buttonSelect");
+
+			$("#Pin"+pivot).removeClass("pinPoint");
+			$("#Pin"+pivot).addClass("imagenSelect");
+			$("#Pin"+pivot).css("background-image", img);
+			$("#Pin"+pivot).html('<div class="miniCircle"><span class="textCircle">'+pinSelected[pivot]+'</span></div>')
+
+			pivot++;
+		}
+		if(pivot === 4){
+			$("#next").css("opacity", 1);
+		}
+	});
+
+	$("#back").click(function(){
+		if(pivot > 0){
+			pivot--
+		}
+
+		var val = pinSelected[pinSelected.length - 1]
+		pinSelected.splice(-1,1)
+
+		$("#yogo"+val).removeClass("buttonSelect")
+		$("#Pin"+pivot).css("background-image", "")
+		$("#Pin"+pivot).removeClass("imagenSelect")
+		$("#Pin"+pivot).addClass("pinPoint")
+		$("#Pin"+pivot).html('')
+
+		$("#next").css("opacity", 0.5);
+	})
+
+	$(".close").click(function() {
+		$("#pin").modal('hide');
+	});
+
+	$("#next").click(function() {
+		if(pivot===4){
+			//TODO: set pin
+		}
+	});
+
+</script>
+
+<script src="js/languages.js"></script>
+</body>
+</html>
