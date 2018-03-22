@@ -778,10 +778,6 @@ var acorn = function(){
 
             background = game.add.tileSprite(0,0,game.world.width,961,'fondo')
             sceneGroup.add(background)
-			// acornSong = game.add.audio('acornSong')
-            // game.sound.setDecodedCallback(acornSong, function(){
-            //     acornSong.loopFull(0.6)
-            // }, this);
 
             game.onPause.add(function(){
                 game.sound.mute = true

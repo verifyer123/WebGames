@@ -116,6 +116,7 @@ var solarShieldSquad = function(){
     var currentDirection
     var currentTimeCharge
     
+    var solarShine
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -471,8 +472,16 @@ var solarShieldSquad = function(){
         shadow.anchor.setTo(0.5)
         shadow.scale.setTo(0.8)
         FXGroup.add(shadow)
+
+        solarShine = FXGroup.create(game.world.centerX+10,game.world.height, "atlas.solarS","sun_shine")
+        solarShine.anchor.setTo(0.5)
+        solarShine.scale.setTo(1.2)
+
+        var solarTween = game.add.tween(solarShine.scale).to({x:1.5,y:1.5},800,Phaser.Easing.linear,true)
+        solarTween.yoyo(true)
+        solarTween.loop(true)
         
-        
+
         sun=game.add.spine(game.world.centerX+10,game.world.height+150,"sunS")
         sun.setSkinByName("normal");
         sun.setAnimationByName(0,"IDLE",true)
@@ -537,9 +546,7 @@ var solarShieldSquad = function(){
         shield3Proxy.rotation=91.10
         
         
-        life1.rotation=0.5
-        life2.rotation=-0.5
-        life3.rotation=91.10
+       
         
         earthGroup.add(life1)
         earthGroup.add(life2)
@@ -547,22 +554,28 @@ var solarShieldSquad = function(){
         
         
         for(var fillLifes=0;fillLifes<lifes1.length;fillLifes++){
-            lifes1[fillLifes]=game.add.graphics(life1.x-18 +12*fillLifes, life1.centerY-10+6.5*fillLifes);
+            lifes1[fillLifes]=game.add.graphics(-36 + 24*fillLifes, 0);
             lifes1[fillLifes].beginFill("0x00ff00");
-            lifes1[fillLifes].drawCircle(0, 0, 10);
-            earthGroup.add(lifes1[fillLifes])
+            lifes1[fillLifes].drawCircle(0, 0, 17);
+            //earthGroup.add(lifes1[fillLifes])
+            life1.addChild(lifes1[fillLifes])
             
-            lifes2[fillLifes]=game.add.graphics(life2.x-18+12*fillLifes, life2.centerY+10-6.5*fillLifes);
+            lifes2[fillLifes]=game.add.graphics(-36 + 24*fillLifes,0);
             lifes2[fillLifes].beginFill("0x00ff00");
-            lifes2[fillLifes].drawCircle(0, 0, 10);
-            earthGroup.add(lifes2[fillLifes])
+            lifes2[fillLifes].drawCircle(0, 0, 17);
+            //earthGroup.add(lifes2[fillLifes])
+            life2.addChild(lifes2[fillLifes])
             
-            lifes3[fillLifes]=game.add.graphics(life3.x+-fillLifes*13.5+20, life3.centerY);
+            lifes3[fillLifes]=game.add.graphics(-36 + 24*fillLifes,0);
             lifes3[fillLifes].beginFill("0x00ff00");
-            lifes3[fillLifes].drawCircle(0, 0, 10);
-            earthGroup.add(lifes3[fillLifes])
+            lifes3[fillLifes].drawCircle(0, 0, 17);
+            life3.addChild(lifes3[fillLifes])
+            //earthGroup.add(lifes3[fillLifes])
         }
             
+        life1.rotation=0.5
+        life2.rotation=-0.5
+        life3.rotation=91.10
         
         earthGroup.add(shield1Proxy)
         earthGroup.add(shield2Proxy)
@@ -715,6 +728,7 @@ var solarShieldSquad = function(){
                 }
             //}
             
+            earth2.angle +=0.5
         }
         
         
