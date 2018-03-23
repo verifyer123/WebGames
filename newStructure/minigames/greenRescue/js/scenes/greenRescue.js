@@ -487,20 +487,22 @@ var greenRescue = function(){
         starsGroup.add(stars)
         starsGroup.alpha=0
         
-        board=game.add.sprite(game.world.centerX,game.world.height-90,"atlas.green","BOARD")
+        board=game.add.sprite(game.world.centerX-80,game.world.height-90,"atlas.green","BOARD")
         board.anchor.setTo(0.5,0.5)
-        board.width=700
+        board.width=450
         
-        shovelIcon=game.add.sprite(board.centerX-250,board.centerY,"atlas.green","ICON_BROOM")
-        sprinklerIcon=game.add.sprite(board.centerX-90,board.centerY,"atlas.green","ICON SPRINKLER")
-        sproutIcon=game.add.sprite(board.centerX+90,board.centerY,"atlas.green","ICON SPROUT")
-        trashIcon=game.add.sprite(board.centerX+240,board.centerY-25,"can")
+        board2=game.add.sprite(game.world.centerX+220,game.world.height-90,"atlas.green","BOARD2")
+        board2.anchor.setTo(0.5,0.5)
+        board2.width=150
         
-        trashIcon.anchor.setTo(.5)
-        trashIcon.scale.setTo(.5)
+        shovelIcon=game.add.sprite(board.centerX-130,board.centerY,"atlas.green","ICON_BROOM");
+        sprinklerIcon=game.add.sprite(board.centerX-10,board.centerY,"atlas.green","ICON SPRINKLER");
+        sproutIcon=game.add.sprite(board.centerX+140,board.centerY,"atlas.green","ICON SPROUT");
+        trashIcon=game.add.sprite(board2.centerX+10,board2.centerY-25,"can");
+        
+        trashIcon.anchor.setTo(.5);
+        trashIcon.scale.setTo(.5);
         trashIcon.animations.add('can');
-        
-        
         
         shovelIcon.anchor.setTo(0.5,0.5)
         sprinklerIcon.anchor.setTo(0.5,0.5)
@@ -560,6 +562,7 @@ var greenRescue = function(){
         
 
         UIGroup.add(board)
+        UIGroup.add(board2)
         
         UIGroup.add(shovelIcon)
         UIGroup.add(sprinklerIcon)
@@ -653,14 +656,32 @@ var greenRescue = function(){
         }
         
         platformGroup.bringToTop(tree[2]);
+        platformGroup.bringToTop(iconic[2]);
         platformGroup.bringToTop(tree[1]);
+        platformGroup.bringToTop(iconic[1]);
         platformGroup.bringToTop(tree[0]);
+        platformGroup.bringToTop(iconic[0]);
         platformGroup.bringToTop(tree[5]);
+        platformGroup.bringToTop(iconic[5]);
         platformGroup.bringToTop(tree[4]);
+        platformGroup.bringToTop(iconic[4]);
         platformGroup.bringToTop(tree[3]);
+        platformGroup.bringToTop(iconic[3]);
         platformGroup.bringToTop(tree[8]);
+        platformGroup.bringToTop(iconic[8]);
         platformGroup.bringToTop(tree[7]);
+        platformGroup.bringToTop(iconic[7]);
         platformGroup.bringToTop(tree[6]);
+        platformGroup.bringToTop(iconic[6]);
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         positionTimer()
@@ -841,6 +862,13 @@ var greenRescue = function(){
     function onDragStart(obj){
         obj.alpha=1;
         sound.play("pop")
+        
+        
+        for(var hide=0; hide<estados.length;hide++){
+            if(estados[hide-2]>2 && estados[hide-2]<5  && estados[hide]==5 && (hide!=2 && hide!=5 && hide!=8)){
+                    tree[hide].alpha=0.5;
+            }
+        }
     }
 
     
@@ -855,6 +883,12 @@ var greenRescue = function(){
         }else if(obj.tag=="sprout"){
             obj.position.x=sproutIcon.x
             obj.position.y=sproutIcon.y
+        }
+        
+        for(var show=0; show<estados.length;show++){
+            if(estados[show-2]>2 && estados[show]==5 && (show!=2 && show!=5 && show!=8)){
+                    tree[show].alpha=1;
+            }
         }
         
         if(objectOverlaping){
@@ -953,7 +987,7 @@ var greenRescue = function(){
         if(canPlant){
             
             sound.play("plant")
-            tree[obj.tag].setAnimationByName(0,"SHOOT",false);
+            tree[obj.tag].setAnimationByName(0,"shoot",false);
             tree[obj.tag].alpha=1;
             estados[obj.tag]=3;
             iconic[obj.tag].loadTexture("atlas.green","SPRINKLER")
@@ -971,7 +1005,7 @@ var greenRescue = function(){
             animatedSprinklers[objHere].alpha=1
             animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
             iconic[obj.tag].alpha=0
-            tree[obj.tag].setAnimationByName(0,"HALF",false);
+            tree[obj.tag].setAnimationByName(0,"half",false);
             iconic[obj.tag].y-=70
             animatedSprinklers[objHere].y-=70
             estados[obj.tag]=4
@@ -983,10 +1017,7 @@ var greenRescue = function(){
         }else if(estados[obj.tag]==4){
             animatedSprinklers[objHere].alpha=1
             animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
-            tree[obj.tag].setAnimationByName(0,"COMPLETE",false);
-            if(estados[obj.tag-2]>=2 && (obj.tag!=2 && obj.tag!=5 && obj.tag!=8)){
-                tree[obj.tag].alpha=0.5;
-            }
+            tree[obj.tag].setAnimationByName(0,"complete",false);
             estados[obj.tag]=5;
             iconic[obj.tag].y-=100
             animatedSprinklers[objHere].y-=100
