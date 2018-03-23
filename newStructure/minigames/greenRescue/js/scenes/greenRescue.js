@@ -112,8 +112,6 @@ var greenRescue = function(){
 	}
 
 	function initialize(){
-        
-        
 
        for(var falseStates=0;falseStates<estados.length;falseStates++){
             estados[falseStates]=0;   
@@ -342,7 +340,7 @@ var greenRescue = function(){
         
         game.load.spritesheet("coin", 'images/Spine/coin/coin.png', 122, 123, 12)
         game.load.spritesheet("sprinkler", 'images/Spine/sprinkler/sprinker.png', 272, 305, 23)
-        game.load.spritesheet("can", 'images/Spine/trashcan/trashcan.png', 170, 268, 23)
+        game.load.spritesheet("can", 'images/Spine/trashcan/trashcan.png', 162, 260, 24)
         
 		
 		game.load.image('tutorial_image',"images/green/tutorial_image.png")
@@ -609,18 +607,21 @@ var greenRescue = function(){
         sprinkler.events.onDragStop.add(onDragStop, this);
         sprout.events.onDragStop.add(onDragStop, this);
         
-        shovel.events.onDragStop.add(onDragStart, this);
-        sprinkler.events.onDragStop.add(onDragStart, this);
-        sprout.events.onDragStop.add(onDragStart, this);
+        shovel.events.onDragStart.add(onDragStart, this);
+        sprinkler.events.onDragStart.add(onDragStart, this);
+        sprout.events.onDragStart.add(onDragStart, this);
+        
+        
 
         UIGroup.add(board)
-        UIGroup.add(shovel)
-        UIGroup.add(sprinkler)
-        UIGroup.add(sprout)
+        
         UIGroup.add(shovelIcon)
         UIGroup.add(sprinklerIcon)
         UIGroup.add(sproutIcon)
         UIGroup.add(trashIcon)
+        UIGroup.add(shovel)
+        UIGroup.add(sprinkler)
+        UIGroup.add(sprout)
 
         platform1=game.add.spine(game.world.centerX,game.world.centerY,"floor")
         platform1.scale.setTo(1,1)
@@ -695,8 +696,8 @@ var greenRescue = function(){
             platformGroup.add(tree[translate])
             
             proxy[translate]=game.add.sprite(game.world.centerX-standarX+10+acomodateX*general,game.world.centerY-40+standarY-acomodateY*general,"atlas.green","OLD BAG")
-            proxy[translate].scale.setTo(1,1)
-            proxy[translate].anchor.setTo(0.6,0.6)
+            proxy[translate].scale.setTo(1.2,1.2)
+            proxy[translate].anchor.setTo(0.5,0.5)
             proxy[translate].alpha=0
             platformGroup.add(proxy[translate])
             
@@ -757,7 +758,7 @@ var greenRescue = function(){
         
         //PARCHEZOTE #1
         for(var mess=0;mess<estados.length;mess++){
-                if(tweenIcon[mess] && estados[mess]==0){
+                if(tweenIcon[mess] && estados[mess]==0 || estados[mess]==5){
                     tweenIcon[mess].stop()
                     iconic[mess].alpha=0
                 }
@@ -879,20 +880,12 @@ var greenRescue = function(){
 
 	}
     
+    
     function onDragStart(obj){
         obj.alpha=1;
-        
-        if(obj.tag=="sho"){
-            obj.position.x=shovelIcon.x
-            obj.position.y=shovelIcon.y
-        }else if(obj.tag=="sprin"){
-            obj.position.x=sprinklerIcon.x
-            obj.position.y=sprinklerIcon.y 
-        }else if(obj.tag=="sprout"){
-            obj.position.x=sproutIcon.x
-            obj.position.y=sproutIcon.y
-        }
+        sound.play("pop")
     }
+
     
     function onDragStop(obj){
         
@@ -1034,9 +1027,11 @@ var greenRescue = function(){
             animatedSprinklers[objHere].alpha=1
             animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
             tree[obj.tag].setAnimationByName(0,"COMPLETE",false);
-            tree[obj.tag].alpha=0.3;
+            if(estados[obj.tag-2]>=2 && (obj.tag!=2 && obj.tag!=5 && obj.tag!=8)){
+                tree[obj.tag].alpha=0.5;
+            }
             estados[obj.tag]=5;
-            iconic[obj.tag].y-=200
+            iconic[obj.tag].y-=100
             animatedSprinklers[objHere].y-=100
             tweenIcon[obj.tag].stop()
             game.add.tween(iconic[obj.tag]).to({alpha:0}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
@@ -1046,6 +1041,7 @@ var greenRescue = function(){
                     animatedSprinklers[objHere].alpha=0
                     animatedSprinklers[objHere].y+=170
                 })
+                
             })
             
             
@@ -1340,11 +1336,12 @@ var greenRescue = function(){
             
 			sceneGroup = game.add.group()
 			
+            document.addEventListener("contextmenu", function(e){
+               e.preventDefault();
+           }, false);
             
 			createBackground()
 			addParticles()
-            
-            
                         			
             morning = game.add.audio('morning')
             game.sound.setDecodedCallback(morning, function(){
@@ -1379,8 +1376,6 @@ var greenRescue = function(){
             createOverlay()
             
             animateScene()
-            
-            
             
 		},
 		show: function(event){
