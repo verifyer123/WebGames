@@ -27,8 +27,6 @@ var triangrid = function(){
                 json: "images/triangrid/atlas.json",
                 image: "images/triangrid/atlas.png",
             },
-            {   
-
         ],
         images: [
 
