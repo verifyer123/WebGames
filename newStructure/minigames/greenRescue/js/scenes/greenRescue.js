@@ -157,7 +157,6 @@ var greenRescue = function(){
     
     function animateScene() {
                 
-        //gameActive = false
         
         var startGroup = new Phaser.Group(game)
         sceneGroup.add(startGroup)
