@@ -68,6 +68,7 @@ var hackATon = function(){
     var rnd
     var toDo
     var climUp, roll, down, squat
+    var highlight
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -662,6 +663,10 @@ var hackATon = function(){
                     
             piv++
         }
+        
+        highlight = sceneGroup.create(-50, -50, "atlas.hackATon", "highlight")
+        highlight.anchor.setTo(0.5)
+        highlight.scale.setTo(1.1)
     }
     
     function btnPressed(btn){
@@ -670,7 +675,10 @@ var hackATon = function(){
     
             sound.play('pop')
             game.add.tween(btn.parent.scale).to({x:0.5, y:0.5}, 150, Phaser.Easing.linear, true).onComplete.add(function(){
-                game.add.tween(btn.parent.scale).to({x: 1, y: 1}, 150, Phaser.Easing.linear, true)
+                game.add.tween(btn.parent.scale).to({x: 1, y: 1}, 150, Phaser.Easing.linear, true).onComplete.add(function(){
+                    highlight.x = btn.parent.centerX
+                    highlight.y = btn.parent.centerY
+                })
             })
             toDo = btn.action
         }

@@ -1,1 +1,142 @@
-{"skeleton":{"hash":"mfvhFYwq1270gNyU/ZNfutNBQHc","spine":"3.2.01","width":0,"height":0,"images":""},"bones":[{"name":"root"},{"name":"COG","parent":"root","x":0.7,"y":38.18},{"name":"star","parent":"COG","x":43.89,"y":25.79}],"slots":[{"name":"leguminosas","bone":"COG","attachment":"leguminosas"},{"name":"star","bone":"star","color":"ffffffad","attachment":"star"}],"skins":{"default":{},"leguminosas1":{"leguminosas":{"leguminosas":{"name":"leguminosas/leguminosa1","x":-0.2,"y":-1.01,"rotation":-5.85,"width":144,"height":125}},"star":{"star":{"name":"leguminosas/star","x":-0.2,"y":0.44,"width":100,"height":101}}},"leguminosas2":{"leguminosas":{"leguminosas":{"name":"leguminosas/leguminosa2","x":0.11,"y":0.02,"scaleX":-1,"rotation":-0.79,"width":141,"height":142}},"star":{"star":{"name":"leguminosas/star","x":0.11,"y":0.42,"scaleX":-1,"width":100,"height":101}}},"leguminosas3":{"leguminosas":{"leguminosas":{"name":"leguminosas/leguminosa3","x":0.21,"y":-0.54,"rotation":-16.47,"width":142,"height":136}},"star":{"star":{"name":"leguminosas/star","x":-0.49,"y":-0.14,"width":100,"height":101}}},"leguminosas4":{"leguminosas":{"leguminosas":{"name":"leguminosas/leguminosa4","x":-0.03,"y":0.21,"rotation":-0.64,"width":140,"height":144}},"star":{"star":{"name":"leguminosas/star","x":-0.79,"y":0.46,"width":100,"height":101}}},"leguminosas5":{"leguminosas":{"leguminosas":{"name":"leguminosas/leguminosa5","x":-0.2,"y":0.49,"width":132,"height":130}},"star":{"star":{"name":"leguminosas/star","x":-0.74,"y":0.28,"width":100,"height":101}}}},"animations":{"IDLE":{"slots":{"leguminosas":{"attachment":[{"time":0,"name":"leguminosas"}]},"star":{"color":[{"time":0,"color":"ffffffad","curve":[0.551,-0.71,0.863,0.53]},{"time":0.4,"color":"ffffff00","curve":[0.464,0,0.897,0.65]},{"time":0.8,"color":"ffffffad"}],"attachment":[{"time":0,"name":"star"}]}},"bones":{"COG":{"rotate":[{"time":0,"angle":0}],"translate":[{"time":0,"x":0,"y":0,"curve":[0.479,-0.58,0.877,0.46]},{"time":0.4,"x":0,"y":2.83,"curve":[0.551,-0.71,0.863,0.53]},{"time":0.8,"x":0,"y":0}],"scale":[{"time":0,"x":1,"y":1}]},"root":{"rotate":[{"time":0,"angle":0}],"translate":[{"time":0,"x":0,"y":0}],"scale":[{"time":0,"x":1,"y":1}]},"star":{"rotate":[{"time":0,"angle":0.06}],"translate":[{"time":0,"x":0,"y":0}],"scale":[{"time":0,"x":0,"y":0,"curve":[0.596,0,0.913,0.66]},{"time":0.3333,"x":1,"y":1,"curve":"stepped"},{"time":0.4666,"x":1,"y":1},{"time":0.5,"x":0,"y":0}]}},"drawOrder":[{"time":0}]}}}
+{
+"skeleton": { "hash": "xK0i4pfNyt+Ubf+/rTQOGfFDhxM", "spine": "3.2.01", "width": 172.97, "height": 158.16, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "COG", "parent": "root", "x": 0.7, "y": 38.18 },
+	{ "name": "star", "parent": "COG", "x": 43.89, "y": 25.79 }
+],
+"slots": [
+	{ "name": "leguminosas", "bone": "COG", "attachment": "leguminosas" },
+	{ "name": "star", "bone": "star", "color": "ffffffad", "attachment": "star" }
+],
+"skins": {
+	"default": {},
+	"leguminosas1": {
+		"leguminosas": {
+			"leguminosas": { "name": "leguminosas/leguminosa1", "x": -0.2, "y": -1.01, "rotation": -5.85, "width": 144, "height": 125 }
+		},
+		"star": {
+			"star": { "name": "leguminosas/star", "x": -0.2, "y": 0.44, "width": 100, "height": 101 }
+		}
+	},
+	"leguminosas2": {
+		"leguminosas": {
+			"leguminosas": { "name": "leguminosas/leguminosa2", "x": 0.11, "y": 0.02, "scaleX": -1, "rotation": -0.79, "width": 156, "height": 156 }
+		},
+		"star": {
+			"star": { "name": "leguminosas/star", "x": 0.11, "y": 0.42, "scaleX": -1, "width": 100, "height": 101 }
+		}
+	},
+	"leguminosas3": {
+		"leguminosas": {
+			"leguminosas": { "name": "leguminosas/leguminosa3", "x": 0.21, "y": -0.54, "rotation": -16.47, "width": 142, "height": 136 }
+		},
+		"star": {
+			"star": { "name": "leguminosas/star", "x": -0.49, "y": -0.14, "width": 100, "height": 101 }
+		}
+	},
+	"leguminosas4": {
+		"leguminosas": {
+			"leguminosas": { "name": "leguminosas/leguminosa4", "x": -0.03, "y": 0.21, "rotation": -0.64, "width": 140, "height": 144 }
+		},
+		"star": {
+			"star": { "name": "leguminosas/star", "x": -0.79, "y": 0.46, "width": 100, "height": 101 }
+		}
+	},
+	"leguminosas5": {
+		"leguminosas": {
+			"leguminosas": { "name": "leguminosas/leguminosa5", "x": -0.2, "y": 0.49, "width": 132, "height": 130 }
+		},
+		"star": {
+			"star": { "name": "leguminosas/star", "x": -0.74, "y": 0.28, "width": 100, "height": 101 }
+		}
+	}
+},
+"animations": {
+	"IDLE": {
+		"slots": {
+			"leguminosas": {
+				"attachment": [
+					{ "time": 0, "name": "leguminosas" }
+				]
+			},
+			"star": {
+				"color": [
+					{
+						"time": 0,
+						"color": "ffffffad",
+						"curve": [ 0.551, -0.71, 0.863, 0.53 ]
+					},
+					{
+						"time": 0.4,
+						"color": "ffffff00",
+						"curve": [ 0.464, 0, 0.897, 0.65 ]
+					},
+					{ "time": 0.8, "color": "ffffffad" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "star" }
+				]
+			}
+		},
+		"bones": {
+			"COG": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.479, -0.58, 0.877, 0.46 ]
+					},
+					{
+						"time": 0.4,
+						"x": 0,
+						"y": 2.83,
+						"curve": [ 0.551, -0.71, 0.863, 0.53 ]
+					},
+					{ "time": 0.8, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"star": {
+				"rotate": [
+					{ "time": 0, "angle": 0.06 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.596, 0, 0.913, 0.66 ]
+					},
+					{ "time": 0.3333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.4666, "x": 1, "y": 1 },
+					{ "time": 0.5, "x": 0, "y": 0 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 }
+		]
+	}
+}
+}
