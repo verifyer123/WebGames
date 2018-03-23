@@ -1,0 +1,111 @@
+{"frames": [
+
+{
+	"filename": "book0",
+	"frame": {"x":1,"y":423,"w":111,"h":124},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":124},
+	"sourceSize": {"w":111,"h":124},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "book1",
+	"frame": {"x":168,"y":479,"w":111,"h":124},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":124},
+	"sourceSize": {"w":111,"h":124},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "book2",
+	"frame": {"x":1,"y":592,"w":111,"h":124},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":124},
+	"sourceSize": {"w":111,"h":124},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "floorTile",
+	"frame": {"x":1,"y":176,"w":539,"h":245},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":539,"h":245},
+	"sourceSize": {"w":539,"h":245},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "fondo",
+	"frame": {"x":620,"y":1,"w":541,"h":961},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":961},
+	"sourceSize": {"w":541,"h":961},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "handDown",
+	"frame": {"x":218,"y":605,"w":102,"h":95},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
+	"sourceSize": {"w":102,"h":95},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "handUp",
+	"frame": {"x":114,"y":605,"w":102,"h":106},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
+	"sourceSize": {"w":102,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hearts",
+	"frame": {"x":114,"y":423,"w":141,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
+	"sourceSize": {"w":141,"h":54},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pisoTile",
+	"frame": {"x":1,"y":1,"w":617,"h":173},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":617,"h":173},
+	"sourceSize": {"w":617,"h":173},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":281,"y":423,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":1,"y":549,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "homeworkRain_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1162,"h":963},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e440e9b826f229ba5cb12bea9ff9b78d:401a958bb5ecfa879f682afe7821a725:78e19cbe17f1fd4193f9886e86e4582a$"
+}
+}
