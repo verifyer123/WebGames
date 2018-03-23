@@ -718,11 +718,11 @@ var leakTweak = function(){
         plattform.scale.setTo(1.5)
 
 
-        tomikoSpine = game.add.spine(plattform.x-90 , plattform.y - 25, 'tomiko')
+        tomikoSpine = game.add.spine(plattform.x-110 , plattform.y - 35, 'tomiko')
         tomikoSpine.setSkinByName('normal')
         tomikoSpine.setAnimationByName(0,'idle',true)
         sceneGroup.add(tomikoSpine)
-        tomikoSpine.scale.setTo(1.5)
+        //tomikoSpine.scale.setTo(1.5)
 
         onfaucetGroup = game.add.group()
         sceneGroup.add(onfaucetGroup)
