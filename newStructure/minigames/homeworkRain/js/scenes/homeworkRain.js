@@ -61,7 +61,7 @@ var homeworkRain = function(){
     
     var lives
 	var sceneGroup = null
-    var gameIndex = 162
+    var gameIndex = 168
     var tutoGroup
     var backgroundSound
     var timeValue
