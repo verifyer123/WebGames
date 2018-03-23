@@ -358,59 +358,6 @@ var greenRescue = function(){
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
         
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){ 
-            rect.inputEnabled = false
-			sound.play("pop")
-            sunAct=true
-            //Aqui va la primera funciòn que realizara el juego
-            game.time.events.add(1250, function(){
-                putTrash();
-            });
-            
-            
-            startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.green','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.green',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.green','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(){
@@ -681,19 +628,19 @@ var greenRescue = function(){
             trash[translate].setSkinByName("normal");
             //trash[translate].setAnimationByName(0,"START_BAG",false)
             platformGroup.add(trash[translate])
-            
-            iconic[translate]=game.add.sprite(trash[translate].x ,trash[translate].y-90,"atlas.green","SHOVEL")
-            iconic[translate].scale.setTo(0.5,0.5)
-            iconic[translate].anchor.setTo(0.5,0.5)
-            iconic[translate].alpha=0
-            platformGroup.add(iconic[translate])
-            
+
             tree[translate]=game.add.spine(game.world.centerX-standarX+acomodateX*general,game.world.centerY+standarY-acomodateY*general,"trees")
             tree[translate].scale.setTo(treeScale,treeScale)
             tree[translate].alpha=0
             tree[translate].setSkinByName("normal");
             //tree[translate].setAnimationByName(0,"SHOOT",false)
             platformGroup.add(tree[translate])
+            
+            iconic[translate]=game.add.sprite(trash[translate].x ,trash[translate].y-90,"atlas.green","SHOVEL")
+            iconic[translate].scale.setTo(0.5,0.5)
+            iconic[translate].anchor.setTo(0.5,0.5)
+            iconic[translate].alpha=0
+            platformGroup.add(iconic[translate])
             
             proxy[translate]=game.add.sprite(game.world.centerX-standarX+10+acomodateX*general,game.world.centerY-40+standarY-acomodateY*general,"atlas.green","OLD BAG")
             proxy[translate].scale.setTo(1.2,1.2)
@@ -706,11 +653,22 @@ var greenRescue = function(){
             
         }
         
+        platformGroup.bringToTop(tree[2]);
+        platformGroup.bringToTop(tree[1]);
+        platformGroup.bringToTop(tree[0]);
+        platformGroup.bringToTop(tree[5]);
+        platformGroup.bringToTop(tree[4]);
+        platformGroup.bringToTop(tree[3]);
+        platformGroup.bringToTop(tree[8]);
+        platformGroup.bringToTop(tree[7]);
+        platformGroup.bringToTop(tree[6]);
+        
         
         positionTimer()
         
     }
 	
+    
     
     function positionTimer(){
            clock=game.add.image(game.world.centerX-150,20,"atlas.time","clock")
