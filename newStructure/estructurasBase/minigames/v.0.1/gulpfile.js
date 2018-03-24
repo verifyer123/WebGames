@@ -205,6 +205,30 @@ gulp.task('changeHtmlReference', ['cloneFiles', 'prepareJsToDist'], function () 
     .pipe(gulp.dest(_MINIGAME.ROUTES.DIST.HTML));
 })
 
+/**
+ * Permite construir la base de carpetas desde la
+ * terminal
+ */
+
+gulp.task('base', function () {
+  if(!fs.existsSync(_MINIGAME.ROUTES.DIST.HTML)){
+    console.log('INICIANDO ESTRUCTURA BASE...');
+    gulp.start('initBaseProject');
+  }
+})
+
+/**
+ * Permite hacer el minificado/ofuscado/ desde la
+ * terminal
+ */
+
+gulp.task('build', function () {
+  if(fs.existsSync(_MINIGAME.ROUTES.DIST.HTML)){
+    console.log('GENERANDO ARCHIVOS DE DISTRIBUCION...');
+    gulp.start('changeHtmlReference');
+  }
+})
+
 //Gulp principal task.
 
 gulp.task('default', function () {
