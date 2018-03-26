@@ -676,6 +676,7 @@ var greenRescue = function(){
         platformGroup.bringToTop(tree[6]);
         platformGroup.bringToTop(iconic[6]);
         platformGroup.bringToTop(animatedSprinklers[6]);
+     
         
         
         
@@ -690,7 +691,6 @@ var greenRescue = function(){
         positionTimer()
         
     }
-	
     
     
     function positionTimer(){
@@ -1085,6 +1085,7 @@ var greenRescue = function(){
         emitter.duration=1;
         emitter.x = coins.x
         emitter.y = coins.y
+        platformGroup.add(emitter)
         game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
         game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
             game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
