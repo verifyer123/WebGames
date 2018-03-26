@@ -474,7 +474,7 @@ var CroakSong = function(){
 		game.load.image("carril",imagePath + "carril.png");
 		game.load.image("vapor",imagePath + "vapor.png");
 		
-		game.load.spritesheet("olas",imagePath + "olas.png",374,300,13);
+		game.load.spritesheet("olas",imagePath + "olas.png",374,301,13);
 		
 		game.load.image("planta",imagePath + "planta.png");
 		game.load.image('tronco',imagePath + "tronco.png");
@@ -750,7 +750,7 @@ var CroakSong = function(){
 
 		var agua = game.add.graphics(0, 0);
         agua.beginFill(0x5f8dca);
-        agua.drawRect(0,game.world.height-132,game.world.width, game.world.height /6)
+        agua.drawRect(0,game.world.height-140,game.world.width, game.world.height /5)
         agua.endFill();
 
 		for(var i = 0;i<=2;i++){

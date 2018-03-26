@@ -71,7 +71,7 @@ var solarWing = function(){
 		],
     }
 
-    var MIN_SPEED = 1.5
+    var MIN_SPEED = 1.8
     
         
     var lives = null
@@ -98,6 +98,8 @@ var solarWing = function(){
     var canCreate
     var oblig
 
+    var openWings
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -113,6 +115,7 @@ var solarWing = function(){
         eagleActivated=false
         emitter=""
         cloudState=false
+        openWings = true
         loadSounds()
 	}
 
@@ -207,12 +210,14 @@ var solarWing = function(){
     
     function changeWings(obj){
         
-        if(obj.tag=="open"){
+        if(obj.tag=="open" && !openWings){
+            openWings = true
             eagleActivated=false
             eagle.setAnimationByName(0,"FLY",true)
             sound.play("changeOpen")
             buttonOpen.loadTexture("atlas.solar","press_op-8")
-        }else if(obj.tag=="closed"){
+        }else if(obj.tag=="closed" && openWings){
+            openWings = false
             eagleActivated=true
             eagle.setAnimationByName(0,"FLY_FASTER",true)
             sound.play("changeClose")
@@ -571,6 +576,11 @@ var solarWing = function(){
         eagle.scale.setTo(0.5)
         eagle.setSkinByName("normal")
         eagle.setAnimationByName(0,"FLY",true)
+        eagle.setMixByName("FLY","FLY_FASTER",0.2)
+        eagle.setMixByName("FLY_FASTER","FLY",0.2)
+        eagle.setMixByName("FLY_FASTER","HIT",0.2)
+        eagle.setMixByName("FLY","HIT",0.2)
+
         characterGroup.add(eagle)
         
         
@@ -627,9 +637,11 @@ var solarWing = function(){
         if(!eagleActivated){
             eagleActivated=true
             eagle.setAnimationByName(0,"FLY_FASTER",true)
+            openWings = false
         }else if(eagleActivated){
             eagleActivated=false
             eagle.setAnimationByName(0,"FLY",true)
+            openWings = true
         }
         
         
@@ -682,6 +694,7 @@ var solarWing = function(){
                     game.time.events.add(600,function(){
                          if(lives>0){
                             eagle.setAnimationByName(0,"FLY",true)
+                            openWings = true
                          }
                         buttonOpen.inputEnabled=true
                         buttonClose.inputEnabled=true

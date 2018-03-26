@@ -62,6 +62,7 @@ var shotPut = function(){
     var gameIndex = 108
 	var indexGame
     var overlayGroup
+    var timerGroup
     var timberman
     var oof
     var stamina
@@ -700,19 +701,19 @@ var shotPut = function(){
     
     function positionTimer(){
         
-        var timerGroup = game.add.group()
+        timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
         clock.scale.setTo(0.7)
-        clock.alpha = 1
         timerGroup.add(clock)
         
-        timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
+        var timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
         timeBar.scale.setTo(8, 0.45)
-        timeBar.alpha = 1
         timerGroup.add(timeBar)
+        timerGroup.timeBar = timeBar
         
         timerGroup.x = game.world.centerX - clock.width * 0.75
         timerGroup.y = clock.height * 0.5
@@ -720,14 +721,14 @@ var shotPut = function(){
     
     function stopTimer(){
         
-        tweenTiempo.stop()
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
+        timerGroup.tweenTiempo.stop()
+        game.add.tween(timerGroup.timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
    }
     
     function startTimer(time){
         
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
-        tweenTiempo.onComplete.add(function(){
+        timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
+        timerGroup.tweenTiempo.onComplete.add(function(){
             throwObj()
         })
     }
@@ -745,8 +746,14 @@ var shotPut = function(){
             oof.setSkinByName("normal"+(objIndex+1))
         },this)
         
+        if(pointsBar.number > 5){
+            delay -= 250
+            game.time.events.add(3000,function(){
+                startTimer(delay)
+            },this)
+        }
+        
         game.time.events.add(1000,function(){
-            startTimer(delay)
             gameActive = true
         },this)
     }
@@ -817,10 +824,13 @@ var shotPut = function(){
     function throwObj(){
         
         gameActive = false
-        stopTimer()
         objGroup.alpha = 1
         changeImage(objIndex, objGroup)
         oof.setAnimationByName(0, "THROW", false)
+        
+        if(timerGroup.tweenTiempo){
+            stopTimer()
+        }
         
         var destinyX, destinyY, aux, scale
         
@@ -829,7 +839,6 @@ var shotPut = function(){
             destinyY =  target.y
             aux = 100
             scale = 0.15
-            delay -= 250
         }
         else if(force < objIndex+1){
             
@@ -875,6 +884,10 @@ var shotPut = function(){
                     particleWrong.start(true, 1200, null, 6)
                     missPoint()
                     oof.setAnimationByName(0, "LOSE", false)
+                }
+                
+                if(pointsBar.number === 6){
+                    game.add.tween(timerGroup).to({alpha:1}, 800, Phaser.Easing.linear, true)
                 }
                 
                 if(lives !== 0){

@@ -196,6 +196,7 @@ var yogomeGames = function () {
             {name:'Spatial Overdrive',url:urlSet + 'spatialOverdrive/',mapUrl:urlMap + 'spatialOverdrive', sceneName:'spatialOverdrive',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//166
             {name:'Sonar Ride',url:urlSet + 'sonarRide/',mapUrl:urlMap + 'sonarRide', sceneName:'sonarRide',subject:'health', review:false,objective:10,demo:false, type:gameTypeEnum.TARGET},//167
             {name:'Homework Rain',url:urlSet + 'homeworkRain/',mapUrl:urlMap + 'homeworkRain', sceneName:'homeworkRain',subject:'health', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//168
+            {name:'Forest Justice',url:urlSet + 'forestJustice/',mapUrl:urlMap + 'forestJustice', sceneName:'forestJustice',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//169
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

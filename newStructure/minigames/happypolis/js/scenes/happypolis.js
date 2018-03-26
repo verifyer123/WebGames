@@ -422,6 +422,20 @@ var happypolis = function(){
             
             var start = list[list.length - 2]
         
+            for(var i = 0; i < factory.dirtyLines.length; i++){
+                
+                var dirtyLine = factory.dirtyLines.children[i]
+                dirtyLine.moveTo(start.centerX, start.centerY)
+                dirtyLine.lineTo(obj.centerX, obj.centerY)
+                dirtyLine.alpha = 1
+                sound.play('pop')
+            }
+        }
+        
+        if(list.length > 2){
+            
+            var start = list[list.length - 2]
+        
             for(var i = 0; i < factory.lines.length; i++){
                 
                 var line = factory.lines.children[i]
@@ -456,7 +470,7 @@ var happypolis = function(){
             trowObjects = false
             //river.trash.setAll('body.velocity.y', 0)
             river.trash.setAll('col', false)
-            game.add.tween(river.fishes).to({alpha: 0}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.time.events.add(1000,function(){
                 win(false)
             })
         }
@@ -869,6 +883,7 @@ var happypolis = function(){
                         factory.clean.alpha = 1
                         factory.dirty.alpha = 0
                         factory.dirtyLines.alpha = 0
+                        drawFactoryLine()
                         tutorial = false
                         sceneGroup.handtween.stop()
                         sceneGroup.hand.destroy()
@@ -909,6 +924,7 @@ var happypolis = function(){
                         factory.clean.alpha = 1
                         factory.dirty.alpha = 0
                         factory.dirtyLines.alpha = 0
+                        drawFactoryLine()
                     }
 
                     win(acomplished)
@@ -918,6 +934,21 @@ var happypolis = function(){
             
             missClick()
         }    
+    }
+    
+    function drawFactoryLine(){
+        
+        factory.dirtyLines.destroy()
+        polutionFlow()
+        factory.bringToTop(factory.boxes)
+        
+        for(var i = 0; i < factory.dirtyLines.length; i++){
+                
+            var dirtyLine = factory.dirtyLines.children[i]
+            dirtyLine.moveTo(factory.boxes.children[0].centerX, factory.boxes.children[0].centerY)
+            dirtyLine.lineTo(factory.boxes.children[1].centerX, factory.boxes.children[1].centerY)
+            dirtyLine.alpha = 1
+        }
     }
     
     function missClick(){
@@ -1128,6 +1159,7 @@ var happypolis = function(){
     function drawDirtyLine(){
         
         factory.dirtyLines.alpha = 1
+        
         for(var i = 0; i < factory.dirtyLines.length; i++){
                 
                 var line = factory.dirtyLines.children[i]
@@ -1135,7 +1167,7 @@ var happypolis = function(){
                 line.lineTo(factory.boxes.children[2].centerX, factory.boxes.children[2].centerY)
                 line.alpha = 1
                 sound.play('pop')
-            }
+        }
     }
     
     function factoryLines(){
