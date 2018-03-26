@@ -579,9 +579,9 @@ var greenRescue = function(){
         //Put the trash and the trees in their place
         
         var acomodateX=100;
-        var standarX=200;
+        var standarX=190;
         var acomodateY=40;
-        var standarY=50;
+        var standarY=40;
         var general=0;
         var treeScale=0.5
         
