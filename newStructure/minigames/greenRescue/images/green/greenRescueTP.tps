@@ -562,10 +562,10 @@
             <filename>ICON_BROOM.png</filename>
             <filename>TRASH_CAN.png</filename>
             <filename>desktop.png</filename>
-            <filename>STARS.png</filename>
             <filename>MOON.png</filename>
             <filename>movil.png</filename>
             <filename>../../../../../../../../Downloads/BOARD2.png</filename>
+            <filename>STARS.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
