@@ -72,7 +72,7 @@ var forestJustice = function(){
 			},
             {
 				name:"lumberjack",
-				file:"images/spines/lumberjack/lumberjack.json"
+				file:"images/spines/lumberJack/lumberjack.json"
 			},
             {
 				name:"trees",
