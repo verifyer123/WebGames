@@ -837,6 +837,11 @@ var greenRescue = function(){
                     objectOverlaping=proxy[checkOverlaping];
                     objectOverlaping.tag=proxy[checkOverlaping].tag
                 }
+
+                if(iconic[checkOverlaping].alpha !=0 && checkOverlap(sprinklerProxy,iconic[checkOverlaping])){
+                    objectOverlaping=proxy[checkOverlaping];
+                    objectOverlaping.tag=proxy[checkOverlaping].tag
+                }
                 if (checkOverlap(sproutProxy,proxy[checkOverlaping]) && sproutProxy.alpha==0)
                 {
                     objectOverlaping=proxy[checkOverlaping];
