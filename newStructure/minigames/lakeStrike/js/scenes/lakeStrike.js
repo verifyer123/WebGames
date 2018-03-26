@@ -433,7 +433,7 @@ var lakeStrike = function(){
         lakeSpine = game.add.spine(proxyLake.centerX-3,game.world.centerY+155, "lake");
         lakeSpine.scale.setTo(0.7,0.7)
         lakeSpine.setSkinByName("clean");
-        lakeSpine.setAnimationByName(0,"IDLE",true) 
+        lakeSpine.setAnimationByName(0,"idle",true) 
         lakeGroup.add(lakeSpine)
         
         
@@ -623,29 +623,30 @@ var lakeStrike = function(){
                 if (checkOverlap(proxyLake,pollutionAttacking[checkOverlaping]) && pollutionAttackingActive[checkOverlaping] && lives>0)
                 {
                         var temp2=checkOverlaping
+                        
                         missPoint()
                         if(lives==2){
-                            lakeSpine.setTint("0xff1500")
+                            //lakeSpine.setTint("0xff1500")
                             game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                                 game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
                                 lakeSpine.setSkinByName("dirty1")
-                                lakeSpine.setTint("0xffffff")
+                                //lakeWater.setTint("0xffffff")
                             })
                         }
                         if(lives==1){
-                            lakeSpine.setTint("0xff1500")
+                            //lakeSpine.setTint("0xff1500")
                             game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                                 game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
                                 lakeSpine.setSkinByName("dirty2")
-                                lakeSpine.setTint("0xffffff")
+                                //lakeSpine.setTint("0xffffff")
                             })
                         }
                         if(lives==0){
-                            lakeSpine.setTint("0xff1500")
+                            //lakeSpine.setTint("0xff1500")
                             game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                                 game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
                                 lakeSpine.setSkinByName("dirty3")
-                                lakeSpine.setTint("0xffffff")
+                                //lakeSpine.setTint("0xffffff")
                             })
                         }
                         sound.play("laugh")
