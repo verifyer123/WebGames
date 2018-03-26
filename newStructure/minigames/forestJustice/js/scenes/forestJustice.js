@@ -44,11 +44,13 @@ var forestJustice = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
-            {	name: "rightChoice",
-				file: soundsPath + "rightChoice.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
+            {	name: "flesh",
+				file: soundsPath + "flesh.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
+            {	name: "grunt",
+				file: soundsPath + "grunt.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'justiceSong',
@@ -650,6 +652,7 @@ var forestJustice = function(){
         
        if(gameActive){
            
+           sound.play('pop')
            justice.movil.x = game.input.x
            justice.movil.y = game.input.y
            game.physics.arcade.moveToObject(justice.collider, justice.movil, justice.speed)
@@ -699,7 +702,7 @@ var forestJustice = function(){
          
         game.time.events.add(delay,function(){
             
-            sound.play("pop")
+            sound.play("cut")
             obj.alpha = 1
             game.add.tween(obj.scale).from({ y:0}, 300,Phaser.Easing.linear,true)
         },this)
@@ -730,12 +733,12 @@ var forestJustice = function(){
     function bringLumber(i){
         
         var tree = treesGroup.children[i]
-        var lumberjack = lumberjackGroup.children[i]
+        var jack = lumberjackGroup.children[i]
         
-        lumberjack.setAnimationByName(0, "run", true)
+        jack.setAnimationByName(0, "run", true)
         
-         game.add.tween(lumberjack).from({x: lumberjack.origin}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
-            lumberjack.setAnimationByName(0, "cut", true)
+         game.add.tween(jack).from({x: jack.origin}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+            jack.setAnimationByName(0, "cut", true)
             tree.tree.alpha = 0
             tree.tree.scale.setTo(0.5) 
             tree.anim.alpha = 1
@@ -746,9 +749,10 @@ var forestJustice = function(){
             tree.tweenToCut.onComplete.add(function(){
                 
                 tree.anim.setAnimationByName(0, "cut_tree" + tree.type, false)
+                sound.play('flesh')
                 tree.lifeContainer.alpha = 0
                 tree.tree.saved = true
-                lumberjack.setAnimationByName(0, "walk", true)
+                jack.setAnimationByName(0, "walk", true)
                 goHomeJack(i)
                 particleWrong.x = tree.centerX
                 particleWrong.y = tree.centerY
@@ -764,15 +768,15 @@ var forestJustice = function(){
     
     function goHomeJack(index){
         
-        var lumberjack = lumberjackGroup.children[index]
+        var jack = lumberjackGroup.children[index]
         
         if(index % 2 !== 0){
-            lumberjack.scale.setTo(0.7)
+            jack.scale.setTo(0.7)
         }
         else{
-            lumberjack.scale.setTo(-0.7, 0.7)
+            jack.scale.setTo(-0.7, 0.7)
         }
-        game.add.tween(lumberjack).to({x: lumberjack.origin}, 2000, Phaser.Easing.linear, true)
+        game.add.tween(jack).to({x: jack.origin}, 2000, Phaser.Easing.linear, true)
     }
     
     function stopLumberjack(just, tree){
@@ -795,6 +799,7 @@ var forestJustice = function(){
             tree.scale.setTo(1) 
             tree.alpha = 1
             tree.parent.anim.alpha = 0
+            sound.play('grunt')
             lumberjackGroup.children[index].setAnimationByName(0, "lose", true)
             lumberjackGroup.children[index].addAnimationByName(0, "losestill", true)
             addCoin(tree.parent)
