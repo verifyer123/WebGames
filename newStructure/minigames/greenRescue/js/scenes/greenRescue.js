@@ -114,7 +114,7 @@ var greenRescue = function(){
 	function initialize(){
 
        for(var falseStates=0;falseStates<estados.length;falseStates++){
-            estados[falseStates]=0;   
+            estados[falseStates]=0;
             proxy[falseStates].tag=falseStates
             readyToPlant[falseStates]=false;
             readyToWater[falseStates]=false;
@@ -156,14 +156,11 @@ var greenRescue = function(){
     }
     
     function animateScene() {
-                
-        
         var startGroup = new Phaser.Group(game)
         sceneGroup.add(startGroup)
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
     }
 	
     function changeImage(index,group){
@@ -319,9 +316,7 @@ var greenRescue = function(){
     
     function preload(){
         
-        
         epicparticles.loadEmitter(game.load, "pickedEnergy")
-
 		
         game.stage.disableVisibilityChange = false;
         
@@ -407,7 +402,6 @@ var greenRescue = function(){
         
         thrashGroup=game.add.group();
         sceneGroup.add(thrashGroup);
-
 
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -657,22 +651,31 @@ var greenRescue = function(){
         
         platformGroup.bringToTop(tree[2]);
         platformGroup.bringToTop(iconic[2]);
+        platformGroup.bringToTop(animatedSprinklers[2]);
         platformGroup.bringToTop(tree[1]);
         platformGroup.bringToTop(iconic[1]);
+        platformGroup.bringToTop(animatedSprinklers[1]);
         platformGroup.bringToTop(tree[0]);
         platformGroup.bringToTop(iconic[0]);
+        platformGroup.bringToTop(animatedSprinklers[0]);
         platformGroup.bringToTop(tree[5]);
         platformGroup.bringToTop(iconic[5]);
+        platformGroup.bringToTop(animatedSprinklers[5]);
         platformGroup.bringToTop(tree[4]);
         platformGroup.bringToTop(iconic[4]);
+        platformGroup.bringToTop(animatedSprinklers[4]);
         platformGroup.bringToTop(tree[3]);
         platformGroup.bringToTop(iconic[3]);
+        platformGroup.bringToTop(animatedSprinklers[3]);
         platformGroup.bringToTop(tree[8]);
         platformGroup.bringToTop(iconic[8]);
+        platformGroup.bringToTop(animatedSprinklers[8]);
         platformGroup.bringToTop(tree[7]);
         platformGroup.bringToTop(iconic[7]);
+        platformGroup.bringToTop(animatedSprinklers[7]);
         platformGroup.bringToTop(tree[6]);
         platformGroup.bringToTop(iconic[6]);
+        platformGroup.bringToTop(animatedSprinklers[6]);
         
         
         
