@@ -100,7 +100,7 @@ var greenRescue = function(){
     var colora1,colora2,colora3;
     var colorb1,colora2,colora3;
     var bmd, gradient
-    var out
+    var out, passingLevel;
     var y
     var sumX,sumY
     var sunAct,moonAct;
@@ -119,6 +119,7 @@ var greenRescue = function(){
             readyToPlant[falseStates]=false;
             readyToWater[falseStates]=false;
        }
+        passingLevel=false;
         
         animations[0]="BAG";
         animations[1]="BOMB";
@@ -479,7 +480,7 @@ var greenRescue = function(){
         
         stars=game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.green',"STARS")
         starsGroup.add(stars)
-        starsGroup.alpha=0
+        starsGroup.alpha=1
         
         board=game.add.sprite(game.world.centerX-80,game.world.height-90,"atlas.green","BOARD")
         board.anchor.setTo(0.5,0.5)
@@ -893,8 +894,10 @@ var greenRescue = function(){
             obj.position.y=sproutIcon.y
         }
         
+        
+        
         for(var show=0; show<estados.length;show++){
-            if(estados[show-2]>2 && estados[show]==5 && (show!=2 && show!=5 && show!=8)){
+            if(estados[show-2]>2 && estados[show]==5 && (show!=2 && show!=5 && show!=8) && !passingLevel){
                     game.add.tween(tree[show]).to({alpha:1},10,Phaser.Easing.Cubic.In,true,200);
             }
         }
@@ -1139,11 +1142,13 @@ var greenRescue = function(){
     function nextLevel(){
         
         if(dificulty<9)dificulty++;
+        passingLevel=true;
         game.time.events.add(1500,function(){
             platformGroup.alpha=1 
             platform1.setAnimationByName(0,"STAR_DIRTY",false);
             game.time.events.add(1500,function(){
                 putTrash();
+                passingLevel=false;
             })
         })
     }
