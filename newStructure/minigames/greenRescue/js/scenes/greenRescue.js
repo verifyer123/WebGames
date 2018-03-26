@@ -874,7 +874,7 @@ var greenRescue = function(){
         
         for(var hide=0; hide<estados.length;hide++){
             if(estados[hide-2]>2 && estados[hide-2]<5  && estados[hide]==5 && (hide!=2 && hide!=5 && hide!=8)){
-                    tree[hide].alpha=0.5;
+                    game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
             }
         }
     }
@@ -895,7 +895,7 @@ var greenRescue = function(){
         
         for(var show=0; show<estados.length;show++){
             if(estados[show-2]>2 && estados[show]==5 && (show!=2 && show!=5 && show!=8)){
-                    tree[show].alpha=1;
+                    game.add.tween(tree[show]).to({alpha:1},10,Phaser.Easing.Cubic.In,true,200);
             }
         }
         
