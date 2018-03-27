@@ -1,27 +1,8 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 
-
 var smart = function(){
 
-	var SCROLL_STATE = {
-		WAIT: 0,
-		SCROLL: 1,
-		SELECT: 2,
-	}
-    
-    var localizationData = {
-		"EN":{
-            "howTo":"How to Play?",
-            "moves":"Moves left"
-		},
-
-		"ES":{
-            "moves":"Movimientos extra",
-            "howTo":"¿Cómo jugar?"
-		}
-	}
-    
 
 	var assets = {
         atlases: [
@@ -70,33 +51,13 @@ var smart = function(){
 		],
         spines:[
             {
-                name: "apple",
-                file: "images/spines/apple/apple.json"
-            },
-            {
-                name: "bannana",
-                file: "images/spines/bannana/bannana.json"
-            },
-            {
-                name: "bread",
-                file: "images/spines/bread/bread.json"
-            },
-            {
-                name: "carrot",
-                file: "images/spines/carrot/carrot.json"
-            },
-            {
-                name: "milk",
-                file: "images/spines/milk/milk.json"
+                name: "products",
+                file: "images/spines/products/products.json"
             },
             {
                 name: "sign",
-                file: "images/spines/sing/sign.json"
-            },
-            {
-                name: "juice",
-                file: "images/spines/juce/juce.json"
-            },
+                file: "images/spines/sign/sign.json"
+            }
         ]
         
     }
@@ -110,7 +71,7 @@ var smart = function(){
 
     var BIT_DELTA = 20
 
-    var bitImagesNames = ['BREAD_BIT','APPLE_BIT','BANANA_BIT','CARROT_BIT','JUICE_BIT','MILK_BIT']
+    var bitImagesNames = ['MILK_SCREEN','OJ_SCREEN','BREAD_SCREEN','APPLE_SCREEN','BANANA_SCREEN','CARROT_SCREEN']
 
     var lives
 	var sceneGroup = null
@@ -134,6 +95,7 @@ var smart = function(){
 
     var operationGroup 
     var productsOperation
+    var voidOperation
     var numbersOperation
     var resultOperation
 
@@ -145,13 +107,16 @@ var smart = function(){
     var needObjects 
     var pointsToGive
 
-    var littleBits
+    //var littleBits
     var currentLittleBit
 
     var boxPositions
 
     var hand
     var tutorialTween
+
+    var cashMachine
+
 
 
 	function loadSounds(){
@@ -177,6 +142,7 @@ var smart = function(){
 
         objectValues = [9,3,4,6,11,5]
         productsOperation = []
+        voidOperation = []
         numbersOperation = []
 
         pruductSpines = []
@@ -303,12 +269,6 @@ var smart = function(){
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.x
        coins.y=objectBorn.y
-       
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
-
 
 
         correctParticle.x = objectBorn.x
@@ -439,7 +399,6 @@ var smart = function(){
     }
 
     function onClickPlay(rect) {
-     
 
         tutoGroup.y = -game.world.height
         tutoGroup.destroy()
@@ -472,9 +431,9 @@ var smart = function(){
 
     function setRound(){
         currentLittleBit = 0
-        for(var i = 0; i < littleBits.length; i++){
+        /*for(var i = 0; i < littleBits.length; i++){
             littleBits[i].visible = false
-        }
+        }*/
 
         sound.play('cashRegister')
         operationGroup.visible = false
@@ -511,6 +470,10 @@ var smart = function(){
             hiddenProductsNumer++
         }
 
+        for(var i = 0; i < voidOperation.length; i++){
+        	voidOperation[i].visible = false
+        }
+
         pointsToGive = hiddenProductsNumer
         needObjects = hiddenProductsNumer
         var ids = [0,1,2]
@@ -527,7 +490,8 @@ var smart = function(){
             var multiplier = game.rnd.integerInRange(1,MAX_MULTIPLIER)
             numbersOperation[imageBitId].setText(multiplier)
 
-            productsOperation[imageBitId].loadTexture('atlas.game','QUESTION_BIT',0,false)
+            productsOperation[imageBitId].loadTexture('atlas.game','QUESTION_SCREEN',0,false)
+            voidOperation[imageBitId].visible = true
 
             total += (multiplier*objectValues[productResultId])
 
@@ -581,7 +545,7 @@ var smart = function(){
         button.visible = false
         button = null
         var correctObject = false
-        if(pointer.y < game.world.centerY-170){
+        if(pointer.y < game.world.centerY){
 
             if(inTutorial!=-1){
                 if(id != resultObjects[0].productResultId){
@@ -592,13 +556,13 @@ var smart = function(){
             for(var i = 0; i < resultObjects.length; i++){
                 if(resultObjects[i].productResultId == id){
 
-                    var bit = littleBits[currentLittleBit]
-                    bit.loadTexture('atlas.game',bitImagesNames[id],0,false)
-                    bit.x = productsOperation[resultObjects[i].imageBitId].x + (BIT_DELTA -(BIT_DELTA*resultObjects[i].multiplier))
-                    bit.visible = true
                     correctObject = true
                     resultObjects[i].multiplier --
-                    currentLittleBit++
+
+                    numbersOperation[resultObjects[i].imageBitId].setText(resultObjects[i].multiplier)
+
+                    game.add.tween(numbersOperation[resultObjects[i].imageBitId].scale).to({x:2,y:2},300,Phaser.Easing.linear,true).yoyo(true)
+
                     sound.play('pop')
 
                     if(resultObjects[i].multiplier==0){
@@ -687,13 +651,10 @@ var smart = function(){
             empty = sign.slotContainers[slotIndex]
         }
 
-
-       
         
-        var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#4B212", align: "center"}
         var text = new Phaser.Text(sceneGroup.game, 0, 10, objectValues[id], fontStyle)
         text.anchor.setTo(0.5)
-        //sign.addChild(text)
         empty.add(text)
         group.text = text
         group.id = id
@@ -703,8 +664,8 @@ var smart = function(){
     }
 
     function createSpine(key,id){
-        var spine = game.add.spine(game.world.centerX,game.world.centerY,key)
-        spine.setSkinByName("normal")
+        var spine = game.add.spine(game.world.centerX,game.world.centerY,"products")
+        spine.setSkinByName(key)
         spine.setAnimationByName(0,"idle",true)
         spine.visible = false
         spine.id = id
@@ -713,11 +674,6 @@ var smart = function(){
 
     function clickProduct(button,pointer){
         var id = button.id
-        if(id == 4){
-            if(pointer.y >game.world.centerY+170){
-                id = 5
-            }
-        }
         currentButtonSelected = pruductSpines[id]
         currentButtonSelected.visible = true
     }
@@ -729,20 +685,8 @@ var smart = function(){
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
 
-        var backgroundTop = game.add.graphics(0,0)
-        backgroundTop.beginFill(0xC7FDFF)
-        backgroundTop.drawRect(0,0,game.world.width,game.world.centerY-170)
-        backgroundTop.endFill()
-
+        var backgroundTop = game.add.tileSprite(0,0,game.world.width,game.world.height,"atlas.game","BG_TILE")
         backgroundGroup.add(backgroundTop)
-
-        var backgroundBot = game.add.graphics(0,0)
-        backgroundBot.beginFill(0xB6906F)
-        backgroundBot.drawRect(0,game.world.centerY-170,game.world.width,game.world.height -(game.world.centerY-170))
-        backgroundBot.endFill()
-
-        backgroundGroup.add(backgroundBot)
-
 
          initialize()
 
@@ -764,72 +708,88 @@ var smart = function(){
 
 
 
-        var machine = sceneGroup.create(game.world.centerX,game.world.centerY-290,'atlas.game','CASHIER')
-        machine.anchor.setTo(0.5)
+        var machine = sceneGroup.create(game.world.centerX,0,'atlas.game','CASHIER_SCREEN')
+        machine.anchor.setTo(0.5,0)
 
-        var divisor = sceneGroup.create(game.world.centerX,game.world.centerY-170,'atlas.game','DIVISION')
-        divisor.anchor.setTo(0.5,0.5)
-        divisor.scale.setTo(1.2,1)
+        var cashTable = sceneGroup.create(game.world.centerX, machine.y + machine.height + 120,'atlas.game','CASHIER_TABLE')
+        cashTable.anchor.setTo(0.5)
 
-
-
-        var breadBox = sceneGroup.create(game.world.centerX-110,game.world.centerY-50,'atlas.game','BREAD')
-        breadBox.anchor.setTo(0.5)
-        breadBox.inputEnabled = true
-        breadBox.id = 0
-        breadBox.events.onInputDown.add(clickProduct,this)
-        var appleBox = sceneGroup.create(game.world.centerX-200,game.world.centerY+150,'atlas.game','APPLE_BOX')
-        appleBox.anchor.setTo(0.5)
-        appleBox.inputEnabled = true
-        appleBox.id = 1
-        appleBox.events.onInputDown.add(clickProduct,this)
-        var iceBox = sceneGroup.create(game.world.centerX+180,game.world.centerY+170,'atlas.game','ICEBOX')
-        iceBox.anchor.setTo(0.5)
-        iceBox.inputEnabled = true
-        iceBox.id = 4
-        iceBox.events.onInputDown.add(clickProduct,this)
-        var bananaBox = sceneGroup.create(game.world.centerX-20,game.world.centerY+150,'atlas.game','BANANA_BOX')
-        bananaBox.anchor.setTo(0.5)
-        bananaBox.inputEnabled = true
-        bananaBox.id = 2
-        bananaBox.events.onInputDown.add(clickProduct,this)
-        var carrotBox = sceneGroup.create(game.world.centerX-120,game.world.centerY+350,'atlas.game','CARROT')
-        carrotBox.anchor.setTo(0.5)
-        carrotBox.inputEnabled = true
-        carrotBox.id = 3
-        carrotBox.events.onInputDown.add(clickProduct,this)
-
-        boxPositions = [{x:game.world.centerX-110,y:game.world.centerY-50},{x:game.world.centerX-200,y:game.world.centerY+150},{x:game.world.centerX-20,y:game.world.centerY+150},{x:game.world.centerX-120,y:game.world.centerY+350},{x:game.world.centerX+180,y:game.world.centerY+270},{x:game.world.centerX+180,y:game.world.centerY+70}]
+        var basket = sceneGroup.create(game.world.centerX,game.world.height,"atlas.game","BASKET")
+        basket.anchor.setTo(0.5,1)
 
         signsArray.push(createSign(0))
-        signsArray[0].x = game.world.centerX-110
-        signsArray[0].y = game.world.centerY-100
+        signsArray[0].x = basket.x+230
+        signsArray[0].y = basket.y-520
         signsArray[0].angle = 15
 
         signsArray.push(createSign(1))
-        signsArray[1].x = game.world.centerX-200
-        signsArray[1].y = game.world.centerY+100
-        signsArray[1].angle = -15
+        signsArray[1].x = basket.x
+        signsArray[1].y = basket.y-540
+        signsArray[1].angle = 15
 
         signsArray.push(createSign(2))
-        signsArray[2].x = game.world.centerX-20
-        signsArray[2].y = game.world.centerY+100
+        signsArray[2].x = basket.x-140
+        signsArray[2].y = basket.y-500
         signsArray[2].angle = 15
 
+        var milkBox = sceneGroup.create(basket.x+170,basket.y-400,'atlas.game','MILK_BASKET')
+        milkBox.anchor.setTo(0.5)
+        milkBox.inputEnabled = true
+        milkBox.id = 0
+        milkBox.events.onInputDown.add(clickProduct,this)
+
+        var juiceBox = sceneGroup.create(basket.x,basket.y-400,'atlas.game','OJ_BASKET')
+        juiceBox.anchor.setTo(0.5)
+        juiceBox.inputEnabled = true
+        juiceBox.id = 1
+        juiceBox.events.onInputDown.add(clickProduct,this)
+
+        var breadBox = sceneGroup.create(basket.x-170,basket.y-400,'atlas.game','BREAD_BASKET')
+        breadBox.anchor.setTo(0.5)
+        breadBox.inputEnabled = true
+        breadBox.id = 2
+        breadBox.events.onInputDown.add(clickProduct,this)
+
+
         signsArray.push(createSign(3))
-        signsArray[3].x = game.world.centerX-120
-        signsArray[3].y = game.world.centerY+300
-        signsArray[3].angle = 15
+        signsArray[3].x = basket.x-270
+        signsArray[3].y = basket.y-350
+        signsArray[3].angle = -15
 
         signsArray.push(createSign(4))
-        signsArray[4].x = game.world.centerX+180
-        signsArray[4].y = game.world.centerY+20
+        signsArray[4].x = basket.x+250
+        signsArray[4].y = basket.y-400
         signsArray[4].angle = 15
 
         signsArray.push(createSign(5))
-        signsArray[5].x = game.world.centerX+180
-        signsArray[5].y = game.world.centerY+220
-        signsArray[5].angle = 15
+        signsArray[5].x = basket.x-100
+        signsArray[5].y = basket.y-340
+        signsArray[5].angle = -15
+
+        
+
+
+
+        var appleBox = sceneGroup.create(basket.x-180,basket.y-270,'atlas.game','APPLE_BASKET')
+        appleBox.anchor.setTo(0.5)
+        appleBox.inputEnabled = true
+        appleBox.id = 3
+        appleBox.events.onInputDown.add(clickProduct,this)
+        var bananaBox = sceneGroup.create(basket.x+220,basket.y-270,'atlas.game','BANANA_BASTE')
+        bananaBox.anchor.setTo(0.5)
+        bananaBox.inputEnabled = true
+        bananaBox.id = 4
+        bananaBox.events.onInputDown.add(clickProduct,this)
+        var carrotBox = sceneGroup.create(basket.x,basket.y-240,'atlas.game','CARROT_BASKET')
+        carrotBox.anchor.setTo(0.5)
+        carrotBox.inputEnabled = true
+        carrotBox.id = 5
+        carrotBox.events.onInputDown.add(clickProduct,this)
+
+        boxPositions = [{x:milkBox.x,y:milkBox.y},{x:juiceBox.x,y:juiceBox.y},{x:breadBox.x,y:breadBox.y},{x:appleBox.x,y:appleBox.y},{x:bananaBox.x,y:bananaBox.y},{x:carrotBox.x,y:carrotBox.y}]
+
+        
+        
 
 
         operationGroup = game.add.group()
@@ -837,29 +797,53 @@ var smart = function(){
         operationGroup.y = game.world.centerY - 320
         operationGroup.visible = false
 
-        var productSprite = operationGroup.create(-150,0,'atlas.game','QUESTION_BIT')
+        var voidSprite = operationGroup.create(-150,0,'atlas.game','VOID')
+        voidSprite.anchor.setTo(0.5)
+        voidSprite.scale.setTo(1)
+        voidOperation.push(voidSprite)
+        voidSprite.visible = false
+
+        var productSprite = operationGroup.create(-150,0,'atlas.game','QUESTION_SCREEN')
         productSprite.anchor.setTo(0.5)
         productSprite.scale.setTo(0.9)
         productsOperation.push(productSprite)
+
+        
 
         var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#BFE54F", align: "center"}
         var operation = new Phaser.Text(sceneGroup.game, -100, 0, "+", fontStyle)
         operation.anchor.setTo(0.5)
         operationGroup.add(operation)
 
-        productSprite = operationGroup.create(-50,0,'atlas.game','QUESTION_BIT')
+        voidSprite = operationGroup.create(-50,0,'atlas.game','VOID')
+        voidSprite.anchor.setTo(0.5)
+        voidSprite.scale.setTo(1)
+        voidOperation.push(voidSprite)
+        voidSprite.visible = false
+
+        productSprite = operationGroup.create(-50,0,'atlas.game','QUESTION_SCREEN')
         productSprite.anchor.setTo(0.5)
         productSprite.scale.setTo(0.9)
         productsOperation.push(productSprite)
+
+        
 
         operation = new Phaser.Text(sceneGroup.game, 0, 0, "+", fontStyle)
         operation.anchor.setTo(0.5)
         operationGroup.add(operation)
 
-        productSprite = operationGroup.create(50,0,'atlas.game','QUESTION_BIT')
+        voidSprite = operationGroup.create(50,0,'atlas.game','VOID')
+        voidSprite.anchor.setTo(0.5)
+        voidSprite.scale.setTo(1)
+        voidOperation.push(voidSprite)
+        voidSprite.visible = false
+
+        productSprite = operationGroup.create(50,0,'atlas.game','QUESTION_SCREEN')
         productSprite.anchor.setTo(0.5)
         productSprite.scale.setTo(0.9)
         productsOperation.push(productSprite)
+
+        
 
         operation = new Phaser.Text(sceneGroup.game, 100, 0, "=", fontStyle)
         operation.anchor.setTo(0.5)
@@ -876,36 +860,35 @@ var smart = function(){
         numbersOperation.push(number)
         operationGroup.add(number)
 
-         number = new Phaser.Text(sceneGroup.game, -20, 50, "1", fontStyle)
+        number = new Phaser.Text(sceneGroup.game, -20, 50, "1", fontStyle)
         number.anchor.setTo(0.5)
         numbersOperation.push(number)
         operationGroup.add(number)
 
-         number = new Phaser.Text(sceneGroup.game, 90, 50, "1", fontStyle)
+        number = new Phaser.Text(sceneGroup.game, 90, 50, "1", fontStyle)
         number.anchor.setTo(0.5)
         numbersOperation.push(number)
         operationGroup.add(number)
 
-        littleBits = []
+       //littleBits = []
 
-        for(var i = 0; i < 6; i++){
-            var bit = operationGroup.create(0,0,'atlas.game','QUESTION_BIT')
+        /*for(var i = 0; i < 6; i++){
+            var bit = operationGroup.create(0,0,'atlas.game','QUESTION_SCREEN')
             bit.anchor.setTo(0.5)
             bit.scale.setTo(0.3)
             bit.visibe = false
             bit.y = 50
             littleBits.push(bit)
 
-        }
+        }*/
 
-
-        pruductSpines.push(createSpine('bread',0))
-        pruductSpines.push(createSpine('apple',1))
-        pruductSpines.push(createSpine('bannana',2))
-        pruductSpines.push(createSpine('carrot',3))
-        pruductSpines.push(createSpine('juice',4))
-        pruductSpines.push(createSpine('milk',5))
-
+        pruductSpines.push(createSpine('milk',0))
+        pruductSpines.push(createSpine('orange',1))
+        pruductSpines.push(createSpine('bread',2))
+        pruductSpines.push(createSpine('apple',3))
+        pruductSpines.push(createSpine('bannana',4))
+        pruductSpines.push(createSpine('carrot',5))
+        
         
 
 

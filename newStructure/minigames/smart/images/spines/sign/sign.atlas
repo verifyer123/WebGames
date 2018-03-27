@@ -1,0 +1,27 @@
+
+sign.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/empty
+  rotate: false
+  xy: 106, 118
+  size: 32, 48
+  orig: 32, 48
+  offset: 0, 0
+  index: -1
+normal/sign
+  rotate: false
+  xy: 2, 70
+  size: 102, 96
+  orig: 102, 96
+  offset: 0, 0
+  index: -1
+normal/stick
+  rotate: false
+  xy: 2, 2
+  size: 28, 66
+  orig: 28, 66
+  offset: 0, 0
+  index: -1
