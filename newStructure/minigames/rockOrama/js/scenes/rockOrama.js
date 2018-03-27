@@ -39,6 +39,10 @@ var rockOrama = function(){
             {
 				name:'backLigth',
 				file:"images/rockOrama/backLigth.png"
+			},
+            {
+				name:'courtine',
+				file:"images/rockOrama/courtine.png"
 			}
 
 		],
@@ -122,6 +126,7 @@ var rockOrama = function(){
     var correctAnswer = []
     var hand
     var tutorial = true
+    var courtinesGroup
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -607,7 +612,7 @@ var rockOrama = function(){
             box.beginFill(0xFF3300)
             box.drawRect(0, 0, 150, 180)
             box.alpha = 0
-            box.inputEnabled = true
+            box.inputEnabled = false
             box.events.onInputDown.add(playASong, this)
             buttonsGroup.add(box)
             pivot += 0.6
@@ -616,7 +621,7 @@ var rockOrama = function(){
     
     function playASong(box){
         
-        if(tutorial){
+        if(tutorial && gameActive){
             
             instrumentsGroup.children[box.song].setAnimationByName(0, "PLAY", true)
             sound.play(assets.spines[box.song].name)
@@ -638,9 +643,15 @@ var rockOrama = function(){
                     }
                 },this)  
                 
+                
                 game.time.events.add(3800,function(){
-                    if(lives !== 0)
-                        initGame()
+                    game.add.tween(courtinesGroup.children[0].scale).to({x:1}, 500, Phaser.Easing.linear,true)
+                    game.add.tween(courtinesGroup.children[1].scale).to({x:1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+                        game.time.events.add(400,function(){
+                            if(lives !== 0)
+                                initGame()
+                        },this)
+                    })
                 },this)
             }
         }
@@ -699,9 +710,14 @@ var rockOrama = function(){
             },this)
         }
         
-         game.time.events.add(3800,function(){
-            if(lives !== 0)
-                initGame()
+        game.time.events.add(3800,function(){
+            game.add.tween(courtinesGroup.children[0].scale).to({x:1}, 500, Phaser.Easing.linear,true)
+            game.add.tween(courtinesGroup.children[1].scale).to({x:1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+                game.time.events.add(400,function(){
+                    if(lives !== 0)
+                        initGame()
+                },this)
+            })
         },this)
     }
     
@@ -710,7 +726,8 @@ var rockOrama = function(){
         var delay = 500
         index = 0
         
-        game.time.events.add(delay,function(){
+        game.add.tween(courtinesGroup.children[0].scale).to({x:0}, delay,Phaser.Easing.linear,true)
+        game.add.tween(courtinesGroup.children[1].scale).to({x:0}, delay,Phaser.Easing.linear,true).onComplete.add(function(){
             
             for(var i = 0; i < level; i++){
                 
@@ -719,13 +736,19 @@ var rockOrama = function(){
                 delay += 1000
             }
             
+            if(level > 5){
+                game.time.events.add(delay + 100,function(){
+                    delay += changePositions()
+                },this)
+            }
+            
             game.time.events.add(delay + 100,function(){
                 coneLigth.y = 0
                 gameActive = true
                 if(tutorial)
                     handPos()
             },this)
-        },this)
+        })
     }
     
     function playDemo(i, delay){
@@ -743,11 +766,6 @@ var rockOrama = function(){
         },this)    
     }
     
-    function initTutorial(){
-        
-        
-    }
-    
     function handPos(){
         
         hand.alpha = 1
@@ -759,6 +777,71 @@ var rockOrama = function(){
         
         buttonsGroup.setAll("inputEnabled", false)
         buttonsGroup.children[correctAnswer[index]].inputEnabled = true
+    }
+    
+    function createCourtines(){
+        
+        courtinesGroup = game.add.group()
+        sceneGroup.add(courtinesGroup)
+        
+        for(var i = 0; i < 2; i++){
+            
+            var court = game.add.tileSprite(game.world.width * i, 0, game.world.centerX, game.world.centerY + 343, "courtine")
+            court.anchor.setTo(i, 0)
+            courtinesGroup.add(court)
+        }
+    }
+    
+    function changePositions(){
+
+        var delay = 500
+        var rand = game.rnd.integerInRange(1, 3)
+        
+        game.add.tween(courtinesGroup.children[0].scale).to({x:1}, delay, Phaser.Easing.linear,true)
+        game.add.tween(courtinesGroup.children[1].scale).to({x:1}, delay, Phaser.Easing.linear,true).onComplete.add(function(){
+            
+            scramble(rand)
+            game.time.events.add(delay + 300,function(){
+                game.add.tween(courtinesGroup.children[0].scale).to({x:0}, 500, Phaser.Easing.linear,true)
+                game.add.tween(courtinesGroup.children[1].scale).to({x:0}, 500, Phaser.Easing.linear,true)
+            },this)
+        })
+        
+        return delay 
+    }
+    
+    function scramble(opt){
+                 
+        var aux = buttonsGroup.children[opt].x
+        
+        switch(opt){
+                
+            case 1:
+                for(var i = 1; i < 3; i++){
+                    buttonsGroup.children[i].x = buttonsGroup.children[i+1].x
+                    instrumentsGroup.children[i].x = buttonsGroup.children[i].centerX
+                }
+                buttonsGroup.children[3].x = aux
+                instrumentsGroup.children[3].x = buttonsGroup.children[3].centerX
+            break
+            
+            case 2:
+                buttonsGroup.children[2].x = buttonsGroup.children[1].x
+                instrumentsGroup.children[2].x = buttonsGroup.children[2].centerX
+                
+                buttonsGroup.children[1].x = aux
+                instrumentsGroup.children[1].x = buttonsGroup.children[1].centerX
+            break
+            
+            case 3:
+                for(var i = 3; i > 1; i--){
+                    buttonsGroup.children[i].x = buttonsGroup.children[i-1].x
+                    instrumentsGroup.children[i].x = buttonsGroup.children[i].centerX
+                }
+                buttonsGroup.children[1].x = aux
+                instrumentsGroup.children[1].x = buttonsGroup.children[1].centerX
+            break
+        }
     }
 	
 	return {
@@ -795,12 +878,13 @@ var rockOrama = function(){
             }, this);
             
             initialize()
-			            
-			createPointsBar()
-			createHearts()
+			         
             inputButtons()
             rockBand()
             initCoin()
+            createCourtines()
+            createPointsBar()
+			createHearts()
             createParticles()
 			
 			buttons.getButton(rockSong,sceneGroup)
