@@ -478,7 +478,7 @@ var greenRescue = function(){
         backgroundGroup.add(sun)
         backgroundGroup.add(moon)
         
-        stars=game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.green',"STARS")
+        stars=game.add.tileSprite(0,10,game.world.width,game.world.height/7.7,'atlas.green',"STARS")
         starsGroup.add(stars)
         starsGroup.alpha=1
         
