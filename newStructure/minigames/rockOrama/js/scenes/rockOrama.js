@@ -77,6 +77,12 @@ var rockOrama = function(){
                 width: 122,
                 height: 123,
                 frames: 12
+            },
+            {   name: "hand",
+                file: "images/spines/hand.png",
+                width: 115,
+                height: 111,
+                frames: 23
             }
         ],
         spines:[
@@ -114,6 +120,8 @@ var rockOrama = function(){
     var index
     var level
     var correctAnswer = []
+    var hand
+    var tutorial = true
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -527,13 +535,17 @@ var rockOrama = function(){
 	
 	function initCoin(){
         
-       coin = game.add.sprite(0, 0, "coin")
-       coin.anchor.setTo(0.5)
-       coin.scale.setTo(0.5)
-       coin.animations.add('coin');
-       coin.animations.play('coin', 24, true);
-       coin.alpha = 0
-
+        coin = game.add.sprite(0, 0, "coin")
+        coin.anchor.setTo(0.5)
+        coin.scale.setTo(0.5)
+        coin.animations.add('coin')
+        coin.animations.play('coin', 24, true)
+        coin.alpha = 0
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
     }
 
     function addCoin(){
@@ -582,7 +594,7 @@ var rockOrama = function(){
         box.beginFill(0xFF3300)
         box.drawRect(0, 0, 150, 180)
         box.alpha = 0
-        box.inputEnabled = true
+        box.inputEnabled = false
         box.events.onInputDown.add(playASong, this)
         buttonsGroup.add(box)
         pivot += 0.6
@@ -604,23 +616,53 @@ var rockOrama = function(){
     
     function playASong(box){
         
-        if(gameActive && index <= level){
-            console.log(box.song)
-            coneLigth.x = box.centerX
-            coneLigth.y = box.centerY + 100
+        if(tutorial){
             
-            if(correctAnswer[index] === box.song){
-                
-                instrumentsGroup.children[box.song].setAnimationByName(0, "PLAY", true)
-                index++
-                sound.play(assets.spines[box.song].name)
-                if(index === level)
-                    rockMyWorld(true)
-            }
+            instrumentsGroup.children[box.song].setAnimationByName(0, "PLAY", true)
+            sound.play(assets.spines[box.song].name)
+            index++
+            if(index !== level)
+                handPos()
             else{
-                sound.play('error')
-                instrumentsGroup.children[box.song].setAnimationByName(0, "WRONG", true)
-                rockMyWorld(false)
+                gameActive = false
+                tutorial = false
+                hand.destroy()
+                buttonsGroup.setAll("inputEnabled", true)
+                
+                game.time.events.add(1000,function(){
+                    coneLigth.y = 0
+                    sound.play('winBreak')
+                    for(var i = 0; i < instrumentsGroup.length; i++){
+                        instrumentsGroup.children[i].setAnimationByName(0, "PLAY", false)
+                        instrumentsGroup.children[i].addAnimationByName(0, "IDLE", true)
+                    }
+                },this)  
+                
+                game.time.events.add(3800,function(){
+                    if(lives !== 0)
+                        initGame()
+                },this)
+            }
+        }
+        else{
+            if(gameActive && index <= level){
+
+                coneLigth.x = box.centerX
+                coneLigth.y = box.centerY + 100
+
+                if(correctAnswer[index] === box.song){
+
+                    instrumentsGroup.children[box.song].setAnimationByName(0, "PLAY", true)
+                    index++
+                    sound.play(assets.spines[box.song].name)
+                    if(index === level)
+                        rockMyWorld(true)
+                }
+                else{
+                    sound.play('error')
+                    instrumentsGroup.children[box.song].setAnimationByName(0, "WRONG", true)
+                    rockMyWorld(false)
+                }
             }
         }
     }
@@ -680,6 +722,8 @@ var rockOrama = function(){
             game.time.events.add(delay + 100,function(){
                 coneLigth.y = 0
                 gameActive = true
+                if(tutorial)
+                    handPos()
             },this)
         },this)
     }
@@ -697,6 +741,24 @@ var rockOrama = function(){
                 instrumentsGroup.children[i].setAnimationByName(0, "PLAY", false)
                 instrumentsGroup.children[i].addAnimationByName(0, "IDLE", true)
         },this)    
+    }
+    
+    function initTutorial(){
+        
+        
+    }
+    
+    function handPos(){
+        
+        hand.alpha = 1
+        hand.x = buttonsGroup.children[correctAnswer[index]].centerX
+        hand.y = buttonsGroup.children[correctAnswer[index]].centerY 
+        
+        coneLigth.x = buttonsGroup.children[correctAnswer[index]].centerX
+        coneLigth.y = buttonsGroup.children[correctAnswer[index]].centerY + 100
+        
+        buttonsGroup.setAll("inputEnabled", false)
+        buttonsGroup.children[correctAnswer[index]].inputEnabled = true
     }
 	
 	return {
