@@ -3,19 +3,6 @@ var soundsPath = "../../shared/minigames/sounds/"
 
 var spatialOverdrive = function(){
     
-    var localizationData = {
-		"EN":{
-            "howTo":"How to Play?",
-            "moves":"Moves left"
-		},
-
-		"ES":{
-            "moves":"Movimientos extra",
-            "howTo":"¿Cómo jugar?"
-		}
-	}
-    
-
 	var assets = {
         atlases: [
             {   
@@ -31,8 +18,7 @@ var spatialOverdrive = function(){
 
         ],
         images: [
-            /*{   name:"tutorial_image",
-                file: "images/spatialOverdrive/tutorial_image_movil.png"}*/
+
             {
                 name:'tutorial_image',
                 file:"images/spatialOverdrive/tutorial_image_%input.png"
@@ -56,7 +42,7 @@ var spatialOverdrive = function(){
             {
                 name: 'gameSong',
                 file: soundsPath + 'songs/space_music.mp3'
-                }
+            }
 
             
         ],
@@ -148,12 +134,11 @@ var spatialOverdrive = function(){
             planetArray = ["MERCURY ","VENUS","EARTH","MARS","SATURN","JUPITER","URANUS","NEPTUNE"]
         }
         else{
-            planetArray = ["MERCURIO","VENUS","TIERRA","MARTE","SATURNO","JUPITER","URANO","NEPTURNO"]
+            planetArray = ["MERCURIO","VENUS","TIERRA","MARTE","SATURNO","JUPITER","URANO","NEPTUNO"]
         }
 
         currentId = 0
 
-        //numberArray = ["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGTH","NINE"]
 
         loadSounds()
         
