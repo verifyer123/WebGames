@@ -45,8 +45,6 @@ var rockOrama = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "error",
@@ -55,10 +53,22 @@ var rockOrama = function(){
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
+            {	name: "smallWin",
+				file: soundsPath + "smallWin.wav"},
+            {	name: "winBreak",
+				file: soundsPath + "winBreak.mp3"},
+            {	name: "bass",
+				file: soundsPath + "bass.wav"},
+            {	name: "drumkit",
+				file: soundsPath + "drumkit.wav"},
+            {	name: "electricGuitar",
+				file: soundsPath + "electricGuitar.mp3"},
+            {	name: "synth",
+				file: soundsPath + "synth.wav"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {   name: 'spaceSong',
-                file: soundsPath + 'songs/childrenbit.mp3'
+            {   name: 'rockSong',
+                file: soundsPath + 'songs/funky_monkey.mp3'
             }
 		],
         spritesheets: [
@@ -79,7 +89,7 @@ var rockOrama = function(){
 				file:"images/spines/bass/bass.json"
 			},
             {
-				name:"guitar",
+				name:"electricGuitar",
 				file:"images/spines/guitar/guitar.json"
 			},
             {
@@ -96,7 +106,7 @@ var rockOrama = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 170
     var tutoGroup
-    var spaceSong
+    var rockSong
     var coin
     var instrumentsGroup
     var buttonsGroup
@@ -277,7 +287,7 @@ var rockOrama = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        spaceSong.stop()
+        rockSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -603,7 +613,7 @@ var rockOrama = function(){
                 
                 instrumentsGroup.children[box.song].setAnimationByName(0, "PLAY", true)
                 index++
-                //sound.play(instrumentsGroup[instument.value].name)
+                sound.play(assets.spines[box.song].name)
                 if(index === level)
                     rockMyWorld(true)
             }
@@ -627,8 +637,8 @@ var rockOrama = function(){
             
             game.time.events.add(1000,function(){
                 coneLigth.y = 0
-                //sound.play('song')
-                addCoin(0)
+                sound.play('winBreak')
+                addCoin()
                 for(var i = 0; i < instrumentsGroup.length; i++){
                     instrumentsGroup.children[i].setAnimationByName(0, "PLAY", false)
                     instrumentsGroup.children[i].addAnimationByName(0, "IDLE", true)
@@ -638,8 +648,8 @@ var rockOrama = function(){
         else{
             coneLigth.y = 0
             game.time.events.add(1000,function(){
-                //sound.play('song')
-                //missPoint()
+                sound.play('smallWin')
+                missPoint()
                 for(var i = 0; i < instrumentsGroup.length; i++){
                     instrumentsGroup.children[i].setAnimationByName(0, "WRONG", false)
                     instrumentsGroup.children[i].addAnimationByName(0, "IDLE", true)
@@ -647,7 +657,7 @@ var rockOrama = function(){
             },this)
         }
         
-         game.time.events.add(2500,function(){
+         game.time.events.add(3800,function(){
             if(lives !== 0)
                 initGame()
         },this)
@@ -666,7 +676,7 @@ var rockOrama = function(){
                 playDemo(correctAnswer[i], delay)
                 delay += 1000
             }
-console.log(correctAnswer)
+            
             game.time.events.add(delay + 100,function(){
                 coneLigth.y = 0
                 gameActive = true
@@ -680,9 +690,9 @@ console.log(correctAnswer)
             
                 coneLigth.x = buttonsGroup.children[i].centerX
                 coneLigth.y = buttonsGroup.children[i].centerY + 110
-                game.add.tween(instrumentsGroup.children[i].scale).to({x:0.9, y:0.9}, 250,Phaser.Easing.linear,true).onComplete.add(function(){
-                    //sound.play(orchesta[r].name)
-                    game.add.tween(instrumentsGroup.children[i].scale).to({x:0.5, y:0.5}, 240,Phaser.Easing.linear,true)
+                game.add.tween(instrumentsGroup.children[i].scale).to({x:0.9, y:0.9}, 300,Phaser.Easing.linear,true).onComplete.add(function(){
+                    sound.play(assets.spines[buttonsGroup.children[i].song].name)
+                    game.add.tween(instrumentsGroup.children[i].scale).to({x:0.5, y:0.5}, 300,Phaser.Easing.linear,true)
                 })
                 instrumentsGroup.children[i].setAnimationByName(0, "PLAY", false)
                 instrumentsGroup.children[i].addAnimationByName(0, "IDLE", true)
@@ -706,13 +716,13 @@ console.log(correctAnswer)
 			createBackground()
 			addParticles()
                         			
-            /*spaceSong = game.add.audio('spaceSong')
-            game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
+            /*rockSong = game.add.audio('rockSong')
+            game.sound.setDecodedCallback(rockSong, function(){
+                rockSong.loopFull(0.6)
             }, this);*/
             
             initialize()
-            spaceSong = sound.play("spaceSong", {loop:true, volume:0.6})
+            rockSong = sound.play("rockSong", {loop:true, volume:0.2})
             
             game.onPause.add(function(){
                 game.sound.mute = true
@@ -731,7 +741,7 @@ console.log(correctAnswer)
             initCoin()
             createParticles()
 			
-			buttons.getButton(spaceSong,sceneGroup)
+			buttons.getButton(rockSong,sceneGroup)
             createTutorial()
             
             animateScene()
