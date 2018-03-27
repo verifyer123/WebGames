@@ -401,27 +401,29 @@ var squaredSquares = function(){
 
         for(var index = 0; index < cubesGroup.length; index++){
             if(cubesGroup.children[index].visible){
-                cubesGroup.children[index].y -= moveVelocity
+            	var cube = cubesGroup.children[index]
+                cube.y -= moveVelocity
 
-                if(cubesGroup.children[index].y<LIMIT_Y_DESTROY_CUBE){
-                    cubesGroup.children[index].visible = false
+                if(cube.y<LIMIT_Y_DESTROY_CUBE){
+                    cube.visible = false
                 }
             }
         }
 
         for(var index = 0; index < fallGroup.length; index++){
             if(fallGroup.children[index].visible && !fallGroup.children[index].isFalling){
-                fallGroup.children[index].y -= moveVelocity
+            	var fallCube = fallGroup.children[index]
+                fallCube.y -= moveVelocity
 
-                if(fallGroup.children[index].y<LIMIT_Y_DESTROY_CUBE){
-                    fallGroup.children[index].visible = false
+                if(fallCube.y<LIMIT_Y_DESTROY_CUBE){
+                    fallCube.visible = false
                 }
 
-                if(fallGroup.children[index].active){
-                    if(fallGroup.children[index].time < game.time.now){
-                        fallGroup.children[index].isFalling = true
+                if(fallCube.active){
+                    if(fallCube.time < game.time.now){
+                        fallCube.isFalling = true
                         sound.play("fall")
-                        fallGroup.children[index].fallingTween = game.add.tween(fallGroup.children[index]).to({y:fallGroup.children[index].y + game.world.height},FALLING_TIME,Phaser.Easing.linear,true)
+                        fallCube.fallingTween = game.add.tween(fallCube).to({y:fallCube.y + game.world.height},FALLING_TIME,Phaser.Easing.linear,true)
                     }
                 }
             }
@@ -429,24 +431,31 @@ var squaredSquares = function(){
 
         for(var index = 0; index < trafficGroup.length; index++){
             if(trafficGroup.children[index].visible){
-                trafficGroup.children[index].y -= moveVelocity
+            	var trafficCube = trafficGroup.children[index]
+                trafficCube.y -= moveVelocity
 
-                if(trafficGroup.children[index].y<LIMIT_Y_DESTROY_CUBE){
-                    trafficGroup.children[index].visible = false
+                if(trafficCube.y<LIMIT_Y_DESTROY_CUBE){
+                    trafficCube.visible = false
                 }
 
-                if(trafficGroup.children[index].active){
-                    if(trafficGroup.children[index].time < game.time.now){
-                        if(trafficGroup.children[index].isUp){
-                            trafficGroup.children[index].setAnimationByName(0,"down",false)
+                if(trafficCube.active){
+                    if(trafficCube.time < game.time.now){
+                        if(trafficCube.isUp){
+                            trafficCube.setAnimationByName(0,"down",false)
                         }
                         else{
-                            trafficGroup.children[index].setAnimationByName(0,"up",false)
+                           trafficCube.setAnimationByName(0,"up",false)
                         }
-                        trafficGroup.children[index].isUp = !trafficGroup.children[index].isUp
-                        trafficGroup.children[index].time = getTimeChangeTrafficLigth()
+                        //setTimeout(function(){changeTrafficFlag(trafficGroup.children[index])},300)
+                        trafficCube.wait = game.time.now + 300
+                        trafficCube.time = getTimeChangeTrafficLigth()
                         sound.play("trafficChange")
                     }
+                }
+
+                if(trafficCube.wait !=-1 && trafficCube.wait<game.time.now){
+                	trafficCube.isUp = !trafficCube.isUp
+                	trafficCube.wait = -1
                 }
             }
         }
@@ -454,11 +463,12 @@ var squaredSquares = function(){
 
         for(var index = 0; index < coinsGroup.length; index++){
             if(coinsGroup.children[index].visible && coinsGroup.children[index].active){
-                coinsGroup.children[index].y -= moveVelocity
+            	var coin = coinsGroup.children[index]
+                coin.y -= moveVelocity
 
-                if(coinsGroup.children[index].y<LIMIT_Y_DESTROY_CUBE){
-                    coinsGroup.children[index].visible = false
-                    coinsGroup.children[index].animations.stop(null,true)
+                if(coin.y<LIMIT_Y_DESTROY_CUBE){
+                    coin.visible = false
+                    coin.animations.stop(null,true)
                 }
             }
         }
@@ -501,6 +511,10 @@ var squaredSquares = function(){
             }
         }
     }
+
+    /*function changeTrafficFlag(trafficCube){
+    	trafficCube.isUp = !trafficCube.isUp
+    }*/
 
     function restartYogotar(){
         //gameActive = true
@@ -634,7 +648,6 @@ var squaredSquares = function(){
         gameActive = false
         var anim = yogotar.setAnimationByName(0,"hit",true)
         anim.onComplete = function(){
-            console.log(gameActive = true)
             if(lives>0){
                 yogotar.setAnimationByName(0,"idle",true)
                 gameActive = true
@@ -661,6 +674,11 @@ var squaredSquares = function(){
                 cube.setAnimationByName(0,"up",false)
                 hit()
             }
+            else if(cube.wait!=-1){
+            	cube.wait = -1
+            }
+
+
 
             cube.active = false 
 
@@ -796,6 +814,7 @@ var squaredSquares = function(){
                 cube.isUp = true
                 cube.active = true
                 trafficGroup.bringToTop(cube)
+                cube.wait = -1
                 return cube
             }
         }
@@ -809,6 +828,7 @@ var squaredSquares = function(){
         cube.active = true
         cube.scale.setTo(0.55)
         trafficGroup.add(cube)
+        cube.wait = -1
         return cube
     }
 
