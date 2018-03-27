@@ -1,0 +1,181 @@
+
+guitar.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/guitar_body
+  rotate: false
+  xy: 189, 727
+  size: 316, 295
+  orig: 316, 295
+  offset: 0, 0
+  index: -1
+normal1/guitar_cheek
+  rotate: false
+  xy: 911, 950
+  size: 57, 72
+  orig: 57, 72
+  offset: 0, 0
+  index: -1
+normal1/guitar_eye_l
+  rotate: false
+  xy: 482, 87
+  size: 37, 82
+  orig: 37, 82
+  offset: 0, 0
+  index: -1
+normal1/guitar_eye_r
+  rotate: false
+  xy: 647, 386
+  size: 38, 80
+  orig: 38, 80
+  offset: 0, 0
+  index: -1
+normal1/guitar_eyebrow_l
+  rotate: false
+  xy: 970, 1005
+  size: 30, 17
+  orig: 30, 17
+  offset: 0, 0
+  index: -1
+normal1/guitar_eyebrow_r
+  rotate: false
+  xy: 528, 257
+  size: 31, 16
+  orig: 31, 16
+  offset: 0, 0
+  index: -1
+normal1/guitar_foot
+  rotate: false
+  xy: 265, 11
+  size: 85, 52
+  orig: 85, 52
+  offset: 0, 0
+  index: -1
+normal1/guitar_leg
+  rotate: true
+  xy: 770, 788
+  size: 25, 77
+  orig: 25, 77
+  offset: 0, 0
+  index: -1
+normal1/guitar_mouth
+  rotate: true
+  xy: 189, 626
+  size: 99, 73
+  orig: 99, 73
+  offset: 0, 0
+  index: -1
+normal1/guitar_mouth_open
+  rotate: false
+  xy: 770, 815
+  size: 89, 78
+  orig: 89, 78
+  offset: 0, 0
+  index: -1
+normal1/guitar_neck
+  rotate: false
+  xy: 2, 558
+  size: 185, 464
+  orig: 185, 464
+  offset: 0, 0
+  index: -1
+normal1/guitar_nose
+  rotate: false
+  xy: 911, 923
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+normal1/guitar_pupil_l
+  rotate: true
+  xy: 352, 41
+  size: 22, 53
+  orig: 22, 53
+  offset: 0, 0
+  index: -1
+normal1/guitar_pupil_r
+  rotate: false
+  xy: 189, 570
+  size: 24, 54
+  orig: 24, 54
+  offset: 0, 0
+  index: -1
+normal1/guitar_shadow
+  rotate: false
+  xy: 265, 65
+  size: 215, 104
+  orig: 215, 104
+  offset: 0, 0
+  index: -1
+normal1/guitar_shin
+  rotate: false
+  xy: 861, 816
+  size: 25, 77
+  orig: 25, 77
+  offset: 0, 0
+  index: -1
+normal1/guitar_shine_00
+  rotate: false
+  xy: 507, 746
+  size: 261, 276
+  orig: 261, 276
+  offset: 0, 0
+  index: -1
+normal1/guitar_shine_01
+  rotate: false
+  xy: 2, 280
+  size: 261, 276
+  orig: 261, 276
+  offset: 0, 0
+  index: -1
+normal1/guitar_shine_02
+  rotate: false
+  xy: 2, 2
+  size: 261, 276
+  orig: 261, 276
+  offset: 0, 0
+  index: -1
+normal1/guitar_shine_03
+  rotate: false
+  xy: 265, 449
+  size: 261, 276
+  orig: 261, 276
+  offset: 0, 0
+  index: -1
+normal1/guitar_shine_04
+  rotate: false
+  xy: 265, 171
+  size: 261, 276
+  orig: 261, 276
+  offset: 0, 0
+  index: -1
+normal1/guitar_shine_05
+  rotate: false
+  xy: 528, 468
+  size: 261, 276
+  orig: 261, 276
+  offset: 0, 0
+  index: -1
+normal1/guitar_tongue
+  rotate: false
+  xy: 528, 275
+  size: 71, 50
+  orig: 71, 50
+  offset: 0, 0
+  index: -1
+normal1/musicalnotes_good
+  rotate: false
+  xy: 528, 327
+  size: 117, 139
+  orig: 117, 139
+  offset: 0, 0
+  index: -1
+normal1/musicalnotes_wrong
+  rotate: false
+  xy: 770, 895
+  size: 139, 127
+  orig: 139, 127
+  offset: 0, 0
+  index: -1
