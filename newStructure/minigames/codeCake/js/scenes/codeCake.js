@@ -1186,9 +1186,14 @@ var codeCake = function(){
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
 
-        var background = game.add.sprite(0,0,'atlas.game','background')
-        background.tilePosition.x = (game.world.width - 505)/2
-        background.anchor.setTo(0,0)
+        var backColor = game.add.graphics(0,0)
+        backColor.beginFill(0x2f3432)
+        backColor.drawRect(0,0,game.world.width,game.world.height)
+        backColor.endFill()
+        backgroundGroup.add(backColor)
+
+        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.game','background')
+        background.anchor.setTo(0.5)
         backgroundGroup.add(background)
 
 
@@ -1351,7 +1356,14 @@ var codeCake = function(){
         var okBtn = sceneGroup.create(game.world.centerX+180,game.world.height-80,'atlas.game','button')
         okBtn.anchor.setTo(0.5)
         okBtn.inputEnabled = true
-        okBtn.events.onInputDown.add(clickOk,this)
+        okBtn.events.onInputDown.add(function(){
+            okBtn.loadTexture("atlas.game","button_down")
+            clickOk()
+        },this)
+
+        okBtn.events.onInputUp.add(function(){
+            okBtn.loadTexture("atlas.game","button")
+        },this)
 
         
 

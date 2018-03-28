@@ -776,7 +776,6 @@ var smart = function(){
     	switch(inTutorial){
     		case 0:
     		hand.loadTexture('atlas.game','handDown')
-            console.log("tutorial 0")
     		hand.x = boxPositions[resultObjects[0].productResultId].x
     		hand.y = boxPositions[resultObjects[0].productResultId].y
     		tutorialTween = game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY-100},2000,Phaser.Easing.linear,true)
