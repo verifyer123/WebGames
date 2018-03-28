@@ -127,6 +127,8 @@ var smart = function(){
     var canTouch
     var tutorialObjects, tutorialObjectsId, tutorialChildrenId
 
+    var correctObjectSprite
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -720,11 +722,6 @@ var smart = function(){
                     correctObject = true
                     resultObjects[i].multiplier --
 
-                    /*numbersOperation[resultObjects[i].imageBitId].setText(resultObjects[i].multiplier)
-
-                    game.add.tween(numbersOperation[resultObjects[i].imageBitId].scale).to({x:2,y:2},300,Phaser.Easing.linear,true).yoyo(true)
-					*/
-
 					productsOperation[resultObjects[i].imageBitId].children[resultObjects[i].multiplier].loadTexture('atlas.game',bitImagesNames[id],0,false)
 
 
@@ -748,7 +745,30 @@ var smart = function(){
                 stopTimer()
             }
             //operationGroup.visible = false
-            setTimeout(setRound,700)
+            for(var i = 0; i < resultObjects.length; i++){
+            	for(var j =0; j < resultObjects[i].multiplier; j++ ){
+	            	productsOperation[resultObjects[i].imageBitId].children[j].loadTexture('atlas.game',bitImagesNames[resultObjects[i].productResultId],0,false)
+	            }
+	            //game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({tint:0x00ff00},500,Phaser.Easing.linear,true).yoyo(true)
+	            tweenTint(tutorialButtons[resultObjects[i].productResultId], 0xffffff, 0x00ff00, 300);
+	            correctObjectSprite = tutorialButtons[resultObjects[i].productResultId]
+	            setTimeout(function(){tweenTint(correctObjectSprite, 0x00ff00, 0xffffff, 300);},300)
+	            var tween1 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:-30},100,Phaser.Easing.linear)
+	            var tween2 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:30},200,Phaser.Easing.linear)
+	            var tween3 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:-30},200,Phaser.Easing.linear)
+	            var tween4 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:0},100,Phaser.Easing.linear)
+
+	            tween1.chain(tween2)
+	            tween2.chain(tween3)
+	            tween3.chain(tween4)
+
+	            tween1.start()
+            }
+
+            
+
+
+            setTimeout(setRound,1000)
         }
         else if(needObjects==0){
             sound.play('magic')
@@ -759,13 +779,33 @@ var smart = function(){
             //operationGroup.visible = false
             inTutorial=-1
             hand.visible = false
-            tutorialProductTween.stop()
-            tutorialButtons[resultObjects[0].imageBitId].scale.setTo(1,1)
+           	if(tutorialProductTween!=null){
+	            tutorialProductTween.stop()
+	            for(var i = 0; i < tutorialButtons.length; i++){
+		            tutorialButtons[i].scale.setTo(1)
+		        }
+	        }
             evalTutorial()
             setTimeout(setRound,2000)
         }
 
     }
+
+    function tweenTint(obj, startColor, endColor, time) {    
+	    // create an object to tween with our step value at 0    
+	    var colorBlend = {step: 0};    
+	    // create the tween on this object and tween its step property to 100    
+	    var colorTween = game.add.tween(colorBlend).to({step: 100}, time);        
+	    // run the interpolateColor function every time the tween updates, feeding it the    
+	    // updated value of our tween each time, and set the result as our tint    
+	    colorTween.onUpdateCallback(function() {      
+	    	obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);       
+	    });       
+	    // set the object to the start color straight away    
+	    obj.tint = startColor;            
+	    // start the tween    
+	    colorTween.start();
+	}
 
     function evalTutorial(){
     	if(tutorialTween !=null){
@@ -839,9 +879,11 @@ var smart = function(){
     }
 
     function clickProduct(button,pointer){
-        var id = button.id
-        currentButtonSelected = pruductSpines[id]
-        currentButtonSelected.visible = true
+    	if(canTouch){
+	        var id = button.id
+	        currentButtonSelected = pruductSpines[id]
+	        currentButtonSelected.visible = true
+	    }
     }
     
     function createScene(){
