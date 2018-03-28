@@ -41,12 +41,16 @@ var germStrike = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
+            {	name: "shoot",
+				file: soundsPath + "laser2.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrongAnswer.mp3"},
-            {	name: "rightChoice",
-				file: soundsPath + "rightChoice.mp3"},
+            {	name: "space",
+				file: soundsPath + "robotBeep.mp3"},
+            {	name: "bomb",
+				file: soundsPath + "bomb.mp3"},
+            {	name: "falling",
+				file: soundsPath + "falling.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
@@ -672,6 +676,7 @@ var germStrike = function(){
 
             if (bullet)
             {
+                sound.play("shoot")
                 bullet.reset(ship.movil.x, ship.movil.y - 60)
                 bullet.loadTexture('atlas.germStrike', 'bullet' + shooter)
                 bullet.body.velocity.y = -400
@@ -699,20 +704,21 @@ var germStrike = function(){
             
             for(var j = 0; j < 10; j++){
 
-                var collider = game.add.graphics(0, 0)
+                var collider = subGroup.create(0, 0, "atlas.germStrike", "smoke")//game.add.graphics(0, 0)
                 //collider.beginFill(0x0000ff)
-                collider.drawRect(0, 0, 120, 80)
+                //collider.drawRect(0, 0, 120, 80)
+                collider.scale.setTo(0.5)
                 collider.anchor.setTo(0.5, 1)
                 collider.weakness = i
                 collider.exists = false
                 collider.visible = false
                 collider.checkWorldBounds = true
                 collider.events.onOutOfBounds.add(killObj, this)
-                subGroup.add(collider)
+                //subGroup.add(collider)
 
-                var monst = game.add.sprite(collider.offsetX, collider.offsetY - 30, "virus" + i)
-                monst.anchor.setTo(0.5, 0.5)
-                monst.scale.setTo(0.6)
+                var monst = game.add.sprite(collider.centerX, collider.centerY - 30, "virus" + i)
+                monst.anchor.setTo(0.5)
+                //monst.scale.setTo(0.7)
                 monst.animations.add('idle')
                 monst.animations.play('idle', 24, true)
                 collider.monster = monst
@@ -726,7 +732,8 @@ var germStrike = function(){
         for(var i = 0; i < 10; i++){
             monstersGroup.children[1].children[i].monster.animations.play('idle', 30, true)
             monstersGroup.children[2].children[i].monster.animations.play('idle', 30, true)
-            monstersGroup.children[1].children[i].monster.scale.setTo(0.45)
+            monstersGroup.children[1].children[i].monster.x -= 50
+            monstersGroup.children[1].children[i].monster.y += 15
         }
     }
     
@@ -739,7 +746,7 @@ var germStrike = function(){
 
                 if (creature)
                 {
-                    creature.reset(game.rnd.integerInRange(100, game.world.width - 100), -71)
+                    creature.reset(game.rnd.integerInRange(100, game.world.width - 100), 0)//-71)
                     creature.body.velocity.y = speed * 100
                     counterTime = game.time.now + enemyTime
                 }
@@ -752,6 +759,7 @@ var germStrike = function(){
         if(bullet.tag === monster.weakness){
             enemyKills++
             monster.kill()
+            sound.play("bomb")
         }
         
         if(enemyKills === 5){
@@ -762,7 +770,7 @@ var germStrike = function(){
             particleCorrect.y = monster.y
             particleCorrect.start(true, 1200, null, 6)
             
-            if(pointsBar.number !== 0 && pointsBar.number % 5 === 0){
+            if(pointsBar.number !== 0 && pointsBar.number % 10 === 0){
                 if(speed < 3){
                     speed++
                 }
@@ -784,11 +792,13 @@ var germStrike = function(){
             ship.crashed = true
             gameActive = false
             
+            sound.play("falling")
             game.add.tween(tile.tilePosition).to({y: tile.tilePosition.y + 200}, 1000, Phaser.Easing.linear, true)
             game.add.tween(ship.parent.anim).to({y: ship.parent.anim.y - 200}, 1000, Phaser.Easing.linear, true)
             game.add.tween(ship.parent.anim).to({angle: 360}, 1000, Phaser.Easing.linear, true)
             game.add.tween(ship.parent.anim.scale).to({x: 0, y: 0}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                 
+                sound.stop("falling")
                 particleWrong.x = ship.parent.anim.x 
                 particleWrong.y = ship.parent.anim.y
                 particleWrong.start(true, 1200, null, 6)
@@ -822,6 +832,7 @@ var germStrike = function(){
             ship.anim.scale.setTo(0.5)
             ship.anim.angle = 0
             
+            sound.play("space")
             game.add.tween(ship.anim).from({y: game.world.height + 300}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                 initGame()
             })
@@ -884,13 +895,13 @@ var germStrike = function(){
             }, this);
             
             initialize()
-			            
-			createPointsBar()
-			createHearts()
+			             
             shootSomething()
             millenniumFalcon()
             monstersInc()
             gunsBar()
+            createPointsBar()
+			createHearts()
             initCoin()
             createParticles()
 			
