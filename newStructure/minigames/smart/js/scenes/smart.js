@@ -744,11 +744,12 @@ var smart = function(){
             if(timeOn){
                 stopTimer()
             }
+
             //operationGroup.visible = false
             for(var i = 0; i < resultObjects.length; i++){
-            	for(var j =0; j < resultObjects[i].multiplier; j++ ){
+            	/*for(var j =0; j < resultObjects[i].multiplier; j++ ){
 	            	productsOperation[resultObjects[i].imageBitId].children[j].loadTexture('atlas.game',bitImagesNames[resultObjects[i].productResultId],0,false)
-	            }
+	            }*/
 	            //game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({tint:0x00ff00},500,Phaser.Easing.linear,true).yoyo(true)
 	            tweenTint(tutorialButtons[resultObjects[i].productResultId], 0xffffff, 0x00ff00, 300);
 	            correctObjectSprite = tutorialButtons[resultObjects[i].productResultId]
@@ -765,10 +766,19 @@ var smart = function(){
 	            tween1.start()
             }
 
+
+            setTimeout(function(){
+            	for(var i = 0; i < resultObjects.length; i++){
+	            	for(var j =0; j < resultObjects[i].multiplier; j++ ){
+		            	productsOperation[resultObjects[i].imageBitId].children[j].loadTexture('atlas.game',bitImagesNames[resultObjects[i].productResultId],0,false)
+		            }
+		        }
+            },500)
+
             
 
 
-            setTimeout(setRound,1000)
+            setTimeout(setRound,1500)
         }
         else if(needObjects==0){
             sound.play('magic')
