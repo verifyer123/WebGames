@@ -2,7 +2,7 @@
 
 {
 	"filename": "APPLE",
-	"frame": {"x":1207,"y":750,"w":169,"h":187},
+	"frame": {"x":1235,"y":772,"w":169,"h":187},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":187},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "APPLE_BASKET",
-	"frame": {"x":328,"y":804,"w":219,"h":154},
+	"frame": {"x":715,"y":511,"w":219,"h":154},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":219,"h":154},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "APPLE_SCREEN",
-	"frame": {"x":1494,"y":785,"w":55,"h":71},
+	"frame": {"x":1350,"y":394,"w":55,"h":71},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":71},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "BANANA",
-	"frame": {"x":715,"y":471,"w":272,"h":245},
+	"frame": {"x":955,"y":531,"w":272,"h":245},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":272,"h":245},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "BANANA_BASTE",
-	"frame": {"x":1253,"y":1,"w":302,"h":220},
+	"frame": {"x":1046,"y":309,"w":302,"h":220},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":302,"h":220},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "BANANA_SCREEN",
-	"frame": {"x":1273,"y":939,"w":58,"h":77},
+	"frame": {"x":1478,"y":866,"w":58,"h":77},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":77},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "BG_TILE",
-	"frame": {"x":1378,"y":750,"w":114,"h":114},
+	"frame": {"x":1511,"y":532,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "BREAD",
-	"frame": {"x":1,"y":804,"w":325,"h":200},
+	"frame": {"x":719,"y":309,"w":325,"h":200},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":325,"h":200},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "BREAD_BASKET",
-	"frame": {"x":1258,"y":471,"w":223,"h":277},
+	"frame": {"x":730,"y":667,"w":223,"h":277},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":223,"h":277},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "BREAD_SCREEN",
-	"frame": {"x":1483,"y":543,"w":70,"h":71},
+	"frame": {"x":1406,"y":862,"w":70,"h":71},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":71},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "CARROT",
-	"frame": {"x":989,"y":471,"w":267,"h":259},
+	"frame": {"x":1372,"y":1,"w":267,"h":259},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":267,"h":259},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "CARROT_BASKET",
-	"frame": {"x":1277,"y":223,"w":278,"h":237},
+	"frame": {"x":955,"y":778,"w":278,"h":237},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":278,"h":237},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "CARROT_SCREEN",
-	"frame": {"x":1483,"y":616,"w":55,"h":83},
+	"frame": {"x":1350,"y":309,"w":55,"h":83},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":83},
@@ -128,16 +128,16 @@
 },
 {
 	"filename": "CASHIER_SCREEN",
-	"frame": {"x":719,"y":1,"w":532,"h":251},
+	"frame": {"x":719,"y":1,"w":651,"h":306},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":532,"h":251},
-	"sourceSize": {"w":532,"h":251},
+	"spriteSourceSize": {"x":0,"y":0,"w":651,"h":306},
+	"sourceSize": {"w":651,"h":306},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "CASHIER_TABLE",
-	"frame": {"x":719,"y":254,"w":556,"h":215},
+	"frame": {"x":1,"y":804,"w":556,"h":215},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":556,"h":215},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "handDown",
-	"frame": {"x":1378,"y":866,"w":102,"h":95},
+	"frame": {"x":1511,"y":648,"w":102,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "handUp",
-	"frame": {"x":1103,"y":873,"w":102,"h":106},
+	"frame": {"x":1407,"y":673,"w":102,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "hearts",
-	"frame": {"x":559,"y":672,"w":141,"h":54},
+	"frame": {"x":1235,"y":961,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "MILK",
-	"frame": {"x":754,"y":718,"w":169,"h":290},
+	"frame": {"x":559,"y":672,"w":169,"h":290},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":290},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "MILK_BASKET",
-	"frame": {"x":559,"y":750,"w":193,"h":268},
+	"frame": {"x":1407,"y":262,"w":193,"h":268},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":193,"h":268},
@@ -191,7 +191,7 @@
 },
 {
 	"filename": "MILK_SCREEN",
-	"frame": {"x":1482,"y":866,"w":48,"h":83},
+	"frame": {"x":1480,"y":781,"w":48,"h":83},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":83},
@@ -209,7 +209,7 @@
 },
 {
 	"filename": "OJ_BASKET",
-	"frame": {"x":925,"y":732,"w":176,"h":239},
+	"frame": {"x":1229,"y":531,"w":176,"h":239},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":176,"h":239},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "OJ_SCREEN",
-	"frame": {"x":1494,"y":701,"w":40,"h":82},
+	"frame": {"x":1596,"y":745,"w":40,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":82},
@@ -227,7 +227,7 @@
 },
 {
 	"filename": "PLUS",
-	"frame": {"x":1333,"y":989,"w":29,"h":29},
+	"frame": {"x":1372,"y":262,"w":29,"h":29},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":29,"h":29},
@@ -236,7 +236,7 @@
 },
 {
 	"filename": "QUESTION_SCREEN",
-	"frame": {"x":1333,"y":939,"w":32,"h":48},
+	"frame": {"x":1602,"y":262,"w":32,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":48},
@@ -245,7 +245,7 @@
 },
 {
 	"filename": "SIGN",
-	"frame": {"x":1103,"y":732,"w":102,"h":139},
+	"frame": {"x":1407,"y":532,"w":102,"h":139},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":139},
@@ -254,7 +254,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":1207,"y":939,"w":64,"h":64},
+	"frame": {"x":1530,"y":745,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -272,7 +272,7 @@
 },
 {
 	"filename": "VOID",
-	"frame": {"x":1483,"y":462,"w":72,"h":79},
+	"frame": {"x":1406,"y":781,"w":72,"h":79},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":72,"h":79},
@@ -281,7 +281,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":328,"y":960,"w":165,"h":41},
+	"frame": {"x":559,"y":964,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -293,8 +293,8 @@
 	"version": "1.0",
 	"image": "smart_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1556,"h":1019},
+	"size": {"w":1640,"h":1020},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4f45e043fb505d96f81f8d733267a2b2:98685e4dc0118219465ff98b6274d7a1:4dedfa46e97a047c73ace5583db7e4b3$"
+	"smartupdate": "$TexturePacker:SmartUpdate:b6b313503cdfddb6bed2496837a471fe:0c4d2dd0841a79c40510a8f26721ae78:4dedfa46e97a047c73ace5583db7e4b3$"
 }
 }

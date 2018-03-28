@@ -71,6 +71,11 @@ var smart = function(){
 
     var BIT_DELTA = 20
 
+    var DELTA_IMAGE_X = 30
+    var DELTA_IMAGE_Y = 30
+
+    var DELTA_TIME_TUTORIAL = 500
+
     var bitImagesNames = ['MILK_SCREEN','OJ_SCREEN','BREAD_SCREEN','APPLE_SCREEN','BANANA_SCREEN','CARROT_SCREEN']
 
     var lives
@@ -113,11 +118,14 @@ var smart = function(){
     var boxPositions
 
     var hand
-    var tutorialTween
+    var tutorialTween, tutorialProductTween
 
     var cashMachine
 
+    var tutorialButtons 
 
+    var canTouch
+    var tutorialObjects, tutorialObjectsId, tutorialChildrenId
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -132,7 +140,7 @@ var smart = function(){
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
-        
+        currentTime = INITIAL_TIME
         currentLevel = 0
         timeOn = false
 
@@ -151,10 +159,16 @@ var smart = function(){
 
         resultObjects = []
 
+        tutorialButtons = []
+
         needObjects = 0
         pointsToGive = 0
         currentLittleBit = 0
 
+        canTouch = false
+        tutorialObjects = []
+        tutorialObjectsId = 0
+        tutorialChildrenId = 0
         loadSounds()
 	}
 
@@ -368,8 +382,9 @@ var smart = function(){
         if(!gameActive){
         	return
         }
-
-        updateTouch()
+        if(canTouch){
+	        updateTouch()
+	    }
     }
 
     function updateTouch(){
@@ -430,10 +445,12 @@ var smart = function(){
 
 
     function setRound(){
+
+    	for(var i = 0; i < 2; i ++){
+    		numbersOperation[i].visible = false
+    	}
+
         currentLittleBit = 0
-        /*for(var i = 0; i < littleBits.length; i++){
-            littleBits[i].visible = false
-        }*/
 
         sound.play('cashRegister')
         operationGroup.visible = false
@@ -471,7 +488,10 @@ var smart = function(){
         }
 
         for(var i = 0; i < voidOperation.length; i++){
-        	voidOperation[i].visible = false
+        	for(var j = 0; j < voidOperation[i].length; j++){
+        		voidOperation[i].children[j].visible = false
+        		productsOperation[i].children[j].visible = false
+        	}
         }
 
         pointsToGive = hiddenProductsNumer
@@ -488,10 +508,55 @@ var smart = function(){
             productsIds.splice(r,1)
 
             var multiplier = game.rnd.integerInRange(1,MAX_MULTIPLIER)
-            numbersOperation[imageBitId].setText(multiplier)
+            var initX = -((multiplier-1)/2) * DELTA_IMAGE_X
+            var initY = -((multiplier-1)/2) * DELTA_IMAGE_Y
+            for(var index = 0; index < multiplier; index ++){
 
-            productsOperation[imageBitId].loadTexture('atlas.game','QUESTION_SCREEN',0,false)
-            voidOperation[imageBitId].visible = true
+            	if(multiplier==1){
+	            	productsOperation[imageBitId].children[index].y = 0
+	            	productsOperation[imageBitId].children[index].x = 0
+	            	voidOperation[imageBitId].children[index].y = 0
+	            	voidOperation[imageBitId].children[index].x = 0
+	            }
+	            else if(multiplier == 2){
+	            	if(index==0){
+		            	productsOperation[imageBitId].children[index].y = 0
+		            	productsOperation[imageBitId].children[index].x = -DELTA_IMAGE_X/1.5
+		            	voidOperation[imageBitId].children[index].y = 0
+	            		voidOperation[imageBitId].children[index].x = -DELTA_IMAGE_X/1.5
+		            }
+		            else{
+		            	productsOperation[imageBitId].children[index].y = 0
+		            	productsOperation[imageBitId].children[index].x = DELTA_IMAGE_X/1.5
+		            	voidOperation[imageBitId].children[index].y = 0
+	            		voidOperation[imageBitId].children[index].x = DELTA_IMAGE_X/1.5
+		            }
+	            }
+	            else if(multiplier == 3){
+	            	if(index==0){
+		            	productsOperation[imageBitId].children[index].y = -DELTA_IMAGE_Y
+		            	productsOperation[imageBitId].children[index].x = 0
+		            	voidOperation[imageBitId].children[index].y = -DELTA_IMAGE_Y
+	            		voidOperation[imageBitId].children[index].x = 0
+		            }
+		            else if(index == 1){
+		            	productsOperation[imageBitId].children[index].y = 0
+		            	productsOperation[imageBitId].children[index].x = -DELTA_IMAGE_X/1.5
+		            	voidOperation[imageBitId].children[index].y = 0
+	            		voidOperation[imageBitId].children[index].x = -DELTA_IMAGE_X/1.5
+		            }
+		            else{
+		            	productsOperation[imageBitId].children[index].y = 0
+		            	productsOperation[imageBitId].children[index].x = DELTA_IMAGE_X/1.5
+		            	voidOperation[imageBitId].children[index].y = 0
+	            		voidOperation[imageBitId].children[index].x = DELTA_IMAGE_X/1.5
+		            }
+	            }
+
+            	productsOperation[imageBitId].children[index].loadTexture('atlas.game','QUESTION_SCREEN',0,false)
+            	voidOperation[imageBitId].children[index].visible = true
+            	productsOperation[imageBitId].children[index].visible = true
+            }
 
             total += (multiplier*objectValues[productResultId])
 
@@ -506,9 +571,47 @@ var smart = function(){
             productsIds.splice(r,1)
 
             var multiplier = game.rnd.integerInRange(1,MAX_MULTIPLIER)
-            numbersOperation[ids[i]].setText(multiplier)
+            var initY = -((multiplier-1)/2) * DELTA_IMAGE_Y
+            var initX = -((multiplier-1)/2) * DELTA_IMAGE_X
+            for(var index =0; index < multiplier; index ++){
+            	if(multiplier==1){
+	            	productsOperation[ids[i]].children[index].y = 0
+	            	productsOperation[ids[i]].children[index].x = 0
+	            }
+	            else if(multiplier == 2){
+	            	if(index==0){
+		            	productsOperation[ids[i]].children[index].y = 0
+		            	productsOperation[ids[i]].children[index].x = -DELTA_IMAGE_X/1.5
+		            }
+		            else{
+		            	productsOperation[ids[i]].children[index].y = 0
+		            	productsOperation[ids[i]].children[index].x = DELTA_IMAGE_X/1.5
+		            }
+	            }
+	            else if(multiplier == 3){
+	            	if(index==0){
+		            	productsOperation[ids[i]].children[index].y = -DELTA_IMAGE_Y
+		            	productsOperation[ids[i]].children[index].x = 0
+		            }
+		            else if(index == 1){
+		            	productsOperation[ids[i]].children[index].y = 0
+		            	productsOperation[ids[i]].children[index].x = -DELTA_IMAGE_X/1.5
+		            }
+		            else{
+		            	productsOperation[ids[i]].children[index].y = 0
+		            	productsOperation[ids[i]].children[index].x = DELTA_IMAGE_X/1.5
+		            }
+	            }
+	            productsOperation[ids[i]].children[index].loadTexture('atlas.game',bitImagesNames[productResultId],0,false)
+	            productsOperation[ids[i]].children[index].visible = true
 
-            productsOperation[ids[i]].loadTexture('atlas.game',bitImagesNames[productResultId],0,false)
+	            
+
+	        }
+
+	        if(inTutorial!=-1){
+            	tutorialObjects.push({object:productsOperation[ids[i]],multiplier:multiplier,individualValue: objectValues[productResultId]})
+            }
 
             total += (multiplier*objectValues[productResultId])
         }
@@ -521,8 +624,64 @@ var smart = function(){
         currentLevel ++
 
         if(inTutorial!=-1){
-            evalTutorial()
+        	/*var tutorialTween = game.add.tween(tutorialButtons[resultObjects[0].imageBitId].scale).to({x:1.5,y:1.5},300,Phaser.Easing.linear,true)
+        	tutorialTween.yoyo(true)*/
+
+
+        	for(var i = 0; i < 2; i ++){
+        		numbersOperation[i].x = tutorialObjects[i].object.x 
+        		numbersOperation[i].y = tutorialObjects[i].object.y + 50
+        	}
+
+        	setTimeout(setNumberTutorial,300)
+
+            //evalTutorial()
         }
+    }
+
+    function setNumberTutorial(){
+    	if(tutorialObjectsId < tutorialObjects.length){
+	    	if(tutorialChildrenId < tutorialObjects[tutorialObjectsId].multiplier){
+	    		numbersOperation[tutorialObjectsId].visible = true
+	    		numbersOperation[tutorialObjectsId].setText(tutorialObjects[tutorialObjectsId].individualValue)
+	    		var tween = game.add.tween(tutorialObjects[tutorialObjectsId].object.children[tutorialChildrenId].scale).to({x:1.5,y:1.5},DELTA_TIME_TUTORIAL,Phaser.Easing.linear,true)
+	    		tween.yoyo(true)
+	    		tween.onComplete.add(function(){
+	    			if(tutorialObjects[tutorialObjectsId].multiplier!=1){
+		    			numbersOperation[tutorialObjectsId].visible = false
+		    		}
+	    			tutorialChildrenId++
+	    			setTimeout(setNumberTutorial,300)
+	    		})
+
+	    	}
+	    	else{
+	    		if(tutorialObjects[tutorialObjectsId].multiplier!=1){
+		    		numbersOperation[tutorialObjectsId].visible = true
+		    		numbersOperation[tutorialObjectsId].setText(tutorialObjects[tutorialObjectsId].individualValue * tutorialObjects[tutorialObjectsId].multiplier)
+		    		var tween = game.add.tween(tutorialObjects[tutorialObjectsId].object.scale).to({x:1.5,y:1.5},DELTA_TIME_TUTORIAL,Phaser.Easing.linear,true)
+		    		tween.yoyo(true)
+		    		tween.onComplete.add(function(){
+		    			tutorialChildrenId = 0
+		    			tutorialObjectsId++
+		    			setTimeout(setNumberTutorial,300)
+		    		})
+		    	}
+		    	else{
+		    		numbersOperation[tutorialObjectsId].visible = true
+		    		tutorialObjectsId++
+		    		tutorialChildrenId = 0
+		    		setTimeout(setNumberTutorial,300)
+		    	}
+	    	}
+	    }
+	    else{
+	    	canTouch = true
+	    	tutorialProductTween = game.add.tween(tutorialButtons[resultObjects[0].productResultId].scale).to({x:1.3,y:1.3},DELTA_TIME_TUTORIAL,Phaser.Easing.linear,true)
+            tutorialProductTween.yoyo(true)
+            tutorialProductTween.loop(true)
+	    	evalTutorial()
+	    }
     }
 
 
@@ -536,7 +695,9 @@ var smart = function(){
 
     
     function clickButton(button,pointer){
-    	currentButtonSelected = button
+    	if(canTouch){
+	    	currentButtonSelected = button
+	    }
     }
 
     function leaveButton(button,pointer){
@@ -545,7 +706,7 @@ var smart = function(){
         button.visible = false
         button = null
         var correctObject = false
-        if(pointer.y < game.world.centerY){
+        if(pointer.y < game.world.centerY+50){
 
             if(inTutorial!=-1){
                 if(id != resultObjects[0].productResultId){
@@ -559,15 +720,19 @@ var smart = function(){
                     correctObject = true
                     resultObjects[i].multiplier --
 
-                    numbersOperation[resultObjects[i].imageBitId].setText(resultObjects[i].multiplier)
+                    /*numbersOperation[resultObjects[i].imageBitId].setText(resultObjects[i].multiplier)
 
                     game.add.tween(numbersOperation[resultObjects[i].imageBitId].scale).to({x:2,y:2},300,Phaser.Easing.linear,true).yoyo(true)
+					*/
+
+					productsOperation[resultObjects[i].imageBitId].children[resultObjects[i].multiplier].loadTexture('atlas.game',bitImagesNames[id],0,false)
+
 
                     sound.play('pop')
 
                     if(resultObjects[i].multiplier==0){
 
-                        productsOperation[resultObjects[i].imageBitId].loadTexture('atlas.game',bitImagesNames[id],0,false)
+                        //productsOperation[resultObjects[i].imageBitId].loadTexture('atlas.game',bitImagesNames[id],0,false)
                         needObjects--
                     }
                 }
@@ -594,8 +759,10 @@ var smart = function(){
             //operationGroup.visible = false
             inTutorial=-1
             hand.visible = false
+            tutorialProductTween.stop()
+            tutorialButtons[resultObjects[0].imageBitId].scale.setTo(1,1)
             evalTutorial()
-            setTimeout(setRound,700)
+            setTimeout(setRound,2000)
         }
 
     }
@@ -612,7 +779,7 @@ var smart = function(){
             console.log("tutorial 0")
     		hand.x = boxPositions[resultObjects[0].productResultId].x
     		hand.y = boxPositions[resultObjects[0].productResultId].y
-    		tutorialTween = game.add.tween(hand).to({x:productsOperation[resultObjects[0].imageBitId].world.x,y:productsOperation[resultObjects[0].imageBitId].world.y},2000,Phaser.Easing.linear,true)
+    		tutorialTween = game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY-100},2000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
     			hand.loadTexture('atlas.game','handUp')
@@ -653,7 +820,7 @@ var smart = function(){
 
         
         var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#4B212", align: "center"}
-        var text = new Phaser.Text(sceneGroup.game, 0, 10, objectValues[id], fontStyle)
+        var text = new Phaser.Text(sceneGroup.game, 0, 10, "$"+objectValues[id], fontStyle)
         text.anchor.setTo(0.5)
         empty.add(text)
         group.text = text
@@ -707,14 +874,15 @@ var smart = function(){
         }, this);
 
 
+		var cashierTable = sceneGroup.create(game.world.centerX,game.world.centerY-50,'atlas.game','CASHIER_TABLE')
+        cashierTable.anchor.setTo(0.5,0.5)
 
         var machine = sceneGroup.create(game.world.centerX,0,'atlas.game','CASHIER_SCREEN')
         machine.anchor.setTo(0.5,0)
 
-        var cashTable = sceneGroup.create(game.world.centerX, machine.y + machine.height + 120,'atlas.game','CASHIER_TABLE')
-        cashTable.anchor.setTo(0.5)
+        
 
-        var basket = sceneGroup.create(game.world.centerX,game.world.height,"atlas.game","BASKET")
+        var basket = sceneGroup.create(game.world.centerX,game.world.height+100,"atlas.game","BASKET")
         basket.anchor.setTo(0.5,1)
 
         signsArray.push(createSign(0))
@@ -737,18 +905,21 @@ var smart = function(){
         milkBox.inputEnabled = true
         milkBox.id = 0
         milkBox.events.onInputDown.add(clickProduct,this)
+        tutorialButtons.push(milkBox)
 
         var juiceBox = sceneGroup.create(basket.x,basket.y-400,'atlas.game','OJ_BASKET')
         juiceBox.anchor.setTo(0.5)
         juiceBox.inputEnabled = true
         juiceBox.id = 1
         juiceBox.events.onInputDown.add(clickProduct,this)
+        tutorialButtons.push(juiceBox)
 
         var breadBox = sceneGroup.create(basket.x-170,basket.y-400,'atlas.game','BREAD_BASKET')
         breadBox.anchor.setTo(0.5)
         breadBox.inputEnabled = true
         breadBox.id = 2
         breadBox.events.onInputDown.add(clickProduct,this)
+        tutorialButtons.push(breadBox)
 
 
         signsArray.push(createSign(3))
@@ -766,121 +937,139 @@ var smart = function(){
         signsArray[5].y = basket.y-340
         signsArray[5].angle = -15
 
-        
-
-
 
         var appleBox = sceneGroup.create(basket.x-180,basket.y-270,'atlas.game','APPLE_BASKET')
         appleBox.anchor.setTo(0.5)
         appleBox.inputEnabled = true
         appleBox.id = 3
         appleBox.events.onInputDown.add(clickProduct,this)
+        tutorialButtons.push(appleBox)
         var bananaBox = sceneGroup.create(basket.x+220,basket.y-270,'atlas.game','BANANA_BASTE')
         bananaBox.anchor.setTo(0.5)
         bananaBox.inputEnabled = true
         bananaBox.id = 4
         bananaBox.events.onInputDown.add(clickProduct,this)
+        tutorialButtons.push(bananaBox)
         var carrotBox = sceneGroup.create(basket.x,basket.y-240,'atlas.game','CARROT_BASKET')
         carrotBox.anchor.setTo(0.5)
         carrotBox.inputEnabled = true
         carrotBox.id = 5
         carrotBox.events.onInputDown.add(clickProduct,this)
+        tutorialButtons.push(carrotBox)
 
         boxPositions = [{x:milkBox.x,y:milkBox.y},{x:juiceBox.x,y:juiceBox.y},{x:breadBox.x,y:breadBox.y},{x:appleBox.x,y:appleBox.y},{x:bananaBox.x,y:bananaBox.y},{x:carrotBox.x,y:carrotBox.y}]
-
-        
-        
 
 
         operationGroup = game.add.group()
         operationGroup.x = game.world.centerX
-        operationGroup.y = game.world.centerY - 320
+        operationGroup.y = machine.y + machine.height - 100
         operationGroup.visible = false
 
-        var voidSprite = operationGroup.create(-150,0,'atlas.game','VOID')
-        voidSprite.anchor.setTo(0.5)
-        voidSprite.scale.setTo(1)
-        voidOperation.push(voidSprite)
-        voidSprite.visible = false
+        var voidGroup = game.add.group()
+        voidGroup.x = -220
+        operationGroup.add(voidGroup)
+        voidGroup.visible = false
 
-        var productSprite = operationGroup.create(-150,0,'atlas.game','QUESTION_SCREEN')
-        productSprite.anchor.setTo(0.5)
-        productSprite.scale.setTo(0.9)
-        productsOperation.push(productSprite)
+        for(var i = 0; i < 3; i++){
+        	var voidSprite = voidGroup.create(0,0,'atlas.game','VOID')
+        	voidSprite.anchor.setTo(0.5)
+	        voidSprite.visible = false
+        }
 
-        
+        voidOperation.push(voidGroup)
+
+        var productGroup = game.add.group()
+        productGroup.x = -220
+        operationGroup.add(productGroup)
+        for(var i = 0; i < 3; i++){
+	        var productSprite = productGroup.create(0,0,'atlas.game','QUESTION_SCREEN')
+	        productSprite.anchor.setTo(0.5)
+	        productSprite.scale.setTo(0.9)
+	        productSprite.visible = false
+	    }
+	    productsOperation.push(productGroup)
+
 
         var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#BFE54F", align: "center"}
-        var operation = new Phaser.Text(sceneGroup.game, -100, 0, "+", fontStyle)
+        var operation = new Phaser.Text(sceneGroup.game, -140, 0, "+", fontStyle)
         operation.anchor.setTo(0.5)
         operationGroup.add(operation)
 
-        voidSprite = operationGroup.create(-50,0,'atlas.game','VOID')
-        voidSprite.anchor.setTo(0.5)
-        voidSprite.scale.setTo(1)
-        voidOperation.push(voidSprite)
-        voidSprite.visible = false
+        voidGroup = game.add.group()
+        voidGroup.x = -50
+        operationGroup.add(voidGroup)
+        voidGroup.visible = false
 
-        productSprite = operationGroup.create(-50,0,'atlas.game','QUESTION_SCREEN')
-        productSprite.anchor.setTo(0.5)
-        productSprite.scale.setTo(0.9)
-        productsOperation.push(productSprite)
+        for(var i = 0; i < 3; i++){
+        	var voidSprite = voidGroup.create(0,0,'atlas.game','VOID')
+        	voidSprite.anchor.setTo(0.5)
+	        voidSprite.visible = false
+        }
 
+        voidOperation.push(voidGroup)
+
+        productGroup = game.add.group()
+        productGroup.x = -60
+        operationGroup.add(productGroup)
+        for(var i = 0; i < 3; i++){
+	        var productSprite = productGroup.create(0,0,'atlas.game','QUESTION_SCREEN')
+	        productSprite.anchor.setTo(0.5)
+	        productSprite.scale.setTo(0.9)
+	        productSprite.visible = false
+	    }
+	    productsOperation.push(productGroup)
         
 
-        operation = new Phaser.Text(sceneGroup.game, 0, 0, "+", fontStyle)
+        operation = new Phaser.Text(sceneGroup.game, 20, 0, "+", fontStyle)
         operation.anchor.setTo(0.5)
         operationGroup.add(operation)
 
-        voidSprite = operationGroup.create(50,0,'atlas.game','VOID')
-        voidSprite.anchor.setTo(0.5)
-        voidSprite.scale.setTo(1)
-        voidOperation.push(voidSprite)
-        voidSprite.visible = false
+       	voidGroup = game.add.group()
+        voidGroup.x = 50
+        operationGroup.add(voidGroup)
+        voidGroup.visible = false
 
-        productSprite = operationGroup.create(50,0,'atlas.game','QUESTION_SCREEN')
-        productSprite.anchor.setTo(0.5)
-        productSprite.scale.setTo(0.9)
-        productsOperation.push(productSprite)
+        for(var i = 0; i < 3; i++){
+        	var voidSprite = voidGroup.create(0,0,'atlas.game','VOID')
+        	voidSprite.anchor.setTo(0.5)
+	        voidSprite.visible = false
+        }
 
-        
+        voidOperation.push(voidGroup)
 
-        operation = new Phaser.Text(sceneGroup.game, 100, 0, "=", fontStyle)
+        productGroup = game.add.group()
+        productGroup.x = 100
+        operationGroup.add(productGroup)
+        for(var i = 0; i < 3; i++){
+	        var productSprite = productGroup.create(0,0,'atlas.game','QUESTION_SCREEN')
+	        productSprite.anchor.setTo(0.5)
+	        productSprite.scale.setTo(0.9)
+	        productSprite.visible = false
+	    }
+	    productsOperation.push(productGroup)
+
+        operation = new Phaser.Text(sceneGroup.game, 180, 0, "=", fontStyle)
         operation.anchor.setTo(0.5)
         operationGroup.add(operation)
 
-        result = new Phaser.Text(sceneGroup.game, 150, 0, "0", fontStyle)
+        result = new Phaser.Text(sceneGroup.game, 240, 0, "0", fontStyle)
         result.anchor.setTo(0.5)
         operationGroup.add(result)
 
-        fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#BFE54F", align: "center"}
+        fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#BFE54F", align: "center"}
 
-        var number = new Phaser.Text(sceneGroup.game, -120, 50, "1", fontStyle)
+        var number = new Phaser.Text(sceneGroup.game, -120, 50, "0", fontStyle)
         number.anchor.setTo(0.5)
         numbersOperation.push(number)
         operationGroup.add(number)
+        number.visible = false
 
-        number = new Phaser.Text(sceneGroup.game, -20, 50, "1", fontStyle)
+        number = new Phaser.Text(sceneGroup.game, -20, 50, "0", fontStyle)
         number.anchor.setTo(0.5)
         numbersOperation.push(number)
         operationGroup.add(number)
+        number.visible = false
 
-        number = new Phaser.Text(sceneGroup.game, 90, 50, "1", fontStyle)
-        number.anchor.setTo(0.5)
-        numbersOperation.push(number)
-        operationGroup.add(number)
-
-       //littleBits = []
-
-        /*for(var i = 0; i < 6; i++){
-            var bit = operationGroup.create(0,0,'atlas.game','QUESTION_SCREEN')
-            bit.anchor.setTo(0.5)
-            bit.scale.setTo(0.3)
-            bit.visibe = false
-            bit.y = 50
-            littleBits.push(bit)
-
-        }*/
 
         pruductSpines.push(createSpine('milk',0))
         pruductSpines.push(createSpine('orange',1))
@@ -889,8 +1078,6 @@ var smart = function(){
         pruductSpines.push(createSpine('bannana',4))
         pruductSpines.push(createSpine('carrot',5))
         
-        
-
 
         sceneGroup.add(operationGroup)
 
