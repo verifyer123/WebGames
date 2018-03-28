@@ -199,6 +199,7 @@ var yogomeGames = function () {
             {name:'Forest Justice',url:urlSet + 'forestJustice/',mapUrl:urlMap + 'forestJustice', sceneName:'forestJustice',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//169
             {name:'Rock Orama',url:urlSet + 'rockOrama/',mapUrl:urlMap + 'rockOrama', sceneName:'rockOrama',subject:'creativity', review:false,objective:15,demo:false, type:gameTypeEnum.SEQUENCE},//170
             {name:'Squared Squares',url:urlSet + 'squaredSquares/',mapUrl:urlMap + 'squaredSquares', sceneName:'squaredSquares',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.CHOOSE},//171
+            {name:'Germ Strike',url:urlSet + 'germStrike/',mapUrl:urlMap + 'germStrike', sceneName:'germStrike',subject:'health', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//172
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
