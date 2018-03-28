@@ -590,14 +590,14 @@ var forestJustice = function(){
             subGroup.add(anim)
             subGroup.anim = anim
 
-            var lifeContainer = subGroup.create(tree.centerX, tree.centerY - 50, "atlas.forestJustice", "lifeContainer")
+            var lifeContainer = subGroup.create(tree.centerX, tree.centerY - 100, "atlas.forestJustice", "lifeContainer")
             lifeContainer.anchor.setTo(0.5)
-            lifeContainer.scale.setTo(1.5)
+            lifeContainer.scale.setTo(3)
             subGroup.lifeContainer = lifeContainer
 
             var lifeBar = subGroup.create(lifeContainer.centerX - lifeContainer.width * 0.4, lifeContainer.centerY, "atlas.forestJustice", "lifeBar")
             lifeBar.anchor.setTo(0, 0.5)
-            lifeBar.scale.setTo(1.5)
+            lifeBar.scale.setTo(3)
             subGroup.lifeBar = lifeBar
         }
     }
@@ -612,7 +612,7 @@ var forestJustice = function(){
             var anim = game.add.spine(-10, -50, "lumberjack")
             anim.setAnimationByName(0, "run", true)
             anim.setSkinByName("normal")
-            anim.scale.setTo(0.7)
+            anim.scale.setTo(0.9)
             anim.origin = -10
             lumberjackGroup.add(anim)
         }
@@ -627,20 +627,20 @@ var forestJustice = function(){
         var anim = game.add.spine(game.world.centerX, 150, "justice")
         anim.setAnimationByName(0, "idle", true)
         anim.setSkinByName("normal")
-        anim.scale.setTo(0.7)
+        anim.scale.setTo(0.9)
         justice.add(anim)
         justice.anim = anim
         
         var movil = justice.create(game.world.centerX, 100, 'atlas.forestJustice', 'star')
         movil.anchor.setTo(0.5)
-        movil.scale.setTo(0.5)
+        //movil.scale.setTo(0.6)
         movil.alpha = 0
         game.physics.enable(movil, Phaser.Physics.ARCADE)
         justice.movil = movil
         
         var collider = justice.create(game.world.centerX, 100, 'atlas.forestJustice', 'smoke')
         collider.anchor.setTo(0.5)
-        collider.scale.setTo(0.5)
+        collider.scale.setTo(0.6)
         collider.alpha = 0
         game.physics.arcade.enable(collider)
         justice.collider = collider
@@ -658,10 +658,10 @@ var forestJustice = function(){
            game.physics.arcade.moveToObject(justice.collider, justice.movil, justice.speed)
            
            if(justice.collider.x - justice.movil.x < 0){
-               justice.anim.scale.setTo(0.7)
+               justice.anim.scale.setTo(0.9)
            }
            else{
-               justice.anim.scale.setTo(-0.7, 0.7)
+               justice.anim.scale.setTo(-0.9, 0.9)
            }
            
            justice.anim.setAnimationByName(0, "run", true)
@@ -716,13 +716,13 @@ var forestJustice = function(){
             lumberjackGroup.children[i].x = treesGroup.children[i].x
                 
             if(i % 2 === 0){
-                lumberjackGroup.children[i].scale.setTo(0.7)
-                lumberjackGroup.children[i].origin = -50
+                lumberjackGroup.children[i].scale.setTo(0.9)
+                lumberjackGroup.children[i].origin = -60
                 lumberjackGroup.children[i].x -= 70
             }
             else{
-                lumberjackGroup.children[i].scale.setTo(-0.7, 0.7)
-                lumberjackGroup.children[i].origin = game.world.width + 50
+                lumberjackGroup.children[i].scale.setTo(-0.9, 0.9)
+                lumberjackGroup.children[i].origin = game.world.width + 60
                 lumberjackGroup.children[i].x += 70
             }
             
@@ -740,7 +740,7 @@ var forestJustice = function(){
          game.add.tween(jack).from({x: jack.origin}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
             jack.setAnimationByName(0, "cut", true)
             tree.tree.alpha = 0
-            tree.tree.scale.setTo(0.5) 
+            tree.tree.scale.setTo(0.7) 
             tree.anim.alpha = 1
             gameActive = true
              
@@ -771,10 +771,10 @@ var forestJustice = function(){
         var jack = lumberjackGroup.children[index]
         
         if(index % 2 !== 0){
-            jack.scale.setTo(0.7)
+            jack.scale.setTo(0.9)
         }
         else{
-            jack.scale.setTo(-0.7, 0.7)
+            jack.scale.setTo(-0.9, 0.9)
         }
         game.add.tween(jack).to({x: jack.origin}, 2000, Phaser.Easing.linear, true)
     }
@@ -821,10 +821,15 @@ var forestJustice = function(){
            
         
         if(numOfTrees < 8){
+            
             numOfTrees++
+            
+            if(timeToCut < 1000){
+                timeToCut -= 1000
+            }
         }
-        if(timeToCut < 1000){
-            timeToCut -= 1000
+        else{
+            timeToCut = 6000
         }
         
         
@@ -846,12 +851,12 @@ var forestJustice = function(){
                     treesGroup.children[i].lifeContainer.alpha = 1
                     treesGroup.children[i].anim.alpha = 0
                     treesGroup.children[i].anim.setAnimationByName(0, "beingcut_tree" + treesGroup.children[i].type, true)
-                    treesGroup.children[i].lifeBar.scale.setTo(1.5)
+                    treesGroup.children[i].lifeBar.scale.setTo(3)
                 }
              },this)   
             
             justice.anim.setAnimationByName(0, "run", true)
-            justice.anim.scale.setTo(0.7)
+            justice.anim.scale.setTo(0.9)
             
             game.add.tween(tile.tilePosition).to({x: -game.world.width}, 2000, Phaser.Easing.linear, true)
             game.add.tween(stoneGroup).to({x: -game.world.width}, 2000, Phaser.Easing.linear, true)
@@ -859,6 +864,9 @@ var forestJustice = function(){
             game.add.tween(justice.anim).to({x: game.world.centerX, y: 150}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
                 
                 justice.anim.setAnimationByName(0, "idle", true)
+                
+                justice.movil.body.velocity.setTo(0, 0)
+                justice.collider.body.velocity.setTo(0, 0)
 
                 justice.collider.x =  justice.anim.x
                 justice.collider.y =  justice.anim.y - 50
@@ -911,8 +919,8 @@ var forestJustice = function(){
 			            
 			createPointsBar()
 			createHearts()
-            theLastMarchOfTheEnts()
             treesEnemies()
+            theLastMarchOfTheEnts()
             myNameIsTheLaw()
             initCoin()
             createParticles()
