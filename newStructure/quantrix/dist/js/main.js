@@ -4,12 +4,15 @@ var _QUANTRIX = {
     LOGIN : "",
     GAME_FINISHED : ""
   },
-  DEFAULT_GAMES_ROUTE : "minigames/",
+  DEFAULT_GAMES_ROUTE : "../../minigames/",
   DEFAULT_GAME : "additiondojo",
   GAMES : {
-    "additiondojo" : "additiondojo",
-    "acornNumbers" : "acornNumbers",
-    "animalRoute" : "animalRoute",
-    "aracnumber" : "aracnumber"
+    "addition-dojo" : "additiondojo",
+    "acorn-numbers" : "acornNumbers",
+    "animal-route" : "animalRoute",
+    "arac-number" : "aracnumber",
+    "astrono-metric" : "astronoMetric",
+    "rabitt-race" : "rabitTrace",
+    "cheesy-maze" : "cheesyMaze",
   }
 }

@@ -18,7 +18,11 @@ var gulp = require('gulp'),
 // VARIABLES GLOBALES
 
 var _QUANTRIX = {
-  PORT_SERVER : 3000,
+  SERVER : {
+    PORT : 3000,
+    BASE_DIR : "../",
+    START_PATH : "quantrix/src/"
+  },
   FILE_WATCH : [
     '.html',
     '.js',
@@ -63,7 +67,7 @@ var _QUANTRIX = {
     ]
   },
   BASE_CONFIG: {
-    FOLDERS : "dist src/css src/js src/js/scenes src/js/ui src/js/model src/images  src/images/spines",
+    FOLDERS : "dist src/css src/js src/js/scenes src/js/ui src/js/model src/images  src/images/spines sounds",
     FILES : ["src/index.html", "src/js/main.js", "src/css/index.css"]
   },
   DEPENDENCIES : {
@@ -272,8 +276,11 @@ gulp.task('initServer', function(done) {
     conditions.push(_QUANTRIX.ROUTES.SRC.HTML+"/**/*"+_QUANTRIX.FILE_WATCH[i]);
   }
   browserSync.init({
+    port : _QUANTRIX.SERVER.PORT,
+    startPath: _QUANTRIX.SERVER.START_PATH,
     server: {
-      baseDir: _QUANTRIX.ROUTES.SRC.HTML
+      baseDir: _QUANTRIX.SERVER.BASE_DIR
+      // baseDir: _QUANTRIX.ROUTES.SRC.HTML
     }
   });
   console.log('ESCUCHANDO CAMBIOS...');
