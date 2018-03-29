@@ -1,26 +1,26 @@
 var soundsPath = "../../shared/minigames/sounds/"
 
 
-var artTwist = function(){
+var artwist = function(){
     
 
 	var assets = {
         atlases: [
             {   
                 name: "atlas.game",
-                json: "images/artTwist/atlas.json",
-                image: "images/artTwist/atlas.png"
+                json: "images/artwist/atlas.json",
+                image: "images/artwist/atlas.png"
             },
             {
                 name: "atlas.time",
-                json: "images/artTwist/timeAtlas.json",
-                image: "images/artTwist/timeAtlas.png"
+                json: "images/artwist/timeAtlas.json",
+                image: "images/artwist/timeAtlas.png"
             },
 
         ],
         images: [
             {   name:"tutorial_image",
-                file: "images/artTwist/tutorial_image.png"}
+                file: "images/artwist/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -133,7 +133,7 @@ var artTwist = function(){
     function preload(){
         game.stage.disableVisibilityChange = false;
 
-        game.load.spritesheet("coin", 'images/artTwist/coin.png', 122, 123, 12)
+        game.load.spritesheet("coin", 'images/artwist/coin.png', 122, 123, 12)
         game.load.spritesheet("magic", 'images/spines/magic.png', 700, 513, 12)
     }
 
@@ -624,7 +624,7 @@ var artTwist = function(){
     
 	return {
 		assets: assets,
-		name: "artTwist",
+		name: "artwist",
         update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene
