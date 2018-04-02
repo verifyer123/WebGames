@@ -248,6 +248,7 @@ var H2Orbit = function(){
 		
         gameActive = false
         starsSong.stop()
+        speed = 0
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -282,7 +283,7 @@ var H2Orbit = function(){
         game.load.spine("liquidPlanet", "images/spines/WaterPlanet/watherplanet.json")
         game.load.spine("gasPlanet", "images/spines/WindPlanet/cloudplanet.json")
 		
-		game.load.image('tutorial_image',"images/H2Orbit/tutorial_image.png")
+		game.load.image('tutorial_image',"images/H2Orbit/tutorial_image_"+ localization.getLanguage() +".png")
         //loadType(gameIndex)
 
         
@@ -512,7 +513,7 @@ var H2Orbit = function(){
         particleCorrect = createPart('star')
         sceneGroup.add(particleCorrect)
         
-        particleWrong = createPart('wrong')
+        particleWrong = createPart('smoke')
         sceneGroup.add(particleWrong)
     }
     
@@ -581,7 +582,11 @@ var H2Orbit = function(){
         var shipCollider = shipGroup.create(0, 0, "atlas.H2Orbit", "star")
         shipCollider.anchor.setTo(0.5)
         shipCollider.alpha = 0
+        shipCollider.crash = false
         shipCollider.body.immovable = true
+        shipCollider.body.enable = true
+        
+        shipGroup.collider = shipCollider
     }
     
     function initButtons(){
@@ -618,7 +623,9 @@ var H2Orbit = function(){
                 sound.play('cut')
                 changeImage(stateBtn.elementalState, shipGroup)
                 shipGroup.state = stateBtn.elementalState
-                game.add.tween(stateBtn.parent.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
+                game.add.tween(stateBtn.parent.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
+                    stateBtn.parent.scale.setTo(1)
+                })
             })
         }
     }
@@ -635,7 +642,7 @@ var H2Orbit = function(){
         actualState = getRand()
         changeImage(actualState, planetsGroup)
         planetsGroup.state = actualState
-        shipGroup.children[3].body.enable = true
+        shipGroup.collider.crash = false
     }
     
     function getRand(){
@@ -648,37 +655,40 @@ var H2Orbit = function(){
     
     function planetVSship(planet, ship){
 
-        shipGroup.children[3].body.enable = false
+       if(gameActive && !ship.crash){
+           
+            ship.crash = true
 
-        if(planet.parent.state === ship.parent.state){
-            addPoint(1)
-            sound.play('rightChoice')
-            speed += 0.25
-            particleCorrect.x = shipGroup.x 
-            particleCorrect.y = shipGroup.y
-            particleCorrect.start(true, 1200, null, 6)
-        }
-        else{
-            shipGroup.children[ship.parent.state].setAnimationByName(0, "LOSE", false)
-            sound.play('explosion')
-            if(lives > 1){
-                restartGame()   
+            if(planet.parent.state === ship.parent.state){
+                addPoint(1)
+                sound.play('rightChoice')
+                speed += 0.25
+                particleCorrect.x = shipGroup.x 
+                particleCorrect.y = shipGroup.y
+                particleCorrect.start(true, 1200, null, 6)
             }
-            particleWrong.x = shipGroup.x - 20
-            particleWrong.y = shipGroup.y
-            particleWrong.start(true, 1200, null, 6)
-        }
+            else{
+                gameActive = false
+                missPoint()
+                shipGroup.children[ship.parent.state].setAnimationByName(0, "LOSE", false)
+                sound.play('explosion')
+                if(lives !== 0){
+                    restartGame()   
+                }
+                particleWrong.x = shipGroup.x - 20
+                particleWrong.y = shipGroup.y
+                particleWrong.start(true, 1200, null, 6)
+            }
+       }
         
     }
     
     function restartGame(){
         
-        gameActive = false
         game.add.tween(planetsGroup).to({y: game.world.height + 200}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
             planetsGroup.y = -150
             shipGroup.y = game.world.height + 100
             shipGroup.children[shipGroup.state].setAnimationByName(0, "IDLE", true)
-            missPoint()
             game.time.events.add(500,function(){
                 game.add.tween(shipGroup).to({y: game.world.centerY}, 700, Phaser.Easing.linear, true).onComplete.add(function(){
                     sound.play('throw')
