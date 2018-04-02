@@ -86,7 +86,7 @@ var hygienePlus = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -98,7 +98,7 @@ var hygienePlus = function(){
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
             {   name:"acornSong",
-				file: soundsPath + 'songs/childrenbit.mp3'}
+				file: soundsPath + 'songs/running_game.mp3'}
 			
 		],
         jsons: [
@@ -114,7 +114,7 @@ var hygienePlus = function(){
 	var sceneGroup = null
     var gameActive = true
 	var particlesGroup, particlesUsed
-    var gameIndex = 1
+    var gameIndex = 174
     var tutoGroup
     var baseSong
     var startTiming=500;
@@ -176,7 +176,7 @@ var hygienePlus = function(){
     var actionInBox="¿?";
     var maxValue=3;
     var minValue=0;
-    
+    var canChoose=true;
     
     var backgroundGroup=null;
     var characterGroup=null;
@@ -203,6 +203,7 @@ var hygienePlus = function(){
         lives = 3
         startTiming=500;
         delayDefault=100;
+        canChoose=true;
         delayerTimer=2500;
         fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         listofActionsEN = [
@@ -265,7 +266,7 @@ var hygienePlus = function(){
         ];
         itsCorrect=false;
         emitter="";
-        timer=3000;
+        timer=12000;
         loadSounds()
 	}
     
@@ -296,6 +297,8 @@ var hygienePlus = function(){
         if(tutoLvl1){
             startTutorial();
             tutoLvl1=false;
+        }else{
+            hand.alpha=0;
         }
         
     }
@@ -406,36 +409,43 @@ var hygienePlus = function(){
             oof.x=game.world.centerX-100;
             oof.y=game.world.centerY+330;
         }
-        
     }
     
     function selectOption(obj){
-        if(obj.tag==="btn1"){
-            btn1.loadTexture("atlas.hygiene","press");
-        }else if(obj.tag==="btn2"){
-            btn2.loadTexture("atlas.hygiene","press");     
-        }else if(obj.tag==="btn3"){
-            btn3.loadTexture("atlas.hygiene","press");  
+        if(!canChoose){
+            if(obj.tag==="btn1"){
+                btn1.loadTexture("atlas.hygiene","press");
+                sound.play("pop");
+            }else if(obj.tag==="btn2"){
+                btn2.loadTexture("atlas.hygiene","press");  
+                sound.play("pop");
+            }else if(obj.tag==="btn3"){
+                btn3.loadTexture("atlas.hygiene","press");  
+                sound.play("pop");
+            }
         }
     }
     
     function releaseOption(obj){
-        if(obj.tag==="btn1"){
-            btn1.loadTexture("atlas.hygiene","unpressed");
-            textInBoxAnswer.text=text1.text;
-            textInBoxAnswer.x=textInBoxAnswer.x-60;
-        }else if(obj.tag==="btn2"){
-            btn2.loadTexture("atlas.hygiene","unpressed");
-            textInBoxAnswer.text=text2.text;
-            textInBoxAnswer.x=textInBoxAnswer.x-60;
-        }else if(obj.tag==="btn3"){
-            btn3.loadTexture("atlas.hygiene","unpressed");
-            textInBoxAnswer.text=text3.text;
-            textInBoxAnswer.x=textInBoxAnswer.x-60;
+        if(!canChoose){
+            if(obj.tag==="btn1"){
+                btn1.loadTexture("atlas.hygiene","unpressed");
+                textInBoxAnswer.text=text1.text;
+                textInBoxAnswer.x=textInBoxAnswer.x-60;
+            }else if(obj.tag==="btn2"){
+                btn2.loadTexture("atlas.hygiene","unpressed");
+                textInBoxAnswer.text=text2.text;
+                textInBoxAnswer.x=textInBoxAnswer.x-60;
+            }else if(obj.tag==="btn3"){
+                btn3.loadTexture("atlas.hygiene","unpressed");
+                textInBoxAnswer.text=text3.text;
+                textInBoxAnswer.x=textInBoxAnswer.x-60;
+            }
+            canChoose=true;
+            hand.alpha=0;
+            if(pointsBar.text._text>=3)stopTimer();
+            checkIfCorrect();
         }
-        hand.alpha=0;
-        if(pointsBar.text._text>=3)stopTimer();
-        checkIfCorrect();
     }
     
     function checkIfCorrect(){
@@ -466,7 +476,9 @@ var hygienePlus = function(){
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
         generateRandomTextandOrder();
-        game.add.tween(bathCourtain.scale).to({x:0,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2);
+        game.add.tween(bathCourtain.scale).to({x:0,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
+            canChoose=false;
+        });
     }
     
     function createTutorial(){
@@ -543,7 +555,7 @@ var hygienePlus = function(){
     
     function missPoint(){
         
-        sound.play("wrong")
+        sound.play("wrong",{loop:false, volume:2})
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -807,8 +819,9 @@ var hygienePlus = function(){
         
         positionTimer();
         
-        bathCourtain=game.add.sprite(-20,0,"atlas.hygiene","cortina_1");
+        bathCourtain=game.add.sprite(game.world.centerX-288,game.world.centerY,"atlas.hygiene","cortina_1");
         bathCourtain.scale.setTo(1.1,1);
+        bathCourtain.anchor.setTo(0,0.5);
         bathCourtain.alpha=1;
         UIGroup.add(bathCourtain);
         
@@ -872,7 +885,8 @@ var hygienePlus = function(){
         game.add.tween(bathCourtain.scale).to({x:1.1,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
             generateRandomTextandOrder();
             game.add.tween(bathCourtain.scale).to({x:0,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
-               if(pointsBar.text._text>=3)startTimer(timer);
+                if(pointsBar.text._text>=3)startTimer(timer);
+                canChoose=false;
             })
         })
         
