@@ -10,18 +10,6 @@ var codeCake = function(){
 		SELECT: 2,
 	}
     
-    var localizationData = {
-		"EN":{
-            "howTo":"How to Play?",
-            "moves":"Moves left"
-		},
-
-		"ES":{
-            "moves":"Movimientos extra",
-            "howTo":"¿Cómo jugar?"
-		}
-	}
-    
 
 	var assets = {
         atlases: [
@@ -177,6 +165,8 @@ var codeCake = function(){
 
     var smokeSpine
 
+    var okPressed
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -224,6 +214,8 @@ var codeCake = function(){
         handState = SCROLL_STATE.WAIT
 
         tutorialButtonArray = []
+
+        okPressed = false
 
         loadSounds()
 	}
@@ -468,7 +460,7 @@ var codeCake = function(){
 	        					currentButtonSelected = null
 	        				}
 
-	        				else if(Math.abs(startPointer.y - game.input.activePointer.y)>20){
+	        				else if(Math.abs(startPointer.y - game.input.activePointer.y)>10){
 	        					scrollState = SCROLL_STATE.SELECT
 	        					buttonGroup.remove(currentButtonSelected)
 	    						sceneGroup.add(currentButtonSelected)
@@ -609,6 +601,7 @@ var codeCake = function(){
     function setRound(){
         currentSequence = [-1,-1,-1,-1]
         
+        okPressed = false
 
         //randomSecuence 
         correctSequence[0] = game.rnd.integerInRange(0,1)
@@ -908,6 +901,11 @@ var codeCake = function(){
 
     function clickOk(){
     	//console.log("Click ok")
+
+        if(okPressed){
+            return
+        }
+        okPressed = true
     	if(hand.visible){
 
     		
@@ -1188,9 +1186,14 @@ var codeCake = function(){
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
 
-        var background = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.game','background')
-        background.tilePosition.x = (game.world.width - 505)/2
-        background.anchor.setTo(0,0)
+        var backColor = game.add.graphics(0,0)
+        backColor.beginFill(0x2f3432)
+        backColor.drawRect(0,0,game.world.width,game.world.height)
+        backColor.endFill()
+        backgroundGroup.add(backColor)
+
+        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.game','background')
+        background.anchor.setTo(0.5)
         backgroundGroup.add(background)
 
 
@@ -1321,10 +1324,10 @@ var codeCake = function(){
 
         buttonGroup = game.add.group()
         //buttonGroup.y = game.world.height - 80
-        buttonGroup.x = game.world.centerX-280
+        buttonGroup.x = 0
 
         var deltaButton = 100
-        var initX = 100
+        var initX = game.world.centerX -200
         for(var i = 0; i < imageNames.length; i++){
        		var button = buttonGroup.create(initX+(deltaButton*i),game.world.height - 80,'atlas.game',imageNames[i])
             if(i ==0 || i == 2 || i == 6|| i==10){
@@ -1353,7 +1356,14 @@ var codeCake = function(){
         var okBtn = sceneGroup.create(game.world.centerX+180,game.world.height-80,'atlas.game','button')
         okBtn.anchor.setTo(0.5)
         okBtn.inputEnabled = true
-        okBtn.events.onInputDown.add(clickOk,this)
+        okBtn.events.onInputDown.add(function(){
+            okBtn.loadTexture("atlas.game","button_down")
+            clickOk()
+        },this)
+
+        okBtn.events.onInputUp.add(function(){
+            okBtn.loadTexture("atlas.game","button")
+        },this)
 
         
 

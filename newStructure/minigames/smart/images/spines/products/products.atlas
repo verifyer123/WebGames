@@ -1,0 +1,48 @@
+
+products.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/apple
+  rotate: false
+  xy: 852, 834
+  size: 169, 187
+  orig: 169, 187
+  offset: 0, 0
+  index: -1
+normal/bannana
+  rotate: false
+  xy: 271, 776
+  size: 272, 245
+  orig: 272, 245
+  offset: 0, 0
+  index: -1
+normal/bread
+  rotate: true
+  xy: 2, 435
+  size: 325, 200
+  orig: 325, 200
+  offset: 0, 0
+  index: -1
+normal/carrot
+  rotate: false
+  xy: 2, 762
+  size: 267, 259
+  orig: 267, 259
+  offset: 0, 0
+  index: -1
+normal/milk
+  rotate: false
+  xy: 2, 143
+  size: 169, 290
+  orig: 169, 290
+  offset: 0, 0
+  index: -1
+normal/orange
+  rotate: true
+  xy: 545, 867
+  size: 154, 305
+  orig: 154, 305
+  offset: 0, 0
+  index: -1

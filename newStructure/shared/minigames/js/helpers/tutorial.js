@@ -1,5 +1,7 @@
 var tutorialHelper = function () {
 
+	var sharePath = "../../shared/minigames/"
+	
 	var tutorialVideo
 	var videoImage
 	var tutorialTypeText
@@ -203,7 +205,7 @@ var tutorialHelper = function () {
 
 		//return
 		console.log(gameData)
-		var sharePath = "../../shared/minigames/"
+		
 		var path = sharePath+"tutorial_gifs/"
 		var videoName
 
