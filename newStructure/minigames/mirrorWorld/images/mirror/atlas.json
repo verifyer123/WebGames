@@ -109,8 +109,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "Ok_off",
+	"frame": {"x":143,"y":964,"w":85,"h":49},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":49},
+	"sourceSize": {"w":85,"h":49},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Ok_on",
+	"frame": {"x":230,"y":964,"w":85,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":85,"h":48},
+	"sourceSize": {"w":85,"h":50},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "patron_der",
-	"frame": {"x":310,"y":964,"w":20,"h":20},
+	"frame": {"x":484,"y":964,"w":20,"h":20},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
@@ -155,7 +173,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":143,"y":964,"w":165,"h":41},
+	"frame": {"x":317,"y":964,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -163,12 +181,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
+	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
 	"size": {"w":1214,"h":1022},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:63f1f34347136a23b84e89e830622508:0909fd464718e0d085c60fa572e793c5:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:32ec6499bf80ed3e2455b921521b2f39:7a0a6bac2bf4d32218ab51fe21ddf252:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

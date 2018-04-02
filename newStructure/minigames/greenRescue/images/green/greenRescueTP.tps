@@ -524,6 +524,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../../../../../Downloads/BOARD2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9Paddings</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -549,9 +562,10 @@
             <filename>ICON_BROOM.png</filename>
             <filename>TRASH_CAN.png</filename>
             <filename>desktop.png</filename>
-            <filename>STARS.png</filename>
             <filename>MOON.png</filename>
             <filename>movil.png</filename>
+            <filename>../../../../../../../../Downloads/BOARD2.png</filename>
+            <filename>STARS.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -43,6 +43,7 @@ var tapatopo = function(){
     var ITEM_TIME = 800
     
     var gameIndex = 11
+    var gameId = 5664248772427776
     var randomBomb
     var gameLevel = null
     var timeToHide = null
@@ -78,7 +79,7 @@ var tapatopo = function(){
     }
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         randomBomb = 2

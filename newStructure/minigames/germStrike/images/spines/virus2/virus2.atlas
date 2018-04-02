@@ -1,0 +1,195 @@
+
+virus2.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/body
+  rotate: false
+  xy: 2, 64
+  size: 184, 183
+  orig: 184, 183
+  offset: 0, 0
+  index: -1
+normal2/eyes_blink
+  rotate: false
+  xy: 188, 107
+  size: 95, 44
+  orig: 95, 44
+  offset: 0, 0
+  index: -1
+normal2/eyes_nrm
+  rotate: false
+  xy: 188, 153
+  size: 98, 56
+  orig: 98, 56
+  offset: 0, 0
+  index: -1
+normal2/hole_1
+  rotate: true
+  xy: 335, 210
+  size: 37, 66
+  orig: 37, 66
+  offset: 0, 0
+  index: -1
+normal2/hole_10
+  rotate: false
+  xy: 381, 144
+  size: 40, 46
+  orig: 40, 46
+  offset: 0, 0
+  index: -1
+normal2/hole_11
+  rotate: false
+  xy: 382, 104
+  size: 39, 38
+  orig: 39, 38
+  offset: 0, 0
+  index: -1
+normal2/hole_12
+  rotate: false
+  xy: 423, 103
+  size: 39, 38
+  orig: 39, 38
+  offset: 0, 0
+  index: -1
+normal2/hole_2
+  rotate: false
+  xy: 337, 114
+  size: 42, 46
+  orig: 42, 46
+  offset: 0, 0
+  index: -1
+normal2/hole_3
+  rotate: false
+  xy: 288, 122
+  size: 47, 38
+  orig: 47, 38
+  offset: 0, 0
+  index: -1
+normal2/hole_4
+  rotate: false
+  xy: 170, 20
+  size: 48, 34
+  orig: 48, 34
+  offset: 0, 0
+  index: -1
+normal2/hole_5
+  rotate: false
+  xy: 291, 74
+  size: 41, 46
+  orig: 41, 46
+  offset: 0, 0
+  index: -1
+normal2/hole_6
+  rotate: true
+  xy: 2, 2
+  size: 23, 40
+  orig: 23, 40
+  offset: 0, 0
+  index: -1
+normal2/hole_7
+  rotate: true
+  xy: 334, 71
+  size: 41, 46
+  orig: 41, 46
+  offset: 0, 0
+  index: -1
+normal2/hole_8
+  rotate: false
+  xy: 334, 31
+  size: 47, 38
+  orig: 47, 38
+  offset: 0, 0
+  index: -1
+normal2/hole_9
+  rotate: true
+  xy: 423, 143
+  size: 47, 34
+  orig: 47, 34
+  offset: 0, 0
+  index: -1
+normal2/mouth_low
+  rotate: false
+  xy: 2, 27
+  size: 166, 35
+  orig: 166, 35
+  offset: 0, 0
+  index: -1
+normal2/mouth_top
+  rotate: false
+  xy: 188, 211
+  size: 145, 36
+  orig: 145, 36
+  offset: 0, 0
+  index: -1
+normal2/smoke_1
+  rotate: false
+  xy: 464, 62
+  size: 43, 42
+  orig: 43, 42
+  offset: 0, 0
+  index: -1
+normal2/smoke_10
+  rotate: false
+  xy: 255, 54
+  size: 34, 51
+  orig: 34, 51
+  offset: 0, 0
+  index: -1
+normal2/smoke_2
+  rotate: false
+  xy: 188, 56
+  size: 65, 49
+  orig: 65, 49
+  offset: 0, 0
+  index: -1
+normal2/smoke_3
+  rotate: true
+  xy: 332, 162
+  size: 46, 47
+  orig: 46, 47
+  offset: 0, 0
+  index: -1
+normal2/smoke_4
+  rotate: true
+  xy: 288, 162
+  size: 47, 42
+  orig: 47, 42
+  offset: 0, 0
+  index: -1
+normal2/smoke_5
+  rotate: false
+  xy: 403, 192
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+normal2/smoke_6
+  rotate: false
+  xy: 464, 106
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: -1
+normal2/smoke_7
+  rotate: true
+  xy: 291, 38
+  size: 34, 41
+  orig: 34, 41
+  offset: 0, 0
+  index: -1
+normal2/smoke_8
+  rotate: false
+  xy: 460, 194
+  size: 50, 53
+  orig: 50, 53
+  offset: 0, 0
+  index: -1
+normal2/smoke_9
+  rotate: false
+  xy: 460, 151
+  size: 50, 41
+  orig: 50, 41
+  offset: 0, 0
+  index: -1

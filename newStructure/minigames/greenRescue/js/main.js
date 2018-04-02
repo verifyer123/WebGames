@@ -26,9 +26,10 @@ function startGame(){
     	}
 
         document.body.style.visibility = "visible"
+        
     	sceneloader.preload([preloaderIntro], {onComplete: onCompletePreloading})
 	}
-
+            
     function init(){
 
         var fullWidth = 540

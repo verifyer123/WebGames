@@ -48,6 +48,7 @@ var cubejump = function(){
     var BOT_OFFSET = 105
     
     var gameIndex = 14
+    var gameId = 5674368789118976
     var acid
     var canPoint
     var gameCollisionGroup, playerCollisionGroup
@@ -90,7 +91,7 @@ var cubejump = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         platNames = ['fija','movil']
         itemNames = ['coin','spring','coin','coin','coin']
         game.stage.backgroundColor = "#ffffff"

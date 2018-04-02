@@ -36,6 +36,8 @@ var netshoes = function(){
     var BOT_OFFSET = 105
     
     var gameIndex = 16
+    var gameId = 5634101323235328
+
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -93,6 +95,7 @@ var netshoes = function(){
     }  
     
 	function initialize(){
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         gameStart = false
         skullTrue = false

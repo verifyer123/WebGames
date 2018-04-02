@@ -580,19 +580,19 @@ var faceAhoy = function(){
         
         switch(opt){
             case 0:
-                pirate.setAnimationByName(0, "idle_ears", true)
+                pirate.addAnimationByName(0, "idle_ears", true)
             break
             case 1:
-                pirate.setAnimationByName(0, "idle_eyes", true)
+                pirate.addAnimationByName(0, "idle_eyes", true)
             break
             case 2:
-                pirate.setAnimationByName(0, "idle_mouth", true)
+                pirate.addAnimationByName(0, "idle_mouth", true)
             break
             case 3:
-                pirate.setAnimationByName(0, "idle_nose", true)
+                pirate.addAnimationByName(0, "idle_nose", true)
             break
             case 4:
-                pirate.setAnimationByName(0, "idle", true)
+                pirate.addAnimationByName(0, "idle", true)
             break
             case 5:
                 pirate.setAnimationByName(0, "win", false)

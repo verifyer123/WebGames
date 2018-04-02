@@ -70,6 +70,8 @@ var solarWing = function(){
 			}
 		],
     }
+
+    var MIN_SPEED = 1.8
     
         
     var lives = null
@@ -96,13 +98,15 @@ var solarWing = function(){
     var canCreate
     var oblig
 
+    var openWings
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#000000"
+        game.stage.backgroundColor = "#ffffff"
         lives = 3
         oblig=0
         canCollide=true
@@ -111,6 +115,7 @@ var solarWing = function(){
         eagleActivated=false
         emitter=""
         cloudState=false
+        openWings = true
         loadSounds()
 	}
 
@@ -205,12 +210,14 @@ var solarWing = function(){
     
     function changeWings(obj){
         
-        if(obj.tag=="open"){
+        if(obj.tag=="open" && !openWings){
+            openWings = true
             eagleActivated=false
             eagle.setAnimationByName(0,"FLY",true)
             sound.play("changeOpen")
             buttonOpen.loadTexture("atlas.solar","press_op-8")
-        }else if(obj.tag=="closed"){
+        }else if(obj.tag=="closed" && openWings){
+            openWings = false
             eagleActivated=true
             eagle.setAnimationByName(0,"FLY_FASTER",true)
             sound.play("changeClose")
@@ -412,57 +419,6 @@ var solarWing = function(){
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            canCreate=true
-            createClouds()
-            //Aqui va la primera funciòn que realizara el juego
-            
-            startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.solar','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'Movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.solar',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.solar','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(){
@@ -620,6 +576,11 @@ var solarWing = function(){
         eagle.scale.setTo(0.5)
         eagle.setSkinByName("normal")
         eagle.setAnimationByName(0,"FLY",true)
+        eagle.setMixByName("FLY","FLY_FASTER",0.2)
+        eagle.setMixByName("FLY_FASTER","FLY",0.2)
+        eagle.setMixByName("FLY_FASTER","HIT",0.2)
+        eagle.setMixByName("FLY","HIT",0.2)
+
         characterGroup.add(eagle)
         
         
@@ -676,9 +637,11 @@ var solarWing = function(){
         if(!eagleActivated){
             eagleActivated=true
             eagle.setAnimationByName(0,"FLY_FASTER",true)
+            openWings = false
         }else if(eagleActivated){
             eagleActivated=false
             eagle.setAnimationByName(0,"FLY",true)
+            openWings = true
         }
         
         
@@ -731,6 +694,7 @@ var solarWing = function(){
                     game.time.events.add(600,function(){
                          if(lives>0){
                             eagle.setAnimationByName(0,"FLY",true)
+                            openWings = true
                          }
                         buttonOpen.inputEnabled=true
                         buttonClose.inputEnabled=true
@@ -741,6 +705,10 @@ var solarWing = function(){
                         speed-=3
                     }else{
                         speed-=0.01
+                    }
+
+                    if(speed <1){
+                        speed = MIN_SPEED
                     }
                 }else if(cloudAll.y>=eagle.y-150 && cloudAll.y<eagle.y-120 && canCollide && sunState && speed<11.6){
                     speed+=0.8

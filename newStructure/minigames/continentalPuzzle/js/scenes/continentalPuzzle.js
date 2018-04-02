@@ -77,6 +77,7 @@ var continentalPuzzle = function(){
     var flyingCloud
     var colors = [0xffff00, 0x00ffff, 0xff00ff, 0xff0000]
     var playTuto = true
+    var fakeCloud
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -787,9 +788,13 @@ var continentalPuzzle = function(){
     function initGame(){
         
         rnd = getRand()
-        cloudBitmap.load('clouds')
-        changeImage(rnd, continentGroup)
-        nameGroup.setAll('alpha', 0)
+        
+        game.add.tween(fakeCloud).to({alpha: 1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+            fakeCloud.alpha = 0
+            cloudBitmap.load('clouds')
+            changeImage(rnd, continentGroup)
+            nameGroup.setAll('alpha', 0)
+         })
         
         if(pointsBar.number > 6){
             rotateImage(rnd, continentGroup)  
@@ -799,7 +804,7 @@ var continentalPuzzle = function(){
             continentGroup.children[rnd].tint = colors[game.rnd.integerInRange(0, 3)]   
         }
         
-        game.time.events.add(500,function(){
+        game.time.events.add(600,function(){
             gameActive = true
         },this)
     }
@@ -825,14 +830,17 @@ var continentalPuzzle = function(){
     
     function initTuto(){
         
-        cloudBitmap.load('clouds')
-        clean = false
-        changeImage(pivotinent, continentGroup)
-        changeImage(pivotinent, nameGroup)
+        game.add.tween(fakeCloud).to({alpha: 1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+            fakeCloud.alpha = 0
+            cloudBitmap.load('clouds')
+            clean = false
+            changeImage(pivotinent, continentGroup)
+            changeImage(pivotinent, nameGroup)
+        })
         
         game.input.onUp.add(countPixels, this)
 
-        game.time.events.add(500,function(){
+        game.time.events.add(600,function(){
             gameActive = true
         },this)
     }
@@ -938,6 +946,13 @@ var continentalPuzzle = function(){
         flyingCloud.alpha = 0
     }
     
+    function createFakeCloud(){
+        
+        fakeCloud = sceneGroup.create(board.centerX + 11, board.centerY - 13, 'clouds')
+        fakeCloud.anchor.setTo(0.5)
+        fakeCloud.alpha = 0
+    }
+    
 	return {
 		
 		assets: assets,
@@ -973,6 +988,7 @@ var continentalPuzzle = function(){
             buttonnes()
             initBitmap()
             initHand()
+            createFakeCloud()
             flyCloud()
             initCoin() 
             createParticles()

@@ -34,6 +34,18 @@ var mirrorWorld = function(){
 
         ],
         images: [
+            {
+				name:'tutorial_image',
+				file:"images/mirror/gametuto.png"
+			},
+            {
+				name:'handDown',
+				file:"images/mirror/handDown.png"
+			},
+            {
+				name:'handUp',
+				file:"images/mirror/handUp.png"
+			}
 
 		],
 		sounds: [
@@ -41,8 +53,12 @@ var mirrorWorld = function(){
 				file: soundsPath + "magic.mp3"},
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
-            {	name: "wrong",
+            {	name: "wrongChoise",
 				file: soundsPath + "wrong.mp3"},
+            {	name: "wrong",
+				file: soundsPath + "wrongAnswer.mp3"},
+            {	name: "rightChoice",
+				file: soundsPath + "rightChoice.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -74,6 +90,7 @@ var mirrorWorld = function(){
 	var indexGame
     var overlayGroup
     var spaceSong
+    var handsGroup
     
     var backgroundGroup=null
     
@@ -82,11 +99,12 @@ var mirrorWorld = function(){
     var clock, timeBar
     var tempo
     var emitter, notEval, wait
-    var testSide=new Array(30)
-    var gameSide=new Array(30)
-    var iconsComp=new Array(30)
-    var iconsPlayer=new Array(30)
+    var testSide=new Array(27)
+    var gameSide=new Array(27)
+    var iconsComp=new Array(27)
+    var iconsPlayer=new Array(27)
     var dificulty,check,stGame
+    var okGroup
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -303,7 +321,7 @@ var mirrorWorld = function(){
         }
 
 
-        game.load.image('tutorial_image',"images/mirror/tutorial_image_"+inputName+".png")
+        //game.load.image('tutorial_image',"images/mirror/tutorial_image_"+inputName+".png")
         //loadType(gameIndex)
 
         
@@ -426,13 +444,15 @@ var mirrorWorld = function(){
         //Two parts game
         
         
-        gameLeft=game.add.sprite(game.world.centerX-135,game.world.centerY,"atlas.mirror","izq2");
+        gameLeft=game.add.sprite(game.world.centerX-135,game.world.centerY - 30,"atlas.mirror","izq2");
         gameLeft.anchor.setTo(0.5,0.5)
+        gameLeft.scale.setTo(1,0.9)
         backgroundGroup.add(gameLeft)
         
         
-        gameRight=game.add.sprite(game.world.centerX+135,game.world.centerY,"atlas.mirror","der2");
+        gameRight=game.add.sprite(game.world.centerX+135,game.world.centerY - 30,"atlas.mirror","der2");
         gameRight.anchor.setTo(0.5,0.5)
+        gameRight.scale.setTo(1,0.9)
         backgroundGroup.add(gameRight)
         
         //Center
@@ -459,7 +479,7 @@ var mirrorWorld = function(){
             
             iconsComp[fill]=game.add.spine(gameLeft.x+70*moveX,11*moveY,"piece")
             iconsComp[fill].setSkinByName("circle")
-            iconsComp[fill].setAnimationByName(0,"IDLE_PURPLE",true) 
+            iconsComp[fill].setAnimationByName(0,"idle_purple",true) 
             iconsComp[fill].position.x-=60
             iconsComp[fill].alpha=0
             
@@ -479,7 +499,7 @@ var mirrorWorld = function(){
             
             iconsPlayer[fill]=game.add.spine(gameRight.x+70*moveX,11*moveY,"piece")
             iconsPlayer[fill].setSkinByName("circle")
-            iconsPlayer[fill].setAnimationByName(0,"IDLE_ORANGE",true)
+            iconsPlayer[fill].setAnimationByName(0,"idle_orange",true)
             iconsPlayer[fill].position.x-=80
             iconsPlayer[fill].tag="empty"
             
@@ -501,16 +521,13 @@ var mirrorWorld = function(){
         }
     }
 	
-
-
-  
     
 	function update(){
         
         
         if(startGame){
             epicparticles.update()
-            if(stGame)checkMirror()
+            //if(stGame)checkMirror()
             
             
             iconsPlayer[0].slotContainers[0].rotation=180
@@ -556,11 +573,13 @@ var mirrorWorld = function(){
                 iconsPlayer[obj.name].tag="cube"
                 iconsPlayer[obj.name].alpha=1
                 iconsPlayer[obj.name].setSkinByName("cube")
+                
             }else if(iconsPlayer[obj.name].tag=="cube"){
                 iconsPlayer[obj.name].tag="triangle";
                 iconsPlayer[obj.name].tag="triangle"
                 iconsPlayer[obj.name].alpha=1
                 iconsPlayer[obj.name].setSkinByName("triangle")
+                
             }else if(iconsPlayer[obj.name].tag=="triangle"){
                 iconsPlayer[obj.name].tag="empty";
                 iconsPlayer[obj.name].tag="empty"
@@ -568,61 +587,105 @@ var mirrorWorld = function(){
                 iconsPlayer[obj.name].setSkinByName("circle")
             }
 
-            iconsPlayer[obj.name].setAnimationByName(0,"IDLE_ORANGE",true) 
+            iconsPlayer[obj.name].setAnimationByName(0,"idle_orange",true) 
+            
+            if(handsGroup){
+                handsGroup.destroy()
+            }
         }
         
     }
     
     function checkMirror(){
         check=0
+        var delay = 300
+        var correct = false
+         wait=true
+        stopTimer()
         
         for(var checking=1; checking<iconsPlayer.length-1;checking+=3){
             if(iconsPlayer[checking].tag==iconsComp[checking].tag){
                 check++
+                correct = true
             }
+            tintImage(delay, iconsPlayer[checking], correct)
+            correct = false
+            if(iconsPlayer[checking].tag !== 'empty')
+                delay += 400
+            
             if(iconsPlayer[checking-1].tag==iconsComp[checking+1].tag){
                 check++
+                correct = true
             }
+            tintImage(delay, iconsPlayer[checking-1], correct)
+            correct = false
+            if(iconsPlayer[checking-1].tag !== 'empty')
+                delay += 400
+            
             if(iconsPlayer[checking+1].tag==iconsComp[checking-1].tag){
                 check++
+                correct = true
             }
-            
+            tintImage(delay, iconsPlayer[checking+1], correct)
+            correct = false
+            if(iconsPlayer[checking+1].tag !== 'empty')
+                delay += 400
         }
         
-        if(check==30 && !notEval){
-            Coin(center,pointsBar,100)
-            wait=true
-            stopTimer()
-            if(dificulty<30){
-                dificulty++
-                tempo-=50
-            }
+        game.time.events.add(delay + 300,function(){
             
-            check=0
-            stGame=false
-            for(var outing=0;outing<iconsComp.length;outing++){
-                game.add.tween(iconsComp[outing].scale).to({x:1.2,y:1.2},500, Phaser.Easing.Linear.Out, true)
-                game.add.tween(iconsComp[outing].scale).to({x:0,y:0},500, Phaser.Easing.Linear.Out, true,900)
-                game.add.tween(iconsComp[outing]).to({alpha:0},100,Phaser.Easing.linear,true, 2000) 
-
-                game.add.tween(iconsPlayer[outing].scale).to({x:1.2,y:1.2},500, Phaser.Easing.Linear.Out, true)
-                game.add.tween(iconsPlayer[outing].scale).to({x:0,y:0},500, Phaser.Easing.Linear.Out, true,900)
-                game.add.tween(iconsPlayer[outing]).to({alpha:0},100,Phaser.Easing.linear,true, 1900) 
-                game.add.tween(iconsPlayer[outing].scale).to({x:1,y:1},200, Phaser.Easing.Linear.Out, true,2000)
-            }
-            
-            game.time.events.add(2200,function(){
-                
-                for(var reset=0; reset<iconsPlayer.length;reset++){
-                    iconsPlayer[reset].tag="empty"
-                    iconsPlayer[reset].setSkinByName("circle")
-                    iconsPlayer[reset].setAnimationByName(0,"IDLE_ORANGE",true) 
-                    iconsComp[reset].tag="empty"
+            if(check==27 && !notEval){
+                Coin(center,pointsBar,100)
+                if(dificulty<27){
+                    dificulty++
+                    tempo-=50
                 }
-                createPat()
-            })
-        }
+
+                check=0
+                stGame=false
+
+
+                for(var outing=0;outing<iconsComp.length;outing++){
+                    game.add.tween(iconsComp[outing].scale).to({x:1.2,y:1.2},500, Phaser.Easing.Linear.Out, true)
+                    game.add.tween(iconsComp[outing].scale).to({x:0,y:0},500, Phaser.Easing.Linear.Out, true,900)
+                    game.add.tween(iconsComp[outing]).to({alpha:0},100,Phaser.Easing.linear,true, 2000) 
+
+                    game.add.tween(iconsPlayer[outing].scale).to({x:1.2,y:1.2},500, Phaser.Easing.Linear.Out, true)
+                    game.add.tween(iconsPlayer[outing].scale).to({x:0,y:0},500, Phaser.Easing.Linear.Out, true,900)
+                    game.add.tween(iconsPlayer[outing]).to({alpha:0},100,Phaser.Easing.linear,true, 1900) 
+                    game.add.tween(iconsPlayer[outing].scale).to({x:1,y:1},200, Phaser.Easing.Linear.Out, true,2000)
+                }
+
+                game.time.events.add(2200,function(){
+
+                    for(var reset=0; reset<iconsPlayer.length;reset++){
+                        iconsPlayer[reset].tag="empty"
+                        iconsPlayer[reset].setSkinByName("circle")
+                        iconsPlayer[reset].setAnimationByName(0,"idle_orange",true) 
+                        iconsComp[reset].tag="empty"
+                    }
+                    createPat()
+                })
+            }
+            else{  
+                loseGame()
+            }
+        },this)
         
+    }
+    
+    function tintImage(delay, obj, correct){
+        game.time.events.add(delay,function(){
+            
+            if(correct){
+                sound.play('rightChoice')
+                obj.setAnimationByName(0,"win",true) 
+            }
+            else{
+                sound.play('wrongChoise')
+                obj.setAnimationByName(0,"lose",true) 
+            }
+        },this)
     }
     
     
@@ -644,15 +707,20 @@ var mirrorWorld = function(){
        function startTimer(time){
             tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.35}, time, Phaser.Easing.Linear.Out, true, 100)
             tweenTiempo.onComplete.add(function(){
-                wait=true
+                loseGame()
+        })
+    }
+    
+    function loseGame(){
+        
+        wait=true
                 missPoint()
-                stopTimer()
                 notEval=true
                 for(var reset=0; reset<iconsPlayer.length;reset++){
                     iconsPlayer[reset].tag="empty"
                     iconsPlayer[reset].setSkinByName("circle")
-                    iconsPlayer[reset].setAnimationByName(0,"LOSE_ORANGE",true)
-                    iconsComp[reset].setAnimationByName(0,"LOSE_PURPLE",true) 
+                    iconsPlayer[reset].setAnimationByName(0,"lose_orange",true)
+                    iconsComp[reset].setAnimationByName(0,"lose_purple",true) 
                     iconsComp[reset].tag="empty"
                 }
                 
@@ -672,16 +740,16 @@ var mirrorWorld = function(){
                     })
                 })
                 
-        })
     }
     
     function createPat(){
         
         var howMany=0
-        var where=game.rnd.integerInRange(0,29)
+        var where=game.rnd.integerInRange(0,26)
         var whichPiece=game.rnd.integerInRange(1,3)
+    
         while(howMany!=dificulty){
-            where=game.rnd.integerInRange(0,29)
+            where=game.rnd.integerInRange(0,26)
             whichPiece=game.rnd.integerInRange(1,3)
             if(iconsComp[where].tag=="empty"){
                 if(whichPiece==1){
@@ -695,7 +763,7 @@ var mirrorWorld = function(){
                     iconsComp[where].setSkinByName(iconsComp[where].tag)
                 }
                 iconsComp[where].alpha=1
-                iconsComp[where].setAnimationByName(0,"IDLE_PURPLE",true)
+                iconsComp[where].setAnimationByName(0,"idle_purple",true)
                 howMany++
                 
             }
@@ -710,6 +778,8 @@ var mirrorWorld = function(){
             stGame=true
             howMany=0
         }
+        
+        handPos(iconsPlayer[where])
         
     }
     
@@ -895,6 +965,67 @@ var mirrorWorld = function(){
 		}
 		
 	}
+    
+    function okBtn(){
+        
+        okGroup = game.add.group()
+        sceneGroup.add(okGroup)
+        
+        var okOff = okGroup.create(game.world.centerX, game.world.height - 60, 'atlas.mirror', 'Ok_off')
+        okOff.anchor.setTo(0.5) 
+        okOff.scale.setTo(1.5) 
+        okOff.inputEnabled = true
+        okOff.events.onInputDown.add(okPressed, this)   
+        okOff.events.onInputUp.add(okRelased, this) 
+        
+        var okOn = okGroup.create(game.world.centerX, game.world.height - 60, 'atlas.mirror', 'Ok_on')
+        okOn.anchor.setTo(0.5) 
+        okOn.scale.setTo(1.5) 
+        okOn.alpha = 0
+    }
+    
+    function okPressed(){
+        
+        if(stGame){
+            changeImage(1, okGroup)
+            checkMirror()
+        }
+    }
+    
+    function okRelased(){
+        changeImage(0, okGroup)
+    }
+    
+    function initHand(){
+        
+        handsGroup = game.add.group()
+        handsGroup.alpha = 0
+        sceneGroup.add(handsGroup)
+        
+        var handUp = handsGroup.create(0, 0, 'handUp') // 0
+        handUp.alpha = 0
+        
+        var handDown = handsGroup.create(0, 0, 'handDown') // 1
+        handDown.alpha = 0
+        
+        handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
+            
+        handsGroup.tween.onComplete.add(function(){
+            
+            changeImage(0, handsGroup)
+            game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
+                handsGroup.tween.start()
+                changeImage(1, handsGroup)
+            })
+        })
+    }
+    
+    function handPos(obj){
+        
+        handsGroup.alpha = 1
+        handsGroup.setAll('x', obj.centerX) 
+        handsGroup.setAll('y', obj.centerY) 
+    }
 	
 	return {
 		
@@ -929,7 +1060,8 @@ var mirrorWorld = function(){
 			            
 			createPointsBar()
 			createHearts()
-			
+			okBtn()
+            initHand()
 			buttons.getButton(spaceSong,sceneGroup)
             createOverlay()
             

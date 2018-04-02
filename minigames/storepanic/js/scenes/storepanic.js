@@ -38,6 +38,7 @@ var storepanic = function(){
     var BOT_OFFSET = 250
     
     var gameIndex = 10
+    var gameId = 5709436928655360
     var indexCoin
     var skullTrue = false
     var marioSong = null
@@ -81,7 +82,7 @@ var storepanic = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         indexCoin = 0
         gameStart = false

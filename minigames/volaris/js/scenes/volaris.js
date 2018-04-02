@@ -74,6 +74,7 @@ var volaris = function(){
     
     
     var gameIndex = 24
+    var gameId = 100001
     var marioSong = null
 	var sceneGroup = null
     var pointsGroup = null
@@ -142,6 +143,7 @@ var volaris = function(){
 
 
 	function initialize(){
+        gameIndex = amazing.getId(gameId)
         INIT_X = game.world.width + 200
         velocity = 0
         lives = INITIAL_LIVES

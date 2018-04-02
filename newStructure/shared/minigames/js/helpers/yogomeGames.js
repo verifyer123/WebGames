@@ -153,7 +153,7 @@ var yogomeGames = function () {
             {name:'Liquidungeon',url:urlSet + 'liquidungeon/',mapUrl:urlMap + 'liquidungeon', sceneName:'liquidungeon',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//123
             {name:'Green Rescue',url:urlSet + 'greenRescue/',mapUrl:urlMap + 'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//124
             {name:'Lake Strike',url:urlSet + 'lakeStrike/',mapUrl:urlMap + 'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.TARGET},//125
-            {name:'Nosiy Streets',url:urlSet + 'noisyStreets/',mapUrl:urlMap + 'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//126
+            {name:'Noisy Streets',url:urlSet + 'noisyStreets/',mapUrl:urlMap + 'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//126
             {name:'Continental Puzzle',url:urlSet + 'continentalPuzzle/',mapUrl:urlMap +'continentalPuzzle',sceneName:'continentalPuzzle',subject:'geography',review:false,objective:15,demo:false,type:gameTypeEnum.TRACE},//127
             {name:'Geo Beat',url:urlSet + 'geoBeat/',mapUrl:urlMap + 'geoBeat', sceneName:'geoBeat',subject:'geography', review:false,objective:25,demo:false,type:gameTypeEnum.SEQUENCE},//128
             {name:'Mirror World',url:urlSet + 'mirrorWorld/',mapUrl:urlMap + 'mirrorWorld', sceneName:'mirrorWorld',subject:'creativity', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//129
@@ -193,6 +193,14 @@ var yogomeGames = function () {
             {name:'Leak Tweak',url:urlSet + 'leakTweak/',mapUrl:urlMap + 'leakTweak', sceneName:'leakTweak',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//163
             {name:'Tower Buffet',url:urlSet + 'towerBuffet/',mapUrl:urlMap + 'towerBuffet', sceneName:'towerBuffet',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.GRAB},//164
             {name:'Happypolis',url:urlSet + 'happypolis/',mapUrl:urlMap + 'happypolis', sceneName:'happypolis',subject:'sustainability', review:false,objective:10,demo:false, type:gameTypeEnum.TARGET},//165
+            {name:'Spatial Overdrive',url:urlSet + 'spatialOverdrive/',mapUrl:urlMap + 'spatialOverdrive', sceneName:'spatialOverdrive',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//166
+            {name:'Sonar Ride',url:urlSet + 'sonarRide/',mapUrl:urlMap + 'sonarRide', sceneName:'sonarRide',subject:'health', review:false,objective:10,demo:false, type:gameTypeEnum.TARGET},//167
+            {name:'Homework Rain',url:urlSet + 'homeworkRain/',mapUrl:urlMap + 'homeworkRain', sceneName:'homeworkRain',subject:'health', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//168
+            {name:'Forest Justice',url:urlSet + 'forestJustice/',mapUrl:urlMap + 'forestJustice', sceneName:'forestJustice',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//169
+            {name:'Rock Orama',url:urlSet + 'rockOrama/',mapUrl:urlMap + 'rockOrama', sceneName:'rockOrama',subject:'creativity', review:false,objective:15,demo:false, type:gameTypeEnum.SEQUENCE},//170
+            {name:'Squared Squares',url:urlSet + 'squaredSquares/',mapUrl:urlMap + 'squaredSquares', sceneName:'squaredSquares',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.CHOOSE},//171
+            {name:'Germ Strike',url:urlSet + 'germStrike/',mapUrl:urlMap + 'germStrike', sceneName:'germStrike',subject:'health', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//172
+            {name:'Artwist',url:urlSet + 'artwist/',mapUrl:urlMap + 'artwist', sceneName:'artwist',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//173
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

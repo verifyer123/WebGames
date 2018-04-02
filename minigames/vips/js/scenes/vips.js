@@ -42,6 +42,7 @@ var vips = function(){
     var baseWidth = 540
     
     var gameIndex = 21
+    var gameId = 5303856053354496
     var marioSong = null
 	var sceneGroup = null
     var answersGroup = null
@@ -144,7 +145,7 @@ var vips = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         lives = 5

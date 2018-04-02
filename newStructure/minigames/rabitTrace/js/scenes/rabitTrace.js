@@ -31,10 +31,6 @@ var rabitTrace = function(){
             },
 
         ],
-        /*images: [
-            {   name:"fondo",
-				file: "images/sympho/fondo.png"}
-		],*/
 		sounds: [
             {	name: "pop",
                 file: soundsPath + "pop.mp3"},
@@ -1007,14 +1003,6 @@ var rabitTrace = function(){
 
     function nextRound(){
     	releaseLines()
-        /*for(var i = 0; i < horizontalGroup.length; i++){
-            horizontalGroup.children[i].alpha = 0
-        }
-
-        for(var i = 0; i < verticalGroup.length; i++){
-            verticalGroup.children[i].alpha = 0
-        }*/
-
         for(var i = 0; i < carrotGroup.length; i++){
         	if(carrotGroup.children[i].alpha == 1){
 	            game.add.tween(carrotGroup.children[i]).from({alpha:1}).to({alpha:0},1000,Phaser.Easing.Linear.none,true)

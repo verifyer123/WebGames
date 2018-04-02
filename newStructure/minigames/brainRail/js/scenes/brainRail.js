@@ -554,7 +554,7 @@ var brainRail = function(){
             
             var body = game.add.spine(0, 0, stations[i].part)
             //body.scale.setTo(0.8)
-            body.setAnimationByName(0, "IDLE", true)
+            //body.setAnimationByName(0, "IDLE", true)
             body.setSkinByName("normal")
             bodyGroup.add(body)
         }
@@ -740,11 +740,15 @@ var brainRail = function(){
         game.add.tween(destiny).to({alpha: 0}, 300, Phaser.Easing.linear, true)
         
         if(ans === rand){
+            bodyGroup.children[rand].setAnimationByName(0, "IDLE", true)
             sound.play('rightChoice')
             addCoin(signalGroup.children[ans])
             particleCorrect.x = signalGroup.children[ans].x 
             particleCorrect.y = signalGroup.children[ans].y
             particleCorrect.start(true, 1200, null, 6)
+            game.time.events.add(1300,function(){
+                    bodyGroup.children[rand].addAnimationByName(0, "IDLE", false)
+            })
         }
         else{
             missPoint()
@@ -844,6 +848,7 @@ var brainRail = function(){
                     game.add.tween(destiny).to({y: stations[3].endY}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
                         handsGroup.destroy()
                         sound.play('rightChoice')
+                        bodyGroup.children[3].setAnimationByName(0, "IDLE", true)
                         particleCorrect.x = signalGroup.children[3].x 
                         particleCorrect.y = signalGroup.children[3].y
                         particleCorrect.start(true, 1200, null, 6)
@@ -856,7 +861,8 @@ var brainRail = function(){
                         }
                         buttonsGroup.setAll('yellow', 1)
                         game.time.events.add(1500,function(){
-                                initGame()
+                            bodyGroup.children[3].addAnimationByName(0, "IDLE", false)
+                            initGame()
                         })
                     })
                 })

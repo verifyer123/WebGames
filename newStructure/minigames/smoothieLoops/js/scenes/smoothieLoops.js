@@ -526,7 +526,7 @@ var smoothieLoops = function(){
         }
 
         if(pointer.y > buttons_Area.y - (buttons_Area.height/2) ){
-        	if(button.id != 6 && arrayButtons.length<4){
+        	if(button.id != 6 && arrayButtons.length<4 && !button.inArea){
 	            button.x = INITI_POS.x + (arrayButtons.length*DELTA_BUTTON)
 	            button.y = INITI_POS.y
 	            arrayButtons.push(button)
@@ -548,7 +548,7 @@ var smoothieLoops = function(){
 
 	            adjustLoop()
 	        }
-	        else{
+	        else if(button.id==6){
 	        	///loopButton
 	        	if(inTutorial!=-1){
 	            	inTutorial++
@@ -569,6 +569,23 @@ var smoothieLoops = function(){
 	        	adjustLoop()
 
 	        }
+            else{
+                button.x = button.startPos.x
+                button.y = button.startPos.y
+                button.inArea = false
+                var id = arrayButtons.indexOf(button)
+                if(id != -1){
+                    //
+                    arrayButtons.splice(id,1)
+                    for(var i = id; i < arrayButtons.length; i++){
+                        arrayButtons[i].x -=DELTA_BUTTON
+                    }
+                    
+                    okBtn.alpha = 0.5
+                }
+
+                adjustLoop()
+                }
         }
         else{
             button.x = button.startPos.x

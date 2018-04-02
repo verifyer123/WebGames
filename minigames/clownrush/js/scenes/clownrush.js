@@ -43,6 +43,8 @@ var clownrush = function(){
     var ITEM_TIME = 800
     
     var gameIndex = 3
+    var gameId = 5649050225344512
+
     var canRoll = null
     var canAnvil = null
     var canClown = null
@@ -75,7 +77,7 @@ var clownrush = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         canAnvil = false

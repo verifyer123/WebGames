@@ -10,18 +10,6 @@ var codeCake = function(){
 		SELECT: 2,
 	}
     
-    var localizationData = {
-		"EN":{
-            "howTo":"How to Play?",
-            "moves":"Moves left"
-		},
-
-		"ES":{
-            "moves":"Movimientos extra",
-            "howTo":"¿Cómo jugar?"
-		}
-	}
-    
 
 	var assets = {
         atlases: [
@@ -70,17 +58,30 @@ var codeCake = function(){
 		],
         spines:[
             {
-                name: "oven",
-                file: "images/spines/oven/oven.json"
+                name: "oven_a",
+                file: "images/spines/oven_a/oven_a.json"
             },
             {
-                name: "conveyor",
-                file: "images/spines/conveyor/conveyor.json"
+                name: "oven_b",
+                file: "images/spines/oven_b/oven_b.json"
+            },
+            {
+                name: "oven_c",
+                file: "images/spines/oven_c/oven_c.json"
+            },
+            {
+                name: "oven_d",
+                file: "images/spines/oven_d/oven_d.json"
             },
             {
                 name: "light_bulbs",
                 file: "images/spines/light_bulbs/light_bulbs.json"
             },
+            {
+                name: "conveyor",
+                file: "images/spines/conveyor/conveyor.json"
+            },
+           
             {
                 name: "smoke",
                 file: "images/spines/smoke/smoke.json"
@@ -164,6 +165,8 @@ var codeCake = function(){
 
     var smokeSpine
 
+    var okPressed
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -196,8 +199,6 @@ var codeCake = function(){
 
         stationButtons = [null,null,null,null]
 
-        ligths = []
-
         currentTime = INITIAL_TIME
         scrollState = SCROLL_STATE.WAIT
 
@@ -213,6 +214,8 @@ var codeCake = function(){
         handState = SCROLL_STATE.WAIT
 
         tutorialButtonArray = []
+
+        okPressed = false
 
         loadSounds()
 	}
@@ -457,7 +460,7 @@ var codeCake = function(){
 	        					currentButtonSelected = null
 	        				}
 
-	        				else if(Math.abs(startPointer.y - game.input.activePointer.y)>20){
+	        				else if(Math.abs(startPointer.y - game.input.activePointer.y)>10){
 	        					scrollState = SCROLL_STATE.SELECT
 	        					buttonGroup.remove(currentButtonSelected)
 	    						sceneGroup.add(currentButtonSelected)
@@ -532,61 +535,6 @@ var codeCake = function(){
             evalTutorial()
         }
 
-        /*if(inTutorial==1){
-        	if(buttonGroup.children.x <-200){
-        		buttonGroup.x = -200
-        		buttonGroup.force = 0
-        		lastX = game.input.activePointer.x
-        		lastDelta = 0
-        		needUp = true
-        		scrollState = SCROLL_STATE.WAIT
-        		inTutorial ++
-        		if(tutorialTween!=null){
-        			tutorialTween.stop()
-        			tutorialTween = null
-        			game.tweens.removeAll()
-        			
-        		}
-        		evalTutorial()
-        	}
-        }
-        else if(inTutorial==3){
-        	if(buttonGroup.x <-600){
-        		buttonGroup.x = -600
-        		buttonGroup.force = 0
-        		lastX = -1
-        		lastDelta = 0
-        		needUp = true
-        		scrollState = SCROLL_STATE.WAIT
-        		inTutorial ++
-        		if(tutorialTween!=null){
-        			tutorialTween.stop()
-        			tutorialTween = null
-        			game.tweens.removeAll()
-        			
-        		}
-        		evalTutorial()
-        	}
-        }
-        else if(inTutorial==5){
-        	if(buttonGroup.x <-940){
-        		buttonGroup.x = -940
-        		buttonGroup.force = 0
-        		lastX = -1
-        		lastDelta = 0
-        		needUp = true
-        		scrollState = SCROLL_STATE.WAIT
-        		inTutorial ++
-        		if(tutorialTween!=null){
-        			tutorialTween.stop()
-        			tutorialTween = null
-        			game.tweens.removeAll()
-        			
-        		}
-        		evalTutorial()
-        	}
-        }*/
-
 
         
 
@@ -653,6 +601,7 @@ var codeCake = function(){
     function setRound(){
         currentSequence = [-1,-1,-1,-1]
         
+        okPressed = false
 
         //randomSecuence 
         correctSequence[0] = game.rnd.integerInRange(0,1)
@@ -822,8 +771,21 @@ var codeCake = function(){
         cake.visible = true
     }
 
-    function setTile(){
+    function getEmptySpineSlot(spine){
+    	var empty 
+        var slotIndex
+        for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
+            var slotData = spine.skeletonData.slots[index]
+            if(slotData.name === "empty"){
+                slotIndex = index
+            }
+        }
 
+        if (slotIndex){
+            empty = spine.slotContainers[slotIndex]
+        }
+
+        return empty
     }
 
     function evaluateStation(cake){
@@ -838,13 +800,16 @@ var codeCake = function(){
             setTimeout(function(){
             	setRound()
             	cake.visible = false
+            	ligths.setAnimationByName(0,"off",true)
             },DELAY_EVALUATE_TIME)
             return
         }
 
         //ligths[cake.nextStation-1].loadTexture('atlas.game',ligths[cake.nextStation-1].color+'_LIGHT',0,false)
-        ligths[cake.nextStation-1].setAnimationByName(0,"on",true)
-        spineMachines[cake.nextStation-1].setAnimationByName(0,"correct",false)
+        if(cake.nextStation == stationPositions.length - 2){
+	        ligths.setAnimationByName(0,"on",true)
+	    }
+        spineMachines[cake.nextStation-1].setAnimationByName(0,"correct",true)
 
         sound.play('machineWorking')
 
@@ -888,11 +853,14 @@ var codeCake = function(){
 	        		spineConveyor[cake.nextStation].addAnimationByName(0,"stop",true)
 	        	}
                 spineMachines[cake.nextStation-1].setAnimationByName(0,"idle",true)
-                ligths[cake.nextStation-1].setAnimationByName(0,"off",true)
+                //ligths[cake.nextStation-1].setAnimationByName(0,"off",true)
                 stationBehindGruop[cake.nextStation-1].remove(cake)
                 stationBehindGruop[cake.nextStation].add(cake)
                 smokeSpine.visible = true
                 smokeSpine.x = spineMachines[cake.nextStation-1].x +120*spineMachines[cake.nextStation-1].scale.x
+                if(cake.nextStation-1==1){
+                	smokeSpine.x-=100
+                }
                 smokeSpine.y = spineMachines[cake.nextStation-1].y-70
                 smokeSpine.scale.setTo(spineMachines[cake.nextStation-1].scale.x,spineMachines[cake.nextStation-1].scale.y)
                 smokeSpine.setAnimationByName(0,"correct",false)
@@ -910,7 +878,7 @@ var codeCake = function(){
                 sound.play("combo")
             }
             else{
-            	ligths[cake.nextStation-1].setAnimationByName(0,"off",true)
+            	//ligths[cake.nextStation-1].setAnimationByName(0,"off",true)
             	spineMachines[cake.nextStation-1].setAnimationByName(0,"wrong",false)
             	spineMachines[cake.nextStation-1].addAnimationByName(0,"idle",true)
             	//console.log("misspoint here")
@@ -933,6 +901,11 @@ var codeCake = function(){
 
     function clickOk(){
     	//console.log("Click ok")
+
+        if(okPressed){
+            return
+        }
+        okPressed = true
     	if(hand.visible){
 
     		
@@ -1054,105 +1027,6 @@ var codeCake = function(){
     }
 
     function evalTutorial(){
-    	/*if(tutorialTween !=null){
-    		return
-    	}
-
-    	hand.visible = true
-    	switch(inTutorial){
-    		case 0:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX-150
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:stationPositions[1].x,y:stationPositions[1].y},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			tutorialTween = null
-    			hand.loadTexture('atlas.game','handUp')
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 1:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX+100
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:game.world.centerX-100},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			hand.loadTexture('atlas.game','handUp')
-				tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 2:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX-150
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:stationPositions[2].x,y:stationPositions[2].y},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			hand.loadTexture('atlas.game','handUp')
-    			tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 3:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX+100
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:game.world.centerX-100},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			hand.loadTexture('atlas.game','handUp')
-    			tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 4:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX-150
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:stationPositions[3].x,y:stationPositions[3].y},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			hand.loadTexture('atlas.game','handUp')
-    			tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 5:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX+100
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:game.world.centerX-100},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			hand.loadTexture('atlas.game','handUp')
-    			tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 6:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX-110
-    		hand.y = game.world.height-50
-    		tutorialTween = game.add.tween(hand).to({x:stationPositions[4].x,y:stationPositions[4].y},2000,Phaser.Easing.linear,true)
-    		tutorialTween.onComplete.add(function(){
-    			hand.loadTexture('atlas.game','handUp')
-    			tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		})
-    		break
-    		case 7:
-    		hand.loadTexture('atlas.game','handDown')
-    		hand.x = game.world.centerX+200
-    		hand.y = game.world.height-50
-    		setTimeout(function(){
-    			hand.loadTexture('atlas.game','handUp')
-    			tutorialTween = null
-    			setTimeout(evalTutorial,500)
-    		},500)
-    		break
-    		default:
-    		inTutorial = -1
-    		hand.visible = false
-    		break
-
-    	}*/
         if(tutorialButtonInex>3){
             inTutorial=-1
             handOk()
@@ -1312,9 +1186,14 @@ var codeCake = function(){
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
 
-        var background = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.game','background')
-        background.tilePosition.x = (game.world.width - 505)/2
-        background.anchor.setTo(0,0)
+        var backColor = game.add.graphics(0,0)
+        backColor.beginFill(0x2f3432)
+        backColor.drawRect(0,0,game.world.width,game.world.height)
+        backColor.endFill()
+        backgroundGroup.add(backColor)
+
+        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.game','background')
+        background.anchor.setTo(0.5)
         backgroundGroup.add(background)
 
 
@@ -1350,7 +1229,7 @@ var codeCake = function(){
         sceneGroup.add(group)
         stationBehindGruop.push(group)
 
-        var station = game.add.spine(stationPositions[1].x,stationPositions[1].y+150,'oven')
+        var station = game.add.spine(stationPositions[1].x,stationPositions[1].y+130,'oven_b')
         //station.anchor.setTo(0.5)
         station.scale.setTo(0.5)
         station.setAnimationByName(0,"idle",true)
@@ -1359,16 +1238,6 @@ var codeCake = function(){
         sceneGroup.add(station)
         spineMachines.push(station)
 
-        var ligth = game.add.spine(stationPositions[1].x,stationPositions[1].y-100,'light_bulbs')
-        //ligth.anchor.setTo(0.5)
-        ligth.scale.setTo(0.5)
-        ligth.setAnimationByName(0,"off",true)
-        ligth.setSkinByName("blue")
-        ligth.color = 'BLUE'
-        ligths.push(ligth)
-        sceneGroup.add(ligth)
-
-        //station.tint = 0xff0000
         band = game.add.spine(game.world.centerX,game.world.centerY-50,'conveyor')
         //band.anchor.setTo(0.5)
         band.scale.setTo(0.5,0.5)
@@ -1381,22 +1250,14 @@ var codeCake = function(){
         sceneGroup.add(group)
         stationBehindGruop.push(group)
 
-        station = game.add.spine(stationPositions[2].x,stationPositions[2].y+150,'oven')
+        station = game.add.spine(stationPositions[2].x,stationPositions[2].y+120,'oven_d')
         //station.anchor.setTo(0.5)
-        station.scale.setTo(-0.5,0.5)
+        station.scale.setTo(0.5)
         station.setAnimationByName(0,"idle",true)
         station.setSkinByName("normal")
         sceneGroup.add(station)
         spineMachines.push(station)
 
-        ligth = game.add.spine(stationPositions[2].x,stationPositions[2].y-100,'light_bulbs')
-        ligth.scale.setTo(0.5)
-        ligth.setAnimationByName(0,"off",true)
-        ligth.setSkinByName("red")
-        //ligth.anchor.setTo(0.5)
-        ligth.color = 'RED'
-        ligths.push(ligth)
-        sceneGroup.add(ligth)
         //station.tint = 0x0000ff
         band = game.add.spine(game.world.centerX,game.world.centerY+130,'conveyor')
         //band.anchor.setTo(0.5)
@@ -1410,22 +1271,13 @@ var codeCake = function(){
         sceneGroup.add(group)
         stationBehindGruop.push(group)
 
-        station = game.add.spine(stationPositions[3].x,stationPositions[3].y+150,'oven')
+        station = game.add.spine(stationPositions[3].x,stationPositions[3].y+140,'oven_c')
         //station.anchor.setTo(0.5)
         station.scale.setTo(0.5)
         station.setAnimationByName(0,"idle",true)
         station.setSkinByName("normal")
         sceneGroup.add(station)
         spineMachines.push(station)
-
-        ligth = game.add.spine(stationPositions[3].x,stationPositions[3].y-100,'light_bulbs')
-        ligth.scale.setTo(0.5)
-        ligth.setAnimationByName(0,"off",true)
-        ligth.setSkinByName("yellow")
-        //ligth.anchor.setTo(0.5)
-        ligth.color = 'YELLOW'
-        ligths.push(ligth)
-        sceneGroup.add(ligth)
 
         //station.tint = 0x00ffff
         band = game.add.spine(game.world.centerX,game.world.centerY+310,'conveyor')
@@ -1441,7 +1293,7 @@ var codeCake = function(){
         stationBehindGruop.push(group)
         
 
-        station = game.add.spine(stationPositions[4].x,stationPositions[4].y+150,'oven')
+        station = game.add.spine(stationPositions[4].x,stationPositions[4].y+150,'oven_a')
         //station.anchor.setTo(0.5)
         station.scale.setTo(-0.5,0.5)
         station.setAnimationByName(0,"idle",true)
@@ -1449,14 +1301,13 @@ var codeCake = function(){
         sceneGroup.add(station)
         spineMachines.push(station)
 
-        ligth = game.add.spine(stationPositions[4].x,stationPositions[4].y-100,'light_bulbs')
-        ligth.scale.setTo(0.5)
-        ligth.setAnimationByName(0,"off",true)
-        ligth.setSkinByName("green")
+        ligths = game.add.spine(stationPositions[4].x,stationPositions[4].y-100,'light_bulbs')
+        ligths.scale.setTo(0.5)
+        ligths.setAnimationByName(0,"off",true)
+        ligths.setSkinByName("green")
         //ligth.anchor.setTo(0.5)
-        ligth.color = 'GREEN'
-        ligths.push(ligth)
-        sceneGroup.add(ligth)
+        ligths.color = 'GREEN'
+        sceneGroup.add(ligths)
 
         //station.tint = 0x00ff00
         var finish = sceneGroup.create(game.world.centerX+90,game.world.centerY + 290,'atlas.game','FINAL_PLATE')
@@ -1473,10 +1324,10 @@ var codeCake = function(){
 
         buttonGroup = game.add.group()
         //buttonGroup.y = game.world.height - 80
-        buttonGroup.x = game.world.centerX-280
+        buttonGroup.x = 0
 
         var deltaButton = 100
-        var initX = 100
+        var initX = game.world.centerX -200
         for(var i = 0; i < imageNames.length; i++){
        		var button = buttonGroup.create(initX+(deltaButton*i),game.world.height - 80,'atlas.game',imageNames[i])
             if(i ==0 || i == 2 || i == 6|| i==10){
@@ -1505,20 +1356,38 @@ var codeCake = function(){
         var okBtn = sceneGroup.create(game.world.centerX+180,game.world.height-80,'atlas.game','button')
         okBtn.anchor.setTo(0.5)
         okBtn.inputEnabled = true
-        okBtn.events.onInputDown.add(clickOk,this)
+        okBtn.events.onInputDown.add(function(){
+            okBtn.loadTexture("atlas.game","button_down")
+            clickOk()
+        },this)
+
+        okBtn.events.onInputUp.add(function(){
+            okBtn.loadTexture("atlas.game","button")
+        },this)
 
         
 
         stationsImages = []
         var left = -1
         for(var i = 1; i < stationPositions.length-1; i++){
-        	var image = sceneGroup.create(stationPositions[i].x-30*spineMachines[i-1].scale.x,stationPositions[i].y-30*spineMachines[i-1].scale.y,'atlas.game','fruit_0')
+        	var image = sceneGroup.create(0,0,'atlas.game','fruit_0')
         	image.anchor.setTo(0.5)
-        	image.x += left*55
-        	image.scale.setTo(0.4)
+        	image.scale.setTo(0.9)
+
+        	if(i ==1){
+        		image.scale.setTo(0.6)
+        		image.x +=10
+        	}
+        	else if(i == 4){
+        		image.x +=20
+        	}
+        	//image.x += left*55
+        	//image.scale.setTo(0.4)
         	image.visible = false
-        	left*=-1
+        	//left*=-1
         	stationsImages.push(image)
+        	var empty = getEmptySpineSlot(spineMachines[i-1])
+        	empty.add(image)
         }
        
 

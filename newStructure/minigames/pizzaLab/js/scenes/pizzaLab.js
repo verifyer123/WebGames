@@ -32,7 +32,10 @@ var pizzaLab = function(){
             },
         ],
         images: [
-
+            {
+                name: 'badPizza',
+                file: "images/pizzaLab/badPizza.png"
+            }
 		],
 		sounds: [
             {	name: "magic",
@@ -49,6 +52,8 @@ var pizzaLab = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "robotBeep",
 				file: soundsPath + "robotBeep.mp3"},
+            {	name: "splash",
+				file: soundsPath + "splash.mp3"},
 		]
     }
     
@@ -64,6 +69,7 @@ var pizzaLab = function(){
     var ingredients = ['jam', 'mush', 'pepe', 'pepper', 'pineapple']
     var val = [1,2,3,4,5]
     var ingredientGroup
+    var pipesGroup
     var pizzaGroup
     var pizzaCooked
     var rnd
@@ -364,21 +370,9 @@ var pizzaLab = function(){
         var floor = game.add.tileSprite(0, game.world.centerY + 50, game.world.width, game.world.height, 'atlas.pizzaLab', 'tile')
         sceneGroup.add(floor)
         
-        var bar = sceneGroup.create(0, 71, 'atlas.pizzaLab', 'bar')
+        var bar = sceneGroup.create(0, 121, 'atlas.pizzaLab', 'bar')
         bar.width = game.world.width
         bar.height *= 0.25
-        
-        var machine = sceneGroup.create(game.world.centerX, 100, 'machine')
-        machine.anchor.setTo(0.5, 0)
-        machine.scale.setTo(0.83)
-        
-        leftDoor = sceneGroup.create(game.world.centerX + 5, machine.centerY + 90, 'atlas.pizzaLab', 'doorLeft')
-        leftDoor.anchor.setTo(1, 0)
-        leftDoor.scale.setTo(0.83)
-        
-        rigthDoor = sceneGroup.create(game.world.centerX + 7, machine.centerY + 90, 'atlas.pizzaLab', 'doorRight')
-        rigthDoor.anchor.setTo(0, 0)
-        rigthDoor.scale.setTo(0.83)
     }
 
 	function update(){
@@ -624,22 +618,67 @@ var pizzaLab = function(){
     
     function cheffOof(){
         
-        oof = game.add.spine(game.world.centerX - 30, game.world.height - 20, "oof")
+        oof = game.add.spine(100, game.world.centerY + 80, "oof")
         oof.setAnimationByName(0, "IDLE", true)
         oof.setSkinByName("normal")
         oof.scale.setTo(0.3)
         sceneGroup.add(oof)
     }
     
+    function pipes(bar){
+        
+        
+        var piv = -2.2
+        
+        for(var b = 0; b < ingredients.length; b++){
+            
+            var subGroup = game.add.group()
+            subGroup.x = bar.centerX + (piv * 100)
+            subGroup.y = bar.y - 90
+            pipesGroup.add(subGroup)
+            
+            var pipeOff = subGroup.create(-piv * 25, 0, 'atlas.pizzaLab', 'pipeOff_' + b)
+            pipeOff.anchor.setTo(0.5)
+            pipeOff.scale.setTo(1.2, 1.4)
+            pipeOff.angle = 10
+            
+            var pipeOn = subGroup.create(-piv * 25, 0, 'atlas.pizzaLab', 'pipeOn_' + b) 
+            pipeOn.anchor.setTo(0.5)
+            pipeOn.scale.setTo(1.2, 1.4)
+            pipeOn.angle = 10
+            pipeOn.alpha = 0
+            
+            piv++
+        }
+        
+        var machine = sceneGroup.create(game.world.centerX, 150, 'machine')
+        machine.anchor.setTo(0.5, 0)
+        machine.scale.setTo(0.83)
+        
+        leftDoor = sceneGroup.create(game.world.centerX + 5, machine.centerY + 90, 'atlas.pizzaLab', 'doorLeft')
+        leftDoor.anchor.setTo(1, 0)
+        leftDoor.scale.setTo(0.83)
+        
+        rigthDoor = sceneGroup.create(game.world.centerX + 7, machine.centerY + 90, 'atlas.pizzaLab', 'doorRight')
+        rigthDoor.anchor.setTo(0, 0)
+        rigthDoor.scale.setTo(0.83)
+    }
+    
     function barBtns(){
         
-        var bar = sceneGroup.create(0, game.world.centerY + 150, 'atlas.pizzaLab', 'bar')
+        pipesGroup = game.add.group()
+        sceneGroup.add(pipesGroup)
+        
+        var bar = sceneGroup.create(0, game.world.height - 230, 'atlas.pizzaLab', 'bar')
         bar.width = game.world.width
+        
+        pipes(bar)
+        okBtn(bar)
         
         ingredientGroup = game.add.group()
         sceneGroup.add(ingredientGroup)
         
-        var piv = -2
+        var piv = -2.5
         
         for(var b = 0; b < ingredients.length; b++){
             
@@ -667,11 +706,11 @@ var pizzaLab = function(){
             bulbOn.anchor.setTo(0.5, 1)
             bulbOn.alpha = 0
             
-            var numOff = ingBtn.create(0, -110, 'atlas.pizzaLab', 'Off') //4
-            numOff.anchor.setTo(0.5, 1)
+            var numOff = ingBtn.create(0, 40, 'atlas.pizzaLab', 'Off') //4
+            numOff.anchor.setTo(0.5, 0)
             
-            var numOn = ingBtn.create(0, -110, 'atlas.pizzaLab', 'On') //5
-            numOn.anchor.setTo(0.5, 1)
+            var numOn = ingBtn.create(0, 40, 'atlas.pizzaLab', 'On') //5
+            numOn.anchor.setTo(0.5, 0)
             numOn.alpha = 0
             
             piv++
@@ -691,6 +730,9 @@ var pizzaLab = function(){
                 btn.parent.children[3].alpha = 0
                 btn.parent.children[4].alpha = 1
                 btn.parent.children[5].alpha = 0
+                
+                pipesGroup.children[btn.parent.val - 1].children[0].alpha = 1
+                pipesGroup.children[btn.parent.val - 1].children[1].alpha = 0
             }
             else{
                 btn.parent.turnOn = true
@@ -698,6 +740,9 @@ var pizzaLab = function(){
                 btn.parent.children[3].alpha = 1
                 btn.parent.children[4].alpha = 0
                 btn.parent.children[5].alpha = 1
+                
+                pipesGroup.children[btn.parent.val - 1].children[0].alpha = 0
+                pipesGroup.children[btn.parent.val - 1].children[1].alpha = 1
             }
         }
     }
@@ -708,29 +753,33 @@ var pizzaLab = function(){
         btn.parent.children[1].alpha = 0
     }
     
-    function okBtn(){
+    function okBtn(bar){
         
         var ok = game.add.group()
-        ok.x = game.world.centerX + 250
-        ok.y = game.world.height - 30
+        ok.x = bar.centerX + (2.5 * 100)
+        ok.y = bar.centerY - 10
         sceneGroup.add(ok)
         
         var okOff = ok.create(0, 0, 'atlas.pizzaLab', 'okOff')
-        okOff.anchor.setTo(1) 
+        okOff.anchor.setTo(0.5) 
+        okOff.scale.setTo(0.7) 
         okOff.inputEnabled = true
         okOff.events.onInputDown.add(okPressed, this)   
         okOff.events.onInputUp.add(okRelased, this) 
         
         var okOn = ok.create(0, 0, 'atlas.pizzaLab', 'okOn')
-        okOn.anchor.setTo(1) 
+        okOn.anchor.setTo(0.5) 
+        okOn.scale.setTo(0.7) 
         okOn.alpha = 0
     }
     
     function okPressed(btn){
         
         var ans = false
+        var count = 0
         
         if(gameActive){
+            gameActive = false
             sound.play('pop')
             btn.parent.children[0].alpha = 0
             btn.parent.children[1].alpha = 1
@@ -739,16 +788,32 @@ var pizzaLab = function(){
                 stopTimer()
             
             for(var c = 0; c < ingredientGroup.length; c++){
+                
                 if(ingredientGroup.children[c].turnOn){
-                    if(val.indexOf(ingredientGroup.children[c].val) < rnd){
-                        ans = true
-                    }
-                    else{
-                        ans = false
-                        break
+                    count++
+                }
+            }
+            
+            if(count === rnd){
+                
+                for(var c = 0; c < ingredientGroup.length; c++){
+                
+                    if(ingredientGroup.children[c].turnOn){
+                        if(val.indexOf(ingredientGroup.children[c].val) < rnd){
+                            ans = true
+                        }
+                        else{
+                            ans = false
+                            break
+                        }
                     }
                 }
             }
+            else{
+                ans = false
+            }
+            
+            
             win(ans)
         }
     }
@@ -764,7 +829,7 @@ var pizzaLab = function(){
             particleCorrect.start(true, 1000, null, 10)   
         }
         else{
-            missPoint()
+            pizzaMess()
             oof.setAnimationByName(0, "LOSE", false)
             oof.addAnimationByName(0, "LOSESTILL", true)
             particleWrong.x = game.world.centerX
@@ -794,12 +859,31 @@ var pizzaLab = function(){
         game.add.tween(leftDoor).to({x: leftDoor.x - 50}, 300, Phaser.Easing.linear, true)
         game.add.tween(rigthDoor).to({x: rigthDoor.x + 50}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
             pizzaCooked.alpha = 1
+            pizzaCooked.badPizza.alpha = 0
             game.add.tween(pizzaCooked.scale).from({x: 0, y: 0}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                 leftDoor.x = leftDoor.x + 50
                 rigthDoor.x = rigthDoor.x - 50
                 addCoin()
                 game.add.tween(pizzaCooked).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
                     pizzaCooked.setAll('alpha', 0)
+                })
+            })
+        })
+    }
+    
+    function pizzaMess(){
+        
+        game.add.tween(leftDoor).to({x: leftDoor.x - 50}, 300, Phaser.Easing.linear, true)
+        game.add.tween(rigthDoor).to({x: rigthDoor.x + 50}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
+            pizzaCooked.alpha = 1
+            pizzaCooked.setAll('alpha', 0)
+            pizzaCooked.badPizza.alpha = 1
+            game.add.tween(pizzaCooked.badPizza.scale).from({x: 0, y: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                leftDoor.x = leftDoor.x + 50
+                rigthDoor.x = rigthDoor.x - 50
+                sound.play('splash')
+                game.add.tween(pizzaCooked).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    missPoint()
                 })
             })
         })
@@ -815,7 +899,7 @@ var pizzaLab = function(){
         
         pizzaGroup = game.add.group()
         pizzaGroup.x = game.world.centerX + 5
-        pizzaGroup.y = 215
+        pizzaGroup.y = 265
         pizzaGroup.alpha = 0
         sceneGroup.add(pizzaGroup)
         
@@ -832,7 +916,7 @@ var pizzaLab = function(){
         
         pizzaCooked = game.add.group()
         pizzaCooked.x = game.world.centerX + 5
-        pizzaCooked.y = 465
+        pizzaCooked.y = 505
         pizzaCooked.alpha = 0
         pizzaCooked.scale.setTo(1.5)
         sceneGroup.add(pizzaCooked)
@@ -846,6 +930,11 @@ var pizzaLab = function(){
             ing.anchor.setTo(0.5)
             ing.alpha = 0
         }
+        
+        var badPizza = pizzaCooked.create(0, 0, 'badPizza')
+        badPizza.anchor.setTo(0.5)
+        badPizza.alpha = 0
+        pizzaCooked.badPizza = badPizza
     }
     
     function enterOrder(){
@@ -854,7 +943,7 @@ var pizzaLab = function(){
         Phaser.ArrayUtils.shuffle(val)
         pizzaGroup.children[0].alpha = 1
         pizzaCooked.children[0].alpha = 1
-                
+            
         for(var p = 0; p < rnd; p++){
             pizzaGroup.children[val[p]].alpha = 1
             pizzaCooked.children[val[p]].alpha = 1
@@ -915,7 +1004,6 @@ var pizzaLab = function(){
 			createHearts()
             positionTimer()
             barBtns()
-            okBtn()
             cheffOof()
             pizzaPlaneta()
             initCoin()

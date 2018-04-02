@@ -53,7 +53,7 @@ var cirquit = function(){
     var BOT_OFFSET = 105
     
     var gameIndex = 2
-    
+    var gameId = 5739719937753088
     var colorIndex
     var objectToActivate = null
     var skullTrue = false
@@ -96,7 +96,7 @@ var cirquit = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         gameStart = false
         skullTrue = false
