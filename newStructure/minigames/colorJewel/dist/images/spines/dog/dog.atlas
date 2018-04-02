@@ -1,0 +1,69 @@
+
+dog.png
+size: 422,142
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/ear
+  rotate: false
+  xy: 283, 23
+  size: 45, 59
+  orig: 45, 59
+  offset: 0, 0
+  index: -1
+normal/eye_a
+  rotate: false
+  xy: 283, 6
+  size: 17, 15
+  orig: 17, 15
+  offset: 0, 0
+  index: -1
+normal/eye_b
+  rotate: false
+  xy: 384, 105
+  size: 36, 35
+  orig: 36, 35
+  offset: 0, 0
+  index: -1
+normal/eyebrown
+  rotate: false
+  xy: 384, 78
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 2, 2
+  size: 164, 138
+  orig: 164, 138
+  offset: 0, 0
+  index: -1
+normal/mouth_a
+  rotate: false
+  xy: 168, 2
+  size: 113, 61
+  orig: 113, 61
+  offset: 0, 0
+  index: -1
+normal/mouth_b
+  rotate: false
+  xy: 168, 65
+  size: 113, 75
+  orig: 113, 75
+  offset: 0, 0
+  index: -1
+normal/remolino
+  rotate: false
+  xy: 283, 84
+  size: 99, 56
+  orig: 99, 56
+  offset: 0, 0
+  index: -1
+normal/star
+  rotate: false
+  xy: 330, 32
+  size: 49, 50
+  orig: 49, 50
+  offset: 0, 0
+  index: -1

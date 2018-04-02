@@ -1,0 +1,336 @@
+{"frames": [
+
+{
+	"filename": "microdefender",
+	"frame": {"x":241,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "minmaxduel",
+	"frame": {"x":489,"y":517,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "monsterDungeon",
+	"frame": {"x":479,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ms",
+	"frame": {"x":1,"y":259,"w":243,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":243,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nacho",
+	"frame": {"x":1,"y":517,"w":242,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":242,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nutri",
+	"frame": {"x":717,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "oona",
+	"frame": {"x":955,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "paper",
+	"frame": {"x":245,"y":775,"w":239,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":239,"h":256},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "piratePieces",
+	"frame": {"x":727,"y":775,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pizzafraction",
+	"frame": {"x":490,"y":259,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "popScene",
+	"frame": {"x":1452,"y":1,"w":238,"h":255},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":1,"w":238,"h":255},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "port",
+	"frame": {"x":1,"y":775,"w":242,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":0,"w":242,"h":256},
+	"sourceSize": {"w":257,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "puzzle",
+	"frame": {"x":1193,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "rabitTrace",
+	"frame": {"x":729,"y":517,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":257,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "rift",
+	"frame": {"x":1431,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "river",
+	"frame": {"x":245,"y":517,"w":242,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":0,"w":242,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "riverRescue",
+	"frame": {"x":967,"y":775,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "robo",
+	"frame": {"x":492,"y":1,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "runneryogome",
+	"frame": {"x":249,"y":1,"w":241,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":0,"w":241,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "seaquence",
+	"frame": {"x":730,"y":259,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "sky",
+	"frame": {"x":969,"y":517,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "skyLanguage",
+	"frame": {"x":1207,"y":775,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "space",
+	"frame": {"x":732,"y":1,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "spaceCount",
+	"frame": {"x":970,"y":259,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "squat",
+	"frame": {"x":1209,"y":517,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "stack",
+	"frame": {"x":246,"y":259,"w":242,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":242,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "sushi",
+	"frame": {"x":1447,"y":775,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":1,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "swampShape",
+	"frame": {"x":1450,"y":259,"w":239,"h":255},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":1,"w":239,"h":255},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "symphoMaster",
+	"frame": {"x":1,"y":1033,"w":238,"h":254},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":2,"w":238,"h":254},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tapcards",
+	"frame": {"x":972,"y":1,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tilt",
+	"frame": {"x":486,"y":775,"w":239,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":239,"h":256},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "toyfigure",
+	"frame": {"x":1210,"y":259,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "uni",
+	"frame": {"x":1449,"y":517,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "water",
+	"frame": {"x":1212,"y":1,"w":238,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":238,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wild",
+	"frame": {"x":1669,"y":1033,"w":236,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":236,"h":254},
+	"sourceSize": {"w":236,"h":254},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wildDentist",
+	"frame": {"x":1,"y":1,"w":246,"h":256},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":246,"h":256},
+	"sourceSize": {"w":257,"h":257},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas2.png",
+	"format": "RGBA8888",
+	"size": {"w":1906,"h":1288},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e31095b981f969f0d67f25063fa23106:f55a6649dfd412c0ed7053bcc48ff439:d2928af382b1462a4e1e9d203dd4c4a5$"
+}
+}

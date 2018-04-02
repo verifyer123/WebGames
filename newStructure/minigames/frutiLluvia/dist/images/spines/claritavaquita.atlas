@@ -1,0 +1,160 @@
+
+claritavaquita.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/body
+  rotate: false
+  xy: 2, 2
+  size: 136, 97
+  orig: 136, 97
+  offset: 0, 0
+  index: -1
+normal/ear_l
+  rotate: false
+  xy: 241, 14
+  size: 49, 23
+  orig: 49, 23
+  offset: 0, 0
+  index: -1
+normal/ear_r
+  rotate: false
+  xy: 573, 74
+  size: 42, 25
+  orig: 42, 25
+  offset: 0, 0
+  index: -1
+normal/eyes_blink
+  rotate: false
+  xy: 468, 45
+  size: 30, 6
+  orig: 30, 6
+  offset: 0, 0
+  index: -1
+normal/eyes_idle
+  rotate: false
+  xy: 292, 16
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+normal/eyes_lose
+  rotate: true
+  xy: 988, 161
+  size: 42, 25
+  orig: 42, 25
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: true
+  xy: 140, 6
+  size: 93, 99
+  orig: 93, 99
+  offset: 0, 0
+  index: -1
+normal/leg
+  rotate: false
+  xy: 528, 54
+  size: 43, 45
+  orig: 43, 45
+  offset: 0, 0
+  index: -1
+normal/leg_flip
+  rotate: false
+  xy: 528, 54
+  size: 43, 45
+  orig: 43, 45
+  offset: 0, 0
+  index: -1
+normal/leg_bent
+  rotate: false
+  xy: 345, 45
+  size: 60, 54
+  orig: 60, 54
+  offset: 0, 0
+  index: -1
+normal/leg_bent_flip
+  rotate: false
+  xy: 407, 45
+  size: 59, 54
+  orig: 59, 54
+  offset: 0, 0
+  index: -1
+normal/mouth
+  rotate: false
+  xy: 241, 39
+  size: 102, 60
+  orig: 102, 60
+  offset: 0, 0
+  index: -1
+normal/tail_01
+  rotate: true
+  xy: 988, 205
+  size: 49, 32
+  orig: 49, 32
+  offset: 0, 0
+  index: -1
+normal/tail_02
+  rotate: true
+  xy: 468, 53
+  size: 46, 58
+  orig: 46, 58
+  offset: 0, 0
+  index: -1
+normal1/blueberry
+  rotate: false
+  xy: 865, 102
+  size: 121, 152
+  orig: 121, 152
+  offset: 0, 0
+  index: -1
+normal1/durazno
+  rotate: false
+  xy: 2, 101
+  size: 122, 153
+  orig: 122, 153
+  offset: 0, 0
+  index: -1
+normal1/fresa
+  rotate: false
+  xy: 250, 101
+  size: 121, 153
+  orig: 121, 153
+  offset: 0, 0
+  index: -1
+normal1/guayaba
+  rotate: false
+  xy: 126, 101
+  size: 122, 153
+  orig: 122, 153
+  offset: 0, 0
+  index: -1
+normal1/limon
+  rotate: false
+  xy: 373, 101
+  size: 121, 153
+  orig: 121, 153
+  offset: 0, 0
+  index: -1
+normal1/mango
+  rotate: false
+  xy: 496, 101
+  size: 121, 153
+  orig: 121, 153
+  offset: 0, 0
+  index: -1
+normal1/manzana
+  rotate: false
+  xy: 619, 101
+  size: 121, 153
+  orig: 121, 153
+  offset: 0, 0
+  index: -1
+normal1/zarzamora
+  rotate: false
+  xy: 742, 101
+  size: 121, 153
+  orig: 121, 153
+  offset: 0, 0
+  index: -1

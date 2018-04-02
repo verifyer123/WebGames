@@ -1,0 +1,62 @@
+
+penalty.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal7/ball
+  rotate: false
+  xy: 2, 2
+  size: 32, 15
+  orig: 32, 15
+  offset: 0, 0
+  index: -1
+normal7/bg
+  rotate: false
+  xy: 2, 543
+  size: 325, 325
+  orig: 325, 325
+  offset: 0, 0
+  index: -1
+normal7/goal
+  rotate: false
+  xy: 329, 723
+  size: 288, 145
+  orig: 288, 145
+  offset: 0, 0
+  index: -1
+normal7/grass
+  rotate: true
+  xy: 2, 183
+  size: 358, 176
+  orig: 358, 176
+  offset: 0, 0
+  index: -1
+normal7/keeper
+  rotate: false
+  xy: 329, 614
+  size: 121, 107
+  orig: 121, 107
+  offset: 0, 0
+  index: -1
+normal7/leg
+  rotate: false
+  xy: 619, 826
+  size: 71, 42
+  orig: 71, 42
+  offset: 0, 0
+  index: -1
+normal7/shooter
+  rotate: false
+  xy: 180, 351
+  size: 92, 190
+  orig: 92, 190
+  offset: 0, 0
+  index: -1
+normal7/trace
+  rotate: false
+  xy: 2, 19
+  size: 161, 162
+  orig: 161, 162
+  offset: 0, 0
+  index: -1

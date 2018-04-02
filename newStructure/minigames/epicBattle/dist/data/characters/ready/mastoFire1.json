@@ -1,0 +1,47 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "monkeyAttack2",
+				"attachment": "particle4",
+				"delay": 800,	
+				"multiplier": 1
+			},
+			{
+				"id": "monkeyAttack2",
+				"attachment": "particle4",
+				"delay": 800,	
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "explosionFire2",
+				"attachment": "particle7",
+				"delay": 800,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Masto/mastoFire1/mastoFire1.json",
+	"name": "Sparkmonk",
+	"spine": {
+		"options": {
+			"scale": 0.75,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/monkeyFire1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "fire"
+	},
+	"visuals": {
+		"shadowScaleX": 0.8,
+		"shadowScaleY": 1.5,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

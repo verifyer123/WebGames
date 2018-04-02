@@ -1,0 +1,48 @@
+
+caleidogon.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/ear
+  rotate: false
+  xy: 2, 2
+  size: 43, 78
+  orig: 43, 78
+  offset: 0, 0
+  index: -1
+normal/eye
+  rotate: false
+  xy: 190, 100
+  size: 55, 47
+  orig: 55, 47
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 2, 149
+  size: 292, 292
+  orig: 292, 292
+  offset: 0, 0
+  index: -1
+normal/mouth
+  rotate: false
+  xy: 2, 82
+  size: 186, 65
+  orig: 186, 65
+  offset: 0, 0
+  index: -1
+normal/pupil
+  rotate: false
+  xy: 296, 358
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+normal/toung
+  rotate: false
+  xy: 296, 371
+  size: 56, 70
+  orig: 56, 70
+  offset: 0, 0
+  index: -1

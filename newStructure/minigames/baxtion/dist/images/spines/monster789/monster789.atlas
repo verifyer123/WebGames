@@ -1,0 +1,83 @@
+
+monster789.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+monster7/torso
+  rotate: false
+  xy: 2, 37
+  size: 148, 217
+  orig: 148, 217
+  offset: 0, 0
+  index: -1
+monster7/wing
+  rotate: false
+  xy: 418, 102
+  size: 81, 68
+  orig: 81, 68
+  offset: 0, 0
+  index: -1
+monster8/head1
+  rotate: false
+  xy: 418, 172
+  size: 70, 82
+  orig: 70, 82
+  offset: 0, 0
+  index: -1
+monster8/head2
+  rotate: false
+  xy: 291, 2
+  size: 69, 79
+  orig: 69, 79
+  offset: 0, 0
+  index: -1
+monster8/torso
+  rotate: false
+  xy: 152, 80
+  size: 137, 174
+  orig: 137, 174
+  offset: 0, 0
+  index: -1
+monster9/arm2
+  rotate: false
+  xy: 418, 35
+  size: 53, 65
+  orig: 53, 65
+  offset: 0, 0
+  index: -1
+monster9/ears1
+  rotate: true
+  xy: 2, 2
+  size: 33, 69
+  orig: 33, 69
+  offset: 0, 0
+  index: -1
+monster9/ears2
+  rotate: false
+  xy: 362, 9
+  size: 54, 72
+  orig: 54, 72
+  offset: 0, 0
+  index: -1
+monster9/head1
+  rotate: false
+  xy: 152, 46
+  size: 105, 32
+  orig: 105, 32
+  offset: 0, 0
+  index: -1
+monster9/head2
+  rotate: false
+  xy: 291, 83
+  size: 96, 17
+  orig: 96, 17
+  offset: 0, 0
+  index: -1
+monster9/torso
+  rotate: false
+  xy: 291, 102
+  size: 125, 152
+  orig: 125, 152
+  offset: 0, 0
+  index: -1

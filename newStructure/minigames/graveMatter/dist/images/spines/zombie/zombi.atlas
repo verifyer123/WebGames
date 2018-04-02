@@ -1,0 +1,174 @@
+
+zombi.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_25
+  rotate: false
+  xy: 2, 769
+  size: 264, 245
+  orig: 264, 245
+  offset: 0, 0
+  index: -1
+normal/brain
+  rotate: true
+  xy: 2, 120
+  size: 111, 95
+  orig: 111, 95
+  offset: 0, 0
+  index: -1
+normal/bubble1
+  rotate: false
+  xy: 104, 237
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: -1
+normal/bubble2
+  rotate: true
+  xy: 191, 529
+  size: 21, 30
+  orig: 21, 30
+  offset: 0, 0
+  index: -1
+normal/case
+  rotate: false
+  xy: 2, 351
+  size: 186, 169
+  orig: 186, 169
+  offset: 0, 0
+  index: -1
+normal/glow2
+  rotate: false
+  xy: 541, 754
+  size: 41, 41
+  orig: 41, 41
+  offset: 0, 0
+  index: -1
+normal/hat_a
+  rotate: false
+  xy: 2, 522
+  size: 187, 245
+  orig: 187, 245
+  offset: 0, 0
+  index: -1
+normal/lugth2
+  rotate: false
+  xy: 2, 2
+  size: 29, 28
+  orig: 29, 28
+  offset: 0, 0
+  index: -1
+normal/spine
+  rotate: false
+  xy: 498, 752
+  size: 41, 43
+  orig: 41, 43
+  offset: 0, 0
+  index: -1
+normal/wave
+  rotate: false
+  xy: 2, 32
+  size: 87, 86
+  orig: 87, 86
+  offset: 0, 0
+  index: -1
+normalc/arm1
+  rotate: true
+  xy: 926, 782
+  size: 64, 76
+  orig: 64, 76
+  offset: 0, 0
+  index: -1
+normalc/arm2
+  rotate: false
+  xy: 260, 669
+  size: 60, 74
+  orig: 60, 74
+  offset: 0, 0
+  index: -1
+normalc/foot1
+  rotate: true
+  xy: 191, 552
+  size: 87, 54
+  orig: 87, 54
+  offset: 0, 0
+  index: -1
+normalc/foot2
+  rotate: false
+  xy: 268, 745
+  size: 79, 50
+  orig: 79, 50
+  offset: 0, 0
+  index: -1
+normalc/forearm1
+  rotate: false
+  xy: 2, 233
+  size: 100, 116
+  orig: 100, 116
+  offset: 0, 0
+  index: -1
+normalc/forearm2
+  rotate: false
+  xy: 191, 641
+  size: 67, 126
+  orig: 67, 126
+  offset: 0, 0
+  index: -1
+normalc/head_a
+  rotate: false
+  xy: 268, 797
+  size: 189, 217
+  orig: 189, 217
+  offset: 0, 0
+  index: -1
+normalc/head_b
+  rotate: false
+  xy: 459, 797
+  size: 189, 217
+  orig: 189, 217
+  offset: 0, 0
+  index: -1
+normalc/head_c
+  rotate: false
+  xy: 650, 797
+  size: 189, 217
+  orig: 189, 217
+  offset: 0, 0
+  index: -1
+normalc/leg1
+  rotate: true
+  xy: 841, 789
+  size: 57, 83
+  orig: 57, 83
+  offset: 0, 0
+  index: -1
+normalc/leg2
+  rotate: true
+  xy: 424, 745
+  size: 50, 72
+  orig: 50, 72
+  offset: 0, 0
+  index: -1
+normalc/shen1
+  rotate: false
+  xy: 104, 268
+  size: 66, 81
+  orig: 66, 81
+  offset: 0, 0
+  index: -1
+normalc/shen2
+  rotate: true
+  xy: 349, 736
+  size: 59, 73
+  orig: 59, 73
+  offset: 0, 0
+  index: -1
+normalc/torso
+  rotate: false
+  xy: 841, 848
+  size: 159, 166
+  orig: 159, 166
+  offset: 0, 0
+  index: -1

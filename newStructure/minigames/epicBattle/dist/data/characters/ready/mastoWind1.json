@@ -1,0 +1,47 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "monkeyAttack4",
+				"attachment": "particle4",
+				"delay": 800,	
+				"multiplier": 1
+			},
+			{
+				"id": "monkeyAttack4",
+				"attachment": "particle4",
+				"delay": 800,	
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "explosionWind2",
+				"attachment": "particle7",
+				"delay": 800,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Masto/mastoWind1/mastoWind1.json",
+	"name": "Jakko",
+	"spine": {
+		"options": {
+			"scale": 0.75,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/monkeyWind1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "wind"
+	},
+	"visuals": {
+		"shadowScaleX": 0.8,
+		"shadowScaleY": 1.5,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

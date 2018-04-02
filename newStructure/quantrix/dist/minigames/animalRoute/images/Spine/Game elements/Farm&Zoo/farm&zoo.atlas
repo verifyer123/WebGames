@@ -1,0 +1,90 @@
+
+farm&zoo.png
+size: 972,406
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/c_1
+  rotate: false
+  xy: 2, 130
+  size: 255, 274
+  orig: 255, 274
+  offset: 0, 0
+  index: -1
+normal/c_2
+  rotate: false
+  xy: 488, 177
+  size: 232, 227
+  orig: 232, 227
+  offset: 0, 0
+  index: -1
+normal/c_3
+  rotate: true
+  xy: 615, 66
+  size: 109, 79
+  orig: 109, 79
+  offset: 0, 0
+  index: -1
+normal/farm
+  rotate: true
+  xy: 722, 208
+  size: 196, 248
+  orig: 196, 248
+  offset: 0, 0
+  index: -1
+normal/hause
+  rotate: false
+  xy: 454, 9
+  size: 76, 160
+  orig: 76, 160
+  offset: 0, 0
+  index: -1
+normal/molin
+  rotate: false
+  xy: 597, 9
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+normal/sing_farm
+  rotate: false
+  xy: 271, 25
+  size: 181, 144
+  orig: 181, 144
+  offset: 0, 0
+  index: -1
+normal/sing_jungle
+  rotate: false
+  xy: 2, 28
+  size: 267, 100
+  orig: 267, 100
+  offset: 0, 0
+  index: -1
+normal/star
+  rotate: false
+  xy: 532, 2
+  size: 63, 61
+  orig: 63, 61
+  offset: 0, 0
+  index: -1
+normal/tree
+  rotate: false
+  xy: 532, 65
+  size: 81, 110
+  orig: 81, 110
+  offset: 0, 0
+  index: -1
+normal/trees
+  rotate: false
+  xy: 259, 171
+  size: 227, 233
+  orig: 227, 233
+  offset: 0, 0
+  index: -1
+normal/zoo
+  rotate: true
+  xy: 722, 4
+  size: 202, 228
+  orig: 202, 228
+  offset: 0, 0
+  index: -1

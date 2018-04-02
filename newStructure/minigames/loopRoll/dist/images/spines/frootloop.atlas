@@ -1,0 +1,55 @@
+
+frootloop.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/ball
+  rotate: false
+  xy: 203, 303
+  size: 201, 201
+  orig: 201, 201
+  offset: 0, 0
+  index: -1
+normal/dm1
+  rotate: false
+  xy: 406, 303
+  size: 201, 201
+  orig: 201, 201
+  offset: 0, 0
+  index: -1
+normal/dm2
+  rotate: false
+  xy: 609, 303
+  size: 201, 201
+  orig: 201, 201
+  offset: 0, 0
+  index: -1
+normal/dm3
+  rotate: false
+  xy: 2, 293
+  size: 199, 211
+  orig: 199, 211
+  offset: 0, 0
+  index: -1
+normal/dm4
+  rotate: false
+  xy: 2, 90
+  size: 197, 201
+  orig: 197, 201
+  offset: 0, 0
+  index: -1
+normal/dm5
+  rotate: false
+  xy: 812, 303
+  size: 197, 201
+  orig: 197, 201
+  offset: 0, 0
+  index: -1
+normal/dm6
+  rotate: false
+  xy: 2, 2
+  size: 180, 86
+  orig: 180, 86
+  offset: 0, 0
+  index: -1

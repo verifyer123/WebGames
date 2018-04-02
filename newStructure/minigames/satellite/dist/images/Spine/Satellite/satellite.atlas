@@ -1,0 +1,48 @@
+
+satellite.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/exp1
+  rotate: false
+  xy: 43, 104
+  size: 47, 53
+  orig: 47, 53
+  offset: 0, 0
+  index: -1
+normal/explotion
+  rotate: false
+  xy: 2, 159
+  size: 94, 95
+  orig: 94, 95
+  offset: 0, 0
+  index: -1
+normal/remains1
+  rotate: false
+  xy: 98, 179
+  size: 55, 75
+  orig: 55, 75
+  offset: 0, 0
+  index: -1
+normal/remains2
+  rotate: false
+  xy: 2, 2
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+normal/remains3
+  rotate: false
+  xy: 155, 218
+  size: 38, 36
+  orig: 38, 36
+  offset: 0, 0
+  index: -1
+normal/satellite
+  rotate: true
+  xy: 2, 29
+  size: 128, 39
+  orig: 128, 39
+  offset: 0, 0
+  index: -1

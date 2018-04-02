@@ -1,0 +1,47 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterball",
+				"attachment": "particle2",
+				"delay": 150,
+				"multiplier": 1
+			},
+			{
+				"id": "waterball",
+				"attachment": "particle4",
+				"delay": 350,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "waterQuake",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/wifimonster/wifiWater1/wifiWater1.json",
+	"name": "Wifi Whirlpool",
+	"spine": {
+		"options": {
+			"scale": 0.85,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/wifiWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowY": -10,
+		"shadowScaleX": 1,
+		"shadowScaleY": 1.6,
+		"cardFacing": "right",
+		"impactAttachment": "torso2"
+	}
+}
