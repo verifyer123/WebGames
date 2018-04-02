@@ -1,0 +1,69 @@
+
+bunny_side.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/backleg_l
+  rotate: false
+  xy: 241, 147
+  size: 79, 91
+  orig: 79, 91
+  offset: 0, 0
+  index: -1
+normal2/backleg_r
+  rotate: false
+  xy: 160, 146
+  size: 79, 92
+  orig: 79, 92
+  offset: 0, 0
+  index: -1
+normal2/body
+  rotate: false
+  xy: 2, 90
+  size: 156, 148
+  orig: 156, 148
+  offset: 0, 0
+  index: -1
+normal2/ear_l
+  rotate: false
+  xy: 322, 148
+  size: 61, 90
+  orig: 61, 90
+  offset: 0, 0
+  index: -1
+normal2/ear_r
+  rotate: false
+  xy: 385, 151
+  size: 59, 87
+  orig: 59, 87
+  offset: 0, 0
+  index: -1
+normal2/frontleg_l
+  rotate: false
+  xy: 110, 20
+  size: 37, 68
+  orig: 37, 68
+  offset: 0, 0
+  index: -1
+normal2/frontleg_r
+  rotate: true
+  xy: 160, 108
+  size: 36, 68
+  orig: 36, 68
+  offset: 0, 0
+  index: -1
+normal2/head
+  rotate: false
+  xy: 2, 2
+  size: 106, 86
+  orig: 106, 86
+  offset: 0, 0
+  index: -1
+normal2/tail
+  rotate: false
+  xy: 446, 199
+  size: 39, 39
+  orig: 39, 39
+  offset: 0, 0
+  index: -1
