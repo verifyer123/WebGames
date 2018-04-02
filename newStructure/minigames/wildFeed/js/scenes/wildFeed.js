@@ -720,6 +720,7 @@ var wildFeed = function(){
         if(gameActive){
             
             gameActive = false
+            sound.play("pop")
             buttonsGroup.setAll("tint", 0x606060)
             var ans
             
@@ -755,6 +756,7 @@ var wildFeed = function(){
         var animal = animalsGroup.children[rand].children[index]
         
         if(ans){
+            sound.play("rightChoice")
             addCoin()
             emojys.setAnimationByName(0, "HAPPY", true)
             animal.setAnimationByName(0, "WIN", true)
@@ -769,7 +771,7 @@ var wildFeed = function(){
             }
         }
         else{
-            //missPoint()
+            missPoint()
             emojys.setAnimationByName(0, "ANGRY", true)
             animal.setAnimationByName(0, "LOSE", true)
             particleWrong.x = obj1.x - 20
