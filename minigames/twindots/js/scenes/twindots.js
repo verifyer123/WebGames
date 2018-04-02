@@ -32,6 +32,7 @@ var twindots = function(){
     var COLORS = [0xffff00,0x29abe2,0x4400ff,0xe229a4,0xff5d00,0x96e229]
     
     var gameIndex = 12
+    var gameId = 5750790484393984
     var cursors
     var pressLeft, pressRight
     var upLeft, upRight
@@ -66,7 +67,7 @@ var twindots = function(){
     }
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         lives = 1

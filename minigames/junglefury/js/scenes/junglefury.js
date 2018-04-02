@@ -45,6 +45,7 @@ var junglefury = function(){
     var ITEM_TIME = 800
     
     var gameIndex = 8
+    var gameId = 5644406560391168
     var gameSong = null
     var levelNumber = 0
     var scaleSpeed = null
@@ -72,7 +73,7 @@ var junglefury = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         lives = 1

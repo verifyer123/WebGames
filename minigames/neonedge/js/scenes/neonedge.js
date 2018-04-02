@@ -50,6 +50,8 @@ var neonedge = function(){
     var BOT_OFFSET = 105
     
     var gameIndex = 13
+    var gameId = 5742796208078848
+
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
@@ -92,7 +94,7 @@ var neonedge = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         gameStart = false
         skullTrue = false

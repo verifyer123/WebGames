@@ -357,7 +357,7 @@ var galactic = function(){
         
         
 		
-		    console.log(localization.getLanguage() + ' language')
+		    console.log(localization.getLanguage() + 'language')
            
         
     }

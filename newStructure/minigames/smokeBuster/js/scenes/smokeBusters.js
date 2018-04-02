@@ -114,6 +114,8 @@ var smokeBusters = function(){
     var correctNumber2
     var empezoReal
     var counterSmoke
+
+    var firstFrame = true
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -289,7 +291,10 @@ var smokeBusters = function(){
             inGround=true;
             startGame=false
             muerto=true
-            luna.setAnimationByName(0,"LOSE",false);
+            var anim = luna.setAnimationByName(0,"LOSE",false);
+           //anim.complete(function(){})
+           game.add.tween(luna).to({y:luna.position.y - game.world.centerY},2000,Phaser.Easing.linear,true,200)
+            
             stopGame(false)
             
             
@@ -321,7 +326,9 @@ var smokeBusters = function(){
         pointsBar = game.add.group()
         pointsBar.x = game.world.width
         pointsBar.y = 0
-        sceneGroup.add(pointsBar)
+        sceneGroup.addChild(pointsBar)
+        pointsBar.fixedToCamera = true
+        pointsBar.cameraOffset.setTo(game.world.width,10)
         
         var pointsImg = pointsBar.create(-10,10,'atlas.smoke','xpcoins')
         pointsImg.anchor.setTo(1,0)
@@ -340,11 +347,11 @@ var smokeBusters = function(){
     }
     
     function createHearts(){
-        
         heartsGroup = game.add.group()
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
-        
+        heartsGroup.fixedToCamera = true
+        heartsGroup.cameraOffset.setTo(0,10)
         
         var pivotX = 10
         var group = game.add.group()
@@ -365,6 +372,7 @@ var smokeBusters = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         heartsGroup.text = pointsText
+        //heartsGroup.fixedToCamera = true
                 
     }
     
@@ -430,62 +438,18 @@ var smokeBusters = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
+        overlayGroup.fixedToCamera = true
+
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                startGame=true
-                city.alpha=1
-                backG.alpha=1
-				overlayGroup.y = -game.world.height
-                empezoReal=true
-            })
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX,game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.smoke','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'Movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.smoke',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.smoke','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(){
         startGame=true
         city.alpha=1
         backG.alpha=1
+        //character.body.acceleration.set(0,400);
         overlayGroup.y = -game.world.height
+        luna.setAnimationByName(0,"JUMP",false)
         empezoReal=true
     }
     
@@ -555,6 +519,7 @@ var smokeBusters = function(){
         backgroundGroup.add(city)
         city.alpha=0
         backG.alpha=0
+        backG.fixedToCamera = true
         
         
         leftBar=gameGroup.create(0,0,'atlas.smoke','button')
@@ -591,7 +556,7 @@ var smokeBusters = function(){
         
         character=gameGroup.create(game.world.centerX, game.world.centerY-300,'atlas.smoke','LUNA')
         character.scale.setTo(scaleSpine)
-        character.anchor.setTo(.5)
+        character.anchor.setTo(0.5)
         character.alpha=0
         game.physics.enable(character, Phaser.Physics.ARCADE)
         character.body.onCollide = new Phaser.Signal();    
@@ -602,7 +567,10 @@ var smokeBusters = function(){
         character.body.checkCollision.right = false;
         //game.physics.arcade.gravity.y = 100;
         
-        
+        luna.position.x=character.x
+        luna.position.y=character.y+80
+
+
         //Coins
         for(var putingCoins=0;putingCoins<coins.length;putingCoins++){
             coins[putingCoins]=game.add.sprite(luna.x,luna.y, "coin")
@@ -639,7 +607,7 @@ var smokeBusters = function(){
         for(var fill=0; fill<10;fill++){
             
             if(fill!=0){
-            clouds[fill]=gameGroup.create(game.rnd.integerInRange(100,game.world.width-200), game.world.centerY+contHeight*-300,'atlas.smoke','CLOUD')
+            clouds[fill]=gameGroup.create(game.rnd.integerInRange(100,game.world.width-200), game.world.centerY+100+(contHeight+1)*-300,'atlas.smoke','CLOUD')
             fakeClouds[fill]=false
             
             clouds[fill].tag=fill
@@ -702,30 +670,36 @@ var smokeBusters = function(){
             }
             
             }else{
-            clouds[fill]=gameGroup.create(character.x-50, character.y+300,'atlas.smoke','CLOUD')
-            game.physics.enable(clouds[fill], Phaser.Physics.ARCADE)
-            fakeClouds[fill]=true
-            clouds[fill].tag=fill
-            clouds[fill].body.immovable=true
-            clouds[fill].body.bounce.set(.1);
-            clouds[fill].body.checkCollision.down = false;
-            clouds[fill].body.checkCollision.right= false;
-            clouds[fill].body.checkCollision.left = false;
-            contHeight++
+	            clouds[fill]=gameGroup.create(character.x-50, character.y+130,'atlas.smoke','CLOUD')
+	            backgroundGroup.add(clouds[fill])
+	            game.physics.enable(clouds[fill], Phaser.Physics.ARCADE)
+	            fakeClouds[fill]=true
+	            clouds[fill].tag=fill
+	            clouds[fill].body.immovable=true
+	            clouds[fill].body.bounce.set(.1);
+	            clouds[fill].body.checkCollision.down = false;
+	            clouds[fill].body.checkCollision.right= false;
+	            clouds[fill].body.checkCollision.left = false;
+	            contHeight++
             }
-	       }
+	    }
         
         btnOn=sceneGroup.create(0, 0,'atlas.smoke','audio_on')
         btnOn.scale.setTo(.5)
         btnOn.inputEnabled=true
         btnOn.events.onInputDown.add(OnSound,this)
         sceneGroup.add(btnOn)
+        btnOn.fixedToCamera = true
+        btnOn.cameraOffset.setTo(game.world.width * 0.5 + 70 , 10)
         
         botonAspirar=sceneGroup.create(game.world.width-100,game.world.height-100,'atlas.smoke','asp_on')
+        botonAspirar.anchor.setTo(0.5)
         botonAspirar.inputEnabled=true
         botonAspirar.tag="suck"
         botonAspirar.events.onInputDown.add(onClick,this)
         botonAspirar.events.onInputUp.add(onRelease,this)
+        botonAspirar.fixedToCamera = true
+        botonAspirar.cameraOffset.setTo(game.world.width-100,game.world.height-100)
         
          //clouds
                 
@@ -742,17 +716,17 @@ var smokeBusters = function(){
 		controles2.onDown.add(space, this)
     }
     
-            function right(){
-                
-                character.position.x+=8
-                luna.scale.setTo(scaleSpine,scaleSpine)
-                
-            }
-    
-            function left(){
-                character.position.x-=8
-                luna.scale.setTo(-scaleSpine,scaleSpine)
-            }
+    function right(){
+        
+        character.position.x+=8
+        luna.scale.setTo(scaleSpine,scaleSpine)
+        
+    }
+
+    function left(){
+        character.position.x-=8
+        luna.scale.setTo(-scaleSpine,scaleSpine)
+    }
     
     
          
@@ -976,15 +950,20 @@ var smokeBusters = function(){
     
 	function update(){
         //gravity
+
+        if(firstFrame){
+        	startGame = true
+        	empezoReal = true
+        	city.alpha=1
+        	backG.alpha=1
+        }
+
         if(startGame){
             
             if(empezoReal){
                if(lives<0){
                    lives=0
                }
-                
-                
-               
                 
                 if(!change){
                         tweenTint(backG,startingColor,endingColor,10000,1000)
@@ -993,14 +972,14 @@ var smokeBusters = function(){
 
 
                  if(correctNumber==-1){
-                    coins[0].position.x=luna.x
-                    coins[0].position.y=luna.y-50
-                  }
+	                coins[0].position.x=luna.x
+	                coins[0].position.y=luna.y-50
+	              }
 
-                  if(correctNumber2==-1){
-                    coins[1].position.x=luna.x
-                    coins[1].position.y=luna.y-50
-                  }
+	              if(correctNumber2==-1){
+	                coins[1].position.x=luna.x
+	                coins[1].position.y=luna.y-50
+	              }
 
                 pollutionAbsorb[0].x=pollution[0].x
                 pollutionAbsorb[0].y=pollution[0].y
@@ -1028,10 +1007,10 @@ var smokeBusters = function(){
                 //parents
                 game.world.setBounds(0,character.position.y-500,game.world.width, game.world.height);
                 game.camera.follow(character)
-                heartsGroup.position.x=game.camera.position.x
-                heartsGroup.position.y=game.camera.position.y+10
-                backG.position.x=game.camera.position.x
-                backG.position.y=game.camera.position.y-20
+                //heartsGroup.position.x=game.camera.position.x
+                //heartsGroup.position.y=game.camera.position.y+10
+                //backG.position.x=game.camera.position.x
+                //backG.position.y=game.camera.position.y-20
 
                 windowSmoke1.position.x=game.world.centerX
                 windowSmoke1.position.y=game.world.centerY
@@ -1040,18 +1019,18 @@ var smokeBusters = function(){
                 windowSmoke3.position.x=game.world.centerX
                 windowSmoke3.position.y=game.world.centerY
 
-                pointsBar.position.x=game.camera.position.x+game.world.width
-                pointsBar.position.y=game.camera.position.y+10
-                btnOn.position.x=game.camera.position.x+game.world.width-250
-                btnOn.position.y=game.camera.position.y+10
+                //pointsBar.position.x=game.camera.position.x+game.world.width
+                //pointsBar.position.y=game.camera.position.y+10
+                //btnOn.position.x=game.camera.position.x+game.world.width-250
+                //btnOn.position.y=game.camera.position.y+10
                 luna.position.x=character.x
                 luna.position.y=character.y+80
                 leftBar.position.x=game.camera.position.x
                 leftBar.position.y=game.camera.position.y
                 rightBar.position.x=game.camera.width/2
                 rightBar.position.y=game.camera.position.y
-                botonAspirar.position.x=game.camera.width-150
-                botonAspirar.position.y=game.camera.y+game.camera.height-150
+                //botonAspirar.position.x=game.camera.width-150
+                //botonAspirar.position.y=game.camera.y+game.camera.height-150
                 pollutionSkin[0].position.x=pollution[0].x
                 pollutionSkin[0].position.y=pollution[0].y
                 pollutionSkin[1].position.x=pollution[1].x
@@ -1190,10 +1169,25 @@ var smokeBusters = function(){
                 }
             }
         }
+
+        if(firstFrame){
+        	//city.alpha=0
+        	//backG.alpha=0
+        	startGame = true
+        	empezoReal = false
+        	firstFrame = false
+        	character.body.acceleration.set(0,0);
+        	character.body.velocity.set(0,0);
+        	timing = 0
+        }
 	}
         
     function withClouds(obj,obj2){
             
+            /*if(firstFrame){
+            	return
+
+            }*/
            
             
             if(obj2.tag=="pollution" ){
@@ -1492,7 +1486,7 @@ var smokeBusters = function(){
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')
-             game.sound.setDecodedCallback(spaceSong, function(){
+            game.sound.setDecodedCallback(spaceSong, function(){
                  spaceSong.loopFull(0.6)
             }, this);
             

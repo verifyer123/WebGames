@@ -72,15 +72,20 @@ var leakTweak = function(){
     var DELTA_FAUCET = 100
     var MIN_FAUCET_TIME = 1000
 
-    var INIT_VEL = 5
+    var INIT_VEL = 6
     var DELTA_VEl = 0.1
     var MIN_VEL = 2
 
-    var BULLET_VEL = 10
+    var MAX_TUTORIAl_COUNTS = 1
+    var BULLET_VEL = 13
     
     var lives
 	var sceneGroup = null
+
+
     var gameIndex = 163
+
+
     var tutoGroup
     var backgroundSound
     var timeValue
@@ -231,47 +236,11 @@ var leakTweak = function(){
         return particles
     }
 
-    function positionTimer(){
-      clock=game.add.image(game.world.centerX-150,40,"atlas.time","clock")
-      clock.scale.setTo(.7)
-      timeBar=game.add.image(clock.position.x+40,clock.position.y+40,"atlas.time","bar")
-      timeBar.scale.setTo(8,.45)
-      sceneGroup.add(clock)
-      sceneGroup.add(timeBar)
-      timeBar.alpha=1
-      clock.alpha=1
-    }
-
-    function stopTimer(){
-        if(tweenTiempo){
-          tweenTiempo.stop()
-      }
-      tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, 500, Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
-      })
-    }
-
-    function startTimer(time){
-       tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
-       tweenTiempo.onComplete.add(function(){
-           //missPoint()
-           stopTimer()
-           //canPlant=false
-           win = false
-           evaluateApple()
-       })
-    }
-
     function Coin(objectBorn,objectDestiny,time){
-       
-       
-       //objectBorn= Objeto de donde nacen
+
        coins.x=objectBorn.centerX
        coins.y=objectBorn.centerY
-       
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
+      
 
        correctParticle.x = objectBorn.x
         correctParticle.y = objectBorn.y
@@ -297,10 +266,9 @@ var leakTweak = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, numPoints, gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
+			resultScreen.setScore(true, numPoints, gameIndex)	
             sceneloader.show("result")
+            
             sound.play("gameLose")
 		})
     }
@@ -430,7 +398,7 @@ var leakTweak = function(){
             if(onfaucetGroup.children[i].visible){
                 if(!stopByTutorial){
                     onfaucetGroup.children[i].y += currentVel
-                    if(tutorialCounts<3){
+                    if(tutorialCounts<MAX_TUTORIAl_COUNTS){
                         if(onfaucetGroup.children[i].y>=tomikoSpine.y-20 && !onfaucetGroup.children[i].collision.blocked){
                             stopByTutorial = true
                             hand.visible = true
@@ -478,7 +446,7 @@ var leakTweak = function(){
                                 object.blocked = true
                                 Coin(object.parent,pointsBar,100)
                                 tutorialCounts ++
-                                if(tutorialCounts<4){
+                                if(tutorialCounts<MAX_TUTORIAl_COUNTS+1){
                                     time = game.time.now + currentTimeFaucet
                                     //console.log(time,game.time.now,currentTime)
                                 }
@@ -501,7 +469,7 @@ var leakTweak = function(){
 
 
     function updateTouch(){
-        if(tutorialCounts<3){
+        if(tutorialCounts<MAX_TUTORIAl_COUNTS){
             if(!stopByTutorial){
                 return
             }
@@ -557,7 +525,6 @@ var leakTweak = function(){
         sceneGroup.add(tutoGroup)
 
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-
         
     }
 
@@ -569,10 +536,6 @@ var leakTweak = function(){
     }
 
     
-
-    function evalTutorial(){
-        
-    }
 
     function getFaucet(){
 
@@ -752,12 +715,14 @@ var leakTweak = function(){
     
         var plattform = sceneGroup.create(game.world.width,game.world.centerY+50,'atlas.game','platform')    
         plattform.anchor.setTo(1,0.5)
+        plattform.scale.setTo(1.5)
 
 
-        tomikoSpine = game.add.spine(plattform.x-90 , plattform.y - 25, 'tomiko')
+        tomikoSpine = game.add.spine(plattform.x-110 , plattform.y - 35, 'tomiko')
         tomikoSpine.setSkinByName('normal')
         tomikoSpine.setAnimationByName(0,'idle',true)
         sceneGroup.add(tomikoSpine)
+        //tomikoSpine.scale.setTo(1.5)
 
         onfaucetGroup = game.add.group()
         sceneGroup.add(onfaucetGroup)
@@ -814,7 +779,7 @@ var leakTweak = function(){
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
-        hand = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.game','handUp')
+        hand = sceneGroup.create(tomikoSpine.x - 50, tomikoSpine.y -20,'atlas.game','handUp')
         hand.anchor.setTo(0.5)
         hand.visible = false
 

@@ -529,7 +529,6 @@ var treeNumbers = function(){
 
     
     function createScene(){
-        //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
         sceneGroup = game.add.group() 
         backgroundGroup = game.add.group()

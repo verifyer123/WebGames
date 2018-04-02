@@ -61,6 +61,8 @@ var chocoPile = function(){
     var LIMIT_Y 
 
     var gameIndex = 23
+    var gameId = 5676219550924800
+
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -118,6 +120,7 @@ var chocoPile = function(){
 
 
     function initialize(){
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         lives = INITIAL_LIVES
         initialTap = true

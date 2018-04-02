@@ -1,0 +1,48 @@
+
+gorilla.png
+size: 1010,829
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/armG_L
+  rotate: false
+  xy: 2, 331
+  size: 324, 496
+  orig: 324, 496
+  offset: 0, 0
+  index: -1
+normal/armG_R
+  rotate: true
+  xy: 268, 4
+  size: 325, 464
+  orig: 325, 464
+  offset: 0, 0
+  index: -1
+normal/bodyG
+  rotate: true
+  xy: 328, 339
+  size: 488, 366
+  orig: 488, 366
+  offset: 0, 0
+  index: -1
+normal/headG_a
+  rotate: false
+  xy: 734, 202
+  size: 268, 342
+  orig: 268, 342
+  offset: 0, 0
+  index: -1
+normal/headG_b
+  rotate: false
+  xy: 2, 2
+  size: 264, 327
+  orig: 264, 327
+  offset: 0, 0
+  index: -1
+normal/headG_c
+  rotate: true
+  xy: 696, 546
+  size: 281, 312
+  orig: 281, 312
+  offset: 0, 0
+  index: -1

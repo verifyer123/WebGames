@@ -1,0 +1,48 @@
+
+raccoon.png
+size: 1011,331
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyRa
+  rotate: false
+  xy: 600, 83
+  size: 229, 246
+  orig: 229, 246
+  offset: 0, 0
+  index: -1
+normal/headRa_a
+  rotate: true
+  xy: 2, 12
+  size: 317, 198
+  orig: 317, 198
+  offset: 0, 0
+  index: -1
+normal/headRa_b
+  rotate: true
+  xy: 402, 16
+  size: 313, 196
+  orig: 313, 196
+  offset: 0, 0
+  index: -1
+normal/headRa_c
+  rotate: true
+  xy: 202, 12
+  size: 317, 198
+  orig: 317, 198
+  offset: 0, 0
+  index: -1
+normal/legsRa
+  rotate: false
+  xy: 600, 2
+  size: 216, 79
+  orig: 216, 79
+  offset: 0, 0
+  index: -1
+normal/tailRa
+  rotate: false
+  xy: 831, 103
+  size: 178, 226
+  orig: 178, 226
+  offset: 0, 0
+  index: -1

@@ -42,6 +42,8 @@ var coffeerush = function(){
     var skinTable
     
     var gameIndex = 17
+    var gameId = 5662438108168192
+
     var marioSong = null
 	var sceneGroup = null
     var answersGroup = null
@@ -115,7 +117,7 @@ var coffeerush = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         lives = 1

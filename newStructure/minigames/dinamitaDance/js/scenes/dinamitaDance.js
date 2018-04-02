@@ -650,7 +650,7 @@ var dinamitaDance = function(){
     function tnt(){
         
         dinamita = game.add.spine(game.world.centerX, game.world.centerY, "dinamita")
-        dinamita.setAnimationByName(0, "IDLE", true)
+        dinamita.setAnimationByName(0, "idle", true)
         dinamita.setSkinByName("normal")
         sceneGroup.add(dinamita)
     }
@@ -659,25 +659,25 @@ var dinamitaDance = function(){
         
         switch(dance){
             case 0:
-                dinamita.setAnimationByName(0, "IDLE_HEAD", true)
+                dinamita.setAnimationByName(0, "idle_head", true)
             break
             case 1:
-                dinamita.setAnimationByName(0, "IDLE_ARM", true)
+                dinamita.setAnimationByName(0, "idle_arm", true)
             break
             case 2:
-                dinamita.setAnimationByName(0, "IDLE_HANDS", true)
+                dinamita.setAnimationByName(0, "idle_hands", true)
             break
             case 3:
-                dinamita.setAnimationByName(0, "IDLE_LEGS", true)
+                dinamita.setAnimationByName(0, "idle_legs", true)
             break
             case 4:
-                dinamita.setAnimationByName(0, "IDLE", true)
+                dinamita.setAnimationByName(0, "idle", true)
             break
             case 5:
-                dinamita.setAnimationByName(0, "IDLE_FOOT", true)
+                dinamita.setAnimationByName(0, "idle_foot", true)
             break
             case 6:
-                dinamita.setAnimationByName(0, "LOSE", true)
+                dinamita.setAnimationByName(0, "lose", true)
             break
         }
     }

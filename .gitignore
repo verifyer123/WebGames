@@ -1,6 +1,6 @@
 .idea/
 .DS_Store
-webpack/node_modules/
+node_modules/
 nonrefactored/
-loginPack/node_modules/
 loginPack/dist/
+newStructure/quantrix/node_modules/

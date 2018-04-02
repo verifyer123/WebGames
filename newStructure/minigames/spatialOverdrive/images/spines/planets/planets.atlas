@@ -1,0 +1,90 @@
+
+planets.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Luz_P
+  rotate: false
+  xy: 2, 2
+  size: 106, 106
+  orig: 106, 106
+  offset: 0, 0
+  index: -1
+normal/Resp_P
+  rotate: false
+  xy: 2, 347
+  size: 259, 259
+  orig: 259, 259
+  offset: 0, 0
+  index: -1
+normal/aoriola2
+  rotate: false
+  xy: 2, 802
+  size: 408, 218
+  orig: 408, 218
+  offset: 0, 0
+  index: -1
+normal/aureola
+  rotate: false
+  xy: 2, 608
+  size: 368, 192
+  orig: 368, 192
+  offset: 0, 0
+  index: -1
+normal/earth
+  rotate: true
+  xy: 412, 795
+  size: 225, 226
+  orig: 225, 226
+  offset: 0, 0
+  index: -1
+normal/jupiter
+  rotate: false
+  xy: 640, 794
+  size: 226, 226
+  orig: 226, 226
+  offset: 0, 0
+  index: -1
+normal/mars
+  rotate: false
+  xy: 234, 112
+  size: 225, 225
+  orig: 225, 225
+  offset: 0, 0
+  index: -1
+normal/mercury
+  rotate: false
+  xy: 2, 110
+  size: 230, 235
+  orig: 230, 235
+  offset: 0, 0
+  index: -1
+normal/nepturno
+  rotate: false
+  xy: 372, 567
+  size: 226, 226
+  orig: 226, 226
+  offset: 0, 0
+  index: -1
+normal/saturn
+  rotate: false
+  xy: 600, 567
+  size: 226, 225
+  orig: 226, 225
+  offset: 0, 0
+  index: -1
+normal/urano
+  rotate: false
+  xy: 263, 339
+  size: 226, 226
+  orig: 226, 226
+  offset: 0, 0
+  index: -1
+normal/venus
+  rotate: false
+  xy: 491, 339
+  size: 226, 226
+  orig: 226, 226
+  offset: 0, 0
+  index: -1

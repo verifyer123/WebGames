@@ -102,7 +102,7 @@ var selfiePlanet = function(){
     function flashScene() {
                 
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+        game.add.tween(sceneGroup).to({alpha:1}, 400, Phaser.Easing.Cubic.Out,true)
 
     }
 	
@@ -274,7 +274,7 @@ var selfiePlanet = function(){
         game.load.image('uranus',"images/selfiePlanet/uranus.png")
         game.load.image('neptune',"images/selfiePlanet/neptune.png")
         
-        game.load.spine("eagle", "images/spines/Normal.json");
+        game.load.spine("eagle", "images/spines/eagle.json");
         game.load.image('eagleSad',"images/selfiePlanet/eagleSad.png")
         game.load.image('eagleHappy',"images/selfiePlanet/eagleHappy.png")
 		
@@ -430,8 +430,8 @@ var selfiePlanet = function(){
         particle.makeParticles('atlas.selfiePlanet',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.3;
-        particle.maxParticleScale = .8;
+        particle.minParticleScale = 0.7;
+        particle.maxParticleScale = 1;
         particle.gravity = 150;
         particle.angularDrag = 30;
         particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
@@ -544,7 +544,7 @@ var selfiePlanet = function(){
         particleCorrect = createPart('star')
         sceneGroup.add(particleCorrect)
         
-        particleWrong = createPart('wrong')
+        particleWrong = createPart('smoke')
         sceneGroup.add(particleWrong)
     }
     
@@ -575,7 +575,7 @@ var selfiePlanet = function(){
         
         eagle = game.add.spine(game.world.width, game.world.height , "eagle")
         eagle.x -= eagleSad.width * 0.5
-        eagle.setAnimationByName(0, "IDLE", true)
+        eagle.setAnimationByName(0, "idle", true)
         eagle.setSkinByName("normal")
         sceneGroup.add(eagle)
         
@@ -600,6 +600,7 @@ var selfiePlanet = function(){
 	function inputButton(btn){
 		
 		if(gameActive){
+            gameActive = false
             game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
             {
                 sound.play('snapshot')
@@ -613,7 +614,6 @@ var selfiePlanet = function(){
     
     function checkCorrect() {
 
-        gameActive = false
         eagle.alpha = 0
         var pic = target.getBounds()
         var obj = planetsGroup.children[pivot].getBounds()
@@ -648,14 +648,14 @@ var selfiePlanet = function(){
             sound.play("right")
             particleCorrect.x = target.x 
             particleCorrect.y = target.y
-            particleCorrect.start(true, 1200, null, 6)
+            particleCorrect.start(true, 1200, null, 10)
             eagleHappy.alpha = 1
             addPoint(1)
         } 
         else{
             particleWrong.x = target.x - 20
             particleWrong.y = target.y
-            particleWrong.start(true, 1200, null, 6)
+            particleWrong.start(true, 1200, null, 10)
             eagleSad.alpha = 1
             missPoint()
         }
@@ -672,6 +672,10 @@ var selfiePlanet = function(){
         
         planetsGroup.translate.onComplete.add(function(){
             missPoint()
+            eagle.setAnimationByName(0, "sad", true)
+            particleWrong.x = target.x - 20
+            particleWrong.y = target.y
+            particleWrong.start(true, 1200, null, 10)
             planetsGroup.children[pivot].alpha = 0
             restartGame()
         })
@@ -689,11 +693,12 @@ var selfiePlanet = function(){
         }
         
         if(lives !== 0){
-            game.add.tween(planetsGroup.children[pivot]).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400).onComplete.add(function () {
+            game.add.tween(planetsGroup.children[pivot]).to({alpha: 0}, 1500, Phaser.Easing.Cubic.In, true, 400).onComplete.add(function () {
                 flashScene()
                 eagleHappy.alpha = 0
                 eagleSad.alpha = 0
                 eagle.alpha = 1
+                eagle.setAnimationByName(0, "idle", true)
                 initGame()
             })
         }

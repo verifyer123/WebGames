@@ -38,6 +38,8 @@ var chedraui = function(){
     var BOT_OFFSET = 250
     
     var gameIndex = 25
+    var gameId = 100002
+    
     var indexCoin
     var skullTrue = false
     var marioSong = null
@@ -87,7 +89,7 @@ var chedraui = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         indexCoin = 0
         gameStart = false

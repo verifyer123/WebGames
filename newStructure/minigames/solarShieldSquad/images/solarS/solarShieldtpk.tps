@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/solarShieldSquad/images/solarS/solarShieldtpk.tps</string>
+        <string>/Applications/MAMP/htdocs/WebGames/newStructure/minigames/solarShieldSquad/images/solarS/solarShieldtpk.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -395,6 +395,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">sun_shine.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>73,73,147,147</rect>
+                <key>scale9Paddings</key>
+                <rect>73,73,147,147</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -428,6 +441,7 @@
             <filename>Movil.png</filename>
             <filename>stars.png</filename>
             <filename>electricity.png</filename>
+            <filename>sun_shine.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -1,0 +1,83 @@
+
+spaceship.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/blast_l
+  rotate: false
+  xy: 622, 15
+  size: 128, 100
+  orig: 128, 100
+  offset: 0, 0
+  index: -1
+normal/blast_r
+  rotate: false
+  xy: 752, 15
+  size: 128, 100
+  orig: 128, 100
+  offset: 0, 0
+  index: -1
+normal/bubbles
+  rotate: false
+  xy: 570, 13
+  size: 48, 66
+  orig: 48, 66
+  offset: 0, 0
+  index: -1
+normal/cannons_center
+  rotate: false
+  xy: 882, 10
+  size: 76, 105
+  orig: 76, 105
+  offset: 0, 0
+  index: -1
+normal/cannons_l
+  rotate: false
+  xy: 959, 192
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+normal/cannons_r
+  rotate: false
+  xy: 959, 142
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+normal/fire
+  rotate: true
+  xy: 452, 13
+  size: 66, 116
+  orig: 66, 116
+  offset: 0, 0
+  index: -1
+normal/shadow
+  rotate: false
+  xy: 2, 2
+  size: 448, 238
+  orig: 448, 238
+  offset: 0, 0
+  index: -1
+normal/spaceship_body
+  rotate: false
+  xy: 452, 81
+  size: 168, 159
+  orig: 168, 159
+  offset: 0, 0
+  index: -1
+normal/wing_l
+  rotate: false
+  xy: 792, 117
+  size: 165, 123
+  orig: 165, 123
+  offset: 0, 0
+  index: -1
+normal/wing_r
+  rotate: false
+  xy: 622, 117
+  size: 168, 123
+  orig: 168, 123
+  offset: 0, 0
+  index: -1
