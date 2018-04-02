@@ -74,7 +74,7 @@
 },
 {
 	"filename": "soap",
-	"frame": {"x":881,"y":983,"w":64,"h":58},
+	"frame": {"x":526,"y":1049,"w":64,"h":58},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":58},
@@ -109,6 +109,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "wrong",
+	"frame": {"x":881,"y":983,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "xpcoins",
 	"frame": {"x":526,"y":971,"w":165,"h":41},
 	"rotated": false,
@@ -124,6 +133,6 @@
 	"format": "RGBA8888",
 	"size": {"w":979,"h":1228},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:71acb43b3a3074ccf0af7091baf0b1a2:c29b04b26fe4d5861a777654f81e1889:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f9940f7fc4e92d2aaf250a3dc3dc7028:9c149211060ff43d7137f38c24d83d0f:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

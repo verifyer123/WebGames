@@ -201,6 +201,7 @@ var yogomeGames = function () {
             {name:'Squared Squares',url:urlSet + 'squaredSquares/',mapUrl:urlMap + 'squaredSquares', sceneName:'squaredSquares',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.CHOOSE},//171
             {name:'Germ Strike',url:urlSet + 'germStrike/',mapUrl:urlMap + 'germStrike', sceneName:'germStrike',subject:'health', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//172
             {name:'Artwist',url:urlSet + 'artwist/',mapUrl:urlMap + 'artwist', sceneName:'artwist',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//173
+            {name:'Hygiene Plus',url:urlSet + 'hygienePlus/',mapUrl:urlMap + 'hygienePlus', sceneName:'hygienePlus',subject:'language', review:false,objective:15,demo:false, type:gameTypeEnum.CHOOSE},//174
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
