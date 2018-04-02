@@ -1,0 +1,104 @@
+
+Normal.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/eye_l
+  rotate: false
+  xy: 274, 111
+  size: 79, 57
+  orig: 79, 57
+  offset: 0, 0
+  index: -1
+normal/eye_r
+  rotate: false
+  xy: 937, 434
+  size: 79, 61
+  orig: 79, 61
+  offset: 0, 0
+  index: -1
+normal/eyebrow_l
+  rotate: false
+  xy: 135, 22
+  size: 69, 31
+  orig: 69, 31
+  offset: 0, 0
+  index: -1
+normal/eyebrow_r
+  rotate: false
+  xy: 785, 323
+  size: 63, 43
+  orig: 63, 43
+  offset: 0, 0
+  index: -1
+normal/hand_l
+  rotate: false
+  xy: 135, 55
+  size: 137, 113
+  orig: 137, 113
+  offset: 0, 0
+  index: -1
+normal/hand_r
+  rotate: false
+  xy: 355, 264
+  size: 212, 231
+  orig: 212, 231
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 2, 170
+  size: 351, 325
+  orig: 351, 325
+  offset: 0, 0
+  index: -1
+normal/highlights_helmet
+  rotate: true
+  xy: 355, 184
+  size: 78, 141
+  orig: 78, 141
+  offset: 0, 0
+  index: -1
+normal/leg_l
+  rotate: false
+  xy: 2, 2
+  size: 131, 166
+  orig: 131, 166
+  offset: 0, 0
+  index: -1
+normal/leg_r
+  rotate: false
+  xy: 785, 368
+  size: 150, 127
+  orig: 150, 127
+  offset: 0, 0
+  index: -1
+normal/mouth
+  rotate: false
+  xy: 569, 285
+  size: 87, 26
+  orig: 87, 26
+  offset: 0, 0
+  index: -1
+normal/pupil_l
+  rotate: false
+  xy: 355, 167
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+normal/pupil_r
+  rotate: false
+  xy: 498, 248
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+normal/torzo
+  rotate: false
+  xy: 569, 313
+  size: 214, 182
+  orig: 214, 182
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,57 @@
+{"frames": [
+
+{
+	"filename": "button2",
+	"frame": {"x":1,"y":1,"w":360,"h":139},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":360,"h":139},
+	"sourceSize": {"w":360,"h":139},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "sign",
+	"frame": {"x":363,"y":67,"w":68,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":54},
+	"sourceSize": {"w":68,"h":54},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":363,"y":1,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "stopwatch",
+	"frame": {"x":433,"y":67,"w":57,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":0,"w":57,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":429,"y":1,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":494,"h":141},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7a96cf2b57f29a308e82a2471ec8e99e:ed5782021d1c9d3f11e58b8a585ae52b:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

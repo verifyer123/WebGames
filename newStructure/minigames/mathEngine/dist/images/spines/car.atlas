@@ -1,0 +1,55 @@
+
+car.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/car1
+  rotate: false
+  xy: 420, 281
+  size: 402, 229
+  orig: 402, 229
+  offset: 0, 0
+  index: -1
+normal/car2
+  rotate: false
+  xy: 2, 52
+  size: 401, 232
+  orig: 401, 232
+  offset: 0, 0
+  index: -1
+normal/car3
+  rotate: false
+  xy: 2, 286
+  size: 416, 224
+  orig: 416, 224
+  offset: 0, 0
+  index: -1
+normal/elec
+  rotate: false
+  xy: 824, 384
+  size: 165, 126
+  orig: 165, 126
+  offset: 0, 0
+  index: -1
+normal/empty
+  rotate: false
+  xy: 405, 2
+  size: 186, 75
+  orig: 186, 75
+  offset: 0, 0
+  index: -1
+normal/llanta
+  rotate: false
+  xy: 681, 151
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+normal/nueve
+  rotate: true
+  xy: 405, 79
+  size: 200, 274
+  orig: 200, 274
+  offset: 0, 0
+  index: -1

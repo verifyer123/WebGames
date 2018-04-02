@@ -1,0 +1,27 @@
+
+car.png
+size: 226,102
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/car
+  rotate: false
+  xy: 2, 2
+  size: 182, 98
+  orig: 182, 98
+  offset: 0, 0
+  index: -1
+normal/smok_car
+  rotate: false
+  xy: 186, 43
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+normal/tire
+  rotate: false
+  xy: 186, 62
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,48 @@
+
+fish.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fish/alet
+  rotate: false
+  xy: 119, 28
+  size: 31, 28
+  orig: 31, 28
+  offset: 0, 0
+  index: -1
+fish/cola
+  rotate: false
+  xy: 195, 97
+  size: 37, 21
+  orig: 37, 21
+  offset: 0, 0
+  index: -1
+fish/empty
+  rotate: false
+  xy: 119, 58
+  size: 74, 60
+  orig: 74, 60
+  offset: 0, 0
+  index: -1
+fish/eye
+  rotate: true
+  xy: 2, 2
+  size: 19, 77
+  orig: 19, 77
+  offset: 0, 0
+  index: -1
+fish/mouth
+  rotate: true
+  xy: 152, 46
+  size: 10, 39
+  orig: 10, 39
+  offset: 0, 0
+  index: -1
+fish/torso
+  rotate: false
+  xy: 2, 23
+  size: 115, 95
+  orig: 115, 95
+  offset: 0, 0
+  index: -1

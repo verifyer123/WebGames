@@ -1,0 +1,27 @@
+
+oven.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/oven_body
+  rotate: false
+  xy: 505, 187
+  size: 467, 529
+  orig: 467, 529
+  offset: 0, 0
+  index: -1
+normal1/oven_color
+  rotate: false
+  xy: 2, 203
+  size: 501, 513
+  orig: 501, 513
+  offset: 0, 0
+  index: -1
+normal1/oven_leg_1
+  rotate: false
+  xy: 2, 2
+  size: 43, 199
+  orig: 43, 199
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,153 @@
+
+iceship.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Naves/Hielo/hielo_00000
+  rotate: true
+  xy: 417, 186
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00001
+  rotate: false
+  xy: 238, 62
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00002
+  rotate: false
+  xy: 339, 62
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00003
+  rotate: false
+  xy: 507, 237
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00004
+  rotate: false
+  xy: 507, 147
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00005
+  rotate: false
+  xy: 878, 253
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00006
+  rotate: false
+  xy: 440, 57
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00007
+  rotate: false
+  xy: 541, 57
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00008
+  rotate: false
+  xy: 608, 229
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00009
+  rotate: false
+  xy: 709, 229
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00010
+  rotate: false
+  xy: 642, 139
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+Naves/Hielo/hielo_00011
+  rotate: false
+  xy: 642, 49
+  size: 99, 88
+  orig: 99, 88
+  offset: 0, 0
+  index: -1
+normal/1
+  rotate: true
+  xy: 274, 152
+  size: 133, 141
+  orig: 133, 141
+  offset: 0, 0
+  index: -1
+normal/2
+  rotate: false
+  xy: 500, 327
+  size: 195, 169
+  orig: 195, 169
+  offset: 0, 0
+  index: -1
+normal/3
+  rotate: false
+  xy: 274, 287
+  size: 224, 209
+  orig: 224, 209
+  offset: 0, 0
+  index: -1
+normal/4
+  rotate: false
+  xy: 2, 238
+  size: 270, 258
+  orig: 270, 258
+  offset: 0, 0
+  index: -1
+normal/5
+  rotate: true
+  xy: 697, 319
+  size: 177, 179
+  orig: 177, 179
+  offset: 0, 0
+  index: -1
+normal/7
+  rotate: false
+  xy: 878, 343
+  size: 135, 153
+  orig: 135, 153
+  offset: 0, 0
+  index: -1
+normal/resplandor1
+  rotate: false
+  xy: 238, 215
+  size: 23, 21
+  orig: 23, 21
+  offset: 0, 0
+  index: -1
+normal/resplandorM
+  rotate: false
+  xy: 2, 2
+  size: 234, 234
+  orig: 234, 234
+  offset: 0, 0
+  index: -1
+normal/turbina
+  rotate: false
+  xy: 238, 4
+  size: 41, 56
+  orig: 41, 56
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,42 @@
+{
+	"disable":true,
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "waterballSpecial",
+				"attachment": "particle2",
+				"delay": 300,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "waterSplash1",
+				"attachment": "particle7",
+				"delay": 950,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/emotiboy/emoWater1/emoWater1.json",
+	"name": "Moahoola",
+	"spine": {
+		"options": {
+			"scale": 0.6,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/emoWater1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "water"
+	},
+	"visuals": {
+		"shadowScaleX": 0.6,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "particle8"
+	}
+}

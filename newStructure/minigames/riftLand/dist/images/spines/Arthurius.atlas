@@ -1,0 +1,62 @@
+
+Arthurius.png
+size: 348,89
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/hand1
+  rotate: false
+  xy: 275, 15
+  size: 21, 29
+  orig: 21, 29
+  offset: 0, 0
+  index: -1
+normal/hand2
+  rotate: false
+  xy: 316, 58
+  size: 21, 29
+  orig: 21, 29
+  offset: 0, 0
+  index: -1
+normal/head1
+  rotate: false
+  xy: 2, 2
+  size: 89, 85
+  orig: 89, 85
+  offset: 0, 0
+  index: -1
+normal/head2
+  rotate: false
+  xy: 93, 2
+  size: 89, 85
+  orig: 89, 85
+  offset: 0, 0
+  index: -1
+normal/head3
+  rotate: false
+  xy: 184, 2
+  size: 89, 85
+  orig: 89, 85
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: false
+  xy: 298, 17
+  size: 19, 27
+  orig: 19, 27
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: true
+  xy: 319, 37
+  size: 19, 27
+  orig: 19, 27
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 275, 46
+  size: 39, 41
+  orig: 39, 41
+  offset: 0, 0
+  index: -1

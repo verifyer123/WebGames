@@ -1,0 +1,402 @@
+{
+"skeleton": { "hash": "u6ZCJstP69wyXBfCKjVKhFZJ81w", "spine": "2.1.27", "width": 0, "height": 0, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "1", "parent": "root", "length": 11.85, "x": -26.98, "y": 12.06, "rotation": 171.86, "inheritScale": false },
+	{ "name": "2", "parent": "root", "length": 13.27, "x": 26.83, "y": 12.4, "rotation": 8.94, "inheritScale": false },
+	{ "name": "3", "parent": "root", "length": 10.15, "x": -29.05, "y": -9.32, "rotation": -170.61, "inheritScale": false },
+	{ "name": "4", "parent": "root", "length": 12.83, "x": 26.83, "y": -8.63, "rotation": -5.84, "inheritScale": false },
+	{ "name": "5", "parent": "root", "length": 12.22, "x": -22.49, "y": -31.06, "rotation": -163.63, "inheritScale": false },
+	{ "name": "6", "parent": "root", "length": 13.33, "x": 21.66, "y": -31.06, "rotation": -10.26, "inheritScale": false },
+	{ "name": "ear1", "parent": "root", "length": 15.71, "x": -11.11, "y": 51.73, "rotation": 98.5, "inheritScale": false },
+	{ "name": "ear2", "parent": "root", "length": 14.07, "x": 10.62, "y": 52.42, "rotation": 78.86, "inheritScale": false },
+	{ "name": "eye1", "parent": "root", "x": -15.59, "y": 34.83, "inheritScale": false },
+	{ "name": "eye2", "parent": "root", "x": 19.59, "y": 34.48, "inheritScale": false }
+],
+"slots": [
+	{ "name": "trilobite/dino dig-34", "bone": "5", "attachment": "dino dig-31" },
+	{ "name": "trilobite/dino dig-36", "bone": "6", "attachment": "dino dig-31" },
+	{ "name": "trilobite/dino dig-32", "bone": "3", "attachment": "dino dig-31" },
+	{ "name": "trilobite/dino dig-38", "bone": "4", "attachment": "dino dig-31" },
+	{ "name": "trilobite/dino dig-33", "bone": "1", "attachment": "dino dig-31" },
+	{ "name": "trilobite/dino dig-37", "bone": "2", "attachment": "dino dig-31" },
+	{ "name": "trilobite/dino dig-28", "bone": "root", "attachment": "dino dig-28" },
+	{ "name": "trilobite/dino dig-30", "bone": "eye1", "attachment": "dino dig-30" },
+	{ "name": "trilobite/dino dig-31", "bone": "eye2", "attachment": "dino dig-30" },
+	{ "name": "trilobite/dino dig-29", "bone": "ear2", "attachment": "dino dig-29" },
+	{ "name": "trilobite/dino dig-35", "bone": "ear1", "attachment": "dino dig-29" }
+],
+"skins": {
+	"default": {},
+	"normal": {
+		"trilobite/dino dig-28": {
+			"dino dig-28": { "name": "trilobite/dino dig-28", "width": 76, "height": 114 }
+		},
+		"trilobite/dino dig-29": {
+			"dino dig-29": { "name": "trilobite/dino dig-29", "x": 10.42, "y": -3.42, "rotation": -78.86, "width": 19, "height": 25 }
+		},
+		"trilobite/dino dig-30": {
+			"dino dig-30": { "name": "trilobite/dino dig-30", "x": 0.59, "y": -0.83, "width": 14, "height": 14 }
+		},
+		"trilobite/dino dig-31": {
+			"dino dig-30": { "name": "trilobite/dino dig-30", "x": 0.4, "y": -0.48, "width": 14, "height": 14 }
+		},
+		"trilobite/dino dig-32": {
+			"dino dig-31": { "name": "trilobite/dino dig-31", "x": 6.42, "y": 6.6, "scaleX": -1, "rotation": 170.61, "width": 27, "height": 23 }
+		},
+		"trilobite/dino dig-33": {
+			"dino dig-31": { "name": "trilobite/dino dig-31", "x": 6.08, "y": 6.99, "scaleX": -1, "rotation": -171.86, "width": 27, "height": 23 }
+		},
+		"trilobite/dino dig-34": {
+			"dino dig-31": { "name": "trilobite/dino dig-31", "x": 8.24, "y": 6.89, "scaleX": -1, "rotation": 163.63, "width": 27, "height": 23 }
+		},
+		"trilobite/dino dig-35": {
+			"dino dig-29": { "name": "trilobite/dino dig-29", "x": 10.87, "y": 3.31, "scaleX": -1, "rotation": -98.5, "width": 19, "height": 25 }
+		},
+		"trilobite/dino dig-36": {
+			"dino dig-31": { "name": "trilobite/dino dig-31", "x": 9.83, "y": -7.3, "rotation": 10.26, "width": 27, "height": 23 }
+		},
+		"trilobite/dino dig-37": {
+			"dino dig-31": { "name": "trilobite/dino dig-31", "x": 7.62, "y": -7.68, "rotation": -8.94, "width": 27, "height": 23 }
+		},
+		"trilobite/dino dig-38": {
+			"dino dig-31": { "name": "trilobite/dino dig-31", "x": 8.22, "y": -7.46, "rotation": 5.84, "width": 27, "height": 23 }
+		}
+	}
+},
+"animations": {
+	"IDLE": {
+		"slots": {
+			"trilobite/dino dig-28": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-28" },
+					{ "time": 1, "name": "dino dig-28" }
+				]
+			},
+			"trilobite/dino dig-29": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-29" },
+					{ "time": 1, "name": "dino dig-29" }
+				]
+			},
+			"trilobite/dino dig-30": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-30" },
+					{ "time": 1, "name": "dino dig-30" }
+				]
+			},
+			"trilobite/dino dig-31": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-30" },
+					{ "time": 1, "name": "dino dig-30" }
+				]
+			},
+			"trilobite/dino dig-32": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-31" },
+					{ "time": 1, "name": "dino dig-31" }
+				]
+			},
+			"trilobite/dino dig-33": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-31" },
+					{ "time": 1, "name": "dino dig-31" }
+				]
+			},
+			"trilobite/dino dig-34": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-31" },
+					{ "time": 1, "name": "dino dig-31" }
+				]
+			},
+			"trilobite/dino dig-35": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-29" },
+					{ "time": 1, "name": "dino dig-29" }
+				]
+			},
+			"trilobite/dino dig-36": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-31" },
+					{ "time": 1, "name": "dino dig-31" }
+				]
+			},
+			"trilobite/dino dig-37": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-31" },
+					{ "time": 1, "name": "dino dig-31" }
+				]
+			},
+			"trilobite/dino dig-38": {
+				"attachment": [
+					{ "time": 0, "name": "dino dig-31" },
+					{ "time": 1, "name": "dino dig-31" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.412, -0.99, 0.899, 1 ]
+					},
+					{
+						"time": 0.5,
+						"x": 1,
+						"y": 0.968,
+						"curve": [ 0.412, -0.99, 0.899, 1 ]
+					},
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			},
+			"1": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"angle": -341.03,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"2": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5333,
+						"angle": -28.56,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"3": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"angle": 23.22,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"4": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5333,
+						"angle": -12.91,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"5": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"angle": 27.47,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"6": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5333,
+						"angle": -27.75,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"ear1": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.2333,
+						"angle": 15.3,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.7333,
+						"angle": 15.3,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"ear2": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.2333,
+						"angle": -14.4,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.5,
+						"angle": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 0.7333,
+						"angle": -14.4,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"eye1": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.059, 0, 0.73, 4.52 ]
+					},
+					{
+						"time": 0.5333,
+						"x": 1,
+						"y": 0.922,
+						"curve": [ 0.059, 0, 0.73, 4.52 ]
+					},
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			},
+			"eye2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.059, 0, 0.73, 4.52 ]
+					},
+					{
+						"time": 0.5333,
+						"x": 1,
+						"y": 0.922,
+						"curve": [ 0.059, 0, 0.73, 4.52 ]
+					},
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1 }
+		]
+	}
+}
+}

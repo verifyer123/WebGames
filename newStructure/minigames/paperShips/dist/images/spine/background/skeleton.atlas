@@ -1,0 +1,20 @@
+
+skeleton.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BackGround/lowBush
+  rotate: false
+  xy: 361, 219
+  size: 429, 273
+  orig: 429, 273
+  offset: 0, 0
+  index: -1
+BackGround/topBush
+  rotate: false
+  xy: 2, 2
+  size: 357, 490
+  orig: 357, 490
+  offset: 0, 0
+  index: -1

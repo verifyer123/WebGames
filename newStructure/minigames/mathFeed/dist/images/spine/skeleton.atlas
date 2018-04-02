@@ -1,0 +1,146 @@
+
+yogotars.png
+size: 836,669
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Eagle/arm1
+  rotate: true
+  xy: 386, 168
+  size: 52, 98
+  orig: 52, 98
+  offset: 0, 0
+  index: -1
+Eagle/arm2
+  rotate: false
+  xy: 781, 111
+  size: 53, 78
+  orig: 53, 78
+  offset: 0, 0
+  index: -1
+Eagle/head1
+  rotate: false
+  xy: 2, 2
+  size: 236, 217
+  orig: 236, 217
+  offset: 0, 0
+  index: -1
+Eagle/head2
+  rotate: false
+  xy: 487, 450
+  size: 236, 217
+  orig: 236, 217
+  offset: 0, 0
+  index: -1
+Eagle/head3
+  rotate: false
+  xy: 486, 12
+  size: 235, 217
+  orig: 235, 217
+  offset: 0, 0
+  index: -1
+Eagle/head4
+  rotate: false
+  xy: 487, 231
+  size: 236, 217
+  orig: 236, 217
+  offset: 0, 0
+  index: -1
+Eagle/leg1
+  rotate: true
+  xy: 725, 247
+  size: 61, 89
+  orig: 61, 89
+  offset: 0, 0
+  index: -1
+Eagle/leg2
+  rotate: false
+  xy: 723, 24
+  size: 55, 81
+  orig: 55, 81
+  offset: 0, 0
+  index: -1
+Eagle/tail
+  rotate: true
+  xy: 240, 3
+  size: 216, 144
+  orig: 216, 144
+  offset: 0, 0
+  index: -1
+Eagle/torso
+  rotate: false
+  xy: 725, 421
+  size: 104, 121
+  orig: 104, 121
+  offset: 0, 0
+  index: -1
+luna/arm1
+  rotate: true
+  xy: 725, 191
+  size: 54, 99
+  orig: 54, 99
+  offset: 0, 0
+  index: -1
+luna/arm2
+  rotate: true
+  xy: 386, 16
+  size: 57, 82
+  orig: 57, 82
+  offset: 0, 0
+  index: -1
+luna/head1
+  rotate: false
+  xy: 244, 222
+  size: 240, 221
+  orig: 240, 221
+  offset: 0, 0
+  index: -1
+luna/head2
+  rotate: false
+  xy: 2, 445
+  size: 241, 222
+  orig: 241, 222
+  offset: 0, 0
+  index: -1
+luna/head3
+  rotate: false
+  xy: 2, 221
+  size: 240, 222
+  orig: 240, 222
+  offset: 0, 0
+  index: -1
+luna/head4
+  rotate: false
+  xy: 245, 445
+  size: 240, 222
+  orig: 240, 222
+  offset: 0, 0
+  index: -1
+luna/leg1
+  rotate: false
+  xy: 386, 75
+  size: 63, 91
+  orig: 63, 91
+  offset: 0, 0
+  index: -1
+luna/leg2
+  rotate: false
+  xy: 723, 107
+  size: 56, 82
+  orig: 56, 82
+  offset: 0, 0
+  index: -1
+luna/tail
+  rotate: false
+  xy: 725, 310
+  size: 89, 109
+  orig: 89, 109
+  offset: 0, 0
+  index: -1
+luna/torso
+  rotate: false
+  xy: 725, 544
+  size: 106, 123
+  orig: 106, 123
+  offset: 0, 0
+  index: -1

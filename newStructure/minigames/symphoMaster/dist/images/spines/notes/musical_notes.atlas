@@ -1,0 +1,27 @@
+
+musical_notes.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/note_low
+  rotate: false
+  xy: 665, 6
+  size: 174, 149
+  orig: 174, 149
+  offset: 0, 0
+  index: -1
+normal/note_top
+  rotate: true
+  xy: 413, 34
+  size: 121, 250
+  orig: 121, 250
+  offset: 0, 0
+  index: -1
+normal/treble_clef
+  rotate: true
+  xy: 2, 2
+  size: 153, 409
+  orig: 153, 409
+  offset: 0, 0
+  index: -1

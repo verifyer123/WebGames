@@ -1,0 +1,76 @@
+
+ships.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_3
+  rotate: false
+  xy: 450, 79
+  size: 353, 214
+  orig: 353, 214
+  offset: 0, 0
+  index: -1
+normal/Capa_4
+  rotate: true
+  xy: 86, 30
+  size: 44, 139
+  orig: 44, 139
+  offset: 0, 0
+  index: -1
+normal/Capa_5
+  rotate: true
+  xy: 938, 326
+  size: 184, 78
+  orig: 184, 78
+  offset: 0, 0
+  index: -1
+normal/Capa_6
+  rotate: false
+  xy: 2, 2
+  size: 82, 72
+  orig: 82, 72
+  offset: 0, 0
+  index: -1
+normal/Capa_7
+  rotate: false
+  xy: 2, 294
+  size: 446, 216
+  orig: 446, 216
+  offset: 0, 0
+  index: -1
+normal/chest
+  rotate: true
+  xy: 805, 2
+  size: 97, 86
+  orig: 97, 86
+  offset: 0, 0
+  index: -1
+normal/d1
+  rotate: false
+  xy: 450, 295
+  size: 353, 215
+  orig: 353, 215
+  offset: 0, 0
+  index: -1
+normal/d2
+  rotate: false
+  xy: 2, 76
+  size: 446, 216
+  orig: 446, 216
+  offset: 0, 0
+  index: -1
+normal/v1
+  rotate: true
+  xy: 805, 287
+  size: 223, 131
+  orig: 223, 131
+  offset: 0, 0
+  index: -1
+normal/v2
+  rotate: true
+  xy: 805, 101
+  size: 184, 94
+  orig: 184, 94
+  offset: 0, 0
+  index: -1
