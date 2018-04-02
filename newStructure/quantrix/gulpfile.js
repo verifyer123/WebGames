@@ -13,6 +13,7 @@ var gulp = require('gulp'),
   fs = require('fs'),
   browserSync = require('browser-sync').create(),
   watch = require('gulp-watch'),
+  cleanCSS = require('gulp-clean-css'),
   dom = require('gulp-dom');
 
 // VARIABLES GLOBALES
@@ -40,16 +41,20 @@ var _QUANTRIX = {
     },
     DIST : {
       HTML : "dist",
-      JS : "assets/js",
+      JS : "js",
       CSS : "css"
     },
     SRC : {
       HTML : "src",
-      JS : "assets/js",
+      JS : "js",
       CSS : "css"
     }
   },
   FILE_EXCEPTIONS : {
+    CSS : [
+      'dist/*',
+      './node_modules/**'
+    ],
     JS : [
       'dist/*',
       './node_modules/**',
@@ -63,7 +68,8 @@ var _QUANTRIX = {
       './node_modules/',
       './node_modules/**',
       'package.json',
-      './src/assets/js/**'
+      './src/js/**',
+      './src/css/**'
     ]
   },
   BASE_CONFIG: {
@@ -132,7 +138,7 @@ var initBaseDirectories = function(){
  */
 
 var replaceScripts = function(){
-  var scripts = this.querySelectorAll('script[src^="assets/js"]'),
+  var scripts = this.querySelectorAll('script[src^="'+_QUANTRIX.ROUTES.SRC.JS+'"]'),
   i = scripts.length,
   j = -1,
   tempNames = [];
@@ -152,6 +158,35 @@ var replaceScripts = function(){
   }
   return this;
 }
+
+/**
+ * Remplaza los links que estén referenciados en la carpeta css/
+ * y coloca un link con referencia al css de distribución.
+ */
+
+var replaceCss = function(){
+  var references = this.querySelectorAll('link[href^="'+_QUANTRIX.ROUTES.SRC.CSS+'"]'),
+  i = references.length,
+  j = -1,
+  tempNames = [];
+  while(j++ <  i-1) {
+    var href = references[j].getAttribute('href'),
+    path = href.substring(0, href.lastIndexOf('/')+1);
+    name = href.substring(href.lastIndexOf('/')+1, href.lastIndexOf('.css'));
+    if (!href.includes('.min')) {
+      var lib = this.createElement('link');
+      lib.setAttribute('href', path+name+'.'+_QUANTRIX.ROUTES.MIN_CSS.SUFIX+'.css');
+      lib.setAttribute('rel', 'stylesheet');
+      references[j].parentNode.insertBefore(lib, references[j].nextSibling);
+      removeNode(references[j]);
+    }
+    else{
+      // console.log("El archivo : " + name + "ya está minificado");
+    }
+  }
+  return this;
+}
+
 
 /**
  * Remueve un nodo del DOM
@@ -216,15 +251,36 @@ gulp.task('prepareJsToDist', function(){
 });
 
 /**
+ * Minifica el css.
+ */
+
+gulp.task('prepareCssToDist', function(){
+  console.log('PREPARANDO CSS');
+  var conditions = [_QUANTRIX.ROUTES.SRC.HTML+"/"+_QUANTRIX.ROUTES.SRC.CSS+'/**/*.css'];
+  for (var i = 0; i < _QUANTRIX.FILE_EXCEPTIONS.CSS.length; i++) {
+    conditions.push("!"+_QUANTRIX.FILE_EXCEPTIONS.CSS[i]);
+  }
+  return gulp.src(conditions)
+    .pipe(gulpif(_QUANTRIX.PROD_MODE, cleanCSS(_QUANTRIX.DEPENDENCIES.CLEAN_CSS)))
+    .pipe(gulpif(_QUANTRIX.PROD_MODE, rename(function(path){
+      if (!path.basename.includes('.min')) {
+        path.extname=".min.css";
+      }
+    })))
+    .pipe(gulp.dest("./"+_QUANTRIX.ROUTES.DIST.HTML+"/"+_QUANTRIX.ROUTES.DIST.CSS));
+});
+
+/**
  * Cambia las referencias a los scripts que se
  * minificaron/ofuscaron/concatenaron y la reemplaza
  * por una referencia al archivo ya editado
  */
 
-gulp.task('changeHtmlReference', ['prepareJsToDist', 'cloneFiles'], function () {
+gulp.task('changeHtmlReference', ['prepareJsToDist', 'prepareCssToDist', 'cloneFiles'], function () {
   console.log('CAMBIANDO REFERENCIA HTML');
   return gulp.src(_QUANTRIX.ROUTES.SRC.HTML+'/*.html')
     .pipe(dom(replaceScripts))
+    .pipe(dom(replaceCss))
     // .pipe(htmlmin({collapseWhitespace: true}))
     .pipe(gulp.dest(_QUANTRIX.ROUTES.DIST.HTML));
 })
