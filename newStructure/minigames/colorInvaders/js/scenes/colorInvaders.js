@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
-var wildFeed = function(){
+var colorInvaders = function(){
     
     var localizationData = {
 		"EN":{
@@ -21,14 +21,14 @@ var wildFeed = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.wildFeed",
-                json: "images/wildFeed/atlas.json",
-                image: "images/wildFeed/atlas.png",
+                name: "atlas.colorInvaders",
+                json: "images/colorInvaders/atlas.json",
+                image: "images/colorInvaders/atlas.png",
             },
             {   
                 name: "atlas.time",
-                json: "images/wildFeed/timeAtlas.json",
-                image: "images/wildFeed/timeAtlas.png",
+                json: "images/colorInvaders/timeAtlas.json",
+                image: "images/colorInvaders/timeAtlas.png",
             },
             {   
                 name: "atlas.tutorial",
@@ -39,11 +39,7 @@ var wildFeed = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/wildFeed/gametuto.png"
-			},
-            {
-				name:'back',
-				file:"images/wildFeed/back.jpg"
+				file:"images/colorInvaders/gametuto.png"
 			}
 
 		],
@@ -60,8 +56,12 @@ var wildFeed = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {   name: 'wildSong',
-                file: soundsPath + 'songs/happy_game_memories.mp3'
+            {	name: "throw",
+				file: soundsPath + "throw.mp3"},
+            {	name: "whoosh",
+				file: soundsPath + "whoosh.mp3"},
+            {   name: 'colorSong',
+                file: soundsPath + 'songs/shooting_stars.mp3'
             }
 		],
         spritesheets: [
@@ -79,74 +79,9 @@ var wildFeed = function(){
             }
         ],
         spines:[
-            //herbivorous
-            {
-				name:"bonny",
-				file:"images/spines/bonny/bonny.json"
-			},
-            {
-				name:"deer",
-				file:"images/spines/deer/deer.json"
-			},
-            {
-				name:"elephant",
-				file:"images/spines/elephant/elephant.json"
-			},
-            {
-				name:"giraffe",
-				file:"images/spines/giraffe/giraffe.json"
-			},
-            {
-				name:"koala",
-				file:"images/spines/koala/koala.json"
-			},
-            
-            //omnivores
-            {
-				name:"mouse",
-				file:"images/spines/mouse/mouse.json"
-			},
-            {
-				name:"chipmunk",
-				file:"images/spines/chipmunk/chipmunk.json"
-			},
-            {
-				name:"gorilla",
-				file:"images/spines/gorilla/gorilla.json"
-			},
-            {
-				name:"pig",
-				file:"images/spines/pig/pig.json"
-			},
-             {
-				name:"raccoon",
-				file:"images/spines/raccoon/raccoon.json"
-			},
-            
-            //carnivorous
-            {
-				name:"crocodile",
-				file:"images/spines/cocodile/cocodile.json"
-			},
-            {
-				name:"fox",
-				file:"images/spines/fox/fox.json"
-			},
-            {
-				name:"lion",
-				file:"images/spines/lion/lion.json"
-			},
-            {
-				name:"wolf",
-				file:"images/spines/wolf/wolf.json"
-			},
-            {
-				name:"bear",
-				file:"images/spines/bear/bear.json"
-			},
-            {
-				name:"emojys",
-				file:"images/spines/emojys/emojys.json"
+			{
+				name:"aliens",
+				file:"images/spines/aliens.json"
 			}
 		]
     }
@@ -156,16 +91,21 @@ var wildFeed = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 175
+    var gameIndex = 177
+    var timerGroup
     var tutoGroup
-    var wildSong
+    var colorSong
     var coin
     var hand
-    var animalsGroup
+    var tile
+    var colorsGroup
     var buttonsGroup
-    var emojys
+    var aliensGroup
+    var colorsText = []
     var rand
-    var index
+    var theOne
+    var timeAttack
+    var timer
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -177,7 +117,16 @@ var wildFeed = function(){
         lives = 3
         gameActive = false
         rand = -1
-        index = 0
+        theOne = -1
+        timeAttack = false
+        timer = 5000
+        
+        if(localization.getLanguage() === 'EN'){
+            colorsText = ['Blue', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Yellow']
+        }
+        else{
+            colorsText = ['Azul', 'Verde', 'Naranja', 'Rosa', 'Purpura', 'Rojo', 'Amarillo']
+        }
         
         loadSounds()
 	}
@@ -288,7 +237,7 @@ var wildFeed = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.wildFeed','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.colorInvaders','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -316,7 +265,7 @@ var wildFeed = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.wildFeed','life_box')
+        var heartImg = group.create(0,0,'atlas.colorInvaders','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -339,7 +288,7 @@ var wildFeed = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        wildSong.stop()
+        colorSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -380,21 +329,14 @@ var wildFeed = function(){
 
 	function createBackground(){
             
-        var back = sceneGroup.create(0, 0, "back")
-        back.width = game.world.width
-        back.height = game.world.height
-        
-        var purplePipe = sceneGroup.create(game.world.centerX + 50, 0, "atlas.wildFeed", "purplePipe")
-        purplePipe.anchor.setTo(0.5, 0)
-        purplePipe.scale.setTo(1.1)
-        
-        var greenPipe = sceneGroup.create(game.world.centerX - 130, 0, "atlas.wildFeed", "greenPipe")
-        greenPipe.anchor.setTo(0.5, 0)
-        greenPipe.scale.setTo(1.1)
+        tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.colorInvaders", "tile")
+        sceneGroup.add(tile)
     }
 
 	function update(){
         
+        tile.tilePosition.x += 2
+        tile.tilePosition.y += 2
     }
     
 	function createTextPart(text,obj){
@@ -449,7 +391,7 @@ var wildFeed = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.wildFeed',key);
+        particle.makeParticles('atlas.colorInvaders',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -476,7 +418,7 @@ var wildFeed = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.wildFeed',tag);
+				particle.makeParticles('atlas.colorInvaders',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -532,7 +474,7 @@ var wildFeed = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.wildFeed','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.colorInvaders','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -545,7 +487,7 @@ var wildFeed = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.wildFeed','smoke');
+        particlesGood.makeParticles('atlas.colorInvaders','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -574,7 +516,7 @@ var wildFeed = function(){
         
         timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
-        //timerGroup.alpha = 0
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
@@ -587,7 +529,7 @@ var wildFeed = function(){
         timerGroup.timeBar = timeBar
         
         timerGroup.x = game.world.centerX - clock.width * 0.75
-        timerGroup.y = clock.height * 0.3
+        timerGroup.y = clock.height * 0.6
    }
     
     function stopTimer(){
@@ -600,8 +542,8 @@ var wildFeed = function(){
         
         timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         timerGroup.tweenTiempo.onComplete.add(function(){
-            gameActive = false
             stopTimer()
+            IChoseYou()
         })
     }
 	
@@ -609,7 +551,7 @@ var wildFeed = function(){
         
        coin = game.add.sprite(0, 0, "coin")
        coin.anchor.setTo(0.5)
-       coin.scale.setTo(0.5)
+       coin.scale.setTo(0.8)
        coin.animations.add('coin');
        coin.animations.play('coin', 24, true);
        coin.alpha = 0
@@ -621,10 +563,10 @@ var wildFeed = function(){
 
     }
 
-    function addCoin(){
+    function addCoin(obj){
         
-        coin.x = game.world.centerX
-        coin.y = game.world.centerY
+        coin.x = obj.centerX
+        coin.y = obj.centerY
         var time = 300
 
         game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
@@ -638,199 +580,204 @@ var wildFeed = function(){
         })
     }
     
-    function noahArk(){
+    function colorsInTheWind(){
         
-        animalsGroup = game.add.group()
-        sceneGroup.add(animalsGroup)
+        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
         
-        for(var i = 0; i < 3; i++){
-            
-            var subGroup = game.add.group()
-            subGroup.tag = i
-            animalsGroup.add(subGroup)
-        }    
+        colorsGroup = game.add.group()
+        sceneGroup.add(colorsGroup)
         
-        var aux = 0
+        var container = colorsGroup.create(game.world.centerX, 250, "atlas.colorInvaders", "container")
+        container.anchor.setTo(0.5)
         
-        for(var i = 0; i < 15; i++){
-            
-            if(i === 5 || i === 10)
-                aux++
-            
-            var anim = game.add.spine(game.world.width + 350, game.world.height - 180, assets.spines[i].name)
-            anim.scale.setTo(0.8)
-            anim.setAnimationByName(0, "IDLE", true)
-            anim.setSkinByName("normal")
-            animalsGroup.children[aux].add(anim)
-        }
-        
-        animalsGroup.children[0].children[3].y += 30
-        animalsGroup.children[0].children[4].y += 30
-        animalsGroup.children[1].children[2].y += 30
-        animalsGroup.children[2].children[0].y += 50
-        animalsGroup.children[2].children[4].y += 20
-        
-        emojys = game.add.spine(0, 0, "emojys")
-        emojys.scale.setTo(0.8)
-        emojys.alpha = 0
-        emojys.setAnimationByName(0, "CONFUCED", true)
-        emojys.setSkinByName("normal")
+        var name = new Phaser.Text(sceneGroup.game, container.x, container.y + 10, '', fontStyle)
+        name.anchor.setTo(0.5)
+        //name.setText('')
+        colorsGroup.add(name)
+        colorsGroup.text = name
     }
     
-    function superSizeMe(){
-        
-        var board = sceneGroup.create(0, game.world.height, "atlas.wildFeed", "board")
-        board.anchor.setTo(0, 1)
-        board.width = game.world.width
-        
-        var name = ["green", "blue", "purple"]
-        var pivot = -1
+    function prometeus(){
         
         buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
-        for(var i = 0; i < name.length; i++){
+        aliensGroup = game.add.group()
+        sceneGroup.add(aliensGroup)
+        
+        var pivot = -250
+        
+        for(var t = 0; t < 3; t++)
+        {
+            var box = game.add.graphics(game.world.centerX + pivot, game.world.centerY - 100)
+            box.beginFill(0xFF3300)
+            box.drawRect(0, 0, 150, 200)
+            box.alpha = 0
+            box.inputEnabled = true
+            box.correct = false
+            box.events.onInputDown.add(IChoseYou, this)
+            buttonsGroup.add(box)
             
-            var button = buttonsGroup.create(board.centerX + (200 * pivot), board.centerY - 15, "atlas.wildFeed", name[i])
-            button.anchor.setTo(0.5)
-            button.tag = i
-            button.inputEnabled = true
-            button.events.onInputDown.add(feedThem, this)
-            pivot++
+            var al = game.add.spine(0, 0, "aliens")
+            al.setAnimationByName(0, "IDLE", true)
+            al.setSkinByName("blue1")
+            aliensGroup.add(al)
+            
+            pivot = 100
         }
         
-        buttonsGroup.setAll("tint", 0x606060)
+        box.x = game.world.centerX - 75
+        box.y = game.world.centerY + 150
         
-        var meat = sceneGroup.create(game.world.centerX + 50, game.world.centerY + 50, "atlas.wildFeed", "meat")
-        meat.anchor.setTo(0.5)
-        meat.scale.setTo(1.5)
-        meat.alpha = 0
+        aliensGroup.children[0].originX = -150
+        aliensGroup.children[0].originY = 300
         
-        var vegan = sceneGroup.create(game.world.centerX - 130, game.world.centerY + 50, "atlas.wildFeed", "vegan")
-        vegan.anchor.setTo(0.5)
-        vegan.scale.setTo(1.5)
-        vegan.alpha = 0
-       
-        buttonsGroup.children[0].food = vegan
-        buttonsGroup.children[2].food = meat
+        aliensGroup.children[1].originX = game.world.width + 150
+        aliensGroup.children[1].originY = 300
+        
+        aliensGroup.children[2].originX = game.world.centerX
+        aliensGroup.children[2].originY = game.world.height + 300
+        
+        for(var i = 0; i < aliensGroup.length; i++){
+            
+            aliensGroup.children[i].x = aliensGroup.children[i].originX
+            aliensGroup.children[i].y = aliensGroup.children[i].originY 
+            
+            aliensGroup.children[i].boxX = buttonsGroup.children[i].centerX
+            aliensGroup.children[i].boxY = buttonsGroup.children[i].centerY + 50
+        }
+        
+        var skins = ['blue', 'green', 'orange', 'pink', 'purple', 'red', 'yellow']
+        aliensGroup.skins = skins
     }
     
-    function feedThem(btn){
+    function IChoseYou(btn){
         
         if(gameActive){
             
             gameActive = false
             sound.play("pop")
-            buttonsGroup.setAll("tint", 0x606060)
-            var ans
             
-            if(btn.tag === animalsGroup.children[rand].tag){
-                ans = true
-            }
-            else{
-                ans = false
+            if(timeAttack){
+                stopTimer()
+                timer -= 200
             }
             
-            if(btn.food){
-                btn.food.alpha = 1
-                game.add.tween(btn.food).from({y: game.world.centerY - 200}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
-                    btn.food.alpha = 0
-                    win(ans, btn.food)
-                })
+            if(btn === undefined){
+                btn = buttonsGroup.children[theOne]
+                btn.correct = false
             }
-            else{
-                btn.parent.children[0].food.alpha = 1
-                btn.parent.children[2].food.alpha = 1
-                game.add.tween(btn.parent.children[0].food).from({y: game.world.centerY - 200}, 800, Phaser.Easing.linear, true)
-                game.add.tween(btn.parent.children[2].food).from({y: game.world.centerY - 200}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
-                    btn.parent.children[0].food.alpha = 0
-                    btn.parent.children[2].food.alpha = 0
-                    win(ans, btn.parent.children[0].food, btn.parent.children[2].food)
-                })
-            }
-        }
-    }
-    
-    function win(ans, obj1, obj2){
-        
-        var animal = animalsGroup.children[rand].children[index]
-        
-        if(ans){
-            sound.play("rightChoice")
-            addCoin()
-            emojys.setAnimationByName(0, "HAPPY", true)
-            animal.setAnimationByName(0, "WIN", true)
-            particleCorrect.x = obj1.x - 20
-            particleCorrect.y = obj1.y
-            particleCorrect.start(true, 1200, null, 10)
             
-            if(obj2){
-                particleCorrect.x = obj2.x - 20
-                particleCorrect.y = obj2.y
+            if(btn.correct){
+                
+                sound.play("rightChoice")
+                addCoin(btn)
+                particleCorrect.x = btn.centerX
+                particleCorrect.y = btn.centerY
                 particleCorrect.start(true, 1200, null, 10)
             }
-        }
-        else{
-            missPoint()
-            emojys.setAnimationByName(0, "ANGRY", true)
-            animal.setAnimationByName(0, "LOSE", true)
-            particleWrong.x = obj1.x - 20
-            particleWrong.y = obj1.y
-            particleWrong.start(true, 1200, null, 10)
-            
-            if(obj2){
-                particleWrong.x = obj2.x - 20
-                particleWrong.y = obj2.y
+            else{
+                missPoint()
+                particleWrong.x = btn.centerX
+                particleWrong.y = btn.centerY
                 particleWrong.start(true, 1200, null, 10)
             }
-        }
-        
-        if(lives !== 0){
-            game.time.events.add(1500,function(){
-                emojys.alpha = 0
-                animal.setAnimationByName(0, "WALK", true)
-                game.add.tween(animal).to({x: -250}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-                    animal.x = game.world.width + 350
-                    initGame()
-                })
+            
+            if(pointsBar.number === 2){
+                game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
+                timeAttack = true
+            }
+
+            game.time.events.add(500,function(){
+                if(lives !== 0){
+                   sound.play("throw")
+                    for(var i = 0; i < aliensGroup.length; i++){
+
+                        if(i !== theOne){
+                            game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].originX, y: aliensGroup.children[i].originY}, 1000, Phaser.Easing.linear, true)
+                        }
+                        else{
+                            var aux = i
+                        }
+                    }
+
+                    game.time.events.add(1000,function(){
+                        sound.play("throw")
+                        game.add.tween(aliensGroup.children[aux]).to({x: aliensGroup.children[aux].originX, y: aliensGroup.children[aux].originY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                            colorsGroup.text.setText("")
+                            game.time.events.add(500,function(){
+                                initGame()
+                            },this)
+                        })
+                    },this)
+                }
             },this)
         }
     }
     
     function initGame(){
         
-        buttonsGroup.setAll("tint", 0x606060)
         rand = getRand()
-        index = game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
-        animalsGroup.setAll("alpha", 0)
-        animalsGroup.children[rand].alpha = 1
-        changeImage(index, animalsGroup.children[rand])
-        var animal = animalsGroup.children[rand].children[index]
-        animal.setAnimationByName(0, "WALK", true)
+        placeAliens()
         
-        game.add.tween(animal).to({x: game.world.centerX}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-            animal.setAnimationByName(0, "IDLE", true)
-            emojys.x = game.world.centerX - animal.width * 0.7
-            emojys.y = game.world.height - 150 - animal.height * 0.9
-            buttonsGroup.setAll("tint", 0xffffff)
-            emojys.alpha = 1
-            emojys.setAnimationByName(0, "CONFUCED", true)
+        game.time.events.add(1600,function(){
+            colorsGroup.text.setText(colorsText[rand])
+            sound.play("cut")
+            game.add.tween(colorsGroup.text.scale).from({ y:0}, 200,Phaser.Easing.linear,true)
             gameActive = true
-        })
+            if(timeAttack)
+                startTimer(timer)
+        },this)
+        
     }
     
     function getRand(){
-        var x = game.rnd.integerInRange(0, 2)
+        var x = game.rnd.integerInRange(0, colorsText.length-1)
         if(x === rand)
             return getRand()
         else
             return x     
     }
+    
+    function placeAliens(){
+        
+        theOne = game.rnd.integerInRange(0, 2)
+        
+        buttonsGroup.setAll("correct", false)
+        buttonsGroup.children[theOne].correct = true
+        
+        for(var i = 0; i < aliensGroup.length; i++){
+            
+            var alienColor = getRandColor(rand)
+            if(i !== theOne){
+                aliensGroup.children[i].setSkinByName(aliensGroup.skins[alienColor] + game.rnd.integerInRange(1, 2))
+            }
+            else{
+                aliensGroup.children[i].setSkinByName(aliensGroup.skins[rand] + game.rnd.integerInRange(1, 2))
+            }
+        }
+        
+        game.time.events.add(500,function(){
+            sound.play("whoosh")
+            for(var i = 0; i < aliensGroup.length; i++){
+                
+                game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].boxX, y: aliensGroup.children[i].boxY}, 1000, Phaser.Easing.linear, true)
+            }
+        },this)
+    }
+    
+    function getRandColor(color){
+        var x = game.rnd.integerInRange(0, aliensGroup.skins.length-1)
+        if(x === color)
+            return getRandColor(color)
+        else
+            return x   
+    }
 	
 	return {
 		
 		assets: assets,
-		name: "wildFeed",
+		name: "colorInvaders",
 		update: update,
         preload:preload,
         getGameData:function () {
@@ -843,9 +790,14 @@ var wildFeed = function(){
 			
 			createBackground()
 			addParticles()
+                        			
+            /*colorSong = game.add.audio('colorSong')
+            game.sound.setDecodedCallback(colorSong, function(){
+                colorSong.loopFull(0.6)
+            }, this);*/
             
             initialize()
-            wildSong = sound.play("wildSong", {loop:true, volume:0.6})
+            colorSong = sound.play("colorSong", {loop:true, volume:0.6})
             
             game.onPause.add(function(){
                 game.sound.mute = true
@@ -859,12 +811,13 @@ var wildFeed = function(){
 			            
 			createPointsBar()
 			createHearts()
+            positionTimer()
+            colorsInTheWind()
+            prometeus()
             initCoin()
-            noahArk()
-            superSizeMe()
             createParticles()
 			
-			buttons.getButton(wildSong,sceneGroup)
+			buttons.getButton(colorSong,sceneGroup)
             createTutorial()
             
             animateScene()
