@@ -839,7 +839,7 @@ var hygienePlus = function(){
         hand.scale.setTo(1,1);
         hand.animations.add('hand');
         hand.animations.play('hand', 24, true);
-        hand.alpha=0.5;
+        hand.alpha=1;
         backgroundGroup.add(hand);
         
     }

@@ -304,6 +304,7 @@
                 <false/>
             </struct>
             <key type="filename">star.png</key>
+            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -384,6 +385,7 @@
             <filename>xpcoins.png</filename>
             <filename>../../../michoymau/cuentaContactos/cuentaContactos/images/contactos/cortina_1.png</filename>
             <filename>../../../michoymau/cuentaContactos/cuentaContactos/images/contactos/cuenta contactos/objetos/tina.png</filename>
+            <filename>wrong.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
