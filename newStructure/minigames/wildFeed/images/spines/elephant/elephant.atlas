@@ -1,0 +1,40 @@
+
+elephant.png
+size: 740,1763
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/headE_a
+  rotate: false
+  xy: 2, 602
+  size: 682, 605
+  orig: 682, 605
+  offset: 0, 0
+  index: -1
+normal/headE_b
+  rotate: false
+  xy: 2, 2
+  size: 674, 598
+  orig: 674, 598
+  offset: 0, 0
+  index: -1
+normal/headE_c
+  rotate: false
+  xy: 2, 1209
+  size: 736, 552
+  orig: 736, 552
+  offset: 0, 0
+  index: -1
+
+elephant2.png
+size: 508,482
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyE
+  rotate: false
+  xy: 2, 2
+  size: 504, 478
+  orig: 504, 478
+  offset: 0, 0
+  index: -1

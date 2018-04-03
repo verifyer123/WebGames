@@ -1,0 +1,55 @@
+
+fox.png
+size: 735,332
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyF
+  rotate: false
+  xy: 2, 2
+  size: 182, 328
+  orig: 182, 328
+  offset: 0, 0
+  index: -1
+normal/headF_a
+  rotate: false
+  xy: 344, 140
+  size: 199, 190
+  orig: 199, 190
+  offset: 0, 0
+  index: -1
+normal/headF_b
+  rotate: true
+  xy: 545, 133
+  size: 197, 188
+  orig: 197, 188
+  offset: 0, 0
+  index: -1
+normal/mouthF_a
+  rotate: false
+  xy: 545, 64
+  size: 108, 67
+  orig: 108, 67
+  offset: 0, 0
+  index: -1
+normal/mouthF_b
+  rotate: true
+  xy: 478, 27
+  size: 111, 65
+  orig: 111, 65
+  offset: 0, 0
+  index: -1
+normal/mouthF_c
+  rotate: false
+  xy: 344, 16
+  size: 132, 122
+  orig: 132, 122
+  offset: 0, 0
+  index: -1
+normal/tailF
+  rotate: false
+  xy: 186, 6
+  size: 156, 324
+  orig: 156, 324
+  offset: 0, 0
+  index: -1

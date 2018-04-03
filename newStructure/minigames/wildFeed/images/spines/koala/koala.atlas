@@ -1,0 +1,41 @@
+
+koala.png
+size: 889,373
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyKo
+  rotate: true
+  xy: 2, 39
+  size: 332, 216
+  orig: 332, 216
+  offset: 0, 0
+  index: -1
+normal/earCo_L
+  rotate: true
+  xy: 665, 2
+  size: 151, 161
+  orig: 151, 161
+  offset: 0, 0
+  index: -1
+normal/headCo_a
+  rotate: false
+  xy: 220, 143
+  size: 222, 228
+  orig: 222, 228
+  offset: 0, 0
+  index: -1
+normal/headCo_b
+  rotate: false
+  xy: 444, 147
+  size: 219, 224
+  orig: 219, 224
+  offset: 0, 0
+  index: -1
+normal/headCo_c
+  rotate: true
+  xy: 665, 155
+  size: 216, 222
+  orig: 216, 222
+  offset: 0, 0
+  index: -1

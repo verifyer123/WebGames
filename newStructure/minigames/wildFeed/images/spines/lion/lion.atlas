@@ -1,0 +1,48 @@
+
+lion.png
+size: 793,580
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyL
+  rotate: false
+  xy: 453, 182
+  size: 338, 396
+  orig: 338, 396
+  offset: 0, 0
+  index: -1
+normal/headL_a
+  rotate: true
+  xy: 310, 2
+  size: 178, 191
+  orig: 178, 191
+  offset: 0, 0
+  index: -1
+normal/headL_b
+  rotate: true
+  xy: 503, 2
+  size: 178, 191
+  orig: 178, 191
+  offset: 0, 0
+  index: -1
+normal/headL_c
+  rotate: true
+  xy: 2, 52
+  size: 181, 216
+  orig: 181, 216
+  offset: 0, 0
+  index: -1
+normal/melena
+  rotate: true
+  xy: 2, 235
+  size: 343, 449
+  orig: 343, 449
+  offset: 0, 0
+  index: -1
+normal/tailL
+  rotate: true
+  xy: 220, 34
+  size: 199, 88
+  orig: 199, 88
+  offset: 0, 0
+  index: -1
