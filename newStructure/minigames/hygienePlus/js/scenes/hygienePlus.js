@@ -121,6 +121,7 @@ var hygienePlus = function(){
     var delayDefault=100;
     var delayerTimer=2500;
     var tutoLvl1=true;
+    var timeForEvent=1000;
     var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
     var listofActionsEN = [
       ["BATHING", "NAP", "CAT"],
@@ -177,6 +178,7 @@ var hygienePlus = function(){
     var maxValue=3;
     var minValue=0;
     var canChoose=true;
+    var btnChoosed;
     
     var backgroundGroup=null;
     var characterGroup=null;
@@ -198,7 +200,9 @@ var hygienePlus = function(){
 		sound.decode(assets.sounds)
 	}
 
-	function initialize(){ 
+	function initialize(){
+        btnChoosed=-1;
+        timeForEvent=2000;
         game.stage.backgroundColor = "#6666ee";
         lives = 3
         startTiming=500;
@@ -432,14 +436,17 @@ var hygienePlus = function(){
                 btn1.loadTexture("atlas.hygiene","unpressed");
                 textInBoxAnswer.text=text1.text;
                 textInBoxAnswer.x=textInBoxAnswer.x-60;
+                btnChoosed=1;
             }else if(obj.tag==="btn2"){
                 btn2.loadTexture("atlas.hygiene","unpressed");
                 textInBoxAnswer.text=text2.text;
                 textInBoxAnswer.x=textInBoxAnswer.x-60;
+                btnChoosed=2;
             }else if(obj.tag==="btn3"){
                 btn3.loadTexture("atlas.hygiene","unpressed");
                 textInBoxAnswer.text=text3.text;
                 textInBoxAnswer.x=textInBoxAnswer.x-60;
+                btnChoosed=3;
             }
             canChoose=true;
             hand.alpha=0;
@@ -465,8 +472,69 @@ var hygienePlus = function(){
             }
         }
         if(!itsCorrect){
-            missPoint();
-            reset();
+            if(btnChoosed==1){
+                game.add.tween(text1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                    game.add.tween(text1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                    game.add.tween(btn1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                        game.time.events.add(timeForEvent-200,function(){
+                            if(localization.getLanguage()=="ES"){
+                                textInBoxAnswer.text=correctChoicesES[randomAction];
+                            }else{
+                                textInBoxAnswer.text=correctChoicesEN[randomAction];
+                            }
+                        })
+                        game.add.tween(btn1).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
+                        game.add.tween(text1).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
+                        game.time.events.add(timeForEvent,function(){
+                            missPoint();
+                            reset();
+                        })
+                    })
+                })
+            }
+            if(btnChoosed==2){
+                game.add.tween(text2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                game.add.tween(btn2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                    game.add.tween(text2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                    game.add.tween(btn2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                        game.time.events.add(timeForEvent-200,function(){
+                            if(localization.getLanguage()=="ES"){
+                                textInBoxAnswer.text=correctChoicesES[randomAction];
+                            }else{
+                                textInBoxAnswer.text=correctChoicesEN[randomAction];
+                            }
+                        })
+                        game.add.tween(btn2).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
+                        game.add.tween(text2).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
+                        game.time.events.add(timeForEvent,function(){
+                            missPoint();
+                            reset();
+                        })
+                    })
+                })
+            }
+            if(btnChoosed==3){
+                game.add.tween(text3).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                game.add.tween(btn3).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                    game.add.tween(text3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                    game.add.tween(btn3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                        game.time.events.add(timeForEvent-200,function(){
+                            if(localization.getLanguage()=="ES"){
+                                textInBoxAnswer.text=correctChoicesES[randomAction];
+                            }else{
+                                textInBoxAnswer.text=correctChoicesEN[randomAction];
+                            }
+                        })
+                        game.add.tween(btn3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
+                        game.add.tween(text3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
+                        game.time.events.add(timeForEvent,function(){
+                            missPoint();
+                            reset();
+                        })
+                    })
+                })
+            }
         }else{
             reset();
         }
@@ -791,9 +859,9 @@ var hygienePlus = function(){
         text2.anchor.setTo(0.5,0.5);
         text3.anchor.setTo(0.5,0.5);
         
-        text1.scale.setTo(0.6,0.6);
-        text2.scale.setTo(0.6,0.6);
-        text3.scale.setTo(0.6,0.6);
+        text1.scale.setTo(0.7,0.7);
+        text2.scale.setTo(0.7,0.7);
+        text3.scale.setTo(0.7,0.7);
         
         backgroundGroup.add(text1);    
         backgroundGroup.add(text2);    
