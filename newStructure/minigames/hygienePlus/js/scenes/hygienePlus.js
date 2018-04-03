@@ -473,10 +473,16 @@ var hygienePlus = function(){
         }
         if(!itsCorrect){
             if(btnChoosed==1){
-                game.add.tween(text1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
-                game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
-                    game.add.tween(text1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
-                    game.add.tween(btn1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                game.add.tween(text1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
+                game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
+                    game.add.tween(text1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
+                    game.add.tween(btn1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
+                        game.add.tween(text1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
+                        game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
+                            game.add.tween(text1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
+                                game.add.tween(btn1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
+                        
+                        
                         game.time.events.add(timeForEvent-200,function(){
                             if(localization.getLanguage()=="ES"){
                                 textInBoxAnswer.text=correctChoicesES[randomAction];
@@ -489,15 +495,22 @@ var hygienePlus = function(){
                         game.time.events.add(timeForEvent,function(){
                             missPoint();
                             reset();
+                                })
+                            })
                         })
                     })
                 })
+                    
             }
             if(btnChoosed==2){
                 game.add.tween(text2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
                 game.add.tween(btn2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
                     game.add.tween(text2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
                     game.add.tween(btn2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                        game.add.tween(text2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                        game.add.tween(btn2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                            game.add.tween(text2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                            game.add.tween(btn2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
                         game.time.events.add(timeForEvent-200,function(){
                             if(localization.getLanguage()=="ES"){
                                 textInBoxAnswer.text=correctChoicesES[randomAction];
@@ -510,6 +523,8 @@ var hygienePlus = function(){
                         game.time.events.add(timeForEvent,function(){
                             missPoint();
                             reset();
+                                })
+                            })
                         })
                     })
                 })
@@ -519,6 +534,10 @@ var hygienePlus = function(){
                 game.add.tween(btn3).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
                     game.add.tween(text3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
                     game.add.tween(btn3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                        game.add.tween(text3).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                        game.add.tween(btn3).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
+                            game.add.tween(text3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                            game.add.tween(btn3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
                         game.time.events.add(timeForEvent-200,function(){
                             if(localization.getLanguage()=="ES"){
                                 textInBoxAnswer.text=correctChoicesES[randomAction];
@@ -526,11 +545,13 @@ var hygienePlus = function(){
                                 textInBoxAnswer.text=correctChoicesEN[randomAction];
                             }
                         })
-                        game.add.tween(btn3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
-                        game.add.tween(text3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
+                        game.add.tween(btn3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2);
+                        game.add.tween(text3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
                         game.time.events.add(timeForEvent,function(){
                             missPoint();
                             reset();
+                                })
+                            })
                         })
                     })
                 })
