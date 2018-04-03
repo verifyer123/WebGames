@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
+        <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/whereIsMy/images/where/whereIsMyAtlas.tps</string>
+        <string>/Applications/MAMP/htdocs/WebGames/newStructure/minigames/whereIsMy/images/where/whereIsMyAtlas.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -303,6 +303,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">DOLL.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,36,57,71</rect>
+                <key>scale9Paddings</key>
+                <rect>29,36,57,71</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">DOLL_Q.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -378,6 +391,19 @@
                 <rect>32,30,63,60</rect>
                 <key>scale9Paddings</key>
                 <rect>32,30,63,60</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">LAMP.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,26,38,51</rect>
+                <key>scale9Paddings</key>
+                <rect>19,26,38,51</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -616,6 +642,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">YO YO.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,15,38,30</rect>
+                <key>scale9Paddings</key>
+                <rect>19,15,38,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">YO YO_Q.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -642,45 +681,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">desktop.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>34,24,67,49</rect>
-                <key>scale9Paddings</key>
-                <rect>34,24,67,49</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">gametuto.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>71,70,142,139</rect>
-                <key>scale9Paddings</key>
-                <rect>71,70,142,139</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">introscreen.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>145,125,291,250</rect>
-                <key>scale9Paddings</key>
-                <rect>145,125,291,250</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -691,19 +691,6 @@
                 <rect>35,14,70,28</rect>
                 <key>scale9Paddings</key>
                 <rect>35,14,70,28</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">movil.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>49,31,99,62</rect>
-                <key>scale9Paddings</key>
-                <rect>49,31,99,62</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -746,52 +733,12 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../Downloads/DOLL.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>29,36,58,71</rect>
-                <key>scale9Paddings</key>
-                <rect>29,36,58,71</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../../../../../../Downloads/LAMP.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>19,26,38,51</rect>
-                <key>scale9Paddings</key>
-                <rect>19,26,38,51</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../../../../../../Downloads/YO YO.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>19,15,38,30</rect>
-                <key>scale9Paddings</key>
-                <rect>19,15,38,30</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>introscreen.png</filename>
             <filename>life_box.png</filename>
             <filename>button.png</filename>
             <filename>3QUARTER.png</filename>
@@ -806,7 +753,6 @@
             <filename>DOWN BTN.png</filename>
             <filename>FLAG.png</filename>
             <filename>FRONT.png</filename>
-            <filename>gametuto.png</filename>
             <filename>HAPPY.png</filename>
             <filename>LAMP_Q.png</filename>
             <filename>LEFT BTN.png</filename>
@@ -824,16 +770,14 @@
             <filename>TABLE.png</filename>
             <filename>TENNIS.png</filename>
             <filename>UP BTN.png</filename>
-            <filename>desktop.png</filename>
             <filename>TILE WALL.png</filename>
             <filename>TENNIS_Q.png</filename>
             <filename>PHOTO_Q.png</filename>
             <filename>YO YO_Q.png</filename>
             <filename>FLOOR TILE.png</filename>
-            <filename>movil.png</filename>
-            <filename>../../../../../../../../Downloads/DOLL.png</filename>
-            <filename>../../../../../../../../Downloads/LAMP.png</filename>
-            <filename>../../../../../../../../Downloads/YO YO.png</filename>
+            <filename>DOLL.png</filename>
+            <filename>LAMP.png</filename>
+            <filename>YO YO.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
