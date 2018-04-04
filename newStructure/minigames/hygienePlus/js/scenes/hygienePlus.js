@@ -121,6 +121,7 @@ var hygienePlus = function(){
     var delayDefault=100;
     var delayerTimer=2500;
     var tutoLvl1=true;
+    var moreDificult=0;
     var timeForEvent=1000;
     var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
     var listofActionsEN = [
@@ -129,12 +130,24 @@ var hygienePlus = function(){
       ["COMBING","HOLDING", "WARMING"],
       ["WASHING", "WALKING","WRITTING"]
     ];
-    var listofActionsES = [
-      ["BAÑANDOSE", "VISTIENDOSE", "BAILANDO"],
-      ["LIMPIANDO","LLORANDO" , "LEYENDO"],
-      ["PEINANDOSE","PLATICANDO", "PENSANDO"],
-      ["LAVANDOSE", "LANZANDO","LADRANDO"]
-    ];
+    var listofActionsES= [
+          ["Bañando", "Vistiendo", "Comiendo"],
+          ["Lavando","Jugando" , "Aplaudiendo"],
+          ["Peinando","Mojando", "Lavando"],
+          ["Cepillando", "Divirtiendo","Saltando"]
+        ];
+    var listofActionsESAlternative = [
+          ["Bañando", "Bañara", "Bañaba"],
+          ["Lavando","Lavará" , "Lavaba"],
+          ["Peinando","Peinaba", "Peinará"],
+          ["Cepillando", "Cepilla","Cepillará"]
+        ];
+    var listofActionsENAlternative = [
+          ["Bañando", "Bathing", "Bathed"],
+          ["Washing","Wash" , "Washed"],
+          ["Combing","Combed", "Comb"],
+          ["Brushing", "brushed","brush"]
+        ];
     var staticPhraseES="OOF ESTA";
     var staticPhraseEN="OOF IS";
     var staticPhraseENSpecial="OOF IS TAKING A";
@@ -159,10 +172,10 @@ var hygienePlus = function(){
         "WASHING"
     ];
     var correctChoicesES= [
-        "BATHING",
-        "CLEANING",
-        "COMBING",
-        "WASHING"
+        "Bañando",
+        "Limpiando",
+        "Peinando",
+        "Lavando"
     ];
     var selectedChoice=null;
     var oofsActions=[
@@ -192,6 +205,7 @@ var hygienePlus = function(){
         2,
         3  
     ];
+    var lvl2Active;
     var graphics;
     var itsCorrect;
     var timer;
@@ -203,6 +217,7 @@ var hygienePlus = function(){
 	function initialize(){
         btnChoosed=-1;
         timeForEvent=2000;
+        moreDificult=0;
         game.stage.backgroundColor = "#6666ee";
         lives = 3
         startTiming=500;
@@ -211,45 +226,57 @@ var hygienePlus = function(){
         delayerTimer=2500;
         fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         listofActionsEN = [
-          ["BATH", "NAP", "CAT"],
-          ["CLEANING","CLOSING" , "CARRYING"],
-          ["COMBING","HOLDING", "WARMING"],
-          ["WASHING", "WALKING","WRITTING"]
+          ["Bath", "Nap", "Cat"],
+          ["Washing","Eating" , "Warming"],
+          ["Combing","Brushed", "Warming"],
+          ["Brushing", "Walking","Watching"]
         ];
         listofActionsES = [
-          ["BAÑANDOSE", "VISTIENDOSE", "BAILANDO"],
-          ["LIMPIANDO","LLORANDO" , "LEYENDO"],
-          ["PEINANDOSE","PLATICANDO", "PENSANDO"],
-          ["LAVANDOSE", "LANZANDO","LADRANDO"]
+          ["Bañando", "Vistiendo", "Comiendo"],
+          ["Lavando","Jugando" , "Aplaudiendo"],
+          ["Peinando","Mojando", "Lavando"],
+          ["Cepillando", "Divirtiendo","Saltando"]
         ];
-        staticPhraseES="OOF ESTA";
-        staticPhraseEN="OOF IS";
-        staticPhraseENSpecial="OOF IS TAKING A";
+        listofActionsESAlternative = [
+          ["Bañando", "Bañara", "Bañaba"],
+          ["Lavando","Lavará" , "Lavaba"],
+          ["Peinando","Peinaba", "Peinará"],
+          ["Cepillando", "Cepilla","Cepillará"]
+        ];
+        listofActionsENAlternative = [
+          ["Bath", "Bathing", "Bathed"],
+          ["Washing","Wash" , "Washed"],
+          ["Combing","Combed", "Comb"],
+          ["Brushing", "Brushed","Brush"]
+        ];
+        staticPhraseES="Oof se está";
+        staticPhraseEN="Oof is";
+        staticPhraseENSpecial="Oof is taking a";
         staticPhraseEndingES=[
             "",
-            "SUS MANOS",
-            "SU CABELLO",
-            "SUS DIENTES"
+            "las manos.",
+            "el cabello.",
+            "los dientes."
         ];
         staticPhraseEndingEN=[
             "",
-            "HIS HANDS",
-            "HIS HAIR",
-            "HIS TEETH"
+            "his hands.",
+            "his hair.",
+            "his teeth."
         ];
         randomAction=0;
         randomWords=0;
         correctChoicesEN= [
-            "BATH",
-            "CLEANING",
-            "COMBING",
-            "WASHING"
+            "Bath",
+            "Washing",
+            "Combing",
+            "Brushing"
         ];
         correctChoicesES= [
-            "BAÑANDOSE",
-            "LIMPIANDO",
-            "PEINANDOSE",
-            "LAVANDOSE"
+            "Bañando",
+            "Lavando",
+            "Peinando",
+            "Cepillando"
         ];
         selectedChoice=null;
         oofsActions=[
@@ -260,6 +287,7 @@ var hygienePlus = function(){
         ];
         skin="normal";
         passingLevel=false;
+        lvl2Active=false;
         actionInBox="¿?";
         maxValue=2;
         minValue=0;
@@ -275,19 +303,41 @@ var hygienePlus = function(){
 	}
     
     function generateRandomTextandOrder(){
-        
+        if(pointsBar.text._text==3)lvl2Active=true;
+        if(pointsBar.text._text>=6){
+                    moreDificult=game.rnd.integerInRange(0,1);
+                    if(moreDificult==0){
+                        lvl2Active=false;
+                    }else{
+                        lvl2Active=true;
+                    }
+                }
         randomAction=game.rnd.integerInRange(minValue,3);
         for(var startPositions=0; startPositions<maxValue+1; startPositions){
             randomWords=game.rnd.integerInRange(minValue,maxValue);
             if(choices[randomWords]!=-1){
-                if(localization.getLanguage()=="EN"){
-                    if(startPositions==0)text1.text=listofActionsES[randomAction][choices[randomWords]];
-                    if(startPositions==1)text2.text=listofActionsES[randomAction][choices[randomWords]];
-                    if(startPositions==2)text3.text=listofActionsES[randomAction][choices[randomWords]];   
-                }else if(localization.getLanguage()=="ES"){
-                    if(startPositions==0)text1.text=listofActionsEN[randomAction][choices[randomWords]];
-                    if(startPositions==1)text2.text=listofActionsEN[randomAction][choices[randomWords]];
-                    if(startPositions==2)text3.text=listofActionsEN[randomAction][choices[randomWords]];   
+                
+                
+                if(!lvl2Active){
+                    if(localization.getLanguage()=="EN"){
+                        if(startPositions==0)text1.text=listofActionsES[randomAction][choices[randomWords]];
+                        if(startPositions==1)text2.text=listofActionsES[randomAction][choices[randomWords]];
+                        if(startPositions==2)text3.text=listofActionsES[randomAction][choices[randomWords]];   
+                    }else if(localization.getLanguage()=="ES"){
+                        if(startPositions==0)text1.text=listofActionsEN[randomAction][choices[randomWords]];
+                        if(startPositions==1)text2.text=listofActionsEN[randomAction][choices[randomWords]];
+                        if(startPositions==2)text3.text=listofActionsEN[randomAction][choices[randomWords]];   
+                    }
+                }else{
+                    if(localization.getLanguage()=="EN"){
+                        if(startPositions==0)text1.text=listofActionsESAlternative[randomAction][choices[randomWords]];
+                        if(startPositions==1)text2.text=listofActionsESAlternative[randomAction][choices[randomWords]];
+                        if(startPositions==2)text3.text=listofActionsESAlternative[randomAction][choices[randomWords]];   
+                    }else if(localization.getLanguage()=="ES"){
+                        if(startPositions==0)text1.text=listofActionsENAlternative[randomAction][choices[randomWords]];
+                        if(startPositions==1)text2.text=listofActionsENAlternative[randomAction][choices[randomWords]];
+                        if(startPositions==2)text3.text=listofActionsENAlternative[randomAction][choices[randomWords]];   
+                    }
                 }
                 choices[randomWords]=-1;
                 startPositions++;
@@ -364,7 +414,7 @@ var hygienePlus = function(){
             
             sink.alpha=0;
             if(localization.getLanguage()=="EN"){
-                textInBoxAnswer.x=textBox.centerX-40;
+                textInBoxAnswer.x=textBox.centerX-20;
             }else{
                 textInBoxAnswer.x=textBox.centerX+80;
             }
@@ -378,7 +428,7 @@ var hygienePlus = function(){
             soapOrToothPaste.loadTexture("atlas.hygiene","soap");
             soapOrToothPaste.alpha=1;
             if(localization.getLanguage()=="EN"){
-                textInBoxAnswer.x=textBox.centerX-30;
+                textInBoxAnswer.x=textBox.centerX-20;
             }else{
                 textInBoxAnswer.x=textBox.centerX-45;
             }
@@ -392,7 +442,7 @@ var hygienePlus = function(){
             soapOrToothPaste.alpha=1;
             soapOrToothPaste.y=sink.centerY-50;
             if(localization.getLanguage()=="EN"){
-                textInBoxAnswer.x=textBox.centerX-40;
+                textInBoxAnswer.x=textBox.centerX-20;
             }else{
                 textInBoxAnswer.x=textBox.centerX-45;
             }
@@ -449,7 +499,7 @@ var hygienePlus = function(){
             }
             canChoose=true;
             hand.alpha=0;
-            if(pointsBar.text._text>=3)stopTimer();
+            if(pointsBar.text._text>=6)stopTimer();
             checkIfCorrect();
         }
     }
@@ -931,7 +981,7 @@ var hygienePlus = function(){
             text1=game.add.text(btn1.centerX, btn1.centerY, listofActionsES[0][0], fontStyle);
             text2=game.add.text(btn2.centerX, btn2.centerY, listofActionsES[0][1], fontStyle);
             text3=game.add.text(btn3.centerX, btn3.centerY, listofActionsES[0][2], fontStyle);
-            textInBox1Final=game.add.text(textBox.centerX-230, textBox.centerY-15, staticPhraseES, fontStyle);
+            textInBox1Final=game.add.text(textBox.centerX-240, textBox.centerY-15, staticPhraseES, fontStyle);
             textInBox2Final=game.add.text(textBox.centerX+90, textBox.centerY-15, staticPhraseEndingES[0], fontStyle);
             textInBoxAnswer=game.add.text(textBox.centerX-30, textBox.centerY-20, "¿?", fontStyle);
             textInBoxAnswer.scale.setTo(0.9,0.9);
@@ -945,8 +995,8 @@ var hygienePlus = function(){
             text1=game.add.text(btn1.centerX, btn1.centerY, listofActionsEN[0][0], fontStyle);
             text2=game.add.text(btn2.centerX, btn2.centerY, listofActionsEN[0][1], fontStyle);
             text3=game.add.text(btn3.centerX, btn3.centerY, listofActionsEN[0][2], fontStyle);
-            textInBox1Final=game.add.text(textBox.centerX-230, textBox.centerY-15, staticPhraseEN, fontStyle);
-            textInBox2Final=game.add.text(textBox.centerX+100, textBox.centerY-15, staticPhraseEndingEN[0], fontStyle);
+            textInBox1Final=game.add.text(textBox.centerX-200, textBox.centerY-15, staticPhraseEN, fontStyle);
+            textInBox2Final=game.add.text(textBox.centerX+70, textBox.centerY-15, staticPhraseEndingEN[0], fontStyle);
             textInBoxAnswer=game.add.text(textBox.centerX-50, textBox.centerY-25, "¿?", fontStyle);
             textInBoxAnswer.scale.setTo(0.9,0.98);
             textInBox1Final.scale.setTo(0.8,0.8);
@@ -1039,7 +1089,7 @@ var hygienePlus = function(){
                 coins.x=objectBorn.centerX;
                 coins.y=objectBorn.centerY;
                 addPoint(1);
-                if(pointsBar.text._text==3){
+                if(pointsBar.text._text==6){
                     timeBar.alpha=1;
                     clock.alpha=1;
                 }else if(pointsBar.text._text>3){
@@ -1062,7 +1112,7 @@ var hygienePlus = function(){
             textInBox2Final.tint=0xffffff;
             textInBoxAnswer.tint=0xffffff;
             game.add.tween(bathCourtain.scale).to({x:0,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
-                if(pointsBar.text._text>=3)startTimer(timer);
+                if(pointsBar.text._text>=6)startTimer(timer);
                 canChoose=false;
                 
             })
@@ -1293,7 +1343,7 @@ var hygienePlus = function(){
 			
 			createBackground()
 			addParticles()
-            baseSong = sound.play("acornSong", {loop:true, volume:0.6})
+            
                         			
             baseSong = game.add.audio('acornSong')
             game.sound.setDecodedCallback(baseSong, function(){
