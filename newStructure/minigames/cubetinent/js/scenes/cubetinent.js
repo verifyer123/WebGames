@@ -155,7 +155,7 @@ var cubetinent = function(){
 
     var currentCircleIndex 
     var tutorialTimeout
-
+    var tutorialNextQuad
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -385,6 +385,9 @@ var cubetinent = function(){
         tutoGroup.y = -game.world.height
         gameActive = true
         hand.visible = true
+        tutorialNextQuad = squareRaws[0][1]
+        hand.x = tutorialNextQuad.x+20
+        hand.y = tutorialNextQuad.y
         evalTutorial()
 
     }
@@ -424,22 +427,7 @@ var cubetinent = function(){
     }
 
     function evalTutorial(){
-    	switch(inTutorial){
-    		case 6:
-    		hand.x = game.world.centerX+150
-    		break
-    		case 7:
-    		hand.x = game.world.centerX-150
-    		break
-    		case 8:
-    		hand.x = game.world.centerX+150
-    		break
-    		case 9:
-    		hand.visible = false
-    		inTutorial = -1
-    		return
-    		break
-    	}
+    	
     	hand.loadTexture("atlas.game","handDown")
 
     	tutorialTimeout = setTimeout(function(){
@@ -503,6 +491,11 @@ var cubetinent = function(){
             setSquaresLine()
         }
 
+        if(hand.visible){
+            hand.x = tutorialNextQuad.x+20
+            hand.y = tutorialNextQuad.y
+        }
+
 
         if(canJump){
             yogotar.y -= moveVelocity
@@ -517,6 +510,12 @@ var cubetinent = function(){
                 yogotar.x = yogotar.newX
                 yogotar.y = y+OFFSET_YOGOTAR_CUBE
                 canJump = true
+
+                if(inTutorial!=-1){
+                    hand.visible = true
+                }
+
+
                 evaluateJump()
             }
         }
@@ -577,11 +576,15 @@ var cubetinent = function(){
         if(canJump){
             if(game.input.activePointer.isDown){
                 if(canTouch){
-                    if(game.input.activePointer.x < game.world.centerX){
-                        doJump(-1)
-                    }
-                    else{
-                        doJump(1)
+                    
+                    if(Math.abs(game.input.activePointer.x - yogotar.x) < DELTA_QUAD){
+
+                        if(game.input.activePointer.x < yogotar.x){
+                            doJump(-1)
+                        }
+                        else{
+                            doJump(1)
+                        }
                     }
                 }
             }
@@ -593,17 +596,18 @@ var cubetinent = function(){
     }
 
     function doJump(direction){
+
         if(yogotar.y > game.world.height - (DELTA_QUAD*2)){
             return
         }
 
         if(inTutorial!=-1){
 
-        	if(!((hand.x > game.world.centerX && direction==1) || (hand.x < game.world.centerX && direction==-1))){
+        	if(!((hand.x > yogotar.x && direction==1) || (hand.x < yogotar.x && direction==-1))){
         		return
         	}
 
-
+            
         	if(yogotar.y < INITIAL_Y){
         		yogotar.y = INITIAL_Y
         	}
@@ -611,8 +615,32 @@ var cubetinent = function(){
 
         if(hand.visible){
         	inTutorial++
-        	clearTimeout(tutorialTimeout)
-        	evalTutorial()
+            hand.visible = false
+            switch(inTutorial){
+                case 6:
+                id = 1
+                break
+                case 7:
+                id = 1
+                break
+                case 8:
+                id = 2
+                break
+                case 9:
+                hand.visible = false
+                inTutorial = -1
+                return
+                break
+            }
+
+            if(inTutorial!=-1){
+                tutorialNextQuad = squareRaws[1][id]
+                hand.x = tutorialNextQuad.x+20
+                hand.y = tutorialNextQuad.y
+            	clearTimeout(tutorialTimeout)
+            	evalTutorial()
+            }
+           
         }
 
         yogotar.inFallinCube = null
@@ -680,9 +708,8 @@ var cubetinent = function(){
        
         if(cube.haveLetter!=null){
             var correct = false
-            console.log(currentLetters)
             for(var i = 0; i < currentLetters.length; i ++){
-                console.log(cube.haveLetter.value)
+                //console.log(cube.haveLetter.value)
                 if(cube.haveLetter.value == currentLetters[i].letter){
                     currentLetters[i].circle.visible = false
                     currentLetters[i].text.setText(currentLetters[i].letter)
@@ -916,8 +943,8 @@ var cubetinent = function(){
             temp.splice(index,1)
         }
 
-        console.log(letters)
-        console.log(temp)
+        //console.log(letters)
+        //console.log(temp)
 
         var initX = game.world.centerX - (((letters.length-1)/2)*DELTA_LETTER_CONTAINER) 
         for(var i =0 ; i < letters.length;i++){

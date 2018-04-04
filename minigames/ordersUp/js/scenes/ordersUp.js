@@ -126,6 +126,8 @@ var ordersUp = function(){
 
     var meizy
 
+    var personTimeOut
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -654,7 +656,7 @@ var ordersUp = function(){
             currentTimeAppearPerson-=DELTA_APPEAR_PERSON
         }
 
-        setTimeout(setPerson,currentTimeAppearPerson)
+        personTimeOut = setTimeout(setPerson,currentTimeAppearPerson)
 
         
         var randomSkin
@@ -1026,7 +1028,9 @@ var ordersUp = function(){
         loadSounds()
 
         game.onPause.add(function(){
-			
+			if(personTimeOut!=null){
+                clearTimeout(personTimeOut)
+            }
 			game.sound.mute = true
 			if(amazing.getMinigameId()){
 				marioSong.pause()
@@ -1036,7 +1040,7 @@ var ordersUp = function(){
 
 		game.onResume.add(function(){
 			game.sound.mute = false
-			
+			personTimeOut = setTimeout(setPerson,currentTimeAppearPerson)
 			if(amazing.getMinigameId()){
 				if(lives>0){
 

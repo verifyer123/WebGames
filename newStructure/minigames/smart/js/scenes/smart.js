@@ -630,6 +630,7 @@ var smart = function(){
         	tutorialTween.yoyo(true)*/
 
 
+
         	for(var i = 0; i < 2; i ++){
         		numbersOperation[i].x = tutorialObjects[i].object.x 
         		numbersOperation[i].y = tutorialObjects[i].object.y + 50
@@ -639,6 +640,7 @@ var smart = function(){
 
             //evalTutorial()
         }
+        else{canTouch = true}
     }
 
     function setNumberTutorial(){
@@ -738,7 +740,7 @@ var smart = function(){
         else{return}
 
         if(!correctObject){
-            
+            canTouch = false
             sound.play('wrong')
             missPoint()
             if(timeOn){
@@ -796,6 +798,7 @@ var smart = function(){
 		        }
 	        }
             evalTutorial()
+            canTouch = false
             setTimeout(setRound,2000)
         }
 
