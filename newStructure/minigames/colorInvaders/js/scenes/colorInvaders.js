@@ -590,11 +590,16 @@ var colorInvaders = function(){
         var container = colorsGroup.create(game.world.centerX, 250, "atlas.colorInvaders", "container")
         container.anchor.setTo(0.5)
         
-        var name = new Phaser.Text(sceneGroup.game, container.x, container.y + 10, '', fontStyle)
+        var name = new Phaser.Text(sceneGroup.game, container.x, container.y + 5, '', fontStyle)
         name.anchor.setTo(0.5)
         //name.setText('')
+        name.stroke = "#FFFFFF"
+        name.strokeThickness = 0
         colorsGroup.add(name)
         colorsGroup.text = name
+        
+        var colorName = [ "#00FFFF", "#00BB33", "#FF6600", "#FF4499", "#880088", "#BB2222", "#CCCC00"]
+        colorsGroup.colorName = colorName
     }
     
     function prometeus(){
@@ -682,8 +687,8 @@ var colorInvaders = function(){
                 particleWrong.y = btn.centerY
                 particleWrong.start(true, 1200, null, 10)
             }
-            
-            if(pointsBar.number === 2){
+               
+            if(pointsBar.number === 20){
                 game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
                 timeAttack = true
             }
@@ -722,6 +727,10 @@ var colorInvaders = function(){
         
         game.time.events.add(1600,function(){
             colorsGroup.text.setText(colorsText[rand])
+            if(pointsBar.number > 9){
+                colorsGroup.text.strokeThickness = 10
+                colorsGroup.text.fill = colorsGroup.colorName[game.rnd.integerInRange(0, colorsText.length-1)]
+            }
             sound.play("cut")
             game.add.tween(colorsGroup.text.scale).from({ y:0}, 200,Phaser.Easing.linear,true)
             gameActive = true
