@@ -163,6 +163,7 @@ var wildFeed = function(){
     var hand
     var animalsGroup
     var buttonsGroup
+    var textGroup
     var emojys
     var rand
     var index
@@ -677,7 +678,34 @@ var wildFeed = function(){
         emojys.setSkinByName("normal")
     }
     
+    function createText(){
+        
+        textGroup = game.add.group()
+        textGroup.alpha = 0
+        sceneGroup.add(textGroup)
+        
+        var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        
+        var container = textGroup.create(game.world.centerX, game.world.centerY + 150, "atlas.wildFeed", "container")
+        container.anchor.setTo(0.5)
+        
+        var name = new Phaser.Text(sceneGroup.game, container.centerX, container.centerY + 10, '', fontStyle)
+        name.anchor.setTo(0.5)
+        //name.setText('')
+        textGroup.add(name)
+        textGroup.text = name
+        
+        if(localization.getLanguage() === 'EN'){
+            textGroup.words = ["Herbivorous", "Omnivores", "Carnivorous"]
+        }
+        else{
+            textGroup.words = ["Herbívoros", "Omnívoros", "Carnívoros"]
+        }
+    }
+    
     function superSizeMe(){
+        
+        var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
         
         var board = sceneGroup.create(0, game.world.height, "atlas.wildFeed", "board")
         board.anchor.setTo(0, 1)
@@ -687,7 +715,10 @@ var wildFeed = function(){
         var pivot = -1
         
         buttonsGroup = game.add.group()
+        buttonsGroup.posX = []
         sceneGroup.add(buttonsGroup)
+        
+        var buttonsName = game.add.group()
         
         for(var i = 0; i < name.length; i++){
             
@@ -696,7 +727,14 @@ var wildFeed = function(){
             button.tag = i
             button.inputEnabled = true
             button.events.onInputDown.add(feedThem, this)
+            button.text
             pivot++
+            buttonsGroup.posX[buttonsGroup.posX.length] = button.x
+            
+            var text = new Phaser.Text(sceneGroup.game, button.centerX, button.centerY + 30, textGroup.words[i], fontStyle)
+            text.anchor.setTo(0.5, 0)
+            //text.setText('')
+            buttonsName.add(text)
         }
         
         buttonsGroup.setAll("tint", 0x606060)
@@ -713,6 +751,9 @@ var wildFeed = function(){
        
         buttonsGroup.children[0].food = vegan
         buttonsGroup.children[2].food = meat
+        
+        buttonsGroup.add(buttonsName)
+        buttonsGroup.buttonsName = buttonsName
     }
     
     function feedThem(btn){
@@ -785,6 +826,8 @@ var wildFeed = function(){
             }
         }
         
+        game.add.tween(textGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true).yoyo(true, 1000)
+        
         if(lives !== 0){
             game.time.events.add(1500,function(){
                 emojys.alpha = 0
@@ -801,6 +844,7 @@ var wildFeed = function(){
         
         buttonsGroup.setAll("tint", 0x606060)
         rand = getRand()
+        textGroup.text.setText(textGroup.words[rand])
         index = game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
         animalsGroup.setAll("alpha", 0)
         animalsGroup.children[rand].alpha = 1
@@ -808,14 +852,21 @@ var wildFeed = function(){
         var animal = animalsGroup.children[rand].children[index]
         animal.setAnimationByName(0, "WALK", true)
         
+        var delay = 0
+        
         game.add.tween(animal).to({x: game.world.centerX}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
             animal.setAnimationByName(0, "IDLE", true)
             emojys.x = game.world.centerX - animal.width * 0.7
             emojys.y = game.world.height - 150 - animal.height * 0.9
-            buttonsGroup.setAll("tint", 0xffffff)
-            emojys.alpha = 1
-            emojys.setAnimationByName(0, "CONFUCED", true)
-            gameActive = true
+            if(pointsBar.number > 9){
+                delay = scramble()
+            }
+            game.time.events.add(delay,function(){
+                buttonsGroup.setAll("tint", 0xffffff)
+                emojys.alpha = 1
+                emojys.setAnimationByName(0, "CONFUCED", true)
+                gameActive = true
+            },this)
         })
     }
     
@@ -825,6 +876,27 @@ var wildFeed = function(){
             return getRand()
         else
             return x     
+    }
+    
+    function scramble(){
+        
+        Phaser.ArrayUtils.shuffle(buttonsGroup.posX)
+                 
+        game.add.tween(buttonsGroup).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+            
+            for(var i = 0; i < buttonsGroup.length - 1; i++){
+                buttonsGroup.children[i].x = buttonsGroup.posX[i]
+                buttonsGroup.buttonsName.children[i].x = buttonsGroup.posX[i]
+            }
+            
+            if(pointsBar.number > 19){
+                buttonsGroup.buttonsName.alpha = 0
+            }
+            
+            game.add.tween(buttonsGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
+        })
+        
+        return 1100
     }
 	
 	return {
@@ -861,6 +933,7 @@ var wildFeed = function(){
 			createHearts()
             initCoin()
             noahArk()
+            createText()
             superSizeMe()
             createParticles()
 			

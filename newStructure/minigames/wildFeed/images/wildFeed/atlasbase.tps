@@ -211,6 +211,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>111,23,221,46</rect>
+                <key>scale9Paddings</key>
+                <rect>111,23,221,46</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">greenPipe.png</key>
             <key type="filename">purplePipe.png</key>
             <struct type="IndividualSpriteSettings">
@@ -334,6 +347,7 @@
             <filename>blue.png</filename>
             <filename>green.png</filename>
             <filename>purple.png</filename>
+            <filename>container.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
