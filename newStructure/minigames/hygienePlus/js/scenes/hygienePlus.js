@@ -280,11 +280,11 @@ var hygienePlus = function(){
         for(var startPositions=0; startPositions<maxValue+1; startPositions){
             randomWords=game.rnd.integerInRange(minValue,maxValue);
             if(choices[randomWords]!=-1){
-                if(localization.getLanguage()=="ES"){
+                if(localization.getLanguage()=="EN"){
                     if(startPositions==0)text1.text=listofActionsES[randomAction][choices[randomWords]];
                     if(startPositions==1)text2.text=listofActionsES[randomAction][choices[randomWords]];
                     if(startPositions==2)text3.text=listofActionsES[randomAction][choices[randomWords]];   
-                }else if(localization.getLanguage()=="EN"){
+                }else if(localization.getLanguage()=="ES"){
                     if(startPositions==0)text1.text=listofActionsEN[randomAction][choices[randomWords]];
                     if(startPositions==1)text2.text=listofActionsEN[randomAction][choices[randomWords]];
                     if(startPositions==2)text3.text=listofActionsEN[randomAction][choices[randomWords]];   
@@ -309,7 +309,7 @@ var hygienePlus = function(){
     function startTutorial(){
         for(var checkCorrect=0; checkCorrect<maxValue+2; checkCorrect++){
             
-            if(localization.getLanguage()=="ES"){
+            if(localization.getLanguage()=="EN"){
                 if(text1.text==correctChoicesES[checkCorrect]){
                     hand.x=btn1.centerX+30;
                     hand.y=btn1.centerY+30;
@@ -346,7 +346,7 @@ var hygienePlus = function(){
         
         oof.setAnimationByName(0,oofsActions[randomAction],true);
         textInBoxAnswer.text="¿?";
-        if(localization.getLanguage()=="ES"){
+        if(localization.getLanguage()=="EN"){
             textInBox1Final.text=staticPhraseES;
             textInBox2Final.text=staticPhraseEndingES[randomAction];
         }else{
@@ -363,7 +363,7 @@ var hygienePlus = function(){
         if(randomAction==0){
             
             sink.alpha=0;
-            if(localization.getLanguage()=="ES"){
+            if(localization.getLanguage()=="EN"){
                 textInBoxAnswer.x=textBox.centerX-40;
             }else{
                 textInBoxAnswer.x=textBox.centerX+80;
@@ -377,7 +377,7 @@ var hygienePlus = function(){
             bath.alpha=0;
             soapOrToothPaste.loadTexture("atlas.hygiene","soap");
             soapOrToothPaste.alpha=1;
-            if(localization.getLanguage()=="ES"){
+            if(localization.getLanguage()=="EN"){
                 textInBoxAnswer.x=textBox.centerX-30;
             }else{
                 textInBoxAnswer.x=textBox.centerX-45;
@@ -391,7 +391,7 @@ var hygienePlus = function(){
             soapOrToothPaste.loadTexture("atlas.hygiene","soap");
             soapOrToothPaste.alpha=1;
             soapOrToothPaste.y=sink.centerY-50;
-            if(localization.getLanguage()=="ES"){
+            if(localization.getLanguage()=="EN"){
                 textInBoxAnswer.x=textBox.centerX-40;
             }else{
                 textInBoxAnswer.x=textBox.centerX-45;
@@ -404,7 +404,7 @@ var hygienePlus = function(){
             soapOrToothPaste.loadTexture("atlas.hygiene","cipishi");
             soapOrToothPaste.alpha=1;
             soapOrToothPaste.y=sink.centerY-70;
-            if(localization.getLanguage()=="ES"){
+            if(localization.getLanguage()=="EN"){
                 textInBoxAnswer.x=textBox.centerX-30;
             }else{
                 textInBoxAnswer.x=textBox.centerX-45;
@@ -458,7 +458,7 @@ var hygienePlus = function(){
         
         for(var checkCorrect=0; checkCorrect<maxValue+2; checkCorrect++){
             
-            if(localization.getLanguage()=="ES"){
+            if(localization.getLanguage()=="EN"){
                 if(textInBoxAnswer.text==correctChoicesES[checkCorrect]){
                     game.time.events.add(timeForEvent-400,function(){
                         textInBox1Final.tint=0x00ff00;
@@ -526,7 +526,7 @@ var hygienePlus = function(){
                                                 textInBox2Final.tint=0x00ff00;
                                                 game.time.events.add(timeForEvent-400,function(){
                                                     textInBoxAnswer.tint=0xff0000;
-                                                    if(localization.getLanguage()=="ES"){
+                                                    if(localization.getLanguage()=="EN"){
                                                         textInBoxAnswer.text=correctChoicesES[randomAction];
                                                     }else{
                                                         textInBoxAnswer.text=correctChoicesEN[randomAction];
@@ -536,7 +536,7 @@ var hygienePlus = function(){
                                                 })
                                             }else{
                                                 textInBoxAnswer.tint=0xff0000;
-                                                if(localization.getLanguage()=="ES"){
+                                                if(localization.getLanguage()=="EN"){
                                                     textInBoxAnswer.text=correctChoicesES[randomAction];
                                                 }else{
                                                     textInBoxAnswer.text=correctChoicesEN[randomAction];
@@ -571,7 +571,7 @@ var hygienePlus = function(){
                                                     textInBox2Final.tint=0x00ff00;
                                                 game.time.events.add(timeForEvent-400,function(){
                                                     textInBoxAnswer.tint=0xff0000;
-                                                    if(localization.getLanguage()=="ES"){
+                                                    if(localization.getLanguage()=="EN"){
                                                         textInBoxAnswer.text=correctChoicesES[randomAction];
                                                     }else{
                                                         textInBoxAnswer.text=correctChoicesEN[randomAction];
@@ -581,7 +581,7 @@ var hygienePlus = function(){
                                                 })
                                             }else{
                                                 textInBoxAnswer.tint=0xff0000;
-                                                if(localization.getLanguage()=="ES"){
+                                                if(localization.getLanguage()=="EN"){
                                                     textInBoxAnswer.text=correctChoicesES[randomAction];
                                                 }else{
                                                     textInBoxAnswer.text=correctChoicesEN[randomAction];
@@ -614,7 +614,7 @@ var hygienePlus = function(){
                                             textInBox2Final.tint=0x00ff00;
                                             game.time.events.add(timeForEvent-400,function(){
                                                 textInBoxAnswer.tint=0xff0000;
-                                                if(localization.getLanguage()=="ES"){
+                                                if(localization.getLanguage()=="EN"){
                                                 textInBoxAnswer.text=correctChoicesES[randomAction];
                                                 }else{
                                                     textInBoxAnswer.text=correctChoicesEN[randomAction];
@@ -624,7 +624,7 @@ var hygienePlus = function(){
                                             })
                                         }else{
                                             textInBoxAnswer.tint=0xff0000;
-                                            if(localization.getLanguage()=="ES"){
+                                            if(localization.getLanguage()=="EN"){
                                                 textInBoxAnswer.text=correctChoicesES[randomAction];
                                             }else{
                                                 textInBoxAnswer.text=correctChoicesEN[randomAction];
@@ -927,7 +927,7 @@ var hygienePlus = function(){
         graphics.lineTo(line.end.x,line.end.y);
         graphics.endFill();
         backgroundGroup.add(graphics)
-        if(localization.getLanguage()=="ES"){
+        if(localization.getLanguage()=="EN"){
             text1=game.add.text(btn1.centerX, btn1.centerY, listofActionsES[0][0], fontStyle);
             text2=game.add.text(btn2.centerX, btn2.centerY, listofActionsES[0][1], fontStyle);
             text3=game.add.text(btn3.centerX, btn3.centerY, listofActionsES[0][2], fontStyle);
@@ -963,6 +963,11 @@ var hygienePlus = function(){
         text1.scale.setTo(0.7,0.7);
         text2.scale.setTo(0.7,0.7);
         text3.scale.setTo(0.7,0.7);
+        
+        text1.tint=0x1F635A;
+        text2.tint=0x1F635A;
+        text3.tint=0x1F635A;
+        
         
         backgroundGroup.add(text1);    
         backgroundGroup.add(text2);    
