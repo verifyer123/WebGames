@@ -92,6 +92,8 @@ var cubetinent = function(){
     var INITIAL_Y
 
     var CONTINENT_IMAGE_NAMES = ["america", "asia", "europe", "africa", "antratica", "australia"]
+
+    var OFFSET_STROKE = 35
     
     var lives
 	var sceneGroup = null
@@ -157,6 +159,11 @@ var cubetinent = function(){
     var tutorialTimeout
     var tutorialNextQuad
 
+    var stroke1, stroke2
+
+    var nextCube1, nextCube2
+    var passRawFour
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -192,6 +199,8 @@ var cubetinent = function(){
         currentCircleIndex = 0
 
         lettersDifficult = INITIAL_DIFFICULT
+
+        passRawFour = false
 
         lang = localization.getLanguage()
         if(lang == "ES"){
@@ -496,6 +505,16 @@ var cubetinent = function(){
             hand.y = tutorialNextQuad.y
         }
 
+        if(stroke1.visible){
+            stroke1.x = nextCube1.x
+            stroke1.y = nextCube1.y - OFFSET_STROKE
+        }
+
+        if(stroke2.visible){
+            stroke2.x = nextCube2.x
+            stroke2.y = nextCube2.y - OFFSET_STROKE
+        }
+
 
         if(canJump){
             yogotar.y -= moveVelocity
@@ -511,14 +530,63 @@ var cubetinent = function(){
                 yogotar.y = y+OFFSET_YOGOTAR_CUBE
                 canJump = true
 
+
+
                 if(inTutorial!=-1){
                     hand.visible = true
                 }
 
 
                 evaluateJump()
+
+
             }
         }
+    }
+
+    function setNextStroke(){
+        stroke1.visible = true
+        stroke2.visible = true
+        if(squareRaws[0].length==4){
+            passRawFour =  true
+            nextCube1 = squareRaws[0][currentPositionId]
+            nextCube2 = squareRaws[0][currentPositionId+1]
+        }
+        else if(squareRaws[0].length==3){
+            if(passRawFour){
+                if(currentPositionId>0){
+                    nextCube1 = squareRaws[0][currentPositionId-1]
+                }
+                else{
+                    stroke1.visible = false
+                    nextCube1 = null
+                }
+
+                if(currentPositionId<3){
+                    nextCube2 = squareRaws[0][currentPositionId]
+                }
+                else{
+                    stroke2.visible = false
+                    nextCube2 = null
+                }
+            }
+            else{
+                nextCube1 = squareRaws[0][currentPositionId]
+                nextCube2 = squareRaws[0][currentPositionId+1]
+            }
+        }
+
+
+        if(stroke1.visible){
+            stroke1.x = nextCube1.x
+            stroke1.y = nextCube1.y - OFFSET_STROKE
+        }
+
+        if(stroke2.visible){
+            stroke2.x = nextCube2.x
+            stroke2.y = nextCube2.y - OFFSET_STROKE
+        }
+
     }
 
     function fall(){
@@ -601,6 +669,9 @@ var cubetinent = function(){
             return
         }
 
+        stroke1.visible = false
+        stroke2.visible = false
+
         if(inTutorial!=-1){
 
         	if(!((hand.x > yogotar.x && direction==1) || (hand.x < yogotar.x && direction==-1))){
@@ -669,6 +740,7 @@ var cubetinent = function(){
             }
             else{
                 evaluateCube(squareRaws[0][currentPositionId])
+                setNextStroke()
             }
         }else{
             if(yogotar.direction == 1){
@@ -682,6 +754,7 @@ var cubetinent = function(){
             }
             else{
                 evaluateCube(squareRaws[0][currentPositionId])
+                setNextStroke()
             }
         }
     }
@@ -1047,11 +1120,19 @@ var cubetinent = function(){
         cubesGroup = game.add.group()
         sceneGroup.add(cubesGroup)
 
+        stroke1 = sceneGroup.create(-200,0,"atlas.game","stroke_white")
+        stroke1.anchor.setTo(0.5)
+
+        stroke2 = sceneGroup.create(-200,0,"atlas.game","stroke_white")
+        stroke2.anchor.setTo(0.5)
+
         letterGroup = game.add.group()
         sceneGroup.add(letterGroup)
 
         var initialCube = cubesGroup.create(game.world.centerX, nextY,"atlas.game","cube")
         initialCube.anchor.setTo(0.5)
+
+        
 
 
         yogotar = game.add.spine(game.world.centerX, nextY + OFFSET_YOGOTAR_CUBE, "luna")
@@ -1084,6 +1165,18 @@ var cubetinent = function(){
         while(nextY<LIMIT_Y_CREATE_NEW_RAW){
             setSquaresLine()
         }
+
+        nextCube1 = squareRaws[0][0]
+
+        stroke1.x = nextCube1.x
+        stroke1.y = nextCube1.y - OFFSET_STROKE
+
+        nextCube2 = squareRaws[0][1]
+
+        stroke2.x = nextCube2.x
+        stroke2.y = nextCube2.y - OFFSET_STROKE
+
+
 
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
         coins.anchor.setTo(0.5)

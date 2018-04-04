@@ -252,11 +252,11 @@ var result = function(){
     }
 
     function clickHome(){
-    	console.log("clickHome")
+    	//console.log("clickHome")
     }
 
     function clickNext(){
-    	console.log("clickNext")
+    	//console.log("clickNext")
     }
     
     function createButtons(pivot){

@@ -2,7 +2,7 @@
 
 {
 	"filename": "africa",
-	"frame": {"x":1,"y":259,"w":203,"h":202},
+	"frame": {"x":553,"y":1,"w":203,"h":202},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":203,"h":202},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "america",
-	"frame": {"x":206,"y":411,"w":202,"h":203},
+	"frame": {"x":411,"y":259,"w":202,"h":203},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":203},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "antratica",
-	"frame": {"x":259,"y":1,"w":203,"h":203},
+	"frame": {"x":1,"y":298,"w":203,"h":203},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":203,"h":203},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "asia",
-	"frame": {"x":1,"y":463,"w":202,"h":202},
+	"frame": {"x":758,"y":1,"w":202,"h":202},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":202},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "australia",
-	"frame": {"x":205,"y":616,"w":202,"h":202},
+	"frame": {"x":615,"y":205,"w":202,"h":202},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":202,"h":202},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "cube",
-	"frame": {"x":1,"y":667,"w":122,"h":141},
+	"frame": {"x":819,"y":261,"w":122,"h":141},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":122,"h":141},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "europe",
-	"frame": {"x":259,"y":206,"w":203,"h":203},
+	"frame": {"x":206,"y":298,"w":203,"h":203},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":203,"h":203},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "handDown",
-	"frame": {"x":409,"y":724,"w":102,"h":95},
+	"frame": {"x":615,"y":409,"w":102,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "handUp",
-	"frame": {"x":409,"y":616,"w":102,"h":106},
+	"frame": {"x":841,"y":404,"w":102,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "hearts",
-	"frame": {"x":1,"y":810,"w":141,"h":54},
+	"frame": {"x":841,"y":205,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "letter_container",
-	"frame": {"x":206,"y":259,"w":51,"h":63},
+	"frame": {"x":945,"y":444,"w":51,"h":63},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":63},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "space",
-	"frame": {"x":1,"y":1,"w":256,"h":256},
+	"frame": {"x":295,"y":1,"w":256,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":410,"y":528,"w":64,"h":64},
+	"frame": {"x":945,"y":261,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -118,8 +118,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "stars",
+	"frame": {"x":1,"y":1,"w":292,"h":295},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":23,"y":21,"w":292,"h":295},
+	"sourceSize": {"w":316,"h":316},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "stroke_white",
+	"frame": {"x":719,"y":409,"w":120,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":70},
+	"sourceSize": {"w":120,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "word_container",
-	"frame": {"x":410,"y":411,"w":63,"h":115},
+	"frame": {"x":945,"y":327,"w":63,"h":115},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":115},
@@ -128,7 +146,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":144,"y":820,"w":165,"h":41},
+	"frame": {"x":411,"y":464,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -140,8 +158,8 @@
 	"version": "1.0",
 	"image": "cubetinent_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":865},
+	"size": {"w":1010,"h":511},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1666362b2cf6206c6f599f218cc1d4c6:f5a9f5010ca0ee2e93bdb5e50ac53cf8:e03c51ba5691a9a23d3b25bcc182c999$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3bff7de054642a52caab3a7d9867c79b:e2573d72b6d1352712ad31c4e382011d:e03c51ba5691a9a23d3b25bcc182c999$"
 }
 }
