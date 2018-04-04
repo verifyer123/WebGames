@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
-var wildFeed = function(){
+var cleanCrossing = function(){
     
     var localizationData = {
 		"EN":{
@@ -21,14 +21,14 @@ var wildFeed = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.wildFeed",
-                json: "images/wildFeed/atlas.json",
-                image: "images/wildFeed/atlas.png",
+                name: "atlas.cleanCrossing",
+                json: "images/cleanCrossing/atlas.json",
+                image: "images/cleanCrossing/atlas.png",
             },
             {   
                 name: "atlas.time",
-                json: "images/wildFeed/timeAtlas.json",
-                image: "images/wildFeed/timeAtlas.png",
+                json: "images/cleanCrossing/timeAtlas.json",
+                image: "images/cleanCrossing/timeAtlas.png",
             },
             {   
                 name: "atlas.tutorial",
@@ -39,12 +39,17 @@ var wildFeed = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/wildFeed/gametuto.png"
+				file:"images/cleanCrossing/tutorial_image_%input.png"
 			},
             {
-				name:'back',
-				file:"images/wildFeed/back.jpg"
+				name:'background',
+				file:"images/cleanCrossing/background.png"
+			},
+            {
+				name:'road',
+				file:"images/cleanCrossing/road.png"
 			}
+            
 
 		],
 		sounds: [
@@ -60,8 +65,8 @@ var wildFeed = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {   name: 'wildSong',
-                file: soundsPath + 'songs/happy_game_memories.mp3'
+            {   name: 'cleanSong',
+                file: soundsPath + 'songs/classic_arcade.mp3'
             }
 		],
         spritesheets: [
@@ -79,74 +84,13 @@ var wildFeed = function(){
             }
         ],
         spines:[
-            //herbivorous
-            {
-				name:"bonny",
-				file:"images/spines/bonny/bonny.json"
+			{
+				name:"paz",
+				file:"images/spines/paz/paz.json"
 			},
             {
-				name:"deer",
-				file:"images/spines/deer/deer.json"
-			},
-            {
-				name:"elephant",
-				file:"images/spines/elephant/elephant.json"
-			},
-            {
-				name:"giraffe",
-				file:"images/spines/giraffe/giraffe.json"
-			},
-            {
-				name:"koala",
-				file:"images/spines/koala/koala.json"
-			},
-            
-            //omnivores
-            {
-				name:"mouse",
-				file:"images/spines/mouse/mouse.json"
-			},
-            {
-				name:"chipmunk",
-				file:"images/spines/chipmunk/chipmunk.json"
-			},
-            {
-				name:"gorilla",
-				file:"images/spines/gorilla/gorilla.json"
-			},
-            {
-				name:"pig",
-				file:"images/spines/pig/pig.json"
-			},
-             {
-				name:"raccoon",
-				file:"images/spines/raccoon/raccoon.json"
-			},
-            
-            //carnivorous
-            {
-				name:"crocodile",
-				file:"images/spines/cocodile/cocodile.json"
-			},
-            {
-				name:"fox",
-				file:"images/spines/fox/fox.json"
-			},
-            {
-				name:"lion",
-				file:"images/spines/lion/lion.json"
-			},
-            {
-				name:"wolf",
-				file:"images/spines/wolf/wolf.json"
-			},
-            {
-				name:"bear",
-				file:"images/spines/bear/bear.json"
-			},
-            {
-				name:"emojys",
-				file:"images/spines/emojys/emojys.json"
+				name:"assets",
+				file:"images/spines/assets/assets.json"
 			}
 		]
     }
@@ -156,17 +100,20 @@ var wildFeed = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 175
+    var gameIndex = 178
     var tutoGroup
-    var wildSong
+    var cleanSong
     var coin
     var hand
-    var animalsGroup
-    var buttonsGroup
-    var textGroup
-    var emojys
-    var rand
-    var index
+    var tileGroup
+    var itemsBaseGroup
+    var assetsGroup
+    var paz
+    var rand 
+    var moveIt
+    var okBtn
+    var timeAttack
+    var timer
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -177,8 +124,10 @@ var wildFeed = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         gameActive = false
+        moveIt = false
         rand = -1
-        index = 0
+        timeAttack = false
+        timer = 5000
         
         loadSounds()
 	}
@@ -289,7 +238,7 @@ var wildFeed = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.wildFeed','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.cleanCrossing','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -317,7 +266,7 @@ var wildFeed = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.wildFeed','life_box')
+        var heartImg = group.create(0,0,'atlas.cleanCrossing','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -340,7 +289,7 @@ var wildFeed = function(){
 		sound.play("gameLose")
 		
         gameActive = false
-        wildSong.stop()
+        cleanSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -380,22 +329,56 @@ var wildFeed = function(){
     }
 
 	function createBackground(){
+        
+        var background = sceneGroup.create(0, 0, "background")
+        background.width = game.world.width
+        background.height = game.world.height
+        
+        var road = sceneGroup.create(0, 0, "road") 
+        road.width = game.world.width
+        
+        tileGroup = game.add.group()
+        sceneGroup.add(tileGroup)
+        
+        var back = game.add.tileSprite(0, 0, game.world.width, 250, "atlas.cleanCrossing", "back")
+        tileGroup.add(back)
+        
+        var top = game.add.tileSprite(0, back.height, game.world.width, 115, "atlas.cleanCrossing", "top")
+        top.anchor.setTo(0, 1)
+        tileGroup.add(top)
+        
+        road.y = top.y
+        
+        itemsBaseGroup = game.add.group()
+        itemsBaseGroup.x = game.world.width
+        sceneGroup.add(itemsBaseGroup)
+        
+        for(var i = 0; i < 4; i++){
+            var row = sceneGroup.create(0, road.y + 60 + (110 * i), "atlas.cleanCrossing", "row")
+            row.alpha = 0.5
+            row.width = game.world.width
             
-        var back = sceneGroup.create(0, 0, "back")
-        back.width = game.world.width
-        back.height = game.world.height
+            var base = itemsBaseGroup.create(game.world.centerX + (i * 60), row.centerY, "atlas.cleanCrossing", "itemBase")
+            base.anchor.setTo(0.5)
+            base.gamePos = base.x
+            base.correct = false
+            base.inputEnabled = true
+            base.events.onInputDown.add(movePaz, this)
+            //base.x = game.world.width + 100
+        }
         
-        var purplePipe = sceneGroup.create(game.world.centerX + 50, 0, "atlas.wildFeed", "purplePipe")
-        purplePipe.anchor.setTo(0.5, 0)
-        purplePipe.scale.setTo(1.1)
-        
-        var greenPipe = sceneGroup.create(game.world.centerX - 130, 0, "atlas.wildFeed", "greenPipe")
-        greenPipe.anchor.setTo(0.5, 0)
-        greenPipe.scale.setTo(1.1)
+        var bottom = game.add.tileSprite(0, game.world.height, game.world.width, 240, "atlas.cleanCrossing", "bottom")
+        bottom.anchor.setTo(0, 1)
+        tileGroup.add(bottom)   
     }
 
 	function update(){
         
+        if(moveIt){
+            for(var j = 0; j < tileGroup.length; j++){
+                tileGroup.children[j].tilePosition.x -= (3 + j)
+            }
+        }
     }
     
 	function createTextPart(text,obj){
@@ -450,7 +433,7 @@ var wildFeed = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.wildFeed',key);
+        particle.makeParticles('atlas.cleanCrossing',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -477,7 +460,7 @@ var wildFeed = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.wildFeed',tag);
+				particle.makeParticles('atlas.cleanCrossing',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -533,7 +516,7 @@ var wildFeed = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.wildFeed','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.cleanCrossing','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -546,7 +529,7 @@ var wildFeed = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.wildFeed','smoke');
+        particlesGood.makeParticles('atlas.cleanCrossing','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -575,7 +558,7 @@ var wildFeed = function(){
         
         timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
-        //timerGroup.alpha = 0
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
@@ -603,6 +586,11 @@ var wildFeed = function(){
         timerGroup.tweenTiempo.onComplete.add(function(){
             gameActive = false
             stopTimer()
+            itemsBaseGroup.setAll("correct", false)
+            okBtn.setAll("tint", 0x606060)
+            gameActive = false
+            okBtn.active = false
+            win()
         })
     }
 	
@@ -624,8 +612,8 @@ var wildFeed = function(){
 
     function addCoin(){
         
-        coin.x = game.world.centerX
-        coin.y = game.world.centerY
+        coin.x = paz.centerX
+        coin.y = paz.centerY
         var time = 300
 
         game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
@@ -639,270 +627,189 @@ var wildFeed = function(){
         })
     }
     
-    function noahArk(){
+    function createAssets(){
         
-        animalsGroup = game.add.group()
-        sceneGroup.add(animalsGroup)
+        assetsGroup = game.add.group()
+        assetsGroup.x = game.world.width
+        assetsGroup.dirtySkins = ["car", "fire", "gas pipe", "motorcycle", "oil", "reactor", "stove"]
+        assetsGroup.cleanSkins = ["bicycle", "electric bus", "electric shower", "electric stove", "electric train", "electric train2", "solar panels"]
+        sceneGroup.add(assetsGroup)
         
-        for(var i = 0; i < 3; i++){
-            
-            var subGroup = game.add.group()
-            subGroup.tag = i
-            animalsGroup.add(subGroup)
-        }    
-        
-        var aux = 0
-        
-        for(var i = 0; i < 15; i++){
-            
-            if(i === 5 || i === 10)
-                aux++
-            
-            var anim = game.add.spine(game.world.width + 350, game.world.height - 180, assets.spines[i].name)
-            anim.scale.setTo(0.8)
-            anim.setAnimationByName(0, "IDLE", true)
-            anim.setSkinByName("normal")
-            animalsGroup.children[aux].add(anim)
-        }
-        
-        animalsGroup.children[0].children[3].y += 30
-        animalsGroup.children[0].children[4].y += 30
-        animalsGroup.children[1].children[2].y += 30
-        animalsGroup.children[2].children[0].y += 50
-        animalsGroup.children[2].children[4].y += 20
-        
-        emojys = game.add.spine(0, 0, "emojys")
-        emojys.scale.setTo(0.8)
-        emojys.alpha = 0
-        emojys.setAnimationByName(0, "CONFUCED", true)
-        emojys.setSkinByName("normal")
-    }
-    
-    function createText(){
-        
-        textGroup = game.add.group()
-        textGroup.alpha = 0
-        sceneGroup.add(textGroup)
-        
-        var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
-        
-        var container = textGroup.create(game.world.centerX, game.world.centerY + 150, "atlas.wildFeed", "container")
-        container.anchor.setTo(0.5)
-        
-        var name = new Phaser.Text(sceneGroup.game, container.centerX, container.centerY + 10, '', fontStyle)
-        name.anchor.setTo(0.5)
-        //name.setText('')
-        textGroup.add(name)
-        textGroup.text = name
-        
-        if(localization.getLanguage() === 'EN'){
-            textGroup.words = ["Herbivorous", "Omnivores", "Carnivorous"]
-        }
-        else{
-            textGroup.words = ["Herbívoros", "Omnívoros", "Carnívoros"]
+        for(var i = 0; i < 4; i++){
+            var anim = game.add.spine(itemsBaseGroup.children[i].centerX, itemsBaseGroup.children[i].centerY + 20, "assets")
+            anim.gamePos = itemsBaseGroup.children[i].gamePos
+            anim.setAnimationByName(0, "idle3", true)
+            anim.setSkinByName("car")
+            assetsGroup.add(anim)  
         }
     }
     
-    function superSizeMe(){
+    function createOk(){
         
-        var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
-        
-        var board = sceneGroup.create(0, game.world.height, "atlas.wildFeed", "board")
-        board.anchor.setTo(0, 1)
-        board.width = game.world.width
-        
-        var name = ["green", "blue", "purple"]
-        var pivot = -1
-        
-        buttonsGroup = game.add.group()
-        buttonsGroup.posX = []
-        sceneGroup.add(buttonsGroup)
-        
-        var buttonsName = game.add.group()
-        
-        for(var i = 0; i < name.length; i++){
+        okBtn = game.add.group()
+        okBtn.active = false
+        sceneGroup.add(okBtn)
             
-            var button = buttonsGroup.create(board.centerX + (200 * pivot), board.centerY - 15, "atlas.wildFeed", name[i])
-            button.anchor.setTo(0.5)
-            button.tag = i
-            button.inputEnabled = true
-            button.events.onInputDown.add(feedThem, this)
-            button.text
-            pivot++
-            buttonsGroup.posX[buttonsGroup.posX.length] = button.x
-            
-            var text = new Phaser.Text(sceneGroup.game, button.centerX, button.centerY + 30, textGroup.words[i], fontStyle)
-            text.anchor.setTo(0.5, 0)
-            //text.setText('')
-            buttonsName.add(text)
-        }
+        var okOn = okBtn.create(game.world.centerX, game.world.height - 180, "atlas.cleanCrossing", "Ok_on")
+        okOn.alpha = 0
+        okOn.anchor.setTo(0.5)
         
-        buttonsGroup.setAll("tint", 0x606060)
+        var okOff = okBtn.create(game.world.centerX, game.world.height - 180, "atlas.cleanCrossing", "Ok_off")
+        okOff.anchor.setTo(0.5)
+        okOff.inputEnabled = true
+        okOff.events.onInputDown.add(okPressed, this)
+        okOff.events.onInputUp.add(okRelessed, this)
         
-        var meat = sceneGroup.create(game.world.centerX + 50, game.world.centerY + 50, "atlas.wildFeed", "meat")
-        meat.anchor.setTo(0.5)
-        meat.scale.setTo(1.5)
-        meat.alpha = 0
-        
-        var vegan = sceneGroup.create(game.world.centerX - 130, game.world.centerY + 50, "atlas.wildFeed", "vegan")
-        vegan.anchor.setTo(0.5)
-        vegan.scale.setTo(1.5)
-        vegan.alpha = 0
-       
-        buttonsGroup.children[0].food = vegan
-        buttonsGroup.children[2].food = meat
-        
-        buttonsGroup.add(buttonsName)
-        buttonsGroup.buttonsName = buttonsName
+        okBtn.setAll("tint", 0x606060)
     }
     
-    function feedThem(btn){
+    function okPressed(btn){
+        
+        if(gameActive && okBtn.active){
+            changeImage(0, okBtn)
+            okBtn.setAll("tint", 0x606060)
+            gameActive = false
+            okBtn.active = false
+            win()
+        }
+    }
+    
+    function okRelessed(btn){
+        
+        changeImage(1, okBtn)
+    }
+    
+    function peaceMaker(){
+        
+        paz = game.add.spine(150, game.world.centerY + 50, "paz")
+        paz.scale.setTo(0.5)
+        paz.setAnimationByName(0, "idle", true)
+        paz.setSkinByName("normal")
+        sceneGroup.add(paz)            
+    }
+    
+    function movePaz(base){
         
         if(gameActive){
-            
-            gameActive = false
-            sound.play("pop")
-            buttonsGroup.setAll("tint", 0x606060)
-            var ans
-            
-            if(btn.tag === animalsGroup.children[rand].tag){
-                ans = true
-            }
-            else{
-                ans = false
-            }
-            
-            if(btn.food){
-                btn.food.alpha = 1
-                game.add.tween(btn.food).from({y: game.world.centerY - 200}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
-                    btn.food.alpha = 0
-                    win(ans, btn.food)
-                })
-            }
-            else{
-                btn.parent.children[0].food.alpha = 1
-                btn.parent.children[2].food.alpha = 1
-                game.add.tween(btn.parent.children[0].food).from({y: game.world.centerY - 200}, 800, Phaser.Easing.linear, true)
-                game.add.tween(btn.parent.children[2].food).from({y: game.world.centerY - 200}, 800, Phaser.Easing.linear, true).onComplete.add(function(){
-                    btn.parent.children[0].food.alpha = 0
-                    btn.parent.children[2].food.alpha = 0
-                    win(ans, btn.parent.children[0].food, btn.parent.children[2].food)
-                })
-            }
+            sound.play("cut")
+            itemsBaseGroup.setAll("correct", false)
+            base.correct = true
+            okBtn.setAll("tint", 0xffffff)
+            okBtn.active = true
+            game.add.tween(paz).to({y: base.centerY + 20}, 200, Phaser.Easing.linear, true)
         }
     }
     
-    function win(ans, obj1, obj2){
+    function win(){
         
-        var animal = animalsGroup.children[rand].children[index]
+        var ans = checkAnswer()
         
-        if(ans){
-            sound.play("rightChoice")
-            addCoin()
-            emojys.setAnimationByName(0, "HAPPY", true)
-            animal.setAnimationByName(0, "WIN", true)
-            particleCorrect.x = obj1.x - 20
-            particleCorrect.y = obj1.y
-            particleCorrect.start(true, 1200, null, 10)
-            
-            if(obj2){
-                particleCorrect.x = obj2.x - 20
-                particleCorrect.y = obj2.y
+        if(timeAttack){
+            stopTimer()
+        }
+        
+        moveIt = true
+        paz.setAnimationByName(0, "run", true)
+        game.add.tween(itemsBaseGroup).to({x: -game.world.width * 0.4}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(itemsBaseGroup).to({x: -game.world.width}, 1000, Phaser.Easing.linear, true)
+        })
+        game.add.tween(assetsGroup).to({x: -game.world.width * 0.4}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
+            if(ans === rand){
+                sound.play("rightChoice")
+                particleCorrect.x = paz.centerX
+                particleCorrect.y = paz.centerY
                 particleCorrect.start(true, 1200, null, 10)
             }
-        }
-        else{
-            missPoint()
-            emojys.setAnimationByName(0, "ANGRY", true)
-            animal.setAnimationByName(0, "LOSE", true)
-            particleWrong.x = obj1.x - 20
-            particleWrong.y = obj1.y
-            particleWrong.start(true, 1200, null, 10)
-            
-            if(obj2){
-                particleWrong.x = obj2.x - 20
-                particleWrong.y = obj2.y
+            else{
+                particleWrong.x = paz.centerX
+                particleWrong.y = paz.centerY
                 particleWrong.start(true, 1200, null, 10)
             }
-        }
+            game.add.tween(assetsGroup).to({x: -game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                moveIt = false
+                itemsBaseGroup.x = game.world.width
+                assetsGroup.x = game.world.width
+                if(ans === rand){
+                    addCoin()
+                    paz.setAnimationByName(0, "win", true)
+                }
+                else{
+                    missPoint()
+                    paz.setAnimationByName(0, "lose", true)
+                }
+                
+                if(pointsBar.number === 10){
+                    game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
+                    timeAttack = true
+                }
+                
+                if(lives !== 0){
+                    game.time.events.add(1000,function(){
+                        initGame()
+                    },this)
+                }
+            })
+        })
+    }
+    
+    function checkAnswer(){
         
-        game.add.tween(textGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true).yoyo(true, 1000)
-        
-        if(lives !== 0){
-            game.time.events.add(1500,function(){
-                emojys.alpha = 0
-                animal.setAnimationByName(0, "WALK", true)
-                game.add.tween(animal).to({x: -250}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-                    animal.x = game.world.width + 350
-                    initGame()
-                })
-            },this)
+        for(var i = 0; i < itemsBaseGroup.length; i++){
+            
+            var obj = itemsBaseGroup.children[i]
+            if(obj.correct){
+                break
+            }
         }
+        return itemsBaseGroup.getIndex(obj)
     }
     
     function initGame(){
         
-        buttonsGroup.setAll("tint", 0x606060)
-        rand = getRand()
-        textGroup.text.setText(textGroup.words[rand])
-        index = game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
-        animalsGroup.setAll("alpha", 0)
-        animalsGroup.children[rand].alpha = 1
-        changeImage(index, animalsGroup.children[rand])
-        var animal = animalsGroup.children[rand].children[index]
-        animal.setAnimationByName(0, "WALK", true)
+        riddleMeThis()
         
-        var delay = 0
-        
-        game.add.tween(animal).to({x: game.world.centerX}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
-            animal.setAnimationByName(0, "IDLE", true)
-            emojys.x = game.world.centerX - animal.width * 0.7
-            emojys.y = game.world.height - 150 - animal.height * 0.9
-            if(pointsBar.number > 9){
-                delay = scramble()
-            }
-            game.time.events.add(delay,function(){
-                buttonsGroup.setAll("tint", 0xffffff)
-                emojys.alpha = 1
-                emojys.setAnimationByName(0, "CONFUCED", true)
+        game.time.events.add(1500,function(){
+            moveIt = true
+            paz.setAnimationByName(0, "run", true)
+            game.add.tween(paz).to({y: game.world.centerY + 50}, 1500, Phaser.Easing.linear, true)
+            game.add.tween(itemsBaseGroup).to({x: 0}, 1500, Phaser.Easing.linear, true)
+            game.add.tween(assetsGroup).to({x: 0}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
+                moveIt = false
+                paz.setAnimationByName(0, "uncomfotable", true)
+                if(timeAttack)
+                    startTimer(timer)
                 gameActive = true
-            },this)
-        })
+            })
+        },this)
+    }
+    
+    function riddleMeThis(){
+        
+        rand = getRand()
+        
+        for(var i = 0; i < assetsGroup.length; i++){
+            
+            if(i !== rand){
+                assetsGroup.children[i].setSkinByName(assetsGroup.dirtySkins[game.rnd.integerInRange(0, assetsGroup.dirtySkins.length-1)])
+            }
+            else{
+                assetsGroup.children[i].setSkinByName(assetsGroup.cleanSkins[game.rnd.integerInRange(0, assetsGroup.cleanSkins.length-1)])
+            }
+        }
     }
     
     function getRand(){
-        var x = game.rnd.integerInRange(0, 2)
+        var x = game.rnd.integerInRange(0, 3)
         if(x === rand)
             return getRand()
         else
             return x     
     }
-    
-    function scramble(){
-        
-        Phaser.ArrayUtils.shuffle(buttonsGroup.posX)
-                 
-        game.add.tween(buttonsGroup).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
-            
-            for(var i = 0; i < buttonsGroup.length - 1; i++){
-                buttonsGroup.children[i].x = buttonsGroup.posX[i]
-                buttonsGroup.buttonsName.children[i].x = buttonsGroup.posX[i]
-            }
-            
-            if(pointsBar.number > 19){
-                buttonsGroup.buttonsName.alpha = 0
-            }
-            
-            game.add.tween(buttonsGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
-        })
-        
-        return 1100
-    }
 	
 	return {
 		
 		assets: assets,
-		name: "wildFeed",
+		name: "cleanCrossing",
 		update: update,
         preload:preload,
         getGameData:function () {
@@ -915,9 +822,14 @@ var wildFeed = function(){
 			
 			createBackground()
 			addParticles()
+                        			
+            /*cleanSong = game.add.audio('cleanSong')
+            game.sound.setDecodedCallback(cleanSong, function(){
+                cleanSong.loopFull(0.6)
+            }, this);*/
             
             initialize()
-            wildSong = sound.play("wildSong", {loop:true, volume:0.6})
+            cleanSong = sound.play("cleanSong", {loop:true, volume:0.5})
             
             game.onPause.add(function(){
                 game.sound.mute = true
@@ -932,12 +844,13 @@ var wildFeed = function(){
 			createPointsBar()
 			createHearts()
             initCoin()
-            noahArk()
-            createText()
-            superSizeMe()
+            positionTimer()
+            createAssets()
+            createOk()
+            peaceMaker()
             createParticles()
 			
-			buttons.getButton(wildSong,sceneGroup)
+			buttons.getButton(cleanSong,sceneGroup)
             createTutorial()
             
             animateScene()

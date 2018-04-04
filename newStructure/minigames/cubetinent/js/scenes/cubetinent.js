@@ -45,10 +45,6 @@ var cubetinent = function(){
                 name:"punch",
                 file: soundsPath+"punch1.mp3"
             },
-            {
-                name:"trafficChange",
-                file: soundsPath+"flipCard.mp3"
-            }
         ],
         spines:[
             {
@@ -81,13 +77,14 @@ var cubetinent = function(){
 
     var OFFSET_YOGOTAR_CUBE = -30
     var OFFSET_LETTER = -50
-    var LETTER_PROBABILITY = 0.5
+    var LETTER_PROBABILITY = 0.3
+    var MAX_PROBABILITY_LETTER = 0.6
 
     var FALLING_TIME = 800
     var BLINK_TIMES = 3
     var TIME_BLINK = 400
 
-    var INITIAL_DIFFICULT = 2
+    var INITIAL_DIFFICULT = 1.5
     var DELTA_DIFFCULT = 0.1
     var MAX_DIFFICULT = 4
 
@@ -157,7 +154,7 @@ var cubetinent = function(){
     var lettersDifficult
 
     var currentCircleIndex 
-
+    var tutorialTimeout
 
 
 	function loadSounds(){
@@ -387,7 +384,8 @@ var cubetinent = function(){
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
         gameActive = true
-        //setRound()
+        hand.visible = true
+        evalTutorial()
 
     }
 
@@ -426,7 +424,28 @@ var cubetinent = function(){
     }
 
     function evalTutorial(){
+    	switch(inTutorial){
+    		case 6:
+    		hand.x = game.world.centerX+150
+    		break
+    		case 7:
+    		hand.x = game.world.centerX-150
+    		break
+    		case 8:
+    		hand.x = game.world.centerX+150
+    		break
+    		case 9:
+    		hand.visible = false
+    		inTutorial = -1
+    		return
+    		break
+    	}
+    	hand.loadTexture("atlas.game","handDown")
 
+    	tutorialTimeout = setTimeout(function(){
+    		hand.loadTexture("atlas.game","handUp")
+    		tutorialTimeout = setTimeout(evalTutorial,500)
+    	},500)
     }
     
     function update() {
@@ -440,9 +459,16 @@ var cubetinent = function(){
     function updateMove(){
 
 
-        if(yogotar.y < 0){
-            fall()
-        }
+    	if(inTutorial==-1){
+	        if(yogotar.y < 0){
+	            fall()
+	        }
+	    }
+	    else{
+	    	 if(yogotar.y < INITIAL_Y){
+	    	 	return
+	    	 }
+	    }
 
 
         for(var index = 0; index < cubesGroup.length; index++){
@@ -471,6 +497,9 @@ var cubetinent = function(){
 
         if(lastCube.y < LIMIT_Y_CREATE_NEW_RAW){
             nextY = lastCube.y
+            if(LETTER_PROBABILITY < MAX_PROBABILITY_LETTER){
+            	LETTER_PROBABILITY+=0.1
+            }
             setSquaresLine()
         }
 
@@ -567,9 +596,25 @@ var cubetinent = function(){
         if(yogotar.y > game.world.height - (DELTA_QUAD*2)){
             return
         }
-        /*if(yogotar.y < INITIAL_Y){
-            yogotar.y = INITIAL_Y
-        }*/
+
+        if(inTutorial!=-1){
+
+        	if(!((hand.x > game.world.centerX && direction==1) || (hand.x < game.world.centerX && direction==-1))){
+        		return
+        	}
+
+
+        	if(yogotar.y < INITIAL_Y){
+        		yogotar.y = INITIAL_Y
+        	}
+        }
+
+        if(hand.visible){
+        	inTutorial++
+        	clearTimeout(tutorialTimeout)
+        	evalTutorial()
+        }
+
         yogotar.inFallinCube = null
         yogotar.scale.setTo(direction*1,1)
         yogotar.setAnimationByName(0,"jump",false)
@@ -702,7 +747,7 @@ var cubetinent = function(){
 
             random = game.rnd.frac()
             if(canGetLetter){
-                if(random < LETTER_PROBABILITY || nextRawNum == 2){
+                if(random < LETTER_PROBABILITY || nextRawNum == 2 || (inTutorial!=-1 && inTutorial<6)){
                     var correct
                     if(nextLetterCorrect!=null){
                         correct = !nextLetterCorrect
@@ -718,6 +763,31 @@ var cubetinent = function(){
                         }
                         nextLetterCorrect = correct
                     }
+
+                    if(inTutorial!=-1 && inTutorial<6){
+                    	switch(inTutorial){
+                    		case 0:
+                    		correct = false
+                    		break
+                    		case 1:
+                    		correct = true
+                    		break
+                    		case 2:
+                    		correct = false
+                    		break
+                    		case 3:
+                    		correct = false
+                    		break
+                    		case 4:
+                    		correct = true
+                    		break
+                    		case 5:
+                    		correct = false
+                    		break
+                    	}
+                    	inTutorial++
+                    }
+
                     var value = getRandomLetter(correct)
                     var letter = getLetter(initPos + (DELTA_QUAD*index), nextY+OFFSET_LETTER, value)
                     cube.haveLetter = letter
@@ -743,6 +813,9 @@ var cubetinent = function(){
 
     function getRandomLetter(correct){
         if(correct){
+        	if(temporalCorrectLetters.length == 0){
+                temporalCorrectLetters = currentLetters.slice()
+            }
             var index = game.rnd.integerInRange(0,temporalCorrectLetters.length-1)
             var value = temporalCorrectLetters[index].letter
             temporalCorrectLetters.splice(index,1)
@@ -755,6 +828,22 @@ var cubetinent = function(){
         else{
             return totalLetters[game.rnd.integerInRange(0,totalLetters.length-1)]
         }
+    }
+
+    function removeLetter(letter){
+    	for(var i = 0; i < temporalCorrectLetters; i ++){
+    		if(temporalCorrectLetters[i].letter == letter){
+    			temporalCorrectLetters.splice(i,1)
+    			break
+    		}
+    	}
+
+    	for(var i = 0; i < currentLetters; i ++){
+    		if(currentLetters[i].letter == letter){
+    			currentLetters.splice(i,1)
+    			break
+    		}
+    	}
     }
 
     function getNormalCube(x,y){
@@ -980,7 +1069,7 @@ var cubetinent = function(){
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
-        hand = sceneGroup.create(0,0,'atlas.game','handUp')
+        hand = sceneGroup.create(0,game.world.centerY+100,'atlas.game','handUp')
         hand.anchor.setTo(0.5)
         hand.visible = false
 

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.3</string>
         <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/wildFeed/images/wildFeed/atlasbase.tps</string>
+        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/cleanCrossing/images/cleanCrossing/atlasbase.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -110,7 +110,7 @@
             <key>sizeConstraints</key>
             <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
             <key>forceSquared</key>
-            <true/>
+            <false/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -183,71 +183,56 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">blue.png</key>
-            <key type="filename">green.png</key>
-            <key type="filename">purple.png</key>
+            <key type="filename">Ok_off.png</key>
+            <key type="filename">Ok_on.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>35,32,70,63</rect>
+                <rect>32,17,64,33</rect>
                 <key>scale9Paddings</key>
-                <rect>35,32,70,63</rect>
+                <rect>32,17,64,33</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">board.jpg</key>
+            <key type="filename">back.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,49,271,97</rect>
+                <rect>135,64,271,128</rect>
                 <key>scale9Paddings</key>
-                <rect>135,49,271,97</rect>
+                <rect>135,64,271,128</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">container.png</key>
+            <key type="filename">bottom.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>111,23,221,46</rect>
+                <rect>135,60,271,120</rect>
                 <key>scale9Paddings</key>
-                <rect>111,23,221,46</rect>
+                <rect>135,60,271,120</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">greenPipe.png</key>
-            <key type="filename">purplePipe.png</key>
+            <key type="filename">itemBase.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>34,63,67,127</rect>
+                <rect>41,25,81,50</rect>
                 <key>scale9Paddings</key>
-                <rect>34,63,67,127</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">highlight.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>25,20,51,39</rect>
-                <key>scale9Paddings</key>
-                <rect>25,20,51,39</rect>
+                <rect>41,25,81,50</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -264,16 +249,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">meat.png</key>
+            <key type="filename">row.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>19,15,37,29</rect>
+                <rect>169,17,337,33</rect>
                 <key>scale9Paddings</key>
-                <rect>19,15,37,29</rect>
+                <rect>169,17,337,33</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -291,7 +276,6 @@
                 <false/>
             </struct>
             <key type="filename">star.png</key>
-            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -304,16 +288,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">vegan.png</key>
+            <key type="filename">top.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>15,16,30,31</rect>
+                <rect>135,29,271,58</rect>
                 <key>scale9Paddings</key>
-                <rect>15,16,30,31</rect>
+                <rect>135,29,271,58</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -336,18 +320,14 @@
             <filename>life_box.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>board.jpg</filename>
-            <filename>highlight.png</filename>
-            <filename>greenPipe.png</filename>
-            <filename>purplePipe.png</filename>
-            <filename>meat.png</filename>
-            <filename>vegan.png</filename>
-            <filename>blue.png</filename>
-            <filename>green.png</filename>
-            <filename>purple.png</filename>
-            <filename>container.png</filename>
+            <filename>itemBase.png</filename>
+            <filename>top.png</filename>
+            <filename>row.png</filename>
+            <filename>back.png</filename>
+            <filename>bottom.png</filename>
+            <filename>Ok_on.png</filename>
+            <filename>Ok_off.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

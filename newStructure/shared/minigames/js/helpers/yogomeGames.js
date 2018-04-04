@@ -205,6 +205,7 @@ var yogomeGames = function () {
             {name:'Wild Feed',url:urlSet + 'wildFeed/',mapUrl:urlMap + 'wildFeed', sceneName:'wildFeed',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//175
             {name:'Cubetinent',url:urlSet + 'cubetinent/',mapUrl:urlMap + 'cubetinent', sceneName:'cubetinent',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//176
             {name:'Color Invaders',url:urlSet + 'colorInvaders/',mapUrl:urlMap + 'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//177
+            {name:'Clean Crossing',url:urlSet + 'cleanCrossing/',mapUrl:urlMap + 'cleanCrossing', sceneName:'cleanCrossing',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//178
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
