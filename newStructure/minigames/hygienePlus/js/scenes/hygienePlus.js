@@ -277,7 +277,6 @@ var hygienePlus = function(){
     function generateRandomTextandOrder(){
         
         randomAction=game.rnd.integerInRange(minValue,3);
-        
         for(var startPositions=0; startPositions<maxValue+1; startPositions){
             randomWords=game.rnd.integerInRange(minValue,maxValue);
             if(choices[randomWords]!=-1){
@@ -365,9 +364,9 @@ var hygienePlus = function(){
             
             sink.alpha=0;
             if(localization.getLanguage()=="ES"){
-                textInBoxAnswer.x=textBox.centerX-30;
+                textInBoxAnswer.x=textBox.centerX-40;
             }else{
-                textInBoxAnswer.x=textBox.centerX+70;
+                textInBoxAnswer.x=textBox.centerX+80;
             }
             bath.alpha=1;
             soapOrToothPaste.alpha=0;
@@ -381,7 +380,7 @@ var hygienePlus = function(){
             if(localization.getLanguage()=="ES"){
                 textInBoxAnswer.x=textBox.centerX-30;
             }else{
-                textInBoxAnswer.x=textBox.centerX-50;
+                textInBoxAnswer.x=textBox.centerX-45;
             }
             soapOrToothPaste.y=sink.centerY-50;
             oof.x=game.world.centerX-100;
@@ -393,9 +392,9 @@ var hygienePlus = function(){
             soapOrToothPaste.alpha=1;
             soapOrToothPaste.y=sink.centerY-50;
             if(localization.getLanguage()=="ES"){
-                textInBoxAnswer.x=textBox.centerX-30;
+                textInBoxAnswer.x=textBox.centerX-40;
             }else{
-                textInBoxAnswer.x=textBox.centerX-50;
+                textInBoxAnswer.x=textBox.centerX-45;
             }
             oof.x=game.world.centerX-100;
             oof.y=game.world.centerY+330;
@@ -408,7 +407,7 @@ var hygienePlus = function(){
             if(localization.getLanguage()=="ES"){
                 textInBoxAnswer.x=textBox.centerX-30;
             }else{
-                textInBoxAnswer.x=textBox.centerX-50;
+                textInBoxAnswer.x=textBox.centerX-45;
             }
             oof.x=game.world.centerX-100;
             oof.y=game.world.centerY+330;
@@ -461,17 +460,54 @@ var hygienePlus = function(){
             
             if(localization.getLanguage()=="ES"){
                 if(textInBoxAnswer.text==correctChoicesES[checkCorrect]){
-                    Coin(oof,pointsBar,delayDefault);
+                    game.time.events.add(timeForEvent-400,function(){
+                        textInBox1Final.tint=0x00ff00;
+                        game.time.events.add(timeForEvent-400,function(){
+                            if(randomAction!=0){
+                                textInBox2Final.tint=0x00ff00;
+                                game.time.events.add(timeForEvent-400,function(){
+                                    textInBoxAnswer.tint=0x00ff00;
+                                    Coin(textInBoxAnswer,pointsBar,delayDefault);
+                                    reset()
+                                })
+                            }else{
+                                textInBoxAnswer.tint=0x00ff00;
+                                Coin(textInBoxAnswer,pointsBar,delayDefault);
+                                reset()
+                            }
+                        })
+                    })
+                    
                     itsCorrect=true;
                 }
             }else{
                 if(textInBoxAnswer.text==correctChoicesEN[checkCorrect]){
-                    Coin(oof,pointsBar,delayDefault);
+                   game.time.events.add(timeForEvent-400,function(){
+                        textInBox1Final.tint=0x00ff00;
+                        game.time.events.add(timeForEvent-400,function(){
+                            if(randomAction!=0){
+                                textInBox2Final.tint=0x00ff00;
+                                game.time.events.add(timeForEvent-400,function(){
+                                    textInBoxAnswer.tint=0x00ff00;
+                                    Coin(textInBoxAnswer,pointsBar,delayDefault);
+                                    reset()
+                                })
+                            }else{
+                                textInBoxAnswer.tint=0x00ff00;
+                                Coin(textInBoxAnswer,pointsBar,delayDefault);
+                                reset()
+                            }
+                        })
+                    })
                     itsCorrect=true;
                 }
             }
         }
         if(!itsCorrect){
+            
+            
+            
+            
             if(btnChoosed==1){
                 game.add.tween(text1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
                 game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
@@ -481,21 +517,36 @@ var hygienePlus = function(){
                         game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
                             game.add.tween(text1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
                                 game.add.tween(btn1).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
-                        
-                        
-                        game.time.events.add(timeForEvent-200,function(){
-                            if(localization.getLanguage()=="ES"){
-                                textInBoxAnswer.text=correctChoicesES[randomAction];
-                            }else{
-                                textInBoxAnswer.text=correctChoicesEN[randomAction];
-                            }
-                        })
-                        game.add.tween(btn1).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
-                        game.add.tween(text1).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
-                        game.time.events.add(timeForEvent,function(){
-                            missPoint();
-                            reset();
-                                })
+                                    game.add.tween(btn1).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
+                                    game.add.tween(text1).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
+                                    game.time.events.add(timeForEvent-400,function(){
+                                        textInBox1Final.tint=0x00ff00;
+                                        game.time.events.add(timeForEvent-400,function(){
+                                            if(randomAction!=0){
+                                                textInBox2Final.tint=0x00ff00;
+                                                game.time.events.add(timeForEvent-400,function(){
+                                                    textInBoxAnswer.tint=0xff0000;
+                                                    if(localization.getLanguage()=="ES"){
+                                                        textInBoxAnswer.text=correctChoicesES[randomAction];
+                                                    }else{
+                                                        textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                                    }
+                                                    missPoint()
+                                                    reset()
+                                                })
+                                            }else{
+                                                textInBoxAnswer.tint=0xff0000;
+                                                if(localization.getLanguage()=="ES"){
+                                                    textInBoxAnswer.text=correctChoicesES[randomAction];
+                                                }else{
+                                                    textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                                }
+                                                missPoint()
+                                                reset()
+                                            }
+
+                                        })
+                                    })
                             })
                         })
                     })
@@ -511,18 +562,34 @@ var hygienePlus = function(){
                         game.add.tween(btn2).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
                             game.add.tween(text2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
                             game.add.tween(btn2).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
-                        game.time.events.add(timeForEvent-200,function(){
-                            if(localization.getLanguage()=="ES"){
-                                textInBoxAnswer.text=correctChoicesES[randomAction];
-                            }else{
-                                textInBoxAnswer.text=correctChoicesEN[randomAction];
-                            }
-                        })
-                        game.add.tween(btn2).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
-                        game.add.tween(text2).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
-                        game.time.events.add(timeForEvent,function(){
-                            missPoint();
-                            reset();
+                                game.add.tween(btn2).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2);
+                                game.add.tween(text2).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming*2)
+                                game.time.events.add(timeForEvent-400,function(){
+                                            textInBox1Final.tint=0x00ff00;
+                                            game.time.events.add(timeForEvent-400,function(){
+                                                if(randomAction!=0){
+                                                    textInBox2Final.tint=0x00ff00;
+                                                game.time.events.add(timeForEvent-400,function(){
+                                                    textInBoxAnswer.tint=0xff0000;
+                                                    if(localization.getLanguage()=="ES"){
+                                                        textInBoxAnswer.text=correctChoicesES[randomAction];
+                                                    }else{
+                                                        textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                                    }
+                                                        missPoint()
+                                                        reset()
+                                                })
+                                            }else{
+                                                textInBoxAnswer.tint=0xff0000;
+                                                if(localization.getLanguage()=="ES"){
+                                                    textInBoxAnswer.text=correctChoicesES[randomAction];
+                                                }else{
+                                                    textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                                }
+                                                    missPoint()
+                                                    reset()
+                                            }
+                                    })
                                 })
                             })
                         })
@@ -538,28 +605,41 @@ var hygienePlus = function(){
                         game.add.tween(btn3).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
                             game.add.tween(text3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
                             game.add.tween(btn3).to({angle: -20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2).onComplete.add(function(){
-                        game.time.events.add(timeForEvent-200,function(){
-                            if(localization.getLanguage()=="ES"){
-                                textInBoxAnswer.text=correctChoicesES[randomAction];
-                            }else{
-                                textInBoxAnswer.text=correctChoicesEN[randomAction];
-                            }
-                        })
-                        game.add.tween(btn3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2);
-                        game.add.tween(text3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
-                        game.time.events.add(timeForEvent,function(){
-                            missPoint();
-                            reset();
+                                game.add.tween(btn3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2);
+                                game.add.tween(text3).to({angle: 0}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/2)
+                                game.time.events.add(timeForEvent-400,function(){
+                                    textInBox1Final.tint=0x00ff00;
+                                    game.time.events.add(timeForEvent-400,function(){
+                                        if(randomAction!=0){
+                                            textInBox2Final.tint=0x00ff00;
+                                            game.time.events.add(timeForEvent-400,function(){
+                                                textInBoxAnswer.tint=0xff0000;
+                                                if(localization.getLanguage()=="ES"){
+                                                textInBoxAnswer.text=correctChoicesES[randomAction];
+                                                }else{
+                                                    textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                                }
+                                                missPoint()
+                                                reset()
+                                            })
+                                        }else{
+                                            textInBoxAnswer.tint=0xff0000;
+                                            if(localization.getLanguage()=="ES"){
+                                                textInBoxAnswer.text=correctChoicesES[randomAction];
+                                            }else{
+                                                textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                            }
+                                            missPoint()
+                                            reset()
+                                        }
+                                    })
                                 })
                             })
                         })
                     })
                 })
             }
-        }else{
-            reset();
         }
-        
     }
 
     function onClickPlay(rect) {
@@ -973,9 +1053,13 @@ var hygienePlus = function(){
         bathCourtain.alpha=1;
         game.add.tween(bathCourtain.scale).to({x:1.1,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
             generateRandomTextandOrder();
+            textInBox1Final.tint=0xffffff;
+            textInBox2Final.tint=0xffffff;
+            textInBoxAnswer.tint=0xffffff;
             game.add.tween(bathCourtain.scale).to({x:0,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
                 if(pointsBar.text._text>=3)startTimer(timer);
                 canChoose=false;
+                
             })
         })
         
