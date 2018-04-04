@@ -347,9 +347,9 @@ var hygienePlus = function(){
             choices[resetValues]=resetValues;
         }
         prepareScenario();
-        if(tutoLvl1){
+        if(tutoLvl1 && (pointsBar.text._text==0 || pointsBar.text._text==3)){
             startTutorial();
-            tutoLvl1=false;
+            if(pointsBar.text._text==3)tutoLvl1=false;
         }else{
             hand.alpha=0;
         }
@@ -386,6 +386,7 @@ var hygienePlus = function(){
                     hand.y=btn3.centerY+30;
                 }
             }
+            hand.alpha=1;
             
         }
         
