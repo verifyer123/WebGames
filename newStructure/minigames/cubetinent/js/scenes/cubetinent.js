@@ -535,11 +535,7 @@ var cubetinent = function(){
                 if(inTutorial!=-1){
                     hand.visible = true
                 }
-
-
                 evaluateJump()
-
-
             }
         }
     }
