@@ -482,7 +482,7 @@ var dojo = function(){
             group.y = pivotY
             cardsGroup.add(group)
             
-            var textColor = "#000000"
+            var textColor = "#420000"
             var textAdd = 'Clear'
             
             var multiple = i+1
@@ -619,7 +619,7 @@ var dojo = function(){
         boardImage.width*=1.1
         boardImage.anchor.setTo(0.5,0.5)
         
-        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#420000", align: "center"}
         
         var pointsText = new Phaser.Text(sceneGroup.game, boardImage.width * 0.27, 20, 0, fontStyle)
         pointsText.initialX = pointsText.x
@@ -658,7 +658,7 @@ var dojo = function(){
 
                 if((i+1) % 2 == 0){
 
-                    var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+                    var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#420000", align: "center"}
 
                     var pointsText = new Phaser.Text(sceneGroup.game, pivotX, 0 , itemText[i], fontStyle)
                     pointsText.anchor.setTo(0.5,0.5)
