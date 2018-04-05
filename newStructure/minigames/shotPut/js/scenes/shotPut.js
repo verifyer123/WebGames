@@ -358,24 +358,30 @@ var shotPut = function(){
 
 	function createBackground(){
         
-        lawn =  sceneGroup.create(game.world.centerX, game.world.centerY - 202, "atlas.shotPut", "lawn")
+        var box = game.add.graphics(0, 0)
+        box.beginFill(0x9BC6EF)
+        box.drawRect(0, 0, game.world.width, 200)
+        sceneGroup.add(box)
+        
+        var lawn =  sceneGroup.create(game.world.centerX, game.world.centerY - 202, "atlas.shotPut", "lawn")
         lawn.anchor.setTo(0.5, 0)
         lawn.scale.setTo(game.world.width, 1)
             
-        colosseum = sceneGroup.create(game.world.centerX, game.world.centerY - 265, "atlas.shotPut", "colosseum")
-        colosseum.anchor.setTo(0.5, 0.5)
+        var colosseum = sceneGroup.create(game.world.centerX, game.world.centerY - 265, "atlas.shotPut", "colosseum")
+        colosseum.anchor.setTo(0.5)
         colosseum.scale.setTo(1, 0.8)
+        colosseum.width = game.world.width * 1.2
         
-        cloud = sceneGroup.create(game.world.centerX - 250, 35, "atlas.shotPut", "cloud")
-        cloud.anchor.setTo(0.5, 0.5)
+        var cloud = sceneGroup.create(game.world.centerX - 250, 35, "atlas.shotPut", "cloud")
+        cloud.anchor.setTo(0.5)
         cloud.scale.setTo(0.7, 0.7)
         
         cloud = sceneGroup.create(game.world.centerX + 150, 35, "atlas.shotPut", "cloud")
-        cloud.anchor.setTo(0.5, 0.5)
+        cloud.anchor.setTo(0.5)
         cloud.scale.setTo(0.8, 0.8)
         
-        grass = sceneGroup.create(game.world.centerX + 180, game.world.centerY - 175, "atlas.shotPut", "grass1")
-        grass.anchor.setTo(0.5, 0.5)
+        var grass = sceneGroup.create(game.world.centerX + 180, game.world.centerY - 175, "atlas.shotPut", "grass1")
+        grass.anchor.setTo(0.5)
         grass.scale.setTo(0.6, 0.6)
         
         grass = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 175, "atlas.shotPut", "grass1")
@@ -394,11 +400,11 @@ var shotPut = function(){
         grass.anchor.setTo(0.5, 0.5)
         //grass.scale.setTo(0.8, 0.8)
         
-        platform = sceneGroup.create(game.world.centerX, game.world.height, "atlas.shotPut", "platform")
+        var platform = sceneGroup.create(game.world.centerX, game.world.height, "atlas.shotPut", "platform")
         platform.anchor.setTo(0.5, 1)
         platform.scale.setTo(0.9, 0.9)
         
-        target = sceneGroup.create(game.world.centerX + 200, game.world.centerY - 130, "atlas.shotPut", "target")
+        var target = sceneGroup.create(game.world.centerX + 200, game.world.centerY - 130, "atlas.shotPut", "target")
         target.anchor.setTo(0.5)
         //target.scale.setTo(0.9, 0.9)
         
