@@ -166,16 +166,16 @@ var hygienePlus = function(){
     var randomAction=0;
     var randomWords=0;
     var correctChoicesEN= [
-        "BATHING",
-        "CLEANING",
-        "COMBING",
-        "WASHING"
+        "bathing",
+        "cleaning",
+        "combing",
+        "washing"
     ];
     var correctChoicesES= [
-        "Bañando",
-        "Limpiando",
-        "Peinando",
-        "Lavando"
+        "bañando",
+        "limpiando",
+        "peinando",
+        "lavando"
     ];
     var selectedChoice=null;
     var oofsActions=[
@@ -226,32 +226,32 @@ var hygienePlus = function(){
         delayerTimer=2500;
         fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         listofActionsEN = [
-          ["Bath", "Nap", "Cat"],
-          ["Washing","Eating" , "Warming"],
-          ["Combing","Brushed", "Warming"],
-          ["Brushing", "Walking","Watching"]
+          ["taking", "eating", "walking"],
+          ["washing","eating" , "watching"],
+          ["combing","walking", "warming"],
+          ["brushing", "walking","watching"]
         ];
         listofActionsES = [
-          ["Bañando", "Vistiendo", "Comiendo"],
-          ["Lavando","Jugando" , "Aplaudiendo"],
-          ["Peinando","Mojando", "Lavando"],
-          ["Cepillando", "Divirtiendo","Saltando"]
+          ["bañando", "vistiendo", "comiendo"],
+          ["lavando","jugando" , "aplaudiendo"],
+          ["peinando","mojando", "secando"],
+          ["cepillando", "divirtiendo","saltando"]
         ];
         listofActionsESAlternative = [
-          ["Bañando", "Bañara", "Bañaba"],
-          ["Lavando","Lavará" , "Lavaba"],
-          ["Peinando","Peinaba", "Peinará"],
-          ["Cepillando", "Cepilla","Cepillará"]
+          ["bañando", "bañara", "bañaba"],
+          ["lavando","lavará" , "lavaba"],
+          ["peinando","peinaba", "peinará"],
+          ["cepillando", "cepilla","cepillará"]
         ];
         listofActionsENAlternative = [
-          ["Bath", "Bathing", "Bathed"],
-          ["Washing","Wash" , "Washed"],
-          ["Combing","Combed", "Comb"],
-          ["Brushing", "Brushed","Brush"]
+          ["taking", "took", "take"],
+          ["washing","wash" , "washed"],
+          ["combing","combed", "comb"],
+          ["brushing", "brushed","brush"]
         ];
         staticPhraseES="Oof se está";
         staticPhraseEN="Oof is";
-        staticPhraseENSpecial="Oof is taking a";
+        staticPhraseENSpecial="Oof is";
         staticPhraseEndingES=[
             "",
             "las manos.",
@@ -259,7 +259,7 @@ var hygienePlus = function(){
             "los dientes."
         ];
         staticPhraseEndingEN=[
-            "",
+            "a bath.",
             "his hands.",
             "his hair.",
             "his teeth."
@@ -267,16 +267,16 @@ var hygienePlus = function(){
         randomAction=0;
         randomWords=0;
         correctChoicesEN= [
-            "Bath",
-            "Washing",
-            "Combing",
-            "Brushing"
+            "taking",
+            "washing",
+            "combing",
+            "brushing"
         ];
         correctChoicesES= [
-            "Bañando",
-            "Lavando",
-            "Peinando",
-            "Cepillando"
+            "bañando",
+            "lavando",
+            "peinando",
+            "cepillando"
         ];
         selectedChoice=null;
         oofsActions=[
@@ -403,7 +403,7 @@ var hygienePlus = function(){
         }else{
             textInBox2Final.text=staticPhraseEndingEN[randomAction];
             if(randomAction==0){
-                graphics.x=100;
+                graphics.x=-20;
                 textInBox1Final.text=staticPhraseENSpecial;
             }else{
                 graphics.x=-20
@@ -417,7 +417,7 @@ var hygienePlus = function(){
             if(localization.getLanguage()=="EN"){
                 textInBoxAnswer.x=textBox.centerX-20;
             }else{
-                textInBoxAnswer.x=textBox.centerX+80;
+                textInBoxAnswer.x=textBox.centerX-45;
             }
             bath.alpha=1;
             soapOrToothPaste.alpha=0;
