@@ -47,10 +47,10 @@ var ordersUp = function(){
     var MAX_PRODUCTS_PER_TYPE = 3
     var PRODUCT_TYPES = 3
 
-    var INITIAL_DIFFICULT = 1.8
-    var DELTA_DIFFICULT = 0.1
+    var INITIAL_DIFFICULT = 3
+    var DELTA_DIFFICULT = 0.13
     var MAX_DIFFICULT = 6
-    var BOSS_DIFFICULT = 10
+    var BOSS_DIFFICULT = 9
     var BOSS_PROBABILIY = 0.3
     var PEOPLE_TO_BOSS = 5
 
@@ -61,7 +61,7 @@ var ordersUp = function(){
     var VELOCITY_PEOPLE = 1
 
     var DELTA_IN_SECUENCE = 40
-    var DELTA_IN_SECUENCE_BOSS = 25
+    var DELTA_IN_SECUENCE_BOSS = 35
 
     var NUMBER_SECUENCE_TO_CHANGE_STATION = 5
 
@@ -80,6 +80,10 @@ var ordersUp = function(){
     var PEOPLE_X_DELTA = 60
 
     var COIN_BY_BOOSS = 3
+
+    var BALLON_SCALE = 1.5
+
+    var BALLOON_TRANSITION = 100
     
     var gameIndex = 26
     var gameId = 100003
@@ -411,8 +415,8 @@ var ordersUp = function(){
                 currentPeopleArray.splice(0,1)
                 gameActive = true
                 secuencePublish = false
-                ballonGroup.scale.setTo(1,1)
-                game.add.tween(ballonGroup.scale).to({x:0,y:0},200,Phaser.Easing.linear,true)
+                ballonGroup.scale.setTo(BALLON_SCALE)
+                game.add.tween(ballonGroup.scale).to({x:0,y:0},BALLOON_TRANSITION,Phaser.Easing.linear,true)
                 for(var i = 0 ; i < secuence.length; i++){
                     secuence.children[i].visible = false
                 }
@@ -505,7 +509,7 @@ var ordersUp = function(){
             }
         }
         else{
-            if(currentPeopleArray.length>0 && ballonGroup.scale.x == 0){
+            if(currentPeopleArray.length>0 && ballonGroup.scale.x < 0.5){
                 if(currentPeopleArray[0].y > Y_PERSON_SECUENCE){
                     setSecuence(currentPeopleArray[0].isBoos)
                     secuencePublish = true
@@ -528,7 +532,7 @@ var ordersUp = function(){
         button.loadTexture("atlas.game","boton_on")
         button.line.loadTexture("atlas.game","boton_on_linea")
         button.productImage.y = 0
-        if(ballonGroup.scale.x < 0.9 || !gameActive){
+        if(ballonGroup.scale.x < BALLON_SCALE-0.1 || !gameActive){
             return
         }
 
@@ -575,8 +579,8 @@ var ordersUp = function(){
 
 
                 secuencePublish = false
-                ballonGroup.scale.setTo(1,1)
-                game.add.tween(ballonGroup.scale).to({x:0,y:0},200,Phaser.Easing.linear,true)
+                ballonGroup.scale.setTo(BALLON_SCALE)
+                game.add.tween(ballonGroup.scale).to({x:0,y:0},BALLOON_TRANSITION,Phaser.Easing.linear,true)
 
             }
             else{
@@ -716,8 +720,8 @@ var ordersUp = function(){
 
 
     function setSecuence(isBoos){
-
-        game.add.tween(ballonGroup.scale).from({x:0,y:0}).to({x:1,y:1},200,Phaser.Easing.linear,true)
+        ballonGroup.scale.setTo(0)
+        game.add.tween(ballonGroup.scale).to({x:BALLON_SCALE,y:BALLON_SCALE},BALLOON_TRANSITION,Phaser.Easing.linear,true)
 
         var difficultRounded = Math.floor(currentDifficult)
         if(isBoos){
@@ -734,7 +738,11 @@ var ordersUp = function(){
         for(var i = 0; i < difficultRounded; i++){
             currentSecuence.push(game.rnd.integerInRange(1,MAX_PRODUCTS_PER_TYPE))
         }
-
+        var scale = (difficultRounded/10)+0.05
+        if(scale < 0.3){
+            scale = 0.3
+        }
+        ballonGroup.ballon.scale.setTo(scale,1)
 
         secuence.isBoos = isBoos
         secuence.needProducts = difficultRounded
@@ -811,15 +819,6 @@ var ordersUp = function(){
         sceneGroup.add(backgroundBackFloor)
 
 
-
-        /*var peopleGroup 
-        for(var i = 0; i < PEOPLE_TYPES; i++){
-            peopleGroup = game.add.group()
-            peopleGroup.x = game.world.centerX
-            sceneGroup.add(peopleGroup)
-            peopleList.push(peopleGroup)
-        }*/
-
         peopleList = game.add.group()
         peopleList.x = game.world.centerX
         sceneGroup.add(peopleList)
@@ -867,7 +866,7 @@ var ordersUp = function(){
         tileSpriteLine.y = 116
         sceneGroup.add(tileSpriteLine)
 
-        var door = sceneGroup.create(game.world.centerX,0,"atlas.game","Entrada")
+        var door = sceneGroup.create(game.world.centerX,-2,"atlas.game","Entrada")
         door.anchor.setTo(0.5,0)
         sceneGroup.add(door)
 
@@ -879,30 +878,7 @@ var ordersUp = function(){
         circleDecoration.anchor.setTo(0.5)
 
 
-        secuence = game.add.group()
-        ballonGroup = game.add.group()
-        ballonGroup.x = game.world.centerX+60
-        ballonGroup.y = -100
-        ballonGroup.scale.setTo(0)
-
         
-
-        
-        //secuence.mask = maskSecuence
-
-        var ballonImage = ballonGroup.create(0,0,"atlas.game","globo")
-        ballonImage.anchor.setTo(0.5)
-
-        ballonGroup.add(secuence)
-        sceneGroup.add(ballonGroup)
-
-        var maskSecuence = game.add.graphics(0,0)
-        maskSecuence.beginFill(0xff0000)
-        maskSecuence.drawRect(-75,-50,150,60)
-        maskSecuence.endFill()
-        ballonGroup.add(maskSecuence)
-
-        secuence.mask = maskSecuence
 
 
         var cubeDecoration = sceneGroup.create(70,game.world.centerY-150,"atlas.game","stands")
@@ -911,11 +887,6 @@ var ordersUp = function(){
         var barrelDecoration = sceneGroup.create(50,game.world.centerY+50,"atlas.game","barriles")
         barrelDecoration.anchor.setTo(0.5)
 
-
-
-       
-
-        
         var granel = sceneGroup.create(game.world.width,game.world.centerY-50,"atlas.game","barra_granel")
         granel.anchor.setTo(1,0.5)
         
@@ -1016,6 +987,33 @@ var ordersUp = function(){
         var ice = sceneGroup.create(game.world.width,game.world.centerY+140,"atlas.game","ice")
         ice.anchor.setTo(1,0.5)
         
+
+        secuence = game.add.group()
+        ballonGroup = game.add.group()
+        ballonGroup.x = game.world.centerX
+        ballonGroup.y = -100
+        ballonGroup.scale.setTo(0)
+
+
+        var ballonDots = ballonGroup.create(0,30,"atlas.game","globitos")
+        ballonDots.anchor.setTo(0.5)
+
+        var ballonImage = ballonGroup.create(0,-15,"atlas.game","globo_grande")
+        ballonImage.anchor.setTo(0.5)
+        ballonImage.scale.setTo(0.4,1)
+
+        ballonGroup.ballon = ballonImage
+
+        ballonGroup.add(secuence)
+        sceneGroup.add(ballonGroup)
+
+        var maskSecuence = game.add.graphics(0,0)
+        maskSecuence.beginFill(0xff0000)
+        maskSecuence.drawRect(-200,-50,400,60)
+        maskSecuence.endFill()
+        ballonGroup.add(maskSecuence)
+
+        secuence.mask = maskSecuence
 
     }
 
