@@ -53,6 +53,10 @@ var climbOWeight = function(){
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
+            {	name: "punch",
+				file: soundsPath + "punch3.mp3"},
+            {	name: "falling",
+				file: soundsPath + "falling.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'spaceSong',
@@ -715,6 +719,7 @@ var climbOWeight = function(){
         
         if(gameActive){
             
+            sound.play("pop")
             changeImage(0, stopBtn)
             stopBtn.text.alpha = 1
             stopBtn.text.scale.setTo(0.9)
@@ -758,16 +763,19 @@ var climbOWeight = function(){
         var level = Math.abs(index - 4)
         var timer = (index * 200) + 100
         
+        sound.play("falling")
         game.add.tween(rightGroup.weights.children[index]).from({y: -100}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
             particleWrong.x = rightGroup.weights.centerX
             particleWrong.y = rightGroup.weights.centerY + 30
             particleWrong.start(true, 600, null, 10)
+            sound.play("punch")
             
             game.add.tween(leftGroup.rope).to({height: towerlevels[level].rope}, timer, Phaser.Easing.linear, true)
             game.add.tween(leftGroup.platform).to({y: towerlevels[level].base}, timer, Phaser.Easing.linear, true)
 
             game.add.tween(rightGroup.rope).to({height: towerlevels[index].rope}, timer, Phaser.Easing.linear, true)
             game.add.tween(rightGroup.platform).to({y: towerlevels[index].base}, timer, Phaser.Easing.linear, true).onComplete.add(function(){
+                sound.stop("falling")
                 win(index)
             })
         })
@@ -777,6 +785,7 @@ var climbOWeight = function(){
         
         if(ans === rand){
             addCoin(leftGroup.items)
+            sound.play("rightChoice")
             justice.setAnimationByName(0, "WIN", true)
             particleCorrect.x = leftGroup.items.centerX
             particleCorrect.y = leftGroup.items.centerY 
@@ -852,7 +861,7 @@ var climbOWeight = function(){
          
         game.time.events.add(delay,function(){
             
-            sound.play("pop")
+            sound.play("cut")
             obj.alpha = 1
             game.add.tween(obj.scale).from({x: 0, y:0},200,Phaser.Easing.linear,true)
         },this)
