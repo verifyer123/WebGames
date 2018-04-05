@@ -420,7 +420,9 @@ var ordersUp = function(){
                 meizy.setAnimationByName(0,"idle",true)
                 returnPerson(currentPeopleArray[0])
                 currentPeopleArray.splice(0,1)
-                gameActive = true
+                //if(lives>0){
+                    gameActive = true
+                //}
                 secuencePublish = false
                 ballonGroup.scale.setTo(BALLON_SCALE)
                 game.add.tween(ballonGroup.scale).to({x:0,y:0},BALLOON_TRANSITION,Phaser.Easing.linear,true)
@@ -663,6 +665,10 @@ var ordersUp = function(){
 
 
         console.log("setPerson")
+
+        if(lives<=0){
+            return
+        }
 
         var isBoos = false
         if(currentPeoplePassed>PEOPLE_TO_BOSS){
@@ -1038,6 +1044,8 @@ var ordersUp = function(){
 
         loadSounds()
 
+        game.onPause.removeAll()
+
         game.onPause.add(function(){
 			if(personTimeOut!=null ){
                 clearTimeout(personTimeOut)
@@ -1049,9 +1057,11 @@ var ordersUp = function(){
 			
 		} , this);
 
+        game.onResume.removeAll()
+
 		game.onResume.add(function(){
 			game.sound.mute = false
-            if(gameActive){
+            if(gameActive && lives>0){
     			personTimeOut = setTimeout(setPerson,currentTimeAppearPerson)
             }
 			if(amazing.getMinigameId()){
