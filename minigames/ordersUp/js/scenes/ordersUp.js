@@ -661,6 +661,9 @@ var ordersUp = function(){
             return
         }*/
 
+
+        console.log("setPerson")
+
         var isBoos = false
         if(currentPeoplePassed>PEOPLE_TO_BOSS){
         	var r = game.rnd.frac()
@@ -1036,7 +1039,7 @@ var ordersUp = function(){
         loadSounds()
 
         game.onPause.add(function(){
-			if(personTimeOut!=null && gameActive){
+			if(personTimeOut!=null ){
                 clearTimeout(personTimeOut)
             }
 			game.sound.mute = true
