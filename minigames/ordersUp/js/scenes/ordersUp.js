@@ -58,7 +58,7 @@ var ordersUp = function(){
     var DELTA_APPEAR_PERSON = 100
     var MIN_APPEAR_PERSON = 3000
 
-    var VELOCITY_PEOPLE = 1
+    var INITIAL_VELOCITY = 1
     var MAX_VELOCITY = 3
     var DELTA_VELOCITY = 0.02
 
@@ -134,6 +134,8 @@ var ordersUp = function(){
 
     var personTimeOut
 
+    var currentVelocity
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -155,6 +157,8 @@ var ordersUp = function(){
         		PRODUCT_TYPES_ARRAYS[i].push(j)
         	}
         }
+
+        currentVelocity = INITIAL_VELOCITY
 
         secuencePublish = false
 
@@ -220,6 +224,7 @@ var ordersUp = function(){
 		}else{
 			marioSong.stop()
 		}
+        clearTimeout(personTimeOut)
                 
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
@@ -455,10 +460,10 @@ var ordersUp = function(){
             //for(var j = 0; j < peopleList[i].length; j++){
                 var person = peopleList.children[i]
                 if(person.walkState == PERSON_STATE.WALK){
-                    person.y+=VELOCITY_PEOPLE
+                    person.y+=currentVelocity
                 }
                 else if(person.walkState == PERSON_STATE.SIDE){
-                    person.x+=VELOCITY_PEOPLE
+                    person.x+=currentVelocity
                     var goal
                     if(person.type==0){
                         goal = PEOPLE_X_DELTA-30
@@ -495,7 +500,7 @@ var ordersUp = function(){
             //for(var j = 0; j < peopleList[i].length; j++){
                 var person = returnList.children[i]
                 
-                person.y -= VELOCITY_PEOPLE*2
+                person.y -= currentVelocity*2
                 if(person.y < 0){
                     person.visible = false
                     peopleList.add(person)
@@ -571,8 +576,8 @@ var ordersUp = function(){
 
                 sound.play("cashRegister")
 
-                if(VELOCITY_PEOPLE < MAX_VELOCITY){
-                    VELOCITY_PEOPLE +=DELTA_VELOCITY
+                if(currentVelocity < currentVelocity){
+                    currentVelocity +=DELTA_VELOCITY
                 }
 
                 currentSecuenceCompleted++
@@ -1019,7 +1024,6 @@ var ordersUp = function(){
         ballonGroup.add(maskSecuence)
 
         secuence.mask = maskSecuence
-
     }
 
     function create(){
@@ -1031,7 +1035,7 @@ var ordersUp = function(){
         loadSounds()
 
         game.onPause.add(function(){
-			if(personTimeOut!=null){
+			if(personTimeOut!=null && gameActive){
                 clearTimeout(personTimeOut)
             }
 			game.sound.mute = true
@@ -1043,7 +1047,9 @@ var ordersUp = function(){
 
 		game.onResume.add(function(){
 			game.sound.mute = false
-			personTimeOut = setTimeout(setPerson,currentTimeAppearPerson)
+            if(gameActive){
+    			personTimeOut = setTimeout(setPerson,currentTimeAppearPerson)
+            }
 			if(amazing.getMinigameId()){
 				if(lives>0){
 
