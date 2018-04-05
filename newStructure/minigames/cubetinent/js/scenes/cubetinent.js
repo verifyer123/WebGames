@@ -843,6 +843,12 @@ var cubetinent = function(){
 
             random = game.rnd.frac()
             if(canGetLetter){
+
+                if(currentLetters.length==0){
+                     cube.haveLetter = null
+                     continue
+                }
+
                 if(random < LETTER_PROBABILITY || nextRawNum == 2 || (inTutorial!=-1 && inTutorial<6)){
                     var correct
                     if(nextLetterCorrect!=null){
@@ -1019,6 +1025,8 @@ var cubetinent = function(){
         for(var i =0 ; i < letters.length;i++){
             pushContainerLetter(initX + (DELTA_LETTER_CONTAINER*i),letters[i])
             if(letters[i]!="?"){
+
+
                 totalLetters.push(letters[i])
             }
         }
@@ -1044,25 +1052,30 @@ var cubetinent = function(){
                         if(currentLetters[i].id == index){
                             currentLetters[i].circle = getCircle(x)
                             currentLetters[i].text = containerLetter
+                            setTween(containerLetter)
+
+
                             break
                         }
                     }
                     
                 }
 
-                return
+                return 
             }
         }
 
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var containerLetter = new Phaser.Text(sceneGroup.game, x, 0, value, fontStyle)
         containerLetter.anchor.setTo(0.5)
+
         containerGroup.add(containerLetter)
 
         if(value == "?"){
             for(var i = 0; i < currentLetters.length; i++){
                 if(currentLetters[i].id == index){
                     currentLetters[i].circle = getCircle(x)
+                    setTween(containerLetter)
                     currentLetters[i].text = containerLetter
                 }
                 
@@ -1071,6 +1084,23 @@ var cubetinent = function(){
         }
         return
 
+    }
+
+    function setTween(letterObject){
+        var tween1 = game.add.tween(letterObject).to({angle:-30},200,Phaser.Easing.linear)
+        var tween2 = game.add.tween(letterObject).to({angle:30},400,Phaser.Easing.linear)
+        var tween3 = game.add.tween(letterObject).to({angle:-30},400,Phaser.Easing.linear)
+        var tween4 = game.add.tween(letterObject).to({angle:0},200,Phaser.Easing.linear)
+
+
+
+        tween1.chain(tween2)
+        tween2.chain(tween3)
+        tween3.chain(tween4)
+
+        tween1.start()
+
+        console.log("start tween")
     }
 
     function getCircle(x){
