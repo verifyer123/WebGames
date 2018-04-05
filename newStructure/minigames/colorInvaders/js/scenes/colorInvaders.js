@@ -723,13 +723,13 @@ var colorInvaders = function(){
     function initGame(){
         
         rand = getRand()
-        placeAliens()
+        var color = placeAliens()
         
         game.time.events.add(1600,function(){
             colorsGroup.text.setText(colorsText[rand])
             if(pointsBar.number > 9){
                 colorsGroup.text.strokeThickness = 10
-                colorsGroup.text.fill = colorsGroup.colorName[game.rnd.integerInRange(0, colorsText.length-1)]
+                colorsGroup.text.fill = colorsGroup.colorName[color]
             }
             sound.play("cut")
             game.add.tween(colorsGroup.text.scale).from({ y:0}, 200,Phaser.Easing.linear,true)
@@ -773,6 +773,8 @@ var colorInvaders = function(){
                 game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].boxX, y: aliensGroup.children[i].boxY}, 1000, Phaser.Easing.linear, true)
             }
         },this)
+        
+        return alienColor
     }
     
     function getRandColor(color){
