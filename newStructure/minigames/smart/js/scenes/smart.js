@@ -46,6 +46,10 @@ var smart = function(){
             {
             	name:'cashRegister',
             	file:soundsPath+'cashRegister.mp3'
+            },
+            {
+                name:'beepSupermarket',
+                file:soundsPath+'beepSupermarket.mp3'
             }
 
 		],
@@ -128,6 +132,8 @@ var smart = function(){
     var tutorialObjects, tutorialObjectsId, tutorialChildrenId
 
     var correctObjectSprite
+
+    var tweenButton
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -375,7 +381,6 @@ var smart = function(){
             //nextRound()
         }
         
-        // addNumberPart(batteryGroup,'-1')
     }
     
     function update() {
@@ -626,14 +631,10 @@ var smart = function(){
         currentLevel ++
 
         if(inTutorial!=-1){
-        	/*var tutorialTween = game.add.tween(tutorialButtons[resultObjects[0].imageBitId].scale).to({x:1.5,y:1.5},300,Phaser.Easing.linear,true)
-        	tutorialTween.yoyo(true)*/
-
-
 
         	for(var i = 0; i < 2; i ++){
         		numbersOperation[i].x = tutorialObjects[i].object.x 
-        		numbersOperation[i].y = tutorialObjects[i].object.y + 50
+        		numbersOperation[i].y = tutorialObjects[i].object.y + 60
         	}
 
         	setTimeout(setNumberTutorial,300)
@@ -707,8 +708,8 @@ var smart = function(){
     function leaveButton(button,pointer){
         var id = button.id
 
-        button.visible = false
-        button = null
+        //button.visible = false
+        //button = null
         var correctObject = false
         if(pointer.y < game.world.centerY+50){
 
@@ -726,6 +727,17 @@ var smart = function(){
 
 					productsOperation[resultObjects[i].imageBitId].children[resultObjects[i].multiplier].loadTexture('atlas.game',bitImagesNames[id],0,false)
 
+                    button.x = game.world.centerX-100
+                    button.y = game.world.centerY
+                    tweenButton = button
+                    game.add.tween(tweenButton).to({x:game.world.centerX},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                        game.add.tween(tweenButton).to({x:game.world.centerX+100},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                            tweenButton.visible = false
+                            tweenButton = null
+                        })
+                        sound.play("beepSupermarket")
+                        
+                    })
 
                     sound.play('pop')
 
@@ -737,9 +749,17 @@ var smart = function(){
                 }
             }
         }
-        else{return}
+        else{
+            button.visible = false
+            sbutton = null
+            return
+
+        }
 
         if(!correctObject){
+
+            button.visible = false
+            button = null
             canTouch = false
             sound.play('wrong')
             missPoint()
@@ -747,13 +767,8 @@ var smart = function(){
                 stopTimer()
             }
 
-            //operationGroup.visible = false
             for(var i = 0; i < resultObjects.length; i++){
-            	/*for(var j =0; j < resultObjects[i].multiplier; j++ ){
-	            	productsOperation[resultObjects[i].imageBitId].children[j].loadTexture('atlas.game',bitImagesNames[resultObjects[i].productResultId],0,false)
-	            }*/
-	            //game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({tint:0x00ff00},500,Phaser.Easing.linear,true).yoyo(true)
-	            tweenTint(tutorialButtons[resultObjects[i].productResultId], 0xffffff, 0x00ff00, 300);
+            	tweenTint(tutorialButtons[resultObjects[i].productResultId], 0xffffff, 0x00ff00, 300);
 	            correctObjectSprite = tutorialButtons[resultObjects[i].productResultId]
 	            setTimeout(function(){tweenTint(correctObjectSprite, 0x00ff00, 0xffffff, 300);},300)
 	            var tween1 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:-30},100,Phaser.Easing.linear)
@@ -801,6 +816,7 @@ var smart = function(){
             canTouch = false
             setTimeout(setRound,2000)
         }
+
 
     }
 
@@ -931,8 +947,9 @@ var smart = function(){
 		var cashierTable = sceneGroup.create(game.world.centerX,game.world.centerY-50,'atlas.game','CASHIER_TABLE')
         cashierTable.anchor.setTo(0.5,0.5)
 
-        var machine = sceneGroup.create(game.world.centerX,0,'atlas.game','CASHIER_SCREEN')
+        var machine = sceneGroup.create(game.world.centerX,-25,'atlas.game','CASHIER_SCREEN')
         machine.anchor.setTo(0.5,0)
+        machine.scale.setTo(1.1)
 
         
 
@@ -1016,7 +1033,7 @@ var smart = function(){
 
         operationGroup = game.add.group()
         operationGroup.x = game.world.centerX
-        operationGroup.y = machine.y + machine.height - 100
+        operationGroup.y = machine.y + machine.height - 115
         operationGroup.visible = false
 
         var voidGroup = game.add.group()
@@ -1112,13 +1129,13 @@ var smart = function(){
 
         fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#BFE54F", align: "center"}
 
-        var number = new Phaser.Text(sceneGroup.game, -120, 50, "0", fontStyle)
+        var number = new Phaser.Text(sceneGroup.game, -120, 70, "0", fontStyle)
         number.anchor.setTo(0.5)
         numbersOperation.push(number)
         operationGroup.add(number)
         number.visible = false
 
-        number = new Phaser.Text(sceneGroup.game, -20, 50, "0", fontStyle)
+        number = new Phaser.Text(sceneGroup.game, -20, 70, "0", fontStyle)
         number.anchor.setTo(0.5)
         numbersOperation.push(number)
         operationGroup.add(number)
