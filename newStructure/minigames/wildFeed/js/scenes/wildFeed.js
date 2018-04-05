@@ -705,7 +705,7 @@ var wildFeed = function(){
     
     function superSizeMe(){
         
-        var fontStyle = {font: "22px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        var fontStyle = {font: "28px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
         
         var board = sceneGroup.create(0, game.world.height, "atlas.wildFeed", "board")
         board.anchor.setTo(0, 1)
@@ -722,8 +722,9 @@ var wildFeed = function(){
         
         for(var i = 0; i < name.length; i++){
             
-            var button = buttonsGroup.create(board.centerX + (200 * pivot), board.centerY - 15, "atlas.wildFeed", name[i])
+            var button = buttonsGroup.create(board.centerX + (200 * pivot), board.centerY - 11, "atlas.wildFeed", name[i])
             button.anchor.setTo(0.5)
+            button.scale.setTo(1.4, 1.2)
             button.tag = i
             button.inputEnabled = true
             button.events.onInputDown.add(feedThem, this)
@@ -731,7 +732,7 @@ var wildFeed = function(){
             pivot++
             buttonsGroup.posX[buttonsGroup.posX.length] = button.x
             
-            var text = new Phaser.Text(sceneGroup.game, button.centerX, button.centerY + 30, textGroup.words[i], fontStyle)
+            var text = new Phaser.Text(sceneGroup.game, button.centerX, button.centerY + 40, textGroup.words[i], fontStyle)
             text.anchor.setTo(0.5, 0)
             //text.setText('')
             buttonsName.add(text)
@@ -763,6 +764,7 @@ var wildFeed = function(){
             gameActive = false
             sound.play("pop")
             buttonsGroup.setAll("tint", 0x606060)
+            btn.tint = 0xFFFFFF
             var ans
             
             if(btn.tag === animalsGroup.children[rand].tag){
