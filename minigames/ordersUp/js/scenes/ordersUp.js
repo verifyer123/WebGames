@@ -553,6 +553,10 @@ var ordersUp = function(){
 	                correct = true
 	                break
 	            }
+                else{
+                    correct = false
+                    break
+                }
 	        }
         }
 
@@ -881,14 +885,11 @@ var ordersUp = function(){
         sceneGroup.add(door)
 
 
-        var circleDecoration = sceneGroup.create(door.x + 196, door.y + 200, "atlas.game","decoracion_derecha")
+        var circleDecoration = sceneGroup.create(door.x + 196, door.y + 212, "atlas.game","decoracion_derecha")
         circleDecoration.anchor.setTo(0.5)
 
         circleDecoration = sceneGroup.create(door.x - 200, door.y + 200, "atlas.game","decoracion_izquierda")
         circleDecoration.anchor.setTo(0.5)
-
-
-        
 
 
         var cubeDecoration = sceneGroup.create(70,game.world.centerY-150,"atlas.game","stands")
