@@ -47,8 +47,8 @@ var ordersUp = function(){
     var MAX_PRODUCTS_PER_TYPE = 3
     var PRODUCT_TYPES = 3
 
-    var INITIAL_DIFFICULT = 3
-    var DELTA_DIFFICULT = 0.13
+    var INITIAL_DIFFICULT = 1.9
+    var DELTA_DIFFICULT = 0.1
     var MAX_DIFFICULT = 6
     var BOSS_DIFFICULT = 9
     var BOSS_PROBABILIY = 0.3
@@ -59,6 +59,8 @@ var ordersUp = function(){
     var MIN_APPEAR_PERSON = 3000
 
     var VELOCITY_PEOPLE = 1
+    var MAX_VELOCITY = 3
+    var DELTA_VELOCITY = 0.02
 
     var DELTA_IN_SECUENCE = 40
     var DELTA_IN_SECUENCE_BOSS = 35
@@ -568,7 +570,10 @@ var ordersUp = function(){
                 currentPeopleArray.splice(0,1)
 
                 sound.play("cashRegister")
-                
+
+                if(VELOCITY_PEOPLE < MAX_VELOCITY){
+                    VELOCITY_PEOPLE +=DELTA_VELOCITY
+                }
 
                 currentSecuenceCompleted++
                 currentPeoplePassed++
