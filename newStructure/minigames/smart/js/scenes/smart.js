@@ -845,8 +845,8 @@ var smart = function(){
     	switch(inTutorial){
     		case 0:
     		hand.loadTexture('atlas.game','handDown')
-    		hand.x = boxPositions[resultObjects[0].productResultId].x
-    		hand.y = boxPositions[resultObjects[0].productResultId].y
+    		hand.x = boxPositions[resultObjects[0].productResultId].x + game.world.centerX
+    		hand.y = boxPositions[resultObjects[0].productResultId].y + game.world.height
     		tutorialTween = game.add.tween(hand).to({x:game.world.centerX,y:game.world.centerY-100},2000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
@@ -909,6 +909,7 @@ var smart = function(){
 
     function clickProduct(button,pointer){
     	if(canTouch){
+            console.log("clickProduct")
 	        var id = button.id
 	        currentButtonSelected = pruductSpines[id]
 	        currentButtonSelected.visible = true
@@ -951,25 +952,33 @@ var smart = function(){
         machine.anchor.setTo(0.5,0)
         machine.scale.setTo(1.1)
 
-        
+        var basketGroup = game.add.group()
+        basketGroup.scale.setTo(0.9)
+        basketGroup.x = game.world.centerX
+        basketGroup.y = game.world.height
+        sceneGroup.add(basketGroup)
 
-        var basket = sceneGroup.create(game.world.centerX,game.world.height+100,"atlas.game","BASKET")
+        var basket = sceneGroup.create(0,100,"atlas.game","BASKET")
         basket.anchor.setTo(0.5,1)
+        basketGroup.add(basket)
 
         signsArray.push(createSign(0))
         signsArray[0].x = basket.x+230
         signsArray[0].y = basket.y-520
         signsArray[0].angle = 15
+        basketGroup.add(signsArray[0])
 
         signsArray.push(createSign(1))
         signsArray[1].x = basket.x
         signsArray[1].y = basket.y-540
         signsArray[1].angle = 15
+        basketGroup.add(signsArray[1])
 
         signsArray.push(createSign(2))
         signsArray[2].x = basket.x-140
         signsArray[2].y = basket.y-500
         signsArray[2].angle = 15
+        basketGroup.add(signsArray[2])
 
         var milkBox = sceneGroup.create(basket.x+170,basket.y-400,'atlas.game','MILK_BASKET')
         milkBox.anchor.setTo(0.5)
@@ -977,6 +986,7 @@ var smart = function(){
         milkBox.id = 0
         milkBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(milkBox)
+        basketGroup.add(milkBox)
 
         var juiceBox = sceneGroup.create(basket.x,basket.y-400,'atlas.game','OJ_BASKET')
         juiceBox.anchor.setTo(0.5)
@@ -984,6 +994,7 @@ var smart = function(){
         juiceBox.id = 1
         juiceBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(juiceBox)
+        basketGroup.add(juiceBox)
 
         var breadBox = sceneGroup.create(basket.x-170,basket.y-400,'atlas.game','BREAD_BASKET')
         breadBox.anchor.setTo(0.5)
@@ -991,22 +1002,26 @@ var smart = function(){
         breadBox.id = 2
         breadBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(breadBox)
+        basketGroup.add(breadBox)
 
 
         signsArray.push(createSign(3))
         signsArray[3].x = basket.x-270
         signsArray[3].y = basket.y-350
         signsArray[3].angle = -15
+        basketGroup.add(signsArray[3])
 
         signsArray.push(createSign(4))
         signsArray[4].x = basket.x+250
         signsArray[4].y = basket.y-400
         signsArray[4].angle = 15
+        basketGroup.add(signsArray[4])
 
         signsArray.push(createSign(5))
         signsArray[5].x = basket.x-100
         signsArray[5].y = basket.y-340
         signsArray[5].angle = -15
+        basketGroup.add(signsArray[5])
 
 
         var appleBox = sceneGroup.create(basket.x-180,basket.y-270,'atlas.game','APPLE_BASKET')
@@ -1015,21 +1030,23 @@ var smart = function(){
         appleBox.id = 3
         appleBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(appleBox)
+        basketGroup.add(appleBox)
         var bananaBox = sceneGroup.create(basket.x+220,basket.y-270,'atlas.game','BANANA_BASTE')
         bananaBox.anchor.setTo(0.5)
         bananaBox.inputEnabled = true
         bananaBox.id = 4
         bananaBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(bananaBox)
+        basketGroup.add(bananaBox)
         var carrotBox = sceneGroup.create(basket.x,basket.y-240,'atlas.game','CARROT_BASKET')
         carrotBox.anchor.setTo(0.5)
         carrotBox.inputEnabled = true
         carrotBox.id = 5
         carrotBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(carrotBox)
+        basketGroup.add(carrotBox)
 
-        boxPositions = [{x:milkBox.x,y:milkBox.y},{x:juiceBox.x,y:juiceBox.y},{x:breadBox.x,y:breadBox.y},{x:appleBox.x,y:appleBox.y},{x:bananaBox.x,y:bananaBox.y},{x:carrotBox.x,y:carrotBox.y}]
-
+        boxPositions = [{x:milkBox.world.x,y:milkBox.world.y},{x:juiceBox.world.x,y:juiceBox.world.y},{x:breadBox.world.x,y:breadBox.world.y},{x:appleBox.world.x,y:appleBox.world.y},{x:bananaBox.world.x,y:bananaBox.world.y},{x:carrotBox.world.x,y:carrotBox.world.y}]
 
         operationGroup = game.add.group()
         operationGroup.x = game.world.centerX
@@ -1149,6 +1166,9 @@ var smart = function(){
         pruductSpines.push(createSpine('bannana',4))
         pruductSpines.push(createSpine('carrot',5))
         
+        /*for(var i = 0; i < pruductSpines.length; i++){
+            basketGroup.add(pruductSpines[i])
+        }*/
 
         sceneGroup.add(operationGroup)
 

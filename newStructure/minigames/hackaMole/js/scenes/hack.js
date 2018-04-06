@@ -903,7 +903,7 @@ console.log(buttonsGroup.length)
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, -2, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
 		group.add(pointsText)
 		
@@ -911,7 +911,7 @@ console.log(buttonsGroup.length)
 		
 		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, -2, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.scale.y = 0.7
 		pointsText.anchor.setTo(0.5,0.5)
 		group.add(pointsText)
