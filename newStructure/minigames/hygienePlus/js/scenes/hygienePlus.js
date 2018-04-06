@@ -227,13 +227,13 @@ var hygienePlus = function(){
         fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         listofActionsEN = [
           ["taking", "eating", "walking"],
-          ["washing","eating" , "watching"],
+          ["washing","eating" , "brushing"],
           ["combing","walking", "warming"],
           ["brushing", "walking","watching"]
         ];
         listofActionsES = [
           ["bañando", "vistiendo", "comiendo"],
-          ["lavando","jugando" , "aplaudiendo"],
+          ["lavando","jugando" , "frotando"],
           ["peinando","mojando", "secando"],
           ["cepillando", "divirtiendo","saltando"]
         ];
@@ -357,39 +357,35 @@ var hygienePlus = function(){
     }
     
     function startTutorial(){
-        for(var checkCorrect=0; checkCorrect<maxValue+2; checkCorrect++){
             
-            if(localization.getLanguage()=="EN"){
-                if(text1.text==correctChoicesES[checkCorrect]){
-                    hand.x=btn1.centerX+30;
-                    hand.y=btn1.centerY+30;
-                }
-                if(text2.text==correctChoicesES[checkCorrect]){
-                    hand.x=btn2.centerX+30;
-                    hand.y=btn2.centerY+30;
-                }
-                if(text3.text==correctChoicesES[checkCorrect]){
-                    hand.x=btn3.centerX+30;
-                    hand.y=btn3.centerY+30;
-                }
-            }else{
-                if(text1.text==correctChoicesEN[checkCorrect]){
-                    hand.x=btn1.centerX+30;
-                    hand.y=btn1.centerY+30;
-                }
-                if(text2.text==correctChoicesEN[checkCorrect]){
-                    hand.x=btn2.centerX+30;
-                    hand.y=btn2.centerY+30;
-                }
-                if(text3.text==correctChoicesEN[checkCorrect]){
-                    hand.x=btn3.centerX+30;
-                    hand.y=btn3.centerY+30;
-                }
+        if(localization.getLanguage()=="EN"){
+            if(text1.text==correctChoicesES[randomAction]){
+                hand.x=btn1.centerX+30;
+                hand.y=btn1.centerY+30;
             }
-            hand.alpha=1;
-            
+            if(text2.text==correctChoicesES[randomAction]){
+                hand.x=btn2.centerX+30;
+                hand.y=btn2.centerY+30;
+            }
+            if(text3.text==correctChoicesES[randomAction]){
+                hand.x=btn3.centerX+30;
+                hand.y=btn3.centerY+30;
+            }
+        }else{
+            if(text1.text==correctChoicesEN[randomAction]){
+                hand.x=btn1.centerX+30;
+                hand.y=btn1.centerY+30;
+            }
+            if(text2.text==correctChoicesEN[randomAction]){
+                hand.x=btn2.centerX+30;
+                hand.y=btn2.centerY+30;
+            }
+            if(text3.text==correctChoicesEN[randomAction]){
+                hand.x=btn3.centerX+30;
+                hand.y=btn3.centerY+30;
+            }
         }
-        
+        hand.alpha=1;    
     }
     
     function prepareScenario(){
@@ -415,7 +411,7 @@ var hygienePlus = function(){
             
             sink.alpha=0;
             if(localization.getLanguage()=="EN"){
-                textInBoxAnswer.x=textBox.centerX-20;
+                textInBoxAnswer.x=textBox.centerX-30;
             }else{
                 textInBoxAnswer.x=textBox.centerX-45;
             }
@@ -482,83 +478,103 @@ var hygienePlus = function(){
     
     function releaseOption(obj){
         if(!canChoose){
+            
             if(obj.tag==="btn1"){
                 btn1.loadTexture("atlas.hygiene","unpressed");
                 textInBoxAnswer.text=text1.text;
-                textInBoxAnswer.x=textInBoxAnswer.x-60;
+                textInBoxAnswer.x=textInBoxAnswer.x-50;
                 btnChoosed=1;
             }else if(obj.tag==="btn2"){
                 btn2.loadTexture("atlas.hygiene","unpressed");
                 textInBoxAnswer.text=text2.text;
-                textInBoxAnswer.x=textInBoxAnswer.x-60;
+                textInBoxAnswer.x=textInBoxAnswer.x-50;
                 btnChoosed=2;
             }else if(obj.tag==="btn3"){
                 btn3.loadTexture("atlas.hygiene","unpressed");
                 textInBoxAnswer.text=text3.text;
-                textInBoxAnswer.x=textInBoxAnswer.x-60;
+                textInBoxAnswer.x=textInBoxAnswer.x-50;
                 btnChoosed=3;
             }
             canChoose=true;
             hand.alpha=0;
             if(pointsBar.text._text>=6)stopTimer();
             checkIfCorrect();
+            
         }
     }
     
     function checkIfCorrect(){
-        
-        for(var checkCorrect=0; checkCorrect<maxValue+2; checkCorrect++){
             
-            if(localization.getLanguage()=="EN"){
-                if(textInBoxAnswer.text==correctChoicesES[checkCorrect]){
+        if(localization.getLanguage()=="EN"){
+            if(textInBoxAnswer.text==correctChoicesES[randomAction]){
+                game.time.events.add(timeForEvent-400,function(){
+                    textInBox1Final.tint=0x00ff00;
                     game.time.events.add(timeForEvent-400,function(){
-                        textInBox1Final.tint=0x00ff00;
-                        game.time.events.add(timeForEvent-400,function(){
-                            if(randomAction!=0){
-                                textInBox2Final.tint=0x00ff00;
-                                game.time.events.add(timeForEvent-400,function(){
-                                    textInBoxAnswer.tint=0x00ff00;
-                                    Coin(textInBoxAnswer,pointsBar,delayDefault);
-                                    reset()
-                                })
-                            }else{
+                        if(randomAction!=0){
+                            textInBox2Final.tint=0x00ff00;
+                            game.time.events.add(timeForEvent-400,function(){
                                 textInBoxAnswer.tint=0x00ff00;
                                 Coin(textInBoxAnswer,pointsBar,delayDefault);
                                 reset()
-                            }
-                        })
+                            })
+                        }else{
+                            textInBoxAnswer.tint=0x00ff00;
+                            Coin(textInBoxAnswer,pointsBar,delayDefault);
+                            reset()
+                        }
                     })
-                    
-                    itsCorrect=true;
-                }
-            }else{
-                if(textInBoxAnswer.text==correctChoicesEN[checkCorrect]){
-                   game.time.events.add(timeForEvent-400,function(){
-                        textInBox1Final.tint=0x00ff00;
-                        game.time.events.add(timeForEvent-400,function(){
-                            if(randomAction!=0){
-                                textInBox2Final.tint=0x00ff00;
-                                game.time.events.add(timeForEvent-400,function(){
-                                    textInBoxAnswer.tint=0x00ff00;
-                                    Coin(textInBoxAnswer,pointsBar,delayDefault);
-                                    reset()
-                                })
-                            }else{
-                                textInBoxAnswer.tint=0x00ff00;
-                                Coin(textInBoxAnswer,pointsBar,delayDefault);
-                                reset()
-                            }
-                        })
-                    })
-                    itsCorrect=true;
-                }
+                })        
+                itsCorrect=true;
             }
-        }
+        }else{
+            if(textInBoxAnswer.text==correctChoicesEN[randomAction]){
+                game.time.events.add(timeForEvent-400,function(){
+                    textInBox1Final.tint=0x00ff00;
+                    game.time.events.add(timeForEvent-400,function(){
+                        textInBox2Final.tint=0x00ff00;
+                        game.time.events.add(timeForEvent-400,function(){
+                            textInBoxAnswer.tint=0x00ff00;
+                            Coin(textInBoxAnswer,pointsBar,delayDefault);
+                            reset()
+                        })                
+                    })
+                })
+                itsCorrect=true;
+            }
+        }   
         if(!itsCorrect){
-            
-            
-            
-            
+            if(btnChoosed==-1){
+                textInBox1Final.tint=0x00ff00;
+                game.time.events.add(timeForEvent-400,function(){
+                    textInBox2Final.tint=0x00ff00;
+                    if(randomAction!=0 || localization.getLanguage()=="ES"){
+                        textInBox2Final.tint=0x00ff00;
+                        game.time.events.add(timeForEvent-400,function(){
+                            textInBoxAnswer.tint=0xff0000;
+                            if(localization.getLanguage()=="EN"){
+                                textInBoxAnswer.text=correctChoicesES[randomAction];
+                                textInBoxAnswer.x=textInBoxAnswer.x-50;
+                            }else{
+                                textInBoxAnswer.text=correctChoicesEN[randomAction];
+                                textInBoxAnswer.x=textInBoxAnswer.x-50;
+                            }
+                            missPoint()
+                            reset()
+                        })
+                    }else if(randomAction==0){
+                        textInBoxAnswer.tint=0xff0000;
+                        if(localization.getLanguage()=="EN"){
+                            textInBoxAnswer.text=correctChoicesES[randomAction];
+                            textInBoxAnswer.x=textInBoxAnswer.x-50;
+                        }else{
+                            textInBoxAnswer.text=correctChoicesEN[randomAction];
+                            textInBoxAnswer.x=textInBoxAnswer.x-50;
+                        }
+                        missPoint()
+                        reset()
+                    }
+                })
+            }
             if(btnChoosed==1){
                 game.add.tween(text1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3)
                 game.add.tween(btn1).to({angle: 20}, delayDefault, Phaser.Easing.Linear.Out, true, startTiming/3).onComplete.add(function(){
@@ -690,6 +706,7 @@ var hygienePlus = function(){
                     })
                 })
             }
+            
         }
     }
 
@@ -1106,6 +1123,7 @@ var hygienePlus = function(){
 	}
     function reset(){
         itsCorrect=false;
+        btnChoosed=-1;
         bathCourtain.alpha=1;
         game.add.tween(bathCourtain.scale).to({x:1.1,y:1}, delayDefault*3.5, Phaser.Easing.Linear.Out, true, startTiming*2).onComplete.add(function(){
             generateRandomTextandOrder();
@@ -1156,16 +1174,16 @@ var hygienePlus = function(){
     }
     function stopTimer(){
         tweenTiempo.stop()
+        canChoose=true;
         tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, startTiming, Phaser.Easing.Linear.Out, true, delayDefault).onComplete.add(function(){
         })
     }
     function startTimer(time){
         tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, delayDefault)
         tweenTiempo.onComplete.add(function(){
-            missPoint()
             stopTimer()
             game.time.events.add(delayerTimer,function(){
-                reset()
+                checkIfCorrect();
             });
         })
     }
