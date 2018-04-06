@@ -700,6 +700,7 @@ var codeCake = function(){
     }
 
     function makeTutorialTween(){
+        if(inTutorial!=-1)
         tutorialScaleTween = game.add.tween(tutorialButtonArray[tutorialButtonInex].scale).to({x:1.3,y:1.3},300,Phaser.Easing.linear,true)
         tutorialScaleTween.yoyo(true)
         tutorialScaleTween.loop(true)
