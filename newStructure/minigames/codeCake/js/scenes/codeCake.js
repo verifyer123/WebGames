@@ -92,9 +92,9 @@ var codeCake = function(){
     var NUM_LIFES = 3
     var TIME_MOVEMENT = 1500
     var LEVEL_TIMER = 3
-    var INITIAL_TIME = 15000
-    var DELTA_TIME = 100
-    var MIN_TIME = 10000
+    var INITIAL_TIME = 30000
+    var DELTA_TIME = 200
+    var MIN_TIME = 20000
     var DELAY_EVALUATE_TIME = 1000
 
     var FRICTION = 0.9
