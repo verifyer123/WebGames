@@ -188,9 +188,9 @@ var codeCake = function(){
         correctSequence = [-1,-1,-1,-1]
 
         stationPositions.push({x:game.world.centerX + 100,y: game.world.centerY - 500})
-        stationPositions.push({x:game.world.centerX - 180,y: game.world.centerY - 325})
-        stationPositions.push({x:game.world.centerX + 180,y: game.world.centerY - 145})
-        stationPositions.push({x:game.world.centerX - 180,y: game.world.centerY + 35})
+        stationPositions.push({x:game.world.centerX - 205,y: game.world.centerY - 315})
+        stationPositions.push({x:game.world.centerX + 210,y: game.world.centerY - 140})
+        stationPositions.push({x:game.world.centerX - 205,y: game.world.centerY + 35})
         stationPositions.push({x:game.world.centerX + 180,y: game.world.centerY + 215})
         stationPositions.push({x:game.world.centerX+90,y: game.world.centerY + 290})
 
@@ -687,12 +687,13 @@ var codeCake = function(){
         	evalTutorial()
         }
 
-        //console.log("Set round")
+        console.log("Set round")
     }
 
     function startCakeMovement(){
     	//exampleCake.visible = false
         var cake = getCake()
+        cake.alpha = 1
         cake.x = stationPositions[0].x
         cake.y = stationPositions[0].y
         cake.nextStation = 1
@@ -1035,7 +1036,7 @@ var codeCake = function(){
 
 
 
-        //console.log(buttonGroup.children[tutorialButtonInex].world.x)
+
         if(currentButtonSelected!=null && scrollState == SCROLL_STATE.SELECT){
             if(handState == SCROLL_STATE.SCROLL){
                 if(tutorialTween!=null){
@@ -1066,7 +1067,7 @@ var codeCake = function(){
                 timeOutTutorial = setTimeout(function(){handState = SCROLL_STATE.WAIT},500)
             })
         }
-        else if(tutorialButtonArray[tutorialButtonInex].world.x > game.world.centerX-200 && tutorialButtonArray[tutorialButtonInex].world.x< game.world.centerX+150){
+        else if(tutorialButtonArray[tutorialButtonInex].world.x >= game.world.centerX-250 && tutorialButtonArray[tutorialButtonInex].world.x< game.world.centerX+150){
             //console.log("eter tutoria")
             if(handState == SCROLL_STATE.SCROLL){
                 if(tutorialTween!=null){
