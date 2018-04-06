@@ -473,6 +473,53 @@ footer {
 	}
 }
 
+/* ----------- iPad Pro 10.5" ----------- */
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* show mobile */
+
+@media only screen 
+  and (min-device-width: 834px) 
+  and (max-device-width: 834px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+      
+      #mobile-landing {
+		display: inline;
+	}
+
+	#desktop-landing {
+		display: none;
+	}
+      
+    #home {
+        max-height: 1100px;
+        max-width: 950px;
+        width: 100%;
+        left: 4%;
+        top: 10%;
+	} 
+      
+    #landscape{
+        display: none;
+    }
+      
+    .home-Button {
+        display: inline !important;
+        width: 12% !important;
+        top: 2%;
+        left: 3%;
+        z-index: 1001;
+        position: fixed;
+    }
+      
+    .home-Button img{
+          width: 100%;
+    }
+
+}
+
 /* ----------- iPad Pro 12.9" ----------- */
 
 /* Portrait */
@@ -514,9 +561,9 @@ footer {
         position: fixed;
     }
       
-      .home-Button img{
+    .home-Button img{
           width: 100%;
-      }
+    }
 }
 
 /* Landscape */
