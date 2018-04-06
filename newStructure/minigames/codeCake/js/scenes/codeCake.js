@@ -167,6 +167,10 @@ var codeCake = function(){
 
     var okPressed
 
+    var machineGroup
+
+    var tutorialScaleTween
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -457,6 +461,8 @@ var codeCake = function(){
 	        					buttonGroup.add(currentButtonSelected)
 	        					currentButtonSelected.x = currentButtonSelected.initialX
 	        					currentButtonSelected.y = currentButtonSelected.initialY
+                                currentButtonSelected.scale.setTo(1)
+                                makeTutorialTween()
 	        					currentButtonSelected = null
 	        				}
 
@@ -533,6 +539,7 @@ var codeCake = function(){
 
         if(inTutorial!=-1){
             evalTutorial()
+
         }
 
 
@@ -685,9 +692,17 @@ var codeCake = function(){
 
         if(inTutorial!=-1){
         	evalTutorial()
+            //console.log("tutorial")
+            tutorialScaleTween = game.add.tween(tutorialButtonArray[tutorialButtonInex].scale).to({x:1.3,y:1.3},300,Phaser.Easing.linear,true)
+            tutorialScaleTween.yoyo(true)
+            tutorialScaleTween.loop(true)
         }
+    }
 
-        console.log("Set round")
+    function makeTutorialTween(){
+        tutorialScaleTween = game.add.tween(tutorialButtonArray[tutorialButtonInex].scale).to({x:1.3,y:1.3},300,Phaser.Easing.linear,true)
+        tutorialScaleTween.yoyo(true)
+        tutorialScaleTween.loop(true)
     }
 
     function startCakeMovement(){
@@ -798,6 +813,8 @@ var codeCake = function(){
             game.add.tween(cake.scale).to({x:cake.scale.x*1.3,y:cake.scale.y*1.3},DELAY_EVALUATE_TIME/2,Phaser.Easing.linear,true).yoyo(true)
 			game.add.tween(exampleCake.scale).to({x:cake.scale.x*1.3,y:cake.scale.y*1.3},DELAY_EVALUATE_TIME/2,Phaser.Easing.linear,true).yoyo(true)
 
+            
+
             setTimeout(function(){
             	setRound()
             	cake.visible = false
@@ -811,6 +828,9 @@ var codeCake = function(){
 	        ligths.setAnimationByName(0,"on",true)
 	    }
         spineMachines[cake.nextStation-1].setAnimationByName(0,"correct",true)
+        if(spineMachines[cake.nextStation-1].alpha!=1){
+            spineMachines[cake.nextStation-1].alpha = 1
+        }
 
         sound.play('machineWorking')
 
@@ -868,7 +888,13 @@ var codeCake = function(){
                 setTimeout(function(){
                 	//smokeSpine.visible = false
                 }, 600)
+
                 cake.nextStation+=1
+                if(cake.nextStation == stationPositions.length - 1){
+                    game.add.tween(machineGroup).to({y:0},200,Phaser.Easing.linear,true)
+                }
+                
+
                 cake.alpha = 0.2
                 //cake.scale.setTo(cake.scale.x/5,cake.scale.y/5)
                 game.add.tween(cake).to({alpha:1},TIME_MOVEMENT/4,Phaser.Easing.linear,true)
@@ -888,7 +914,6 @@ var codeCake = function(){
                 setRound()
             }
         },DELAY_EVALUATE_TIME)
-
     }
 
 
@@ -901,7 +926,6 @@ var codeCake = function(){
     }
 
     function clickOk(){
-    	//console.log("Click ok")
 
         if(okPressed){
             return
@@ -909,8 +933,14 @@ var codeCake = function(){
         okPressed = true
     	if(hand.visible){
 
-    		
-    		inTutorial=-1
+            game.add.tween(machineGroup).to({y:100},400,Phaser.Easing.linear,true).onComplete.add(function(){
+                startCakeMovement()
+            })
+
+            for(var i = 0; i < spineMachines.length; i++){
+                game.add.tween(spineMachines[i]).to({alpha:0.3},400,Phaser.Easing.linear,true)
+            }
+
     		hand.visible = false
             if(tutorialTween!=null){
                 tutorialTween.stop()
@@ -920,21 +950,28 @@ var codeCake = function(){
             }
     		//evalTutorial()
     	}
+        else{
+            startCakeMovement()
+        }
     	if(timeOn){
 	        stopTimer()
 	    }
-        startCakeMovement()
+        
         //exampleCake.visible = false
     }
 
     function clickButton(button,pointer){
     	//console.log(button.key)
+
+        if(inTutorial!=-1 && button == tutorialButtonArray[tutorialButtonInex]){
+            tutorialScaleTween.stop()
+        }
+        button.scale.setTo(1.3)
     	currentButtonSelected = button
     }
 
     function leaveButton(button){
-
-
+        //button.scale.setTo(1)
     	buttonGroup.force = 0
     	var key = button.key.split("_")
     	var type = key[1]
@@ -953,6 +990,8 @@ var codeCake = function(){
 	    	if(!((inTutorial == 0 && type == "base" && id==correctSequence[0]) || (inTutorial == 1 && type == "topping" && id==correctSequence[1]) || (inTutorial == 2 && type == "fruit" && id==correctSequence[2]) || (inTutorial == 3 && type == "extra" && id==correctSequence[3]))){
 	    		button.x = button.initialX
 		    	button.y = button.initialY
+                button.scale.setTo(1)
+                makeTutorialTween()
 			    sceneGroup.remove(currentButtonSelected)
 			    buttonGroup.add(currentButtonSelected)
 			    currentButtonSelected = null
@@ -967,6 +1006,7 @@ var codeCake = function(){
     		if(d < 100){
 
     			if((i == 1 && type!="base") || (i == 2 && type!="topping") || (i ==3 && type!="fruit") || (i == 4 && type!="extra")){
+                    button.scale.setTo(1)
     				break
     				
     			}
@@ -987,6 +1027,10 @@ var codeCake = function(){
     			stationButtons[i-1] = button
     			button.visible = false
 
+                game.add.tween(button.scale).to({x:0,y:0},100,Phaser.Easing.linear,true).onComplete.add(function(){
+                    button.scale.setTo(1)
+                })
+
     			if(inTutorial!=-1){
     				if(tutorialTween!= null){
     					//tutorialTween.pause()
@@ -995,13 +1039,16 @@ var codeCake = function(){
     					game.tweens.removeAll()
     				}
 
+                    tutorialScaleTween.stop()
+
     				inTutorial++
                     tutorialButtonInex++
                     stationTutorial++
+                    if(tutorialButtonInex < tutorialButtonArray.length){
+                        makeTutorialTween()                    }
 
     				//evalTutorial()
     			}
-    			
 
     			currentSequence[i-1] = id
 
@@ -1020,6 +1067,10 @@ var codeCake = function(){
     		}
     	}
 
+        button.scale.setTo(1)
+        if(inTutorial!=-1){
+            makeTutorialTween()
+        }
     	button.x = button.initialX
     	button.y = button.initialY
 	    sceneGroup.remove(currentButtonSelected)
@@ -1033,9 +1084,6 @@ var codeCake = function(){
             handOk()
             return
         }
-
-
-
 
         if(currentButtonSelected!=null && scrollState == SCROLL_STATE.SELECT){
             if(handState == SCROLL_STATE.SCROLL){
@@ -1198,8 +1246,12 @@ var codeCake = function(){
         backgroundGroup.add(background)
 
 
-         initialize()
+        initialize()
 
+        machineGroup = game.add.group()
+        sceneGroup.add(machineGroup)
+
+        machineGroup.y = 0
 
         backgroundSound = game.add.audio('codeCakeSong')
         game.sound.setDecodedCallback(backgroundSound, function(){
@@ -1223,11 +1275,11 @@ var codeCake = function(){
         band.scale.setTo(-0.5,0.5)
         band.setAnimationByName(0,"stop",true)
         band.setSkinByName("normal")
-        sceneGroup.add(band)
+        machineGroup.add(band)
         spineConveyor.push(band)
 
         var group = game.add.group()
-        sceneGroup.add(group)
+        machineGroup.add(group)
         stationBehindGruop.push(group)
 
         var station = game.add.spine(stationPositions[1].x,stationPositions[1].y+130,'oven_b')
@@ -1236,7 +1288,7 @@ var codeCake = function(){
         station.setAnimationByName(0,"idle",true)
 
         station.setSkinByName("normal")
-        sceneGroup.add(station)
+        machineGroup.add(station)
         spineMachines.push(station)
 
         band = game.add.spine(game.world.centerX,game.world.centerY-50,'conveyor')
@@ -1244,11 +1296,11 @@ var codeCake = function(){
         band.scale.setTo(0.5,0.5)
         band.setAnimationByName(0,"stop",true)
         band.setSkinByName("normal")
-        sceneGroup.add(band)
+        machineGroup.add(band)
         spineConveyor.push(band)
 
         group = game.add.group()
-        sceneGroup.add(group)
+        machineGroup.add(group)
         stationBehindGruop.push(group)
 
         station = game.add.spine(stationPositions[2].x,stationPositions[2].y+120,'oven_d')
@@ -1256,7 +1308,7 @@ var codeCake = function(){
         station.scale.setTo(0.5)
         station.setAnimationByName(0,"idle",true)
         station.setSkinByName("normal")
-        sceneGroup.add(station)
+        machineGroup.add(station)
         spineMachines.push(station)
 
         //station.tint = 0x0000ff
@@ -1265,11 +1317,11 @@ var codeCake = function(){
         band.scale.setTo(-0.5,0.5)
         band.setAnimationByName(0,"stop",true)
         band.setSkinByName("normal")
-        sceneGroup.add(band)
+        machineGroup.add(band)
         spineConveyor.push(band)
 
         group = game.add.group()
-        sceneGroup.add(group)
+        machineGroup.add(group)
         stationBehindGruop.push(group)
 
         station = game.add.spine(stationPositions[3].x,stationPositions[3].y+140,'oven_c')
@@ -1277,7 +1329,7 @@ var codeCake = function(){
         station.scale.setTo(0.5)
         station.setAnimationByName(0,"idle",true)
         station.setSkinByName("normal")
-        sceneGroup.add(station)
+        machineGroup.add(station)
         spineMachines.push(station)
 
         //station.tint = 0x00ffff
@@ -1286,11 +1338,11 @@ var codeCake = function(){
         band.scale.setTo(0.5)
         band.setAnimationByName(0,"stop",true)
         band.setSkinByName("normal")
-        sceneGroup.add(band)
+        machineGroup.add(band)
         spineConveyor.push(band)
 
         group = game.add.group()
-        sceneGroup.add(group)
+        machineGroup.add(group)
         stationBehindGruop.push(group)
         
 
@@ -1299,7 +1351,7 @@ var codeCake = function(){
         station.scale.setTo(-0.5,0.5)
         station.setAnimationByName(0,"idle",true)
         station.setSkinByName("normal")
-        sceneGroup.add(station)
+        machineGroup.add(station)
         spineMachines.push(station)
 
         ligths = game.add.spine(stationPositions[4].x,stationPositions[4].y-100,'light_bulbs')
@@ -1308,14 +1360,14 @@ var codeCake = function(){
         ligths.setSkinByName("green")
         //ligth.anchor.setTo(0.5)
         ligths.color = 'GREEN'
-        sceneGroup.add(ligths)
+        machineGroup.add(ligths)
 
         //station.tint = 0x00ff00
-        var finish = sceneGroup.create(game.world.centerX+90,game.world.centerY + 290,'atlas.game','FINAL_PLATE')
+        var finish = machineGroup.create(game.world.centerX+90,game.world.centerY + 290,'atlas.game','FINAL_PLATE')
         finish.anchor.setTo(0.5)
 
         group = game.add.group()
-        sceneGroup.add(group)
+        machineGroup.add(group)
         stationBehindGruop.push(group)
 
         var board = sceneGroup.create(game.world.centerX,game.world.height,'atlas.game','BOARD')
@@ -1403,7 +1455,7 @@ var codeCake = function(){
         smokeSpine.visible = false
         //smokeSpine.setAnimationByName(0,"correct",true)
         smokeSpine.setSkinByName("normal")
-        sceneGroup.add(smokeSpine)
+        machineGroup.add(smokeSpine)
 
 
         sampleImage = sceneGroup.create(0,-10,'atlas.game','SAMPLE')
