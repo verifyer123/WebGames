@@ -1,14 +1,14 @@
 window.minigame = window.minigame || {}
 
 function startCharSelector(){
-	var div = document.getElementById("characterSelector")
-	div.style.visibility = "visible"
-	div.style.opacity = 1
-	window.game = new Phaser.Game(div.clientWidth, div.clientHeight, Phaser.CANVAS, "characterSelector", {init: init, create: create }, true, true);
+	// var div = document.getElementById("characterSelector")
+	// div.style.visibility = "visible"
+	// div.style.opacity = 1
+	window.game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
 	// div.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
-		$(".epic-loader").css("display", "show")
+		//$(".epic-loader").css("display", "show")
 
     	function onCompletePreloading(){
 
@@ -18,7 +18,7 @@ function startCharSelector(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				$(".epic-loader").css("display", "none")
+				//$(".epic-loader").css("display", "none")
 				sceneloader.show("characterSelect")
 	    	}
 
@@ -35,7 +35,7 @@ function startCharSelector(){
         var fullWidth = 540
         var fullHeight = 960
 
-        var ratio = div.clientWidth / div.clientHeight
+        var ratio = window.innerWidth / window.innerHeight
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
 
@@ -91,4 +91,4 @@ function startCharSelector(){
     }
 }
 
-// startCharSelector()
+startCharSelector()

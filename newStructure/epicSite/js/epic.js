@@ -4,8 +4,9 @@ var epicSiteMain =  function(){
 
 	var gameFrame
 	var gameContainer
+	var charactersFrame
 
-	var DEFAULT_SRC = "../epicMap/index.html?language=" + language
+	var DEFAULT_SRC = "../minigames/epicMap/index.html?language=" + language
 	var INTR0_TIME = 3000
 	var BUTTON_DELAY = 1000
 
@@ -304,6 +305,28 @@ var epicSiteMain =  function(){
 		updatePlayerInfo()
 	}
 
+	function loadCharacterSelector(){
+		var div = document.getElementById("characterSelector")
+		div.style.visibility = "visible"
+		div.style.opacity = 1
+
+		var body = document.getElementById("characterSelector");
+		if (charactersFrame) {
+			body.removeChild(charactersFrame);
+			charactersFrame = null
+		}
+
+		charactersFrame = document.createElement("iframe")
+		charactersFrame.src = "../minigames/characterSelect/index.html?language=" + language + "&rand=" + Math.round(Math.random() * 10000000);
+		charactersFrame.style.borderStyle = "none"
+		charactersFrame.style.position = "absolute"
+		charactersFrame.style.top = "0"
+		charactersFrame.style.zIndex = "3"
+		// gameFrame.scrolling = "yes"
+		charactersFrame.width = "100%"
+		charactersFrame.height = "100%"
+		body.appendChild(charactersFrame);
+	}
 
 	function showGames(){
 		var characterSelector = document.getElementById("characterSelector")
@@ -354,6 +377,7 @@ var epicSiteMain =  function(){
 		startGame:start,
 		// loadGame:loadGame,
 		// checkPlayer:checkPlayer,
+		loadCharacterSelector:loadCharacterSelector,
 		showGames:showGames,
 		updatePlayerInfo:updatePlayerInfo,
 	}

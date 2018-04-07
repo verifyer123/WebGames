@@ -19,7 +19,7 @@ var routing = function () {
 	router
 		.on({
 			'yogotarselector': function () {
-				startCharSelector()
+				epicSiteMain.loadCharacterSelector()
 
 				// var credentials = loginModal.getChildData()
 				// mixpanel.track(
