@@ -1118,6 +1118,10 @@ var ordersUp = function(){
 
     }
 
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
+
     
 	return {
 		assets: assets,
@@ -1125,6 +1129,6 @@ var ordersUp = function(){
 		create: create,
         preload: preload,
         update: update,
-        //render:render
+        render:render
 	}
 }()
