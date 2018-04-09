@@ -494,7 +494,7 @@ footer {
 	}
       
     #home {
-        max-height: 900px;
+        max-height: 80vh;
         max-width: 780px;
         width: 100%;
         left: 4%;
