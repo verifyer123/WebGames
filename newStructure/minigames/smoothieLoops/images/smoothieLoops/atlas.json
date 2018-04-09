@@ -2,7 +2,7 @@
 
 {
 	"filename": "banana",
-	"frame": {"x":882,"y":216,"w":79,"h":60},
+	"frame": {"x":599,"y":442,"w":79,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":60},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "fresawn",
-	"frame": {"x":879,"y":278,"w":79,"h":60},
+	"frame": {"x":882,"y":216,"w":79,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":60},
@@ -64,17 +64,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "go",
-	"frame": {"x":707,"y":362,"w":107,"h":69},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":69},
-	"sourceSize": {"w":107,"h":69},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "green_off",
-	"frame": {"x":641,"y":459,"w":39,"h":43},
+	"frame": {"x":680,"y":459,"w":39,"h":43},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":39,"h":43},
@@ -92,7 +83,7 @@
 },
 {
 	"filename": "handDown",
-	"frame": {"x":603,"y":362,"w":102,"h":95},
+	"frame": {"x":719,"y":362,"w":102,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
@@ -119,7 +110,7 @@
 },
 {
 	"filename": "ice",
-	"frame": {"x":722,"y":433,"w":79,"h":60},
+	"frame": {"x":879,"y":278,"w":79,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":60},
@@ -128,7 +119,7 @@
 },
 {
 	"filename": "igual",
-	"frame": {"x":803,"y":483,"w":26,"h":19},
+	"frame": {"x":761,"y":459,"w":26,"h":19},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":19},
@@ -182,11 +173,20 @@
 },
 {
 	"filename": "milk",
-	"frame": {"x":861,"y":340,"w":79,"h":60},
+	"frame": {"x":868,"y":340,"w":79,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":60},
 	"sourceSize": {"w":79,"h":60},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ok",
+	"frame": {"x":603,"y":362,"w":114,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":75},
+	"sourceSize": {"w":114,"h":75},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -200,7 +200,7 @@
 },
 {
 	"filename": "red_off",
-	"frame": {"x":599,"y":459,"w":40,"h":43},
+	"frame": {"x":963,"y":216,"w":40,"h":43},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":43},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "smoothie_banana",
-	"frame": {"x":816,"y":323,"w":43,"h":78},
+	"frame": {"x":960,"y":278,"w":43,"h":78},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":78},
@@ -227,7 +227,7 @@
 },
 {
 	"filename": "smoothie_cafe",
-	"frame": {"x":942,"y":340,"w":43,"h":77},
+	"frame": {"x":823,"y":403,"w":43,"h":77},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":77},
@@ -236,7 +236,7 @@
 },
 {
 	"filename": "smoothie_fresa",
-	"frame": {"x":816,"y":403,"w":43,"h":78},
+	"frame": {"x":823,"y":323,"w":43,"h":78},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":43,"h":78},
@@ -245,7 +245,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":861,"y":402,"w":64,"h":64},
+	"frame": {"x":868,"y":402,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -254,7 +254,7 @@
 },
 {
 	"filename": "tile",
-	"frame": {"x":927,"y":419,"w":60,"h":60},
+	"frame": {"x":934,"y":402,"w":60,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":60},
@@ -281,7 +281,7 @@
 },
 {
 	"filename": "yello_off",
-	"frame": {"x":682,"y":459,"w":38,"h":43},
+	"frame": {"x":721,"y":459,"w":38,"h":43},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":43},
@@ -302,8 +302,8 @@
 	"version": "1.0",
 	"image": "smoothieLoops_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":988,"h":503},
+	"size": {"w":1004,"h":503},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:b4ce7df58b5928691926b2fe4a0182bb:635786a097ce921525ebcb6a46d89597:c2dcd749824cdb8ac9e4cef22644a063$"
+	"smartupdate": "$TexturePacker:SmartUpdate:085d87d93e741a4dab15a341e1133980:be80183fe5452f9788d101a7de61abad:c2dcd749824cdb8ac9e4cef22644a063$"
 }
 }
