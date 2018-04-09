@@ -135,6 +135,8 @@ var smart = function(){
 
     var tweenButton
 
+    var tutorialindividualvalue = 0
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -453,7 +455,7 @@ var smart = function(){
 
     function setRound(){
 
-    	for(var i = 0; i < 2; i ++){
+    	for(var i = 0; i < 3; i ++){
     		numbersOperation[i].visible = false
     	}
 
@@ -564,7 +566,7 @@ var smart = function(){
             	voidOperation[imageBitId].children[index].visible = true
             	productsOperation[imageBitId].children[index].visible = true
             }
-
+            tutorialindividualvalue = objectValues[productResultId]
             total += (multiplier*objectValues[productResultId])
 
             resultObjects.push({imageBitId:imageBitId,productResultId:productResultId,multiplier:multiplier})
@@ -617,7 +619,7 @@ var smart = function(){
 	        }
 
 	        if(inTutorial!=-1){
-            	tutorialObjects.push({object:productsOperation[ids[i]],multiplier:multiplier,individualValue: objectValues[productResultId]})
+            	tutorialObjects.push({object:productsOperation[ids[i]],multiplier:multiplier, individualValue: objectValues[productResultId]})
             }
 
             total += (multiplier*objectValues[productResultId])
@@ -632,10 +634,13 @@ var smart = function(){
 
         if(inTutorial!=-1){
 
-        	for(var i = 0; i < 2; i ++){
+        	for(var i = 0; i <2; i ++){
         		numbersOperation[i].x = tutorialObjects[i].object.x 
         		numbersOperation[i].y = tutorialObjects[i].object.y + 60
         	}
+
+            numbersOperation[2].x = productsOperation[resultObjects[0].imageBitId].x
+            numbersOperation[2].y = productsOperation[resultObjects[0].imageBitId].y + 60
 
         	setTimeout(setNumberTutorial,300)
 
@@ -717,6 +722,7 @@ var smart = function(){
                 if(id != resultObjects[0].productResultId){
                     return
                 }
+
             }
 
             for(var i = 0; i < resultObjects.length; i++){
@@ -724,6 +730,13 @@ var smart = function(){
 
                     correctObject = true
                     resultObjects[i].multiplier --
+
+                    if(inTutorial!=-1){
+                        numbersOperation[2].visible = true
+                        numbersOperation[2].value += tutorialindividualvalue 
+                        numbersOperation[2].setText(numbersOperation[2].value)
+
+                    }
 
 					productsOperation[resultObjects[i].imageBitId].children[resultObjects[i].multiplier].loadTexture('atlas.game',bitImagesNames[id],0,false)
 
@@ -944,9 +957,17 @@ var smart = function(){
             game.sound.mute = false
         }, this);
 
+        /*var table = game.add.tileSprite(0,game.world.centerY,game.world.width,game.world.centerY,"atlas.game","TABLE")
+        table.anchor.setTo(0,0)
+        sceneGroup.add(table)*/
 
-		var cashierTable = sceneGroup.create(game.world.centerX,game.world.centerY-50,'atlas.game','CASHIER_TABLE')
-        cashierTable.anchor.setTo(0.5,0.5)
+		var cashierTable = game.add.tileSprite(0,game.world.centerY-30,game.world.width,215,'atlas.game','CASHIER_TABLE')
+        cashierTable.anchor.setTo(0,0.5)
+        sceneGroup.add(cashierTable)
+
+        var cashier = sceneGroup.create(game.world.centerX, game.world.centerY-50,"atlas.game","SCANNER")
+        cashier.anchor.setTo(0.5)
+
 
         var machine = sceneGroup.create(game.world.centerX,-25,'atlas.game','CASHIER_SCREEN')
         machine.anchor.setTo(0.5,0)
@@ -1157,6 +1178,13 @@ var smart = function(){
         numbersOperation.push(number)
         operationGroup.add(number)
         number.visible = false
+
+        number = new Phaser.Text(sceneGroup.game, -20, 70, "0", fontStyle)
+        number.anchor.setTo(0.5)
+        numbersOperation.push(number)
+        operationGroup.add(number)
+        number.visible = false
+        number.value = 0
 
 
         pruductSpines.push(createSpine('milk',0))
