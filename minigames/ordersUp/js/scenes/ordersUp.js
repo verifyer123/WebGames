@@ -50,7 +50,7 @@ var ordersUp = function(){
     var INITIAL_DIFFICULT = 2.5
     var DELTA_DIFFICULT = 0.3
     var MAX_DIFFICULT = 6
-    var BOSS_DIFFICULT = 9
+    var BOSS_DIFFICULT = 7
     var BOSS_PROBABILIY = 0.3
     var PEOPLE_TO_BOSS = 5
 
@@ -536,7 +536,7 @@ var ordersUp = function(){
     }
     
 
-    function clickButton(button,pointer){
+    function clickButton(button){
         sound.play("pop")
         button.loadTexture("atlas.game","boton_on")
         button.line.loadTexture("atlas.game","boton_on_linea")
@@ -1035,6 +1035,28 @@ var ordersUp = function(){
         ballonGroup.add(maskSecuence)
 
         secuence.mask = maskSecuence
+
+        var firstKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        firstKey.onDown.add(function(){
+            
+            clickButton(currentButtonGroup.children[0])
+            
+        }, this);
+
+
+        var secondKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        secondKey.onDown.add(function(){
+            
+            clickButton(currentButtonGroup.children[1])
+            
+        }, this);
+
+        var thirdKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        thirdKey.onDown.add(function(){
+            
+            clickButton(currentButtonGroup.children[2])
+            
+        }, this);
     }
 
     function create(){
