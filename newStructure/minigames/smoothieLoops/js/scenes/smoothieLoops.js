@@ -130,6 +130,13 @@ var smoothieLoops = function(){
 
     var clouds
 
+    var boardGroup
+    var boardImageFruit
+    var boardImageSmoothie
+
+    var boardButtons
+    var boardTween
+    var errorTween
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -151,6 +158,9 @@ var smoothieLoops = function(){
         inTutorial = 0
         arrayButtons = []
         playedLoops = 0
+
+        boardImages = []
+        boardButtons = []
 
         currentTime = INITIAL_TIME
 
@@ -267,11 +277,6 @@ var smoothieLoops = function(){
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.x
        coins.y=objectBorn.y
-       
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
 
 
 
@@ -430,6 +435,7 @@ var smoothieLoops = function(){
             arrayButtons[i].scale.setTo(1)
             arrayButtons[i].x = arrayButtons[i].startPos.x
             arrayButtons[i].y = arrayButtons[i].startPos.y
+            arrayButtons[i].inArea = false
         }
 
         var r = game.rnd.integerInRange(1,3)
@@ -445,14 +451,20 @@ var smoothieLoops = function(){
             case 1:
             correctSecuence = bananaSecuence
             dialog.smoothie.loadTexture('atlas.game','smoothie_banana',0,false)
+            boardImageFruit.loadTexture("atlas.game","banana")
+            boardImageSmoothie.loadTexture("atlas.game","smoothie_banana")
             break
             case 2:
             correctSecuence = strawberrySecuence
             dialog.smoothie.loadTexture('atlas.game','smoothie_fresa',0,false)
+            boardImageFruit.loadTexture("atlas.game","fresawn")
+            boardImageSmoothie.loadTexture("atlas.game","smoothie_fresa")
             break
             case 3:
             correctSecuence = coffeeSecuence
             dialog.smoothie.loadTexture('atlas.game','smoothie_cafe',0,false)
+            boardImageFruit.loadTexture("atlas.game","cofi")
+            boardImageSmoothie.loadTexture("atlas.game","smoothie_cafe")
             break
         }
 
@@ -485,6 +497,7 @@ var smoothieLoops = function(){
         currentLevel ++
 
         if(inTutorial!=-1){
+            showBoard()
             evalTutorial()
         }
     }
@@ -660,6 +673,7 @@ var smoothieLoops = function(){
 				game.tweens.removeAll()
 				
 			}
+            hideBoard()
         	evalTutorial()
         }
 
@@ -698,6 +712,17 @@ var smoothieLoops = function(){
                     sceneGroup.bringToTop(arrayButtons[currentIngredientAnimation])
                     if(arrayButtons[currentIngredientAnimation].id != correctSecuence[currentIngredientAnimation]){
                         rectAnswer.tint = 0xff0000
+
+                        //boardButtons[currentIngredientAnimation].scale.setTo(1.3)
+                        //if(currentIngredientAnimation<arrayButtons.length-1){
+                            errorTween = game.add.tween(boardButtons[currentIngredientAnimation].scale).to({x:1.2,y:1.2},500,Phaser.Easing.linear,true)
+                        //}
+                        //else{
+                            
+                        //}
+                        errorTween.yoyo(true)
+                        errorTween.loop(true)
+
                         smoothieBad()
                         return
                     }
@@ -759,6 +784,10 @@ var smoothieLoops = function(){
             }
             else{
                 //lose
+                dialog.scale.setTo(1)
+                errorTween = game.add.tween(dialog.scale).to({x:1.2,y:1.2},500,Phaser.Easing.linear,true)
+                errorTween.yoyo(true)
+                errorTween.loop(true)
                 smoothieBad()
             }
         }
@@ -777,8 +806,32 @@ var smoothieLoops = function(){
             }
             else{
                 //lose
+                dialog.scale.setTo(1)
+                errorTween = game.add.tween(dialog.scale).to({x:1.2,y:1.2},500,Phaser.Easing.linear,true)
+                errorTween.yoyo(true)
+                errorTween.loop(true)
                 smoothieBad()
             }
+        }
+    }
+
+    function showBoard(){
+        game.add.tween(boardGroup).to({alpha:1,angle:0},500,Phaser.Easing.linear,true)
+        if(inTutorial==-1){
+            setTimeout(hideBoard,4000)
+        }
+    }
+
+    function hideBoard(){
+        game.add.tween(boardGroup).to({alpha:0,angle:90},500,Phaser.Easing.linear,true)
+
+        if(errorTween!=null){
+            errorTween.stop()
+            dialog.scale.setTo(1)
+        }
+
+        for(var i = 0; i < boardButtons.length; i ++){
+            boardButtons[i].scale.setTo(1)
         }
     }
 
@@ -789,7 +842,46 @@ var smoothieLoops = function(){
         missPoint()
         machineSpine.setAnimationByName(0,'lose',false)
         var dinamitalose =yogotar.setAnimationByName(0,'lose',false)
-        dinamitalose.onComplete = setRound
+        dinamitalose.onComplete = restarRound
+
+        showBoard()
+    }
+
+    function restarRound(){
+        if(rectAnswer.x > 0){
+            rectAnswer.x = -500
+        }
+
+        lButton.visible = true
+        lButton.x = lButton.startPos.x
+        lButton.y = lButton.startPos.y
+        inAnimation = false
+        currentIngredientAnimation = 0
+        yogotar.setAnimationByName(0,'idle',true)
+        machineSpine.setAnimationByName(0,'idle',true)
+
+        for(var i = 0; i < arrayButtons.length; i++ ){
+            arrayButtons[i].scale.setTo(1)
+            arrayButtons[i].x = arrayButtons[i].startPos.x
+            arrayButtons[i].y = arrayButtons[i].startPos.y
+            arrayButtons[i].inArea = false
+        }
+
+
+
+        if(timeOn){
+            startTimer(currentTime)
+        }
+
+        loopText.setText(1)
+        loopButton.visible = false
+        loopText.value = 1
+        playedLoops = 0
+
+        arrayButtons = []
+
+        game.add.tween(dialog.scale).to({x:1,y:1},500,Phaser.Easing.linear,true)
+
     }
 
     function clickLoop(){
@@ -919,7 +1011,9 @@ var smoothieLoops = function(){
     	}
     }
 
-    
+    function setBoardTween(){
+        //boardTween
+    }
     
     function createScene(){
 
@@ -1124,6 +1218,67 @@ var smoothieLoops = function(){
 
         sceneGroup.add(dialog)
         dialog.scale.setTo(0)
+
+        boardGroup = game.add.group()
+        sceneGroup.add(boardGroup)
+        boardGroup.x = game.world.centerX - 250
+        boardGroup.y = game.world.centerY - 260
+        boardGroup.alpha = 0
+        boardGroup.angle = 90
+
+        var boardImage = boardGroup.create(0,0,"atlas.game","board")
+        boardImage.scale.setTo(1.1)
+        boardImage.anchor.setTo(0,1)
+
+        var product = boardGroup.create(45,-70,"atlas.game","milk")
+        product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+        boardButtons.push(product)
+
+        product = boardGroup.create(95,-70,"atlas.game","plus")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        product = boardGroup.create(145,-70,"atlas.game","ice")
+        product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+        boardButtons.push(product)
+
+        product = boardGroup.create(195,-70,"atlas.game","plus")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        boardImageFruit = boardGroup.create(245,-70,"atlas.game","milk")
+        boardImageFruit.scale.setTo(0.7)
+        boardImageFruit.anchor.setTo(0.5)
+        boardButtons.push(boardImageFruit)
+
+        product = boardGroup.create(295,-70,"atlas.game","plus")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        product = boardGroup.create(345,-70,"atlas.game","licuar")
+        product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+        boardButtons.push(product)
+
+        product = boardGroup.create(395,-70,"atlas.game","igual")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        boardImageSmoothie = boardGroup.create(445,-70,"atlas.game","smoothie_banana")
+        //product.scale.setTo(0.7)
+        boardImageSmoothie.anchor.setTo(0.5)
+
+        var text = "RECIPE"
+        if(localization.getLanguage()=="ES"){
+            text = "RECETA"
+        }
+
+        fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var textRecipe = new Phaser.Text(sceneGroup.game, boardImage.width/2, -110, text, fontStyle)
+        textRecipe.anchor.setTo(0.5)
+        boardGroup.add(textRecipe)
 
 
         hand = sceneGroup.create(0,0,'atlas.game','handUp')
