@@ -47,20 +47,20 @@ var ordersUp = function(){
     var MAX_PRODUCTS_PER_TYPE = 3
     var PRODUCT_TYPES = 3
 
-    var INITIAL_DIFFICULT = 1.9
-    var DELTA_DIFFICULT = 0.1
+    var INITIAL_DIFFICULT = 2.5
+    var DELTA_DIFFICULT = 0.3
     var MAX_DIFFICULT = 6
     var BOSS_DIFFICULT = 9
     var BOSS_PROBABILIY = 0.3
     var PEOPLE_TO_BOSS = 5
 
-    var INITIAL_APPEAR_PERSON = 6000
-    var DELTA_APPEAR_PERSON = 100
-    var MIN_APPEAR_PERSON = 3000
+    var INITIAL_APPEAR_PERSON = 3500
+    var DELTA_APPEAR_PERSON = 50
+    var MIN_APPEAR_PERSON = 2500
 
-    var INITIAL_VELOCITY = 1
+    var INITIAL_VELOCITY = 1.5
     var MAX_VELOCITY = 3
-    var DELTA_VELOCITY = 0.02
+    var DELTA_VELOCITY = 0.03
 
     var DELTA_IN_SECUENCE = 40
     var DELTA_IN_SECUENCE_BOSS = 35
@@ -738,6 +738,7 @@ var ordersUp = function(){
         lastPerson = person
         person.type = peopleType
         person.walkState = PERSON_STATE.WALK
+        peopleList.sendToBack(person)
 
     }
 
