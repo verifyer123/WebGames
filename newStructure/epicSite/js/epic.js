@@ -305,6 +305,17 @@ var epicSiteMain =  function(){
 		updatePlayerInfo()
 	}
 
+	function setCharacterHome(selectedCharacter){
+
+		var yogotarImgPath = "assets/img/common/yogotars/" + selectedCharacter.toLowerCase() + ".png"
+		$( '.yogotar img' ).attr("src",yogotarImgPath);
+
+		var characterSelector = document.getElementById("characterSelector")
+		TweenMax.to(characterSelector, 0.5, {opacity: 0, ease:Quad.easeInOut, onComplete:function () {
+				characterSelector.style.visibility = "hidden"
+			}})
+	}
+
 	function loadCharacterSelector(){
 		var div = document.getElementById("characterSelector")
 		div.style.visibility = "visible"
@@ -380,6 +391,7 @@ var epicSiteMain =  function(){
 		loadCharacterSelector:loadCharacterSelector,
 		showGames:showGames,
 		updatePlayerInfo:updatePlayerInfo,
+		setCharacterHome:setCharacterHome
 	}
 }()
 
