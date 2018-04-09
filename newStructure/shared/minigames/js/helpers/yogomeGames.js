@@ -208,6 +208,7 @@ var yogomeGames = function () {
             {name:'Clean Crossing',url:urlSet + 'cleanCrossing/',mapUrl:urlMap + 'cleanCrossing', sceneName:'cleanCrossing',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//178
             {name:'Climb O Weight',url:urlSet + 'climbOWeight/',mapUrl:urlMap + 'climbOWeight', sceneName:'climbOWeight',subject:'sciencie', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//179
             {name:'Water Gunner',url:urlSet + 'waterGunner/',mapUrl:urlMap + 'waterGunner', sceneName:'waterGunner',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//180
+            {name:'Scary Shadows',url:urlSet + 'scaryShadows/',mapUrl:urlMap + 'scaryShadows', sceneName:'scaryShadows',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//181
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
