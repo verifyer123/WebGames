@@ -63,7 +63,7 @@ var smoothieLoops = function(){
     }
 
     var NUM_LIFES = 3
-    var LEVEL_TIMER = 0
+    var LEVEL_TIMER = 2
     var INITIAL_TIME = 15000
     var DELTA_TIME = 100
     var MIN_TIME = 10000
