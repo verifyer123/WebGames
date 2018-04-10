@@ -713,16 +713,14 @@ var smart = function(){
     function leaveButton(button,pointer){
         var id = button.id
 
-        //button.visible = false
-        //button = null
         var correctObject = false
         if(pointer.y < game.world.centerY+50){
 
             if(inTutorial!=-1){
                 if(id != resultObjects[0].productResultId){
+                    button.visible = false
                     return
                 }
-
             }
 
             for(var i = 0; i < resultObjects.length; i++){

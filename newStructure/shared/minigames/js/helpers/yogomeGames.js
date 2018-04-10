@@ -210,6 +210,7 @@ var yogomeGames = function () {
             {name:'Water Gunner',url:urlSet + 'waterGunner/',mapUrl:urlMap + 'waterGunner', sceneName:'waterGunner',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//180
             {name:'Scary Shadows',url:urlSet + 'scaryShadows/',mapUrl:urlMap + 'scaryShadows', sceneName:'scaryShadows',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//181
             {name:'Tile A Roid',url:urlSet + 'tileARoid/',mapUrl:urlMap + 'tileARoid', sceneName:'tileARoid',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//182
+            {name:'Geondrian',url:urlSet + 'geondrian/',mapUrl:urlMap + 'geondrian', sceneName:'geondrian',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//183
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
