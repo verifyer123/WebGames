@@ -19,11 +19,12 @@ var tutorialHelper = function () {
 	var playKey = "button_play"
 	var backKey = "background_tutorial"
 
-
+	var spine
+	var spineTimeOut
 
 	function createTutorialGif(group,onClickFunction){
 
-		var rect = new Phaser.Graphics(game)
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		rect.alpha = 0.7
@@ -31,22 +32,16 @@ var tutorialHelper = function () {
 		rect.inputEnabled = true
 		rect.events.onInputDown.add(function(){
 			rect.inputEnabled = false
-			sound.play("pop")
-			game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-				onClickFunction()
-			})
-			//videoImage.destroy()
-			// if(game.device.webmVideo){
-			// 	tutorialVideo.stop()
-			// 	inTutorial = false
-			// }
-
-			group.destroy()
-			//tutorialVideo.removeVideoElement()
-		})
+			
+		})*/
 
 		inTutorial = true
 
+		var rect = new Phaser.Graphics(game)
+		rect.beginFill(0x000000)
+		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+		rect.alpha = 0.7
+		rect.endFill()
 		group.add(rect)
 
 		//return
@@ -65,6 +60,21 @@ var tutorialHelper = function () {
 		var button = group.create(game.world.centerX+120, game.world.centerY+330, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
 		button.anchor.setTo(0.5,0.5)
 		button.scale.setTo(0.85)
+
+		
+
+		rect = new Phaser.Graphics(game)
+		rect.beginFill(0x000000)
+		rect.drawRect(button.x-120,button.y-80,240, 160)
+		rect.alpha = 0
+		rect.endFill()
+		rect.inputEnabled = true
+		rect.events.onInputDown.add(function(){
+			rect.inputEnabled = false
+			clickPlay(group,onClickFunction)
+		})
+		group.add(rect)
+
 
 		game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
 
@@ -88,9 +98,10 @@ var tutorialHelper = function () {
 		// }
 		// else{
 
-		var spine = game.add.spine(game.world.centerX-120, game.world.centerY+450,"tutorialGif")
+		spine = game.add.spine(game.world.centerX-120, game.world.centerY+450,"tutorialGif")
 		spine.setSkinByName("normal")
-		spine.setAnimationByName(0,"IDLE",true)
+		var anim = spine.setAnimationByName(0,"IDLE",false)
+		anim.onComplete = repeatSpine
 		group.add(spine)
 
 		// }
@@ -161,6 +172,23 @@ var tutorialHelper = function () {
 		//tutorialVideo.video.setAttribute('playsinline', 'playsinline');
 
 		//setTimeout(function(){tutorialVideo.play(true)},1000)
+
+	}
+
+	function repeatSpine(){
+		spineTimeOut = setTimeout(function(){
+			var anim = spine.setAnimationByName(0,"IDLE",false)
+			anim.onComplete = repeatSpine
+		},500)
+	}
+
+	function clickPlay(group,onClickFunction){
+		sound.play("pop")
+		game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+			onClickFunction()
+		})
+		clearTimeout(spineTimeOut)
+		group.destroy()
 
 	}
 
