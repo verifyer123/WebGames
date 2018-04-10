@@ -668,7 +668,7 @@ var selfiePlanet = function(){
         changeImage(pivot, planetsGroup)
         planetsName.text.setText(planetsName.words[rand])
         
-        planetsName.motion = game.add.tween(planetsName.text.scale).to({x: 1.4, y:1.4}, 700, Phaser.Easing.linear, true, 0, -1)
+        planetsName.motion = game.add.tween(planetsName.text.scale).to({x: 0.6, y:0.6}, 700, Phaser.Easing.linear, true, 0, -1)
         planetsName.motion.yoyo(true, 0)
         
         planetsGroup.translate = game.add.tween(planetsGroup).to({x: game.world.width + planetsGroup.children[pivot].width}, speed, Phaser.Easing.linear, true)
