@@ -75,6 +75,11 @@ var selfiePlanet = function(){
     var target
     var pivot
     var eagle, eagleSad, eagleHappy
+    var planetsName
+    var tutorial
+    var rand
+    var randomControl
+    var counter
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -85,7 +90,11 @@ var selfiePlanet = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         pivot = 0
-        speed = 3000
+        rand = 0
+        speed = 4000
+        randomControl = -1
+        counter = 0
+        tutorial = true
         loadSounds()
 	}
 
@@ -255,8 +264,6 @@ var selfiePlanet = function(){
     
     function preload(){
         
-		
-		
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('dancing_baby', soundsPath + 'songs/dancing_baby.mp3');
@@ -606,6 +613,8 @@ var selfiePlanet = function(){
                 sound.play('snapshot')
                 flashScene()
                 planetsGroup.translate.stop()
+                planetsName.motion.stop()
+                planetsName.text.scale.setTo(1)
                 checkCorrect()
                 game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
             })
@@ -630,27 +639,16 @@ var selfiePlanet = function(){
         
         pic.y -= 100
         
-        /*var graphics = game.add.graphics(0, 0);
-        graphics.beginFill(0xFF3300);
-        graphics.lineStyle(2, 0x0000FF, 1);
-        graphics.alpha = 0.5
-        graphics.drawRect(pic.x, pic.y, pic.width, pic.height);
-        
-        var graphics2 = game.add.graphics(0, 0);
-        graphics2.beginFill(0x3333ff);
-        graphics2.lineStyle(2, 0x0000FF, 1);
-        graphics2.alpha = 0.5
-        graphics2.drawRect(obj.x, obj.y, obj.width, obj.height);*/
-        
         var focus = pic.containsRect(obj)
-
-        if(focus){
+        
+        if(focus && pivot === rand){
             sound.play("right")
             particleCorrect.x = target.x 
             particleCorrect.y = target.y
             particleCorrect.start(true, 1200, null, 10)
             eagleHappy.alpha = 1
             addPoint(1)
+            restartGame(true)
         } 
         else{
             particleWrong.x = target.x - 20
@@ -658,39 +656,68 @@ var selfiePlanet = function(){
             particleWrong.start(true, 1200, null, 10)
             eagleSad.alpha = 1
             missPoint()
+            restartGame(false)
         }
-        restartGame()
     }
     
     function initGame(){
         
         gameActive = true
         planetsGroup.x = -200
-        changeImage(pivot, planetsGroup)
         
-        planetsGroup.translate = game.add.tween(planetsGroup).to({x: game.world.width + 200}, speed, Phaser.Easing.linear, true)
+        changeImage(pivot, planetsGroup)
+        planetsName.text.setText(planetsName.words[rand])
+        
+        planetsName.motion = game.add.tween(planetsName.text.scale).to({x: 1.4, y:1.4}, 700, Phaser.Easing.linear, true, 0, -1)
+        planetsName.motion.yoyo(true, 0)
+        
+        planetsGroup.translate = game.add.tween(planetsGroup).to({x: game.world.width + planetsGroup.children[pivot].width}, speed, Phaser.Easing.linear, true)
         
         planetsGroup.translate.onComplete.add(function(){
-            missPoint()
-            eagle.setAnimationByName(0, "sad", true)
-            particleWrong.x = target.x - 20
-            particleWrong.y = target.y
-            particleWrong.start(true, 1200, null, 10)
-            planetsGroup.children[pivot].alpha = 0
-            restartGame()
+            if(tutorial){
+                missPoint()
+                eagle.setAnimationByName(0, "sad", true)
+                particleWrong.x = target.x - 20
+                particleWrong.y = target.y
+                particleWrong.start(true, 1200, null, 10)
+                planetsGroup.children[pivot].alpha = 0
+                restartGame(false)
+            }
+            else{
+                pivot = getRand(pivot)
+                counter < randomControl ? counter++ : pivot = rand
+                initGame()
+            }
+            planetsName.motion.stop()
+            planetsName.text.scale.setTo(1)
         })
     }
     
-    function restartGame(){
+    function restartGame(ans){
         
-        if(pivot < planets.length-1)
-            pivot++
-        else{
-            pivot = 0
-            if(speed > 500)
-                speed -= 500
-            else speed = 500
+        if(tutorial){
+            if(pivot < planets.length-1){
+                pivot++
+                rand = pivot
+            }
+            else{
+                tutorial = false
+                pivot = getRand(pivot)
+                rand = getRand(rand)
+            }
         }
+        else{
+            if(ans){
+                if(speed > 500)
+                    speed -= 200
+                else speed = 500
+            }
+            pivot = getRand(pivot)
+            rand = getRand(rand)
+            randomControl = game.rnd.integerInRange(2, 4)
+            counter = 0
+        }
+        
         
         if(lives !== 0){
             game.add.tween(planetsGroup.children[pivot]).to({alpha: 0}, 1500, Phaser.Easing.Cubic.In, true, 400).onComplete.add(function () {
@@ -704,11 +731,44 @@ var selfiePlanet = function(){
         }
     }
     
+    function getRand(opt){
+        var x = game.rnd.integerInRange(0, 7)
+        if(x === opt)
+            return getRand()
+        else
+            return x     
+    }
+    
     function backAndWihte(){
         
         var wihte = game.add.graphics(0, 0)
         wihte.beginFill(0xFFFFFF)
         wihte.drawRect(0, 0, game.world.width, game.world.height)
+    }
+    
+    function createText(){
+        
+        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        
+        planetsName = game.add.group()
+        //planetsName.alpha = 0
+        sceneGroup.add(planetsName)
+        
+        var name = new Phaser.Text(sceneGroup.game, game.world.centerX - 200, game.world.centerY + 300, '', fontStyle)
+        name.anchor.setTo(0.5)
+        name.stroke = "#191A4F"
+        name.strokeThickness = 20
+        planetsName.add(name)
+        planetsName.text = name
+        
+        if(localization.getLanguage() === 'EN'){
+            var words = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
+        }
+        else{
+            var words = ["Mercurio", "Venus", "Tierra", "Marte", "Júpiter", "Saturno", "Urano", "Neptuno"]
+        }
+        
+        planetsName.words = words
     }
 	
 	return {
@@ -745,6 +805,7 @@ var selfiePlanet = function(){
             initCam()
             createPointsBar()
 			createHearts()
+            createText()
             createParticles()
 			
 			buttons.getButton(dancing_baby,sceneGroup)
