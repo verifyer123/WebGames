@@ -347,7 +347,7 @@ var hygienePlus = function(){
             choices[resetValues]=resetValues;
         }
         prepareScenario();
-        if(tutoLvl1 && (pointsBar.text._text==0 || pointsBar.text._text==3)){
+        if(tutoLvl1 && (pointsBar.text._text==0)){
             startTutorial();
             if(pointsBar.text._text==3)tutoLvl1=false;
         }else{
@@ -1005,9 +1005,9 @@ var hygienePlus = function(){
             textInBoxAnswer.scale.setTo(0.9,0.9);
             textInBox1Final.scale.setTo(0.8,0.8);
             textInBox2Final.scale.setTo(0.8,0.8);
-            text1.scale.setTo(0.6,0.6);
-            text2.scale.setTo(0.6,0.6);
-            text3.scale.setTo(0.6,0.6);
+            text1.scale.setTo(0.7,0.7);
+            text2.scale.setTo(0.7,0.7);
+            text3.scale.setTo(0.7,0.7);
         }else{
             graphics.x=-20
             text1=game.add.text(btn1.centerX, btn1.centerY, listofActionsEN[0][0], fontStyle);
@@ -1028,9 +1028,9 @@ var hygienePlus = function(){
         text2.anchor.setTo(0.5,0.5);
         text3.anchor.setTo(0.5,0.5);
         
-        text1.scale.setTo(0.7,0.7);
-        text2.scale.setTo(0.7,0.7);
-        text3.scale.setTo(0.7,0.7);
+        text1.scale.setTo(0.8,0.8);
+        text2.scale.setTo(0.8,0.8);
+        text3.scale.setTo(0.8,0.8);
         
         text1.tint=0x1F635A;
         text2.tint=0x1F635A;
