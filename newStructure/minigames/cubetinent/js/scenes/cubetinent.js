@@ -1100,7 +1100,6 @@ var cubetinent = function(){
 
         tween1.start()
 
-        console.log("start tween")
     }
 
     function getCircle(x){

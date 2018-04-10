@@ -47,20 +47,20 @@ var ordersUp = function(){
     var MAX_PRODUCTS_PER_TYPE = 3
     var PRODUCT_TYPES = 3
 
-    var INITIAL_DIFFICULT = 1.9
-    var DELTA_DIFFICULT = 0.1
+    var INITIAL_DIFFICULT = 2.5
+    var DELTA_DIFFICULT = 0.3
     var MAX_DIFFICULT = 6
-    var BOSS_DIFFICULT = 9
+    var BOSS_DIFFICULT = 7
     var BOSS_PROBABILIY = 0.3
     var PEOPLE_TO_BOSS = 5
 
-    var INITIAL_APPEAR_PERSON = 6000
-    var DELTA_APPEAR_PERSON = 100
-    var MIN_APPEAR_PERSON = 3000
+    var INITIAL_APPEAR_PERSON = 3500
+    var DELTA_APPEAR_PERSON = 50
+    var MIN_APPEAR_PERSON = 2500
 
-    var INITIAL_VELOCITY = 1
+    var INITIAL_VELOCITY = 1.5
     var MAX_VELOCITY = 3
-    var DELTA_VELOCITY = 0.02
+    var DELTA_VELOCITY = 0.03
 
     var DELTA_IN_SECUENCE = 40
     var DELTA_IN_SECUENCE_BOSS = 35
@@ -536,7 +536,7 @@ var ordersUp = function(){
     }
     
 
-    function clickButton(button,pointer){
+    function clickButton(button){
         sound.play("pop")
         button.loadTexture("atlas.game","boton_on")
         button.line.loadTexture("atlas.game","boton_on_linea")
@@ -738,6 +738,7 @@ var ordersUp = function(){
         lastPerson = person
         person.type = peopleType
         person.walkState = PERSON_STATE.WALK
+        peopleList.sendToBack(person)
 
     }
 
@@ -1034,6 +1035,28 @@ var ordersUp = function(){
         ballonGroup.add(maskSecuence)
 
         secuence.mask = maskSecuence
+
+        var firstKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        firstKey.onDown.add(function(){
+            
+            clickButton(currentButtonGroup.children[0])
+            
+        }, this);
+
+
+        var secondKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        secondKey.onDown.add(function(){
+            
+            clickButton(currentButtonGroup.children[1])
+            
+        }, this);
+
+        var thirdKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        thirdKey.onDown.add(function(){
+            
+            clickButton(currentButtonGroup.children[2])
+            
+        }, this);
     }
 
     function create(){
@@ -1095,6 +1118,10 @@ var ordersUp = function(){
 
     }
 
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
+
     
 	return {
 		assets: assets,
@@ -1102,6 +1129,6 @@ var ordersUp = function(){
 		create: create,
         preload: preload,
         update: update,
-        //render:render
+        render:render
 	}
 }()

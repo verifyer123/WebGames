@@ -72,6 +72,9 @@ var smoothieLoops = function(){
     var INITI_POS
     var DELTA_BUTTON = 70
 
+    var TUTORIAL_TWEEN_VELOCITY = 500
+    var BOARD_BUTTONS_SCALE = 0.7
+
     var lives
 	var sceneGroup = null
     var gameIndex = 152
@@ -130,6 +133,15 @@ var smoothieLoops = function(){
 
     var clouds
 
+    var boardGroup
+    var boardImageFruit
+    var boardImageSmoothie
+
+    var boardButtons
+    var boardTween
+    var tutorialBoardTween
+    var tutorialButtonTween
+    var errorTween
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -151,6 +163,9 @@ var smoothieLoops = function(){
         inTutorial = 0
         arrayButtons = []
         playedLoops = 0
+
+        boardImages = []
+        boardButtons = []
 
         currentTime = INITIAL_TIME
 
@@ -267,11 +282,6 @@ var smoothieLoops = function(){
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.x
        coins.y=objectBorn.y
-       
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
 
 
 
@@ -430,6 +440,7 @@ var smoothieLoops = function(){
             arrayButtons[i].scale.setTo(1)
             arrayButtons[i].x = arrayButtons[i].startPos.x
             arrayButtons[i].y = arrayButtons[i].startPos.y
+            arrayButtons[i].inArea = false
         }
 
         var r = game.rnd.integerInRange(1,3)
@@ -445,14 +456,20 @@ var smoothieLoops = function(){
             case 1:
             correctSecuence = bananaSecuence
             dialog.smoothie.loadTexture('atlas.game','smoothie_banana',0,false)
+            boardImageFruit.loadTexture("atlas.game","banana")
+            boardImageSmoothie.loadTexture("atlas.game","smoothie_banana")
             break
             case 2:
             correctSecuence = strawberrySecuence
             dialog.smoothie.loadTexture('atlas.game','smoothie_fresa',0,false)
+            boardImageFruit.loadTexture("atlas.game","fresawn")
+            boardImageSmoothie.loadTexture("atlas.game","smoothie_fresa")
             break
             case 3:
             correctSecuence = coffeeSecuence
             dialog.smoothie.loadTexture('atlas.game','smoothie_cafe',0,false)
+            boardImageFruit.loadTexture("atlas.game","cofi")
+            boardImageSmoothie.loadTexture("atlas.game","smoothie_cafe")
             break
         }
 
@@ -485,6 +502,7 @@ var smoothieLoops = function(){
         currentLevel ++
 
         if(inTutorial!=-1){
+            showBoard()
             evalTutorial()
         }
     }
@@ -542,8 +560,16 @@ var smoothieLoops = function(){
 						game.tweens.removeAll()
 						
 					}
+                    tutorialButtonTween.stop()
+                    tutorialBoardTween.stop()
+                    tutorialButtonTween = null
+                    tutorialBoardTween = null
 	            	evalTutorial()
 	            }
+                else{
+                    //hideBoard()
+                }
+
 	            button.inArea = true
 
 	            adjustLoop()
@@ -558,6 +584,10 @@ var smoothieLoops = function(){
 						game.tweens.removeAll()
 						
 					}
+                    tutorialButtonTween.stop()
+                    tutorialBoardTween.stop()
+                    tutorialButtonTween = null
+                    tutorialBoardTween = null
 	            	evalTutorial()
 	            }
 
@@ -641,13 +671,6 @@ var smoothieLoops = function(){
         }
 
         var correct = true
-        /*for(var i = 0; i < correctSecuence.length; i++){
-            if(correctSecuence[i] != arrayButtons[i].id){
-                missPoint()
-                correct = false
-                break
-            }
-        }*/
 
         if(inTutorial!=-1){
             if(inTutorial!=6){
@@ -660,8 +683,19 @@ var smoothieLoops = function(){
 				game.tweens.removeAll()
 				
 			}
+            tutorialBoardTween.stop()
+            tutorialBoardTween = null
+
+            
         	evalTutorial()
         }
+
+        if(timeOn){
+            stopTimer()
+        }
+
+
+        hideBoard()
 
         game.add.tween(dialog.scale).to({x:0,y:0},500,Phaser.Easing.linear,true)
 
@@ -698,6 +732,10 @@ var smoothieLoops = function(){
                     sceneGroup.bringToTop(arrayButtons[currentIngredientAnimation])
                     if(arrayButtons[currentIngredientAnimation].id != correctSecuence[currentIngredientAnimation]){
                         rectAnswer.tint = 0xff0000
+
+
+                        makeTweenError(boardButtons[currentIngredientAnimation],BOARD_BUTTONS_SCALE)
+
                         smoothieBad()
                         return
                     }
@@ -759,6 +797,8 @@ var smoothieLoops = function(){
             }
             else{
                 //lose
+                dialog.scale.setTo(1)
+                makeTweenError(dialog,1)
                 smoothieBad()
             }
         }
@@ -777,9 +817,43 @@ var smoothieLoops = function(){
             }
             else{
                 //lose
+                dialog.scale.setTo(1)
+                makeTweenError(dialog,1)
                 smoothieBad()
             }
         }
+    }
+
+    function showBoard(){
+        if(boardGroup.alpha == 0){
+            game.add.tween(boardGroup).to({alpha:1,angle:0},500,Phaser.Easing.linear,true)
+        }
+        /*if(inTutorial==-1){
+            setTimeout(hideBoard,4000)
+        }*/
+    }
+
+    function hideBoard(){
+        game.add.tween(boardGroup).to({alpha:0,angle:90},500,Phaser.Easing.linear,true)
+
+    }
+
+    function makeTweenError(object,initialScale){
+        if(errorTween!=null){
+            errorTween.stop()
+            dialog.scale.setTo(1)
+        }
+
+        for(var i = 0; i < boardButtons.length; i ++){
+            boardButtons[i].scale.setTo(BOARD_BUTTONS_SCALE)
+        }
+
+        errorTween = game.add.tween(object.scale).to({x:initialScale+0.2,y:initialScale + 0.2+0.2},500,Phaser.Easing.linear,true)
+
+        errorTween.yoyo(true)
+        errorTween.loop(true)
+
+
     }
 
     function smoothieBad(){
@@ -789,7 +863,46 @@ var smoothieLoops = function(){
         missPoint()
         machineSpine.setAnimationByName(0,'lose',false)
         var dinamitalose =yogotar.setAnimationByName(0,'lose',false)
-        dinamitalose.onComplete = setRound
+        dinamitalose.onComplete = restarRound
+
+        showBoard()
+    }
+
+    function restarRound(){
+        if(rectAnswer.x > 0){
+            rectAnswer.x = -500
+        }
+
+        lButton.visible = true
+        lButton.x = lButton.startPos.x
+        lButton.y = lButton.startPos.y
+        inAnimation = false
+        currentIngredientAnimation = 0
+        yogotar.setAnimationByName(0,'idle',true)
+        machineSpine.setAnimationByName(0,'idle',true)
+
+        for(var i = 0; i < arrayButtons.length; i++ ){
+            arrayButtons[i].scale.setTo(1)
+            arrayButtons[i].x = arrayButtons[i].startPos.x
+            arrayButtons[i].y = arrayButtons[i].startPos.y
+            arrayButtons[i].inArea = false
+        }
+
+
+
+        if(timeOn){
+            startTimer(currentTime)
+        }
+
+        loopText.setText(1)
+        loopButton.visible = false
+        loopText.value = 1
+        playedLoops = 0
+
+        arrayButtons = []
+
+        game.add.tween(dialog.scale).to({x:1,y:1},500,Phaser.Easing.linear,true)
+
     }
 
     function clickLoop(){
@@ -829,8 +942,20 @@ var smoothieLoops = function(){
     	switch(inTutorial){
     		case 0:
     		hand.loadTexture('atlas.game','handDown')
-    		hand.x = tutorialButtons[0].x+50
-    		hand.y = tutorialButtons[0].y+50
+    		hand.x = tutorialButtons[0].startPos.x+50
+    		hand.y = tutorialButtons[0].startPos.y+50
+
+            if(tutorialButtonTween==null){
+
+                tutorialButtonTween = game.add.tween(tutorialButtons[0].scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialButtonTween.yoyo(true)
+                tutorialButtonTween.loop(true)
+
+                tutorialBoardTween = game.add.tween(boardButtons[0].scale).to({x:BOARD_BUTTONS_SCALE + 0.2,y:BOARD_BUTTONS_SCALE + 0.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialBoardTween.yoyo(true)
+                tutorialBoardTween.loop(true)
+            }
+
     		tutorialTween = game.add.tween(hand).to({x:buttons_Area.x,y:buttons_Area.y+50},1000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
@@ -841,8 +966,25 @@ var smoothieLoops = function(){
 
     		case 1:
     		hand.loadTexture('atlas.game','handDown')
-    		hand.x = tutorialButtons[1].x+50
-    		hand.y = tutorialButtons[1].y+50
+    		hand.x = tutorialButtons[1].startPos.x+50
+    		hand.y = tutorialButtons[1].startPos.y+50
+
+
+            if(tutorialButtonTween==null){
+                tutorialButtons[0].scale.setTo(1)
+                boardButtons[0].scale.setTo(BOARD_BUTTONS_SCALE)
+
+
+
+                tutorialButtonTween = game.add.tween(tutorialButtons[1].scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialButtonTween.yoyo(true)
+                tutorialButtonTween.loop(true)
+
+                tutorialBoardTween = game.add.tween(boardButtons[1].scale).to({x:BOARD_BUTTONS_SCALE + 0.2,y:BOARD_BUTTONS_SCALE + 0.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialBoardTween.yoyo(true)
+                tutorialBoardTween.loop(true)
+            }
+
     		tutorialTween = game.add.tween(hand).to({x:buttons_Area.x,y:buttons_Area.y+50},1000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
@@ -853,8 +995,23 @@ var smoothieLoops = function(){
     		
     		case 2:
     		hand.loadTexture('atlas.game','handDown')
-    		hand.x = tutorialButtons[3].x+50
-    		hand.y = tutorialButtons[3].y+50
+    		hand.x = tutorialButtons[3].startPos.x+50
+    		hand.y = tutorialButtons[3].startPos.y+50
+
+
+            if(tutorialButtonTween==null){
+                tutorialButtons[1].scale.setTo(1)
+                boardButtons[1].scale.setTo(BOARD_BUTTONS_SCALE)
+
+                tutorialButtonTween = game.add.tween(tutorialButtons[3].scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialButtonTween.yoyo(true)
+                tutorialButtonTween.loop(true)
+
+                tutorialBoardTween = game.add.tween(boardButtons[2].scale).to({x:BOARD_BUTTONS_SCALE + 0.2,y:BOARD_BUTTONS_SCALE + 0.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialBoardTween.yoyo(true)
+                tutorialBoardTween.loop(true)
+            }
+
     		tutorialTween = game.add.tween(hand).to({x:buttons_Area.x,y:buttons_Area.y+50},1000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
@@ -865,8 +1022,22 @@ var smoothieLoops = function(){
 
     		case 3:
     		hand.loadTexture('atlas.game','handDown')
-    		hand.x = tutorialButtons[2].x+50
-    		hand.y = tutorialButtons[2].y+50
+    		hand.x = tutorialButtons[2].startPos.x+50
+    		hand.y = tutorialButtons[2].startPos.y+50
+
+            if(tutorialButtonTween==null){
+                tutorialButtons[3].scale.setTo(1)
+                boardButtons[2].scale.setTo(BOARD_BUTTONS_SCALE)
+
+                tutorialButtonTween = game.add.tween(tutorialButtons[2].scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialButtonTween.yoyo(true)
+                tutorialButtonTween.loop(true)
+
+                tutorialBoardTween = game.add.tween(boardButtons[3].scale).to({x:BOARD_BUTTONS_SCALE + 0.2,y:BOARD_BUTTONS_SCALE + 0.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialBoardTween.yoyo(true)
+                tutorialBoardTween.loop(true)
+            }
+
     		tutorialTween = game.add.tween(hand).to({x:buttons_Area.x,y:buttons_Area.y+50},1000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
@@ -877,8 +1048,22 @@ var smoothieLoops = function(){
 
     		case 4:
     		hand.loadTexture('atlas.game','handDown')
-    		hand.x = tutorialButtons[6].x+50
-    		hand.y = tutorialButtons[6].y+50
+    		hand.x = tutorialButtons[6].startPos.x+50
+    		hand.y = tutorialButtons[6].startPos.y+50
+
+            if(tutorialButtonTween==null){
+                tutorialButtons[2].scale.setTo(1)
+                boardButtons[3].scale.setTo(BOARD_BUTTONS_SCALE)
+
+                tutorialButtonTween = game.add.tween(tutorialButtons[6].scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialButtonTween.yoyo(true)
+                tutorialButtonTween.loop(true)
+
+                tutorialBoardTween = game.add.tween(dialog.scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialBoardTween.yoyo(true)
+                tutorialBoardTween.loop(true)
+            }
+
     		tutorialTween = game.add.tween(hand).to({x:buttons_Area.x,y:buttons_Area.y+50},1000,Phaser.Easing.linear,true)
     		tutorialTween.onComplete.add(function(){
     			tutorialTween = null
@@ -891,6 +1076,14 @@ var smoothieLoops = function(){
     		hand.loadTexture('atlas.game','handDown')
     		hand.x = loopButton.final.world.x+50
     		hand.y = loopButton.final.world.y+50
+            if(tutorialBoardTween==null){
+                tutorialButtons[6].scale.setTo(1)
+                dialog.scale.setTo(1)
+                tutorialBoardTween = game.add.tween(dialog.scale).to({x:1.2,y:1.2},TUTORIAL_TWEEN_VELOCITY,Phaser.Easing.linear,true)
+                tutorialBoardTween.yoyo(true)
+                tutorialBoardTween.loop(true)
+            }
+
     		setTimeout(function(){
     			tutorialTween = null
     			hand.loadTexture('atlas.game','handUp')
@@ -903,6 +1096,7 @@ var smoothieLoops = function(){
     		hand.loadTexture('atlas.game','handDown')
     		hand.x = okBtn.x+50
     		hand.y = okBtn.y+50
+            dialog.scale.setTo(1)
     		setTimeout(function(){
     			tutorialTween = null
     			hand.loadTexture('atlas.game','handUp')
@@ -919,7 +1113,9 @@ var smoothieLoops = function(){
     	}
     }
 
-    
+    function setBoardTween(){
+        //boardTween
+    }
     
     function createScene(){
 
@@ -982,7 +1178,7 @@ var smoothieLoops = function(){
 
         INITI_POS = {x:game.world.centerX - 175,y:buttons_Area.y+7}
 
-        okBtn = sceneGroup.create(game.world.centerX+190, game.world.centerY+400,'atlas.game','go')
+        okBtn = sceneGroup.create(game.world.centerX+190, game.world.centerY+400,'atlas.game','ok')
         okBtn.anchor.setTo(0.5,0.5)
         okBtn.alpha = 0.5
         okBtn.inputEnabled = true
@@ -1010,7 +1206,7 @@ var smoothieLoops = function(){
         button.id = 0
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(button.startPos)
+        tutorialButtons.push(button)
 
         button.inArea = false
 
@@ -1020,7 +1216,7 @@ var smoothieLoops = function(){
         button.id = 1
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(button.startPos)
+        tutorialButtons.push(button)
         button.inArea = false
 
         button = sceneGroup.create(game.world.centerX+20, game.world.centerY+210,'atlas.game','licuar')
@@ -1029,7 +1225,7 @@ var smoothieLoops = function(){
         button.id = 2
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(button.startPos)
+        tutorialButtons.push(button)
         button.inArea = false
 
         button = sceneGroup.create(game.world.centerX-180, game.world.centerY+280,'atlas.game','banana')
@@ -1038,7 +1234,7 @@ var smoothieLoops = function(){
         button.id = 3
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(button.startPos)
+        tutorialButtons.push(button)
         button.inArea = false
 
         button = sceneGroup.create(game.world.centerX-80, game.world.centerY+280,'atlas.game','fresawn')
@@ -1047,7 +1243,7 @@ var smoothieLoops = function(){
         button.id = 4
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(button.startPos)
+        tutorialButtons.push(button)
         button.inArea = false
 
         button = sceneGroup.create(game.world.centerX+20, game.world.centerY+280,'atlas.game','cofi')
@@ -1056,7 +1252,7 @@ var smoothieLoops = function(){
         button.id = 5
         button.startPos = {x:button.x,y:button.y}
         button.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(button.startPos)
+        tutorialButtons.push(button)
         button.inArea = false
 
         lButton = sceneGroup.create(game.world.centerX+150, game.world.centerY+250,'atlas.game','loop')
@@ -1065,7 +1261,7 @@ var smoothieLoops = function(){
         lButton.startPos = {x:lButton.x,y:lButton.y}
         lButton.id = 6
         lButton.events.onInputDown.add(clickButton,this)
-        tutorialButtons.push(lButton.startPos)
+        tutorialButtons.push(lButton)
         lButton.inArea = false
         var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
 
@@ -1124,6 +1320,67 @@ var smoothieLoops = function(){
 
         sceneGroup.add(dialog)
         dialog.scale.setTo(0)
+
+        boardGroup = game.add.group()
+        sceneGroup.add(boardGroup)
+        boardGroup.x = game.world.centerX - 250
+        boardGroup.y = game.world.centerY - 260
+        boardGroup.alpha = 0
+        boardGroup.angle = 90
+
+        var boardImage = boardGroup.create(0,0,"atlas.game","board")
+        boardImage.scale.setTo(1.1)
+        boardImage.anchor.setTo(0,1)
+
+        var product = boardGroup.create(45,-70,"atlas.game","milk")
+        product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+        boardButtons.push(product)
+
+        product = boardGroup.create(95,-70,"atlas.game","plus")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        product = boardGroup.create(145,-70,"atlas.game","ice")
+        product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+        boardButtons.push(product)
+
+        product = boardGroup.create(195,-70,"atlas.game","plus")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        boardImageFruit = boardGroup.create(245,-70,"atlas.game","milk")
+        boardImageFruit.scale.setTo(0.7)
+        boardImageFruit.anchor.setTo(0.5)
+        boardButtons.push(boardImageFruit)
+
+        product = boardGroup.create(295,-70,"atlas.game","plus")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        product = boardGroup.create(345,-70,"atlas.game","licuar")
+        product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+        boardButtons.push(product)
+
+        product = boardGroup.create(395,-70,"atlas.game","igual")
+        //product.scale.setTo(0.7)
+        product.anchor.setTo(0.5)
+
+        boardImageSmoothie = boardGroup.create(445,-70,"atlas.game","smoothie_banana")
+        //product.scale.setTo(0.7)
+        boardImageSmoothie.anchor.setTo(0.5)
+
+        var text = "RECIPE"
+        if(localization.getLanguage()=="ES"){
+            text = "RECETA"
+        }
+
+        fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var textRecipe = new Phaser.Text(sceneGroup.game, boardImage.width/2, -110, text, fontStyle)
+        textRecipe.anchor.setTo(0.5)
+        boardGroup.add(textRecipe)
 
 
         hand = sceneGroup.create(0,0,'atlas.game','handUp')

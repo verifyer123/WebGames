@@ -179,7 +179,7 @@ var yogomeGames = function () {
             {name:'Code Cake',url:urlSet + 'codeCake/',mapUrl:urlMap + 'codeCake', sceneName:'codeCake',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//149
             {name:'S Mart',url:urlSet + 'smart/',mapUrl:urlMap + 'smart', sceneName:'smart',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//150
             {name:'Y Factor',url:urlSet + 'Yfactor/',mapUrl:urlMap + 'Yfactor', sceneName:'Yfactor',subject:'creativity', review:false,objective:30,demo:false, type:gameTypeEnum.SEQUENCE},//151
-            {name:'Smoothie Loops',url:urlSet + 'smoothieLoops/',mapUrl:urlMap + 'smoothieLoops', sceneName:'smoothieLoops',subject:'coding', review:false,objective:20,demo:false, type:gameTypeEnum.COUNT},//152
+            {name:'Smoothie Loops',url:urlSet + 'smoothieLoops/',mapUrl:urlMap + 'smoothieLoops', sceneName:'smoothieLoops',subject:'coding', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//152
             {name:'Bondroid',url:urlSet + 'bondroid/',mapUrl:urlMap + 'bondroid', sceneName:'bondroid',subject:'coding', review:false,objective:10,demo:false, type:gameTypeEnum.TRACE},//153
             {name:'Chiseler',url:urlSet + 'chiseler/',mapUrl:urlMap + 'chiseler', sceneName:'chiseler',subject:'creativity', review:false,objective:5,demo:false, type:gameTypeEnum.CHOOSE},//154
             {name:'Soccer Wheel',url:urlSet + 'soccerWheel/',mapUrl:urlMap + 'soccerWheel', sceneName:'soccerWheel',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//155
@@ -207,6 +207,8 @@ var yogomeGames = function () {
             {name:'Color Invaders',url:urlSet + 'colorInvaders/',mapUrl:urlMap + 'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//177
             {name:'Clean Crossing',url:urlSet + 'cleanCrossing/',mapUrl:urlMap + 'cleanCrossing', sceneName:'cleanCrossing',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//178
             {name:'Climb O Weight',url:urlSet + 'climbOWeight/',mapUrl:urlMap + 'climbOWeight', sceneName:'climbOWeight',subject:'sciencie', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//179
+            {name:'Water Gunner',url:urlSet + 'waterGunner/',mapUrl:urlMap + 'waterGunner', sceneName:'waterGunner',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//180
+            {name:'Scary Shadows',url:urlSet + 'scaryShadows/',mapUrl:urlMap + 'scaryShadows', sceneName:'scaryShadows',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//181
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

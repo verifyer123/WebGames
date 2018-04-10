@@ -1,0 +1,132 @@
+
+gun.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/blue
+  rotate: false
+  xy: 2, 2
+  size: 58, 59
+  orig: 58, 59
+  offset: 0, 0
+  index: -1
+normal/green
+  rotate: false
+  xy: 723, 144
+  size: 58, 59
+  orig: 58, 59
+  offset: 0, 0
+  index: -1
+normal/gun
+  rotate: false
+  xy: 499, 252
+  size: 140, 257
+  orig: 140, 257
+  offset: 0, 0
+  index: -1
+normal/pink
+  rotate: false
+  xy: 62, 2
+  size: 58, 59
+  orig: 58, 59
+  offset: 0, 0
+  index: -1
+normal/red
+  rotate: false
+  xy: 783, 144
+  size: 58, 59
+  orig: 58, 59
+  offset: 0, 0
+  index: -1
+normal/splash_1
+  rotate: false
+  xy: 641, 325
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+normal/splash_2
+  rotate: false
+  xy: 761, 325
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+normal/splash_3
+  rotate: false
+  xy: 881, 325
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+normal/splash_4
+  rotate: true
+  xy: 641, 205
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+normal/splash_5
+  rotate: true
+  xy: 827, 205
+  size: 118, 183
+  orig: 118, 183
+  offset: 0, 0
+  index: -1
+normal/splash_6
+  rotate: true
+  xy: 351, 42
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+normal/splash_7
+  rotate: true
+  xy: 537, 85
+  size: 118, 184
+  orig: 118, 184
+  offset: 0, 0
+  index: -1
+normal/wg_boom_1
+  rotate: false
+  xy: 202, 162
+  size: 97, 347
+  orig: 97, 347
+  offset: 0, 0
+  index: -1
+normal/wg_boom_2
+  rotate: false
+  xy: 301, 162
+  size: 97, 347
+  orig: 97, 347
+  offset: 0, 0
+  index: -1
+normal/wg_boom_3
+  rotate: false
+  xy: 2, 162
+  size: 98, 347
+  orig: 98, 347
+  offset: 0, 0
+  index: -1
+normal/wg_boom_4
+  rotate: false
+  xy: 102, 162
+  size: 98, 347
+  orig: 98, 347
+  offset: 0, 0
+  index: -1
+normal/wg_boom_5
+  rotate: true
+  xy: 2, 63
+  size: 97, 347
+  orig: 97, 347
+  offset: 0, 0
+  index: -1
+normal/wg_boom_6
+  rotate: false
+  xy: 400, 162
+  size: 97, 347
+  orig: 97, 347
+  offset: 0, 0
+  index: -1
