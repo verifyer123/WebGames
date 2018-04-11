@@ -37,7 +37,7 @@ var calendrigon = function(){
             {	name: "error",
 				file: soundsPath + "error.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "rightChoice",
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
@@ -49,6 +49,20 @@ var calendrigon = function(){
 			{	name: "cut",
 				file: soundsPath + "cut.mp3"},
 		],
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            },
+            {   name: "hand",
+                file: "images/spines/hand.png",
+                width: 115,
+                height: 111,
+                frames: 23
+            }
+        ],
     }
     
         
@@ -60,6 +74,7 @@ var calendrigon = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 7
 	var indexGame
+    var coin
     var overlayGroup
     var adventureSong
     var bottom, middle, top
@@ -74,6 +89,9 @@ var calendrigon = function(){
     var answer = [-1, -1, -1]
     var stopedDiscs
     var screen
+    var hand
+    var pivot
+    var demoGame
 	
 
 	function loadSounds(){
@@ -88,6 +106,8 @@ var calendrigon = function(){
         click = false
         radius = 0
         stopedDiscs = 0
+        pivot = 0
+        demoGame = true
         
         loadSounds()
         
@@ -350,8 +370,8 @@ var calendrigon = function(){
 
     function onClickPlay(){
         overlayGroup.y = -game.world.height
-        initGame()
-        gameActive = true
+        //initGame()
+        initTutorial()
     }
     
     function releaseButton(obj){
@@ -435,12 +455,14 @@ var calendrigon = function(){
 	
 	function update(){
         
-        if(game.input.activePointer.leftButton.isDown && !click){
-            getRadius()
-            click = true
-        }
-        if(game.input.activePointer.leftButton.isUp && click){
-           click = false
+        if(gameActive){
+            if(game.input.activePointer.leftButton.isDown && !click){
+                getRadius()
+                click = true
+            }
+            if(game.input.activePointer.leftButton.isUp && click){
+               click = false
+            }
         }
 	}
 	
@@ -626,7 +648,15 @@ var calendrigon = function(){
         
         screen = sceneGroup.create(game.world.centerX , game.world.centerY - 150, 'atlas.calendrigon', 'screen')
         screen.anchor.setTo(0.5, 0.5)
-        screen.scale.setTo(0.8)
+        
+        var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        
+        var name = new Phaser.Text(sceneGroup.game, 0, 10, '', fontStyle)
+        name.anchor.setTo(0.5)
+        name.stroke = "#191A4F"
+        name.strokeThickness = 10
+        screen.addChild(name)
+        screen.text = name
     }
     
     function rotateDisc(disc, nextAngle){
@@ -649,34 +679,24 @@ var calendrigon = function(){
         }
     }
     
-    function initfiguresGroup(){
-        
-        /*figuresGroup = game.add.group()
-        figuresGroup.x = game.world.centerX 
-        figuresGroup.y = game.world.centerY
-        figuresGroup.scale.setTo(2)
-        sceneGroup.add(figuresGroup)
-        
-        for(var i = 3; i < 9; i++){
-            var figure = figuresGroup.create(0, 0, 'atlas.calendrigon', 'fig'+i) 
-            figure.anchor.setTo(0.5, 0.5)
-            figure.alpha = 0
-        }*/
-    }
-    
     function initGame(){
         
-        game.add.tween(screen.scale).to({x:1, y:1},150,Phaser.Easing.linear,true).onComplete.add(function(){
+        discsTweens()
+        screen.growing =  game.add.tween(screen.scale).to({x:1.2, y:1.2},400,Phaser.Easing.linear,true, 0 , -1)
+        screen.growing.yoyo(true, 0)
+        numberSelect = getRand()
+        screen.text.setText(numberSelect)
+        sound.play("cut")
+        
+        /*game.add.tween(screen.scale).to({x:1, y:1},150,Phaser.Easing.linear,true).onComplete.add(function(){
             sound.play("cut")
             game.add.tween(screen.scale).to({x:0.8, y:0.8},150,Phaser.Easing.linear,true)
             
             numberSelect = getRand()
-            changeImage(numberSelect - 3, numbersGroup)
-            //changeImage(numberSelect - 3, figuresGroup)
+            screen.text.setText(numberSelect)
+            //changeImage(numberSelect - 3, numbersGroup)
             discsTweens()
-            
-            //game.add.tween(figuresGroup).to({alpha:0},300,Phaser.Easing.linear,true)
-        })
+        })*/
         
         for(var i = 0; i < 3; i++){
             answer[i] = -1
@@ -687,6 +707,7 @@ var calendrigon = function(){
             middle.tween.start()
             top.tween.start()
             sound.play("stoneDoor")
+            gameActive = true
         },this)
     }
     
@@ -719,73 +740,86 @@ var calendrigon = function(){
             
             var x = ((Math.pow((game.world.centerX - game.input.mousePointer.x), 2)) + (Math.pow((game.world.centerY - game.input.mousePointer.y), 2)))
             radius = Math.sqrt(x)
-            stopDisc()
+            if(demoGame)
+                checkDemo()
+            else
+                stopDisc()
+            
         }
         
     }
     
     function stopDisc(){
         
-        var fig
-        
-        if(radius < top.height * 0.4 && !top.stoped){
-            sound.play("stoneDoor")
-            top.tween.stop()
-            fig = getFigure(top)
-            game.add.tween(top).to({angle: fig}, 500, Phaser.Easing.linear, true)
-            stopedDiscs += 1
-            top.stoped = true
-        }
-        else if(radius > top.height * 0.4 && radius < middle.width * 0.4 && !middle.stoped){
-            sound.play("stoneDoor")
-            middle.tween.stop()
-            fig = getFigure(middle)
-            game.add.tween(middle).to({angle: fig}, 500, Phaser.Easing.linear, true)
-            stopedDiscs += 1
-            middle.stoped = true
-        }
-        else if(radius > middle.width * 0.4 && radius < bottom.width * 0.4 && !bottom.stoped){
-            sound.play("stoneDoor")
-            bottom.tween.stop()
-            fig = getFigure(bottom)
-            game.add.tween(bottom).to({angle: fig}, 500, Phaser.Easing.linear, true)
-            stopedDiscs += 1
-            bottom.stoped = true
-        }
-        
-        if(stopedDiscs === 3){
-            stopedDiscs += 1
-            var correct = false
-            var timer = 300
-            var space = 140
-        
-            for(var i = 0; i < 3; i++){
-            
-                giveOrTake(timer,space,i)
-                timer += 400
-                space += 130
+        if(gameActive){
+            var fig
+
+            sound.play("pop")
+            if(radius < top.height * 0.4 && !top.stoped){
+                sound.play("stoneDoor")
+                top.tween.stop()
+                fig = getFigure(top)
+                game.add.tween(top).to({angle: fig}, 500, Phaser.Easing.linear, true)
+                stopedDiscs += 1
+                top.stoped = true
             }
-            
-            for(var i = 0; i < 3; i++){
-                if(answer[i] === numberSelect)
-                    correct = true
-                else{
-                    correct = false
-                    break
+            else if(radius > top.height * 0.4 && radius < middle.width * 0.4 && !middle.stoped){
+                sound.play("stoneDoor")
+                middle.tween.stop()
+                fig = getFigure(middle)
+                game.add.tween(middle).to({angle: fig}, 500, Phaser.Easing.linear, true)
+                stopedDiscs += 1
+                middle.stoped = true
+            }
+            else if(radius > middle.width * 0.4 && radius < bottom.width * 0.4 && !bottom.stoped){
+                sound.play("stoneDoor")
+                bottom.tween.stop()
+                fig = getFigure(bottom)
+                game.add.tween(bottom).to({angle: fig}, 500, Phaser.Easing.linear, true)
+                stopedDiscs += 1
+                bottom.stoped = true
+            }
+
+            if(stopedDiscs === 3){
+                gameActive = false
+                stopedDiscs += 1
+                var correct = false
+                var timer = 300
+                var space = 140
+
+                for(var i = 0; i < 3; i++){
+
+                    giveOrTake(timer,space,i)
+                    timer += 400
+                    space += 130
+                }
+
+                for(var i = 0; i < 3; i++){
+                    if(answer[i] === numberSelect)
+                        correct = true
+                    else{
+                        correct = false
+                        break
+                    }
+                }
+
+                if(lives !== 0){
+                    game.time.events.add(1300,function(){
+                        if(correct){
+                            addCoin()
+                            if(pointsBar.number !== 0 && pointsBar.number % 3 === 0 && spinSpeed > 2000)
+                                spinSpeed -= 1000
+                        }
+                        else{
+                            missPoint()
+                        }
+                        restartDiscs()
+                        screen.growing.stop()
+                        screen.scale.setTo(1)
+                        screen.text.setText("")
+                    },this)
                 }
             }
-            
-            game.time.events.add(1300,function(){
-                if(correct){
-                    addPoint(1)
-                    if(spinSpeed > 2000)
-                        spinSpeed -= 500
-                }
-                else{
-                    missPoint()
-                }
-                restartDiscs()
-            },this)
         }
     }
     
@@ -840,6 +874,123 @@ var calendrigon = function(){
         sceneGroup.add(particleWrong)
     }
     
+    function initCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
+    }
+
+    function addCoin(){
+        
+        coin.x = game.world.centerX
+        coin.y = game.world.centerY
+        var time = 300
+
+        sound.play("rightChoice")
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+               })
+           })
+        })
+    }
+    
+    function initTutorial(){
+        
+        screen.growing =  game.add.tween(screen.scale).to({x:1.2, y:1.2},400,Phaser.Easing.linear,true, 0 , -1)
+        screen.growing.yoyo(true, 0)
+        numberSelect = 3
+        screen.text.setText(numberSelect)
+        sound.play("cut")
+        
+        game.time.events.add(310,function(){
+            moveDisc(pivot)
+        },this)
+    }
+    
+    function moveDisc(opt){
+        
+        sound.play("stoneDoor")
+        
+        switch(opt){
+            case 0:
+                game.add.tween(top).to({angle: 0}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    hand.alpha = 1
+                    hand.x = game.world.centerX
+                    hand.y = game.world.centerY + 130
+                    gameActive = true
+                })
+            break
+            case 1:
+                game.add.tween(middle).to({angle: 360}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    hand.alpha = 1
+                    hand.x = game.world.centerX
+                    hand.y = game.world.centerY + 240
+                    gameActive = true
+                })
+            break
+            case 2:
+                 game.add.tween(bottom).to({angle: 108}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+                    hand.alpha = 1
+                    hand.x = game.world.centerX
+                    hand.y = game.world.centerY + 350
+                    gameActive = true
+                })
+            break
+        }
+    }
+    
+    function checkDemo(){
+        
+        gameActive = false
+        
+        if(radius < top.height * 0.4 && pivot === 0){
+            sound.play("stoneDoor")
+            sound.play("rightChoice")
+            pivot++
+            game.time.events.add(310,function(){
+                hand.alpha = 0
+                moveDisc(pivot)
+            },this)    
+        }
+        else if(radius > top.height * 0.4 && radius < middle.width * 0.4 && pivot === 1){
+            sound.play("stoneDoor")
+            sound.play("rightChoice")
+            pivot++
+            game.time.events.add(310,function(){
+                hand.alpha = 0
+                moveDisc(pivot)
+            },this)  
+            
+        }
+        else if(radius > middle.width * 0.4 && radius < bottom.width * 0.4 && pivot === 2){
+            sound.play("stoneDoor")
+            sound.play("rightChoice")
+            demoGame = false
+            screen.growing.stop()
+            screen.scale.setTo(1)
+            screen.text.setText("")
+            game.time.events.add(800,function(){
+                hand.destroy()
+                initGame()
+            },this)  
+            
+        }
+
+    }
+    
 	return {
 		
 		assets: assets,
@@ -873,7 +1024,7 @@ var calendrigon = function(){
 			createHearts()
             initCaleidogon()
             initNumbersGroup()
-            //initfiguresGroup()
+            initCoin()
             createParticles()
 			
 			buttons.getButton(adventureSong,sceneGroup)
