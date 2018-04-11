@@ -36,7 +36,7 @@ var shapesody = function(){
                 file: soundsPath + "gameLose.mp3"},
             {
                 name: 'gameSong',
-                file: soundsPath + 'songs/fantasy_ballad.mp3'
+                file: soundsPath + 'songs/mysterious_garden.mp3'
             },
             {
                 name: 'ocarina_circle',
