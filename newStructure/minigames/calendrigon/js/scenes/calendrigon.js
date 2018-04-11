@@ -649,12 +649,12 @@ var calendrigon = function(){
         screen = sceneGroup.create(game.world.centerX , game.world.centerY - 150, 'atlas.calendrigon', 'screen')
         screen.anchor.setTo(0.5, 0.5)
         
-        var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        var fontStyle = {font: "85px VAGRounded", fontWeight: "bold", fill: "#900000", align: "center"}
         
         var name = new Phaser.Text(sceneGroup.game, 0, 10, '', fontStyle)
         name.anchor.setTo(0.5)
-        name.stroke = "#191A4F"
-        name.strokeThickness = 10
+        //name.stroke = "#191A4F"
+        //name.strokeThickness = 10
         screen.addChild(name)
         screen.text = name
     }
