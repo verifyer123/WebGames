@@ -1,110 +1,110 @@
 
 head.png
-size: 512,128
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal4/ear
   rotate: false
-  xy: 329, 101
+  xy: 121, 158
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 normal4/eye_l
   rotate: false
-  xy: 158, 51
+  xy: 158, 221
   size: 33, 33
   orig: 33, 33
   offset: 0, 0
   index: -1
 normal4/eye_l_blink
   rotate: false
-  xy: 121, 49
+  xy: 121, 219
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
 normal4/eye_r
   rotate: false
-  xy: 121, 14
+  xy: 121, 184
   size: 34, 33
   orig: 34, 33
   offset: 0, 0
   index: -1
 normal4/eye_r_blink
   rotate: false
-  xy: 231, 90
+  xy: 2, 65
   size: 34, 35
   orig: 34, 35
   offset: 0, 0
   index: -1
 normal4/eyebrows
   rotate: false
-  xy: 2, 2
+  xy: 193, 244
   size: 45, 10
   orig: 45, 10
   offset: 0, 0
   index: -1
 normal4/face
   rotate: false
-  xy: 2, 14
+  xy: 2, 143
   size: 117, 111
   orig: 117, 111
   offset: 0, 0
   index: -1
 normal4/hair_01
   rotate: false
-  xy: 267, 94
+  xy: 2, 32
   size: 32, 31
   orig: 32, 31
   offset: 0, 0
   index: -1
 normal4/hair_02
   rotate: true
-  xy: 382, 102
+  xy: 193, 219
   size: 23, 24
   orig: 23, 24
   offset: 0, 0
   index: -1
 normal4/hair_03
-  rotate: true
-  xy: 355, 102
+  rotate: false
+  xy: 66, 75
   size: 23, 25
   orig: 23, 25
   offset: 0, 0
   index: -1
 normal4/hair_04
   rotate: false
-  xy: 301, 95
+  xy: 38, 70
   size: 26, 30
   orig: 26, 30
   offset: 0, 0
   index: -1
 normal4/hair_06
   rotate: false
-  xy: 408, 106
+  xy: 91, 81
   size: 17, 19
   orig: 17, 19
   offset: 0, 0
   index: -1
 normal4/hair_07
-  rotate: false
-  xy: 193, 54
+  rotate: true
+  xy: 2, 2
   size: 28, 30
   orig: 28, 30
   offset: 0, 0
   index: -1
 normal4/nose
   rotate: false
-  xy: 427, 109
+  xy: 219, 226
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 normal4/shadow
   rotate: false
-  xy: 121, 86
+  xy: 2, 102
   size: 108, 39
   orig: 108, 39
   offset: 0, 0

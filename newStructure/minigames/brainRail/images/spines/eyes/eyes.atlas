@@ -1,54 +1,54 @@
 
 eyes.png
-size: 512,128
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal1/eye_blink_l
   rotate: false
-  xy: 2, 30
+  xy: 2, 156
   size: 76, 75
   orig: 76, 75
   offset: 0, 0
   index: -1
 normal1/eye_blink_r
   rotate: false
-  xy: 158, 30
+  xy: 80, 156
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 normal1/eye_l
   rotate: false
-  xy: 80, 30
+  xy: 2, 79
   size: 76, 75
   orig: 76, 75
   offset: 0, 0
   index: -1
 normal1/eye_r
   rotate: false
-  xy: 235, 30
+  xy: 2, 2
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 normal1/pupil_l
   rotate: false
-  xy: 312, 59
+  xy: 80, 80
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 normal1/pupil_r
   rotate: false
-  xy: 360, 59
+  xy: 157, 185
   size: 45, 46
   orig: 45, 46
   offset: 0, 0
   index: -1
 normal1/shadow
   rotate: false
-  xy: 2, 2
+  xy: 80, 128
   size: 120, 26
   orig: 120, 26
   offset: 0, 0
