@@ -38,7 +38,7 @@ var hack = function(){
         ],
         images: [
         	{   name:"dragobject",
-				file: "images/rift/dragobject.png"}
+				file: "images/hack/dragobject.png"}
 		],
 		sounds: [
             {	name: "magic",
