@@ -455,6 +455,10 @@ var smart = function(){
 
     function setRound(){
 
+        if(lives<=0){
+            return
+        }
+
     	for(var i = 0; i < 3; i ++){
     		numbersOperation[i].visible = false
     	}
