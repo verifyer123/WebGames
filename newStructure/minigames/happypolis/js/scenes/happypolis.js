@@ -39,7 +39,7 @@ var happypolis = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/happypolis/tutorial_image_%input.png"
+				file:"images/happypolis/gametuto.png"
 			},
             {
 				name:'clean',
@@ -468,6 +468,9 @@ var happypolis = function(){
             tra.col = false
             gameActive = false
             trowObjects = false
+            particleWrong.x = tra.centerX
+            particleWrong.y = tra.centerY 
+            particleWrong.start(true, 1000, null, 10)
             //river.trash.setAll('body.velocity.y', 0)
             river.trash.setAll('col', false)
             game.time.events.add(1000,function(){
@@ -765,23 +768,20 @@ var happypolis = function(){
         forest.add(game.add.tileSprite(0, game.world.height, game.world.width, 120, 'atlas.happypolis', 'ground')).anchor.setTo(0,1)
         
         forest.create(-20, -60, 'atlas.happypolis', 'tree0')
-        forest.create(game.world.width - 150, -60, 'atlas.happypolis', 'tree1')
         
-        var animals = game.add.group()
-        forest.add(animals)
-        forest.animals = animals
-        
-        var anim = game.add.spine(game.world.centerX, game.world.centerY, 'forest_animals')
+        var anim = game.add.spine(50, 250, 'forest_animals')
         anim.scale.setTo(0.5)
         anim.setAnimationByName(0, "idle", true)
         anim.setSkinByName("bunny")
-        animals.add(anim)
+        forest.add(anim)
         
-        anim = game.add.spine(game.world.centerX, game.world.centerY, 'forest_animals')
+        anim = game.add.spine(game.world.width -150, 250, 'forest_animals')
         anim.scale.setTo(0.5)
         anim.setAnimationByName(0, "idle", true)
         anim.setSkinByName("squirrel")
-        animals.add(anim)
+        forest.add(anim)
+        
+        forest.create(game.world.width - 150, -60, 'atlas.happypolis', 'tree1')
         
         happyCity()
     }
@@ -829,12 +829,12 @@ var happypolis = function(){
         pointer = game.add.group()
         sceneGroup.add(pointer)
          
-        var point = pointer.create(0,0,'atlas.happypolis', 'seeds')
+        var point = pointer.create(-30, -30,'atlas.happypolis', 'seeds')
         point.scale.setTo(0.7)
         point.anchor.setTo(0.5)
         point.angle = - 45
         
-        point = pointer.create(0,0,'atlas.happypolis','star')
+        point = pointer.create(-10,-10,'atlas.happypolis','star')
 		point.scale.setTo(0.5)
 		point.anchor.setTo(0.5)
         
@@ -982,6 +982,7 @@ var happypolis = function(){
             hole.anchor.setTo(0.5)
             hole.alpha = 0
             hole.counter = 3
+            hole.rescale = 0.9
             hole.inputEnabled = true
             hole.events.onInputDown.add(reforestation ,this)
             pivot += space
@@ -990,22 +991,26 @@ var happypolis = function(){
             delay += 250
         }
         
-        for(var j = 0; j < forest.animals.length; j++){
+        /*for(var j = 0; j < forest.animals.length; j++){
             
             var treeHole = holesGroup.children[game.rnd.integerInRange(0, holesGroup.length - 1)]
             var posX
             
             if(treeHole.x > game.world.centerX){
-                posX = game.world.centerX - game.rnd.integerInRange(0, 350)
+                posX = game.world.centerX - game.rnd.integerInRange(50, 300)
             }
             else{
-                posX = game.world.centerX + game.rnd.integerInRange(0, 300)
+                posX = game.world.centerX + game.rnd.integerInRange(50, 300)
             }
             //forest.animals.children[j].x = posX
             //forest.animals.children[j].y = treeHole.centerY
-            
-            game.add.tween(forest.animals.children[j]).to({x: posX, y: treeHole.centerY}, 500, Phaser.Easing.linear, true)
-        }
+            if(tutorial){
+                game.add.tween(forest.animals.children[j]).to({x: posX, y: game.world.centerY * j + 300}, 500, Phaser.Easing.linear, true)
+            }
+            else{
+                game.add.tween(forest.animals.children[j]).to({x: posX, y: treeHole.centerY}, 500, Phaser.Easing.linear, true)
+            }
+        }*/
         
         return delay
     }
@@ -1017,6 +1022,8 @@ var happypolis = function(){
             if(hole.counter > 1){
                 sound.play('rightChoice')
                 hole.counter--
+                hole.scale.setTo(hole.rescale)
+                hole.rescale -= 0.1
             }
             else{
                 hole.inputEnabled = false
@@ -1225,7 +1232,7 @@ var happypolis = function(){
         var fishSkins = ['fish', 'octopus', 'piranha']
         
         var space = game.world.width/9
-        var pivot = space - 90
+        var pivot = space - 80
         
         for(var j = 0; j < 9; j++){
              
@@ -1235,7 +1242,7 @@ var happypolis = function(){
             box.drawRect(0, 0, 100, 100)
             box.alpha = 0
             coliderGroup.add(box)
-            pivot += space
+            pivot += space - 5
             
             var anim = game.add.spine(box.centerX, box.centerY + 70, 'ocean_animals')
             anim.scale.setTo(0.7)
@@ -1288,7 +1295,7 @@ var happypolis = function(){
             if(tutorial){
                 handsGroup.alpha = 0
                 game.time.events.add(1500,function(){
-                        lvlUp(true)
+                    lvlUp(true)
                 })
             }
             else{
@@ -1433,9 +1440,15 @@ var happypolis = function(){
             case 2:
                 if(complete)
                     factory.time -= 100
-                game.add.tween(timerGroup).to({alpha: 0}, 300, Phaser.Easing.linear, true)
-                game.add.tween(happypolisGroup).from({x: -game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(timerGroup).to({alpha: 0}, 300, Phaser.Easing.linear, true)
+                    game.add.tween(happypolisGroup).from({x: -game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                     scenariosGroup.bringToTop(forest)
+                    for(var i = 0; i < factory.lines.length; i++){
+                        factory.lines.children[i].clear()
+		            }
+                    for(var i = 0; i < factory.dirtyLines.length; i++){
+                        factory.dirtyLines.children[i].clear()
+		            }
                     factory.lines.destroy()
                     factory.dirtyLines.destroy()
                     currentLvl = level.forestLvl
@@ -1488,6 +1501,7 @@ var happypolis = function(){
                 var delay = fillForest()
                 forest.holes.children[0].x = game.world.centerX
                 forest.holes.children[0].y = game.world.centerY
+        
                 game.time.events.add(delay + 200,function(){
                     handPos(forest.holes.children[0])
                     gameActive = true

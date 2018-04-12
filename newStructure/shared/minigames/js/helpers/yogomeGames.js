@@ -212,6 +212,7 @@ var yogomeGames = function () {
             {name:'Tile A Roid',url:urlSet + 'tileARoid/',mapUrl:urlMap + 'tileARoid', sceneName:'tileARoid',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//182
             {name:'Geondrian',url:urlSet + 'geondrian/',mapUrl:urlMap + 'geondrian', sceneName:'geondrian',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//183
             {name:'Shapesody',url:urlSet + 'shapesody/',mapUrl:urlMap + 'shapesody', sceneName:'shapesody',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//184
+            {name:'Euro Flag',url:urlSet + 'euroFlag/',mapUrl:urlMap + 'euroFlag', sceneName:'euroFlag',subject:'geography', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//185
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
