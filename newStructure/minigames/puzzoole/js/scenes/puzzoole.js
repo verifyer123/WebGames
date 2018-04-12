@@ -125,7 +125,7 @@ var puzzoole = function(){
         gameActive = false
         rand = -1
         timeAttack = false
-        gameTime = 10000
+        gameTime = 9000
         
         loadSounds()
 	}
@@ -794,7 +794,7 @@ var puzzoole = function(){
             game.add.tween(animationsGroup.children[rand]).to({alpha:1},250,Phaser.Easing.linear,true,0,0).yoyo(true, delay)
             delay += 500
             
-            if(pointsBar.number > 10 && pointsBar.number % 5 === 0){
+            if(pointsBar.number > 10 && pointsBar.number % 2 === 0){
                 gameTime > 4000 ? gameTime -= 1000 : gameTime = 4000
             }
         }
@@ -809,7 +809,7 @@ var puzzoole = function(){
             }
         }
         
-        if(pointsBar.number === 9){
+        if(pointsBar.number === 4){
             game.add.tween(timerGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
             timeAttack = true
         }
