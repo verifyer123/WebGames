@@ -208,11 +208,12 @@ var yogomeGames = function () {
             {name:'Clean Crossing',url:urlSet + 'cleanCrossing/',mapUrl:urlMap + 'cleanCrossing', sceneName:'cleanCrossing',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//178
             {name:'Climb O Weight',url:urlSet + 'climbOWeight/',mapUrl:urlMap + 'climbOWeight', sceneName:'climbOWeight',subject:'sciencie', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//179
             {name:'Water Gunner',url:urlSet + 'waterGunner/',mapUrl:urlMap + 'waterGunner', sceneName:'waterGunner',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//180
-            {name:'Scary Shadows',url:urlSet + 'scaryShadows/',mapUrl:urlMap + 'scaryShadows', sceneName:'scaryShadows',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//181
+            {name:'Scary Shadows',url:urlSet + 'scaryShadows/',mapUrl:urlMap + 'scaryShadows', sceneName:'scaryShadows',subject:'sciencie', review:false, objective:15, demo:false, type:gameTypeEnum.MATCH},//181
             {name:'Tile A Roid',url:urlSet + 'tileARoid/',mapUrl:urlMap + 'tileARoid', sceneName:'tileARoid',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//182
             {name:'Geondrian',url:urlSet + 'geondrian/',mapUrl:urlMap + 'geondrian', sceneName:'geondrian',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//183
             {name:'Shapesody',url:urlSet + 'shapesody/',mapUrl:urlMap + 'shapesody', sceneName:'shapesody',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//184
             {name:'Euro Flag',url:urlSet + 'euroFlag/',mapUrl:urlMap + 'euroFlag', sceneName:'euroFlag',subject:'geography', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//185
+            {name:'Puzzoole',url:urlSet + 'puzzoole/',mapUrl:urlMap + 'puzzoole', sceneName:'puzzoole',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//186
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
