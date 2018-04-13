@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "1tDXpnBJzAoq40Z/5ICXDPBPrG0", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"skeleton": { "hash": "TSJdTGS84OVWhP2xznh+fDDeebk", "spine": "3.2.01", "width": 219, "height": 221.51, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "cog", "parent": "root", "y": 24.45 },
@@ -46,6 +46,10 @@
 					{ "time": 0.5, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1.0333, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			},
 			"log_2": {
@@ -59,7 +63,12 @@
 					},
 					{ "time": 0.4666, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 1.1666, "color": "ffffffff" }
+					{ "time": 1.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			},
 			"log_3": {
@@ -73,7 +82,12 @@
 					},
 					{ "time": 0.4333, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.9666, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 1.1333, "color": "ffffffff" }
+					{ "time": 1.1333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			},
 			"log_4": {
@@ -86,7 +100,12 @@
 					},
 					{ "time": 0.4, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.9333, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 1.1, "color": "ffffffff" }
+					{ "time": 1.1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			}
 		},
@@ -140,7 +159,8 @@
 					},
 					{ "time": 0.5333, "angle": 0, "curve": "stepped" },
 					{ "time": 0.9333, "angle": 0, "curve": "stepped" },
-					{ "time": 1.1, "angle": 0 }
+					{ "time": 1.1, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
 				],
 				"translate": [
 					{
@@ -162,13 +182,15 @@
 						"curve": [ 0.519, -0.9, 0.726, 1 ]
 					},
 					{ "time": 0.9333, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1, "x": 0, "y": 0 }
+					{ "time": 1.1, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.5333, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.9333, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1, "x": 1, "y": 1 }
+					{ "time": 1.1, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_2": {
@@ -181,7 +203,8 @@
 					},
 					{ "time": 0.5666, "angle": 0, "curve": "stepped" },
 					{ "time": 0.9666, "angle": 0, "curve": "stepped" },
-					{ "time": 1.1333, "angle": 0 }
+					{ "time": 1.1333, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
 				],
 				"translate": [
 					{ "time": 0, "x": -313.05, "y": 102.22, "curve": "stepped" },
@@ -204,14 +227,16 @@
 						"curve": [ 0.519, -0.9, 0.726, 1 ]
 					},
 					{ "time": 0.9666, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1333, "x": 0, "y": 0 }
+					{ "time": 1.1333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.0333, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.5666, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.9666, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1333, "x": 1, "y": 1 }
+					{ "time": 1.1333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_3": {
@@ -224,7 +249,8 @@
 					},
 					{ "time": 0.6, "angle": 0, "curve": "stepped" },
 					{ "time": 1, "angle": 0, "curve": "stepped" },
-					{ "time": 1.1666, "angle": 0 }
+					{ "time": 1.1666, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
 				],
 				"translate": [
 					{ "time": 0, "x": 355.38, "y": -56.7, "curve": "stepped" },
@@ -247,14 +273,16 @@
 						"curve": [ 0.519, -0.9, 0.726, 1 ]
 					},
 					{ "time": 1, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1666, "x": 0, "y": 0 }
+					{ "time": 1.1666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.0666, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.6, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 1, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1666, "x": 1, "y": 1 }
+					{ "time": 1.1666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_4": {
@@ -300,7 +328,11 @@
 					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1.2 }
+		]
 	},
 	"lose": {
 		"slots": {
@@ -310,7 +342,9 @@
 					{ "time": 0.2, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.4, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.6, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 0.8, "color": "ffffffff" }
+					{ "time": 0.8, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3333, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "time": 0, "name": "log_1" },
@@ -320,10 +354,15 @@
 					{ "time": 0.8, "name": "log_1" },
 					{ "time": 1.1, "name": null },
 					{ "time": 1.1666, "name": null },
-					{ "time": 1.3333, "name": null }
+					{ "time": 1.3333, "name": "log_1" }
 				]
 			},
 			"log_2": {
+				"color": [
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				],
 				"attachment": [
 					{ "time": 0, "name": "log_1" },
 					{ "time": 0.2, "name": "log_1" },
@@ -332,10 +371,15 @@
 					{ "time": 0.8, "name": "log_1" },
 					{ "time": 1.1, "name": null },
 					{ "time": 1.1666, "name": null },
-					{ "time": 1.3333, "name": null }
+					{ "time": 1.3333, "name": "log_1" }
 				]
 			},
 			"log_3": {
+				"color": [
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				],
 				"attachment": [
 					{ "time": 0, "name": "log_1" },
 					{ "time": 0.2, "name": "log_1" },
@@ -344,10 +388,15 @@
 					{ "time": 0.8, "name": "log_1" },
 					{ "time": 1.1333, "name": null },
 					{ "time": 1.1666, "name": null },
-					{ "time": 1.3333, "name": null }
+					{ "time": 1.3333, "name": "log_1" }
 				]
 			},
 			"log_4": {
+				"color": [
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				],
 				"attachment": [
 					{ "time": 0, "name": "log_1" },
 					{ "time": 0.2, "name": "log_1" },
@@ -355,7 +404,7 @@
 					{ "time": 0.6, "name": "log_1" },
 					{ "time": 0.8, "name": "log_1" },
 					{ "time": 1.1666, "name": null },
-					{ "time": 1.3333, "name": null }
+					{ "time": 1.3333, "name": "log_1" }
 				]
 			}
 		},
@@ -430,7 +479,7 @@
 					{ "time": 0.7, "angle": 1.05 },
 					{ "time": 0.8, "angle": -4.89, "curve": "stepped" },
 					{ "time": 1.1666, "angle": -4.89, "curve": "stepped" },
-					{ "time": 1.3333, "angle": -4.89 }
+					{ "time": 1.3333, "angle": 20.48 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
@@ -449,7 +498,7 @@
 					},
 					{ "time": 1.1333, "x": 0, "y": -352.48, "curve": "stepped" },
 					{ "time": 1.1666, "x": 0, "y": -352.48, "curve": "stepped" },
-					{ "time": 1.3333, "x": 0, "y": -352.48 }
+					{ "time": 1.3333, "x": 325.03, "y": 103.81 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
@@ -473,7 +522,7 @@
 					{ "time": 0.7, "angle": 2.72 },
 					{ "time": 0.8, "angle": 5.94, "curve": "stepped" },
 					{ "time": 1.1666, "angle": 5.94, "curve": "stepped" },
-					{ "time": 1.3333, "angle": 5.94 }
+					{ "time": 1.3333, "angle": -33.56 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
@@ -492,7 +541,7 @@
 					},
 					{ "time": 1.1333, "x": 0, "y": -352.48, "curve": "stepped" },
 					{ "time": 1.1666, "x": 0, "y": -352.48, "curve": "stepped" },
-					{ "time": 1.3333, "x": 0, "y": -352.48 }
+					{ "time": 1.3333, "x": -313.05, "y": 102.22 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
@@ -516,7 +565,7 @@
 					{ "time": 0.7, "angle": -6.53 },
 					{ "time": 0.8, "angle": 2.32, "curve": "stepped" },
 					{ "time": 1.1666, "angle": 2.32, "curve": "stepped" },
-					{ "time": 1.3333, "angle": 2.32 }
+					{ "time": 1.3333, "angle": -20.16 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
@@ -535,7 +584,7 @@
 					},
 					{ "time": 1.1333, "x": 0, "y": -352.48, "curve": "stepped" },
 					{ "time": 1.1666, "x": 0, "y": -352.48, "curve": "stepped" },
-					{ "time": 1.3333, "x": 0, "y": -352.48 }
+					{ "time": 1.3333, "x": 355.38, "y": -56.7 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
@@ -591,7 +640,7 @@
 					},
 					{ "time": 0.8, "angle": -7.01, "curve": "stepped" },
 					{ "time": 1.1666, "angle": -7.01, "curve": "stepped" },
-					{ "time": 1.3333, "angle": -7.01 }
+					{ "time": 1.3333, "angle": 34.68 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 15.17 },
@@ -610,7 +659,7 @@
 					},
 					{ "time": 1.1333, "x": 0, "y": -337.3, "curve": "stepped" },
 					{ "time": 1.1666, "x": 0, "y": -337.3, "curve": "stepped" },
-					{ "time": 1.3333, "x": 0, "y": -337.3 }
+					{ "time": 1.3333, "x": -281.11, "y": -103.02 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
@@ -647,6 +696,10 @@
 					{ "time": 0.5, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1.0333, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			},
 			"log_2": {
@@ -660,7 +713,12 @@
 					},
 					{ "time": 0.4666, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1.0333, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 1.1666, "color": "ffffffff" }
+					{ "time": 1.1666, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			},
 			"log_3": {
@@ -674,7 +732,12 @@
 					},
 					{ "time": 0.4333, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.9666, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 1.1333, "color": "ffffffff" }
+					{ "time": 1.1333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			},
 			"log_4": {
@@ -687,7 +750,12 @@
 					},
 					{ "time": 0.4, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 0.9333, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 1.1, "color": "ffffffff" }
+					{ "time": 1.1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.2, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "log_1" },
+					{ "time": 1.2, "name": "log_1" }
 				]
 			}
 		},
@@ -697,19 +765,22 @@
 					{ "time": 0, "angle": 0, "curve": "stepped" },
 					{ "time": 0.5333, "angle": 0, "curve": "stepped" },
 					{ "time": 0.9333, "angle": 0, "curve": "stepped" },
-					{ "time": 1.1, "angle": 0 }
+					{ "time": 1.1, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 0.5333, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 0.9333, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1, "x": 0, "y": 0 }
+					{ "time": 1.1, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.5333, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.9333, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1, "x": 1, "y": 1 }
+					{ "time": 1.1, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"cog": {
@@ -717,19 +788,22 @@
 					{ "time": 0, "angle": 0, "curve": "stepped" },
 					{ "time": 0.5333, "angle": 0, "curve": "stepped" },
 					{ "time": 0.9333, "angle": 0, "curve": "stepped" },
-					{ "time": 1.1, "angle": 0 }
+					{ "time": 1.1, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 0.5333, "x": 0, "y": 0, "curve": "stepped" },
 					{ "time": 0.9333, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1, "x": 0, "y": 0 }
+					{ "time": 1.1, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.5333, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.9333, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1, "x": 1, "y": 1 }
+					{ "time": 1.1, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_1": {
@@ -741,7 +815,8 @@
 					},
 					{ "time": 0.5333, "angle": -4.89, "curve": "stepped" },
 					{ "time": 0.9333, "angle": -4.89, "curve": "stepped" },
-					{ "time": 1.1, "angle": -4.89 }
+					{ "time": 1.1, "angle": -4.89, "curve": "stepped" },
+					{ "time": 1.2, "angle": -4.89 }
 				],
 				"translate": [
 					{
@@ -763,13 +838,15 @@
 						"curve": [ 0.519, -0.9, 0.726, 1 ]
 					},
 					{ "time": 0.9333, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1, "x": 0, "y": 0 }
+					{ "time": 1.1, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.5333, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.9333, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1, "x": 1, "y": 1 }
+					{ "time": 1.1, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_2": {
@@ -781,7 +858,8 @@
 						"curve": [ 0.668, -0.88, 0.92, 0.76 ]
 					},
 					{ "time": 0.5666, "angle": 5.94, "curve": "stepped" },
-					{ "time": 1.1333, "angle": 5.94 }
+					{ "time": 1.1333, "angle": 5.94, "curve": "stepped" },
+					{ "time": 1.2, "angle": 5.94 }
 				],
 				"translate": [
 					{ "time": 0, "x": -313.05, "y": 102.22, "curve": "stepped" },
@@ -804,14 +882,16 @@
 						"curve": [ 0.519, -0.9, 0.726, 1 ]
 					},
 					{ "time": 0.9666, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1333, "x": 0, "y": 0 }
+					{ "time": 1.1333, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.0333, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.5666, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.9666, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1333, "x": 1, "y": 1 }
+					{ "time": 1.1333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_3": {
@@ -828,7 +908,8 @@
 						"curve": [ 0.125, 0.15, 0.75, 1 ]
 					},
 					{ "time": 1.0333, "angle": 2.32, "curve": "stepped" },
-					{ "time": 1.1666, "angle": 2.32 }
+					{ "time": 1.1666, "angle": 2.32, "curve": "stepped" },
+					{ "time": 1.2, "angle": 2.32 }
 				],
 				"translate": [
 					{ "time": 0, "x": 355.38, "y": -56.7, "curve": "stepped" },
@@ -851,14 +932,16 @@
 						"curve": [ 0.519, -0.9, 0.726, 1 ]
 					},
 					{ "time": 1.0333, "x": 0, "y": 0, "curve": "stepped" },
-					{ "time": 1.1666, "x": 0, "y": 0 }
+					{ "time": 1.1666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.0666, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 0.6, "x": 1, "y": 1, "curve": "stepped" },
 					{ "time": 1.0333, "x": 1, "y": 1, "curve": "stepped" },
-					{ "time": 1.1666, "x": 1, "y": 1 }
+					{ "time": 1.1666, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			},
 			"log_4": {
@@ -908,7 +991,11 @@
 					{ "time": 1.2, "x": 1, "y": 1 }
 				]
 			}
-		}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1.2 }
+		]
 	}
 }
 }

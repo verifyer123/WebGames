@@ -87,9 +87,9 @@ var shapesody = function(){
     }
 
     var NUM_LIFES = 3
-    var INITIAL_TIME = 20000
+    var INITIAL_TIME = 15000
     var DELTA_TIME = 500
-    var MIN_TIME = 10000
+    var MIN_TIME = 5000
     var LEVELS_TO_TIMER = 2
 
     var DELTA_WATER = 180
@@ -279,7 +279,7 @@ var shapesody = function(){
     }
 
     function stopTimer(){
-        if(tweenTiempo){
+        if(tweenTiempo!=null){
           tweenTiempo.stop()
       }
       tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, 500, Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
@@ -291,6 +291,10 @@ var shapesody = function(){
        tweenTiempo.onComplete.add(function(){
            missPoint()
            stopTimer()
+           if(lives>0){
+                setTimeout(nextRound,500)
+                //nextRound()
+           }
        })
     }
 
@@ -422,6 +426,7 @@ var shapesody = function(){
 	    		logsGroup.children[i].y -=SPEED_BACKGROUND
 	    		if(logsGroup.children[i].y < -300){
 	    			logsGroup.children[i].visible = false
+                    logsGroup.children[i].setAnimationByName(0,"win",false)
 	    		}
 	    	}
     	}
@@ -483,7 +488,16 @@ var shapesody = function(){
 
         startScecuence()
 
+        if(currentLevel > LEVELS_TO_TIMER){
+            if(!timeOn){
+                positionTimer()
+                timeOn = true
+            }
 
+            
+        }
+
+        currentLevel++
 
     }
 
@@ -502,7 +516,13 @@ var shapesody = function(){
 	    	secuenceIndex = 0
 	    	canTouch = true
 	    	arthuriusSpine.setAnimationByName(0,"idle",false)
+            if(timeOn){
+                startTimer(currentTime)
 
+                if(currentTime>MIN_TIME){
+                    currentTime-=DELTA_TIME
+                }
+            }
 	    	if(inTutorial!=-1){
 	    		evalTutorial()
 	    	}
@@ -586,9 +606,12 @@ var shapesody = function(){
     		logsGroup.add(logs)
     	}
 
+
     	logs.y = y
     	logs.visible = true
     	anim = logs.setAnimationByName(0,anim,false)
+
+        console.log(logs)
 
     	return {anim:anim,log:logs}
 
@@ -628,7 +651,9 @@ var shapesody = function(){
         		inTutorial = -1
         		hand.visible = false
         		hideBar()
-        		
+        		if(timeOn){
+                    stopTimer()
+                }
         		var anim = getLogs(arthuriusSpine.y+250, "correct")
         		anim.anim.onComplete = function(){
         			Coin(arthuriusSpine,pointsBar,100)
@@ -651,6 +676,10 @@ var shapesody = function(){
         	if(inTutorial!=-1){
         		return
         	}
+
+            if(timeOn){
+                stopTimer()
+            }
 
         	canTouch = false
         	hideBar()
@@ -679,7 +708,10 @@ var shapesody = function(){
 	    				blinkYogotar()
 	    			}
     			},600)
-    			logs.setAnimationByName(0,"lose",false)
+    			logs.setAnimationByName(0,"lose",false).onComplete = function(){
+                    logs.visible = false
+                }
+
     			missPoint()
     		})
     	}
@@ -781,6 +813,8 @@ var shapesody = function(){
         	currentY += DELTA_GRASS
         }
 
+        backgroundMoveGroup.bringToTop(backgroundMoveGroup.children[0])
+
         backgroundHeigth = currentY
 
         logsGroup = game.add.group()
@@ -796,21 +830,21 @@ var shapesody = function(){
         buttonContainer = game.add.tileSprite(0,game.world.height,game.world.width,287,"atlas.game","container_2")
         sceneGroup.add(buttonContainer)
 
-        ribbonBack = sceneGroup.create(game.world.centerX,128,"atlas.game","container_middle")
+        ribbonBack = sceneGroup.create(game.world.centerX,168,"atlas.game","container_middle")
         ribbonBack.anchor.setTo(0.5)
         ribbonBack.scale.setTo(1,1)
 
 
-        ribbonLeft = sceneGroup.create(game.world.centerX+10,150,"atlas.game","container_end_left")
+        ribbonLeft = sceneGroup.create(game.world.centerX+10,190,"atlas.game","container_end_left")
         ribbonLeft.anchor.setTo(1,0.5)
 
-        ribbonRight = sceneGroup.create(game.world.centerX-10,150,"atlas.game","container_end_rigth")
+        ribbonRight = sceneGroup.create(game.world.centerX-10,190,"atlas.game","container_end_rigth")
         ribbonRight.anchor.setTo(0,0.5)
 
         secuenceGroup = game.add.group()
         sceneGroup.add(secuenceGroup)
         secuenceGroup.x = game.world.centerX
-        secuenceGroup.y = 125
+        secuenceGroup.y = 165
 
         buttonGroup = game.add.group()
         sceneGroup.add(buttonGroup)

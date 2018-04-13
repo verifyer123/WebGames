@@ -94,6 +94,7 @@ var cubetinent = function(){
     var CONTINENT_IMAGE_NAMES = ["america", "asia", "europe", "africa", "antratica", "australia"]
 
     var OFFSET_STROKE = 35
+    var PLANET_ALPHA = 0.5
     
     var lives
 	var sceneGroup = null
@@ -455,7 +456,6 @@ var cubetinent = function(){
 
     function updateMove(){
 
-
     	if(inTutorial==-1){
 	        if(yogotar.y < 0){
 	            fall()
@@ -537,6 +537,26 @@ var cubetinent = function(){
                 }
                 evaluateJump()
             }
+        }
+
+        if(!planet.transparent){
+        	if(yogotar.x > (planet.x - 100) && yogotar.y < (planet.y + 250)){
+        		planet.transparent = true
+        		if(planet.tween != null){
+        			planet.tween.stop()
+        		}
+        		planet.tween = game.add.tween(planet).to({alpha:PLANET_ALPHA},500,Phaser.Easing.linear,true)
+
+        	}
+        }
+        else{
+        	if(yogotar.x < planet.x - 100 || yogotar.y > (planet.y + 250)){
+        		planet.transparent = false
+        		if(planet.tween != null){
+        			planet.tween.stop()
+        		}
+        		planet.tween = game.add.tween(planet).to({alpha:1},500,Phaser.Easing.linear,true)
+        	}
         }
     }
 
@@ -638,7 +658,7 @@ var cubetinent = function(){
 
     function updateInput(){
         if(canJump){
-            if(game.input.activePointer.isDown){
+            if(game.input.activePointer.isDown && game.input.activePointer.y > 200){
                 if(canTouch){
                     
                     if(Math.abs(game.input.activePointer.x - yogotar.x) < DELTA_QUAD){
@@ -1170,6 +1190,7 @@ var cubetinent = function(){
         planet = sceneGroup.create(game.world.width - 150, 150, "atlas.game","america")
         planet.anchor.setTo(0.5)
         planet.scale.setTo(0.7)
+        planet.transparent = false
 
         var wordContainer = game.add.tileSprite(game.world.centerX, game.world.height,game.world.width,117, "atlas.game","word_container")
         wordContainer.anchor.setTo(0.5,1)
