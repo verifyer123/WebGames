@@ -1,0 +1,111 @@
+
+ocean_animals.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/a_body
+  rotate: false
+  xy: 168, 358
+  size: 146, 137
+  orig: 146, 137
+  offset: 0, 0
+  index: -1
+normal1/a_fin_1
+  rotate: true
+  xy: 316, 358
+  size: 23, 25
+  orig: 23, 25
+  offset: 0, 0
+  index: -1
+normal1/a_fin_2
+  rotate: false
+  xy: 2, 28
+  size: 38, 31
+  orig: 38, 31
+  offset: 0, 0
+  index: -1
+normal1/a_mouth
+  rotate: true
+  xy: 83, 80
+  size: 38, 25
+  orig: 38, 25
+  offset: 0, 0
+  index: -1
+normal1/a_tail
+  rotate: false
+  xy: 432, 452
+  size: 29, 43
+  orig: 29, 43
+  offset: 0, 0
+  index: -1
+normal1/b_body
+  rotate: false
+  xy: 2, 202
+  size: 147, 137
+  orig: 147, 137
+  offset: 0, 0
+  index: -1
+normal1/b_fin_1
+  rotate: false
+  xy: 463, 463
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+normal1/b_fin_2
+  rotate: false
+  xy: 375, 399
+  size: 32, 33
+  orig: 32, 33
+  offset: 0, 0
+  index: -1
+normal1/b_hat
+  rotate: false
+  xy: 2, 61
+  size: 79, 57
+  orig: 79, 57
+  offset: 0, 0
+  index: -1
+normal1/b_mouth
+  rotate: false
+  xy: 316, 434
+  size: 114, 61
+  orig: 114, 61
+  offset: 0, 0
+  index: -1
+normal1/b_tail
+  rotate: false
+  xy: 114, 132
+  size: 25, 68
+  orig: 25, 68
+  offset: 0, 0
+  index: -1
+normal1/c_body
+  rotate: false
+  xy: 2, 341
+  size: 164, 154
+  orig: 164, 154
+  offset: 0, 0
+  index: -1
+normal1/c_fin_1
+  rotate: false
+  xy: 316, 383
+  size: 57, 49
+  orig: 57, 49
+  offset: 0, 0
+  index: -1
+normal1/c_hat
+  rotate: false
+  xy: 2, 120
+  size: 110, 80
+  orig: 110, 80
+  offset: 0, 0
+  index: -1
+normal1/c_mouth
+  rotate: true
+  xy: 151, 309
+  size: 30, 12
+  orig: 30, 12
+  offset: 0, 0
+  index: -1

@@ -658,17 +658,20 @@ var wildFeed = function(){
             if(i === 5 || i === 10)
                 aux++
             
-            var anim = game.add.spine(game.world.width + 350, game.world.height - 180, assets.spines[i].name)
-            anim.scale.setTo(0.8)
+            var anim = game.add.spine(game.world.width + 350, game.world.height - 195, assets.spines[i].name)
+            anim.scale.setTo(0.7)
             anim.setAnimationByName(0, "IDLE", true)
             anim.setSkinByName("normal")
             animalsGroup.children[aux].add(anim)
         }
         
-        animalsGroup.children[0].children[3].y += 30
-        animalsGroup.children[0].children[4].y += 30
-        animalsGroup.children[1].children[2].y += 30
-        animalsGroup.children[2].children[0].y += 50
+        animalsGroup.children[0].children[3].y += 45
+        animalsGroup.children[0].children[4].y += 40
+        animalsGroup.children[0].children[1].y += 10
+        animalsGroup.children[1].children[2].y += 40
+        animalsGroup.children[1].children[3].y += 10
+        animalsGroup.children[2].children[0].y += 60
+        animalsGroup.children[2].children[1].y += 10
         animalsGroup.children[2].children[4].y += 20
         
         emojys = game.add.spine(0, 0, "emojys")
@@ -676,6 +679,7 @@ var wildFeed = function(){
         emojys.alpha = 0
         emojys.setAnimationByName(0, "CONFUCED", true)
         emojys.setSkinByName("normal")
+        sceneGroup.add(emojys)
     }
     
     function createText(){
@@ -845,9 +849,9 @@ var wildFeed = function(){
     function initGame(){
         
         buttonsGroup.setAll("tint", 0x606060)
-        rand = getRand()
+        rand = 0//getRand()
         textGroup.text.setText(textGroup.words[rand])
-        index = game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
+        index = 3//game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
         animalsGroup.setAll("alpha", 0)
         animalsGroup.children[rand].alpha = 1
         changeImage(index, animalsGroup.children[rand])
@@ -856,10 +860,10 @@ var wildFeed = function(){
         
         var delay = 0
         
-        game.add.tween(animal).to({x: game.world.centerX}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
+        game.add.tween(animal).to({x: game.world.centerX + 120}, 2000, Phaser.Easing.linear, true).onComplete.add(function(){
             animal.setAnimationByName(0, "IDLE", true)
             emojys.x = game.world.centerX - animal.width * 0.7
-            emojys.y = game.world.height - 150 - animal.height * 0.9
+            emojys.y = game.world.height - 150 - animal.height * 0.7
             if(pointsBar.number > 9){
                 delay = scramble()
             }

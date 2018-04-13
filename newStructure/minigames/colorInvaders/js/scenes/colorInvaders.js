@@ -598,7 +598,7 @@ var colorInvaders = function(){
         colorsGroup.add(name)
         colorsGroup.text = name
         
-        var colorName = [ "#00FFFF", "#00BB33", "#FF6600", "#FF4499", "#880088", "#BB2222", "#CCCC00"]
+        var colorName = [ "#2C83ED", "#A8ED5A", "#F26200", "#FA9DE0", "#6D34B3", "#FF6261", "#FFF561"]
         colorsGroup.colorName = colorName
     }
     
@@ -668,7 +668,7 @@ var colorInvaders = function(){
                 timer -= 200
             }
             
-            if(btn === undefined){
+            if(btn == undefined){
                 btn = buttonsGroup.children[theOne]
                 btn.correct = false
             }

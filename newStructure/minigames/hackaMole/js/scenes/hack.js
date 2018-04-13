@@ -37,7 +37,8 @@ var hack = function(){
 
         ],
         images: [
-
+        	{   name:"dragobject",
+				file: "images/hack/dragobject.png"}
 		],
 		sounds: [
             {	name: "magic",
@@ -897,7 +898,7 @@ console.log(buttonsGroup.length)
 		group.alpha = 0
 		buttonsGroup.add(group)
 		
-		var buttonImage = group.create(0,0,'atlas.hack','dragobject')
+		var buttonImage = group.create(0,0,'dragobject')
 		buttonImage.anchor.setTo(0.5,0.5)
 		buttonImage.scale.setTo(1.2,1.2)
 		
@@ -918,7 +919,7 @@ console.log(buttonsGroup.length)
 		
 		group.text2 = pointsText
 		
-		var dragImage = sceneGroup.create(83,-200,'atlas.hack','dragobject')
+		var dragImage = sceneGroup.create(83,-200,'dragobject')
 		dragImage.anchor.setTo(0.5,0.5)
 		dragImage.alpha = 0
 		group.drag = dragImage

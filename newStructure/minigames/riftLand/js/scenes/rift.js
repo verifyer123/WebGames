@@ -35,7 +35,9 @@ var rift = function(){
         ],
         images: [
         	{   name:"tutorial_image",
-				file: "images/rift/tutorial_image.png"}
+				file: "images/rift/tutorial_image.png"},
+			{   name:"dragobject",
+				file: "images/rift/dragobject.png"}
 		],
 		sounds: [
             {	name: "magic",
@@ -1099,7 +1101,7 @@ var rift = function(){
 		group.y = -200
 		buttonsGroup.add(group)
 		
-		var buttonImage = group.create(0,0,'atlas.rift','dragobject')
+		var buttonImage = group.create(0,0,'dragobject')
 		buttonImage.anchor.setTo(0.5,0.5)
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
@@ -1119,7 +1121,7 @@ var rift = function(){
 		
 		group.text2 = pointsText
 		
-		var dragImage = sceneGroup.create(83,-200,'atlas.rift','dragobject')
+		var dragImage = sceneGroup.create(83,-200,'dragobject')
 		dragImage.anchor.setTo(0.5,0.5)
 		dragImage.alpha = 0
 		group.drag = dragImage

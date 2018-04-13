@@ -1,10 +1,10 @@
 
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "../../../shared/minigames/sounds/"
 
 var result = function(){
-	var iconsPath = "../../shared/minigames/images/icons/"
-	var imagesPath = "../../shared/minigames/images/"
+	var iconsPath = "../../../shared/minigames/images/icons/"
+	var imagesPath = "../../../shared/minigames/images/"
 	localizationData = {
 		"EN":{
             "youGot":"You earned ",
@@ -59,6 +59,8 @@ var result = function(){
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
+			{	name: "wrongAnswer",
+				file: soundsPath + "wrongAnswer.mp3"},
 			{	name: "cheers",
 				file: soundsPath + "cheers.mp3"},
 			{	name: "magic",
@@ -211,6 +213,20 @@ var result = function(){
 		}, function(response){
 		});
 	}
+
+	function changeScene(btn, callback){
+		var parent = btn.parent
+		var origScale = parent.scale.x
+		var scaleTween = game.add.tween(parent.scale).to({x:(origScale - 0.2),y:origScale - 0.2}, 200, Phaser.Easing.Cubic.In, true)
+		scaleTween.onComplete.add(function(){
+			game.add.tween(parent.scale).to({x:origScale,y:origScale}, 200, Phaser.Easing.Cubic.Out, true)
+			var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
+			alphaTween.onComplete.add(function(){
+				callback()
+			})
+
+		})
+	}
     
     function inputButton(obj){
         
@@ -218,45 +234,63 @@ var result = function(){
             return
         }
         
-        obj.active = false
-        
         var parent = obj.parent
 
-        sound.play("click")
-        
-        var origScale = parent.scale.x
-        var scaleTween = game.add.tween(parent.scale).to({x:(origScale - 0.2),y:origScale - 0.2}, 200, Phaser.Easing.Cubic.In, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(parent.scale).to({x:origScale,y:origScale}, 200, Phaser.Easing.Cubic.Out, true)
-            var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
-            alphaTween.onComplete.add(function(){
-				if(parent.tag == 'retry'){
-					setMixpanel("onRetry")
-	                
-	                sceneloader.show(gamesList[gameIndex].sceneName)
-	                    
-	            }else if(parent.tag == 'home'){
-					
-	                clickHome()
-	                    
-				}
-				else if(parent.tag == 'next'){
-					
-	                clickNext()
-	                    
-				}
-			})
+		if(parent.tag == 'retry'){
+			obj.active = false
+			sound.play("click")
+			var callback = function () {
+				setMixpanel("onRetry")
+				sceneloader.show(gamesList[gameIndex].sceneName)
+			}
 
-        })
+			changeScene(obj, callback)
+
+
+		}else if(parent.tag == 'home'){
+			obj.active = false
+			sound.play("click")
+
+			changeScene(obj, clickHome)
+
+		}
+		else if(parent.tag == 'next'){
+
+			obj.active = false
+			if(obj.notAvaible) {
+				sound.play("wrongAnswer")
+				var parentGroup = obj.parent
+				var originalX = parentGroup.x
+				var tween = game.add.tween(parentGroup).to({x:[originalX - 20, originalX + 20, originalX]}, 400, Phaser.Easing.Cubic.Out, true)
+				tween.onComplete.add(function (target) {
+					obj.active = true
+				})
+			}else {
+				changeScene(obj, clickNext.bind(null, obj))
+			}
+
+		}
                                   
     }
+
+    function checkAvailability(btn){
+		var minigameIndex = parent._QUANTRIX._getNextMinigame()
+
+		if ((minigameIndex < 0)||(totalScore < 1)){
+			btn.notAvaible = true
+			btn.alpha = 0.5
+		}
+
+	}
 
     function clickHome(){
     	//console.log("clickHome")
     }
 
-    function clickNext(){
-    	//console.log("clickNext")
+    function clickNext(obj){
+
+		sound.play("click")
+		parent._QUANTRIX._nextMinigame()
     }
     
     function createButtons(pivot){
@@ -321,6 +355,7 @@ var result = function(){
 				break
 				case 2:
 				icon = group.create(80,0,"atlas.resultScreen","next_icon")
+					checkAvailability(button1)
 				break
 			}
 
@@ -534,12 +569,12 @@ var result = function(){
 		var isNewRecord = true
 
 
-		if(currentPlayer){
-			lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
-			if(lastRecord >= totalScore){
-				isNewRecord = false
-			}
+		//if(currentPlayer){
+		lastRecord = parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].score
+		if(lastRecord >= totalScore){
+        	isNewRecord = false
 		}
+		//}
 
 		if(totalScore==0){
 			isNewRecord = false
@@ -578,12 +613,6 @@ var result = function(){
 			
 			var coin = infoGroup.create(game.world.centerX + 50,previousText.y,'atlas.resultScreen','coin')
 			coin.anchor.setTo(0.5,0.5)
-			
-			lastRecord = 0
-			
-			if(currentPlayer){
-				lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
-			}
 			
 			var previousText = new Phaser.Text(sceneGroup.game, coin.x + 75,coin.y + 5,'x ' + lastRecord, fontStyle)
 			previousText.anchor.setTo(0.5,0.5)
