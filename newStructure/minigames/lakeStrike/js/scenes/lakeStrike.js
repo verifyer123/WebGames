@@ -96,7 +96,7 @@ var lakeStrike = function(){
         x=0.1
         y=0.1
         howMany=0
-        dificulty=3000
+        dificulty=1500
         goalToGet=10
         goalReached=0
         goal=10
@@ -446,7 +446,7 @@ var lakeStrike = function(){
         //proxyJustice
         
         proxyJustice=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","water")
-        proxyJustice.scale.setTo(1,1)
+        proxyJustice.scale.setTo(0.6,0.6)
         proxyJustice.anchor.setTo(0.5,0.5)
         proxyJustice.alpha=0
         lakeGroup.add(proxyJustice)
@@ -519,8 +519,8 @@ var lakeStrike = function(){
         for(var fill=0;fill<pollutionAttacking.length;fill++){
             
             pollutionAttacking[fill]=game.add.sprite(-200,0,'pollutionMoving');
-            pollutionAttacking[fill].scale.setTo(0.5)
-            pollutionAttacking[fill].anchor.setTo(0.5)
+            pollutionAttacking[fill].scale.setTo(0.5,0.5)
+            pollutionAttacking[fill].anchor.setTo(0.5,0.5)
             pollutionAttacking[fill].animations.add('move');
             pollutionAttacking[fill].animations.play('move', 24, true);
             pollutionGroup.add(pollutionAttacking[fill])
@@ -579,7 +579,7 @@ var lakeStrike = function(){
             
             moveCircle(proxyJustice)
             Justice.position.x=proxyJustice.position.x;
-            Justice.position.y=proxyJustice.position.y+10;
+            Justice.position.y=proxyJustice.position.y+30;
             
             for(var samePos=0; samePos<pollutionAttacking.length;samePos++){
                 
@@ -613,7 +613,7 @@ var lakeStrike = function(){
                         goalReached++;
                         if(goalReached==goalToGet && dificulty>1000){
                             speedCreate-=1000;
-                            dificulty-=300;
+                            dificulty-=500;
                             goalToGet+=5;
                             goalReached=0;
                         }
