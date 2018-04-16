@@ -791,10 +791,12 @@ var happypolis = function(){
         happypolisGroup = game.add.group()
         sceneGroup.add(happypolisGroup)
         
-        var winTile = happypolisGroup.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.happypolis', 'tile_win'))
+        var winTile = happypolisGroup.add(game.add.tileSprite(0, 0, game.world.width * 2, game.world.height, 'atlas.happypolis', 'tile_win'))
+        winTile.anchor.setTo(0.25, 0)
         happypolisGroup.win = winTile
         
-        var loseTile = happypolisGroup.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.happypolis', 'tile_lose'))
+        var loseTile = happypolisGroup.add(game.add.tileSprite(0, 0, game.world.width * 2, game.world.height, 'atlas.happypolis', 'tile_lose'))
+        loseTile.anchor.setTo(0.25, 0)
         loseTile.alpha = 0
         happypolisGroup.lose = loseTile
         
@@ -954,9 +956,9 @@ var happypolis = function(){
     function missClick(){
         
         if(list.length <= 1){
-            
+
             factory.boxes.setAll('active', true)
-            
+
             list = []
         }
     }
@@ -1423,7 +1425,7 @@ var happypolis = function(){
                     counterTime = 0
                     trowDelay -= 100
                 }
-                game.add.tween(happypolisGroup).from({x: game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                game.add.tween(happypolisGroup).from({x: game.world.width * 2}, 1200, Phaser.Easing.linear, true).onComplete.add(function(){
                     scenariosGroup.bringToTop(factory)
                     river.colider.destroy()
                     river.fishes.destroy()
@@ -1441,7 +1443,7 @@ var happypolis = function(){
                 if(complete)
                     factory.time -= 100
                     game.add.tween(timerGroup).to({alpha: 0}, 300, Phaser.Easing.linear, true)
-                    game.add.tween(happypolisGroup).from({x: -game.world.width}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                    game.add.tween(happypolisGroup).from({x: -game.world.width * 2}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                     scenariosGroup.bringToTop(forest)
                     for(var i = 0; i < factory.lines.length; i++){
                         factory.lines.children[i].clear()
@@ -1540,7 +1542,6 @@ var happypolis = function(){
     }
     
     function factoryTuto(){
-        
         
         handsGroup.destroy()
         
