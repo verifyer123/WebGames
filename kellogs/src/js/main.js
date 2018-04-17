@@ -46,38 +46,38 @@ var _QUANTRIX = {
        * Carpeta dentro del directorio DEFAULT_GAMES_ROUTE que contiene
        * al minigame.
        */
-      url : "zucaritas",
+      url : "zucaritas/",
       /**
        * Indice del minigame.
        */
       index : 1
     },
     "FrostyRun" : {
-      url : "frostyRun",
+      url : "frostyRun/",
       index : 2
     },
     "CerealBuffet" : {
-      url : "cerealBuffet",
+      url : "cerealBuffet/",
       index : 3
     },
     "HoverRide" : {
-      url : "hoverRide",
+      url : "hoverRide/",
       index : 4
     },
     "MelvinTravel" : {
-      url : "melvinTravel",
+      url : "melvinTravel/",
       index : 5
     },
     "LoopRoll" : {
-      url : "loopRoll",
+      url : "loopRoll/",
       index : 6
     },
     "FrooTemple" : {
-      url : "frooTemple",
+      url : "frooTemple/",
       index : 7
     },
     "FrootMath" : {
-      url : "frootMath",
+      url : "frootMath/",
       index : 8
     },
   }
