@@ -99,6 +99,8 @@ var homeworkRain = function(){
     var tutorialNextBook
     var tutorialBookIndex
 
+    
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -373,7 +375,9 @@ var homeworkRain = function(){
     }
 
     function updateBooks(){
-
+        if(lives < 0){
+            return
+        }
         if(inTutorial!=-1 && tutorialCanTouch){
             return
         }
