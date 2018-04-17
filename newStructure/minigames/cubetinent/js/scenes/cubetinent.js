@@ -678,18 +678,34 @@ var cubetinent = function(){
 
     function updateInput(){
         if(canJump){
-            if(game.input.activePointer.isDown && game.input.activePointer.y > 200){
-                if(canTouch){
-                    
-                    if(Math.abs(game.input.activePointer.x - yogotar.x) < DELTA_QUAD){
 
-                        if(game.input.activePointer.x < yogotar.x){
-                            doJump(-1)
-                        }
-                        else{
-                            doJump(1)
+            
+
+            if(game.input.activePointer.isDown){
+                var dist 
+                if(game.input.activePointer.y >200){
+                    dist = 100
+                }
+                else{
+                   dist = Math.sqrt(Math.pow(game.world.centerX * 0.5 + 70 - game.input.activePointer.x,2) + Math.pow(30-game.input.activePointer.y,2))
+                }
+
+                if(dist > 35){
+                    if(canTouch){
+                        
+                        if(Math.abs(game.input.activePointer.x - yogotar.x) < DELTA_QUAD){
+
+                            if(game.input.activePointer.x < yogotar.x){
+                                doJump(-1)
+                            }
+                            else{
+                                doJump(1)
+                            }
                         }
                     }
+                }
+                else{
+                    canTouch = false
                 }
             }
             else{
@@ -705,8 +721,7 @@ var cubetinent = function(){
             return
         }
 
-        stroke1.visible = false
-        stroke2.visible = false
+       
 
         if(inTutorial!=-1){
 
@@ -719,6 +734,9 @@ var cubetinent = function(){
         		yogotar.y = INITIAL_Y
         	}
         }
+
+         stroke1.visible = false
+        stroke2.visible = false
 
         if(hand.visible){
         	inTutorial++

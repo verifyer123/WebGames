@@ -340,21 +340,29 @@ var homeworkRain = function(){
             return
         }
 
-        if(game.input.activePointer.isDown && game.input.activePointer.y > 200){
-
-            if(canTouch){
-                canTouch = false
-                yogotar.side = yogotar.side*-1
-                yogotar.scale.setTo(yogotar.side*yogotar.initialXScale,yogotar.scale.y)
-                if(inTutorial!=-1){
-                    tutorialCount ++
-                    if(tutorialCount>=MAX_TUTORIAL_COUNT){
-                        inTutorial=-1
-                        hand.visible = false
-                    }
-                    else{
-                        tutorialCanTouch = false
-                        hand.visible = false
+        if(game.input.activePointer.isDown){
+            var dist 
+            if(game.input.activePointer.y >200){
+                dist = 100
+            }
+            else{
+               dist = Math.sqrt(Math.pow(game.world.centerX * 0.5 + 70 - game.input.activePointer.x,2) + Math.pow(30-game.input.activePointer.y,2))
+            }
+            if(dist > 35){
+                if(canTouch){
+                    canTouch = false
+                    yogotar.side = yogotar.side*-1
+                    yogotar.scale.setTo(yogotar.side*yogotar.initialXScale,yogotar.scale.y)
+                    if(inTutorial!=-1){
+                        tutorialCount ++
+                        if(tutorialCount>=MAX_TUTORIAL_COUNT){
+                            inTutorial=-1
+                            hand.visible = false
+                        }
+                        else{
+                            tutorialCanTouch = false
+                            hand.visible = false
+                        }
                     }
                 }
             }
