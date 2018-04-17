@@ -14,7 +14,7 @@ var homeworkRain = function(){
         ],
         images: [
             {   name:"tutorial_image",
-                file: "images/homeworkRain/tutorial_image.png"}
+                file: "images/homeworkRain/tutorial_image_%input.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -340,7 +340,8 @@ var homeworkRain = function(){
             return
         }
 
-        if(game.input.activePointer.isDown){
+        if(game.input.activePointer.isDown && game.input.activePointer.y > 200){
+
             if(canTouch){
                 canTouch = false
                 yogotar.side = yogotar.side*-1
@@ -520,8 +521,8 @@ var homeworkRain = function(){
         var h = game.world.height/ background.height
 
 
-        floor = sceneGroup.create(game.world.centerX,game.world.height+150,"atlas.game","floorTile")
-        floor.anchor.setTo(0.5,1)
+        floor = backgroundGroup.create(game.world.centerX,game.world.height-150,"atlas.game","ground")
+        floor.anchor.setTo(0.5,0)
 
         if(w >1 ||h >1){
             if(w > h){
@@ -534,9 +535,9 @@ var homeworkRain = function(){
             }
         }
 
-        var floorTile = game.add.tileSprite(0,0,game.world.width,game.world.height/2,"atlas.game","pisoTile")
+        /*var floorTile = game.add.sprite(0,0,game.world.width,game.world.height/2,"atlas.game","ground")
         floorTile.anchor.setTo(0.5,0)
-        floor.addChild(floorTile)
+        floor.addChild(floorTile)*/
 
         booksGroup = game.add.group()
         booksGroup.x = game.world.centerX
@@ -608,12 +609,18 @@ var homeworkRain = function(){
         createTutorial()
     
     }
+
+    /*function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }*/
+
     
 	return {
 		assets: assets,
 		name: "homeworkRain",
         update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
-		create: createScene
+		create: createScene,
+        //render:render
 	}
 }()

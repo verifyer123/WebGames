@@ -46,6 +46,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "ground",
+	"frame": {"x":1163,"y":1,"w":541,"h":959},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":541,"h":959},
+	"sourceSize": {"w":541,"h":961},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "handDown",
 	"frame": {"x":218,"y":605,"w":102,"h":95},
 	"rotated": false,
@@ -82,8 +91,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "smoke",
+	"frame": {"x":281,"y":423,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
-	"frame": {"x":281,"y":423,"w":64,"h":64},
+	"frame": {"x":281,"y":518,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -104,8 +122,8 @@
 	"version": "1.0",
 	"image": "homeworkRain_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1162,"h":963},
+	"size": {"w":1705,"h":963},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e440e9b826f229ba5cb12bea9ff9b78d:401a958bb5ecfa879f682afe7821a725:78e19cbe17f1fd4193f9886e86e4582a$"
+	"smartupdate": "$TexturePacker:SmartUpdate:1e513d003504e5fb86a4a8c40ed3f70d:13999026ec6fd43aa7a535e3c64600b3:78e19cbe17f1fd4193f9886e86e4582a$"
 }
 }
