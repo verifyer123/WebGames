@@ -99,7 +99,7 @@ var homeworkRain = function(){
     var tutorialNextBook
     var tutorialBookIndex
 
-    
+
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -375,9 +375,7 @@ var homeworkRain = function(){
     }
 
     function updateBooks(){
-        if(lives < 0){
-            return
-        }
+        
         if(inTutorial!=-1 && tutorialCanTouch){
             return
         }
@@ -409,6 +407,10 @@ var homeworkRain = function(){
     }
 
     function evaluateBook(book){
+        if(lives <= 0){
+             book.visible = false
+            return
+        }
         if(book.side == yogotar.side){
             sound.play("pop")
             if(book.colorValue == yogotar.colorValue){
