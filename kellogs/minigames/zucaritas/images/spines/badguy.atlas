@@ -1,0 +1,34 @@
+
+badguy.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/ear_V
+  rotate: true
+  xy: 157, 41
+  size: 19, 42
+  orig: 19, 42
+  offset: 0, 0
+  index: -1
+normal/face
+  rotate: false
+  xy: 121, 30
+  size: 34, 30
+  orig: 34, 30
+  offset: 0, 0
+  index: -1
+normal/torso_V
+  rotate: true
+  xy: 2, 2
+  size: 58, 69
+  orig: 58, 69
+  offset: 0, 0
+  index: -1
+normal/wing
+  rotate: false
+  xy: 73, 18
+  size: 46, 42
+  orig: 46, 42
+  offset: 0, 0
+  index: -1
