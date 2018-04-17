@@ -215,6 +215,7 @@ var yogomeGames = function () {
             {name:'Euro Flag',url:urlSet + 'euroFlag/',mapUrl:urlMap + 'euroFlag', sceneName:'euroFlag',subject:'geography', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//185
             {name:'Puzzoole',url:urlSet + 'puzzoole/',mapUrl:urlMap + 'puzzoole', sceneName:'puzzoole',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//186
             {name:'Motion Slip',url:urlSet + 'motionSlip/',mapUrl:urlMap + 'motionSlip', sceneName:'motionSlip',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//187
+            {name:'Syncphony',url:urlSet + 'syncphony/',mapUrl:urlMap + 'syncphony', sceneName:'syncphony',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//188
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
