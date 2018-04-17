@@ -66,17 +66,17 @@
                     for (var key in _QUANTRIX.GAMES) {
                         for (var ney in response.minigames){
                             // score en variable global
-                            if (_QUANTRIX.GAMES[key].index == response.minigames[ney].minigame_id ) {
+                            //if (_QUANTRIX.GAMES[key].index == response.minigames[ney].minigame_id ) {
                                 _QUANTRIX.GAMES[key].score = response.minigames[ney].score;
-                            }
+                            //}
                             // minigame activo
-                            if (response.minigames[ney].minigame_id == nextIndex) {
+                            //if (response.minigames[ney].minigame_id == nextIndex) {
                                 _minigameConfig.name = _QUANTRIX.GAMES[gameRoute].url;
                                 _activeMinigame = new _QUANTRIX.Minigame(_minigameConfig);
                                 _activeMinigame.init();
                                 _QUANTRIX._activeRoute = gameRoute;
                                 _changeBrowserUrl(gameRoute);
-                            }
+                            //}
                         }
                     }
                 },
