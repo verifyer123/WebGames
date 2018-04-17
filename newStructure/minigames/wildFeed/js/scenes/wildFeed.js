@@ -849,9 +849,9 @@ var wildFeed = function(){
     function initGame(){
         
         buttonsGroup.setAll("tint", 0x606060)
-        rand = 0//getRand()
+        rand = getRand()
         textGroup.text.setText(textGroup.words[rand])
-        index = 3//game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
+        index = game.rnd.integerInRange(0, animalsGroup.children[rand].length - 1)
         animalsGroup.setAll("alpha", 0)
         animalsGroup.children[rand].alpha = 1
         changeImage(index, animalsGroup.children[rand])
