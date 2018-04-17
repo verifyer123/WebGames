@@ -611,6 +611,8 @@ var cubetinent = function(){
         yogotar.setAnimationByName(0,"lose",true)
         var tween = game.add.tween(yogotar).to({y:yogotar.y + game.world.height+OFFSET_YOGOTAR_CUBE},FALLING_TIME,Phaser.Easing.linear,true)
         tween.onComplete.add(restartYogotar)
+        stroke1.visible = false
+        stroke2.visible = false
     }
 
     function restartYogotar(){
@@ -620,9 +622,13 @@ var cubetinent = function(){
 
         if(squareRaws[0].length == 4){
         	squareRaws.splice(0,1)
+            squareRaws.splice(0,1)
+            squareRaws.splice(0,1)
             nextRawPlus = true
         }
         else{
+            squareRaws.splice(0,1)
+            squareRaws.splice(0,1)
             nextRawPlus = true
         }
 
@@ -643,9 +649,23 @@ var cubetinent = function(){
             yogotar.blink ++
             yogotar.visible = true
             if(yogotar.blink>=BLINK_TIMES){
+
                 gameActive = true
                 yogotar.blink = 0
                 yogotar.setAnimationByName(0,"idle",true)
+
+                nextCube1 = squareRaws[0][1]
+
+                stroke1.x = nextCube1.x
+                stroke1.y = nextCube1.y - OFFSET_STROKE
+                stroke1.visible = true
+
+                nextCube2 = squareRaws[0][2]
+
+                stroke2.x = nextCube2.x
+                stroke2.y = nextCube2.y - OFFSET_STROKE
+                stroke2.visible = true
+
                 return
             }
         }
