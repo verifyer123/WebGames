@@ -680,12 +680,18 @@ var colorInvaders = function(){
                 particleCorrect.x = btn.centerX
                 particleCorrect.y = btn.centerY
                 particleCorrect.start(true, 1200, null, 10)
+                for(var i = 0; i < aliensGroup.length; i++){ 
+                    aliensGroup.children[i].setAnimationByName(0, "WIN", true)
+                }
             }
             else{
                 missPoint()
                 particleWrong.x = btn.centerX
                 particleWrong.y = btn.centerY
                 particleWrong.start(true, 1200, null, 10)
+                for(var i = 0; i < aliensGroup.length; i++){ 
+                    aliensGroup.children[i].setAnimationByName(0, "LOSE", true)
+                }
             }
                
             if(pointsBar.number === 20){
@@ -766,10 +772,13 @@ var colorInvaders = function(){
             }
         }
         
+        var anim
+        
         game.time.events.add(500,function(){
             sound.play("whoosh")
             for(var i = 0; i < aliensGroup.length; i++){
-                
+                game.rnd.integerInRange(0, 1) === 0 ? anim = "IDLE" : anim = "IDLE2"
+                aliensGroup.children[i].setAnimationByName(0, anim, true)
                 game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].boxX, y: aliensGroup.children[i].boxY}, 1000, Phaser.Easing.linear, true)
             }
         },this)

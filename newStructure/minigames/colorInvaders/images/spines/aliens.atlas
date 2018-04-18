@@ -1,124 +1,124 @@
 
 aliens.png
-size: 965,352
+size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/A_blue_1
-  rotate: true
-  xy: 783, 3
-  size: 108, 114
-  orig: 108, 114
+  rotate: false
+  xy: 112, 15
+  size: 108, 113
+  orig: 108, 113
   offset: 0, 0
   index: -1
 normal/A_blue_2
   rotate: false
-  xy: 689, 23
-  size: 92, 127
-  orig: 92, 127
+  xy: 425, 795
+  size: 93, 127
+  orig: 93, 127
   offset: 0, 0
   index: -1
 normal/A_green_1
-  rotate: false
-  xy: 413, 140
+  rotate: true
+  xy: 244, 924
   size: 93, 210
   orig: 93, 210
   offset: 0, 0
   index: -1
 normal/A_green_2
-  rotate: true
-  xy: 2, 3
+  rotate: false
+  xy: 2, 2
   size: 108, 121
   orig: 108, 121
   offset: 0, 0
   index: -1
 normal/A_orange_1
   rotate: false
-  xy: 581, 2
-  size: 106, 144
-  orig: 106, 144
+  xy: 97, 228
+  size: 107, 144
+  orig: 107, 144
   offset: 0, 0
   index: -1
 normal/A_orange_2
   rotate: false
-  xy: 247, 5
-  size: 166, 132
-  orig: 166, 132
+  xy: 841, 885
+  size: 165, 132
+  orig: 165, 132
   offset: 0, 0
   index: -1
 normal/A_pink_1
   rotate: true
-  xy: 125, 3
-  size: 108, 120
-  orig: 108, 120
+  xy: 97, 130
+  size: 96, 121
+  orig: 96, 121
   offset: 0, 0
   index: -1
 normal/A_pink_2
   rotate: true
-  xy: 783, 227
-  size: 123, 180
-  orig: 123, 180
+  xy: 244, 799
+  size: 123, 179
+  orig: 123, 179
   offset: 0, 0
   index: -1
 normal/A_purple_1
   rotate: false
-  xy: 603, 152
-  size: 123, 198
-  orig: 123, 198
+  xy: 119, 820
+  size: 123, 197
+  orig: 123, 197
   offset: 0, 0
   index: -1
 normal/A_purple_2
   rotate: false
-  xy: 2, 113
-  size: 114, 237
-  orig: 114, 237
+  xy: 2, 780
+  size: 115, 237
+  orig: 115, 237
   offset: 0, 0
   index: -1
 normal/A_red_1
-  rotate: false
-  xy: 415, 6
-  size: 164, 132
-  orig: 164, 132
+  rotate: true
+  xy: 97, 374
+  size: 165, 132
+  orig: 165, 132
   offset: 0, 0
   index: -1
 normal/A_red_2
   rotate: false
-  xy: 508, 148
-  size: 93, 202
-  orig: 93, 202
+  xy: 2, 125
+  size: 93, 201
+  orig: 93, 201
   offset: 0, 0
   index: -1
 normal/A_yellow_1
   rotate: false
-  xy: 234, 139
+  xy: 2, 328
   size: 93, 211
   orig: 93, 211
   offset: 0, 0
   index: -1
 normal/A_yellow_2
   rotate: false
-  xy: 118, 113
+  xy: 2, 541
   size: 114, 237
   orig: 114, 237
   offset: 0, 0
   index: -1
 normal/ligth
   rotate: false
-  xy: 783, 113
+  xy: 669, 905
   size: 170, 112
   orig: 170, 112
   offset: 0, 0
   index: -1
 normal/ondas
-  rotate: true
-  xy: 728, 159
-  size: 66, 29
+  rotate: false
+  xy: 119, 791
+  size: 66, 27
   orig: 66, 29
-  offset: 0, 0
+  offset: 0, 1
   index: -1
 normal/ship
-  rotate: true
-  xy: 329, 139
+  rotate: false
+  xy: 456, 935
   size: 211, 82
   orig: 211, 82
   offset: 0, 0
