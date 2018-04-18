@@ -636,7 +636,7 @@ var magicSpell = function(){
         
         spellBoard = sceneGroup.create(game.world.centerX, game.world.height - board.height + 10, "atlas.magicSpell", "spellBoard")
         spellBoard.anchor.setTo(0.5, 1)
-        spellBoard.scale.setTo(1.35)
+        spellBoard.scale.setTo(1.45)
         
         sceneGroup.add(board)
         
