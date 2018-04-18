@@ -69,7 +69,7 @@ var magicSpell = function(){
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'gameSong',
-                file: soundsPath + 'songs/upbeat_casual_8.mp3'
+                file: soundsPath + 'songs/battleLoop.mp3'
             }
 		],
         spritesheets: [
