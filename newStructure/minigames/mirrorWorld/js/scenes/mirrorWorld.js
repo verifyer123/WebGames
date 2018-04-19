@@ -334,57 +334,6 @@ var mirrorWorld = function(){
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-
-
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            dificulty=4
-            createPat()
-            //Aqui va la primera funciòn que realizara el juego
-            startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.mirror','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'Movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.mirror',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.mirror','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(){
@@ -631,6 +580,8 @@ var mirrorWorld = function(){
             if(iconsPlayer[checking+1].tag !== 'empty')
                 delay += 400
         }
+
+        stGame=false
         
         game.time.events.add(delay + 300,function(){
             
@@ -642,7 +593,7 @@ var mirrorWorld = function(){
                 }
 
                 check=0
-                stGame=false
+                
 
 
                 for(var outing=0;outing<iconsComp.length;outing++){
@@ -707,7 +658,13 @@ var mirrorWorld = function(){
        function startTimer(time){
             tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.35}, time, Phaser.Easing.Linear.Out, true, 100)
             tweenTiempo.onComplete.add(function(){
+            	stGame = false
                 loseGame()
+
+                tweenTiempo=game.add.tween(timeBar.scale).to({x:6,y:.35}, 500, Phaser.Easing.Linear.Out, true, 100).onComplete.add(function(){
+           		})
+
+
         })
     }
     
@@ -778,8 +735,11 @@ var mirrorWorld = function(){
             stGame=true
             howMany=0
         }
+
+        var indexHand = where%3
+        indexHand = 2 - indexHand
         
-        handPos(iconsPlayer[where])
+        handPos(iconsPlayer[where].centerY,iconsPlayer[indexHand].centerX)
         
     }
     
@@ -987,6 +947,7 @@ var mirrorWorld = function(){
     function okPressed(){
         
         if(stGame){
+
             changeImage(1, okGroup)
             checkMirror()
         }
@@ -1020,11 +981,11 @@ var mirrorWorld = function(){
         })
     }
     
-    function handPos(obj){
+    function handPos(y,x){
         
         handsGroup.alpha = 1
-        handsGroup.setAll('x', obj.centerX) 
-        handsGroup.setAll('y', obj.centerY) 
+        handsGroup.setAll('x', x) 
+        handsGroup.setAll('y', y) 
     }
 	
 	return {
