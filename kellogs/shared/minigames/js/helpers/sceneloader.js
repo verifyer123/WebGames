@@ -58,9 +58,9 @@ var sceneloader = function(){
 			var currentScene = scenes[indexScene]
 
 			var gameData = currentScene.getGameData ? currentScene.getGameData() : "none"
-			/*if(typeof gameData === "object"){
+			if(typeof gameData === "object"){
 				tutorialHelper.loadType(gameData, currentLoader)
-			}*/
+			}
 
 			if(currentScene.assets !== "undefined"){
 				var assets = currentScene.assets

@@ -1,0 +1,41 @@
+
+target.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal5/ball_1
+  rotate: false
+  xy: 228, 2
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+normal5/ball_2
+  rotate: true
+  xy: 228, 21
+  size: 41, 17
+  orig: 41, 17
+  offset: 0, 0
+  index: -1
+normal5/extra_piece
+  rotate: true
+  xy: 228, 64
+  size: 49, 17
+  orig: 49, 17
+  offset: 0, 0
+  index: -1
+normal5/low_piece
+  rotate: false
+  xy: 2, 2
+  size: 111, 111
+  orig: 111, 111
+  offset: 0, 0
+  index: -1
+normal5/top_piece
+  rotate: false
+  xy: 115, 2
+  size: 111, 111
+  orig: 111, 111
+  offset: 0, 0
+  index: -1

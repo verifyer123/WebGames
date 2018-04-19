@@ -343,7 +343,7 @@ var selectCards = function(){
 		playerGUI.add(levelText)
 		levelText.fixedToCamera = true
 
-		var name = parent.loginModal.getChildData().nickname || currentPlayer.yogotar
+		var name = parent.loginModal ? parent.loginModal.getChildData().nickname : "NinjaMaster"
 
 		var playerName = game.add.bitmapText(310,40, 'luckiest', name, 35);
 		playerName.anchor.setTo(0.5,0.5)

@@ -15,6 +15,18 @@ var epicModel = function () {
 		version: 0.2
 	}
 
+	function validateCardsData(cards) {
+		var filterCards = []
+		for(var cardIndex = 0; cardIndex < cards.length; cardIndex++){
+			var card = cards[cardIndex]
+
+			if(epicCharacters[card.id])
+				filterCards.push(card)
+		}
+
+		player.cards = filterCards
+	}
+
 	function initializePlayer() {
 		var minigames = yogomeGames.getObjectGames()
 
@@ -42,6 +54,7 @@ var epicModel = function () {
 	function updateData() {
 		var playerData = loginModal.getChildData()
 		player = playerData.gameData || player
+		validateCardsData(player.cards)
 		// console.log(credentials.gameData, "Game DATA")
 		initializePlayer()
 		console.log("updateData")

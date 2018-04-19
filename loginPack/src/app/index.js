@@ -136,7 +136,7 @@ class App extends React.Component{
 		login.saveChild(player, onSuccess)
 	}
 
-	showLogin(forceLogin, autoLogin, onLogin){
+	showLogin(forceLogin, autoLogin, onLogin, onErrorCallback){
 		this.forceLogin = forceLogin || false
 
 		this.onLogin = () => {
@@ -162,6 +162,7 @@ class App extends React.Component{
 			function onError() {
 				if(forceLogin)
 					this.handleClick("login")
+				if (onErrorCallback) onErrorCallback()
 			}
 
 			login.checkLogin(onSuccess.bind(this), onError.bind(this))
