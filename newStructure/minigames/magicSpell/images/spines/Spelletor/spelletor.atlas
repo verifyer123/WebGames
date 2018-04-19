@@ -1,0 +1,62 @@
+
+spelletor.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/armL
+  rotate: false
+  xy: 2, 44
+  size: 129, 53
+  orig: 129, 53
+  offset: 0, 0
+  index: -1
+normal1/armR
+  rotate: false
+  xy: 2, 375
+  size: 168, 129
+  orig: 168, 129
+  offset: 0, 0
+  index: -1
+normal1/head_a
+  rotate: false
+  xy: 2, 237
+  size: 155, 136
+  orig: 155, 136
+  offset: 0, 0
+  index: -1
+normal1/head_b
+  rotate: false
+  xy: 2, 99
+  size: 155, 136
+  orig: 155, 136
+  offset: 0, 0
+  index: -1
+normal1/head_c
+  rotate: false
+  xy: 172, 368
+  size: 155, 136
+  orig: 155, 136
+  offset: 0, 0
+  index: -1
+normal1/hips
+  rotate: false
+  xy: 403, 368
+  size: 65, 60
+  orig: 65, 60
+  offset: 0, 0
+  index: -1
+normal1/legs
+  rotate: false
+  xy: 329, 430
+  size: 175, 74
+  orig: 175, 74
+  offset: 0, 0
+  index: -1
+normal1/torso
+  rotate: true
+  xy: 329, 363
+  size: 65, 72
+  orig: 65, 72
+  offset: 0, 0
+  index: -1

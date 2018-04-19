@@ -1,0 +1,20 @@
+
+cube.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/cube
+  rotate: false
+  xy: 2, 39
+  size: 107, 114
+  orig: 107, 114
+  offset: 0, 0
+  index: -1
+normal/empty
+  rotate: false
+  xy: 2, 2
+  size: 39, 35
+  orig: 39, 35
+  offset: 0, 0
+  index: -1
