@@ -44,6 +44,14 @@ var roboticFigures = function(){
             {
 				name:'background',
 				file:"images/roboticFigures/background.png"
+			},
+            {
+				name:'shadow',
+				file:"images/roboticFigures/shadow.png"
+			},
+            {
+				name:'base',
+				file:"images/roboticFigures/base.png"
 			}
 
 		],
@@ -58,10 +66,16 @@ var roboticFigures = function(){
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
+            {	name: "robotWhoosh",
+				file: soundsPath + "robotWhoosh.mp3"},
+            {	name: "robotLose",
+				file: soundsPath + "robotLose.mp3"},
+            {	name: "robotWin",
+				file: soundsPath + "robotWin.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'gameSong',
-                file: soundsPath + 'songs/childrenbit.mp3'
+                file: soundsPath + 'songs/upbeat_casual_8.mp3'
             }
 		],
         spritesheets: [
@@ -80,8 +94,12 @@ var roboticFigures = function(){
         ],
         spines:[
 			{
-				name:"robot",
+				name:"robot1",
 				file:"images/spines/robots/robot1.json"
+			},
+            {
+				name:"robot2",
+				file:"images/spines/robots/robot2.json"
 			}
 		]
     }
@@ -91,11 +109,19 @@ var roboticFigures = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 102
+    var gameIndex = 192
     var tutoGroup
     var gameSong
     var coin
     var hand
+    var circuitsGroup
+    var slotsGroup
+    var figuresGroup
+    var robot
+    var rand
+    var counter
+    var timeAttack
+    var gameTime
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -106,6 +132,10 @@ var roboticFigures = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         gameActive = false
+        rand = -1
+        counter = 0
+        timeAttack = false
+        gameTime = 10000
         
         loadSounds()
 	}
@@ -308,6 +338,9 @@ var roboticFigures = function(){
 
 	function createBackground(){
             
+        var background = sceneGroup.create(0, 0, "background")
+        background.width = game.world.width
+        background.height = game.world.height
     }
 
 	function update(){
@@ -491,7 +524,7 @@ var roboticFigures = function(){
         
         timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
-        //timerGroup.alpha = 0
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
@@ -517,8 +550,7 @@ var roboticFigures = function(){
         
         timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         timerGroup.tweenTiempo.onComplete.add(function(){
-            gameActive = false
-            stopTimer()
+            win(false)
         })
     }
 	
@@ -554,11 +586,331 @@ var roboticFigures = function(){
            })
         })
     }
+
+    function createRobot(){
+            
+        var base = sceneGroup.create(game.world.centerX, game.world.centerY + 80, "base")
+        base.anchor.setTo(0.5, 1)
+        base.scale.setTo(1, 0.9)
+        
+        robot = game.add.group()
+        sceneGroup.add(robot)
+        
+        for(var i = 1; i < 3; i++){
+            var bot = game.add.spine(base.centerX, base.y - 30, "robot" + i)
+            bot.setAnimationByName(0, "IDLE", true)
+            bot.setSkinByName("normal")
+            bot.alpha = 0
+            robot.add(bot)
+        }
+        
+        robot.bot = robot.children[0]
+        game.rnd.integerInRange(0, 1) === 0 ? robot.bot = robot.bot.setSkinByName("normal") : robot.bot.setSkinByName("normal1")
+    }
     
+    function createMotherboard(){
+        
+        var shadow = sceneGroup.create(game.world.centerX, game.world.centerY + 90, "shadow")
+        shadow.anchor.setTo(0.5, 0)
+        shadow.scale.setTo(0.9)
+        shadow.width = game.world.width
+        
+        var mother = sceneGroup.create(shadow.centerX, shadow.centerY, "atlas.roboticFigures", "mother")
+        mother.anchor.setTo(0.5)
+        
+        circuitsGroup = game.add.group()
+        sceneGroup.add(circuitsGroup)
+
+        var bulbOn =  sceneGroup.create(mother.centerX + mother.width * 0.45, mother.centerY, "atlas.roboticFigures", "bitOn")
+        bulbOn.anchor.setTo(0.5, 1)
+        bulbOn.alpha = 0
+        circuitsGroup.bulbOn = bulbOn
+        
+        var bulbOff =  sceneGroup.create(mother.centerX + mother.width * 0.45, mother.centerY, "atlas.roboticFigures", "bitOff")
+        bulbOff.anchor.setTo(0.5, 1)
+        circuitsGroup.bulbOff = bulbOff
+        
+        for(var i = 0; i < 6; i++){
+            
+            var circuit = circuitsGroup.create(mother.centerX, mother.centerY, "atlas.roboticFigures", "circuit" + i)
+            circuit.anchor.setTo(0.5)
+            circuit.alpha = 0
+            circuit.slots = []
+        }
+        
+        circuitsGroup.children[0].slots = [{x:-150, y:0},
+                                           {x:0,    y:0},
+                                           {x:150,  y:0}]
+        
+        circuitsGroup.children[1].slots = [{x:-150, y:-50},
+                                           {x:-30,  y:-10},
+                                           {x:65,   y:40},
+                                           {x:150,  y:0}]
+        
+        circuitsGroup.children[2].slots = [{x:-130, y:-10},
+                                           {x:-30,  y:-20},
+                                           {x:50,   y:20},
+                                           {x:140,  y:-10}]
+        
+        circuitsGroup.children[3].slots = [{x:-150, y:40},
+                                           {x:-60,  y:40},
+                                           {x:20,   y:0},
+                                           {x:90,   y:-60},
+                                           {x:160,  y:20}]
+        
+        circuitsGroup.children[4].slots = [{x:-150, y:-10},
+                                           {x:-75,  y:-60},
+                                           {x:0,    y:0},
+                                           {x:80,   y:50},
+                                           {x:140,  y:-40}]
+        
+        circuitsGroup.children[5].slots = [{x:-150, y:50},
+                                           {x:-50,  y:50},
+                                           {x:-80,  y:-60},
+                                           {x:70,   y:-60},
+                                           {x:60,  y:40},
+                                           {x:150,  y:0}]
+        
+        slotsGroup = game.add.group()
+        sceneGroup.add(slotsGroup)
+        
+        var aux = 0
+        
+        for(var i = 0; i < 8; i++){
+            
+            var subGroup =  game.add.group()
+            subGroup.x = -50
+            subGroup.y = -50
+            subGroup.empty = true
+            subGroup.tag = aux
+            subGroup.alpha = 0
+            slotsGroup.add(subGroup)
+            
+            var slot = subGroup.create(0, 0, "atlas.roboticFigures", "slot" + aux)
+            slot.anchor.setTo(0.5)
+            subGroup.slot = slot
+            
+            var fig = subGroup.create(0, 0, "atlas.roboticFigures", "fig" + aux)
+            fig.alpha = 0
+            fig.anchor.setTo(0.5)
+            fig.scale.setTo(0.7)
+            subGroup.fig = fig
+            
+            aux = i - aux
+        }
+    }
+    
+    function createButtons(){
+        
+        var board = sceneGroup.create(game.world.centerX, game.world.height, "atlas.roboticFigures", "board")
+        board.anchor.setTo(0.5, 1)
+        board.scale.setTo(0.9)
+        board.width = game.world.width
+        
+        figuresGroup = game.add.group()
+        sceneGroup.add(figuresGroup)
+        
+        var pivot = 0.4
+
+        for(var i = 0; i < 4; i++){
+            
+            var figure = figuresGroup.create(board.centerX * pivot, board.centerY - 10, "atlas.roboticFigures", "fig" + i)
+            figure.anchor.setTo(0.5)
+            figure.scale.setTo(0)
+            figure.spawnX = figure.x
+            figure.spawnY = figure.y
+            figure.tag = i
+            figure.inputEnabled = true
+            figure.input.enableDrag()
+            figure.events.onDragStop.add(setFigure, this)
+            
+            pivot += 0.4
+        }        
+        figuresGroup.setAll("inputEnabled", false)
+    }
+    
+    function setFigure(fig){
+        
+         if(gameActive){
+            
+            for(var i = 0; i < slotsGroup.length; i++){
+            
+                if(checkOverlap(slotsGroup.children[i].slot, fig) && slotsGroup.children[i].empty){
+                    if(slotsGroup.children[i].tag === fig.tag){
+                        slotsGroup.children[i].empty = false
+                        slotsGroup.children[i].fig.alpha = 1
+                        counter++
+                        if(counter === circuitsGroup.children[rand].slots.length){
+                            win(true)
+                            lightUp(false)
+                        }
+                        else{
+                            sound.play("robotWhoosh")
+                            lightUp(true)
+                            game.add.tween(fig.scale).from({x:0, y:0}, 200, Phaser.Easing.Cubic.InOut,true)
+                        }
+                    }
+                    else{
+                        win(false)
+                    }
+                    break
+                }
+            }      
+        }
+        fig.x = fig.spawnX
+        fig.y = fig.spawnY
+    }
+    
+    function win(ans){
+
+        gameActive = false
+        figuresGroup.setAll("inputEnabled", false)
+        for(var i = 0; i < figuresGroup.length; i++){
+            game.add.tween(figuresGroup.children[i].scale).to({x:0, y:0}, 200, Phaser.Easing.Cubic.InOut,true)
+        }
+        if(timeAttack){
+            stopTimer()
+        }
+        
+        if(ans){
+            addCoin()
+            sound.play("robotWin")
+            particleCorrect.x = game.world.centerX 
+            particleCorrect.y = game.world.centerY
+            particleCorrect.start(true, 1200, null, 15)
+            robot.bot.setAnimationByName(0, "WIN", true)
+            if(timeAttack){
+                gameTime -= 500
+            }
+        }
+        else{
+            sound.play("robotLose")
+            particleWrong.x = game.world.centerX 
+            particleWrong.y = game.world.centerY - 80
+            particleWrong.start(true, 1200, null, 15)
+            robot.bot.setAnimationByName(0, "LOSE", true)
+            game.time.events.add(700,function(){
+                missPoint()
+            })
+        }
+        
+        game.time.events.add(1200,function(){
+            if(lives !== 0){
+                restartAssets()
+                game.time.events.add(1200,function(){
+                    initGame()
+                })
+            }
+        })
+    }
+    
+    function checkOverlap(spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA , boundsB );
+    }
+    
+    function lightUp(flash){
+        
+        circuitsGroup.bulbOn.alpha = 1
+        circuitsGroup.bulbOff.alpha = 0
+        
+        game.time.events.add(200,function(){
+            if(flash){
+            circuitsGroup.bulbOn.alpha = 0
+            circuitsGroup.bulbOff.alpha = 1
+            }
+        })
+    }
+    
+    function restartAssets(){
+        
+        game.add.tween(circuitsGroup.children[rand]).to({alpha:0}, 400, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            
+            for(var i = 0; i < slotsGroup.length; i++){
+                fadeOut(slotsGroup.children[i])
+            }
+            
+            game.add.tween(robot.bot).to({alpha:0}, 500, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+                robot.bot.setAnimationByName(0, "IDLE", true)
+                robot.bot = robot.children[0]
+                game.rnd.integerInRange(0, 1) === 0 ? robot.bot = robot.bot.setSkinByName("normal") : robot.bot.setSkinByName("normal1")
+            })  
+        })   
+        
+        counter = 0
+        lightUp(true)
+        
+        if(pointsBar.number === 15){
+            game.add.tween(timerGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
+            timeAttack = true
+        }
+    }
+    
+    function fadeOut(obj){
+        
+        game.add.tween(obj).to({alpha:0}, 400, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            obj.fig.alpha = 0
+            obj.x = -50
+            obj.y = -50
+            obj.empty = true
+        })
+    }
+  
     function initGame(){
         
+        for(var i = 0; i < figuresGroup.length; i++){
+            sound.play("cut")
+            game.add.tween(figuresGroup.children[i].scale).to({x:1, y:1}, 200, Phaser.Easing.Cubic.InOut,true)
+        }
+        
+        game.time.events.add(500,function(){
+            assembleMother()
+        })
+            
+        game.time.events.add(1300,function(){
+            gameActive = true
+            figuresGroup.setAll("inputEnabled", true)
+            if(timeAttack)
+                startTimer(gameTime)
+        })
     }
-	
+    
+    function assembleMother(){
+        
+        rand = getRand()
+        var circuit = circuitsGroup.children[rand]
+        
+        var pos = []
+        for(var i = 0; i < slotsGroup.length; i++)
+            pos[i] = i
+        
+        Phaser.ArrayUtils.shuffle(pos)
+        
+        game.add.tween(circuit).to({alpha:1}, 400, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            
+            sound.play("cut")
+            for(var i = 0; i < circuit.slots.length; i++){
+                slotsGroup.children[pos[i]].x = circuit.x + circuit.slots[i].x
+                slotsGroup.children[pos[i]].y = circuit.y + circuit.slots[i].y
+                game.add.tween(slotsGroup.children[pos[i]]).to({alpha:1}, 400, Phaser.Easing.Cubic.InOut,true)
+            }
+            
+            game.rnd.integerInRange(0, 1) === 0 ? robot.bot = robot.children[0] : robot.bot = robot.children[1]
+            game.add.tween(robot.bot).to({alpha:1}, 200, Phaser.Easing.Cubic.InOut,true)
+        })        
+    }
+    
+    function getRand(){
+        var x = game.rnd.integerInRange(0, 5)
+        if(x === rand)
+            return getRand()
+        else
+            return x     
+    }
+    
 	return {
 		
 		assets: assets,
@@ -596,6 +948,10 @@ var roboticFigures = function(){
 			            
 			createPointsBar()
 			createHearts()
+            positionTimer()
+            createRobot()
+            createMotherboard()
+            createButtons()
             initCoin()
             createParticles()
 			
