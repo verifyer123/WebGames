@@ -1,0 +1,188 @@
+
+parents.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal5/eye
+  rotate: false
+  xy: 486, 487
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+normal6/eye
+  rotate: false
+  xy: 486, 487
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+normal7/eye
+  rotate: false
+  xy: 486, 487
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+normal8/eye
+  rotate: false
+  xy: 486, 487
+  size: 14, 13
+  orig: 14, 13
+  offset: 0, 0
+  index: -1
+normal5/feathers
+  rotate: true
+  xy: 118, 7
+  size: 34, 25
+  orig: 34, 25
+  offset: 0, 0
+  index: -1
+normal5/head
+  rotate: true
+  xy: 234, 221
+  size: 80, 62
+  orig: 80, 62
+  offset: 0, 0
+  index: -1
+normal5/legs
+  rotate: false
+  xy: 147, 82
+  size: 48, 33
+  orig: 48, 33
+  offset: 0, 0
+  index: -1
+normal5/tail
+  rotate: true
+  xy: 379, 418
+  size: 82, 105
+  orig: 82, 105
+  offset: 0, 0
+  index: -1
+normal5/torso
+  rotate: true
+  xy: 219, 303
+  size: 89, 87
+  orig: 89, 87
+  offset: 0, 0
+  index: -1
+normal5/wings
+  rotate: false
+  xy: 266, 442
+  size: 111, 58
+  orig: 111, 58
+  offset: 0, 0
+  index: -1
+normal6/head
+  rotate: false
+  xy: 128, 441
+  size: 136, 59
+  orig: 136, 59
+  offset: 0, 0
+  index: -1
+normal6/legs
+  rotate: false
+  xy: 147, 117
+  size: 50, 32
+  orig: 50, 32
+  offset: 0, 0
+  index: -1
+normal6/tail
+  rotate: true
+  xy: 151, 151
+  size: 41, 60
+  orig: 41, 60
+  offset: 0, 0
+  index: -1
+normal6/torso
+  rotate: false
+  xy: 151, 194
+  size: 81, 92
+  orig: 81, 92
+  offset: 0, 0
+  index: -1
+normal6/wings
+  rotate: true
+  xy: 2, 18
+  size: 108, 62
+  orig: 108, 62
+  offset: 0, 0
+  index: -1
+normal7/feathers
+  rotate: false
+  xy: 66, 43
+  size: 75, 56
+  orig: 75, 56
+  offset: 0, 0
+  index: -1
+normal7/head
+  rotate: true
+  xy: 2, 244
+  size: 142, 59
+  orig: 142, 59
+  offset: 0, 0
+  index: -1
+normal7/legs
+  rotate: false
+  xy: 234, 187
+  size: 50, 32
+  orig: 50, 32
+  offset: 0, 0
+  index: -1
+normal7/tail
+  rotate: false
+  xy: 2, 128
+  size: 64, 114
+  orig: 64, 114
+  offset: 0, 0
+  index: -1
+normal7/torso
+  rotate: false
+  xy: 68, 162
+  size: 81, 104
+  orig: 81, 104
+  offset: 0, 0
+  index: -1
+normal7/wings
+  rotate: true
+  xy: 63, 268
+  size: 118, 68
+  orig: 118, 68
+  offset: 0, 0
+  index: -1
+normal8/head
+  rotate: false
+  xy: 68, 101
+  size: 77, 59
+  orig: 77, 59
+  offset: 0, 0
+  index: -1
+normal8/legs
+  rotate: false
+  xy: 66, 9
+  size: 50, 32
+  orig: 50, 32
+  offset: 0, 0
+  index: -1
+normal8/tail
+  rotate: true
+  xy: 128, 394
+  size: 45, 116
+  orig: 45, 116
+  offset: 0, 0
+  index: -1
+normal8/torso
+  rotate: false
+  xy: 133, 288
+  size: 84, 104
+  orig: 84, 104
+  offset: 0, 0
+  index: -1
+normal8/wings
+  rotate: false
+  xy: 2, 388
+  size: 124, 112
+  orig: 124, 112
+  offset: 0, 0
+  index: -1

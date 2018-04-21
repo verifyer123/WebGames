@@ -220,6 +220,7 @@ var yogomeGames = function () {
             {name:'Magic Spell',url:urlSet + 'magicSpell/',mapUrl:urlMap + 'magicSpell', sceneName:'magicSpell',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//190
             {name:'Grammart',url:urlSet + 'grammart/',mapUrl:urlMap + 'grammart', sceneName:'grammart',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//191
             {name:'Robotic Figures',url:urlSet + 'roboticFigures/',mapUrl:urlMap + 'roboticFigures', sceneName:'roboticFigures',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//192
+            {name:'Nestling Quest',url:urlSet + 'nestlingQuest/',mapUrl:urlMap + 'nestlingQuest', sceneName:'nestlingQuest',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//193
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

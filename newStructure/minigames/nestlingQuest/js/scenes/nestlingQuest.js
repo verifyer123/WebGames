@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
-var roboticFigures = function(){
+var nestlingQuest = function(){
     
     var localizationData = {
 		"EN":{
@@ -21,14 +21,14 @@ var roboticFigures = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.roboticFigures",
-                json: "images/roboticFigures/atlas.json",
-                image: "images/roboticFigures/atlas.png",
+                name: "atlas.nestlingQuest",
+                json: "images/nestlingQuest/atlas.json",
+                image: "images/nestlingQuest/atlas.png",
             },
             {   
                 name: "atlas.time",
-                json: "images/roboticFigures/timeAtlas.json",
-                image: "images/roboticFigures/timeAtlas.png",
+                json: "images/nestlingQuest/timeAtlas.json",
+                image: "images/nestlingQuest/timeAtlas.png",
             },
             {   
                 name: "atlas.tutorial",
@@ -39,19 +39,11 @@ var roboticFigures = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/roboticFigures/gametuto.png"
+				file:"images/nestlingQuest/gametuto.png"
 			},
             {
 				name:'background',
-				file:"images/roboticFigures/background.png"
-			},
-            {
-				name:'shadow',
-				file:"images/roboticFigures/shadow.png"
-			},
-            {
-				name:'base',
-				file:"images/roboticFigures/base.png"
+				file:"images/nestlingQuest/background.png"
 			}
 
 		],
@@ -66,16 +58,10 @@ var roboticFigures = function(){
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-            {	name: "robotWhoosh",
-				file: soundsPath + "robotWhoosh.mp3"},
-            {	name: "robotLose",
-				file: soundsPath + "robotLose.mp3"},
-            {	name: "robotWin",
-				file: soundsPath + "robotWin.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'gameSong',
-                file: soundsPath + 'songs/upbeat_casual_8.mp3'
+                file: soundsPath + 'songs/jungle_fun.mp3'
             }
 		],
         spritesheets: [
@@ -94,12 +80,12 @@ var roboticFigures = function(){
         ],
         spines:[
 			{
-				name:"robot1",
-				file:"images/spines/robots/robot1.json"
+				name:"babybirds",
+				file:"images/spines/babybirds/babybirds.json"
 			},
             {
-				name:"robot2",
-				file:"images/spines/robots/robot2.json"
+				name:"parents",
+				file:"images/spines/parents/parents.json"
 			}
 		]
     }
@@ -109,19 +95,20 @@ var roboticFigures = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 192
+    var gameIndex = 193
     var tutoGroup
     var gameSong
     var coin
     var hand
-    var circuitsGroup
-    var slotsGroup
-    var figuresGroup
-    var robot
-    var rand
-    var counter
+    var parentsGroup
+    var babiesGroup
+    var objectsGroup
+    var skins
+    var handicap
     var timeAttack
     var gameTime
+    var counter
+    var roundsCounter
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -132,23 +119,15 @@ var roboticFigures = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         gameActive = false
-        rand = -1
-        counter = 0
+        skins = ["blue", "orange", "purple", "red"]
+        handicap = 2
         timeAttack = false
-        gameTime = 10000
+        gameTime = 8000
+        counter = 0
+        roundsCounter = 0
         
         loadSounds()
 	}
-
-    function popObject(obj,delay){
-         
-        game.time.events.add(delay,function(){
-            
-            sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
-        },this)
-    }
     
     function animateScene() {
                 
@@ -204,9 +183,13 @@ var roboticFigures = function(){
         
     }
     
-    function missPoint(){
+    function missPoint(obj){
         
         sound.play("wrong")
+        
+        particleWrong.x = obj.centerX 
+        particleWrong.y = obj.centerY
+        particleWrong.start(true, 1200, null, 10)
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -246,7 +229,7 @@ var roboticFigures = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.roboticFigures','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.nestlingQuest','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -274,7 +257,7 @@ var roboticFigures = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.roboticFigures','life_box')
+        var heartImg = group.create(0,0,'atlas.nestlingQuest','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -338,13 +321,23 @@ var roboticFigures = function(){
 
 	function createBackground(){
             
-        var background = sceneGroup.create(0, 0, "background")
-        background.width = game.world.width
-        background.height = game.world.height
+        var bacground = sceneGroup.create(0, 0, "background")
+        bacground.width = game.world.width
+        bacground.height = game.world.height
+        
+        var branch = sceneGroup.create(0, game.world.centerY + 30, "atlas.nestlingQuest", "branch0")
+        branch.anchor.setTo(0, 0.5)
+        
+        branch = sceneGroup.create(game.world.width + 10, game.world.centerY - 50, "atlas.nestlingQuest", "branch1")
+        branch.anchor.setTo(1, 0)
+        
+        branch = sceneGroup.create(-20, game.world.centerY - 120, "atlas.nestlingQuest", "branch2")
+        branch.anchor.setTo(0, 1)
+        branch.scale.setTo(1, 1.5)
     }
 
 	function update(){
-        
+       
     }
     
 	function createTextPart(text,obj){
@@ -399,7 +392,7 @@ var roboticFigures = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.roboticFigures',key);
+        particle.makeParticles('atlas.nestlingQuest',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -426,7 +419,7 @@ var roboticFigures = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.roboticFigures',tag);
+				particle.makeParticles('atlas.nestlingQuest',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -482,7 +475,7 @@ var roboticFigures = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.roboticFigures','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.nestlingQuest','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -495,7 +488,7 @@ var roboticFigures = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.roboticFigures','smoke');
+        particlesGood.makeParticles('atlas.nestlingQuest','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -550,7 +543,10 @@ var roboticFigures = function(){
         
         timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         timerGroup.tweenTiempo.onComplete.add(function(){
-            win(false)
+            gameActive = false
+            stopTimer()
+            missPoint(game.world)
+            restartAssets()
         })
     }
 	
@@ -570,12 +566,16 @@ var roboticFigures = function(){
 
     }
 
-    function addCoin(){
+    function addCoin(obj){
         
-        coin.x = game.world.centerX
-        coin.y = game.world.centerY
+        coin.x = obj.centerX
+        coin.y = obj.centerY
         var time = 300
 
+        particleCorrect.x = obj.centerX 
+        particleCorrect.y = obj.centerY
+        particleCorrect.start(true, 1200, null, 10)
+        
         game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
         
         game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
@@ -586,222 +586,144 @@ var roboticFigures = function(){
            })
         })
     }
-
-    function createRobot(){
-            
-        var base = sceneGroup.create(game.world.centerX, game.world.centerY + 80, "base")
-        base.anchor.setTo(0.5, 1)
-        base.scale.setTo(1, 0.9)
-        
-        robot = game.add.group()
-        sceneGroup.add(robot)
-        
-        for(var i = 1; i < 3; i++){
-            var bot = game.add.spine(base.centerX, base.y - 30, "robot" + i)
-            bot.setAnimationByName(0, "IDLE", true)
-            bot.setSkinByName("normal")
-            bot.alpha = 0
-            robot.add(bot)
-        }
-        
-        robot.bot = robot.children[0]
-        game.rnd.integerInRange(0, 1) === 0 ? robot.bot = robot.bot.setSkinByName("normal") : robot.bot.setSkinByName("normal1")
-    }
     
-    function createMotherboard(){
+    function createBirds(){
         
-        var shadow = sceneGroup.create(game.world.centerX, game.world.centerY + 90, "shadow")
-        shadow.anchor.setTo(0.5, 0)
-        shadow.scale.setTo(0.9)
-        shadow.width = game.world.width
+        var nest = sceneGroup.create(game.world.centerX, game.world.height, "atlas.nestlingQuest", "nest")
+        nest.anchor.setTo(0.5, 1)
+        nest.scale.setTo(1.1)
         
-        var mother = sceneGroup.create(shadow.centerX, shadow.centerY, "atlas.roboticFigures", "mother")
-        mother.anchor.setTo(0.5)
+        parentsGroup = game.add.group()
+        sceneGroup.add(parentsGroup)
         
-        circuitsGroup = game.add.group()
-        sceneGroup.add(circuitsGroup)
-
-        var bulbOn =  sceneGroup.create(mother.centerX + mother.width * 0.45, mother.centerY, "atlas.roboticFigures", "bitOn")
-        bulbOn.anchor.setTo(0.5, 1)
-        bulbOn.alpha = 0
-        circuitsGroup.bulbOn = bulbOn
+        babiesGroup = game.add.group()
+        sceneGroup.add(babiesGroup)
         
-        var bulbOff =  sceneGroup.create(mother.centerX + mother.width * 0.45, mother.centerY, "atlas.roboticFigures", "bitOff")
-        bulbOff.anchor.setTo(0.5, 1)
-        circuitsGroup.bulbOff = bulbOff
+        objectsGroup = game.add.group()
+        sceneGroup.add(objectsGroup)
         
-        for(var i = 0; i < 6; i++){
-            
-            var circuit = circuitsGroup.create(mother.centerX, mother.centerY, "atlas.roboticFigures", "circuit" + i)
-            circuit.anchor.setTo(0.5)
-            circuit.alpha = 0
-            circuit.slots = []
-        }
-        
-        circuitsGroup.children[0].slots = [{x:-150, y:0},
-                                           {x:0,    y:0},
-                                           {x:150,  y:0}]
-        
-        circuitsGroup.children[1].slots = [{x:-150, y:-50},
-                                           {x:-30,  y:-10},
-                                           {x:65,   y:40},
-                                           {x:150,  y:0}]
-        
-        circuitsGroup.children[2].slots = [{x:-130, y:-10},
-                                           {x:-30,  y:-20},
-                                           {x:50,   y:20},
-                                           {x:140,  y:-10}]
-        
-        circuitsGroup.children[3].slots = [{x:-150, y:40},
-                                           {x:-60,  y:40},
-                                           {x:20,   y:0},
-                                           {x:90,   y:-60},
-                                           {x:160,  y:20}]
-        
-        circuitsGroup.children[4].slots = [{x:-150, y:-10},
-                                           {x:-75,  y:-60},
-                                           {x:0,    y:0},
-                                           {x:80,   y:50},
-                                           {x:140,  y:-40}]
-        
-        circuitsGroup.children[5].slots = [{x:-150, y:50},
-                                           {x:-50,  y:50},
-                                           {x:-80,  y:-60},
-                                           {x:70,   y:-60},
-                                           {x:60,  y:40},
-                                           {x:150,  y:0}]
-        
-        slotsGroup = game.add.group()
-        sceneGroup.add(slotsGroup)
-        
-        var aux = 0
-        
-        for(var i = 0; i < 8; i++){
-            
-            var subGroup =  game.add.group()
-            subGroup.x = -50
-            subGroup.y = -50
-            subGroup.empty = true
-            subGroup.tag = aux
-            subGroup.alpha = 0
-            slotsGroup.add(subGroup)
-            
-            var slot = subGroup.create(0, 0, "atlas.roboticFigures", "slot" + aux)
-            slot.anchor.setTo(0.5)
-            subGroup.slot = slot
-            
-            var fig = subGroup.create(0, 0, "atlas.roboticFigures", "fig" + aux)
-            fig.alpha = 0
-            fig.anchor.setTo(0.5)
-            fig.scale.setTo(0.7)
-            subGroup.fig = fig
-            
-            aux = i - aux
-        }
-    }
-    
-    function createButtons(){
-        
-        var board = sceneGroup.create(game.world.centerX, game.world.height, "atlas.roboticFigures", "board")
-        board.anchor.setTo(0.5, 1)
-        board.scale.setTo(0.9)
-        board.width = game.world.width
-        
-        figuresGroup = game.add.group()
-        sceneGroup.add(figuresGroup)
-        
-        var pivot = 0.4
-
         for(var i = 0; i < 4; i++){
             
-            var figure = figuresGroup.create(board.centerX * pivot, board.centerY - 10, "atlas.roboticFigures", "fig" + i)
-            figure.anchor.setTo(0.5)
-            figure.scale.setTo(0)
-            figure.spawnX = figure.x
-            figure.spawnY = figure.y
-            figure.tag = i
-            figure.inputEnabled = true
-            figure.input.enableDrag()
-            figure.events.onDragStop.add(setFigure, this)
+            var anim = game.add.spine(game.world.centerX, game.world.centerY, assets.spines[1].name)
+            anim.setAnimationByName(0, "idle", true)
+            anim.setSkinByName(skins[i])
+            anim.alpha = 0
+            parentsGroup.add(anim)
             
-            pivot += 0.4
-        }        
-        figuresGroup.setAll("inputEnabled", false)
+            var box = game.add.graphics(0, 0)
+            box.beginFill(0x00ff00)
+            box.drawRect(-anim.width * 0.5, -anim.height * 0.5, anim.width * 0.8, anim.height* 0.5)
+            box.alpha = 0
+            box.bird = -1
+            anim.addChild(box)
+            anim.box = box
+            
+            anim = game.add.spine(nest.centerX, nest.centerY, assets.spines[0].name)
+            anim.setAnimationByName(0, "idle", true)
+            anim.setSkinByName(skins[i])
+            anim.alpha = 0
+            babiesGroup.add(anim)
+            
+            var obj = objectsGroup.create(0, 0, "atlas.nestlingQuest", "smoke")
+            obj.anchor.setTo(0.5, 1)
+            obj.scale.setTo(1.3)
+            obj.alpha = 0
+            obj.inputEnabled = true
+            obj.index = i
+            obj.bird = -1
+            obj.input.enableDrag()
+            obj.events.onDragUpdate.add(dragBird, this)
+            obj.events.onDragStop.add(placeBrid, this)
+           
+        }
+        
+        parentsGroup.children[0].x -= 130
+        parentsGroup.children[0].y -= 170
+        
+        parentsGroup.children[1].x -= 190
+        parentsGroup.children[1].y += 80
+        
+        parentsGroup.children[2].x += 200
+        parentsGroup.children[2].y -= 175
+        parentsGroup.children[2].scale.setTo(-1, 1)
+        
+        parentsGroup.children[3].x += 160
+        parentsGroup.children[3].y += 30
+        parentsGroup.children[3].scale.setTo(-1, 1)
+        
+        objectsGroup.children[0].x = babiesGroup.children[0].spawnX =  babiesGroup.children[0].x += 140
+        objectsGroup.children[0].y = babiesGroup.children[0].spawnY =  babiesGroup.children[0].y -= 90
+        
+        objectsGroup.children[1].x = babiesGroup.children[1].spawnX = babiesGroup.children[1].x -= 140
+        objectsGroup.children[1].y = babiesGroup.children[1].spawnY = babiesGroup.children[1].y -= 20
+        
+        objectsGroup.children[2].x = babiesGroup.children[2].spawnX = babiesGroup.children[2].x -= 40
+        objectsGroup.children[2].y = babiesGroup.children[2].spawnY = babiesGroup.children[2].y -= 90
+        
+        objectsGroup.children[3].x = babiesGroup.children[3].spawnX = babiesGroup.children[3].x += 40
+        objectsGroup.children[3].y = babiesGroup.children[3].spawnY = babiesGroup.children[3].y += 20
+        
+        objectsGroup.setAll("inputEnabled", false)
     }
     
-    function setFigure(fig){
+    function dragBird(obj){
         
-         if(gameActive){
+        if(gameActive){
+            babiesGroup.children[obj.index].x = obj.x
+            babiesGroup.children[obj.index].y = obj.y
+        }
+    }
+    
+    function placeBrid(obj){
+        
+        if(gameActive){
             
-            for(var i = 0; i < slotsGroup.length; i++){
-            
-                if(checkOverlap(slotsGroup.children[i].slot, fig) && slotsGroup.children[i].empty){
-                    if(slotsGroup.children[i].tag === fig.tag){
-                        slotsGroup.children[i].empty = false
-                        slotsGroup.children[i].fig.alpha = 1
-                        counter++
-                        if(counter === circuitsGroup.children[rand].slots.length){
-                            win(true)
-                            lightUp(false)
-                        }
-                        else{
-                            sound.play("robotWhoosh")
-                            lightUp(true)
-                            game.add.tween(fig.scale).from({x:0, y:0}, 200, Phaser.Easing.Cubic.InOut,true)
-                        }
+            for(var i = 0; i < parentsGroup.length; i++){
+                
+                var dad = parentsGroup.children[i]
+                
+                if(checkOverlap(obj, dad.box)){
+                    
+                    var kid = babiesGroup.children[obj.index]
+                    
+                    if(obj.bird === dad.box.bird){
+                        kid.x = dad.x
+                        kid.y = dad.y
+                        kid.setAnimationByName(0, "win", true)
+                        addCoin(dad)
                     }
                     else{
-                        win(false)
+                        var trueDad = parentsGroup.children[kinshipTest(obj)]
+                        kid.x = trueDad.x
+                        kid.y = trueDad.y
+                        kid.setAnimationByName(0, "lose", true)
+                        missPoint(dad)
+                        game.add.tween(kid).from({x:dad.x, y:dad.y}, 500, Phaser.Easing.Cubic.InOut,true)
+                    }
+                    obj.inputEnabled = false
+                    counter++
+                    if(counter === handicap){
+                        roundsCounter++
+                        restartAssets()
                     }
                     break
                 }
-            }      
+                else{
+                    obj.x = babiesGroup.children[obj.index].x = babiesGroup.children[obj.index].spawnX
+                    obj.y = babiesGroup.children[obj.index].y = babiesGroup.children[obj.index].spawnY
+                }
+            }
         }
-        fig.x = fig.spawnX
-        fig.y = fig.spawnY
     }
     
-    function win(ans){
-
-        gameActive = false
-        figuresGroup.setAll("inputEnabled", false)
-        for(var i = 0; i < figuresGroup.length; i++){
-            game.add.tween(figuresGroup.children[i].scale).to({x:0, y:0}, 200, Phaser.Easing.Cubic.InOut,true)
-        }
-        if(timeAttack){
-            stopTimer()
-        }
+    function kinshipTest(kid){
         
-        if(ans){
-            addCoin()
-            sound.play("robotWin")
-            particleCorrect.x = game.world.centerX 
-            particleCorrect.y = game.world.centerY
-            particleCorrect.start(true, 1200, null, 15)
-            robot.bot.setAnimationByName(0, "WIN", true)
-            if(timeAttack){
-                gameTime -= 500
+        for(var i = 0; i < parentsGroup.length; i++){
+            if(kid.bird === parentsGroup.children[i].box.bird){
+                break
             }
         }
-        else{
-            sound.play("robotLose")
-            particleWrong.x = game.world.centerX 
-            particleWrong.y = game.world.centerY - 80
-            particleWrong.start(true, 1200, null, 15)
-            robot.bot.setAnimationByName(0, "LOSE", true)
-            game.time.events.add(700,function(){
-                missPoint()
-            })
-        }
-        
-        game.time.events.add(1200,function(){
-            if(lives !== 0){
-                restartAssets()
-                game.time.events.add(1200,function(){
-                    initGame()
-                })
-            }
-        })
+        return i
     }
     
     function checkOverlap(spriteA, spriteB) {
@@ -812,110 +734,118 @@ var roboticFigures = function(){
         return Phaser.Rectangle.intersects(boundsA , boundsB );
     }
     
-    function lightUp(flash){
+    function restartAssets(){
         
-        circuitsGroup.bulbOn.alpha = 1
-        circuitsGroup.bulbOff.alpha = 0
+        gameActive = false
+        objectsGroup.setAll("inputEnabled", false)
+        counter = 0
         
-        game.time.events.add(200,function(){
-            if(flash){
-            circuitsGroup.bulbOn.alpha = 0
-            circuitsGroup.bulbOff.alpha = 1
+        if(timeAttack){
+            stopTimer()
+            gameTime -= 500
+        }
+        
+        game.time.events.add(1000,function(){
+            for(var i = 0; i < babiesGroup.length; i++){
+
+                game.add.tween(babiesGroup.children[i]).to({alpha: 0}, 500, Phaser.Easing.Cubic.InOut,true)
+                game.add.tween(parentsGroup.children[i]).to({alpha: 0}, 500, Phaser.Easing.Cubic.InOut,true)
+                objectsGroup.children[i].bird = -1
+                parentsGroup.children[i].box.bird = -1
+            }
+        })
+        
+        if(roundsCounter % 2 === 0 && handicap < 4){
+            handicap++
+        }
+
+        if(roundsCounter === 2){
+            game.add.tween(timerGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
+            timeAttack = true
+        }
+        
+        game.time.events.add(1600,function(){
+            for(var i = 0; i < babiesGroup.length; i++){
+                objectsGroup.children[i].x = babiesGroup.children[i].x = babiesGroup.children[i].spawnX
+                objectsGroup.children[i].y = babiesGroup.children[i].y = babiesGroup.children[i].spawnY
+                babiesGroup.children[i].setAnimationByName(0, "idle", true)
+                parentsGroup.children[i].setAnimationByName(0, "idle", true)
+            }
+            if(lives !== 0){
+                initGame()
             }
         })
     }
     
-    function restartAssets(){
-        
-        for(var i = 0; i < slotsGroup.length; i++){
-            fadeOut(slotsGroup.children[i])
-        }
-        
-        game.add.tween(circuitsGroup.children[rand]).to({alpha:0}, 400, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-            
-            game.add.tween(robot.bot).to({alpha:0}, 500, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-                robot.bot.setAnimationByName(0, "IDLE", true)
-                robot.bot = robot.children[0]
-                game.rnd.integerInRange(0, 1) === 0 ? robot.bot = robot.bot.setSkinByName("normal") : robot.bot.setSkinByName("normal1")
-            })  
-        })   
-        
-        counter = 0
-        lightUp(true)
-        
-        if(pointsBar.number === 15){
-            game.add.tween(timerGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
-            timeAttack = true
-        }
-    }
-    
-    function fadeOut(obj){
-        
-        game.add.tween(obj).to({alpha:0}, 400, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-            obj.fig.alpha = 0
-            obj.x = -50
-            obj.y = -50
-            obj.empty = true
-        })
-    }
-  
     function initGame(){
         
-        for(var i = 0; i < figuresGroup.length; i++){
-            sound.play("cut")
-            game.add.tween(figuresGroup.children[i].scale).to({x:1, y:1}, 200, Phaser.Easing.Cubic.InOut,true)
-        }
+        var random = [0, 1, 2, 3]
+        Phaser.ArrayUtils.shuffle(random)
         
-        game.time.events.add(500,function(){
-            assembleMother()
-        })
-            
-        game.time.events.add(1300,function(){
+        var delay = bringBrid(random)
+        
+        game.time.events.add(delay,function(){
+            for(var i = 0; i < handicap; i++){
+                objectsGroup.children[random[i]].inputEnabled = true
+            }
             gameActive = true
-            figuresGroup.setAll("inputEnabled", true)
             if(timeAttack)
                 startTimer(gameTime)
         })
     }
     
-    function assembleMother(){
+    function bringBrid(random){
         
-        rand = getRand()
-        var circuit = circuitsGroup.children[rand]
+        var delay = 250
         
-        var pos = []
-        for(var i = 0; i < slotsGroup.length; i++)
-            pos[i] = i
+        for(var i = 0; i < handicap; i++){
+            
+            babiesGroup.children[random[i]].setAnimationByName(0, "idle", true)
+            babiesGroup.children[random[i]].setSkinByName(skins[i])
+            popObject(babiesGroup.children[random[i]], delay, true)
+
+            objectsGroup.children[random[i]].bird = i
+            
+            delay += 250
+        }
         
-        Phaser.ArrayUtils.shuffle(pos)
+        //Phaser.ArrayUtils.shuffle(random)
         
-        game.add.tween(circuit).to({alpha:1}, 400, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+        game.time.events.add(delay - 1000,function(){
+
+            for(var i = 0; i < handicap; i++){
+
+                parentsGroup.children[random[i]].setAnimationByName(0, "idle", true)
+                parentsGroup.children[random[i]].setSkinByName(skins[i])
+                parentsGroup.children[random[i]].box.bird = i
+                popObject(parentsGroup.children[random[i]], delay, false)
+                
+                delay += 250
+            }
+        })
+        
+        return delay + 1500
+    }
+    
+    function popObject(obj,delay, pop){
+         
+        game.time.events.add(delay,function(){
             
             sound.play("cut")
-            for(var i = 0; i < circuit.slots.length; i++){
-                slotsGroup.children[pos[i]].x = circuit.x + circuit.slots[i].x
-                slotsGroup.children[pos[i]].y = circuit.y + circuit.slots[i].y
-                game.add.tween(slotsGroup.children[pos[i]]).to({alpha:1}, 400, Phaser.Easing.Cubic.InOut,true)
+            if(pop){
+                obj.alpha = 1
+                game.add.tween(obj.scale).from({x:0, y:0}, 250, Phaser.Easing.Cubic.InOut,true)
             }
-            
-            game.rnd.integerInRange(0, 1) === 0 ? robot.bot = robot.children[0] : robot.bot = robot.children[1]
-            game.add.tween(robot.bot).to({alpha:1}, 200, Phaser.Easing.Cubic.InOut,true)
-        })        
+            else
+                game.add.tween(obj).to({alpha: 1}, 500, Phaser.Easing.Cubic.InOut,true)
+        },this)
     }
-    
-    function getRand(){
-        var x = game.rnd.integerInRange(0, 5)
-        if(x === rand)
-            return getRand()
-        else
-            return x     
-    }
-    
+	
 	return {
 		
 		assets: assets,
-		name: "roboticFigures",
-		update: update,
+		name: "nestlingQuest",
+		//update: update,
         preload:preload,
         getGameData:function () {
 			var games = yogomeGames.getGames()
@@ -949,9 +879,7 @@ var roboticFigures = function(){
 			createPointsBar()
 			createHearts()
             positionTimer()
-            createRobot()
-            createMotherboard()
-            createButtons()
+            createBirds()
             initCoin()
             createParticles()
 			
