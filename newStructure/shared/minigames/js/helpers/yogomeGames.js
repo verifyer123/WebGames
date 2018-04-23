@@ -222,6 +222,7 @@ var yogomeGames = function () {
             {name:'Robotic Figures',url:urlSet + 'roboticFigures/',mapUrl:urlMap + 'roboticFigures', sceneName:'roboticFigures',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//192
             {name:'Nestling Quest',url:urlSet + 'nestlingQuest/',mapUrl:urlMap + 'nestlingQuest', sceneName:'nestlingQuest',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//193
             {name:'Climbvoid',url:urlSet + 'climbvoid/',mapUrl:urlMap + 'climbvoid', sceneName:'climbvoid',subject:'creativity', review:false,objective:30,demo:false, type:gameTypeEnum.GRAB},//194
+            {name:'Verte Who',url:urlSet + 'verteWho/',mapUrl:urlMap + 'verteWho', sceneName:'verteWho',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//195
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
