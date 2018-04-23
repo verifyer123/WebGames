@@ -18,7 +18,6 @@ var result = function(){
             "great":"Great",
             "again":"Try Again",
             "download":"Download"
-            
 		},
 
 		"ES":{
@@ -185,17 +184,7 @@ var result = function(){
 		var answeredQuestions = totalAnswered
         
         trackerText.text = totalScore
-		/*containerGroup.updateAnswers = function(incrementNumber){
-			answeredQuestions += incrementNumber
-			if(answeredQuestions >= 0){
-				trackerText.text = answeredQuestions+"/"+goal
-			}else if(answeredQuestions < 0){
-				answeredQuestions = 0
-			}
 
-		}
-
-		containerGroup.updateAnswers(0)*/
 
 		return containerGroup
 	}
@@ -558,48 +547,6 @@ var result = function(){
 		
 		if(isNewRecord){
 
-			/*var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			
-			var previousText = new Phaser.Text(sceneGroup.game, game.world.centerX - 85, game.world.centerY + 200,localization.getString(localizationData,'previous'), fontStyle)
-			previousText.lineSpacing = -10
-			previousText.anchor.setTo(0.5,0.5)
-			infoGroup.add(previousText)
-			
-			var coin = infoGroup.create(game.world.centerX + 50,previousText.y,'atlas.resultScreen','coin')
-			coin.anchor.setTo(0.5,0.5)
-			
-			lastRecord = 0
-			
-			if(currentPlayer){
-				lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
-			}
-			
-			var previousText = new Phaser.Text(sceneGroup.game, coin.x + 75,coin.y + 5,'x ' + lastRecord, fontStyle)
-			previousText.anchor.setTo(0.5,0.5)
-			infoGroup.add(previousText)
-			
-			newRecord = game.add.group()
-			newRecord.alpha = 0
-			newRecord.record = true
-			newRecord.x = game.world.centerX
-			newRecord.y = game.world.centerY + 200
-			infoGroup.add(newRecord)
-			
-			var recordImage = newRecord.create(0,0,'atlas.resultScreen','ribbon')
-			recordImage.scale.setTo(0.9,0.9)
-			recordImage.anchor.setTo(0.5,0.5)
-			
-			var retryText = game.add.bitmapText(0,-15, 'luckiest', localization.getString(localizationData,'record'), 42);
-            retryText.anchor.setTo(0.5,0.5)
-            newRecord.add(retryText)*/
-
-            /*newRecord = game.add.group()
-			newRecord.alpha = 0
-			newRecord.record = true
-			newRecord.x = game.world.centerX
-			newRecord.y = game.world.centerY + 200
-			infoGroup.add(newRecord)*/
-
 			newRecord = game.add.group()
 			newRecord.alpha = 1
 			newRecord.record = true
@@ -917,9 +864,6 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
         game.load.bitmapFont('luckiest', imagesPath + 'bitfont/font.png', imagesPath + 'bitfont/font.fnt');
         
-
-        //game.load.spine('amazing', "images/spines/Amaizing.json");
-        //console.log('Start  preload ' +imagesPath)
         game.load.spine('yogotaResults', imagesPath + "spines/yogotar.json?v2");
 
 		if(!gamesList){

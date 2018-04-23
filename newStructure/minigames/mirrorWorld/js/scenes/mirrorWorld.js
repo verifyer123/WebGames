@@ -105,6 +105,7 @@ var mirrorWorld = function(){
     var iconsPlayer=new Array(27)
     var dificulty,check,stGame
     var okGroup
+    var inTutorial
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -121,6 +122,7 @@ var mirrorWorld = function(){
         wait=false
         stGame=false
         emitter=""
+        inTutorial = true
         loadSounds()
 	}
 
@@ -540,6 +542,7 @@ var mirrorWorld = function(){
             
             if(handsGroup){
                 handsGroup.destroy()
+                inTutorial = false
             }
         }
         
@@ -946,6 +949,10 @@ var mirrorWorld = function(){
     
     function okPressed(){
         
+        if(inTutorial){
+        	return
+        }
+
         if(stGame){
 
             changeImage(1, okGroup)

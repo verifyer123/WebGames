@@ -13,8 +13,10 @@ var localization = function(){
 	}
 
 	function getString(localizationObject, key){
-		if(localizationObject[language][key]){
-			return localizationObject[language][key]
+		if(localizationObject[language]){
+			if(localizationObject[language][key]){
+				return localizationObject[language][key]
+			}
 		}
 		return "N/A"
 	}
