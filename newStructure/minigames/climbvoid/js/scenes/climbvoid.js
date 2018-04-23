@@ -48,7 +48,7 @@ var climbvoid = function(){
         spines:[
             {
                 name:'nao',
-                file:'images/spines/nao/nao.json'
+                file:'images/spines/nao/yogotar.json'
             },
             {
                 name:'spider',
@@ -89,6 +89,8 @@ var climbvoid = function(){
     var MULTIPLIER_FORCE = 1.5
     var MIN_TIME_FORCE = 500
     var MAX_TIME_FORCE = 1500
+
+    var JEWEL_TO_RANDOM = 7
 
     var lives
 	var sceneGroup = null
@@ -144,6 +146,14 @@ var climbvoid = function(){
     var multiplierForce 
 
     var currentDeltaDistance
+    var createJewel
+    var jewelCount
+
+    var jewelPoints
+    var nextLevelJewel
+    var jewelText
+
+    var fadePanel
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -175,8 +185,11 @@ var climbvoid = function(){
 
         multiplierForce = 1
         currentTimeForce = 0
+        nextLevelJewel = 2
 
         currentDeltaDistance = 0
+        createJewel = false
+        jewelCount = 0
 
         loadSounds()
         
@@ -403,7 +416,7 @@ var climbvoid = function(){
     		var delta = game.world.centerY - yogotarGroup.body.y
     		currentDistanceObject += delta
 
-    		if(currentDistanceObject >= nextDistance){
+    		if(currentDistanceObject >= nextDistance && !createJewel){
     			currentDistanceObject = 0
     			nextDistance = game.rnd.integerInRange(MIN_DISTANCE_OBJECT-currentDeltaDistance,MAX_DISTANCE_OBJECT-currentDeltaDistance)
     			var random = game.rnd.frac()
@@ -412,10 +425,19 @@ var climbvoid = function(){
                     currentDeltaDistance+=DELTA_DISTANCE
                 }
     			if(random<PROBABILTY_SPIDER){
+                //if(random<0){
     				setSpider()
     			}
     			else{
-    				setJewel()
+                    if(jewelCount > JEWEL_TO_RANDOM){
+    				    setJewel()
+                        //createJewel = true
+                        //console.log("Create jewel")
+                    }
+                    else{
+                        createJewel = true
+                        //console.log("wait to create jewel")
+                    }
     			}
 
     		}
@@ -424,9 +446,13 @@ var climbvoid = function(){
         		if(spider.visible){
         			spider.y += delta
         			spider.canCollide = true
+                    if(spider.y > game.world.height && spider.giveCoin){
+                        Coin(spider,pointsBar,100,1)
+                        spider.giveCoin = false
+                    }
         			if(spider.y > game.world.height + 200){
         				spider.visible = false
-        				Coin(spider,pointsBar,100,1)
+        				
         			}
         			
         		}
@@ -473,18 +499,39 @@ var climbvoid = function(){
     			if(climbGroup.children[i].y > game.world.height+100 && climbGroup.children[i].visible){
     				climbGroup.children[i].visible = false
 
+                    if(!climbGroup.children[i].canReturn){
+                        continue
+                    }
+
     				var random = game.rnd.frac()
     				
-		            if(random<PORCENTAGE_DOUBLE){
+                    if(!createJewel){
+    		            if(random<PORCENTAGE_DOUBLE){
+    		            	var reference = lastObject.y
+    		                setWall(reference,0)
+    		                setWall(reference,1)
+    		            }
+    		            else{
+    		                var side = game.rnd.integerInRange(0,1)
+    		                setWall(lastObject.y,side)
+    		            }
+                    }
+                    else{
+                        var reference = lastObject.y
+                        if(jewelCount < 3){
 
-		            	var reference = lastObject.y
-		                setWall(reference,0)
-		                setWall(reference,1)
-		            }
-		            else{
-		                var side = game.rnd.integerInRange(0,1)
-		                setWall(lastObject.y,side)
-		            }
+                            setWall(reference,0)
+                            setWall(reference,1)
+                        }
+                        else{
+                            var side = game.rnd.integerInRange(0,1)
+                            setWall(reference,side)
+                        }
+
+                        setJewel(reference-250)
+                        createJewel = false
+                        nextDistance = game.rnd.integerInRange(-reference+MIN_DISTANCE_OBJECT-currentDeltaDistance,-reference+MAX_DISTANCE_OBJECT-currentDeltaDistance)
+                    }
     			}
     		}
 
@@ -498,18 +545,7 @@ var climbvoid = function(){
     			yogotarGroup.body.velocity.y = 0
     			game.physics.arcade.gravity.y = 0
 
-                if(lives < 0){
-                    return
-                }
-
-    			setTimeout(function(){
-    				gameActive = true
-    				yogotarGroup.alpha = 0
-    				yogotarGroup.y = game.world.height -100
-    				yogotarGroup.invensible = true
-    				jump()
-    				blink()
-    			},TIME_BLINK)
+               restartDie()
                 
     		}
     	}
@@ -551,7 +587,7 @@ var climbvoid = function(){
         			hand.x = game.world.centerX + HAND_OFFSET
         		}
 
-                hand.y = yogotarGroup.y
+                hand.y = yogotarGroup.y+100
         		game.physics.arcade.gravity.y = 0
         		yogotarGroup.body.velocity.x = 0
         		yogotarGroup.body.velocity.y = 0
@@ -572,8 +608,8 @@ var climbvoid = function(){
 
     function setRound(){
     	hand.visible = true
-    	hand.x = game.world.centerX +HAND_OFFSET
-    	hand.y = yogotarGroup.y
+    	hand.x = game.world.centerX + HAND_OFFSET
+    	hand.y = yogotarGroup.y+100
     	evalTutorial()
 
     }
@@ -601,52 +637,63 @@ var climbvoid = function(){
 
 
     
-    function createClimbWall(y,side,climbHeight){
+    function createClimbWall(y,side,climbHeight,isLast){
+        if(isLast==null){
+            isLast = true
+        }
         for(var i = 0; i < climbGroup.length; i++){
         	if(!climbGroup.children[i].visible){
         		var climb = climbGroup.children[i]
         		climb.visible = true
         		climb.y = y
         		if(side == 0){
-		            climb.x = 81
+		            climb.x = game.world.centerX - 300
 		        }
 		        else{
-		            climb.x = game.world.width - 81
+		            climb.x = game.world.centerX + 300
 		        }
 		        climbHeight = climbHeight-48
 		        climb.tile.height = climbHeight
 		        climb.cornDown.y = climbHeight-2
 		        climb.graphics.clear()
-		        climb.graphics.drawRect(0,-40,62,climbHeight+48)
+		        climb.graphics.drawRect(0,-40,83,climbHeight+48)
 
 		        if(side == 1){
 		            climb.scale.setTo(-1,1)
-		            climb.graphics.x =60    
+		            climb.graphics.x =83    
 		        }
 		        else{
 		        	climb.scale.setTo(1,1)
-		        	climb.graphics.x = 0   
+		        	climb.graphics.x = 20   
 		        }
 
 		        climb.graphics.body.setSize(62,climbHeight+48,0,0)
-		        lastObject = climb
+                if(isLast){
+                    lastObject = climb
+                    climb.canReturn = true
+                }
+                else{
+                    climb.canReturn = false
+                }
+                
 		        return
 
         	}
         }
         var x 
         if(side == 0){
-            x = 81
+            x = game.world.centerX - 300
         }
         else{
-            x = game.world.width - 81
+            x = game.world.centerX + 300 
         }
+
         var group = game.add.group()
         group.x = x
         group.y = y
         climbHeight = climbHeight-48
 
-        var tile = game.add.tileSprite(0,0,62,climbHeight,"atlas.game","medioTile")
+        var tile = game.add.tileSprite(0,0,83,climbHeight,"atlas.game","medioTile")
         group.tile = tile
         group.add(tile)
 
@@ -659,19 +706,24 @@ var climbvoid = function(){
         cornDown.anchor.setTo(0,0)
 
         var graphics = game.add.graphics(0,-20)
-        graphics.drawRect(0,-40,62,climbHeight+48)
+        graphics.drawRect(0,-40,83,climbHeight+48)
         graphics.group = group
         group.graphics = graphics
         group.add(graphics)
         game.physics.arcade.enable(graphics)
         graphicCollisions.push(graphics)
         climbGroup.add(group)
-
-        lastObject = group
+        if(isLast){
+            lastObject = group
+            group.canReturn = true 
+        }
+        else{
+            group.canReturn = false
+        }
 
         if(side == 1){
             group.scale.setTo(-1,1)
-            graphics.x +=60
+            graphics.x +=83
         }
 
         graphics.body.allowGravity = false
@@ -692,6 +744,7 @@ var climbvoid = function(){
                 spider.visible = true
                 spider.spine.setAnimationByName(0,"appear",false)
                 spider.spine.addAnimationByName(0,"idle",true)
+                spider.giveCoin = true
                 return
             }
         }
@@ -699,20 +752,22 @@ var climbvoid = function(){
         var spider = game.add.graphics(-100,-100)
         spider.drawRect(0,0,100,100)
         game.physics.arcade.enable(spider)
-        spider.body.setSize(70,70,-35,-70)
+        spider.body.setSize(100,100,-50,-100)
         spider.body.allowGravity = false
         spider.body.immovable = true
         spider.typeCollision = COLLISION_TYPE.SPIDER
         spider.canCollide = false
+        spider.giveCoin = true
 
-        var tile = game.add.tileSprite(-7,-180,15,150,"atlas.game","rope")
+        var tile = game.add.sprite(0,-160,"atlas.game","rope")
+        tile.anchor.setTo(0.5)
         spider.addChild(tile)
 
         var spineSpider = game.add.spine(0,0,"spider")
         spineSpider.setSkinByName("normal")
         spineSpider.setAnimationByName(0,"appear",false)
         spineSpider.addAnimationByName(0,"idle",true)
-        spineSpider.scale.setTo(0.5)
+        spineSpider.scale.setTo(0.8)
         spider.addChild(spineSpider)
         spidersGroup.add(spider)
         spider.visible = false
@@ -725,19 +780,24 @@ var climbvoid = function(){
 
     }
 
-    function setJewel(){
+    function setJewel(y){
+        if(y==null){
+            y = -100
+        }
+        console.log(y)
+
         for(var i = 0; i < jewelGroup.length; i++){
             if(!jewelGroup.children[i].visible){
                 var jewel = jewelGroup.children[i]
 
                 jewel.x = game.world.centerX
-                jewel.y = -100
+                jewel.y = y
                 jewel.visible = true
                 return
             }
         }
 
-        var jewel = jewelGroup.create(-100,-100,"atlas.game","ruby")
+        var jewel = jewelGroup.create(-100,y,"atlas.game","ruby")
         jewel.anchor.setTo(0.5)
         jewel.scale.setTo(0.7)
         game.physics.arcade.enable(jewel)
@@ -747,7 +807,7 @@ var climbvoid = function(){
         jewel.canCollide = false
 
     	jewel.x = game.world.centerX
-    	jewel.y = -100
+    	//jewel.y = -100
     	jewel.visible = true
     }
 
@@ -773,25 +833,36 @@ var climbvoid = function(){
         var background = game.add.sprite(0, 0, bmd);
         background.scale.setTo(game.world.width,1)
         backgroundGroup.add(background)
+        var width = 82
+        var w = game.world.centerX - 300
+        var delta  = 0
 
-        jungleTileLeft = game.add.tileSprite(0,0,292,game.world.height,"atlas.game","left")
+        if(w > width){
+            delta = w - width
+            width = w
+
+        }
+
+
+        jungleTileLeft = game.add.tileSprite(game.world.centerX-30,0,292,game.world.height,"atlas.game","left")
+        jungleTileLeft.anchor.setTo(1,0)
         backgroundGroup.add(jungleTileLeft)
 
-        jungleTileRigth = game.add.tileSprite(game.world.width,0,292,game.world.height,"atlas.game","right")
-        jungleTileRigth.anchor.setTo(1,0)
+        jungleTileRigth = game.add.tileSprite(game.world.centerX+100,0,230,game.world.height,"atlas.game","right")
+        jungleTileRigth.anchor.setTo(0,0)
         backgroundGroup.add(jungleTileRigth)
 
-        wallLeft = game.add.tileSprite(0,0,82,game.world.height,"atlas.game","tile")
+        wallLeft = game.add.tileSprite(game.world.centerX - 380 - delta,0,width,game.world.height,"atlas.game","tile")
         backgroundGroup.add(wallLeft)
 
-        wallRigth = game.add.tileSprite(game.world.width,0,82,game.world.height,"atlas.game","tile")
+        wallRigth = game.add.tileSprite(game.world.centerX + 380 + delta,0,width,game.world.height,"atlas.game","tile")
         wallRigth.anchor.setTo(1,0)
         backgroundGroup.add(wallRigth)
 
-        webLeft = game.add.tileSprite(82,0,59,game.world.height,"atlas.game","tileSpider")
+        webLeft = game.add.tileSprite(game.world.centerX - 300,0,59,game.world.height,"atlas.game","tileSpider")
         backgroundGroup.add(webLeft)
 
-        webRigth = game.add.tileSprite(game.world.width - 82,0,59,game.world.height,"atlas.game","tileSpider")
+        webRigth = game.add.tileSprite(game.world.centerX + 300,0,59,game.world.height,"atlas.game","tileSpider")
         webRigth.anchor.setTo(1,0)
         backgroundGroup.add(webRigth)
 
@@ -809,7 +880,7 @@ var climbvoid = function(){
         setWall(lastObject.y,1)
         nextWalls.push(lastObject)
 
-        for(var i = 0 ; i < 8; i ++){
+        for(var i = 0 ; i < 4; i ++){
             var reference = game.world.height
             if(lastObject!=null){
                 reference = lastObject.y
@@ -845,7 +916,7 @@ var climbvoid = function(){
         var spine = game.add.spine(60,200, "nao")
         yogotarGroup.addChild(spine)
         spine.scale.setTo(SPINE_SCALE)
-        spine.setSkinByName("normal")
+        spine.setSkinByName("normal1")
         spine.setAnimationByName(0,"idle_floor",true)
         yogotarGroup.spine = spine
         yogotarGroup.body.setSize(60,50,30,140)
@@ -864,6 +935,7 @@ var climbvoid = function(){
         sceneGroup.add(loseCollision)
 
         var collision = game.add.graphics()
+        collision.x = game.world.centerX - 400
         collision.drawRect(0,0,100,game.world.height)
         game.physics.arcade.enable(collision)
         collision.body.setSize(100,game.world.height,0,0)
@@ -872,7 +944,7 @@ var climbvoid = function(){
         collision.body.immovable = true
         collision.typeCollision = COLLISION_TYPE.WALL_LOSE
 
-        collision = game.add.graphics(game.world.width,0)
+        collision = game.add.graphics(game.world.centerX + 400,0)
         game.physics.arcade.enable(collision)
         collision.body.setSize(100,game.world.height,-100,0)
         loseCollision.add(collision)
@@ -891,6 +963,25 @@ var climbvoid = function(){
         jumpEffect = sceneGroup.create(0,0,"atlas.game","efect")
         jumpEffect.anchor.setTo(0.5)
         jumpEffect.alpha = 0
+
+        var borde = sceneGroup.create(10,100,"atlas.game","boardGris")
+        borde.anchor.setTo(0,0.5)
+        borde.scale.setTo(1.2,1)
+
+        jewelPoints = game.add.group()
+        sceneGroup.add(jewelPoints)
+        jewelPoints.y = 100
+        jewelPoints.x = 10
+
+        var jewelImage = jewelPoints.create(25,0,"atlas.game","gema")
+        jewelImage.anchor.setTo(0.5)
+
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        jewelText = new Phaser.Text(sceneGroup.game, 0, 18, "0/2", fontStyle)
+        jewelText.anchor.setTo(0,0.5)
+        jewelText.x = 60
+        jewelText.y = 2
+        jewelPoints.add(jewelText)
 
 
         var touchGraphic = game.add.graphics()
@@ -987,6 +1078,46 @@ var climbvoid = function(){
 
         nextDistance = game.rnd.integerInRange(MIN_DISTANCE_OBJECT,MAX_DISTANCE_OBJECT)
 
+        fadePanel = game.add.graphics()
+        fadePanel.beginFill(0xffffff)
+        fadePanel.drawRect(0,0,game.world.width,game.world.height)
+        fadePanel.endFill()
+
+        fadePanel.alpha = 0
+
+    }
+
+    function restartDie(){
+        if(lives<0){
+            return
+        }
+        var fade = game.add.tween(fadePanel).to({alpha:1},400,Phaser.Easing.linear,true)
+        fade.onComplete.add(function(){
+            yogotarGroup.x = game.world.centerX-70
+            yogotarGroup.y = game.world.height-250
+            yogotarGroup.inWall = false
+            yogotarGroup.spine.setAnimationByName(0,"idle_floor",true)
+            firstTouch = false
+            floor.y = game.world.height
+            floor.visible = true
+            createClimbWall(game.world.height-210,0,200,false)
+            createClimbWall(game.world.height-210,1,200,false)
+
+            var fade = game.add.tween(fadePanel).to({alpha:0},400,Phaser.Easing.linear,true)
+            fade.onComplete.add(function(){
+                gameActive = true
+            })
+        })
+
+        for(var i = 0; i < spidersGroup.length; i++){
+            var spider = spidersGroup.children[i]
+            if(spider.visible){
+                if(spider.y > game.world.centerY){
+                    spider.visible = false
+                    spider.y = -100
+                }
+            }
+        }
     }
 
     function jump(){
@@ -1011,7 +1142,7 @@ var climbvoid = function(){
             yogotarGroup.spine.scale.setTo(-SPINE_SCALE,SPINE_SCALE)
         }
 
-        yogotarGroup.body.velocity.x = 100*direction
+        yogotarGroup.body.velocity.x = 150*direction
         yogotarGroup.body.velocity.y = -800 * multiplierForce
         game.physics.arcade.gravity.y = 700
 
@@ -1032,9 +1163,10 @@ var climbvoid = function(){
 	        yogotarGroup.inWall = true
 	        yogotarGroup.spine.setAnimationByName(0,"idle_wall",true)
             currentTimeForce = game.time.now
-	        if(!game.input.activePointer.isDown){
-        		jump()
-        	}
+            if(!game.input.activePointer.isDown){
+                jump()
+            }
+
 	        break
 	        case COLLISION_TYPE.WALL_LOSE:
             if(!yogotarGroup.invensible){
@@ -1062,11 +1194,12 @@ var climbvoid = function(){
                 missPoint()
             }
             //yogotarGroup.invensible = true
+
             game.physics.arcade.gravity.y = 0
             game.add.tween(yogotarGroup).to({y:game.world.height+80},1000,Phaser.Easing.linear,true).onComplete.add(function(){
-                if(lives>0){
-                    jump()
-                }
+                gameActive = false
+                restartDie()
+                
             })
 	        yogotarGroup.spine.setAnimationByName(0,"lose_spider",false)
 
@@ -1078,6 +1211,14 @@ var climbvoid = function(){
 	        sprite2.y = game.world.height
 	        sprite2.visible = false
 	        sprite2.canCollide = false
+            jewelCount ++
+            if(jewelCount == nextLevelJewel){
+                nextLevelJewel += (nextLevelJewel-1)
+                game.add.tween(jewelPoints.scale).to({x:1.2,y:1.2},300,Phaser.Easing.linear,true).yoyo(true)
+            }
+
+            jewelText.setText(jewelCount+"/"+nextLevelJewel)
+
 	        break
     	}
 

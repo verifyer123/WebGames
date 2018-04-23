@@ -1,8 +1,17 @@
 {"frames": [
 
 {
+	"filename": "boardGris",
+	"frame": {"x":527,"y":100,"w":119,"h":46},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":46},
+	"sourceSize": {"w":119,"h":46},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "efect",
-	"frame": {"x":593,"y":402,"w":34,"h":69},
+	"frame": {"x":632,"y":148,"w":34,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":69},
@@ -10,8 +19,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "gema",
+	"frame": {"x":631,"y":318,"w":45,"h":38},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
+	"sourceSize": {"w":45,"h":38},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "handDown",
-	"frame": {"x":527,"y":197,"w":102,"h":95},
+	"frame": {"x":527,"y":344,"w":102,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
@@ -20,7 +38,7 @@
 },
 {
 	"filename": "handUp",
-	"frame": {"x":527,"y":89,"w":102,"h":106},
+	"frame": {"x":527,"y":236,"w":102,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
@@ -29,7 +47,7 @@
 },
 {
 	"filename": "hearts",
-	"frame": {"x":1,"y":963,"w":141,"h":54},
+	"frame": {"x":527,"y":44,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -47,29 +65,29 @@
 },
 {
 	"filename": "medioTile",
-	"frame": {"x":527,"y":468,"w":62,"h":113},
+	"frame": {"x":527,"y":441,"w":83,"h":113},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":113},
-	"sourceSize": {"w":62,"h":113},
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":113},
+	"sourceSize": {"w":83,"h":113},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "otrapuntaTile",
-	"frame": {"x":311,"y":963,"w":62,"h":24},
+	"frame": {"x":527,"y":556,"w":83,"h":24},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":24},
-	"sourceSize": {"w":62,"h":24},
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":24},
+	"sourceSize": {"w":83,"h":24},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "puntaTile",
-	"frame": {"x":311,"y":989,"w":62,"h":24},
+	"frame": {"x":527,"y":582,"w":83,"h":24},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":24},
-	"sourceSize": {"w":62,"h":24},
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":24},
+	"sourceSize": {"w":83,"h":24},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -83,16 +101,16 @@
 },
 {
 	"filename": "rope",
-	"frame": {"x":611,"y":294,"w":15,"h":73},
+	"frame": {"x":670,"y":44,"w":16,"h":174},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":73},
-	"sourceSize": {"w":15,"h":73},
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":15,"w":16,"h":174},
+	"sourceSize": {"w":16,"h":189},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "ruby",
-	"frame": {"x":527,"y":1,"w":103,"h":86},
+	"frame": {"x":527,"y":148,"w":103,"h":86},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":103,"h":86},
@@ -101,7 +119,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":527,"y":402,"w":64,"h":64},
+	"frame": {"x":612,"y":441,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -110,7 +128,7 @@
 },
 {
 	"filename": "tile",
-	"frame": {"x":527,"y":294,"w":82,"h":106},
+	"frame": {"x":527,"y":608,"w":82,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":106},
@@ -119,7 +137,7 @@
 },
 {
 	"filename": "tileSpider",
-	"frame": {"x":527,"y":583,"w":57,"h":96},
+	"frame": {"x":632,"y":220,"w":57,"h":96},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":96},
@@ -128,7 +146,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":144,"y":963,"w":165,"h":41},
+	"frame": {"x":527,"y":1,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -140,8 +158,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":631,"h":1018},
+	"size": {"w":693,"h":962},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:13226f64ae59c92d6b72e8da16e0aae1:ce9a7c04f0ee396fed813c4a75ff4df7:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:11f6cec6ebc9e1cd373c6548b94176a8:5f6e67790c2982dc60aa94987423c293:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

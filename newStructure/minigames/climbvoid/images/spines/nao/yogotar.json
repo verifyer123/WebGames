@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "BqatIXSuBOpLwbuaL0PVb2FkExI", "spine": "3.2.01", "width": 280.98, "height": 394.55, "images": "" },
+"skeleton": { "hash": "Rt8OZWe9UV5nZ4GDeYAclk9G63s", "spine": "3.2.01", "width": 280.98, "height": 394.55, "images": "" },
 "bones": [
 	{ "name": "root", "rotation": 0.01 },
 	{ "name": "cog", "parent": "root", "x": 0.02, "y": 65.99 },
@@ -40,7 +40,7 @@
 ],
 "skins": {
 	"default": {},
-	"normal": {
+	"normal1": {
 		"arm1": {
 			"arm1": { "name": "normal/arm1", "x": 24.88, "y": 0.46, "rotation": 123.6, "width": 48, "height": 59 }
 		},

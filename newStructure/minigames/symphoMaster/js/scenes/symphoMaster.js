@@ -2,19 +2,7 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 var symphoMaster = function(){
-    
-    var localizationData = {
-		"EN":{
-            "howTo":"How to Play?",
-            "moves":"Moves left"
-		},
 
-		"ES":{
-            "moves":"Movimientos extra",
-            "howTo":"¿Cómo jugar?"
-		}
-	}
-    
 
 	var assets = {
         atlases: [
@@ -71,27 +59,7 @@ var symphoMaster = function(){
 		]
     }
 
-    var SKELETONS = ["cervidos", "birds"]
 
-    var ANIMALS = {
-        cervidos: {skins: ["alce", "ciervo", "corzuela", "venado"], animations: ["WALK", "RUN"], height: 200},
-        birds: {skins: ["aguila", "alcon", "buho", "carpintero"], animations: ["FLY", "FLYFAST"], height: 100}
-    }
-
-    var DATA_DIRECTIONS = [
-        {fromX: 500, toX: -500, fromY: 0, toY: 0}
-    ]
-
-
-    var ROUNDS = [
-        {animal: "cervidos", skin:"alce", animation:"WALK", stop:true, duration: 10000},
-        {animal: "cervidos", skin:"ciervo", animation:"RUN", duration: 5000},
-        {animal: "cervidos", skin:"corzuela", animation:"RUN", duration: "timeValue", delay: 1000},
-        {animal: "cervidos", skin:"venado", animation:"RUN", duration: "timeValue", delay: "random", directions:"random"},
-        {animal: "birds", skin:"aguila", animation:"FLYFAST", duration: 2000, delay: 500},
-        {animal: "birds", skin:"random", animation:"FLYFAST", duration: "timeValue", delay: "random", directions: "random"},
-        {animal: "random", skin:"random", animation:"fast", duration: "timeValue", delay: "random", directions: "random"}
-    ]
 
     var NUM_LIFES = 3
     var MAX_SPACES = 5
@@ -151,6 +119,7 @@ var symphoMaster = function(){
     var inEvaluate = false
     var inTutorial = true
     var tutorialId = 0
+    var roundWin
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -184,6 +153,7 @@ var symphoMaster = function(){
         currentQuestions = INITIAL_QUESTIONS
         currentLevel = 1
         timeOn = false
+        roundWin = false
 
         currentConcertId = 0
         instrumentAduios = []
@@ -890,8 +860,8 @@ var symphoMaster = function(){
             currentConcertId++
 
             if(currentConcertId >= currentQuestions){
-                Coin(emptyObject,pointsBar,1)
-
+                Coin(emptyObject,pointsBar,3)
+                roundWin = true
                 nextRound()
             }
             else{
@@ -931,7 +901,7 @@ var symphoMaster = function(){
 
             correctTween_1.chain(correctTween_2)
             correctTween_1.start()
-
+            roundWin = false
             missPoint()
         }
     }
@@ -1004,7 +974,8 @@ var symphoMaster = function(){
 
     function newRound(){
         if(currentQuestions < MAX_SPACES){
-            currentQuestions++
+            if(roundWin)
+                currentQuestions++
         }
         else{
             if(!timeOn){

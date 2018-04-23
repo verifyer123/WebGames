@@ -145,7 +145,7 @@ var yogomeGames = function () {
             {name:'Where Is My',url:urlSet + 'whereIsMy/',mapUrl:urlMap + 'whereIsMy', sceneName:'whereIsMy',subject:'language', review:false,objective:25,demo:false,type:gameTypeEnum.GRAB},//115
             {name:'H2Orbit',url:urlSet + 'H2Orbit/',mapUrl:urlMap + 'H2Orbit', sceneName:'H2Orbit',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},//116
             {name:'Fridge',url:urlSet + 'fridge/',mapUrl:urlMap + 'fridge', sceneName:'fridge',subject:'health', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//117
-            {name:'Sympho Master',url:urlSet + 'symphoMaster/',mapUrl:urlMap + 'symphoMaster', sceneName:'symphoMaster',subject:'creativity', review:false,objective:20,demo:false,type:gameTypeEnum.MATCH},//118
+            {name:'Sympho Master',url:urlSet + 'symphoMaster/',mapUrl:urlMap + 'symphoMaster', sceneName:'symphoMaster',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//118
             {name:'Dinamita Dance',url:urlSet + 'dinamitaDance/',mapUrl:urlMap + 'dinamitaDance', sceneName:'dinamitaDance',subject:'language', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//119
             {name:'Rabbit Trace',url:urlSet + 'rabitTrace/',mapUrl:urlMap + 'rabitTrace', sceneName:'rabitTrace',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.TRACE},//120
             {name:'Noisy Monsters',url:urlSet + 'noisyMonsters/',mapUrl:urlMap + 'noisyMonsters', sceneName:'noisyMonsters',subject:'sustainability', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//121
