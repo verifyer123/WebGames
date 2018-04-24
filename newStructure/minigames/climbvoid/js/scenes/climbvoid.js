@@ -159,7 +159,7 @@ var climbvoid = function(){
     var fadePanel
     var currentColorStep
     var bmd, colorIndex, distanceChangeColor
-
+    var currentCollider
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -199,6 +199,8 @@ var climbvoid = function(){
         createJewel = false
         jewelCount = 0
         distanceChangeColor = 0
+
+        currentCollider = null
 
         loadSounds()
         
@@ -423,6 +425,17 @@ var climbvoid = function(){
         updateInput()
 
         updatePosition()
+
+        updateFalling()
+    }
+
+    function updateFalling(){
+        if(currentCollider!=null){
+            var deltaY = (yogotarGroup.body.y+50) - currentCollider.world.y 
+            if(deltaY > currentCollider.height){
+                jump()
+            }
+        }
     }
 
     function updateInput(){
@@ -441,7 +454,7 @@ var climbvoid = function(){
     			}
     		}
 
-    		if(doCollision){
+    		if(doCollision && graphicCollisions[i].canCollide){
 	            game.physics.arcade.collide(yogotarGroup, graphicCollisions[i]);
 	        }
         }
@@ -550,6 +563,10 @@ var climbvoid = function(){
     		for(var i = 0; i < climbGroup.length; i++){
     			climbGroup.children[i].y += delta
 
+                if(climbGroup.children[i].y > game.world.height && climbGroup.children[i].visible){
+                    climbGroup.children[i].graphics.canCollide = false
+                }
+
     			if(climbGroup.children[i].y > game.world.height+100 && climbGroup.children[i].visible){
     				climbGroup.children[i].visible = false
 
@@ -607,6 +624,7 @@ var climbvoid = function(){
     	for(var i = 0; i < loseCollision.length; i ++){
             game.physics.arcade.collide(yogotarGroup, loseCollision.children[i]);
         }
+
         for(var i = 0; i < spidersGroup.length; i++){
             var spider = spidersGroup.children[i]
             if(spider.visible && spider.canCollide){
@@ -622,7 +640,6 @@ var climbvoid = function(){
             if(jewel.visible && jewel.canCollide){
             	game.physics.arcade.overlap(yogotarGroup,jewel,function(){
             		hit(null, jewel)
-
             	},null,this)
             }
         }
@@ -714,7 +731,8 @@ var climbvoid = function(){
 		        climb.cornDown.y = climbHeight-2
 		        climb.graphics.clear()
 		        climb.graphics.drawRect(0,-40,83,climbHeight+48)
-
+                climb.totalHeigth = climbHeight+48
+                climb.graphics.canCollide = true
 		        if(side == 1){
 		            climb.scale.setTo(-1,1)
 		            climb.graphics.x =83    
@@ -769,6 +787,7 @@ var climbvoid = function(){
         group.add(graphics)
         game.physics.arcade.enable(graphics)
         graphicCollisions.push(graphics)
+        graphics.canCollide = true
         climbGroup.add(group)
         if(isLast){
             lastObject = group
@@ -782,6 +801,7 @@ var climbvoid = function(){
             group.scale.setTo(-1,1)
             graphics.x +=83
         }
+        group.totalHeigth = climbHeight+48
 
         graphics.body.allowGravity = false
         graphics.body.immovable = true
@@ -841,7 +861,6 @@ var climbvoid = function(){
         if(y==null){
             y = -100
         }
-        console.log(y)
 
         for(var i = 0; i < jewelGroup.length; i++){
             if(!jewelGroup.children[i].visible){
@@ -1192,7 +1211,7 @@ var climbvoid = function(){
     		}
     	}
     	yogotarGroup.inWall = false
-
+        currentCollider = null
         game.physics.arcade.gravity.y = 100
         var direction 
         if(yogotarGroup.body.x < game.world.centerX){
@@ -1204,7 +1223,7 @@ var climbvoid = function(){
             yogotarGroup.spine.scale.setTo(-SPINE_SCALE,SPINE_SCALE)
         }
 
-        yogotarGroup.body.velocity.x = 150*direction
+        yogotarGroup.body.velocity.x = 120*direction
         yogotarGroup.body.velocity.y = -800 * multiplierForce
         game.physics.arcade.gravity.y = 700
 
@@ -1225,6 +1244,7 @@ var climbvoid = function(){
 	        yogotarGroup.inWall = true
 	        yogotarGroup.spine.setAnimationByName(0,"idle_wall",true)
             currentTimeForce = game.time.now
+            currentCollider = sprite2
             if(!game.input.activePointer.isDown){
                 jump()
             }
