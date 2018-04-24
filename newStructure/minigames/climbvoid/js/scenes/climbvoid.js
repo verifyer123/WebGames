@@ -160,6 +160,7 @@ var climbvoid = function(){
     var currentColorStep
     var bmd, colorIndex, distanceChangeColor
     var currentCollider
+    var jewelsParticle
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -489,18 +490,14 @@ var climbvoid = function(){
                     currentDeltaDistance+=DELTA_DISTANCE
                 }
     			if(random<PROBABILTY_SPIDER){
-                //if(random<0){
     				setSpider()
     			}
     			else{
                     if(jewelCount > JEWEL_TO_RANDOM){
     				    setJewel()
-                        //createJewel = true
-                        //console.log("Create jewel")
                     }
                     else{
                         createJewel = true
-                        //console.log("wait to create jewel")
                     }
     			}
 
@@ -516,7 +513,6 @@ var climbvoid = function(){
                     }
         			if(spider.y > game.world.height + 200){
         				spider.visible = false
-        				
         			}
         			
         		}
@@ -911,7 +907,7 @@ var climbvoid = function(){
         background.scale.setTo(game.world.width,1)
         backgroundGroup.add(background)
         var width = 82
-        var w = game.world.centerX - 300
+        var w = game.world.centerX - 270
         var delta  = 0
 
         if(w > width){
@@ -930,6 +926,8 @@ var climbvoid = function(){
 
         wallLeft = game.add.tileSprite(game.world.centerX - 350 - delta,0,width,game.world.height,"atlas.game","tile")
         backgroundGroup.add(wallLeft)
+        wallLeft.anchor.setTo(1,0)
+        wallLeft.scale.setTo(-1,1)
 
         wallRigth = game.add.tileSprite(game.world.centerX + 350 + delta,0,width,game.world.height,"atlas.game","tile")
         wallRigth.anchor.setTo(1,0)
@@ -1296,6 +1294,10 @@ var climbvoid = function(){
 	        sprite2.canCollide = false
             jewelCount ++
             if(jewelCount == nextLevelJewel){
+                jewelsParticle.x = jewelText.world.x
+                jewelsParticle.y = jewelText.world.y
+                jewelsParticle.start(true, 1000, null, 5)
+
                 nextLevelJewel += (nextLevelJewel-1)
                 game.add.tween(jewelPoints.scale).to({x:1.2,y:1.2},300,Phaser.Easing.linear,true).yoyo(true)
             }
@@ -1380,6 +1382,7 @@ var climbvoid = function(){
         createHearts()
         
         correctParticle = createPart('atlas.game','star')
+        jewelsParticle = createPart('atlas.game','star')
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
@@ -1414,7 +1417,7 @@ var climbvoid = function(){
         update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
-        render:render
+        //render:render
 	}
 }()
 
