@@ -6,7 +6,7 @@
  * @param  {[Object]} config [Objeto con la configuración del minigame]
  */
 
-_QUANTRIX.Minigame = function(config){
+APP.Minigame = function(config){
 
   this._config = config || {};
   /**
@@ -74,7 +74,7 @@ _QUANTRIX.Minigame = function(config){
 
 };
 
-_QUANTRIX.Minigame.prototype = {
+APP.Minigame.prototype = {
   deletePrevious : function(){
     var prevDOM = document.querySelector(this._content)
     if(prevDOM){
@@ -111,4 +111,4 @@ _QUANTRIX.Minigame.prototype = {
   }
 }
 
-_QUANTRIX.Minigame.prototype.constructor = _QUANTRIX.Minigame;
+APP.Minigame.prototype.constructor = APP.Minigame;

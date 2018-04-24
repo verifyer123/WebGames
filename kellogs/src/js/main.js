@@ -1,4 +1,4 @@
-var _QUANTRIX = {
+var APP = {
   /**
    * Versión del proyecto.
    */
@@ -15,11 +15,11 @@ var _QUANTRIX = {
    */
   SERVICES : {
     // inicia sesion
-    LOGIN : "https://math-tournament-dot-heroesofknowledge.appspot.com/tournament/child/v1/login",
+    LOGIN : "",
     // envia un token y el record que obtuvo
-    GAME_PLAYED : "https://math-tournament-dot-heroesofknowledge.appspot.com/tournament/child/v1/registrarScore",
+    GAME_PLAYED : "",
     // obtiene los juegos disponibles
-    GAME_AVAILABLE : "https://math-tournament-dot-heroesofknowledge.appspot.com/tournament/child/v1/minigames",
+    GAME_AVAILABLE : "",
     GAME_FINISHED : ""
   },
   /**

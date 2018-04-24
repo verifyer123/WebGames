@@ -9,10 +9,10 @@
 * }
 */
 
-_QUANTRIX.NotifyPlayed =  function(config){
+APP.NotifyPlayed =  function(config){
     $.ajax({
         type: "POST",
-        url: _QUANTRIX.SERVICES.GAME_PLAYED,
+        url: APP.SERVICES.GAME_PLAYED,
         data:  JSON.stringify(config.data),
         dataType: 'json',
         contentType: 'application/json',
@@ -36,10 +36,10 @@ _QUANTRIX.NotifyPlayed =  function(config){
 * }
 */
 
-_QUANTRIX.GameAvailable =  function(config){
+APP.GameAvailable =  function(config){
     $.ajax({
         type: "POST",
-        url: _QUANTRIX.SERVICES.GAME_AVAILABLE,
+        url: APP.SERVICES.GAME_AVAILABLE,
         data:  JSON.stringify(config.data),
         dataType: 'json',
         contentType: 'application/json',
@@ -61,10 +61,10 @@ _QUANTRIX.GameAvailable =  function(config){
 * }
 */
 
-_QUANTRIX.Login =  function(config){
+APP.Login =  function(config){
     $.ajax({
         type: "POST",
-        url: _QUANTRIX.SERVICES.LOGIN,
+        url: APP.SERVICES.LOGIN,
         data: {
             "nickname": "nick",
             "pin": 1234

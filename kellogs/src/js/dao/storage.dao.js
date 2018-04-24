@@ -1,11 +1,11 @@
 
-_QUANTRIX.Storage  = {}
+APP.Storage  = {}
 
-_QUANTRIX.Storage.replaceInLocalstorage = function(name, item){
+APP.Storage.replaceInLocalstorage = function(name, item){
     console.log(name + ": "+ item);
   localStorage.setItem(name, item);
 }
 
-_QUANTRIX.Storage.getInLocalstorage = function(item){
+APP.Storage.getInLocalstorage = function(item){
   return localStorage.getItem(item);
 }

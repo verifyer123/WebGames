@@ -18,7 +18,7 @@ var gulp = require('gulp'),
 
 // VARIABLES GLOBALES
 
-var _QUANTRIX = {
+var APP = {
   SERVER : {
     PORT : 3000,
     BASE_DIR : "../",
@@ -37,7 +37,7 @@ var _QUANTRIX = {
       "src/js/core/Minigame.prototype.js",
       "src/js/network/session.service.js",
       "src/js/dao/storage.dao.js",
-      "src/js/controllers/quantrix.controller.js",
+      "src/js/controllers/app.controller.js",
     ],
     CSS : true
   },
@@ -110,12 +110,12 @@ var _QUANTRIX = {
 
 var initBaseProject = function(){
   initBaseDirectories();
-  for (var i = 0; i < _QUANTRIX.BASE_CONFIG.FILES.length; i++) {
+  for (var i = 0; i < APP.BASE_CONFIG.FILES.length; i++) {
     var path = "",
-    name = _QUANTRIX.BASE_CONFIG.FILES[i];
-    if (_QUANTRIX.BASE_CONFIG.FILES[i].includes("/")) {
-      path = _QUANTRIX.BASE_CONFIG.FILES[i].substring(0, _QUANTRIX.BASE_CONFIG.FILES[i].lastIndexOf("/")+1);
-      name = _QUANTRIX.BASE_CONFIG.FILES[i].substring(_QUANTRIX.BASE_CONFIG.FILES[i].lastIndexOf("/")+1, _QUANTRIX.BASE_CONFIG.FILES[i].length);
+    name = APP.BASE_CONFIG.FILES[i];
+    if (APP.BASE_CONFIG.FILES[i].includes("/")) {
+      path = APP.BASE_CONFIG.FILES[i].substring(0, APP.BASE_CONFIG.FILES[i].lastIndexOf("/")+1);
+      name = APP.BASE_CONFIG.FILES[i].substring(APP.BASE_CONFIG.FILES[i].lastIndexOf("/")+1, APP.BASE_CONFIG.FILES[i].length);
     }
     initBaseFile(name, path);
   }
@@ -139,7 +139,7 @@ var initBaseFile = function(name, path){
 var initBaseDirectories = function(){
   return gulp.src('*.js', {read: false})
     .pipe(shell([
-      'mkdir -p ' + _QUANTRIX.BASE_CONFIG.FOLDERS
+      'mkdir -p ' + APP.BASE_CONFIG.FOLDERS
     ]));
 }
 
@@ -149,16 +149,16 @@ var initBaseDirectories = function(){
  */
 
 var replaceScripts = function(){
-  var scripts = this.querySelectorAll('script[src^="'+_QUANTRIX.ROUTES.SRC.JS+'"]'),
+  var scripts = this.querySelectorAll('script[src^="'+APP.ROUTES.SRC.JS+'"]'),
   i = scripts.length,
   j = -1,
   tempNames = [];
-  if (_QUANTRIX.PROD_MODE.JS_SINGLE) {
+  if (APP.PROD_MODE.JS_SINGLE) {
     while(i--) {
       removeNode(scripts[i]);
     }
     var lib = this.createElement('script');
-      lib.setAttribute('src', 'js/'+_QUANTRIX.ROUTES.MIN_JS.NAME+'.'+_QUANTRIX.ROUTES.MIN_JS.SUFIX+'.js');
+      lib.setAttribute('src', 'js/'+APP.ROUTES.MIN_JS.NAME+'.'+APP.ROUTES.MIN_JS.SUFIX+'.js');
       this.body.appendChild(lib);
     return this;
   }
@@ -169,7 +169,7 @@ var replaceScripts = function(){
       name = src.substring(src.lastIndexOf('/')+1, src.lastIndexOf('.js'));
       if (!src.includes('.min')) {
         var lib = this.createElement('script');
-        lib.setAttribute('src', path+name+'.'+_QUANTRIX.ROUTES.MIN_JS.SUFIX+'.js');
+        lib.setAttribute('src', path+name+'.'+APP.ROUTES.MIN_JS.SUFIX+'.js');
         scripts[j].parentNode.insertBefore(lib, scripts[j].nextSibling);
         removeNode(scripts[j]);
       }
@@ -188,7 +188,7 @@ var replaceScripts = function(){
  */
 
 var replaceCss = function(){
-  var references = this.querySelectorAll('link[href^="'+_QUANTRIX.ROUTES.SRC.CSS+'"]'),
+  var references = this.querySelectorAll('link[href^="'+APP.ROUTES.SRC.CSS+'"]'),
   i = references.length,
   j = -1,
   tempNames = [];
@@ -198,7 +198,7 @@ var replaceCss = function(){
     name = href.substring(href.lastIndexOf('/')+1, href.lastIndexOf('.css'));
     if (!href.includes('.min')) {
       var lib = this.createElement('link');
-      lib.setAttribute('href', path+name+'.'+_QUANTRIX.ROUTES.MIN_CSS.SUFIX+'.css');
+      lib.setAttribute('href', path+name+'.'+APP.ROUTES.MIN_CSS.SUFIX+'.css');
       lib.setAttribute('rel', 'stylesheet');
       references[j].parentNode.insertBefore(lib, references[j].nextSibling);
       removeNode(references[j]);
@@ -242,14 +242,14 @@ gulp.task('initBaseProject', function(){
 
 gulp.task('cloneFiles', function(){
   console.log('CLONANDO');
-  var conditions = [_QUANTRIX.ROUTES.SRC.HTML+'/**/*'];
-  for (var i = 0; i < _QUANTRIX.FILE_EXCEPTIONS.CLONE.length; i++) {
-    conditions.push("!"+_QUANTRIX.FILE_EXCEPTIONS.CLONE[i]);
+  var conditions = [APP.ROUTES.SRC.HTML+'/**/*'];
+  for (var i = 0; i < APP.FILE_EXCEPTIONS.CLONE.length; i++) {
+    conditions.push("!"+APP.FILE_EXCEPTIONS.CLONE[i]);
   }
   return gulp.src(conditions)
     .pipe(rename(function(path){
     }))
-    .pipe(gulp.dest(_QUANTRIX.ROUTES.DIST.HTML));
+    .pipe(gulp.dest(APP.ROUTES.DIST.HTML));
 });
 
 /**
@@ -260,37 +260,37 @@ gulp.task('cloneFiles', function(){
 gulp.task('prepareJsToDist', function(){
   console.log('PREPARANDO JS');
   var conditions = [];
-  for (var i = 0; i < _QUANTRIX.FILE_EXCEPTIONS.JS.length; i++) {
-    conditions.push("!" + _QUANTRIX.FILE_EXCEPTIONS.JS[i]);
+  for (var i = 0; i < APP.FILE_EXCEPTIONS.JS.length; i++) {
+    conditions.push("!" + APP.FILE_EXCEPTIONS.JS[i]);
   }
-  if (_QUANTRIX.PROD_MODE.JS_SINGLE) {
+  if (APP.PROD_MODE.JS_SINGLE) {
     console.log("SINGLE SCRIPT MODE");
-    for (var i = 0; i < _QUANTRIX.PROD_MODE.JS_SINGLE_SCRIPTS.length; i++) {
-      conditions.push(_QUANTRIX.PROD_MODE.JS_SINGLE_SCRIPTS[i]);
+    for (var i = 0; i < APP.PROD_MODE.JS_SINGLE_SCRIPTS.length; i++) {
+      conditions.push(APP.PROD_MODE.JS_SINGLE_SCRIPTS[i]);
     }
     console.log(conditions);
     return gulp.src(conditions)
-      .pipe(gulpif(_QUANTRIX.PROD_MODE , obfuscate(_QUANTRIX.DEPENDENCIES.OBFUSCATE)))
-      .pipe(gulpif(_QUANTRIX.PROD_MODE, rename(function(path){
+      .pipe(gulpif(APP.PROD_MODE , obfuscate(APP.DEPENDENCIES.OBFUSCATE)))
+      .pipe(gulpif(APP.PROD_MODE, rename(function(path){
         if (!path.basename.includes('.min')) {
           console.log("ARCHIVOOOOOO : " + path.basename);
           path.extname = ".min.js";
         }
       })))
-      .pipe(concat(_QUANTRIX.ROUTES.MIN_JS.NAME+"."+_QUANTRIX.ROUTES.MIN_JS.SUFIX+'.js'))
-      .pipe(gulp.dest("./"+_QUANTRIX.ROUTES.DIST.HTML+"/"+_QUANTRIX.ROUTES.DIST.JS));
+      .pipe(concat(APP.ROUTES.MIN_JS.NAME+"."+APP.ROUTES.MIN_JS.SUFIX+'.js'))
+      .pipe(gulp.dest("./"+APP.ROUTES.DIST.HTML+"/"+APP.ROUTES.DIST.JS));
   }
   else{
-    conditions.push(_QUANTRIX.ROUTES.SRC.HTML+"/"+_QUANTRIX.ROUTES.SRC.JS+'/**/*.js');
+    conditions.push(APP.ROUTES.SRC.HTML+"/"+APP.ROUTES.SRC.JS+'/**/*.js');
     return gulp.src(conditions)
-      .pipe(gulpif(_QUANTRIX.PROD_MODE , obfuscate(_QUANTRIX.DEPENDENCIES.OBFUSCATE)))
-      .pipe(gulpif(_QUANTRIX.PROD_MODE, rename(function(path){
+      .pipe(gulpif(APP.PROD_MODE , obfuscate(APP.DEPENDENCIES.OBFUSCATE)))
+      .pipe(gulpif(APP.PROD_MODE, rename(function(path){
         if (!path.basename.includes('.min')) {
           console.log("ARCHIVOOOOOO : " + path.basename);
           path.extname = ".min.js";
         }
       })))
-      .pipe(gulp.dest("./"+_QUANTRIX.ROUTES.DIST.HTML+"/"+_QUANTRIX.ROUTES.DIST.JS));
+      .pipe(gulp.dest("./"+APP.ROUTES.DIST.HTML+"/"+APP.ROUTES.DIST.JS));
   }
 
 
@@ -302,18 +302,18 @@ gulp.task('prepareJsToDist', function(){
 
 gulp.task('prepareCssToDist', function(){
   console.log('PREPARANDO CSS');
-  var conditions = [_QUANTRIX.ROUTES.SRC.HTML+"/"+_QUANTRIX.ROUTES.SRC.CSS+'/**/*.css'];
-  for (var i = 0; i < _QUANTRIX.FILE_EXCEPTIONS.CSS.length; i++) {
-    conditions.push("!"+_QUANTRIX.FILE_EXCEPTIONS.CSS[i]);
+  var conditions = [APP.ROUTES.SRC.HTML+"/"+APP.ROUTES.SRC.CSS+'/**/*.css'];
+  for (var i = 0; i < APP.FILE_EXCEPTIONS.CSS.length; i++) {
+    conditions.push("!"+APP.FILE_EXCEPTIONS.CSS[i]);
   }
   return gulp.src(conditions)
-    .pipe(gulpif(_QUANTRIX.PROD_MODE, cleanCSS(_QUANTRIX.DEPENDENCIES.CLEAN_CSS)))
-    .pipe(gulpif(_QUANTRIX.PROD_MODE, rename(function(path){
+    .pipe(gulpif(APP.PROD_MODE, cleanCSS(APP.DEPENDENCIES.CLEAN_CSS)))
+    .pipe(gulpif(APP.PROD_MODE, rename(function(path){
       if (!path.basename.includes('.min')) {
         path.extname=".min.css";
       }
     })))
-    .pipe(gulp.dest("./"+_QUANTRIX.ROUTES.DIST.HTML+"/"+_QUANTRIX.ROUTES.DIST.CSS));
+    .pipe(gulp.dest("./"+APP.ROUTES.DIST.HTML+"/"+APP.ROUTES.DIST.CSS));
 });
 
 /**
@@ -324,11 +324,11 @@ gulp.task('prepareCssToDist', function(){
 
 gulp.task('changeHtmlReference', ['prepareJsToDist', 'prepareCssToDist', 'cloneFiles'], function () {
   console.log('CAMBIANDO REFERENCIA HTML');
-  return gulp.src(_QUANTRIX.ROUTES.SRC.HTML+'/*.html')
+  return gulp.src(APP.ROUTES.SRC.HTML+'/*.html')
     .pipe(dom(replaceScripts))
     .pipe(dom(replaceCss))
     // .pipe(htmlmin({collapseWhitespace: true}))
-    .pipe(gulp.dest(_QUANTRIX.ROUTES.DIST.HTML));
+    .pipe(gulp.dest(APP.ROUTES.DIST.HTML));
 })
 
 /**
@@ -337,7 +337,7 @@ gulp.task('changeHtmlReference', ['prepareJsToDist', 'prepareCssToDist', 'cloneF
  */
 
 gulp.task('base', function () {
-  if(!fs.existsSync(_QUANTRIX.ROUTES.DIST.HTML)){
+  if(!fs.existsSync(APP.ROUTES.DIST.HTML)){
     console.log('INICIANDO ESTRUCTURA BASE...');
     gulp.start('initBaseProject');
   }
@@ -349,7 +349,7 @@ gulp.task('base', function () {
  */
 
 gulp.task('build', function () {
-  if(fs.existsSync(_QUANTRIX.ROUTES.DIST.HTML)){
+  if(fs.existsSync(APP.ROUTES.DIST.HTML)){
     console.log('GENERANDO ARCHIVOS DE DISTRIBUCION...');
     gulp.start('changeHtmlReference');
   }
@@ -374,15 +374,15 @@ gulp.task('updateServer', function(done) {
 
 gulp.task('initServer', function(done) {
   var conditions = [];
-  for (var i = 0; i < _QUANTRIX.FILE_WATCH.length; i++) {
-    conditions.push(_QUANTRIX.ROUTES.SRC.HTML+"/**/*"+_QUANTRIX.FILE_WATCH[i]);
+  for (var i = 0; i < APP.FILE_WATCH.length; i++) {
+    conditions.push(APP.ROUTES.SRC.HTML+"/**/*"+APP.FILE_WATCH[i]);
   }
   browserSync.init({
-    port : _QUANTRIX.SERVER.PORT,
-    startPath: _QUANTRIX.SERVER.START_PATH,
+    port : APP.SERVER.PORT,
+    startPath: APP.SERVER.START_PATH,
     server: {
-      baseDir: _QUANTRIX.SERVER.BASE_DIR
-      // baseDir: _QUANTRIX.ROUTES.SRC.HTML
+      baseDir: APP.SERVER.BASE_DIR
+      // baseDir: APP.ROUTES.SRC.HTML
     }
   });
   console.log('ESCUCHANDO CAMBIOS...');
@@ -393,7 +393,7 @@ gulp.task('initServer', function(done) {
 //Gulp principal task.
 
 gulp.task('default', function () {
-  if(!fs.existsSync(_QUANTRIX.ROUTES.DIST.HTML)){
+  if(!fs.existsSync(APP.ROUTES.DIST.HTML)){
     console.log('INICIANDO ESTRUCTURA BASE...');
     gulp.start('initBaseProject');
     gulp.start('initServer');

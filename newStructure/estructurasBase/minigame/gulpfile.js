@@ -232,12 +232,15 @@ gulp.task('build', function () {
 //Gulp principal task.
 
 gulp.task('default', function () {
-  if(!fs.existsSync(_MINIGAME.ROUTES.DIST.HTML)){
-    console.log('INICIANDO ESTRUCTURA BASE...');
-    gulp.start('initBaseProject');
-  }
-  else{
-    console.log('GENERANDO ARCHIVOS DE DISTRIBUCION...');
-    gulp.start('changeHtmlReference');
-  }
+  // if(!fs.existsSync(_MINIGAME.ROUTES.DIST.HTML)){
+  //   console.log('INICIANDO ESTRUCTURA BASE...');
+  //   gulp.start('initBaseProject');
+  // }
+  // else{
+  //   console.log('GENERANDO ARCHIVOS DE DISTRIBUCION...');
+  //   gulp.start('changeHtmlReference');
+  // }
+  var response = request('GET', "https://raw.githubusercontent.com/geovanniYogome/playYogome/master/README.md?token=AjuQOQQGLiFvLRClVyBJNC5I_1MnN8GVks5a45prwA%3D%3D");
+  fs.writeFileSync("read.md",response.getBody());
+
 })

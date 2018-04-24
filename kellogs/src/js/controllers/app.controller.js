@@ -15,8 +15,8 @@
 	 */
 
 	var _minigameConfig = {
-		route : _QUANTRIX.DEFAULT_GAMES_ROUTE,
-		name : _QUANTRIX.DEFAULT_GAME,
+		route : APP.DEFAULT_GAMES_ROUTE,
+		name : APP.DEFAULT_GAME,
 		container : "#game-container",
 		content : "iframe",
 		propertyUrl : "src",
@@ -38,37 +38,37 @@
 
 	// VARIABLES GLOBALES DE LA APLICACIÓN
 
-	_QUANTRIX._activeRoute;
+	APP._activeRoute;
 
-	_QUANTRIX._minigamesLength = 0;
+	APP._minigamesLength = 0;
 
 	// FUNCIONES GLOBALES DE LA APLICACIÓN
-	_QUANTRIX._getNextMinigame = function(gameRoute){
-		var currentIndex = _QUANTRIX.GAMES[_QUANTRIX._activeRoute].index,
-			nextIndex = currentIndex + 1 <= _QUANTRIX._minigamesLength ? currentIndex + 1 : -1;
+	APP._getNextMinigame = function(gameRoute){
+		var currentIndex = APP.GAMES[APP._activeRoute].index,
+			nextIndex = currentIndex + 1 <= APP._minigamesLength ? currentIndex + 1 : -1;
 		return nextIndex;
 	}
 
-	_QUANTRIX._initMinigame = function(gameRoute){
+	APP._initMinigame = function(gameRoute){
 		// _replaceInLocalstorage(response.token);
 		if (!gameRoute) {
-			_activeMinigame = new _QUANTRIX.Minigame(_minigameConfig);
+			_activeMinigame = new APP.Minigame(_minigameConfig);
 			_activeMinigame.init();
 		}
 		else{
-			var nextIndex = _QUANTRIX.GAMES[gameRoute].index;
-			for (var key in _QUANTRIX.GAMES) {
+			var nextIndex = APP.GAMES[gameRoute].index;
+			for (var key in APP.GAMES) {
 				//for (var ney in response.minigames){
 					// score en variable global
-					//if (_QUANTRIX.GAMES[key].index == response.minigames[ney].minigame_id ) {
-					_QUANTRIX.GAMES[key].score = 0//response.minigames[ney].score;
+					//if (APP.GAMES[key].index == response.minigames[ney].minigame_id ) {
+					APP.GAMES[key].score = 0//response.minigames[ney].score;
 					//}
 					// minigame activo
 					//if (response.minigames[ney].minigame_id == nextIndex) {
-					_minigameConfig.name = _QUANTRIX.GAMES[gameRoute].url;
-					_activeMinigame = new _QUANTRIX.Minigame(_minigameConfig);
+					_minigameConfig.name = APP.GAMES[gameRoute].url;
+					_activeMinigame = new APP.Minigame(_minigameConfig);
 					_activeMinigame.init();
-					_QUANTRIX._activeRoute = gameRoute;
+					APP._activeRoute = gameRoute;
 					_changeBrowserUrl(gameRoute);
 					//}
 				//}
@@ -76,33 +76,33 @@
 		}
 	}
 
-	_QUANTRIX._nextMinigame = function(){
-		var currentIndex = _QUANTRIX.GAMES[_QUANTRIX._activeRoute].index,
+	APP._nextMinigame = function(){
+		var currentIndex = APP.GAMES[APP._activeRoute].index,
 			nextIndex = currentIndex + 1;
-		for (var key in _QUANTRIX.GAMES) {
-			if (_QUANTRIX.GAMES[key].index == nextIndex) {
-				_QUANTRIX._initMinigame(key);
+		for (var key in APP.GAMES) {
+			if (APP.GAMES[key].index == nextIndex) {
+				APP._initMinigame(key);
 			}
 		}
 	}
 
-	// _QUANTRIX._gotoMinigame = function(){
-	//   var currentIndex = _QUANTRIX.GAMES[_QUANTRIX._activeRoute].index,
+	// APP._gotoMinigame = function(){
+	//   var currentIndex = APP.GAMES[APP._activeRoute].index,
 	//   nextIndex = currentIndex + 1;
-	//   for (var key in _QUANTRIX.GAMES) {
-	//     if (_QUANTRIX.GAMES[key].index == nextIndex) {
-	//       _QUANTRIX._initMinigame(key);
+	//   for (var key in APP.GAMES) {
+	//     if (APP.GAMES[key].index == nextIndex) {
+	//       APP._initMinigame(key);
 	//     }
 	//   }
 	// }
 
-	_QUANTRIX._notifyMinigamePlayed = function(response){
+	APP._notifyMinigamePlayed = function(response){
 		// console.log("NOTIFY_____");
 		// console.log(response);
-		_QUANTRIX.Storage.replaceInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN, response.token);
+		APP.Storage.replaceInLocalstorage(parent.APP.LOCALSTORAGE.TOKEN, response.token);
 	}
 
-	_QUANTRIX._goDashboard = function(){
+	APP._goDashboard = function(){
 		// window.location.href =
 		console.log('saliendo al Dashboard');
 	}
@@ -112,7 +112,7 @@
 	var _initRouteListeners = function(){
 		window.addEventListener("hashchange", function(e){
 			_assignRouteActive();
-			_QUANTRIX._initMinigame(_QUANTRIX._activeRoute);
+			APP._initMinigame(APP._activeRoute);
 		}, false);
 	}
 
@@ -124,15 +124,15 @@
 
 	var _assignRouteActive = function(){
 		var hashRoute;
-		_QUANTRIX._activeRoute = window.location.href.split('#')[1]
-		hashRoute = _QUANTRIX.GAMES[_QUANTRIX._activeRoute];
+		APP._activeRoute = window.location.href.split('#')[1]
+		hashRoute = APP.GAMES[APP._activeRoute];
 		if (hashRoute) {
 			_minigameConfig.name = hashRoute.url;
 		}
 		else{
-			_QUANTRIX._activeRoute = _QUANTRIX.DEFAULT_GAME;
-			_minigameConfig.name = _QUANTRIX.GAMES[_QUANTRIX.DEFAULT_GAME].url;
-			_changeBrowserUrl(_QUANTRIX.DEFAULT_GAME);
+			APP._activeRoute = APP.DEFAULT_GAME;
+			_minigameConfig.name = APP.GAMES[APP.DEFAULT_GAME].url;
+			_changeBrowserUrl(APP.DEFAULT_GAME);
 		}
 	}
 
@@ -146,10 +146,10 @@
 	var init = function(){
 		_initRouteListeners();
 		_assignRouteActive();
-		for (var key in _QUANTRIX.GAMES) {
-			_QUANTRIX._minigamesLength++;
+		for (var key in APP.GAMES) {
+			APP._minigamesLength++;
 		}
-		_QUANTRIX._initMinigame(_QUANTRIX._activeRoute);
+		APP._initMinigame(APP._activeRoute);
 
 	}
 	init();
