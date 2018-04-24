@@ -88,7 +88,7 @@ var scranimal = function(){
     var timeOn = false
     var clock, tweenTiempo, timeBar
 
-    var currentLevel = 0
+    var currentLevel
     var currentTime
     var correctParticle
 
@@ -541,45 +541,6 @@ var scranimal = function(){
         sceneGroup.add(tutoGroup)
 
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            onClickPlay(rect)
-        })
-        
-        tutoGroup.add(rect)
-        
-        var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.scranimal','tutorial_image')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.scranimal',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.scranimal','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function checkCollision(obj){
@@ -748,20 +709,6 @@ var scranimal = function(){
     function setQuad(i,j){
         var r = game.rnd.frac()
         var letter
-        /*if(r< PROBABILITY_CORRECT_LETTER){
-            var indexLetter = game.rnd.integerInRange(0,currentNameArray.length-1)
-            letter = currentNameArray[indexLetter]
-            currentNameArray.splice(indexLetter,1)
-            if(currentNameArray.length==0){
-                for(var help = 0; help< currentName.length;help++){
-                    currentNameArray.push(currentName[help])
-                }
-            }
-        }
-        else{
-            var letter = game.rnd.integerInRange(65,90)
-            letter = String.fromCharCode(letter);
-        }*/
         var index = game.rnd.integerInRange(0,lettersArray.length-1)
         letter = lettersArray[index]
         lettersArray.splice(index,1)
@@ -790,6 +737,7 @@ var scranimal = function(){
     }
 
     function clickOk(){
+
         if(okBtn.alpha==0.5){
             return
         }
@@ -843,28 +791,35 @@ var scranimal = function(){
         for(var i = 0; i < arraySequence.length; i++){
             arraySequence[i].circle.visible = false
             arraySequence[i].circle.text.setText("")
-            restoreQuads.push(arraySequence[i])
-            text.push(arraySequence[i].text.text)
-            var tween = game.add.tween(arraySequence[i].scale).to({x:0,y:0},200,Phaser.Easing.linear,true)
+            if(correct){
+                restoreQuads.push(arraySequence[i])
+                text.push(arraySequence[i].text.text)
+                var tween = game.add.tween(arraySequence[i].scale).to({x:0,y:0},200,Phaser.Easing.linear,true)
 
-            arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].value = ""
-            arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].object = null
+                arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].value = ""
+                arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].object = null
 
-            if(i == arraySequence.length-1){
-                tween.onComplete.add(endChangeAnimal)
+                if(i == arraySequence.length-1){
+                    tween.onComplete.add(endChangeAnimal)
+                }
             }
-
+            else{
+                arraySequence[i].sprite.loadTexture("atlas.scranimal",arraySequence[i].sprite.currentTextureKey)
+                arraySequence[i].selected = false
+            }
            
         }
 
-        if(!correct){
+        //if(!correct){
+            
+        arraySequence = []
+        //}
+        if(correct){
             animalwords.unshift(text)
+            animalTextName.setText("")
+            game.add.tween(animalImage.scale).to({x:0,y:0},400, Phaser.Easing.Linear.none, true).onComplete.add(createAnimal)
         }
 
-        //console.log(arrayValues)
-        animalTextName.setText("")
-
-        game.add.tween(animalImage.scale).to({x:0,y:0},400, Phaser.Easing.Linear.none, true).onComplete.add(createAnimal)
     }
 
     function endChangeAnimal(){
@@ -1016,11 +971,6 @@ var scranimal = function(){
 
     
     function createScene(){
-        //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
-
-        /*game.physics.startSystem(Phaser.Physics.ARCADE)
-        game.physics.arcade.gravity.y = 0;
-        game.physics.arcade.setBoundsToWorld(false,false,false,false,false)*/
 
         sceneGroup = game.add.group() 
         backgroundGroup = game.add.group()

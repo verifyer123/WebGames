@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "8r9uz5HLvS/73vxzjrNnh5YiwfA", "spine": "3.2.01", "width": 426.75, "height": 382.06, "images": "" },
+"skeleton": { "hash": "7b01ciHWM4l/shL3RSUYqNGCIQg", "spine": "3.2.01", "width": 426.75, "height": 382.06, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "cog", "parent": "root", "y": 61.64 },
@@ -109,7 +109,7 @@
 			"mouth_d2": { "name": "normal/mouth_d2", "x": 3.34, "y": 4.28, "rotation": -89.99, "width": 101, "height": 46 }
 		},
 		"net": {
-			"net": { "name": "normal/net1_1", "x": 58.9, "y": 100.37, "rotation": 79.69, "width": 232, "height": 90 }
+			"net": { "name": "normal/net1_2", "x": 58.9, "y": 100.37, "rotation": 79.69, "width": 232, "height": 90 }
 		},
 		"redband": {
 			"redband": { "name": "normal/redband", "x": 3.72, "y": -6.54, "rotation": -89.99, "width": 120, "height": 126 }
