@@ -834,6 +834,7 @@ var climbvoid = function(){
 
         var tile = game.add.sprite(0,-160,"atlas.game","rope")
         tile.anchor.setTo(0.5)
+        tile.scale.setTo(0.5,1)
         spider.addChild(tile)
 
         var spineSpider = game.add.spine(0,0,"spider")
@@ -1166,9 +1167,10 @@ var climbvoid = function(){
     }
 
     function restartDie(){
-        if(lives<0){
+        if(lives<=0){
             return
         }
+
         var fade = game.add.tween(fadePanel).to({alpha:1},400,Phaser.Easing.linear,true)
         fade.onComplete.add(function(){
             yogotarGroup.x = game.world.centerX-70
