@@ -114,6 +114,8 @@ var wordBlast = function(){
     var rand
     var option
     var speed
+    var tutorial = true
+    var okBtn
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -539,12 +541,12 @@ var wordBlast = function(){
 	
 	function initCoin(){
         
-       coin = game.add.sprite(0, 0, "coin")
-       coin.anchor.setTo(0.5)
-       coin.scale.setTo(0.8)
-       coin.animations.add('coin');
-       coin.animations.play('coin', 24, true);
-       coin.alpha = 0
+        coin = game.add.sprite(0, 0, "coin")
+        coin.anchor.setTo(0.5)
+        coin.scale.setTo(0.8)
+        coin.animations.add('coin');
+        coin.animations.play('coin', 24, true);
+        coin.alpha = 0
         
         hand = game.add.sprite(0, 0, "hand")
         hand.animations.add('hand')
@@ -581,6 +583,9 @@ var wordBlast = function(){
         riddleImage.anchor.setTo(0.5)
         
         animatedGroup = game.add.group()
+        animatedGroup.pool = [["cat", "dog", "lion", "mouse", "sheep", "squirrel"],
+                         ["apple", "banana", "carrot", "orange", "peach"],
+                         ["earth", "moon", "sun", "venus"]]
         sceneGroup.add(animatedGroup)
         
         var aux = 5
@@ -661,7 +666,8 @@ var wordBlast = function(){
         textWritten.anchor.setTo(0.5)
         textBar.addChild(textWritten)
         
-        var okBtn = game.add.group()
+        okBtn = game.add.group()
+        okBtn.alpha = 0
         sceneGroup.add(okBtn)
         
         var okOff = okBtn.create(board.centerX, board.centerY + 60, "atlas.wordBlast", "okOff")
@@ -673,6 +679,8 @@ var wordBlast = function(){
         var okOn = okBtn.create(board.centerX, board.centerY + 60, "atlas.wordBlast", "okOn")
         okOn.anchor.setTo(0.5)
         okOn.alpha = 0
+        
+        okBtn.children[0].inputEnabled = false
     }
     
     function pressChip(obj){
@@ -687,6 +695,17 @@ var wordBlast = function(){
                 chip.pressed = true
                 wordsArray[wordsArray.length] = chip.text.text
                 setActualWord()
+                if(tutorial){
+                    hand.alpha = 0
+                    if(wordIndex < riddleText.length){
+                        dropChipTuto()
+                    }
+                    else{
+                        console.log("done")
+                        posHand()
+                    }
+                    
+                }
             }
         }
     }
@@ -722,6 +741,11 @@ var wordBlast = function(){
                 }
             }
             
+            if(tutorial){
+                tutorial = false
+                hand.destroy()
+            }
+            
             game.time.events.add(250,function(){
                 win(word)
             })
@@ -744,8 +768,7 @@ var wordBlast = function(){
     }
     
     function win(ans){
-        //console.log(ans)
-    
+
         wordsArray = []
         textWritten.setText("")
         wordIndex = 0
@@ -803,12 +826,15 @@ var wordBlast = function(){
         option = getRand(option, animatedGroup.children[rand].limit)
         riddleText = wordsPool[rand][option]
         animatedGroup.children[rand].setAnimationByName(0, "idle", true)
-        animatedGroup.children[rand].setSkinByName(riddleText.toLowerCase())
+        animatedGroup.children[rand].setSkinByName(animatedGroup.pool[rand][option])
         sound.play("cut")
         game.add.tween(animatedGroup.children[rand]).to({alpha:1},250,Phaser.Easing.In,true).onComplete.add(function(){
             game.time.events.add(800,function(){
                 gameActive = true
-                dropChip()
+                if(tutorial)
+                    dropChipTuto()
+                else
+                    dropChip()
             })
         })
     }
@@ -908,6 +934,45 @@ var wordBlast = function(){
             return getRand(opt, limit)
         else
             return x
+    }
+    
+    function dropChipTuto(){
+        riddleText.charAt(wordIndex)
+        if(gameActive){
+            var chip = selectChip()
+            var color = game.rnd.integerInRange(0, 3)
+            chip.chipOff.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "Off")
+            chip.chipOn.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "On")
+            chip.used = true
+            chip.pressed = false
+            chip.text.alpha = 0
+            chip.alpha = 1
+            chip.text.setText(riddleText.charAt(wordIndex))
+            wordIndex++
+            chip.falling = game.add.tween(chip.children[0]).from({y:0},speed,Phaser.Easing.linear,true)
+            chip.falling.onComplete.add(function(){
+                sound.play("robotWhoosh")
+                chip.text.alpha = 1
+                chip.isActive = true
+                posHand(chip)
+            })
+        }
+    }
+    
+    function posHand(obj){
+        
+        if(obj){
+            hand.x = obj.children[0].x
+            hand.y = obj.children[0].y
+            hand.alpha = 1
+        }
+        else{
+            hand.x = okBtn.children[0].x
+            hand.y = okBtn.children[0].y
+            hand.alpha = 1
+            okBtn.alpha = 1
+            okBtn.children[0].inputEnabled = true
+        }
     }
 	
 	return {
