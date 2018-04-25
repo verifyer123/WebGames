@@ -69,7 +69,7 @@ var scranimal = function(){
     var INITIAL_TIME_QUAD = 6000
     var DELTA_TIME_QUAD = 100
     var MIN_TIME_QUAD = 3000
-    var VEL_QUAD = 4
+    var VEL_QUAD = 10
     var Y_OUT_MAP
     var NUMBER_QUADS_SAME_TIME = 3
     var MIN_QUADS_MORE_TIME = 15
@@ -510,14 +510,20 @@ var scranimal = function(){
 
             }
         }
+
         for(var i = 0; i < quadsGroup.length; i++){
             if(quadsGroup.children[i].visible){
                 
                 if(quadsGroup.children[i].nextY!=-1){
-                    quadsGroup.children[i].y = lerp(quadsGroup.children[i].y,quadsGroup.children[i].nextY,LERP_VELOCITY)
+
+                    if(quadsGroup.children[i].velocity<VEL_QUAD){
+                        quadsGroup.children[i].velocity += VEL_QUAD/50
+                    }
+
+                    quadsGroup.children[i].y += quadsGroup.children[i].velocity
 
                     if(quadsGroup.children[i].y >= quadsGroup.children[i].nextY){
-
+                        quadsGroup.children[i].velocity = 0
                         quadsGroup.children[i].y = quadsGroup.children[i].nextY
                         quadsGroup.children[i].nextY = -1
                         if(quadsGroup.children[i].indexJ==ARRAY_HEIGHT-1){
@@ -745,7 +751,7 @@ var scranimal = function(){
         quad.selected = false
         quad.indexI = i
         quad.indexJ = j
-
+        quad.velocity = VEL_QUAD/40
         quad.nextY = INITIAL_POSITION.y -(DELTA_QUAD*j)
 
         arrayValues[i][j].value = letter
@@ -1086,13 +1092,18 @@ var scranimal = function(){
 
 
     }
-    
+
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
+
 	return {
 		assets: assets,
 		name: "scranimal",
         update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
-		create: createScene
+		create: createScene,
+        render:render
 	}
 }()
 
