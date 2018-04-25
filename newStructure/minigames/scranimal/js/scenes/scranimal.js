@@ -72,8 +72,9 @@ var scranimal = function(){
     var VEL_QUAD = 4
     var Y_OUT_MAP
     var NUMBER_QUADS_SAME_TIME = 3
+    var MIN_QUADS_MORE_TIME = 15
+    var LERP_VELOCITY = 0.03
 
-    
     var lives
 	var sceneGroup = null
     var gameIndex = 136
@@ -111,6 +112,7 @@ var scranimal = function(){
 
     var circleGroup
     var timeCreateQuad
+    var checkPointTimeQuad
     var changingAnimal
 
     var restoreQuads 
@@ -165,6 +167,7 @@ var scranimal = function(){
         correctTimes = 0
 
         currentMaxWords = 5
+        checkPointTimeQuad =0
 
         loadSounds()
         //4 words and behind
@@ -309,16 +312,10 @@ var scranimal = function(){
     }
 
     function Coin(objectBorn,objectDestiny,time){
-       
-       
-       //objectBorn= Objeto de donde nacen
+
        coins.x=objectBorn.x
        coins.y=objectBorn.y
        
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
 
         correctParticle.x = objectBorn.x
         correctParticle.y = objectBorn.y
@@ -513,23 +510,25 @@ var scranimal = function(){
 
             }
         }
-
         for(var i = 0; i < quadsGroup.length; i++){
             if(quadsGroup.children[i].visible){
+                
                 if(quadsGroup.children[i].nextY!=-1){
-                    quadsGroup.children[i].y+=VEL_QUAD
+                    quadsGroup.children[i].y = lerp(quadsGroup.children[i].y,quadsGroup.children[i].nextY,LERP_VELOCITY)
+
                     if(quadsGroup.children[i].y >= quadsGroup.children[i].nextY){
-                        //console.log("Math nextY")
+
                         quadsGroup.children[i].y = quadsGroup.children[i].nextY
                         quadsGroup.children[i].nextY = -1
                         if(quadsGroup.children[i].indexJ==ARRAY_HEIGHT-1){
                             stopGame()
                         }
                     }
-                    //console.log(quadsGroup.children[i].nexY)
                 }
             }
         }
+
+        
 
 
     }
@@ -612,6 +611,12 @@ var scranimal = function(){
         }
 
         levelIndex = Math.floor(levelIndex)
+        if(levelIndex<0){
+            levelIndex = 0
+        }
+        else if(levelIndex > ANIMAL_LEVEL_NAMES.length-1){
+           levelIndex = ANIMAL_LEVEL_NAMES.length-1
+        }
         var r = game.rnd.integerInRange(0,ANIMAL_LEVEL_NAMES[levelIndex].length-1)
         nextWords.push(ANIMAL_LEVEL_NAMES[levelIndex][r])
         animalwords.push(ANIMAL_LEVEL_NAMES[levelIndex][r])
@@ -620,7 +625,10 @@ var scranimal = function(){
     function createAnimal(){
 
         if(timeBar!=null){
-            startTimer(currentTime)
+            setTimeout(function(){
+                startTimer(currentTime)
+            },500)
+            
             if(currentTime>MIN_TIME){
                 currentTime-=DELTA_TIME
             }
@@ -674,10 +682,25 @@ var scranimal = function(){
         if(!gameActive){
             return
         }
+
+        var visibleQuads = 0
+        for(var i = 0; i< quadsGroup.length; i++){
+            if(quadsGroup.children[i].visible){
+                visibleQuads ++
+            }
+        }
+
+        if(visibleQuads < MIN_QUADS_MORE_TIME && timeCreateQuad > MIN_TIME_QUAD){
+            
+            timeCreateQuad = MIN_TIME_QUAD
+        }
+
+
         setTimeout(createNewQuad,timeCreateQuad)
         if(changingAnimal || gamePaused ){
             return
         }
+
         if(timeCreateQuad>MIN_TIME_QUAD){
             timeCreateQuad-=DELTA_TIME_QUAD
         }
@@ -1072,3 +1095,7 @@ var scranimal = function(){
 		create: createScene
 	}
 }()
+
+function lerp(a,b,t){
+    return a + (b - a) * t;
+}

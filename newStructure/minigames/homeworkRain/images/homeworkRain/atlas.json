@@ -2,29 +2,29 @@
 
 {
 	"filename": "book0",
-	"frame": {"x":1,"y":423,"w":111,"h":124},
+	"frame": {"x":1,"y":600,"w":118,"h":132},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":124},
-	"sourceSize": {"w":111,"h":124},
+	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":132},
+	"sourceSize": {"w":118,"h":132},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "book1",
-	"frame": {"x":168,"y":479,"w":111,"h":124},
+	"frame": {"x":1,"y":423,"w":119,"h":132},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":124},
-	"sourceSize": {"w":111,"h":124},
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":132},
+	"sourceSize": {"w":119,"h":132},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "book2",
-	"frame": {"x":1,"y":592,"w":111,"h":124},
+	"frame": {"x":168,"y":479,"w":119,"h":132},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":124},
-	"sourceSize": {"w":111,"h":124},
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":132},
+	"sourceSize": {"w":119,"h":132},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -47,16 +47,16 @@
 },
 {
 	"filename": "ground",
-	"frame": {"x":1163,"y":1,"w":541,"h":959},
+	"frame": {"x":1163,"y":1,"w":541,"h":957},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":2,"w":541,"h":959},
+	"spriteSourceSize": {"x":0,"y":4,"w":541,"h":957},
 	"sourceSize": {"w":541,"h":961},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "handDown",
-	"frame": {"x":218,"y":605,"w":102,"h":95},
+	"frame": {"x":225,"y":613,"w":102,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "handUp",
-	"frame": {"x":114,"y":605,"w":102,"h":106},
+	"frame": {"x":121,"y":613,"w":102,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "hearts",
-	"frame": {"x":114,"y":423,"w":141,"h":54},
+	"frame": {"x":122,"y":423,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":281,"y":423,"w":100,"h":93},
+	"frame": {"x":289,"y":423,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":281,"y":518,"w":64,"h":64},
+	"frame": {"x":289,"y":518,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":1,"y":549,"w":165,"h":41},
+	"frame": {"x":1,"y":557,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -124,6 +124,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1705,"h":963},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:58d2868df076ef1fab6717c55c8eac2a:2520e0695ad27d4628bbb2146884b0af:78e19cbe17f1fd4193f9886e86e4582a$"
+	"smartupdate": "$TexturePacker:SmartUpdate:487869191b334479124c1f6ff7a5c196:7bc7ba0064333e803c11a8c1c07bf357:78e19cbe17f1fd4193f9886e86e4582a$"
 }
 }

@@ -199,6 +199,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">boardGris.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>30,12,59,23</rect>
+                <key>scale9Paddings</key>
+                <rect>30,12,59,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">efect.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -209,6 +222,32 @@
                 <rect>9,17,17,35</rect>
                 <key>scale9Paddings</key>
                 <rect>9,17,17,35</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fondo.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>135,240,271,481</rect>
+                <key>scale9Paddings</key>
+                <rect>135,240,271,481</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">gema.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,10,23,19</rect>
+                <key>scale9Paddings</key>
+                <rect>11,10,23,19</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -251,19 +290,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">left.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>73,240,146,480</rect>
-                <key>scale9Paddings</key>
-                <rect>73,240,146,480</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">medioTile.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -288,19 +314,6 @@
                 <rect>16,6,31,12</rect>
                 <key>scale9Paddings</key>
                 <rect>16,6,31,12</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">right.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>58,240,115,480</rect>
-                <key>scale9Paddings</key>
-                <rect>58,240,115,480</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -389,17 +402,18 @@
             <filename>handUp.png</filename>
             <filename>hearts.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>left.png</filename>
             <filename>medioTile.png</filename>
             <filename>otrapuntaTile.png</filename>
             <filename>puntaTile.png</filename>
-            <filename>right.png</filename>
             <filename>rope.png</filename>
             <filename>ruby.png</filename>
             <filename>tile.png</filename>
             <filename>tileSpider.png</filename>
             <filename>star.png</filename>
             <filename>efect.png</filename>
+            <filename>boardGris.png</filename>
+            <filename>gema.png</filename>
+            <filename>fondo.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

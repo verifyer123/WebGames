@@ -1,6 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
 
-
 var homeworkRain = function(){
 
 	var assets = {
@@ -32,9 +31,7 @@ var homeworkRain = function(){
             {
                 name: 'gameSong',
                 file: soundsPath + 'songs/upbeat_casual_8.mp3'
-                }
-
-            
+              }
         ],
         spines:[
             {
@@ -562,7 +559,15 @@ var homeworkRain = function(){
         yogotar = game.add.spine(game.world.centerX,game.world.height - 100, "oof")
         sceneGroup.add(yogotar)
         yogotar.colorValue = game.rnd.integerInRange(MIN_BOOK_ID,MAX_BOOK_ID)
-        yogotar.setSkinByName("normal"+yogotar.colorValue)
+        //yogotar.colorValue = 2
+        //var value = yogotar.colorValue
+		yogotar.setSkinByName("normal"+yogotar.colorValue)
+        /*if(value != 0){
+	        yogotar.setSkinByName("normal"+yogotar.colorValue)
+	    }
+	    else{
+	    	yogotar.setSkinByName("normal")
+	    }*/
         yogotar.setAnimationByName(0,"idle",true)
         yogotar.side = 1
         yogotar.scale.setTo(0.7)
