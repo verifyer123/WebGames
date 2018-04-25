@@ -630,7 +630,7 @@ var hackATon = function(){
     function startStar(){
         
         estrella = game.add.spine(100, game.world.centerY + 240, "estrella")
-        estrella.setAnimationByName(0, "IDLE", true)
+        estrella.setAnimationByName(0, "idle", true)
         estrella.setSkinByName("normal")
         sceneGroup.add(estrella)
         
@@ -690,16 +690,16 @@ var hackATon = function(){
        
         switch(opt){
             case 0: //avoid
-                estrella.setAnimationByName(0, "ROLL", true)
+                estrella.setAnimationByName(0, "roll", true)
                 speed *= 1.5
                  game.add.tween(estrella).to({y: estrella.y - 100}, roll, Phaser.Easing.linear, true).onComplete.add(function(){
                     game.add.tween(estrella).to({y: estrella.y + 100}, down, Phaser.Easing.linear, true)
                     speed = speedRise
-                    estrella.addAnimationByName(0, "RUN", true)
+                    estrella.addAnimationByName(0, "run", true)
                 })
             break
             case 1: //climb
-                estrella.setAnimationByName(0, "STAIRS", true)
+                estrella.setAnimationByName(0, "stairs", true)
                 speed *= 0.6
                 game.add.tween(estrella).to({y: estrella.y - 40}, climUp, Phaser.Easing.linear, true).onComplete.add(function(){
                     hackingStar(4)
@@ -708,7 +708,7 @@ var hackATon = function(){
                 })
             break
             case 2: //jump
-                estrella.setAnimationByName(0, "JUMP", true)
+                estrella.setAnimationByName(0, "jump", true)
                 speed *= 1.5
                 game.time.events.add(roll * 2,function(){
                     speed = speedRise
@@ -716,23 +716,23 @@ var hackATon = function(){
                 },this)
             break
             case 3: //squat
-                estrella.setAnimationByName(0, "DOWN", true)
+                estrella.setAnimationByName(0, "down", true)
                 speed *= 0.5
                 game.time.events.add(squat,function(){
                     speed = speedRise
-                    estrella.addAnimationByName(0, "RUN", true)
+                    estrella.addAnimationByName(0, "run", true)
                     sceneGroup.swap(obstaclesGroup, estrella)
                 },this)
             break
             case 4:
-                estrella.setAnimationByName(0, "RUN", true)
+                estrella.setAnimationByName(0, "run", true)
             break
             case 5:
-                estrella.addAnimationByName(0, "IDLE", true)
+                estrella.addAnimationByName(0, "idle", true)
             break
             case 6:
-                estrella.setAnimationByName(0, "LOSE", false)
-                estrella.addAnimationByName(0, "LOSESTILL", true)
+                estrella.setAnimationByName(0, "lose", false)
+                estrella.addAnimationByName(0, "losestill", true)
                 speed = 0
             break
         }
