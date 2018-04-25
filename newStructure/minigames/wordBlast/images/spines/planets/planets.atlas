@@ -1,0 +1,41 @@
+
+planets.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/planets_circle
+  rotate: false
+  xy: 2, 368
+  size: 182, 181
+  orig: 182, 181
+  offset: 0, 0
+  index: -1
+normal3/planets_earth
+  rotate: false
+  xy: 2, 185
+  size: 182, 181
+  orig: 182, 181
+  offset: 0, 0
+  index: -1
+normal3/planets_moon
+  rotate: false
+  xy: 2, 2
+  size: 181, 181
+  orig: 181, 181
+  offset: 0, 0
+  index: -1
+normal3/planets_sun
+  rotate: false
+  xy: 186, 368
+  size: 182, 181
+  orig: 182, 181
+  offset: 0, 0
+  index: -1
+normal3/planets_venus
+  rotate: false
+  xy: 186, 185
+  size: 181, 181
+  orig: 181, 181
+  offset: 0, 0
+  index: -1

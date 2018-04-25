@@ -1,0 +1,148 @@
+{
+"skeleton": { "hash": "n0B6zDIZbZDOwYj57hYk8JJNnxY", "spine": "3.2.01", "width": 184.54, "height": 184.95, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "COG", "parent": "root", "rotation": 90, "y": 30, "color": "000000ff" },
+	{ "name": "circle", "parent": "COG", "length": 85.01, "x": 85.08, "scaleX": 1.013, "scaleY": 1.013, "inheritScale": false },
+	{ "name": "planet", "parent": "circle", "x": -0.3, "inheritScale": false }
+],
+"slots": [
+	{ "name": "circle", "bone": "circle", "attachment": "circle" },
+	{ "name": "planet", "bone": "planet", "attachment": "planet" }
+],
+"skins": {
+	"default": {},
+	"earth": {
+		"circle": {
+			"circle": { "name": "normal3/planets_circle", "x": 6.99, "rotation": -90, "width": 182, "height": 181 }
+		},
+		"planet": {
+			"planet": { "name": "normal3/planets_earth", "x": 8.69, "y": 1.39, "rotation": -90, "width": 182, "height": 181 }
+		}
+	},
+	"moon": {
+		"circle": {
+			"circle": { "name": "normal3/planets_circle", "x": 6.99, "rotation": -90, "width": 182, "height": 181 }
+		},
+		"planet": {
+			"planet": { "name": "normal3/planets_moon", "x": 8.69, "rotation": -90, "width": 181, "height": 181 }
+		}
+	},
+	"sun": {
+		"circle": {
+			"circle": { "name": "normal3/planets_circle", "x": 6.99, "rotation": -90, "width": 182, "height": 181 }
+		},
+		"planet": {
+			"planet": { "name": "normal3/planets_sun", "x": 5.9, "scaleX": 0.9, "scaleY": 0.9, "rotation": -90, "width": 182, "height": 181 }
+		}
+	},
+	"venus": {
+		"circle": {
+			"circle": { "name": "normal3/planets_circle", "x": 6.99, "rotation": -90, "width": 182, "height": 181 }
+		},
+		"planet": {
+			"planet": { "name": "normal3/planets_venus", "x": 10.09, "rotation": -90, "width": 181, "height": 181 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"circle": {
+				"attachment": [
+					{ "time": 0, "name": "circle" },
+					{ "time": 1.2, "name": "circle" }
+				]
+			},
+			"planet": {
+				"attachment": [
+					{ "time": 0, "name": "planet" },
+					{ "time": 1.2, "name": "planet" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
+				]
+			},
+			"COG": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
+				]
+			},
+			"circle": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.2, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.2, "x": 1, "y": 1 }
+				]
+			},
+			"planet": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.264, -0.5, 0.75, 1 ]
+					},
+					{
+						"time": 0.6,
+						"angle": 2.67,
+						"curve": [ 0.264, -0.5, 0.75, 1 ]
+					},
+					{ "time": 1.2, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.2, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.416, -0.34, 0.867, 0.68 ]
+					},
+					{
+						"time": 0.6,
+						"x": 1.119,
+						"y": 1.119,
+						"curve": [ 0.416, -0.34, 0.867, 0.68 ]
+					},
+					{ "time": 1.2, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1.2 }
+		]
+	}
+}
+}
