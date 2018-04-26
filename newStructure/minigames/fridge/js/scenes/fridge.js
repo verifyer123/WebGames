@@ -645,7 +645,9 @@ var fridge = function(){
                 sections.y += 300 * c
                 sections.anchor.setTo(0.5)
                 
-                var sectionsText = new Phaser.Text(sceneGroup.game, 0, 0, '0', fontStyle)
+                var sectionsText = new Phaser.Text(sceneGroup.game, 0, 0, '', fontStyle)
+                sectionsText.stroke = "#808080"
+                sectionsText.strokeThickness = 10
                 sectionsText.anchor.setTo(0.5)
                 sectionsText.y = sections.y + 5
                 sectionsText.x = sections.x
