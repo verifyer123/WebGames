@@ -1,152 +1,152 @@
 
 dinamita.png
-size: 1024,128
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal1/armL
-  rotate: false
-  xy: 733, 33
+  rotate: true
+  xy: 390, 392
   size: 18, 26
   orig: 18, 26
   offset: 0, 0
   index: -1
 normal1/armR
-  rotate: true
-  xy: 677, 2
+  rotate: false
+  xy: 35, 53
   size: 24, 29
   orig: 24, 29
   offset: 0, 0
   index: -1
 normal1/footL
   rotate: true
-  xy: 708, 2
+  xy: 390, 412
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 normal1/footR_a
-  rotate: false
-  xy: 741, 70
+  rotate: true
+  xy: 2, 11
   size: 33, 21
   orig: 33, 21
   offset: 0, 0
   index: -1
 normal1/footR_b
-  rotate: true
-  xy: 703, 61
+  rotate: false
+  xy: 61, 113
   size: 30, 36
   orig: 30, 36
   offset: 0, 0
   index: -1
 normal1/forearmL
   rotate: false
-  xy: 707, 33
+  xy: 61, 85
   size: 24, 26
   orig: 24, 26
   offset: 0, 0
   index: -1
 normal1/forearmR
   rotate: false
-  xy: 805, 81
+  xy: 93, 124
   size: 25, 25
   orig: 25, 25
   offset: 0, 0
   index: -1
 normal1/handL_a
   rotate: false
-  xy: 844, 112
+  xy: 420, 439
   size: 22, 14
   orig: 22, 14
   offset: 0, 0
   index: -1
 normal1/handR_a
-  rotate: false
-  xy: 776, 71
+  rotate: true
+  xy: 61, 56
   size: 27, 21
   orig: 27, 21
   offset: 0, 0
   index: -1
 normal1/handR_b
-  rotate: true
-  xy: 730, 2
+  rotate: false
+  xy: 420, 455
   size: 29, 20
   orig: 29, 20
   offset: 0, 0
   index: -1
 normal1/handR_c
-  rotate: false
-  xy: 805, 108
+  rotate: true
+  xy: 492, 473
   size: 37, 18
   orig: 37, 18
   offset: 0, 0
   index: -1
 normal1/handR_d
   rotate: false
-  xy: 677, 28
+  xy: 462, 479
   size: 28, 31
   orig: 28, 31
   offset: 0, 0
   index: -1
 normal1/head_a
   rotate: false
-  xy: 137, 10
+  xy: 2, 269
   size: 126, 116
   orig: 126, 116
   offset: 0, 0
   index: -1
 normal1/head_b
   rotate: false
-  xy: 392, 10
+  xy: 2, 151
   size: 124, 116
   orig: 124, 116
   offset: 0, 0
   index: -1
 normal1/head_c
   rotate: false
-  xy: 518, 10
+  xy: 264, 394
   size: 124, 116
   orig: 124, 116
   offset: 0, 0
   index: -1
 normal1/head_d
   rotate: false
-  xy: 265, 10
+  xy: 137, 394
   size: 125, 116
   orig: 125, 116
   offset: 0, 0
   index: -1
 normal1/head_e
   rotate: false
-  xy: 2, 3
+  xy: 2, 387
   size: 133, 123
   orig: 133, 123
   offset: 0, 0
   index: -1
 normal1/legL_a
   rotate: false
-  xy: 775, 94
+  xy: 390, 443
   size: 28, 32
   orig: 28, 32
   offset: 0, 0
   index: -1
 normal1/legL_b
   rotate: false
-  xy: 703, 93
+  xy: 390, 477
   size: 70, 33
   orig: 70, 33
   offset: 0, 0
   index: -1
 normal1/legR
   rotate: false
-  xy: 644, 23
+  xy: 2, 46
   size: 31, 36
   orig: 31, 36
   offset: 0, 0
   index: -1
 normal1/torso
   rotate: false
-  xy: 644, 61
+  xy: 2, 84
   size: 57, 65
   orig: 57, 65
   offset: 0, 0

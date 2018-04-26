@@ -329,18 +329,9 @@ var codeCake = function(){
 
 
     function Coin(objectBorn,objectDestiny,time){
-       
-       
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.x
        coins.y=objectBorn.y
-       
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
-
-
 
         correctParticle.x = objectBorn.x
         correctParticle.y = objectBorn.y
@@ -619,6 +610,14 @@ var codeCake = function(){
 
         if(inTutorial!=-1){
         	correctSequence = [0,0,0,0]
+        }
+        else{
+            if(tutorialButtonArray!=null){
+                for(var i = 0; i < tutorialButtonArray.length; i++){
+                    tutorialButtonArray[i].scale.setTo(1,1)
+                }
+                tutorialButtonArray = null
+            }
         }
 
         if(currentLevel>=LEVEL_TIMER){
@@ -910,6 +909,7 @@ var codeCake = function(){
             	spineMachines[cake.nextStation-1].setAnimationByName(0,"wrong",false)
             	spineMachines[cake.nextStation-1].addAnimationByName(0,"idle",true)
             	//console.log("misspoint here")
+                currentLevel --
                 missPoint()
                 cake.visible = false
                 setRound()
@@ -963,9 +963,15 @@ var codeCake = function(){
 
     function clickButton(button,pointer){
     	//console.log(button.key)
+        if(okPressed){
+            return
+        }
 
         if(inTutorial!=-1 && button == tutorialButtonArray[tutorialButtonInex]){
             tutorialScaleTween.stop()
+        }
+        else{
+            return
         }
         button.scale.setTo(1.3)
     	currentButtonSelected = button

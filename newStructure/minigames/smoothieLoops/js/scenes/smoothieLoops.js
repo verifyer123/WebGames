@@ -19,10 +19,10 @@ var smoothieLoops = function(){
             },
         ],
         images: [
-            {
+            /*{
                 name:'tutorial_image',
                 file:"images/smoothieLoops/tutorial_image.png"
-            }
+            }*/
 		],
 		sounds: [
             {   name: "magic",
@@ -47,6 +47,18 @@ var smoothieLoops = function(){
             {
             	name:'workingMachine',
             	file:soundsPath+'cashRegister.mp3'
+            },
+            {
+                name:'blend',
+                file:soundsPath+'blendingSound.mp3'
+            },
+            {
+                name:'drop',
+                file:soundsPath+'waterDrop.mp3'
+            },
+            {
+                name:'pouring',
+                file:soundsPath+'pouring.mp3'
             }
 
 		],
@@ -143,6 +155,7 @@ var smoothieLoops = function(){
     var tutorialButtonTween
     var errorTween
 
+
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -178,7 +191,7 @@ var smoothieLoops = function(){
         game.stage.disableVisibilityChange = false;
 
         game.load.spritesheet("coin", 'images/smoothieLoops/coin.png', 122, 123, 12)
-
+        game.load.image("tutorial_image","images/smoothieLoops/tutorial_image_"+localization.getLanguage()+".png")
     }
 
     function createHearts(){
@@ -337,7 +350,7 @@ var smoothieLoops = function(){
 
     function addPoint(number){
 
-        //sound.play("magic")
+        sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
         numPoints+=number
@@ -530,6 +543,7 @@ var smoothieLoops = function(){
     	}
 
         if(!inAnimation){
+            sceneGroup.bringToTop(button)
         	currentButtonSelected = button
         }
     }
@@ -545,6 +559,7 @@ var smoothieLoops = function(){
 
         if(pointer.y > buttons_Area.y - (buttons_Area.height/2) ){
         	if(button.id != 6 && arrayButtons.length<4 && !button.inArea){
+                sound.play('pop')
 	            button.x = INITI_POS.x + (arrayButtons.length*DELTA_BUTTON)
 	            button.y = INITI_POS.y
 	            arrayButtons.push(button)
@@ -576,6 +591,7 @@ var smoothieLoops = function(){
 	        }
 	        else if(button.id==6){
 	        	///loopButton
+                 sound.play('pop')
 	        	if(inTutorial!=-1){
 	            	inTutorial++
 	            	if(tutorialTween!=null){
@@ -670,6 +686,7 @@ var smoothieLoops = function(){
             return
         }
 
+
         var correct = true
 
         if(inTutorial!=-1){
@@ -690,10 +707,11 @@ var smoothieLoops = function(){
         	evalTutorial()
         }
 
+
         if(timeOn){
             stopTimer()
         }
-
+        sound.play("pop")
 
         hideBoard()
 
@@ -713,7 +731,7 @@ var smoothieLoops = function(){
         inAnimation = true
         okBtn.alpha = 0.5
         //if(correct){
-            startSmothies()
+        startSmothies()
         //}
     }
 
@@ -752,21 +770,25 @@ var smoothieLoops = function(){
                         currentIngredientAnimation ++
                         var machineWorking = machineSpine.setAnimationByName(0,'put_milk',false)
                         machineWorking.onComplete = startSmothies
+                        sound.play("pouring")
                     break
                     case 1:
                         currentIngredientAnimation ++
                         var machineWorking = machineSpine.setAnimationByName(0,'put_ice',false)
                         machineWorking.onComplete = startSmothies
+                        sound.play("drop")
                     break
                     case 2:
                         currentIngredientAnimation ++
                         var machineWorking = machineSpine.setAnimationByName(0,'put_ingredient',false)
                         machineWorking.onComplete = startSmothies
+                        sound.play("drop")
                     break
                     case 3:
                         currentIngredientAnimation ++
                         var machineWorking = machineSpine.setAnimationByName(0,'blender',false)
                         machineWorking.onComplete = startSmothies
+                        sound.play("blend")
                     break
                     case 4:
                         arrayButtons[3].scale.setTo(1)
@@ -906,6 +928,9 @@ var smoothieLoops = function(){
     }
 
     function clickLoop(){
+        if(inAnimation){
+            return
+        }
         var last = loopText.value
         loopText.value++
         if(loopText.value >3){
@@ -1271,11 +1296,11 @@ var smoothieLoops = function(){
 
         loopButton.parts = []
         var x = -209
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 30; i++){
             var part = loopButton.create(x,-26,'atlas.game','loop_2')
             part.anchor.setTo(0.5)
             loopButton.parts.push(part)
-            x+=part.width-1
+            x+=part.width
         }
 
         var final_part = loopButton.create(95,0,'atlas.game','loop_3')
