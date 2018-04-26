@@ -777,16 +777,17 @@ var smart = function(){
             canTouch = false
             sound.play('wrong')
             missPoint()
-            
+
             if(timeOn){
                 stopTimer()
             }
-
+            correctObjectSprite = []
             for(var i = 0; i < resultObjects.length; i++){
 
             	tweenTint(tutorialButtons[resultObjects[i].productResultId], 0xffffff, 0x00ff00, 300);
-	            correctObjectSprite = tutorialButtons[resultObjects[i].productResultId]
-	            setTimeout(function(){tweenTint(correctObjectSprite, 0x00ff00, 0xffffff, 300);},300)
+                
+	            correctObjectSprite.push(tutorialButtons[resultObjects[i].productResultId])
+	            
 	            var tween1 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:-30},100,Phaser.Easing.linear)
 	            var tween2 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:30},200,Phaser.Easing.linear)
 	            var tween3 = game.add.tween(tutorialButtons[resultObjects[i].productResultId]).to({angle:-30},200,Phaser.Easing.linear)
@@ -799,6 +800,12 @@ var smart = function(){
 	            tween1.start()
 
             }
+
+            setTimeout(function(){
+                for(var i = 0; i < correctObjectSprite.length; i++){  
+                    tweenTint(correctObjectSprite[i], 0x00ff00, 0xffffff, 300);
+                }
+            },300)
 
             setTimeout(function(){
             	for(var i = 0; i < resultObjects.length; i++){
