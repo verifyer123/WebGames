@@ -181,12 +181,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
+	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
 	"size": {"w":511,"h":639},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:905d87d570cb36b80cbf3f058c046be7:a25f3f76667f7bb874133712c7dfdaf9:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f36efd67b04d4d552b509515837df4e0:9cec0d9e1d89da7b6097a05ec57141c7:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

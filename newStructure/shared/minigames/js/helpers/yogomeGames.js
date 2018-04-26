@@ -224,6 +224,7 @@ var yogomeGames = function () {
             {name:'Climbvoid',url:urlSet + 'climbvoid/',mapUrl:urlMap + 'climbvoid', sceneName:'climbvoid',subject:'creativity', review:false,objective:30,demo:false, type:gameTypeEnum.GRAB},//194
             {name:'Verte Who',url:urlSet + 'verteWho/',mapUrl:urlMap + 'verteWho', sceneName:'verteWho',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//195
             {name:'Word Blast',url:urlSet + 'wordBlast/',mapUrl:urlMap + 'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//196
+            {name:'Address In Town',url:urlSet + 'addressInTown/',mapUrl:urlMap + 'addressInTown', sceneName:'addressInTown',subject:'geography', review:false,objective:30,demo:false, type:gameTypeEnum.SEQUENCE},//197
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
