@@ -105,10 +105,10 @@ var fridge = function(){
         fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
         if(localization.getLanguage() === 'ES'){
-            food = ['Animal', 'Lacteos', 'Frutas', 'Verduras', 'Cereles', 'Leguminosas'] 
+            food = ['Animal', 'Lacteos', 'Frutas', 'Verduras', 'Cereales', 'Leguminosas'] 
         }
         else{
-            food = ['Animal', 'Dairy', 'Fruits', 'Vegetables', 'Cerels', 'Legume']
+            food = ['Animal', 'Dairy', 'Fruits', 'Vegetables', 'Cereals', 'Legume']
         }
         
         loadSounds()
