@@ -493,10 +493,7 @@ var smart = function(){
         if(currentLevel==6){
             hiddenProductsNumer++
         }
-        else if(currentLevel==7){
-            hiddenProductsNumer--
-        }
-        else if(hiddenProductsNumer==12){
+        else if(currentLevel==12){
             hiddenProductsNumer++
         }
 
@@ -509,6 +506,7 @@ var smart = function(){
 
         pointsToGive = hiddenProductsNumer
         needObjects = hiddenProductsNumer
+
         var ids = [0,1,2]
         var productsIds = [0,1,2,3,4,5]
         var total = 0
@@ -742,12 +740,13 @@ var smart = function(){
 
 					productsOperation[resultObjects[i].imageBitId].children[resultObjects[i].multiplier].loadTexture('atlas.game',bitImagesNames[id],0,false)
 
-                    button.x = game.world.centerX-100
+                    button.x = game.world.centerX-150
                     button.y = game.world.centerY
                     tweenButton = button
                     game.add.tween(tweenButton).to({x:game.world.centerX},200,Phaser.Easing.linear,true).onComplete.add(function(){
-                        game.add.tween(tweenButton).to({x:game.world.centerX+100},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                        game.add.tween(tweenButton).to({x:game.world.centerX+250,alpha:0},300,Phaser.Easing.linear,true).onComplete.add(function(){
                             tweenButton.visible = false
+                            tweenButton.alpha = 1
                             tweenButton = null
                         })
                         sound.play("beepSupermarket")
