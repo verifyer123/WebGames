@@ -1040,8 +1040,8 @@ var fridge = function(){
     }
     
     function getRandX(){
-        var x = game.rnd.integerInRange(game.world.centerX - tableFront.width * 0.4, 
-                                        game.world.centerX + tableFront.width * 0.4)
+        var x = game.rnd.integerInRange(game.world.centerX - tableFront.width * 0.35, 
+                                        game.world.centerX + tableFront.width * 0.35)
         if(x === popPosX)
             return getRandX()
         else
