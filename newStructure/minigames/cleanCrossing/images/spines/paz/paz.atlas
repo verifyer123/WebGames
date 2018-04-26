@@ -22,71 +22,71 @@ normal/eyes_b2
   rotate: false
   xy: 594, 965
   size: 142, 56
-  orig: 161, 101
-  offset: 10, 25
+  orig: 142, 56
+  offset: 0, 0
   index: -1
 normal/eyes_b3
   rotate: true
   xy: 2, 190
   size: 148, 44
-  orig: 161, 101
-  offset: 9, 25
+  orig: 148, 49
+  offset: 0, 0
   index: -1
 normal/eyes_c1
   rotate: true
   xy: 2, 492
   size: 145, 61
-  orig: 161, 101
-  offset: 6, 25
+  orig: 145, 61
+  offset: 0, 0
   index: -1
 normal/eyes_c2
   rotate: false
   xy: 259, 834
   size: 146, 54
-  orig: 161, 101
-  offset: 9, 25
+  orig: 146, 54
+  offset: 0, 0
   index: -1
 normal/eyes_d2
   rotate: false
   xy: 259, 890
   size: 149, 57
-  orig: 161, 101
-  offset: 6, 25
+  orig: 149, 57
+  offset: 0, 0
   index: -1
 normal/eyes_g1
   rotate: true
   xy: 2, 340
   size: 150, 55
-  orig: 161, 101
-  offset: 6, 26
+  orig: 150, 55
+  offset: 0, 0
   index: -1
 normal/eyes_g2
   rotate: false
   xy: 442, 965
   size: 150, 56
-  orig: 161, 101
-  offset: 6, 25
+  orig: 150, 56
+  offset: 0, 0
   index: -1
 normal/eyes_h1
   rotate: false
   xy: 259, 785
   size: 140, 47
-  orig: 161, 101
-  offset: 12, 37
+  orig: 141, 47
+  offset: 0, 0
   index: -1
 normal/eyes_h3
   rotate: false
   xy: 738, 969
   size: 139, 52
-  orig: 161, 101
-  offset: 15, 29
+  orig: 139, 52
+  offset: 0, 0
   index: -1
 normal/eyes_h4
   rotate: true
   xy: 65, 497
   size: 140, 52
-  orig: 161, 101
-  offset: 11, 30
+  orig: 140, 52
+  offset: 0, 0
   index: -1
 normal/faceshield
   rotate: false
@@ -260,57 +260,57 @@ normal/mouth_a1
   rotate: true
   xy: 722, 923
   size: 40, 11
-  orig: 101, 46
-  offset: 32, 17
+  orig: 40, 11
+  offset: 0, 0
   index: -1
 normal/mouth_a5
   rotate: true
   xy: 245, 575
   size: 42, 14
-  orig: 101, 46
-  offset: 32, 16
+  orig: 42, 15
+  offset: 0, 1
   index: -1
 normal/mouth_a8
   rotate: false
   xy: 995, 943
   size: 18, 22
-  orig: 101, 46
-  offset: 41, 10
+  orig: 19, 22
+  offset: 1, 0
   index: -1
 normal/mouth_b1
   rotate: true
   xy: 995, 967
   size: 54, 26
-  orig: 101, 46
-  offset: 21, 7
+  orig: 54, 26
+  offset: 0, 0
   index: -1
 normal/mouth_b2
   rotate: false
   xy: 445, 837
   size: 49, 19
-  orig: 101, 46
-  offset: 22, 12
+  orig: 49, 19
+  offset: 0, 0
   index: -1
 normal/mouth_b5
   rotate: false
   xy: 549, 860
   size: 47, 14
-  orig: 101, 46
-  offset: 27, 15
+  orig: 47, 14
+  offset: 0, 0
   index: -1
 normal/mouth_d1
   rotate: true
   xy: 410, 888
   size: 59, 33
-  orig: 101, 46
-  offset: 18, 4
+  orig: 59, 33
+  offset: 0, 0
   index: -1
 normal/mouth_d2
   rotate: true
   xy: 233, 665
   size: 55, 28
-  orig: 101, 46
-  offset: 20, 8
+  orig: 55, 28
+  offset: 0, 0
   index: -1
 normal/shin1
   rotate: true

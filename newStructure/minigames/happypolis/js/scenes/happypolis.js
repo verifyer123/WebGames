@@ -379,8 +379,10 @@ var happypolis = function(){
             
             if(click){
             
-                pointer.x = game.input.x
-                pointer.y = game.input.y
+                if(!clickOnsound()){
+                    pointer.x = game.input.x
+                    pointer.y = game.input.y
+                }
                 
                 if(currentLvl === level.factoryLvl)
                     checkBox()
@@ -391,6 +393,16 @@ var happypolis = function(){
             
             if(currentLvl === level.riverLvl)
                 game.physics.arcade.overlap(river.colider, river.trash, collisionHandler, null, this)    
+        }
+    }
+    
+    function clickOnsound(){
+        
+        if(game.input.x > 515 && game.input.y < 60){
+            return true
+        }
+        else{
+            return false
         }
     }
     
@@ -831,7 +843,7 @@ var happypolis = function(){
         pointer = game.add.group()
         sceneGroup.add(pointer)
          
-        var point = pointer.create(-30, -30,'atlas.happypolis', 'seeds')
+        var point = pointer.create(-10, -10,'atlas.happypolis', 'seeds')
         point.scale.setTo(0.7)
         point.anchor.setTo(0.5)
         point.angle = - 45
@@ -849,6 +861,8 @@ var happypolis = function(){
         if(gameActive){
             sound.play('pop')
             click = true
+            //console.log(game.input.y)
+            clickOnsound()
         }
     }
     
@@ -1234,9 +1248,9 @@ var happypolis = function(){
         var fishSkins = ['fish', 'octopus', 'piranha']
         
         var space = game.world.width/9
-        var pivot = space - 80
+        var pivot = space - 50
         
-        for(var j = 0; j < 9; j++){
+        for(var j = 0; j < 7; j++){
              
             var box = game.add.graphics(pivot, game.rnd.integerInRange(game.world.centerY, limit.down))
             //box.x += 150 * pivot
@@ -1244,7 +1258,7 @@ var happypolis = function(){
             box.drawRect(0, 0, 100, 100)
             box.alpha = 0
             coliderGroup.add(box)
-            pivot += space - 5
+            pivot += space + 10
             
             var anim = game.add.spine(box.centerX, box.centerY + 70, 'ocean_animals')
             anim.scale.setTo(0.7)
