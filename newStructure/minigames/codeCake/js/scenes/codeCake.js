@@ -930,6 +930,7 @@ var codeCake = function(){
             return
         }
         okPressed = true
+        inTutorial=-1
     	if(hand.visible){
 
             game.add.tween(machineGroup).to({y:100},400,Phaser.Easing.linear,true).onComplete.add(function(){
@@ -960,17 +961,20 @@ var codeCake = function(){
     }
 
     function clickButton(button,pointer){
-    	//console.log(button.key)
         if(okPressed){
             return
         }
 
-        if(inTutorial!=-1 && button == tutorialButtonArray[tutorialButtonInex]){
-            tutorialScaleTween.stop()
-        }
-        else{
-            return
-        }
+        if(inTutorial!=-1){ 
+        	if(button == tutorialButtonArray[tutorialButtonInex]){
+           		tutorialScaleTween.stop()
+	        }
+	        else{
+	            return
+	        }
+	    }
+
+
         button.scale.setTo(1.3)
     	currentButtonSelected = button
     }

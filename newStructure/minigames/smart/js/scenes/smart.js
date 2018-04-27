@@ -138,7 +138,9 @@ var smart = function(){
     var tutorialindividualvalue = 0
 
 	function loadSounds(){
+
 		sound.decode(assets.sounds)
+        
 	}
 
 	function initialize(){
@@ -181,7 +183,7 @@ var smart = function(){
         tutorialChildrenId = 0
 
         game.input.maxPointers = 1
-        
+
         loadSounds()
 	}
 
