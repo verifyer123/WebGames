@@ -620,18 +620,15 @@ var addressInTown = function(){
         var buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)
         
-        var pivot = 0.6
-        
         for(var i = 0; i < 4; i++){
             
-            var btn = buttonsGroup.create(board.centerX * pivot, board.centerY - 5, "atlas.addressInTown", "btn" + i)
+            var btn = buttonsGroup.create(board.centerX - board.width * 0.35, board.centerY - 5, "atlas.addressInTown", "btn" + i)
             btn.anchor.setTo(0.5)
             btn.scale.setTo(1.2)
             btn.dir = i
             btn.inputEnabled = true
             btn.events.onInputDown.add(giveDirection,this)
-            
-            pivot += 0.27
+            btn.x += (btn.width + 22) * i
         }
     }
     
@@ -697,11 +694,11 @@ var addressInTown = function(){
         oof.actualPosX = 0
         oof.actualPosY = 3
         
-        oof.tourX = [-106, 145]
-        oof.tourY =[-320, -110, 100, 320]
+        oof.tourX = [0.65, 1.35]
+        oof.tourY =[0.37, 0.77, 1.2, 1.6]
         
-        oof.x = street.centerX + oof.tourX[oof.actualPosX]
-        oof.y = street.centerY + oof.tourY[oof.actualPosY]
+        oof.x = street.centerX * oof.tourX[oof.actualPosX]
+        oof.y = street.centerY * oof.tourY[oof.actualPosY]
         
         oof.view = "L&R"
         
@@ -741,7 +738,7 @@ var addressInTown = function(){
                     oof.scale.setTo(1)
                     oof.setAnimationByName(0, "RUN_BACK", true)
                     oof.view = "BACK"
-                    oof.trip = game.add.tween(oof).to({y: street.centerY + oof.tourY[oof.actualPosY]}, speed, Phaser.Easing.linear,true)
+                    oof.trip = game.add.tween(oof).to({y: street.centerY * oof.tourY[oof.actualPosY]}, speed, Phaser.Easing.linear,true)
                     oof.trip.onComplete.add(function(){
                         oof.setAnimationByName(0, "IDLE_BACK", true)
                         canMove = true
@@ -761,7 +758,7 @@ var addressInTown = function(){
                     oof.scale.setTo(1)
                     oof.setAnimationByName(0, "RUN_L&R", true)
                     oof.view = "L&R"
-                    oof.trip = game.add.tween(oof).to({x: street.centerX + oof.tourX[oof.actualPosX]}, speed, Phaser.Easing.linear,true)
+                    oof.trip = game.add.tween(oof).to({x: street.centerX * oof.tourX[oof.actualPosX]}, speed, Phaser.Easing.linear,true)
                     oof.trip.onComplete.add(function(){
                         oof.setAnimationByName(0, "IDLE_L&R", true)
                         canMove = true
@@ -773,10 +770,10 @@ var addressInTown = function(){
                     oof.scale.setTo(1)
                     oof.setAnimationByName(0, "RUN_L&R", true)
                     oof.view = "L&R"
-                    oof.trip = game.add.tween(oof).to({x: oof.x + 150}, speed, Phaser.Easing.linear,true)
+                    oof.trip = game.add.tween(oof).to({x: oof.x + street.centerX * 0.4}, speed, Phaser.Easing.linear,true)
                     oof.trip.onComplete.add(function(){
                         oof.scale.setTo(-1, 1)
-                        game.add.tween(oof).to({x: oof.x - 150}, speed, Phaser.Easing.linear,true).onComplete.add(function(){
+                        game.add.tween(oof).to({x: street.centerX * oof.tourX[oof.actualPosX]}, speed, Phaser.Easing.linear,true).onComplete.add(function(){
                             oof.setAnimationByName(0, "IDLE_L&R", true)
                             canMove = true
                             testCollision = false
@@ -794,7 +791,7 @@ var addressInTown = function(){
                     oof.scale.setTo(1)
                     oof.setAnimationByName(0, "RUN_FRONT", true)
                     oof.view = "FRONT"
-                    oof.trip = game.add.tween(oof).to({y: street.centerY + oof.tourY[oof.actualPosY]}, speed, Phaser.Easing.linear,true)
+                    oof.trip = game.add.tween(oof).to({y: street.centerY * oof.tourY[oof.actualPosY]}, speed, Phaser.Easing.linear,true)
                     oof.trip.onComplete.add(function(){
                         oof.setAnimationByName(0, "IDLE_FRONT", true)
                         canMove = true
@@ -814,7 +811,7 @@ var addressInTown = function(){
                     oof.scale.setTo(-1, 1)
                     oof.setAnimationByName(0, "RUN_L&R", true)
                     oof.view = "L&R"
-                    oof.trip = game.add.tween(oof).to({x: street.centerX + oof.tourX[oof.actualPosX]}, speed, Phaser.Easing.linear,true)
+                    oof.trip = game.add.tween(oof).to({x: street.centerX * oof.tourX[oof.actualPosX]}, speed, Phaser.Easing.linear,true)
                     oof.trip.onComplete.add(function(){
                         oof.setAnimationByName(0, "IDLE_L&R", true)
                         canMove = true
@@ -826,11 +823,11 @@ var addressInTown = function(){
                     oof.scale.setTo(-1, 1)
                     oof.setAnimationByName(0, "RUN_L&R", true)
                     oof.view = "L&R"
-                    oof.trip = game.add.tween(oof).to({x: oof.x - 150}, speed, Phaser.Easing.linear,true)
+                    oof.trip = game.add.tween(oof).to({x: oof.x - street.centerX * 0.4}, speed, Phaser.Easing.linear,true)
                     oof.trip.onComplete.add(function(){
                         oof.setAnimationByName(0, "RUN_L&R", true)
                         oof.scale.setTo(1)
-                        game.add.tween(oof).to({x: oof.x + 150}, speed, Phaser.Easing.linear,true).onComplete.add(function(){
+                        game.add.tween(oof).to({x: street.centerX * oof.tourX[oof.actualPosX]}, speed, Phaser.Easing.linear,true).onComplete.add(function(){
                             oof.setAnimationByName(0, "IDLE_L&R", true)
                             canMove = true
                             testCollision = false
@@ -870,7 +867,7 @@ var addressInTown = function(){
                             game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
                         }
                         game.time.events.add(1000,function(){
-                            game.add.tween(oof).to({x: street.centerX + oof.tourX[oof.actualPosX]}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+                            game.add.tween(oof).to({x: street.centerX * oof.tourX[oof.actualPosX]}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
                                 restartAssets(true)
                             })
                         })
@@ -899,10 +896,10 @@ var addressInTown = function(){
         }
         else{
             if(oof.view === "L&R"){
-                var moveToStart = game.add.tween(oof).to({x: street.centerX + oof.tourX[oof.actualPosX]}, 500, Phaser.Easing.linear,true)
+                var moveToStart = game.add.tween(oof).to({x: street.centerX * oof.tourX[oof.actualPosX]}, 500, Phaser.Easing.linear,true)
             }
             else{
-                var moveToStart = game.add.tween(oof).to({y: street.centerY + oof.tourY[oof.actualPosY]}, 500, Phaser.Easing.linear,true)
+                var moveToStart = game.add.tween(oof).to({y: street.centerY * oof.tourY[oof.actualPosY]}, 500, Phaser.Easing.linear,true)
             }
             moveToStart.onComplete.add(function(){
                 initGame()
