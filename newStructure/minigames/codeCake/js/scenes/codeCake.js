@@ -928,6 +928,12 @@ var codeCake = function(){
 
     function clickOk(){
 
+    	/*if(inTutorial!=-1){
+    		if(tutorialButtonInex<=3){
+    			return
+    		}
+    	}*/
+
         if(okPressed){
             return
         }
@@ -1417,6 +1423,11 @@ var codeCake = function(){
         okBtn.anchor.setTo(0.5)
         okBtn.inputEnabled = true
         okBtn.events.onInputDown.add(function(){
+        	if(inTutorial!=-1){
+	    		if(tutorialButtonInex<=3){
+	    			return
+	    		}
+	    	}
             okBtn.loadTexture("atlas.game","button_down")
             clickOk()
         },this)
