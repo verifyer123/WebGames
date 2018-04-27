@@ -36,7 +36,7 @@ var flapitat = function(){
             
             {
 				name:'tutorial_image',
-				file:"images/flapitat/tutorial_image_%input.png"
+				file:"images/flapitat/tutorial_image.png"
 			}
 
 		],
