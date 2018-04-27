@@ -905,10 +905,8 @@ var codeCake = function(){
                 sound.play("combo")
             }
             else{
-            	//ligths[cake.nextStation-1].setAnimationByName(0,"off",true)
             	spineMachines[cake.nextStation-1].setAnimationByName(0,"wrong",false)
             	spineMachines[cake.nextStation-1].addAnimationByName(0,"idle",true)
-            	//console.log("misspoint here")
                 currentLevel --
                 missPoint()
                 cake.visible = false
@@ -932,6 +930,7 @@ var codeCake = function(){
             return
         }
         okPressed = true
+        inTutorial=-1
     	if(hand.visible){
 
             game.add.tween(machineGroup).to({y:100},400,Phaser.Easing.linear,true).onComplete.add(function(){
@@ -962,17 +961,20 @@ var codeCake = function(){
     }
 
     function clickButton(button,pointer){
-    	//console.log(button.key)
         if(okPressed){
             return
         }
 
-        if(inTutorial!=-1 && button == tutorialButtonArray[tutorialButtonInex]){
-            tutorialScaleTween.stop()
-        }
-        else{
-            return
-        }
+        if(inTutorial!=-1){ 
+        	if(button == tutorialButtonArray[tutorialButtonInex]){
+           		tutorialScaleTween.stop()
+	        }
+	        else{
+	            return
+	        }
+	    }
+
+
         button.scale.setTo(1.3)
     	currentButtonSelected = button
     }
@@ -1417,6 +1419,11 @@ var codeCake = function(){
         okBtn.anchor.setTo(0.5)
         okBtn.inputEnabled = true
         okBtn.events.onInputDown.add(function(){
+        	if(inTutorial!=-1){
+	    		if(tutorialButtonInex<=3){
+	    			return
+	    		}
+	    	}
             okBtn.loadTexture("atlas.game","button_down")
             clickOk()
         },this)

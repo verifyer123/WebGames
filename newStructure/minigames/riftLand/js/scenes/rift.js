@@ -440,7 +440,7 @@ var rift = function(){
 		game.load.image('introscreen',"images/rift/introscreen.png")
 		
 		game.load.spritesheet('monster', 'images/rift/monster.png', 88, 114, 11);
-		game.load.spritesheet('coin', 'images/rift/coin.png', 68, 70, 12);
+		game.load.spritesheet('coin', 'images/rift/coin.png', 100, 100, 24);
 		game.load.spritesheet('diamond', 'images/rift/diamond.png', 42, 81, 11);
 		game.load.spritesheet('machine', 'images/rift/triturador.png', 39, 63, 8);
 		        
@@ -1463,23 +1463,35 @@ var rift = function(){
 		for(var i = 0; i< number;i++){
 			
 			var obj 
-			if(tag == 'monster' || tag == 'coin' || tag == 'diamond'){
+			if(tag == 'monster' || tag == 'diamond'){
 				
 				obj = game.add.sprite(-200, 0, tag);
                 piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',12,true);
 				
+			}
+			else if(tag == "coin"){
+				obj = game.add.sprite(-200, 0, tag);
+                piecesGroup.add(obj)
+                obj.animations.add('walk');
+                obj.animations.play('walk',18,true);
 			}else{
 				
 				obj = piecesGroup.create(-200,0,'atlas.rift',tag)
 			}
 			
+
 			obj.anchor.setTo(0.5,0.5)
 			obj.scale.setTo(scale,scale)
 			obj.active = false
 			obj.tag = tag
 			obj.alpha = 0
+
+			if(tag == "coin"){
+				obj.scale.setTo(0.8,0.8)
+
+			}
 			
 		}
 	}
