@@ -1,6 +1,6 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
-var imagesPath = "../../shared/minigames/images/icons/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
+var imagesPath = "https://play.yogome.com/shared/minigames/images/icons/"
 var map = function(){
 	var players = parent.epicModel || epicModel
 

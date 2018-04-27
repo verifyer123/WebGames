@@ -1,5 +1,5 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
 var battle = function(){
 	var server = parent.server || null
 	var serverData = server ? server.currentData : {

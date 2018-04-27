@@ -1,6 +1,6 @@
-var soundsPath = "../../shared/minigames/sounds/"
-var iconsPath = "../../shared/minigames/images/icons/"
-var imagesPath = "../../shared/minigames/images/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
+var iconsPath = "https://play.yogome.com/shared/minigames/images/icons/"
+var imagesPath = "https://play.yogome.com/shared/minigames/images/"
 var result = function(){
 
 	localizationData = {

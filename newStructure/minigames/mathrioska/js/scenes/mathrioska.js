@@ -1,6 +1,6 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
+var tutorialPath = "https://play.yogome.com/shared/minigames/"
 var mathrioska = function(){
     
     var localizationData = {

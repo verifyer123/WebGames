@@ -1,5 +1,5 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
 var characterSelect = function(){
 
 	var localizationData = {

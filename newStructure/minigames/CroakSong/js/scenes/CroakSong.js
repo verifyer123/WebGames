@@ -1,6 +1,6 @@
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
 var imagePath = "images/CroakSong/"
-var tutorialPath = "../../shared/minigames/"
+var tutorialPath = "https://play.yogome.com/shared/minigames/"
 var CroakSong = function(){
 
 	assets = {

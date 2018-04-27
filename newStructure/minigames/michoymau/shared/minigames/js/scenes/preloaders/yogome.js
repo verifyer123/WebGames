@@ -4,8 +4,8 @@ var preloaderIntro = function(){
 		atlases: [
 			{
 				name: "logoAtlas",
-				json: "../../shared/minigames/images/preloaders/yogome/atlas.json",
-				image: "../../shared/minigames/images/preloaders/yogome/atlas.png"}
+				json: "https://play.yogome.com/shared/minigames/images/preloaders/yogome/atlas.json",
+				image: "https://play.yogome.com/shared/minigames/images/preloaders/yogome/atlas.png"}
 		],
 		images: [],
 		sounds: [

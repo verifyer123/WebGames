@@ -1,5 +1,5 @@
 var particles = {}
-var imagesPath = "../../shared/minigames/images/"
+var imagesPath = "https://play.yogome.com/shared/minigames/images/"
 var game
 var gameSong
 

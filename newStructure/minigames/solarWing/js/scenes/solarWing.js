@@ -1,7 +1,7 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
-var particlesPath="../../shared/minigames/images/particles/battle/"
-var tutorialPath = "../../shared/minigames/"
+var soundsPath = "https://play.yogome.com/shared/minigames/sounds/"
+var particlesPath="https://play.yogome.com/shared/minigames/images/particles/battle/"
+var tutorialPath = "https://play.yogome.com/shared/minigames/"
 
 var solarWing = function(){
     
