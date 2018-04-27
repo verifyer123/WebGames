@@ -905,10 +905,8 @@ var codeCake = function(){
                 sound.play("combo")
             }
             else{
-            	//ligths[cake.nextStation-1].setAnimationByName(0,"off",true)
             	spineMachines[cake.nextStation-1].setAnimationByName(0,"wrong",false)
             	spineMachines[cake.nextStation-1].addAnimationByName(0,"idle",true)
-            	//console.log("misspoint here")
                 currentLevel --
                 missPoint()
                 cake.visible = false
@@ -927,12 +925,6 @@ var codeCake = function(){
     }
 
     function clickOk(){
-
-    	/*if(inTutorial!=-1){
-    		if(tutorialButtonInex<=3){
-    			return
-    		}
-    	}*/
 
         if(okPressed){
             return

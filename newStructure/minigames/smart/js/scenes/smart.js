@@ -1,4 +1,4 @@
-
+ 
 var soundsPath = "../../shared/minigames/sounds/"
 
 var smart = function(){
@@ -179,6 +179,9 @@ var smart = function(){
         tutorialObjects = []
         tutorialObjectsId = 0
         tutorialChildrenId = 0
+
+        game.input.maxPointers = 1
+        
         loadSounds()
 	}
 
