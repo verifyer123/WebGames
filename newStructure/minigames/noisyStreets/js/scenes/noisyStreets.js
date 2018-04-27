@@ -443,7 +443,7 @@ var noisyStreets = function(){
         dinamita = game.add.spine(game.world.centerX,game.world.centerY-180, "dinamita");
         dinamita.scale.setTo(1,1)
         dinamita.setSkinByName("normal");
-        dinamita.setAnimationByName(0,"IDLE",true) 
+        dinamita.setAnimationByName(0,"idle",true) 
         backgroundGroup.add(dinamita)
         
         
@@ -614,7 +614,7 @@ var noisyStreets = function(){
             }
             
             
-            dinamita.setAnimationByName(0,"IDLE",true)
+            dinamita.setAnimationByName(0,"idle",true)
 
             for(var arrange=0; arrange<dificulty*2;arrange++){
                 sound.play("cards")
@@ -716,9 +716,9 @@ var noisyStreets = function(){
                 missPoint() 
                 lostLive=true
                 if(lives>0){
-                    dinamita.setAnimationByName(0,"LOSE",false)
+                    dinamita.setAnimationByName(0,"lose",false)
                 }else{
-                    dinamita.setAnimationByName(0,"LOSESTILL",false)
+                    dinamita.setAnimationByName(0,"losestill",false)
                 }
                 for(var reset=0; reset<dificulty*2;reset++){
                     cardsActivated[reset]=false
@@ -751,7 +751,7 @@ var noisyStreets = function(){
                     dificulty++
                 }
                 level++
-                dinamita.setAnimationByName(0,"WIN",false)
+                dinamita.setAnimationByName(0,"win",false)
                 sound.play("yupi")
                 arrangeCards()
                 
@@ -768,7 +768,7 @@ var noisyStreets = function(){
             selected1=""
             selected2=""
             picked=3
-            dinamita.setAnimationByName(0,"WIN",false)
+            dinamita.setAnimationByName(0,"win",false)
             emit = epicparticles.newEmitter("pickedEnergy")
             emit.duration=0.05;
             emit.x = cardsBack[numSelected1].x
@@ -819,7 +819,7 @@ var noisyStreets = function(){
                             numSelected1=0
                             numSelected2=0
                             picked=0
-                            dinamita.setAnimationByName(0,"IDLE",true)
+                            dinamita.setAnimationByName(0,"idle",true)
                             goal++
                     })
                 })
