@@ -1,0 +1,195 @@
+
+american.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/usa_a_body
+  rotate: false
+  xy: 2, 144
+  size: 120, 49
+  orig: 120, 49
+  offset: 0, 0
+  index: -1
+normal1/usa_a_bun
+  rotate: false
+  xy: 168, 204
+  size: 52, 27
+  orig: 52, 27
+  offset: 0, 0
+  index: -1
+normal1/usa_a_eyes1
+  rotate: false
+  xy: 168, 294
+  size: 76, 43
+  orig: 76, 43
+  offset: 0, 0
+  index: -1
+normal1/usa_a_eyes2
+  rotate: false
+  xy: 342, 377
+  size: 86, 37
+  orig: 86, 37
+  offset: 0, 0
+  index: -1
+normal1/usa_a_eyes3
+  rotate: false
+  xy: 342, 416
+  size: 88, 38
+  orig: 88, 38
+  offset: 0, 0
+  index: -1
+normal1/usa_a_head
+  rotate: false
+  xy: 2, 351
+  size: 178, 157
+  orig: 178, 157
+  offset: 0, 0
+  index: -1
+normal1/usa_a_mouth1
+  rotate: false
+  xy: 447, 432
+  size: 32, 18
+  orig: 32, 18
+  offset: 0, 0
+  index: -1
+normal1/usa_a_mouth2
+  rotate: false
+  xy: 447, 452
+  size: 34, 19
+  orig: 34, 19
+  offset: 0, 0
+  index: -1
+normal1/usa_a_mouth3
+  rotate: true
+  xy: 246, 301
+  size: 36, 19
+  orig: 36, 19
+  offset: 0, 0
+  index: -1
+normal1/usa_b_body
+  rotate: false
+  xy: 2, 100
+  size: 103, 42
+  orig: 103, 42
+  offset: 0, 0
+  index: -1
+normal1/usa_b_bun
+  rotate: false
+  xy: 168, 233
+  size: 53, 29
+  orig: 53, 29
+  offset: 0, 0
+  index: -1
+normal1/usa_b_eyes1
+  rotate: false
+  xy: 2, 16
+  size: 79, 43
+  orig: 79, 43
+  offset: 0, 0
+  index: -1
+normal1/usa_b_eyes2
+  rotate: false
+  xy: 182, 339
+  size: 87, 34
+  orig: 87, 34
+  offset: 0, 0
+  index: -1
+normal1/usa_b_eyes3
+  rotate: false
+  xy: 2, 61
+  size: 87, 37
+  orig: 87, 37
+  offset: 0, 0
+  index: -1
+normal1/usa_b_head
+  rotate: false
+  xy: 2, 195
+  size: 164, 154
+  orig: 164, 154
+  offset: 0, 0
+  index: -1
+normal1/usa_b_mouth1
+  rotate: true
+  xy: 128, 116
+  size: 32, 17
+  orig: 32, 17
+  offset: 0, 0
+  index: -1
+normal1/usa_b_mouth2
+  rotate: true
+  xy: 91, 64
+  size: 34, 19
+  orig: 34, 19
+  offset: 0, 0
+  index: -1
+normal1/usa_b_mouth3
+  rotate: true
+  xy: 107, 106
+  size: 36, 19
+  orig: 36, 19
+  offset: 0, 0
+  index: -1
+normal1/usa_c_body
+  rotate: false
+  xy: 342, 456
+  size: 103, 52
+  orig: 103, 52
+  offset: 0, 0
+  index: -1
+normal1/usa_c_bun
+  rotate: true
+  xy: 124, 150
+  size: 43, 33
+  orig: 43, 33
+  offset: 0, 0
+  index: -1
+normal1/usa_c_eyes1
+  rotate: false
+  xy: 447, 473
+  size: 61, 35
+  orig: 61, 35
+  offset: 0, 0
+  index: -1
+normal1/usa_c_eyes2
+  rotate: false
+  xy: 271, 345
+  size: 65, 28
+  orig: 65, 28
+  offset: 0, 0
+  index: -1
+normal1/usa_c_eyes3
+  rotate: false
+  xy: 168, 264
+  size: 64, 28
+  orig: 64, 28
+  offset: 0, 0
+  index: -1
+normal1/usa_c_head
+  rotate: false
+  xy: 182, 375
+  size: 158, 133
+  orig: 158, 133
+  offset: 0, 0
+  index: -1
+normal1/usa_c_mouth1
+  rotate: false
+  xy: 32, 3
+  size: 26, 11
+  orig: 26, 11
+  offset: 0, 0
+  index: -1
+normal1/usa_c_mouth2
+  rotate: false
+  xy: 2, 2
+  size: 28, 12
+  orig: 28, 12
+  offset: 0, 0
+  index: -1
+normal1/usa_c_mouth3
+  rotate: true
+  xy: 432, 425
+  size: 29, 13
+  orig: 29, 13
+  offset: 0, 0
+  index: -1
