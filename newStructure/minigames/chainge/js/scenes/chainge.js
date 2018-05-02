@@ -59,6 +59,8 @@ var chainge = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {	name: "coinsFalling",
+				file: soundsPath + "coinsFalling.mp3"},
             {   name: 'gameSong',
                 file: soundsPath + 'songs/kids_and_videogame.mp3'
             }
@@ -609,6 +611,7 @@ var chainge = function(){
         particleCorrect.x = obj.centerX 
         particleCorrect.y = obj.centerY
         particleCorrect.start(true, 1200, null, 10)
+        sound.play("rightChoice")
 
         game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
         
@@ -759,6 +762,7 @@ var chainge = function(){
         game.time.events.add(1500,function(){
             if(lives !== 0){
 
+                sound.play("cut")
                 game.add.tween(paperMoney.scale).to({x:0, y:0},200,Phaser.Easing.linear,true).onComplete.add(function(){
                     paperMoney.alpha = 0
                     paperMoney.scale.setTo(1)
@@ -872,6 +876,7 @@ var chainge = function(){
         }
         
         game.time.events.add(800,function(){
+            sound.play("coinsFalling")
             for(var i = 0; i < coinsGroup.length; i++){
                 coinsGroup.children[i].alpha = 1
                 game.add.tween(coinsGroup.children[i]).from({y:-50}, game.rnd.integerInRange(500, 800),Phaser.Easing.linear,true)
