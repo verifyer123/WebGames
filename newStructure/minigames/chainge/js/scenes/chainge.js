@@ -37,10 +37,6 @@ var chainge = function(){
         ],
         images: [
             {
-				name:'tutorial_image',
-				file:"images/chainge/gametuto.png"
-			},
-            {
 				name:'changeBox',
 				file:"images/chainge/changeBox.png"
 			}
@@ -311,6 +307,7 @@ var chainge = function(){
 		//buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false
+        game.load.image('tutorial_image', "images/chainge/gametuto" + localization.getLanguage() + ".png")
         
         //loadType(gameIndex)
     }
@@ -684,7 +681,7 @@ var chainge = function(){
 		for(var i = 0; i < 6;i++){
 			
 			var line = game.add.graphics(0,0)
-			line.lineStyle(10, 0xFF0077, 1)
+			line.lineStyle(10, 0x87ff2b, 1)
 			line.beginFill()
 			line.moveTo(0,0)
 			line.lineTo(-100,-100)
@@ -780,7 +777,7 @@ var chainge = function(){
                 for(var i = 0; i < linesGroup.length; i++){
                     var line = linesGroup.children[i]
                     line.clear()
-                    line.lineStyle(10, 0xFF0077, 1)
+                    line.lineStyle(10, 0x87ff2b, 1)
                     line.moveTo(0, 0)
                     line.lineTo(-100, -100)
                     line.alpha = 0
