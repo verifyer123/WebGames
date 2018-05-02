@@ -557,10 +557,27 @@ var frootMath = function(){
 		moon.scale.setTo(2,2)
 		moon.alpha = 0.4
 		
-		background = game.add.tileSprite(0,game.world.height + 100,game.world.width, 926,'atlas.froot','cueva')
-		background.anchor.setTo(0,1)
+		background = game.add.tileSprite(0,game.world.centerY -400,game.world.width, 256,'atlas.froot','cueva')
+		background.anchor.setTo(0,0)
 		sceneGroup.add(background)
-		
+
+		var bmd = game.add.bitmapData(1, game.world.height - (background.y+256))
+
+        var y = 0;
+
+        for (var i = 0; i < (game.world.height - (background.y+256))/2; i++)
+        {
+            var c = Phaser.Color.interpolateColor(0x4e7675,0x46486f, game.world.height, i);
+
+            bmd.rect(0, y, game.world.width, y+2, Phaser.Color.getWebRGB(c));
+
+            y += 2;
+        }
+
+        var backgroundColor = game.add.sprite(0, background.y+256, bmd);
+        backgroundColor.scale.setTo(game.world.width,1)
+        sceneGroup.add(backgroundColor)
+
 	}
 	
 	function checkOverlap(spriteA, spriteB) {
@@ -1123,12 +1140,17 @@ var frootMath = function(){
 		sceneGroup.add(samSpine)
 		
 	}
+
+	function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
 		
 		assets: assets,
 		name: "frootMath",
 		update: update,
+		render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             

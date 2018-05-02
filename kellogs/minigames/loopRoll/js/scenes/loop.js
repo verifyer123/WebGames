@@ -501,10 +501,16 @@ var loop = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width, 501,'atlas.loop','fondo')
+		background = game.add.tileSprite(0,0,game.world.width, 512,'atlas.loop','fondo')
 		sceneGroup.add(background)
+
+		var floorColor = game.add.graphics()
+		floorColor.beginFill(0xffd44a)
+		floorColor.drawRect(0,background.height+64,game.world.width,game.world.height-(background.height+64))
+		floorColor.endFill()
+		sceneGroup.add(floorColor)
 		
-		floor = game.add.tileSprite(0,background.height,game.world.width,497,'atlas.loop','fondo2')
+		floor = game.add.tileSprite(0,background.height,game.world.width,64,'atlas.loop','fondo2')
 		sceneGroup.add(floor)
 	}
 	
@@ -845,12 +851,16 @@ var loop = function(){
 		timerGroup.text = pointsText
 		
 	}
+	function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
 		
 		assets: assets,
 		name: "loop",
 		update: update,
+		render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             

@@ -389,12 +389,12 @@ var frootemple = function(){
 		ruinWall.anchor.setTo(0,1)
 		sceneGroup.add(ruinWall)
 
-		var bg2 = game.add.tileSprite(0,0,game.world.width, 355,'atlas.frootemple','background_2')
+		var bg2 = game.add.tileSprite(0,0,game.world.width, 512,'atlas.frootemple','background_2')
 		bg2.y = game.world.height - 60
 		bg2.anchor.setTo(0,1)
 		sceneGroup.add(bg2)
 
-		var top = game.add.tileSprite(0,0,game.world.width, 381,'atlas.frootemple','Top')
+		var top = game.add.tileSprite(0,0,game.world.width, 256,'atlas.frootemple','Top')
 		top.anchor.setTo(0,0)
 		sceneGroup.add(top)
 
@@ -404,7 +404,7 @@ var frootemple = function(){
 		statue.anchor.setTo(0.5, 1)
 		game.add.tween(statue.scale).to({x:0.96, y:0.98}, 800, Phaser.Easing.Sinusoidal.InOut, true).yoyo(true).loop(true)
 
-		var bg1 = game.add.tileSprite(0,0,game.world.width, 291,'atlas.frootemple','background_1')
+		var bg1 = game.add.tileSprite(0,0,game.world.width, 512,'atlas.frootemple','background_1')
 		bg1.y = game.world.height - 40
 		bg1.anchor.setTo(0,1)
 		sceneGroup.add(bg1)
@@ -1239,11 +1239,16 @@ var frootemple = function(){
 		}
 	}
 	
+	function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
+	
 	return {
 		
 		assets: assets,
 		name: "frootemple",
 		update: update,
+		render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
@@ -1268,7 +1273,7 @@ var frootemple = function(){
 
 			changeSamAnim("IDLE",true)
 
-			var container = game.add.tileSprite(0,game.world.height,game.world.width, 136,'atlas.frootemple','front_2')
+			var container = game.add.tileSprite(0,game.world.height,game.world.width, 256,'atlas.frootemple','front_2')
 			container.anchor.setTo(0,1)
 			sceneGroup.add(container)
 			container.tilePosition.x = game.world.width * 0.5 - 509 * 0.5

@@ -70,6 +70,18 @@ var melvin = function(){
         images: [
 			{   name:"background",
 				file: "images/melvin/fondo.png"},
+			{
+				name: "bubbles",
+				file:"images/melvin/bubbles.png"
+			},
+			{
+				name: "barrita",
+				file:"images/melvin/barrita.png"
+			},
+			{
+				name: "base",
+				file:"images/melvin/base.png"
+			}
 		],
 		sounds: [
             {	name: "magic",
@@ -495,13 +507,17 @@ var melvin = function(){
 		background.width = game.world.width
 		background.height = game.world.height
 		
-		backBubbles = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.melvin','bubbles')
+		backBubbles = game.add.tileSprite(0,0,game.world.width,game.world.height,'bubbles')
 		sceneGroup.add(backBubbles)
 		
-		botBar = game.add.tileSprite(game.world.centerX,game.world.height,game.world.width,238,'atlas.melvin','base')
+		botBar = game.add.tileSprite(game.world.centerX,game.world.height,game.world.width,238,'base')
 		botBar.anchor.setTo(0.5,1)
 		botBar.alpha = 0
 		sceneGroup.add(botBar)
+
+		var littleBar = game.add.tileSprite(-game.world.centerX, -botBar.height,game.world.width,32, 'barrita')
+		littleBar.anchor.setTo(0,0)
+		botBar.addChild(littleBar)
 		
 		iconBase = sceneGroup.create(game.world.centerX, game.world.centerY - 200,'atlas.melvin','baseIcono')
 		iconBase.alpha = 0
@@ -882,12 +898,17 @@ var melvin = function(){
 		tutorialHand.alpha = 0
 		tutorialHand.active = true
 	}
+
+	function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
 		
 		assets: assets,
 		name: "melvin",
 		update: update,
+		render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             

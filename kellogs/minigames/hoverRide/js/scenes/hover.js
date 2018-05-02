@@ -84,7 +84,7 @@ var hover = function(){
 	var yogotar
     var magnetSong
 	var isNoun
-
+	var iman
 		
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -425,13 +425,37 @@ var hover = function(){
     }
 	
 	function createBackground(){
+
+		var bmd = game.add.bitmapData(1, game.world.height)
+
+        var y = 0;
+
+        for (var i = 0; i < game.world.height/2; i++)
+        {
+            var c = Phaser.Color.interpolateColor(0xfbea00, 0xf3b600, game.world.height, i);
+
+            bmd.rect(0, y, game.world.width, y+2, Phaser.Color.getWebRGB(c));
+
+            y += 2;
+        }
+
+        var backgroundColor = game.add.sprite(0, 0, bmd);
+        backgroundColor.scale.setTo(game.world.width,1)
+        sceneGroup.add(backgroundColor)
 		
-		background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'background');
+		background = game.add.tileSprite(0,game.world.height-180,game.world.width, 512,"atlas.hover", 'background');
+		background.anchor.setTo(0,1)
 		sceneGroup.add(background)
+
+		iman = game.add.sprite(game.world.centerX,game.world.height-150,"atlas.hover", 'piedra');
+		iman.anchor.setTo(0,1)
+		sceneGroup.add(iman)
 		
-		background2 = game.add.tileSprite(0,game.world.height,game.world.width, game.world.height * 0.7, 'background2');
+		background2 = game.add.tileSprite(0,game.world.height,game.world.width, 256,"atlas.hover", 'tilePasto');
 		background2.anchor.setTo(0,1)
 		sceneGroup.add(background2)
+
+		
 	}
 	
 	function positionPlayer(){
@@ -463,6 +487,11 @@ var hover = function(){
         
 		background.tilePosition.x -= 0.5
 		background2.tilePosition.x -= 2
+
+		iman.x-=2
+		if(iman.x < -200){
+			iman.x = game.world.width +50
+		}
 		
 		//console.log(objectsGroup.length + ' length')
 		
@@ -981,12 +1010,17 @@ var hover = function(){
         })	
 		sceneGroup.add(rect)
 	}
+
+	function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
 		
 		assets: assets,
 		name: "hover",
 		update: update,
+		render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
