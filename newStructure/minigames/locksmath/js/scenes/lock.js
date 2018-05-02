@@ -113,6 +113,7 @@ var lock = function(){
 	var winGroup, loseGroup
 	var alphaBright
 	var answersChecked
+    var gameActive
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -136,6 +137,7 @@ var lock = function(){
 		quantNumber = 3
 		roundCounter = 0
 		answersChecked = false
+        gameActive = false
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -219,6 +221,7 @@ var lock = function(){
 			})
 			blockTween.onComplete.add(function (obj) {
 				obj.bg.inputEnabled = true
+                gameActive = true
 			})
 		}
 
@@ -413,9 +416,6 @@ var lock = function(){
 	function checkCorrect() {
 		answersChecked = true
 
-		if (clock.tween)
-			clock.tween.stop()
-
 		var prevSlot
 		var isCorrect = true
 		for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
@@ -447,56 +447,63 @@ var lock = function(){
 	}
 	
 	function checkSlots() {
-		var slotCounter = 0
-		for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
-			var slot = lock.slotContainers[slotIndex]
-			if(slot.block)
-				slotCounter++
-		}
+        if(gameActive){
+            var slotCounter = 0
+            for(var slotIndex = 0, n = lock.slotContainers.length; slotIndex < n; slotIndex++){
+                var slot = lock.slotContainers[slotIndex]
+                if(slot.block)
+                    slotCounter++
+            }
 
-		if (slotCounter === lock.slotContainers.length){
+            if (slotCounter === lock.slotContainers.length){
 
-			checkCorrect()
+                gameActive = false
+                if(clock.tween)
+                    clock.tween.stop()
 
-		}
+                checkCorrect()
+            }
+        }
 	}
 
 	function onDragStop(obj) {
-		var block = obj.parent
-		obj.x = 0
-		obj.y = 0
-		obj.inputEnabled = false
+        
+        if(gameActive){
+            var block = obj.parent
+            obj.x = 0
+            obj.y = 0
+            obj.inputEnabled = false
 
-		if(block.tween)
-			block.tween.stop()
+            if(block.tween)
+                block.tween.stop()
 
-		var slot = checkCollision(block)
-		if (slot){
-			sound.play("slot")
+            var slot = checkCollision(block)
+            if (slot){
+                sound.play("slot")
 
-			block.x = (block.centerX - slot.centerX) * (1 - lock.scale.x + 1)//scale dif
-			block.y = (block.centerY - slot.centerY) * (1 - lock.scale.x + 1)//scale dif
-			slot.add(block)
-			block.scale.x = (1 - lock.scale.x + 1)
-			block.scale.y = (1 - lock.scale.x + 1)
+                block.x = (block.centerX - slot.centerX) * (1 - lock.scale.x + 1)//scale dif
+                block.y = (block.centerY - slot.centerY) * (1 - lock.scale.x + 1)//scale dif
+                slot.add(block)
+                block.scale.x = (1 - lock.scale.x + 1)
+                block.scale.y = (1 - lock.scale.x + 1)
 
-			block.tween = game.add.tween(block).to({x: 0, y: 0}, 400, Phaser.Easing.Cubic.Out, true)
-			game.add.tween(block.scale).to({x: slot.toScale, y: slot.toScale}, 400, Phaser.Easing.Cubic.Out, true)
-			block.tween.onComplete.add(function () {
-				obj.inputEnabled = true
-				checkSlots()
-			})
-			slot.block = block
-			block.slot = slot
+                block.tween = game.add.tween(block).to({x: 0, y: 0}, 400, Phaser.Easing.Cubic.Out, true)
+                game.add.tween(block.scale).to({x: slot.toScale, y: slot.toScale}, 400, Phaser.Easing.Cubic.Out, true)
+                block.tween.onComplete.add(function () {
+                    obj.inputEnabled = true
+                    checkSlots()
+                })
+                slot.block = block
+                block.slot = slot
 
-		}else{
-			sound.play("cut")
-			block.tween = game.add.tween(block).to({x: block.originalX, y: block.originalY}, 600, Phaser.Easing.Cubic.Out, true)
-			block.tween.onComplete.add(function () {
-				obj.inputEnabled = true
-			})
-		}
-
+            }else{
+                sound.play("cut")
+                block.tween = game.add.tween(block).to({x: block.originalX, y: block.originalY}, 600, Phaser.Easing.Cubic.Out, true)
+                block.tween.onComplete.add(function () {
+                    obj.inputEnabled = true
+                })
+            }
+        }
 
 	}
 
@@ -775,6 +782,7 @@ var lock = function(){
 		clock.tween.onComplete.add(function(){
 			if(!answersChecked){
 				//onComplete()
+                gameActive = false
 				endTime()
 			}
 
