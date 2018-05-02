@@ -227,6 +227,7 @@ var yogomeGames = function () {
             {name:'Address In Town',url:urlSet + 'addressInTown/',mapUrl:urlMap + 'addressInTown', sceneName:'addressInTown',subject:'geography', review:false,objective:30,demo:false, type:gameTypeEnum.SEQUENCE},//197
             {name:'Deliver In Town',url:urlSet + 'deliverInTown/',mapUrl:urlMap + 'deliverInTown', sceneName:'deliverInTown',subject:'coding', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//198
             {name:'Chainge',url:urlSet + 'chainge/',mapUrl:urlMap + 'chainge', sceneName:'chainge',subject:'math', review:false,objective:20,demo:false, type:gameTypeEnum.TRACE},//199
+            {name:'Greet Chirp',url:urlSet + 'greetChirp/',mapUrl:urlMap + 'greetChirp', sceneName:'greetChirp',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//200
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
