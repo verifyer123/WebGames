@@ -222,7 +222,7 @@ var water = function(){
 			sound.play("pop")
         }     
         
-		if(checkPoints(35) && pointsBar.number < 220){
+		if(checkPoints(35) && pointsBar.number < 175){
 			
 			game.time.events.add(250,function(){
 				
@@ -421,8 +421,33 @@ var water = function(){
         if(cardsList.length >= 4){
 
             Phaser.ArrayUtils.shuffle(cardsType)
-
-            var tag = cardsType[0]
+            
+            var tag = card.tag
+            var whichLiquid=game.rnd.integerInRange(0,2);
+            
+		    					
+            if(tag == 'liquido'){
+                if(whichLiquid==0){
+                    tag='hielo'  
+                }else if(whichLiquid==1){
+                    tag='liquido' 
+                }else if(whichLiquid==2){
+                    tag='vapor' 
+                }
+            }else if(tag == 'hielo'){
+                     if(whichLiquid==0){
+                        tag='liquido' 
+                     }else if(whichLiquid==1 || whichLiquid==2){
+                    tag='hielo' 
+                }
+            }
+            else if(tag == 'vapor'){
+                    if(whichLiquid==0){
+                        tag='liquido' 
+                     }else if(whichLiquid==1 || whichLiquid==2){
+                    tag='vapor' 
+                }
+            }
 
             var newCard = getCard(tag)
             newCard.alpha = 1

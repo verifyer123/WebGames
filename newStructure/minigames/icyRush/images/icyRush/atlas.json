@@ -37,15 +37,6 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "fadeNieve",
-	"frame": {"x":728,"y":544,"w":25,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":64},
-	"sourceSize": {"w":25,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "huellitas",
 	"frame": {"x":679,"y":454,"w":100,"h":22},
 	"rotated": false,
@@ -178,6 +169,6 @@
 	"format": "RGBA8888",
 	"size": {"w":813,"h":609},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3142fba1bc352d0e93db66c3bb77dfd1:4ec3a3ef61068fc95609fe827122e9d4:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:eeb9deef73e79dd5cc45a0b9967f9276:1434db9759f572d6ace6b2888e1d3169:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
