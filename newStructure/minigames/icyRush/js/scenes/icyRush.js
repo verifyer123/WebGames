@@ -89,6 +89,10 @@ var icyRush = function(){
 			{
 				name: 'pickedEnergy', 
 				file:  particlesPath + 'pickedEnergy/specialBar1.json'
+			},
+            {
+				name: 'snow', 
+				file:  particlesPath + 'snow/snowParticle.json'
 			}
 		],
     }
@@ -142,6 +146,7 @@ var icyRush = function(){
     var tweenTiempo
     var clock, timeBar
     var emitter
+    var snow
     var rails=new Array(20);
 
 	function loadSounds(){
@@ -161,6 +166,7 @@ var icyRush = function(){
         typeOfObstacle[2]="coin";
         wichObj=0;
         emitter=""
+        snow=""
         speed=4200;
         roadSpeed=-3;
         counterFall=0;
@@ -368,6 +374,7 @@ var icyRush = function(){
     function preload(){		
         game.stage.disableVisibilityChange = false;
         epicparticles.loadEmitter(game.load, "pickedEnergy") 
+        epicparticles.loadEmitter(game.load, "snow") 
     }
     
     
@@ -391,7 +398,23 @@ var icyRush = function(){
        sceneGroup.add(animalGroup)
         smogGroup = game.add.group()
        sceneGroup.add(smogGroup)
-         
+        
+        
+          
+            snow = epicparticles.newEmitter("snow")
+            snow.x = game.world.centerX
+            snow.y = -60
+            snow.duration=2000;
+            snow.speed=300
+            snow.rotation=0;
+            snow.finishParticleSizeVariance=0;
+            snow.gravityy=-3000
+            snow.maxRadius=300
+            snow.tangentialAccelVariance=1000
+            snow.angle=45
+            snow.angleVariance=45
+            snow.speedVariance=0
+        
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -476,7 +499,7 @@ var icyRush = function(){
         backgroundGroup.add(cloud);
         wavesGroup.add(waterBack);
         wavesGroup.add(waterFront);
-        
+        sceneGroup.add(snow) 
         
         
         posX1=game.world.centerX;
@@ -633,6 +656,8 @@ var icyRush = function(){
     
     function spawnObstacles(speed){
         
+        
+        
         var line=game.rnd.integerInRange(0,3);
         var objToSpawn=game.rnd.integerInRange(0,5);
 
@@ -752,6 +777,8 @@ var icyRush = function(){
         emitter.duration=0.05;
         emitter.x = coins.x
         emitter.y = coins.y
+        
+        
         game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
         game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
             game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
@@ -783,6 +810,14 @@ var icyRush = function(){
                     created[checkUp]=false;
                 }
             }
+        
+            
+            
+        
+      
+        
+        
+        
         epicparticles.update()
         if(startGame){
             bearProxy.x=bear.x;
