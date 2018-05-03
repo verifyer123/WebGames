@@ -597,7 +597,7 @@ var verteWho = function(){
         board.anchor.setTo(0.5, 1)
         
         cardsGroup = game.add.group()
-        cardsGroup.verte = ["bear", "cat", "chicken", "dog", "giraffe", "lion", "sealion", "snake", "zebra"]
+        cardsGroup.verte = ["bear", "cat", "chicken", "dog", "giraffe", "lion", "pig", "sealion", "snake", "zebra"]
         cardsGroup.inverte = ["bee", "butterfly", "caterpillar", "dragonfly", "jellyfish", "snail", "sponge", "squid", "starfish", "worm"]
         sceneGroup.add(cardsGroup)
         
