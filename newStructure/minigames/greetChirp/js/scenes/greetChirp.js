@@ -38,10 +38,6 @@ var greetChirp = function(){
         ],
         images: [
             {
-				name:'tutorial_image',
-				file:"images/greetChirp/tutorial_image_%input.png"
-			},
-            {
 				name:'background',
 				file:"images/greetChirp/background.png"
 			},
@@ -306,6 +302,17 @@ var greetChirp = function(){
 		//buttons.getImages(game)
 		
         game.stage.disableVisibilityChange = false
+        
+        
+        var inputName = 'movil'
+		
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+        
+        file:"images/greetChirp/tutorial_image_%input.png"
+        
+		game.load.image('tutorial_image',"images/greetChirp/tutorial_image_" + localization.getLanguage() + "_" + inputName + ".png")
         
         //loadType(gameIndex)
     }
@@ -662,7 +669,7 @@ var greetChirp = function(){
             pivot += 0.8
         }
         
-        if(localization.getLanguage() === 'ES'){
+        if(localization.getLanguage() === 'EN'){
             buttonsGroup.salutes = ["Buenos días", "Buenas tardes", "Buenas noches"]
         }
         else{
