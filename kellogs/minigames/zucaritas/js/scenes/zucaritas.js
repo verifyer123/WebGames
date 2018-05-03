@@ -1114,12 +1114,17 @@ var zucaritas = function(){
 			}			
 		}
 	}
+
+	function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
         
 		assets: assets,
 		name: "zucaritas",
 		setGraphics:setGraphics,
+		render:render,
 		create: function(event){
             
             cursors = game.input.keyboard.createCursorKeys()
