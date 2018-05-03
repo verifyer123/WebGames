@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 var hover = function(){
     
