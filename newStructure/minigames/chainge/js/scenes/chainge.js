@@ -341,6 +341,18 @@ var chainge = function(){
             
             pointer.x = game.input.x
 			pointer.y = game.input.y
+            
+            if(coinsArray.length > 0){
+                
+                var lastObj = coinsArray[pivot - 1]
+
+                linesGroup.line.clear()
+                linesGroup.line.lineStyle(10, 0x87ff2b, 1)
+                linesGroup.line.alpha = 1
+                linesGroup.line.moveTo(lastObj.x,lastObj.y)
+                linesGroup.line.lineTo(pointer.x,pointer.y)
+            }
+            
             startChain()
 		}
     }
@@ -688,6 +700,7 @@ var chainge = function(){
 			line.endFill()
 			line.alpha = 0
 			linesGroup.add(line)
+            linesGroup.line = line
 		}
         
         pointer = sceneGroup.create(-10,-10,'atlas.chainge','star')
@@ -716,7 +729,7 @@ var chainge = function(){
             var change = 0
 
             if(coinsArray && coinsArray.length > 1){
-
+                linesGroup.line.clear()
                 for(var i = 0; i < coinsArray.length; i++){
                     change += coinsArray[i].value
                 }
@@ -727,6 +740,7 @@ var chainge = function(){
                 coinsGroup.setAll("active", true)
                 coinsArray = []
                 change = 0
+                linesGroup.line.clear()
             }
         }
     }
