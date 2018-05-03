@@ -36,6 +36,22 @@ var zucaritas = function(){
             },
         ],
         images: [
+        	{
+        		name:"sep1",
+        		file:"images/zucaritas/sep1.png"
+        	},
+        	{
+        		name:"sep2",
+        		file:"images/zucaritas/sep2.png"
+        	},
+        	{
+        		name:"sep3",
+        		file:"images/zucaritas/sep3.png"
+        	},
+        	{
+        		name:"sep4",
+        		file:"images/zucaritas/sep4.png"
+        	},
 
 		],
 		sounds: [
@@ -61,7 +77,7 @@ var zucaritas = function(){
 				file: soundsPath + "combo.mp3"},
 		],
 	}
-    
+    var OFFSET_BACK
     var COLORS = [0x22bbff,0x13ff84,0xffcf1f,0xe84612]
 	var levels = ['inner','outer','convection','lower','upper','crust']
     
@@ -438,19 +454,26 @@ var zucaritas = function(){
 					back.tilePosition.x-= 0.25
 				}
 			}
-			
-			if(back.world.y > game.world.height + back.height && back.isSky){
-				
-				back.y = pivotBackground
-				pivotBackground-= back.height
-				//console.log('added back')
+
+			//if(back.isSky){
+			if(back.world.y > game.world.height + back.height){
+				console.log("changePOsition")
+				back.y -= pivotBackground
+				//pivotBackground-= OFFSET_BACK
+				if(!back.isSep){
+					back.loadTexture("atlas.zucaritas","back4")
+				}
+				else{
+					back.loadTexture("sep4")
+				}
+
 			}
+			//}
 			
-			if(levelIndex < 6){
+			/*if(levelIndex < 6){
 				
 				if(checkOverlap(player,back) && levelIndex == back.index && back.isSep){
 					
-					console.log(back.index + ' index')
 					if(levelIndex > 4){
 						
 						if(levelContainer.alpha == 1){
@@ -462,8 +485,10 @@ var zucaritas = function(){
 					}
 					
 				}
-			}
+			}*/
 		}
+
+		//console.log(backgroundGroup.length)
 		
         for(var i = 0; i<objectsGroup.length;i++){
             
@@ -1058,10 +1083,11 @@ var zucaritas = function(){
 	
 	function createBackgrounds(){
 		
-		pivotBackground = game.world.height * 2
+		pivotBackground = game.world.height *2
 		
 		var indexSep = 0
-		for(var i = -1; i < 8;i++){
+
+		for(var i = -1; i < 3;i++){
 			
 			var imgName = 'back' + (i+1)
 			var sep
@@ -1072,7 +1098,7 @@ var zucaritas = function(){
 				var numberImage = i
 				
 				if(numberImage<1){numberImage = 1}
-				sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 129, 'atlas.zucaritas','sep'+ numberImage)
+				sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 128,'sep'+ numberImage)
 				sep.anchor.setTo(0.5,1)
 				sep.index = indexSep
 				sep.isSep = true
@@ -1099,7 +1125,9 @@ var zucaritas = function(){
 			}
 			
 			var back = game.add.tileSprite(0,pivotBackground,game.world.width, 0, 'atlas.zucaritas',imgName);
+			//var back = game.add.sprite(0,pivotBackground,game.world.width, 0, 'atlas.zucaritas',imgName);
 			back.height*=16
+			OFFSET_BACK = back.height*3
 			back.tileScale.setTo(1.8,1.8)
 			back.isSky = isSky
 			back.anchor.setTo(0.5,1)
@@ -1113,6 +1141,15 @@ var zucaritas = function(){
 				backgroundGroup.add(sep)
 			}			
 		}
+
+		var sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 128,'sep'+ 4)
+		sep.anchor.setTo(0.5,1)
+		sep.index = indexSep
+		sep.isSep = true
+		indexSep++
+		backgroundGroup.add(sep)
+
+		pivotBackground = OFFSET_BACK
 	}
 
 	function render(){
@@ -1124,7 +1161,7 @@ var zucaritas = function(){
 		assets: assets,
 		name: "zucaritas",
 		setGraphics:setGraphics,
-		render:render,
+		//render:render,
 		create: function(event){
             
             cursors = game.input.keyboard.createCursorKeys()
@@ -1251,6 +1288,8 @@ var zucaritas = function(){
             game.physics.p2.setImpactEvents(true);
             
             animateScene()
+
+           console.log("v5")
             
             
 		},

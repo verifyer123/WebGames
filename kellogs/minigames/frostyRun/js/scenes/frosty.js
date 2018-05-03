@@ -1234,7 +1234,7 @@ var frosty = function(){
 	return {
 		assets: assets,
 		name: "frosty",
-        render:render,
+        //render:render,
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.P2JS);
