@@ -413,7 +413,7 @@ var frosty = function(){
             var obj = objectsGroup.children[index]
             
             if(obj.used){
-                if(obj.body.x < -obj.width * 0.45){
+                if(obj.body.x < -obj.width * 0.5 && obj.used == true){
                     deactivateObj(obj)
                     if(obj.tag == 'floor' || obj.tag == 'brick'){
                         addObjects()
@@ -1002,14 +1002,14 @@ var frosty = function(){
         
         var number = (game.world.width / width) + 5
         
-        createObjs('floor',1.1,number)
-        createObjs('brick',1.1,number)
-        createObjs('coin',0.7,number)
+        createObjs('floor',1.1,20)
+        createObjs('brick',1.1,20)
+        createObjs('coin',0.7,15)
         createObjs('enemy_squish',0.8,number * 0.6)
         createObjs('enemy_spike',0.8,number * 0.6)
         createObjs('skull',1,number * 0.3)
         
-        while(pivotObjects < game.world.width * 1.5){
+        while(pivotObjects < game.world.width * 2){
             addObstacle('floor')
             //console.log(pivotObjects + ' pivot, ' + game.world.width + ' width')
         }
@@ -1206,24 +1206,35 @@ var frosty = function(){
     
 	function createBackground(){
 		
-		var background = sceneGroup.create(-2,-2,'fondo')
+		/*var background = sceneGroup.create(-2,-2,'fondo')
 		background.width = game.world.width +2
-		background.height = game.world.height +2
+		background.height = game.world.height +2*/
+
+        var background = game.add.graphics()
+        background.beginFill(0x221c40)
+        background.drawRect(0,0,game.world.width,game.world.height)
+        background.endFill()
+        sceneGroup.add(background)
 		
-		mountains = game.add.tileSprite(0,game.world.height,game.world.width,651,'atlas.frosty','mountain')
+		mountains = game.add.tileSprite(0,game.world.height,game.world.width,512,'atlas.frosty','mountain')
 		mountains.anchor.setTo(0,1)
 		
-		cloud = game.add.tileSprite(0, 100,game.world.width, 266,'atlas.frosty','nube')
+		cloud = game.add.tileSprite(0, 100,game.world.width, 512,'atlas.frosty','nube')
 		cloud.alpha = 0.5
 		sceneGroup.add(cloud)
 		
 		sceneGroup.add(mountains)
 		
 	}
+
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
 		assets: assets,
 		name: "frosty",
+        render:render,
 		create: function(event){
             
             game.physics.startSystem(Phaser.Physics.P2JS);

@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 var cereal = function(){
     
@@ -393,7 +392,6 @@ var cereal = function(){
 	}
 	
 	function update(){
-		
 		if(moveFloor){
 			background.tilePosition.x++
 			wall.tilePosition.x+=0.25
@@ -824,12 +822,17 @@ var cereal = function(){
 		})
 		
 	}
+
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
 		
 		assets: assets,
 		name: "cereal",
 		update: update,
+        render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
