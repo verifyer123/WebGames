@@ -597,7 +597,7 @@ var verteWho = function(){
         board.anchor.setTo(0.5, 1)
         
         cardsGroup = game.add.group()
-        cardsGroup.verte = ["bear", "cat", "chicken", "dog", "giraffe", "lion", "sealion", "snake", "zebra"]
+        cardsGroup.verte = ["bear", "cat", "chicken", "dog", "giraffe", "lion", "pig", "sealion", "snake", "zebra"]
         cardsGroup.inverte = ["bee", "butterfly", "caterpillar", "dragonfly", "jellyfish", "snail", "sponge", "squid", "starfish", "worm"]
         sceneGroup.add(cardsGroup)
         
@@ -611,7 +611,7 @@ var verteWho = function(){
             for(var j = 0; j < 3; j++){
             
                 var anim = game.add.spine(board.centerX * pivotX, board.centerY * pivotY, "cards")
-                anim.setAnimationByName(0, "IDLE_DOWN", true)
+                anim.setAnimationByName(0, "idle_down", true)
                 anim.setSkinByName("worm")
                 anim.scale.setTo(0.8)
                 //anim.alpha = 0.6
@@ -642,8 +642,8 @@ var verteWho = function(){
                 
                 sound.play("cut")
                 card.fliped = true
-                card.parent.setAnimationByName(0, "DOWN", false)
-                card.parent.addAnimationByName(0, "IDLE_DOWN", true)
+                card.parent.setAnimationByName(0, "down", false)
+                card.parent.addAnimationByName(0, "idle_down", true)
                 
                 if(card.tag !== tag){
                     if(counter > 1){
@@ -671,8 +671,8 @@ var verteWho = function(){
         for(var i = 0; i < cardsGroup.length; i++){
             
             if(!cardsGroup.children[i].box.fliped){
-                cardsGroup.children[i].setAnimationByName(0, "DOWN", false)
-                cardsGroup.children[i].addAnimationByName(0, "IDLE_DOWN", true)
+                cardsGroup.children[i].setAnimationByName(0, "down", false)
+                cardsGroup.children[i].addAnimationByName(0, "idle_down", true)
             }
             cardsGroup.children[i].box.tag = -1
             cardsGroup.children[i].box.fliped = false
@@ -773,8 +773,8 @@ var verteWho = function(){
         game.time.events.add(delay,function(){
             
             sound.play("cut")
-            obj.setAnimationByName(0, "UP", false)
-            obj.addAnimationByName(0, "IDLE", true)
+            obj.setAnimationByName(0, "up", false)
+            obj.addAnimationByName(0, "idle", true)
         },this)
     }
     

@@ -351,7 +351,7 @@ var deliverInTown = function(){
 
 	function createBackground(){
             
-        sceneGroup.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, "tile"))
+        sceneGroup.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.deliverInTown", "dock"))
         
         var codeBox = game.add.sprite(0, game.world.height + 20,  "atlas.deliverInTown", "codeBox")
         codeBox.anchor.setTo(0, 1)
@@ -739,9 +739,9 @@ var deliverInTown = function(){
         destinyBubble.anchor.setTo(0.5, 1)
         destinyBubble.scale.setTo(0)
         
-        var destiny = game.add.sprite(0, -25, "atlas.deliverInTown", "btn0")
+        var destiny = game.add.sprite(0, -50, "atlas.deliverInTown", "btn0")
         destiny.anchor.setTo(0.5, 1)
-        destiny.scale.setTo(0.8)
+        destiny.scale.setTo(1.2)
         destinyBubble.addChild(destiny)
         destinyBubble.destiny = destiny
     }
