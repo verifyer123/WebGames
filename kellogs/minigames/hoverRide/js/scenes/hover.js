@@ -1019,7 +1019,7 @@ var hover = function(){
 		assets: assets,
 		name: "hover",
 		update: update,
-		render:render,
+		//render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             

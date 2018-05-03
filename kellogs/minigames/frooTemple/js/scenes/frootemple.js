@@ -1248,7 +1248,7 @@ var frootemple = function(){
 		assets: assets,
 		name: "frootemple",
 		update: update,
-		render:render,
+		//render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             

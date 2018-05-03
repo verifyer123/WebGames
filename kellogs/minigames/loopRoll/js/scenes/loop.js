@@ -860,7 +860,7 @@ var loop = function(){
 		assets: assets,
 		name: "loop",
 		update: update,
-		render:render,
+		//render:render,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
             
