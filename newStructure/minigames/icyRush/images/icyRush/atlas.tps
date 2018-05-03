@@ -169,7 +169,7 @@
         <key>autoAliasEnabled</key>
         <true/>
         <key>trimSpriteNames</key>
-        <false/>
+        <true/>
         <key>prependSmartFolderName</key>
         <false/>
         <key>autodetectAnimations</key>
@@ -199,6 +199,34 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">1.png</key>
+            <key type="filename">2.png</key>
+            <key type="filename">4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,4,13,9</rect>
+                <key>scale9Paddings</key>
+                <rect>6,4,13,9</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,5,13,9</rect>
+                <key>scale9Paddings</key>
+                <rect>6,5,13,9</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Nubes.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -251,6 +279,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">nievePiso.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,145,13,289</rect>
+                <key>scale9Paddings</key>
+                <rect>7,145,13,289</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">pozo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -261,6 +302,19 @@
                 <rect>43,39,85,79</rect>
                 <key>scale9Paddings</key>
                 <rect>43,39,85,79</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">smog.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>68,35,136,70</rect>
+                <key>scale9Paddings</key>
+                <rect>68,35,136,70</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -304,6 +358,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">tileCarriles.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,54,30,108</rect>
+                <key>scale9Paddings</key>
+                <rect>15,54,30,108</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tileWaves.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,12,65,25</rect>
+                <key>scale9Paddings</key>
+                <rect>33,12,65,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -330,6 +410,14 @@
             <filename>wrong.png</filename>
             <filename>star.png</filename>
             <filename>smoke.png</filename>
+            <filename>smog.png</filename>
+            <filename>tileCarriles.png</filename>
+            <filename>tileWaves.png</filename>
+            <filename>3.png</filename>
+            <filename>2.png</filename>
+            <filename>1.png</filename>
+            <filename>4.png</filename>
+            <filename>nievePiso.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

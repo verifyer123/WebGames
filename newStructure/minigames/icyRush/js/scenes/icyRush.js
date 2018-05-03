@@ -50,7 +50,10 @@ var icyRush = function(){
 
 		],
         spines: [
-
+            {
+				name:"bear",
+				file:"images/Spine/bear/bear.json"
+			},
         ],
         spritesheets: [
             {
@@ -94,22 +97,48 @@ var icyRush = function(){
     var lives = null
 	var sceneGroup = null
 	var background
+    var obstaclesGroup=null
+    var wavesGroup=null
+    var smogGroup=null
     var gameActive = true
-	var shoot
+	var startGame=false;
 	var particlesGroup, particlesUsed
     var gameIndex = 1
+    var mask
     var tutoGroup
+    var noDistortion=false;
+    var bearProxy
     var rails1=new Array();
     var rails2=new Array();
+    var railsGap1=new Array();
+    var railsGap2=new Array();
+    var obstaclesLane= new Array();
+    var tweenObj= new Array();
+    var tweenObjAl= new Array();
+    var tweenObjSc= new Array(); 
+    var typeOfObstacle= new Array();
+    var created= new Array();
+    var wichObj
+    var speed=2300;
+    var roadSpeed=-3;
+    var counterFall
+    var actualTrail=0;
+    var posX1, posX2, posX3;
     var startPosition;
+    var nextPieceToPoisition, nextPieceToPoisition2
     var spaceRails;
     var heightRails;
+    var inverseGaps, inverseGaps2
+    var defaultScale, defaultScale2
 	var indexGame
     var overlayGroup
     var baseSong
-    
+    var bear
+    var keyPressed, keyPressed2
     var backgroundGroup=null
-    
+    var tilesGroups=null
+    var animalGroup=null
+
     var tweenTiempo
     var clock, timeBar
     var emitter
@@ -123,15 +152,34 @@ var icyRush = function(){
           
         game.stage.backgroundColor = "#000000"
         lives = 3
+        keyPressed=false
+        keyPressed2=false
+        keyPressed3=false
+        actualTrail=1;
+        typeOfObstacle[0]="rock";
+        typeOfObstacle[1]="hole";
+        typeOfObstacle[2]="coin";
+        wichObj=0;
         emitter=""
+        speed=4200;
+        roadSpeed=-3;
+        counterFall=0;
+        posX1=game.world.centerX;
+        posX2=game.world.centerX+190;
+        posX3=game.world.centerX-190;
+        inverseGaps=null
+        defaultScale=null
         startPosition=game.world.centerY-195;
         spaceRails=100;
         heightRails=100;
+        noDistortion=false;
         loadSounds()
 	}
 
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
+        startSpawn();
+        startGame=true;
     }
     
     function createTutorial(){
@@ -332,6 +380,18 @@ var icyRush = function(){
         
 	   backgroundGroup = game.add.group()
        sceneGroup.add(backgroundGroup)
+       tilesGroups = game.add.group()
+       sceneGroup.add(tilesGroups);
+        
+        wavesGroup = game.add.group()
+       sceneGroup.add(wavesGroup)
+        obstaclesGroup = game.add.group()
+       sceneGroup.add(obstaclesGroup)
+        animalGroup = game.add.group()
+       sceneGroup.add(animalGroup)
+        smogGroup = game.add.group()
+       sceneGroup.add(smogGroup)
+         
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -342,6 +402,18 @@ var icyRush = function(){
         sceneGroup.add(wrongParticle)
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
+        
+        actualTrail=3
+        bear = game.add.spine(posX1, game.world.centerY, 'bear')
+        bear.scale.setTo(0.3)
+        bear.setAnimationByName(0, "run", true)
+        bear.setSkinByName("normal")
+        
+        bearProxy=game.add.sprite(bear.centerX,bear.centerY,"atlas.icyRush","smoke");
+        bearProxy.anchor.setTo(0.5,1);
+        bearProxy.alpha=0;
+        bearProxy.scale.setTo(0.5,0.5)
+        animalGroup.add(bear)
         
         
         sun=game.add.sprite(game.world.centerX,-50,"atlas.icyRush","solGirando");
@@ -367,6 +439,7 @@ var icyRush = function(){
         
         
             
+        
             
         
         spaceRails=100;
@@ -381,48 +454,93 @@ var icyRush = function(){
             backgroundGroup.add(rails[enoughRails]);
         }
 
-        fadeRails=game.add.sprite(game.world.centerX,game.world.centerY+80,"atlas.icyRush","fadeNieve");
-        fadeRails.scale.setTo(game.world.width,8);
-        fadeRails.alpha=0.4;
-        fadeRails.anchor.setTo(0.5,0.5)
-        
-        
-        
-//        railSeparation4=game.add.sprite(game.world.centerX,game.world.centerY-195,"atlas.icyRush","tileCarriles");
-//        railSeparation4.alpha=0.4;
-//        railSeparation4.scale.setTo(0.6,0.6);
-//        railSeparation5=game.add.sprite(game.world.centerX+45,game.world.centerY-65,"atlas.icyRush","tileCarriles");
-//        railSeparation5.alpha=0.6;
-//        railSeparation5.scale.setTo(0.7,0.7);
-//        railSeparation6=game.add.sprite(game.world.centerX+40,game.world.centerY+84.5,"atlas.icyRush","tileCarriles");
-//        railSeparation6.alpha=0.8;
-//        railSeparation6.scale.setTo(0.8,0.8);
-//        railSeparation7=game.add.sprite(game.world.centerX+35,game.world.centerY+255,"atlas.icyRush","tileCarriles");
-//        railSeparation7.alpha=1;
-//        railSeparation7.scale.setTo(0.9,0.9);
-//        railSeparation8=game.add.sprite(game.world.centerX+30,game.world.centerY+448,"atlas.icyRush","tileCarriles");
-//        railSeparation8.alpha=1;
-//        railSeparation8.scale.setTo(1,1);
-        
+//        fadeRails=game.add.sprite(game.world.centerX,game.world.centerY-150,"atlas.icyRush","nievePiso");
+//        fadeRails.scale.setTo(game.world.width,-0.1);
+//        fadeRails.alpha=0.7;
+//        fadeRails.anchor.setTo(0.5,0.5)
 //        
-//        game.add.tween(rails[0]).to({y:game.world.centerY-200},9000,Phaser.Easing.Cubic.Linear,true)
-//        game.add.tween(rails[0].scale).to({y:0},10000,Phaser.Easing.linear,true)
-        backgroundGroup.add(fadeRails);
-        
-        rails1=perspectiveHighway(6,game.world.centerY-175,game.world.centerX+60,0.1,0.4,backgroundGroup,"atlas.icyRush","tileCarriles");
-        
-        rails2=perspectiveHighway(6,game.world.centerY-175,game.world.centerX-100,0.1,0.4,backgroundGroup,"atlas.icyRush","tileCarriles");
+        mist=game.add.sprite(game.world.centerX,game.world.centerY-290,"atlas.icyRush","3");
+        mist.scale.setTo(game.world.width,13);
+        mist.alpha=0.7;
+        mist.anchor.setTo(0.5,0.5)
         
         
+        
+        rails1=perspectiveHighway(9,game.world.centerY-175,game.world.centerX+100,0.1,0.1,backgroundGroup,"atlas.icyRush","tileCarriles");
+        rails2=perspectiveHighway(9,game.world.centerY-175,game.world.centerX-95,0.1,0.1,backgroundGroup,"atlas.icyRush","tileCarriles");
+        railsGap1=synchronyzeRails(9,rails1);
+        railsGap2=synchronyzeRails(9,rails2);
              
         backgroundGroup.add(blueSky);
         backgroundGroup.add(sun);
         backgroundGroup.add(cloud);
-        backgroundGroup.add(waterBack);
-        backgroundGroup.add(waterFront);
+        wavesGroup.add(waterBack);
+        wavesGroup.add(waterFront);
         
+        
+        
+        posX1=game.world.centerX;
+        posX2=game.world.centerX+190;
+        posX3=game.world.centerX-190;
+        
+        typeOfObstacle[0]="rock";
+        typeOfObstacle[1]="hole";
+        typeOfObstacle[2]="coin";
+        
+        
+           //	A mask is a Graphics object
+            mask = game.add.graphics(0, 0);
+
+            //	Shapes drawn to the Graphics object must be filled.
+            mask.beginFill(0xffffff);
+        
+            mask.alpha=1;
+
+            //	Here we'll draw a circle
+            mask.drawRect(0, game.world.centerY-176, game.world.width,game.world.height);
+        
+        obstaclesGroup.add(mask)
+        
+        
+        for(var fillObjs=0; fillObjs<6; fillObjs++){
+            
+            created[fillObjs]=false;
+            
+            
+            
+            if(fillObjs==0 || fillObjs==1){
+                obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"atlas.icyRush","monticuloNieve");
+                obstaclesLane[fillObjs].tag=typeOfObstacle[0];
+                obstaclesLane[fillObjs].scale.setTo(0.5,0.5);
+                obstaclesLane[fillObjs].anchor.setTo(0.5,1);
+            }
+            if(fillObjs==2 || fillObjs==3){
+                obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"atlas.icyRush","pozo");
+                obstaclesLane[fillObjs].tag=typeOfObstacle[1];
+                obstaclesLane[fillObjs].scale.setTo(0.5,0.5);
+                obstaclesLane[fillObjs].anchor.setTo(0.5,1);
+                obstaclesLane[fillObjs].mask=mask
+            }
+            if(fillObjs==4 || fillObjs==5){
+                obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"coin");
+                obstaclesLane[fillObjs].tag=typeOfObstacle[2];
+                obstaclesLane[fillObjs].scale.setTo(0.5,0.5);
+                obstaclesLane[fillObjs].anchor.setTo(0.5,1);
+            }
+            
+            obstaclesGroup.add(obstaclesLane[fillObjs]);
+        }
        
-        
+        //obstaclesGroup.add(fadeRails);
+        obstaclesGroup.add(mist);
+        for(var smog=0; smog<12; smog++){
+            smog1=game.add.sprite(180*smog,40,"atlas.icyRush","smog");
+            smog1.scale.setTo(1,1);
+            game.add.tween(smog1.scale).to( {x: 1.4,y: 1.4}, game.rnd.integerInRange(900,1100), Phaser.Easing.Linear.None, true).loop(true).yoyo(true);
+            smog1.alpha=1;
+            smog1.anchor.setTo(0.5,0.5)
+            smogGroup.add(smog1)
+        }
         
         //Coins
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
@@ -433,6 +551,17 @@ var icyRush = function(){
         coins.alpha=0
         
         
+    }
+    function right(){
+        
+        if(actualTrail<2 && startGame){
+            actualTrail++
+        }
+    }
+    function left(){
+        if(actualTrail>0 && startGame){
+            actualTrail--
+        }
     }
     
     
@@ -466,36 +595,146 @@ var icyRush = function(){
             
         }
         return railSeparation;
+        groupToDeposit.anchor.setTo(0.5,0.5)
+        
     }
     
-    function startHighway(objectsToMove, speed, goal){
-        
-        
-        var sizeOfArray=objectsToMove.length;
-        var nextPieceToPoisition=sizeOfArray-1;
-        var scaleChangeY=0;
-        var scaleChangeX=0;
+    function startHighway(objectsToMove, speed, goal, gaps){
+        var sizeOfArray=objectsToMove.length; 
+        if(inverseGaps==null){
+            nextPieceToPoisition=sizeOfArray-1;
+            inverseGaps=sizeOfArray-1;
+        }
+        if(defaultScale==null){
+            var scaleChangeY=0;
+            var scaleChangeX=0;
+            defaultScale=objectsToMove[sizeOfArray-1].scale;
+        }
         var defaultposX=objectsToMove[sizeOfArray-1].x;
-        var defaultScale=objectsToMove[sizeOfArray-1].scale.y;
+        
         for(var move=0; move<sizeOfArray; move++){
+            
+            if(objectsToMove[move].y>goal){
+                
             objectsToMove[move].y+=speed;
-//            goal=objectsToMove[move].height/goal;
-            objectsToMove[move].alpha-=0.00075;
-            scaleChangeY=0;
-            scaleChangeY=objectsToMove[move].scale.y+0.0002;
-            scaleChangeX=0;
-            scaleChangeX=objectsToMove[move].scale.x-0.0005;
-            objectsToMove[move].scale.setTo(scaleChangeX,scaleChangeY);
+            objectsToMove[move].alpha-=speed/-1800;
+            objectsToMove[move].scale.x-=speed/-3000;
+            }
             if(objectsToMove[move].y<=goal){
-                objectsToMove[move].scale.setTo(defaultScale,defaultScale);
                 objectsToMove[move].x=defaultposX
-                objectsToMove[move].y=objectsToMove[nextPieceToPoisition].y+objectsToMove[nextPieceToPoisition].height;
+                objectsToMove[move].y=(objectsToMove[nextPieceToPoisition].y+objectsToMove[nextPieceToPoisition].height);
+                objectsToMove[move].alpha=1;
+                objectsToMove[move].scale.setTo(0.8,0.8);
                 nextPieceToPoisition=move;
-                objectsToMove[move].alpha=0.8;
             }
         }
+    }
+    
+    
+    function spawnObstacles(speed){
         
+        var line=game.rnd.integerInRange(0,3);
+        var objToSpawn=game.rnd.integerInRange(0,5);
+
+        if(!created[objToSpawn] && roadSpeed!=0){
+            
+            if(line==0){
+
+                obstaclesLane[objToSpawn].x=posX1;
+
+            }else
+            if(line==1){
+
+                obstaclesLane[objToSpawn].x=posX2;
+
+            }else
+            if(line==2){
+
+                obstaclesLane[objToSpawn].x=posX3;
+
+            }
+            obstaclesGroup.add(obstaclesLane[objToSpawn])
+            sceneGroup.bringToTop(obstaclesLane[objToSpawn])
+            
+            created[objToSpawn]=true; 
+            
+            obstaclesLane[objToSpawn].scale.setTo(0.5,0.5)
+            obstaclesLane[objToSpawn].alpha=1
+            
+            if(obstaclesLane[objToSpawn].tag!="hole" && obstaclesLane[objToSpawn].tag!="coin"){
+                tweenObj[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {y: game.world.centerY-145}, speed, Phaser.Easing.Linear.In, true)
+                tweenObjSc[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn].scale).to( {x:0.3,y:0}, speed, Phaser.Easing.Linear.In, true,speed)
+            }else{
+                tweenObj[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {y: game.world.centerY-160}, speed, Phaser.Easing.Linear.In, true)
+                tweenObjSc[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn].scale).to( {x:0.3,y:0}, speed*0.05, Phaser.Easing.Linear.In, true,speed)
+            }
+            tweenObjAl[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {alpha: 0}, speed*0.5, Phaser.Easing.Linear.In, true,speed+speed*0.5)
+            tweenObjAl[objToSpawn].onStart.add(function(obj){
+                
+
+            })
+                
+                
+            }
+        startSpawn();
+    }
+    
+    function checkOverlap(spriteA, spriteB) {
+
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+        if(lives!=0){
+            return Phaser.Rectangle.intersects(boundsA, boundsB);
+        }
+    }
+
+    function startSpawn(){
+        game.time.events.add(500,function(){
+            if(startGame){
+                spawnObstacles(speed);
+            }
+        })
+    }
+    
+    function startHighway2(objectsToMove, speed, goal, gaps){
+        var sizeOfArray=objectsToMove.length; 
+        if(inverseGaps2==null){
+            nextPieceToPoisition2=sizeOfArray-1;
+            inverseGaps2=sizeOfArray-1;
+        }
+        if(defaultScale2==null){
+            var scaleChangeY=0;
+            var scaleChangeX=0;
+            defaultScale2=objectsToMove[sizeOfArray-1].scale;
+        }
+        var defaultposX=objectsToMove[sizeOfArray-1].x;
         
+        for(var move=0; move<sizeOfArray; move++){
+            
+            if(objectsToMove[move].y>goal){
+                
+            objectsToMove[move].y+=speed;
+            objectsToMove[move].alpha-=speed/-1800;
+            objectsToMove[move].scale.x-=speed/-4000;
+            }
+            if(objectsToMove[move].y<=goal){
+                objectsToMove[move].x=defaultposX
+                objectsToMove[move].y=(objectsToMove[nextPieceToPoisition2].y+objectsToMove[nextPieceToPoisition2].height);
+                objectsToMove[move].alpha=1;
+                objectsToMove[move].scale.setTo(0.8,0.8);
+                nextPieceToPoisition2=move;
+            }
+        }
+    }
+    
+    function synchronyzeRails(size,objectsToGap){
+        
+        var gapsBetweenAll=new Array(size); 
+        
+        for(var reduceGaps=(size-1); reduceGaps>0; reduceGaps--){
+            gapsBetweenAll[reduceGaps]=objectsToGap[size-1].height-objectsToGap[reduceGaps].height;
+        }
+        return gapsBetweenAll;
     }
 	
     function Rails(obj){
@@ -508,7 +747,7 @@ var icyRush = function(){
         //objectBorn= Objeto de donde nacen
         coins.x=objectBorn.centerX
         coins.y=objectBorn.centerY
-        
+            
         emitter = epicparticles.newEmitter("pickedEnergy")
         emitter.duration=0.05;
         emitter.x = coins.x
@@ -520,6 +759,10 @@ var icyRush = function(){
                 coins.x=objectBorn.centerX
                 coins.y=objectBorn.centerY
                 addPoint(1)
+                if(pointsBar.number%5==0 && pointsBar.number!=0 && pointsBar.number!=1){
+                    speed-=300;
+                    roadSpeed-=0.25;
+                }
             })
         })
     }
@@ -527,17 +770,160 @@ var icyRush = function(){
     
 	function update(){
         
+        startHighway(rails1,roadSpeed,game.world.centerY-350,railsGap1)
+         startHighway2(rails2,roadSpeed,game.world.centerY-350,railsGap2)
         
+        for(var checkUp=0; checkUp<obstaclesLane.length; checkUp++){
+
+                if(obstaclesLane[checkUp].scale.y==0){
+                    tweenObj[checkUp].stop();
+                    tweenObjAl[checkUp].stop();
+                    tweenObjSc[checkUp].stop();
+                    obstaclesLane[checkUp].y=game.world.height+100;
+                    created[checkUp]=false;
+                }
+            }
+        epicparticles.update()
         if(startGame){
-            epicparticles.update()
+            bearProxy.x=bear.x;
+            bearProxy.y=bear.y;
+            if(lives==0){
+                startGame=false;
+                roadSpeed=0;
+                for(var disapearObjs=0; disapearObjs<obstaclesLane.length; disapearObjs++){
+                    
+                    if(tweenObj[disapearObjs]){
+                        tweenObj[disapearObjs].stop();
+                        tweenObjAl[disapearObjs].stop();
+                        tweenObjSc[disapearObjs].stop();
+                    }
+                }
+            }
             waterBack.tilePosition.x+=0.2;
             waterFront.tilePosition.x-=0.3;
             cloud.tilePosition.x-=0.4;
+            
+            
+            
+            for(var checkOver=0; checkOver<obstaclesLane.length; checkOver++){
+                
+                
+                if (checkOverlap(bearProxy, obstaclesLane[checkOver]))
+                {
+                    tweenObj[checkOver].stop();
+                    tweenObjAl[checkOver].stop();
+                    tweenObjSc[checkOver].stop();
+                    if(obstaclesLane[checkOver].tag=="rock" && created[checkOver]){
+                        //Animation
+                        counterFall++;
+                        roadSpeed=0;
+                        stopRoadandObjects()
+                        if(lives!=0){
+                            missPoint()
+                            bear.scale.setTo(0.3,0.3);
+                            bearProxy.scale.setTo(0.5,0.5)
+                            bear.y=game.world.centerY;
+                            bear.alpha=1
+                            counterFall=0;
+                        }
+                        created[checkOver]=false;
+                        if(lives!=0){
+                            obstaclesLane[checkOver].y=game.world.height+100;
+                            bear.setAnimationByName(0,"hit",false);
+                            game.time.events.add(600,function(){
+                                bear.setAnimationByName(0,"run",true);
+                                roadSpeed=-3;
+                            })
+                        }else{
+                            bear.setAnimationByName(0,"hit_lose",false);
+                        }
+                        
+                        bearProxy.scale.setTo(bearProxy.scale.x-0.2,bearProxy.scale.y-0.2);
+                    }else if(obstaclesLane[checkOver].tag=="hole" && created[checkOver]){
+                        //Animation
+                        missPoint()
+                        created[checkOver]=false;
+                        if(lives==0){
+                            bear.setAnimationByName(0,"fall_lose",false);
+                        }
+                        if(lives>0){
+                            obstaclesLane[checkOver].y=game.world.height+100;
+                            bear.setAnimationByName(0,"fall",false);
+                            game.time.events.add(300,function(){
+                                bear.setAnimationByName(0,"run",true);
+                            })
+                        }   
+                    }else if(obstaclesLane[checkOver].tag=="coin"){
+                        //Animation
+                        created[checkOver]=false;
+                        obstaclesLane[checkOver].y=game.world.height+100;
+                        Coin(bear,pointsBar,50);
+                    }
+                }
+            }
         }
-         startHighway(rails1,-1,game.world.centerY-320)
+        
+        
+        if(controles.left.isDown && keyPressed==false){
+            
+            left()
+            keyPressed=true
+            
+        }else if(controles.right.isDown && keyPressed2==false){
+            
+            right()
+            keyPressed2=true
+            
+        }
+        
+        if(controles.left.isUp && keyPressed==true){
+            
+            keyPressed=false
+ 
+        }else if(controles.right.isUp && keyPressed2==true){
+            
+            keyPressed2=false
+        }
+        if(!noDistortion){
+            if(actualTrail==2)
+            {
+                noDistortion=true;
+                //character.position.y=game.world.height-650
+                game.add.tween(bear).to( { x: posX2 }, 70, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+                    noDistortion=false;
+                });
+            }
+            if(actualTrail==1)
+            {   
+                noDistortion=true;
+                //character.position.y=game.world.height-350  
+                game.add.tween(bear).to( { x: posX1 }, 70, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+                    noDistortion=false;
+                });
+            }
+            if(actualTrail==0)
+            {
+                noDistortion=true;
+                //character.position.y=game.world.height-50
+                game.add.tween(bear).to( { x: posX3 }, 70, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+                    noDistortion=false;
+                });
+            }
+        }
 	}
 
-    
+    function stopRoadandObjects(){
+        
+        for(var disapearObjs=0; disapearObjs<obstaclesLane.length; disapearObjs++){            
+            if(tweenObj[disapearObjs]){
+                tweenObj[disapearObjs].stop();
+                tweenObjAl[disapearObjs].stop();
+                tweenObjSc[disapearObjs].stop();
+                created[disapearObjs]=false;
+                obstaclesLane[disapearObjs].y=game.world.height+100;
+            }
+        }
+    }   
     function reset(){
             
             
