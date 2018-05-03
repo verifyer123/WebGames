@@ -1,26 +1,26 @@
 
 jungle_animals.png
-size: 512,256
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/monkey
   rotate: false
-  xy: 2, 120
+  xy: 2, 171
   size: 156, 133
   orig: 156, 133
   offset: 0, 0
   index: -1
 normal/panther
   rotate: true
-  xy: 2, 2
+  xy: 160, 188
   size: 116, 144
   orig: 116, 144
   offset: 0, 0
   index: -1
 normal/toucan
   rotate: false
-  xy: 160, 120
+  xy: 2, 36
   size: 138, 133
   orig: 138, 133
   offset: 0, 0

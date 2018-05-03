@@ -27,6 +27,7 @@ function startGame(){
 
     function init(){
 
+        document.getElementsByTagName('canvas').id = 'canvas';
         var fullWidth = 540
         var fullHeight = 960
 

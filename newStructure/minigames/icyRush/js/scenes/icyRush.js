@@ -45,7 +45,11 @@ var icyRush = function(){
 			},
             {
 				name:'skyBack',
-				file:"images/icyRush/fondoDegradado.png"
+				file:"images/icyRush/2.png"
+			},
+            {
+				name:'snowflakes',
+				file:"images/icyRush/snowflakes.png"
 			}
 
 		],
@@ -89,10 +93,6 @@ var icyRush = function(){
 			{
 				name: 'pickedEnergy', 
 				file:  particlesPath + 'pickedEnergy/specialBar1.json'
-			},
-            {
-				name: 'snow', 
-				file:  particlesPath + 'snow/snowParticle.json'
 			}
 		],
     }
@@ -107,10 +107,18 @@ var icyRush = function(){
     var gameActive = true
 	var startGame=false;
 	var particlesGroup, particlesUsed
-    var gameIndex = 1
+    var gameIndex = 201
     var mask
+    var saveDistance=0;
+    var variationX=0;
     var tutoGroup
     var noDistortion=false;
+    var max = 0;
+    var front_emitter;
+    var mid_emitter;
+    var back_emitter;
+    var update_interval = 4 * 60;
+    var i = 0;
     var bearProxy
     var rails1=new Array();
     var rails2=new Array();
@@ -159,8 +167,13 @@ var icyRush = function(){
         lives = 3
         keyPressed=false
         keyPressed2=false
-        keyPressed3=false
         actualTrail=1;
+        variationX=0;
+        inverseGaps2=null;
+        inverseGaps=null;
+        nextPieceToPoisition=0;
+        nextPieceToPoisition2=0;
+        saveDistance=0;
         typeOfObstacle[0]="rock";
         typeOfObstacle[1]="hole";
         typeOfObstacle[2]="coin";
@@ -186,6 +199,8 @@ var icyRush = function(){
         tutoGroup.y = -game.world.height
         startSpawn();
         startGame=true;
+
+        
     }
     
     function createTutorial(){
@@ -374,7 +389,7 @@ var icyRush = function(){
     function preload(){		
         game.stage.disableVisibilityChange = false;
         epicparticles.loadEmitter(game.load, "pickedEnergy") 
-        epicparticles.loadEmitter(game.load, "snow") 
+        //epicparticles.loadEmitter(game.load, "snow") 
     }
     
     
@@ -382,6 +397,7 @@ var icyRush = function(){
         
         obj.parent.children[1].alpha = 1
     }
+    
 
 	function createBackground(){
         
@@ -399,21 +415,24 @@ var icyRush = function(){
         smogGroup = game.add.group()
        sceneGroup.add(smogGroup)
         
-        
           
-            snow = epicparticles.newEmitter("snow")
-            snow.x = game.world.centerX
-            snow.y = -60
-            snow.duration=2000;
-            snow.speed=300
-            snow.rotation=0;
-            snow.finishParticleSizeVariance=0;
-            snow.gravityy=-3000
-            snow.maxRadius=300
-            snow.tangentialAccelVariance=1000
-            snow.angle=45
-            snow.angleVariance=45
-            snow.speedVariance=0
+//            snow = epicparticles.newEmitter("snow")
+//            snow.x = game.world.centerX
+//            snow.y = -100
+//            snow.duration=10000;
+//            snow.speed=400
+//            snow.rotation=0;
+//            snow.finishParticleSizeVariance=0;
+//            snow.gravityy=-3000
+//            snow.maxRadius=300
+//            snow.tangentialAccelVariance=1000
+//            snow.angle=45
+//            snow.angleVariance=45
+//            snow.speedVariance=0
+        
+
+        
+        
         
         
         //Aqui inicializo los botones
@@ -438,7 +457,6 @@ var icyRush = function(){
         bearProxy.scale.setTo(0.5,0.5)
         animalGroup.add(bear)
         
-        
         sun=game.add.sprite(game.world.centerX,-50,"atlas.icyRush","solGirando");
         
         
@@ -461,7 +479,21 @@ var icyRush = function(){
 //        rails.anchor.setTo(0.5,0);
         
         
+            back_emitter = game.add.emitter(game.world.centerX, -32, 600);
+            back_emitter.makeParticles('snowflakes', [0, 1, 2]);
+            back_emitter.maxParticleScale = 0.6;
+            back_emitter.minParticleScale = 0.2;
+            back_emitter.setYSpeed(20, 100);
+            back_emitter.gravity = 0;
+            back_emitter.width = game.world.width * 1.5;
+            back_emitter.minRotation = 0;
+            back_emitter.maxRotation = 40;
+
             
+            
+            changeWindDirection();
+
+            back_emitter.start(false, 14000, 100);
         
             
         
@@ -488,7 +520,7 @@ var icyRush = function(){
         mist.anchor.setTo(0.5,0.5)
         
         
-        
+
         rails1=perspectiveHighway(9,game.world.centerY-175,game.world.centerX+100,0.1,0.1,backgroundGroup,"atlas.icyRush","tileCarriles");
         rails2=perspectiveHighway(9,game.world.centerY-175,game.world.centerX-95,0.1,0.1,backgroundGroup,"atlas.icyRush","tileCarriles");
         railsGap1=synchronyzeRails(9,rails1);
@@ -498,8 +530,7 @@ var icyRush = function(){
         backgroundGroup.add(sun);
         backgroundGroup.add(cloud);
         wavesGroup.add(waterBack);
-        wavesGroup.add(waterFront);
-        sceneGroup.add(snow) 
+        wavesGroup.add(waterFront); 
         
         
         posX1=game.world.centerX;
@@ -510,17 +541,11 @@ var icyRush = function(){
         typeOfObstacle[1]="hole";
         typeOfObstacle[2]="coin";
         
-        
-           //	A mask is a Graphics object
-            mask = game.add.graphics(0, 0);
 
-            //	Shapes drawn to the Graphics object must be filled.
-            mask.beginFill(0xffffff);
-        
-            mask.alpha=1;
-
-            //	Here we'll draw a circle
-            mask.drawRect(0, game.world.centerY-176, game.world.width,game.world.height);
+        mask = game.add.graphics(0, 0);
+        mask.beginFill(0xffffff);
+        mask.alpha=1;
+        mask.drawRect(0, game.world.centerY-176, game.world.width,game.world.height);
         
         obstaclesGroup.add(mask)
         
@@ -528,8 +553,6 @@ var icyRush = function(){
         for(var fillObjs=0; fillObjs<6; fillObjs++){
             
             created[fillObjs]=false;
-            
-            
             
             if(fillObjs==0 || fillObjs==1){
                 obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"atlas.icyRush","monticuloNieve");
@@ -553,7 +576,7 @@ var icyRush = function(){
             
             obstaclesGroup.add(obstaclesLane[fillObjs]);
         }
-       
+        smogGroup.add(back_emitter);
         //obstaclesGroup.add(fadeRails);
         obstaclesGroup.add(mist);
         for(var smog=0; smog<12; smog++){
@@ -587,12 +610,36 @@ var icyRush = function(){
         }
     }
     
+    function changeWindDirection() {
+
+        var multi = Math.floor((max + 200) / 4),
+            frag = (Math.floor(Math.random() * 100) - multi);
+        max = max + frag;
+
+        if (max > 200) max = 150;
+        if (max < -200) max = -150;
+
+        setXSpeed(back_emitter, max);
+
+    }
+
+    function setXSpeed(emitter, max) {
+
+        emitter.setXSpeed(max - 20, max);
+        emitter.forEachAlive(setParticleXSpeed, this, max);
+
+    }
+
+function setParticleXSpeed(particle, max) {
+
+    particle.body.velocity.x = max - Math.floor(Math.random() * 30);
+
+}
     
     function perspectiveHighway(size,startPositionY, startPositionX, alphaProgramer, scalarProgramer, groupToDeposit, atlas, image){
         var railSeparation=new Array(size);
         
-        var saveDistance=0;
-        var variationX=0;
+
         var alphas=alphaProgramer;
         var scales=scalarProgramer
         for(var filling=0; filling<size; filling++){
@@ -649,6 +696,36 @@ var icyRush = function(){
                 objectsToMove[move].alpha=1;
                 objectsToMove[move].scale.setTo(0.8,0.8);
                 nextPieceToPoisition=move;
+            }
+        }
+    }
+     function startHighway2(objectsToMove, speed, goal, gaps){
+        var sizeOfArray2=objectsToMove.length; 
+        if(inverseGaps2==null){
+            nextPieceToPoisition2=sizeOfArray2-1;
+            inverseGaps2=sizeOfArray2-1;
+        }
+        if(defaultScale2==null){
+            var scaleChangeY=0;
+            var scaleChangeX=0;
+            defaultScale2=objectsToMove[sizeOfArray2-1].scale;
+        }
+        var defaultposX=objectsToMove[sizeOfArray2-1].x;
+        
+        for(var move=0; move<sizeOfArray2; move++){
+            
+            if(objectsToMove[move].y>goal){
+                
+            objectsToMove[move].y+=speed;
+            objectsToMove[move].alpha-=speed/-1800;
+            objectsToMove[move].scale.x-=speed/-3000;
+            }
+            if(objectsToMove[move].y<=goal){
+                objectsToMove[move].x=defaultposX
+                objectsToMove[move].y=(objectsToMove[nextPieceToPoisition2].y+objectsToMove[nextPieceToPoisition2].height);
+                objectsToMove[move].alpha=1;
+                objectsToMove[move].scale.setTo(0.8,0.8);
+                nextPieceToPoisition2=move;
             }
         }
     }
@@ -721,36 +798,7 @@ var icyRush = function(){
         })
     }
     
-    function startHighway2(objectsToMove, speed, goal, gaps){
-        var sizeOfArray=objectsToMove.length; 
-        if(inverseGaps2==null){
-            nextPieceToPoisition2=sizeOfArray-1;
-            inverseGaps2=sizeOfArray-1;
-        }
-        if(defaultScale2==null){
-            var scaleChangeY=0;
-            var scaleChangeX=0;
-            defaultScale2=objectsToMove[sizeOfArray-1].scale;
-        }
-        var defaultposX=objectsToMove[sizeOfArray-1].x;
-        
-        for(var move=0; move<sizeOfArray; move++){
-            
-            if(objectsToMove[move].y>goal){
-                
-            objectsToMove[move].y+=speed;
-            objectsToMove[move].alpha-=speed/-1800;
-            objectsToMove[move].scale.x-=speed/-4000;
-            }
-            if(objectsToMove[move].y<=goal){
-                objectsToMove[move].x=defaultposX
-                objectsToMove[move].y=(objectsToMove[nextPieceToPoisition2].y+objectsToMove[nextPieceToPoisition2].height);
-                objectsToMove[move].alpha=1;
-                objectsToMove[move].scale.setTo(0.8,0.8);
-                nextPieceToPoisition2=move;
-            }
-        }
-    }
+   
     
     function synchronyzeRails(size,objectsToGap){
         
@@ -798,7 +846,7 @@ var icyRush = function(){
 	function update(){
         
         startHighway(rails1,roadSpeed,game.world.centerY-350,railsGap1)
-         startHighway2(rails2,roadSpeed,game.world.centerY-350,railsGap2)
+        startHighway2(rails2,roadSpeed,game.world.centerY-350,railsGap2)
         
         for(var checkUp=0; checkUp<obstaclesLane.length; checkUp++){
 
@@ -811,8 +859,15 @@ var icyRush = function(){
                 }
             }
         
-            
-            
+               
+        i++;
+
+        if (i === update_interval)
+        {
+            changeWindDirection();
+            update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+            i = 0;
+        }
         
       
         
@@ -1179,7 +1234,9 @@ var icyRush = function(){
 			createPointsBar()
 			createHearts()
             createTutorial()
-			
+                
+
+
 			buttons.getButton(baseSong,sceneGroup)
             
             animateScene()

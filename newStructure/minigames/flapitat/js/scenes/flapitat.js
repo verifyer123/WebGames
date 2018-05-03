@@ -449,24 +449,24 @@ var flapitat = function(){
         
             book=game.add.spine(game.world.centerX,game.world.centerY+250,"bookS")
             book.setSkinByName("normal");
-            book.setAnimationByName(0,"IDLE",true)
+            book.setAnimationByName(0,"idle",true)
             book.alpha=0
             
             book2=game.add.spine(game.world.centerX,game.world.centerY+250,"bookD")
             book2.setSkinByName("normal");
-            book2.setAnimationByName(0,"IDLE",true)
+            book2.setAnimationByName(0,"idle",true)
             spineGroup.add(book2)
             book2.alpha=0
         
             book3=game.add.spine(game.world.centerX,game.world.centerY+250,"bookF")
             book3.setSkinByName("normal");
-            book3.setAnimationByName(0,"IDLE",true)
+            book3.setAnimationByName(0,"idle",true)
             spineGroup.add(book3)
             book3.alpha=0
             
             book4=game.add.spine(game.world.centerX,game.world.centerY+250,"bookJ")
             book4.setSkinByName("normal");
-            book4.setAnimationByName(0,"IDLE",true)
+            book4.setAnimationByName(0,"idle",true)
             spineGroup.add(book4)
             book4.alpha=0
             
@@ -756,10 +756,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
                         allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -801,10 +801,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -845,10 +845,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -909,10 +909,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -953,10 +953,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -996,10 +996,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1061,10 +1061,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1105,10 +1105,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1148,10 +1148,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].alpha=0;
                         allSpineAnimals[choosedPos4].alpha=0;
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1214,10 +1214,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
                         allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                          
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1259,10 +1259,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
                         allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                          
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1302,10 +1302,10 @@ var flapitat = function(){
                         allSpineAnimals[choosedPos3].scale.setTo(0.7,0.7);
                         allSpineAnimals[choosedPos4].scale.setTo(0.7,0.7);
                         
-                        allSpineAnimals[choosedPos].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos2].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos3].setAnimationByName(0,"IDLE",true);
-                        allSpineAnimals[choosedPos4].setAnimationByName(0,"IDLE",true);
+                        allSpineAnimals[choosedPos].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos2].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos3].setAnimationByName(0,"idle",true);
+                        allSpineAnimals[choosedPos4].setAnimationByName(0,"idle",true);
                         
                         spineGroup.add(allSpineAnimals[choosedPos])
                         spineGroup.add(allSpineAnimals[choosedPos2])
@@ -1327,7 +1327,7 @@ var flapitat = function(){
         if(scenarioNumber==0){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookS")
             actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"IDLE",true)
+            actualBook.setAnimationByName(0,"idle",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Savanna"
             actualBook.alpha=1
@@ -1335,7 +1335,7 @@ var flapitat = function(){
         if(scenarioNumber==1){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookD")
             actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"IDLE",true)
+            actualBook.setAnimationByName(0,"idle",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Desert"
             actualBook.alpha=1
@@ -1343,7 +1343,7 @@ var flapitat = function(){
         if(scenarioNumber==2){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookF")
             actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"IDLE",true)
+            actualBook.setAnimationByName(0,"idle",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Forest"
             actualBook.alpha=1
@@ -1351,7 +1351,7 @@ var flapitat = function(){
         if(scenarioNumber==3){
             actualBook=game.add.spine(game.world.centerX,game.world.centerY+250,"bookJ")
             actualBook.setSkinByName("normal");
-            actualBook.setAnimationByName(0,"IDLE",true)
+            actualBook.setAnimationByName(0,"idle",true)
             spineGroup.add(actualBook)
             scenarioProxy.tag="Jungle"
             actualBook.alpha=1
