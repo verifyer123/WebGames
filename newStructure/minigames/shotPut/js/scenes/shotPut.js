@@ -404,7 +404,7 @@ var shotPut = function(){
         platform.anchor.setTo(0.5, 1)
         platform.scale.setTo(0.9, 0.9)
         
-        var target = sceneGroup.create(game.world.centerX + 200, game.world.centerY - 130, "atlas.shotPut", "target")
+        target = sceneGroup.create(game.world.centerX + 200, game.world.centerY - 130, "atlas.shotPut", "target")
         target.anchor.setTo(0.5)
         //target.scale.setTo(0.9, 0.9)
         
