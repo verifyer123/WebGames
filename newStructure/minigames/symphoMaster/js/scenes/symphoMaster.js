@@ -120,6 +120,7 @@ var symphoMaster = function(){
     var inTutorial = true
     var tutorialId = 0
     var roundWin
+    var gameActive
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -354,7 +355,7 @@ var symphoMaster = function(){
     }
 
     function stopGame(){
-
+        gameActive = false
         backgroundSound.stop()
         inputsEnabled = false
         
@@ -439,6 +440,9 @@ var symphoMaster = function(){
     }
     
     function update() {
+        if(!gameActive){
+            return
+        }
         for(var i=0; i < instrumentsGroup.length; i ++){
             instrumentsGroup.children[i].spine.x = instrumentsGroup.children[i].x
             instrumentsGroup.children[i].spine.y = instrumentsGroup.children[i].y
@@ -1094,6 +1098,7 @@ var symphoMaster = function(){
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
         backgroundSound.volume = 0.3
 
+        gameActive = true
     
     }
     

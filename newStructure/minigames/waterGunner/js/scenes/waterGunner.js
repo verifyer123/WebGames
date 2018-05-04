@@ -249,9 +249,9 @@ var waterGunner = function(){
        coins.x=objectBorn.x
        coins.y=objectBorn.y
 
-       correctParticle.x = objectBorn.x
-        correctParticle.y = objectBorn.y
-        correctParticle.start(true, 1000, null, 5)
+       //correctParticle.x = objectBorn.x
+        //correctParticle.y = objectBorn.y
+        //correctParticle.start(true, 1000, null, 5)
 
        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
        game.add.tween(coins).to({y:objectBorn.y-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
