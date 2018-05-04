@@ -164,6 +164,8 @@ var zucaritas = function(){
 		game.load.image('howTo',"images/zucaritas/tutorial/how" + localization.getLanguage() + ".png")
 		game.load.image('buttonText',"images/zucaritas/tutorial/play" + localization.getLanguage() + ".png")
 		game.load.image('introscreen',"images/zucaritas/tutorial/introscreen.png")
+        game.load.image('back1',"images/zucaritas/back1_pow2.png")
+        game.load.image('sep1',"images/zucaritas/sep1_pow2.png")
         
     }
     
@@ -1072,7 +1074,8 @@ var zucaritas = function(){
 				var numberImage = i
 				
 				if(numberImage<1){numberImage = 1}
-				sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 129, 'atlas.zucaritas','sep'+ numberImage)
+				//sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 129, 'atlas.zucaritas','sep'+ numberImage)
+                sep = game.add.tileSprite(0,pivotBackground + 50,game.world.width, 129,'sep1')
 				sep.anchor.setTo(0.5,1)
 				sep.index = indexSep
 				sep.isSep = true
@@ -1098,7 +1101,8 @@ var zucaritas = function(){
 				pivotBackground = game.world.height
 			}
 			
-			var back = game.add.tileSprite(0,pivotBackground,game.world.width, 0, 'atlas.zucaritas',imgName);
+			//var back = game.add.tileSprite(0,pivotBackground,game.world.width, 0, 'atlas.zucaritas',imgName);
+            var back = game.add.tileSprite(0,pivotBackground,game.world.width, 0,"back1");
 			back.height*=16
 			back.tileScale.setTo(1.8,1.8)
 			back.isSky = isSky
@@ -1114,6 +1118,10 @@ var zucaritas = function(){
 			}			
 		}
 	}
+
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 	
 	return {
         
@@ -1251,6 +1259,7 @@ var zucaritas = function(){
 		},
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
         update:update,
+        render:render
 	}
 
 }()

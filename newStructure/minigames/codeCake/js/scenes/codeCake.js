@@ -89,7 +89,7 @@ var codeCake = function(){
         ]
     }
 
-    var NUM_LIFES = 3
+    var NUM_LIFES = 1
     var TIME_MOVEMENT = 1500
     var LEVEL_TIMER = 3
     var INITIAL_TIME = 30000

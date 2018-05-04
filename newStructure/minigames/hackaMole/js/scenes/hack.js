@@ -77,7 +77,7 @@ var hack = function(){
 		],
     }
     
-    var INITIAL_LIVES = 3
+    var INITIAL_LIVES = 1
     var lives = null
 	var sceneGroup = null
     var gameActive

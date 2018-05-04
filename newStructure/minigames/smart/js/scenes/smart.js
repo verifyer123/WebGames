@@ -66,7 +66,7 @@ var smart = function(){
         
     }
 
-    var NUM_LIFES = 3
+    var NUM_LIFES = 1
     var LEVEL_TIMER = 8
     var INITIAL_TIME = 15000
     var DELTA_TIME = 100

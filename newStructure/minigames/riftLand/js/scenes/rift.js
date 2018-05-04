@@ -74,7 +74,7 @@ var rift = function(){
 		],
     }
     
-    var INITIAL_LIVES = 3
+    var INITIAL_LIVES = 1
     var BLINK_TIMES = 4
     var TIME_BLINK = 300
         
