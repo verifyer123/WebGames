@@ -422,6 +422,7 @@ var squaredSquares = function(){
                 if(fallCube.active){
                     if(fallCube.time < game.time.now){
                         fallCube.isFalling = true
+                        fallGroup.sendToBack(fallCube)
                         sound.play("fall")
                         fallCube.fallingTween = game.add.tween(fallCube).to({y:fallCube.y + game.world.height},FALLING_TIME,Phaser.Easing.linear,true)
                     }
@@ -507,7 +508,8 @@ var squaredSquares = function(){
 
         if(yogotar.inFallinCube!=null){
             if(yogotar.inFallinCube.time < game.time.now){
-                fall()
+                yogotar.inFallinCube.addChild(yogotar)
+                fall(true)
             }
         }
     }
@@ -518,6 +520,8 @@ var squaredSquares = function(){
 
     function restartYogotar(){
         //gameActive = true
+
+        sceneGroup.add(yogotar)
         yogotar.inFallinCube = null
         //yogotar.setAnimationByName(0,"idle",true)
         var middleIndex = Math.round((squareRaws[0].length-1)/2)
@@ -544,6 +548,8 @@ var squaredSquares = function(){
         squareRaws.splice(0,1)
         currentPositionId = middleIndex
         yogotar.visible = false
+        yogotar.setAnimationByName(0,"idle",true)
+
         setTimeout(blink,TIME_BLINK)
     }
 
@@ -635,9 +641,18 @@ var squaredSquares = function(){
         }
     }
 
-    function fall(){
+    function fall(withCube){
+        missPoint()
+        if(lives<=0){
+            return
+        }
         gameActive = false
         yogotar.setAnimationByName(0,"lose",true)
+        if(withCube){
+            setTimeout(restartYogotar,FALLING_TIME)
+            return
+
+        }
         var tween = game.add.tween(yogotar).to({y:yogotar.y + game.world.height+OFFSET_YOGOTAR_CUBE},FALLING_TIME,Phaser.Easing.linear,true)
         tween.onComplete.add(restartYogotar)
     }
@@ -667,6 +682,7 @@ var squaredSquares = function(){
             case CUBE_TYPE.FALL:
             yogotar.inFallinCube = cube
             cube.active = true
+
             cube.time = game.time.now + DELTA_FALL
             break
             case CUBE_TYPE.TRAFFIC:
