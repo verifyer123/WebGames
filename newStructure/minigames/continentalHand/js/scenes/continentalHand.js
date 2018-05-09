@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
-var continentalPuzzle = function(){
+var continentalHand = function(){
     
     var localizationData = {
 		"EN":{
@@ -21,14 +21,14 @@ var continentalPuzzle = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.continentalPuzzle",
-                json: "images/continentalPuzzle/atlas.json",
-                image: "images/continentalPuzzle/atlas.png",
+                name: "atlas.continentalHand",
+                json: "images/continentalHand/atlas.json",
+                image: "images/continentalHand/atlas.png",
             },
             {   
                 name: "atlas.time",
-                json: "images/continentalPuzzle/timeAtlas.json",
-                image: "images/continentalPuzzle/timeAtlas.png",
+                json: "images/continentalHand/timeAtlas.json",
+                image: "images/continentalHand/timeAtlas.png",
             },
 
         ],
@@ -227,7 +227,7 @@ var continentalPuzzle = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.continentalPuzzle','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.continentalHand','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -255,7 +255,7 @@ var continentalPuzzle = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.continentalPuzzle','life_box')
+        var heartImg = group.create(0,0,'atlas.continentalHand','life_box')
 
         pivotX+= heartImg.width * 0.45
         
@@ -296,24 +296,25 @@ var continentalPuzzle = function(){
         
         game.load.audio('continentSong', soundsPath + 'songs/the_buildup.mp3');
         
-		/*game.load.image('howTo',"images/continentalPuzzle/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/continentalPuzzle/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/continentalPuzzle/introscreen.png")*/
+		/*game.load.image('howTo',"images/continentalHand/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/continentalHand/play" + localization.getLanguage() + ".png")
+		game.load.image('introscreen',"images/continentalHand/introscreen.png")*/
 		
-        game.load.image('continent0',"images/continentalPuzzle/continentes/africa.png")
-        game.load.image('continent1',"images/continentalPuzzle/continentes/america.png")
-        game.load.image('continent2',"images/continentalPuzzle/continentes/antartida.png")
-        game.load.image('continent3',"images/continentalPuzzle/continentes/asia.png")
-        game.load.image('continent4',"images/continentalPuzzle/continentes/europa.png")
-        game.load.image('continent5',"images/continentalPuzzle/continentes/oceania.png")
-        game.load.image('board',"images/continentalPuzzle/board.png")
-        game.load.image('clouds',"images/continentalPuzzle/clouds.png")
+        game.load.image('continent0',"images/continentalHand/continentes/africa.png")
+        game.load.image('continent1',"images/continentalHand/continentes/america.png")
+        game.load.image('continent2',"images/continentalHand/continentes/antartida.png")
+        game.load.image('continent3',"images/continentalHand/continentes/asia.png")
+        game.load.image('continent4',"images/continentalHand/continentes/europa.png")
+        game.load.image('continent5',"images/continentalHand/continentes/oceania.png")
+        game.load.image('handgame',"images/continentalHand/handgame.png")
+        game.load.image('board',"images/continentalHand/board.png")
+        game.load.image('clouds',"images/continentalHand/clouds.png")
         
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
 		
 		console.log(localization.getLanguage() + ' language')
 
-        game.load.image('tutorial_image',"images/continentalPuzzle/tutorial_image_"+localization.getLanguage()+".png")
+        game.load.image('tutorial_image',"images/continentalHand/tutorial_image_"+localization.getLanguage()+".png")
         //loadType(gameIndex)
 
         
@@ -360,7 +361,7 @@ var continentalPuzzle = function(){
 		plane.scale.setTo(1,1)
         plane.anchor.setTo(0.5,0.5)
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.continentalPuzzle','gametuto')
+		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.continentalHand','gametuto')
 		tuto.anchor.setTo(0.5,0.5)
         
         var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
@@ -374,11 +375,11 @@ var continentalPuzzle = function(){
 		}
 		
 		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.continentalPuzzle',inputName)
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.continentalHand',inputName)
         inputLogo.anchor.setTo(0.5,0.5)
 		inputLogo.scale.setTo(0.7,0.7)
 		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.continentalPuzzle','button')
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.continentalHand','button')
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
@@ -408,7 +409,7 @@ var continentalPuzzle = function(){
 
 	function createBackground(){
         
-        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.continentalPuzzle", 'tile')
+        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.continentalHand", 'tile')
         sceneGroup.add(tile)
     }
 
@@ -480,7 +481,7 @@ var continentalPuzzle = function(){
     
     function createPart(key){
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.continentalPuzzle',key);
+        particle.makeParticles('atlas.continentalHand',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -507,7 +508,7 @@ var continentalPuzzle = function(){
             }else{
                 var particle = game.add.emitter(0, 0, 100);
 
-				particle.makeParticles('atlas.continentalPuzzle',tag);
+				particle.makeParticles('atlas.continentalHand',tag);
 				particle.minParticleSpeed.setTo(-200, -50);
 				particle.maxParticleSpeed.setTo(200, -100);
 				particle.minParticleScale = 0.6;
@@ -563,7 +564,7 @@ var continentalPuzzle = function(){
 		
 		game.add.tween(rect).from({alpha:1},500,"Linear",true)
 		
-        var exp = sceneGroup.create(0,0,'atlas.continentalPuzzle','cakeSplat')
+        var exp = sceneGroup.create(0,0,'atlas.continentalHand','cakeSplat')
         exp.x = posX
         exp.y = posY
         exp.anchor.setTo(0.5,0.5)
@@ -576,7 +577,7 @@ var continentalPuzzle = function(){
             
         var particlesGood = game.add.emitter(0, 0, 100);
 
-        particlesGood.makeParticles('atlas.continentalPuzzle','smoke');
+        particlesGood.makeParticles('atlas.continentalHand','smoke');
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
@@ -641,6 +642,11 @@ var continentalPuzzle = function(){
             continent.alpha = 0
             continent.active = false
         }
+        
+         var handgame = continentGroup.create(board.centerX, board.centerY, 'handgame')
+            handgame.anchor.setTo(0.5)
+            handgame.alpha = 0
+            handgame.active = false
     }
     
     function flag(){
@@ -686,7 +692,7 @@ var continentalPuzzle = function(){
         var aux = -1
         
         for(var b = 0; b < 3; b++){
-            var btn = buttonGroup.create(game.world.centerX + 170 * aux, game.world.height - 80, "atlas.continentalPuzzle", "btn" + b)
+            var btn = buttonGroup.create(game.world.centerX + 170 * aux, game.world.height - 80, "atlas.continentalHand", "btn" + b)
             btn.anchor.setTo(0.5)
             btn.option = b
             btn.inputEnabled = false
@@ -793,7 +799,7 @@ var continentalPuzzle = function(){
     
     function initGame(){
         
-        rnd = getRand()
+        rnd = 6//getRand()
         
         game.add.tween(fakeCloud).to({alpha: 1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
             fakeCloud.alpha = 0
@@ -913,10 +919,10 @@ var continentalPuzzle = function(){
         handsGroup.alpha = 0
         sceneGroup.add(handsGroup)
         
-        var handUp = handsGroup.create(0, 0, 'atlas.continentalPuzzle', 'handUp') // 0
+        var handUp = handsGroup.create(0, 0, 'atlas.continentalHand', 'handUp') // 0
         handUp.alpha = 0
         
-        var handDown = handsGroup.create(0, 0, 'atlas.continentalPuzzle', 'handDown') // 1
+        var handDown = handsGroup.create(0, 0, 'atlas.continentalHand', 'handDown') // 1
         handDown.alpha = 0
          
         handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)
@@ -956,7 +962,7 @@ var continentalPuzzle = function(){
 	return {
 		
 		assets: assets,
-		name: "continentalPuzzle",
+		name: "continentalHand",
 		update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
