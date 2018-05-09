@@ -33,7 +33,7 @@ var continentalPuzzle = function(){
 
         ],
         images: [
-
+            
 		],
 		sounds: [
             {	name: "magic",
@@ -306,6 +306,7 @@ var continentalPuzzle = function(){
         game.load.image('continent3',"images/continentalPuzzle/continentes/asia.png")
         game.load.image('continent4',"images/continentalPuzzle/continentes/europa.png")
         game.load.image('continent5',"images/continentalPuzzle/continentes/oceania.png")
+        
         game.load.image('board',"images/continentalPuzzle/board.png")
         game.load.image('clouds',"images/continentalPuzzle/clouds.png")
         
@@ -413,7 +414,7 @@ var continentalPuzzle = function(){
     }
 
 	function update(){
-        //tutorialUpdate()
+        
         if (game.input.activePointer.isDown && gameActive){
           var x = game.input.x - cloudBitmap.x
           var y = game.input.y - cloudBitmap.y
@@ -641,6 +642,8 @@ var continentalPuzzle = function(){
             continent.alpha = 0
             continent.active = false
         }
+        
+         
     }
     
     function flag(){
@@ -777,6 +780,7 @@ var continentalPuzzle = function(){
             flyingCloud.alpha = 1
             sound.play('energy')
             game.add.tween(flyingCloud.scale).from({x: 0, y: 0}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
+                continentGroup.setAll("alpha", 0)
                 game.add.tween(flyingCloud).to({alpha: 0}, 1000, Phaser.Easing.linear,true)
                 if(lives !== 0)
                     initGame()                                                                                              
@@ -853,7 +857,7 @@ var continentalPuzzle = function(){
     
     function countPixels(){
       
-        if(!clean && getPixels(cloudBitmap.ctx) < 0.2){
+        if(!clean && getPixels(cloudBitmap.ctx) < 0.5){
             clean = true
             cloudBitmap.clear()
             landInSight()
@@ -882,7 +886,7 @@ var continentalPuzzle = function(){
         particleCorrect.start(true, 1200, null, 10)
 
         if(pivotinent < 2){
-            game.time.events.add(2500,function(){
+            game.time.events.add(1800,function(){
                 initTuto()
             },this)
         }
@@ -892,6 +896,7 @@ var continentalPuzzle = function(){
                 flyingCloud.alpha = 1
                 sound.play('energy')
                 game.add.tween(flyingCloud.scale).from({x: 0, y: 0}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
+                    continentGroup.setAll("alpha", 0)
                     buttonGroup.alpha = 1
                     bannerText.alpha = 0
                     handsGroup.alpha = 1
