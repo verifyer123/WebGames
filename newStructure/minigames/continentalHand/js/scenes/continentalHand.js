@@ -64,7 +64,7 @@ var continentalHand = function(){
 	var sceneGroup = null
     var gameActive
 	var particlesGroup, particlesUsed
-    var gameIndex = 127
+    var gameIndex = 203
     var overlayGroup
     var continentSong
     var coin
