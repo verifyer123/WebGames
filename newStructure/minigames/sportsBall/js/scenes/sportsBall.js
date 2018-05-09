@@ -69,6 +69,12 @@ var sportsBall = function(){
                 width: 115,
                 height: 111,
                 frames: 23
+            },
+            {   name: "animCannon",
+                file: "images/spines/250x310_23f_24fps.png",
+                width: 250,
+                height: 310,
+                frames: 17
             }
         ],
         spines:[
@@ -97,6 +103,8 @@ var sportsBall = function(){
     var cannon
     var swinSpeed
     var targetArray = []
+    var justice
+    var basquet
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -315,10 +323,10 @@ var sportsBall = function(){
         barsGroup.physicsBodyType = Phaser.Physics.ARCADE
         sceneGroup.add(barsGroup)
         
-        var bar = barsGroup.create(30, 70, "atlas.sportsBall", "bar")
+        var bar = barsGroup.create(20, 70, "atlas.sportsBall", "bar")
         bar.body.immovable = true
         
-        bar = barsGroup.create(game.world.width - 60, 70, "atlas.sportsBall", "bar")
+        bar = barsGroup.create(game.world.width - 50, 70, "atlas.sportsBall", "bar")
         bar.body.immovable = true
         
         var topBar = barsGroup.create(game.world.centerX, 90, "atlas.sportsBall", "topBar")
@@ -526,18 +534,17 @@ var sportsBall = function(){
 	
 	function initCoin(){
         
-       coin = game.add.sprite(0, 0, "coin")
-       coin.anchor.setTo(0.5)
-       coin.scale.setTo(0.8)
-       coin.animations.add('coin');
-       coin.animations.play('coin', 24, true);
-       coin.alpha = 0
+        coin = game.add.sprite(0, 0, "coin")
+        coin.anchor.setTo(0.5)
+        coin.scale.setTo(0.8)
+        coin.animations.add('coin');
+        coin.animations.play('coin', 24, true);
+        coin.alpha = 0
         
         hand = game.add.sprite(0, 0, "hand")
         hand.animations.add('hand')
         hand.animations.play('hand', 24, true)
         hand.alpha = 0
-
     }
 
     function addCoin(){
@@ -576,7 +583,7 @@ var sportsBall = function(){
         targetsGroup = game.add.group()
         sceneGroup.add(targetsGroup)
         
-        var pivotX = game.world.centerX - 190
+        var pivotX = game.world.centerX - 195
 		var pivotY = 150
         
         targetsGroup.coordinates = new Array(7)
@@ -603,10 +610,10 @@ var sportsBall = function(){
 			
 			if((i + 1) % 2 == 0)
             {
-				pivotX = game.world.centerX - 190
+				pivotX = game.world.centerX - 195
 			}
             else{
-				pivotX = game.world.centerX - 167
+				pivotX = game.world.centerX - 160
 			}
 			
 			pivotY += 70	
@@ -644,51 +651,77 @@ var sportsBall = function(){
         var base = sceneGroup.create(game.world.centerX, game.world.height - 80, "atlas.sportsBall", "base")
         base.anchor.setTo(0.5)
         
-        cannon = sceneGroup.create(base.x, base.y, "atlas.sportsBall", "cannon")
-        cannon.anchor.setTo(0.5, 1)
-        cannon.inputEnabled = true
-        cannon.canShoot = true
+        cannon = game.add.group()
+        cannon.x = base.x
+        cannon.y = base.y
         cannon.tag = game.rnd.integerInRange(0, 2)
-        cannon.events.onInputDown.add(shootBall, this)
+        cannon.canShoot = true
+        sceneGroup.add(cannon)
+       
+        var cannonImg = cannon.create(0, 0, "atlas.sportsBall", "cannon")
+        cannonImg.anchor.setTo(0.5, 1)
+        cannonImg.inputEnabled = true
+        cannonImg.events.onInputDown.add(shootBall, this)
+        cannon.img = cannonImg
+        
+        var anim = game.add.sprite(-2, 5, "animCannon")
+        anim.anchor.setTo(0.5, 1)
+        anim.animations.add('shoot')
+        anim.alpha = 0
+        cannon.add(anim)
+        cannon.anim = anim
         
         var ball = sceneGroup.create(0, -130, "atlas.sportsBall", "ball" + cannon.tag)
         ball.anchor.setTo(0.5, 1)
         ball.scale.setTo(0.6)
-        cannon.addChild(ball)
+        cannon.add(ball)
         cannon.ballToShoot = ball
         
         var fire = game.add.sprite(0, -130, "atlas.sportsBall", "fire")
         fire.anchor.setTo(0.5, 1)
         fire.alpha = 0
-        cannon.addChild(fire)
+        cannon.add(fire)
         cannon.fire = fire
         
         var target = sceneGroup.create(0, - 500, "atlas.sportsBall", "star")
         target.anchor.setTo(0.5)
         target.alpha = 0
-        cannon.addChild(target)
+        cannon.add(target)
         cannon.target = target
+    }
+    
+    function createJustice(){
+        
+        justice = game.add.spine(game.world.centerX * 0.3, game.world.height - 30, "justice")
+        justice.scale.setTo(0.5)
+        justice.setAnimationByName(0, "IDLE", true)
+        justice.setSkinByName("normal")
+        sceneGroup.add(justice)
     }
     
     function shootBall(){
         
         if(gameActive && cannon.canShoot){
             
+            cannon.img.alpha = 0
+            cannon.anim.alpha = 1
             cannon.canShoot = false
             cannon.ballToShoot.alpha = 0
             cannon.fire.alpha = 1
             game.add.tween(cannon.fire).to({alpha: 0},400,Phaser.Easing.linear,true)
+            cannon.anim.animations.play('shoot', 24, false).onComplete.add(function(){
+                cannon.img.alpha = 1
+                cannon.anim.alpha = 0
+            })
       
-            //sound.play("shoot")
             cannonBall.reset(cannon.ballToShoot.world.x, cannon.ballToShoot.world.y - 40)
             cannonBall.loadTexture('atlas.sportsBall', "ball" + cannon.tag)
             cannonBall.tag = cannon.tag
             game.physics.arcade.moveToXY(cannonBall, cannon.target.world.x, cannon.target.world.y, 800)
-            sound.play("explode")
             
-            particleWrong.x = cannon.ballToShoot.world.x
-            particleWrong.y = cannon.ballToShoot.world.y
-            particleWrong.start(true, 1200, null, 7)
+            sound.play("explode")
+            justice.setAnimationByName(0, "SHOOT", false)
+            justice.addAnimationByName(0, "IDLE", true)
             
             cannon.tag = game.rnd.integerInRange(0, 2)
             cannon.ballToShoot.loadTexture('atlas.sportsBall', "ball" + cannon.tag)
@@ -749,6 +782,8 @@ var sportsBall = function(){
             cannon.inputEnabled = false
             cannon.swing.stop()
             missPoint(game.world)
+            justice.setAnimationByName(0, "LOSE", false)
+            justice.addAnimationByName(0, "LOSESTILL", true)
             if(lives !== 0){
                 game.add.tween(cannon).to({angle: 0},300,Phaser.Easing.linear,true).onComplete.add(function(){
                     game.time.events.add(1000, restartAssets)           
@@ -964,7 +999,7 @@ var sportsBall = function(){
     function initGame(){
 
         var delay = setTargets()
-        
+        justice.setAnimationByName(0, "IDLE", true)
         game.time.events.add(delay,function(){
             game.add.tween(cannon).to({angle: -45},swinSpeed * 0.5,Phaser.Easing.linear,true).onComplete.add(function(){
                 cannon.swing = game.add.tween(cannon).to({angle: 45}, swinSpeed, Phaser.Easing.linear, true, 0, -1, true)
@@ -1041,6 +1076,7 @@ var sportsBall = function(){
             createTargets()
             createCannon()
             createCannonBall()
+            createJustice()
             createParticles()
 			
 			buttons.getButton(gameSong,sceneGroup)
