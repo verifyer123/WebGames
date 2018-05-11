@@ -100,7 +100,7 @@ var tutorialHelper = function () {
 
 		spine = game.add.spine(game.world.centerX-120, game.world.centerY+450,"tutorialGif")
 		spine.setSkinByName("normal")
-		var anim = spine.setAnimationByName(0,"IDLE",false)
+		var anim = spine.setAnimationByName(0,"idle",false)
 		anim.onComplete = repeatSpine
 		group.add(spine)
 
@@ -177,7 +177,7 @@ var tutorialHelper = function () {
 
 	function repeatSpine(){
 		spineTimeOut = setTimeout(function(){
-			var anim = spine.setAnimationByName(0,"IDLE",false)
+			var anim = spine.setAnimationByName(0,"idle",false)
 			anim.onComplete = repeatSpine
 		},500)
 	}
@@ -303,6 +303,15 @@ var tutorialHelper = function () {
 				}
 				else{
 					tutorialTypeText = "TRAZAR"
+				}
+				break
+            case gameTypeEnum.TAP:
+				videoName = "tap"
+				if(language=="EN"){
+					tutorialTypeText = "TAP"
+				}
+				else{
+					tutorialTypeText = "TAP"
 				}
 				break
 		}

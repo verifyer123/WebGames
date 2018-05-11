@@ -105,6 +105,10 @@ var rockOrama = function(){
             {
 				name:"synth",
 				file:"images/spines/synth/synth.json"
+			},
+            {
+				name:"speaker",
+				file:"images/spines/speaker/speaker.json"
 			}
 		]
     }
@@ -120,6 +124,7 @@ var rockOrama = function(){
     var coin
     var instrumentsGroup
     var buttonsGroup
+    var speakerGroup
     var coneLigth
     var index
     var level
@@ -349,16 +354,41 @@ var rockOrama = function(){
         backLigth.scale.setTo(1, 0.7)
         backLigth.width = game.world.width
             
-        sceneGroup.add(game.add.tileSprite(0, backLigth.height, game.world.width, game.world.centerY + 30, "atlas.rockOrama", "tile"))
+        sceneGroup.add(game.add.tileSprite(0, backLigth.height, game.world.width, game.world.centerY + 60, "atlas.rockOrama", "tile"))
         
         sceneGroup.add(game.add.tileSprite(0, 0, game.world.width, 45, "atlas.rockOrama", "top"))
        
-        var bottom = sceneGroup.create(-5, game.world.height - 100, "atlas.rockOrama", "bottom")
+        var bottom = sceneGroup.create(-5, game.world.height - 50, "atlas.rockOrama", "bottom")
         bottom.anchor.setTo(0, 1)
         bottom.width = game.world.width + 10
         
-        var stage = sceneGroup.create(game.world.centerX, game.world.centerY - 150, "atlas.rockOrama", "stage")
+        var stage = sceneGroup.create(game.world.centerX, game.world.centerY - 100, "atlas.rockOrama", "stage")
         stage.anchor.setTo(0.5)
+        
+        speakerGroup = game.add.group()
+        sceneGroup.add(speakerGroup)
+        
+        var pivotX = 0.5
+        var pivotY = 1
+        
+        for(var i = 0; i < 4; i++){
+            
+            var speaker = game.add.spine(stage.centerX * pivotX, stage.centerY * pivotY, "speaker")
+            //anim.scale.setTo(0.5)
+            speaker.setAnimationByName(0, "idle", true)
+            speaker.setSkinByName("normal")
+            speakerGroup.add(speaker) 
+            
+            pivotY += 0.5
+            if(i == 1){
+                pivotX++ 
+                pivotY = 1
+            }
+        }
+        speakerGroup.children[1].x -= 60
+        speakerGroup.children[2].scale.setTo(-1, 1)
+        speakerGroup.children[3].x += 60
+        speakerGroup.children[3].scale.setTo(-1, 1)
     }
 
 	function update(){
@@ -595,7 +625,7 @@ var rockOrama = function(){
         buttonsGroup = game.add.group()
         sceneGroup.add(buttonsGroup)  
         
-        var box = game.add.graphics(game.world.centerX - 75, game.world.centerY - 320)
+        var box = game.add.graphics(game.world.centerX - 75, game.world.centerY - 260)
         box.beginFill(0xFF3300)
         box.drawRect(0, 0, 150, 180)
         box.alpha = 0
@@ -608,7 +638,7 @@ var rockOrama = function(){
         
         for(var t = 0; t < 3; t++)
         {
-            var box = game.add.graphics((game.world.centerX * pivot) - 75, game.world.centerY + 30)
+            var box = game.add.graphics((game.world.centerX * pivot) - 75, game.world.centerY + 80)
             box.beginFill(0xFF3300)
             box.drawRect(0, 0, 150, 180)
             box.alpha = 0
@@ -696,6 +726,9 @@ var rockOrama = function(){
                     instrumentsGroup.children[i].setAnimationByName(0, "PLAY", false)
                     instrumentsGroup.children[i].addAnimationByName(0, "IDLE", true)
                 }
+                for(var i = 0; i < speakerGroup.length; i++){
+                    speakerGroup.children[i].setAnimationByName(0, "play", true)
+                }
             },this)  
         }
         else{
@@ -713,6 +746,9 @@ var rockOrama = function(){
         game.time.events.add(3800,function(){
             game.add.tween(courtinesGroup.children[0].scale).to({x:1}, 500, Phaser.Easing.linear,true)
             game.add.tween(courtinesGroup.children[1].scale).to({x:1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+                for(var i = 0; i < speakerGroup.length; i++){
+                    speakerGroup.children[i].setAnimationByName(0, "idle", true)
+                }
                 game.time.events.add(400,function(){
                     if(lives !== 0)
                         initGame()
