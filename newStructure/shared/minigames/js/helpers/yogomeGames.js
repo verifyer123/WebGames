@@ -7,6 +7,7 @@ var gameTypeEnum = {
 	SEQUENCE:4,
 	TARGET:5,
 	TRACE:6,
+	TAP:7,
 };
 
 var yogomeGames = function () {

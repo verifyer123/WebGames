@@ -1,68 +1,68 @@
 
 grab.png
-size: 512,256
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm
   rotate: false
-  xy: 336, 231
+  xy: 104, 121
   size: 31, 23
   orig: 31, 23
   offset: 0, 0
   index: -1
 normal/background
   rotate: false
-  xy: 2, 61
+  xy: 2, 146
   size: 236, 193
   orig: 236, 193
   offset: 0, 0
   index: -1
 normal/bag_ball
   rotate: false
-  xy: 60, 6
+  xy: 2, 33
   size: 52, 53
   orig: 52, 53
   offset: 0, 0
   index: -1
 normal/bag_handle
   rotate: false
-  xy: 293, 223
+  xy: 240, 251
   size: 41, 31
   orig: 41, 31
   offset: 0, 0
   index: -1
 normal/body
   rotate: false
-  xy: 240, 147
+  xy: 61, 94
   size: 41, 50
   orig: 41, 50
   offset: 0, 0
   index: -1
 normal/head
   rotate: false
-  xy: 240, 199
+  xy: 240, 284
   size: 51, 55
   orig: 51, 55
   offset: 0, 0
   index: -1
 normal/leg_bent
   rotate: false
-  xy: 114, 28
+  xy: 293, 308
   size: 40, 31
   orig: 40, 31
   offset: 0, 0
   index: -1
 normal/leg_stretched
   rotate: false
-  xy: 240, 116
+  xy: 2, 2
   size: 39, 29
   orig: 39, 29
   offset: 0, 0
   index: -1
 normal/star
-  rotate: true
-  xy: 2, 2
+  rotate: false
+  xy: 2, 88
   size: 57, 56
   orig: 57, 56
   offset: 0, 0
