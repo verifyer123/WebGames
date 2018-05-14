@@ -117,6 +117,8 @@ var beeTravel = function(){
     var line2Group
     var line3Group
     var line4Group
+    var line5Group
+    var line6Group
 
     var canTouch = false
     var touchStarted = false
@@ -158,7 +160,7 @@ var beeTravel = function(){
         spacesInLine = 0
         currentWalkSpaces = INIT_WALK_SPACES
 
-        space_0 = {x:game.world.centerX - (((X_SPACES-1)/2)*DELTA_SPACE_X), y: game.world.centerY +(((Y_SPACES-1)/2)*DELTA_SPACE_Y)}
+        space_0 = {x:game.world.centerX - (((X_SPACES-1)/2)*DELTA_SPACE_X), y: game.world.centerY +50+(((Y_SPACES-1)/2)*DELTA_SPACE_Y)}
         currentRuteId = 0
         ruteArray = []
         gridArray = []
@@ -698,6 +700,7 @@ var beeTravel = function(){
     function setFlowerLevel(flower,line){
         flowersInUse.push(flower)
         //flowerGroup.remove(flower)
+        //console.log("line"+line)
         switch(line){
             case 0:
             line1Group.add(flower)
@@ -710,6 +713,12 @@ var beeTravel = function(){
             break
             case 3:
             line4Group.add(flower)
+            break
+            case 4:
+            line5Group.add(flower)
+            break
+            case 5:
+            line6Group.add(flower)
             break
         }
     }
@@ -944,13 +953,17 @@ var beeTravel = function(){
         returnFlowers(line2Group)
         returnFlowers(line3Group)
         returnFlowers(line4Group)
+        returnFlowers(line5Group)
+        returnFlowers(line6Group)
 
         line1Group.removeAll()
         line2Group.removeAll()
         line3Group.removeAll()
         line4Group.removeAll()
+        line5Group.removeAll()
+        line6Group.removeAll()
 
-        console.log(flowerGroup.length)
+        //console.log(flowerGroup.length)
 
         for(var i = 0; i < flowerGroup.length; i++){
             flowerGroup.children[i].visible = false
@@ -972,10 +985,10 @@ var beeTravel = function(){
 
         flowersInUse = []
 
-        console.log(line1Group.length)
+        /*console.log(line1Group.length)
         console.log(line2Group.length)
         console.log(line3Group.length)
-        console.log(line4Group.length)
+        console.log(line4Group.length)*/
 
         for(var i = 0; i < line1Group.length; i++){
         	if(line1Group.children[i].alpha == 1){
@@ -995,6 +1008,16 @@ var beeTravel = function(){
         for(var i = 0; i < line4Group.length; i++){
             if(line4Group.children[i].alpha == 1){
                 game.add.tween(line4Group.children[i]).from({alpha:1}).to({alpha:0},1000,Phaser.Easing.Linear.none,true)
+            }
+        }
+        for(var i = 0; i < line5Group.length; i++){
+            if(line5Group.children[i].alpha == 1){
+                game.add.tween(line5Group.children[i]).from({alpha:1}).to({alpha:0},1000,Phaser.Easing.Linear.none,true)
+            }
+        }
+        for(var i = 0; i < line6Group.length; i++){
+            if(line6Group.children[i].alpha == 1){
+                game.add.tween(line6Group.children[i]).from({alpha:1}).to({alpha:0},1000,Phaser.Easing.Linear.none,true)
             }
         }
 
@@ -1041,6 +1064,12 @@ var beeTravel = function(){
     function createFlowers(){
         flowerGroup = game.add.group()
         sceneGroup.add(flowerGroup)
+
+        line6Group = game.add.group()
+        sceneGroup.add(line6Group)
+
+        line5Group = game.add.group()
+        sceneGroup.add(line5Group)
 
         line4Group = game.add.group()
         sceneGroup.add(line4Group)
@@ -1153,7 +1182,7 @@ var beeTravel = function(){
         var backgroundTile = game.add.tileSprite(0,0,game.world.width,game.world.height,'atlas.beeTravel','background')
         backgroundGroup.add(backgroundTile)
 
-        var background = game.add.sprite(game.world.centerX,game.world.centerY,'atlas.beeTravel','chess')
+        var background = game.add.sprite(game.world.centerX,game.world.centerY+50,'atlas.beeTravel','chess')
         background.anchor.setTo(0.5)
         backgroundGroup.add(background)
 
