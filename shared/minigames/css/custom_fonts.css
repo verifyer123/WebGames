@@ -8,6 +8,47 @@
 	src: url('../fonts/AvenirHeavy.otf');
 }
 
+@font-face {
+	font-family: 'Gotham light';
+	src: url('../fonts/gotham/Gotham-Light.eot');
+	src: local('Gotham Light'), local('Gotham-Light'),
+		url('../fonts/Gotham-Light.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Gotham-Light.otf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+
+@font-face {
+	font-family: 'Gotham bold';
+	src: url('../fonts/gotham/Gotham-Bold.eot');
+	src: local('Gotham Bold'), local('Gotham-Bold'),
+		url('../fonts/Gotham-Bold.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Gotham-Bold.otf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('../fonts/gotham/Gotham-Medium.eot');
+	src: local('Gotham Medium'), local('Gotham-Medium'),
+		url('../fonts/Gotham-Medium.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Gotham-Medium.otf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham Book';
+	src: url('../fonts/gotham/Gotham-Book.eot');
+	src: local('Gotham Book'), local('Gotham-Book'),
+		url('../fonts/Gotham-Book.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/Gotham-Book.otf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 .custom-font{
 	font-family: "VAGRounded";
 	opacity: 0;
