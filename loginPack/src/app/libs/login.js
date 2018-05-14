@@ -1,5 +1,5 @@
 export var login = function () {
-	var url = "https://test-master-dot-heroesofknowledgedev.appspot.com"
+	var url = "https://12-dot-heroesofknowledge.appspot.com"
 
 	var GAME = "play.yogome"
 
@@ -33,7 +33,6 @@ export var login = function () {
 			}else {
 				localStorage.clear()
 				if(onError)onError(response)
-				console.log("error")
 				// if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
@@ -41,7 +40,6 @@ export var login = function () {
 			// console.log("error", response);
 			localStorage.clear()
 			if(onError)onError(response)
-			console.log(onError)
 			// if(!signInCallback) modal.showLogin()
 			// modal.showLogin()
 		});
