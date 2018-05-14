@@ -14,7 +14,7 @@ export class Players extends React.Component {
 		this.language = localization.getLanguage()
 
 		this.togglePin = this.togglePin.bind(this)
-		console.log(props.children)
+		//console.log(props.children)
 
 	}
 
