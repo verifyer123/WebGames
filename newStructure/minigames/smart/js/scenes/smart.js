@@ -991,29 +991,29 @@ var smart = function(){
         basketGroup.y = game.world.height
         sceneGroup.add(basketGroup)
 
-        var basket = sceneGroup.create(0,100,"atlas.game","BASKET")
+        var basket = sceneGroup.create(0,0,"atlas.game","BASKET")
         basket.anchor.setTo(0.5,1)
         basketGroup.add(basket)
 
         signsArray.push(createSign(0))
-        signsArray[0].x = basket.x+230
-        signsArray[0].y = basket.y-520
+        signsArray[0].x = basket.x+180
+        signsArray[0].y = basket.y-500
         signsArray[0].angle = 15
         basketGroup.add(signsArray[0])
 
         signsArray.push(createSign(1))
         signsArray[1].x = basket.x
-        signsArray[1].y = basket.y-540
+        signsArray[1].y = basket.y-490
         signsArray[1].angle = 15
         basketGroup.add(signsArray[1])
 
         signsArray.push(createSign(2))
         signsArray[2].x = basket.x-140
-        signsArray[2].y = basket.y-500
+        signsArray[2].y = basket.y-450
         signsArray[2].angle = 15
         basketGroup.add(signsArray[2])
 
-        var milkBox = sceneGroup.create(basket.x+170,basket.y-400,'atlas.game','MILK_BASKET')
+        var milkBox = sceneGroup.create(basket.x+170,basket.y-340,'atlas.game','MILK_BASKET')
         milkBox.anchor.setTo(0.5)
         milkBox.inputEnabled = true
         milkBox.id = 0
@@ -1021,7 +1021,7 @@ var smart = function(){
         tutorialButtons.push(milkBox)
         basketGroup.add(milkBox)
 
-        var juiceBox = sceneGroup.create(basket.x,basket.y-400,'atlas.game','OJ_BASKET')
+        var juiceBox = sceneGroup.create(basket.x,basket.y-340,'atlas.game','OJ_BASKET')
         juiceBox.anchor.setTo(0.5)
         juiceBox.inputEnabled = true
         juiceBox.id = 1
@@ -1029,7 +1029,7 @@ var smart = function(){
         tutorialButtons.push(juiceBox)
         basketGroup.add(juiceBox)
 
-        var breadBox = sceneGroup.create(basket.x-170,basket.y-400,'atlas.game','BREAD_BASKET')
+        var breadBox = sceneGroup.create(basket.x-170,basket.y-340,'atlas.game','BREAD_BASKET')
         breadBox.anchor.setTo(0.5)
         breadBox.inputEnabled = true
         breadBox.id = 2
@@ -1040,38 +1040,38 @@ var smart = function(){
 
         signsArray.push(createSign(3))
         signsArray[3].x = basket.x-270
-        signsArray[3].y = basket.y-350
+        signsArray[3].y = basket.y-320
         signsArray[3].angle = -15
         basketGroup.add(signsArray[3])
 
         signsArray.push(createSign(4))
         signsArray[4].x = basket.x+250
-        signsArray[4].y = basket.y-400
+        signsArray[4].y = basket.y-370
         signsArray[4].angle = 15
         basketGroup.add(signsArray[4])
 
         signsArray.push(createSign(5))
-        signsArray[5].x = basket.x-100
-        signsArray[5].y = basket.y-340
-        signsArray[5].angle = -15
+        signsArray[5].x = basket.x+70
+        signsArray[5].y = basket.y-330
+        signsArray[5].angle = 15
         basketGroup.add(signsArray[5])
 
 
-        var appleBox = sceneGroup.create(basket.x-180,basket.y-270,'atlas.game','APPLE_BASKET')
+        var appleBox = sceneGroup.create(basket.x-180,basket.y-280,'atlas.game','APPLE_BASKET')
         appleBox.anchor.setTo(0.5)
         appleBox.inputEnabled = true
         appleBox.id = 3
         appleBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(appleBox)
         basketGroup.add(appleBox)
-        var bananaBox = sceneGroup.create(basket.x+220,basket.y-270,'atlas.game','BANANA_BASTE')
+        var bananaBox = sceneGroup.create(basket.x+220,basket.y-280,'atlas.game','BANANA_BASTE')
         bananaBox.anchor.setTo(0.5)
         bananaBox.inputEnabled = true
         bananaBox.id = 4
         bananaBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(bananaBox)
         basketGroup.add(bananaBox)
-        var carrotBox = sceneGroup.create(basket.x,basket.y-240,'atlas.game','CARROT_BASKET')
+        var carrotBox = sceneGroup.create(basket.x,basket.y-225,'atlas.game','CARROT_BASKET')
         carrotBox.anchor.setTo(0.5)
         carrotBox.inputEnabled = true
         carrotBox.id = 5

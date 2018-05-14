@@ -6,42 +6,42 @@ filter: Linear,Linear
 repeat: none
 normal/apple
   rotate: false
-  xy: 852, 834
-  size: 169, 187
-  orig: 169, 187
+  xy: 636, 797
+  size: 129, 145
+  orig: 129, 145
   offset: 0, 0
   index: -1
 normal/bannana
-  rotate: false
-  xy: 271, 776
-  size: 272, 245
-  orig: 272, 245
+  rotate: true
+  xy: 2, 2
+  size: 212, 200
+  orig: 212, 200
   offset: 0, 0
   index: -1
 normal/bread
-  rotate: true
-  xy: 2, 435
+  rotate: false
+  xy: 2, 742
   size: 325, 200
   orig: 325, 200
   offset: 0, 0
   index: -1
 normal/carrot
   rotate: false
-  xy: 2, 762
-  size: 267, 259
-  orig: 267, 259
+  xy: 2, 216
+  size: 162, 232
+  orig: 162, 232
   offset: 0, 0
   index: -1
 normal/milk
   rotate: false
-  xy: 2, 143
+  xy: 2, 450
   size: 169, 290
   orig: 169, 290
   offset: 0, 0
   index: -1
 normal/orange
   rotate: true
-  xy: 545, 867
+  xy: 329, 788
   size: 154, 305
   orig: 154, 305
   offset: 0, 0

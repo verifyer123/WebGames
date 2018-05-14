@@ -1,6 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
 
-
 var climbvoid = function(){
 
 	var COLLISION_TYPE={
