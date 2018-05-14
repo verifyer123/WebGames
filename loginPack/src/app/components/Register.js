@@ -80,10 +80,12 @@ export class Register extends React.Component {
 				this.props.setChildData({parentMail: email})
 				this.props.onNext("players", children)
 			}
-			else{
+			else if((response.child)||(children)){
 				let child = children ? children[0] : response.child
 				this.props.setChildData(child)
 				this.props.onNext("nickname", this.registerType)
+			}else{
+				this.props.onNext("nickname", "newChild")
 			}
 
 			$('#loadSpace').css("display", "none")

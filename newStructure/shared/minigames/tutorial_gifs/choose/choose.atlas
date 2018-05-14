@@ -1,40 +1,47 @@
 
 choose.png
-size: 512,64
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+normal2/box
+  rotate: false
+  xy: 2, 138
+  size: 236, 193
+  orig: 236, 193
+  offset: 0, 0
+  index: -1
 normal2/circle_1
   rotate: false
-  xy: 128, 2
+  xy: 48, 88
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 normal2/circle_2
   rotate: false
-  xy: 178, 2
+  xy: 284, 283
   size: 47, 48
   orig: 47, 48
   offset: 0, 0
   index: -1
 normal2/circle_3
   rotate: false
-  xy: 227, 2
+  xy: 98, 88
   size: 47, 48
   orig: 47, 48
   offset: 0, 0
   index: -1
 normal2/hand_normal
-  rotate: true
-  xy: 2, 6
+  rotate: false
+  xy: 2, 72
   size: 44, 64
   orig: 44, 64
   offset: 0, 0
   index: -1
 normal2/hand_select
-  rotate: true
-  xy: 68, 8
+  rotate: false
+  xy: 240, 273
   size: 42, 58
   orig: 42, 58
   offset: 0, 0

@@ -1,9 +1,16 @@
 
 match.png
-size: 256,64
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+normal4/background
+  rotate: false
+  xy: 2, 53
+  size: 236, 193
+  orig: 236, 193
+  offset: 0, 0
+  index: -1
 normal4/piece_1
   rotate: true
   xy: 2, 3
