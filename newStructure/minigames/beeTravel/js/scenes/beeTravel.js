@@ -652,7 +652,7 @@ var beeTravel = function(){
 
                 if(i==tempSpacestoWalk){
                     if(currentY-1 == initialPos.y){
-                        console.log("final flower cant be behind initial flower")
+                        //console.log("final flower cant be behind initial flower")
                         tempSpacestoWalk++
                     }
                 }
@@ -740,7 +740,7 @@ var beeTravel = function(){
                 
                 if(ruteArray[i].y > 0){
                     if(gridArray[ruteArray[i].x][ruteArray[i].y-1]==2 || i == ruteArray.length-2){
-                        console.log("Flower not set, another flower is in front")
+                        //console.log("Flower not set, another flower is in front")
                         continue
                     }
                 
@@ -763,7 +763,7 @@ var beeTravel = function(){
         lastFlower.y = space_0.y - (ruteArray[ruteArray.length-1].y*DELTA_SPACE_Y)
 
         if(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y+1]!=null){
-            console.log("Quit flower because is in fron of lastFlower")
+            //console.log("Quit flower because is in fron of lastFlower")
             flowerGroup.add(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y])
         }
 
@@ -793,7 +793,7 @@ var beeTravel = function(){
     function arrowMove(){
 
         if(arrowId < ruteArray.length){
-            console.log("udgaskv "+arrow.alpha)
+           //console.log("udgaskv "+arrow.alpha)
             var dir
             getDrectionArrow(ruteArray[arrowId-1],ruteArray[arrowId])
             arrowTween = game.add.tween(arrow).to({x: space_0.x+ (ruteArray[arrowId].x*DELTA_SPACE_X), y:space_0.y- (ruteArray[arrowId].y*DELTA_SPACE_Y)},400,Phaser.Easing.linear,true)
