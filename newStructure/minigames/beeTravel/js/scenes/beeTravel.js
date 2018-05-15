@@ -1457,7 +1457,8 @@ var beeTravel = function(){
 
         createPointsBar()
         createHearts()
-
+        
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
         correctParticle = createPart('atlas.beeTravel','star')
 
