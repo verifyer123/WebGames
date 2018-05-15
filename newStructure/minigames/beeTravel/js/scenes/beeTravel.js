@@ -691,8 +691,7 @@ var beeTravel = function(){
         initialFlower.y = space_0.y - (ruteArray[0].y*DELTA_SPACE_Y)
         initialFlower.flowerDead.alpha = 0
         initialFlower.flowerAlive.alpha = 1
-
-
+        gridArray[initialPos.x][initialPos.y] = 2
 
         arrow.x = initialFlower.x
         arrow.y = initialFlower.y
@@ -744,11 +743,15 @@ var beeTravel = function(){
             if(currentSpacesThrow>spacesThrowFlower){
                 
                 if(ruteArray[i].y > 0){
-                    if(gridArray[ruteArray[i].x][ruteArray[i].y-1]==2 || i == ruteArray.length-2){
+                    if(gridArray[ruteArray[i].x][ruteArray[i].y-1]==2){
                         //console.log("Flower not set, another flower is in front")
                         continue
                     }
                 
+                }
+
+                if(i == ruteArray.length-2){
+                    continue
                 }
                 var flower = getFlower()
                 gridArray[ruteArray[i].x][ruteArray[i].y] = 2
@@ -767,9 +770,11 @@ var beeTravel = function(){
         lastFlower.x = space_0.x + (ruteArray[ruteArray.length-1].x*DELTA_SPACE_X)
         lastFlower.y = space_0.y - (ruteArray[ruteArray.length-1].y*DELTA_SPACE_Y)
 
-        if(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y+1]!=null){
+        if(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1]!=null){
             //console.log("Quit flower because is in fron of lastFlower")
-            flowerGroup.add(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y])
+            gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1].visible = false
+            flowerGroup.add(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1])
+            //console.log("")
         }
 
         game.add.tween(lastFlower).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
@@ -1457,7 +1462,7 @@ var beeTravel = function(){
 
         createPointsBar()
         createHearts()
-        
+
         this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
         correctParticle = createPart('atlas.beeTravel','star')
