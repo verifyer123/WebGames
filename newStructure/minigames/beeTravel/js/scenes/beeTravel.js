@@ -81,6 +81,7 @@ var beeTravel = function(){
     var LEVLES_TO_TIMER = 0
 
     var FLOWERS_NUMBER = 7
+    var DELTA_ARROW = 80
 
     
     var lives
@@ -142,10 +143,12 @@ var beeTravel = function(){
     var flowersInUse
     var downTouch
     var tutorialTouch
+    var arrow, arrowId, arrowTween, arrowAlphaTween
 
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
+        game.sound.volume = 0.5
 	}
 
 	function initialize(){
@@ -178,6 +181,7 @@ var beeTravel = function(){
         restartArraySpaces()
 
         loadSounds()
+
         
 	}
 
@@ -190,8 +194,6 @@ var beeTravel = function(){
                 gridArrayFlower[i][j] = null
             }
         }
-
-
     }
 
     function preload(){
@@ -395,7 +397,6 @@ var beeTravel = function(){
             nextRound()
         }
         
-        // addNumberPart(batteryGroup,'-1')
     }
     
 
@@ -412,8 +413,10 @@ var beeTravel = function(){
         if(canTouch){
             if(game.input.activePointer.isDown){
                 var pos = evaluateTouchPosition()
+
                // console.log(pos)
                 if(touchStarted){
+
                     if((pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y) && !(pos.x ==decidedRute[decidedRute.length-2].x && pos.y ==decidedRute[decidedRute.length-2].y)){
 
                         var dX = Math.abs(pos.x - decidedRute[decidedRute.length-1].x)
@@ -432,14 +435,11 @@ var beeTravel = function(){
                     var dY = Math.abs(pos.y - ruteArray[0].y)
 
                     if(dX + dY == 1){
-
+                        sound.play("pop")
                         touchStarted = true
 
                         setLineDirection(pos,decidedRute[decidedRute.length-1])
                         decidedRute.push({x:pos.x, y:pos.y})
-                        
-                        
-
                         
                     }
                 }
@@ -448,7 +448,7 @@ var beeTravel = function(){
                 downTouch = false
                 if(touchStarted){
                     canTouch = false
-
+                    sound.play("pop")
                     if(timeOn){
                         stopTimer()
                     }
@@ -598,6 +598,7 @@ var beeTravel = function(){
         gridArray[initialPos.x][initialPos.y] = 1
         ruteArray[0] = {x:initialPos.x, y:initialPos.y}
         currentDirection = game.rnd.integerInRange(0,3)
+        var initialDirection = currentDirection
         var currentX = initialPos.x
         var currentY = initialPos.y
         var i = 0
@@ -663,19 +664,6 @@ var beeTravel = function(){
 
         }
 
-        /*madriguera.x = space_0.x + (ruteArray[ruteArray.length-1].x*DELTA_SPACE_X)
-        madriguera.y = space_0.y - (ruteArray[ruteArray.length-1].y*DELTA_SPACE_Y)
-
-        if(finishRight){
-            madriguera.scale.setTo(1,1)
-        }
-        else{
-            madriguera.scale.setTo(-1,1)
-        }*/
-        //madriguera.alpha = 1
-
-        //bee.x = space_0.x + (ruteArray[0].x*DELTA_SPACE_X)
-        //bee.y = space_0.y - (ruteArray[0].y*DELTA_SPACE_Y)
 
         setDirection(ruteArray[1],ruteArray[0])
 
@@ -698,6 +686,49 @@ var beeTravel = function(){
         initialFlower.y = space_0.y - (ruteArray[0].y*DELTA_SPACE_Y)
         initialFlower.flowerDead.alpha = 0
         initialFlower.flowerAlive.alpha = 1
+
+
+
+        arrow.x = initialFlower.x
+        arrow.y = initialFlower.y- 5
+
+        if(ruteArray[0].x == ruteArray[1].x){
+            if(ruteArray[0].y > ruteArray[1].y){
+                initialDirection =  3
+            }
+            else{
+                initialDirection =  2
+            }
+        }
+        else{
+            if(ruteArray[0].x > ruteArray[1].x){
+                initialDirection =  1
+            }
+            else{
+                initialDirection =  0
+            }
+        }
+
+        switch(initialDirection){
+            case 0:
+            //arrow.x += DELTA_ARROW
+            arrow.angle = 90
+            break
+            case 1:
+            //arrow.x -= DELTA_ARROW
+            arrow.angle = -90
+            break
+            case 2:
+            //arrow.y -= DELTA_ARROW
+            arrow.angle = 0
+            break
+            case 3:
+            //arrow.y += DELTA_ARROW
+            arrow.angle = 180
+            break
+        }
+
+        game.add.tween(arrow).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(makeAlphaArrow)
         game.add.tween(initialFlower).to({alpha:1},1000,Phaser.Easing.linear,true)
         setFlowerLevel(initialFlower,ruteArray[0].y)
         for(var i = 1; i < ruteArray.length; i++){
@@ -731,8 +762,6 @@ var beeTravel = function(){
         lastFlower.x = space_0.x + (ruteArray[ruteArray.length-1].x*DELTA_SPACE_X)
         lastFlower.y = space_0.y - (ruteArray[ruteArray.length-1].y*DELTA_SPACE_Y)
 
-        console.log(gridArrayFlower)
-
         if(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y+1]!=null){
             console.log("Quit flower because is in fron of lastFlower")
             flowerGroup.add(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y])
@@ -745,8 +774,80 @@ var beeTravel = function(){
 
 
         setFlowerLevel(lastFlower,ruteArray[ruteArray.length-1].y)
-        
+        arrowId = 1
+        arrowMove()
 
+    }
+
+    function makeAlphaArrow(){
+        if(arrow.alpha > 0.5){
+            arrowAlphaTween = game.add.tween(arrow).to({alpha:0},1000,Phaser.Easing.linear,true)
+            arrowAlphaTween.onComplete.add(makeAlphaArrow)
+        }
+        else{
+            arrowAlphaTween = game.add.tween(arrow).to({alpha:1},1000,Phaser.Easing.linear,true)
+            arrowAlphaTween.onComplete.add(makeAlphaArrow)
+        }
+    }
+
+    function arrowMove(){
+
+        if(arrowId < ruteArray.length){
+            console.log("udgaskv "+arrow.alpha)
+            var dir
+            getDrectionArrow(ruteArray[arrowId-1],ruteArray[arrowId])
+            arrowTween = game.add.tween(arrow).to({x: space_0.x+ (ruteArray[arrowId].x*DELTA_SPACE_X), y:space_0.y- (ruteArray[arrowId].y*DELTA_SPACE_Y)},400,Phaser.Easing.linear,true)
+            arrowId++
+            arrowTween.onComplete.add(arrowMove)
+
+        }
+        else{
+
+            getDrectionArrow(ruteArray[0],ruteArray[1])
+            arrow.x = space_0.x+ (ruteArray[0].x*DELTA_SPACE_X)
+            arrow.y = space_0.y- (ruteArray[0].y*DELTA_SPACE_Y)
+            arrowId = 1
+            arrowMove()
+
+        }
+    }
+
+    function getDrectionArrow(p1,p2){
+        if(p1.x == p2.x){
+            if(p1.y > p2.y){
+                dir =  3
+            }
+            else{
+                dir =  2
+            }
+        }
+        else{
+            if(p1.x > p2.x){
+                dir =  1
+            }
+            else{
+                dir =  0
+            }
+        }
+
+        switch(dir){
+            case 0:
+            //arrow.x += DELTA_ARROW
+            arrow.angle = 90
+            break
+            case 1:
+            //arrow.x -= DELTA_ARROW
+            arrow.angle = -90
+            break
+            case 2:
+            //arrow.y -= DELTA_ARROW
+            arrow.angle = 0
+            break
+            case 3:
+            //arrow.y += DELTA_ARROW
+            arrow.angle = 180
+            break
+        }
     }
 
 
@@ -973,10 +1074,21 @@ var beeTravel = function(){
     			game.add.tween(verticalGroup.children[i]).from({alpha:1}).to({alpha:0},time,Phaser.Easing.Linear.none,true)
     		}
     	}
+
+        //game.add.tween(arrow).from({alpha:1}).to({alpha:0},time,Phaser.Easing.Linear.none,true)
+
     }
 
     function startBee(){
+        if(arrowAlphaTween!=null){
+            arrowAlphaTween.stop()
+        }
 
+        game.add.tween(arrow).to({alpha:0},1000,Phaser.Easing.Linear.none,true).onComplete.add(function(){
+            if(arrowTween!=null){
+                arrowTween.stop()
+            }
+        })
         releaseLines(1000)
 
     	//console.log("rabitEnd rute")
@@ -1101,6 +1213,7 @@ var beeTravel = function(){
             }
         }
         //game.add.tween(madriguera).from({alpha:1}).to({alpha:0},500,Phaser.Easing.Linear.none,true)
+        arrow.alpha = 0
         game.add.tween(bee).from({alpha:1}).to({alpha:0},1000,Phaser.Easing.Linear.none,true).onComplete.add(setRound)
         //setRound()
     }
@@ -1256,6 +1369,7 @@ var beeTravel = function(){
 
 
         backgroundSound = game.add.audio('gameSong')
+        backgroundSound.volume = 2
         game.sound.setDecodedCallback(backgroundSound, function(){
             backgroundSound.loopFull(0.6)
         }, this);
@@ -1285,7 +1399,7 @@ var beeTravel = function(){
         horizontalbtm.ctx.setLineDash([deltaLine/8,deltaLine/4,deltaLine/4,deltaLine/4,deltaLine/8]);        
         horizontalbtm.ctx.moveTo(0, 0);        
         horizontalbtm.ctx.lineTo(deltaLine , 0);        
-        horizontalbtm.ctx.stroke();       
+        horizontalbtm.ctx.stroke(); 
         horizontalbtm.ctx.closePath();        
         //horizontalLine = game.add.sprite(game.world.centerX, game.world.centerY, horizontalbtm);
         //horizontalLine = game.add.sprite(game.world.centerX+DELTA_SPACE, game.world.centerY, horizontalbtm);
@@ -1307,6 +1421,9 @@ var beeTravel = function(){
         //verticalLine.anchor.setTo(0,1)
         //verticalLine.alpha = 0
 
+       
+
+
         
         initialize()
 
@@ -1314,6 +1431,12 @@ var beeTravel = function(){
         sceneGroup.add(horizontalGroup)
         verticalGroup = game.add.group()
         sceneGroup.add(verticalGroup)
+
+
+         arrow = sceneGroup.create(0,0,"atlas.beeTravel","ARROW")
+        arrow.anchor.setTo(0.5)
+        arrow.alpha = 0
+        arrow.scale.setTo(0.7)
 
         
         createTutorial()

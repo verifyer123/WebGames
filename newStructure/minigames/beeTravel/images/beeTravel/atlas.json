@@ -1,6 +1,15 @@
 {"frames": [
 
 {
+	"filename": "ARROW",
+	"frame": {"x":210,"y":1852,"w":40,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":44},
+	"sourceSize": {"w":40,"h":44},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "background",
 	"frame": {"x":1,"y":1,"w":540,"h":960},
 	"rotated": false,
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":210,"y":1852,"w":165,"h":41},
+	"frame": {"x":252,"y":1852,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -52,6 +61,6 @@
 	"format": "RGBA8888",
 	"size": {"w":542,"h":1917},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:aad20bd257e49f8ebc1f26733a8377dd:a643b70077a5f25054041795666c9a03:13758195e78318f71699046bfaa4bba8$"
+	"smartupdate": "$TexturePacker:SmartUpdate:97480a78d49b16ee585aaf252ccdd077:f2249bc8c00a853b2ba23476ce6182bc:13758195e78318f71699046bfaa4bba8$"
 }
 }
