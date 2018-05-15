@@ -78,7 +78,7 @@ var beeTravel = function(){
     var INITIAL_TIME = 8000
     var DELTA_TIME = 200
     var MIN_TIME = 2000
-    var LEVLES_TO_TIMER = 0
+    var LEVLES_TO_TIMER = 3
 
     var FLOWERS_NUMBER = 7
     var DELTA_ARROW = 80
@@ -414,11 +414,16 @@ var beeTravel = function(){
             if(game.input.activePointer.isDown){
                 var pos = evaluateTouchPosition()
 
+
                // console.log(pos)
                 if(touchStarted){
 
-                    if((pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y) && !(pos.x ==decidedRute[decidedRute.length-2].x && pos.y ==decidedRute[decidedRute.length-2].y)){
-
+                    if((pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y) ){
+                        if(decidedRute.length>1){
+                            if((pos.x ==decidedRute[decidedRute.length-2].x && pos.y ==decidedRute[decidedRute.length-2].y)){
+                                return
+                            }
+                        }
                         var dX = Math.abs(pos.x - decidedRute[decidedRute.length-1].x)
                         var dY = Math.abs(pos.y - decidedRute[decidedRute.length-1].y)
 
@@ -461,7 +466,7 @@ var beeTravel = function(){
             if(tutorialTouch){
                 if(game.input.activePointer.isDown){
                     if(!downTouch){
-                        sound.play("wrong")
+                        //`sound.play("wrong")
                         downTouch = true
                     }
                 }
@@ -690,7 +695,7 @@ var beeTravel = function(){
 
 
         arrow.x = initialFlower.x
-        arrow.y = initialFlower.y- 5
+        arrow.y = initialFlower.y
 
         if(ruteArray[0].x == ruteArray[1].x){
             if(ruteArray[0].y > ruteArray[1].y){
@@ -833,19 +838,23 @@ var beeTravel = function(){
         switch(dir){
             case 0:
             //arrow.x += DELTA_ARROW
+            arrow.anchor.setTo(0.6)
             arrow.angle = 90
             break
             case 1:
             //arrow.x -= DELTA_ARROW
             arrow.angle = -90
+            arrow.anchor.setTo(0.5)
             break
             case 2:
             //arrow.y -= DELTA_ARROW
             arrow.angle = 0
+            arrow.anchor.setTo(0.6)
             break
             case 3:
             //arrow.y += DELTA_ARROW
             arrow.angle = 180
+            arrow.anchor.setTo(0.4)
             break
         }
     }
