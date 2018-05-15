@@ -1,0 +1,139 @@
+
+gift.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/box_low_a
+  rotate: false
+  xy: 2, 154
+  size: 138, 102
+  orig: 138, 102
+  offset: 0, 0
+  index: -1
+normal1/box_low_b
+  rotate: false
+  xy: 142, 273
+  size: 138, 102
+  orig: 138, 102
+  offset: 0, 0
+  index: -1
+normal1/box_low_c
+  rotate: false
+  xy: 282, 392
+  size: 138, 102
+  orig: 138, 102
+  offset: 0, 0
+  index: -1
+normal1/box_top_a
+  rotate: false
+  xy: 2, 377
+  size: 138, 117
+  orig: 138, 117
+  offset: 0, 0
+  index: -1
+normal1/box_top_b
+  rotate: false
+  xy: 2, 258
+  size: 138, 117
+  orig: 138, 117
+  offset: 0, 0
+  index: -1
+normal1/box_top_c
+  rotate: false
+  xy: 142, 377
+  size: 138, 117
+  orig: 138, 117
+  offset: 0, 0
+  index: -1
+normal1/bun_l_a
+  rotate: false
+  xy: 349, 310
+  size: 64, 80
+  orig: 64, 80
+  offset: 0, 0
+  index: -1
+normal1/bun_l_b
+  rotate: false
+  xy: 142, 191
+  size: 65, 80
+  orig: 65, 80
+  offset: 0, 0
+  index: -1
+normal1/bun_l_c
+  rotate: false
+  xy: 282, 310
+  size: 65, 80
+  orig: 65, 80
+  offset: 0, 0
+  index: -1
+normal1/bun_r_a
+  rotate: false
+  xy: 422, 414
+  size: 65, 80
+  orig: 65, 80
+  offset: 0, 0
+  index: -1
+normal1/bun_r_b
+  rotate: false
+  xy: 2, 2
+  size: 65, 80
+  orig: 65, 80
+  offset: 0, 0
+  index: -1
+normal1/bun_r_c
+  rotate: false
+  xy: 209, 191
+  size: 65, 80
+  orig: 65, 80
+  offset: 0, 0
+  index: -1
+normal1/empty
+  rotate: false
+  xy: 2, 84
+  size: 79, 68
+  orig: 79, 68
+  offset: 0, 0
+  index: -1
+normal1/strip_l_a
+  rotate: false
+  xy: 83, 106
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+normal1/strip_l_b
+  rotate: false
+  xy: 142, 143
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+normal1/strip_l_c
+  rotate: false
+  xy: 198, 143
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+normal1/strip_r_a
+  rotate: false
+  xy: 282, 262
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+normal1/strip_r_b
+  rotate: false
+  xy: 338, 262
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1
+normal1/strip_r_c
+  rotate: false
+  xy: 276, 214
+  size: 54, 46
+  orig: 54, 46
+  offset: 0, 0
+  index: -1

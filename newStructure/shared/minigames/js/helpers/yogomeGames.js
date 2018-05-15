@@ -233,6 +233,7 @@ var yogomeGames = function () {
             {name:'Sports Ball',url:urlSet + 'sportsBall/',mapUrl:urlMap + 'sportsBall', sceneName:'sportsBall',subject:'health', review:false,objective:25,demo:false, type:gameTypeEnum.TARGET},//202
             {name:'Quake Run',url:urlSet + 'quakeRun/',mapUrl:urlMap + 'quakeRun', sceneName:'quakeRun',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.TAP},//203
             {name:'Tidygram',url:urlSet + 'tidygram/',mapUrl:urlMap + 'tidygram', sceneName:'tidygram',subject:'language', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//204
+            {name:'Gift Figures',url:urlSet + 'giftFigures/',mapUrl:urlMap + 'giftFigures', sceneName:'giftFigures',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//205
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
