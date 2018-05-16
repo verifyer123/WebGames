@@ -673,7 +673,7 @@ var beeTravel = function(){
         idleSpine()
 
         currentRuteId = 0
-        //console.log(ruteArray)
+        console.log(ruteArray)
         spacesThrowFlower = game.rnd.integerInRange(2,4)
         currentSpacesThrow = 0
         //goToNextPoint()
@@ -690,6 +690,8 @@ var beeTravel = function(){
         initialFlower.flowerDead.alpha = 0
         initialFlower.flowerAlive.alpha = 1
         gridArray[initialPos.x][initialPos.y] = 2
+
+
 
         arrow.x = initialFlower.x
         arrow.y = initialFlower.y
@@ -753,13 +755,14 @@ var beeTravel = function(){
                 }
                 var flower = getFlower()
                 gridArray[ruteArray[i].x][ruteArray[i].y] = 2
-                gridArrayFlower[ruteArray[i].x][ruteArray[i].y] = flower
+                //gridArrayFlower[ruteArray[i].x][ruteArray[i].y] = flower
                 flower.x = space_0.x + (ruteArray[i].x*DELTA_SPACE_X)
                 flower.y = space_0.y - (ruteArray[i].y*DELTA_SPACE_Y)
                 currentSpacesThrow = 0
                 spacesThrowFlower = game.rnd.integerInRange(2,4)
                 game.add.tween(flower).to({alpha:1},1000,Phaser.Easing.linear,true)
                 setFlowerLevel(flower,ruteArray[i].y)
+                //console.log(flower)
                 
             }
         }
@@ -775,6 +778,8 @@ var beeTravel = function(){
             //console.log("")
         }*/
 
+       
+
         game.add.tween(lastFlower).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
 
             setTimeout(startBee,1000)
@@ -782,6 +787,10 @@ var beeTravel = function(){
 
 
         setFlowerLevel(lastFlower,ruteArray[ruteArray.length-1].y)
+
+        //console.log(initialFlower)
+        //console.log(lastFlower)
+
         arrowId = 1
         arrowMove()
 
@@ -1275,13 +1284,14 @@ var beeTravel = function(){
     }
 
     function getFlower(){
-        var r = game.rnd.integerInRange(0,FLOWERS_NUMBER)
+        var r = game.rnd.integerInRange(0,FLOWERS_NUMBER-1)
         /*if(r == FLOWERS_NUMBER){
             r = 'normal'
         }
         else{
             r = 'normal'+r
         }*/
+
         r = 'normal'+r
         
 
@@ -1474,7 +1484,11 @@ var beeTravel = function(){
         //var star = game.add.sprite(space_0.x ,space_0.y,'atlas.beeTravel','star')
         //star.anchor.setTo(0.5)
 
-       // var spine = game.add.spine(game.world.centerX,game.world.centerY,'flowerSpine')
+        /*var spine = game.add.spine(game.world.centerX,game.world.centerY,'flowerSpine')
+        spine.setSkinByName("normal7")
+        spine.setAnimationByName(0,"idle_flower",true)
+        sceneGroup.add(spine)*/
+
         
     
     }
