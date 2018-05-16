@@ -118,7 +118,7 @@ var tutorialHelper = function () {
 		coinsRect.endFill()
 
 
-		var coinsSprite = game.add.sprite(game.world.centerX-181, game.world.centerY+168);
+		var coinsSprite = game.add.sprite(game.world.centerX-181, game.world.centerY+180);
 		coinsSprite.addChild(coinsRect)
 		coinsSprite.anchor.setTo(0,0.5)
 		group.add(coinsSprite)
@@ -141,30 +141,30 @@ var tutorialHelper = function () {
 
 
 		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+185, "1 pts", fontStyle)
+		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+198, "1 pts", fontStyle)
 		coinText_1.stroke = '#000000';
-		coinText_1.strokeThickness = 4;
+		coinText_1.strokeThickness = 5;
 		coinText_1.anchor.setTo(0.5)
 		coinText_1.scale.setTo(0.8)
 		group.add(coinText_1)
 
-		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+185, Math.floor(goalScore/2)+" pts", fontStyle)
+		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+198, Math.floor(goalScore/2)+" pts", fontStyle)
 		coinText_2.stroke = '#000000';
-		coinText_2.strokeThickness = 4;
+		coinText_2.strokeThickness = 5;
 		coinText_2.anchor.setTo(0.5)
 		coinText_2.scale.setTo(0.8)
 		group.add(coinText_2)
 
-		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+185, goalScore+" pts", fontStyle)
+		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+198, goalScore+" pts", fontStyle)
 		coinText_3.stroke = '#000000';
-		coinText_3.strokeThickness = 4;
+		coinText_3.strokeThickness = 5;
 		coinText_3.anchor.setTo(0.5)
 		coinText_3.scale.setTo(0.8)
 		group.add(coinText_3)
 
 		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
 		typeText.stroke = '#000000';
-		typeText.strokeThickness = 4;
+		typeText.strokeThickness = 6;
 		typeText.anchor.setTo(0.5)
 		group.add(typeText)
 
