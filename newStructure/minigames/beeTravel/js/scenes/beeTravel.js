@@ -673,7 +673,7 @@ var beeTravel = function(){
         idleSpine()
 
         currentRuteId = 0
-        console.log(ruteArray)
+        //console.log(ruteArray)
         spacesThrowFlower = game.rnd.integerInRange(2,4)
         currentSpacesThrow = 0
         //goToNextPoint()
@@ -742,7 +742,7 @@ var beeTravel = function(){
             currentSpacesThrow++
             if(currentSpacesThrow>spacesThrowFlower){
                 
-                if(ruteArray[i].y > 0){
+                /*if(ruteArray[i].y > 0){
                     if(gridArray[ruteArray[i].x][ruteArray[i].y-1]==2){
                         //console.log("Flower not set, another flower is in front")
                         continue
@@ -750,7 +750,9 @@ var beeTravel = function(){
                 
                 }
 
-                if(i == ruteArray.length-2){
+                */
+
+                if(i == ruteArray.length-1){
                     continue
                 }
                 var flower = getFlower()
@@ -762,7 +764,7 @@ var beeTravel = function(){
                 spacesThrowFlower = game.rnd.integerInRange(2,4)
                 game.add.tween(flower).to({alpha:1},1000,Phaser.Easing.linear,true)
                 setFlowerLevel(flower,ruteArray[i].y)
-                //console.log(flower)
+                //console.log(flower,ruteArray[i].x,ruteArray[i].y)
                 
             }
         }
@@ -788,8 +790,8 @@ var beeTravel = function(){
 
         setFlowerLevel(lastFlower,ruteArray[ruteArray.length-1].y)
 
-        //console.log(initialFlower)
-        //console.log(lastFlower)
+        //console.log(initialFlower,ruteArray[0].x,ruteArray[0].y)
+        //console.log(lastFlower,ruteArray[ruteArray.length-1].x,ruteArray[ruteArray.length-1].y)
 
         arrowId = 1
         arrowMove()
@@ -1293,6 +1295,8 @@ var beeTravel = function(){
         }*/
 
         r = 'normal'+r
+
+        console.log(r)
         
 
         for(var i = 0; i < flowerGroup.length; i++){
