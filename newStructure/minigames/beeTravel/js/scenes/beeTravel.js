@@ -299,8 +299,6 @@ var beeTravel = function(){
 
     function Coin(objectBorn,objectDestiny,time){
        
-       console.log(objectBorn.x,objectBorn.y,objectBorn.centerX,objectBorn.centerY)
-       
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.centerX
        coins.y=objectBorn.centerY
@@ -670,8 +668,6 @@ var beeTravel = function(){
             }
 
         }
-        console.log(ruteArray)
-
         setDirection(ruteArray[1],ruteArray[0])
 
         idleSpine()
