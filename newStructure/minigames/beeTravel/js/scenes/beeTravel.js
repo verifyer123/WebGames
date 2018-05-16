@@ -299,6 +299,7 @@ var beeTravel = function(){
 
     function Coin(objectBorn,objectDestiny,time){
        
+       console.log(objectBorn.x,objectBorn.y,objectBorn.centerX,objectBorn.centerY)
        
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.centerX
@@ -648,19 +649,20 @@ var beeTravel = function(){
                 spacesInLine++
                 if(spacesInLine>MIN_SPACES_WALK_IN_LINE){
                     var r = game.rnd.frac()
+
                     if(r < 0.5){
-                        
+                        spacesInLine = 0
                         currentDirection = changeDirection(currentDirection,currentX,currentY)
                     }
                 }
 
 
-                if(i==tempSpacestoWalk){
+                /*if(i==tempSpacestoWalk){
                     if(currentY-1 == initialPos.y){
                         //console.log("final flower cant be behind initial flower")
                         tempSpacestoWalk++
                     }
-                }
+                }*/
             }
             else{
                 //console.log("CouldntWalk")
@@ -668,7 +670,7 @@ var beeTravel = function(){
             }
 
         }
-
+        console.log(ruteArray)
 
         setDirection(ruteArray[1],ruteArray[0])
 
@@ -684,9 +686,9 @@ var beeTravel = function(){
         //game.add.tween(bee).from({alpha:0}).to({alpha:1},500,Phaser.Easing.Linear.none,true).onComplete.add(startJump)
 
         var initialFlower = getFlower()
-        //initialFlower.spine.setAnimationByName(0,'IDLE_FLOWER',true)
+        //initialFlower.spine.setAnimationByName(0,'idle_flower',true)
 
-        initialFlower.animation = 'IDLE_FLOWER'
+        initialFlower.animation = 'idle_flower'
         initialFlower.x = space_0.x + (ruteArray[0].x*DELTA_SPACE_X)
         initialFlower.y = space_0.y - (ruteArray[0].y*DELTA_SPACE_Y)
         initialFlower.flowerDead.alpha = 0
@@ -770,12 +772,12 @@ var beeTravel = function(){
         lastFlower.x = space_0.x + (ruteArray[ruteArray.length-1].x*DELTA_SPACE_X)
         lastFlower.y = space_0.y - (ruteArray[ruteArray.length-1].y*DELTA_SPACE_Y)
 
-        if(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1]!=null){
+        /*if(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1]!=null){
             //console.log("Quit flower because is in fron of lastFlower")
             gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1].visible = false
             flowerGroup.add(gridArrayFlower[ruteArray[ruteArray.length-1].x][ruteArray[ruteArray.length-1].y-1])
             //console.log("")
-        }
+        }*/
 
         game.add.tween(lastFlower).to({alpha:1},1000,Phaser.Easing.linear,true).onComplete.add(function(){
 
@@ -989,7 +991,7 @@ var beeTravel = function(){
             return false
         }
 
-        if(gridArray[nX][nY]==1){
+        if(gridArray[nX][nY]==1 || gridArray[nX][nY]==2){
             return false
         }
 
@@ -1005,18 +1007,19 @@ var beeTravel = function(){
         if(currentRuteId < decidedRute.length){
             //evaluate carrot
             for(var i = 0; i < flowersInUse.length; i++){
-                if(flowersInUse[i].alpha ==1 && flowersInUse[i].animation=='IDLE_BASE'){
+                if(flowersInUse[i].alpha ==1 && flowersInUse[i].animation=='idle_baby'){
                     var dX = Math.abs(bee.x - flowersInUse[i].x)
                     var dY = Math.abs(bee.y - flowersInUse[i].y)
 
                     if(dX < DELTA_SPACE_X/2 && dY < DELTA_SPACE_Y/2  ){
-                        //flowersInUse[i].spine.setAnimationByName(0,'IDLE_FLOWER',true)
-                        flowersInUse[i].animation = 'IDLE_FLOWER'
+                        //flowersInUse[i].spine.setAnimationByName(0,'idle_flower',true)
+                        flowersInUse[i].animation = 'idle_flower'
                         sound.play("pop");
                         correctParticle.x = flowersInUse[i].x
                         correctParticle.y = flowersInUse[i].y
                         correctParticle.start(true, 1000, null, 5)
                         game.add.tween(flowersInUse[i].flowerAlive).to({alpha:1},300,Phaser.Easing.linear,true)
+                        game.add.tween(flowersInUse[i].flowerDead).to({alpha:0},300,Phaser.Easing.linear,true)
                         break
                     }
                 }
@@ -1031,12 +1034,13 @@ var beeTravel = function(){
 
             if(dX < DELTA_SPACE_X/2 && dY < DELTA_SPACE_Y/2){
                 Coin(lastFlower,pointsBar,1)
-                lastFlower.animation = 'IDLE_FLOWER'
+                lastFlower.animation = 'idle_flower'
                 sound.play("pop");
                 correctParticle.x = lastFlower.x
                 correctParticle.y = lastFlower.y
                 correctParticle.start(true, 1000, null, 5)
                 game.add.tween(lastFlower.flowerAlive).to({alpha:1},300,Phaser.Easing.linear,true)
+                game.add.tween(lastFlower.flowerDead).to({alpha:0},300,Phaser.Easing.linear,true)
                 nextRound()
             }
             else{
@@ -1058,13 +1062,14 @@ var beeTravel = function(){
                 //console.log("End rute son")
                 //rabit.alpha = 0
                 Coin(lastFlower,pointsBar,1)
-                //lastFlower.spine.setAnimationByName(0,'IDLE_FLOWER',true)
-                lastFlower.animation = 'IDLE_FLOWER'
+                //lastFlower.spine.setAnimationByName(0,'idle_flower',true)
+                lastFlower.animation = 'idle_flower'
                 sound.play("pop");
                 correctParticle.x = lastFlower.x
                 correctParticle.y = lastFlower.y
                 correctParticle.start(true, 1000, null, 5)
                 game.add.tween(lastFlower.flowerAlive).to({alpha:1},300,Phaser.Easing.linear,true)
+                game.add.tween(lastFlower.flowerDead).to({alpha:0},300,Phaser.Easing.linear,true)
                 //setTimeout(nextRound,500)
                 nextRound()
             }
@@ -1274,25 +1279,26 @@ var beeTravel = function(){
     }
 
     function getFlower(){
-        var r = game.rnd.integerInRange(1,FLOWERS_NUMBER)
-        if(r == FLOWERS_NUMBER){
+        var r = game.rnd.integerInRange(0,FLOWERS_NUMBER)
+        /*if(r == FLOWERS_NUMBER){
             r = 'normal'
         }
         else{
             r = 'normal'+r
-        }
+        }*/
+        r = 'normal'+r
         
 
         for(var i = 0; i < flowerGroup.length; i++){
             if(!flowerGroup.children[i].visible){
                 flowerGroup.children[i].visible = true
                 flowerGroup.children[i].spine.setSkinByName(r)
-                flowerGroup.children[i].spine.setAnimationByName(0,'IDLE_BASE',true)
+                flowerGroup.children[i].spine.setAnimationByName(0,'idle_baby',true)
                 flowerGroup.children[i].spineAlive.setSkinByName(r)
-                flowerGroup.children[i].spineAlive.setAnimationByName(0,'IDLE_FLOWER',true)
+                flowerGroup.children[i].spineAlive.setAnimationByName(0,'idle_flower',true)
                 flowerGroup.children[i].flowerAlive.alpha = 0
                 flowerGroup.children[i].flowerDead.alpha = 1
-                flowerGroup.children[i].animation = 'IDLE_BASE'
+                flowerGroup.children[i].animation = 'idle_baby'
                 return flowerGroup.children[i]
             }
         }
@@ -1300,9 +1306,9 @@ var beeTravel = function(){
         var flower = createSingleFlower()
         flower.visible = true
         flower.spine.setSkinByName(r)
-        flower.spine.setAnimationByName(0,'IDLE_BASE',true)
+        flower.spine.setAnimationByName(0,'idle_baby',true)
         flower.spineAlive.setSkinByName(r)
-        flower.spineAlive.setAnimationByName(0,'IDLE_FLOWER',true)
+        flower.spineAlive.setAnimationByName(0,'idle_flower',true)
         flower.flowerAlive.alpha = 0
         flower.flowerDead.alpha = 1
         return flower
@@ -1319,7 +1325,7 @@ var beeTravel = function(){
         group.flowerDead = groupDead
         group.spine = flower
         flowerGroup.add(group)
-        group.animation = 'IDLE_BASE'
+        group.animation = 'idle_baby'
         var groupAlive = game.add.group()
         var flowerAlive = game.add.spine(0,50,'flowerSpine')
         flowerAlive.scale.setTo(0.8)
