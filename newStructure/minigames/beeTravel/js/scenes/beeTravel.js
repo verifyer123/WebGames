@@ -1469,7 +1469,7 @@ var beeTravel = function(){
         arrow.scale.setTo(0.7)
 
         
-        createTutorial()
+        
 
         
         createFlowers()
@@ -1492,7 +1492,7 @@ var beeTravel = function(){
         spine.setSkinByName("normal7")
         spine.setAnimationByName(0,"idle_flower",true)
         sceneGroup.add(spine)*/
-
+        createTutorial()
         
     
     }
