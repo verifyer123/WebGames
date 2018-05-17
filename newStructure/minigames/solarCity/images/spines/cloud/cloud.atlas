@@ -1,0 +1,27 @@
+
+cloud.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/clowd1
+  rotate: false
+  xy: 2, 111
+  size: 203, 141
+  orig: 203, 141
+  offset: 0, 0
+  index: -1
+normal/clowd2
+  rotate: false
+  xy: 2, 56
+  size: 60, 53
+  orig: 60, 53
+  offset: 0, 0
+  index: -1
+normal/clowd3
+  rotate: false
+  xy: 2, 2
+  size: 60, 52
+  orig: 60, 52
+  offset: 0, 0
+  index: -1

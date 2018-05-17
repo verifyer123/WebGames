@@ -1,0 +1,356 @@
+
+panel.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bara
+  rotate: false
+  xy: 506, 602
+  size: 25, 136
+  orig: 25, 136
+  offset: 0, 0
+  index: -1
+normal/land
+  rotate: false
+  xy: 2, 308
+  size: 94, 54
+  orig: 94, 54
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00000
+  rotate: false
+  xy: 2, 928
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00001
+  rotate: false
+  xy: 2, 834
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00002
+  rotate: false
+  xy: 170, 928
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00003
+  rotate: false
+  xy: 2, 740
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00004
+  rotate: false
+  xy: 170, 834
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00005
+  rotate: false
+  xy: 338, 928
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00006
+  rotate: false
+  xy: 2, 646
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00007
+  rotate: false
+  xy: 170, 740
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00008
+  rotate: false
+  xy: 338, 834
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00009
+  rotate: false
+  xy: 506, 928
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00010
+  rotate: false
+  xy: 2, 552
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00011
+  rotate: false
+  xy: 170, 646
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00012
+  rotate: false
+  xy: 338, 740
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00013
+  rotate: false
+  xy: 506, 834
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00014
+  rotate: false
+  xy: 674, 928
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00015
+  rotate: false
+  xy: 2, 458
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00016
+  rotate: false
+  xy: 170, 552
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00017
+  rotate: false
+  xy: 338, 646
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00018
+  rotate: false
+  xy: 506, 740
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00019
+  rotate: false
+  xy: 674, 834
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00020
+  rotate: false
+  xy: 842, 928
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00021
+  rotate: false
+  xy: 2, 364
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00022
+  rotate: false
+  xy: 170, 458
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuancia panel/Capa_4_00023
+  rotate: false
+  xy: 338, 552
+  size: 166, 92
+  orig: 166, 92
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00000
+  rotate: false
+  xy: 533, 629
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00001
+  rotate: false
+  xy: 279, 447
+  size: 6, 9
+  orig: 42, 109
+  offset: 5, 99
+  index: -1
+normal/secuencia ray/ray_00002
+  rotate: false
+  xy: 1010, 999
+  size: 10, 21
+  orig: 42, 109
+  offset: 1, 87
+  index: -1
+normal/secuencia ray/ray_00003
+  rotate: false
+  xy: 506, 562
+  size: 18, 38
+  orig: 42, 109
+  offset: 0, 70
+  index: -1
+normal/secuencia ray/ray_00004
+  rotate: true
+  xy: 98, 336
+  size: 26, 60
+  orig: 42, 109
+  offset: 0, 48
+  index: -1
+normal/secuencia ray/ray_00005
+  rotate: false
+  xy: 619, 663
+  size: 32, 75
+  orig: 42, 109
+  offset: 0, 33
+  index: -1
+normal/secuencia ray/ray_00006
+  rotate: false
+  xy: 2, 119
+  size: 41, 85
+  orig: 42, 109
+  offset: 0, 23
+  index: -1
+normal/secuencia ray/ray_00007
+  rotate: true
+  xy: 338, 466
+  size: 41, 94
+  orig: 42, 109
+  offset: 0, 14
+  index: -1
+normal/secuencia ray/ray_00008
+  rotate: false
+  xy: 2, 206
+  size: 41, 100
+  orig: 42, 109
+  offset: 0, 8
+  index: -1
+normal/secuencia ray/ray_00009
+  rotate: true
+  xy: 674, 748
+  size: 41, 105
+  orig: 42, 109
+  offset: 0, 3
+  index: -1
+normal/secuencia ray/ray_00010
+  rotate: true
+  xy: 170, 415
+  size: 41, 107
+  orig: 42, 109
+  offset: 0, 1
+  index: -1
+normal/secuencia ray/ray_00011
+  rotate: true
+  xy: 674, 791
+  size: 41, 108
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00012
+  rotate: true
+  xy: 842, 885
+  size: 41, 108
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00013
+  rotate: true
+  xy: 338, 509
+  size: 41, 107
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00014
+  rotate: false
+  xy: 533, 632
+  size: 41, 106
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00015
+  rotate: true
+  xy: 842, 842
+  size: 41, 103
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00016
+  rotate: true
+  xy: 170, 372
+  size: 41, 98
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00017
+  rotate: false
+  xy: 576, 646
+  size: 41, 92
+  orig: 42, 109
+  offset: 0, 0
+  index: -1
+normal/secuencia ray/ray_00018
+  rotate: false
+  xy: 45, 223
+  size: 39, 83
+  orig: 42, 109
+  offset: 2, 0
+  index: -1
+normal/secuencia ray/ray_00019
+  rotate: false
+  xy: 2, 42
+  size: 27, 75
+  orig: 42, 109
+  offset: 14, 0
+  index: -1
+normal/secuencia ray/ray_00020
+  rotate: false
+  xy: 45, 163
+  size: 23, 58
+  orig: 42, 109
+  offset: 18, 0
+  index: -1
+normal/secuencia ray/ray_00021
+  rotate: false
+  xy: 784, 794
+  size: 13, 38
+  orig: 42, 109
+  offset: 28, 0
+  index: -1
+normal/secuencia ray/ray_00022
+  rotate: false
+  xy: 952, 907
+  size: 8, 19
+  orig: 42, 109
+  offset: 32, 0
+  index: -1
+normal/secuencia ray/ray_00023
+  rotate: false
+  xy: 447, 542
+  size: 7, 8
+  orig: 42, 109
+  offset: 33, 0
+  index: -1
