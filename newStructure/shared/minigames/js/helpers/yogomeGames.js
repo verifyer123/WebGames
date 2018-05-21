@@ -236,6 +236,7 @@ var yogomeGames = function () {
             {name:'Gift Figures',url:urlSet + 'giftFigures/',mapUrl:urlMap + 'giftFigures', sceneName:'giftFigures',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//205
             {name:'Anatomeal',url:urlSet + 'anatomeal/',mapUrl:urlMap + 'anatomeal', sceneName:'anatomeal',subject:'health', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//206
             {name:'Solar City',url:urlSet + 'solarCity/',mapUrl:urlMap + 'solarCity', sceneName:'solarCity',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//207
+            {name:'Milk Shake',url:urlSet + 'milkShake/',mapUrl:urlMap + 'milkShake', sceneName:'milkShake',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//208
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
