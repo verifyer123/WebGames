@@ -109,6 +109,7 @@ amazing.getGames = function(){
         {name:'Volaris',iconName:'volaris',url:'http://amazingapp.mx/juegos/volaris/',coupon : false,mixName:'volaris',demo:true,id:100001},//24
         {name:'Chedraui',iconName:'chedraui',url:'http://amazingapp.mx/juegos/chedraui/',coupon : false,mixName:'chedraui',demo:true,id:100002},//25
         {name:'Orders Up',iconName:'ordersUp',url:'http://amazingapp.mx/juegos/ordersUp/',coupon : false,mixName:'ordersUp',demo:true,id:100003},//26
+        {name:'Zoe Mundial',iconName:'zoeMundial',url:'http://amazingapp.mx/juegos/zoeMundial/',coupon : false,mixName:'zoeMundial',demo:true,id:100004},//27
         //
     ]
 
