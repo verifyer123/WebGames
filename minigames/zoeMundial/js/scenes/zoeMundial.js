@@ -70,6 +70,8 @@ var zoeMundial = function(){
 
     var ballColisionGroup, playerCollisionGroup
 
+    var leftKey, rightKey
+
     var liveBars
     var tintArray = [0xd32929,0xe06420,0xe29e14,0xe8da2e,0xbad72a,0x82cc35,0x4ac03f,0x19aea8,0x00a5dd]
     var waterVelocity = BOTTLE_VELOCITY
@@ -416,6 +418,20 @@ var zoeMundial = function(){
             player.body.x = game.input.activePointer.x
             playerSpine.x = game.input.activePointer.x
         }
+        else{
+        	if(leftKey.isDown){
+        		if(player.body.x > 100){
+	        		player.body.x -= 10
+	            	playerSpine.x -= 10
+	            }
+	        }
+	        else if(rightKey.isDown){
+	        	if(player.body.x < game.world.width - 100){
+	        		player.body.x += 10
+	            	playerSpine.x += 10
+	            }
+	        }
+	    }
 
         var lastWaterLive = Math.floor(waterLive/10)
 
@@ -721,6 +737,7 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         var bottle = group.create(0,0,"atlas.game",keyName)
         bottle.angle = -30
         bottle.anchor.setTo(0.5)
+        bottle.scale.setTo(1.2)
         group.sprite = bottle
 
         
@@ -818,6 +835,9 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         animateScene()
 
         loadSounds()
+
+        leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
         //particlesGroup = game.add.group()
         //sceneGroup.add(particlesGroup)
