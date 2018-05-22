@@ -147,6 +147,10 @@ var zoeMundial = function(){
 
     
     function stopGame(win){
+
+        playerSpine.setAnimationByName(0,"lose",false)
+        playerSpine.addAnimationByName(0,"lose_still",false)
+
         heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
 
