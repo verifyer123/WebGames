@@ -562,7 +562,7 @@ var result = function(){
         sceneGroup.add(text)*/
 
         var fontStyle = {font: "30px Gotham", fill: "#ffffff",align:"center"}
-        var text = new Phaser.Text(sceneGroup.game, game.world.centerX, topRect.height * 0.125,textToUse, fontStyle)
+        var text = new Phaser.Text(sceneGroup.game, game.world.centerX, topRect.height * 0.145,textToUse, fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
 
