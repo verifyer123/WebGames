@@ -393,11 +393,15 @@ var zoeMundial = function(){
 
     function updateBalls(){
         //for(var i = 0; i < )
+        var visibleBalls = false
         for(var i =0; i < ballGroup.length; i++){
             var ball = ballGroup.children[i]
             if(!ball.visible){
             	continue
             }
+
+            visibleBalls = true
+
             if(ball.body.y > game.world.height){
 
                 missPoint()
@@ -414,6 +418,10 @@ var zoeMundial = function(){
 	            	ball.visible = false
 	            }
             }
+        }
+
+        if(!visibleBalls){
+            createBall()
         }
     }
 
