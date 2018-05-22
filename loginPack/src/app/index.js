@@ -113,7 +113,7 @@ class App extends React.Component{
 			remoteID:this.childData.remoteID
 		}
 
-		if(registerType !== "newAccount")
+		//if(registerType !== "newAccount")
 			data.token = credentials.token
 
 		login.registerPin(data, onSuccess.bind(this), onError.bind(this), registerType)
