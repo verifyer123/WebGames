@@ -1079,6 +1079,20 @@ var smart = function(){
         tutorialButtons.push(carrotBox)
         basketGroup.add(carrotBox)
 
+
+        var mask = game.add.graphics()
+        //mask.x = 0
+        //mask.y = game.world.height-100
+        mask.beginFill(0xff0000)
+        mask.drawRect(-game.world.centerX/0.9,-610,game.world.width/0.9,400)
+        mask.endFill()
+        basketGroup.add(mask)
+
+        milkBox.mask = mask
+        juiceBox.mask = mask
+        breadBox.mask = mask
+
+
         boxPositions = [{x:milkBox.world.x,y:milkBox.world.y},{x:juiceBox.world.x,y:juiceBox.world.y},{x:breadBox.world.x,y:breadBox.world.y},{x:appleBox.world.x,y:appleBox.world.y},{x:bananaBox.world.x,y:bananaBox.world.y},{x:carrotBox.world.x,y:carrotBox.world.y}]
 
         operationGroup = game.add.group()
