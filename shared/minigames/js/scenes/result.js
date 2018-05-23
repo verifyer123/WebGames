@@ -470,6 +470,7 @@ var result = function(){
         text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
         text.anchor.setTo(0,0.5)
         group.add(text)
+        console.log(textAdd)
 
         sceneGroup.add(rankGroup)
 
@@ -522,7 +523,8 @@ var result = function(){
         var topHeight = 1.05
         var scaleSpine = 1.05
         var pivotButtons = game.world.height * 0.7
-
+        //haveCoupon = true
+        //win = true
         if(win){
 
             textToUse = '¡Lo lograste!'
@@ -637,8 +639,8 @@ var result = function(){
                 sceneGroup.add(text)*/
 
                 fontStyle = {font: "24px Gotham light", fill: "#ffffff",align:"center"}
-                var text = new Phaser.Text(sceneGroup.game, pivotText, topRect.height * 0.79,'Necesitas', fontStyle)
-                text.anchor.setTo(0,1)
+                var text = new Phaser.Text(sceneGroup.game, game.world.centerX-50, topRect.height * 0.79,'Necesitas', fontStyle)
+                text.anchor.setTo(1,1)
                 sceneGroup.add(text)
 
                 /*var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y, 'Gotham', goalScore + " puntos", 24);
@@ -646,7 +648,7 @@ var result = function(){
                 sceneGroup.add(retryText)*/
 
                 fontStyle = {font: "24px Gotham", fill: "#ffffff",align:"center"}
-                var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y, goalScore + " puntos", fontStyle)
+                var retryText = new Phaser.Text(sceneGroup.game, text.x + 8, text.y, goalScore + " puntos", fontStyle)
                 retryText.anchor.setTo(0,1)
                 sceneGroup.add(retryText)
 
@@ -655,10 +657,11 @@ var result = function(){
                 sceneGroup.add(text)*/
 
 
-                fontStyle = {font: "24px Gotham light", fill: "#ffffff",align:"center"}
-                var text = new Phaser.Text(sceneGroup.game, pivotText - 15, topRect.height * 0.89, text.y, 'para obtener este cupón', fontStyle)
-                text.anchor.setTo(0,1)
-                sceneGroup.add(text)
+                var fontStyle2 = {font: "24px Gotham light", fill: "#ffffff",align:"center"}
+                var text2 = new Phaser.Text(sceneGroup.game, game.world.centerX, topRect.height * 0.89, 'para obtener este cupón', fontStyle2)
+                text2.anchor.setTo(0.5,1)
+                sceneGroup.add(text2)
+                buddy.scale.setTo(0.9)
 
 
             }else{
@@ -689,7 +692,7 @@ var result = function(){
                     var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
                     coupon.anchor.setTo(0.5,0.5)
 
-                    var fontStyle = {font: "35px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
+                    //var fontStyle = {font: "35px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
 
 
 
@@ -715,7 +718,6 @@ var result = function(){
 
         createButtons(pivotButtons )
         createIcons(showIcons)
-        console.log(gameFromApp)
         if(!amazing.getFromApp()){
 
     		createOverlay()
