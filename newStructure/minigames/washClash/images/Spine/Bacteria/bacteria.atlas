@@ -1,0 +1,48 @@
+
+bacteria.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/body1
+  rotate: false
+  xy: 2, 99
+  size: 293, 304
+  orig: 293, 304
+  offset: 0, 0
+  index: -1
+normal/body2
+  rotate: false
+  xy: 2, 405
+  size: 368, 306
+  orig: 368, 306
+  offset: 0, 0
+  index: -1
+normal/face1_a
+  rotate: true
+  xy: 297, 313
+  size: 90, 66
+  orig: 90, 66
+  offset: 0, 0
+  index: -1
+normal/face1_b
+  rotate: false
+  xy: 372, 554
+  size: 80, 59
+  orig: 80, 60
+  offset: 0, 1
+  index: -1
+normal/face2_a
+  rotate: false
+  xy: 2, 2
+  size: 152, 95
+  orig: 152, 95
+  offset: 0, 0
+  index: -1
+normal/face2_b
+  rotate: false
+  xy: 372, 615
+  size: 172, 96
+  orig: 172, 97
+  offset: 0, 1
+  index: -1

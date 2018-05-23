@@ -71,12 +71,12 @@ var icyRush = function(){
 		sounds: [
             {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "cut",
-				file: soundsPath + "cut.mp3"},
+            {	name: "squeze",
+				file: soundsPath + "squeeze.mp3"},
             {	name: "wrong",
 				file: soundsPath + "wrong.mp3"},
-            {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
+            {	name: "fall",
+				file: soundsPath + "falling.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
@@ -86,7 +86,7 @@ var icyRush = function(){
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
             {   name:"acornSong",
-				file: soundsPath + 'songs/childrenbit.mp3'}
+				file: soundsPath + 'songs/weLoveElectricCars.mp3'}
 			
 		],
         jsons: [
@@ -106,6 +106,7 @@ var icyRush = function(){
     var smogGroup=null
     var gameActive = true
 	var startGame=false;
+	var bearTween
 	var particlesGroup, particlesUsed
     var gameIndex = 201
     var mask
@@ -113,9 +114,8 @@ var icyRush = function(){
     var variationX=0;
     var tutoGroup
     var noDistortion=false;
+	var notDead
     var max = 0;
-    var front_emitter;
-    var mid_emitter;
     var back_emitter;
     var update_interval = 4 * 60;
     var i = 0;
@@ -130,6 +130,7 @@ var icyRush = function(){
     var tweenObjSc= new Array(); 
     var typeOfObstacle= new Array();
     var created= new Array();
+	var checkedIndex=0;
     var wichObj
     var speed=2300;
     var roadSpeed=-3;
@@ -155,6 +156,9 @@ var icyRush = function(){
     var clock, timeBar
     var emitter
     var snow
+	var creation
+	var floor1, floor2, floor3;
+	var bearIsMoving
     var rails=new Array(20);
 
 	function loadSounds(){
@@ -168,11 +172,15 @@ var icyRush = function(){
         keyPressed=false
         keyPressed2=false
         actualTrail=1;
+		creation=900
+		bearIsMoving=false;
         variationX=0;
+		checkedIndex=0;
         inverseGaps2=null;
         inverseGaps=null;
         nextPieceToPoisition=0;
         nextPieceToPoisition2=0;
+		notDead=false
         saveDistance=0;
         typeOfObstacle[0]="rock";
         typeOfObstacle[1]="hole";
@@ -278,7 +286,7 @@ var icyRush = function(){
     
     function missPoint(){
         
-        sound.play("wrong")
+        //sound.play("wrong")
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -289,6 +297,7 @@ var icyRush = function(){
         })
         
         if(lives == 0){
+			baseSong.stop();
             stopGame(false)
         }
         
@@ -365,6 +374,7 @@ var icyRush = function(){
     
     function stopGame(win){
         
+		
 		sound.play("wrong")
 		sound.play("gameLose")
 		
@@ -372,8 +382,6 @@ var icyRush = function(){
         
         
         
-        
-        baseSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -398,6 +406,9 @@ var icyRush = function(){
         obj.parent.children[1].alpha = 1
     }
     
+	
+	
+	
 
 	function createBackground(){
         
@@ -505,6 +516,7 @@ var icyRush = function(){
             rails[enoughRails]=game.add.tileSprite(game.world.centerX,game.world.height-heightRails,game.world.width,spaceRails,"atlas.icyRush","nievePiso");
             rails[enoughRails].anchor.setTo(0.5,1);
             rails[enoughRails].scale.setTo(1,1);
+			rails[enoughRails].alpha=1
             heightRails=(heightRails)+(100+100-spaceRails);
             backgroundGroup.add(rails[enoughRails]);
         }
@@ -554,20 +566,20 @@ var icyRush = function(){
             
             created[fillObjs]=false;
             
-            if(fillObjs==0 || fillObjs==1){
+            if(fillObjs==0 || fillObjs==1 || fillObjs==2){
                 obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"atlas.icyRush","monticuloNieve");
                 obstaclesLane[fillObjs].tag=typeOfObstacle[0];
                 obstaclesLane[fillObjs].scale.setTo(0.5,0.5);
                 obstaclesLane[fillObjs].anchor.setTo(0.5,1);
             }
-            if(fillObjs==2 || fillObjs==3){
+            if(fillObjs==3 || fillObjs==4){
                 obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"atlas.icyRush","pozo");
                 obstaclesLane[fillObjs].tag=typeOfObstacle[1];
                 obstaclesLane[fillObjs].scale.setTo(0.5,0.5);
                 obstaclesLane[fillObjs].anchor.setTo(0.5,1);
                 obstaclesLane[fillObjs].mask=mask
             }
-            if(fillObjs==4 || fillObjs==5){
+            if(fillObjs==5){
                 obstaclesLane[fillObjs]=game.add.sprite(posX1,game.world.height+100,"coin");
                 obstaclesLane[fillObjs].tag=typeOfObstacle[2];
                 obstaclesLane[fillObjs].scale.setTo(0.5,0.5);
@@ -595,17 +607,63 @@ var icyRush = function(){
         coins.animations.add('coin');
         coins.animations.play('coin', 24, true);
         coins.alpha=0
-        
-        
+        floor1 = new Phaser.Graphics(game)
+        floor1.beginFill(0x000000)
+        floor1.drawRect(posX1-350,0,200, game.world.height)
+        floor1.alpha = 0
+		floor1.anchor.setTo(0.5,0.5)
+        floor1.endFill()
+        floor1.inputEnabled = true
+        backgroundGroup.add(floor1)
+        floor1.events.onInputDown.add(function(){
+			if(bearIsMoving){
+				actualTrail=0
+			}
+			floor1.inputEnabled = false
+			floor2.inputEnabled = false
+			floor3.inputEnabled = false
+        })
+		floor2 = new Phaser.Graphics(game)
+        floor2.beginFill(0x000000)
+        floor2.drawRect(posX2-300,0,200, game.world.height)
+        floor2.alpha = 0
+		floor2.anchor.setTo(0.5,0.5)
+        floor2.endFill()
+        floor2.inputEnabled = true
+        backgroundGroup.add(floor2)
+        floor2.events.onInputDown.add(function(){
+			if(bearIsMoving){
+				actualTrail=1
+			}
+			floor1.inputEnabled = false
+			floor2.inputEnabled = false
+			floor3.inputEnabled = false
+        })
+		floor3 = new Phaser.Graphics(game)
+        floor3.beginFill(0x000000)
+        floor3.drawRect(posX3+300,0,200, game.world.height)
+        floor3.alpha = 0
+		floor3.anchor.setTo(0.5,0.5)
+        floor3.endFill()
+        floor3.inputEnabled = true
+        backgroundGroup.add(floor3)
+        floor3.events.onInputDown.add(function(){
+			if(bearIsMoving){
+				actualTrail=2
+			}
+			floor1.inputEnabled = false
+			floor2.inputEnabled = false
+			floor3.inputEnabled = false
+        })
     }
     function right(){
         
-        if(actualTrail<2 && startGame){
+        if(actualTrail<2 && startGame && !notDead){
             actualTrail++
         }
     }
     function left(){
-        if(actualTrail>0 && startGame){
+        if(actualTrail>0 && startGame && !notDead){
             actualTrail--
         }
     }
@@ -737,9 +795,13 @@ function setParticleXSpeed(particle, max) {
         
         var line=game.rnd.integerInRange(0,3);
         var objToSpawn=game.rnd.integerInRange(0,5);
-
+		
         if(!created[objToSpawn] && roadSpeed!=0){
             
+			
+			
+            obstaclesLane[objToSpawn].scale.setTo(0.5,0.5)
+            obstaclesLane[objToSpawn].alpha=1
             if(line==0){
 
                 obstaclesLane[objToSpawn].x=posX1;
@@ -756,27 +818,12 @@ function setParticleXSpeed(particle, max) {
 
             }
             obstaclesGroup.add(obstaclesLane[objToSpawn])
-            sceneGroup.bringToTop(obstaclesLane[objToSpawn])
             
             created[objToSpawn]=true; 
             
-            obstaclesLane[objToSpawn].scale.setTo(0.5,0.5)
-            obstaclesLane[objToSpawn].alpha=1
             
-            if(obstaclesLane[objToSpawn].tag!="hole" && obstaclesLane[objToSpawn].tag!="coin"){
-                tweenObj[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {y: game.world.centerY-145}, speed, Phaser.Easing.Linear.In, true)
-                tweenObjSc[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn].scale).to( {x:0.3,y:0}, speed, Phaser.Easing.Linear.In, true,speed)
-            }else{
-                tweenObj[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {y: game.world.centerY-160}, speed, Phaser.Easing.Linear.In, true)
-                tweenObjSc[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn].scale).to( {x:0.3,y:0}, speed*0.05, Phaser.Easing.Linear.In, true,speed)
-            }
-            tweenObjAl[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {alpha: 0}, speed*0.5, Phaser.Easing.Linear.In, true,speed+speed*0.5)
-            tweenObjAl[objToSpawn].onStart.add(function(obj){
-                
-
-            })
-                
-                
+            
+  
             }
         startSpawn();
     }
@@ -791,15 +838,38 @@ function setParticleXSpeed(particle, max) {
     }
 
     function startSpawn(){
-        game.time.events.add(500,function(){
+        game.time.events.add(creation,function(){
             if(startGame){
                 spawnObstacles(speed);
             }
         })
     }
     
-   
+   	function obstacleToGoal(){
+		
+		for(var checkGoal=0; checkGoal<obstaclesLane.length; checkGoal++){
+			
+//			if(obstaclesLane[checkGoal].y<=game.world.centerY-135 && obstaclesLane[checkGoal].tag!="hole" && obstaclesLane[checkGoal].tag!="coin" && created[checkGoal]){
+//				//tweenObj[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {y: game.world.centerY-145}, speed, Phaser.Easing.Linear.In, true)
+//				tweenObjSc[checkGoal]=game.add.tween(obstaclesLane[checkGoal].scale).to( {x:0.3,y:0}, speed/100, Phaser.Easing.Linear.In, true)
+//				tweenObjAl[checkGoal]=game.add.tween(obstaclesLane[checkGoal]).to( {alpha: 0}, speed/40, Phaser.Easing.Linear.In, true)
+//			}else if(obstaclesLane[checkGoal].y<=game.world.centerY-140 && obstaclesLane[checkGoal].tag!="rock" && created[checkGoal]){
+//				//tweenObj[objToSpawn]=game.add.tween(obstaclesLane[objToSpawn]).to( {y: game.world.centerY-160}, speed, Phaser.Easing.Linear.In, true)
+//				tweenObjSc[checkGoal]=game.add.tween(obstaclesLane[checkGoal].scale).to( {x:0.3,y:0}, speed/100, Phaser.Easing.Linear.In, true)
+//				tweenObjAl[checkGoal]=game.add.tween(obstaclesLane[checkGoal]).to( {alpha: 0}, speed/50, Phaser.Easing.Linear.In, true)
+//			}
+		}
+	}
     
+	function moveOptimizedObjects(){
+		
+		for(var checkExists=0; checkExists<obstaclesLane.length; checkExists++){
+			if(created[checkExists] && obstaclesLane[checkExists].scale.y!=0 && obstaclesLane[checkExists].alpha>0.5){
+				obstaclesLane[checkExists].y-=speed/2000;
+			}
+		}
+	}
+	
     function synchronyzeRails(size,objectsToGap){
         
         var gapsBetweenAll=new Array(size); 
@@ -834,9 +904,14 @@ function setParticleXSpeed(particle, max) {
                 coins.x=objectBorn.centerX
                 coins.y=objectBorn.centerY
                 addPoint(1)
-                if(pointsBar.number%5==0 && pointsBar.number!=0 && pointsBar.number!=1){
-                    speed-=300;
-                    roadSpeed-=0.25;
+                if(pointsBar.number%1==0 && pointsBar.number!=0 && pointsBar.number!=1){
+                    if(speed<14200){
+						speed+=1000;
+						roadSpeed-=0.5;
+						if(creation>150){
+							creation-=150;
+						}
+					}
                 }
             })
         })
@@ -847,15 +922,23 @@ function setParticleXSpeed(particle, max) {
         
         startHighway(rails1,roadSpeed,game.world.centerY-350,railsGap1)
         startHighway2(rails2,roadSpeed,game.world.centerY-350,railsGap2)
-        
+        obstacleToGoal()
+		moveOptimizedObjects()
+		console.log(bearIsMoving)
+		
         for(var checkUp=0; checkUp<obstaclesLane.length; checkUp++){
-
-                if(obstaclesLane[checkUp].scale.y==0){
-                    tweenObj[checkUp].stop();
-                    tweenObjAl[checkUp].stop();
-                    tweenObjSc[checkUp].stop();
+				
+				
+                if(obstaclesLane[checkUp].y<=game.world.centerY-150){
+					created[checkUp]=false;
                     obstaclesLane[checkUp].y=game.world.height+100;
-                    created[checkUp]=false;
+					if(tweenObjSc[checkUp]){
+						tweenObjSc[checkUp].stop();
+					}
+					if(tweenObjAl[checkUp]){
+						tweenObjAl[checkUp].stop();
+					}
+                    
                 }
             }
         
@@ -880,14 +963,7 @@ function setParticleXSpeed(particle, max) {
             if(lives==0){
                 startGame=false;
                 roadSpeed=0;
-                for(var disapearObjs=0; disapearObjs<obstaclesLane.length; disapearObjs++){
-                    
-                    if(tweenObj[disapearObjs]){
-                        tweenObj[disapearObjs].stop();
-                        tweenObjAl[disapearObjs].stop();
-                        tweenObjSc[disapearObjs].stop();
-                    }
-                }
+				speed=0;
             }
             waterBack.tilePosition.x+=0.2;
             waterFront.tilePosition.x-=0.3;
@@ -898,53 +974,95 @@ function setParticleXSpeed(particle, max) {
             for(var checkOver=0; checkOver<obstaclesLane.length; checkOver++){
                 
                 
-                if (checkOverlap(bearProxy, obstaclesLane[checkOver]))
+                if (checkOverlap(bearProxy, obstaclesLane[checkOver]) && !bearIsMoving)
                 {
-                    tweenObj[checkOver].stop();
-                    tweenObjAl[checkOver].stop();
-                    tweenObjSc[checkOver].stop();
+                    
+                    
                     if(obstaclesLane[checkOver].tag=="rock" && created[checkOver]){
                         //Animation
+                        var tempSpeed=speed;
+						var tempRoadSpeed=roadSpeed;
+						speed=0;
                         counterFall++;
                         roadSpeed=0;
-                        stopRoadandObjects()
+						notDead=true;
+						bearIsMoving=true;
+						sound.play("squeze")
+                        //stopRoadandObjects()
+						bear.x=obstaclesLane[checkOver].x;
+						missPoint()
                         if(lives!=0){
-                            missPoint()
                             bear.scale.setTo(0.3,0.3);
                             bearProxy.scale.setTo(0.5,0.5)
                             bear.y=game.world.centerY;
                             bear.alpha=1
                             counterFall=0;
-                        }
-                        created[checkOver]=false;
-                        if(lives!=0){
+
                             obstaclesLane[checkOver].y=game.world.height+100;
+                            
                             bear.setAnimationByName(0,"hit",false);
                             game.time.events.add(600,function(){
+								speed=tempSpeed;
+								bearIsMoving=false;
+								floor1.inputEnabled = true
+								floor2.inputEnabled = true
+								floor3.inputEnabled = true
                                 bear.setAnimationByName(0,"run",true);
-                                roadSpeed=-3;
+                                roadSpeed=tempRoadSpeed;
+								notDead=false;
                             })
                         }else{
                             bear.setAnimationByName(0,"hit_lose",false);
                         }
-                        
-                        bearProxy.scale.setTo(bearProxy.scale.x-0.2,bearProxy.scale.y-0.2);
                     }else if(obstaclesLane[checkOver].tag=="hole" && created[checkOver]){
                         //Animation
                         missPoint()
+						var tempSpeed=speed;
+						var tempRoadSpeed=roadSpeed;
+						speed=0;
+						sound.play("fall")
+						bearIsMoving=true;
+						notDead=true;
+						roadSpeed=0;
                         created[checkOver]=false;
                         if(lives==0){
                             bear.setAnimationByName(0,"fall_lose",false);
+							game.add.tween(bear).to( {x:obstaclesLane[checkOver].centerX,y:obstaclesLane[checkOver].centerY}, 100, Phaser.Easing.Linear.In, true)
                         }
+
                         if(lives>0){
-                            obstaclesLane[checkOver].y=game.world.height+100;
-                            bear.setAnimationByName(0,"fall",false);
-                            game.time.events.add(300,function(){
-                                bear.setAnimationByName(0,"run",true);
-                            })
+							var savedHole=null;
+                            //bear.setAnimationByName(0,"fall",false);
+							savedHole=checkOver;
+							game.add.tween(bear).to( {x:obstaclesLane[checkOver].centerX,y:obstaclesLane[checkOver].centerY}, 100, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+								game.add.tween(bear.scale).to( {x:0,y:0}, 300, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+									game.time.events.add(800,function(){
+										bearIsMoving=false;
+										obstaclesLane[savedHole].y=game.world.height+100;
+										bear.setAnimationByName(0,"fall",false);
+										bear.scale.setTo(0.3,0.3);
+										bear.y=game.world.centerY; 
+										game.time.events.add(600,function(){
+											bear.setAnimationByName(0,"run",true);
+											roadSpeed=-3;
+											speed=tempSpeed;
+											roadSpeed=tempRoadSpeed;
+											floor1.inputEnabled = true
+											floor2.inputEnabled = true
+											floor3.inputEnabled = true
+											notDead=false;
+										})
+									})
+								})
+							})
                         }   
                     }else if(obstaclesLane[checkOver].tag=="coin"){
                         //Animation
+						if(tweenObjAl[checkOver]){
+							//tweenObj[checkOver].stop();
+							tweenObjAl[checkOver].stop();
+							tweenObjSc[checkOver].stop();
+						}
                         created[checkOver]=false;
                         obstaclesLane[checkOver].y=game.world.height+100;
                         Coin(bear,pointsBar,50);
@@ -954,12 +1072,12 @@ function setParticleXSpeed(particle, max) {
         }
         
         
-        if(controles.left.isDown && keyPressed==false){
+        if(controles.left.isDown && keyPressed==false && !bearIsMoving){
             
             left()
             keyPressed=true
             
-        }else if(controles.right.isDown && keyPressed2==false){
+        }else if(controles.right.isDown && keyPressed2==false && !bearIsMoving){
             
             right()
             keyPressed2=true
@@ -975,28 +1093,44 @@ function setParticleXSpeed(particle, max) {
             keyPressed2=false
         }
         if(!noDistortion){
-            if(actualTrail==2)
+			
+            if(actualTrail==2 && !bearIsMoving)
             {
+				bearIsMoving=true;
                 noDistortion=true;
                 //character.position.y=game.world.height-650
                 game.add.tween(bear).to( { x: posX2 }, 70, Phaser.Easing.Linear.In, true).onComplete.add(function(){
                     noDistortion=false;
+					floor1.inputEnabled = true
+					floor2.inputEnabled = true
+					floor3.inputEnabled = true
+					bearIsMoving=false;
                 });
             }
-            if(actualTrail==1)
+            if(actualTrail==1 && !bearIsMoving)
             {   
+				bearIsMoving=true;
                 noDistortion=true;
                 //character.position.y=game.world.height-350  
                 game.add.tween(bear).to( { x: posX1 }, 70, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+					floor1.inputEnabled = true
+					floor2.inputEnabled = true
+					floor3.inputEnabled = true
                     noDistortion=false;
+					bearIsMoving=false;
                 });
             }
-            if(actualTrail==0)
+            if(actualTrail==0 && !bearIsMoving)
             {
+				bearIsMoving=true;
                 noDistortion=true;
                 //character.position.y=game.world.height-50
                 game.add.tween(bear).to( { x: posX3 }, 70, Phaser.Easing.Linear.In, true).onComplete.add(function(){
+					floor1.inputEnabled = true
+					floor2.inputEnabled = true
+					floor3.inputEnabled = true
                     noDistortion=false;
+					bearIsMoving=false;
                 });
             }
         }
@@ -1004,13 +1138,16 @@ function setParticleXSpeed(particle, max) {
 
     function stopRoadandObjects(){
         
-        for(var disapearObjs=0; disapearObjs<obstaclesLane.length; disapearObjs++){            
-            if(tweenObj[disapearObjs]){
-                tweenObj[disapearObjs].stop();
-                tweenObjAl[disapearObjs].stop();
-                tweenObjSc[disapearObjs].stop();
-                created[disapearObjs]=false;
-                obstaclesLane[disapearObjs].y=game.world.height+100;
+        for(var reStart=0; reStart<obstaclesLane.length; reStart++){            
+            if(tweenObjAl[reStart]){
+                if(obstaclesLane[reStart].tag!="hole" && obstaclesLane[reStart].tag!="coin"){
+                //tweenObj[reStart]=game.add.tween(obstaclesLane[reStart]).to( {y: game.world.centerY-145}, speed, Phaser.Easing.Linear.In, true)
+                tweenObjSc[reStart]=game.add.tween(obstaclesLane[reStart].scale).to( {x:0.3,y:0}, speed, Phaser.Easing.Linear.In, true,speed)
+            }else{
+                //tweenObj[reStart]=game.add.tween(obstaclesLane[reStart]).to( {y: game.world.centerY-160}, speed, Phaser.Easing.Linear.In, true)
+                tweenObjSc[reStart]=game.add.tween(obstaclesLane[reStart].scale).to( {x:0.3,y:0}, speed*0.05, Phaser.Easing.Linear.In, true,speed)
+            }
+            tweenObjAl[reStart]=game.add.tween(obstaclesLane[reStart]).to( {alpha: 0}, speed*0.5, Phaser.Easing.Linear.In, true,speed+speed*0.5)
             }
         }
     }   
@@ -1213,7 +1350,6 @@ function setParticleXSpeed(particle, max) {
 			
 			createBackground()
 			addParticles()
-            baseSong = sound.play("acornSong", {loop:true, volume:0.6})
                         			
             baseSong = game.add.audio('acornSong')
             game.sound.setDecodedCallback(baseSong, function(){
