@@ -1,6 +1,6 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+var soundsPath = "../../../../shared/minigames/sounds/"
+var tutorialPath = "../../../../shared/minigames/"
 
 var hack = function(){
     
@@ -37,8 +37,8 @@ var hack = function(){
 
         ],
         images: [
-        	{   name:"dragobject",
-				file: "images/hack/dragobject.png"}
+        	/*{   name:"dragobject",
+				file: "images/hack/dragobject.png"}*/
 		],
 		sounds: [
             {	name: "magic",
@@ -76,7 +76,7 @@ var hack = function(){
 			
 		],
     }
-    
+
     var INITIAL_LIVES = 1
     var lives = null
 	var sceneGroup = null
@@ -335,16 +335,17 @@ var hack = function(){
                 
     }
     
-    function stopGame(win){
+    function stopGame(){
+ 	 	//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+
+    	//var validSession = new parent._QUANTRIX.NotifyPlayed({data : {'child_id' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),'token' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),'minigame_id' : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,'score' : pointsBar.number},onSuccess : parent._QUANTRIX._notifyMinigamePlayed,onError : parent._QUANTRIX._goDashboard});
         
 		sound.play("wrong")
 		sound.play("gameLose")
 		
         gameActive = false
         medievalSong.stop()
-		
-		
-        		
+
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
@@ -645,11 +646,13 @@ var hack = function(){
 		buttonCont.anchor.setTo(0.5,0.5)
 		buttonCont.scale.setTo(0.8,0.8)
 
+		
+
 	}
 	
 	function update(){
 		
-		background.tilePosition.x-=0.5
+		//background.tilePosition.x-=0.5
 		if(!gameActive){
 			return
 		}
@@ -851,7 +854,7 @@ var hack = function(){
 		group.alpha = 0
 		buttonsGroup.add(group)
 		
-		var buttonImage = group.create(0,0,'dragobject')
+		var buttonImage = group.create(0,0,'atlas.hack','dragobject')
 		buttonImage.anchor.setTo(0.5,0.5)
 		buttonImage.scale.setTo(1.2,1.2)
 		
@@ -872,7 +875,7 @@ var hack = function(){
 		
 		group.text2 = pointsText
 		
-		var dragImage = sceneGroup.create(83,-200,'dragobject')
+		var dragImage = sceneGroup.create(83,-200,'atlas.hack','dragobject')
 		dragImage.anchor.setTo(0.5,0.5)
 		dragImage.alpha = 0
 		group.drag = dragImage
@@ -1292,7 +1295,8 @@ var hack = function(){
 		update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
-            
+			//parent._QUANTRIX.Mixpanel.startMinigame()
+
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			addMusic()
@@ -1313,7 +1317,7 @@ var hack = function(){
 			buttons.getButton(medievalSong,sceneGroup)
 			
             createOverlay()
-            
+            this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
             animateScene()
             
 		},
