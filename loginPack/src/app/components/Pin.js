@@ -47,7 +47,7 @@ export class Pin extends React.Component {
 		$("#Pin"+this.pivot).html('')
 
 		$("#next").css("opacity", 0.5);
-		console.log($("#next"))
+		//console.log($("#next"))
 
 	}
 
@@ -67,7 +67,7 @@ export class Pin extends React.Component {
 		if((this.pivot < 4)&&(!contains)){
 			this.pinSelected[this.pivot] = id
 			var img = $( yogoId ).css( "background-image" );
-			console.log(img)
+			//console.log(img)
 
 			$(yogoId).addClass("buttonSelect");
 
@@ -81,7 +81,7 @@ export class Pin extends React.Component {
 
 		if(this.pivot === 4){
 			$("#next").css("opacity", 1);
-			console.log($("#next"))
+			//console.log($("#next"))
 		}
 	}
 

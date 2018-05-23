@@ -1,0 +1,201 @@
+{
+"skeleton": { "hash": "NhWQxPV6AvXynuuH/KUSHzeNZX8", "spine": "3.2.01", "width": 576, "height": 236, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "cog", "parent": "root", "y": 56.45 },
+	{ "name": "empty", "parent": "cog", "y": 86.9 }
+],
+"slots": [
+	{ "name": "idle", "bone": "cog", "attachment": "idle0" },
+	{ "name": "empty", "bone": "empty", "attachment": "empty" }
+],
+"skins": {
+	"default": {},
+	"normal": {
+		"empty": {
+			"empty": { "name": "ANIMATIONS", "x": -4.18, "y": 2.09, "scaleX": 0.583, "scaleY": 0.583, "width": 378, "height": 93 }
+		},
+		"idle": {
+			"idle0": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_0", "y": 76.43, "width": 576, "height": 236 },
+			"idle1": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_1", "y": 76.43, "width": 576, "height": 236 },
+			"idle2": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_2", "y": 76.43, "width": 576, "height": 236 },
+			"idle3": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_3", "y": 76.43, "width": 576, "height": 236 },
+			"idle4": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_4", "y": 76.43, "width": 576, "height": 236 },
+			"idle5": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_5", "y": 76.43, "width": 576, "height": 236 },
+			"idle6": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_6", "y": 76.43, "width": 576, "height": 236 },
+			"idle7": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_7", "y": 76.43, "width": 576, "height": 236 },
+			"idle8": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_8", "y": 76.43, "width": 576, "height": 236 },
+			"idle9": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_9", "y": 76.43, "width": 576, "height": 236 },
+			"idle10": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_10", "y": 76.43, "width": 576, "height": 236 },
+			"idle11": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_11", "y": 76.43, "width": 576, "height": 236 },
+			"idle12": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_12", "y": 76.43, "width": 576, "height": 236 },
+			"idle13": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_13", "y": 76.43, "width": 576, "height": 236 },
+			"idle14": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_14", "y": 76.43, "width": 576, "height": 236 },
+			"idle15": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_15", "y": 76.43, "width": 576, "height": 236 },
+			"idle16": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_16", "y": 76.43, "width": 576, "height": 236 },
+			"idle17": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_17", "y": 76.43, "width": 576, "height": 236 },
+			"idle18": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_18", "y": 76.43, "width": 576, "height": 236 },
+			"idle19": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_19", "y": 76.43, "width": 576, "height": 236 },
+			"idle20": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_20", "y": 76.43, "width": 576, "height": 236 },
+			"idle21": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_21", "y": 76.43, "width": 576, "height": 236 },
+			"idle22": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_22", "y": 76.43, "width": 576, "height": 236 },
+			"idle23": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_23", "y": 76.43, "width": 576, "height": 236 },
+			"idle24": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_24", "y": 76.43, "width": 576, "height": 236 },
+			"idle25": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_25", "y": 76.43, "width": 576, "height": 236 },
+			"idle26": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_26", "y": 76.43, "width": 576, "height": 236 },
+			"idle27": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_27", "y": 76.43, "width": 576, "height": 236 },
+			"idle28": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_28", "y": 76.43, "width": 576, "height": 236 },
+			"idle29": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_29", "y": 76.43, "width": 576, "height": 236 },
+			"idle30": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_30", "y": 76.43, "width": 576, "height": 236 },
+			"idle31": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_31", "y": 76.43, "width": 576, "height": 236 },
+			"idle32": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_32", "y": 76.43, "width": 576, "height": 236 },
+			"idle33": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_33", "y": 76.43, "width": 576, "height": 236 },
+			"idle34": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_34", "y": 76.43, "width": 576, "height": 236 },
+			"idle35": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_35", "y": 76.43, "width": 576, "height": 236 },
+			"idle36": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_36", "y": 76.43, "width": 576, "height": 236 },
+			"idle37": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_37", "y": 76.43, "width": 576, "height": 236 },
+			"idle38": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_38", "y": 76.43, "width": 576, "height": 236 },
+			"idle39": { "name": "banner_pngs/spriteidle/banner-normal-IDLE_39", "y": 76.43, "width": 576, "height": 236 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"empty": {
+				"attachment": [
+					{ "time": 0, "name": "empty" },
+					{ "time": 1.3333, "name": "empty" }
+				]
+			},
+			"idle": {
+				"attachment": [
+					{ "time": 0, "name": "idle0" },
+					{ "time": 0.0333, "name": "idle1" },
+					{ "time": 0.0666, "name": "idle2" },
+					{ "time": 0.1, "name": "idle3" },
+					{ "time": 0.1333, "name": "idle4" },
+					{ "time": 0.1666, "name": "idle5" },
+					{ "time": 0.2, "name": "idle6" },
+					{ "time": 0.2333, "name": "idle7" },
+					{ "time": 0.2666, "name": "idle8" },
+					{ "time": 0.3, "name": "idle9" },
+					{ "time": 0.3333, "name": "idle10" },
+					{ "time": 0.3666, "name": "idle11" },
+					{ "time": 0.4, "name": "idle12" },
+					{ "time": 0.4333, "name": "idle13" },
+					{ "time": 0.4666, "name": "idle14" },
+					{ "time": 0.5, "name": "idle15" },
+					{ "time": 0.5333, "name": "idle16" },
+					{ "time": 0.5666, "name": "idle17" },
+					{ "time": 0.6, "name": "idle18" },
+					{ "time": 0.6333, "name": "idle19" },
+					{ "time": 0.6666, "name": "idle20" },
+					{ "time": 0.7, "name": "idle21" },
+					{ "time": 0.7333, "name": "idle22" },
+					{ "time": 0.7666, "name": "idle23" },
+					{ "time": 0.8, "name": "idle24" },
+					{ "time": 0.8333, "name": "idle25" },
+					{ "time": 0.8666, "name": "idle26" },
+					{ "time": 0.9, "name": "idle27" },
+					{ "time": 0.9333, "name": "idle28" },
+					{ "time": 0.9666, "name": "idle29" },
+					{ "time": 1, "name": "idle30" },
+					{ "time": 1.0333, "name": "idle31" },
+					{ "time": 1.0666, "name": "idle32" },
+					{ "time": 1.1, "name": "idle33" },
+					{ "time": 1.1333, "name": "idle34" },
+					{ "time": 1.1666, "name": "idle35" },
+					{ "time": 1.2, "name": "idle36" },
+					{ "time": 1.2333, "name": "idle37" },
+					{ "time": 1.2666, "name": "idle38" },
+					{ "time": 1.3, "name": "idle39" },
+					{ "time": 1.3333, "name": "idle0" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.3333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.3333, "x": 1, "y": 1 }
+				]
+			},
+			"cog": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.3333, "angle": 0 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.091, 0.35, 0.732, 0.99 ]
+					},
+					{
+						"time": 0.3333,
+						"x": 0,
+						"y": -4.18,
+						"curve": [ 0.584, 0, 0.919, 0.81 ]
+					},
+					{
+						"time": 0.8333,
+						"x": 0,
+						"y": 2.09,
+						"curve": [ 0.385, -1.45, 0.807, 0.44 ]
+					},
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.3333, "x": 1, "y": 1 }
+				]
+			},
+			"empty": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.3333, "angle": 0 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.091, 0.35, 0.732, 0.99 ]
+					},
+					{
+						"time": 0.3333,
+						"x": 0,
+						"y": -4.18,
+						"curve": [ 0.584, 0, 0.919, 0.81 ]
+					},
+					{
+						"time": 0.8333,
+						"x": 0,
+						"y": 5.37,
+						"curve": [ 0.385, -1.45, 0.807, 0.44 ]
+					},
+					{ "time": 1.3333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.3333, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1.3333 }
+		]
+	}
+}
+}

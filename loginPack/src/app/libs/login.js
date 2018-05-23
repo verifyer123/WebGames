@@ -33,7 +33,6 @@ export var login = function () {
 			}else {
 				localStorage.clear()
 				if(onError)onError(response)
-				console.log("error")
 				// if(!signInCallback) modal.showLogin()
 				// checkLogin()
 			}
@@ -41,7 +40,6 @@ export var login = function () {
 			// console.log("error", response);
 			localStorage.clear()
 			if(onError)onError(response)
-			console.log(onError)
 			// if(!signInCallback) modal.showLogin()
 			// modal.showLogin()
 		});

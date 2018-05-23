@@ -1,5 +1,6 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "../../../../shared/minigames/sounds/"
+
 
 
 var smoothieLoops = function(){
@@ -7,22 +8,22 @@ var smoothieLoops = function(){
 
 	var assets = {
         atlases: [
-            {   
+            {
                 name: "atlas.game",
                 json: "images/smoothieLoops/atlas.json?v4",
                 image: "images/smoothieLoops/atlas.png"
             },
-            {   
+            {
                 name: "atlas.time",
                 json: "images/smoothieLoops/timeAtlas.json",
                 image: "images/smoothieLoops/timeAtlas.png"
             },
         ],
         images: [
-            /*{
-                name:'tutorial_image',
-                file:"images/smoothieLoops/tutorial_image.png"
-            }*/
+            {
+                name:'tile_nubes',
+                file:"images/smoothieLoops/tile_nubes.png"
+            }
 		],
 		sounds: [
             {   name: "magic",
@@ -74,7 +75,7 @@ var smoothieLoops = function(){
         ]
     }
 
-    var NUM_LIFES = 3
+    var NUM_LIFES = 1
     var LEVEL_TIMER = 2
     var INITIAL_TIME = 15000
     var DELTA_TIME = 100
@@ -125,7 +126,7 @@ var smoothieLoops = function(){
 
     var currentSecuence
 
-    var drinkType 
+    var drinkType
     var drinkCount
 
     var playedLoops
@@ -169,7 +170,7 @@ var smoothieLoops = function(){
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
-        
+
         currentLevel = 0
         timeOn = false
 
@@ -195,12 +196,12 @@ var smoothieLoops = function(){
     }
 
     function createHearts(){
-        
+
         heartsGroup = game.add.group()
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
-        
-        
+
+
         var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
@@ -209,18 +210,18 @@ var smoothieLoops = function(){
         var heartImg = group.create(0,0,'atlas.game','hearts')
 
         pivotX+= heartImg.width * 0.45
-        
+
         var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
         pointsText.x = pivotX
         pointsText.y = heartImg.height * 0.15
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
-        
+
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
+
         heartsGroup.text = pointsText
-                
+
     }
 
     function createPointsBar(){
@@ -245,7 +246,7 @@ var smoothieLoops = function(){
         pointsBar.number = 0
 
     }
-    
+
     function createPart(atlas,key){
 
         var particles = game.add.emitter(0, 0, 100);
@@ -290,8 +291,8 @@ var smoothieLoops = function(){
 
 
     function Coin(objectBorn,objectDestiny,time){
-       
-       
+
+
        //objectBorn= Objeto de donde nacen
        coins.x=objectBorn.x
        coins.y=objectBorn.y
@@ -314,22 +315,25 @@ var smoothieLoops = function(){
     }
 
     function stopGame(){
+		//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+
+	    //var validSession = new parent._QUANTRIX.NotifyPlayed({data : {'child_id' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),'token' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),'minigame_id' : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,'score' : pointsBar.number},onSuccess : parent._QUANTRIX._notifyMinigamePlayed,onError : parent._QUANTRIX._goDashboard});
         gameActive = false
         backgroundSound.stop()
         sound.play("gameLose")
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
-            
+
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, numPoints, gameIndex)
 
-			//amazing.saveScore(pointsBar.number) 			
+			//amazing.saveScore(pointsBar.number)
             sceneloader.show("result")
-            
+
 		})
     }
-    
-    
+
+
 
     function addNumberPart(obj,number){
 
@@ -362,13 +366,13 @@ var smoothieLoops = function(){
         addNumberPart(pointsBar.text,'+' + number)
 
     }
-    
+
     function missPoint(){
         console.log("miss point here")
     	//loseRabit()
 
         sound.play("wrong")
-        
+
         lives--;
         heartsGroup.text.setText('X ' + lives)
 
@@ -378,17 +382,17 @@ var smoothieLoops = function(){
         })
 
         addNumberPart(heartsGroup.text,'-1')
-        
+
         if(lives === 0){
             stopGame(false)
         }
         else{
             //nextRound()
         }
-        
+
         // addNumberPart(batteryGroup,'-1')
     }
-    
+
     function update() {
 
         clouds.tilePosition.x -=0.1
@@ -419,7 +423,7 @@ var smoothieLoops = function(){
 
 
     function createTutorial(){
-        
+
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
 
@@ -526,11 +530,11 @@ var smoothieLoops = function(){
         touch.alpha = 0.5
         touch.anchor.setTo(0.5)
         touch.scale.setTo(0.2)
-    
+
     }
 
 
-    
+
     function clickButton(button,pointer){
     	if(inTutorial!=-1 ){
             if(button.inArea){
@@ -573,7 +577,7 @@ var smoothieLoops = function(){
 						tutorialTween.stop()
 						tutorialTween = null
 						game.tweens.removeAll()
-						
+
 					}
                     tutorialButtonTween.stop()
                     tutorialBoardTween.stop()
@@ -598,7 +602,7 @@ var smoothieLoops = function(){
 						tutorialTween.stop()
 						tutorialTween = null
 						game.tweens.removeAll()
-						
+
 					}
                     tutorialButtonTween.stop()
                     tutorialBoardTween.stop()
@@ -626,7 +630,7 @@ var smoothieLoops = function(){
                     for(var i = id; i < arrayButtons.length; i++){
                         arrayButtons[i].x -=DELTA_BUTTON
                     }
-                    
+
                     okBtn.alpha = 0.5
                 }
 
@@ -644,7 +648,7 @@ var smoothieLoops = function(){
                 for(var i = id; i < arrayButtons.length; i++){
                     arrayButtons[i].x -=DELTA_BUTTON
                 }
-                
+
                 okBtn.alpha = 0.5
             }
 
@@ -698,12 +702,12 @@ var smoothieLoops = function(){
 				tutorialTween.stop()
 				tutorialTween = null
 				game.tweens.removeAll()
-				
+
 			}
             tutorialBoardTween.stop()
             tutorialBoardTween = null
 
-            
+
         	evalTutorial()
         }
 
@@ -760,8 +764,8 @@ var smoothieLoops = function(){
                     else{
                         rectAnswer.tint = 0x00ff00
                     }
-                   
-                   
+
+
                 }
 
 
@@ -815,7 +819,7 @@ var smoothieLoops = function(){
                     break
 
                 }
-                
+
             }
             else{
                 //lose
@@ -949,7 +953,7 @@ var smoothieLoops = function(){
 					tutorialTween.stop()
 					tutorialTween = null
 					game.tweens.removeAll()
-					
+
 				}
         		evalTutorial()
         	}
@@ -1017,7 +1021,7 @@ var smoothieLoops = function(){
     			setTimeout(evalTutorial,500)
     		})
     		break
-    		
+
     		case 2:
     		hand.loadTexture('atlas.game','handDown')
     		hand.x = tutorialButtons[3].startPos.x+50
@@ -1114,7 +1118,7 @@ var smoothieLoops = function(){
     			hand.loadTexture('atlas.game','handUp')
     			setTimeout(evalTutorial,500)
     		},500)
-    		
+
     		break
 
     		case 6:
@@ -1127,9 +1131,9 @@ var smoothieLoops = function(){
     			hand.loadTexture('atlas.game','handUp')
     			setTimeout(evalTutorial,500)
     		},500)
-    		
+
     		break
-    		
+
     		default:
     		inTutorial = -1
     		hand.visible = false
@@ -1143,8 +1147,9 @@ var smoothieLoops = function(){
     }
     
     function createScene(){
+		//parent._QUANTRIX.Mixpanel.startMinigame()
 
-        sceneGroup = game.add.group() 
+        sceneGroup = game.add.group() ;  yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
@@ -1159,7 +1164,7 @@ var smoothieLoops = function(){
         var floor = game.add.tileSprite(0,game.world.centerY+100, game.world.width, game.world.height-(game.world.centerY+100), 'atlas.game','tile')
         backgroundGroup.add(floor)
 
-        clouds = game.add.tileSprite(0,0,game.world.width,500,'atlas.game','tile_nubes')
+        clouds = game.add.tileSprite(0,0,game.world.width,500,'tile_nubes')
         backgroundGroup.add(clouds)
 
 
@@ -1170,7 +1175,7 @@ var smoothieLoops = function(){
         game.sound.setDecodedCallback(backgroundSound, function(){
             backgroundSound.loopFull(0.6)
         }, this);
-        
+
         game.onPause.add(function(){
             //console.log("Game paused")
             game.sound.mute = true
@@ -1216,7 +1221,7 @@ var smoothieLoops = function(){
         loopButton.x = game.world.centerX
         loopButton.y = buttons_Area.y
 
-       
+
 
         rectAnswer = game.add.graphics()
         rectAnswer.beginFill(0xffffff);
@@ -1318,12 +1323,12 @@ var smoothieLoops = function(){
         loopButton.visible = false
 
         sceneGroup.add(loopButton)
-        
+
         //buttons
 
 
         dialog = game.add.group()
-        
+
         dialog.x = yogotar.x +20
         dialog.y = yogotar.y - 300
 
@@ -1429,10 +1434,12 @@ var smoothieLoops = function(){
         coins.animations.play('coin', 24, true);
         coins.alpha=0
 
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
+
     }
 
 
-    
+
 	return {
 		assets: assets,
 		name: "smoothieLoops",

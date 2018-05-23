@@ -564,7 +564,7 @@ var flag = function(){
 			
 			if(i % 2 == 0){
 				tileName = 'leftP'
-				left = 0
+				left = 1
 			}else{
 				tileName = 'rightP'
 			}

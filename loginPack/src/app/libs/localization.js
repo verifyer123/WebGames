@@ -460,7 +460,7 @@ export var localization = function(){
 			lang = lang || language.toUpperCase()
 
 	    	if(!languageArrayIndex[string]){
-				console.log("text not found")
+				//console.log("text not found")
 				return
 			}
 

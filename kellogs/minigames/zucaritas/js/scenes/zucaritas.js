@@ -457,7 +457,6 @@ var zucaritas = function(){
 
 			//if(back.isSky){
 			if(back.world.y > game.world.height + back.height){
-				console.log("changePOsition")
 				back.y -= pivotBackground
 				//pivotBackground-= OFFSET_BACK
 				if(!back.isSep){
@@ -468,27 +467,8 @@ var zucaritas = function(){
 				}
 
 			}
-			//}
-			
-			/*if(levelIndex < 6){
-				
-				if(checkOverlap(player,back) && levelIndex == back.index && back.isSep){
-					
-					if(levelIndex > 4){
-						
-						if(levelContainer.alpha == 1){
-							game.add.tween(levelContainer).to({alpha:0},500,"Linear",true)
-						}
-					}else{
-						
-						changeLevel()
-					}
-					
-				}
-			}*/
-		}
 
-		//console.log(backgroundGroup.length)
+		}
 		
         for(var i = 0; i<objectsGroup.length;i++){
             
@@ -607,11 +587,6 @@ var zucaritas = function(){
             //jungleSong.loopFull(0.5)
         }
         
-        /*var bar = sceneGroup.limit
-        if(player.body.y <= bar.body.y + bar.height){
-            //console.log('move')
-            game.add.tween(objectsGroup).to({y:objectsGroup.y + 150},200,Phaser.Easing.linear,true)
-        }*/
         
         player.body.moveUp(jumpValue)        
     
@@ -1082,8 +1057,8 @@ var zucaritas = function(){
     }
 	
 	function createBackgrounds(){
-		
-		pivotBackground = game.world.height *2
+		//return
+		pivotBackground = game.world.height*2
 		
 		var indexSep = 0
 
@@ -1124,11 +1099,10 @@ var zucaritas = function(){
 				pivotBackground = game.world.height
 			}
 			
-			var back = game.add.tileSprite(0,pivotBackground,game.world.width, 0, 'atlas.zucaritas',imgName);
-			//var back = game.add.sprite(0,pivotBackground,game.world.width, 0, 'atlas.zucaritas',imgName);
-			back.height*=16
+			var back = game.add.tileSprite(0,pivotBackground,game.world.width, game.world.height*4, 'atlas.zucaritas',imgName);
+			//back.height*=16
 			OFFSET_BACK = back.height*3
-			back.tileScale.setTo(1.8,1.8)
+			//back.tileScale.setTo(1.8,1.8)
 			back.isSky = isSky
 			back.anchor.setTo(0.5,1)
 			backgroundGroup.add(back)
@@ -1161,7 +1135,7 @@ var zucaritas = function(){
 		assets: assets,
 		name: "zucaritas",
 		setGraphics:setGraphics,
-		//render:render,
+		render:render,
 		create: function(event){
             
             cursors = game.input.keyboard.createCursorKeys()
@@ -1289,7 +1263,8 @@ var zucaritas = function(){
             
             animateScene()
 
-           console.log("v5")
+           //console.log("v5")
+           //game.renderer.renderSession.roundPixels = true
             
             
 		},

@@ -45,7 +45,7 @@ var tapchitect = function(){
 		],
         spines:[
             {   name:'arthurius',
-                file:' images/spines/normal.json'
+                file:' images/spines/arthurius.json'
             }
         ]
     }
@@ -53,7 +53,7 @@ var tapchitect = function(){
     var MINIMUM_DISTACNCE = 60
     var DELTA_CLIF = 260
     var VEL = 10
-    var VEL_FALL = 10
+    var VEL_FALL = 15
     var yogotar
     var lives = null
 	var sceneGroup = null
@@ -434,7 +434,7 @@ var tapchitect = function(){
 	            }
 
 	            if(yogotar.x > lastSpace.world.x-(lastSpace.width/2)){
-	            	yogotar.setAnimationByName(0,'LOSE',true)
+	            	yogotar.setAnimationByName(0,'lose',false)
 	            	inFall = true
 	            	missPoint()
 
@@ -452,7 +452,7 @@ var tapchitect = function(){
 		            inFall = false
 		            realGame = false
 		           	yogotar.visible = false
-		           	yogotar.setAnimationByName(0,'IDLE',true)
+		           	yogotar.setAnimationByName(0,'idle',true)
 		            setTimeout(revive,400)
 	        	}
 	        	
@@ -481,7 +481,7 @@ var tapchitect = function(){
     	}
     	else{
     		blinkTimes = 0
-    		yogotar.setAnimationByName(0,'RUN',true)
+    		yogotar.setAnimationByName(0,'run',true)
     		realGame = true
     	}
     }
@@ -513,7 +513,7 @@ var tapchitect = function(){
 
                         if(levelTrinaglesNeed<=0 && inTutorial!=-1){
                             canCreate = false
-                            yogotar.setAnimationByName(0,'RUN',true)
+                            yogotar.setAnimationByName(0,'run',true)
                             var tween = game.add.tween(yogotar).to({x:game.world.centerX+340},1000,Phaser.Easing.linear,true)
                             tween.onComplete.add(function(){
 
@@ -811,7 +811,7 @@ var tapchitect = function(){
         yogotar = game.add.spine(game.world.centerX -DELTA_CLIF, game.world.height-535, 'arthurius')
         sceneGroup.add(yogotar)
         yogotar.setSkinByName('normal')
-        yogotar.setAnimationByName(0,'IDLE',true)
+        yogotar.setAnimationByName(0,'idle',true)
         yogotar.scale.setTo(0.5)
 
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")

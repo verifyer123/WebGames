@@ -1,6 +1,15 @@
 {"frames": [
 
 {
+	"filename": "ARROW",
+	"frame": {"x":210,"y":1852,"w":40,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":44},
+	"sourceSize": {"w":40,"h":44},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "background",
 	"frame": {"x":1,"y":1,"w":540,"h":960},
 	"rotated": false,
@@ -11,16 +20,16 @@
 },
 {
 	"filename": "chess",
-	"frame": {"x":1,"y":963,"w":530,"h":949},
+	"frame": {"x":1,"y":963,"w":530,"h":887},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":530,"h":949},
-	"sourceSize": {"w":530,"h":949},
+	"spriteSourceSize": {"x":0,"y":0,"w":530,"h":887},
+	"sourceSize": {"w":530,"h":887},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "hearts",
-	"frame": {"x":67,"y":1914,"w":141,"h":54},
+	"frame": {"x":67,"y":1852,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":1,"y":1914,"w":64,"h":64},
+	"frame": {"x":1,"y":1852,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":210,"y":1914,"w":165,"h":41},
+	"frame": {"x":252,"y":1852,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -50,8 +59,8 @@
 	"version": "1.0",
 	"image": "beeTravel_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":542,"h":1979},
+	"size": {"w":542,"h":1917},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c462ef5e939d186e9d085b77ad67220f:d216bf9c84ae63036bd0ee982516bafb:13758195e78318f71699046bfaa4bba8$"
+	"smartupdate": "$TexturePacker:SmartUpdate:97480a78d49b16ee585aaf252ccdd077:f2249bc8c00a853b2ba23476ce6182bc:13758195e78318f71699046bfaa4bba8$"
 }
 }

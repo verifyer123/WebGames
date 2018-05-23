@@ -659,7 +659,27 @@ var magic = function(){
 				
 				clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
 				clock.tween.onComplete.add(function(){
-					missPoint()
+
+                    /*var tween = game.add.tween(cardG.scale).to({x:0.7,y:0.7},100,"Linear",true,0,0)
+                    tween.yoyo(true,0)*/
+
+                    gameActive = false
+
+					magician.setAnimationByName(0,"PUT",false)
+                    magician.addAnimationByName(0,"TAKE_OUT_LOSE",false)
+                    magician.addAnimationByName(0,"IDLE_LOSE",true)
+                    
+                    missPoint()
+                    createPart('wrong',clock.image)
+                    
+                    game.time.events.add(3500,function(){
+                        showButtons(false)
+                    })
+                    
+                    game.time.events.add(4500,function(){
+                        showButtons(true)
+                    })
+
 				})
 				
 			})
@@ -678,6 +698,7 @@ var magic = function(){
         
         var clockImage = clock.create(0,0,'atlas.magic','clock')
         clockImage.anchor.setTo(0.5,0.5)
+        clock.image = clockImage
         
         var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.magic','bar')
         clockBar.anchor.setTo(0,0.5)
