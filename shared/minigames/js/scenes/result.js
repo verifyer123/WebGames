@@ -552,9 +552,7 @@ var result = function(){
 
 
         setRank()
-       
-        //rankMinigame = 11
-        //addRank()
+    
 
         var win = totalScore >= goalScore
 
