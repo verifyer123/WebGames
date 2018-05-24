@@ -438,7 +438,7 @@ var result = function(){
 
 
         var pivotY = 80
-        
+        //
         if(totalScore >= goalScore){
         	var pivotX = -100
 	        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
@@ -552,7 +552,8 @@ var result = function(){
 
 
         setRank()
-    
+        rankMinigame = 5
+        //addRank()
 
         var win = totalScore >= goalScore
 
@@ -669,10 +670,10 @@ var result = function(){
         }
 
         if(haveCoupon){
-
+             buddy.y -= 75
             if(!win){
 
-                buddy.y -= 75
+               
                 /*var text = game.add.bitmapText(pivotText, topRect.height * 0.79, 'Gotham light', 'Necesitas', 24);
                 text.anchor.setTo(0,1)
                 sceneGroup.add(text)*/
@@ -709,13 +710,14 @@ var result = function(){
                 pivotRank+=200
 
                 pivotButtons = game.world.height* 0.92
-
+                topRect.height *= 0.8
                 amazing.winCoupon(currentCouponId)
-
+                //
                 if(couponData.imgPreview){
 
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'couponTest')
                     coupon.anchor.setTo(0.5,0.5)
+                    coupon.scale.setTo(0.9)
 
                 }
                 else{
@@ -752,6 +754,8 @@ var result = function(){
             }
 
         }
+
+        //addRank()
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
 
@@ -971,7 +975,7 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
 
-
+        game.load.image("couponTest",imagesUrl+"coupons/imgPreview_botanicus.png")
 
         game.load.spine('amazing', imagesUrl + "spines/skeleton.json");
 
