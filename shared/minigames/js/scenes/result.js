@@ -480,7 +480,6 @@ var result = function(){
 	        text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
 	        text.anchor.setTo(0,0.5)
 	        group.add(text)
-	        console.log(textAdd)
 
 	        
     	}
@@ -591,12 +590,17 @@ var result = function(){
 
         }
 
+
         var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
         topRect.width = game.world.width
         topRect.height*= topHeight
         topRect.tint = colorTint
         sceneGroup.topRect = topRect
 
+        if(win && haveCoupon){
+            topRect.height *= 0.8
+        }
+        
         placeIcons()
 
         /*var text = game.add.bitmapText(game.world.centerX, topRect.height * 0.1, 'Gotham', textToUse, 30);
@@ -710,12 +714,12 @@ var result = function(){
                 pivotRank+=200
 
                 pivotButtons = game.world.height* 0.92
-                topRect.height *= 0.8
+               
                 amazing.winCoupon(currentCouponId)
                 //
                 if(couponData.imgPreview){
 
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'couponTest')
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'coupon')
                     coupon.anchor.setTo(0.5,0.5)
                     coupon.scale.setTo(0.9)
 
