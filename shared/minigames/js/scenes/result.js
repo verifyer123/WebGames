@@ -210,7 +210,7 @@ var result = function(){
         var buttonTexts = ['Compartir','Reintentar']
 
         var pivotX = game.world.centerX - 120
-        var pivotY = pivot
+        var pivotY = pivot-10
         for(var i = 0;i<buttonNames.length;i++){
 
             var group = game.add.group()
@@ -563,8 +563,8 @@ var result = function(){
         var topHeight = 1.05
         var scaleSpine = 1.05
         var pivotButtons = game.world.height * 0.7
-        //haveCoupon = true
-        //win = true
+        //haveCoupon = false
+        //win = false
         if(win){
 
             textToUse = '¡Lo lograste!'
@@ -613,7 +613,7 @@ var result = function(){
         buddy.setAnimationByName(0, animationToUse, true);
         sceneGroup.add(buddy)
 
-		var image = sceneGroup.create(buddy.x + 175,buddy.y - 20,'atlas.resultScreen','amazing')
+		var image = sceneGroup.create(buddy.x + 155,buddy.y - 20,'atlas.resultScreen','amazing')
 		image.anchor.setTo(0.5,0.5)
 		image.scale.setTo(1.3,1.3)
 
@@ -974,8 +974,6 @@ var result = function(){
 
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
-
-        game.load.image("couponTest",imagesUrl+"coupons/imgPreview_botanicus.png")
 
         game.load.spine('amazing', imagesUrl + "spines/skeleton.json");
 
