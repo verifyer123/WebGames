@@ -183,6 +183,20 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">back.png</key>
+            <key type="filename">board.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>9,50,17,99</rect>
+                <key>scale9Paddings</key>
+                <rect>9,50,17,99</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">conti0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -391,7 +405,6 @@
             <filename>tile.png</filename>
             <filename>picScreen.png</filename>
             <filename>map.png</filename>
-            <filename>radar.png</filename>
             <filename>happy.png</filename>
             <filename>idle.png</filename>
             <filename>sad.png</filename>
@@ -400,6 +413,9 @@
             <filename>conti2.png</filename>
             <filename>conti3.png</filename>
             <filename>enemyPos.png</filename>
+            <filename>board.png</filename>
+            <filename>back.png</filename>
+            <filename>radar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

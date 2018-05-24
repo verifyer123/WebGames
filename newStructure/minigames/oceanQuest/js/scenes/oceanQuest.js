@@ -29,7 +29,7 @@ var oceanQuest = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/oceanQuest/gametuto.png"
+				file:"images/oceanQuest/tutorial_image_%input.png"
 			},
             {
 				name:'audioOn',
@@ -110,6 +110,7 @@ var oceanQuest = function(){
     var player
     var monstersGroup
     var radarGroup
+    var oceansGroup
     var click
     var keyState = {up: false, down: false, right: false, left: false}
     var mapPositions = [{spawnX: 90, spawnY: 970, targetX: 250, targetY: 600},
@@ -334,7 +335,9 @@ var oceanQuest = function(){
 
 	function createBackground(){
       
-        sceneGroup.add(game.add.tileSprite(0, 0, 1700, 1300, "atlas.oceanQuest", "tile"))
+        var tile = game.add.tileSprite(0, 0, 1700, 1300, "atlas.oceanQuest", "tile")
+        sceneGroup.add(tile)
+        game.add.tween(tile.tilePosition).to({x:game.world.width},30000,Phaser.Easing.linear,true, 0, -1, true)
         
         var contiGroup = game.add.group()
         sceneGroup.add(contiGroup)
@@ -375,15 +378,17 @@ var oceanQuest = function(){
             if(cursors.up.isDown){
                 player.body.moveUp(PLAYER_SPEED)
                 
+                if(!player.isMoving)
+                
                 if(!keyState.up){
                     keyState.up = true
-                    changeAnim("run")
+                    changeAnim("run", true)
                 }
             }
             else{
                 if(keyState.up){
                     keyState.up = false
-                    changeAnim("idle")
+                    changeAnim("idle", false)
                 }
             }
             
@@ -393,13 +398,13 @@ var oceanQuest = function(){
                 
                 if(!keyState.down){
                     keyState.down = true
-                    changeAnim("run")
+                    changeAnim("run", true)
                 }
             }
             else{
                 if(keyState.down){
                     keyState.down = false
-                    changeAnim("idle")
+                    changeAnim("idle", false)
                 }
             }
 
@@ -409,13 +414,13 @@ var oceanQuest = function(){
                 
                 if(!keyState.left){
                     keyState.left = true
-                    changeAnim("run")
+                    changeAnim("run", true)
                 }
             }
             else{
                 if(keyState.left){
                     keyState.left = false
-                    changeAnim("idle")
+                    changeAnim("idle", false)
                 }
             }
             
@@ -425,13 +430,13 @@ var oceanQuest = function(){
                 
                 if(!keyState.right){
                     keyState.right = true
-                    changeAnim("run")
+                    changeAnim("run", true)
                 }
             }
             else{
                 if(keyState.right){
                     keyState.right = false
-                    changeAnim("idle")
+                    changeAnim("idle", false)
                 }
             }   
 
@@ -448,6 +453,16 @@ var oceanQuest = function(){
                 for(var i = 0; i < monstersGroup.length; i++){
                     if(checkOverlap(player, monstersGroup.children[i]) && monstersGroup.children[i].attacking){
                         catchMonster(monstersGroup.children[i], true)
+                        break
+                    }
+                }
+            }
+            
+            if(player.isMoving || click){
+                for(var i = 0; i < oceansGroup.length; i++){
+                    if(checkOverlap(player, oceansGroup.children[i])){
+                        oceansGroup.text.setText(oceansGroup.children[i].NAME)
+                        break
                     }
                 }
             }
@@ -475,9 +490,10 @@ var oceanQuest = function(){
             player.anim.setAnimationByName(0, "idle", true)
     }
     
-    function changeAnim(animation){
+    function changeAnim(animation, move){
         
         player.anim.setAnimationByName(0, animation, true)
+        player.isMoving = move
     }
     
     function checkOverlap(spriteA, spriteB) {
@@ -564,6 +580,8 @@ var oceanQuest = function(){
         anim.scale.setTo(0.5)
         player.addChild(anim)
         player.anim = anim
+        
+        player.isMoving = false
     }
     
     function createMonsters(){
@@ -585,7 +603,6 @@ var oceanQuest = function(){
             box.beginFill(0x00aaff)
             box.drawRect(-150, -190, 300, 200)
             box.alpha = 0
-            box.inputEnabled = true
             anim.addChild(box)
             anim.box = box
 
@@ -605,7 +622,11 @@ var oceanQuest = function(){
         radarGroup = game.add.group()
         sceneGroup.add(radarGroup)
         
-        var screen = radarGroup.create(0, game.world.height, "atlas.oceanQuest", "picScreen")
+        var back = radarGroup.create(-30, game.world.height, "atlas.oceanQuest", "back")
+        back.anchor.setTo(0, 1)
+        back.width = game.world.width + 60
+        
+        var screen = radarGroup.create(50, game.world.height, "atlas.oceanQuest", "picScreen")
         screen.anchor.setTo(0,1)
         
         var tomiko = radarGroup.create(screen.centerX, screen.centerY, "atlas.oceanQuest", "idle")
@@ -613,7 +634,7 @@ var oceanQuest = function(){
         tomiko.scale.setTo(0.9)
         radarGroup.tomiko = tomiko
         
-        var map = radarGroup.create(game.world.width, game.world.height, "atlas.oceanQuest", "map")
+        var map = radarGroup.create(game.world.width - 50, game.world.height, "atlas.oceanQuest", "map")
         map.anchor.setTo(1)
         radarGroup.map = map
         
@@ -641,6 +662,50 @@ var oceanQuest = function(){
         
         game.input.onDown.add(clickDown,this)
 		game.input.onUp.add(clickUp,this)
+    }
+    
+    function createOceans(){
+        
+        var board = sceneGroup.create(game.world.centerX, 120, "atlas.oceanQuest", "board")
+        board.anchor.setTo(0.5)
+        board.fixedToCamera = true
+        
+        var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff"}
+        
+        var text = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
+        text.anchor.setTo(0.5)
+        board.addChild(text)
+        
+        oceansGroup = game.add.group()
+        oceansGroup.text = text
+        sceneGroup.add(oceansGroup)
+        
+        if(localization.getLanguage() === 'ES'){
+            var names = ["Océano Pacífico", "Océano Atlántico", "Océano Ártico", "Océano Antártico", "Océano Índico", "Océano Pacífico"]
+        }
+        else{
+            var names = ["Pacific Ocean", "Atlantic Ocean", "Arctic Ocean", "Southern Ocean", "Indian Ocean", "Pacific Ocean"]
+        }
+        
+        oceansGroup.text.setText(names[0])
+        
+        var squarePoints = [[0, 250, 300, 850],
+                            [400, 260, 500, 550],
+                            [0, 0, 1700, 200],
+                            [360, 850, 1000, 200],
+                            [950, 550, 400, 250],
+                            [1400, 220, 1700, 850]]
+        
+        for(var i = 0; i < 6; i++){
+            
+            var box = game.add.graphics(squarePoints[i][0], squarePoints[i][1])
+            box.beginFill(0xaa0000)
+            box.drawRect(0, 0, squarePoints[i][2], squarePoints[i][3])
+            box.alpha = 0
+            box.NAME = names[i]
+            box.endFill()
+            oceansGroup.add(box)
+        }
     }
     
     function catchMonster(monst, ans){
@@ -781,6 +846,7 @@ var oceanQuest = function(){
 			createHearts()
             createSoundBtn()
             createRadar()
+            createOceans()
             initCoin()
             createParticles()
 			
