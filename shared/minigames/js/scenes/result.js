@@ -440,12 +440,19 @@ var result = function(){
         var pivotY = 80
         //
         if(totalScore >= goalScore){
-        	var pivotX = -100
+            var offsetRank = 0
+            if(rankMinigame>=1000){
+                offsetRank = 50
+            }
+            else if(rankMinigame >= 100){
+                offsetRank = 30
+            }
+        	var pivotX = -100-offsetRank/2
 	        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
 	        trophy.scale.setTo(0.8,0.8)
 	        trophy.anchor.setTo(0.5,0.5)
 
-	        pivotX += 90
+	        pivotX += 90 + offsetRank/2
 	        var offset = 0
 	        if(topValue!=0){
 		        fontStyle = {font: "21px Gotham bold", fill: "#808080",align:"center"}
@@ -465,7 +472,7 @@ var result = function(){
 
 	         
 
-	        pivotX+= 90
+	        pivotX+= 90+ offsetRank/2
 	        var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
 	        coin.anchor.setTo(0.5,0.5)
 	        coin.scale.setTo(0.8)
@@ -551,7 +558,7 @@ var result = function(){
 
 
         setRank()
-        rankMinigame = 5
+        //rankMinigame = 10
         //addRank()
 
         var win = totalScore >= goalScore
