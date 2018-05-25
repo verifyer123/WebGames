@@ -491,7 +491,39 @@ var result = function(){
 	        
     	}
     	else{
-    		var pivotX = -100
+    		//var pivotX = -100
+
+            var offsetRank = 0
+            if(rankMinigame>=1000){
+                offsetRank = 50
+            }
+            else if(rankMinigame >= 100){
+                offsetRank = 30
+            }
+            var pivotX = -187-offsetRank/2
+            var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
+            trophy.scale.setTo(0.8,0.8)
+            trophy.anchor.setTo(0.5,0.5)
+
+            pivotX += 97 + offsetRank/2
+            var offset = 0
+            if(topValue!=0){
+                fontStyle = {font: "21px Gotham bold", fill: "#808080",align:"center"}
+                var text = new Phaser.Text(sceneGroup.game, pivotX  ,pivotY-10, "Top " + topValue, fontStyle);
+                text.anchor.setTo(0.5,0.5)
+                group.add(text)
+                
+            }
+            else{
+                offset = -20
+            }
+
+            fontStyle = {font: "38px Gotham bold", fill: "#808080",align:"center"}
+            var text = new Phaser.Text(sceneGroup.game, pivotX  ,pivotY+20+ offset, '#' + rankMinigame, fontStyle);
+            text.anchor.setTo(0.5,0.5)
+            group.add(text)
+
+            pivotX += 90
     		var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
 	        coin.anchor.setTo(0.5,0.5)
 	        coin.scale.setTo(0.8)
@@ -559,7 +591,7 @@ var result = function(){
 
         setRank()
         //rankMinigame = 10
-        //addRank()
+        
 
         var win = totalScore >= goalScore
 
