@@ -244,8 +244,8 @@ var tutorialHelper = function () {
 		switch(type){
 			case gameTypeEnum.CHOOSE:
 				videoName = "choose"
-				if(language=="EN"){
-					tutorialTypeText = "CHOOSE"
+				if(language=="ES"){
+                    tutorialTypeText = "CHOOSE"
 				}
 				else{
 					tutorialTypeText = "ESCOGER"
@@ -253,61 +253,61 @@ var tutorialHelper = function () {
 				break
 			case gameTypeEnum.COUNT:
 				videoName = "count"
-				if(language=="EN"){
-					tutorialTypeText = "COUNT"
+				if(language=="ES"){
+					tutorialTypeText = "CONTAR"
 				}
 				else{
-					tutorialTypeText = "CONTAR"
+					tutorialTypeText = "COUNT"
 				}
 				break
 			case gameTypeEnum.GRAB:
 				videoName = "grab"
-				if(language=="EN"){
-					tutorialTypeText = "GRAB"
+				if(language=="ES"){
+					tutorialTypeText = "RECOLECTAR"
 				}
 				else{
-					tutorialTypeText = "RECOLECTAR"
+					tutorialTypeText = "GRAB"
 				}
 				break
 			case gameTypeEnum.MATCH:
 				videoName = "match"
-				if(language=="EN"){
-					tutorialTypeText = "MATCH"
+				if(language=="ES"){
+					tutorialTypeText = "ARMAR"
 				}
 				else{
-					tutorialTypeText = "ARMAR"
+					tutorialTypeText = "MATCH"
 				}
 				break
 			case gameTypeEnum.SEQUENCE:
 				videoName = "sequence"
-				if(language=="EN"){
-					tutorialTypeText = "SEQUENCE"
+				if(language=="ES"){
+					tutorialTypeText = "SECUENCIA"
 				}
 				else{
-					tutorialTypeText = "SECUENCIA"
+					tutorialTypeText = "SEQUENCE"
 				}
 				break
 			case gameTypeEnum.TARGET:
 				videoName = "target"
-				if(language=="EN"){
-					tutorialTypeText = "TARGET"
+				if(language=="ES"){
+					tutorialTypeText = "DIRECCIONAR"
 				}
 				else{
-					tutorialTypeText = "DIRECCIONAR"
+					tutorialTypeText = "TARGET"
 				}
 				break
 			case gameTypeEnum.TRACE:
 				videoName = "trace"
-				if(language=="EN"){
-					tutorialTypeText = "TRACE"
+				if(language=="ES"){
+					tutorialTypeText = "TRAZAR"
 				}
 				else{
-					tutorialTypeText = "TRAZAR"
+					tutorialTypeText = "TRACE"
 				}
 				break
             case gameTypeEnum.TAP:
 				videoName = "tap"
-				if(language=="EN"){
+				if(language=="ES"){
 					tutorialTypeText = "TAP"
 				}
 				else{
@@ -323,12 +323,17 @@ var tutorialHelper = function () {
 
 
 		currentLoader.spine(obj.name, obj.file)
-		currentLoader.image(howkey,sharePath+'images/tutorial/how_'+language+'.png')
-		currentLoader.image(playKey,sharePath+'images/tutorial/play_'+language+'.png')
+		
 		currentLoader.image(backKey,sharePath+'images/tutorial/background_tutorial.png')
-
-
-
+        
+        if(language == "ES"){
+            currentLoader.image(howkey,sharePath+'images/tutorial/how_ES.png')
+            currentLoader.image(playKey,sharePath+'images/tutorial/play_ES.png')
+        }
+        else{
+            currentLoader.image(howkey,sharePath+'images/tutorial/how_EN.png')
+            currentLoader.image(playKey,sharePath+'images/tutorial/play_EN.png')
+        }
 	}
 
 	return{
