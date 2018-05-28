@@ -110,6 +110,7 @@ var zoeMundial = function(){
         currentCollisions = 0
         liveBars = []
         currentLevel = 0
+        DELTA_WATER = 0.03
     }
     
 
@@ -609,7 +610,7 @@ var zoeMundial = function(){
         if(currentCollisions > (COLLISIONS_TO_BALLON+(currentLevel*DELTA_BALL_LEVEL))){
         	currentLevel++
             currentCollisions = 0
-            //DELTA_WATER*=1.1
+            DELTA_WATER*=1.1
             createBall()
         }
 
