@@ -35,7 +35,7 @@ var zoeMundial = function(){
     var DELTA_APPEAR_WATER = 7000;
     var DELTA_WATER_PLUS = 10
     var WATER_INITIAL_LIVE = 100
-    var BOTTLE_VELOCITY = 10
+    var BOTTLE_VELOCITY = 7
     var BOTLLE_MAX_VELOCITY = 20
     var BOTTLE_DELTA_VELOCITY = 0.5
     var COLLISIONS_TO_BALLON = 6
@@ -750,7 +750,7 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         var bottle = group.create(0,0,"atlas.game",keyName)
         bottle.angle = -30
         bottle.anchor.setTo(0.5)
-        bottle.scale.setTo(1.2)
+        bottle.scale.setTo(1.5)
         group.sprite = bottle
 
         
