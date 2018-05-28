@@ -439,15 +439,15 @@ var result = function(){
 
         var pivotY = 80
         //
-        if(totalScore >= goalScore){
+        if(totalScore >= goalScore && amazing.getFromApp()){
             var offsetRank = 0
             if(rankMinigame>=1000){
-                offsetRank = 50
+                offsetRank = 70
             }
             else if(rankMinigame >= 100){
                 offsetRank = 30
             }
-        	var pivotX = -100-offsetRank/2
+        	var pivotX = -187-offsetRank/2
 	        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
 	        trophy.scale.setTo(0.8,0.8)
 	        trophy.anchor.setTo(0.5,0.5)
@@ -488,18 +488,31 @@ var result = function(){
 	        text.anchor.setTo(0,0.5)
 	        group.add(text)
 
+            pivotX+=170
+            var gameImage = group.create(pivotX, pivotY,gameIcon)
+            gameImage.scale.setTo(0.4,0.4)
+            gameImage.anchor.setTo(0.5,0.5)
+
+            var graphics = game.add.graphics(pivotX,pivotY)
+            graphics.beginFill(0xff0000)
+            graphics.drawRoundedRect(-gameImage.width/2,-gameImage.height/2,gameImage.width,gameImage.height,20)
+            graphics.endFill()
+            group.add(graphics)
+
+            gameImage.mask = graphics
+
 	        
     	}
-    	else{
-    		//var pivotX = -100
+    	else if(amazing.getFromApp()){
 
             var offsetRank = 0
             if(rankMinigame>=1000){
-                offsetRank = 50
+                offsetRank = 70
             }
             else if(rankMinigame >= 100){
                 offsetRank = 30
             }
+
             var pivotX = -187-offsetRank/2
             var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
             trophy.scale.setTo(0.8,0.8)
@@ -523,7 +536,7 @@ var result = function(){
             text.anchor.setTo(0.5,0.5)
             group.add(text)
 
-            pivotX += 90
+            pivotX += 90 + offsetRank/2
     		var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
 	        coin.anchor.setTo(0.5,0.5)
 	        coin.scale.setTo(0.8)
@@ -538,7 +551,6 @@ var result = function(){
 	        text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
 	        text.anchor.setTo(0,0.5)
 	        group.add(text)
-	        console.log(textAdd)
 
 	        pivotX+=170
 	        var gameImage = group.create(pivotX, pivotY,gameIcon)
@@ -555,6 +567,38 @@ var result = function(){
 
 	        
 	    }
+        else{
+
+            var pivotX = -110
+            var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
+            coin.anchor.setTo(0.5,0.5)
+            coin.scale.setTo(0.8)
+
+            var textAdd = totalScore
+
+            if(totalScore == 0){
+                textAdd = '' + totalScore
+            }
+
+            fontStyle = {font: "35px Gotham light", fill: "#ff008c",align:"center"}
+            text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
+            text.anchor.setTo(0,0.5)
+            group.add(text)
+
+            pivotX+=195
+            var gameImage = group.create(pivotX, pivotY,gameIcon)
+            gameImage.scale.setTo(0.4,0.4)
+            gameImage.anchor.setTo(0.5,0.5)
+
+            var graphics = game.add.graphics(pivotX,pivotY)
+            graphics.beginFill(0xff0000)
+            graphics.drawRoundedRect(-gameImage.width/2,-gameImage.height/2,gameImage.width,gameImage.height,20)
+            graphics.endFill()
+            group.add(graphics)
+
+            gameImage.mask = graphics
+
+        }
 	    game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
 	    sceneGroup.add(rankGroup)
 
@@ -797,15 +841,17 @@ var result = function(){
             }
 
         }
-
-        //addRank()
+        
+        /*haveCoupon = false
+        rankMinigame = 99999
+        addRank()*/
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
 
-        createButtons(pivotButtons )
+        createButtons(pivotButtons)
         createIcons(showIcons)
         if(!amazing.getFromApp()){
-
+            addRank()
     		createOverlay()
         }
 
