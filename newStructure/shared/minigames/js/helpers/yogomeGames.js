@@ -239,6 +239,7 @@ var yogomeGames = function () {
             {name:'Milk Shake',url:urlSet + 'milkShake/',mapUrl:urlMap + 'milkShake', sceneName:'milkShake',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//208
             {name:'Purrjectile',url:urlSet + 'purrjectile/',mapUrl:urlMap + 'purrjectile', sceneName:'purrjectile',subject:'sustainability', review:false,objective:5,demo:false, type:gameTypeEnum.TARGET},//209
             {name:'Ocean Quest',url:urlSet + 'oceanQuest/',mapUrl:urlMap + 'oceanQuest', sceneName:'oceanQuest',subject:'geography', review:false,objective:15,demo:false, type:gameTypeEnum.TARGET},//210
+            {name:'Star Explore Command',url:urlSet + 'starExploreCommand/',mapUrl:urlMap + 'starExploreCommand', sceneName:'starExploreCommand',subject:'geography', review:false,objective:15,demo:false, type:gameTypeEnum.TARGET},//211
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
