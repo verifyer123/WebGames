@@ -100,6 +100,7 @@ var origamimic = function(){
     var timerGroup
     var gameSong
     var coin
+    var hand
     var tomiko
     var origanim
     var paper
@@ -111,6 +112,7 @@ var origamimic = function(){
     var CORRECT_ORDER
     var timeAttack
     var gameTime
+    var tuto
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -126,6 +128,7 @@ var origamimic = function(){
         CORRECT_ORDER = []
         timeAttack = false
         gameTime = 5000
+        tuto = true
         
         loadSounds()
 	}
@@ -268,7 +271,7 @@ var origamimic = function(){
     
     function onClickPlay() {
         tutoGroup.y = -game.world.height
-        initGame()
+        initTuto()
     }
     
     function releaseButton(obj){
@@ -544,6 +547,13 @@ var origamimic = function(){
         pointer.y = -100
         
         if(gameActive){
+            
+            if(tuto){
+                hand.first.stop()
+                hand.second.stop()
+                hand.destroy()
+                tuto = false
+            }
 
             if(dotsArray && dotsArray.length > 1){
                 linesGroup.line.clear()    
@@ -708,6 +718,38 @@ var origamimic = function(){
             obj.alpha = 1
             game.add.tween(obj.scale).from({x:0, y:0},200,Phaser.Easing.linear,true)
         },this)
+    }
+    
+    function initTuto(){
+        
+        var delay = spreadDots()
+        
+        game.time.events.add(delay + 100, function(){
+            
+            hand.x = pointsGroup.dotPos[CORRECT_ORDER[0][0]][CORRECT_ORDER[0][1]].centerX
+            hand.y = pointsGroup.dotPos[CORRECT_ORDER[0][0]][CORRECT_ORDER[0][1]].centerY
+
+            var first = game.add.tween(hand).to({x:pointsGroup.dotPos[CORRECT_ORDER[1][0]][CORRECT_ORDER[1][1]].centerX, y:pointsGroup.dotPos[CORRECT_ORDER[1][0]][CORRECT_ORDER[1][1]].centerY},600,Phaser.Easing.linear,false)
+
+            var second = game.add.tween(hand).to({x:pointsGroup.dotPos[CORRECT_ORDER[2][0]][CORRECT_ORDER[2][1]].centerX, y:pointsGroup.dotPos[CORRECT_ORDER[2][0]][CORRECT_ORDER[2][1]].centerY},600,Phaser.Easing.linear,false)
+            second.onComplete.add(function(){
+                hand.x = pointsGroup.dotPos[CORRECT_ORDER[0][0]][CORRECT_ORDER[0][1]].centerX
+                hand.y = pointsGroup.dotPos[CORRECT_ORDER[0][0]][CORRECT_ORDER[0][1]].centerY
+                first.start()
+            })
+
+            first.chain(second)
+            
+            hand.first = first
+            hand.second = second
+            
+            hand.alpha = 1
+            game.add.tween(hand.scale).from({x:0, y:0},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                first.start()
+                gameActive = true
+            })
+        })
+        
     }
 
 	return {
