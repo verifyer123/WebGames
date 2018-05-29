@@ -103,7 +103,7 @@ var starExploreCommand = function(){
     var heartsGroup
     var gameSong
     var coin
-    var space
+    var tile
     var ship
     var cursors
     var planets
@@ -301,15 +301,18 @@ var starExploreCommand = function(){
 
 	function createBackground(){
         
-        space = sceneGroup.create(0, 0, "background")
+        var space = sceneGroup.create(0, 0, "background")
         space.width = game.world.width
         space.height = game.world.height
+        
+        tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.starExploreCommand", "tile")
     }
 
 	function update(){
-        //space.tilePosition.y += 1
         
         if(gameActive){
+            
+            tile.tilePosition.y += OBSTACLE_SPEED/200
             
             ship.body.velocity.setTo(0, 0)
 
@@ -575,7 +578,7 @@ var starExploreCommand = function(){
         planets.board.loadTexture("atlas.starExploreCommand", "name_" + planets.NAMES[planets.order] + "_" + lang)
         planets.contact = false
         
-        planets.dropDown = game.add.tween(planets).to({ y:PLANETS_DIRECTION}, 8000, Phaser.Easing.linear, true)
+        planets.dropDown = game.add.tween(planets).to({ y:PLANETS_DIRECTION}, 800, Phaser.Easing.linear, true)
         planets.dropDown.onComplete.add(function(){
             planets.y = PLANETS_SPAWN_Y
             

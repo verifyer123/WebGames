@@ -4,9 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.7.0</string>
-        <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/starExploreCommand/images/starExploreCommand/atlasbase.tps</string>
+        <string>4.8.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -223,13 +221,21 @@
                 <false/>
             </struct>
             <key type="filename">name_earth_EN.png</key>
+            <key type="filename">name_earth_ES.png</key>
             <key type="filename">name_jupiter_EN.png</key>
+            <key type="filename">name_jupiter_ES.png</key>
             <key type="filename">name_mars_EN.png</key>
+            <key type="filename">name_mars_ES.png</key>
             <key type="filename">name_mercury_EN.png</key>
+            <key type="filename">name_mercury_ES.png</key>
             <key type="filename">name_neptune_EN.png</key>
+            <key type="filename">name_neptune_ES.png</key>
             <key type="filename">name_saturn_EN.png</key>
+            <key type="filename">name_saturn_ES.png</key>
             <key type="filename">name_uranus_EN.png</key>
+            <key type="filename">name_uranus_ES.png</key>
             <key type="filename">name_venus_EN.png</key>
+            <key type="filename">name_venus_ES.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -243,6 +249,7 @@
                 <false/>
             </struct>
             <key type="filename">name_sun_EN.png</key>
+            <key type="filename">name_sun_ES.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -308,6 +315,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">tile.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -342,6 +362,16 @@
             <filename>bullet.png</filename>
             <filename>ship.png</filename>
             <filename>body.png</filename>
+            <filename>name_earth_ES.png</filename>
+            <filename>name_jupiter_ES.png</filename>
+            <filename>name_mars_ES.png</filename>
+            <filename>name_mercury_ES.png</filename>
+            <filename>name_neptune_ES.png</filename>
+            <filename>name_saturn_ES.png</filename>
+            <filename>name_sun_ES.png</filename>
+            <filename>name_uranus_ES.png</filename>
+            <filename>name_venus_ES.png</filename>
+            <filename>tile.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
