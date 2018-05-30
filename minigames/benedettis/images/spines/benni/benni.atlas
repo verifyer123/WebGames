@@ -1,0 +1,146 @@
+
+benni.png
+size: 1024,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm1
+  rotate: true
+  xy: 684, 6
+  size: 20, 25
+  orig: 20, 25
+  offset: 0, 0
+  index: -1
+arm2
+  rotate: false
+  xy: 123, 4
+  size: 26, 16
+  orig: 26, 16
+  offset: 0, 0
+  index: -1
+foot1
+  rotate: true
+  xy: 846, 21
+  size: 41, 47
+  orig: 41, 47
+  offset: 0, 0
+  index: -1
+foot2
+  rotate: false
+  xy: 788, 20
+  size: 56, 42
+  orig: 56, 42
+  offset: 0, 0
+  index: -1
+hand1_a
+  rotate: true
+  xy: 942, 2
+  size: 22, 31
+  orig: 22, 31
+  offset: 0, 0
+  index: -1
+hand1_b
+  rotate: true
+  xy: 652, 6
+  size: 20, 30
+  orig: 20, 30
+  offset: 0, 0
+  index: -1
+hand2
+  rotate: false
+  xy: 942, 26
+  size: 32, 36
+  orig: 32, 36
+  offset: 0, 0
+  index: -1
+head_a
+  rotate: false
+  xy: 355, 6
+  size: 58, 56
+  orig: 58, 56
+  offset: 0, 0
+  index: -1
+head_b
+  rotate: false
+  xy: 415, 4
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+head_c
+  rotate: false
+  xy: 593, 6
+  size: 57, 56
+  orig: 57, 56
+  offset: 0, 0
+  index: -1
+head_d
+  rotate: false
+  xy: 475, 5
+  size: 57, 57
+  orig: 57, 57
+  offset: 0, 0
+  index: -1
+head_e
+  rotate: false
+  xy: 534, 5
+  size: 57, 57
+  orig: 57, 57
+  offset: 0, 0
+  index: -1
+leg_a
+  rotate: false
+  xy: 652, 28
+  size: 70, 34
+  orig: 70, 34
+  offset: 0, 0
+  index: -1
+leg_b
+  rotate: false
+  xy: 285, 12
+  size: 68, 50
+  orig: 68, 50
+  offset: 0, 0
+  index: -1
+pizza_a
+  rotate: false
+  xy: 724, 26
+  size: 62, 36
+  orig: 62, 36
+  offset: 0, 0
+  index: -1
+pizza_b
+  rotate: false
+  xy: 123, 22
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+pizza_c
+  rotate: false
+  xy: 205, 23
+  size: 78, 39
+  orig: 78, 39
+  offset: 0, 0
+  index: -1
+pizza_d
+  rotate: false
+  xy: 2, 7
+  size: 119, 55
+  orig: 119, 55
+  offset: 0, 0
+  index: -1
+torso1
+  rotate: false
+  xy: 895, 23
+  size: 45, 39
+  orig: 45, 39
+  offset: 0, 0
+  index: -1
+torso2
+  rotate: false
+  xy: 976, 36
+  size: 41, 26
+  orig: 41, 26
+  offset: 0, 0
+  index: -1
