@@ -242,6 +242,7 @@ var yogomeGames = function () {
             {name:'Star Explore Command',url:urlSet + 'starExploreCommand/',mapUrl:urlMap + 'starExploreCommand', sceneName:'starExploreCommand',subject:'geography', review:false,objective:15,demo:false, type:gameTypeEnum.TARGET},//211
             {name:'Origamimic',url:urlSet + 'origamimic/',mapUrl:urlMap + 'origamimic', sceneName:'origamimic',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.TRACE},//212
             {name:'Dino Dash',url:urlSet + 'dinoDash/',mapUrl:urlMap + 'dinoDash', sceneName:'dinoDash',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.TAP},//213
+            {name:'Whose Turn',url:urlSet + 'whoseTurn/',mapUrl:urlMap + 'whoseTurn', sceneName:'whoseTurn',subject:'math', review:false,objective:30,demo:false, type:gameTypeEnum.COUNT},//214
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
