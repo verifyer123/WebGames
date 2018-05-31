@@ -221,18 +221,18 @@ var benedettis = function(){
         var bottomRect = sceneGroup.create(0,0,'atlas.game','fondo_control')
         bottomRect.width = game.world.width
         bottomRect.x = game.world.centerX
-        bottomRect.y = game.world.height
+        bottomRect.y = game.world.height+20
         bottomRect.anchor.setTo(0.5,1)
 
-        var logo = sceneGroup.create(game.world.centerX,game.world.height - bottomRect.height*0.75, "atlas.game","logo_benedettis")
+        var logo = sceneGroup.create(game.world.centerX,game.world.height -105, "atlas.game","logo_benedettis")
         logo.anchor.setTo(0.5)
         //logo.scale.setTo(0.9)
         
         sceneGroup.limit = bottomRect
         
         var groupButton = game.add.group()
-        groupButton.x = game.world.centerX + 75
-        groupButton.y = game.world.height -95
+        groupButton.x = game.world.centerX + 170
+        groupButton.y = game.world.height -115
         groupButton.scale.setTo(1)
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
@@ -242,15 +242,15 @@ var benedettis = function(){
         
         var button2 = groupButton.create(0,15, 'atlas.game','boton_derecha')
         button2.anchor.setTo(0.5,0.5)
-        //button2.scale.setTo(0.7)
+        //button2.scale.setTo(1.2)
         button2.inputEnabled = true
         button2.tag = 'right'
         button2.events.onInputDown.add(inputButton)
         button2.events.onInputUp.add(releaseButton)
         
         var groupButton = game.add.group()
-        groupButton.x = game.world.centerX - 75
-        groupButton.y = game.world.height -95
+        groupButton.x = game.world.centerX - 170
+        groupButton.y = game.world.height -115
         groupButton.scale.setTo(1)
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
@@ -260,7 +260,7 @@ var benedettis = function(){
         
         var button2 = groupButton.create(0,15, 'atlas.game','boton_izquierda')
         button2.anchor.setTo(0.5,0.5)
-        //button2.scale.setTo(0.7)
+        //button2.scale.setTo(1.2)
         button2.inputEnabled = true
         button2.tag = 'left'
         button2.events.onInputDown.add(inputButton)
@@ -507,7 +507,13 @@ var benedettis = function(){
                             doJump()
                         }
 
-                    }else if(tag == 'coin'){
+                    }else if(tag == 'plataforma_larga'){
+                    	if(checkTop){
+                    		doJump()
+                    	}
+
+                    }
+                    else if(tag == 'coin'){
                         
                         addPoint(object,'star')
                         deactivateObj(object)
@@ -548,7 +554,14 @@ var benedettis = function(){
                     		object.pizza.visible = false
                     	}
                     	//console.log("addObject")
-                        addObjects()
+                    	var r = game.rnd.frac()
+                    	if(r < 0.08){
+                        	addObstacle("plataforma_larga")
+                        	addObjects()
+                        }
+                        else{
+                        	addObjects()
+                        }
                     }
                     
                 }
@@ -989,6 +1002,10 @@ var benedettis = function(){
 
                 	currentWindows ++
                 }
+                else if(object.tag == "plataforma_larga"){
+                	posX = game.world.centerX
+                	pivotObjects-=50
+                }
 
                 activateObject(object,posX,pivotObjects)
 
@@ -999,6 +1016,9 @@ var benedettis = function(){
                 lastOne = object
                 
                 pivotObjects-= 150
+                if(object.tag == "plataforma_larga"){
+                	pivotObjects-=80
+                }
                 
                 break
             }
@@ -1090,6 +1110,14 @@ var benedettis = function(){
                 obj.addChild(spine)
                 obj.spine = spine
             }
+            else if(type=='plataforma_larga'){
+            	var obj = piecesGroup.create(0,0,"atlas.game",type)
+
+            	var letrero = sceneGroup.create(0,-100,"atlas.game","banner")
+            	letrero.anchor.setTo(0.5)
+            	obj.addChild(letrero)
+
+            }
             else{
                 
                 var obj = piecesGroup.create(0,0,'atlas.game',type)
@@ -1109,6 +1137,7 @@ var benedettis = function(){
         createObstacle('plataforma',18)
         //createObstacle('coin',20)
         createObstacle('spring',10)
+        createObstacle('plataforma_larga',2)
 
         fallingObjects = game.add.group()
         sceneGroup.add(fallingObjects)
@@ -1318,6 +1347,8 @@ var benedettis = function(){
         for(var i = 0;i<12;i++){
             addObjects()
         }
+
+        //addObstacle("plataforma_larga")
         
     }
 
