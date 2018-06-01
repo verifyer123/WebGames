@@ -752,7 +752,7 @@ var benedettis = function(){
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(10,10,'atlas.game','xpcoins')
+        var pointsImg = pointsBar.create(game.world.width - 180,10,'atlas.game','xpcoins')
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
@@ -769,7 +769,7 @@ var benedettis = function(){
     function createHearts(){
         
         heartsGroup = game.add.group()
-        heartsGroup.x = game.world.width - 20
+        heartsGroup.x = 100
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
@@ -1615,7 +1615,7 @@ var benedettis = function(){
 
 	        pizzaGroup = game.add.group()
 	        sceneGroup.add(pizzaGroup)
-	        pizzaGroup.x = game.world.centerX - 60
+	        pizzaGroup.x = game.world.centerX -120
 	        pizzaGroup.y = 10
 
 	        var backPizzaGroup = game.add.graphics()
