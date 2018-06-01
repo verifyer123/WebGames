@@ -552,6 +552,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">plataforma_larga.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>85,13,169,25</rect>
+                <key>scale9Paddings</key>
+                <rect>85,13,169,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">puerta.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -760,6 +773,7 @@
             <filename>pizza_mediana.png</filename>
             <filename>pizza_mega.png</filename>
             <filename>pizza_super.png</filename>
+            <filename>plataforma_larga.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

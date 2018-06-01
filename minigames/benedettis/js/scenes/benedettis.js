@@ -492,6 +492,9 @@ var benedettis = function(){
                     if(tag == 'plataforma'){
                         
                         if(checkTop){
+
+                            doJump()
+
 	                    	if(object.pizza.visible ){
 
 	                        	object.pizza.visible = false
@@ -499,12 +502,11 @@ var benedettis = function(){
 	                        		deliverPizza()
 	                        	}
 	                        	else{
-                                    console.log("hit from thief")
 	                        		hit(DELTA_THIEF)
 	                        	}
 	                        }
 
-                            doJump()
+                            
                         }
 
                     }else if(tag == 'plataforma_larga'){
@@ -1255,7 +1257,7 @@ var benedettis = function(){
         if(currentDeliveredPizzas >= pizzasToDeliver){
             finishRound()
         }
-        buddy.setAnimationByName(0,"land",false)
+        //buddy.setAnimationByName(0,"land",false)
     }
 
     function hit(value){
@@ -1632,9 +1634,6 @@ var benedettis = function(){
         	pizzaGroup.add(pizzaText)
 
 
-        	
-
-            
             animateScene()
 
             setRound()
@@ -1645,10 +1644,15 @@ var benedettis = function(){
 		},
         preload:preload,
         update:update,
+        //render:render,
 		show: function(event){
 			loadSounds()
 			initialize()
 		}
 	}
+
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
 
 }()

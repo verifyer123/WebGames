@@ -11,7 +11,7 @@
 },
 {
 	"filename": "barra_vida",
-	"frame": {"x":1,"y":450,"w":311,"h":36},
+	"frame": {"x":325,"y":450,"w":311,"h":36},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":311,"h":36},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "Benni",
-	"frame": {"x":1176,"y":1,"w":168,"h":116},
+	"frame": {"x":499,"y":239,"w":168,"h":116},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":168,"h":116},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "boton_derecha",
-	"frame": {"x":834,"y":49,"w":169,"h":161},
+	"frame": {"x":834,"y":1,"w":169,"h":161},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":161},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "boton_derecho_push",
-	"frame": {"x":343,"y":239,"w":169,"h":161},
+	"frame": {"x":887,"y":164,"w":169,"h":161},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":161},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "boton_izquierda",
-	"frame": {"x":1005,"y":49,"w":169,"h":160},
+	"frame": {"x":1005,"y":1,"w":169,"h":160},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":160},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "boton_izquierdo_push",
-	"frame": {"x":514,"y":239,"w":169,"h":160},
+	"frame": {"x":1058,"y":163,"w":169,"h":160},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":169,"h":160},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "captus",
-	"frame": {"x":1337,"y":319,"w":76,"h":103},
+	"frame": {"x":1151,"y":387,"w":76,"h":103},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":103},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "cliente",
-	"frame": {"x":1494,"y":289,"w":53,"h":81},
+	"frame": {"x":1537,"y":1,"w":53,"h":81},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":53,"h":81},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "coin",
-	"frame": {"x":1300,"y":435,"w":68,"h":70},
+	"frame": {"x":1359,"y":298,"w":68,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "Contenedor_barra",
-	"frame": {"x":834,"y":1,"w":322,"h":46},
+	"frame": {"x":1,"y":450,"w":322,"h":46},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":322,"h":46},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "enredadera_1",
-	"frame": {"x":974,"y":212,"w":62,"h":152},
+	"frame": {"x":1460,"y":135,"w":62,"h":152},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":152},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "enredadera_2",
-	"frame": {"x":1331,"y":208,"w":71,"h":109},
+	"frame": {"x":1229,"y":394,"w":71,"h":109},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":109},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "enredadera_3",
-	"frame": {"x":1038,"y":211,"w":99,"h":161},
+	"frame": {"x":1359,"y":135,"w":99,"h":161},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":161},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "enredadera_4",
-	"frame": {"x":1139,"y":211,"w":89,"h":173},
+	"frame": {"x":1524,"y":90,"w":89,"h":173},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":89,"h":173},
@@ -146,16 +146,16 @@
 },
 {
 	"filename": "ladrillo_patron",
-	"frame": {"x":685,"y":211,"w":131,"h":155},
+	"frame": {"x":1229,"y":136,"w":128,"h":256},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":131,"h":155},
-	"sourceSize": {"w":131,"h":155},
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":256},
+	"sourceSize": {"w":128,"h":256},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "ladron",
-	"frame": {"x":1460,"y":203,"w":79,"h":84},
+	"frame": {"x":971,"y":422,"w":79,"h":84},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":2,"w":79,"h":84},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":1230,"y":343,"w":105,"h":41},
+	"frame": {"x":499,"y":357,"w":105,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "logo_benedettis",
-	"frame": {"x":818,"y":212,"w":154,"h":137},
+	"frame": {"x":343,"y":239,"w":154,"h":137},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":154,"h":137},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "marco_ventana",
-	"frame": {"x":685,"y":368,"w":114,"h":140},
+	"frame": {"x":669,"y":211,"w":114,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":140},
@@ -191,7 +191,7 @@
 },
 {
 	"filename": "maseta",
-	"frame": {"x":1404,"y":198,"w":54,"h":87},
+	"frame": {"x":1481,"y":1,"w":54,"h":87},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":87},
@@ -200,7 +200,7 @@
 },
 {
 	"filename": "piso_patron",
-	"frame": {"x":1370,"y":448,"w":89,"h":25},
+	"frame": {"x":606,"y":357,"w":89,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":89,"h":25},
@@ -209,7 +209,7 @@
 },
 {
 	"filename": "pizza",
-	"frame": {"x":1105,"y":386,"w":97,"h":98},
+	"frame": {"x":1052,"y":389,"w":97,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":97,"h":98},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "pizza_grande",
-	"frame": {"x":1465,"y":136,"w":102,"h":65},
+	"frame": {"x":765,"y":442,"w":102,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":65},
@@ -227,7 +227,7 @@
 },
 {
 	"filename": "pizza_mediana",
-	"frame": {"x":1204,"y":435,"w":94,"h":60},
+	"frame": {"x":1042,"y":327,"w":94,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":94,"h":60},
@@ -236,7 +236,7 @@
 },
 {
 	"filename": "pizza_mega",
-	"frame": {"x":1176,"y":119,"w":160,"h":87},
+	"frame": {"x":765,"y":353,"w":160,"h":87},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":87},
@@ -245,7 +245,7 @@
 },
 {
 	"filename": "pizza_super",
-	"frame": {"x":468,"y":445,"w":100,"h":63},
+	"frame": {"x":869,"y":442,"w":100,"h":63},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":63},
@@ -254,7 +254,7 @@
 },
 {
 	"filename": "plataforma",
-	"frame": {"x":1204,"y":386,"w":128,"h":47},
+	"frame": {"x":509,"y":400,"w":128,"h":47},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":47},
@@ -281,7 +281,7 @@
 },
 {
 	"filename": "spring",
-	"frame": {"x":1460,"y":198,"w":3,"h":3},
+	"frame": {"x":1,"y":498,"w":3,"h":3},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":3},
@@ -290,7 +290,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":1494,"y":372,"w":64,"h":64},
+	"frame": {"x":1429,"y":298,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -299,7 +299,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":342,"y":445,"w":124,"h":63},
+	"frame": {"x":639,"y":384,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -308,7 +308,7 @@
 },
 {
 	"filename": "ventana_1",
-	"frame": {"x":1346,"y":1,"w":100,"h":133},
+	"frame": {"x":785,"y":211,"w":100,"h":133},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":133},
@@ -317,7 +317,7 @@
 },
 {
 	"filename": "ventana_2",
-	"frame": {"x":1004,"y":374,"w":99,"h":132},
+	"frame": {"x":1380,"y":1,"w":99,"h":132},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":132},
@@ -326,7 +326,7 @@
 },
 {
 	"filename": "ventana_3",
-	"frame": {"x":1230,"y":208,"w":99,"h":133},
+	"frame": {"x":1381,"y":370,"w":99,"h":133},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":133},
@@ -335,7 +335,7 @@
 },
 {
 	"filename": "ventana_4",
-	"frame": {"x":801,"y":368,"w":99,"h":133},
+	"frame": {"x":1482,"y":364,"w":99,"h":133},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":133},
@@ -344,7 +344,7 @@
 },
 {
 	"filename": "ventana_5",
-	"frame": {"x":1448,"y":1,"w":100,"h":133},
+	"frame": {"x":1176,"y":1,"w":100,"h":133},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":133},
@@ -353,7 +353,7 @@
 },
 {
 	"filename": "ventana_6",
-	"frame": {"x":902,"y":366,"w":100,"h":132},
+	"frame": {"x":1278,"y":1,"w":100,"h":132},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":132},
@@ -362,7 +362,7 @@
 },
 {
 	"filename": "ventilador",
-	"frame": {"x":1415,"y":289,"w":77,"h":95},
+	"frame": {"x":1302,"y":394,"w":77,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":77,"h":95},
@@ -371,7 +371,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1490,"y":438,"w":64,"h":64},
+	"frame": {"x":1495,"y":289,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -380,7 +380,7 @@
 },
 {
 	"filename": "wrongPart",
-	"frame": {"x":1338,"y":136,"w":125,"h":60},
+	"frame": {"x":638,"y":449,"w":125,"h":60},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":125,"h":60},
@@ -389,7 +389,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":342,"y":402,"w":165,"h":41},
+	"frame": {"x":342,"y":400,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -398,7 +398,7 @@
 },
 {
 	"filename": "yunque",
-	"frame": {"x":570,"y":401,"w":113,"h":93},
+	"frame": {"x":927,"y":327,"w":113,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":113,"h":93},
@@ -407,7 +407,7 @@
 },
 {
 	"filename": "zapato",
-	"frame": {"x":1415,"y":386,"w":73,"h":60},
+	"frame": {"x":1138,"y":325,"w":73,"h":60},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":73,"h":60},
@@ -419,8 +419,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1568,"h":509},
+	"size": {"w":1614,"h":510},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8ef47c9bec3c24ce7e542249ba16b3d5:2aae2065d75fa8aa4d862890ca23fb97:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d0f1712ee56c83ef8b218c810a1b599f:e772db30d6952627e16d882b2d856363:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

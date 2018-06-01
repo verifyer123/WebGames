@@ -17,15 +17,17 @@ var instructions = function(){
 
 	var assets = {
         atlases: [
-            {   
-                name: "atlas.instructions",
-                json: "images/instructions/atlas.json",
-                image: "images/instructions/atlas.png",
-            },
+           
         ],
         images: [
             {   name:"background",
-				file: "images/instructions/back.png"},
+                file: "images/instructions/back.png"},
+            {   name:"okbtn",
+                file: "images/instructions/okbtn.png"},
+            {   name:"inst-click",
+                file: "images/instructions/inst-click.png"},
+            {   name:"inst-tap",
+                file: "images/instructions/inst-tap.png"},
 		],
         sounds: [
             {	name: "click",
@@ -44,16 +46,17 @@ var instructions = function(){
 	function createInstructions(){
         
         var game = sceneGroup.game
-		var circleGroup = new Phaser.Group(sceneGroup.game)
-        
+        var circleGroup = new Phaser.Group(sceneGroup.game)
+
         var platform = 'click'
         
         if(game.device.desktop == false){
             platform = 'tap'
         }
         
-        var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
+        var instruction = circleGroup.create(0,0,'inst-'+ platform)
         instruction.anchor.setTo(0.5,0.5)
+        
 
 		return circleGroup
 	}
@@ -100,7 +103,7 @@ var instructions = function(){
 	function createButton(){
 		var buttonGroup = new Phaser.Group(sceneGroup.game)
 
-		var buttonSprite = buttonGroup.create(0, 0, 'atlas.instructions','okbtn')
+		var buttonSprite = buttonGroup.create(0, 0,'okbtn')
 		buttonSprite.anchor.setTo(0.5, 0.5)
 
 		buttonSprite.inputEnabled = true
