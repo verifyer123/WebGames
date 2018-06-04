@@ -438,42 +438,6 @@ var benedettis = function(){
         },this)
     }
     
-    /*function setBalloons(){
-        
-        game.physics.p2.gravity.y = 0
-        player.body.velocity.y = 0
-        
-        sound.play("pop")
-        sound.play("balloon")
-        
-        player.active = false
-        moveUp = true
-        buddy.setAnimationByName(0, "JUMP_BALLOONS", true)
-        
-        var newSkin = buddy.createCombinedSkin(
-                'combined2',     
-                'glasses' + skinTable[0],        
-                'hair' +  skinTable[1],
-                'skin' + skinTable[2],
-                'torso' + skinTable[3],
-                'balloons'
-        );
-
-        buddy.setSkinByName('combined2')
-        
-        buddy.setToSetupPose()
-        
-        game.time.events.add(3000,function(){
-                        
-            player.active = true
-            moveUp = false
-            
-            game.physics.p2.gravity.y = WORLD_GRAVITY
-            
-            buddy.setSkinByName('combined')
-            buddy.setToSetupPose()
-        },this)
-    }*/
     
     function checkObjects(){
         
@@ -515,12 +479,7 @@ var benedettis = function(){
                     	}
 
                     }
-                    else if(tag == 'coin'){
-                        
-                        addPoint(object,'star')
-                        deactivateObj(object)
-                        
-                    }else if(tag == 'spring' && checkTop){
+                    else if(tag == 'spring' && checkTop){
                         
                         doJump(JUMP_FORCE * 2)
                         sound.play('powerup')
@@ -529,20 +488,11 @@ var benedettis = function(){
                         var offset = 1
                         if(characterGroup.scale.x < 0){ offset = -1}
                         game.add.tween(characterGroup).to({angle:characterGroup.angle + (360 * offset)},500,Phaser.Easing.linear,true)
-                    }else if(tag == 'balloons' && player.active){
-                        
-                        setBalloons()
-                        deactivateObj(object)
-                        createPart('star',object)
-                    }else if(tag == 'monster' && player.active){
-                        
-                        if(Math.abs(player.body.x - object.world.x) < 50 && Math.abs(player.body.y - object.world.y) < 50)
-                        stopGame()
                     }
                     
                 }
                 
-                if(object.world.y > game.world.height){
+                if(object.world.y > game.world.height-50){
                     deactivateObj(object)
                     
                     if(tag == 'plataforma'){
@@ -586,15 +536,13 @@ var benedettis = function(){
         			fall.visible = false
         		}
 
-        		if(fall.y >= game.world.height){
+        		if(fall.y >= game.world.height-50){
         			fall.visible = false
         		}
 
 
         	}
         }
-
-        
         
         var bar = sceneGroup.limit
         if(player.body.y <= game.world.centerY){
@@ -639,6 +587,8 @@ var benedettis = function(){
             if(initialBackground.y < game.world.height){
             	initialBackground.y+=value
             }
+
+
             background.tilePosition.y+=value
 
         }
@@ -663,12 +613,7 @@ var benedettis = function(){
             game.physics.p2.gravity.y = WORLD_GRAVITY
             //marioSong.loopFull(0.5)
         }
-        
-        /*var bar = sceneGroup.limit
-        if(player.body.y <= bar.body.y + bar.height){
-            //console.log('move')
-            game.add.tween(objectsGroup).to({y:objectsGroup.y + 150},200,Phaser.Easing.linear,true)
-        }*/
+
         
         player.body.moveUp(jumpValue)        
     
@@ -738,7 +683,6 @@ var benedettis = function(){
 
     	liveBar.mask.scale.setTo(currentTimeToDeliver/initialTimeDeliver, 1)
     	if(currentTimeToDeliver <= 0){
-            console.log("missPoint")
     		missPoint()
     		if(lives > 0){
     			currentTimeToDeliver = TIME_DELIVER_PIZZA - (LEVEL_DELTA * currentLevel)
@@ -891,9 +835,6 @@ var benedettis = function(){
          child.y = posY
          child.x = posX
 
-         /*if(child.tag == "spring"){
-            child.alpha = 0
-         }*/
     }
     
     function addItem(obj){
@@ -902,8 +843,6 @@ var benedettis = function(){
         
         var tag = itemNames[0]
         
-        //console.log(tag + ' tag')
-        
         for(var i = 0; i < piecesGroup.length;i++){
             
             var item = piecesGroup.children[i]
@@ -911,14 +850,7 @@ var benedettis = function(){
             if(!item.active && item.tag == tag){
                 
                 var posX = obj.x
-                
-                if(item.tag == 'monster'){
-                    posX = obj.x
-                    while(Math.abs(obj.x - posX) < 100){
-                        posX = game.rnd.integerInRange(100,game.world.width - 100)
-                    }
-                    
-                }
+        
 
                 
                 activateObject(item,posX,obj.y - obj.height * 0.5 - item.height * 0.6)
@@ -1136,9 +1068,9 @@ var benedettis = function(){
     
     function createObjects(){
         
-        createObstacle('plataforma',18)
+        createObstacle('plataforma',8)
         //createObstacle('coin',20)
-        createObstacle('spring',10)
+        createObstacle('spring',3)
         createObstacle('plataforma_larga',2)
 
         fallingObjects = game.add.group()
@@ -1155,14 +1087,14 @@ var benedettis = function(){
     function createFlowers(){
     	flowerGroupRigth = game.add.group()
         sceneGroup.add(flowerGroupRigth)
-    	for(var i =0; i < 6; i++){
-    		var flower = flowerGroupRigth.create(game.world.width,0,"atlas.game","enredadera_4")
+    	for(var i =0; i < 4; i++){
+    		var flower = flowerGroupRigth.create(game.world.width+30,0,"atlas.game","enredadera_4")
     		flower.anchor.setTo(1,0)
     	}
 
     	flowerGroupLeft = game.add.group()
         sceneGroup.add(flowerGroupLeft)
-    	for(var i =0; i < 6; i++){
+    	for(var i =0; i < 4; i++){
     		var flower = flowerGroupLeft.create(0,0,"atlas.game","enredadera_1")
     		flower.anchor.setTo(0,0)
     	}
@@ -1346,7 +1278,7 @@ var benedettis = function(){
         lastFlowerRigth = null
         setFlowers()
 
-        for(var i = 0;i<12;i++){
+        for(var i = 0;i<7;i++){
             addObjects()
         }
 

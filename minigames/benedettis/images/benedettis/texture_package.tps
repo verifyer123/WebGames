@@ -390,9 +390,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>33,39,66,79</rect>
+                <rect>32,64,64,128</rect>
                 <key>scale9Paddings</key>
-                <rect>33,39,66,79</rect>
+                <rect>32,64,64,128</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -739,7 +739,6 @@
             <filename>enredadera_3.png</filename>
             <filename>enredadera_4.png</filename>
             <filename>fondo_control.png</filename>
-            <filename>ladrillo_patron.png</filename>
             <filename>ladron.png</filename>
             <filename>logo_benedettis.png</filename>
             <filename>marco_ventana.png</filename>
@@ -774,6 +773,7 @@
             <filename>pizza_mega.png</filename>
             <filename>pizza_super.png</filename>
             <filename>plataforma_larga.png</filename>
+            <filename>ladrillo_patron.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
