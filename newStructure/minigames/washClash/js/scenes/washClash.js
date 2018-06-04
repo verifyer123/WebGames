@@ -425,6 +425,7 @@ var washClash = function(){
 		tutorial=true;
 		if(tutorial){
 			hand.alpha=0;
+			startMoving(enemyP1[0]);
 		}
 		holding=true;
 		actualSoap=obj.spine;
