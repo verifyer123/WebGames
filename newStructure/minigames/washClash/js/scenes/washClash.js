@@ -70,7 +70,14 @@ var washClash = function(){
                 width:122,
                 height:123,
                 frames:12
-            }
+            },
+			{
+                name:"manita",
+                file:"images/Spine/manita/manita.png",
+                width:115,
+                height:111,
+                frames:5
+            },
         ],
 		sounds: [
             {	name: "magic",
@@ -134,6 +141,7 @@ var washClash = function(){
 	var level=0;
 	var reachedMax=false;
 	var dificulty=0.3;
+	var tutorial=false;
 	var dificultyLevels=[
 		{"enemys":1,"type":"normal"},
 		{"enemys":2,"type":"normal"},
@@ -174,11 +182,14 @@ var washClash = function(){
 		checkEval=false;
         loadSounds()
 		speed=350
+		tutorial=false;
 	}
 
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
-		nextLevelAndDificulty(level)
+		//nextLevelAndDificulty(level)
+		actualSoap=soap[0]
+		tutoLevel()
     }
     
     function createTutorial(){
@@ -187,7 +198,6 @@ var washClash = function(){
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-        
     }
     
     function popObject(obj,delay){
@@ -199,7 +209,6 @@ var washClash = function(){
             game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
         },this)
     }
-    
     function animateScene() {
                 
         gameActive = false
@@ -209,9 +218,7 @@ var washClash = function(){
                 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
     }
-	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].alpha = 0
@@ -254,6 +261,44 @@ var washClash = function(){
         
     }
     
+	
+	
+	function tutoLevel(){
+		
+		var EneposX=game.world.width-100;
+		var EneposY=game.world.height-200;
+		var enemyType1=0;
+		var enemyType2=0;
+		var enemyType3=0;
+		
+		soap[0]=creadorDeJabones(null,-100,-100,0,0.7);
+		soap[0].body.x=game.world.centerX;
+		soap[0].body.y=180;
+		checkEval=false;
+		for(var createEnemys=0; createEnemys<dificultyLevels[level].enemys; createEnemys++){
+			if(dificultyLevels[level].type=="normal"){
+				enemyP1[createEnemys]=creadorDeEnemigos(null,1,EneposX,EneposY,enemyType1,0.4);
+				EneposX=EneposX-100;
+				enemyType1++;
+			}
+		}
+		
+		
+		soap[0].body.velocity.x=0;
+		soap[0].body.velocity.y=0;
+		
+		hand=game.add.sprite(100,100,"manita")
+        hand.anchor.setTo(0.5)
+        hand.scale.setTo(0.5)
+		hand.alpha=1;
+        hand.animations.add('handy');
+		hand.x=soap[0].body.x;
+		hand.y=soap[0].body.y;
+		hand.play("handy",12,true); 
+	}
+	
+	
+	
     function missPoint(){
         
         sound.play("wrong")
@@ -377,6 +422,10 @@ var washClash = function(){
 	
 		
 	function growSoap(obj){
+		tutorial=true;
+		if(tutorial){
+			hand.alpha=0;
+		}
 		holding=true;
 		actualSoap=obj.spine;
 		actualSoap.setAnimationByName(0, "washing", false);
@@ -519,6 +568,8 @@ var washClash = function(){
 		enemysGroup.add(happyEnemys.spine);
 		enemysGroup.add(happyEnemys.spine2);
 		enemysGroup.add(happyEnemys.spine3);
+		
+		
     }
 	
 	
@@ -658,7 +709,9 @@ var washClash = function(){
 				soap[existingSoaps].spine.y=soap[existingSoaps].y;
 				soap[existingSoaps].spine.angle=soap[existingSoaps].angle;
 				if(soap[existingSoaps].body.velocity.x<50 && soap[existingSoaps].body.velocity.x>-50){
-					startMoving(soap[existingSoaps])
+					if(tutorial){
+						startMoving(soap[existingSoaps])
+					}
 				}
 				soap[existingSoaps].body.setCircle(
 					soap[existingSoaps].spine.scale.x*90
@@ -781,7 +834,7 @@ var washClash = function(){
 						enemyP3[clean].identifier=clean;
 					}
 				}
-				startMoving(soap[newEnemy])
+				startMoving(soap[newSoap])
 				
 				//Coin(obj2,pointsBar,10);
 			}
