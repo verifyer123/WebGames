@@ -108,7 +108,7 @@ var washClash = function(){
     var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
-    var gameIndex = 1
+    var gameIndex = 215
     var tutoGroup
 	var indexGame
     var overlayGroup
@@ -128,7 +128,6 @@ var washClash = function(){
     var enemysGroup=null;
 	var coinGroup=null;
 	var checkEval=false;
-    
     var tweenTiempo
     var clock, timeBar
     var emitter
@@ -164,7 +163,10 @@ var washClash = function(){
 	function initialize(){
           
         game.stage.backgroundColor = "#000000"
-        lives = 3
+        lives = 3;
+		level=0;
+		dificulty=0.3;
+		reachedMax=false;
 		isColliding=false;
 		actualSoap="";
         emitter=""
@@ -377,9 +379,11 @@ var washClash = function(){
 	function growSoap(obj){
 		holding=true;
 		actualSoap=obj.spine;
+		actualSoap.setAnimationByName(0, "washing", false);
 	}
 	function stopGrow(obj){
 		holding=false;
+		actualSoap.setAnimationByName(0, "idle", true);
 	}
 
 	function createBackground(){
@@ -440,7 +444,7 @@ var washClash = function(){
         wall1.alpha = 0
 		wall1.inputEnabled=true;
         wall1.endFill()
-		game.physics.p2.enable(wall1,true);
+		game.physics.p2.enable(wall1,false);
 		wall1.body.kinematic = true;
 		backgroundGroup.add(wall1)
 		
@@ -450,7 +454,7 @@ var washClash = function(){
         wall2.alpha = 0
 		wall2.inputEnabled=true;
         wall2.endFill()
-		game.physics.p2.enable(wall2,true);
+		game.physics.p2.enable(wall2,false);
 		wall2.body.kinematic = true;
 		backgroundGroup.add(wall2)
 		
@@ -461,7 +465,7 @@ var washClash = function(){
         wall3.alpha = 0
 		wall3.inputEnabled=true;
         wall3.endFill()
-		game.physics.p2.enable(wall3,true);
+		game.physics.p2.enable(wall3,false);
 		wall3.body.kinematic = true;
 		backgroundGroup.add(wall3)
 		
@@ -472,7 +476,7 @@ var washClash = function(){
 		wall4.y=game.world.height;
 		wall4.inputEnabled=true;
         wall4.endFill()
-		game.physics.p2.enable(wall4,true);
+		game.physics.p2.enable(wall4,false);
 		wall4.body.kinematic = true;
 		backgroundGroup.add(wall4)
 		
@@ -522,15 +526,14 @@ var washClash = function(){
 	function growAnywhere(){
 		if(actualSoap){
 			holding=true;
+			actualSoap.setAnimationByName(0, "washing", true);
 		}
 	}
 	function stopAnywhere(){
 		if(actualSoap){
 			holding=false;
+			actualSoap.setAnimationByName(0, "idle", true);
 		}
-	}
-	function shrinkSoap(obj,hit){
-		obj.scale.setTo(obj.scale.x-hit,obj.scale.y-hit);
 	}
 	
 	function creadorDeJabones(obj,posX,posY,index,scaleS){
@@ -726,10 +729,9 @@ var washClash = function(){
 			if(obj2.tag=="soap" && obj1.tag=="bug"){
 				obj2.spine.setAnimationByName(0, "hit", false);
 				obj1.spine.setAnimationByName(0, "hit", false);
+				isColliding=true;
 			}
 			
-			
-			isColliding=true;
 			//choque baja escala a jabon si no esta creciendo
 			if(obj2.tag=="soap" && obj1.tag=="bug" && !holding){				
 					obj1.spine.scale.setTo(obj1.spine.scale.x-0.1,obj1.spine.scale.y-0.1);
@@ -739,14 +741,17 @@ var washClash = function(){
 			if(obj2.tag=="soap" && obj1.tag=="bug" && holding){
 				obj2.spine.scale.setTo(obj2.spine.scale.x-(dificulty+0.2),obj2.spine.scale.y-(dificulty+0.2));
 				holding=false;
+				obj2.spine.setAnimationByName(0, "idle", true);
 			}
+			
+			
 			//choque cambia bacteria a jabon
-			if(obj2.tag=="soap" && obj1.tag=="bug" && obj1.spine.scale.x<0.3 && obj1.body){
+			if(obj2.tag=="soap" && obj1.tag=="bug" && obj1.spine.scale.x<0.3){
 				if(obj1.id==1){
 					newSoap=soap.push()
 					idEnemy=obj1.identifier;
 					enemyP1[obj1.identifier].body.data.shapes[0].sensor=true;
-					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.4);
+					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.5);
 					enemyP1[obj1.identifier].destroy();
 					enemyP1[obj1.identifier].spine.destroy();
 					enemyP1.splice(obj1.identifier,1);
@@ -757,7 +762,7 @@ var washClash = function(){
 					newSoap=soap.push()
 					idEnemy=obj1.identifier;
 					enemyP2[obj1.identifier].body.data.shapes[0].sensor=true;
-					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.4);
+					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.5);
 					enemyP2[obj1.identifier].destroy();
 					enemyP2[obj1.identifier].spine.destroy();
 					enemyP2.splice(obj1.identifier,1);	
@@ -768,7 +773,7 @@ var washClash = function(){
 					newSoap=soap.push()
 					idEnemy=obj1.identifier;
 					enemyP3[obj1.identifier].body.data.shapes[0].sensor=true;
-					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.4);
+					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.5);
 					enemyP3[obj1.identifier].destroy();
 					enemyP3[obj1.identifier].spine.destroy();
 					enemyP3.splice(obj1.identifier,1);
@@ -777,11 +782,12 @@ var washClash = function(){
 					}
 				}
 				startMoving(soap[newEnemy])
+				
 				//Coin(obj2,pointsBar,10);
 			}
 			//choque cambia jabon a bacteria
 			
-			if(obj2.tag=="soap" && obj1.tag=="bug" && obj2.spine.scale.x<0.3 && obj1.body){
+			if(obj2.tag=="soap" && obj1.tag=="bug" && obj2.spine.scale.x<0.3){
 				if(obj1.id==1){
 					newEnemy=enemyP1.push()
 					soap[obj2.id].body.data.shapes[0].sensor=true;
@@ -807,10 +813,10 @@ var washClash = function(){
 					soap.splice(obj2.id,1);
 					startMoving(enemyP3[newEnemy])
 				}
-			}
-			for(var clean=obj2.id; clean<soap.length; clean++){
+				for(var clean=obj2.id; clean<soap.length; clean++){
 					soap[clean].id=clean;
 				}
+			}
 			
 			if(enemyP1.length==0 && enemyP2.length==0 && enemyP3.length==0 && !checkEval){
 				checkEval=true;
@@ -883,9 +889,9 @@ var washClash = function(){
     function reset(whoWin){
 		if(whoWin==1){
 			
-			game.add.tween(happySoaps.spine3).to({x:game.world.centerX-200,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
-			game.add.tween(happySoaps.spine2).to({x:game.world.centerX-50,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
-			game.add.tween(happySoaps.spine).to({x:game.world.centerX+100,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
+			game.add.tween(happySoaps.spine3).to({x:game.world.centerX-150,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
+			game.add.tween(happySoaps.spine2).to({x:game.world.centerX,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
+			game.add.tween(happySoaps.spine).to({x:game.world.centerX+150,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
 				game.add.tween(happySoaps.spine3).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
 				game.add.tween(happySoaps.spine2).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
 				game.add.tween(happySoaps.spine).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
@@ -911,9 +917,9 @@ var washClash = function(){
 			});
 		}else if(whoWin==2){
 			
-			game.add.tween(happyEnemys.spine3).to({x:game.world.centerX+190,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
-			game.add.tween(happyEnemys.spine2).to({x:game.world.centerX+20,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
-			game.add.tween(happyEnemys.spine).to({x:game.world.centerX-150,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
+			game.add.tween(happyEnemys.spine3).to({x:game.world.centerX+180,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
+			game.add.tween(happyEnemys.spine2).to({x:game.world.centerX+10,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
+			game.add.tween(happyEnemys.spine).to({x:game.world.centerX-160,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
 				missPoint();
 				game.add.tween(happyEnemys.spine3).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
 				game.add.tween(happyEnemys.spine2).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
