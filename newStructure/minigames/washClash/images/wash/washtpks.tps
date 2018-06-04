@@ -238,6 +238,33 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../../../../washClash/images/wash/smoke.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,23,50,47</rect>
+                <key>scale9Paddings</key>
+                <rect>25,23,50,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../../../../../washClash/images/wash/star.png</key>
+            <key type="filename">../../../../../../../washClash/images/wash/wrong.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../../../../../../Downloads/Wash Clash/BACTERIA1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -342,6 +369,9 @@
             <filename>life_box.png</filename>
             <filename>xpcoins.png</filename>
             <filename>FOAM.png</filename>
+            <filename>../../../../../../../washClash/images/wash/smoke.png</filename>
+            <filename>../../../../../../../washClash/images/wash/star.png</filename>
+            <filename>../../../../../../../washClash/images/wash/wrong.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

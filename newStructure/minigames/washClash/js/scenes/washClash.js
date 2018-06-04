@@ -46,11 +46,10 @@ var washClash = function(){
 			{
 				name:'BG_TILE',
 				file:"images/wash/BG_TILE.png"
-			},
+			}
 
 		],
         spines: [
-			
 			{
 				name:"soap",
 				file:"images/Spine/Soap/soap.json"
@@ -63,7 +62,6 @@ var washClash = function(){
 				name:"bugs",
 				file:"images/Spine/MultiBacteria/multi_bacteria.json"
 			},
-
         ],
         spritesheets: [
             {
@@ -112,32 +110,53 @@ var washClash = function(){
 	var particlesGroup, particlesUsed
     var gameIndex = 1
     var tutoGroup
-	var level=1;
-	var num=0;
-	var counterActualLevel=0;
-	var actualObj
 	var indexGame
-	var soapProxy
-	var bacteriasToCreate;
-	var holding=false;
-	var moveAll=false;
-	var passingLevel=false;
     var overlayGroup
     var baseSong
-	var bacteriasProxy=new Array();
-	var positionsX=new Array();
-	var positionsY=new Array();
-	var skins=new Array();
+	var speed;
+	var holding=false;
+	var actualSoap;
 	var isColliding=false;
-    
-    var backgroundGroup=null;
-	var soapGroup=null;
-	var bacteriasGroup=null;
+	var soap=[];
+	var happySoaps,happyEnemys;
+	var enemyP1=[];
+	var enemyP2=[];
+	var enemyP3=[];
+    var count=0;
+    var backgroundGroup=null
+    var soapGroup=null;
+    var enemysGroup=null;
+	var coinGroup=null;
+	var checkEval=false;
     
     var tweenTiempo
     var clock, timeBar
     var emitter
-
+	var level=0;
+	var reachedMax=false;
+	var dificulty=0.3;
+	var dificultyLevels=[
+		{"enemys":1,"type":"normal"},
+		{"enemys":2,"type":"normal"},
+		{"enemys":1,"type":"stronger"},
+		{"enemys":2,"type":"stronger"},
+		{"enemys":3,"type":"stronger"},
+		{"enemys":1,"type":"bigger"},
+		{"enemys":2,"type":"stronger"},
+		{"enemys":3,"type":"stronger"},
+		{"enemys":2,"type":"bigger"},
+		{"enemys":3,"type":"stronger"},
+		{"enemys":3,"type":"normal"},
+		{"enemys":1,"type":"stronger"},
+		{"enemys":2,"type":"stronger"},
+		{"enemys":3,"type":"stronger"},
+		{"enemys":1,"type":"bigger"},
+		{"enemys":2,"type":"bigger"},
+		{"enemys":3,"type":"bigger"},
+		{"enemys":2,"type":"stronger"},
+		{"enemys":3,"type":"normal"},
+		{"enemys":3,"type":"bigger"}
+	];
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
@@ -146,23 +165,18 @@ var washClash = function(){
           
         game.stage.backgroundColor = "#000000"
         lives = 3
-		level=1;
-		num=0;
-		counterActualLevel=0
+		isColliding=false;
+		actualSoap="";
         emitter=""
 		holding=false;
-		actualObj=null
-		moveAll=false;
-		skins[0]="BACTERIA1";
-		skins[1]="BACTERIA2";
-		skins[2]="BACTERIA3";
-        loadSounds();
+		checkEval=false;
+        loadSounds()
+		speed=350
 	}
 
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
-		bounceAndMoveAll(soapProxy);
-		moveAll=true;
+		nextLevelAndDificulty(level)
     }
     
     function createTutorial(){
@@ -332,6 +346,9 @@ var washClash = function(){
 		
         gameActive = false
         
+        
+        
+        
         baseSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
@@ -355,24 +372,31 @@ var washClash = function(){
         
         obj.parent.children[1].alpha = 1
     }
-
-	function bounceAndMoveAll(obj){
-		obj.body.moveForward(800)
-		obj.body.moveLeft(100)
-		obj.body.collideWorldBounds = true;
+	
+		
+	function growSoap(obj){
+		holding=true;
+		actualSoap=obj.spine;
 	}
-	
-	
+	function stopGrow(obj){
+		holding=false;
+	}
+
 	function createBackground(){
         
-	   backgroundGroup = game.add.group();
-       sceneGroup.add(backgroundGroup);
+		backgroundGroup = game.add.group()
+		sceneGroup.add(backgroundGroup)
 		
-		bacteriasGroup= game.add.group();
-		sceneGroup.add(bacteriasGroup);
+		soapGroup = game.add.group()
+       	sceneGroup.add(soapGroup)
 		
-		soapGroup=game.add.group();
-		sceneGroup.add(soapGroup);
+		enemysGroup = game.add.group()
+       	sceneGroup.add(enemysGroup)
+		
+		coinGroup= game.add.group()
+		sceneGroup.add(coinGroup)
+		
+		
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -383,107 +407,217 @@ var washClash = function(){
         sceneGroup.add(wrongParticle)
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
+		
+		
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.p2.restitution = 0.95;
         
-       	
-        tileBack=game.add.tileSprite(0,0,game.world.width,game.world.height,"BG_TILE");
-		backgroundGroup.add(tileBack);
-        
+		backAnimated=game.add.tileSprite(0,0,game.world.width,game.world.height,"BG_TILE");
+		backgroundGroup.add(backAnimated);
+		
         //Coins
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
         coins.anchor.setTo(0.5)
         coins.scale.setTo(0.5)
         coins.animations.add('coin');
+		coinGroup.add(coins);
         coins.animations.play('coin', 24, true);
-        coins.alpha=0
+        coins.alpha=0;
 		
-		positionsX[0]=100;
-		positionsX[1]=game.world.centerX;	
-		positionsX[2]=game.world.width-100;
+		var rect = new Phaser.Graphics(game)
+        rect.beginFill(0xffffff)
+        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+        rect.alpha = 0
+		rect.inputEnabled=true;
+        rect.endFill()
+		rect.events.onInputDown.add(growAnywhere);
+        rect.events.onInputUp.add(stopAnywhere);
+		backgroundGroup.add(rect)
 		
-		positionsY[0]=200;
-		positionsY[1]=game.world.height-100;
+		var wall1 = new Phaser.Graphics(game)
+        wall1.beginFill(0x000000)
+        wall1.drawRect(0,0,game.world.width*2,200)
+        wall1.alpha = 0
+		wall1.inputEnabled=true;
+        wall1.endFill()
+		game.physics.p2.enable(wall1,true);
+		wall1.body.kinematic = true;
+		backgroundGroup.add(wall1)
 		
-		game.physics.startSystem(Phaser.Physics.P2JS);
-		game.physics.p2.restitution = 1;
+		var wall2 = new Phaser.Graphics(game)
+        wall2.beginFill(0x000000)
+        wall2.drawRect(0,0,50,game.world.height*2)
+        wall2.alpha = 0
+		wall2.inputEnabled=true;
+        wall2.endFill()
+		game.physics.p2.enable(wall2,true);
+		wall2.body.kinematic = true;
+		backgroundGroup.add(wall2)
 		
+		var wall3 = new Phaser.Graphics(game)
+        wall3.beginFill(0x000000)
+        wall3.drawRect(0,0,50,game.world.height*2)
+		wall3.x=game.world.width;
+        wall3.alpha = 0
+		wall3.inputEnabled=true;
+        wall3.endFill()
+		game.physics.p2.enable(wall3,true);
+		wall3.body.kinematic = true;
+		backgroundGroup.add(wall3)
 		
-		//create Soap
+		var wall4 = new Phaser.Graphics(game)
+        wall4.beginFill(0x000000)
+        wall4.drawRect(0,0,game.world.width*2,200)
+        wall4.alpha = 0
+		wall4.y=game.world.height;
+		wall4.inputEnabled=true;
+        wall4.endFill()
+		game.physics.p2.enable(wall4,true);
+		wall4.body.kinematic = true;
+		backgroundGroup.add(wall4)
 		
-		soapProxy=game.add.sprite(positionsX[0],positionsY[0],"atlas.wash","SOAP");
-		soapProxy.scale.setTo(0.7,0.7);
-		soapProxy.anchor.setTo(0.5,0.5);
-		soapProxy.tag="soap";
-		soapProxy.inputEnabled=true;
-		soapProxy.alpha=0;
-		soapGroup.add(soapProxy);
+		happySoaps=game.add.sprite(100,200,"atlas.wash","SOAP");
+		happySoaps.alpha=0;
+		happySoaps.anchor.setTo(0.5,0.5);
+		happySoaps.scale.setTo(0.5,0.5);
+		happySoaps.spine=game.add.spine(-100, game.world.height/2, 'soap');
+		happySoaps.spine.setAnimationByName(0, "idle", true);
+        happySoaps.spine.setSkinByName("normal");
+		happySoaps.spine.scale.setTo(0.8,0.8);
+		happySoaps.spine2=game.add.spine(happySoaps.spine.x-150, game.world.height/2, 'soap');
+		happySoaps.spine2.setAnimationByName(0, "idle", true);
+        happySoaps.spine2.setSkinByName("normal");
+		happySoaps.spine2.scale.setTo(0.8,0.8);
+		happySoaps.spine3=game.add.spine(happySoaps.spine2.x-150, game.world.height/2, 'soap');
+		happySoaps.spine3.setAnimationByName(0, "idle", true);
+        happySoaps.spine3.setSkinByName("normal");
+		happySoaps.spine3.scale.setTo(0.8,0.8);
 		
-		
-		soap = game.add.spine(game.world.centerX, game.world.centerY, 'soap')
-        soap.scale.setTo(0.7)
-        soap.setAnimationByName(0, "idle", true)
-        soap.setSkinByName("normal")
-		soapGroup.add(soap);
-		
-		
-		bacterium1 = game.add.spine(0,0, 'bug')
-        bacterium1.scale.setTo(0.5)
-		bacterium1.alpha=0;
-        bacterium1.setAnimationByName(0, "idle", true)
-        bacterium1.setSkinByName("bacteria 1")
-		soapGroup.add(bacterium1);
-		
-		bacterium2 = game.add.spine(0,0, 'bug')
-        bacterium2.scale.setTo(0.5)
-		bacterium2.alpha=0;
-        bacterium2.setAnimationByName(0, "idle", true)
-        bacterium2.setSkinByName("bacteria 2")
-		soapGroup.add(bacterium2);
-		
-		bacterium3 = game.add.spine(0,0, 'bugs')
-        bacterium3.scale.setTo(0.5)
-		bacterium3.alpha=0;
-        bacterium3.setAnimationByName(0, "idle", true)
-        bacterium3.setSkinByName("normal")
-		soapGroup.add(bacterium3);
-		
-		soapProxy.events.onInputDown.add(biggerSoap,{spine: soap, proxy: soapProxy});
-		soapProxy.events.onInputUp.add(stopSoap,{spine: soap, proxy: soapProxy});
-		
-		game.physics.p2.enable(soapProxy,false);
-		soapProxy.body.setCircle(
-			soapProxy.scale.x*90,
-			(-soapProxy.scale.x*90 + 0.4 * soapProxy.width  / soapProxy.scale.x),
-			(-soapProxy.scale.x*90 + 0.3 * soapProxy.height / soapProxy.scale.y)
-		);
-		
-		
-		
-		for(var init=0; init<3; init++){
-			bacteriasProxy[init]=game.add.sprite(-100,-100,"atlas.wash","BACTERIA"+(init+1));
-			bacteriasProxy[init].scale.setTo(0.5,0.5);
-			bacteriasProxy[init].anchor.setTo(0.5,0.5);
-			bacteriasProxy[init].tag="bacteria";
-			bacteriasGroup.add(bacteriasProxy[init]);
-			bacteriasProxy[init].id=init;
+		happyEnemys=game.add.sprite(100,200,"atlas.wash","SOAP");
+		happyEnemys.alpha=0;
+		happyEnemys.anchor.setTo(0.5,0.5);
+		happyEnemys.scale.setTo(0.5,0.5);
+		happyEnemys.spine=game.add.spine(game.world.width+100, game.world.height/2, 'bug');
+		happyEnemys.spine.setAnimationByName(0, "idle", true);
+        happyEnemys.spine.setSkinByName("bacteria 1");
+		happyEnemys.spine.scale.setTo(0.5,0.5);
+		happyEnemys.spine2=game.add.spine(happyEnemys.spine.x+150, game.world.height/2, 'bug');
+		happyEnemys.spine2.setAnimationByName(0, "idle", true);
+        happyEnemys.spine2.setSkinByName("bacteria 2");
+		happyEnemys.spine2.scale.setTo(0.5,0.5);
+		happyEnemys.spine3=game.add.spine(happyEnemys.spine2.x+150, game.world.height/2, 'bugs');
+		happyEnemys.spine3.setAnimationByName(0, "idle", true);
+        happyEnemys.spine3.setSkinByName("normal");
+		happyEnemys.spine3.scale.setTo(0.5,0.5);
+		soapGroup.add(happySoaps.spine);
+		soapGroup.add(happySoaps.spine2);
+		soapGroup.add(happySoaps.spine3);
+		enemysGroup.add(happyEnemys.spine);
+		enemysGroup.add(happyEnemys.spine2);
+		enemysGroup.add(happyEnemys.spine3);
+    }
+	
+	
+	
+	function growAnywhere(){
+		if(actualSoap){
+			holding=true;
 		}
-		
-		
-		
-
-		levels()
-		
-		
+	}
+	function stopAnywhere(){
+		if(actualSoap){
+			holding=false;
+		}
+	}
+	function shrinkSoap(obj,hit){
+		obj.scale.setTo(obj.scale.x-hit,obj.scale.y-hit);
 	}
 	
+	function creadorDeJabones(obj,posX,posY,index,scaleS){
+		
+		obj=game.add.sprite(0,0,"atlas.wash","SOAP");
+		obj.alpha=0;
+		obj.spine=game.add.spine(posX, posY, 'soap');
+        obj.spine.setAnimationByName(0, "idle", true);
+        obj.spine.setSkinByName("normal");
+		obj.sprite=game.add.sprite(0,0,"atlas.wash","SOAP");
+		obj.spine.scale.setTo(scaleS);
+		obj.anchor.setTo(0.5,0.5);
+		obj.x=posX;
+		obj.y=posY;
+		obj.inputEnabled=true;
+		obj.visible=true;
+		obj.sprite.visible=false;
+		obj.id=index;
+		obj.events.onInputDown.add(growSoap,this);
+        obj.events.onInputUp.add(stopGrow,this);
+		obj.tag="soap";
+		game.physics.p2.enable(obj,false);
+		obj.body.mass = 0.001;
+		obj.body.damping = 0;
+		obj.body.x=posX;
+		obj.body.y=posY;
+		obj.body.setCircle(
+			obj.spine.scale.x*90,
+			(-obj.spine.scale.x*90 + 0.53 * obj.spine.width  / obj.spine.scale.x),
+			(-obj.spine.scale.x*90 + 0.45 * obj.spine.height / obj.spine.scale.y)
+		);
+		soapGroup.add(obj);
+		return obj;
+	}
 	
+	function creadorDeEnemigos(obj,type,posX,posY,ind,scaleB){
+		
+		obj=game.add.sprite(0,0,"atlas.wash","BACTERIA1");
+		obj.anchor.setTo(0.5,0.5);
+		obj.alpha=0;
+		obj.x=posX;
+		obj.y=posY;
+		obj.identifier=ind;
+		obj.visible=false;
+		if(type!=3){
+			obj.spine=game.add.spine(obj.x, obj.y, 'bug');
+		}else{
+			obj.spine=game.add.spine(obj.x, obj.y, 'bugs');
+		}
+        obj.spine.setAnimationByName(0, "idle", true);
+		obj.spine.scale.setTo(scaleB)
+		if(type==1){
+        	obj.spine.setSkinByName("bacteria 1");
+			obj.id=type;
+		}else if(type==2){
+			obj.spine.setSkinByName("bacteria 2");
+			obj.id=type;
+		}else if(type==3){
+			obj.spine.setSkinByName("normal");
+			obj.id=type;
+			obj.count=0;
+		}
+		obj.tag="bug";
+		game.physics.p2.enable(obj,false);
+		obj.body.x=posX;
+		obj.body.y=posY;
+		obj.body.mass = 0.001;
+		obj.body.damping = 0;
+		obj.body.setCircle(
+			obj.spine.scale.x*90,
+			(-obj.spine.scale.x*90 + 0.2 * obj.spine.width  / obj.spine.scale.x),
+			(-obj.spine.scale.x*90 + 0.1 * obj.spine.height / obj.spine.scale.y)
+		);
+		enemysGroup.add(obj);
+		return obj;
+	}
+	
+	function startMoving(obj){
+		obj.body.velocity.x = speed*(Math.cos(0));
+		obj.body.velocity.y = speed*(Math.sin(2));
+	}
 
     function Coin(objectBorn,objectDestiny,time){
         
         
-        //objectBorn= Objeto de donde nacen
         coins.x=objectBorn.centerX
         coins.y=objectBorn.centerY
-        
         emitter = epicparticles.newEmitter("pickedEnergy")
         emitter.duration=0.05;
         emitter.x = coins.x
@@ -494,335 +628,339 @@ var washClash = function(){
             game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
                 coins.x=objectBorn.centerX
                 coins.y=objectBorn.centerY
-                addPoint(1)
+                addPoint(4)
             })
         })
     }
   
-	function levels(){
-		
-		
-		
-		if(level<=2){
-			bacteriasToCreate=game.rnd.integerInRange(0,1);
-		}else if(level>2){
-			bacteriasToCreate=game.rnd.integerInRange(1,2);
-		}
-		for(var createBacterias=0; createBacterias<bacteriasToCreate+1; createBacterias++){
-					for(var createBacteriasPosy=0; createBacteriasPosy<2; createBacteriasPosy++){
-						
-						if(createBacterias+1!=3){
-						
-						window['bacterium' + (createBacterias+1)].alpha=1;
-						bacteriasProxy[createBacterias].alpha=0;
-						bacteriasProxy[createBacterias].anchor.setTo(0.5,0.5);
-
-						game.physics.p2.enable(bacteriasProxy[createBacterias],true);
-						bacteriasProxy[createBacterias].body.x=positionsX[createBacterias+1];
-						bacteriasProxy[createBacterias].body.y=positionsY[createBacteriasPosy];
-						bacteriasProxy[createBacterias].body.setCircle(
-							bacteriasProxy[createBacterias].scale.x*120
-						);
-						bacteriasProxy[createBacterias].inputEnabled=false
-						
-					}else{
-						
-						game.physics.p2.enable(bacteriasProxy[createBacterias],true);
-						bacteriasProxy[createBacterias].body.x=positionsX[createBacterias+1];
-						bacteriasProxy[createBacterias].body.y=positionsY[createBacteriasPosy];
-						bacteriasProxy[createBacterias].body.setCircle(
-							bacteriasProxy[createBacterias].scale.x*120
-						);
-						bacteriasProxy[createBacterias].inputEnabled=false;
-					}
-			}
-		}
-		//passingLevel=true;
-	}
     
-	function biggerSoap(obj,obj2){
-		if(this.proxy.scale.x<1.5){
-			actualObj=this.proxy;
-			holding=true;
-			this.spine.setAnimationByName(0, "washing", false)
-		}
-	}
-
-	function stopSoap(obj, obj2){
-		holding=false;
-		this.spine.setAnimationByName(0, "idle", true)
-	}
-	function hitSoap(bodyB, bodyS, number){
-		
-		
-		if(bodyB && bodyS && !isColliding){
-			
-			bodyB.body.moveForward(1000)
-			bodyB.body.moveRight(200)
-			bodyS.sprite.body.moveForward(1000)
-			bodyS.sprite.body.moveRight(200)
-			
-			isColliding=true;
-			
-			var changeToSprite=bodyS.sprite
-		if((bodyB.tag=="bacteria" && changeToSprite.tag=="soap") || (bodyB.tag=="soap" && changeToSprite.tag=="bacteria")){
-			
-			
-			if(changeToSprite.id!=1 && changeToSprite.id!=2 && changeToSprite.id!=3 && bodyB.id!=1 && bodyB.id!=2 && bodyB.id!=3){
-				soap.setAnimationByName(0, "hit", false)
-
-				game.time.events.add(200, function(){
-					isColliding = false;
-					soap.setAnimationByName(0, "idle", true)
-				});
-			}else{
-				
-				if(bodyB.tag=="soap"){
-					window['soap' + bodyB.id].setAnimationByName(0, "hit", false)
-					game.time.events.add(200, function(){
-						isColliding = false;
-						window['soap' + bodyB.id].setAnimationByName(0, "idle", true)
-					});
-				}
-			}
-			
-			
-			if(!holding && (bodyB.tag=="bacteria" && changeToSprite.tag=="soap") || (bodyB.tag=="soap" && changeToSprite.tag=="bacteria") ){
-				
-				if(bodyB.tag=="bacteria"){
-					changeToSprite.scale.x-=0.1;
-					changeToSprite.scale.y-=0.1;
-					changeToSprite.body.setCircle(
-						changeToSprite.scale.x*90
-					);
-				}else if(changeToSprite.tag=="bacteria"){
-					bodyB.scale.x-=0.1;
-					bodyB.scale.y-=0.1;
-					bodyB.body.setCircle(
-						bodyB.scale.x*90
-					);
-				}
-			}
-			}
-			
-			if(holding && (bodyB.tag=="bacteria" && changeToSprite.tag=="soap") || (bodyB.tag=="soap" && changeToSprite.tag=="bacteria")){
-				
-				if(bodyB.tag=="bacteria"){
-					changeToSprite.scale.x=0.4;
-					changeToSprite.scale.y=0.4;
-					changeToSprite.body.setCircle(
-						changeToSprite.scale.x*90
-					);
-				}else if(changeToSprite.tag=="bacteria"){
-					bodyB.scale.x=0.4;
-					bodyB.scale.y=0.4;
-					bodyB.body.setCircle(
-						bodyB.scale.x*90
-					);
-				}
-			}
-			if(changeToSprite.scale.x>bodyB.scale.x && (bodyB.tag=="bacteria" && changeToSprite.tag=="soap") || (bodyB.tag=="soap" && changeToSprite.tag=="bacteria")){
-				if(bodyB.tag=="bacteria"){
-					bodyB.scale.x-=0.2;
-					bodyB.scale.y-=0.2;
-					bodyB.body.setCircle(bodyB.scale.x*120);
-				}else if(changeToSprite.tag=="bacteria"){
-					changeToSprite.scale.x-=0.2;
-					changeToSprite.scale.y-=0.2;
-					changeToSprite.body.setCircle(changeToSprite.scale.x*120);
-				}
-			}else if(changeToSprite.scale.x<bodyB.scale.x && (bodyB.tag=="bacteria" && changeToSprite.tag=="soap") || (bodyB.tag=="soap" && changeToSprite.tag=="bacteria")){
-				missPoint();
-			}
-			if(bodyB.scale.x<=0 && (bodyB.tag=="bacteria" && changeToSprite.tag=="soap") || (bodyB.tag=="soap" && changeToSprite.tag=="bacteria")){
-				
-				counterActualLevel++
-				if(bodyB.tag=="bacteria"){
-					Coin(bodyB,pointsBar,50)
-					bodyB.anchor.setTo(0.5,0.5)
-					bounceAndMoveAll(bodyB)
-				}else if(changeToSprite.tag=="bacteria"){
-					Coin(changeToSprite,pointsBar,50)
-					changeToSprite.anchor.setTo(0.5,0.5)
-					bounceAndMoveAll(changeToSprite)	 
-				}
-				
-				if(bodyB.tag=="bacteria"){
-					window['soap' + bodyB.id] = game.add.spine(0,0, 'soap')
-					window['soap' + bodyB.id].scale.setTo(0.4,0.4)
-					window['soap' + bodyB.id].setAnimationByName(0, "idle", true)
-					window['soap' + bodyB.id].setSkinByName("normal")
-					window['soap' + bodyB.id].alpha=1
-					window["bacterium"+(bodyB.id+1)].alpha=0;
-
-					
-					bodyB.addChild(window['soap' + bodyB.id])
-					soapGroup.add(window['soap' + bodyB.id])
-					window['soap' + bodyB.id].x=0;
-					window['soap' + bodyB.id].y=0;
-				}else if(changeToSprite.tag=="bacteria"){
-					
-					console.log(changeToSprite.id)
-					window['soap' + changeToSprite.id] = game.add.spine(0,0, 'soap')
-					window['soap' + changeToSprite.id].scale.setTo(0.4,0.4)
-					window['soap' + changeToSprite.id].setAnimationByName(0, "idle", true)
-					window['soap' + changeToSprite.id].setSkinByName("normal")
-					window['soap' + changeToSprite.id].alpha=1
-					window["bacterium"+(changeToSprite.id+1)].alpha=0;
-					changeToSprite.addChild(window['soap' + changeToSprite.id])
-					soapGroup.add(window['soap' + changeToSprite.id])
-					window['soap' + changeToSprite.id].x=0;
-					window['soap' + changeToSprite.id].y=0;
-				}
-				
-				
-				if(bodyB.tag=="bacteria"){
-					bodyB.scale.setTo(0.4,0.4)
-					bodyB.tag="soap";
-					bodyB.body.setCircle(
-						window['soap' + bodyB.id].scale.x*90
-					);
-					bodyB.inputEnabled=true;
-					bodyB.events.onInputDown.add(biggerSoap, {spine: window['soap' + bodyB.id], proxy: bodyB});
-					bodyB.events.onInputUp.add(stopSoap, {spine: window['soap' + bodyB.id], proxy: bodyB});
-					num++;
-				}else if(changeToSprite.tag=="bacteria"){
-					changeToSprite.scale.setTo(0.4,0.4)
-					changeToSprite.tag="soap";
-					changeToSprite.body.setCircle(
-						window['soap' + changeToSprite.id].scale.x*90
-					);
-					changeToSprite.inputEnabled=true;
-					console.log(changeToSprite)
-					changeToSprite.events.onInputDown.add(biggerSoap, {spine: window['soap' + changeToSprite.id], proxy: changeToSprite});
-					changeToSprite.events.onInputUp.add(stopSoap, {spine: window['soap' + changeToSprite.id], proxy: changeToSprite});
-					num++;
-				}
-				
-				if(counterActualLevel==bacteriasToCreate+1){
-					counterActualLevel=0;
-					transition(bodyB);
-				}
-			}
-			
-			game.time.events.add(200, function(){
-				isColliding = false;
-			});
-			
-		}
-		
-	}
-	
 	function update(){
         
         
+		backAnimated.tilePosition.x+=0.2;
+		backAnimated.tilePosition.y-=0.2;
+		
         if(startGame){
             epicparticles.update()
-            
         }
 		
-		tileBack.tilePosition.x+=0.2;
-		tileBack.tilePosition.y-=0.2;
-		
-			for(var startMovingEnemys=0; startMovingEnemys<bacteriasToCreate+1; startMovingEnemys++){
-				if(window["bacterium"+(startMovingEnemys+1)]){
-					window["bacterium"+(startMovingEnemys+1)].x=bacteriasProxy[startMovingEnemys].x;
-					window["bacterium"+(startMovingEnemys+1)].y=bacteriasProxy[startMovingEnemys].y;
-					window["bacterium"+(startMovingEnemys+1)].scale.setTo(bacteriasProxy[startMovingEnemys].scale.x,bacteriasProxy[startMovingEnemys].scale.y);
-					window["bacterium"+(startMovingEnemys+1)].angle=bacteriasProxy[startMovingEnemys].angle;
+		if(holding && actualSoap.scale.x<2.0){
+			actualSoap.scale.setTo(actualSoap.scale.x+0.02,actualSoap.scale.y+0.02)
+		}else{
+			holding=false;
+		}
+		for(var existingSoaps=0; existingSoaps<soap.length; existingSoaps++){
+			if(soap[existingSoaps]){
+				soap[existingSoaps].spine.x=soap[existingSoaps].x;
+				soap[existingSoaps].spine.y=soap[existingSoaps].y;
+				soap[existingSoaps].spine.angle=soap[existingSoaps].angle;
+				if(soap[existingSoaps].body.velocity.x<50 && soap[existingSoaps].body.velocity.x>-50){
+					startMoving(soap[existingSoaps])
 				}
-				
-		}
-		for(var startMovingSoaps1=0; startMovingSoaps1<bacteriasToCreate+1; startMovingSoaps1++){
-			if(window["soap"+(startMovingSoaps1)] && bacteriasProxy[startMovingSoaps1].id==startMovingSoaps1){
-				window["soap"+(startMovingSoaps1)].x=bacteriasProxy[startMovingSoaps1].x;
-				window["soap"+(startMovingSoaps1)].y=bacteriasProxy[startMovingSoaps1].y;
-				window["soap"+(startMovingSoaps1)].scale.setTo(bacteriasProxy[startMovingSoaps1].scale.x,bacteriasProxy[startMovingSoaps1].scale.y);
-				window["soap"+(startMovingSoaps1)].angle=bacteriasProxy[startMovingSoaps1].angle;
-			}
-		}
-		
-		
-		if(soap){
-			//here goes the spines with the sprites
-			soap.x=soapProxy.x;
-			soap.y=soapProxy.y;
-			soap.scale.setTo(soapProxy.scale.x,soapProxy.scale.y);
-			soap.angle=soapProxy.angle;
-		}
-		if(holding){
-			actualObj.scale.x+=0.005;
-			actualObj.scale.y+=0.005;
-			actualObj.body.setCircle(
-				actualObj.scale.x*90
-			);
-		}
-		
-		
-		
-		
-		if(moveAll){
-			for(var startMovingEnemys=0; startMovingEnemys<bacteriasToCreate+1; startMovingEnemys++){
-				bounceAndMoveAll(bacteriasProxy[startMovingEnemys]);
-			}
-			moveAll=false;
-		}
-		
-		for(var collide=0; collide<bacteriasToCreate+1; collide++){
-			if(bacteriasProxy[collide] && !isColliding){
-				bacteriasProxy[collide].body.onBeginContact.add(hitSoap.bind(this,bacteriasProxy[collide]));
-			}
-		}
-	}
-    
-    
-    
-    function transition(obj){
-		foam=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.wash","FOAM");
-		foam.alpha=1;
-		foam.anchor.setTo(0.5,0.5)
-		passingLevel=true;
-		
-		game.add.tween(foam.scale).to({ x:game.world.width/3,y:game.world.height/3},3050,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
-			game.add.tween(foam.scale).to({ x:0,y:0},2350,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
-				bounceAndMoveAll(soapProxy);
-			})
-			soapProxy.scale.setTo(0.7,0.7);
-			soapProxy.body.setCircle(
-				soapProxy.scale.x*90
+				soap[existingSoaps].body.setCircle(
+					soap[existingSoaps].spine.scale.x*90
 				);
-				if(passingLevel){
-					for(var checkIfExists=0; checkIfExists<bacteriasProxy.length; checkIfExists++){
-							if(bacteriasProxy[checkIfExists].body){
-							bacteriasProxy[checkIfExists].body.velocity.x=0;
-							bacteriasProxy[checkIfExists].body.velocity.y=0;
-							bacteriasProxy[checkIfExists].scale.setTo(0.4,0.4);
-							bacteriasProxy[checkIfExists].tag="bacteria";
-							bacteriasProxy[checkIfExists].body.x=-200;
-							bacteriasProxy[checkIfExists].body.y=-200;
-							bacteriasProxy[checkIfExists].body.setCircle(
-								bacteriasProxy[checkIfExists].scale.x*120
-							);
-							window["bacterium"+(checkIfExists+1)].alpha=0
-							//
-							if(window["soap"+(checkIfExists)]){
-								window["soap"+(checkIfExists)].destroy();
-							}
-						}
+			}
+		}
+		for(var existingEnemysType1=0; existingEnemysType1<enemyP1.length; existingEnemysType1++){
+			if(enemyP1[existingEnemysType1]){
+				enemyP1[existingEnemysType1].spine.x=enemyP1[existingEnemysType1].x;
+				enemyP1[existingEnemysType1].spine.y=enemyP1[existingEnemysType1].y;
+				enemyP1[existingEnemysType1].spine.angle=enemyP1[existingEnemysType1].angle;
+				enemyP1[existingEnemysType1].body.setCircle(
+					enemyP1[existingEnemysType1].spine.scale.x*90
+				);
+			}
+		}
+		for(var existingEnemysType2=0; existingEnemysType2<enemyP2.length; existingEnemysType2++){
+			if(enemyP2[existingEnemysType2]){
+				enemyP2[existingEnemysType2].spine.x=enemyP2[existingEnemysType2].x;
+				enemyP2[existingEnemysType2].spine.y=enemyP2[existingEnemysType2].y;
+				enemyP2[existingEnemysType2].spine.angle=enemyP2[existingEnemysType2].angle;
+				enemyP2[existingEnemysType2].body.setCircle(
+					enemyP2[existingEnemysType2].spine.scale.x*90
+				);
+			}
+		}
+		for(var existingEnemysType3=0; existingEnemysType3<enemyP3.length; existingEnemysType3++){
+			if(enemyP3[existingEnemysType3]){
+				enemyP3[existingEnemysType3].spine.x=enemyP3[existingEnemysType3].x;
+				enemyP3[existingEnemysType3].spine.y=enemyP3[existingEnemysType3].y;
+				enemyP3[existingEnemysType3].spine.angle=enemyP3[existingEnemysType3].angle;
+				if(enemyP3[existingEnemysType3].count==200){
+					enemyP3[existingEnemysType3].spine.scale.setTo(enemyP3[existingEnemysType3].spine.scale.x+0.1,enemyP3[existingEnemysType3].spine.scale.y+0.1);
+					enemyP3[existingEnemysType3].count=0;
+				}
+				enemyP3[existingEnemysType3].body.setCircle(
+						enemyP3[existingEnemysType3].spine.scale.x*90
+					);
+				enemyP3[existingEnemysType3].count++;
+			}	
+		}
+		for(var collideP1=0; collideP1<enemyP1.length; collideP1++){
+			if(enemyP1[collideP1] && !isColliding && lives>0){
+				enemyP1[collideP1].body.onBeginContact.add(hitSoap.bind(this,enemyP1[collideP1]));
+			}
+		}
+		for(var collideP2=0; collideP2<enemyP2.length; collideP2++){
+			if(enemyP2[collideP2] && !isColliding && lives>0){
+				enemyP2[collideP2].body.onBeginContact.add(hitSoap.bind(this,enemyP2[collideP2]));
+			}
+		}
+		for(var collideP3=0; collideP3<enemyP3.length; collideP3++){
+			if(enemyP3[collideP3] && !isColliding && lives>0){
+				enemyP3[collideP3].body.onBeginContact.add(hitSoap.bind(this,enemyP3[collideP3]));
+			}
+		}
+		
+	}
+	function hitSoap(bodyB, bodyS){
+		
+		if(bodyB && bodyS && !isColliding){
+			var obj1=bodyB;
+			var obj2=bodyS.sprite;
+			var newSoap=0;
+			var newEnemy=0;
+			var idSoap;
+			var idEnemy;
+			if(obj2.tag=="soap" && obj1.tag=="bug"){
+				obj2.spine.setAnimationByName(0, "hit", false);
+				obj1.spine.setAnimationByName(0, "hit", false);
+			}
+			
+			
+			isColliding=true;
+			//choque baja escala a jabon si no esta creciendo
+			if(obj2.tag=="soap" && obj1.tag=="bug" && !holding){				
+					obj1.spine.scale.setTo(obj1.spine.scale.x-0.1,obj1.spine.scale.y-0.1);
+					obj2.spine.scale.setTo(obj2.spine.scale.x-dificulty,obj2.spine.scale.y-dificulty);
+			}
+			//choque baja escala a jabon si esta creciendo
+			if(obj2.tag=="soap" && obj1.tag=="bug" && holding){
+				obj2.spine.scale.setTo(obj2.spine.scale.x-(dificulty+0.2),obj2.spine.scale.y-(dificulty+0.2));
+				holding=false;
+			}
+			//choque cambia bacteria a jabon
+			if(obj2.tag=="soap" && obj1.tag=="bug" && obj1.spine.scale.x<0.3 && obj1.body){
+				if(obj1.id==1){
+					newSoap=soap.push()
+					idEnemy=obj1.identifier;
+					enemyP1[obj1.identifier].body.data.shapes[0].sensor=true;
+					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.4);
+					enemyP1[obj1.identifier].destroy();
+					enemyP1[obj1.identifier].spine.destroy();
+					enemyP1.splice(obj1.identifier,1);
+					for(var clean=0; clean<enemyP1.length; clean++){
+						enemyP1[clean].identifier=clean;
+					}
+				}else if(obj1.id==2){
+					newSoap=soap.push()
+					idEnemy=obj1.identifier;
+					enemyP2[obj1.identifier].body.data.shapes[0].sensor=true;
+					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.4);
+					enemyP2[obj1.identifier].destroy();
+					enemyP2[obj1.identifier].spine.destroy();
+					enemyP2.splice(obj1.identifier,1);	
+					for(var clean=0; clean<enemyP2.length; clean++){
+						enemyP2[clean].identifier=clean;
+					}
+				}else if(obj1.id==3){
+					newSoap=soap.push()
+					idEnemy=obj1.identifier;
+					enemyP3[obj1.identifier].body.data.shapes[0].sensor=true;
+					soap[newSoap]=creadorDeJabones(null,obj1.x,obj1.y,newSoap,0.4);
+					enemyP3[obj1.identifier].destroy();
+					enemyP3[obj1.identifier].spine.destroy();
+					enemyP3.splice(obj1.identifier,1);
+					for(var clean=0; clean<enemyP3.length; clean++){
+						enemyP3[clean].identifier=clean;
 					}
 				}
-				soapProxy.body.x=positionsX[0];
-				soapProxy.body.y=positionsY[0];
-				soapProxy.body.velocity.x=0;
-				soapProxy.body.velocity.y=0;
-				level++;
-				levels();
-				isColliding = false;		
-		});
+				startMoving(soap[newEnemy])
+				//Coin(obj2,pointsBar,10);
+			}
+			//choque cambia jabon a bacteria
+			
+			if(obj2.tag=="soap" && obj1.tag=="bug" && obj2.spine.scale.x<0.3 && obj1.body){
+				if(obj1.id==1){
+					newEnemy=enemyP1.push()
+					soap[obj2.id].body.data.shapes[0].sensor=true;
+					enemyP1[newEnemy]=creadorDeEnemigos(null,1,obj2.x,obj2.y,newEnemy,0.3);
+					soap[obj2.id].destroy();
+					soap[obj2.id].spine.destroy();
+					soap.splice(obj2.id,1);
+					startMoving(enemyP1[newEnemy])
+				}else if(obj1.id==2){
+					newEnemy=enemyP2.push()
+					soap[obj2.id].body.data.shapes[0].sensor=true;
+					enemyP2[newEnemy]=creadorDeEnemigos(null,2,obj2.x,obj2.y,newEnemy,0.3);
+					soap[obj2.id].destroy();
+					soap[obj2.id].spine.destroy();
+					soap.splice(obj2.id,1);
+					startMoving(enemyP2[newEnemy])
+				}else if(obj1.id==3){
+					newEnemy=enemyP3.push()
+					soap[obj2.id].body.data.shapes[0].sensor=true;
+					enemyP3[newEnemy]=creadorDeEnemigos(null,3,obj2.x,obj2.y,newEnemy,0.3);
+					soap[obj2.id].destroy();
+					soap[obj2.id].spine.destroy();
+					soap.splice(obj2.id,1);
+					startMoving(enemyP3[newEnemy])
+				}
+			}
+			for(var clean=obj2.id; clean<soap.length; clean++){
+					soap[clean].id=clean;
+				}
+			
+			if(enemyP1.length==0 && enemyP2.length==0 && enemyP3.length==0 && !checkEval){
+				checkEval=true;
+				game.time.events.add(900, function(){
+					for(var destroySoaps=0; destroySoaps<soap.length; destroySoaps++){
+						soap[destroySoaps].body.data.shapes[0].sensor=true;
+						soap[destroySoaps].destroy();
+						soap[destroySoaps].spine.destroy();
+					}
+					for(var destroyBugs=0; destroyBugs<enemyP1.length; destroyBugs++){
+						enemyP1[destroyBugs].body.data.shapes[0].sensor=true;
+						enemyP1[destroyBugs].destroy();
+						enemyP1[destroyBugs].spine.destroy();
+					}
+					for(var destroyBugs=0; destroyBugs<enemyP2.length; destroyBugs++){
+						enemyP2[destroyBugs].body.data.shapes[0].sensor=true;
+						enemyP2[destroyBugs].destroy();
+						enemyP2[destroyBugs].spine.destroy();
+					}
+					for(var destroyBugs=0; destroyBugs<enemyP3.length; destroyBugs++){
+						enemyP3[destroyBugs].body.data.shapes[0].sensor=true;
+						enemyP3[destroyBugs].destroy();
+						enemyP3[destroyBugs].spine.destroy();
+					}
+					soap.splice(0);
+					enemyP1.splice(0);
+					enemyP2.splice(0);
+					enemyP3.splice(0);
+					reset(1);
+				});
+			}else if(soap.length==0 && !checkEval){
+				checkEval=true;
+				game.time.events.add(900, function(){
+					for(var destroySoaps=0; destroySoaps<soap.length; destroySoaps++){
+						soap[destroySoaps].body.data.shapes[0].sensor=true;
+						soap[destroySoaps].destroy();
+						soap[destroySoaps].spine.destroy();
+					}
+					for(var destroyBugs=0; destroyBugs<enemyP1.length; destroyBugs++){
+						enemyP1[destroyBugs].body.data.shapes[0].sensor=true;
+						enemyP1[destroyBugs].destroy();
+						enemyP1[destroyBugs].spine.destroy();
+					}
+					for(var destroyBugs2=0; destroyBugs2<enemyP2.length; destroyBugs2++){
+						enemyP2[destroyBugs2].body.data.shapes[0].sensor=true;
+						enemyP2[destroyBugs2].destroy();
+						enemyP2[destroyBugs2].spine.destroy();
+					}
+					for(var destroyBugs3=0; destroyBugs3<enemyP3.length; destroyBugs3++){
+						enemyP3[destroyBugs3].body.data.shapes[0].sensor=true;
+						enemyP3[destroyBugs3].destroy();
+						enemyP3[destroyBugs3].spine.destroy();
+					}
+					soap.splice(0);
+					enemyP1.splice(0);
+					enemyP2.splice(0);
+					enemyP3.splice(0);
+					reset(2);
+				});
+			}
+			game.time.events.add(120, function(){
+				isColliding = false;
+				if(obj2.tag=="soap" && obj1.tag=="bug"){
+					obj2.spine.setAnimationByName(0, "idle", true);
+					obj1.spine.setAnimationByName(1, "idle", true);
+				}
+			});
+		}
+	}
+    function reset(whoWin){
+		if(whoWin==1){
+			
+			game.add.tween(happySoaps.spine3).to({x:game.world.centerX-200,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
+			game.add.tween(happySoaps.spine2).to({x:game.world.centerX-50,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
+			game.add.tween(happySoaps.spine).to({x:game.world.centerX+100,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
+				game.add.tween(happySoaps.spine3).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
+				game.add.tween(happySoaps.spine2).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
+				game.add.tween(happySoaps.spine).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
+				Coin(game.world,pointsBar,10)
+				game.add.tween(happySoaps.spine3).to({x:game.world.width+200,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000)
+				game.add.tween(happySoaps.spine2).to({x:game.world.width+350,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000);
+				game.add.tween(happySoaps.spine).to({x:game.world.width+500,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000).onComplete.add(function(){
+					happySoaps.spine.x=-100;
+					happySoaps.spine2.x=happySoaps.spine.x-150;
+					happySoaps.spine3.x=happySoaps.spine2.x-150;
+					if(level<19){
+						level++;
+					}else{
+						level=0;
+						dificulty+=0.1;
+						reachedMax=true;
+					}
+					if(reachedMax){
+						level=game.rnd.integerInRange(0,8);
+					}
+					nextLevelAndDificulty(level);
+				});
+			});
+		}else if(whoWin==2){
+			
+			game.add.tween(happyEnemys.spine3).to({x:game.world.centerX+190,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
+			game.add.tween(happyEnemys.spine2).to({x:game.world.centerX+20,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
+			game.add.tween(happyEnemys.spine).to({x:game.world.centerX-150,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
+				missPoint();
+				game.add.tween(happyEnemys.spine3).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
+				game.add.tween(happyEnemys.spine2).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
+				game.add.tween(happyEnemys.spine).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
+				game.add.tween(happyEnemys.spine3).to({x:-200,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000)
+				game.add.tween(happyEnemys.spine2).to({x:-350,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000);
+				game.add.tween(happyEnemys.spine).to({x:-500,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000).onComplete.add(function(){
+					happyEnemys.spine.x=game.world.width+100;
+					happyEnemys.spine2.x=happyEnemys.spine.x+150;
+					happyEnemys.spine3.x=happyEnemys.spine2.x+150;
+					nextLevelAndDificulty(level);
+				});
+			});
+		}
     }
-    
-	
-	
+	function nextLevelAndDificulty(level){
+		var EneposX=game.world.width-100;
+		var EneposY=game.world.height-200;
+		var enemyType1=0;
+		var enemyType2=0;
+		var enemyType3=0;
+		
+		soap[0]=creadorDeJabones(null,-100,-100,0,0.7);
+		soap[0].body.x=game.world.centerX;
+		soap[0].body.y=180;
+		startMoving(soap[0]);
+		checkEval=false;
+		for(var createEnemys=0; createEnemys<dificultyLevels[level].enemys; createEnemys++){
+			if(dificultyLevels[level].type=="normal"){
+				enemyP1[createEnemys]=creadorDeEnemigos(null,1,EneposX,EneposY,enemyType1,0.4);
+				EneposX=EneposX-100;
+				enemyType1++;
+				startMoving(enemyP1[createEnemys]);
+			}else if(dificultyLevels[level].type=="stronger"){
+				enemyP2[createEnemys]=creadorDeEnemigos(null,2,EneposX,EneposY,enemyType2,0.4);
+				EneposX=EneposX-100;
+				enemyType2++;
+				startMoving(enemyP2[createEnemys]);
+			}else if(dificultyLevels[level].type=="bigger"){
+				enemyP3[createEnemys]=creadorDeEnemigos(null,3,EneposX,EneposY,enemyType3,0.4);
+				EneposX=EneposX-100;
+				enemyType3++;
+				startMoving(enemyP3[createEnemys]);
+			}
+		}
+		
+	}
 	function createTextPart(text,obj){
         
         var pointsText = lookParticle('text')
@@ -839,6 +977,7 @@ var washClash = function(){
 
             deactivateParticle(pointsText,750)
         }
+        
     }
     
     function lookParticle(key){
@@ -998,8 +1137,6 @@ var washClash = function(){
 		
 	}
 	
-
-	
 	return {
 		
 		assets: assets,
@@ -1018,7 +1155,6 @@ var washClash = function(){
 			createBackground()
 			addParticles()
             baseSong = sound.play("acornSong", {loop:true, volume:0.6})
-				
                         			
             baseSong = game.add.audio('acornSong')
             game.sound.setDecodedCallback(baseSong, function(){
