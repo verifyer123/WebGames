@@ -65,6 +65,7 @@ var pinDot = function(){
     var leveltext
     var backgroundColor 
     var textGroup
+    var numText 
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -389,22 +390,17 @@ var pinDot = function(){
         dot.line.alpha = 1
         dot.rotation = (Math.PI*2) - rotatingGroup.rotation
         
-
-        
         var collide = false
         for(var i =0; i < rotatingGroup.length; i++){
             var r = Math.abs(dot.rotation - rotatingGroup.children[i].rotation)
-            if(r < Math.PI/27){
+            if(r < Math.PI/28){
                 collide = true
                 missPoint()
                 gameActive = false
 
                 game.add.tween(sceneGroup.scale).to({x:2,y:2},200,Phaser.Easing.linear,true)
                 game.add.tween(sceneGroup).to({x:-game.world.centerX,y:-game.world.centerY+100},200,Phaser.Easing.linear,true)
-                //game.camera.x = 200
-                //game.camera.y = 200
-                //sceneGroup.x = -game.world.centerX
-                //sceneGroup.y = -game.world.centerY+100
+
                 currentLevel--
 
                 currentAngularVelocity-= DELTA_ANGULAR_VELOCITY
@@ -432,6 +428,7 @@ var pinDot = function(){
 
 
         if(!collide){
+            numText.setText("X "+dotsGroup.length)
             addPoint(1,{x:game.world.width-100,y:30})
             if(dotsGroup.length==0){
                 backgroundColor.tint = 0x00ff00
@@ -442,17 +439,17 @@ var pinDot = function(){
         }
 
 
-
     }
 
 
     function setRound(){
         var angle = 360/currentSetDots
         var currentAngle = 0
+        numText.setText("X "+currentPutDots)
         for(var i =0; i < currentSetDots; i++){
             var dot = getPin()
             rotatingGroup.add(dot)
-            dot.text.visible = false
+            
             dot.rotation = currentAngle*(Math.PI/180)
             currentAngle+=angle
         }
@@ -462,8 +459,7 @@ var pinDot = function(){
             dot.line.alpha = 0
             dot.y = INIT_PUSH_Y + (DELTA_BETWEEN_DOTS*i)
             dotsGroup.add(dot)
-            dot.text.visible = true
-            dot.text.setText(currentPutDots - i)
+            
         }
 
         leveltext.setText(currentLevel)
@@ -548,6 +544,18 @@ var pinDot = function(){
         leveltext.anchor.setTo(0.5)
         sceneGroup.add(leveltext)
 
+        var circleImage = game.add.graphics()
+        circleImage.x = 80
+        circleImage.y = game.world.height - 100
+        circleImage.beginFill()
+        circleImage.drawCircle(0,0,40)
+        circleImage.endFill()
+        sceneGroup.add(circleImage)
+
+        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left"}
+        numText = new Phaser.Text(sceneGroup.game, 110, game.world.height-95, "X 0", fontStyle)
+        numText.anchor.setTo(0,0.5)
+        sceneGroup.add(numText)
 
         panel = game.add.graphics()
         panel.beginFill(0xffffff)
@@ -577,20 +585,12 @@ var pinDot = function(){
 
         var line = game.add.graphics()
         line.lineStyle(2,0x000000,1)
-        line.y =DISTANCE_DOT/2
+        line.y = DISTANCE_DOT/2
         line.lineTo(0,DISTANCE_DOT/2)
         dot.add(line)
         dot.line = line
-        //line.scale.setTo(1,0)
-
-        var fontStyle = {font: "15px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var text = new Phaser.Text(sceneGroup.game, 0, DISTANCE_DOT+3, "0", fontStyle)
-        text.anchor.setTo(0.5)
-        dot.add(text)
-        dot.text = text
 
         return dot
-
     }
 
 
