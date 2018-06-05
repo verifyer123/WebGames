@@ -42,11 +42,22 @@ var upRoar = function(){
             {
 				name:'tutorial_image',
 				file:"images/upRoar/tutorial_image_%input.png"
+			},
+			{
+				name:'BG_TILE',
+				file:"images/upRoar/tile.png"
 			}
 
 		],
         spines: [
-
+			{
+				name:"animalsQuad",
+				file:"images/Spine/upRoar/animals/quadrupeds.json"
+			},
+			{
+				name:"animalsBirds",
+				file:"images/Spine/upRoar/birds/birds.json"
+			}
         ],
         spritesheets: [
             {
@@ -98,19 +109,17 @@ var upRoar = function(){
 	var indexGame
     var overlayGroup
     var baseSong
+	var timeSpeed;
 	var animals=[
-		{"animal":,"sound"},
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		{"animal":"duck","sound":"duck.mp3"},
+		{"animal":"parrot","sound":"parrot.mp3"},
+		{"animal":"cow","sound":"cow.mp3"},
+		{"animal":"dog","sound":"dog.mp3"},
+		{"animal":"frog","sound":"frog.mp3"},
+		{"animal":"horse","sound":"horse.mp3"},
+		{"animal":"lion","sound":"lion.mp3"},
+		{"animal":"pig","sound":"pig.mp3"}
 	];
-    
     var backgroundGroup=null
     
     var tweenTiempo
@@ -120,28 +129,22 @@ var upRoar = function(){
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
-
 	function initialize(){
-          
         game.stage.backgroundColor = "#000000"
         lives = 3
         emitter=""
         loadSounds()
 	}
-
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
     }
-    
     function createTutorial(){
         
         tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-        
     }
-    
     function popObject(obj,delay){
         
         game.time.events.add(delay,function(){
@@ -329,8 +332,14 @@ var upRoar = function(){
 
 	function createBackground(){
         
-	   backgroundGroup = game.add.group()
-       sceneGroup.add(backgroundGroup)
+	   	backgroundGroup = game.add.group()
+		sceneGroup.add(backgroundGroup)
+		
+		UIgroup=game.add.group();
+		sceneGroup.add(UIgroup);
+		
+		animalGroup=game.add.group();
+		sceneGroup.add(animalGroup);
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
@@ -342,10 +351,10 @@ var upRoar = function(){
         boomParticle = createPart("smoke")
         sceneGroup.add(boomParticle)
         
-        //Circulo de prueba
-        createCircleSprite(game.world.centerX, game.world.centerY,100,{inputCallback:inputs})
         
-        
+        backAnimated=game.add.tileSprite(0,0,game.world.width,game.world.height,"BG_TILE");
+		backgroundGroup.add(backAnimated);
+		
         //Coins
         coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
         coins.anchor.setTo(0.5)
@@ -384,47 +393,13 @@ var upRoar = function(){
         
         if(startGame){
             epicparticles.update()
-            
+            backAnimated.tilePosition.x+=0.2;
+			backAnimated.tilePosition.y-=0.2;
         }
 
 	}
     
-    function createCircleSprite(posX,posY,diameter,params){
-        params = params || {}
-        var isCollision = params.isCollision
-        var anchorX = params.anchorX || 0.5
-        var anchorY = params.anchorY || 0.5
-        var inputCallback = params.inputCallback
-        var isColor = params.isColor || "ffffff"
-        
-        var turnToSprite=game.add.sprite(posX,posY)
-        var circle = game.add.graphics(turnToSprite.centerX/200-3, turnToSprite.centerY/200-3);
-        turnToSprite.anchor.setTo(anchorX,anchorY)
-        turnToSprite.addChild(circle)   
-        //Agregar linea para fisicas : game.physics.startSystem(Phaser.Physics.ARCADE);
-        circle.beginFill("0x"+isColor, 1);
-        circle.drawCircle(0, 0, diameter);
-        
-        if(isCollision){
-            game.physics.enable(turnToSprite, Phaser.Physics.ARCADE);
-        }
-        if(typeof inputCallback === "function"){
-            turnToSprite.inputEnabled=true
-            turnToSprite.events.onInputDown.add(inputCallback, this);
-        }
-        return(turnToSprite)
-    }
-    
-    function inputs(obj){
-        
-        //Listo para programar
-        console.log("Tell me to do something")
-        emitter = epicparticles.newEmitter("pickedEnergy")
-        emitter.duration=0.05;
-        emitter.x = game.world.centerX
-        emitter.y = game.world.centerY
-        Coin(obj,pointsBar,10)
-    }
+ 
     
     function reset(){
             

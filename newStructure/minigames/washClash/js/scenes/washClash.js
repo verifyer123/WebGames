@@ -85,7 +85,7 @@ var washClash = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -97,7 +97,13 @@ var washClash = function(){
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
             {   name:"acornSong",
-				file: soundsPath + 'songs/childrenbit.mp3'}
+				file: soundsPath + 'songs/bubble_fishgame.mp3'},
+			{   name:"bacteriasLaugh",
+				file: soundsPath + 'insectLaghing.mp3'},
+			{   name:"crowd",
+				file: soundsPath + 'cheers.mp3'},
+			{   name:"grow",
+				file: soundsPath + 'robotWhoosh.mp3'}
 			
 		],
         jsons: [
@@ -270,10 +276,11 @@ var washClash = function(){
 		var enemyType1=0;
 		var enemyType2=0;
 		var enemyType3=0;
-		
+		soap.splice(0);
 		soap[0]=creadorDeJabones(null,-100,-100,0,0.7);
 		soap[0].body.x=game.world.centerX;
 		soap[0].body.y=180;
+		startMoving(soap[0]);
 		checkEval=false;
 		for(var createEnemys=0; createEnemys<dificultyLevels[level].enemys; createEnemys++){
 			if(dificultyLevels[level].type=="normal"){
@@ -422,10 +429,12 @@ var washClash = function(){
 	
 		
 	function growSoap(obj){
+		if(!tutorial){
+			startMoving(enemyP1[0]);
+		}
 		tutorial=true;
 		if(tutorial){
 			hand.alpha=0;
-			startMoving(enemyP1[0]);
 		}
 		holding=true;
 		actualSoap=obj.spine;
@@ -617,6 +626,7 @@ var washClash = function(){
 			(-obj.spine.scale.x*90 + 0.53 * obj.spine.width  / obj.spine.scale.x),
 			(-obj.spine.scale.x*90 + 0.45 * obj.spine.height / obj.spine.scale.y)
 		);
+		console.log(obj.body)
 		soapGroup.add(obj);
 		return obj;
 	}
@@ -691,7 +701,6 @@ var washClash = function(){
     
 	function update(){
         
-        
 		backAnimated.tilePosition.x+=0.2;
 		backAnimated.tilePosition.y-=0.2;
 		
@@ -701,6 +710,7 @@ var washClash = function(){
 		
 		if(holding && actualSoap.scale.x<2.0){
 			actualSoap.scale.setTo(actualSoap.scale.x+0.02,actualSoap.scale.y+0.02)
+			//sound.play("grow");
 		}else{
 			holding=false;
 		}
@@ -835,7 +845,7 @@ var washClash = function(){
 						enemyP3[clean].identifier=clean;
 					}
 				}
-				startMoving(soap[newSoap])
+				//startMoving(soap[newSoap])
 				
 				//Coin(obj2,pointsBar,10);
 			}
@@ -942,7 +952,6 @@ var washClash = function(){
 	}
     function reset(whoWin){
 		if(whoWin==1){
-			
 			game.add.tween(happySoaps.spine3).to({x:game.world.centerX-150,y:game.world.height/2},750,Phaser.Easing.linearIn,true)
 			game.add.tween(happySoaps.spine2).to({x:game.world.centerX,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
 			game.add.tween(happySoaps.spine).to({x:game.world.centerX+150,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
@@ -950,6 +959,7 @@ var washClash = function(){
 				game.add.tween(happySoaps.spine2).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
 				game.add.tween(happySoaps.spine).to({y:game.world.height/2-50},350,Phaser.Easing.linear,true).yoyo(true);
 				Coin(game.world,pointsBar,10)
+				sound.play("crowd");
 				game.add.tween(happySoaps.spine3).to({x:game.world.width+200,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000)
 				game.add.tween(happySoaps.spine2).to({x:game.world.width+350,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000);
 				game.add.tween(happySoaps.spine).to({x:game.world.width+500,y:game.world.height/2},1050,Phaser.Easing.linearIn,true,1000).onComplete.add(function(){
@@ -975,6 +985,7 @@ var washClash = function(){
 			game.add.tween(happyEnemys.spine2).to({x:game.world.centerX+10,y:game.world.height/2},750,Phaser.Easing.linearIn,true);
 			game.add.tween(happyEnemys.spine).to({x:game.world.centerX-160,y:game.world.height/2},750,Phaser.Easing.linearIn,true).onComplete.add(function(){
 				missPoint();
+				sound.play("bacteriasLaugh");
 				game.add.tween(happyEnemys.spine3).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
 				game.add.tween(happyEnemys.spine2).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
 				game.add.tween(happyEnemys.spine).to({y:game.world.height/2-50},450,Phaser.Easing.linearOut,true).yoyo(true);
@@ -995,7 +1006,7 @@ var washClash = function(){
 		var enemyType1=0;
 		var enemyType2=0;
 		var enemyType3=0;
-		
+		soap.splice(0);
 		soap[0]=creadorDeJabones(null,-100,-100,0,0.7);
 		soap[0].body.x=game.world.centerX;
 		soap[0].body.y=180;
@@ -1019,7 +1030,6 @@ var washClash = function(){
 				startMoving(enemyP3[createEnemys]);
 			}
 		}
-		
 	}
 	function createTextPart(text,obj){
         
