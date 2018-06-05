@@ -358,14 +358,6 @@ var pinDot = function(){
             rotatingGroup.rotation -= Math.PI*2
         }
 
-        for(var i = 0; i < rotatingGroup.length; i++){
-            //rotatingGroup.children[i].rotation+=currentAngularVelocity
-            //if(rotatingGroup.children[i].text.visible){
-                //console.log(rotatingGroup.children[i])
-                //rotatingGroup.children[i].text.rotation = -rotatingGroup.children[i].rotation
-            //}
-        }
-
         if(game.input.activePointer.isDown){
             if(canTap){
                 canTap = false
@@ -385,6 +377,9 @@ var pinDot = function(){
     }
 
     function tap(){
+        if(dotsGroup.length<=0){
+            return
+        }
         var dot = dotsGroup.children[0]
         dot.y = 0
         dot.line.alpha = 1
@@ -393,7 +388,7 @@ var pinDot = function(){
         var collide = false
         for(var i =0; i < rotatingGroup.length; i++){
             var r = Math.abs(dot.rotation - rotatingGroup.children[i].rotation)
-            if(r < Math.PI/28){
+            if(r < Math.PI/30.5){
                 collide = true
                 missPoint()
                 gameActive = false
@@ -428,6 +423,7 @@ var pinDot = function(){
 
 
         if(!collide){
+            sound.play("pop")
             numText.setText("X "+dotsGroup.length)
             addPoint(1,{x:game.world.width-100,y:30})
             if(dotsGroup.length==0){
@@ -435,6 +431,7 @@ var pinDot = function(){
                 game.add.tween(backgroundColor).to({y:0},200,Phaser.Easing.linear,true).onComplete.add(function(){
                     setTimeout(endRound,200)
                 })
+                sound.play("magic")
             }
         }
 
@@ -459,7 +456,6 @@ var pinDot = function(){
             dot.line.alpha = 0
             dot.y = INIT_PUSH_Y + (DELTA_BETWEEN_DOTS*i)
             dotsGroup.add(dot)
-            
         }
 
         leveltext.setText(currentLevel)
