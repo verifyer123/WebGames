@@ -302,11 +302,19 @@ amazing.getFromApp = function(){
     return gameFromApp
 }
 
-amazing.setMixPanelTrack= function(minigameName,event){
-    mixpanel.track(
-        event,
-        {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
-    );
+amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
+    if(event=="finishGame"){
+        mixpanel.track(
+            event,
+            {"gameName": minigameName,"win":didWin, "numberOfObjects":score,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
+        );
+    }
+    else{
+        mixpanel.track(
+            event,
+            {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
+        );
+    }
 
     console.log("Enter to setMixPanelTrack")
 
