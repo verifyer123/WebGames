@@ -70,7 +70,7 @@ var result = function(){
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
             );*/
 
-            amazing.setMixPanelTrack(gameName,"finishGame")
+            amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
         //}
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
