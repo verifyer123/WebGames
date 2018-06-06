@@ -115,6 +115,7 @@ var h2os = function(){
     var tweenB;                         //Lista de animaciones para higado
     var tweenC;                         //Lista de animaciones para instestinos
     var waterStatus;                    //Estado de animaciones para la barra de hidratacion
+    var lessWater;                      //Bajado de agua
     // Fin variables opcionales dentro del juego
     
 
@@ -144,6 +145,7 @@ var h2os = function(){
         tweenA = [];
         tweenB = [];
         tweenC = [];
+        lessWater = -2;
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -610,7 +612,7 @@ var h2os = function(){
     //Funcion para realizar como gameplay
     function gamePlayJuego(){
         scenaryMovement();
-        changeWater(-2 / game.time.totalElapsedSeconds());
+        changeWater(lessWater / game.time.totalElapsedSeconds());
         grabGroup.forEach(function(entry){
             if (checkOverlap(entry, playerYogotar.hitBox) && !entry.collide){
                 entry.collide = true;
@@ -620,12 +622,13 @@ var h2os = function(){
                     changeWater(30);
                     addCoin(playerYogotar);
                         speed += 0.4;
-                        spaceDrinkAdd += 10;
+                        spaceDrinkAdd += 5;
+                        lessWater *= 2;
                         if(speedSpawn > 0){
                             speedSpawn -= 0.1;
                         }
                 }else{
-                    changeWater(-20);
+                    changeWater(-30);
                     playAnimation(4);
                     /*missPoint();
                     if(lives<=0){
