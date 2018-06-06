@@ -327,6 +327,7 @@ var h2os = function(){
 
     }
 
+    //Funcion para quitar puntos
     function missPoint(){
 
         sound.play("wrong");
@@ -341,9 +342,6 @@ var h2os = function(){
 
         if(lives === 0){
             stopGame(false);
-        }
-        else{
-            // startRound()
         }
 
         addNumberPart(heartsGroup.text,'-1');
@@ -605,7 +603,6 @@ var h2os = function(){
             hitBoxStart.collide = true;
             gameState = createDelegate(gamePlayJuego);
             inputGroup.visible = true;
-            //game.time.events.loop(Phaser.Timer.SECOND*2, doSpwaner, this);//Modificar
             game.time.events.add(Phaser.Timer.SECOND*speedSpawn, doSpwaner, this);
         }
     }
@@ -623,8 +620,8 @@ var h2os = function(){
                     changeWater(30);
                     addCoin(playerYogotar);
                         speed += 0.4;
-                        spaceDrinkAdd += 25;
-                        if(speedSpawn >= 0){
+                        spaceDrinkAdd += 10;
+                        if(speedSpawn > 0){
                             speedSpawn -= 0.1;
                         }
                 }else{
@@ -932,7 +929,7 @@ var h2os = function(){
     //Funcion para reiniciar la vida
     function resetLife(){
         missPoint();
-        if(lives<=0){
+        if((lives-1)<=0){
         	playAnimation(3);
         }else {
         	playAnimation(2);
