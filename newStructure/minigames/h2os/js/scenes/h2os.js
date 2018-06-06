@@ -623,7 +623,7 @@ var h2os = function(){
                     addCoin(playerYogotar);
                         speed += 0.4;
                         spaceDrinkAdd += 5;
-                        lessWater *= 2;
+                        lessWater -= 0.4;
                         if(speedSpawn > 0){
                             speedSpawn -= 0.1;
                         }
