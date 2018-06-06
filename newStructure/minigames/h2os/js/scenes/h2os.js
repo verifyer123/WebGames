@@ -45,7 +45,7 @@ var h2os = function(){
                 file: soundsPath + "rightChoice.mp3"},
             {   name: "gameLose",
                 file: soundsPath + "gameLose.mp3"},
-            {   name:"acornSong",
+            {   name:"h2osSong",
                 file: soundsPath + 'songs/wormwood.mp3'}
         ],
         spritesheets:[
@@ -164,7 +164,7 @@ var h2os = function(){
     //Funcion que detiene el juego y cosas necesarias
     function stopGame(win){
 
-        sound.stop("acornSong")
+        sound.stop("h2osSong")
 
         //Parte obligatoria
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
@@ -976,7 +976,7 @@ var h2os = function(){
             }, this);
 
             initialize()
-            var acornSong = sound.play("acornSong", {loop:true, volume:0.6})
+            var h2osSong = sound.play("h2osSong", {loop:true, volume:0.6})
 
   			//Crear en el orden de atras hacia adelante
             createScenary();
@@ -997,7 +997,7 @@ var h2os = function(){
             particleWrong = createPart('wrong');
             sceneGroup.add(particleWrong);
 
-            buttons.getButton(acornSong,sceneGroup)
+            buttons.getButton(h2osSong,sceneGroup)
         }
     }
 }()
