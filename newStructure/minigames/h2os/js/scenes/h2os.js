@@ -629,7 +629,7 @@ var h2os = function(){
                         }
                 }else{
                     changeWater(-30);
-                    if(lives-1 <= 0){
+                    if(lives-1 <= 0 && waterLength <= 0){
                         playAnimation(3);
                     }else{
                         playAnimation(4);
