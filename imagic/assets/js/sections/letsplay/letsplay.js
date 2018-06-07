@@ -224,12 +224,11 @@ function showGames(){
 		var num = i;
 			var minigameHref;
 			if(language != "ES" ){
-				minigameHref = "playweb/gamesite/" + games[i].url + "?language=EN";
+				minigameHref = "playweb/gamesite/" + games[i].mapUrl + "?language=EN";
 
 			}else{
-				minigameHref = "playweb/gamesite/" + games[i].url + "?language=" + language;
+				minigameHref = "playweb/gamesite/" + games[i].mapUrl + "?language=" + language;
 			}
-
 
 			if(epicsite){
 				$("#minigamesContainer").append("<div id='minigameNumber" +num +"' rev='"+games[i].name+"' class='gameCatalog " +games[i].subject +"' id='gameimg" + num +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></div>");
