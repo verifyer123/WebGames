@@ -219,23 +219,24 @@ for(var i= 0;i<=subjectsButtons.length-1;i++){
 function showGames(){
 	$("#minigamesContainer").html("");
 	var pathGames = "games/nonrefactored/"
-	var games = yogomeGames.getGames("absolute");
+	var games = yogomeGames.getGames("custom");
 	for(var i = 0 ; i<= games.length-1 ;i++){
 		var num = i;
 			var minigameHref;
 			if(language != "ES" ){
-				minigameHref = games[i].mapUrl + "?language=EN";
+				minigameHref = "playweb/gamesite/" + games[i].url + "?language=EN";
 
 			}else{
-				minigameHref = games[i].mapUrl + "?language=" + language;
+				minigameHref = "playweb/gamesite/" + games[i].url + "?language=" + language;
 			}
-
 
 
 			if(epicsite){
 				$("#minigamesContainer").append("<div id='minigameNumber" +num +"' rev='"+games[i].name+"' class='gameCatalog " +games[i].subject +"' id='gameimg" + num +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></div>");
-				$("#minigameNumber" + num).attr("https://play.yogome.com/" + "data-url",minigameHref)
-				$("#minigameNumber" + num).click(function(){
+				
+                $("#minigameNumber" + num).attr("https://play.yogome.com/" + "data-url",minigameHref)
+				
+                $("#minigameNumber" + num).click(function(){
 					parent.location.href =  $(this).attr("data-url");
 				});
 			}else{
