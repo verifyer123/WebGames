@@ -1,25 +1,58 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 var particlesPath="../../shared/minigames/images/particles/battle/"
-var tutorialPath = "../../shared/minigames/"
 var upRoar = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"tutorial_image":"images/upRoar/tutorial_image_EN.png",
+			"duck":"duck",
+			"duckAction":"quacks",
+			"parrot":"parrot",
+			"parrotAction":"garrings",
+			"cow":"cow",
+			"cowAction":"moos",
+			"dog":"dog",
+			"dogAction":"barks",
+			"frog":"frog",
+			"frogAction":"croaks",
+			"horse":"horse",
+			"horseAction":"neighs",
+			"lion":"lion",
+			"lionAction":"roars",
+			"pig":"pig",
+			"pigAction":"growls"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+			"tutorial_image":"images/upRoar/tutorial_image_ES.png",
+			"duck":"pato",
+			"duckAction":"grazna",
+			"parrot":"loro",
+			"parrotAction":"garrira",
+			"cow":"vaca",
+			"cowAction":"muge",
+			"dog":"perro",
+			"dogAction":"ladra",
+			"frog":"rana",
+			"frogAction":"croa",
+			"horse":"caballo",
+			"horseAction":"relincha",
+			"lion":"leon",
+			"lionAction":"ruge",
+			"pig":"cerdo",
+			"pigAction":"guarre"
 		}
 	}
-    
+	
 
-	assets = {
+	var assets = {
         atlases: [
             {   
                 name: "atlas.upRoar",
@@ -31,17 +64,12 @@ var upRoar = function(){
                 json: "images/upRoar/timeAtlas.json",
                 image: "images/upRoar/timeAtlas.png",
             },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-            }
         ],
         images: [
             
             {
 				name:'tutorial_image',
-				file:"images/upRoar/tutorial_image_%input.png"
+				file:"%lang",
 			},
 			{
 				name:'BG_TILE',
@@ -52,11 +80,11 @@ var upRoar = function(){
         spines: [
 			{
 				name:"animalsQuad",
-				file:"images/Spine/upRoar/animals/quadrupeds.json"
+				file:"images/Spine/animals/quadrupeds/quadrupeds.json"
 			},
 			{
-				name:"animalsBirds",
-				file:"images/Spine/upRoar/birds/birds.json"
+				name:"animalsBird",
+				file:"images/Spine/animals/birds/birds.json"
 			}
         ],
         spritesheets: [
@@ -66,7 +94,15 @@ var upRoar = function(){
                 width:122,
                 height:123,
                 frames:12
+            },
+			{
+                name:"hand",
+                file:"images/Spine/hand/hand.png",
+                width:115,
+                height:111,
+                frames:23
             }
+			
         ],
 		sounds: [
             {	name: "magic",
@@ -74,7 +110,7 @@ var upRoar = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
             {	name: "explosion",
 				file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
@@ -85,9 +121,24 @@ var upRoar = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "ship",
 				file: soundsPath + "robotBeep.mp3"},
-            {   name:"acornSong",
-				file: soundsPath + 'songs/childrenbit.mp3'}
-			
+            {   name:"dog",
+				file: soundsPath + 'animals/dogShort.mp3'},
+			{   name:"parrot",
+				file: soundsPath + 'animals/parrotShort.mp3'},
+			{   name:"lion",
+				file: soundsPath + 'animals/lionShort.mp3'},
+			{   name:"duck",
+				file: soundsPath + 'animals/duckShort.mp3'},
+			{   name:"pig",
+				file: soundsPath + 'animals/pigShort.mp3'},
+			{   name:"horse",
+				file: soundsPath + 'animals/horseShort.mp3'},
+			{   name:"frog",
+				file: soundsPath + 'animals/frogShort.mp3'},
+			{   name:"cow",
+				file: soundsPath + 'animals/cowShort.mp3'},
+			{   name:"acornSong",
+				file: soundsPath + 'songs/farming_time.mp3'}
 		],
         jsons: [
 			{
@@ -103,40 +154,87 @@ var upRoar = function(){
 	var background
     var gameActive = true
 	var shoot
+	var skinCorrect
 	var particlesGroup, particlesUsed
     var gameIndex = 1
     var tutoGroup
 	var indexGame
+	var blockButton;
+	var btn1, btn2,btn3,bar;
     var overlayGroup
     var baseSong
-	var timeSpeed;
-	var animals=[
-		{"animal":"duck","sound":"duck.mp3"},
-		{"animal":"parrot","sound":"parrot.mp3"},
-		{"animal":"cow","sound":"cow.mp3"},
-		{"animal":"dog","sound":"dog.mp3"},
-		{"animal":"frog","sound":"frog.mp3"},
-		{"animal":"horse","sound":"horse.mp3"},
-		{"animal":"lion","sound":"lion.mp3"},
-		{"animal":"pig","sound":"pig.mp3"}
+	var tutorial;
+	var animal;
+	var level;
+	var correctAnswer;
+	var backAnimated;
+	var maxAnimals=7;
+	var timeSpeed=5000;
+	var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+	var fontStyle2 = {font: "35px VAGRounded", fontWeight: "bold", fill: "#550055", align: "center"}
+	var choices=[
+		{"choice1":"","choice2":"","choice3":""},
 	];
+	var animals=[
+			{skinAndSound:"duck",animal:localization.getString(localizationData,"duck"),solution:localization.getString(localizationData,"duckAction")},
+			{skinAndSound:"parrot",animal:localization.getString(localizationData,"parrot"),solution:localization.getString(localizationData,"parrotAction")},
+			{skinAndSound:"cow",animal:localization.getString(localizationData,"cow"),solution:localization.getString(localizationData,"cowAction")},
+			{skinAndSound:"dog",animal:localization.getString(localizationData,"dog"),solution:localization.getString(localizationData,"dogAction")},
+			{skinAndSound:"frog",animal:localization.getString(localizationData,"frog"),solution:localization.getString(localizationData,"frogAction")},
+			{skinAndSound:"horse",animal:localization.getString(localizationData,"horse"),solution:localization.getString(localizationData,"horseAction")},
+			{skinAndSound:"lion",animal:localization.getString(localizationData,"lion"),solution:localization.getString(localizationData,"lionAction")},
+			{skinAndSound:"pig",animal:localization.getString(localizationData,"pig"),solution:localization.getString(localizationData,"pigAction")}
+	];
+	var words=[
+	]
     var backgroundGroup=null
+    var UIGroup=null
+    var animalGroup=null
     
     var tweenTiempo
     var clock, timeBar
+	var startTiming=500;
+    var delayDefault=100;
+    var delayerTimer=2500;
+	var passing;
     var emitter
-
+	var timer
+	
+ 
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 	function initialize(){
         game.stage.backgroundColor = "#000000"
         lives = 3
-        emitter=""
+		blockButton=true;
+		tutorial=true;
+		animals=[
+			{skinAndSound:"duck",animal:localization.getString(localizationData,"duck"),solution:localization.getString(localizationData,"duckAction")},
+			{skinAndSound:"parrot",animal:localization.getString(localizationData,"parrot"),solution:localization.getString(localizationData,"parrotAction")},
+			{skinAndSound:"cow",animal:localization.getString(localizationData,"cow"),solution:localization.getString(localizationData,"cowAction")},
+			{skinAndSound:"dog",animal:localization.getString(localizationData,"dog"),solution:localization.getString(localizationData,"dogAction")},
+			{skinAndSound:"frog",animal:localization.getString(localizationData,"frog"),solution:localization.getString(localizationData,"frogAction")},
+			{skinAndSound:"horse",animal:localization.getString(localizationData,"horse"),solution:localization.getString(localizationData,"horseAction")},
+			{skinAndSound:"lion",animal:localization.getString(localizationData,"lion"),solution:localization.getString(localizationData,"lionAction")},
+			{skinAndSound:"pig",animal:localization.getString(localizationData,"pig"),solution:localization.getString(localizationData,"pigAction")}
+		];
+		for(var fillWords=0;fillWords<animals.length;fillWords++){
+			passing={
+				solution:animals[fillWords].solution,
+			};
+			words.push(passing);
+		}
+		level=0;
+        emitter="";
+		timer=12000;
+		timeSpeed=5000;
         loadSounds()
 	}
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
+		//sound.play("dog");
+		tutorialLevel();
     }
     function createTutorial(){
         
@@ -208,7 +306,6 @@ var upRoar = function(){
         }
         
     }
-    
     function missPoint(){
         
         sound.play("wrong")
@@ -335,15 +432,27 @@ var upRoar = function(){
 	   	backgroundGroup = game.add.group()
 		sceneGroup.add(backgroundGroup)
 		
-		UIgroup=game.add.group();
-		sceneGroup.add(UIgroup);
+		UIGroup=game.add.group();
+		sceneGroup.add(UIGroup);
 		
 		animalGroup=game.add.group();
 		sceneGroup.add(animalGroup);
         
         //Aqui inicializo los botones
         controles=game.input.keyboard.createCursorKeys()
-        
+		//game.time.advancedTiming = true;
+ 		
+		
+		animal=game.add.sprite(game.world.width/2,game.world.height/2,"atlas.upRoar","star")
+		animal.alpha=0;
+		animal.anchor.setTo(0.5,0.5)
+		animal.spine=game.add.spine(0,0,"animalsQuad");
+		animal.spine.setSkinByName(animals[3].skinAndSound);
+		animal.spine.setAnimationByName(0, "idle", true);
+		animal.spine.x=-400;
+		animal.spine.y=game.world.height/1.3;
+		animalGroup.add(animal)
+		
         correctParticle = createPart("star")
         sceneGroup.add(correctParticle)
         wrongParticle = createPart("wrong")
@@ -355,19 +464,170 @@ var upRoar = function(){
         backAnimated=game.add.tileSprite(0,0,game.world.width,game.world.height,"BG_TILE");
 		backgroundGroup.add(backAnimated);
 		
+		
+		btn1=game.add.sprite(game.world.centerX-180,game.world.height-100,"atlas.upRoar","button");
+		btn2=game.add.sprite(game.world.centerX,game.world.height-100,"atlas.upRoar","button");
+		btn3=game.add.sprite(game.world.centerX+180,game.world.height-100,"atlas.upRoar","button");
+		
+		btn1.tag="1";
+		btn2.tag="2";
+		btn3.tag="3";
+		
+		btn1.inputEnabled=true;
+        btn2.inputEnabled=true;
+        btn3.inputEnabled=true;
+		
+		btn1.events.onInputDown.add(selectOption,this);
+		btn2.events.onInputDown.add(selectOption,this);
+		btn3.events.onInputDown.add(selectOption,this);
+		
+		btn1.anchor.setTo(0.5,0.5);
+		btn2.anchor.setTo(0.5,0.5);
+		btn3.anchor.setTo(0.5,0.5);
+		
+		bar=game.add.sprite(game.world.centerX,200,"atlas.upRoar","bar");
+		bar.anchor.setTo(0.5,0.5);
+		bar.text=game.add.text(bar.centerX-100,bar.centerY,"bar", fontStyle2);
+		bar.text.anchor.setTo(0.5,0.5);
+		
+		bar.textAnswer=game.add.text(bar.centerX+60,bar.centerY,"", fontStyle2);
+		bar.textAnswer.anchor.setTo(0.5,0.5);
+		
+		btn1.text=game.add.text(btn1.centerX,btn1.centerY,"btn1", fontStyle);
+		btn2.text=game.add.text(btn2.centerX,btn2.centerY,"btn2", fontStyle);
+		btn3.text=game.add.text(btn3.centerX,btn3.centerY,"btn3", fontStyle);
+		
+		btn1.text.anchor.setTo(0.5,0.5);
+		btn2.text.anchor.setTo(0.5,0.5);
+		btn3.text.anchor.setTo(0.5,0.5);
+		
+		UIGroup.add(btn1);
+		UIGroup.add(btn1.text);
+		UIGroup.add(btn2);
+		UIGroup.add(btn2.text);
+		UIGroup.add(btn3);
+		UIGroup.add(btn3.text);
+		UIGroup.add(bar);
+		UIGroup.add(bar.text);
+		UIGroup.add(bar.textAnswer);
+		UIGroup.alpha=0;
+		
+		hand=game.add.sprite(game.world.centerX,game.world.centerY, "hand")
+        hand.anchor.setTo(0,0);
+        hand.scale.setTo(1,1);
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha=1;
+        UIGroup.add(hand);
+		
         //Coins
-        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
-        coins.anchor.setTo(0.5)
-        coins.scale.setTo(0.5)
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
+        coins.anchor.setTo(0.5);
+        coins.scale.setTo(0.5);
         coins.animations.add('coin');
         coins.animations.play('coin', 24, true);
-        coins.alpha=0
+        coins.alpha=0;
     }
-	
-
+	function selectOption(obj){
+		if(!blockButton){
+			if(!tutorial)stopTimer();
+			tutorial=false;
+			hand.alpha=0;
+			blockButton=true;
+			if(obj.text.text!=correctAnswer){
+				sound.play(animals[obj.id].skinAndSound)
+			}
+			bar.textAnswer.text=correctAnswer;
+			game.time.events.add(500,function(){
+			if(obj.text.text==correctAnswer){
+				Coin(animal,pointsBar,10);
+				sound.play(animals[obj.id].skinAndSound)
+				animal.spine.setAnimationByName(0,"win",true);
+				level++;
+				if(timer>100){
+					timer=timer-500;
+				}
+				reset();
+			}else{
+				missPoint();
+				animal.spine.setAnimationByName(0,"lose",true);
+				reset();
+			}
+			});
+		}
+	}
+	function tutorialLevel(){
+		
+		
+		var randAnimal=3;
+		var correctAnimal=randAnimal;
+		if(localization.getLanguage()=="ES"){
+			bar.text.text="El "+animals[3].animal;
+		}else{
+			bar.text.text="The "+animals[3].animal;
+		}
+		correctAnswer=animals[3].solution;
+		//btn1.text.text=animals[3].solutionEN;
+		var chooseBtn=game.rnd.integerInRange(0,2);
+			if(chooseBtn==0)choices[0].choice1=words[3].solution;
+			if(chooseBtn==1)choices[0].choice2=words[3].solution;
+			if(chooseBtn==2)choices[0].choice3=words[3].solution;
+			words[3].solution="";
+		if(chooseBtn==0){
+			btn1.id=3;
+			hand.x=btn1.x;
+			hand.y=btn1.y;
+		}else if(chooseBtn==1){
+			btn2.id=3;
+			hand.x=btn2.x;
+			hand.y=btn2.y;
+		}else if(chooseBtn==2){
+			btn3.id=3;
+			hand.x=btn3.x;
+			hand.y=btn3.y;
+		}
+		while(choices[0].choice1=="" || choices[0].choice2=="" || choices[0].choice3==""){
+			
+			chooseBtn=game.rnd.integerInRange(0,2);
+			randAnimal=game.rnd.integerInRange(0,maxAnimals);
+				if(chooseBtn==0 && choices[0].choice1==""){
+					choices[0].choice1=words[randAnimal].solution;
+					words[randAnimal].solution="";
+					btn1.id=randAnimal;
+				}
+				if(chooseBtn==1 && choices[0].choice2==""){
+					choices[0].choice2=words[randAnimal].solution;
+					words[randAnimal].solution="";
+					btn2.id=randAnimal;
+				}
+				if(chooseBtn==2 && choices[0].choice3==""){
+					choices[0].choice3=words[randAnimal].solution;
+					words[randAnimal].solution="";
+					btn3.id=randAnimal;
+				}
+		}
+		
+		btn1.text.text=choices[0].choice1;
+		btn2.text.text=choices[0].choice2;
+		btn3.text.text=choices[0].choice3;
+		
+		
+		
+		bar.line = new Phaser.Line(bar.centerX-5,bar.centerY+15, bar.centerX+130, bar.centerY+15);
+		bar.graphics=game.add.graphics(0,0);
+        bar.graphics.lineStyle(5, 0x550055, 1);
+        bar.graphics.moveTo(bar.line.start.x,bar.line.start.y);
+        bar.graphics.lineTo(bar.line.end.x,bar.line.end.y);
+        bar.graphics.endFill();
+		UIGroup.add(bar.graphics)
+		sound.play(animals[correctAnimal].skinAndSound);
+		game.add.tween(animal.spine).to({x:game.world.centerX-20,y:game.world.height/1.3},1050,Phaser.Easing.linearIn,true).onComplete.add(function(){
+			game.add.tween(UIGroup).to({alpha:1}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+				blockButton=false;
+			});
+		});
+	}
     function Coin(objectBorn,objectDestiny,time){
-        
-        
         //objectBorn= Objeto de donde nacen
         coins.x=objectBorn.centerX
         coins.y=objectBorn.centerY
@@ -390,19 +650,133 @@ var upRoar = function(){
     
 	function update(){
         
-        
+		//game.debug.text(game.time.fps, 50,100, "white")
         if(startGame){
             epicparticles.update()
-            backAnimated.tilePosition.x+=0.2;
-			backAnimated.tilePosition.y-=0.2;
+			if(backAnimated){
+				backAnimated.tilePosition.x+=0.2;
+				backAnimated.tilePosition.y-=0.2;
+			}
         }
 
 	}
-    
+     function positionTimer(){
+        clock=game.add.image(game.world.centerX-150,50,"atlas.time","clock")
+        clock.scale.setTo(.7)
+        timeBar=game.add.image(clock.position.x+40,clock.position.y+40,"atlas.time","bar")
+        timeBar.scale.setTo(8,.45)
+        timeBar.alpha=1;
+        clock.alpha=1;
+        backgroundGroup.add(clock)
+        backgroundGroup.add(timeBar)
+        UIGroup.add(clock);
+        UIGroup.add(timeBar);
+    }
+    function stopTimer(){
+        tweenTiempo.stop()
+        tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, startTiming, Phaser.Easing.Linear.Out, true, delayDefault).onComplete.add(function(){
+        })
+    }
+    function startTimer(time){
+        tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, delayDefault)
+        tweenTiempo.onComplete.add(function(){
+            stopTimer()
+			blockButton=true;
+			sound.play(skinCorrect)
+			bar.textAnswer.text=correctAnswer;
+			game.time.events.add(1200,function(){
+				missPoint();
+				animal.spine.setAnimationByName(0,"lose",true);
+				reset();
+			});
+        })
+    }
+	function nextLevelAndDificulty(level){
+		
+		//timeSpeed=timeSpeed-(level*200);
+		var randAnimal=game.rnd.integerInRange(0,maxAnimals);
+		var correctAnimal=randAnimal;
+		skinCorrect=animals[randAnimal].skinAndSound;
+		if(localization.getLanguage()=="ES"){
+			bar.text.text="El "+animals[randAnimal].animal;
+		}else{
+			bar.text.text="The "+animals[randAnimal].animal;
+		}
+		correctAnswer=animals[randAnimal].solution;
+		var animalVariant="";
+		if(randAnimal>=2){
+			animalVariant="animalsQuad";
+		}else{
+			animalVariant="animalsBird";
+		}
+		var chooseBtn=game.rnd.integerInRange(0,2);
+		if(chooseBtn==0)choices[0].choice1=words[randAnimal].solution;
+		if(chooseBtn==1)choices[0].choice2=words[randAnimal].solution;
+		if(chooseBtn==2)choices[0].choice3=words[randAnimal].solution;
+			words[randAnimal].solution="";
+		if(chooseBtn==0){
+			btn1.id=randAnimal;
+		}else if(chooseBtn==1){
+			btn2.id=randAnimal;
+		}else if(chooseBtn==2){
+			btn3.id=randAnimal;
+		}
+		var chooseBtn=game.rnd.integerInRange(0,2);
+		
+		while(choices[0].choice1=="" || choices[0].choice2=="" || choices[0].choice3==""){
+			chooseBtn=game.rnd.integerInRange(0,2);
+			randAnimal=game.rnd.integerInRange(0,maxAnimals);
+			if(chooseBtn==0 && choices[0].choice1==""){
+				choices[0].choice1=words[randAnimal].solution;
+				words[randAnimal].solution="";
+				btn1.id=randAnimal;
+			}
+			if(chooseBtn==1 && choices[0].choice2==""){
+				choices[0].choice2=words[randAnimal].solution;
+				words[randAnimal].solution="";
+				btn2.id=randAnimal;
+			}
+			if(chooseBtn==2 && choices[0].choice3==""){
+				choices[0].choice3=words[randAnimal].solution;
+				words[randAnimal].solution="";
+				btn3.id=randAnimal;
+			}
+		}
+		btn1.text.text=choices[0].choice1;
+		btn2.text.text=choices[0].choice2;
+		btn3.text.text=choices[0].choice3;
+		
+		animal.spine.destroy();
+		animal.spine=game.add.spine(-400,game.world.height/1.3,animalVariant);
+		animal.spine.setSkinByName(skinCorrect);
+		animal.spine.setAnimationByName(0,"idle",true);
+		animalGroup.add(animal.spine);
+		if(level<5){
+			sound.play(animals[correctAnimal].skinAndSound);
+		}
+		game.add.tween(animal.spine).to({x:game.world.centerX-20,y:game.world.height/1.3},1050,Phaser.Easing.linearIn,true).onComplete.add(function(){
+			game.add.tween(UIGroup).to({alpha:1}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+				startTimer(timer)
+				blockButton=false;
+			});	
+		});
+	}
  
     
     function reset(){
-            
+		
+		for(var resetWords=0;resetWords<animals.length; resetWords++){
+			words[resetWords].solution=animals[resetWords].solution;
+		}
+		choices[0].choice1="";
+		choices[0].choice2="";
+		choices[0].choice3="";
+		game.add.tween(UIGroup).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,500);
+		game.add.tween(animal.spine).to({x:game.world.width+400,y:game.world.height/1.3},1050,Phaser.Easing.linearIn,true,1000).onComplete.add(function(){
+			bar.textAnswer.text="";
+			nextLevelAndDificulty(level)
+			if(!tutorial)positionTimer()
+		});
             
     }
     
@@ -586,6 +960,7 @@ var upRoar = function(){
 	return {
 		
 		assets: assets,
+		localizationData: localizationData,
 		name: "upRoar",
         preload:preload,
         update:update,

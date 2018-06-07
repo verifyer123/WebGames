@@ -103,7 +103,9 @@ var washClash = function(){
 			{   name:"crowd",
 				file: soundsPath + 'cheers.mp3'},
 			{   name:"grow",
-				file: soundsPath + 'robotWhoosh.mp3'}
+				file: soundsPath + 'robotWhoosh.mp3'},
+			{   name:"splash",
+				file: soundsPath + 'splash.mp3'}
 			
 		],
         jsons: [
@@ -710,8 +712,9 @@ var washClash = function(){
 		
 		if(holding && actualSoap.scale.x<2.0){
 			actualSoap.scale.setTo(actualSoap.scale.x+0.02,actualSoap.scale.y+0.02)
-			//sound.play("grow");
+			sound.play("grow");
 		}else{
+			
 			holding=false;
 		}
 		for(var existingSoaps=0; existingSoaps<soap.length; existingSoaps++){
@@ -794,6 +797,7 @@ var washClash = function(){
 				obj2.spine.setAnimationByName(0, "hit", false);
 				obj1.spine.setAnimationByName(0, "hit", false);
 				isColliding=true;
+				sound.play("splash")
 			}
 			
 			//choque baja escala a jabon si no esta creciendo

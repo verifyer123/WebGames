@@ -48,7 +48,8 @@ var sceneloader = function(){
 
 
 	function preload(scenes, callbacks){
-		var inputDevice = game.device.desktop ? "desktop" : "movil"
+		var inputDevice = game.device.desktop ? "desktop" : "movil";
+		var language = localization.getLanguage();
 
 		currentLoader = createNewLoader(callbacks)
 		buttons.getImages(currentLoader)
@@ -84,10 +85,16 @@ var sceneloader = function(){
 					for(var indexImage = 0; indexImage < assets.images.length; indexImage++){
 						var currentImage = assets.images[indexImage]
 						var file = currentImage.file
+						
+						if(file.includes("%lang")) {
+							var re = /%lang/gi;
+							file = file.replace(re, language);
+							file = localization.getString(currentScene.localizationData, currentImage.name)
+						}
+						
 						if(file.includes("%input")) {
 							var re = /%input/gi;
 							file = file.replace(re, inputDevice);
-							console.log("file", file)
 						}
 						currentLoader.image(currentImage.name, file)
 					}
