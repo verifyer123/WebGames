@@ -78,6 +78,7 @@ var pinDot = function(){
     var animationGroup
     var blackCenter
     var tile
+    var spaceBar
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -379,9 +380,21 @@ var pinDot = function(){
                 moveDot()
             }
         }
-        else{
+        
+
+        if(spaceBar.isDown){
+            if(canTap){
+                moveDot()
+                canTap = false
+            }
+        }
+
+         if(!spaceBar.isDown && !game.input.activePointer.isDown){
+            console.log("dyasfsakudvk")
             canTap = true
         }
+
+
 
     }
 
@@ -756,6 +769,8 @@ var pinDot = function(){
 			
 	        game.sound.mute = false
 	    }, this);
+
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createPointsBar()
         createHearts()
