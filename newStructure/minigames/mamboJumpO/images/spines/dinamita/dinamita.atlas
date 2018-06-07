@@ -1,0 +1,118 @@
+
+dinamita.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/armL_a
+  rotate: true
+  xy: 80, 26
+  size: 85, 61
+  orig: 85, 61
+  offset: 0, 0
+  index: -1
+normal/armL_b
+  rotate: false
+  xy: 2, 14
+  size: 76, 97
+  orig: 76, 97
+  offset: 0, 0
+  index: -1
+normal/armR_a
+  rotate: false
+  xy: 125, 216
+  size: 74, 78
+  orig: 74, 78
+  offset: 0, 0
+  index: -1
+normal/armR_b
+  rotate: true
+  xy: 260, 377
+  size: 76, 91
+  orig: 76, 91
+  offset: 0, 0
+  index: -1
+normal/arm_b
+  rotate: true
+  xy: 394, 388
+  size: 55, 79
+  orig: 55, 79
+  offset: 0, 0
+  index: -1
+normal/belt
+  rotate: false
+  xy: 197, 296
+  size: 58, 28
+  orig: 58, 28
+  offset: 0, 0
+  index: -1
+normal/hat
+  rotate: false
+  xy: 125, 296
+  size: 70, 79
+  orig: 70, 79
+  offset: 0, 0
+  index: -1
+normal/head_a
+  rotate: false
+  xy: 137, 378
+  size: 121, 125
+  orig: 121, 125
+  offset: 0, 0
+  index: -1
+normal/head_b
+  rotate: false
+  xy: 2, 240
+  size: 121, 135
+  orig: 121, 135
+  offset: 0, 0
+  index: -1
+normal/head_c
+  rotate: false
+  xy: 2, 113
+  size: 121, 125
+  orig: 121, 125
+  offset: 0, 0
+  index: -1
+normal/head_d
+  rotate: false
+  xy: 2, 377
+  size: 133, 126
+  orig: 133, 126
+  offset: 0, 0
+  index: -1
+normal/leg_a
+  rotate: false
+  xy: 197, 326
+  size: 56, 50
+  orig: 56, 50
+  offset: 0, 0
+  index: -1
+normal/leg_b
+  rotate: true
+  xy: 353, 388
+  size: 65, 39
+  orig: 65, 39
+  offset: 0, 0
+  index: -1
+normal/shadow
+  rotate: false
+  xy: 260, 455
+  size: 134, 48
+  orig: 134, 48
+  offset: 0, 0
+  index: -1
+normal/torso_a
+  rotate: false
+  xy: 125, 144
+  size: 67, 70
+  orig: 67, 70
+  offset: 0, 0
+  index: -1
+normal/torso_b
+  rotate: true
+  xy: 396, 445
+  size: 58, 107
+  orig: 58, 107
+  offset: 0, 0
+  index: -1
