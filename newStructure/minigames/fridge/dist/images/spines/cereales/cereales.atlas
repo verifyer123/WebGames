@@ -1,0 +1,41 @@
+
+cereales.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cereales/cereales1
+  rotate: false
+  xy: 141, 120
+  size: 142, 126
+  orig: 142, 126
+  offset: 0, 0
+  index: -1
+cereales/cereales2
+  rotate: false
+  xy: 2, 2
+  size: 142, 106
+  orig: 142, 106
+  offset: 0, 0
+  index: -1
+cereales/cereales3
+  rotate: false
+  xy: 146, 20
+  size: 142, 98
+  orig: 142, 98
+  offset: 0, 0
+  index: -1
+cereales/cereales4
+  rotate: false
+  xy: 285, 124
+  size: 142, 122
+  orig: 142, 122
+  offset: 0, 0
+  index: -1
+cereales/cereales5
+  rotate: false
+  xy: 2, 110
+  size: 137, 136
+  orig: 137, 136
+  offset: 0, 0
+  index: -1

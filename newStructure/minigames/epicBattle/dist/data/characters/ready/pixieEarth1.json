@@ -1,0 +1,43 @@
+{
+	"disable":true,
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "explosionEarth3",
+				"attachment": "particle2",
+				"delay": 400,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "earthBlaster1",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/pixie/pixieEarth1/pixieEarth1.json",
+	"name": "Dríades",
+	"spine": {
+		"options": {
+			"scale": 0.55,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/pixieEarth1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "earth"
+	},
+	"visuals": {
+		"shadowScaleX": 0.5,
+		"shadowY": 5,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

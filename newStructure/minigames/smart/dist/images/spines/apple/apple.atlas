@@ -1,0 +1,62 @@
+
+apple.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/apple_a
+  rotate: false
+  xy: 104, 5
+  size: 92, 86
+  orig: 92, 86
+  offset: 0, 0
+  index: -1
+normal/apple_b
+  rotate: false
+  xy: 198, 5
+  size: 92, 86
+  orig: 92, 86
+  offset: 0, 0
+  index: -1
+normal/apple_c
+  rotate: false
+  xy: 292, 4
+  size: 91, 87
+  orig: 91, 87
+  offset: 0, 0
+  index: -1
+normal/apple_d
+  rotate: false
+  xy: 2, 4
+  size: 100, 87
+  orig: 100, 87
+  offset: 0, 0
+  index: -1
+normal/leaf_a
+  rotate: false
+  xy: 441, 11
+  size: 45, 38
+  orig: 45, 38
+  offset: 0, 0
+  index: -1
+normal/leaf_b
+  rotate: false
+  xy: 441, 51
+  size: 49, 40
+  orig: 49, 40
+  offset: 0, 0
+  index: -1
+normal/leaf_c
+  rotate: false
+  xy: 385, 2
+  size: 48, 40
+  orig: 48, 40
+  offset: 0, 0
+  index: -1
+normal/leaf_d
+  rotate: false
+  xy: 385, 44
+  size: 54, 47
+  orig: 54, 47
+  offset: 0, 0
+  index: -1

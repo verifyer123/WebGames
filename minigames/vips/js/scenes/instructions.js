@@ -66,11 +66,13 @@ var instructions = function(){
             
         })
         
-		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
+		/*console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
         mixpanel.track(
             "enterGame",
             {"gameName": "vips","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("vips","enterGame")
 		
 	}
     
@@ -140,10 +142,12 @@ var instructions = function(){
 
 	function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "vips","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("vips","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

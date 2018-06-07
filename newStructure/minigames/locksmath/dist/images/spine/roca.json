@@ -1,0 +1,102 @@
+{
+"skeleton": { "hash": "i1Y+AWhDzpi2Wf+uxFtdSKnD48k", "spine": "2.1.27", "width": 346.5, "height": 334.5, "images": "" },
+"bones": [
+	{ "name": "root", "scaleX": 1.5, "scaleY": 1.5 }
+],
+"slots": [
+	{ "name": "rocas", "bone": "root", "attachment": "rocas/roca-22" }
+],
+"skins": {
+	"default": {},
+	"normal": {
+		"rocas": {
+			"rocas/roca-22": { "width": 231, "height": 223 },
+			"rocas/rocas-40": { "width": 234, "height": 232 },
+			"rocas/rocas-41": { "width": 231, "height": 225 },
+			"rocas/rocas-42": { "width": 230, "height": 223 }
+		}
+	}
+},
+"animations": {
+	"IDLE": {
+		"slots": {
+			"rocas": {
+				"attachment": [
+					{ "time": 0, "name": "rocas/roca-22" },
+					{ "time": 0.1666, "name": "rocas/rocas-40" },
+					{ "time": 0.3333, "name": "rocas/rocas-41" },
+					{ "time": 0.5, "name": "rocas/rocas-42" },
+					{ "time": 0.6666, "name": "rocas/rocas-41" },
+					{ "time": 0.8333, "name": "rocas/rocas-40" },
+					{ "time": 1, "name": "rocas/roca-22" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{
+						"time": 0,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.922, -0.38, 0.964, 1 ]
+					},
+					{
+						"time": 0.5,
+						"x": 0,
+						"y": -10.14,
+						"curve": [ 0.922, -0.38, 0.964, 1 ]
+					},
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.422, -1.14, 0.939, 1 ]
+					},
+					{
+						"time": 0.1666,
+						"x": 1,
+						"y": 0.987,
+						"curve": [ 0.422, -1.14, 0.939, 1 ]
+					},
+					{
+						"time": 0.3333,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.121, -0.48, 0.939, 1 ]
+					},
+					{
+						"time": 0.5,
+						"x": 1,
+						"y": 0.987,
+						"curve": [ 0.369, -0.52, 0.939, 1 ]
+					},
+					{
+						"time": 0.6666,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.369, -0.52, 0.939, 1 ]
+					},
+					{
+						"time": 0.8333,
+						"x": 1,
+						"y": 0.987,
+						"curve": [ 0.971, -0.46, 0.939, 1 ]
+					},
+					{ "time": 1, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1 }
+		]
+	}
+}
+}

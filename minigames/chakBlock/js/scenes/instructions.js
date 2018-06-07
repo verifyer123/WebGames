@@ -68,10 +68,11 @@ var instructions = function(){
         })
         
 		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "chakBlock","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+        amazing.setMixPanelTrack("chakBlock","enterGame")
 		
 	}
     
@@ -141,10 +142,11 @@ var instructions = function(){
 
 	function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "chakBlock","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+        amazing.setMixPanelTrack("chakBlock","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

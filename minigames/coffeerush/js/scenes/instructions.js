@@ -32,16 +32,12 @@ var instructions = function(){
         var game = sceneGroup.game
 		var circleGroup = new Phaser.Group(sceneGroup.game)
         
-        var platform = 'click'
         
-        if(game.device.desktop == false){
-            platform = 'tap'
-        }
         
-        var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
-        instruction.anchor.setTo(0.5,0.5)
+        //var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
+        //instruction.anchor.setTo(0.5,0.5)
         
-        var button = circleGroup.create(0,instruction.height * 0.34,'atlas.instructions','inst-'+ platform)
+        var button = circleGroup.create(0,0,'inst')
         button.anchor.setTo(0.5,0.5)
 
 		return circleGroup
@@ -70,10 +66,12 @@ var instructions = function(){
         })
         
 		console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "coffeerush","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("coffeerush","enterGame")
 		
 	}
     
@@ -143,10 +141,11 @@ var instructions = function(){
 
 	function initialize(){
       
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "coffeerush","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+        amazing.setMixPanelTrack("coffeerush","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}
@@ -155,6 +154,13 @@ var instructions = function(){
 		
 		loadSounds()
 		popAudio = new Audio(soundsPath + "pop.mp3")
+        var platform = 'click'
+        
+        if(game.device.desktop == false){
+            platform = 'tap'
+        }
+
+        game.load.image('inst','images/instructions/inst-'+platform+'.png')
     
 	}
 	

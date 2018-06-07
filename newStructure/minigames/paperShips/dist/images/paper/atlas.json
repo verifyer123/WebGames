@@ -1,0 +1,174 @@
+{"frames": [
+
+{
+	"filename": "board",
+	"frame": {"x":531,"y":1,"w":495,"h":751},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":495,"h":751},
+	"sourceSize": {"w":502,"h":752},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "button",
+	"frame": {"x":948,"y":880,"w":129,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
+	"sourceSize": {"w":129,"h":114},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "desktop",
+	"frame": {"x":244,"y":808,"w":134,"h":98},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":98},
+	"sourceSize": {"w":134,"h":98},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "drops",
+	"frame": {"x":87,"y":933,"w":65,"h":62},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":62},
+	"sourceSize": {"w":65,"h":62},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "gametuto",
+	"frame": {"x":531,"y":754,"w":415,"h":252},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":415,"h":252},
+	"sourceSize": {"w":415,"h":252},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "heart",
+	"frame": {"x":244,"y":908,"w":114,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":90},
+	"sourceSize": {"w":114,"h":90},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hit",
+	"frame": {"x":154,"y":933,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "movil",
+	"frame": {"x":380,"y":808,"w":123,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":123,"h":114},
+	"sourceSize": {"w":123,"h":114},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "okbutton",
+	"frame": {"x":1,"y":808,"w":241,"h":123},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":241,"h":123},
+	"sourceSize": {"w":241,"h":123},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "pond",
+	"frame": {"x":1,"y":1,"w":528,"h":805},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":528,"h":805},
+	"sourceSize": {"w":528,"h":805},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "rock",
+	"frame": {"x":948,"y":754,"w":129,"h":124},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":124},
+	"sourceSize": {"w":129,"h":124},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ship_side",
+	"frame": {"x":1,"y":933,"w":84,"h":51},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":51},
+	"sourceSize": {"w":84,"h":51},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ship_top",
+	"frame": {"x":1028,"y":1,"w":45,"h":88},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":88},
+	"sourceSize": {"w":45,"h":88},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":1028,"y":164,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "token",
+	"frame": {"x":1028,"y":91,"w":48,"h":71},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":71},
+	"sourceSize": {"w":48,"h":71},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wave",
+	"frame": {"x":360,"y":967,"w":63,"h":36},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":36},
+	"sourceSize": {"w":63,"h":36},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":1028,"y":230,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":360,"y":924,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1093,"h":1007},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ad43bbd74d813b34e9b8f84fbef05a2e:962e0fe31815bd1f0b028eba5db0bc1c:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}

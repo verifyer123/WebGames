@@ -40,17 +40,18 @@ export class Login extends React.Component {
 		$('#loadSpace').css("display", "block")
 
 		function onError() {
-			console.log("error")
+			//console.log("error")
 			Login.onError(localization.getString("pinNicknameError"))
 			$('#loadSpace').css("display", "none")
 		}
 
 		function onSuccess(response) {
-			console.log("success")
+			//console.log("success")
 			$('#loadSpace').css("display", "none")
 			this.props.setChildData(response.child)
 			this.props.addChildData("subscribed", response.subscribed)
 			this.props.addChildData("daysToExpire", response.daysToExpire)
+			this.props.addChildData("isTrial", response.isTrial)
 			this.props.handleClick("continue")
 		}
 

@@ -1,0 +1,111 @@
+
+forest.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/bigbush
+  rotate: true
+  xy: 744, 579
+  size: 443, 142
+  orig: 443, 142
+  offset: 0, 0
+  index: -1
+normal1/book
+  rotate: false
+  xy: 2, 454
+  size: 594, 568
+  orig: 594, 568
+  offset: 0, 0
+  index: -1
+normal1/bush_1
+  rotate: false
+  xy: 888, 640
+  size: 65, 66
+  orig: 65, 66
+  offset: 0, 0
+  index: -1
+normal1/bush_2
+  rotate: false
+  xy: 888, 585
+  size: 53, 53
+  orig: 53, 53
+  offset: 0, 0
+  index: -1
+normal1/bush_3
+  rotate: false
+  xy: 517, 264
+  size: 69, 70
+  orig: 69, 70
+  offset: 0, 0
+  index: -1
+normal1/bush_4
+  rotate: false
+  xy: 948, 845
+  size: 49, 50
+  orig: 49, 50
+  offset: 0, 0
+  index: -1
+normal1/cloud_1
+  rotate: true
+  xy: 517, 336
+  size: 116, 83
+  orig: 116, 83
+  offset: 0, 0
+  index: -1
+normal1/cloud_2
+  rotate: false
+  xy: 744, 496
+  size: 116, 81
+  orig: 116, 81
+  offset: 0, 0
+  index: -1
+normal1/extra_pages
+  rotate: false
+  xy: 2, 2
+  size: 522, 183
+  orig: 522, 183
+  offset: 0, 0
+  index: -1
+normal1/floor
+  rotate: true
+  xy: 598, 500
+  size: 522, 144
+  orig: 522, 144
+  offset: 0, 0
+  index: -1
+normal1/low_label
+  rotate: true
+  xy: 948, 897
+  size: 125, 39
+  orig: 125, 39
+  offset: 0, 0
+  index: -1
+normal1/mountains
+  rotate: false
+  xy: 2, 187
+  size: 441, 265
+  orig: 441, 265
+  offset: 0, 0
+  index: -1
+normal1/pine_l
+  rotate: false
+  xy: 445, 224
+  size: 70, 228
+  orig: 70, 228
+  offset: 0, 0
+  index: -1
+normal1/pine_r
+  rotate: false
+  xy: 888, 833
+  size: 58, 189
+  orig: 58, 189
+  offset: 0, 0
+  index: -1
+normal1/top_label
+  rotate: true
+  xy: 888, 708
+  size: 123, 49
+  orig: 123, 49
+  offset: 0, 0
+  index: -1

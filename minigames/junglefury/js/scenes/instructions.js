@@ -76,10 +76,12 @@ var instructions = function(){
             
         })
         
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "junglefury","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("junglefury","enterGame")
 		
 	}
     
@@ -149,10 +151,12 @@ var instructions = function(){
 
 	function initialize(){
         loadSounds()
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "junglefury","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("junglefury","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"

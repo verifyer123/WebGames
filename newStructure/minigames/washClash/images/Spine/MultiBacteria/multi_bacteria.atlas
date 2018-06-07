@@ -1,0 +1,90 @@
+
+multi_bacteria.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/body3_a
+  rotate: false
+  xy: 2, 323
+  size: 206, 145
+  orig: 206, 145
+  offset: 0, 0
+  index: -1
+normal/body3_b
+  rotate: false
+  xy: 2, 222
+  size: 143, 99
+  orig: 143, 99
+  offset: 0, 0
+  index: -1
+normal/body3_c
+  rotate: false
+  xy: 210, 360
+  size: 97, 108
+  orig: 97, 108
+  offset: 0, 0
+  index: -1
+normal/body3_d
+  rotate: false
+  xy: 2, 66
+  size: 82, 70
+  orig: 82, 70
+  offset: 0, 0
+  index: -1
+normal/face3_a1
+  rotate: false
+  xy: 309, 405
+  size: 96, 63
+  orig: 96, 63
+  offset: 0, 0
+  index: -1
+normal/face3_a2
+  rotate: false
+  xy: 210, 330
+  size: 62, 28
+  orig: 63, 29
+  offset: 0, 1
+  index: -1
+normal/face3_a3
+  rotate: false
+  xy: 2, 17
+  size: 57, 47
+  orig: 57, 47
+  offset: 0, 0
+  index: -1
+normal/face3_a4
+  rotate: true
+  xy: 108, 166
+  size: 54, 25
+  orig: 55, 25
+  offset: 1, 0
+  index: -1
+normal/face3_b1
+  rotate: false
+  xy: 2, 138
+  size: 104, 82
+  orig: 104, 83
+  offset: 0, 1
+  index: -1
+normal/face3_b2
+  rotate: false
+  xy: 407, 420
+  size: 61, 48
+  orig: 61, 49
+  offset: 0, 1
+  index: -1
+normal/face3_b3
+  rotate: true
+  xy: 147, 246
+  size: 75, 59
+  orig: 75, 60
+  offset: 0, 1
+  index: -1
+normal/face3_b4
+  rotate: false
+  xy: 309, 364
+  size: 49, 39
+  orig: 49, 40
+  offset: 0, 1
+  index: -1

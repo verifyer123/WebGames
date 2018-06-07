@@ -1,0 +1,27 @@
+
+jumper.png
+size: 128,32
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/1
+  rotate: false
+  xy: 2, 9
+  size: 58, 17
+  orig: 58, 17
+  offset: 0, 0
+  index: -1
+normal/2
+  rotate: false
+  xy: 62, 6
+  size: 33, 20
+  orig: 33, 20
+  offset: 0, 0
+  index: -1
+normal/3
+  rotate: false
+  xy: 2, 2
+  size: 51, 5
+  orig: 51, 5
+  offset: 0, 0
+  index: -1

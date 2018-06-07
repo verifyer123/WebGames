@@ -73,17 +73,20 @@ export class Register extends React.Component {
 	enterPassword(email, password){
 		$('#loadSpace').css("display", "block")
 		function onSuccess(response) {
-			console.log(response)
+			//console.log(response)
 			var children = response.children
-			console.log(children)
+			//console.log(children)
 			if((children)&&(children.length > 1)) {
 				this.props.setChildData({parentMail: email})
 				this.props.onNext("players", children)
 			}
-			else{
+			else if((response.child)||(children)){
 				let child = children ? children[0] : response.child
 				this.props.setChildData(child)
 				this.props.onNext("nickname", this.registerType)
+			}else{
+				this.props.setChildData({parentMail: email})
+				this.props.onNext("nickname", "newChild")
 			}
 
 			$('#loadSpace').css("display", "none")

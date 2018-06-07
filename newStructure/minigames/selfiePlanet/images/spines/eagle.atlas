@@ -1,0 +1,139 @@
+
+eagle.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/eye_l
+  rotate: false
+  xy: 135, 206
+  size: 79, 57
+  orig: 79, 57
+  offset: 0, 0
+  index: -1
+normal/eye_l_sad
+  rotate: false
+  xy: 135, 185
+  size: 70, 19
+  orig: 70, 19
+  offset: 0, 0
+  index: -1
+normal/eye_r
+  rotate: false
+  xy: 2, 34
+  size: 79, 61
+  orig: 79, 61
+  offset: 0, 0
+  index: -1
+normal/eye_r_sad
+  rotate: false
+  xy: 2, 2
+  size: 62, 30
+  orig: 62, 30
+  offset: 0, 0
+  index: -1
+normal/eyebrow_l
+  rotate: false
+  xy: 651, 792
+  size: 69, 31
+  orig: 69, 31
+  offset: 0, 0
+  index: -1
+normal/eyebrow_l_sad
+  rotate: false
+  xy: 571, 648
+  size: 69, 32
+  orig: 69, 32
+  offset: 0, 0
+  index: -1
+normal/eyebrow_r
+  rotate: false
+  xy: 345, 453
+  size: 63, 43
+  orig: 63, 43
+  offset: 0, 0
+  index: -1
+normal/eyebrow_r_sad
+  rotate: false
+  xy: 494, 587
+  size: 54, 52
+  orig: 54, 52
+  offset: 0, 0
+  index: -1
+normal/hand_l
+  rotate: false
+  xy: 355, 526
+  size: 137, 113
+  orig: 137, 113
+  offset: 0, 0
+  index: -1
+normal/hand_r
+  rotate: false
+  xy: 2, 265
+  size: 212, 231
+  orig: 212, 231
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 2, 498
+  size: 351, 325
+  orig: 351, 325
+  offset: 0, 0
+  index: -1
+normal/highlights_helmet
+  rotate: false
+  xy: 571, 682
+  size: 78, 141
+  orig: 78, 141
+  offset: 0, 0
+  index: -1
+normal/leg_l
+  rotate: false
+  xy: 2, 97
+  size: 131, 166
+  orig: 131, 166
+  offset: 0, 0
+  index: -1
+normal/leg_r
+  rotate: true
+  xy: 216, 346
+  size: 150, 127
+  orig: 150, 127
+  offset: 0, 0
+  index: -1
+normal/mouth
+  rotate: false
+  xy: 355, 498
+  size: 87, 26
+  orig: 87, 26
+  offset: 0, 0
+  index: -1
+normal/mouth_sad
+  rotate: false
+  xy: 216, 305
+  size: 91, 39
+  orig: 91, 39
+  offset: 0, 0
+  index: -1
+normal/pupil_l
+  rotate: false
+  xy: 83, 80
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+normal/pupil_r
+  rotate: false
+  xy: 216, 289
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+normal/torzo
+  rotate: false
+  xy: 355, 641
+  size: 214, 182
+  orig: 214, 182
+  offset: 0, 0
+  index: -1

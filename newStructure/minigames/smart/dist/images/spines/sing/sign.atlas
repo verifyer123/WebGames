@@ -1,0 +1,69 @@
+
+sign.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/cubel
+  rotate: true
+  xy: 718, 79
+  size: 25, 40
+  orig: 25, 40
+  offset: 0, 0
+  index: -1
+normal/cuber
+  rotate: true
+  xy: 652, 54
+  size: 26, 41
+  orig: 26, 41
+  offset: 0, 0
+  index: -1
+normal/cubet
+  rotate: true
+  xy: 615, 2
+  size: 47, 33
+  orig: 47, 33
+  offset: 0, 0
+  index: -1
+normal/empty
+  rotate: false
+  xy: 615, 51
+  size: 35, 53
+  orig: 35, 53
+  offset: 0, 0
+  index: -1
+normal/sign
+  rotate: false
+  xy: 156, 3
+  size: 152, 101
+  orig: 152, 101
+  offset: 0, 0
+  index: -1
+normal/sign_b
+  rotate: false
+  xy: 2, 2
+  size: 152, 102
+  orig: 152, 102
+  offset: 0, 0
+  index: -1
+normal/sign_c
+  rotate: false
+  xy: 464, 6
+  size: 149, 98
+  orig: 149, 98
+  offset: 0, 0
+  index: -1
+normal/sing_a
+  rotate: false
+  xy: 310, 3
+  size: 152, 101
+  orig: 152, 101
+  offset: 0, 0
+  index: -1
+normal/stick
+  rotate: true
+  xy: 652, 82
+  size: 22, 64
+  orig: 22, 64
+  offset: 0, 0
+  index: -1

@@ -38,7 +38,7 @@ var preloaderIntro = function(){
 			var logo = sceneGroup.create(game.world.centerX, game.world.centerY, 'logo')
 			logo.anchor.setTo(0.5, 0.5)
             logo.scale.setTo(0);
-             game.add.tween(logo.scale).to({x:0.5,y:0.5},400, Phaser.Easing.Back.Out,true)
+             game.add.tween(logo.scale).to({x:0.4,y:0.4},400, Phaser.Easing.Back.Out,true)
 
 			var loadingGroup = new Phaser.Group(game)
 			sceneGroup.add(loadingGroup)

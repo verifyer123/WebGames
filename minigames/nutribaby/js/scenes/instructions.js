@@ -75,10 +75,12 @@ var instructions = function(){
             
         })
         
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "nutribaby","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("nutribaby","enterGame")
 		
 	}
     
@@ -148,10 +150,12 @@ var instructions = function(){
 
 	function initialize(){
         loadSounds()
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "nutribaby","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("nutribaby","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"

@@ -1,0 +1,27 @@
+
+arm.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/arm
+  rotate: false
+  xy: 2, 82
+  size: 85, 39
+  orig: 85, 39
+  offset: 0, 0
+  index: -1
+normal2/forearm
+  rotate: false
+  xy: 89, 31
+  size: 32, 90
+  orig: 32, 90
+  offset: 0, 0
+  index: -1
+normal2/hand
+  rotate: false
+  xy: 2, 21
+  size: 50, 59
+  orig: 50, 59
+  offset: 0, 0
+  index: -1

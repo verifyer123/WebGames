@@ -6,133 +6,175 @@ filter: Linear,Linear
 repeat: none
 normal1/bush_1
   rotate: false
-  xy: 2, 2
+  xy: 2, 46
   size: 32, 29
   orig: 32, 29
   offset: 0, 0
   index: -1
 normal1/flower_1
   rotate: false
-  xy: 960, 864
+  xy: 960, 983
   size: 42, 19
   orig: 42, 19
   offset: 0, 0
   index: -1
 normal1/flower_2
   rotate: false
-  xy: 764, 786
+  xy: 764, 809
   size: 35, 31
   orig: 35, 31
   offset: 0, 0
   index: -1
+normal1/trash1
+  rotate: false
+  xy: 764, 881
+  size: 53, 55
+  orig: 53, 55
+  offset: 0, 0
+  index: -1
+normal1/trash2
+  rotate: false
+  xy: 2, 109
+  size: 42, 41
+  orig: 42, 41
+  offset: 0, 0
+  index: -1
+normal1/trash3
+  rotate: false
+  xy: 819, 889
+  size: 29, 47
+  orig: 29, 47
+  offset: 0, 0
+  index: -1
+normal1/trash4
+  rotate: true
+  xy: 46, 125
+  size: 25, 43
+  orig: 25, 43
+  offset: 0, 0
+  index: -1
+normal1/trash5
+  rotate: false
+  xy: 2, 77
+  size: 41, 30
+  orig: 41, 30
+  offset: 0, 0
+  index: -1
+normal1/trash6
+  rotate: false
+  xy: 764, 842
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: -1
 normal1/water
   rotate: false
-  xy: 2, 503
+  xy: 2, 622
   size: 379, 380
   orig: 379, 380
   offset: 0, 0
   index: -1
 normal1/wave_1
   rotate: false
-  xy: 198, 99
+  xy: 198, 218
   size: 95, 20
   orig: 95, 20
   offset: 0, 0
   index: -1
 normal1/wave_2
   rotate: false
-  xy: 2, 99
+  xy: 2, 218
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal1/wave_3
   rotate: false
-  xy: 764, 863
+  xy: 764, 982
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal2/water
   rotate: false
-  xy: 2, 121
+  xy: 2, 240
   size: 379, 380
   orig: 379, 380
   offset: 0, 0
   index: -1
 normal2/wave_1
   rotate: false
-  xy: 764, 819
+  xy: 764, 938
   size: 95, 20
   orig: 95, 20
   offset: 0, 0
   index: -1
 normal2/wave_2
   rotate: false
-  xy: 2, 77
+  xy: 2, 196
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal2/wave_3
   rotate: false
-  xy: 100, 99
+  xy: 100, 218
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal3/water
   rotate: false
-  xy: 383, 503
+  xy: 383, 622
   size: 379, 380
   orig: 379, 380
   offset: 0, 0
   index: -1
 normal3/wave_1
   rotate: false
-  xy: 862, 841
+  xy: 862, 960
   size: 95, 20
   orig: 95, 20
   offset: 0, 0
   index: -1
 normal3/wave_2
   rotate: false
-  xy: 764, 841
+  xy: 764, 960
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal3/wave_3
   rotate: false
-  xy: 862, 863
+  xy: 862, 982
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal4/water
   rotate: false
-  xy: 383, 121
+  xy: 383, 240
   size: 379, 380
   orig: 379, 380
   offset: 0, 0
   index: -1
 normal4/wave_1
   rotate: false
-  xy: 2, 33
+  xy: 2, 152
   size: 95, 20
   orig: 95, 20
   offset: 0, 0
   index: -1
 normal4/wave_2
   rotate: false
-  xy: 2, 55
+  xy: 2, 174
   size: 96, 20
   orig: 96, 20
   offset: 0, 0
   index: -1
 normal4/wave_3
   rotate: false
-  xy: 100, 77
+  xy: 100, 196
   size: 96, 20
   orig: 96, 20
   offset: 0, 0

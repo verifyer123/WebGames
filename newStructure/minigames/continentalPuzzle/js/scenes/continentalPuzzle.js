@@ -33,7 +33,7 @@ var continentalPuzzle = function(){
 
         ],
         images: [
-
+            
 		],
 		sounds: [
             {	name: "magic",
@@ -50,6 +50,12 @@ var continentalPuzzle = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "energy",
 				file: soundsPath + "energyCharge2.mp3"},
+		],
+        spines:[
+			{
+				name:"banner",
+				file:"images/spines/banner.json"
+			}
 		]
     }
     
@@ -66,7 +72,6 @@ var continentalPuzzle = function(){
     var buttonGroup
     var rnd
     var banner
-    var nameGroup
     var contiName
     var fontStyle
     var index
@@ -77,6 +82,8 @@ var continentalPuzzle = function(){
     var flyingCloud
     var colors = [0xffff00, 0x00ffff, 0xff00ff, 0xff0000]
     var playTuto = true
+    var fakeCloud
+    var bannerText
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -137,8 +144,10 @@ var continentalPuzzle = function(){
     function rotateImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].angle = 0
+            group.children[i].scale.setTo(1)
             if( i == index){
                 group.children[i].angle = game.rnd.integerInRange(1, 7) * 45
+                group.children[i].scale.setTo(0.8)
             }
         }
     } 
@@ -283,8 +292,6 @@ var continentalPuzzle = function(){
     
     function preload(){
         
-		
-		
         game.stage.disableVisibilityChange = false;
         
         game.load.audio('continentSong', soundsPath + 'songs/the_buildup.mp3');
@@ -303,8 +310,6 @@ var continentalPuzzle = function(){
         game.load.image('clouds',"images/continentalPuzzle/clouds.png")
         
         game.load.spritesheet("coin", 'images/spines/coin.png', 122, 123, 12)
-        game.load.spritesheet("IDLE", 'images/spines/576 × 236_40f_24fps_idle.png', 576, 236, 40)
-        game.load.spritesheet("WIN", 'images/spines/576 × 245_26f_24fps_win.png', 576, 245, 26)
 		
 		console.log(localization.getLanguage() + ' language')
 
@@ -382,16 +387,14 @@ var continentalPuzzle = function(){
 
     function onClickPlay(rect){
         
-        
         overlayGroup.y = -game.world.height
         if(playTuto)
             initTuto()
         else{
             buttonGroup.alpha = 1
             buttonGroup.setAll('inputEnabled', true)
-            nameGroup.setAll('alpha', 0)
-            banner.loadTexture('IDLE', 0, true)
-            banner.play('IDLE')
+            bannerText.alpha = 0
+            banner.setAnimationByName(0, "idle", true)
             handsGroup.alpha = 1
             posHand(buttonGroup.children[2])
             initGame()
@@ -410,7 +413,7 @@ var continentalPuzzle = function(){
     }
 
 	function update(){
-        //tutorialUpdate()
+        
         if (game.input.activePointer.isDown && gameActive){
           var x = game.input.x - cloudBitmap.x
           var y = game.input.y - cloudBitmap.y
@@ -642,27 +645,37 @@ var continentalPuzzle = function(){
     
     function flag(){
         
-        banner = game.add.sprite(game.world.centerX, game.world.height - 220, 'IDLE')
-        banner.anchor.setTo(0.5)
-        banner.animations.add('IDLE', null, 24, true)
-        banner.animations.add('WIN', null, 24, true)
+        banner = game.add.spine(game.world.centerX, game.world.height - 60, "banner")
+        banner.setAnimationByName(0, "idle", true)
+        banner.setSkinByName("normal")
         sceneGroup.add(banner)
-                
-        banner.play('IDLE')
         
-        nameGroup = game.add.group()
-        sceneGroup.add(nameGroup)
+        bannerText = new Phaser.Text(sceneGroup.game, 0, 0, '0', fontStyle)
+        bannerText.anchor.setTo(0.5)
+        bannerText.alpha = 0
+        bannerText.setText(contiName[1])
+        sceneGroup.add(bannerText)
         
-        for(var c = 0; c < 6; c++){
-            var name = new Phaser.Text(sceneGroup.game, 0, 0, '0', fontStyle)
-            name.anchor.setTo(0.5)
-            name.y = banner.y - 10
-            name.x = banner.x
-            name.alpha = 0
-            name.setText(contiName[c])
-            nameGroup.add(name)
-        }
+        var slot
+        
+        slot = getSpineSlot(banner, "empty")
+        slot.add(bannerText)
     }
+    
+    function getSpineSlot(spine, slotName){
+		
+		var slotIndex
+		for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
+			var slotData = spine.skeletonData.slots[index]
+			if(slotData.name === slotName){
+				slotIndex = index
+			}
+		}
+
+		if (slotIndex){
+			return spine.slotContainers[slotIndex]
+		}
+	}
     
     function buttonnes(){
         
@@ -673,7 +686,7 @@ var continentalPuzzle = function(){
         var aux = -1
         
         for(var b = 0; b < 3; b++){
-            var btn = buttonGroup.create(game.world.centerX + 170 * aux, game.world.height - 100, "atlas.continentalPuzzle", "btn" + b)
+            var btn = buttonGroup.create(game.world.centerX + 170 * aux, game.world.height - 80, "atlas.continentalPuzzle", "btn" + b)
             btn.anchor.setTo(0.5)
             btn.option = b
             btn.inputEnabled = false
@@ -688,8 +701,7 @@ var continentalPuzzle = function(){
             game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
             {
                 options(btn.option)
-                game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true).onComplete.add(function(){
-                })
+                game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
             })
         }
         if(handsGroup !== undefined){
@@ -702,16 +714,19 @@ var continentalPuzzle = function(){
         switch(op){
             case 0:
                 sound.play('cut')
-                game.add.tween(nameGroup.children[index]).to({ x: nameGroup.children[index].x - 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
-                    nameGroup.children[index].x = banner.x
+                game.add.tween(bannerText).to({ x: -50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
+                    bannerText.x = 0
                     if(index > 0){
                      index--
                     }
                     else{
                         index = 5
                     }
-                    changeImage(index, nameGroup)
-                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x + 50}, 100,Phaser.Easing.linear,true)
+                    bannerText.alpha = 1
+                    bannerText.setText(contiName[index])
+                    game.add.tween(bannerText).from({ x: 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
+                        bannerText.x = 0
+                    })
                 })
             break
             case 1:
@@ -721,16 +736,19 @@ var continentalPuzzle = function(){
             break
             case 2:
                 sound.play('cut')
-                game.add.tween(nameGroup.children[index]).to({ x: nameGroup.children[index].x + 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
-                    nameGroup.children[index].x = banner.x
+                game.add.tween(bannerText).to({ x: 50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
+                    bannerText.x = 0
                     if(index < 5){
                          index++
                     }
                     else{
                         index = 0
                     }
-                    changeImage(index, nameGroup)
-                    game.add.tween(nameGroup.children[index]).from({ x: nameGroup.children[index].x - 50}, 100,Phaser.Easing.linear,true)
+                    bannerText.alpha = 1
+                    bannerText.setText(contiName[index])
+                    game.add.tween(bannerText).from({ x: -50}, 100,Phaser.Easing.linear,true).onComplete.add(function(){
+                        bannerText.x = 0
+                    })
                 })
             break
         }
@@ -745,8 +763,6 @@ var continentalPuzzle = function(){
         if(index === rnd){
             sound.play('rightChoice')
             addCoin()
-            banner.loadTexture('WIN', 0, true)
-            banner.play('WIN')
             particleCorrect.x = banner.x 
             particleCorrect.y = banner.y - 50
             particleCorrect.start(true, 1200, null, 10)
@@ -761,8 +777,7 @@ var continentalPuzzle = function(){
             flyingCloud.alpha = 1
             sound.play('energy')
             game.add.tween(flyingCloud.scale).from({x: 0, y: 0}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
-                banner.loadTexture('IDLE', 0, true)
-                banner.play('IDLE')
+                continentGroup.setAll("alpha", 0)
                 game.add.tween(flyingCloud).to({alpha: 0}, 1000, Phaser.Easing.linear,true)
                 if(lives !== 0)
                     initGame()                                                                                              
@@ -770,8 +785,6 @@ var continentalPuzzle = function(){
         }
         else{
             game.time.events.add(1300,function(){
-                banner.loadTexture('IDLE', 0, true)
-                banner.play('IDLE')
                 if(lives !== 0)
                     initGame()
             },this)
@@ -781,9 +794,13 @@ var continentalPuzzle = function(){
     function initGame(){
         
         rnd = getRand()
-        cloudBitmap.load('clouds')
-        changeImage(rnd, continentGroup)
-        nameGroup.setAll('alpha', 0)
+        
+        game.add.tween(fakeCloud).to({alpha: 1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+            fakeCloud.alpha = 0
+            cloudBitmap.load('clouds')
+            changeImage(rnd, continentGroup)
+            bannerText.alpha = 0
+         })
         
         if(pointsBar.number > 6){
             rotateImage(rnd, continentGroup)  
@@ -793,7 +810,7 @@ var continentalPuzzle = function(){
             continentGroup.children[rnd].tint = colors[game.rnd.integerInRange(0, 3)]   
         }
         
-        game.time.events.add(500,function(){
+        game.time.events.add(600,function(){
             gameActive = true
         },this)
     }
@@ -819,21 +836,25 @@ var continentalPuzzle = function(){
     
     function initTuto(){
         
-        cloudBitmap.load('clouds')
-        clean = false
-        changeImage(pivotinent, continentGroup)
-        changeImage(pivotinent, nameGroup)
+        game.add.tween(fakeCloud).to({alpha: 1}, 500, Phaser.Easing.linear,true).onComplete.add(function(){
+            fakeCloud.alpha = 0
+            cloudBitmap.load('clouds')
+            clean = false
+            changeImage(pivotinent, continentGroup)
+            bannerText.setText(contiName[pivotinent])
+            bannerText.alpha = 1
+        })
         
         game.input.onUp.add(countPixels, this)
 
-        game.time.events.add(500,function(){
+        game.time.events.add(600,function(){
             gameActive = true
         },this)
     }
     
     function countPixels(){
       
-        if(!clean && getPixels(cloudBitmap.ctx) < 0.2){
+        if(!clean && getPixels(cloudBitmap.ctx) < 0.5){
             clean = true
             cloudBitmap.clear()
             landInSight()
@@ -856,19 +877,13 @@ var continentalPuzzle = function(){
     function landInSight(){
         
         pivotinent++
-        banner.loadTexture('WIN', 0, true)
-        banner.play('WIN')
         sound.play("magic")
         particleCorrect.x = banner.x 
         particleCorrect.y = banner.y - 50
         particleCorrect.start(true, 1200, null, 10)
 
-        if(pivotinent < 6){
-            game.time.events.add(1200,function(){
-                banner.loadTexture('IDLE', 0, true)
-                banner.play('IDLE')
-            },this)
-            game.time.events.add(2500,function(){
+        if(pivotinent < 2){
+            game.time.events.add(1800,function(){
                 initTuto()
             },this)
         }
@@ -878,10 +893,9 @@ var continentalPuzzle = function(){
                 flyingCloud.alpha = 1
                 sound.play('energy')
                 game.add.tween(flyingCloud.scale).from({x: 0, y: 0}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
+                    continentGroup.setAll("alpha", 0)
                     buttonGroup.alpha = 1
-                    nameGroup.setAll('alpha', 0)
-                    banner.loadTexture('IDLE', 0, true)
-                    banner.play('IDLE')
+                    bannerText.alpha = 0
                     handsGroup.alpha = 1
                     buttonGroup.setAll('inputEnabled', true)
                     posHand(buttonGroup.children[2])
@@ -932,6 +946,13 @@ var continentalPuzzle = function(){
         flyingCloud.alpha = 0
     }
     
+    function createFakeCloud(){
+        
+        fakeCloud = sceneGroup.create(board.centerX + 11, board.centerY - 13, 'clouds')
+        fakeCloud.anchor.setTo(0.5)
+        fakeCloud.alpha = 0
+    }
+    
 	return {
 		
 		assets: assets,
@@ -967,6 +988,7 @@ var continentalPuzzle = function(){
             buttonnes()
             initBitmap()
             initHand()
+            createFakeCloud()
             flyCloud()
             initCoin() 
             createParticles()

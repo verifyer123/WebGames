@@ -1,0 +1,27 @@
+
+sun.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/corona
+  rotate: false
+  xy: 297, 107
+  size: 279, 281
+  orig: 279, 281
+  offset: 0, 0
+  index: -1
+normal/destello
+  rotate: false
+  xy: 2, 2
+  size: 91, 91
+  orig: 91, 91
+  offset: 0, 0
+  index: -1
+normal/sol
+  rotate: false
+  xy: 2, 95
+  size: 293, 293
+  orig: 293, 293
+  offset: 0, 0
+  index: -1

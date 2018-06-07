@@ -1,0 +1,62 @@
+
+animals.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/fruits_fruits
+  rotate: false
+  xy: 2, 737
+  size: 196, 197
+  orig: 196, 197
+  offset: 0, 0
+  index: -1
+normal1/animals_cat
+  rotate: false
+  xy: 200, 753
+  size: 182, 181
+  orig: 182, 181
+  offset: 0, 0
+  index: -1
+normal1/animals_circle
+  rotate: false
+  xy: 2, 553
+  size: 182, 182
+  orig: 182, 182
+  offset: 0, 0
+  index: -1
+normal1/animals_dog
+  rotate: false
+  xy: 2, 369
+  size: 181, 182
+  orig: 181, 182
+  offset: 0, 0
+  index: -1
+normal1/animals_lion
+  rotate: true
+  xy: 384, 753
+  size: 181, 182
+  orig: 181, 182
+  offset: 0, 0
+  index: -1
+normal1/animals_mouse
+  rotate: false
+  xy: 2, 2
+  size: 181, 181
+  orig: 181, 181
+  offset: 0, 0
+  index: -1
+normal1/animals_sheep
+  rotate: false
+  xy: 2, 185
+  size: 181, 182
+  orig: 181, 182
+  offset: 0, 0
+  index: -1
+normal1/animals_squirrel
+  rotate: false
+  xy: 568, 753
+  size: 182, 181
+  orig: 182, 181
+  offset: 0, 0
+  index: -1

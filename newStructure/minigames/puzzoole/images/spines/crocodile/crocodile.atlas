@@ -1,0 +1,41 @@
+
+crocodile.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/c_arm1
+  rotate: false
+  xy: 2, 2
+  size: 133, 111
+  orig: 133, 111
+  offset: 0, 0
+  index: -1
+normal2/c_body
+  rotate: false
+  xy: 2, 275
+  size: 296, 614
+  orig: 296, 614
+  offset: 0, 0
+  index: -1
+normal2/c_leg1
+  rotate: false
+  xy: 300, 766
+  size: 160, 123
+  orig: 160, 123
+  offset: 0, 0
+  index: -1
+normal2/c_leg2
+  rotate: false
+  xy: 2, 115
+  size: 142, 158
+  orig: 142, 158
+  offset: 0, 0
+  index: -1
+normal2/c_tongue
+  rotate: false
+  xy: 146, 231
+  size: 103, 42
+  orig: 103, 42
+  offset: 0, 0
+  index: -1

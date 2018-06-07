@@ -62,6 +62,7 @@ var shotPut = function(){
     var gameIndex = 108
 	var indexGame
     var overlayGroup
+    var timerGroup
     var timberman
     var oof
     var stamina
@@ -357,24 +358,30 @@ var shotPut = function(){
 
 	function createBackground(){
         
-        lawn =  sceneGroup.create(game.world.centerX, game.world.centerY - 202, "atlas.shotPut", "lawn")
+        var box = game.add.graphics(0, 0)
+        box.beginFill(0x9BC6EF)
+        box.drawRect(0, 0, game.world.width, 200)
+        sceneGroup.add(box)
+        
+        var lawn =  sceneGroup.create(game.world.centerX, game.world.centerY - 202, "atlas.shotPut", "lawn")
         lawn.anchor.setTo(0.5, 0)
         lawn.scale.setTo(game.world.width, 1)
             
-        colosseum = sceneGroup.create(game.world.centerX, game.world.centerY - 265, "atlas.shotPut", "colosseum")
-        colosseum.anchor.setTo(0.5, 0.5)
+        var colosseum = sceneGroup.create(game.world.centerX, game.world.centerY - 265, "atlas.shotPut", "colosseum")
+        colosseum.anchor.setTo(0.5)
         colosseum.scale.setTo(1, 0.8)
+        colosseum.width = game.world.width * 1.2
         
-        cloud = sceneGroup.create(game.world.centerX - 250, 35, "atlas.shotPut", "cloud")
-        cloud.anchor.setTo(0.5, 0.5)
+        var cloud = sceneGroup.create(game.world.centerX - 250, 35, "atlas.shotPut", "cloud")
+        cloud.anchor.setTo(0.5)
         cloud.scale.setTo(0.7, 0.7)
         
         cloud = sceneGroup.create(game.world.centerX + 150, 35, "atlas.shotPut", "cloud")
-        cloud.anchor.setTo(0.5, 0.5)
+        cloud.anchor.setTo(0.5)
         cloud.scale.setTo(0.8, 0.8)
         
-        grass = sceneGroup.create(game.world.centerX + 180, game.world.centerY - 175, "atlas.shotPut", "grass1")
-        grass.anchor.setTo(0.5, 0.5)
+        var grass = sceneGroup.create(game.world.centerX + 180, game.world.centerY - 175, "atlas.shotPut", "grass1")
+        grass.anchor.setTo(0.5)
         grass.scale.setTo(0.6, 0.6)
         
         grass = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 175, "atlas.shotPut", "grass1")
@@ -393,7 +400,7 @@ var shotPut = function(){
         grass.anchor.setTo(0.5, 0.5)
         //grass.scale.setTo(0.8, 0.8)
         
-        platform = sceneGroup.create(game.world.centerX, game.world.height, "atlas.shotPut", "platform")
+        var platform = sceneGroup.create(game.world.centerX, game.world.height, "atlas.shotPut", "platform")
         platform.anchor.setTo(0.5, 1)
         platform.scale.setTo(0.9, 0.9)
         
@@ -700,19 +707,19 @@ var shotPut = function(){
     
     function positionTimer(){
         
-        var timerGroup = game.add.group()
+        timerGroup = game.add.group()
         timerGroup.scale.setTo(1.5)
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = game.add.image(0, 0, "atlas.time", "clock")
         clock.scale.setTo(0.7)
-        clock.alpha = 1
         timerGroup.add(clock)
         
-        timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
+        var timeBar = game.add.image(clock.position.x + 40, clock.position.y + 40, "atlas.time", "bar")
         timeBar.scale.setTo(8, 0.45)
-        timeBar.alpha = 1
         timerGroup.add(timeBar)
+        timerGroup.timeBar = timeBar
         
         timerGroup.x = game.world.centerX - clock.width * 0.75
         timerGroup.y = clock.height * 0.5
@@ -720,15 +727,14 @@ var shotPut = function(){
     
     function stopTimer(){
         
-        tweenTiempo.stop()
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
+        timerGroup.tweenTiempo.stop()
+        game.add.tween(timerGroup.timeBar.scale).to({x:8,y:.45}, 100, Phaser.Easing.Linear.Out, true, 100)
    }
     
     function startTimer(time){
         
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
-        tweenTiempo.onComplete.add(function(){
-            stopTimer()
+        timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
+        timerGroup.tweenTiempo.onComplete.add(function(){
             throwObj()
         })
     }
@@ -746,8 +752,14 @@ var shotPut = function(){
             oof.setSkinByName("normal"+(objIndex+1))
         },this)
         
+        if(pointsBar.number > 5){
+            delay -= 250
+            game.time.events.add(3000,function(){
+                startTimer(delay)
+            },this)
+        }
+        
         game.time.events.add(1000,function(){
-            startTimer(delay)
             gameActive = true
         },this)
     }
@@ -815,12 +827,16 @@ var shotPut = function(){
         }
     }
     
-    function throwObj(proyectile){
+    function throwObj(){
         
         gameActive = false
         objGroup.alpha = 1
         changeImage(objIndex, objGroup)
         oof.setAnimationByName(0, "THROW", false)
+        
+        if(timerGroup.tweenTiempo){
+            stopTimer()
+        }
         
         var destinyX, destinyY, aux, scale
         
@@ -829,7 +845,6 @@ var shotPut = function(){
             destinyY =  target.y
             aux = 100
             scale = 0.15
-            delay -= 250
         }
         else if(force < objIndex+1){
             
@@ -877,8 +892,14 @@ var shotPut = function(){
                     oof.setAnimationByName(0, "LOSE", false)
                 }
                 
-                oof.setSkinByName("normal")
-                oof.addAnimationByName(0, "IDLE", true)
+                if(pointsBar.number === 6){
+                    game.add.tween(timerGroup).to({alpha:1}, 800, Phaser.Easing.linear, true)
+                }
+                
+                if(lives !== 0){
+                    oof.setSkinByName("normal")
+                    oof.addAnimationByName(0, "IDLE", true)
+                }
                 
                 game.add.tween(objGroup).to({alpha:0}, 1200, Phaser.Easing.linear, true).onComplete.add(function(){
                     objGroup.x = objGroup.startPosX
@@ -897,7 +918,27 @@ var shotPut = function(){
         particleWrong = createPart('wrong')
         sceneGroup.add(particleWrong)
     }
-	
+    
+    function okBtn(){
+        
+        var okBtn = sceneGroup.create(game.world.width - 150, game.world.height - 250, 'atlas.shotPut', 'ok')
+        okBtn.anchor.setTo(0.5) 
+        okBtn.inputEnabled = true
+        okBtn.events.onInputDown.add(okPressed, this)       
+    }
+    
+    function okPressed(okBtn){
+        
+        if(gameActive){
+            
+            sound.play('pop')
+            game.add.tween(okBtn.scale).to({x: 0.5, y:0.5}, 150, Phaser.Easing.linear,true,0,0).yoyo(true,0).onComplete.add(function(){
+                okBtn.scale.setTo(1)
+            })
+            throwObj()
+        }
+    }
+
 	return {
 		
 		assets: assets,
@@ -933,6 +974,7 @@ var shotPut = function(){
             initStaminaBar()
             initObjGroup() 
             initBtn()
+            okBtn()
             createParticles()
 			
 			buttons.getButton(timberman,sceneGroup)

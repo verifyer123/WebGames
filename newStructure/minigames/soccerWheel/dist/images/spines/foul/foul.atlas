@@ -1,0 +1,62 @@
+
+foul.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/leg
+  rotate: false
+  xy: 2, 289
+  size: 237, 207
+  orig: 237, 207
+  offset: 0, 0
+  index: -1
+normal3/pain
+  rotate: false
+  xy: 146, 69
+  size: 52, 40
+  orig: 52, 40
+  offset: 0, 0
+  index: -1
+normal3/pain_particle
+  rotate: false
+  xy: 241, 360
+  size: 157, 136
+  orig: 157, 136
+  offset: 0, 0
+  index: -1
+normal3/shadow_a
+  rotate: false
+  xy: 2, 12
+  size: 142, 97
+  orig: 142, 97
+  offset: 0, 0
+  index: -1
+normal3/shadow_b
+  rotate: false
+  xy: 2, 111
+  size: 235, 176
+  orig: 235, 176
+  offset: 0, 0
+  index: -1
+normal3/shadow_c
+  rotate: false
+  xy: 239, 150
+  size: 57, 131
+  orig: 57, 131
+  offset: 0, 0
+  index: -1
+normal3/shoe
+  rotate: true
+  xy: 241, 283
+  size: 75, 131
+  orig: 75, 131
+  offset: 0, 0
+  index: -1
+normal3/short
+  rotate: true
+  xy: 400, 354
+  size: 142, 96
+  orig: 142, 96
+  offset: 0, 0
+  index: -1

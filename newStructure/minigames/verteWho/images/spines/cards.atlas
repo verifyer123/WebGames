@@ -1,0 +1,188 @@
+
+cards.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/card_BEAR
+  rotate: false
+  xy: 166, 494
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_BEE
+  rotate: false
+  xy: 331, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_BUTTERFLY
+  rotate: false
+  xy: 2, 2
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_CAT
+  rotate: false
+  xy: 166, 249
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_CATERPILLAR
+  rotate: false
+  xy: 495, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_CHICKEN
+  rotate: false
+  xy: 166, 4
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_DOG
+  rotate: false
+  xy: 2, 493
+  size: 162, 244
+  orig: 162, 244
+  offset: 0, 0
+  index: -1
+normal/card_DRAGONFLY
+  rotate: false
+  xy: 659, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_GIRAFFE
+  rotate: false
+  xy: 823, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_JELLYFISH
+  rotate: false
+  xy: 987, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_LION
+  rotate: false
+  xy: 1151, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_PIG
+  rotate: false
+  xy: 1315, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_SEALION
+  rotate: false
+  xy: 1479, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_SNAIL
+  rotate: false
+  xy: 1643, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_SNAKE
+  rotate: false
+  xy: 1807, 740
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_SPONGE
+  rotate: false
+  xy: 330, 494
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_SQUID
+  rotate: false
+  xy: 330, 249
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_STARFISH
+  rotate: false
+  xy: 330, 4
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_WORM
+  rotate: false
+  xy: 494, 495
+  size: 162, 243
+  orig: 162, 243
+  offset: 0, 0
+  index: -1
+normal/card_ZEBRA
+  rotate: false
+  xy: 167, 739
+  size: 162, 244
+  orig: 162, 244
+  offset: 0, 0
+  index: -1
+normal/page_1
+  rotate: true
+  xy: 658, 417
+  size: 170, 106
+  orig: 170, 106
+  offset: 0, 0
+  index: -1
+normal/page_2
+  rotate: true
+  xy: 494, 74
+  size: 182, 126
+  orig: 182, 126
+  offset: 0, 0
+  index: -1
+normal/page_3
+  rotate: false
+  xy: 658, 589
+  size: 165, 149
+  orig: 165, 149
+  offset: 0, 0
+  index: -1
+normal/page_4
+  rotate: false
+  xy: 494, 258
+  size: 162, 235
+  orig: 162, 235
+  offset: 0, 0
+  index: -1
+normal/page_5
+  rotate: false
+  xy: 2, 247
+  size: 162, 244
+  orig: 162, 244
+  offset: 0, 0
+  index: -1
+normal/page_6
+  rotate: false
+  xy: 2, 739
+  size: 163, 244
+  orig: 163, 244
+  offset: 0, 0
+  index: -1

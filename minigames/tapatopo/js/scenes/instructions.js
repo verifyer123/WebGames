@@ -66,10 +66,12 @@ var instructions = function(){
             
         })
         
-        mixpanel.track(
+        /*mixpanel.track(
             "enterGame",
             {"gameName": "tapatopo","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("tapatopo","enterGame")
 		
 	}
     
@@ -139,10 +141,12 @@ var instructions = function(){
 
 	function initialize(){
         loadSounds()
-        mixpanel.track(
+        /*mixpanel.track(
             "loadGame",
             {"gameName": "tapatopo","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );
+        );*/
+
+        amazing.setMixPanelTrack("tapatopo","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
         //game.stage.backgroundColor = "#aea1ff"

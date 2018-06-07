@@ -1,0 +1,272 @@
+
+ship.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/a_arm1
+  rotate: true
+  xy: 2, 3
+  size: 17, 20
+  orig: 17, 20
+  offset: 0, 0
+  index: -1
+normal/a_arm2
+  rotate: false
+  xy: 423, 658
+  size: 13, 19
+  orig: 13, 19
+  offset: 0, 0
+  index: -1
+normal/a_body
+  rotate: false
+  xy: 524, 469
+  size: 40, 45
+  orig: 40, 45
+  offset: 0, 0
+  index: -1
+normal/a_face1
+  rotate: false
+  xy: 804, 702
+  size: 88, 82
+  orig: 88, 82
+  offset: 0, 0
+  index: -1
+normal/a_face2
+  rotate: false
+  xy: 712, 754
+  size: 90, 82
+  orig: 90, 82
+  offset: 0, 0
+  index: -1
+normal/a_face3
+  rotate: false
+  xy: 804, 786
+  size: 90, 82
+  orig: 90, 82
+  offset: 0, 0
+  index: -1
+normal/a_face4
+  rotate: false
+  xy: 896, 786
+  size: 90, 82
+  orig: 90, 82
+  offset: 0, 0
+  index: -1
+normal/a_face5
+  rotate: false
+  xy: 712, 670
+  size: 90, 82
+  orig: 90, 82
+  offset: 0, 0
+  index: -1
+normal/a_fire1
+  rotate: false
+  xy: 376, 651
+  size: 45, 26
+  orig: 45, 26
+  offset: 0, 0
+  index: -1
+normal/a_fire2
+  rotate: false
+  xy: 894, 719
+  size: 66, 65
+  orig: 66, 65
+  offset: 0, 0
+  index: -1
+normal/a_hair
+  rotate: false
+  xy: 658, 551
+  size: 33, 40
+  orig: 33, 40
+  offset: 0, 0
+  index: -1
+normal/a_hand1
+  rotate: true
+  xy: 658, 530
+  size: 19, 26
+  orig: 19, 26
+  offset: 0, 0
+  index: -1
+normal/a_hand2
+  rotate: false
+  xy: 286, 438
+  size: 20, 22
+  orig: 20, 22
+  offset: 0, 0
+  index: -1
+normal/a_leg1
+  rotate: true
+  xy: 250, 437
+  size: 23, 34
+  orig: 23, 34
+  offset: 0, 0
+  index: -1
+normal/a_leg2
+  rotate: false
+  xy: 681, 650
+  size: 21, 30
+  orig: 21, 30
+  offset: 0, 0
+  index: -1
+normal/a_pipe
+  rotate: true
+  xy: 962, 718
+  size: 66, 33
+  orig: 66, 33
+  offset: 0, 0
+  index: -1
+normal/a_ship_square
+  rotate: false
+  xy: 250, 462
+  size: 186, 186
+  orig: 186, 186
+  offset: 0, 0
+  index: -1
+normal/a_space_square
+  rotate: true
+  xy: 562, 530
+  size: 150, 94
+  orig: 150, 94
+  offset: 0, 0
+  index: -1
+normal/spark1
+  rotate: true
+  xy: 438, 462
+  size: 20, 77
+  orig: 20, 77
+  offset: 0, 0
+  index: -1
+normal/spark2
+  rotate: false
+  xy: 988, 790
+  size: 30, 78
+  orig: 30, 78
+  offset: 0, 0
+  index: -1
+normal/spark3
+  rotate: true
+  xy: 285, 650
+  size: 27, 89
+  orig: 27, 89
+  offset: 0, 0
+  index: -1
+normal/spark4
+  rotate: false
+  xy: 658, 593
+  size: 21, 87
+  orig: 21, 87
+  offset: 0, 0
+  index: -1
+normal/spark5
+  rotate: true
+  xy: 804, 679
+  size: 21, 83
+  orig: 21, 83
+  offset: 0, 0
+  index: -1
+normal/spark6
+  rotate: true
+  xy: 438, 484
+  size: 30, 84
+  orig: 30, 84
+  offset: 0, 0
+  index: -1
+normal1/b_ship_circle
+  rotate: false
+  xy: 315, 277
+  size: 183, 183
+  orig: 183, 183
+  offset: 0, 0
+  index: -1
+normal1/b_ship_rectangle
+  rotate: false
+  xy: 2, 650
+  size: 281, 185
+  orig: 281, 185
+  offset: 0, 0
+  index: -1
+normal1/b_ship_rhomboid
+  rotate: false
+  xy: 2, 837
+  size: 321, 185
+  orig: 321, 185
+  offset: 0, 0
+  index: -1
+normal1/b_ship_rhombus
+  rotate: false
+  xy: 2, 178
+  size: 190, 256
+  orig: 190, 256
+  offset: 0, 0
+  index: -1
+normal1/b_ship_trapezium
+  rotate: false
+  xy: 325, 837
+  size: 266, 185
+  orig: 266, 185
+  offset: 0, 0
+  index: -1
+normal1/b_ship_trapezoid
+  rotate: false
+  xy: 2, 436
+  size: 246, 212
+  orig: 246, 212
+  offset: 0, 0
+  index: -1
+normal1/b_ship_triangle
+  rotate: false
+  xy: 593, 838
+  size: 209, 184
+  orig: 209, 184
+  offset: 0, 0
+  index: -1
+normal1/b_space_circle
+  rotate: false
+  xy: 557, 682
+  size: 153, 153
+  orig: 153, 153
+  offset: 0, 0
+  index: -1
+normal1/b_space_rectangle
+  rotate: true
+  xy: 194, 185
+  size: 249, 119
+  orig: 249, 119
+  offset: 0, 0
+  index: -1
+normal1/b_space_rhomboid
+  rotate: false
+  xy: 285, 679
+  size: 270, 156
+  orig: 270, 156
+  offset: 0, 0
+  index: -1
+normal1/b_space_rhombus
+  rotate: true
+  xy: 438, 516
+  size: 161, 122
+  orig: 161, 122
+  offset: 0, 0
+  index: -1
+normal1/b_space_trapezium
+  rotate: false
+  xy: 804, 870
+  size: 218, 152
+  orig: 218, 152
+  offset: 0, 0
+  index: -1
+normal1/b_space_trapezoid
+  rotate: false
+  xy: 315, 150
+  size: 179, 125
+  orig: 179, 125
+  offset: 0, 0
+  index: -1
+normal1/b_space_triangle
+  rotate: false
+  xy: 2, 22
+  size: 175, 154
+  orig: 175, 154
+  offset: 0, 0
+  index: -1

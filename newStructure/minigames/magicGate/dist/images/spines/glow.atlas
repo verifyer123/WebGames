@@ -1,0 +1,34 @@
+
+glow.png
+size: 508,158
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_2
+  rotate: false
+  xy: 2, 2
+  size: 154, 154
+  orig: 154, 154
+  offset: 0, 0
+  index: -1
+normal/Capa_3
+  rotate: true
+  xy: 441, 31
+  size: 125, 65
+  orig: 125, 65
+  offset: 0, 0
+  index: -1
+normal/Capa_4
+  rotate: false
+  xy: 158, 2
+  size: 154, 154
+  orig: 154, 154
+  offset: 0, 0
+  index: -1
+normal/Capa_5
+  rotate: false
+  xy: 314, 12
+  size: 125, 144
+  orig: 125, 144
+  offset: 0, 0
+  index: -1

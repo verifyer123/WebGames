@@ -1,0 +1,147 @@
+{"frames": [
+
+{
+	"filename": "background",
+	"frame": {"x":1,"y":1,"w":541,"h":961},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":961},
+	"sourceSize": {"w":541,"h":961},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "bad_crack",
+	"frame": {"x":1299,"y":1169,"w":141,"h":138},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":138},
+	"sourceSize": {"w":141,"h":138},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "david",
+	"frame": {"x":1109,"y":1,"w":330,"h":567},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":330,"h":567},
+	"sourceSize": {"w":330,"h":567},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "glitter",
+	"frame": {"x":105,"y":1695,"w":100,"h":101},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":101},
+	"sourceSize": {"w":100,"h":101},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "handDown",
+	"frame": {"x":207,"y":1695,"w":102,"h":95},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
+	"sourceSize": {"w":102,"h":95},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "handUp",
+	"frame": {"x":1,"y":1695,"w":102,"h":106},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
+	"sourceSize": {"w":102,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hearts",
+	"frame": {"x":1109,"y":570,"w":141,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
+	"sourceSize": {"w":141,"h":54},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ladyJustice",
+	"frame": {"x":544,"y":634,"w":472,"h":557},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":472,"h":557},
+	"sourceSize": {"w":472,"h":557},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "marble",
+	"frame": {"x":1,"y":964,"w":447,"h":729},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":447,"h":729},
+	"sourceSize": {"w":447,"h":729},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "mermaid",
+	"frame": {"x":450,"y":1193,"w":452,"h":626},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":452,"h":626},
+	"sourceSize": {"w":452,"h":626},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":450,"y":964,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "sunLight",
+	"frame": {"x":544,"y":1,"w":563,"h":631},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":563,"h":631},
+	"sourceSize": {"w":563,"h":631},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "thinker",
+	"frame": {"x":1018,"y":634,"w":366,"h":533},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":366,"h":533},
+	"sourceSize": {"w":366,"h":533},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "venus",
+	"frame": {"x":904,"y":1193,"w":393,"h":580},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":393,"h":580},
+	"sourceSize": {"w":393,"h":580},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":904,"y":1775,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "chiseler_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1441,"h":1820},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:38c7d16bec924726b51a6419acccb44f:cee7b498004d31da647b54cc6ca385dc:ec28774997504cc1c9c2ae2046401234$"
+}
+}

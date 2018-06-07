@@ -593,7 +593,8 @@ var balanceScience = function(){
         
         tweenTiempo = game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
         tweenTiempo.onComplete.add(function(){
-            win(true)
+            offWeight = -1
+            win()
         })
     }
     
@@ -647,22 +648,16 @@ var balanceScience = function(){
         auxGroup = game.add.group()
         sceneGroup.add(auxGroup)
         
-        var pivot = -2
-        
         for(var w = 0; w < 5; w++){
             
             var offSide = offGroup.create(game.world.centerX, game.world.centerY * 0.65, 'atlas.balanceScience', 'weight' + w)
-            offSide.x += pivot * 100
             offSide.anchor.setTo(0.5, 1)
             offSide.weight = weight[w]
-            offSide.popX = offSide.x
-            offSide.popY = offSide.y
             offSide.inputEnabled = true
             offSide.val = w
             //offSide.input.enableDrag()
             //offSide.events.onDragStop.add(putThatThingDown,this)
             offSide.events.onInputDown.add(putThatThingDown,this)
-            pivot++
             
             var monsterSide = monsterGroup.create(0, 90, 'atlas.balanceScience', 'weight' + w)
             monsterSide.anchor.setTo(0.5, 1)
@@ -673,6 +668,16 @@ var balanceScience = function(){
         
         offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
         monsterGroup.sort('val', Phaser.Group.SORT_ASCENDING)
+        
+        offGroup.children[0].x -= offGroup.children[2].width + offGroup.children[1].width
+        offGroup.children[1].x -= offGroup.children[2].width
+        offGroup.children[3].x += offGroup.children[2].width + 15
+        offGroup.children[4].x += offGroup.children[2].width + offGroup.children[3].width + 30
+
+        for(var f = 0; f < offGroup.length; f++){
+            offGroup.children[f].popX = offGroup.children[f].x
+            offGroup.children[f].popY = offGroup.children[f].y
+        }
     }
     
     function putThatThingDown(mass){
@@ -728,7 +733,7 @@ var balanceScience = function(){
         
         okGroup = game.add.group()
         okGroup.x = game.world.centerX 
-        okGroup.y = game.world.height - 50
+        okGroup.y = game.world.height - 80
         okGroup.scale.setTo(1.5)
         sceneGroup.add(okGroup)
         
@@ -777,21 +782,17 @@ var balanceScience = function(){
         btn.parent.children[2].scale.setTo(1)
     }
     
-    function win(ans){
+    function win(){
         
         gameActive = false
         stopTimer()
         offGroup.setAll('inputEnabled', false)
-        
-        if(ans){
-            offWeight = -1
-        }
-        
+       
         if(offWeight === monsterWeight){
             sound.play('rightChoice')
             addCoin()
             balance.setAnimationByName(0, "WIN", true)
-            lvl = getRand()
+            lvl = 2//getRand()
             if(pointsBar.number > 8){
                 time -= 300
             }
@@ -904,16 +905,17 @@ var balanceScience = function(){
         
         auxGroup.sort('val', Phaser.Group.SORT_DESCENDING)
         offGroup.sort('val', Phaser.Group.SORT_ASCENDING)
+        
     }
     
     function shuffle(){
         
         Phaser.ArrayUtils.shuffle(weight)
 
-        if(lvl === 2){
-            if(weight[0] === 1 && weight[1] === 3 || weight[0] === 3 && weight[1] === 1 ){
-                shuffle()
-            }
+        if(lvl === 2 && weight[0] + weight[1] === 4){
+            console.log(weight)
+            shuffle()
+            console.log('exeption')
         }
     }
     

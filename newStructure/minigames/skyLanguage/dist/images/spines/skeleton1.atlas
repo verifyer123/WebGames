@@ -1,0 +1,55 @@
+
+skeleton1.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nave/Nave1-01
+  rotate: false
+  xy: 497, 31
+  size: 80, 79
+  orig: 80, 79
+  offset: 0, 0
+  index: -1
+nave/Nave1-02
+  rotate: false
+  xy: 213, 19
+  size: 163, 91
+  orig: 163, 91
+  offset: 0, 0
+  index: -1
+nave/Nave1-03
+  rotate: false
+  xy: 579, 56
+  size: 73, 54
+  orig: 73, 54
+  offset: 0, 0
+  index: -1
+nave/Nave1-04
+  rotate: false
+  xy: 378, 24
+  size: 117, 86
+  orig: 117, 86
+  offset: 0, 0
+  index: -1
+nave/Nave1-05
+  rotate: false
+  xy: 2, 55
+  size: 209, 55
+  orig: 209, 55
+  offset: 0, 0
+  index: -1
+nave/Nave1-06
+  rotate: false
+  xy: 2, 31
+  size: 117, 22
+  orig: 117, 22
+  offset: 0, 0
+  index: -1
+nave/Nave1-07
+  rotate: true
+  xy: 2, 2
+  size: 27, 47
+  orig: 27, 47
+  offset: 0, 0
+  index: -1

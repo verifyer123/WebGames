@@ -48,6 +48,7 @@ var hexhop = function(){
     var SPEED = 7
     
     var gameIndex = 5
+    var gameId = 5153049148391424
     var gameLevel = null
     var gameSong = null
     var timeAdd = null
@@ -75,7 +76,7 @@ var hexhop = function(){
 	}
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         gameActive = true
         lives = 1

@@ -1,5 +1,7 @@
 var tutorialHelper = function () {
 
+	var sharePath = "../../shared/minigames/"
+	
 	var tutorialVideo
 	var videoImage
 	var tutorialTypeText
@@ -17,9 +19,12 @@ var tutorialHelper = function () {
 	var playKey = "button_play"
 	var backKey = "background_tutorial"
 
+	var spine
+	var spineTimeOut
+
 	function createTutorialGif(group,onClickFunction){
 
-		var rect = new Phaser.Graphics(game)
+		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		rect.alpha = 0.7
@@ -27,40 +32,49 @@ var tutorialHelper = function () {
 		rect.inputEnabled = true
 		rect.events.onInputDown.add(function(){
 			rect.inputEnabled = false
-			sound.play("pop")
-			game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-				onClickFunction()
-			})
-			//videoImage.destroy()
-			// if(game.device.webmVideo){
-			// 	tutorialVideo.stop()
-			// 	inTutorial = false
-			// }
-
-			group.destroy()
-			//tutorialVideo.removeVideoElement()
-		})
+			
+		})*/
 
 		inTutorial = true
 
+		var rect = new Phaser.Graphics(game)
+		rect.beginFill(0x000000)
+		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+		rect.alpha = 0.7
+		rect.endFill()
 		group.add(rect)
 
 		//return
 
-		var plane = group.create(game.world.centerX, game.world.centerY+60,backKey)
+		var plane = group.create(game.world.centerX, game.world.centerY+30,backKey)
 		plane.scale.setTo(1,1)
 		plane.anchor.setTo(0.5,0.5)
 
-		var tuto = group.create(game.world.centerX, game.world.centerY - 90,'tutorial_image')
+		var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
 		tuto.anchor.setTo(0.5,0.5)
 
-		var howTo = group.create(game.world.centerX,120, howkey)
+		var howTo = group.create(game.world.centerX,90, howkey)
 		howTo.anchor.setTo(0.5,0.5)
 		howTo.scale.setTo(0.8,0.8)
 
-		var button = group.create(game.world.centerX+120, game.world.centerY+360, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
+		var button = group.create(game.world.centerX+120, game.world.centerY+330, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
 		button.anchor.setTo(0.5,0.5)
 		button.scale.setTo(0.85)
+
+		
+
+		rect = new Phaser.Graphics(game)
+		rect.beginFill(0x000000)
+		rect.drawRect(button.x-120,button.y-80,240, 160)
+		rect.alpha = 0
+		rect.endFill()
+		rect.inputEnabled = true
+		rect.events.onInputDown.add(function(){
+			rect.inputEnabled = false
+			clickPlay(group,onClickFunction)
+		})
+		group.add(rect)
+
 
 		game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
 
@@ -84,9 +98,10 @@ var tutorialHelper = function () {
 		// }
 		// else{
 
-		var spine = game.add.spine(game.world.centerX-120, game.world.centerY+480,"tutorialGif")
+		spine = game.add.spine(game.world.centerX-120, game.world.centerY+450,"tutorialGif")
 		spine.setSkinByName("normal")
-		spine.setAnimationByName(0,"IDLE",true)
+		var anim = spine.setAnimationByName(0,"idle",false)
+		anim.onComplete = repeatSpine
 		group.add(spine)
 
 		// }
@@ -103,7 +118,7 @@ var tutorialHelper = function () {
 		coinsRect.endFill()
 
 
-		var coinsSprite = game.add.sprite(game.world.centerX-181, game.world.centerY+198);
+		var coinsSprite = game.add.sprite(game.world.centerX-181, game.world.centerY+180);
 		coinsSprite.addChild(coinsRect)
 		coinsSprite.anchor.setTo(0,0.5)
 		group.add(coinsSprite)
@@ -126,30 +141,30 @@ var tutorialHelper = function () {
 
 
 		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+215, "1 pts", fontStyle)
+		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+198, "1 pts", fontStyle)
 		coinText_1.stroke = '#000000';
-		coinText_1.strokeThickness = 4;
+		coinText_1.strokeThickness = 5;
 		coinText_1.anchor.setTo(0.5)
 		coinText_1.scale.setTo(0.8)
 		group.add(coinText_1)
 
-		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+215, Math.floor(goalScore/2)+" pts", fontStyle)
+		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+198, Math.floor(goalScore/2)+" pts", fontStyle)
 		coinText_2.stroke = '#000000';
-		coinText_2.strokeThickness = 4;
+		coinText_2.strokeThickness = 5;
 		coinText_2.anchor.setTo(0.5)
 		coinText_2.scale.setTo(0.8)
 		group.add(coinText_2)
 
-		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+215, goalScore+" pts", fontStyle)
+		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+198, goalScore+" pts", fontStyle)
 		coinText_3.stroke = '#000000';
-		coinText_3.strokeThickness = 4;
+		coinText_3.strokeThickness = 5;
 		coinText_3.anchor.setTo(0.5)
 		coinText_3.scale.setTo(0.8)
 		group.add(coinText_3)
 
-		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+430, tutorialTypeText, fontStyle)
+		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
 		typeText.stroke = '#000000';
-		typeText.strokeThickness = 4;
+		typeText.strokeThickness = 6;
 		typeText.anchor.setTo(0.5)
 		group.add(typeText)
 
@@ -157,6 +172,23 @@ var tutorialHelper = function () {
 		//tutorialVideo.video.setAttribute('playsinline', 'playsinline');
 
 		//setTimeout(function(){tutorialVideo.play(true)},1000)
+
+	}
+
+	function repeatSpine(){
+		spineTimeOut = setTimeout(function(){
+			var anim = spine.setAnimationByName(0,"idle",false)
+			anim.onComplete = repeatSpine
+		},500)
+	}
+
+	function clickPlay(group,onClickFunction){
+		sound.play("pop")
+		game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+			onClickFunction()
+		})
+		clearTimeout(spineTimeOut)
+		group.destroy()
 
 	}
 
@@ -201,41 +233,86 @@ var tutorialHelper = function () {
 
 		//return
 		console.log(gameData)
-		var sharePath = "../../shared/minigames/"
+		
 		var path = sharePath+"tutorial_gifs/"
 		var videoName
 
 		goalScore = gameData.objective
 		var type = gameData.type
+		var language = localization.getLanguage()
 
 		switch(type){
 			case gameTypeEnum.CHOOSE:
 				videoName = "choose"
-				tutorialTypeText = "CHOOSE"
+				if(language=="ES"){
+                    tutorialTypeText = "CHOOSE"
+				}
+				else{
+					tutorialTypeText = "ESCOGER"
+				}
 				break
 			case gameTypeEnum.COUNT:
 				videoName = "count"
-				tutorialTypeText = "COUNT"
+				if(language=="ES"){
+					tutorialTypeText = "CONTAR"
+				}
+				else{
+					tutorialTypeText = "COUNT"
+				}
 				break
 			case gameTypeEnum.GRAB:
 				videoName = "grab"
-				tutorialTypeText = "GRAB"
+				if(language=="ES"){
+					tutorialTypeText = "RECOLECTAR"
+				}
+				else{
+					tutorialTypeText = "GRAB"
+				}
 				break
 			case gameTypeEnum.MATCH:
 				videoName = "match"
-				tutorialTypeText = "MATCH"
+				if(language=="ES"){
+					tutorialTypeText = "ARMAR"
+				}
+				else{
+					tutorialTypeText = "MATCH"
+				}
 				break
 			case gameTypeEnum.SEQUENCE:
 				videoName = "sequence"
-				tutorialTypeText = "SEQUENCE"
+				if(language=="ES"){
+					tutorialTypeText = "SECUENCIA"
+				}
+				else{
+					tutorialTypeText = "SEQUENCE"
+				}
 				break
 			case gameTypeEnum.TARGET:
 				videoName = "target"
-				tutorialTypeText = "TARGET"
+				if(language=="ES"){
+					tutorialTypeText = "DIRECCIONAR"
+				}
+				else{
+					tutorialTypeText = "TARGET"
+				}
 				break
 			case gameTypeEnum.TRACE:
 				videoName = "trace"
-				tutorialTypeText = "TRACE"
+				if(language=="ES"){
+					tutorialTypeText = "TRAZAR"
+				}
+				else{
+					tutorialTypeText = "TRACE"
+				}
+				break
+            case gameTypeEnum.TAP:
+				videoName = "tap"
+				if(language=="ES"){
+					tutorialTypeText = "TAP"
+				}
+				else{
+					tutorialTypeText = "TAP"
+				}
 				break
 		}
 
@@ -246,12 +323,17 @@ var tutorialHelper = function () {
 
 
 		currentLoader.spine(obj.name, obj.file)
-		currentLoader.image(howkey,sharePath+'images/tutorial/how_'+localization.getLanguage()+'.png')
-		currentLoader.image(playKey,sharePath+'images/tutorial/play_'+localization.getLanguage()+'.png')
+		
 		currentLoader.image(backKey,sharePath+'images/tutorial/background_tutorial.png')
-
-
-
+        
+        if(language == "ES"){
+            currentLoader.image(howkey,sharePath+'images/tutorial/how_ES.png')
+            currentLoader.image(playKey,sharePath+'images/tutorial/play_ES.png')
+        }
+        else{
+            currentLoader.image(howkey,sharePath+'images/tutorial/how_EN.png')
+            currentLoader.image(playKey,sharePath+'images/tutorial/play_EN.png')
+        }
 	}
 
 	return{

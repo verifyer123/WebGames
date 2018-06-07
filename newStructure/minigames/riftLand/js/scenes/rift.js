@@ -1,5 +1,5 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "../../../../shared/minigames/sounds/"
 var rift = function(){
     
     var localizationData = {
@@ -34,7 +34,8 @@ var rift = function(){
             },
         ],
         images: [
-
+        	{   name:"tutorial_image",
+				file: "images/rift/tutorial_image.png"},
 		],
 		sounds: [
             {	name: "magic",
@@ -70,7 +71,10 @@ var rift = function(){
 			
 		],
     }
-    
+
+    var INITIAL_LIVES = 1
+    var BLINK_TIMES = 4
+    var TIME_BLINK = 300
         
     var lives = null
 	var sceneGroup = null
@@ -108,7 +112,7 @@ var rift = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		gameActive = false
 		timeToAdd = 1000
 		pivotDrag = 83
@@ -197,32 +201,7 @@ var rift = function(){
         
     }
     
-    function missPoint(){
-        
-		if(!gameActive){
-			return
-		}
-		
-        sound.play("wrong")
-		
-		createPart('wrong',yogotarGroup.yogoPos)
-		        
-        lives--;
-        heartsGroup.text.setText('X ' + lives)
-        
-        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
-        
-        if(lives == 0){
-            stopGame(false)
-           
-        }
-        
-        addNumberPart(heartsGroup.text,'-1',true)
-        
-    }
+
     
     function addPoint(number){
         
@@ -308,23 +287,28 @@ var rift = function(){
         heartsGroup.text = pointsText
                 
     }
-    
-    function stopGame(win){
+
+
+    function missPoint(){
         
-		sound.play("wrong")
-		sound.play("gameLose")
-		
-        gameActive = false
-        medievalSong.stop()
-		
+		if(!gameActive){
+			return
+		}
+
 		yogotarGroup.bubble.alpha = 0
 		
 		yogotarGroup.anim.setAnimationByName(0,"FALLING",false)
-		
+		lives--;
+		var tween 
 		if(yogotarGroup.fall){
 			
-			game.add.tween(yogotarGroup.anim.scale).to({x:0,y:0},500,"Linear",true)
+			tween = game.add.tween(yogotarGroup.anim.scale).to({x:0,y:0},500,"Linear",true)
+
+			if(lives>0){
+				tween.onComplete.add(revive)
+			}
 			sound.play("falling")
+
 		}else{
 			
 			sound.play("flesh")
@@ -341,11 +325,96 @@ var rift = function(){
 				
 				game.add.tween(rect).from({alpha:1},500,"Linear",true)
 				
-				game.add.tween(yogotarGroup).to({y:yogotarGroup.y + 100},2000,"Linear",true)
+				game.add.tween(yogotarGroup).to({y:yogotarGroup.y + 100},2000,"Linear",true).onComplete.add(function(){
+					if(lives>0){
+						revive()
+					}
+				})
 				sound.play("glassbreak")
+
+				
 				
 			})
 		}
+		
+        sound.play("wrong")
+		
+		//createPart('wrong',yogotarGroup.yogoPos)
+		        
+        
+        heartsGroup.text.setText('X ' + lives)
+        
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        if(lives == 0){
+            stopGame(false)
+           
+        }
+        
+        gameActive = false
+        
+        addNumberPart(heartsGroup.text,'-1',true)
+        
+    }
+
+    function revive(){
+
+    	for(var i = 0; i < fieldGroup.length;i++){
+    		var object = fieldGroup.children[i]
+
+    		if(object.tag == "piece" && object.y > 0){
+    			//object.alpha = 0.5
+    			yogotarGroup.x = object.x-35
+    			yogotarGroup.y = object.y
+    			yogotarGroup.anim.scale.setTo(0.8,0.8)
+    			yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
+    			yogotarGroup.angle = 0
+
+
+    			var correct = true	
+    			for(var j = 0; j< fieldGroup.length;j++){
+			
+					var o = fieldGroup.children[j]
+					
+					if(checkOverlap(yogotarGroup,o)){
+						
+						var tag = o.tag
+						if(tag == 'coin'){
+							addPoint(1)
+							deactivateObject(o)
+							break
+						}
+						else if(tag == 'monster' || tag == 'shield' || tag == 'diamond'){
+							correct = false
+							break
+						}
+					}
+				}
+
+				if(correct){
+					break
+				}
+    		}
+    	}
+    	blink()
+    	gameActive = true
+    }
+    
+    function stopGame(){
+		//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+
+    	//var validSession = new parent._QUANTRIX.NotifyPlayed({data : {'child_id' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),'token' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),'minigame_id' : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,'score' : pointsBar.number},onSuccess : parent._QUANTRIX._notifyMinigamePlayed,onError : parent._QUANTRIX._goDashboard});
+        
+		sound.play("wrong")
+		sound.play("gameLose")
+		
+        gameActive = false
+        medievalSong.stop()
+		
+		
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
@@ -367,12 +436,9 @@ var rift = function(){
         game.load.spine('yogotar', "images/spines/Arthurius.json")  
         game.load.audio('medievalSong', soundsPath + 'songs/fantasy_ballad.mp3');
         
-		game.load.image('howTo',"images/rift/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/rift/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/rift/introscreen.png")
 		
 		game.load.spritesheet('monster', 'images/rift/monster.png', 88, 114, 11);
-		game.load.spritesheet('coin', 'images/rift/coin.png', 68, 70, 12);
+		game.load.spritesheet('coin', 'images/rift/coin.png', 100, 100, 24);
 		game.load.spritesheet('diamond', 'images/rift/diamond.png', 42, 81, 11);
 		game.load.spritesheet('machine', 'images/rift/triturador.png', 39, 63, 8);
 		        
@@ -380,7 +446,7 @@ var rift = function(){
 	
 	function getButton(){
 		
-		console.log(buttonsGroup.length)
+		//console.log(buttonsGroup.length)
 
 		if(buttonsGroup.length==0){
 			createSingleButton()
@@ -495,72 +561,28 @@ var rift = function(){
 	
     function createOverlay(){
         
-		createTutorial()
+		//createTutorial()
 		
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                overlayGroup.y = -game.world.height
-				gameActive = true
-				
-				game.time.events.add(1000,startTutorial)
-				
-				var delay = 100
-				for(var i = 0; i < 4; i++){
-					game.time.events.add(delay,addButton)
-					delay+=100	
-				}				
-				
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1.1,1.1)
-        plane.anchor.setTo(0.5,0.5)
+    }
+
+    function onClickPlay(){
+    	createTutorial()
+    	overlayGroup.y = -game.world.height
+		gameActive = true
 		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.rift','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.8,0.8)
+		game.time.events.add(1000,startTutorial)
 		
-        var action = 'tap'
-        
-        if(game.device == 'desktop'){
-            action = 'click'
-        }
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 250,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.7,0.7)
-        
-		var deviceName = 'pc'
-        if(!game.device.desktop){
-            
-            deviceName = 'tablet'
-        }
-		
-		var inputLogo = overlayGroup.create(game.world.centerX + 15,game.world.centerY + 145,'atlas.rift',deviceName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.rift','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
-		
+		var delay = 100
+		for(var i = 0; i < 4; i++){
+			game.time.events.add(delay,addButton)
+			delay+=100	
+		}	
     }
 	
 	function addTiles(){
@@ -1082,12 +1104,12 @@ var rift = function(){
 		group.y = -200
 		buttonsGroup.add(group)
 		
-		var buttonImage = group.create(0,0,'atlas.rift','dragobject')
+		var buttonImage = group.create(0,0,"atlas.rift",'dragobject')
 		buttonImage.anchor.setTo(0.5,0.5)
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
 		group.add(pointsText)
 		
@@ -1095,14 +1117,14 @@ var rift = function(){
 		
 		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, -5, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "", fontStyle)
 		pointsText.scale.y = 0.7
 		pointsText.anchor.setTo(0.5,0.5)
 		group.add(pointsText)
 		
 		group.text2 = pointsText
 		
-		var dragImage = sceneGroup.create(83,-200,'atlas.rift','dragobject')
+		var dragImage = sceneGroup.create(83,-200,"atlas.rift",'dragobject')
 		dragImage.anchor.setTo(0.5,0.5)
 		dragImage.alpha = 0
 		group.drag = dragImage
@@ -1344,6 +1366,7 @@ var rift = function(){
 		yogotarGroup.fall = false
 		yogotarGroup.invincible = false
 		fieldGroup.add(yogotarGroup)
+		yogotarGroup.blink = 0
 		
 		var yogotar = game.add.spine(33,40, "yogotar");
 		yogotar.scale.setTo(0.8,0.8)
@@ -1377,6 +1400,26 @@ var rift = function(){
 		createParticles('rock',5)
 		
 	}
+
+	function blink(){
+
+        if(yogotarGroup.alpha ==1){
+            yogotarGroup.alpha = 0
+        }
+        else{
+            yogotarGroup.blink ++
+            yogotarGroup.alpha = 1
+            if(yogotarGroup.blink>=BLINK_TIMES){
+            	yogotarGroup.invensible = false
+                gameActive = true
+                yogotarGroup.blink = 0
+
+                return
+            }
+        }
+
+        setTimeout(blink,TIME_BLINK)
+    }
 	
 	function createMachine(){
 		
@@ -1418,23 +1461,35 @@ var rift = function(){
 		for(var i = 0; i< number;i++){
 			
 			var obj 
-			if(tag == 'monster' || tag == 'coin' || tag == 'diamond'){
+			if(tag == 'monster' || tag == 'diamond'){
 				
 				obj = game.add.sprite(-200, 0, tag);
                 piecesGroup.add(obj)
                 obj.animations.add('walk');
                 obj.animations.play('walk',12,true);
 				
+			}
+			else if(tag == "coin"){
+				obj = game.add.sprite(-200, 0, tag);
+                piecesGroup.add(obj)
+                obj.animations.add('walk');
+                obj.animations.play('walk',18,true);
 			}else{
 				
 				obj = piecesGroup.create(-200,0,'atlas.rift',tag)
 			}
 			
+
 			obj.anchor.setTo(0.5,0.5)
 			obj.scale.setTo(scale,scale)
 			obj.active = false
 			obj.tag = tag
 			obj.alpha = 0
+
+			if(tag == "coin"){
+				obj.scale.setTo(0.8,0.8)
+
+			}
 			
 		}
 	}
@@ -1446,7 +1501,8 @@ var rift = function(){
 		update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
-            
+			//parent._QUANTRIX.Mixpanel.startMinigame()
+
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			addMusic()
@@ -1470,8 +1526,10 @@ var rift = function(){
 			buttons.getButton(medievalSong,sceneGroup)
 			
             createOverlay()
-            
+            this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
             animateScene()
+
+            
             
 		},
 		show: function(event){

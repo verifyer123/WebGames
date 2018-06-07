@@ -1,0 +1,42 @@
+{
+	"category":"yogotar",
+	"attacks": {
+		"normal": [
+			{
+				"id": "earthRocks2",
+				"attachment": "particle2",
+				"delay": 450,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "earthBlaster2",
+				"attachment": "particle3",
+				"delay": 250,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Justice/justice.json",
+	"name": "Justice",
+	"spine": {
+		"options": {
+			"scale": 0.85,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/justice/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "earth"
+	},
+	"visuals": {
+		"shadowScaleX": 0.8,
+		"shadowY": -7,
+		"shadowScaleY": 1,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

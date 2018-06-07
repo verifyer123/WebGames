@@ -1,0 +1,104 @@
+
+estrella.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+estrella/armr
+  rotate: true
+  xy: 2, 3
+  size: 23, 28
+  orig: 23, 28
+  offset: 0, 0
+  index: -1
+estrella/body
+  rotate: true
+  xy: 200, 186
+  size: 68, 30
+  orig: 68, 30
+  offset: 0, 0
+  index: -1
+estrella/foot
+  rotate: true
+  xy: 232, 225
+  size: 29, 22
+  orig: 29, 22
+  offset: 0, 0
+  index: -1
+estrella/handl
+  rotate: true
+  xy: 90, 26
+  size: 32, 42
+  orig: 32, 42
+  offset: 0, 0
+  index: -1
+estrella/handr
+  rotate: false
+  xy: 200, 142
+  size: 23, 42
+  orig: 23, 42
+  offset: 0, 0
+  index: -1
+estrella/head
+  rotate: false
+  xy: 2, 134
+  size: 131, 120
+  orig: 131, 120
+  offset: 0, 0
+  index: -1
+estrella/leg
+  rotate: false
+  xy: 136, 42
+  size: 28, 26
+  orig: 28, 26
+  offset: 0, 0
+  index: -1
+estrella/mouth_a
+  rotate: true
+  xy: 250, 207
+  size: 16, 4
+  orig: 16, 4
+  offset: 0, 0
+  index: -1
+estrella/mouth_b
+  rotate: false
+  xy: 32, 16
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+estrella/mouth_c
+  rotate: true
+  xy: 232, 187
+  size: 36, 16
+  orig: 36, 16
+  offset: 0, 0
+  index: -1
+estrella/reflejo
+  rotate: false
+  xy: 2, 28
+  size: 86, 30
+  orig: 86, 30
+  offset: 0, 0
+  index: -1
+estrella/slpash
+  rotate: false
+  xy: 2, 60
+  size: 132, 72
+  orig: 132, 72
+  offset: 0, 0
+  index: -1
+estrella/tail
+  rotate: false
+  xy: 135, 139
+  size: 63, 115
+  orig: 63, 115
+  offset: 0, 0
+  index: -1
+estrella/torso
+  rotate: false
+  xy: 136, 70
+  size: 59, 67
+  orig: 59, 67
+  offset: 0, 0
+  index: -1

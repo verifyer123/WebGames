@@ -81,6 +81,7 @@ class App extends React.Component{
 			this.setChildData(response.child)
 			this.addChildData("subscribed", response.subscribed)
 			this.addChildData("daysToExpire", response.daysToExpire)
+			this.addChildData("isTrial", response.isTrial)
 		}
 
 		function onError() {
@@ -112,7 +113,7 @@ class App extends React.Component{
 			remoteID:this.childData.remoteID
 		}
 
-		if(registerType !== "newAccount")
+		//if(registerType !== "newAccount")
 			data.token = credentials.token
 
 		login.registerPin(data, onSuccess.bind(this), onError.bind(this), registerType)
@@ -135,7 +136,7 @@ class App extends React.Component{
 		login.saveChild(player, onSuccess)
 	}
 
-	showLogin(forceLogin, autoLogin, onLogin){
+	showLogin(forceLogin, autoLogin, onLogin, onErrorCallback){
 		this.forceLogin = forceLogin || false
 
 		this.onLogin = () => {
@@ -161,6 +162,7 @@ class App extends React.Component{
 			function onError() {
 				if(forceLogin)
 					this.handleClick("login")
+				if (onErrorCallback) onErrorCallback()
 			}
 
 			login.checkLogin(onSuccess.bind(this), onError.bind(this))

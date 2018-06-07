@@ -54,6 +54,7 @@ var rafaga_de_tamales = function(){
 
     
     var gameIndex = 19
+    var gameId = 5679382827892736
     var marioSong = null
 	var sceneGroup = null
     var pointsGroup = null
@@ -107,7 +108,7 @@ var rafaga_de_tamales = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#000000"
         lives = INITIAL_LIVES
         

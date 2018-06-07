@@ -38,7 +38,8 @@ var charactersEntity = function () {
 		for(var pcardIndex = 0; pcardIndex < cards.length; pcardIndex++){
 			var name = cards[pcardIndex].id
 			console.log(name, "playerCard")
-			var path = cards[pcardIndex].data.directory
+
+			var path = epicCharacters[name].directory
 			var yogotarReplace = name.replace("yogotar", "")
 			yogotarReplace = yogotarReplace.charAt(0).toLowerCase() + yogotarReplace.slice(1)
 			console.log(yogotarReplace)
@@ -50,8 +51,10 @@ var charactersEntity = function () {
 	}
 	
 	function getCard(card) {
+		var cardData = epicCharacters[card.id]
+
 		var cardGroup = game.add.group()
-		var cardBg = cardGroup.create(0,0, "atlas.cards", "t_" + card.data.stats.element)
+		var cardBg = cardGroup.create(0,0, "atlas.cards", "t_" + cardData.stats.element)
 		cardBg.anchor.setTo(0.5, 0.5)
 
 		var cardImage = cardGroup.create(0,0, card.id + "Card")

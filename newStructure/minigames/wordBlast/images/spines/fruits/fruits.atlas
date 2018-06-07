@@ -1,0 +1,48 @@
+
+fruits.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/fruits_apple
+  rotate: false
+  xy: 2, 400
+  size: 197, 197
+  orig: 197, 197
+  offset: 0, 0
+  index: -1
+normal/fruits_banana
+  rotate: false
+  xy: 2, 201
+  size: 197, 197
+  orig: 197, 197
+  offset: 0, 0
+  index: -1
+normal/fruits_carrot
+  rotate: false
+  xy: 201, 400
+  size: 197, 197
+  orig: 197, 197
+  offset: 0, 0
+  index: -1
+normal/fruits_fruits
+  rotate: false
+  xy: 201, 201
+  size: 196, 197
+  orig: 196, 197
+  offset: 0, 0
+  index: -1
+normal/fruits_orange
+  rotate: false
+  xy: 2, 2
+  size: 197, 197
+  orig: 197, 197
+  offset: 0, 0
+  index: -1
+normal/fruits_peach
+  rotate: false
+  xy: 400, 400
+  size: 196, 197
+  orig: 196, 197
+  offset: 0, 0
+  index: -1

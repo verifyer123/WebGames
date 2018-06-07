@@ -1,0 +1,41 @@
+
+conveyor.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/band_line_1
+  rotate: false
+  xy: 944, 1075
+  size: 256, 125
+  orig: 256, 125
+  offset: 0, 0
+  index: -1
+normal/conveyor_belt
+  rotate: false
+  xy: 2, 215
+  size: 917, 479
+  orig: 917, 479
+  offset: 0, 0
+  index: -1
+normal/gear_1
+  rotate: false
+  xy: 944, 1027
+  size: 36, 46
+  orig: 36, 46
+  offset: 0, 0
+  index: -1
+normal/leg_1
+  rotate: false
+  xy: 2, 15
+  size: 43, 198
+  orig: 43, 198
+  offset: 0, 0
+  index: -1
+normal/table_color
+  rotate: false
+  xy: 2, 696
+  size: 940, 504
+  orig: 940, 504
+  offset: 0, 0
+  index: -1

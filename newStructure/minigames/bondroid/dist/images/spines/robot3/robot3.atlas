@@ -1,0 +1,104 @@
+
+robot3.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/cables_l
+  rotate: false
+  xy: 587, 168
+  size: 44, 86
+  orig: 44, 86
+  offset: 0, 0
+  index: -1
+normal2/cables_r
+  rotate: false
+  xy: 633, 168
+  size: 44, 86
+  orig: 44, 86
+  offset: 0, 0
+  index: -1
+normal2/center
+  rotate: false
+  xy: 679, 198
+  size: 30, 56
+  orig: 30, 56
+  offset: 0, 0
+  index: -1
+normal2/pin_l_a
+  rotate: true
+  xy: 165, 33
+  size: 52, 105
+  orig: 52, 105
+  offset: 0, 0
+  index: -1
+normal2/pin_l_b
+  rotate: false
+  xy: 481, 149
+  size: 51, 105
+  orig: 51, 105
+  offset: 0, 0
+  index: -1
+normal2/pin_r_a
+  rotate: false
+  xy: 534, 150
+  size: 51, 104
+  orig: 51, 104
+  offset: 0, 0
+  index: -1
+normal2/pin_r_b
+  rotate: true
+  xy: 272, 33
+  size: 52, 104
+  orig: 52, 104
+  offset: 0, 0
+  index: -1
+normal2/pipe_a_l
+  rotate: false
+  xy: 711, 216
+  size: 45, 38
+  orig: 45, 38
+  offset: 0, 0
+  index: -1
+normal2/pipe_a_r
+  rotate: false
+  xy: 481, 107
+  size: 45, 40
+  orig: 45, 40
+  offset: 0, 0
+  index: -1
+normal2/pipe_b_l
+  rotate: false
+  xy: 165, 2
+  size: 47, 29
+  orig: 47, 29
+  offset: 0, 0
+  index: -1
+normal2/pipe_b_r
+  rotate: false
+  xy: 214, 2
+  size: 47, 29
+  orig: 47, 29
+  offset: 0, 0
+  index: -1
+normal2/robot_body
+  rotate: false
+  xy: 2, 87
+  size: 393, 167
+  orig: 393, 167
+  offset: 0, 0
+  index: -1
+normal2/robot_hand_l
+  rotate: true
+  xy: 2, 3
+  size: 82, 161
+  orig: 82, 161
+  offset: 0, 0
+  index: -1
+normal2/robot_hand_r
+  rotate: false
+  xy: 397, 94
+  size: 82, 160
+  orig: 82, 160
+  offset: 0, 0
+  index: -1

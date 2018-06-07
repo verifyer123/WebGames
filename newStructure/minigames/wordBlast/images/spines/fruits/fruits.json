@@ -1,0 +1,147 @@
+{
+"skeleton": { "hash": "pzMT/2uE2uySJtcERQBaBr3o2bA", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "COG", "parent": "root", "rotation": 90, "y": 30, "color": "000000ff" },
+	{ "name": "circle", "parent": "COG", "length": 85.01, "x": 85.08, "scaleX": 1.013, "scaleY": 1.013, "inheritScale": false },
+	{ "name": "fruit", "parent": "circle", "x": -0.3, "inheritScale": false }
+],
+"slots": [
+	{ "name": "circle", "bone": "circle", "attachment": "circle" },
+	{ "name": "fruit", "bone": "fruit", "attachment": "fruit" }
+],
+"skins": {
+	"default": {},
+	"apple": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/fruits_apple", "x": 7.3, "rotation": -90, "width": 197, "height": 197 }
+		}
+	},
+	"banana": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/fruits_banana", "x": 7.3, "rotation": -90, "width": 197, "height": 197 }
+		}
+	},
+	"carrot": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/fruits_carrot", "x": 7.3, "rotation": -90, "width": 197, "height": 197 }
+		}
+	},
+	"orange": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/fruits_orange", "x": 10.79, "y": 0.69, "rotation": -90, "width": 197, "height": 197 }
+		}
+	},
+	"peach": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/fruits_peach", "x": 10.79, "y": 0.69, "rotation": -90, "width": 196, "height": 197 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"circle": {
+				"attachment": [
+					{ "time": 0, "name": "circle" },
+					{ "time": 0.6666, "name": "circle" }
+				]
+			},
+			"fruit": {
+				"attachment": [
+					{ "time": 0, "name": "fruit" },
+					{ "time": 0.6666, "name": "fruit" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			},
+			"COG": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			},
+			"circle": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			},
+			"fruit": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.312, -0.88, 0.886, 0.6 ]
+					},
+					{
+						"time": 0.3333,
+						"x": 0.943,
+						"y": 0.943,
+						"curve": [ 0.312, -0.88, 0.886, 0.6 ]
+					},
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 0.6666 }
+		]
+	}
+}
+}

@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 
@@ -25,17 +24,13 @@ var rabitTrace = function(){
                 json: "images/rabitTrace/atlas.json",
                 image: "images/rabitTrace/atlas.png"
             },
-            {   
+            {
                 name: "atlas.time",
                 json: "images/rabitTrace/timeAtlas.json",
                 image: "images/rabitTrace/timeAtlas.png"
             },
 
         ],
-        /*images: [
-            {   name:"fondo",
-				file: "images/sympho/fondo.png"}
-		],*/
 		sounds: [
             {	name: "pop",
                 file: soundsPath + "pop.mp3"},
@@ -117,7 +112,8 @@ var rabitTrace = function(){
     var currentTime
     var correctParticle
 
-
+    var foundFinish
+    var stopTouch
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -144,6 +140,10 @@ var rabitTrace = function(){
 
         currentLevel = 0
         timeOn = false
+
+        foundFinish = false
+        
+        stopTouch = false
 
         restartArraySpaces()
 
@@ -368,6 +368,8 @@ var rabitTrace = function(){
         })
 
         addNumberPart(heartsGroup.text,'-1')
+
+        stopTouch = true
         
         if(lives === 0){
             stopGame(false)
@@ -391,10 +393,16 @@ var rabitTrace = function(){
     function update() {
         if(canTouch){
             if(game.input.activePointer.isDown){
+                if(stopTouch){
+                    return
+                }
+                if(foundFinish){
+                    return
+                }
                 var pos = evaluateTouchPosition()
                // console.log(pos)
                 if(touchStarted){
-                    if(pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y){
+                    if((pos.x != decidedRute[decidedRute.length-1].x || pos.y != decidedRute[decidedRute.length-1].y) && !(pos.x ==decidedRute[decidedRute.length-2].x && pos.y ==decidedRute[decidedRute.length-2].y)){
 
                         var dX = Math.abs(pos.x - decidedRute[decidedRute.length-1].x)
                         var dY = Math.abs(pos.y - decidedRute[decidedRute.length-1].y)
@@ -403,6 +411,10 @@ var rabitTrace = function(){
 
                             setLineDirection(pos,decidedRute[decidedRute.length-1])
                             decidedRute.push({x:pos.x, y:pos.y})
+
+                            if(pos.x == ruteArray[ruteArray.length-1].x && pos.y == ruteArray[ruteArray.length-1].y){
+                                foundFinish = true
+                            }
                             //console.log(decidedRute)
                             //var helpImage = sceneGroup.create(space_0.x + (pos.x*DELTA_SPACE), space_0.y - (pos.y*DELTA_SPACE),'atlas.rabitTrace','star')
                             //helpImage.anchor.setTo(0.5,0.5)
@@ -427,9 +439,19 @@ var rabitTrace = function(){
                         
                     }
                 }
+
+                
             }
             else{
+                if(stopTouch){
+                    stopTouch = false
+                    touchStarted = false
+                    //canTouch = false
+                    return
+                }
+
                 if(touchStarted){
+                    foundFinish = false
                     canTouch = false
                     //console.log(decidedRute, ruteArray)
 
@@ -901,6 +923,7 @@ var rabitTrace = function(){
     function startTouch(){
     	touchStarted = false
     	canTouch = true
+        stopTouch = false
     	if(timeOn){
             startTimer(currentTime)
             if(currentTime > MIN_TIME){
@@ -969,6 +992,8 @@ var rabitTrace = function(){
 
 
     function setRound(){
+        touchStarted = false
+        canTouch = false
         ruteArray = []
         restartArraySpaces()
         createRute()
@@ -978,14 +1003,6 @@ var rabitTrace = function(){
 
     function nextRound(){
     	releaseLines()
-        /*for(var i = 0; i < horizontalGroup.length; i++){
-            horizontalGroup.children[i].alpha = 0
-        }
-
-        for(var i = 0; i < verticalGroup.length; i++){
-            verticalGroup.children[i].alpha = 0
-        }*/
-
         for(var i = 0; i < carrotGroup.length; i++){
         	if(carrotGroup.children[i].alpha == 1){
 	            game.add.tween(carrotGroup.children[i]).from({alpha:1}).to({alpha:0},1000,Phaser.Easing.Linear.none,true)
@@ -1187,13 +1204,15 @@ var rabitTrace = function(){
 
         createPointsBar()
         createHearts()
-        createTutorial()
+        
 
         createRabit()
         createCarrots()
         correctParticle = createPart('atlas.rabitTrace','star')
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+
+        createTutorial()
     
     }
     

@@ -54,6 +54,7 @@ var skiZag = function(){
     var skinTable
     
     var gameIndex = 20
+    var gameId = 5766289444306944
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -131,7 +132,7 @@ var skiZag = function(){
 
 
     function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         lives = INITIAL_LIVES
         skinTable = []

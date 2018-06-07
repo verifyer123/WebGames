@@ -1,0 +1,146 @@
+
+forest_animals.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/b_body
+  rotate: false
+  xy: 2, 397
+  size: 112, 113
+  orig: 112, 113
+  offset: 0, 0
+  index: -1
+normal/b_ear_1
+  rotate: true
+  xy: 289, 443
+  size: 33, 61
+  orig: 33, 61
+  offset: 0, 0
+  index: -1
+normal/b_ear_2
+  rotate: false
+  xy: 2, 140
+  size: 68, 53
+  orig: 68, 53
+  offset: 0, 0
+  index: -1
+normal/b_face
+  rotate: false
+  xy: 116, 416
+  size: 105, 94
+  orig: 105, 94
+  offset: 0, 0
+  index: -1
+normal/b_hair
+  rotate: false
+  xy: 34, 71
+  size: 28, 29
+  orig: 28, 29
+  offset: 0, 0
+  index: -1
+normal/b_leg_1
+  rotate: true
+  xy: 459, 487
+  size: 23, 26
+  orig: 23, 26
+  offset: 0, 0
+  index: -1
+normal/b_leg_2
+  rotate: false
+  xy: 34, 43
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+normal/b_leg_3
+  rotate: true
+  xy: 289, 478
+  size: 32, 83
+  orig: 32, 83
+  offset: 0, 0
+  index: -1
+normal/b_nose
+  rotate: false
+  xy: 420, 489
+  size: 37, 21
+  orig: 37, 21
+  offset: 0, 0
+  index: -1
+normal/b_tail
+  rotate: false
+  xy: 34, 102
+  size: 24, 36
+  orig: 24, 36
+  offset: 0, 0
+  index: -1
+normal/s_body
+  rotate: false
+  xy: 2, 288
+  size: 106, 107
+  orig: 106, 107
+  offset: 0, 0
+  index: -1
+normal/s_ear_1
+  rotate: false
+  xy: 2, 23
+  size: 30, 35
+  orig: 30, 35
+  offset: 0, 0
+  index: -1
+normal/s_ear_2
+  rotate: false
+  xy: 72, 153
+  size: 33, 40
+  orig: 33, 40
+  offset: 0, 0
+  index: -1
+normal/s_face
+  rotate: false
+  xy: 2, 195
+  size: 106, 91
+  orig: 106, 91
+  offset: 0, 0
+  index: -1
+normal/s_hair
+  rotate: false
+  xy: 374, 482
+  size: 44, 28
+  orig: 44, 28
+  offset: 0, 0
+  index: -1
+normal/s_leg_1
+  rotate: false
+  xy: 352, 452
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+normal/s_leg_2
+  rotate: false
+  xy: 487, 486
+  size: 23, 24
+  orig: 23, 24
+  offset: 0, 0
+  index: -1
+normal/s_leg_3
+  rotate: false
+  xy: 2, 60
+  size: 30, 78
+  orig: 30, 78
+  offset: 0, 0
+  index: -1
+normal/s_mouth
+  rotate: false
+  xy: 116, 398
+  size: 35, 16
+  orig: 35, 16
+  offset: 0, 0
+  index: -1
+normal/s_tail
+  rotate: false
+  xy: 223, 428
+  size: 64, 82
+  orig: 64, 82
+  offset: 0, 0
+  index: -1

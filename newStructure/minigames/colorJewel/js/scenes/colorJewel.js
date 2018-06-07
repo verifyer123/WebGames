@@ -127,7 +127,7 @@ var colorJewel = function(){
 
         currentJewelsLevel = 10
 
-        INITIAL_POSITION = {x:game.world.centerX-(DELTA_QUAD*1.5), y:game.world.centerY+420}
+        INITIAL_POSITION = {x:game.world.centerX-(DELTA_QUAD*1.5), y:game.world.centerY+400}
 
         touchIsDown = false
 
@@ -179,9 +179,6 @@ var colorJewel = function(){
         game.load.spritesheet("coin", 'images/colorJewel/coin.png', 122, 123, 12)
 
         //loadType(gameIndex)
-
-
-
     }
 
     function createHearts(){
@@ -403,6 +400,7 @@ var colorJewel = function(){
 
             if(quad!=null){
 
+
             	if(quad.colorValue == currentColorValue){
                 
 	            	Coin(quad,pointsBar,100)
@@ -485,7 +483,7 @@ var colorJewel = function(){
                 touch.y = -100
 
 
-                
+                //console.log(arrayValues)
 
 
             }
@@ -575,6 +573,7 @@ var colorJewel = function(){
         								}
 
         								createdComboQuad = true
+                                        //console.log("HorizontalCheck ",arrayValues)
         								break
                         			}
                         		}
@@ -620,12 +619,12 @@ var colorJewel = function(){
                         				var y = INITIAL_POSITION.y - (DELTA_QUAD * (indexJ+1))
                         				var quad = getQuad(x,y,lastColor,2)
 
+
                         				quad.rotated = false
                         				quad.angle = 0
                         				quad.indexI = indexI
         								quad.indexJ = indexJ
         								quad.nextY = y
-        								//quad.nextY = -1
         								quad.scale.setTo(0)
 
         								arrayColorsInScene[lastColor]-=3
@@ -642,6 +641,8 @@ var colorJewel = function(){
 
         								}
         								createdComboQuad = true
+
+                                        
         								break
                         			}
                         		}
@@ -660,7 +661,7 @@ var colorJewel = function(){
                         	if(quadsGroup.children[i].rotated){
                         		if(indexJ<ARRAY_HEIGHT-1){
                         			if(arrayValues[indexI][indexJ+1].object!=null){
-		                        		if(arrayValues[indexI][indexJ+1].object.type == 2 && arrayValues[indexI][indexJ+1].object.rotated){
+		                        		if(arrayValues[indexI][indexJ+1].object.type == 2 && arrayValues[indexI][indexJ+1].object.rotated && arrayValues[indexI][indexJ+1].object.indexI == indexI){
 		                        			if(arrayValues[indexI][indexJ+1].value == arrayValues[indexI][indexJ].object.colorValue){
 		                        				var x = INITIAL_POSITION.x + (DELTA_QUAD * (indexI+1))
 	                        					var y = INITIAL_POSITION.y - (DELTA_QUAD * (indexJ+0.5))
@@ -700,7 +701,7 @@ var colorJewel = function(){
 
 	                        	if(indexJ>0){
 	                        		if(arrayValues[indexI][indexJ-1].object!=null){
-		                        		if(arrayValues[indexI][indexJ-1].object.type == 2 && arrayValues[indexI][indexJ-1].object.rotated){
+		                        		if(arrayValues[indexI][indexJ-1].object.type == 2 && arrayValues[indexI][indexJ-1].object.rotated && arrayValues[indexI][indexJ-1].object.indexI == indexI){
 		                        			if(arrayValues[indexI][indexJ-1].value == arrayValues[indexI][indexJ].object.colorValue){
 		                        				var x = INITIAL_POSITION.x + (DELTA_QUAD * (indexI+1))
 	                        					var y = INITIAL_POSITION.y - (DELTA_QUAD * ((indexJ-1)+0.5))
@@ -736,7 +737,7 @@ var colorJewel = function(){
                         	else{
                         		if(indexI<ARRAY_WIDTH-1){
                         			if(arrayValues[indexI+1][indexJ].object!=null){
-		                        		if(arrayValues[indexI+1][indexJ].object.type == 2 && !arrayValues[indexI+1][indexJ].object.rotated){
+		                        		if(arrayValues[indexI+1][indexJ].object.type == 2 && !arrayValues[indexI+1][indexJ].object.rotated && arrayValues[indexI+1][indexJ].object.indexJ == indexJ){
 		                        			if(arrayValues[indexI+1][indexJ].value == arrayValues[indexI][indexJ].object.colorValue){
 		                        				var x = INITIAL_POSITION.x + (DELTA_QUAD * (indexI+0.5))
 	                        					var y = INITIAL_POSITION.y - (DELTA_QUAD * (indexJ+1))
@@ -776,7 +777,7 @@ var colorJewel = function(){
 
 	                        	if(indexI>0){
 	                        		if(arrayValues[indexI-1][indexJ].object!=null){
-		                        		if(arrayValues[indexI-1][indexJ].object.type == 2 && !arrayValues[indexI-1][indexJ].object.rotated){
+		                        		if(arrayValues[indexI-1][indexJ].object.type == 2 && !arrayValues[indexI-1][indexJ].object.rotated && arrayValues[indexI-1][indexJ].object.indexJ == indexJ){
 		                        			if(arrayValues[indexI-1][indexJ].value == arrayValues[indexI][indexJ].object.colorValue){
 		                        				var x = INITIAL_POSITION.x + (DELTA_QUAD * ((indexI-1)+0.5))
 	                        					var y = INITIAL_POSITION.y - (DELTA_QUAD * (indexJ+1))
@@ -813,6 +814,8 @@ var colorJewel = function(){
                 }
             }
         }
+
+
 
     }
 
@@ -1088,7 +1091,7 @@ var colorJewel = function(){
 
         mask = game.add.graphics(0, 0);
         mask.beginFill(0xffffff);
-        mask.drawRect(0, game.world.centerY-200, game.world.width,game.world.centerY+190);
+        mask.drawRect(0, game.world.centerY-220, game.world.width,game.world.centerY+190);
 
         
         
@@ -1346,7 +1349,7 @@ var colorJewel = function(){
         background.anchor.setTo(0,0)
         backgroundGroup.add(background)
 
-        var animalBox = sceneGroup.create(game.world.centerX,game.world.centerY-300,'atlas.colorJewel','animals_area')
+        var animalBox = sceneGroup.create(game.world.centerX,game.world.centerY-320,'atlas.colorJewel','animals_area')
         animalBox.anchor.setTo(0.5)
 		animalSpines = []
         animalSpines.push(CreateSipne('dog',animalBox.y,0,0))
@@ -1354,7 +1357,7 @@ var colorJewel = function(){
         animalSpines.push(CreateSipne('gorilla',animalBox.y-15,-1,0))
 
 
-        var board = sceneGroup.create(game.world.centerX, game.world.centerY+150,'atlas.colorJewel','jewel_area')
+        var board = sceneGroup.create(game.world.centerX, game.world.centerY+130,'atlas.colorJewel','jewel_area')
         board.anchor.setTo(0.5)
         board.scale.setTo(1.1,1.1)
 
@@ -1396,13 +1399,16 @@ var colorJewel = function(){
         createTouch()
         createPointsBar()
         createHearts()
-        createTutorial()
+        
 
         correctParticle = createPart('atlas.colorJewel','star')
 
         console.log("paticle correc ",correctParticle)
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+
+
+        createTutorial()
 
 
     }

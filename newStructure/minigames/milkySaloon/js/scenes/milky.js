@@ -1,4 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
+var tutorialPath = "../../shared/minigames/"
 var milky = function(){
     
     var localizationData = {
@@ -28,9 +29,17 @@ var milky = function(){
                 json: "images/milky/atlas.json",
                 image: "images/milky/atlas.png",
             },
+            {   
+                name: "atlas.tutorial",
+                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
+            }
         ],
         images: [
-
+            {
+				name:'tutorial_image',
+				file:"images/milky/gametuto.png"
+			},
 		],
 		sounds: [
             {	name: "magic",
@@ -62,6 +71,7 @@ var milky = function(){
 	var shoot
 	var particlesGroup, particlesUsed
     var gameIndex = 105
+    var tutoGroup
 	var indexGame
     var overlayGroup
     var cowSong
@@ -287,6 +297,19 @@ var milky = function(){
 		
 		console.log(localization.getLanguage() + ' language')
         
+    }
+    
+    function createTutorial(){
+        
+        tutoGroup = game.add.group()
+        sceneGroup.add(tutoGroup)
+
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+    }
+    
+    function onClickPlay() {
+        tutoGroup.y = -game.world.height
+        initGame()
     }
     
     function createOverlay(){
@@ -1055,7 +1078,8 @@ var milky = function(){
             createParticles()
 			
 			buttons.getButton(cowSong,sceneGroup)
-            createOverlay()
+            createTutorial()
+            //createOverlay()
             
             animateScene()
             

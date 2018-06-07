@@ -1,0 +1,174 @@
+
+tomiko.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm1
+  rotate: true
+  xy: 326, 385
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+normal/arm2
+  rotate: false
+  xy: 485, 476
+  size: 23, 34
+  orig: 23, 34
+  offset: 0, 0
+  index: -1
+normal/eye_a
+  rotate: true
+  xy: 40, 22
+  size: 109, 32
+  orig: 109, 32
+  offset: 0, 0
+  index: -1
+normal/eye_b
+  rotate: false
+  xy: 329, 478
+  size: 110, 32
+  orig: 110, 32
+  offset: 0, 0
+  index: -1
+normal/eye_c
+  rotate: true
+  xy: 126, 241
+  size: 111, 31
+  orig: 111, 34
+  offset: 0, 3
+  index: -1
+normal/eye_d
+  rotate: true
+  xy: 2, 20
+  size: 111, 36
+  orig: 111, 36
+  offset: 0, 0
+  index: -1
+normal/foot1
+  rotate: false
+  xy: 245, 399
+  size: 43, 29
+  orig: 43, 29
+  offset: 0, 0
+  index: -1
+normal/foot2
+  rotate: false
+  xy: 366, 391
+  size: 38, 26
+  orig: 38, 26
+  offset: 0, 0
+  index: -1
+normal/forearm1
+  rotate: false
+  xy: 222, 357
+  size: 39, 39
+  orig: 39, 40
+  offset: 0, 1
+  index: -1
+normal/forearm2
+  rotate: true
+  xy: 80, 187
+  size: 34, 27
+  orig: 34, 27
+  offset: 0, 0
+  index: -1
+normal/hair
+  rotate: false
+  xy: 2, 223
+  size: 92, 129
+  orig: 92, 129
+  offset: 0, 0
+  index: -1
+normal/hand1_a
+  rotate: true
+  xy: 290, 398
+  size: 30, 34
+  orig: 30, 34
+  offset: 0, 0
+  index: -1
+normal/hand2_a
+  rotate: false
+  xy: 80, 158
+  size: 26, 27
+  orig: 26, 27
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 2, 354
+  size: 169, 156
+  orig: 169, 156
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: true
+  xy: 173, 355
+  size: 41, 47
+  orig: 41, 47
+  offset: 0, 0
+  index: -1
+normal/leg2
+  rotate: true
+  xy: 441, 473
+  size: 37, 42
+  orig: 37, 42
+  offset: 0, 0
+  index: -1
+normal/minifox
+  rotate: false
+  xy: 173, 398
+  size: 70, 112
+  orig: 70, 112
+  offset: 0, 0
+  index: -1
+normal/minilose
+  rotate: false
+  xy: 245, 430
+  size: 82, 80
+  orig: 82, 80
+  offset: 0, 0
+  index: -1
+normal/mouth_a
+  rotate: true
+  xy: 45, 2
+  size: 18, 6
+  orig: 19, 6
+  offset: 1, 0
+  index: -1
+normal/mouth_b
+  rotate: false
+  xy: 2, 2
+  size: 41, 16
+  orig: 41, 16
+  offset: 0, 0
+  index: -1
+normal/mouth_c
+  rotate: true
+  xy: 159, 339
+  size: 13, 8
+  orig: 13, 8
+  offset: 0, 0
+  index: -1
+normal/papper
+  rotate: false
+  xy: 329, 419
+  size: 84, 57
+  orig: 84, 57
+  offset: 0, 0
+  index: -1
+normal/shadow
+  rotate: true
+  xy: 96, 232
+  size: 120, 28
+  orig: 120, 28
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 2, 133
+  size: 76, 88
+  orig: 76, 88
+  offset: 0, 0
+  index: -1

@@ -105,10 +105,10 @@ var fridge = function(){
         fontStyle = {font: "36px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
         if(localization.getLanguage() === 'ES'){
-            food = ['Animal', 'Lacteos', 'Frutas', 'Verduras', 'Cereles', 'Leguminosas'] 
+            food = ['Animal', 'Lacteos', 'Frutas', 'Verduras', 'Cereales', 'Leguminosas'] 
         }
         else{
-            food = ['Animal', 'Dairy', 'Fruits', 'Vegetables', 'Cerels', 'Legume']
+            food = ['Animal', 'Dairy', 'Fruits', 'Vegetables', 'Cereals', 'Legume']
         }
         
         loadSounds()
@@ -645,7 +645,9 @@ var fridge = function(){
                 sections.y += 300 * c
                 sections.anchor.setTo(0.5)
                 
-                var sectionsText = new Phaser.Text(sceneGroup.game, 0, 0, '0', fontStyle)
+                var sectionsText = new Phaser.Text(sceneGroup.game, 0, 0, '', fontStyle)
+                sectionsText.stroke = "#808080"
+                sectionsText.strokeThickness = 10
                 sectionsText.anchor.setTo(0.5)
                 sectionsText.y = sections.y + 5
                 sectionsText.x = sections.x
@@ -1038,8 +1040,8 @@ var fridge = function(){
     }
     
     function getRandX(){
-        var x = game.rnd.integerInRange(game.world.centerX - tableFront.width * 0.4, 
-                                        game.world.centerX + tableFront.width * 0.4)
+        var x = game.rnd.integerInRange(game.world.centerX - tableFront.width * 0.35, 
+                                        game.world.centerX + tableFront.width * 0.35)
         if(x === popPosX)
             return getRandX()
         else

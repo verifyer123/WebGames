@@ -1,0 +1,76 @@
+
+american _indian.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm1
+  rotate: false
+  xy: 633, 413
+  size: 124, 83
+  orig: 124, 83
+  offset: 0, 0
+  index: -1
+normal/dientes
+  rotate: false
+  xy: 274, 92
+  size: 137, 80
+  orig: 137, 80
+  offset: 0, 0
+  index: -1
+normal/eyes
+  rotate: false
+  xy: 866, 445
+  size: 128, 51
+  orig: 128, 51
+  offset: 0, 0
+  index: -1
+normal/face_a
+  rotate: false
+  xy: 274, 174
+  size: 174, 119
+  orig: 174, 119
+  offset: 0, 0
+  index: -1
+normal/face_b
+  rotate: false
+  xy: 452, 403
+  size: 179, 93
+  orig: 179, 93
+  offset: 0, 0
+  index: -1
+normal/feather
+  rotate: true
+  xy: 2, 2
+  size: 67, 185
+  orig: 67, 185
+  offset: 0, 0
+  index: -1
+normal/hand1
+  rotate: false
+  xy: 759, 411
+  size: 105, 85
+  orig: 105, 85
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 2, 71
+  size: 270, 425
+  orig: 270, 425
+  offset: 0, 0
+  index: -1
+normal/leg1
+  rotate: true
+  xy: 452, 316
+  size: 85, 130
+  orig: 85, 130
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 274, 295
+  size: 176, 201
+  orig: 176, 201
+  offset: 0, 0
+  index: -1

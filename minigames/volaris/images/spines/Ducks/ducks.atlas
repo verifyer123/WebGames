@@ -1,0 +1,62 @@
+
+ducks.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/duc2
+  rotate: false
+  xy: 2, 92
+  size: 20, 26
+  orig: 20, 26
+  offset: 0, 0
+  index: -1
+normal/duc3
+  rotate: true
+  xy: 2, 20
+  size: 23, 15
+  orig: 23, 15
+  offset: 0, 0
+  index: -1
+normal/duc4
+  rotate: true
+  xy: 2, 67
+  size: 23, 19
+  orig: 23, 19
+  offset: 0, 0
+  index: -1
+normal/duc5
+  rotate: true
+  xy: 2, 45
+  size: 20, 19
+  orig: 20, 19
+  offset: 0, 0
+  index: -1
+normal/duc6
+  rotate: false
+  xy: 49, 100
+  size: 22, 18
+  orig: 22, 18
+  offset: 0, 0
+  index: -1
+normal/duc7
+  rotate: false
+  xy: 24, 97
+  size: 23, 21
+  orig: 23, 21
+  offset: 0, 0
+  index: -1
+normal/duc8
+  rotate: false
+  xy: 73, 100
+  size: 21, 18
+  orig: 21, 18
+  offset: 0, 0
+  index: -1
+normal/duc9
+  rotate: false
+  xy: 96, 102
+  size: 22, 16
+  orig: 22, 16
+  offset: 0, 0
+  index: -1

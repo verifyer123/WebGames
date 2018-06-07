@@ -19,11 +19,11 @@ var epicSiteMain =  function(){
 	})
 	
 	buttonBooks.click(function () {
-		window.location.href = "http://play.yogome.com/yogobooks.html"
+		window.location.href = "https://play.yogome.com/yogobooks.html"
 	})
 	
 	buttonVideos.click(function () {
-		window.location.href = "http://play.yogome.com/webisodes.html"
+		window.location.href = "https://play.yogome.com/webisodes.html"
 	})
 
 	function loadGame(src){

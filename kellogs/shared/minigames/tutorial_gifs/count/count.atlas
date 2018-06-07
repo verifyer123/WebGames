@@ -1,0 +1,132 @@
+
+count.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/fist_r_closed
+  rotate: true
+  xy: 2, 53
+  size: 73, 74
+  orig: 73, 74
+  offset: 0, 0
+  index: -1
+normal1/indexfinger_closed
+  rotate: false
+  xy: 177, 36
+  size: 30, 29
+  orig: 30, 29
+  offset: 0, 0
+  index: -1
+normal1/indexfinger_halfway
+  rotate: false
+  xy: 140, 32
+  size: 35, 33
+  orig: 35, 33
+  offset: 0, 0
+  index: -1
+normal1/indexfinger_raised
+  rotate: false
+  xy: 78, 12
+  size: 27, 57
+  orig: 27, 57
+  offset: 0, 0
+  index: -1
+normal1/line
+  rotate: true
+  xy: 209, 38
+  size: 11, 30
+  orig: 11, 30
+  offset: 0, 0
+  index: -1
+normal1/littlefinger_closed
+  rotate: true
+  xy: 107, 2
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+normal1/littlefinger_halfway
+  rotate: false
+  xy: 220, 10
+  size: 24, 26
+  orig: 24, 26
+  offset: 0, 0
+  index: -1
+normal1/littlefinger_raised
+  rotate: true
+  xy: 209, 51
+  size: 18, 36
+  orig: 18, 36
+  offset: 0, 0
+  index: -1
+normal1/middlefinger_closed
+  rotate: true
+  xy: 225, 73
+  size: 23, 28
+  orig: 23, 28
+  offset: 0, 0
+  index: -1
+normal1/middlefinger_halfway
+  rotate: false
+  xy: 107, 29
+  size: 31, 40
+  orig: 31, 40
+  offset: 0, 0
+  index: -1
+normal1/middlefinger_raised
+  rotate: false
+  xy: 49, 6
+  size: 27, 45
+  orig: 27, 45
+  offset: 0, 0
+  index: -1
+normal1/palm
+  rotate: true
+  xy: 78, 71
+  size: 55, 60
+  orig: 55, 60
+  offset: 0, 0
+  index: -1
+normal1/palm_fix
+  rotate: false
+  xy: 195, 98
+  size: 41, 28
+  orig: 41, 28
+  offset: 0, 0
+  index: -1
+normal1/ringfinger_closed
+  rotate: true
+  xy: 195, 71
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+normal1/ringfinger_halfway
+  rotate: true
+  xy: 140, 3
+  size: 27, 31
+  orig: 27, 31
+  offset: 0, 0
+  index: -1
+normal1/ringfinger_raised
+  rotate: true
+  xy: 177, 11
+  size: 23, 41
+  orig: 23, 41
+  offset: 0, 0
+  index: -1
+normal1/thumb_closed
+  rotate: false
+  xy: 140, 67
+  size: 53, 59
+  orig: 53, 59
+  offset: 0, 0
+  index: -1
+normal1/thumb_raised
+  rotate: true
+  xy: 2, 12
+  size: 39, 45
+  orig: 39, 45
+  offset: 0, 0
+  index: -1

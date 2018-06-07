@@ -1,0 +1,153 @@
+
+mole.png
+size: 345,141
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_29
+  rotate: true
+  xy: 194, 24
+  size: 55, 42
+  orig: 55, 42
+  offset: 0, 0
+  index: -1
+normal/Capa_5
+  rotate: false
+  xy: 281, 8
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+normal/atras
+  rotate: true
+  xy: 31, 27
+  size: 112, 31
+  orig: 112, 31
+  offset: 0, 0
+  index: -1
+normal/eyebrown
+  rotate: true
+  xy: 29, 5
+  size: 10, 9
+  orig: 10, 9
+  offset: 0, 0
+  index: -1
+normal/frente
+  rotate: true
+  xy: 2, 17
+  size: 122, 27
+  orig: 122, 27
+  offset: 0, 0
+  index: -1
+normal/glassesF
+  rotate: false
+  xy: 238, 58
+  size: 39, 25
+  orig: 39, 25
+  offset: 0, 0
+  index: -1
+normal/glassesRL1
+  rotate: false
+  xy: 238, 31
+  size: 38, 25
+  orig: 38, 25
+  offset: 0, 0
+  index: -1
+normal/glassesRL2
+  rotate: true
+  xy: 2, 2
+  size: 13, 25
+  orig: 13, 25
+  offset: 0, 0
+  index: -1
+normal/hair
+  rotate: false
+  xy: 194, 6
+  size: 15, 16
+  orig: 15, 16
+  offset: 0, 0
+  index: -1
+normal/handB
+  rotate: true
+  xy: 40, 2
+  size: 23, 38
+  orig: 23, 38
+  offset: 0, 0
+  index: -1
+normal/handF
+  rotate: false
+  xy: 313, 8
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+normal/handRL
+  rotate: false
+  xy: 238, 3
+  size: 41, 26
+  orig: 41, 26
+  offset: 0, 0
+  index: -1
+normal/headB
+  rotate: false
+  xy: 280, 86
+  size: 54, 53
+  orig: 54, 53
+  offset: 0, 0
+  index: -1
+normal/headF
+  rotate: false
+  xy: 224, 85
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
+normal/headRL
+  rotate: false
+  xy: 280, 40
+  size: 53, 44
+  orig: 53, 44
+  offset: 0, 0
+  index: -1
+normal/mouthF
+  rotate: true
+  xy: 80, 5
+  size: 59, 39
+  orig: 59, 39
+  offset: 0, 0
+  index: -1
+normal/mouthRL
+  rotate: true
+  xy: 129, 66
+  size: 73, 40
+  orig: 73, 40
+  offset: 0, 0
+  index: -1
+normal/piedras
+  rotate: true
+  xy: 31, 17
+  size: 8, 4
+  orig: 8, 4
+  offset: 0, 0
+  index: -1
+normal/torsoB
+  rotate: true
+  xy: 64, 66
+  size: 73, 63
+  orig: 73, 63
+  offset: 0, 0
+  index: -1
+normal/torsoF
+  rotate: false
+  xy: 121, 6
+  size: 71, 58
+  orig: 71, 58
+  offset: 0, 0
+  index: -1
+normal/torsoRL
+  rotate: true
+  xy: 171, 81
+  size: 58, 51
+  orig: 58, 51
+  offset: 0, 0
+  index: -1

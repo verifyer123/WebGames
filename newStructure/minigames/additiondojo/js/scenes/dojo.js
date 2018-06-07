@@ -27,6 +27,8 @@ var dojo = function(){
         images: [
             {   name:"fondo",
 				file: "images/dojo/fondo.png"},
+            {   name:"tutorial_image",
+                file: "images/dojo/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "pop",
@@ -480,7 +482,7 @@ var dojo = function(){
             group.y = pivotY
             cardsGroup.add(group)
             
-            var textColor = "#000000"
+            var textColor = "#420000"
             var textAdd = 'Clear'
             
             var multiple = i+1
@@ -617,7 +619,7 @@ var dojo = function(){
         boardImage.width*=1.1
         boardImage.anchor.setTo(0.5,0.5)
         
-        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#420000", align: "center"}
         
         var pointsText = new Phaser.Text(sceneGroup.game, boardImage.width * 0.27, 20, 0, fontStyle)
         pointsText.initialX = pointsText.x
@@ -656,7 +658,7 @@ var dojo = function(){
 
                 if((i+1) % 2 == 0){
 
-                    var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+                    var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#420000", align: "center"}
 
                     var pointsText = new Phaser.Text(sceneGroup.game, pivotX, 0 , itemText[i], fontStyle)
                     pointsText.anchor.setTo(0.5,0.5)
@@ -708,8 +710,10 @@ var dojo = function(){
         overlayGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
+
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         
-        var rect = new Phaser.Graphics(game)
+        /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
         rect.alpha = 0.7
@@ -757,7 +761,14 @@ var dojo = function(){
 		button.anchor.setTo(0.5,0.5)
 		
 		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+		playText.anchor.setTo(0.5,0.5)*/
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+                
+        gameStart = true
+        animateNumbers()
     }
     
     function createClock(){

@@ -1,25 +1,25 @@
 
 desert_animals.png
-size: 512,256
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/camel
   rotate: false
-  xy: 185, 109
+  xy: 2, 139
   size: 144, 144
   orig: 144, 144
   offset: 0, 0
   index: -1
 normal/scorpion
   rotate: false
-  xy: 2, 133
+  xy: 2, 285
   size: 181, 120
   orig: 181, 120
   offset: 0, 0
   index: -1
 normal/snake
-  rotate: true
+  rotate: false
   xy: 2, 2
   size: 129, 135
   orig: 129, 135

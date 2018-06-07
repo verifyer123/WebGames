@@ -40,6 +40,8 @@ var game2Plus2 = function(){
     var skinTable
     
     var gameIndex = 18
+    var gameId = 6293705958883328
+
     var marioSong = null
 	var sceneGroup = null
     var pointsGroup = null
@@ -93,7 +95,7 @@ var game2Plus2 = function(){
 
 
 	function initialize(){
-
+        gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         lives = INITIAL_LIVES
         skinTable = []

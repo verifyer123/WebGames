@@ -1,0 +1,48 @@
+
+boats.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Ships/lowfront
+  rotate: false
+  xy: 2, 39
+  size: 45, 84
+  orig: 45, 84
+  offset: 0, 0
+  index: -1
+Ships/lowside
+  rotate: false
+  xy: 2, 2
+  size: 84, 35
+  orig: 84, 35
+  offset: 0, 0
+  index: -1
+Ships/shadowfront
+  rotate: false
+  xy: 63, 81
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+Ships/shadowside
+  rotate: true
+  xy: 49, 65
+  size: 58, 12
+  orig: 58, 12
+  offset: 0, 0
+  index: -1
+Ships/topfront
+  rotate: false
+  xy: 98, 32
+  size: 26, 47
+  orig: 26, 47
+  offset: 0, 0
+  index: -1
+Ships/topside
+  rotate: false
+  xy: 63, 46
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1

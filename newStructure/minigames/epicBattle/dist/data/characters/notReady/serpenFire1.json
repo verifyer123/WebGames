@@ -1,0 +1,47 @@
+{
+	"category":"monster",
+	"attacks": {
+		"normal": [
+			{
+				"id": "fireFlame3",
+				"attachment": "particle3",
+				"delay": 280,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "fireballSpecial2",
+				"attachment": "particle2",
+				"delay": 350,
+				"multiplier": 1
+			},
+			{
+				"id": "fireballSpecial2",
+				"attachment": "particle3",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "spines/characters/serpenFire1/",
+	"name": "Firetail",
+	"spine": {
+		"options": {
+			"scale": 0.8,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/serpenFire1/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "fire"
+	},
+	"visuals": {
+		"shadowScaleX": 1,
+		"shadowScaleY": 1.5,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

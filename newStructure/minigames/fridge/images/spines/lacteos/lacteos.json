@@ -1,1 +1,120 @@
-{"skeleton":{"hash":"XHljb0entd+WDKK8vqTlgEcUzC0","spine":"3.2.01","width":0,"height":0,"images":""},"bones":[{"name":"root"},{"name":"COG","parent":"root","x":0.7,"y":38.18}],"slots":[{"name":"lacteos","bone":"COG","attachment":"lacteos"}],"skins":{"default":{},"lacteos1":{"lacteos":{"lacteos":{"name":"lacteos/lacteos1","x":-0.2,"y":-1.01,"rotation":-5.85,"width":114,"height":135}}},"lacteos2":{"lacteos":{"lacteos":{"name":"lacteos/lacteos2","x":0.11,"y":0.02,"scaleX":-1,"rotation":-0.79,"width":93,"height":141}}},"lacteos3":{"lacteos":{"lacteos":{"name":"lacteos/lacteos3","x":0.21,"y":-0.54,"rotation":-16.47,"width":150,"height":88}}},"lacteos4":{"lacteos":{"lacteos":{"name":"lacteos/lacteos4","x":-0.03,"y":0.21,"rotation":-0.64,"width":127,"height":143}}},"lacteos5":{"lacteos":{"lacteos":{"name":"lacteos/lacteos5","x":-0.2,"y":0.49,"width":138,"height":101}}}},"animations":{"IDLE":{"slots":{"lacteos":{"attachment":[{"time":0,"name":"lacteos"}]}},"bones":{"COG":{"rotate":[{"time":0,"angle":0,"curve":[0.224,0.36,0.623,0.89]},{"time":0.2,"angle":9.99,"curve":[0.446,0.27,0.752,0.57]},{"time":0.4,"angle":0,"curve":[0.231,0.44,0.61,0.82]},{"time":0.6,"angle":-4.86,"curve":[0.25,0.05,0.867,0.74]},{"time":0.8,"angle":0}],"translate":[{"time":0,"x":0,"y":0}],"scale":[{"time":0,"x":1,"y":1,"curve":[0.571,-0.63,0.863,0.53]},{"time":0.2,"x":1,"y":0.864,"curve":[0.298,0.43,0.512,0.78]},{"time":0.4,"x":1,"y":1,"curve":[0.561,-0.61,0.863,0.53]},{"time":0.6,"x":1,"y":0.941,"curve":[0.132,0.23,0.704,0.85]},{"time":0.8,"x":1,"y":1}]},"root":{"rotate":[{"time":0,"angle":0}],"translate":[{"time":0,"x":0,"y":0}],"scale":[{"time":0,"x":1,"y":1}]}},"drawOrder":[{"time":0}]}}}
+{
+"skeleton": { "hash": "T9IAML4Oa0su2HacMXCnI+pfaBY", "spine": "3.2.01", "width": 168.79, "height": 126.92, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "COG", "parent": "root", "x": 0.7, "y": 38.18 }
+],
+"slots": [
+	{ "name": "lacteos", "bone": "COG", "attachment": "lacteos" }
+],
+"skins": {
+	"default": {},
+	"lacteos1": {
+		"lacteos": {
+			"lacteos": { "name": "lacteos/lacteos1", "x": -0.2, "y": -1.01, "rotation": -5.85, "width": 114, "height": 135 }
+		}
+	},
+	"lacteos2": {
+		"lacteos": {
+			"lacteos": { "name": "lacteos/lacteos2", "x": 0.11, "y": 0.02, "rotation": -0.79, "width": 93, "height": 141 }
+		}
+	},
+	"lacteos3": {
+		"lacteos": {
+			"lacteos": { "name": "lacteos/lacteos3", "x": 0.21, "y": -0.54, "rotation": -16.47, "width": 150, "height": 88 }
+		}
+	},
+	"lacteos4": {
+		"lacteos": {
+			"lacteos": { "name": "lacteos/lacteos4", "x": -0.03, "y": 0.21, "rotation": -0.64, "width": 127, "height": 143 }
+		}
+	},
+	"lacteos5": {
+		"lacteos": {
+			"lacteos": { "name": "lacteos/lacteos5", "x": -0.2, "y": 0.49, "width": 138, "height": 101 }
+		}
+	}
+},
+"animations": {
+	"IDLE": {
+		"slots": {
+			"lacteos": {
+				"attachment": [
+					{ "time": 0, "name": "lacteos" }
+				]
+			}
+		},
+		"bones": {
+			"COG": {
+				"rotate": [
+					{
+						"time": 0,
+						"angle": 0,
+						"curve": [ 0.224, 0.36, 0.623, 0.89 ]
+					},
+					{
+						"time": 0.2,
+						"angle": 9.99,
+						"curve": [ 0.446, 0.27, 0.752, 0.57 ]
+					},
+					{
+						"time": 0.4,
+						"angle": 0,
+						"curve": [ 0.231, 0.44, 0.61, 0.82 ]
+					},
+					{
+						"time": 0.6,
+						"angle": -4.86,
+						"curve": [ 0.25, 0.05, 0.867, 0.74 ]
+					},
+					{ "time": 0.8, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.571, -0.63, 0.863, 0.53 ]
+					},
+					{
+						"time": 0.2,
+						"x": 1,
+						"y": 0.864,
+						"curve": [ 0.298, 0.43, 0.512, 0.78 ]
+					},
+					{
+						"time": 0.4,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.561, -0.61, 0.863, 0.53 ]
+					},
+					{
+						"time": 0.6,
+						"x": 1,
+						"y": 0.941,
+						"curve": [ 0.132, 0.23, 0.704, 0.85 ]
+					},
+					{ "time": 0.8, "x": 1, "y": 1 }
+				]
+			},
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 }
+		]
+	}
+}
+}

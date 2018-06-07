@@ -72,7 +72,7 @@ var frootMath = function(){
     var overlayGroup
     var spaceSong
 	var indexTap
-	
+
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -275,7 +275,7 @@ var frootMath = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.SAM)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -573,9 +573,21 @@ var frootMath = function(){
     }
 	
 	function update(){
+
+		//if(!gameActive){
+		//	return
+		//}
 		
 		background.tilePosition.x++
 		
+		/*if(game.input.activePointer.isDown){
+			activePointer()
+		}
+		else{
+			deactivatePointer()
+		}*/
+
+
 		checkObjects()
 	}
 	
@@ -583,8 +595,8 @@ var frootMath = function(){
 		
 		if(pointerActive){
 			
-			pointer.x = game.input.x
-			pointer.y = game.input.y
+			pointer.x = game.input.activePointer.x
+			pointer.y = game.input.activePointer.y
 			
 			for(var i = 0; i < usedObjects.length; i++){
 				
@@ -1135,10 +1147,12 @@ var frootMath = function(){
             }, this);
             
             game.onPause.add(function(){
+
                 game.sound.mute = true
             } , this);
 
             game.onResume.add(function(){
+            	deactivatePointer()
                 game.sound.mute = false
             }, this);
             

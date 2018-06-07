@@ -72,7 +72,7 @@ export class Recover extends React.Component {
 		this.audios.pop.play()
 
 		let email = this.email.value
-		console.log(email)
+		//console.log(email)
 		if(!Validation.ValidateEmail(email)){
 			Recover.onError("Invalid email.")
 			return

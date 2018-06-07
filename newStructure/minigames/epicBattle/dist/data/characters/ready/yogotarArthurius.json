@@ -1,0 +1,41 @@
+{
+	"category":"yogotar",
+	"attacks": {
+		"normal": [
+			{
+				"id": "rocksAttack1",
+				"attachment": "particle1",
+				"delay": 580,
+				"multiplier": 1
+			}
+		],
+		"special": [
+			{
+				"id": "swordAttack1",
+				"attachment": "particle8",
+				"delay": 350,
+				"multiplier": 1
+			}
+		]
+	},
+	"directory": "images/spines/Arthurius/arthurius.json",
+	"name": "Arthurius",
+	"spine": {
+		"options": {
+			"scale": 0.85,
+			"events": [],
+			"animationSpeed": 10,
+			"useAtlas":"spines/characters/arthurius/skeleton.atlas"
+		}
+	},
+	"stats": {
+		"health": 80,
+		"element": "earth"
+	},
+	"visuals": {
+		"shadowScaleX": 1,
+		"shadowScaleY": 1.4,
+		"cardFacing": "right",
+		"impactAttachment": "torso1"
+	}
+}

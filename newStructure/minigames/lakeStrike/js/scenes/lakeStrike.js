@@ -79,11 +79,10 @@ var lakeStrike = function(){
     var pollutionAttackingActive=new Array(9)
     var pollutionTween=new Array(9)
     var pollutionDefeated=new Array(9)
-    var rotating
-    var rightDir
     var clockStarts
     var goal
     var dificulty, goalToGet, goalReached, speedCreate
+    var fast
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -97,7 +96,7 @@ var lakeStrike = function(){
         x=0.1
         y=0.1
         howMany=0
-        dificulty=3000
+        dificulty=1500
         goalToGet=10
         goalReached=0
         goal=10
@@ -106,10 +105,9 @@ var lakeStrike = function(){
         angle = 0;    
         direction = 1;    
         speedDelta = 0.002;
-        speedCreate=10000;
+        fast = 1.64
+        speedCreate=8000;
         radius = 150; 
-        rotating=0.0005
-        rightDir=false
         loadSounds()
 	}
 
@@ -435,7 +433,7 @@ var lakeStrike = function(){
         lakeSpine = game.add.spine(proxyLake.centerX-3,game.world.centerY+155, "lake");
         lakeSpine.scale.setTo(0.7,0.7)
         lakeSpine.setSkinByName("clean");
-        lakeSpine.setAnimationByName(0,"IDLE",true) 
+        lakeSpine.setAnimationByName(0,"idle",true) 
         lakeGroup.add(lakeSpine)
         
         
@@ -448,7 +446,7 @@ var lakeStrike = function(){
         //proxyJustice
         
         proxyJustice=game.add.sprite(game.world.centerX,game.world.centerY,"atlas.lake","water")
-        proxyJustice.scale.setTo(1,1)
+        proxyJustice.scale.setTo(0.6,0.6)
         proxyJustice.anchor.setTo(0.5,0.5)
         proxyJustice.alpha=0
         lakeGroup.add(proxyJustice)
@@ -521,8 +519,8 @@ var lakeStrike = function(){
         for(var fill=0;fill<pollutionAttacking.length;fill++){
             
             pollutionAttacking[fill]=game.add.sprite(-200,0,'pollutionMoving');
-            pollutionAttacking[fill].scale.setTo(0.5)
-            pollutionAttacking[fill].anchor.setTo(0.5)
+            pollutionAttacking[fill].scale.setTo(0.5,0.5)
+            pollutionAttacking[fill].anchor.setTo(0.5,0.5)
             pollutionAttacking[fill].animations.add('move');
             pollutionAttacking[fill].animations.play('move', 24, true);
             pollutionGroup.add(pollutionAttacking[fill])
@@ -581,7 +579,7 @@ var lakeStrike = function(){
             
             moveCircle(proxyJustice)
             Justice.position.x=proxyJustice.position.x;
-            Justice.position.y=proxyJustice.position.y+10;
+            Justice.position.y=proxyJustice.position.y+30;
             
             for(var samePos=0; samePos<pollutionAttacking.length;samePos++){
                 
@@ -614,8 +612,8 @@ var lakeStrike = function(){
                         howMany--;
                         goalReached++;
                         if(goalReached==goalToGet && dificulty>1000){
-                            speedCreate-=500;
-                            dificulty-=200;
+                            speedCreate-=1000;
+                            dificulty-=500;
                             goalToGet+=5;
                             goalReached=0;
                         }
@@ -625,29 +623,30 @@ var lakeStrike = function(){
                 if (checkOverlap(proxyLake,pollutionAttacking[checkOverlaping]) && pollutionAttackingActive[checkOverlaping] && lives>0)
                 {
                         var temp2=checkOverlaping
+                        
                         missPoint()
                         if(lives==2){
-                            lakeSpine.setTint("0xff1500")
+                            //lakeSpine.setTint("0xff1500")
                             game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                                 game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
                                 lakeSpine.setSkinByName("dirty1")
-                                lakeSpine.setTint("0xffffff")
+                                //lakeWater.setTint("0xffffff")
                             })
                         }
                         if(lives==1){
-                            lakeSpine.setTint("0xff1500")
+                            //lakeSpine.setTint("0xff1500")
                             game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                                 game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
                                 lakeSpine.setSkinByName("dirty2")
-                                lakeSpine.setTint("0xffffff")
+                                //lakeSpine.setTint("0xffffff")
                             })
                         }
                         if(lives==0){
-                            lakeSpine.setTint("0xff1500")
+                            //lakeSpine.setTint("0xff1500")
                             game.add.tween(lakeSpine).to({alpha:0.1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                                 game.add.tween(lakeSpine).to({alpha:1},100,Phaser.Easing.linear,true)
                                 lakeSpine.setSkinByName("dirty3")
-                                lakeSpine.setTint("0xffffff")
+                                //lakeSpine.setTint("0xffffff")
                             })
                         }
                         sound.play("laugh")
@@ -698,7 +697,7 @@ var lakeStrike = function(){
         
         
         if (direction == 1) {      
-            speedDelta = 1.14;
+            speedDelta = fast;
             if(obj.position.y>game.world.centerY){
                 Justice.scale.setTo(-0.5,0.5);
             }else if(obj.position.y<game.world.centerY){
@@ -707,7 +706,7 @@ var lakeStrike = function(){
             
             
         } else if (direction == -1) {
-            speedDelta = -1.14;
+            speedDelta = -fast;
             if(obj.position.y>game.world.centerY){
                 Justice.scale.setTo(0.5,0.5);
             }else if(obj.position.y<game.world.centerY){

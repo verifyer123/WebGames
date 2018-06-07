@@ -20,7 +20,7 @@ var modal = function () {
 			);
 
         	$("#myModal").load( "players.html", function () {
-        		console.log(children)
+        		//console.log(children)
         		childrenModal.setChildren(children)
 				$("#myModal").find("#players").modal({
 					show:true,

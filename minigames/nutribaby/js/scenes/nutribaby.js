@@ -50,6 +50,7 @@ var nutribaby = function(){
     var BOT_OFFSET = 105
     
     var gameIndex = 15
+    var gameId = 5648334039547904
     
     var gameCollisionGroup, playerCollisionGroup
     var cursors
@@ -85,7 +86,7 @@ var nutribaby = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         platNames = ['coin']
         itemNames = ['coin']
         game.stage.backgroundColor = "#ffffff"

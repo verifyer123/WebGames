@@ -1,0 +1,188 @@
+
+justice.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+justice/antifas
+  rotate: false
+  xy: 121, 92
+  size: 84, 34
+  orig: 84, 34
+  offset: 0, 0
+  index: -1
+justice/arm1
+  rotate: false
+  xy: 152, 2
+  size: 20, 25
+  orig: 20, 25
+  offset: 0, 0
+  index: -1
+justice/arm2
+  rotate: true
+  xy: 449, 83
+  size: 15, 22
+  orig: 15, 22
+  offset: 0, 0
+  index: -1
+justice/face_a
+  rotate: false
+  xy: 121, 29
+  size: 62, 39
+  orig: 62, 39
+  offset: 0, 0
+  index: -1
+justice/face_b
+  rotate: false
+  xy: 274, 92
+  size: 63, 34
+  orig: 63, 34
+  offset: 0, 0
+  index: -1
+justice/face_c
+  rotate: false
+  xy: 339, 92
+  size: 59, 34
+  orig: 59, 34
+  offset: 0, 0
+  index: -1
+justice/face_d
+  rotate: false
+  xy: 207, 89
+  size: 65, 37
+  orig: 65, 37
+  offset: 0, 0
+  index: -1
+justice/foot1_a
+  rotate: true
+  xy: 499, 103
+  size: 23, 7
+  orig: 23, 7
+  offset: 0, 0
+  index: -1
+justice/foot1_b
+  rotate: false
+  xy: 2, 3
+  size: 29, 10
+  orig: 29, 10
+  offset: 0, 0
+  index: -1
+justice/foot2_a
+  rotate: false
+  xy: 33, 7
+  size: 21, 6
+  orig: 21, 6
+  offset: 0, 0
+  index: -1
+justice/foot2_b
+  rotate: true
+  xy: 174, 2
+  size: 25, 9
+  orig: 25, 9
+  offset: 0, 0
+  index: -1
+justice/forearm1
+  rotate: false
+  xy: 185, 44
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+justice/forearm2
+  rotate: false
+  xy: 474, 102
+  size: 23, 24
+  orig: 23, 24
+  offset: 0, 0
+  index: -1
+justice/hand1_a
+  rotate: true
+  xy: 208, 45
+  size: 23, 18
+  orig: 23, 18
+  offset: 0, 0
+  index: -1
+justice/hand1_b
+  rotate: false
+  xy: 231, 67
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+justice/hand1_c
+  rotate: false
+  xy: 228, 53
+  size: 24, 12
+  orig: 24, 12
+  offset: 0, 0
+  index: -1
+justice/hand2_a
+  rotate: false
+  xy: 254, 56
+  size: 18, 12
+  orig: 18, 12
+  offset: 0, 0
+  index: -1
+justice/hand2_b
+  rotate: false
+  xy: 253, 70
+  size: 18, 17
+  orig: 18, 17
+  offset: 0, 0
+  index: -1
+justice/hand2_c
+  rotate: false
+  xy: 185, 2
+  size: 20, 14
+  orig: 20, 14
+  offset: 0, 0
+  index: -1
+justice/head
+  rotate: false
+  xy: 2, 15
+  size: 117, 111
+  orig: 117, 111
+  offset: 0, 0
+  index: -1
+justice/leg1
+  rotate: true
+  xy: 121, 2
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: -1
+justice/leg2
+  rotate: false
+  xy: 449, 100
+  size: 23, 26
+  orig: 23, 26
+  offset: 0, 0
+  index: -1
+justice/shadow
+  rotate: false
+  xy: 121, 70
+  size: 84, 20
+  orig: 84, 20
+  offset: 0, 0
+  index: -1
+justice/shin1
+  rotate: true
+  xy: 185, 18
+  size: 24, 18
+  orig: 24, 18
+  offset: 0, 0
+  index: -1
+justice/shin2
+  rotate: false
+  xy: 207, 70
+  size: 22, 17
+  orig: 22, 17
+  offset: 0, 0
+  index: -1
+justice/torso
+  rotate: true
+  xy: 400, 83
+  size: 43, 47
+  orig: 43, 47
+  offset: 0, 0
+  index: -1

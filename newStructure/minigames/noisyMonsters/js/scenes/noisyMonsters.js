@@ -708,7 +708,7 @@ var noisyMonsters = function(){
     function bigTool(){
         
         toolsGroup = game.add.group()
-        toolsGroup.x = board.centerX * 0.3
+        //toolsGroup.x = board.centerX * 0.3
         toolsGroup.y = board.centerY - 5
         toolsGroup.alpha = 0
         sceneGroup.add(toolsGroup)
@@ -842,9 +842,11 @@ var noisyMonsters = function(){
         
         Phaser.ArrayUtils.shuffle(positions)
         
+        var aux = 0.4
         for(var p = 0; p < positions.length; p++){
-            toolsGroup.children[p].x += positions[p] * 160
-            toolsGroup.children[p].fixPosX = toolsGroup.children[p].x        
+            toolsGroup.children[positions[p]].x = board.centerX * aux //positions[p] * 160
+            toolsGroup.children[positions[p]].fixPosX = toolsGroup.children[positions[p]].x  
+            aux += 0.4
         }
         
         game.add.tween(toolsGroup).to({alpha:1}, 400, Phaser.Easing.linear, true)
@@ -860,6 +862,8 @@ var noisyMonsters = function(){
     
     function initTuto(){
         
+        var aux = 0.4
+            
         boxGroup.setAll('active', false)
         toolsGroup.setAll('inputEnabled', false)
         toolsGroup.setAll('tint', 0x909090)
@@ -873,14 +877,15 @@ var noisyMonsters = function(){
             backgroundGroup.children[p].children[1].setAnimationByName(0, "NOISY", true)
             backgroundGroup.children[p].children[1].alpha = 0
             
-            toolsGroup.children[p].x += p * 160
+            toolsGroup.children[p].x = board.centerX * aux
             toolsGroup.children[p].fixPosX = toolsGroup.children[p].x  
+            aux += 0.4
         }
         
         game.add.tween(toolsGroup).to({alpha:1}, 400, Phaser.Easing.linear, true)
         game.add.tween(backgroundGroup).to({alpha:1}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
             game.time.events.add(400,function(){
-                sound.play(noiseGroup[tutoPivot]).loopFull(0.7)
+                sound.play(noiseGroup[tutoPivot], {loop:true, volume:0.6})
                 toolsGroup.children[tutoPivot].inputEnabled = true
                 toolsGroup.children[tutoPivot].tint = 0xffffff
                 boxGroup.children[tutoPivot].active = true
@@ -899,11 +904,12 @@ var noisyMonsters = function(){
             cont = boxGroup.children[f].getBounds()
             
             if(boxGroup.children[f].active && cont.containsRect(item) && boxGroup.children[f].noise === theTool.noise){
+                sound.stop(noiseGroup[tutoPivot])
                 sound.play('rightChoice')
+                theTool.inputEnabled = false
                 particleCorrect.x = boxGroup.children[f].centerX
                 particleCorrect.y = boxGroup.children[f].centerY
                 particleCorrect.start(true, 1200, null, 6)
-                sound.stop(noiseGroup[tutoPivot])
                 tutoPivot++
                 backgroundGroup.children[f].children[1].setAnimationByName(0, "SILENT", true)
                 aux = true
@@ -932,7 +938,7 @@ var noisyMonsters = function(){
                         for(var f = 0; f < backgroundGroup.length; f++){
                             backgroundGroup.children[f].children[1].alpha = 1
                         }
-                        console.log('inicio el juego')
+                        //console.log('inicio el juego')
                         initGame()
                     }
                 })

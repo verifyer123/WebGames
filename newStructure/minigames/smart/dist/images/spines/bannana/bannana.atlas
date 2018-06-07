@@ -1,0 +1,34 @@
+
+bannana.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bannana_a
+  rotate: true
+  xy: 332, 29
+  size: 145, 172
+  orig: 145, 172
+  offset: 0, 0
+  index: -1
+normal/bannana_b
+  rotate: true
+  xy: 157, 28
+  size: 146, 173
+  orig: 146, 173
+  offset: 0, 0
+  index: -1
+normal/bannana_c
+  rotate: false
+  xy: 2, 2
+  size: 153, 172
+  orig: 153, 172
+  offset: 0, 0
+  index: -1
+normal/bannana_d
+  rotate: true
+  xy: 506, 30
+  size: 144, 168
+  orig: 144, 168
+  offset: 0, 0
+  index: -1

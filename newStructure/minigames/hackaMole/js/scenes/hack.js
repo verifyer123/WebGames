@@ -1,6 +1,6 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+var soundsPath = "../../../../shared/minigames/sounds/"
+var tutorialPath = "../../../../shared/minigames/"
 
 var hack = function(){
     
@@ -37,7 +37,8 @@ var hack = function(){
 
         ],
         images: [
-
+        	/*{   name:"dragobject",
+				file: "images/hack/dragobject.png"}*/
 		],
 		sounds: [
             {	name: "magic",
@@ -75,8 +76,8 @@ var hack = function(){
 			
 		],
     }
-    
-        
+
+    var INITIAL_LIVES = 1
     var lives = null
 	var sceneGroup = null
     var gameActive
@@ -111,7 +112,7 @@ var hack = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = INITIAL_LIVES
 		gameActive = false
 		pivotDrag = game.world.height - 200
 		pivotButtons = game.world.centerX - 220
@@ -203,6 +204,21 @@ var hack = function(){
 		if(!gameActive){
 			return
 		}
+
+		yogotarGroup.anim.setAnimationByName(0,"HIT",true)
+		//yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
+		badTopo.anim.setAnimationByName(0,"HIT",true)
+		//badTopo.anim.addAnimationByName(0,"IDLE",true)
+		gameActive = false
+		setTimeout(function(){
+			gameActive = true
+			yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
+			badTopo.anim.setAnimationByName(0,"IDLE",true)
+			if(badTopo.ready){
+				addBadTopo()
+			}
+
+		},500)
 		
         sound.play("wrong")
 		
@@ -319,17 +335,17 @@ var hack = function(){
                 
     }
     
-    function stopGame(win){
+    function stopGame(){
+ 	 	//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+
+    	//var validSession = new parent._QUANTRIX.NotifyPlayed({data : {'child_id' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),'token' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),'minigame_id' : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,'score' : pointsBar.number},onSuccess : parent._QUANTRIX._notifyMinigamePlayed,onError : parent._QUANTRIX._goDashboard});
         
 		sound.play("wrong")
 		sound.play("gameLose")
 		
         gameActive = false
         medievalSong.stop()
-		
-		yogotarGroup.anim.setAnimationByName(0,"HIT",true)
-		badTopo.anim.setAnimationByName(0,"HIT",true)
-        		
+
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
@@ -362,7 +378,6 @@ var hack = function(){
 	
 	function getButton(){
 
-console.log(buttonsGroup.length)
 		if(buttonsGroup.length == 0){
 			createSingleButton()
 		}
@@ -380,7 +395,8 @@ console.log(buttonsGroup.length)
 		
 		buttonsGroup.remove(obj)
 		usedButtons.add(obj)
-		
+
+		//usedButtons.bringToTop(obj)
 		obj.alpha = 1
 		obj.drag.x = -200
 		obj.drag.y = pivotDrag
@@ -440,6 +456,7 @@ console.log(buttonsGroup.length)
 		
 		var button = getButton()
 		activateButton(button)
+		//buttonsGroup.bringToTop(button)
 		
 		button.drag.tween = game.add.tween(button.drag).to({x:pivotButtons,y:pivotDrag},300,"Linear",true)		
 		pivotButtons+= button.width * 1.1
@@ -481,9 +498,10 @@ console.log(buttonsGroup.length)
 		
 		var index = game.rnd.integerInRange(0,holesGroup.length - 1)
 			
-		while(holesGroup.children[index].carrot.active || checkOverlap(holesGroup.children[index].carrot,yogotarGroup.yogoPos)){
+		while(holesGroup.children[index].carrot.active || checkOverlap(holesGroup.children[index].carrot,yogotarGroup.yogoPos) || (badTopo.ready && index == 4)){
 			index = game.rnd.integerInRange(0,holesGroup.length - 1)
 		}
+
 		
 		var hole = holesGroup.children[index]
 				
@@ -515,69 +533,6 @@ console.log(buttonsGroup.length)
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                overlayGroup.y = -game.world.height
-				gameActive = true
-				
-				game.time.events.add(1000,startTutorial)
-				
-				var delay = 100
-				for(var i = 0; i < 4; i++){
-					game.time.events.add(delay,addButton)
-					delay+=100	
-				}	
-				
-				addObject('carrot')
-				
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1.1,1.1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 75,'atlas.hack','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		tuto.scale.setTo(0.8,0.8)
-		
-        var action = 'tap'
-        
-        if(game.device == 'desktop'){
-            action = 'click'
-        }
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 250,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.7,0.7)
-        
-		var deviceName = 'pc'
-        if(!game.device.desktop){
-            
-            deviceName = 'tablet'
-        }
-		
-		var inputLogo = overlayGroup.create(game.world.centerX + 15,game.world.centerY + 145,'atlas.hack',deviceName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.hack','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
 		
     }
 
@@ -691,11 +646,13 @@ console.log(buttonsGroup.length)
 		buttonCont.anchor.setTo(0.5,0.5)
 		buttonCont.scale.setTo(0.8,0.8)
 
+		
+
 	}
 	
 	function update(){
 		
-		background.tilePosition.x-=0.5
+		//background.tilePosition.x-=0.5
 		if(!gameActive){
 			return
 		}
@@ -903,7 +860,7 @@ console.log(buttonsGroup.length)
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, -2, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
 		group.add(pointsText)
 		
@@ -911,7 +868,7 @@ console.log(buttonsGroup.length)
 		
 		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, -2, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.scale.y = 0.7
 		pointsText.anchor.setTo(0.5,0.5)
 		group.add(pointsText)
@@ -974,10 +931,11 @@ console.log(buttonsGroup.length)
 		}
 		
 		obj.button.active = true
+		//usedButtons.bringToTop(obj.button)
 		addButton()
 		
 		checkButtons()
-        
+        usedButtons.bringToTop(obj.button)
         sound.play("flipCard")
         
     }
@@ -1059,8 +1017,9 @@ console.log(buttonsGroup.length)
 					badTopo.anim.setAnimationByName(0,"IDLE",true)
 				}
 
-				checkHoles()
+				
 			}
+			checkHoles()
 			
 		})
 	}
@@ -1336,7 +1295,8 @@ console.log(buttonsGroup.length)
 		update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
-            
+			//parent._QUANTRIX.Mixpanel.startMinigame()
+
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			addMusic()
@@ -1357,7 +1317,7 @@ console.log(buttonsGroup.length)
 			buttons.getButton(medievalSong,sceneGroup)
 			
             createOverlay()
-            
+            this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
             animateScene()
             
 		},

@@ -666,7 +666,7 @@ var battle = function(){
 			game.time.events.add(500, showExit)
 		})
 		var battleIndex = parent.env ? (parent.env.battleIndex || 0) : 0
-		var cardOwned = currentPlayer.battles[battleIndex][0].captured
+		currentPlayer.battles[battleIndex][0].captured = true
 		currentPlayer.cards.push(players[1].card)
 	}
 

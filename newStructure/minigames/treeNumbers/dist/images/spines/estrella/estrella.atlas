@@ -1,0 +1,195 @@
+
+estrella.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+apple
+  rotate: false
+  xy: 2, 75
+  size: 155, 157
+  orig: 155, 157
+  offset: 0, 0
+  index: -1
+arm2
+  rotate: true
+  xy: 488, 371
+  size: 32, 22
+  orig: 32, 22
+  offset: 0, 0
+  index: -1
+cage
+  rotate: false
+  xy: 235, 410
+  size: 214, 100
+  orig: 214, 100
+  offset: 0, 0
+  index: -1
+cage_b
+  rotate: false
+  xy: 2, 234
+  size: 217, 116
+  orig: 217, 116
+  offset: 0, 0
+  index: -1
+cage_f
+  rotate: false
+  xy: 2, 352
+  size: 231, 158
+  orig: 231, 158
+  offset: 0, 0
+  index: -1
+eye_a
+  rotate: true
+  xy: 265, 234
+  size: 104, 41
+  orig: 104, 41
+  offset: 0, 0
+  index: -1
+eye_b
+  rotate: true
+  xy: 221, 234
+  size: 104, 42
+  orig: 104, 42
+  offset: 0, 0
+  index: -1
+eye_c
+  rotate: true
+  xy: 451, 405
+  size: 105, 40
+  orig: 105, 40
+  offset: 0, 0
+  index: -1
+eye_d
+  rotate: true
+  xy: 308, 236
+  size: 102, 55
+  orig: 102, 55
+  offset: 0, 0
+  index: -1
+eye_e
+  rotate: true
+  xy: 327, 139
+  size: 95, 40
+  orig: 95, 40
+  offset: 0, 0
+  index: -1
+foot1
+  rotate: true
+  xy: 130, 33
+  size: 40, 28
+  orig: 40, 28
+  offset: 0, 0
+  index: -1
+foot2
+  rotate: true
+  xy: 424, 373
+  size: 35, 25
+  orig: 35, 25
+  offset: 0, 0
+  index: -1
+forearm1
+  rotate: false
+  xy: 451, 373
+  size: 35, 30
+  orig: 35, 30
+  offset: 0, 0
+  index: -1
+haed
+  rotate: true
+  xy: 159, 78
+  size: 154, 143
+  orig: 154, 143
+  offset: 0, 0
+  index: -1
+hand1
+  rotate: false
+  xy: 375, 375
+  size: 47, 33
+  orig: 47, 33
+  offset: 0, 0
+  index: -1
+hand2
+  rotate: false
+  xy: 375, 337
+  size: 41, 36
+  orig: 41, 36
+  offset: 0, 0
+  index: -1
+leg1
+  rotate: false
+  xy: 83, 28
+  size: 45, 45
+  orig: 45, 45
+  offset: 0, 0
+  index: -1
+leg2
+  rotate: true
+  xy: 327, 102
+  size: 35, 39
+  orig: 35, 39
+  offset: 0, 0
+  index: -1
+mouth_a
+  rotate: true
+  xy: 493, 438
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+mouth_b
+  rotate: true
+  xy: 304, 78
+  size: 26, 10
+  orig: 26, 10
+  offset: 0, 0
+  index: -1
+mouth_c
+  rotate: false
+  xy: 83, 10
+  size: 33, 16
+  orig: 33, 16
+  offset: 0, 0
+  index: -1
+mouth_d
+  rotate: false
+  xy: 160, 62
+  size: 32, 14
+  orig: 32, 14
+  offset: 0, 0
+  index: -1
+mouth_e
+  rotate: true
+  xy: 493, 472
+  size: 38, 17
+  orig: 38, 17
+  offset: 0, 0
+  index: -1
+pupil
+  rotate: true
+  xy: 221, 340
+  size: 10, 11
+  orig: 10, 11
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 304, 106
+  size: 126, 21
+  orig: 126, 21
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 235, 340
+  size: 68, 138
+  orig: 68, 138
+  offset: 0, 0
+  index: -1
+torso
+  rotate: true
+  xy: 2, 2
+  size: 71, 79
+  orig: 71, 79
+  offset: 0, 0
+  index: -1

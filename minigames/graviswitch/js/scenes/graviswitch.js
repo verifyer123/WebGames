@@ -44,6 +44,7 @@ var graviswitch = function(){
     var OFF_BRICK = 200
     var BOT_OFFSET = 200
     var gameIndex = 4
+    var gameId = 5752754626625536
     
     var indexCoin
     var missileTime
@@ -92,7 +93,7 @@ var graviswitch = function(){
     }  
     
 	function initialize(){
-        
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         indexCoin = 0
         gameStart = false

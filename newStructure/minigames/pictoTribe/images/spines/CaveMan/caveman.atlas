@@ -1,0 +1,118 @@
+
+caveman.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/arm1
+  rotate: false
+  xy: 379, 192
+  size: 45, 43
+  orig: 45, 43
+  offset: 0, 0
+  index: -1
+normal1/arm2
+  rotate: false
+  xy: 432, 249
+  size: 47, 40
+  orig: 47, 40
+  offset: 0, 0
+  index: -1
+normal1/foot1
+  rotate: true
+  xy: 492, 456
+  size: 54, 13
+  orig: 54, 13
+  offset: 0, 0
+  index: -1
+normal1/foot2
+  rotate: false
+  xy: 57, 2
+  size: 45, 11
+  orig: 45, 11
+  offset: 0, 0
+  index: -1
+normal1/forearm1
+  rotate: false
+  xy: 379, 237
+  size: 51, 52
+  orig: 51, 52
+  offset: 0, 0
+  index: -1
+normal1/forearm2
+  rotate: false
+  xy: 57, 15
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+normal1/hand1
+  rotate: false
+  xy: 158, 26
+  size: 46, 40
+  orig: 46, 40
+  offset: 0, 0
+  index: -1
+normal1/hand2
+  rotate: false
+  xy: 110, 25
+  size: 46, 41
+  orig: 46, 41
+  offset: 0, 0
+  index: -1
+normal1/head_a
+  rotate: false
+  xy: 2, 290
+  size: 243, 220
+  orig: 243, 220
+  offset: 0, 0
+  index: -1
+normal1/head_b
+  rotate: false
+  xy: 2, 68
+  size: 243, 220
+  orig: 243, 220
+  offset: 0, 0
+  index: -1
+normal1/head_d
+  rotate: false
+  xy: 247, 291
+  size: 243, 219
+  orig: 243, 219
+  offset: 0, 0
+  index: -1
+normal1/leg1
+  rotate: false
+  xy: 247, 99
+  size: 50, 58
+  orig: 50, 58
+  offset: 0, 0
+  index: -1
+normal1/leg2
+  rotate: false
+  xy: 2, 10
+  size: 53, 56
+  orig: 53, 56
+  offset: 0, 0
+  index: -1
+normal1/shen1
+  rotate: false
+  xy: 299, 121
+  size: 55, 36
+  orig: 55, 36
+  offset: 0, 0
+  index: -1
+normal1/shen2
+  rotate: false
+  xy: 247, 64
+  size: 49, 33
+  orig: 49, 33
+  offset: 0, 0
+  index: -1
+normal1/torso
+  rotate: false
+  xy: 247, 159
+  size: 130, 130
+  orig: 130, 130
+  offset: 0, 0
+  index: -1

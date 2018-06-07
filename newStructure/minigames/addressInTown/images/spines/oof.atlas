@@ -1,0 +1,83 @@
+
+oof.png
+size: 276,275
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Capa_13
+  rotate: false
+  xy: 2, 11
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+normal/car_B
+  rotate: false
+  xy: 2, 150
+  size: 77, 123
+  orig: 77, 123
+  offset: 0, 0
+  index: -1
+normal/car_F
+  rotate: false
+  xy: 2, 25
+  size: 77, 123
+  orig: 77, 123
+  offset: 0, 0
+  index: -1
+normal/car_LR
+  rotate: false
+  xy: 81, 205
+  size: 127, 68
+  orig: 127, 68
+  offset: 0, 0
+  index: -1
+normal/flash
+  rotate: true
+  xy: 210, 219
+  size: 54, 64
+  orig: 54, 64
+  offset: 0, 0
+  index: -1
+normal/hand
+  rotate: true
+  xy: 210, 169
+  size: 48, 53
+  orig: 48, 53
+  offset: 0, 0
+  index: -1
+normal/head_a
+  rotate: false
+  xy: 81, 124
+  size: 84, 79
+  orig: 84, 79
+  offset: 0, 0
+  index: -1
+normal/head_b
+  rotate: false
+  xy: 81, 44
+  size: 84, 78
+  orig: 84, 78
+  offset: 0, 0
+  index: -1
+normal/head_c
+  rotate: true
+  xy: 167, 2
+  size: 84, 78
+  orig: 84, 78
+  offset: 0, 0
+  index: -1
+normal/head_d
+  rotate: false
+  xy: 167, 88
+  size: 84, 79
+  orig: 84, 79
+  offset: 0, 0
+  index: -1
+normal/weels
+  rotate: true
+  xy: 167, 177
+  size: 26, 27
+  orig: 26, 27
+  offset: 0, 0
+  index: -1

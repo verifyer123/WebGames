@@ -1,0 +1,66 @@
+{"frames": [
+
+{
+	"filename": "Base",
+	"frame": {"x":1,"y":1,"w":633,"h":728},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":633,"h":728},
+	"sourceSize": {"w":633,"h":733},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Melvin",
+	"frame": {"x":1,"y":731,"w":299,"h":272},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":4,"w":299,"h":272},
+	"sourceSize": {"w":318,"h":277},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "retro-pattern",
+	"frame": {"x":636,"y":1,"w":257,"h":239},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":257,"h":239},
+	"sourceSize": {"w":257,"h":239},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Sam",
+	"frame": {"x":302,"y":731,"w":272,"h":272},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":4,"w":272,"h":272},
+	"sourceSize": {"w":277,"h":277},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tile",
+	"frame": {"x":636,"y":242,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "Tono",
+	"frame": {"x":576,"y":731,"w":272,"h":272},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":272,"h":272},
+	"sourceSize": {"w":272,"h":282},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "resultK_atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":894,"h":1004},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:0de061c9ae57ee212e74dda1fb91dba6:bf791e9dd30f078014e76e6825c9dac4:20bfc98a3e21677f919c8df7251d247a$"
+}
+}

@@ -1,47 +1,47 @@
 
 leguminosas.png
-size: 1024,256
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 leguminosas/leguminosa1
-  rotate: false
-  xy: 431, 124
+  rotate: true
+  xy: 2, 2
   size: 144, 125
   orig: 144, 125
   offset: 0, 0
   index: -1
 leguminosas/leguminosa2
   rotate: false
-  xy: 144, 107
-  size: 141, 142
-  orig: 141, 142
+  xy: 2, 294
+  size: 156, 156
+  orig: 156, 156
   offset: 0, 0
   index: -1
 leguminosas/leguminosa3
   rotate: false
-  xy: 287, 113
+  xy: 160, 314
   size: 142, 136
   orig: 142, 136
   offset: 0, 0
   index: -1
 leguminosas/leguminosa4
   rotate: false
-  xy: 2, 105
+  xy: 2, 148
   size: 140, 144
   orig: 140, 144
   offset: 0, 0
   index: -1
 leguminosas/leguminosa5
   rotate: false
-  xy: 577, 119
+  xy: 304, 320
   size: 132, 130
   orig: 132, 130
   offset: 0, 0
   index: -1
 leguminosas/star
-  rotate: false
-  xy: 2, 2
+  rotate: true
+  xy: 160, 212
   size: 100, 101
   orig: 100, 101
   offset: 0, 0

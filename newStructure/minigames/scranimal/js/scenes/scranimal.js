@@ -69,11 +69,12 @@ var scranimal = function(){
     var INITIAL_TIME_QUAD = 6000
     var DELTA_TIME_QUAD = 100
     var MIN_TIME_QUAD = 3000
-    var VEL_QUAD = 4
+    var VEL_QUAD = 10
     var Y_OUT_MAP
     var NUMBER_QUADS_SAME_TIME = 3
+    var MIN_QUADS_MORE_TIME = 15
+    var LERP_VELOCITY = 0.03
 
-    
     var lives
 	var sceneGroup = null
     var gameIndex = 136
@@ -88,7 +89,7 @@ var scranimal = function(){
     var timeOn = false
     var clock, tweenTiempo, timeBar
 
-    var currentLevel = 0
+    var currentLevel
     var currentTime
     var correctParticle
 
@@ -111,6 +112,7 @@ var scranimal = function(){
 
     var circleGroup
     var timeCreateQuad
+    var checkPointTimeQuad
     var changingAnimal
 
     var restoreQuads 
@@ -165,6 +167,7 @@ var scranimal = function(){
         correctTimes = 0
 
         currentMaxWords = 5
+        checkPointTimeQuad =0
 
         loadSounds()
         //4 words and behind
@@ -309,16 +312,10 @@ var scranimal = function(){
     }
 
     function Coin(objectBorn,objectDestiny,time){
-       
-       
-       //objectBorn= Objeto de donde nacen
+
        coins.x=objectBorn.x
        coins.y=objectBorn.y
        
-       /*var emitter = epicparticles.newEmitter("pickedEnergy")
-       emitter.duration=1;
-       emitter.x = coins.x
-       emitter.y = coins.y*/
 
         correctParticle.x = objectBorn.x
         correctParticle.y = objectBorn.y
@@ -516,20 +513,28 @@ var scranimal = function(){
 
         for(var i = 0; i < quadsGroup.length; i++){
             if(quadsGroup.children[i].visible){
+                
                 if(quadsGroup.children[i].nextY!=-1){
-                    quadsGroup.children[i].y+=VEL_QUAD
+
+                    if(quadsGroup.children[i].velocity<VEL_QUAD){
+                        quadsGroup.children[i].velocity += VEL_QUAD/50
+                    }
+
+                    quadsGroup.children[i].y += quadsGroup.children[i].velocity
+
                     if(quadsGroup.children[i].y >= quadsGroup.children[i].nextY){
-                        //console.log("Math nextY")
+                        quadsGroup.children[i].velocity = 0
                         quadsGroup.children[i].y = quadsGroup.children[i].nextY
                         quadsGroup.children[i].nextY = -1
                         if(quadsGroup.children[i].indexJ==ARRAY_HEIGHT-1){
                             stopGame()
                         }
                     }
-                    //console.log(quadsGroup.children[i].nexY)
                 }
             }
         }
+
+        
 
 
     }
@@ -541,45 +546,6 @@ var scranimal = function(){
         sceneGroup.add(tutoGroup)
 
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            onClickPlay(rect)
-        })
-        
-        tutoGroup.add(rect)
-        
-        var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.scranimal','tutorial_image')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.scranimal',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.scranimal','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function checkCollision(obj){
@@ -651,6 +617,12 @@ var scranimal = function(){
         }
 
         levelIndex = Math.floor(levelIndex)
+        if(levelIndex<0){
+            levelIndex = 0
+        }
+        else if(levelIndex > ANIMAL_LEVEL_NAMES.length-1){
+           levelIndex = ANIMAL_LEVEL_NAMES.length-1
+        }
         var r = game.rnd.integerInRange(0,ANIMAL_LEVEL_NAMES[levelIndex].length-1)
         nextWords.push(ANIMAL_LEVEL_NAMES[levelIndex][r])
         animalwords.push(ANIMAL_LEVEL_NAMES[levelIndex][r])
@@ -659,7 +631,10 @@ var scranimal = function(){
     function createAnimal(){
 
         if(timeBar!=null){
-            startTimer(currentTime)
+            setTimeout(function(){
+                startTimer(currentTime)
+            },500)
+            
             if(currentTime>MIN_TIME){
                 currentTime-=DELTA_TIME
             }
@@ -713,10 +688,25 @@ var scranimal = function(){
         if(!gameActive){
             return
         }
+
+        var visibleQuads = 0
+        for(var i = 0; i< quadsGroup.length; i++){
+            if(quadsGroup.children[i].visible){
+                visibleQuads ++
+            }
+        }
+
+        if(visibleQuads < MIN_QUADS_MORE_TIME && timeCreateQuad > MIN_TIME_QUAD){
+            
+            timeCreateQuad = MIN_TIME_QUAD
+        }
+
+
         setTimeout(createNewQuad,timeCreateQuad)
         if(changingAnimal || gamePaused ){
             return
         }
+
         if(timeCreateQuad>MIN_TIME_QUAD){
             timeCreateQuad-=DELTA_TIME_QUAD
         }
@@ -748,20 +738,6 @@ var scranimal = function(){
     function setQuad(i,j){
         var r = game.rnd.frac()
         var letter
-        /*if(r< PROBABILITY_CORRECT_LETTER){
-            var indexLetter = game.rnd.integerInRange(0,currentNameArray.length-1)
-            letter = currentNameArray[indexLetter]
-            currentNameArray.splice(indexLetter,1)
-            if(currentNameArray.length==0){
-                for(var help = 0; help< currentName.length;help++){
-                    currentNameArray.push(currentName[help])
-                }
-            }
-        }
-        else{
-            var letter = game.rnd.integerInRange(65,90)
-            letter = String.fromCharCode(letter);
-        }*/
         var index = game.rnd.integerInRange(0,lettersArray.length-1)
         letter = lettersArray[index]
         lettersArray.splice(index,1)
@@ -775,7 +751,7 @@ var scranimal = function(){
         quad.selected = false
         quad.indexI = i
         quad.indexJ = j
-
+        quad.velocity = VEL_QUAD/40
         quad.nextY = INITIAL_POSITION.y -(DELTA_QUAD*j)
 
         arrayValues[i][j].value = letter
@@ -790,6 +766,7 @@ var scranimal = function(){
     }
 
     function clickOk(){
+
         if(okBtn.alpha==0.5){
             return
         }
@@ -843,28 +820,35 @@ var scranimal = function(){
         for(var i = 0; i < arraySequence.length; i++){
             arraySequence[i].circle.visible = false
             arraySequence[i].circle.text.setText("")
-            restoreQuads.push(arraySequence[i])
-            text.push(arraySequence[i].text.text)
-            var tween = game.add.tween(arraySequence[i].scale).to({x:0,y:0},200,Phaser.Easing.linear,true)
+            if(correct){
+                restoreQuads.push(arraySequence[i])
+                text.push(arraySequence[i].text.text)
+                var tween = game.add.tween(arraySequence[i].scale).to({x:0,y:0},200,Phaser.Easing.linear,true)
 
-            arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].value = ""
-            arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].object = null
+                arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].value = ""
+                arrayValues[arraySequence[i].indexI][arraySequence[i].indexJ].object = null
 
-            if(i == arraySequence.length-1){
-                tween.onComplete.add(endChangeAnimal)
+                if(i == arraySequence.length-1){
+                    tween.onComplete.add(endChangeAnimal)
+                }
             }
-
+            else{
+                arraySequence[i].sprite.loadTexture("atlas.scranimal",arraySequence[i].sprite.currentTextureKey)
+                arraySequence[i].selected = false
+            }
            
         }
 
-        if(!correct){
+        //if(!correct){
+            
+        arraySequence = []
+        //}
+        if(correct){
             animalwords.unshift(text)
+            animalTextName.setText("")
+            game.add.tween(animalImage.scale).to({x:0,y:0},400, Phaser.Easing.Linear.none, true).onComplete.add(createAnimal)
         }
 
-        //console.log(arrayValues)
-        animalTextName.setText("")
-
-        game.add.tween(animalImage.scale).to({x:0,y:0},400, Phaser.Easing.Linear.none, true).onComplete.add(createAnimal)
     }
 
     function endChangeAnimal(){
@@ -1016,11 +1000,6 @@ var scranimal = function(){
 
     
     function createScene(){
-        //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
-
-        /*game.physics.startSystem(Phaser.Physics.ARCADE)
-        game.physics.arcade.gravity.y = 0;
-        game.physics.arcade.setBoundsToWorld(false,false,false,false,false)*/
 
         sceneGroup = game.add.group() 
         backgroundGroup = game.add.group()
@@ -1101,7 +1080,7 @@ var scranimal = function(){
         createTouch()
         createPointsBar()
         createHearts()
-        createTutorial()
+        
 
         //positionTimer()
 
@@ -1109,14 +1088,25 @@ var scranimal = function(){
 
         buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
+        createTutorial()
+
 
     }
-    
+
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
+
 	return {
 		assets: assets,
 		name: "scranimal",
         update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
-		create: createScene
+		create: createScene,
+        render:render
 	}
 }()
+
+function lerp(a,b,t){
+    return a + (b - a) * t;
+}

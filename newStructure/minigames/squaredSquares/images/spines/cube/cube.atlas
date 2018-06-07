@@ -1,0 +1,83 @@
+
+cube.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/green
+  rotate: false
+  xy: 908, 1842
+  size: 102, 166
+  orig: 102, 166
+  offset: 0, 0
+  index: -1
+normal/logg_01
+  rotate: false
+  xy: 2, 1508
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_02
+  rotate: false
+  xy: 2, 1006
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_03
+  rotate: false
+  xy: 304, 1508
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_04
+  rotate: false
+  xy: 2, 504
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_05
+  rotate: false
+  xy: 304, 1006
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_06
+  rotate: false
+  xy: 606, 1508
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_07
+  rotate: false
+  xy: 2, 2
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/logg_08
+  rotate: false
+  xy: 304, 504
+  size: 300, 500
+  orig: 300, 500
+  offset: 0, 0
+  index: -1
+normal/red
+  rotate: false
+  xy: 304, 336
+  size: 101, 166
+  orig: 101, 166
+  offset: 0, 0
+  index: -1
+normal/tile
+  rotate: false
+  xy: 606, 1214
+  size: 253, 292
+  orig: 253, 292
+  offset: 0, 0
+  index: -1

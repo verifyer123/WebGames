@@ -1,61 +1,61 @@
 
 figure.png
-size: 256,64
+size: 128,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/Capa_10
-  rotate: true
-  xy: 237, 44
+  rotate: false
+  xy: 106, 48
   size: 18, 17
   orig: 18, 17
   offset: 0, 0
   index: -1
 normal/circle
   rotate: true
-  xy: 68, 3
+  xy: 63, 67
   size: 59, 63
   orig: 59, 63
   offset: 0, 0
   index: -1
 normal/cube
-  rotate: true
-  xy: 2, 3
+  rotate: false
+  xy: 2, 62
   size: 59, 64
   orig: 59, 64
   offset: 0, 0
   index: -1
 normal/eye
-  rotate: true
-  xy: 194, 2
+  rotate: false
+  xy: 106, 28
   size: 16, 18
   orig: 16, 18
   offset: 0, 0
   index: -1
 normal/face1
   rotate: false
-  xy: 194, 36
+  xy: 63, 39
   size: 41, 26
   orig: 41, 26
   offset: 0, 0
   index: -1
 normal/face3
   rotate: false
-  xy: 194, 20
+  xy: 63, 23
   size: 41, 14
   orig: 41, 14
   offset: 0, 0
   index: -1
 normal/face4
   rotate: false
-  xy: 237, 37
+  xy: 63, 16
   size: 9, 5
   orig: 9, 5
   offset: 0, 0
   index: -1
 normal/tringule
   rotate: false
-  xy: 133, 10
+  xy: 2, 8
   size: 59, 52
   orig: 59, 52
   offset: 0, 0

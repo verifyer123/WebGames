@@ -1,0 +1,55 @@
+
+chipmunk.png
+size: 551,570
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyChi
+  rotate: false
+  xy: 283, 269
+  size: 266, 299
+  orig: 266, 299
+  offset: 0, 0
+  index: -1
+normal/earChi_1
+  rotate: false
+  xy: 283, 205
+  size: 49, 62
+  orig: 49, 62
+  offset: 0, 0
+  index: -1
+normal/earChi_2
+  rotate: false
+  xy: 342, 29
+  size: 49, 62
+  orig: 49, 62
+  offset: 0, 0
+  index: -1
+normal/headChi_a
+  rotate: false
+  xy: 2, 2
+  size: 175, 176
+  orig: 175, 176
+  offset: 0, 0
+  index: -1
+normal/headChi_b
+  rotate: false
+  xy: 342, 93
+  size: 175, 174
+  orig: 175, 174
+  offset: 0, 0
+  index: -1
+normal/headChi_c
+  rotate: true
+  xy: 179, 2
+  size: 176, 161
+  orig: 176, 161
+  offset: 0, 0
+  index: -1
+normal/tailChi
+  rotate: false
+  xy: 2, 180
+  size: 279, 388
+  orig: 279, 388
+  offset: 0, 0
+  index: -1

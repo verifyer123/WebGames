@@ -278,7 +278,7 @@ var frootemple = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.SAM)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -503,7 +503,7 @@ var frootemple = function(){
 				
 				var cont = containersGroup.children[i]
 				if(checkOverlap(cont,orbToUse) && (Math.abs(cont.x - orbToUse.x) < 45 && Math.abs(cont.y - orbToUse.y) < 45) && !cont.used){
-
+					//console.log('collision cont')
 					activateObject(orbToUse,cont.x, cont.y)
 					
 					sound.play('gear')
@@ -530,11 +530,12 @@ var frootemple = function(){
 			}
 			
 			if(orbToUse){
-				
-				//console.log('no collision')
+				sound.play("error")
+				createPart('wrong',orbToUse)
 				deactivateObject(orbToUse)
 				orbToUse = null
 				restartOrb()
+				addAsteroids(1)
 			}
 		}
 		

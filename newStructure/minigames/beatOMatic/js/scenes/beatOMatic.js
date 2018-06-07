@@ -836,8 +836,8 @@ var beatOMatic = function(){
     function handPos(){
         
         handsGroup.setAll('x', speakersGroup.children[secuence[pivot]].centerX) 
-        handsGroup.setAll('y', speakersGroup.children[secuence[pivot]].centerY) 
-        
+        handsGroup.setAll('y', speakersGroup.children[secuence[pivot]].centerY)  
+            
         speakersGroup.setAll('active', false)
         speakersGroup.children[secuence[pivot]].active = true
         
@@ -899,14 +899,15 @@ var beatOMatic = function(){
         
         handsGroup = game.add.group()
         handsGroup.alpha = 0
-        handsGroup.scale.setTo(0.8)
         sceneGroup.add(handsGroup)
         
         var handUp = handsGroup.create(0, 0, 'atlas.beatOMatic', 'handUp') // 0
-        handUp.alpha = 0
+        handUp.anchor.setTo(0.2)
+        //handUp.alpha = 0
         
         var handDown = handsGroup.create(0, 0, 'atlas.beatOMatic', 'handDown') // 1
-        handDown.alpha = 0
+        handDown.anchor.setTo(0.2)
+        //handDown.alpha = 0
         
         
         handsGroup.tween = game.add.tween(handsGroup).to({y:handsGroup.y + 10}, 400, Phaser.Easing.linear, true)

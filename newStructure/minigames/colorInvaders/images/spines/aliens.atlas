@@ -1,0 +1,125 @@
+
+aliens.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/A_blue_1
+  rotate: false
+  xy: 112, 15
+  size: 108, 113
+  orig: 108, 113
+  offset: 0, 0
+  index: -1
+normal/A_blue_2
+  rotate: false
+  xy: 425, 795
+  size: 93, 127
+  orig: 93, 127
+  offset: 0, 0
+  index: -1
+normal/A_green_1
+  rotate: true
+  xy: 244, 924
+  size: 93, 210
+  orig: 93, 210
+  offset: 0, 0
+  index: -1
+normal/A_green_2
+  rotate: false
+  xy: 2, 2
+  size: 108, 121
+  orig: 108, 121
+  offset: 0, 0
+  index: -1
+normal/A_orange_1
+  rotate: false
+  xy: 97, 228
+  size: 107, 144
+  orig: 107, 144
+  offset: 0, 0
+  index: -1
+normal/A_orange_2
+  rotate: false
+  xy: 841, 885
+  size: 165, 132
+  orig: 165, 132
+  offset: 0, 0
+  index: -1
+normal/A_pink_1
+  rotate: true
+  xy: 97, 130
+  size: 96, 121
+  orig: 96, 121
+  offset: 0, 0
+  index: -1
+normal/A_pink_2
+  rotate: true
+  xy: 244, 799
+  size: 123, 179
+  orig: 123, 179
+  offset: 0, 0
+  index: -1
+normal/A_purple_1
+  rotate: false
+  xy: 119, 820
+  size: 123, 197
+  orig: 123, 197
+  offset: 0, 0
+  index: -1
+normal/A_purple_2
+  rotate: false
+  xy: 2, 780
+  size: 115, 237
+  orig: 115, 237
+  offset: 0, 0
+  index: -1
+normal/A_red_1
+  rotate: true
+  xy: 97, 374
+  size: 165, 132
+  orig: 165, 132
+  offset: 0, 0
+  index: -1
+normal/A_red_2
+  rotate: false
+  xy: 2, 125
+  size: 93, 201
+  orig: 93, 201
+  offset: 0, 0
+  index: -1
+normal/A_yellow_1
+  rotate: false
+  xy: 2, 328
+  size: 93, 211
+  orig: 93, 211
+  offset: 0, 0
+  index: -1
+normal/A_yellow_2
+  rotate: false
+  xy: 2, 541
+  size: 114, 237
+  orig: 114, 237
+  offset: 0, 0
+  index: -1
+normal/ligth
+  rotate: false
+  xy: 669, 905
+  size: 170, 112
+  orig: 170, 112
+  offset: 0, 0
+  index: -1
+normal/ondas
+  rotate: false
+  xy: 119, 791
+  size: 66, 27
+  orig: 66, 29
+  offset: 0, 1
+  index: -1
+normal/ship
+  rotate: false
+  xy: 456, 935
+  size: 211, 82
+  orig: 211, 82
+  offset: 0, 0
+  index: -1

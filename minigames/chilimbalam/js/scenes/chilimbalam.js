@@ -1,1 +1,933 @@
-var _0x82b6=["\x2E\x2E\x2F\x2E\x2E\x2F\x73\x68\x61\x72\x65\x64\x2F\x6D\x69\x6E\x69\x67\x61\x6D\x65\x73\x2F\x73\x6F\x75\x6E\x64\x73\x2F","\x61\x74\x6C\x61\x73\x2E\x63\x68\x69\x6C\x69\x6D\x62\x61\x6C\x61\x6D","\x69\x6D\x61\x67\x65\x73\x2F\x63\x68\x69\x6C\x69\x6D\x62\x61\x6C\x61\x6D\x2F\x61\x74\x6C\x61\x73\x2E\x6A\x73\x6F\x6E","\x69\x6D\x61\x67\x65\x73\x2F\x63\x68\x69\x6C\x69\x6D\x62\x61\x6C\x61\x6D\x2F\x61\x74\x6C\x61\x73\x2E\x70\x6E\x67","\x66\x6F\x6E\x64\x6F","\x69\x6D\x61\x67\x65\x73\x2F\x63\x68\x69\x6C\x69\x6D\x62\x61\x6C\x61\x6D\x2F\x66\x6F\x6E\x64\x6F\x2E\x70\x6E\x67","\x70\x6F\x70","\x6D\x61\x67\x69\x63\x2E\x6D\x70\x33","\x73\x70\x6C\x61\x73\x68","\x73\x70\x6C\x61\x73\x68\x4D\x75\x64\x2E\x6D\x70\x33","\x73\x77\x69\x70\x65","\x73\x77\x69\x70\x65\x2E\x6D\x70\x33","\x77\x72\x6F\x6E\x67","\x77\x72\x6F\x6E\x67\x2E\x6D\x70\x33","\x65\x78\x70\x6C\x6F\x64\x65","\x65\x78\x70\x6C\x6F\x64\x65\x2E\x6D\x70\x33","\x73\x68\x6F\x6F\x74\x42\x61\x6C\x6C","\x73\x68\x6F\x6F\x74\x42\x61\x6C\x6C\x2E\x6D\x70\x33","\x63\x6C\x69\x63\x6B","\x70\x6F\x70\x2E\x6D\x70\x33","\x67\x61\x6D\x65\x4C\x6F\x73\x65","\x67\x61\x6D\x65\x4C\x6F\x73\x65\x2E\x6D\x70\x33","\x62\x6F\x6D\x62","\x62\x6F\x6D\x62\x2E\x6D\x70\x33","\x67\x65\x74\x50\x72\x6F\x66\x69\x6C\x65","\x73\x6F\x75\x6E\x64\x73","\x64\x65\x63\x6F\x64\x65","\x62\x61\x63\x6B\x67\x72\x6F\x75\x6E\x64\x43\x6F\x6C\x6F\x72","\x73\x74\x61\x67\x65","\x23\x66\x66\x66\x66\x66\x66","\x63\x68\x69\x70","\x61\x64\x64","\x61\x6C\x70\x68\x61","\x43\x75\x62\x69\x63","\x45\x61\x73\x69\x6E\x67","\x74\x6F","\x74\x77\x65\x65\x6E","\x65\x76\x65\x6E\x74\x73","\x74\x69\x6D\x65","\x6C\x65\x6E\x67\x74\x68","\x63\x68\x69\x6C\x64\x72\x65\x6E","\x66\x6F\x72\x63\x65\x53\x69\x6E\x67\x6C\x65\x55\x70\x64\x61\x74\x65","\x64\x69\x73\x61\x62\x6C\x65\x56\x69\x73\x69\x62\x69\x6C\x69\x74\x79\x43\x68\x61\x6E\x67\x65","\x6D\x61\x73\x63\x6F\x74","\x69\x6D\x61\x67\x65\x73\x2F\x73\x70\x69\x6E\x65\x73\x2F\x73\x6B\x65\x6C\x65\x74\x6F\x6E\x2E\x6A\x73\x6F\x6E","\x73\x70\x69\x6E\x65","\x6C\x6F\x61\x64","\x67\x65\x74\x4D\x69\x6E\x69\x67\x61\x6D\x65\x49\x64","\x73\x6F\x6E\x67\x73\x2F\x63\x6C\x61\x73\x73\x69\x63\x5F\x61\x72\x63\x61\x64\x65\x2E\x6D\x70\x33","\x73\x65\x74\x53\x6F\x6E\x67","\x61\x72\x63\x61\x64\x65\x53\x6F\x6E\x67","\x61\x75\x64\x69\x6F","\x74\x61\x67","\x6C\x65\x66\x74","\x78","\x73\x63\x61\x6C\x65","\x52\x55\x4E","\x73\x65\x74\x41\x6E\x69\x6D\x61\x74\x69\x6F\x6E\x42\x79\x4E\x61\x6D\x65","\x49\x44\x4C\x45","\x62\x65\x67\x69\x6E\x46\x69\x6C\x6C","\x68\x65\x69\x67\x68\x74","\x77\x6F\x72\x6C\x64","\x77\x69\x64\x74\x68","\x64\x72\x61\x77\x52\x65\x63\x74","\x65\x6E\x64\x46\x69\x6C\x6C","\x73\x65\x74\x54\x6F","\x61\x6E\x63\x68\x6F\x72","\x62\x6F\x74\x74\x6F\x6D\x52\x65\x63\x74","\x63\x65\x6E\x74\x65\x72\x58","\x62\x6F\x74\x6F\x6E","\x63\x72\x65\x61\x74\x65","\x69\x6E\x70\x75\x74\x45\x6E\x61\x62\x6C\x65\x64","\x6F\x6E\x49\x6E\x70\x75\x74\x44\x6F\x77\x6E","\x6F\x6E\x49\x6E\x70\x75\x74\x55\x70","\x72\x69\x67\x68\x74","\x70\x6C\x61\x79","\x63\x6F\x6D\x62\x69\x6E\x65\x64\x32","\x67\x6C\x61\x73\x73\x65\x73","\x5F\x53\x61\x64","\x68\x61\x69\x72","\x73\x6B\x69\x6E","\x74\x6F\x72\x73\x6F","\x76\x61\x73\x6F","\x63\x72\x65\x61\x74\x65\x43\x6F\x6D\x62\x69\x6E\x65\x64\x53\x6B\x69\x6E","\x73\x65\x74\x53\x6B\x69\x6E\x42\x79\x4E\x61\x6D\x65","\x73\x65\x74\x54\x6F\x53\x65\x74\x75\x70\x50\x6F\x73\x65","\x4C\x4F\x53\x45","\x70\x61\x75\x73\x65","\x73\x74\x6F\x70","\x72\x65\x73\x75\x6C\x74","\x67\x65\x74\x53\x63\x65\x6E\x65","\x6E\x75\x6D\x62\x65\x72","\x73\x65\x74\x53\x63\x6F\x72\x65","\x73\x68\x6F\x77","\x6F\x6E\x43\x6F\x6D\x70\x6C\x65\x74\x65","\x73\x74\x61\x72","\x63\x75\x70","\x2B","\x73\x65\x74\x54\x65\x78\x74","\x74\x65\x78\x74","\x74\x61\x6B\x69\x73","\x67\x6F\x6D\x69\x74\x61","\x63\x68\x69\x6C\x69\x67\x75\x6D","\x70\x65\x61\x6E\x75\x74","\x70\x69\x6E\x61","\x73\x6B\x77\x69\x6E\x6B\x6C\x65","\x6D\x61\x6E\x67\x6F","\x58\x20","\x61\x63\x74\x69\x76\x65","\x6F\x62\x73\x74\x61\x63\x6C\x65","\x72\x65\x6D\x6F\x76\x65","\x61\x62\x73","\x79","\x63\x61\x6E\x64\x79","\x70\x6F\x69\x6E\x74\x73","\x64\x72\x6F\x70","\x73\x6D\x6F\x6B\x65","\x69\x73\x44\x6F\x77\x6E","\x69\x73\x55\x70","\x72\x6F\x74\x61\x74\x69\x6F\x6E","\x67\x72\x6F\x75\x70","\x32\x37\x70\x78\x20\x56\x41\x47\x52\x6F\x75\x6E\x64\x65\x64","\x62\x6F\x6C\x64","\x63\x65\x6E\x74\x65\x72","\x67\x61\x6D\x65","\x30","\x74\x65\x78\x74\x49","\x6C\x6F\x6F\x70","\x78\x70\x63\x6F\x69\x6E\x73","\x33\x30\x70\x78\x20\x56\x41\x47\x52\x6F\x75\x6E\x64\x65\x64","\x6C\x69\x66\x65\x5F\x62\x6F\x78","\x72\x67\x62\x61\x28\x30\x2C\x30\x2C\x30\x2C\x30\x2E\x35\x29","\x73\x65\x74\x53\x68\x61\x64\x6F\x77","\x69\x6E\x74\x65\x67\x65\x72\x49\x6E\x52\x61\x6E\x67\x65","\x72\x6E\x64","\x73\x68\x75\x66\x66\x6C\x65","\x41\x72\x72\x61\x79\x55\x74\x69\x6C\x73","\x69\x64","\x35\x30\x70\x78\x20\x56\x41\x47\x52\x6F\x75\x6E\x64\x65\x64","\x74\x65\x78\x74\x50\x61\x72\x74","\x6C\x69\x6E\x65\x61\x72","\x75\x73\x65\x64","\x50\x61\x72\x74","\x72\x67\x62\x61\x28\x30\x2C\x30\x2C\x30\x2C\x31\x29","\x4B\x65\x79\x62\x6F\x61\x72\x64","\x61\x64\x64\x4B\x65\x79","\x6B\x65\x79\x62\x6F\x61\x72\x64","\x69\x6E\x70\x75\x74","\x73\x6B\x69\x6E\x31","\x63\x6F\x6D\x62\x69\x6E\x65\x64","\x6D\x75\x74\x65","\x73\x6F\x75\x6E\x64","\x6F\x6E\x50\x61\x75\x73\x65","\x6F\x6E\x52\x65\x73\x75\x6D\x65","\x6C\x6F\x6F\x70\x46\x75\x6C\x6C","\x73\x65\x74\x44\x65\x63\x6F\x64\x65\x64\x43\x61\x6C\x6C\x62\x61\x63\x6B","\x63\x68\x69\x6C\x69\x6D\x62\x61\x6C\x61\x6D"];var soundsPath=_0x82b6[0];var chilimbalam=function(){assets= {atlases:[{name:_0x82b6[1],json:_0x82b6[2],image:_0x82b6[3]}],images:[{name:_0x82b6[4],file:_0x82b6[5]}],sounds:[{name:_0x82b6[6],file:soundsPath+ _0x82b6[7]},{name:_0x82b6[8],file:soundsPath+ _0x82b6[9]},{name:_0x82b6[10],file:soundsPath+ _0x82b6[11]},{name:_0x82b6[12],file:soundsPath+ _0x82b6[13]},{name:_0x82b6[14],file:soundsPath+ _0x82b6[15]},{name:_0x82b6[16],file:soundsPath+ _0x82b6[17]},{name:_0x82b6[18],file:soundsPath+ _0x82b6[19]},{name:_0x82b6[20],file:soundsPath+ _0x82b6[21]},{name:_0x82b6[22],file:soundsPath+ _0x82b6[23]}]};var _0x3d2fx3=7;var _0x3d2fx4=4;var _0x3d2fx5=4;var _0x3d2fx6=1300;var _0x3d2fx7=800;var _0x3d2fx8;var _0x3d2fx9=9;var _0x3d2fxa=null;var _0x3d2fxb=null;var _0x3d2fxc=null;var _0x3d2fxd=null;var _0x3d2fxe=null;var _0x3d2fxf=null;var _0x3d2fx10=null;var _0x3d2fx11=true;var _0x3d2fx12=null;var _0x3d2fx13,_0x3d2fx14;var _0x3d2fx15,_0x3d2fx16;var _0x3d2fx17=null;var _0x3d2fx18;var _0x3d2fx19=null;var _0x3d2fx1a=null;var _0x3d2fx1b=null;var _0x3d2fx1c=null;var _0x3d2fx1d;var _0x3d2fx1e;var _0x3d2fx1f=null;var _0x3d2fx20=null;var _0x3d2fx21=null;var _0x3d2fx22=null;var _0x3d2fx23=null;var _0x3d2fx24,_0x3d2fx25;var _0x3d2fx26;var _0x3d2fx27;function _0x3d2fx28(){var _0x3d2fx29=amazing[_0x82b6[24]]();if(!_0x3d2fx29){_0x3d2fx8= [1,1,1,1]}else {_0x3d2fx8= _0x3d2fx29}}function _0x3d2fx2a(){sound[_0x82b6[26]](assets[_0x82b6[25]])}function _0x3d2fx2b(){game[_0x82b6[28]][_0x82b6[27]]= _0x82b6[29];_0x3d2fx11= true;_0x3d2fx13= false;_0x3d2fx14= false;_0x3d2fx1b= _0x3d2fx6;_0x3d2fx26= _0x3d2fx7;_0x3d2fx1c= 1;_0x3d2fx23= false;_0x3d2fx27= false;_0x3d2fx4= 4;_0x3d2fx8= [];_0x3d2fx25= [_0x82b6[30]]}function _0x3d2fx2c(){_0x3d2fx11= false;var _0x3d2fx2d= new Phaser.Group(game);_0x3d2fxb[_0x82b6[31]](_0x3d2fx2d);_0x3d2fxb[_0x82b6[32]]= 0;game[_0x82b6[31]][_0x82b6[36]](_0x3d2fxb)[_0x82b6[35]]({alpha:1},400,Phaser[_0x82b6[34]][_0x82b6[33]].Out,true);_0x3d2fx11= true;game[_0x82b6[38]][_0x82b6[37]][_0x82b6[31]](_0x3d2fx1b* 0.5,_0x3d2fx64,this)}function _0x3d2fx2e(){var _0x3d2fx2f=[1,2,3,4];var _0x3d2fx30=[0,0,0,0];for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx2f[_0x82b6[39]];_0x3d2fx31++){for(var _0x3d2fx32=0;_0x3d2fx32< _0x3d2fx12[_0x82b6[39]];_0x3d2fx32++){if(_0x3d2fx2f[_0x3d2fx31]== _0x3d2fx12[_0x3d2fx32]){_0x3d2fx30[_0x3d2fx31]++}}};var _0x3d2fx33=0;var _0x3d2fx34=false;for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx30[_0x82b6[39]];_0x3d2fx31++){_0x3d2fx33= _0x3d2fx31;for(var _0x3d2fx35=0;_0x3d2fx35< _0x3d2fx30[_0x82b6[39]];_0x3d2fx35++){if(_0x3d2fx31!= _0x3d2fx35){if(_0x3d2fx30[_0x3d2fx31]< _0x3d2fx30[_0x3d2fx35]){break}};if(_0x3d2fx35== _0x3d2fx30[_0x82b6[39]]- 1){_0x3d2fx34= true}};if(_0x3d2fx34== true){break}};return _0x3d2fx33}function _0x3d2fx36(_0x3d2fx37,_0x3d2fx38){for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx38[_0x82b6[39]];_0x3d2fx31++){_0x3d2fx38[_0x82b6[40]][_0x3d2fx31][_0x82b6[32]]= 0;if(_0x3d2fx31== _0x3d2fx37){_0x3d2fx38[_0x82b6[40]][_0x3d2fx31][_0x82b6[32]]= 1}}}function _0x3d2fx39(){game[_0x82b6[41]]= true;game[_0x82b6[28]][_0x82b6[42]]= false;game[_0x82b6[46]][_0x82b6[45]](_0x82b6[43],_0x82b6[44]);if(amazing[_0x82b6[47]]()){_0x3d2fxa= sound[_0x82b6[49]](soundsPath+ _0x82b6[48],0.3)}else {game[_0x82b6[46]][_0x82b6[51]](_0x82b6[50],soundsPath+ _0x82b6[48])}}function _0x3d2fx3a(_0x3d2fx3b){if(_0x3d2fx11== true){if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[53]){_0x3d2fx13= true;_0x3d2fx14= false;_0x3d2fx17[_0x82b6[55]][_0x82b6[54]]=  -1}else {_0x3d2fx13= false;_0x3d2fx14= true;_0x3d2fx17[_0x82b6[55]][_0x82b6[54]]= 1};_0x3d2fx22[_0x82b6[57]](0,_0x82b6[56],0.8)}}function _0x3d2fx3c(_0x3d2fx3b){if(_0x3d2fx11== true){if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[53]){_0x3d2fx13= false}else {_0x3d2fx14= false};if(!_0x3d2fx13&&  !_0x3d2fx14){_0x3d2fx22[_0x82b6[57]](0,_0x82b6[58],0.8)}}}function _0x3d2fx3d(){var _0x3d2fx3e=220;var _0x3d2fx3f= new Phaser.Graphics(game);_0x3d2fx3f[_0x82b6[59]](0xffffff);_0x3d2fx3f[_0x82b6[63]](0,game[_0x82b6[61]][_0x82b6[60]],game[_0x82b6[61]][_0x82b6[62]],-game[_0x82b6[61]][_0x82b6[60]]* 0.175);_0x3d2fx3f[_0x82b6[64]]();_0x3d2fx3f[_0x82b6[66]][_0x82b6[65]](0,1);_0x3d2fxb[_0x82b6[31]](_0x3d2fx3f);_0x3d2fxb[_0x82b6[67]]= _0x3d2fx3f;var _0x3d2fx40=_0x3d2fxb[_0x82b6[70]](game[_0x82b6[61]][_0x82b6[68]]- _0x3d2fx3e,game[_0x82b6[61]][_0x82b6[60]]- 155,_0x82b6[1],_0x82b6[69]);_0x3d2fx40[_0x82b6[71]]= true;_0x3d2fx40[_0x82b6[37]][_0x82b6[72]][_0x82b6[31]](_0x3d2fx3a);_0x3d2fx40[_0x82b6[52]]= _0x82b6[53];_0x3d2fx40[_0x82b6[37]][_0x82b6[73]][_0x82b6[31]](_0x3d2fx3c);var _0x3d2fx41=_0x3d2fxb[_0x82b6[70]](game[_0x82b6[61]][_0x82b6[68]]+ _0x3d2fx3e,game[_0x82b6[61]][_0x82b6[60]]- 155,_0x82b6[1],_0x82b6[69]);_0x3d2fx41[_0x82b6[55]][_0x82b6[54]]=  -1;_0x3d2fx41[_0x82b6[71]]= true;_0x3d2fx41[_0x82b6[37]][_0x82b6[72]][_0x82b6[31]](_0x3d2fx3a);_0x3d2fx41[_0x82b6[52]]= _0x82b6[74];_0x3d2fx41[_0x82b6[37]][_0x82b6[73]][_0x82b6[31]](_0x3d2fx3c)}function _0x3d2fx42(){_0x3d2fx17[_0x82b6[54]]+= _0x3d2fx3;if(_0x3d2fx17[_0x82b6[54]]>= game[_0x82b6[61]][_0x82b6[62]]- 50){_0x3d2fx17[_0x82b6[54]]= game[_0x82b6[61]][_0x82b6[62]]- 50}}function _0x3d2fx43(){_0x3d2fx17[_0x82b6[54]]-= _0x3d2fx3;if(_0x3d2fx17[_0x82b6[54]]<= 50){_0x3d2fx17[_0x82b6[54]]= 50}}function _0x3d2fx44(_0x3d2fx45){game[_0x82b6[31]][_0x82b6[36]](_0x3d2fx15)[_0x82b6[35]]({alpha:0},250,Phaser[_0x82b6[34]][_0x82b6[33]].In,true);sound[_0x82b6[75]](_0x82b6[20]);_0x3d2fx11= false;var _0x3d2fx46=_0x3d2fx22[_0x82b6[83]](_0x82b6[76],_0x82b6[77]+ _0x3d2fx8[0]+ _0x82b6[78],_0x82b6[79]+ _0x3d2fx8[1],_0x82b6[80]+ _0x3d2fx8[2],_0x82b6[81]+ _0x3d2fx8[3],_0x82b6[82]);_0x3d2fx22[_0x82b6[84]](_0x82b6[76]);_0x3d2fx22[_0x82b6[85]]();_0x3d2fx22[_0x82b6[57]](0,_0x82b6[86],0.6);if(amazing[_0x82b6[47]]()){_0x3d2fxa[_0x82b6[87]]()}else {_0x3d2fxa[_0x82b6[88]]()};tweenScene= game[_0x82b6[31]][_0x82b6[36]](_0x3d2fxb)[_0x82b6[35]]({alpha:0},500,Phaser[_0x82b6[34]][_0x82b6[33]].In,true,1500);tweenScene[_0x82b6[94]][_0x82b6[31]](function(){var _0x3d2fx47=sceneloader[_0x82b6[90]](_0x82b6[89]);_0x3d2fx47[_0x82b6[92]](true,_0x3d2fx1a[_0x82b6[91]],_0x3d2fx9);sceneloader[_0x82b6[93]](_0x82b6[89])})}function _0x3d2fx48(_0x3d2fx49){sound[_0x82b6[75]](_0x82b6[6]);_0x3d2fx6e(_0x82b6[95],_0x3d2fx17[_0x82b6[96]]);_0x3d2fx67(_0x82b6[97]+ _0x3d2fx49,_0x3d2fx17[_0x82b6[96]]);_0x3d2fx1a[_0x82b6[91]]+= _0x3d2fx49;_0x3d2fx1a[_0x82b6[99]][_0x82b6[98]](_0x3d2fx1a[_0x82b6[91]]);_0x3d2fx4+= 0.2;_0x3d2fx1b-= 17;if(_0x3d2fx1a[_0x82b6[91]]== 10){_0x3d2fx65(_0x82b6[100],1,5)}else {if(_0x3d2fx1a[_0x82b6[91]]== 15){for(var _0x3d2fx31=0;_0x3d2fx31< 5;_0x3d2fx31++){_0x3d2fx65(_0x82b6[101]+ (_0x3d2fx31+ 1),1,3)}}else {if(_0x3d2fx1a[_0x82b6[91]]== 20){_0x3d2fx65(_0x82b6[102],2,5);_0x3d2fx65(_0x82b6[103],1,5)}else {if(_0x3d2fx1a[_0x82b6[91]]== 25){_0x3d2fx65(_0x82b6[104],2,5);_0x3d2fx65(_0x82b6[105],1,3);_0x3d2fx65(_0x82b6[106],2,5)}}}}}function _0x3d2fx4a(){sound[_0x82b6[75]](_0x82b6[14]);_0x3d2fx1c--;_0x3d2fx1f[_0x82b6[99]][_0x82b6[98]](_0x82b6[107]+ _0x3d2fx1c);if(_0x3d2fx1c== 0){_0x3d2fx44(false)}}function _0x3d2fx4b(_0x3d2fx3b){_0x3d2fx3b[_0x82b6[32]]= 0;_0x3d2fx3b[_0x82b6[108]]= false;_0x3d2fx3b[_0x82b6[54]]=  -100;if(_0x3d2fx3b[_0x82b6[52]]!= _0x82b6[109]){_0x3d2fx16[_0x82b6[110]](_0x3d2fx3b);_0x3d2fx15[_0x82b6[31]](_0x3d2fx3b)}}function _0x3d2fx4c(_0x3d2fx3b){var _0x3d2fx4d=_0x3d2fx17[_0x82b6[96]];if(_0x3d2fx3b[_0x82b6[108]]== true){if(Math[_0x82b6[111]](_0x3d2fx4d[_0x82b6[61]][_0x82b6[54]]- _0x3d2fx3b[_0x82b6[54]])< _0x3d2fx4d[_0x82b6[62]]* 0.5&& Math[_0x82b6[111]](_0x3d2fx4d[_0x82b6[61]][_0x82b6[112]]- _0x3d2fx3b[_0x82b6[112]])< _0x3d2fx4d[_0x82b6[60]]* 0.6){_0x3d2fx4b(_0x3d2fx3b);if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[113]){_0x3d2fx48(_0x3d2fx3b[_0x82b6[114]])}else {_0x3d2fx6e(_0x82b6[12],_0x3d2fx17[_0x82b6[96]]);_0x3d2fx4a()}}else {if(_0x3d2fx3b[_0x82b6[112]]> game[_0x82b6[61]][_0x82b6[60]]- _0x3d2fxb[_0x82b6[67]][_0x82b6[60]]* 1.2){_0x3d2fx4b(_0x3d2fx3b);if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[113]){_0x3d2fx6e(_0x82b6[115],_0x3d2fx3b)}else {if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[109]){_0x3d2fx6e(_0x82b6[116],_0x3d2fx3b);sound[_0x82b6[75]](_0x82b6[22])}}}else {if(Math[_0x82b6[111]](_0x3d2fx4d[_0x82b6[61]][_0x82b6[54]]- _0x3d2fx3b[_0x82b6[54]])< _0x3d2fx4d[_0x82b6[62]]* 0.5&& Math[_0x82b6[111]](_0x3d2fx4d[_0x82b6[61]][_0x82b6[112]]+ 45- _0x3d2fx3b[_0x82b6[112]])< _0x3d2fx4d[_0x82b6[60]]* 0.6&& _0x3d2fx3b[_0x82b6[52]]== _0x82b6[113]){_0x3d2fx4b(_0x3d2fx3b);_0x3d2fx48(_0x3d2fx3b[_0x82b6[114]])}}}}}function _0x3d2fx4e(){if(_0x3d2fx11== false){return};if(_0x3d2fx14== true){_0x3d2fx42()}else {if(_0x3d2fx13== true){_0x3d2fx43()}else {if(_0x3d2fx20[_0x82b6[117]]){if(_0x3d2fx23== false){_0x3d2fx22[_0x82b6[57]](0,_0x82b6[56],0.8)};_0x3d2fx23= true;_0x3d2fx43();_0x3d2fx17[_0x82b6[55]][_0x82b6[54]]=  -1}else {if(_0x3d2fx21[_0x82b6[117]]){if(_0x3d2fx23== false){_0x3d2fx22[_0x82b6[57]](0,_0x82b6[56],0.8)};_0x3d2fx23= true;_0x3d2fx42();_0x3d2fx17[_0x82b6[55]][_0x82b6[54]]= 1}else {if(_0x3d2fx20[_0x82b6[118]]&& _0x3d2fx21[_0x82b6[118]]){if(_0x3d2fx23== true){_0x3d2fx22[_0x82b6[57]](0,_0x82b6[58],0.8)};_0x3d2fx23= false}}}}};for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx16[_0x82b6[39]];_0x3d2fx31++){var _0x3d2fx3b=_0x3d2fx16[_0x82b6[40]][_0x3d2fx31];if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[113]){_0x3d2fx3b[_0x82b6[112]]+= _0x3d2fx5}else {if(_0x3d2fx3b[_0x82b6[52]]== _0x82b6[109]){_0x3d2fx3b[_0x82b6[112]]+= _0x3d2fx4}};_0x3d2fx3b[_0x82b6[119]]+= 0.1;_0x3d2fx4c(_0x3d2fx3b)}}function _0x3d2fx4f(){_0x3d2fx19= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fx19[_0x82b6[54]]= game[_0x82b6[61]][_0x82b6[74]];_0x3d2fx19[_0x82b6[112]]= 0;_0x3d2fxb[_0x82b6[31]](_0x3d2fx19);var _0x3d2fx50=_0x3d2fx19[_0x82b6[70]](0,0,_0x82b6[1],_0x82b6[38]);_0x3d2fx50[_0x82b6[62]]*= 1.3;_0x3d2fx50[_0x82b6[60]]*= 1.3;_0x3d2fx50[_0x82b6[66]][_0x82b6[65]](1,0);var _0x3d2fx51={font:_0x82b6[121],fontWeight:_0x82b6[122],fill:_0x82b6[29],align:_0x82b6[123]};var _0x3d2fx52= new Phaser.Text(_0x3d2fxb[_0x82b6[124]],0,5,_0x82b6[125],_0x3d2fx51);_0x3d2fx52[_0x82b6[54]]= -_0x3d2fx50[_0x82b6[62]]* 0.55;_0x3d2fx52[_0x82b6[112]]= _0x3d2fx50[_0x82b6[60]]* 0.18;_0x3d2fx19[_0x82b6[31]](_0x3d2fx52);_0x3d2fx19[_0x82b6[126]]= _0x3d2fx52;_0x3d2fx19[_0x82b6[91]]= 0;_0x3d2fx18= game[_0x82b6[38]][_0x82b6[70]](false);_0x3d2fx18[_0x82b6[127]](1,_0x3d2fx58,this)}function _0x3d2fx53(){_0x3d2fx1a= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fxb[_0x82b6[31]](_0x3d2fx1a);var _0x3d2fx54=_0x3d2fx1a[_0x82b6[70]](0,10,_0x82b6[1],_0x82b6[128]);_0x3d2fx54[_0x82b6[54]]= game[_0x82b6[61]][_0x82b6[62]]- _0x3d2fx54[_0x82b6[62]]* 1.2;_0x3d2fx54[_0x82b6[62]]*= 1;_0x3d2fx54[_0x82b6[60]]*= 1;var _0x3d2fx51={font:_0x82b6[129],fontWeight:_0x82b6[122],fill:_0x82b6[29],align:_0x82b6[123]};var _0x3d2fx55= new Phaser.Text(_0x3d2fxb[_0x82b6[124]],0,5,_0x82b6[125],_0x3d2fx51);_0x3d2fx55[_0x82b6[54]]= _0x3d2fx54[_0x82b6[54]]+ _0x3d2fx54[_0x82b6[62]]* 0.75;_0x3d2fx55[_0x82b6[112]]= _0x3d2fx54[_0x82b6[60]]* 0.3;_0x3d2fx1a[_0x82b6[31]](_0x3d2fx55);_0x3d2fx1a[_0x82b6[99]]= _0x3d2fx55;_0x3d2fx1a[_0x82b6[91]]= 0}function _0x3d2fx56(){_0x3d2fx1f= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fx1f[_0x82b6[112]]= 10;_0x3d2fxb[_0x82b6[31]](_0x3d2fx1f);var _0x3d2fx57=15;var _0x3d2fx38=game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fx38[_0x82b6[54]]= _0x3d2fx57;_0x3d2fx1f[_0x82b6[31]](_0x3d2fx38);_0x3d2fx38[_0x82b6[70]](0,0,_0x82b6[1],_0x82b6[130]);_0x3d2fx57+= 47;var _0x3d2fx51={font:_0x82b6[129],fontWeight:_0x82b6[122],fill:_0x82b6[29],align:_0x82b6[123]};var _0x3d2fx55= new Phaser.Text(_0x3d2fxb[_0x82b6[124]],0,10,_0x82b6[125],_0x3d2fx51);_0x3d2fx55[_0x82b6[54]]= _0x3d2fx57;_0x3d2fx55[_0x82b6[112]]= 2;_0x3d2fx55[_0x82b6[98]](_0x82b6[107]+ _0x3d2fx1c);_0x3d2fx1f[_0x82b6[31]](_0x3d2fx55);_0x3d2fx55[_0x82b6[132]](3,3,_0x82b6[131],0);_0x3d2fx1f[_0x82b6[99]]= _0x3d2fx55}function _0x3d2fx58(){_0x3d2fx19[_0x82b6[91]]+= 1;_0x3d2fx19[_0x82b6[126]][_0x82b6[98]](_0x3d2fx19[_0x82b6[91]]/ 100)}function _0x3d2fx59(_0x3d2fx5a){var _0x3d2fx5b=false;for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx16[_0x82b6[39]];_0x3d2fx31++){var _0x3d2fx3b=_0x3d2fx16[_0x82b6[40]][_0x3d2fx31];if(Math[_0x82b6[111]](_0x3d2fx3b[_0x82b6[54]]- _0x3d2fx5a)< 75&& Math[_0x82b6[111]](_0x3d2fx3b[_0x82b6[112]]-  -50)< 100){_0x3d2fx5b= true}};return _0x3d2fx5b}function _0x3d2fx5c(_0x3d2fx5d){var _0x3d2fx5a=game[_0x82b6[134]][_0x82b6[133]](50,game[_0x82b6[61]][_0x82b6[62]]- 50);if(_0x3d2fx16[_0x82b6[39]]> 0){while(_0x3d2fx59(_0x3d2fx5a)){_0x3d2fx5a= game[_0x82b6[134]][_0x82b6[133]](75,game[_0x82b6[61]][_0x82b6[62]]- 75);if(_0x3d2fx11== false){break}}};_0x3d2fx5d[_0x82b6[32]]= 1;_0x3d2fx5d[_0x82b6[54]]= _0x3d2fx5a;_0x3d2fx5d[_0x82b6[112]]=  -50;_0x3d2fx5d[_0x82b6[108]]= true;_0x3d2fx15[_0x82b6[110]](_0x3d2fx5d);_0x3d2fx16[_0x82b6[31]](_0x3d2fx5d)}function _0x3d2fx5e(){var _0x3d2fx5f=_0x3d2fxb[_0x82b6[70]](-100,0,_0x82b6[1],_0x82b6[22]);_0x3d2fx5f[_0x82b6[66]][_0x82b6[65]](0.5,0.5);_0x3d2fx5f[_0x82b6[52]]= _0x82b6[109];_0x3d2fx24[_0x3d2fx24[_0x82b6[39]]]= _0x3d2fx5f;return _0x3d2fx5f}function _0x3d2fx60(){if(_0x3d2fx11== false){return};sound[_0x82b6[75]](_0x82b6[16]);var _0x3d2fx5d=null;for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx24[_0x82b6[39]];_0x3d2fx31++){var _0x3d2fx5f=_0x3d2fx24[_0x3d2fx31];if(_0x3d2fx5f[_0x82b6[54]]<  -50){_0x3d2fx5d= _0x3d2fx5f;break}};if(_0x3d2fx5d== null){_0x3d2fx5d= _0x3d2fx5e()};_0x3d2fx5d[_0x82b6[52]]= _0x82b6[109];_0x3d2fx5c(_0x3d2fx5d);if(_0x3d2fx11== true){game[_0x82b6[38]][_0x82b6[37]][_0x82b6[31]](_0x3d2fx1b,_0x3d2fx60,this)}}function _0x3d2fx61(){if(_0x3d2fx11== false){return};sound[_0x82b6[75]](_0x82b6[16]);var _0x3d2fx5d=null;Phaser[_0x82b6[136]][_0x82b6[135]](_0x3d2fx25);var _0x3d2fx62=_0x3d2fx25[0];for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx15[_0x82b6[39]];_0x3d2fx31++){var _0x3d2fx63=_0x3d2fx15[_0x82b6[40]][_0x3d2fx31];if(_0x3d2fx63[_0x82b6[54]]<  -50&& _0x3d2fx62== _0x3d2fx63[_0x82b6[137]]){_0x3d2fx5d= _0x3d2fx63;break}};if(_0x3d2fx5d){_0x3d2fx5c(_0x3d2fx5d)};if(_0x3d2fx11== true){game[_0x82b6[38]][_0x82b6[37]][_0x82b6[31]](_0x3d2fx26,_0x3d2fx61,this)}}function _0x3d2fx64(){game[_0x82b6[38]][_0x82b6[37]][_0x82b6[31]](_0x3d2fx26,_0x3d2fx61,this);game[_0x82b6[38]][_0x82b6[37]][_0x82b6[31]](_0x3d2fx1b,_0x3d2fx60,this)}function _0x3d2fx65(_0x3d2fx62,_0x3d2fx66,_0x3d2fx49){_0x3d2fx25[_0x3d2fx25[_0x82b6[39]]]= _0x3d2fx62;for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx49;_0x3d2fx31++){var _0x3d2fx63=_0x3d2fx15[_0x82b6[70]](-100,0,_0x82b6[1],_0x3d2fx62);_0x3d2fx63[_0x82b6[66]][_0x82b6[65]](0.5,0.5);_0x3d2fx63[_0x82b6[52]]= _0x82b6[113];_0x3d2fx63[_0x82b6[114]]= _0x3d2fx66;_0x3d2fx63[_0x82b6[137]]= _0x3d2fx62}}function _0x3d2fx67(_0x3d2fx68,_0x3d2fx3b){var _0x3d2fx51={font:_0x82b6[138],fontWeight:_0x82b6[122],fill:_0x82b6[29],align:_0x82b6[123]};var _0x3d2fx55=_0x3d2fx69(_0x82b6[139]);if(_0x3d2fx55){_0x3d2fx55[_0x82b6[54]]= _0x3d2fx3b[_0x82b6[61]][_0x82b6[54]];_0x3d2fx55[_0x82b6[112]]= _0x3d2fx3b[_0x82b6[61]][_0x82b6[112]]- 60;_0x3d2fx55[_0x82b6[98]](_0x3d2fx68);game[_0x82b6[31]][_0x82b6[36]](_0x3d2fx55)[_0x82b6[35]]({y:_0x3d2fx55[_0x82b6[112]]- 75},750,Phaser[_0x82b6[34]][_0x82b6[140]],true);game[_0x82b6[31]][_0x82b6[36]](_0x3d2fx55)[_0x82b6[35]]({alpha:0},500,Phaser[_0x82b6[34]][_0x82b6[140]],true,250);_0x3d2fx6c(_0x3d2fx55,750)}}function _0x3d2fx69(_0x3d2fx6a){for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx1d[_0x82b6[39]];_0x3d2fx31++){var _0x3d2fx6b=_0x3d2fx1d[_0x82b6[40]][_0x3d2fx31];if(!_0x3d2fx6b[_0x82b6[141]]&& _0x3d2fx6b[_0x82b6[52]]== _0x3d2fx6a){_0x3d2fx6b[_0x82b6[141]]= true;_0x3d2fx6b[_0x82b6[32]]= 1;_0x3d2fx1d[_0x82b6[110]](_0x3d2fx6b);_0x3d2fx1e[_0x82b6[31]](_0x3d2fx6b);return _0x3d2fx6b;break}}}function _0x3d2fx6c(_0x3d2fx3b,_0x3d2fx6d){game[_0x82b6[38]][_0x82b6[37]][_0x82b6[31]](_0x3d2fx6d,function(){_0x3d2fx3b[_0x82b6[141]]= false;_0x3d2fx1e[_0x82b6[110]](_0x3d2fx3b);_0x3d2fx1d[_0x82b6[31]](_0x3d2fx3b)},this)}function _0x3d2fx6e(_0x3d2fx6a,_0x3d2fx3b){_0x3d2fx6a+= _0x82b6[142];var _0x3d2fx6b=_0x3d2fx69(_0x3d2fx6a);if(_0x3d2fx6b){_0x3d2fx6b[_0x82b6[54]]= _0x3d2fx3b[_0x82b6[61]][_0x82b6[54]];_0x3d2fx6b[_0x82b6[112]]= _0x3d2fx3b[_0x82b6[61]][_0x82b6[112]];_0x3d2fx6b[_0x82b6[55]][_0x82b6[65]](1,1);game[_0x82b6[31]][_0x82b6[36]](_0x3d2fx6b)[_0x82b6[35]]({alpha:0},300,Phaser[_0x82b6[34]][_0x82b6[33]].In,true);game[_0x82b6[31]][_0x82b6[36]](_0x3d2fx6b[_0x82b6[55]])[_0x82b6[35]]({x:2,y:2},300,Phaser[_0x82b6[34]][_0x82b6[33]].In,true);_0x3d2fx6c(_0x3d2fx6b,300)}}function _0x3d2fx6f(_0x3d2fx62,_0x3d2fx49){_0x3d2fx62+= _0x82b6[142];for(var _0x3d2fx31=0;_0x3d2fx31< _0x3d2fx49;_0x3d2fx31++){var _0x3d2fx6b;if(_0x3d2fx62== _0x82b6[139]){var _0x3d2fx51={font:_0x82b6[138],fontWeight:_0x82b6[122],fill:_0x82b6[29],align:_0x82b6[123]};var _0x3d2fx6b= new Phaser.Text(_0x3d2fxb[_0x82b6[124]],0,10,_0x82b6[125],_0x3d2fx51);_0x3d2fx6b[_0x82b6[132]](3,3,_0x82b6[143],0);_0x3d2fx1d[_0x82b6[31]](_0x3d2fx6b)}else {_0x3d2fx6b= _0x3d2fx1d[_0x82b6[70]](-200,0,_0x82b6[1],_0x3d2fx62)};_0x3d2fx6b[_0x82b6[32]]= 0;_0x3d2fx6b[_0x82b6[52]]= _0x3d2fx62;_0x3d2fx6b[_0x82b6[141]]= false;_0x3d2fx6b[_0x82b6[66]][_0x82b6[65]](0.5,0.5);_0x3d2fx6b[_0x82b6[55]][_0x82b6[65]](1,1)}}function _0x3d2fx70(){_0x3d2fx24= [];for(var _0x3d2fx31=0;_0x3d2fx31< 7;_0x3d2fx31++){_0x3d2fx5e()};_0x3d2fx65(_0x82b6[30],1,7);_0x3d2fx1d= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fxb[_0x82b6[31]](_0x3d2fx1d);_0x3d2fx1e= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fxb[_0x82b6[31]](_0x3d2fx1e);_0x3d2fx6f(_0x82b6[95],5);_0x3d2fx6f(_0x82b6[115],5);_0x3d2fx6f(_0x82b6[116],8);_0x3d2fx6f(_0x82b6[12],1);_0x3d2fx6f(_0x82b6[99],8)}function _0x3d2fx71(){_0x3d2fx20= game[_0x82b6[147]][_0x82b6[146]][_0x82b6[145]](Phaser[_0x82b6[144]].LEFT);_0x3d2fx21= game[_0x82b6[147]][_0x82b6[146]][_0x82b6[145]](Phaser[_0x82b6[144]].RIGHT);_0x3d2fxb= game[_0x82b6[31]][_0x82b6[120]]();var _0x3d2fx72=_0x3d2fxb[_0x82b6[70]](-2,-2,_0x82b6[4]);_0x3d2fx72[_0x82b6[62]]= game[_0x82b6[61]][_0x82b6[62]]+ 2;_0x3d2fx72[_0x82b6[60]]= game[_0x82b6[61]][_0x82b6[60]]+ 2;_0x3d2fx2a();_0x3d2fx2b();_0x3d2fx15= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fxb[_0x82b6[31]](_0x3d2fx15);_0x3d2fx16= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fxb[_0x82b6[31]](_0x3d2fx16);_0x3d2fx17= game[_0x82b6[31]][_0x82b6[120]]();_0x3d2fx17[_0x82b6[54]]= game[_0x82b6[61]][_0x82b6[68]];_0x3d2fx17[_0x82b6[112]]= _0x3d2fx72[_0x82b6[60]]* 0.768;_0x3d2fxb[_0x82b6[31]](_0x3d2fx17);_0x3d2fx22= game[_0x82b6[31]][_0x82b6[45]](0,0,_0x82b6[43]);_0x3d2fx22[_0x82b6[55]][_0x82b6[65]](0.6,0.6);_0x3d2fx17[_0x82b6[31]](_0x3d2fx22);var _0x3d2fx4d=_0x3d2fx17[_0x82b6[70]](0,-120,_0x82b6[1],_0x82b6[82]);_0x3d2fx4d[_0x82b6[32]]= 0;_0x3d2fx4d[_0x82b6[66]][_0x82b6[65]](0.5,0.5);_0x3d2fx17[_0x82b6[96]]= _0x3d2fx4d;_0x3d2fx22[_0x82b6[57]](0,_0x82b6[58],true);_0x3d2fx22[_0x82b6[84]](_0x82b6[148]);_0x3d2fx22[_0x82b6[85]]();_0x3d2fx28();var _0x3d2fx46=_0x3d2fx22[_0x82b6[83]](_0x82b6[149],_0x82b6[77]+ _0x3d2fx8[0],_0x82b6[79]+ _0x3d2fx8[1],_0x82b6[80]+ _0x3d2fx8[2],_0x82b6[81]+ _0x3d2fx8[3],_0x82b6[82]);game[_0x82b6[152]][_0x82b6[31]](function(){game[_0x82b6[151]][_0x82b6[150]]= true;if(amazing[_0x82b6[47]]()){_0x3d2fxa[_0x82b6[87]]()}},this);game[_0x82b6[153]][_0x82b6[31]](function(){game[_0x82b6[151]][_0x82b6[150]]= false;if(amazing[_0x82b6[47]]()){if(_0x3d2fx1c> 0){_0x3d2fxa[_0x82b6[75]]()}}},this);_0x3d2fx22[_0x82b6[84]](_0x82b6[149]);if(!amazing[_0x82b6[47]]()){_0x3d2fxa= game[_0x82b6[31]][_0x82b6[51]](_0x82b6[50]);game[_0x82b6[151]][_0x82b6[155]](_0x3d2fxa,function(){_0x3d2fxa[_0x82b6[154]](0.3)},this)};var _0x3d2fx73= new Phaser.Graphics(game);_0x3d2fx73[_0x82b6[59]](0xffffff);_0x3d2fx73[_0x82b6[63]](0,0,game[_0x82b6[61]][_0x82b6[62]],60);_0x3d2fx73[_0x82b6[64]]();_0x3d2fx73[_0x82b6[66]][_0x82b6[65]](0,0);_0x3d2fxb[_0x82b6[31]](_0x3d2fx73);_0x3d2fx53();_0x3d2fx56();_0x3d2fx3d();_0x3d2fx70();_0x3d2fx2c()}return {assets:assets,name:_0x82b6[156],create:_0x3d2fx71,preload:_0x3d2fx39,update:_0x3d2fx4e}}()
+var soundsPath = "../../shared/minigames/sounds/"
+var chilimbalam = function(){
+	assets = {
+        atlases: [
+            {   
+                name: "atlas.chilimbalam",
+                json: "images/chilimbalam/atlas.json",
+                image: "images/chilimbalam/atlas.png",
+            },
+        ],
+        images: [
+            {   name:"fondo",
+				file: "images/chilimbalam/fondo.png"},
+		],
+		sounds: [
+            {	name: "pop",
+				file: soundsPath + "magic.mp3"},
+            {	name: "splash",
+				file: soundsPath + "splashMud.mp3"},
+            {	name: "swipe",
+				file: soundsPath + "swipe.mp3"},
+            {	name: "wrong",
+				file: soundsPath + "wrong.mp3"},
+			{	name: "explode",
+				file: soundsPath + "explode.mp3"},
+            {	name: "shootBall",
+				file: soundsPath + "shootBall.mp3"},
+            {	name: "click",
+				file: soundsPath + "pop.mp3"},
+            {	name: "gameLose",
+				file: soundsPath + "gameLose.mp3"},
+            {	name: "bomb",
+				file: soundsPath + "bomb.mp3"},
+		],
+	}
+    
+    var SPEED = 7
+    var GRAVITY_OBJECTS = 4
+    var GRAVITY_GUMS = 4
+    var OBJ_TIME = 1300
+    var ITEM_TIME = 800
+    var skinTable
+    
+    var gameIndex = 9
+    var gameId = 5676073085829120
+    
+    var marioSong = null
+	var sceneGroup = null
+    var answersGroup = null
+    var pointsGroup = null
+    var questionText = null
+    var questionGroup = null
+    var purpleBack = null
+    var gameActive = true
+    var valuesList = null
+    var moveLeft, moveRight
+    var objectsGroup, usedObjects
+    var characterGroup = null
+    var timer
+    var timeGroup = null
+    var pointsBar = null
+    var throwTime = null
+    var lives = null
+    var particlesGroup
+    var particlesUsed
+    var heartsGroup = null
+    var leftKey = null
+    var rightKey = null
+    var buddy = null
+    var buttonPressed = null
+    var bombsList, itemList
+    var throwTimeItems
+    var tooMuch
+    
+    function getSkins(){
+        
+        /*var dataStore = [
+            
+            [
+                {"tableID":"idGlasses"},
+                {"id":"style1","name":"style 80´s","img":"lentes_defautl.png","price":"0","choice":false,"buy":true},
+                {"id":"style2","name":"style 90´s","img":"lentes_80s.png","price":"10","choice":true,"buy":false},{"id":"style3","name":"Sunglass","img":"black_glass.png","price":"10","choice":false,"buy":false},
+                {"id":"style4","name":"3D Glass","img":"lentes_3d.png","price":0,"choice":true,"buy":false}
+            ],
+            
+            [
+                {"tableID":"idHair"},
+                {"id":"hairStyle1","name":"Estilo Elvis","img":"hair_style1.png","price":"10","choice":true,"buy":false},
+                {"id":"hairStyle2","name":"Estilo punk","img":"hair_style2.png","price":0,"choice":false,"buy":true},
+                {"id":"hairStyle3","name":"Estilo emo","img":"hair_style3.png","price":"10","choice":false,"buy":false},
+                {"id":"hairStyle4","name":"Estilo smith","img":"hair_style4.png","price":"10","choice":false,"buy":false}
+            ],
+            
+            [
+                {"tableID":"idColorBody"},
+                {"name":"Morado","color":"0deg","img":"crayon_morado.png","price":"0","choice":true,"buy":false},
+                {"name":"Rojo","color":"75deg","img":"crayon_rojo.png","price":"10","choice":false,"buy":false},
+                {"name":"Azul","color":"300deg","img":"crayon_azul.png","price":0,"choice":false,"buy":true},
+                {"name":"Verde","color":"200deg","img":"crayon_verde.png","price":"10","choice":false,"buy":false}
+            ]
+            
+        ]*/
+        
+        var dataStore = amazing.getProfile()
+        
+        if(!dataStore){
+            skinTable = [1,1,1,1]
+        }else{
+         
+            skinTable = dataStore
+        }
+        
+        //console.log(skinTable + ' skins')
+        
+    }
+    
+	function loadSounds(){
+		sound.decode(assets.sounds)
+	}
+
+
+	function initialize(){
+        gameIndex = amazing.getId(gameId)
+        game.stage.backgroundColor = "#ffffff"
+        gameActive = true
+        moveLeft = false
+        moveRight = false
+        throwTime = OBJ_TIME
+        throwTimeItems = ITEM_TIME
+        lives = 1
+        buttonPressed = false
+        tooMuch = false
+        GRAVITY_OBJECTS = 4
+        skinTable = []
+        itemList = ['chip']
+        
+	}
+    
+
+    
+    function animateScene() {
+                
+        gameActive = false
+        
+        var startGroup = new Phaser.Group(game)
+        sceneGroup.add(startGroup)        
+        
+        sceneGroup.alpha = 0
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+
+        gameActive = true
+        //timer.start()
+        game.time.events.add(throwTime *0.5, dropObjects , this);
+        //objectsGroup.timer.start()
+
+    }
+    
+    function checkNumbers(){
+        
+        //console.log(valuesList.length)
+        var valuesCompare = [1,2,3,4]
+        var tableCompare = [0,0,0,0]
+        
+        for(var i = 0 ; i < valuesCompare.length;i++){
+            
+            for(var e = 0; e < valuesList.length;e++){
+                //console.log(valuesCompare[i] + ' i ' + valuesList[e] + ' u ')
+                if(valuesCompare[i] == valuesList[e]){
+                    tableCompare[i]++
+                }
+            }
+        }
+        
+        //console.log(tableCompare)
+        var indexToUse = 0
+        var findNumber = false
+        for(var i = 0;i < tableCompare.length;i++){
+            indexToUse = i
+            for(var u = 0;u<tableCompare.length;u++){
+                if (i != u){
+                    if (tableCompare[i] < tableCompare[u]){
+                        break
+                    }
+                }
+                if(u == tableCompare.length - 1){
+                    findNumber = true
+                }
+            }
+            if (findNumber == true){
+                break
+            }
+        }
+        //console.log(indexToUse + ' number To use')
+        return indexToUse
+    }
+    
+    function changeImage(index,group){
+        for (var i = 0;i< group.length; i ++){
+            group.children[i].alpha = 0
+            if( i == index){
+                group.children[i].alpha = 1
+            }
+        }
+    }    
+    
+    
+    function preload() {
+        
+		game.forceSingleUpdate = true
+        game.stage.disableVisibilityChange = false;
+        game.load.spine('mascot', "images/spines/skeleton.json");
+        		
+		if(amazing.getMinigameId()){
+			marioSong = sound.setSong(soundsPath + 'songs/classic_arcade.mp3',0.3)
+		}else{
+			game.load.audio('arcadeSong', soundsPath + 'songs/classic_arcade.mp3');
+		}
+		
+    }
+    
+    function inputButton(obj){
+        
+        if(gameActive == true){
+            if(obj.tag == 'left'){
+                moveLeft = true
+                moveRight = false
+                characterGroup.scale.x = -1
+            }else{
+                moveLeft = false
+                moveRight = true
+                characterGroup.scale.x = 1
+            }
+            buddy.setAnimationByName(0, "RUN", 0.8);
+        }
+    }
+    
+    function releaseButton(obj){
+        
+        if(gameActive == true){
+            if(obj.tag =='left'){
+                moveLeft = false
+            }else{
+                moveRight = false
+            }
+            
+            if(!moveLeft && !moveRight){
+                buddy.setAnimationByName(0, "IDLE", 0.8);
+            }
+            
+        }
+    }
+    
+    function createControls(){
+        
+        var spaceButtons = 220
+        
+        var bottomRect = new Phaser.Graphics(game)
+        bottomRect.beginFill(0xffffff);
+        bottomRect.drawRect(0, game.world.height, game.world.width, -game.world.height * 0.175);
+        bottomRect.endFill();
+        bottomRect.anchor.setTo(0,1)
+        sceneGroup.add(bottomRect)
+        sceneGroup.bottomRect = bottomRect
+        
+        var button1 = sceneGroup.create(game.world.centerX - spaceButtons, game.world.height - 155, 'atlas.chilimbalam','boton')
+        button1.inputEnabled = true
+        button1.events.onInputDown.add(inputButton)
+        button1.tag = 'left'
+        button1.events.onInputUp.add(releaseButton)
+        
+        var button2 = sceneGroup.create(game.world.centerX + spaceButtons, game.world.height - 155, 'atlas.chilimbalam','boton')
+        button2.scale.x = -1
+        button2.inputEnabled = true
+        button2.events.onInputDown.add(inputButton)
+        button2.tag = 'right'
+        button2.events.onInputUp.add(releaseButton)
+        
+    }
+    
+    function moveChRight(){
+        characterGroup.x+=SPEED;
+        if (characterGroup.x>=game.world.width - 50){
+            characterGroup.x = game.world.width - 50
+        }
+    }
+    
+    function moveChLeft(){
+        characterGroup.x-=SPEED;
+        if (characterGroup.x<=50){
+            characterGroup.x = 50
+        }
+    }
+    
+    function stopGame(win){
+        
+        game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
+        sound.play("gameLose")
+        
+        //objectsGroup.timer.pause()
+        gameActive = false
+        
+        var newSkin = buddy.createCombinedSkin(
+            'combined2',     
+            'glasses' + skinTable[0] + '_Sad',        
+            'hair' +  skinTable[1],
+            'skin' + skinTable[2],
+            'torso' + skinTable[3],
+            'vaso'
+        );
+        
+        buddy.setSkinByName('combined2')
+        
+        buddy.setToSetupPose()
+        
+        buddy.setAnimationByName(0,"LOSE",0.6)
+        
+		if(amazing.getMinigameId()){
+			marioSong.pause()
+		}else{
+			marioSong.stop()
+		}
+                
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
+		tweenScene.onComplete.add(function(){
+            
+			var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
+
+			//amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
+		})
+    }
+    
+    function addPoint(number){
+        
+        sound.play("pop")
+        createPart('star', characterGroup.cup)
+        createTextPart('+' + number, characterGroup.cup)
+        
+        pointsBar.number+= number
+        pointsBar.text.setText(pointsBar.number)
+        
+        GRAVITY_OBJECTS+=0.2
+        throwTime-=17
+        
+        if(pointsBar.number == 10){
+            createAssets('takis',1,5)
+        }else if(pointsBar.number == 15){
+            for(var i = 0;i<5;i++){
+                createAssets('gomita' + (i + 1),1,3)
+            }
+            
+        }else if(pointsBar.number == 20){
+			createAssets('chiligum',2,5)
+            createAssets('peanut',1,5)
+        }else if(pointsBar.number == 25){
+            createAssets('pina',2,5)
+            createAssets('skwinkle',1,3)
+            createAssets('mango',2,5)
+        }
+        
+        //throwTimeItems-=10
+        
+    }
+    
+    function missPoint(){
+        
+        sound.play("explode")
+        
+        lives--;
+        //changeImage(0,heartsGroup.children[lives])
+        heartsGroup.text.setText('X ' + lives)
+        //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
+        
+        if(lives == 0){
+            stopGame(false)
+        }
+        
+    }
+    
+    function deactivateObject(obj){
+        
+        obj.alpha = 0
+        obj.active = false
+        obj.x = -100
+        
+        if(obj.tag != 'obstacle'){
+            usedObjects.remove(obj)
+            objectsGroup.add(obj)
+        }
+        
+    }
+    
+    function checkPos(obj){
+        
+        var cup = characterGroup.cup
+        //console.log(cup.world.x + ' cupx')
+        if(obj.active == true){
+            if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y - obj.y) < cup.height*0.6){
+                deactivateObject(obj)
+                if(obj.tag == 'candy'){
+                    addPoint(obj.points)
+                }else{
+                    createPart('wrong',characterGroup.cup)
+                    missPoint()
+                }
+            }else if(obj.y > game.world.height - sceneGroup.bottomRect.height * 1.2){
+                deactivateObject(obj)
+                if(obj.tag == 'candy'){
+                    //missPoint()
+                    createPart('drop',obj)
+                    //sound.play("splash")
+                }else if(obj.tag == 'obstacle'){
+                    createPart('smoke',obj)
+                    sound.play("bomb")
+                }
+            }else if(Math.abs(cup.world.x - obj.x) < cup.width * 0.5 && Math.abs(cup.world.y + 45 - obj.y) < cup.height*0.6 && obj.tag == 'candy'){
+                deactivateObject(obj)
+                addPoint(obj.points)
+            }
+        }
+    }
+    
+    function update(){
+        
+        if(gameActive == false){
+            return
+        }
+        
+        if(moveRight == true){
+            moveChRight()
+            
+        }else if(moveLeft == true){
+            moveChLeft()
+        }else if (leftKey.isDown){
+            if(buttonPressed == false){
+                buddy.setAnimationByName(0, "RUN", 0.8);
+            }
+            buttonPressed = true 
+            moveChLeft()
+            characterGroup.scale.x = -1
+        }else if(rightKey.isDown){
+            if(buttonPressed == false){
+                buddy.setAnimationByName(0, "RUN", 0.8);
+            }
+            buttonPressed = true
+            moveChRight()
+            characterGroup.scale.x = 1
+        } else if(leftKey.isUp && rightKey.isUp){
+            if(buttonPressed == true){
+                buddy.setAnimationByName(0, "IDLE", 0.8);
+            }
+            buttonPressed = false
+        }
+        
+        for(var i = 0; i < usedObjects.length;i++){
+            var obj = usedObjects.children[i]
+            if(obj.tag == 'candy'){
+                obj.y+= GRAVITY_GUMS
+            }else if(obj.tag == 'obstacle'){
+                obj.y+= GRAVITY_OBJECTS
+            }
+            obj.rotation+=0.1
+            
+            checkPos(obj)
+        }
+        
+    }
+    
+    function createTime(){
+        
+        timeGroup = game.add.group()
+        timeGroup.x = game.world.right
+        timeGroup.y = 0
+        sceneGroup.add(timeGroup)
+        
+        var timeImg = timeGroup.create(0,0,'atlas.chilimbalam','time')
+        timeImg.width*=1.3
+        timeImg.height*=1.3
+        timeImg.anchor.setTo(1,0)
+        
+        var fontStyle = {font: "27px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var timerText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+        timerText.x = -timeImg.width * 0.55
+        timerText.y = timeImg.height * 0.18
+        timeGroup.add(timerText)
+        
+        timeGroup.textI = timerText
+        timeGroup.number = 0
+        
+        timer = game.time.create(false);
+        timer.loop(1, updateSeconds, this);
+                
+    }
+    
+    function createPointsBar(){
+        
+        pointsBar = game.add.group()
+        sceneGroup.add(pointsBar)
+        
+        var pointsImg = pointsBar.create(0,10,'atlas.chilimbalam','xpcoins')
+        pointsImg.x = game.world.width - pointsImg.width * 1.2
+        pointsImg.width *=1
+        pointsImg.height*=1
+    
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
+        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.y = pointsImg.height * 0.3
+        pointsBar.add(pointsText)
+        
+        pointsBar.text = pointsText
+        pointsBar.number = 0
+        
+    }
+    
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+        
+        
+        var pivotX = 15
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        group.create(0,0,'atlas.chilimbalam','life_box')
+
+        pivotX+= 47
+        
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = 2
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText
+                
+    }
+    
+     function updateSeconds(){
+        
+        timeGroup.number += 1;
+        timeGroup.textI.setText(timeGroup.number / 100)
+        
+    }
+    
+    function checkPosObj(posX){
+        
+        var samePos = false
+        for(var i = 0;i<usedObjects.length;i++){
+            var obj = usedObjects.children[i]
+            if(Math.abs(obj.x - posX) < 75 && Math.abs(obj.y - -50) < 100){
+                samePos = true
+            }
+        }
+        return samePos
+        
+    }
+    
+    function activateObject(objToUse){
+                
+        var posX = game.rnd.integerInRange(50, game.world.width - 50)
+        
+        if(usedObjects.length > 0){
+            
+            //objToUse.x = usedObjects.children[0].x
+            while (checkPosObj(posX)){
+                posX = game.rnd.integerInRange(75, game.world.width - 75)
+                //if(posX < 75){ posX = 75}
+                if(gameActive == false){ break}
+            }
+            
+        }
+        
+        objToUse.alpha = 1
+        objToUse.x = posX
+        objToUse.y = -50
+        objToUse.active = true
+        
+        objectsGroup.remove(objToUse)
+        usedObjects.add(objToUse)
+        
+        
+        
+        //console.log(objToUse.x + ' position X')
+        
+    }
+    
+    function createBomb(){
+        var bomb = sceneGroup.create(-100,0,'atlas.chilimbalam','bomb')
+        bomb.anchor.setTo(0.5,0.5)
+        bomb.tag = 'obstacle'
+        bombsList[bombsList.length] = bomb
+        return bomb
+    }
+    
+    function addBomb(){
+        
+        if(gameActive == false){
+            return
+        }
+        
+        sound.play("shootBall")
+        
+        var objToUse = null
+        for(var i = 0;i<bombsList.length;i++){
+            var bomb = bombsList[i]
+            if(bomb.x< -50){
+                objToUse = bomb
+                break
+            }
+        }
+        if(objToUse == null){
+            objToUse = createBomb()
+        }
+        objToUse.tag = 'obstacle'
+        activateObject(objToUse)
+        
+        if (gameActive == true){
+            game.time.events.add(throwTime, addBomb , this);
+        }
+        
+    }
+    
+    function addItem(){
+        
+        if(gameActive == false){
+            return
+        }
+        
+        sound.play("shootBall")
+        
+        var objToUse = null
+        
+        Phaser.ArrayUtils.shuffle(itemList)
+        var tag = itemList[0]
+        
+        for(var i = 0;i<objectsGroup.length;i++){
+            var item = objectsGroup.children[i]
+            if(item.x< -50 && tag == item.id){
+                objToUse = item
+                break
+            }
+        }
+        if(objToUse){
+            //objToUse = createItem()
+            activateObject(objToUse)
+        }
+        
+        
+        if (gameActive == true){
+            game.time.events.add(throwTimeItems, addItem , this);
+        }
+    }
+    
+    function dropObjects(){
+                
+        game.time.events.add(throwTimeItems, addItem , this);
+        game.time.events.add(throwTime, addBomb , this);        
+    }
+    
+    function createAssets(tag,points,number){
+        
+        itemList[itemList.length] = tag
+        for(var i = 0; i < number;i++){
+            var item = objectsGroup.create(-100,0,'atlas.chilimbalam',tag)
+            item.anchor.setTo(0.5,0.5)
+            item.tag = 'candy'
+            item.points = points
+            item.id = tag
+        }
+        
+    }
+    
+    function createTextPart(text,obj){
+        
+        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = lookParticle('textPart')
+        
+        if(pointsText){
+            
+            pointsText.x = obj.world.x
+            pointsText.y = obj.world.y - 60
+            pointsText.setText(text)
+
+            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+            deactivateParticle(pointsText,750)
+        }
+        
+    }
+    
+    function lookParticle(key){
+        
+        for(var i = 0;i<particlesGroup.length;i++){
+            
+            var particle = particlesGroup.children[i]
+            if(!particle.used && particle.tag == key){
+                
+                particle.used = true
+                particle.alpha = 1
+                
+                particlesGroup.remove(particle)
+                particlesUsed.add(particle)
+                
+                return particle
+                break
+            }
+        }
+        
+    }
+    
+    function deactivateParticle(obj,delay){
+        
+        game.time.events.add(delay,function(){
+            obj.used = false
+            
+            particlesUsed.remove(obj)
+            particlesGroup.add(obj)
+            
+        },this)
+    }
+    
+    function createPart(key,obj){
+        
+        key+='Part'
+        var particle = lookParticle(key)
+        if(particle){
+            
+            particle.x = obj.world.x
+            particle.y = obj.world.y
+            particle.scale.setTo(1,1)
+            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
+            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
+            deactivateParticle(particle,300)
+        }
+        
+        
+    }
+    
+    function createParticles(tag,number){
+        
+        tag+='Part'
+        
+        for(var i = 0; i < number;i++){
+            
+            var particle
+            if(tag == 'textPart'){
+                
+                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+                particlesGroup.add(particle)
+                
+            }else{
+                particle = particlesGroup.create(-200,0,'atlas.chilimbalam',tag)
+            }
+            
+            particle.alpha = 0
+            particle.tag = tag
+            particle.used = false
+            particle.anchor.setTo(0.5,0.5)
+            particle.scale.setTo(1,1)
+        }
+        
+        
+    }
+    
+    function createObjects(){
+        
+        bombsList = []
+        
+        for(var i = 0;i<7;i++){
+            createBomb()
+        }
+        
+        createAssets('chip',1,7)
+        
+        particlesGroup = game.add.group()
+        sceneGroup.add(particlesGroup)
+        
+        particlesUsed = game.add.group()
+        sceneGroup.add(particlesUsed)
+        
+        createParticles('star',5)
+        createParticles('drop',5)
+        createParticles('smoke',8)
+        createParticles('wrong',1)
+        createParticles('text',8)
+                
+    }
+
+    function create(){
+        
+        leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        
+        sceneGroup = game.add.group()
+        
+        var background = sceneGroup.create(-2,-2,'fondo')
+        background.width = game.world.width+2
+        background.height = game.world.height+2
+        
+        loadSounds()
+        initialize()  
+        
+        objectsGroup = game.add.group()
+        sceneGroup.add(objectsGroup)
+        
+        usedObjects = game.add.group()
+        sceneGroup.add(usedObjects)
+        
+        characterGroup = game.add.group()
+        characterGroup.x = game.world.centerX
+        characterGroup.y = background.height * 0.768
+        sceneGroup.add(characterGroup)
+        
+        buddy = game.add.spine(0,0, "mascot");
+        buddy.scale.setTo(0.6,0.6)
+        characterGroup.add(buddy)
+        
+        var cup = characterGroup.create(0,-120,'atlas.chilimbalam','vaso')
+        cup.alpha = 0
+        cup.anchor.setTo(0.5,0.5)
+        //cup.scale.setTo(0.7,0.7)
+        characterGroup.cup = cup
+        
+        buddy.setAnimationByName(0, "IDLE", true);
+        buddy.setSkinByName('skin1');
+        //buddy.setSkin(newSkin)
+        
+        buddy.setToSetupPose()
+        
+        /*var skin = buddy.skeleton.data.findSkin('normal')
+        
+        for (var key in skin.attachments) {
+            
+            var slotKeyPair = key.split(':');
+            var slotIndex = slotKeyPair[0];
+            var attachmentName = slotKeyPair[1];
+            var attachment = skin.attachments[key];
+
+            /*if (undefined === slotIndex || undefined === attachmentName) {
+                console.warn('something went wrong with reading the attachments index and/or name');
+                return;
+            }
+            if (newSkin.getAttachment(slotIndex, attachmentName) !== undefined) {
+                console.warn('Found double attachment for: ' + skinName + '. Skipping');
+                //continue;
+            }
+            newSkin.addAttachment(slotIndex, attachmentName, attachment);
+            //buddy.skeleton.setAttachment("cabeza","vaso")
+        }
+        
+        //buddy.skeleton.setAttachment("cabeza")
+        
+        var mySlot = buddy.skeleton.findSlot("cabeza")
+        
+        mySlot.setAttachment("vaso")
+        
+        buddy.setToSetupPose()*/
+        
+        getSkins()
+        var newSkin = buddy.createCombinedSkin(
+            'combined',     
+            'glasses' + skinTable[0],        
+            'hair' +  skinTable[1],
+            'skin' + skinTable[2],
+            'torso' + skinTable[3],
+            'vaso'
+        );
+        
+        game.onPause.add(function(){
+			
+			game.sound.mute = true
+			if(amazing.getMinigameId()){
+				marioSong.pause()
+			}
+			
+		} , this);
+
+		game.onResume.add(function(){
+			game.sound.mute = false
+			
+			if(amazing.getMinigameId()){
+				if(lives>0){
+					marioSong.play()
+				}
+			}
+			
+		}, this);
+        
+        buddy.setSkinByName('combined')
+            
+		if(!amazing.getMinigameId()){
+			
+			marioSong = game.add.audio('arcadeSong')
+			game.sound.setDecodedCallback(marioSong, function(){
+				marioSong.loopFull(0.3)
+			}, this);	
+		}
+        
+        var topRect = new Phaser.Graphics(game)
+        topRect.beginFill(0xffffff);
+        topRect.drawRect(0, 0, game.world.width, 60);
+        topRect.endFill();
+        topRect.anchor.setTo(0,0)
+        sceneGroup.add(topRect)
+        
+        createPointsBar()
+        createHearts()
+        createControls()
+        createObjects()
+        animateScene()
+        
+    }
+    
+	return {
+		assets: assets,
+		name: "chilimbalam",
+		create: create,
+        preload: preload,
+        update: update,
+	}
+}()

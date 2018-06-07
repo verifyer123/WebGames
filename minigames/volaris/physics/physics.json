@@ -1,0 +1,79 @@
+{
+	"ballon": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 13,8 , 51,4 , 72,22 , 70,76 , 52,93 , 62,158 , 42,186 , 25,184 , 47,163 , 42,132 , 31,99 , 6,66 , 6,40 ]
+		}
+	],
+	"mountain": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 1,114 , 15,66 , 41,64 , 68,100 , 87,111 , 109,103 , 141,64 , 181,66 , 188,38 , 209,30 , 237,51 , 257,87 , 280,101 , 296,89 , 307,66 , 324,51 , 343,54 , 360,72 , 381,96 , 401,96 , 418,74 , 428,36 , 440,2 , 468,0 , 516,92 , 536,89 , 561,33 , 579,22 , 609,43 , 631,97 , 646,87 , 665,60 , 682,64 , 699,125 , 713,123 , 712,185 , 1,190 ]
+		}
+	],
+	"birds": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 8,59 , 156,6 , 187,122 , 64,94 ]
+		}
+	],
+	"cloud": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 0,0 , 805,2 , 807,60 , 761,87 , 702,77 , 669,118 , 614,125 , 588,169 , 534,190 , 502,180 , 480,224 , 435,242 , 389,212 , 375,173 , 327,172 , 295,140 , 237,143 , 184,115 , 116,139 , 51,124 , 20,95 , 1,63 ]
+		}
+	],
+	"ovni": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 47,30 , 69,4 , 107,3 , 131,28 , 177,62 , 119,88 , 58,89 , 1,58 ]
+		}
+	],
+	"player": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 1,49 , 25,46 , 59,28 , 98,20 , 117,44 , 127,66 , 174,99 , 112,137 , 29,123 , 7,98 ]
+		}
+	],
+	"rainbow": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 69,0 , 98,1 , 99,51 , 73,82 , 74,156 , 17,144 , 15,76 , 36,29 ]
+		}
+	],
+	"ticket": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 63,14 , 84,24 , 109,1 , 106,59 , 48,118 , 3,74 ]
+		}
+	],
+	"card": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 0,60 , 63,-1 , 106,44 , 42,108 ]
+		}
+	],
+	"halo": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 15,1 , 32,17 , 34,147 , 18,165 , 0,116 , 3,54 ]
+		}
+	],
+	"rainCloud": [
+		{
+			"dencity": 2, "friction": 0, "bounce": 0,
+			"filters": {"categoryBits": 1, "maskBits": 655535},
+			"shape": [ 8,46 , 34,27 , 81,0 , 117,17 , 154,15 , 172,52 , 193,67 , 153,126 , 114,153 , 39,122 ]
+		}
+	]
+}

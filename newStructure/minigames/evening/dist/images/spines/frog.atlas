@@ -1,0 +1,48 @@
+
+frog.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm
+  rotate: false
+  xy: 75, 37
+  size: 47, 52
+  orig: 47, 52
+  offset: 0, 0
+  index: -1
+normal/face1
+  rotate: false
+  xy: 153, 189
+  size: 97, 40
+  orig: 97, 40
+  offset: 0, 0
+  index: -1
+normal/face2
+  rotate: false
+  xy: 153, 119
+  size: 97, 31
+  orig: 97, 31
+  offset: 0, 0
+  index: -1
+normal/face3
+  rotate: false
+  xy: 153, 152
+  size: 96, 35
+  orig: 96, 35
+  offset: 0, 0
+  index: -1
+normal/leg
+  rotate: false
+  xy: 2, 2
+  size: 71, 87
+  orig: 71, 87
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 2, 91
+  size: 149, 138
+  orig: 149, 138
+  offset: 0, 0
+  index: -1

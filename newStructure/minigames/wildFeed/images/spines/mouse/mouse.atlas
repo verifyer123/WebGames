@@ -1,0 +1,55 @@
+
+mouse.png
+size: 976,360
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/bodyR
+  rotate: true
+  xy: 266, 114
+  size: 244, 232
+  orig: 244, 232
+  offset: 0, 0
+  index: -1
+normal/earR_L
+  rotate: false
+  xy: 825, 31
+  size: 142, 179
+  orig: 142, 179
+  offset: 0, 0
+  index: -1
+normal/earR_R
+  rotate: true
+  xy: 266, 5
+  size: 107, 158
+  orig: 107, 158
+  offset: 0, 0
+  index: -1
+normal/faceR_a
+  rotate: false
+  xy: 652, 212
+  size: 322, 146
+  orig: 322, 146
+  offset: 0, 0
+  index: -1
+normal/faceR_b
+  rotate: true
+  xy: 500, 40
+  size: 318, 150
+  orig: 318, 150
+  offset: 0, 0
+  index: -1
+normal/faceR_c
+  rotate: true
+  xy: 2, 58
+  size: 300, 262
+  orig: 300, 262
+  offset: 0, 0
+  index: -1
+normal/tailR
+  rotate: true
+  xy: 652, 2
+  size: 208, 171
+  orig: 208, 171
+  offset: 0, 0
+  index: -1

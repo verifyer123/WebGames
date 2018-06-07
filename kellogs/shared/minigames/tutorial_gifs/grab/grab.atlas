@@ -1,0 +1,69 @@
+
+grab.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm
+  rotate: false
+  xy: 336, 231
+  size: 31, 23
+  orig: 31, 23
+  offset: 0, 0
+  index: -1
+normal/background
+  rotate: false
+  xy: 2, 61
+  size: 236, 193
+  orig: 236, 193
+  offset: 0, 0
+  index: -1
+normal/bag_ball
+  rotate: false
+  xy: 60, 6
+  size: 52, 53
+  orig: 52, 53
+  offset: 0, 0
+  index: -1
+normal/bag_handle
+  rotate: false
+  xy: 293, 223
+  size: 41, 31
+  orig: 41, 31
+  offset: 0, 0
+  index: -1
+normal/body
+  rotate: false
+  xy: 240, 147
+  size: 41, 50
+  orig: 41, 50
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: false
+  xy: 240, 199
+  size: 51, 55
+  orig: 51, 55
+  offset: 0, 0
+  index: -1
+normal/leg_bent
+  rotate: false
+  xy: 114, 28
+  size: 40, 31
+  orig: 40, 31
+  offset: 0, 0
+  index: -1
+normal/leg_stretched
+  rotate: false
+  xy: 240, 116
+  size: 39, 29
+  orig: 39, 29
+  offset: 0, 0
+  index: -1
+normal/star
+  rotate: true
+  xy: 2, 2
+  size: 57, 56
+  orig: 57, 56
+  offset: 0, 0
+  index: -1

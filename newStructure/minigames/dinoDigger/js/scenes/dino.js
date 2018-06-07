@@ -678,35 +678,37 @@ var dino = function(){
         //liveFossilGroup.scale.setTo(0.96)
         sceneGroup.add(liveFossilGroup)
         
-        triceratops = game.add.spine(0, 0, "triceratops")
+        var triceratops = game.add.spine(0, 0, "triceratops")
         triceratops.setAnimationByName(0, "IDLE", true)
         triceratops.setSkinByName("normal")
         triceratops.alpha = 0
         liveFossilGroup.add(triceratops)
         
-        fish = game.add.spine(0, 0, "fish")
+        var fish = game.add.spine(0, 0, "fish")
         fish.setAnimationByName(0, "IDLE", true)
         fish.setSkinByName("normal")
         fish.alpha = 0
         liveFossilGroup.add(fish)
         
-        trex = game.add.spine(0, 0, "trex")
+        var trex = game.add.spine(0, 0, "trex")
         trex.setAnimationByName(0, "IDLE", true)
         trex.setSkinByName("normal")
         trex.alpha = 0
         liveFossilGroup.add(trex)
         
-        trilobite = game.add.spine(0, 0, "trilobite")
+        var trilobite = game.add.spine(0, 0, "trilobite")
         trilobite.setAnimationByName(0, "IDLE", true)
         trilobite.setSkinByName("normal")
         trilobite.alpha = 0
         liveFossilGroup.add(trilobite)
         
-        flower = liveFossilGroup.create(0, 0, 'atlas.dino', 'flower')
+        var flower = liveFossilGroup.create(0, 0, 'atlas.dino', 'flower')
+        flower.anchor.setTo(0.6, 0.5)
         flower.alpha = 0
         flower.scale.setTo(2)
         
-        plant = liveFossilGroup.create(0, 0, 'atlas.dino', 'plant')
+        var plant = liveFossilGroup.create(0, 0, 'atlas.dino', 'plant')
+        plant.anchor.setTo(0.5)
         plant.alpha = 0
         plant.angle = 45
         plant.scale.setTo(2)

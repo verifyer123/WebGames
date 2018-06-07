@@ -26,7 +26,8 @@ var animalRoute = function(){
             },
         ],
         images: [
-
+            {   name:"tutorial_image",
+                file: "images/game/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "magic",
@@ -741,6 +742,10 @@ var animalRoute = function(){
   
     
 	function update(){
+
+        if(overlayGroup.visible){
+            return
+        }
         
         if(tutorialComplete){
         animals[22].scale.setTo(.4,.1)
@@ -1698,6 +1703,21 @@ var animalRoute = function(){
 		}
 		
 	}
+
+
+    function createOverlay(){
+        overlayGroup = game.add.group()
+        //overlayGroup.scale.setTo(0.8,0.8)
+        //sceneGroup.add(overlayGroup)
+
+        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
+    }
+
+    function onClickPlay(){
+        overlayGroup.y = -game.world.height
+        overlayGroup.visible = false
+        //setNumber()
+   }
 	
 	return {
 		
@@ -1742,6 +1762,9 @@ var animalRoute = function(){
 			     createHearts()
                  buttons.getButton(spaceSong,sceneGroup)
             }
+
+
+            createOverlay()
 		},
 		show: function(event){
 			loadSounds()
