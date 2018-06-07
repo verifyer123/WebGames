@@ -42,9 +42,11 @@ var pinDot = function(){
     var INITIAL_SET_DOTS = 5
     var MAX_SET_DOTS = 10
     var DELTA_SET_DOTS = 1
+    var LESS_SET_DOTS = 0
     var INITIAL_PUT_DOTS = 5
     var MAX_PUT_DOTS = 15
-    var DELTA_PUT_DOTS = 1.3
+    var DELTA_PUT_DOTS = 4
+    var LESS_PUT_DOTS = -2
     var DISTANCE_DOT = 200
     var DOT_RADIUS = 20
     var INIT_PUSH_Y = 100
@@ -79,6 +81,7 @@ var pinDot = function(){
     var blackCenter
     var tile
     var spaceBar
+    var star1, star2, star3
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -417,9 +420,9 @@ var pinDot = function(){
         dot.rotation = (Math.PI*2) - rotatingGroup.rotation
         
         var collide = false
-        for(var i =0; i < rotatingGroup.length; i++){
+        for(var i = 0; i < rotatingGroup.length; i++){
             var r = Math.abs(dot.rotation - rotatingGroup.children[i].rotation)
-            if(r < Math.PI/28){
+            if(r < Math.PI/28 || r > (Math.PI*2 - Math.PI/28)){
                 collide = true
                 missPoint()
                 gameActive = false
@@ -436,16 +439,7 @@ var pinDot = function(){
                 currentPutDots-=DELTA_PUT_DOTS
                 currentPutDots = Math.round(currentPutDots)
                 
-
-                //backgroundColor.tint = 0xff0000
-                //backgroundColor.alpha = 0.5
                 blackCenter.loadTexture("atlas.game","esfera_roja")
-
-
-                //game.add.tween(backgroundColor).to({y:0},200,Phaser.Easing.linear,true).onComplete.add(function(){
-                    
-                //})
-
                 break
 
             }
@@ -470,6 +464,24 @@ var pinDot = function(){
                     setTimeout(endRound,400)
                 //})
                 sound.play("magic")
+
+                //game.add.tween(star1).to({y:game.world.height-200},200,Phaser.Easing.linear,true)
+                //game.add.tween(star2).to({y:game.world.height-200},200,Phaser.Easing.linear,true)
+                //game.add.tween(star3).to({y:game.world.height-200},200,Phaser.Easing.linear,true)
+                game.add.tween(star1).to({y:game.world.centerY - 200, alpha:0, x:0},400,Phaser.Easing.linear,true)
+                game.add.tween(star2).to({y:game.world.centerY - 200, alpha:0},400,Phaser.Easing.linear,true)
+                game.add.tween(star3).to({y:game.world.centerY - 200, alpha:0, x:game.world.width },400,Phaser.Easing.linear,true).onComplete.add(function(){
+                    star1.x = game.world.centerX
+                    star1.y = game.world.height+100
+                    star2.x = game.world.centerX
+                    star2.y = game.world.height+100
+                    star3.x = game.world.centerX
+                    star3.y = game.world.height+100
+                    star1.alpha = 1
+                    star2.alpha = 1
+                    star3.alpha = 1
+                })
+
             }
 
 
@@ -520,36 +532,63 @@ var pinDot = function(){
 
         currentLevel++
 
-        currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
+        if(currentLevel % 2 == 0){
 
-        if(currentSetDots < MAX_SET_DOTS){
-            currentSetDots+=DELTA_SET_DOTS
+            //currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
+
+            if(currentSetDots < MAX_SET_DOTS){
+                currentSetDots+=DELTA_SET_DOTS
+            }
+            else {
+                currentSetDots = MAX_SET_DOTS
+            }
+
+            if(currentPutDots < MAX_PUT_DOTS){
+                currentPutDots += DELTA_PUT_DOTS
+            }
+            else{
+                currentPutDots = MAX_PUT_DOTS
+            }
         }
+        else{
+            currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
 
-        if(currentPutDots < MAX_PUT_DOTS){
-            currentPutDots= Math.round(INITIAL_PUT_DOTS +(DELTA_PUT_DOTS*currentLevel))
+            if(currentSetDots < MAX_SET_DOTS){
+                currentSetDots+=LESS_SET_DOTS
+            }
+
+            if(currentPutDots < MAX_PUT_DOTS){
+                currentPutDots += LESS_PUT_DOTS
+            }
+            
         }
 
         game.add.tween(panel).to({alpha:1},500,Phaser.Easing.linear,true).onComplete.add(function(){
+
             blackCenter.loadTexture("atlas.game","esfera")
+
             for(var i = rotatingGroup.length-1; i >= 0; i--){
                 rotatingGroup.children[i].rotation = 0
                 var pin = rotatingGroup.children[i]
+                pin.visible = false
                 pin.dotBall.loadTexture("atlas.game","pin")
                 pin.line.loadTexture("atlas.game","conexion")
-                unusedDotsGroup.add(rotatingGroup.children[i])
+                rotatingGroup.remove(pin)
+                unusedDotsGroup.add(pin)
             }
 
             for(var i = dotsGroup.length-1; i >= 0; i--){
-                dotsGroup.children[i].rotation = 0
-                unusedDotsGroup.add(dotsGroup.children[i])
+                var dot = dotsGroup.children[i]
+                dot.rotation = 0
+                dot.visible = false
+                dotsGroup.remove(dot)
+                unusedDotsGroup.add(dot)
             }
+
             sceneGroup.scale.setTo(1)
             sceneGroup.x = 0
             sceneGroup.y = 0
             rotatingGroup.rotation =0
-
-            //backgroundColor.y = game.world.height
 
             game.add.tween(panel).to({alpha:0},500,Phaser.Easing.linear,true)
             setTimeout(setRound,100)
@@ -592,7 +631,6 @@ var pinDot = function(){
         blackCenter.anchor.setTo(0.5)
         blackCenter.scale.setTo(0.8)
 
-
         var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#09c5ce", align: "center"}
         leveltext = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY-100, currentLevel, fontStyle)
         leveltext.anchor.setTo(0.5)
@@ -611,6 +649,14 @@ var pinDot = function(){
         animationGroup = game.add.group()
         sceneGroup.add(animationGroup)
 
+        star1 = sceneGroup.create(game.world.centerX, game.world.height + 100, "atlas.game", "estrella")
+        star1.anchor.setTo(0.5)
+
+        star2 = sceneGroup.create(game.world.centerX, game.world.height + 100, "atlas.game", "estrella")
+        star2.anchor.setTo(0.5)
+
+        star3 = sceneGroup.create(game.world.centerX, game.world.height + 100, "atlas.game", "estrella")
+        star3.anchor.setTo(0.5)
 
         panel = game.add.graphics()
         panel.beginFill(0xffffff)
@@ -660,6 +706,7 @@ var pinDot = function(){
     function getPin(){
 
         for(var i =0; i < unusedDotsGroup.length; i++){
+            unusedDotsGroup.children[i].visible = true
             return unusedDotsGroup.children[i]
         }   
 
