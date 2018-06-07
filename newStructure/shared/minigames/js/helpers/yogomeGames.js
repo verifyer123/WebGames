@@ -247,6 +247,7 @@ var yogomeGames = function () {
 			{name:'Ear Drummer',url:urlSet + 'earDrummer/',mapUrl:urlMap + 'earDrummer', sceneName:'earDrummer',subject:'health', review:false,objective:25,demo:false, type:gameTypeEnum.SEQUENCE},//216
 			{name:'Measuridge',url:urlSet + 'measuridge/',mapUrl:urlMap + 'measuridge', sceneName:'measuridge',subject:'math', review:false,objective:15,demo:false, type:gameTypeEnum.COUNT},//217
 			{name:'H2os',url:urlSet + 'h2os/',mapUrl:urlMap + 'h2os', sceneName:'h2os',subject:'math',review:false,objective:30,demo:false,type:gameTypeEnum.COUNT},//218
+			{name:'UpRoar',url:urlSet + 'upRoar/',mapUrl:urlMap + 'upRoar', sceneName:'upRoar',subject:'language',review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//219
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){

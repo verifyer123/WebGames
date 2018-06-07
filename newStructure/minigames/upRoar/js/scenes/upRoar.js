@@ -156,7 +156,7 @@ var upRoar = function(){
 	var shoot
 	var skinCorrect
 	var particlesGroup, particlesUsed
-    var gameIndex = 1
+    var gameIndex = 219
     var tutoGroup
 	var indexGame
 	var blockButton;
@@ -319,6 +319,7 @@ var upRoar = function(){
         })
         
         if(lives == 0){
+			baseSong.stop();
             stopGame(false)
         }
         
@@ -400,10 +401,6 @@ var upRoar = function(){
 		
         gameActive = false
         
-        
-        
-        
-        baseSong.stop()
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -975,7 +972,6 @@ var upRoar = function(){
 			
 			createBackground()
 			addParticles()
-            baseSong = sound.play("acornSong", {loop:true, volume:0.6})
                         			
             baseSong = game.add.audio('acornSong')
             game.sound.setDecodedCallback(baseSong, function(){
@@ -990,6 +986,7 @@ var upRoar = function(){
                 game.sound.mute = false
             }, this);
             
+				buttons.getButton(baseSong,sceneGroup)
             initialize()
             
 			            
@@ -997,7 +994,7 @@ var upRoar = function(){
 			createHearts()
             createTutorial()
 			
-			buttons.getButton(baseSong,sceneGroup)
+			
             
             animateScene()
             
