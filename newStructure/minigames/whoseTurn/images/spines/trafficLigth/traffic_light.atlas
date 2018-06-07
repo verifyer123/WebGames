@@ -1,0 +1,41 @@
+
+traffic_light.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+car
+  rotate: false
+  xy: 2, 254
+  size: 1024, 256
+  orig: 1024, 256
+  offset: 0, 0
+  index: -1
+normal/brillo
+  rotate: false
+  xy: 1633, 461
+  size: 49, 49
+  orig: 49, 49
+  offset: 0, 0
+  index: -1
+normal/caseta
+  rotate: false
+  xy: 1028, 42
+  size: 603, 468
+  orig: 603, 468
+  offset: 0, 0
+  index: -1
+normal/luz
+  rotate: false
+  xy: 2, 2
+  size: 39, 38
+  orig: 39, 38
+  offset: 0, 0
+  index: -1
+normal/parado
+  rotate: false
+  xy: 2, 149
+  size: 248, 103
+  orig: 248, 103
+  offset: 0, 0
+  index: -1

@@ -110,6 +110,8 @@ amazing.getGames = function(){
         {name:'Chedraui',iconName:'chedraui',url:'http://amazingapp.mx/juegos/chedraui/',coupon : false,mixName:'chedraui',demo:true,id:100002},//25
         {name:'Orders Up',iconName:'ordersUp',url:'http://amazingapp.mx/juegos/ordersUp/',coupon : false,mixName:'ordersUp',demo:true,id:100003},//26
         {name:'Zoe Mundial',iconName:'zoeMundial',url:'http://amazingapp.mx/juegos/zoeMundial/',coupon : false,mixName:'zoeMundial',demo:true,id:100004},//27
+        {name:'Benedettis',iconName:'benedettis',url:'http://amazingapp.mx/juegos/benedettis/',coupon : false,mixName:'benedettis',demo:true,id:100005},//28
+        {name:'Pin Dot',iconName:'pinDot',url:'http://amazingapp.mx/juegos/pinDot/',coupon : false,mixName:'pinDot',demo:true,id:100006},//29
         //
     ]
 
@@ -170,7 +172,6 @@ amazing.setProfile = function(){
             switch(parsedData.type){
             case "dataStore":
                 dataStore = parsedData.dataStore
-
             }
             //console.log('entra case')
         }
@@ -302,11 +303,19 @@ amazing.getFromApp = function(){
     return gameFromApp
 }
 
-amazing.setMixPanelTrack= function(minigameName,event){
-    mixpanel.track(
-        event,
-        {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
-    );
+amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
+    if(event=="finishGame"){
+        mixpanel.track(
+            event,
+            {"gameName": minigameName,"win":didWin, "numberOfObjects":score,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
+        );
+    }
+    else{
+        mixpanel.track(
+            event,
+            {"gameName": minigameName,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
+        );
+    }
 
     console.log("Enter to setMixPanelTrack")
 

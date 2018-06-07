@@ -1,6 +1,7 @@
 var localization = function(){
 
-	var language = "EN"
+	var DEFAULT_LANG = "EN"
+	var language
 
 	function getLanguage(){
 		return language
@@ -16,6 +17,10 @@ var localization = function(){
 		if(localizationObject[language]){
 			if(localizationObject[language][key]){
 				return localizationObject[language][key]
+			}
+		}else if(localizationObject[DEFAULT_LANG]){
+			if(localizationObject[DEFAULT_LANG][key]){
+				return localizationObject[DEFAULT_LANG][key]
 			}
 		}
 		return "N/A"

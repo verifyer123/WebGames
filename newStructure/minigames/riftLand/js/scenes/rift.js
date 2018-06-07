@@ -1,5 +1,5 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "../../../../shared/minigames/sounds/"
 var rift = function(){
     
     var localizationData = {
@@ -36,8 +36,6 @@ var rift = function(){
         images: [
         	{   name:"tutorial_image",
 				file: "images/rift/tutorial_image.png"},
-			{   name:"dragobject",
-				file: "images/rift/dragobject.png"}
 		],
 		sounds: [
             {	name: "magic",
@@ -73,7 +71,7 @@ var rift = function(){
 			
 		],
     }
-    
+
     var INITIAL_LIVES = 1
     var BLINK_TIMES = 4
     var TIME_BLINK = 300
@@ -405,7 +403,10 @@ var rift = function(){
     	gameActive = true
     }
     
-    function stopGame(win){
+    function stopGame(){
+		//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+
+    	//var validSession = new parent._QUANTRIX.NotifyPlayed({data : {'child_id' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),'token' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),'minigame_id' : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,'score' : pointsBar.number},onSuccess : parent._QUANTRIX._notifyMinigamePlayed,onError : parent._QUANTRIX._goDashboard});
         
 		sound.play("wrong")
 		sound.play("gameLose")
@@ -435,9 +436,6 @@ var rift = function(){
         game.load.spine('yogotar', "images/spines/Arthurius.json")  
         game.load.audio('medievalSong', soundsPath + 'songs/fantasy_ballad.mp3');
         
-		game.load.image('howTo',"images/rift/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/rift/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/rift/introscreen.png")
 		
 		game.load.spritesheet('monster', 'images/rift/monster.png', 88, 114, 11);
 		game.load.spritesheet('coin', 'images/rift/coin.png', 100, 100, 24);
@@ -1106,7 +1104,7 @@ var rift = function(){
 		group.y = -200
 		buttonsGroup.add(group)
 		
-		var buttonImage = group.create(0,0,'dragobject')
+		var buttonImage = group.create(0,0,"atlas.rift",'dragobject')
 		buttonImage.anchor.setTo(0.5,0.5)
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
@@ -1126,7 +1124,7 @@ var rift = function(){
 		
 		group.text2 = pointsText
 		
-		var dragImage = sceneGroup.create(83,-200,'dragobject')
+		var dragImage = sceneGroup.create(83,-200,"atlas.rift",'dragobject')
 		dragImage.anchor.setTo(0.5,0.5)
 		dragImage.alpha = 0
 		group.drag = dragImage
@@ -1503,7 +1501,8 @@ var rift = function(){
 		update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
-            
+			//parent._QUANTRIX.Mixpanel.startMinigame()
+
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			addMusic()
@@ -1527,8 +1526,10 @@ var rift = function(){
 			buttons.getButton(medievalSong,sceneGroup)
 			
             createOverlay()
-            
+            this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
             animateScene()
+
+            
             
 		},
 		show: function(event){

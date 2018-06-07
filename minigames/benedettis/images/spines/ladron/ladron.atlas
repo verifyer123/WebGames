@@ -1,0 +1,48 @@
+
+ladron.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm1
+  rotate: false
+  xy: 123, 35
+  size: 23, 25
+  orig: 23, 25
+  offset: 0, 0
+  index: -1
+arm2
+  rotate: false
+  xy: 104, 22
+  size: 17, 38
+  orig: 17, 38
+  offset: 0, 0
+  index: -1
+hand1
+  rotate: false
+  xy: 148, 37
+  size: 21, 23
+  orig: 21, 23
+  offset: 0, 0
+  index: -1
+hand2
+  rotate: false
+  xy: 171, 37
+  size: 19, 23
+  orig: 19, 23
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 2
+  size: 57, 58
+  orig: 57, 58
+  offset: 0, 0
+  index: -1
+torso
+  rotate: false
+  xy: 61, 7
+  size: 41, 53
+  orig: 41, 53
+  offset: 0, 0
+  index: -1

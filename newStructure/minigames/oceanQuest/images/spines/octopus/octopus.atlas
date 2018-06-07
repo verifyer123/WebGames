@@ -1,0 +1,293 @@
+
+octopus.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal4/octo_body
+  rotate: false
+  xy: 752, 1468
+  size: 217, 263
+  orig: 217, 263
+  offset: 0, 0
+  index: -1
+normal4/octo_eyes
+  rotate: true
+  xy: 631, 1192
+  size: 127, 45
+  orig: 127, 45
+  offset: 0, 0
+  index: -1
+normal4/octo_eyes_lose
+  rotate: true
+  xy: 1011, 1604
+  size: 127, 45
+  orig: 127, 45
+  offset: 0, 0
+  index: -1
+normal4/octo_tentacle
+  rotate: true
+  xy: 2, 2
+  size: 117, 114
+  orig: 117, 114
+  offset: 0, 0
+  index: -1
+normal4/octo_tentawave_1
+  rotate: true
+  xy: 2029, 2024
+  size: 22, 16
+  orig: 22, 16
+  offset: 0, 0
+  index: -1
+normal4/octo_tentawave_2
+  rotate: false
+  xy: 285, 917
+  size: 27, 20
+  orig: 27, 20
+  offset: 0, 0
+  index: -1
+normal4/octo_tentawave_3
+  rotate: true
+  xy: 284, 247
+  size: 63, 18
+  orig: 63, 18
+  offset: 0, 0
+  index: -1
+normal4/octo_wave_1
+  rotate: false
+  xy: 752, 1388
+  size: 46, 35
+  orig: 46, 35
+  offset: 0, 0
+  index: -1
+normal4/octo_wave_2
+  rotate: false
+  xy: 1849, 1750
+  size: 137, 49
+  orig: 137, 49
+  offset: 0, 0
+  index: -1
+normal4/octo_wave_3
+  rotate: true
+  xy: 1988, 1756
+  size: 43, 37
+  orig: 43, 37
+  offset: 0, 0
+  index: -1
+normal4/octopus_catched_body
+  rotate: false
+  xy: 2, 1658
+  size: 330, 388
+  orig: 330, 388
+  offset: 0, 0
+  index: -1
+normal4/octopus_catched_water1
+  rotate: false
+  xy: 118, 38
+  size: 132, 81
+  orig: 132, 81
+  offset: 0, 0
+  index: -1
+water/water_1
+  rotate: false
+  xy: 752, 1425
+  size: 189, 41
+  orig: 189, 41
+  offset: 0, 0
+  index: -1
+water/water_10
+  rotate: true
+  xy: 285, 1293
+  size: 363, 62
+  orig: 363, 62
+  offset: 0, 0
+  index: -1
+water/water_11
+  rotate: true
+  xy: 285, 939
+  size: 352, 55
+  orig: 352, 55
+  offset: 0, 0
+  index: -1
+water/water_12
+  rotate: true
+  xy: 631, 1321
+  size: 344, 57
+  orig: 344, 57
+  offset: 0, 0
+  index: -1
+water/water_13
+  rotate: true
+  xy: 284, 597
+  size: 318, 50
+  orig: 318, 50
+  offset: 0, 0
+  index: -1
+water/water_14
+  rotate: true
+  xy: 284, 312
+  size: 283, 41
+  orig: 283, 41
+  offset: 0, 0
+  index: -1
+water/water_2
+  rotate: true
+  xy: 971, 1502
+  size: 229, 38
+  orig: 229, 38
+  offset: 0, 0
+  index: -1
+water/water_3
+  rotate: false
+  xy: 2, 121
+  size: 285, 53
+  orig: 285, 53
+  offset: 0, 0
+  index: -1
+water/water_4
+  rotate: true
+  xy: 690, 1326
+  size: 339, 60
+  orig: 339, 60
+  offset: 0, 0
+  index: -1
+water/water_5
+  rotate: false
+  xy: 733, 1733
+  size: 380, 66
+  orig: 380, 66
+  offset: 0, 0
+  index: -1
+water/water_6
+  rotate: false
+  xy: 334, 1730
+  size: 397, 69
+  orig: 397, 69
+  offset: 0, 0
+  index: -1
+water/water_7
+  rotate: false
+  xy: 334, 1667
+  size: 390, 61
+  orig: 390, 61
+  offset: 0, 0
+  index: -1
+water/water_8
+  rotate: false
+  xy: 1115, 1731
+  size: 365, 68
+  orig: 365, 68
+  offset: 0, 0
+  index: -1
+water/water_9
+  rotate: false
+  xy: 1482, 1719
+  size: 365, 80
+  orig: 365, 80
+  offset: 0, 0
+  index: -1
+water/water_splash_1
+  rotate: false
+  xy: 2, 670
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_10
+  rotate: false
+  xy: 1747, 1801
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_11
+  rotate: false
+  xy: 349, 1420
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_12
+  rotate: false
+  xy: 349, 1173
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_13
+  rotate: false
+  xy: 2, 917
+  size: 281, 245
+  orig: 281, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_14
+  rotate: false
+  xy: 900, 1801
+  size: 281, 245
+  orig: 281, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_15
+  rotate: false
+  xy: 342, 926
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_2
+  rotate: false
+  xy: 1183, 1801
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_3
+  rotate: false
+  xy: 2, 1411
+  size: 281, 245
+  orig: 281, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_4
+  rotate: false
+  xy: 334, 1801
+  size: 281, 245
+  orig: 281, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_5
+  rotate: false
+  xy: 2, 423
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_6
+  rotate: false
+  xy: 1465, 1801
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_7
+  rotate: false
+  xy: 2, 176
+  size: 280, 245
+  orig: 280, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_8
+  rotate: false
+  xy: 2, 1164
+  size: 281, 245
+  orig: 281, 245
+  offset: 0, 0
+  index: -1
+water/water_splash_9
+  rotate: false
+  xy: 617, 1801
+  size: 281, 245
+  orig: 281, 245
+  offset: 0, 0
+  index: -1

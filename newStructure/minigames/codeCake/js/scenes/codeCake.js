@@ -1,5 +1,5 @@
 
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "../../../../shared/minigames/sounds/"
 
 
 var codeCake = function(){
@@ -9,16 +9,16 @@ var codeCake = function(){
 		SCROLL: 1,
 		SELECT: 2,
 	}
-    
+
 
 	var assets = {
         atlases: [
-            {   
+            {
                 name: "atlas.game",
                 json: "images/codeCake/atlas.json",
                 image: "images/codeCake/atlas.png"
             },
-            {   
+            {
                 name: "atlas.time",
                 json: "images/codeCake/timeAtlas.json",
                 image: "images/codeCake/timeAtlas.png"
@@ -81,7 +81,7 @@ var codeCake = function(){
                 name: "conveyor",
                 file: "images/spines/conveyor/conveyor.json"
             },
-           
+
             {
                 name: "smoke",
                 file: "images/spines/smoke/smoke.json"
@@ -100,7 +100,7 @@ var codeCake = function(){
     var FRICTION = 0.9
 
     var imageNames = ['btn_base_0','btn_base_1','btn_topping_0','btn_topping_1','btn_topping_2','btn_topping_no','btn_fruit_0','btn_fruit_1','btn_fruit_2','btn_fruit_no','btn_extra_0','btn_extra_1','btn_extra_no']
-        
+
 
     var lives
 	var sceneGroup = null
@@ -125,7 +125,7 @@ var codeCake = function(){
     var currentSequence
     var correctSequence
 
-    var currentLevel 
+    var currentLevel
     var currentTime
 
     var exampleCake
@@ -136,22 +136,22 @@ var codeCake = function(){
     var currentButtonSelected
 
 
-    var lastX 
+    var lastX
     var lastDelta
     var startPointer
     var scrollState
 
-    var stationButtons 
+    var stationButtons
     var stationsImages
 
-    var sampleImage 
+    var sampleImage
     var glitterImages
 
     var stationBehindGruop
 
     var ligths
 
-    var inTutorial 
+    var inTutorial
 
     var hand
     var tutorialTween
@@ -159,7 +159,7 @@ var codeCake = function(){
     var needUp
 
     var tutorialButtonInex
-    var tutorialButtonArray 
+    var tutorialButtonArray
     var stationTutorial
     var handState
 
@@ -234,12 +234,12 @@ var codeCake = function(){
     }
 
     function createHearts(){
-        
+
         heartsGroup = game.add.group()
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
-        
-        
+
+
         var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
@@ -248,18 +248,18 @@ var codeCake = function(){
         var heartImg = group.create(0,0,'atlas.game','hearts')
 
         pivotX+= heartImg.width * 0.45
-        
+
         var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
         pointsText.x = pivotX
         pointsText.y = heartImg.height * 0.15
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
-        
+
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
+
         heartsGroup.text = pointsText
-                
+
     }
 
     function createPointsBar(){
@@ -284,7 +284,7 @@ var codeCake = function(){
         pointsBar.number = 0
 
     }
-    
+
     function createPart(atlas,key){
 
         var particles = game.add.emitter(0, 0, 100);
@@ -349,22 +349,35 @@ var codeCake = function(){
     }
 
     function stopGame(){
-        gameActive = false
+		//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+
+		/*var validSession = new parent._QUANTRIX.NotifyPlayed({
+			data : {
+				"child_id" : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),
+				"token" : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),
+				"minigame_id" : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,
+				"score" : pointsBar.number
+			},
+			onSuccess : parent._QUANTRIX._notifyMinigamePlayed,
+			onError : parent._QUANTRIX._goDashboard
+		});*/
+
+    	gameActive = false
         backgroundSound.stop()
         sound.play("gameLose")
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
-            
+
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, numPoints, gameIndex)
 
-			//amazing.saveScore(pointsBar.number) 			
+			//amazing.saveScore(pointsBar.number)
             sceneloader.show("result")
-            
+
 		})
     }
-    
-    
+
+
 
     function addNumberPart(obj,number){
 
@@ -397,13 +410,13 @@ var codeCake = function(){
         addNumberPart(pointsBar.text,'+' + number)
 
     }
-    
+
     function missPoint(){
         console.log("miss point here")
     	//loseRabit()
 
         sound.play("wrong")
-        
+
         lives--;
         heartsGroup.text.setText('X ' + lives)
 
@@ -413,17 +426,17 @@ var codeCake = function(){
         })
 
         addNumberPart(heartsGroup.text,'-1')
-        
+
         if(lives === 0){
             stopGame(false)
         }
         else{
             //nextRound()
         }
-        
+
         // addNumberPart(batteryGroup,'-1')
     }
-    
+
     function update() {
 
 
@@ -463,7 +476,7 @@ var codeCake = function(){
 	    						sceneGroup.add(currentButtonSelected)
 	    						buttonGroup.force = 0
 	        				}
-	        				
+
 	        			}
 	        		}
 	        		else{
@@ -488,7 +501,7 @@ var codeCake = function(){
 			        	lastX = game.input.activePointer.x
 	        			lastDelta = delta
 	        		}
-	        		
+
         		}
         	}
         	if(scrollState == SCROLL_STATE.SELECT){
@@ -534,7 +547,7 @@ var codeCake = function(){
         }
 
 
-        
+
 
 
     }
@@ -557,7 +570,7 @@ var codeCake = function(){
 
 
     function createTutorial(){
-        
+
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
 
@@ -566,7 +579,7 @@ var codeCake = function(){
     }
 
     function onClickPlay(rect) {
-     
+
 
         tutoGroup.y = -game.world.height
         tutoGroup.destroy()
@@ -598,10 +611,10 @@ var codeCake = function(){
 
     function setRound(){
         currentSequence = [-1,-1,-1,-1]
-        
+
         okPressed = false
 
-        //randomSecuence 
+        //randomSecuence
         correctSequence[0] = game.rnd.integerInRange(0,1)
         correctSequence[1] = game.rnd.integerInRange(-1,2)
         correctSequence[2] = game.rnd.integerInRange(-1,2)
@@ -623,7 +636,7 @@ var codeCake = function(){
         if(currentLevel>=LEVEL_TIMER){
             if(!timeOn){
                timeOn = true
-               
+
                positionTimer()
             }
             console.log("positionTimer")
@@ -788,7 +801,7 @@ var codeCake = function(){
     }
 
     function getEmptySpineSlot(spine){
-    	var empty 
+    	var empty
         var slotIndex
         for(var index = 0, n = spine.skeletonData.slots.length; index < n; index++){
             var slotData = spine.skeletonData.slots[index]
@@ -813,7 +826,7 @@ var codeCake = function(){
             game.add.tween(cake.scale).to({x:cake.scale.x*1.3,y:cake.scale.y*1.3},DELAY_EVALUATE_TIME/2,Phaser.Easing.linear,true).yoyo(true)
 			game.add.tween(exampleCake.scale).to({x:cake.scale.x*1.3,y:cake.scale.y*1.3},DELAY_EVALUATE_TIME/2,Phaser.Easing.linear,true).yoyo(true)
 
-            
+
 
             setTimeout(function(){
             	setRound()
@@ -893,7 +906,7 @@ var codeCake = function(){
                 if(cake.nextStation == stationPositions.length - 1){
                     game.add.tween(machineGroup).to({y:0},200,Phaser.Easing.linear,true)
                 }
-                
+
 
                 cake.alpha = 0.2
                 //cake.scale.setTo(cake.scale.x/5,cake.scale.y/5)
@@ -956,7 +969,7 @@ var codeCake = function(){
     	if(timeOn){
 	        stopTimer()
 	    }
-        
+
         //exampleCake.visible = false
     }
 
@@ -965,7 +978,7 @@ var codeCake = function(){
             return
         }
 
-        if(inTutorial!=-1){ 
+        if(inTutorial!=-1){
         	if(button == tutorialButtonArray[tutorialButtonInex]){
            		tutorialScaleTween.stop()
 	        }
@@ -984,7 +997,7 @@ var codeCake = function(){
     	buttonGroup.force = 0
     	var key = button.key.split("_")
     	var type = key[1]
-    	var id 
+    	var id
 		if(key[2]=="no"){
 			id = -1
 			key = "base_0"
@@ -1011,13 +1024,13 @@ var codeCake = function(){
 
     	for(var i = 1; i < stationPositions.length-1; i++){
     		var d = Math.sqrt(Math.pow(button.x - stationPositions[i].x,2) + Math.pow(button.y-stationPositions[i].y,2))
-    		
+
     		if(d < 100){
 
     			if((i == 1 && type!="base") || (i == 2 && type!="topping") || (i ==3 && type!="fruit") || (i == 4 && type!="extra")){
                     button.scale.setTo(1)
     				break
-    				
+
     			}
 
     			button.x = stationPositions[i].x
@@ -1071,7 +1084,7 @@ var codeCake = function(){
     			}
 
     			currentButtonSelected = null
-    			
+
     			return
     		}
     	}
@@ -1236,10 +1249,11 @@ var codeCake = function(){
         },500)
     }
 
-    
-    function createScene(){
 
-        sceneGroup = game.add.group() 
+    function createScene(){
+		//parent._QUANTRIX.Mixpanel.startMinigame()
+
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
@@ -1266,7 +1280,7 @@ var codeCake = function(){
         game.sound.setDecodedCallback(backgroundSound, function(){
             backgroundSound.loopFull(0.6)
         }, this);
-        
+
         game.onPause.add(function(){
             //console.log("Game paused")
             game.sound.mute = true
@@ -1278,7 +1292,7 @@ var codeCake = function(){
         }, this);
 
         spineConveyor = []
-        
+
         var band = game.add.spine(game.world.centerX,game.world.centerY-230,'conveyor')
         //band.anchor.setTo(0.5)
         band.scale.setTo(-0.5,0.5)
@@ -1353,7 +1367,7 @@ var codeCake = function(){
         group = game.add.group()
         machineGroup.add(group)
         stationBehindGruop.push(group)
-        
+
 
         station = game.add.spine(stationPositions[4].x,stationPositions[4].y+150,'oven_a')
         //station.anchor.setTo(0.5)
@@ -1382,7 +1396,7 @@ var codeCake = function(){
         var board = sceneGroup.create(game.world.centerX,game.world.height,'atlas.game','BOARD')
         board.anchor.setTo(0.5,1)
 
-       
+
 
         buttonGroup = game.add.group()
         //buttonGroup.y = game.world.height - 80
@@ -1432,7 +1446,7 @@ var codeCake = function(){
             okBtn.loadTexture("atlas.game","button")
         },this)
 
-        
+
 
         stationsImages = []
         var left = -1
@@ -1456,7 +1470,7 @@ var codeCake = function(){
         	var empty = getEmptySpineSlot(spineMachines[i-1])
         	empty.add(image)
         }
-       
+
 
 
 
@@ -1529,10 +1543,12 @@ var codeCake = function(){
         coins.animations.play('coin', 24, true);
         coins.alpha=0
 
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
+
     }
 
 
-    
+
 	return {
 		assets: assets,
 		name: "codeCake",

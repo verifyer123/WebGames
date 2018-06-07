@@ -35,7 +35,7 @@ var zoeMundial = function(){
     var DELTA_APPEAR_WATER = 7000;
     var DELTA_WATER_PLUS = 10
     var WATER_INITIAL_LIVE = 100
-    var BOTTLE_VELOCITY = 10
+    var BOTTLE_VELOCITY = 7
     var BOTLLE_MAX_VELOCITY = 20
     var BOTTLE_DELTA_VELOCITY = 0.5
     var COLLISIONS_TO_BALLON = 6
@@ -110,6 +110,7 @@ var zoeMundial = function(){
         currentCollisions = 0
         liveBars = []
         currentLevel = 0
+        DELTA_WATER = 0.03
     }
     
 
@@ -147,6 +148,10 @@ var zoeMundial = function(){
 
     
     function stopGame(win){
+
+        playerSpine.setAnimationByName(0,"lose",false)
+        playerSpine.addAnimationByName(0,"lose_still",false)
+
         heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
 
@@ -389,11 +394,15 @@ var zoeMundial = function(){
 
     function updateBalls(){
         //for(var i = 0; i < )
+        var visibleBalls = false
         for(var i =0; i < ballGroup.length; i++){
             var ball = ballGroup.children[i]
             if(!ball.visible){
             	continue
             }
+
+            visibleBalls = true
+
             if(ball.body.y > game.world.height){
 
                 missPoint()
@@ -410,6 +419,10 @@ var zoeMundial = function(){
 	            	ball.visible = false
 	            }
             }
+        }
+
+        if(!visibleBalls){
+            createBall()
         }
     }
 
@@ -512,7 +525,8 @@ var zoeMundial = function(){
     	stadium.anchor.setTo(0.5,0)
     	//stadium.scale.setTo(0.6)
 
-    	var banners = game.add.tileSprite(0,game.world.height-350,game.world.width,134,"atlas.game","banners")
+    	var banners = sceneGroup.create(game.world.centerX,game.world.height-350,"atlas.game","banners")
+        banners.anchor.setTo(0.5,0)
     	sceneGroup.add(banners)
 
     	var grass = sceneGroup.create(game.world.centerX,game.world.height,"atlas.game","cancha")
@@ -523,8 +537,6 @@ var zoeMundial = function(){
 
     	people = game.add.tileSprite(0,450,game.world.width,126,"atlas.game","aficionados")
     	sceneGroup.add(people)
-
-    	
 
     	var barandal = game.add.tileSprite(0,game.world.height-380,game.world.width,32,"atlas.game","barandal")
     	sceneGroup.add(barandal)
@@ -597,7 +609,7 @@ var zoeMundial = function(){
         if(currentCollisions > (COLLISIONS_TO_BALLON+(currentLevel*DELTA_BALL_LEVEL))){
         	currentLevel++
             currentCollisions = 0
-            DELTA_WATER*=1.2
+            DELTA_WATER*=1.1
             createBall()
         }
 
@@ -737,7 +749,7 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         var bottle = group.create(0,0,"atlas.game",keyName)
         bottle.angle = -30
         bottle.anchor.setTo(0.5)
-        bottle.scale.setTo(1.2)
+        bottle.scale.setTo(1.5)
         group.sprite = bottle
 
         
@@ -786,6 +798,7 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         sceneGroup.add(bottleGroup)
 
         game.physics.p2.setImpactEvents(true);
+        game.physics.restitution = 0
         playerCollisionGroup = game.physics.p2.createCollisionGroup();
         ballColisionGroup = game.physics.p2.createCollisionGroup();
         game.physics.p2.updateBoundsCollisionGroup();
@@ -839,9 +852,6 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
         rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
-        //particlesGroup = game.add.group()
-        //sceneGroup.add(particlesGroup)
-        //createParticles('star',5)
         createObjects()
         gameActive = true
 

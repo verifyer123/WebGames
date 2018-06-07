@@ -1,5 +1,5 @@
  
-var soundsPath = "../../shared/minigames/sounds/"
+var soundsPath = "../../../../shared/minigames/sounds/"
 
 var smart = function(){
 
@@ -316,6 +316,10 @@ var smart = function(){
     }
 
     function stopGame(){
+
+		//parent._QUANTRIX.Mixpanel.endMinigame(pointsBar.number)
+        //var validSession = new parent._QUANTRIX.NotifyPlayed({data : {'child_id' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.CHILD_ID),'token' : parent._QUANTRIX.Storage.getInLocalstorage(parent._QUANTRIX.LOCALSTORAGE.TOKEN),'minigame_id' : parent._QUANTRIX.GAMES[parent._QUANTRIX._activeRoute].index,'score' : pointsBar.number},onSuccess : parent._QUANTRIX._notifyMinigamePlayed,onError : parent._QUANTRIX._goDashboard});
+
         gameActive = false
         backgroundSound.stop()
         sound.play("gameLose")
@@ -404,6 +408,11 @@ var smart = function(){
     function updateTouch(){
         if(game.input.activePointer.isDown){
         	if(currentButtonSelected!=null){
+                if(currentButtonSelected.tween==null){
+                    if(currentButtonSelected.alpha == 0){
+                        currentButtonSelected.alpha = 1
+                    }
+                }
     	    	currentButtonSelected.x = game.input.activePointer.x
     	    	currentButtonSelected.y = game.input.activePointer.y
 
@@ -748,8 +757,11 @@ var smart = function(){
                     button.x = game.world.centerX-150
                     button.y = game.world.centerY
                     tweenButton = button
-                    game.add.tween(tweenButton).to({x:game.world.centerX},200,Phaser.Easing.linear,true).onComplete.add(function(){
-                        game.add.tween(tweenButton).to({x:game.world.centerX+250,alpha:0},300,Phaser.Easing.linear,true).onComplete.add(function(){
+
+                    tweenButton.tween = game.add.tween(tweenButton).to({x:game.world.centerX},150,Phaser.Easing.linear,true)
+                    tweenButton.tween.onComplete.add(function(){
+                        tweenButton.tween = game.add.tween(tweenButton).to({x:game.world.centerX+250,alpha:0},200,Phaser.Easing.linear,true)
+                        tweenButton.tween.onComplete.add(function(){
                             tweenButton.visible = false
                             tweenButton.alpha = 1
                             tweenButton = null
@@ -934,16 +946,23 @@ var smart = function(){
 
     function clickProduct(button,pointer){
     	if(canTouch){
-            console.log("clickProduct")
+            
 	        var id = button.id
 	        currentButtonSelected = pruductSpines[id]
+            /*if(currentButtonSelected.tween!=null){
+                currentButtonSelected.tween.stop()
+            }*/
 	        currentButtonSelected.visible = true
+            currentButtonSelected.alpha = 1
+
 	    }
     }
     
     function createScene(){
 
-        sceneGroup = game.add.group() 
+		//parent._QUANTRIX.Mixpanel.startMinigame()
+
+		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
@@ -1013,24 +1032,24 @@ var smart = function(){
         signsArray[2].angle = 15
         basketGroup.add(signsArray[2])
 
-        var milkBox = sceneGroup.create(basket.x+170,basket.y-340,'atlas.game','MILK_BASKET')
-        milkBox.anchor.setTo(0.5)
+        var milkBox = sceneGroup.create(basket.x+170,basket.y-200,'atlas.game','MILK_BASKET')
+        milkBox.anchor.setTo(0.5,1)
         milkBox.inputEnabled = true
         milkBox.id = 0
         milkBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(milkBox)
         basketGroup.add(milkBox)
 
-        var juiceBox = sceneGroup.create(basket.x,basket.y-340,'atlas.game','OJ_BASKET')
-        juiceBox.anchor.setTo(0.5)
+        var juiceBox = sceneGroup.create(basket.x,basket.y-210,'atlas.game','OJ_BASKET')
+        juiceBox.anchor.setTo(0.5,1)
         juiceBox.inputEnabled = true
         juiceBox.id = 1
         juiceBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(juiceBox)
         basketGroup.add(juiceBox)
 
-        var breadBox = sceneGroup.create(basket.x-170,basket.y-340,'atlas.game','BREAD_BASKET')
-        breadBox.anchor.setTo(0.5)
+        var breadBox = sceneGroup.create(basket.x-170,basket.y-210,'atlas.game','BREAD_BASKET')
+        breadBox.anchor.setTo(0.5,1)
         breadBox.inputEnabled = true
         breadBox.id = 2
         breadBox.events.onInputDown.add(clickProduct,this)
@@ -1057,22 +1076,22 @@ var smart = function(){
         basketGroup.add(signsArray[5])
 
 
-        var appleBox = sceneGroup.create(basket.x-180,basket.y-280,'atlas.game','APPLE_BASKET')
-        appleBox.anchor.setTo(0.5)
+        var appleBox = sceneGroup.create(basket.x-180,basket.y-205,'atlas.game','APPLE_BASKET')
+        appleBox.anchor.setTo(0.5,1)
         appleBox.inputEnabled = true
         appleBox.id = 3
         appleBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(appleBox)
         basketGroup.add(appleBox)
-        var bananaBox = sceneGroup.create(basket.x+220,basket.y-280,'atlas.game','BANANA_BASTE')
-        bananaBox.anchor.setTo(0.5)
+        var bananaBox = sceneGroup.create(basket.x+220,basket.y-205,'atlas.game','BANANA_BASTE')
+        bananaBox.anchor.setTo(0.5,1)
         bananaBox.inputEnabled = true
         bananaBox.id = 4
         bananaBox.events.onInputDown.add(clickProduct,this)
         tutorialButtons.push(bananaBox)
         basketGroup.add(bananaBox)
-        var carrotBox = sceneGroup.create(basket.x,basket.y-225,'atlas.game','CARROT_BASKET')
-        carrotBox.anchor.setTo(0.5)
+        var carrotBox = sceneGroup.create(basket.x,basket.y-230,'atlas.game','CARROT_BASKET')
+        carrotBox.anchor.setTo(0.5,0.5)
         carrotBox.inputEnabled = true
         carrotBox.id = 5
         carrotBox.events.onInputDown.add(clickProduct,this)
@@ -1247,6 +1266,8 @@ var smart = function(){
         coins.animations.add('coin');
         coins.animations.play('coin', 24, true);
         coins.alpha=0
+
+        this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
 
     }
 

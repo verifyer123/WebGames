@@ -70,7 +70,7 @@ var result = function(){
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
             );*/
 
-            amazing.setMixPanelTrack(gameName,"finishGame")
+            amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
         //}
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
@@ -210,7 +210,7 @@ var result = function(){
         var buttonTexts = ['Compartir','Reintentar']
 
         var pivotX = game.world.centerX - 120
-        var pivotY = pivot
+        var pivotY = pivot-10
         for(var i = 0;i<buttonNames.length;i++){
 
             var group = game.add.group()
@@ -406,79 +406,201 @@ var result = function(){
 
         var group = game.add.group()
         group.x = game.world.centerX
-        group.y = pivotRank
+        group.y = pivotRank-10
         rankGroup.add(group)
 
-        /*var text = game.add.bitmapText(0,0, 'Gotham Book', 'Tu Puntuación', 30);
-        text.tint = 0x8080808
-        text.anchor.setTo(0.5,0.5)
-        group.add(text)*/
 
         var fontStyle = {font: "30px Gotham Book", fill: "#808080",align:"center"}
         var text = new Phaser.Text(sceneGroup.game, 0, 0,"Tu Puntuación", fontStyle)
         text.anchor.setTo(0.5)
         group.add(text)
-
+        var topValue = 1
 
         var numberTrophy = 0
         if(!rankMinigame){
             rankMinigame = '--'
         }
         if(rankMinigame > 1){
+        	topValue = 5
             numberTrophy = 1
         }
 
         if(rankMinigame > 5){
+        	topValue = 10
             numberTrophy = 2
         }
 
         if(rankMinigame > 10){
+        	topValue = 0
             numberTrophy = 3
         }
 
 
 
-        var pivotY = 90
-        var pivotX = -100
+        var pivotY = 80
+        //
+        if(totalScore >= goalScore && amazing.getFromApp()){
+            var offsetRank = 0
+            if(rankMinigame>=1000){
+                offsetRank = 70
+            }
+            else if(rankMinigame >= 100){
+                offsetRank = 30
+            }
+        	var pivotX = -187-offsetRank/2
+	        var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
+	        trophy.scale.setTo(0.8,0.8)
+	        trophy.anchor.setTo(0.5,0.5)
 
-        /*var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
-        trophy.scale.setTo(0.9,0.9)
-        trophy.anchor.setTo(0.5,0.5)
+	        pivotX += 90 + offsetRank/2
+	        var offset = 0
+	        if(topValue!=0){
+		        fontStyle = {font: "21px Gotham bold", fill: "#808080",align:"center"}
+		        var text = new Phaser.Text(sceneGroup.game, pivotX  ,pivotY-10, "Top " + topValue, fontStyle);
+		        text.anchor.setTo(0.5,0.5)
+		        group.add(text)
+		        
+		    }
+            else{
+                offset = -20
+            }
 
-        pivotX += 80
+	        fontStyle = {font: "38px Gotham bold", fill: "#808080",align:"center"}
+	        var text = new Phaser.Text(sceneGroup.game, pivotX  ,pivotY+20+ offset, '#' + rankMinigame, fontStyle);
+	        text.anchor.setTo(0.5,0.5)
+	        group.add(text)
 
-        var text = game.add.bitmapText(pivotX  ,pivotY, 'gothamMedium', '#' + rankMinigame, 35);
-        text.tint = 0x000000
-        text.anchor.setTo(0.5,0.5)
-        group.add(text)*/
+	         
 
-        //pivotX+= 110
-        var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
-        coin.anchor.setTo(0.5,0.5)
+	        pivotX+= 90+ offsetRank/2
+	        var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
+	        coin.anchor.setTo(0.5,0.5)
+	        coin.scale.setTo(0.8)
 
-        var textAdd = totalScore
+	        var textAdd = totalScore
 
-        if(totalScore == 0){
-            textAdd = '' + totalScore
+	        if(totalScore == 0){
+	            textAdd = '' + totalScore
+	        }
+
+	        fontStyle = {font: "35px Gotham light", fill: "#ff008c",align:"center"}
+	        text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
+	        text.anchor.setTo(0,0.5)
+	        group.add(text)
+
+            pivotX+=170
+            var gameImage = group.create(pivotX, pivotY,gameIcon)
+            gameImage.scale.setTo(0.4,0.4)
+            gameImage.anchor.setTo(0.5,0.5)
+
+            var graphics = game.add.graphics(pivotX,pivotY)
+            graphics.beginFill(0xff0000)
+            graphics.drawRoundedRect(-gameImage.width/2,-gameImage.height/2,gameImage.width,gameImage.height,20)
+            graphics.endFill()
+            group.add(graphics)
+
+            gameImage.mask = graphics
+
+	        
+    	}
+    	else if(amazing.getFromApp()){
+
+            var offsetRank = 0
+            if(rankMinigame>=1000){
+                offsetRank = 70
+            }
+            else if(rankMinigame >= 100){
+                offsetRank = 30
+            }
+
+            var pivotX = -187-offsetRank/2
+            var trophy = group.create(pivotX,pivotY,'atlas.resultScreen','r' + numberTrophy)
+            trophy.scale.setTo(0.8,0.8)
+            trophy.anchor.setTo(0.5,0.5)
+
+            pivotX += 97 + offsetRank/2
+            var offset = 0
+            if(topValue!=0){
+                fontStyle = {font: "21px Gotham bold", fill: "#808080",align:"center"}
+                var text = new Phaser.Text(sceneGroup.game, pivotX  ,pivotY-10, "Top " + topValue, fontStyle);
+                text.anchor.setTo(0.5,0.5)
+                group.add(text)
+                
+            }
+            else{
+                offset = -20
+            }
+
+            fontStyle = {font: "38px Gotham bold", fill: "#808080",align:"center"}
+            var text = new Phaser.Text(sceneGroup.game, pivotX  ,pivotY+20+ offset, '#' + rankMinigame, fontStyle);
+            text.anchor.setTo(0.5,0.5)
+            group.add(text)
+
+            pivotX += 90 + offsetRank/2
+    		var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
+	        coin.anchor.setTo(0.5,0.5)
+	        coin.scale.setTo(0.8)
+
+	        var textAdd = totalScore
+
+	        if(totalScore == 0){
+	            textAdd = '' + totalScore
+	        }
+
+	        fontStyle = {font: "35px Gotham light", fill: "#ff008c",align:"center"}
+	        text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
+	        text.anchor.setTo(0,0.5)
+	        group.add(text)
+
+	        pivotX+=170
+	        var gameImage = group.create(pivotX, pivotY,gameIcon)
+	        gameImage.scale.setTo(0.4,0.4)
+	        gameImage.anchor.setTo(0.5,0.5)
+
+	        var graphics = game.add.graphics(pivotX,pivotY)
+	        graphics.beginFill(0xff0000)
+	        graphics.drawRoundedRect(-gameImage.width/2,-gameImage.height/2,gameImage.width,gameImage.height,20)
+	        graphics.endFill()
+	        group.add(graphics)
+
+	       	gameImage.mask = graphics
+
+	        
+	    }
+        else{
+
+            var pivotX = -110
+            var coin = group.create(pivotX,pivotY,'atlas.resultScreen','coin')
+            coin.anchor.setTo(0.5,0.5)
+            coin.scale.setTo(0.8)
+
+            var textAdd = totalScore
+
+            if(totalScore == 0){
+                textAdd = '' + totalScore
+            }
+
+            fontStyle = {font: "35px Gotham light", fill: "#ff008c",align:"center"}
+            text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
+            text.anchor.setTo(0,0.5)
+            group.add(text)
+
+            pivotX+=195
+            var gameImage = group.create(pivotX, pivotY,gameIcon)
+            gameImage.scale.setTo(0.4,0.4)
+            gameImage.anchor.setTo(0.5,0.5)
+
+            var graphics = game.add.graphics(pivotX,pivotY)
+            graphics.beginFill(0xff0000)
+            graphics.drawRoundedRect(-gameImage.width/2,-gameImage.height/2,gameImage.width,gameImage.height,20)
+            graphics.endFill()
+            group.add(graphics)
+
+            gameImage.mask = graphics
+
         }
-        /*var text = game.add.bitmapText(coin.x + coin.width * 0.75,pivotY, 'Gotham light', textAdd, 35);
-        text.tint = 0xff008c
-        text.anchor.setTo(0,0.5)
-        group.add(text)*/
-
-        fontStyle = {font: "35px Gotham light", fill: "#ff008c",align:"center"}
-        text = new Phaser.Text(sceneGroup.game, coin.x + coin.width * 0.75,pivotY,textAdd, fontStyle)
-        text.anchor.setTo(0,0.5)
-        group.add(text)
-
-        sceneGroup.add(rankGroup)
-
-        pivotX+=170
-        var gameImage = group.create(pivotX, pivotY,gameIcon)
-        gameImage.scale.setTo(0.75,0.75)
-        gameImage.anchor.setTo(0.5,0.5)
-
-        game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
+	    game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
+	    sceneGroup.add(rankGroup)
 
     }
 
@@ -512,7 +634,8 @@ var result = function(){
 
 
         setRank()
-        //addRank()
+        //rankMinigame = 10
+        
 
         var win = totalScore >= goalScore
 
@@ -522,7 +645,8 @@ var result = function(){
         var topHeight = 1.05
         var scaleSpine = 1.05
         var pivotButtons = game.world.height * 0.7
-
+        //haveCoupon = false
+        //win = false
         if(win){
 
             textToUse = '¡Lo lograste!'
@@ -549,12 +673,17 @@ var result = function(){
 
         }
 
+
         var topRect = sceneGroup.create(0,0,'atlas.resultScreen','fondo_result')
         topRect.width = game.world.width
         topRect.height*= topHeight
         topRect.tint = colorTint
         sceneGroup.topRect = topRect
 
+        if(win && haveCoupon){
+            topRect.height *= 0.8
+        }
+        
         placeIcons()
 
         /*var text = game.add.bitmapText(game.world.centerX, topRect.height * 0.1, 'Gotham', textToUse, 30);
@@ -562,7 +691,7 @@ var result = function(){
         sceneGroup.add(text)*/
 
         var fontStyle = {font: "30px Gotham", fill: "#ffffff",align:"center"}
-        var text = new Phaser.Text(sceneGroup.game, game.world.centerX, topRect.height * 0.125,textToUse, fontStyle)
+        var text = new Phaser.Text(sceneGroup.game, game.world.centerX, topRect.height * 0.145,textToUse, fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
 
@@ -571,7 +700,7 @@ var result = function(){
         buddy.setAnimationByName(0, animationToUse, true);
         sceneGroup.add(buddy)
 
-		var image = sceneGroup.create(buddy.x + 175,buddy.y - 20,'atlas.resultScreen','amazing')
+		var image = sceneGroup.create(buddy.x + 155,buddy.y - 20,'atlas.resultScreen','amazing')
 		image.anchor.setTo(0.5,0.5)
 		image.scale.setTo(1.3,1.3)
 
@@ -628,17 +757,17 @@ var result = function(){
         }
 
         if(haveCoupon){
-
+             buddy.y -= 75
             if(!win){
 
-                buddy.y -= 75
+               
                 /*var text = game.add.bitmapText(pivotText, topRect.height * 0.79, 'Gotham light', 'Necesitas', 24);
                 text.anchor.setTo(0,1)
                 sceneGroup.add(text)*/
 
                 fontStyle = {font: "24px Gotham light", fill: "#ffffff",align:"center"}
-                var text = new Phaser.Text(sceneGroup.game, pivotText, topRect.height * 0.79,'Necesitas', fontStyle)
-                text.anchor.setTo(0,1)
+                var text = new Phaser.Text(sceneGroup.game, game.world.centerX-5, topRect.height * 0.79,'Necesitas', fontStyle)
+                text.anchor.setTo(1,1)
                 sceneGroup.add(text)
 
                 /*var retryText = game.add.bitmapText(text.x + text.width * 1.15, text.y, 'Gotham', goalScore + " puntos", 24);
@@ -646,7 +775,7 @@ var result = function(){
                 sceneGroup.add(retryText)*/
 
                 fontStyle = {font: "24px Gotham", fill: "#ffffff",align:"center"}
-                var retryText = new Phaser.Text(sceneGroup.game, text.x + text.width * 1.15, text.y, goalScore + " puntos", fontStyle)
+                var retryText = new Phaser.Text(sceneGroup.game, text.x + 8, text.y, goalScore + " puntos", fontStyle)
                 retryText.anchor.setTo(0,1)
                 sceneGroup.add(retryText)
 
@@ -655,10 +784,11 @@ var result = function(){
                 sceneGroup.add(text)*/
 
 
-                fontStyle = {font: "24px Gotham light", fill: "#ffffff",align:"center"}
-                var text = new Phaser.Text(sceneGroup.game, pivotText - 15, topRect.height * 0.89, text.y, 'para obtener este cupón', fontStyle)
-                text.anchor.setTo(0,1)
-                sceneGroup.add(text)
+                var fontStyle2 = {font: "24px Gotham light", fill: "#ffffff",align:"center"}
+                var text2 = new Phaser.Text(sceneGroup.game, game.world.centerX, topRect.height * 0.89, 'para obtener este cupón', fontStyle2)
+                text2.anchor.setTo(0.5,1)
+                sceneGroup.add(text2)
+                buddy.scale.setTo(0.9)
 
 
             }else{
@@ -667,13 +797,14 @@ var result = function(){
                 pivotRank+=200
 
                 pivotButtons = game.world.height* 0.92
-
+               
                 amazing.winCoupon(currentCouponId)
-
+                //
                 if(couponData.imgPreview){
 
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
+                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'coupon')
                     coupon.anchor.setTo(0.5,0.5)
+                    coupon.scale.setTo(0.9)
 
                 }
                 else{
@@ -689,7 +820,7 @@ var result = function(){
                     var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
                     coupon.anchor.setTo(0.5,0.5)
 
-                    var fontStyle = {font: "35px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
+                    //var fontStyle = {font: "35px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
 
 
 
@@ -710,14 +841,17 @@ var result = function(){
             }
 
         }
+        
+        /*haveCoupon = false
+        rankMinigame = 99999
+        addRank()*/
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
 
-        createButtons(pivotButtons )
+        createButtons(pivotButtons)
         createIcons(showIcons)
-        console.log(gameFromApp)
         if(!amazing.getFromApp()){
-
+            addRank()
     		createOverlay()
         }
 
@@ -929,8 +1063,6 @@ var result = function(){
 
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
-
-
 
         game.load.spine('amazing', imagesUrl + "spines/skeleton.json");
 
