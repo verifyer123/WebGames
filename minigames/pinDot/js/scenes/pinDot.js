@@ -390,7 +390,6 @@ var pinDot = function(){
         }
 
          if(!spaceBar.isDown && !game.input.activePointer.isDown){
-            console.log("dyasfsakudvk")
             canTap = true
         }
 
