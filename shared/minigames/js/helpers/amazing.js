@@ -5,6 +5,7 @@ var minigameId
 var userMail, gender, birthday, interests, userName
 var origin
 var gameFromApp
+var webCoupon
 
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
@@ -37,6 +38,9 @@ amazing.savePlaycount = function(){
     parent.postMessage(JSON.stringify(params), "*")
 
     gameFromApp = false
+
+    webCoupon = ""
+
 
     /*window.addEventListener("message", function(event){
     //console.log("profile",event)
@@ -109,7 +113,7 @@ amazing.getGames = function(){
         {name:'Volaris',iconName:'volaris',url:'http://amazingapp.mx/juegos/volaris/',coupon : false,mixName:'volaris',demo:true,id:100001},//24
         {name:'Chedraui',iconName:'chedraui',url:'http://amazingapp.mx/juegos/chedraui/',coupon : false,mixName:'chedraui',demo:true,id:100002},//25
         {name:'Orders Up',iconName:'ordersUp',url:'http://amazingapp.mx/juegos/ordersUp/',coupon : false,mixName:'ordersUp',demo:true,id:100003},//26
-        {name:'Zoe Mundial',iconName:'zoeMundial',url:'http://amazingapp.mx/juegos/zoeMundial/',coupon : false,mixName:'zoeMundial',demo:true,id:100004},//27
+        {name:'Zoe Water Sports',iconName:'zoeMundial',url:'http://amazingapp.mx/juegos/zoeMundial/',coupon : false,mixName:'zoeMundial',demo:false,id:21},//27
         {name:'Benedettis',iconName:'benedettis',url:'http://amazingapp.mx/juegos/benedettis/',coupon : false,mixName:'benedettis',demo:true,id:100005},//28
         {name:'Pin Dot',iconName:'pinDot',url:'http://amazingapp.mx/juegos/pinDot/',coupon : false,mixName:'pinDot',demo:true,id:100006},//29
         //
@@ -120,6 +124,7 @@ amazing.getGames = function(){
 
 
 amazing.getId = function(id){
+    //console.log("dsadgsagdyajsfgv ",gameFromApp, id)
     var games = amazing.getGames()
     var gameIndex 
     for(var i = 0; i < games.length; i++ ){
@@ -128,8 +133,43 @@ amazing.getId = function(id){
             gameIndex = i
             break
         }
+    }   
+
+    //console.log("dsadgsagdyajsfgv ",gameFromApp, id)
+
+    if(!gameFromApp){
+
+        var data = {
+            minigameId:id
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "http://staging.getin.mx:8090/Amazing-backend-2.0.0/services/minigame/hascoupons",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (response) {
+                console.log("server response", response)
+                //if (onSuccess && typeof (onSuccess) == "function") {
+                    //onSuccess(response)
+                    webCoupon = response.imgPreview
+                    //alert(response.imgPreview)
+                //}
+            },
+            /*error: function (e) {
+
+
+                console.log(e)
+            }*/
+        });
     }
+
     return gameIndex 
+}
+
+amazing.haveWebCoupon = function(){
+    return webCoupon
 }
 
 amazing.getInfo = function(){
@@ -203,6 +243,7 @@ amazing.setMinigameId = function(){
                 userName = parsedData.userProfile.name
                 //origin = event.origin
                 gameFromApp = true
+                webCoupon = ""
                 console.log("Get minigameId")
 				if(userMail){
 
@@ -215,6 +256,7 @@ amazing.setMinigameId = function(){
     })
 
 }
+
 
 
 amazing.setApp = function(){
