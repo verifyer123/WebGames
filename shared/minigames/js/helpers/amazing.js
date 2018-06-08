@@ -145,7 +145,7 @@ amazing.getId = function(id){
 
         $.ajax({
             type: "POST",
-            url: "http://staging.getin.mx:8090/Amazing-backend-2.0.0/services/minigame/hascoupons",
+            url: "https://staging.getin.mx:8090/Amazing-backend-2.0.0/services/minigame/hascoupons",
             data: JSON.stringify(data),
             contentType: 'application/json',
             dataType: "json",
