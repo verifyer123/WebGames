@@ -210,13 +210,18 @@ amazing.setProfile = function(){
             var parsedData = {}
             try {
                 var parsedData = JSON.parse(event.data)
-                 //origin = event.origin
             }catch(e){
                 console.warn("Data is not JSON in message listener")
             }
             switch(parsedData.type){
             case "dataStore":
                 dataStore = parsedData.dataStore
+                //console.log(" jsdgkfajs ",dataStore)
+                /*if(dataStore!= null){
+                    if(dataStore[0]==null){
+                        dataStore = 
+                    }
+                }*/
             }
             //console.log('entra case')
         }
@@ -249,7 +254,7 @@ amazing.setMinigameId = function(){
                 //origin = event.origin
                 gameFromApp = true
                 webCoupon = ""
-                console.log("Get minigameId")
+                //console.log("Get minigameId")
 				if(userMail){
 
 					console.log('email sent')
@@ -323,7 +328,55 @@ amazing.getScores = function(dataId, onSuccess, onError ){
 }
 
 amazing.getProfile = function(){
-    return dataStore
+
+    if(gameFromApp){
+        var userData = localStorage.getItem("profile");
+        if(userData != "" && userData != "undefined" && userData){
+            userData = JSON.parse(userData)
+        }
+        else{
+            userData = null
+        }
+
+        if(userData){
+            if(userData.allProducts){
+                allProducts = JSON.parse(userData.allProducts)
+
+                var skinTable = []
+
+                for(var index1 = 1; index1<allProducts.glasses.length;index1++){
+                    if(allProducts.glasses[index1-1].select){
+                        skinTable[0] = index1;
+                    }
+                }
+                for(var index2 = 1; index2<=allProducts.hairs.length;index2++){
+                    if(allProducts.hairs[index2-1].select){
+                        skinTable[1] = index2;
+                    }
+                }
+                for(var index3 = 1; index3<=allProducts.colors.length;index3++){
+                    if(allProducts.colors[index3-1].select){
+                        skinTable[2] = index3;
+                    }
+                }
+                for(var index4 = 1; index4<=allProducts.shorts.length;index4++){
+                    if(allProducts.shorts[index4-1].select){
+                        skinTable[3] = index4;
+                    }
+                }
+                for(var index5 = 1; index5<=allProducts.bgs.length;index5++){
+                    if(allProducts.bgs[index5-1].select){
+                        skinTable[4] = index5;
+                    }
+                }
+
+                return skinTable
+            }
+        }
+    }
+
+    var skinTable= [1,1,1,1,1];
+    return skinTable
 }
 
 amazing.getCoupon = function(){
