@@ -153,7 +153,12 @@ amazing.getId = function(id){
                 console.log("server response", response)
                 //if (onSuccess && typeof (onSuccess) == "function") {
                     //onSuccess(response)
-                    webCoupon = response.imgPreview
+                    if(response.imgPreview!=null){
+                        webCoupon = response.imgPreview
+                    }
+                    else{
+                        webCoupon = ""
+                    }
                     //alert(response.imgPreview)
                 //}
             },
