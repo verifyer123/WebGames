@@ -328,21 +328,27 @@ amazing.getScores = function(dataId, onSuccess, onError ){
 }
 
 amazing.getProfile = function(){
-
+    //console.log("0Data ")
     if(gameFromApp){
         var userData = localStorage.getItem("profile");
-        if(userData != "" && userData != "undefined" && userData){
+        /*if(userData != "" && userData != "undefined" && userData){
             userData = JSON.parse(userData)
         }
         else{
             userData = null
-        }
-
-        if(userData){
+        }*/
+        //console.log("1Data ",userData)
+        if(userData!=null){
+            //console.log("2Data ",userData.allProducts)
             if(userData.allProducts){
-                allProducts = JSON.parse(userData.allProducts)
+                var allProducts = JSON.parse(userData.allProducts)
+                //console.log("3Data ",allProducts)
 
-                var skinTable = []
+                if(allProducts.glasses == null){
+                    allProducts = userData.allProducts
+                }
+
+                var skinTable = [1,1,1,1,1]
 
                 for(var index1 = 1; index1<allProducts.glasses.length;index1++){
                     if(allProducts.glasses[index1-1].select){
