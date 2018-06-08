@@ -15,7 +15,7 @@ var yogomeGames = function () {
 	var timeCount = 0
 	var addingTime = true
 	var yogoUrl = 'epicweb/minigames/'
-	var urlMap = 'epicSite/#/minigames/'
+	var urlMap = '#/minigames/'
 	var relativeUrl = "../"
 
 
@@ -23,7 +23,9 @@ var yogomeGames = function () {
 		var urlSet
 		if(pathTag === "absolute"){
 			urlSet = yogoUrl
-		}else
+		}else if(pathTag === "custom")
+			urlSet = ""
+		else
 			urlSet = relativeUrl
 
 		var games = [
@@ -262,10 +264,10 @@ var yogomeGames = function () {
 
 	}
 	
-	function getObjectGames() {
+	function getObjectGames(path) {
 		var object = {}
 
-		var games = getGames()
+		var games = getGames(path)
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
 			var game = games[gIndex]
