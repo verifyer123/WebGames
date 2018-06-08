@@ -107,7 +107,7 @@ amazing.getGames = function(){
         {name:'2+2',iconName:'2+2',url:'http://amazingapp.mx/juegos/game2Plus2/',coupon : false,mixName:'2+2',demo:false,id:6293705958883328},//18
         {name:'Rafaga de\n Tamales',iconName:'rafaga_de_tamales',url:'http://amazingapp.mx/juegos/rafaga_de_tamales/',coupon : false,mixName:'rafaga_de_tamales',demo:false,id:5679382827892736},//19
         {name:'Ski Zag',iconName:'skiZag',url:'http://amazingapp.mx/juegos/skiZag/',coupon : false,mixName:'skiZag',demo:false,id:5766289444306944},//20
-        {name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',demo:false,id:5303856053354496},//21
+        {name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',demo:true,id:5303856053354496},//21
         {name:'Chak Block',iconName:'chakBlock',url:'http://amazingapp.mx/juegos/chakBlock/',coupon : false,mixName:'chakBlock',demo:false,id:5642980933238784},//22
         {name:'Choco Pile',iconName:'chocoPile',url:'http://amazingapp.mx/juegos/chocoPile/',coupon : false,mixName:'chocoPile',demo:true,id:5676219550924800},//23
         {name:'Volaris',iconName:'volaris',url:'http://amazingapp.mx/juegos/volaris/',coupon : false,mixName:'volaris',demo:true,id:100001},//24
@@ -145,7 +145,7 @@ amazing.getId = function(id){
 
         $.ajax({
             type: "POST",
-            url: "https://staging.getin.mx:8090/Amazing-backend-2.0.0/services/minigame/hascoupons",
+            url: "http://staging.getin.mx:8090/Amazing-backend-2.0.0/services/minigame/hascoupons",
             data: JSON.stringify(data),
             contentType: 'application/json',
             dataType: "json",
