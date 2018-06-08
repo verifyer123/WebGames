@@ -10,15 +10,15 @@ var webCoupon
 //var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
-	console.log("Saving Score win...")
-	var params = {
-		type: "score",
-		data: {
-			score: score,
-		}
+    console.log("Saving Score win...")
+    var params = {
+        type: "score",
+        data: {
+            score: score,
+        }
     }
     console.log("score to amazing => ", score);
-	parent.postMessage(JSON.stringify(params), "*")
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.winCoupon = function(couponId){
@@ -31,10 +31,10 @@ amazing.winCoupon = function(couponId){
 }
 
 amazing.savePlaycount = function(){
-	console.log("Playcount...")
-	var params = {
-		type: "playcount"
-	}
+    console.log("Playcount...")
+    var params = {
+        type: "playcount"
+    }
     parent.postMessage(JSON.stringify(params), "*")
 
     gameFromApp = false
@@ -64,29 +64,29 @@ amazing.savePlaycount = function(){
 }
 
 amazing.share = function(score, game){
-	console.log("Sharing...")
-	var params = {
-		type: "share",
-		score: score,
-		game: game,
-	}
+    console.log("Sharing...")
+    var params = {
+        type: "share",
+        score: score,
+        game: game,
+    }
     parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.checkBrowser = function(game){
-	//console.log("check browser")
+    //console.log("check browser")
     var ua = navigator.userAgent || navigator.vendor || window.opera;
     if ((ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) && game.device.iPhone){
 
-		game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
-		game.scale.setUserScale(document.body.clientWidth/game.scale.width,document.body.clientHeight/game.scale.height * 0.9)
-		//console.log((document.body.clientWidth/game.scale.width) + 'width'(document.body.clientHeight/game.scale.height) + ' height')
-	}
+        game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE
+        game.scale.setUserScale(document.body.clientWidth/game.scale.width,document.body.clientHeight/game.scale.height * 0.9)
+        //console.log((document.body.clientWidth/game.scale.width) + 'width'(document.body.clientHeight/game.scale.height) + ' height')
+    }
 
 }
 
 amazing.getGames = function(){
-	var games = [
+    var games = [
         {name:'Zombie\n Crush',iconName:'zombie',url:'http://amazingapp.mx/juegos/zombiecrush/',coupon : false,mixName:'zombiecrush',demo:false,id:5769015641243648},
         {name:'Cirquit',iconName:'cirquit',url:'http://amazingapp.mx/juegos/cirquit/',coupon : false,mixName:'cirquit',demo:false,id:5739719937753088},
         //{name:'Clown Rush',iconName:'clown',url:'http://amazingapp.mx/juegos/clownrush/',coupon : false,mixName:'clownrush',demo:false,id:5649050225344512},
@@ -102,7 +102,7 @@ amazing.getGames = function(){
         {name:'Neon Edge',iconName:'neon',url:'http://amazingapp.mx/juegos/neonedge/',coupon : false,mixName:'neonedge',demo:false,id:5742796208078848},
         //{name:'Cube Jump',iconName:'cube',url:'http://amazingapp.mx/juegos/cubejump/',coupon : false,mixName:'cubejump',demo:false,id:5674368789118976},
         {name:'Nutribaby',iconName:'nutribaby',url:'http://amazingapp.mx/juegos/nutribaby/',coupon : false,mixName:'nutribaby',demo:false,id:5648334039547904},//15
-		{name:'Net Shoes',iconName:'net',url:'http://amazingapp.mx/juegos/netshoes/',coupon : false,mixName:'netshoes',demo:false,id:5634101323235328},//16
+        {name:'Net Shoes',iconName:'net',url:'http://amazingapp.mx/juegos/netshoes/',coupon : false,mixName:'netshoes',demo:false,id:5634101323235328},//16
         {name:'Coffee Rush',iconName:'coffeerush',url:'http://amazingapp.mx/juegos/coffeerush/',coupon : false,mixName:'coffeerush',demo:false,id:5662438108168192},//17
         {name:'2+2',iconName:'2+2',url:'http://amazingapp.mx/juegos/game2Plus2/',coupon : false,mixName:'2+2',demo:false,id:6293705958883328},//18
         {name:'Rafaga de\n Tamales',iconName:'rafaga_de_tamales',url:'http://amazingapp.mx/juegos/rafaga_de_tamales/',coupon : false,mixName:'rafaga_de_tamales',demo:false,id:5679382827892736},//19
@@ -215,7 +215,7 @@ amazing.setProfile = function(){
             }
             switch(parsedData.type){
             case "dataStore":
-                dataStore = parsedData.dataStore
+                dataStore = parsedData
                 //console.log(" jsdgkfajs ",dataStore)
                 /*if(dataStore!= null){
                     if(dataStore[0]==null){
@@ -247,19 +247,19 @@ amazing.setMinigameId = function(){
             case "minigameId":
                 minigameId = parsedData.minigameId
                 userMail = parsedData.userProfile.email
-				gender = parsedData.userProfile.gender
-				birthday = parsedData.userProfile.birthday
+                gender = parsedData.userProfile.gender
+                birthday = parsedData.userProfile.birthday
                 interests = parsedData.userProfile.interests
                 userName = parsedData.userProfile.name
                 //origin = event.origin
                 gameFromApp = true
                 webCoupon = ""
                 //console.log("Get minigameId")
-				if(userMail){
+                if(userMail){
 
-					console.log('email sent')
-					mixpanel.identify(userMail)
-				}
+                    console.log('email sent')
+                    mixpanel.identify(userMail)
+                }
             }
             //console.log('entra case')
         }
@@ -330,9 +330,9 @@ amazing.getScores = function(dataId, onSuccess, onError ){
 amazing.getProfile = function(){
     //console.log("0Data ")
     //if(gameFromApp){
-        var userData = localStorage.getItem("profile");
+        var userData = dataStore
 
-        console.log(userData)
+        //console.log("Data ",userData)
         /*if(userData != "" && userData != "undefined" && userData){
             userData = JSON.parse(userData)
         }
@@ -342,7 +342,7 @@ amazing.getProfile = function(){
         //console.log("1Data ",userData)
 
         if(userData!=null){
-            userData = JSON.parse(userData)
+            //userData = JSON.parse(userData)
             //console.log("2Data ",userData.allProducts)
             if(userData.allProducts){
                 var allProducts = JSON.parse(userData.allProducts)
@@ -398,15 +398,15 @@ amazing.getMinigameId = function(){
 }
 
 amazing.getEmail = function(){
-	return userMail
+    return userMail
 }
 
 amazing.getBirthday = function(){
-	return birthday
+    return birthday
 }
 
 amazing.getGender = function(){
-	return gender
+    return gender
 }
 
 amazing.getFromApp = function(){
