@@ -264,6 +264,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">estrella.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,42,87,83</rect>
+                <key>scale9Paddings</key>
+                <rect>43,42,87,83</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">expansion.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -358,6 +371,7 @@
             <filename>conexion_roja.png</filename>
             <filename>esfera_roja.png</filename>
             <filename>pin_rojo.png</filename>
+            <filename>estrella.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
