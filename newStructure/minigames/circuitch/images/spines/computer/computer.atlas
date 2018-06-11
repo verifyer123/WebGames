@@ -1,0 +1,125 @@
+
+computer.png
+size: 345,109
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/Chead
+  rotate: true
+  xy: 74, 20
+  size: 87, 78
+  orig: 87, 78
+  offset: 0, 0
+  index: -1
+normal/Ctorso
+  rotate: true
+  xy: 2, 9
+  size: 98, 70
+  orig: 98, 70
+  offset: 0, 0
+  index: -1
+normal/eye
+  rotate: false
+  xy: 74, 12
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+normal/eyebrown
+  rotate: false
+  xy: 2, 4
+  size: 13, 3
+  orig: 13, 3
+  offset: 0, 0
+  index: -1
+normal/face
+  rotate: true
+  xy: 154, 54
+  size: 53, 26
+  orig: 53, 26
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00000
+  rotate: false
+  xy: 154, 31
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00001
+  rotate: false
+  xy: 154, 8
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00002
+  rotate: false
+  xy: 182, 86
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00003
+  rotate: false
+  xy: 182, 63
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00004
+  rotate: true
+  xy: 215, 2
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00005
+  rotate: true
+  xy: 238, 2
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00006
+  rotate: false
+  xy: 243, 86
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00007
+  rotate: false
+  xy: 243, 63
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00008
+  rotate: true
+  xy: 304, 48
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00009
+  rotate: true
+  xy: 261, 2
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00010
+  rotate: false
+  xy: 284, 25
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1
+secuencia/Ctorso_00011
+  rotate: false
+  xy: 284, 2
+  size: 59, 21
+  orig: 59, 21
+  offset: 0, 0
+  index: -1

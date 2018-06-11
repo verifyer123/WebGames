@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Applications/MAMP/htdocs/WebGames/minigames/zoeMundial/images/zoeMundial/texture_packer.tps</string>
+        <string>/Applications/MAMP/htdocs/WebGames/minigames/pinDot/images/pinDot/texture_packer.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -199,147 +199,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Luz.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>107,238,213,476</rect>
-                <key>scale9Paddings</key>
-                <rect>107,238,213,476</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">aficionados.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,32,97,63</rect>
-                <key>scale9Paddings</key>
-                <rect>48,32,97,63</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">agua.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>11,32,21,63</rect>
-                <key>scale9Paddings</key>
-                <rect>11,32,21,63</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">agua1.png</key>
-            <key type="filename">agua10.png</key>
-            <key type="filename">agua11.png</key>
-            <key type="filename">agua12.png</key>
-            <key type="filename">agua2.png</key>
-            <key type="filename">agua3.png</key>
-            <key type="filename">agua4.png</key>
-            <key type="filename">agua5.png</key>
-            <key type="filename">agua6.png</key>
-            <key type="filename">agua7.png</key>
-            <key type="filename">agua8.png</key>
-            <key type="filename">agua9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>10,28,19,56</rect>
-                <key>scale9Paddings</key>
-                <rect>10,28,19,56</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">balon.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>23,23,45,46</rect>
-                <key>scale9Paddings</key>
-                <rect>23,23,45,46</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">banners.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>178,34,355,67</rect>
-                <key>scale9Paddings</key>
-                <rect>178,34,355,67</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">barandal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>71,8,141,15</rect>
-                <key>scale9Paddings</key>
-                <rect>71,8,141,15</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">barra_energia.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>17,69,35,139</rect>
-                <key>scale9Paddings</key>
-                <rect>17,69,35,139</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">brillo.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>22,22,43,43</rect>
-                <key>scale9Paddings</key>
-                <rect>22,22,43,43</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cancha.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>256,105,513,210</rect>
-                <key>scale9Paddings</key>
-                <rect>256,105,513,210</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">coin.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -353,43 +212,81 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">energia.png</key>
-            <key type="filename">energia_brillo.png</key>
+            <key type="filename">conexion.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>13,8,26,15</rect>
+                <rect>1,43,2,86</rect>
                 <key>scale9Paddings</key>
-                <rect>13,8,26,15</rect>
+                <rect>1,43,2,86</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">estadio.png</key>
+            <key type="filename">conexion_roja.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>256,300,513,599</rect>
+                <rect>1,43,1,86</rect>
                 <key>scale9Paddings</key>
-                <rect>256,300,513,599</rect>
+                <rect>1,43,1,86</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">jugador.png</key>
+            <key type="filename">esfera.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>49,105,98,211</rect>
+                <rect>73,73,147,146</rect>
                 <key>scale9Paddings</key>
-                <rect>49,105,98,211</rect>
+                <rect>73,73,147,146</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">esfera_roja.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>74,73,147,146</rect>
+                <key>scale9Paddings</key>
+                <rect>74,73,147,146</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">estrella.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,42,87,83</rect>
+                <key>scale9Paddings</key>
+                <rect>43,42,87,83</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">expansion.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,20,40,41</rect>
+                <key>scale9Paddings</key>
+                <rect>20,20,40,41</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -406,21 +303,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">linea cancha.png</key>
+            <key type="filename">pin.png</key>
+            <key type="filename">pin_rojo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>136,36,272,71</rect>
+                <rect>14,13,27,27</rect>
                 <key>scale9Paddings</key>
-                <rect>136,36,272,71</rect>
+                <rect>14,13,27,27</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
             <key type="filename">star.png</key>
-            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -434,7 +331,6 @@
                 <false/>
             </struct>
             <key type="filename">starPart.png</key>
-            <key type="filename">wrongPart.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -463,39 +359,19 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>agua.png</filename>
-            <filename>balon.png</filename>
-            <filename>banners.png</filename>
-            <filename>barandal.png</filename>
-            <filename>barra_energia.png</filename>
-            <filename>cancha.png</filename>
             <filename>coin.png</filename>
-            <filename>energia_brillo.png</filename>
-            <filename>energia.png</filename>
-            <filename>estadio.png</filename>
-            <filename>jugador.png</filename>
             <filename>life_box.png</filename>
-            <filename>linea cancha.png</filename>
-            <filename>Luz.png</filename>
             <filename>star.png</filename>
             <filename>starPart.png</filename>
-            <filename>wrong.png</filename>
-            <filename>wrongPart.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>aficionados.png</filename>
-            <filename>agua1.png</filename>
-            <filename>agua2.png</filename>
-            <filename>agua3.png</filename>
-            <filename>agua4.png</filename>
-            <filename>agua5.png</filename>
-            <filename>agua6.png</filename>
-            <filename>agua7.png</filename>
-            <filename>agua8.png</filename>
-            <filename>agua9.png</filename>
-            <filename>agua10.png</filename>
-            <filename>agua11.png</filename>
-            <filename>agua12.png</filename>
-            <filename>brillo.png</filename>
+            <filename>conexion.png</filename>
+            <filename>esfera.png</filename>
+            <filename>pin.png</filename>
+            <filename>expansion.png</filename>
+            <filename>conexion_roja.png</filename>
+            <filename>esfera_roja.png</filename>
+            <filename>pin_rojo.png</filename>
+            <filename>estrella.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

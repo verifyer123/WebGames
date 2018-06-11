@@ -1,0 +1,292 @@
+body{
+    overflow-x: hidden;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#6259d0+0,1f1a78+100 */
+background: #6259d0; /* Old browsers */
+/*background: -webkit-linear-gradient(top, #6259d0 0%,#1f1a78 100%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6259d0', endColorstr='#1f1a78',GradientType=0 );*/
+}
+.section-one {
+    background-image: url("../images/yogodex-bg1.png");
+    background-repeat: no-repeat;
+    padding-bottom: 5vh;
+}
+
+.second-title {
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.yogodex-bg2 {
+    background-image: url(../images/yogodex-bg2.png);
+    background-position: top right;
+    /* background-size: contain; */
+    background-repeat: no-repeat;
+    /* padding-bottom: 180px; */
+}
+
+.yogotar-btn{
+    padding: 2vh;
+    
+}
+
+.yogotar-btn img{
+    width: 100%;
+}
+
+#video-yogotar iframe{
+    border-radius: 3vh;
+}
+
+.main-title {
+    font-size: 8vh;
+    font-weight: 600;
+    color: white;
+}
+
+.secondsub-title {
+    font-size: 25px;
+    font-weight: 600;
+    color: #ecd06c;
+}
+
+
+.wallpaper-item {
+    padding: 10px;
+    width: auto;
+    height: auto;
+    float: left;
+}
+
+.wallpaper-thumb {
+    margin: auto;
+}
+
+#subject-slider {
+    width: 70%;
+    margin: auto;
+    
+}
+
+#monsterSection{
+    margin-top: 10%;
+    padding: 2vh;
+}
+
+.monster-name{
+   background: rgba(0,0,0,0.5);
+    border-radius: 3vh;
+    width: 100%;
+}
+
+.monster-name p{
+   color:#FFF;
+    text-align: center;
+    font-size: 4vh;
+}
+
+.card-monster{
+}
+
+.card-monster img{
+    width: 100%;
+    max-width: 500px;
+    
+}
+
+.xp-monster{
+    margin-top: 5%;
+}
+
+
+
+.xpPoints{
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 2vh;
+    margin-top:-2%;
+    height: 100%;
+    margin-top:2%;
+}
+
+.xpImage{
+    max-width: 80px;
+}
+.xp-bar{
+    position: absolute;
+    left: 0%;
+    border-radius: 2vh;
+    height: 100%;
+    width: 50%;
+    background-color: #E8B42B;
+}
+
+
+.xpPoints p{
+    color: #FFF;
+    font-weight: 900;
+    transform: translate(0%,20%);
+}
+
+.hpPoints{
+     background-color: rgba(0,0,0,0.5);
+    border-radius: 2vh;
+    margin-top:2%;
+    height: 100%;
+    margin-top:15%;   
+}
+
+
+
+.hpPoints p{
+    color: #FFF;
+    font-weight: 900;
+    transform: translate(0%,20%);    
+}
+
+.menu-title-monster{
+    padding: 2vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#element-monster{
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 3vh;
+}
+
+.grid{
+    height: 100%;
+    background-image: url("../images/yogodex-grid.png");
+    background-size: contain;
+    border:1px solid #77CCD1;
+    background-position: center;
+}
+
+.monsterSize img{
+    height: 60%;
+    width: 60%;
+}
+
+.buttonsgamesMenu{
+    width: auto;
+    transform: translate(0%,0%);
+}
+
+@media only screen and (min-width: 1px) and (max-width:1150px) {
+    .mid-container {
+        width: 100%;
+        height: auto;
+        margin: auto;
+    }
+  
+}
+
+@media only screen and (min-width: 1151px) {
+    .mid-container {
+        width: 1150px;
+        height: auto;
+        margin: auto;
+    }
+    
+}
+
+@media only screen and (min-width: 320px) and (max-width:400px) {
+    #subject-slider {
+        width: 90%;
+        margin: auto;
+    }
+    .wallpaper-thumb {
+        width: 113px;
+    }
+    
+ .monster-name p{
+   color:#FFF;
+    text-align: center;
+    font-size: 6vh;
+}   
+    
+
+
+     
+}
+
+@media only screen and (min-width: 401px) and (max-width:500px) {
+    #subject-slider {
+        width: 300px;
+        margin: auto;
+    }
+    .override-buttons {
+        position: absolute;
+        width: 90%!important;
+        margin: auto;
+        z-index: 3;
+        height: 1px;
+    }
+    .wallpaper-thumb {
+        width: 113px;
+    }
+
+    .img-minigames {
+        height: 100px;
+    }       
+  
+    
+    
+}
+
+@media only screen and (min-width: 501px) and (max-width:768px) {
+    #subject-slider {
+        width: 400px;
+        margin: auto;
+    }
+    .override-buttons {
+        position: absolute;
+        width: 550px!important;
+        margin: auto;
+        z-index: 3;
+        height: 1px;
+        transform: translate(0%,0%);
+        
+    }
+    .wallpaper-thumb {
+        width: 113px;
+    }
+    
+ 
+       
+    
+}
+
+@media only screen and (min-width: 769px) {
+    #subject-slider {
+        width: 600px;
+        margin: auto;
+    }
+    .override-buttons {
+        position: absolute;
+        width: 750px!important;
+        margin: auto;
+        z-index: 3;
+        height: 1px;
+        transform: translate(0%,0%);
+    }
+    .wallpaper-thumb {
+        width: 110px;
+    }
+    
+    
+ 
+    
+}
+
+@media only screen and (max-width:319px) {
+
+    
+    
+    #subject-slider {
+        display: none;
+    }
+}
+

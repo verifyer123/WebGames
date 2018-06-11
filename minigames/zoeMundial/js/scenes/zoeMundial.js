@@ -45,7 +45,7 @@ var zoeMundial = function(){
     var skinTable
     
     var gameIndex = 27
-    var gameId = 100004
+    var gameId = 21
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
