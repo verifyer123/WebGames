@@ -6,14 +6,6 @@ var APP = {
     LANGUAGE_QUERY : "?language=es",
     SUBJECT : "tech",
     /**
-    * Nombre de las variables en el localstorage.
-    */
-    LOCALSTORAGE : {
-        TOKEN : "child_token",
-        CHILD_ID : "child_id",
-        YOGOTAR  : "yogotar_id",
-    },
-    /**
     * Links absolutos de los endpoints.
     */
     SERVICES : {
