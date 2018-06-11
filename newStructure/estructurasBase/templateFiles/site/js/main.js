@@ -6,7 +6,7 @@ var APP = {
     LANGUAGE_QUERY : "?language=es",
     SUBJECT : "tech",
     /**
-    * Nombre de las variables en el localstorage
+    * Nombre de las variables en el localstorage.
     */
     LOCALSTORAGE : {
         TOKEN : "child_token",
