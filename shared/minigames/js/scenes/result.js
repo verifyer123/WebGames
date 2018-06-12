@@ -53,6 +53,7 @@ var result = function(){
     var currentCouponId
 
 	var timeGoal = null
+    var webCoupon
 
 	function setScore(didWin,score,index) {
 
@@ -852,10 +853,98 @@ var result = function(){
         createIcons(showIcons)
         if(!amazing.getFromApp()){
             addRank()
-    		createOverlay()
+            if(webCoupon==""){
+    		  createOverlay()
+            }
+            else{
+                createOverlayCoupon()
+            }
         }
 
 	}
+
+    function createOverlayCoupon(){
+        overlayGroup = game.add.group()
+        overlayGroup.alpha = 0
+        overlayGroup.y-= game.world.height
+        sceneGroup.add(overlayGroup)
+
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(inputOverlay)
+        rect.tag = 'quitOverlay'
+        overlayGroup.add(rect)
+
+        var back = new Phaser.Graphics(game)
+        back.beginFill(0xffffff)
+        back.drawRoundedRect(game.world.centerX - 192,game.world.centerY-350,382,600,30)
+        back.endFill()
+        overlayGroup.add(back)
+
+        var mask = new Phaser.Graphics(game)
+        mask.beginFill(0xffffff)
+        mask.drawRoundedRect(game.world.centerX - 192,game.world.centerY-350,382,600,30)
+        mask.endFill()
+        overlayGroup.add(mask)
+
+        var top = overlayGroup.create(game.world.centerX,game.world.centerY-350,"atlas.resultScreen","pop_cupon")
+        top.anchor.setTo(0.5,0)
+
+        var texture = game.add.tileSprite(game.world.centerX-200,game.world.centerY-300,800,600,"atlas.resultScreen","textura")
+        //texture.anchor.setTo(0.5)
+        overlayGroup.add(texture)
+        texture.mask = mask
+
+        var closeBtn = overlayGroup.create(game.world.centerX+155,game.world.centerY-310,'atlas.resultScreen','cerrar')
+        closeBtn.anchor.setTo(0.5,0.5)
+        closeBtn.inputEnabled = true
+        closeBtn.events.onInputDown.add(inputOverlay)
+        closeBtn.tag = 'quitOverlay'
+
+        var cupon = overlayGroup.create(game.world.centerX,game.world.centerY+30,"webCoupon")
+        cupon.anchor.setTo(0.5)
+        cupon.scale.setTo(0.7)
+
+        var mezy = overlayGroup.create(game.world.centerX,game.world.centerY-230,"atlas.resultScreen","meizy_pop")
+        mezy.anchor.setTo(0.5)
+
+        var fontStyle = {font: "23px Gotham", fill: "#757575",align:"center"}
+        var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-110,"¡Gana esta recompensa\n jugando en nuestra app!", fontStyle)
+        text.anchor.setTo(0.5,0.5)
+        overlayGroup.add(text)
+
+        var downloadButton = game.add.group()
+        downloadButton.x = game.world.centerX
+        downloadButton.y = game.world.centerY + 180
+        overlayGroup.add(downloadButton)
+
+        /*var imgBtn = downloadButton.create(-5,0,'atlas.resultScreen','boton')
+        imgBtn.inputEnabled = true
+        imgBtn.events.onInputDown.add(inputOverlay)
+        imgBtn.tag = 'download'
+        imgBtn.anchor.setTo(0.5,0.5)
+
+        var nameText = game.add.bitmapText(0, 4, 'gothamMedium', 'Descargar', 25);
+        nameText.tint = 0xffffff
+        nameText.anchor.setTo(0.5,0.5)
+        downloadButton.add(nameText)*/
+
+         var imgBtn = downloadButton.create(-5,0,'atlas.resultScreen','descargar')
+        imgBtn.inputEnabled = true
+        imgBtn.events.onInputDown.add(inputOverlay)
+        imgBtn.tag = 'download'
+        imgBtn.anchor.setTo(0.5,0.5)
+
+
+
+        overlayGroup.y+= game.world.height
+        overlayGroup.alpha = 1
+        overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
+    }
 
 	function createOverlay(){
 
@@ -1045,7 +1134,6 @@ var result = function(){
             //game.load.baseURL = domain;
             //game.load.crossOrigin = 'anonymous';
 
-
             haveCoupon = true
             if(couponData.imgPreview){
                 var imageName = couponData.imgPreview.split('/')
@@ -1057,6 +1145,13 @@ var result = function(){
             }
             //game.load.image('coupon',sessionStorage.getItem("game_icon0"));
             goalScore = couponData.scoreGoal
+        }
+
+        webCoupon = amazing.haveWebCoupon()
+
+        if(webCoupon!=""){
+            var imageName = webCoupon.split('/')
+            game.load.image('webCoupon',imagesUrl + 'coupons/'+imageName[3])
         }
 
 

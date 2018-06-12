@@ -343,6 +343,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">descargar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,14,90,27</rect>
+                <key>scale9Paddings</key>
+                <rect>45,14,90,27</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">fondo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -379,6 +392,32 @@
                 <rect>64,64,128,128</rect>
                 <key>scale9Paddings</key>
                 <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">meizy_pop.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>34,34,67,67</rect>
+                <key>scale9Paddings</key>
+                <rect>34,34,67,67</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pop_cupon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>96,34,193,67</rect>
+                <key>scale9Paddings</key>
+                <rect>96,34,193,67</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -422,6 +461,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">textura.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>96,112,193,223</rect>
+                <key>scale9Paddings</key>
+                <rect>96,112,193,223</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -444,6 +496,10 @@
             <filename>r2.png</filename>
             <filename>r3.png</filename>
             <filename>reintentar.png</filename>
+            <filename>pop_cupon.png</filename>
+            <filename>textura.png</filename>
+            <filename>meizy_pop.png</filename>
+            <filename>descargar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
