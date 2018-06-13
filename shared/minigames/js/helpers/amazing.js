@@ -194,6 +194,7 @@ amazing.getInfo = function(){
             case "couponMinigame":
                 //origin = event.origin
                 couponData = parsedData.coupon
+                
 
 
             }

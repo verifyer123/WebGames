@@ -57,6 +57,7 @@ var result = function(){
     var minigameId
     var skinTable
 	var overlayGroup
+	var pollOverlay
     var currentCouponId
 
 	var timeGoal = null
@@ -779,6 +780,11 @@ var result = function(){
         }
 
         if(haveCoupon){
+
+        	/*if(couponData.obligatoryWin){
+        		couponData
+        	}*/
+
              buddy.y -= 75
             if(!win){
 
@@ -819,8 +825,10 @@ var result = function(){
                 pivotRank+=200
 
                 pivotButtons = game.world.height* 0.92
-               
-                amazing.winCoupon(currentCouponId)
+               	
+               	if(couponData.poll==null){
+                	amazing.winCoupon(currentCouponId)
+               	}
                 //
                 if(specialCoupon){
 
@@ -878,6 +886,7 @@ var result = function(){
 
         createButtons(pivotButtons)
         createIcons(showIcons)
+
         if(!amazing.getFromApp()){
             addRank()
             if(webCoupon==""){
@@ -888,15 +897,16 @@ var result = function(){
             }
         }
         else{
-           
-            if(haveCoupon && specialCoupon && win){
-            	makeSpecialCoupon()
-            }
+           	if(haveCoupon && win){
+	            if(specialCoupon ){
+	            	makeSpecialCoupon()
+	            }
 
-            var poll = amazing.getPoll()
-            if(poll !=null){
-                createPoll(poll.questions)
-            }
+	            poll = couponData.poll
+	            if(poll !=null){
+	                createPoll(poll.questions)
+	            }
+	        }
         }
 
 	}
@@ -1098,9 +1108,9 @@ var result = function(){
         currentQuestion = 0
         inPoll = true
 
-        overlayGroup = game.add.group()
-        overlayGroup.alpha = 0
-        overlayGroup.y-= game.world.height
+        pollOverlay = game.add.group()
+        pollOverlay.alpha = 0
+        pollOverlay.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
         var rect = new Phaser.Graphics(game)
@@ -1111,37 +1121,37 @@ var result = function(){
         rect.inputEnabled = true
         //rect.events.onInputDown.add(inputOverlay)
         //rect.tag = 'quitOverlay'
-        overlayGroup.add(rect)
+        pollOverlay.add(rect)
 
         var back = new Phaser.Graphics(game)
         back.y = game.world.centerY-INITIAL_HEIGTH/2
         back.beginFill(0xffffff)
         back.drawRoundedRect(game.world.centerX - 200,0,398,INITIAL_HEIGTH,30)
         back.endFill()
-        overlayGroup.add(back)
-        overlayGroup.backImage = back
+        pollOverlay.add(back)
+        pollOverlay.backImage = back
 
         var mask = new Phaser.Graphics(game)
         mask.beginFill(0xffffff)
         mask.drawRoundedRect(game.world.centerX - 200,game.world.centerY-400,398,800,30)
         mask.endFill()
-        overlayGroup.add(mask)
+        pollOverlay.add(mask)
 
-        var top = overlayGroup.create(game.world.centerX,game.world.centerY-INITIAL_HEIGTH/2,"atlas.resultScreen","pop_encuesta")
+        var top = pollOverlay.create(game.world.centerX,game.world.centerY-INITIAL_HEIGTH/2,"atlas.resultScreen","pop_encuesta")
         top.anchor.setTo(0.5,0)
-        overlayGroup.topImage = top
+        pollOverlay.topImage = top
 
-        var mezy = overlayGroup.create(game.world.centerX,top.y + 150,"atlas.resultScreen","meizy_pop")
+        var mezy = pollOverlay.create(game.world.centerX,top.y + 150,"atlas.resultScreen","meizy_pop")
         mezy.anchor.setTo(0.5)
-        overlayGroup.mezy = mezy
+        pollOverlay.mezy = mezy
 
         questionsGroup = game.add.group()
-        overlayGroup.add(questionsGroup)
+        pollOverlay.add(questionsGroup)
         questionsGroup.currentX = 0
 
         dotsGroup = game.add.group()
         dotsGroup.y = game.world.centerY + 200
-        overlayGroup.add(dotsGroup)
+        pollOverlay.add(dotsGroup)
 
         var initX = game.world.centerX + 5 - ((poll.length-1)/2)*DELTA_DOTS
         topStandarheigth = 350 - 100
@@ -1266,9 +1276,9 @@ var result = function(){
 
         reloadQuestion(0)
 
-        overlayGroup.y+= game.world.height
-        overlayGroup.alpha = 1
-        overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
+        pollOverlay.y+= game.world.height
+        pollOverlay.alpha = 1
+        pollOverlay.tween = game.add.tween(pollOverlay).from({alpha:0,y:pollOverlay.y - game.world.height},500,"Linear",true)
     }
 
     function reloadQuestion(index){
@@ -1277,10 +1287,10 @@ var result = function(){
         var newCenter = heigth/2
 
         //overlayGroup.topImage.y = game.world.centerY - newCenter
-        game.add.tween(overlayGroup.topImage).to({y:game.world.centerY - newCenter},200,Phaser.Easing.linear,true)
+        game.add.tween(pollOverlay.topImage).to({y:game.world.centerY - newCenter},200,Phaser.Easing.linear,true)
 
         //overlayGroup.mezy.y = overlayGroup.topImage.y +150
-        game.add.tween(overlayGroup.mezy).to({y:game.world.centerY - newCenter + 150},200,Phaser.Easing.linear,true)
+        game.add.tween(pollOverlay.mezy).to({y:game.world.centerY - newCenter + 150},200,Phaser.Easing.linear,true)
 
         //questionsGroup.children[index].question.y = overlayGroup.topImage.y+topStandarheigth
         game.add.tween(questionsGroup.children[index].question).to({y:game.world.centerY - newCenter + topStandarheigth},200,Phaser.Easing.linear,true)
@@ -1296,15 +1306,16 @@ var result = function(){
 
         //var newScale = heigth/INITIAL_HEIGTH
         //overlayGroup.backImage.y = game.world.centerY - (heigth/2) + 1
-        game.add.tween(overlayGroup.backImage).to({y:game.world.centerY - (heigth/2) + 1},200,Phaser.Easing.linear,true)
+        game.add.tween(pollOverlay.backImage).to({y:game.world.centerY - (heigth/2) + 1},200,Phaser.Easing.linear,true)
 
 
         //overlayGroup.backImage.scale.setTo(1,heigth/INITIAL_HEIGTH)
-        game.add.tween(overlayGroup.backImage.scale).to({y:heigth/INITIAL_HEIGTH},200,Phaser.Easing.linear,true)
+        game.add.tween(pollOverlay.backImage.scale).to({y:heigth/INITIAL_HEIGTH},200,Phaser.Easing.linear,true)
     }
 
     function sendPoll(){
-        game.add.tween(overlayGroup).to({alpha : 0, y: overlayGroup.y - game.world.height},500,"Linear",true)
+        game.add.tween(pollOverlay).to({alpha : 0, y: pollOverlay.y - game.world.height},500,"Linear",true)
+        amazing.winCoupon(currentCouponId)
         console.log(pollOptions)
     }
 
