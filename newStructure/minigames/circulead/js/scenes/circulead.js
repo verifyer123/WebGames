@@ -910,7 +910,7 @@ var circulead = function(){
                     listRow.push(up);
                     lastIndex++;
 
-                    newWidthStraw = getRandomInt(20,80);
+                    newWidthStraw = getRandomInt(20,60);
                     var vertical = game.add.tileSprite(listRow[lastIndex].x,listRow[lastIndex].y,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([vertical], false);
                     vertical.anchor.setTo(0,0);
@@ -945,7 +945,7 @@ var circulead = function(){
                     listRow.push(down);
                     lastIndex++;
 
-                    newWidthStraw = getRandomInt(50,100);
+                    newWidthStraw = getRandomInt(50,80);
                     var inverse = game.add.tileSprite(listRow[lastIndex].x,listRow[lastIndex].y + listRow[lastIndex].height,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([inverse], false);
                     inverse.anchor.setTo(0,1);
@@ -1054,7 +1054,7 @@ var circulead = function(){
                     listRow.push(upDown);
                     lastIndex++;
 
-                    newWidthStraw = getRandomInt(20,80);
+                    newWidthStraw = getRandomInt(20,60);
                     var verticalUp = game.add.tileSprite(listRow[lastIndex].x,listRow[lastIndex].y-spaceSpawn,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([verticalUp], false);
                     verticalUp.anchor.setTo(0,0);
@@ -1123,7 +1123,7 @@ var circulead = function(){
                     listRow.push(downDown);
                     lastIndex++;
 
-                    newWidthStraw = getRandomInt(50,100);
+                    newWidthStraw = getRandomInt(50,80);
                     var inverseUp = game.add.tileSprite(listRow[lastIndex].x,(listRow[lastIndex].y + listRow[lastIndex].height) - spaceSpawn,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([inverseUp], false);
                     inverseUp.anchor.setTo(0,1);
