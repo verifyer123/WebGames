@@ -252,6 +252,7 @@ var yogomeGames = function () {
 			{name:'UpRoar',url:urlSet + 'upRoar/',mapUrl:urlMap + 'upRoar', sceneName:'upRoar',subject:'language',review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//219
 			{name:'Mambo Jump O',url:urlSet + 'mamboJumpO/',mapUrl:urlMap + 'mamboJumpO', sceneName:'mamboJumpO',subject:'creativity',review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//220
 			{name:'Ani Marathon',url:urlSet + 'aniMarathon/',mapUrl:urlMap + 'aniMarathon', sceneName:'aniMarathon',subject:'language',review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//221
+			{name:'Circulead',url:urlSet + 'circulead/',mapUrl:urlMap + 'circulead', sceneName:'circulead',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//222
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
