@@ -6,8 +6,23 @@ var userMail, gender, birthday, interests, userName
 var origin
 var gameFromApp
 var webCoupon
+var poll = {
+    questions:[
+        {
+            question:"Cual es tu color favorito?",
+            answers:["Azul","Rojo","Verde"],
+        },
+        {
+            question:"Pregunta 2",
+            answers:["1","2","3","4"],
+        },
+        {
+            question:"Vamos a hacer un texto que tenga dos lineas que te parec?",
+            answers:["sadas","adasd","asda","asddas","dewrwex"],
+        }
+    ]
+}
 
-//var domain = "https://3-dot-amazingyogome.appspot.com/"
 
 amazing.saveScore = function(score){
     console.log("Saving Score win...")
@@ -115,7 +130,7 @@ amazing.getGames = function(){
         {name:'Orders Up',iconName:'ordersUp',url:'http://amazingapp.mx/juegos/ordersUp/',coupon : false,mixName:'ordersUp',demo:true,id:100003},//26
         {name:'Zoé Water Sport',iconName:'zoeMundial',url:'http://amazingapp.mx/juegos/zoeMundial/',coupon : false,mixName:'zoeMundial',demo:false,id:21},//27
         {name:'Benedettis',iconName:'benedettis',url:'http://amazingapp.mx/juegos/benedettis/',coupon : false,mixName:'benedettis',demo:true,id:100005},//28
-        {name:'Pin Dot',iconName:'pinDot',url:'http://amazingapp.mx/juegos/pinDot/',coupon : false,mixName:'pinDot',demo:true,id:100006},//29
+        {name:'Pin Dot',iconName:'pinDot',url:'http://amazingapp.mx/juegos/pinDot/',coupon : false,mixName:'pinDot',demo:true,id:31},//29
         //
     ]
 
@@ -133,7 +148,8 @@ amazing.getId = function(id){
             gameIndex = i
             break
         }
-    }   
+    }
+    minigameId = id
 
     //console.log("dsadgsagdyajsfgv ",gameFromApp, id)
 
@@ -194,6 +210,7 @@ amazing.getInfo = function(){
                 //origin = event.origin
                 couponData = parsedData.coupon
 
+
             }
             //console.log('entra case')
         }
@@ -234,7 +251,6 @@ amazing.setMinigameId = function(){
 
     window.addEventListener("message", function(event){
         //console.log(event)
-
         if(event.data && event.data != ""){
             var parsedData = {}
             try {
@@ -437,6 +453,10 @@ amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
        }
    }
     parent.postMessage(JSON.stringify(params), "*")
+}
+
+amazing.getPoll = function(){
+    return poll
 }
 
 //amazing.setApp()

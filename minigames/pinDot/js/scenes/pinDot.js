@@ -55,7 +55,7 @@ var pinDot = function(){
     var skinTable
     
     var gameIndex = 29
-    var gameId = 100006
+    var gameId = 31
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null

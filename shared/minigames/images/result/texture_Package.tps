@@ -356,6 +356,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">enviar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,11,85,22</rect>
+                <key>scale9Paddings</key>
+                <rect>43,11,85,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">fondo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -408,6 +421,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">opcion.png</key>
+            <key type="filename">seleccion_rosa.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,6,12,12</rect>
+                <key>scale9Paddings</key>
+                <rect>6,6,12,12</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">pop_cupon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -418,6 +445,19 @@
                 <rect>96,34,193,67</rect>
                 <key>scale9Paddings</key>
                 <rect>96,34,193,67</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">pop_encuesta.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>100,43,201,85</rect>
+                <key>scale9Paddings</key>
+                <rect>100,43,201,85</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -500,6 +540,10 @@
             <filename>textura.png</filename>
             <filename>meizy_pop.png</filename>
             <filename>descargar.png</filename>
+            <filename>opcion.png</filename>
+            <filename>pop_encuesta.png</filename>
+            <filename>seleccion_rosa.png</filename>
+            <filename>enviar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
