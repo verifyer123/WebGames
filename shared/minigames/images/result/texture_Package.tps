@@ -303,6 +303,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">boton_siguiente.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,11,85,23</rect>
+                <key>scale9Paddings</key>
+                <rect>43,11,85,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">cerrar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -501,6 +514,46 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">slide_off.png</key>
+            <key type="filename">slide_white_off.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,3,5,5</rect>
+                <key>scale9Paddings</key>
+                <rect>3,3,5,5</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">slide_on.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,7,7</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,7,7</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">slide_white_on.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,7</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,7</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">textura.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -544,6 +597,11 @@
             <filename>pop_encuesta.png</filename>
             <filename>seleccion_rosa.png</filename>
             <filename>enviar.png</filename>
+            <filename>boton_siguiente.png</filename>
+            <filename>slide_off.png</filename>
+            <filename>slide_on.png</filename>
+            <filename>slide_white_off.png</filename>
+            <filename>slide_white_on.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

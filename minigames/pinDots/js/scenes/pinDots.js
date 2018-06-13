@@ -1,22 +1,22 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var pinDot = function(){
+var pinDots = function(){
 
     assets = {
         atlases: [
             {   
                 name: "atlas.game",
-                json: "images/pinDot/atlas.json",
-                image: "images/pinDot/atlas.png",
+                json: "images/pinDots/atlas.json",
+                image: "images/pinDots/atlas.png",
             },
         ],
         images: [
             {
                 name:"fondo",
-                file:"images/pinDot/fondo_estelar.png"
+                file:"images/pinDots/fondo_estelar.png"
             },
             {
                 name:"tile_estelar",
-                file:"images/pinDot/patron_estrellas.png"
+                file:"images/pinDots/patron_estrellas.png"
             },
 
 
@@ -860,7 +860,7 @@ var pinDot = function(){
     
     return {
         assets: assets,
-        name: "pinDot",
+        name: "pinDots",
         create: create,
         preload: preload,
         update: update

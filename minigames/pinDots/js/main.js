@@ -60,7 +60,7 @@ function startGame(){
 
     	preloadScenes([
             instructions,
-            pinDot,
+            pinDots,
             result,
     	])
     }

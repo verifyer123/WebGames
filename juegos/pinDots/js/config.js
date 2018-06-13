@@ -2,7 +2,7 @@ window.amazing = {
 	config: {
 		name: "Pin Dots",
 		language: "en",
-		minigameUrl: "../../minigames/pinDot/index.html",
+		minigameUrl: "../../minigames/pinDots/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }
