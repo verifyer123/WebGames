@@ -380,8 +380,9 @@ var runneryogome = function(){
         
         if(player.body.y > game.world.height - 50){
 			createPart('wrong',player)
+			addNumberPart(heartsGroup.text,'-'+lives)
             missPoint(5)
-			addNumberPart(heartsGroup.text,'-5')
+			
             //stopGame()
         }
         
