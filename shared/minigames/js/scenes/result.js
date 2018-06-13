@@ -1576,7 +1576,7 @@ var result = function(){
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
 
         //couponData = {scoreGoal:1}
-
+        specialCoupon = false
         if(!couponData){
             haveCoupon = false
 
