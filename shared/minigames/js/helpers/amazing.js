@@ -6,22 +6,7 @@ var userMail, gender, birthday, interests, userName
 var origin
 var gameFromApp
 var webCoupon
-var poll = {
-    questions:[
-        {
-            question:"Cual es tu color favorito?",
-            answers:["Azul","Rojo","Verde"],
-        },
-        {
-            question:"Pregunta 2",
-            answers:["1","2","3","4"],
-        },
-        {
-            question:"Vamos a hacer un texto que tenga dos lineas que te parec?",
-            answers:["sadas","adasd","asda","asddas","dewrwex"],
-        }
-    ]
-}
+var poll
 
 
 amazing.saveScore = function(score){
@@ -410,6 +395,10 @@ amazing.getCoupon = function(){
 }
 
 amazing.getMinigameId = function(){
+    return true
+}
+
+amazing.getMinigameIdentifier = function(){
     return minigameId
 }
 

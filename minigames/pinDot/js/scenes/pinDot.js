@@ -82,6 +82,7 @@ var pinDot = function(){
     var tile
     var spaceBar
     var star1, star2, star3
+    var restartRound
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -97,6 +98,7 @@ var pinDot = function(){
         currentPutDots = INITIAL_PUT_DOTS
         canTap = true
         currentLevel = 1
+        restartRound = false
     }
     
 
@@ -120,14 +122,12 @@ var pinDot = function(){
         
         game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
-
-        game.load.spine('playerSpine', "images/spines/player.json");
                 
-        if(amazing.getMinigameId()){
+        /*if(amazing.getMinigameId()){
             marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
         }else{
             game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
-        }
+        }*/
 
 
     }
@@ -141,11 +141,11 @@ var pinDot = function(){
         gameActive = false
 
         
-        if(amazing.getMinigameId()){
+        /*if(amazing.getMinigameId() && marioSong!=null){
             marioSong.pause()
         }else{
             marioSong.stop()
-        }
+        }*/
                 
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
         tweenScene.onComplete.add(function(){
@@ -430,14 +430,26 @@ var pinDot = function(){
                 game.add.tween(sceneGroup.scale).to({x:2,y:2},200,Phaser.Easing.linear,true)
                 game.add.tween(sceneGroup).to({x:-game.world.centerX,y:-game.world.centerY+100},200,Phaser.Easing.linear,true)
 
-                currentLevel--
+                //if(currentLevel > 1){
+                    /*currentLevel--
 
-                currentAngularVelocity-= DELTA_ANGULAR_VELOCITY
+                    if(currentLevel % 2 == 0){
+                        currentAngularVelocity-= DELTA_ANGULAR_VELOCITY
+                    }
+                    else{
+                        currentSetDots-=DELTA_SET_DOTS
 
-                currentSetDots-=DELTA_SET_DOTS
+                        currentPutDots-=DELTA_PUT_DOTS
+                        currentPutDots = Math.round(currentPutDots)
+                    }*/
 
-                currentPutDots-=DELTA_PUT_DOTS
-                currentPutDots = Math.round(currentPutDots)
+
+                //}
+                //else{
+
+                //}
+
+                restartRound = true
                 
                 blackCenter.loadTexture("atlas.game","esfera_roja")
                 break
@@ -504,6 +516,7 @@ var pinDot = function(){
 
 
     function setRound(){
+        restartRound = false
         var angle = 360/currentSetDots
         var currentAngle = 0
         numText.setText("X "+currentPutDots)
@@ -529,38 +542,39 @@ var pinDot = function(){
 
     function endRound(){
         gameActive = false
+        if(!restartRound){
+            currentLevel++
 
-        currentLevel++
+            if(currentLevel % 2 == 0){
 
-        if(currentLevel % 2 == 0){
+                //currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
 
-            //currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
+                if(currentSetDots < MAX_SET_DOTS){
+                    currentSetDots+=DELTA_SET_DOTS
+                }
+                else {
+                    currentSetDots = MAX_SET_DOTS
+                }
 
-            if(currentSetDots < MAX_SET_DOTS){
-                currentSetDots+=DELTA_SET_DOTS
-            }
-            else {
-                currentSetDots = MAX_SET_DOTS
-            }
-
-            if(currentPutDots < MAX_PUT_DOTS){
-                currentPutDots += DELTA_PUT_DOTS
+                if(currentPutDots < MAX_PUT_DOTS){
+                    currentPutDots += DELTA_PUT_DOTS
+                }
+                else{
+                    currentPutDots = MAX_PUT_DOTS
+                }
             }
             else{
-                currentPutDots = MAX_PUT_DOTS
-            }
-        }
-        else{
-            currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
+                currentAngularVelocity+= DELTA_ANGULAR_VELOCITY
 
-            if(currentSetDots < MAX_SET_DOTS){
-                currentSetDots+=LESS_SET_DOTS
-            }
+                if(currentSetDots < MAX_SET_DOTS){
+                    currentSetDots+=LESS_SET_DOTS
+                }
 
-            if(currentPutDots < MAX_PUT_DOTS){
-                currentPutDots += LESS_PUT_DOTS
+                if(currentPutDots < MAX_PUT_DOTS){
+                    currentPutDots += LESS_PUT_DOTS
+                }
+                
             }
-            
         }
 
         game.add.tween(panel).to({alpha:1},500,Phaser.Easing.linear,true).onComplete.add(function(){
@@ -789,29 +803,30 @@ var pinDot = function(){
 
         createBackground()
 
-        if(!amazing.getMinigameId()){
+        //console.log(amazing.getMinigameId())
+        /*if(amazing.getMinigameId()){
 			marioSong = game.add.audio('arcadeSong')
 			game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.6)
 			}, this);	
-		}
+		}*/
 
         game.onPause.add(function(){
-				
-			if(amazing.getMinigameId()){
+			
+			/*if(amazing.getMinigameId()){
 				marioSong.pause()
-			}
+			}*/
 			
 	        game.sound.mute = true
 	    } , this);
 
 	    game.onResume.add(function(){
 			
-			if(amazing.getMinigameId()){
+			/*if(amazing.getMinigameId()){
 				if(lives > 0){
 					marioSong.play()
 				}
-			}
+			}*/
 			
 	        game.sound.mute = false
 	    }, this);

@@ -620,10 +620,6 @@ var zoeMundial = function(){
 
 
     function createPlayer(){
-    	/*player = game.add.group()
-    	player.x = game.world.centerX
-    	player.y = game.world.height-220
-    	sceneGroup.add(player)*/
 
         player = sceneGroup.create(game.world.centerX,game.world.height-220,"atlas.game","jugador")
         player.anchor.setTo(0.5)
@@ -643,10 +639,6 @@ var zoeMundial = function(){
         player.body.collides([ballColisionGroup])
         //player.sprite = sprite
 
-        /*var spriteCollision = player.create(0,0,"atlas.game","jugador")
-        spriteCollision.anchor.setTo(0.5)
-        spriteCollision.scale.setTo(0.8)
-        player.spriteCollision = spriteCollision*/
 
         playerSpine = game.add.spine(game.world.centerX,game.world.height-220+190,"playerSpine")
         playerSpine.setSkinByName("normal")
@@ -690,7 +682,6 @@ var zoeMundial = function(){
 
         ballGroup.add(ball)
     }
-https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
 
     function createWater(){
     	var randomAngle = game.rnd.integerInRange(0,1)
