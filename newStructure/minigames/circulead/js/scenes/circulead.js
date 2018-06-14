@@ -80,6 +80,7 @@ var circulead = function(){
     var STRAWHEIGHT = 48;               //Altura del popote para calculos de posicionamiento
     var STRAWHEIGHTHITBOX = 20;         //Altura a disminuir para choque
     var STATEDURATION = 6;              //Numero de spawn de duracion por cada modalidad de juego
+    var ORIGINALPOSX = 80;              //Posicion original para personaje
     //Fin de constantes del juego
 
     //Variables obligatorias dentro del juego
@@ -119,6 +120,10 @@ var circulead = function(){
     var destroyerStraw;                 //Referencia al objeto que se encarga de destruir los objetos
     var changeMode;                     //Booleano que indica si se cambio de modo
     var spaceSpawn;                     //Indicador de espacio entre popotes dobles
+    var tweenD;                         //Referencia a animacion por cambio de nivel dona izquierda
+    var tweenU;                         //Referencia a animacion por cambio de nivel dona derecha
+    var tweenP;                         //Referencia a animacion por cambio de nivel dona pizza
+    var spaceKey;                       //Detector de barra espaciadora
     // Fin variables opcionales dentro del juego
     
 
@@ -442,7 +447,7 @@ var circulead = function(){
 
         game.physics.startSystem(Phaser.Physics.P2JS);
 
-        backDonut = game.add.sprite(80,0,'dononBack');
+        backDonut = game.add.sprite(ORIGINALPOSX,0,'dononBack');
         backDonut.scale.setTo(0.95,0.95);
         game.physics.p2.enable([backDonut], false);
         backDonut.anchor.setTo(0,0);
@@ -455,7 +460,7 @@ var circulead = function(){
         roadGroup = game.add.group();
         sceneGroup.add(roadGroup);
 
-        frontDonut = game.add.sprite(80,0,'dononFront');
+        frontDonut = game.add.sprite(ORIGINALPOSX,0,'dononFront');
         frontDonut.scale.setTo(0.95,0.95);
         game.physics.p2.enable([frontDonut], false);
         frontDonut.anchor.setTo(0,0);
@@ -465,7 +470,7 @@ var circulead = function(){
         frontDonut.body.active = true;
         sceneGroup.add(frontDonut);
 
-        backPizza = game.add.sprite(80,-500,'pizzon');
+        backPizza = game.add.sprite(ORIGINALPOSX,-500,'pizzon');
         backPizza.scale.setTo(0.95,0.95);
         game.physics.p2.enable([backPizza], false);
         backPizza.anchor.setTo(0,0);
@@ -513,18 +518,6 @@ var circulead = function(){
                 playAnimation(1);
                 backDonut.body.kinematic = true;
                 frontDonut.body.kinematic = true;
-                powerUpGroup.forEach(function(entry){
-                    if(entry.body != null){
-                        entry.body.setZeroVelocity();
-                        entry.body.moveRight(-9000);
-                    }
-                });
-                roadGroup.forEach(function(entry){
-                    if(entry.body != null){
-                        entry.body.setZeroVelocity();
-                        entry.body.moveRight(-9000);
-                    }
-                });
                 backPizza.body.y = backDonut.body.y - 80;
                 backDonut.body.y = -500;
                 frontDonut.body.y = -500;
@@ -532,12 +525,16 @@ var circulead = function(){
                 frontDonut.body.setZeroVelocity();
                 backDonut.body.active = false;
                 frontDonut.body.active = false;
+                backPizza.body.active = true;
                 backPizza.body.static = false;
                 backPizza.body.sprite.alpha = 1;
                 backDonut.body.sprite.alpha = 0;
                 frontDonut.body.sprite.alpha = 0;
                 text.setText(namesText[keyText][1]);
-                backPizza.body.active = true;
+                tweenP = game.add.tween(backPizza.body).to({x: backPizza.body.x + 250}, 2000, Phaser.Easing.Cubic.Out, true);
+                tweenP.onComplete.add(function(){
+                    game.add.tween(backPizza.body).to({x: ORIGINALPOSX}, 2000, Phaser.Easing.Cubic.Out, true);
+                });
                 gameState = createDelegate(gamePlayPizza);
             }else if(body.name == "straw"){
                 stopHitUp = true;
@@ -579,6 +576,8 @@ var circulead = function(){
             }
             });
             missPointBlock(false);
+            game.add.tween(backDonut.body).to({y: backDonut.body.y + 25}, 200, Phaser.Easing.Cubic.Out, true);
+            game.add.tween(frontDonut.body).to({y: frontDonut.body.y + 25}, 200, Phaser.Easing.Cubic.Out, true);
             game.time.events.add(500, resetBodyDown, this);
         }
     }
@@ -588,22 +587,18 @@ var circulead = function(){
         if (body && backPizza.body.active){
             if(body.name == "powerupdona"){
                 addPoint(1);
-                var newPosYPowerUp = body.y - 50;
+                var newPosYPowerUp = body.y - 70;
                 destroyPowerUp(body);
                 playAnimation(0);
                 backDonut.body.x = backPizza.body.x;
                 frontDonut.body.x = backPizza.body.x;
-                powerUpGroup.forEach(function(entry){
-                    if(entry.body != null){
-                        entry.body.setZeroVelocity();
-                        entry.body.moveRight(-9000);
-                    }
+                tweenU = game.add.tween(backDonut.body).to({x: backDonut.body.x + 300}, 3000, Phaser.Easing.Cubic.Out, true);
+                tweenU.onComplete.add(function(){
+                    game.add.tween(backDonut.body).to({x: ORIGINALPOSX}, 3000, Phaser.Easing.Cubic.Out, true);
                 });
-                roadGroup.forEach(function(entry){
-                    if(entry.body != null){
-                        entry.body.setZeroVelocity();
-                        entry.body.moveRight(-9000);
-                    }
+                tweenD = game.add.tween(frontDonut.body).to({x: frontDonut.body.x + 300}, 3000, Phaser.Easing.Cubic.Out, true);
+                tweenD.onComplete.add(function(){
+                    game.add.tween(frontDonut.body).to({x: ORIGINALPOSX}, 3000, Phaser.Easing.Cubic.Out, true);
                 });
                 backDonut.body.y = newPosYPowerUp;
                 frontDonut.body.y = newPosYPowerUp;
@@ -623,10 +618,10 @@ var circulead = function(){
             }else if(body.name=="strawD" || body.name=="strawU"){
                 if(body.name=="strawD"){
                     stopHitUp = true;
-                }
-                else if(body.name=="strawU"){
+                }else if(body.name=="strawU"){
                     stopHitDown = true;
-                    game.time.events.add(800, resetBodyDownP, this);
+                    game.time.events.add(500, resetBodyDownP, this);
+                    game.add.tween(backPizza.body).to({y: backPizza.body.y + 25}, 200, Phaser.Easing.Cubic.Out, true);
                 }
                 backPizza.body.setZeroVelocity();
                 backPizza.body.kinematic = true;
@@ -654,17 +649,17 @@ var circulead = function(){
 
     //Funcion para sacar nuevo x
     function newPosX(posxStraw, widthStraw){
-        return posxStraw + (widthStraw * XRELATION);
+        return (posxStraw + (widthStraw * XRELATION))-3;
     }
 
     //Funcion para sacar nuevo y de arriba
     function newPosYUp(posyStraw, widthStraw,heightStraw){
-        return posyStraw - ((widthStraw*XRELATION) + (heightStraw * YRELATION));
+        return (posyStraw - ((widthStraw*XRELATION) + (heightStraw * YRELATION))) + 3;
     }
 
     //Funcion para sacar nuevo y de abajo
     function newPosYDown(posyStraw, widthStraw,heightStraw){
-        return (posyStraw-heightStraw) + (widthStraw*XRELATION) + (heightStraw * YRELATION);
+        return ((posyStraw-heightStraw) + (widthStraw*XRELATION) + (heightStraw * YRELATION)) - 3;
     }
 
     //Funcion para crear un delegado
@@ -701,6 +696,7 @@ var circulead = function(){
 
     //Gameplay referido al nivel de donas
     function gamePlayDonut(){
+        frontDonut.body.x = backDonut.body.x;
         frontDonut.body.y = backDonut.body.y;
         playerYogotar.position.setTo(backDonut.body.x + 100,backDonut.body.y  + 80);
         checkDestroyStraw();
@@ -710,7 +706,7 @@ var circulead = function(){
             frontDonut.body.setZeroVelocity();
             backDonut.body.moveDown(60);
         }
-        if(game.input.activePointer.leftButton.isDown && !stopHitDown){
+        if((game.input.activePointer.leftButton.isDown || spaceKey.isDown) && !stopHitDown){
             jump();
         }
     }
@@ -724,7 +720,7 @@ var circulead = function(){
             backPizza.body.setZeroVelocity();
             backPizza.body.moveDown(60);
         }
-        if(game.input.activePointer.leftButton.isDown && !stopHitDown){
+        if((game.input.activePointer.leftButton.isDown || spaceKey.isDown) && !stopHitDown){
             leap();
         }
     }
@@ -767,10 +763,8 @@ var circulead = function(){
     function jump(){
         if (game.time.now > nextJump){
             stopHitUp = false;
-            backDonut.body.setZeroVelocity();
-            frontDonut.body.setZeroVelocity();
-            backDonut.body.moveUp(2000);
-            frontDonut.body.moveUp(2000);
+            game.add.tween(backDonut.body).to({y: backDonut.body.y - 20}, 200, Phaser.Easing.Cubic.Out, true);
+            game.add.tween(frontDonut.body).to({y: frontDonut.body.y - 20}, 200, Phaser.Easing.Cubic.Out, true);
             backDonut.body.kinematic = false;
             frontDonut.body.kinematic = false;
             game.time.events.add(500, resetBody, this);
@@ -782,8 +776,7 @@ var circulead = function(){
     function leap(){
         if (game.time.now > nextJump){
             stopHitUp = false;
-            backPizza.body.setZeroVelocity();
-            backPizza.body.moveUp(2000);
+            game.add.tween(backPizza.body).to({y: backPizza.body.y - 20}, 200, Phaser.Easing.Cubic.Out, true);
             backPizza.body.kinematic = false;
             game.time.events.add(500, resetBodyP, this);
             nextJump = game.time.now + 250;
@@ -798,6 +791,7 @@ var circulead = function(){
 
     //Regresa el cuerpo a dynamic para pizza
     function resetBodyP(){
+        backPizza.body.kinematic = false;
         backPizza.body.static = false;
     }
 
@@ -809,6 +803,8 @@ var circulead = function(){
 
     //Regresa el cuerpo a dynamic para dona
     function resetBody(){
+        backDonut.body.kinematic = false;
+        frontDonut.body.kinematic = false;
         backDonut.body.static = false;
         frontDonut.body.static = false;
     }
@@ -816,9 +812,6 @@ var circulead = function(){
     //Funcion de movimiento del escenario
     function scenaryMovement(){
         cloudScenary.tilePosition.x -= 1;
-        backDonut.body.setZeroVelocity();
-        frontDonut.body.setZeroVelocity();
-        backDonut.body.moveRight(-60);
         powerUpGroup.forEach(function(entry){
             if(entry.body != null){
                 entry.body.setZeroVelocity();
@@ -850,10 +843,17 @@ var circulead = function(){
                 break;
             case 4:
                 gameState = createDelegate(gamePlayWait);
+                if (tweenD != null) {
+                    tweenD.stop();
+                    tweenU.stop();
+                }
                 playerYogotar.setAnimation(["lose_donut"], false);
                 break;
             case 5:
                 gameState = createDelegate(gamePlayWait);
+                if(tweenP != null){
+                   tweenP.stop(); 
+                }
                 playerYogotar.setAnimation(["lose_pizza"], false);
                 break;
         }
@@ -867,7 +867,7 @@ var circulead = function(){
             gameMode = (gameMode == 0)? 1 : 0;
         }
         if(gameMode == 0){
-            var newWidthStraw = (lastIndex==-1)? 500 : getRandomInt(20, 400);
+            var newWidthStraw = (lastIndex==-1 || changeMode == true)? 500 : getRandomInt(20, 400);
             var newPosYStraw;
             if(lastIndex==-1){
                 newPosYStraw = getRandomInt(620,650);
@@ -876,7 +876,7 @@ var circulead = function(){
             }else{
                 newPosYStraw = listRow[lastIndex].y;
             }
-            var newPosXStaw = (lastIndex==-1)? 0 : listRow[lastIndex].x+listRow[lastIndex].width;
+            var newPosXStaw = (lastIndex==-1)? 0 : (listRow[lastIndex].x+listRow[lastIndex].width) - 3;
             changeMode = false;
 
             if(counterSpawnChangeMode < (STATEDURATION - 1)){
@@ -899,7 +899,7 @@ var circulead = function(){
                 lastIndex++;
 
                 if(typeSpawn == 0){
-                    var up = game.add.sprite(listRow[lastIndex].x+listRow[lastIndex].width,listRow[lastIndex].y,'atlas.circulead','45_1');
+                    var up = game.add.sprite((listRow[lastIndex].x+listRow[lastIndex].width) - 3,listRow[lastIndex].y,'atlas.circulead','45_1');
                     game.physics.p2.enable([up], false);
                     up.anchor.setTo(0,0);
                     up.body.name = "straw";
@@ -911,7 +911,7 @@ var circulead = function(){
                     lastIndex++;
 
                     newWidthStraw = getRandomInt(20,60);
-                    var vertical = game.add.tileSprite(listRow[lastIndex].x,listRow[lastIndex].y,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
+                    var vertical = game.add.tileSprite(listRow[lastIndex].x-1,listRow[lastIndex].y,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([vertical], false);
                     vertical.anchor.setTo(0,0);
                     vertical.body.name = "straw";
@@ -934,7 +934,7 @@ var circulead = function(){
                     listRow.push(verhor);
                     lastIndex++;
                 }else if(typeSpawn == 1){
-                    var down = game.add.sprite(listRow[lastIndex].x + listRow[lastIndex].width,listRow[lastIndex].y,'atlas.circulead','45_3');
+                    var down = game.add.sprite((listRow[lastIndex].x + listRow[lastIndex].width) - 3,listRow[lastIndex].y,'atlas.circulead','45_3');
                     game.physics.p2.enable([down], false);
                     down.anchor.setTo(0,0);
                     down.body.name = "straw";
@@ -946,7 +946,7 @@ var circulead = function(){
                     lastIndex++;
 
                     newWidthStraw = getRandomInt(50,80);
-                    var inverse = game.add.tileSprite(listRow[lastIndex].x,listRow[lastIndex].y + listRow[lastIndex].height,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
+                    var inverse = game.add.tileSprite(listRow[lastIndex].x,(listRow[lastIndex].y + listRow[lastIndex].height) - 1,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([inverse], false);
                     inverse.anchor.setTo(0,1);
                     inverse.body.name = "straw";
@@ -1002,7 +1002,7 @@ var circulead = function(){
             }else{
                 newPosYStraw = listRow[lastIndex].y - spaceSpawn;
             }
-            var newPosXStaw = listRow[lastIndex].x+listRow[lastIndex].width;
+            var newPosXStaw = (listRow[lastIndex].x+listRow[lastIndex].width) - 3;
             changeMode = false;
 
             if(counterSpawnChangeMode < (STATEDURATION - 1)){
@@ -1032,7 +1032,7 @@ var circulead = function(){
                 lastIndex++;
 
                 if(typeSpawn == 0){
-                    var upUp = game.add.sprite(listRow[lastIndex].x+listRow[lastIndex].width,listRow[lastIndex].y-spaceSpawn,'atlas.circulead','45_1');
+                    var upUp = game.add.sprite((listRow[lastIndex].x+listRow[lastIndex].width) -3,listRow[lastIndex].y-spaceSpawn,'atlas.circulead','45_1');
                     game.physics.p2.enable([upUp], false);
                     upUp.anchor.setTo(0,0);
                     upUp.body.name = "strawU";
@@ -1055,7 +1055,7 @@ var circulead = function(){
                     lastIndex++;
 
                     newWidthStraw = getRandomInt(20,60);
-                    var verticalUp = game.add.tileSprite(listRow[lastIndex].x,listRow[lastIndex].y-spaceSpawn,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
+                    var verticalUp = game.add.tileSprite(listRow[lastIndex].x-1,listRow[lastIndex].y-spaceSpawn,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([verticalUp], false);
                     verticalUp.anchor.setTo(0,0);
                     verticalUp.body.name = "strawU";
@@ -1101,7 +1101,7 @@ var circulead = function(){
                     listRow.push(verhorDown);
                     lastIndex++;
                 }else if(typeSpawn == 1){
-                    var downUp = game.add.sprite(listRow[lastIndex].x + listRow[lastIndex].width,listRow[lastIndex].y-spaceSpawn,'atlas.circulead','45_3');
+                    var downUp = game.add.sprite((listRow[lastIndex].x + listRow[lastIndex].width)-3,listRow[lastIndex].y-spaceSpawn,'atlas.circulead','45_3');
                     game.physics.p2.enable([downUp], false);
                     downUp.anchor.setTo(0,0);
                     downUp.body.name = "strawU";
@@ -1124,7 +1124,7 @@ var circulead = function(){
                     lastIndex++;
 
                     newWidthStraw = getRandomInt(50,80);
-                    var inverseUp = game.add.tileSprite(listRow[lastIndex].x,(listRow[lastIndex].y + listRow[lastIndex].height) - spaceSpawn,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
+                    var inverseUp = game.add.tileSprite(listRow[lastIndex].x,((listRow[lastIndex].y + listRow[lastIndex].height)) - 1 - spaceSpawn,newWidthStraw,STRAWHEIGHT,'atlas.circulead','tilePopote');
                     game.physics.p2.enable([inverseUp], false);
                     inverseUp.anchor.setTo(0,1);
                     inverseUp.body.name = "strawU";
@@ -1230,16 +1230,17 @@ var circulead = function(){
         //Funcion create!!!
         create: function(event){
 
-            swipe = new Swipe(game)
+            swipe = new Swipe(game);
+            spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
             sceneGroup = game.add.group();
             yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
             game.onPause.add(function(){
-                game.sound.mute = true
+                game.sound.mute = true;
             } , this);
 
             game.onResume.add(function(){
-                game.sound.mute = false
+                game.sound.mute = false;
             }, this);
 
             initialize();
