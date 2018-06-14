@@ -8,6 +8,11 @@ var gameFromApp
 var webCoupon
 var poll
 
+var isDebug = true
+var playcountToken = null
+
+
+var url
 
 amazing.saveScore = function(score){
     console.log("Saving Score win...")
@@ -31,6 +36,13 @@ amazing.winCoupon = function(couponId){
 }
 
 amazing.savePlaycount = function(){
+    /*var hrefData = localStorage.getItem("minigameLink")
+    if(hrefData!=null){
+        //window.history.replaceState(null, null, hrefData);
+        //history.pushState(null, null, hrefData);
+        //location.pathname = hrefData
+    }*/
+
     console.log("Playcount...")
     var params = {
         type: "playcount"
@@ -39,27 +51,18 @@ amazing.savePlaycount = function(){
 
     gameFromApp = false
 
+
     webCoupon = ""
+    var urlDev = "http://staging.getin.mx:8090/Amazing-backend-2.0.0"
+    var urlProd = "http://api.getin.mx:8090/Amazing-backend-2.0.0"
 
+    if(isDebug){
+        url = urlDev
+    }
+    else{
+        url = urlProd
+    }
 
-    /*window.addEventListener("message", function(event){
-    //console.log("profile",event)
-
-        if(event.data && event.data != ""){
-            var parsedData = {}
-            try {
-                var parsedData = JSON.parse(event.data)
-                 //origin = event.origin
-            }catch(e){
-                console.warn("Data is not JSON in message listener")
-            }
-            switch(parsedData.type){
-            case "app":
-                gameFromApp = true
-                console.log("Game come from app")
-            }
-        }
-    })*/
 
 }
 
@@ -124,7 +127,7 @@ amazing.getGames = function(){
 
 
 amazing.getId = function(id){
-    //console.log("dsadgsagdyajsfgv ",gameFromApp, id)
+
     var games = amazing.getGames()
     var gameIndex 
     for(var i = 0; i < games.length; i++ ){
@@ -135,39 +138,74 @@ amazing.getId = function(id){
         }
     }
     minigameId = id
+    playcountToken = localStorage.getItem("playcountToken")
 
-    //console.log("dsadgsagdyajsfgv ",gameFromApp, id)
+    
+    
+
+    /*if(playcountToken==null){
+
+        $.ajax({
+            type: "GET",
+            url: url+"/services/users/getToken",
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (response) {
+                localStorage.setItem("playcountToken",response.token)
+                playcountToken = response.token
+                $.ajax({
+                    type: "GET",
+                    url: url+"/services/users/playcount?minigameId="+minigameId+"&token="+playcountToken,
+                    //data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    dataType: "json",
+                    success: function (response) {
+                        localStorage.setItem("playcountToken",response.token)
+                        playcountToken = response.token
+                    },
+
+                });
+            },
+
+        });
+
+    }
+    else{
+        $.ajax({
+            type: "GET",
+            url: url+"/services/users/playcount?minigameId="+minigameId+"&token="+playcountToken,
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (response) {
+                localStorage.setItem("playcountToken",response.token)
+                playcountToken = response.token
+            },
+
+        });
+    }*/
+
 
     if(!gameFromApp){
 
         var data = {
             minigameId:id
         }
-
         $.ajax({
             type: "POST",
-            url: "http://staging.getin.mx:8090/Amazing-backend-2.0.0/services/minigame/hascoupons",
+            url: url+"/services/minigame/hascoupons",
             data: JSON.stringify(data),
             contentType: 'application/json',
             dataType: "json",
             success: function (response) {
-                console.log("server response", response)
-                //if (onSuccess && typeof (onSuccess) == "function") {
-                    //onSuccess(response)
-                    if(response.imgPreview!=null){
-                        webCoupon = response.imgPreview
-                    }
-                    else{
-                        webCoupon = ""
-                    }
-                    //alert(response.imgPreview)
-                //}
+                if(response.imgPreview!=null && response.imgPreview!=""){
+                    webCoupon = response.imgPreview
+                }
+                else{
+                    webCoupon = ""
+                }
+
             },
-            /*error: function (e) {
 
-
-                console.log(e)
-            }*/
         });
     }
 
@@ -176,6 +214,17 @@ amazing.getId = function(id){
 
 amazing.haveWebCoupon = function(){
     return webCoupon
+}
+
+amazing.getServerUrl = function(){
+    return url
+}
+
+amazing.goTickets = function(){
+    var params = {
+        type: "goTickets",
+    }
+    parent.postMessage(JSON.stringify(params), "*")
 }
 
 amazing.getInfo = function(){
