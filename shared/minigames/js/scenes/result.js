@@ -772,8 +772,6 @@ var result = function(){
             retryText.anchor.setTo(0,1)
             sceneGroup.add(retryText)
 
-
-
         }else{
 
             buddy.y+= 75
@@ -781,9 +779,6 @@ var result = function(){
 
         if(haveCoupon){
 
-        	/*if(couponData.obligatoryWin){
-        		couponData
-        	}*/
 
              buddy.y -= 75
             if(!win){
@@ -1609,8 +1604,8 @@ var result = function(){
             }
             else{
 	            if(couponData.imgPreview){
-	                var imageName = couponData.imgPreview.split('/')
-	                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[3])
+	                //var imageName = couponData.imgPreview.split('/')
+	                game.load.image('coupon',amazing.getServerUrl() + couponData.imgPreview)
 	                currentCouponId = couponData.id
 	            }
 	            else{
