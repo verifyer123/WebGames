@@ -2,10 +2,10 @@
 
 {
 	"filename": "45_1",
-	"frame": {"x":406,"y":437,"w":35,"h":49},
+	"frame": {"x":406,"y":438,"w":35,"h":48},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":49},
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":48},
 	"sourceSize": {"w":35,"h":49},
 	"pivot": {"x":0.5,"y":0.5}
 },

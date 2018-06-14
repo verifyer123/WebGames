@@ -1,22 +1,22 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var pinDot = function(){
+var pinDots = function(){
 
     assets = {
         atlases: [
             {   
                 name: "atlas.game",
-                json: "images/pinDot/atlas.json",
-                image: "images/pinDot/atlas.png",
+                json: "images/pinDots/atlas.json",
+                image: "images/pinDots/atlas.png",
             },
         ],
         images: [
             {
                 name:"fondo",
-                file:"images/pinDot/fondo_estelar.png"
+                file:"images/pinDots/fondo_estelar.png"
             },
             {
                 name:"tile_estelar",
-                file:"images/pinDot/patron_estrellas.png"
+                file:"images/pinDots/patron_estrellas.png"
             },
 
 
@@ -72,7 +72,7 @@ var pinDot = function(){
     var unusedDotsGroup
     var currentAngularVelocity, currentSetDots, currentPutDots, currentLevel
     var panel
-    var canTap 
+    var canTap, canMove
     var leveltext
     var backgroundColor 
     var textGroup
@@ -99,6 +99,7 @@ var pinDot = function(){
         canTap = true
         currentLevel = 1
         restartRound = false
+        canMove = true
     }
     
 
@@ -378,17 +379,19 @@ var pinDot = function(){
         }
 
         if(game.input.activePointer.isDown){
-            if(canTap){
+            if(canTap && canMove){
                 canTap = false
+                canMove = false
                 moveDot()
             }
         }
         
 
         if(spaceBar.isDown){
-            if(canTap){
+            if(canTap && canMove){
                 moveDot()
                 canTap = false
+                canMove = false
             }
         }
 
@@ -402,11 +405,12 @@ var pinDot = function(){
 
     function moveDot(){
         if(dotsGroup.length>0){
-            game.add.tween(dotsGroup.children[0]).to({y:INIT_PUSH_Y-100},100,Phaser.Easing.linear,true).onComplete.add(tap)
+            dotsGroup.children[0].tween = game.add.tween(dotsGroup.children[0]).to({y:INIT_PUSH_Y-100},100,Phaser.Easing.linear,true).onComplete.add(tap)
         }
     }
 
     function tap(){
+        canMove = true
         if(dotsGroup.length<=0){
             return
         }
@@ -517,13 +521,17 @@ var pinDot = function(){
 
     function setRound(){
         restartRound = false
+        canMove = true 
+        canTap = true
         var angle = 360/currentSetDots
         var currentAngle = 0
         numText.setText("X "+currentPutDots)
         for(var i =0; i < currentSetDots; i++){
             var dot = getPin()
             rotatingGroup.add(dot)
-            
+            dot.line.alpha = 1
+            //dot.line.alpha = visible
+            dot.y = 0
             dot.rotation = currentAngle*(Math.PI/180)
             currentAngle+=angle
         }
@@ -593,6 +601,10 @@ var pinDot = function(){
 
             for(var i = dotsGroup.length-1; i >= 0; i--){
                 var dot = dotsGroup.children[i]
+                if(dot.tween!=null){
+                    //dot.tween.stop()
+                    dot.y = 0
+                }
                 dot.rotation = 0
                 dot.visible = false
                 dotsGroup.remove(dot)
@@ -848,7 +860,7 @@ var pinDot = function(){
     
     return {
         assets: assets,
-        name: "pinDot",
+        name: "pinDots",
         create: create,
         preload: preload,
         update: update

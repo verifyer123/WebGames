@@ -66,11 +66,11 @@ var instructions = function(){
             
             var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
-                sceneloader.show("pinDot")
+                sceneloader.show("pinDots")
             })
         })
 
-        amazing.setMixPanelTrack("pinDot","enterGame")
+        amazing.setMixPanelTrack("pinDots","enterGame")
 		
 	}
     
@@ -140,7 +140,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        amazing.setMixPanelTrack("pinDot","loadGame")
+        amazing.setMixPanelTrack("pinDots","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}
