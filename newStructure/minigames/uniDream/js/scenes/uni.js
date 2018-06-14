@@ -87,7 +87,7 @@ var uni = function(){
             },
 			{
                 name:"coin",
-                file:"images/Spine/coin/coin.png",
+                file:"images/spine/coin/coin.png",
                 width:122,
                 height:123,
                 frames:12
