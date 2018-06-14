@@ -121,8 +121,11 @@ var circulead = function(){
     var changeMode;                     //Booleano que indica si se cambio de modo
     var spaceSpawn;                     //Indicador de espacio entre popotes dobles
     var tweenD;                         //Referencia a animacion por cambio de nivel dona izquierda
+    var tweenDS;                        //Referencia a animacion de regreso por cambio de nivel dona izquierda
     var tweenU;                         //Referencia a animacion por cambio de nivel dona derecha
+    var tweenUS;                        //Referencia a animacion de regreso por cambio de nivel dona derecha
     var tweenP;                         //Referencia a animacion por cambio de nivel dona pizza
+    var tweenPS;                        //Referencia a animacion de regreso por cambio de nivel pizza
     var spaceKey;                       //Detector de barra espaciadora
     // Fin variables opcionales dentro del juego
     
@@ -533,7 +536,7 @@ var circulead = function(){
                 text.setText(namesText[keyText][1]);
                 tweenP = game.add.tween(backPizza.body).to({x: backPizza.body.x + 250}, 2000, Phaser.Easing.Cubic.Out, true);
                 tweenP.onComplete.add(function(){
-                    game.add.tween(backPizza.body).to({x: ORIGINALPOSX}, 2000, Phaser.Easing.Cubic.Out, true);
+                    tweenPS = game.add.tween(backPizza.body).to({x: ORIGINALPOSX}, 2000, Phaser.Easing.Cubic.Out, true);
                 });
                 gameState = createDelegate(gamePlayPizza);
             }else if(body.name == "straw"){
@@ -594,11 +597,11 @@ var circulead = function(){
                 frontDonut.body.x = backPizza.body.x;
                 tweenU = game.add.tween(backDonut.body).to({x: backDonut.body.x + 300}, 3000, Phaser.Easing.Cubic.Out, true);
                 tweenU.onComplete.add(function(){
-                    game.add.tween(backDonut.body).to({x: ORIGINALPOSX}, 3000, Phaser.Easing.Cubic.Out, true);
+                    tweenUS = game.add.tween(backDonut.body).to({x: ORIGINALPOSX}, 3000, Phaser.Easing.Cubic.Out, true);
                 });
                 tweenD = game.add.tween(frontDonut.body).to({x: frontDonut.body.x + 300}, 3000, Phaser.Easing.Cubic.Out, true);
                 tweenD.onComplete.add(function(){
-                    game.add.tween(frontDonut.body).to({x: ORIGINALPOSX}, 3000, Phaser.Easing.Cubic.Out, true);
+                    tweenDS =game.add.tween(frontDonut.body).to({x: ORIGINALPOSX}, 3000, Phaser.Easing.Cubic.Out, true);
                 });
                 backDonut.body.y = newPosYPowerUp;
                 frontDonut.body.y = newPosYPowerUp;
@@ -843,16 +846,26 @@ var circulead = function(){
                 break;
             case 4:
                 gameState = createDelegate(gamePlayWait);
+                backDonut.body.velocity.y = 0;
+                frontDonut.body.velocity.y = 0;
                 if (tweenD != null) {
                     tweenD.stop();
                     tweenU.stop();
+                    if(tweenDS != null){
+                        tweenDS.stop();
+                        tweenUS.stop();
+                    }
                 }
                 playerYogotar.setAnimation(["lose_donut"], false);
                 break;
             case 5:
                 gameState = createDelegate(gamePlayWait);
+                backPizza.body.velocity.y = 0;
                 if(tweenP != null){
-                   tweenP.stop(); 
+                   tweenP.stop();
+                   if(tweenPS != null){
+                        tweenPS.stop();
+                   }
                 }
                 playerYogotar.setAnimation(["lose_pizza"], false);
                 break;
