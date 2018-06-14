@@ -830,11 +830,8 @@ var result = function(){
                 	amazing.winCoupon(currentCouponId)
                	}
                 //
-                if(specialCoupon){
+                if(!specialCoupon){
 
-                	//makeSpecialCoupon()
-                }
-                else{
 	                if(couponData.imgPreview){
 
 	                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'coupon')
@@ -964,10 +961,12 @@ var result = function(){
 
         }
 
-        var canjeButton = cuponSliderGroup.create(game.world.centerX +(slideNumber-1)*DELTA_SPECIAL_CUPON_SLIDER,game.world.centerY + 310,"atlas.resultScreen","enviar")
+        var canjeButton = cuponSliderGroup.create(game.world.centerX +(slideNumber-1)*DELTA_SPECIAL_CUPON_SLIDER,game.world.centerY + 310,"couponButton")
         canjeButton.anchor.setTo(0.5)
         canjeButton.inputEnabled = true
-        //canjeButton.events.onInputDown.add()
+        canjeButton.events.onInputDown.add(function(){
+            amazing.goTickets()
+        })
 
 
         var minigameDataId = amazing.getMinigameIdentifier()
@@ -1595,6 +1594,7 @@ var result = function(){
             	game.load.image('couponSlide2',imagesUrl + 'coupons/wow_pop_2.png')
             	game.load.image('couponSlide3',imagesUrl + 'coupons/wow_pop_3.png')
             	game.load.image("couponExtra",imagesUrl + 'coupons/wow_extra.png')
+                game.load.image("couponButton",imagesUrl + 'coupons/wow_button.png')
             	currentCouponId = couponData.id
             }
             else if(minigameDataId == 5766289444306944){
@@ -1604,6 +1604,7 @@ var result = function(){
             	game.load.image('couponTarjet',imagesUrl + 'coupons/starbucks_tarjet.png')
             	game.load.image('couponSlide1',imagesUrl + 'coupons/starbucks_pop_1.png')
             	game.load.image('couponSlide2',imagesUrl + 'coupons/starbucks_pop_2.png')
+                game.load.image("couponButton",imagesUrl + 'coupons/starbucks_button.png')
             	currentCouponId = couponData.id
             }
             else{
@@ -1623,8 +1624,8 @@ var result = function(){
         webCoupon = amazing.haveWebCoupon()
 
         if(webCoupon!=""){
-            var imageName = webCoupon.split('/')
-            game.load.image('webCoupon',imagesUrl + 'coupons/'+imageName[3])
+            //var imageName = webCoupon.split('/')
+            game.load.image('webCoupon',amazing.getServerUrl()+webCoupon)
         }
 
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
