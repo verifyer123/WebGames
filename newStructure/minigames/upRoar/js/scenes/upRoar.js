@@ -300,7 +300,7 @@ var upRoar = function(){
             pointsText.anchor.setTo(0.5,0.5)
             pointsText.setText(number)
             pointsText.scale.setTo(1,1)
-
+			
             var offsetY = -100
 
             pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);

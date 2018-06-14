@@ -757,10 +757,16 @@ var uni = function(){
 		buro.y = game.world.height
 		buro.anchor.setTo(0.5, 1)
 
+		bed=game.add.sprite(game.world.width * 0.5 - 400,game.world.height - 300,"atlas.uni","bed");
+		sceneGroup.add(bed)
+		
+		
 		theffanie = createSpine("theffanie","normal")
-		theffanie.x = game.world.width * 0.5 - 200
+		theffanie.x = game.world.width * 0.5 - 270
 		theffanie.y = game.world.height - 80
 		sceneGroup.add(theffanie)
+		
+		
 
 		clockCounter = game.add.group()
 		clockCounter.x = buro.x
