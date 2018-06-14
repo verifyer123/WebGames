@@ -115,6 +115,7 @@ var uni = function(){
 	var sceneGroup = null
 	var gameIndex = 53
 	var tutoGroup
+	var bed
 	var uniSong
 	var tutorialLevel
 	var heartsGroup = null
