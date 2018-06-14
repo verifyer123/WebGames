@@ -27,8 +27,14 @@ var uni = function(){
 		],
 		images: [
 			{   name:"fondo",
-				file: "images/uni/fondo.png"}
+				file: "images/uni/fondo.png"
+			},
+			{
+				name:'tutorial_image',
+				file:"images/uni/tutorial_image.png",
+			}
 		],
+		
 		sounds: [
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
@@ -53,8 +59,41 @@ var uni = function(){
 			{   name: "alarmBell",
 				file: soundsPath + "alarmBell.mp3"},
 			{   name: "horse_gallop",
-				file: soundsPath + "horse_gallop.mp3"}
+				file: soundsPath + "horse_gallop.mp3"},
+			{   name: "uniSong",
+				file: soundsPath + "songs/fantasy_ballad.mp3"},
+		],
+		spines: [
+			{
+				name:"theffanie",
+				file:"images/spine/theffanie/theffanie.json"
+			},
+			{
+				name:"unicorn",
+				file:"images/spine/unicorn/unicorn.json"
+			},
+			{
+				name:"donkey",
+				file:"images/spine/donkey/donkey.json"
+			}
+		],
+		spritesheets: [
+			{
+                name:"hand",
+                file:"images/spine/hand/hand.png",
+                width:115,
+                height:111,
+                frames:23
+            },
+			{
+                name:"coin",
+                file:"images/Spine/coin/coin.png",
+                width:122,
+                height:123,
+                frames:12
+            }
 		]
+		
 	}
 
 	var NUM_LIFES = 3
@@ -77,10 +116,13 @@ var uni = function(){
 	var gameIndex = 53
 	var tutoGroup
 	var uniSong
+	var tutorialLevel
 	var heartsGroup = null
 	var pullGroup = null
 	var clock
+	var hand
 	var timeValue
+	var coins
 	var quantNumber
 	var inputsEnabled
 	var pointsBar
@@ -106,6 +148,7 @@ var uni = function(){
 		//gameActive = true
 		lives = NUM_LIFES
 		timeValue = 20
+		tutorialLevel=true;
 		quantNumber = 2
 		roundCounter = 0
 		unicornList= []
@@ -162,14 +205,14 @@ var uni = function(){
 		pointsBar.number = 0
 
 	}
-
+	
 	function createGameObjects(){
 		pullGroup = game.add.group()
 		pullGroup.x = -game.world.centerX * 2
 		pullGroup.y = -game.world.centerY * 2
 		sceneGroup.add(pullGroup)
 		pullGroup.alpha = 0
-
+		
 		var startX = - 90
 		var startY = -190
 
@@ -231,20 +274,7 @@ var uni = function(){
 
 	function preload(){
 
-		game.stage.disableVisibilityChange = false;
-		game.load.audio('uniSong', soundsPath + 'songs/fantasy_ballad.mp3');
 
-		/*game.load.image('introscreen',"images/uni/introscreen.png")
-		game.load.image('howTo',"images/uni/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/uni/play" + localization.getLanguage() + ".png")*/
-
-		game.load.spine('theffanie', "images/spine/theffanie/theffanie.json")
-		game.load.spine('unicorn', "images/spine/unicorn/unicorn.json")
-		game.load.spine('donkey', "images/spine/donkey/donkey.json")
-
-		
-
-		game.load.image('tutorial_image',"images/uni/tutorial_image.png")
 		//loadType(gameIndex)
 
 
@@ -311,7 +341,9 @@ var uni = function(){
 
 			game.add.tween(numberText.scale).to({x:1, y:1}, 800, Phaser.Easing.Back.Out, true)
 			game.add.tween(numberText).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
-
+			if(tutorialLevel){
+				hand.alpha=1;
+			}
 			dreamGroup.button.inputEnabled = true
 			clockCounter.mas.inputEnabled = true
 			clockCounter.menos.inputEnabled = true
@@ -445,7 +477,7 @@ var uni = function(){
 		sceneGroup.add(tutoGroup)
 
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-
+		
 		/*var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
@@ -611,8 +643,9 @@ var uni = function(){
 	}
 	
 	function rightReaction() {
-		addPoint(1)
-
+		
+		Coin(clockCounter,pointsBar,100);
+		
 		for(var spineIndex = 0; spineIndex < objectsInGame.length; spineIndex++){
 			var spine = objectsInGame[spineIndex]
 			var toY = game.rnd.integerInRange(-190, 190)
@@ -667,7 +700,10 @@ var uni = function(){
 	function checkCorrect(obj) {
 		isCorrect = true
 		clock.tween.stop()
-
+		if(tutorialLevel){
+			tutorialLevel=false;
+			hand.alpha=0;
+		}
 		var button = obj.parent
 		var numberText = clockCounter.numberText
 		obj.inputEnabled = false
@@ -778,6 +814,16 @@ var uni = function(){
 		minButton.x = - 120
 		minButton.events.onInputDown.add(function (obj) {
 			addCounter(obj, -1)
+			if(tutorialLevel && clockCounter.number < answer){
+				hand.x=clockCounter.x;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number > answer){
+				hand.x=clockCounter.x-220;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number === answer){
+				hand.x=clockCounter.x-120;
+				hand.y=clockCounter.y-70;
+			}
 		})
 		clockCounter.menos = minButton
 
@@ -786,15 +832,49 @@ var uni = function(){
 		maxButton.x = 120
 		maxButton.events.onInputDown.add(function (obj) {
 			addCounter(obj, +1)
+			if(tutorialLevel && clockCounter.number < answer){
+				hand.x=clockCounter.x;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number > answer){
+				hand.x=clockCounter.x-220;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number === answer){
+				hand.x=clockCounter.x-120;
+				hand.y=clockCounter.y-70;
+			}
 		})
 		clockCounter.mas = maxButton
 
 		var correctParticle = createPart("star")
 		sceneGroup.correctParticle = correctParticle
 
-		var wrongParticle = createPart("wrong")
+		var wrongParticle = createPart("smoke")
 		sceneGroup.wrongParticle = wrongParticle
+		
+		hand=game.add.sprite(clockCounter.mas.centerX,clockCounter.mas.centerY, "hand")
+        hand.anchor.setTo(0.5,0.5);
+        hand.scale.setTo(1,1);
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha=0;
+		hand.x=clockCounter.x;
+		hand.y=clockCounter.y-70;
 	}
+	
+	function Coin(objectBorn,objectDestiny,time){
+        //objectBorn= Objeto de donde nacen
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+            })
+        })
+    }
 	
 	function createBackground() {
 		var background = game.add.tileSprite(0,0,game.world.width, game.world.height, "atlas.uni", "room")
@@ -803,6 +883,14 @@ var uni = function(){
 		var window = sceneGroup.create(0,0, "atlas.uni", "window")
 		window.x = game.world.centerX + 80, window.y = game.world.centerY + 80
 		window.anchor.setTo(0.5, 0.5)
+		
+		//Coins
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
+        coins.anchor.setTo(0.5);
+        coins.scale.setTo(0.5);
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0;
 	}
 
 	return {
@@ -828,7 +916,7 @@ var uni = function(){
 			game.onResume.add(function(){
 				game.sound.mute = false
 			}, this);
-
+			game.stage.disableVisibilityChange = false;
 			initialize()
 
 			// createHearts()
