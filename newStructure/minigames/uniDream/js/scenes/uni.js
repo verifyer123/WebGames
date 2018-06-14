@@ -348,8 +348,9 @@ var uni = function(){
 			dreamGroup.button.inputEnabled = true
 			clockCounter.mas.inputEnabled = true
 			clockCounter.menos.inputEnabled = true
-
-			appearButton.onComplete.add(startTimer)
+			if(!tutorialLevel){
+				appearButton.onComplete.add(startTimer)
+			}
 		})
 
 	}
@@ -366,7 +367,6 @@ var uni = function(){
 	function startRound(notStarted) {
 		var round = ROUNDS[roundCounter]
 		game.add.tween(clock.bar.scale).to({x:clock.bar.origScale}, 600, Phaser.Easing.Cubic.Out, true)
-
 		isCorrect = false
 		var button = dreamGroup.button.parent
 		var numberText = clockCounter.numberText
@@ -699,25 +699,46 @@ var uni = function(){
 	}
 	
 	function checkCorrect(obj) {
-		isCorrect = true
-		clock.tween.stop()
-		if(tutorialLevel){
-			tutorialLevel=false;
-			hand.alpha=0;
+		if(!tutorialLevel){
+			isCorrect = true
+			clock.tween.stop()
+			if(tutorialLevel){
+				tutorialLevel=false;
+				hand.alpha=0;
+			}
+			var button = obj.parent
+			var numberText = clockCounter.numberText
+			obj.inputEnabled = false
+			clockCounter.mas.inputEnabled = false
+			clockCounter.menos.inputEnabled = false
+
+			game.add.tween(numberText.scale).to({x:1.1, y:1.1}, 800, Phaser.Easing.Back.Out, true).yoyo(true)
+
+			game.add.tween(button.scale).to({x:1.1, y:0.8}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			if (clockCounter.number === answer){
+				rightReaction()
+			}else
+				wrongReaction()
+		}else if(tutorialLevel && clockCounter.number === answer){
+			isCorrect = true
+			if(tutorialLevel){
+				tutorialLevel=false;
+				hand.alpha=0;
+			}
+			var button = obj.parent
+			var numberText = clockCounter.numberText
+			obj.inputEnabled = false
+			clockCounter.mas.inputEnabled = false
+			clockCounter.menos.inputEnabled = false
+
+			game.add.tween(numberText.scale).to({x:1.1, y:1.1}, 800, Phaser.Easing.Back.Out, true).yoyo(true)
+
+			game.add.tween(button.scale).to({x:1.1, y:0.8}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
+			if (clockCounter.number === answer){
+				rightReaction()
+			}else
+				wrongReaction()
 		}
-		var button = obj.parent
-		var numberText = clockCounter.numberText
-		obj.inputEnabled = false
-		clockCounter.mas.inputEnabled = false
-		clockCounter.menos.inputEnabled = false
-
-		game.add.tween(numberText.scale).to({x:1.1, y:1.1}, 800, Phaser.Easing.Back.Out, true).yoyo(true)
-
-		game.add.tween(button.scale).to({x:1.1, y:0.8}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
-		if (clockCounter.number === answer){
-			rightReaction()
-		}else
-			wrongReaction()
 	}
 	
 	function createUniUI() {
