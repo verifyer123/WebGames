@@ -178,15 +178,9 @@ var tapcards = function(){
 	}	
 	
 	function createOverlay(){
-        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
-        overlayGroup = game.add.group()
-		if(game.device != 'desktop'){
-		overlayGroup.scale.setTo(0.9,0.9);
-		}else{
-			overlayGroup.scale.setTo(1.2,1.2);
-		}
-		
-        sceneGroup.add(overlayGroup)
+        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+		var overlayGroup = game.add.group()
+		sceneGroup.add(overlayGroup)
 
 		tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         /*var rect = new Phaser.Graphics(game)
@@ -1023,6 +1017,7 @@ function positionCardsGreen(){
 	return {
 		assets: assets,
 		name: "tapcards",
+		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
         preload: preload,
 		update:update,
