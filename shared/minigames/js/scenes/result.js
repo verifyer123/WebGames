@@ -825,7 +825,7 @@ var result = function(){
                 	amazing.winCoupon(currentCouponId)
                	}
                 //
-                if(!specialCoupon){
+                //if(!specialCoupon){
 
 	                if(couponData.imgPreview){
 
@@ -864,7 +864,7 @@ var result = function(){
 	                    sceneGroup.add(storeText)
 
 	                }
-	            }
+	            //}
 
             }
 
@@ -1604,7 +1604,7 @@ var result = function(){
                 game.load.image("couponButton",imagesUrl + 'coupons/starbucks_button.png')
             	currentCouponId = couponData.id
             }
-            else{
+            //else{
 	            if(couponData.imgPreview){
 	                //var imageName = couponData.imgPreview.split('/')
 	                game.load.image('coupon',amazing.getServerUrl() + couponData.imgPreview)
@@ -1614,7 +1614,7 @@ var result = function(){
 	                game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
 	            }
 	            //game.load.image('coupon',sessionStorage.getItem("game_icon0"));
-	        }
+	        //}
             goalScore = couponData.scoreGoal
         }
 
