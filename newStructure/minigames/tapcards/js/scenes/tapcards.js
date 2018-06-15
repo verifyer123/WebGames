@@ -188,7 +188,7 @@ var tapcards = function(){
 		
         sceneGroup.add(overlayGroup)
 
-        createTutorialGif(overlayGroup,onClickPlay)
+		tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
         /*var rect = new Phaser.Graphics(game)
         rect.beginFill(0x000000)
         rect.drawRect(0,0,game.world.width *2, game.world.height *2)
