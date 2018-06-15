@@ -623,7 +623,7 @@ var result = function(){
 
         }
 	    game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
-	    sceneGroup.add(rankGroup)
+	    
 
     }
 
@@ -878,6 +878,8 @@ var result = function(){
 
         createButtons(pivotButtons)
         createIcons(showIcons)
+
+        sceneGroup.add(rankGroup)
 
         if(!amazing.getFromApp()){
             addRank()
@@ -1641,9 +1643,6 @@ var result = function(){
        // game.load.onComplete.add()
 
         game.load.start()
-
-
-
 
     }
 
