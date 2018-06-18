@@ -234,6 +234,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">selfie.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>135,16,270,31</rect>
+                <key>scale9Paddings</key>
+                <rect>135,16,270,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -298,6 +311,7 @@
             <filename>target.png</filename>
             <filename>eagleSad.png</filename>
             <filename>eagleHappy.png</filename>
+            <filename>selfie.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
