@@ -288,7 +288,6 @@
                 <false/>
             </struct>
             <key type="filename">star.png</key>
-            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -359,7 +358,6 @@
             <filename>life_box.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
             <filename>barra.png</filename>
             <filename>popoteEnd.png</filename>

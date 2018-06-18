@@ -623,7 +623,7 @@ var result = function(){
 
         }
 	    game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
-	    sceneGroup.add(rankGroup)
+	    
 
     }
 
@@ -825,7 +825,7 @@ var result = function(){
                 	amazing.winCoupon(currentCouponId)
                	}
                 //
-                if(!specialCoupon){
+                //if(!specialCoupon){
 
 	                if(couponData.imgPreview){
 
@@ -864,7 +864,7 @@ var result = function(){
 	                    sceneGroup.add(storeText)
 
 	                }
-	            }
+	            //}
 
             }
 
@@ -878,6 +878,8 @@ var result = function(){
 
         createButtons(pivotButtons)
         createIcons(showIcons)
+
+        sceneGroup.add(rankGroup)
 
         if(!amazing.getFromApp()){
             addRank()
@@ -1602,7 +1604,7 @@ var result = function(){
                 game.load.image("couponButton",imagesUrl + 'coupons/starbucks_button.png')
             	currentCouponId = couponData.id
             }
-            else{
+            //else{
 	            if(couponData.imgPreview){
 	                //var imageName = couponData.imgPreview.split('/')
 	                game.load.image('coupon',amazing.getServerUrl() + couponData.imgPreview)
@@ -1612,7 +1614,7 @@ var result = function(){
 	                game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
 	            }
 	            //game.load.image('coupon',sessionStorage.getItem("game_icon0"));
-	        }
+	        //}
             goalScore = couponData.scoreGoal
         }
 
@@ -1641,9 +1643,6 @@ var result = function(){
        // game.load.onComplete.add()
 
         game.load.start()
-
-
-
 
     }
 
