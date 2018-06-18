@@ -279,6 +279,12 @@ var selfiePlanet = function(){
 
 	function createBackground(){
         
+        var wihte = game.add.graphics(0, 0)
+        wihte.beginFill(0xFFFFFF)
+        wihte.drawRect(0, 0, game.world.width, game.world.height)
+        wihte.endFill()
+        sceneGroup.add(wihte)
+        
         var background = sceneGroup.create(0, 0, "atlas.selfiePlanet", "background")
         background.width = game.world.width
         background.height = game.world.height
@@ -415,7 +421,12 @@ var selfiePlanet = function(){
     
     function createCam(){
         
-        var selfie = sceneGroup.create(0, 0, "atlas.selfiePlanet", "selfie")
+        var top = game.add.graphics(0, 0)
+        top.beginFill(0x000000, 0.5)
+        top.drawRect(0, 0, game.world.width, 60)
+        sceneGroup.add(top)
+        
+        var selfie = sceneGroup.create(0, 60, "atlas.selfiePlanet", "selfie")
         selfie.width = game.world.width
         
         target = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "target");
