@@ -165,7 +165,6 @@ var selfiePlanet = function(){
         
         pointsBar = game.add.group()
         pointsBar.x = game.world.width
-        pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
         var pointsImg = pointsBar.create(-10,10,'atlas.selfiePlanet','xpcoins')
@@ -274,7 +273,7 @@ var selfiePlanet = function(){
     function onClickPlay() {
         tutoGroup.y = -game.world.height
         //initGame()
-        showPlanets(0)
+        showPlanets()
     }
 
 	function createBackground(){
@@ -404,7 +403,7 @@ var selfiePlanet = function(){
         
         var name = new Phaser.Text(sceneGroup.game, game.world.centerX - 130, game.world.centerY + 300, '', fontStyle)
         name.anchor.setTo(0.5)
-        name.stroke = "#191A4F"
+        name.stroke = "#00aa55"
         name.strokeThickness = 20
         textGroup.add(name)
         textGroup.text = name
@@ -440,7 +439,8 @@ var selfiePlanet = function(){
         var snapBtn = sceneGroup.create(game.world.centerX, game.world.height - 70, 'atlas.selfiePlanet', 'camBtn')
         snapBtn.anchor.setTo(0.5)
         snapBtn.inputEnabled = true
-        snapBtn.events.onInputDown.add(pressButton, this)
+        //snapBtn.events.onInputDown.add(pressButton, this)
+        sceneGroup.snap = snapBtn
     }
     
     function pressButton(btn){
@@ -578,37 +578,62 @@ var selfiePlanet = function(){
             return x     
     }
     
-    function showPlanets(pivot){
+    function showPlanets(){
         
-        if(pivot <= TOTAL_PLANETS){
+        if(planetsCounter <= TOTAL_PLANETS){
+    
             var planet = planetsGroup.getFirstExists(false)
 
             if(planet){
 
-                textGroup.text.setText(textGroup.words[pivot])
+                textGroup.text.setText(textGroup.words[planetsCounter])
                 game.add.tween(textGroup).from({alpha: 0}, 700, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
                     textGroup.motion = game.add.tween(textGroup.text.scale).to({x: 1.3, y:1.3}, 700, Phaser.Easing.Cubic.InOut, true, 0, -1, true)
 
-                    planet.loadTexture("planet" + pivot)
+                    planet.loadTexture("planet" + planetsCounter)
                     planet.reset(game.world.centerX + planet.width * 0.5, game.world.centerY) 
                     game.add.tween(planet).from({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
-                        game.add.tween(planet).to({alpha: 0}, 500, Phaser.Easing.linear, true, 2000).onComplete.add(function(){
-                            textGroup.motion.stop()
-                            textGroup.text.scale.setTo(1)
-                            planet.kill()
-                            planet.alpha = 1
-                            showPlanets(pivot + 1)
-                        })
+                        posHand()
                     })
                 })
             }
         }
         else{
-            
+            hand.destroy()
+            textGroup.text.setText("")
             game.add.tween(sceneGroup.stars.tilePosition).to({x: -1000}, 1000, Phaser.Easing.linear, true)
             eagle.alpha = 1
             game.add.tween(eagle).from({x: game.world.width + 200}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                sceneGroup.snap.events.onInputDown.add(pressButton, this)
                 restarAssets()
+            })
+        }
+    }
+    
+    function posHand(){
+        
+        hand.x = game.world.centerX - 20
+        hand.y = game.world.height - 120
+        hand.alpha = 1
+        sceneGroup.snap.events.onInputDown.add(nextPlanet, this)
+        
+    }
+    
+    function nextPlanet(btn){
+        
+        if(hand.alpha === 1){
+            game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true, 0, 0, true)
+            sound.play('snapshot')
+            flashScene()
+            hand.alpha = 0
+            var planet = planetsGroup.getFirstAlive()
+            game.add.tween(planet).to({alpha: 0}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
+                textGroup.motion.stop()
+                textGroup.text.scale.setTo(1)
+                planet.kill()
+                planet.alpha = 1
+                planetsCounter++
+                showPlanets()
             })
         }
     }
