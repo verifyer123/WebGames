@@ -74,7 +74,7 @@
 },
 {
 	"filename": "tile_sky",
-	"frame": {"x":1,"y":246,"w":541,"h":217},
+	"frame": {"x":1,"y":246,"w":535,"h":217},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":217},
