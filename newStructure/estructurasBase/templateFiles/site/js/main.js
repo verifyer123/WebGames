@@ -12,4 +12,8 @@ var APP = {
         // Por ejemplo:
         // LOGIN : "https://math-tournament2-dot-heroesofknowledge.appspot.com/tournament/child/v1/login"
     },
+    /**
+    * Enciende y apaga los mensajes de debug (console.log, warn, error, info)
+    */
+    DEBUG : true,
 }
