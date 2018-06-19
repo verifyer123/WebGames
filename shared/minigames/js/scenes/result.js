@@ -902,13 +902,15 @@ var result = function(){
 	            }
 	        }
         }
-
 	}
 
 	function makeSpecialCoupon(){
 		currentQuestion = 0
 		overlayGroup = game.add.group()
         overlayGroup.alpha = 0
+        overlayGroup.scale.setTo(1.5)
+        overlayGroup.x -= game.world.width/4
+        overlayGroup.y += game.world.height/4
         overlayGroup.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
@@ -973,6 +975,9 @@ var result = function(){
         }
 
         overlayGroup.y+= game.world.height
+
+        
+
         overlayGroup.alpha = 1
         overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
     
@@ -1318,6 +1323,9 @@ var result = function(){
     function createOverlayCoupon(){
         overlayGroup = game.add.group()
         overlayGroup.alpha = 0
+        overlayGroup.scale.setTo(1.2)
+        overlayGroup.y -= game.world.height*0.05
+        overlayGroup.x -= game.world.width*0.1
         overlayGroup.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
@@ -1580,7 +1588,7 @@ var result = function(){
 
             haveCoupon = true
             var minigameDataId = amazing.getMinigameIdentifier()
-            //console.log(minigameDataId)
+            console.log(minigameDataId)
             if(minigameDataId == 31){
             	//console.log("dataCupon Special")
             	specialCoupon = true
