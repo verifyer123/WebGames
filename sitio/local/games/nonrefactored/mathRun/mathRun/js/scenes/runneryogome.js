@@ -361,7 +361,7 @@ var runneryogome = function(){
         heartsGroup.text.setText('X ' + lives)
         //buddy.setAnimationByName(0, "RUN_LOSE", 0.8);
         
-        addNumberPart(heartsGroup.text,'-1')
+        
         
     }
     
@@ -373,6 +373,7 @@ var runneryogome = function(){
         
         if(player.body.y > game.world.height - 50){
             missPoint(5)
+			addNumberPart(heartsGroup.text,'-5')
             //stopGame()
         }
         
@@ -429,6 +430,7 @@ var runneryogome = function(){
                                 createPart('wrong',obj)
                                 deactivateCoins("wrong")
                                 missPoint(1)
+								addNumberPart(heartsGroup.text,'-1')
                             }
                             
                             getOperation()

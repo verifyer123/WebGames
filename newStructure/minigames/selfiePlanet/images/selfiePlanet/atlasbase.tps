@@ -4,9 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.1</string>
-        <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/selfiePlanet/images/selfiePlanet/atlasbase.tps</string>
+        <string>4.8.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -129,22 +127,6 @@
                 <uint>1</uint>
             </struct>
         </struct>
-        <key>andEngine</key>
-        <struct type="AndEngine">
-            <key>minFilter</key>
-            <enum type="AndEngine::MinFilter">Linear</enum>
-            <key>packageName</key>
-            <string>Texture</string>
-            <key>wrap</key>
-            <struct type="AndEngineWrap">
-                <key>s</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-                <key>t</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-            </struct>
-            <key>magFilter</key>
-            <enum type="AndEngine::MagFilter">MagLinear</enum>
-        </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
             <key>data</key>
@@ -206,35 +188,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>64,165,128,330</rect>
+                <rect>61,165,122,330</rect>
                 <key>scale9Paddings</key>
-                <rect>64,165,128,330</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">battery.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>18,10,35,21</rect>
-                <key>scale9Paddings</key>
-                <rect>18,10,35,21</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">button.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,29,65,57</rect>
-                <key>scale9Paddings</key>
-                <rect>32,29,65,57</rect>
+                <rect>61,165,122,330</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -251,29 +207,17 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">desktop.png</key>
+            <key type="filename">eagleHappy.png</key>
+            <key type="filename">eagleSad.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>34,24,67,49</rect>
+                <rect>87,118,174,235</rect>
                 <key>scale9Paddings</key>
-                <rect>34,24,67,49</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">gametuto.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>96,43,191,86</rect>
-                <key>scale9Paddings</key>
-                <rect>96,43,191,86</rect>
+                <rect>87,118,174,235</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -290,45 +234,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">movil.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>44,28,88,55</rect>
-                <key>scale9Paddings</key>
-                <rect>44,28,88,55</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">playEN.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>22,8,44,16</rect>
-                <key>scale9Paddings</key>
-                <rect>22,8,44,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">playES.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,8,49,16</rect>
-                <key>scale9Paddings</key>
-                <rect>24,8,49,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">selfie.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -336,9 +241,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,240,270,480</rect>
+                <rect>135,16,270,31</rect>
                 <key>scale9Paddings</key>
-                <rect>135,240,270,480</rect>
+                <rect>135,16,270,31</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -356,7 +261,6 @@
                 <false/>
             </struct>
             <key type="filename">star.png</key>
-            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -366,19 +270,6 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">stars.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>248,240,495,480</rect>
-                <key>scale9Paddings</key>
-                <rect>248,240,495,480</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -411,23 +302,16 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>button.png</filename>
-            <filename>desktop.png</filename>
-            <filename>gametuto.png</filename>
             <filename>life_box.png</filename>
-            <filename>movil.png</filename>
-            <filename>playEN.png</filename>
-            <filename>playES.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
             <filename>background.png</filename>
             <filename>camBtn.png</filename>
-            <filename>selfie.png</filename>
-            <filename>stars.png</filename>
             <filename>target.png</filename>
-            <filename>battery.png</filename>
+            <filename>eagleSad.png</filename>
+            <filename>eagleHappy.png</filename>
+            <filename>selfie.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

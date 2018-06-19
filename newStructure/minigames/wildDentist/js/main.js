@@ -29,31 +29,32 @@ function startGame(){
 
     function init(){
 
-        var fullWidth = 540
-        var fullHeight = 960
+        var fullWidth = 540;
+        var fullHeight = 960;
 
-        var ratio = document.body.clientWidth / document.body.clientHeight
-        var gameHeight = Math.round(fullHeight)
-        var gameWidth = Math.round(fullHeight * ratio)
+        var ratio = document.body.clientWidth / document.body.clientHeight;
+        var gameHeight = Math.round(fullHeight);
+        var gameWidth = Math.round(fullHeight * ratio);
 
-        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.setGameSize(gameWidth, gameHeight); 
+        game.input.maxPointers = 1;
 
-        game.stage.backgroundColor = "#ffffff"
-        game.time.advancedTiming = true
+        game.stage.backgroundColor = "#ffffff";
+        game.time.advancedTiming = true;
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(Fabrique.Plugins.Spine);
         
-        var language = "EN"
+        var language = "EN";
         if(window.location.search){
-            var params = window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
+            var params = window.location.search.trim(1);
+            var regex = /language=(..)/i;
+            var result = regex.exec(params);
             if(result){
-                language = result[result.index].toUpperCase()    
+                language = result[result.index].toUpperCase();    
             }else{
-                language = "EN"
+                language = "EN";
             }
             
         }
@@ -63,7 +64,6 @@ function startGame(){
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
-        //console.log(document.body.childNodes[55].height = 1060);
     }
 
     function create(){
