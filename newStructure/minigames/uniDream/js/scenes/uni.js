@@ -828,14 +828,10 @@ var uni = function(){
 		buttonImg.events.onInputDown.add(checkCorrect)
 		buttonImg.anchor.setTo(0.5, 0.5)
 		button.alpha = 0
-		buttonImg.scale.setTo(0.8, 0.8)
+		buttonImg.scale.setTo(0.7, 0.7)
 		dreamGroup.button = buttonImg
 
 		var fontStyle2 = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var readyText = new Phaser.Text(game, 0, -5, "OK", fontStyle2)
-		readyText.anchor.setTo(0.5, 0.5)
-		readyText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-		button.add(readyText)
 
 		var minButton = button.create(0,0,"atlas.uni","menos")
 		minButton.anchor.setTo(0.5, 0.5)
