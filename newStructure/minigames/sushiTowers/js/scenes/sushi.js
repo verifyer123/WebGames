@@ -58,7 +58,23 @@ var sushi = function(){
                 file: soundsPath + "towerCollapse.mp3"},
 			{   name: "drag",
                 file: soundsPath + "drag.mp3"}
-		]
+		],
+		spritesheets: [
+			{
+				name:"coin",
+                file:"images/spine/coin/coin.png",
+				width:122,
+                height:123,
+                frames:12
+            },
+			{
+                name:"hand",
+                file:"images/spine/hand/hand.png",
+                width:115,
+                height:111,
+                frames:23
+            }
+        ],
     }
 
     var NUM_LIFES = 3
@@ -74,6 +90,7 @@ var sushi = function(){
     
     var lives
 	var sceneGroup = null
+	var handGroup = null
 	var heartsGroup = null
     var gameIndex = 76
     var tutoGroup
@@ -83,6 +100,8 @@ var sushi = function(){
     var inputsEnabled
     var pointsBar
     var sushiList
+	var firstAnimation, secondAnimation;
+	var tutorial
     var sushisInGame
     var gameGroup
     var maxHeight
@@ -91,6 +110,8 @@ var sushi = function(){
     var timeBetween
     var gameActive
     var swipe
+	var hand
+	var coins
     var addBrickCounter
     var speed
 	var yogotars
@@ -112,17 +133,18 @@ var sushi = function(){
         numPoints = 0
         roundCounter = 0
         addBrickCounter = 0
-        speed = 5
+        speed = 4
         timeBetween = 3000
         sushiList = []
         sushisInGame = [[],[],[]]
+		tutorial=true;
 		sushisInGame[0].delaySushi = 0
 		sushisInGame[1].delaySushi = 0
 		sushisInGame[2].delaySushi = 0
 		sushisInGame[0].merging = false
 		sushisInGame[1].merging = false
 		sushisInGame[2].merging = false
-
+		gameEnded=false;
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
         //inputsEnabled = true
@@ -131,6 +153,7 @@ var sushi = function(){
         
         loadSounds()
         
+		
 	}
 
     function addPoint(number){
@@ -218,6 +241,20 @@ var sushi = function(){
 			}
 		}
 
+    }
+	function Coin(objectBorn,objectDestiny,time){
+        //objectBorn= Objeto de donde nacen
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+            })
+        })
     }
     
     function createPart(key){
@@ -423,16 +460,19 @@ var sushi = function(){
 
 		sushisInGame[lane].push(sushi)
 		game.add.tween(sushi).to({alpha:1}, 300, Phaser.Easing.Cubic.Out, true)
-
     }
     
     function startRound() {
 
         for(var brickIndex = 0; brickIndex < 3; brickIndex++){
             var toY = (maxHeight - (brickIndex) * 300)
-            addSushi("sushi1", 1, toY)
-        }
-
+           	addSushi("sushi1", brickIndex, toY);
+		}
+		
+		hand.x=game.world.centerX-200;
+		hand.y=game.world.height-100;
+		
+		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
     }
 
     function onClickPlay(rect) {
@@ -441,6 +481,7 @@ var sushi = function(){
 	    tutoGroup.y = -game.world.height
 	    gameActive = true
 		startRound()
+		
     }
 
     function sushiAnimation(lane) {
@@ -492,7 +533,6 @@ var sushi = function(){
 			pullGroup.add(container)
 			sushiList[sushi.name].push(container)
 		}
-
 		sushisInGame[sushi.lane].merging = false
 		pullGroup.add(sushi.bg)
 		sushiList.bg.push(sushi.bg)
@@ -542,7 +582,15 @@ var sushi = function(){
 		yogotar.setAnimation(["WIN", "EAT", "IDLE"])
 		game.time.events.add(1350, moveSushi, null, args)
 
-		addPoint(1)
+		Coin(sushi,pointsBar,100);
+		if(tutorial){
+			hand.alpha=0;
+			tutorial=false;
+			if(firstAnimation)
+				firstAnimation.stop();
+			if(secondAnimation)
+				secondAnimation.stop();
+		}
 	}
 
 	function checkOverlap(spriteA, spriteB) {
@@ -634,7 +682,7 @@ var sushi = function(){
 		
 		
 
-		option.tween = game.add.tween(option).to({x: toX, y: toY}, 100, Phaser.Easing.Cubic.Out, true, delay)
+		option.tween = game.add.tween(option).to({x: toX, y: toY}, 150, Phaser.Easing.Cubic.Out, true, delay)
 		option.tween.onComplete.add(function (thisOption) {
 			for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
 				var container = thisOption.sushiList[containerIndex]
@@ -671,6 +719,11 @@ var sushi = function(){
 		sushi.container = null
 		game.input.enabled = false
 		sound.play("flip")
+		if(tutorial && sushisInGame[2][0]!=null){
+			firstAnimation.stop()
+			hand.x=hand.x+300;
+			secondAnimation=game.add.tween(hand).to({x:hand.x-200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
+		}
 		var numNeeded = prevSushi.denom - prevSushi.num
 		var difNumSushi = sushi.num - numNeeded < 0 ? sushi.num : numNeeded
 		prevSushi.num += difNumSushi
@@ -724,6 +777,9 @@ var sushi = function(){
 
 		if(gameEnded)
 			return
+			
+			
+			
 		
 		for(var lineIndex = 0; lineIndex < sushisInGame.length; lineIndex++) {
 			var sushiLane = sushisInGame[lineIndex]
@@ -771,7 +827,6 @@ var sushi = function(){
 							missPoint()
 						}*/
 					}
-					
 					lastSushi = sushi
 				}
 				
@@ -781,7 +836,7 @@ var sushi = function(){
 			if(sushiLane.delaySushi > 0)
 				sushiLane.delaySushi -= speed
 			
-			if((allBottom)&&(lastSushi)&&(lastSushi.y <= 340)&&(!sushiLane.merging)){
+			if((allBottom)&&(lastSushi)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
 				sushiAnimation(lineIndex)
 				sound.play("wrong")
 //				wrongParticle.x = lastSushi.centerX
@@ -862,6 +917,7 @@ var sushi = function(){
 		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
 		playText.anchor.setTo(0.5,0.5)*/
     }
+	
 
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
 		idleAnimation = idleAnimation || "IDLE"
@@ -940,7 +996,9 @@ var sushi = function(){
         create: function(event){
 
             // swipe = new Swipe(game)
+			
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+			handGroup = game.add.group();
 			
 
 			var bgRect = game.add.graphics()
@@ -982,6 +1040,14 @@ var sushi = function(){
 			lamp.y = 40
 			sceneGroup.add(lamp)
 
+			//Coins
+			coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
+			coins.anchor.setTo(0.5);
+			coins.scale.setTo(0.5);
+			coins.animations.add('coin');
+			coins.animations.play('coin', 24, true);
+			coins.alpha=0;
+			
 			var barsGroup = game.add.group()
 			barsGroup.x = game.world.centerX
 			barsGroup.y = game.world.height
@@ -1011,8 +1077,16 @@ var sushi = function(){
 				barLanes.push(singleBar)
 
 			}
-
+			hand=game.add.sprite(100,100, "hand")
+			hand.anchor.setTo(0,0);
+			hand.scale.setTo(0.7,0.7);
+			hand.animations.add('hand');
+			hand.animations.play('hand', 24, true);
+			hand.alpha=1;
+			handGroup.add(hand);
+			
 			sushiSong = game.add.audio('dojoSong')
+			
             game.sound.setDecodedCallback(sushiSong, function(){
                 sushiSong.loopFull(0.6)
             }, this);
