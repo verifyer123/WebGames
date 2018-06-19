@@ -836,7 +836,7 @@ var sushi = function(){
 			if(sushiLane.delaySushi > 0)
 				sushiLane.delaySushi -= speed
 			
-			if((allBottom)&&(lastSushi)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
+			if((allBottom)&&(lastSushi)&&(lastSushi.y <= 360)&&(!sushiLane.merging)){
 				sushiAnimation(lineIndex)
 				sound.play("wrong")
 //				wrongParticle.x = lastSushi.centerX
