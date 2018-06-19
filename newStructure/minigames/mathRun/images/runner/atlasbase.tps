@@ -194,6 +194,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">castle0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>180,125,359,251</rect>
+                <key>scale9Paddings</key>
+                <rect>180,125,359,251</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">castle1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,108,128,215</rect>
+                <key>scale9Paddings</key>
+                <rect>64,108,128,215</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">castle2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>77,76,153,152</rect>
+                <key>scale9Paddings</key>
+                <rect>77,76,153,152</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">coin.png</key>
             <key type="filename">coinmissing.png</key>
             <key type="filename">floor.png</key>
@@ -206,19 +245,6 @@
                 <rect>32,32,64,64</rect>
                 <key>scale9Paddings</key>
                 <rect>32,32,64,64</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">desktop.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>62,32,125,63</rect>
-                <key>scale9Paddings</key>
-                <rect>62,32,125,63</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -289,19 +315,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">movil.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>49,31,99,61</rect>
-                <key>scale9Paddings</key>
-                <rect>49,31,99,61</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">wrongPart.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -336,16 +349,17 @@
             <filename>brick.png</filename>
             <filename>coin.png</filename>
             <filename>coinmissing.png</filename>
-            <filename>desktop.png</filename>
             <filename>drop.png</filename>
             <filename>dropPart.png</filename>
             <filename>enemy_spike.png</filename>
             <filename>enemy_squish.png</filename>
             <filename>floor.png</filename>
-            <filename>movil.png</filename>
             <filename>skull.png</filename>
             <filename>wrongPart.png</filename>
             <filename>starPart.png</filename>
+            <filename>castle0.png</filename>
+            <filename>castle1.png</filename>
+            <filename>castle2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

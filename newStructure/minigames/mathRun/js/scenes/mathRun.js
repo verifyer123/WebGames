@@ -26,8 +26,14 @@ var mathRun = function(){
             {   name:"tutorial_image",
                 file: "images/runner/tutorial_image.png"
             },
-            {   name:"fondo",
-                file: "images/runner/background.png"
+            {   name:"sky",
+                file: "images/runner/sky.png"
+            },
+            {   name:"mountains",
+                file: "images/runner/mountains.png"
+            },
+            {   name:"hills",
+                file: "images/runner/hills.png"
             },
 		],
 		sounds: [
@@ -110,6 +116,7 @@ var mathRun = function(){
     var player
 	var sceneGroup = null
     var groundGroup = null
+    var tileGroup
     var answersGroup = null
     var pointsGroup = null
     var gameActive = null
@@ -534,6 +541,9 @@ var mathRun = function(){
         }
         
         checkObjects()
+        
+        tileGroup.mountains.tilePosition.x -= 0.2
+        tileGroup.hills.tilePosition.x -= 1
     }
     
     function checkIfCanJump() {
@@ -1141,6 +1151,39 @@ var mathRun = function(){
         gameStart = true
     }
     
+    function createBackground(){
+        
+        var sky = sceneGroup.create(0,0,'sky')
+        sky.width = game.world.width
+        sky.height = game.world.height - 200
+        
+        tileGroup = game.add.group()
+        sceneGroup.add(tileGroup)
+        
+        var mountains = game.add.tileSprite(0, game.world.height - 100, game.world.width, game.world.height - 200, 'mountains')
+        mountains.anchor.setTo(0,1)
+        tileGroup.add(mountains)
+        tileGroup.mountains = mountains
+        
+        var castle = tileGroup.create(game.world.centerX, game.world.centerY + 160, "atlas.runner", "castle0")
+        castle.anchor.setTo(0, 1)
+        game.physics.arcade.enable(castle)
+        castle.checkWorldBounds = true
+        castle.events.onOutOfBounds.add(resetObj, this)
+        castle.body.velocity.x = -SPEED * 0.1
+        
+        var hills = game.add.tileSprite(0, game.world.height + 50, game.world.width, game.world.height - 240, 'hills')
+        hills.anchor.setTo(0,1)
+        tileGroup.add(hills)
+        tileGroup.hills = hills
+    }
+    
+    function resetObj(cast){
+        cast.reset(game.world.width, game.world.centerY + 160)
+        cast.loadTexture('atlas.runner', "castle" + game.rnd.integerInRange(0, 2))
+        cast.body.velocity.x = -SPEED * 0.1
+    }
+    
 	return {
 		assets: assets,
 		name: "mathRun",
@@ -1159,14 +1202,12 @@ var mathRun = function(){
             jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
             
+            createBackground()
+            
             worldGroup = game.add.group()
             //worldGroup.scale.setTo(0.5,0.5)
             //worldGroup.x = 100
             sceneGroup.add(worldGroup)
-            
-            var background = worldGroup.create(-2,-2,'fondo')
-            background.width = game.world.width +2
-            background.height = game.world.height +2.
             
             groundGroup = game.add.group()
             worldGroup.add(groundGroup)
