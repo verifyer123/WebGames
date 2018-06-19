@@ -53,9 +53,8 @@ function startGame(){
             }
             
         }
-
         localization.setLanguage(language)
-
+		
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
