@@ -443,8 +443,9 @@ var wildDentist = function(){
                             trunk.tronco1.alpha = 1;
                             target.hit.alpha = 0;
                             target.biteBeaver = false;
-                            createPart('smoke',target.hit);
-                            sound.play("wrong");
+                            particleWrong.x = target.idle.world.x;
+                            particleWrong.y = target.idle.world.y;
+                            particleWrong.start(true, 1000, null, 5);
                             
                             if(lives != 0){ 
                                missPoint();
@@ -699,7 +700,7 @@ var wildDentist = function(){
                             speed = speed + 0.05;
                             particleCorrect.x = castores[d].idle.world.x;
                             particleCorrect.y = castores[d].idle.world.y;
-                            particleCorrect.start(true, 1000, null, 1);
+                            particleCorrect.start(true, 1000, null, 5);
                             hitZones[d].id = 4;
                             if(starGame){
                                  addCoin(castores[d].idle);
@@ -713,7 +714,7 @@ var wildDentist = function(){
                 if (checkOverlap(hitZones[d], sprite) ){
                     particleWrong.x = castores[d].idle.world.x;
                     particleWrong.y = castores[d].idle.world.y;
-                    particleWrong.start(true, 1000, null, 1);
+                    particleWrong.start(true, 1000, null, 5);
                     if(starGame){
                         missPoint();
                     }
