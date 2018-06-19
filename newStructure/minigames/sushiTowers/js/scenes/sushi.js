@@ -471,7 +471,7 @@ var sushi = function(){
 		
 		hand.x=game.world.centerX-200;
 		hand.y=game.world.height-100;
-		
+		hand.alpha=1;
 		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
     }
 
@@ -721,7 +721,7 @@ var sushi = function(){
 		sound.play("flip")
 		if(tutorial && sushisInGame[2][0]!=null){
 			firstAnimation.stop()
-			hand.x=hand.x+300;
+			hand.x=hand.x=game.world.centerX+200;
 			secondAnimation=game.add.tween(hand).to({x:hand.x-200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
 		}
 		var numNeeded = prevSushi.denom - prevSushi.num
@@ -1082,7 +1082,7 @@ var sushi = function(){
 			hand.scale.setTo(0.7,0.7);
 			hand.animations.add('hand');
 			hand.animations.play('hand', 24, true);
-			hand.alpha=1;
+			hand.alpha=0;
 			handGroup.add(hand);
 			
 			sushiSong = game.add.audio('dojoSong')
