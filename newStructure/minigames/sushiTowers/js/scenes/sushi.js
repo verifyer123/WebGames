@@ -190,14 +190,12 @@ var sushi = function(){
 		if(!sushiList.bg)
 			sushiList.bg = []
 		sushiList.bg.push(sushiBg)
-
 		sprite.inputEnabled = true
 		sprite.input.enableDrag(true)
 		sprite.events.onDragStart.add(onDragStart, this)
 		sprite.events.onDragUpdate.add(onDragUpdate, this)
 		sprite.events.onDragStop.add(onDragStop, this)
 		sprite.inputEnabled = false
-
     }
     
     function createPointsBar(){
@@ -448,9 +446,7 @@ var sushi = function(){
 		sushi.scale.y = 1
 		sushi.x = BAR_POSITIONS[lane]
 		sushi.y = toY || 330
-
 		sushi.container.inputEnabled = true
-
 		var operationText = createTextGroup(sushi.num, sushi.denom)
 		operationText.y = -sushi.container.height * 0.10 * sushi.num
 		operationText.add(bg)
@@ -472,6 +468,8 @@ var sushi = function(){
 		hand.x=game.world.centerX-200;
 		hand.y=game.world.height-100;
 		hand.alpha=1;
+		console.log(sushisInGame[1][0])
+		sushisInGame[1][0].container.input.enabled=false;
 		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
     }
 
@@ -607,6 +605,7 @@ var sushi = function(){
 		sound.play("drag")
 		//inputsEnabled=false;
 		var option = obj.parent
+		option.inBottom = false
 		option.deltaX = pointer.x - obj.world.x
 		option.deltaY = pointer.y - obj.world.y - obj.originalY
 
@@ -670,9 +669,9 @@ var sushi = function(){
 			var sushiHeight = lastSushi.y - lastSushi.height - 15
 			
 			toY = option.y > sushiHeight ? sushiHeight : option.y
-			if(toY < 340){
-				toY = 340
-				delay = 150
+			if(toY <= 340){
+				toY = 330
+				delay = speed / 0.028;
 			}
 		}else
 			toY = option.y
@@ -719,11 +718,6 @@ var sushi = function(){
 		sushi.container = null
 		game.input.enabled = false
 		sound.play("flip")
-		if(tutorial && sushisInGame[2][0]!=null){
-			firstAnimation.stop()
-			hand.x=hand.x=game.world.centerX+200;
-			secondAnimation=game.add.tween(hand).to({x:hand.x-200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
-		}
 		var numNeeded = prevSushi.denom - prevSushi.num
 		var difNumSushi = sushi.num - numNeeded < 0 ? sushi.num : numNeeded
 		prevSushi.num += difNumSushi
@@ -765,6 +759,17 @@ var sushi = function(){
 		}else{
 			game.add.tween(sushi).to({y:prevSushi.y - prevSushi.height + prevSushi.container.height * 0.5}, 300, null, true)
 			moveGroupText(sushi)
+		}
+		if(tutorial && sushisInGame[2][0]!=null){
+			firstAnimation.stop()
+			hand.x=hand.x=game.world.centerX+200;
+			secondAnimation=game.add.tween(hand).to({x:hand.x-200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
+			
+		}
+		
+		if(tutorial && sushisInGame[1][0].sushiList[1]){
+			sushisInGame[1][0].sushiList[0].input.enabled=false;
+			sushisInGame[1][0].sushiList[1].input.enabled=false;
 		}
 
 		if(prevSushi.num === prevSushi.denom){
@@ -836,7 +841,7 @@ var sushi = function(){
 			if(sushiLane.delaySushi > 0)
 				sushiLane.delaySushi -= speed
 			
-			if((allBottom)&&(lastSushi)&&(lastSushi.y <= 360)&&(!sushiLane.merging)){
+			if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
 				sushiAnimation(lineIndex)
 				sound.play("wrong")
 //				wrongParticle.x = lastSushi.centerX
