@@ -10,7 +10,7 @@ var poll
 
 var isDebug = false
 var playcountToken = null
-
+var urlShare
 
 var url
 
@@ -70,12 +70,22 @@ amazing.savePlaycount = function(){
 
 amazing.share = function(score, game){
     console.log("Sharing...")
-    var params = {
-        type: "share",
-        score: score,
-        game: game,
-    }
-    parent.postMessage(JSON.stringify(params), "*")
+    if(gameFromApp){
+	    var params = {
+	        type: "share",
+	        score: score,
+	        game: game,
+	    }
+	    parent.postMessage(JSON.stringify(params), "*")
+	}
+	else{
+		console.log("share, ",urlShare)
+
+		FB.ui({
+			method: 'share',
+			href: urlShare
+		}, function(response){});
+	}
 }
 
 amazing.checkBrowser = function(game){
@@ -136,6 +146,7 @@ amazing.getId = function(id){
         
         if(id == games[i].id){
             gameIndex = i
+            urlShare = games[i].url
             break
         }
     }
@@ -189,6 +200,16 @@ amazing.getId = function(id){
 
     if(!gameFromApp){
 
+    	window.fbAsyncInit = function() {
+		  	console.log("init facebbook")
+		    FB.init({
+		      appId            : '933967913375897',
+		      autoLogAppEvents : true,
+		      xfbml            : true,
+		      version          : 'v3.0'
+		    });
+		  };
+
         var data = {
             minigameId:id
         }
@@ -209,6 +230,9 @@ amazing.getId = function(id){
                 }
 
             },
+            error: function(response){
+            	console.log(response)
+            }
 
         });
     }
