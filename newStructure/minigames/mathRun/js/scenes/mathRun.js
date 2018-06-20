@@ -76,12 +76,12 @@ var mathRun = function(){
                 height: 78,
                 frames: 17
             },
-            /*{   name: "hand",
+            {   name: "hand",
                 file: "images/spines/hand.png",
                 width: 115,
                 height: 111,
                 frames: 23
-            }*/
+            }
         ],
         spines:[
 			{
@@ -127,6 +127,8 @@ var mathRun = function(){
     var heartsGroup = null 
     var groupButton = null
 	var playerCollision, enemiesCollision, assetsCollision
+    var hand
+    var handTuto
     
 
 	function loadSounds(){
@@ -161,6 +163,7 @@ var mathRun = function(){
         yAxis = p2.vec2.fromValues(0, 1);
         consecFloor = 0
         consecBricks = 0
+        handTuto = true
         
 	}
     
@@ -170,6 +173,7 @@ var mathRun = function(){
             coin.alpha = 1
             number.alpha = 1
             game.add.tween(coin.scale).from({x:0.01,y:0.01},300,Phaser.Easing.linear,true)
+            game.add.tween(number.scale).from({x:0.01,y:0.01},300,Phaser.Easing.linear,true)
             sound.play("popObject")
         },this)
     }
@@ -208,6 +212,7 @@ var mathRun = function(){
             var coin = board.coins[i]
             board.numbers[i].alpha = 0
             coin.alpha = 0
+            board.numbers[i].alpha = 0
             animateCoin(coin,delay,board.numbers[i])
             delay+=200
             
@@ -225,7 +230,7 @@ var mathRun = function(){
         //objectsGroup.timer.start()
         //game.time.events.add(TIME_ADD, addObjects , this);
         checkOnAir()
-        getOperation()
+        //getOperation()
         //gameStart = true
 
     } 
@@ -247,6 +252,16 @@ var mathRun = function(){
                 groupButton.isPressed = true
                 jumping = true
                 doJump()
+            }
+            if(handTuto){
+                game.add.tween(board).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1000).onComplete.add(function(){
+                    gameStart = true
+                    getOperation()
+                })
+                game.add.tween(hand).to({alpha: 0},300,Phaser.Easing.linear,true).onComplete.add(function(){
+                    hand.destroy()
+                })
+                handTuto = false
             }
         }
         
@@ -460,13 +475,17 @@ var mathRun = function(){
                             if(player.result == obj.text.number){
                                 addPoint(obj)
                                 deactivateCoins('star')
+                                createPart('star',answerCoin)
                             }else{
                                 sound.play("wrong")
                                 createPart('wrong',obj)
                                 deactivateCoins("wrong")
                                 missPoint(1)
 								addNumberPart(heartsGroup.text,'-1')
+                                createPart('wrong',answerCoin)
                             }
+                            answerCoin.text.setText(player.result)
+                            game.add.tween(answerCoin).to({alpha: 1}, 200, Phaser.Easing.Cubic.In, true, 0, 0, true).yoyoDelay(1000)
                             
                             getOperation()
                         }else if(obj.tag == 'skull'){
@@ -883,7 +902,7 @@ var mathRun = function(){
                     
                 }else if(tag =="brick"){
                     
-                    activateObject(pivotObjects,game.world.height - OFF_BRICK - BOT_OFFSET,child)
+                    activateObject(pivotObjects, game.world.height - OFF_BRICK - BOT_OFFSET,child)
                     
                     if(objToCheck.tag == "brick" && Math.random() * 2 > 1 && pointsBar.number > 10){
                         child.body.y-= OFF_BRICK * 0.5
@@ -1076,6 +1095,7 @@ var mathRun = function(){
         board = game.add.group()
         board.x = game.world.centerX
         board.y = 150
+        board.alpha = 0
         sceneGroup.add(board)
         
         var boardImg = new Phaser.Graphics(game)
@@ -1133,6 +1153,13 @@ var mathRun = function(){
         signText.anchor.setTo(0.5,0.5)
         board.add(signText)
         
+        
+        for(var i = 0; i<board.coins.length;i++){
+            
+            board.coins[i].alpha = 0
+            board.numbers[i].alpha = 0
+        }
+        
     }
     
     function createOverlay(){
@@ -1146,9 +1173,12 @@ var mathRun = function(){
 
     function onClickPlay(){
         overlayGroup.y = -game.world.height
-        
+        hand.x = game.world.centerX
+        hand.y = game.world.centerY
+        game.add.tween(hand).to({alpha: 1},300,Phaser.Easing.linear,true)
+        initTutorial()
         gameActive = true
-        gameStart = true
+        //gameStart = true
     }
     
     function createBackground(){
@@ -1176,12 +1206,55 @@ var mathRun = function(){
         hills.anchor.setTo(0,1)
         tileGroup.add(hills)
         tileGroup.hills = hills
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
+    }
+    
+    function createAnswerCoin(){
+        
+        var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        
+        answerCoin = sceneGroup.create(game.world.centerX, game.world.centerY - 160, "atlas.runner", "coin")
+        answerCoin.anchor.setTo(0.5)
+        answerCoin.scale.setTo(1.3)
+        answerCoin.alpha = 0
+        
+        var text = new Phaser.Text(sceneGroup.game, -4, 5, "4", fontStyle)
+        text.anchor.setTo(0.5)
+        answerCoin.addChild(text)
+        answerCoin.text = text
+        
+        tutoBrick = sceneGroup.create(0, 0, "atlas.runner", "brick")
+        tutoBrick.anchor.setTo(0, 0.5)
+        game.physics.p2.enable(tutoBrick, DEBUG_PHYSICS)
+        tutoBrick.checkWorldBounds = true
+        tutoBrick.kill()
+        tutoBrick.body.setCollisionGroup(assetsCollision)	
+        tutoBrick.body.collides([playerCollision])
+        tutoBrick.body.kinematic = true
+        tutoBrick.used = true
+        tutoBrick.events.onOutOfBounds.add(function(){
+            if(handTuto)
+                initTutorial()
+        }, this)
+        tutoBrick.tag = "brick"
+        tutoBrick.body.allowSleep = true
+        player.body.createBodyCallback(tutoBrick, collisionEvent, this);
     }
     
     function resetObj(cast){
         cast.reset(game.world.width, game.world.centerY + 160)
         cast.loadTexture('atlas.runner', "castle" + game.rnd.integerInRange(0, 2))
         cast.body.velocity.x = -SPEED * 0.1
+    }
+    
+    function initTutorial(){
+        
+        tutoBrick.reset(game.world.width + 50, game.world.height - 350)
+        tutoBrick.body.velocity.x = -SPEED
     }
     
 	return {
@@ -1267,6 +1340,7 @@ var mathRun = function(){
             createControls()    
             
             createBoard()
+            createAnswerCoin()
             
             //createControls()
             
@@ -1276,7 +1350,6 @@ var mathRun = function(){
             createOverlay()
             
             animateScene()
-            
             
 		},
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
