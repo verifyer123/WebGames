@@ -93,7 +93,7 @@ var instructions = function(){
     function createButton(){
         var buttonGroup = new Phaser.Group(sceneGroup.game)
 
-        var buttonSprite = buttonGroup.create(0, 0,'okbtn')
+        var buttonSprite = buttonGroup.create(0, 0,"atlas.instructions",'okbtn')
         buttonSprite.anchor.setTo(0.5, 0.5)
 
         /*buttonSprite.inputEnabled = true

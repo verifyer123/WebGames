@@ -1323,9 +1323,9 @@ var result = function(){
     function createOverlayCoupon(){
         overlayGroup = game.add.group()
         overlayGroup.alpha = 0
-        overlayGroup.scale.setTo(1.2)
-        overlayGroup.y -= game.world.height*0.05
-        overlayGroup.x -= game.world.width*0.1
+        //overlayGroup.scale.setTo(1.2)
+        //overlayGroup.y -= game.world.height*0.05
+        //overlayGroup.x -= game.world.width*0.1
         overlayGroup.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
@@ -1341,45 +1341,48 @@ var result = function(){
 
         var back = new Phaser.Graphics(game)
         back.beginFill(0xffffff)
-        back.drawRoundedRect(game.world.centerX - 192,game.world.centerY-350,382,600,30)
+        back.drawRoundedRect(game.world.centerX - 235,game.world.centerY-350,470,700,30)
         back.endFill()
         overlayGroup.add(back)
 
         var mask = new Phaser.Graphics(game)
         mask.beginFill(0xffffff)
-        mask.drawRoundedRect(game.world.centerX - 192,game.world.centerY-350,382,600,30)
+        mask.drawRoundedRect(game.world.centerX - 235,game.world.centerY-350,470,700,30)
         mask.endFill()
         overlayGroup.add(mask)
 
         var top = overlayGroup.create(game.world.centerX,game.world.centerY-350,"atlas.resultScreen","pop_cupon")
         top.anchor.setTo(0.5,0)
+        top.scale.setTo(0.8)
 
-        var texture = game.add.tileSprite(game.world.centerX-200,game.world.centerY-300,800,600,"atlas.resultScreen","textura")
+        var texture = game.add.tileSprite(game.world.centerX-250,game.world.centerY-350,800,800,"atlas.resultScreen","textura")
         //texture.anchor.setTo(0.5)
         overlayGroup.add(texture)
         texture.mask = mask
 
-        var closeBtn = overlayGroup.create(game.world.centerX+155,game.world.centerY-310,'atlas.resultScreen','cerrar')
+        var closeBtn = overlayGroup.create(game.world.centerX+175,game.world.centerY-280,'atlas.resultScreen','cerrar')
         closeBtn.anchor.setTo(0.5,0.5)
+        closeBtn.scale.setTo(0.8)
         closeBtn.inputEnabled = true
         closeBtn.events.onInputDown.add(inputOverlay)
         closeBtn.tag = 'quitOverlay'
 
-        var cupon = overlayGroup.create(game.world.centerX,game.world.centerY+30,"webCoupon")
+        var cupon = overlayGroup.create(game.world.centerX,game.world.centerY+80,"webCoupon")
         cupon.anchor.setTo(0.5)
         cupon.scale.setTo(0.7)
 
-        var mezy = overlayGroup.create(game.world.centerX,game.world.centerY-230,"atlas.resultScreen","meizy_pop")
+        var mezy = overlayGroup.create(game.world.centerX,game.world.centerY-190,"atlas.resultScreen","meizy_pop")
         mezy.anchor.setTo(0.5)
+        mezy.scale.setTo(0.8)
 
         var fontStyle = {font: "23px Gotham", fill: "#757575",align:"center"}
-        var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-110,"¡Gana esta recompensa\n jugando en nuestra app!", fontStyle)
+        var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-60,"¡Gana esta recompensa\n jugando en nuestra app!", fontStyle)
         text.anchor.setTo(0.5,0.5)
         overlayGroup.add(text)
 
         var downloadButton = game.add.group()
         downloadButton.x = game.world.centerX
-        downloadButton.y = game.world.centerY + 180
+        downloadButton.y = game.world.centerY + 250
         overlayGroup.add(downloadButton)
 
 
@@ -1387,6 +1390,7 @@ var result = function(){
         imgBtn.inputEnabled = true
         imgBtn.events.onInputDown.add(inputOverlay)
         imgBtn.tag = 'download'
+        imgBtn.scale.setTo(0.8)
         imgBtn.anchor.setTo(0.5,0.5)
 
 

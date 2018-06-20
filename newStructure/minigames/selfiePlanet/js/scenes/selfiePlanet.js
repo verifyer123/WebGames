@@ -278,12 +278,6 @@ var selfiePlanet = function(){
 
 	function createBackground(){
         
-        var wihte = game.add.graphics(0, 0)
-        wihte.beginFill(0xFFFFFF)
-        wihte.drawRect(0, 0, game.world.width, game.world.height)
-        wihte.endFill()
-        sceneGroup.add(wihte)
-        
         var background = sceneGroup.create(0, 0, "atlas.selfiePlanet", "background")
         background.width = game.world.width
         background.height = game.world.height
@@ -650,6 +644,11 @@ var selfiePlanet = function(){
 			return games[gameIndex]
 		},
 		create: function(event){
+            
+            var wihte = game.add.graphics(0, 0)
+            wihte.beginFill(0xFFFFFF)
+            wihte.drawRect(0, 0, game.world.width, game.world.height)
+            wihte.endFill()
             
 			sceneGroup = game.add.group()
 			
