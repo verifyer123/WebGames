@@ -133,6 +133,7 @@ var selfiePlanet = function(){
     var rand
     var planetsCounter
     var randControler
+    var planetBox
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -289,6 +290,15 @@ var selfiePlanet = function(){
 
 	function update(){
         
+        if(planetsGroup.inMotion){
+            
+            if(target.overlap(planetBox)){
+                target.tint = 0x00aa55
+            }
+            else{
+                target.tint = 0xffffff
+            }
+        }
     }
     
     function createPart(key){
@@ -364,6 +374,7 @@ var selfiePlanet = function(){
         planetsGroup.setAll('scale.x', 0.9)
         planetsGroup.setAll('scale.y', 0.9)
         sceneGroup.add(planetsGroup)
+        planetsGroup.inMotion = false
         planetsGroup.tag = -1
     }
     
@@ -460,6 +471,7 @@ var selfiePlanet = function(){
     function killObj(obj){
         
         obj.kill()
+        planetsGroup.inMotion = false
         
         if(planetsGroup.tag === rand){
             eagle.setAnimationByName(0, "sad", true)
@@ -478,25 +490,26 @@ var selfiePlanet = function(){
     
     function chechAnswer(){
         
-        var tar = target.getBounds()
         var sprite = planetsGroup.getFirstAlive()
-        var planet = sprite.getBounds()
-         
-        var x = (planet.width - tar.width) 
-        var y = (planet.height - tar.height) 
         
-        tar.inflate(x * 0.5, y * 0.5)
-        
+        var targetBounds = target.getBounds()
+        var planetBounds = sprite.getBounds()
+
+        var x = (planetBounds.width - targetBounds.width) 
+        var y = (planetBounds.height - targetBounds.height) 
+
+        targetBounds.inflate(x * 0.5, y * 0.5)
+
         if(planetsGroup.tag < 4)
-            planet.inflate(-x * 0.4, -y * 0.4)
+            planetBounds.inflate(-x * 0.5, -y * 0.5)
         else
-            planet.inflate(-x * 0.2, -y * 0.2)
-        
-        tar.y -= 100  
-        
+            planetBounds.inflate(-x * 0.3, -y * 0.3) 
+
+        targetBounds.y -= 100
+
         eagle.alpha = 0
         
-        if(tar.containsRect(planet) && planetsGroup.tag === rand){
+        if(targetBounds.containsRect(planetBounds) && planetsGroup.tag === rand){
             sound.play("rightChoice")
             eagle.happy.alpha = 1
             addCoin(target)
@@ -510,6 +523,7 @@ var selfiePlanet = function(){
             game.add.tween(sprite).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 800).onComplete.add(function(){
                 sprite.kill()
                 sprite.alpha = 1
+                sprite.removeChild(sprite.children[0])
                 flashScene()
                 eagle.happy.alpha = 0
                 eagle.sad.alpha = 0
@@ -561,6 +575,31 @@ var selfiePlanet = function(){
             game.add.tween(planet.scale).from({x:0.1, y:0.1}, Speed * 0.3, Phaser.Easing.linear, true,1000)
             game.add.tween(planet).to({y: game.world.centerY - 100}, Speed * 0.3, Phaser.Easing.Cubic.Out, true,1000)
             planetsGroup.walk.onComplete.add(killObj, this)
+            
+            var targetBounds = target.getBounds()
+            var planetBounds = planet.getBounds()
+
+            var x = (planetBounds.width - targetBounds.width) 
+            var y = (planetBounds.height - targetBounds.height) 
+
+            if(planetsGroup.tag < 4){
+                planetBounds.inflate(-x * 0.4, -y * 0.4)
+            
+                planetBox = game.add.graphics(-planetBounds.width * 1.2, -planetBounds.height * 0.5)
+                planetBox.beginFill(0xffffff, 0)
+                planetBox.drawRect(0, 0, planetBounds.width * 0.4, planetBounds.height)
+                planet.addChild(planetBox)
+            }
+            else{
+                planetBounds.inflate(-x * 0.2, -y * 0.2) 
+                
+                planetBox = game.add.graphics(-planetBounds.width * 1.3, -planetBounds.height * 0.5)
+                planetBox.beginFill(0xffffff, 0)
+                planetBox.drawRect(0, 0, planetBounds.width * 0.5, planetBounds.height)
+                planet.addChild(planetBox)
+            }
+            
+            planetsGroup.inMotion = true
         }
     }
     
@@ -637,7 +676,7 @@ var selfiePlanet = function(){
 		assets: assets,
 		name: "selfiePlanet",
         localizationData: localizationData,
-		//update: update,
+		update: update,
         preload:preload,
         getGameData:function () {
 			var games = yogomeGames.getGames()
