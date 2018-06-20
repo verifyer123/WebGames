@@ -8,7 +8,7 @@ var gameFromApp
 var webCoupon
 var poll
 
-var isDebug = true
+var isDebug = false
 var playcountToken = null
 
 
@@ -47,9 +47,11 @@ amazing.savePlaycount = function(){
     var params = {
         type: "playcount"
     }
+    gameFromApp = false
+
     parent.postMessage(JSON.stringify(params), "*")
 
-    gameFromApp = false
+    
 
 
     webCoupon = ""
@@ -196,7 +198,9 @@ amazing.getId = function(id){
             data: JSON.stringify(data),
             contentType: 'application/json',
             dataType: "json",
+
             success: function (response) {
+                console.log(response)
                 if(response.imgPreview!=null && response.imgPreview!=""){
                     webCoupon = response.imgPreview
                 }
