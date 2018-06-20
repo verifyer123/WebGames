@@ -1,4 +1,4 @@
-var soundsPath = "../../shared/minigames/sounds/"
+ var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 var float = function(){
     
@@ -32,8 +32,8 @@ var float = function(){
 
         ],
         images: [
-            {   name:"fondo",
-				file: "images/float/fondo.png"},
+            {   name:"tutorial_image",
+				file: "images/float/tutorial_image.png"},
 		],
 		sounds: [
             {	name: "explode",
@@ -48,12 +48,20 @@ var float = function(){
 				file: soundsPath + "pop.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {	name: "spaceSong",
+				file: soundsPath + "songs/classic_videogame_loop_2.mp3"},
 		],
+        spines:[
+            {
+                name: "yogotar",
+                file: "images/spines/oof.json"
+            }
+        ]
 	}
         
     var SPEED = 7
 	
-	var colorsToUse = [0x35F935,0xF935BE,0xF9EC35]
+	var colorsToUse = [0x35F935,0xF935BE,0xF9EC35, 0xff5555, 0x7755bb, 0xFF6700]
     
     var gameIndex = 77
     var gameLevel = null
@@ -98,7 +106,7 @@ var float = function(){
 
         game.stage.backgroundColor = "#ffffff"
         gameActive = false
-        lives = 1
+        lives = 3
         jumpTimes = 0
         jumpDistance = 170
         gameSpeed = 1.5
@@ -268,7 +276,7 @@ var float = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',1)
-		createParticles('wrong',1)
+		//createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
 
@@ -289,7 +297,6 @@ var float = function(){
         var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
         
         starParticles(obj,'smoke')
-        
     }
     
     function starParticles(obj,idString){
@@ -315,6 +322,36 @@ var float = function(){
         
     }
     
+    function missPoint(){
+        
+        sound.play("wrong")
+        setExplosion(playerGroup.gem)
+        starParticles(playerGroup.gem,'smoke')
+        playerGroup.anim.setAnimationByName(0,"LOSE",false)
+		playerGroup.anim.addAnimationByName(0,"LOSESTILL",true)
+        gameActive = false
+		     
+        if(lives > 0)
+            lives--;
+        
+        heartsGroup.text.setText('X ' + lives)
+        
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        if(lives > 0){
+            game.time.events.add(2000, restartGame)
+        }
+        else{
+            stopGame()
+        }
+        
+        addNumberPart(heartsGroup.text,'-1',true)
+        
+    }
+    
     function stopGame(){
 
 		spaceSong.stop()
@@ -326,8 +363,9 @@ var float = function(){
         playerGroup.anim.setAnimationByName(0,"LOSE",false)
 		playerGroup.anim.addAnimationByName(0,"LOSESTILL",true)
         
-        lives--
-        heartsGroup.text.setText(lives)
+        if(lives > 0)
+            lives--
+        heartsGroup.text.setText('X ' + lives)
         
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
@@ -344,16 +382,20 @@ var float = function(){
     function createPointsBar(){
         
         pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(10,10,'atlas.float','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.float','xpcoins')
+        pointsImg.anchor.setTo(1,0)
     
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.9
-        pointsText.y = pointsImg.height * 0.3
-        pointsText.anchor.setTo(1,0)
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsText.x = -pointsImg.width * 0.45
+        pointsText.y = pointsImg.height * 0.25
         pointsBar.add(pointsText)
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         pointsBar.text = pointsText
         pointsBar.number = 0
@@ -363,23 +405,23 @@ var float = function(){
     function createHearts(){
         
         heartsGroup = game.add.group()
-        heartsGroup.x = game.world.width - 20
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
         
-        var pivotX = 15
+        var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartsImg = group.create(0,0,'atlas.float','life_box')
-        heartsImg.anchor.setTo(1,0)
+        var heartImg = group.create(0,0,'atlas.float','life_box')
+
+        pivotX+= heartImg.width * 0.45
         
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
-        pointsText.x = -heartsImg.width * 0.38
-        pointsText.y = 2
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
         
@@ -503,8 +545,9 @@ var float = function(){
     
 	function updateCounter(){
 		
-		var tween = game.add.tween(counter.scale).to({x:0.8,y:0.8},500,"Linear",true,0,0)
+		var tween = game.add.tween(counter.scale).to({x:0.8,y:0.8},200,"Linear",true,0,0)
 		tween.yoyo(true,0)
+        createPart('star',counter.text)
 		
 		counter.text.setText(numIndex)
 	}
@@ -543,11 +586,11 @@ var float = function(){
                                     createPart('star',obstacle.obs)
                                     sound.play("magic")
                                     //addNumberPart(obstacle.obs,'+' + 2,false)
-    								
     								numIndex++
     								updateCounter()
     							}else{
-    								stopGame()
+    								//stopGame()
+                                    missPoint()
     							}
                                 canTake = false
                             }
@@ -575,8 +618,13 @@ var float = function(){
         
         var worldX = playerGroup.gem.world.x
         var worldY = playerGroup.gem.world.y
-        if(worldX <= -playerGroup.gem.width/3 || worldX > game.world.width+playerGroup.gem.width/3 || worldY <= -playerGroup.gem.height/3){
-            stopGame()
+        if(worldX <= -playerGroup.gem.width/3 || worldX > game.world.width+playerGroup.gem.width/3){
+            missPoint()
+        }
+        if(worldY <= -playerGroup.gem.height/3){
+            lives = 1
+            heartsGroup.text.setText('X ' + lives)
+           stopGame()
         }
     
     }
@@ -587,7 +635,7 @@ var float = function(){
             return
         }
 		
-		background.tilePosition.x++
+		//background.tilePosition.x++
 		background.tilePosition.y--
         
         if(gameGroup.isMoving && playerGroup.active){
@@ -604,6 +652,8 @@ var float = function(){
         }
         
         if(playerGroup.gem.world.y > game.world.height){
+            lives = 1
+            heartsGroup.text.setText('X ' + lives)
             stopGame()
         }
         
@@ -611,20 +661,7 @@ var float = function(){
     
     function preload(){
             
-		game.stage.disableVisibilityChange = false;
-        game.load.audio('spaceSong', soundsPath + 'songs/classic_videogame_loop_2.mp3');
-		game.load.spine('yogotar', "images/spines/oof.json") 
-		
-		
-        
-		/*game.load.image('howTo',"images/float/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/float/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/float/introscreen.png")*/
-
-        game.load.image('tutorial_image',"images/float/tutorial_image.png")
-        //loadType(gameIndex)
-
-        
+		game.stage.disableVisibilityChange = false
     }
     
     function createLevelText(){
@@ -885,12 +922,8 @@ var float = function(){
 
 	function createBackground(){
 		
-		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.float','fondo')
+		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.float','water_texture')
 		sceneGroup.add(background)
-		
-		background2 = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.float','water_texture')
-		background2.alpha = 0.5
-		sceneGroup.add(background2)
 	}
 	
 	function createCounter(){
@@ -902,8 +935,9 @@ var float = function(){
 		
 		var image = counter.create(0,0,'atlas.float','counter')
 		image.anchor.setTo(0.5,0.5)
+		image.scale.setTo(1.1)
 		
-		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}	
+		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}	
 		var pointsText = new Phaser.Text(sceneGroup.game, -7, -3, numIndex, fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
 		counter.add(pointsText)
@@ -911,6 +945,24 @@ var float = function(){
 		counter.text = pointsText
 		
 	}
+    
+    function restartGame(){
+        
+        if(playerGroup.x <= 0 || playerGroup.x >= game.world.width){
+            console.log("x")
+            game.add.tween(playerGroup).to({x: game.world.centerX}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                gameActive = true
+                playerGroup.anim.setAnimationByName(0,"IDLE",true)
+            })
+        }
+        else{
+            console.log("nop")
+            numIndex++
+            updateCounter()
+            gameActive = true
+            playerGroup.anim.setAnimationByName(0,"IDLE",true)
+        }
+    }
 	
 	return {
 		assets: assets,
@@ -976,6 +1028,8 @@ var float = function(){
             createDashboard()
 			createCounter()
 			addParticles()
+            
+            buttons.getButton(spaceSong,sceneGroup)
 			
 			createOverlay()
                         
