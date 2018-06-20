@@ -24,7 +24,7 @@ var mathRun = function(){
         ],
         images: [
             {   name:"tutorial_image",
-                file: "images/runner/tutorial_image.png"
+                file: "images/runner/tutorial_image_%input.png"
             },
             {   name:"sky",
                 file: "images/runner/sky.png"
@@ -542,6 +542,17 @@ var mathRun = function(){
             {
                 jumping = true
                 doJump()
+                
+                if(handTuto){
+                    game.add.tween(board).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1000).onComplete.add(function(){
+                        gameStart = true
+                        getOperation()
+                    })
+                    game.add.tween(hand).to({alpha: 0},300,Phaser.Easing.linear,true).onComplete.add(function(){
+                        hand.destroy()
+                    })
+                    handTuto = false
+                }
             }
         }
         
