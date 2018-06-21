@@ -191,6 +191,40 @@ var subjectsButtons =
 var pathGames = "games/nonrefactored/"
 var games = yogomeGames.getGames();
 
+var choiceGames = [
+100,
+25,
+98,
+13,
+15,
+76,
+7,
+26,
+38,
+40,
+60,
+62,
+81,
+83,
+95,
+53,
+102,
+57,
+77,
+29,
+5,
+11,
+51,
+105,
+111,
+113,
+144,
+148,
+158,
+138
+]
+
+
 for(var i= 0;i<=subjectsButtons.length-1;i++){
 	$("#subject-slider").append('<b><div class="subject-select-btns" style="color:#FFF;"><div class="subject-btn '+subjectsButtons[i].img+'"></div><div class="subject-name text-center" style="color:#ecd06c; font-size:11pt">'+subjectsButtons[i][language]+'</div></div></b>');
 
@@ -201,7 +235,7 @@ for(var i= 0;i<=subjectsButtons.length-1;i++){
 		$("#nameSubject").find("p").text(subjectsButtons[index][language]);
 		$("#nameSubject").find("p").css("font-size","1.7em");
 
-		for(var p = 0 ; p<= games.length-1 ;p++){
+		for(var p = 0 ; p<= choiceGames.length-1 ;p++){
 			if(subjectsButtons[index].name == "All subjects"){
 				$("#minigamesContainer").find("." + games[p].subject).show();
 			}else{
@@ -220,31 +254,27 @@ function showGames(){
 	$("#minigamesContainer").html("");
 	var pathGames = "games/nonrefactored/"
 	var games = yogomeGames.getGames("custom");
-	for(var i = 0 ; i<= games.length-1 ;i++){
-		var num = i;
+	for(var i = 0 ; i<= choiceGames.length-1 ;i++){
+		var num =  i;
+       
 			var minigameHref;
 			if(language != "ES" ){
-				minigameHref = "playweb/gamesite/" + games[i].mapUrl + "?language=EN";
+                
+				minigameHref = "playweb/gamesite/" + games[choiceGames[i]].mapUrl + "?language=EN";
+                
 
 			}else{
-				minigameHref = "playweb/gamesite/" + games[i].mapUrl + "?language=" + language;
+				minigameHref = "playweb/gamesite/" + games[choiceGames[i]].mapUrl + "?language=" + language;
 			}
 
-			if(epicsite){
-				$("#minigamesContainer").append("<div id='minigameNumber" +num +"' rev='"+games[i].name+"' class='gameCatalog " +games[i].subject +"' id='gameimg" + num +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></div>");
-				
-                $("#minigameNumber" + num).attr("https://play.yogome.com/" + "data-url",minigameHref)
-				
-                $("#minigameNumber" + num).click(function(){
-					parent.location.href =  $(this).attr("data-url");
-				});
-			}else{
-				$("#minigamesContainer").append("<a href='https://play.yogome.com/"+ minigameHref +"' rev='"+games[i].name+"' class='gameCatalog " +games[i].subject +"' id='gameimg" + num +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></a>");
-			}
+			
 
-            $("#btnMinigame" + num).append("<img src='https://play.yogome.com/playweb/shared/minigames/images/icons/" + games[i].sceneName + ".png'>")
+                $("#minigamesContainer").append("<a href='https://play.yogome.com/"+ minigameHref +"' rev='"+games[choiceGames[i]].name+"' class='gameCatalog " +games[ choiceGames[i] ].subject +"' id='gameimg" + choiceGames[num] +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></a>");
+			
+
+            $("#btnMinigame" + num).append("<img src='https://play.yogome.com/playweb/shared/minigames/images/icons/" + games[choiceGames[i]].sceneName + ".png'>")
             //$("#btnMinigame" + num).append("<img src='https://play.yogome.com/" + games[i].url +  "images/fbpost.png'>")
-            $("#btnMinigame" + num).append("<p>"+games[num].name+"</p>")
+            $("#btnMinigame" + num).append("<p>"+games[choiceGames[num] ].name+"</p>")
         
             $("#btnMinigame" + num).find("img").on("error", function(){
             
@@ -260,40 +290,6 @@ function showGames(){
 function minigamesEpicsite(url){
 	parent.location.href = url;
 }
-
-
-//function showDemoGames(){
-//	$("#minigamesContainer").html("");
-//    var pathGames = "games/nonrefactored/"
-//	var games = yogomeGames.getGames("absolute");
-//	for(var i = 0 ; i<= games.length-1 ;i++){
-//		var num = i;
-//			var minigameHref;
-//			if(language != "ES" ){
-//				minigameHref = games[i].mapUrl + "?language=EN";
-//
-//			}else{
-//				minigameHref = games[i].mapUrl + "?language=" + language;
-//			}
-//
-//
-//
-//			if(epicsite){
-//				$("#minigamesContainer").append("<div id='minigameNumber" +num +"' rev='"+games[i].name+"' class='gameCatalog " +games[i].subject +"' id='gameimg" + num +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></div>");
-//				$("#minigameNumber" + num).attr("data-url",minigameHref)
-//				$("#minigameNumber" + num).click(function(){
-//					parent.location.href =  $(this).attr("data-url");
-//				});
-//			}else{
-//				$("#minigamesContainer").append("<a href='"+ minigameHref +"' rev='"+games[i].name+"' class='gameCatalog " +games[i].subject +"' id='gameimg" + num +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></a>");
-//			}
-//
-//
-//			$("#btnMinigame" + num).css("background-image","url('https://play.yogome.com/epicweb/shared/minigames/images/icons/" + games[i].sceneName + ".png')");
-//			$("#gameimg" + num).attr("value",i);
-//		
-//	}
-//}
 
 
 function callBackLogIn(){

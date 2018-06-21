@@ -7,14 +7,15 @@ var gameTypeEnum = {
 	SEQUENCE:4,
 	TARGET:5,
 	TRACE:6,
+	TAP:7,
 };
 
 var yogomeGames = function () {
 	var gameLives = 0
 	var timeCount = 0
 	var addingTime = true
-	var yogoUrl = 'playweb/minigames/'
-	var urlMap = 'playSite/#/minigames/'
+	var yogoUrl = 'epicweb/minigames/'
+	var urlMap = '#/minigames/'
 	var relativeUrl = "../"
 
 
@@ -22,11 +23,14 @@ var yogomeGames = function () {
 		var urlSet
 		if(pathTag === "absolute"){
 			urlSet = yogoUrl
-		}else
+		}else if(pathTag === "custom")
+			urlSet = ""
+		else
 			urlSet = relativeUrl
 
 		var games = [
-{name:'Addition Dojo',url:urlSet + 'additiondojo/',mapUrl:urlMap + 'AdditionDojo', sceneName:'dojo',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
+
+			{name:'Addition Dojo',url:urlSet + 'additiondojo/',mapUrl:urlMap + 'AdditionDojo', sceneName:'dojo',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
 			{name:'Space Words',url:urlSet + 'spaceWords/',mapUrl:urlMap + 'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Math Run',url:urlSet + 'runneryogome/',mapUrl:urlMap + 'runneryogome', sceneName:'runneryogome',subject:'math',review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
 			{name:'Water Morphosis',url:urlSet + 'waterMorph/',mapUrl:urlMap + 'waterMorph', sceneName:'water',subject:'science',review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},
@@ -153,7 +157,7 @@ var yogomeGames = function () {
             {name:'Green Rescue',url:urlSet + 'greenRescue/',mapUrl:urlMap + 'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//124
             {name:'Lake Strike',url:urlSet + 'lakeStrike/',mapUrl:urlMap + 'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.TARGET},//125
             {name:'Noisy Streets',url:urlSet + 'noisyStreets/',mapUrl:urlMap + 'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//126
-            {name:'Continental Puzzle',url:urlSet + 'continentalPuzzle/',mapUrl:urlMap +'continentalPuzzle',sceneName:'continentalPuzzle',subject:'geography',review:false,objective:15,demo:false,type:gameTypeEnum.TRACE},//127
+            {name:'Continental Puzzle',url:urlSet + 'continentalPuzzle/',mapUrl:urlMap +'continentalPuzzle',sceneName:'continentalPuzzle',subject:'geography',review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//127
             {name:'Geo Beat',url:urlSet + 'geoBeat/',mapUrl:urlMap + 'geoBeat', sceneName:'geoBeat',subject:'geography', review:false,objective:25,demo:false,type:gameTypeEnum.SEQUENCE},//128
             {name:'Mirror World',url:urlSet + 'mirrorWorld/',mapUrl:urlMap + 'mirrorWorld', sceneName:'mirrorWorld',subject:'creativity', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//129
             {name:'Solar Wing',url:urlSet + 'solarWing/',mapUrl:urlMap + 'solarWing', sceneName:'solarWing',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//130
@@ -224,7 +228,29 @@ var yogomeGames = function () {
             {name:'Verte Who',url:urlSet + 'verteWho/',mapUrl:urlMap + 'verteWho', sceneName:'verteWho',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//195
             {name:'Word Blast',url:urlSet + 'wordBlast/',mapUrl:urlMap + 'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//196
             {name:'Address In Town',url:urlSet + 'addressInTown/',mapUrl:urlMap + 'addressInTown', sceneName:'addressInTown',subject:'geography', review:false,objective:30,demo:false, type:gameTypeEnum.SEQUENCE},//197
-
+            {name:'Deliver In Town',url:urlSet + 'deliverInTown/',mapUrl:urlMap + 'deliverInTown', sceneName:'deliverInTown',subject:'coding', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//198
+            {name:'Chainge',url:urlSet + 'chainge/',mapUrl:urlMap + 'chainge', sceneName:'chainge',subject:'math', review:false,objective:20,demo:false, type:gameTypeEnum.TRACE},//199
+            {name:'Greet Chirp',url:urlSet + 'greetChirp/',mapUrl:urlMap + 'greetChirp', sceneName:'greetChirp',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//200
+            {name:'Icy Rush',url:urlSet + 'icyRush/',mapUrl:urlMap + 'icyRush', sceneName:'icyRush',subject:'sustainability', review:false,objective:25,demo:false, type:gameTypeEnum.CHOOSE},//201
+            {name:'Sports Ball',url:urlSet + 'sportsBall/',mapUrl:urlMap + 'sportsBall', sceneName:'sportsBall',subject:'health', review:false,objective:25,demo:false, type:gameTypeEnum.TARGET},//202
+            {name:'Quake Run',url:urlSet + 'quakeRun/',mapUrl:urlMap + 'quakeRun', sceneName:'quakeRun',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.TAP},//203
+            {name:'Tidygram',url:urlSet + 'tidygram/',mapUrl:urlMap + 'tidygram', sceneName:'tidygram',subject:'language', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//204
+            {name:'Gift Figures',url:urlSet + 'giftFigures/',mapUrl:urlMap + 'giftFigures', sceneName:'giftFigures',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//205
+            {name:'Anatomeal',url:urlSet + 'anatomeal/',mapUrl:urlMap + 'anatomeal', sceneName:'anatomeal',subject:'health', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//206
+            {name:'Solar City',url:urlSet + 'solarCity/',mapUrl:urlMap + 'solarCity', sceneName:'solarCity',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//207
+            {name:'Milk Shake',url:urlSet + 'milkShake/',mapUrl:urlMap + 'milkShake', sceneName:'milkShake',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//208
+            {name:'Purrjectile',url:urlSet + 'purrjectile/',mapUrl:urlMap + 'purrjectile', sceneName:'purrjectile',subject:'sustainability', review:false,objective:5,demo:false, type:gameTypeEnum.TARGET},//209
+            {name:'Ocean Quest',url:urlSet + 'oceanQuest/',mapUrl:urlMap + 'oceanQuest', sceneName:'oceanQuest',subject:'geography', review:false,objective:15,demo:false, type:gameTypeEnum.TARGET},//210
+            {name:'Star Explore Command',url:urlSet + 'starExploreCommand/',mapUrl:urlMap + 'starExploreCommand', sceneName:'starExploreCommand',subject:'geography', review:false,objective:15,demo:false, type:gameTypeEnum.TARGET},//211
+            {name:'Origamimic',url:urlSet + 'origamimic/',mapUrl:urlMap + 'origamimic', sceneName:'origamimic',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.TRACE},//212
+            {name:'Dino Dash',url:urlSet + 'dinoDash/',mapUrl:urlMap + 'dinoDash', sceneName:'dinoDash',subject:'health', review:false,objective:15,demo:false, type:gameTypeEnum.TAP},//213
+            {name:'Whose Turn',url:urlSet + 'whoseTurn/',mapUrl:urlMap + 'whoseTurn', sceneName:'whoseTurn',subject:'math', review:false,objective:30,demo:false, type:gameTypeEnum.COUNT},//214
+			{name:'Wash Clash',url:urlSet + 'washClash/',mapUrl:urlMap + 'washClash', sceneName:'washClash',subject:'health', review:false,objective:20,demo:false, type:gameTypeEnum.TARGET},//215
+			{name:'Ear Drummer',url:urlSet + 'earDrummer/',mapUrl:urlMap + 'earDrummer', sceneName:'earDrummer',subject:'health', review:false,objective:25,demo:false, type:gameTypeEnum.SEQUENCE},//216
+			{name:'Measuridge',url:urlSet + 'measuridge/',mapUrl:urlMap + 'measuridge', sceneName:'measuridge',subject:'math', review:false,objective:15,demo:false, type:gameTypeEnum.COUNT},//217
+			{name:'H2os',url:urlSet + 'h2os/',mapUrl:urlMap + 'h2os', sceneName:'h2os',subject:'math',review:false,objective:30,demo:false,type:gameTypeEnum.COUNT},//218
+			{name:'UpRoar',url:urlSet + 'upRoar/',mapUrl:urlMap + 'upRoar', sceneName:'upRoar',subject:'language',review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//219
+			{name:'Mambo Jump O',url:urlSet + 'mamboJumpO/',mapUrl:urlMap + 'mamboJumpO', sceneName:'mamboJumpO',subject:'creativity',review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//220
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
@@ -238,10 +264,10 @@ var yogomeGames = function () {
 
 	}
 	
-	function getObjectGames() {
+	function getObjectGames(path) {
 		var object = {}
 
-		var games = getGames()
+		var games = getGames(path)
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
 			var game = games[gIndex]
