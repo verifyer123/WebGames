@@ -720,8 +720,7 @@ var elemental = function(){
         
         if(gameActive)
             return
-            
-        console.log("asd")
+    
         gem.inputEnabled = false
         hand.alpha = 0
         witchAnim('ATTACK')
