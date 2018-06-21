@@ -15,7 +15,7 @@ var yogomeGames = function () {
 	var timeCount = 0
 	var addingTime = true
 	var yogoUrl = 'epicweb/minigames/'
-	var urlMap = 'epicSite/#/minigames/'
+	var urlMap = '#/minigames/'
 	var relativeUrl = "../"
 
 
@@ -23,14 +23,16 @@ var yogomeGames = function () {
 		var urlSet
 		if(pathTag === "absolute"){
 			urlSet = yogoUrl
-		}else
+		}else if(pathTag === "custom")
+			urlSet = ""
+		else
 			urlSet = relativeUrl
 
 		var games = [
 
 			{name:'Addition Dojo',url:urlSet + 'additiondojo/',mapUrl:urlMap + 'AdditionDojo', sceneName:'dojo',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
 			{name:'Space Words',url:urlSet + 'spaceWords/',mapUrl:urlMap + 'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
-			{name:'Math Run',url:urlSet + 'runneryogome/',mapUrl:urlMap + 'runneryogome', sceneName:'runneryogome',subject:'math',review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
+			{name:'Math Run',url:urlSet + 'mathRun/',mapUrl:urlMap + 'mathRun', sceneName:'mathRun',subject:'math',review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
 			{name:'Water Morphosis',url:urlSet + 'waterMorph/',mapUrl:urlMap + 'waterMorph', sceneName:'water',subject:'science',review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Ice Cream Numbers',url:urlSet + 'numberIce/',mapUrl:urlMap + 'numberIce', sceneName:'ice',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 			{name:'Magnet Ride',url:urlSet + 'magnetRide/',mapUrl:urlMap + 'magnetRide', sceneName:'magnet',subject:'science',review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
@@ -123,7 +125,7 @@ var yogomeGames = function () {
 			{name:'Ms NomNom',url:urlSet + 'msNomNom/',mapUrl:urlMap + 'msNomNom', sceneName:'ms',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},//92
 			{name:'FrutiLluvia',url:urlSet + 'frutiLluvia/',mapUrl:urlMap + 'frutiLluvia', sceneName:'fruti',subject:'math', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//93
 			{name:'Dr Zombie',url:urlSet + 'drZombie/',mapUrl:urlMap + 'drZombie', sceneName:'drzombie',subject:'health', review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},//94
-			{name:'Wild Dentist',url:urlSet + 'wildDentist/',mapUrl:urlMap + 'wildDentist', sceneName:'wildDentist',subject:'health', review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//95
+			{name:'Wild Dentist',url:urlSet + 'wildDentist/',mapUrl:urlMap + 'wildDentist', sceneName:'wildDentist',subject:'health', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//95
 			{name:'Cog Count',url:urlSet + 'cogCount/',mapUrl:urlMap + 'cogCount', sceneName:'cog',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.COUNT},//96
 			{name:'Galactic Pool',url:urlSet + 'galacticPool/',mapUrl:urlMap + 'galacticPool', sceneName:'galactic',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//97
 			{name:'Oona Says Cook',url:urlSet + 'oonaSaysCook/',mapUrl:urlMap + 'oonaSaysCook', sceneName:'oona',subject:'coding', review:true,objective:15,demo:true,type:gameTypeEnum.MATCH},//98
@@ -249,6 +251,8 @@ var yogomeGames = function () {
 			{name:'H2os',url:urlSet + 'h2os/',mapUrl:urlMap + 'h2os', sceneName:'h2os',subject:'math',review:false,objective:30,demo:false,type:gameTypeEnum.COUNT},//218
 			{name:'UpRoar',url:urlSet + 'upRoar/',mapUrl:urlMap + 'upRoar', sceneName:'upRoar',subject:'language',review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//219
 			{name:'Mambo Jump O',url:urlSet + 'mamboJumpO/',mapUrl:urlMap + 'mamboJumpO', sceneName:'mamboJumpO',subject:'creativity',review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//220
+			{name:'Ani Marathon',url:urlSet + 'aniMarathon/',mapUrl:urlMap + 'aniMarathon', sceneName:'aniMarathon',subject:'language',review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//221
+			{name:'Circulead',url:urlSet + 'circulead/',mapUrl:urlMap + 'circulead', sceneName:'circulead',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//222
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
@@ -262,10 +266,10 @@ var yogomeGames = function () {
 
 	}
 	
-	function getObjectGames() {
+	function getObjectGames(path) {
 		var object = {}
 
-		var games = getGames()
+		var games = getGames(path)
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
 			var game = games[gIndex]

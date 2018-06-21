@@ -53,11 +53,11 @@ var instructions = function(){
 	function startGame(obj){
         
         obj.inputEnabled = false
-        
-		//popAudio.play()
+        obj = obj.button
+        //popAudio.play()
         sound.play("click")
-		
-		console.log('startGame')
+        
+        console.log('startGame')
         
         tweenLoop.stop()
         
@@ -69,23 +69,16 @@ var instructions = function(){
             alphaTween.onComplete.add(function(){
                 sceneloader.show("skiZag")
             })
-            
         })
-        
-		//console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        /*mixpanel.track(
-            "enterGame",
-            {"gameName": "skiZag","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );*/
 
         amazing.setMixPanelTrack("skiZag","enterGame")
-		
-	}
+        
+    }
     
     function bounceButton(obj){
-        if(obj.inputEnabled == false){
+        /*if(obj.inputEnabled == false){
             return
-        }
+        }*/
         tweenLoop = game.add.tween(obj.scale).to({x:1.2,y:1.2}, 450, Phaser.Easing.linear, true)
         tweenLoop.onComplete.add(function(){
             tweenLoop = game.add.tween(obj.scale).to({x:1,y:1}, 450, Phaser.Easing.linear, true)
@@ -95,18 +88,29 @@ var instructions = function(){
         })
     }
     
-	function createButton(){
-		var buttonGroup = new Phaser.Group(sceneGroup.game)
+    function createButton(){
+        var buttonGroup = new Phaser.Group(sceneGroup.game)
 
-		var buttonSprite = buttonGroup.create(0, 0,'okbtn')
-		buttonSprite.anchor.setTo(0.5, 0.5)
+        var buttonSprite = buttonGroup.create(0, 0,'okbtn')
+        buttonSprite.anchor.setTo(0.5, 0.5)
 
-		buttonSprite.inputEnabled = true
-		buttonSprite.events.onInputUp.add(startGame, this)
+        /*buttonSprite.inputEnabled = true
+        buttonSprite.events.onInputUp.add(startGame, this)*/
         
         bounceButton(buttonSprite)
-        
-		return buttonGroup
+
+
+        var tapSpace = game.add.graphics()
+        tapSpace.beginFill(0xff0000)
+        tapSpace.drawRect(0,0,game.world.width,game.world.height)
+        tapSpace.endFill()
+        tapSpace.alpha = 0
+        tapSpace.inputEnabled = true
+        tapSpace.events.onInputUp.add(startGame, this)
+        tapSpace.button = buttonSprite
+        //buttonGroup.add(tapSpace)
+
+        return buttonGroup
 	}
     
     function myIP() {

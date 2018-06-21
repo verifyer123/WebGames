@@ -11,20 +11,28 @@ var upRoar = function(){
 			"tutorial_image":"images/upRoar/tutorial_image_EN.png",
 			"duck":"duck",
 			"duckAction":"quacks",
+			"duckQuestion":"The",
 			"parrot":"parrot",
 			"parrotAction":"garrings",
+			"parrotQuestion":"The",
 			"cow":"cow",
 			"cowAction":"moos",
+			"cowQuestion":"The",
 			"dog":"dog",
 			"dogAction":"barks",
+			"dogQuestion":"The",
 			"frog":"frog",
 			"frogAction":"croaks",
+			"frogQuestion":"The",
 			"horse":"horse",
 			"horseAction":"neighs",
+			"horseQuestion":"The",
 			"lion":"lion",
 			"lionAction":"roars",
+			"lionQuestion":"The",
 			"pig":"pig",
-			"pigAction":"growls"
+			"pigAction":"growls",
+			"pigQuestion":"The"
 		},
 
 		"ES":{
@@ -34,20 +42,28 @@ var upRoar = function(){
 			"tutorial_image":"images/upRoar/tutorial_image_ES.png",
 			"duck":"pato",
 			"duckAction":"grazna",
+			"duckQuestion":"El",
 			"parrot":"loro",
 			"parrotAction":"garrira",
+			"parrotQuestion":"El",
 			"cow":"vaca",
 			"cowAction":"muge",
+			"cowQuestion":"La",
 			"dog":"perro",
 			"dogAction":"ladra",
+			"dogQuestion":"El",
 			"frog":"rana",
 			"frogAction":"croa",
+			"frogQuestion":"La",
 			"horse":"caballo",
 			"horseAction":"relincha",
+			"horseQuestion":"El",
 			"lion":"leon",
 			"lionAction":"ruge",
+			"lionQuestion":"El",
 			"pig":"cerdo",
-			"pigAction":"guarre"
+			"pigAction":"guarre",
+			"pigQuestion":"El"
 		}
 	}
 	
@@ -59,7 +75,7 @@ var upRoar = function(){
                 json: "images/upRoar/atlas.json",
                 image: "images/upRoar/atlas.png",
             },
-            {   
+            {
                 name: "atlas.time",
                 json: "images/upRoar/timeAtlas.json",
                 image: "images/upRoar/timeAtlas.png",
@@ -176,14 +192,14 @@ var upRoar = function(){
 		{"choice1":"","choice2":"","choice3":""},
 	];
 	var animals=[
-			{skinAndSound:"duck",animal:localization.getString(localizationData,"duck"),solution:localization.getString(localizationData,"duckAction")},
-			{skinAndSound:"parrot",animal:localization.getString(localizationData,"parrot"),solution:localization.getString(localizationData,"parrotAction")},
-			{skinAndSound:"cow",animal:localization.getString(localizationData,"cow"),solution:localization.getString(localizationData,"cowAction")},
-			{skinAndSound:"dog",animal:localization.getString(localizationData,"dog"),solution:localization.getString(localizationData,"dogAction")},
-			{skinAndSound:"frog",animal:localization.getString(localizationData,"frog"),solution:localization.getString(localizationData,"frogAction")},
-			{skinAndSound:"horse",animal:localization.getString(localizationData,"horse"),solution:localization.getString(localizationData,"horseAction")},
-			{skinAndSound:"lion",animal:localization.getString(localizationData,"lion"),solution:localization.getString(localizationData,"lionAction")},
-			{skinAndSound:"pig",animal:localization.getString(localizationData,"pig"),solution:localization.getString(localizationData,"pigAction")}
+			{skinAndSound:"duck",animal:localization.getString(localizationData,"duck"),solution:localization.getString(localizationData,"duckAction"),question:localization.getString(localizationData,"duckQuestion")},
+			{skinAndSound:"parrot",animal:localization.getString(localizationData,"parrot"),solution:localization.getString(localizationData,"parrotAction"),question:localization.getString(localizationData,"parrotQuestion")},
+			{skinAndSound:"cow",animal:localization.getString(localizationData,"cow"),solution:localization.getString(localizationData,"cowAction"),question:localization.getString(localizationData,"cowQuestion")},
+			{skinAndSound:"dog",animal:localization.getString(localizationData,"dog"),solution:localization.getString(localizationData,"dogAction"),question:localization.getString(localizationData,"dogQuestion")},
+			{skinAndSound:"frog",animal:localization.getString(localizationData,"frog"),solution:localization.getString(localizationData,"frogAction"),question:localization.getString(localizationData,"frogQuestion")},
+			{skinAndSound:"horse",animal:localization.getString(localizationData,"horse"),solution:localization.getString(localizationData,"horseAction"),question:localization.getString(localizationData,"horseQuestion")},
+			{skinAndSound:"lion",animal:localization.getString(localizationData,"lion"),solution:localization.getString(localizationData,"lionAction"),question:localization.getString(localizationData,"lionQuestion")},
+			{skinAndSound:"pig",animal:localization.getString(localizationData,"pig"),solution:localization.getString(localizationData,"pigAction"),question:localization.getString(localizationData,"pigQuestion")}
 	];
 	var words=[
 	]
@@ -210,15 +226,15 @@ var upRoar = function(){
 		blockButton=true;
 		tutorial=true;
 		animals=[
-			{skinAndSound:"duck",animal:localization.getString(localizationData,"duck"),solution:localization.getString(localizationData,"duckAction")},
-			{skinAndSound:"parrot",animal:localization.getString(localizationData,"parrot"),solution:localization.getString(localizationData,"parrotAction")},
-			{skinAndSound:"cow",animal:localization.getString(localizationData,"cow"),solution:localization.getString(localizationData,"cowAction")},
-			{skinAndSound:"dog",animal:localization.getString(localizationData,"dog"),solution:localization.getString(localizationData,"dogAction")},
-			{skinAndSound:"frog",animal:localization.getString(localizationData,"frog"),solution:localization.getString(localizationData,"frogAction")},
-			{skinAndSound:"horse",animal:localization.getString(localizationData,"horse"),solution:localization.getString(localizationData,"horseAction")},
-			{skinAndSound:"lion",animal:localization.getString(localizationData,"lion"),solution:localization.getString(localizationData,"lionAction")},
-			{skinAndSound:"pig",animal:localization.getString(localizationData,"pig"),solution:localization.getString(localizationData,"pigAction")}
-		];
+			{skinAndSound:"duck",animal:localization.getString(localizationData,"duck"),solution:localization.getString(localizationData,"duckAction"),question:localization.getString(localizationData,"duckQuestion")},
+			{skinAndSound:"parrot",animal:localization.getString(localizationData,"parrot"),solution:localization.getString(localizationData,"parrotAction"),question:localization.getString(localizationData,"parrotQuestion")},
+			{skinAndSound:"cow",animal:localization.getString(localizationData,"cow"),solution:localization.getString(localizationData,"cowAction"),question:localization.getString(localizationData,"cowQuestion")},
+			{skinAndSound:"dog",animal:localization.getString(localizationData,"dog"),solution:localization.getString(localizationData,"dogAction"),question:localization.getString(localizationData,"dogQuestion")},
+			{skinAndSound:"frog",animal:localization.getString(localizationData,"frog"),solution:localization.getString(localizationData,"frogAction"),question:localization.getString(localizationData,"frogQuestion")},
+			{skinAndSound:"horse",animal:localization.getString(localizationData,"horse"),solution:localization.getString(localizationData,"horseAction"),question:localization.getString(localizationData,"horseQuestion")},
+			{skinAndSound:"lion",animal:localization.getString(localizationData,"lion"),solution:localization.getString(localizationData,"lionAction"),question:localization.getString(localizationData,"lionQuestion")},
+			{skinAndSound:"pig",animal:localization.getString(localizationData,"pig"),solution:localization.getString(localizationData,"pigAction"),question:localization.getString(localizationData,"pigQuestion")}
+	];
 		for(var fillWords=0;fillWords<animals.length;fillWords++){
 			passing={
 				solution:animals[fillWords].solution,
@@ -284,7 +300,7 @@ var upRoar = function(){
             pointsText.anchor.setTo(0.5,0.5)
             pointsText.setText(number)
             pointsText.scale.setTo(1,1)
-
+			
             var offsetY = -100
 
             pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
@@ -558,18 +574,15 @@ var upRoar = function(){
 		
 		var randAnimal=3;
 		var correctAnimal=randAnimal;
-		if(localization.getLanguage()=="ES"){
-			bar.text.text="El "+animals[3].animal;
-		}else{
-			bar.text.text="The "+animals[3].animal;
-		}
-		correctAnswer=animals[3].solution;
+		console.log(animals[randAnimal].question)
+		bar.text.text=animals[randAnimal].question+" "+animals[randAnimal].animal;
+		correctAnswer=animals[randAnimal].solution;
 		//btn1.text.text=animals[3].solutionEN;
 		var chooseBtn=game.rnd.integerInRange(0,2);
-			if(chooseBtn==0)choices[0].choice1=words[3].solution;
-			if(chooseBtn==1)choices[0].choice2=words[3].solution;
-			if(chooseBtn==2)choices[0].choice3=words[3].solution;
-			words[3].solution="";
+			if(chooseBtn==0)choices[0].choice1=words[randAnimal].solution;
+			if(chooseBtn==1)choices[0].choice2=words[randAnimal].solution;
+			if(chooseBtn==2)choices[0].choice3=words[randAnimal].solution;
+			words[randAnimal].solution="";
 		if(chooseBtn==0){
 			btn1.id=3;
 			hand.x=btn1.x;
@@ -694,11 +707,7 @@ var upRoar = function(){
 		var randAnimal=game.rnd.integerInRange(0,maxAnimals);
 		var correctAnimal=randAnimal;
 		skinCorrect=animals[randAnimal].skinAndSound;
-		if(localization.getLanguage()=="ES"){
-			bar.text.text="El "+animals[randAnimal].animal;
-		}else{
-			bar.text.text="The "+animals[randAnimal].animal;
-		}
+		bar.text.text=animals[randAnimal].question+" "+animals[randAnimal].animal;
 		correctAnswer=animals[randAnimal].solution;
 		var animalVariant="";
 		if(randAnimal>=2){

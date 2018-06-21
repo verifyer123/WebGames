@@ -20,7 +20,7 @@
 },
 {
 	"filename": "brain",
-	"frame": {"x":168,"y":506,"w":64,"h":52},
+	"frame": {"x":306,"y":491,"w":64,"h":52},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":52},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "guts",
-	"frame": {"x":75,"y":512,"w":59,"h":48},
+	"frame": {"x":143,"y":469,"w":59,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":59,"h":48},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "kidneys",
-	"frame": {"x":1,"y":512,"w":72,"h":42},
+	"frame": {"x":168,"y":535,"w":72,"h":42},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":72,"h":42},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":270,"y":491,"w":140,"h":55},
+	"frame": {"x":1,"y":469,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -82,6 +82,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "smoke",
+	"frame": {"x":204,"y":440,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
 	"frame": {"x":416,"y":484,"w":64,"h":64},
 	"rotated": false,
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "Tile",
-	"frame": {"x":1,"y":556,"w":64,"h":16},
+	"frame": {"x":242,"y":545,"w":64,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":16},
@@ -127,17 +136,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "wrong",
-	"frame": {"x":204,"y":440,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "xpcoins",
-	"frame": {"x":1,"y":469,"w":165,"h":41},
+	"frame": {"x":1,"y":535,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -149,8 +149,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "BGRA8888",
-	"size": {"w":498,"h":573},
+	"size": {"w":498,"h":578},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:14401d6b4dbf26b7784ba9506e98d1fb:882ba6ae7871132ae2025ac23b9a3f7a:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:60a2d33ca4e1871ffcd8f8c4528eacb8:ab74590ae99d60eb44afd9c81f24e60d:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

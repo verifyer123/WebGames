@@ -48,7 +48,7 @@ var instructions = function(){
     function startGame(obj){
         
         obj.inputEnabled = false
-        
+        obj = obj.button
         //popAudio.play()
         sound.play("click")
         
@@ -64,23 +64,16 @@ var instructions = function(){
             alphaTween.onComplete.add(function(){
                 sceneloader.show("rafaga_de_tamales")
             })
-            
         })
-        
-        console.log(amazing.getEmail() + ' email,' + amazing.getBirthday() + ' birthday,' + amazing.getGender() + ' gender')
-        /*mixpanel.track(
-            "enterGame",
-            {"gameName": "rafaga_de_tamales","email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-        );*/
 
         amazing.setMixPanelTrack("rafaga_de_tamales","enterGame")
         
     }
     
     function bounceButton(obj){
-        if(obj.inputEnabled == false){
+        /*if(obj.inputEnabled == false){
             return
-        }
+        }*/
         tweenLoop = game.add.tween(obj.scale).to({x:1.2,y:1.2}, 450, Phaser.Easing.linear, true)
         tweenLoop.onComplete.add(function(){
             tweenLoop = game.add.tween(obj.scale).to({x:1,y:1}, 450, Phaser.Easing.linear, true)
@@ -96,11 +89,22 @@ var instructions = function(){
         var buttonSprite = buttonGroup.create(0, 0,'okbtn')
         buttonSprite.anchor.setTo(0.5, 0.5)
 
-        buttonSprite.inputEnabled = true
-        buttonSprite.events.onInputUp.add(startGame, this)
+        /*buttonSprite.inputEnabled = true
+        buttonSprite.events.onInputUp.add(startGame, this)*/
         
         bounceButton(buttonSprite)
-        
+
+
+        var tapSpace = game.add.graphics()
+        tapSpace.beginFill(0xff0000)
+        tapSpace.drawRect(0,0,game.world.width,game.world.height)
+        tapSpace.endFill()
+        tapSpace.alpha = 0
+        tapSpace.inputEnabled = true
+        tapSpace.events.onInputUp.add(startGame, this)
+        tapSpace.button = buttonSprite
+        //buttonGroup.add(tapSpace)
+
         return buttonGroup
     }
     
