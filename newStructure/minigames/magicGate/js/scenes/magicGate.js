@@ -647,8 +647,8 @@ var magicGate = function(){
 
                     showButtons(false)
                     game.time.events.add(1000,function(){
-						plusle.alpha=0;
-						minus.alpha=0;
+						game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+						game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
                         showButtons(true)
                     })
 
@@ -896,6 +896,14 @@ var magicGate = function(){
 				 var tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
 				
 				tween.onComplete.add(function(){
+						if(isAddition){
+							plusle.alpha=1;
+							plusle.scale.setTo(0.7,0.7);
+						}else{
+							minus.alpha=1;
+							minus.scale.setTo(0.7,0.7);
+						}
+						sign.alpha=0;
 						missPoint()
 						sound.play("evilLaugh")
 						if(!tutorial){
@@ -907,7 +915,9 @@ var magicGate = function(){
 								towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
 							}
 							game.time.events.add(1000,function(){
-								sign.alpha=1;
+								
+								game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+								game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 								showButtons(false)
 								game.time.events.add(1000,function(){
 									showButtons(true)
@@ -934,8 +944,8 @@ var magicGate = function(){
 		var number1 = game.rnd.integerInRange(2,9)
 		var number2 = game.rnd.integerInRange(1,9)
 		var result = number1 + number2
-		minus.scale.setTo(0.7,0.7);
-		plusle.scale.setTo(0.7,0.7);
+		
+		
 		isAddition = true
 		
 		
@@ -948,11 +958,13 @@ var magicGate = function(){
 		}
 		if(tutorial && isAddition){
 			hand.alpha=1;
+			minus.scale.setTo(0.7,0.7);
 			hand.x=plus.x+150;
 			hand.y=plus.y;
 			buttonsGroup.children[1].inputEnabled=false;
 		}else if(tutorial && !isAddition){
 			hand.alpha=1;
+			plusle.scale.setTo(0.7,0.7);
 			hand.x=min.x+150;
 			hand.y=min.y;
 			buttonsGroup.children[0].inputEnabled=false;
