@@ -671,7 +671,8 @@ var magicGate = function(){
 		sceneGroup.add(whiteFade)
 		
 		game.add.tween(whiteFade).from({alpha:1},350,"Linear",true)
-		
+		game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+		game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 		sound.play("explosion")
 		
 		game.add.tween(operationGroup).to({alpha:0},500,"Linear",true)
