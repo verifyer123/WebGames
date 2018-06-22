@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+
 var clash = function(){
 
     var localizationData = {
@@ -23,12 +23,12 @@ var clash = function(){
                 json: "images/clash/atlas.json",
                 image: "images/clash/atlas.png"
             },
-
-
         ],
         images: [
             {   name:"fondo",
-                file: "images/clash/fondo.png"}
+                file: "images/clash/fondo.png"},
+            {   name:"tutorial_image",
+                file: "images/clash/tutorial_image.png"}
         ],
         sounds: [
             {	name: "pop",
@@ -58,8 +58,34 @@ var clash = function(){
             {   name: "fart",
                 file: soundsPath + "splash.mp3"},
             {   name: "explosion",
-                file: soundsPath + "fireExplosion.mp3"}
-        ]
+                file: soundsPath + "fireExplosion.mp3"},
+            {   name: "clashSong",
+                file: soundsPath + "songs/technology_action.mp3"}
+        ],
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            },
+            {   name: "hand",
+                file: "images/spines/hand.png",
+                width: 115,
+                height: 111,
+                frames: 23
+            }
+        ],
+        spines:[
+			{
+				name:"monsters",
+				file:"images/spines/monster/monster.json"
+			},
+            {
+				name:"dino",
+				file:"images/spines/dino/dino.json"
+			}
+		]
     }
 
     var NUM_LIFES = 3
@@ -98,6 +124,8 @@ var clash = function(){
     var clashGroup
     var indicator
     var killedMonsters
+    var coin
+    var hand
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -119,6 +147,82 @@ var clash = function(){
 
         loadSounds()
 
+    }
+    
+    function createPointsBar(){
+        
+        pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = 0
+        sceneGroup.add(pointsBar)
+        
+        var pointsImg = pointsBar.create(-10,10,'atlas.clash','xpcoins')
+        pointsImg.anchor.setTo(1,0)
+    
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsText.x = -pointsImg.width * 0.45
+        pointsText.y = pointsImg.height * 0.25
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
+        pointsBar.add(pointsText)
+        pointsBar.text = pointsText
+        pointsBar.number = 0
+    }
+    
+    function createHearts(){
+        
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
+        
+        var pivotX = 10
+        
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        var heartImg = group.create(0,0,'atlas.clash','life_box')
+
+        pivotX += heartImg.width * 0.45
+        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        heartsGroup.text = pointsText
+    }
+    
+    function addPoint(number){
+        
+        sound.play("magic")
+        pointsBar.number+=number;
+        pointsBar.text.setText(pointsBar.number)
+        
+        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+    }
+    
+    function missPoint(obj){
+        
+        sound.play("wrong")
+		        
+        lives--;
+        heartsGroup.text.setText('X ' + lives)
+        
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        if(lives == 0){
+            stopGame()
+        }
     }
 
     function tweenTint(obj, startColor, endColor, time, delay, callback) {
@@ -153,6 +257,8 @@ var clash = function(){
         dino.statusAnimation = dino.hpBar.health < 3 ? "TIRED" : "IDLE"
         dino.setAnimation(["HIT", dino.statusAnimation])
         dino.hit.start(true, 1000, null, 5)
+        
+        missPoint()
 
         if(dino.hpBar.health > 0)
             game.time.events.add(1000, startRound)
@@ -227,6 +333,8 @@ var clash = function(){
             healthToRemove = 2
         else
             healthToRemove = 1
+        
+        addCoin(dino)
 
         monster.hpBar.removeHealth(healthToRemove)
         monster.statusAnimation = monster.hpBar.health < 3 ? "TIRED" : "IDLE"
@@ -287,6 +395,8 @@ var clash = function(){
             circle.inputEnabled = false
             inputsEnabled = false
             indicator.timer.stop()
+            if(hand)
+                hand.destroy()
 
             var buttonEffect = game.add.tween(option.scale).to({x: 1.2, y: 1.2}, 300, Phaser.Easing.Cubic.Out, true)
             buttonEffect.onComplete.add(function () {
@@ -303,8 +413,7 @@ var clash = function(){
                 var particleCorrect = clashGroup.correctParticle
                 particleCorrect.x = option.x
                 particleCorrect.y = option.y
-
-                particleCorrect.start(true, 1000, null, 3)
+                particleCorrect.start(true, 3000, null, 6)
 
                 var soundName
                 sound.play("right")
@@ -336,9 +445,12 @@ var clash = function(){
                 particleWrong.y = option.y
                 sound.play("wrong")
 
-                particleWrong.start(true, 1000, null, 3)
+                particleWrong.start(true, 3000, null, 6)
 
                 game.time.events.add(500, monsterAttack)
+                game.time.events.add(500, function(){
+                    
+                })
             }
         }
     }
@@ -470,8 +582,8 @@ var clash = function(){
         particle.makeParticles('atlas.clash',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.3;
-        particle.maxParticleScale = 0.6;
+        particle.minParticleScale = 0.8;
+        particle.maxParticleScale = 1.2;
         particle.gravity = 150;
         particle.angularDrag = 30;
 
@@ -505,21 +617,7 @@ var clash = function(){
 
     function preload(){
 
-        game.stage.disableVisibilityChange = false;
-        game.load.audio('clashSong', soundsPath + 'songs/technology_action.mp3');
-
-        /*game.load.image('introscreen',"images/clash/introscreen.png")
-        game.load.image('howTo',"images/clash/how" + localization.getLanguage() + ".png")
-        game.load.image('buttonText',"images/clash/play" + localization.getLanguage() + ".png")*/
-
-        game.load.spine('monsters', "images/spines/monster/monster.json")
-        game.load.spine('dino', "images/spines/dino/dino.json")
-        
-
-        game.load.image('tutorial_image',"images/clash/tutorial_image.png")
-        //loadType(gameIndex)
-
-
+        game.stage.disableVisibilityChange = false
     }
 
     function startRound() {
@@ -714,7 +812,7 @@ var clash = function(){
         clashGroup.add(correctParticle)
         clashGroup.correctParticle = correctParticle
 
-        var wrongParticle = createPart("wrong")
+        var wrongParticle = createPart("smoke")
         clashGroup.add(wrongParticle)
         clashGroup.wrongParticle = wrongParticle
 
@@ -782,57 +880,81 @@ var clash = function(){
     function onClickPlay(rect) {
         
         tutoGroup.y = -game.world.height
-        startRound()
-
+        //startRound()
+        initTutorial()
     }
 
     function createTutorial(){
 
         tutoGroup = game.add.group()
-        //overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
 
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+    }
+    
+    function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
 
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            onClickPlay(rect)
+    }
 
+    function addCoin(obj){
+        
+        coin.x = obj.centerX
+        coin.y = obj.centerY
+        var time = 300
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+               })
+           })
         })
-
-        tutoGroup.add(rect)
-
-        var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-        plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-
-        var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.clash','gametuto')
-        tuto.anchor.setTo(0.5,0.5)
-
-        var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-        howTo.anchor.setTo(0.5,0.5)
-        howTo.scale.setTo(0.8,0.8)
-
-        var inputName = 'movil'
-
-        if(game.device.desktop){
-            inputName = 'desktop'
-        }
-
-        var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.clash',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-        inputLogo.scale.setTo(0.7,0.7)
-
-        var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.clash','button')
-        button.anchor.setTo(0.5,0.5)
-
-        var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-        playText.anchor.setTo(0.5,0.5)*/
+    }
+    
+    function initTutorial(){
+        
+        hideQuestion()
+        indicator.tweenRestart.start()
+        game.time.events.add(1000, function(){
+            generateQuestion()
+            inputsEnabled = false
+        
+            for (var i = 0; i < NUM_OPTIONS; i++){
+                
+                if(clashGroup.options[i].number === clashGroup.answer){
+                    break
+                }
+            }
+            game.time.events.add(4000, posHand, this, clashGroup.options[i])
+        })
+    }
+    
+    function posHand(obj){
+        
+        hand.x = obj.circle.worldPosition.x
+        hand.y = obj.circle.worldPosition.y
+        indicator.timer.stop()
+        game.add.tween(hand).to({alpha:1}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+            inputsEnabled = true
+            for (var i = 0; i < clashGroup.options.length; i++){
+                clashGroup.options[i].circle.inputEnabled = false
+            }
+            obj.circle.inputEnabled = true
+        })
     }
 
     return {
@@ -846,26 +968,27 @@ var clash = function(){
             var background = sceneGroup.create(-2,-2,'fondo')
             background.width = game.world.width+2
             background.height = game.world.height+2
-
-            clashSong = game.add.audio('clashSong')
-            game.sound.setDecodedCallback(clashSong, function(){
-                clashSong.loopFull(0.6)
-            }, this);
-
+            
+            initialize()
+            
+            clashSong = sound.play("clashSong", {loop:true, volume:0.6})
+            
             game.onPause.add(function(){
                 game.sound.mute = true
-            } , this);
+            } , this)
 
             game.onResume.add(function(){
                 game.sound.mute = false
-            }, this);
+            }, this)
 
-            initialize()
             createGameObjects()
             createClashUI()
+            createPointsBar()
+            createHearts()
+            createCoin()
             createTutorial()
 
-            buttons.getButton(clashSong,sceneGroup,game.world.width - 50)
+            buttons.getButton(clashSong,sceneGroup)
 
         }
     }
