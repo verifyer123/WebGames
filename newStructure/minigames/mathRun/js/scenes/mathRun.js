@@ -129,6 +129,8 @@ var mathRun = function(){
 	var playerCollision, enemiesCollision, assetsCollision
     var hand
     var handTuto
+    var tileSpeed
+    var canJump
     
 
 	function loadSounds(){
@@ -164,6 +166,8 @@ var mathRun = function(){
         consecFloor = 0
         consecBricks = 0
         handTuto = true
+        tileSpeed = 1
+        canJump = false
         
 	}
     
@@ -242,7 +246,7 @@ var mathRun = function(){
     
     function inputButton(obj){
         
-        if(gameActive == false){
+        if(gameActive == false || !canJump){
             return
         }
         
@@ -254,6 +258,14 @@ var mathRun = function(){
                 doJump()
             }
             if(handTuto){
+                for(var i = 0;i<objectsGroup.length;i++){
+                    var child = objectsGroup.children[i]
+                    child.body.velocity.x = -gameSpeed
+                }
+                tutoBrick.body.velocity.x = -gameSpeed
+                castle.body.velocity.x = -gameSpeed * 0.1
+                tileSpeed = 1
+                
                 game.add.tween(board).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1000).onComplete.add(function(){
                     gameStart = true
                     getOperation()
@@ -499,7 +511,6 @@ var mathRun = function(){
                             deactivateObj(obj.text)
                         }
                     }
-
                 }
             }
         }
@@ -536,7 +547,7 @@ var mathRun = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown){
+        if (jumpButton.isDown && canJump){
             
             if( checkIfCanJump() && jumping == false)
             {
@@ -544,6 +555,14 @@ var mathRun = function(){
                 doJump()
                 
                 if(handTuto){
+                    for(var i = 0;i<objectsGroup.length;i++){
+                        var child = objectsGroup.children[i]
+                        child.body.velocity.x = -gameSpeed
+                    }
+                    tutoBrick.body.velocity.x = -gameSpeed
+                    castle.body.velocity.x = -gameSpeed * 0.1
+                    tileSpeed = 1
+                    
                     game.add.tween(board).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, true, 1000).onComplete.add(function(){
                         gameStart = true
                         getOperation()
@@ -572,8 +591,8 @@ var mathRun = function(){
         
         checkObjects()
         
-        tileGroup.mountains.tilePosition.x -= 0.2
-        tileGroup.hills.tilePosition.x -= 1
+        tileGroup.mountains.tilePosition.x -= tileSpeed * 0.2
+        tileGroup.hills.tilePosition.x -= tileSpeed
     }
     
     function checkIfCanJump() {
@@ -1184,12 +1203,8 @@ var mathRun = function(){
 
     function onClickPlay(){
         overlayGroup.y = -game.world.height
-        hand.x = game.world.centerX
-        hand.y = game.world.centerY
-        game.add.tween(hand).to({alpha: 1},300,Phaser.Easing.linear,true)
-        initTutorial()
         gameActive = true
-        //gameStart = true
+        initTutorial()
     }
     
     function createBackground(){
@@ -1206,7 +1221,7 @@ var mathRun = function(){
         tileGroup.add(mountains)
         tileGroup.mountains = mountains
         
-        var castle = tileGroup.create(game.world.centerX, game.world.centerY + 160, "atlas.runner", "castle0")
+        castle = tileGroup.create(game.world.centerX, game.world.centerY + 160, "atlas.runner", "castle0")
         castle.anchor.setTo(0, 1)
         game.physics.arcade.enable(castle)
         castle.checkWorldBounds = true
@@ -1248,8 +1263,7 @@ var mathRun = function(){
         tutoBrick.body.kinematic = true
         tutoBrick.used = true
         tutoBrick.events.onOutOfBounds.add(function(){
-            if(handTuto)
-                initTutorial()
+            tutoBrick.kill()
         }, this)
         tutoBrick.tag = "brick"
         tutoBrick.body.allowSleep = true
@@ -1266,6 +1280,22 @@ var mathRun = function(){
         
         tutoBrick.reset(game.world.width + 50, game.world.height - 350)
         tutoBrick.body.velocity.x = -SPEED
+        
+        game.time.events.add(1500, function(){
+            buddy.setAnimationByName(0, "RUN", false).onComplete = function(){
+                hand.x = game.world.centerX
+                hand.y = game.world.centerY
+                game.add.tween(hand).to({alpha: 1},200,Phaser.Easing.linear,true)
+                canJump = true
+                for(var i = 0;i<objectsGroup.length;i++){
+                    var child = objectsGroup.children[i]
+                    child.body.velocity.x = 0
+                }
+                tutoBrick.body.velocity.x = 0
+                castle.body.velocity.x = 0
+                tileSpeed = 0
+            }
+        })
     }
     
 	return {
@@ -1360,7 +1390,7 @@ var mathRun = function(){
 			buttons.getButton(marioSong,sceneGroup)
             createOverlay()
             
-            animateScene()
+           
             
 		},
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
