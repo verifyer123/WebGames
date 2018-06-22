@@ -498,8 +498,7 @@ var mathRun = function(){
                             }
                             answerCoin.text.setText(player.result)
                             game.add.tween(answerCoin).to({alpha: 1}, 200, Phaser.Easing.Cubic.In, true, 0, 0, true).yoyoDelay(1000)
-                            
-                            getOperation()
+                            game.time.events.add(1100, getOperation)
                         }else if(obj.tag == 'skull'){
                             sound.play("wrongItem")
                             createPart('wrong',obj)
@@ -1278,7 +1277,7 @@ var mathRun = function(){
     
     function initTutorial(){
         
-        tutoBrick.reset(game.world.width + 50, game.world.height - 350)
+        tutoBrick.reset(game.world.width + 50, game.world.height - 380)
         tutoBrick.body.velocity.x = -SPEED
         
         game.time.events.add(1500, function(){
@@ -1286,7 +1285,6 @@ var mathRun = function(){
                 hand.x = game.world.centerX
                 hand.y = game.world.centerY
                 game.add.tween(hand).to({alpha: 1},200,Phaser.Easing.linear,true)
-                canJump = true
                 for(var i = 0;i<objectsGroup.length;i++){
                     var child = objectsGroup.children[i]
                     child.body.velocity.x = 0
@@ -1294,6 +1292,7 @@ var mathRun = function(){
                 tutoBrick.body.velocity.x = 0
                 castle.body.velocity.x = 0
                 tileSpeed = 0
+                canJump = true
             }
         })
     }
@@ -1390,7 +1389,7 @@ var mathRun = function(){
 			buttons.getButton(marioSong,sceneGroup)
             createOverlay()
             
-           
+           gameActive = true
             
 		},
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
