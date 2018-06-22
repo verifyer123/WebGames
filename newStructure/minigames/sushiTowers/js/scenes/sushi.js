@@ -487,7 +487,7 @@ var sushi = function(){
         for(var sushiIndex = 0; sushiIndex<sushisInGame[lane].length; sushiIndex++){
 			toX = game.rnd.integerInRange(-100,100)
             var sushi = sushisInGame[lane][sushiIndex]
-            game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+200}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+            game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
 					octopus.setAnimation(["IDLE"])
@@ -671,7 +671,7 @@ var sushi = function(){
 			toY = option.y > sushiHeight ? sushiHeight : option.y
 			if(toY <= 340){
 				toY = 330
-				delay = speed / 0.028;
+				delay = 150;
 			}
 		}else
 			toY = option.y
@@ -806,12 +806,15 @@ var sushi = function(){
 				if (sushi.y < sushi.toY) {
 					sushi.y += speed
 				}
+				
 				else {
 					if (sushiIndex > 0)
 						sushi.toY = prevSushi.y - prevSushi.height + 15
 					else
 						sushi.toY = maxHeight
-
+					
+					
+					
 					totalNum += sushi.num
 					if(sushi.completed)
 						totalNum = 0
@@ -832,6 +835,7 @@ var sushi = function(){
 							missPoint()
 						}*/
 					}
+					sushi.y=sushi.toY;
 					lastSushi = sushi
 				}
 				
@@ -1012,8 +1016,8 @@ var sushi = function(){
 			bgRect.endFill()
 			sceneGroup.add(bgRect)
 
-			var floor = game.add.tileSprite(0 , 0, game.world.width, game.world.height - 340, "atlas.sushi", "swatch")
-            floor.y = game.world.height
+			var floor = game.add.tileSprite(0 , 0, game.world.width, game.world.height - 240, "atlas.sushi", "swatch")
+            floor.y = game.world.height+100
 			floor.anchor.setTo(0, 1)
             sceneGroup.add(floor)
 

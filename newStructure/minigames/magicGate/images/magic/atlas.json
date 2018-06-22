@@ -190,15 +190,6 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "wrong",
-	"frame": {"x":632,"y":642,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "xpcoins",
 	"frame": {"x":759,"y":422,"w":165,"h":41},
 	"rotated": false,
@@ -214,6 +205,6 @@
 	"format": "RGBA8888",
 	"size": {"w":938,"h":970},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:bf540fa9c6f2c9f3e2008090985fd3b2:7215bf22697ec6780ece6f3bf64e5aa6:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:efebb4449fca65cd1a9028aee2ee7f00:8ad956807135066cd2b010fa22ddedfb:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
