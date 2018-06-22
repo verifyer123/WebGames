@@ -583,14 +583,14 @@ var magicGate = function(){
 			hand.alpha=0;
 		}
 		var tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0)
-		if(obj.tag=="minus")game.add.tween(min.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0).yoyo(true,0)
-		if(obj.tag=="plus")game.add.tween(plus.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0).yoyo(true,0)
-		
-		
+		if(obj.tag=="minus"){
+			game.add.tween(min.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0).yoyo(true,0)
+		}
+		if(obj.tag=="plus"){
+			game.add.tween(plus.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0).yoyo(true,0)
+		}
 		
 		tween.yoyo(true,0)
-		
-		
 		
 		if(clock.tween){
 			
@@ -598,12 +598,13 @@ var magicGate = function(){
 		}
 		if(isAddition){
 			plusle.alpha=1;
+			plusle.scale.setTo(0.7,0.7);
 		}else{
 			minus.alpha=1;
+			minus.scale.setTo(0.7,0.7);
 		}
 		var resultImage = operationGroup.result.children[0]
 		if(obj.addition == isAddition){
-			
 			
 			Coin(monster,pointsBar,100);
 			createPart('star',resultImage)
@@ -616,24 +617,21 @@ var magicGate = function(){
 			}
 			
 			game.time.events.add(1000,function(){
-
 				showButtons(false)
 				game.time.events.add(1000,function(){
 					showButtons(true)
-					plusle.alpha=0;
-					minus.alpha=0;
+					game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+					game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 				})
-				
 			})
 			
 			monster.setAnimationByName(0,"LOSE",false)
 			monster.addAnimationByName(0,"IDLE",true)
-			
 			if(!tutorial){
 				game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
 			}
 		}else{
-
+			
 			missPoint()
 			
             sound.play("evilLaugh")
@@ -766,7 +764,7 @@ var magicGate = function(){
 			image.tag= i==0 ? image.tag="plus" : image.tag="minus";
 			image.events.onInputDown.add(inputButton)
 			image.addition = addition
-			addition = !addition	
+			addition = !addition
 		}
 			buttonsGroup.x+=130
             min = game.add.spine(game.world.centerX - 257 ,game.world.height - 105,'operation')
@@ -936,7 +934,8 @@ var magicGate = function(){
 		var number1 = game.rnd.integerInRange(2,9)
 		var number2 = game.rnd.integerInRange(1,9)
 		var result = number1 + number2
-		
+		minus.scale.setTo(0.7,0.7);
+		plusle.scale.setTo(0.7,0.7);
 		isAddition = true
 		
 		
@@ -951,10 +950,15 @@ var magicGate = function(){
 			hand.alpha=1;
 			hand.x=plus.x+150;
 			hand.y=plus.y;
+			buttonsGroup.children[1].inputEnabled=false;
 		}else if(tutorial && !isAddition){
 			hand.alpha=1;
 			hand.x=min.x+150;
 			hand.y=min.y;
+			buttonsGroup.children[0].inputEnabled=false;
+		}else{
+			buttonsGroup.children[0].inputEnabled=true;
+			buttonsGroup.children[1].inputEnabled=true;
 		}
 		operationGroup.buttons[0].text.setText(number1)
 		operationGroup.buttons[1].text.setText(number2)
