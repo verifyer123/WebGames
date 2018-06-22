@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>4.8.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -149,7 +149,7 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <false/>
+        <true/>
         <key>trimSpriteNames</key>
         <true/>
         <key>prependSmartFolderName</key>
@@ -181,142 +181,193 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">background.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/bar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>48,99,95,198</rect>
+                <rect>8,9,15,17</rect>
                 <key>scale9Paddings</key>
-                <rect>48,99,95,198</rect>
+                <rect>8,9,15,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">body.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/board.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>25,13,50,25</rect>
+                <rect>135,98,271,195</rect>
                 <key>scale9Paddings</key>
-                <rect>25,13,50,25</rect>
+                <rect>135,98,271,195</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">broken0.png</key>
-            <key type="filename">shield0.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/clock.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>45,67,89,134</rect>
+                <rect>114,25,228,49</rect>
                 <key>scale9Paddings</key>
-                <rect>45,67,89,134</rect>
+                <rect>114,25,228,49</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">broken1.png</key>
-            <key type="filename">shield1.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/cut.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>46,46,92,92</rect>
+                <rect>13,14,27,27</rect>
                 <key>scale9Paddings</key>
-                <rect>46,46,92,92</rect>
+                <rect>13,14,27,27</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">broken2.png</key>
-            <key type="filename">shield2.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/cutTkn.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/ovenTkn.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>36,65,71,129</rect>
+                <rect>20,22,40,43</rect>
                 <key>scale9Paddings</key>
-                <rect>36,65,71,129</rect>
+                <rect>20,22,40,43</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">broken3.png</key>
-            <key type="filename">shield3.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/fondo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>48,75,96,149</rect>
+                <rect>11,11,22,21</rect>
                 <key>scale9Paddings</key>
-                <rect>48,75,96,149</rect>
+                <rect>11,11,22,21</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">gem0.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/fried.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>29,30,58,59</rect>
+                <rect>15,15,31,30</rect>
                 <key>scale9Paddings</key>
-                <rect>29,30,58,59</rect>
+                <rect>15,15,31,30</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">gem1.png</key>
-            <key type="filename">gem2.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/friedTkn.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/mixTkn.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/pourTkn.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/roastTkn.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>31,31,61,61</rect>
+                <rect>20,22,39,43</rect>
                 <key>scale9Paddings</key>
-                <rect>31,31,61,61</rect>
+                <rect>20,22,39,43</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">gem3.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>30,31,61,61</rect>
+                <rect>35,14,70,27</rect>
                 <key>scale9Paddings</key>
-                <rect>30,31,61,61</rect>
+                <rect>35,14,70,27</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">life_box.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/mix.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>35,14,70,28</rect>
+                <rect>16,14,31,27</rect>
                 <key>scale9Paddings</key>
-                <rect>35,14,70,28</rect>
+                <rect>16,14,31,27</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">smoke.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/okBtn.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,31,93,62</rect>
+                <key>scale9Paddings</key>
+                <rect>47,31,93,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/oven.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,14,33,27</rect>
+                <key>scale9Paddings</key>
+                <rect>17,14,33,27</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/pour.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,33,31</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,33,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/roast.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,14,30,28</rect>
+                <key>scale9Paddings</key>
+                <rect>15,14,30,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -329,7 +380,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">star.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -342,59 +393,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">tree1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>34,54,68,109</rect>
-                <key>scale9Paddings</key>
-                <rect>34,54,68,109</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">tree2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>55,62,111,125</rect>
-                <key>scale9Paddings</key>
-                <rect>55,62,111,125</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">tree3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>29,56,57,112</rect>
-                <key>scale9Paddings</key>
-                <rect>29,56,57,112</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">wave.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>146,19,291,37</rect>
-                <key>scale9Paddings</key>
-                <rect>146,19,291,37</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">xpcoins.png</key>
+            <key type="filename">../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -410,28 +409,27 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>life_box.png</filename>
-            <filename>smoke.png</filename>
-            <filename>star.png</filename>
-            <filename>tree1.png</filename>
-            <filename>tree2.png</filename>
-            <filename>tree3.png</filename>
-            <filename>xpcoins.png</filename>
-            <filename>background.png</filename>
-            <filename>wave.png</filename>
-            <filename>gem1.png</filename>
-            <filename>gem0.png</filename>
-            <filename>gem2.png</filename>
-            <filename>gem3.png</filename>
-            <filename>body.png</filename>
-            <filename>broken1.png</filename>
-            <filename>broken0.png</filename>
-            <filename>broken2.png</filename>
-            <filename>broken3.png</filename>
-            <filename>shield1.png</filename>
-            <filename>shield0.png</filename>
-            <filename>shield2.png</filename>
-            <filename>shield3.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/board.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/clock.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/smoke.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/star.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/xpcoins.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/life_box.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/bar.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/fondo.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/okBtn.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/cut.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/cutTkn.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/fried.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/friedTkn.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/mix.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/mixTkn.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/oven.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/ovenTkn.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/pour.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/pourTkn.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/roast.png</filename>
+            <filename>../../../Applications/MAMP/htdocs/minigames/oonaSaysCook/images/oona/roastTkn.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

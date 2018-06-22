@@ -149,7 +149,7 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <false/>
+        <true/>
         <key>trimSpriteNames</key>
         <true/>
         <key>prependSmartFolderName</key>
@@ -181,125 +181,42 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">background.png</key>
+            <key type="filename">battery.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>48,99,95,198</rect>
+                <rect>18,18,35,35</rect>
                 <key>scale9Paddings</key>
-                <rect>48,99,95,198</rect>
+                <rect>18,18,35,35</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">body.png</key>
+            <key type="filename">bubble.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>25,13,50,25</rect>
+                <rect>28,28,55,55</rect>
                 <key>scale9Paddings</key>
-                <rect>25,13,50,25</rect>
+                <rect>28,28,55,55</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">broken0.png</key>
-            <key type="filename">shield0.png</key>
+            <key type="filename">bullet.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>45,67,89,134</rect>
+                <rect>13,7,25,14</rect>
                 <key>scale9Paddings</key>
-                <rect>45,67,89,134</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">broken1.png</key>
-            <key type="filename">shield1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>46,46,92,92</rect>
-                <key>scale9Paddings</key>
-                <rect>46,46,92,92</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">broken2.png</key>
-            <key type="filename">shield2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>36,65,71,129</rect>
-                <key>scale9Paddings</key>
-                <rect>36,65,71,129</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">broken3.png</key>
-            <key type="filename">shield3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,75,96,149</rect>
-                <key>scale9Paddings</key>
-                <rect>48,75,96,149</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">gem0.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>29,30,58,59</rect>
-                <key>scale9Paddings</key>
-                <rect>29,30,58,59</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">gem1.png</key>
-            <key type="filename">gem2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>31,31,61,61</rect>
-                <key>scale9Paddings</key>
-                <rect>31,31,61,61</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">gem3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>30,31,61,61</rect>
-                <key>scale9Paddings</key>
-                <rect>30,31,61,61</rect>
+                <rect>13,7,25,14</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -313,6 +230,45 @@
                 <rect>35,14,70,28</rect>
                 <key>scale9Paddings</key>
                 <rect>35,14,70,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">minusbar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>128,42,257,83</rect>
+                <key>scale9Paddings</key>
+                <rect>128,42,257,83</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">plusbar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>128,43,257,85</rect>
+                <key>scale9Paddings</key>
+                <rect>128,43,257,85</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ringPart.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,29,57,57</rect>
+                <key>scale9Paddings</key>
+                <rect>29,29,57,57</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -342,58 +298,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">tree1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>34,54,68,109</rect>
-                <key>scale9Paddings</key>
-                <rect>34,54,68,109</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">tree2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>55,62,111,125</rect>
-                <key>scale9Paddings</key>
-                <rect>55,62,111,125</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">tree3.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>29,56,57,112</rect>
-                <key>scale9Paddings</key>
-                <rect>29,56,57,112</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">wave.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>146,19,291,37</rect>
-                <key>scale9Paddings</key>
-                <rect>146,19,291,37</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -407,31 +311,33 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">yogotar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,29,45,58</rect>
+                <key>scale9Paddings</key>
+                <rect>22,29,45,58</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>life_box.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>tree1.png</filename>
-            <filename>tree2.png</filename>
-            <filename>tree3.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>background.png</filename>
-            <filename>wave.png</filename>
-            <filename>gem1.png</filename>
-            <filename>gem0.png</filename>
-            <filename>gem2.png</filename>
-            <filename>gem3.png</filename>
-            <filename>body.png</filename>
-            <filename>broken1.png</filename>
-            <filename>broken0.png</filename>
-            <filename>broken2.png</filename>
-            <filename>broken3.png</filename>
-            <filename>shield1.png</filename>
-            <filename>shield0.png</filename>
-            <filename>shield2.png</filename>
-            <filename>shield3.png</filename>
+            <filename>battery.png</filename>
+            <filename>bubble.png</filename>
+            <filename>plusbar.png</filename>
+            <filename>minusbar.png</filename>
+            <filename>ringPart.png</filename>
+            <filename>bullet.png</filename>
+            <filename>yogotar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
