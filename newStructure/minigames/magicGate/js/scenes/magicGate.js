@@ -187,7 +187,7 @@ var magicGate = function(){
     function missPoint(){
         
         sound.play("wrong")
-		        
+		
         lives--;
         heartsGroup.text.setText('X ' + lives)
         
@@ -633,7 +633,7 @@ var magicGate = function(){
 		}else{
 			
 			missPoint()
-			
+			createPart('smoke',doorsGroup.children[0])
             sound.play("evilLaugh")
 			if(!tutorial){
             	game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
@@ -671,7 +671,8 @@ var magicGate = function(){
 		sceneGroup.add(whiteFade)
 		
 		game.add.tween(whiteFade).from({alpha:1},350,"Linear",true)
-		
+		game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+		game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 		sound.play("explosion")
 		
 		game.add.tween(operationGroup).to({alpha:0},500,"Linear",true)
@@ -905,6 +906,7 @@ var magicGate = function(){
 						}
 						sign.alpha=0;
 						missPoint()
+						createPart('smoke',doorsGroup.children[0])
 						sound.play("evilLaugh")
 						if(!tutorial){
 							game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)

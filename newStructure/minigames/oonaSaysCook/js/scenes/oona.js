@@ -102,11 +102,17 @@ var oona = function(){
     var toolsArray = [];
     var points;
     var levelZero;
-    var hand;
     var levelZeroRecipe;
     var levelZeroIndex;
     var lzChangeHand;
     var tweenSwipe;
+    var particleCorrect;      
+    var particleWrong;
+    var hand;
+    var tutoGroup;
+    var heartsGroup = null;
+    var pointsBar;
+    var coin;
     
     function loadSounds(){
         sound.decode(assets.sounds)

@@ -126,8 +126,6 @@ var wildDentist = function(){
     var particleCorrect;      
     var particleWrong;
     var hand;
-    var particlesGroup;
-    var usedParticles;
     var reviewComic = true;
     /*vars defautl*/
     var castores;
@@ -643,8 +641,8 @@ var wildDentist = function(){
         buttonsOptions[2].anchor.setTo(0.5,0.5);  
 
         hand = game.add.sprite(0, 0, "hand");
-        hand.animations.add('hand')
-        hand.animations.play('hand', 24, true)
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
         hand.alpha = 0;
         createChangeTweenHand(2);    
     }
