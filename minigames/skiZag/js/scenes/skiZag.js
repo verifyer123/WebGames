@@ -73,7 +73,7 @@ var skiZag = function(){
     var player
     var playerSprite 
     var spinePlayer
-    var SPINE_SCALE = 0.4
+    var SPINE_SCALE = 0.3
     var tapDown
 
     var obstaclesGroup
