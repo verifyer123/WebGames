@@ -339,7 +339,7 @@ var magicGate = function(){
 		grass.width = game.world.width
 		
 		var sky = sceneGroup.create(0,0,'atlas.magic','sky')
-		sky.width = game.world.width
+		sky.width = game.world.width+200
 		sky.height = game.world.height - grass.height
 		
 		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.magic','clouds')
