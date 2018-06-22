@@ -30,7 +30,10 @@ var magicGate = function(){
 
         ],
         images: [
-
+			{
+				name:'tutorial_image',
+				file:"images/magic/tutorial_image.png",
+			}
 		],
 		sounds: [
             {	name: "magic",
@@ -38,7 +41,7 @@ var magicGate = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
 			{	name: "shoot",
@@ -51,12 +54,31 @@ var magicGate = function(){
 				file: soundsPath + "evilLaugh.mp3"},
 			{	name: "explosion",
 				file: soundsPath + "explosion.mp3"},
+			{	name: "spaceSong",
+				file: soundsPath + "songs/fantasy_ballad.mp3"},
 			
 		],
+		spritesheets: [
+			{
+				name:"coin",
+                file:"images/spines/coin/coin.png",
+				width:122,
+                height:123,
+                frames:12
+            },
+			{
+                name:"hand",
+                file:"images/spines/hand/hand.png",
+                width:115,
+                height:111,
+                frames:23
+            }
+        ],
     }
     
     var lives = null
 	var sceneGroup = null
+	var UIGroup = null
 	var background
     var gameActive = true
 	var shoot
@@ -64,9 +86,12 @@ var magicGate = function(){
 	var clouds
 	var towersGroup, doorsGroup
 	var monster
+	var min, plus
     var gameIndex = 49
 	var indexGame
+	var sign
     var overlayGroup
+	var tutorial
 	var timeToUse
 	var isAddition
 	var clock
@@ -79,13 +104,11 @@ var magicGate = function(){
 	}
 
 	function initialize(){
-
         game.stage.backgroundColor = "#ffffff"
         lives = 3
+		tutorial=true;
 		timeToUse = 15000
-        
         loadSounds()
-        
 	}
 
     function popObject(obj,delay,appear){
@@ -164,7 +187,7 @@ var magicGate = function(){
     function missPoint(){
         
         sound.play("wrong")
-		        
+		
         lives--;
         heartsGroup.text.setText('X ' + lives)
         
@@ -278,22 +301,12 @@ var magicGate = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
-		
-        
+
         game.load.spine('yogotar', "images/spines/yogotar.json")  
 		game.load.spine('monster',"images/spines/monster.json")
 		game.load.spine('sign',"images/spines/power.json")
 		game.load.spine('operation',"images/spines/glow.json")
-        game.load.audio('spaceSong', soundsPath + 'songs/fantasy_ballad.mp3');
         
-		/*game.load.image('howTo',"images/magic/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/magic/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/magic/introscreen.png")*/
-
-        game.load.image('tutorial_image',"images/magic/tutorial_image.png")
-        //loadType(gameIndex)
-
         
     }
     
@@ -319,6 +332,8 @@ var magicGate = function(){
 
 	function createBackground(){
 		
+		
+		
 		var grass = sceneGroup.create(0,game.world.height,'atlas.magic','grass')
 		grass.anchor.setTo(0,1)
 		grass.width = game.world.width
@@ -330,7 +345,47 @@ var magicGate = function(){
 		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.magic','clouds')
 		sceneGroup.add(clouds)
 		
+		hand=game.add.sprite(game.world.centerX,game.world.centerY, "hand")
+        hand.anchor.setTo(0.5,0.5);
+        hand.scale.setTo(1,1);
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha=0;
+		
+        //Coins
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
+        coins.anchor.setTo(0.5);
+        coins.scale.setTo(0.5);
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0;
+		
+		minus=game.add.sprite(game.world.centerX,game.world.centerY,'atlas.magic', "minus")
+        minus.anchor.setTo(0.5,0.5);
+        minus.scale.setTo(0.7,0.7);
+        minus.alpha=0;
+		
+		plusle=game.add.sprite(game.world.centerX,game.world.centerY,'atlas.magic', "plus")
+        plusle.anchor.setTo(0.5,0.5);
+        plusle.scale.setTo(0.7,0.7);
+        plusle.alpha=0;
+
 	}
+	
+	 function Coin(objectBorn,objectDestiny,time){
+        //objectBorn= Objeto de donde nacen
+        coins.x=objectBorn.centerX
+        coins.y=objectBorn.centerY
+        game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+        game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+            game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+            game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+                coins.x=objectBorn.centerX
+                coins.y=objectBorn.centerY
+                addPoint(1)
+            })
+        })
+    }
 	
 	function update(){
 		
@@ -459,7 +514,6 @@ var magicGate = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',3)
-		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
 
@@ -522,19 +576,37 @@ var magicGate = function(){
 		
 		gameActive = false
 		sound.play("pop")
+		sign.alpha=0;
 		
+		if(tutorial){
+			tutorial=false;
+			hand.alpha=0;
+		}
 		var tween = game.add.tween(obj.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0)
+		if(obj.tag=="minus"){
+			game.add.tween(min.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0).yoyo(true,0)
+		}
+		if(obj.tag=="plus"){
+			game.add.tween(plus.scale).to({x:0.8,y:0.8},100,"Linear",true,0,0).yoyo(true,0)
+		}
+		
 		tween.yoyo(true,0)
 		
 		if(clock.tween){
 			
 			clock.tween.stop()
 		}
-		
+		if(isAddition){
+			plusle.alpha=1;
+			plusle.scale.setTo(0.7,0.7);
+		}else{
+			minus.alpha=1;
+			minus.scale.setTo(0.7,0.7);
+		}
 		var resultImage = operationGroup.result.children[0]
 		if(obj.addition == isAddition){
 			
-			addPoint(1)
+			Coin(monster,pointsBar,100);
 			createPart('star',resultImage)
 			
 			sound.play("zombieUp")
@@ -545,27 +617,27 @@ var magicGate = function(){
 			}
 			
 			game.time.events.add(1000,function(){
-
 				showButtons(false)
 				game.time.events.add(1000,function(){
 					showButtons(true)
+					game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+					game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 				})
-				
 			})
 			
 			monster.setAnimationByName(0,"LOSE",false)
 			monster.addAnimationByName(0,"IDLE",true)
-			
-			
-			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
-			
+			if(!tutorial){
+				game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+			}
 		}else{
 			
 			missPoint()
-			createPart('wrong',resultImage)
+			createPart('smoke',doorsGroup.children[0])
             sound.play("evilLaugh")
-            game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
-			
+			if(!tutorial){
+            	game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+			}
             if(lives !== 0){
                 for(var i = 0; i < 2;i++){
                     towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
@@ -575,6 +647,8 @@ var magicGate = function(){
 
                     showButtons(false)
                     game.time.events.add(1000,function(){
+						game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+						game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
                         showButtons(true)
                     })
 
@@ -597,7 +671,8 @@ var magicGate = function(){
 		sceneGroup.add(whiteFade)
 		
 		game.add.tween(whiteFade).from({alpha:1},350,"Linear",true)
-		
+		game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+		game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 		sound.play("explosion")
 		
 		game.add.tween(operationGroup).to({alpha:0},500,"Linear",true)
@@ -683,32 +758,29 @@ var magicGate = function(){
 		var addition = true
 		for(var i = 0; i < 2; i++){
 			
-			var image = buttonsGroup.create(game.world.centerX,game.world.height,'atlas.magic','button' + (i+1))
+			var image = buttonsGroup.create(game.world.centerX-260*i,game.world.height-110,'atlas.magic','button' + (i+1))
 			image.alpha = 0
-			image.anchor.setTo(i,1)
+			image.anchor.setTo(0.5,0.5)
 			image.inputEnabled = true
+			image.tag= i==0 ? image.tag="plus" : image.tag="minus";
 			image.events.onInputDown.add(inputButton)
 			image.addition = addition
-			
 			addition = !addition
-			
 		}
-        
-            var min = game.add.spine(game.world.centerX - 127 ,game.world.height - 105,'operation')
+			buttonsGroup.x+=130
+            min = game.add.spine(game.world.centerX - 257 ,game.world.height - 105,'operation')
             min.alpha = 0
 			min.setSkinByName('normal')
 			min.setAnimationByName(0,"IDLE_LESS",true)
 			buttonsGroup.add(min)
         
-            var plus = game.add.spine(game.world.centerX + 127 ,game.world.height - 105,'operation')
+            plus = game.add.spine(game.world.centerX -5 ,game.world.height - 105,'operation')
             plus.alpha = 0
 			plus.setSkinByName('normal')
 			plus.setAnimationByName(0,"IDLE_MORE",true)
 			buttonsGroup.add(plus)
 	}
-	
 	function createOperations(){
-		
 		operationGroup = game.add.group()
 		sceneGroup.add(operationGroup)
 		
@@ -721,7 +793,6 @@ var magicGate = function(){
 			cont.y = game.world.centerY
 			cont.alpha = 0
 			operationGroup.add(cont)
-			
 			operationGroup.buttons[i] = cont
 			
 			var imageCont = cont.create(0,0,'atlas.magic','container')
@@ -731,15 +802,12 @@ var magicGate = function(){
 			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
 			pointsText.anchor.setTo(0.5,0.5)
 			cont.add(pointsText)
-			
 			cont.text = pointsText
 			cont.number = 0
-			
 			pivotX+= 400
-			
 		}
 		
-		var sign = game.add.spine(game.world.centerX,game.world.centerY,"sign")
+		sign = game.add.spine(game.world.centerX,game.world.centerY,"sign")
 		sign.setSkinByName('normal')
 		sign.setAnimationByName(0,"IDLE",true)
 		operationGroup.add(sign)
@@ -825,31 +893,45 @@ var magicGate = function(){
 				gameActive = true
 				
 				popObject(clock,0,true)
-				var tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+				if(!tutorial){
+				 var tween = game.add.tween(clock.bar.scale).to({x:0},timeToUse,"Linear",true)
+				
 				tween.onComplete.add(function(){
-					
-					missPoint()
-                    sound.play("evilLaugh")
-                    game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
-					createPart('wrong',operationGroup.result.children[0])
-                    if(lives !== 0){
-                        for(var i = 0; i < 2;i++){
-                            towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
-                            towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
-                        }
-                        game.time.events.add(1000,function(){
+						if(isAddition){
+							plusle.alpha=1;
+							plusle.scale.setTo(0.7,0.7);
+						}else{
+							minus.alpha=1;
+							minus.scale.setTo(0.7,0.7);
+						}
+						sign.alpha=0;
+						missPoint()
+						createPart('smoke',doorsGroup.children[0])
+						sound.play("evilLaugh")
+						if(!tutorial){
+							game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
+						}
+						if(lives !== 0){
+							for(var i = 0; i < 2;i++){
+								towersGroup.children[i].yogotar.setAnimationByName(0,"LOSE",false)
+								towersGroup.children[i].yogotar.addAnimationByName(0,"IDLE",true)
+							}
+							game.time.events.add(1000,function(){
+								
+								game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
+								game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
+								showButtons(false)
+								game.time.events.add(1000,function(){
+									showButtons(true)
+								})
 
-                            showButtons(false)
-                            game.time.events.add(1000,function(){
-                                showButtons(true)
-                            })
-
-                        })
-                    }
-                    else{
-                        enterMonster()
-                    }
-				})
+							})
+						}
+						else{
+							enterMonster()
+						}
+					})
+				}
 				
 				clock.tween = tween
 			})
@@ -865,7 +947,9 @@ var magicGate = function(){
 		var number2 = game.rnd.integerInRange(1,9)
 		var result = number1 + number2
 		
+		
 		isAddition = true
+		
 		
 		if(Math.random()*2 > 1){
 			
@@ -874,7 +958,22 @@ var magicGate = function(){
 			
 			result = number1 - number2
 		}
-		
+		if(tutorial && isAddition){
+			hand.alpha=1;
+			minus.scale.setTo(0.7,0.7);
+			hand.x=plus.x+150;
+			hand.y=plus.y;
+			buttonsGroup.children[1].inputEnabled=false;
+		}else if(tutorial && !isAddition){
+			hand.alpha=1;
+			plusle.scale.setTo(0.7,0.7);
+			hand.x=min.x+150;
+			hand.y=min.y;
+			buttonsGroup.children[0].inputEnabled=false;
+		}else{
+			buttonsGroup.children[0].inputEnabled=true;
+			buttonsGroup.children[1].inputEnabled=true;
+		}
 		operationGroup.buttons[0].text.setText(number1)
 		operationGroup.buttons[1].text.setText(number2)
 		
