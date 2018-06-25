@@ -479,40 +479,44 @@ var oona = function(){
     
     function startTime(){
         
-        toolsGroup.alpha = 1
-        
+        toolsGroup.alpha = 1;
         var timer = 400;
 
-        enterRecipe()
-        okBtnImg.inputEnabled = false
+        enterRecipe();
+        okBtnImg.inputEnabled = false;
 
         for (var i = 0; i < toolsGroup.length; i++)
         {
-            popObject(toolsGroup.children[i], timer)
-            toolsGroup.children[i].image.pressed = false
-            timer += 250
+            popObject(toolsGroup.children[i], timer);
+            toolsGroup.children[i].image.pressed = false;
+            timer += 250;
         }
         
         game.time.events.add(timer, function() 
         {
             game.add.tween(recipeGroup).to({alpha: 1}, 200, Phaser.Easing.linear, true)
             gameActive = true;
-            okBtnImg.inputEnabled = true
-            timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, gameTime, Phaser.Easing.linear, true)
+            okBtnImg.inputEnabled = true;
+
+            if(!levelZero){
+                timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, gameTime, Phaser.Easing.linear, true)
             
-            timeGroup.tween.onComplete.add(function() 
-            {
-                oonaAvatar.setAnimationByName(0, 'LOSE', false)
-                endGame(true)
-                gameActive = false;
-            });
-        }, this)
+                timeGroup.tween.onComplete.add(function() 
+                {
+                    oonaAvatar.setAnimationByName(0, 'LOSE', false);
+                    endGame(true);
+                    gameActive = false;
+                });
+            }
+        }, this);
     }
     
     function endGame(timeEnded){
         
-        timeGroup.tween.stop()
-        okBtnImg.inputEnabled = false
+        if(timeGroup.tween != null){
+            timeGroup.tween.stop();
+        }
+        okBtnImg.inputEnabled = false;
         
         if(timeEnded)
         {
@@ -632,7 +636,9 @@ var oona = function(){
             toolsArray[t].inputEnabled = false
         }
 
-        timeGroup.tween.stop()
+        if(timeGroup.tween!=null){
+            timeGroup.tween.stop();
+        }
         var timer = 500;
         var fin = true;
         okBtnImg.pressed = true;
@@ -644,7 +650,7 @@ var oona = function(){
             {
                 if(inputAnswer[i] == correctAnswer[i]){
                     animateOona(animations[inputAnswer[i]], timer)
-                    colorTools(timer, i, 0x00ff00)
+                    colorTools(timer, i, 0x00ff00) 
                     timer += 1000
                     fin = false
                 }
@@ -712,7 +718,9 @@ var oona = function(){
     function colorTools(delay, pos, color){
         
         game.time.events.add(delay,function(){
-            toolsGroup.children[inputAnswer[pos]].image.tint = color
+            if(toolsGroup.children[inputAnswer[pos]]!=null){
+                toolsGroup.children[inputAnswer[pos]].image.tint = color;
+            }
             
             game.add.tween(toolsGroup.children[inputAnswer[pos]].image.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
             {
