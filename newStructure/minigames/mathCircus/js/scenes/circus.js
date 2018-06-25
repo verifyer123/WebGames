@@ -1,6 +1,5 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
 
 var circus = function(){
     
@@ -26,11 +25,18 @@ var circus = function(){
                 json: "images/circus/atlas.json",
                 image: "images/circus/atlas.png",
             },
+            {   
+                name: "atlas.time",
+                json: "images/circus/timeAtlas.json",
+                image: "images/circus/timeAtlas.png",
+            },
 
         ],
         images: [
 			{   name:"background",
 				file: "images/circus/fondo.png"},
+            {   name:"tutorial_image",
+				file: "images/circus/tutorial_image.png"},
 		],
 		jsons: [
 			{
@@ -61,10 +67,25 @@ var circus = function(){
 				file: soundsPath + "flesh.mp3"},
 			{	name: "punch",
 				file: soundsPath + "punch1.mp3"},
-			
+            {	name: "spaceSong",
+				file: soundsPath + "songs/circus_gentlejammers.mp3"},
 		],
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            }
+        ],
+        spines:[
+			{
+				name:"yogotar",
+				file:"images/spines/skeleton.json"
+			}
+		]
     }
-    
+        
         
     var lives = null
 	var sceneGroup = null
@@ -90,9 +111,9 @@ var circus = function(){
 
 	function initialize(){
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		numLimit = 5
-		timeToUse = 1250
+		timeToUse = 5000
         
 		loadSounds()
 	}
@@ -303,21 +324,8 @@ var circus = function(){
     
     function preload(){
         game.stage.disableVisibilityChange = false;
-
-        
-        game.load.spine('yogotar', "images/spines/skeleton.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/circus_gentlejammers.mp3');
-        
-		/*game.load.image('howTo',"images/circus/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/circus/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/circus/introscreen.png")*/
-
 		epicparticles.loadEmitter(game.load, "pickedEnergy")
 		epicparticles.loadEmitter(game.load, "fireFloor")
-		
-		game.load.image('tutorial_image',"images/circus/tutorial_image.png")
-		//loadType(gameIndex)
-
     }
     
 	function showButtons(appear){
@@ -342,39 +350,11 @@ var circus = function(){
 			
 			game.time.events.add(delay,function(){
 				gameActive = true
-				
-				timerGroup.number = 10
-				timerGroup.text.setText(timerGroup.number)
-				
-				popObject(timerGroup,0,true)
 				popObject(base.text,200,true)
-				
-				game.time.events.add(1000,setTimer)
+                
+                game.time.events.add(500, startTimer, this, timeToUse)
 			})
 		}
-	}
-	
-	function setTimer(){
-		
-		if(!gameActive){
-			return
-		}
-		
-		createTextPart('-1',timerGroup.text)
-		
-		timerGroup.number--
-		timerGroup.text.setText(timerGroup.number)
-		
-		popObject(timerGroup,0,true)
-		
-		if(timerGroup.number < 1){
-			missPoint()
-		}else{
-			if(gameActive){
-				game.time.events.add(timeToUse,setTimer)
-			}
-		}
-		
 	}
 	
 	function setOperation(){
@@ -482,14 +462,15 @@ var circus = function(){
 		sceneGroup.add(floor)
 	}
 	
-	
 	function update(game){
-		epicparticles.update()
+		//epicparticles.update()
 
-		background.tilePosition.x--
-		floor.tilePosition.x+= 0.6
+        if(gameActive){
+            background.tilePosition.x -= 0.6
+            floor.tilePosition.x --
+        }
 
-		if (game.input.activePointer.isDown == true){
+		/*if (game.input.activePointer.isDown == true){
 			if (clickLatch == false) {
 				var emitter = epicparticles.newEmitter("pickedEnergy")
 				emitter.x = game.input.activePointer.x
@@ -499,7 +480,7 @@ var circus = function(){
 			clickLatch = true
 		} else {
 			clickLatch = false
-		}
+		}*/
 	}
 	
 	function createTextPart(text,obj){
@@ -626,7 +607,6 @@ var circus = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',3)
-		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
 
@@ -687,25 +667,38 @@ var circus = function(){
 			return
 		}
 		
+        stopTimer()
 		var parent = obj.parent
 		
 		sound.play("pop")
 		
-		var tween = game.add.tween(parent.scale).to({x:0.6,y:0.6},200,"Linear",true)
-		tween.yoyo(true,0)
+		game.add.tween(parent.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0,true)
+        
+        for(var i = 0; i < buttonsGroup.length; i++){
+            var btn = buttonsGroup.children[i]
+            if(btn.number !== result){
+                game.add.tween(btn.scale).to({x:0,y:0},250,"Linear",true)
+            }
+        }
 		
 		gameActive = false
 		
 		if(parent.number == result){
-			addPoint(1)
+			addCoin(yogotar)
 			createPart('star',obj)
 			
 			yogotar.setAnimationByName(0,"WIN",false)
 			yogotar.addAnimationByName(0,"IDLE",true)
-			game.time.events.add(1100,restartScene)
+			game.time.events.add(1800, restartScene)
 		}else{
-			missPoint()
-			createPart('wrong',obj)
+			createPart('smoke',obj)
+            if(lives > 1){
+                missPoint()
+                game.time.events.add(1800, restartScene)
+            }
+            else{
+                missPoint()
+            }
 		}
 		
 	}
@@ -713,7 +706,6 @@ var circus = function(){
 	function restartScene(){
 		
 		showButtons(false)
-		game.add.tween(timerGroup).to({alpha:0},300,"Linear",true)
 		game.add.tween(base.text).to({alpha:0},300,"Linear",true,200)
 		
 		game.time.events.add(1000,function(){
@@ -778,28 +770,70 @@ var circus = function(){
 		}
 		
 	}
-	
-	function createTimer(){
-		
-		timerGroup = game.add.group()
-		timerGroup.x = game.world.centerX - 200
-		timerGroup.y = game.world.height - 335
-		timerGroup.alpha = 0
-		sceneGroup.add(timerGroup)
-		
-		var timerImg = timerGroup.create(0,0,'atlas.circus','time')
-		timerImg.anchor.setTo(0.5,0.5)
-		
-		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 35,-5, 10, fontStyle)
-		pointsText.angle = -15
-		pointsText.anchor.setTo(0.5,0.5)
-		timerGroup.add(pointsText)
-		
-		timerGroup.number = 10
-		timerGroup.text = pointsText
-		
-	}
+    
+    function createTimer(){
+        
+        timerGroup = game.add.group()
+        //timerGroup.alpha = 0
+        sceneGroup.add(timerGroup)
+        
+        var clock = timerGroup.create(game.world.centerX, 75, "atlas.time", "clock")
+        clock.anchor.setTo(0.5)
+        
+        var timeBar = timerGroup.create(clock.centerX - 175, clock.centerY + 19, "atlas.time", "bar")
+        timeBar.anchor.setTo(0, 0.5)
+        timeBar.scale.setTo(11.5, 0.65)
+        timerGroup.timeBar = timeBar
+   }
+    
+    function stopTimer(){
+        
+        timerGroup.tweenTiempo.stop()
+        game.add.tween(timerGroup.timeBar.scale).to({x:11.5}, 100, Phaser.Easing.Linear.Out, true, 100)
+   }
+    
+    function startTimer(time){
+        
+        timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100)
+        timerGroup.tweenTiempo.onComplete.add(function(){
+            gameActive = false
+            stopTimer()
+            if(lives > 1){
+                missPoint()
+                game.time.events.add(1100,restartScene)
+            }
+            else{
+                missPoint()
+            }
+        })
+    }
+    
+    function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+    }
+
+    function addCoin(obj){
+        
+        coin.x = obj.centerX
+        coin.y = obj.centerY
+        var time = 300
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+               })
+           })
+        })
+    }
 	
 	return {
 		
@@ -815,6 +849,7 @@ var circus = function(){
 			createBase()
 			createButtons()
 			createTimer()
+            createCoin()
 			addParticles()
                         			
             spaceSong = game.add.audio('spaceSong')

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.1</string>
+        <string>4.8.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
+        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png8</enum>
+        <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -181,111 +181,43 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">bar.png</key>
+            <key type="filename">card0.png</key>
+            <key type="filename">card2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>8,9,15,17</rect>
+                <rect>67,27,135,55</rect>
                 <key>scale9Paddings</key>
-                <rect>8,9,15,17</rect>
+                <rect>67,27,135,55</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">board.png</key>
+            <key type="filename">card1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,98,271,195</rect>
+                <rect>67,27,135,54</rect>
                 <key>scale9Paddings</key>
-                <rect>135,98,271,195</rect>
+                <rect>67,27,135,54</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">clock.png</key>
+            <key type="filename">display.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>114,25,228,49</rect>
+                <rect>72,36,144,71</rect>
                 <key>scale9Paddings</key>
-                <rect>114,25,228,49</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cut.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>13,14,27,27</rect>
-                <key>scale9Paddings</key>
-                <rect>13,14,27,27</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cutTkn.png</key>
-            <key type="filename">ovenTkn.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,22,40,43</rect>
-                <key>scale9Paddings</key>
-                <rect>20,22,40,43</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">fondo.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>11,11,22,21</rect>
-                <key>scale9Paddings</key>
-                <rect>11,11,22,21</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">fried.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>15,15,31,30</rect>
-                <key>scale9Paddings</key>
-                <rect>15,15,31,30</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">friedTkn.png</key>
-            <key type="filename">mixTkn.png</key>
-            <key type="filename">pourTkn.png</key>
-            <key type="filename">roastTkn.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,22,39,43</rect>
-                <key>scale9Paddings</key>
-                <rect>20,22,39,43</rect>
+                <rect>72,36,144,71</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -296,75 +228,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>35,14,70,27</rect>
+                <rect>35,14,70,28</rect>
                 <key>scale9Paddings</key>
-                <rect>35,14,70,27</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">mix.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,14,31,27</rect>
-                <key>scale9Paddings</key>
-                <rect>16,14,31,27</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ok_01.png</key>
-            <key type="filename">ok_02.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>64,64,128,128</rect>
-                <key>scale9Paddings</key>
-                <rect>64,64,128,128</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">oven.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>17,14,33,27</rect>
-                <key>scale9Paddings</key>
-                <rect>17,14,33,27</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">pour.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,33,31</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,33,31</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">roast.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>15,14,30,28</rect>
-                <key>scale9Paddings</key>
-                <rect>15,14,30,28</rect>
+                <rect>35,14,70,28</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -381,6 +247,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">spaceship.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,46,91,92</rect>
+                <key>scale9Paddings</key>
+                <rect>45,46,91,92</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -391,6 +270,45 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tile.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>135,50,271,101</rect>
+                <key>scale9Paddings</key>
+                <rect>135,50,271,101</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">time.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,166,53,331</rect>
+                <key>scale9Paddings</key>
+                <rect>27,166,53,331</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">timebar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,149,9,299</rect>
+                <key>scale9Paddings</key>
+                <rect>4,149,9,299</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -410,28 +328,18 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>bar.png</filename>
-            <filename>board.png</filename>
-            <filename>clock.png</filename>
-            <filename>cut.png</filename>
-            <filename>cutTkn.png</filename>
-            <filename>fondo.png</filename>
-            <filename>fried.png</filename>
-            <filename>friedTkn.png</filename>
             <filename>life_box.png</filename>
-            <filename>mix.png</filename>
-            <filename>mixTkn.png</filename>
-            <filename>ok_01.png</filename>
-            <filename>ok_02.png</filename>
-            <filename>oven.png</filename>
-            <filename>ovenTkn.png</filename>
-            <filename>pour.png</filename>
-            <filename>pourTkn.png</filename>
-            <filename>roast.png</filename>
-            <filename>roastTkn.png</filename>
-            <filename>smoke.png</filename>
-            <filename>star.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>card0.png</filename>
+            <filename>card1.png</filename>
+            <filename>card2.png</filename>
+            <filename>tile.png</filename>
+            <filename>spaceship.png</filename>
+            <filename>time.png</filename>
+            <filename>timebar.png</filename>
+            <filename>display.png</filename>
+            <filename>star.png</filename>
+            <filename>smoke.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

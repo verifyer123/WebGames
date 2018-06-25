@@ -441,8 +441,8 @@ var wildDentist = function(){
                             trunk.tronco1.alpha = 1;
                             target.hit.alpha = 0;
                             target.biteBeaver = false;
-                            particleWrong.x = target.idle.world.x;
-                            particleWrong.y = target.idle.world.y;
+                            particleWrong.x = target.idle.world.x + target.idle.width/2;
+                            particleWrong.y = target.idle.world.y + target.idle.height/2;
                             particleWrong.start(true, 1000, null, 5);
                             
                             if(lives != 0){ 
@@ -696,8 +696,8 @@ var wildDentist = function(){
                             castores[d].biteBeaver = false;
                             castores[d].clean = true;
                             speed = speed + 0.05;
-                            particleCorrect.x = castores[d].idle.world.x;
-                            particleCorrect.y = castores[d].idle.world.y;
+                            particleCorrect.x = castores[d].idle.world.x + castores[d].idle.width/2;
+                            particleCorrect.y = castores[d].idle.world.y + castores[d].idle.height/2;
                             particleCorrect.start(true, 1000, null, 5);
                             hitZones[d].id = 4;
                             if(starGame){
@@ -710,8 +710,8 @@ var wildDentist = function(){
                 }
             }else{
                 if (checkOverlap(hitZones[d], sprite) ){
-                    particleWrong.x = castores[d].idle.world.x;
-                    particleWrong.y = castores[d].idle.world.y;
+                    particleWrong.x = castores[d].idle.world.x + castores[d].idle.width/2;
+                    particleWrong.y = castores[d].idle.world.y + castores[d].idle.height/2;
                     particleWrong.start(true, 1000, null, 5);
                     if(starGame){
                         missPoint();

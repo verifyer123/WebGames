@@ -270,7 +270,13 @@ var elemental = function(){
 
     function onClickPlay(){
         overlayGroup.y = -game.world.height
-        //initGame()
+        
+       /*gemsGroup.forEach(function(gem){
+                gem.inputEnabled = true
+            gem.scale.setTo(1.2)
+                gem.events.onInputDown.add(shotGem, this)
+            }, this)
+        initGame()*/
         initTutorial()
     }
     
@@ -519,9 +525,8 @@ var elemental = function(){
                 game.add.tween(gem).to({x:mask.x, y:mask.y}, 300, Phaser.Easing.Cubic.InOut, true, 0, 0, true).onComplete.add(function(){
                     gem.floating.resume()
                     gem.isShot = false
-                    if(mask)
+                    if(mask.healtPoints > 0){
                         witch.canAttack = true
-                    if(gem.element !== mask.element){
                         mask.touch = false
                     }
                 })
@@ -571,7 +576,7 @@ var elemental = function(){
                 witch.canAttack = false
                 mask.anim.setAnimationByName(0, "LOSE", false).onComplete = function(){
                     mask.kill()
-                    initGame()
+                    game.time.events.add(500, initGame)
                 }
             break
 
@@ -599,9 +604,9 @@ var elemental = function(){
         
         if(!mask.touch && gameActive){
             
+            gemsGroup.setAll("inputEnabled", false)
             mask.touch = true
             mask.body.velocity.y = 0
-            gameActive = false
             
             game.add.tween(mask).to({x:game.world.centerX, y: -200}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
                 mask.kill()
@@ -610,7 +615,8 @@ var elemental = function(){
             if(lives > 1){
                 witchAnim("HIT")
                 missPoint(witch)
-                game.time.events.add(600, witchAnim, this, "IDLE").onComplete = initGame()
+                game.time.events.add(600, witchAnim, this, "IDLE")
+                game.time.events.add(1000, initGame)
             }
             else{
                 gemsGroup.setAll("inputEnabled", false)
@@ -622,9 +628,10 @@ var elemental = function(){
     }
     
     function initGame(){
-        
+          
+        gemsGroup.setAll("inputEnabled", true)
         gameActive = true
-        game.time.events.add(500, throwMask)
+        throwMask()
     }
     
     function throwMask(){
