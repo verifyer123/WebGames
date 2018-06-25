@@ -564,7 +564,7 @@ var magnet = function(){
         
         player.body.x = 100 
         yogotar.x = player.x
-        yogotar.y = player.y +48 
+        yogotar.y = player.y + 48 
 		
 		player.bubble.x = yogotar.x
 		player.bubble.y = yogotar.y - 50
@@ -733,7 +733,7 @@ var magnet = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown && !jumpDown){
+        /*if (jumpButton.isDown && !jumpDown){
 			
 			jumpDown = true
 			doJump()
@@ -741,7 +741,7 @@ var magnet = function(){
 		
         if(jumpButton.isUp){
             jumpDown = false
-        }
+        }*/
         
         checkObjects()
     }
@@ -1073,7 +1073,7 @@ var magnet = function(){
 			yogotar.scale.setTo(1.2,1.2)
             sceneGroup.add(yogotar)   
 			
-			player = sceneGroup.create(yogotar.x, yogotar.y,'atlas.magnet','yogotar')
+			player = sceneGroup.create(100, yogotar.y,'atlas.magnet','yogotar')
 			player.scale.setTo(0.8,0.8)
             player.anchor.setTo(0.5,1)
             player.alpha = 0
