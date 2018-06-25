@@ -1,6 +1,6 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+
 var space = function(){
     
     var localizationData = {
@@ -29,6 +29,8 @@ var space = function(){
         images: [
             {   name:"fondo",
 				file: "images/space/fondo.png"},
+            {   name:"tutorial_image",
+				file: "images/space/tutorial_image.png"},
 		],
 		sounds: [
             {	name: "pop",
@@ -47,7 +49,29 @@ var space = function(){
 				file: soundsPath + "gameLose.mp3"},
             {	name: "shootBall",
 				file: soundsPath + "shootBall.mp3"},
+            {	name: "spaceSong",
+				file: soundsPath + "songs/space_music.mp3"},
 		],
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            },
+            {   name: "splash",
+                file: "images/spines/splash.png",
+                width: 240,
+                height: 190,
+                frames: 13
+            }
+        ],
+        spines:[
+			{
+				name:"master",
+				file:"images/spines/skeleton1.json"
+			}
+		]
     }
     
     var CARD_TIME = 300
@@ -111,6 +135,8 @@ var space = function(){
     var gameIndex = 1
     var clock
     var timeValue
+    var particleCorrect, particleWrong
+    var coin
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -141,17 +167,6 @@ var space = function(){
     function shuffleList(){
         
         Phaser.ArrayUtils.shuffle(WORDS)
-    }
-    
-    function createPart(key,obj){
-        
-            key+='Part'
-            var particle = sceneGroup.create(obj.x,obj.y,'atlas.space',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        
     }
     
     function setWords(){
@@ -211,7 +226,9 @@ var space = function(){
             barGroup.tween.onComplete.add(function(){
 
                 missPoint()
-                createPart('wrong',parent)
+                particleWrong.x = master.centerX 
+                particleWrong.y = master.centerY
+                particleWrong.start(true, 1200, null, 8)
                 master.tween.stop()
                 showAssets(false)
                 game.time.events.add(1000,function(){
@@ -298,7 +315,7 @@ var space = function(){
         
         sound.play('fall')
                 
-        missPoint()
+        //missPoint()
         
         master.tween.stop()
 
@@ -419,7 +436,7 @@ var space = function(){
         master.setAnimationByName(0, "WINSTILL", true);
         master.addAnimationByName(0,"IDLE",true)
         
-        var tween = game.add.tween(master).to({y:master.y-100},200,Phaser.Easing.linear,true,0,3)
+        var tween = game.add.tween(master).to({y:master.y-100},500,Phaser.Easing.linear,true,0,3)
         tween.yoyo(true, 0);
         
         game.time.events.add(1200,function(){
@@ -472,16 +489,25 @@ var space = function(){
         
         if(parent.correct){
             
-            addPoint(1)
-            createPart('star',parent)
+            addCoin(parent)
+            particleCorrect.x = parent.centerX 
+            particleCorrect.y = parent.centerY
+            particleCorrect.start(true, 1200, null, 8)
             
             showAssets(false)
             game.time.events.add(1000,function(){
                 showAssets(true)
             })
         }else{
+            master.angle = -45
+            game.add.tween(master).to({angle: 45},250,Phaser.Easing.linear,true,0,2,true).onComplete.add(function(){
+                master.angle = 0
+            })
+            
             missPoint()
-            createPart('wrong',parent)
+            particleWrong.x = parent.centerX 
+            particleWrong.y = parent.centerY
+            particleWrong.start(true, 1200, null, 8)
             master.tween.stop()
             showAssets(false)
             game.time.events.add(1000,function(){
@@ -651,22 +677,7 @@ var space = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;  
-		
-        
-        game.load.spine('master', "images/spines/skeleton1.json")  
-        game.load.audio('spaceSong', soundsPath + 'songs/space_music.mp3');
-        
-        game.load.spritesheet('splash', 'images/space/splash.png', 240, 190, 13);
-        
-        /*game.load.image('introscreen',"images/space/introscreen.png")
-		game.load.image('howTo',"images/space/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/space/play" + localization.getLanguage() + ".png")*/
-
-        game.load.image('tutorial_image',"images/space/tutorial_image.png")
-        //loadType(gameIndex)
-
-        
+        game.stage.disableVisibilityChange = false
     }
 	
 	function createOverlay(){
@@ -676,54 +687,6 @@ var space = function(){
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				showAssets(true)			
-				
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.space','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		//console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.space',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.space','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(){
@@ -750,6 +713,54 @@ var space = function(){
 
         tween.yoyo(true, 0);
         
+    }
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('smoke')
+        sceneGroup.add(particleWrong)
+    }
+    
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.space',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
+    }
+    
+    function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+    }
+
+    function addCoin(obj){
+        
+        coin.x = obj.centerX
+        coin.y = obj.centerY
+        var time = 300
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+               })
+           })
+        })
     }
     
 	return {
@@ -792,6 +803,8 @@ var space = function(){
             
             createHearts()
             createPointsBar()
+            createParticles()
+            createCoin()
             
 			buttons.getButton(dojoSong,sceneGroup)
             createOverlay()
