@@ -570,6 +570,13 @@ var mathRun = function(){
                         hand.destroy()
                     })
                     handTuto = false
+                    
+                    game.time.events.add(750, function(){
+                        if(gameActive == true){
+                            buddy.setAnimationByName(0, "LAND", true)
+                            buddy.addAnimationByName(0, "RUN", true)
+                        }
+                    } , this)
                 }
             }
         }
