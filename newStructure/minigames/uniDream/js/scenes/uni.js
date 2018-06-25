@@ -113,6 +113,7 @@ var uni = function(){
 
 	var lives
 	var sceneGroup = null
+	var bedGroup=null;
 	var gameIndex = 53
 	var tutoGroup
 	var bed
@@ -742,6 +743,7 @@ var uni = function(){
 	}
 	
 	function createUniUI() {
+		
 		dreamGroup = game.add.group()
 		dreamGroup.y = game.world.height
 		sceneGroup.add(dreamGroup)
@@ -779,8 +781,8 @@ var uni = function(){
 		buro.y = game.world.height
 		buro.anchor.setTo(0.5, 1)
 
-		bed=game.add.sprite(game.world.width * 0.5 - 400,game.world.height - 300,"atlas.uni","bed");
-		sceneGroup.add(bed)
+		bed=game.add.sprite(game.world.width * 0.5 - 400,game.world.height - 275,"atlas.uni","bed");
+		sceneGroup.add(bed);
 		
 		
 		theffanie = createSpine("theffanie","normal")
@@ -794,6 +796,8 @@ var uni = function(){
 		clockCounter.x = buro.x
 		clockCounter.y = game.world.height - 250
 		sceneGroup.add(clockCounter)
+		
+		
 
 		// var inputClock = new Phaser.Graphics(game)
 		// inputClock.beginFill(0xFFFFFF)
@@ -828,8 +832,10 @@ var uni = function(){
 		buttonImg.events.onInputDown.add(checkCorrect)
 		buttonImg.anchor.setTo(0.5, 0.5)
 		button.alpha = 0
-		buttonImg.scale.setTo(0.7, 0.7)
+		buttonImg.scale.setTo(0.5, 0.5)
 		dreamGroup.button = buttonImg
+		
+		
 
 		var fontStyle2 = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 

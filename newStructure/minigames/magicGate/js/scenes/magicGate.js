@@ -336,7 +336,7 @@ var magicGate = function(){
 		
 		var grass = sceneGroup.create(0,game.world.height,'atlas.magic','grass')
 		grass.anchor.setTo(0,1)
-		grass.width = game.world.width
+		grass.width = game.world.width+200
 		
 		var sky = sceneGroup.create(0,0,'atlas.magic','sky')
 		sky.width = game.world.width+200
