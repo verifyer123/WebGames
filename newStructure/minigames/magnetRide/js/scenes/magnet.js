@@ -1026,7 +1026,7 @@ var magnet = function(){
     
     function initTutorial(){
         
-        game.time.events.add(3000, function(){
+        game.time.events.add(2000, function(){
             gameActive = false
             hand.x = player.x - 10
             hand.y = player.y
