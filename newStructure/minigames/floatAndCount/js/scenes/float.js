@@ -249,7 +249,7 @@ var float = function(){
 				particle.minParticleSpeed.setTo(-400, -100);
 				particle.maxParticleSpeed.setTo(400, -200);
 				particle.minParticleScale = 0.6;
-				particle.maxParticleScale = 1.5;
+				particle.maxParticleScale = 1;
 				particle.gravity = 150;
 				particle.angularDrag = 30;
 				
@@ -309,7 +309,7 @@ var float = function(){
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
         particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
+        particlesGood.maxParticleScale = 0.8;
         particlesGood.gravity = 150;
         particlesGood.angularDrag = 30;
 
@@ -949,14 +949,12 @@ var float = function(){
     function restartGame(){
         
         if(playerGroup.x <= 0 || playerGroup.x >= game.world.width){
-            console.log("x")
             game.add.tween(playerGroup).to({x: game.world.centerX}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
                 gameActive = true
                 playerGroup.anim.setAnimationByName(0,"IDLE",true)
             })
         }
         else{
-            console.log("nop")
             numIndex++
             updateCounter()
             gameActive = true
