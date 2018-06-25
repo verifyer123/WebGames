@@ -463,7 +463,7 @@ var magnet = function(){
 		yogotar.setSkinByName('mas')
 		yogotar.setToSetupPose()
 		
-		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.setAnimationByName(0,"lose",false)
 		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
@@ -698,9 +698,9 @@ var magnet = function(){
         sound.play("spaceship")
         sound.play("whoosh")
 		
-		yogotar.setAnimationByName(0, "CHANGE", false);
+		yogotar.setAnimationByName(0, "change", false);
 		if(gameActive){
-			yogotar.addAnimationByName(0,"IDLE",true)
+			yogotar.addAnimationByName(0,"idle",true)
 		}
 		
 		if(!player.up){
@@ -1088,7 +1088,7 @@ var magnet = function(){
 			bubble.anchor.setTo(0.5,0.5)
 			player.bubble = bubble
 						
-            yogotar.setAnimationByName(0, "IDLE", true);
+            yogotar.setAnimationByName(0, "idle", true);
             yogotar.setSkinByName('menos');
 			
 			createObjects()
