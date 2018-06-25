@@ -441,8 +441,8 @@ var wildDentist = function(){
                             trunk.tronco1.alpha = 1;
                             target.hit.alpha = 0;
                             target.biteBeaver = false;
-                            particleWrong.x = target.idle.world.x;
-                            particleWrong.y = target.idle.world.y;
+                            particleWrong.x = target.idle.world.x + target.idle.width/2;
+                            particleWrong.y = target.idle.world.y + target.idle.height/2;
                             particleWrong.start(true, 1000, null, 5);
                             
                             if(lives != 0){ 
