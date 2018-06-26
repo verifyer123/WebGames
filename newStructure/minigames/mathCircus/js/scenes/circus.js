@@ -102,6 +102,7 @@ var circus = function(){
 	var timerGroup
 	var numLimit, timeToUse
 	var clickLatch = false
+    var speed
 	
 	var numberOptions = [3,4,6]
 	
@@ -114,6 +115,7 @@ var circus = function(){
         lives = 3
 		numLimit = 5
 		timeToUse = 5000
+        speed = 5
         
 		loadSounds()
 	}
@@ -290,7 +292,8 @@ var circus = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.setAnimationByName(0,"lose",false)
+		yogotar.addAnimationByName(0,"losestill",true)
 		
 		var obj = sceneGroup.create(yogotar.x, yogotar.y- 50,'atlas.circus','star')
 		obj.anchor.setTo(0.5,0.5)
@@ -465,10 +468,10 @@ var circus = function(){
 	function update(game){
 		//epicparticles.update()
 
-        if(gameActive){
-            background.tilePosition.x -= 0.6
-            floor.tilePosition.x --
-        }
+        //if(gameActive){
+            background.tilePosition.x -= speed * 0.2
+            floor.tilePosition.x -= speed
+        //}
 
 		/*if (game.input.activePointer.isDown == true){
 			if (clickLatch == false) {
@@ -686,17 +689,25 @@ var circus = function(){
 		if(parent.number == result){
 			addCoin(yogotar)
 			createPart('star',obj)
-			
-			yogotar.setAnimationByName(0,"WIN",false)
-			yogotar.addAnimationByName(0,"IDLE",true)
+			speed = 0
+			yogotar.setAnimationByName(0,"win",false).onComplete = function(){
+                speed = 5
+            }
+			yogotar.addAnimationByName(0,"idle",true)
 			game.time.events.add(1800, restartScene)
 		}else{
 			createPart('smoke',obj)
             if(lives > 1){
                 missPoint()
+                speed = 0
+                yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
+                    speed = 5
+                }
+                yogotar.addAnimationByName(0,"idle",true)
                 game.time.events.add(1800, restartScene)
             }
             else{
+                speed = 0
                 missPoint()
             }
 		}
@@ -733,7 +744,7 @@ var circus = function(){
 		base.text = pointsText
 		
 		yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar")
-		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotar.setAnimationByName(0,"idle",true)
 		yogotar.setSkinByName("normal")
 		sceneGroup.add(yogotar)
 	}
