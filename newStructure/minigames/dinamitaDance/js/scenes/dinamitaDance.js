@@ -7,13 +7,15 @@ var dinamitaDance = function(){
         "EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-            "stop":"Stop!"
+            "stop":"Stop!",
+            "tutorial_image": "images/dinamitaDance/gameTuto_EN.png"
         },
 
         "ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+            "tutorial_image": "images/dinamitaDance/gameTuto_ES.png"
         }
     }
     
@@ -38,7 +40,7 @@ var dinamitaDance = function(){
             {   name:'danceFloor',
                 file:"images/dinamitaDance/danceFloor.png"},
             {   name:'tutorial_image',
-                file:"images/dinamitaDance/tutorial_image_%input.png"}
+                file:"%lang"}
 
         ],
         sounds: [
@@ -739,6 +741,7 @@ var dinamitaDance = function(){
     return {
         assets: assets,
         name: "dinamitaDance",
+        localizationData: localizationData,
         preload:preload,
         update:update,
         getGameData:function () {
