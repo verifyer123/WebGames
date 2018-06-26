@@ -525,7 +525,7 @@ var dinamitaDance = function(){
                 dinamita.setAnimationByName(0, "idle", true)
             break
             case 5:
-                dinamita.setAnimationByName(0, "idle_foot", true)
+                dinamita.setAnimationByName(0, "win", true) //idle_foot
             break
             case 6:
                 dinamita.setAnimationByName(0, "lose", true)
