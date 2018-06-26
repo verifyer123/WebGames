@@ -245,10 +245,10 @@ var tutorialHelper = function () {
 			case gameTypeEnum.CHOOSE:
 				videoName = "choose"
 				if(language=="ES"){
-                    tutorialTypeText = "CHOOSE"
+                    tutorialTypeText = "ESCOGER"
 				}
 				else{
-					tutorialTypeText = "ESCOGER"
+					tutorialTypeText = "CHOOSE"
 				}
 				break
 			case gameTypeEnum.COUNT:
