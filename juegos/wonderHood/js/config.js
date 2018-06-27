@@ -2,7 +2,7 @@ window.amazing = {
 	config: {
 		name: "Wonder Hood",
 		language: "en",
-		minigameUrl: "../../minigames/wonderhood/index.html",
+		minigameUrl: "../../minigames/wonderHood/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }
