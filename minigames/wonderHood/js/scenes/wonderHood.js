@@ -61,9 +61,9 @@ var wonderHood = function(){
     var LEVELS_ACTIVATE_PLATTFORM = 2
     var LEVELS_ACTIVATE_ROCK = 1
     var LEVELS_ACTIVATE_BARREL = 10
-    var PROBABILITY_BARREL = 0.8
+    var PROBABILITY_BARREL = 0.5
     var BARREL_VELOCITY = 1
-    var BARREL_MAX_Y = 50
+    var BARREL_MAX_Y = 100
     var CLOUDS_VELOCITY = 0.5
 
     var TRAYECT_INITIAL_SCALE = 0.3
@@ -110,13 +110,13 @@ var wonderHood = function(){
     var trayectGroup
     var touchPositions
     var bigMountain
-    var fruitSlot
+    var fruitSlot, fruitSlotDog
     var physicsNames = ["Pyt","Yax","Mizzy","Spoty"]
     var fruitnames = ["calabaza","manzana","naranja","pina","sandia","uvas"]
     var offsetValues
     var offsetValuesSpine
-    var rockOffset = [0,10,-20]
-    var plattformOffset = [-70,-60,-90]
+    var rockOffset = [0,10,-20,20]
+    var plattformOffset = [-70,-60,-90,-45]
     var offsetFruit = 4
     var waitUntilShot
     var playerSpinePivot
@@ -610,8 +610,14 @@ var wonderHood = function(){
         
         if(arrowAvailable){
             //apple.body.y = npc.body.y - 75
-            apple.body.x =fruitSlot.worldPosition.x
-        	apple.body.y = fruitSlot.worldPosition.y+offsetFruit
+            if(npc.spine.visible){
+	            apple.body.x =fruitSlot.worldPosition.x
+	        	apple.body.y = fruitSlot.worldPosition.y+offsetFruit
+	        }
+	        else{
+	        	apple.body.x =fruitSlotDog.worldPosition.x
+	        	apple.body.y = fruitSlotDog.worldPosition.y+offsetFruit
+	        }
         }
         else{
             apple.body.x = currentArrow.body.x +40
@@ -859,17 +865,44 @@ var wonderHood = function(){
 
         	player.angle = OFFSET_ANGLE
         	playerSpinePivot.angle = OFFSET_ANGLE
-        	npc.currentSkin = game.rnd.integerInRange(0,2)
-        	npc.spine.setSkinByName("normal"+npc.currentSkin)
-        	npc.spine.setToSetupPose();
+        	var tempRandom = game.rnd.integerInRange(0,3)
+        	if(tempRandom==npc.currentSkin){
+        		tempRandom++
+        		if(tempRandom>3){
+        			tempRandom = 0
+        		}
+        	}
+        	npc.currentSkin = tempRandom
+
+        	if(npc.currentSkin<3){
+        		npc.spine.visible = true
+        		npc.spine.setSkinByName("normal"+npc.currentSkin)
+        		npc.spine.setToSetupPose();
+        		npc.spine.x = offsetValuesSpine[npc.currentSkin].x
+        		npc.spine.y = offsetValuesSpine[npc.currentSkin].y
+        		npc.spineDog.visible = false
+        	}
+        	else{
+        		npc.spineDog.visible = true
+        		npc.spineDog.x = offsetValuesSpine[npc.currentSkin].x
+        		npc.spineDog.y = offsetValuesSpine[npc.currentSkin].y
+        		npc.spine.visible = false
+        	}
+
+        	
         	npc.body.clearShapes()
         	npc.body.loadPolygon("physicsData",physicsNames[npc.currentSkin])
         	npc.body.y = offsetValues[npc.currentSkin]
-        	npc.spine.x = offsetValuesSpine[npc.currentSkin].x
-        	npc.spine.y = offsetValuesSpine[npc.currentSkin].y
+        	
         	arrowAvailable = true
-        	apple.body.x =fruitSlot.worldPosition.x
-        	apple.body.y = fruitSlot.worldPosition.y+offsetFruit
+        	if(npc.spine.visible){
+	        	apple.body.x =fruitSlot.worldPosition.x
+	        	apple.body.y = fruitSlot.worldPosition.y+offsetFruit
+	        }
+	        else{
+	        	apple.body.x =fruitSlotDog.worldPosition.x
+        		apple.body.y = fruitSlotDog.worldPosition.y+offsetFruit
+	        }
         	var fruitValue = game.rnd.integerInRange(0,fruitnames.length-1)
         	apple.loadTexture("atlas.game",fruitnames[fruitValue])
         	apple.body.clearShapes()
@@ -943,8 +976,14 @@ var wonderHood = function(){
             eliminateArrow()
     		arrowNpcGroup.add(currentArrow)
             currentArrow = getArrow()
-            npc.spine.setAnimationByName(0,"hit",false)
-            npc.spine.addAnimationByName(0,"idle",true)
+            if(npc.spine.visible){
+	            npc.spine.setAnimationByName(0,"hit",false)
+	            npc.spine.addAnimationByName(0,"idle",true)
+	        }
+	        else{
+	        	npc.spineDog.setAnimationByName(0,"hit",false)
+	            npc.spineDog.addAnimationByName(0,"idle",true)
+	        }
     	}
     	else if(body.objectType == OBJECT_TYPES.APPLE){
     		addPoint(1,{x:game.world.width-100,y:50})
@@ -1118,6 +1157,9 @@ var wonderHood = function(){
         offsetValues[2] = game.world.height - 260
         offsetValuesSpine[2] = {x:25,y:110}
 
+        offsetValues[3] = game.world.height - 210
+        offsetValuesSpine[3] = {x:25,y:65}
+
         platformNpc = sceneGroup.create(0,0, "atlas.game","tubo")
         platformNpc.x = 2500
         platformNpc.y = game.world.height - 15
@@ -1148,8 +1190,8 @@ var wonderHood = function(){
         npcGroup = game.add.group()
         sceneGroup.add(npcGroup)
         npc = sceneGroup.create(0,0)
-        npc.currentSkin = game.rnd.integerInRange(0,2)
-        //npc.currentSkin = 2
+        npc.currentSkin = game.rnd.integerInRange(0,3)
+        //npc.currentSkin = 3
 
         npc.x = game.world.centerX + 145
         npc.y = offsetValues[npc.currentSkin]
@@ -1158,13 +1200,26 @@ var wonderHood = function(){
         npcGroup.add(npc)
         
 
-        var npcSpine = game.add.spine(offsetValuesSpine[npc.currentSkin].x,offsetValuesSpine[npc.currentSkin].y,"npcSpine")
-        npcSpine.setSkinByName("normal"+npc.currentSkin)
+        var temp = npc.currentSkin
+        if(temp > 2){
+        	temp =2
+        }
+
+        var npcSpine = game.add.spine(offsetValuesSpine[temp].x,offsetValuesSpine[temp].y,"npcSpine")
+        npcSpine.setSkinByName("normal"+temp)
         npcSpine.setAnimationByName(0,"idle",true)
         npcSpine.scale.setTo(0.8)
         npc.spine = npcSpine
         npc.addChild(npcSpine)
+        npc.spine.visible = false
 
+        var npcSpineDog = game.add.spine(offsetValuesSpine[npc.currentSkin].x,offsetValuesSpine[npc.currentSkin].y,"dogSpine")
+        npcSpineDog.setSkinByName("normal")
+        npcSpineDog.setAnimationByName(0,"idle",true)
+        npcSpineDog.scale.setTo(0.8)
+        npc.spineDog = npcSpineDog
+        npc.addChild(npcSpineDog)
+        npcSpineDog.visible = false
 
         var empty 
         var slotIndex
@@ -1182,6 +1237,21 @@ var wonderHood = function(){
         //console.log(empty,slotIndex)
         fruitSlot = empty
 
+        for(var index = 0, n = npcSpineDog.skeletonData.slots.length; index < n; index++){
+            var slotData = npcSpineDog.skeletonData.slots[index]
+            if(slotData.name === "meizi fruit"){
+                slotIndex = index
+            }
+        }
+
+        if (slotIndex){
+            empty = npcSpineDog.slotContainers[slotIndex]
+        }
+
+        //console.log(empty,slotIndex)
+        fruitSlotDog = empty
+
+
 
 
         game.physics.p2.enable(npc,false)
@@ -1198,10 +1268,19 @@ var wonderHood = function(){
         //apple.y = fruitSlot.y
         //fruitSlot.add(apple)
 
-        apple.x = fruitSlot.worldPosition.x
-        apple.y = fruitSlot.worldPosition.y
+        
 
-        console.log(fruitSlot)
+        if(npc.currentSkin<3){
+        	npc.spine.visible = true
+        	apple.x = fruitSlot.worldPosition.x
+        	apple.y = fruitSlot.worldPosition.y
+        }
+        else{
+        	npcSpineDog.visible = true
+        	apple.x = fruitSlotDog.worldPosition.x
+       		apple.y = fruitSlotDog.worldPosition.y
+        }
+
 
         game.physics.p2.enable(apple,false)
         apple.body.static = true
