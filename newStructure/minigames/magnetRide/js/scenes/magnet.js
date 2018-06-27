@@ -463,7 +463,7 @@ var magnet = function(){
 		yogotar.setSkinByName('mas')
 		yogotar.setToSetupPose()
 		
-		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.setAnimationByName(0,"lose",false)
 		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
@@ -564,7 +564,7 @@ var magnet = function(){
         
         player.body.x = 100 
         yogotar.x = player.x
-        yogotar.y = player.y +48 
+        yogotar.y = player.y + 48 
 		
 		player.bubble.x = yogotar.x
 		player.bubble.y = yogotar.y - 50
@@ -698,9 +698,9 @@ var magnet = function(){
         sound.play("spaceship")
         sound.play("whoosh")
 		
-		yogotar.setAnimationByName(0, "CHANGE", false);
+		yogotar.setAnimationByName(0, "change", false);
 		if(gameActive){
-			yogotar.addAnimationByName(0,"IDLE",true)
+			yogotar.addAnimationByName(0,"idle",true)
 		}
 		
 		if(!player.up){
@@ -733,7 +733,7 @@ var magnet = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown && !jumpDown){
+        /*if (jumpButton.isDown && !jumpDown){
 			
 			jumpDown = true
 			doJump()
@@ -741,7 +741,7 @@ var magnet = function(){
 		
         if(jumpButton.isUp){
             jumpDown = false
-        }
+        }*/
         
         checkObjects()
     }
@@ -1026,7 +1026,7 @@ var magnet = function(){
     
     function initTutorial(){
         
-        game.time.events.add(3000, function(){
+        game.time.events.add(2000, function(){
             gameActive = false
             hand.x = player.x - 10
             hand.y = player.y
@@ -1073,7 +1073,7 @@ var magnet = function(){
 			yogotar.scale.setTo(1.2,1.2)
             sceneGroup.add(yogotar)   
 			
-			player = sceneGroup.create(yogotar.x, yogotar.y,'atlas.magnet','yogotar')
+			player = sceneGroup.create(100, yogotar.y,'atlas.magnet','yogotar')
 			player.scale.setTo(0.8,0.8)
             player.anchor.setTo(0.5,1)
             player.alpha = 0
@@ -1088,7 +1088,7 @@ var magnet = function(){
 			bubble.anchor.setTo(0.5,0.5)
 			player.bubble = bubble
 						
-            yogotar.setAnimationByName(0, "IDLE", true);
+            yogotar.setAnimationByName(0, "idle", true);
             yogotar.setSkinByName('menos');
 			
 			createObjects()

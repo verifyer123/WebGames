@@ -102,6 +102,8 @@ var circus = function(){
 	var timerGroup
 	var numLimit, timeToUse
 	var clickLatch = false
+    var speed
+    var number2
 	
 	var numberOptions = [3,4,6]
 	
@@ -114,6 +116,8 @@ var circus = function(){
         lives = 3
 		numLimit = 5
 		timeToUse = 5000
+        speed = 5
+        number2 = 0
         
 		loadSounds()
 	}
@@ -290,7 +294,8 @@ var circus = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.setAnimationByName(0,"lose",false)
+		yogotar.addAnimationByName(0,"losestill",true)
 		
 		var obj = sceneGroup.create(yogotar.x, yogotar.y- 50,'atlas.circus','star')
 		obj.anchor.setTo(0.5,0.5)
@@ -320,8 +325,7 @@ var circus = function(){
             sceneloader.show("result")
 		})
     }
-    
-    
+     
     function preload(){
         game.stage.disableVisibilityChange = false;
 		epicparticles.loadEmitter(game.load, "pickedEnergy")
@@ -359,25 +363,26 @@ var circus = function(){
 	
 	function setOperation(){
 		
-		var number1 = numberOptions[game.rnd.integerInRange(0,numberOptions.length - 1)]
-		var number2 = game.rnd.integerInRange(2,numLimit)
+		var number1 = numberOptions[game.rnd.integerInRange(0, numberOptions.length - 1)]
+		number2 = getRand(number2)
 		
 		base.text.setText(number1 + ' X ' + number2)
 		result = number1 * number2
 		
 		var index =  game.rnd.integerInRange(0,2)
+        buttonsGroup.children[index].number = result
+        
 		for(var i = 0; i < buttonsGroup.length;i++){
 			
 			var button = buttonsGroup.children[i]
-			if(index == i){
-				button.number = result
-			}else{
-				var number3 = number2
-				while(number3 == number2){
-					number3 = game.rnd.integerInRange(2,numLimit)
-				}
-				button.number = number1 * number3
-				
+			if(i !== index){
+                do{
+                    var number1 = game.rnd.integerInRange(2, numLimit)
+                    var number3 = game.rnd.integerInRange(2, numLimit)
+                    var opt = number1 * number3
+                }while(checkExist(opt))
+                
+				buttonsGroup.children[i].number = opt
 			}
 			
 			button.text.setText(button.number)
@@ -385,6 +390,25 @@ var circus = function(){
 		
 		popObject(button.text,0,true)
 	}
+    
+    function checkExist(opt){
+        
+        for(var i = 0; i < buttonsGroup.length; i++){
+            
+            if(buttonsGroup.children[i].number === opt){
+                return true
+            }
+        }
+        return false
+    }
+    
+    function getRand(opt){
+        var x = game.rnd.integerInRange(2, numLimit)
+        if(x === opt)
+            return getRand(opt)
+        else
+            return x     
+    }
 	
     function createOverlay(){
         
@@ -465,10 +489,10 @@ var circus = function(){
 	function update(game){
 		//epicparticles.update()
 
-        if(gameActive){
-            background.tilePosition.x -= 0.6
-            floor.tilePosition.x --
-        }
+        //if(gameActive){
+            background.tilePosition.x -= speed * 0.2
+            floor.tilePosition.x -= speed
+        //}
 
 		/*if (game.input.activePointer.isDown == true){
 			if (clickLatch == false) {
@@ -686,18 +710,22 @@ var circus = function(){
 		if(parent.number == result){
 			addCoin(yogotar)
 			createPart('star',obj)
-			
-			yogotar.setAnimationByName(0,"WIN",false)
-			yogotar.addAnimationByName(0,"IDLE",true)
+			speed = 0
+			yogotar.setAnimationByName(0,"win",false).onComplete = function(){
+                speed = 5
+            }
+			yogotar.addAnimationByName(0,"idle",true)
 			game.time.events.add(1800, restartScene)
 		}else{
 			createPart('smoke',obj)
-            if(lives > 1){
-                missPoint()
+            speed = 0
+            missPoint()
+            if(lives > 0){
+                yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
+                    speed = 5
+                }
+                yogotar.addAnimationByName(0,"idle",true)
                 game.time.events.add(1800, restartScene)
-            }
-            else{
-                missPoint()
             }
 		}
 		
@@ -733,7 +761,7 @@ var circus = function(){
 		base.text = pointsText
 		
 		yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar")
-		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotar.setAnimationByName(0,"idle",true)
 		yogotar.setSkinByName("normal")
 		sceneGroup.add(yogotar)
 	}
@@ -798,12 +826,14 @@ var circus = function(){
         timerGroup.tweenTiempo.onComplete.add(function(){
             gameActive = false
             stopTimer()
-            if(lives > 1){
-                missPoint()
-                game.time.events.add(1100,restartScene)
-            }
-            else{
-                missPoint()
+            speed = 0
+            missPoint()
+            if(lives > 0){
+                yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
+                    speed = 5
+                }
+                yogotar.addAnimationByName(0,"idle",true)
+                game.time.events.add(1800, restartScene)
             }
         })
     }

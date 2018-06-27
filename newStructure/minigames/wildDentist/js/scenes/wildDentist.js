@@ -121,7 +121,6 @@ var wildDentist = function(){
     var pointsBar;
     var coin;
     var background;
-    var speedGame = 2;
     var speed = 1.5;
     var particleCorrect;      
     var particleWrong;
@@ -140,6 +139,7 @@ var wildDentist = function(){
     var casesInTutorial;
     var tweenHand;
     var changeTween;
+    var buttonsSquare;
     
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -149,7 +149,6 @@ var wildDentist = function(){
 
         game.stage.backgroundColor = "#ffffff";      //Poner siempre un background
         lives = 3;
-        speedGame = 2;
         speed = 1.5;
         starGame = false;
         castores = [
@@ -166,6 +165,7 @@ var wildDentist = function(){
         tutorialColocation = [1,0,0];
         casesInTutorial = 0;
         changeTween = false;
+        buttonsSquare = [];
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -364,14 +364,37 @@ var wildDentist = function(){
     function levelZero(){
         if(casesInTutorial > 2){
             tweenHand.stop();
+            for(var i = 0; i<3; i++){
+                buttonsSquare[i].tint = 0xffffff;
+                buttonsOptions[i].tint = 0xffffff;
+                buttonsOptions[i].input.enabled = true;
+                buttonsOptions[i].events.onDragStart.removeAll();
+                buttonsOptions[i].events.onDragStop.removeAll();
+                buttonsOptions[i].events.onDragStart.add(onDragStart, this);
+                buttonsOptions[i].events.onDragStop.add(onDragStop, this);
+            }
             hand.alpha = 0;
             starGame = true;
             gameState = createDelegate(gamePlay); 
         }else if(changeTween && casesInTutorial == 1){
             changeTween = false;
+            for(var i = 0; i<3; i++){
+                buttonsSquare[i].tint = 0x909090;
+                buttonsOptions[i].tint = 0x909090;
+                buttonsOptions[i].input.enabled = false;
+                buttonsOptions[i].events.onDragStart.removeAll();
+                buttonsOptions[i].events.onDragStop.removeAll();
+            }
             createChangeTweenHand(1);
         }else if(changeTween && casesInTutorial == 2){
             changeTween = false;
+            for(var i = 0; i<3; i++){
+                buttonsSquare[i].tint = 0x909090;
+                buttonsOptions[i].tint = 0x909090;
+                buttonsOptions[i].input.enabled = false;
+                buttonsOptions[i].events.onDragStart.removeAll();
+                buttonsOptions[i].events.onDragStop.removeAll();
+            }
             createChangeTweenHand(0);
         }
     }
@@ -610,26 +633,43 @@ var wildDentist = function(){
         container.y = game.height - container.height + 10;
         container.width = game.width;
         
-        buttonsOptions[0] = sceneGroup.create(0,0,"atlas.game","brush");
+        var square = sceneGroup.create(0,0,"atlas.game","brush");
+        square.y = game.height - square.height/2 - 10;
+        square.x = square.width;
+        square.anchor.setTo(0.5,0.5);
+        buttonsSquare.push(square);
+        buttonsOptions[0] = sceneGroup.create(0,0,"atlas.game","brush_iso");
         buttonsOptions[0].id = 0;
         buttonsOptions[0].y = game.height - buttonsOptions[0].height/2 - 10;    
         buttonsOptions[0].x = buttonsOptions[0].width;
         buttonsOptions[0].posx = buttonsOptions[0].x;
         buttonsOptions[0].posy = buttonsOptions[0].y;
         buttonsOptions[0].inputEnabled = true;
-        buttonsOptions[0].anchor.setTo(0.5,0.5);
+        buttonsOptions[0].anchor.setTo(0.3,0.65);
         
-        buttonsOptions[1] = sceneGroup.create(0,0,"atlas.game","floss");
+        square = sceneGroup.create(0,0,"atlas.game","floss");
+        square.y = game.height - square.height/2 - 10;
+        square.x = game.world.centerX + 5;
+        square.anchor.setTo(0.5,0.5);
+        buttonsSquare.push(square);
+        buttonsOptions[1] = sceneGroup.create(0,0,"atlas.game","floss_iso");
         buttonsOptions[1].id = 1;
         buttonsOptions[1].y = game.height - buttonsOptions[1].height/2 - 10;    
-        buttonsOptions[1].x = game.world.centerX + 20;
+        buttonsOptions[1].x = game.world.centerX + 5;
         buttonsOptions[1].anchor.setTo(0.5,0.5);
         buttonsOptions[1].posx = buttonsOptions[1].x;
         buttonsOptions[1].posy = buttonsOptions[1].y;
         buttonsOptions[1].inputEnabled = true;
-        buttonsOptions[1].anchor.setTo(0.5,0.5);  
+        buttonsOptions[1].anchor.setTo(0.3,0.9);
+        buttonsSquare[1].tint = 0x909090;
+        buttonsOptions[1].tint = 0x909090; 
         
-        buttonsOptions[2] = sceneGroup.create(0,0,"atlas.game","enjuague");
+        square = sceneGroup.create(0,0,"atlas.game","enjuague");
+        square.y = game.height - square.height/2 - 10;
+        square.x = game.width - square.width;
+        square.anchor.setTo(0.5,0.5);
+        buttonsSquare.push(square);
+        buttonsOptions[2] = sceneGroup.create(0,0,"atlas.game","wash_iso");
         buttonsOptions[2].id = 2;
         buttonsOptions[2].y = game.height - buttonsOptions[2].height/2 - 10;   
         buttonsOptions[2].x = game.width - buttonsOptions[2].width;
@@ -638,7 +678,9 @@ var wildDentist = function(){
         buttonsOptions[2].posx = buttonsOptions[2].x;
         buttonsOptions[2].posy = buttonsOptions[2].y;
         buttonsOptions[2].inputEnabled = true;
-        buttonsOptions[2].anchor.setTo(0.5,0.5);  
+        buttonsOptions[2].anchor.setTo(1.1,0.6); 
+        buttonsSquare[2].tint = 0x909090;
+        buttonsOptions[2].tint = 0x909090; 
 
         hand = game.add.sprite(0, 0, "hand");
         hand.animations.add('hand');
@@ -649,6 +691,9 @@ var wildDentist = function(){
 
     function createChangeTweenHand(index){
         var indexInverse = 2-index;
+        buttonsSquare[indexInverse].tint = 0xffffff;
+        buttonsOptions[indexInverse].tint = 0xffffff;
+        buttonsOptions[indexInverse].input.enabled = true;
         buttonsOptions[indexInverse].input.enableDrag();
         buttonsOptions[indexInverse].events.onDragStart.add(onDragStart, this);
         buttonsOptions[indexInverse].events.onDragStop.add(onDragStop, this);
@@ -657,7 +702,7 @@ var wildDentist = function(){
         if(tweenHand != null){
             tweenHand.stop();
         }
-        tweenHand = game.add.tween(hand).to( { x: castores[index].idle.x + (castores[index].idle.width/2), y: castores[index].idle.y + (castores[index].idle.height/2)}, 2000, Phaser.Easing.Linear.InOut, true, 0, -1,true, 2000);  
+        tweenHand = game.add.tween(hand).to( { x: castores[index].idle.x + (castores[index].idle.width/2), y: castores[index].idle.y + (castores[index].idle.height/2)}, 2000, Phaser.Easing.Linear.InOut, true, 0, -1); 
     }
 
     function shuffle(array) {
@@ -695,7 +740,7 @@ var wildDentist = function(){
                             castores[d].idle.alpha = 1;
                             castores[d].biteBeaver = false;
                             castores[d].clean = true;
-                            speed = speed + 0.05;
+                            speed = speed + 0.08;//0.05
                             particleCorrect.x = castores[d].idle.world.x + castores[d].idle.width/2;
                             particleCorrect.y = castores[d].idle.world.y + castores[d].idle.height/2;
                             particleCorrect.start(true, 1000, null, 5);
