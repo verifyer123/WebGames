@@ -72,7 +72,7 @@ var sushi = function(){
                 file:"images/spine/hand/hand.png",
                 width:115,
                 height:111,
-                frames:23
+                frames:5
             }
         ],
     }
@@ -113,6 +113,7 @@ var sushi = function(){
 	var hand
 	var coins
     var addBrickCounter
+	var diferentSushi=[];
     var speed
 	var yogotars
 	var xTutorial
@@ -391,7 +392,7 @@ var sushi = function(){
     function createTextGroup(num, denom){
 		var operationGroup = game.add.group()
 
-		var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var numerador = new Phaser.Text(sceneGroup.game, 0, -12, num, fontStyle)
 		numerador.anchor.setTo(0.5, 0.5)
 		operationGroup.add(numerador)
@@ -415,7 +416,16 @@ var sushi = function(){
 
     function addSushi(name, lane, toY) {
         timeNextSushi = 0
+		
+		var dificulty=pointsBar.number;
+		var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
 		var dataSushi = SUSHI_DATA[name]
+		if(dificulty>5){
+			dataSushi = SUSHI_DATA[diferentSushi[randomNum]]
+		}else{
+			dataSushi = SUSHI_DATA[name]
+		}
+		
         var sushi = game.add.group()
 
 		sushi.sushiList = []
@@ -471,7 +481,7 @@ var sushi = function(){
 		hand.y=game.world.height-100;
 		hand.alpha=1;
 		sushisInGame[1][0].container.input.enabled=false;
-		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true);
+		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true);
     }
 
     function onClickPlay(rect) {
@@ -660,25 +670,29 @@ var sushi = function(){
 				lineToCollide = barIndex
 			}
 		}
+		
+		   
+		   
+		   
 		var toX = BAR_POSITIONS[lineToCollide]
 		var sushiLane = sushisInGame[lineToCollide]
 		var lastSushi = sushiLane[sushiLane.length - 1]
 		var toY
 		var delay = 0
+		var refSushi
+		var cont =0 ;
+		var prevSushi = null
 		
 		if (lastSushi){
 			var sushiHeight = lastSushi.y - lastSushi.height - 15
 			
-			toY = option.y > sushiHeight ? sushiHeight : option.y
+			toY = option.y 
 			if(toY <= 340){
 				toY = 330
 				delay = 150;
 			}
 		}else
 			toY = option.y
-		
-		
-		if (option.tween) option.tween.stop()
 		
 		
 		if(secondAnimation && tutorial){
@@ -693,29 +707,55 @@ var sushi = function(){
 
 		option.tween = game.add.tween(option).to({x: toX, y: toY}, 150, Phaser.Easing.Cubic.Out, true, delay)
 		option.tween.onComplete.add(function (thisOption) {
+			
+			
+			for(var checkCollitions=0; checkCollitions<sushisInGame[lineToCollide].length; checkCollitions++){
+				if(checkOverlap(option,sushisInGame[lineToCollide][checkCollitions])){
+					option.y-=sushisInGame[lineToCollide][checkCollitions].height;
+				}
+			}
+			
 			for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
 				var container = thisOption.sushiList[containerIndex]
 				container.inputEnabled = true
 			}
+			for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
+					
+				
+				if(option.y<sushisInGame[lineToCollide][checkPositions].y){
+					cont++;
+				}else{
+					break;
+				}
+				prevSushi = sushisInGame[lineToCollide][checkPositions]
+				prevSushi.index = cont
+			}
+			//if(prevSushi)
+				//option.container = prevSushi
+			
+			
 			thisOption.lane = lineToCollide
 			thisOption.tween = null
-			thisOption.index = sushisInGame[lineToCollide].length
-			sushisInGame[lineToCollide].push(thisOption)
+			thisOption.index = cont
+			sushisInGame[lineToCollide].splice(cont,0,option);
+			//sushisInGame[lineToCollide].push(thisOption)
 
 			sushisInGame[lineToCollide].delaySushi = 500
 			
-			if(tutorial && sushisInGame[2][0]!=null && xTutorial){
+//			if(tutorial && sushisInGame[2][0]!=null && xTutorial){
+//			
+//				hand.x=sushisInGame[2][0].worldPosition.x;
+//				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+//			
+//			}else if(tutorial && sushisInGame[0][0]!=null && xTutorial){
+//				firstAnimation.stop()
+//				hand.x=sushisInGame[0][0].worldPosition.x;
+//				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+//			}
 			
-			hand.x=sushisInGame[2][0].worldPosition.x;
-			secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true)
 			
-			}else if(tutorial && sushisInGame[0][0]!=null && xTutorial){
-				firstAnimation.stop()
-				hand.x=sushisInGame[0][0].worldPosition.x;
-				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true)
-			}
 
-		})
+			})
 
 		
 		
@@ -794,10 +834,10 @@ var sushi = function(){
 			if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
 			if(sushisInGame[2][0])xTutorial=sushisInGame[2][0];
 		}
-		if(tutorial && firstAnimation){
+		if(tutorial && firstAnimation && xTutorial){
 			firstAnimation.stop()
 			hand.x=xTutorial.worldPosition.x;
-			secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},900,Phaser.Easing.Cubic.Linear,true).loop(true)
+			secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
 		}
 		
 		if(prevSushi.num === prevSushi.denom){
@@ -1083,6 +1123,9 @@ var sushi = function(){
 			coins.animations.add('coin');
 			coins.animations.play('coin', 24, true);
 			coins.alpha=0;
+			for(var fillDiferentSushi=0; fillDiferentSushi<Object.keys(SUSHI_DATA).length; fillDiferentSushi++){
+				diferentSushi[fillDiferentSushi]="sushi"+(fillDiferentSushi+1)
+			}
 			
 			var barsGroup = game.add.group()
 			barsGroup.x = game.world.centerX
@@ -1117,7 +1160,7 @@ var sushi = function(){
 			hand.anchor.setTo(0,0);
 			hand.scale.setTo(0.7,0.7);
 			hand.animations.add('hand');
-			hand.animations.play('hand', 24, true);
+			hand.animations.play('hand',2, false);
 			hand.alpha=0;
 			handGroup.add(hand);
 			

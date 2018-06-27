@@ -874,7 +874,6 @@ var uni = function(){
 			}
 		})
 		clockCounter.mas = maxButton
-
 		var correctParticle = createPart("star")
 		sceneGroup.correctParticle = correctParticle
 
@@ -882,8 +881,8 @@ var uni = function(){
 		sceneGroup.wrongParticle = wrongParticle
 		
 		hand=game.add.sprite(clockCounter.mas.centerX,clockCounter.mas.centerY, "hand")
-        hand.anchor.setTo(0.5,0.5);
-        hand.scale.setTo(1,1);
+        hand.anchor.setTo(1,0.5);
+        hand.scale.setTo(0.6,0.6);
         hand.animations.add('hand');
         hand.animations.play('hand', 24, true);
         hand.alpha=0;
