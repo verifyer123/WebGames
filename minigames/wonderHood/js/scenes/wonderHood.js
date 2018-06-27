@@ -50,7 +50,7 @@ var wonderHood = function(){
     var MAX_ANGLE = 80
     var DELTA_IN_TIME = 0.05
     var MAX_TIME_TUTORIAl = 20
-    var DELTA_TIME_TUTORIAL = 4
+    var DELTA_TIME_TUTORIAL = 3
     var DELTA_ANGLE = 1
     var INITIAL_MOVE_Y = 100
     var DELTA_MOVE_Y = 25
@@ -506,6 +506,9 @@ var wonderHood = function(){
 	            else{
 	                if(currentAngle != 0 && currentAngle < MAX_ANGLE){
 	                    dotsGroup.visible = false
+	                    for(var i =0; i < dotsGroup.length; i++){
+	                    	dotsGroup.children[i].x = -10
+	                    }
 	                    shot()
 	                }
 	                
@@ -649,7 +652,11 @@ var wonderHood = function(){
         }
 
         if(currentAngle > MAX_ANGLE){
+            //dotsGroup.visible = false
             dotsGroup.visible = false
+            for(var i =0; i < dotsGroup.length; i++){
+            	dotsGroup.children[i].x = -10
+            }
             shot()
         }
     }
@@ -969,7 +976,7 @@ var wonderHood = function(){
     function createPlayer(){
 
         player = game.add.graphics()
-        player.x = game.world.centerX - 170
+        player.x = game.world.centerX - 190
         player.y = game.world.height-200
         player.angle = OFFSET_ANGLE
 
@@ -1117,13 +1124,13 @@ var wonderHood = function(){
         platformNpc.scale.setTo(1,5)
         platformNpc.anchor.setTo(0,0)
         platformNpc.initialY = platformNpc.y
-        platformNpc.initialX = game.world.centerX +120 +20
+        platformNpc.initialX = game.world.centerX +150 +20
         //sceneGroup.add(platformNpc)
         platformNpc.visible = false
 
-        rock = sceneGroup.create(game.world.centerX + 120 + 10000, game.world.height-200, "atlas.game","roca")
+        rock = sceneGroup.create(game.world.centerX + 150 + 10000, game.world.height-200, "atlas.game","roca")
         rock.anchor.setTo(0.5)
-        rock.initialX = game.world.centerX +120 +20
+        rock.initialX = game.world.centerX +150 +20
         game.physics.p2.enable(rock,false)
         rock.body.clearShapes()
         rock.body.loadPolygon('physicsData',"roca")
@@ -1144,7 +1151,7 @@ var wonderHood = function(){
         npc.currentSkin = game.rnd.integerInRange(0,2)
         //npc.currentSkin = 2
 
-        npc.x = game.world.centerX + 115
+        npc.x = game.world.centerX + 145
         npc.y = offsetValues[npc.currentSkin]
         npc.initialY = npc.y
 
