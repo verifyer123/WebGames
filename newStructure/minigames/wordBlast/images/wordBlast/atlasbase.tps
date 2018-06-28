@@ -4,9 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.3</string>
-        <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/wordBlast/images/wordBlast/atlasbase.tps</string>
+        <string>4.8.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -281,8 +279,6 @@
                 <false/>
             </struct>
             <key type="filename">okOn.png</key>
-            <key type="filename">xOff.png</key>
-            <key type="filename">xOn.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -362,14 +358,12 @@
             <filename>greenOn.png</filename>
             <filename>orangeOn.png</filename>
             <filename>orangeOff.png</filename>
-            <filename>textBar.png</filename>
             <filename>redOff.png</filename>
             <filename>redOn.png</filename>
             <filename>okOff.png</filename>
             <filename>okOn.png</filename>
             <filename>board.png</filename>
-            <filename>xOff.png</filename>
-            <filename>xOn.png</filename>
+            <filename>textBar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

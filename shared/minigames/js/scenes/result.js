@@ -94,7 +94,7 @@ var result = function(){
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
             );*/
 
-            amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
+        amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
         //}
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
@@ -632,11 +632,12 @@ var result = function(){
         var dataStore = amazing.getProfile()
 
         if(!dataStore){
-            skinTable = [1,1,1,1]
+            skinTable = [1,1,1,1,1]
         }else{
 
             skinTable = dataStore
         }
+        //skinTable = [2,2,2,2,2]
 
     }
 
@@ -668,7 +669,7 @@ var result = function(){
         var topHeight = 1.05
         var scaleSpine = 1.05
         var pivotButtons = game.world.height * 0.7
-        //haveCoupon = false
+        //haveCoupon = true
         //win = false
         if(win){
 
@@ -908,9 +909,9 @@ var result = function(){
 		currentQuestion = 0
 		overlayGroup = game.add.group()
         overlayGroup.alpha = 0
-        overlayGroup.scale.setTo(1.5)
-        overlayGroup.x -= game.world.width/4
-        overlayGroup.y += game.world.height/4
+        //overlayGroup.scale.setTo(1.5)
+        //overlayGroup.x -= game.world.width/4
+        //overlayGroup.y += game.world.height/4
         overlayGroup.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
