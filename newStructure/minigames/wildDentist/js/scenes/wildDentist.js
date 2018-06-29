@@ -109,7 +109,14 @@ var wildDentist = function(){
                frames: 23
            }
         ],
-        spines:[]
+        spines:[],
+        // particles: [
+        //     {
+        //         name: 'wood_bite',
+        //         file: imagePath +'particles/wood_bite.json',
+        //         texture: imagePath +'particles/wood_bite.png'
+        //     }
+        // ]
     }
 
     /*vars defautl*/
@@ -122,8 +129,11 @@ var wildDentist = function(){
     var coin;
     var background;
     var speed = 1.5;
+    var speedincrement = 0;
+    var speedMove;
     var particleCorrect;      
     var particleWrong;
+    var particleTrunk;
     var hand;
     var reviewComic = true;
     /*vars defautl*/
@@ -140,6 +150,7 @@ var wildDentist = function(){
     var tweenHand;
     var changeTween;
     var buttonsSquare;
+    //var emitter;
     
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -150,6 +161,7 @@ var wildDentist = function(){
         game.stage.backgroundColor = "#ffffff";      //Poner siempre un background
         lives = 3;
         speed = 1.5;
+        speedincrement = 0;
         starGame = false;
         castores = [
         {id:0,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},
@@ -166,6 +178,7 @@ var wildDentist = function(){
         casesInTutorial = 0;
         changeTween = false;
         buttonsSquare = [];
+        speedMove = [1.0,0.5,0.7];
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -210,6 +223,7 @@ var wildDentist = function(){
     }
 
     function update() {
+        //epicparticles.update();
         if(gameState!=null){
             gameState();
         }
@@ -403,7 +417,7 @@ var wildDentist = function(){
         if(starGame){   
             if(lives != 0){ 
                 for(var p = 0; p<=2;p++){
-                    moveTrunk(arrayTrunks[p],speed,castores[p])
+                    moveTrunk(arrayTrunks[p],speedMove[p]+speedincrement,castores[p], p)//speed
                 }
             }else{
                 starGame = false;
@@ -429,7 +443,14 @@ var wildDentist = function(){
 
     }
 
-    function moveTrunk(trunk,speed,target){
+    function randomFloatBetween(minValue,maxValue,precision){
+    if(typeof(precision) == 'undefined'){
+        precision = 2;
+    }
+    return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)),maxValue).toFixed(precision));
+}
+
+    function moveTrunk(trunk,speed,target, index){
             if(!target.biteBeaver){
                 if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.5)){
                         trunk.tronco1.x -= speed;
@@ -451,7 +472,7 @@ var wildDentist = function(){
                         target.biteBeaver = true;
                         hitBeaver(trunk,target);
                     }
-
+                    speedMove[index] = randomFloatBetween(0.5,1.0,1);
                 }
             }
         }    
@@ -480,20 +501,23 @@ var wildDentist = function(){
         var counter = 1;
         var anim = target.bite.animations.add('castorAnima2');
         anim.onLoop.add(eatTrunk, this);
-        anim.play(speed * 12, true);
+        anim.play(speed * 48, true);//12
         
         function eatTrunk(){
             if(counter == 1){
+                particleTrunkEmitter(target.bite)
                 trunk.tronco1.alpha = 0;
                 trunk.tronco2.alpha = 1; 
                 sound.play("bite");
                  counter++;
             }else if(counter == 2){
+                particleTrunkEmitter(target.bite)
                trunk.tronco2.alpha = 0;
                trunk.tronco3.alpha = 1; 
                 sound.play("bite");
                  counter++;
             }else if(counter == 3){ 
+                particleTrunkEmitter(target.bite)
                 trunk.tronco3.alpha = 0;
                 counter = 0;
                 target.bite.alpha = 0;
@@ -527,7 +551,13 @@ var wildDentist = function(){
            
         }
         
-    } 
+    }
+
+    function particleTrunkEmitter(target){
+        particleTrunk.x = target.x + target.width/2 + 10;
+        particleTrunk.y = target.y + target.height/2 + 50;
+        particleTrunk.start(true, 1000, null, 7);
+    }
     
     /*CREATE SCENE*/
     function createScene(){
@@ -535,12 +565,12 @@ var wildDentist = function(){
         sceneGroup.add(background);
         var groupTrunks = game.add.group();   
         
-        var seaBg = new Phaser.Graphics(game)
-        seaBg.beginFill(0x45B4AF)
+        var seaBg = new Phaser.Graphics(game);
+        seaBg.beginFill(0x45B4AF);
         seaBg.drawRect(0,160,game.world.width, game.world.height);
         seaBg.endFill();
-        sceneGroup.add(seaBg); 
-        sceneGroup.add(groupTrunks);
+        sceneGroup.add(seaBg);
+        //sceneGroup.add(groupTrunks);
         shuffle(trunkPosition);
         for(var i=0;i<=2;i++){
                 
@@ -599,16 +629,20 @@ var wildDentist = function(){
             ondasCastores[i].anchor.setTo(0.5,0);
             TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
             arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
-            arrayTrunks[i].tronco1.x = game.width - (trunkPosition[i] * 100);
-            arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 20;        
+            arrayTrunks[i].tronco1.scale.setTo(0.5,0.7);
+            arrayTrunks[i].tronco1.x = game.width - (trunkPosition[i] * 50);
+            arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 50;        
             arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
+            arrayTrunks[i].tronco2.scale.setTo(0.5,0.7);
             arrayTrunks[i].tronco2.x = arrayTrunks[i].tronco1.x;
-            arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 35; 
+            arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 65; 
             arrayTrunks[i].tronco2.alpha = 0;
             arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
+            arrayTrunks[i].tronco3.scale.setTo(0.5,0.7); 
             arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
-            arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 40;
-            arrayTrunks[i].tronco3.alpha = 0;             
+            arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 70;
+            arrayTrunks[i].tronco3.alpha = 0;
+
             tileRocks[i] = game.add.tileSprite(0,0,game.width,155,"rocks");
             tileRocks[i].height = 155;
             tileRocks[i].y = arrayTrunks[i].tronco1.y + tileRocks[i].height/2;
@@ -628,6 +662,8 @@ var wildDentist = function(){
             }
             castores[i].clean = false;
         }
+
+        sceneGroup.add(groupTrunks);
         
         var container = sceneGroup.create(0,0,"atlas.game","contenedor");
         container.y = game.height - container.height + 10;
@@ -686,7 +722,11 @@ var wildDentist = function(){
         hand.animations.add('hand');
         hand.animations.play('hand', 24, true);
         hand.alpha = 0;
-        createChangeTweenHand(2);    
+        createChangeTweenHand(2);
+
+        // emitter = epicparticles.newEmitter("wood_bite");
+        // emitter.x = 30;
+        // emitter.y = 30;  
     }
 
     function createChangeTweenHand(index){
@@ -741,6 +781,7 @@ var wildDentist = function(){
                             castores[d].biteBeaver = false;
                             castores[d].clean = true;
                             speed = speed + 0.08;//0.05
+                            speedincrement += 0.04;
                             particleCorrect.x = castores[d].idle.world.x + castores[d].idle.width/2;
                             particleCorrect.y = castores[d].idle.world.y + castores[d].idle.height/2;
                             particleCorrect.start(true, 1000, null, 5);
@@ -808,6 +849,9 @@ var wildDentist = function(){
 
             particleWrong = createPart("smoke");
             sceneGroup.add(particleWrong);
+
+            particleTrunk = createPart("wood_bite");
+            sceneGroup.add(particleTrunk);
             
             buttons.getButton(wildDentistSong,sceneGroup);
         }       
