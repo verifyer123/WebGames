@@ -145,6 +145,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "wood_bite",
+	"frame": {"x":955,"y":196,"w":38,"h":51},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":38,"h":51},
+	"sourceSize": {"w":51,"h":51},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "xpcoins",
 	"frame": {"x":796,"y":309,"w":165,"h":41},
 	"rotated": false,
@@ -158,8 +167,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":962,"h":550},
+	"size": {"w":994,"h":550},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:7875a32869b6cbc9e0bf99db830b49c1:2f5231d2514c18e59f3e35ee1a22a466:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a3be07136be47aca377eb07fa70976db:77629ac0737fa1d873bc937a5b6b21f4:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

@@ -365,6 +365,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">wood_bite.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9Paddings</key>
+                <rect>13,13,25,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -398,6 +411,7 @@
             <filename>life_box.png</filename>
             <filename>xpcoins.png</filename>
             <filename>smoke.png</filename>
+            <filename>wood_bite.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
