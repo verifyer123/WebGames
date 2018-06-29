@@ -418,8 +418,13 @@ var sushi = function(){
         timeNextSushi = 0
 		
 		var dificulty=pointsBar.number;
+		var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
 		var dataSushi = SUSHI_DATA[name]
-		dataSushi = SUSHI_DATA[name]
+		if(dificulty>5){
+			dataSushi = SUSHI_DATA[diferentSushi[randomNum]]
+		}else{
+			dataSushi = SUSHI_DATA[name]
+		}
 		
         var sushi = game.add.group()
 
@@ -690,7 +695,12 @@ var sushi = function(){
 			toY = option.y
 		
 		
-	
+		if(secondAnimation && tutorial){
+			if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
+			if(sushisInGame[2][0])xTutorial=sushisInGame[2][0];
+		}else if(firstAnimation && tutorial){
+			xTutorial=sushisInGame[0][0];
+		}
 		
 		
 		
@@ -723,6 +733,7 @@ var sushi = function(){
 			//if(prevSushi)
 				//option.container = prevSushi
 			
+			
 			thisOption.lane = lineToCollide
 			thisOption.tween = null
 			thisOption.index = cont
@@ -741,17 +752,7 @@ var sushi = function(){
 //				hand.x=sushisInGame[0][0].worldPosition.x;
 //				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
 //			}
-			if(secondAnimation && tutorial  && xTutorial){
-				xTutorial=sushisInGame[lineToCollide][cont];
-				hand.x=xTutorial.worldPosition.x;
-				secondAnimation.stop()
-				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
-			}else if(firstAnimation && tutorial && xTutorial){
-				xTutorial=sushisInGame[0][0];
-				hand.x=xTutorial.worldPosition.x;
-				secondAnimation.stop()
-				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
-			}
+			
 			
 
 			})
@@ -959,6 +960,7 @@ var sushi = function(){
         
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
+
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
         
         /*var rect = new Phaser.Graphics(game)
@@ -1183,6 +1185,7 @@ var sushi = function(){
             createSpines()
             createGameObjects()
             
+
             createTutorial()
 
 			correctParticle = createPart("star")
