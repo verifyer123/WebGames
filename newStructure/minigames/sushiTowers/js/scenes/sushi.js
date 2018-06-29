@@ -699,18 +699,15 @@ var sushi = function(){
 		option.tween.onComplete.add(function (thisOption) {
 			
 			
-			for(var checkCollitions=0; checkCollitions<sushisInGame[lineToCollide].length; checkCollitions++){
-				if(checkOverlap(option,sushisInGame[lineToCollide][checkCollitions])){
-					option.y-=sushisInGame[lineToCollide][checkCollitions].height;
-				}
-			}
-			
 			for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
 				var container = thisOption.sushiList[containerIndex]
 				container.inputEnabled = true
 			}
+			
 			for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
-					
+				if(checkOverlap(option.container,sushisInGame[lineToCollide][checkPositions])){
+					option.y-=sushisInGame[lineToCollide][checkPositions].height;
+				}
 				
 				if(option.y<sushisInGame[lineToCollide][checkPositions].y){
 					cont++;
@@ -729,7 +726,7 @@ var sushi = function(){
 			sushisInGame[lineToCollide].splice(cont,0,option);
 			//sushisInGame[lineToCollide].push(thisOption)
 
-			sushisInGame[lineToCollide].delaySushi = 500
+			sushisInGame[lineToCollide].delaySushi = 100
 			
 //			if(tutorial && sushisInGame[2][0]!=null && xTutorial){
 //			
@@ -874,7 +871,7 @@ var sushi = function(){
 				}
 				
 				else {
-					if (sushiIndex > 0)
+					if (sushiIndex > 0 && prevSushi)
 						sushi.toY = prevSushi.y - prevSushi.height + 15
 					else
 						sushi.toY = maxHeight

@@ -165,7 +165,7 @@ var tutorialHelper = function () {
 
 		var coinsRect = new Phaser.Graphics(game)
 		coinsRect.beginFill(0xff0000)
-		coinsRect.drawRect(0,0,364, 30)
+		coinsRect.drawRect(0,-12,364, 30)
 		coinsRect.endFill()
 
 

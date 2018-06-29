@@ -11,16 +11,16 @@
 },
 {
 	"filename": "background_tutorial_Web.png",
-	"frame": {"x":481,"y":1,"w":476,"h":780},
+	"frame": {"x":481,"y":1,"w":478,"h":782},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":476,"h":780},
-	"sourceSize": {"w":476,"h":780},
+	"spriteSourceSize": {"x":0,"y":0,"w":478,"h":782},
+	"sourceSize": {"w":478,"h":782},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "how_EN.png",
-	"frame": {"x":543,"y":783,"w":492,"h":127},
+	"frame": {"x":543,"y":785,"w":492,"h":127},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":492,"h":127},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "play_EN.png",
-	"frame": {"x":543,"y":912,"w":227,"h":72},
+	"frame": {"x":543,"y":914,"w":227,"h":72},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":227,"h":72},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "play_ES.png",
-	"frame": {"x":772,"y":912,"w":227,"h":72},
+	"frame": {"x":772,"y":914,"w":227,"h":72},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":227,"h":72},
@@ -59,8 +59,8 @@
 	"version": "1.0",
 	"image": "tutorial_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1036,"h":985},
+	"size": {"w":1036,"h":987},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:99ee6c37bf5d7fa2ab8a9e9b95204dbe:8ea446a60e71f197fc06b3805ab781eb:e284a217f33a85738a090142df4e0f94$"
+	"smartupdate": "$TexturePacker:SmartUpdate:fa7627510fa86abb17aa99213cc65cfa:0942309e96467035e955a92594e37852:e284a217f33a85738a090142df4e0f94$"
 }
 }
