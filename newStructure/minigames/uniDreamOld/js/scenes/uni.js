@@ -98,21 +98,19 @@ var uni = function(){
 
 	var NUM_LIFES = 3
 	var MAX_UNICORNS = 20
-	var MAX_DONKEYS = 20
+	var MAX_DONKEYS = 5
 
-//	var ROUNDS = [
-//	    {minNumber:3, maxNumber:5},
-//	    {minNumber:5, maxNumber:8},
-//	    {minNumber:5, maxNumber:8, minDonkeys:1, maxDonkeys:3},
-//	    {minNumber:5, maxNumber:9, minDonkeys:1, maxDonkeys:3},
-//	    {minNumber:9, maxNumber:15, minDonkeys:1, maxDonkeys:5},
-//	    {minNumber:15, maxNumber:20},
-//	    {minNumber:12, maxNumber:17, minDonkeys:1, maxDonkeys:3},
-//	    {minNumber:20, maxNumber:20},
-//		{minNumber:9, maxNumber:15, minDonkeys:1, maxDonkeys:5}]
-	
-	var howManyUnicorns;
-	var howManyDonkeys;
+	var ROUNDS = [
+	    {minNumber:3, maxNumber:5},
+	    {minNumber:5, maxNumber:8},
+	    {minNumber:5, maxNumber:8, minDonkeys:1, maxDonkeys:3},
+	    {minNumber:5, maxNumber:9, minDonkeys:1, maxDonkeys:3},
+	    {minNumber:9, maxNumber:15, minDonkeys:1, maxDonkeys:5},
+	    {minNumber:15, maxNumber:20},
+	    {minNumber:12, maxNumber:17, minDonkeys:1, maxDonkeys:3},
+	    {minNumber:20, maxNumber:20},
+		{minNumber:9, maxNumber:15, minDonkeys:1, maxDonkeys:5}]
+
 	var lives
 	var sceneGroup = null
 	var bedGroup=null;
@@ -136,12 +134,10 @@ var uni = function(){
 	var gameGroup
 	var objectsInGame
 	var clockCounter
-	var containers
 	var answer
 	var dreamGroup
 	var theffanie
 	var isCorrect
-	var animalsInStage
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -160,7 +156,6 @@ var uni = function(){
 		quantNumber = 2
 		roundCounter = 0
 		unicornList= []
-		animalsInStage=[]
 		donkeyList = []
 		objectsInGame = []
 
@@ -187,7 +182,7 @@ var uni = function(){
 
 		// if(pointsBar.number % 2 == 0){
 		timeValue-=timeValue * 0.10
-//		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
+		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
 		// }
 
 	}
@@ -365,37 +360,27 @@ var uni = function(){
 	}
 	
 	function startRound(notStarted) {
-		
-		
-		howManyUnicorns=game.rnd.integerInRange(0,MAX_UNICORNS);
-		
-		if(pointsBar.number>10){
-			howManyUnicorns=game.rnd.integerInRange(0,MAX_DONKEYS);
-		}
-		
-		
-		
-//		var round = ROUNDS[roundCounter]
-//		game.add.tween(clock.bar.scale).to({x:clock.bar.origScale}, 600, Phaser.Easing.Cubic.Out, true)
-//		isCorrect = false
-//		var button = dreamGroup.button.parent
-//		var numberText = clockCounter.numberText
-//
-//		sound.play("cut")
-//		game.add.tween(button.scale).to({x:0.4, y:0.4}, 800, Phaser.Easing.Back.Out, true)
-//		game.add.tween(button).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-//
-//		game.add.tween(numberText.scale).to({x:0.4, y:0.4}, 800, Phaser.Easing.Back.Out, true)
-//		game.add.tween(numberText).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
-//		removeUnicorns()
-//
-//		var numUnicorns = game.rnd.integerInRange(round.minNumber, round.maxNumber)
-//		var donkeys
-//		if(round.minDonkeys)
-//			donkeys = game.rnd.integerInRange(round.minDonkeys, round.maxDonkeys)
-//		addUnicorns(numUnicorns, donkeys)
-//		answer = numUnicorns
-//
+		var round = ROUNDS[roundCounter]
+		game.add.tween(clock.bar.scale).to({x:clock.bar.origScale}, 600, Phaser.Easing.Cubic.Out, true)
+		isCorrect = false
+		var button = dreamGroup.button.parent
+		var numberText = clockCounter.numberText
+
+		sound.play("cut")
+		game.add.tween(button.scale).to({x:0.4, y:0.4}, 800, Phaser.Easing.Back.Out, true)
+		game.add.tween(button).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+
+		game.add.tween(numberText.scale).to({x:0.4, y:0.4}, 800, Phaser.Easing.Back.Out, true)
+		game.add.tween(numberText).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+		removeUnicorns()
+
+		var numUnicorns = game.rnd.integerInRange(round.minNumber, round.maxNumber)
+		var donkeys
+		if(round.minDonkeys)
+			donkeys = game.rnd.integerInRange(round.minDonkeys, round.maxDonkeys)
+		addUnicorns(numUnicorns, donkeys)
+		answer = numUnicorns
+
 	}
 
 	function missPoint(){
@@ -470,7 +455,7 @@ var uni = function(){
 			sound.play("brightTransition")
 			game.add.tween(dreamGroup.bright).to({alpha: 1},1000,Phaser.Easing.Cubic.Out,true).yoyo(true)
 			var bgAppear = game.add.tween(dreamGroup.bg).to({alpha:1}, 1000, Phaser.Easing.Cubic.In, true)
-			//bgAppear.onComplete.add(startRound)
+			bgAppear.onComplete.add(startRound)
 		})
 	}
 
@@ -758,18 +743,16 @@ var uni = function(){
 		theffanie.x = game.world.width * 0.5 - 270
 		theffanie.y = game.world.height - 80
 		sceneGroup.add(theffanie)
+		
+		
 
 		clockCounter = game.add.group()
 		clockCounter.x = buro.x
 		clockCounter.y = game.world.height - 250
 		sceneGroup.add(clockCounter)
 		
-		containers = game.add.group()
-		containers.x = theffanie.x+100
-		containers.y = theffanie.y-300
-		sceneGroup.add(containers)
 		
-		
+
 		// var inputClock = new Phaser.Graphics(game)
 		// inputClock.beginFill(0xFFFFFF)
 		// inputClock.drawRect(0,0,180, 180)
@@ -780,7 +763,6 @@ var uni = function(){
 		// inputClock.events.onInputDown.add(addCounter)
 		// clockCounter.input = inputClock
 		// clockCounter.add(inputClock)
-		
 
 		var clockImg = clockCounter.create(0,0,"atlas.uni","clockImg")
 		clockImg.anchor.setTo(0.5, 0.5)
@@ -794,72 +776,65 @@ var uni = function(){
 		numberText.scale.setTo(0.4, 0.4)
 		clockCounter.numberText = numberText
 		clockCounter.number = 0
-		clockCounter.alpha=1;
+
 		var button = game.add.group()
-		button.x = clockCounter.x
-		button.y = clockCounter.y+5
-		sceneGroup.add(button)
+		button.x = game.world.centerX
+		button.y = game.world.centerY + 140
+		dreamGroup.add(button)
 
 		var buttonImg = button.create(0,0,"atlas.uni", "rdyButton")
 		buttonImg.events.onInputDown.add(checkCorrect)
 		buttonImg.anchor.setTo(0.5, 0.5)
-		button.alpha = 1	
-		buttonImg.scale.setTo(0.4, 0.4)
+		button.alpha = 0
+		buttonImg.scale.setTo(0.5, 0.5)
+		dreamGroup.button = buttonImg
 		
-		game.add.tween(button.scale).to({x:1.05, y:0.95}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
+		
 
 		var fontStyle2 = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
-//		var minButton = button.create(0,0,"atlas.uni","menos")
-//		minButton.anchor.setTo(0.5, 0.5)
-//		minButton.x = - 120
-//		minButton.events.onInputDown.add(function (obj) {
-//			addCounter(obj, -1)
-//			if(tutorialLevel && clockCounter.number < answer){
-//				hand.x=clockCounter.x;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number > answer){
-//				hand.x=clockCounter.x-220;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number === answer){
-//				hand.x=clockCounter.x-120;
-//				hand.y=clockCounter.y-70;
-//			}
-//		})
-//		clockCounter.menos = minButton
+		var minButton = button.create(0,0,"atlas.uni","menos")
+		minButton.anchor.setTo(0.5, 0.5)
+		minButton.x = - 120
+		minButton.events.onInputDown.add(function (obj) {
+			addCounter(obj, -1)
+			if(tutorialLevel && clockCounter.number < answer){
+				hand.x=clockCounter.x;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number > answer){
+				hand.x=clockCounter.x-220;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number === answer){
+				hand.x=clockCounter.x-120;
+				hand.y=clockCounter.y-70;
+			}
+		})
+		clockCounter.menos = minButton
 
-//		var maxButton = button.create(0,0,"atlas.uni","mas")
-//		maxButton.anchor.setTo(0.5, 0.5)
-//		maxButton.x = 120
-//		maxButton.events.onInputDown.add(function (obj) {
-//			addCounter(obj, +1)
-//			if(tutorialLevel && clockCounter.number < answer){
-//				hand.x=clockCounter.x;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number > answer){
-//				hand.x=clockCounter.x-220;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number === answer){
-//				hand.x=clockCounter.x-120;
-//				hand.y=clockCounter.y-70;
-//			}
-//		})
-//		clockCounter.mas = maxButton
-		
-		dreamGroup.add(containers)
-		
-		var uniContainer=game.add.sprite(0,0,"atlas.uni","answer");
-		var dragableUnicorn=game.add.sprite(uniContainer.x,uniContainer.y,"atlas.uni","answer");
-		containers.add(uniContainer);
-		containers.add(dragableUnicorn);
-		
+		var maxButton = button.create(0,0,"atlas.uni","mas")
+		maxButton.anchor.setTo(0.5, 0.5)
+		maxButton.x = 120
+		maxButton.events.onInputDown.add(function (obj) {
+			addCounter(obj, +1)
+			if(tutorialLevel && clockCounter.number < answer){
+				hand.x=clockCounter.x;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number > answer){
+				hand.x=clockCounter.x-220;
+				hand.y=clockCounter.y-70;
+			}else if(tutorialLevel && clockCounter.number === answer){
+				hand.x=clockCounter.x-120;
+				hand.y=clockCounter.y-70;
+			}
+		})
+		clockCounter.mas = maxButton
 		var correctParticle = createPart("star")
 		sceneGroup.correctParticle = correctParticle
 
 		var wrongParticle = createPart("smoke")
 		sceneGroup.wrongParticle = wrongParticle
 		
-		hand=game.add.sprite(0,0, "hand")
+		hand=game.add.sprite(clockCounter.mas.centerX,clockCounter.mas.centerY, "hand")
         hand.anchor.setTo(1,0.5);
         hand.scale.setTo(0.6,0.6);
         hand.animations.add('hand');
@@ -883,17 +858,6 @@ var uni = function(){
             })
         })
     }
-	
-	
-	function createUnicorns(obj){
-		var index=animalsInStage.length;
-		obj.index=index;
-		animalsInStage.push(obj);
-	}
-	
-	function removeUnicorns(obj){
-		animalsInStage.splice(1,obj.index,obj);
-	}
 	
 	function createBackground() {
 		var background = game.add.tileSprite(0,0,game.world.width, game.world.height, "atlas.uni", "room")
