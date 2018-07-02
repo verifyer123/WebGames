@@ -451,7 +451,7 @@ var mathRun = function(){
         
         player.x = 100
         arthurius.x = player.x
-        arthurius.y = player.y
+        arthurius.y = player.y + 10
     }
     
     function doJump(force){
@@ -500,7 +500,7 @@ var mathRun = function(){
 
         var obj = landGroup.getFirstExists(false)
 
-        if(obj){
+        if(obj && gameActive){
             var rand = game.rnd.integerInRange(0, 1)
             
             if(rand !== 0){
@@ -816,14 +816,20 @@ var mathRun = function(){
     function throwCoin(platform){
         
         coinCounter = 0
-        coinsGroup.rand = getRand(0,2, coinsGroup.rand)
+        coinsGroup.rand = getRand(1,2, coinsGroup.rand)
         
         var obj = coinsGroup.getFirstExists(false)
         
         if(obj && coinsGroup.canThrow){
             
             setCoinNumber(obj)
-            obj.reset(game.world.width, platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(1, 6)))
+            if(platform.tag == "floor"){
+                obj.reset(game.world.width, platform.y - platform.height - (100 * game.rnd.integerInRange(1, 2)))
+            }
+            else{
+                obj.reset(game.world.width, platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(1, 6)))
+            }
+            
             obj.body.velocity.x = -225
         }
     }   
@@ -871,11 +877,24 @@ var mathRun = function(){
         
         if(!player.touched){
             
-            if(enemy.tag === "pink" && dude.y < enemy.y - enemy.height){
-                doJump(1400)
-                addCoin(enemy)
-                deactivateObj(enemy)
-                sound.play("splash")
+            if(enemy.tag === "pink"){
+                if(dude.y < enemy.y - enemy.height){
+                    doJump(1400)
+                    addCoin(enemy)
+                    deactivateObj(enemy)
+                    sound.play("splash")
+                }
+                else{
+                    player.touched = true
+                    missPoint(dude)
+                    arthurius.setAnimationByName(0, "lose", true)
+                    game.add.tween(arthurius).from({ alpha:0},100,Phaser.Easing.linear,true,0,5,true).onComplete.add(function(){
+                        if(lives > 0){
+                            player.touched = false
+                            arthurius.setAnimationByName(0, "run", true)
+                        }
+                    })
+                }
             }
             else{
                 player.touched = true
