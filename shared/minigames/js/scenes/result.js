@@ -731,10 +731,14 @@ var result = function(){
         getSkins()
 
         var addText = '_Happy'
-
+        //skinTable = [6,1,1,1,1]
         if(animationToUse == "LOSE"){
             addText = '_Sad'
+            if(skinTable[0]>=5){
+                skinTable = [1,1,1,1,1]
+            }
         }
+
 
         var newSkin = buddy.createCombinedSkin(
             'combined',
@@ -1586,7 +1590,7 @@ var result = function(){
 
         //couponData = {scoreGoal:1}
         specialCoupon = false
-        if(!couponData){
+        if(!couponData || couponData == null){
             haveCoupon = false
 
         }else{

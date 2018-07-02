@@ -1,8 +1,8 @@
 window.amazing = {
 	config: {
-		name: "Zoé Water Sport",
+		name: "Torre Helado Obscuro",
 		language: "en",
-		minigameUrl: "../../minigames/zoeMundial/index.html",
+		minigameUrl: "../../minigames/heladoObscuro/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }
