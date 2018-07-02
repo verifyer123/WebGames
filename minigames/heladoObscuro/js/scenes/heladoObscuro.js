@@ -32,18 +32,18 @@ var heladoObscuro = function(){
     
     var INITIAL_LIVES = 3
     var INITIAL_TIME_APPEAR = 2000
-    var DELTA_TIME_APPEAR = 10
+    var DELTA_TIME_APPEAR = 40
     var MIN_TIME_APPEAR = 500
 
     var INITIAL_PROBABILITY_ENEMY = 0.05
     var DELTA_PROBABILITY_ENEMY = 0.01
     var MAX_PROBABILITY_ENEMY = 0.5
 
-    var SPEED_MOVE_DOWN = 1
+    var SPEED_MOVE_DOWN = 1.5
     var LIMIT_Y
 
-    var INITIAL_SPEED = 3
-    var DELTA_SPEED = 0.1
+    var INITIAL_SPEED = 5
+    var DELTA_SPEED = 0.15
     var MAX_SPEED = 15
     var CLOUD_NUMBER = 5
     var MOVE_FACTOR = 0.6
