@@ -1071,7 +1071,7 @@ var mathRun = function(){
             obj.text.setText(result)
             obj.number = result
             obj.reset(game.world.width, game.world.centerY + 20)
-            obj.body.velocity.x = -225
+            game.add.tween(obj).to({x:player.x - 10},2500,Phaser.Easing.linear,true)
             hand.coin = obj
         }
     }
