@@ -1,0 +1,237 @@
+{"frames": [
+
+{
+	"filename": "cloud",
+	"frame": {"x":1,"y":1,"w":373,"h":177},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":373,"h":177},
+	"sourceSize": {"w":373,"h":177},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "coin",
+	"frame": {"x":942,"y":1,"w":68,"h":70},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
+	"sourceSize": {"w":68,"h":70},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "cone",
+	"frame": {"x":1,"y":180,"w":149,"h":301},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":149,"h":301},
+	"sourceSize": {"w":149,"h":301},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "enemy0",
+	"frame": {"x":152,"y":180,"w":151,"h":141},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":151,"h":141},
+	"sourceSize": {"w":151,"h":141},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "enemy1",
+	"frame": {"x":152,"y":323,"w":151,"h":141},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":151,"h":141},
+	"sourceSize": {"w":151,"h":141},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "enemy2",
+	"frame": {"x":636,"y":1,"w":151,"h":141},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":151,"h":141},
+	"sourceSize": {"w":151,"h":141},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "enemy3",
+	"frame": {"x":789,"y":1,"w":151,"h":141},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":151,"h":141},
+	"sourceSize": {"w":151,"h":141},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "life_box",
+	"frame": {"x":305,"y":430,"w":105,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
+	"sourceSize": {"w":105,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "logo",
+	"frame": {"x":376,"y":1,"w":258,"h":131},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":258,"h":131},
+	"sourceSize": {"w":258,"h":131},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "moon",
+	"frame": {"x":305,"y":180,"w":119,"h":135},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":135},
+	"sourceSize": {"w":119,"h":135},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve0",
+	"frame": {"x":305,"y":317,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve1",
+	"frame": {"x":426,"y":177,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve2",
+	"frame": {"x":712,"y":144,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve3",
+	"frame": {"x":591,"y":257,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve4",
+	"frame": {"x":734,"y":257,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve5",
+	"frame": {"x":855,"y":144,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve6",
+	"frame": {"x":877,"y":257,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve7",
+	"frame": {"x":591,"y":370,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve8",
+	"frame": {"x":734,"y":370,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve9",
+	"frame": {"x":877,"y":370,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve10",
+	"frame": {"x":448,"y":290,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nieve11",
+	"frame": {"x":569,"y":144,"w":141,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":111},
+	"sourceSize": {"w":141,"h":111},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":942,"y":73,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "starPart",
+	"frame": {"x":448,"y":403,"w":124,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
+	"sourceSize": {"w":128,"h":68},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":376,"y":134,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1019,"h":482},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1b1b39385608e097bb8660d451962c77:504e37eff5a522620ee085eb00d34aec:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
