@@ -248,20 +248,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">drop.png</key>
-            <key type="filename">starPart.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">dropPart.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -272,33 +258,6 @@
                 <rect>32,17,64,34</rect>
                 <key>scale9Paddings</key>
                 <rect>32,17,64,34</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">enemy_spike.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>18,21,35,43</rect>
-                <key>scale9Paddings</key>
-                <rect>18,21,35,43</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">enemy_squish.png</key>
-            <key type="filename">skull.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>18,17,35,33</rect>
-                <key>scale9Paddings</key>
-                <rect>18,17,35,33</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -315,7 +274,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">wrongPart.png</key>
+            <key type="filename">mill.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>63,63,125,125</rect>
+                <key>scale9Paddings</key>
+                <rect>63,63,125,125</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -325,6 +297,19 @@
                 <rect>25,23,50,47</rect>
                 <key>scale9Paddings</key>
                 <rect>25,23,50,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">star.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -349,17 +334,14 @@
             <filename>brick.png</filename>
             <filename>coin.png</filename>
             <filename>coinmissing.png</filename>
-            <filename>drop.png</filename>
             <filename>dropPart.png</filename>
-            <filename>enemy_spike.png</filename>
-            <filename>enemy_squish.png</filename>
             <filename>floor.png</filename>
-            <filename>skull.png</filename>
-            <filename>wrongPart.png</filename>
-            <filename>starPart.png</filename>
             <filename>castle0.png</filename>
             <filename>castle1.png</filename>
             <filename>castle2.png</filename>
+            <filename>smoke.png</filename>
+            <filename>star.png</filename>
+            <filename>mill.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
