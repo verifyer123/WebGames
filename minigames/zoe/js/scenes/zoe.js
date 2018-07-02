@@ -62,8 +62,8 @@ var zoe = function(){
 
     var skinTable
     
-    var gameIndex = 20
-    var gameId = 5766289444306944
+    var gameIndex = 32
+    var gameId = 100009
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -430,7 +430,7 @@ var zoe = function(){
     	for(var i =0; i < group.length;i++){
 			if(group.children[i].visible){
 				group.children[i].body.x -= delta
-				if(group.children[i].body.x < -100){
+				if(group.children[i].body.x < -200){
 					group.children[i].visible = false
 					//group.children[i].body.x = -1000
                     //console.log("sdfad",group.children[i])
@@ -621,7 +621,7 @@ var zoe = function(){
 
        	repisa = sceneGroup.create(currentX,game.world.centerY + 100,"atlas.game","base")
        	repisa.anchor.setTo(0.5)
-       	game.physics.p2.enable(repisa,true)
+       	game.physics.p2.enable(repisa,false)
        	repisa.body.kinematic = true
 
        	currentX = 420
@@ -629,12 +629,12 @@ var zoe = function(){
 
         player = sceneGroup.create(repisa.x,repisa.y-100,"atlas.game","agua_ZOE")
         player.anchor.setTo(0.5)
-        game.physics.p2.enable(player,true)
+        game.physics.p2.enable(player,false)
         player.inGround = false
         player.body.onBeginContact.add(collideBody,this)
 
         var floorLimit = sceneGroup.create(game.world.centerX,game.world.height - 250)
-        game.physics.p2.enable(floorLimit,true)
+        game.physics.p2.enable(floorLimit,false)
         floorLimit.body.clearShapes()
         floorLimit.body.setRectangle(game.world.width*10,10,0,0)
         floorLimit.body.kinematic = true
@@ -661,7 +661,7 @@ var zoe = function(){
 
     	var chair = chairGroup.create(x,y,"atlas.game","silla2")
     	chair.anchor.setTo(0.5)
-    	game.physics.p2.enable(chair,true)
+    	game.physics.p2.enable(chair,false)
     	chair.objectType = OBJETC_TYPES.CHAIR
     	chair.givedCoin = true
     	//chair.body.clearShapes()
@@ -687,7 +687,7 @@ var zoe = function(){
     	var clock = clockGroup.create(x,y,"atlas.game","reloj2")
     	clock.anchor.setTo(0.5)
     	clock.givedCoin = true
-    	game.physics.p2.enable(clock,true)
+    	game.physics.p2.enable(clock,false)
     	clock.body.clearShapes()
     	clock.body.setCircle(60,0,0)
     	clock.body.kinematic = true
@@ -734,7 +734,7 @@ var zoe = function(){
     	airplane.anchor.setTo(0.5)
     	airplane.centerLoop = x 
     	airplane.givedCoin = true
-    	game.physics.p2.enable(airplane,true)
+    	game.physics.p2.enable(airplane,false)
     	airplane.body.static = true
     	airplane.objectType = OBJETC_TYPES.AIRPLANE
     	return airplane
@@ -755,7 +755,7 @@ var zoe = function(){
     	var bocina = bocinaGroup.create(x,y,"atlas.game","bocina")
     	bocina.anchor.setTo(0.5)
     	bocina.givedCoin = true
-    	game.physics.p2.enable(bocina,true)
+    	game.physics.p2.enable(bocina,false)
     	bocina.body.kinematic = true
     	bocina.objectType = OBJETC_TYPES.BOCINA
     	return bocina
@@ -776,7 +776,7 @@ var zoe = function(){
     	var arcade = arcadeGroup.create(x,y,"atlas.game","arcade")
     	arcade.anchor.setTo(0.5)
     	arcade.givedCoin = true
-    	game.physics.p2.enable(arcade,true)
+    	game.physics.p2.enable(arcade,false)
     	arcade.body.kinematic = true
     	arcade.objectType = OBJETC_TYPES.BOCINA
     	return arcade
@@ -1041,7 +1041,7 @@ var zoe = function(){
 
     function createPattern(){
     	var r = game.rnd.integerInRange(1,6)
-    	r = 6
+    	//r = 6
     	switch(r){
     		case 1:
     			createPatter1()
