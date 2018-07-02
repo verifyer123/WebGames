@@ -134,6 +134,7 @@ amazing.getGames = function(){
         {name:'Pin Dots',iconName:'pinDots',url:'http://amazingapp.mx/juegos/pinDots/',coupon : false,mixName:'pinDots',demo:false,id:31},//29
         {name:'Wonder Hood',iconName:'wonderHood',url:'http://amazingapp.mx/juegos/wonderHood/',coupon : false,mixName:'wonderHood',demo:true,id:1},//30
         {name:'Torre Helado Obscuro',iconName:'heladoObscuro',url:'http://amazingapp.mx/juegos/heladoObscuro/',coupon : false,mixName:'heladoObscuro',demo:true,id:100008},//31
+        {name:'Zoe',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoe',demo:true,id:100009},//32
         //
     ]
 
