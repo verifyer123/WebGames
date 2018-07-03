@@ -152,6 +152,7 @@ var wildDentist = function(){
     var buttonsSquare;
     var minSpeed;
     var maxSpeed;
+    var incrementType;
     //var emitter;
     
     function loadSounds(){
@@ -184,10 +185,12 @@ var wildDentist = function(){
             speedMove = [1.0,0.5,0.7];
             minSpeed = 0.5;
             maxSpeed = 1.0;
+            incrementType = 0.04;
         }else{
             speedMove = [2.5,1.0,1.7];
             minSpeed = 1.0;
             maxSpeed = 2.5;
+            incrementType = 0.1;
         }
         
 
@@ -792,7 +795,7 @@ var wildDentist = function(){
                             castores[d].biteBeaver = false;
                             castores[d].clean = true;
                             speed = speed + 0.08;//0.05
-                            speedincrement += 0.04;
+                            speedincrement += incrementType;
                             particleCorrect.x = castores[d].idle.world.x + castores[d].idle.width/2;
                             particleCorrect.y = castores[d].idle.world.y + castores[d].idle.height/2;
                             particleCorrect.start(true, 1000, null, 5);
