@@ -62,6 +62,8 @@ var uni = function(){
 				file: soundsPath + "horse_gallop.mp3"},
 			{   name: "uniSong",
 				file: soundsPath + "songs/fantasy_ballad.mp3"},
+			{   name: "drag",
+                file: soundsPath + "drag.mp3"}
 		],
 		spines: [
 			{
@@ -117,28 +119,42 @@ var uni = function(){
 	var sceneGroup = null
 	var bedGroup=null;
 	var gameIndex = 53
+	var goalUni;
+	var goalDonk;
+	var tutorial
 	var tutoGroup
+	var uniContainer
 	var bed
 	var uniSong
+	var gameActive
 	var tutorialLevel
 	var heartsGroup = null
+	var dragableUnicorn
 	var pullGroup = null
+	var checking=false
 	var clock
 	var hand
+	var isColliding=false;
+	var total=20;
 	var timeValue
 	var coins
+	var buttonImg
 	var quantNumber
 	var inputsEnabled
+	var background
 	var pointsBar
 	var roundCounter
 	var unicornList
 	var donkeyList
 	var gameGroup
+	var positionX
+	var positionY
 	var objectsInGame
 	var clockCounter
 	var containers
 	var answer
 	var dreamGroup
+	var maxNumber;
 	var theffanie
 	var isCorrect
 	var animalsInStage
@@ -155,21 +171,62 @@ var uni = function(){
 		game.stage.backgroundColor = "#ffffff"
 		//gameActive = true
 		lives = NUM_LIFES
+		gameActive=false;
 		timeValue = 20
 		tutorialLevel=true;
 		quantNumber = 2
+		tutorial=true;
+		positionX=[]
+		positionY=[]
+		maxNumber=20;
 		roundCounter = 0
+		goalDonk=0;
+		goalUni=0;
 		unicornList= []
 		animalsInStage=[]
 		donkeyList = []
 		objectsInGame = []
-
+		
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 		inputsEnabled = false
 
 		loadSounds()
-
+		
+		for(var placeHorses=0; placeHorses<maxNumber; placeHorses++){
+			
+			if(placeHorses<6){
+				positionY[placeHorses]=game.world.centerY-50;
+			}else if(placeHorses<12){
+				positionY[placeHorses]=game.world.centerY-160;
+			}else if(placeHorses<18){
+				positionY[placeHorses]=game.world.centerY+50;
+			}
+		}
+		
+		positionX[0]=game.world.centerX;
+		positionX[1]=game.world.centerX-100;
+		positionX[2]=game.world.centerX+100;
+		positionX[3]=game.world.centerX-200;
+		positionX[4]=game.world.centerX+200;
+		positionX[5]=game.world.centerX+300;
+		positionX[6]=game.world.centerX-100;
+		positionX[7]=game.world.centerX+100;
+		positionX[8]=game.world.centerX-200;
+		positionX[9]=game.world.centerX+200;
+		positionX[10]=game.world.centerX-300;
+		positionX[11]=game.world.centerX+300;
+		positionX[12]=game.world.centerX;
+		positionX[13]=game.world.centerX-100;
+		positionX[14]=game.world.centerX+100;
+		positionX[15]=game.world.centerX-200;
+		positionX[16]=game.world.centerX+200;
+		positionX[17]=game.world.centerX-300;
+		positionX[18]=game.world.centerX;
+		positionX[19]=game.world.centerX;
+		positionX[20]=game.world.centerX;
+		
+		
 	}
 
 	function addPoint(number){
@@ -265,7 +322,7 @@ var uni = function(){
 	function stopGame(win){
 
 		sound.play("alarmBell")
-
+		gameActive = false	
 		uniSong.stop()
 		clock.tween.stop()
 
@@ -298,62 +355,7 @@ var uni = function(){
 
 	}
 	
-	function addUnicorns(num, donkeys) {
 
-		unicornList = Phaser.ArrayUtils.shuffle(unicornList)
-		for(var uniIndex = 0; uniIndex < num; uniIndex++){
-			var unicorn = unicornList[uniIndex]
-			unicorn.x = -game.world.centerX - 50
-			unicorn.y = game.rnd.integerInRange(-150, 150)
-			var toX = unicorn.originalX
-			var toY = unicorn.originalY
-			var delay = 50 * uniIndex
-			moveSpine(unicorn, toX, toY, delay, Phaser.Easing.Sinusoidal.Out)
-			pullGroup.remove(unicorn)
-			gameGroup.add(unicorn)
-			objectsInGame.push(unicorn)
-		}
-
-		for(var donkeyIndex = 0; donkeyIndex < donkeys; donkeyIndex++){
-			var donkey = donkeyList[donkeyIndex]
-			var unicorn = unicornList[num + donkeyIndex]
-			donkey.x = -game.world.centerX - 50
-			donkey.y = game.rnd.integerInRange(-150, 150)
-			var toX = unicorn.originalX
-			var toY = unicorn.originalY
-			var delay = 50 * uniIndex
-			moveSpine(donkey, toX, toY, delay, Phaser.Easing.Sinusoidal.Out)
-			pullGroup.remove(donkey)
-			gameGroup.add(donkey)
-			
-			objectsInGame.push(donkey)
-		}
-
-		game.time.events.add(3100, function () {
-			sound.play("cut")
-
-			var numberText = clockCounter.numberText
-			var button = dreamGroup.button.parent
-			numberText.text = 0
-			clockCounter.number = 0
-
-			game.add.tween(button.scale).to({x:1, y:1}, 800, Phaser.Easing.Back.Out, true)
-			var appearButton = game.add.tween(button).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
-
-			game.add.tween(numberText.scale).to({x:1, y:1}, 800, Phaser.Easing.Back.Out, true)
-			game.add.tween(numberText).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
-			if(tutorialLevel){
-				hand.alpha=1;
-			}
-			dreamGroup.button.inputEnabled = true
-			clockCounter.mas.inputEnabled = true
-			clockCounter.menos.inputEnabled = true
-			if(!tutorialLevel){
-				appearButton.onComplete.add(startTimer)
-			}
-		})
-
-	}
 
 	function removeUnicorns() {
 		for(var objectIndex = 0; objectIndex < objectsInGame.length; objectIndex++){
@@ -367,13 +369,19 @@ var uni = function(){
 	function startRound(notStarted) {
 		
 		
-		howManyUnicorns=game.rnd.integerInRange(0,MAX_UNICORNS);
-		
-		if(pointsBar.number>10){
-			howManyUnicorns=game.rnd.integerInRange(0,MAX_DONKEYS);
+		var sum=0;
+		goalUni=game.rnd.integerInRange(0,total);
+		sum=total-goalUni;
+		if(pointsBar.number>=5){
+			goalDonk=game.rnd.integerInRange(0,sum);
 		}
 		
-		
+		game.time.events.add(700, function () {
+			if(!tutorial)buttonImg.inputEnabled=true;
+			dragableUnicorn.inputEnabled=true;
+			dragableUnicorn.input.enableDrag(true);
+		})
+			
 		
 //		var round = ROUNDS[roundCounter]
 //		game.add.tween(clock.bar.scale).to({x:clock.bar.origScale}, 600, Phaser.Easing.Cubic.Out, true)
@@ -401,7 +409,6 @@ var uni = function(){
 	function missPoint(){
 
 		sound.play("wrong")
-		inputsEnabled = false
 
 		lives--;
 		heartsGroup.text.setText('X ' + lives)
@@ -413,9 +420,6 @@ var uni = function(){
 
 		if(lives === 0){
 			stopGame(false)
-		}
-		else{
-			startRound()
 		}
 
 		addNumberPart(heartsGroup.text,'-1')
@@ -470,13 +474,14 @@ var uni = function(){
 			sound.play("brightTransition")
 			game.add.tween(dreamGroup.bright).to({alpha: 1},1000,Phaser.Easing.Cubic.Out,true).yoyo(true)
 			var bgAppear = game.add.tween(dreamGroup.bg).to({alpha:1}, 1000, Phaser.Easing.Cubic.In, true)
-			//bgAppear.onComplete.add(startRound)
+			bgAppear.onComplete.add(startRound)
 		})
 	}
 
 	function onClickPlay(rect) {
 	
 		tutoGroup.y = -game.world.height
+		gameActive = true
 		showDream()
 
 	}
@@ -614,23 +619,20 @@ var uni = function(){
 	}
 	
 	function rightReaction() {
-		
 		Coin(clockCounter,pointsBar,100);
 		
-		for(var spineIndex = 0; spineIndex < objectsInGame.length; spineIndex++){
-			var spine = objectsInGame[spineIndex]
-			var toY = game.rnd.integerInRange(-190, 190)
-			var delay = 1000 + (spineIndex * 50)
-			moveSpine(spine, game.world.centerX + 50, toY, delay, Phaser.Easing.Sinusoidal.In)
+//		for(var spineIndex = 0; spineIndex < objectsInGame.length; spineIndex++){
+//			var spine = objectsInGame[spineIndex]
+//			var toY = game.rnd.integerInRange(-190, 190)
+//			var delay = 1000 + (spineIndex * 50)
+//			moveSpine(spine, game.world.centerX + 50, toY, delay, Phaser.Easing.Sinusoidal.In)
+//		}
+//		sceneGroup.correctParticle.x = clockCounter.centerX
+//		sceneGroup.correctParticle.y = clockCounter.centerY
+//		sceneGroup.correctParticle.start(true, 1000, null, 5)
+//		var totalDelay = objectsInGame.length * 50
 
-		}
-
-		sceneGroup.correctParticle.x = clockCounter.centerX
-		sceneGroup.correctParticle.y = clockCounter.centerY
-		sceneGroup.correctParticle.start(true, 1000, null, 5)
-		var totalDelay = objectsInGame.length * 50
-
-		game.time.events.add(totalDelay + 4000, startRound)
+//		game.time.events.add(totalDelay + 4000, startRound)
 	}
 	
 	function wrongReaction() {
@@ -643,16 +645,14 @@ var uni = function(){
 			var spine = objectsInGame[objIndex]
 			spine.setAnimation(["LOSE"])
 		}
-        
-        missPoint()
         if(lives===0){
 		var shockEffect = game.add.tween(clockCounter).to({x: clockCounter.x + 20}, 200, null, true)
 		shockEffect.onComplete.add(function () {
 			game.add.tween(clockCounter).to({x: clockCounter.x - 20}, 200, null, true).yoyo(true).loop(true)
 		})
 
-		game.add.tween(gameGroup).to({alpha: 0},600,Phaser.Easing.Cubic.Out,true, 600)
-		game.add.tween(dreamGroup.bright).to({alpha: 1},600,Phaser.Easing.Cubic.Out,true, 600).yoyo(true)
+		game.add.tween(gameGroup).to({alpha: 0},300,Phaser.Easing.Cubic.Out,true, 600)
+		game.add.tween(dreamGroup.bright).to({alpha: 1},300,Phaser.Easing.Cubic.Out,true, 600).yoyo(true)
 		var bgDissapear = game.add.tween(dreamGroup.bg).to({alpha:0}, 600, Phaser.Easing.Cubic.In, true, 600)
 		bgDissapear.onComplete.add(function () {
 			var showDream = game.add.tween(dreamGroup).to({y: game.world.height},800,Phaser.Easing.Cubic.In,true, 400)
@@ -660,55 +660,61 @@ var uni = function(){
 				sound.play("swipe")
 			})
 		})
-        }else{
-        game.time.events.add(700, function () {
-            theffanie.setAnimation(["IDLE"])
-        })
         }
 		
 	}
 	
-	function checkCorrect(obj) {
-		if(!tutorialLevel){
-			isCorrect = true
-			clock.tween.stop()
-			if(tutorialLevel){
-				tutorialLevel=false;
-				hand.alpha=0;
+	function checkGoal(){
+		var countUni=0;
+		var countDonk=0;
+		var exitSpeed=3000;
+		
+		buttonImg.inputEnabled=false;
+		dragableUnicorn.input.draggable=false;
+		
+		for(var checkGoals=0; checkGoals<animalsInStage.length; checkGoals++){
+			if(animalsInStage[checkGoals].tag=="uni"){
+				countUni++;
+			}else if(animalsInStage[checkGoals].tag=="donkey"){
+				countDonk++;		
 			}
-			var button = obj.parent
-			var numberText = clockCounter.numberText
-			obj.inputEnabled = false
-			clockCounter.mas.inputEnabled = false
-			clockCounter.menos.inputEnabled = false
-
-			game.add.tween(numberText.scale).to({x:1.1, y:1.1}, 800, Phaser.Easing.Back.Out, true).yoyo(true)
-
-			game.add.tween(button.scale).to({x:1.1, y:0.8}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
-			if (clockCounter.number === answer){
-				rightReaction()
-			}else
-				wrongReaction()
-		}else if(tutorialLevel && clockCounter.number === answer){
-			isCorrect = true
-			if(tutorialLevel){
-				tutorialLevel=false;
-				hand.alpha=0;
-			}
-			var button = obj.parent
-			var numberText = clockCounter.numberText
-			obj.inputEnabled = false
-			clockCounter.mas.inputEnabled = false
-			clockCounter.menos.inputEnabled = false
-
-			game.add.tween(numberText.scale).to({x:1.1, y:1.1}, 800, Phaser.Easing.Back.Out, true).yoyo(true)
-
-			game.add.tween(button.scale).to({x:1.1, y:0.8}, 200, Phaser.Easing.Cubic.Out, true).yoyo(true)
-			if (clockCounter.number === answer){
-				rightReaction()
-			}else
-				wrongReaction()
 		}
+		if(goalUni==countUni && goalDonk==countDonk){
+			//rightReaction();
+		}else{
+			missPoint();
+			if(lives==0){
+				//wrongReaction();
+			}else{
+				theffanie.setAnimation("NIGHTMARE")
+				game.time.events.add(700, function () {
+					theffanie.setAnimation("IDLE")
+				})
+			}
+		}
+		
+		
+		for(var moveAnimals=0; moveAnimals<animalsInStage.length; moveAnimals++){
+				if(animalsInStage[moveAnimals]){
+					if(lives>0){
+						sound.play("horse_gallop")
+						animalsInStage[moveAnimals].setAnimation(["JUMP"]);
+						game.add.tween(animalsInStage[moveAnimals]).to({x: game.world.width+animalsInStage[moveAnimals].x}, exitSpeed, Phaser.Easing.linear, true)
+					}else{
+						animalsInStage[moveAnimals].setAnimation(["LOSE"]);
+					}
+					
+				}
+			}
+			game.time.events.add(exitSpeed,function(){
+				for(var destroyAnimals=0; destroyAnimals<animalsInStage.length; destroyAnimals++){
+					animalsInStage[destroyAnimals].destroy();
+				}
+				animalsInStage.splice(0);
+				dragableUnicorn.input.draggable=true;
+				buttonImg.inputEnabled=true;
+			})
+		
 	}
 	
 	function createUniUI() {
@@ -717,7 +723,7 @@ var uni = function(){
 		dreamGroup.y = game.world.height
 		sceneGroup.add(dreamGroup)
 
-		var background = game.add.tileSprite(0,0,game.world.width, 626, "fondo")
+		background = game.add.tileSprite(0,0,game.world.width, 626, "fondo")
 		background.x = game.world.centerX
 		background.anchor.setTo(0.5, 0)
 		dreamGroup.add(background)
@@ -754,6 +760,7 @@ var uni = function(){
 		sceneGroup.add(bed);
 		
 		
+		
 		theffanie = createSpine("theffanie","normal")
 		theffanie.x = game.world.width * 0.5 - 270
 		theffanie.y = game.world.height - 80
@@ -769,17 +776,6 @@ var uni = function(){
 		containers.y = theffanie.y-300
 		sceneGroup.add(containers)
 		
-		
-		// var inputClock = new Phaser.Graphics(game)
-		// inputClock.beginFill(0xFFFFFF)
-		// inputClock.drawRect(0,0,180, 180)
-		// inputClock.alpha = 0
-		// inputClock.endFill()
-		// inputClock.x = -90, inputClock.y = -90
-		// // input.inputEnabled = true
-		// inputClock.events.onInputDown.add(addCounter)
-		// clockCounter.input = inputClock
-		// clockCounter.add(inputClock)
 		
 
 		var clockImg = clockCounter.create(0,0,"atlas.uni","clockImg")
@@ -800,8 +796,8 @@ var uni = function(){
 		button.y = clockCounter.y+5
 		sceneGroup.add(button)
 
-		var buttonImg = button.create(0,0,"atlas.uni", "rdyButton")
-		buttonImg.events.onInputDown.add(checkCorrect)
+		buttonImg = button.create(0,0,"atlas.uni", "rdyButton")
+		buttonImg.events.onInputDown.add(checkGoal)
 		buttonImg.anchor.setTo(0.5, 0.5)
 		button.alpha = 1	
 		buttonImg.scale.setTo(0.4, 0.4)
@@ -809,49 +805,16 @@ var uni = function(){
 		game.add.tween(button.scale).to({x:1.05, y:0.95}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
 
 		var fontStyle2 = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-//		var minButton = button.create(0,0,"atlas.uni","menos")
-//		minButton.anchor.setTo(0.5, 0.5)
-//		minButton.x = - 120
-//		minButton.events.onInputDown.add(function (obj) {
-//			addCounter(obj, -1)
-//			if(tutorialLevel && clockCounter.number < answer){
-//				hand.x=clockCounter.x;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number > answer){
-//				hand.x=clockCounter.x-220;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number === answer){
-//				hand.x=clockCounter.x-120;
-//				hand.y=clockCounter.y-70;
-//			}
-//		})
-//		clockCounter.menos = minButton
-
-//		var maxButton = button.create(0,0,"atlas.uni","mas")
-//		maxButton.anchor.setTo(0.5, 0.5)
-//		maxButton.x = 120
-//		maxButton.events.onInputDown.add(function (obj) {
-//			addCounter(obj, +1)
-//			if(tutorialLevel && clockCounter.number < answer){
-//				hand.x=clockCounter.x;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number > answer){
-//				hand.x=clockCounter.x-220;
-//				hand.y=clockCounter.y-70;
-//			}else if(tutorialLevel && clockCounter.number === answer){
-//				hand.x=clockCounter.x-120;
-//				hand.y=clockCounter.y-70;
-//			}
-//		})
-//		clockCounter.mas = maxButton
 		
 		dreamGroup.add(containers)
 		
-		var uniContainer=game.add.sprite(0,0,"atlas.uni","answer");
-		var dragableUnicorn=game.add.sprite(uniContainer.x,uniContainer.y,"atlas.uni","answer");
+		uniContainer=game.add.sprite(0,-20,"atlas.uni","buttonUni");
+		dragableUnicorn=game.add.sprite(uniContainer.x+10,uniContainer.y,"atlas.uni","buttonImgU");
+		dragableUnicorn.tag="uni";
 		containers.add(uniContainer);
 		containers.add(dragableUnicorn);
+		dragableUnicorn.events.onDragStart.add(onDragStart, this);
+		dragableUnicorn.events.onDragStop.add(onDragStop, this);
 		
 		var correctParticle = createPart("star")
 		sceneGroup.correctParticle = correctParticle
@@ -885,15 +848,83 @@ var uni = function(){
     }
 	
 	
-	function createUnicorns(obj){
-		var index=animalsInStage.length;
-		obj.index=index;
-		animalsInStage.push(obj);
+	function onDragStart(obj, pointer) {
+		sound.play("drag")
+		//inputsEnabled=false;
+		var option = obj.parent
+		option.inBottom = false
+		option.deltaX = pointer.x - obj.world.x
+		option.deltaY = pointer.y - obj.world.y - obj.originalY
+
+		option.startX = (obj.world.x - gameGroup.x)
+		option.startY = (obj.world.y - gameGroup.y - obj.originalY)
+		
+		dreamGroup.bringToTop(option)
+	}
+	function checkOverlap(spriteA, spriteB) {
+
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+	}
+
+	function onDragStop(obj,pointer){
+		if(checkOverlap(obj,background)){
+			isColliding=true;
+		}
+
+		if(isColliding){
+			createAnimal(obj,pointer);
+		}
+		if(obj.tag=="uni"){
+			obj.x=uniContainer.x+10;
+			obj.y=uniContainer.y;
+		}
+		if(obj.tag=="donk"){
+			obj.x=donkContainer.x;
+			obj.y=donkContainer.y;
+		}
 	}
 	
-	function removeUnicorns(obj){
-		animalsInStage.splice(1,obj.index,obj);
+	function discardAnimal(obj){
+		animalsInStage[obj.index].destroy();
+		obj.destroy();
+		animalsInStage.splice(obj.index,1);
+		for(var changeIndex=0; changeIndex<animalsInStage.length; changeIndex++){
+			animalsInStage[changeIndex].container.index=changeIndex;
+		}	
 	}
+	
+	function createAnimal(obj,pointer){
+		var index=animalsInStage.length;
+		if(obj.tag=="uni"){
+			var unicorn=createSpine("unicorn","normal")
+			animalsInStage.push(unicorn);
+			unicorn.scale.setTo(0.7,0.7);
+			animalsInStage[index].tag="uni";
+		}else if(obj.tag=="donkey"){
+			var donkey=createSpine("donkey","normal")
+			animalsInStage.push(donkey);
+			animalsInStage[index].tag="donkey";
+		}
+		animalsInStage[index].x=positionX[index];
+		animalsInStage[index].y=positionY[index];
+		animalsInStage[index].container= this.game.add.image(animalsInStage[index].x-50, animalsInStage[index].y-100);;
+		this.rect = new Phaser.Graphics(game);
+		this.rect.beginFill('#000000', 0);
+		this.rect.drawRect(0, 0, 90, 90);
+		this.rect.endFill();
+		animalsInStage[index].container.addChild(this.rect);
+		animalsInStage[index].container.inputEnabled=true;
+		animalsInStage[index].container.index=index;
+		animalsInStage[index].container.events.onInputDown.add(discardAnimal,this);
+		dreamGroup.add(animalsInStage[index]);
+	}
+	
+	
+
+	
 	
 	function createBackground() {
 		var background = game.add.tileSprite(0,0,game.world.width, game.world.height, "atlas.uni", "room")

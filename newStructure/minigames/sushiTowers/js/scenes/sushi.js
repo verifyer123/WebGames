@@ -180,10 +180,13 @@ var sushi = function(){
     }
     
     function createSushi(sushi) {
-
+		
+		
         var sprite = pullGroup.create(0, 0, "atlas.sushi", sushi)
-        sprite.anchor.setTo(0.5, 0.5)
+        sprite.anchor.setTo(0.5, 0.5)		
+		
 
+		
 		if(!sushiList[sushi])
 			sushiList[sushi] = []
         sushiList[sushi].push(sprite)
@@ -419,13 +422,15 @@ var sushi = function(){
 		
 		var dificulty=pointsBar.number;
 		var dataSushi = SUSHI_DATA[name]
+		
 		dataSushi = SUSHI_DATA[name]
 		
         var sushi = game.add.group()
-
+		
 		sushi.sushiList = []
 		for(var containerIndex = 0; containerIndex < dataSushi.num; containerIndex++){
 			var sushiSprite = sushiList[name].pop()
+			
 			sushiSprite.y = -sushiSprite.height * 0.5 * containerIndex
 			sushiSprite.inputEnabled = true
 			sushiSprite.originalY = sushiSprite.y
@@ -435,7 +440,17 @@ var sushi = function(){
 			if(!sushi.container)
 				sushi.container = sushiSprite
 		}
-
+		
+		var randomSkin;
+		var newSkin="";
+		if(pointsBar.number>0){
+			randomSkin=game.rnd.integerInRange(0,2);
+			newSkin=name+randomSkin;
+			if(randomSkin==0){
+				newSkin=name;
+			}
+			sushiSprite.loadTexture("atlas.sushi",newSkin);
+		}
 		sushi.denom = dataSushi.denom
 		sushi.name = name
 		sushi.alpha = 0
@@ -603,7 +618,6 @@ var sushi = function(){
 		var boundsB = spriteB.getBounds();
 
 		return Phaser.Rectangle.intersects(boundsA , boundsB );
-
 	}
 
 	function onDragStart(obj, pointer) {
@@ -957,36 +971,6 @@ var sushi = function(){
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            onClickPlay(rect)
-            
-        })
-        
-        tutoGroup.add(rect)
-        
-        var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY,'atlas.sushi','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var button = tutoGroup.create(game.world.centerX, game.world.centerY + 230,'atlas.sushi','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 	
 
@@ -998,7 +982,6 @@ var sushi = function(){
 
 		var spineSkeleton = game.add.spine(0, 0, skeleton)
 		spineSkeleton.x = x; spineSkeleton.y = y
-		// spineSkeleton.scale.setTo(0.8,0.8)
 		spineSkeleton.setSkinByName(skin)
 		spineSkeleton.setAnimationByName(0, idleAnimation, true)
 		spineSkeleton.autoUpdateTransform ()
@@ -1066,7 +1049,6 @@ var sushi = function(){
         },
         create: function(event){
 
-            // swipe = new Swipe(game)
 			
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 			handGroup = game.add.group();

@@ -23,7 +23,7 @@ var tutorialHelper = function () {
 	var spine
 	var spineTimeOut
 	//Configurations: IMAGIC, WEB_GAMES
-	var configuration = "WEB_GAMES";
+	var configuration = "IMAGIC";
 	var createTutorialGif;
 	var tutoPath;
 	
