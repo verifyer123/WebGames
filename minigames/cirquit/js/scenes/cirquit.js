@@ -938,8 +938,16 @@ var cirquit = function(){
         createObstacle('cross',3)
         createObstacle('circle',3)
         createObstacle('cirquit',4)
-        
-        addObstacle('bar')
+        var r = game.rnd.integerInRange(0,2)
+        if(r == 0){
+            addObstacle('bar')
+        }
+        else if(r == 1){
+            addObstacle('cross')
+        }
+        else{
+            addObstacle('circle')
+        }
         for(var i = 0;i<2;i++){
             addObjects()
         }
@@ -950,9 +958,10 @@ var cirquit = function(){
         
         var tags = ['circle','cross','bar']
         //tags = ['bar']
-        Phaser.ArrayUtils.shuffle(tags)
+        //Phaser.ArrayUtils.shuffle(tags)
+        var r = game.rnd.integerInRange(0,tags.length-1)
         
-        tag = tags[0]
+        tag = tags[r]
         
         return tag
     }
