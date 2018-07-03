@@ -443,7 +443,7 @@ var sushi = function(){
 		
 		var randomSkin;
 		var newSkin="";
-		if(pointsBar.number>0){
+		if(pointsBar.number>5){
 			randomSkin=game.rnd.integerInRange(0,2);
 			newSkin=name+randomSkin;
 			if(randomSkin==0){
