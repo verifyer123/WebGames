@@ -629,18 +629,18 @@ var wildDentist = function(){
             ondasCastores[i].anchor.setTo(0.5,0);
             TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
             arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
-            arrayTrunks[i].tronco1.scale.setTo(0.5,0.7);
+            arrayTrunks[i].tronco1.scale.setTo(0.7,0.7);
             arrayTrunks[i].tronco1.x = game.width - (trunkPosition[i] * 50);
-            arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 50;        
+            arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 30;        
             arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
-            arrayTrunks[i].tronco2.scale.setTo(0.5,0.7);
+            arrayTrunks[i].tronco2.scale.setTo(0.7,0.7);
             arrayTrunks[i].tronco2.x = arrayTrunks[i].tronco1.x;
-            arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 65; 
+            arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 30; 
             arrayTrunks[i].tronco2.alpha = 0;
             arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
-            arrayTrunks[i].tronco3.scale.setTo(0.5,0.7); 
+            arrayTrunks[i].tronco3.scale.setTo(0.7,0.7); 
             arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
-            arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 70;
+            arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 30;
             arrayTrunks[i].tronco3.alpha = 0;
 
             tileRocks[i] = game.add.tileSprite(0,0,game.width,155,"rocks");
