@@ -43,7 +43,7 @@ var heladoObscuro = function(){
     var LIMIT_Y
 
     var INITIAL_SPEED = 5
-    var DELTA_SPEED = 0.15
+    var DELTA_SPEED = 0.1
     var MAX_SPEED = 15
     var CLOUD_NUMBER = 5
     var MOVE_FACTOR = 0.6
@@ -53,7 +53,7 @@ var heladoObscuro = function(){
     var DELTA_CLOUDS = 300
     var MIN_DISTANCE_COLLISION = 60
     var OFFSET_Y = 60
-    var PROBABILITY_EXTRA_POINTS = 0.3
+    var PROBABILITY_EXTRA_POINTS = 0.2
     
     var gameIndex = 31
     var gameId = 100008
@@ -440,6 +440,13 @@ var heladoObscuro = function(){
                                 currentExtraPoints = 0
                                 createPart('star', ice)
                                 addPoint(3,{x:game.world.width-50,y:50})
+                                //ice.visible = false
+                                lastObjectCollision.visible = false
+                                lastObjectCollision.lastBall.visible = false
+                                lastObjectCollision.lastBall.lastBall.visible = false
+                                lastObjectCollision = lastObjectCollision.lastBall.lastBall.lastBall
+                                lastObjectCollision.nextBall = null
+
                             }
                             else{
                                 addPoint(1,{x:game.world.width-50,y:50})

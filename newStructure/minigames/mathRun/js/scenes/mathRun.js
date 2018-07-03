@@ -537,7 +537,7 @@ var mathRun = function(){
             
             if(coinCounter === coinsGroup.rand){
                 game.time.events.add(coinsGroup.delay, throwCoin, this, obj)
-                coinsGroup.delay > 150 ? coinsGroup.delay = 150 : 350
+                coinsGroup.delay > 200 ? coinsGroup.delay = 200 : 350
             }
             if(enemyCounter === enemiesGroup.rand){
                 game.time.events.add(350, throwEnemy, this, obj)
@@ -787,13 +787,14 @@ var mathRun = function(){
         
         for(var i = 0; i < enemiesGroup.length; i++){
             
-            enemiesGroup.children[i].animations.add('walk')
-            enemiesGroup.children[i].animations.play('walk', frames, true)
-            enemiesGroup.children[i].tag = tag
-            if(i > 4){
+            if(i > 1){
                 frames = 24
                 tag = "brown"
             }
+            
+            enemiesGroup.children[i].animations.add('walk')
+            enemiesGroup.children[i].animations.play('walk', frames, true)
+            enemiesGroup.children[i].tag = tag
         }
     }
     
@@ -804,7 +805,7 @@ var mathRun = function(){
         
         do {
             var obj = enemiesGroup.getRandom(0, enemyLvl)
-        } while (obj.alive === true)
+        } while (obj.alive == true)
         
         if(obj && enemiesGroup.canThrow){
             
@@ -827,7 +828,7 @@ var mathRun = function(){
                 obj.reset(game.world.width, platform.y - platform.height - (100 * game.rnd.integerInRange(1, 2)))
             }
             else{
-                obj.reset(game.world.width, platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(1, 6)))
+                obj.reset(game.world.width, platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(2, 6)))
             }
             
             obj.body.velocity.x = -225
@@ -877,7 +878,7 @@ var mathRun = function(){
         
         if(!player.touched){
             
-            if(enemy.tag === "pink"){
+            if(enemy.tag == "pink"){
                 if(dude.y < enemy.y - enemy.height){
                     doJump(1400)
                     addCoin(enemy)

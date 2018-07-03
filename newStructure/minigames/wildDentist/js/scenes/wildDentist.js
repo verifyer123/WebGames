@@ -150,6 +150,10 @@ var wildDentist = function(){
     var tweenHand;
     var changeTween;
     var buttonsSquare;
+    var minSpeed;
+    var maxSpeed;
+    var incrementType;
+    var timeParticles;
     //var emitter;
     
     function loadSounds(){
@@ -178,7 +182,20 @@ var wildDentist = function(){
         casesInTutorial = 0;
         changeTween = false;
         buttonsSquare = [];
-        speedMove = [1.0,0.5,0.7];
+        if(game.device.desktop){
+            speedMove = [1.0,0.5,0.7];
+            minSpeed = 0.5;
+            maxSpeed = 1.0;
+            incrementType = 0.04;
+            timeParticles = 1000;
+        }else{
+            speedMove = [2.5,1.0,1.7];
+            minSpeed = 1.0;
+            maxSpeed = 2.5;
+            incrementType = 0.1;
+            timeParticles = 500;
+        }
+        
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -472,7 +489,7 @@ var wildDentist = function(){
                         target.biteBeaver = true;
                         hitBeaver(trunk,target);
                     }
-                    speedMove[index] = randomFloatBetween(0.5,1.0,1);
+                    speedMove[index] = randomFloatBetween(minSpeed,maxSpeed,1);
                 }
             }
         }    
@@ -487,7 +504,7 @@ var wildDentist = function(){
                             target.biteBeaver = false;
                             particleWrong.x = target.idle.world.x + target.idle.width/2;
                             particleWrong.y = target.idle.world.y + target.idle.height/2;
-                            particleWrong.start(true, 1000, null, 5);
+                            particleWrong.start(true, timeParticles, null, 5);
                             
                             if(lives != 0){ 
                                missPoint();
@@ -556,7 +573,7 @@ var wildDentist = function(){
     function particleTrunkEmitter(target){
         particleTrunk.x = target.x + target.width/2 + 10;
         particleTrunk.y = target.y + target.height/2 + 50;
-        particleTrunk.start(true, 1000, null, 7);
+        particleTrunk.start(true, timeParticles, null, 7);
     }
     
     /*CREATE SCENE*/
@@ -781,10 +798,10 @@ var wildDentist = function(){
                             castores[d].biteBeaver = false;
                             castores[d].clean = true;
                             speed = speed + 0.08;//0.05
-                            speedincrement += 0.04;
+                            speedincrement += incrementType;
                             particleCorrect.x = castores[d].idle.world.x + castores[d].idle.width/2;
                             particleCorrect.y = castores[d].idle.world.y + castores[d].idle.height/2;
-                            particleCorrect.start(true, 1000, null, 5);
+                            particleCorrect.start(true, timeParticles, null, 5);
                             hitZones[d].id = 4;
                             if(starGame){
                                  addCoin(castores[d].idle);
@@ -798,7 +815,7 @@ var wildDentist = function(){
                 if (checkOverlap(hitZones[d], sprite) ){
                     particleWrong.x = castores[d].idle.world.x + castores[d].idle.width/2;
                     particleWrong.y = castores[d].idle.world.y + castores[d].idle.height/2;
-                    particleWrong.start(true, 1000, null, 5);
+                    particleWrong.start(true, timeParticles, null, 5);
                     if(starGame){
                         missPoint();
                     }
