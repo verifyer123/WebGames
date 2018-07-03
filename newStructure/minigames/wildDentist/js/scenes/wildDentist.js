@@ -150,6 +150,8 @@ var wildDentist = function(){
     var tweenHand;
     var changeTween;
     var buttonsSquare;
+    var minSpeed;
+    var maxSpeed;
     //var emitter;
     
     function loadSounds(){
@@ -178,7 +180,16 @@ var wildDentist = function(){
         casesInTutorial = 0;
         changeTween = false;
         buttonsSquare = [];
-        speedMove = [1.0,0.5,0.7];
+        if(game.device.desktop){
+            speedMove = [1.0,0.5,0.7];
+            minSpeed = 0.5;
+            maxSpeed = 1.0;
+        }else{
+            speedMove = [2.5,1.0,1.7];
+            minSpeed = 1.0;
+            maxSpeed = 2.5;
+        }
+        
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -472,7 +483,7 @@ var wildDentist = function(){
                         target.biteBeaver = true;
                         hitBeaver(trunk,target);
                     }
-                    speedMove[index] = randomFloatBetween(0.5,1.0,1);
+                    speedMove[index] = randomFloatBetween(minSpeed,maxSpeed,1);
                 }
             }
         }    
