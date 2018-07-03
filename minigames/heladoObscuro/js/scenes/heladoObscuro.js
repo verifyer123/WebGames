@@ -43,7 +43,7 @@ var heladoObscuro = function(){
     var LIMIT_Y
 
     var INITIAL_SPEED = 5
-    var DELTA_SPEED = 0.15
+    var DELTA_SPEED = 0.1
     var MAX_SPEED = 15
     var CLOUD_NUMBER = 5
     var MOVE_FACTOR = 0.6
