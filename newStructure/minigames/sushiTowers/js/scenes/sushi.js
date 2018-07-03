@@ -286,9 +286,9 @@ var sushi = function(){
         gameActive = false
 		for(var yogoIndex = 0; yogoIndex < yogotars.length; yogoIndex++){
 			var yogotar = yogotars[yogoIndex]
-			yogotar.setAnimation(["LOSE"])
+			yogotar.setAnimation(["lose"])
 		}
-		octopus.setAnimation(["LOSE"])
+		octopus.setAnimation(["lose"])
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
             
@@ -511,7 +511,7 @@ var sushi = function(){
             game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
-					octopus.setAnimation(["IDLE"])
+					octopus.setAnimation(["idle"])
 				}
 			});
         }
@@ -598,7 +598,7 @@ var sushi = function(){
 		var toX = toYogotar > 0 ? yogotar.centerX - 50 : yogotar.centerX + 50
 		var args = {sushi:sushi, position:{x:toX, y:yogotar.centerY}}
 
-		yogotar.setAnimation(["WIN", "EAT", "IDLE"])
+		yogotar.setAnimation(["win", "eat", "idle"])
 		game.time.events.add(1350, moveSushi, null, args)
 
 		Coin(sushi,pointsBar,100);
@@ -929,7 +929,7 @@ var sushi = function(){
 //				wrongParticle.y = lastSushi.centerY
 //				wrongParticle.start(true, 1000, null, 5)
 				missPoint()
-				octopus.setAnimation(["LOSE"]);
+				octopus.setAnimation(["lose"]);
 				gameEnded = true
 				return
 			}
@@ -975,7 +975,7 @@ var sushi = function(){
 	
 
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
-		idleAnimation = idleAnimation || "IDLE"
+		idleAnimation = idleAnimation || "idle"
 		var spineGroup = game.add.group()
 		x = x || 0
 		y = y || 0
