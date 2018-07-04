@@ -1,5 +1,6 @@
+
 export var login = function () {
-	var url = "https://12-dot-heroesofknowledge.appspot.com"
+	var url = "https://login-refactorization-dot-heroesofknowledgedev.appspot.com"
 
 	var GAME = "play.yogome"
 
@@ -10,7 +11,7 @@ export var login = function () {
 	var USER_RECOVERY = "/users/parent/recover"
 	var CHECK_EMAIL = "/login/check"
 	var REGISTER_CHILD = "/login/child"
-	var LOGIN_CHILD = "/login/pin"
+	var LOGIN_CHILD = "/play/player/v1/login"
 	var LOGIN_UPDATE = "/login/child_update"
 
 	function ajaxCall(data, endPoint, onSuccess, onError, type) {
@@ -22,27 +23,22 @@ export var login = function () {
 			dataType: 'json',
 			type: type,
 			url: url + endPoint,
-			async:true,
-			processData:false
-		}).done(function(response){
-			// console.log("success", response);
-			if((response)&&((response.status === "success")||(response.status === "registered"))){
+			async: true,
+			processData: false,
+			success: function (response) {
 				setCredentials(response)
-				if(onSuccess)
+				if (onSuccess)
 					onSuccess(response)
-			}else {
+
+			},
+			error: function (response) {
+				// console.log("error", response);
 				localStorage.clear()
-				if(onError)onError(response)
+				if (onError) onError(response)
 				// if(!signInCallback) modal.showLogin()
-				// checkLogin()
-			}
-		}).fail(function(response){
-			// console.log("error", response);
-			localStorage.clear()
-			if(onError)onError(response)
-			// if(!signInCallback) modal.showLogin()
-			// modal.showLogin()
-		});
+				// modal.showLogin()
+			},
+		})
 	}
 
 	function callMixpanelLogin(subscribed){
