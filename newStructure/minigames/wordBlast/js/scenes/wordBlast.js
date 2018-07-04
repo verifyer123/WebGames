@@ -1,5 +1,5 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
+
 var wordBlast = function(){
     
     var localizationData = {
@@ -87,7 +87,6 @@ var wordBlast = function(){
     var lives = null;
 	var sceneGroup = null;
     var gameActive;
-	var particlesGroup, particlesUsed
     var gameIndex = 196;
     var tutoGroup;
     var gameSong;
@@ -821,10 +820,10 @@ var wordBlast = function(){
             createChips();
             createBoard();
 
-            createTutorial();
             createHearts();        
 			createPointsBar();
 			initCoin();
+            createTutorial();
 
             createParticles();
 			

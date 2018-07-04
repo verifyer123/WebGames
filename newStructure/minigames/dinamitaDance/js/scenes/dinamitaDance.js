@@ -775,10 +775,10 @@ var dinamitaDance = function(){
             tnt();
             lightsOn();
 
-            createTutorial();
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
 
             particleCorrect = createPart("star");
             sceneGroup.add(particleCorrect);

@@ -856,10 +856,10 @@ var wildDentist = function(){
             var wildDentistSong = sound.play("wormwood", {loop:true, volume:0.6})
             createScene();
 
-            createTutorial();
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
 
             particleCorrect = createPart("star");
             sceneGroup.add(particleCorrect);
