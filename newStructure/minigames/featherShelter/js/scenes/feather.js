@@ -474,7 +474,7 @@ var feather = function(){
 
     function createBackground(){
         
-        background = sceneGroup.create(0,0,'background');
+        background = sceneGroup.create(0,-3,'background');
         background.width = game.world.width;
         background.height = game.world.height;
         
