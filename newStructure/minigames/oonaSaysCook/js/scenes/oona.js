@@ -872,10 +872,10 @@ var oona = function(){
             createOona();
             createTimeBar();
 
-            createTutorial();
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
 
             particleCorrect = createPart("star");
             sceneGroup.add(particleCorrect);

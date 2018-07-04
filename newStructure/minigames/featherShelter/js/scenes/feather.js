@@ -776,10 +776,10 @@ var feather = function(){
             createButtons();
             createChicks();
 
-            createTutorial();
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
             createParticles();
             
             buttons.getButton(spaceSong,sceneGroup);
