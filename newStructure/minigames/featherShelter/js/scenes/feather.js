@@ -551,11 +551,12 @@ var feather = function(){
         
         if(obj.number == numberChicks){
            
-            addCoin(house);//addPoint(1);
+            if(!tutorial){
+                addCoin(house);
+            }
             particleCorrect.x = obj.world.x;
             particleCorrect.y = obj.world.y;
             particleCorrect.start(true, 1000, null, 5)
-            //createPart('star',obj)
             
             wolf.setAnimationByName(0,"LOSE",false);
             sound.play("wolfSound");
@@ -568,7 +569,6 @@ var feather = function(){
             particleWrong.y = obj.world.y;
             particleWrong.start(true, 1000, null, 5);
             indicateChickCorrect();
-           //createPart('wrong',obj);
            if(lives<1){
                 game.time.events.add(1000,blowHouse);
            }else{
