@@ -519,19 +519,18 @@ var mathRun = function(){
                     obj.reset(game.world.width, (game.world.height - 200) - (obj.height * rand))
                 }
                 else{
-                    if(landGroup.lastObj.y < game.world.centerY - obj.height){
-                        rand = game.rnd.integerInRange(-2, 0)
+                    if(landGroup.lastObj.y < game.world.centerY){
+                        rand = game.rnd.integerInRange(0, 2)
                     }
                     else{
                         if(landGroup.lastObj.y > game.world.height - 400){
-                            rand = game.rnd.integerInRange(1, 2)
+                            rand = game.rnd.integerInRange(1, 2) * -1
                         }
                         else{
-                            rand = game.rnd.integerInRange(0, 2)
+                            rand = game.rnd.integerInRange(0, 2) * -1
                         }
                     }
-                    
-                    obj.reset(game.world.width, landGroup.lastObj.y - (obj.height * rand))
+                    obj.reset(game.world.width, landGroup.lastObj.y + (obj.height * rand))
                 }
             }
             
@@ -867,7 +866,7 @@ var mathRun = function(){
         
         if(lives > 0){
             game.time.events.add(1500, function(){
-                boardGroup.forEachAlive(fadeOut, this)
+                boardGroup.forEach(fadeOut, this)
                 game.time.events.add(500, setQuestion)
             })
         }
@@ -920,7 +919,7 @@ var mathRun = function(){
     
     function fadeOut(obj){
         
-        game.add.tween(obj).to({alpha:0},200,Phaser.Easing.linear,true)
+        game.add.tween(obj).to({alpha:0},100,Phaser.Easing.linear,true)
     }
     
     function fallFromLand(){
