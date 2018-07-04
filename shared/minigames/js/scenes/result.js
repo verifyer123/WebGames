@@ -31,6 +31,13 @@ var result = function(){
         ],
 	}
 
+    var DELTA_ASWERS = 50
+    var DELTA_QUESTION = 400
+    var DELTA_DOTS = 30
+    var INITIAL_HEIGTH = 700
+
+    var DELTA_SPECIAL_CUPON_SLIDER = 420
+
 	var sceneGroup
 
 	var totalScore, totalTime, totalGoal
@@ -50,9 +57,26 @@ var result = function(){
     var minigameId
     var skinTable
 	var overlayGroup
+	var pollOverlay
     var currentCouponId
 
 	var timeGoal = null
+    var webCoupon
+
+    var pollOptions = []
+    var currentQuestion
+    var questionsGroup
+    var dotsGroup
+    var inSlide, firstTouchX
+    var inPoll
+    var currentOpenQuestion
+
+    var topStandarheigth, buttonSendHeigth
+    var inSlideMovement
+
+    var specialCupon
+    var slideNumber
+    var cuponSliderGroup
 
 	function setScore(didWin,score,index) {
 
@@ -70,7 +94,7 @@ var result = function(){
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
             );*/
 
-            amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
+        amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
         //}
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
@@ -81,7 +105,6 @@ var result = function(){
         text = new Phaser.Text(game, -100, -100,"test", fontStyle)
         fontStyle = {font: "23px Gotham Book", fill: "#808080"}
         text = new Phaser.Text(game, -100, -100,"test", fontStyle)
-
 
 	}
 
@@ -372,7 +395,7 @@ var result = function(){
         amazing.saveScore(totalScore)
 
         minigameId = null
-        minigameId = amazing.getMinigameId()
+        minigameId = amazing.getMinigameIdentifier()
         fromApp = false
         if(minigameId){
 
@@ -600,7 +623,7 @@ var result = function(){
 
         }
 	    game.add.tween(group).from({alpha:0},500,Phaser.Easing.linear,true)
-	    sceneGroup.add(rankGroup)
+	    
 
     }
 
@@ -609,11 +632,12 @@ var result = function(){
         var dataStore = amazing.getProfile()
 
         if(!dataStore){
-            skinTable = [1,1,1,1]
+            skinTable = [1,1,1,1,1]
         }else{
 
             skinTable = dataStore
         }
+        //skinTable = [2,2,2,2,2]
 
     }
 
@@ -645,7 +669,7 @@ var result = function(){
         var topHeight = 1.05
         var scaleSpine = 1.05
         var pivotButtons = game.world.height * 0.7
-        //haveCoupon = false
+        //haveCoupon = true
         //win = false
         if(win){
 
@@ -707,10 +731,14 @@ var result = function(){
         getSkins()
 
         var addText = '_Happy'
-
+        //skinTable = [6,1,1,1,1]
         if(animationToUse == "LOSE"){
             addText = '_Sad'
+            if(skinTable[0]>=5){
+                skinTable = [1,1,1,1,1]
+            }
         }
+
 
         var newSkin = buddy.createCombinedSkin(
             'combined',
@@ -749,18 +777,18 @@ var result = function(){
             retryText.anchor.setTo(0,1)
             sceneGroup.add(retryText)
 
-
-
         }else{
 
             buddy.y+= 75
         }
 
         if(haveCoupon){
+
+
              buddy.y -= 75
             if(!win){
 
-               
+               specialCoupon = false
                 /*var text = game.add.bitmapText(pivotText, topRect.height * 0.79, 'Gotham light', 'Necesitas', 24);
                 text.anchor.setTo(0,1)
                 sceneGroup.add(text)*/
@@ -797,46 +825,51 @@ var result = function(){
                 pivotRank+=200
 
                 pivotButtons = game.world.height* 0.92
-               
-                amazing.winCoupon(currentCouponId)
+               	
+               	if(couponData.poll==null){
+                	amazing.winCoupon(currentCouponId)
+               	}
                 //
-                if(couponData.imgPreview){
+                //if(!specialCoupon){
 
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'coupon')
-                    coupon.anchor.setTo(0.5,0.5)
-                    coupon.scale.setTo(0.9)
+	                if(couponData.imgPreview){
 
-                }
-                else{
+	                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'coupon')
+	                    coupon.anchor.setTo(0.5,0.5)
+	                    coupon.scale.setTo(0.9)
 
-                    var discount
-                    if(couponData.discount){
+	                }
+	                else{
 
-                        discount = couponData.discount * 100
-                    }
+	                    var discount
+	                    if(couponData.discount){
 
-                    var colorToUse = couponData.color
+	                        discount = couponData.discount * 100
+	                    }
 
-                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
-                    coupon.anchor.setTo(0.5,0.5)
+	                    var colorToUse = couponData.color
 
-                    //var fontStyle = {font: "35px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
+	                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY + 40,'coupon')
+	                    coupon.anchor.setTo(0.5,0.5)
+
+	                    //var fontStyle = {font: "35px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
 
 
 
-                    var fontStyle = {font: "22px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
+	                    var fontStyle = {font: "22px Gotham", fontWeight: "bold", fill: colorToUse, align: "center"}
 
-                    var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
-                    storeText.anchor.setTo(0,0)
-                    sceneGroup.add(storeText)
+	                    var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 15, couponData.title, fontStyle)
+	                    storeText.anchor.setTo(0,0)
+	                    sceneGroup.add(storeText)
 
-                    var fontStyle = {font: "15px Gotham", fontWeight: "bold", fill: colorToUse, align: "left", wordWrap: true, wordWrapWidth: 220}
+	                    var fontStyle = {font: "15px Gotham", fontWeight: "bold", fill: colorToUse, align: "left", wordWrap: true, wordWrapWidth: 220}
 
-                    var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
-                    storeText.anchor.setTo(0,0)
-                    sceneGroup.add(storeText)
+	                    var storeText = new Phaser.Text(sceneGroup.game, coupon.x - 10, coupon.y - coupon.height * 0.18 + 60, couponData.copy, fontStyle)
+	                    storeText.anchor.setTo(0,0)
+	                    sceneGroup.add(storeText)
 
-                }
+	                }
+	            //}
 
             }
 
@@ -850,12 +883,527 @@ var result = function(){
 
         createButtons(pivotButtons)
         createIcons(showIcons)
+
+        sceneGroup.add(rankGroup)
+
         if(!amazing.getFromApp()){
             addRank()
-    		createOverlay()
+            if(webCoupon==""){
+    		  createOverlay()
+            }
+            else{
+                createOverlayCoupon()
+            }
+        }
+        else{
+           	if(haveCoupon && win){
+	            if(specialCoupon ){
+	            	makeSpecialCoupon()
+	            }
+
+	            poll = couponData.poll
+	            if(poll !=null){
+	                createPoll(poll.questions)
+	            }
+	        }
+        }
+	}
+
+	function makeSpecialCoupon(){
+		currentQuestion = 0
+		overlayGroup = game.add.group()
+        overlayGroup.alpha = 0
+        //overlayGroup.scale.setTo(1.5)
+        //overlayGroup.x -= game.world.width/4
+        //overlayGroup.y += game.world.height/4
+        overlayGroup.y-= game.world.height
+        sceneGroup.add(overlayGroup)
+
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+        overlayGroup.add(rect)
+
+       	var mask = new Phaser.Graphics(game)
+        mask.beginFill(0xffffff)
+        mask.drawRoundedRect(game.world.centerX - 225,game.world.centerY-330,450,680,30)
+        mask.endFill()
+        overlayGroup.add(mask)
+
+        var back = overlayGroup.create(game.world.centerX,game.world.centerY - 200, "couponBack")
+        back.anchor.setTo(0.5,0.5)
+        back.mask = mask
+
+        var tarjet = overlayGroup.create(game.world.centerX,game.world.centerY - 200, "couponTarjet")
+        tarjet.anchor.setTo(0.5)
+        tarjet.scale.setTo(0.3)
+
+        cuponSliderGroup = game.add.group()
+        cuponSliderGroup.currentX = 0
+        overlayGroup.add(cuponSliderGroup)
+        cuponSliderGroup.mask = mask
+
+        dotsGroup = game.add.group()
+        dotsGroup.y = game.world.centerY + 310
+        dotsGroup.x = game.world.centerX
+        overlayGroup.add(dotsGroup)
+		var initX = -((slideNumber-1)/2)*DELTA_DOTS
+
+        for(var i =1; i <= slideNumber; i++){
+        	var slideImage = cuponSliderGroup.create(game.world.centerX + (i-1)*DELTA_SPECIAL_CUPON_SLIDER,game.world.centerY+145,"couponSlide"+i)
+        	slideImage.anchor.setTo(0.5)
+
+        	var dot =  dotsGroup.create(initX + ((i-1)*DELTA_DOTS), 0, "atlas.resultScreen","slide_white_off")
+            dot.anchor.setTo(0.5)
+
+            if(i == 1){
+                dot.loadTexture("atlas.resultScreen","slide_white_on")
+            }
+
         }
 
+        var canjeButton = cuponSliderGroup.create(game.world.centerX +(slideNumber-1)*DELTA_SPECIAL_CUPON_SLIDER,game.world.centerY + 310,"couponButton")
+        canjeButton.anchor.setTo(0.5)
+        canjeButton.inputEnabled = true
+        canjeButton.events.onInputDown.add(function(){
+            amazing.goTickets()
+        })
+
+
+        var minigameDataId = amazing.getMinigameIdentifier()
+        if(minigameDataId == 31){
+        	var extra = overlayGroup.create(game.world.centerX,game.world.centerY + 250, "couponExtra")
+        	extra.anchor.setTo(0.5,0.5)
+        }
+
+        overlayGroup.y+= game.world.height
+
+        
+
+        overlayGroup.alpha = 1
+        overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
+    
 	}
+
+    function update(){
+        if(inPoll){
+            if(game.input.activePointer.isDown){
+                if(firstTouchX==null){
+                    firstTouchX = game.input.activePointer.x
+                }
+                else{
+                    var delta = firstTouchX - game.input.activePointer.x
+                    if((delta > 0  && currentQuestion >= currentOpenQuestion) || (delta < 0  && currentQuestion <= 0)){
+                        delta = 0
+                    }
+
+                    if(Math.abs(delta) > 100){
+                        if(delta > 0){
+                            inSlide = 1
+                        }
+                        else{
+                            inSlide = -1
+                        }
+                    }
+                    else{
+                        inSlide = 0
+                    }
+
+                    questionsGroup.x = questionsGroup.currentX - delta
+                }
+            }
+            else{
+                if(firstTouchX!=null && !inSlideMovement){
+                    if(inSlide!=0){
+                        dotsGroup.children[currentQuestion].loadTexture("atlas.resultScreen","slide_off")
+                        currentQuestion += inSlide
+                        dotsGroup.children[currentQuestion].loadTexture("atlas.resultScreen","slide_on")
+                        reloadQuestion(currentQuestion)
+                        inSlideMovement = true
+
+                        game.add.tween(questionsGroup).to({x:questionsGroup.currentX - (DELTA_QUESTION*inSlide)},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                            questionsGroup.currentX = questionsGroup.x
+                            //console.log(questionsGroup.x,questionsGroup.currentX)
+                            inSlideMovement = false
+                        })
+                    }
+                    else{
+                        inSlideMovement = true
+                        game.add.tween(questionsGroup).to({x:questionsGroup.currentX},100,Phaser.Easing.linear,true).onComplete.add(function(){
+                            inSlideMovement = false
+                        })
+                    }
+
+                    inSlide = 0
+                    firstTouchX = null
+                }
+            }
+        }
+
+
+        if(specialCoupon){
+        	if(game.input.activePointer.isDown){
+                if(firstTouchX==null){
+                    firstTouchX = game.input.activePointer.x
+                }
+                else{
+                    var delta = firstTouchX - game.input.activePointer.x
+                    if((delta > 0  && currentQuestion >= slideNumber-1) || (delta < 0  && currentQuestion <= 0)){
+                        delta = 0
+                    }
+
+                    if(Math.abs(delta) > 100){
+                        if(delta > 0){
+                            inSlide = 1
+                        }
+                        else{
+                            inSlide = -1
+                        }
+                    }
+                    else{
+                        inSlide = 0
+                    }
+
+                    cuponSliderGroup.x = cuponSliderGroup.currentX - delta
+                }
+            }
+            else{
+                if(firstTouchX!=null && !inSlideMovement){
+                    if(inSlide!=0){
+                        dotsGroup.children[currentQuestion].loadTexture("atlas.resultScreen","slide_white_off")
+
+                        if(currentQuestion == slideNumber-1){
+                        	game.add.tween(dotsGroup).to({alpha:1},200,Phaser.Easing.linear,true)
+                        }
+
+                        currentQuestion += inSlide
+                        dotsGroup.children[currentQuestion].loadTexture("atlas.resultScreen","slide_white_on")
+                        //reloadQuestion(currentQuestion)
+                        inSlideMovement = true
+
+                        if(currentQuestion == slideNumber-1){
+                        	game.add.tween(dotsGroup).to({alpha:0},200,Phaser.Easing.linear,true)
+                        }
+
+                        game.add.tween(cuponSliderGroup).to({x:cuponSliderGroup.currentX - (DELTA_SPECIAL_CUPON_SLIDER*inSlide)},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                            cuponSliderGroup.currentX = cuponSliderGroup.x
+
+                            //console.log(questionsGroup.x,questionsGroup.currentX)
+                            inSlideMovement = false
+                        })
+                    }
+                    else{
+                        inSlideMovement = true
+                        game.add.tween(cuponSliderGroup).to({x:cuponSliderGroup.currentX},100,Phaser.Easing.linear,true).onComplete.add(function(){
+                            inSlideMovement = false
+                        })
+                    }
+
+                    inSlide = 0
+                    firstTouchX = null
+                }
+            }
+        }
+    }
+
+    function createPoll(poll){
+
+        currentQuestion = 0
+        inPoll = true
+
+        pollOverlay = game.add.group()
+        pollOverlay.alpha = 0
+        pollOverlay.y-= game.world.height
+        sceneGroup.add(overlayGroup)
+
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+        //rect.events.onInputDown.add(inputOverlay)
+        //rect.tag = 'quitOverlay'
+        pollOverlay.add(rect)
+
+        var back = new Phaser.Graphics(game)
+        back.y = game.world.centerY-INITIAL_HEIGTH/2
+        back.beginFill(0xffffff)
+        back.drawRoundedRect(game.world.centerX - 200,0,398,INITIAL_HEIGTH,30)
+        back.endFill()
+        pollOverlay.add(back)
+        pollOverlay.backImage = back
+
+        var mask = new Phaser.Graphics(game)
+        mask.beginFill(0xffffff)
+        mask.drawRoundedRect(game.world.centerX - 200,game.world.centerY-400,398,800,30)
+        mask.endFill()
+        pollOverlay.add(mask)
+
+        var top = pollOverlay.create(game.world.centerX,game.world.centerY-INITIAL_HEIGTH/2,"atlas.resultScreen","pop_encuesta")
+        top.anchor.setTo(0.5,0)
+        pollOverlay.topImage = top
+
+        var mezy = pollOverlay.create(game.world.centerX,top.y + 150,"atlas.resultScreen","meizy_pop")
+        mezy.anchor.setTo(0.5)
+        pollOverlay.mezy = mezy
+
+        questionsGroup = game.add.group()
+        pollOverlay.add(questionsGroup)
+        questionsGroup.currentX = 0
+
+        dotsGroup = game.add.group()
+        dotsGroup.y = game.world.centerY + 200
+        pollOverlay.add(dotsGroup)
+
+        var initX = game.world.centerX + 5 - ((poll.length-1)/2)*DELTA_DOTS
+        topStandarheigth = 350 - 100
+        buttonSendHeigth = 110
+
+        for(var i = 0; i < poll.length; i++){
+            var group = game.add.group()
+            group.mask = mask
+            group.x = DELTA_QUESTION*i
+            questionsGroup.add(group)
+            pollOptions[i] = {button: null, opcion: -1}
+
+            var fontStyle = {font:"24px Gotham", fill: "#757575",align:"center", wordWrap:true, wordWrapWidth: 350}
+            var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-100,poll[i].question, fontStyle)
+            text.anchor.setTo(0.5,0)
+            group.add(text)
+            group.question = text
+
+            var nextButton = group.create(game.world.centerX, game.world.centerY + 250,"atlas.resultScreen","boton_siguiente")
+            nextButton.anchor.setTo(0.5)
+            nextButton.inputEnabled = true
+            nextButton.id = i
+            nextButton.visible = false
+            if(i == poll.length-1){
+                nextButton.loadTexture("atlas.resultScreen","enviar")
+                nextButton.events.onInputDown.add(sendPoll)
+
+            }
+            else{
+                nextButton.events.onInputDown.add(function(target){
+                    if(currentQuestion == target.id){
+                        dotsGroup.children[currentQuestion].loadTexture("atlas.resultScreen","slide_off")
+                        currentQuestion ++
+                        dotsGroup.children[currentQuestion].loadTexture("atlas.resultScreen","slide_on")
+                        reloadQuestion(currentQuestion)
+                        if(currentQuestion > currentOpenQuestion){
+                            currentOpenQuestion = currentQuestion
+                        }  
+                        inSlideMovement = true
+                        questionsGroup.currentX = questionsGroup.x - DELTA_QUESTION
+                        game.add.tween(questionsGroup).to({x:questionsGroup.x - DELTA_QUESTION},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                            inSlideMovement = false
+                        })
+
+                    }
+                })
+            }
+            group.nextButton = nextButton
+
+            var initY = - ((poll[i].answers.length-1)/2)*DELTA_ASWERS
+            group.answersHeight = poll[i].answers.length*DELTA_ASWERS
+            var answersGroup = game.add.group()
+            group.add(answersGroup)
+            group.answersGroup = answersGroup
+            answersGroup.y = (game.world.centerY +50)
+            for(var j = 0; j < poll[i].answers.length; j++){
+                var y = initY +(DELTA_ASWERS*j)
+                
+                //button.inputEnabled = true
+                
+                var button = answersGroup.create(game.world.centerX-150,y,"atlas.resultScreen","opcion")
+                button.anchor.setTo(0.5)
+
+                var inputScape = game.add.graphics()
+                inputScape.y = y
+                inputScape.x = game.world.centerX - 200
+                inputScape.beginFill(0xff0000)
+                inputScape.drawRect(0,-20,400,40)
+                inputScape.endFill()
+                inputScape.inputEnabled = true
+                inputScape.button = button
+                inputScape.index = i
+                inputScape.opcionId = j
+                inputScape.selected = false
+                inputScape.nextButton = nextButton
+                answersGroup.add(inputScape)
+                inputScape.alpha = 0
+
+                inputScape.events.onInputUp.add(function(target){
+
+                    if(inSlide!=0){
+                        return
+                    }
+
+                    if(!target.nextButton.visible){
+                        target.nextButton.visible = true
+                    }
+
+                    if(!target.selected){
+
+                        if(pollOptions[target.index].button!=null){
+                            pollOptions[target.index].button.button.loadTexture("atlas.resultScreen","opcion")
+                            pollOptions[target.index].button.selected = false
+                        }
+
+                        pollOptions[target.index].opcion = target.opcionId
+                        pollOptions[target.index].button = target
+                        target.selected = true
+                        target.button.loadTexture("atlas.resultScreen","seleccion_rosa")
+
+                    }
+                })
+
+
+
+                var fontStyle = {font:"21px Gotham", fill: "#757575"}
+                var answer = new Phaser.Text(sceneGroup.game,game.world.centerX-120,y,poll[i].answers[j], fontStyle)
+                answer.anchor.setTo(0,0.5)
+                answersGroup.add(answer)
+            }
+
+
+            var dot =  dotsGroup.create(initX + (i*DELTA_DOTS), 0, "atlas.resultScreen","slide_off")
+            dot.anchor.setTo(0.5)
+
+
+            if(i == 0){
+                dot.loadTexture("atlas.resultScreen","slide_on")
+            }
+
+        }
+
+        reloadQuestion(0)
+
+        pollOverlay.y+= game.world.height
+        pollOverlay.alpha = 1
+        pollOverlay.tween = game.add.tween(pollOverlay).from({alpha:0,y:pollOverlay.y - game.world.height},500,"Linear",true)
+    }
+
+    function reloadQuestion(index){
+        var heigth = topStandarheigth + questionsGroup.children[index].question.height +20 + questionsGroup.children[index].answersHeight+30 + buttonSendHeigth
+
+        var newCenter = heigth/2
+
+        //overlayGroup.topImage.y = game.world.centerY - newCenter
+        game.add.tween(pollOverlay.topImage).to({y:game.world.centerY - newCenter},200,Phaser.Easing.linear,true)
+
+        //overlayGroup.mezy.y = overlayGroup.topImage.y +150
+        game.add.tween(pollOverlay.mezy).to({y:game.world.centerY - newCenter + 150},200,Phaser.Easing.linear,true)
+
+        //questionsGroup.children[index].question.y = overlayGroup.topImage.y+topStandarheigth
+        game.add.tween(questionsGroup.children[index].question).to({y:game.world.centerY - newCenter + topStandarheigth},200,Phaser.Easing.linear,true)
+
+        //questionsGroup.children[index].answersGroup.y = questionsGroup.children[index].question.y + questionsGroup.children[index].question.height + 80 + questionsGroup.children[index].answersHeight/2
+        game.add.tween(questionsGroup.children[index].answersGroup).to({y:game.world.centerY - newCenter + topStandarheigth + questionsGroup.children[index].question.height + questionsGroup.children[index].answersHeight/2 + 20},200,Phaser.Easing.linear,true)
+
+        //dotsGroup.y = questionsGroup.children[index].answersGroup.y + questionsGroup.children[index].answersHeight/2 + 80
+        game.add.tween(dotsGroup).to({y:game.world.centerY - newCenter + topStandarheigth + questionsGroup.children[index].question.height + questionsGroup.children[index].answersHeight + 50},200,Phaser.Easing.linear,true)
+
+        //questionsGroup.children[index].nextButton.y = dotsGroup.y + 50
+        game.add.tween(questionsGroup.children[index].nextButton).to({y:game.world.centerY - newCenter + topStandarheigth + questionsGroup.children[index].question.height + 100 + questionsGroup.children[index].answersHeight},200,Phaser.Easing.linear,true)
+
+        //var newScale = heigth/INITIAL_HEIGTH
+        //overlayGroup.backImage.y = game.world.centerY - (heigth/2) + 1
+        game.add.tween(pollOverlay.backImage).to({y:game.world.centerY - (heigth/2) + 1},200,Phaser.Easing.linear,true)
+
+
+        //overlayGroup.backImage.scale.setTo(1,heigth/INITIAL_HEIGTH)
+        game.add.tween(pollOverlay.backImage.scale).to({y:heigth/INITIAL_HEIGTH},200,Phaser.Easing.linear,true)
+    }
+
+    function sendPoll(){
+        game.add.tween(pollOverlay).to({alpha : 0, y: pollOverlay.y - game.world.height},500,"Linear",true)
+        amazing.winCoupon(currentCouponId)
+        console.log(pollOptions)
+    }
+
+    function createOverlayCoupon(){
+        overlayGroup = game.add.group()
+        overlayGroup.alpha = 0
+        //overlayGroup.scale.setTo(1.2)
+        //overlayGroup.y -= game.world.height*0.05
+        //overlayGroup.x -= game.world.width*0.1
+        overlayGroup.y-= game.world.height
+        sceneGroup.add(overlayGroup)
+
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width, game.world.height)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(inputOverlay)
+        rect.tag = 'quitOverlay'
+        overlayGroup.add(rect)
+
+        var back = new Phaser.Graphics(game)
+        back.beginFill(0xffffff)
+        back.drawRoundedRect(game.world.centerX - 235,game.world.centerY-350,470,700,30)
+        back.endFill()
+        overlayGroup.add(back)
+
+        var mask = new Phaser.Graphics(game)
+        mask.beginFill(0xffffff)
+        mask.drawRoundedRect(game.world.centerX - 235,game.world.centerY-350,470,700,30)
+        mask.endFill()
+        overlayGroup.add(mask)
+
+        var top = overlayGroup.create(game.world.centerX,game.world.centerY-350,"atlas.resultScreen","pop_cupon")
+        top.anchor.setTo(0.5,0)
+        top.scale.setTo(0.8)
+
+        var texture = game.add.tileSprite(game.world.centerX-250,game.world.centerY-350,800,800,"atlas.resultScreen","textura")
+        //texture.anchor.setTo(0.5)
+        overlayGroup.add(texture)
+        texture.mask = mask
+
+        var closeBtn = overlayGroup.create(game.world.centerX+175,game.world.centerY-280,'atlas.resultScreen','cerrar')
+        closeBtn.anchor.setTo(0.5,0.5)
+        closeBtn.scale.setTo(0.8)
+        closeBtn.inputEnabled = true
+        closeBtn.events.onInputDown.add(inputOverlay)
+        closeBtn.tag = 'quitOverlay'
+
+        var cupon = overlayGroup.create(game.world.centerX,game.world.centerY+80,"webCoupon")
+        cupon.anchor.setTo(0.5)
+        cupon.scale.setTo(0.7)
+
+        var mezy = overlayGroup.create(game.world.centerX,game.world.centerY-190,"atlas.resultScreen","meizy_pop")
+        mezy.anchor.setTo(0.5)
+        mezy.scale.setTo(0.8)
+
+        var fontStyle = {font: "23px Gotham", fill: "#757575",align:"center"}
+        var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-60,"¡Gana esta recompensa\n jugando en nuestra app!", fontStyle)
+        text.anchor.setTo(0.5,0.5)
+        overlayGroup.add(text)
+
+        var downloadButton = game.add.group()
+        downloadButton.x = game.world.centerX
+        downloadButton.y = game.world.centerY + 250
+        overlayGroup.add(downloadButton)
+
+
+         var imgBtn = downloadButton.create(-5,0,'atlas.resultScreen','descargar')
+        imgBtn.inputEnabled = true
+        imgBtn.events.onInputDown.add(inputOverlay)
+        imgBtn.tag = 'download'
+        imgBtn.scale.setTo(0.8)
+        imgBtn.anchor.setTo(0.5,0.5)
+
+
+
+        overlayGroup.y+= game.world.height
+        overlayGroup.alpha = 1
+        overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
+    }
 
 	function createOverlay(){
 
@@ -973,6 +1521,12 @@ var result = function(){
 		totalGoal = 1
 
         game.stage.backgroundColor = "#ffffff"
+        currentQuestion = -1
+        inSlide = 0
+        inPoll = false
+        firstTouchX = null
+        currentOpenQuestion = 0
+        inSlideMovement = false
 	}
 
     function checkNumbers(number){
@@ -1034,32 +1588,59 @@ var result = function(){
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
 
-
-
-        if(!couponData){
+        //couponData = {scoreGoal:1}
+        specialCoupon = false
+        if(!couponData || couponData == null){
             haveCoupon = false
-            //haveCoupon = true
-            //goalScore = 1
 
         }else{
-            //game.load.baseURL = domain;
-            //game.load.crossOrigin = 'anonymous';
-
 
             haveCoupon = true
-            if(couponData.imgPreview){
-                var imageName = couponData.imgPreview.split('/')
-                game.load.image('coupon',imagesUrl + 'coupons/'+imageName[3])
-                currentCouponId = couponData.id
+            var minigameDataId = amazing.getMinigameIdentifier()
+            console.log(minigameDataId)
+            if(minigameDataId == 31){
+            	//console.log("dataCupon Special")
+            	specialCoupon = true
+            	slideNumber = 3
+            	game.load.image('couponBack',imagesUrl + 'coupons/wow.png')
+            	game.load.image('couponTarjet',imagesUrl + 'coupons/wow_tarjet.png')
+            	game.load.image('couponSlide1',imagesUrl + 'coupons/wow_pop_1.png')
+            	game.load.image('couponSlide2',imagesUrl + 'coupons/wow_pop_2.png')
+            	game.load.image('couponSlide3',imagesUrl + 'coupons/wow_pop_3.png')
+            	game.load.image("couponExtra",imagesUrl + 'coupons/wow_extra.png')
+                game.load.image("couponButton",imagesUrl + 'coupons/wow_button.png')
+            	currentCouponId = couponData.id
             }
-            else{
-                game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
+            else if(minigameDataId == 5766289444306944){
+            	specialCoupon = true
+            	slideNumber = 2
+            	game.load.image('couponBack',imagesUrl + 'coupons/starbucks.png')
+            	game.load.image('couponTarjet',imagesUrl + 'coupons/starbucks_tarjet.png')
+            	game.load.image('couponSlide1',imagesUrl + 'coupons/starbucks_pop_1.png')
+            	game.load.image('couponSlide2',imagesUrl + 'coupons/starbucks_pop_2.png')
+                game.load.image("couponButton",imagesUrl + 'coupons/starbucks_button.png')
+            	currentCouponId = couponData.id
             }
-            //game.load.image('coupon',sessionStorage.getItem("game_icon0"));
+            //else{
+	            if(couponData.imgPreview){
+	                //var imageName = couponData.imgPreview.split('/')
+	                game.load.image('coupon',amazing.getServerUrl() + couponData.imgPreview)
+	                currentCouponId = couponData.id
+	            }
+	            else{
+	                game.load.image('coupon',imagesUrl + 'coupons/' + gameName + '.png')
+	            }
+	            //game.load.image('coupon',sessionStorage.getItem("game_icon0"));
+	        //}
             goalScore = couponData.scoreGoal
         }
 
+        webCoupon = amazing.haveWebCoupon()
 
+        if(webCoupon!=""){
+            //var imageName = webCoupon.split('/')
+            game.load.image('webCoupon',amazing.getServerUrl()+webCoupon)
+        }
 
         game.load.bitmapFont('gotham', imagesUrl + 'bitfont/gotham.png', imagesUrl + 'bitfont/gotham.fnt');
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
@@ -1080,9 +1661,6 @@ var result = function(){
 
         game.load.start()
 
-
-
-
     }
 
 	return {
@@ -1092,6 +1670,7 @@ var result = function(){
         preload: preload,
 		setScore: setScore,
 		init: initialize,
+        update:update,
 	}
 }()
 

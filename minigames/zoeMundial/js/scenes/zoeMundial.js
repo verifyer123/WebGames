@@ -45,7 +45,7 @@ var zoeMundial = function(){
     var skinTable
     
     var gameIndex = 27
-    var gameId = 100004
+    var gameId = 21
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -80,6 +80,8 @@ var zoeMundial = function(){
     {names:["agua2"],plusValue:DELTA_WATER_PLUS+50,probability:1}
     ]
 
+
+    var lastFps
 
     function getSkins(){
         
@@ -198,7 +200,7 @@ var zoeMundial = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.5
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
         
@@ -384,6 +386,20 @@ var zoeMundial = function(){
         if(!gameActive){
             return
         }
+        //console.log(game.time.fps)
+
+        if(lastFps!=game.time.fps){
+            lastFps = game.time.fps
+            var multiplier = (60/game.time.fps)
+            if(multiplier < 1){
+                multiplier = 1
+            }
+            if(multiplier > 2){
+                multiplier = 2
+            }
+            console.log(multiplier)
+            game.physics.p2.gravity.y = 900 * multiplier
+        }
         
         updatePlayer()
 
@@ -482,7 +498,16 @@ var zoeMundial = function(){
         for(var i = 0; i < bottleGroup.length; i++){
             if(bottleGroup.children[i].visible){
                 var bottle = bottleGroup.children[i]
-                bottle.y += waterVelocity
+                var multiplier = (60/game.time.fps)
+
+                if(multiplier <1){
+                    multiplier =1
+                }
+                if(multiplier>2){
+                    multiplier = 2
+                }
+
+                bottle.y += waterVelocity *multiplier
                 if(bottle.y > game.world.centerY && gameActive){
                     var col = checkOverlap(bottle,player)
                     if(col){
@@ -599,7 +624,15 @@ var zoeMundial = function(){
         var y2 = r*sin
         body.velocity.y = 0
         body.velocity.x = 0
-        body.applyImpulse([35*cos,40],x2,y2)
+        var multiplier = (60/game.time.fps)*0.7
+        if(multiplier > 2){
+            multiplier = 2
+        }
+        else if(multiplier<1){
+            multiplier = 1
+        }
+
+        body.applyImpulse([35*cos*multiplier,40*multiplier],x2,y2)
         //body.applyImpulse([35*cos,40],0,0)
 
         currentCollisions ++
@@ -620,10 +653,6 @@ var zoeMundial = function(){
 
 
     function createPlayer(){
-    	/*player = game.add.group()
-    	player.x = game.world.centerX
-    	player.y = game.world.height-220
-    	sceneGroup.add(player)*/
 
         player = sceneGroup.create(game.world.centerX,game.world.height-220,"atlas.game","jugador")
         player.anchor.setTo(0.5)
@@ -643,10 +672,6 @@ var zoeMundial = function(){
         player.body.collides([ballColisionGroup])
         //player.sprite = sprite
 
-        /*var spriteCollision = player.create(0,0,"atlas.game","jugador")
-        spriteCollision.anchor.setTo(0.5)
-        spriteCollision.scale.setTo(0.8)
-        player.spriteCollision = spriteCollision*/
 
         playerSpine = game.add.spine(game.world.centerX,game.world.height-220+190,"playerSpine")
         playerSpine.setSkinByName("normal")
@@ -690,7 +715,6 @@ var zoeMundial = function(){
 
         ballGroup.add(ball)
     }
-https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
 
     function createWater(){
     	var randomAngle = game.rnd.integerInRange(0,1)
@@ -788,8 +812,6 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         game.physics.p2.gravity.y = 900
         sceneGroup = game.add.group()
 
-        
-
         initialize()
 
         createBackground()
@@ -856,14 +878,20 @@ https://open.spotify.com/track/4MorYttxU39XKVoRlCopyz
         gameActive = true
 
         timeAppearWater = game.time.now + DELTA_APPEAR_WATER
+
+        lastFps = game.time.fps
     }
 
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
     
     return {
         assets: assets,
         name: "zoeMundial",
         create: create,
         preload: preload,
-        update: update
+        update: update,
+        //render:render
     }
 }()

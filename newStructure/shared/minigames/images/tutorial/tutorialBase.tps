@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.7.0</string>
+        <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/shared/minigames/images/tutorial/tutorialBase.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/shared/minigames/images/tutorial/tutorialBase.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -129,6 +129,22 @@
                 <uint>1</uint>
             </struct>
         </struct>
+        <key>andEngine</key>
+        <struct type="AndEngine">
+            <key>minFilter</key>
+            <enum type="AndEngine::MinFilter">Linear</enum>
+            <key>packageName</key>
+            <string>Texture</string>
+            <key>wrap</key>
+            <struct type="AndEngineWrap">
+                <key>s</key>
+                <enum type="AndEngineWrap::Wrap">Clamp</enum>
+                <key>t</key>
+                <enum type="AndEngineWrap::Wrap">Clamp</enum>
+            </struct>
+            <key>magFilter</key>
+            <enum type="AndEngine::MagFilter">MagLinear</enum>
+        </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
             <key>data</key>
@@ -183,16 +199,17 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">background_tutorial.png</key>
+            <key type="filename">background_tutorial_Imagic.png</key>
+            <key type="filename">background_tutorial_Web.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>119,195,238,390</rect>
+                <rect>120,196,239,391</rect>
                 <key>scale9Paddings</key>
-                <rect>119,195,238,390</rect>
+                <rect>120,196,239,391</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -239,11 +256,12 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>background_tutorial.png</filename>
             <filename>how_EN.png</filename>
             <filename>how_ES.png</filename>
             <filename>play_EN.png</filename>
             <filename>play_ES.png</filename>
+            <filename>background_tutorial_Imagic.png</filename>
+            <filename>background_tutorial_Web.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -73,7 +73,7 @@ var skiZag = function(){
     var player
     var playerSprite 
     var spinePlayer
-    var SPINE_SCALE = 0.4
+    var SPINE_SCALE = 0.3
     var tapDown
 
     var obstaclesGroup
@@ -112,6 +112,8 @@ var skiZag = function(){
 
     var leftSprite
     var rigthSprite
+
+    var colliderGroup
 
 
     function getSkins(){
@@ -367,7 +369,7 @@ var skiZag = function(){
                         if(yetisGroup.children[i].direction == 1){
                             if(yetisGroup.children[i].body.x > yetisGroup.children[i].nextX){
                                 yetisGroup.children[i].body.setZeroVelocity()
-                                yetisGroup.children[i].body.velocity.x = -VEL_X
+                                yetisGroup.children[i].body.velocity.x = -VEL_X*0.8
                                 yetisGroup.children[i].body.velocity.y = -VEL_Y
                                 yetisGroup.children[i].direction = -1
                                 yetisGroup.children[i].nextX = game.rnd.integerInRange(100,yetisGroup.children[i].body.x-100)
@@ -376,7 +378,7 @@ var skiZag = function(){
                         else{
                             if(yetisGroup.children[i].body.x < yetisGroup.children[i].nextX){
                                 yetisGroup.children[i].body.setZeroVelocity()
-                                yetisGroup.children[i].body.velocity.x = VEL_X
+                                yetisGroup.children[i].body.velocity.x = VEL_X*0.8
                                 yetisGroup.children[i].body.velocity.y = -VEL_Y
                                 yetisGroup.children[i].direction = 1
                                 yetisGroup.children[i].nextX = game.rnd.integerInRange(yetisGroup.children[i].body.x+100, game.world.width-100)
@@ -665,6 +667,13 @@ var skiZag = function(){
                 }
             }
 
+            for(var i = 0; i < colliderGroup.length; i++){
+                if(colliderGroup.children[i].visible){
+                    colliderGroup.children[i].body.velocity.y = -VEL_Y
+                }
+            }
+
+
             spinePlayer.setAnimationByName(0, "IDLE", true);
             initialTap = false
         }
@@ -801,7 +810,9 @@ var skiZag = function(){
         var leftLine = SetLine(currentAngle,newR,currentX,currentY,-1,false)
         var rightLine = SetLine(currentAngle,newR,currentX,currentY,1,false)
         lastTile = rightLine
-
+        var c = getCollider()
+        c.body.x = currentX
+        c.body.y = currentY
         SetCoin(currentX, currentY, newR, currentAngle)
         SetBackground(currentX, currentY, newR, currentAngle)
 
@@ -848,6 +859,8 @@ var skiZag = function(){
         /*line.angle = ang* ANGLE_LINE
         line.x = (x - (direction*ang*width/2)*COS_ANG) + (CORRECT_OFFSET*side)
         line.y = y + (-direction*width/2)*SIN_ANG*/
+
+
 
         return line
     }
@@ -947,6 +960,10 @@ var skiZag = function(){
             coinsGroup.children[i].body.velocity.y = 0
         }
 
+        for(var i = 0; i < colliderGroup.length; i++){
+            colliderGroup.children[i].body.velocity.y = 0
+        }
+
         for(var i = 0; i < yetisGroup.length; i++){
             yetisGroup.children[i].body.velocity.y = 0
         }
@@ -997,6 +1014,32 @@ var skiZag = function(){
         }
     }
 
+    function getCollider(){
+        for(var i = 0; i < colliderGroup.length; i++){
+            if(!colliderGroup.children[i].visible){
+                colliderGroup.children[i].visible = true
+                if(!initialTap){
+                    colliderGroup.children[i].body.velocity.y = -VEL_Y
+                }
+                return colliderGroup.children[i]
+            }
+        }
+
+        var collider = game.add.graphics()
+        collider.drawRect(-70,5,140,10)
+        colliderGroup.add(collider)
+        game.physics.p2.enable(collider,false)
+        collider.body.static = true
+        collider.body.name = "collider"
+        collider.body.data.shapes[0].sensor = true
+        if(!initialTap){
+            collider.body.velocity.y = -VEL_Y
+        }
+        return collider
+    }
+
+
+
     function createSingleCoin(){
         var coin = coinsGroup.create(0,0,'atlas.skiZag','coin')
         coin.anchor.setTo(0.5)
@@ -1005,7 +1048,7 @@ var skiZag = function(){
         
         game.physics.p2.enable(coin, false);
         coin.body.clearShapes()
-        coin.body.setCircle(10,0,0)
+        coin.body.setCircle(30,0,0)
         coin.body.static = true
         coin.body.name = "coin"
         coin.body.data.shapes[0].sensor = true;
@@ -1190,7 +1233,7 @@ var skiZag = function(){
         }
      }
 
-     function createEnemies(){
+    function createEnemies(){
         yetisGroup = game.add.group()
         sceneGroup.add(yetisGroup)
 
@@ -1464,7 +1507,8 @@ var skiZag = function(){
          createTrails()
 
         createObstacles()
-        
+        colliderGroup = game.add.group()
+        sceneGroup.add(colliderGroup)
         createObjects()
         createCoins()
         createEnemies()
