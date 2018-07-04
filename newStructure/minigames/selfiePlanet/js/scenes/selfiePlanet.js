@@ -828,40 +828,42 @@ var selfiePlanet = function(){
                     sceneGroup.alpha = 0
                     sound.play("snapshot")
                     game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-                    hand.slide.stop()
-                    centerTargetTuto()
+                    moveToCenter(checkSnapTaken)
                 }
                 else{
-                    hand.slide.stop()
-                    posHand()
+                    moveToCenter(posHand)
                 }
                 
             }
             else{
-                hand.slide.stop()
-                posHand()
+                moveToCenter(posHand)
             }
         }
     }
     
-    function centerTargetTuto(){
+    function moveToCenter(nextFunction){
         
-        game.add.tween(target).to({x:game.world.centerX, y:game.world.centerY}, 500, Phaser.Easing.linear, true)
-        game.add.tween(sceneGroup.stars.tilePosition).to({x:0, y:0}, 600, Phaser.Easing.linear, true).onComplete.add(function(){
-            
-            var total = -1
-            planetsGroup.forEachAlive(function(){     
-                total++
-            }, this)
-            
-            if(hand.counter < total){
-                hand.counter++
-                posHand()
-            }
-            else{
-                restartTutorial()
-            }
-        })
+        hand.slide.stop()
+        target.inputEnabled = false
+        game.add.tween(target).to({x:game.world.centerX, y:game.world.centerY}, 300, Phaser.Easing.linear, true)
+        game.add.tween(sceneGroup.stars.tilePosition).to({x:0, y:0}, 400, Phaser.Easing.linear, true).onComplete.add(nextFunction)
+    }
+    
+    function checkSnapTaken(){
+        
+        var total = -1
+        
+        planetsGroup.forEachAlive(function(){     
+            total++
+        }, this)
+
+        if(hand.counter < total){
+            hand.counter++
+            posHand()
+        }
+        else{
+            restartTutorial()
+        }
     }
     
     function restartTutorial(){
