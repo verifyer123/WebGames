@@ -640,21 +640,22 @@ var mathRun = function(){
         sceneGroup.add(boardGroup)
         boardGroup.bar = bar
         
-        var operator = new Phaser.Text(sceneGroup.game, bar.centerX * 0.75, bar.centerY, '+', fontStyle)
+        var operator = new Phaser.Text(sceneGroup.game, bar.centerX - 90, bar.centerY, '+', fontStyle)
         operator.anchor.setTo(0.5)
         boardGroup.add(operator)
         boardGroup.operator = operator
         
-        var sing = new Phaser.Text(sceneGroup.game, bar.centerX * 1.25, bar.centerY, '=', fontStyle)
+        var sing = new Phaser.Text(sceneGroup.game, bar.centerX + 90, bar.centerY, '=', fontStyle)
         sing.anchor.setTo(0.5)
         boardGroup.add(sing)
         
         fontStyle.font = "70px VAGRounded"
         fontStyle.fill = "#000000"
-        var pivotX = 0.5
+        var pivotX = -180
         
         for(var i = 0; i < 3; i++){
-            var coin = boardGroup.create(bar.centerX * pivotX, bar.centerY, "atlas.mathRun", "coin")
+            
+            var coin = boardGroup.create(bar.centerX + pivotX, bar.centerY, "atlas.mathRun", "coin")
             coin.anchor.setTo(0.5)
             coin.scale.setTo(0.8)
             coin.number = -1
@@ -664,10 +665,10 @@ var mathRun = function(){
             coin.addChild(text)
             coin.text = text
             
-            pivotX += 0.5
+            pivotX += 180
         }
         
-        var coinMissing = boardGroup.create(bar.centerX * 1.5, bar.centerY, "atlas.mathRun", "coinmissing")
+        var coinMissing = boardGroup.create(coin.centerX, coin.centerY, "atlas.mathRun", "coinmissing")
         coinMissing.anchor.setTo(0.5)
         coinMissing.scale.setTo(0.8)
         
