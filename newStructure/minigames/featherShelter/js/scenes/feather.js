@@ -551,7 +551,9 @@ var feather = function(){
         
         if(obj.number == numberChicks){
            
-            if(!tutorial){
+            if(tutorial){
+                sound.play("magic");
+            }else{
                 addCoin(house);
             }
             particleCorrect.x = obj.world.x;
