@@ -116,7 +116,7 @@ var sushi = function(){
 	var diferentSushi=[];
     var speed
 	var yogotars
-	var xTutorial
+	var xTutorial, yTutorial
 	var correctParticle, wrongParticle
 	var barLanes
 	var octopus
@@ -142,6 +142,7 @@ var sushi = function(){
 		tutorial=true;
 		sushisInGame[0].delaySushi = 0
 		xTutorial=0;
+		yTutorial=0;
 		sushisInGame[1].delaySushi = 0
 		sushisInGame[2].delaySushi = 0
 		sushisInGame[0].merging = false
@@ -184,9 +185,7 @@ var sushi = function(){
 		
         var sprite = pullGroup.create(0, 0, "atlas.sushi", sushi)
         sprite.anchor.setTo(0.5, 0.5)		
-		
 
-		
 		if(!sushiList[sushi])
 			sushiList[sushi] = []
         sushiList[sushi].push(sprite)
@@ -483,7 +482,7 @@ var sushi = function(){
     function startRound() {
 
         for(var brickIndex = 0; brickIndex < 3; brickIndex++){
-            var toY = (maxHeight - (brickIndex) * 300)
+            var toY = (maxHeight)
            	addSushi("sushi1", brickIndex, toY);
 		}
 		
@@ -605,10 +604,10 @@ var sushi = function(){
 		if(tutorial){
 			hand.alpha=0;
 			tutorial=false;
-			if(firstAnimation)
-				firstAnimation.stop();
-			if(secondAnimation)
-				secondAnimation.stop();
+//			if(firstAnimation)
+//				firstAnimation.stop();
+//			if(secondAnimation)
+//				secondAnimation.stop();
 		}
 	}
 
@@ -680,7 +679,7 @@ var sushi = function(){
 			}
 		}
 		
-		   
+		
 		   
 		   
 		var toX = BAR_POSITIONS[lineToCollide]
@@ -743,19 +742,42 @@ var sushi = function(){
 			sushisInGame[lineToCollide].delaySushi = 100
 			
 			if(tutorial){
-				if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
-				if(sushisInGame[2][0])xTutorial=sushisInGame[2][0];
+				sushisInGame[lineToCollide].y=maxHeight
+				if(sushisInGame[0][0]){
+					xTutorial=sushisInGame[0][0];
+					yTutorial=sushisInGame[0][0];
+				}
+				if(sushisInGame[2][0]){
+					xTutorial=sushisInGame[2][0];
+					yTutorial=sushisInGame[2][0];
+				}
 			}
 			if(secondAnimation && tutorial  && xTutorial){
 				xTutorial=sushisInGame[lineToCollide][cont];
+				yTutorial=sushisInGame[lineToCollide][cont];
 				hand.x=xTutorial.worldPosition.x;
-				secondAnimation.stop()
-				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+				hand.y=yTutorial.worldPosition.y-30;
+				//secondAnimation.stop()
+				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
+					if(sushisInGame[lineToCollide][cont])xTutorial=sushisInGame[lineToCollide][cont];
+					if(sushisInGame[lineToCollide][cont])yTutorial=sushisInGame[lineToCollide][cont];
+					hand.x=xTutorial.worldPosition.x;
+					hand.y=yTutorial.worldPosition.y-30;
+					if(hand.y==sushisInGame[1][0].worldPosition.y)secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+				});
 			}else if(firstAnimation && tutorial && xTutorial){
 				if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
+				if(sushisInGame[0][0])yTutorial=sushisInGame[0][0];
 				hand.x=xTutorial.worldPosition.x;
-				firstAnimation.stop();
-				firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+				hand.y=yTutorial.worldPosition.y-30;
+				//firstAnimation.pause();
+				firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
+					if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
+					if(sushisInGame[0][0])yTutorial=sushisInGame[0][0];
+					hand.x=xTutorial.worldPosition.x;
+					hand.y=yTutorial.worldPosition.y-30;
+					if(hand.y==sushisInGame[1][0].worldPosition.y)firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+				});
 			}
 		})
 
@@ -837,9 +859,9 @@ var sushi = function(){
 			if(sushisInGame[2][0])xTutorial=sushisInGame[2][0];
 		}
 		if(tutorial && firstAnimation && xTutorial){
-			firstAnimation.stop()
+			//firstAnimation.stop()
 			hand.x=xTutorial.worldPosition.x;
-			secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+			secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true)
 		}
 		
 		if(prevSushi.num === prevSushi.denom){
@@ -853,7 +875,6 @@ var sushi = function(){
 		if(gameEnded)
 			return
 			
-		
 			
 		for(var lineIndex = 0; lineIndex < sushisInGame.length; lineIndex++) {
 			var sushiLane = sushisInGame[lineIndex]
