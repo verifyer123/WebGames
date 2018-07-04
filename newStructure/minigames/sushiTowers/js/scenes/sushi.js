@@ -704,7 +704,7 @@ var sushi = function(){
 			toY = option.y
 		
 		
-	
+		
 		
 		
 		
@@ -752,17 +752,22 @@ var sushi = function(){
 //				hand.x=sushisInGame[0][0].worldPosition.x;
 //				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
 //			}
+			if(tutorial){
+				if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
+				if(sushisInGame[2][0])xTutorial=sushisInGame[2][0];
+			}
 			if(secondAnimation && tutorial  && xTutorial){
 				xTutorial=sushisInGame[lineToCollide][cont];
 				hand.x=xTutorial.worldPosition.x;
 				secondAnimation.stop()
 				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
 			}else if(firstAnimation && tutorial && xTutorial){
-				xTutorial=sushisInGame[0][0];
+				if(sushisInGame[0][0])xTutorial=sushisInGame[0][0];
 				hand.x=xTutorial.worldPosition.x;
-				secondAnimation.stop()
-				secondAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+				firstAnimation.stop();
+				firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
 			}
+			
 			
 
 			})

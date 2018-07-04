@@ -199,6 +199,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">answer.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,27,53,53</rect>
+                <key>scale9Paddings</key>
+                <rect>27,27,53,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">bar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -209,6 +222,19 @@
                 <rect>8,9,15,17</rect>
                 <key>scale9Paddings</key>
                 <rect>8,9,15,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">bed.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>116,115,233,231</rect>
+                <key>scale9Paddings</key>
+                <rect>116,115,233,231</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -327,6 +353,19 @@
                 <rect>165,150,330,301</rect>
                 <key>scale9Paddings</key>
                 <rect>165,150,330,301</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">life_box.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,14,70,28</rect>
+                <key>scale9Paddings</key>
+                <rect>35,14,70,28</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -474,6 +513,9 @@
             <filename>window.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>bed.png</filename>
+            <filename>life_box.png</filename>
+            <filename>answer.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
