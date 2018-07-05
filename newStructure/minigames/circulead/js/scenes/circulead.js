@@ -1272,11 +1272,11 @@ var circulead = function(){
             createScenary();
             createCarrier();
             createSpine();
-
-            createTutorial();
+            
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
 
             particleCorrect = createPart('star');
             sceneGroup.add(particleCorrect);

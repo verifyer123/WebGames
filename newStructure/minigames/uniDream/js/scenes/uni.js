@@ -120,6 +120,7 @@ var uni = function(){
 	var bedGroup=null;
 	var gameIndex = 53
 	var goalUni;
+	var dificulty=1;
 	var nubesTop
 	var goalDonk;
 	var tutorial
@@ -142,11 +143,15 @@ var uni = function(){
 	var timeValue
 	var coins
 	var buttonImg
+	var rectTrigger
 	var quantNumber
 	var inputsEnabled
 	var background
 	var pointsBar
+	var counterTable
 	var roundCounter
+	var uniIco
+	var donkIco
 	var unicornList
 	var donkeyList
 	var gameGroup
@@ -184,6 +189,7 @@ var uni = function(){
 		maxNumber=20;
 		roundCounter = 0
 		goalDonk=0;
+		dificulty=1;
 		goalUni=0;
 		unicornList= []
 		animalsInStage=[]
@@ -365,10 +371,10 @@ var uni = function(){
 		
 		
 		var sum=0;
-		goalUni=game.rnd.integerInRange(0,total);
-		sum=total-goalUni;
+		goalUni=game.rnd.integerInRange(1,dificulty);
+		sum=dificulty-goalUni;
 		if(pointsBar.number>=5){
-			goalDonk=game.rnd.integerInRange(0,sum);
+			goalDonk=game.rnd.integerInRange(1,sum);
 		}
 		uniText.text=goalUni.toString();
 		donkText.text=goalDonk.toString();
@@ -748,6 +754,14 @@ var uni = function(){
 		counterTable.alpha=0;
 		dreamGroup.add(counterTable);
 		
+	 	rectTrigger= game.add.graphics()
+		rectTrigger.beginFill(0x000000,0)
+		rectTrigger.drawRect(0,nubesTop.height-100,game.world.width *2, 400)
+		rectTrigger.endFill()
+		rectTrigger.alpha = 1
+		dreamGroup.add(rectTrigger)
+		dreamGroup.bright = rectTrigger
+		
 		
 		
 		var fontStyle = {font: "68px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
@@ -905,12 +919,13 @@ var uni = function(){
 	}
 
 	function onDragStop(obj,pointer){
-		if(checkOverlap(obj,background)){
+		if(checkOverlap(obj,rectTrigger)){
 			isColliding=true;
 		}
-
+		
 		if(isColliding){
 			createAnimal(obj,pointer);
+			isColliding=false;
 		}
 		if(obj.tag=="uni"){
 			obj.x=uniContainer.x+10;

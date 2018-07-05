@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>4.8.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -194,30 +194,42 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">camBtn.png</key>
+            <key type="filename">icon0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>26,25,51,51</rect>
+                <rect>8,9,17,18</rect>
                 <key>scale9Paddings</key>
-                <rect>26,25,51,51</rect>
+                <rect>8,9,17,18</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">eagleHappy.png</key>
-            <key type="filename">eagleSad.png</key>
+            <key type="filename">icon1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>87,118,174,235</rect>
+                <rect>10,10,19,19</rect>
                 <key>scale9Paddings</key>
-                <rect>87,118,174,235</rect>
+                <rect>10,10,19,19</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">icon2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,9,21,18</rect>
+                <key>scale9Paddings</key>
+                <rect>11,9,21,18</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -234,16 +246,24 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">selfie.png</key>
+            <key type="filename">photo0.png</key>
+            <key type="filename">photo1.png</key>
+            <key type="filename">photo2.png</key>
+            <key type="filename">photo3.png</key>
+            <key type="filename">photo4.png</key>
+            <key type="filename">photo5.png</key>
+            <key type="filename">photo6.png</key>
+            <key type="filename">photo7.png</key>
+            <key type="filename">photoFail.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,16,270,31</rect>
+                <rect>100,110,200,220</rect>
                 <key>scale9Paddings</key>
-                <rect>135,16,270,31</rect>
+                <rect>100,110,200,220</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -307,11 +327,19 @@
             <filename>star.png</filename>
             <filename>xpcoins.png</filename>
             <filename>background.png</filename>
-            <filename>camBtn.png</filename>
             <filename>target.png</filename>
-            <filename>eagleSad.png</filename>
-            <filename>eagleHappy.png</filename>
-            <filename>selfie.png</filename>
+            <filename>photo0.png</filename>
+            <filename>photo1.png</filename>
+            <filename>photo2.png</filename>
+            <filename>photo3.png</filename>
+            <filename>photo4.png</filename>
+            <filename>photo5.png</filename>
+            <filename>photo6.png</filename>
+            <filename>photo7.png</filename>
+            <filename>photoFail.png</filename>
+            <filename>icon0.png</filename>
+            <filename>icon1.png</filename>
+            <filename>icon2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
