@@ -32,7 +32,7 @@ export class Nickname extends React.Component {
 		function onSuccess(response) {
 			$('#loadSpace').css("display", "none")
 
-			if(response.exists){
+			if(!response.available){
 				onError()
 				return
 			}

@@ -107,13 +107,16 @@ class App extends React.Component{
 
 		let credentials = login.getCredentials()
 		let data = {
-			nickname:this.childData.nickname,
+			child:{
+				nickname:this.childData.nickname,
+				pin:this.childData.pin.join(''),
+			},
 			email:this.childData.parentMail,
-			pin:this.childData.pin.join(''),
 			remoteID:this.childData.remoteID
 		}
 
 		//if(registerType !== "newAccount")
+		if(credentials.token)
 			data.token = credentials.token
 
 		login.registerPin(data, onSuccess.bind(this), onError.bind(this), registerType)
