@@ -75,7 +75,7 @@ var upRoar = function(){
                 json: "images/upRoar/atlas.json",
                 image: "images/upRoar/atlas.png",
             },
-            {   
+            {
                 name: "atlas.time",
                 json: "images/upRoar/timeAtlas.json",
                 image: "images/upRoar/timeAtlas.png",

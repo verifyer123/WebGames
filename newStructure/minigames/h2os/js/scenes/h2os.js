@@ -986,10 +986,10 @@ var h2os = function(){
             gameGroup = game.add.group();
             sceneGroup.add(gameGroup)
 
-            createTutorial();
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
 
             particleCorrect = createPart('star');
             sceneGroup.add(particleCorrect);

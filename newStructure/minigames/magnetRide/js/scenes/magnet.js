@@ -1,6 +1,5 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
 var magnet = function(){
     
     var localizationData = {
@@ -27,7 +26,9 @@ var magnet = function(){
             },
         ],
         images: [
-			{   name:"background",
+			{   name:"tutorial_image",
+				file: "images/magnet/tutorial_image.png"},
+            {   name:"background",
 				file: "images/magnet/background.png"},
 			{   name:"background2",
 				file: "images/magnet/background2.png"},
@@ -59,7 +60,60 @@ var magnet = function(){
 				file: soundsPath + "glassbreak.mp3"},
 			{	name: "laserexplode",
 				file: soundsPath + "laserexplode.mp3"},
+            {	name: "magnetSong",
+				file: soundsPath + "songs/retrowave.mp3"},
 		],
+        spritesheets: [
+            {   name: "coinS",
+                file: "images/spines/coinS.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            },
+            {   name: "hand",
+                file: "images/spines/hand.png",
+                width: 115,
+                height: 111,
+                frames: 23
+            },
+            {   name: "verde",
+                file: "images/spines/verde.png",
+                width: 96,
+                height: 108,
+                frames: 12
+            },
+            {   name: "verde",
+                file: "images/spines/verde.png",
+                width: 96,
+                height: 108,
+                frames: 12
+            },
+            {   name: "rojo",
+                file: "images/spines/rojo.png",
+                width: 97,
+                height: 111,
+                frames: 12
+            },
+            {   name: "nave",
+                file: "images/spines/nave.png",
+                width: 147,
+                height: 118,
+                frames: 12
+            },
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 68,
+                height: 70,
+                frames: 12
+            },
+            
+        ],
+        spines:[
+			{
+				name:"oof",
+				file:"images/spines/Oof.json"
+			}
+		]
     }
     
    	var DEBUG_PHYSICS = false
@@ -85,6 +139,8 @@ var magnet = function(){
 	var yogotar
     var magnetSong
 	var isNoun
+    var coinS
+    var hand
 
 		
 	function loadSounds(){
@@ -95,7 +151,7 @@ var magnet = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
 		jumpDown = false
 		gameActive = false
 		tagsToUse = ['coin']
@@ -232,7 +288,6 @@ var magnet = function(){
 		sceneGroup.add(particlesUsed)
 		
 		createParticles('star',3)
-		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
 
@@ -270,7 +325,7 @@ var magnet = function(){
     function missPoint(){
         
         sound.play("wrong")
-		createPart('wrong',player)
+		createPart('smoke',player)
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -346,6 +401,7 @@ var magnet = function(){
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
+        
         var pivotX = 10
         var group = game.add.group()
         group.x = pivotX
@@ -358,7 +414,7 @@ var magnet = function(){
         var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
         pointsText.x = pivotX
-        pointsText.y = 0
+        pointsText.y = heartImg.height * 0.15
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
         
@@ -407,7 +463,7 @@ var magnet = function(){
 		yogotar.setSkinByName('mas')
 		yogotar.setToSetupPose()
 		
-		yogotar.setAnimationByName(0,"LOSE",false)
+		yogotar.setAnimationByName(0,"lose",false)
 		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
@@ -420,28 +476,9 @@ var magnet = function(){
 		})
     }
     
-    
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-
-        
-        game.load.spine('oof', "images/spines/Oof.json")  
-        game.load.audio('magnetSong', soundsPath + 'songs/retrowave.mp3');
-        
-        //game.load.image('introscreen',"images/magnet/introscreen.png")
-		game.load.spritesheet('verde', 'images/magnet/verde.png', 96, 108, 12);
-		game.load.spritesheet('rojo', 'images/magnet/rojo.png', 97, 111, 12);
-		game.load.spritesheet('nave', 'images/magnet/nave.png', 147, 118, 12);
-		game.load.spritesheet('coin', 'images/magnet/coin.png', 68, 70, 12);
-		
-		//game.load.image('howTo',"images/magnet/how" + localization.getLanguage() + ".png")
-		//game.load.image('buttonText',"images/magnet/play" + localization.getLanguage() + ".png")
-		
-        game.load.image('tutorial_image',"images/magnet/tutorial_image.png")
-        //loadType(gameIndex)
-
-        
     }
 	
 	function createOverlay(){
@@ -451,74 +488,14 @@ var magnet = function(){
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                overlayGroup.y = -game.world.height
-                gameActive = true
-				game.physics.p2.gravity.y = WORLD_GRAVITY;
-				while(pivotObjects < game.world.width * 2){
-					addObject()
-				}
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.magnet','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-		
-        
-        var action = 'tap'
-        
-        if(game.device == 'desktop'){
-            action = 'click'
-        }
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 225,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.7,0.7)
-        
-		var deviceName = 'pc'
-		var offsetX = 0
-        if(!game.device.desktop){
-            
-            deviceName = 'tablet'
-			offsetX = 100
-			
-			var spaceBar = overlayGroup.create(game.world.centerX - 100,game.world.centerY + 125,'atlas.magnet','spacebar')
-			spaceBar.anchor.setTo(0.5,0.5)
-			spaceBar.scale.setTo(0.7,0.7)
-        }
-		
-		var inputLogo = overlayGroup.create(game.world.centerX + 35 + offsetX ,game.world.centerY + 125,'atlas.magnet','pc')
-        inputLogo.anchor.setTo(0.5,0.5)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height,'atlas.magnet','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
 
     function onClickPlay(rect){
 
         overlayGroup.y = -game.world.height
         gameActive = true
-        game.physics.p2.gravity.y = WORLD_GRAVITY;
+        game.physics.p2.gravity.y = WORLD_GRAVITY
+        initTutorial()
         while(pivotObjects < game.world.width * 2){
             addObject()
         }
@@ -587,7 +564,7 @@ var magnet = function(){
         
         player.body.x = 100 
         yogotar.x = player.x
-        yogotar.y = player.y +48 
+        yogotar.y = player.y + 48 
 		
 		player.bubble.x = yogotar.x
 		player.bubble.y = yogotar.y - 50
@@ -610,8 +587,8 @@ var magnet = function(){
     
     function checkObjects(){
         
-		//background.tilePosition.x -= 1
-		background2.tilePosition.x -= 2
+		background.tilePosition.x -= 0.5
+		background2.tilePosition.x -= 1.5
 		
 		//console.log(objectsGroup.length + ' length')
 		
@@ -655,12 +632,16 @@ var magnet = function(){
 					
 					if(!player.invincible){
 						
+                        player.invincible = true
+                        game.add.tween(yogotar).from({alpha:0},100,"Linear",true,0,5,true).onComplete.add(function(){
+                            player.invincible = false
+                        })
 						missPoint()
 					}
 					
 				}else if(tag == 'coin'){
 					
-					addPoint(1)
+                    addCoin(player)
 					createTextPart('+1',player)
 					deactivateObj(obj)
 					if(!obj.item){
@@ -717,9 +698,9 @@ var magnet = function(){
         sound.play("spaceship")
         sound.play("whoosh")
 		
-		yogotar.setAnimationByName(0, "CHANGE", false);
+		yogotar.setAnimationByName(0, "change", false);
 		if(gameActive){
-			yogotar.addAnimationByName(0,"IDLE",true)
+			yogotar.addAnimationByName(0,"idle",true)
 		}
 		
 		if(!player.up){
@@ -752,7 +733,7 @@ var magnet = function(){
         
         positionPlayer()
         
-        if (jumpButton.isDown && !jumpDown){
+        /*if (jumpButton.isDown && !jumpDown){
 			
 			jumpDown = true
 			doJump()
@@ -760,7 +741,7 @@ var magnet = function(){
 		
         if(jumpButton.isUp){
             jumpDown = false
-        }
+        }*/
         
         checkObjects()
     }
@@ -1000,7 +981,68 @@ var magnet = function(){
             
         })	
 		sceneGroup.add(rect)
+        sceneGroup.rect = rect
+        
+        rect.inputEnabled = false
 	}
+    
+    function createCoin(){
+        
+       coinS = game.add.sprite(0, 0, "coinS")
+       coinS.anchor.setTo(0.5)
+       coinS.scale.setTo(0.8)
+       coinS.animations.add('coin')
+       coinS.animations.play('coin', 24, true)
+       coinS.alpha = 0
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
+
+    }
+
+    function addCoin(obj){
+        
+        if(coinS.motion)
+            coinS.motion.stop()
+        
+        coinS.x = obj.centerX
+        coinS.y = obj.centerY
+
+        game.add.tween(coinS).to({alpha:1}, 100, Phaser.Easing.linear, true)
+        
+        coinS.motion = game.add.tween(coinS).to({y:coinS.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
+        coinS.motion.onComplete.add(function(){
+            coinS.motion = game.add.tween(coinS).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+            coinS.motion.onComplete.add(function(){
+                coinS.motion = game.add.tween(coinS).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+                coinS.motion.onComplete.add(function(){
+                   addPoint(1)
+                })
+            })
+        })
+    }
+    
+    function initTutorial(){
+        
+        game.time.events.add(2000, function(){
+            gameActive = false
+            hand.x = player.x - 10
+            hand.y = player.y
+            hand.alpha = 1
+            hand.inputEnabled = true
+            hand.events.onInputDown.add(function(){
+                sceneGroup.rect.inputEnabled = true
+                gameActive = true
+                doJump()
+                
+                game.add.tween(hand).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                    hand.destroy()
+                })
+            })
+        })
+    }
 	
 	return {
 		
@@ -1031,7 +1073,7 @@ var magnet = function(){
 			yogotar.scale.setTo(1.2,1.2)
             sceneGroup.add(yogotar)   
 			
-			player = sceneGroup.create(yogotar.x, yogotar.y,'atlas.magnet','yogotar')
+			player = sceneGroup.create(100, yogotar.y,'atlas.magnet','yogotar')
 			player.scale.setTo(0.8,0.8)
             player.anchor.setTo(0.5,1)
             player.alpha = 0
@@ -1046,7 +1088,7 @@ var magnet = function(){
 			bubble.anchor.setTo(0.5,0.5)
 			player.bubble = bubble
 						
-            yogotar.setAnimationByName(0, "IDLE", true);
+            yogotar.setAnimationByName(0, "idle", true);
             yogotar.setSkinByName('menos');
 			
 			createObjects()
@@ -1073,6 +1115,7 @@ var magnet = function(){
 			buttons.getButton(magnetSong,sceneGroup)
 			            
 			addParticles()
+            createCoin()
             createOverlay()
             
             animateScene()

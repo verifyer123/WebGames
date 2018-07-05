@@ -2,16 +2,16 @@
 
 {
 	"filename": "45_1",
-	"frame": {"x":406,"y":438,"w":35,"h":48},
+	"frame": {"x":406,"y":437,"w":35,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":48},
-	"sourceSize": {"w":35,"h":49},
+	"sourceSize": {"w":35,"h":48},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "45_2",
-	"frame": {"x":443,"y":437,"w":35,"h":48},
+	"frame": {"x":465,"y":355,"w":35,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":48},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "45_3",
-	"frame": {"x":480,"y":421,"w":34,"h":48},
+	"frame": {"x":502,"y":355,"w":34,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":48},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "45_4",
-	"frame": {"x":516,"y":421,"w":34,"h":48},
+	"frame": {"x":443,"y":437,"w":34,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":48},
@@ -127,15 +127,6 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "wrong",
-	"frame": {"x":465,"y":355,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "xpcoins",
 	"frame": {"x":1,"y":426,"w":165,"h":41},
 	"rotated": false,
@@ -149,8 +140,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":551,"h":487},
+	"size": {"w":540,"h":487},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:92c0ab0bd9763ad8a2d73e8f3e08bfa4:78c52e30eeb44561d7244f89401991e0:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c211b5660af85329987dc0f7fad4b727:1ac9927fc2fd3468e88e96b1bcf11106:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

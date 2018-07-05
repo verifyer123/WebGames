@@ -96,7 +96,7 @@ var river = function(){
     var trowFinis
     var polution 
     var dirty
-    var screenPos = [0,1,2,3,4,5,6,7,8,9,10]
+    var screenPos = []
     var screenPivot
 
 	function loadSounds(){
@@ -106,7 +106,7 @@ var river = function(){
 	function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        lives = 1
+        lives = 3
         
         aux = 0
         fishNumber = 0
@@ -127,6 +127,7 @@ var river = function(){
         trowFinis = false
         dirty = 1/level
         addDirty = 0
+        screenPos = [0,1,2,3,4,5,6,7,8,9,10]
         Phaser.ArrayUtils.shuffle(screenPos)
         screenPivot = 0
         
@@ -134,28 +135,6 @@ var river = function(){
         
 	}
 
-    function popObject(obj,delay){
-        
-        game.time.events.add(delay,function(){
-            
-            sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
-        },this)
-    }
-    
-    function animateScene() {
-                
-        gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
-                
-        sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
-    }
-	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].alpha = 0
@@ -331,74 +310,17 @@ var river = function(){
     function createOverlay(){
         
         overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(overlayGroup)
 
         tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-                //trowTrash()
-                startTrash()
-                nao.setAnimationByName(0, "RUN", true)
-                speed = 4
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.river','gametuto')
-        tuto.scale.setTo(0.85, 0.85)
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.river',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.river','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
+       
     }
 
     function onClickPlay(){
         overlayGroup.y = -game.world.height
-        //trowTrash()
         startTrash()
         nao.setAnimationByName(0, "RUN", true)
         speed = 4
-    }
-    
-    function releaseButton(obj){
-        
-        obj.parent.children[1].alpha = 1
     }
 
 	function createBackground(){
@@ -812,7 +734,6 @@ var river = function(){
     
     function startTrash(){
         
-        console.log(trowTimer)
         game.time.events.add(trowTimer,function(){
             trowTrash() 
             if(canMove)
@@ -861,6 +782,7 @@ var river = function(){
     }
     
     function trashCollision (box, trash) {
+        
         trash.alpha = 0
         trashGroup.children[trash.number].active = false
         trashGroup.children[trash.number].x = 0
@@ -868,15 +790,32 @@ var river = function(){
         
         addDirty += dirty
         game.add.tween(polution).to({alpha: addDirty}, 200, Phaser.Easing.Cubic.Out, true)
+        
         if(addDirty > 0.95){
-            naoPos.kill()
+            
+            var temp = speed
             speed = 0
             nao.setAnimationByName(0, "LOSE", true)
-            
-            game.time.events.add(500, function() 
-            {
-             missPoint()
+            game.time.events.add(500, function(){
+                missPoint()
             },this) 
+            
+            if(lives > 1){
+                
+                game.add.tween(polution).to({alpha: 0}, 1000, Phaser.Easing.Cubic.Out, true, 1500).onComplete.add(function(){
+                    screenTrashGroup.forEach(function(obj){
+                        game.add.tween(obj).to({alpha: 0}, 400, Phaser.Easing.Cubic.Out, true)
+                    },this)
+                    addDirty = 0
+                    screenPivot = 0
+                    speed = temp
+                    nao.setAnimationByName(0, "RUN", true)
+                    startTrash()
+                })
+            }
+            else{
+                naoPos.kill()
+            }
         }
         
         trashContainer--
@@ -889,12 +828,12 @@ var river = function(){
         sound.play("drag")
         
         popTrash()
+        popTrash()
     }
     
     function popTrash(){
         
-        var r = game.rnd.integerInRange(2, 2.5)
-        
+        var r = game.rnd.realInRange(2, 3)
         
         if(screenPivot < 11){
             screenTrashGroup.children[screenPos[screenPivot]].alpha = 1
@@ -929,28 +868,36 @@ var river = function(){
         
             if(trashContainer < level)
                 nao.addAnimationByName(0, "RUN", true)
-        }, this)
+            }, this)
         
-        game.time.events.add(400, function() 
-        {
+        game.time.events.add(400, function() {
              naoCollect.body.enable = true
         },this)
         
        
     }
     
-    function fishCollision(naoPos, fishCollider){    
-        nao.setAnimationByName(0, "LOSE", true)
+    function fishCollision(naoPos, fishCollider){   
         
         particleWrong.x = fishCollider.world.x
         particleWrong.y = fishCollider.world.y
-        particleWrong.start(true, 1000, null, 1)
+        particleWrong.start(true, 1000, null, 4)
         
-        naoPos.kill()
-        naoCollect.kill()
-        canMove = false
-        speed = 0
-        missPoint()
+        if(lives > 1){
+            naoPos.body.enable = false
+            missPoint()
+            game.add.tween(nao).from({alpha: 0},100,Phaser.Easing.linear,true,0,5,true).onComplete.add(function(){
+                naoPos.body.enable = true
+            })
+        }
+        else{
+            nao.setAnimationByName(0, "LOSE", true)
+            naoPos.kill()
+            naoCollect.kill()
+            canMove = false
+            speed = 0
+            missPoint()
+        }
     }
     
     function boxFishCollision (box, fishCollider) {
@@ -964,7 +911,7 @@ var river = function(){
     function createParticles(){
         particleCorrect = createPart('star')
         sceneGroup.add(particleCorrect)
-        particleWrong = createPart('wrong')
+        particleWrong = createPart('smoke')
         sceneGroup.add(particleWrong)
         
         particleTrash = createPart(rubbish[1])
@@ -1137,7 +1084,6 @@ var river = function(){
             
 			buttons.getButton(fishSong,sceneGroup)
             createOverlay()  
-            animateScene()
             
 		},
 		show: function(event){

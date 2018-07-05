@@ -1,628 +1,473 @@
+//Variables globales obligatorias
 var soundsPath = "../../shared/minigames/sounds/";
-var tutorialPath = "../../shared/minigames/"
 var imagePath = "images/wildDentist/";
+
 var wildDentist = function(){
 
-	assets = {
-        atlases: [                
-			/*{
-                name:  "atlas.tutorial",
-                json:  imagePath + "tutorial/atlas.json",
-                image: imagePath + "tutorial/atlas.png",
-			},    */            
-			{
-                name:  "atlas.game",
-                json:  imagePath + "atlas.json",
+    var localizationData = {
+        "EN":{
+            "howTo":"How to Play?",
+            "moves":"Moves left"
+        },
+
+        "ES":{
+            "howTo":"¿Cómo jugar?",
+            "moves":"Movimientos extra"
+        }
+    }
+
+    var assets = {
+        atlases: [
+            {
+                name: "atlas.game",
+                json: imagePath + "atlas.json",
                 image: imagePath + "atlas.png",
-			},
-],
-        images: [],
-		sounds: [
-            {	name: "pop",
-				file: soundsPath + "pop.mp3"},
-            {	name: "magic",
-				file: soundsPath + "magic.mp3"},
-            {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
-            {	name: "whoosh",
-				file: soundsPath + "whoosh.mp3"},
-            {	name: "gameLose",
-				file: soundsPath + "gameLose.mp3"},
-            {	name: "wrongItem",
-				file: soundsPath + "wrongItem.mp3"},
-            {	name: "break",
-				file: soundsPath + "glassbreak.mp3"},
-            {	name: "powerup",
-				file: soundsPath + "powerup.mp3"},
-            {	name: "balloon",
-				file: soundsPath + "inflateballoon.mp3"},
-			{	name: "explode",
-				file: soundsPath + "fireExplosion.mp3"},
-			{	name: "shootBall",
-				file: soundsPath + "shootBall.mp3"},
-			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
-			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
-			{	name: "bite",
-				file: soundsPath + "bite.mp3"}
-		],
-	}
+            }
+        ],
+        images: [
+            {   name: "ondasAgua",
+                file: imagePath + "ondas_agua.png"},
+            {   name: "rocks",
+                file: imagePath + "tile_rocks.png"},
+            {   name: "tutorial_image",
+                file: imagePath+"tutorial_image.png"}
+        ],
+        sounds: [
+            {   name: "pop",
+                file: soundsPath + "pop.mp3"},
+            {   name: "magic",
+                file: soundsPath + "magic.mp3"},
+            {   name: "wrong",
+                file: soundsPath + "wrong.mp3"},
+            {   name: "whoosh",
+                file: soundsPath + "whoosh.mp3"},
+            {   name: "gameLose",
+                file: soundsPath + "gameLose.mp3"},
+            {   name: "wrongItem",
+                file: soundsPath + "wrongItem.mp3"},
+            {   name: "break",
+                file: soundsPath + "glassbreak.mp3"},
+            {   name: "powerup",
+                file: soundsPath + "powerup.mp3"},
+            {   name: "balloon",
+                file: soundsPath + "inflateballoon.mp3"},
+            {   name: "explode",
+                file: soundsPath + "fireExplosion.mp3"},
+            {   name: "shootBall",
+                file: soundsPath + "shootBall.mp3"},
+            {   name: "combo",
+                file: soundsPath + "combo.mp3"},
+            {   name: "combo",
+                file: soundsPath + "combo.mp3"},
+            {   name: "bite",
+                file: soundsPath + "bite.mp3"},
+            {   name:"wormwood",
+                file: soundsPath + "songs/wormwood.mp3"}
+        ],
+        spritesheets:[
+            {   name: "coin",
+               file: "images/wildDentist/coin.png",
+               width: 122,
+               height: 123,
+               frames: 12
+            },
+            {   name: "bad_breath",
+               file: imagePath + 'sprites/bad_breath/sprite.png',
+               width: 415,
+               height: 271,
+               frames: 24
+            },
+            {   name: "bite",
+               file: imagePath + 'sprites/bite/sprite.png',
+               width: 292, 
+               height: 268, 
+               frames: 19
+            },{   name: "broken",
+               file: imagePath + 'sprites/broken/sprite.png',
+               width: 249,
+               height: 238,
+               frames: 23
+            },{   name: "caries",
+               file: imagePath + 'sprites/caries/sprite.png', 
+               width: 249,
+               height: 238,
+               frames: 23
+            },{   name: "idle",
+               file: imagePath + 'sprites/idle/sprite.png',
+               width: 249,
+               height: 238,
+               frames: 24
+            },{   name: "hit",
+               file: imagePath + 'sprites/hit/sprite.png',
+               width: 338,
+               height: 268,
+               frames: 14
+           },{   name: "hand",
+               file: imagePath + "hand.png",
+               width: 115,
+               height: 111,
+               frames: 23
+           }
+        ],
+        spines:[],
+        // particles: [
+        //     {
+        //         name: 'wood_bite',
+        //         file: imagePath +'particles/wood_bite.json',
+        //         texture: imagePath +'particles/wood_bite.png'
+        //     }
+        // ]
+    }
+
     /*vars defautl*/
     var gameIndex = 95;
-	var background;
-	var sceneGroup = null;
-	var heartsGroup = null;
-	var speedGame = 2;
-    var speed = 3;
-	var heartsIcon;
-	var heartsText;	
-	var xpIcon;
-	var xpText;
-	var lives = 3;
-	var coins = 0;
-	var bgm = null; 
-    var particlesGroup;
-    var usedParticles;
+    var lives = 3;
+    var sceneGroup = null;
+    var tutoGroup;
+    var heartsGroup = null;
+    var pointsBar;
+    var coin;
+    var background;
+    var speed = 1.5;
+    var speedincrement = 0;
+    var speedMove;
+    var particleCorrect;      
+    var particleWrong;
+    var particleTrunk;
+    var hand;
     var reviewComic = true;
-    var style = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
     /*vars defautl*/
-        var castores = [
-            {id:0,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},{id:1,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},{id:2,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false}
-        ];
-        var arrayTrunks = [
-            {tronco1:"",tronco2:"",tronco3:""},
-            {tronco1:"",tronco2:"",tronco3:""},
-            {tronco1:"",tronco2:"",tronco3:""}
-        ];
-        var buttonsOptions = [];
-        var hitZones = [];
-        var ondasCastores = new Array;
-        var tileRocks = new Array;
-          
-	
+    var castores;
+    var arrayTrunks;
+    var buttonsOptions;
+    var hitZones;
+    var ondasCastores = new Array;
+    var tileRocks = new Array;
+    var trunkPosition;
+    var gameState;
+    var tutorialColocation;
+    var casesInTutorial;
+    var tweenHand;
+    var changeTween;
+    var buttonsSquare;
+    var minSpeed;
+    var maxSpeed;
+    var incrementType;
+    var timeParticles;
+    //var emitter;
+    
+    function loadSounds(){
+        sound.decode(assets.sounds)
+    }
 
-    function preload() {
+    function initialize(){
+
+        game.stage.backgroundColor = "#ffffff";      //Poner siempre un background
+        lives = 3;
+        speed = 1.5;
+        speedincrement = 0;
+        starGame = false;
+        castores = [
+        {id:0,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},
+        {id:1,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false},
+        {id:2,idle:"",bite:"",bad_breath:"",broken:"",caries:"",hit:"",clean:true,state:"",biteBeaver:false}];
+        arrayTrunks = [
+        {tronco1:"",tronco2:"",tronco3:""},
+        {tronco1:"",tronco2:"",tronco3:""},
+        {tronco1:"",tronco2:"",tronco3:""}];
+        buttonsOptions = [];
+        hitZones = [];
+        trunkPosition = [1,2,3];
+        tutorialColocation = [1,0,0];
+        casesInTutorial = 0;
+        changeTween = false;
+        buttonsSquare = [];
+        if(game.device.desktop){
+            speedMove = [1.0,0.5,0.7];
+            minSpeed = 0.5;
+            maxSpeed = 1.0;
+            incrementType = 0.04;
+            timeParticles = 1000;
+        }else{
+            speedMove = [2.5,1.0,1.7];
+            minSpeed = 1.0;
+            maxSpeed = 2.5;
+            incrementType = 0.1;
+            timeParticles = 500;
+        }
         
-		;
-        game.load.audio('wormwood',  soundsPath + 'songs/wormwood.mp3');
-        game.load.image("background", imagePath + "background.png");
-        game.load.image("heartsIcon", imagePath + "hearts.png");
-        game.load.image("xpIcon", imagePath + "xpcoins.png");
-        game.load.image("gametuto", imagePath + "tutorial/tuto.png");
-        game.load.image("click", imagePath + "tutorial/click.png");
-        game.load.image("ondasAgua", imagePath + "ondas_agua.png");
-        game.load.image("rocks", imagePath + "tile_rocks.png");
-        game.load.image("star", imagePath + "star.png");
-        game.load.image("wrong", imagePath + "wrong.png");
-        game.load.spritesheet('bad_breath', imagePath + 'sprites/bad_breath/sprite.png', 415, 271, 24);
-        game.load.spritesheet('bite', imagePath + 'sprites/bite/sprite.png', 292, 268, 19);
-        game.load.spritesheet('broken', imagePath + 'sprites/broken/sprite.png', 249, 238, 23);
-        game.load.spritesheet('caries', imagePath + 'sprites/caries/sprite.png', 249, 238, 23);
-        game.load.spritesheet('idle', imagePath + 'sprites/idle/sprite.png', 249, 238, 24);
-        game.load.spritesheet('hit', imagePath + 'sprites/hit/sprite.png', 338, 268, 14);
 
-        game.load.image('tutorial_image',imagePath+"tutorial_image.png")
-        //loadType(gameIndex)
+        sceneGroup.alpha = 0;
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
+
+        loadSounds();                               //Cargar siempre los sonidos
 
     }
 
-	function loadSounds(){
-		sound.decode(assets.sounds);
-	}
-    
-	function initialize(){
-		lives = 3;
-		coins = 0;
-		heartsText.setText("x " + lives);
-		xpText.setText(coins);
-		speedGame = 5;
-		starGame = false;
-	}	
+    function preload(){
 
-	function getRandomArbitrary(min, max) {
-  			return Math.floor(Math.random() * (max - min) + min);
-	}
-    
-function createTextPart(text,obj){
-       var pointsText = lookParticle('text')
-       if(pointsText){
-           pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
-            pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
+        game.stage.disableVisibilityChange = false;
 
-           game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+    }
 
-           deactivateParticle(pointsText,750)
+    function stopGame(win){
+
+        sound.stop("wormwood");
+
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
+        tweenScene.onComplete.add(function(){
+
+            var resultScreen = sceneloader.getScene("result");
+            resultScreen.setScore(true, pointsBar.number, gameIndex);
+            sceneloader.show("result");
+            sound.play("gameLose");
+        })
+    }
+
+    function createTutorial(){
+
+        tutoGroup = game.add.group();
+        sceneGroup.add(tutoGroup);
+
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay);
+
+    }
+
+    function onClickPlay(rect) {
+        tutoGroup.y = -game.world.height;
+        game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        gameState = createDelegate(levelZero); 
+    }
+
+    function update() {
+        //epicparticles.update();
+        if(gameState!=null){
+            gameState();
         }
-        
+    }
+
+    function createPointsBar(){
+
+        pointsBar = game.add.group();
+        pointsBar.x = game.world.width;
+        pointsBar.y = 0;
+        sceneGroup.add(pointsBar);
+
+        var pointsImg = pointsBar.create(-10,10,'atlas.game','xpcoins');
+        pointsImg.anchor.setTo(1,0);
+
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle);
+        pointsText.x = -pointsImg.width * 0.45;
+        pointsText.y = pointsImg.height * 0.25;
+        pointsBar.add(pointsText);
+
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+        pointsBar.text = pointsText;
+        pointsBar.number = 0;
+
+    }
+
+    function addPoint(number){
+
+        sound.play("magic");
+        pointsBar.number+=number;
+        pointsBar.text.setText(pointsBar.number);
+
+        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true);
+        scaleTween.onComplete.add(function(){
+            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true);
+        })
+
+        addNumberPart(pointsBar.text,'+' + number);
+    }
+
+    function addCoin(obj){
+       coin.x = obj.centerX;
+       coin.y = obj.centerY;
+       var time = 300;
+
+       game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true);
+       
+       game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+          game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+              game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                  addPoint(1);
+              });
+          });
+       });
    }
-    
-   function lookParticle(key){
-       for(var i = 0;i<particlesGroup.length;i++){
-           var particle = particlesGroup.children[i]
-            //console.log(particle.tag + ' tag,' + particle.used)
-            if(!particle.used && particle.tag == key){
-                particle.used = true
-                particle.alpha = 1
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-               return particle
-                break
+
+    function createCoin(){
+      coin = game.add.sprite(0, 0, "coin");
+      coin.anchor.setTo(0.5);
+      coin.scale.setTo(0.8);
+      coin.animations.add('coin');
+      coin.animations.play('coin', 24, true);
+      coin.alpha = 0;
+   }
+
+    function addNumberPart(obj,number){
+
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+        pointsText.x = obj.world.x
+        pointsText.y = obj.world.y
+        pointsText.anchor.setTo(0.5,0.5)
+        sceneGroup.add(pointsText)
+
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+        game.add.tween(pointsText).to({alpha:0},250,null,true,500)
+
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+    }
+
+    function createHearts(){
+
+        heartsGroup = game.add.group();
+        heartsGroup.y = 10;
+        sceneGroup.add(heartsGroup);
+
+        var pivotX = 10;
+        var group = game.add.group();
+        group.x = pivotX;
+        heartsGroup.add(group);
+
+        var heartImg = group.create(0,0,'atlas.game','life_box');
+
+        pivotX+= heartImg.width * 0.45;
+
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle);
+        pointsText.x = pivotX;
+        pointsText.y = heartImg.height * 0.15;
+        pointsText.setText('X ' + lives);
+        heartsGroup.add(pointsText);
+
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+        heartsGroup.text = pointsText;
+
+    }
+
+    function missPoint(){
+
+        sound.play("wrong");
+
+        lives--;
+        heartsGroup.text.setText('X ' + lives);
+
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true);
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true);
+        })
+
+        if(lives === 0){
+            stopGame(false);
+        }
+
+        addNumberPart(heartsGroup.text,'-1');
+    }
+
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+
+        particle.makeParticles('atlas.game',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+
+        return particle;
+    }
+
+    function createDelegate(func) {
+        return function() { 
+            return func.apply(arguments);
+        };
+    }
+
+    function levelZero(){
+        if(casesInTutorial > 2){
+            tweenHand.stop();
+            for(var i = 0; i<3; i++){
+                buttonsSquare[i].tint = 0xffffff;
+                buttonsOptions[i].tint = 0xffffff;
+                buttonsOptions[i].input.enabled = true;
+                buttonsOptions[i].events.onDragStart.removeAll();
+                buttonsOptions[i].events.onDragStop.removeAll();
+                buttonsOptions[i].events.onDragStart.add(onDragStart, this);
+                buttonsOptions[i].events.onDragStop.add(onDragStop, this);
             }
+            hand.alpha = 0;
+            starGame = true;
+            gameState = createDelegate(gamePlay); 
+        }else if(changeTween && casesInTutorial == 1){
+            changeTween = false;
+            for(var i = 0; i<3; i++){
+                buttonsSquare[i].tint = 0x909090;
+                buttonsOptions[i].tint = 0x909090;
+                buttonsOptions[i].input.enabled = false;
+                buttonsOptions[i].events.onDragStart.removeAll();
+                buttonsOptions[i].events.onDragStop.removeAll();
+            }
+            createChangeTweenHand(1);
+        }else if(changeTween && casesInTutorial == 2){
+            changeTween = false;
+            for(var i = 0; i<3; i++){
+                buttonsSquare[i].tint = 0x909090;
+                buttonsOptions[i].tint = 0x909090;
+                buttonsOptions[i].input.enabled = false;
+                buttonsOptions[i].events.onDragStart.removeAll();
+                buttonsOptions[i].events.onDragStop.removeAll();
+            }
+            createChangeTweenHand(0);
         }
-        
-   }
-    
-   function deactivateParticle(obj,delay){ 
-       game.time.events.add(delay,function(){
-           obj.used = false
-           particlesUsed.remove(obj)
-            particlesGroup.add(obj)
-       },this)
     }
-    
-   function createPart(key,obj,offsetX){
-       var offX = offsetX || 0
-        var particle = lookParticle(key)
-       if(particle){
-           particle.x = obj.world.x + offX + obj.width/2;
-            particle.y = obj.world.y + obj.height/2;
-            particle.scale.setTo(1,1)
-            particle.start(true, 1500, null, 6);
-            game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-                deactivateParticle(particle,0)
-            })
-       }
-   }
-    
-   function createParticles(tag,number){
-       for(var i = 0; i < number;i++){
-           var particle
-            if(tag == 'text'){
-               var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff ", align: "center"}
-               var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
-                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-                particlesGroup.add(particle)
-           }else{
-                var particle = game.add.emitter(0, 0, 100);
-                particle.makeParticles(tag);
-                particle.minParticleSpeed.setTo(-200, -50);
-                particle.maxParticleSpeed.setTo(200, -100);
-                particle.minParticleScale = 0.6;
-                particle.maxParticleScale = 1.5;
-                particle.gravity = 150;
-                particle.angularDrag = 30;
-                particlesGroup.add(particle)
-                
-           }
-            particle.alpha = 0
-            particle.tag = tag
-            particle.used = false
-            particle.scale.setTo(1,1)
-        }
-   }
-    
-    function addParticles(){
-        particlesGroup = game.add.group()
-        sceneGroup.add(particlesGroup)
-        particlesUsed = game.add.group()
-        sceneGroup.add(particlesUsed)
-        createParticles('star',3)
-        createParticles('wrong',1)
-        createParticles('text',5)
-        createParticles('smoke',1)
-    }    
-	
-    function createComic(totalPages){
-        var comicGroup = game.add.group();
-        var comicrect = new Phaser.Graphics(game)
-        comicrect.beginFill(0x131033)
-        comicrect.drawRect(0,0,game.world.width *2, game.world.height *2);
-        comicrect.alpha = 1;
-        comicrect.endFill();
-        comicrect.inputEnabled = true;
-        comicGroup.add(comicrect);
-        var arrayComic = new Array;
-        for(var i= totalPages-1;i>=0;i--){
-            arrayComic[i] = comicGroup.create(0,0,"comic" + [i+1]);
-            arrayComic[i].x = game.world.centerX;
-            arrayComic[i].anchor.setTo(0.5,0);
-        }
-        var counterPage = 0;
-        var button1 = new Phaser.Graphics(game);
-        button1.beginFill(0xaaff95);
-        button1.alpha = 0;
-        button1.drawRect(0,0,100, 70);
-        button1.x = game.world.centerX - 50;
-        button1.y = game.height - button1.height*1.4;
-        button1.endFill();
-        button1.inputEnabled = true;
-        comicGroup.add(button1); 
-        var button2 = new Phaser.Graphics(game);
-        button2.beginFill(0xaaff95);
-        button2.alpha = 0;
-        button2.drawRect(0,0,100, 70);
-        button2.x = game.world.centerX - button2.width*1.1;
-        button2.y = game.height - button2.height*1.4;
-        button2.endFill();
-        button2.inputEnabled = true;
-        comicGroup.add(button2);
-        button2.visible = false;
-        button1.events.onInputDown.add(function(){
-            sound.play("pop");
-            arrayComic[counterPage].alpha = 0;
-            counterPage++;
-                if(counterPage == 1){
-                    button2.visible = true;
-                    button1.x = button1.x + button1.width/1.5;
-                }else{
-                    if(counterPage == totalPages-1){
-                        button2.visible = false;
-                        button1.x = game.world.centerX - 50;
-                        }else if(counterPage > totalPages-1){
-                        game.add.tween(comicGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                                comicGroup.y = -game.world.height
-                                createOverlay();
-                                comicGroup.visible = false;
-                                reviewComic = true;
-                        });
-                        }
-                }  
-        },this);        
-        button2.events.onInputDown.add(function(){
-            sound.play("pop");
-            counterPage--;
-            arrayComic[counterPage].alpha = 1;
-                if(counterPage == 0){
-                    button2.visible = false;
-                    button1.x = game.world.centerX - 50;
+
+    function gamePlay(){
+        if(starGame){   
+            if(lives != 0){ 
+                for(var p = 0; p<=2;p++){
+                    moveTrunk(arrayTrunks[p],speedMove[p]+speedincrement,castores[p], p)//speed
                 }
-        },this);
-        
-        sceneGroup.add(comicGroup);
-    }
-    
-	function createOverlay(){
-		lives = 3;
-		coins = 0;
-		heartsText.setText("x " + lives);
-		xpText.setText(coins);
-		speed = 2;
-		starGame = false;
+            }else{
+                starGame = false;
                 for(var p = 0; p<=2;p++){
                     castores[p].biteBeaver = false;
                     castores[p].clean = true;
                     castores[p].state = "";
-                }        
-        sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
-        
-        overlayGroup = game.add.group();
-            if(game.device != 'desktop'){
-            overlayGroup.scale.setTo(1,1);
-            }else{
-                overlayGroup.scale.setTo(1.2,1.2);
+                }
             }
-        sceneGroup.add(overlayGroup);
-
-        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width, game.world.height);
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop");
-         game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                overlayGroup.y = -game.world.height
-		
-		bgm = game.add.audio('wormwood');
-            game.sound.setDecodedCallback(bgm, function(){
-            }, this);
-		
-		bgm.loopFull(0.5);
-		starGame = true;
-		buttons.getButton(bgm,sceneGroup)
-            })
-            
-        });
-        overlayGroup.add(rect)
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,"atlas.tutorial","introscreen")
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5);
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,"gametuto")
-		tuto.anchor.setTo(0.5,0.5);
-       var action = 'tap'
-        if(game.device == 'desktop'){
-            action = 'click'
-        };
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 225,"atlas.tutorial",'how' + localization.getLanguage())
-		howTo.anchor.setTo(0.48,0.5);
-		howTo.scale.setTo(0.7,0.7);
-		var deviceName = 'pc'
-		var offsetX = 0
-            if(!game.device.desktop){
-               deviceName = 'tablet'
-                offsetX = 50
-                var inputLogo = overlayGroup.create(game.world.centerX + offsetX/2,game.world.centerY + 145,'click');
-                inputLogo.anchor.setTo(0.5,0.5);	 
-            }else{
-                var inputLogo = overlayGroup.create(game.world.centerX + 10,game.world.centerY + 130,'click');
-                inputLogo.anchor.setTo(0.4,0.5);	
-            };
-		var button = overlayGroup.create(game.world.centerX, plane.y + plane.height/2,"atlas.tutorial",'button')
-		button.anchor.setTo(0.4,0.5)
-		var playText = overlayGroup.create(game.world.centerX, button.y,"atlas.tutorial",'play' + localization.getLanguage())
-		playText.anchor.setTo(0.4,0.5)*/
-
-
-    };	
-
-    function onClickPlay(){
-        overlayGroup.y = -game.world.height
-        
-        bgm = game.add.audio('wormwood');
-            game.sound.setDecodedCallback(bgm, function(){
-            }, this);
-        
-        bgm.loopFull(0.5);
-        starGame = true;
-        buttons.getButton(bgm,sceneGroup)
+        }
     }
 
-	
-	function createHearts(){
-		heartsGroup = game.add.group();
-		heartsIcon = heartsGroup.create(0,0,"heartsIcon");
-		heartsIcon.anchor.setTo(0, 0);	
-		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 5;	
-		heartsText = game.add.text(50, 10, "x " + lives, style,heartsGroup);	
-		heartsText.anchor.setTo(0, 0);	
-		heartsText.x = game.world.width - 75;
-		heartsText.y = 5;
-		sceneGroup.add(heartsGroup);
-	}
-	
-	function createCoins(){
-		coinsGroup = game.add.group();
-		xpIcon = coinsGroup.create(0,0,"xpIcon");
-		xpIcon.anchor.setTo(0, 0);	
-		xpIcon.x = 0;
-		xpIcon.y = 5;	
-		xpText = game.add.text(50, 10, coins, style,coinsGroup);	
-		xpText.anchor.setTo(0, 0);	
-		xpText.x = 75;
-		xpText.y = 2;	
-		sceneGroup.add(coinsGroup);
-	};	
+    function getRandomArbitrary(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+    }
 
-	function SumeCoins(){
-	
-			dinamita.setAnimationByName(0, "WIN", true);
-			dinamita.setSkinByName("win");		
-				
-	}
-	function gameOver(){
-		var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, coins,gameIndex)
-			sceneloader.show("result");
-            bgm.stop();
-            sound.play("gameLose");
-	}    
-    
-	/*CREATE SCENE*/
-    function createScene(){
-		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
-		loadSounds();
-		background = game.add.tileSprite(0,0,game.world.width, 216,"atlas.game", "tile_sky");
-		sceneGroup.add(background);
-        var groupTrunks = game.add.group();   
-        
-        var seaBg = new Phaser.Graphics(game)
-        seaBg.beginFill(0x45B4AF)
-        seaBg.drawRect(0,160,game.world.width, game.world.height);
-        seaBg.endFill();
-        sceneGroup.add(seaBg); 
-        sceneGroup.add(groupTrunks);
-        for(var i=0;i<=2;i++){
-                
-                castores[i].idle = game.add.sprite(50, 0, 'idle');
-                var castorAnima = castores[i].idle.animations.add('castorAnima');
-                castores[i].idle.animations.play('castorAnima', 24, true);
-                castores[i].idle.anchor.setTo(0.1,0); 
-                castores[i].idle.y = 20 + castores[i].idle.height * i;
-                //castores[i].idle.alpha = 0;
-                sceneGroup.add(castores[i].idle);  
-            
-                castores[i].hit = game.add.sprite(-30, 0, 'hit');
-                var castorAnimahit = castores[i].hit.animations.add('castorAnimahit');
-                castores[i].hit.animations.play('castorAnimahit', 24, true);
-                castores[i].hit.anchor.setTo(0.1,0); 
-                castores[i].hit.y = castores[i].idle.height * i - 10;
-                castores[i].hit.alpha = 0;
-                sceneGroup.add(castores[i].hit);            
-                
-                castores[i].bite = game.add.sprite(30, 0, 'bite');
-                var castorAnima2 = castores[i].bite.animations.add('castorAnima2');
-                castores[i].bite.animations.play('castorAnima2', 24, true);
-                castores[i].bite.anchor.setTo(0.1,0); 
-                castores[i].bite.y = -10 + castores[i].idle.height * i;
-                castores[i].bite.alpha = 0;
-                sceneGroup.add(castores[i].bite);
-            
-                castores[i].bad_breath = game.add.sprite(55, 0, 'bad_breath');
-                var castorAnima3 = castores[i].bad_breath.animations.add('castorAnima3');
-                castores[i].bad_breath.animations.play('castorAnima3', 24, true);
-                castores[i].bad_breath.anchor.setTo(0.1,0); 
-                castores[i].bad_breath.y = 0 + castores[i].idle.height * i;
-                castores[i].bad_breath.alpha = 0;
-                sceneGroup.add(castores[i].bad_breath);
+    function checkOverlap(spriteA, spriteB) {
 
-                castores[i].broken = game.add.sprite(55, 0, 'broken');
-                var castorAnima4 = castores[i].broken.animations.add('castorAnima4');
-                castores[i].broken.animations.play('castorAnima4', 24, true);
-                castores[i].broken.anchor.setTo(0.1,0); 
-                castores[i].broken.y = 30 + castores[i].idle.height * i;
-                castores[i].broken.alpha = 0;
-                sceneGroup.add(castores[i].broken);  
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
 
-                castores[i].caries = game.add.sprite(55, 0, 'caries');
-                var castorAnima5 = castores[i].caries.animations.add('castorAnima5');
-                castores[i].caries.animations.play('castorAnima5', 24, true);
-                castores[i].caries.anchor.setTo(0.1,0); 
-                castores[i].caries.y = 30 + castores[i].caries.height * i;
-                castores[i].caries.alpha = 0;
-                sceneGroup.add(castores[i].caries);            
-            
-                ondasCastores[i] = sceneGroup.create(0,castores[i].idle.y,"ondasAgua");
-                ondasCastores[i].x = ondasCastores[i].x + ondasCastores[i].width/2 - 20;
-                ondasCastores[i].y = ondasCastores[i].y + castores[i].idle.height/1.5;
-                ondasCastores[i].scale.setTo(0.7);
-                ondasCastores[i].anchor.setTo(0.5,0);
-                TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
-                arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
-                arrayTrunks[i].tronco1.x = game.width - 300;
-                arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 20;        
-                arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
-                arrayTrunks[i].tronco2.x = arrayTrunks[i].tronco1.x;
-                arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 35; 
-                arrayTrunks[i].tronco2.alpha = 0;
-                arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
-                arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
-                arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 40;
-                arrayTrunks[i].tronco3.alpha = 0;             
-                tileRocks[i] = game.add.tileSprite(0,0,game.width,155,"rocks");
-                tileRocks[i].height = 155;
-                tileRocks[i].y = arrayTrunks[i].tronco1.y + tileRocks[i].height/2;
-                sceneGroup.add(tileRocks[i]);
-            
-                hitZones[i] = new Phaser.Graphics(game)
-                hitZones[i].beginFill(0x0aff55)
-                hitZones[i].drawRect(castores[i].idle.x + 50,castores[i].idle.y + 100,castores[i].idle.width/2, castores[i].idle.height/4);
-                hitZones[i].alpha = 0;
-                hitZones[i].id = 4;
-                hitZones[i].endFill(); 
-                sceneGroup.add(hitZones[i]);            
-            
-        }
-        
-        var container = sceneGroup.create(0,0,"atlas.game","contenedor");
-        container.y = game.height - container.height + 10;
-        container.width = game.width;
-        
-        buttonsOptions[0] = sceneGroup.create(0,0,"atlas.game","brush");
-        buttonsOptions[0].id = 0;
-        buttonsOptions[0].y = game.height - buttonsOptions[0].height/2 - 10;    
-        buttonsOptions[0].x = buttonsOptions[0].width;
-        buttonsOptions[0].posx = buttonsOptions[0].x;
-        buttonsOptions[0].posy = buttonsOptions[0].y;
-        buttonsOptions[0].inputEnabled = true;
-        buttonsOptions[0].anchor.setTo(0.5,0.5);
-        buttonsOptions[0].input.enableDrag();
-        buttonsOptions[0].events.onDragStart.add(onDragStart, this);
-        buttonsOptions[0].events.onDragStop.add(onDragStop, this);
-        
-        buttonsOptions[1] = sceneGroup.create(0,0,"atlas.game","floss");
-        buttonsOptions[1].id = 1;
-        buttonsOptions[1].y = game.height - buttonsOptions[1].height/2 - 10;    
-        buttonsOptions[1].x = game.world.centerX + 20;
-        buttonsOptions[1].anchor.setTo(0.5,0.5);
-        buttonsOptions[1].posx = buttonsOptions[1].x;
-        buttonsOptions[1].posy = buttonsOptions[1].y;
-        buttonsOptions[1].inputEnabled = true;
-        buttonsOptions[1].anchor.setTo(0.5,0.5);  
-        buttonsOptions[1].input.enableDrag();
-        buttonsOptions[1].events.onDragStart.add(onDragStart, this);
-        buttonsOptions[1].events.onDragStop.add(onDragStop, this);      
-        
-        buttonsOptions[2] = sceneGroup.create(0,0,"atlas.game","enjuague");
-        buttonsOptions[2].id = 2;
-        buttonsOptions[2].y = game.height - buttonsOptions[2].height/2 - 10;   
-        buttonsOptions[2].x = game.width - buttonsOptions[2].width;
-        buttonsOptions[2].anchor.setTo(0.5,0.5);
-        buttonsOptions[2].anchor.setTo(0.5,0.5);
-        buttonsOptions[2].posx = buttonsOptions[2].x;
-        buttonsOptions[2].posy = buttonsOptions[2].y;
-        buttonsOptions[2].inputEnabled = true;
-        buttonsOptions[2].anchor.setTo(0.5,0.5);  
-        buttonsOptions[2].input.enableDrag();
-        buttonsOptions[2].events.onDragStart.add(onDragStart, this);
-        buttonsOptions[2].events.onDragStop.add(onDragStop, this);          
- 		createHearts();
-		createCoins();
-        addParticles();
-        createOverlay();
-       /* if(!reviewComic){
-            createComic(4);
-        }else{
-          //createOverlay(); 
-            starGame = true;
-        }*/
-        
-	}
-    
-       function onDragStart(sprite, pointer) {
-            console.log("sprite: " + sprite.id);
-            console.log("hit zone: " + hitZones[0].id);  
-           console.log("hit zone: " + hitZones[1].id);  
-           console.log("hit zone: " + hitZones[2].id);  
-        }
-        
-        function onDragStop(sprite, pointer) {
-            
-            for(var d = 0;d<=2;d++){
-                
-                if(hitZones[d].id == sprite.id){
-                    if(castores[d].clean == false){
-                    if (checkOverlap(hitZones[d], sprite) ){
-                                castores[d].broken.alpha = 0;
-                                castores[d].bad_breath.alpha = 0; 
-                                castores[d].caries.alpha = 0;
-                                castores[d].idle.alpha = 1;
-                                castores[d].biteBeaver = false;
-                                castores[d].clean = true;
-                                speed = speed + 0.05;
-                                sound.play("magic");
-                                createPart('star',castores[d].idle);
-                                hitZones[d].id = 4;
-                                coins++;
-                                xpText.setText(coins);   
-                        }
-                    }
-                }else{
-                    if (checkOverlap(hitZones[d], sprite) ){
-                        createPart('wrong',sprite);
-                        sound.play("wrong");
-                        lives--;
-                        heartsText.setText(lives);
-                    }
-                }
-            
-            }
-            sprite.scale.setTo(0);
-            sprite.x = sprite.posx;
-            sprite.y = sprite.posy;
-            game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
-   
-        }
-        
-        function checkOverlap(spriteA, spriteB) {
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
 
-            var boundsA = spriteA.getBounds();
-            var boundsB = spriteB.getBounds();
+    }
 
-            return Phaser.Rectangle.intersects(boundsA, boundsB);
+    function randomFloatBetween(minValue,maxValue,precision){
+    if(typeof(precision) == 'undefined'){
+        precision = 2;
+    }
+    return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)),maxValue).toFixed(precision));
+}
 
-        }       
-    
-    
-        function moveTrunk(trunk,speed,target){
+    function moveTrunk(trunk,speed,target, index){
             if(!target.biteBeaver){
                 if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.5)){
                         trunk.tronco1.x -= speed;
@@ -644,53 +489,52 @@ function createTextPart(text,obj){
                         target.biteBeaver = true;
                         hitBeaver(trunk,target);
                     }
-
+                    speedMove[index] = randomFloatBetween(minSpeed,maxSpeed,1);
                 }
             }
         }    
     
     function hitBeaver(trunk,target){
         game.add.tween(trunk.tronco1).to({alpha:0},500,"Linear",true,0).onComplete.add(function(){
-                            console.log("mal");
                             target.clean = false;
                             target.state.alpha = 1; 
                             trunk.tronco1.x = game.width + 100;
                             trunk.tronco1.alpha = 1;
                             target.hit.alpha = 0;
                             target.biteBeaver = false;
-                            createPart('wrong',target.hit);
-                            sound.play("wrong");
+                            particleWrong.x = target.idle.world.x + target.idle.width/2;
+                            particleWrong.y = target.idle.world.y + target.idle.height/2;
+                            particleWrong.start(true, timeParticles, null, 5);
                             
-                            if(lives != 0){	
-                               lives--; 
+                            if(lives != 0){ 
+                               missPoint();
                             }else{
                                 starGame = false;
-                                gameOver();
                             }
-                            heartsText.setText(lives);
                          });
     }
       
-    
-    
     function updateBeaver(trunk,speed,target){
         var counter = 1;
         var anim = target.bite.animations.add('castorAnima2');
         anim.onLoop.add(eatTrunk, this);
-        anim.play(speed * 12, true);
+        anim.play(speed * 48, true);//12
         
         function eatTrunk(){
             if(counter == 1){
+                particleTrunkEmitter(target.bite)
                 trunk.tronco1.alpha = 0;
                 trunk.tronco2.alpha = 1; 
                 sound.play("bite");
                  counter++;
             }else if(counter == 2){
+                particleTrunkEmitter(target.bite)
                trunk.tronco2.alpha = 0;
                trunk.tronco3.alpha = 1; 
                 sound.play("bite");
                  counter++;
             }else if(counter == 3){ 
+                particleTrunkEmitter(target.bite)
                 trunk.tronco3.alpha = 0;
                 counter = 0;
                 target.bite.alpha = 0;
@@ -725,39 +569,308 @@ function createTextPart(text,obj){
         }
         
     }
-    
-    
-	function update() {
-        
 
-       
+    function particleTrunkEmitter(target){
+        particleTrunk.x = target.x + target.width/2 + 10;
+        particleTrunk.y = target.y + target.height/2 + 50;
+        particleTrunk.start(true, timeParticles, null, 7);
+    }
+    
+    /*CREATE SCENE*/
+    function createScene(){
+        background = game.add.tileSprite(0,0,game.world.width, 216,"atlas.game", "tile_sky");
+        sceneGroup.add(background);
+        var groupTrunks = game.add.group();   
         
-		if(starGame){	
-			if(lives != 0){	
-				for(var p = 0; p<=2;p++){
-                    moveTrunk(arrayTrunks[p],speed,castores[p])
+        var seaBg = new Phaser.Graphics(game);
+        seaBg.beginFill(0x45B4AF);
+        seaBg.drawRect(0,160,game.world.width, game.world.height);
+        seaBg.endFill();
+        sceneGroup.add(seaBg);
+        //sceneGroup.add(groupTrunks);
+        shuffle(trunkPosition);
+        for(var i=0;i<=2;i++){
+                
+            castores[i].idle = game.add.sprite(50, 0, 'idle');
+            var castorAnima = castores[i].idle.animations.add('castorAnima');
+            castores[i].idle.animations.play('castorAnima', 24, true);
+            castores[i].idle.anchor.setTo(0.1,0); 
+            castores[i].idle.y = 20 + castores[i].idle.height * i;
+            castores[i].idle.alpha = 0;
+            sceneGroup.add(castores[i].idle);  
+        
+            castores[i].hit = game.add.sprite(-30, 0, 'hit');
+            var castorAnimahit = castores[i].hit.animations.add('castorAnimahit');
+            castores[i].hit.animations.play('castorAnimahit', 24, true);
+            castores[i].hit.anchor.setTo(0.1,0); 
+            castores[i].hit.y = castores[i].idle.height * i - 10;
+            castores[i].hit.alpha = 0;
+            sceneGroup.add(castores[i].hit);            
+            
+            castores[i].bite = game.add.sprite(30, 0, 'bite');
+            var castorAnima2 = castores[i].bite.animations.add('castorAnima2');
+            castores[i].bite.animations.play('castorAnima2', 24, true);
+            castores[i].bite.anchor.setTo(0.1,0); 
+            castores[i].bite.y = -10 + castores[i].idle.height * i;
+            castores[i].bite.alpha = 0;
+            sceneGroup.add(castores[i].bite);                    
+        
+            castores[i].bad_breath = game.add.sprite(55, 0, 'bad_breath');
+            var castorAnima3 = castores[i].bad_breath.animations.add('castorAnima3');
+            castores[i].bad_breath.animations.play('castorAnima3', 24, true);
+            castores[i].bad_breath.anchor.setTo(0.1,0); 
+            castores[i].bad_breath.y = 0 + castores[i].idle.height * i;
+            castores[i].bad_breath.alpha = tutorialColocation[0];
+            sceneGroup.add(castores[i].bad_breath);
+
+            castores[i].broken = game.add.sprite(55, 0, 'broken');
+            var castorAnima4 = castores[i].broken.animations.add('castorAnima4');
+            castores[i].broken.animations.play('castorAnima4', 24, true);
+            castores[i].broken.anchor.setTo(0.1,0); 
+            castores[i].broken.y = 30 + castores[i].idle.height * i;
+            castores[i].broken.alpha = tutorialColocation[1];
+            sceneGroup.add(castores[i].broken);  
+
+            castores[i].caries = game.add.sprite(55, 0, 'caries');
+            var castorAnima5 = castores[i].caries.animations.add('castorAnima5');
+            castores[i].caries.animations.play('castorAnima5', 24, true);
+            castores[i].caries.anchor.setTo(0.1,0); 
+            castores[i].caries.y = 30 + castores[i].caries.height * i;
+            castores[i].caries.alpha = tutorialColocation[2];
+            sceneGroup.add(castores[i].caries);            
+        
+            ondasCastores[i] = sceneGroup.create(0,castores[i].idle.y,"ondasAgua");
+            ondasCastores[i].x = ondasCastores[i].x + ondasCastores[i].width/2 - 20;
+            ondasCastores[i].y = ondasCastores[i].y + castores[i].idle.height/1.5;
+            ondasCastores[i].scale.setTo(0.7);
+            ondasCastores[i].anchor.setTo(0.5,0);
+            TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
+            arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
+            arrayTrunks[i].tronco1.scale.setTo(0.7,0.7);
+            arrayTrunks[i].tronco1.x = game.width - (trunkPosition[i] * 50);
+            arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 30;        
+            arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
+            arrayTrunks[i].tronco2.scale.setTo(0.7,0.7);
+            arrayTrunks[i].tronco2.x = arrayTrunks[i].tronco1.x;
+            arrayTrunks[i].tronco2.y = castores[i].idle.y + arrayTrunks[i].tronco2.height + 30; 
+            arrayTrunks[i].tronco2.alpha = 0;
+            arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
+            arrayTrunks[i].tronco3.scale.setTo(0.7,0.7); 
+            arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
+            arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 30;
+            arrayTrunks[i].tronco3.alpha = 0;
+
+            tileRocks[i] = game.add.tileSprite(0,0,game.width,155,"rocks");
+            tileRocks[i].height = 155;
+            tileRocks[i].y = arrayTrunks[i].tronco1.y + tileRocks[i].height/2;
+            sceneGroup.add(tileRocks[i]);
+        
+            hitZones[i] = new Phaser.Graphics(game)
+            hitZones[i].beginFill(0x0aff55)
+            hitZones[i].drawRect(castores[i].idle.x + 50,castores[i].idle.y + 100,castores[i].idle.width/2, castores[i].idle.height/4);
+            hitZones[i].alpha = 0;
+            hitZones[i].id = 2-i;
+            hitZones[i].endFill(); 
+            sceneGroup.add(hitZones[i]);
+
+            if(i < tutorialColocation.length-1){
+                tutorialColocation[i+1] = tutorialColocation[i];
+                tutorialColocation[i] = 0;
+            }
+            castores[i].clean = false;
+        }
+
+        sceneGroup.add(groupTrunks);
+        
+        var container = sceneGroup.create(0,0,"atlas.game","contenedor");
+        container.y = game.height - container.height + 10;
+        container.width = game.width;
+        
+        var square = sceneGroup.create(0,0,"atlas.game","brush");
+        square.y = game.height - square.height/2 - 10;
+        square.x = square.width;
+        square.anchor.setTo(0.5,0.5);
+        buttonsSquare.push(square);
+        buttonsOptions[0] = sceneGroup.create(0,0,"atlas.game","brush_iso");
+        buttonsOptions[0].id = 0;
+        buttonsOptions[0].y = game.height - buttonsOptions[0].height/2 - 10;    
+        buttonsOptions[0].x = buttonsOptions[0].width;
+        buttonsOptions[0].posx = buttonsOptions[0].x;
+        buttonsOptions[0].posy = buttonsOptions[0].y;
+        buttonsOptions[0].inputEnabled = true;
+        buttonsOptions[0].anchor.setTo(0.3,0.65);
+        
+        square = sceneGroup.create(0,0,"atlas.game","floss");
+        square.y = game.height - square.height/2 - 10;
+        square.x = game.world.centerX + 5;
+        square.anchor.setTo(0.5,0.5);
+        buttonsSquare.push(square);
+        buttonsOptions[1] = sceneGroup.create(0,0,"atlas.game","floss_iso");
+        buttonsOptions[1].id = 1;
+        buttonsOptions[1].y = game.height - buttonsOptions[1].height/2 - 10;    
+        buttonsOptions[1].x = game.world.centerX + 5;
+        buttonsOptions[1].anchor.setTo(0.5,0.5);
+        buttonsOptions[1].posx = buttonsOptions[1].x;
+        buttonsOptions[1].posy = buttonsOptions[1].y;
+        buttonsOptions[1].inputEnabled = true;
+        buttonsOptions[1].anchor.setTo(0.3,0.9);
+        buttonsSquare[1].tint = 0x909090;
+        buttonsOptions[1].tint = 0x909090; 
+        
+        square = sceneGroup.create(0,0,"atlas.game","enjuague");
+        square.y = game.height - square.height/2 - 10;
+        square.x = game.width - square.width;
+        square.anchor.setTo(0.5,0.5);
+        buttonsSquare.push(square);
+        buttonsOptions[2] = sceneGroup.create(0,0,"atlas.game","wash_iso");
+        buttonsOptions[2].id = 2;
+        buttonsOptions[2].y = game.height - buttonsOptions[2].height/2 - 10;   
+        buttonsOptions[2].x = game.width - buttonsOptions[2].width;
+        buttonsOptions[2].anchor.setTo(0.5,0.5);
+        buttonsOptions[2].anchor.setTo(0.5,0.5);
+        buttonsOptions[2].posx = buttonsOptions[2].x;
+        buttonsOptions[2].posy = buttonsOptions[2].y;
+        buttonsOptions[2].inputEnabled = true;
+        buttonsOptions[2].anchor.setTo(1.1,0.6); 
+        buttonsSquare[2].tint = 0x909090;
+        buttonsOptions[2].tint = 0x909090; 
+
+        hand = game.add.sprite(0, 0, "hand");
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha = 0;
+        createChangeTweenHand(2);
+
+        // emitter = epicparticles.newEmitter("wood_bite");
+        // emitter.x = 30;
+        // emitter.y = 30;  
+    }
+
+    function createChangeTweenHand(index){
+        var indexInverse = 2-index;
+        buttonsSquare[indexInverse].tint = 0xffffff;
+        buttonsOptions[indexInverse].tint = 0xffffff;
+        buttonsOptions[indexInverse].input.enabled = true;
+        buttonsOptions[indexInverse].input.enableDrag();
+        buttonsOptions[indexInverse].events.onDragStart.add(onDragStart, this);
+        buttonsOptions[indexInverse].events.onDragStop.add(onDragStop, this);
+        hand.x = buttonsOptions[indexInverse].x;
+        hand.y = buttonsOptions[indexInverse].y;
+        if(tweenHand != null){
+            tweenHand.stop();
+        }
+        tweenHand = game.add.tween(hand).to( { x: castores[index].idle.x + (castores[index].idle.width/2), y: castores[index].idle.y + (castores[index].idle.height/2)}, 2000, Phaser.Easing.Linear.InOut, true, 0, -1); 
+    }
+
+    function shuffle(array) {
+        let counter = array.length;
+
+        while (counter > 0) {
+            let index = Math.floor(Math.random() * counter);
+            counter--;
+
+            let temp = array[counter];
+            array[counter] = array[index];
+            array[index] = temp;
+        }
+
+        return array;
+    }
+    
+   function onDragStart(sprite, pointer) {
+        console.log("sprite: " + sprite.id);
+        console.log("hit zone: " + hitZones[0].id);  
+       console.log("hit zone: " + hitZones[1].id);  
+       console.log("hit zone: " + hitZones[2].id);  
+    }
+    
+    function onDragStop(sprite, pointer) {
+        
+        for(var d = 0;d<=2;d++){
+            
+            if(hitZones[d].id == sprite.id){
+                if(castores[d].clean == false){
+                if (checkOverlap(hitZones[d], sprite) ){
+                            castores[d].broken.alpha = 0;
+                            castores[d].bad_breath.alpha = 0; 
+                            castores[d].caries.alpha = 0;
+                            castores[d].idle.alpha = 1;
+                            castores[d].biteBeaver = false;
+                            castores[d].clean = true;
+                            speed = speed + 0.08;//0.05
+                            speedincrement += incrementType;
+                            particleCorrect.x = castores[d].idle.world.x + castores[d].idle.width/2;
+                            particleCorrect.y = castores[d].idle.world.y + castores[d].idle.height/2;
+                            particleCorrect.start(true, timeParticles, null, 5);
+                            hitZones[d].id = 4;
+                            if(starGame){
+                                 addCoin(castores[d].idle);
+                            }else{
+                                casesInTutorial++;
+                                changeTween = true;
+                            }
+                    }
                 }
-			}else{
-                starGame = false;
-                gameOver();
-                for(var p = 0; p<=2;p++){
-                    castores[p].biteBeaver = false;
-                    castores[p].clean = true;
-                    castores[p].state = "";
+            }else{
+                if (checkOverlap(hitZones[d], sprite) ){
+                    particleWrong.x = castores[d].idle.world.x + castores[d].idle.width/2;
+                    particleWrong.y = castores[d].idle.world.y + castores[d].idle.height/2;
+                    particleWrong.start(true, timeParticles, null, 5);
+                    if(starGame){
+                        missPoint();
+                    }
                 }
             }
-		}
-	}
-    
-    
-	return {
-		assets: assets,
-		name: "wildDentist",
-		preload: preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
-		create: createScene,
-		update:update,
-		show: function(event){
-			initialize()
-		}		
-	}
+        
+        }
+        sprite.scale.setTo(0);
+        sprite.x = sprite.posx;
+        sprite.y = sprite.posy;
+        game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
+
+    }
+
+    return {
+        assets: assets,
+        name: "wildDentist",
+        preload:preload,
+        update:update,
+        getGameData:function () {
+            var games = yogomeGames.getGames()
+            return games[gameIndex]
+        },
+        create: function(event){
+
+            sceneGroup = game.add.group();
+            yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+
+            game.onPause.add(function(){
+                game.sound.mute = true;
+            } , this);
+
+            game.onResume.add(function(){
+                game.sound.mute = false;
+            }, this);
+
+            initialize();
+            var wildDentistSong = sound.play("wormwood", {loop:true, volume:0.6})
+            createScene();
+
+            createHearts();
+            createPointsBar();
+            createCoin();
+            createTutorial();
+
+            particleCorrect = createPart("star");
+            sceneGroup.add(particleCorrect);
+
+            particleWrong = createPart("smoke");
+            sceneGroup.add(particleWrong);
+
+            particleTrunk = createPart("wood_bite");
+            sceneGroup.add(particleTrunk);
+            
+            buttons.getButton(wildDentistSong,sceneGroup);
+        }       
+    }
 }()

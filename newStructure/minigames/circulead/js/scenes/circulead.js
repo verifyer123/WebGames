@@ -516,7 +516,10 @@ var circulead = function(){
     function blockHitUp (body, bodyB, shapeA, shapeB, equation) {
         if (body && backDonut.body.active){
             if(body.name == "poweruppizza"){
-                addPoint(1);
+                particleCorrect.x = playerYogotar.x;
+                particleCorrect.y = playerYogotar.y;
+                particleCorrect.start(true, 1000, null, 1);
+                addCoin(playerYogotar);
                 destroyPowerUp(body);
                 playAnimation(1);
                 backDonut.body.kinematic = true;
@@ -589,7 +592,10 @@ var circulead = function(){
     function pizzaCollision(body, bodyB, shapeA, shapeB, equation) {
         if (body && backPizza.body.active){
             if(body.name == "powerupdona"){
-                addPoint(1);
+                particleCorrect.x = playerYogotar.x;
+                particleCorrect.y = playerYogotar.y;
+                particleCorrect.start(true, 1000, null, 1);
+                addCoin(playerYogotar);
                 var newPosYPowerUp = body.y - 70;
                 destroyPowerUp(body);
                 playAnimation(0);
@@ -757,6 +763,9 @@ var circulead = function(){
                     playAnimation(4); 
                }
             }
+            particleWrong.x = playerYogotar.x;
+            particleWrong.y = playerYogotar.y;
+            particleWrong.start(true, 1000, null, 1);
             missPoint();
             nextMissPoint = game.time.now + 1500;
         }
@@ -1263,16 +1272,16 @@ var circulead = function(){
             createScenary();
             createCarrier();
             createSpine();
-
-            createTutorial();
+            
             createHearts();
             createPointsBar();
             createCoin();
+            createTutorial();
 
             particleCorrect = createPart('star');
             sceneGroup.add(particleCorrect);
 
-            particleWrong = createPart('wrong');
+            particleWrong = createPart('smoke');
             sceneGroup.add(particleWrong);
 
             buttons.getButton(circuleadSong,sceneGroup)

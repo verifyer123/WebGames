@@ -8,9 +8,9 @@ var gameFromApp
 var webCoupon
 var poll
 
-var isDebug = true
+var isDebug = false
 var playcountToken = null
-
+var urlShare
 
 var url
 
@@ -47,9 +47,11 @@ amazing.savePlaycount = function(){
     var params = {
         type: "playcount"
     }
+    gameFromApp = false
+
     parent.postMessage(JSON.stringify(params), "*")
 
-    gameFromApp = false
+    
 
 
     webCoupon = ""
@@ -68,12 +70,23 @@ amazing.savePlaycount = function(){
 
 amazing.share = function(score, game){
     console.log("Sharing...")
-    var params = {
-        type: "share",
-        score: score,
-        game: game,
-    }
-    parent.postMessage(JSON.stringify(params), "*")
+    if(gameFromApp){
+	    var params = {
+	        type: "share",
+	        score: score,
+	        game: game,
+	    }
+	    parent.postMessage(JSON.stringify(params), "*")
+	}
+	else{
+		console.log("share, ",urlShare)
+
+		FB.ui({
+			method: 'share',
+			href: urlShare,
+			mobile_iframe:true
+		}, function(response){});
+	}
 }
 
 amazing.checkBrowser = function(game){
@@ -118,7 +131,10 @@ amazing.getGames = function(){
         {name:'Orders Up',iconName:'ordersUp',url:'http://amazingapp.mx/juegos/ordersUp/',coupon : false,mixName:'ordersUp',demo:true,id:100003},//26
         {name:'Zoé Water Sport',iconName:'zoeMundial',url:'http://amazingapp.mx/juegos/zoeMundial/',coupon : false,mixName:'zoeMundial',demo:false,id:21},//27
         {name:'Benedettis',iconName:'benedettis',url:'http://amazingapp.mx/juegos/benedettis/',coupon : false,mixName:'benedettis',demo:true,id:100005},//28
-        {name:'Pin Dots',iconName:'pinDots',url:'http://amazingapp.mx/juegos/pinDots/',coupon : false,mixName:'pinDots',demo:true,id:31},//29
+        {name:'Pin Dots',iconName:'pinDots',url:'http://amazingapp.mx/juegos/pinDots/',coupon : false,mixName:'pinDots',demo:false,id:31},//29
+        {name:'Wonder Hood',iconName:'wonderHood',url:'http://amazingapp.mx/juegos/wonderHood/',coupon : false,mixName:'wonderHood',demo:true,id:1},//30
+        {name:'Torre Helado Obscuro',iconName:'heladoObscuro',url:'http://amazingapp.mx/juegos/heladoObscuro/',coupon : false,mixName:'heladoObscuro',demo:true,id:100008},//31
+        {name:'Zoe',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoe',demo:true,id:100009},//32
         //
     ]
 
@@ -134,6 +150,7 @@ amazing.getId = function(id){
         
         if(id == games[i].id){
             gameIndex = i
+            urlShare = games[i].url
             break
         }
     }
@@ -187,6 +204,16 @@ amazing.getId = function(id){
 
     if(!gameFromApp){
 
+    	window.fbAsyncInit = function() {
+		  	console.log("init facebbook")
+		    FB.init({
+		      appId            : '933967913375897',
+		      autoLogAppEvents : true,
+		      xfbml            : true,
+		      version          : 'v3.0'
+		    });
+		  };
+
         var data = {
             minigameId:id
         }
@@ -196,7 +223,9 @@ amazing.getId = function(id){
             data: JSON.stringify(data),
             contentType: 'application/json',
             dataType: "json",
+
             success: function (response) {
+                console.log(response)
                 if(response.imgPreview!=null && response.imgPreview!=""){
                     webCoupon = response.imgPreview
                 }
@@ -205,6 +234,9 @@ amazing.getId = function(id){
                 }
 
             },
+            error: function(response){
+            	console.log(response)
+            }
 
         });
     }
@@ -339,7 +371,6 @@ amazing.setApp = function(){
             }
         }
     })
-
 
 }
 

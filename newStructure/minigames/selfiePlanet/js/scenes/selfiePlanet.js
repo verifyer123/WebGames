@@ -1,19 +1,21 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+
 var selfiePlanet = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+            "tutorial_image":"images/selfiePlanet/gametuto_EN.png"
 		},
 
 		"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
-            "stop":"¡Detener!"
+            "stop":"¡Detener!",
+            "tutorial_image":"images/selfiePlanet/gametuto_ES.png"
 		}
 	}
     
@@ -24,18 +26,50 @@ var selfiePlanet = function(){
                 name: "atlas.selfiePlanet",
                 json: "images/selfiePlanet/atlas.json",
                 image: "images/selfiePlanet/atlas.png",
-            },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
         ],
         images: [
             {
 				name:'tutorial_image',
-				file:"images/selfiePlanet/gametuto.png"
+				file:"%lang"
 			},
+            {
+				name:'planet0',
+				file:"images/selfiePlanet/planet0.png"
+			},
+            {
+				name:'planet1',
+				file:"images/selfiePlanet/planet1.png"
+			},
+            {
+				name:'planet2',
+				file:"images/selfiePlanet/planet2.png"
+			},
+            {
+				name:'planet3',
+				file:"images/selfiePlanet/planet3.png"
+			},
+            {
+				name:'planet4',
+				file:"images/selfiePlanet/planet4.png"
+			},
+            {
+				name:'planet5',
+				file:"images/selfiePlanet/planet5.png"
+			},
+            {
+				name:'planet6',
+				file:"images/selfiePlanet/planet6.png"
+			},
+            {
+				name:'planet7',
+				file:"images/selfiePlanet/planet7.png"
+			},
+            {
+				name:'stars',
+				file:"images/selfiePlanet/stars.png"
+			}
+
 		],
 		sounds: [
             {	name: "magic",
@@ -43,43 +77,60 @@ var selfiePlanet = function(){
             {	name: "cut",
 				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
-            {	name: "right",
+				file: soundsPath + "wrongAnswer.mp3"},
+            {	name: "rightChoice",
 				file: soundsPath + "rightChoice.mp3"},
 			{	name: "pop",
 				file: soundsPath + "pop.mp3"},
-			{	name: "snapshot",
+            {	name: "snapshot",
 				file: soundsPath + "snapshot.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
+            {   name: 'gameSong',
+                file: soundsPath + 'songs/dancing_baby.mp3'
+            }
+		],
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            },
+            {   name: "hand",
+                file: "images/spines/hand.png",
+                width: 115,
+                height: 111,
+                frames: 23
+            }
+        ],
+        spines:[
+			{
+				name:"eagle",
+				file:"images/spines/eagle.json"
+			}
 		]
     }
     
         
     var lives = null
 	var sceneGroup = null
-	var background
-    var gameActive = true
-    var gameStarted=false
-	var shoot
-	var particlesGroup, particlesUsed
-    var tutoGroup
+    var gameActive
+    var particleCorrect, particleWrong
     var gameIndex = 111
-	var indexGame
-    var overlayGroup
-    var dancing_baby
-    //var stars
-    var planets = ['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune']
-    var speed
+    var tutoGroup
+    var pointsBar
+    var heartsGroup
+    var gameSong
+    var coin
+    var handGroup
     var planetsGroup
+    var planetText
+    var eagle
+    var photo
     var target
-    var pivot
-    var eagle, eagleSad, eagleHappy
-    var planetsName
-    var tutorial
-    var rand
-    var randomControl
-    var counter
+    var speed
+    var playTuto = true
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -89,12 +140,10 @@ var selfiePlanet = function(){
 
         game.stage.backgroundColor = "#ffffff"
         lives = 3
-        pivot = 0
-        rand = 0
-        speed = 4000
-        randomControl = -1
-        counter = 0
-        tutorial = true
+        gameActive = false
+        clickDown = false
+        speed = 10000
+        
         loadSounds()
 	}
 
@@ -108,10 +157,15 @@ var selfiePlanet = function(){
         },this)
     }
     
-    function flashScene() {
+    function animateScene() {
+                
+        gameActive = false
+        
+        var startGroup = new Phaser.Group(game)
+        sceneGroup.add(startGroup)
                 
         sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1}, 400, Phaser.Easing.Cubic.Out,true)
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
     }
 	
@@ -124,57 +178,51 @@ var selfiePlanet = function(){
         }
     } 
     
-    function addNumberPart(obj,number,isScore){
+    function createPointsBar(){
         
-        var pointsText = lookParticle('text')
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y
-            pointsText.anchor.setTo(0.5,0.5)
-            pointsText.setText(number)
-            pointsText.scale.setTo(1,1)
-
-            var offsetY = -100
-
-            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-            
-            deactivateParticle(pointsText,800)
-            if(isScore){
-                
-                pointsText.scale.setTo(0.7,0.7)
-                var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-                tweenScale.onComplete.add(function(){
-                    game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-                })
-
-                offsetY = 100
-            }
-            
-            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        }
+        pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = 0
+        sceneGroup.add(pointsBar)
         
+        var pointsImg = pointsBar.create(-10,10,'atlas.selfiePlanet','xpcoins')
+        pointsImg.anchor.setTo(1,0)
+    
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsText.x = -pointsImg.width * 0.45
+        pointsText.y = pointsImg.height * 0.25
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
+        pointsBar.add(pointsText)
+        pointsBar.text = pointsText
+        pointsBar.number = 0
     }
     
-    function missPoint(){
+    function createHearts(){
         
-        sound.play("wrong")
-		        
-        lives--;
-        heartsGroup.text.setText('X ' + lives)
+        heartsGroup = game.add.group()
+        heartsGroup.y = 10
+        sceneGroup.add(heartsGroup)
         
-        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
+        var pivotX = 10
         
-        if(lives == 0){
-            stopGame(false)
-        }
+        var group = game.add.group()
+        group.x = pivotX
+        heartsGroup.add(group)
+
+        var heartImg = group.create(0,0,'atlas.selfiePlanet','life_box')
+
+        pivotX += heartImg.width * 0.45
         
-        addNumberPart(heartsGroup.text,'-1',true)
-        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
+        pointsText.setText('X ' + lives)
+        heartsGroup.add(pointsText)
+        heartsGroup.text = pointsText
     }
     
     function addPoint(number){
@@ -187,72 +235,38 @@ var selfiePlanet = function(){
         scaleTween.onComplete.add(function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
-        
-        addNumberPart(pointsBar.text,'+' + number,true)		
-        
     }
     
-    function createPointsBar(){
+    function missPoint(obj){
         
-        pointsBar = game.add.group()
-        pointsBar.x = game.world.width
-        pointsBar.y = 0
-        sceneGroup.add(pointsBar)
+        sound.play("wrong")
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.selfiePlanet','xpcoins')
-        pointsImg.anchor.setTo(1,0)
-    
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
-        pointsText.y = pointsImg.height * 0.25
-        pointsBar.add(pointsText)
+        particleWrong.x = obj.centerX 
+        particleWrong.y = obj.centerY
+        particleWrong.start(true, 2000, null, 10)
+		        
+        lives--;
+        heartsGroup.text.setText('X ' + lives)
         
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
         
-        pointsBar.text = pointsText
-        pointsBar.number = 0
-        
+        if(lives == 0){
+            stopGame()
+        }
     }
     
-    function createHearts(){
-        
-        heartsGroup = game.add.group()
-        heartsGroup.y = 10
-        sceneGroup.add(heartsGroup)
-        
-        
-        var pivotX = 10
-        var group = game.add.group()
-        group.x = pivotX
-        heartsGroup.add(group)
-
-        var heartImg = group.create(0,0,'atlas.selfiePlanet','life_box')
-
-        pivotX+= heartImg.width * 0.45
-        
-        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-        pointsText.x = pivotX
-        pointsText.y = heartImg.height * 0.15
-        pointsText.setText('X ' + lives)
-        heartsGroup.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        heartsGroup.text = pointsText
-                
-    }
-    
-    function stopGame(win){
+    function stopGame(){
         
 		sound.play("wrong")
 		sound.play("gameLose")
 		
         gameActive = false
-        dancing_baby.stop()
+        gameSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
@@ -264,29 +278,11 @@ var selfiePlanet = function(){
     
     function preload(){
         
-        game.stage.disableVisibilityChange = false;
-        
-        game.load.audio('dancing_baby', soundsPath + 'songs/dancing_baby.mp3');
-        
-		game.load.image('howTo',"images/selfiePlanet/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/selfiePlanet/play" + localization.getLanguage() + ".png")
-        game.load.image('introscreen',"images/selfiePlanet/introscreen.png")
-        
-        game.load.image('mercury',"images/selfiePlanet/mercury.png")
-        game.load.image('venus',"images/selfiePlanet/venus.png")
-        game.load.image('earth',"images/selfiePlanet/earth.png")
-        game.load.image('mars',"images/selfiePlanet/mars.png")
-        game.load.image('jupiter',"images/selfiePlanet/jupiter.png")
-        game.load.image('saturn',"images/selfiePlanet/saturn.png")
-        game.load.image('uranus',"images/selfiePlanet/uranus.png")
-        game.load.image('neptune',"images/selfiePlanet/neptune.png")
-        
-        game.load.spine("eagle", "images/spines/eagle.json");
-        game.load.image('eagleSad',"images/selfiePlanet/eagleSad.png")
-        game.load.image('eagleHappy',"images/selfiePlanet/eagleHappy.png")
+		//buttons.getImages(game)
 		
-		console.log(localization.getLanguage() + ' language')
+        game.stage.disableVisibilityChange = false
         
+        //loadType(gameIndex)
     }
     
     function createTutorial(){
@@ -298,67 +294,20 @@ var selfiePlanet = function(){
     }
     
     function onClickPlay() {
+        
         tutoGroup.y = -game.world.height
-        initGame()
-    }
-    
-    function createOverlay(){
-        
-        overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(overlayGroup)
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            
-            //Aqui va la primera funciòn que realizara el juego
-            gameStarted=true
-            
-            startGame=true
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
+        if(playTuto){
+            initTuto()
+        }
+        else{
+            handGroup.destroy()
+            game.add.tween(sceneGroup.stars.tilePosition).to({x: -1000}, 1000, Phaser.Easing.linear, true)
+            eagle.alpha = 1
+            game.add.tween(eagle).from({x: game.world.width + 200}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                playTuto = false
                 initGame()
             })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.selfiePlanet','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.selfiePlanet',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.selfiePlanet','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)
+        }
     }
     
     function releaseButton(obj){
@@ -368,68 +317,18 @@ var selfiePlanet = function(){
 
 	function createBackground(){
         
-        background = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "background");
-        background.anchor.setTo(0.5, 0.5)
+        var background = sceneGroup.create(0, 0, "atlas.selfiePlanet", "background")
         background.width = game.world.width
         background.height = game.world.height
         
-        stars = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.selfiePlanet", 'stars')
+        var stars = game.add.tileSprite(game.world.centerX, game.world.centerY, game.world.width, game.world.height, "stars")
+        stars.anchor.setTo(0.5)
         sceneGroup.add(stars)
+        sceneGroup.stars = stars
     }
 
 	function update(){
         
-        //stars.tilePosition.x += 0.5
-    }
-    
-	function createTextPart(text,obj){
-        
-        var pointsText = lookParticle('text')
-        
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
-            pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
-
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-
-            deactivateParticle(pointsText,750)
-        }
-        
-    }
-    
-    function lookParticle(key){
-        
-        for(var i = 0;i<particlesGroup.length;i++){
-            
-            var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
-            if(!particle.used && particle.tag == key){
-                
-				particle.used = true
-                particle.alpha = 1
-                
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-				                
-                return particle
-                break
-            }
-        }
-    }
-    
-    function deactivateParticle(obj,delay){
-        
-        game.time.events.add(delay,function(){
-            
-            obj.used = false
-            particlesUsed.remove(obj)
-            particlesGroup.add(obj)
-            
-        },this)
     }
     
     function createPart(key){
@@ -438,113 +337,11 @@ var selfiePlanet = function(){
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.7;
-        particle.maxParticleScale = 1;
+        particle.maxParticleScale = 1.3;
         particle.gravity = 150;
         particle.angularDrag = 30;
         particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
         return particle
-    }
-    
-    function createParticles(tag,number){
-                
-        for(var i = 0; i < number;i++){
-            
-            var particle
-            if(tag == 'text'){
-                
-                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-                
-                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
-                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-                particlesGroup.add(particle)
-                
-            }else{
-                var particle = game.add.emitter(0, 0, 100);
-
-				particle.makeParticles('atlas.selfiePlanet',tag);
-				particle.minParticleSpeed.setTo(-200, -50);
-				particle.maxParticleSpeed.setTo(200, -100);
-				particle.minParticleScale = 0.6;
-				particle.maxParticleScale = 1.5;
-				particle.gravity = 150;
-				particle.angularDrag = 30;
-				
-				particlesGroup.add(particle)
-				
-            }
-            
-            particle.alpha = 0
-            particle.tag = tag
-            particle.used = false
-            //particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1,1)
-        }
-        
-        
-    }
-	
-	function addParticles(){
-		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
-		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
-		
-		createParticles('star',3)
-		createParticles('wrong',1)
-		createParticles('text',5)
-		createParticles('smoke',1)
-
-	}
-
-	function setExplosion(obj){
-        
-        var posX = obj.x
-        var posY = obj.y
-        
-        if(obj.world){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xffffff)
-        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-        rect.alpha = 0
-        rect.endFill()
-		sceneGroup.add(rect)
-		
-		game.add.tween(rect).from({alpha:1},500,"Linear",true)
-		
-        var exp = sceneGroup.create(0,0,'atlas.selfiePlanet','cakeSplat')
-        exp.x = posX
-        exp.y = posY
-        exp.anchor.setTo(0.5,0.5)
-
-        exp.scale.setTo(6,6)
-        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
-        particlesNumber = 8
-            
-        var particlesGood = game.add.emitter(0, 0, 100);
-
-        particlesGood.makeParticles('atlas.selfiePlanet','smoke');
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
-
-        particlesGood.x = posX;
-        particlesGood.y = posY;
-        particlesGood.start(true, 1000, null, particlesNumber);
-
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
-        
     }
     
     function createParticles(){
@@ -555,269 +352,600 @@ var selfiePlanet = function(){
         sceneGroup.add(particleWrong)
     }
     
-    function initPlanetsGroup(){
+    function createHand(){
+        
+        var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        
+        handGroup = game.add.group()
+        handGroup.counter = 0
+        sceneGroup.add(handGroup)
+        
+        var pivotY = 250
+        
+        for(var i = 0; i < 3; i++){
+            var tutoText = new Phaser.Text(sceneGroup.game, game.world.centerX, pivotY, '', fontStyle)
+            tutoText.anchor.setTo(0.5)
+            tutoText.stroke = "#FFFFFF"
+            tutoText.strokeThickness = 20
+            tutoText.alpha = 0
+            handGroup.add(tutoText)
+            
+            pivotY += 250
+        }
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
+        hand.counter = 0
+        handGroup.add(hand)
+        handGroup.hand = hand
+    }
+    
+	function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+    }
+
+    function addCoin(obj){
+        
+        coin.x = obj.centerX
+        coin.y = obj.centerY
+        var time = 300
+        
+        particleCorrect.x = obj.centerX 
+        particleCorrect.y = obj.centerY
+        particleCorrect.start(true, 2000, null, 10)
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+                   if(pointsBar.number > 0 && pointsBar.number % 5 == 0){
+                       speed > 2000 ? speed -= 1000 : speed = 2000
+                   }
+               })
+           })
+        })
+    }
+    
+    function createPlanets(){
         
         planetsGroup = game.add.group()
-        planetsGroup.x = -200
-        planetsGroup.y = game.world.centerY - 100
-        planetsGroup.scale.setTo(0.9)
+        planetsGroup.createMultiple(9, "planet0")
+        planetsGroup.setAll('anchor.x', 0.5)
+        planetsGroup.setAll('anchor.y', 0.5)
+        planetsGroup.setAll('exists', false)
+        planetsGroup.setAll('visible', false)
+        planetsGroup.setAll('tag', -1)
         sceneGroup.add(planetsGroup)
         
-        for(var p = 0; p < planets.length; p++){
-            var planet = planetsGroup.create(0, 0, planets[p])
-            planet.anchor.setTo(0.5)
-            planet.alpha = 0
-        }
+        var scaleOpt = [{opt:[0.8, 1, 1], offsetY: 40}, //mercury
+                        {opt:[0.8, 0.8, 1], offsetY: 30}, //venus
+                        {opt:[ 0.7, 0.75, 1], offsetY: 50}, //earth
+                        {opt:[0.9, 1, 1.2], offsetY: 10}, //mars
+                        {opt:[0.4, 0.5, 1], offsetY: 300}, //jupiter
+                        {opt:[0.4, 0.6, 0.9], offsetY: 130}, //saturn
+                        {opt:[0.5, 0.7, 0.8], offsetY: 60}, //unranus
+                        {opt:[0.6, 0.7, 1], offsetY: 100}] //neptune
+        
+        planetsGroup.scaleOpt = scaleOpt
+        
+        photo = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "photoFail")
+        photo.anchor.setTo(0.5)
+        photo.alpha = 0
     }
     
-    function initEagle(){
-        
-        eagleSad = sceneGroup.create(game.world.width, game.world.centerY, "eagleSad") 
-        eagleSad.anchor.setTo(1, 0)
-        eagleSad.alpha = 0
-        
-        eagleHappy = sceneGroup.create(game.world.width, game.world.centerY, "eagleHappy") 
-        eagleHappy.anchor.setTo(1, 0)
-        eagleHappy.alpha = 0
-        
-        eagle = game.add.spine(game.world.width, game.world.height , "eagle")
-        eagle.x -= eagleSad.width * 0.5
+    function createEagle(){
+
+        eagle = game.add.spine(game.world.width - 25, game.world.height + 90, "eagle")
         eagle.setAnimationByName(0, "idle", true)
         eagle.setSkinByName("normal")
-        sceneGroup.add(eagle)
-        
-    }
-    
-    function initCam(){
-        
-        selfie = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "selfie");
-        selfie.anchor.setTo(0.5, 0.5)
-        selfie.width = game.world.width
-        
-        target = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "target");
-        target.anchor.setTo(0.5, 0.5)
-        
-        var snapBtn = sceneGroup.create(game.world.centerX, game.world.height - 70, 'atlas.selfiePlanet', 'camBtn')
-        snapBtn.anchor.setTo(0.5)
-        //snapBtn.scale.setTo(1, 1.5)
-        snapBtn.inputEnabled = true
-        snapBtn.events.onInputDown.add(inputButton)
-    }
-	
-	function inputButton(btn){
-		
-		if(gameActive){
-            gameActive = false
-            game.add.tween(btn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                sound.play('snapshot')
-                flashScene()
-                planetsGroup.translate.stop()
-                planetsName.motion.stop()
-                planetsName.text.scale.setTo(1)
-                checkCorrect()
-                game.add.tween(btn.scale).to({x: 1, y: 1}, 100, Phaser.Easing.linear, true)
-            })
-		}
-	}
-    
-    function checkCorrect() {
-
         eagle.alpha = 0
-        var pic = target.getBounds()
-        var obj = planetsGroup.children[pivot].getBounds()
-         
-        var x = (obj.width - pic.width) //* 0.5
-        var y = (obj.height - pic.height) //* 0.5
+        eagle.angle = -30
+        sceneGroup.add(eagle)
+    }
+    
+    function createCamera(){
         
-        pic.inflate(x * 0.5, y * 0.5)
+        var top = game.add.graphics(0, 0)
+        top.beginFill(0x000000, 0.5)
+        top.drawRect(0, 0, game.world.width, 100)
+        sceneGroup.add(top)
         
-        if(pivot < 4)
-            obj.inflate(-x * 0.4, -y * 0.4)
-        else
-            obj.inflate(-x * 0.2, -y * 0.2)
+        var pivotX = 0.6
         
-        pic.y -= 100
-        
-        var focus = pic.containsRect(obj)
-        
-        if(focus && pivot === rand){
-            sound.play("right")
-            particleCorrect.x = target.x 
-            particleCorrect.y = target.y
-            particleCorrect.start(true, 1200, null, 10)
-            eagleHappy.alpha = 1
-            addPoint(1)
-            restartGame(true)
-        } 
-        else{
-            particleWrong.x = target.x - 20
-            particleWrong.y = target.y
-            particleWrong.start(true, 1200, null, 10)
-            eagleSad.alpha = 1
-            missPoint()
-            restartGame(false)
+        for(var i = 0; i < 3; i++){
+            
+            var icon = sceneGroup.create(game.world.centerX * pivotX, 70, "atlas.selfiePlanet", "icon" + i)
+            icon.anchor.setTo(0.5)
+            pivotX += 0.3
         }
+        
+        target = sceneGroup.create(game.world.centerX, game.world.centerY, "atlas.selfiePlanet", "target")
+        target.anchor.setTo(0.5)
+        target.inputEnabled = true
+        target.events.onInputUp.add(function(){
+            
+            playTuto ? snapTuto() : takeSnapShot()
+        }, this)
+        target.input.enableDrag(true)
+        target.events.onDragUpdate.add(moveWorld)
+        
+        var panel = game.add.graphics(0, game.world.height - 100)
+        panel.beginFill(0x000000, 0.5)
+        panel.drawRect(0, 0, game.world.width, 130)
+        sceneGroup.add(panel)
+        
+        target.inputEnabled = false
+        
+        createText(panel)
+    }
+    
+    function createText(panel){
+        
+        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
+        
+        planetText = new Phaser.Text(sceneGroup.game, panel.centerX, panel.centerY - 10, '', fontStyle)
+        planetText.anchor.setTo(0.5)
+        planetText.stroke = "#FFFFFF"
+        planetText.strokeThickness = 20
+        sceneGroup.add(planetText)
+        
+        if(localization.getLanguage() === 'ES'){
+            
+            var words = [{name:"Mercurio", color:"#8C8B8F"}, 
+                         {name:"Venus", color:"#F4D760"}, 
+                         {name:"Tierra", color:"#318194"}, 
+                         {name:"Marte", color:"#B93407"}, 
+                         {name:"Júpiter", color:"#F29E4C"}, 
+                         {name:"Saturno", color:"#90BA86"}, 
+                         {name:"Urano", color: "#9AD6D4"}, 
+                         {name:"Neptuno", color:"#3954DF"}]
+        }
+        else{
+            var words = [{name:"Mercury", color:"#8C8B8F"}, 
+                         {name:"Venus", color:"#F4D760"}, 
+                         {name:"Earth", color:"#318194"}, 
+                         {name:"Mars", color:"#B93407"}, 
+                         {name:"Jupiter", color:"#F29E4C"}, 
+                         {name:"Saturn", color:"#90BA86"}, 
+                         {name:"Uranus", color: "#9AD6D4"}, 
+                         {name:"Neptune", color:"#3954DF"}]
+        }
+        
+        planetText.words = words
+        planetText.alpha = 0
+    }
+    
+    function moveWorld(){
+            
+        if(game.input.x < game.world.centerX){
+            sceneGroup.stars.tilePosition.x += 3    
+        }
+        else{
+            sceneGroup.stars.tilePosition.x -= 3
+        }
+        
+        if(game.input.y < game.world.centerY){
+            sceneGroup.stars.tilePosition.y += 3
+        }
+        else{
+            sceneGroup.stars.tilePosition.y -= 3
+        }
+    }
+    
+    function takeSnapShot(){
+                
+        if(gameActive){
+            
+            var x = game.input.x
+            var y = game.input.y
+            
+            var list = []
+            
+            planetsGroup.forEachAlive(function(planet){
+                
+                if(planet.getBounds().contains(x, y)){
+                    list[list.length] = planet
+                }
+            },this)
+            
+            var chossenOne
+            
+            if(list.length > 0){
+                
+                gameActive = false
+                target.inputEnabled = false
+                chossenOne = list[0]
+                
+                if(list.length > 1){
+                    
+                    for(var i = 1; i < list.length; i++){
+                        
+                        if(Phaser.Math.distance(chossenOne.getBounds().centerX, chossenOne.getBounds().centerY, x, y) > Phaser.Math.distance(list[i].getBounds().centerX, list[i].getBounds().centerY, x, y))
+                            chossenOne = list[i]
+                    }
+                }
+                game.add.tween(planetText).to({alpha:0}, 300, Phaser.Easing.linear, true)
+                flashScene()
+                win(chossenOne)
+            }
+        }
+    }
+    
+    function flashScene() {
+                
+        planetsGroup.forEachAlive(function(planet){     
+            planet.grow.stop()
+            planet.reduce.stop()
+            planet.slide.stop()
+            planet.spin.stop()
+            game.add.tween(planet).to({alpha: 0}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+                planet.kill()
+                planet.alpha = 1
+            })
+        },this)
+        
+        sceneGroup.alpha = 0
+        sound.play("snapshot")
+        game.add.tween(sceneGroup).to({alpha:1},500, Phaser.Easing.Cubic.Out,true)
+    }
+    
+    function win(obj){
+        
+        if(obj.tag === planetsGroup.correct){
+            addCoin(photo)
+            eagle.setAnimationByName(0, "happy", true)
+            photo.loadTexture("atlas.selfiePlanet", "photo" + obj.tag)
+        }
+        else{
+            game.time.events.add(300, missPoint, this, photo)
+            //missPoint(obj)
+            eagle.setAnimationByName(0, "sad", true)
+            photo.loadTexture("atlas.selfiePlanet", "photoFail")
+        }
+        photo.angle = game.rnd.integerInRange(-45, 45)
+        photo.alpha = 1
+        
+        game.time.events.add(2000, centerTarget)
+    }
+    
+    function centerTarget(){
+        
+        eagle.setAnimationByName(0, "idle", true)
+        
+        game.add.tween(target).to({x:game.world.centerX, y:game.world.centerY}, 500, Phaser.Easing.linear, true)
+        game.add.tween(sceneGroup.stars.tilePosition).to({x:0, y:0}, 500, Phaser.Easing.linear, true)
+        
+        if(lives > 0)
+            game.add.tween(photo).to({alpha:0}, 500, Phaser.Easing.linear, true, 300).onComplete.add(initGame)
     }
     
     function initGame(){
         
+        throwPlanet()
+        target.inputEnabled = true
         gameActive = true
-        planetsGroup.x = -200
-        
-        changeImage(pivot, planetsGroup)
-        planetsName.text.setText(planetsName.words[rand])
-        
-        planetsName.motion = game.add.tween(planetsName.text.scale).to({x: 0.6, y:0.6}, 700, Phaser.Easing.linear, true, 0, -1)
-        planetsName.motion.yoyo(true, 0)
-        
-        planetsGroup.translate = game.add.tween(planetsGroup).to({x: game.world.width + planetsGroup.children[pivot].width}, speed, Phaser.Easing.linear, true)
-        
-        planetsGroup.translate.onComplete.add(function(){
-            if(tutorial){
-                missPoint()
-                eagle.setAnimationByName(0, "sad", true)
-                particleWrong.x = target.x - 20
-                particleWrong.y = target.y
-                particleWrong.start(true, 1200, null, 10)
-                planetsGroup.children[pivot].alpha = 0
-                restartGame(false)
-            }
-            else{
-                pivot = getRand(pivot)
-                counter < randomControl ? counter++ : pivot = rand
-                initGame()
-            }
-            planetsName.motion.stop()
-            planetsName.text.scale.setTo(1)
-        })
     }
     
-    function restartGame(ans){
+    function throwPlanet(){
         
-        if(tutorial){
-            if(pivot < planets.length-1){
-                pivot++
-                rand = pivot
+        var pivotY = 250
+        var auxArr = []
+        var answer = game.rnd.integerInRange(0, 2)
+        var last
+        
+        do{
+            var rand = game.rnd.integerInRange(0, 7)
+            while(auxArr.includes(rand)){
+                rand = game.rnd.integerInRange(0, 7)
+            }
+            auxArr[auxArr.length] = rand
+        }while(auxArr.length < 3)
+            
+        for(var i = 0; i < auxArr.length; i++){
+            
+            var planet = planetsGroup.getFirstExists(false)
+            
+            if(planet){
+                
+                planet.tag = auxArr[i]
+                planet.loadTexture("planet" + auxArr[i])
+                planet.scale.setTo(planetsGroup.scaleOpt[auxArr[i]].opt[i])
+                
+                if(i == answer)
+                    planetsGroup.correct = auxArr[i]
+                
+                if(game.rnd.integerInRange(0, 10) % 2 === 0){
+                    planet.reset(-150, pivotY)
+                    planet.slide = game.add.tween(planet).to({x:game.world.width + 150}, speed, Phaser.Easing.Cubic.InOut, true)
+                    planet.angle = game.rnd.integerInRange(0, 359)
+                    var spinTime = game.rnd.integerInRange(4, 9) * 1000
+                    planet.spin = game.add.tween(planet).to({angle: 360 + planet.angle}, spinTime, Phaser.Easing.linear, true)
+                }
+                else{
+                    planet.reset(game.world.width + 150, pivotY)
+                    planet.slide = game.add.tween(planet).to({x:-150}, speed, Phaser.Easing.Cubic.InOut, true)
+                    planet.angle = game.rnd.integerInRange(-359, 0)
+                    var spinTime = game.rnd.integerInRange(4, 9) * 1000
+                    planet.spin = game.add.tween(planet).to({angle: -360 + planet.angle}, spinTime, Phaser.Easing.linear, true)
+                }
+                
+                planet.spin.repeat(6)
+                planet.grow = game.add.tween(planet.scale).from({x:0.2, y: 0.2}, speed * 0.45, Phaser.Easing.Cubic.In, true)
+                planet.reduce =  game.add.tween(planet.scale).to({x:0.2, y: 0.2}, speed * 0.45, Phaser.Easing.Cubic.Out, false, speed * 0.1)
+                planet.grow.chain(planet.reduce)
+                
+                pivotY += 250
+                
+                if(i == auxArr.length -1)
+                    planet.y += planetsGroup.scaleOpt[auxArr[i]].offsetY
+            }
+        }
+        
+        last = planet.slide
+        last.onComplete.add(restartGame)
+        
+        planetText.setText(planetText.words[planetsGroup.correct].name)
+        planetText.stroke = planetText.words[planetsGroup.correct].color
+        game.add.tween(planetText).to({alpha:1}, 300, Phaser.Easing.linear, true)
+    }
+    
+    function restartGame(){
+        
+        if(gameActive){
+            
+            gameActive = false
+            
+            planetsGroup.forEachAlive(function(planet){     
+                planet.grow.stop()
+                planet.reduce.stop()
+                planet.slide.stop()
+                planet.spin.stop()
+                game.add.tween(planet).to({alpha: 0}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+                    planet.kill()
+                    planet.alpha = 1
+                })
+            },this)
+            
+            game.add.tween(planetText).to({alpha:0}, 300, Phaser.Easing.linear, true)
+            missPoint(eagle)
+            eagle.setAnimationByName(0, "sad", true)
+            game.time.events.add(2000, centerTarget)
+        }
+    }
+    
+    function initTuto(){
+        
+        showPlanets(handGroup.counter)
+    }
+    
+    function showPlanets(start){
+        
+        var pivotY = 250
+        var timer = 3000
+        var t = 0
+        
+        for(var i = start; i < start + 3; i++){
+            
+            var planet = planetsGroup.getFirstExists(false)
+            
+            if(planet && i < 8){
+                
+                planet.tag = t
+                planet.loadTexture("planet" + i)
+                planet.scale.setTo(planetsGroup.scaleOpt[i].opt[t])
+                var offset
+                
+                if(game.rnd.integerInRange(0, 10) % 2 === 0){
+                    offset = -80
+                    planet.reset(-150, pivotY)
+                    planet.slide = game.add.tween(planet).to({x:game.world.width - 150}, timer, Phaser.Easing.Cubic.InOut, true)
+                    planet.spin = game.add.tween(planet).from({angle: 360}, timer, Phaser.Easing.linear, true)
+                }
+                else{
+                    offset = 80
+                    planet.reset(game.world.width + 150, pivotY)
+                    planet.slide = game.add.tween(planet).to({x:150}, timer, Phaser.Easing.Cubic.InOut, true)
+                    planet.spin = game.add.tween(planet).from({angle: -360}, timer, Phaser.Easing.linear, true)
+                }
+                
+                planet.grow = game.add.tween(planet.scale).from({x:0.2, y: 0.2}, timer, Phaser.Easing.Cubic.In, true)
+               
+                posText(i, t, offset)
+               
+                pivotY += 250
+                t++
+                
+                if(i == start + 2)
+                    planet.y += planetsGroup.scaleOpt[i].offsetY
+            }
+        }
+        game.time.events.add(timer + 300, posHand)
+    }
+    
+    function posText(tag, i, offset){
+            
+        handGroup.children[i].setText(planetText.words[tag].name)
+        handGroup.children[i].stroke = planetText.words[tag].color
+        handGroup.children[i].x = game.world.centerX + offset
+    }
+    
+    function posHand(){
+        
+        hand.x = target.x
+        hand.y = target.y
+        hand.alpha = 1
+        
+        hand.slide = game.add.tween(hand).to({x:planetsGroup.children[hand.counter].x, y: planetsGroup.children[hand.counter].y}, 1000, Phaser.Easing.linear, true)
+        hand.slide.repeat(-1)
+        hand.slide.repeatDelay(200)
+        target.inputEnabled = true
+    }
+    
+    function snapTuto(){
+        
+        if(playTuto){
+            
+            var x = game.input.x
+            var y = game.input.y
+            
+            var list = []
+            
+            planetsGroup.forEachAlive(function(planet){
+                
+                if(planet.getBounds().contains(x, y)){
+                    list[list.length] = planet
+                }
+            },this)
+            
+            var chossenOne
+            
+            if(list.length > 0){
+                
+                chossenOne = list[0]
+                
+                if(list.length > 1){
+                    
+                    for(var i = 1; i < list.length; i++){
+                        
+                        if(Phaser.Math.distance(chossenOne.getBounds().centerX, chossenOne.getBounds().centerY, x, y) > Phaser.Math.distance(list[i].getBounds().centerX, list[i].getBounds().centerY, x, y))
+                            chossenOne = list[i]
+                    }
+                }
+                
+                if(chossenOne.tag == hand.counter){
+                    target.inputEnabled = false
+                    game.add.tween(handGroup.children[hand.counter]).to({alpha:1}, 200, Phaser.Easing.linear, true)
+                    sceneGroup.alpha = 0
+                    sound.play("snapshot")
+                    game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+                    moveToCenter(checkSnapTaken)
+                }
+                else{
+                    moveToCenter(posHand)
+                }
+                
             }
             else{
-                tutorial = false
-                pivot = getRand(pivot)
-                rand = getRand(rand)
+                moveToCenter(posHand)
             }
+        }
+    }
+    
+    function moveToCenter(nextFunction){
+        
+        hand.slide.stop()
+        target.inputEnabled = false
+        game.add.tween(target).to({x:game.world.centerX, y:game.world.centerY}, 300, Phaser.Easing.linear, true)
+        game.add.tween(sceneGroup.stars.tilePosition).to({x:0, y:0}, 400, Phaser.Easing.linear, true).onComplete.add(nextFunction)
+    }
+    
+    function checkSnapTaken(){
+        
+        var total = -1
+        
+        planetsGroup.forEachAlive(function(){     
+            total++
+        }, this)
+
+        if(hand.counter < total){
+            hand.counter++
+            posHand()
         }
         else{
-            if(ans){
-                if(speed > 500)
-                    speed -= 200
-                else speed = 500
-            }
-            pivot = getRand(pivot)
-            rand = getRand(rand)
-            randomControl = game.rnd.integerInRange(2, 4)
-            counter = 0
+            restartTutorial()
         }
+    }
+    
+    function restartTutorial(){
         
+        planetsGroup.forEachAlive(function(planet){     
+
+            game.add.tween(planet).to({alpha: 0}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+                planet.kill()
+                planet.alpha = 1
+            })
+        }, this)
         
-        if(lives !== 0){
-            game.add.tween(planetsGroup.children[pivot]).to({alpha: 0}, 1500, Phaser.Easing.Cubic.In, true, 400).onComplete.add(function () {
-                flashScene()
-                eagleHappy.alpha = 0
-                eagleSad.alpha = 0
-                eagle.alpha = 1
-                eagle.setAnimationByName(0, "idle", true)
+        handGroup.forEach(function(obj){
+            game.add.tween(obj).to({alpha: 0}, 200, Phaser.Easing.linear, true)
+        }, this)
+        
+        if(handGroup.counter < 6){
+            handGroup.counter += hand.counter + 1
+            hand.counter = 0
+            game.time.events.add(300, showPlanets, this, handGroup.counter)
+        }
+        else{
+            handGroup.destroy()
+            game.add.tween(sceneGroup.stars.tilePosition).to({x: -1000}, 1000, Phaser.Easing.linear, true)
+            eagle.alpha = 1
+            game.add.tween(eagle).from({x: game.world.width + 200}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+                playTuto = false
                 initGame()
             })
         }
-    }
-    
-    function getRand(opt){
-        var x = game.rnd.integerInRange(0, 7)
-        if(x === opt)
-            return getRand()
-        else
-            return x     
-    }
-    
-    function backAndWihte(){
-        
-        var wihte = game.add.graphics(0, 0)
-        wihte.beginFill(0xFFFFFF)
-        wihte.drawRect(0, 0, game.world.width, game.world.height)
-    }
-    
-    function createText(){
-        
-        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
-        
-        planetsName = game.add.group()
-        //planetsName.alpha = 0
-        sceneGroup.add(planetsName)
-        
-        var name = new Phaser.Text(sceneGroup.game, game.world.centerX - 200, game.world.centerY + 300, '', fontStyle)
-        name.anchor.setTo(0.5)
-        name.stroke = "#191A4F"
-        name.strokeThickness = 20
-        planetsName.add(name)
-        planetsName.text = name
-        
-        if(localization.getLanguage() === 'EN'){
-            var words = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
-        }
-        else{
-            var words = ["Mercurio", "Venus", "Tierra", "Marte", "Júpiter", "Saturno", "Urano", "Neptuno"]
-        }
-        
-        planetsName.words = words
     }
 	
 	return {
 		
 		assets: assets,
 		name: "selfiePlanet",
-		update: update,
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+        localizationData: localizationData,
+		//update: update,
+        preload:preload,
+        getGameData:function () {
+			var games = yogomeGames.getGames()
+			return games[gameIndex]
+		},
 		create: function(event){
             
-            backAndWihte()
+            var wihte = game.add.graphics(0, 0)
+            wihte.beginFill(0xFFFFFF)
+            wihte.drawRect(0, 0, game.world.width, game.world.height)
+            wihte.endFill()
+            
 			sceneGroup = game.add.group()
 			
 			createBackground()
-			addParticles()
                         			
-            dancing_baby = game.add.audio('dancing_baby')
-            game.sound.setDecodedCallback(dancing_baby, function(){
-                dancing_baby.loopFull(0.6)
-            }, this);
+            /*gameSong = game.add.audio('gameSong')
+            game.sound.setDecodedCallback(gameSong, function(){
+                gameSong.loopFull(0.6)
+            }, this);*/
+            
+            initialize()
+            gameSong = sound.play("gameSong", {loop:true, volume:0.6})
             
             game.onPause.add(function(){
                 game.sound.mute = true
-            } , this);
+            } , this)
 
             game.onResume.add(function(){
                 game.sound.mute = false
-            }, this);
-            
-            initialize()
-			         
-            initPlanetsGroup()
-            initEagle()
-            initCam()
-            createPointsBar()
+            }, this)
+			            
+            createPlanets()
+            createEagle()
+            createCamera()
+			createPointsBar()
 			createHearts()
-            createText()
+            createCoin()
+            createHand()
             createParticles()
 			
-			buttons.getButton(dancing_baby,sceneGroup)
+			buttons.getButton(gameSong,sceneGroup)
             createTutorial()
-            //createOverlay()
             
-            flashScene()
-            
-		},
-		show: function(event){
-			loadSounds()
-			initialize()
 		}
 	}
 }()

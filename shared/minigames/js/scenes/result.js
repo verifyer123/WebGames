@@ -94,7 +94,7 @@ var result = function(){
                 {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
             );*/
 
-            amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
+        amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
         //}
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
@@ -632,11 +632,12 @@ var result = function(){
         var dataStore = amazing.getProfile()
 
         if(!dataStore){
-            skinTable = [1,1,1,1]
+            skinTable = [1,1,1,1,1]
         }else{
 
             skinTable = dataStore
         }
+        //skinTable = [2,2,2,2,2]
 
     }
 
@@ -668,7 +669,7 @@ var result = function(){
         var topHeight = 1.05
         var scaleSpine = 1.05
         var pivotButtons = game.world.height * 0.7
-        //haveCoupon = false
+        //haveCoupon = true
         //win = false
         if(win){
 
@@ -730,10 +731,14 @@ var result = function(){
         getSkins()
 
         var addText = '_Happy'
-
+        //skinTable = [6,1,1,1,1]
         if(animationToUse == "LOSE"){
             addText = '_Sad'
+            if(skinTable[0]>=5){
+                skinTable = [1,1,1,1,1]
+            }
         }
+
 
         var newSkin = buddy.createCombinedSkin(
             'combined',
@@ -902,13 +907,15 @@ var result = function(){
 	            }
 	        }
         }
-
 	}
 
 	function makeSpecialCoupon(){
 		currentQuestion = 0
 		overlayGroup = game.add.group()
         overlayGroup.alpha = 0
+        //overlayGroup.scale.setTo(1.5)
+        //overlayGroup.x -= game.world.width/4
+        //overlayGroup.y += game.world.height/4
         overlayGroup.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
@@ -973,6 +980,9 @@ var result = function(){
         }
 
         overlayGroup.y+= game.world.height
+
+        
+
         overlayGroup.alpha = 1
         overlayGroup.tween = game.add.tween(overlayGroup).from({alpha:0,y:overlayGroup.y - game.world.height},500,"Linear",true)
     
@@ -1318,6 +1328,9 @@ var result = function(){
     function createOverlayCoupon(){
         overlayGroup = game.add.group()
         overlayGroup.alpha = 0
+        //overlayGroup.scale.setTo(1.2)
+        //overlayGroup.y -= game.world.height*0.05
+        //overlayGroup.x -= game.world.width*0.1
         overlayGroup.y-= game.world.height
         sceneGroup.add(overlayGroup)
 
@@ -1333,45 +1346,48 @@ var result = function(){
 
         var back = new Phaser.Graphics(game)
         back.beginFill(0xffffff)
-        back.drawRoundedRect(game.world.centerX - 192,game.world.centerY-350,382,600,30)
+        back.drawRoundedRect(game.world.centerX - 235,game.world.centerY-350,470,700,30)
         back.endFill()
         overlayGroup.add(back)
 
         var mask = new Phaser.Graphics(game)
         mask.beginFill(0xffffff)
-        mask.drawRoundedRect(game.world.centerX - 192,game.world.centerY-350,382,600,30)
+        mask.drawRoundedRect(game.world.centerX - 235,game.world.centerY-350,470,700,30)
         mask.endFill()
         overlayGroup.add(mask)
 
         var top = overlayGroup.create(game.world.centerX,game.world.centerY-350,"atlas.resultScreen","pop_cupon")
         top.anchor.setTo(0.5,0)
+        top.scale.setTo(0.8)
 
-        var texture = game.add.tileSprite(game.world.centerX-200,game.world.centerY-300,800,600,"atlas.resultScreen","textura")
+        var texture = game.add.tileSprite(game.world.centerX-250,game.world.centerY-350,800,800,"atlas.resultScreen","textura")
         //texture.anchor.setTo(0.5)
         overlayGroup.add(texture)
         texture.mask = mask
 
-        var closeBtn = overlayGroup.create(game.world.centerX+155,game.world.centerY-310,'atlas.resultScreen','cerrar')
+        var closeBtn = overlayGroup.create(game.world.centerX+175,game.world.centerY-280,'atlas.resultScreen','cerrar')
         closeBtn.anchor.setTo(0.5,0.5)
+        closeBtn.scale.setTo(0.8)
         closeBtn.inputEnabled = true
         closeBtn.events.onInputDown.add(inputOverlay)
         closeBtn.tag = 'quitOverlay'
 
-        var cupon = overlayGroup.create(game.world.centerX,game.world.centerY+30,"webCoupon")
+        var cupon = overlayGroup.create(game.world.centerX,game.world.centerY+80,"webCoupon")
         cupon.anchor.setTo(0.5)
         cupon.scale.setTo(0.7)
 
-        var mezy = overlayGroup.create(game.world.centerX,game.world.centerY-230,"atlas.resultScreen","meizy_pop")
+        var mezy = overlayGroup.create(game.world.centerX,game.world.centerY-190,"atlas.resultScreen","meizy_pop")
         mezy.anchor.setTo(0.5)
+        mezy.scale.setTo(0.8)
 
         var fontStyle = {font: "23px Gotham", fill: "#757575",align:"center"}
-        var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-110,"¡Gana esta recompensa\n jugando en nuestra app!", fontStyle)
+        var text = new Phaser.Text(sceneGroup.game,game.world.centerX,game.world.centerY-60,"¡Gana esta recompensa\n jugando en nuestra app!", fontStyle)
         text.anchor.setTo(0.5,0.5)
         overlayGroup.add(text)
 
         var downloadButton = game.add.group()
         downloadButton.x = game.world.centerX
-        downloadButton.y = game.world.centerY + 180
+        downloadButton.y = game.world.centerY + 250
         overlayGroup.add(downloadButton)
 
 
@@ -1379,6 +1395,7 @@ var result = function(){
         imgBtn.inputEnabled = true
         imgBtn.events.onInputDown.add(inputOverlay)
         imgBtn.tag = 'download'
+        imgBtn.scale.setTo(0.8)
         imgBtn.anchor.setTo(0.5,0.5)
 
 
@@ -1573,14 +1590,14 @@ var result = function(){
 
         //couponData = {scoreGoal:1}
         specialCoupon = false
-        if(!couponData){
+        if(!couponData || couponData == null){
             haveCoupon = false
 
         }else{
 
             haveCoupon = true
             var minigameDataId = amazing.getMinigameIdentifier()
-            //console.log(minigameDataId)
+            console.log(minigameDataId)
             if(minigameDataId == 31){
             	//console.log("dataCupon Special")
             	specialCoupon = true
