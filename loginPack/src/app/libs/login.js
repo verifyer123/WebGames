@@ -1,18 +1,20 @@
+import {_J} from "./joshe"
 
 export var login = function () {
 	var url = "https://login-refactorization-dot-heroesofknowledgedev.appspot.com"
 
 	var GAME = "play.yogome"
 
-	var LOGIN_PARENT = "/login/parent"
-	var CHANGE_CHILD = "/login/change_childs"
-	var UPDATE_CHILD = "/login/child/update"
-	var GET_CHILD = "/login/child/get"
+	var REGISTER_PARENT_CHILD = "/play/parent/v1/registerParentAndChild"
+	var LOGIN_PARENT = "/play/parent/v1/login"
+	var CHANGE_CHILD = "/play/player/v1/getChilds"
+	var EDIT_CHILD = "/play/player/v1/editChild"
+	var GET_CHILD = "/play/player/v1/player"
 	var USER_RECOVERY = "/users/parent/recover"
-	var CHECK_EMAIL = "/login/check"
-	var REGISTER_CHILD = "/login/child"
+	var CHECK_EMAIL_NICKNAME = "/play/parent/v1/checkEmailOrNickname"
+	var REGISTER_CHILD = "/play/parent/v1/registerChild"
 	var LOGIN_CHILD = "/play/player/v1/login"
-	var LOGIN_UPDATE = "/login/child_update"
+	var EDIT_LOGIN_CHILD = "/play/parent/v1/editLoginChild"
 
 	function ajaxCall(data, endPoint, onSuccess, onError, type) {
 		type = type || "POST"
@@ -24,6 +26,7 @@ export var login = function () {
 			type: type,
 			url: url + endPoint,
 			async: true,
+			joshe:true,
 			processData: false,
 			success: function (response) {
 				setCredentials(response)
@@ -94,10 +97,10 @@ export var login = function () {
 	function registerPin(data, onSuccess, onError, registerType) {
 		// console.log(data)
 		if(registerType === "newAccount"){
-			ajaxCall(data, LOGIN_PARENT, onSuccess, onError, "PUT")
+			ajaxCall(data, REGISTER_PARENT_CHILD, onSuccess, onError, "PUT")
 		}else if(registerType === "firstLogin") {
 			// data.game = GAME
-			ajaxCall(data, LOGIN_UPDATE, onSuccess, onError, "PUT")
+			ajaxCall(data, EDIT_LOGIN_CHILD, onSuccess, onError, "PUT")
 		}else{
 			ajaxCall(data, REGISTER_CHILD, onSuccess, onError, "PUT")
 		}
@@ -136,7 +139,7 @@ export var login = function () {
 			// console.log(tokenType)
 			if ((tokenType === "pl")&&(remoteID)){
 				// console.log("login player")
-				ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME}, GET_CHILD, onSuccess, onError)
+				ajaxCall({parentMail:email, token: token, remoteID: remoteID, game:GAME}, GET_CHILD, onSuccess, onError)
 
 			}else{
 				onError()
@@ -170,7 +173,7 @@ export var login = function () {
 	}
 
 	function checkExists(data, onSuccess, onError) {
-		ajaxCall(data, CHECK_EMAIL, onSuccess, onError)
+		ajaxCall(data, CHECK_EMAIL_NICKNAME, onSuccess, onError)
 	}
 
 	function saveChild(player, onSuccess) {
@@ -181,7 +184,7 @@ export var login = function () {
 		var remoteID = credentials.remoteID
 
 		if((token)&&(email)&&(remoteID)){
-			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, UPDATE_CHILD, onSuccess)
+			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, EDIT_CHILD, onSuccess)
 		}
 	}
 
@@ -197,6 +200,8 @@ export var login = function () {
 		saveChild:saveChild
 	}
 }()
+
+var joshe = new _J.Joshe();
 
 /*
 parent(email, pwd) return (

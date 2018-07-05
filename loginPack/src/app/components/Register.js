@@ -36,7 +36,7 @@ export class Register extends React.Component {
 		function onSuccess(response) {
 
 			if(!this.newAccount) {
-				if (!response.exists)
+				if (response.available)
 					return onError()
 
 				this.setState({
@@ -45,7 +45,7 @@ export class Register extends React.Component {
 				})
 				$('#loadSpace').css("display", "none")
 			}else{
-				if (response.exists)
+				if (!response.available)
 					return onError()
 
 				this.props.addChildData("parentMail", email)
