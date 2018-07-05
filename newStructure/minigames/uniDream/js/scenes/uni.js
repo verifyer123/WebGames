@@ -63,7 +63,9 @@ var uni = function(){
 			{   name: "uniSong",
 				file: soundsPath + "songs/fantasy_ballad.mp3"},
 			{   name: "drag",
-                file: soundsPath + "drag.mp3"}
+                file: soundsPath + "drag.mp3"},
+			{   name: "discard",
+                file: soundsPath + "squeeze.mp3"}
 		],
 		spines: [
 			{
@@ -85,7 +87,7 @@ var uni = function(){
                 file:"images/spine/hand/hand.png",
                 width:115,
                 height:111,
-                frames:23
+                frames:5
             },
 			{
                 name:"coin",
@@ -152,8 +154,10 @@ var uni = function(){
 	var roundCounter
 	var uniIco
 	var donkIco
+	var handAnimation
 	var unicornList
 	var donkeyList
+	var animationText
 	var gameGroup
 	var positionX
 	var positionY
@@ -165,7 +169,11 @@ var uni = function(){
 	var maxNumber;
 	var theffanie
 	var isCorrect
+	var nubesAparecer
+	var brightRect
 	var animalsInStage
+	var uniText
+	var donkText
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -184,6 +192,7 @@ var uni = function(){
 		tutorialLevel=true;
 		quantNumber = 2
 		tutorial=true;
+		nubesAparecer=[]
 		positionX=[]
 		positionY=[]
 		maxNumber=20;
@@ -335,7 +344,8 @@ var uni = function(){
 		sound.play("alarmBell")
 		gameActive = false	
 		uniSong.stop()
-		clock.tween.stop()
+		if(clock.tween)
+			clock.tween.stop()
 
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Sinusoidal.In, true, 3000)
 		tweenScene.onComplete.add(function(){
@@ -378,12 +388,31 @@ var uni = function(){
 		}
 		uniText.text=goalUni.toString();
 		donkText.text=goalDonk.toString();
-		game.time.events.add(700, function () {
-			if(!tutorial)buttonImg.inputEnabled=true;
+		game.time.events.add(800, function () {
+			
+			if(dificulty>3){
+				startTimer()
+			}
+			
 			dragableUnicorn.inputEnabled=true;
 			dragableUnicorn.input.enableDrag(true);
 			dragableDonkey.inputEnabled=true;
 			dragableDonkey.input.enableDrag(true);
+			dragableUnicorn.input.draggable=true;
+			dragableDonkey.input.draggable=true;
+			buttonImg.inputEnabled=true;
+			if(!tutorial){
+				donkContainer.tint=0xffffff
+				dragableDonkey.tint=0xffffff	
+			}else if(tutorial){
+				dragableDonkey.input.draggable=false;
+				hand.alpha=1;
+				containers.add(hand)
+				hand.x=dragableUnicorn.x+100;
+				hand.y=dragableUnicorn.y+100;
+				handAnimation=game.add.tween(hand).to({x:rectTrigger.x+200,y:rectTrigger.y-100},2000,Phaser.Easing.Linear.In,true).loop(true);
+				
+			}
 		})
 	}
 
@@ -440,11 +469,9 @@ var uni = function(){
 		if (clock.tween)
 			clock.tween.stop()
 
-
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
 		clock.tween.onComplete.add(function(){
-			if(!isCorrect)
-				wrongReaction()
+			checkGoal()
 		})
 	}
 	
@@ -478,7 +505,6 @@ var uni = function(){
 		tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
-
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 		
 	}
@@ -506,7 +532,7 @@ var uni = function(){
 	}
 
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
-		idleAnimation = idleAnimation || "IDLE"
+		idleAnimation = idleAnimation || "idle"
 		var spineGroup = game.add.group()
 		x = x || 0
 		y = y || 0
@@ -596,10 +622,10 @@ var uni = function(){
 		var moveTween = game.add.tween(spine).to({x:toX, y:toY}, 3000, easing, true, delay)
 		moveTween.onStart.add(function () {
 			sound.play("horse_gallop")
-			spine.setAnimation(["JUMP"])
+			spine.setAnimation(["jump"])
 		})
 		moveTween.onComplete.add(function () {
-			spine.setAnimation(["IDLE"])
+			spine.setAnimation(["idle"])
 		})
 		moveTween.onUpdateCallback(function () {
 			gameGroup.sort('y', Phaser.Group.SORT_ASCENDING)
@@ -608,7 +634,11 @@ var uni = function(){
 	
 	function rightReaction() {
 		Coin(clockCounter,pointsBar,100);
-		
+		if(dificulty<total)dificulty++;
+		if(dificulty>3){
+			clock.alpha=1
+		}
+		tutorial=false;
 //		for(var spineIndex = 0; spineIndex < objectsInGame.length; spineIndex++){
 //			var spine = objectsInGame[spineIndex]
 //			var toY = game.rnd.integerInRange(-190, 190)
@@ -624,16 +654,17 @@ var uni = function(){
 	}
 	
 	function wrongReaction() {
-		theffanie.setAnimation(["WAKE_UP", "WAKE_UPSTILL"])
+		theffanie.setAnimation(["wake_up", "wake_upstill"])
 		sceneGroup.wrongParticle.x = clockCounter.centerX
 		sceneGroup.wrongParticle.y = clockCounter.centerY
 		sceneGroup.wrongParticle.start(true, 1000, null, 5)
         
 		for(var objIndex = 0; objIndex < objectsInGame.length; objIndex++){
 			var spine = objectsInGame[objIndex]
-			spine.setAnimation(["LOSE"])
+			spine.setAnimation(["lose"])
 		}
         if(lives===0){
+			buttonImg.alpha=0;
 		var shockEffect = game.add.tween(clockCounter).to({x: clockCounter.x + 20}, 200, null, true)
 		shockEffect.onComplete.add(function () {
 			game.add.tween(clockCounter).to({x: clockCounter.x - 20}, 200, null, true).yoyo(true).loop(true)
@@ -641,7 +672,7 @@ var uni = function(){
 
 		game.add.tween(gameGroup).to({alpha: 0},300,Phaser.Easing.Cubic.Out,true, 600)
 		game.add.tween(dreamGroup.bright).to({alpha: 1},300,Phaser.Easing.Cubic.Out,true, 600).yoyo(true)
-		var bgDissapear = game.add.tween(dreamGroup.bg).to({alpha:0}, 600, Phaser.Easing.Cubic.In, true, 600)
+		var bgDissapear = game.add.tween(dreamGroup).to({alpha:0}, 600, Phaser.Easing.Cubic.In, true, 600)
 		bgDissapear.onComplete.add(function () {
 			var showDream = game.add.tween(dreamGroup).to({y: game.world.height},800,Phaser.Easing.Cubic.In,true, 400)
 			showDream.onStart.add(function () {
@@ -656,12 +687,16 @@ var uni = function(){
 		var countUni=0;
 		var countDonk=0;
 		var exitSpeed=3000;
-		
+		if(clock.tween){
+			clock.tween.stop()
+			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},800,Phaser.Easing.linear,true )
+		}
 		buttonImg.inputEnabled=false;
 		dragableUnicorn.input.draggable=false;
 		dragableDonkey.input.draggable=false;
-		
+		if(tutorial)hand.alpha=0;
 		for(var checkGoals=0; checkGoals<animalsInStage.length; checkGoals++){
+			animalsInStage[checkGoals].container.destroy()
 			if(animalsInStage[checkGoals].tag=="uni"){
 				countUni++;
 			}else if(animalsInStage[checkGoals].tag=="donkey"){
@@ -672,37 +707,39 @@ var uni = function(){
 			rightReaction();
 		}else{
 			missPoint();
+			sceneGroup.wrongParticle.x = clockCounter.centerX
+			sceneGroup.wrongParticle.y = clockCounter.centerY
+			sceneGroup.wrongParticle.start(true, 1000, null, 5)
 			if(lives==0){
 				wrongReaction();
 			}else{
-				theffanie.setAnimation("NIGHTMARE")
+				//theffanie.setAnimation("NIGHTMARE")
 				game.time.events.add(700, function () {
-					theffanie.setAnimation("IDLE")
+					theffanie.setAnimation("idle")
 				})
 			}
 		}
 		
-		
+		game.time.events.add(500, function () {
 		for(var moveAnimals=0; moveAnimals<animalsInStage.length; moveAnimals++){
 				if(animalsInStage[moveAnimals]){
 					if(lives>0){
 						sound.play("horse_gallop")
-						animalsInStage[moveAnimals].setAnimation(["JUMP"]);
+						animalsInStage[moveAnimals].setAnimation(["jump"]);
 						game.add.tween(animalsInStage[moveAnimals]).to({x: game.world.width+animalsInStage[moveAnimals].x}, exitSpeed, Phaser.Easing.linear, true)
 					}else{
-						animalsInStage[moveAnimals].setAnimation(["LOSE"]);
+						animalsInStage[moveAnimals].setAnimation(["lose"]);
 					}
 				}
 			}
-			game.time.events.add(exitSpeed,function(){
+		})
+			game.add.tween(brightRect).to({alpha:1},exitSpeed-1000,Phaser.Easing.linear,true).yoyo(true);
+			game.time.events.add(exitSpeed+200,function(){
 				for(var destroyAnimals=0; destroyAnimals<animalsInStage.length; destroyAnimals++){
 					animalsInStage[destroyAnimals].destroy();
 				}
 				animalsInStage.splice(0);
 				startRound();
-				dragableUnicorn.input.draggable=true;
-				dragableDonkey.input.draggable=true;
-				buttonImg.inputEnabled=true;
 			})
 		
 	}
@@ -720,7 +757,7 @@ var uni = function(){
 		background.alpha = 0
 		dreamGroup.bg = background
 
-		var brightRect = game.add.graphics()
+		brightRect = game.add.graphics()
 		brightRect.beginFill(0xffffff)
 		brightRect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		brightRect.endFill()
@@ -858,8 +895,10 @@ var uni = function(){
 		dragableUnicorn.events.onDragStop.add(onDragStop, this);
 		
 		donkContainer=game.add.sprite(150,-20,"atlas.uni","buttonDonk");
-		dragableDonkey=game.add.sprite(donkContainer.x+10,donkContainer.y,"atlas.uni","buttonImgD");
+		dragableDonkey=game.add.sprite(donkContainer.x+25,donkContainer.y,"atlas.uni","buttonImgD");
 		dragableDonkey.tag="donk";
+		donkContainer.tint=0x555555
+		dragableDonkey.tint=0x555555	
 		containers.add(donkContainer);
 		containers.add(dragableDonkey);
 		dragableDonkey.events.onDragStart.add(onDragStart, this);
@@ -872,13 +911,14 @@ var uni = function(){
 		sceneGroup.wrongParticle = wrongParticle
 		
 		hand=game.add.sprite(0,0, "hand")
-        hand.anchor.setTo(1,0.5);
+        hand.anchor.setTo(0.5,0.5);
         hand.scale.setTo(0.6,0.6);
         hand.animations.add('hand');
-        hand.animations.play('hand', 24, true);
+        hand.animations.play('hand', 5, false);
         hand.alpha=0;
 		hand.x=clockCounter.x;
 		hand.y=clockCounter.y-70;
+		
 	}
 	
 	function Coin(objectBorn,objectDestiny,time){
@@ -932,7 +972,7 @@ var uni = function(){
 			obj.y=uniContainer.y;
 		}
 		if(obj.tag=="donk"){
-			obj.x=donkContainer.x+10;
+			obj.x=donkContainer.x+25;
 			obj.y=donkContainer.y;
 		}
 	}
@@ -940,14 +980,35 @@ var uni = function(){
 	function discardAnimal(obj){
 		animalsInStage[obj.index].destroy();
 		obj.destroy();
+		sound.play("discard")
+		buttonImg.inputEnabled=false;
 		animalsInStage.splice(obj.index,1);
 		for(var changeIndex=0; changeIndex<animalsInStage.length; changeIndex++){
 			animalsInStage[changeIndex].container.index=changeIndex;
-			animalsInStage[changeIndex].x=positionX[changeIndex];
-			animalsInStage[changeIndex].y=positionY[changeIndex];
-			animalsInStage[changeIndex].container.x=positionX[changeIndex]-50;
-			animalsInStage[changeIndex].container.y=positionY[changeIndex]-100;
-		}	
+//			animalsInStage[changeIndex].x=positionX[changeIndex];
+//			animalsInStage[changeIndex].y=positionY[changeIndex];
+			game.add.tween(animalsInStage[changeIndex]).to({x:positionX[changeIndex],y:positionY[changeIndex]}, 500, Phaser.Easing.Cubic.InOut, true)
+			game.add.tween(animalsInStage[changeIndex].container).to({x:positionX[changeIndex]-50,y:positionY[changeIndex]-100}, 500, Phaser.Easing.Cubic.InOut, true)
+			animalsInStage[changeIndex].setAnimation(["jump"]);
+//			animalsInStage[changeIndex].container.x=positionX[changeIndex]-50;
+//			animalsInStage[changeIndex].container.y=positionY[changeIndex]-100;
+		}
+		game.time.events.add(600, function () {
+			buttonImg.inputEnabled=true;
+			for(var idle=0; idle<animalsInStage.length; idle++){
+				animalsInStage[idle].setAnimation(["idle"]);
+			}
+		})
+		if(animalsInStage.length==goalUni && tutorial){
+			sceneGroup.add(hand)
+			animationText.stop()
+			uniText.scale.setTo(0.4,0.4);
+			uniText.tint=0xffffff
+			hand.x=clockCounter.x+40;
+			hand.y=clockCounter.y+20;
+		}else if(animalsInStage.length!=goalUni && tutorial){
+			buttonImg.inputEnabled=false;
+		}
 	}
 	
 	function createAnimal(obj,pointer){
@@ -964,7 +1025,34 @@ var uni = function(){
 				animalsInStage[index].tag="donkey";
 				donkey.scale.setTo(0.7,0.7);
 			}
-			if(animalsInStage.length==goalUni)buttonImg.inputEnabled=true;
+			nubesAparecer[index]=game.add.sprite(positionX[index],positionY[index],"atlas.uni","cloud_small");
+			nubesAparecer[index].scale.setTo(0,0);
+			nubesAparecer[index].anchor.setTo(0.5,0.8);
+			game.add.tween(nubesAparecer[index].scale).to({x: 1,y:1}, 10, Phaser.Easing.Cubic.InOut, true)
+			game.add.tween(nubesAparecer[index]).to({alpha:0}, 600, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
+				nubesAparecer[index].destroy();
+			});
+			if(animalsInStage.length==goalUni && tutorial){
+				buttonImg.inputEnabled=true;
+			}
+			else if(animalsInStage.length!=goalUni && tutorial)
+			{
+				buttonImg.inputEnabled=false;
+			}
+			if(animalsInStage.length>goalUni && tutorial){
+				handAnimation.stop();
+				dreamGroup.add(hand)
+				dragableUnicorn.input.draggable=false;
+				animationText=game.add.tween(uniText.scale).to({x:1.2,y:1.2},1000,Phaser.Easing.Linear.Out,true).yoyo(true).loop(true);
+				uniText.tint=0xff5500
+				game.time.events.add(1000, function () {
+					animalsInStage[0].container.inputEnabled=true;
+					animalsInStage[0].container.events.onInputDown.add(discardAnimal,this);
+					hand.animations.play('hand', 5, true);
+					hand.x=animalsInStage[0].x+20;
+					hand.y=animalsInStage[0].y+20;
+				})
+			}
 			animalsInStage[index].x=positionX[index];
 			animalsInStage[index].y=positionY[index];
 			animalsInStage[index].container= this.game.add.image(animalsInStage[index].x-50, animalsInStage[index].y-100);;
@@ -973,10 +1061,13 @@ var uni = function(){
 			this.rect.drawRect(0, 0, 90, 90);
 			this.rect.endFill();
 			animalsInStage[index].container.addChild(this.rect);
-			animalsInStage[index].container.inputEnabled=true;
 			animalsInStage[index].container.index=index;
-			animalsInStage[index].container.events.onInputDown.add(discardAnimal,this);
+			if(!tutorial){
+				animalsInStage[index].container.inputEnabled=true;
+				animalsInStage[index].container.events.onInputDown.add(discardAnimal,this);
+			}
 			dreamGroup.add(animalsInStage[index]);
+			dreamGroup.add(nubesAparecer[index]);
 		}
 	}
 	

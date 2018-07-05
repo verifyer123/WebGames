@@ -764,21 +764,27 @@ var sushi = function(){
 				}
 				hand.x=xTutorial.worldPosition.x;
 				hand.y=yTutorial.worldPosition.y-30;
-				//firstAnimation.pause();
-				firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
-					if(tutorial){	
-						if(sushisInGame[0][0]){
-						xTutorial=sushisInGame[0][0];
-						yTutorial=sushisInGame[0][0];
-						}else if(sushisInGame[lineToCollide][cont]){
-							xTutorial=sushisInGame[lineToCollide][cont];
-							yTutorial=sushisInGame[lineToCollide][cont];
+				
+				if(firstAnimation){
+					firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
+						if(tutorial){	
+							if(sushisInGame[0][0]){
+							xTutorial=sushisInGame[0][0];
+							yTutorial=sushisInGame[0][0];
+							}else if(sushisInGame[lineToCollide][cont]){
+								xTutorial=sushisInGame[lineToCollide][cont];
+								yTutorial=sushisInGame[lineToCollide][cont];
+							}
+							hand.x=xTutorial.worldPosition.x;
+							hand.y=yTutorial.worldPosition.y;
+							hand.alpha=0;
+							if(hand.x==xTutorial.worldPosition.x){
+								hand.alpha=1
+								firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+							}
 						}
-						hand.x=xTutorial.worldPosition.x;
-						hand.y=yTutorial.worldPosition.y-30;
-						if(hand.x==xTutorial.worldPosition.x)firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
-					}
-				});
+					});
+				}
 			}
 		})
 

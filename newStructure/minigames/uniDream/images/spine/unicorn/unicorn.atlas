@@ -1,68 +1,68 @@
 
 unicorn.png
-size: 256,64
+size: 128,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Unicorn/copete
+unicorn/copete
   rotate: false
-  xy: 56, 2
+  xy: 56, 71
   size: 16, 11
   orig: 16, 11
   offset: 0, 0
   index: -1
-Unicorn/foot1
+unicorn/foot1
   rotate: true
-  xy: 108, 12
+  xy: 90, 22
   size: 6, 23
   orig: 6, 23
   offset: 0, 0
   index: -1
-Unicorn/hair
+unicorn/hair
   rotate: false
-  xy: 56, 15
+  xy: 2, 22
   size: 50, 47
   orig: 50, 47
   offset: 0, 0
   index: -1
-Unicorn/head
+unicorn/head
   rotate: false
-  xy: 108, 20
-  size: 47, 42
-  orig: 47, 42
+  xy: 56, 84
+  size: 48, 42
+  orig: 48, 42
   offset: 0, 0
   index: -1
-Unicorn/leg1
+unicorn/leg1
   rotate: true
-  xy: 74, 5
+  xy: 2, 12
   size: 8, 23
   orig: 8, 23
   offset: 0, 0
   index: -1
-Unicorn/leg2
-  rotate: true
-  xy: 157, 6
+unicorn/leg2
+  rotate: false
+  xy: 106, 67
   size: 20, 59
   orig: 20, 59
   offset: 0, 0
   index: -1
-Unicorn/neck
-  rotate: true
-  xy: 157, 28
-  size: 34, 55
-  orig: 34, 55
+unicorn/neck
+  rotate: false
+  xy: 54, 15
+  size: 34, 54
+  orig: 34, 54
   offset: 0, 0
   index: -1
-Unicorn/tail
-  rotate: true
-  xy: 214, 32
+unicorn/tail
+  rotate: false
+  xy: 90, 30
   size: 30, 35
   orig: 30, 35
   offset: 0, 0
   index: -1
-Unicorn/torso
+unicorn/torso
   rotate: false
-  xy: 2, 7
+  xy: 2, 71
   size: 52, 55
   orig: 52, 55
   offset: 0, 0
