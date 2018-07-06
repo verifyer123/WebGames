@@ -65,7 +65,9 @@ var uni = function(){
 			{   name: "drag",
                 file: soundsPath + "drag.mp3"},
 			{   name: "discard",
-                file: soundsPath + "squeeze.mp3"}
+                file: soundsPath + "squeeze.mp3"},
+			{   name: "place",
+                file: soundsPath + "magic.mp3"}
 		],
 		spines: [
 			{
@@ -1014,6 +1016,7 @@ var uni = function(){
 	function createAnimal(obj,pointer){
 		var index=animalsInStage.length;
 		if(animalsInStage.length<maxNumber){
+			sound.play("place")
 			if(obj.tag=="uni"){
 				var unicorn=createSpine("unicorn","normal")
 				animalsInStage.push(unicorn);
