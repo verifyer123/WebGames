@@ -378,7 +378,6 @@ var uni = function(){
 
 	}
 	
-	
 	function startRound(notStarted) {
 		
 		
@@ -402,8 +401,8 @@ var uni = function(){
 			dragableDonkey.input.enableDrag(true);
 			dragableUnicorn.input.draggable=true;
 			dragableDonkey.input.draggable=true;
-			buttonImg.inputEnabled=true;
 			if(!tutorial){
+				buttonImg.inputEnabled=true;
 				donkContainer.tint=0xffffff
 				dragableDonkey.tint=0xffffff	
 			}else if(tutorial){
@@ -690,7 +689,7 @@ var uni = function(){
 		var countDonk=0;
 		var exitSpeed=3000;
 		if(clock.tween){
-			clock.tween.stop()
+			clock.tween.stop();
 			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},800,Phaser.Easing.linear,true )
 		}
 		buttonImg.inputEnabled=false;
@@ -877,6 +876,7 @@ var uni = function(){
 		sceneGroup.add(button)
 
 		buttonImg = button.create(0,0,"atlas.uni", "rdyButton")
+		buttonImg.inputEnabled=false;
 		buttonImg.events.onInputDown.add(checkGoal)
 		buttonImg.anchor.setTo(0.5, 0.5)
 		button.alpha = 1	
