@@ -143,6 +143,7 @@ var uni = function(){
 	var clock
 	var hand
 	var isColliding=false;
+	var timer=false;
 	var total=20;
 	var timeValue
 	var coins
@@ -192,6 +193,7 @@ var uni = function(){
 		gameActive=false;
 		timeValue = 20
 		tutorialLevel=true;
+		timer=false;
 		quantNumber = 2
 		tutorial=true;
 		nubesAparecer=[]
@@ -380,7 +382,6 @@ var uni = function(){
 	
 	function startRound(notStarted) {
 		
-		
 		var sum=0;
 		goalUni=game.rnd.integerInRange(1,dificulty);
 		sum=dificulty-goalUni;
@@ -472,6 +473,7 @@ var uni = function(){
 
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
 		clock.tween.onComplete.add(function(){
+			timer=true;
 			checkGoal()
 		})
 	}
@@ -697,17 +699,18 @@ var uni = function(){
 		dragableDonkey.input.draggable=false;
 		if(tutorial)hand.alpha=0;
 		for(var checkGoals=0; checkGoals<animalsInStage.length; checkGoals++){
-			animalsInStage[checkGoals].container.destroy()
+			animalsInStage[checkGoals].container.destroy();
 			if(animalsInStage[checkGoals].tag=="uni"){
 				countUni++;
 			}else if(animalsInStage[checkGoals].tag=="donkey"){
 				countDonk++;		
 			}
 		}
-		if(goalUni==countUni && goalDonk==countDonk){
+		if(goalUni==countUni && goalDonk==countDonk && !timer){
 			rightReaction();
 		}else{
 			missPoint();
+			timer=false;
 			sceneGroup.wrongParticle.x = clockCounter.centerX
 			sceneGroup.wrongParticle.y = clockCounter.centerY
 			sceneGroup.wrongParticle.start(true, 1000, null, 5)
