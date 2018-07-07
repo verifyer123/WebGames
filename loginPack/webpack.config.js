@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path')
 var FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+var JavaScriptObfuscator = require('webpack-obfuscator');
 
 var DIST_DIR = path.resolve(__dirname, "dist")
 var SRC_DIR = path.resolve(__dirname, "src")
@@ -8,7 +9,7 @@ module.exports = {
 	entry: SRC_DIR + "/app/index.js",
 	output: {
 		path: DIST_DIR + '/app',
-		filename: "login.js",
+		filename: "login.min.js",
 		publicPath: "/app/",
 		library: "loginModal",
 		libraryTarget: "var"
@@ -27,8 +28,8 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.NoEmitOnErrorsPlugin(),
-		new FriendlyErrorsWebpackPlugin()
-
+		new FriendlyErrorsWebpackPlugin(),
+		new JavaScriptObfuscator()
 	]
 
 };
