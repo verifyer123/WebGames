@@ -100,6 +100,7 @@ var sushi = function(){
     var inputsEnabled
     var pointsBar
     var sushiList
+	var notFinished
 	var firstAnimation, secondAnimation;
 	var tutorial
     var sushisInGame
@@ -134,6 +135,7 @@ var sushi = function(){
         gameActive = false
         lives = NUM_LIFES
         numPoints = 0
+		notFinished=false
         roundCounter = 0
         addBrickCounter = 0
 		nextAnimation=false
@@ -754,7 +756,8 @@ var sushi = function(){
 					yTutorial=sushisInGame[2][0];
 				}
 			}
-		if(firstAnimation!=null && tutorial && xTutorial ){
+		if(firstAnimation!=null && tutorial && xTutorial && !notFinished){
+			notFinished=true;
 				if(sushisInGame[0][0] && !nextAnimation){
 					xTutorial=sushisInGame[0][0];
 					yTutorial=sushisInGame[0][0];
@@ -766,7 +769,9 @@ var sushi = function(){
 				hand.y=yTutorial.worldPosition.y-30;
 				
 				if(firstAnimation){
+					
 					firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
+						notFinished=false;
 						if(tutorial){	
 							if(sushisInGame[0][0]){
 							xTutorial=sushisInGame[0][0];

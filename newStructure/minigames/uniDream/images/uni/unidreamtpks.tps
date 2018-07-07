@@ -330,6 +330,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">cloud_small.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,26,64,53</rect>
+                <key>scale9Paddings</key>
+                <rect>32,26,64,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">donkIco.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -350,9 +363,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>165,150,330,301</rect>
+                <rect>98,188,195,375</rect>
                 <key>scale9Paddings</key>
-                <rect>165,150,330,301</rect>
+                <rect>98,188,195,375</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -376,9 +389,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>165,115,330,230</rect>
+                <rect>165,115,330,229</rect>
                 <key>scale9Paddings</key>
-                <rect>165,115,330,230</rect>
+                <rect>165,115,330,229</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -502,9 +515,6 @@
             <filename>buttonImgU.png</filename>
             <filename>clockImg.png</filename>
             <filename>clock.png</filename>
-            <filename>nubes_top.png</filename>
-            <filename>nubes.png</filename>
-            <filename>fondo.png</filename>
             <filename>ok_02.png</filename>
             <filename>rdyButton.png</filename>
             <filename>room.png</filename>
@@ -516,6 +526,10 @@
             <filename>bed.png</filename>
             <filename>life_box.png</filename>
             <filename>answer.png</filename>
+            <filename>cloud_small.png</filename>
+            <filename>nubes_top.png</filename>
+            <filename>nubes.png</filename>
+            <filename>fondo.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -65,7 +65,9 @@ var uni = function(){
 			{   name: "drag",
                 file: soundsPath + "drag.mp3"},
 			{   name: "discard",
-                file: soundsPath + "squeeze.mp3"}
+                file: soundsPath + "squeeze.mp3"},
+			{   name: "place",
+                file: soundsPath + "magic.mp3"}
 		],
 		spines: [
 			{
@@ -141,6 +143,7 @@ var uni = function(){
 	var clock
 	var hand
 	var isColliding=false;
+	var timer=false;
 	var total=20;
 	var timeValue
 	var coins
@@ -190,6 +193,7 @@ var uni = function(){
 		gameActive=false;
 		timeValue = 20
 		tutorialLevel=true;
+		timer=false;
 		quantNumber = 2
 		tutorial=true;
 		nubesAparecer=[]
@@ -376,9 +380,7 @@ var uni = function(){
 
 	}
 	
-	
 	function startRound(notStarted) {
-		
 		
 		var sum=0;
 		goalUni=game.rnd.integerInRange(1,dificulty);
@@ -400,8 +402,8 @@ var uni = function(){
 			dragableDonkey.input.enableDrag(true);
 			dragableUnicorn.input.draggable=true;
 			dragableDonkey.input.draggable=true;
-			buttonImg.inputEnabled=true;
 			if(!tutorial){
+				buttonImg.inputEnabled=true;
 				donkContainer.tint=0xffffff
 				dragableDonkey.tint=0xffffff	
 			}else if(tutorial){
@@ -471,6 +473,7 @@ var uni = function(){
 
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
 		clock.tween.onComplete.add(function(){
+			timer=true;
 			checkGoal()
 		})
 	}
@@ -688,7 +691,7 @@ var uni = function(){
 		var countDonk=0;
 		var exitSpeed=3000;
 		if(clock.tween){
-			clock.tween.stop()
+			clock.tween.stop();
 			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},800,Phaser.Easing.linear,true )
 		}
 		buttonImg.inputEnabled=false;
@@ -696,17 +699,18 @@ var uni = function(){
 		dragableDonkey.input.draggable=false;
 		if(tutorial)hand.alpha=0;
 		for(var checkGoals=0; checkGoals<animalsInStage.length; checkGoals++){
-			animalsInStage[checkGoals].container.destroy()
+			animalsInStage[checkGoals].container.destroy();
 			if(animalsInStage[checkGoals].tag=="uni"){
 				countUni++;
 			}else if(animalsInStage[checkGoals].tag=="donkey"){
 				countDonk++;		
 			}
 		}
-		if(goalUni==countUni && goalDonk==countDonk){
+		if(goalUni==countUni && goalDonk==countDonk && !timer){
 			rightReaction();
 		}else{
 			missPoint();
+			timer=false;
 			sceneGroup.wrongParticle.x = clockCounter.centerX
 			sceneGroup.wrongParticle.y = clockCounter.centerY
 			sceneGroup.wrongParticle.start(true, 1000, null, 5)
@@ -875,6 +879,7 @@ var uni = function(){
 		sceneGroup.add(button)
 
 		buttonImg = button.create(0,0,"atlas.uni", "rdyButton")
+		buttonImg.inputEnabled=false;
 		buttonImg.events.onInputDown.add(checkGoal)
 		buttonImg.anchor.setTo(0.5, 0.5)
 		button.alpha = 1	
@@ -1014,6 +1019,7 @@ var uni = function(){
 	function createAnimal(obj,pointer){
 		var index=animalsInStage.length;
 		if(animalsInStage.length<maxNumber){
+			sound.play("place")
 			if(obj.tag=="uni"){
 				var unicorn=createSpine("unicorn","normal")
 				animalsInStage.push(unicorn);
