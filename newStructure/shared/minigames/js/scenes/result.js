@@ -404,12 +404,12 @@ var result = function(){
 		
         yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotaResults");
         yogotar.scale.setTo(scaleSpine,scaleSpine)
-        yogotar.setAnimationByName(0, "IDLE", true);
+        yogotar.setAnimationByName(0, "idle", true);
         if(currentPlayer && currentPlayer.yogotar){
             var yogotarSkin = currentPlayer.yogotar;
-             yogotar.setSkinByName(yogotarSkin);
+             yogotar.setSkinByName(yogotarSkin.toLowerCase());
         }else{
-            yogotar.setSkinByName('Eagle');
+            yogotar.setSkinByName('eagle');
         }        
         //yogotar.setSkinByName('Eagle');
         sceneGroup.add(yogotar)
@@ -683,7 +683,7 @@ var result = function(){
 		
 		game.time.events.add(delay,function(){
 			
-			var animName = "WIN"
+			var animName = "win"
 			var iconRight = 'right'
 			var soundName = 'cheers'
 			var icon;
@@ -691,7 +691,7 @@ var result = function(){
 			//if(win){
 				
 				game.add.tween(whiteFade).from({alpha:1},250,"Linear",true)
-				animName = "WIN"
+				animName = "win"
 				
 				for(var i = 0; i < stars; i++){
 					starGroup.star[i].alpha = 1

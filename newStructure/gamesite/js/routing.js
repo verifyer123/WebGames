@@ -45,7 +45,7 @@ var routing = function () {
 				// console.log(id, games.length)
 				var game = games[id]
 				console.log(language, "language")
-				var src = "https://play.yogome.com/playweb/minigames/" + game.url + "index.html?language=" + language
+				var src = "../minigames/" + game.url + "index.html?language=" + language
 
 				epicSiteMain.startGame(src)
 				console.log(src)
