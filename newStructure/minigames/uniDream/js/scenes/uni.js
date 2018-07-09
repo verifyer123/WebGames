@@ -747,6 +747,51 @@ var uni = function(){
 			})
 		
 	}
+	function thirdDificulty(){
+		
+		var manyAnimals=game.rnd.integerInRange(0,total);
+		var animal=game.rnd.integerInRange(0,1);
+		
+		for(var fill=0; fill<manyAnimals; fill++){
+			
+			animal=game.rnd.integerInRange(0,1);
+			if(animal)
+			
+			animalsInStage.push(unicorn);
+			animalsInStage[fill]=
+			animalsInStage[fill].container.addChild(this.rect);
+			animalsInStage[fill].container.index=fill;
+			animalsInStage[fill].container.inputEnabled=true;
+			animalsInStage[fill].container.events.onInputDown.add(discardAnimal,this);
+		}
+			
+			var index=animalsInStage.length;
+		if(animalsInStage.length<maxNumber){
+			sound.play("place")
+			if(obj.tag=="uni"){
+				var unicorn=createSpine("unicorn","normal")
+				
+				unicorn.scale.setTo(0.7,0.7);
+				animalsInStage[index].tag="uni";
+			}else if(obj.tag=="donk"){
+				var donkey=createSpine("donkey","normal")
+				animalsInStage.push(donkey);
+				animalsInStage[index].tag="donkey";
+				donkey.scale.setTo(0.7,0.7);
+			}
+			
+			
+				
+			animalsInStage[index].container.addChild(this.rect);
+			animalsInStage[index].container.index=index;
+			if(!tutorial){
+				animalsInStage[index].container.inputEnabled=true;
+				animalsInStage[index].container.events.onInputDown.add(discardAnimal,this);
+			}
+			dreamGroup.add(animalsInStage[index]);
+			dreamGroup.add(nubesAparecer[index]);
+		}
+	}
 	
 	function createUniUI() {
 		
@@ -990,13 +1035,9 @@ var uni = function(){
 		animalsInStage.splice(obj.index,1);
 		for(var changeIndex=0; changeIndex<animalsInStage.length; changeIndex++){
 			animalsInStage[changeIndex].container.index=changeIndex;
-//			animalsInStage[changeIndex].x=positionX[changeIndex];
-//			animalsInStage[changeIndex].y=positionY[changeIndex];
 			game.add.tween(animalsInStage[changeIndex]).to({x:positionX[changeIndex],y:positionY[changeIndex]}, 500, Phaser.Easing.Cubic.InOut, true)
 			game.add.tween(animalsInStage[changeIndex].container).to({x:positionX[changeIndex]-50,y:positionY[changeIndex]-100}, 500, Phaser.Easing.Cubic.InOut, true)
 			animalsInStage[changeIndex].setAnimation(["jump"]);
-//			animalsInStage[changeIndex].container.x=positionX[changeIndex]-50;
-//			animalsInStage[changeIndex].container.y=positionY[changeIndex]-100;
 		}
 		game.time.events.add(600, function () {
 			buttonImg.inputEnabled=true;

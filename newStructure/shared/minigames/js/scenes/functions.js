@@ -14,7 +14,7 @@
 
         tutorialHelper.createTutorialGif(overlayGroup,function (rect){onClickPlay(lives)})
 
-
+		
 		/*if(game.device != 'desktop'){
 		overlayGroup.scale.setTo(0.9,0.9);
 		}else{

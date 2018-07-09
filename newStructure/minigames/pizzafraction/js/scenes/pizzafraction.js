@@ -1,6 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/";
 var imagePath = "images/pizzafraction/";
-var tutorialPath = "../../shared/minigames/"
 
 
 var pizzafraction = function(){
@@ -13,7 +12,62 @@ var pizzafraction = function(){
                 //image: "images/bouncybath/atlas.png",
 			},
 ],
-        images: [],
+        images: [
+			{
+				name:"bgclock",
+				file:imagePath+"bgclock.png",
+			},
+			{
+				name:"heartsIcon",
+				file:imagePath+"hearts.png",
+			},
+			{
+				name:"xpIcon",
+				file:imagePath+"xpcoins.png",
+			},
+			{
+				name:"background",
+				file:imagePath+"background.png",
+			},
+			{
+				name:"circles",
+				file:imagePath+"circles.png",
+			},
+			{
+				name:"base",
+				file:imagePath+"base.png",
+			},
+			{
+				name:"plato",
+				file:imagePath+"plato.png",
+			},
+			{
+				name:"globe",
+				file:imagePath+"globe.png",
+			},
+			{
+				name:"noveno1",
+				file:imagePath+"noveno1.png",
+			},
+			{
+				name:"timbre_iddle",
+				file:imagePath+"timbre_iddle.png",
+			},
+			{
+				name:"timbre_on",
+				file:imagePath+"timbre_on.png",
+			},
+			{
+				name:"star",
+				file:imagePath+"star.png",
+			},
+			{
+				name:"wrong",
+				file:imagePath+"wrong.png",
+			},
+			
+			
+		],
 		sounds: [
             {	name: "pop",
 				file: soundsPath + "pop.mp3"},
@@ -38,8 +92,11 @@ var pizzafraction = function(){
 			{	name: "shootBall",
 				file: soundsPath + "shootBall.mp3"},
 			{	name: "combo",
-				file: soundsPath + "combo.mp3"}
+				file: soundsPath + "combo.mp3"},
+			{	name: "sillyAdventureGameLoop",
+				file: soundsPath + "songs/sillyAdventureGameLoop.mp3"},
 		],
+		
 	}
     
 	
@@ -47,6 +104,7 @@ var pizzafraction = function(){
 	var gameIndex = 42;
 	var speedGame = 5;
 	var background;
+	var tutoGroup = null;
 	var heartsGroup = null;
 	var heartsIcon;
 	timer = 10;
@@ -59,7 +117,7 @@ var pizzafraction = function(){
 	coins = 0;
 	heartsText = null;	
 	xpText = null;
-	bgm = null;
+	//bgm = null;
 	var activeGame = true;
 
 	
@@ -68,29 +126,6 @@ var pizzafraction = function(){
 	styleClock = {font: "40px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center",boundsAlignH: "center", boundsAlignV: "middle" };
 
     function preload() {
-		game.load.audio('sillyAdventureGameLoop',  soundsPath + 'songs/sillyAdventureGameLoop.mp3');
-		/*Default*/
-		;
-		game.load.image('bgclock',imagePath + "bgclock.png");
-		game.load.image("heartsIcon", imagePath +"hearts.png");
-		game.load.image("xpIcon", imagePath +"xpcoins.png");	
-		game.load.image('buttonPlay',imagePath +"tutorial/button.png");		
-		game.load.image('pc',imagePath +"tutorial/desktop.png");
-		game.load.image('gametuto',imagePath +"tutorial/gametuto.png");
-		/*game.load.image('introscreen',imagePath +"tutorial/introscreen.png");
-		game.load.image('howTo',imagePath +"tutorial/how"  + localization.getLanguage()  + ".png");
-		game.load.image('buttonText',imagePath +"tutorial/play" + localization.getLanguage() + ".png");*/
-		/*GAME*/
-		game.load.image("background",imagePath + "background.png");
-		game.load.image("circles",imagePath + "circles.png");
-		game.load.image("base",imagePath + "base.png");
-		game.load.image("plato",imagePath + "plato.png");
-		game.load.image("globe",imagePath + "globe.png");
-		game.load.image("noveno1",imagePath + "noveno1.png");
-		game.load.image("timbre_iddle",imagePath + "timbre_iddle.png");
-		game.load.image("timbre_on",imagePath + "timbre_on.png");
-		game.load.image("star",imagePath + "star.png");
-		game.load.image("wrong",imagePath + "wrong.png");		
 		/*SPINE*/
 		game.load.spine("yogotar", imagePath + "spine/skeleton.json");
 
@@ -103,8 +138,6 @@ var pizzafraction = function(){
 
 		game.load.image('tutorial_image',imagePath+"tutorial_image_"+inputName+".png")
 		//loadType(gameIndex)
-
-
 	}
 
 	function loadSounds(){
@@ -146,8 +179,9 @@ var isMobile = {
 	/*CREATE SCENE*/
     function createScene(){
 		
-		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
-		loadSounds();
+		sceneGroup = game.add.group();
+		tutoGroup = game.add.group();
+		yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		
@@ -213,7 +247,6 @@ var isMobile = {
 		var fractionPizza = new Array;
         var graphics = new Array;
 		var numPizzas = 8;
-		
 		for(i=0;i<=numPizzas-1;i++){
 			fractionPizza[i] = sceneGroup.create(0,0,"noveno1");
 			fractionPizza[i].anchor.setTo(0.5,1);
@@ -232,7 +265,7 @@ var isMobile = {
             graphics[i].x = plato.x + plato.width/2;
             graphics[i].alpha = 0
             graphics[i].angle = i * 45 + 180
-            graphics[i].inputEnabled = true;
+            graphics[i].inputEnabled = false;
             graphics[i].pizza = fractionPizza[i]
             graphics[i].endFill()
             if(isMobile.any()){
@@ -266,7 +299,7 @@ var isMobile = {
 		var timbre_iddle = sceneGroup.create(0,0,"timbre_iddle");
 			timbre_iddle.x = globe.x + timbre_iddle.width;
 			timbre_iddle.y = globe.y + timbre_iddle.height + 10; 
-			timbre_iddle.inputEnabled = true;
+			timbre_iddle.inputEnabled = false;
 			timbre_iddle.events.onInputDown.add(onPressBell,this);
 		
 		function onPressBell(bell){
@@ -288,7 +321,7 @@ var isMobile = {
 					graphics[i].inputEnabled = false;
 				}
 			}else{
-				bgm.stop();
+				//bgm.stop();
 				sound.play("wrong");
 				sound.play("gameLose");
 				for(i=0;i<=numPizzas-1;i++){
@@ -375,7 +408,7 @@ var isMobile = {
 				TweenMax.fromTo(sceneGroup,1,{alpha:1},{alpha:1,delay:0,onComplete:gameOver});
 				sound.play("wrong");
 				sound.play("gameLose");
-				bgm.stop();	
+				//bgm.stop();	
 			}
 		}
 
@@ -394,7 +427,7 @@ var isMobile = {
 		
 		createCoins(coins);
 		createHearts(lives);
-		createOverlay(lives);
+		tutorialHelper.createTutorialGif(tutoGroup,function (rect){onClickPlay(lives)})
 		
 	}
 
@@ -403,7 +436,11 @@ var isMobile = {
 		
 	}
 		
-
+	function onClickPlay(lives){
+//		for(var enabled=0; enabled<pizzaNumber; enabled++){
+//			graphics[enabled].inputEnabled=true;
+//		}
+	}
 	
 	
 	return {
@@ -413,7 +450,8 @@ var isMobile = {
 		create: createScene,
 		update:update,
 		show: function(event){
+			loadSounds()
 			initialize()
-		}		
+		}
 	}
 }()

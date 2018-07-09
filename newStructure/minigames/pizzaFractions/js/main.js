@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.canvas, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("pizzafraction")
+				sceneloader.show("pizzaFractions")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -35,13 +35,13 @@ function startGame(){
         var gameWidth = Math.round(fullHeight * ratio)
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
+        game.scale.setGameSize(gameWidth, gameHeight)
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
-        game.plugins.add(Fabrique.Plugins.Spine);
+        game.plugins.add(PhaserSpine.SpinePlugin);
         
         var language = "EN"
         if(window.location.search){
@@ -61,12 +61,13 @@ function startGame(){
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
+        epicparticles.init(game)
     }
 
     function create(){
 
     	preloadScenes([
-            pizzafraction,
+            pizzaFractions,
             result,
     	])
     }
