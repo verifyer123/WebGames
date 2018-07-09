@@ -778,10 +778,10 @@ var wildDentist = function(){
     }
     
    function onDragStart(sprite, pointer) {
-        console.log("sprite: " + sprite.id);
-        console.log("hit zone: " + hitZones[0].id);  
-       console.log("hit zone: " + hitZones[1].id);  
-       console.log("hit zone: " + hitZones[2].id);  
+       //  console.log("sprite: " + sprite.id);
+       //  console.log("hit zone: " + hitZones[0].id);  
+       // console.log("hit zone: " + hitZones[1].id);  
+       // console.log("hit zone: " + hitZones[2].id);  
     }
     
     function onDragStop(sprite, pointer) {
