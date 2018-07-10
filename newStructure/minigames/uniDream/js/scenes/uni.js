@@ -106,16 +106,6 @@ var uni = function(){
 	var MAX_UNICORNS = 20
 	var MAX_DONKEYS = 20
 
-//	var ROUNDS = [
-//	    {minNumber:3, maxNumber:5},
-//	    {minNumber:5, maxNumber:8},
-//	    {minNumber:5, maxNumber:8, minDonkeys:1, maxDonkeys:3},
-//	    {minNumber:5, maxNumber:9, minDonkeys:1, maxDonkeys:3},
-//	    {minNumber:9, maxNumber:15, minDonkeys:1, maxDonkeys:5},
-//	    {minNumber:15, maxNumber:20},
-//	    {minNumber:12, maxNumber:17, minDonkeys:1, maxDonkeys:3},
-//	    {minNumber:20, maxNumber:20},
-//		{minNumber:9, maxNumber:15, minDonkeys:1, maxDonkeys:5}]
 	
 	var howManyUnicorns;
 	var howManyDonkeys;
@@ -392,28 +382,39 @@ var uni = function(){
 		donkText.text=goalDonk.toString();
 		game.time.events.add(800, function () {
 			
-			if(dificulty>3){
+			if(dificulty>3  && dificulty<=10){
 				startTimer()
-			}
-			
-			dragableUnicorn.inputEnabled=true;
-			dragableUnicorn.input.enableDrag(true);
-			dragableDonkey.inputEnabled=true;
-			dragableDonkey.input.enableDrag(true);
-			dragableUnicorn.input.draggable=true;
-			dragableDonkey.input.draggable=true;
-			if(!tutorial){
+				dragableUnicorn.inputEnabled=true;
+				dragableUnicorn.input.enableDrag(true);
+				dragableDonkey.inputEnabled=true;
+				dragableDonkey.input.enableDrag(true);
+				dragableUnicorn.input.draggable=true;
+				dragableDonkey.input.draggable=true;
 				buttonImg.inputEnabled=true;
 				donkContainer.tint=0xffffff
 				dragableDonkey.tint=0xffffff	
-			}else if(tutorial){
-				dragableDonkey.input.draggable=false;
-				hand.alpha=1;
-				containers.add(hand)
-				hand.x=dragableUnicorn.x+100;
-				hand.y=dragableUnicorn.y+100;
-				handAnimation=game.add.tween(hand).to({x:rectTrigger.x+200,y:rectTrigger.y-100},2000,Phaser.Easing.Linear.In,true).loop(true);
-				
+			}else if(dificulty>10){ 
+				thirdDificulty()
+			}else{
+				dragableUnicorn.inputEnabled=true;
+				dragableUnicorn.input.enableDrag(true);
+				dragableDonkey.inputEnabled=true;
+				dragableDonkey.input.enableDrag(true);
+				dragableUnicorn.input.draggable=true;
+				dragableDonkey.input.draggable=true;
+				if(!tutorial){
+					buttonImg.inputEnabled=true;
+					donkContainer.tint=0xffffff
+					dragableDonkey.tint=0xffffff	
+				}else if(tutorial){
+					dragableDonkey.input.draggable=false;
+					hand.alpha=1;
+					containers.add(hand)
+					hand.x=dragableUnicorn.x+100;
+					hand.y=dragableUnicorn.y+100;
+					handAnimation=game.add.tween(hand).to({x:rectTrigger.x+200,y:rectTrigger.y-100},2000,Phaser.Easing.Linear.In,true).loop(true);
+
+				}
 			}
 		})
 	}
@@ -738,6 +739,7 @@ var uni = function(){
 			}
 		})
 			game.add.tween(brightRect).to({alpha:1},exitSpeed-1000,Phaser.Easing.linear,true).yoyo(true);
+		
 			game.time.events.add(exitSpeed+200,function(){
 				for(var destroyAnimals=0; destroyAnimals<animalsInStage.length; destroyAnimals++){
 					animalsInStage[destroyAnimals].destroy();
@@ -755,42 +757,53 @@ var uni = function(){
 		for(var fill=0; fill<manyAnimals; fill++){
 			
 			animal=game.rnd.integerInRange(0,1);
-			if(animal)
+			if(animal==0){
+				var unicorn=createSpine("unicorn","normal")
+				animalsInStage.push(unicorn);
+				animalsInStage[fill].tag="uni";
+			}else if(animal==1){
+				var donkey=createSpine("donkey","normal")
+				animalsInStage.push(donkey);
+				animalsInStage[fill].tag="donkey";
+			}
+			animalsInStage[fill].scale.setTo(0.7,0.7);
+			this.rect = new Phaser.Graphics(game);
+			this.rect.beginFill('#000000', 0);
+			this.rect.drawRect(0, 0, 90, 90);
+			this.rect.endFill();
+			animalsInStage[fill].x=-200;
+			animalsInStage[fill].y=positionY[fill];
 			
-			animalsInStage.push(unicorn);
-			animalsInStage[fill]=
+			animalsInStage[fill].container= this.game.add.image(animalsInStage[fill].x-50, animalsInStage[fill].y-100);
 			animalsInStage[fill].container.addChild(this.rect);
 			animalsInStage[fill].container.index=fill;
 			animalsInStage[fill].container.inputEnabled=true;
 			animalsInStage[fill].container.events.onInputDown.add(discardAnimal,this);
+			animalsInStage[fill].setAnimation(["jump"]);
+			
+			sound.play("horse_gallop")
+			game.add.tween(animalsInStage[fill]).to({x:positionX[fill],y:positionY[fill]}, 1500, Phaser.Easing.Cubic.InOut, true)
+			game.add.tween(animalsInStage[fill].container).to({x:positionX[fill]-50,y:positionY[fill]-100}, 1500, Phaser.Easing.Cubic.InOut, true)
+			
+			
+			dreamGroup.add(animalsInStage[fill]);
 		}
-			
-			var index=animalsInStage.length;
-		if(animalsInStage.length<maxNumber){
-			sound.play("place")
-			if(obj.tag=="uni"){
-				var unicorn=createSpine("unicorn","normal")
-				
-				unicorn.scale.setTo(0.7,0.7);
-				animalsInStage[index].tag="uni";
-			}else if(obj.tag=="donk"){
-				var donkey=createSpine("donkey","normal")
-				animalsInStage.push(donkey);
-				animalsInStage[index].tag="donkey";
-				donkey.scale.setTo(0.7,0.7);
+		game.time.events.add(1550, function () {
+			buttonImg.inputEnabled=true;
+			for(var idle=0; idle<animalsInStage.length; idle++){
+				animalsInStage[idle].setAnimation(["idle"]);
 			}
-			
-			
-				
-			animalsInStage[index].container.addChild(this.rect);
-			animalsInStage[index].container.index=index;
-			if(!tutorial){
-				animalsInStage[index].container.inputEnabled=true;
-				animalsInStage[index].container.events.onInputDown.add(discardAnimal,this);
-			}
-			dreamGroup.add(animalsInStage[index]);
-			dreamGroup.add(nubesAparecer[index]);
-		}
+			dragableUnicorn.inputEnabled=true;
+			dragableUnicorn.input.enableDrag(true);
+			dragableDonkey.inputEnabled=true;
+			dragableDonkey.input.enableDrag(true);
+			dragableUnicorn.input.draggable=true;
+			dragableDonkey.input.draggable=true;
+			buttonImg.inputEnabled=true;
+			donkContainer.tint=0xffffff
+			dragableDonkey.tint=0xffffff
+			startTimer()
+		})
 	}
 	
 	function createUniUI() {
@@ -1066,13 +1079,15 @@ var uni = function(){
 				animalsInStage.push(unicorn);
 				unicorn.scale.setTo(0.7,0.7);
 				animalsInStage[index].tag="uni";
+				nubesAparecer[index]=game.add.sprite(positionX[index],positionY[index],"atlas.uni","cloud_small");
 			}else if(obj.tag=="donk"){
 				var donkey=createSpine("donkey","normal")
 				animalsInStage.push(donkey);
 				animalsInStage[index].tag="donkey";
 				donkey.scale.setTo(0.7,0.7);
+				nubesAparecer[index]=game.add.sprite(positionX[index],positionY[index],"atlas.uni","cloud_donk");
 			}
-			nubesAparecer[index]=game.add.sprite(positionX[index],positionY[index],"atlas.uni","cloud_small");
+			
 			nubesAparecer[index].scale.setTo(0,0);
 			nubesAparecer[index].anchor.setTo(0.5,0.8);
 			game.add.tween(nubesAparecer[index].scale).to({x: 1,y:1}, 10, Phaser.Easing.Cubic.InOut, true)
@@ -1102,7 +1117,7 @@ var uni = function(){
 			}
 			animalsInStage[index].x=positionX[index];
 			animalsInStage[index].y=positionY[index];
-			animalsInStage[index].container= this.game.add.image(animalsInStage[index].x-50, animalsInStage[index].y-100);;
+			animalsInStage[index].container= this.game.add.image(animalsInStage[index].x-50, animalsInStage[index].y-100);
 			this.rect = new Phaser.Graphics(game);
 			this.rect.beginFill('#000000', 0);
 			this.rect.drawRect(0, 0, 90, 90);
