@@ -56,7 +56,7 @@ var runneryogome = function(){
     
     var board
     var overlayGroup
-    var gameIndex = 2
+    //var gameIndex = 2
     var skullTrue = false
     var marioSong = null
     var enemyNames = null
