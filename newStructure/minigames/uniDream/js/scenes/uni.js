@@ -137,6 +137,7 @@ var uni = function(){
 	var total=20;
 	var timeValue
 	var coins
+	var buro
 	var buttonImg
 	var rectTrigger
 	var quantNumber
@@ -149,6 +150,7 @@ var uni = function(){
 	var donkIco
 	var handAnimation
 	var unicornList
+	var clockImg
 	var donkeyList
 	var animationText
 	var gameGroup
@@ -422,7 +424,6 @@ var uni = function(){
 	function missPoint(){
 
 		sound.play("wrong")
-
 		lives--;
 		heartsGroup.text.setText('X ' + lives)
 
@@ -489,6 +490,12 @@ var uni = function(){
 		game.add.tween(donkText).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
 		game.add.tween(uniText).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
 		showDream.onComplete.add(function () {
+			dreamGroup.add(bed)
+			dreamGroup.add(buro)
+			dreamGroup.add(clockCounter)
+			dreamGroup.add(buttonImg)
+			dreamGroup.add(theffanie)
+			
 			sound.play("brightTransition")
 			game.add.tween(dreamGroup.bright).to({alpha: 1},1000,Phaser.Easing.Cubic.Out,true).yoyo(true)
 			var bgAppear = game.add.tween(dreamGroup.bg).to({alpha:1}, 1000, Phaser.Easing.Cubic.In, true)
@@ -710,13 +717,18 @@ var uni = function(){
 		if(goalUni==countUni && goalDonk==countDonk && !timer){
 			rightReaction();
 		}else{
-			missPoint();
+			if(lives>0)missPoint();
 			timer=false;
 			sceneGroup.wrongParticle.x = clockCounter.centerX
 			sceneGroup.wrongParticle.y = clockCounter.centerY
 			sceneGroup.wrongParticle.start(true, 1000, null, 5)
 			if(lives==0){
 				wrongReaction();
+				sceneGroup.add(bed)
+				sceneGroup.add(buro)
+				sceneGroup.add(clockCounter)
+				sceneGroup.add(buttonImg)
+				sceneGroup.add(theffanie)
 			}else{
 				//theffanie.setAnimation("NIGHTMARE")
 				game.time.events.add(700, function () {
@@ -891,7 +903,7 @@ var uni = function(){
 		dreamGroup.add(uniText)
 		dreamGroup.add(donkText)
 		
-		var buro = sceneGroup.create(0,0,"atlas.uni", "buro")
+		buro = sceneGroup.create(0,0,"atlas.uni", "buro")
 		buro.x = game.world.centerX + 170
 		buro.y = game.world.height
 		buro.anchor.setTo(0.5, 1)
@@ -918,7 +930,7 @@ var uni = function(){
 		
 		
 
-		var clockImg = clockCounter.create(0,0,"atlas.uni","clockImg")
+		clockImg = clockCounter.create(0,0,"atlas.uni","clockImg")
 		clockImg.anchor.setTo(0.5, 0.5)
 		game.add.tween(clockImg.scale).to({x:1.05, y:0.95}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
 
@@ -931,19 +943,24 @@ var uni = function(){
 		clockCounter.numberText = numberText
 		clockCounter.number = 0
 		clockCounter.alpha=1;
-		var button = game.add.group()
-		button.x = clockCounter.x
-		button.y = clockCounter.y+5
-		sceneGroup.add(button)
+//		var button = game.add.group()
+//		button.x = clockCounter.x
+//		button.y = clockCounter.y+5
+//		sceneGroup.add(button)
 
-		buttonImg = button.create(0,0,"atlas.uni", "rdyButton")
+		buttonImg = clockCounter.create(0,0,"atlas.uni", "rdyButton")
 		buttonImg.inputEnabled=false;
 		buttonImg.events.onInputDown.add(checkGoal)
 		buttonImg.anchor.setTo(0.5, 0.5)
-		button.alpha = 1	
+		buttonImg.alpha = 1	
 		buttonImg.scale.setTo(0.4, 0.4)
+		clockCounter.add(buttonImg)
+		buttonImg.x = clockCounter.x
+		buttonImg.y = clockCounter.y+5
+		clockCounter.bringToTop(buttonImg)
 		
-		game.add.tween(button.scale).to({x:1.05, y:0.95}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
+		
+		game.add.tween(buttonImg.scale).to({x:0.45, y:0.35}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
 
 		var fontStyle2 = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		
@@ -952,8 +969,8 @@ var uni = function(){
 		uniContainer=game.add.sprite(0,-20,"atlas.uni","buttonUni");
 		dragableUnicorn=game.add.sprite(uniContainer.x+10,uniContainer.y,"atlas.uni","buttonImgU");
 		dragableUnicorn.tag="uni";
-		containers.add(uniContainer);
-		containers.add(dragableUnicorn);
+		
+		
 		dragableUnicorn.events.onDragStart.add(onDragStart, this);
 		dragableUnicorn.events.onDragStop.add(onDragStop, this);
 		
@@ -962,11 +979,15 @@ var uni = function(){
 		dragableDonkey.tag="donk";
 		donkContainer.tint=0x555555
 		dragableDonkey.tint=0x555555	
-		containers.add(donkContainer);
-		containers.add(dragableDonkey);
+		
+
 		dragableDonkey.events.onDragStart.add(onDragStart, this);
 		dragableDonkey.events.onDragStop.add(onDragStop, this);
 		
+		containers.add(donkContainer);
+		containers.add(uniContainer);
+		containers.add(dragableUnicorn);
+		containers.add(dragableDonkey);
 		var correctParticle = createPart("star")
 		sceneGroup.correctParticle = correctParticle
 
@@ -1002,6 +1023,11 @@ var uni = function(){
 	
 	function onDragStart(obj, pointer) {
 		sound.play("drag")
+		if(obj.tag=="uni"){
+			containers.bringToTop(dragableUnicorn);
+		}else{
+			containers.bringToTop(dragableDonkey);
+		}
 		//inputsEnabled=false;
 		var option = obj.parent
 		option.inBottom = false
@@ -1012,6 +1038,7 @@ var uni = function(){
 		option.startY = (obj.world.y - gameGroup.y - obj.originalY)
 		
 		dreamGroup.bringToTop(option)
+
 	}
 	function checkOverlap(spriteA, spriteB) {
 
