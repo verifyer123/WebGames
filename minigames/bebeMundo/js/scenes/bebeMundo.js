@@ -56,11 +56,11 @@ var bebeMundo = function(){
     var DELTA_PROBABILTY = 0.03
     var MAX_PROBABILiTY = 0.7
     var INITIAL_TIME_APPEAR = 1500
-    var DELTA_TIME_APPEAR = 50
-    var MIN_TIME_APPEAR =400 
+    var DELTA_TIME_APPEAR = 20
+    var MIN_TIME_APPEAR =500 
     var MAX_GOOD = 3
 
-    var DELTA_BAR = 0.002
+    var DELTA_BAR = 0.0015
     var INITIAL_BAR_VALUE = 1
 
     var skinTable
@@ -87,7 +87,7 @@ var bebeMundo = function(){
     var foodGroup
     var arrayCurrentFood
     var canTap
-    var currentGood 
+    var currentGood, currentBad
     var barValue
     var timer
     var bebeSpine
@@ -113,6 +113,7 @@ var bebeMundo = function(){
         arrayCurrentFood = []
         canTap = true
         currentGood = 0
+        currentBad = 0
         barValue = INITIAL_BAR_VALUE
         tapArray = []
     }
@@ -399,13 +400,18 @@ var bebeMundo = function(){
         	arrayCurrentFood[i].y+=arrayCurrentFood[i].veltY
         	arrayCurrentFood[i].veltX+=arrayCurrentFood[i].deltatX
         	arrayCurrentFood[i].veltY+=arrayCurrentFood[i].deltatY
-        	arrayCurrentFood[i].scale.setTo(arrayCurrentFood[i].scale.x+arrayCurrentFood[i].deltatScale)
-        	if(arrayCurrentFood[i].scale.x >= 1){
-        		arrayCurrentFood[i].deltatScale = -arrayCurrentFood[i].deltatScale
+        	if(arrayCurrentFood[i].scale.x < 1){
+        		arrayCurrentFood[i].scale.setTo(arrayCurrentFood[i].scale.x+arrayCurrentFood[i].deltatScale)
+        		
+        	}
+
+        	if(arrayCurrentFood[i].y>game.world.height-400 && arrayCurrentFood[i].deltatScale>0){
+        		arrayCurrentFood[i].deltatScale = -arrayCurrentFood[i].deltatScale*3
+        		arrayCurrentFood[i].scale.setTo(1+arrayCurrentFood[i].deltatScale)
         	}
         }
         if(arrayCurrentFood.length!=0){
-	        if(arrayCurrentFood[0].x < baby.x +10){
+	        if(arrayCurrentFood[0].x < baby.x+10){
 	        	arrayCurrentFood[0].visible = false
                 baby.isEating = true
 
@@ -511,6 +517,7 @@ var bebeMundo = function(){
             if(barValue > (INITIAL_BAR_VALUE/3)*2 ){
                 if(baby.state!=BABY_STATE.HAPPY){
                     baby.state = BABY_STATE.HAPPY
+                    babyIcon.loadTexture("atlas.game","icon_happy")
                     //console.log("SetHappy")
                     if(!baby.isEating){
                         babySetIdle()
@@ -521,6 +528,7 @@ var bebeMundo = function(){
             else if(barValue > INITIAL_BAR_VALUE/3){
                 if(baby.state!=BABY_STATE.NORMAL){
                     baby.state = BABY_STATE.NORMAL
+                    babyIcon.loadTexture("atlas.game","icon_normal")
                     //console.log("SetNormal")
                     if(!baby.isEating){
                         babySetIdle()
@@ -532,6 +540,7 @@ var bebeMundo = function(){
             else if(barValue > 0 ){
                 if(baby.state!=BABY_STATE.CRYING){
                     baby.state = BABY_STATE.CRYING
+                    babyIcon.loadTexture("atlas.game","icon_sad")
                     //console.log("Setcraying")
                     if(!baby.isEating){
                         babySetIdle()
@@ -574,11 +583,18 @@ var bebeMundo = function(){
     	}
 
     	var type = FOOD_TYPE.GOOD
-    	currentGood++
-    	if(game.rnd.frac() < currentProbabilityWrong || currentGood>=MAX_GOOD){
+    	
+    	if((game.rnd.frac() < currentProbabilityWrong || currentGood>=MAX_GOOD) && currentBad<MAX_GOOD){
     		type = FOOD_TYPE.WRONG
     		currentGood = 0
+    		currentBad++
     	}
+    	else{
+    		currentGood++
+    		currentBad = 0
+    	}
+
+
 
     	var food
     	for(var i =0; i < foodGroup.length; i++){
@@ -595,14 +611,14 @@ var bebeMundo = function(){
     	}
 
     	food.scale.setTo(0)
-    	food.x = game.world.centerX+120
-    	food.y = game.world.centerY-100
-    	food.veltX = -1
-    	food.deltatX = -0.023
-    	food.veltY = -3
-    	food.deltatY = 0.2
+    	food.x = game.world.centerX+100
+    	food.y = game.world.centerY-60
+    	food.veltX = -0.3
+    	food.deltatX = -0.015
+    	food.veltY = -7
+    	food.deltatY = 0.18
     	arrayCurrentFood.push(food)
-    	food.deltatScale = 0.017
+    	food.deltatScale = 0.013
     	food.type = type
 
     	if(type == FOOD_TYPE.GOOD){
