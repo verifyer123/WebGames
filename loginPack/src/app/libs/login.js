@@ -1,7 +1,7 @@
 import {_J} from "./joshe"
 
 export var login = function () {
-	var url = "https://login-refactorization-dot-heroesofknowledgedev.appspot.com"
+	var url = "https://12-dot-heroesofknowledge.appspot.com"
 
 	var GAME = "play.yogome"
 

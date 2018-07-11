@@ -1,0 +1,97 @@
+
+trace.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal6/arrow_1
+  rotate: false
+  xy: 81, 49
+  size: 15, 20
+  orig: 15, 20
+  offset: 0, 0
+  index: -1
+normal6/arrow_2
+  rotate: false
+  xy: 464, 451
+  size: 25, 47
+  orig: 25, 47
+  offset: 0, 0
+  index: -1
+normal6/arrow_3
+  rotate: false
+  xy: 240, 245
+  size: 49, 64
+  orig: 49, 64
+  offset: 0, 0
+  index: -1
+normal6/arrow_4
+  rotate: false
+  xy: 2, 2
+  size: 77, 67
+  orig: 77, 67
+  offset: 0, 0
+  index: -1
+normal6/arrow_5
+  rotate: false
+  xy: 359, 431
+  size: 103, 67
+  orig: 103, 67
+  offset: 0, 0
+  index: -1
+normal6/arrow_6
+  rotate: false
+  xy: 240, 311
+  size: 116, 67
+  orig: 116, 67
+  offset: 0, 0
+  index: -1
+normal6/arrow_7
+  rotate: false
+  xy: 121, 219
+  size: 117, 84
+  orig: 117, 84
+  offset: 0, 0
+  index: -1
+normal6/arrow_8
+  rotate: false
+  xy: 2, 71
+  size: 117, 108
+  orig: 117, 108
+  offset: 0, 0
+  index: -1
+normal6/arrow_9
+  rotate: false
+  xy: 240, 380
+  size: 117, 118
+  orig: 117, 118
+  offset: 0, 0
+  index: -1
+normal6/arrow_full
+  rotate: false
+  xy: 2, 181
+  size: 117, 122
+  orig: 117, 122
+  offset: 0, 0
+  index: -1
+normal6/background
+  rotate: false
+  xy: 2, 305
+  size: 236, 193
+  orig: 236, 193
+  offset: 0, 0
+  index: -1
+normal6/hand_normal
+  rotate: false
+  xy: 121, 145
+  size: 49, 72
+  orig: 49, 72
+  offset: 0, 0
+  index: -1
+normal6/hand_select
+  rotate: true
+  xy: 359, 387
+  size: 42, 58
+  orig: 42, 58
+  offset: 0, 0
+  index: -1

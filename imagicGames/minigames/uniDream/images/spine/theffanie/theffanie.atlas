@@ -1,0 +1,55 @@
+
+theffanie.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/arm1_1
+  rotate: false
+  xy: 823, 272
+  size: 96, 73
+  orig: 96, 73
+  offset: 0, 0
+  index: -1
+normal/arm2_1
+  rotate: true
+  xy: 245, 131
+  size: 101, 52
+  orig: 101, 52
+  offset: 0, 0
+  index: -1
+normal/coat
+  rotate: false
+  xy: 2, 234
+  size: 304, 244
+  orig: 304, 244
+  offset: 0, 0
+  index: -1
+normal/head_lose_1
+  rotate: false
+  xy: 2, 2
+  size: 241, 230
+  orig: 241, 230
+  offset: 0, 0
+  index: -1
+normal/head_sleep_1
+  rotate: false
+  xy: 580, 249
+  size: 241, 229
+  orig: 241, 229
+  offset: 0, 0
+  index: -1
+normal/pillow
+  rotate: false
+  xy: 308, 212
+  size: 270, 266
+  orig: 270, 266
+  offset: 0, 0
+  index: -1
+normal/torso_1
+  rotate: false
+  xy: 823, 347
+  size: 131, 131
+  orig: 131, 131
+  offset: 0, 0
+  index: -1

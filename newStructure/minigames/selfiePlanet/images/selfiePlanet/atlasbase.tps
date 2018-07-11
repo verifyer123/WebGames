@@ -280,6 +280,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">spark0.png</key>
+            <key type="filename">spark1.png</key>
             <key type="filename">star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -340,6 +342,8 @@
             <filename>icon0.png</filename>
             <filename>icon1.png</filename>
             <filename>icon2.png</filename>
+            <filename>spark0.png</filename>
+            <filename>spark1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -1,0 +1,48 @@
+
+tap.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal7/box
+  rotate: false
+  xy: 2, 153
+  size: 236, 192
+  orig: 236, 192
+  offset: 0, 0
+  index: -1
+normal7/hand_normal
+  rotate: false
+  xy: 2, 63
+  size: 60, 88
+  orig: 60, 88
+  offset: 0, 0
+  index: -1
+normal7/hand_select
+  rotate: false
+  xy: 240, 266
+  size: 57, 79
+  orig: 57, 79
+  offset: 0, 0
+  index: -1
+normal7/tap_center
+  rotate: false
+  xy: 2, 2
+  size: 60, 59
+  orig: 60, 59
+  offset: 0, 0
+  index: -1
+normal7/tap_l
+  rotate: false
+  xy: 64, 99
+  size: 17, 52
+  orig: 17, 52
+  offset: 0, 0
+  index: -1
+normal7/tap_r
+  rotate: false
+  xy: 240, 216
+  size: 17, 48
+  orig: 17, 48
+  offset: 0, 0
+  index: -1
