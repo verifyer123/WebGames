@@ -11,6 +11,8 @@ var amazingbros = function(){
         images: [
             {   name:"fondo",
 				file: "images/amazingbros/background.png"},
+            {   name:"coin",
+                file: "images/amazingbros/coin.png"},
 		],
 		sounds: [
             {	name: "pop",
@@ -36,6 +38,7 @@ var amazingbros = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 105
     
+    var gameId = 100011
     var gameIndex = 0
     var skullTrue = false
     var marioSong = null
@@ -93,6 +96,7 @@ var amazingbros = function(){
     }  
     
 	function initialize(){
+        gameIndex = amazing.getId(gameId)
         enemyNames = ['coin']
         gameStart = false
         skullTrue = false
@@ -694,10 +698,10 @@ var amazingbros = function(){
                 
             }else if(tag == 'coin'){
                 
-                object = game.add.sprite(-300, 200, 'coinS');
+                object = game.add.sprite(-300, 200, 'coin');
                 groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',24,true);   
+                //object.animations.add('walk');
+                //object.animations.play('walk',24,true);   
             }else{
                 object = groundGroup.create(-300,game.world.height - 350,'atlas.amazingbros',tag)
             }

@@ -1,0 +1,90 @@
+
+martha.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+martha/arm1
+  rotate: true
+  xy: 316, 70
+  size: 62, 162
+  orig: 62, 162
+  offset: 0, 0
+  index: -1
+martha/arm2
+  rotate: true
+  xy: 316, 2
+  size: 66, 63
+  orig: 66, 63
+  offset: 0, 0
+  index: -1
+martha/forearm2
+  rotate: true
+  xy: 618, 29
+  size: 103, 64
+  orig: 103, 64
+  offset: 0, 0
+  index: -1
+martha/forearm2_b
+  rotate: false
+  xy: 962, 134
+  size: 56, 120
+  orig: 56, 120
+  offset: 0, 0
+  index: -1
+martha/hair2
+  rotate: true
+  xy: 692, 126
+  size: 128, 143
+  orig: 128, 143
+  offset: 0, 0
+  index: -1
+martha/head_a
+  rotate: true
+  xy: 155, 49
+  size: 121, 159
+  orig: 121, 159
+  offset: 0, 0
+  index: -1
+martha/head_b
+  rotate: true
+  xy: 371, 134
+  size: 120, 159
+  orig: 120, 159
+  offset: 0, 0
+  index: -1
+martha/head_c
+  rotate: true
+  xy: 532, 134
+  size: 120, 158
+  orig: 120, 158
+  offset: 0, 0
+  index: -1
+martha/hit
+  rotate: false
+  xy: 837, 142
+  size: 123, 112
+  orig: 123, 112
+  offset: 0, 0
+  index: -1
+martha/legs
+  rotate: true
+  xy: 155, 172
+  size: 82, 214
+  orig: 82, 214
+  offset: 0, 0
+  index: -1
+martha/move
+  rotate: false
+  xy: 2, 42
+  size: 151, 212
+  orig: 151, 212
+  offset: 0, 0
+  index: -1
+martha/torso
+  rotate: true
+  xy: 480, 45
+  size: 87, 136
+  orig: 87, 136
+  offset: 0, 0
+  index: -1

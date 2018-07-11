@@ -43,12 +43,12 @@ function startGame(){
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(Fabrique.Plugins.Spine);
-
-        amazing.savePlaycount();
+        
+        amazing.setProfile()
         amazing.getInfo()
         amazing.setMinigameId()
-        amazing.setProfile()
-        
+        amazing.savePlaycount();
+
         window.minigame.game = window.game
         
     	sceneloader.init(game)
