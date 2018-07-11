@@ -76,14 +76,14 @@ var mathRun = function(){
             },
             {   name: "pink",
                 file: "images/spines/pMonster.png",
-                width: 88,
-                height: 78,
-                frames: 17
+                width: 135,
+                height: 149,
+                frames: 16
             },
             {   name: "brown",
                 file: "images/spines/bMonster.png",
-                width: 83,
-                height: 84,
+                width: 135,
+                height: 149,
                 frames: 16
             },
         ],
@@ -121,6 +121,7 @@ var mathRun = function(){
     var enemyLvl
     var result
     var playingTuto
+    var easyMode
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -136,6 +137,7 @@ var mathRun = function(){
         enemyCounter = 0
         enemyLvl = 1
         playingTuto = false
+        easyMode = true
         
         button = new Phaser.Graphics(game)
         button.beginFill(0xffffff)
@@ -503,20 +505,19 @@ var mathRun = function(){
         if(obj && gameActive){
             var rand = game.rnd.integerInRange(0, 1)
             
-            if(rand !== 0){
+            if(rand == 0){
                 obj.loadTexture('atlas.mathRun', "floor")
                 obj.tag = "floor"
                 obj.reset(game.world.width, game.world.height)
             }
             else{
-                rand = null
                 obj.loadTexture('atlas.mathRun', "brick")
                 obj.tag = "brick"
                 
                 if(landGroup.lastObj.tag === "floor"){
                     
                     rand = game.rnd.integerInRange(1, 2)
-                    obj.reset(game.world.width, (game.world.height - 200) - (obj.height * rand))
+                    obj.reset(game.world.width - 10, (game.world.height - 200) - (obj.height * rand))
                 }
                 else{
                     if(landGroup.lastObj.y < game.world.centerY){
@@ -532,7 +533,13 @@ var mathRun = function(){
                     }
                     obj.reset(game.world.width, landGroup.lastObj.y + (obj.height * rand))
                 }
+                if(easyMode)
+                    alwaysFloor()
             }
+            
+            obj.body.velocity.x = -225
+            landGroup.lastObj = obj
+            landGroup.lastObj.tag = obj.tag
             
             if(coinCounter === coinsGroup.rand){
                 game.time.events.add(coinsGroup.delay, throwCoin, this, obj)
@@ -541,10 +548,17 @@ var mathRun = function(){
             if(enemyCounter === enemiesGroup.rand){
                 game.time.events.add(350, throwEnemy, this, obj)
             }
-            
+        }
+    }
+    
+    function alwaysFloor(){
+        var obj = landGroup.getFirstExists(false)
+        
+        if(obj){
+            obj.loadTexture('atlas.mathRun', "floor")
+            obj.tag = "floor"
+            obj.reset(game.world.width, game.world.height)
             obj.body.velocity.x = -225
-            landGroup.lastObj = obj
-            landGroup.lastObj.tag = obj.tag
         }
     }
     
@@ -616,9 +630,11 @@ var mathRun = function(){
            game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
                game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
                    addPoint(1)
-                   if(pointsBar.number == 5)
+                   if(pointsBar.number == 3)
+                       easyMode = false
+                   if(pointsBar.number == 8)
                        enemiesGroup.canThrow = true
-                   if(pointsBar.number == 10)
+                   if(pointsBar.number == 12)
                        enemyLvl = enemiesGroup.length - 1
                })
            })
@@ -684,7 +700,7 @@ var mathRun = function(){
         landGroup = game.add.group()
         landGroup.enableBody = true
         landGroup.physicsBodyType = Phaser.Physics.ARCADE
-        landGroup.createMultiple(10, "atlas.mathRun", 'floor')
+        landGroup.createMultiple(15, "atlas.mathRun", 'floor')
         landGroup.setAll('anchor.x', 0)
         landGroup.setAll('anchor.y', 1)
         landGroup.setAll('tag', 'floor')
@@ -768,9 +784,9 @@ var mathRun = function(){
         enemiesGroup = game.add.group()
         enemiesGroup.enableBody = true
         enemiesGroup.physicsBodyType = Phaser.Physics.ARCADE
-        enemiesGroup.createMultiple(2, 'pink')
-        enemiesGroup.createMultiple(2, 'brown')
-        enemiesGroup.setAll('anchor.x', 0)
+        enemiesGroup.createMultiple(4, 'pink')
+        enemiesGroup.createMultiple(4, 'brown')
+        enemiesGroup.setAll('anchor.x', 1)
         enemiesGroup.setAll('anchor.y', 1)
         enemiesGroup.setAll('checkWorldBounds', true)
         enemiesGroup.setAll('outOfBoundsKill', true)
@@ -782,19 +798,19 @@ var mathRun = function(){
         enemiesGroup.rand = getRand(2,5, 0)
         sceneGroup.add(landGroup)
         
-        var frames = 20
+        var frames = 24
         var tag = "pink"
         
         for(var i = 0; i < enemiesGroup.length; i++){
             
-            if(i > 1){
-                frames = 24
+            if(i > 3){
                 tag = "brown"
             }
             
             enemiesGroup.children[i].animations.add('walk')
             enemiesGroup.children[i].animations.play('walk', frames, true)
             enemiesGroup.children[i].tag = tag
+            enemiesGroup.children[i].scale.setTo(-0.7, 0.7)
         }
     }
     
@@ -809,8 +825,8 @@ var mathRun = function(){
         
         if(obj && enemiesGroup.canThrow){
             
-            obj.reset(game.world.width, platform.y - platform.height - 100)
-            obj.body.velocity.x = -100
+            obj.reset(game.world.width, platform.y - platform.height - 150)
+            obj.body.velocity.x = -80
         }
     }
     
@@ -919,7 +935,6 @@ var mathRun = function(){
     }
     
     function fadeOut(obj){
-        
         game.add.tween(obj).to({alpha:0},100,Phaser.Easing.linear,true)
     }
     
@@ -961,7 +976,7 @@ var mathRun = function(){
         
         arthurius.setAnimationByName(0, "run", true)
         player.isRunning = true
-        //setQuestion()
+        
         newPath()
     }
     
