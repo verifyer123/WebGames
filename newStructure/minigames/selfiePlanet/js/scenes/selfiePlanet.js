@@ -124,6 +124,7 @@ var selfiePlanet = function(){
     var gameSong
     var coin
     var handGroup
+    var sparkGroup
     var planetsGroup
     var planetText
     var eagle
@@ -296,7 +297,8 @@ var selfiePlanet = function(){
     function onClickPlay() {
         
         tutoGroup.y = -game.world.height
-        if(playTuto){
+        initTuto()
+        /*if(playTuto){
             initTuto()
         }
         else{
@@ -307,7 +309,7 @@ var selfiePlanet = function(){
                 playTuto = false
                 initGame()
             })
-        }
+        }*/
     }
     
     function releaseButton(obj){
@@ -325,6 +327,35 @@ var selfiePlanet = function(){
         stars.anchor.setTo(0.5)
         sceneGroup.add(stars)
         sceneGroup.stars = stars
+        
+        sparkGroup = game.add.group()
+        sparkGroup.createMultiple(5, "atlas.selfiePlanet", "spark0")
+        sparkGroup.createMultiple(5, "atlas.selfiePlanet", "spark1")
+        sparkGroup.setAll('anchor.x', 0.5)
+        sparkGroup.setAll('anchor.y', 0.5)
+        sparkGroup.setAll('alpha', 0)
+        sparkGroup.setAll('exists', false)
+        sparkGroup.setAll('visible', false)
+        sceneGroup.add(sparkGroup)
+    
+        shotStars()
+    }
+    
+    function shotStars(){
+            
+        do {
+            var spark = sparkGroup.getRandom()
+        } while (spark.alive == true)
+        
+        if(spark){
+            spark.reset(game.world.randomX,  game.world.randomY)
+            spark.shine = game.add.tween(spark).to({alpha: 1}, 300, Phaser.Easing.linear, true, 0, 0, true)
+            spark.shine.yoyoDelay(700)
+            spark.shine.onComplete.add(function(obj){
+                obj.kill()
+            },this)
+        }
+        game.time.events.add(700, shotStars, this)
     }
 
 	function update(){
