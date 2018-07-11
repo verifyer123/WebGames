@@ -202,8 +202,7 @@ var greenRescue = function(){
             
             game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
             game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        }
-        
+		}
     }
     
     function missPoint(){

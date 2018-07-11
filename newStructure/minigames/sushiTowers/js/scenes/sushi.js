@@ -705,15 +705,8 @@ var sushi = function(){
 			}
 		}else
 			toY = option.y
-		
-		
-		
-		
-		
-		
-
-		option.tween = game.add.tween(option).to({x: toX, y: toY}, 150, Phaser.Easing.Cubic.Out, true, delay)
-		option.tween.onComplete.add(function (thisOption) {
+			option.tween = game.add.tween(option).to({x: toX, y: toY}, 150, Phaser.Easing.Cubic.Out, true, delay)
+			option.tween.onComplete.add(function (thisOption) {
 			
 			
 			for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
@@ -1078,6 +1071,9 @@ var sushi = function(){
 			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 			handGroup = game.add.group();
 			
+			document.addEventListener("contextmenu", function(e){
+               e.preventDefault();
+			}, false);
 
 			var bgRect = game.add.graphics()
 			bgRect.beginFill(0x150426)
@@ -1107,7 +1103,7 @@ var sushi = function(){
 
 			octopus = createSpine("octopus", "normal")
 			octopus.x = game.world.centerX
-			octopus.y = background.y + 100
+			octopus.y = background.y + 110
 			sceneGroup.add(octopus)
 
 			var scenary = sceneGroup.create(game.world.centerX,game.world.centerY,"atlas.sushi",'scenary')

@@ -58,7 +58,6 @@ function startGame(){
             }else{
                 language = "EN"
             }
-            
         }
 
         localization.setLanguage(language)
