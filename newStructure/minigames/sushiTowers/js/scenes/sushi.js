@@ -78,7 +78,7 @@ var sushi = function(){
 				file:"images/spine/Octopus/octopus.json"
 			},
             {
-				name:"yogotar",
+				name:"players",
 				file:"images/spine/Yogotar/yogotar.json"
 			}
 		]
@@ -519,13 +519,13 @@ var sushi = function(){
     }
 	
     function createSpines() {
-		var nao = createSpine("yogotar", "nao")
+		var nao = createSpine("players", "nao")
 		nao.x = game.world.centerX + 92
 		nao.y = game.world.height - 100
 		nao.scale.setTo(-0.5, 0.5)
 		sceneGroup.add(nao)
 
-		var tomiko = createSpine("yogotar", "tomiko")
+		var tomiko = createSpine("players", "tomiko")
 		tomiko.x = game.world.centerX - 98
 		tomiko.y = game.world.height - 100
 		tomiko.scale.setTo(0.5, 0.5)
