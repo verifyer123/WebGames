@@ -79,7 +79,7 @@ var sushi = function(){
 			},
             {
 				name:"players",
-				file:"images/spine/Yogotar/yogotar.json"
+				file:"images/spine/yogo/yogo.json"
 			}
 		]
     }
