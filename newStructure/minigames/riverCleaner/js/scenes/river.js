@@ -324,8 +324,7 @@ var river = function(){
     }
 
 	function createBackground(){
-		        
-       
+		          
         fondo = game.add.tileSprite(0, 0, game.world.width, game.world.height, "fondo")
         sceneGroup.add(fondo)
         
