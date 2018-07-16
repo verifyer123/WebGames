@@ -135,7 +135,7 @@ var runneryogome = function(){
         gameActive = false
         coinCounter = 0
         enemyCounter = 0
-        enemyLvl = 1
+        enemyLvl = 3
         playingTuto = false
         easyMode = true
         
@@ -793,8 +793,8 @@ var runneryogome = function(){
         enemiesGroup.setAll('exists', false)
         enemiesGroup.setAll('visible', false)
         enemiesGroup.setAll('.body.allowGravity', true)
-        enemiesGroup.setAll('.body.bounce.y', 0.2)
-        enemiesGroup.canThrow = false
+        enemiesGroup.setAll('.body.bounce.y', 0.4)
+        enemiesGroup.canThrow = true
         enemiesGroup.rand = getRand(2,5, 0)
         sceneGroup.add(landGroup)
         
@@ -806,11 +806,12 @@ var runneryogome = function(){
             if(i > 3){
                 tag = "brown"
             }
-            
+           
             enemiesGroup.children[i].animations.add('walk')
             enemiesGroup.children[i].animations.play('walk', frames, true)
             enemiesGroup.children[i].tag = tag
-            enemiesGroup.children[i].scale.setTo(-0.7, 0.7)
+            enemiesGroup.children[i].scale.setTo(-0.6, 0.6)
+            enemiesGroup.children[i].body.setSize(110, 90, 10, 40)
         }
     }
     
@@ -893,9 +894,9 @@ var runneryogome = function(){
     function hitEnemy(dude, enemy){
         
         if(!player.touched){
-            
+        
             if(enemy.tag == "pink"){
-                if(dude.y < enemy.y - enemy.height){
+                if(dude.y < enemy.y - 40){
                     doJump(1400)
                     addCoin(enemy)
                     deactivateObj(enemy)
@@ -1134,12 +1135,20 @@ var runneryogome = function(){
             })
         })
     }
+    
+    function render(){
+        
+        enemiesGroup.forEachAlive(function(sprite){
+            game.debug.body(sprite)
+        })
+    }
 	
 	return {
 		
 		assets: assets,
 		name: "runneryogome",
 		update: update,
+        render:render,
         preload:preload,
         getGameData:function () {
 			var games = yogomeGames.getGames()
