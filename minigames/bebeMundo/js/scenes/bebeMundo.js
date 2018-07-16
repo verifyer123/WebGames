@@ -55,9 +55,9 @@ var bebeMundo = function(){
     var INITIAL_PROBABILITY_WRONG_FOOD = 0.2
     var DELTA_PROBABILTY = 0.03
     var MAX_PROBABILiTY = 0.7
-    var INITIAL_TIME_APPEAR = 1500
-    var DELTA_TIME_APPEAR = 20
-    var MIN_TIME_APPEAR =500 
+    var INITIAL_TIME_APPEAR = 1.5
+    var DELTA_TIME_APPEAR = 0.02
+    var MIN_TIME_APPEAR =0.5 
     var MAX_GOOD = 3
 
     var DELTA_BAR = 0.0015
@@ -116,6 +116,7 @@ var bebeMundo = function(){
         currentBad = 0
         barValue = INITIAL_BAR_VALUE
         tapArray = []
+        timer = 0
     }
     
 
@@ -395,6 +396,15 @@ var bebeMundo = function(){
             return
         }
 
+        if(timer < currentTimeAppear){
+            console.log(timer)
+            timer+=game.time.elapsed/1000
+        }
+        else{
+            timer = 0
+            getFood()
+        }
+
         for(var i =0; i < arrayCurrentFood.length;i++){
         	arrayCurrentFood[i].x+=arrayCurrentFood[i].veltX
         	arrayCurrentFood[i].y+=arrayCurrentFood[i].veltY
@@ -565,7 +575,7 @@ var bebeMundo = function(){
 
 
     function setRound(){
-        timer = setTimeout(getFood,INITIAL_TIME_APPEAR)
+        //timer = setTimeout(getFood,INITIAL_TIME_APPEAR)
     }
 
     function getFood(){
@@ -629,7 +639,7 @@ var bebeMundo = function(){
 
 
 
-    	timer = setTimeout(getFood,currentTimeAppear)
+    	//timer = setTimeout(getFood,currentTimeAppear)
 
     }
 
@@ -832,28 +842,22 @@ var bebeMundo = function(){
         
         sceneGroup = game.add.group()
 
-        game.camera.focusOnXY(game.world.centerX, game.world.centerY);
+        //game.camera.focusOnXY(game.world.centerX, game.world.centerY);
 
         initialize()
 
         createBackground()
         createPlayer()
 
-        if(amazing.getMinigameId()){
-				
-		}
-
 
 
         game.onPause.add(function(){
 			
-			if(amazing.getMinigameId()){
-				
-			}
+
 			marioSong.pause()
 
 			if(timer!=null){
-				clearTimeout(timer)
+				//clearTimeout(timer)
 			}
 			
 	        game.sound.mute = true
@@ -861,20 +865,19 @@ var bebeMundo = function(){
 
 	    game.onResume.add(function(){
 			
-			if(amazing.getMinigameId()){
-				
-			}
-			if(lives > 0){
-					marioSong.play()
-				}
-			
 
-			timer = setTimeout(getFood,currentTimeAppear)
+			if(lives > 0){
+				marioSong.play()
+				if(timer == null){
+					//timer = setTimeout(getFood,currentTimeAppear)
+				}
+			}
+			
+			
 			
 	        game.sound.mute = false
 	    }, this);
 
-        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createPointsBar()
         createHearts()
