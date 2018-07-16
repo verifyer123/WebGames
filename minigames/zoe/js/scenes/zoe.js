@@ -94,6 +94,8 @@ var zoe = function(){
     var lastObject
     var currentMeters, nextCountMeters, meterstext
 
+    var spaceBar, canTap
+
     function getSkins(){
         
         var dataStore = amazing.getProfile()
@@ -124,6 +126,7 @@ var zoe = function(){
         }
         currentMeters = 0
         nextCountMeters = DELTA_COUNT_METERS
+        canTap = true
     }
     
 
@@ -393,6 +396,17 @@ var zoe = function(){
     }
     
     function updatePlayer(){
+
+        if(spaceBar.isDown){
+            if(canTap){
+                canTap = false
+                tap()
+            }
+        }
+        else{
+            canTap = true
+        }
+        
         if(player.body.x>250){
         	//console.log(player.body.x)
             var delta = player.body.x -250
@@ -1272,6 +1286,8 @@ var zoe = function(){
 			
 	        game.sound.mute = false
 	    }, this);
+
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createBackground()
         createPlayer()
