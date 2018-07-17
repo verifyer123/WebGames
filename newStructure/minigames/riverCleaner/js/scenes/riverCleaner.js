@@ -205,7 +205,7 @@ var riverCleaner = function(){
         
 		sound.play("wrong")
 		sound.play("gameLose")
-		nao.setAnimationByName(0, "LOSE", true)
+		nao.setAnimationByName(0, "lose", true)
         gameActive = false
         gameSong.stop()
         		
@@ -379,7 +379,7 @@ var riverCleaner = function(){
         
         nao = game.add.spine(100, rowsGroup.children[1].centerY + 40, "nao")
         nao.scale.setTo(0.4, 0.4)
-        nao.setAnimationByName(0, "IDLE", true)
+        nao.setAnimationByName(0, "idle", true)
         nao.setSkinByName("normal")
         nao.canMove = true
         sceneGroup.add(nao)
@@ -431,7 +431,7 @@ var riverCleaner = function(){
             fishGroup.add(box)
 
             var fish = game.add.spine(box.x + 50, box.height, "fish")
-            fish.setAnimationByName(0, "IDLE", true)
+            fish.setAnimationByName(0, "idle_small", true)
             fish.setSkinByName("normal")
             box.addChild(fish)
             box.fish = fish
@@ -504,6 +504,10 @@ var riverCleaner = function(){
         if(gameActive && !fish.collected){
             
             fish.collected = true
+            if(fish.fish){
+                fish.fish.setAnimationByName(0, "grow", false)
+                fish.fish.addAnimationByName(0, "idle_big", true)
+            }
             missPoint(fish)
             game.add.tween(nao).from({alpha: 0},100,Phaser.Easing.linear,true,0,5,true)
         }
@@ -514,8 +518,8 @@ var riverCleaner = function(){
         if(gameActive && !trash.collected){
             
             trash.collected = true
-            nao.setAnimationByName(0, "HIT", false)
-            nao.addAnimationByName(0, "RUN", true)
+            nao.setAnimationByName(0, "attack", false)
+            nao.addAnimationByName(0, "run", true)
             
             //game.time.events.add(200,function(){
                 addCoin(trash)
@@ -608,7 +612,7 @@ var riverCleaner = function(){
         level > 5 ? polutionGroup.level = 5 : polutionGroup.level = level
         polutionGroup.polution = 1/polutionGroup.level
         
-        nao.setAnimationByName(0, "WIN", true)
+        nao.setAnimationByName(0, "win", true)
         
         speed += 100
         
@@ -625,7 +629,7 @@ var riverCleaner = function(){
         polutionGroup.polution = 1/level
         polutionGroup.counter = 0
         
-        nao.setAnimationByName(0, "LOSE", true)
+        nao.setAnimationByName(0, "lose", true)
         
         if(lives > 0){
             cleanScreen()
@@ -664,13 +668,13 @@ var riverCleaner = function(){
     function initGame(){
         
         gameActive = true
-        nao.setAnimationByName(0, "RUN", true)
+        nao.setAnimationByName(0, "run", true)
         game.time.events.add(1000, throwObstacle)
     }
     
     function throwObstacle(){
         
-        var rand = game.rnd.integerInRange(0, 2)
+        var rand = game.rnd.integerInRange(0, 1)
         
         if(rand === 1){
             
@@ -685,6 +689,7 @@ var riverCleaner = function(){
         if(obj){
             if(rand === 1){
                 if(obj.fish){
+                    obj.fish.setAnimationByName(0, "idle_small", true)
                     obj.fish.x = 50
                     game.add.tween(obj.fish).to({x: -20},600,Phaser.Easing.linear,true)
                 }
@@ -756,10 +761,10 @@ var riverCleaner = function(){
                 hand.rocko.kill()
                 hand.rocko = null
             })
-            nao.setAnimationByName(0, "RUN", true)
+            nao.setAnimationByName(0, "run", true)
             game.add.tween(obj).to({x: nao.box.x}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
                 posHand(obj, 2)
-                nao.setAnimationByName(0, "IDLE", true)
+                nao.setAnimationByName(0, "idle", true)
                 rowsGroup.tag = 2
             })
         }
@@ -798,8 +803,8 @@ var riverCleaner = function(){
             
             playTuto = false
             trash.collected = true
-            nao.setAnimationByName(0, "HIT", false)
-            nao.addAnimationByName(0, "WIN", true)
+            nao.setAnimationByName(0, "attack", false)
+            nao.addAnimationByName(0, "win", true)
             
             killObj(trash)
             particleCorrect.x = trash.centerX 
