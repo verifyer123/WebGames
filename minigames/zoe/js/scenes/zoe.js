@@ -483,7 +483,16 @@ var zoe = function(){
         if(player.inGround){
         	//initTap = game.time.now
         	player.inGround = false
-        	player.body.applyImpulse([PLAYER_SPEED.x,PLAYER_SPEED.y],player.contactPoint.x,player.contactPoint.y)
+            var x = PLAYER_SPEED.x
+            var y = PLAYER_SPEED.y
+            if(Math.abs(player.body.velocity.x) > 300){
+                x =1
+            }
+            if(Math.abs(player.body.velocity.y) > 300){
+                y = 1
+            }
+            //console.log(player.body.velocity.x,player.body.velocity.y)
+        	player.body.applyImpulse([x,y],player.contactPoint.x,player.contactPoint.y)
         	player.body.angularVelocity+= 2
         }
     }
@@ -1132,8 +1141,10 @@ var zoe = function(){
     	var table = getTable(currentX,game.world.height - 350)
     	currentX += 200
     	var aiprlane = getAirplane(currentX,game.world.height - 550)
-    	currentX += 500
+    	currentX += 200
     	var bocina = getBocina(currentX,game.world.height - 350)
+        currentX += 200
+        var burro = getBurro(currentX,game.world.height - 330)
     	lastObject = bocina
     }
 
@@ -1155,7 +1166,7 @@ var zoe = function(){
     function createPatter3(){
     	var cajonera = getCajonera(currentX,game.world.height - 300)
     	var lampara = getLampara(currentX, game.world.height - 400)
-    	currentX += 500
+    	currentX += 400
     	var librero = getLibrero(currentX,game.world.height - 450)
     	currentX += 500
     	var clock = getClock(currentX, game.world.height - 500)
@@ -1186,11 +1197,11 @@ var zoe = function(){
 
     function createPatter5(){
         var arcade = getArcade(currentX,game.world.height - 400)
-        currentX += 200
+        currentX += 250
         var ariplane = getAirplane(currentX, game.world.height - 500)
-        currentX += 500
+        currentX += 450
         var librero = getLibrero(currentX,game.world.height - 450)
-        currentX += 500
+        currentX += 400
         var clock = getClock(currentX, game.world.height - 500)
         currentX += 300
         var chair = getChair(currentX, game.world.height - 430)
