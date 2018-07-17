@@ -93,7 +93,7 @@ var clash = function(){
     var MAX_HP = 7
 
     var ROUNDS = [
-        {maxNumber: 5, operator:"+"}
+        {maxNumber: 5, operator:["+", "-"]}
         ]
 
     var MONSTERS = [
@@ -130,7 +130,6 @@ var clash = function(){
     function loadSounds(){
         sound.decode(assets.sounds)
     }
-
 
     function initialize(){
 
@@ -254,18 +253,38 @@ var clash = function(){
         dino.hpBar.removeHealth(2)
         sound.play("hit")
 
-        dino.statusAnimation = dino.hpBar.health < 3 ? "TIRED" : "IDLE"
-        dino.setAnimation(["HIT", dino.statusAnimation])
+        dino.statusAnimation = dino.hpBar.health < 3 ? "tired" : "idle"
+        dino.setAnimation(["hit", dino.statusAnimation])
         dino.hit.start(true, 1000, null, 5)
         
-        missPoint()
-
         if(dino.hpBar.health > 0)
             game.time.events.add(1000, startRound)
         else{
             // dino.setAnimation(["HIT", "IDLE"])
-            game.time.events.add(400, stopGame)
+            missPoint()
+            if(lives > 0){
+                changePet()
+            }
+            else{
+                game.time.events.add(400, stopGame)
+            }
         }
+    }
+    
+    function changePet(){
+        
+        sound.play("bah")
+        dino.setAlive(false)
+        game.add.tween(dino).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 500).onComplete.add(function(){
+            dino.setSkinByName(dino.nextSkin)
+            dino.hpBar.resetHealth()
+            dino.alpha = 1
+            dino.setAlive(true)
+            dino.statusAnimation = "idle"
+            dino.setAnimation([dino.statusAnimation])
+            dino.nextSkin = "white"
+            game.add.tween(dino).from({x:-200}, 800, Phaser.Easing.Cubic.Out, true, 800).onComplete.add(startRound)
+        })
     }
 
     function monsterAttack(){
@@ -284,7 +303,7 @@ var clash = function(){
 
             var scale = {from:{x: 0.4, y: 0.4}, to:{x: 1, y: 1}}
 
-            createProyectile(from, target, scale, monster.proyectile, receiveAttack)
+            createProyectile(from, target, scale, monster.proyectile, receiveAttack, false)
         }
     }
     
@@ -349,16 +368,25 @@ var clash = function(){
             game.time.events.add(1500, killMonster)
     }
 
-    function createProyectile(from, target, scale, color, onComplete){
+    function createProyectile(from, target, scale, color, onComplete, animated){
         sound.play("throw")
 
-        var proyectile = sceneGroup.create(0, 0, 'atlas.clash', 'proyectile')
-        proyectile.x = from.x
-        proyectile.y = from.y
-        proyectile.scale.x = scale.from.x
-        proyectile.scale.y = scale.from.y
-        proyectile.anchor.setTo(0.5, 0.5)
-        proyectile.tint = color
+        if(animated){
+            coin = game.add.sprite(0, 0, "coin")
+            coin.anchor.setTo(0.5)
+            coin.scale.setTo(0.8)
+            coin.animations.add('coin');
+            coin.animations.play('coin', 24, true);
+        }
+        else{
+            var proyectile = sceneGroup.create(0, 0, 'atlas.clash', 'proyectile')
+            proyectile.x = from.x
+            proyectile.y = from.y
+            proyectile.scale.x = scale.from.x
+            proyectile.scale.y = scale.from.y
+            proyectile.anchor.setTo(0.5, 0.5)
+            proyectile.tint = color
+        }
 
         game.add.tween(proyectile).to({x: target.x}, 1600, null, true)
         game.add.tween(proyectile.scale).to({x: scale.to.x, y: scale.to.y}, 1600, null, true)
@@ -419,9 +447,9 @@ var clash = function(){
                 sound.play("right")
                 if(indicator.x > 118){
                     soundName = "explosion"
-                    dino.setAnimation(["CRITICAL", dino.statusAnimation])
+                    dino.setAnimation(["critical", dino.statusAnimation])
                 }else{
-                    dino.setAnimation(["ATTACK", dino.statusAnimation])
+                    dino.setAnimation(["attack", dino.statusAnimation])
                 }
 
                 game.time.events.add(500,function() {
@@ -436,7 +464,7 @@ var clash = function(){
                     var scale = {from:{x: 1, y: 1}, to:{x: 0.4, y: 0.4}}
                     if(soundName)
                         sound.play(soundName)
-                    createProyectile(from, target, scale, dino.proyectile, monsterHit)
+                    createProyectile(from, target, scale, dino.proyectile, monsterHit, true)
                 })
 
             }else{
@@ -444,13 +472,23 @@ var clash = function(){
                 particleWrong.x = option.x
                 particleWrong.y = option.y
                 sound.play("wrong")
-
+                showCorrect()
                 particleWrong.start(true, 3000, null, 6)
-
                 game.time.events.add(500, monsterAttack)
-                game.time.events.add(500, function(){
-                    
-                })
+            }
+        }
+    }
+    
+    function showCorrect(){
+        
+        for(var optionIndex = 0; optionIndex < clashGroup.options.length; optionIndex++) {
+            var option = clashGroup.options[optionIndex]
+            if(option.number !== clashGroup.answer){
+                game.add.tween(option.scale).to({x:0.2, y:0.2}, 800, Phaser.Easing.Cubic.Out, true)
+                game.add.tween(option).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
+            }
+            else{
+                game.add.tween(option.scale).to({x:1.2, y:1.2}, 200, Phaser.Easing.Cubic.Out, true, 0, 0, true)
             }
         }
     }
@@ -514,7 +552,7 @@ var clash = function(){
         grass.scale.setTo(0.65, 0.65)
         // hpBar1.removeHealth(2)
 
-        monster = createSpine("monsters", MONSTERS[monsterCounter].skin)
+        monster = createSpine("monsters", MONSTERS[monsterCounter].skin, "IDLE")
         monster.x = game.world.width - 140
         monster.y = monster.height - 10
         monster.scale.setTo(0.8, 0.8)
@@ -547,14 +585,15 @@ var clash = function(){
         var grass2 = sceneGroup.create(0, 0, 'atlas.clash', 'grass')
         grass2.anchor.setTo(0.5, 0.5)
 
-        dino = createSpine("dino", "normal")
+        dino = createSpine("dino", "red")
         dino.x = 130
         dino.y = dino.height + 300
         dino.proyectile = "0xFF0000"
+        dino.nextSkin = "blue"
         sceneGroup.add(dino)
         grass2.x = dino.x - 8
         grass2.y = dino.y - 40
-        dino.statusAnimation = "IDLE"
+        dino.statusAnimation = "idle"
 
         var explodeDino = createPart("proyectile")
         dino.add(explodeDino)
@@ -666,10 +705,10 @@ var clash = function(){
         var round = ROUNDS[0]
 
         var number1 = game.rnd.integerInRange(1, round.maxNumber)
-        var number2 = game.rnd.integerInRange(0, round.maxNumber)
+        var number2 = game.rnd.integerInRange(1, round.maxNumber)
         var answer
 
-        var operation = round.operator
+        var operation = round.operator[game.rnd.integerInRange(0, 1)]
         // if(round.operator === "random")
         //     operation = OPERATIONS[game.rnd.integerInRange(0, OPERATIONS.length - 1)]
 
@@ -837,7 +876,8 @@ var clash = function(){
     }
     
     function createSpine(skeleton, skin, idleAnimation, x, y) {
-        idleAnimation = idleAnimation || "IDLE"
+        
+        idleAnimation = idleAnimation || "idle"
         var spineGroup = game.add.group()
         spineGroup.x = x || 0
         spineGroup.y = y || 0

@@ -1,92 +1,182 @@
-var soundsPath = '../../shared/minigames/sounds/'
+
+var soundsPath = "../../shared/minigames/sounds/"
+
 var runneryogome = function(){
     
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
-			"or":"or",
+            "moves":"Moves left",
+			"stop":"Stop!"
 		},
 
 		"ES":{
-            "howTo":"¿Cómo Jugar?",
-			"or":"ó",
-            
+            "moves":"Movimientos extra",
+            "howTo":"¿Cómo jugar?",
+            "stop":"¡Detener!"
 		}
 	}
     
-    assets = {
+
+	assets = {
         atlases: [
             {   
-                name: "atlas.runner",
-                json: "images/runner/atlas.json",
-                image: "images/runner/atlas.png",
-            },
+                name: "atlas.runneryogome",
+                json: "images/runneryogome/atlas.json",
+                image: "images/runneryogome/atlas.png",
+            }
         ],
         images: [
             {   name:"tutorial_image",
-                file: "images/runner/tutorial_image.png"}
+                file: "images/runneryogome/tutorial_image_%input.png"
+            },
+            {   name:"sky",
+                file: "images/runneryogome/sky.png"
+            },
+            {   name:"mountains",
+                file: "images/runneryogome/mountains.png"
+            },
+            {   name:"hills",
+                file: "images/runneryogome/hills.png"
+            }
 		],
 		sounds: [
-            {	name: "pop",
-				file: soundsPath + "pop.mp3"},
-			{	name: "magic",
+            {	name: "magic",
 				file: soundsPath + "magic.mp3"},
-            {	name: "splash",
-				file: soundsPath + "splash.mp3"},
+            {	name: "cut",
+				file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+				file: soundsPath + "wrongAnswer.mp3"},
+            {	name: "rightChoice",
+				file: soundsPath + "rightChoice.mp3"},
+			{	name: "pop",
+				file: soundsPath + "pop.mp3"},
             {	name: "whoosh",
 				file: soundsPath + "whoosh.mp3"},
-            {	name: "gameLose",
+            {	name: "splash",
+				file: soundsPath + "splash.mp3"},
+			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
-            {	name: "wrongItem",
-				file: soundsPath + "wrongItem.mp3"},
-            {	name: "popObject",
-				file: soundsPath + "pop.mp3"},
+            {   name: 'gameSong',
+                file: soundsPath + 'songs/marioSong.mp3'
+            }
 		],
-	}
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            },
+            {   name: "hand",
+                file: "images/spines/hand.png",
+                width: 115,
+                height: 111,
+                frames: 23
+            },
+            {   name: "pink",
+                file: "images/spines/pMonster.png",
+                width: 135,
+                height: 149,
+                frames: 16
+            },
+            {   name: "brown",
+                file: "images/spines/bMonster.png",
+                width: 135,
+                height: 149,
+                frames: 16
+            },
+        ],
+        spines:[
+			{
+				name:"arthurius",
+				file:"images/spines/skeleton.json"
+			}
+		]
+    }
     
-    var SPEED = 225 
-    var TIME_ADD = 600
-    var JUMP_FORCE = 950
-    var DEBUG_PHYSICS = false
-    var WORLD_GRAVITY = 1600
-    var OFF_BRICK = 350
-    var BOT_OFFSET = -50
-    
-    var board
-    var overlayGroup
-    //var gameIndex = 2
-    var skullTrue = false
-    var marioSong = null
-    var enemyNames = null
-    var consecFloor, consecBricks
-    var gameStart = false
-    var jumping = false
-    var lastOne = null
-    var yAxis = null
-    var objToCheck
-    var gameSpeed = null
-    var pivotObjects
-    var player
-	var sceneGroup = null
-    var groundGroup = null
-    var answersGroup = null
-    var pointsGroup = null
-    var gameActive = null
-    var jumpTimer = 0
-    var characterGroup = null
-    var pointsBar = null
+        
     var lives = null
-    var heartsGroup = null 
-    var groupButton = null
-	var playerCollision, enemiesCollision, assetsCollision
+	var sceneGroup = null
+    var gameActive
+    var particleCorrect, particleWrong
+    var gameIndex = 2
+    var tutoGroup
+    var pointsBar
+    var heartsGroup
+    var gameSong
+    var coin
+    var hand
+    var tileGroup
+    var boardGroup
+    var landGroup
+    var jumpButton
+    var button
+    var player
+    var arthurius
+    var coinsGroup
+    var coinCounter
+    var enemiesGroup
+    var enemyCounter
+    var enemyLvl
+    var result
+    var playingTuto
+    var easyMode
     
-
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
+	function initialize(){
+
+        game.stage.backgroundColor = "#ffffff"
+        lives = 3
+        jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+        gameActive = false
+        coinCounter = 0
+        enemyCounter = 0
+        enemyLvl = 3
+        playingTuto = false
+        easyMode = true
+        
+        button = new Phaser.Graphics(game)
+        button.beginFill(0xffffff)
+        button.drawRect(0, 0, game.world.width, game.world.height)
+        button.endFill()
+        button.alpha = 0
+        button.inputEnabled = true
+        button.isPressed = false
+        button.events.onInputDown.add(inputButton)
+        button.events.onInputUp.add(function(){
+            button.isPressed = false
+        })
+        sceneGroup.add(button)
+        
+        loadSounds()
+	}
+    
+    function inputButton(){   
+        
+        if(gameActive || playingTuto){
+            if(!player.isJumpin && !button.isPressed && player.isRunning){
+                button.isPressed = true
+                doJump(900)
+            }
+        }
+    }
+    
+    function animateScene() {
+                
+        gameActive = false
+        
+        var startGroup = new Phaser.Group(game)
+        sceneGroup.add(startGroup)
+                
+        sceneGroup.alpha = 0
+        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
+
+    }
+	
     function changeImage(index,group){
         for (var i = 0;i< group.length; i ++){
             group.children[i].alpha = 0
@@ -94,1184 +184,1011 @@ var runneryogome = function(){
                 group.children[i].alpha = 1
             }
         }
-    }  
-    
-	function initialize(){
-        
-        enemyNames = ['coin']
-        gameStart = false
-        skullTrue = false
-        gameSpeed =  SPEED
-        lastOne = null
-        game.stage.backgroundColor = "#ffffff"
-        jumpTimer = 0
-        gameActive = false
-        lives = 5
-        pivotObjects = 0
-        objToCheck = null
-        buttonPressed = false
-        tooMuch = false
-        GRAVITY_OBJECTS = 4
-        yAxis = p2.vec2.fromValues(0, 1);
-        consecFloor = 0
-        consecBricks = 0
-        
-	}
-    
-    function animateCoin(coin,delay,number){
-        
-        game.time.events.add(delay,function(){
-            coin.alpha = 1
-            number.alpha = 1
-            game.add.tween(coin.scale).from({x:0.01,y:0.01},300,Phaser.Easing.linear,true)
-            sound.play("popObject")
-        },this)
-    }
-    function getOperation(){
-        
-        var index = game.rnd.integerInRange(1,2)
-        
-        //console.log(index + ' indexNumber')
-        
-        if(index == 1){
-            
-            player.number1 = game.rnd.integerInRange(1,8)
-            player.number2 = game.rnd.integerInRange(1, 9 - player.number1)
-
-            player.result = player.number1 + player.number2
-            board.signText.setText('+')
-            
-        }else if(index == 2){
-            
-            player.number1 = game.rnd.integerInRange(2,9)
-            player.number2 = game.rnd.integerInRange(1,player.number1 - 1)
-            
-            player.result = player.number1 - player.number2
-            board.signText.setText('-')
-        }
-        
-        board.numbers[0].setText(player.number1)
-        board.numbers[1].setText(player.number2)
-        
-        
-        var delay = 500
-        
-        for(var i = 0; i<board.coins.length;i++){
-            
-            var coin = board.coins[i]
-            board.numbers[i].alpha = 0
-            coin.alpha = 0
-            animateCoin(coin,delay,board.numbers[i])
-            delay+=200
-            
-        }
-    }
-    
-    function animateScene() {
-                        
-        sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
-        gameActive = true
-        //timer.start()
-        //game.time.events.add(throwTime *0.1, dropObjects , this);
-        //objectsGroup.timer.start()
-        //game.time.events.add(TIME_ADD, addObjects , this);
-        checkOnAir()
-        getOperation()
-        //gameStart = true
-
     } 
-    
-    
-    function preload() {
-        game.stage.disableVisibilityChange = false;  
-		
-        
-        var addText = ""
-        if(game.world.width > game.world.height){
-            addText = "Land"
-        }
-        
-        game.load.spine('arthurius', "images/spines/skeleton.json");
-        game.load.image('fondo',"images/runner/background" + addText + ".png")
-        game.load.image('introscreen',"images/runner/introscreen.png")
-		game.load.image('howTo',"images/runner/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/runner/play" + localization.getLanguage() + ".png")
-        
-        game.load.spritesheet('bMonster', 'images/runner/bMonster.png', 83, 84, 16);
-        game.load.spritesheet('pMonster', 'images/runner/pMonster.png', 88, 78, 17);
-        game.load.spritesheet('coinS', 'images/runner/coinS.png', 68, 70, 12);
-        game.load.audio('marioSong', soundsPath + 'songs/marioSong.mp3');
-        
-    }
-    
-    function inputButton(obj){
-        
-        if(gameActive == false){
-            return
-        }
-        
-        
-        //sound.play("click")ad
-        
-        if(buddy.isRunning == true){
-            if (checkIfCanJump())
-            {
-                groupButton.isPressed = true
-                jumping = true
-                doJump()
-            }
-        }
-        
-    }
-    
-    function releaseButton(obj){
-        
-        groupButton.isPressed = false
-        jumping = false
-    }
-    
-    function createControls(){
-        
-        groupButton = game.add.group()
-        groupButton.isPressed = false
-        sceneGroup.add(groupButton)
-        
-        var button2 = new Phaser.Graphics(game)
-        button2.beginFill(0xffffff);
-        button2.drawRect(0, 0, game.world.width, game.world.height);
-        button2.endFill();
-        button2.alpha = 0
-        button2.anchor.setTo(0,0)
-        button2.inputEnabled = true
-        button2.events.onInputDown.add(inputButton)
-        button2.events.onInputUp.add(releaseButton)
-        groupButton.add(button2)
-        
-    }
-    
-    function stopWorld(){
-        
-        for(var i = 0;i<objectsGroup.length;i++){
-            var child = objectsGroup.children[i]
-            child.body.velocity.x = 0
-        }
-        
-        buddy.setAnimationByName(0,"LOSE",false)
-        var tweenLose = game.add.tween(buddy).to({y:buddy.y - 150}, 1000, Phaser.Easing.Cubic.Out, true)
-        tweenLose.onComplete.add(function(){
-            game.add.tween(buddy).to({y:buddy.y + game.world.height + game.world.height * 0.2}, 500, Phaser.Easing.Cubic.In, true)
-        })
-    }
-    
-    function stopGame(win){
-        
-        marioSong.stop()
-        
-        //missPoint(5)
-        sound.play("gameLose")
-        stopWorld()
-        //game.add.tween(objectsGroup).to({alpha:0},250, Phaser.Easing.Cubic.In,true)
-        
-        //objectsGroup.timer.pause()
-        gameActive = false
-        
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
-		tweenScene.onComplete.add(function(){
-            
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex,1.4)
-            //amazing.saveScore(pointsBar.number)
-			sceneloader.show("result")
-		})
-    }
-    
-    function createTextPart(text,obj){
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, text, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y - 60
-        sceneGroup.add(pointsText)
-                
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-        
-        game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-        
-    }
-    
-    function addPoint(obj,part){
-        
-        var partName = part || 'star'
-        sound.play("magic")
-        createPart(partName, obj)
-        createTextPart('+1', obj)
-        
-        //gameSpeed +=10
-        
-        pointsBar.number++
-        pointsBar.text.setText(pointsBar.number)
-        
-        if(pointsBar.number == 5){
-            enemyNames[enemyNames.length] = 'enemy_squish'
-        }else if(pointsBar.number == 10){
-            enemyNames[enemyNames.length] = 'enemy_spike'
-        }else if(pointsBar.number == 25){
-            consecBricks = -100
-            consecFloor = -100
-        }else if(pointsBar.number == 30){
-            skullTrue = true
-        }
-        
-        addNumberPart(pointsBar.text,'+1')
-        
-    }
-    
-    function addNumberPart(obj,number){
-        
-        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
-        pointsText.x = obj.world.x
-        pointsText.y = obj.world.y
-        pointsText.anchor.setTo(0.5,0.5)
-        sceneGroup.add(pointsText)
-        
-        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-        game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-        tweenScale.onComplete.add(function(){
-            game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-        })
-    }
-    
-    function missPoint(points){
-        
-        sound.play("wrong")
-        
-        lives-=points
-        if(lives<=0){
-            lives = 0
-            stopGame()
-        }else{
-
-			buddy.alpha = 0
-			player.invincible = true
-			game.add.tween(buddy).to({alpha:1},100,"Linear",true,0,10).onComplete.add(function(){
-				player.invincible = false
-			})
-		}
-
-        heartsGroup.text.setText('X ' + lives)
-        
-        
-        
-    }
-    
-    function positionPlayer(){
-        
-        player.body.x = 100 
-        characterGroup.x = player.x
-        characterGroup.y = player.y +44 
-        
-        if(player.body.y > game.world.height - 50){
-			createPart('wrong',player)
-			addNumberPart(heartsGroup.text,'-'+lives)
-            missPoint(5)
-			
-            //stopGame()
-        }
-        
-    }
-    
-    function deactivateObj(obj){
-        
-        obj.body.velocity.x = 0
-        obj.used = false
-        obj.body.y = -500
-        
-        objectsGroup.remove(obj)
-        groundGroup.add(obj)
-    }
-    
-    function deactivateCoins(textPart){
-    
-        for(var i = 0;i<objectsGroup.length;i++){
-            
-            var obj = objectsGroup.children[i]
-            if(obj.tag == 'coin' && obj.used){
-                deactivateObj(obj)
-                deactivateObj(obj.text)
-                createPart(textPart,obj)
-            }
-        }
-        
-    }
-    
-    function checkObjects(){
-        
-        //console.log( objectsList.length + 'cantidad objetos')
-        for(var index = 0;index<objectsGroup.length;index++){
-            
-            var obj = objectsGroup.children[index]
-            
-            if(obj.used){
-                if(obj.body.x < -obj.width * 0.45){
-                    deactivateObj(obj)
-                    if(obj.tag == 'floor' || obj.tag == 'brick'){
-                        addObjects()
-                    }
-                    //console.log('objeto removido')
-                }else if(obj.tag == 'coin' || obj.tag == 'skull'){
-                    
-                    if(Math.abs(obj.body.x - player.body.x) < 50 && Math.abs(obj.body.y - player.body.y) < 50){
-                        if(obj.tag == 'coin'){
-                            
-                            if(player.result == obj.text.number){
-                                addPoint(obj)
-                                deactivateCoins('star')
-                            }else{
-                                sound.play("wrong")
-                                createPart('wrong',obj)
-                                deactivateCoins("wrong")
-                                missPoint(1)
-								addNumberPart(heartsGroup.text,'-1')
-                            }
-                            
-                            getOperation()
-                        }else if(obj.tag == 'skull'){
-                            sound.play("wrongItem")
-                            createPart('wrong',obj)
-                            addWrongTween()
-                        }
-                        
-                        deactivateObj(obj)
-                        if(obj.text){
-                            deactivateObj(obj.text)
-                        }
-                    }
-
-                }
-            }
-        }
-    }
-    
-    function doJump(value){
-        
-        var jumpValue = value
-        
-        if(jumpValue == null){ jumpValue = JUMP_FORCE}
-        sound.play("whoosh")
-        
-        buddy.isRunning = false
-        
-        buddy.setAnimationByName(0, "JUMP", false);
-        //buddy.addAnimationByName(0, "LAND", false);
-        
-        player.body.moveUp(jumpValue )
-        jumpTimer = game.time.now + 750;
-        
-        game.time.events.add(750, function(){
-            if(gameActive == true){
-                //buddy.setAnimationByName(0, "RUN", true);
-            }
-        } , this);
-    
-    }
-    
-    function update(){
-        
-        if(gameActive == false){
-            return
-        }
-        
-        positionPlayer()
-        
-        if (jumpButton.isDown){
-            
-            if( checkIfCanJump() && jumping == false)
-            {
-                jumping = true
-                doJump()
-            }
-        }
-        
-        if(jumping == true){
-            player.body.velocity.y-=2
-            
-        }
-        
-        //console.log(player.body.velocity.y + ' velocity y')
-        if((jumpButton.isUp && groupButton.isPressed == false)){
-            if(player.body.velocity.y< 0){
-                player.body.velocity.y+=20
-            }
-            jumping = false
-            //buddy.setAnimationByName(0,"RUN",true)
-        }
-        
-        checkObjects()
-    }
-    
-    function checkIfCanJump() {
-
-        var result = false;
-
-        for (var i=0; i < game.physics.p2.world.narrowphase.contactEquations.length; i++)
-        {
-            var c = game.physics.p2.world.narrowphase.contactEquations[i];
-
-            if (c.bodyA === player.body.data || c.bodyB === player.body.data)
-            {
-                var d = p2.vec2.dot(c.normalA, yAxis);
-
-                if (c.bodyA === player.body.data)
-                {
-                    d *= -1;
-                }
-
-                if (d > 0.5)
-                {
-                    result = true;
-                }
-            }
-        }
-
-        return result;
-
-}
-
     
     function createPointsBar(){
         
         pointsBar = game.add.group()
+        pointsBar.x = game.world.width
+        pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(10,10,'atlas.runner','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.runneryogome','xpcoins')
+        pointsImg.anchor.setTo(1,0)
     
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
-        pointsText.y = pointsImg.height * 0.3
-        pointsBar.add(pointsText)
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+        pointsText.x = -pointsImg.width * 0.45
+        pointsText.y = pointsImg.height * 0.25
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
+        pointsBar.add(pointsText)
         pointsBar.text = pointsText
         pointsBar.number = 0
-        
     }
     
     function createHearts(){
         
         heartsGroup = game.add.group()
-        heartsGroup.x = game.world.width - 20
         heartsGroup.y = 10
         sceneGroup.add(heartsGroup)
         
+        var pivotX = 10
         
-        var pivotX = 15
         var group = game.add.group()
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartsImg = group.create(0,0,'atlas.runner','life_box')
-        heartsImg.anchor.setTo(1,0)
+        var heartImg = group.create(0,0,'atlas.runneryogome','life_box')
+
+        pivotX += heartImg.width * 0.45
         
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 10, "0", fontStyle)
-        pointsText.x = -heartsImg.width * 0.38
-        pointsText.y = 2
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+        pointsText.x = pivotX
+        pointsText.y = heartImg.height * 0.15
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
         pointsText.setText('X ' + lives)
         heartsGroup.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
         heartsGroup.text = pointsText
-                
     }
     
-    function createPart(key,obj){
+    function addPoint(number){
         
-        var particlesNumber = 2
+        sound.play("magic")
+        pointsBar.number+=number;
+        pointsBar.text.setText(pointsBar.number)
         
-        tooMuch = true
-        
-        if(game.device.desktop == true && tooMuch == false){ 
-            
-            particlesNumber = 3
-            
-            var particlesGood = game.add.emitter(0, 0, 100);
-
-            particlesGood.makeParticles('atlas.runner',key);
-            particlesGood.minParticleSpeed.setTo(-200, -50);
-            particlesGood.maxParticleSpeed.setTo(200, -100);
-            particlesGood.minParticleScale = 0.2;
-            particlesGood.maxParticleScale = 1;
-            particlesGood.gravity = 150;
-            particlesGood.angularDrag = 30;
-
-            particlesGood.x = obj.world.x;
-            particlesGood.y = obj.world.y - 50;
-            particlesGood.start(true, 1000, null, particlesNumber);
-
-            game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-            sceneGroup.add(particlesGood)
-
-            return particlesGood
-        }else{
-            key+='Part'
-            var particle = sceneGroup.create(obj.world.x,obj.world.y - 20,'atlas.runner',key)
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1.2,1.2)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:1.65,y:1.65},300,Phaser.Easing.Cubic.In,true)
-        }
-        
-    }
-    
-    function addWrongTween(){
-        
-        var number = 3
-        if(pointsBar.number >= number){
-            pointsBar.number-=number
-            addNumberPart(pointsBar.text,'-' + number)
-            pointsBar.text.setText( pointsBar.number)
-        }
-        
-        var timeDelay = 2000
-        var delay = 0
-        
-        //game.add.tween(sceneGroup.scale).to( { x:1.1 }, timeDelay, Phaser.Easing.Linear.None, true);
-        
-        if(sceneGroup.scale.y != 1){
-            return
-        }
-        
-        worldGroup.scale.y= - 1
-        worldGroup.y+=game.world.height * 0.8
-        
-        for(var counter = 0; counter < 1;counter++){
-            game.time.events.add(delay, function(){
-                
-                var color = Phaser.Color.getRandomColor(0,255,255)
-                game.stage.backgroundColor = color
-                
-                var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-                tweenAlpha.onComplete.add(function(){
-                    game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-                })
-                
-            } , this);
-            delay+=timeDelay
-        }
-        
-        game.time.events.add(delay,function(){
-            
-            var tweenAlpha = game.add.tween(sceneGroup).to({alpha : 0},timeDelay*0.1,Phaser.Easing.linear,true)
-            tweenAlpha.onComplete.add(function(){
-                game.add.tween(sceneGroup).to({alpha : 1},timeDelay*0.1,Phaser.Easing.linear,true)
-            })
-                
-            game.stage.backgroundColor = '#ffffff'
-            worldGroup.scale.y = 1
-            worldGroup.y-=game.world.height * 0.8
-            //game.add.tween(sceneGroup.scale).to( { x:1 }, timeDelay, Phaser.Easing.Linear.None, true);
+        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
     }
     
-    function collisionEvent(obj1,obj2){
+    function missPoint(obj){
         
-        //console.log(obj2.sprite.tag)
-        var tag = obj2.sprite.tag
+        sound.play("wrong")
         
-        if(obj2.sprite.used == true && gameActive == true){
-            if(tag == 'coin'){
-                deactivateObj(obj2.sprite)
-                addPoint(obj2.sprite)
+        particleWrong.x = obj.centerX 
+        particleWrong.y = obj.centerY
+        particleWrong.start(true, 1200, null, 10)
+		 
+        if(lives > 0){
+            lives--;
+            heartsGroup.text.setText('X ' + lives)
+        }
+        
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+        })
+        
+        if(lives == 0){
+            stopGame()
+        }
+    }
+    
+    function stopGame(){
+        
+		sound.play("wrong")
+		sound.play("gameLose")
+		
+        gameActive = false
+        player.touched = true
+        player.body.collideWorldBounds = false
+        tileGroup.castles.setAll("body.velocity.x", 0)
+        landGroup.setAll("body.velocity.x", 0)
+        coinsGroup.setAll("body.velocity.x", 0)
+        arthurius.setAnimationByName(0, "lose", true)
+        gameSong.stop()
+        		
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+		tweenScene.onComplete.add(function(){
+			var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
-            }else if(tag == "floor" || tag == "brick"){
-                if(gameActive == true && buddy.isRunning == false){
-                    buddy.isRunning = true
-                    if(player.body.y < obj2.sprite.body.y){
-                        buddy.setAnimationByName(0, "LAND", false);
-                        buddy.addAnimationByName(0,"RUN",true)
+			//amazing.saveScore(pointsBar.number) 			
+            sceneloader.show("result")
+		})
+    }
+    
+    function preload(){
+        
+		//buttons.getImages(game)
+		
+        game.stage.disableVisibilityChange = false
+        
+        //loadType(gameIndex)
+    }
+    
+    function createTutorial(){
+        
+        tutoGroup = game.add.group()
+        sceneGroup.add(tutoGroup)
+
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+    }
+    
+    function onClickPlay() {
+        tutoGroup.y = -game.world.height
+        //initGame()
+        initTuto()
+    }
+
+	function createBackground(){
+        
+        var sky = sceneGroup.create(0,0,'sky')
+        sky.width = game.world.width
+        sky.height = game.world.height - 200
+        
+        tileGroup = game.add.group()
+        sceneGroup.add(tileGroup)
+        
+        var mountains = game.add.tileSprite(0, game.world.height - 100, game.world.width, game.world.height - 200, 'mountains')
+        mountains.anchor.setTo(0,1)
+        tileGroup.add(mountains)
+        tileGroup.mountains = mountains
+        
+        createCastles()
+        
+        var hills = game.add.tileSprite(0, game.world.height + 50, game.world.width, game.world.height - 240, 'hills')
+        hills.anchor.setTo(0,1)
+        tileGroup.add(hills)
+        tileGroup.hills = hills
+    }
+    
+    function createCastles(){
+
+        var castleGroup = game.add.group()
+        castleGroup.enableBody = true
+        castleGroup.createMultiple(10, "atlas.runneryogome", 'castle0')
+        castleGroup.setAll('anchor.x', 0)
+        castleGroup.setAll('anchor.y', 1)
+        castleGroup.setAll('checkWorldBounds', true)
+        castleGroup.setAll('outOfBoundsKill', true)
+        castleGroup.setAll('exists', false)
+        castleGroup.setAll('visible', false)
+        castleGroup.setAll('tag', getRand(2, -1))
+        castleGroup.forEach(function(obj){
+            obj.body.allowGravity = false
+            obj.events.onOutOfBounds.add(resetObj, this)
+        },this)
+        tileGroup.add(castleGroup)
+        tileGroup.castles = castleGroup
+        
+        var pivotX = 0
+        var type = [2, 1, 0, 2]
+        for(var i = 0; i < type.length; i++){
+            createTown(pivotX, type[i])
+            pivotX += 120
+        }
+        createTown(game.world.width - 50, 2)
+    }
+    
+    function createTown(x, type){
+        
+        var obj = tileGroup.castles.getFirstExists(false)
+            
+        if(obj){
+
+            obj.loadTexture('atlas.runneryogome', "castle" + type)
+            obj.tag = type
+            obj.reset(x, game.world.centerY + 160)
+        }
+    }
+    
+    function resetObj(castle){
+        
+        castle.kill()
+        var obj = tileGroup.castles.getFirstExists(false)
+        
+        if(obj){
+            obj.loadTexture('atlas.runneryogome', "castle" + castle.tag)
+            obj.reset(game.world.width, game.world.centerY + 160)
+            obj.tag = getRand(2, castle.tag)
+            obj.body.velocity.x = -30
+        }
+    }
+
+	function update(){
+        
+        if(gameActive){
+            
+            tileGroup.mountains.tilePosition.x -= 0.1
+            tileGroup.hills.tilePosition.x -= 2
+        
+            if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
+                doJump(900)
+            }
+
+            if(player.isJumpin){
+                player.body.velocity.y -= 2
+            }
+
+            if(jumpButton.isUp && !button.isPressed){
+                if(player.body.velocity.y < 0){
+                    player.body.velocity.y += 20
+                }
+                else{
+                    player.isJumpin = false
+                }
+            }
+
+            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 5){
+                
+                newPath()
+                coinCounter++
+                enemyCounter++
+            }
+        }
+        else{
+            if(playingTuto){
+                if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
+                    doJump(900)
+                }
+                
+                if(player.isJumpin){
+                    player.body.velocity.y -= 2
+                }
+                
+                if(jumpButton.isUp && !button.isPressed){
+                    if(player.body.velocity.y < 0){
+                        player.body.velocity.y += 20
+                    }
+                    else{
+                        player.isJumpin = false
                     }
                 }
-            }else if(tag == 'enemy_spike'){
-				
-				if(!player.invincible){
-					missPoint(1)
-                	createPart('wrong', obj2.sprite)
-					doJump(JUMP_FORCE * 1.5)
-				}
+            }
+            
+            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 5){
+                tutoPath()
+            }
+        }
+        
+        game.physics.arcade.collide(player, landGroup, land, null, this)
+        game.physics.arcade.collide(enemiesGroup, landGroup)
+        game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
+        game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+        
+        player.x = 100
+        arthurius.x = player.x
+        arthurius.y = player.y + 10
+    }
+    
+    function doJump(force){
+       
+        var f = 0 || force
+        player.body.velocity.y -= f
+        player.isJumpin = true
+        sound.play("whoosh")
+        player.isRunning = false
+        arthurius.setAnimationByName(0, "jump", true)
+    }
+    
+    function land(){
+        
+        if(gameActive){
+            if(!player.isRunning){
+                player.isRunning = true
+                arthurius.setAnimationByName(0, "land", true)
+                arthurius.addAnimationByName(0, "run", true)
+            }
+        }
+        else if(playingTuto){
+            if(!player.isRunning){
+                player.isRunning = true
+                arthurius.setAnimationByName(0, "land", true)
+                arthurius.addAnimationByName(0, "idle", true)
                 
-            }else if(tag == "enemy_squish"){
-                if(player.body.y < obj2.sprite.y - 8){
-                    doJump(JUMP_FORCE * 1.3)
-                    addPoint(obj2.sprite,'drop')
-                    sound.play("splash")
-                    deactivateObj(obj2.sprite)
-                    
-                }else{
-					if(!player.invincible){
-						missPoint(1)
-                    	createPart('wrong', obj2.sprite)
-						doJump(JUMP_FORCE * 1.3)
-					}
+                if(hand.coin.alive){
+                    game.add.tween(hand.text).to({alpha:1},200,Phaser.Easing.linear,true)
+                    hand.animations.paused = true
+                }
+                else{
+                    playingTuto = false
+                    initGame()
+                    game.add.tween(hand).to({alpha:0},250,Phaser.Easing.linear,true).onComplete.add(function(){
+                        hand.animations.stop()
+                        hand.destroy()
+                        boardGroup.forEachAlive(fadeOut, this)
+                    })
                 }
             }
         }
     }
     
-    function addComplement(tag){
-        
-        var objToUse
-        for(var i = 0;i< groundGroup.length;i++){
-            var child = groundGroup.children[i]
-            if(child.tag == tag && child.used == false){
-                objToUse = child
-                break
+    function newPath(){
+
+        var obj = landGroup.getFirstExists(false)
+
+        if(obj && gameActive){
+            var rand = game.rnd.integerInRange(0, 1)
+            
+            if(rand == 0){
+                obj.loadTexture('atlas.runneryogome', "floor")
+                obj.tag = "floor"
+                obj.reset(game.world.width, game.world.height)
+            }
+            else{
+                obj.loadTexture('atlas.runneryogome', "brick")
+                obj.tag = "brick"
+                
+                if(landGroup.lastObj.tag === "floor"){
+                    
+                    rand = game.rnd.integerInRange(1, 2)
+                    obj.reset(game.world.width - 10, (game.world.height - 200) - (obj.height * rand))
+                }
+                else{
+                    if(landGroup.lastObj.y < game.world.centerY){
+                        rand = game.rnd.integerInRange(0, 2)
+                    }
+                    else{
+                        if(landGroup.lastObj.y > game.world.height - 400){
+                            rand = game.rnd.integerInRange(1, 2) * -1
+                        }
+                        else{
+                            rand = game.rnd.integerInRange(0, 2) * -1
+                        }
+                    }
+                    obj.reset(game.world.width, landGroup.lastObj.y + (obj.height * rand))
+                }
+                if(easyMode)
+                    alwaysFloor()
+            }
+            
+            obj.body.velocity.x = -225
+            landGroup.lastObj = obj
+            landGroup.lastObj.tag = obj.tag
+            
+            if(coinCounter === coinsGroup.rand){
+                game.time.events.add(coinsGroup.delay, throwCoin, this, obj)
+                coinsGroup.delay > 200 ? coinsGroup.delay = 200 : 350
+            }
+            if(enemyCounter === enemiesGroup.rand){
+                game.time.events.add(350, throwEnemy, this, obj)
             }
         }
-        return objToUse
     }
     
-    function setCoinNumber(coinText){
+    function alwaysFloor(){
+        var obj = landGroup.getFirstExists(false)
         
-        var number
+        if(obj){
+            obj.loadTexture('atlas.runneryogome', "floor")
+            obj.tag = "floor"
+            obj.reset(game.world.width, game.world.height)
+            obj.body.velocity.x = -225
+        }
+    }
+    
+    function createPart(key){
         
-        number = player.result
-        if(Math.random() * 3 > 1){
-            
-            while(number == player.result){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.runneryogome',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.3;
+        particle.maxParticleScale = .8;
+        particle.gravity = -1300;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
+    }
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('smoke')
+        sceneGroup.add(particleWrong)
+    }
+	
+	function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+        
+        hand = game.add.sprite(0, 0, "hand")
+        hand.animations.add('hand')
+        hand.animations.play('hand', 24, true)
+        hand.alpha = 0
+        hand.coin = null
+        
+        if(localization.getLanguage() === 'ES'){
+            var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var text =  new Phaser.Text(sceneGroup.game, 55, -50, 'Manten presionado', fontStyle)
+        }
+        else{
+            var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var text =  new Phaser.Text(sceneGroup.game, 55, -50, 'Hold', fontStyle)
+        }
+        
+        text.anchor.setTo(0.5)
+        text.alpha = 0
+        hand.addChild(text)
+        hand.text = text
+    }
+
+    function addCoin(obj){
+        
+        coin.x = obj.centerX
+        coin.y = obj.centerY
+        var time = 300
+        
+        particleCorrect.x = obj.centerX 
+        particleCorrect.y = obj.centerY
+        particleCorrect.start(true, 1200, null, 10)
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+                   if(pointsBar.number == 3)
+                       easyMode = false
+                   if(pointsBar.number == 8)
+                       enemiesGroup.canThrow = true
+                   if(pointsBar.number == 12)
+                       enemyLvl = enemiesGroup.length - 1
+               })
+           })
+        })
+    }
+    
+    function createBoard(){
                 
+        var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var bar = new Phaser.Graphics(game, game.world.centerX - 250, 80)
+        bar.beginFill(0x000000)
+        bar.drawRoundedRect(0, 0, 500, 150, 30)
+        bar.endFill()
+        bar.alpha = 0.6
+        sceneGroup.add(bar)
+        
+        boardGroup = game.add.group()
+        sceneGroup.add(boardGroup)
+        boardGroup.bar = bar
+        
+        var operator = new Phaser.Text(sceneGroup.game, bar.centerX - 90, bar.centerY, '+', fontStyle)
+        operator.anchor.setTo(0.5)
+        boardGroup.add(operator)
+        boardGroup.operator = operator
+        
+        var sing = new Phaser.Text(sceneGroup.game, bar.centerX + 90, bar.centerY, '=', fontStyle)
+        sing.anchor.setTo(0.5)
+        boardGroup.add(sing)
+        
+        fontStyle.font = "70px VAGRounded"
+        fontStyle.fill = "#000000"
+        var pivotX = -180
+        
+        for(var i = 0; i < 3; i++){
+            
+            var coin = boardGroup.create(bar.centerX + pivotX, bar.centerY, "atlas.runneryogome", "coin")
+            coin.anchor.setTo(0.5)
+            coin.scale.setTo(0.8)
+            coin.number = -1
+            
+            var text = new Phaser.Text(sceneGroup.game, -3, 5, '10', fontStyle)
+            text.anchor.setTo(0.5)
+            coin.addChild(text)
+            coin.text = text
+            
+            pivotX += 180
+        }
+        
+        var coinMissing = boardGroup.create(coin.centerX, coin.centerY, "atlas.runneryogome", "coinmissing")
+        coinMissing.anchor.setTo(0.5)
+        coinMissing.scale.setTo(0.8)
+        
+        boardGroup.coinMissing = coinMissing
+        boardGroup.coinResult = coin
+        
+        boardGroup.setAll("alpha", 0)
+        bar.scale.setTo(1,0)
+    }
+    
+    function createLand(){
+        
+        landGroup = game.add.group()
+        landGroup.enableBody = true
+        landGroup.physicsBodyType = Phaser.Physics.ARCADE
+        landGroup.createMultiple(15, "atlas.runneryogome", 'floor')
+        landGroup.setAll('anchor.x', 0)
+        landGroup.setAll('anchor.y', 1)
+        landGroup.setAll('tag', 'floor')
+        landGroup.setAll('checkWorldBounds', true)
+        landGroup.setAll('outOfBoundsKill', true)
+        landGroup.setAll('exists', false)
+        landGroup.setAll('visible', false)
+        landGroup.setAll('body.immovable', true)
+        landGroup.setAll('body.allowGravity', false)
+        landGroup.setAll('body.syncBounds', true)
+        sceneGroup.add(landGroup)
+        
+        for(var i = 0; i < 6; i++){
+        
+            var obj = landGroup.getFirstExists(false)
+            if(obj){
+                obj.tag = "floor"
+                obj.reset(obj.width * i, game.world.height)
+            }
+        }
+        landGroup.lastObj = obj
+        landGroup.lastObj.tag = "floor"
+    }
+    
+    function createPlayer(){
+        
+        player = sceneGroup.create(300, game.world.height -landGroup.lastObj.height, 'atlas.runneryogome', 'star')
+        player.anchor.setTo(0.5, 1)
+        player.alpha = 0
+        game.physics.enable(player, Phaser.Physics.ARCADE)
+        player.body.mass = 50
+        player.body.collideWorldBounds = true
+        player.body.onWorldBounds = new Phaser.Signal()
+        player.body.onWorldBounds.add(fallFromLand,this)
+        player.body.checkCollision.up = false
+        player.canJump = true
+        player.isJumpin = false
+        player.touched = false
+        player.isRunning = true
+        
+        arthurius = game.add.spine(player.x, player.y, "arthurius")
+        arthurius.scale.setTo(0.3)          
+        arthurius.setAnimationByName(0, "idle", true)
+        arthurius.setSkinByName('normal')
+        sceneGroup.add(arthurius)
+    }
+    
+    function createCoins(){
+        
+        var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
+        
+        coinsGroup = game.add.group()
+        coinsGroup.enableBody = true
+        coinsGroup.physicsBodyType = Phaser.Physics.ARCADE
+        coinsGroup.createMultiple(10, "atlas.runneryogome", 'coin')
+        coinsGroup.setAll('anchor.x', 0)
+        coinsGroup.setAll('anchor.y', 1)
+        coinsGroup.setAll('scale.x', 0.7)
+        coinsGroup.setAll('scale.y', 0.7)
+        coinsGroup.setAll('checkWorldBounds', true)
+        coinsGroup.setAll('outOfBoundsKill', true)
+        coinsGroup.setAll('exists', false)
+        coinsGroup.setAll('visible', false)
+        coinsGroup.setAll('body.immovable', true)
+        coinsGroup.setAll('body.allowGravity', false)
+        coinsGroup.setAll('body.syncBounds', true)
+        coinsGroup.forEach(function(obj){
+            var text =  new Phaser.Text(sceneGroup.game, 55, -50, '18', fontStyle)
+            text.anchor.setTo(0.5)
+            obj.addChild(text)
+            obj.text = text
+        },this)
+        sceneGroup.add(coinsGroup)
+        coinsGroup.canThrow = false
+        coinsGroup.rand = getRand(2,5, 0)
+        coinsGroup.delay = 150
+    }
+    
+    function createEnemies(){
+        
+        enemiesGroup = game.add.group()
+        enemiesGroup.enableBody = true
+        enemiesGroup.physicsBodyType = Phaser.Physics.ARCADE
+        enemiesGroup.createMultiple(4, 'pink')
+        enemiesGroup.createMultiple(4, 'brown')
+        enemiesGroup.setAll('anchor.x', 1)
+        enemiesGroup.setAll('anchor.y', 1)
+        enemiesGroup.setAll('checkWorldBounds', true)
+        enemiesGroup.setAll('outOfBoundsKill', true)
+        enemiesGroup.setAll('exists', false)
+        enemiesGroup.setAll('visible', false)
+        enemiesGroup.setAll('.body.allowGravity', true)
+        enemiesGroup.setAll('.body.bounce.y', 0.4)
+        enemiesGroup.canThrow = true
+        enemiesGroup.rand = getRand(2,5, 0)
+        sceneGroup.add(landGroup)
+        
+        var frames = 24
+        var tag = "pink"
+        
+        for(var i = 0; i < enemiesGroup.length; i++){
+            
+            if(i > 3){
+                tag = "brown"
+            }
+           
+            enemiesGroup.children[i].animations.add('walk')
+            enemiesGroup.children[i].animations.play('walk', frames, true)
+            enemiesGroup.children[i].tag = tag
+            enemiesGroup.children[i].scale.setTo(-0.6, 0.6)
+            enemiesGroup.children[i].body.setSize(110, 90, 10, 40)
+        }
+    }
+    
+    function throwEnemy(platform){
+        
+        enemyCounter = 0
+        enemiesGroup.rand = getRand(3,4, enemiesGroup.rand)
+        
+        do {
+            var obj = enemiesGroup.getRandom(0, enemyLvl)
+        } while (obj.alive == true)
+        
+        if(obj && enemiesGroup.canThrow){
+            
+            obj.reset(game.world.width, platform.y - platform.height - 150)
+            obj.body.velocity.x = -80
+        }
+    }
+    
+    function throwCoin(platform){
+        
+        coinCounter = 0
+        coinsGroup.rand = getRand(1,2, coinsGroup.rand)
+        
+        var obj = coinsGroup.getFirstExists(false)
+        
+        if(obj && coinsGroup.canThrow){
+            
+            setCoinNumber(obj)
+            if(platform.tag == "floor"){
+                obj.reset(game.world.width, platform.y - platform.height - (100 * game.rnd.integerInRange(1, 2)))
+            }
+            else{
+                obj.reset(game.world.width, platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(2, 6)))
+            }
+            
+            obj.body.velocity.x = -225
+        }
+    }   
+    
+    function setCoinNumber(coin){
+        
+        var number = result
+        
+        if(Math.random() * 3 > 1){
+            while(number == result){
                 number = game.rnd.integerInRange(1,9)
             }
         }
         
-        coinText.setText(number)
-        coinText.number = number
+        coin.text.setText(number)
+        coin.number = number
     }
     
-    function activateObject(posX, posY, child){
-        //console.log(child.tag + ' tag,')
-        if(child != null){
-
-            child.body.x = posX
-            child.body.y = posY
-            child.used = true
-            child.body.velocity.x = -gameSpeed 
-            //objectsList[objectsList.length] = child
-
-            groundGroup.remove(child)
-            objectsGroup.add(child)
-
-            if(child.tag == 'coin'){
-                child.body.y-=25
-                if(Math.random()*2 > 1){
-                    child.body.y-=80
-                }
-                
-                setCoinNumber(child.text)
-                activateObject(child.body.x -1, child.body.y +3,child.text)
-
-            }else if(child.tag == "enemy_squish"){
-                child.body.y+=5
-            }else if(child.tag == "skull"){
-                child.body.velocity.x-=5
-                //child.body.dynamic = true
-            }
+    function colectCoin(dude, obj){
+        
+        coinsGroup.canThrow = false
+ 
+        if(obj.number == result){
+            addCoin(obj)
+            sound.play("rightChoice")
         }
-
-    }
-    
-    function checkAdd(obj, tag){
-        
-        Phaser.ArrayUtils.shuffle(enemyNames)
-        
-        if(objToCheck && objToCheck.tag == 'floor' && obj.tag == 'brick' && objToCheck.coinUsed){
-            deactivateObj(objToCheck.coinUsed)
-            deactivateObj(objToCheck.coinUsed.text)
+        else{
+            missPoint(obj)
         }
         
-        if(objToCheck && objToCheck.coin){
-            return
-        }
+        boardGroup.coinMissing.alpha = 0
+        popObject(boardGroup.coinResult, 0)
+        coinsGroup.forEachAlive(deactivateObj, this)
         
-        if(gameActive == true && gameStart){
-            
-            var nameItem = enemyNames[0]
-            if(objToCheck.tag == 'floor' && tag == 'brick'){
-                return
-            }
-            
-            if(objToCheck.spike == true){
-                nameItem = 'coin'
-            }
-            
-            if((objToCheck.body.y > obj.body.y) && (nameItem == 'enemy_spike' || nameItem == 'enemy_squish')){
-                nameItem = 'coin'
-            }
-            
-
-            var coin = addComplement(nameItem)
-            if(coin != null){
-                activateObject(pivotObjects,obj.body.y - obj.height * 0.5 - coin.height * 0.5,coin)
-            }
-            
-            obj.spike = false
-            obj.coin = false
-            obj.coinUsed = null
-            if(nameItem == 'enemy_spike'){
-                obj.spike = true
-            }else if(nameItem == 'coin'){
-                obj.coin = true
-                obj.coinUsed = coin
-            }
-        }
-    }
-    
-    function addObstacle(tag){
-        
-        pivotObjects = 0
-        if(objToCheck != null ){
-            pivotObjects = objToCheck.body.x + objToCheck.width
-        }
-            
-        
-        for(var i = 0;i< groundGroup.length;i++){
-            var child = groundGroup.children[i]
-            if(child.tag == tag && child.used == false){
-                if (tag == "floor"){
-                    
-                    activateObject(pivotObjects,game.world.height - child.height * 0.5 - BOT_OFFSET,child)
-                    
-                    checkAdd(child,tag)
-                    objToCheck = child
-                    
-                }else if(tag =="brick"){
-                    
-                    activateObject(pivotObjects,game.world.height - OFF_BRICK - BOT_OFFSET,child)
-                    
-                    if(objToCheck.tag == "brick" && Math.random() * 2 > 1 && pointsBar.number > 10){
-                        child.body.y-= OFF_BRICK * 0.5
-                        child.top = true
-                    }
-                    
-                    checkAdd(child,tag)
-                    
-                    objToCheck = child
-                    
-                }
-                if(skullTrue == true && Math.random()*8<1){
-                    var skull = addComplement('skull')
-                    if(skull != null){
-                        activateObject(pivotObjects,child.body.y - child.height * 0.5 - skull.height * 0.5,skull)
-                    }
-                    
-                    skullTrue = false
-                    game.time.events.add(2000, function(){
-                        skullTrue = true
-                    },this)
-                }
-                break
-            }
-        }
-    }
-    
-    function createObjs(tag,scale,times){
-        
-        var pivotX = 0
-        for(var i = 0;i<times;i++){
-            var object
-            if(tag == 'enemy_spike'){
-                
-                object = game.add.sprite(-300, 200, 'bMonster');
-                //object.scale.x = -1
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',24,true);
-                
-            }else if(tag == 'enemy_squish'){
-                
-                object = game.add.sprite(-300, 200, 'pMonster');
-                groundGroup.add(object)
-                object.animations.add('walk');
-                object.animations.play('walk',20,true);
-                
-            }else if(tag == 'coin'){
-                
-                object = groundGroup.create(-300,200,'atlas.runner','coin')
-                
-                var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-            
-                var pointsText = new Phaser.Text(sceneGroup.game, -300,200, '2', fontStyle)
-                pointsText.anchor.setTo(0.5,0.5)
-                groundGroup.add(pointsText)
-                
-                pointsText.anchor.setTo(0.5,0.5)
-                pointsText.tag = 'number'
-                pointsText.used = false
-                game.physics.p2.enable(pointsText,DEBUG_PHYSICS)
-                pointsText.body.kinematic = true
-                pointsText.used = false
-                pointsText.body.data.shapes[0].sensor = true
-                
-                object.text = pointsText
-                
-            }else{
-                object = groundGroup.create(-300,game.world.height - 350,'atlas.runner',tag)
-            }
-            
-            object.scale.setTo(scale,scale)
-            object.anchor.setTo(0,1)
-            object.tag = tag
-            game.physics.p2.enable(object,DEBUG_PHYSICS)
-            object.body.kinematic = true
-            object.used = false
-            
-			if(tag == 'floor' || tag == 'brick'){
-				object.body.setCollisionGroup(assetsCollision)	
-				object.body.collides([playerCollision,enemiesCollision])
-			}else if(tag == 'enemy_squish' || tag == 'enemy_spike'){
-				object.body.setCollisionGroup(enemiesCollision)
-				object.body.collides([playerCollision])
-			}
-			
-			object.body.collides([playerCollision,enemiesCollision])
-			
-            if(tag == 'coin' || tag == 'skull'){
-                object.body.data.shapes[0].sensor = true
-            }
-            
-            if(tag == 'enemy_spike'){
-                object.body.setRectangle(object.width * 0.68, object.height * 0.9);
-            }
-            
-            if(tag != 'coin' && tag != 'skull'){
-                object.body.allowSleep = true
-                player.body.createBodyCallback(object, collisionEvent, this);
-            }
-        }
-    }
-    
-    function createObjects(){
-        
-        var width = game.cache.getImage("floor").width
-        
-        var number = (game.world.width / width) + 5
-        
-        createObjs('floor',1.4,number)
-        createObjs('brick',1.1,number)
-        createObjs('coin',0.5,number)
-        createObjs('enemy_squish',1,number * 0.6)
-        createObjs('enemy_spike',1,number * 0.6)
-        createObjs('skull',1,number * 0.3)
-        
-        while(pivotObjects < game.world.width * 1.2){
-            addObstacle('floor')
-            //console.log(pivotObjects + ' pivot, ' + game.world.width + ' width')
-        }
-        
-    }
-    
-    function checkTag(){
-        
-        if(gameStart){
-            if(consecFloor == 1){
-                tag = 'floor'
-                consecFloor-=2
-            }else if(consecBricks == 1){
-                tag = 'brick'
-                consecBricks-=2
-            }else{
-                if(objToCheck.tag == 'floor'){
-                    objToCheck.lastFloor = true
-                }
-                var tag = "floor"
-                if(Math.random()*2 > 1){
-                    tag = "brick"
-                }
-
-                if(tag == 'brick' && objToCheck.spike == true){
-                    tag = 'floor'
-                }
-            }
-        
-        
-            if(tag == 'floor'){
-                consecFloor++
-            }else{
-                consecBricks++
-            }
-        }else{
-            tag = 'floor'
-        }
-        
-        return tag
-    }
-    
-    function addObjects(){
-        
-        var tag = checkTag()
-        
-        addObstacle(tag)
-        
-        //game.time.events.add(TIME_ADD, addObjects , this);
-        
-    }
-    
-    function positionFirst(){
-        positionPlayer()
-        
-        if(gameStart == false){
-            game.time.events.add(1, positionFirst , this);
-        }
-    }
-    
-    function checkOnAir(){
-        
-        if( buddy.isRunning == true){
-            if(checkIfCanJump() == false){
-                buddy.setAnimationByName(0,"JUMP", false)
-                buddy.isRunning = false
-            }
-        }
-        if(gameActive == true){
-            game.time.events.add(100,checkOnAir,this)
-        }
-    }
-    
-    function createBoard(){
-        
-        board = game.add.group()
-        board.x = game.world.centerX
-        board.y = 150
-        sceneGroup.add(board)
-        
-        var boardImg = new Phaser.Graphics(game)
-        boardImg.beginFill(0x000000);
-        boardImg.drawRoundedRect(0, 0, 450,100,30);
-        boardImg.x-= boardImg.width * 0.5
-        boardImg.y-= boardImg.height * 0.5
-        boardImg.endFill();
-        boardImg.alpha = 0.6
-        board.add(boardImg)
-        
-        board.numbers = []
-        board.coins = []
-        
-        var pivotX = -150
-        for(var i = 0; i< 3;i++){
-            
-            var group = game.add.group()
-            group.x = pivotX
-            group.y = 0
-            group.scale.setTo(0.6,0.6)
-            board.coins[board.coins.length] = group
-            board.add(group)
-            
-            var image = group.create(0,0,'atlas.runner','coin')
-            image.anchor.setTo(0.5,0.5)
-            
-            var image2 = group.create(0,0,'atlas.runner','coinmissing')
-            image2.alpha = 0
-            image2.anchor.setTo(0.5,0.5)
-            
-            var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-            
-            var pointsText = new Phaser.Text(sceneGroup.game, pivotX,group.y + 5, '2', fontStyle)
-            pointsText.anchor.setTo(0.5,0.5)
-            board.add(pointsText)
-            
-            board.numbers[board.numbers.length] = pointsText
-            
-            pivotX+= 150
-            
-        }
-        
-        changeImage(1,board.coins[2])
-        board.numbers[2].setText('')
-        
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var signText = new Phaser.Text(sceneGroup.game,-75,0,'+',fontStyle)
-        signText.anchor.setTo(0.5,0.5)
-        board.add(signText)
-        board.signText = signText
-        
-        var signText = new Phaser.Text(sceneGroup.game,75,0,'=',fontStyle)
-        signText.anchor.setTo(0.5,0.5)
-        board.add(signText)
-        
-    }
-    
-    function createOverlay(){
-        
-        overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(overlayGroup)
-        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				
-				gameActive = true
-				gameStart = true
-				
+        if(lives > 0){
+            game.time.events.add(1500, function(){
+                boardGroup.forEach(fadeOut, this)
+                game.time.events.add(500, setQuestion)
             })
-            
-        })
+        }
         
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.runner','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		//console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.runner',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.runner','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
+    
+    function hitEnemy(dude, enemy){
+        
+        if(!player.touched){
+        
+            if(enemy.tag == "pink"){
+                if(dude.y < enemy.y - 40){
+                    doJump(1400)
+                    addCoin(enemy)
+                    deactivateObj(enemy)
+                    sound.play("splash")
+                }
+                else{
+                    player.touched = true
+                    missPoint(dude)
+                    arthurius.setAnimationByName(0, "lose", true)
+                    game.add.tween(arthurius).from({ alpha:0},100,Phaser.Easing.linear,true,0,5,true).onComplete.add(function(){
+                        if(lives > 0){
+                            player.touched = false
+                            arthurius.setAnimationByName(0, "run", true)
+                        }
+                    })
+                }
+            }
+            else{
+                player.touched = true
+                missPoint(dude)
+                arthurius.setAnimationByName(0, "lose", true)
+                game.add.tween(arthurius).from({ alpha:0},100,Phaser.Easing.linear,true,0,5,true).onComplete.add(function(){
+                    if(lives > 0){
+                        player.touched = false
+                        arthurius.setAnimationByName(0, "run", true)
+                    }
+                })
+            }
+        }
+    }
+    
+    function deactivateObj(obj){
 
-    function onClickPlay(){
-        overlayGroup.y = -game.world.height
+        obj.body.velocity.x = 0
+        obj.y = -500
+        obj.kill()
+    }
+    
+    function fadeOut(obj){
+        game.add.tween(obj).to({alpha:0},100,Phaser.Easing.linear,true)
+    }
+    
+    function fallFromLand(){
+        
+        if(gameActive){
+            if(player.y >= game.world.height){
+
+                missPoint(arthurius)
+
+                if(lives > 0){
+                    doJump(1850)
+                    arthurius.setAnimationByName(0, "lose", true)
+                }
+                else{
+                    gameActive = false
+                    player.body.collideWorldBounds = false
+                    tileGroup.castles.setAll("body.velocity.x", 0)
+                    landGroup.setAll("body.velocity.x", 0)
+                    coinsGroup.setAll("body.velocity.x", 0)
+                    doJump(800)
+                    arthurius.setAnimationByName(0, "lose", true)
+                }
+            }
+        }
+    }
+    
+    function initGame(){
         
         gameActive = true
-        gameStart = true
+        
+        tileGroup.castles.forEachAlive(function(obj){
+            obj.body.velocity.x = -30
+        },this)
+        
+        landGroup.forEachAlive(function(obj){
+            obj.body.velocity.x = -225
+        },this)
+        
+        arthurius.setAnimationByName(0, "run", true)
+        player.isRunning = true
+        
+        newPath()
     }
     
+    function setQuestion(){
+        
+        if(game.rnd.integerInRange(1,2) === 1){
+            
+            var numA = game.rnd.integerInRange(1,8)
+            var numB = game.rnd.integerInRange(1,9 - numA)
+        
+            result = numA + numB
+            boardGroup.operator.setText("+")
+        }
+        else{
+            var numA = game.rnd.integerInRange(2,9)
+            var numB = game.rnd.integerInRange(1,numA - 1)
+            
+            result = numA - numB
+            boardGroup.operator.setText("-")
+        }
+        
+        boardGroup.children[2].text.setText(numA)
+        boardGroup.children[3].text.setText(numB)
+        boardGroup.children[4].text.setText(result)
+        
+        var delay = 200
+        
+        for(var i = 0; i < boardGroup.length - 2; i++){
+            popObject(boardGroup.children[i], delay)
+            delay += 200
+        }
+        popObject(boardGroup.children[5], delay)
+        
+        game.time.events.add(delay, function(){
+            coinsGroup.canThrow = true
+        })
+    }
+    
+    function popObject(obj,delay){
+         
+        game.time.events.add(delay,function(){
+            
+            sound.play("cut")
+            obj.alpha = 1
+            game.add.tween(obj.scale).from({ x:0, y:0},200,Phaser.Easing.linear,true)
+        },this)
+    }
+    
+    function getRand(min ,limit, opt){
+        var m = 0 || min
+        var x = game.rnd.integerInRange(m, limit)
+        if(x === opt)
+            return getRand(limit, opt)
+        else
+            return x     
+    }
+    
+    //····················tuto····················//
+    
+    function initTuto(){
+        
+        tutoPath()
+        tileGroup.castles.forEachAlive(function(obj){
+            obj.body.velocity.x = -30
+        },this)
+        
+        landGroup.forEachAlive(function(obj){
+            obj.body.velocity.x = -225
+        },this)
+        
+        player.isRunning = true
+        arthurius.setAnimationByName(0, "run", true)
+        
+        setTutoQuestion()
+        
+        game.time.events.add(2500, function(){
+            tileGroup.castles.setAll("body.velocity.x", 0)
+            landGroup.setAll("body.velocity.x", 0)
+            coinsGroup.setAll("body.velocity.x", 0)
+            arthurius.setAnimationByName(0, "idle", true)   
+            
+            showQuestion()
+        })
+    }
+    
+    function tutoPath(){
+        
+        var obj = landGroup.getFirstExists(false)
+        
+        if(obj){
+            obj.loadTexture('atlas.runneryogome', "floor")
+            obj.tag = "floor"
+            obj.reset(game.world.width, game.world.height)
+            obj.body.velocity.x = -225
+            landGroup.lastObj = obj
+            landGroup.lastObj.tag = obj.tag
+        }
+    }
+    
+    function setTutoQuestion(platform){
+        
+        if(game.rnd.integerInRange(1,2) === 1){
+            
+            var numA = game.rnd.integerInRange(1,8)
+            var numB = game.rnd.integerInRange(1,9 - numA)
+        
+            result = numA + numB
+            boardGroup.operator.setText("+")
+        }
+        else{
+            var numA = game.rnd.integerInRange(2,9)
+            var numB = game.rnd.integerInRange(1,numA - 1)
+            
+            result = numA - numB
+            boardGroup.operator.setText("-")
+        }
+        
+        boardGroup.children[2].text.setText(numA)
+        boardGroup.children[3].text.setText(numB)
+        boardGroup.children[4].text.setText(result)
+        
+        var obj = coinsGroup.getFirstExists(false)
+
+        if(obj){
+            
+            obj.text.alpha = 0
+            obj.text.setText(result)
+            obj.number = result
+            obj.reset(game.world.width, game.world.centerY + 20)
+            game.add.tween(obj).to({x:player.x - 10},2500,Phaser.Easing.linear,true)
+            hand.coin = obj
+        }
+    }
+    
+    function showQuestion(){
+        
+        game.add.tween(boardGroup.bar.scale).to({y:1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+            
+            var delay = 200
+        
+            for(var i = 0; i < boardGroup.length - 2; i++){
+                popObject(boardGroup.children[i], delay)
+                delay += 200
+            }
+            popObject(boardGroup.children[5], delay)
+            delay+=200
+            popObject(coinsGroup.getFirstExists().text, delay)
+            
+            game.time.events.add(delay, function(){
+                hand.x = game.world.centerX
+                hand.y = game.world.centerY
+                game.add.tween(hand).to({alpha:1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                    playingTuto = true
+                })
+            })
+        })
+    }
+    
+    function render(){
+        
+        enemiesGroup.forEachAlive(function(sprite){
+            game.debug.body(sprite)
+        })
+    }
+	
 	return {
+		
 		assets: assets,
 		name: "runneryogome",
+		update: update,
+        render:render,
+        preload:preload,
+        getGameData:function () {
+			var games = yogomeGames.getGames()
+			return games[gameIndex]
+		},
 		create: function(event){
             
-            game.physics.startSystem(Phaser.Physics.P2JS);
-
-            game.physics.p2.gravity.y = WORLD_GRAVITY;
-            game.physics.p2.world.defaultContactMaterial.friction = 0.3;
-            game.physics.p2.world.setGlobalStiffness(1e5);
+			sceneGroup = game.add.group()
 			
-            playerCollision = game.physics.p2.createCollisionGroup()
-            enemiesCollision = game.physics.p2.createCollisionGroup()
-            assetsCollision = game.physics.p2.createCollisionGroup()
-			
-            jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			createBackground()
             
-            worldGroup = game.add.group()
-            //worldGroup.scale.setTo(0.5,0.5)
-            //worldGroup.x = 100
-            sceneGroup.add(worldGroup)
+            game.physics.startSystem(Phaser.Physics.ARCADE)
+            game.physics.arcade.gravity.y = 1500
             
-            var background = worldGroup.create(-2,-2,'fondo')
-            background.width = game.world.width +2
-            background.height = game.world.height +2.
-            
-            groundGroup = game.add.group()
-            worldGroup.add(groundGroup)
-            
-            loadSounds()
-			initialize()       
-            
-            //sound.play("marioSong")
-            marioSong = game.add.audio('marioSong')
-            game.sound.setDecodedCallback(marioSong, function(){
-                marioSong.loopFull(0.6)
-            }, this);
-            
+            initialize()
+            gameSong = sound.play("gameSong", {loop:true, volume:0.6})
             
             game.onPause.add(function(){
                 game.sound.mute = true
-            } , this);
+            } , this)
 
             game.onResume.add(function(){
                 game.sound.mute = false
-            }, this);
-            
-            objectsGroup = game.add.group()
-            worldGroup.add(objectsGroup)
-            
-            characterGroup = game.add.group()
-            characterGroup.x = 100
-            characterGroup.y = game.world.height - 200
-            worldGroup.add(characterGroup)
-            
-            buddy = game.add.spine(0,0, "arthurius");
-            buddy.isRunning = true
-            buddy.scale.setTo(0.7,0.7)
-            characterGroup.add(buddy)            
-            buddy.setAnimationByName(0, "RUN", true);
-            buddy.setSkinByName('normal');
-            
-            player = worldGroup.create(characterGroup.x, characterGroup.y,'atlas.runner','enemy_spike')
-            player.anchor.setTo(0.5,1)
-            player.alpha = 0
-            game.physics.p2.enable(player,DEBUG_PHYSICS)
-            player.body.fixedRotation = true
-            player.body.mass=50
-			player.invincible = false
-            
-            player.body.collideWorldBounds = false;
-			
-			player.body.setCollisionGroup(playerCollision)
-			player.body.collides([enemiesCollision,assetsCollision])
-            
-            positionFirst()
-            
-            createObjects()
-            
-            createPointsBar()
-            createHearts()
-            createControls()    
-            
+            }, this)
+			            
+			createPointsBar()
+			createHearts()
             createBoard()
-            
-            //createControls()
-            
-            game.physics.p2.setImpactEvents(true);
-            
-			buttons.getButton(marioSong,sceneGroup)
-            createOverlay()
+            createLand()
+            createCoins()
+            createEnemies()
+            createPlayer()
+            createCoin()
+            createParticles()
+			
+			buttons.getButton(gameSong,sceneGroup)
+            createTutorial()
             
             animateScene()
             
-            
-		},
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
-        update:update,
+		}
 	}
-
 }()

@@ -2,7 +2,7 @@
 
 {
 	"filename": "battery",
-	"frame": {"x":358,"y":436,"w":71,"h":70},
+	"frame": {"x":635,"y":243,"w":71,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":70},
@@ -10,8 +10,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "brokenglass",
+	"frame": {"x":519,"y":44,"w":160,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":140},
+	"sourceSize": {"w":160,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "bubble",
-	"frame": {"x":208,"y":341,"w":110,"h":110},
+	"frame": {"x":516,"y":359,"w":110,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":110,"h":110},
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "bullet",
-	"frame": {"x":168,"y":457,"w":46,"h":28},
+	"frame": {"x":661,"y":186,"w":46,"h":28},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":28},
@@ -28,26 +37,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "life_box",
-	"frame": {"x":216,"y":453,"w":140,"h":55},
+	"filename": "green_off",
+	"frame": {"x":1,"y":1,"w":516,"h":136},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
-	"sourceSize": {"w":140,"h":55},
+	"spriteSourceSize": {"x":0,"y":0,"w":516,"h":136},
+	"sourceSize": {"w":516,"h":136},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "minusbar",
-	"frame": {"x":1,"y":173,"w":513,"h":166},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":513,"h":166},
-	"sourceSize": {"w":513,"h":166},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "plusbar",
-	"frame": {"x":1,"y":1,"w":513,"h":170},
+	"filename": "green_on",
+	"frame": {"x":1,"y":276,"w":513,"h":170},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":513,"h":170},
@@ -55,8 +55,35 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "life_box",
+	"frame": {"x":519,"y":186,"w":140,"h":55},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
+	"sourceSize": {"w":140,"h":55},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "red_off",
+	"frame": {"x":1,"y":139,"w":516,"h":135},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":516,"h":135},
+	"sourceSize": {"w":516,"h":135},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "red_on",
+	"frame": {"x":1,"y":448,"w":513,"h":166},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":513,"h":166},
+	"sourceSize": {"w":513,"h":166},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "ringPart",
-	"frame": {"x":92,"y":341,"w":114,"h":114},
+	"frame": {"x":519,"y":243,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -65,7 +92,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":320,"y":341,"w":100,"h":93},
+	"frame": {"x":607,"y":471,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -74,7 +101,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":422,"y":341,"w":64,"h":64},
+	"frame": {"x":635,"y":315,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -83,7 +110,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":1,"y":459,"w":165,"h":41},
+	"frame": {"x":519,"y":1,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -92,7 +119,7 @@
 },
 {
 	"filename": "yogotar",
-	"frame": {"x":1,"y":341,"w":89,"h":116},
+	"frame": {"x":516,"y":471,"w":89,"h":116},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":89,"h":116},
@@ -100,12 +127,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
+	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":515,"h":509},
+	"size": {"w":708,"h":615},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8eaeaeddfa0347e2fdaa17574e20c876:eecd4717e6bcfa99764d170205f75c82:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:0c8a3164b7a812237ce374cc4ed7e207:34b3b071ba234e8a168a8c3d1b1fb650:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

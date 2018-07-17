@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.canvas, null, {init: init, create: create }, true, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -35,14 +35,14 @@ function startGame(){
         var gameWidth = Math.round(fullHeight * ratio)
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
+        game.scale.setGameSize(gameWidth, gameHeight)
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(Fabrique.Plugins.Spine);
-
+        
         var language = "EN"
         if(window.location.search){
             var params = window.location.search.trim(1)
@@ -57,9 +57,8 @@ function startGame(){
         }
 
         localization.setLanguage(language)
-        
+
         window.minigame.game = window.game
-        
     	sceneloader.init(game)
     	sound.init(game)
     }

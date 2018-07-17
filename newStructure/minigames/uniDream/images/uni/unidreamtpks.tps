@@ -318,6 +318,7 @@
                 <false/>
             </struct>
             <key type="filename">clockImg.png</key>
+            <key type="filename">manecillas.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -330,6 +331,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">cloud_donk.png</key>
             <key type="filename">cloud_small.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -530,6 +532,8 @@
             <filename>nubes_top.png</filename>
             <filename>nubes.png</filename>
             <filename>fondo.png</filename>
+            <filename>cloud_donk.png</filename>
+            <filename>manecillas.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
