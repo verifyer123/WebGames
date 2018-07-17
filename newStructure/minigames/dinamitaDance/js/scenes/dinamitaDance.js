@@ -8,14 +8,14 @@ var dinamitaDance = function(){
             "howTo":"How to Play?",
             "moves":"Moves left",
             "stop":"Stop!",
-            "tutorial_image": "images/dinamitaDance/gameTuto_EN.png"
+            "tutorial_image": "images/dinamitaDance/gameTuto_ES.png"
         },
 
         "ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
             "stop":"¡Detener!",
-            "tutorial_image": "images/dinamitaDance/gameTuto_ES.png"
+            "tutorial_image": "images/dinamitaDance/gameTuto_EN.png"
         }
     }
     
@@ -37,8 +37,12 @@ var dinamitaDance = function(){
         images: [
             {   name:"background",
                 file: "images/dinamitaDance/background.png"},
-            {   name:'danceFloor',
-                file:"images/dinamitaDance/danceFloor.png"},
+            {   name:'danceFloor_0',
+                file:"images/dinamitaDance/danceFloor_0.png"},
+            {   name:'danceFloor_1',
+                file:"images/dinamitaDance/danceFloor_1.png"},
+            {   name:'danceFloor_2',
+                file:"images/dinamitaDance/danceFloor_2.png"},
             {   name:'tutorial_image',
                 file:"%lang"}
 
@@ -80,6 +84,9 @@ var dinamitaDance = function(){
             },{
                 name:"boton",
                 file:"images/spines/Boton/boton.json"
+            },{
+                name:"yogodancers",
+                file:"images/spines/yogodancers/yogodancers.json"
             }
         ]
     }
@@ -97,7 +104,7 @@ var dinamitaDance = function(){
     var pivot;
     var glitter = ['glitter1', 'glitter2', 'glitter3', 'glitter4'];
     var dinamita;
-    var bodyPart;
+    //var bodyPart;
     var tutoPivot;
     var time;
     var particleCorrect;      
@@ -107,7 +114,20 @@ var dinamitaDance = function(){
     var heartsGroup = null;
     var pointsBar;
     var coin;
-    
+
+    var sequence;                   //Numero de respuestas
+    var answer;                     //Arreglo de respuestas
+    var indexAnswer;                //Posicion de revision de respuesta en el arreglo de respuestas
+    var repeatSequence;             //Bandera para saber si debe repetirse la cadena de animaciones
+    var repeatAnimEvent;            //Referencia al evento de repeticion
+    var WAITANIMWIN = 3000;         //Referencia de tiempo de espera base para esperar la animacion de triunfo
+    var counterChangeSequence;      //Contador de intentos para cambiar de secuencia
+    var turnsChangeSequence;        //Numero de intentos a lograr para cambiar a siguiente secuencia
+    var timeToWait;                 //Tiempo para esperar la animacion de triunfo o no
+    var newRound;                   //Bandera para indicar que debe crearse nuevo ejercicio
+    var danceFloor;                 //Referencia del piso
+    var counterFloor;               //Contador de elementos de piso para irlos cambiando
+
     function loadSounds(){
         sound.decode(assets.sounds);
     }
@@ -119,16 +139,24 @@ var dinamitaDance = function(){
         gameActive = false;
         pivot = 0;
         win = true;
-        bodyPart = -1;
+        //bodyPart = -1;
         tutoPivot = 0;
         time = 6000;
+        sequence = 1;
+        answer = [];
+        indexAnswer = 0;
+        repeatSequence = true;
+        counterChangeSequence = 0;
+        turnsChangeSequence = 5;
+        newRound = true;
+        counterFloor = 0;
         
-        if(localization.getLanguage() === 'EN'){
-            body = ['Head', 'Arms', 'Hands', 'Feet'];
+        if(localization.getLanguage() === 'ES'){
+            body = ['Head', 'Arms', 'Hands', 'Feet', 'Torso' , 'Legs'];
             fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
         }
         else{
-            body = ['Cabeza', 'Brazos', 'Manos', 'Pies'];
+            body = ['Cabeza', 'Brazos', 'Manos', 'Pies', 'Torso', 'Piernas'];
             fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
         }
         
@@ -143,9 +171,6 @@ var dinamitaDance = function(){
     }
 
     function stopGame(win){
-
-        //sound.stop("wormwood");
-
         gameActive = false;
         danceSong.stop();
 
@@ -156,7 +181,7 @@ var dinamitaDance = function(){
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
             sound.play("gameLose");
-        })
+        });
     }
 
     function createTutorial(){
@@ -342,82 +367,53 @@ var dinamitaDance = function(){
 
     function createBackground(){
         
-        var background  = sceneGroup.create(0, 0, "background");
-        background.width = game.world.width;
-        background.height = game.world.height;
-        
+        var background = game.add.tileSprite(0, 0, game.width, 740, "background");
+        sceneGroup.add(background);
+
+
         var bottom  = game.add.image(0, game.world.height, "atlas.dinamitaDance", "bottom");
         bottom.anchor.setTo(0, 1);
         bottom.width = game.world.width;
         bottom.height = game.world.height * 0.3;
         
-        var danceFloor  = sceneGroup.create(0, bottom.y - bottom.height + 25, "danceFloor");
-        danceFloor.anchor.setTo(0, 1); 
-        danceFloor.width = game.world.width;
-        danceFloor.height = game.world.height * 0.3;
+        danceFloor  = sceneGroup.create(game.width/2, bottom.y - bottom.height + 25, "danceFloor_0");
+        danceFloor.anchor.setTo(0.5, 1); 
+        danceFloor.width = game.world.width * 1.5;
+        danceFloor.height = game.world.height * 0.25;
         sceneGroup.add(bottom);
+
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, changeFloor, this);
+
+        var people = game.add.tileSprite(-15, game.world.height * 0.33, game.width + 15, 164, "atlas.dinamitaDance", "tile_yogotars");
+        sceneGroup.add(people);
+        game.add.tween(people).to( {x: people.x + 15 }, 1000, "Linear", true, 0, -1, 1000, true);
+
+        var yogoDance = game.add.spine(game.world.centerX, game.world.centerY*1.08, "yogodancers");
+        yogoDance.setAnimationByName(0, "dance", true);
+        yogoDance.setSkinByName("normal");
+        sceneGroup.add(yogoDance);
         
-        buttonsBase  = sceneGroup.create(bottom.centerX, bottom.centerY + 15, "atlas.dinamitaDance", "buttonsBase");
-        buttonsBase.anchor.setTo(0.5);
-        buttonsBase.width = game.world.width * 0.9;
-        buttonsBase.height = bottom.height * 0.75;
-        
-        var light0  = sceneGroup.create(10, 20, "atlas.dinamitaDance", "light0");
+        var light0  = sceneGroup.create(10, 0, "atlas.dinamitaDance", "light0");
         light0.scale.setTo(1.2);
+
+        var light01  = sceneGroup.create(game.width/2, 0, "atlas.dinamitaDance", "light01");
+        light01.scale.setTo(1.2);
+        light01.anchor.setTo(0.5,0)
         
-        var light1  = sceneGroup.create(game.world.width - 10, 40, "atlas.dinamitaDance", "light1");
+        var light1  = sceneGroup.create(game.world.width - 10, 0, "atlas.dinamitaDance", "light1");
         light1.scale.setTo(1.2);
         light1.anchor.setTo(1, 0);
     }
 
-    // function setExplosion(obj){
-        
-    //     var posX = obj.x
-    //     var posY = obj.y
-        
-    //     if(obj.world){
-    //         posX = obj.world.x
-    //         posY = obj.world.y
-    //     }
-        
-    //     var rect = new Phaser.Graphics(game)
-    //     rect.beginFill(0xffffff)
-    //     rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-    //     rect.alpha = 0
-    //     rect.endFill()
-    //     sceneGroup.add(rect)
-        
-    //     game.add.tween(rect).from({alpha:1},500,"Linear",true)
-        
-    //     var exp = sceneGroup.create(0,0,'atlas.dinamitaDance','cakeSplat')
-    //     exp.x = posX
-    //     exp.y = posY
-    //     exp.anchor.setTo(0.5,0.5)
-
-    //     exp.scale.setTo(6,6)
-    //     game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-    //     var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
-    //     particlesNumber = 8
-            
-    //     var particlesGood = game.add.emitter(0, 0, 100);
-
-    //     particlesGood.makeParticles('atlas.dinamitaDance','smoke');
-    //     particlesGood.minParticleSpeed.setTo(-200, -50);
-    //     particlesGood.maxParticleSpeed.setTo(200, -100);
-    //     particlesGood.minParticleScale = 0.6;
-    //     particlesGood.maxParticleScale = 1.5;
-    //     particlesGood.gravity = 150;
-    //     particlesGood.angularDrag = 30;
-
-    //     particlesGood.x = posX;
-    //     particlesGood.y = posY;
-    //     particlesGood.start(true, 1000, null, particlesNumber);
-
-    //     game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-    //     sceneGroup.add(particlesGood)
-        
-    // }
+    function changeFloor(){
+        danceFloor.loadTexture('danceFloor_'+counterFloor);
+        if(counterFloor<2){
+            counterFloor++;
+        }else{
+            counterFloor = 0;
+        }
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, changeFloor, this);
+    }
 
     function positionTimer(){
         
@@ -443,12 +439,12 @@ var dinamitaDance = function(){
     function stopTimer(){
         
         tweenTiempo.stop()
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:8}, 100, Phaser.Easing.Linear.Out, true, 100)
+        tweenTiempo = game.add.tween(timeBar.scale).to({x:8}, 100, Phaser.Easing.Linear.Out, true, 100);
    }
     
     function startTimer(time){
         
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100)
+        tweenTiempo = game.add.tween(timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100);
         tweenTiempo.onComplete.add(function(){
             danceTest(-1)
         })
@@ -470,29 +466,29 @@ var dinamitaDance = function(){
     
     function theShining(){
         
-        glitGroup.children[pivot].alpha = 1
-        glitGroup.children[pivot].x = game.world.randomX
-        glitGroup.children[pivot].y = game.world.randomX
+        glitGroup.children[pivot].alpha = 1;
+        glitGroup.children[pivot].x = game.world.randomX;
+        glitGroup.children[pivot].y = game.world.randomX;
     
         game.time.events.add(150,function(){
-            game.add.tween(glitGroup.children[pivot]).to({ alpha: 0 }, 1000, Phaser.Easing.linear, true)
+            game.add.tween(glitGroup.children[pivot]).to({ alpha: 0 }, 1000, Phaser.Easing.linear, true);
             
             if(pivot < 19){
-                pivot++
+                pivot++;
             }
             else{
-                pivot = 0
+                pivot = 0;
             }
                
             if(win){
-                theShining()
+                theShining();
             }
-        }, this)
+        }, this);
     } 
     
     function tnt(){
         
-        dinamita = game.add.spine(game.world.centerX, game.world.centerY, "dinamita");
+        dinamita = game.add.spine(game.world.centerX, game.world.centerY*1.2, "dinamita");
         dinamita.setAnimationByName(0, "idle", true);
         dinamita.setSkinByName("normal");
         sceneGroup.add(dinamita);
@@ -509,68 +505,75 @@ var dinamitaDance = function(){
     }
     
     function saturdayFeverNight(dance){
-        
+        var nameDance;
         switch(dance){
             case 0:
-                dinamita.setAnimationByName(0, "idle_head", true)
-            break
+                nameDance = "idle_head";
+            break;
             case 1:
-                dinamita.setAnimationByName(0, "idle_arm", true)
-            break
+                nameDance = "idle_arm";
+            break;
             case 2:
-                dinamita.setAnimationByName(0, "idle_hands", true)
-            break
+                nameDance = "idle_hands";
+            break;
             case 3:
-                dinamita.setAnimationByName(0, "idle_legs", true)
-            break
+                nameDance =  "idle_foot";
+            break;
             case 4:
-                dinamita.setAnimationByName(0, "idle", true)
-            break
+                nameDance = "idle_torso";
+            break;
             case 5:
-                dinamita.setAnimationByName(0, "win", true) //idle_foot
-            break
+                nameDance = "idle_legs";
+            break;
             case 6:
-                dinamita.setAnimationByName(0, "lose", true)
-            break
+                nameDance = "idle";
+            break;
+            case 7:
+                nameDance = "win";
+            break;
+            case 8:
+                nameDance = "lose";
+            break;
         }
+        return nameDance;
     }
     
     function initButtons(){
         
-        var aux = 0
+        var aux = 0;
         
-        allButtonsGroup = game.add.group()
-        allButtonsGroup.x = buttonsBase.centerX - 100
-        allButtonsGroup.y = buttonsBase.centerY - 50 
-        sceneGroup.add(allButtonsGroup)
+        allButtonsGroup = game.add.group();
+        allButtonsGroup.x = game.world.centerX - 180;// buttonsBase.centerX - 180;
+        allButtonsGroup.y = game.world.centerY * 1.6;//buttonsBase.centerY - 50; 
+        sceneGroup.add(allButtonsGroup);
         
-        for(var b = 0; b < body.length - 2; b++){
-            for(var y = 0; y < body.length - 2; y++){
+        for(var b = 0; b < body.length - 3; b++){
+            for(var y = 0; y < body.length - 4; y++){
 
                 var buttonsGroup = game.add.group();
-                buttonsGroup.x += (b * 200);
+                buttonsGroup.x += (b * 180);
                 buttonsGroup.y += (y * 100);
                 buttonsGroup.scale.setTo(1.15);
                 allButtonsGroup.add(buttonsGroup);
 
-                var btnOff = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonOFF"); // 0
+                var btnOff = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonOFF"); // 0 azul off
                 btnOff.anchor.setTo(0.5);
                 btnOff.inputEnabled = true;
                 btnOff.bodyPart = aux;
                 // btnOff.events.onInputDown.add(btnPressed, this)   
                 // btnOff.events.onInputUp.add(btnRelased, this) 
 
-                var btnOn = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonON"); // 1
+                var btnOn = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonON"); // 1 azul on
                 btnOn.anchor.setTo(0.5);
                 btnOn.alpha = 0;
                 
-                var shineButton = game.add.spine(0, 0, "boton"); // 2
-                shineButton.setAnimationByName(0, "SHINE", true);
+                var shineButton = game.add.spine(0, 0, "boton"); // 2 parpadeante
+                shineButton.setAnimationByName(0, "shine", true);
                 shineButton.setSkinByName("normal");
                 shineButton.alpha = 0;
                 buttonsGroup.add(shineButton);
 
-                var btnTxt = new Phaser.Text(sceneGroup.game, 0, 2, '', fontStyle) // 3
+                var btnTxt = new Phaser.Text(sceneGroup.game, 0, 2, '', fontStyle) // 3 texto
                 btnTxt.anchor.setTo(0.5);
                 btnTxt.setText(body[aux]);
                 buttonsGroup.add(btnTxt);
@@ -584,25 +587,25 @@ var dinamitaDance = function(){
     function btnPressed(btn){
         
         if(gameActive){
-            sound.play('pop')
-            btn.parent.children[0].alpha = 0
-            btn.parent.children[1].alpha = 1
-            btn.parent.children[3].scale.setTo(0.9)
+            sound.play('pop');
+            btn.parent.children[0].alpha = 0;
+            btn.parent.children[1].alpha = 1;
+            btn.parent.children[3].scale.setTo(0.9);
             
-            if(tutoPivot === 4){
-                danceTest(btn.bodyPart)
+            if(tutoPivot === 6){
+                danceTest(btn.bodyPart);
             }
             else{
-                danceTestTuto(btn.bodyPart)
+                danceTestTuto(btn.bodyPart);
             }
         }
     }
     
     function btnRelased(btn){
         
-        btn.parent.children[0].alpha = 1
-        btn.parent.children[1].alpha = 0
-        btn.parent.children[3].scale.setTo(1)
+        btn.parent.children[0].alpha = 1;
+        btn.parent.children[1].alpha = 0;
+        btn.parent.children[3].scale.setTo(1);
     }
     
     function danceTest(choise){
@@ -610,83 +613,171 @@ var dinamitaDance = function(){
         if(gameActive){
 
             gameActive = false;
-            stopTimer();
-            
+            // if(indexAnswer == sequence-1){
+            //     stopTimer();
+            // }
+
             for(var b = 0; b < body.length; b++){
                 allButtonsGroup.children[b].setAll('tint', 0x909090);
             }
             //allButtonsGroup.children[bodyPart].setAll('tint', 0xffffff);
-            allButtonsGroup.children[bodyPart].children[2].alpha = 1;
+            for(var c=0; c<answer.length; c++){
+               allButtonsGroup.children[answer[c]].children[2].alpha = 1; 
+           }
 
-            if(choise === bodyPart){
-                //addPoint(1)
-                particleCorrect.x = dinamita.x;
-                particleCorrect.y = dinamita.y;
-                particleCorrect.start(true, 1000, null, 5);
-                addCoin(dinamita);
-                saturdayFeverNight(5);
-                if(time > 500)
-                    time -= 200;
-            }
-            else{
-                saturdayFeverNight(6);
+            if(choise === answer[indexAnswer]){
+                if(indexAnswer == sequence-1){
+                    stopTimer();
+                    timeToWait = WAITANIMWIN;
+                    particleCorrect.x = dinamita.x;
+                    particleCorrect.y = dinamita.y;
+                    particleCorrect.start(true, 1000, null, 5);
+                    addCoin(dinamita);
+                    counterChangeSequence++;
+                    checkIfAddSequence();
+                    newRound = true;
+                    repeatSequence = false;
+                    game.time.events.remove(repeatAnimEvent);
+                    setAnimations([7]);
+                    if(time > 500)
+                        time -= 100; //200
+                }else{
+                    indexAnswer++;
+                    timeToWait = 0;
+                }
+            }else{
+                stopTimer();
+                setAnimations([8]);
                 win = false;
                 particleWrong.x = dinamita.x;
                 particleWrong.y = dinamita.y;
                 particleWrong.start(true, 1000, null, 5);
+                newRound = true;
+                repeatSequence = false;
+                game.time.events.remove(repeatAnimEvent);
                 missPoint();
             }
 
-            game.time.events.add(3000,function(){
+            game.time.events.add(timeToWait,function(){
                 
                 if(lives !== 0){
-                    saturdayFeverNight(4);
+                    if(newRound){
+                        setAnimations([6]);
+                    }
                     initGame();
                 }
             })
         }
     }
+
+    function checkIfAddSequence(){
+        if(counterChangeSequence == turnsChangeSequence){
+            console.log("Entre a cambiar secuencia");
+            if(sequence<=3){
+                sequence++;
+                turnsChangeSequence += 3;
+            }
+            counterChangeSequence = 0;
+            console.log("turnsChangeSequence:" + turnsChangeSequence + " counterChangeSequence:" + counterChangeSequence);
+        }
+    }
     
     function initGame(){
         
-        bodyPart = getRand();
-
         allButtonsGroup.getAt(tutoPivot-1).getAt(0).events.onInputDown.removeAll();
         allButtonsGroup.getAt(tutoPivot-1).getAt(0).events.onInputUp.removeAll();
         
         for(var b = 0; b < body.length; b++){
-            allButtonsGroup.children[b].setAll('tint', 0xffffff);
+            //allButtonsGroup.children[b].setAll('tint', 0xffffff);
             allButtonsGroup.children[b].children[2].alpha = 0;
+            // allButtonsGroup.children[b].children[0].events.onInputDown.add(btnPressed, this);
+            // allButtonsGroup.children[b].children[0].events.onInputUp.add(btnRelased, this);
+        }
+
+        if(newRound){
+            newRound = false;
+            answer = generateRan(body.length,sequence);
+            
+            game.time.events.add(500,function(){
+                // gameActive = true;
+                if(sequence>1){
+                    console.log("Array" + answer);
+                    setAnimations(answer);
+                    indexAnswer = 0;
+                    repeatSequence = true;
+                    repeatAnimations(answer);
+                }else{
+                    console.log("Arrar [0]:" + answer);
+                     setAnimations([answer[0]]);
+                }
+                game.time.events.add(Phaser.Timer.SECOND * (sequence*1.35),function(){
+                    unBlockButtons();
+                    startTimer(time);
+                },this);
+                if(!win){
+                    win = true;
+                    theShining();
+                }
+            },this);
+        }else{
+           game.time.events.add(250,function(){
+                //gameActive = true;
+                unBlockButtons();
+                if(!win){
+                    win = true;
+                    theShining();
+                }
+            },this); 
+        }
+    }
+
+    function unBlockButtons(){
+        gameActive = true;
+        for(var b = 0; b < body.length; b++){
+            allButtonsGroup.children[b].setAll('tint', 0xffffff);
             allButtonsGroup.children[b].children[0].events.onInputDown.add(btnPressed, this);
             allButtonsGroup.children[b].children[0].events.onInputUp.add(btnRelased, this);
         }
-        
-        game.time.events.add(500,function(){
-            gameActive = true
-            saturdayFeverNight(bodyPart)
-            startTimer(time)
-            if(!win){
-                win = true
-                theShining()
-            }
-        },this)
-        
     }
 
-    function getRand(){
-        var x = game.rnd.integerInRange(0, 3)
-        if(x === bodyPart)
-            return getRand()
-        else
-            return x     
+    function generateRan(max,size){
+        var random = [];
+        for(var i = 0;i<max ; i++){
+            var temp = Math.floor(Math.random()*max);
+            if(random.indexOf(temp) == -1){
+                random.push(temp);
+            }
+            else
+             i--;
+        }
+        random.length = size;
+        var repeat = 0;
+        for(var s=0; s<random.length; s++){
+            if(random[s] == answer[s]){
+                repeat++;
+            }
+        }
+        if(repeat>0){
+            return generateRan(max,size);
+        }else{
+            return random;
+        }
     }
+
+    // function getRand(){
+    //     var x = game.rnd.integerInRange(0, 5)
+    //     if(x === bodyPart)
+    //         return getRand()
+    //     else
+    //         return x     
+    // }
     
     function initTuto(){
 
         game.add.tween(hand).to( { alpha: 1 }, 500, Phaser.Easing.Bounce.In, true, 0, 0);
         
         for(var b = 0; b < body.length; b++){
-            allButtonsGroup.children[b].setAll('tint', 0xffffff);
+            allButtonsGroup.children[b].setAll('tint', 0x909090);
             allButtonsGroup.children[b].children[2].alpha = 0;
             allButtonsGroup.children[b].children[0].events.onInputDown.removeAll();
             allButtonsGroup.children[b].children[0].events.onInputUp.removeAll();
@@ -697,15 +788,51 @@ var dinamitaDance = function(){
         allButtonsGroup.getAt(tutoPivot).getAt(0).events.onInputDown.add(btnPressed, this);
         allButtonsGroup.getAt(tutoPivot).getAt(0).events.onInputUp.add(btnRelased, this);
         changeHand(tutoPivot);
-        
+
+        if(answer.length > sequence-1){
+            answer.length = 0; 
+        }
+        answer.push(tutoPivot);
+
         game.time.events.add(500,function(){
-            gameActive = true
-            saturdayFeverNight(tutoPivot)
-            if(!win){
-                win = true
-                theShining()
+            gameActive = true;
+            
+            if(tutoPivot == 4){
+                sequence++;
+                setAnimations([tutoPivot,tutoPivot+1]);
+                repeatAnimations([tutoPivot,tutoPivot+1]);
+            }else if(tutoPivot < 4){
+                setAnimations([tutoPivot]);
             }
         },this)
+    }
+
+    function repeatAnimations(animationsToRepeat){
+        console.log("Tiempo de espera" + (sequence*1.35));
+        repeatAnimEvent = game.time.events.add(Phaser.Timer.SECOND * (sequence*1.35),function(){
+            setAnimations(animationsToRepeat);
+            if(repeatSequence){
+                repeatAnimations(animationsToRepeat); 
+            }
+        },this);
+    }
+
+    function setAnimations(animations){
+        var animation;
+        if(animations.length > 1){
+            for(var index = 0; index < animations.length; index++) {
+                animation = saturdayFeverNight(animations[index]);
+                if (index == 0){
+                    dinamita.setAnimationByName(0, animation, false);
+                }
+                else{
+                    dinamita.addAnimationByName(0, animation, false);
+                }
+            }
+        }else{
+            animation = saturdayFeverNight(animations[0]);
+            dinamita.setAnimationByName(0, animation, true);
+        }
     }
     
     function danceTestTuto(choise){
@@ -718,18 +845,34 @@ var dinamitaDance = function(){
                 allButtonsGroup.children[b].setAll('tint', 0x909090);
             }
             
-            if(choise === tutoPivot){
+            if(choise === answer[indexAnswer]){
                 gameActive = false;
-                saturdayFeverNight(5);
-                sound.play('magic');
+                if(indexAnswer == sequence-1){
+                    if(tutoPivot == 5){
+                        repeatSequence = false;
+                        game.time.events.remove(repeatAnimEvent);
+                        allButtonsGroup.children[tutoPivot].children[2].alpha = 1;
+                        allButtonsGroup.children[tutoPivot-1].children[2].alpha = 1; 
+                    }
+                    timeToWait = WAITANIMWIN;
+                    particleCorrect.x = dinamita.x;
+                    particleCorrect.y = dinamita.y;
+                    particleCorrect.start(true, 1000, null, 5);
+                    setAnimations([7]);
+                    sound.play('magic');
+                    indexAnswer = 0;
+                }else{
+                    indexAnswer++;
+                    timeToWait = 0;
+                }
                 tutoPivot++;
                 
-                game.time.events.add(3000,function(){
-                    if(tutoPivot < 4){
+                game.time.events.add(timeToWait,function(){
+                    if(tutoPivot < 6){
                         initTuto();
-                    }
-                    else{
+                    }else{
                         timerGroup.alpha = 1;
+                        sequence = 1;
                         initGame();
                     }
                 })
@@ -770,10 +913,10 @@ var dinamitaDance = function(){
 
             initialize();
 
+            lightsOn();
             initButtons();
             positionTimer();
             tnt();
-            lightsOn();
 
             createHearts();
             createPointsBar();

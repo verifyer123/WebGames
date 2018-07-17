@@ -4,9 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.1</string>
-        <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/dinamitaDance/images/dinamitaDance/atlasbase.tps</string>
+        <string>4.8.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -129,22 +127,6 @@
                 <uint>1</uint>
             </struct>
         </struct>
-        <key>andEngine</key>
-        <struct type="AndEngine">
-            <key>minFilter</key>
-            <enum type="AndEngine::MinFilter">Linear</enum>
-            <key>packageName</key>
-            <string>Texture</string>
-            <key>wrap</key>
-            <struct type="AndEngineWrap">
-                <key>s</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-                <key>t</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-            </struct>
-            <key>magFilter</key>
-            <enum type="AndEngine::MagFilter">MagLinear</enum>
-        </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
             <key>data</key>
@@ -212,19 +194,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">button.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,29,65,57</rect>
-                <key>scale9Paddings</key>
-                <rect>32,29,65,57</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">button2_ON.png</key>
             <key type="filename">buttonCorrect.png</key>
             <struct type="IndividualSpriteSettings">
@@ -250,45 +219,6 @@
                 <rect>33,20,65,41</rect>
                 <key>scale9Paddings</key>
                 <rect>33,20,65,41</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">buttonsBase.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>128,47,255,95</rect>
-                <key>scale9Paddings</key>
-                <rect>128,47,255,95</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">desktop.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>34,24,67,49</rect>
-                <key>scale9Paddings</key>
-                <rect>34,24,67,49</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">gametuto.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>96,43,191,86</rect>
-                <key>scale9Paddings</key>
-                <rect>96,43,191,86</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -358,6 +288,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">light01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>153,162,306,323</rect>
+                <key>scale9Paddings</key>
+                <rect>153,162,306,323</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">light1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -368,45 +311,6 @@
                 <rect>107,111,215,223</rect>
                 <key>scale9Paddings</key>
                 <rect>107,111,215,223</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">movil.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>44,28,88,55</rect>
-                <key>scale9Paddings</key>
-                <rect>44,28,88,55</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">playEN.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>22,8,44,16</rect>
-                <key>scale9Paddings</key>
-                <rect>22,8,44,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">playES.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,8,49,16</rect>
-                <key>scale9Paddings</key>
-                <rect>24,8,49,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -424,7 +328,6 @@
                 <false/>
             </struct>
             <key type="filename">star.png</key>
-            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -434,6 +337,19 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">tile_yogotars.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,41,128,82</rect>
+                <key>scale9Paddings</key>
+                <rect>64,41,128,82</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -450,19 +366,64 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">yogotar_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,58,79,115</rect>
+                <key>scale9Paddings</key>
+                <rect>40,58,79,115</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">yogotar_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>44,54,89,109</rect>
+                <key>scale9Paddings</key>
+                <rect>44,54,89,109</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">yogotar_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,56,75,112</rect>
+                <key>scale9Paddings</key>
+                <rect>38,56,75,112</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">yogotar_4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>49,55,99,109</rect>
+                <key>scale9Paddings</key>
+                <rect>49,55,99,109</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>button.png</filename>
-            <filename>desktop.png</filename>
-            <filename>gametuto.png</filename>
             <filename>life_box.png</filename>
-            <filename>movil.png</filename>
-            <filename>playEN.png</filename>
-            <filename>playES.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
             <filename>glitter1.png</filename>
             <filename>glitter2.png</filename>
@@ -471,11 +432,16 @@
             <filename>glitter4.png</filename>
             <filename>light0.png</filename>
             <filename>light1.png</filename>
-            <filename>buttonsBase.png</filename>
             <filename>bottom.png</filename>
             <filename>buttonOFF.png</filename>
             <filename>buttonON.png</filename>
             <filename>buttonCorrect.png</filename>
+            <filename>yogotar_3.png</filename>
+            <filename>yogotar_4.png</filename>
+            <filename>yogotar_1.png</filename>
+            <filename>yogotar_2.png</filename>
+            <filename>tile_yogotars.png</filename>
+            <filename>light01.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
