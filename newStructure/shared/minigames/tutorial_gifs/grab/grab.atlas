@@ -1,69 +1,90 @@
 
 grab.png
-size: 512,512
+size: 512,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm
   rotate: false
-  xy: 104, 121
-  size: 31, 23
-  orig: 31, 23
+  xy: 240, 85
+  size: 31, 24
+  orig: 31, 24
   offset: 0, 0
   index: -1
 normal/background
   rotate: false
-  xy: 2, 146
-  size: 236, 193
-  orig: 236, 193
+  xy: 2, 59
+  size: 236, 192
+  orig: 236, 192
   offset: 0, 0
   index: -1
 normal/bag_ball
   rotate: false
-  xy: 2, 33
-  size: 52, 53
-  orig: 52, 53
+  xy: 293, 199
+  size: 52, 52
+  orig: 52, 52
   offset: 0, 0
   index: -1
 normal/bag_handle
   rotate: false
-  xy: 240, 251
-  size: 41, 31
-  orig: 41, 31
+  xy: 114, 27
+  size: 41, 30
+  orig: 41, 30
   offset: 0, 0
   index: -1
 normal/body
   rotate: false
-  xy: 61, 94
+  xy: 240, 144
   size: 41, 50
   orig: 41, 50
   offset: 0, 0
   index: -1
 normal/head
   rotate: false
-  xy: 240, 284
+  xy: 240, 196
+  size: 51, 55
+  orig: 51, 55
+  offset: 0, 0
+  index: -1
+normal/head_i
+  rotate: false
+  xy: 61, 2
   size: 51, 55
   orig: 51, 55
   offset: 0, 0
   index: -1
 normal/leg_bent
   rotate: false
-  xy: 293, 308
+  xy: 347, 220
+  size: 40, 31
+  orig: 40, 31
+  offset: 0, 0
+  index: -1
+normal/leg_bent_i
+  rotate: false
+  xy: 240, 111
   size: 40, 31
   orig: 40, 31
   offset: 0, 0
   index: -1
 normal/leg_stretched
   rotate: false
-  xy: 2, 2
+  xy: 389, 222
   size: 39, 29
   orig: 39, 29
   offset: 0, 0
   index: -1
+normal/leg_stretched_i
+  rotate: false
+  xy: 157, 28
+  size: 40, 29
+  orig: 40, 29
+  offset: 0, 0
+  index: -1
 normal/star
   rotate: false
-  xy: 2, 88
-  size: 57, 56
-  orig: 57, 56
+  xy: 2, 2
+  size: 57, 55
+  orig: 57, 55
   offset: 0, 0
   index: -1

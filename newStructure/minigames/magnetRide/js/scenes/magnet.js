@@ -51,7 +51,7 @@ var magnet = function(){
 			{	name: "spaceship",
 				file: soundsPath + "whoosh.mp3"},
 			{	name: "whoosh",
-				file: soundsPath + "whoosh.mp3"},
+				file: soundsPath + "lock.mp3"},
 			{	name: "alienLaugh",
 				file: soundsPath + "alienLaugh.mp3"},
 			{	name: "powerup",
@@ -61,10 +61,10 @@ var magnet = function(){
 			{	name: "laserexplode",
 				file: soundsPath + "laserexplode.mp3"},
             {	name: "magnetSong",
-				file: soundsPath + "songs/retrowave.mp3"},
+				file: soundsPath + "songs/musicVideogame9.mp3"},
 		],
         spritesheets: [
-            {   name: "coinS",
+            {   name: "coin",
                 file: "images/spines/coinS.png",
                 width: 122,
                 height: 123,
@@ -100,18 +100,16 @@ var magnet = function(){
                 height: 118,
                 frames: 12
             },
-            {   name: "coin",
-                file: "images/spines/coin.png",
-                width: 68,
-                height: 70,
-                frames: 12
-            },
             
         ],
         spines:[
 			{
 				name:"oof",
 				file:"images/spines/Oof.json"
+			},
+            {
+				name:"electric",
+				file:"images/spines/waves.json"
 			}
 		]
     }
@@ -128,6 +126,7 @@ var magnet = function(){
 	var sceneGroup = null
     var pointsGroup = null
     var gameActive = true
+	var glass
 	var canBattery
 	var player
 	var jumpButton
@@ -137,6 +136,10 @@ var magnet = function(){
 	var tagsToUse
 	var canRed
 	var yogotar
+    var redBar
+    var wave1
+    var wave2
+    var blueBar
     var magnetSong
 	var isNoun
     var coinS
@@ -226,8 +229,8 @@ var magnet = function(){
         if(particle){
             
             particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
+            particle.y = obj.world.y + 520
+            particle.scale.setTo(0.5,0.5)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
             particle.start(true, 1500, null, 6);
@@ -346,7 +349,6 @@ var magnet = function(){
     function addPoint(number){
         
         sound.play("magic")
-		createPart('star',player)
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
 		
@@ -439,7 +441,8 @@ var magnet = function(){
 			
 			sound.play("glassBreak")
             game.add.tween(yogotar).to({y:yogotar.y + 200}, 3000, Phaser.Easing.Cubic.In, true)
-        })
+			glass.alpha=1;
+		})
 		
 		var whiteRect = new Phaser.Graphics(game)
         whiteRect.beginFill(0xffffff)
@@ -558,6 +561,10 @@ var magnet = function(){
 		background2 = game.add.tileSprite(0,game.world.height,game.world.width, game.world.height * 0.7, 'background2');
 		background2.anchor.setTo(0,1)
 		sceneGroup.add(background2)
+		
+		glass=game.add.sprite(game.world.centerX, game.world.centerY,"atlas.magnet", "brokenglass")
+		glass.anchor.setTo(0.5,0.5);
+		glass.alpha=0;
 	}
 	
 	function positionPlayer(){
@@ -641,6 +648,7 @@ var magnet = function(){
 					
 				}else if(tag == 'coin'){
 					
+					createPart('star',player)
                     addCoin(player)
 					createTextPart('+1',player)
 					deactivateObj(obj)
@@ -705,8 +713,20 @@ var magnet = function(){
 		
 		if(!player.up){
 			yogotar.setSkinByName('mas')
+			redBar.loadTexture("atlas.magnet","red_on");
+			blueBar.loadTexture("atlas.magnet","green_off");
+			wave1.setAnimationByName(0, "out", false);
+			wave2.setAnimationByName(0, "appear", false).onComplete=function(){
+				wave2.setAnimationByName(0, "idle", true)
+			};
 		}else{
 			yogotar.setSkinByName('menos')
+			redBar.loadTexture("atlas.magnet","red_off");
+			blueBar.loadTexture("atlas.magnet","green_on");
+			wave2.setAnimationByName(0, "out", false);
+			wave1.setAnimationByName(0, "appear", false).onComplete=function(){
+				wave1.setAnimationByName(0, "idle", true)
+			};
 		}
 		
 		yogotar.setToSetupPose()
@@ -717,7 +737,7 @@ var magnet = function(){
         createPart('ring',player)
         //yogotar.addAnimationByName(0, "LAND", false);
         
-        yogotar.scale.y*=-1
+        //yogotar.scale.y*=-1
   
 		player.body.velocity.y*=0.5
         game.physics.p2.gravity.y*=-1;
@@ -748,28 +768,44 @@ var magnet = function(){
 	
 	function createBars(){
 		
-		var blueBar = sceneGroup.create(game.world.centerX,100,'atlas.magnet','plusbar')
+		blueBar = sceneGroup.create(game.world.centerX,100,'atlas.magnet','green_on')
 		blueBar.width = game.world.width
 		game.physics.p2.enable(blueBar,DEBUG_PHYSICS)
        	blueBar.body.kinematic = true
 		
 		var fontStyle = {font: "90px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, blueBar.y + 15, "+", fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, blueBar.y -5, "+", fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 		
-		var redBar = sceneGroup.create(game.world.centerX,game.world.height - 100,'atlas.magnet','minusbar')
+		redBar = sceneGroup.create(game.world.centerX,game.world.height - 100,'atlas.magnet','red_off')
 		redBar.width = game.world.width
 		game.physics.p2.enable(redBar,DEBUG_PHYSICS)
        	redBar.body.kinematic = true
 		
 		var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, redBar.y - 15, "-", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, redBar.y + 5, "-", fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 		
+        
+        
+        wave1 = game.add.spine(blueBar.x,blueBar.y+20, "electric");
+        wave1.scale.setTo(game.world.width,0.7)
+        wave1.setAnimationByName(0, "idle", true);
+        wave1.setSkinByName('normal');
+        
+        sceneGroup.add(wave1)
+        
+        wave2 = game.add.spine(redBar.x,redBar.y-20, "electric");
+        wave2.scale.setTo(game.world.width,-0.7)
+        wave2.setAnimationByName(0, "out", false);
+        wave2.setSkinByName('normal');
+        
+        sceneGroup.add(wave2)
+        
 	}
 	
 	function createObjs(tag,scale,times){
@@ -782,6 +818,7 @@ var magnet = function(){
                 
                 object = game.add.sprite(-300, 200, tag);
                 //object.scale.x = -1
+              
                 groundGroup.add(object)
                 object.animations.add('walk');
                 object.animations.play('walk',24,true);
@@ -796,7 +833,9 @@ var magnet = function(){
             object.used = false
 			object.anchor.setTo(0.5,0.5)
 			object.enemy = true
-			
+            if(tag=='coin'){
+                object.scale.setTo(0.7,0.7);
+            }
 			if(tag == 'coin' || tag == 'battery'){
 				object.enemy = false
 			}
@@ -988,7 +1027,7 @@ var magnet = function(){
     
     function createCoin(){
         
-       coinS = game.add.sprite(0, 0, "coinS")
+       coinS = game.add.sprite(0, 0, "coin")
        coinS.anchor.setTo(0.5)
        coinS.scale.setTo(0.8)
        coinS.animations.add('coin')

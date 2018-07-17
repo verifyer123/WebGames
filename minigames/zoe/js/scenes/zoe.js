@@ -33,6 +33,8 @@ var zoe = function(){
             },
         ],
         images: [
+            {   name: "patron",
+                file:  "images/zoe/patron_fondo.png"},
         ],
         sounds: [
             {   name: "magic",
@@ -59,6 +61,9 @@ var zoe = function(){
     var MIN_TIME = 0
     var MAX_TIME = 1000
     var EXTRA_FORCE ={x:-5,y:20}
+
+    var DELTA_COUNT_METERS = 100
+
 
     var skinTable
     
@@ -87,6 +92,9 @@ var zoe = function(){
     var mesaGroup, teleGroup, ironGroup
     var initTap
     var lastObject
+    var currentMeters, nextCountMeters, meterstext
+
+    var spaceBar, canTap
 
     function getSkins(){
         
@@ -116,6 +124,9 @@ var zoe = function(){
         	PLAYER_SPEED.x = -5
         	PLAYER_SPEED.y = 25
         }
+        currentMeters = 0
+        nextCountMeters = DELTA_COUNT_METERS
+        canTap = true
     }
     
 
@@ -385,11 +396,35 @@ var zoe = function(){
     }
     
     function updatePlayer(){
+
+        if(spaceBar.isDown){
+            if(canTap){
+                canTap = false
+                tap()
+            }
+        }
+        else{
+            canTap = true
+        }
+        
         if(player.body.x>250){
         	//console.log(player.body.x)
             var delta = player.body.x -250
             player.body.x -= delta
             repisa.body.x -= delta
+            currentMeters += (delta*0.1)
+
+            if(currentMeters >= nextCountMeters){
+                
+                meterstext.text = nextCountMeters+" mts"
+                nextCountMeters+= DELTA_COUNT_METERS
+
+                game.add.tween(meterstext.scale).to({x:1,y:1},300,Phaser.Easing.linear,true)
+                game.add.tween(meterstext.scale).to({x:0,y:0},300,Phaser.Easing.linear,true,1200)
+
+                createPart('star', meterstext)
+
+            }
             
             updateGroup(chairGroup,delta)
             updateGroup(clockGroup,delta)
@@ -448,7 +483,16 @@ var zoe = function(){
         if(player.inGround){
         	//initTap = game.time.now
         	player.inGround = false
-        	player.body.applyImpulse([PLAYER_SPEED.x,PLAYER_SPEED.y],player.contactPoint.x,player.contactPoint.y)
+            var x = PLAYER_SPEED.x
+            var y = PLAYER_SPEED.y
+            if(Math.abs(player.body.velocity.x) > 300){
+                x =1
+            }
+            if(Math.abs(player.body.velocity.y) > 300){
+                y = 1
+            }
+            //console.log(player.body.velocity.x,player.body.velocity.y)
+        	player.body.applyImpulse([x,y],player.contactPoint.x,player.contactPoint.y)
         	player.body.angularVelocity+= 2
         }
     }
@@ -510,24 +554,22 @@ var zoe = function(){
                 player.contactPoint = {x:3.4249191284179688,y:-5.950046539306641}
             }
     	}
-        
-    
     }
 
     function createBackground(){
-    	background = game.add.tileSprite(0,0,game.world.width,game.world.height-320,"atlas.game","patron_fondo")
+    	background = game.add.tileSprite(0,0,game.world.width,game.world.height-320,"patron")
     	sceneGroup.add(background)
 
     	var controlsRentangle = game.add.graphics()
     	controlsRentangle.y = game.world.height - 200
-    	controlsRentangle.lineStyle(2,0x0000ff,1)
+    	controlsRentangle.lineStyle(2,0x41a4db,1)
     	controlsRentangle.drawRect(0,0,game.world.width,game.world.height - controlsRentangle.y)
     	sceneGroup.add(controlsRentangle)
 
     	controlsRentangle = game.add.graphics()
     	controlsRentangle.y = game.world.height - 180
     	controlsRentangle.x = 20
-    	controlsRentangle.lineStyle(2,0x0000ff,1)
+    	controlsRentangle.lineStyle(2,0x41a4db,1)
     	controlsRentangle.drawRect(0,0,game.world.width-40,game.world.height - controlsRentangle.y -20)
     	sceneGroup.add(controlsRentangle)
 
@@ -546,15 +588,15 @@ var zoe = function(){
     	floorLines1 = game.add.graphics()
     	floorLines1.y = game.world.height - 320
     	floorLines1.x = -10
-    	floorLines1.lineStyle(2,0x000000,1)
+    	floorLines1.lineStyle(2,0xbcbcbc,1)
     	floorLines1.drawRect(0,0,game.world.width+20,35)
     	sceneGroup.add(floorLines1)
 
     	floorLines2 = game.add.graphics()
     	floorLines2.y = game.world.height - 310
     	floorLines2.x = -10
-    	floorLines2.lineStyle(2,0x000000,1)
-    	floorLines2.drawRect(0,0,game.world.width+20,15)
+    	floorLines2.lineStyle(2,0xbcbcbc,1)
+    	floorLines2.drawRect(0,-2.5,game.world.width+20,20)
     	sceneGroup.add(floorLines2)
 
     	chairGroup = game.add.group()
@@ -610,6 +652,17 @@ var zoe = function(){
 
     	lamparaGroup = game.add.group()
     	sceneGroup.add(lamparaGroup)
+
+       var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+                
+        meterstext = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+        meterstext.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+        meterstext.anchor.setTo(0.5)
+        meterstext.x = game.world.centerX
+        meterstext.y = game.world.centerY - 150
+        sceneGroup.add(meterstext)
+        meterstext.scale.setTo(0)
+
 
     }
 
@@ -710,7 +763,7 @@ var zoe = function(){
     	var table = tableGroup.create(x,y,"atlas.game","mesa1")
     	table.anchor.setTo(0.5)
     	table.givedCoin = true
-    	game.physics.p2.enable(table,true)
+    	game.physics.p2.enable(table,false)
     	table.body.static = true
     	//table.body.allowGravity = false
     	table.objectType = OBJETC_TYPES.TABLE
@@ -790,7 +843,7 @@ var zoe = function(){
 	    		burroGroup.children[i].visible = true
 	    		burroGroup.children[i].givedCoin = true
 	    		burroGroup.children[i].body.data.shapes[0].sensor=false;
-	    		getIron(x+50,y-110)
+	    		getIron(x+50,y-100)
 	    		return burroGroup.children[i]
 	    	}
     	}
@@ -800,6 +853,8 @@ var zoe = function(){
     	burro.givedCoin = true
     	game.physics.p2.enable(burro,false)
     	burro.body.kinematic = true
+        burro.body.clearShapes()
+        burro.body.setRectangle(350,150,0,0)
     	burro.objectType = OBJETC_TYPES.BURRO
     	getIron(x+50,y-110)
     	return burro
@@ -1013,6 +1068,8 @@ var zoe = function(){
     	tele.anchor.setTo(0.5)
     	tele.givedCoin = true
     	game.physics.p2.enable(tele,false)
+        tele.body.clearShapes()
+        tele.body.setRectangle(260,300,0,0)
     	tele.body.kinematic = true
     	tele.objectType = OBJETC_TYPES.TELE
     	return tele
@@ -1040,8 +1097,8 @@ var zoe = function(){
 
 
     function createPattern(){
-    	var r = game.rnd.integerInRange(1,6)
-    	//r = 6
+    	var r = game.rnd.integerInRange(1,7)
+    	//r = 7
     	switch(r){
     		case 1:
     			createPatter1()
@@ -1084,8 +1141,10 @@ var zoe = function(){
     	var table = getTable(currentX,game.world.height - 350)
     	currentX += 200
     	var aiprlane = getAirplane(currentX,game.world.height - 550)
-    	currentX += 500
+    	currentX += 200
     	var bocina = getBocina(currentX,game.world.height - 350)
+        currentX += 200
+        var burro = getBurro(currentX,game.world.height - 330)
     	lastObject = bocina
     }
 
@@ -1107,7 +1166,7 @@ var zoe = function(){
     function createPatter3(){
     	var cajonera = getCajonera(currentX,game.world.height - 300)
     	var lampara = getLampara(currentX, game.world.height - 400)
-    	currentX += 500
+    	currentX += 400
     	var librero = getLibrero(currentX,game.world.height - 450)
     	currentX += 500
     	var clock = getClock(currentX, game.world.height - 500)
@@ -1138,11 +1197,11 @@ var zoe = function(){
 
     function createPatter5(){
         var arcade = getArcade(currentX,game.world.height - 400)
-        currentX += 200
+        currentX += 250
         var ariplane = getAirplane(currentX, game.world.height - 500)
-        currentX += 500
+        currentX += 450
         var librero = getLibrero(currentX,game.world.height - 450)
-        currentX += 500
+        currentX += 400
         var clock = getClock(currentX, game.world.height - 500)
         currentX += 300
         var chair = getChair(currentX, game.world.height - 430)
@@ -1171,17 +1230,21 @@ var zoe = function(){
     function createPatter7(){
         var clock = getClock(currentX, game.world.height - 500)
         currentX +=350
-        var cuadro = getCuadro1(currentX,game.world.height - 550)
-        currentX+=140
-        cuadro = getCuadro1(currentX,game.world.height - 600)
+        var tele = getTele(currentX, game.world.height-380)
+        currentX+=300
+        var ariplane = getAirplane(currentX, game.world.height - 500)
         currentX += 150
-        cuadro = getCuadro3(currentX,game.world.height - 650)
-        currentX += 250
-        var clock = getClock(currentX, game.world.height - 500)
-        currentX +=350
-        var arcade = getArcade(currentX,game.world.height - 400)
+        var table = getTable(currentX,game.world.height - 350)
         currentX += 200
-        lastObject = arcade
+        var clock = getClock(currentX, game.world.height - 500)
+        currentX +=300
+        var chair = getChair(currentX,game.world.height - 430)
+        currentX+=400
+        var cajonera = getCajonera(currentX,game.world.height - 300)
+        var lampara = getLampara(currentX, game.world.height - 400)
+        //currentX += 500
+
+        lastObject = cajonera
     }
     
     function createObjects(){
@@ -1234,6 +1297,8 @@ var zoe = function(){
 			
 	        game.sound.mute = false
 	    }, this);
+
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createBackground()
         createPlayer()

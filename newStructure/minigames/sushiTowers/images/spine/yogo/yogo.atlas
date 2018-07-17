@@ -1,0 +1,153 @@
+
+yogo.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+nao/arm1
+  rotate: true
+  xy: 319, 2
+  size: 41, 80
+  orig: 41, 80
+  offset: 0, 0
+  index: -1
+nao/arm2
+  rotate: false
+  xy: 979, 137
+  size: 43, 61
+  orig: 43, 61
+  offset: 0, 0
+  index: -1
+nao/head1
+  rotate: false
+  xy: 2, 133
+  size: 195, 187
+  orig: 195, 187
+  offset: 0, 0
+  index: -1
+nao/head2
+  rotate: false
+  xy: 199, 323
+  size: 195, 187
+  orig: 195, 187
+  offset: 0, 0
+  index: -1
+nao/head3
+  rotate: false
+  xy: 199, 134
+  size: 195, 187
+  orig: 195, 187
+  offset: 0, 0
+  index: -1
+nao/head4
+  rotate: false
+  xy: 2, 322
+  size: 195, 188
+  orig: 195, 188
+  offset: 0, 0
+  index: -1
+nao/head5
+  rotate: false
+  xy: 396, 323
+  size: 195, 187
+  orig: 195, 187
+  offset: 0, 0
+  index: -1
+nao/leg1
+  rotate: false
+  xy: 419, 69
+  size: 47, 69
+  orig: 47, 69
+  offset: 0, 0
+  index: -1
+nao/leg2
+  rotate: false
+  xy: 979, 200
+  size: 43, 62
+  orig: 43, 62
+  offset: 0, 0
+  index: -1
+nao/torso
+  rotate: false
+  xy: 233, 40
+  size: 84, 92
+  orig: 84, 92
+  offset: 0, 0
+  index: -1
+tomiko/arm1
+  rotate: false
+  xy: 319, 45
+  size: 47, 87
+  orig: 47, 87
+  offset: 0, 0
+  index: -1
+tomiko/arm2
+  rotate: false
+  xy: 468, 70
+  size: 47, 68
+  orig: 47, 68
+  offset: 0, 0
+  index: -1
+tomiko/head1
+  rotate: false
+  xy: 396, 140
+  size: 192, 181
+  orig: 192, 181
+  offset: 0, 0
+  index: -1
+tomiko/head2
+  rotate: false
+  xy: 787, 329
+  size: 191, 181
+  orig: 191, 181
+  offset: 0, 0
+  index: -1
+tomiko/head3
+  rotate: false
+  xy: 593, 146
+  size: 191, 181
+  orig: 191, 181
+  offset: 0, 0
+  index: -1
+tomiko/head4
+  rotate: false
+  xy: 786, 146
+  size: 191, 181
+  orig: 191, 181
+  offset: 0, 0
+  index: -1
+tomiko/head5
+  rotate: false
+  xy: 593, 329
+  size: 192, 181
+  orig: 192, 181
+  offset: 0, 0
+  index: -1
+tomiko/leg1
+  rotate: false
+  xy: 368, 62
+  size: 49, 70
+  orig: 49, 70
+  offset: 0, 0
+  index: -1
+tomiko/leg2
+  rotate: false
+  xy: 979, 264
+  size: 43, 63
+  orig: 43, 63
+  offset: 0, 0
+  index: -1
+tomiko/tail
+  rotate: true
+  xy: 2, 28
+  size: 103, 143
+  orig: 103, 143
+  offset: 0, 0
+  index: -1
+tomiko/torso
+  rotate: false
+  xy: 147, 33
+  size: 84, 98
+  orig: 84, 98
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,62 @@
+
+donkey.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+burro/copete
+  rotate: false
+  xy: 2, 9
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+burro/hair
+  rotate: false
+  xy: 29, 2
+  size: 40, 33
+  orig: 40, 33
+  offset: 0, 0
+  index: -1
+burro/head
+  rotate: false
+  xy: 2, 25
+  size: 25, 62
+  orig: 25, 62
+  offset: 0, 0
+  index: -1
+burro/leg1
+  rotate: false
+  xy: 29, 37
+  size: 19, 50
+  orig: 19, 50
+  offset: 0, 0
+  index: -1
+burro/leg2
+  rotate: false
+  xy: 50, 45
+  size: 15, 39
+  orig: 15, 39
+  offset: 0, 0
+  index: -1
+burro/neck
+  rotate: true
+  xy: 56, 86
+  size: 40, 44
+  orig: 40, 44
+  offset: 0, 0
+  index: -1
+burro/tail
+  rotate: false
+  xy: 102, 91
+  size: 22, 35
+  orig: 22, 35
+  offset: 0, 0
+  index: -1
+burro/torso
+  rotate: false
+  xy: 2, 89
+  size: 52, 37
+  orig: 52, 37
+  offset: 0, 0
+  index: -1

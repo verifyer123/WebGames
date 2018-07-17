@@ -74,7 +74,7 @@ var wonderHood = function(){
     var OFFSET_ANGLE = 25
     
     var gameIndex = 30
-    var gameId = 100007
+    var gameId = 1
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -120,6 +120,7 @@ var wonderHood = function(){
     var offsetFruit = 4
     var waitUntilShot
     var playerSpinePivot
+   	var pointsToGive
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -142,6 +143,7 @@ var wonderHood = function(){
         offsetValues = []
         offsetValuesSpine = []
         waitUntilShot = false
+        pointsToGive = 1
     }
     
 
@@ -170,9 +172,9 @@ var wonderHood = function(){
         game.load.spine('npcSpine', "images/spines/characters/characters.json");
         game.load.spine('dogSpine', "images/spines/dog/dog.json");
         if(amazing.getMinigameId()){
-            marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
+            marioSong = sound.setSong(soundsPath + 'songs/fantasy_ballad.mp3',0.3)
         }else{
-            game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
+            game.load.audio('arcadeSong', soundsPath + 'songs/fantasy_ballad.mp3');
         }
 
     }
@@ -821,6 +823,7 @@ var wonderHood = function(){
         		}
         		else if(!enemyPlatform.visible){
         			enemyPlatform.visible = true
+        			pointsToGive = 3
         			enemyPlatform.body.x = enemyPlatform.initialX
         			platformNpc.currentY =  INITIAL_MOVE_Y
         			platformNpc.speed =  INIT_SPEED_Y
@@ -839,6 +842,7 @@ var wonderHood = function(){
         	else if(currentLevel == LEVELS_ACTIVATE_PLATTFORM){
         		//console.log("activate plattform")
         		platformNpc.visible = true
+        		pointsToGive = 2
 
         		platformNpc.body.x = platformNpc.initialX
         		base.body.x = platformNpc.body.x
@@ -966,12 +970,14 @@ var wonderHood = function(){
         }
 
     	if(body.objectType == OBJECT_TYPES.OBSTCALE){
+    		sound.play("pop")
     		disableBody()
             eliminateArrow()
     		arrowNpcGroup.add(currentArrow)
             currentArrow = getArrow()
     	}
     	else if(body.objectType == OBJECT_TYPES.NPC){
+    		sound.play("pop")
     		disableBody()
             eliminateArrow()
     		arrowNpcGroup.add(currentArrow)
@@ -986,16 +992,19 @@ var wonderHood = function(){
 	        }
     	}
     	else if(body.objectType == OBJECT_TYPES.APPLE){
-    		addPoint(1,{x:game.world.width-100,y:50})
+    		sound.play("pop")
+    		addPoint(pointsToGive,{x:game.world.width-100,y:50})
             arrowAvailable = false
     	}
     	else if(body.objectType == OBJECT_TYPES.ENEMY){
+    		sound.play("pop")
     		disableBody()
             eliminateArrow()
             arrowEnemyGroup.add(currentArrow)
             currentArrow = getArrow()
     	}
         else if(body.objectType == OBJECT_TYPES.ENEMY2){
+        	sound.play("pop")
             disableBody()
             eliminateArrow()
             arrowEnemyGroup2.add(currentArrow)
@@ -1003,6 +1012,7 @@ var wonderHood = function(){
         }
 
         else if(body.objectType == OBJECT_TYPES.NO_MOVE_OBSTACLE){
+        	sound.play("pop")
             disableBody()
             eliminateArrow()
             arrowNoMoveGroup.add(currentArrow)

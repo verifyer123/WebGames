@@ -524,7 +524,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">piña.png</key>
+            <key type="filename">pina.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -715,7 +715,6 @@
             <filename>nube3.png</filename>
             <filename>picos.png</filename>
             <filename>pilar.png</filename>
-            <filename>piña.png</filename>
             <filename>plantas.png</filename>
             <filename>Pyt.png</filename>
             <filename>roca.png</filename>
@@ -734,6 +733,7 @@
             <filename>flecha_tablero.png</filename>
             <filename>barril_mask.png</filename>
             <filename>rafaja.png</filename>
+            <filename>pina.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

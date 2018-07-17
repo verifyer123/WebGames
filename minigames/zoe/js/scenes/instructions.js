@@ -31,10 +31,10 @@ var instructions = function(){
 	function createInstructions(){
         
         var game = sceneGroup.game
-		var circleGroup = new Phaser.Group(sceneGroup.game)
+        var circleGroup = new Phaser.Group(sceneGroup.game)
 
-        var ins = circleGroup.create(0,0,'ins')
-        ins.anchor.setTo(0.5,0.5)
+        /*var ins = circleGroup.create(0,0,'ins')
+        ins.anchor.setTo(0.5,0.5)*/
         
         var platform = 'click'
         
@@ -42,13 +42,13 @@ var instructions = function(){
             platform = 'tap'
         }
         
-        var instruction = circleGroup.create(0,250,'inst-'+ platform)
+        var instruction = circleGroup.create(0,0,'inst-'+ platform)
         instruction.anchor.setTo(0.5,0.5)
         
         
 
-		return circleGroup
-	}
+        return circleGroup
+    }
 
 	function startGame(obj){
         
