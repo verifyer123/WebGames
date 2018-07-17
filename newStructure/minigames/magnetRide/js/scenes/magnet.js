@@ -61,7 +61,7 @@ var magnet = function(){
 			{	name: "laserexplode",
 				file: soundsPath + "laserexplode.mp3"},
             {	name: "magnetSong",
-				file: soundsPath + "songs/melodic_basss.mp3"},
+				file: soundsPath + "songs/musicVideogame9.mp3"},
 		],
         spritesheets: [
             {   name: "coin",
@@ -126,6 +126,7 @@ var magnet = function(){
 	var sceneGroup = null
     var pointsGroup = null
     var gameActive = true
+	var glass
 	var canBattery
 	var player
 	var jumpButton
@@ -441,7 +442,8 @@ var magnet = function(){
 			
 			sound.play("glassBreak")
             game.add.tween(yogotar).to({y:yogotar.y + 200}, 3000, Phaser.Easing.Cubic.In, true)
-        })
+			glass.alpha=1;
+		})
 		
 		var whiteRect = new Phaser.Graphics(game)
         whiteRect.beginFill(0xffffff)
@@ -560,6 +562,10 @@ var magnet = function(){
 		background2 = game.add.tileSprite(0,game.world.height,game.world.width, game.world.height * 0.7, 'background2');
 		background2.anchor.setTo(0,1)
 		sceneGroup.add(background2)
+		
+		glass=game.add.sprite(game.world.centerX, game.world.centerY,"atlas.magnet", "brokenglass")
+		glass.anchor.setTo(0.5,0.5);
+		glass.alpha=0;
 	}
 	
 	function positionPlayer(){
@@ -707,12 +713,20 @@ var magnet = function(){
 		
 		if(!player.up){
 			yogotar.setSkinByName('mas')
-             redBar.tint=0xffffff
-             blueBar.tint=0x000000
+			redBar.loadTexture("atlas.magnet","red_on");
+			blueBar.loadTexture("atlas.magnet","green_off");
+			wave1.setAnimationByName(0, "out", false);
+			wave2.setAnimationByName(0, "appear", false).onComplete=function(){
+				wave2.setAnimationByName(0, "idle", true)
+			};
 		}else{
 			yogotar.setSkinByName('menos')
-             redBar.tint=0x000000
-             blueBar.tint=0xffffff
+			redBar.loadTexture("atlas.magnet","red_off");
+			blueBar.loadTexture("atlas.magnet","green_on");
+			wave2.setAnimationByName(0, "out", false);
+			wave1.setAnimationByName(0, "appear", false).onComplete=function(){
+				wave1.setAnimationByName(0, "idle", true)
+			};
 		}
 		
 		yogotar.setToSetupPose()
@@ -754,7 +768,7 @@ var magnet = function(){
 	
 	function createBars(){
 		
-		blueBar = sceneGroup.create(game.world.centerX,100,'atlas.magnet','plusbar')
+		blueBar = sceneGroup.create(game.world.centerX,100,'atlas.magnet','green_on')
 		blueBar.width = game.world.width
 		game.physics.p2.enable(blueBar,DEBUG_PHYSICS)
        	blueBar.body.kinematic = true
@@ -765,7 +779,7 @@ var magnet = function(){
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 		
-		redBar = sceneGroup.create(game.world.centerX,game.world.height - 100,'atlas.magnet','minusbar')
+		redBar = sceneGroup.create(game.world.centerX,game.world.height - 100,'atlas.magnet','red_off')
 		redBar.width = game.world.width
 		game.physics.p2.enable(redBar,DEBUG_PHYSICS)
        	redBar.body.kinematic = true
@@ -777,17 +791,16 @@ var magnet = function(){
         sceneGroup.add(pointsText)
 		
         
-        redBar.tint=0x000000
         
-        wave1 = game.add.spine(blueBar.x,blueBar.y+40, "electric");
-        wave1.scale.setTo(game.world.width,1)
+        wave1 = game.add.spine(blueBar.x,blueBar.y+20, "electric");
+        wave1.scale.setTo(game.world.width,0.7)
         wave1.setAnimationByName(0, "idle", true);
         wave1.setSkinByName('normal');
         
         sceneGroup.add(wave1)
         
-        wave2 = game.add.spine(redBar.x,redBar.y-40, "electric");
-        wave2.scale.setTo(game.world.width,1)
+        wave2 = game.add.spine(redBar.x,redBar.y-20, "electric");
+        wave2.scale.setTo(game.world.width,-0.7)
         wave2.setAnimationByName(0, "out", false);
         wave2.setSkinByName('normal');
         

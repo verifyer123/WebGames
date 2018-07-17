@@ -2,7 +2,7 @@
 
 {
 	"filename": "battery",
-	"frame": {"x":358,"y":436,"w":71,"h":70},
+	"frame": {"x":512,"y":436,"w":71,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":70},
@@ -10,8 +10,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "brokenglass",
+	"frame": {"x":1,"y":341,"w":160,"h":140},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":140},
+	"sourceSize": {"w":160,"h":140},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "bubble",
-	"frame": {"x":208,"y":341,"w":110,"h":110},
+	"frame": {"x":370,"y":341,"w":110,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":110,"h":110},
@@ -20,7 +29,7 @@
 },
 {
 	"filename": "bullet",
-	"frame": {"x":168,"y":457,"w":46,"h":28},
+	"frame": {"x":516,"y":67,"w":46,"h":28},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":28},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":216,"y":453,"w":140,"h":55},
+	"frame": {"x":370,"y":453,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -56,7 +65,7 @@
 },
 {
 	"filename": "ringPart",
-	"frame": {"x":92,"y":341,"w":114,"h":114},
+	"frame": {"x":254,"y":341,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -65,7 +74,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":320,"y":341,"w":100,"h":93},
+	"frame": {"x":482,"y":341,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -74,7 +83,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":422,"y":341,"w":64,"h":64},
+	"frame": {"x":516,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -83,7 +92,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":1,"y":459,"w":165,"h":41},
+	"frame": {"x":163,"y":459,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "yogotar",
-	"frame": {"x":1,"y":341,"w":89,"h":116},
+	"frame": {"x":163,"y":341,"w":89,"h":116},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":89,"h":116},
@@ -100,12 +109,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "https://www.codeandweb.com/texturepacker",
+	"app": "http://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":515,"h":509},
+	"size": {"w":584,"h":509},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8eaeaeddfa0347e2fdaa17574e20c876:eecd4717e6bcfa99764d170205f75c82:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3eace9ffcaeb91ce5c2bf0460d139ca6:cfeca338893c99e1c58cb1e48c0b0f42:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

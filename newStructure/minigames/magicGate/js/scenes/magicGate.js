@@ -33,6 +33,10 @@ var magicGate = function(){
 			{
 				name:'tutorial_image',
 				file:"images/magic/tutorial_image.png",
+			},
+			{
+				name:'wall',
+				file:"images/magic/wall.png",
 			}
 		],
 		sounds: [
@@ -337,10 +341,13 @@ var magicGate = function(){
 		var grass = sceneGroup.create(0,game.world.height,'atlas.magic','grass')
 		grass.anchor.setTo(0,1)
 		grass.width = game.world.width+200
+		grass.scale.setTo(game.world.width+200,1)
 		
 		var sky = sceneGroup.create(0,0,'atlas.magic','sky')
-		sky.width = game.world.width+200
+		sky.width = game.world.width
 		sky.height = game.world.height - grass.height
+		
+		sky.scale.setTo(game.world.width*2,1)
 		
 		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.magic','clouds')
 		sceneGroup.add(clouds)
@@ -698,7 +705,7 @@ var magicGate = function(){
 	
 	function createCastle(){
 		
-		var backTower = game.add.tileSprite(0,game.world.height - 300,game.world.width,162,'atlas.magic','wall')
+		var backTower = game.add.tileSprite(0,game.world.height - 280,game.world.width,162,'wall')
 		backTower.anchor.setTo(0,1)
 		sceneGroup.add(backTower)
 		
@@ -719,7 +726,7 @@ var magicGate = function(){
 			tower.y = game.world.height - 300
 			towersGroup.add(tower)
 			
-			var yogotar = game.add.spine(0,-315,'yogotar')
+			var yogotar = game.add.spine(0,-290,'yogotar')
 			yogotar.setSkinByName(yogoSkins[i])
 			yogotar.setAnimationByName(0,"IDLE",true)
 			tower.add(yogotar)
@@ -729,7 +736,7 @@ var magicGate = function(){
 				yogotar.scale.x*=-1
 			}
 			
-			var towerImage = tower.create(0,0,'atlas.magic','tower')
+			var towerImage = tower.create(0,20,'atlas.magic','tower')
 			towerImage.anchor.setTo(0.5,1)
 			
 			pivotX+= 400
