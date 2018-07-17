@@ -788,7 +788,7 @@ var magnet = function(){
         
         wave2 = game.add.spine(redBar.x,redBar.y-40, "electric");
         wave2.scale.setTo(game.world.width,1)
-        wave2.setAnimationByName(0, "idle", true);
+        wave2.setAnimationByName(0, "out", false);
         wave2.setSkinByName('normal');
         
         sceneGroup.add(wave2)
