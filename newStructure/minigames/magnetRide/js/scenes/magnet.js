@@ -571,7 +571,7 @@ var magnet = function(){
         
         player.body.x = 100 
         yogotar.x = player.x
-        yogotar.y = player.y + 48 
+        yogotar.y = player.y +32
 		
 		player.bubble.x = yogotar.x
 		player.bubble.y = yogotar.y - 50
@@ -745,9 +745,13 @@ var magnet = function(){
     
     }
     
+
     function update(){
 
+        console.log(player.body.debug)
+        
         if(gameActive == false){
+            
             return
         }
         
@@ -780,8 +784,11 @@ var magnet = function(){
         sceneGroup.add(pointsText)
 		
 		redBar = sceneGroup.create(game.world.centerX,game.world.height - 100,'atlas.magnet','red_off')
-		redBar.width = game.world.width
-		game.physics.p2.enable(redBar,DEBUG_PHYSICS)
+        redBar.scale.setTo(1,1.2) 
+        redBar.width = game.world.width
+        game.physics.p2.enable(redBar,DEBUG_PHYSICS)
+		redBar.scale.setTo(1,1) 
+        redBar.width = game.world.width
        	redBar.body.kinematic = true
 		
 		var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -1113,15 +1120,14 @@ var magnet = function(){
             sceneGroup.add(yogotar)   
 			
 			player = sceneGroup.create(100, yogotar.y,'atlas.magnet','yogotar')
-			player.scale.setTo(0.8,0.8)
-            player.anchor.setTo(0.5,1)
+			player.scale.setTo(0.8,1.05)
+            player.anchor.setTo(0.5,0.5)
             player.alpha = 0
             game.physics.p2.enable(player,DEBUG_PHYSICS)
             player.body.fixedRotation = true
             player.body.mass=50
 			player.up = false
 			player.invincible = false
-			
 			var bubble = sceneGroup.create(player.x, player.y,'atlas.magnet','bubble')
 			bubble.alpha = 0
 			bubble.anchor.setTo(0.5,0.5)
@@ -1129,7 +1135,6 @@ var magnet = function(){
 						
             yogotar.setAnimationByName(0, "idle", true);
             yogotar.setSkinByName('menos');
-			
 			createObjects()
 			createButton()
                         			
