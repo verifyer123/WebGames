@@ -229,8 +229,8 @@ var magnet = function(){
         if(particle){
             
             particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
+            particle.y = obj.world.y + 520
+            particle.scale.setTo(0.5,0.5)
             //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
             //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
             particle.start(true, 1500, null, 6);
@@ -349,7 +349,6 @@ var magnet = function(){
     function addPoint(number){
         
         sound.play("magic")
-		createPart('star',player)
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
 		
@@ -649,6 +648,7 @@ var magnet = function(){
 					
 				}else if(tag == 'coin'){
 					
+					createPart('star',player)
                     addCoin(player)
 					createTextPart('+1',player)
 					deactivateObj(obj)
@@ -775,7 +775,7 @@ var magnet = function(){
 		
 		var fontStyle = {font: "90px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, blueBar.y + 15, "+", fontStyle)
+        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, blueBar.y -5, "+", fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 		
@@ -786,7 +786,7 @@ var magnet = function(){
 		
 		var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, redBar.y - 15, "-", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, redBar.y + 5, "-", fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 		
