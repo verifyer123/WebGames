@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 
-var riverCleaner = function(){
+var river = function(){
     
     var localizationData = {
 		"EN":{
@@ -21,15 +21,15 @@ var riverCleaner = function(){
 	assets = {
         atlases: [
             {   
-                name: "atlas.riverCleaner",
-                json: "images/riverCleaner/atlas.json",
-                image: "images/riverCleaner/atlas.png",
+                name: "atlas.river",
+                json: "images/river/atlas.json",
+                image: "images/river/atlas.png",
             }
         ],
         images: [
             {
 				name:'tutorial_image',
-				file:"images/riverCleaner/tutorial_image.png"
+				file:"images/river/tutorial_image.png"
 			}
 		],
 		sounds: [
@@ -126,7 +126,7 @@ var riverCleaner = function(){
         pointsBar.y = 0
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(-10,10,'atlas.riverCleaner','xpcoins')
+        var pointsImg = pointsBar.create(-10,10,'atlas.river','xpcoins')
         pointsImg.anchor.setTo(1,0)
     
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -152,7 +152,7 @@ var riverCleaner = function(){
         group.x = pivotX
         heartsGroup.add(group)
 
-        var heartImg = group.create(0,0,'atlas.riverCleaner','life_box')
+        var heartImg = group.create(0,0,'atlas.river','life_box')
 
         pivotX += heartImg.width * 0.45
         
@@ -205,7 +205,7 @@ var riverCleaner = function(){
         
 		sound.play("wrong")
 		sound.play("gameLose")
-		nao.setAnimationByName(0, "LOSE", true)
+		nao.setAnimationByName(0, "lose", true)
         gameActive = false
         gameSong.stop()
         		
@@ -239,7 +239,7 @@ var riverCleaner = function(){
 
 	function createBackground(){
         
-        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.riverCleaner", "tile")
+        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.river", "tile")
         sceneGroup.add(tile)
         
         rowsGroup = game.add.group()
@@ -249,7 +249,7 @@ var riverCleaner = function(){
         
         for(var i = 0; i < 3; i ++){
             
-            var row = game.add.tileSprite(0, game.world.centerY * pivotY, game.world.width, 330, "atlas.riverCleaner", "row")
+            var row = game.add.tileSprite(0, game.world.centerY * pivotY, game.world.width, 330, "atlas.river", "row")
             row.scale.setTo(1, 0.85)
             row.inputEnabled = true
             row.events.onInputDown.add(function(line){
@@ -314,7 +314,7 @@ var riverCleaner = function(){
     function createPart(key){
         
         var particle = game.add.emitter(0, 0, 100);
-        particle.makeParticles('atlas.riverCleaner',key);
+        particle.makeParticles('atlas.river',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
         particle.minParticleScale = 0.3;
@@ -379,7 +379,7 @@ var riverCleaner = function(){
         
         nao = game.add.spine(100, rowsGroup.children[1].centerY + 40, "nao")
         nao.scale.setTo(0.4, 0.4)
-        nao.setAnimationByName(0, "IDLE", true)
+        nao.setAnimationByName(0, "idle", true)
         nao.setSkinByName("normal")
         nao.canMove = true
         sceneGroup.add(nao)
@@ -399,7 +399,7 @@ var riverCleaner = function(){
         trashGroup = game.add.group()
         trashGroup.enableBody = true
         trashGroup.physicsBodyType = Phaser.Physics.ARCADE
-        trashGroup.createMultiple(30, "atlas.riverCleaner", 'trash0')
+        trashGroup.createMultiple(30, "atlas.river", 'trash0')
         trashGroup.setAll('anchor.x', 0)
         trashGroup.setAll('anchor.y', 0.5)
         trashGroup.setAll('collected', false)
@@ -431,13 +431,13 @@ var riverCleaner = function(){
             fishGroup.add(box)
 
             var fish = game.add.spine(box.x + 50, box.height, "fish")
-            fish.setAnimationByName(0, "IDLE", true)
+            fish.setAnimationByName(0, "idle_small", true)
             fish.setSkinByName("normal")
             box.addChild(fish)
             box.fish = fish
         }
         
-        fishGroup.createMultiple(5, "atlas.riverCleaner", 'rock')
+        fishGroup.createMultiple(5, "atlas.river", 'rock')
         fishGroup.setAll('anchor.y', 0.65)
         fishGroup.setAll('collected', false)
         fishGroup.setAll('checkWorldBounds', true)
@@ -457,17 +457,17 @@ var riverCleaner = function(){
         meterGroup = game.add.group()
         sceneGroup.add(meterGroup)
         
-        var containter = meterGroup.create(game.world.centerX, game.world.height - 80 , 'atlas.riverCleaner', "containerBack")
+        var containter = meterGroup.create(game.world.centerX, game.world.height - 80 , 'atlas.river', "containerBack")
         containter.anchor.setTo(0.5)
         //containter.scale.setTo(1.7)
         
-        var bar = meterGroup.create(containter.x - containter.width * 0.31, containter.y - 10, 'atlas.riverCleaner', "bar")
+        var bar = meterGroup.create(containter.x - containter.width * 0.31, containter.y - 10, 'atlas.river', "bar")
         bar.scale.setTo(0, 2.3)
         bar.anchor.setTo(0, 0.5)
         bar.MAX_SIZE = 10
         meterGroup.bar = bar
         
-        var containter = meterGroup.create(containter.x, containter.y, 'atlas.riverCleaner', "container")
+        var containter = meterGroup.create(containter.x, containter.y, 'atlas.river', "container")
         containter.anchor.setTo(0.5)
 
         meterGroup.grow = bar.MAX_SIZE/level
@@ -478,7 +478,7 @@ var riverCleaner = function(){
         
         polutionGroup = game.add.group()
         
-        var cloud = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.riverCleaner", 'grime')
+        var cloud = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.river", 'grime')
         cloud.alpha = 0
         cloud.alive = false
         polutionGroup.add(cloud)
@@ -487,7 +487,7 @@ var riverCleaner = function(){
         polutionGroup.counter = 0
         polutionGroup.level = level
         
-        polutionGroup.createMultiple(20, "atlas.riverCleaner", 'trash0')
+        polutionGroup.createMultiple(20, "atlas.river", 'trash0')
         polutionGroup.setAll('anchor.x', 0.5)
         polutionGroup.setAll('anchor.y', 0.5)
         polutionGroup.setAll('exists', false)
@@ -504,6 +504,10 @@ var riverCleaner = function(){
         if(gameActive && !fish.collected){
             
             fish.collected = true
+            if(fish.fish){
+                fish.fish.setAnimationByName(0, "grow", false)
+                fish.fish.addAnimationByName(0, "idle_big", true)
+            }
             missPoint(fish)
             game.add.tween(nao).from({alpha: 0},100,Phaser.Easing.linear,true,0,5,true)
         }
@@ -514,8 +518,8 @@ var riverCleaner = function(){
         if(gameActive && !trash.collected){
             
             trash.collected = true
-            nao.setAnimationByName(0, "HIT", false)
-            nao.addAnimationByName(0, "RUN", true)
+            nao.setAnimationByName(0, "attack", false)
+            nao.addAnimationByName(0, "run", true)
             
             //game.time.events.add(200,function(){
                 addCoin(trash)
@@ -582,7 +586,7 @@ var riverCleaner = function(){
                 var spawnX = game.world.randomX
                 var spawnY
                 game.rnd.integerInRange(0,1) ? spawnY = game.rnd.integerInRange(10, 50) : spawnY = game.rnd.integerInRange(game.world.height,  game.world.height - 160)
-                trash.loadTexture("atlas.riverCleaner", "trash" + game.rnd.integerInRange(0, 13))
+                trash.loadTexture("atlas.river", "trash" + game.rnd.integerInRange(0, 13))
                 trash.angle = game.rnd.integerInRange(0,12) * 30
                 polutionGroup.bringToTop(trash)
                 trash.reset(spawnX, spawnY)
@@ -608,7 +612,7 @@ var riverCleaner = function(){
         level > 5 ? polutionGroup.level = 5 : polutionGroup.level = level
         polutionGroup.polution = 1/polutionGroup.level
         
-        nao.setAnimationByName(0, "WIN", true)
+        nao.setAnimationByName(0, "win", true)
         
         speed += 100
         
@@ -625,7 +629,7 @@ var riverCleaner = function(){
         polutionGroup.polution = 1/level
         polutionGroup.counter = 0
         
-        nao.setAnimationByName(0, "LOSE", true)
+        nao.setAnimationByName(0, "lose", true)
         
         if(lives > 0){
             cleanScreen()
@@ -664,13 +668,13 @@ var riverCleaner = function(){
     function initGame(){
         
         gameActive = true
-        nao.setAnimationByName(0, "RUN", true)
+        nao.setAnimationByName(0, "run", true)
         game.time.events.add(1000, throwObstacle)
     }
     
     function throwObstacle(){
         
-        var rand = game.rnd.integerInRange(0, 2)
+        var rand = game.rnd.integerInRange(0, 1)
         
         if(rand === 1){
             
@@ -685,12 +689,13 @@ var riverCleaner = function(){
         if(obj){
             if(rand === 1){
                 if(obj.fish){
+                    obj.fish.setAnimationByName(0, "idle_small", true)
                     obj.fish.x = 50
                     game.add.tween(obj.fish).to({x: -20},600,Phaser.Easing.linear,true)
                 }
             }
             else{
-                obj.loadTexture("atlas.riverCleaner", "trash" + game.rnd.integerInRange(0, 13))
+                obj.loadTexture("atlas.river", "trash" + game.rnd.integerInRange(0, 13))
             }
             
             rowsGroup.lastRow = getRand(rowsGroup.lastRow)
@@ -746,7 +751,7 @@ var riverCleaner = function(){
         var obj = trashGroup.getFirstExists(false)
         
         if(obj){
-            obj.loadTexture("atlas.riverCleaner", "trash" + game.rnd.integerInRange(0, 13))
+            obj.loadTexture("atlas.river", "trash" + game.rnd.integerInRange(0, 13))
             obj.collected = false
             obj.reset(game.world.width, rowsGroup.children[2].centerY - obj.deltaY)
             rowsGroup.forEach(function(line){
@@ -756,10 +761,10 @@ var riverCleaner = function(){
                 hand.rocko.kill()
                 hand.rocko = null
             })
-            nao.setAnimationByName(0, "RUN", true)
+            nao.setAnimationByName(0, "run", true)
             game.add.tween(obj).to({x: nao.box.x}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
                 posHand(obj, 2)
-                nao.setAnimationByName(0, "IDLE", true)
+                nao.setAnimationByName(0, "idle", true)
                 rowsGroup.tag = 2
             })
         }
@@ -798,8 +803,8 @@ var riverCleaner = function(){
             
             playTuto = false
             trash.collected = true
-            nao.setAnimationByName(0, "HIT", false)
-            nao.addAnimationByName(0, "WIN", true)
+            nao.setAnimationByName(0, "attack", false)
+            nao.addAnimationByName(0, "win", true)
             
             killObj(trash)
             particleCorrect.x = trash.centerX 
@@ -817,7 +822,7 @@ var riverCleaner = function(){
 	return {
 		
 		assets: assets,
-		name: "riverCleaner",
+		name: "river",
 		update: update,
         preload:preload,
         getGameData:function () {
