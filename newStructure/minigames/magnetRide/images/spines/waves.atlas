@@ -1,0 +1,62 @@
+
+waves.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+secuencia/1
+  rotate: false
+  xy: 2, 2
+  size: 119, 211
+  orig: 119, 211
+  offset: 0, 0
+  index: -1
+secuencia/2
+  rotate: false
+  xy: 123, 2
+  size: 119, 211
+  orig: 119, 211
+  offset: 0, 0
+  index: -1
+secuencia/3
+  rotate: false
+  xy: 244, 2
+  size: 119, 211
+  orig: 119, 211
+  offset: 0, 0
+  index: -1
+secuencia/4
+  rotate: false
+  xy: 365, 2
+  size: 119, 211
+  orig: 119, 211
+  offset: 0, 0
+  index: -1
+secuencia/5
+  rotate: false
+  xy: 607, 3
+  size: 119, 210
+  orig: 119, 210
+  offset: 0, 0
+  index: -1
+secuencia/6
+  rotate: false
+  xy: 728, 3
+  size: 119, 210
+  orig: 119, 210
+  offset: 0, 0
+  index: -1
+secuencia/7
+  rotate: false
+  xy: 849, 3
+  size: 119, 210
+  orig: 119, 210
+  offset: 0, 0
+  index: -1
+secuencia/8
+  rotate: false
+  xy: 486, 2
+  size: 119, 211
+  orig: 119, 211
+  offset: 0, 0
+  index: -1
