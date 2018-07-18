@@ -66,7 +66,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            runneryogome,
+            mathRun,
             result,
     	])
     }
