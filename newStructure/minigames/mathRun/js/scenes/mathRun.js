@@ -1,7 +1,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
 
-var runneryogome = function(){
+var mathRun = function(){
     
     var localizationData = {
 		"EN":{
@@ -1146,14 +1146,10 @@ var runneryogome = function(){
 	return {
 		
 		assets: assets,
-		name: "runneryogome",
+		name: "mathRun",
 		update: update,
         render:render,
         preload:preload,
-        getGameData:function () {
-			var games = yogomeGames.getGames()
-			return games[gameIndex]
-		},
 		create: function(event){
             
 			sceneGroup = game.add.group()

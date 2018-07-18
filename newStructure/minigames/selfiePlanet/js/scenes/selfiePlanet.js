@@ -934,10 +934,6 @@ var selfiePlanet = function(){
         localizationData: localizationData,
 		//update: update,
         preload:preload,
-        getGameData:function () {
-			var games = yogomeGames.getGames()
-			return games[gameIndex]
-		},
 		create: function(event){
             
             var wihte = game.add.graphics(0, 0)
