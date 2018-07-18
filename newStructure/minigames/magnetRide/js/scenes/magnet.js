@@ -565,6 +565,8 @@ var magnet = function(){
 		glass=game.add.sprite(game.world.centerX, game.world.centerY,"atlas.magnet", "brokenglass")
 		glass.anchor.setTo(0.5,0.5);
 		glass.alpha=0;
+        
+        controles=game.input.keyboard.createCursorKeys()
 	}
 	
 	function positionPlayer(){
@@ -640,7 +642,7 @@ var magnet = function(){
 					if(!player.invincible){
 						
                         player.invincible = true
-                        game.add.tween(yogotar).from({alpha:0},100,"Linear",true,0,5,true).onComplete.add(function(){
+                        game.add.tween(yogotar).from({alpha:0},500,"Linear",true,0,5,true).onComplete.add(function(){
                             player.invincible = false
                         })
 						missPoint()
@@ -666,7 +668,7 @@ var magnet = function(){
 			}
         }
     }
-		
+
 	function pickBattery(){
 		
 		player.invincible = true
@@ -676,7 +678,7 @@ var magnet = function(){
 		bub.alpha = 1
 		game.add.tween(bub.scale).from({x:0,y:0},500,"Linear",true)
 		
-		game.time.events.add(5000,function(){
+		game.time.events.add(10000,function(){
 			
 			var tween = game.add.tween(bub).to({alpha:0},200,"Linear",true,200,5)
 			
@@ -708,7 +710,7 @@ var magnet = function(){
 		
 		yogotar.setAnimationByName(0, "change", false);
 		if(gameActive){
-			yogotar.addAnimationByName(0,"idle",true)
+			yogotar.addAnimationByName(0,"idle",true);
 		}
 		
 		if(!player.up){
@@ -728,20 +730,23 @@ var magnet = function(){
 				wave1.setAnimationByName(0, "idle", true)
 			};
 		}
-		
-		yogotar.setToSetupPose()
-		
-		player.up = !player.up
         
-        
-        createPart('ring',player)
-        //yogotar.addAnimationByName(0, "LAND", false);
-        
-        //yogotar.scale.y*=-1
-  
-		player.body.velocity.y*=0.5
-        game.physics.p2.gravity.y*=-1;
-        
+        if(value=="up"){
+            player.up = true
+            createPart('ring',player)
+            player.body.velocity.y*=0.5
+            game.physics.p2.gravity.y*=-1;
+        }else if(value=="down"){
+            player.up = false
+            createPart('ring',player)
+            player.body.velocity.y*=0.5
+            game.physics.p2.gravity.y*=-1;
+        }else{
+            player.up = !player.up
+            createPart('ring',player)
+            player.body.velocity.y*=0.5
+            game.physics.p2.gravity.y*=-1;
+        }
     
     }
     
@@ -754,6 +759,20 @@ var magnet = function(){
             
             return
         }
+        
+        
+        if(controles.down.isDown && keyPressed==false && !bearIsMoving){
+            
+            left()
+            keyPressed=true
+            
+        }else if(controles.up.isDown && keyPressed2==false && !bearIsMoving){
+            
+            
+            keyPressed2=true
+            
+        }
+        
         
         positionPlayer()
         
@@ -772,7 +791,7 @@ var magnet = function(){
 	
 	function createBars(){
 		
-		blueBar = sceneGroup.create(game.world.centerX,100,'atlas.magnet','green_on')
+		blueBar = sceneGroup.create(game.world.centerX,70,'atlas.magnet','green_on')
 		blueBar.width = game.world.width
 		game.physics.p2.enable(blueBar,DEBUG_PHYSICS)
        	blueBar.body.kinematic = true
@@ -783,7 +802,7 @@ var magnet = function(){
         pointsText.anchor.setTo(0.5,0.5)
         sceneGroup.add(pointsText)
 		
-		redBar = sceneGroup.create(game.world.centerX,game.world.height - 100,'atlas.magnet','red_off')
+		redBar = sceneGroup.create(game.world.centerX,game.world.height - 60,'atlas.magnet','red_off')
         redBar.scale.setTo(1,1.2) 
         redBar.width = game.world.width
         game.physics.p2.enable(redBar,DEBUG_PHYSICS)
@@ -906,10 +925,10 @@ var magnet = function(){
 	function setBattery(){
 		
 		canBattery = false
-		game.time.events.add(16000,function(){
-			
-			canBattery = true
-		},this)
+//		game.time.events.add(16000,function(){
+//			
+//			canBattery = true
+//		},this)
 	}
 	
 	function addItem(tag,obj){
@@ -1095,7 +1114,7 @@ var magnet = function(){
 		assets: assets,
 		name: "magnet",
 		update: update,
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+        preload:preload,
 		create: function(event){
             
 			game.physics.startSystem(Phaser.Physics.P2JS);
