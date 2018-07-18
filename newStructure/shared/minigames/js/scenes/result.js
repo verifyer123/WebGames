@@ -101,12 +101,12 @@ var result = function(){
     
 	function setScore(didWin,score,index,scale) {
         
-        gamesList = yogomeGames.getGames()
-		        
+        gamesList = parent.gameData
+		      console.log(gamesList)
 		currentPlayer = null
         gameIndex = index
 		totalScore = score
-		goalScore = gamesList[gameIndex].objective
+		goalScore = gamesList.objective
 		win = totalScore >= goalScore
 		console.log(win)
 		//console.log(parent.epicModel)
@@ -193,8 +193,8 @@ var result = function(){
 		
 		mixpanel.track(
             callName,
-            {"minigame": gamesList[gameIndex].name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
-			 "answerTime":playerData.timeReady,"subject":gamesList[gameIndex].subject,"isMap":playerData.hasMap,"app":"epicWeb"}
+            {"minigame": gamesList.name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
+			 "answerTime":playerData.timeReady,"subject":gamesList.subject,"isMap":playerData.hasMap,"app":"epicWeb"}
         );
 	}
 
@@ -204,7 +204,7 @@ var result = function(){
         
 		FB.ui({
 		    method: 'share',
-		    href: gamesList[gameIndex].url,
+		    href: gamesList.url,
 		    mobile_iframe: true,
 		    title: localization.getString(localizationData,"myScore") + totalScore
 		}, function(response){
@@ -240,7 +240,7 @@ var result = function(){
 				setMixpanel("onRetry")
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show(gamesList[gameIndex].sceneName)
+                        sceneloader.show(gamesList.sceneName)
                     })
             }else if(parent.tag == 'map'){
 				setMixpanel("onMap")
@@ -394,7 +394,7 @@ var result = function(){
 			currentPlayer.powerCoins += totalScore
 
 			if(env.isMap && win){
-				currentPlayer.minigames[gamesList[gameIndex].id].completed = true
+				currentPlayer.minigames[gamesList.id].completed = true
 			}
 			parent.epicModel.savePlayer(currentPlayer)
 		}
@@ -866,11 +866,11 @@ var result = function(){
         
         game.load.spine('yogotaResults', imagesPath + "spines/yogotar.json?v2");
 
-		if(!gamesList){
-			gamesList = yogomeGames.getGames()
-		}
+//		if(!gamesList){
+//			gamesList = yogomeGames.getGames()
+//		}
 		
-		var iconName = gamesList[gameIndex].sceneName
+		var iconName = gamesList.sceneName
 		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")
 		//console.log('End preload')
     }

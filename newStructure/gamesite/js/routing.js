@@ -1,11 +1,12 @@
 window.onunload = function(){};
-
+window.gameData
 var routing = function () {
 	var root = null;
 	var useHash = true; // Defaults to: false
 	var hash = '#/'; // Defaults to: '#'
 	var router = new Navigo(root, useHash, hash);
 	var badRouting = false
+    var games = yogomeGames.getObjectGames("custom")
 
 	$("#minigames").show()
 
@@ -41,18 +42,21 @@ var routing = function () {
 			// },
 			'minigames/:id': function (params) {
 				var id = params.id
-				var games = yogomeGames.getObjectGames("custom")
-				// console.log(id, games.length)
+				
+				
+                
 				var game = games[id]
+                console.log(id, game.url)
+                window.gameData=game;
 				console.log(language, "language")
 				var src = "../minigames/" + game.url + "index.html?language=" + language
-
+                
 				epicSiteMain.startGame(src)
 				console.log(src)
 
 				$(".game-canvas p").text("")
 				$(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/"+game.sceneName + ".png");
-
+                
 				//TODO: check mixpanel
 				// mixpanel.track(
 				// 	"minigameLoad",

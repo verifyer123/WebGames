@@ -259,13 +259,12 @@ var yogomeGames = function () {
 		// 	{name:'Ani Marathon',url:urlSet + 'aniMarathon/',mapUrl:urlMap + 'aniMarathon', sceneName:'aniMarathon',subject:'language',review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//221
 		// 	{name:'Circulead',url:urlSet + 'circulead/',mapUrl:urlMap + 'circulead', sceneName:'circulead',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//222
 		// ]
-
 		var allGames = []
 		for(var confIndex = 0; confIndex < configFiles.length; confIndex++)
 		{
 			var configName = configFiles[confIndex]
 			if(parent[configName]) {
-
+                
 				var configFile = parent[configName]
 				var games = configFile.minigames
 				for (var gIndex = 0; gIndex < games.length; gIndex++) {
@@ -316,7 +315,7 @@ var yogomeGames = function () {
 
 	function mixpanelCall(callName,gameIndex,lives,childata) {
 
-		var gamesList = getGames()
+		//var gamesList = getGames()
 
 		var email = "noEmail"
 		var playerId = "noPlayerId"
@@ -339,17 +338,17 @@ var yogomeGames = function () {
 
 		gameLives = lives || 1
 
-		mixpanel.track(
-			callName,
-			{
-				"minigame": gamesList[gameIndex].name,
-				"subject": gamesList[gameIndex].subject,
-				"app": "epicWeb",
-				"isMap": hasMap,
-				"email": email,
-				"user_id": playerId
-			}
-		);
+//		mixpanel.track(
+//			callName,
+//			{
+//				"minigame": parent.gameData.name,
+//				"subject": parent.gameData.subject,
+//				"app": "epicWeb",
+//				"isMap": hasMap,
+//				"email": email,
+//				"user_id": playerId
+//			}
+//		);
 	}
 
 	return{
