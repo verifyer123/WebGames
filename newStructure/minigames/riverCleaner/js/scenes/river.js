@@ -858,7 +858,8 @@ var river = function(){
             createParticles()
             buttons.getButton(gameSong,sceneGroup)
             
-            createTutorial()
+            //createTutorial()
+            initTuto()
 		}
 	}
 }()

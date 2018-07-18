@@ -1,0 +1,34 @@
+
+yogodancers.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+yogos/1
+  rotate: true
+  xy: 380, 61
+  size: 159, 231
+  orig: 159, 231
+  offset: 0, 0
+  index: -1
+yogos/2
+  rotate: false
+  xy: 201, 3
+  size: 177, 217
+  orig: 177, 217
+  offset: 0, 0
+  index: -1
+yogos/3
+  rotate: true
+  xy: 613, 69
+  size: 151, 225
+  orig: 151, 225
+  offset: 0, 0
+  index: -1
+yogos/4
+  rotate: false
+  xy: 2, 2
+  size: 197, 218
+  orig: 197, 218
+  offset: 0, 0
+  index: -1
