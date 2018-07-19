@@ -1,7 +1,18 @@
 html, body {
       margin: 0;
       padding: 0;
+    font-family: "arial";
     }
+
+#logo{
+    background-color: aqua;
+    text-align: center;
+    width: 100%;
+}
+
+#logo img{ 
+    width: 10%;
+}
 
 
     .slider {

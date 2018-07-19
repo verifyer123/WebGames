@@ -27,7 +27,7 @@ $(document).on('ready', function() {
     $("#optimizedGames").slick({
         dots: false,
         infinite: false,
-        slidesToShow: 3,
+        slidesToShow: 2,
         slidesToScroll: 1
       }); 
     
