@@ -1,0 +1,40 @@
+html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+
+    .slider {
+                transform: scale(1.5);
+        width: 50%;
+        margin: 10% auto;
+    }
+
+    .slick-slide {
+        
+      margin: 0px 20px;
+    }
+
+    .slick-slide img {
+      width: 100%;
+
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+      color: black;
+    }
+
+
+    .slick-slide {
+      transition: all ease-in-out .3s;
+      opacity: .2;
+    }
+
+    .slick-active {
+      opacity: .5;
+    }
+
+    .slick-current {
+      opacity: 1;
+    }
