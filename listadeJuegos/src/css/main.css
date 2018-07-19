@@ -14,6 +14,12 @@ html, body {
     width: 10%;
 }
 
+.text-title{
+    width: 90%;
+    margin:2% 0% 0% 5%;
+    font-size: 3vw;
+    display: flex;
+}
 
     .slider {
                 transform: scale(1.5);
