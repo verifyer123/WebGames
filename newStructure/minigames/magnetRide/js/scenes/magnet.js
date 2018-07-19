@@ -128,11 +128,14 @@ var magnet = function(){
     var gameActive = true
 	var glass
 	var canBattery
+	var direction
 	var player
 	var jumpButton
 	var jumpDown
     var gameIndex = 5
     var overlayGroup
+	var keyPressed
+	var keyPressed2
 	var tagsToUse
 	var canRed
 	var yogotar
@@ -156,8 +159,11 @@ var magnet = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
 		jumpDown = false
+		direction="tutorial"
 		gameActive = false
 		tagsToUse = ['coin']
+		keyPressed=false
+		keyPressed2=false
 		gameSpeed = 3
         pivotObjects =  game.world.width
 		WORLD_GRAVITY = -1700//-1250
@@ -680,7 +686,7 @@ var magnet = function(){
 		
 		game.time.events.add(10000,function(){
 			
-			var tween = game.add.tween(bub).to({alpha:0},200,"Linear",true,200,5)
+			var tween = game.add.tween(bub).to({alpha:0},100,"Linear",true,200,5)
 			
 			tween.onComplete.add(function(){
 				
@@ -704,7 +710,9 @@ var magnet = function(){
 		if(!gameActive){
 			return
 		}
-		
+		if(direction=="tutorial"){
+			direction=null;
+		}
         sound.play("spaceship")
         sound.play("whoosh")
 		
@@ -712,36 +720,52 @@ var magnet = function(){
 		if(gameActive){
 			yogotar.addAnimationByName(0,"idle",true);
 		}
+		console.log(value)
 		
-		if(!player.up){
+        
+        if(value=="up"){
+            player.up = false
+            createPart('ring',player)
+            player.body.velocity.y*=0.5
+            game.physics.p2.gravity.y=WORLD_GRAVITY;
+			yogotar.setSkinByName('menos')
+				redBar.loadTexture("atlas.magnet","red_off");
+				blueBar.loadTexture("atlas.magnet","green_on");
+				wave2.setAnimationByName(0, "out", false);
+				wave1.setAnimationByName(0, "appear", false).onComplete=function(){
+					wave1.setAnimationByName(0, "idle", true)
+				};
+        }else if(value=="down"){
+            player.up = true
+            createPart('ring',player)
+            player.body.velocity.y*=0.5
+            game.physics.p2.gravity.y=-WORLD_GRAVITY;
 			yogotar.setSkinByName('mas')
 			redBar.loadTexture("atlas.magnet","red_on");
 			blueBar.loadTexture("atlas.magnet","green_off");
 			wave1.setAnimationByName(0, "out", false);
 			wave2.setAnimationByName(0, "appear", false).onComplete=function(){
 				wave2.setAnimationByName(0, "idle", true)
-			};
-		}else{
-			yogotar.setSkinByName('menos')
-			redBar.loadTexture("atlas.magnet","red_off");
-			blueBar.loadTexture("atlas.magnet","green_on");
-			wave2.setAnimationByName(0, "out", false);
-			wave1.setAnimationByName(0, "appear", false).onComplete=function(){
-				wave1.setAnimationByName(0, "idle", true)
-			};
-		}
-        
-        if(value=="up"){
-            player.up = true
-            createPart('ring',player)
-            player.body.velocity.y*=0.5
-            game.physics.p2.gravity.y*=-1;
-        }else if(value=="down"){
-            player.up = false
-            createPart('ring',player)
-            player.body.velocity.y*=0.5
-            game.physics.p2.gravity.y*=-1;
+				};
         }else{
+			
+			if(!player.up){
+			yogotar.setSkinByName('mas')
+			redBar.loadTexture("atlas.magnet","red_on");
+			blueBar.loadTexture("atlas.magnet","green_off");
+			wave1.setAnimationByName(0, "out", false);
+			wave2.setAnimationByName(0, "appear", false).onComplete=function(){
+				wave2.setAnimationByName(0, "idle", true)
+				};
+			}else{
+				yogotar.setSkinByName('menos')
+				redBar.loadTexture("atlas.magnet","red_off");
+				blueBar.loadTexture("atlas.magnet","green_on");
+				wave2.setAnimationByName(0, "out", false);
+				wave1.setAnimationByName(0, "appear", false).onComplete=function(){
+					wave1.setAnimationByName(0, "idle", true)
+				};
+			}
             player.up = !player.up
             createPart('ring',player)
             player.body.velocity.y*=0.5
@@ -761,18 +785,21 @@ var magnet = function(){
         }
         
         
-        if(controles.down.isDown && keyPressed==false && !bearIsMoving){
-            
-            left()
+        if(controles.down.isDown && keyPressed==false && direction!="down" && direction!="tutorial"){
             keyPressed=true
+			direction="down"
+			doJump(direction)
             
-        }else if(controles.up.isDown && keyPressed2==false && !bearIsMoving){
-            
-            
+        }else if(controles.up.isDown && keyPressed2==false && direction!="up" && direction!="tutorial"){
             keyPressed2=true
-            
+			direction="up"
+            doJump(direction)
         }
-        
+        if(controles.down.isUp){
+            keyPressed=false
+        }else if(controles.up.isUp){
+            keyPressed2=false
+        }
         
         positionPlayer()
         
@@ -800,6 +827,7 @@ var magnet = function(){
         
         var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, blueBar.y -5, "+", fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
+		pointsText.scale.setTo(1.5,1.5)
         sceneGroup.add(pointsText)
 		
 		redBar = sceneGroup.create(game.world.centerX,game.world.height - 60,'atlas.magnet','red_off')
@@ -814,6 +842,7 @@ var magnet = function(){
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, redBar.y + 5, "-", fontStyle)
         pointsText.anchor.setTo(0.5,0.5)
+        pointsText.scale.setTo(1.5,1.5)
         sceneGroup.add(pointsText)
 		
         
