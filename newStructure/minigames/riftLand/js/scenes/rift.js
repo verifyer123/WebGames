@@ -1499,7 +1499,8 @@ var rift = function(){
 		assets: assets,
 		name: "rift",
 		update: update,
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+        preload:preload,
+		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 			//parent._QUANTRIX.Mixpanel.startMinigame()
 

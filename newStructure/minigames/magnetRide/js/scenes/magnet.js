@@ -132,7 +132,6 @@ var magnet = function(){
 	var player
 	var jumpButton
 	var jumpDown
-    var gameIndex = 5
     var overlayGroup
 	var keyPressed
 	var keyPressed2
@@ -182,11 +181,11 @@ var magnet = function(){
         if(pointsText){
             
             pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
+            pointsText.y = obj.world.y
             pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
+            pointsText.scale.setTo(0.7,0.7)
 
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+            game.add.tween(pointsText).to({y:pointsText.y + 75},750,Phaser.Easing.linear,true)
             game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
 
             deactivateParticle(pointsText,750)
@@ -478,7 +477,7 @@ var magnet = function(){
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number)
 
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
@@ -658,7 +657,7 @@ var magnet = function(){
 					
 					createPart('star',player)
                     addCoin(player)
-					createTextPart('+1',player)
+					
 					deactivateObj(obj)
 					if(!obj.item){
 						addObject()
@@ -825,10 +824,10 @@ var magnet = function(){
 		
 		var fontStyle = {font: "90px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, blueBar.y -5, "+", fontStyle)
-        pointsText.anchor.setTo(0.5,0.5)
-		pointsText.scale.setTo(1.5,1.5)
-        sceneGroup.add(pointsText)
+        var plusIcon = game.add.sprite(game.world.centerX, blueBar.y, "atlas.magnet","plus_icon");
+        plusIcon.anchor.setTo(0.5,0.5)
+		plusIcon.scale.setTo(0.8,0.8)
+        sceneGroup.add(plusIcon)
 		
 		redBar = sceneGroup.create(game.world.centerX,game.world.height - 60,'atlas.magnet','red_off')
         redBar.scale.setTo(1,1.2) 
@@ -840,10 +839,10 @@ var magnet = function(){
 		
 		var fontStyle = {font: "100px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, game.world.centerX, redBar.y + 5, "-", fontStyle)
-        pointsText.anchor.setTo(0.5,0.5)
-        pointsText.scale.setTo(1.5,1.5)
-        sceneGroup.add(pointsText)
+		var minusIcon = game.add.sprite(game.world.centerX, redBar.y, "atlas.magnet", "less_icon");
+        minusIcon.anchor.setTo(0.5,0.5)
+        minusIcon.scale.setTo(0.8,0.8)
+        sceneGroup.add(minusIcon)
 		
         
         
@@ -1112,7 +1111,8 @@ var magnet = function(){
             coinS.motion.onComplete.add(function(){
                 coinS.motion = game.add.tween(coinS).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
                 coinS.motion.onComplete.add(function(){
-                   addPoint(1)
+                   	addPoint(1)
+					createTextPart('+1',pointsBar.text)
                 })
             })
         })
@@ -1154,7 +1154,8 @@ var magnet = function(){
 			
 			jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 			
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			sceneGroup = game.add.group(); 
+			//yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			/*sceneGroup.x = 200
 			sceneGroup.y = 200
 			sceneGroup.scale.setTo(0.5,0.5)*/

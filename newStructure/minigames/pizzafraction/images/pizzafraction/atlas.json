@@ -1,0 +1,156 @@
+{"frames": [
+
+{
+	"filename": "background",
+	"frame": {"x":1,"y":1,"w":541,"h":961},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":961},
+	"sourceSize": {"w":541,"h":961},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "base",
+	"frame": {"x":881,"y":798,"w":541,"h":300},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":14,"w":541,"h":300},
+	"sourceSize": {"w":541,"h":314},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "bgclock",
+	"frame": {"x":651,"y":1341,"w":141,"h":86},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":86},
+	"sourceSize": {"w":141,"h":86},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "circles",
+	"frame": {"x":544,"y":1,"w":795,"h":795},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":795,"h":795},
+	"sourceSize": {"w":795,"h":795},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "globe",
+	"frame": {"x":544,"y":798,"w":215,"h":157},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":215,"h":157},
+	"sourceSize": {"w":215,"h":157},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "hearts",
+	"frame": {"x":651,"y":1429,"w":141,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
+	"sourceSize": {"w":141,"h":54},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "noveno1",
+	"frame": {"x":1252,"y":1143,"w":155,"h":227},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":155,"h":227},
+	"sourceSize": {"w":155,"h":227},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "plato",
+	"frame": {"x":1,"y":964,"w":507,"h":506},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":507,"h":506},
+	"sourceSize": {"w":507,"h":506},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "smoke",
+	"frame": {"x":761,"y":798,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star",
+	"frame": {"x":1341,"y":1,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "timbre_iddle",
+	"frame": {"x":510,"y":1341,"w":139,"h":136},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":139,"h":136},
+	"sourceSize": {"w":139,"h":136},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "timbre_on",
+	"frame": {"x":1252,"y":1372,"w":139,"h":126},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":10,"w":139,"h":126},
+	"sourceSize": {"w":139,"h":136},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tutorial_image",
+	"frame": {"x":510,"y":964,"w":369,"h":375},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":369,"h":375},
+	"sourceSize": {"w":369,"h":375},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tutorial_image_movil",
+	"frame": {"x":881,"y":1100,"w":369,"h":372},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":369,"h":372},
+	"sourceSize": {"w":369,"h":372},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "wrong",
+	"frame": {"x":1341,"y":67,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "xpcoins",
+	"frame": {"x":1252,"y":1100,"w":165,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
+	"sourceSize": {"w":165,"h":41},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1423,"h":1499},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7d93b03e4e7142bca020396d15f5b928:00843d9283d54a95e45e59b412bc3b7c:cbce6b53f0f49e0bf15173c25c41f876$"
+}
+}
