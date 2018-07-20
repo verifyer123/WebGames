@@ -3,6 +3,7 @@ $(document).on('ready', function() {
     var optimized = optimizedGames.minigames;
     var onGoing = onGoingGames.minigames;
     var countOptimizedGames = 1;
+    var totalOptimizedLess = 1;
 
     
     for(var i = 0; i<= optimized.length-1;i++){
@@ -21,10 +22,10 @@ $(document).on('ready', function() {
     `);
     }    
     
-    $("#totalOptimized").text(" (" + countOptimizedGames + "/" + optimized.length +")")
+    $("#totalOptimized").text(" (" + optimized.length +")")
+    $("#totalOptimizedLess").text(" (" +  onGoing.length +")")
     
     $("#optimizedGames").find(".slick-next").click(function(){
-        countOptimizedGames++
     });
 
 
