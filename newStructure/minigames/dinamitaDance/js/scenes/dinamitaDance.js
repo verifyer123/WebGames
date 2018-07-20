@@ -94,7 +94,7 @@ var dinamitaDance = function(){
     var lives = null;
     var sceneGroup = null;
     var gameActive;
-    var gameIndex = 119;
+    //var gameIndex = 119;
     var danceSong;
     var body;
     var fontStyle;
@@ -681,7 +681,7 @@ var dinamitaDance = function(){
         for(var b = 0; b<allButtonsGroup.length; b++){
             colocationX[b] = allButtonsGroup.children[b].x;
             colocationY[b] = allButtonsGroup.children[b].y;
-            tweenButton = game.add.tween(allButtonsGroup.children[b]).to( { x: game.width/2 - 100, y: 50}, 800, Phaser.Easing.Linear.InOut, true);
+            tweenButton = game.add.tween(allButtonsGroup.children[b]).to( { x: allButtonsGroup.width/2 - 65, y: 50}, 800, Phaser.Easing.Linear.InOut, true);
         }
         tweenButton.onComplete.add(function(){
             shuffleColocations();
@@ -813,14 +813,14 @@ var dinamitaDance = function(){
         localizationData: localizationData,
         preload:preload,
         update:update,
-        getGameData:function () {
+        /*getGameData:function () {
             var games = yogomeGames.getGames();
             return games[gameIndex];
-        },
+        },*/
         create: function(event){
 
             sceneGroup = game.add.group();
-            yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+            //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 
             createBackground();
 
