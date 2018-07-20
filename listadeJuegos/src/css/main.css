@@ -45,13 +45,13 @@ html, body {
 
     .slick-slide {
       transition: all ease-in-out .3s;
-      opacity: .2;
+/*      opacity: .5;*/
     }
 
     .slick-active {
-      opacity: .5;
+/*      opacity: .5;*/
     }
 
     .slick-current {
-      opacity: 1;
+/*      opacity: 1;*/
     }
