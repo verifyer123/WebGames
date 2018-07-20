@@ -8,14 +8,14 @@ var dinamitaDance = function(){
             "howTo":"How to Play?",
             "moves":"Moves left",
             "stop":"Stop!",
-            "tutorial_image": "images/dinamitaDance/gameTuto_ES.png"
+            "tutorial_image": "images/dinamitaDance/gameTuto_EN.png"
         },
 
         "ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
             "stop":"¡Detener!",
-            "tutorial_image": "images/dinamitaDance/gameTuto_EN.png"
+            "tutorial_image": "images/dinamitaDance/gameTuto_ES.png"
         }
     }
     
@@ -104,7 +104,7 @@ var dinamitaDance = function(){
     var pivot;
     var glitter = ['glitter1', 'glitter2', 'glitter3', 'glitter4'];
     var dinamita;
-    //var bodyPart;
+    var bodyPart;
     var tutoPivot;
     var time;
     var particleCorrect;      
@@ -115,19 +115,17 @@ var dinamitaDance = function(){
     var pointsBar;
     var coin;
 
-    var sequence;                   //Numero de respuestas
-    var answer;                     //Arreglo de respuestas
-    var indexAnswer;                //Posicion de revision de respuesta en el arreglo de respuestas
-    var repeatSequence;             //Bandera para saber si debe repetirse la cadena de animaciones
-    var repeatAnimEvent;            //Referencia al evento de repeticion
-    var WAITANIMWIN = 3000;         //Referencia de tiempo de espera base para esperar la animacion de triunfo
-    var counterChangeSequence;      //Contador de intentos para cambiar de secuencia
-    var turnsChangeSequence;        //Numero de intentos a lograr para cambiar a siguiente secuencia
-    var timeToWait;                 //Tiempo para esperar la animacion de triunfo o no
-    var newRound;                   //Bandera para indicar que debe crearse nuevo ejercicio
     var danceFloor;                 //Referencia del piso
     var counterFloor;               //Contador de elementos de piso para irlos cambiando
-
+    var counterChangeSequence;      //Contador de intentos para cambiar de secuencia
+    var turnsChangeSequence;        //Numero de intentos a lograr para cambiar a siguiente 
+    var sequence;                   //Numero de respuestas
+    var maxRound;                   //Maximo de elementos en random de ejercicio
+    var activateShuffle;            //Bandera para indicar que debe hacer shuffle de respuestas
+    var timeToWait;                 //Tiempo para esperar la animacion de inicio del ejercicio
+    var colocationX;                //Arreglo para colocacion en X
+    var colocationY;                //Arreglo para colocacion en Y
+    
     function loadSounds(){
         sound.decode(assets.sounds);
     }
@@ -139,17 +137,9 @@ var dinamitaDance = function(){
         gameActive = false;
         pivot = 0;
         win = true;
-        //bodyPart = -1;
+        bodyPart = -1;
         tutoPivot = 0;
         time = 6000;
-        sequence = 1;
-        answer = [];
-        indexAnswer = 0;
-        repeatSequence = true;
-        counterChangeSequence = 0;
-        turnsChangeSequence = 5;
-        newRound = true;
-        counterFloor = 0;
         
         if(localization.getLanguage() === 'ES'){
             body = ['Head', 'Arms', 'Hands', 'Feet', 'Torso' , 'Legs'];
@@ -159,6 +149,16 @@ var dinamitaDance = function(){
             body = ['Cabeza', 'Brazos', 'Manos', 'Pies', 'Torso', 'Piernas'];
             fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
         }
+
+        counterFloor = 0;
+        counterChangeSequence = 0;
+        turnsChangeSequence = 5;
+        maxRound = 3;
+        sequence = 1;
+        activateShuffle = false;
+        timeToWait = 500;
+        colocationX = [];
+        colocationY = [];
         
         loadSounds();
 
@@ -171,6 +171,9 @@ var dinamitaDance = function(){
     }
 
     function stopGame(win){
+
+        //sound.stop("wormwood");
+
         gameActive = false;
         danceSong.stop();
 
@@ -181,7 +184,7 @@ var dinamitaDance = function(){
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
             sound.play("gameLose");
-        });
+        })
     }
 
     function createTutorial(){
@@ -439,12 +442,12 @@ var dinamitaDance = function(){
     function stopTimer(){
         
         tweenTiempo.stop()
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:8}, 100, Phaser.Easing.Linear.Out, true, 100);
+        tweenTiempo = game.add.tween(timeBar.scale).to({x:8}, 100, Phaser.Easing.Linear.Out, true, 100)
    }
     
     function startTimer(time){
         
-        tweenTiempo = game.add.tween(timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100);
+        tweenTiempo = game.add.tween(timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100)
         tweenTiempo.onComplete.add(function(){
             danceTest(-1)
         })
@@ -505,46 +508,45 @@ var dinamitaDance = function(){
     }
     
     function saturdayFeverNight(dance){
-        var nameDance;
+        
         switch(dance){
             case 0:
-                nameDance = "idle_head";
+                dinamita.setAnimationByName(0, "idle_head", true);
             break;
             case 1:
-                nameDance = "idle_arm";
+                dinamita.setAnimationByName(0, "idle_arm", true);
             break;
             case 2:
-                nameDance = "idle_hands";
+                dinamita.setAnimationByName(0, "idle_hands", true);
             break;
             case 3:
-                nameDance =  "idle_foot";
+                dinamita.setAnimationByName(0, "idle_foot", true);
             break;
             case 4:
-                nameDance = "idle_torso";
+                dinamita.setAnimationByName(0, "idle_torso", true);
             break;
             case 5:
-                nameDance = "idle_legs";
+                dinamita.setAnimationByName(0, "idle_legs", true);
             break;
             case 6:
-                nameDance = "idle";
+                dinamita.setAnimationByName(0, "idle", true);
             break;
             case 7:
-                nameDance = "win";
+                dinamita.setAnimationByName(0, "win", true);
             break;
             case 8:
-                nameDance = "lose";
+                dinamita.setAnimationByName(0, "lose", true);
             break;
         }
-        return nameDance;
     }
     
     function initButtons(){
         
-        var aux = 0;
+        var aux = 0
         
         allButtonsGroup = game.add.group();
-        allButtonsGroup.x = game.world.centerX - 180;// buttonsBase.centerX - 180;
-        allButtonsGroup.y = game.world.centerY * 1.6;//buttonsBase.centerY - 50; 
+        allButtonsGroup.x = game.world.centerX - (45*2);// buttonsBase.centerX - 180;
+        allButtonsGroup.y = game.world.centerY * 1.6;
         sceneGroup.add(allButtonsGroup);
         
         for(var b = 0; b < body.length - 3; b++){
@@ -556,14 +558,14 @@ var dinamitaDance = function(){
                 buttonsGroup.scale.setTo(1.15);
                 allButtonsGroup.add(buttonsGroup);
 
-                var btnOff = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonOFF"); // 0 azul off
+                var btnOff = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonOFF"); // 0
                 btnOff.anchor.setTo(0.5);
                 btnOff.inputEnabled = true;
                 btnOff.bodyPart = aux;
                 // btnOff.events.onInputDown.add(btnPressed, this)   
                 // btnOff.events.onInputUp.add(btnRelased, this) 
 
-                var btnOn = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonON"); // 1 azul on
+                var btnOn = buttonsGroup.create(0, 0, "atlas.dinamitaDance", "buttonON"); // 1
                 btnOn.anchor.setTo(0.5);
                 btnOn.alpha = 0;
                 
@@ -573,7 +575,7 @@ var dinamitaDance = function(){
                 shineButton.alpha = 0;
                 buttonsGroup.add(shineButton);
 
-                var btnTxt = new Phaser.Text(sceneGroup.game, 0, 2, '', fontStyle) // 3 texto
+                var btnTxt = new Phaser.Text(sceneGroup.game, 0, 2, '', fontStyle) // 3
                 btnTxt.anchor.setTo(0.5);
                 btnTxt.setText(body[aux]);
                 buttonsGroup.add(btnTxt);
@@ -582,30 +584,33 @@ var dinamitaDance = function(){
                 aux++
             }
         }
+
+        allButtonsGroup.children[4].alpha = 0;
+        allButtonsGroup.children[5].alpha = 0;
     }
     
     function btnPressed(btn){
         
         if(gameActive){
-            sound.play('pop');
-            btn.parent.children[0].alpha = 0;
-            btn.parent.children[1].alpha = 1;
-            btn.parent.children[3].scale.setTo(0.9);
+            sound.play('pop')
+            btn.parent.children[0].alpha = 0
+            btn.parent.children[1].alpha = 1
+            btn.parent.children[3].scale.setTo(0.9)
             
-            if(tutoPivot === 6){
-                danceTest(btn.bodyPart);
+            if(tutoPivot === 4){
+                danceTest(btn.bodyPart)
             }
             else{
-                danceTestTuto(btn.bodyPart);
+                danceTestTuto(btn.bodyPart)
             }
         }
     }
     
     function btnRelased(btn){
         
-        btn.parent.children[0].alpha = 1;
-        btn.parent.children[1].alpha = 0;
-        btn.parent.children[3].scale.setTo(1);
+        btn.parent.children[0].alpha = 1
+        btn.parent.children[1].alpha = 0
+        btn.parent.children[3].scale.setTo(1)
     }
     
     function danceTest(choise){
@@ -613,57 +618,37 @@ var dinamitaDance = function(){
         if(gameActive){
 
             gameActive = false;
-            // if(indexAnswer == sequence-1){
-            //     stopTimer();
-            // }
-
+            stopTimer();
+            
             for(var b = 0; b < body.length; b++){
                 allButtonsGroup.children[b].setAll('tint', 0x909090);
             }
-            //allButtonsGroup.children[bodyPart].setAll('tint', 0xffffff);
-            for(var c=0; c<answer.length; c++){
-               allButtonsGroup.children[answer[c]].children[2].alpha = 1; 
-           }
+            allButtonsGroup.children[bodyPart].children[2].alpha = 1;
 
-            if(choise === answer[indexAnswer]){
-                if(indexAnswer == sequence-1){
-                    stopTimer();
-                    timeToWait = WAITANIMWIN;
-                    particleCorrect.x = dinamita.x;
-                    particleCorrect.y = dinamita.y;
-                    particleCorrect.start(true, 1000, null, 5);
-                    addCoin(dinamita);
-                    counterChangeSequence++;
-                    checkIfAddSequence();
-                    newRound = true;
-                    repeatSequence = false;
-                    game.time.events.remove(repeatAnimEvent);
-                    setAnimations([7]);
-                    if(time > 500)
-                        time -= 100; //200
-                }else{
-                    indexAnswer++;
-                    timeToWait = 0;
-                }
-            }else{
-                stopTimer();
-                setAnimations([8]);
+            if(choise === bodyPart){
+                particleCorrect.x = dinamita.x;
+                particleCorrect.y = dinamita.y;
+                particleCorrect.start(true, 1000, null, 5);
+                addCoin(dinamita);
+                counterChangeSequence++;
+                checkIfAddSequence();
+                saturdayFeverNight(7);
+                if(time > 500)
+                    time -= 200;
+            }
+            else{
+                saturdayFeverNight(8);
                 win = false;
                 particleWrong.x = dinamita.x;
                 particleWrong.y = dinamita.y;
                 particleWrong.start(true, 1000, null, 5);
-                newRound = true;
-                repeatSequence = false;
-                game.time.events.remove(repeatAnimEvent);
                 missPoint();
             }
 
-            game.time.events.add(timeToWait,function(){
+            game.time.events.add(3000,function(){
                 
                 if(lives !== 0){
-                    if(newRound){
-                        setAnimations([6]);
-                    }
+                    saturdayFeverNight(6);
                     initGame();
                 }
             })
@@ -672,112 +657,102 @@ var dinamitaDance = function(){
 
     function checkIfAddSequence(){
         if(counterChangeSequence == turnsChangeSequence){
-            console.log("Entre a cambiar secuencia");
-            if(sequence<=3){
-                sequence++;
-                turnsChangeSequence += 3;
+            switch(sequence){
+                case 1:
+                    maxRound = 5;
+                    for(var b = 4; b<allButtonsGroup.length; b++){
+                        game.add.tween(allButtonsGroup.children[b]).to( { alpha: 1 }, 600, Phaser.Easing.Linear.In, true, 0, 0);
+                    }
+                    game.add.tween(allButtonsGroup).to({x:game.world.centerX - 180}, 1000, Phaser.Easing.Linear.Out, true);
+                break;
+                case 2:
+                    activateShuffle = true;
+                    timeToWait = 2000;
+                break;
             }
+
+            sequence++;
+            turnsChangeSequence += 3;
             counterChangeSequence = 0;
-            console.log("turnsChangeSequence:" + turnsChangeSequence + " counterChangeSequence:" + counterChangeSequence);
+        }
+    }
+
+    function shuffleeButtons(){
+        for(var b = 0; b<allButtonsGroup.length; b++){
+            colocationX[b] = allButtonsGroup.children[b].x;
+            colocationY[b] = allButtonsGroup.children[b].y;
+            tweenButton = game.add.tween(allButtonsGroup.children[b]).to( { x: game.width/2 - 100, y: 50}, 800, Phaser.Easing.Linear.InOut, true);
+        }
+        tweenButton.onComplete.add(function(){
+            shuffleColocations();
+            reColocateButtons();
+        });
+    }
+
+    function reColocateButtons(){
+        for(var b = 0; b<allButtonsGroup.length; b++){
+            tweenButton = game.add.tween(allButtonsGroup.children[b]).to( { x: colocationX[b], y: colocationY[b]}, 800, Phaser.Easing.Linear.InOut, true);
+        }
+    }
+
+    function shuffleColocations() {
+        for (var i = colocationX.length - 1; i > 0; i--)
+        {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tempbase = colocationX[i];
+            colocationX[i] = colocationX[j];
+            colocationX[j] = tempbase;
+
+            var tempcopy = colocationY[i];
+            colocationY[i] = colocationY[j];
+            colocationY[j] = tempcopy;
         }
     }
     
     function initGame(){
         
+        bodyPart = getRand();
+
         allButtonsGroup.getAt(tutoPivot-1).getAt(0).events.onInputDown.removeAll();
         allButtonsGroup.getAt(tutoPivot-1).getAt(0).events.onInputUp.removeAll();
         
         for(var b = 0; b < body.length; b++){
-            //allButtonsGroup.children[b].setAll('tint', 0xffffff);
-            allButtonsGroup.children[b].children[2].alpha = 0;
-            // allButtonsGroup.children[b].children[0].events.onInputDown.add(btnPressed, this);
-            // allButtonsGroup.children[b].children[0].events.onInputUp.add(btnRelased, this);
-        }
-
-        if(newRound){
-            newRound = false;
-            answer = generateRan(body.length,sequence);
-            
-            game.time.events.add(500,function(){
-                // gameActive = true;
-                if(sequence>1){
-                    console.log("Array" + answer);
-                    setAnimations(answer);
-                    indexAnswer = 0;
-                    repeatSequence = true;
-                    repeatAnimations(answer);
-                }else{
-                    console.log("Arrar [0]:" + answer);
-                     setAnimations([answer[0]]);
-                }
-                game.time.events.add(Phaser.Timer.SECOND * (sequence*1.35),function(){
-                    unBlockButtons();
-                    startTimer(time);
-                },this);
-                if(!win){
-                    win = true;
-                    theShining();
-                }
-            },this);
-        }else{
-           game.time.events.add(250,function(){
-                //gameActive = true;
-                unBlockButtons();
-                if(!win){
-                    win = true;
-                    theShining();
-                }
-            },this); 
-        }
-    }
-
-    function unBlockButtons(){
-        gameActive = true;
-        for(var b = 0; b < body.length; b++){
             allButtonsGroup.children[b].setAll('tint', 0xffffff);
+            allButtonsGroup.children[b].children[2].alpha = 0;
             allButtonsGroup.children[b].children[0].events.onInputDown.add(btnPressed, this);
             allButtonsGroup.children[b].children[0].events.onInputUp.add(btnRelased, this);
         }
+
+        if(activateShuffle){
+           shuffleeButtons(); 
+       }
+
+        game.time.events.add(timeToWait,function(){
+            gameActive = true
+            saturdayFeverNight(bodyPart)
+            startTimer(time)
+            if(!win){
+                win = true
+                theShining()
+            }
+        },this)
+        
     }
 
-    function generateRan(max,size){
-        var random = [];
-        for(var i = 0;i<max ; i++){
-            var temp = Math.floor(Math.random()*max);
-            if(random.indexOf(temp) == -1){
-                random.push(temp);
-            }
-            else
-             i--;
-        }
-        random.length = size;
-        var repeat = 0;
-        for(var s=0; s<random.length; s++){
-            if(random[s] == answer[s]){
-                repeat++;
-            }
-        }
-        if(repeat>0){
-            return generateRan(max,size);
-        }else{
-            return random;
-        }
+    function getRand(){
+        var x = game.rnd.integerInRange(0, maxRound);
+        if(x === bodyPart)
+            return getRand();
+        else
+            return x;
     }
-
-    // function getRand(){
-    //     var x = game.rnd.integerInRange(0, 5)
-    //     if(x === bodyPart)
-    //         return getRand()
-    //     else
-    //         return x     
-    // }
     
     function initTuto(){
 
         game.add.tween(hand).to( { alpha: 1 }, 500, Phaser.Easing.Bounce.In, true, 0, 0);
         
         for(var b = 0; b < body.length; b++){
-            allButtonsGroup.children[b].setAll('tint', 0x909090);
+            allButtonsGroup.children[b].setAll('tint', 0xffffff);
             allButtonsGroup.children[b].children[2].alpha = 0;
             allButtonsGroup.children[b].children[0].events.onInputDown.removeAll();
             allButtonsGroup.children[b].children[0].events.onInputUp.removeAll();
@@ -788,51 +763,15 @@ var dinamitaDance = function(){
         allButtonsGroup.getAt(tutoPivot).getAt(0).events.onInputDown.add(btnPressed, this);
         allButtonsGroup.getAt(tutoPivot).getAt(0).events.onInputUp.add(btnRelased, this);
         changeHand(tutoPivot);
-
-        if(answer.length > sequence-1){
-            answer.length = 0; 
-        }
-        answer.push(tutoPivot);
-
+        
         game.time.events.add(500,function(){
-            gameActive = true;
-            
-            if(tutoPivot == 4){
-                sequence++;
-                setAnimations([tutoPivot,tutoPivot+1]);
-                repeatAnimations([tutoPivot,tutoPivot+1]);
-            }else if(tutoPivot < 4){
-                setAnimations([tutoPivot]);
+            gameActive = true
+            saturdayFeverNight(tutoPivot)
+            if(!win){
+                win = true
+                theShining()
             }
         },this)
-    }
-
-    function repeatAnimations(animationsToRepeat){
-        console.log("Tiempo de espera" + (sequence*1.35));
-        repeatAnimEvent = game.time.events.add(Phaser.Timer.SECOND * (sequence*1.35),function(){
-            setAnimations(animationsToRepeat);
-            if(repeatSequence){
-                repeatAnimations(animationsToRepeat); 
-            }
-        },this);
-    }
-
-    function setAnimations(animations){
-        var animation;
-        if(animations.length > 1){
-            for(var index = 0; index < animations.length; index++) {
-                animation = saturdayFeverNight(animations[index]);
-                if (index == 0){
-                    dinamita.setAnimationByName(0, animation, false);
-                }
-                else{
-                    dinamita.addAnimationByName(0, animation, false);
-                }
-            }
-        }else{
-            animation = saturdayFeverNight(animations[0]);
-            dinamita.setAnimationByName(0, animation, true);
-        }
     }
     
     function danceTestTuto(choise){
@@ -845,34 +784,21 @@ var dinamitaDance = function(){
                 allButtonsGroup.children[b].setAll('tint', 0x909090);
             }
             
-            if(choise === answer[indexAnswer]){
+            if(choise === tutoPivot){
                 gameActive = false;
-                if(indexAnswer == sequence-1){
-                    if(tutoPivot == 5){
-                        repeatSequence = false;
-                        game.time.events.remove(repeatAnimEvent);
-                        allButtonsGroup.children[tutoPivot].children[2].alpha = 1;
-                        allButtonsGroup.children[tutoPivot-1].children[2].alpha = 1; 
-                    }
-                    timeToWait = WAITANIMWIN;
-                    particleCorrect.x = dinamita.x;
-                    particleCorrect.y = dinamita.y;
-                    particleCorrect.start(true, 1000, null, 5);
-                    setAnimations([7]);
-                    sound.play('magic');
-                    indexAnswer = 0;
-                }else{
-                    indexAnswer++;
-                    timeToWait = 0;
-                }
+                particleCorrect.x = dinamita.x;
+                particleCorrect.y = dinamita.y;
+                particleCorrect.start(true, 1000, null, 5);
+                saturdayFeverNight(7);
+                sound.play('magic');
                 tutoPivot++;
                 
-                game.time.events.add(timeToWait,function(){
-                    if(tutoPivot < 6){
+                game.time.events.add(3000,function(){
+                    if(tutoPivot < 4){
                         initTuto();
-                    }else{
+                    }
+                    else{
                         timerGroup.alpha = 1;
-                        sequence = 1;
                         initGame();
                     }
                 })
