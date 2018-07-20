@@ -181,7 +181,8 @@ var dinamitaDance = function(){
         tweenScene.onComplete.add(function(){
 
             var resultScreen = sceneloader.getScene("result");
-            resultScreen.setScore(true, pointsBar.number, gameIndex);
+            //resultScreen.setScore(true, pointsBar.number, gameIndex);
+            resultScreen.setScore(true, pointsBar.number);
             sceneloader.show("result");
             sound.play("gameLose");
         })
