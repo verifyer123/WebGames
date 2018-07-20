@@ -85,12 +85,18 @@ var pizzafraction = function(){
 		sounds: [
 			{	name: "pop",
 			 file: soundsPath + "pop.mp3"},
+            {	name: "bell",
+			 file: soundsPath + "alarmBell.mp3"},
+            {	name: "growl",
+			 file: soundsPath + "growlDeep.mp3"},
 			{	name: "magic",
 			 file: soundsPath + "magic.mp3"},
 			{	name: "wrong",
 			 file: soundsPath + "wrong.mp3"},
 			{	name: "whoosh",
 			 file: soundsPath + "whoosh.mp3"},
+            {	name: "eat",
+			 file: soundsPath + "bite.mp3"},
 			{	name: "gameLose",
 			 file: soundsPath + "gameLose.mp3"},
 			{	name: "wrongItem",
@@ -108,7 +114,7 @@ var pizzafraction = function(){
 			{	name: "combo",
 			 file: soundsPath + "combo.mp3"},
 			{	name: "pizzaSong",
-			 file: soundsPath + "songs/pizzaSong.mp3"},
+			 file: soundsPath + "songs/pirates_song.mp3"},
 		],
 		spritesheets: [
             {   name: "coin",
@@ -242,8 +248,8 @@ var pizzafraction = function(){
 
 
 		loadSounds()
-
-		//		yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+        
+		//yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -294,10 +300,8 @@ var pizzafraction = function(){
 			{fraction:"8/8",id:8},
 			{fraction:"1/4",id:2},
 			{fraction:"1/2",id:4},
-			{fraction:"2/2",id:1},
+			{fraction:"2/2",id:8},
 			{fraction:"2/4",id:4},
-			{fraction:"3/6",id:4},
-			{fraction:"12/16",id:6}
 		];
 		//shuffle(fractions)
 		
@@ -342,7 +346,6 @@ var pizzafraction = function(){
 		}
 		
 		
-		
 		star = sceneGroup.create(0,0,"star");
 		star.scale.setTo(2);
 		star.anchor.setTo(0.5,0.5);
@@ -350,11 +353,22 @@ var pizzafraction = function(){
 		star.y = plato.y + plato.height/2;
 		star.alpha= 0;
 		function onPress(pizza){
+            
 			if(!pizza.pizza.over){
 				count = count + 1;
+                if(tutorial){
+                    hand.x=timbre_iddle.x+50;
+                    hand.y=timbre_iddle.y+50;
+                }
+                sound.play("eat")
 				pizza.pizza.blendMode = 0;
 				pizza.pizza.over = true;
 			}else{
+                sound.play("growl")
+                if(tutorial){
+                    hand.x=graphics[6].x;
+                    hand.y=graphics[6].y+100;
+                }
 				count = count - 1;
 				pizza.pizza.blendMode = 3;
 				pizza.pizza.over = false;
@@ -636,7 +650,7 @@ var pizzafraction = function(){
 	 }
 	
 	function onPressBell(bell){
-
+        sound.play("bell")
 		if(timer == 0){
 			return
 		}
@@ -661,6 +675,7 @@ var pizzafraction = function(){
 		}
 		
 		if(!tutorial){
+            hand.alpha=0;
 			timbre_iddle.inputEnabled = false;
 			bell.alpha= 1;
 			TweenMax.fromTo(bell,0.5,{y:bell.y + 20},{y:bell.y,ease:Elastic.easeOut,onComplete:completeBell});
@@ -677,7 +692,7 @@ var pizzafraction = function(){
 		}
 	}		
 	function newPizza(){
-		TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width,onComplete:newYogotar});
+		TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width + 100,onComplete:newYogotar});
 		if(pointsBar.number >= 4){
 			if(seconds>1){
 				seconds--;
@@ -721,9 +736,12 @@ var pizzafraction = function(){
 	function onClickPlay(rect) {
 		tutoGroup.y = -game.world.height
 		startGame=true
-		for(var inputActive=0; inputActive<numPizzas; inputActive++){
-			graphics[inputActive].inputEnabled = true;
-		}
+		//for(var inputActive=0; inputActive<numPizzas; inputActive++){
+        graphics[4].inputEnabled = true;
+		//}
+        hand.alpha=1;
+        hand.x=graphics[5].x;
+        hand.y=graphics[5].y+100;
 		timbre_iddle.inputEnabled = true;
 		//tutorialLevel();
 	}
@@ -739,13 +757,13 @@ var pizzafraction = function(){
 		name: "pizzafraction",
 		create: function(event){
 			sceneGroup = game.add.group()
-			
+			createCoin()
 			createScene()
 			initialize()
 			createHearts(lives)
 			createPointsBar()
 			addParticles()
-			createCoin()
+			
 			pizzaSong = game.add.audio('pizzaSong')
             game.sound.setDecodedCallback(pizzaSong, function(){
                 pizzaSong.loopFull(0.6)
