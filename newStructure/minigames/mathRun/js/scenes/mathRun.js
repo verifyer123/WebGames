@@ -1135,20 +1135,12 @@ var mathRun = function(){
             })
         })
     }
-    
-    function render(){
-        
-        enemiesGroup.forEachAlive(function(sprite){
-            game.debug.body(sprite)
-        })
-    }
 	
 	return {
 		
 		assets: assets,
 		name: "mathRun",
 		update: update,
-        render:render,
         preload:preload,
 		create: function(event){
             

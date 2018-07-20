@@ -110,7 +110,6 @@ var clash = function(){
 
     var lives
     var sceneGroup = null
-    var gameIndex = 40
     var tutoGroup
     var clashSong
     var pullGroup = null
@@ -145,7 +144,6 @@ var clash = function(){
         inputsEnabled = false
 
         loadSounds()
-
     }
     
     function createPointsBar(){
@@ -371,14 +369,14 @@ var clash = function(){
     function createProyectile(from, target, scale, color, onComplete, animated){
         sound.play("throw")
 
-        if(animated){
+        /*if(animated){
             coin = game.add.sprite(0, 0, "coin")
             coin.anchor.setTo(0.5)
             coin.scale.setTo(0.8)
             coin.animations.add('coin');
             coin.animations.play('coin', 24, true);
         }
-        else{
+        else{*/
             var proyectile = sceneGroup.create(0, 0, 'atlas.clash', 'proyectile')
             proyectile.x = from.x
             proyectile.y = from.y
@@ -386,7 +384,7 @@ var clash = function(){
             proyectile.scale.y = scale.from.y
             proyectile.anchor.setTo(0.5, 0.5)
             proyectile.tint = color
-        }
+        //}
 
         game.add.tween(proyectile).to({x: target.x}, 1600, null, true)
         game.add.tween(proyectile.scale).to({x: scale.to.x, y: scale.to.y}, 1600, null, true)
@@ -646,7 +644,7 @@ var clash = function(){
 
             var numPoints = killedMonsters * 5
             var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, numPoints, gameIndex)
+            resultScreen.setScore(true, numPoints)
 
             //amazing.saveScore(pointsBar.number)
             sceneloader.show("result")
@@ -1000,10 +998,11 @@ var clash = function(){
     return {
         assets: assets,
         name: "clash",
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+        preload:preload,
         create: function(event){
 
-            sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+            sceneGroup = game.add.group();
+            //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
             var background = sceneGroup.create(-2,-2,'fondo')
             background.width = game.world.width+2
