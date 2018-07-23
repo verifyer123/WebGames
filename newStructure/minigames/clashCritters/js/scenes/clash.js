@@ -127,9 +127,9 @@ var clash = function(){
         ]
     
     var DINOS = [
-        {skin:"red", colorProyectile:"0xFF0000"},
-        {skin:"blue", colorProyectile:"0x00CCF5"},
-        {skin:"white", colorProyectile:"0xFFFE00"},
+        {skin:"red", colorProyectile:"0xFF0000", name: "Blastrex"},
+        {skin:"blue", colorProyectile:"0x00CCF5", name: "Icerex"},
+        {skin:"white", colorProyectile:"0xFFFE00", name: "Windrex"},
         ]
 
     var lives
@@ -307,6 +307,7 @@ var clash = function(){
             dino.setAlive(true)
             dino.statusAnimation = "idle"
             dino.setAnimation([dino.statusAnimation])
+            dino.name.setText(DINOS[dinoCounter].name)
             monster.hit.forEach(function(particle) {particle.tint = DINOS[dinoCounter].colorProyectile})
             game.add.tween(dino).from({x:-200}, 800, Phaser.Easing.Cubic.Out, true, 800).onComplete.add(startRound)
         })
@@ -627,11 +628,12 @@ var clash = function(){
         dino.hit = explodeDino
         dino.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
-        var dinoName = new Phaser.Text(game, 0, 5, "Blastrex", fontStyle)
+        var dinoName = new Phaser.Text(game, 0, 5, DINOS[dinoCounter].name, fontStyle)
         dinoName.x = dino.x + 320
         dinoName.y = dino.y - 100
         dinoName.anchor.setTo(1,0.5)
         sceneGroup.add(dinoName)
+        dino.name = dinoName
 
         var hpBar2 = createHpbar()
         hpBar2.x = dino.x + 290
@@ -804,7 +806,7 @@ var clash = function(){
         sceneGroup.add(clashGroup)
 
         var colorBox = new Phaser.Graphics(game)
-        colorBox.beginFill(0x350A00)
+        colorBox.beginFill(0x3D0163)
         colorBox.drawRect(0,0,game.width, 410)
         colorBox.endFill()
         colorBox.x = -game.width * 0.5
