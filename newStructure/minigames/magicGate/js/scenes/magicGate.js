@@ -913,6 +913,11 @@ var magicGate = function(){
 						}
 						sign.alpha=0;
 						missPoint()
+                        var tower1 = towersGroup.children[0]
+                        game.add.tween(tower1).to({x:tower1.x+100},500,"Linear",true).yoyo(true)
+
+                        var tower1 = towersGroup.children[1]
+                        game.add.tween(tower1).to({x:tower1.x-100},500,"Linear",true).yoyo(true)
 						createPart('smoke',doorsGroup.children[0])
 						sound.play("evilLaugh")
 						if(!tutorial){
