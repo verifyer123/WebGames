@@ -28,6 +28,7 @@ $(document).on('ready', function() {
         });   
     }   
     
+    
     for(var i = 0; i<= onGoing.length-1;i++){
         $("#onGoingGames").append(
     `<div id="btnGoing`+i+`">
