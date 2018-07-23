@@ -73,6 +73,4 @@ $(document).on('ready', function() {
         vertical:true
       });    */
     
-   
-    alert("ok")
 });
