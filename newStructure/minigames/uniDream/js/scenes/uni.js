@@ -1253,7 +1253,9 @@ var uni = function(){
 		preload:preload,
 		create: function(event){
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			sceneGroup = game.add.group(); 
+			
+			//yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			document.addEventListener("contextmenu", function(e){
                e.preventDefault();

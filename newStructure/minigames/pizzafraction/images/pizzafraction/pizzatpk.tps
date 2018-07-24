@@ -303,6 +303,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">smoke.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,23,50,47</rect>
+                <key>scale9Paddings</key>
+                <rect>25,23,50,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">star.png</key>
             <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
@@ -388,6 +401,7 @@
             <filename>tutorial_image.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>smoke.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

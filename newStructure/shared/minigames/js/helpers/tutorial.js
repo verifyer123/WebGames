@@ -235,7 +235,9 @@ var tutorialHelper = function () {
 	function loadType(gameData, currentLoader){
 
 		//return
-        
+        document.addEventListener("contextmenu", function(e){
+			e.preventDefault();
+		}, false);
         configuration=gameData.config.tutorial;
 		var path = sharePath+"tutorial_gifs/"
 		var videoName
