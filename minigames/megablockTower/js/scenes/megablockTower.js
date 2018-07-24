@@ -64,7 +64,7 @@ var megablockTower = function(){
     var CLOUD_MIN_VEL =0.5
     var CLOUD_MAX_VEL =1.5
 
-    var DIVISOR_TOWER = 500
+    var DIVISOR_TOWER = 200
     var DELTA_FALL_VELOCITY = 0.05
     
     var gameIndex = 31
@@ -550,8 +550,8 @@ var megablockTower = function(){
                         currentCombo = 1
                         x = lastQuad.x+x
 
-                        var testminLast = lastQuad.x - ((lastQuad.collision.correctWidth/2)*0.96)
-                        var testmaxLast = lastQuad.x + ((lastQuad.collision.correctWidth/2)*0.96)
+                        var testminLast = lastQuad.x - ((lastQuad.collision.correctWidth/2)*0.9)
+                        var testmaxLast = lastQuad.x + ((lastQuad.collision.correctWidth/2)*0.9)
                         var minCurrent = x - (currentQuad.collision.correctWidth/2)
                         var testmaxCurrent = x + (currentQuad.collision.correctWidth/2)
                         if((minCurrent > testmaxLast) || (testmaxCurrent < testminLast)){
@@ -629,9 +629,9 @@ var megablockTower = function(){
 
                     var deltaX = currentQuad.x
                     
-                    towerGroup.maxAngle += (deltaX/DELTA_TOWER)
+                    towerGroup.maxAngle += Math.abs((deltaX/DELTA_TOWER))
 
-                    towerGroup.maxAngle = Math.abs(towerGroup.maxAngle)
+                    //towerGroup.maxAngle = towerGroup.maxAngle)
                     
                     /*if(towerGroup.maxAngle<0){
                     	towerGroup.delta = 0

@@ -134,7 +134,7 @@ amazing.getGames = function(){
         {name:'Pin Dots',iconName:'pinDots',url:'http://amazingapp.mx/juegos/pinDots/',coupon : false,mixName:'pinDots',demo:false,id:31},//29
         {name:'Wonder Hood',iconName:'wonderHood',url:'http://amazingapp.mx/juegos/wonderHood/',coupon : false,mixName:'wonderHood',demo:false,id:1},//30
         {name:'Torre Helado Obscuro',iconName:'heladoObscuro',url:'http://amazingapp.mx/juegos/heladoObscuro/',coupon : false,mixName:'heladoObscuro',demo:false,id:22},//31
-        {name:'Zoe',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoe',demo:true,id:100009},//32
+        {name:'Zoé Water',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoe',demo:true,id:100009},//32
         {name:'Bebe Mundo',iconName:'bebeMundo',url:'http://amazingapp.mx/juegos/bebeMundo/',coupon : false,mixName:'bebeMundo',demo:true,id:100010},//33
         {name:'Amazing Bros',iconName:'amazingbros',url:'http://amazingapp.mx/juegos/amazingbros/',coupon : false,mixName:'amazingbros',demo:true,id:100011},//34
         {name:'Megablocks',iconName:'megablockTower',url:'http://amazingapp.mx/juegos/megablockTower/',coupon : false,mixName:'megablockTower',demo:true,id:100012},//35

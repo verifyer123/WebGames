@@ -4,13 +4,35 @@ var imagesUrl = "../../shared/minigames/images/"
 var jsonData = "../../shared/minigames/amazing.json"
 
 var result = function(){
+    var lan = "ES"
+    if(window.location.search!=""){
+        var s = window.location.search.split('=')
+        if(s.length>1){
+            if(s[1]=="pt" || s[1]=="PT"){
+                lan ="PT"
+            }
+        }
+    }
 
 	localizationData = {
-		"EN":{
-
+		"PT":{
+            "compartir":"Compartilhe",
+            "genial":"Ótimo!",
+            "puntuacion":"Sua Pontuação",
+            "reintentar": "De Novo",
+            "juegaEnApp": "Jogue no app!",
+            "obtenRecompensas": "E obtenha ótimas recompensas",
+            "descargar": "Baixe"
 		},
 
 		"ES":{
+            "compartir":"Compartir",
+            "genial":"¡Genial!",
+            "puntuacion":"Tu Puntuación",
+            "reintentar":"Reintentar",
+            "juegaEnApp": "¡Juega en la app!",
+            "obtenRecompensas": 'Y obtén grandes recompensas',
+            "descargar": "Descargar"
 
 		}
 	}
@@ -230,7 +252,7 @@ var result = function(){
 
         var buttonNames = ['compartir','reintentar']
 
-        var buttonTexts = ['Compartir','Reintentar']
+        var buttonTexts = [localizationData[lan]["compartir"],localizationData[lan]["reintentar"]]
 
         var pivotX = game.world.centerX - 120
         var pivotY = pivot-10
@@ -434,7 +456,7 @@ var result = function(){
 
 
         var fontStyle = {font: "30px Gotham Book", fill: "#808080",align:"center"}
-        var text = new Phaser.Text(sceneGroup.game, 0, 0,"Tu Puntuación", fontStyle)
+        var text = new Phaser.Text(sceneGroup.game, 0, 0,localizationData[lan]["puntuacion"], fontStyle)
         text.anchor.setTo(0.5)
         group.add(text)
         var topValue = 1
@@ -683,7 +705,7 @@ var result = function(){
 
         if(!haveCoupon){
 
-            textToUse = "¡Genial!"
+            textToUse = localizationData[lan]["genial"]
             colorTint = 0xc41e79
             animationToUse = "WIN"
             topHeight = 1.05
@@ -826,9 +848,9 @@ var result = function(){
 
                 pivotButtons = game.world.height* 0.92
                	
-               	if(couponData.poll==null){
+               	//if(couponData.poll==null){
                 	amazing.winCoupon(currentCouponId)
-               	}
+               	//}
                 //
                 //if(!specialCoupon){
 
@@ -885,6 +907,10 @@ var result = function(){
         createIcons(showIcons)
 
         sceneGroup.add(rankGroup)
+
+        /*makeSpecialCoupon()
+        specialCoupon = true
+        return*/
 
         if(!amazing.getFromApp()){
             addRank()
@@ -968,8 +994,11 @@ var result = function(){
         var canjeButton = cuponSliderGroup.create(game.world.centerX +(slideNumber-1)*DELTA_SPECIAL_CUPON_SLIDER,game.world.centerY + 310,"couponButton")
         canjeButton.anchor.setTo(0.5)
         canjeButton.inputEnabled = true
-        canjeButton.events.onInputDown.add(function(){
-            amazing.goTickets()
+        canjeButton.events.onInputDown.add(function(target){
+            specialCoupon = false
+            target.inputEnabled = false
+            game.add.tween(overlayGroup).to({alpha : 0, y: overlayGroup.y - game.world.height},500,"Linear",true)
+            //amazing.goTickets()
         })
 
 
@@ -1451,18 +1480,19 @@ var result = function(){
 		nameText.anchor.setTo(0.5,0.5)
 		downloadButton.add(nameText)
 
-		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', 'Juega en la app!', 40);
+		var nameText = game.add.bitmapText(back.x, back.y + 50, 'gothamMedium', localizationData[lan]["juegaEnApp"], 40);
 		nameText.tint = 0xffffff
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
+        if(lan=="ES"){
+    		var nameText = game.add.bitmapText(back.x -170, back.y + 50, 'gothamMedium', '!', 40);
+    		nameText.tint = 0xffffff
+    		nameText.anchor.setTo(0.5,0.5)
+    		nameText.angle = 180
+    		overlayGroup.add(nameText)
+        }
 
-		var nameText = game.add.bitmapText(back.x -170, back.y + 50, 'gothamMedium', '!', 40);
-		nameText.tint = 0xffffff
-		nameText.anchor.setTo(0.5,0.5)
-		nameText.angle = 180
-		overlayGroup.add(nameText)
-
-		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', 'Y obtén grandes recompensas', 28);
+		var nameText = game.add.bitmapText(back.x, back.y + 110, 'gotham', localizationData[lan]["obtenRecompensas"], 28);
 		nameText.anchor.setTo(0.5,0.5)
 		overlayGroup.add(nameText)
 
@@ -1590,7 +1620,7 @@ var result = function(){
 
         //couponData = {scoreGoal:1}
         specialCoupon = false
-        if(!couponData || couponData == null){
+        if(couponData == null){
             haveCoupon = false
 
         }else{
