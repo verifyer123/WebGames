@@ -27,7 +27,6 @@ var magicGate = function(){
 				json: "images/magic/atlas.json",
 				image: "images/magic/atlas.png",
 			},
-
 		],
 		images: [
 			{
@@ -84,7 +83,7 @@ var magicGate = function(){
 				height:77,
 				frames:24
 			},
-			
+
 			{
 				name:"meteor2",
 				file:"images/spines/redMeteor.png",
@@ -134,7 +133,6 @@ var magicGate = function(){
 	function popObject(obj,delay,appear){
 
 		game.time.events.add(delay,function(){
-
 			sound.play("cut")
 			if(appear){
 
@@ -319,14 +317,10 @@ var magicGate = function(){
 
 
 	function preload(){
-
-
 		game.load.spine('yogotar', "images/spines/yogotar.json")  
 		game.load.spine('monster',"images/spines/monster.json")
 		game.load.spine('sign',"images/spines/power.json")
 		game.load.spine('operation',"images/spines/glow.json")
-
-
 	}
 
 	function createTutorial(){
@@ -397,7 +391,7 @@ var magicGate = function(){
 		attack1.anchor.setTo(0.5,0.5)
 		attack1.scale.setTo(1,1)
 		attack1.animations.add('meteor1');
-		
+
 		attack2=game.add.sprite(0,0,"meteor2");
 		attack2.alpha=0;
 		attack2.anchor.setTo(0.5,0.5)
@@ -443,7 +437,7 @@ var magicGate = function(){
 			deactivateParticle(pointsText,750)
 		}
 	}
-	
+
 	function lookParticle(key){
 
 		for(var i = 0;i<particlesGroup.length;i++){
@@ -641,35 +635,44 @@ var magicGate = function(){
 
 			sound.play("zombieUp")
 
-			for(var i = 0; i < 2;i++){
-				towersGroup.children[i].yogotar.setAnimationByName(0,"win",false)
-				towersGroup.children[i].yogotar.addAnimationByName(0,"idle",true)
+
+			if(obj.tag=="plus"){
+				towersGroup.children[1].yogotar.setAnimationByName(0,"win",false)
+				towersGroup.children[1].yogotar.addAnimationByName(0,"idle",true)
+				attack2.alpha=1;
+				attack2.x=towersGroup.children[1].x-50
+				attack2.y=towersGroup.children[1].y-400
+				attack2.animations.play('meteor2', 16, true);
+				game.add.tween(attack2).to({x:attack2.x-10,y:attack2.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
+					game.add.tween(attack2).to({x:attack2.x-130,y:attack2.y+100},450,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
+						createPart('smoke',attack2)
+						attack2.animations.stop('meteor2');
+						attack2.alpha=0;
+						attack2.x=towersGroup.children[0].x+50
+						attack2.y=towersGroup.children[0].y-400
+					})
+				})
 			}
-					
-			attack1.alpha=1;
-			attack1.x=towersGroup.children[0].x+50
-			attack1.y=towersGroup.children[0].y-400
-			attack1.animations.play('meteor1', 16, true);
-			attack2.alpha=1;
-			attack2.x=towersGroup.children[1].x-50
-			attack2.y=towersGroup.children[1].y-400
-			attack2.animations.play('meteor2', 16, true);
-			
-			game.add.tween(attack2).to({x:attack2.x-10,y:attack2.y-100},350,Phaser.Easing.Cubic.In,true,0,0)
-			game.add.tween(attack1).to({x:attack1.x+10,y:attack1.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
-				game.add.tween(attack2).to({x:attack2.x-130,y:attack2.y+100},450,Phaser.Easing.Cubic.Out,true,0,0)
-				game.add.tween(attack1).to({x:attack1.x+130,y:attack1.y+100},450,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
-					createPart('smoke',attack1)
-					attack1.animations.stop('meteor1');
-					attack1.alpha=0;
-					attack1.x=towersGroup.children[0].x+50
-					attack1.y=towersGroup.children[0].y-400
-					attack2.animations.stop('meteor2');
-					attack2.alpha=0;
-					attack2.x=towersGroup.children[0].x+50
-					attack2.y=towersGroup.children[0].y-400
+
+			if(obj.tag=="minus"){
+				towersGroup.children[0].yogotar.setAnimationByName(0,"win",false)
+				towersGroup.children[0].yogotar.addAnimationByName(0,"idle",true)
+				attack1.alpha=1;
+				attack1.x=towersGroup.children[0].x+50
+				attack1.y=towersGroup.children[0].y-400
+				attack1.animations.play('meteor1', 16, true);
+				game.add.tween(attack1).to({x:attack1.x+10,y:attack1.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
+
+					game.add.tween(attack1).to({x:attack1.x+130,y:attack1.y+100},450,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
+						createPart('smoke',attack1)
+						attack1.animations.stop('meteor1');
+						attack1.alpha=0;
+						attack1.x=towersGroup.children[0].x+50
+						attack1.y=towersGroup.children[0].y-400
+					});
 				});
-			});
+			}
+
 
 			game.time.events.add(1000,function(){
 				showButtons(false)
@@ -715,12 +718,14 @@ var magicGate = function(){
 					towersGroup.children[i].yogotar.addAnimationByName(0,"idle",true)
 				}
 				game.time.events.add(1000,function(){
-					tweenTower1.stop()
-					tweenTower2.stop()
-					tweenTower1.stop()
-					tweenTower2.stop()
-					tweenTowerText1.stop()
-					tweenTowerText2.stop()
+					if(obj.tag=="minus"){
+						tweenTower1.stop()
+						tweenTowerText1.stop()
+					}
+					if(obj.tag=="plus"){
+						tweenTower2.stop()
+						tweenTowerText2.stop()
+					}
 					towerText1.x=textx1;
 					towerText2.x=textx2;
 					tower1.x=game.world.centerX - 200;
@@ -768,7 +773,7 @@ var magicGate = function(){
 
 		game.add.tween(doorsGroup.children[0]).to({x:game.world.width * 1.5,angle:360,alpha : 0},500,"Linear",true)
 		game.add.tween(doorsGroup.children[1]).to({x:-game.world.width * 0.5,angle:-360,alpha :0},500,"Linear",true)
-		
+
 		var tower1 = towersGroup.children[0]
 		game.add.tween(tower1).to({angle:-90},500,"Linear",true)
 
@@ -889,9 +894,9 @@ var magicGate = function(){
 		sign.setAnimationByName(0,"IDLE",true)
 		operationGroup.add(sign)
 		operationGroup.sign = sign
-		
+
 		sign.alpha = 0
-		
+
 		var resultGroup = game.add.group()
 		resultGroup.x = game.world.centerX
 		resultGroup.y = game.world.centerY + 150
@@ -1010,7 +1015,7 @@ var magicGate = function(){
 							var tower2 = towersGroup.children[1]
 							tower2.x=tower2.x+50;
 							var tweenTower2=game.add.tween(tower2).to({x:tower2.x-50},100,"Linear",true).yoyo(true).loop(true)
-							
+
 							for(var i = 0; i < 2;i++){
 								towersGroup.children[i].yogotar.setAnimationByName(0,"lose",false)
 								towersGroup.children[i].yogotar.addAnimationByName(0,"idle",true)
@@ -1104,7 +1109,7 @@ var magicGate = function(){
 			createOperations()
 			createButtons()
 			addParticles()
-			
+
 			spaceSong = game.add.audio('spaceSong')
 			game.sound.setDecodedCallback(spaceSong, function(){
 				spaceSong.loopFull(0.6)
@@ -1122,7 +1127,7 @@ var magicGate = function(){
 
 			createPointsBar()
 			createHearts()
-			
+
 			buttons.getButton(spaceSong,sceneGroup)
 			createTutorial()
 
