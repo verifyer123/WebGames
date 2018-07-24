@@ -120,6 +120,8 @@ var magnet = function(){
 	var gameSpeed
 	var background,background2
 	var pivotObjects
+	var index
+	var coinsGroup=null
 	var groundGroup
 	var lastObject
 	var lives = null
@@ -144,7 +146,7 @@ var magnet = function(){
 	var blueBar
 	var magnetSong
 	var isNoun
-	var coinS
+	var coinS, coinS2
 	var hand
 
 
@@ -157,6 +159,7 @@ var magnet = function(){
 
 		game.stage.backgroundColor = "#ffffff"
 		lives = 3
+		index=0
 		jumpDown = false
 		direction="tutorial"
 		gameActive = false
@@ -315,6 +318,7 @@ var magnet = function(){
 
 		var startGroup = new Phaser.Group(game)
 		sceneGroup.add(startGroup)
+
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -499,8 +503,11 @@ var magnet = function(){
 	}
 
 	function onClickPlay(rect){
-
+		coinsGroup= new Phaser.Group(game)
+		sceneGroup.add(coinsGroup)
+		coinsGroup.add(coinS)
 		overlayGroup.y = -game.world.height
+
 		gameActive = true
 		game.physics.p2.gravity.y = WORLD_GRAVITY
 		initTutorial()
@@ -508,6 +515,25 @@ var magnet = function(){
 			addObject()
 		}
 
+	}
+
+	function getCoins(player){
+		var coin=coinsGroup.getFirstDead();
+
+		if(coin==undefined){
+			game["coinS"+index] = game.add.sprite(0, 0, "coin")
+			game["coinS"+index].anchor.setTo(0.5)
+			game["coinS"+index].scale.setTo(0.8)
+			game["coinS"+index].animations.add('coin')
+			game["coinS"+index].animations.play('coin', 24, true)
+			game["coinS"+index].alpha = 0
+			coinsGroup.add(game["coinS"+index])
+			coin=game["coinS"+index];
+			index++;
+			addCoin(coin,player)
+		}else{
+			addCoin(coin,player)
+		}
 	}
 
 	function releaseButton(obj){
@@ -559,6 +585,8 @@ var magnet = function(){
 	}
 
 	function createBackground(){
+
+
 
 		background = game.add.tileSprite(0,0,game.world.width, game.world.height, 'background');
 		sceneGroup.add(background)
@@ -656,7 +684,7 @@ var magnet = function(){
 				}else if(tag == 'coin'){
 
 					createPart('star',player)
-					addCoin(player)
+					getCoins(player)
 
 					deactivateObj(obj)
 					if(!obj.item){
@@ -720,7 +748,6 @@ var magnet = function(){
 		if(gameActive){
 			yogotar.addAnimationByName(0,"idle",true);
 		}
-		console.log(value)
 
 
 		if(value=="up"){
@@ -777,7 +804,6 @@ var magnet = function(){
 
 	function update(){
 
-		console.log(player.body.debug)
 
 		if(gameActive == false){
 
@@ -901,6 +927,7 @@ var magnet = function(){
 	function firstPosition(){
 
 		positionPlayer()
+
 
 		if(!gameActive){
 
@@ -1088,6 +1115,7 @@ var magnet = function(){
 		coinS.animations.add('coin')
 		coinS.animations.play('coin', 24, true)
 		coinS.alpha = 0
+		coinS.kill()
 
 		hand = game.add.sprite(0, 0, "hand")
 		hand.animations.add('hand')
@@ -1096,23 +1124,23 @@ var magnet = function(){
 
 	}
 
-	function addCoin(obj){
+	function addCoin(coin,obj){
 
-		if(coinS.motion)
-			coinS.motion.stop()
+		if(coin.motion)
+			coin.motion.stop()
 
-		coinS.x = obj.centerX
-		coinS.y = obj.centerY
+		coin.reset(obj.centerX,obj.centerY);
 
-		game.add.tween(coinS).to({alpha:1}, 100, Phaser.Easing.linear, true)
+		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
 
-		coinS.motion = game.add.tween(coinS).to({y:coinS.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
-		coinS.motion.onComplete.add(function(){
-			coinS.motion = game.add.tween(coinS).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
-			coinS.motion.onComplete.add(function(){
-				coinS.motion = game.add.tween(coinS).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
-				coinS.motion.onComplete.add(function(){
-					addPoint(1)
+		coin.motion = game.add.tween(coin).to({y:coin.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
+		coin.motion.onComplete.add(function(){
+			coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+			coin.motion.onComplete.add(function(){
+				coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+				coin.motion.onComplete.add(function(){
+					addPoint(1);
+					coin.kill();
 					createTextPart('+1',pointsBar.text)
 				})
 			})
@@ -1210,10 +1238,11 @@ var magnet = function(){
 			buttons.getButton(magnetSong,sceneGroup)
 
 			addParticles()
-			createCoin()
+
 			createOverlay()
 
 			animateScene()
+			createCoin()
 			firstPosition()
 
 		},
