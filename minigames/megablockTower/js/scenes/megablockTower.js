@@ -191,8 +191,9 @@ var megablockTower = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.6
         pointsText.y = pointsImg.height * 0.3
+        pointsText.anchor.setTo(0.5,0)
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -704,9 +705,13 @@ var megablockTower = function(){
 
                         currentQuad.x = x
                         
-
+                        if(comboBar.visible){
+                            createPart('star',{x:currentQuad.world.x,y:(lastQuad.world.y - lastQuad.collision.correctHeight)})
+                        }
 
                     }
+
+
 
 
                     game.add.tween(currentQuad).to({angle:0},200,Phaser.Easing.linear,true)
