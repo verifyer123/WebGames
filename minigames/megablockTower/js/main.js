@@ -58,7 +58,7 @@ function startGame(){
     }
 
     function create(){
-
+        
     	preloadScenes([
             instructions,
             megablockTower,

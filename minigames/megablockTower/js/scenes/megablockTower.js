@@ -41,15 +41,15 @@ var megablockTower = function(){
                 file: soundsPath + "pop.mp3"},
             {   name: "gameLose",
                 file: soundsPath + "gameLose.mp3"},
-            {   name: "punch",
-                file: soundsPath + "punch1.mp3"},  
+            {   name: "falling",
+                file: soundsPath + "falling.mp3"},  
         ],
         
     }
     
     var INITIAL_LIVES = 3
     var ROPE_VELOCITY = 0.5
-    var QUAD_FALLING_VELOCITY = 5
+    var QUAD_FALLING_VELOCITY = 10
     var TOWER_VELOCITY = 3
 
     var DELTA_TOWER = 150
@@ -58,12 +58,13 @@ var megablockTower = function(){
     var IN_TO_START_COMBO = 3
     var DELTA_COMBO = 2
     var MAX_COMBO = 8
+    var MULTIPLIER_SCALE = 0.8
 
     var OFFSET_EMOJI = {x:-40,y:-40}
     var CLOUD_MIN_VEL =0.5
     var CLOUD_MAX_VEL =1.5
 
-    var DIVISOR_TOWER = 200
+    var DIVISOR_TOWER = 500
     var DELTA_FALL_VELOCITY = 0.05
     
     var gameIndex = 31
@@ -89,6 +90,7 @@ var megablockTower = function(){
     var cloudGroup 
     var lastCloud
     var currentQuadVelocity, currentDivisor
+    var fallingAudio
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -104,6 +106,7 @@ var megablockTower = function(){
         currentCombo = 1
         currentQuadVelocity = QUAD_FALLING_VELOCITY
         currentDivisor = DIVISOR_TOWER
+        fallingAudio = game.add.audio('falling');
     }
     
 
@@ -418,6 +421,15 @@ var megablockTower = function(){
             if(floorGroup.y < game.world.height + 100){
                 floorGroup.y += TOWER_VELOCITY
             }
+            var yPos = towerGroup.y - (game.world.height+100)
+            for(var i =0; i < towerGroup.length; i++){
+                
+                //console.log(y,lastQuad.y)
+                var pos  = yPos + towerGroup.children[i].y - towerGroup.children[i].collision.correctHeight
+                if(pos > game.world.height){
+                    towerGroup.children[i].visible = false
+                }
+            }
 
              for(var i =0; i < cloudGroup.length;i++){
                 if(cloudGroup.children[i].visible){
@@ -481,11 +493,11 @@ var megablockTower = function(){
                 currentQuad.x = x
                 currentQuad.y = y
                 canTouch = false
-
+                rope.claw1.angle = -20
+                rope.claw2.angle = 20
+                //sound.play("falling")
+                fallingAudio.play()
             }
-        }
-        else{
-
         }
 
         if(!canTouch){
@@ -507,8 +519,8 @@ var megablockTower = function(){
                 	var x = ((i.x*vec.x)+(i.y*vec.y))/moduleI
                 	var y = ((j.x*vec.x)+(j.y*vec.y))/moduleJ
 
-                	/*if(Math.abs(x)>80){
-                		return
+                	/*if(x>(lastQuad.collision.correctWidth/2)*0.95){
+                		//return
                 	}*/
 
                 	if(y > -lastQuad.collision.correctHeight+150){
@@ -520,9 +532,9 @@ var megablockTower = function(){
                 	
 
                     deltaX = x
-                    console.log(deltaX)
+                    //console.log(deltaX)
                     if(Math.abs(deltaX)<10){
-                        console.log("setCombo")
+                       // console.log("setCombo")
                         currentQuad.x = lastQuad.x
                         currentInCombo++
                         createPart('star',{x:currentQuad.world.x,y:(lastQuad.world.y - lastQuad.collision.correctHeight)})
@@ -538,9 +550,20 @@ var megablockTower = function(){
                         currentCombo = 1
                         x = lastQuad.x+x
 
+                        var testminLast = lastQuad.x - ((lastQuad.collision.correctWidth/2)*0.96)
+                        var testmaxLast = lastQuad.x + ((lastQuad.collision.correctWidth/2)*0.96)
+                        var minCurrent = x - (currentQuad.collision.correctWidth/2)
+                        var testmaxCurrent = x + (currentQuad.collision.correctWidth/2)
+                        if((minCurrent > testmaxLast) || (testmaxCurrent < testminLast)){
+                            //console.log(x,minCurrent,maxCurrent,lastQuad.x,minLast,maxLast)
+                            return
+                        }
+
+
+
                         var minLast = lastQuad.x - (lastQuad.collision.correctWidth/2)
                         var maxLast = lastQuad.x + (lastQuad.collision.correctWidth/2)
-                        var minCurrent = x - (currentQuad.collision.correctWidth/2)
+                        //var minCurrent = x - (currentQuad.collision.correctWidth/2)
 
                         var deltaConexion = (lastQuad.collision.correctWidth/lastQuad.collision.totalConexions)
                         var maxLastConexion = maxLast - (deltaConexion/2)
@@ -556,15 +579,25 @@ var megablockTower = function(){
                             }
                         }
 
-                        //console.log(currentConexion,deltaConexion,minCurrent)
-
-                        //for(var i =0; i < lastQuad.collision.totalConexions-1; i++){
-                        //var i =0
                         while(true){
                             if(minCurrent < currentConexion){
-                                var d = (currentConexion - deltaConexion) - minCurrent
-                                x -= d
-                                //currentQuad.x = x
+
+                                var a = minCurrent - (currentConexion - deltaConexion)
+                                var b = currentConexion - minCurrent
+                                
+                                if(b < a){
+                                    var d = currentConexion - minCurrent
+                                    
+                                    x -= d
+                                    
+                                }
+                                else{
+                                    var d = (currentConexion - deltaConexion) - minCurrent
+                                   
+                                    x -= d
+                                   
+                                }
+
                                 break
                             }
                             else{
@@ -581,22 +614,20 @@ var megablockTower = function(){
                                 //i++
                             }
                         }
-
-                        if((x- (currentQuad.collision.correctWidth/2) > maxLast) || (x+ (currentQuad.collision.correctWidth/2) < minLast)){
-                            return
-                        }
+                       
 
                         currentQuad.x = x
                     }
 
 
-
-
+                    sound.play("pop")
+                    //sound.stop("falling")
+                    fallingAudio.stop()
                 	
                 	currentQuad.y = (lastQuad.y - lastQuad.collision.correctHeight )
                 	//currentQuad.y = lastQuad.y
 
-                    var deltaX = game.world.centerX - currentQuad.x
+                    var deltaX = currentQuad.x
                     
                     towerGroup.maxAngle += (deltaX/DELTA_TOWER)
 
@@ -620,12 +651,12 @@ var megablockTower = function(){
                     //}
                     x = game.world.centerX
                     var xTemp = Math.abs(currentQuad.x)
-                    if( xTemp > game.world.centerX){
-                    	x = xTemp - game.world.centerX
+                    if( xTemp < game.world.centerX){
+                    	x = xTemp 
                     }
                     
                     //console.log(x)
-                    x+=200
+                    //x+=200
                     var h = Math.sqrt(Math.pow(x,2)+Math.pow(currentQuad.y-100,2))
                     //console.log(h)
                     var ang = ((Math.acos(x/h)*(180/Math.PI))-90)*-1
@@ -656,6 +687,8 @@ var megablockTower = function(){
                     getPeople(lastQuad)
                 }
 
+                rope.claw1.angle = 0
+                rope.claw2.angle =0
                 getQuad()
             }
 
@@ -665,6 +698,8 @@ var megablockTower = function(){
                 currentQuad.x = 0
         		//currentQuad.worldType = game.rnd.integerInRange(0,1)
         		rope.addChild(currentQuad)
+                rope.claw1.angle = 0
+                rope.claw2.angle = 0
                 missPoint()
                 //getQuad()
             }
@@ -845,16 +880,19 @@ var megablockTower = function(){
         claw.anchor.setTo(0,0)
         rope.addChild(claw)
         rope.claw1 = claw
+        claw.scale.setTo(MULTIPLIER_SCALE)
 
         claw = sceneGroup.create(0,-200,"atlas.game","pinza")
         claw.anchor.setTo(0,0)
-        claw.scale.setTo(-1,1)
+        claw.scale.setTo(-MULTIPLIER_SCALE,MULTIPLIER_SCALE)
         rope.addChild(claw)
         rope.claw2 = claw
+        //claw.scale.setTo(MULTIPLIER_SCALE)
 
         var base = sceneGroup.create(0,-200,"atlas.game","Base_pinza")
         base.anchor.setTo(0.5)
         rope.addChild(base)
+        base.scale.setTo(MULTIPLIER_SCALE)
 
         getQuad()
         lastQuad = currentQuad
@@ -883,13 +921,39 @@ var megablockTower = function(){
 
 
     function getQuad(){
+        var indexOfType = game.rnd.integerInRange(1,6)
+        var worldType = game.rnd.integerInRange(1,2)
+
+        for(var i =0; i < towerGroup.length; i++){
+            if(!towerGroup.children[i].visible){
+                var quad = towerGroup.children[i]
+                if(quad.indexOfType == indexOfType && quad.worldType == worldType){
+                    quad.visible = true
+                    for(var j = 0; j <quad.minPeople; j++){
+                        quad.people[j].visible =false
+                        quad.people[j].emoji.visible = false
+                    }
+                    towerGroup.remove(quad)
+                    rope.addChild(quad)
+
+                    quad.y = quad.collision.correctHeight - 125
+                    quad.x = 0
+                    currentQuad = quad
+                    //console.log("reuse quad")
+                    return
+                }
+            }
+        }
+
+
     	currentQuad = sceneGroup.create(0,0,"atlas.game","bloque1_1")
-    	currentQuad.worldType = game.rnd.integerInRange(1,2)
+    	currentQuad.worldType = worldType
     	//currentQuad.worldType = 2
-    	var indexOfType = game.rnd.integerInRange(1,6)
     	//indexOfType = 6
-    	currentQuad.loadTexture("atlas.game","bloque"+currentQuad.worldType+"_"+indexOfType)
+        currentQuad.indexOfType = indexOfType
+    	currentQuad.loadTexture("atlas.game","bloque"+currentQuad.worldType+"_"+currentQuad.indexOfType)
     	currentQuad.anchor.setTo(0.5,1)
+
 
     	currentQuad.collision = game.add.graphics()
         currentQuad.collision.beginFill(0x00ff00)
@@ -990,9 +1054,9 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[1].emoji)
         }
         else if(currentQuad.worldType == 1 && indexOfType== 4){
-        	currentQuad.collision.drawRect(-55,-300,110,300)
+        	currentQuad.collision.drawRect(-60,-300,120,300)
         	currentQuad.collision.correctHeight = 300
-            currentQuad.collision.correctWidth = 110
+            currentQuad.collision.correctWidth = 120
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
 
@@ -1145,7 +1209,7 @@ var megablockTower = function(){
         else if(currentQuad.worldType == 2 && indexOfType== 3){
         	currentQuad.collision.drawRect(-125,-145,250,145)
         	currentQuad.collision.correctHeight = 145
-            currentQuad.collision.correctWidth = 110
+            currentQuad.collision.correctWidth = 250
             currentQuad.collision.totalConexions = 6
         	currentQuad.minPeople = 2
 
@@ -1182,7 +1246,7 @@ var megablockTower = function(){
         else if(currentQuad.worldType == 2 && indexOfType== 4){
         	currentQuad.collision.drawRect(-70,-195,140,195)
         	currentQuad.collision.correctHeight = 195
-            currentQuad.collision.correctWidth = 110
+            currentQuad.collision.correctWidth = 140
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
 
@@ -1248,6 +1312,10 @@ var megablockTower = function(){
         	currentQuad.people[i].visible = false
             currentQuad.people[i].emoji.visible = false
         }
+
+        currentQuad.scale.setTo(MULTIPLIER_SCALE)
+        currentQuad.collision.correctHeight*=MULTIPLIER_SCALE
+        currentQuad.collision.correctWidth*=MULTIPLIER_SCALE
 
         currentQuad.collision.alpha = 0
         currentQuad.collision.endFill()
