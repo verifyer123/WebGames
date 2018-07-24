@@ -1,22 +1,54 @@
 var soundsPath = "../../shared/minigames/sounds/"
 var instructions = function(){
-	var assets = {
-        images: [
-            {   name:"background",
-				file: "images/instructions/back.png"},
-            {   name:"okbtn",
-                file: "images/instructions/okbtn.png"},
-            {   name:"inst-click",
-                file: "images/instructions/inst-click.png"},
-            {   name:"inst-tap",
-                file: "images/instructions/inst-tap.png"},
- 
-		],
-        sounds: [
-            {	name: "click",
-				file: soundsPath + "pop.mp3"},
-        ],
-	}
+    var lan = ""
+    if(window.location.search!=""){
+        var s = window.location.search.split('=')
+        if(s.length>1){
+            if(s[1]=="pt" || s[1]=="PT"){
+                lan ="pt"
+            }
+        }
+    }
+
+	var assets
+    if(lan == ""){
+        assets= {
+            images: [
+                {   name:"background",
+    				file: "images/instructions/back.png"},
+                {   name:"okbtn",
+                    file: "images/instructions/okbtn.png"},
+                {   name:"inst-click",
+                    file: "images/instructions/inst-click.png"},
+                {   name:"inst-tap",
+                    file: "images/instructions/inst-tap.png"},
+     
+    		],
+            sounds: [
+                {	name: "click",
+    				file: soundsPath + "pop.mp3"},
+            ],
+    	}
+    }
+    else if(lan == "pt"){
+        assets= {
+            images: [
+                {   name:"background",
+                    file: "images/instructions/back.png"},
+                {   name:"okbtn",
+                    file: "images/instructions/okbtn.png"},
+                {   name:"inst-click",
+                    file: "images/instructions/inst-click_pt.png"},
+                {   name:"inst-tap",
+                    file: "images/instructions/inst-tap_pt.png"},
+     
+            ],
+            sounds: [
+                {   name: "click",
+                    file: soundsPath + "pop.mp3"},
+            ],
+        }
+    }
 
 	var sceneGroup
     var loopTween

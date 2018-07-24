@@ -1,6 +1,10 @@
  var gameContainer = document.getElementById("game-container")
  var gameFrame = document.createElement("iframe")
-      gameFrame.src= amazing.config.minigameUrl
+     var search = ""
+     if(window.location.search!=""){
+          search = window.location.search
+     }
+     gameFrame.src= amazing.config.minigameUrl+search
      gameFrame.style.borderStyle = "none"
      gameFrame.scrolling = "no"
      gameFrame.width = "100%"
