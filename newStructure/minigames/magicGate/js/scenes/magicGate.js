@@ -109,6 +109,7 @@ var magicGate = function(){
 	var indexGame
 	var sign
 	var attack1, attack2
+	var tweenTower1, tweenTower2
 	var overlayGroup
 	var tutorial
 	var timeToUse
@@ -718,14 +719,10 @@ var magicGate = function(){
 					towersGroup.children[i].yogotar.addAnimationByName(0,"idle",true)
 				}
 				game.time.events.add(1000,function(){
-					if(obj.tag=="minus"){
-						tweenTower1.stop()
-						tweenTowerText1.stop()
-					}
-					if(obj.tag=="plus"){
-						tweenTower2.stop()
-						tweenTowerText2.stop()
-					}
+					tweenTower1.stop()
+					tweenTowerText1.stop()
+					tweenTower2.stop()
+					tweenTowerText2.stop()
 					towerText1.x=textx1;
 					towerText2.x=textx2;
 					tower1.x=game.world.centerX - 200;
@@ -1011,10 +1008,10 @@ var magicGate = function(){
 							var tweenTowerText2=game.add.tween(towerText2).to({x:towerText2.x-50},100,"Linear",true).yoyo(true).loop(true)
 							var tower1 = towersGroup.children[0]
 							tower1.x=tower1.x-50;
-							var tweenTower1=game.add.tween(tower1).to({x:tower1.x+50},100,"Linear",true).yoyo(true).loop(true)
+							tweenTower1=game.add.tween(tower1).to({x:tower1.x+50},100,"Linear",true).yoyo(true).loop(true)
 							var tower2 = towersGroup.children[1]
 							tower2.x=tower2.x+50;
-							var tweenTower2=game.add.tween(tower2).to({x:tower2.x-50},100,"Linear",true).yoyo(true).loop(true)
+							tweenTower2=game.add.tween(tower2).to({x:tower2.x-50},100,"Linear",true).yoyo(true).loop(true)
 
 							for(var i = 0; i < 2;i++){
 								towersGroup.children[i].yogotar.setAnimationByName(0,"lose",false)
