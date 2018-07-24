@@ -136,7 +136,8 @@ amazing.getGames = function(){
         {name:'Torre Helado Obscuro',iconName:'heladoObscuro',url:'http://amazingapp.mx/juegos/heladoObscuro/',coupon : false,mixName:'heladoObscuro',demo:false,id:22},//31
         {name:'Zoe',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoe',demo:true,id:100009},//32
         {name:'Bebe Mundo',iconName:'bebeMundo',url:'http://amazingapp.mx/juegos/bebeMundo/',coupon : false,mixName:'bebeMundo',demo:true,id:100010},//33
-        {name:'Amazing Bros',iconName:'amazingbros',url:'http://amazingapp.mx/juegos/amazingbros/',coupon : false,mixName:'amazingbros',demo:true,id:100011},//33
+        {name:'Amazing Bros',iconName:'amazingbros',url:'http://amazingapp.mx/juegos/amazingbros/',coupon : false,mixName:'amazingbros',demo:true,id:100011},//34
+        {name:'Megablocks',iconName:'megablockTower',url:'http://amazingapp.mx/juegos/megablockTower/',coupon : false,mixName:'megablockTower',demo:true,id:100012},//35
         //
     ]
 
@@ -255,10 +256,13 @@ amazing.getServerUrl = function(){
 }
 
 amazing.goTickets = function(){
+
     var params = {
         type: "goTickets",
     }
     parent.postMessage(JSON.stringify(params), "*")
+
+    console.log("GoToTickets")
 }
 
 amazing.getInfo = function(){

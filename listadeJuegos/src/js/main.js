@@ -20,11 +20,14 @@ $(document).on('ready', function() {
         $("#btnOptimized" + i).mouseout(function(){
             $(this).css("opacity",0.5);
         });   
+        
         $("#btnOptimized" + i).click(function(){
             var place = $(this).attr("number")
-           window.location = "../../newStructure/gamesite/#/minigames/Optimized" + optimized[place].url
+            var texto = optimized[place].name.replace(/\s/g, "")
+           window.location = "../../newStructure/gamesite/#/minigames/" + texto
         });   
     }   
+    
     
     for(var i = 0; i<= onGoing.length-1;i++){
         $("#onGoingGames").append(
@@ -43,7 +46,8 @@ $(document).on('ready', function() {
            
         $("#btnGoing" + i).click(function(){
             var place = $(this).attr("number")
-           window.location = "../../newStructure/gamesite/#/minigames/" + onGoing[place].url
+            var texto = onGoing[place].name.replace(/\s/g, "")
+           window.location = "../../newStructure/gamesite/#/minigames/" + texto
         });   
     }    
     
@@ -61,13 +65,12 @@ $(document).on('ready', function() {
       }); 
     
   
-    $("#onGoingGames").slick({
+    /*$("#onGoingGames").slick({
         dots: false,
         infinite: false,
         slidesToShow: 3,
-        slidesToScroll: 1
-      });    
-    
-   
+        slidesToScroll: 1,
+        vertical:true
+      });    */
     
 });

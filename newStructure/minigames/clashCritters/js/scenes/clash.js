@@ -74,6 +74,24 @@ var clash = function(){
                 width: 115,
                 height: 111,
                 frames: 23
+            },
+            {   name: "redShot",
+                file: "images/spines/red.png",
+                width: 301,
+                height: 255,
+                frames: 19
+            },
+            {   name: "blueShot",
+                file: "images/spines/blue.png",
+                width: 243,
+                height: 221,
+                frames: 19
+            },
+            {   name: "whiteShot",
+                file: "images/spines/white.png",
+                width: 353,
+                height: 240,
+                frames: 10
             }
         ],
         spines:[
@@ -107,6 +125,12 @@ var clash = function(){
         {skin:"monster8", colorProyectile:"0x00FF89", name:"Bathead"},
         {skin:"BOSS", colorProyectile:"0x0057FF", name:"Skymera"}
         ]
+    
+    var DINOS = [
+        {skin:"red", colorProyectile:"0xFF0000", name: "Blastrex"},
+        {skin:"blue", colorProyectile:"0x00CCF5", name: "Icerex"},
+        {skin:"white", colorProyectile:"0xFFFE00", name: "Windrex"},
+        ]
 
     var lives
     var sceneGroup = null
@@ -118,6 +142,7 @@ var clash = function(){
     var inputsEnabled
     var pointsBar
     var monsterCounter
+    var dinoCounter
     var monster
     var dino
     var clashGroup
@@ -138,6 +163,7 @@ var clash = function(){
         timeValue = 7
         monsterCounter = 0
         killedMonsters = 0
+        dinoCounter = 0
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
@@ -274,13 +300,15 @@ var clash = function(){
         sound.play("bah")
         dino.setAlive(false)
         game.add.tween(dino).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 500).onComplete.add(function(){
-            dino.setSkinByName(dino.nextSkin)
+            dinoCounter++
+            dino.setSkinByName(DINOS[dinoCounter].skin)
             dino.hpBar.resetHealth()
             dino.alpha = 1
             dino.setAlive(true)
             dino.statusAnimation = "idle"
             dino.setAnimation([dino.statusAnimation])
-            dino.nextSkin = "white"
+            dino.name.setText(DINOS[dinoCounter].name)
+            monster.hit.forEach(function(particle) {particle.tint = DINOS[dinoCounter].colorProyectile})
             game.add.tween(dino).from({x:-200}, 800, Phaser.Easing.Cubic.Out, true, 800).onComplete.add(startRound)
         })
     }
@@ -369,30 +397,32 @@ var clash = function(){
     function createProyectile(from, target, scale, color, onComplete, animated){
         sound.play("throw")
 
-        /*if(animated){
-            coin = game.add.sprite(0, 0, "coin")
-            coin.anchor.setTo(0.5)
-            coin.scale.setTo(0.8)
-            coin.animations.add('coin');
-            coin.animations.play('coin', 24, true);
+        if(animated){
+            
+            var proyectile = game.add.sprite(0, 0, DINOS[dinoCounter].skin + "Shot")
+            proyectile.animations.add('shot')
+            proyectile.animations.play('shot', 24, true)
+            sceneGroup.add(proyectile)
         }
-        else{*/
+        else{
             var proyectile = sceneGroup.create(0, 0, 'atlas.clash', 'proyectile')
-            proyectile.x = from.x
-            proyectile.y = from.y
-            proyectile.scale.x = scale.from.x
-            proyectile.scale.y = scale.from.y
-            proyectile.anchor.setTo(0.5, 0.5)
             proyectile.tint = color
-        //}
+        }
+        
+        proyectile.x = from.x
+        proyectile.y = from.y
+        proyectile.scale.x = scale.from.x
+        proyectile.scale.y = scale.from.y
+        proyectile.anchor.setTo(0.5, 0.5)
+        proyectile.angle = 0
 
-        game.add.tween(proyectile).to({x: target.x}, 1600, null, true)
-        game.add.tween(proyectile.scale).to({x: scale.to.x, y: scale.to.y}, 1600, null, true)
+        game.add.tween(proyectile).to({x: target.x, angle: 60}, 800, null, true)
+        game.add.tween(proyectile.scale).to({x: scale.to.x, y: scale.to.y}, 800, null, true)
 
-        var first = game.add.tween(proyectile).to({y: 46}, 800, Phaser.Easing.Cubic.Out, true)
+        var first = game.add.tween(proyectile).to({y: 40}, 400, Phaser.Easing.Cubic.Out, true)
         first.onComplete.add(function () {
-            game.add.tween(proyectile).to({y: target.y}, 800, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
-                game.add.tween(proyectile).to({alpha: 0}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
+            game.add.tween(proyectile).to({y: target.y}, 400, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
+                game.add.tween(proyectile).to({alpha: 0}, 200, Phaser.Easing.Cubic.Out, true).onComplete.add(function () {
                     proyectile.destroy()
                 })
                 if (onComplete)
@@ -586,8 +616,7 @@ var clash = function(){
         dino = createSpine("dino", "red")
         dino.x = 130
         dino.y = dino.height + 300
-        dino.proyectile = "0xFF0000"
-        dino.nextSkin = "blue"
+        dino.proyectile = DINOS[dinoCounter].colorProyectile
         sceneGroup.add(dino)
         grass2.x = dino.x - 8
         grass2.y = dino.y - 40
@@ -599,11 +628,12 @@ var clash = function(){
         dino.hit = explodeDino
         dino.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
-        var dinoName = new Phaser.Text(game, 0, 5, "Blastrex", fontStyle)
+        var dinoName = new Phaser.Text(game, 0, 5, DINOS[dinoCounter].name, fontStyle)
         dinoName.x = dino.x + 320
         dinoName.y = dino.y - 100
         dinoName.anchor.setTo(1,0.5)
         sceneGroup.add(dinoName)
+        dino.name = dinoName
 
         var hpBar2 = createHpbar()
         hpBar2.x = dino.x + 290
@@ -776,8 +806,8 @@ var clash = function(){
         sceneGroup.add(clashGroup)
 
         var colorBox = new Phaser.Graphics(game)
-        colorBox.beginFill(0x350A00)
-        colorBox.drawRect(0,0,game.width, 400)
+        colorBox.beginFill(0x3D0163)
+        colorBox.drawRect(0,0,game.width, 410)
         colorBox.endFill()
         colorBox.x = -game.width * 0.5
         colorBox.y = -200
@@ -1001,12 +1031,11 @@ var clash = function(){
         preload:preload,
         create: function(event){
 
-            sceneGroup = game.add.group();
-            //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+            sceneGroup = game.add.group()
 
-            var background = sceneGroup.create(-2,-2,'fondo')
-            background.width = game.world.width+2
-            background.height = game.world.height+2
+            var background = sceneGroup.create(-2, -200,'fondo')
+            background.width = game.world.width + 4
+            background.height = game.world.height
             
             initialize()
             
