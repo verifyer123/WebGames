@@ -165,8 +165,6 @@ var oona = function(){
 
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height;
-
-        game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
         startTutorial();
     }
 
@@ -487,6 +485,9 @@ var oona = function(){
         game.add.tween(recipeGroup.scale).to( { x:1 }, 500, Phaser.Easing.Linear.InOut, true, 0, 0).onComplete.add(function(){
             createAnswers();
             if(levelZero){
+                if(levelZeroIndex==0){
+                    game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+                }
                 changeHand(levelZeroIndex);
             }
         });
