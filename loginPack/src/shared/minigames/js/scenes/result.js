@@ -835,10 +835,6 @@ var result = function(){
 			
 		})
 
-		if(parent.epicModel){
-			parent.epicModel.savePlayer(currentPlayer)
-		}
-
 	}
     
 	function popObject(obj,delay,alphaValue){
