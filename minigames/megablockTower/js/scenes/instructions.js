@@ -36,7 +36,7 @@ var instructions = function(){
                 {   name:"background",
                     file: "images/instructions/back.png"},
                 {   name:"okbtn",
-                    file: "images/instructions/okbtn.png"},
+                    file: "images/instructions/okbtn_pt.png"},
                 {   name:"inst-click",
                     file: "images/instructions/inst-click_pt.png"},
                 {   name:"inst-tap",

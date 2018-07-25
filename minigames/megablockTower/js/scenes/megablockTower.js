@@ -48,8 +48,8 @@ var megablockTower = function(){
     }
     
     var INITIAL_LIVES = 3
-    var ROPE_VELOCITY = 0.5
-    var QUAD_FALLING_VELOCITY = 10
+    var ROPE_VELOCITY = 0.7
+    var QUAD_FALLING_VELOCITY = 14
     var TOWER_VELOCITY = 3
 
     var DELTA_TOWER = 150
@@ -66,6 +66,7 @@ var megablockTower = function(){
 
     var DIVISOR_TOWER = 200
     var DELTA_FALL_VELOCITY = 0.05
+    var DELTA_COMO_BAR = 0.003
     
     var gameIndex = 31
     var gameId = 100012
@@ -91,6 +92,7 @@ var megablockTower = function(){
     var lastCloud
     var currentQuadVelocity, currentDivisor
     var fallingAudio
+    var comboBar, containerBar
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -189,8 +191,9 @@ var megablockTower = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.6
         pointsText.y = pointsImg.height * 0.3
+        pointsText.anchor.setTo(0.5,0)
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -376,7 +379,7 @@ var megablockTower = function(){
 
         if(rope!=null){
         	rope.x = rope.radiusCircle*Math.cos(rope.currentAngle) + rope.initialPoint.x
-        	rope.y = (rope.radiusCircle*Math.sin(rope.currentAngle)*0.7) + rope.initialPoint.y
+        	rope.y = (rope.radiusCircle*Math.sin(rope.currentAngle)*0.3) + rope.initialPoint.y
         	var h = Math.sqrt(Math.pow(rope.x - rope.imaginPivot.x,2)+Math.pow(rope.y - rope.imaginPivot.y,2))
         	var x = rope.x - rope.imaginPivot.x
 
@@ -409,6 +412,15 @@ var megablockTower = function(){
             }
         }
 
+        if(containerBar.visible){
+            comboBar.mask.scale.setTo(comboBar.mask.scale.x - DELTA_COMO_BAR,1)
+            if(comboBar.mask.scale.x <=0){
+                comboBar.mask.scale.setTo(0,1)
+                containerBar.visible = false
+                comboBar.visible = false
+            }
+        }
+
 
         var y = towerGroup.y - (game.world.height-100)
         //console.log(y,lastQuad.y)
@@ -416,25 +428,32 @@ var megablockTower = function(){
 
 
         //console.log(y)
+        var direction = 0
         if(y < -200){
-            towerGroup.y += TOWER_VELOCITY
-            if(floorGroup.y < game.world.height + 100){
-                floorGroup.y += TOWER_VELOCITY
-            }
+            direction = 1
+        }
+        else if(y > 0){
+            direction = -1
+        }
+        if(direction!=0){
+            towerGroup.y += TOWER_VELOCITY*direction
+            //if(floorGroup.y < game.world.height + 100){
+                floorGroup.y += TOWER_VELOCITY*direction
+            //}
             var yPos = towerGroup.y - (game.world.height+100)
             for(var i =0; i < towerGroup.length; i++){
                 
                 //console.log(y,lastQuad.y)
                 var pos  = yPos + towerGroup.children[i].y - towerGroup.children[i].collision.correctHeight
-                if(pos > game.world.height){
+                if(pos > (game.world.height)*3){
                     towerGroup.children[i].visible = false
                 }
             }
 
              for(var i =0; i < cloudGroup.length;i++){
                 if(cloudGroup.children[i].visible){
-                    cloudGroup.children[i].y += TOWER_VELOCITY
-                    if(cloudGroup.children[i].y > game.world.height){
+                    cloudGroup.children[i].y += TOWER_VELOCITY*direction
+                    if(cloudGroup.children[i].y > game.world.height*1.5){
                         cloudGroup.children[i].visible = false
                         lastCloud = getCloud(game.rnd.integerInRange(lastCloud.y-150,lastCloud.y -250))
                     }
@@ -442,6 +461,8 @@ var megablockTower = function(){
             }
 
         }
+
+
 
         for(var i =0; i < peopleGroup.length; i++){
             if(peopleGroup.children[i].visible){
@@ -451,11 +472,11 @@ var megablockTower = function(){
                 var d = Math.sqrt(Math.pow(person.quad.world.x-person.x,2)+Math.pow(person.quad.world.y-person.y,2))
                 if(d < 50){
                     if(person.peopleType == person.quad.worldType){
-                        addPoint(2,{x:game.world.width-80,y:80})
+                        addPoint(2*currentCombo,{x:game.world.width-80,y:80})
 
                     }
                     else{
-                        addPoint(1,{x:game.world.width-80,y:80})
+                        addPoint(1*currentCombo,{x:game.world.width-80,y:80})
                     }
                     person.visible = false
 
@@ -495,6 +516,7 @@ var megablockTower = function(){
                 canTouch = false
                 rope.claw1.angle = -20
                 rope.claw2.angle = 20
+                currentQuad.angle = rope.angle
                 //sound.play("falling")
                 fallingAudio.play()
             }
@@ -538,19 +560,21 @@ var megablockTower = function(){
                         currentQuad.x = lastQuad.x
                         currentInCombo++
                         createPart('star',{x:currentQuad.world.x,y:(lastQuad.world.y - lastQuad.collision.correctHeight)})
-                        addPoint(currentCombo,{x:game.world.width-80,y:80})
+                        //addPoint(currentCombo,{x:game.world.width-80,y:80})
                         
                         if(currentInCombo>=IN_TO_START_COMBO){
                             if(currentCombo<MAX_COMBO){
                                 currentCombo+=DELTA_COMBO
                             }
                         }
+
+                        initComboBar()
                     }
                     else{
-                        currentCombo = 1
-                        x = lastQuad.x+x
+                        //currentCombo = 1
+                        
 
-                        var testminLast = lastQuad.x - ((lastQuad.collision.correctWidth/2)*0.9)
+                        /*var testminLast = lastQuad.x - ((lastQuad.collision.correctWidth/2)*0.9)
                         var testmaxLast = lastQuad.x + ((lastQuad.collision.correctWidth/2)*0.9)
                         var minCurrent = x - (currentQuad.collision.correctWidth/2)
                         var testmaxCurrent = x + (currentQuad.collision.correctWidth/2)
@@ -613,12 +637,85 @@ var megablockTower = function(){
                                 }
                                 //i++
                             }
+                        }*/
+                        x = lastQuad.x+x
+                        var minLast = lastQuad.x - (lastQuad.collision.correctWidth/2)
+                        var maxLast = lastQuad.x + (lastQuad.collision.correctWidth/2)
+
+                        if(x < minLast || x > maxLast){
+
+                            currentQuad.angle = lerp(currentQuad.angle,0,0.5)
+                            if(lastQuad.last !=null){
+                                var pos = {x:lastQuad.world.x,y:lastQuad.world.y}
+                                towerGroup.remove(lastQuad)
+                                sceneGroup.add(lastQuad)
+                                lastQuad.x = pos.x
+                                lastQuad.y = pos.y
+                                lastQuad.angle = towerGroup.angle
+                            }
+
+                            if(x < minLast){
+                                game.add.tween(currentQuad).to({angle:-40},800,Phaser.Easing.linear,true)
+                                game.add.tween(currentQuad).to({y:game.world.height+200,x:currentQuad.x-50},800,Phaser.Easing.linear,true).onComplete.add(function(target){
+                                    target.angle = 0
+                                    target.visible = false
+                                    towerGroup.add(target)
+                                })
+                                if(lastQuad.last !=null){
+                                    game.add.tween(lastQuad).to({angle:40},800,Phaser.Easing.linear,true)
+                                    game.add.tween(lastQuad).to({y:game.world.height+200,x:lastQuad.x+50},800,Phaser.Easing.linear,true).onComplete.add(function(target){
+                 
+                                        target.angle = 0
+                                        target.visible = false
+                                        towerGroup.add(target)
+
+                                    })
+                                }
+                            }
+                            else {
+                                game.add.tween(currentQuad).to({angle:40},800,Phaser.Easing.linear,true)
+                                game.add.tween(currentQuad).to({y:game.world.height+200,x:currentQuad.x+50},800,Phaser.Easing.linear,true).onComplete.add(function(target){
+                                    target.angle = 0
+                                    target.visible = false
+                                    towerGroup.add(target)
+                                })
+                                if(lastQuad.last !=null){
+                                    game.add.tween(lastQuad).to({angle:-40},800,Phaser.Easing.linear,true)
+                                    game.add.tween(lastQuad).to({y:game.world.height+200,x:lastQuad.x-50},800,Phaser.Easing.linear,true).onComplete.add(function(target){
+                                        
+                                        target.angle = 0
+                                        target.visible = false
+                                        towerGroup.add(target)
+
+                                    })
+                                }
+                            }
+                            comboBar.visible = false
+                            containerBar.visible = false
+                            missPoint()
+                            if(lastQuad.last !=null){
+                                lastQuad = lastQuad.last
+                            }
+                            rope.claw1.angle = 0
+                            rope.claw2.angle =0
+                            canTouch = true
+                            getQuad()
+                            return
                         }
-                       
 
                         currentQuad.x = x
+                        
+                        if(comboBar.visible){
+                            createPart('star',{x:currentQuad.world.x,y:(lastQuad.world.y - lastQuad.collision.correctHeight)})
+                        }
+
                     }
 
+
+
+
+                    game.add.tween(currentQuad).to({angle:0},200,Phaser.Easing.linear,true)
+                    currentQuad.last = lastQuad
 
                     sound.play("pop")
                     //sound.stop("falling")
@@ -673,6 +770,8 @@ var megablockTower = function(){
                 else{
                 	currentQuad.x -= towerGroup.x
                 	currentQuad.y -= towerGroup.y
+                    currentQuad.last = null
+                    game.add.tween(currentQuad).to({angle:0},200,Phaser.Easing.linear,true)
                 }
 
                 lastQuad = currentQuad
@@ -700,6 +799,8 @@ var megablockTower = function(){
         		rope.addChild(currentQuad)
                 rope.claw1.angle = 0
                 rope.claw2.angle = 0
+                comboBar.visible = false
+                            containerBar.visible = false
                 missPoint()
                 //getQuad()
             }
@@ -755,8 +856,10 @@ var megablockTower = function(){
     }
 
 
-    function setRound(){
-      
+    function initComboBar(){
+        containerBar.visible = true
+        comboBar.mask.scale.setTo(1)
+        comboBar.visible = true
     }
 
     function getCloud(_y){
@@ -847,6 +950,8 @@ var megablockTower = function(){
 
         }
 
+        
+
     }
 
     function createRope(){
@@ -863,8 +968,8 @@ var megablockTower = function(){
         sceneGroup.add(rope)
 
         rope.currentAngle = 0
-        rope.radiusCircle = 100
-        rope.deltaAngle = 0.03
+        rope.radiusCircle = 140
+        rope.deltaAngle = 0.04
         rope.imaginPivot = {x:game.world.centerX,y:-300}
         rope.initialPoint = {x:game.world.centerX,y:200}
 
@@ -894,14 +999,26 @@ var megablockTower = function(){
         rope.addChild(base)
         base.scale.setTo(MULTIPLIER_SCALE)
 
-        getQuad()
+        /*getQuad()
         lastQuad = currentQuad
-        towerGroup.add(lastQuad)
+        lastQuad.last = null
+        towerGroup.add(lastQuad)*/
 
-        lastQuad.y = 0
-        lastQuad.x = 0
+        lastQuad = game.add.graphics()
+        lastQuad.y = towerGroup.y
+        lastQuad.x = game.world.centerX
 
-        for(var i =0; i < lastQuad.people.length; i++){
+        lastQuad.collision = game.add.graphics()
+        //lastQuad.collision.beginFill(0xff0000)
+        lastQuad.collision.drawRect(-game.world.centerX,0,game.world.width,game.world.height - lastQuad.y)
+        //lastQuad.collision.endFill()
+        lastQuad.addChild(lastQuad.collision)
+
+        sceneGroup.add(lastQuad)
+
+
+
+        /*for(var i =0; i < lastQuad.people.length; i++){
             lastQuad.people[i].visible = true
             var id = game.rnd.integerInRange(1,10)
             lastQuad.people[i].loadTexture("atlas.game","person"+id)
@@ -915,7 +1032,7 @@ var megablockTower = function(){
             var t = game.add.tween(lastQuad.people[i]).to({angle:(-s*10)},500,Phaser.Easing.linear,true)
             t.loop(true)
             t.yoyo(true)
-        }
+        }*/
 
     }
 
@@ -939,6 +1056,7 @@ var megablockTower = function(){
                     quad.y = quad.collision.correctHeight - 125
                     quad.x = 0
                     currentQuad = quad
+                    quad.last = null
                     //console.log("reuse quad")
                     return
                 }
@@ -1391,9 +1509,6 @@ var megablockTower = function(){
 
         //spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        
-
-        
 
         animateScene()
 
@@ -1405,6 +1520,26 @@ var megablockTower = function(){
 
         createPointsBar()
         createHearts()
+
+        containerBar = sceneGroup.create(50,game.world.centerY+60,"atlas.game",'contenedor_vida')
+        containerBar.anchor.setTo(0.5,0)
+        containerBar.visible = false
+        containerBar.angle = -90
+
+        comboBar = sceneGroup.create(containerBar.x+22,containerBar.y+155,"atlas.game",'barra_vida')
+        comboBar.anchor.setTo(0,0.5)
+        comboBar.canDecrease = true
+        comboBar.visible = false
+        comboBar.angle = -90
+
+        var mask = game.add.graphics(0,0)
+        mask.beginFill(0xff0000)
+        mask.drawRect(0,-25,330,50)
+        mask.endFill()
+        //comboBar.mask.angle = -90
+
+        comboBar.mask = mask
+        comboBar.addChild(mask)
         //setRound()
     }
 

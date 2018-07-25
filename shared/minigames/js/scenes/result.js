@@ -22,7 +22,7 @@ var result = function(){
             "reintentar": "De Novo",
             "juegaEnApp": "Jogue no app!",
             "obtenRecompensas": "E obtenha ótimas recompensas",
-            "descargar": "Baixe"
+            "descargar": "Baixar"
 		},
 
 		"ES":{
@@ -1475,7 +1475,7 @@ var result = function(){
 		imgBtn.tag = 'download'
 		imgBtn.anchor.setTo(0.5,0.5)
 
-		var nameText = game.add.bitmapText(0, 4, 'gothamMedium', 'Descargar', 25);
+		var nameText = game.add.bitmapText(0, 4, 'gothamMedium', localizationData[lan]["descargar"], 25);
 		nameText.tint = 0xffffff
 		nameText.anchor.setTo(0.5,0.5)
 		downloadButton.add(nameText)
