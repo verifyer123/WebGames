@@ -2,7 +2,7 @@
 
 {
 	"filename": "battery",
-	"frame": {"x":635,"y":243,"w":71,"h":70},
+	"frame": {"x":747,"y":536,"w":71,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":70},
@@ -11,16 +11,16 @@
 },
 {
 	"filename": "brokenglass",
-	"frame": {"x":519,"y":44,"w":160,"h":140},
+	"frame": {"x":1,"y":1,"w":387,"h":423},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":140},
-	"sourceSize": {"w":160,"h":140},
+	"spriteSourceSize": {"x":0,"y":0,"w":387,"h":423},
+	"sourceSize": {"w":387,"h":423},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "bubble",
-	"frame": {"x":516,"y":359,"w":110,"h":110},
+	"frame": {"x":635,"y":479,"w":110,"h":110},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":110,"h":110},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "bullet",
-	"frame": {"x":661,"y":186,"w":46,"h":28},
+	"frame": {"x":168,"y":426,"w":46,"h":28},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":28},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "green_off",
-	"frame": {"x":1,"y":1,"w":516,"h":136},
+	"frame": {"x":390,"y":341,"w":516,"h":136},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":516,"h":136},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "green_on",
-	"frame": {"x":1,"y":276,"w":513,"h":170},
+	"frame": {"x":390,"y":1,"w":513,"h":170},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":513,"h":170},
@@ -55,8 +55,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "less_icon",
+	"frame": {"x":905,"y":119,"w":76,"h":85},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":85},
+	"sourceSize": {"w":76,"h":85},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "life_box",
-	"frame": {"x":519,"y":186,"w":140,"h":55},
+	"frame": {"x":747,"y":479,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -64,8 +73,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "plus_icon",
+	"frame": {"x":905,"y":206,"w":76,"h":85},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":76,"h":85},
+	"sourceSize": {"w":76,"h":85},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "red_off",
-	"frame": {"x":1,"y":139,"w":516,"h":135},
+	"frame": {"x":1,"y":479,"w":516,"h":135},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":516,"h":135},
@@ -74,7 +92,7 @@
 },
 {
 	"filename": "red_on",
-	"frame": {"x":1,"y":448,"w":513,"h":166},
+	"frame": {"x":390,"y":173,"w":513,"h":166},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":513,"h":166},
@@ -83,7 +101,7 @@
 },
 {
 	"filename": "ringPart",
-	"frame": {"x":519,"y":243,"w":114,"h":114},
+	"frame": {"x":519,"y":479,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -92,7 +110,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":607,"y":471,"w":100,"h":93},
+	"frame": {"x":889,"y":479,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -101,7 +119,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":635,"y":315,"w":64,"h":64},
+	"frame": {"x":820,"y":536,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -110,7 +128,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":519,"y":1,"w":165,"h":41},
+	"frame": {"x":1,"y":426,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -119,7 +137,7 @@
 },
 {
 	"filename": "yogotar",
-	"frame": {"x":516,"y":471,"w":89,"h":116},
+	"frame": {"x":905,"y":1,"w":89,"h":116},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":89,"h":116},
@@ -131,8 +149,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":708,"h":615},
+	"size": {"w":995,"h":615},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:0c8a3164b7a812237ce374cc4ed7e207:34b3b071ba234e8a168a8c3d1b1fb650:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:8f74ad1d43058b4dc4f03f2340970e6a:1c9e56c05c4972e629831f60889eeba9:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

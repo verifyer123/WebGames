@@ -876,10 +876,6 @@ var wildDentist = function(){
         name: "wildDentist",
         preload:preload,
         update:update,
-        getGameData:function () {
-            var games = yogomeGames.getGames()
-            return games[gameIndex]
-        },
         create: function(event){
 
             sceneGroup = game.add.group();

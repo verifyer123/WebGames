@@ -112,7 +112,7 @@ var uni = function(){
 	var lives
 	var sceneGroup = null
 	var bedGroup=null;
-	var gameIndex = 53
+	var gameIndex
 	var goalUni;
 	var dificulty=1;
 	var nubesTop
@@ -1250,10 +1250,12 @@ var uni = function(){
 	return {
 		assets: assets,
 		name: "uni",
-		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+		preload:preload,
 		create: function(event){
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			sceneGroup = game.add.group(); 
+			
+			//yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			document.addEventListener("contextmenu", function(e){
                e.preventDefault();

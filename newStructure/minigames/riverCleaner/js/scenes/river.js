@@ -640,7 +640,9 @@ var river = function(){
     function cleanScreen(){
         
         trashGroup.forEachAlive(deactivateObj, this)
-        fishGroup.forEachAlive(deactivateObj, this)
+        fishGroup.forEachAlive(function(obj){
+            obj.body.velocity.x = 0
+        }, this)
         polutionGroup.forEachAlive(fadeOut, this)
         
         game.add.tween(polutionGroup.cloud).to({alpha:0}, 1000, Phaser.Easing.Cubic.Out, true, 500)
@@ -670,6 +672,10 @@ var river = function(){
         gameActive = true
         nao.setAnimationByName(0, "run", true)
         game.time.events.add(1000, throwObstacle)
+        
+        fishGroup.forEachAlive(function(obj){
+            obj.body.velocity.x = -speed
+        }, this)
     }
     
     function throwObstacle(){
@@ -858,7 +864,8 @@ var river = function(){
             createParticles()
             buttons.getButton(gameSong,sceneGroup)
             
-            createTutorial()
+            //createTutorial()
+            initTuto()
 		}
 	}
 }()

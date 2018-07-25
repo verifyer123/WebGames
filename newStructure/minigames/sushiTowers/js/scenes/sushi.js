@@ -1058,7 +1058,7 @@ var sushi = function(){
 	return {
 		assets: assets,
 		name: "sushi",
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+        preload:preload,
         update:function(event) {
             if(gameActive)
                 update()

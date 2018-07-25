@@ -278,6 +278,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">less_icon.png</key>
+            <key type="filename">plus_icon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,21,38,43</rect>
+                <key>scale9Paddings</key>
+                <rect>19,21,38,43</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -386,6 +400,8 @@
             <filename>red_on.png</filename>
             <filename>green_off.png</filename>
             <filename>green_on.png</filename>
+            <filename>less_icon.png</filename>
+            <filename>plus_icon.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

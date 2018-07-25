@@ -172,7 +172,7 @@ var upRoar = function(){
 	var shoot
 	var skinCorrect
 	var particlesGroup, particlesUsed
-    var gameIndex = 219
+    var gameIndex
     var tutoGroup
 	var indexGame
 	var blockButton;
@@ -545,6 +545,9 @@ var upRoar = function(){
 		if(!blockButton){
 			if(!tutorial)stopTimer();
 			tutorial=false;
+			btn1.inputEnabled=true;
+			btn2.inputEnabled=true;
+			btn3.inputEnabled=true;
 			hand.alpha=0;
 			blockButton=true;
 			if(obj.text.text!=correctAnswer){
@@ -587,14 +590,20 @@ var upRoar = function(){
 			btn1.id=3;
 			hand.x=btn1.x;
 			hand.y=btn1.y;
+			btn2.inputEnabled=false;
+			btn3.inputEnabled=false;
 		}else if(chooseBtn==1){
 			btn2.id=3;
 			hand.x=btn2.x;
 			hand.y=btn2.y;
+			btn1.inputEnabled=false;
+			btn3.inputEnabled=false;
 		}else if(chooseBtn==2){
 			btn3.id=3;
 			hand.x=btn3.x;
 			hand.y=btn3.y;
+			btn1.inputEnabled=false;
+			btn2.inputEnabled=false;
 		}
 		while(choices[0].choice1=="" || choices[0].choice2=="" || choices[0].choice3==""){
 			
@@ -970,11 +979,7 @@ var upRoar = function(){
 		name: "upRoar",
         preload:preload,
         update:update,
-		getGameData:function () {
-			var games = yogomeGames.getGames()
-			return games[gameIndex]
-		},
-            create: function(event){
+        create: function(event){
             
             
 			sceneGroup = game.add.group()

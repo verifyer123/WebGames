@@ -1,26 +1,26 @@
 
 Oof.png
-size: 1024,1024
+size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm1
   rotate: true
-  xy: 480, 267
+  xy: 1649, 926
   size: 48, 59
   orig: 48, 59
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 707, 556
+  xy: 545, 376
   size: 36, 53
   orig: 36, 53
   offset: 0, 0
   index: -1
 normal/atras_mas
   rotate: false
-  xy: 585, 714
+  xy: 1170, 714
   size: 285, 85
   orig: 285, 85
   offset: 0, 0
@@ -33,15 +33,15 @@ normal/eyes_a1
   offset: 0, 0
   index: -1
 normal/eyes_d2
-  rotate: true
-  xy: 901, 861
+  rotate: false
+  xy: 1486, 921
   size: 161, 101
   orig: 161, 101
   offset: 0, 0
   index: -1
 normal/eyes_e2
   rotate: false
-  xy: 585, 611
+  xy: 1170, 611
   size: 161, 101
   orig: 161, 101
   offset: 0, 0
@@ -55,56 +55,56 @@ normal/eyes_f2
   index: -1
 normal/forearm1_a
   rotate: false
-  xy: 707, 503
+  xy: 1332, 558
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
   index: -1
 normal/forearm2_a
-  rotate: true
-  xy: 745, 556
+  rotate: false
+  xy: 1333, 611
   size: 49, 53
   orig: 49, 53
   offset: 0, 0
   index: -1
 normal/hand1_a
-  rotate: true
-  xy: 759, 500
+  rotate: false
+  xy: 1710, 932
   size: 54, 42
   orig: 54, 42
   offset: 0, 0
   index: -1
 normal/hand1_e
   rotate: true
-  xy: 655, 417
+  xy: 253, 48
   size: 64, 53
   orig: 64, 53
   offset: 0, 0
   index: -1
 normal/hand1_i
   rotate: false
-  xy: 590, 360
+  xy: 1752, 976
   size: 55, 46
   orig: 55, 46
   offset: 0, 0
   index: -1
 normal/hand2_a
-  rotate: false
-  xy: 317, 243
+  rotate: true
+  xy: 253, 2
   size: 44, 28
   orig: 44, 28
   offset: 0, 0
   index: -1
 normal/hand2_e
-  rotate: true
-  xy: 541, 270
+  rotate: false
+  xy: 1384, 625
   size: 45, 39
   orig: 45, 39
   offset: 0, 0
   index: -1
 normal/hand2_g
-  rotate: true
-  xy: 815, 623
+  rotate: false
+  xy: 1332, 517
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
@@ -118,14 +118,14 @@ normal/head
   index: -1
 normal/leg1
   rotate: false
-  xy: 590, 408
+  xy: 480, 356
   size: 63, 73
   orig: 63, 73
   offset: 0, 0
   index: -1
 normal/leg2
-  rotate: true
-  xy: 748, 607
+  rotate: false
+  xy: 480, 289
   size: 57, 65
   orig: 57, 65
   offset: 0, 0
@@ -146,49 +146,56 @@ normal/mas1
   index: -1
 normal/menos
   rotate: false
-  xy: 585, 801
+  xy: 1170, 801
   size: 314, 221
   orig: 314, 221
   offset: 0, 0
   index: -1
+normal/menos1
+  rotate: false
+  xy: 585, 498
+  size: 583, 524
+  orig: 583, 524
+  offset: 0, 0
+  index: -1
 normal/mouth_a1
   rotate: false
-  xy: 901, 813
+  xy: 480, 431
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
   index: -1
 normal/mouth_d1
   rotate: false
-  xy: 748, 666
+  xy: 1649, 976
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
   index: -1
 normal/mouth_d2
   rotate: false
-  xy: 480, 317
+  xy: 1333, 666
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
   index: -1
 normal/mouth_d5
   rotate: true
-  xy: 253, 11
+  xy: 1284, 508
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
   index: -1
 normal/redband
-  rotate: false
-  xy: 585, 483
+  rotate: true
+  xy: 1486, 799
   size: 120, 126
   orig: 120, 126
   offset: 0, 0
   index: -1
 normal/torso1
-  rotate: true
-  xy: 480, 365
+  rotate: false
+  xy: 1170, 501
   size: 112, 108
   orig: 112, 108
   offset: 0, 0
@@ -198,18 +205,5 @@ normal/torso2
   xy: 253, 114
   size: 127, 55
   orig: 127, 55
-  offset: 0, 0
-  index: -1
-
-Oof2.png
-size: 1024,1024
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-normal/menos1
-  rotate: false
-  xy: 2, 2
-  size: 583, 524
-  orig: 583, 524
   offset: 0, 0
   index: -1

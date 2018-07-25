@@ -1,13 +1,20 @@
 
 boton.png
-size: 135,85
+size: 512,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/Boton
   rotate: false
+  xy: 133, 5
+  size: 126, 78
+  orig: 126, 78
+  offset: 0, 0
+  index: -1
+normal/marco
+  rotate: false
   xy: 2, 2
-  size: 131, 81
-  orig: 131, 81
+  size: 129, 81
+  orig: 129, 81
   offset: 0, 0
   index: -1
