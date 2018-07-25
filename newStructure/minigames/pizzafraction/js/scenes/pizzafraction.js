@@ -139,9 +139,13 @@ var pizzafraction = function(){
 	var background;
 	var tutoGroup = null;
 	var UIGroup=null
+	var DEFAULT_NUM_PIZZAS=8;
+	var FIRST_ANGLE=360;
+	var FIRST_WIDTH=180;
 	var heartsGroup = null;
 	var heartsIcon;
 	var timbre_iddle
+	var plato
 	var graphics
 	var fractionPizza
 	var delayDefault
@@ -152,10 +156,13 @@ var pizzafraction = function(){
 	var globe
 	var clock, timeBar
 	var textGlobe
+	var poly
 	var star
 	var seconds
 	var character
+	var dificulty
 	var coinS
+	var correctAnswer
 	var startTiming
 	var hand
 	var yogotar
@@ -188,6 +195,7 @@ var pizzafraction = function(){
 		startTiming=500;
 		tutorial=true
 		count = 0;
+		dificulty=0;
 		coins = 0;
 		speedGame = 5;
 		delayDefault=100;
@@ -236,7 +244,7 @@ var pizzafraction = function(){
     function startTimer(time){
         tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, delayDefault)
         tweenTiempo.onComplete.add(function(){
-			missPoint()
+			missPoint(correctAnswer)
 			if(lives>0){
 				newPizza()
 			}
@@ -244,6 +252,29 @@ var pizzafraction = function(){
         })
     }
 	/*CREATE SCENE*/
+	
+	
+	function onPress(pizza){
+			if(!pizza.pizza.over){
+				count = count + 1;
+                if(tutorial){
+                    hand.x=timbre_iddle.x+50;
+                    hand.y=timbre_iddle.y+50;
+                }
+                sound.play("eat")
+				pizza.pizza.blendMode = 0;
+				pizza.pizza.over = true;
+			}else{
+                sound.play("growl")
+                if(tutorial){
+                    hand.x=graphics[6].x;
+                    hand.y=graphics[6].y+100;
+                }
+				count = count - 1;
+				pizza.pizza.blendMode = 3;
+				pizza.pizza.over = false;
+			}
+		}
 	function createScene(){
 
 
@@ -274,7 +305,7 @@ var pizzafraction = function(){
 		base.y = game.height - base.height;
 		base.x = game.world.centerX - base.width/2;
 
-		var plato = sceneGroup.create(0,0,"plato");
+		plato = sceneGroup.create(0,0,"plato");
 		plato.y = game.height - base.height - plato.height;
 		plato.x = game.world.centerX - plato.width/2;
 
@@ -298,12 +329,10 @@ var pizzafraction = function(){
 			{fraction:"6/8",id:6},
 			{fraction:"7/8",id:7},
 			{fraction:"8/8",id:8},
-			{fraction:"1/4",id:2},
-			{fraction:"1/2",id:4},
-			{fraction:"2/2",id:8},
-			{fraction:"2/4",id:4},
 		];
 		//shuffle(fractions)
+		numPizzas=8
+		increasingDificulty(numPizzas)
 		
 		globe = sceneGroup.create(0,0,"globe");
 		globe.x = base.x + globe.width*1.15;
@@ -312,38 +341,7 @@ var pizzafraction = function(){
 		textGlobe.anchor.setTo(0,0.3);
 		textGlobe.setTextBounds(globe.x,globe.y,globe.width/2,globe.height);
 
-		var poly = new Phaser.Polygon([ new Phaser.Point(0,0), 
-									   new Phaser.Point(90, 225), 
-									   new Phaser.Point(-90, 225) ]);
-
-
-		for(i=0;i<=numPizzas-1;i++){
-			fractionPizza[i] = sceneGroup.create(0,0,"noveno1");
-			fractionPizza[i].anchor.setTo(0.5,1);
-			fractionPizza[i].y = plato.y + fractionPizza[i].height + plato.height/20
-			fractionPizza[i].x = plato.x + plato.width/2;  
-			fractionPizza[i].width = 180
-			fractionPizza[i].blendMode = 3; 
-			fractionPizza[i].angle = i * 45;
-			fractionPizza[i].inputEnabled = true;
-			fractionPizza[i].over = false;
-
-			graphics[i] = game.add.graphics(0, 0);
-			graphics[i].beginFill(0x00ff00);
-			graphics[i].drawPolygon(poly.points);
-			graphics[i].y = plato.y + fractionPizza[i].height + plato.height/20
-			graphics[i].x = plato.x + plato.width/2;
-			graphics[i].alpha = 0
-			graphics[i].angle = i * 45 + 180
-			graphics[i].inputEnabled = false;
-			graphics[i].pizza = fractionPizza[i]
-			graphics[i].endFill()
-			if(isMobile.any()){
-				graphics[i].events.onInputOver.add(onPress,this);
-			}else{
-				graphics[i].events.onInputDown.add(onPress,this);	   
-			}
-		}
+		
 		
 		
 		star = sceneGroup.create(0,0,"star");
@@ -352,29 +350,8 @@ var pizzafraction = function(){
 		star.x = plato.x + plato.width/2;
 		star.y = plato.y + plato.height/2;
 		star.alpha= 0;
-		function onPress(pizza){
-            
-			if(!pizza.pizza.over){
-				count = count + 1;
-                if(tutorial){
-                    hand.x=timbre_iddle.x+50;
-                    hand.y=timbre_iddle.y+50;
-                }
-                sound.play("eat")
-				pizza.pizza.blendMode = 0;
-				pizza.pizza.over = true;
-			}else{
-                sound.play("growl")
-                if(tutorial){
-                    hand.x=graphics[6].x;
-                    hand.y=graphics[6].y+100;
-                }
-				count = count - 1;
-				pizza.pizza.blendMode = 3;
-				pizza.pizza.over = false;
-			}
-
-		}
+		
+		
 		timbre_iddle = sceneGroup.create(0,0,"timbre_iddle");
 		timbre_iddle.x = globe.x + timbre_iddle.width;
 		timbre_iddle.y = globe.y + timbre_iddle.height + 10; 
@@ -385,7 +362,7 @@ var pizzafraction = function(){
 				timer-- 
 				if(timer==0){
 					clearInterval(timerCount);
-					missPoint()
+					missPoint(correctAnswer)
 					sound.play("wrong");
 					//bgm.stop();	
 				}
@@ -463,12 +440,20 @@ var pizzafraction = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
     }
-
-	function missPoint(){
+	
+	function missPoint(feedBack){
 
 		sound.play("wrong")
 		createPart('smoke',yogotar1)
-
+		for(var allTiles=0; allTiles<numPizzas; allTiles++){
+			fractionPizza[allTiles].blendMode = 3;
+			fractionPizza[allTiles].over = false;
+		}
+		for(var correctTiles=0; correctTiles<feedBack; correctTiles++){
+			fractionPizza[correctTiles].blendMode = 0;
+			fractionPizza[correctTiles].over = false;
+		}
+		
 		lives--;
 		heartsGroup.text.setText('X ' + lives)
 
@@ -476,15 +461,14 @@ var pizzafraction = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-
 		if(lives == 0){
 			stopGame(true)
 		}else{
-			newPizza()
+			game.time.events.add(1000,function(){
+				newPizza()	
+			})
 		}
-
 		createTextPart('-1',heartsGroup.text)
-
 	}
 	function createCoin(){
         
@@ -631,6 +615,7 @@ var pizzafraction = function(){
         if(coinS.motion)
             coinS.motion.stop()
         
+		createPart('star',yogotar1,450)
         coinS.x = obj.centerX
         coinS.y = obj.centerY
 
@@ -654,12 +639,25 @@ var pizzafraction = function(){
 		if(timer == 0){
 			return
 		}
+		
+		
+		
+		
+		correctAnswer=fractions[0].id;
+		
 		if(fractions[0].id == count){
 			sound.play("magic");
 			addCoin(yogotar1);
+			if(pointsBar.number%5==0 && pointsBar.number!=1 && pointsBar.number!=0 && numPizzas<14){
+				if(pointsBar.number==10){
+					dificulty=3;
+				}
+				numPizzas++
+				increasingDificulty(numPizzas)
+			}
 			yogotar1.setAnimationByName(0, "WIN", true);
 			TweenMax.fromTo(star.scale,3,{x:4,y:4},{x:8,y:8})
-			TweenMax.fromTo(star,3,{alpha:1},{alpha:0,onComplete:newPizza});
+			TweenMax.fromTo(star,3,{alpha:0},{alpha:0,onComplete:newPizza});
 			tutorial=false;
 			for(i=0;i<=numPizzas-1;i++){
 				graphics[i].inputEnabled = false;
@@ -671,7 +669,7 @@ var pizzafraction = function(){
 				graphics[i].inputEnabled = false;
 			}
 			yogotar1.setAnimationByName(0, "LOSE", true);
-			missPoint()
+			missPoint(correctAnswer)
 		}
 		
 		if(!tutorial){
@@ -691,6 +689,78 @@ var pizzafraction = function(){
 			}
 		}
 	}		
+	
+	
+	function increasingDificulty(numberPizzas){
+		
+		var numberWidth= ((FIRST_WIDTH/numberPizzas)*DEFAULT_NUM_PIZZAS);
+		var numberAngle= ((FIRST_ANGLE/numberPizzas));
+		var polyPoint1=((FIRST_ANGLE/numberPizzas)*2);
+		var polyPoint2=((-FIRST_ANGLE/numberPizzas)*2);
+		var newFractions=null;
+		var thirdDificultyNum;
+		var thirdDificultyDen;
+		var divideBy=2;
+		
+		if(numberPizzas%2==0){
+			divideBy=2;
+		}else if(numberPizzas%3==0){
+			divideBy=3;
+		}else{
+			divideBy=1;
+		}
+		
+		poly = new Phaser.Polygon([ new Phaser.Point(0,0), 
+									   new Phaser.Point(polyPoint1, 225), 
+									   new Phaser.Point(polyPoint2, 225) ]);
+		
+		for(var destroy=0;destroy<=numberPizzas-1;destroy++){	
+			if(fractionPizza[destroy]){
+				fractionPizza[destroy].destroy();
+				graphics[destroy].destroy();
+			}
+		}
+		fractions=[]
+		for(i=0;i<=numberPizzas-1;i++){
+			if((i+1)%divideBy==0 && dificulty==3 && (i+1)!=1){
+				thirdDificultyNum=(i+1)/divideBy;
+				thirdDificultyDen=numberPizzas/divideBy
+			}else{
+				thirdDificultyNum=i+1;
+				thirdDificultyDen=numberPizzas
+			}
+			newFractions={fraction:thirdDificultyNum+'/'+thirdDificultyDen,id:i+1};
+			fractions.push(newFractions)
+			
+			
+			fractionPizza[i] = sceneGroup.create(0,0,"noveno1");
+			fractionPizza[i].anchor.setTo(0.5,1);
+			fractionPizza[i].y = plato.y + fractionPizza[i].height + plato.height/20
+			fractionPizza[i].x = plato.x + plato.width/2;  
+			fractionPizza[i].width = numberWidth
+			fractionPizza[i].blendMode = 3;
+			fractionPizza[i].angle = i * numberAngle; 
+			fractionPizza[i].inputEnabled = true;
+			fractionPizza[i].over = false;
+
+			graphics[i] = game.add.graphics(0, 0);
+			graphics[i].beginFill(0x00ff00);
+			graphics[i].drawPolygon(poly.points);
+			graphics[i].y = plato.y + fractionPizza[i].height + plato.height/20
+			graphics[i].x = plato.x + plato.width/2;
+			graphics[i].alpha = 0
+			graphics[i].angle = i * numberAngle + 180;
+			graphics[i].inputEnabled = false;
+			graphics[i].pizza = fractionPizza[i]
+			graphics[i].endFill()
+			if(isMobile.any()){
+				graphics[i].events.onInputOver.add(onPress,this);
+			}else{
+				graphics[i].events.onInputDown.add(onPress,this);	   
+			}
+		}console.log(fractions)
+		
+	}
 	function newPizza(){
 		TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width + 100,onComplete:newYogotar});
 		if(pointsBar.number >= 4){
@@ -714,7 +784,7 @@ var pizzafraction = function(){
 				for(i=0;i<=numPizzas-1;i++){
 					graphics[i].inputEnabled = true;
 				}
-				if(pointsBar.number>4)startTimer(3600*seconds);
+				//if(pointsBar.number>4)startTimer(3600*seconds);
 			})
 			yogotar1.setSkinByName(characters[0]);
 			yogotar1.setAnimationByName(0, "IDLE", true);
