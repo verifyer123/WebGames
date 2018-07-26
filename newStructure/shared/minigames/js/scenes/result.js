@@ -782,9 +782,9 @@ var result = function(){
 			
 		})
 
-		if(parent.epicModel){
-			parent.epicModel.savePlayer(currentPlayer)
-		}
+		//if(parent.epicModel){
+		//	parent.epicModel.savePlayer(currentPlayer)
+		//}
 
 	}
     

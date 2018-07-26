@@ -149,6 +149,7 @@ var uni = function(){
 	var roundCounter
 	var uniIco
 	var donkIco
+	var dragging
 	var handAnimation
 	var unicornList
 	var clockImg
@@ -187,6 +188,7 @@ var uni = function(){
 		gameActive=false;
 		timeValue = 20
 		gameStoped=false;
+		dragging=false
 		tutorialLevel=true;
 		timer=false;
 		quantNumber = 2
@@ -509,6 +511,11 @@ var uni = function(){
 		clock.tween = game.add.tween(clock.bar.scale).to({x:0},timeValue * quantNumber * 1000,Phaser.Easing.linear,true )
 		clock.tween.onComplete.add(function(){
 			timer=true;
+			dragging=false;
+			dragableUnicorn.x=uniContainer.x+10;
+			dragableUnicorn.y=uniContainer.y;
+			dragableDonkey.x=donkContainer.x+25;
+			dragableDonkey.y=donkContainer.y;
 			checkGoal()
 		})
 	}
@@ -724,7 +731,6 @@ var uni = function(){
 			})
 		})
         }
-		
 	}
 	
 	function checkGoal(){
@@ -733,7 +739,7 @@ var uni = function(){
 		var exitSpeed=3000;
 		if(clock.tween){
 			clock.tween.stop();
-			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},800,Phaser.Easing.linear,true )
+			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},800,Phaser.Easing.linear,true)
 		}
 		buttonImg.inputEnabled=false;
 		dragableUnicorn.input.draggable=false;
@@ -1082,23 +1088,25 @@ var uni = function(){
 	
 	
 	function onDragStart(obj, pointer) {
-		sound.play("drag")
-		if(obj.tag=="uni"){
-			containers.bringToTop(dragableUnicorn);
-		}else{
-			containers.bringToTop(dragableDonkey);
+		if(!dragging){
+			dragging=true
+			sound.play("drag")
+			if(obj.tag=="uni"){
+				containers.bringToTop(dragableUnicorn);
+			}else{
+				containers.bringToTop(dragableDonkey);
+			}
+			//inputsEnabled=false;
+			var option = obj.parent
+			option.inBottom = false
+			option.deltaX = pointer.x - obj.world.x
+			option.deltaY = pointer.y - obj.world.y - obj.originalY
+
+			option.startX = (obj.world.x - gameGroup.x)
+			option.startY = (obj.world.y - gameGroup.y - obj.originalY)
+
+			dreamGroup.bringToTop(option)
 		}
-		//inputsEnabled=false;
-		var option = obj.parent
-		option.inBottom = false
-		option.deltaX = pointer.x - obj.world.x
-		option.deltaY = pointer.y - obj.world.y - obj.originalY
-
-		option.startX = (obj.world.x - gameGroup.x)
-		option.startY = (obj.world.y - gameGroup.y - obj.originalY)
-		
-		dreamGroup.bringToTop(option)
-
 	}
 	function checkOverlap(spriteA, spriteB) {
 
@@ -1109,6 +1117,7 @@ var uni = function(){
 	}
 
 	function onDragStop(obj,pointer){
+		dragging=false
 		if(checkOverlap(obj,rectTrigger)){
 			isColliding=true;
 		}
@@ -1253,7 +1262,9 @@ var uni = function(){
 		preload:preload,
 		create: function(event){
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			sceneGroup = game.add.group(); 
+			
+			//yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
 			document.addEventListener("contextmenu", function(e){
                e.preventDefault();

@@ -172,7 +172,7 @@ var upRoar = function(){
 	var shoot
 	var skinCorrect
 	var particlesGroup, particlesUsed
-    var gameIndex = 219
+    var gameIndex
     var tutoGroup
 	var indexGame
 	var blockButton;

@@ -304,7 +304,7 @@ var space = function(){
         game.time.events.add(delay - 100, function(){
             
             if(show){
-                
+                game.add.tween(barGroup).to({alpha:1},250,Phaser.Easing.linear,true,100)
                 animateShip()
             }
         })

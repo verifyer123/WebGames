@@ -8,7 +8,7 @@ export var login = function () {
 	var REGISTER_PARENT_CHILD = "/play/parent/v1/registerParentAndChild"
 	var LOGIN_PARENT = "/play/parent/v1/login"
 	var CHANGE_CHILD = "/play/player/v1/getChilds"
-	var EDIT_CHILD = "/play/player/v1/editChild"
+	var EDIT_CHILD = "/play/player/v1/editPlayer"
 	var GET_CHILD = "/play/player/v1/player"
 	var USER_RECOVERY = "/users/parent/recover"
 	var CHECK_EMAIL_NICKNAME = "/play/parent/v1/checkEmailOrNickname"
@@ -184,7 +184,7 @@ export var login = function () {
 		var remoteID = credentials.remoteID
 
 		if((token)&&(email)&&(remoteID)){
-			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, EDIT_CHILD, onSuccess)
+			ajaxCall({email:email, token: token, remoteID: remoteID, game:GAME, player:player}, EDIT_CHILD, onSuccess, null, "PUT")
 		}
 	}
 

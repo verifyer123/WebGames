@@ -1,5 +1,5 @@
  var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
+
 var float = function(){
     
     var localizationData = {
@@ -96,7 +96,7 @@ var float = function(){
 
     var canTake
 
-    var porcentage_change = 2.3
+    var porcentage_change = 2.7//2.3
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -124,50 +124,11 @@ var float = function(){
         canTake = true
         
 	}
-
+    
     function animateScene() {
                 
-        gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
-
         sceneGroup.alpha = 0
-        
-        var sceneTween = game.add.tween(sceneGroup).to({alpha:1},500,Phaser.Easing.linear,true)
-        
-        sceneTween.onComplete.add(function(){
-            setLevel(gameLevel)
-        })
-
-    }
-    
-    function changeImage(index,group){
-        for (var i = 0;i< group.length; i ++){
-            group.children[i].alpha = 0
-            if( i == index){
-                group.children[i].alpha = 1
-            }
-        }
-    }  
-    
-    function createTextPart(text,obj){
-        
-        var pointsText = lookParticle('text')
-        
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
-            pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
-
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-
-            deactivateParticle(pointsText,750)
-        }
-        
+        game.add.tween(sceneGroup).to({alpha:1},1000, Phaser.Easing.Cubic.Out,true)
     }
     
     function lookParticle(key){
@@ -701,8 +662,6 @@ var float = function(){
                 pivotX = game.world.centerX - 200
                 pivotY+= 200
             }
-            
-            
         }
     }
     
@@ -1000,7 +959,6 @@ var float = function(){
 			playerGroup.anim = yogotar
 	            
             initialize()
-            animateScene()
             
             createLinesGroup(8)
             
@@ -1030,7 +988,7 @@ var float = function(){
             buttons.getButton(spaceSong,sceneGroup)
 			
 			createOverlay()
-                        
+            animateScene()
 		}
 	}
 }()

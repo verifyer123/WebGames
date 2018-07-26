@@ -1002,7 +1002,7 @@ var map = function(){
 
 				var icon = gameIcons.children[i]
 				if(checkOverlap(icon,pointer) && icon.active && gameActive){
-                    parent.epicModel.savePlayer(currentPlayer);
+                    //parent.epicModel.savePlayer(currentPlayer);
                     if(tutorial){
 					   inputIcon(icon)
                     }else if(!tutorial){
