@@ -1,0 +1,108 @@
+/*THEME*/
+body {
+    margin: 0;
+    background-image: url("../images/background.png");
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #1d1864;
+}
+#container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url("../images/stars01.png");
+}
+
+#selectgame{
+    position: absolute;
+    width: 50%;
+    margin: 1vw;
+    right: 3%;
+    height: 90%;
+    overflow-y: scroll;
+    /*transform-style: preserve-3d;
+    transform: rotateY(-55deg) rotateZ(32deg);*/
+}
+
+.container-gameSelect{
+    position: relative;
+    width: 90%;
+    border-radius: 1vw; 
+    margin: 1vw;
+    right: 0;
+    overflow: hidden;  
+    
+}
+
+.container-gameSelect p{
+    line-height:0;
+    font-size: 20px;
+    color: #e3e3e3;
+    margin: 0;
+}
+
+.name-select{
+    font-family: 'Baloo Chettan', cursive;    
+    position: relative;
+    background: linear-gradient(to right, rgb(40, 153, 235) 40%, rgba(255,255,255,0.7) 100%);
+    font-size: 30px;
+    padding: 1vw;
+    border-radius: 1vw;   
+    overflow: hidden;
+    color:#fff;
+    
+}
+
+.bg-selectgGame{
+    
+    border-radius: 1vw;   
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 60%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    
+}
+
+#bannerGame{
+    position: absolute;
+    width: 45%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#bannerGame img{
+    width: 80%;
+    border-radius: 1vw;
+/*    transform: skew(10deg,-40deg) scaleX(0.6);*/
+    
+}
+/*CHART*/
+.wrapper canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+    background-color:rgba(250,250,250,0.8);
+}
+
+#radar{
+    position: absolute;
+    top: 50%;
+    left:5%;
+    width: 35%;
+    padding: 1vw;
+    background-image: url("../images/glooberadar.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    
+}
