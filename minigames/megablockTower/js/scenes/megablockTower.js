@@ -93,6 +93,8 @@ var megablockTower = function(){
     var currentQuadVelocity, currentDivisor
     var fallingAudio
     var comboBar, containerBar
+    var buildingsArray
+    var currentWorldIndex, minPartIndex
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -109,6 +111,9 @@ var megablockTower = function(){
         currentQuadVelocity = QUAD_FALLING_VELOCITY
         currentDivisor = DIVISOR_TOWER
         fallingAudio = game.add.audio('falling');
+        buildingsArray = []
+        currentWorldIndex = 0
+        minPartIndex = false
     }
     
 
@@ -168,8 +173,7 @@ var megablockTower = function(){
     }
     
     function addPoint(number,obj){
-        
-        //sound.play("pop")
+
         createPart('star', obj)
         createTextPart('+' + number, obj)
         
@@ -1038,8 +1042,45 @@ var megablockTower = function(){
 
 
     function getQuad(){
-        var indexOfType = game.rnd.integerInRange(1,6)
+        
         var worldType = game.rnd.integerInRange(1,2)
+        var indexOfType
+        //console.log(buildingsArray)
+        if(buildingsArray.length == 0){
+            indexOfType = game.rnd.integerInRange(1,6)
+
+            if(worldType == currentWorldIndex){
+                if(minPartIndex && indexOfType <=3){
+                    indexOfType = game.rnd.integerInRange(4,6)
+                }
+                else if(!minPartIndex && indexOfType>3){
+                    indexOfType = game.rnd.integerInRange(1,3)
+                }
+            }
+
+            if(indexOfType<=3){
+                buildingsArray = [1,2,3]
+                minPartIndex = true
+            }
+            else{
+                buildingsArray = [4,5,6]
+                minPartIndex = false 
+            }
+
+            var index = buildingsArray.indexOf(indexOfType)
+            buildingsArray.splice(index,1)
+
+
+
+            currentWorldIndex = worldType
+        }
+        else{
+            worldType = currentWorldIndex
+            var r = game.rnd.integerInRange(0,buildingsArray.length-1)
+            indexOfType = buildingsArray[r]
+            buildingsArray.splice(r,1)
+        }
+
 
         for(var i =0; i < towerGroup.length; i++){
             if(!towerGroup.children[i].visible){
