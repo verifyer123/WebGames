@@ -245,7 +245,9 @@ var pizzafraction = function(){
     function startTimer(time){
         tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, delayDefault)
         tweenTiempo.onComplete.add(function(){
+            correctAnswer=fractions[0].id;
 			missPoint(correctAnswer)
+            changing=true;
 			if(lives>0){
 				newPizza()
 			}
@@ -320,7 +322,7 @@ var pizzafraction = function(){
 		yogotar1.setAnimationByName(0, "IDLE", true);
 		yogotar1.setSkinByName(characters[0]);
 		sceneGroup.add(yogotar1);	
-
+        
 		fractions = [];
 		//shuffle(fractions)
 		numPizzas=8
@@ -354,6 +356,7 @@ var pizzafraction = function(){
 				timer-- 
 				if(timer==0){
 					clearInterval(timerCount);
+                    correctAnswer=fractions[0].id;
 					missPoint(correctAnswer)
                     changing=true;
 					sound.play("wrong");
@@ -435,7 +438,8 @@ var pizzafraction = function(){
     }
 	
 	function missPoint(feedBack){
-
+        
+        console.log(fractions[0].id, feedBack)
 		sound.play("wrong")
 		createPart('smoke',yogotar1)
 		for(var allTiles=0; allTiles<numPizzas; allTiles++){
@@ -457,7 +461,7 @@ var pizzafraction = function(){
 		if(lives == 0){
 			stopGame(true)
 		}else{
-			game.time.events.add(1000,function(){
+			game.time.events.add(3000,function(){
 				newPizza()	
 			})
 		}
@@ -536,7 +540,7 @@ var pizzafraction = function(){
         var particle = lookParticle(key)
 		
         if(particle){
-            console.log(obj)
+            //console.log(obj)
             particle.x = obj.worldPosition.x + offX
             particle.y = obj.worldPosition.y + 520
             particle.scale.setTo(0.5,0.5)
@@ -635,6 +639,7 @@ var pizzafraction = function(){
                 return
             }
             correctAnswer=fractions[0].id;
+            console.log(correctAnswer)
 
             if(fractions[0].id == count){
                 sound.play("magic");
@@ -692,7 +697,7 @@ var pizzafraction = function(){
 		var newFractions=null;
 		var thirdDificultyNum;
 		var thirdDificultyDen;
-		var divideBy=2;
+		var divideBy;
 		
 		if(numberPizzas%2==0){
 			divideBy=2;
@@ -717,6 +722,7 @@ var pizzafraction = function(){
 			if((i+1)%divideBy==0 && dificulty==3 && (i+1)!=1){
 				thirdDificultyNum=(i+1)/divideBy;
 				thirdDificultyDen=numberPizzas/divideBy
+                console.log("Joal")
 			}else{
 				thirdDificultyNum=i+1;
 				thirdDificultyDen=numberPizzas
@@ -750,8 +756,7 @@ var pizzafraction = function(){
 			}else{
 				graphics[i].events.onInputDown.add(onPress,this);	   
 			}
-		}console.log(fractions)
-		
+		}
 	}
 	function newPizza(){
 		TweenMax.fromTo(yogotar1,1,{x:yogotar1.x},{x:yogotar1.x + game.width + 100,onComplete:newYogotar});
