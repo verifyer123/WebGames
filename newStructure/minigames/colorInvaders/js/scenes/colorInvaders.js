@@ -97,9 +97,10 @@ var colorInvaders = function(){
 	var colorSong
 	var coin
 	var hand
+    var dificulty
 	var spinAliens
 	var tile
-	var nextAlien=1;
+	var nextAlien;
 	var colorsGroup
 	var buttonsGroup
 	var aliensGroup
@@ -109,6 +110,7 @@ var colorInvaders = function(){
 	var theOne
 	var timeAttack
 	var tutorial
+    var countAliens
 	var timer
 
 	function loadSounds(){
@@ -121,11 +123,14 @@ var colorInvaders = function(){
 		lives = 3
 		tutorial=true
 		spinAliens=false
+        dificulty=0;
+        nextAlien=0
+        countAliens=3
 		gameActive = false
 		rand = -1
 		theOne = -1
 		timeAttack = false
-		timer = 5000
+		timer = 50000
 
 		if(localization.getLanguage() === 'EN'){
 			colorsText = ['Blue', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Yellow']
@@ -627,13 +632,13 @@ var colorInvaders = function(){
 		aliensGroup = game.add.group()
 		sceneGroup.add(aliensGroup)
 
-		var pivot = -250
+		var pivot = -350
 
-		for(var t = 0; t < 3; t++)
+		for(var t = 0; t < 4; t++)
 		{
-			var box = game.add.graphics(game.world.centerX + pivot, game.world.centerY - 100)
+			var box = game.add.graphics(game.world.centerX + pivot, game.world.centerY -100)
 			box.beginFill(0xFF3300)
-			box.drawRect(0, 0, 150, 200)
+			box.drawRect(0, -70, 150, 300)
 			box.alpha = 0
 			box.inputEnabled = true
 			box.correct = false
@@ -644,12 +649,13 @@ var colorInvaders = function(){
 			al.setAnimationByName(0, "IDLE", true)
 			al.setSkinByName("blue1")
 			aliensGroup.add(al)
-
-			pivot = 100
+            
+			pivot = pivot+270
 		}
 		
 		box.x = game.world.centerX - 75
-		box.y = game.world.centerY + 150
+		box.y = game.world.centerY + 250
+        box.inputEnabled=false
 
 		aliensGroup.children[0].originX = -150
 		aliensGroup.children[0].originY = 300
@@ -659,8 +665,11 @@ var colorInvaders = function(){
 
 		aliensGroup.children[2].originX = game.world.centerX
 		aliensGroup.children[2].originY = game.world.height + 300
+        
+        aliensGroup.children[3].originX = game.world.centerX+ 100
+		aliensGroup.children[3].originY = game.world.height + 300
 
-		for(var i = 0; i < aliensGroup.length; i++){
+		for(var i = 0; i < 4; i++){
 
 			aliensGroup.children[i].x = aliensGroup.children[i].originX
 			aliensGroup.children[i].y = aliensGroup.children[i].originY 
@@ -685,8 +694,8 @@ var colorInvaders = function(){
 				timer -= 200
 			}
 			hand.alpha=0;
-			if(alienTweens){
-				for(var killTweens=0; killTweens<alienTweens.length; killTweens++){
+			if(alienTweens[0]){
+				for(var killTweens=0; killTweens<countAliens; killTweens++){
 					alienTweens[killTweens].stop();
 				}
 			}
@@ -716,14 +725,19 @@ var colorInvaders = function(){
 				}
 			}
 
-			if(pointsBar.number === 30){
+			if(pointsBar.number === 4){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				timeAttack = true
 			}
-			if(pointsBar.number === 20){
+            if(pointsBar.number === 8){
+				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
+				countAliens++
+			}
+			if(pointsBar.number === 1){
+                game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				spinAliens=true;
 			}
-
+            
 			game.time.events.add(500,function(){
 				if(lives !== 0){
 					sound.play("throw")
@@ -756,11 +770,13 @@ var colorInvaders = function(){
 
 		rand = getRand()
 		var color = placeAliens()
-		if(spinAliens){
-			startSpinning();
-		}
+		
 		
 		game.time.events.add(1600,function(){
+            
+            if(spinAliens){
+                startSpinning();
+            }
 			colorsGroup.text.setText(colorsText[rand])
 			if(pointsBar.number > 9){
 				colorsGroup.text.strokeThickness = 10
@@ -776,14 +792,15 @@ var colorInvaders = function(){
 	
 	function startSpinning(){
 		
-		for(var wheel=0; wheel<aliensGroup.children.length; wheel++){
-			if(nextAlien>=aliensGroup.children.length)nextAlien=0;
+		for(var wheel=0; wheel<countAliens; wheel++){
+			if(nextAlien>countAliens)nextAlien=0;
 			alienTweens[wheel]=game.add.tween(aliensGroup.children[wheel]).to({x: aliensGroup.children[nextAlien].boxX, y: aliensGroup.children[nextAlien].boxY}, 800, Phaser.Easing.linear, true)
 			nextAlien++;
+            console.log(nextAlien)
 		}
-		game.time.events.add(800,function(){
+        
+		game.time.events.add(850,function(){
 			recursive();
-			nextAlien++;
 		})
 	}
 	function recursive(){
@@ -798,16 +815,21 @@ var colorInvaders = function(){
 	}
 
 	function placeAliens(){
-
-		theOne = game.rnd.integerInRange(0, 2)
-		
+        
+        if(dificulty==2){
+            theOne = game.rnd.integerInRange(0,3)
+        }else{
+            theOne = game.rnd.integerInRange(0,2)
+        }
 		buttonsGroup.setAll("correct", false)
 		buttonsGroup.children[theOne].correct = true
 		
+        
+        
 		if(tutorial){
 			hand.x=buttonsGroup.children[theOne].x+50;
 			hand.y=buttonsGroup.children[theOne].y+50;
-			for(var deactivate=0; deactivate<buttonsGroup.children.length; deactivate++){
+			for(var deactivate=0; deactivate<countAliens; deactivate++){
 				if(deactivate!=theOne){
 					buttonsGroup.children[deactivate].inputEnabled=false;
 				}else{
@@ -815,12 +837,12 @@ var colorInvaders = function(){
 				}
 			}
 		}else{
-			for(var activateAll=0; activateAll<3; activateAll++){
+			for(var activateAll=0; activateAll<countAliens; activateAll++){
 				buttonsGroup.children[activateAll].inputEnabled=true;
 			}
 		}
 			
-		for(var i = 0; i < aliensGroup.length; i++){
+		for(var i = 0; i < countAliens; i++){
 
 			var alienColor = getRandColor(rand)
 			if(i !== theOne){
@@ -835,7 +857,7 @@ var colorInvaders = function(){
 
 		game.time.events.add(500,function(){
 			sound.play("whoosh")
-			for(var i = 0; i < aliensGroup.length; i++){
+			for(var i = 0; i < countAliens; i++){
 				game.rnd.integerInRange(0, 1) === 0 ? anim = "IDLE" : anim = "IDLE2"
 				aliensGroup.children[i].setAnimationByName(0, anim, true)
 				game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].boxX, y: aliensGroup.children[i].boxY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
