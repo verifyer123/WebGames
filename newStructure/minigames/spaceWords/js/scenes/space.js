@@ -24,13 +24,14 @@ var space = function(){
                 json: "images/space/atlas.json",
                 image: "images/space/atlas.png",
             },
-
         ],
         images: [
             {   name:"fondo",
 				file: "images/space/fondo.png"},
             {   name:"tutorial_image",
 				file: "images/space/tutorial_image.png"},
+            {   name:"tile",
+				file: "images/space/tile.png"},
 		],
 		sounds: [
             {	name: "pop",
@@ -402,7 +403,7 @@ var space = function(){
     function missPoint(){
         
         sound.play("wrong")
-        
+        shuffleList()
         lives--;
         heartsGroup.text.setText('X ' + lives)
         
@@ -430,9 +431,8 @@ var space = function(){
         
         if(answerIndex >= WORDS.length){
             answerIndex = 0
-            shuffleList()
         }
-        
+        shuffleList()
         master.setAnimationByName(0, "WINSTILL", true);
         master.addAnimationByName(0,"IDLE",true)
         
@@ -704,7 +704,7 @@ var space = function(){
         
         while(pivotX < game.world.width){
             
-            var water = waterGroup.create(pivotX,0,'atlas.space','tile')
+            var water = waterGroup.create(pivotX,0,'tile')
             water.anchor.setTo(0,1)
             pivotX+=water.width
         }
