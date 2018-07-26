@@ -95,6 +95,7 @@ var megablockTower = function(){
     var comboBar, containerBar
     var buildingsArray
     var currentWorldIndex, minPartIndex
+    var spaceBar
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -514,6 +515,22 @@ var megablockTower = function(){
         }
 
         if(game.input.activePointer.isDown){
+            if(canTouch){
+                var x = currentQuad.world.x
+                var y = currentQuad.world.y
+                sceneGroup.addChild(currentQuad)
+                currentQuad.x = x
+                currentQuad.y = y
+                canTouch = false
+                rope.claw1.angle = -20
+                rope.claw2.angle = 20
+                currentQuad.angle = rope.angle
+                //sound.play("falling")
+                fallingAudio.play()
+            }
+        }
+
+        if(spaceBar.isDown){
             if(canTouch){
                 var x = currentQuad.world.x
                 var y = currentQuad.world.y
@@ -1449,7 +1466,7 @@ var megablockTower = function(){
         }
         else if(currentQuad.worldType == 2 && indexOfType== 6){
         	currentQuad.collision.drawRect(-120,-220,260,220)
-        	currentQuad.collision.correctHeight = 260
+        	currentQuad.collision.correctHeight = 220
             currentQuad.collision.correctWidth = 260
             currentQuad.collision.totalConexions = 5
         	currentQuad.minPeople = 1
@@ -1564,6 +1581,8 @@ var megablockTower = function(){
 
         createPointsBar()
         createHearts()
+
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         containerBar = sceneGroup.create(50,game.world.centerY+60,"atlas.game",'contenedor_vida')
         containerBar.anchor.setTo(0.5,0)
