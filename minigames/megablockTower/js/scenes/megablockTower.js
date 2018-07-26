@@ -57,7 +57,7 @@ var megablockTower = function(){
     var MAX_CHARACTERS_PER_FLOOR = 5
     var IN_TO_START_COMBO = 3
     var DELTA_COMBO = 2
-    var MAX_COMBO = 8
+    var MAX_COMBO = 6
     var MULTIPLIER_SCALE = 0.8
 
     var OFFSET_EMOJI = {x:-40,y:-40}
@@ -95,6 +95,7 @@ var megablockTower = function(){
     var comboBar, containerBar
     var buildingsArray
     var currentWorldIndex, minPartIndex
+    var spaceBar
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -419,6 +420,7 @@ var megablockTower = function(){
         if(containerBar.visible){
             comboBar.mask.scale.setTo(comboBar.mask.scale.x - DELTA_COMO_BAR,1)
             if(comboBar.mask.scale.x <=0){
+                currentCombo = 1
                 comboBar.mask.scale.setTo(0,1)
                 containerBar.visible = false
                 comboBar.visible = false
@@ -476,10 +478,12 @@ var megablockTower = function(){
                 var d = Math.sqrt(Math.pow(person.quad.world.x-person.x,2)+Math.pow(person.quad.world.y-person.y,2))
                 if(d < 50){
                     if(person.peopleType == person.quad.worldType){
+                        //console.log(2*currentCombo)
                         addPoint(2*currentCombo,{x:game.world.width-80,y:80})
 
                     }
                     else{
+                        //console.log(1*currentCombo)
                         addPoint(1*currentCombo,{x:game.world.width-80,y:80})
                     }
                     person.visible = false
@@ -511,6 +515,22 @@ var megablockTower = function(){
         }
 
         if(game.input.activePointer.isDown){
+            if(canTouch){
+                var x = currentQuad.world.x
+                var y = currentQuad.world.y
+                sceneGroup.addChild(currentQuad)
+                currentQuad.x = x
+                currentQuad.y = y
+                canTouch = false
+                rope.claw1.angle = -20
+                rope.claw2.angle = 20
+                currentQuad.angle = rope.angle
+                //sound.play("falling")
+                fallingAudio.play()
+            }
+        }
+
+        if(spaceBar.isDown){
             if(canTouch){
                 var x = currentQuad.world.x
                 var y = currentQuad.world.y
@@ -566,11 +586,11 @@ var megablockTower = function(){
                         createPart('star',{x:currentQuad.world.x,y:(lastQuad.world.y - lastQuad.collision.correctHeight)})
                         //addPoint(currentCombo,{x:game.world.width-80,y:80})
                         
-                        if(currentInCombo>=IN_TO_START_COMBO){
+                        //if(currentInCombo>=IN_TO_START_COMBO){
                             if(currentCombo<MAX_COMBO){
                                 currentCombo+=DELTA_COMBO
                             }
-                        }
+                        //}
 
                         initComboBar()
                     }
@@ -1120,8 +1140,8 @@ var megablockTower = function(){
 
         if(currentQuad.worldType == 1 && indexOfType== 1){
 
-        	currentQuad.collision.drawRect(-65,-172,130,172)
-        	currentQuad.collision.correctHeight = 172
+        	currentQuad.collision.drawRect(-65,-130,130,130)
+        	currentQuad.collision.correctHeight = 130
             currentQuad.collision.correctWidth = 130
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
@@ -1141,8 +1161,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[0].emoji)
         }
         else if(currentQuad.worldType == 1 && indexOfType== 2){
-        	currentQuad.collision.drawRect(-125,-172,250,172)
-        	currentQuad.collision.correctHeight = 172
+        	currentQuad.collision.drawRect(-125,-130,250,130)
+        	currentQuad.collision.correctHeight = 130
             currentQuad.collision.correctWidth = 250
             currentQuad.collision.totalConexions = 5
         	currentQuad.minPeople = 2
@@ -1403,8 +1423,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[1].emoji)
         }
         else if(currentQuad.worldType == 2 && indexOfType== 4){
-        	currentQuad.collision.drawRect(-70,-195,140,195)
-        	currentQuad.collision.correctHeight = 195
+        	currentQuad.collision.drawRect(-70,-155,140,155)
+        	currentQuad.collision.correctHeight = 155
             currentQuad.collision.correctWidth = 140
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
@@ -1424,8 +1444,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[0].emoji)
         }
         else if(currentQuad.worldType == 2 && indexOfType== 5){
-        	currentQuad.collision.drawRect(-70,-260,140,260)
-        	currentQuad.collision.correctHeight = 260
+        	currentQuad.collision.drawRect(-70,-220,140,220)
+        	currentQuad.collision.correctHeight = 220
             currentQuad.collision.correctWidth = 140
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
@@ -1445,8 +1465,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[0].emoji)
         }
         else if(currentQuad.worldType == 2 && indexOfType== 6){
-        	currentQuad.collision.drawRect(-120,-260,260,260)
-        	currentQuad.collision.correctHeight = 260
+        	currentQuad.collision.drawRect(-120,-220,260,220)
+        	currentQuad.collision.correctHeight = 220
             currentQuad.collision.correctWidth = 260
             currentQuad.collision.totalConexions = 5
         	currentQuad.minPeople = 1
@@ -1561,6 +1581,8 @@ var megablockTower = function(){
 
         createPointsBar()
         createHearts()
+
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         containerBar = sceneGroup.create(50,game.world.centerY+60,"atlas.game",'contenedor_vida')
         containerBar.anchor.setTo(0.5,0)
