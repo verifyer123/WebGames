@@ -57,7 +57,7 @@ var megablockTower = function(){
     var MAX_CHARACTERS_PER_FLOOR = 5
     var IN_TO_START_COMBO = 3
     var DELTA_COMBO = 2
-    var MAX_COMBO = 8
+    var MAX_COMBO = 6
     var MULTIPLIER_SCALE = 0.8
 
     var OFFSET_EMOJI = {x:-40,y:-40}
@@ -419,6 +419,7 @@ var megablockTower = function(){
         if(containerBar.visible){
             comboBar.mask.scale.setTo(comboBar.mask.scale.x - DELTA_COMO_BAR,1)
             if(comboBar.mask.scale.x <=0){
+                currentCombo = 1
                 comboBar.mask.scale.setTo(0,1)
                 containerBar.visible = false
                 comboBar.visible = false
@@ -476,10 +477,12 @@ var megablockTower = function(){
                 var d = Math.sqrt(Math.pow(person.quad.world.x-person.x,2)+Math.pow(person.quad.world.y-person.y,2))
                 if(d < 50){
                     if(person.peopleType == person.quad.worldType){
+                        //console.log(2*currentCombo)
                         addPoint(2*currentCombo,{x:game.world.width-80,y:80})
 
                     }
                     else{
+                        //console.log(1*currentCombo)
                         addPoint(1*currentCombo,{x:game.world.width-80,y:80})
                     }
                     person.visible = false
@@ -566,11 +569,11 @@ var megablockTower = function(){
                         createPart('star',{x:currentQuad.world.x,y:(lastQuad.world.y - lastQuad.collision.correctHeight)})
                         //addPoint(currentCombo,{x:game.world.width-80,y:80})
                         
-                        if(currentInCombo>=IN_TO_START_COMBO){
+                        //if(currentInCombo>=IN_TO_START_COMBO){
                             if(currentCombo<MAX_COMBO){
                                 currentCombo+=DELTA_COMBO
                             }
-                        }
+                        //}
 
                         initComboBar()
                     }
