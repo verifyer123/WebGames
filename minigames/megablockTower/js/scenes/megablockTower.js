@@ -1120,8 +1120,8 @@ var megablockTower = function(){
 
         if(currentQuad.worldType == 1 && indexOfType== 1){
 
-        	currentQuad.collision.drawRect(-65,-172,130,172)
-        	currentQuad.collision.correctHeight = 172
+        	currentQuad.collision.drawRect(-65,-130,130,130)
+        	currentQuad.collision.correctHeight = 130
             currentQuad.collision.correctWidth = 130
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
@@ -1141,8 +1141,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[0].emoji)
         }
         else if(currentQuad.worldType == 1 && indexOfType== 2){
-        	currentQuad.collision.drawRect(-125,-172,250,172)
-        	currentQuad.collision.correctHeight = 172
+        	currentQuad.collision.drawRect(-125,-130,250,130)
+        	currentQuad.collision.correctHeight = 130
             currentQuad.collision.correctWidth = 250
             currentQuad.collision.totalConexions = 5
         	currentQuad.minPeople = 2
@@ -1403,8 +1403,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[1].emoji)
         }
         else if(currentQuad.worldType == 2 && indexOfType== 4){
-        	currentQuad.collision.drawRect(-70,-195,140,195)
-        	currentQuad.collision.correctHeight = 195
+        	currentQuad.collision.drawRect(-70,-155,140,155)
+        	currentQuad.collision.correctHeight = 155
             currentQuad.collision.correctWidth = 140
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
@@ -1424,8 +1424,8 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[0].emoji)
         }
         else if(currentQuad.worldType == 2 && indexOfType== 5){
-        	currentQuad.collision.drawRect(-70,-260,140,260)
-        	currentQuad.collision.correctHeight = 260
+        	currentQuad.collision.drawRect(-70,-220,140,220)
+        	currentQuad.collision.correctHeight = 220
             currentQuad.collision.correctWidth = 140
             currentQuad.collision.totalConexions = 3
         	currentQuad.minPeople = 1
@@ -1445,7 +1445,7 @@ var megablockTower = function(){
             currentQuad.addChild(currentQuad.people[0].emoji)
         }
         else if(currentQuad.worldType == 2 && indexOfType== 6){
-        	currentQuad.collision.drawRect(-120,-260,260,260)
+        	currentQuad.collision.drawRect(-120,-220,260,220)
         	currentQuad.collision.correctHeight = 260
             currentQuad.collision.correctWidth = 260
             currentQuad.collision.totalConexions = 5
