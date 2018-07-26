@@ -165,6 +165,7 @@ var pizzafraction = function(){
 	var correctAnswer
 	var startTiming
 	var hand
+    var changing
 	var yogotar
 	timer = 10;
 	timerCount = null;
@@ -320,16 +321,7 @@ var pizzafraction = function(){
 		yogotar1.setSkinByName(characters[0]);
 		sceneGroup.add(yogotar1);	
 
-		fractions = [
-			{fraction:"1/8",id:1},
-			{fraction:"2/8",id:2},
-			{fraction:"3/8",id:3},
-			{fraction:"4/8",id:4},
-			{fraction:"5/8",id:5},
-			{fraction:"6/8",id:6},
-			{fraction:"7/8",id:7},
-			{fraction:"8/8",id:8},
-		];
+		fractions = [];
 		//shuffle(fractions)
 		numPizzas=8
 		increasingDificulty(numPizzas)
@@ -363,6 +355,7 @@ var pizzafraction = function(){
 				if(timer==0){
 					clearInterval(timerCount);
 					missPoint(correctAnswer)
+                    changing=true;
 					sound.play("wrong");
 					//bgm.stop();	
 				}
@@ -635,59 +628,58 @@ var pizzafraction = function(){
 	 }
 	
 	function onPressBell(bell){
-        sound.play("bell")
-		if(timer == 0){
-			return
-		}
-		
-		
-		
-		
-		correctAnswer=fractions[0].id;
-		
-		if(fractions[0].id == count){
-			sound.play("magic");
-			addCoin(yogotar1);
-			if(pointsBar.number%5==0 && pointsBar.number!=1 && pointsBar.number!=0 && numPizzas<14){
-				if(pointsBar.number==10){
-					dificulty=3;
-				}
-				numPizzas++
-				increasingDificulty(numPizzas)
-			}
-			yogotar1.setAnimationByName(0, "WIN", true);
-			TweenMax.fromTo(star.scale,3,{x:4,y:4},{x:8,y:8})
-			TweenMax.fromTo(star,3,{alpha:0},{alpha:0,onComplete:newPizza});
-			tutorial=false;
-			for(i=0;i<=numPizzas-1;i++){
-				graphics[i].inputEnabled = false;
-			}
-		}else if(fractions[0].id != count && !tutorial){
-			//bgm.stop();
-			sound.play("wrong");
-			for(i=0;i<=numPizzas-1;i++){
-				graphics[i].inputEnabled = false;
-			}
-			yogotar1.setAnimationByName(0, "LOSE", true);
-			missPoint(correctAnswer)
-		}
-		
-		if(!tutorial){
-            hand.alpha=0;
-			timbre_iddle.inputEnabled = false;
-			bell.alpha= 1;
-			TweenMax.fromTo(bell,0.5,{y:bell.y + 20},{y:bell.y,ease:Elastic.easeOut,onComplete:completeBell});
-			function completeBell(){
-				bell.alpha= 1;
-			}
+        
+        if(!changing){
+           if(!tutorial)sound.play("bell")
+            if(timer == 0){
+                return
+            }
+            correctAnswer=fractions[0].id;
 
-			if(pointsBar.number == 4){
-				positionTimer()
-			}
-			if(pointsBar.number> 4){
-				stopTimer()
-			}
-		}
+            if(fractions[0].id == count){
+                sound.play("magic");
+                addCoin(yogotar1);
+                if(pointsBar.number%5==0 && pointsBar.number!=1 && pointsBar.number!=0 && numPizzas<14){
+                    if(pointsBar.number==10){
+                        dificulty=3;
+                    }
+                    numPizzas++
+                    increasingDificulty(numPizzas)
+                }
+                yogotar1.setAnimationByName(0, "WIN", true);
+                TweenMax.fromTo(star.scale,3,{x:4,y:4},{x:8,y:8})
+                TweenMax.fromTo(star,3,{alpha:0},{alpha:0,onComplete:newPizza});
+                tutorial=false;
+                for(i=0;i<=numPizzas-1;i++){
+                    graphics[i].inputEnabled = false;
+                }
+            }else if(fractions[0].id != count && !tutorial){
+                //bgm.stop();
+                sound.play("wrong");
+                for(i=0;i<=numPizzas-1;i++){
+                    graphics[i].inputEnabled = false;
+                }
+                yogotar1.setAnimationByName(0, "LOSE", true);
+                missPoint(correctAnswer)
+            }
+
+            if(!tutorial){
+                hand.alpha=0;
+                timbre_iddle.inputEnabled = false;
+                bell.alpha= 1;
+                TweenMax.fromTo(bell,0.5,{y:bell.y + 20},{y:bell.y,ease:Elastic.easeOut,onComplete:completeBell});
+                function completeBell(){
+                    bell.alpha= 1;
+                }
+
+                if(pointsBar.number == 4){
+                    positionTimer()
+                }
+                if(pointsBar.number> 4){
+                    stopTimer()
+                }
+            }
+        }
 	}		
 	
 	
@@ -784,17 +776,20 @@ var pizzafraction = function(){
 				for(i=0;i<=numPizzas-1;i++){
 					graphics[i].inputEnabled = true;
 				}
-				//if(pointsBar.number>4)startTimer(3600*seconds);
+				if(pointsBar.number>4)startTimer(3600*seconds);
 			})
 			yogotar1.setSkinByName(characters[0]);
 			yogotar1.setAnimationByName(0, "IDLE", true);
 			sound.play("powerup");
+            changing=false
 		}
 	}
 	function stopGame(win){
 		sound.play("wrong")
 		gameActive = false
 		sound.play("gameLose")
+        pizzaSong.stop()
+        
 		yogotar1.setAnimationByName(0,"LOSE",true)
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
