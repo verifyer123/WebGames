@@ -720,7 +720,7 @@ var colorInvaders = function(){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				timeAttack = true
 			}
-			if(pointsBar.number === 0){
+			if(pointsBar.number === 20){
 				spinAliens=true;
 			}
 
