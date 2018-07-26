@@ -1,17 +1,29 @@
 /*THEME*/
 body {
     margin: 0;
-    background-image: url("../images/background.png");
+/*    background-image: url("../images/background.png");*/
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: #1d1864;
+    background-color: #ebc440;
 }
 #container{
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: url("../images/stars01.png");
+    background-image: url("../images/back-one.png");
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+#header{
+    background-color: rgba(250,250,250,1);
+    text-align: center;
+}
+
+#header img{
+    width: 10%;
+    
 }
 
 #selectgame{
@@ -70,22 +82,46 @@ body {
     
 }
 
-#bannerGame{
+.left-section{
     position: absolute;
-    width: 45%;
+    width: 50%;
+}
+
+#bannerGame{
+    position: relative;
+    width: 100%;
     height: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top:20%;
     
 }
 
 #bannerGame img{
     width: 80%;
     border-radius: 1vw;
-/*    transform: skew(10deg,-40deg) scaleX(0.6);*/
+/*    transform: skew(10deg,-40deg) scaleX(0.6);*/   
+}
+
+/*ButtonSTART*/
+
+#StartGame{
+    color: #FFF;
+    font-family: "Gotham Black";
+    font-size: 2vw;
+    position: relative;
+    text-align: center;
+    width: 90%;
+    background-image: url("../images/button.png");
+    padding: 5%;
+    margin-top:5%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
     
 }
+
 /*CHART*/
 .wrapper canvas {
 	-moz-user-select: none;
@@ -106,3 +142,4 @@ body {
     background-size: contain;
     
 }
+
