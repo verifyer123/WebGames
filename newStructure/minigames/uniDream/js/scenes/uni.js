@@ -262,13 +262,8 @@ var uni = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-
 		addNumberPart(pointsBar.text,'+' + number)
-
-		// if(pointsBar.number % 2 == 0){
 		timeValue-=timeValue * 0.10
-//		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
-		// }
 
 	}
 
@@ -692,18 +687,6 @@ var uni = function(){
 			clock.alpha=1
 		}
 		tutorial=false;
-//		for(var spineIndex = 0; spineIndex < objectsInGame.length; spineIndex++){
-//			var spine = objectsInGame[spineIndex]
-//			var toY = game.rnd.integerInRange(-190, 190)
-//			var delay = 1000 + (spineIndex * 50)
-//			moveSpine(spine, game.world.centerX + 50, toY, delay, Phaser.Easing.Sinusoidal.In)
-//		}
-//		sceneGroup.correctParticle.x = clockCounter.centerX
-//		sceneGroup.correctParticle.y = clockCounter.centerY
-//		sceneGroup.correctParticle.start(true, 1000, null, 5)
-//		var totalDelay = objectsInGame.length * 50
-
-//		game.time.events.add(totalDelay + 4000, startRound)
 	}
 	
 	function wrongReaction() {
@@ -738,6 +721,7 @@ var uni = function(){
 	function checkGoal(){
 		var countUni=0;
 		var countDonk=0;
+		animalsCreated=0;
 		var exitSpeed=3000;
 		if(clock.tween){
 			clock.tween.stop();
@@ -828,7 +812,7 @@ var uni = function(){
 		
 		var manyAnimals=game.rnd.integerInRange(0,total);
 		var animal=game.rnd.integerInRange(0,1);
-		animalsCreated=manyAnimals;
+		animalsCreated=0;
 		for(var fill=0; fill<manyAnimals; fill++){
 			
 			animal=game.rnd.integerInRange(0,1);

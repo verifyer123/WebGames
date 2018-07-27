@@ -97,19 +97,23 @@ var colorInvaders = function(){
 	var colorSong
 	var coin
 	var continueSpinning
+	var speed
 	var hand
 	var dificulty
 	var spinAliens
 	var tile
 	var nextAlien;
+	var movable;
 	var colorsGroup
 	var buttonsGroup
 	var positionsGroup
 	var aliensGroup
 	var colorsText = []
+	var positionsPatron=[]
 	var alienTweens=[]
 	var buttonTweens=[]
 	var rand
+	var TOTAL_ALIENS
 	var theOne
 	var timeAttack
 	var tutorial
@@ -127,9 +131,15 @@ var colorInvaders = function(){
 		tutorial=true
 		continueSpinning=false
 		spinAliens=false
+		speed=800
 		dificulty=0;
 		nextAlien=0
+		movable=0;
 		countAliens=3
+		TOTAL_ALIENS=6
+		for(var pos=0; pos<TOTAL_ALIENS; pos++){
+			positionsPatron[pos]=pos;
+		}
 		gameActive = false
 		rand = -1
 		theOne = -1
@@ -657,8 +667,8 @@ var colorInvaders = function(){
 			button.beginFill(0x00FF00)
 			box.drawRect(0, -70, 150, 100)
 			button.drawRect(0, 50, 150, 150)
-			box.alpha = 1
-			button.alpha = 1
+			box.alpha = 0
+			button.alpha = 0
 			button.events.onInputDown.add(IChoseYou, this)
 			positionsGroup.add(box)
 			buttonsGroup.add(button)
@@ -743,9 +753,9 @@ var colorInvaders = function(){
 			}
 
 			if(btn.correct){
-
 				sound.play("rightChoice")
 				addCoin(btn)
+				if(speed>300)speed=speed-100;
 				particleCorrect.x = btn.centerX
 				particleCorrect.y = btn.centerY
 				particleCorrect.start(true, 1200, null, 10)
@@ -763,16 +773,16 @@ var colorInvaders = function(){
 				}
 			}
 
-			if(pointsBar.number === 0){
+			if(pointsBar.number === 10){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				timeAttack = true
 			}
 			if(pointsBar.number%8 == 0 && pointsBar.number!=0 && pointsBar.number!=1 ){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
-				
+				if(countAliens<6)countAliens++
 			}
-            if(countAliens<6)countAliens++
-			if(pointsBar.number === 1){
+            
+			if(pointsBar.number === 15){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				spinAliens=true;
 			}
@@ -827,19 +837,23 @@ var colorInvaders = function(){
 				startTimer(timer)
 		},this)
 	}	
-
 	function startSpinning(){
 
 		for(var wheel=0; wheel<countAliens; wheel++){
-             
-			if(nextAlien>countAliens-1){
-                nextAlien=0;
-            }
-            alienTweens[wheel]=game.add.tween(aliensGroup.children[wheel]).to({x: aliensGroup.children[nextAlien].boxX, y: aliensGroup.children[nextAlien].boxY}, 800, Phaser.Easing.linear, true)
+			if(nextAlien==countAliens){
+				nextAlien=0;
+			}
+            alienTweens[wheel]=game.add.tween(aliensGroup.children[wheel]).to({x: aliensGroup.children[positionsPatron[nextAlien]].boxX, y: aliensGroup.children[positionsPatron[nextAlien]].boxY}, speed, Phaser.Easing.linear, true)
             nextAlien++;
 		}
-
-		game.time.events.add(810,function(){
+		Phaser.ArrayUtils.shuffle(positionsPatron)
+//		
+//		movable++;
+//		if(movable==countAliens){
+//			movable=1
+//		}
+//		nextAlien=movable;
+		game.time.events.add(speed+20,function(){
 			if(continueSpinning){
                 recursive();
             }
@@ -855,7 +869,6 @@ var colorInvaders = function(){
 		else
 			return x     
 	}
-
 	function placeAliens(){
 
 		if(dificulty==2){
