@@ -384,7 +384,7 @@ var uni = function(){
 		goalUni=game.rnd.integerInRange(1,dificulty);
 		sum=dificulty-goalUni;
 		if(pointsBar.number>=5){
-			goalDonk=game.rnd.integerInRange(1,sum);
+			goalDonk=game.rnd.integerInRange(0,sum);
 		}
 		uniText.text=goalUni.toString();
 		donkText.text=goalDonk.toString();

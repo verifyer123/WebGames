@@ -674,8 +674,11 @@ var colorInvaders = function(){
 			
 			if(t==3 || t==4 || t==5){
 				button.x = game.world.centerX + pivot2
-				if(button)
-				button.y = game.world.centerY + 250
+				if(t==4){
+					button.y = game.world.centerY + 250;
+				}else{
+					button.y = game.world.centerY + 150;
+				}
 				box.x = button.x
 				box.y = button.y
 				pivot2=pivot2+170
@@ -748,7 +751,7 @@ var colorInvaders = function(){
 				particleCorrect.x = btn.centerX
 				particleCorrect.y = btn.centerY
 				particleCorrect.start(true, 1200, null, 10)
-				for(var i = 0; i < aliensGroup.length; i++){ 
+				for(var i = 0; i < countAliens; i++){ 
 					aliensGroup.children[i].setAnimationByName(0, "WIN", true)
 				}
 			}
@@ -757,7 +760,7 @@ var colorInvaders = function(){
 				particleWrong.x = btn.centerX
 				particleWrong.y = btn.centerY
 				particleWrong.start(true, 1200, null, 10)
-				for(var i = 0; i < aliensGroup.length; i++){ 
+				for(var i = 0; i < countAliens; i++){ 
 					aliensGroup.children[i].setAnimationByName(0, "LOSE", true)
 				}
 			}
@@ -768,8 +771,9 @@ var colorInvaders = function(){
 			}
 			if(pointsBar.number === 8){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
-				countAliens++
+				//countAliens++
 			}
+			countAliens++
 			if(pointsBar.number === 1){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				spinAliens=true;
