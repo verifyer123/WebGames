@@ -222,7 +222,6 @@ var colorInvaders = function(){
 	function missPoint(){
 
 		sound.play("wrong")
-		continueSpinning=false;
 		lives--;
 		heartsGroup.text.setText('X ' + lives)
 
@@ -242,7 +241,6 @@ var colorInvaders = function(){
 	function addPoint(number){
 
 		sound.play("magic")
-		continueSpinning=false;
 		pointsBar.number+=number;
 		pointsBar.text.setText(pointsBar.number)
 
@@ -725,7 +723,7 @@ var colorInvaders = function(){
 	function IChoseYou(btn){
 
 		if(gameActive){
-
+            continueSpinning=false
 			gameActive = false
 			sound.play("pop")
 
@@ -769,11 +767,11 @@ var colorInvaders = function(){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				timeAttack = true
 			}
-			if(pointsBar.number === 8){
+			if(pointsBar.number%8 == 0 && pointsBar.number!=0 && pointsBar.number!=1 ){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
-				//countAliens++
+				
 			}
-			countAliens++
+            if(countAliens<6)countAliens++
 			if(pointsBar.number === 1){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				spinAliens=true;
@@ -809,13 +807,13 @@ var colorInvaders = function(){
 
 		rand = getRand()
 		var color = placeAliens()
-
-
+        
 		game.time.events.add(1600,function(){
-
 			if(spinAliens){
 				startSpinning();
-				continueSpinning=true;
+                game.time.events.add(300,function(){
+				    continueSpinning=true;
+                })
 			}
 			colorsGroup.text.setText(colorsText[rand])
 			if(pointsBar.number > 9){
@@ -833,13 +831,18 @@ var colorInvaders = function(){
 	function startSpinning(){
 
 		for(var wheel=0; wheel<countAliens; wheel++){
-			if(nextAlien>countAliens)nextAlien=0;
-			alienTweens[wheel]=game.add.tween(aliensGroup.children[wheel]).to({x: aliensGroup.children[nextAlien].boxX, y: aliensGroup.children[nextAlien].boxY}, 800, Phaser.Easing.linear, true)
-			nextAlien++;
+             
+			if(nextAlien>countAliens-1){
+                nextAlien=0;
+            }
+            alienTweens[wheel]=game.add.tween(aliensGroup.children[wheel]).to({x: aliensGroup.children[nextAlien].boxX, y: aliensGroup.children[nextAlien].boxY}, 800, Phaser.Easing.linear, true)
+            nextAlien++;
 		}
 
 		game.time.events.add(810,function(){
-			if(continueSpinning)recursive();
+			if(continueSpinning){
+                recursive();
+            }
 		})
 	}
 	function recursive(){
