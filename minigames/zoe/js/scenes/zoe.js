@@ -21,6 +21,7 @@ var zoe = function(){
         MESA:16,
         TELE:17,
         IRON:18,
+        APPLE:19
 
     }
 
@@ -52,7 +53,7 @@ var zoe = function(){
         ],
     }
     
-    var INITIAL_LIVES = 3
+    var INITIAL_LIVES = 1
     var PLAYER_SPEED = {x:-10,y:45}
     var PATTERN_COUNT = 5
     var PLANE_VEL = 3
@@ -89,7 +90,7 @@ var zoe = function(){
     var repisa
     var chairGroup, ariplaneGroup, clockGroup, tableGroup, bocinaGroup, arcadeGroup, burroGroup, cajoneraGroup
     var cuadro1Group, cuadro2Group, cuadro3Group, escritorioGroup, lamparaGroup, libreroGroup, librosGroup
-    var mesaGroup, teleGroup, ironGroup
+    var mesaGroup, teleGroup, ironGroup, appleGroup, pizarronGroup
     var initTap
     var lastObject
     var currentMeters, nextCountMeters, meterstext
@@ -150,7 +151,7 @@ var zoe = function(){
         
         game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
-        game.load.physics('physicsData', 'physics/physics.json');
+        game.load.physics('physicsData', 'physics/physics.json?v2');
         if(amazing.getMinigameId()){
             marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
         }else{
@@ -442,6 +443,8 @@ var zoe = function(){
             updateGroup(libreroGroup,delta)
             updateGroup(mesaGroup,delta)
             updateGroup(teleGroup,delta)
+            updateGroup(appleGroup,delta)
+            //updateGroup(pizarronGroup,delta)
 
             for(var i =0; i < ariplaneGroup.length;i++){
 				if(ariplaneGroup.children[i].visible){
@@ -467,12 +470,9 @@ var zoe = function(){
 				group.children[i].body.x -= delta
 				if(group.children[i].body.x < -200){
 					group.children[i].visible = false
-					//group.children[i].body.x = -1000
-                    //console.log("sdfad",group.children[i])
-					//if(group.children[i].objectType == OBJETC_TYPES.CHAIR){
-						//group.children[i].static = true
-						group.children[i].body.data.shapes[0].sensor=true;
-					//}
+
+					group.children[i].body.data.shapes[0].sensor=true;
+					
 				}
 			}
 		}
@@ -528,12 +528,12 @@ var zoe = function(){
 	    		stopGame()
 	    		return
 	    	}
-	    	else if(body.sprite.objectType == OBJETC_TYPES.CHAIR){
-	    		body.angularVelocity = 4
+	    	/*else if(body.sprite.objectType == OBJETC_TYPES.CHAIR){
+	    		body.angularVelocity = -4
 	    		player.body.velocity.x = 0
 	    		player.body.velocity.y = 0
 	    		player.body.angularVelocity = 0
-	    	}
+	    	}*/
 	    	else if(body.sprite.objectType == OBJETC_TYPES.CLOCK){
 	    		body.angularVelocity = 5
 	    	}
@@ -573,10 +573,10 @@ var zoe = function(){
     	controlsRentangle.drawRect(0,0,game.world.width-40,game.world.height - controlsRentangle.y -20)
     	sceneGroup.add(controlsRentangle)
 
-    	var logo = sceneGroup.create(game.world.centerX - 150, game.world.height - 100,"atlas.game","lgo")
+    	var logo = sceneGroup.create(game.world.centerX - 160, game.world.height - 100,"atlas.game","lgo")
     	logo.anchor.setTo(0.5)
 
-    	logo = sceneGroup.create(game.world.centerX + 150, game.world.height - 100,"atlas.game","lgo")
+    	logo = sceneGroup.create(game.world.centerX + 160, game.world.height - 100,"atlas.game","lgo")
     	logo.anchor.setTo(0.5)
 
     	tapButton = sceneGroup.create(game.world.centerX, game.world.height - 100,"atlas.game","boton")
@@ -653,6 +653,9 @@ var zoe = function(){
     	lamparaGroup = game.add.group()
     	sceneGroup.add(lamparaGroup)
 
+    	appleGroup = game.add.group()
+    	sceneGroup.add(appleGroup)
+
        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
         meterstext = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
@@ -680,7 +683,7 @@ var zoe = function(){
        	currentX = 420
        	createPattern()
 
-        player = sceneGroup.create(repisa.x,repisa.y-100,"atlas.game","agua_ZOE")
+        player = sceneGroup.create(repisa.x,repisa.y-100,"atlas.game","botella_zoe_kids")
         player.anchor.setTo(0.5)
         game.physics.p2.enable(player,false)
         player.inGround = false
@@ -712,13 +715,15 @@ var zoe = function(){
 	    	}
     	}
 
-    	var chair = chairGroup.create(x,y,"atlas.game","silla2")
+    	var chair = chairGroup.create(x,y,"atlas.game","pupitre")
     	chair.anchor.setTo(0.5)
     	game.physics.p2.enable(chair,false)
     	chair.objectType = OBJETC_TYPES.CHAIR
     	chair.givedCoin = true
-    	//chair.body.clearShapes()
-        //chair.body.loadPolygon('physicsData','chair2')
+    	chair.body.clearShapes()
+        //chair.body.loadPolygon('physicsData','pupitre')
+        chair.body.setRectangle(140,140,0,30)
+        chair.body.addRectangle(10,180,60,-10)
 
     	return chair
     }
@@ -744,7 +749,7 @@ var zoe = function(){
     	clock.body.clearShapes()
     	clock.body.setCircle(60,0,0)
     	clock.body.kinematic = true
-    	clock.objectType = OBJETC_TYPES.CHAIR
+    	clock.objectType = OBJETC_TYPES.CLOCK
     	return clock
     }
 
@@ -843,20 +848,20 @@ var zoe = function(){
 	    		burroGroup.children[i].visible = true
 	    		burroGroup.children[i].givedCoin = true
 	    		burroGroup.children[i].body.data.shapes[0].sensor=false;
-	    		getIron(x+50,y-100)
+	    		getApple(x+50,y-100)
 	    		return burroGroup.children[i]
 	    	}
     	}
 
-    	var burro = burroGroup.create(x,y,"atlas.game","burro")
+    	var burro = burroGroup.create(x,y,"atlas.game","bancotota")
     	burro.anchor.setTo(0.5)
     	burro.givedCoin = true
     	game.physics.p2.enable(burro,false)
     	burro.body.kinematic = true
         burro.body.clearShapes()
-        burro.body.setRectangle(350,150,0,0)
+        burro.body.setRectangle(290,100,0,0)
     	burro.objectType = OBJETC_TYPES.BURRO
-    	getIron(x+50,y-110)
+    	getApple(x+50,y-110)
     	return burro
     }
 
@@ -886,6 +891,33 @@ var zoe = function(){
     	//return burro
     }
 
+    function getApple(x,y){
+    	for(var i =0; i < appleGroup.length;i++){
+    		if(!appleGroup.children[i].visible){
+    			appleGroup.children[i].body.velocity.x = 0
+    			appleGroup.children[i].body.velocity.y = 0
+    			appleGroup.children[i].body.angle = 0
+    			appleGroup.children[i].body.angularVelocity = 0
+
+	    		appleGroup.children[i].body.x = x
+	    		appleGroup.children[i].body.y = y
+	    		appleGroup.children[i].visible = true
+	    		appleGroup.children[i].givedCoin = false
+	    		appleGroup.children[i].body.data.shapes[0].sensor=false;
+	    		//return ironGroup.children[i]
+	    	}
+    	}
+
+    	var apple = appleGroup.create(x,y,"atlas.game","manzana")
+    	apple.anchor.setTo(0.5)
+    	apple.scale.setTo(1.2)
+    	apple.centerLoop = x 
+    	apple.givedCoin = false
+    	game.physics.p2.enable(apple,false)
+    	apple.objectType = OBJETC_TYPES.APPLE
+    	//return burro
+    }
+
     function getEscritorio(x,y){
     	for(var i =0; i < escritorioGroup.length;i++){
     		if(!escritorioGroup.children[i].visible){
@@ -893,6 +925,7 @@ var zoe = function(){
 	    		escritorioGroup.children[i].body.y = y
 	    		escritorioGroup.children[i].visible = true
 	    		escritorioGroup.children[i].givedCoin = true
+	    		escritorioGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return escritorioGroup.children[i]
 	    	}
     	}
@@ -915,6 +948,7 @@ var zoe = function(){
 	    		cuadro1Group.children[i].body.y = y
 	    		cuadro1Group.children[i].visible = true
 	    		cuadro1Group.children[i].givedCoin = true
+	    		cuadro1Group.children[i].body.data.shapes[0].sensor=false;
 	    		return cuadro1Group.children[i]
 	    	}
     	}
@@ -935,6 +969,7 @@ var zoe = function(){
 	    		cuadro2Group.children[i].body.y = y
 	    		cuadro2Group.children[i].visible = true
 	    		cuadro2Group.children[i].givedCoin = true
+	    		cuadro2Group.children[i].body.data.shapes[0].sensor=false;
 	    		return cuadro2Group.children[i]
 	    	}
     	}
@@ -955,6 +990,7 @@ var zoe = function(){
 	    		cuadro3Group.children[i].body.y = y
 	    		cuadro3Group.children[i].visible = true
 	    		cuadro3Group.children[i].givedCoin = true
+	    		cuadro3Group.children[i].body.data.shapes[0].sensor=false;
 	    		return cuadro3Group.children[i]
 	    	}
     	}
@@ -975,6 +1011,7 @@ var zoe = function(){
 	    		libreroGroup.children[i].body.y = y
 	    		libreroGroup.children[i].visible = true
 	    		libreroGroup.children[i].givedCoin = true
+	    		libreroGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return libreroGroup.children[i]
 	    	}
     	}
@@ -999,15 +1036,17 @@ var zoe = function(){
 	    		lamparaGroup.children[i].body.y = y
 	    		lamparaGroup.children[i].visible = true
 	    		lamparaGroup.children[i].givedCoin = true
+	    		lamparaGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return lamparaGroup.children[i]
 	    	}
     	}
 
-    	var lampara = lamparaGroup.create(x,y,"atlas.game","lampara")
+    	var lampara = lamparaGroup.create(x,y,"atlas.game","Globo")
     	lampara.anchor.setTo(0.5)
     	lampara.givedCoin = true
     	game.physics.p2.enable(lampara,false)
-    	//lampara.body.kinematic = true
+    	lampara.body.clearShapes()
+    	lampara.body.setRectangle(70,85,0,5)
     	lampara.objectType = OBJETC_TYPES.LAMPARA
     	return lampara
     }
@@ -1019,6 +1058,7 @@ var zoe = function(){
 	    		librosGroup.children[i].body.y = y
 	    		librosGroup.children[i].visible = true
 	    		librosGroup.children[i].givedCoin = true
+	    		librosGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return librosGroup.children[i]
 	    	}
     	}
@@ -1040,6 +1080,7 @@ var zoe = function(){
 	    		mesaGroup.children[i].body.y = y
 	    		mesaGroup.children[i].visible = true
 	    		mesaGroup.children[i].givedCoin = true
+	    		mesaGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return mesaGroup.children[i]
 	    	}
     	}
@@ -1060,11 +1101,12 @@ var zoe = function(){
 	    		teleGroup.children[i].body.y = y
 	    		teleGroup.children[i].visible = true
 	    		teleGroup.children[i].givedCoin = true
+	    		teleGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return teleGroup.children[i]
 	    	}
     	}
 
-    	var tele = teleGroup.create(x,y,"atlas.game","tele")
+    	var tele = teleGroup.create(x,y,"atlas.game","pizarron_con_mesa")
     	tele.anchor.setTo(0.5)
     	tele.givedCoin = true
     	game.physics.p2.enable(tele,false)
@@ -1082,6 +1124,7 @@ var zoe = function(){
 	    		cajoneraGroup.children[i].body.y = y
 	    		cajoneraGroup.children[i].visible = true
 	    		cajoneraGroup.children[i].givedCoin = true
+	    		cajoneraGroup.children[i].body.data.shapes[0].sensor=false;
 	    		return cajoneraGroup.children[i]
 	    	}
     	}
@@ -1098,7 +1141,7 @@ var zoe = function(){
 
     function createPattern(){
     	var r = game.rnd.integerInRange(1,7)
-    	//r = 7
+    	r = 3
     	switch(r){
     		case 1:
     			createPatter1()
@@ -1151,11 +1194,11 @@ var zoe = function(){
     function createPatter2(){
     	var burro = getBurro(currentX,game.world.height - 330)
     	currentX+=200
-    	var cuadro = getCuadro1(currentX,game.world.height - 700)
+    	var cuadro = getCuadro1(currentX,game.world.height - 600)
     	currentX+=140
-    	cuadro = getCuadro2(currentX,game.world.height - 600)
+    	cuadro = getCuadro2(currentX,game.world.height - 500)
     	currentX += 150
-    	cuadro = getCuadro3(currentX,game.world.height - 550)
+    	cuadro = getCuadro3(currentX,game.world.height - 450)
     	currentX += 250
     	var arcade = getTable(currentX,game.world.height - 350)
     	currentX+=350

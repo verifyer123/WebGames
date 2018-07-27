@@ -123,6 +123,7 @@ var uni = function(){
 	var uniContainer
 	var donkContainer
 	var bed
+	var animalsCreated
 	var uniSong
 	var gameActive
 	var tutorialLevel
@@ -187,6 +188,7 @@ var uni = function(){
 		lives = NUM_LIFES
 		gameActive=false;
 		timeValue = 20
+		animalsCreated=0;
 		gameStoped=false;
 		dragging=false
 		tutorialLevel=true;
@@ -260,13 +262,8 @@ var uni = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-
 		addNumberPart(pointsBar.text,'+' + number)
-
-		// if(pointsBar.number % 2 == 0){
 		timeValue-=timeValue * 0.10
-//		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : ROUNDS.length - 1
-		// }
 
 	}
 
@@ -382,7 +379,7 @@ var uni = function(){
 		goalUni=game.rnd.integerInRange(1,dificulty);
 		sum=dificulty-goalUni;
 		if(pointsBar.number>=5){
-			goalDonk=game.rnd.integerInRange(1,sum);
+			goalDonk=game.rnd.integerInRange(0,sum);
 		}
 		uniText.text=goalUni.toString();
 		donkText.text=goalDonk.toString();
@@ -690,18 +687,6 @@ var uni = function(){
 			clock.alpha=1
 		}
 		tutorial=false;
-//		for(var spineIndex = 0; spineIndex < objectsInGame.length; spineIndex++){
-//			var spine = objectsInGame[spineIndex]
-//			var toY = game.rnd.integerInRange(-190, 190)
-//			var delay = 1000 + (spineIndex * 50)
-//			moveSpine(spine, game.world.centerX + 50, toY, delay, Phaser.Easing.Sinusoidal.In)
-//		}
-//		sceneGroup.correctParticle.x = clockCounter.centerX
-//		sceneGroup.correctParticle.y = clockCounter.centerY
-//		sceneGroup.correctParticle.start(true, 1000, null, 5)
-//		var totalDelay = objectsInGame.length * 50
-
-//		game.time.events.add(totalDelay + 4000, startRound)
 	}
 	
 	function wrongReaction() {
@@ -736,6 +721,7 @@ var uni = function(){
 	function checkGoal(){
 		var countUni=0;
 		var countDonk=0;
+		animalsCreated=0;
 		var exitSpeed=3000;
 		if(clock.tween){
 			clock.tween.stop();
@@ -826,7 +812,7 @@ var uni = function(){
 		
 		var manyAnimals=game.rnd.integerInRange(0,total);
 		var animal=game.rnd.integerInRange(0,1);
-		
+		animalsCreated=0;
 		for(var fill=0; fill<manyAnimals; fill++){
 			
 			animal=game.rnd.integerInRange(0,1);
@@ -1140,6 +1126,7 @@ var uni = function(){
 		animalsInStage[obj.index].destroy();
 		animalsInStage[obj.index]=null
 		obj.destroy();
+		animalsCreated--;
 		sound.play("discard")
 		buttonImg.inputEnabled=false;
 		game.time.events.add(600, function () {
@@ -1159,7 +1146,8 @@ var uni = function(){
 	
 	function createAnimal(obj,pointer){
 		var index=null;
-		if(animalsInStage.length<maxNumber){
+		
+		if(animalsCreated<maxNumber){
 			sound.play("place")
 			if(obj.tag=="uni"){
 				for(var check=0; check<=animalsInStage.length; check++){
@@ -1170,7 +1158,6 @@ var uni = function(){
 						index=check;
 						if(check<9 && check>4){
 							game.world.sendToBack(animalsInStage[check]);
-							console.log("hola")
 						}else{
 							game.world.bringToTop(animalsInStage[check]);
 						}
@@ -1189,7 +1176,7 @@ var uni = function(){
 				}
 				nubesAparecer[index]=game.add.sprite(positionX[index],positionY[index],"atlas.uni","cloud_donk");
 			}
-			
+			animalsCreated++;
 			nubesAparecer[index].scale.setTo(0,0);
 			nubesAparecer[index].anchor.setTo(0.5,0.8);
 			game.add.tween(nubesAparecer[index].scale).to({x: 1,y:1}, 10, Phaser.Easing.Cubic.InOut, true)
