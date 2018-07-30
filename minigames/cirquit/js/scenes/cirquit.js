@@ -41,7 +41,7 @@ var cirquit = function(){
 		],
 	}
     
-    var COLORS = [0x22bbff,0x13ff84,0xffcf1f,0xe84612]
+    var COLORS = [0x00cdfa,0xbee12d,0xffd200,0xff691e]
     
     var SPEED = 225 
     var TIME_ADD = 600
@@ -193,14 +193,14 @@ var cirquit = function(){
         jumping = true
         doJump()
         
-        obj.parent.children[1].alpha = 0
+        //obj.parent.children[1].alpha = 0
     }
     
     function releaseButton(obj){
         
         groupButton.isPressed = false
         jumping = false
-        obj.parent.children[1].alpha = 1
+        //obj.parent.children[1].alpha = 1
     }
     
     function createControls(){
@@ -230,6 +230,12 @@ var cirquit = function(){
         bottomRect.body.kinematic = true
         
         //player.body.createBodyCallback(bottomRect, collisionEvent, this);
+
+        var nameImage = sceneGroup.create(game.world.centerX - 175, game.world.height - 130, "atlas.neon", "cirquitName")
+        nameImage.anchor.setTo(0.5)
+
+        nameImage = sceneGroup.create(game.world.centerX + 175, game.world.height - 130, "atlas.neon", "cirquitName")
+        nameImage.anchor.setTo(0.5)
         
         sceneGroup.limit = bottomRect
         
@@ -239,10 +245,10 @@ var cirquit = function(){
         groupButton.isPressed = false
         sceneGroup.add(groupButton)
         
-        var button1 = groupButton.create(0,0, 'atlas.neon','arcadebutton2')
-        button1.anchor.setTo(0.5,0.5)
+        /*var button1 = groupButton.create(0,0, 'atlas.neon','arcadebutton')
+        button1.anchor.setTo(0.5,0.5)*/
         
-        var button2 = groupButton.create(0,0, 'atlas.neon','arcadebutton1')
+        var button2 = groupButton.create(0,0, 'atlas.neon','arcadebutton')
         button2.anchor.setTo(0.5,0.5)
         button2.inputEnabled = true
         button2.events.onInputDown.add(inputButton)
@@ -990,12 +996,26 @@ var cirquit = function(){
             
 			sceneGroup = game.add.group()
             
-            var background = new Phaser.Graphics(game)
+            /*var background = new Phaser.Graphics(game)
             background.beginFill(0x2b0f68);
             background.drawRect(0, 0, game.world.width, game.world.height);
             background.endFill();
             background.anchor.setTo(0,0)
-            sceneGroup.add(background)
+            sceneGroup.add(background)*/
+
+            var background = sceneGroup.create(0,0,"atlas.neon","background")
+            var w = game.world.width/background.width
+            var h = game.world.height/background.height
+            if(w > 1 || h>1){
+                if(w > h){
+                    background.scale.setTo(w)
+                }
+                else{
+                    background.scale.setTo(h)
+                }
+            }
+
+
             
             worldGroup = game.add.group()
             //worldGroup.scale.setTo(0.5,0.5)

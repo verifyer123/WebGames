@@ -1,26 +1,26 @@
 {"frames": [
 
 {
-	"filename": "arcadebutton1",
-	"frame": {"x":1,"y":277,"w":206,"h":206},
+	"filename": "arcadebutton",
+	"frame": {"x":157,"y":1245,"w":178,"h":111},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":206,"h":206},
-	"sourceSize": {"w":206,"h":206},
+	"spriteSourceSize": {"x":0,"y":0,"w":178,"h":111},
+	"sourceSize": {"w":178,"h":111},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "arcadebutton2",
-	"frame": {"x":209,"y":277,"w":206,"h":206},
+	"filename": "background",
+	"frame": {"x":1,"y":1,"w":542,"h":962},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":206,"h":206},
-	"sourceSize": {"w":206,"h":206},
+	"spriteSourceSize": {"x":0,"y":0,"w":542,"h":962},
+	"sourceSize": {"w":542,"h":962},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "circle",
-	"frame": {"x":573,"y":346,"w":50,"h":51},
+	"frame": {"x":424,"y":1383,"w":50,"h":51},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":51},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "circlePart",
-	"frame": {"x":544,"y":117,"w":128,"h":47},
+	"frame": {"x":294,"y":1361,"w":128,"h":47},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":47},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "cirquit",
-	"frame": {"x":584,"y":399,"w":50,"h":50},
+	"frame": {"x":476,"y":1383,"w":50,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
@@ -46,8 +46,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "cirquitName",
+	"frame": {"x":1,"y":1432,"w":132,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":132,"h":25},
+	"sourceSize": {"w":132,"h":25},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "coin",
-	"frame": {"x":573,"y":274,"w":68,"h":70},
+	"frame": {"x":453,"y":1245,"w":68,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
@@ -56,7 +65,7 @@
 },
 {
 	"filename": "crossPart",
-	"frame": {"x":417,"y":464,"w":99,"h":18},
+	"frame": {"x":168,"y":1423,"w":99,"h":18},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":18},
@@ -65,16 +74,16 @@
 },
 {
 	"filename": "dashboard",
-	"frame": {"x":1,"y":1,"w":541,"h":274},
+	"frame": {"x":1,"y":965,"w":542,"h":278},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":274},
-	"sourceSize": {"w":541,"h":274},
+	"spriteSourceSize": {"x":0,"y":0,"w":542,"h":278},
+	"sourceSize": {"w":542,"h":278},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "life_box",
-	"frame": {"x":544,"y":231,"w":105,"h":41},
+	"frame": {"x":294,"y":1410,"w":105,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
@@ -83,7 +92,7 @@
 },
 {
 	"filename": "ringPart",
-	"frame": {"x":544,"y":1,"w":114,"h":114},
+	"frame": {"x":337,"y":1245,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":417,"y":277,"w":154,"h":142},
+	"frame": {"x":1,"y":1245,"w":154,"h":142},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":154,"h":142},
@@ -100,8 +109,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "star",
+	"frame": {"x":453,"y":1317,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "starPart",
-	"frame": {"x":544,"y":166,"w":124,"h":63},
+	"frame": {"x":168,"y":1358,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -110,7 +128,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":417,"y":421,"w":165,"h":41},
+	"frame": {"x":1,"y":1389,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -122,8 +140,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":673,"h":484},
+	"size": {"w":544,"h":1458},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fa0a3d829f367d262c42941249b2309f:ed246c5a0b289308826c2958cb032a28:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:99fc1e1935893e14cde10652e1ce788b:4e6233aa4da15ca927199a45658b1635:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
