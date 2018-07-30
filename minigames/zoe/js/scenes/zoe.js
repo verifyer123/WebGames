@@ -1357,12 +1357,17 @@ var zoe = function(){
         gameActive = true
     }
 
+    function render(){
+        game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+    }
+
     
     return {
         assets: assets,
         name: "zoe",
         create: create,
         preload: preload,
-        update: update
+        update: update,
+        render:render
     }
 }()
