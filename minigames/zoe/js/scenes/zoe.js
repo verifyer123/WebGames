@@ -1141,7 +1141,7 @@ var zoe = function(){
 
     function createPattern(){
     	var r = game.rnd.integerInRange(1,7)
-    	r = 3
+    	//r = 3
     	switch(r){
     		case 1:
     			createPatter1()
@@ -1209,9 +1209,9 @@ var zoe = function(){
     function createPatter3(){
     	var cajonera = getCajonera(currentX,game.world.height - 300)
     	var lampara = getLampara(currentX, game.world.height - 400)
-    	currentX += 400
-    	var librero = getLibrero(currentX,game.world.height - 450)
     	currentX += 500
+    	var librero = getLibrero(currentX,game.world.height - 450)
+    	currentX += 300
     	var clock = getClock(currentX, game.world.height - 500)
     	currentX += 300
     	var chair = getChair(currentX, game.world.height - 430)
