@@ -802,7 +802,7 @@ var colorInvaders = function(){
 
 
 
-		var colorName = [ "#2C83ED", "#A8ED5A", "#F26200", "#FA9DE0", "#6D34B3", "#FF6261", "#FFF561"]
+		var colorName = [ "#3966ED", "#99CC00", "#F26200", "#FF66CC", "#6D34B3", "#FF0000", "#FFC200"]
 		colorsGroup.colorName = colorName
 	}
 
