@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>4.8.3</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -247,19 +247,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">spaceship.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>45,46,91,92</rect>
-                <key>scale9Paddings</key>
-                <rect>45,46,91,92</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -334,7 +321,6 @@
             <filename>card1.png</filename>
             <filename>card2.png</filename>
             <filename>tile.png</filename>
-            <filename>spaceship.png</filename>
             <filename>time.png</filename>
             <filename>timebar.png</filename>
             <filename>display.png</filename>
