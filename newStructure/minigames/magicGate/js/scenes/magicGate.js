@@ -36,6 +36,18 @@ var magicGate = function(){
 			{
 				name:'wall',
 				file:"images/magic/wall.png",
+			},
+			{
+				name:'mountain',
+				file:"images/magic/mountain.png",
+			},
+			{
+				name:'tower',
+				file:"images/magic/tower_2.png",
+			},
+			{
+				name:'arc',
+				file:"images/magic/arc.png",
 			}
 		],
 		sounds: [
@@ -235,8 +247,8 @@ var magicGate = function(){
 
 		addNumberPart(pointsBar.text,'+' + number,true)		
 
-		if(timeToUse > 2000){
-			timeToUse-= 1000
+		if(timeToUse > 1000){
+			timeToUse-= 2000
 		}
 
 	}
@@ -358,9 +370,25 @@ var magicGate = function(){
 		sky.height = game.world.height - grass.height
 
 		sky.scale.setTo(game.world.width*2,1)
-
+		
+		
+		for(var placeMountains=0; placeMountains<game.world.width;placeMountains+=200){
+			var mountains = sceneGroup.create(placeMountains,350,'mountain');
+			mountains.anchor.setTo(0.5,0.5)
+		}
+		
 		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.magic','clouds')
 		sceneGroup.add(clouds)
+
+		for(var placeTowers=0; placeTowers<game.world.width;placeTowers+=140){
+			var towers = sceneGroup.create(placeTowers+50,300,'tower');
+			towers.anchor.setTo(0.5,0.5)
+		}
+		
+		for(var placeArcs=0; placeArcs<game.world.width;placeArcs+=133){
+			var arcs = sceneGroup.create(placeArcs,350,'arc');
+			arcs.anchor.setTo(0.5,0.5)
+		}
 
 		hand=game.add.sprite(game.world.centerX,game.world.centerY, "hand")
 		hand.anchor.setTo(0.5,0.5);

@@ -126,11 +126,15 @@ var elemental = function(){
     var gameIndex = 104
     var overlayGroup
     var pointsBar
+	var index
+	var coinsGroup
     var heartsGroup
     var battleSong
     var coin
+	var enemysInLine
     var hand
     var witch
+	var goalMask
     var gemsGroup
     var enemiesGroup
     var level
@@ -146,8 +150,10 @@ var elemental = function(){
         game.stage.backgroundColor = "#ffffff"
         lives = 3
         level = 1
+		index = 0;
+		enemysInLine=1
+		goalMask=0;
         speed = 100
-        
         loadSounds()
 	}
     
@@ -244,7 +250,7 @@ var elemental = function(){
         gameActive = false
         battleSong.stop()
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 1000, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
@@ -269,19 +275,14 @@ var elemental = function(){
     }
 
     function onClickPlay(){
+		coinsGroup= new Phaser.Group(game)
+		sceneGroup.add(coinsGroup)
+		coinsGroup.add(coin)
         overlayGroup.y = -game.world.height
-        
-       /*gemsGroup.forEach(function(gem){
-                gem.inputEnabled = true
-            gem.scale.setTo(1.2)
-                gem.events.onInputDown.add(shotGem, this)
-            }, this)
-        initGame()*/
         initTutorial()
     }
     
     function releaseButton(obj){
-        
         obj.parent.children[1].alpha = 1
     }
 
@@ -356,33 +357,59 @@ var elemental = function(){
         hand.alpha = 0
 
     }
+	
+	function getCoins(player){
+		var coin=coinsGroup.getFirstDead();
 
-    function addCoin(obj){
-        
-        coin.x = obj.centerX
-        coin.y = obj.centerY
-        var time = 300
-        
-        particleCorrect.x = obj.centerX 
+		if(coin==undefined){
+			game["coin"+index] = game.add.sprite(player.x, player.y, "coin")
+			game["coin"+index].anchor.setTo(0.5,0.5)
+			game["coin"+index].scale.setTo(0.8,0.8)
+			game["coin"+index].animations.add('coin')
+			game["coin"+index].animations.play('coin', 24, true)
+			game["coin"+index].alpha = 0
+			coinsGroup.add(game["coin"+index])
+			coin=game["coin"+index];
+			index++;
+			addCoin(coin,player)
+		}else{
+			addCoin(coin,player)
+		}
+	}
+	
+	function addCoin(coin,obj){
+
+		if(coin.motion)
+			coin.motion.stop()
+		
+		var time=300;
+		
+		particleCorrect.x = obj.centerX 
         particleCorrect.y = obj.centerY
         particleCorrect.start(true, 1200, null, 10)
 
-        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
-        
-        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
-                   addPoint(1)
-                   if(pointsBar.number > 0 && pointsBar.number % 5 == 0){
+		coin.reset(obj.centerX,obj.centerY);
+
+		game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+
+		coin.motion = game.add.tween(coin).to({y:coin.y - 100}, time+200, Phaser.Easing.Cubic.InOut,true)
+		coin.motion.onComplete.add(function(){
+			coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+			coin.motion.onComplete.add(function(){
+				coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+				coin.motion.onComplete.add(function(){
+					addPoint(1);
+					if(pointsBar.number > 0 && pointsBar.number % 5 == 0){
                        level < 3 ? level++ : level = 3
-                   }
-                   if(pointsBar.number > 0 && pointsBar.number % 2 == 0){
-                       speed < 600 ? speed += 50 : speed = 600
-                   }
-               })
-           })
-        })
-    }
+					   }
+					   if(pointsBar.number > 0 && pointsBar.number % 2 == 0){
+						   speed < 600 ? speed += 10 : speed = 600
+					   }
+					coin.kill();
+				})
+			})
+		})
+	}
 	
     function createWitch(){
         
@@ -516,8 +543,11 @@ var elemental = function(){
             witch.canAttack = false
             witchAnim('ATTACK')
             game.time.events.add(700, witchAnim, this, "IDLE")
-            
-            var mask = enemiesGroup.getFirstExists()
+			for(var checkMask=0; checkMask<enemiesGroup.length; checkMask++){
+				if(enemiesGroup.children[checkMask].exists && enemiesGroup.children[checkMask].element==gem.element && !enemiesGroup.children[checkMask].touch){
+					var mask=enemiesGroup.children[checkMask];
+				}
+			}
             
             if(mask){
                 gem.floating.pause()
@@ -526,58 +556,64 @@ var elemental = function(){
                     gem.floating.resume()
                     gem.isShot = false
                     if(mask.healtPoints > 0){
-                        witch.canAttack = true
                         mask.touch = false
                     }
                 })
-            }
+            }else{
+				particleWrong.x = witch.centerX+50 
+				particleWrong.y = witch.centerY+150
+				particleWrong.start(true, 1200, null, 2)
+			}
+			witch.canAttack = true
         }
     }
     
-    function resetObj(){
-        
-    }
     
     function hitEnemy(gem, mask){
         
+		
         if(!mask.touch && gameActive && gem.isShot){
             
-            mask.touch = true
-            mask.body.velocity.y = 0
-            
+    
             if(gem.element === mask.element){
-                mask.healtPoints--
+				mask.touch = true
+				mask.body.velocity.y = 0
+				mask.healtPoints--
                 setDamage(mask)
             }
-            else{
-                if(lives > 1){
-                    missPoint(mask)
-                    game.time.events.add(200, function(){
-                        mask.body.velocity.y = -speed
-                    })
-                }
-                else{
-                    gemsGroup.setAll("inputEnabled", false)
-                    witchAnim('LOSE')
-                    game.time.events.add(900, witchAnim, this, "LOSESTILL")
-                    game.time.events.add(1000, missPoint, this, witch)
-                }
-            }
+//            else{
+//                if(lives > 1){
+//                    missPoint(mask)
+//                    game.time.events.add(200, function(){
+//                        mask.body.velocity.y = -speed
+//                    })
+//                }
+//                else{
+//                    gemsGroup.setAll("inputEnabled", false)
+//                    witchAnim('LOSE')
+//                    game.time.events.add(900, witchAnim, this, "LOSESTILL")
+//                    game.time.events.add(1000, missPoint, this, witch)
+//                }
+//            }
         }
     }
     
     function setDamage(mask){
-        
+		
+		
         switch(mask.healtPoints){
                 
             case 0:
                 sound.play("right")
-                addCoin(mask)
-                witch.canAttack = false
-                mask.anim.setAnimationByName(0, "LOSE", false).onComplete = function(){
-                    mask.kill()
-                    game.time.events.add(500, initGame)
-                }
+                getCoins(mask)
+				mask.anim.setAnimationByName(0, "LOSE", false).onComplete = function(){
+					mask.kill()
+					goalMask--
+					if(goalMask==0){
+						witch.canAttack = false	
+					}
+					if(goalMask==0)game.time.events.add(500, initGame)
+				}
             break
 
             case 1:
@@ -618,11 +654,12 @@ var elemental = function(){
                 game.time.events.add(600, witchAnim, this, "IDLE")
                 game.time.events.add(1000, initGame)
             }
-            else{
+            else if(lives > 0){
                 gemsGroup.setAll("inputEnabled", false)
                 witchAnim('LOSE')
+				missPoint(witch)
                 game.time.events.add(900, witchAnim, this, "LOSESTILL")
-                game.time.events.add(1000, missPoint, this, witch)
+//                game.time.events.add(1000, missPoint, this, witch)
             }
         }
     }
@@ -637,25 +674,37 @@ var elemental = function(){
     function throwMask(){
         
         var mask = enemiesGroup.getRandom()
-        
-        if(mask){
-            
-            if(level === 2){
-                mask.shield.loadTexture("atlas.elemental", "broken" + mask.element)
-                mask.shield.alpha = 1
-            }
-            else if(level === 3){
-                mask.shield.loadTexture("atlas.elemental", "shield" + mask.element)
-                mask.shield.alpha = 1
-            }
-            var rand = game.rnd.realInRange(0.4, 1.6)
-            mask.anim.setAnimationByName(0, "IDLE", true)
-            mask.healtPoints = level
-            mask.touch = false
-            mask.reset(game.world.centerX * rand, game.world.height + 150)
-            mask.body.velocity.y = -speed
-            witch.canAttack = true
-        }
+		Phaser.ArrayUtils.shuffle(enemiesGroup.children)
+		
+		if(pointsBar.number%5==0 && pointsBar.number!=0 && pointsBar.number!=1 && enemysInLine<3){
+			enemysInLine++;
+		}
+		goalMask=enemysInLine;
+		for(var enemysToRelease=0; enemysToRelease<enemysInLine; enemysToRelease++){
+			mask=enemiesGroup.children[enemysToRelease].reset();
+			if(enemysInLine==2){
+				mask.scale.setTo(0.9,0.9)
+			}else if(enemysInLine>=2){
+				mask.scale.setTo(0.7,0.7)
+			}
+			if(mask){
+				if(level === 2){
+					mask.shield.loadTexture("atlas.elemental", "broken" + mask.element)
+					mask.shield.alpha = 1
+				}
+				else if(level === 3){
+					mask.shield.loadTexture("atlas.elemental", "shield" + mask.element)
+					mask.shield.alpha = 1
+				}
+				var rand = game.rnd.realInRange(0.4, 1.6)
+				mask.anim.setAnimationByName(0, "IDLE", true)
+				mask.healtPoints = level
+				mask.touch = false
+				mask.reset(game.world.centerX * rand, game.world.height + 150)
+				mask.body.velocity.y = -speed
+				witch.canAttack = true
+			}
+		}
     }
     
     function initTutorial(){
