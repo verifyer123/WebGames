@@ -373,7 +373,7 @@ var magicGate = function(){
 		
 		
 		for(var placeMountains=0; placeMountains<game.world.width;placeMountains+=200){
-			var mountains = sceneGroup.create(placeMountains,350,'mountain');
+			var mountains = sceneGroup.create(placeMountains,game.world.centerY-100,'mountain');
 			mountains.anchor.setTo(0.5,0.5)
 		}
 		
@@ -381,12 +381,12 @@ var magicGate = function(){
 		sceneGroup.add(clouds)
 
 		for(var placeTowers=0; placeTowers<game.world.width;placeTowers+=140){
-			var towers = sceneGroup.create(placeTowers+50,300,'tower');
+			var towers = sceneGroup.create(placeTowers+80,game.world.centerY-150,'tower');
 			towers.anchor.setTo(0.5,0.5)
 		}
 		
 		for(var placeArcs=0; placeArcs<game.world.width;placeArcs+=133){
-			var arcs = sceneGroup.create(placeArcs,350,'arc');
+			var arcs = sceneGroup.create(placeArcs,game.world.centerY-70,'arc');
 			arcs.anchor.setTo(0.5,0.5)
 		}
 
@@ -660,7 +660,7 @@ var magicGate = function(){
 		if(obj.addition == isAddition){
 
 			Coin(monster,pointsBar,100);
-			createPart('star',resultImage)	
+			createPart('star',resultImage);	
 
 			sound.play("zombieUp")
 

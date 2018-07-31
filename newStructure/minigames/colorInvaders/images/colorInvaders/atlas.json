@@ -2,7 +2,7 @@
 
 {
 	"filename": "comet_1",
-	"frame": {"x":261,"y":415,"w":128,"h":127},
+	"frame": {"x":261,"y":673,"w":128,"h":127},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":128,"h":127},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "comet_2",
-	"frame": {"x":131,"y":401,"w":128,"h":128},
+	"frame": {"x":131,"y":659,"w":128,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":128},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":298,"y":358,"w":140,"h":55},
+	"frame": {"x":298,"y":616,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -46,8 +46,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "planet_2",
+	"frame": {"x":131,"y":358,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "smoke",
-	"frame": {"x":131,"y":531,"w":100,"h":93},
+	"frame": {"x":131,"y":789,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -73,6 +82,24 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "star_2",
+	"frame": {"x":456,"y":99,"w":25,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":5,"w":25,"h":24},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star_3",
+	"frame": {"x":425,"y":231,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "tile",
 	"frame": {"x":1,"y":99,"w":128,"h":960},
 	"rotated": false,
@@ -92,7 +119,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":131,"y":358,"w":165,"h":41},
+	"frame": {"x":131,"y":616,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -106,6 +133,6 @@
 	"format": "RGBA8888",
 	"size": {"w":487,"h":1060},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:25f7ffee49088a276bda644238cf16d1:68795ceeff4b089cd571decee93965a7:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:213b2aa76a322a0704838b6427a1dbe5:746c312f01890b1a2549f2b6068809a7:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

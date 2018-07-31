@@ -7,13 +7,15 @@ var colorInvaders = function(){
 		"EN":{
 			"howTo":"How to Play?",
 			"moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"tutorial_image":"images/colorInvaders/tutorial_image_EN.png",
 		},
 
 		"ES":{
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
-			"stop":"¡Detener!"
+			"stop":"¡Detener!",
+			"tutorial_image":"images/colorInvaders/tutorial_image_ES.png",
 		}
 	}
 
@@ -39,8 +41,8 @@ var colorInvaders = function(){
 		images: [
 			{
 				name:'tutorial_image',
-				file:"images/colorInvaders/gametuto.png"
-			}
+				file:"%lang",
+			},
 
 		],
 		sounds: [
@@ -115,13 +117,23 @@ var colorInvaders = function(){
 	var buttonTweens=[]
 	var rand
 	var distance = 950;
-	var speedStars = 5;
+	var speedStars = 3;
 	var star;
+	var star2;
+	var star3;
 	var texture;
+	var texture2;
+	var texture3;
 	var max = 1000;
 	var xx = [];
 	var yy = [];
 	var zz = [];
+	var xx2 = [];
+	var yy2 = [];
+	var zz2 = [];
+	var xx3 = [];
+	var yy3 = [];
+	var zz3 = [];
 	var TOTAL_ALIENS
 	var planet
 	var comet
@@ -130,6 +142,7 @@ var colorInvaders = function(){
 	var tutorial
 	var countAliens
 	var timer
+	var skinsNumber=[]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -143,7 +156,6 @@ var colorInvaders = function(){
 		continueSpinning=false
 		spinAliens=false
 		speed=800
-		CENTER_VECTOR={x:game.world.centerX+200,y:game.world.centerY-300}
 		dificulty=0;
 		nextAlien=0
 		movable=0;
@@ -162,7 +174,7 @@ var colorInvaders = function(){
 			colorsText = ['Blue', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Yellow']
 		}
 		else{
-			colorsText = ['Azul', 'Verde', 'Naranja', 'Rosa', 'Purpura', 'Rojo', 'Amarillo']
+			colorsText = ['Azul', 'Verde', 'Naranja', 'Rosa', 'Púrpura', 'Rojo', 'Amarillo']
 		}
 
 		loadSounds()
@@ -367,22 +379,28 @@ var colorInvaders = function(){
 		rect.endFill()
 		sceneGroup.add(rect)
 		tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.colorInvaders", "tile")
-		tile.alpha=0.3;
+		tile.alpha=1;
 		sceneGroup.add(tile)
 		sceneGroup.add(game.add.sprite(0, 0, texture));
-//		stars = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.colorInvaders", "stars")
-//		stars.alpha=0.3;
-		
-
+		sceneGroup.add(game.add.sprite(0, 0, texture2));
+		sceneGroup.add(game.add.sprite(0, 0, texture3));
 	}
-	
-	
-	
+
 	function starField(){
 		star = game.make.sprite(-300, 0, "atlas.colorInvaders",'star_1');
-		star.scale.setTo(0.5,0.5)
+		star.scale.setTo(0.4,0.4)
 		star.anchor.setTo(0.5,0.5)
+		
+		star2 = game.make.sprite(-300, 0, "atlas.colorInvaders",'star_2');
+		star2.scale.setTo(0.5,0.5)
+		star2.anchor.setTo(0.5,0.5)
+		
+		star3 = game.make.sprite(-300, 0, "atlas.colorInvaders",'star_3');
+		star3.scale.setTo(0.5,0.5)
+		star3.anchor.setTo(0.5,0.5)
 		texture = game.add.renderTexture(game.world.width, game.world.height, 'texture');
+		texture2 = game.add.renderTexture(game.world.width, game.world.height, 'texture2');
+		texture3 = game.add.renderTexture(game.world.width, game.world.height, 'texture3');
 		
 		
 
@@ -391,6 +409,14 @@ var colorInvaders = function(){
 			xx[i] = Math.floor(Math.random() * game.world.width) - 400;
 			yy[i] = Math.floor(Math.random() * game.world.height) - 300;
 			zz[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			xx2[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy2[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz2[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			xx3[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy3[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz3[i] = Math.floor(Math.random() * 1700) - 100;
 		}
 		
 	}
@@ -400,13 +426,12 @@ var colorInvaders = function(){
 		}else if(body==="planets"){
 			planets();
 		}
-		
 	}
 	function comets(){
 		var positionY=game.rnd.integerInRange(0,game.world.centerY);
 		var sideOfScreen=game.rnd.integerInRange(0,1);
 		var next=0;
-		var timeSpeed=800*6;
+		var timeSpeed=900*6;
 		
 		if(sideOfScreen==0){
 			comet.scale.setTo(-0.5,0.5);
@@ -435,7 +460,13 @@ var colorInvaders = function(){
 	function planets(){
 		var sideOfScreen=game.rnd.integerInRange(0,1);
 		var next=0;
-		var timeSpeed=800*10;
+		var timeSpeed=900*10;
+		var planetTexture=game.rnd.integerInRange(0,1);
+		if(planetTexture==0){
+			planet.loadTexture("atlas.colorInvaders","planet")
+		}else{
+			planet.loadTexture("atlas.colorInvaders","planet_2")
+		}
 		if(sideOfScreen==0){
 			planet.scale.setTo(2,2);
 			planet.x=-300;
@@ -460,17 +491,14 @@ var colorInvaders = function(){
 	}
 	
 	function update(){
-
-//		stars.tilePosition.x += 0.5
-//		stars.tilePosition.y += 0.5
-		
-		
 		for(var follow=0; follow<countAliens; follow++){
 			buttonsGroup.children[follow].x=aliensGroup.children[follow].x-80;
 			buttonsGroup.children[follow].y=aliensGroup.children[follow].y-200;
 		}
 		
 		texture.clear();
+		texture2.clear();
+		texture3.clear();
 
 		for (var i = 0; i < max; i++)
 		{
@@ -483,8 +511,32 @@ var colorInvaders = function(){
 			{
 				zz[i] = 950;
 			}
-
+			var newStar=game.rnd.integerInRange(0,2);
 			texture.renderXY(star, x, y);
+		}
+		for (var i = 0; i < max/2; i++)
+		{
+			var perspective = distance / (distance - zz2[i]);
+			var x = game.world.centerX + xx2[i] * perspective;
+			var y = game.world.centerY+ yy2[i] * perspective;
+
+			zz2[i] -= speedStars;
+			if (zz2[i] < 100)
+			{
+				zz2[i] = 950;
+			}
+			texture2.renderXY(star2, x, y);
+			
+			var perspective = distance / (distance - zz3[i]);
+			var x = game.world.centerX + xx3[i] * perspective;
+			var y = game.world.centerY+ yy3[i] * perspective;
+
+			zz3[i] -= speedStars;
+			if (zz3[i] < 100)
+			{
+				zz3[i] = 950;
+			}
+			texture3.renderXY(star3, x, y);
 		}
 		
 	}
@@ -795,9 +847,6 @@ var colorInvaders = function(){
 			positionsGroup.add(box)
 			buttonsGroup.add(button)
 			
-			
-			
-			
 
 			var al = game.add.spine(0, 0, "aliens")
 			al.setAnimationByName(0, "idle", true)
@@ -806,13 +855,22 @@ var colorInvaders = function(){
 
 			pivot = pivot+170
 			
-			if(t==3 || t==4 || t==5){
+			if(t==3 || t==4 || t==5|| t==1){
 				button.x = game.world.centerX + pivot2
 				if(t==4){
-					button.y = game.world.centerY + 250;
+					
+					button.y = game.world.centerY +250;
+				}else if(t==1){
+					button.x = game.world.centerX - 80
+					button.y = game.world.centerY + 320;
+				}else if(t==5){
+					button.x = game.world.centerX - 80
+					button.y = game.world.centerY -100;
 				}else{
-					button.y = game.world.centerY + 150;
+					button.x = game.world.centerX - 250
+					button.y = game.world.centerY + 250;
 				}
+				
 				box.x = button.x
 				box.y = button.y
 				pivot2=pivot2+170
@@ -843,21 +901,26 @@ var colorInvaders = function(){
 		
 
 		for(var i = 0; i < 6; i++){
-
+			
 			aliensGroup.children[i].x = aliensGroup.children[i].originX
 			aliensGroup.children[i].y = aliensGroup.children[i].originY 
-			aliensGroup.children[i].scale.setTo(0.5,0.5)
-
+			aliensGroup.children[i].scale.setTo(0.7,0.7)
+			
+			
 			aliensGroup.children[i].boxX = positionsGroup.children[i].centerX
 			aliensGroup.children[i].boxY = positionsGroup.children[i].centerY + 50
 		}
 
 		var skins = ['blue', 'green', 'orange', 'pink', 'purple', 'red', 'yellow']
+		for(var refillSkins=0; refillSkins<skins.length; refillSkins++){
+			skinsNumber[refillSkins]=refillSkins;
+		}
 		aliensGroup.skins = skins
 	}
 
 	function IChoseYou(btn){
 
+		
 		if(gameActive){
             continueSpinning=false
 			gameActive = false
@@ -903,7 +966,7 @@ var colorInvaders = function(){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				timeAttack = true
 			}
-			if(pointsBar.number%10 == 0 && pointsBar.number!=0 && pointsBar.number!=1 ){
+			if(pointsBar.number%5 == 0 && pointsBar.number!=0 && pointsBar.number!=1 ){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				if(countAliens<6)countAliens++
 			}
@@ -940,7 +1003,10 @@ var colorInvaders = function(){
 	}
 
 	function initGame(){
-
+		
+		for(var reset=0; reset<aliensGroup.skins.length; reset++){
+			skinsNumber[reset]=reset;
+		}
 		rand = getRand()
 		var color = placeAliens()
         
@@ -973,12 +1039,6 @@ var colorInvaders = function(){
             nextAlien++;
 		}
 		Phaser.ArrayUtils.shuffle(positionsPatron)
-//		
-//		movable++;
-//		if(movable==countAliens){
-//			movable=1
-//		}
-//		nextAlien=movable;
 		game.time.events.add(speed+20,function(){
 			if(continueSpinning){
                 recursive();
@@ -989,14 +1049,20 @@ var colorInvaders = function(){
 		startSpinning();
 	}
 	function getRand(){
+		
 		var x = game.rnd.integerInRange(0, colorsText.length-1)
-		if(x === rand)
+		if(skinsNumber[x] === -1){
 			return getRand()
-		else
-			return x     
+		}
+		else{
+			skinsNumber[x]=-1;
+			return x
+		}    
 	}
 	function placeAliens(){
 
+		
+		
 		if(dificulty==2){
 			theOne = game.rnd.integerInRange(0,3)
 		}else{
@@ -1026,7 +1092,7 @@ var colorInvaders = function(){
 		}
 		for(var i = 0; i < countAliens; i++){
 
-			var alienColor = getRandColor(rand)
+			var alienColor = getRandColor()
 			if(i !== theOne){
 				aliensGroup.children[i].setSkinByName(aliensGroup.skins[alienColor] + game.rnd.integerInRange(1, 2))
 			}
@@ -1034,7 +1100,8 @@ var colorInvaders = function(){
 				aliensGroup.children[i].setSkinByName(aliensGroup.skins[rand] + game.rnd.integerInRange(1, 2))
 			}
 		}
-
+		
+		
 		var anim
 
 		game.time.events.add(500,function(){
@@ -1055,17 +1122,23 @@ var colorInvaders = function(){
 		return alienColor
 	}
 
-	function getRandColor(color){
-		var x = game.rnd.integerInRange(0, aliensGroup.skins.length-1)
-		if(x === color)
-			return getRandColor(color)
-		else
-			return x   
+	function getRandColor(){
+		
+		var x = game.rnd.integerInRange(0, aliensGroup.skins.length)
+		if(skinsNumber[x] == -1){
+			return getRandColor()
+		}
+		else{
+			skinsNumber[x]=-1;
+			return x
+			
+		}
 	}
 
 	return {
 
 		assets: assets,
+		localizationData: localizationData,
 		name: "colorInvaders",
 		update: update,
 		create: function(event){
