@@ -18,10 +18,10 @@ var gameList={
 
     minigames : [
 
-        {name:'MichoMau UniDream',url:'uniDream/',mapUrl:'uniDream', sceneName:'uni',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
-        {name:'MichoMau Selfie Planet',url:'selfiePlanet/',mapUrl:'selfiePlanet', sceneName:'selfiePlanet',subject:'geography', review:false,objective:15,demo:false,type:gameTypeEnum.TARGET},
-        {name:'MichoMau Wild Dentist',url:'wildDentist/',mapUrl:'wildDentist', sceneName:'wildDentist',subject:'health', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},
-        {name:'MichoMau Sushi Towers',url:'sushiTowers/',mapUrl:'sushiTowers', sceneName:'sushi',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
-        {name:'MichoMau Math Run',url:'mathRun/',mapUrl:'mathRun', sceneName:'mathRun',subject:'math',review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
+        {name:'MichoMau Corto Circuito',url:'cortoCircuito/cortoCircuito',mapUrl:'cortoCircuito', sceneName:'cortoCircuito',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
+        {name:'MichoMau Cuenta Contactos',url:'cuentaContactos/cuentaContactos',mapUrl:'cuentaContactos', sceneName:'cuentaContactos',subject:'geography', review:false,objective:15,demo:false,type:gameTypeEnum.TARGET},
+        {name:'MichoMau Esquiva Cohetes',url:'esquivaCohetes/esquivaCohetes',mapUrl:'esquivaCohetes', sceneName:'esquivaCohetes',subject:'health', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},
+        {name:'MichoMau Humo Cocina',url:'humo_enlacocina/humo_enlacocina',mapUrl:'humoCocina', sceneName:'humoCocina',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
+        {name:'MichoMau Ollas Locas',url:'ollasLocas/ollasLocas',mapUrl:'ollasLocas', sceneName:'ollasLocas',subject:'math',review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
 		]
 	}

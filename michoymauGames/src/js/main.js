@@ -6,7 +6,7 @@ $(document).on('ready', function() {
     for(var i = 0; i<= minigame.length-1;i++){
         $("#Games").append(
     `<div id="btnOptimized`+i+`">
-      <img src="../../newStructure/minigames/`+ minigame[i].url +`/images/fbpost.png">
+      <img src="images/`+ minigame[i].sceneName +`.png">
     </div>
     `);
         $("#btnOptimized" + i).attr("number",i);
@@ -20,10 +20,10 @@ $(document).on('ready', function() {
         
         $("#btnOptimized" + i).click(function(){
             var place = $(this).attr("number")
-            var texto = minigame[place].name.replace(/\s/g, "")
-           window.location = "../../newStructure/gamesite/#/minigames/" + texto
+            var texto = minigame[place].url//minigame[place].name.replace(/\s/g, "")
+           window.location = "../../newStructure/minigames/michoymau/" + texto //"https://yogome.github.io/WebGames/newStructure/gamesite/#/minigames/" + texto
         });   
-    }   
+    }
     
     $("#Games").slick({
         dots: false,
