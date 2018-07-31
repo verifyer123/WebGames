@@ -1,24 +1,30 @@
 /*THEME*/
 body {
+    position: re;
     margin: 0;
-/*    background-image: url("../images/background.png");*/
+    background-color: rgba(100,44,148,1);
+    width: 100%;
     height: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-color: #ebc440;
+    font-family: 'Baloo Chettan', cursive;  
 }
+
 #container{
     position: absolute;
     height: 100%;
     width: 100%;
-    background-image: url("../images/back-one.png");
     background-repeat: repeat;
     background-size: contain;
+    background: url("../images/stars01.png"), linear-gradient(to bottom, rgba(100,44,148,1) 0%, rgba(27,20,100,1) 100%);
+
 }
 
 #header{
-    background-color: rgba(250,250,250,1);
-    text-align: center;
+    background-color: #2b8ecd;
+    text-align: left;
+}
+
+#header img{
+    margin-left: 5%;;
 }
 
 #header img{
@@ -26,15 +32,33 @@ body {
     
 }
 
+h1{
+    position: absolute;
+    color: #FFF;
+    width: 60%;
+    right: 0;
+    font-size: 3vw;
+    text-align: center;
+}
+
 #selectgame{
     position: absolute;
     width: 50%;
-    margin: 1vw;
-    right: 3%;
+    right: 0%;
     height: 90%;
     overflow-y: scroll;
     /*transform-style: preserve-3d;
     transform: rotateY(-55deg) rotateZ(32deg);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+#carrousel{
+    width: 100%;
+    height: 50%;
+    transform: translate(0,-25%);
 }
 
 .container-gameSelect{
@@ -55,7 +79,7 @@ body {
 }
 
 .name-select{
-    font-family: 'Baloo Chettan', cursive;    
+      
     position: relative;
     background: linear-gradient(to right, rgb(40, 153, 235) 40%, rgba(255,255,255,0.7) 100%);
     font-size: 30px;
@@ -101,6 +125,7 @@ body {
 #bannerGame img{
     width: 80%;
     border-radius: 1vw;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.3);
 /*    transform: skew(10deg,-40deg) scaleX(0.6);*/   
 }
 
@@ -119,6 +144,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    z-index: 1;
     
 }
 
@@ -141,5 +167,55 @@ body {
     background-position: center;
     background-size: contain;
     
+}
+
+footer{
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    bottom: 0;
+    background-color: #2b8ecd;
+    z-index: 0;
+    color: white;
+    
+    display: flex;
+    
+}
+
+.left-footer{
+    position: relative;
+    width: 50%;
+    margin-left: 5%;
+
+    
+}
+
+.left-footer p{
+    float: left;
+    width: 30%;
+    
+}
+
+.left-footer img{
+    width: 20%;
+    margin-left: 5%;
+    transform: translate(0,20%);
+}
+
+.rigth-footer{
+    position: relative;
+    width: 50%;
+    margin-left: 5%;
+
+}
+.rigth-footer p{
+    float: left;
+    width: 20%;
+}
+
+.rigth-footer img{
+    width: 20%;
+    margin-left: 0%;
+    transform: translate(0,10%);
 }
 
