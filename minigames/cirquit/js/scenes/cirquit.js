@@ -41,7 +41,7 @@ var cirquit = function(){
 		],
 	}
     
-    var COLORS = [0x00cdfa,0xbee12d,0xffd200,0xff691e]
+    var COLORS = [0x00cdfa,0xbee12d,0xffd200,0xf0009b]
     
     var SPEED = 225 
     var TIME_ADD = 600

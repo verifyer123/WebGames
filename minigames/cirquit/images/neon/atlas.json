@@ -2,7 +2,7 @@
 
 {
 	"filename": "arcadebutton",
-	"frame": {"x":157,"y":1245,"w":178,"h":111},
+	"frame": {"x":157,"y":1137,"w":178,"h":111},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":178,"h":111},
@@ -11,16 +11,16 @@
 },
 {
 	"filename": "background",
-	"frame": {"x":1,"y":1,"w":542,"h":962},
+	"frame": {"x":1,"y":1,"w":542,"h":854},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":542,"h":962},
-	"sourceSize": {"w":542,"h":962},
+	"spriteSourceSize": {"x":0,"y":0,"w":542,"h":854},
+	"sourceSize": {"w":542,"h":854},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "circle",
-	"frame": {"x":424,"y":1383,"w":50,"h":51},
+	"frame": {"x":261,"y":1293,"w":50,"h":51},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":51},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "circlePart",
-	"frame": {"x":294,"y":1361,"w":128,"h":47},
+	"frame": {"x":324,"y":1253,"w":128,"h":47},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":47},
@@ -38,16 +38,16 @@
 },
 {
 	"filename": "cirquit",
-	"frame": {"x":476,"y":1383,"w":50,"h":50},
+	"frame": {"x":454,"y":1275,"w":49,"h":49},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
-	"sourceSize": {"w":50,"h":50},
+	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":49},
+	"sourceSize": {"w":49,"h":49},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "cirquitName",
-	"frame": {"x":1,"y":1432,"w":132,"h":25},
+	"frame": {"x":127,"y":1293,"w":132,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":132,"h":25},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "coin",
-	"frame": {"x":453,"y":1245,"w":68,"h":70},
+	"frame": {"x":453,"y":1137,"w":68,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "crossPart",
-	"frame": {"x":168,"y":1423,"w":99,"h":18},
+	"frame": {"x":127,"y":1320,"w":99,"h":18},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":18},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "dashboard",
-	"frame": {"x":1,"y":965,"w":542,"h":278},
+	"frame": {"x":1,"y":857,"w":542,"h":278},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":542,"h":278},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":294,"y":1410,"w":105,"h":41},
+	"frame": {"x":313,"y":1302,"w":105,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "ringPart",
-	"frame": {"x":337,"y":1245,"w":114,"h":114},
+	"frame": {"x":337,"y":1137,"w":114,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":114},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":1,"y":1245,"w":154,"h":142},
+	"frame": {"x":1,"y":1137,"w":154,"h":142},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":154,"h":142},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":453,"y":1317,"w":64,"h":64},
+	"frame": {"x":454,"y":1209,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":168,"y":1358,"w":124,"h":63},
+	"frame": {"x":1,"y":1281,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":1,"y":1389,"w":165,"h":41},
+	"frame": {"x":157,"y":1250,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -140,8 +140,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":544,"h":1458},
+	"size": {"w":544,"h":1345},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:99fc1e1935893e14cde10652e1ce788b:4e6233aa4da15ca927199a45658b1635:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:91ccc698dfe19cf06b206bd8737f93fb:a54dad88399d367249f69da3f2ffba2a:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
