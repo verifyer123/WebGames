@@ -504,7 +504,10 @@ var circus = function(){
                 yogotar.addAnimationByName(0,"idle",true);
                 game.time.events.add(1800, restartScene);
             }
-        })
+        });
+        for(var b=0; b<buttonsGroup.length; b++){
+            buttonsGroup.children[b].children[0].inputEnabled = true;
+        }
     }
 
     function popObject(obj,delay,appear){
@@ -598,6 +601,7 @@ var circus = function(){
         
         for(var i = 0; i < buttonsGroup.length; i++){
             var btn = buttonsGroup.children[i];
+            buttonsGroup.children[i].children[0].inputEnabled = false;
             if(btn.number !== result){
                 game.add.tween(btn.scale).to({x:0,y:0},250,"Linear",true);
             }
@@ -647,7 +651,6 @@ var circus = function(){
             levelZero = false;
             for(var i = 0; i < buttonsGroup.length; i++){
                 buttonsGroup.children[i].children[0].tint = 0xffffff;
-                buttonsGroup.children[i].children[0].inputEnabled = true;
             }
         }
 		
