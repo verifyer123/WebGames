@@ -126,7 +126,7 @@ var wonderHood = function(){
 
     var hand, inTutorial, tutorialTimeOut
 
-    var gameOverGroup, gameOverPoints, gameOverPlace, gameOverTop, gameOverDude, gameOverTrophy, gameOverBack, gameOverButtonExit
+    var gameOverGroup, gameOverPoints, gameOverPlace, gameOverTop, gameOverDude, gameOverTrophy, gameOverBack, gameOverButtonExit, gameOverCoin
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -225,8 +225,14 @@ var wonderHood = function(){
         gameOverPoints.setText(pointsBar.number)
 
         var id = amazing.getMinigameIdentifier()
-        var debug = false
-        if(!debug){
+
+        gameOverTop.visible = false
+        gameOverTrophy.visible = false
+        gameOverPlace.visible = false
+        gameOverCoin.x = game.world.centerX - 25
+        gameOverPoints.x = game.world.centerX + 25
+
+        if(id){
 	        window.addEventListener("message", function(event){
 
 	            if(event.data && event.data != ""){
@@ -259,35 +265,27 @@ var wonderHood = function(){
 				        }
 
 				        gameOverPlace.setText("#"+rankMinigame)
+				        gameOverTop.visible = true
+				        gameOverTrophy.visible = true
+				        gameOverPlace.visible = true
+				        gameOverCoin.x = game.world.centerX + 70
+        				gameOverPoints.x = game.world.centerX + 120
 
 	                    break
 	                }
 	            }
 	        })
 	    }
-	    else{
-	    	rankMinigame = 1
+	    /*else{
+	    	
+	        gameOverTop.visible = false
+	        gameOverTrophy.visible = false
+	        gameOverPlace.visible = false
+	        gameOverCoin.x = game.world.centerX - 40
+	        gameOverPoints.x = game.world.centerX + 40
 
-	        if(rankMinigame<=3){
-	        	gameOverTop.setText("Top 3")
-	        	gameOverTrophy.loadTexture("atlas.game","r0")
-	        }
-	        else if(rankMinigame<=5){
-	        	gameOverTop.setText("Top 5")
-	        	gameOverTrophy.loadTexture("atlas.game","r1")
-	        }
-	        else if(rankMinigame<=10){
-	        	gameOverTop.setText("Top 10")
-	        	gameOverTrophy.loadTexture("atlas.game","r2")
-	        }
-	        else{
-	        	gameOverTop.visible = false
-	        	gameOverPlace.y-=10;
-	        	gameOverTrophy.loadTexture("atlas.game","r3")
-	        }
 
-	        gameOverPlace.setText("#"+rankMinigame)
-	    }
+	    }*/
   
     	amazing.saveScore(pointsBar.number)
     	gameOverBack.visible = true
@@ -1641,13 +1639,14 @@ var wonderHood = function(){
     function pasueGame(){
         
         game.paused = !game.paused
-        //gamePaused = !gamePaused
+
         if(game.paused){
-            pauseButton.loadTexture("atlas.game","pause")
-        }
-        else{
             pauseButton.loadTexture("atlas.game","play")
         }
+        else{
+            pauseButton.loadTexture("atlas.game","pause")
+        }
+
     }
 
     function unpause(event){
@@ -1672,7 +1671,7 @@ var wonderHood = function(){
         muteButton.inputEnabled = true
         muteButton.events.onInputDown.add(muteSounds,this)
 
-        pauseButton = sceneGroup.create(game.world.width-160,150,"atlas.game","play")
+        pauseButton = sceneGroup.create(game.world.width-160,150,"atlas.game","pause")
         pauseButton.anchor.setTo(0.5)
         pauseButton.inputEnabled = true
         pauseButton.events.onInputDown.add(pasueGame,this)
@@ -1717,8 +1716,8 @@ var wonderHood = function(){
         gameOverPlace.anchor.setTo(0.5)
         gameOverGroup.add(gameOverPlace)
 
-        var coin = gameOverGroup.create(game.world.centerX + 70,game.world.centerY + 75,"atlas.game","coin")
-    	coin.anchor.setTo(0.5)
+        gameOverCoin = gameOverGroup.create(game.world.centerX + 70,game.world.centerY + 75,"atlas.game","coin")
+    	gameOverCoin.anchor.setTo(0.5)
 
         fontStyle = {font: "27px Luckiest Guy", fontWeight: "normal", fill: "#ffffff", align: "center"}
         gameOverPoints = new Phaser.Text(sceneGroup.game, game.world.centerX + 120, game.world.centerY + 75, "0", fontStyle)
@@ -1734,7 +1733,6 @@ var wonderHood = function(){
 
     
     function create(){
-    	
         
         sceneGroup = game.add.group()
 
