@@ -127,7 +127,7 @@ var wonderHood = function(){
     var hand, inTutorial, tutorialTimeOut
 
     var gameOverGroup, gameOverPoints, gameOverPlace, gameOverTop, gameOverDude, gameOverTrophy, gameOverBack, gameOverButtonExit, gameOverCoin
-
+    var pauseImage 
     function loadSounds(){
         sound.decode(assets.sounds)
     }
@@ -629,6 +629,7 @@ var wonderHood = function(){
                             hand.visible = false
                         }
                         else if(inTutorial == 1 && currentAngle >= 20){
+                        	//hand.visible = false
                             currentAngle = 20
                             inTutorial = 2
                             hand.visible = true
@@ -651,6 +652,11 @@ var wonderHood = function(){
                         hand.visible = true
 	            	}
 	                else if(currentAngle != 0 && currentAngle < MAX_ANGLE && inTutorial!=0){
+	                	if(tutorialTimeOut != null){
+	                        clearTimeout(tutorialTimeOut)
+	                    }
+	                    hand.visible = false
+
 	                    dotsGroup.visible = false
 	                    for(var i =0; i < dotsGroup.length; i++){
 	                    	dotsGroup.children[i].x = -10
@@ -779,10 +785,17 @@ var wonderHood = function(){
         currentArrow.body.velocity.y = 0
         currentArrow.contactSignal.active = false
         inShot = false
+
     }
 
+
+
     function eliminateArrow(){
-        //console.log("eliminate arrow")
+        
+        var params = {
+	        type: "vibrate"
+	    }
+	    parent.postMessage(JSON.stringify(params), "*")
         for(var i = 2; i >=0; i--){
             if(letrero.arrows[i].visible){
                 letrero.arrows[i].visible = false
@@ -1640,7 +1653,7 @@ var wonderHood = function(){
     function pasueGame(){
         
         game.paused = !game.paused
-
+        pauseImage.visible = game.paused
         if(game.paused){
             pauseButton.loadTexture("atlas.game","play")
         }
@@ -1805,6 +1818,10 @@ var wonderHood = function(){
         setTimeout(startTutorial,1000)
 
         game.input.onDown.add(unpause, self);
+
+        pauseImage = sceneGroup.create(game.world.centerX,game.world.centerY,"atlas.game","Pausa_tablero")
+        pauseImage.anchor.setTo(0.5)
+        pauseImage.visible = false
 
         createGameOver()
 
