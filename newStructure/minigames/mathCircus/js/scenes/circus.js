@@ -474,7 +474,6 @@ var circus = function(){
    }
     
     function stopTimer(){
-        
         timerGroup.tweenTiempo.stop();
         game.add.tween(timerGroup.timeBar.scale).to({x:11.5}, 100, Phaser.Easing.Linear.Out, true, 100);
    }
