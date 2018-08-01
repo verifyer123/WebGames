@@ -105,7 +105,7 @@ var preloaderIntro = function(){
 	                        	setTimeout(function(){
 	                        		completeAnimation = true
 	                        		if(completeLoading){
-	                        			sceneloader.show("instructions")
+	                        			sceneloader.show(window.game.nextTitleScene)
 	                        		}
 	                        	},1000)
 	                        })
