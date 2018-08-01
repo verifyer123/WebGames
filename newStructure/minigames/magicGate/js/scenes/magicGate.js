@@ -381,7 +381,7 @@ var magicGate = function(){
 		sceneGroup.add(clouds)
 
 		for(var placeTowers=0; placeTowers<game.world.width;placeTowers+=140){
-			var towers = sceneGroup.create(placeTowers+80,game.world.centerY-150,'tower');
+			var towers = sceneGroup.create(placeTowers+80,game.world.centerY-120,'tower');
 			towers.anchor.setTo(0.5,0.5)
 		}
 		
